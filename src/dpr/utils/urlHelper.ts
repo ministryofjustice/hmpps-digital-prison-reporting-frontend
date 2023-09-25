@@ -10,13 +10,13 @@ const createUrlForParameters = (
   let queryParams: Dict<string> = toRecordWithFilterPrefix(currentQueryParams, filtersPrefix)
 
   if (updateQueryParams) {
-    Object.keys(updateQueryParams).forEach(q => {
+    Object.keys(updateQueryParams).forEach((q) => {
       if (updateQueryParams[q]) {
         queryParams[q] = updateQueryParams[q]
       } else {
         Object.keys(queryParams)
-          .filter(key => key === q || key.startsWith(`${q}.`))
-          .forEach(key => {
+          .filter((key) => key === q || key.startsWith(`${q}.`))
+          .forEach((key) => {
             queryParams[key] = null
           })
       }
@@ -32,8 +32,8 @@ const createUrlForParameters = (
   const nonEmptyQueryParams = {}
 
   Object.keys(queryParams)
-    .filter(key => queryParams[key])
-    .forEach(key => {
+    .filter((key) => queryParams[key])
+    .forEach((key) => {
       nonEmptyQueryParams[key] = queryParams[key]
     })
 

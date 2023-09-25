@@ -22,7 +22,7 @@ export default {
     listRequest: ListRequest,
     createUrlForParameters: (updateQueryParams: Dict<string>) => string,
   ) => {
-    return format.map(f => {
+    return format.map((f) => {
       let header: Header
 
       if (f.sortable) {
@@ -63,8 +63,8 @@ export default {
   },
 
   mapData: (data: Array<Dict<string>>, format: Array<FieldDefinition>) =>
-    data.map(d =>
-      format.map(f => {
+    data.map((d) =>
+      format.map((f) => {
         let text: string = d[f.name]
         let fieldFormat: string
 

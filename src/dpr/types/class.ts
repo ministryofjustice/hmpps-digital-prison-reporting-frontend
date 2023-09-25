@@ -21,9 +21,9 @@ export class ReportQuery implements FilteredListRequest {
 
     this.filters = {}
     Object.keys(queryParams)
-      .filter(key => key.startsWith(filtersPrefix))
-      .filter(key => queryParams[key])
-      .forEach(key => {
+      .filter((key) => key.startsWith(filtersPrefix))
+      .filter((key) => queryParams[key])
+      .forEach((key) => {
         this.filters[key.replace(filtersPrefix, '')] = queryParams[key].toString()
       })
   }
@@ -48,7 +48,7 @@ export const toRecordWithFilterPrefix = (listRequest: FilteredListRequest, filte
     sortedAsc: listRequest.sortedAsc.toString(),
   }
 
-  Object.keys(listRequest.filters).forEach(filterName => {
+  Object.keys(listRequest.filters).forEach((filterName) => {
     record[`${filtersPrefix}${filterName}`] = listRequest.filters[filterName]
   })
 

@@ -2,7 +2,7 @@ import Utils from './utils'
 import Dict = NodeJS.Dict
 import { FilterType } from './enum'
 import { DateRange } from './types'
-import { FieldDefinition } from "../../types";
+import { FieldDefinition } from '../../types'
 
 const options = [
   {

@@ -1,4 +1,4 @@
-import { ListRequest } from '../../types/reports'
+import { ListRequest } from '../../types'
 import Dict = NodeJS.Dict
 
 export interface Header {

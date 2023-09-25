@@ -10,14 +10,14 @@ const toLocaleDate = (isoDate?: string) => (isoDate ? new Date(isoDate).toLocale
 export default {
   getFilters: (format: Array<FieldDefinition>, filterValues: Dict<string>) =>
     format
-      .filter(f => f.filter)
-      .map(f => {
+      .filter((f) => f.filter)
+      .map((f) => {
         const filter: FilterValue = {
           text: f.displayName,
           name: f.name,
           type: f.filter.type,
           options: f.filter.staticOptions
-            ? f.filter.staticOptions.map(o => ({ value: o.name, text: o.displayName }))
+            ? f.filter.staticOptions.map((o) => ({ value: o.name, text: o.displayName }))
             : null,
           value: filterValues[f.name],
         }
@@ -39,13 +39,13 @@ export default {
     filtersPrefix: string,
   ) =>
     format
-      .filter(f => f.filter)
-      .filter(f =>
+      .filter((f) => f.filter)
+      .filter((f) =>
         f.filter.type === FilterType.dateRange
           ? filterValues[`${f.name}.start`] || filterValues[`${f.name}.end`]
           : filterValues[f.name],
       )
-      .map(f => {
+      .map((f) => {
         let filterValueText = filterValues[f.name]
         if (f.filter.type === FilterType.dateRange) {
           const start = toLocaleDate(filterValues[`${f.name}.start`])
@@ -59,7 +59,7 @@ export default {
             filterValueText = `Until ${end}`
           }
         } else if (f.filter.staticOptions) {
-          filterValueText = f.filter.staticOptions.find(o => o.name === filterValues[f.name]).displayName
+          filterValueText = f.filter.staticOptions.find((o) => o.name === filterValues[f.name]).displayName
         }
 
         return {
@@ -75,5 +75,5 @@ export default {
   getTodayIsoDate: () => {
     const date = new Date()
     return date.toISOString().substring(0, 10)
-  }
+  },
 }

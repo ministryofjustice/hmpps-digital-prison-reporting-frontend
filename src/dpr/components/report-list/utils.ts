@@ -9,8 +9,8 @@ import { RenderListInput } from './types'
 const filtersQueryParameterPrefix = 'filters.'
 
 function getDefaultSortColumn(fields: FieldDefinition[]) {
-  const defaultSortColumn = fields.find(f => f.defaultSortColumn)
-  return defaultSortColumn ? defaultSortColumn.name : fields.find(f => f.sortable).name
+  const defaultSortColumn = fields.find((f) => f.defaultSortColumn)
+  return defaultSortColumn ? defaultSortColumn.name : fields.find((f) => f.sortable).name
 }
 
 export default {
@@ -33,7 +33,7 @@ export default {
     const listData = getListDataSources(reportQuery)
 
     Promise.all([listData.data, listData.count])
-      .then(resolvedData => {
+      .then((resolvedData) => {
         const dataTableOptions: DataTableOptions = {
           listRequest: reportQuery,
           head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
@@ -61,6 +61,6 @@ export default {
           ...otherOptions,
         })
       })
-      .catch(err => next(err))
+      .catch((err) => next(err))
   },
 }

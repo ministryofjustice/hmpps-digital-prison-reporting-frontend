@@ -2,7 +2,7 @@ import nunjucks from 'nunjucks'
 import path from 'path'
 import filters from './utils'
 import Dict = NodeJS.Dict
-import { ListRequest } from "../../types";
+import { ListRequest } from '../../types'
 import type { DataTableOptions } from './types'
 
 const testView =
@@ -23,7 +23,7 @@ const env = nunjucks.configure(
   { autoescape: true },
 )
 
-Object.keys(filters).forEach(filterName => {
+Object.keys(filters).forEach((filterName) => {
   env.addFilter(filterName, filters[filterName])
 })
 
@@ -48,13 +48,13 @@ const defaultOptions: DataTableOptions = {
 describe('Content renders correctly', () => {
   it('Headers render successfully', () => {
     const rendered = nunjucks.renderString(testView, defaultOptions)
-    defaultOptions.head.forEach(header => expect(rendered).toContain(header.html))
+    defaultOptions.head.forEach((header) => expect(rendered).toContain(header.html))
   })
 
   it('Data renders successfully', () => {
     const rendered = nunjucks.renderString(testView, defaultOptions)
 
-    defaultOptions.rows.forEach(row => row.forEach(cell => expect(rendered).toContain(cell.text)))
+    defaultOptions.rows.forEach((row) => row.forEach((cell) => expect(rendered).toContain(cell.text)))
   })
 })
 

@@ -1,6 +1,6 @@
 import Utils from './utils'
 import Dict = NodeJS.Dict
-import { FieldDefinition, ListRequest } from "../../types";
+import { FieldDefinition, ListRequest } from '../../types'
 
 describe('mapData', () => {
   it('Dates with values less than 10 mapped with leading 0', () => {

@@ -12,16 +12,17 @@
     "ci:dryrun": "HUSKY=0 CI=true semantic-release --dry-run",
     "test": "npm-run-all --parallel test:*",
     "test:jest": "jest",
+    "test:lint": "eslint . --cache --max-warnings 0",
     "?test:sass": "npm install node-sass && node-sass -q test.scss >/dev/null && echo 'ok'",
     "?test:docs": "npm run build:docs",
     "?watch:11ty": "eleventy --input=./docs --output=public --serve --watch",
     "start-test-app": "npm run build:package && node $NODE_OPTIONS test-app/start-server.js",
     "?record-build-info": "node ./bin/record-build-info",
-    "test:lint": "eslint . --cache --max-warnings 0",
     "security_audit": "npx audit-ci --config audit-ci.json",
     "?int-test": "cypress run --config video=false",
     "?int-test-ui": "cypress open",
-    "clean": "gulp build:clean && rm -rf node_modules"
+    "clean": "gulp build:clean && rm -rf node_modules",
+    "lint:fix": "eslint . --fix"
   },
   "engines": {
     "node": "^20",

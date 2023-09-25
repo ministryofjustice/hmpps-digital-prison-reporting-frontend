@@ -45,7 +45,7 @@ const defaultOptions = {
     },
   ],
   urlWithNoFilters: 'urlWithNoFiltersValue',
-  today: '2007-08-09'
+  today: '2007-08-09',
 }
 
 const testView = '{% from "view.njk" import dprFilters %}{{ dprFilters(filters, urlWithNoFilters, today) }}'

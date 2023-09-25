@@ -128,3 +128,21 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+.DS_Store
+.port.tmp
+.tmp
+.vscode/
+node_modules
+npm-debug.log
+public/
+sass-cache
+settings.json
+tmp-uploads
+
+# ignore everything in the package directory, but not govuk-prototype-kit.config.json, package.json and README.md
+pre-package/
+package/*/
+
+/.idea/
+/test_results/

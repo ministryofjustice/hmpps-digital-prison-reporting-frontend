@@ -31,6 +31,10 @@ jobs:
         with:
           node-version: 'lts/*'
       - run: npm ci
+      - uses: actions/download-artifact@v3
+        with:
+          name: dpr-package
+          path: package
       - run: npm run test
 
 #  publish:

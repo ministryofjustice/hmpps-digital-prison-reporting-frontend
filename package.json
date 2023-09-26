@@ -19,8 +19,8 @@
     "start-test-app": "npm run build:package && node $NODE_OPTIONS test-app/start-server.js",
     "?record-build-info": "node ./bin/record-build-info",
     "security_audit": "npx audit-ci --config audit-ci.json",
-    "?int-test": "cypress run --config video=false",
-    "?int-test-ui": "cypress open",
+    "int-test": "cypress run --config video=false",
+    "int-test-ui": "cypress open",
     "clean": "gulp build:clean && rm -rf node_modules",
     "lint:fix": "eslint . --fix"
   },

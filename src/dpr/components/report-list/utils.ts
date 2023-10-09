@@ -1,5 +1,5 @@
 import type { FieldDefinition } from '../../types'
-import { ReportQuery } from '../../types/class'
+import ReportQuery from '../../types/ReportQuery'
 import urlHelper from '../../utils/urlHelper'
 import { DataTableOptions } from '../data-table/types'
 import DataTableUtils from '../data-table/utils'
@@ -26,8 +26,13 @@ export default {
     otherOptions,
     layoutTemplate,
   }: RenderListInput) => {
-    const reportQuery = new ReportQuery(request.query, getDefaultSortColumn(fields), filtersQueryParameterPrefix)
-    const createUrlForParameters = urlHelper.getCreateUrlForParametersFunction(reportQuery, filtersQueryParameterPrefix)
+    const reportQuery = new ReportQuery(
+      fields,
+      request.query,
+      getDefaultSortColumn(fields),
+      filtersQueryParameterPrefix,
+    )
+    const createUrlForParameters = urlHelper.getCreateUrlForParametersFunction(reportQuery)
     const today = FilterUtils.getTodayIsoDate()
 
     const listData = getListDataSources(reportQuery)

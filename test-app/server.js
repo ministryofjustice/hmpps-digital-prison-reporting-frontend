@@ -50,61 +50,20 @@ app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr/asset
 app.use('/govuk/all.js', express.static(path.join(__dirname, '../node_modules/govuk-frontend/govuk/all.js')))
 app.use('/moj/all.js', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/all.js')))
 
+const { fields } = require('./reportDefinition').variant
+const data = require('./data')
+
 // Set up routes
 app.get('/', (req, res, next) => {
   reportListUtils.renderList({
     title: 'Test app',
-    fields: [
-      {
-        name: 'field1',
-        displayName: 'Field 1',
-        sortable: true,
-        defaultSortColumn: true,
-        type: 'String',
-        filter: {
-          type: 'Radio',
-          staticOptions: [
-            { name: 'Value 1.1', displayName: 'Value 1.1' },
-            { name: 'Value 1.2', displayName: 'Value 1.2' },
-            { name: 'Value 1.3', displayName: 'Value 1.3' },
-          ],
-        },
-      },
-      {
-        name: 'field2',
-        displayName: 'Field 2',
-        sortable: false,
-        type: 'String',
-        filter: {
-          type: 'Select',
-          staticOptions: [
-            { name: 'Value 2.1', displayName: 'Value 2.1' },
-            { name: 'Value 2.2', displayName: 'Value 2.2' },
-            { name: 'Value 2.3', displayName: 'Value 2.3' },
-          ],
-        },
-      },
-      {
-        name: 'field3',
-        displayName: 'Field 3',
-        sortable: false,
-        type: 'Date',
-        filter: {
-          type: 'DateRange',
-        },
-        defaultValue: '2003-02-01 - 2006-05-04',
-      },
-    ],
+    fields,
     request: req,
     response: res,
     next,
     getListDataSources: () => ({
-      data: Promise.resolve([
-        { field1: 'Value 1.1', field2: 'Value 2.1', field3: '2003-02-01' },
-        { field1: 'Value 1.2', field2: 'Value 2.2', field3: '2006-05-04' },
-        { field1: 'Value 1.3', field2: 'Value 2.3', field3: '2009-08-07' },
-      ]),
-      count: Promise.resolve(3),
+      data: Promise.resolve(data),
+      count: Promise.resolve(data.length),
     }),
     otherOptions: {
       cards: [

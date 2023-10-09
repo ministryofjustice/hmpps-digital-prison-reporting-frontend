@@ -20,11 +20,11 @@ jobs:
         with:
           node-version: latest
 
-      - run: npm ci
+      - run: npm ci --no-audit
 
       - name: Calculate test coverage
         run: |
-          npm run test > logs.txt
+          npm run test:jest > logs.txt
           grep '% Stmts' logs.txt -A2 > message.txt
 
       - name: PR comment

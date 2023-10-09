@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: latest
 
-      - run: npm ci
+      - run: npm ci --no-audit
 
       - name: Calculate test coverage
         run: |

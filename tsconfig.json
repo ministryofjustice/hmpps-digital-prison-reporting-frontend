@@ -17,6 +17,6 @@
     "experimentalDecorators": true,
     "ignoreDeprecations": "5.0"
   },
-  "exclude": ["node_modules", "dist", "package", "integration_tests", "cypress.config.ts"],
+  "exclude": ["node_modules", "dist", "package", "cypress-tests"],
   "include": ["**/*.ts"]
 }

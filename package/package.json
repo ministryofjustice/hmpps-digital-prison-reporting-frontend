@@ -26,12 +26,6 @@
     "jquery": "^3.6.4",
     "nunjucks": "^3.2.4"
   },
-  "peerDependencies": {
-    "jquery": "^3.6.0"
-  },
-  "files": [
-    "/package"
-  ],
   "author": "HMPPS Digital Prison Reporting Team",
   "license": "MIT",
   "publishConfig": {

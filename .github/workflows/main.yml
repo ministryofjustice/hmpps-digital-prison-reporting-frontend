@@ -87,6 +87,3 @@ jobs:
     - run: npm ci
     - name: Publish to NPM
       run: npm run ci:release
-      env:
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

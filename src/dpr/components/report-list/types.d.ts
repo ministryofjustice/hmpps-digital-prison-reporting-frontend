@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { FieldDefinition } from '../../types'
 import Dict = NodeJS.Dict
-import { ReportQuery } from '../../types/class'
+import ReportQuery from '../../types/ReportQuery'
 
 export interface ListDataSources {
   data: Promise<Dict<string>[]>

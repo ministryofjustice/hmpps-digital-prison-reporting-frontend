@@ -4,7 +4,7 @@ import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
 import MainPage from '../pages/MainPage'
 import reportDefinition from '../../../test-app/reportDefinition'
 import data from '../../../test-app/data'
-import { FieldDefinition, FilterOption } from '../../../package/dpr/types'
+import { FieldDefinition, FilterOption } from '../../../src/dpr/types'
 
 When(/^I click the Show Filter button$/, function () {
   const page = new MainPage()
@@ -14,9 +14,7 @@ When(/^I click the Show Filter button$/, function () {
 When('I select a filter', function (this: Mocha.Context) {
   const page = new MainPage()
 
-  const filterField = reportDefinition.variant.fields.find(
-    field => field.filter && field.filter.type !== 'DateRange',
-  )
+  const filterField = reportDefinition.variant.fields.find((field) => field.filter && field.filter.type !== 'DateRange')
 
   let filterValue = filterField.filter.staticOptions[0]
 
@@ -26,8 +24,8 @@ When('I select a filter', function (this: Mocha.Context) {
       break
     case 'Radio':
       page.filter(filterField.name).click()
-      page.filter(filterField.name).then(selectedRadio => {
-        filterValue = filterField.filter.staticOptions.find(value => value.name === selectedRadio.val())
+      page.filter(filterField.name).then((selectedRadio) => {
+        filterValue = filterField.filter.staticOptions.find((value) => value.name === selectedRadio.val())
       })
       break
     default:
@@ -62,7 +60,7 @@ When('I select a column to sort on', function (this: Mocha.Context) {
 
   page
     .unsortedSortColumnLink()
-    .then(column => {
+    .then((column) => {
       this.currentSortColumn = column.data('column')
     })
     .click()
@@ -73,7 +71,7 @@ When('I select a previously selected column to sort on', function (this: Mocha.C
 
   page
     .currentSortColumnLink()
-    .then(column => {
+    .then((column) => {
       this.currentSortColumn = column.data('column')
     })
     .click()
@@ -91,7 +89,7 @@ When('I click a paging link', function (this: Mocha.Context) {
 
   page
     .pagingLink()
-    .then(link => {
+    .then((link) => {
       this.currentPage = link.text().trim()
     })
     .click()
@@ -116,8 +114,8 @@ Then('filters are displayed for filterable fields', function (this: Mocha.Contex
   const page = new MainPage()
 
   reportDefinition.variant.fields
-    .filter(field => field.filter)
-    .forEach(field => {
+    .filter((field) => field.filter)
+    .forEach((field) => {
       switch (field.filter.type) {
         case 'DateRange':
           page.filter(`${field.name}\\.start`).parent().contains('Start')
@@ -126,7 +124,7 @@ Then('filters are displayed for filterable fields', function (this: Mocha.Contex
 
         case 'Radio':
           page.filter(field.name).parentsUntil('.govuk-form-group').contains(field.displayName)
-          field.filter.staticOptions.forEach(option => {
+          field.filter.staticOptions.forEach((option) => {
             page.filter(field.name).parentsUntil('.govuk-form-group').contains(option.displayName)
             page
               .filter(field.name)
@@ -146,7 +144,7 @@ Then('filters are displayed for filterable fields', function (this: Mocha.Contex
 Then('the column headers are displayed correctly', function (this: Mocha.Context) {
   const page = new MainPage()
 
-  reportDefinition.variant.fields.forEach(field => {
+  reportDefinition.variant.fields.forEach((field) => {
     page.dataTable().find('thead').contains(field.displayName)
   })
 })
@@ -166,11 +164,10 @@ Then('date times are displayed in the correct format', function (this: Mocha.Con
 Then('the correct data is displayed on the page', function (this: Mocha.Context) {
   const page = new MainPage()
 
-
   page.dataTable().find('tbody tr').should('have.length', data.length)
   const record = data[0]
-  Object.keys(record).forEach(key => {
-    if (reportDefinition.variant.fields.find(f => f.name === key).type !== 'Date') {
+  Object.keys(record).forEach((key) => {
+    if (reportDefinition.variant.fields.find((f) => f.name === key).type !== 'Date') {
       page.dataTable().find('tbody tr').first().contains(record[key])
     }
   })
@@ -195,7 +192,7 @@ Then('the selected filter value is shown in the URL', function (this: Mocha.Cont
   const selectedField: FieldDefinition = this.selectedFilter.field
   const selectedValue: FilterOption = this.selectedFilter.value
 
-  cy.location().should(location => {
+  cy.location().should((location) => {
     expect(location.search).to.contain(`${selectedField.name}=${selectedValue.name}`)
   })
 })
@@ -206,7 +203,7 @@ Then(
     const page = new MainPage()
     const { currentSortColumn } = this
 
-    page.currentSortColumnLink().should(link => {
+    page.currentSortColumnLink().should((link) => {
       expect(link).to.have.data('column', currentSortColumn)
       expect(link).to.have.attr('aria-sort', direction)
       expect(link).to.have.class(`data-table-header-button-sort-${direction}`)
@@ -216,7 +213,7 @@ Then(
 
 Then('the sorted column is shown in the URL', function (this: Mocha.Context) {
   const { currentSortColumn } = this
-  cy.location().should(location => {
+  cy.location().should((location) => {
     expect(location.search).to.contain(`sortColumn=${currentSortColumn}`)
   })
 })
@@ -224,19 +221,19 @@ Then('the sorted column is shown in the URL', function (this: Mocha.Context) {
 Then(/^the (ascending|descending) sort direction is shown in the URL$/, function (direction: string) {
   const ascending = direction === 'ascending'
 
-  cy.location().should(location => {
+  cy.location().should((location) => {
     expect(location.search).to.contain(`sortedAsc=${ascending}`)
   })
 })
 
 Then('the page size is shown in the URL', function (this: Mocha.Context) {
-  cy.location().should(location => {
+  cy.location().should((location) => {
     expect(location.search).to.contain(`pageSize=${this.currentPageSize}`)
   })
 })
 
 Then('the current page is shown in the URL', function (this: Mocha.Context) {
-  cy.location().should(location => {
+  cy.location().should((location) => {
     expect(location.search).to.contain(`selectedPage=${this.currentPage}`)
   })
 })

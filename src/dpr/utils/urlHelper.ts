@@ -1,6 +1,6 @@
 import querystring from 'querystring'
 import Dict = NodeJS.Dict
-import { ReportQuery } from '../types/class'
+import ReportQuery from '../types/ReportQuery'
 import { FilteredListRequest } from '../types'
 
 const toRecord = (listRequest: FilteredListRequest): Record<string, string> => {
@@ -13,10 +13,7 @@ const toRecord = (listRequest: FilteredListRequest): Record<string, string> => {
   }
 }
 
-const createUrlForParameters = (
-  currentQueryParams: ReportQuery,
-  updateQueryParams: Dict<string>,
-) => {
+const createUrlForParameters = (currentQueryParams: ReportQuery, updateQueryParams: Dict<string>) => {
   let queryParams: Dict<string> = currentQueryParams.toRecordWithFilterPrefix()
 
   if (updateQueryParams) {
@@ -54,7 +51,6 @@ export default {
   createUrlForParameters,
 
   getCreateUrlForParametersFunction: (currentQueryParams: ReportQuery) => {
-    return (updateQueryParams: Dict<string>) =>
-      createUrlForParameters(currentQueryParams, updateQueryParams)
+    return (updateQueryParams: Dict<string>) => createUrlForParameters(currentQueryParams, updateQueryParams)
   },
 }

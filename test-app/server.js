@@ -50,13 +50,14 @@ app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr/asset
 app.use('/govuk/all.js', express.static(path.join(__dirname, '../node_modules/govuk-frontend/govuk/all.js')))
 app.use('/moj/all.js', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/all.js')))
 
+const { fields } = require('./reportDefinition').variant
 const data = require('./data')
 
 // Set up routes
 app.get('/', (req, res, next) => {
   reportListUtils.renderList({
     title: 'Test app',
-    fields: require('./reportDefinition').variant.fields,
+    fields,
     request: req,
     response: res,
     next,

@@ -1,16 +1,21 @@
 import type { ParsedQs } from 'qs'
-import { FilteredListRequest } from './index'
+import { FieldDefinition, FilteredListRequest } from './index'
 import Dict = NodeJS.Dict
 
-export class ReportQuery implements FilteredListRequest {
+export default class ReportQuery implements FilteredListRequest {
   selectedPage: number
+
   pageSize: number
+
   sortColumn?: string
+
   sortedAsc: boolean
+
   filters: Dict<string>
+
   filtersPrefix: string
 
-  constructor(queryParams: ParsedQs, defaultSortColumn: string, filtersPrefix: string) {
+  constructor(fields: Array<FieldDefinition>, queryParams: ParsedQs, defaultSortColumn: string, filtersPrefix: string) {
     this.selectedPage = queryParams.selectedPage ? Number(queryParams.selectedPage) : 1
     this.pageSize = queryParams.pageSize ? Number(queryParams.pageSize) : 20
     this.sortColumn = queryParams.sortColumn ? queryParams.sortColumn.toString() : defaultSortColumn
@@ -34,7 +39,7 @@ export class ReportQuery implements FilteredListRequest {
       sortedAsc: this.sortedAsc.toString(),
     }
 
-    Object.keys(this.filters).forEach(filterName => {
+    Object.keys(this.filters).forEach((filterName) => {
       record[`${this.filtersPrefix}${filterName}`] = this.filters[filterName]
     })
 

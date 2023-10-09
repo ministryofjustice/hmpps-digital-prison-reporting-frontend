@@ -40,6 +40,6 @@ module.exports = {
         },
         defaultValue: '2003-02-01 - 2006-05-04',
       },
-    ]
-  }
+    ],
+  },
 }

@@ -38,6 +38,35 @@ jobs:
           path: package
       - run: npm run test
 
+  integration_test:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+      - run: npm ci
+      - run: npm run build:package
+      - name: Run the node app and integration tests
+        run: |
+          npm run start-test-app &
+          sleep 5
+          npm run int-test
+      - uses: actions/upload-artifact@v3
+        with:
+          name: test_results
+          path: test_results
+      - uses: actions/upload-artifact@v3
+        with:
+          name: videos
+          path: cypress-tests/integration-tests/videos
+      - uses: actions/upload-artifact@v3
+        with:
+          name: screenshots
+          path: cypress-tests/integration-tests/screenshots
+
 #  publish:
 #    runs-on: ubuntu-latest
 #    needs: [build, test]

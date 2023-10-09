@@ -5,6 +5,7 @@ const path = require('path')
 // NPM dependencies
 const express = require('express')
 const nunjucks = require('nunjucks')
+// eslint-disable-next-line import/no-extraneous-dependencies
 const bodyParser = require('body-parser')
 
 // Local dependencies

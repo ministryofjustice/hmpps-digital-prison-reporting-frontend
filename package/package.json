@@ -1,0 +1,47 @@
+{
+  "name": "@ministryofjustice/frontend",
+  "description": "The MOJ Frontend contains the code you need to start building user interfaces for UK Ministry of Justice government services.",
+  "version": "1.0.0",
+  "main": "dpr/assets/js/client.js",
+  "sass": "dpr/all.scss",
+  "engines": {
+    "node": "^20",
+    "npm": "^10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend.git"
+  },
+  "keywords": [
+    "dpr",
+    "moj",
+    "frontend",
+    "design system",
+    "template"
+  ],
+  "dependencies": {
+    "@ministryofjustice/frontend": "^1.6.6",
+    "express": "^4.18.2",
+    "govuk-frontend": "^4.7.0",
+    "jquery": "^3.6.4",
+    "nunjucks": "^3.2.4"
+  },
+  "peerDependencies": {
+    "jquery": "^3.6.0"
+  },
+  "files": [
+    "/package"
+  ],
+  "author": "HMPPS Digital Prison Reporting Team",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com/",
+    "tag": "latest"
+  },
+  "private": false,
+  "bugs": {
+    "url": "https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend/issues"
+  },
+  "homepage": "https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend#readme"
+}

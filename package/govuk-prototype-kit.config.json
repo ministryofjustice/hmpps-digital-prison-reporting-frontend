@@ -1,0 +1,29 @@
+{
+  "nunjucksFilters": [],
+  "scripts": [
+    "/dpr/js/client.js"
+  ],
+  "assets": [
+    "/dpr/assets"
+  ],
+  "sass": [
+    "/dpr/all.scss"
+  ],
+  "nunjucksPaths": [
+    "/"
+  ],
+  "nunjucksMacros": [
+    {
+      "importFrom": "dpr/components/card-group/view.njk",
+      "macroName": "dprCardGroup"
+    },
+    {
+      "importFrom": "dpr/components/data-table/view.njk",
+      "macroName": "dprDataTable"
+    },
+    {
+      "importFrom": "package/dpr/components/filters/view.njk",
+      "macroName": "dprFilters"
+    }
+  ]
+}

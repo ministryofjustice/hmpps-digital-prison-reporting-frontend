@@ -142,6 +142,7 @@ tmp-uploads
 # ignore everything in the package directory, but not govuk-prototype-kit.config.json, package.json and README.md
 pre-package/
 package/*/
+package/package.zip
 
 /.idea/
 /test_results/

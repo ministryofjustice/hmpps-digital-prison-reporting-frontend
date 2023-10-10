@@ -7,7 +7,6 @@ gulp.task(
   "build:clean",
   gulp.series(
     "package:clean",
-    "dist:clean",
   )
 );
 
@@ -20,16 +19,6 @@ gulp.task(
     "package:server-javascript",
     "package:client-javascript",
     "package:images",
-  )
-);
-
-gulp.task(
-  "build:dist",
-  gulp.series(
-    "dist:clean",
-    "dist:javascript",
-    "dist:css",
-    "dist:assets",
-    "dist:zip"
+    "package:zip",
   )
 );

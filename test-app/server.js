@@ -5,6 +5,7 @@ const path = require('path')
 // NPM dependencies
 const express = require('express')
 const nunjucks = require('nunjucks')
+// eslint-disable-next-line import/no-extraneous-dependencies
 const bodyParser = require('body-parser')
 
 // Local dependencies
@@ -15,6 +16,7 @@ const appViews = [
   path.join(__dirname, '../node_modules/govuk-frontend/'),
   path.join(__dirname, '../node_modules/@ministryofjustice/frontend/'),
   path.join(__dirname, '../src/dpr/'),
+  path.join(__dirname, '../src/'),
   path.join(__dirname, '.'),
 ]
 

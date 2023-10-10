@@ -89,7 +89,7 @@ jobs:
       with:
         name: dpr-package
         path: package
-    - uses: JS-DevTools/npm-publish@v2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        registry: "https://npm.pkg.github.com"
+    - name: Publish to NPM
+      run: npm run ci:release
+      env:
+        NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

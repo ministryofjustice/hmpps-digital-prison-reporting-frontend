@@ -28,11 +28,6 @@
   },
   "author": "HMPPS Digital Prison Reporting Team",
   "license": "MIT",
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://npm.pkg.github.com/",
-    "tag": "latest"
-  },
   "private": false,
   "bugs": {
     "url": "https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend/issues"

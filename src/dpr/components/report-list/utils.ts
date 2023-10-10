@@ -58,7 +58,7 @@ export default {
           today,
         }
 
-        response.render('components/report-list/list', {
+        response.render('dpr/components/report-list/list', {
           title,
           dataTableOptions,
           filterOptions,

@@ -16,6 +16,7 @@ const appViews = [
   path.join(__dirname, '../node_modules/govuk-frontend/'),
   path.join(__dirname, '../node_modules/@ministryofjustice/frontend/'),
   path.join(__dirname, '../src/dpr/'),
+  path.join(__dirname, '../src/'),
   path.join(__dirname, '.'),
 ]
 

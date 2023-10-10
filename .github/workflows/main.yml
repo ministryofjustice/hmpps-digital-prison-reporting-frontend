@@ -77,14 +77,11 @@ jobs:
     if: github.event_name == 'push'
 
     permissions:
-      contents: write
+      contents: read
       packages: write
 
     steps:
     - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-        persist-credentials: false
     - uses: actions/setup-node@v3
       with:
         node-version: lts/*
@@ -92,6 +89,7 @@ jobs:
       with:
         name: dpr-package
         path: package
-    - run: npm ci
-    - name: Publish to NPM
-      run: npm run ci:release
+    - uses: JS-DevTools/npm-publish@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        registry: "https://npm.pkg.github.com"

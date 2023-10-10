@@ -1,5 +1,5 @@
 {
-  "name": "hmpps-digital-prison-reporting-frontend",
+  "name": "@ministryofjustice/hmpps-digital-prison-reporting-frontend",
   "version": "1.0.0",
   "description": "The Digital Prison Reporting Frontend contains templates and code to help display data effectively in UI applications.",
   "repository": "git@github.com:ministryofjustice/hmpps-digital-prison-reporting-frontend.git",

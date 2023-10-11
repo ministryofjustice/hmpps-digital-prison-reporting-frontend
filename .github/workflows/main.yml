@@ -90,6 +90,6 @@ jobs:
         name: dpr-package
         path: package
     - name: Publish to NPM
-      run: npm run ci:release
+      run: npm publish
       env:
         NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

@@ -1,4 +1,4 @@
-name: Build, test and publish package
+name: Build and test package
 
 on:
   pull_request:
@@ -66,29 +66,3 @@ jobs:
         with:
           name: screenshots
           path: cypress-tests/integration-tests/screenshots
-
-  publish:
-    runs-on: ubuntu-latest
-    needs:
-      - build
-      - test
-      - integration_test
-
-    if: github.event_name == 'push'
-
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: lts/*
-    - uses: actions/download-artifact@v3
-      with:
-        name: dpr-package
-        path: package
-    - uses: JS-DevTools/npm-publish@v1
-      with:
-        token: ${{ secrets.NPM_AUTH_TOKEN }}

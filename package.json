@@ -2,7 +2,10 @@
   "name": "@ministryofjustice/hmpps-digital-prison-reporting-frontend",
   "version": "1.0.0",
   "description": "The Digital Prison Reporting Frontend contains templates and code to help display data effectively in UI applications.",
-  "repository": "git@github.com:ministryofjustice/hmpps-digital-prison-reporting-frontend.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend.git"
+  },
   "license": "MIT",
   "private": false,
   "scripts": {

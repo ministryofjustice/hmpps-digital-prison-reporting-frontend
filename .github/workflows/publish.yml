@@ -1,0 +1,43 @@
+name: Bump version and publish package
+
+on:
+  workflow_dispatch:
+    inputs:
+      versionType:
+        description: 'The semantic version segment to increment'
+        required: true
+        default: minor
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 'lts/*'
+    - run: npm ci
+    - run: npm run package
+    - name: 'Automated Version Bump'
+      uses: 'phips28/gh-action-bump-version@master'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PACKAGEJSON_DIR: package
+      with:
+        version-type: ${{ inputs.versionType }}
+        tag-prefix:  'v'
+        target-branch: 'main'
+        commit-message: 'Publish version {{version}}'
+    - uses: JS-DevTools/npm-publish@v1
+      with:
+        token: ${{ secrets.NPM_AUTH_TOKEN }}
+        package: package

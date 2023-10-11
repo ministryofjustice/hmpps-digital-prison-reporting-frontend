@@ -8,10 +8,7 @@
     "node": "^20",
     "npm": "^10"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend.git"
-  },
+  "repository": "git@github.com:ministryofjustice/hmpps-digital-prison-reporting-frontend.git",
   "keywords": [
     "dpr",
     "moj",

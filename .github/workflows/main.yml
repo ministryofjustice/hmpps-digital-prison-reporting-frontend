@@ -89,7 +89,6 @@ jobs:
       with:
         name: dpr-package
         path: package
-    - name: Publish to NPM
-      run: npm publish
-      env:
-        NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+    - uses: JS-DevTools/npm-publish@v1
+      with:
+        token: ${{ secrets.NPM_AUTH_TOKEN }}

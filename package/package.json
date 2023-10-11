@@ -32,5 +32,8 @@
   "bugs": {
     "url": "https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend/issues"
   },
-  "homepage": "https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend#readme"
+  "homepage": "https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }

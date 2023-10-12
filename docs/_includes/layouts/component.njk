@@ -16,75 +16,12 @@
         sections: [
           {
             heading: {
-              text: "Form elements"
-            },
-            items: [
-            {
-              text: 'Add another',
-              href: ('/components/add-another' | url)
-            },
-            {
-              text: 'Multi file upload',
-              href: ('/components/multi-file-upload' | url)
-            },
-            {
-              text: 'Password reveal',
-              href: ('/components/password-reveal' | url)
-            }
-            ]
-          },
-          {
-            heading: {
               text: "Navigation"
             },
             items: [
             {
-              text: 'Header',
-              href: ('/components/header' | url)
-            },
-            {
-              text: 'Search',
-              href: ('/components/search' | url)
-            },
-            {
-              text: 'Identity bar',
-              href: ('/components/identity-bar' | url)
-            },
-            {
-              text: 'Organisation switcher',
-              href: ('/components/organisation-switcher' | url)
-            },
-            {
-              text: 'Primary navigation',
-              href: ('/components/primary-navigation' | url)
-            },
-            {
-              text: 'Sub navigation',
-              href: ('/components/sub-navigation' | url)
-            },
-            {
-              text: 'Side navigation',
-              href: ('/components/side-navigation' | url)
-            },
-            {
-              text: 'Notification badge',
-              href: ('/components/notification-badge' | url)
-            },
-            {
-              text: 'Page header actions',
-              href: ('/components/page-header-actions' | url)
-            },
-            {
-              text: 'Button menu',
-              href: ('/components/button-menu' | url)
-            },
-            {
-              text: 'Filter',
-              href: ('/components/filter' | url)
-            },
-            {
-              text: 'Pagination',
-              href: ('/components/pagination' | url)
+              text: 'Card group',
+              href: ('/components/card-group' | url)
             }
             ]
           },
@@ -94,55 +31,29 @@
             },
             items: [
             {
-              text: 'Banner',
-              href: ('/components/banner' | url)
+              text: 'Data table',
+              href: ('/components/data-table' | url)
             },
             {
-              text: 'Badge',
-              href: ('/components/badge' | url)
+              text: 'Filtering',
+              href: ('/components/filtering' | url)
+            }
+            ]
+          },
+          {
+            heading: {
+              text: "Pre-built reports"
             },
+            items: [
             {
-              text: 'Messages',
-              href: ('/components/messages' | url)
-            },
-            {
-              text: 'Multi select',
-              href: ('/components/multi-select' | url)
-            },
-            {
-              text: 'Scrollable pane',
-              href: ('/components/scrollable-pane' | url)
-            },
-            {
-              text: 'Sortable table',
-              href: ('/components/sortable-table' | url)
-            },
-            {
-              text: 'Ticket panel',
-              href: ('/components/ticket-panel' | url)
-            },
-            {
-              text: 'Timeline',
-              href: ('/components/timeline' | url)
+              text: 'List report',
+              href: ('/components/list-report' | url)
             }
             ]
           }
       ]
 
         }) }}
-
-      <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
-
-      {{ appSideNavigation({
-        items: [
-          {
-            text: 'Archived components',
-            href: ('/components/archived-components' | url)
-          }
-        ]
-      }) }}
-
-      {% include "./partials/back-to-top.njk" %}
     </div>
 
     <div class="govuk-grid-column-two-thirds">
@@ -153,8 +64,6 @@
         </h1>
         {{ content | safe }}
       </main>
-
-      {% include "./partials/contact-panel.njk" %}
     </div>
   </div>
 {% endblock %}

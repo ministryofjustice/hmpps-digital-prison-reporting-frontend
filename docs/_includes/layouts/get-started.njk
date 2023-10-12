@@ -14,42 +14,17 @@
         sections: [
           {
             heading: {
-              text: "How we work"
-            },
-            items: [
-              {
-                text: 'Our approach',
-                href: ('/get-started/our-approach' | url)
-              },
-              {
-                text: 'Prototyping',
-                href: ('/get-started/prototyping' | url)
-              },
-              {
-                text: 'Production',
-                href: ('/get-started/production' | url)
-              }
-            ]
-          },
-          {
-            heading: {
               text: "How to guides"
             },
             items: [
               {
-                text: 'Deploying your prototype',
-                href: ('/get-started/deploying-your-prototype' | url)
-              },
-              {
-                text: 'Setting up JavaScript',
-                href: ('/get-started/setting-up-javascript' | url)
+                text: 'Integrating the library',
+                href: ('/get-started/integrating-the-library' | url)
               }
             ]
           }
         ]
       }) }}
-
-      {% include "./partials/back-to-top.njk" %}
     </div>
 
     <div class="govuk-grid-column-two-thirds">
@@ -60,16 +35,6 @@
         </h1>
         {{ content | safe }}
       </main>
-
-      {% include "./partials/contact-panel.njk" %}
     </div>
   </div>
-{% endblock %}
-
-{% block pageScripts %}
-  <script>
-    $('[data-module="app-tabs"]').each(function(e, el) {
-      new Tabs($(el));
-    });
-  </script>
 {% endblock %}

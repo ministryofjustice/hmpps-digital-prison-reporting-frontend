@@ -4,13 +4,6 @@ const requireDir = require("require-dir");
 requireDir("./gulp");
 
 gulp.task(
-  "build:clean",
-  gulp.series(
-    "package:clean",
-  )
-);
-
-gulp.task(
   "build:package",
   gulp.series(
     "package:clean",
@@ -20,5 +13,18 @@ gulp.task(
     "package:client-javascript",
     "package:images",
     "package:zip",
+  )
+);
+
+gulp.task(
+  "build:docs",
+  gulp.series(
+    "package:clean",
+    "package:scss",
+    "package:copy-views",
+    "package:client-javascript",
+    "docs:copy-jquery",
+    "package:images",
+    "docs:assets",
   )
 );

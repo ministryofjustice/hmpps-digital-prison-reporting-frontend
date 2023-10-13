@@ -2,16 +2,10 @@
 
 {%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
 
-{% macro appSideNavigation(config) %}
-  {% set config = config|addActiveAttribute(page.filePathStem | url) %}
-
-  {{ mojSideNavigation(config) }}
-{% endmacro %}
-
 {% block content %}
   <div class="govuk-width-container govuk-grid-row app-flex-container">
     <div class="govuk-grid-column-one-third">
-      {{ appSideNavigation({
+      {{ mojSideNavigation({
         classes: 'govuk-!-padding-top-6',
         sections: [
           {
@@ -21,7 +15,7 @@
             items: [
             {
               text: 'Card group',
-              href: ('/components/card-group' | url)
+              href: ('/components/card-group')
             }
             ]
           },
@@ -32,11 +26,11 @@
             items: [
             {
               text: 'Data table',
-              href: ('/components/data-table' | url)
+              href: ('/components/data-table')
             },
             {
               text: 'Filtering',
-              href: ('/components/filtering' | url)
+              href: ('/components/filtering')
             }
             ]
           },
@@ -47,7 +41,7 @@
             items: [
             {
               text: 'List report',
-              href: ('/components/list-report' | url)
+              href: ('/components/list-report')
             }
             ]
           }

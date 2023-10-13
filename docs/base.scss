@@ -1,0 +1,7 @@
+$govuk-global-styles: true;
+
+$dpr-images-path: "/hmpps-digital-prison-reporting-frontend/assets/dpr/images/";
+$govuk-assets-path: "/hmpps-digital-prison-reporting-frontend/assets/govuk/";
+
+@import 'govuk/all';
+@import 'moj/all';

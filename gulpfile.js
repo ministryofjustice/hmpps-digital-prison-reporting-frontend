@@ -20,11 +20,12 @@ gulp.task(
   "build:docs",
   gulp.series(
     "package:clean",
-    "package:scss",
+    "docs:scss",
     "package:copy-views",
     "package:client-javascript",
     "docs:copy-jquery",
     "package:images",
     "docs:assets",
+    "docs:copy-gov-assets",
   )
 );

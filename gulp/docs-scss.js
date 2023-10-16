@@ -7,7 +7,7 @@ const sass = require("gulp-sass")(require("sass"));
 
 gulp.task('docs:scss', () => {
   return gulp.src([
-      'docs/base.scss',
+      'docs/scss/*.scss',
       'src/dpr/components/**/*.scss',
     ])
     .pipe(concat('all.scss'))

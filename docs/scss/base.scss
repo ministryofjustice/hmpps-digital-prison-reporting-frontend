@@ -24,3 +24,7 @@ h2 {
 .app-header__logo {
   margin-left: 30px;
 }
+
+div.govuk-width-container {
+  max-width: $moj-page-width;
+}

@@ -8,9 +8,9 @@ const sass = require("gulp-sass")(require("sass"));
 gulp.task('docs:scss', () => {
   return gulp.src([
       'docs/base.scss',
+      'src/dpr/components/**/*.scss',
     ])
     .pipe(concat('all.scss'))
-    .pipe(gulp.dest('package/dpr/'))
     .pipe(sass({
         outputStyle: 'compressed',
         includePaths: [

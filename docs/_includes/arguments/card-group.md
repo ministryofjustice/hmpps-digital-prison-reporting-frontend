@@ -10,4 +10,4 @@
 |-------------|---------| -------- |----------------------------------------------------------------------|
 | text        | String  | Yes      | The text to be displayed in the title link of the card.              |
 | href        | String  | Yes      | The URL that the card should link to.                                |
-| description | String  | Yes      | The exaplnatory text to be displayed underneath the card title link. |
+| description | String  | Yes      | The explanatory text to be displayed underneath the card title link. |

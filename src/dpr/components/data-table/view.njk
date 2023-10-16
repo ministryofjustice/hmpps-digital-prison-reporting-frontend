@@ -5,7 +5,7 @@
   selectedPage,   // The currently selected page (e.g. '3', which would display rows 41-60 with a page size of 20).
   pageSize,       // The number of rows on each page.
   sortColumn,     // The column the data is sorted on (e.g. 'date').
-  sortedAsc,      // The sort order of the data (e.g. 'name').
+  sortedAsc,      // Whether the data is sorted ascending.
   createUrlForParameters // A function accepting a parameter object that maps to the target URL
 #}
 {% macro dprDataTable(
@@ -16,7 +16,7 @@
     pageSize,
     sortColumn,
     sortedAsc,
-    createUrlForParameters
+    createUrlForParameters = mockedCreateUrlForParameters
   ) %}
   {% from "govuk/components/table/macro.njk"       import govukTable %}
   {% from "govuk/components/pagination/macro.njk"  import govukPagination %}

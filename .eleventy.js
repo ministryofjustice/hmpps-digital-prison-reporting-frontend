@@ -26,6 +26,10 @@ module.exports = function (eleventyConfig) {
     nunjucksEnv.addFilter(name, callback);
   });
 
+  nunjucksEnv.addGlobal('mockedCreateUrlForParameters', (parameters) => {
+    console.log(`Updated parameters: ${JSON.stringify(parameters)}`)
+  })
+
   eleventyConfig.setLibrary("njk", nunjucksEnv);
 
   eleventyConfig.setLibrary(

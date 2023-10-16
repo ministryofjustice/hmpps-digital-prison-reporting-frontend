@@ -144,4 +144,8 @@ Tabs.prototype.onCloseButtonClick = function () {
   this.tabs.first().focus();
 };
 
-export default Tabs;
+$(function () {
+  $('[data-module="app-tabs"]').each(function (e, el) {
+    new Tabs($(el));
+  });
+});

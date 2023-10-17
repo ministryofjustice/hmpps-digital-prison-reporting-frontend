@@ -12,13 +12,3 @@ Navigating the paging or changing the page size, appends the updated options to 
 ## When to use
 
 Use this component to display tabular data to users, allowing sorting and paging of that data.
-
-## Notes
-
-This component accepts a `createUrlForParameters` argument, which can be created server-side using the `getCreateUrlForParametersFunction` method:
-
-```javascript
-import urlHelper from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/urlHelper.ts' 
-
-const createUrlForParameters = urlHelper.getCreateUrlForParametersFunction(reportQuery)
-```

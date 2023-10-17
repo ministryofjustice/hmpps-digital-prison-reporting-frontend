@@ -1,6 +1,6 @@
 import type { FieldDefinition } from '../../types'
 import ReportQuery from '../../types/ReportQuery'
-import urlHelper from '../../utils/urlHelper'
+import createUrlForParameters from '../../utils/urlHelper'
 import { DataTableOptions } from '../data-table/types'
 import DataTableUtils from '../data-table/utils'
 import FilterUtils from '../filters/utils'
@@ -32,7 +32,6 @@ export default {
       getDefaultSortColumn(fields),
       filtersQueryParameterPrefix,
     )
-    const createUrlForParameters = urlHelper.getCreateUrlForParametersFunction(reportQuery)
     const today = FilterUtils.getTodayIsoDate()
 
     const listData = getListDataSources(reportQuery)
@@ -44,16 +43,15 @@ export default {
           head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
           rows: DataTableUtils.mapData(resolvedData[0], fields),
           count: resolvedData[1],
-          createUrlForParameters,
+          currentQueryParams: reportQuery.toRecordWithFilterPrefix()
         }
 
         const filterOptions = {
           filters: FilterUtils.getFilters(fields, reportQuery.filters),
           selectedFilters: FilterUtils.getSelectedFilters(
             fields,
-            reportQuery.filters,
+            reportQuery,
             createUrlForParameters,
-            filtersQueryParameterPrefix,
           ),
           today,
         }

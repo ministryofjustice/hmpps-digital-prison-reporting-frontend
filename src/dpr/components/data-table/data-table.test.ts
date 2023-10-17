@@ -1,7 +1,6 @@
 import nunjucks from 'nunjucks'
 import path from 'path'
 import filters from './utils'
-import Dict = NodeJS.Dict
 import { ListRequest } from '../../types'
 import type { DataTableOptions } from './types'
 
@@ -41,8 +40,8 @@ const defaultOptions: DataTableOptions = {
     [{ text: 'Value 2.1' }, { text: 'Value 2.2' }],
   ],
   count: 20,
-  listRequest: defaultListRequest,
-  createUrlForParameters: (parameters: Dict<string>) => JSON.stringify(parameters),
+  reportQuery: defaultListRequest,
+  currentQueryParams: {},
 }
 
 describe('Content renders correctly', () => {
@@ -177,7 +176,7 @@ describe('Page size picker renders correctly', () => {
   it('Displays correctly', () => {
     const options: DataTableOptions = {
       ...defaultOptions,
-      listRequest: {
+      reportQuery: {
         ...defaultListRequest,
         pageSize: 100,
       },

@@ -12,7 +12,7 @@
     totalRowCount,
     selectedPage,
     pageSize,
-    createUrlForParameters = mockedCreateUrlForParameters
+    currentQueryParams
   ) %}
   {% from "govuk/components/table/macro.njk"       import govukTable %}
   {% from "govuk/components/pagination/macro.njk"  import govukPagination %}
@@ -22,7 +22,7 @@
   {%- set lastPage = (totalRowCount / pageSize) | round(0, 'ceil') %}
   {%- for page in range(1, lastPage + 1) %}
     {%- if page === 1 or page === lastPage or (page >= selectedPage - 1 and page <= (selectedPage | int) + 1) %}
-      {%- set href = createUrlForParameters({ selectedPage: page }) %}
+      {%- set href = currentQueryParams | createUrlForParameters({ selectedPage: page }) %}
       {%- set pages = pages.concat({ number: page, href: href, current: (page === (selectedPage | int)) }) %}
     {%- elif page === 2 or page === lastPage - 1 %}
       {%- set pages = pages.concat({ ellipsis: true }) %}
@@ -41,10 +41,10 @@
     <div class="govuk-grid-column-two-thirds">
     {{ govukPagination({
       previous: {
-        href: createUrlForParameters({ selectedPage: selectedPage - 1 })
+        href: currentQueryParams | createUrlForParameters({ selectedPage: selectedPage - 1 })
       } if ((selectedPage | int) > 1) else null,
       next: {
-        href: createUrlForParameters({ selectedPage: (selectedPage | int) + 1 })
+        href: currentQueryParams | createUrlForParameters({ selectedPage: (selectedPage | int) + 1 })
       } if ((selectedPage | int) < lastPage) else null,
       items: pages
     }) }}
@@ -56,7 +56,7 @@
           name: "sort",
           value: pageSize,
           attributes: {
-            "data-navigate-to": createUrlForParameters({ selectedPage: 1, pageSize: "thisValue" })
+            "data-navigate-to": currentQueryParams | createUrlForParameters({ selectedPage: 1, pageSize: "thisValue" })
           },
           items: [
             {

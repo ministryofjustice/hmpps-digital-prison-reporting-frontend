@@ -1,11 +1,11 @@
-| Name                   | Type            | Required | Description                                                                                    |
-|------------------------|-----------------|----------|------------------------------------------------------------------------------------------------|
-| head                   | Array           | Yes      | An array of column headers. See [Cells](#cells).                                               |
-| rows                   | Array of Arrays | Yes      | An array (Rows) of an array ([Cells](#cells)).                                                 |
-| totalRowCount          | Number          | Yes      | The total number of rows.                                                                      |
-| selectedPage           | Number          | Yes      | The currently selected page (e.g. '3', which would display rows 41-60 with a page size of 20). |
-| pageSize               | Number          | Yes      | The number of rows on each page.                                                               |
-| createUrlForParameters | Function        | Yes      | A function accepting a parameter object that maps to the target URL (see the Notes section).   |
+| Name               | Type            | Required | Description                                                                                    |
+|--------------------|-----------------|----------|------------------------------------------------------------------------------------------------|
+| head               | Array           | Yes      | An array of column headers. See [Cells](#cells).                                               |
+| rows               | Array of Arrays | Yes      | An array (Rows) of an array ([Cells](#cells)).                                                 |
+| totalRowCount      | Number          | Yes      | The total number of rows.                                                                      |
+| selectedPage       | Number          | Yes      | The currently selected page (e.g. '3', which would display rows 41-60 with a page size of 20). |
+| pageSize           | Number          | Yes      | The number of rows on each page.                                                               |
+| currentQueryParams | Object          | Yes      | An object containing the page's current query parameters.                                      |
 
 ### Cells
 

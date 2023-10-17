@@ -1,6 +1,7 @@
 import Utils from './utils'
 import Dict = NodeJS.Dict
-import { FieldDefinition, ListRequest } from '../../types'
+import { FieldDefinition } from '../../types'
+import ReportQuery from '../../types/ReportQuery'
 
 describe('mapData', () => {
   it('Dates with values less than 10 mapped with leading 0', () => {
@@ -133,12 +134,19 @@ describe('mapHeader', () => {
     defaultSortColumn: false,
     type: 'Date',
   }
-  const defaultListRequest: ListRequest = {
-    selectedPage: 12,
-    pageSize: 34,
-    sortedAsc: true,
+  const defaultQueryParams = {
+    selectedPage: '12',
+    pageSize: '34',
+    sortedAsc: 'true',
   }
-  const createUrlForParameters: (updateQueryParams: Dict<string>) => string = (updateQueryParams: Dict<string>) =>
+  const filterPrefix = 'f.'
+  const defaultListRequest: ReportQuery = new ReportQuery(
+    [ defaultField ],
+    defaultQueryParams,
+    defaultField.name,
+    filterPrefix
+  )
+  const createUrlForParameters: (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) => string = (updateQueryParams: Dict<string>) =>
     JSON.stringify(updateQueryParams).replace(/"/g, '')
 
   it('Unsortable field', () => {
@@ -173,11 +181,16 @@ describe('mapHeader', () => {
   })
 
   it('Sortable field sorted ascending', () => {
-    const listRequest = {
-      ...defaultListRequest,
-      sortColumn: 'date',
-    }
-    const mapped = Utils.mapHeader([defaultField], listRequest, createUrlForParameters)
+    const reportQuery: ReportQuery = new ReportQuery(
+      [ defaultField ],
+      {
+        ...defaultQueryParams,
+        sortColumn: 'date',
+      },
+      defaultField.name,
+      filterPrefix
+    )
+    const mapped = Utils.mapHeader([defaultField], reportQuery, createUrlForParameters)
 
     expect(mapped).toEqual([
       {
@@ -194,12 +207,17 @@ describe('mapHeader', () => {
   })
 
   it('Sortable field sorted descending', () => {
-    const listRequest = {
-      ...defaultListRequest,
-      sortColumn: 'date',
-      sortedAsc: false,
-    }
-    const mapped = Utils.mapHeader([defaultField], listRequest, createUrlForParameters)
+    const reportQuery: ReportQuery = new ReportQuery(
+      [ defaultField ],
+      {
+        ...defaultQueryParams,
+        sortColumn: 'date',
+        sortedAsc: 'false',
+      },
+      defaultField.name,
+      filterPrefix
+    )
+    const mapped = Utils.mapHeader([defaultField], reportQuery, createUrlForParameters)
 
     expect(mapped).toEqual([
       {

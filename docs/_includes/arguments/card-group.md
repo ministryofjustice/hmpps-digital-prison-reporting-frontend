@@ -1,5 +1,3 @@
-### Container
-
 | Name          | Type   | Required | Description                                                               |
 | ------------- | ------ | -------- |---------------------------------------------------------------------------|
 | items         | array  | Yes      | An array of cards. See [Cards](#cards).                                   |

@@ -1,5 +1,3 @@
-### Container
-
 | Name                   | Type            | Required | Description                                                                                    |
 |------------------------|-----------------|----------|------------------------------------------------------------------------------------------------|
 | head                   | Array           | Yes      | An array of column headers. See [Cells](#cells).                                               |

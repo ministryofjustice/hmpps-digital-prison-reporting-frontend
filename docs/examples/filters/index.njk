@@ -1,0 +1,38 @@
+---
+layout: layouts/example.njk
+title: Filters (example)
+arguments: filters
+---
+
+{%- from "dpr/components/filters/view.njk" import dprFilters -%}
+
+{{ dprFilters(
+    [
+        {
+            text: "Radio filter",
+            id: "radio",
+            type: "Radio",
+            options: [
+                { value: "one", text: "One" },
+                { value: "two", text: "Two", selected: true }
+            ]
+        },
+        {
+            text: "Select filter",
+            id: "select",
+            type: "Select",
+            options: [
+                { value: "one", text: "One", selected: true },
+                { value: "two", text: "Two" }
+            ]
+        },
+        {
+            text: "Date filter",
+            id: "date",
+            type: "DateRange"
+        }
+    ],
+    '#',
+    '2023-10-17',
+    'example.'
+) }}

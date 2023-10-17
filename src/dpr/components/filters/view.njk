@@ -6,7 +6,9 @@
     options,        // The options to display if this filter is a select or a radio
     value,          // The selected value of the filter.
   }],
-  urlWithNoFilters // The page URL without any filters applied.
+  urlWithNoFilters, // The page URL without any filters applied.
+  today             // Today's date in short ISO format (yyyy-MM-dd)
+  parameterPrefix   // The prefix to apply to the filter parameters in the page URL.
 #}
 
 {% from "govuk/components/select/macro.njk"       import govukSelect %}
@@ -14,13 +16,13 @@
 {% from "govuk/components/input/macro.njk"        import govukInput %}
 {% from "moj/components/filter/macro.njk"         import mojFilter -%}
 
-{% macro dprFilters(filters, urlWithNoFilters, today) %}
+{% macro dprFilters(filters, urlWithNoFilters, today, parameterPrefix = "filters.") %}
   {%- set filterOptionsHtml %}
     {%- for filter in filters %}
       {%- if filter.type === 'Select' %}
         {{ govukSelect({
-          id: 'filters.' + filter.name,
-          name: 'filters.' + filter.name,
+          id: parameterPrefix + filter.name,
+          name: parameterPrefix + filter.name,
           value: filter.value,
           items: filter.options,
           label: {
@@ -29,8 +31,8 @@
         }) }}
       {% elif filter.type === 'Radio' %}
         {{ govukRadios({
-          id: 'filters.' + filter.name,
-          name: 'filters.' + filter.name,
+          id: parameterPrefix + filter.name,
+          name: parameterPrefix + filter.name,
           fieldset: {
             legend: {
               text: filter.text,
@@ -47,11 +49,11 @@
               {{ filter.text }}
             </legend>
             {{ govukInput({
-              id: 'filters.' + filter.name + '.start',
+              id: parameterPrefix + filter.name + '.start',
               label: {
                 text: 'Start'
               },
-              name: 'filters.' + filter.name + '.start',
+              name: parameterPrefix + filter.name + '.start',
               value: filter.value.start,
               type: 'date',
               attributes: {
@@ -59,11 +61,11 @@
               }
             }) }}
             {{ govukInput({
-              id: 'filters.' + filter.name + '.end',
+              id: parameterPrefix + filter.name + '.end',
               label: {
                 text: 'End'
               },
-              name: 'filters.' + filter.name + '.end',
+              name: parameterPrefix + filter.name + '.end',
               value: filter.value.end,
               type: 'date',
               attributes: {

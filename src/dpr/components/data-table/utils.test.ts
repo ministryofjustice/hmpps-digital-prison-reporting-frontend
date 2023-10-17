@@ -134,17 +134,13 @@ describe('mapHeader', () => {
     defaultSortColumn: false,
     type: 'Date',
   }
-  const defaultQueryParams = {
-  }
+  const defaultQueryParams = {}
   const filterPrefix = 'f.'
-  const defaultListRequest: ReportQuery = new ReportQuery(
-    [ defaultField ],
-    defaultQueryParams,
-    null,
-    filterPrefix
-  )
-  const createUrlForParameters: (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) => string = (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) =>
-    JSON.stringify(updateQueryParams).replace(/"/g, '')
+  const defaultListRequest: ReportQuery = new ReportQuery([defaultField], defaultQueryParams, null, filterPrefix)
+  const createUrlForParameters: (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) => string = (
+    currentQueryParams: Dict<string>,
+    updateQueryParams: Dict<string>,
+  ) => JSON.stringify(updateQueryParams).replace(/"/g, '')
 
   it('Unsortable field', () => {
     const field = {
@@ -179,13 +175,13 @@ describe('mapHeader', () => {
 
   it('Sortable field sorted ascending', () => {
     const reportQuery: ReportQuery = new ReportQuery(
-      [ defaultField ],
+      [defaultField],
       {
         ...defaultQueryParams,
         sortColumn: 'date',
       },
       defaultField.name,
-      filterPrefix
+      filterPrefix,
     )
     const mapped = Utils.mapHeader([defaultField], reportQuery, createUrlForParameters)
 
@@ -205,14 +201,14 @@ describe('mapHeader', () => {
 
   it('Sortable field sorted descending', () => {
     const reportQuery: ReportQuery = new ReportQuery(
-      [ defaultField ],
+      [defaultField],
       {
         ...defaultQueryParams,
         sortColumn: 'date',
         sortedAsc: 'false',
       },
       defaultField.name,
-      filterPrefix
+      filterPrefix,
     )
     const mapped = Utils.mapHeader([defaultField], reportQuery, createUrlForParameters)
 

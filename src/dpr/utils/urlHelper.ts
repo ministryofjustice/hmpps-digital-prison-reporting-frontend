@@ -3,7 +3,7 @@ const createUrlForParameters = (currentQueryParams: NodeJS.Dict<string>, updateQ
 
   if (updateQueryParams) {
     queryParams = {
-      ...currentQueryParams
+      ...currentQueryParams,
     }
 
     Object.keys(updateQueryParams).forEach((q) => {
@@ -20,9 +20,9 @@ const createUrlForParameters = (currentQueryParams: NodeJS.Dict<string>, updateQ
   } else {
     queryParams = {
       selectedPage: '1',
-      pageSize: currentQueryParams['pageSize'],
-      sortColumn: currentQueryParams['sortColumn'],
-      sortedAsc: currentQueryParams['sortedAsc'],
+      pageSize: currentQueryParams.pageSize,
+      sortColumn: currentQueryParams.sortColumn,
+      sortedAsc: currentQueryParams.sortedAsc,
     }
   }
 
@@ -34,9 +34,11 @@ const createUrlForParameters = (currentQueryParams: NodeJS.Dict<string>, updateQ
       nonEmptyQueryParams[key] = queryParams[key]
     })
 
-  const querystring = Object.keys(nonEmptyQueryParams).map(key => `${encodeURI(key)}=${encodeURI(nonEmptyQueryParams[key])}`).join('&')
+  const querystring = Object.keys(nonEmptyQueryParams)
+    .map((key) => `${encodeURI(key)}=${encodeURI(nonEmptyQueryParams[key])}`)
+    .join('&')
 
-   return `?${querystring}`
+  return `?${querystring}`
 }
 
 export default createUrlForParameters

@@ -128,15 +128,18 @@ describe('getFilters', () => {
   })
 })
 
-const createUrlForParameters = (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) => JSON.stringify(updateQueryParams)
+const createUrlForParameters = (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) =>
+  JSON.stringify(updateQueryParams)
 
 function mockReportQuery(filterValues: NodeJS.Dict<string>) {
   const reportQuery: ReportQuery = jest.createMockFromModule('../../types/ReportQuery')
   reportQuery.filters = filterValues
 
   const prefixedFilterValues = {}
-  Object.keys(filterValues).forEach(key => prefixedFilterValues[`filters.${key}`] = filterValues[key])
-  reportQuery.toRecordWithFilterPrefix = jest.fn(() => (prefixedFilterValues))
+  Object.keys(filterValues).forEach((key) => {
+    prefixedFilterValues[`filters.${key}`] = filterValues[key]
+  })
+  reportQuery.toRecordWithFilterPrefix = jest.fn(() => prefixedFilterValues)
 
   reportQuery.filtersPrefix = 'f.'
 

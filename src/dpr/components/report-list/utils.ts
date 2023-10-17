@@ -43,16 +43,12 @@ export default {
           head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
           rows: DataTableUtils.mapData(resolvedData[0], fields),
           count: resolvedData[1],
-          currentQueryParams: reportQuery.toRecordWithFilterPrefix()
+          currentQueryParams: reportQuery.toRecordWithFilterPrefix(),
         }
 
         const filterOptions = {
           filters: FilterUtils.getFilters(fields, reportQuery.filters),
-          selectedFilters: FilterUtils.getSelectedFilters(
-            fields,
-            reportQuery,
-            createUrlForParameters,
-          ),
+          selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
           today,
         }
 

@@ -1,22 +1,11 @@
-import querystring from 'querystring'
-import Dict = NodeJS.Dict
-import ReportQuery from '../types/ReportQuery'
-import { FilteredListRequest } from '../types'
-
-const toRecord = (listRequest: FilteredListRequest): Record<string, string> => {
-  return {
-    selectedPage: listRequest.selectedPage.toString(),
-    pageSize: listRequest.pageSize.toString(),
-    sortColumn: listRequest.sortColumn,
-    sortedAsc: listRequest.sortedAsc.toString(),
-    ...listRequest.filters,
-  }
-}
-
-const createUrlForParameters = (currentQueryParams: ReportQuery, updateQueryParams: Dict<string>) => {
-  let queryParams: Dict<string> = currentQueryParams.toRecordWithFilterPrefix()
+const createUrlForParameters = (currentQueryParams: NodeJS.Dict<string>, updateQueryParams: NodeJS.Dict<string>) => {
+  let queryParams: NodeJS.Dict<string>
 
   if (updateQueryParams) {
+    queryParams = {
+      ...currentQueryParams,
+    }
+
     Object.keys(updateQueryParams).forEach((q) => {
       if (updateQueryParams[q]) {
         queryParams[q] = updateQueryParams[q]
@@ -29,14 +18,15 @@ const createUrlForParameters = (currentQueryParams: ReportQuery, updateQueryPara
       }
     })
   } else {
-    queryParams = toRecord({
-      ...currentQueryParams,
-      filters: null,
-      selectedPage: 1,
-    })
+    queryParams = {
+      selectedPage: '1',
+      pageSize: currentQueryParams.pageSize,
+      sortColumn: currentQueryParams.sortColumn,
+      sortedAsc: currentQueryParams.sortedAsc,
+    }
   }
 
-  const nonEmptyQueryParams = {}
+  const nonEmptyQueryParams: NodeJS.Dict<string> = {}
 
   Object.keys(queryParams)
     .filter((key) => queryParams[key])
@@ -44,13 +34,11 @@ const createUrlForParameters = (currentQueryParams: ReportQuery, updateQueryPara
       nonEmptyQueryParams[key] = queryParams[key]
     })
 
-  return `?${querystring.stringify(nonEmptyQueryParams)}`
+  const querystring = Object.keys(nonEmptyQueryParams)
+    .map((key) => `${encodeURI(key)}=${encodeURI(nonEmptyQueryParams[key])}`)
+    .join('&')
+
+  return `?${querystring}`
 }
 
-export default {
-  createUrlForParameters,
-
-  getCreateUrlForParametersFunction: (currentQueryParams: ReportQuery) => {
-    return (updateQueryParams: Dict<string>) => createUrlForParameters(currentQueryParams, updateQueryParams)
-  },
-}
+export default createUrlForParameters

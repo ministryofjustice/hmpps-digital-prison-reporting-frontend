@@ -14,7 +14,7 @@ on:
           - patch
 
 jobs:
-  publish:
+  publish-package:
     runs-on: ubuntu-latest
 
     permissions:
@@ -41,3 +41,24 @@ jobs:
       with:
         token: ${{ secrets.NPM_AUTH_TOKEN }}
         package: package/package.json
+
+  publish-pages:
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+      - run: npm ci
+      - run: npm run docs
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: package/dpr/
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v2

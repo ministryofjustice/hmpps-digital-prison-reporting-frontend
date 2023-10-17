@@ -134,7 +134,6 @@ dist
 .vscode/
 node_modules
 npm-debug.log
-public/
 sass-cache
 settings.json
 tmp-uploads

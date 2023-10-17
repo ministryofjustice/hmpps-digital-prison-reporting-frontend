@@ -6,7 +6,7 @@
 
 {% set pageTitle = applicationName + " - " + title %}
 {% set mainClasses = "app-container govuk-body" %}
-{% set urlWithNoFilters = dataTableOptions.createUrlForParameters(null) %}
+{% set urlWithNoFilters = dataTableOptions.currentQueryParams | createUrlForParameters(null) %}
 {% set selectedFilters = filterOptions.selectedFilters %}
 
 {% if (filterOptions.selectedFilters.length > 0) %}
@@ -43,9 +43,7 @@
           dataTableOptions.count,
           dataTableOptions.listRequest.selectedPage,
           dataTableOptions.listRequest.pageSize,
-          dataTableOptions.listRequest.sortColumn,
-          dataTableOptions.listRequest.sortedAsc,
-          dataTableOptions.createUrlForParameters
+          dataTableOptions.currentQueryParams
         ) }}
       </div>
     </div>

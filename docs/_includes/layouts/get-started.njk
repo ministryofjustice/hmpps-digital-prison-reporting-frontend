@@ -1,0 +1,36 @@
+{% extends "./base.njk" %}
+
+{%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
+
+{% block content %}
+  <div class="govuk-width-container govuk-grid-row app-flex-container">
+    <div class="govuk-grid-column-one-third">
+      {{ mojSideNavigation({
+        classes: 'govuk-!-padding-top-6',
+        sections: [
+          {
+            heading: {
+              text: "How to guides"
+            },
+            items: [
+              {
+                text: 'Integrating the library',
+                href: ('/get-started/integrating-the-library')
+              }
+            ]
+          }
+        ]
+      }) }}
+    </div>
+
+    <div class="govuk-grid-column-two-thirds">
+      <main id="main-content" class="govuk-main-wrapper app-prose-scope" role="main">
+        <h1 class="govuk-heading-xl">
+          {% if subsection %}<span class="govuk-caption-xl">{{ subsection }}</span>{% endif %}
+          {{ title }}
+        </h1>
+        {{ content | safe }}
+      </main>
+    </div>
+  </div>
+{% endblock %}

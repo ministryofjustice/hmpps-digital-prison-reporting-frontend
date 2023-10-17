@@ -1,0 +1,94 @@
+const beautifyHTML = require("js-beautify").html;
+const fs = require("fs");
+const hljs = require("highlight.js");
+const markdownIt = require("markdown-it");
+const markdownItAnchor = require("markdown-it-anchor");
+const matter = require("gray-matter");
+const mojFilters = require("@ministryofjustice/frontend/moj/filters/all");
+const nunjucks = require("nunjucks");
+const path = require("path");
+const releasePackage = require('./package/package.json');
+const { EleventyHtmlBasePlugin } = require("@11ty/eleventy");
+
+module.exports = function (eleventyConfig) {
+  const nunjucksEnv = nunjucks.configure([
+    ".",
+    "docs/_includes/",
+    "node_modules/govuk-frontend/",
+    "node_modules/@ministryofjustice/frontend/",
+    "src/",
+  ]);
+
+  Object.entries({
+    ...eleventyConfig.nunjucksFilters,
+    ...mojFilters(),
+  }).forEach(([name, callback]) => {
+    nunjucksEnv.addFilter(name, callback);
+  });
+
+  const createUrlForParameters = require('package/dpr/utils/urlHelper').default
+  nunjucksEnv.addFilter('createUrlForParameters', createUrlForParameters);
+
+
+  eleventyConfig.setLibrary("njk", nunjucksEnv);
+
+  eleventyConfig.setLibrary(
+    "md",
+    markdownIt({
+      html: true,
+      highlight: (str, language) =>
+        language ? hljs.highlight(str, { language }).value : str,
+    })
+      .disable("code")
+      .use(markdownItAnchor, {
+        level: [1, 2, 3, 4],
+      })
+  );
+
+  eleventyConfig.addShortcode("example", function (exampleName, height) {
+    const { data, content: nunjucksCode } = matter(
+      fs
+        .readFileSync(
+          path.join(__dirname, "docs", "examples", exampleName, "index.njk"),
+          "utf8"
+        )
+        .trim()
+    );
+
+    const rawHtmlCode = nunjucksEnv.renderString(nunjucksCode);
+
+    const htmlCode = beautifyHTML(rawHtmlCode.trim(), {
+      indent_size: 2,
+      end_with_newline: true,
+      max_preserve_newlines: 1,
+      unformatted: ["code", "pre", "em", "strong"],
+    });
+
+    let jsCode = "";
+    try {
+      jsCode = fs
+        .readFileSync(
+          path.join(__dirname, "docs", "examples", exampleName, "script.js"),
+          "utf8"
+        )
+        .trim();
+    } catch (e) {}
+
+    return nunjucksEnv.render("example.njk", {
+      href: "/examples/" + exampleName,
+      id: exampleName,
+      arguments: data.arguments,
+      title: data.title,
+      height,
+      nunjucksCode,
+      htmlCode,
+      jsCode,
+    });
+  });
+
+  eleventyConfig.addShortcode("version", function () {
+    return releasePackage.version;
+  });
+
+  eleventyConfig.addPlugin(EleventyHtmlBasePlugin);
+};

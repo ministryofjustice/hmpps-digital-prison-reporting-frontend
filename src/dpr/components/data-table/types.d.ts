@@ -17,5 +17,5 @@ export interface DataTableOptions {
   head: Array<Header>
   rows: Array<Array<Cell>>
   count: number
-  createUrlForParameters(updateQueryParams: Dict<string>): string
+  currentQueryParams: Dict<string>
 }

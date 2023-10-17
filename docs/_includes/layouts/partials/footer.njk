@@ -1,0 +1,23 @@
+{% from "node_modules/govuk-frontend/govuk/components/footer/macro.njk" import govukFooter %}
+
+{{ govukFooter({
+  navigation: [
+    {
+      title: "Related resources",
+      items: [
+        {
+          href: "https://www.gov.uk/guidance/government-design-principles",
+          text: "Government Design Principles"
+        },
+        {
+          href: "https://design-system.service.gov.uk/",
+          text: "GOV.UK Design System"
+        },
+        {
+          href: "https://design-patterns.service.justice.gov.uk/",
+          text: "MoJ Pattern Library"
+        }
+      ]
+    }
+  ]
+}) }}

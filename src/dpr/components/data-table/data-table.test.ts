@@ -1,9 +1,9 @@
 import nunjucks from 'nunjucks'
 import path from 'path'
 import filters from './utils'
-import Dict = NodeJS.Dict
 import { ListRequest } from '../../types'
 import type { DataTableOptions } from './types'
+import createUrlForParameters from '../../utils/urlHelper'
 
 const testView =
   '{% from "view.njk" import dprDataTable %}' +
@@ -27,22 +27,29 @@ Object.keys(filters).forEach((filterName) => {
   env.addFilter(filterName, filters[filterName])
 })
 
+env.addFilter('createUrlForParameters', createUrlForParameters)
+
 const defaultListRequest: ListRequest = {
   selectedPage: 1,
   pageSize: 2,
   sortColumn: 'header1',
   sortedAsc: true,
 }
-
+const defaultQueryParams = {
+  selectedPage: '1',
+  pageSize: '2',
+  sortColumn: 'header1',
+  sortedAsc: 'true',
+}
 const defaultOptions: DataTableOptions = {
+  listRequest: defaultListRequest,
   head: [{ html: 'Header 1' }, { html: 'Header 2' }],
   rows: [
     [{ text: 'Value 1.1' }, { text: 'Value 1.2' }],
     [{ text: 'Value 2.1' }, { text: 'Value 2.2' }],
   ],
   count: 20,
-  listRequest: defaultListRequest,
-  createUrlForParameters: (parameters: Dict<string>) => JSON.stringify(parameters),
+  currentQueryParams: defaultQueryParams,
 }
 
 describe('Content renders correctly', () => {

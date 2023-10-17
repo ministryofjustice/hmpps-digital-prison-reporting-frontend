@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#0b0c0c">
+
+    <link rel="shortcut icon" href="{{ '/assets/images/favicon.ico' }}" type="image/x-icon">
+
+    <link href="{{ '/assets/css/all.css' }}" rel="stylesheet">
+    <title>{{ title }} - MOJ Pattern Library</title>
+
+    <script type="text/javascript" src="{{ '/assets/js/jquery.min.js' }}"></script>
+  </head>
+  <body class="govuk-template__body">
+    <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+
+    {% block body %}
+      <div>
+        {% include "./partials/header.njk" %}
+
+        {% include "./partials/navigation.njk" %}
+
+        {% block content %}
+          <main class="app-prose-scope" role="main">
+            {{ content | safe }}
+          </main>
+        {% endblock %}
+
+        {% include "./partials/footer.njk" %}
+
+      </div>
+    {% endblock %}
+
+    {% block pageScripts %}
+      <script type="text/javascript" src="{{ '/assets/js/client.js' }}"></script>
+      <script type="text/javascript" src="{{ '/assets/js/tabs.js' }}"></script>
+    {% endblock %}
+  </body>
+</html>

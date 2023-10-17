@@ -1,0 +1,63 @@
+{% extends "./base.njk" %}
+
+{%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
+
+{% block content %}
+  <div class="govuk-width-container govuk-grid-row app-flex-container">
+    <div class="govuk-grid-column-one-quarter">
+      {{ mojSideNavigation({
+        classes: 'govuk-!-padding-top-6',
+        sections: [
+          {
+            heading: {
+              text: 'Navigation'
+            },
+            items: [
+            {
+              text: 'Card group',
+              href: '/components/card-group'
+            }
+            ]
+          },
+          {
+            heading: {
+              text: 'Content presentation'
+            },
+            items: [
+            {
+              text: 'Data table',
+              href: '/components/data-table'
+            },
+            {
+              text: 'Filters',
+              href: '/components/filters'
+            }
+            ]
+          },
+          {
+            heading: {
+              text: 'Pre-built reports'
+            },
+            items: [
+            {
+              text: 'List report',
+              href: '/components/list-report'
+            }
+            ]
+          }
+      ]
+
+        }) }}
+    </div>
+
+    <div class="govuk-grid-column-three-quarters">
+      <main id="main-content" class="govuk-main-wrapper app-prose-scope" role="main">
+        <h1 class="govuk-heading-xl">
+          {% if not isIndex %}<span class="govuk-caption-xl">Components</span>{% endif %}
+          {{ title }}
+        </h1>
+        {{ content | safe }}
+      </main>
+    </div>
+  </div>
+{% endblock %}

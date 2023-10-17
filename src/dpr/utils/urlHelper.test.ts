@@ -1,7 +1,7 @@
-import UrlHelper from './urlHelper'
 import ReportQuery from '../types/ReportQuery'
 import Dict = NodeJS.Dict
 import { FieldDefinition } from '../types'
+import createUrlForParameters from './urlHelper'
 
 const defaultFields: Array<FieldDefinition> = [
   {
@@ -30,7 +30,7 @@ describe('Create URL', () => {
   it('Clear all filters', () => {
     const updateQueryParams: Dict<string> = null
 
-    const url = UrlHelper.createUrlForParameters(defaultReportQuery, updateQueryParams)
+    const url = createUrlForParameters(defaultReportQuery.toRecordWithFilterPrefix(), updateQueryParams)
 
     expect(url).toEqual('?selectedPage=1&pageSize=20&sortColumn=30&sortedAsc=false')
   })
@@ -49,7 +49,7 @@ describe('Create URL', () => {
       'f.direction': '',
     }
 
-    const url = UrlHelper.createUrlForParameters(currentQueryParams, updateQueryParams)
+    const url = createUrlForParameters(currentQueryParams.toRecordWithFilterPrefix(), updateQueryParams)
 
     expect(url).toEqual('?selectedPage=10&pageSize=20&sortColumn=30&sortedAsc=false&f.type=jaunt')
   })
@@ -59,7 +59,7 @@ describe('Create URL', () => {
       selectedPage: '11',
     }
 
-    const url = UrlHelper.createUrlForParameters(defaultReportQuery, updateQueryParams)
+    const url = createUrlForParameters(defaultReportQuery.toRecordWithFilterPrefix(), updateQueryParams)
 
     expect(url).toEqual('?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&f.direction=out')
   })

@@ -135,18 +135,15 @@ describe('mapHeader', () => {
     type: 'Date',
   }
   const defaultQueryParams = {
-    selectedPage: '12',
-    pageSize: '34',
-    sortedAsc: 'true',
   }
   const filterPrefix = 'f.'
   const defaultListRequest: ReportQuery = new ReportQuery(
     [ defaultField ],
     defaultQueryParams,
-    defaultField.name,
+    null,
     filterPrefix
   )
-  const createUrlForParameters: (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) => string = (updateQueryParams: Dict<string>) =>
+  const createUrlForParameters: (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) => string = (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) =>
     JSON.stringify(updateQueryParams).replace(/"/g, '')
 
   it('Unsortable field', () => {

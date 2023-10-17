@@ -2,6 +2,7 @@ import { parse } from 'node-html-parser'
 import nunjucks from 'nunjucks'
 import path from 'path'
 import { FilterType } from './enum'
+import createUrlForParameters from '../../utils/urlHelper'
 
 const env = nunjucks.configure(
   [
@@ -11,6 +12,8 @@ const env = nunjucks.configure(
   ],
   { autoescape: true },
 )
+
+env.addFilter('createUrlForParameters', createUrlForParameters)
 
 const defaultOptions = {
   filters: [

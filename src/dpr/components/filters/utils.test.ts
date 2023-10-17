@@ -3,6 +3,7 @@ import Dict = NodeJS.Dict
 import { FilterType } from './enum'
 import { DateRange } from './types'
 import { FieldDefinition } from '../../types'
+import ReportQuery from '../../types/ReportQuery'
 
 const options = [
   {
@@ -127,7 +128,20 @@ describe('getFilters', () => {
   })
 })
 
-const createUrlForParameters = (updateQueryParams: Dict<string>) => JSON.stringify(updateQueryParams)
+const createUrlForParameters = (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) => JSON.stringify(updateQueryParams)
+
+function mockReportQuery(filterValues: NodeJS.Dict<string>) {
+  const reportQuery: ReportQuery = jest.createMockFromModule('../../types/ReportQuery')
+  reportQuery.filters = filterValues
+
+  const prefixedFilterValues = {}
+  Object.keys(filterValues).forEach(key => prefixedFilterValues[`filters.${key}`] = filterValues[key])
+  reportQuery.toRecordWithFilterPrefix = jest.fn(() => (prefixedFilterValues))
+
+  reportQuery.filtersPrefix = 'f.'
+
+  return reportQuery
+}
 
 describe('getSelectedFilters', () => {
   it('Select filter mapped correctly', () => {
@@ -135,11 +149,11 @@ describe('getSelectedFilters', () => {
       selectField: '2',
     }
 
-    const result = Utils.getSelectedFilters(selectFieldFormat, filterValues, createUrlForParameters, '')
+    const result = Utils.getSelectedFilters(selectFieldFormat, mockReportQuery(filterValues), createUrlForParameters)
 
     expect(result.length).toEqual(1)
     expect(result[0].text).toEqual('Select Field: Two')
-    expect(result[0].href).toEqual('{"selectField":"","selectedPage":"1"}')
+    expect(result[0].href).toEqual('{"f.selectField":"","selectedPage":"1"}')
   })
 
   it('Radio filter mapped correctly', () => {
@@ -147,11 +161,11 @@ describe('getSelectedFilters', () => {
       radioField: '2',
     }
 
-    const result = Utils.getSelectedFilters(radioFieldFormat, filterValues, createUrlForParameters, '')
+    const result = Utils.getSelectedFilters(radioFieldFormat, mockReportQuery(filterValues), createUrlForParameters)
 
     expect(result.length).toEqual(1)
     expect(result[0].text).toEqual('Radio Field: Two')
-    expect(result[0].href).toEqual('{"radioField":"","selectedPage":"1"}')
+    expect(result[0].href).toEqual('{"f.radioField":"","selectedPage":"1"}')
   })
 
   it('Date range filter mapped correctly', () => {
@@ -160,11 +174,11 @@ describe('getSelectedFilters', () => {
       'dateRangeField.end': '2004-05-06',
     }
 
-    const result = Utils.getSelectedFilters(dateRangeFieldFormat, filterValues, createUrlForParameters, '')
+    const result = Utils.getSelectedFilters(dateRangeFieldFormat, mockReportQuery(filterValues), createUrlForParameters)
 
     expect(result.length).toEqual(1)
     expect(result[0].text).toEqual('Date Range Field: 03/02/2001 - 06/05/2004')
-    expect(result[0].href).toEqual('{"dateRangeField":"","selectedPage":"1"}')
+    expect(result[0].href).toEqual('{"f.dateRangeField":"","selectedPage":"1"}')
   })
 
   it('Date range filter with just start date mapped correctly', () => {
@@ -172,11 +186,11 @@ describe('getSelectedFilters', () => {
       'dateRangeField.start': '2001-02-03',
     }
 
-    const result = Utils.getSelectedFilters(dateRangeFieldFormat, filterValues, createUrlForParameters, '')
+    const result = Utils.getSelectedFilters(dateRangeFieldFormat, mockReportQuery(filterValues), createUrlForParameters)
 
     expect(result.length).toEqual(1)
     expect(result[0].text).toEqual('Date Range Field: From 03/02/2001')
-    expect(result[0].href).toEqual('{"dateRangeField":"","selectedPage":"1"}')
+    expect(result[0].href).toEqual('{"f.dateRangeField":"","selectedPage":"1"}')
   })
 
   it('Date range filter with just end date mapped correctly', () => {
@@ -184,10 +198,10 @@ describe('getSelectedFilters', () => {
       'dateRangeField.end': '2004-05-06',
     }
 
-    const result = Utils.getSelectedFilters(dateRangeFieldFormat, filterValues, createUrlForParameters, '')
+    const result = Utils.getSelectedFilters(dateRangeFieldFormat, mockReportQuery(filterValues), createUrlForParameters)
 
     expect(result.length).toEqual(1)
     expect(result[0].text).toEqual('Date Range Field: Until 06/05/2004')
-    expect(result[0].href).toEqual('{"dateRangeField":"","selectedPage":"1"}')
+    expect(result[0].href).toEqual('{"f.dateRangeField":"","selectedPage":"1"}')
   })
 })

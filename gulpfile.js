@@ -27,5 +27,6 @@ gulp.task(
     "package:images",
     "docs:assets",
     "docs:copy-gov-assets",
+    "docs:filter-javascript",
   )
 );

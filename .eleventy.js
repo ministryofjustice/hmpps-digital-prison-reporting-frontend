@@ -26,7 +26,7 @@ module.exports = function (eleventyConfig) {
     nunjucksEnv.addFilter(name, callback);
   });
 
-  const createUrlForParameters = require('package/dpr/utils/urlHelper').default
+  const createUrlForParameters = require('./package/dpr/utils/urlHelper').default
   nunjucksEnv.addFilter('createUrlForParameters', createUrlForParameters);
 
 

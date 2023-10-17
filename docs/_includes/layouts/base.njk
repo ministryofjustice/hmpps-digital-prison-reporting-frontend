@@ -12,8 +12,6 @@
     <title>{{ title }} - MOJ Pattern Library</title>
 
     <script type="text/javascript" src="{{ '/assets/js/jquery.min.js' }}"></script>
-    <script type="text/javascript" src="{{ '/assets/js/client.js' }}"></script>
-    <script type="text/javascript" src="{{ '/assets/js/tabs.js' }}"></script>
   </head>
   <body class="govuk-template__body">
     <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
@@ -35,6 +33,9 @@
       </div>
     {% endblock %}
 
-    {% block pageScripts %}{% endblock %}
+    {% block pageScripts %}
+      <script type="text/javascript" src="{{ '/assets/js/client.js' }}"></script>
+      <script type="text/javascript" src="{{ '/assets/js/tabs.js' }}"></script>
+    {% endblock %}
   </body>
 </html>

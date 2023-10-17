@@ -7,7 +7,7 @@ This component is an extension of the [MoJ filter component](https://design-patt
 
 Clicking "Apply filter" appends the selected options to the page URL. Parameters are appended with the provided parameter prefix. 
 
-{% example "filters", 500 %}
+{% example "filters", 700 %}
 
 ## When to use
 

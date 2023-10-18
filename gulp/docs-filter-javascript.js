@@ -6,7 +6,10 @@ const tsProject = ts.createProject('tsconfig.json');
 
 gulp.task('docs:filter-javascript', () => {
   return tsProject.src()
-    .pipe(filter(['src/dpr/utils/urlHelper.ts', '!**/*.test.ts']))
+    .pipe(filter([
+      'src/dpr/utils/urlHelper.ts',
+      'src/dpr/setUpNunjucksFilters.ts'
+    ]))
     .pipe(tsProject())
     .pipe(gulp.dest('package/dpr/'));
 });

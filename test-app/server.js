@@ -41,10 +41,9 @@ Object.keys(mojFilters).forEach((filterName) => {
   nunjucksEnvironment.addFilter(filterName, mojFilters[filterName])
 })
 
-// Add url creation filter
-const createUrlForParameters = require('../package/dpr/utils/urlHelper.js').default
-
-nunjucksEnvironment.addFilter('createUrlForParameters', createUrlForParameters)
+// Add library filters
+const setUpNunjucksFilters = require('../package/dpr/setUpNunjucksFilters').default
+setUpNunjucksFilters(nunjucksEnvironment)
 
 // Set view engine
 app.set('view engine', 'njk')

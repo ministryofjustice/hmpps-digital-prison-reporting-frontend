@@ -3,7 +3,7 @@ import path from 'path'
 import filters from './utils'
 import { ListRequest } from '../../types'
 import type { DataTableOptions } from './types'
-import createUrlForParameters from '../../utils/urlHelper'
+import setUpNunjucksFilters from '../../setUpNunjucksFilters'
 
 const testView =
   '{% from "view.njk" import dprDataTable %}' +
@@ -27,7 +27,7 @@ Object.keys(filters).forEach((filterName) => {
   env.addFilter(filterName, filters[filterName])
 })
 
-env.addFilter('createUrlForParameters', createUrlForParameters)
+setUpNunjucksFilters(env)
 
 const defaultListRequest: ListRequest = {
   selectedPage: 1,

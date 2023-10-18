@@ -1,7 +1,7 @@
 const app = require('./server')
 
 // Port
-const port = Number(process.env.PORT) || 3000
+const port = Number(process.env.PORT) || 3010
 
 // Start the server
 // eslint-disable-next-line no-console

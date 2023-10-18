@@ -21,6 +21,6 @@ Both tasks use the `package` directory.
 
 ## Test Application
 
-To start the Test Application, run: `npm run start-test-app`. This builds the NPM package and starts the server at http://localhost:3000.
+To start the Test Application, run: `npm run start-test-app`. This builds the NPM package and starts the server at http://localhost:3010.
 
 The Test Application is used both for visually checking components, and also by the integration tests (run using Cypress).

@@ -16,6 +16,7 @@
     "test": "npm-run-all --parallel test:*",
     "test:jest": "jest",
     "test:lint": "eslint . --cache --max-warnings 0",
+    "test:docs": "npm run docs",
     "start-test-app": "npm run package && node $NODE_OPTIONS test-app/start-server.js",
     "security_audit": "npx audit-ci --config audit-ci.json",
     "int-test": "cypress run --config-file cypress-tests/integration-tests/cypress.config.js",

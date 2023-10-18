@@ -25,22 +25,22 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 'lts/*'
-    - run: npm ci
-    - run: npm run package
-    - name: 'Automated Version Bump'
-      uses: 'phips28/gh-action-bump-version@master'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PACKAGEJSON_DIR: package
-      with:
-        version-type: ${{ inputs.versionType }}
-        tag-prefix:  'v'
-        target-branch: 'main'
-        commit-message: 'Publish version {{version}}'
-    - uses: JS-DevTools/npm-publish@v1
-      with:
-        token: ${{ secrets.NPM_AUTH_TOKEN }}
-        package: package/package.json
+#    - run: npm ci
+#    - run: npm run package
+#    - name: 'Automated Version Bump'
+#      uses: 'phips28/gh-action-bump-version@master'
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        PACKAGEJSON_DIR: package
+#      with:
+#        version-type: ${{ inputs.versionType }}
+#        tag-prefix:  'v'
+#        target-branch: 'main'
+#        commit-message: 'Publish version {{version}}'
+#    - uses: JS-DevTools/npm-publish@v1
+#      with:
+#        token: ${{ secrets.NPM_AUTH_TOKEN }}
+#        package: package/package.json
 
   publish-pages:
     runs-on: ubuntu-latest

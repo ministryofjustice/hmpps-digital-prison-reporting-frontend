@@ -39,7 +39,6 @@ export default {
     Promise.all([listData.data, listData.count])
       .then((resolvedData) => {
         const dataTableOptions: DataTableOptions = {
-          listRequest: reportQuery,
           head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
           rows: DataTableUtils.mapData(resolvedData[0], fields),
           count: resolvedData[1],

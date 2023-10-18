@@ -43,6 +43,7 @@ Object.keys(mojFilters).forEach((filterName) => {
 
 // Add library filters
 const setUpNunjucksFilters = require('../package/dpr/setUpNunjucksFilters').default
+
 setUpNunjucksFilters(nunjucksEnvironment)
 
 // Set view engine

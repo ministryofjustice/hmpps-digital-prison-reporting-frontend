@@ -1,6 +1,5 @@
 ---
-arguments: list-report
-jsArguments: list-report-js
+jsArguments: list-report
 ---
 
 {% extends "dpr/components/report-list/list.njk" %}
@@ -30,7 +29,8 @@ jsArguments: list-report-js
     selectedFilters: [
         {
             text: "Radio filter: Two",
-            href: "#"
+            href: "#",
+            classes: 'filter-summary-remove-button govuk-button--secondary'
         }
     ],
     filters: [

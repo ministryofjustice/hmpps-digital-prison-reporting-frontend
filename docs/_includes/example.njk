@@ -48,6 +48,21 @@
 {% if jsCode %}
   <div class="app-tabs__panel app-tabs__panel--hidden" id="js-default-{{ id }}" data-module="app-copy" role="tabpanel" aria-labelledby="tab_js-default-{{ id }}">
 
+    {% if jsArguments %}
+      <details class="govuk-details govuk-!-padding-3" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Javascript arguments
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+
+          {% include "./arguments/" + jsArguments + ".md" %}
+
+        </div>
+      </details>
+    {% endif %}
+
 ```js
 {{ jsCode | safe }}
 ```

@@ -1,3 +1,4 @@
+
 | Name               | Type     | Required | Description                                                                                                                                    |
 |--------------------|----------|----------|------------------------------------------------------------------------------------------------------------------------------------------------|
 | title              | String   | Yes      | The page title.                                                                                                                                |
@@ -36,14 +37,14 @@
 | name        | String | Yes      | The code-friendly value of an option (e.g. 'first-item')        |
 | displayName | String | Yes      | The name of the option to display to users (e.g. 'First item'). |
 
-## List Data Sources
+### List Data Sources
 
 | Name  | Type    | Required | Description                                                                                               |
 |-------|---------|----------|-----------------------------------------------------------------------------------------------------------|
 | data  | Promise | Yes      | A Promise that returns an array of data rows, where each row is a Dict (or map) of field names to values. |
 | count | Promise | Yes      | A Promise that returns the total number of rows across all pages.                                         |
 
-## Report Query
+### Report Query
 
 This object is passed to the getListDataSources function, to allow you to request data from your API using the page's filters, sorting, etc.
 

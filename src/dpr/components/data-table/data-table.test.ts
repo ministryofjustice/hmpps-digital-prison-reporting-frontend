@@ -10,11 +10,7 @@ const testView =
   '  head,\n' +
   '  rows,\n' +
   '  count,\n' +
-  '  listRequest.selectedPage,\n' +
-  '  listRequest.pageSize,\n' +
-  '  listRequest.sortColumn,\n' +
-  '  listRequest.sortedAsc,\n' +
-  '  createUrlForParameters\n' +
+  '  currentQueryParams\n' +
   ') }}'
 
 const env = nunjucks.configure(

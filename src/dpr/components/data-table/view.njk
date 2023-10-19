@@ -2,22 +2,20 @@
   head,           // A list of columns containing 'text', and optionally 'format' (e.g. numeric)
   rows,           // A list (rows) of a list (cells) containing 'text', and optionally 'format' (e.g. numeric)
   totalRowCount,  // The total number of rows.
-  selectedPage,   // The currently selected page (e.g. '3', which would display rows 41-60 with a page size of 20).
-  pageSize,       // The number of rows on each page.
   createUrlForParameters // A function accepting a parameter object that maps to the target URL
 #}
 {% macro dprDataTable(
     head,
     rows,
     totalRowCount,
-    selectedPage,
-    pageSize,
     currentQueryParams
   ) %}
   {% from "govuk/components/table/macro.njk"       import govukTable %}
   {% from "govuk/components/pagination/macro.njk"  import govukPagination %}
   {% from "govuk/components/select/macro.njk"      import govukSelect %}
 
+  {%- set selectedPage = currentQueryParams.selectedPage | int %}
+  {%- set pageSize = currentQueryParams.pageSize | int %}
   {%- set pages = [] %}
   {%- set lastPage = (totalRowCount / pageSize) | round(0, 'ceil') %}
   {%- for page in range(1, lastPage + 1) %}

@@ -77,6 +77,7 @@ module.exports = function (eleventyConfig) {
       href: "/examples/" + exampleName,
       id: exampleName,
       arguments: data.arguments,
+      jsArguments: data.jsArguments,
       title: data.title,
       height,
       nunjucksCode,

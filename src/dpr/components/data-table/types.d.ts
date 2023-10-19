@@ -1,4 +1,3 @@
-import { ListRequest } from '../../types'
 import Dict = NodeJS.Dict
 
 export interface Header {
@@ -13,7 +12,6 @@ export interface Cell {
 }
 
 export interface DataTableOptions {
-  listRequest: ListRequest
   head: Array<Header>
   rows: Array<Array<Cell>>
   count: number

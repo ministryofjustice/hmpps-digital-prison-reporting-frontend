@@ -1,7 +1,6 @@
 import nunjucks from 'nunjucks'
 import path from 'path'
 import filters from './utils'
-import { ListRequest } from '../../types'
 import type { DataTableOptions } from './types'
 import setUpNunjucksFilters from '../../setUpNunjucksFilters'
 
@@ -11,11 +10,7 @@ const testView =
   '  head,\n' +
   '  rows,\n' +
   '  count,\n' +
-  '  listRequest.selectedPage,\n' +
-  '  listRequest.pageSize,\n' +
-  '  listRequest.sortColumn,\n' +
-  '  listRequest.sortedAsc,\n' +
-  '  createUrlForParameters\n' +
+  '  currentQueryParams\n' +
   ') }}'
 
 const env = nunjucks.configure(
@@ -29,12 +24,6 @@ Object.keys(filters).forEach((filterName) => {
 
 setUpNunjucksFilters(env)
 
-const defaultListRequest: ListRequest = {
-  selectedPage: 1,
-  pageSize: 2,
-  sortColumn: 'header1',
-  sortedAsc: true,
-}
 const defaultQueryParams = {
   selectedPage: '1',
   pageSize: '2',
@@ -42,7 +31,6 @@ const defaultQueryParams = {
   sortedAsc: 'true',
 }
 const defaultOptions: DataTableOptions = {
-  listRequest: defaultListRequest,
   head: [{ html: 'Header 1' }, { html: 'Header 2' }],
   rows: [
     [{ text: 'Value 1.1' }, { text: 'Value 1.2' }],
@@ -137,9 +125,9 @@ describe('Page picker renders correctly', () => {
 
   const getOptionsForSelectedPage = (selectedPage: number) => ({
     ...defaultOptions,
-    listRequest: {
-      ...defaultListRequest,
-      selectedPage,
+    currentQueryParams: {
+      ...defaultQueryParams,
+      selectedPage: selectedPage.toString(),
     },
   })
 
@@ -184,9 +172,9 @@ describe('Page size picker renders correctly', () => {
   it('Displays correctly', () => {
     const options: DataTableOptions = {
       ...defaultOptions,
-      listRequest: {
-        ...defaultListRequest,
-        pageSize: 100,
+      currentQueryParams: {
+        ...defaultQueryParams,
+        pageSize: '100',
       },
     }
 

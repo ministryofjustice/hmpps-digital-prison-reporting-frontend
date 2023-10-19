@@ -23,7 +23,7 @@ gulp.task(
     "docs:scss",
     "package:copy-views",
     "package:client-javascript",
-    "docs:copy-jquery",
+    "docs:copy-external-javascript",
     "package:images",
     "docs:assets",
     "docs:copy-gov-assets",

@@ -1,5 +1,8 @@
-module.exports = {
-  variant: {
+const variant = {
+  id: 'test-variant',
+  name: 'Test Variant',
+  resourceName: 'reports/list',
+  specification: {
     fields: [
       {
         name: 'field1',
@@ -41,5 +44,14 @@ module.exports = {
         defaultValue: '2003-02-01 - 2006-05-04',
       },
     ],
+  }
+}
+
+module.exports = {
+  report: {
+    id: 'test-report',
+    name: 'Test Report',
+    variants: [ variant ]
   },
+  variant,
 }

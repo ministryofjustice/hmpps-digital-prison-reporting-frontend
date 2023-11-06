@@ -14,7 +14,9 @@ When(/^I click the Show Filter button$/, function () {
 When('I select a filter', function (this: Mocha.Context) {
   const page = new MainPage()
 
-  const filterField = reportDefinition.variant.fields.find((field) => field.filter && field.filter.type !== 'DateRange')
+  const filterField = reportDefinition.variant.specification.fields.find(
+    (field) => field.filter && field.filter.type !== 'DateRange',
+  )
 
   let filterValue = filterField.filter.staticOptions[0]
 
@@ -113,7 +115,7 @@ Then(/^the Filter panel is (open|closed)$/, function (panelStatus) {
 Then('filters are displayed for filterable fields', function (this: Mocha.Context) {
   const page = new MainPage()
 
-  reportDefinition.variant.fields
+  reportDefinition.variant.specification.fields
     .filter((field) => field.filter)
     .forEach((field) => {
       switch (field.filter.type) {
@@ -144,7 +146,7 @@ Then('filters are displayed for filterable fields', function (this: Mocha.Contex
 Then('the column headers are displayed correctly', function (this: Mocha.Context) {
   const page = new MainPage()
 
-  reportDefinition.variant.fields.forEach((field) => {
+  reportDefinition.variant.specification.fields.forEach((field) => {
     page.dataTable().find('thead').contains(field.displayName)
   })
 })
@@ -152,7 +154,7 @@ Then('the column headers are displayed correctly', function (this: Mocha.Context
 Then('date times are displayed in the correct format', function (this: Mocha.Context) {
   const page = new MainPage()
 
-  reportDefinition.variant.fields.forEach((field, index) => {
+  reportDefinition.variant.specification.fields.forEach((field, index) => {
     if (field.type === 'Date') {
       page
         .dataTable()
@@ -167,7 +169,7 @@ Then('the correct data is displayed on the page', function (this: Mocha.Context)
   page.dataTable().find('tbody tr').should('have.length', data.length)
   const record = data[0]
   Object.keys(record).forEach((key) => {
-    if (reportDefinition.variant.fields.find((f) => f.name === key).type !== 'Date') {
+    if (reportDefinition.variant.specification.fields.find((f) => f.name === key).type !== 'Date') {
       page.dataTable().find('tbody tr').first().contains(record[key])
     }
   })

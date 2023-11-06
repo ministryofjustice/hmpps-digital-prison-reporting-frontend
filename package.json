@@ -22,7 +22,8 @@
     "int-test": "cypress run --config-file cypress-tests/integration-tests/cypress.config.js",
     "int-test-ui": "cypress open --config-file cypress-tests/integration-tests/cypress.config.js",
     "clean": "gulp package:clean && rm -rf node_modules",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output src/dpr/types/api.d.ts"
   },
   "engines": {
     "node": "^20",
@@ -93,10 +94,14 @@
   },
   "dependencies": {
     "@ministryofjustice/frontend": "^1.6.6",
+    "agentkeepalive": "^4.5.0",
+    "bunyan": "^1.8.15",
+    "bunyan-format": "^0.2.1",
     "express": "^4.18.2",
     "govuk-frontend": "^4.7.0",
     "jquery": "^3.6.4",
-    "nunjucks": "^3.2.4"
+    "nunjucks": "^3.2.4",
+    "superagent": "^8.1.2"
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
@@ -104,6 +109,9 @@
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^11.0.0",
+    "@types/bunyan": "^1.8.8",
+    "@types/bunyan-format": "^0.2.5",
+    "@types/express": "^4.17.20",
     "@types/jest": "^29.5.4",
     "@types/jquery": "^3.5.19",
     "@types/node": "^20.5.9",
@@ -149,8 +157,10 @@
     "markdown-it": "^13.0.2",
     "markdown-it-anchor": "^8.6.7",
     "mocha-junit-reporter": "^2.2.1",
+    "nock": "^13.3.8",
     "node-html-parser": "^6.1.5",
     "npm-run-all": "^4.1.5",
+    "openapi-typescript": "^6.5.4",
     "prettier": "^2.8.7",
     "prettier-plugin-jinja-template": "^0.5.0",
     "require-dir": "^1.2.0",

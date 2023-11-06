@@ -1,0 +1,9 @@
+{% extends "page.njk" %}
+
+{% from "components/card-group/view.njk" import dprCardGroup %}
+
+{% block content %}
+<div class="govuk-width-container ">
+  {{ dprCardGroup(cards) }}
+</div>
+{% endblock %}

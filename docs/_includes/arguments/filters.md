@@ -2,7 +2,6 @@
 |------------------|--------|----------|----------------------------------------------------------------------------------------|
 | filters          | Array  | Yes      | An array of filters. See [Filters](#filters).                                          |
 | urlWithNoFilters | String | Yes      | The page URL without any filters applied.                                              |
-| today            | String | No       | Today's date in short ISO format (yyyy-MM-dd)                                          |
 | parameterPrefix  | String | No       | The prefix to apply to the filter parameters in the page URL (defaults to 'filters.'). |
 
 ### Filters

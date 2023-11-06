@@ -1,6 +1,6 @@
 Feature: List report
   Background:
-    Given I navigate to the main page
+    Given I navigate to the handler page
 
    Scenario: Filters are displayed
     Given the Show Filter button is displayed
@@ -10,7 +10,7 @@ Feature: List report
     And filters are displayed for filterable fields
 
   Scenario: Data is displayed correctly
-    When I navigate to the main page
+    When I navigate to the handler page
     Then the column headers are displayed correctly
     And date times are displayed in the correct format
     And the correct data is displayed on the page

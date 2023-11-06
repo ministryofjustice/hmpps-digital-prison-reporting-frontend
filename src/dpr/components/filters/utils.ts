@@ -71,9 +71,4 @@ export default {
           classes: 'filter-summary-remove-button govuk-button--secondary',
         }
       }),
-
-  getTodayIsoDate: () => {
-    const date = new Date()
-    return date.toISOString().substring(0, 10)
-  },
 }

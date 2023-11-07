@@ -14,6 +14,7 @@ const env = nunjucks.configure(
 )
 
 setUpNunjucksFilters(env)
+env.addGlobal('getTodayIsoDate', () => '2007-08-09')
 
 const defaultOptions = {
   filters: [
@@ -48,10 +49,9 @@ const defaultOptions = {
     },
   ],
   urlWithNoFilters: 'urlWithNoFiltersValue',
-  today: '2007-08-09',
 }
 
-const testView = '{% from "view.njk" import dprFilters %}{{ dprFilters(filters, urlWithNoFilters, today) }}'
+const testView = '{% from "view.njk" import dprFilters %}{{ dprFilters(filters, urlWithNoFilters) }}'
 
 describe('Filters options render correctly', () => {
   it('Select filter renders successfully', () => {

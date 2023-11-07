@@ -57,12 +57,24 @@ app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr/asset
 app.use('/govuk/all.js', express.static(path.join(__dirname, '../node_modules/govuk-frontend/govuk/all.js')))
 app.use('/moj/all.js', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/all.js')))
 
-const { fields } = require('./reportDefinition').variant
+const definitions = require('./reportDefinition')
+const { fields } = definitions.variant.specification
 const data = require('./data')
 
 // Set up routes
-app.get('/', (req, res, next) => {
-  reportListUtils.renderList({
+
+app.get('/', (req, res) => {
+  res.render('menu.njk', {
+    cards: [
+      { text: 'Method', description: 'A test page rendered using the renderListWithData method.', href: '/method' },
+      { text: 'Handler', description: 'A test page rendered using the createReportListRequestHandler method to create a request handler.', href: '/handler' },
+      { text: 'Fake card', description: 'This is just here to check the alignment/wrapping of three cards.', href: '#fake' },
+    ]
+  })
+})
+
+app.get('/method', (req, res, next) => {
+  reportListUtils.renderListWithData({
     title: 'Test app',
     fields,
     request: req,
@@ -72,15 +84,34 @@ app.get('/', (req, res, next) => {
       data: Promise.resolve(data),
       count: Promise.resolve(data.length),
     }),
-    otherOptions: {
-      cards: [
-        { text: 'One', description: 'The first card', href: '#one' },
-        { text: 'Two', description: 'The second card', href: '#two' },
-        { text: 'Three', description: 'The third card', href: '#three' },
-      ],
-    },
     layoutTemplate: 'page.njk',
   })
+})
+
+app.get('/handler', reportListUtils.createReportListRequestHandler({
+    title: 'Test app',
+    definitionName: 'test-report',
+    variantName: 'test-variant',
+    apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
+    layoutTemplate: 'page.njk',
+    tokenProvider: () => 'token'
+  })
+)
+
+// Fake API routes for the /handler endpoint to call
+app.get('/definitions', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify([ definitions.report ]));
+})
+
+app.get('/reports/list', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify(data));
+})
+
+app.get('/reports/list/count', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify({count: 3}));
 })
 
 const nodeModulesExists = fs.existsSync(path.join(__dirname, '../node_modules'))

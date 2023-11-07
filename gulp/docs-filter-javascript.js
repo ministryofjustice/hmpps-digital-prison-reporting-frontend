@@ -8,7 +8,8 @@ gulp.task('docs:filter-javascript', () => {
   return tsProject.src()
     .pipe(filter([
       'src/dpr/utils/urlHelper.ts',
-      'src/dpr/setUpNunjucksFilters.ts'
+      'src/dpr/setUpNunjucksFilters.ts',
+      'src/dpr/components/filters/today.ts'
     ]))
     .pipe(tsProject())
     .pipe(gulp.dest('package/dpr/'));

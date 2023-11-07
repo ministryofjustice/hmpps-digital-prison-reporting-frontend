@@ -21,10 +21,14 @@
   ],
   "dependencies": {
     "@ministryofjustice/frontend": "^1.6.6",
+    "agentkeepalive": "^4.5.0",
+    "bunyan": "^1.8.15",
+    "bunyan-format": "^0.2.1",
     "express": "^4.18.2",
     "govuk-frontend": "^4.7.0",
     "jquery": "^3.6.4",
-    "nunjucks": "^3.2.4"
+    "nunjucks": "^3.2.4",
+    "superagent": "^8.1.2"
   },
   "author": "HMPPS Digital Prison Reporting Team",
   "license": "MIT",

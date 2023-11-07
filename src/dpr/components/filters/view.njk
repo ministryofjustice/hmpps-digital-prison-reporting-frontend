@@ -7,7 +7,6 @@
     value,          // The selected value of the filter.
   }],
   urlWithNoFilters, // The page URL without any filters applied.
-  today             // Today's date in short ISO format (yyyy-MM-dd)
   parameterPrefix   // The prefix to apply to the filter parameters in the page URL.
 #}
 
@@ -16,7 +15,9 @@
 {% from "govuk/components/input/macro.njk"        import govukInput %}
 {% from "moj/components/filter/macro.njk"         import mojFilter -%}
 
-{% macro dprFilters(filters, urlWithNoFilters, today, parameterPrefix = "filters.") %}
+{% macro dprFilters(filters, urlWithNoFilters, parameterPrefix = "filters.") %}
+  {% set today = getTodayIsoDate() %}
+
   {%- set filterOptionsHtml %}
     {%- for filter in filters %}
       {%- if filter.type === 'Select' %}

@@ -1,7 +1,7 @@
 import ReportListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/report-list/utils'
 
 app.get('/', (req, res, next) => {
-  ReportListUtils.renderList({
+  ReportListUtils.renderListWithData({
     title: 'Test app',
     fields: [
       {
@@ -39,3 +39,14 @@ app.get('/', (req, res, next) => {
     layoutTemplate: 'page.njk',
   })
 })
+
+app.get('/handler', ReportListUtils.createReportListRequestHandler({
+    title: 'Test app',
+    definitionName: 'test-report',
+    variantName: 'test-variant',
+    apiUrl: `http://localhost:3010`,
+    apiTimeout: 10000,
+    layoutTemplate: 'page.njk',
+    tokenProvider: (req, res, next) => res.locals.user.token
+  })
+)

@@ -3,6 +3,7 @@ import { FieldDefinition } from '../../types'
 import Dict = NodeJS.Dict
 import ReportQuery from '../../types/ReportQuery'
 import ReportingClient from './data/reportingClient'
+import ReportListUtils from './utils'
 
 export interface ListDataSources {
   data: Promise<Dict<string>[]>
@@ -33,28 +34,33 @@ export interface RenderListWithDefinitionInput {
   reportingClient: ReportingClient
 }
 
-const defaultTokenProvider = (request: Request, response: Response, next: NextFunction): string => {
-  if (response.locals.user && response.locals.user.token) {
-    return response.locals.user.token
-  }
-  next('Could not find user token in response.locals.user.token')
-  return null
-}
-
 export class CreateRequestHandlerInput {
   title?: string
-
   definitionName: string
-
   variantName: string
-
   apiUrl: string
-
-  apiTimeout = 8000
-
+  apiTimeout
   otherOptions?: Dict<object>
-
   layoutTemplate: string
+  tokenProvider: (request: Request, response: Response, next: NextFunction) => string
 
-  tokenProvider: (request: Request, response: Response, next: NextFunction) => string = defaultTokenProvider
+  constructor(
+    title?: string,
+    definitionName: string,
+    variantName: string,
+    apiUrl: string,
+    apiTimeout = 8000,
+    otherOptions?: Dict<object>,
+    layoutTemplate: string,
+    tokenProvider: (request: Request, response: Response, next: NextFunction) => string = ReportListUtils.defaultTokenProvider,
+  ) {
+    this.title = title
+    this.definitionName = definitionName
+    this.variantName = variantName
+    this.apiUrl = apiUrl
+    this.apiTimeout = apiTimeout
+    this.otherOptions = otherOptions
+    this.layoutTemplate = layoutTemplate
+    this.tokenProvider = tokenProvider
+  }
 }

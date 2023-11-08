@@ -3,7 +3,7 @@ import { FieldDefinition } from '../../types'
 import Dict = NodeJS.Dict
 import ReportQuery from '../../types/ReportQuery'
 import ReportingClient from './data/reportingClient'
-import ReportListUtils from './utils'
+import defaultTokenProvider from './defaultTokenProvider'
 
 export interface ListDataSources {
   data: Promise<Dict<string>[]>
@@ -36,12 +36,19 @@ export interface RenderListWithDefinitionInput {
 
 export class CreateRequestHandlerInput {
   title?: string
+
   definitionName: string
+
   variantName: string
+
   apiUrl: string
+
   apiTimeout
+
   otherOptions?: Dict<object>
+
   layoutTemplate: string
+
   tokenProvider: (request: Request, response: Response, next: NextFunction) => string
 
   constructor(
@@ -49,10 +56,10 @@ export class CreateRequestHandlerInput {
     definitionName: string,
     variantName: string,
     apiUrl: string,
-    apiTimeout = 8000,
     otherOptions?: Dict<object>,
     layoutTemplate: string,
-    tokenProvider: (request: Request, response: Response, next: NextFunction) => string = ReportListUtils.defaultTokenProvider,
+    apiTimeout = 8000,
+    tokenProvider: (request: Request, response: Response, next: NextFunction) => string = defaultTokenProvider,
   ) {
     this.title = title
     this.definitionName = definitionName

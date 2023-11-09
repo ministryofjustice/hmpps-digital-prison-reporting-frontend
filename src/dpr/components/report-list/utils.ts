@@ -67,13 +67,7 @@ const renderListWithDefinition = ({
   token,
   reportingClient,
 }: RenderListWithDefinitionInput) => {
-  reportingClient.getDefinitions(token).then((definitions) => {
-    const reportDefinition = definitions.find((d) => d.id === definitionName)
-    if (!reportDefinition) next(`Could not find report definition: ${definitionName}`)
-
-    const variantDefinition = reportDefinition.variants.find((v) => v.id === variantName)
-    if (!variantDefinition) next(`Could not find variant definition: ${definitionName}`)
-
+  reportingClient.getDefinition(token, definitionName, variantName).then(({ name, variant: variantDefinition }) => {
     const reportQuery = new ReportQuery(
       variantDefinition.specification.fields,
       request.query,
@@ -91,7 +85,7 @@ const renderListWithDefinition = ({
       reportQuery,
       response,
       next,
-      title ?? `${reportDefinition.name} - ${variantDefinition.name}`,
+      title ?? `${name} - ${variantDefinition.name}`,
       layoutTemplate,
       otherOptions,
     )

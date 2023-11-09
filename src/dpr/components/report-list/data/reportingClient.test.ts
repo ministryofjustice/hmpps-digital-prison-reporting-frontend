@@ -106,7 +106,7 @@ describe('reportingClient', () => {
           variant: {
             id: 'test-variant',
             name: 'Test variant',
-            resourceName: 'reports/test/test'
+            resourceName: 'reports/test/test',
           },
         },
       ]

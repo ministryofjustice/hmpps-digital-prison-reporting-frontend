@@ -68,8 +68,8 @@ const renderListWithDefinition = ({
   reportingClient,
 }: RenderListWithDefinitionInput) => {
   reportingClient.getDefinition(token, definitionName, variantName).then((reportDefinition) => {
-    const reportName = reportDefinition['name']
-    const variantDefinition = reportDefinition['variant']
+    const reportName = reportDefinition.name
+    const variantDefinition = reportDefinition.variant
 
     const reportQuery = new ReportQuery(
       variantDefinition.specification.fields,

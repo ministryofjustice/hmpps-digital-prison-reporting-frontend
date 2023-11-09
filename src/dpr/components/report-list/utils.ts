@@ -67,7 +67,10 @@ const renderListWithDefinition = ({
   token,
   reportingClient,
 }: RenderListWithDefinitionInput) => {
-  reportingClient.getDefinition(token, definitionName, variantName).then(({ name, variant: variantDefinition }) => {
+  reportingClient.getDefinition(token, definitionName, variantName).then((reportDefinition) => {
+    const reportName = reportDefinition['name']
+    const variantDefinition = reportDefinition['variant']
+
     const reportQuery = new ReportQuery(
       variantDefinition.specification.fields,
       request.query,
@@ -85,7 +88,7 @@ const renderListWithDefinition = ({
       reportQuery,
       response,
       next,
-      title ?? `${name} - ${variantDefinition.name}`,
+      title ?? `${reportName} - ${variantDefinition.name}`,
       layoutTemplate,
       otherOptions,
     )

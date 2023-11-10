@@ -16,6 +16,10 @@ export interface paths {
     /** @description Gets all report definitions */
     get: operations['definitions']
   }
+  '/definitions/{reportId}/{variantId}': {
+    /** @description Gets report definition containing a single variant. */
+    get: operations['definition']
+  }
 }
 
 export type webhooks = Record<string, never>
@@ -76,6 +80,12 @@ export interface components {
       resourceName: string
       description?: string
       specification?: components['schemas']['Specification']
+    }
+    SingleVariantReportDefinition: {
+      id: string
+      name: string
+      description?: string
+      variant: components['schemas']['VariantDefinition']
     }
   }
   responses: never
@@ -198,6 +208,43 @@ export interface operations {
       200: {
         content: {
           'application/json': components['schemas']['ReportDefinition'][]
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+    }
+  }
+  /** @description Gets report definition containing a single variant. */
+  definition: {
+    parameters: {
+      path: {
+        /**
+         * @description The ID of the report definition.
+         * @example external-movements
+         */
+        reportId: string
+        /**
+         * @description The ID of the variant definition.
+         * @example list
+         */
+        variantId: string
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['SingleVariantReportDefinition']
         }
       }
       /** @description Bad Request */

@@ -57,4 +57,19 @@ export default class ReportingClient {
       })
       .then((response) => <Array<components['schemas']['ReportDefinition']>>response)
   }
+
+  getDefinition(
+    token: string,
+    reportId: string,
+    variantId: string,
+  ): Promise<Array<components['schemas']['SingleVariantReportDefinition']>> {
+    logger.info(`Reporting client: Get single variant definition`)
+
+    return this.restClient
+      .get({
+        path: `/definitions/${reportId}/${variantId}`,
+        token,
+      })
+      .then((response) => <Array<components['schemas']['SingleVariantReportDefinition']>>response)
+  }
 }

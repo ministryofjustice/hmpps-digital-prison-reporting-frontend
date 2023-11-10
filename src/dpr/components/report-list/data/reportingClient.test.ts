@@ -96,4 +96,25 @@ describe('reportingClient', () => {
       expect(output).toEqual(response)
     })
   })
+
+  describe('getDefinition', () => {
+    it('should return definition from api', async () => {
+      const response: Array<components['schemas']['SingleVariantReportDefinition']> = [
+        {
+          id: 'test-report',
+          name: 'Test report',
+          variant: {
+            id: 'test-variant',
+            name: 'Test variant',
+            resourceName: 'reports/test/test',
+          },
+        },
+      ]
+
+      fakeReportingApi.get(`/definitions/test-report/test-variant`).reply(200, response)
+
+      const output = await reportingClient.getDefinition(null, 'test-report', 'test-variant')
+      expect(output).toEqual(response)
+    })
+  })
 })

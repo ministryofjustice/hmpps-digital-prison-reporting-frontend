@@ -104,6 +104,11 @@ app.get('/definitions', (req, res) => {
   res.end(JSON.stringify([ definitions.report ]));
 })
 
+app.get('/definitions/test-report/test-variant', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify(definitions.singleVariantReport));
+})
+
 app.get('/reports/list', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.end(JSON.stringify(data));

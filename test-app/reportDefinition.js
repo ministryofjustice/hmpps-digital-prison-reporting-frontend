@@ -53,5 +53,10 @@ module.exports = {
     name: 'Test Report',
     variants: [ variant ]
   },
+  singleVariantReport: {
+    id: 'test-report',
+    name: 'Test Report',
+    variant: variant
+  },
   variant,
 }

@@ -41,7 +41,7 @@ const defaultOptions = {
     {
       text: 'Date',
       name: 'date',
-      type: FilterType.dateRange,
+      type: FilterType.dateRange.toLowerCase(),
       value: {
         start: '2001-02-03',
         end: '2004-05-06',

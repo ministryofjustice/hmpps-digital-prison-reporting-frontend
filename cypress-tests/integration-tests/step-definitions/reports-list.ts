@@ -15,7 +15,7 @@ When('I select a filter', function (this: Mocha.Context) {
   const page = new MainPage()
 
   const filterField = reportDefinition.variant.specification.fields.find(
-    (field) => field.filter && field.filter.type !== 'DateRange',
+    (field) => field.filter && field.filter.type !== 'daterange',
   )
 
   let filterValue = filterField.filter.staticOptions[0]
@@ -125,9 +125,9 @@ Then('filters are displayed for filterable fields', function (this: Mocha.Contex
           break
 
         case 'Radio':
-          page.filter(field.name).parentsUntil('.govuk-form-group').contains(field.displayName)
+          page.filter(field.name).parentsUntil('.govuk-form-group').contains(field.display)
           field.filter.staticOptions.forEach((option) => {
-            page.filter(field.name).parentsUntil('.govuk-form-group').contains(option.displayName)
+            page.filter(field.name).parentsUntil('.govuk-form-group').contains(option.display)
             page
               .filter(field.name)
               .parentsUntil('.govuk-fieldset')
@@ -138,7 +138,7 @@ Then('filters are displayed for filterable fields', function (this: Mocha.Contex
 
         case 'Select':
         default:
-          page.filter(field.name).parentsUntil('.govuk-fieldset').contains(field.displayName)
+          page.filter(field.name).parentsUntil('.govuk-fieldset').contains(field.display)
       }
     })
 })
@@ -147,7 +147,7 @@ Then('the column headers are displayed correctly', function (this: Mocha.Context
   const page = new MainPage()
 
   reportDefinition.variant.specification.fields.forEach((field) => {
-    page.dataTable().find('thead').contains(field.displayName)
+    page.dataTable().find('thead').contains(field.display)
   })
 })
 
@@ -155,7 +155,7 @@ Then('date times are displayed in the correct format', function (this: Mocha.Con
   const page = new MainPage()
 
   reportDefinition.variant.specification.fields.forEach((field, index) => {
-    if (field.type === 'Date') {
+    if (field.type === 'date') {
       page
         .dataTable()
         .get(`tbody tr:first-child td:nth-child(${index + 1})`)
@@ -169,7 +169,7 @@ Then('the correct data is displayed on the page', function (this: Mocha.Context)
   page.dataTable().find('tbody tr').should('have.length', data.length)
   const record = data[0]
   Object.keys(record).forEach((key) => {
-    if (reportDefinition.variant.specification.fields.find((f) => f.name === key).type !== 'Date') {
+    if (reportDefinition.variant.specification.fields.find((f) => f.name === key).type !== 'date') {
       page.dataTable().find('tbody tr').first().contains(record[key])
     }
   })

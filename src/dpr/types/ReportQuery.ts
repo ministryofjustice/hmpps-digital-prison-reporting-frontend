@@ -16,7 +16,12 @@ export default class ReportQuery implements FilteredListRequest {
 
   filtersPrefix: string
 
-  constructor(fields: Array<components['schemas']['FieldDefinition']>, queryParams: ParsedQs, defaultSortColumn: string, filtersPrefix: string) {
+  constructor(
+    fields: Array<components['schemas']['FieldDefinition']>,
+    queryParams: ParsedQs,
+    defaultSortColumn: string,
+    filtersPrefix: string,
+  ) {
     this.selectedPage = queryParams.selectedPage ? Number(queryParams.selectedPage) : 1
     this.pageSize = queryParams.pageSize ? Number(queryParams.pageSize) : 20
     this.sortColumn = queryParams.sortColumn ? queryParams.sortColumn.toString() : defaultSortColumn

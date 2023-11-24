@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express'
-import { FieldDefinition } from '../../types'
 import Dict = NodeJS.Dict
 import ReportQuery from '../../types/ReportQuery'
 import ReportingClient from './data/reportingClient'
 import defaultTokenProvider from './defaultTokenProvider'
+import { components } from '../../types/api'
 
 export interface ListDataSources {
   data: Promise<Dict<string>[]>
@@ -12,7 +12,7 @@ export interface ListDataSources {
 
 export interface RenderListWithDataInput {
   title: string
-  fields: FieldDefinition[]
+  fields: components['schemas']['FieldDefinition'][]
   request: Request
   response: Response
   next: NextFunction

@@ -2,58 +2,58 @@ import Utils from './utils'
 import Dict = NodeJS.Dict
 import { FilterType } from './enum'
 import { DateRange } from './types'
-import { FieldDefinition } from '../../types'
 import ReportQuery from '../../types/ReportQuery'
+import { components } from '../../types/api'
 
 const options = [
   {
     name: '1',
-    displayName: 'One',
+    display: 'One',
   },
   {
     name: '2',
-    displayName: 'Two',
+    display: 'Two',
   },
 ]
 
-const selectFieldFormat: Array<FieldDefinition> = [
+const selectFieldFormat: Array<components['schemas']['FieldDefinition']> = [
   {
-    displayName: 'Select Field',
+    display: 'Select Field',
     name: 'selectField',
     filter: {
       type: FilterType.select,
       staticOptions: options,
     },
     sortable: true,
-    defaultSortColumn: false,
-    type: 'String',
+    defaultsort: false,
+    type: 'string',
   },
 ]
 
-const radioFieldFormat: Array<FieldDefinition> = [
+const radioFieldFormat: Array<components['schemas']['FieldDefinition']> = [
   {
-    displayName: 'Radio Field',
+    display: 'Radio Field',
     name: 'radioField',
     filter: {
       type: FilterType.radio,
       staticOptions: options,
     },
     sortable: true,
-    defaultSortColumn: false,
-    type: 'String',
+    defaultsort: false,
+    type: 'string',
   },
 ]
 
-const dateRangeFieldFormat: Array<FieldDefinition> = [
+const dateRangeFieldFormat: Array<components['schemas']['FieldDefinition']> = [
   {
-    displayName: 'Date Range Field',
+    display: 'Date Range Field',
     name: 'dateRangeField',
     filter: {
-      type: FilterType.dateRange,
+      type: 'daterange',
     },
     sortable: true,
-    defaultSortColumn: false,
-    type: 'String',
+    defaultsort: false,
+    type: 'string',
   },
 ]
 
@@ -68,9 +68,9 @@ describe('getFilters', () => {
     expect(result.length).toEqual(1)
     expect(result[0].name).toEqual(selectFieldFormat[0].name)
     expect(result[0].options[0].value).toEqual(selectFieldFormat[0].filter.staticOptions[0].name)
-    expect(result[0].options[0].text).toEqual(selectFieldFormat[0].filter.staticOptions[0].displayName)
+    expect(result[0].options[0].text).toEqual(selectFieldFormat[0].filter.staticOptions[0].display)
     expect(result[0].options[1].value).toEqual(selectFieldFormat[0].filter.staticOptions[1].name)
-    expect(result[0].options[1].text).toEqual(selectFieldFormat[0].filter.staticOptions[1].displayName)
+    expect(result[0].options[1].text).toEqual(selectFieldFormat[0].filter.staticOptions[1].display)
     expect(result[0].value).toEqual(selectFieldFormat[0].filter.staticOptions[1].name)
   })
 
@@ -84,9 +84,9 @@ describe('getFilters', () => {
     expect(result.length).toEqual(1)
     expect(result[0].name).toEqual(radioFieldFormat[0].name)
     expect(result[0].options[0].value).toEqual(selectFieldFormat[0].filter.staticOptions[0].name)
-    expect(result[0].options[0].text).toEqual(selectFieldFormat[0].filter.staticOptions[0].displayName)
+    expect(result[0].options[0].text).toEqual(selectFieldFormat[0].filter.staticOptions[0].display)
     expect(result[0].options[1].value).toEqual(selectFieldFormat[0].filter.staticOptions[1].name)
-    expect(result[0].options[1].text).toEqual(selectFieldFormat[0].filter.staticOptions[1].displayName)
+    expect(result[0].options[1].text).toEqual(selectFieldFormat[0].filter.staticOptions[1].display)
     expect(result[0].value).toEqual(radioFieldFormat[0].filter.staticOptions[1].name)
   })
 
@@ -109,13 +109,13 @@ describe('getFilters', () => {
   })
 
   it('No filter mapped correctly', () => {
-    const format: Array<FieldDefinition> = [
+    const format: Array<components['schemas']['FieldDefinition']> = [
       {
-        displayName: 'No Filter Field',
+        display: 'No Filter Field',
         name: 'noFilterField',
         sortable: true,
-        defaultSortColumn: false,
-        type: 'String',
+        defaultsort: false,
+        type: 'string',
       },
     ]
     const filterValues: Dict<string> = {

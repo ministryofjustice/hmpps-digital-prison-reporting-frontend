@@ -4,7 +4,7 @@ import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
 import MainPage from '../pages/MainPage'
 import reportDefinition from '../../../test-app/reportDefinition'
 import data from '../../../test-app/data'
-import { FieldDefinition, FilterOption } from '../../../src/dpr/types'
+import { components } from '../../../src/dpr/types/api'
 
 When(/^I click the Show Filter button$/, function () {
   const page = new MainPage()
@@ -119,7 +119,7 @@ Then('filters are displayed for filterable fields', function (this: Mocha.Contex
     .filter((field) => field.filter)
     .forEach((field) => {
       switch (field.filter.type) {
-        case 'DateRange':
+        case 'daterange':
           page.filter(`${field.name}\\.start`).parent().contains('Start')
           page.filter(`${field.name}\\.end`).parent().contains('End')
           break
@@ -178,10 +178,10 @@ Then('the correct data is displayed on the page', function (this: Mocha.Context)
 Then('the selected filter value is displayed', function (this: Mocha.Context) {
   const page = new MainPage()
 
-  const selectedField: FieldDefinition = this.selectedFilter.field
-  const selectedValue: FilterOption = this.selectedFilter.value
+  const selectedField: components['schemas']['FieldDefinition'] = this.selectedFilter.field
+  const selectedValue: components['schemas']['FilterOption'] = this.selectedFilter.value
 
-  page.selectedFilterButton().contains(`${selectedField.displayName}: ${selectedValue.displayName}`)
+  page.selectedFilterButton().contains(`${selectedField.display}: ${selectedValue.display}`)
 })
 
 Then('no filters are selected', function (this: Mocha.Context) {
@@ -191,8 +191,8 @@ Then('no filters are selected', function (this: Mocha.Context) {
 })
 
 Then('the selected filter value is shown in the URL', function (this: Mocha.Context) {
-  const selectedField: FieldDefinition = this.selectedFilter.field
-  const selectedValue: FilterOption = this.selectedFilter.value
+  const selectedField: components['schemas']['FieldDefinition'] = this.selectedFilter.field
+  const selectedValue: components['schemas']['FilterOption'] = this.selectedFilter.value
 
   cy.location().should((location) => {
     expect(location.search).to.contain(`${selectedField.name}=${selectedValue.name}`)

@@ -45,24 +45,24 @@ export interface components {
     }
     FieldDefinition: {
       name: string
-      displayName: string
+      display: string
       /** @enum {string} */
       wordWrap?: 'None'
       filter?: components['schemas']['FilterDefinition']
       sortable: boolean
-      defaultSortColumn: boolean
+      defaultsort: boolean
       /** @enum {string} */
-      type: 'String' | 'Date' | 'Long'
+      type: 'string' | 'date' | 'long'
     }
     FilterDefinition: {
       /** @enum {string} */
-      type: 'Radio' | 'Select' | 'DateRange'
+      type: 'Radio' | 'Select' | 'daterange'
       staticOptions?: components['schemas']['FilterOption'][]
       defaultValue?: string
     }
     FilterOption: {
       name: string
-      displayName: string
+      display: string
     }
     ReportDefinition: {
       id: string

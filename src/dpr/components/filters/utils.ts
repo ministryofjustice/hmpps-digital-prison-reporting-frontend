@@ -1,29 +1,29 @@
 import Dict = NodeJS.Dict
 import { FilterType } from './enum'
 import { FilterValue } from './types'
-import { FieldDefinition } from '../../types'
 import ReportQuery from '../../types/ReportQuery'
+import { components } from '../../types/api'
 
 const LOCALE = 'en-GB'
 
 const toLocaleDate = (isoDate?: string) => (isoDate ? new Date(isoDate).toLocaleDateString(LOCALE) : null)
 
 export default {
-  getFilters: (format: Array<FieldDefinition>, filterValues: Dict<string>) =>
+  getFilters: (format: Array<components['schemas']['FieldDefinition']>, filterValues: Dict<string>) =>
     format
       .filter((f) => f.filter)
       .map((f) => {
         const filter: FilterValue = {
-          text: f.displayName,
+          text: f.display,
           name: f.name,
           type: f.filter.type,
           options: f.filter.staticOptions
-            ? f.filter.staticOptions.map((o) => ({ value: o.name, text: o.displayName }))
+            ? f.filter.staticOptions.map((o) => ({ value: o.name, text: o.display }))
             : null,
           value: filterValues[f.name],
         }
 
-        if (f.filter.type === FilterType.dateRange) {
+        if (f.filter.type === FilterType.dateRange.toLowerCase()) {
           filter.value = {
             start: filterValues[`${f.name}.start`],
             end: filterValues[`${f.name}.end`],
@@ -34,20 +34,20 @@ export default {
       }),
 
   getSelectedFilters: (
-    format: Array<FieldDefinition>,
+    format: Array<components['schemas']['FieldDefinition']>,
     reportQuery: ReportQuery,
     createUrlForParameters: (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) => string,
   ) =>
     format
       .filter((f) => f.filter)
       .filter((f) =>
-        f.filter.type === FilterType.dateRange
+        f.filter.type === FilterType.dateRange.toLowerCase()
           ? reportQuery.filters[`${f.name}.start`] || reportQuery.filters[`${f.name}.end`]
           : reportQuery.filters[f.name],
       )
       .map((f) => {
         let filterValueText = reportQuery.filters[f.name]
-        if (f.filter.type === FilterType.dateRange) {
+        if (f.filter.type === FilterType.dateRange.toLowerCase()) {
           const start = toLocaleDate(reportQuery.filters[`${f.name}.start`])
           const end = toLocaleDate(reportQuery.filters[`${f.name}.end`])
 
@@ -59,11 +59,11 @@ export default {
             filterValueText = `Until ${end}`
           }
         } else if (f.filter.staticOptions) {
-          filterValueText = f.filter.staticOptions.find((o) => o.name === reportQuery.filters[f.name]).displayName
+          filterValueText = f.filter.staticOptions.find((o) => o.name === reportQuery.filters[f.name]).display
         }
 
         return {
-          text: `${f.displayName}: ${filterValueText}`,
+          text: `${f.display}: ${filterValueText}`,
           href: createUrlForParameters(reportQuery.toRecordWithFilterPrefix(), {
             [`${reportQuery.filtersPrefix}${f.name}`]: '',
             selectedPage: '1',

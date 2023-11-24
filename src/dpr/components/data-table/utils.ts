@@ -1,7 +1,7 @@
 import Dict = NodeJS.Dict
 import type { Cell, Header } from './types'
-import type { FieldDefinition } from '../../types'
 import ReportQuery from '../../types/ReportQuery'
+import { components } from '../../types/api'
 
 const mapDate = (isoDate: string) => {
   const date = new Date(isoDate)
@@ -19,7 +19,7 @@ const mapDate = (isoDate: string) => {
 
 export default {
   mapHeader: (
-    format: Array<FieldDefinition>,
+    format: Array<components['schemas']['FieldDefinition']>,
     reportQuery: ReportQuery,
     createUrlForParameters: (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) => string,
   ) => {
@@ -53,11 +53,11 @@ export default {
             `aria-sort="${ariaSort}" ` +
             `class="data-table-header-button data-table-header-button-sort-${ariaSort}" ` +
             `href="${url}"` +
-            `>${f.displayName}</a>`,
+            `>${f.display}</a>`,
         }
       } else {
         header = {
-          html: `<a data-column="${f.name}" class="data-table-header-button">${f.displayName}</a>`,
+          html: `<a data-column="${f.name}" class="data-table-header-button">${f.display}</a>`,
         }
       }
 
@@ -65,19 +65,19 @@ export default {
     })
   },
 
-  mapData: (data: Array<Dict<string>>, format: Array<FieldDefinition>) =>
+  mapData: (data: Array<Dict<string>>, format: Array<components['schemas']['FieldDefinition']>) =>
     data.map((d) =>
       format.map((f) => {
         let text: string = d[f.name]
         let fieldFormat: string
 
         switch (f.type) {
-          case 'Date':
+          case 'date':
             fieldFormat = 'numeric'
             text = mapDate(d[f.name])
             break
 
-          case 'Long':
+          case 'long':
             fieldFormat = 'numeric'
             break
 

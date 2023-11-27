@@ -62,7 +62,7 @@ export default class ReportingClient {
     token: string,
     reportId: string,
     variantId: string,
-  ): Promise<Array<components['schemas']['SingleVariantReportDefinition']>> {
+  ): Promise<components['schemas']['SingleVariantReportDefinition']> {
     logger.info(`Reporting client: Get single variant definition`)
 
     return this.restClient
@@ -70,6 +70,6 @@ export default class ReportingClient {
         path: `/definitions/${reportId}/${variantId}`,
         token,
       })
-      .then((response) => <Array<components['schemas']['SingleVariantReportDefinition']>>response)
+      .then((response) => <components['schemas']['SingleVariantReportDefinition']>response)
   }
 }

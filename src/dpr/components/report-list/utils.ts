@@ -69,9 +69,9 @@ const renderListWithDefinition = ({
 }: RenderListWithDefinitionInput) => {
   reportingClient.getDefinition(token, definitionName, variantName).then((reportDefinition) => {
     // eslint-disable-next-line dot-notation
-    const reportName = reportDefinition['name']
+    const reportName: string = reportDefinition['name']
     // eslint-disable-next-line dot-notation
-    const variantDefinition = reportDefinition['variant']
+    const variantDefinition: components['schemas']['VariantDefinition'] = reportDefinition['variant']
 
     const reportQuery = new ReportQuery(
       variantDefinition.specification.fields,

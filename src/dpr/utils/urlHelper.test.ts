@@ -1,18 +1,18 @@
 import ReportQuery from '../types/ReportQuery'
 import Dict = NodeJS.Dict
-import { FieldDefinition } from '../types'
 import createUrlForParameters from './urlHelper'
+import { components } from '../types/api'
 
-const defaultFields: Array<FieldDefinition> = [
+const defaultFields: Array<components['schemas']['FieldDefinition']> = [
   {
     name: 'direction',
-    displayName: 'Direction',
+    display: 'Direction',
     sortable: true,
-    defaultSortColumn: true,
+    defaultsort: true,
     filter: {
       type: 'Radio',
     },
-    type: 'String',
+    type: 'string',
   },
 ]
 

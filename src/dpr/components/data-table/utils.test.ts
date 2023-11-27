@@ -1,19 +1,19 @@
 import Utils from './utils'
 import Dict = NodeJS.Dict
-import { FieldDefinition } from '../../types'
 import ReportQuery from '../../types/ReportQuery'
+import { components } from '../../types/api'
 
 describe('mapData', () => {
   it('Dates with values less than 10 mapped with leading 0', () => {
     const data: Dict<string> = {
       date: '2000-01-02T03:04:05.006Z',
     }
-    const fields: FieldDefinition = {
+    const fields: components['schemas']['FieldDefinition'] = {
       name: 'date',
-      displayName: 'Date',
+      display: 'Date',
       sortable: true,
-      defaultSortColumn: false,
-      type: 'Date',
+      defaultsort: false,
+      type: 'date',
     }
     const mapped = Utils.mapData([data], [fields])
 
@@ -32,12 +32,12 @@ describe('mapData', () => {
     const data: Dict<string> = {
       date: '2010-11-12T13:14:15.016Z',
     }
-    const fields: FieldDefinition = {
+    const fields: components['schemas']['FieldDefinition'] = {
       name: 'date',
-      displayName: 'Date',
+      display: 'Date',
       sortable: true,
-      defaultSortColumn: false,
-      type: 'Date',
+      defaultsort: false,
+      type: 'date',
     }
     const mapped = Utils.mapData([data], [fields])
 
@@ -56,12 +56,12 @@ describe('mapData', () => {
     const data: Dict<string> = {
       number: '1234.05',
     }
-    const fields: FieldDefinition = {
+    const fields: components['schemas']['FieldDefinition'] = {
       name: 'number',
-      displayName: 'Number',
+      display: 'Number',
       sortable: true,
-      defaultSortColumn: false,
-      type: 'Long',
+      defaultsort: false,
+      type: 'long',
     }
     const mapped = Utils.mapData([data], [fields])
 
@@ -80,12 +80,12 @@ describe('mapData', () => {
     const data: Dict<string> = {
       string: '1234.05',
     }
-    const fields: FieldDefinition = {
+    const fields: components['schemas']['FieldDefinition'] = {
       name: 'string',
-      displayName: 'String',
+      display: 'String',
       sortable: true,
-      defaultSortColumn: false,
-      type: 'String',
+      defaultsort: false,
+      type: 'string',
     }
     const mapped = Utils.mapData([data], [fields])
 
@@ -104,12 +104,12 @@ describe('mapData', () => {
     const data: Dict<string> = {
       string: '1234.05',
     }
-    const fields: FieldDefinition = {
+    const fields: components['schemas']['FieldDefinition'] = {
       name: 'string',
-      displayName: 'String',
+      display: 'String',
       sortable: true,
-      defaultSortColumn: false,
-      type: 'String',
+      defaultsort: false,
+      type: 'string',
       wordWrap: 'None',
     }
     const mapped = Utils.mapData([data], [fields])
@@ -127,12 +127,12 @@ describe('mapData', () => {
 })
 
 describe('mapHeader', () => {
-  const defaultField: FieldDefinition = {
+  const defaultField: components['schemas']['FieldDefinition'] = {
     name: 'date',
-    displayName: 'Date',
+    display: 'Date',
     sortable: true,
-    defaultSortColumn: false,
-    type: 'Date',
+    defaultsort: false,
+    type: 'date',
   }
   const defaultQueryParams = {}
   const filterPrefix = 'f.'

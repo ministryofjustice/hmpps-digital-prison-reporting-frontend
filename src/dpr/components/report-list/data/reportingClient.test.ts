@@ -13,13 +13,13 @@ describe('reportingClient', () => {
     [
       {
         name: 'original.filter',
-        displayName: 'Original',
+        display: 'Original',
         sortable: true,
-        defaultSortColumn: false,
+        defaultsort: false,
         filter: {
           type: 'Radio',
         },
-        type: 'String',
+        type: 'string',
       },
     ],
     {

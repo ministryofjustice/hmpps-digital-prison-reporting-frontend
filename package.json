@@ -23,7 +23,7 @@
     "int-test-ui": "cypress open --config-file cypress-tests/integration-tests/cypress.config.js",
     "clean": "gulp package:clean && rm -rf node_modules",
     "lint:fix": "eslint . --fix",
-    "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output src/dpr/types/api.d.ts"
+    "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output src/dpr/types/api.d.ts && npm run lint:fix"
   },
   "engines": {
     "node": "^20",
@@ -168,7 +168,7 @@
     "semantic-release": "^22.0.5",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2"
   },
   "publishConfig": {
     "access": "public"

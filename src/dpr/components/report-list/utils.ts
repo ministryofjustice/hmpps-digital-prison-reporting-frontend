@@ -1,5 +1,4 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express'
-import type { FieldDefinition } from '../../types'
 import ReportQuery from '../../types/ReportQuery'
 import createUrlForParameters from '../../utils/urlHelper'
 import { DataTableOptions } from '../data-table/types'
@@ -12,17 +11,18 @@ import {
   RenderListWithDefinitionInput,
 } from './types'
 import ReportingClient from './data/reportingClient'
+import { components } from '../../types/api'
 
 const filtersQueryParameterPrefix = 'filters.'
 
-function getDefaultSortColumn(fields: FieldDefinition[]) {
-  const defaultSortColumn = fields.find((f) => f.defaultSortColumn)
+function getDefaultSortColumn(fields: components['schemas']['FieldDefinition'][]) {
+  const defaultSortColumn = fields.find((f) => f.defaultsort)
   return defaultSortColumn ? defaultSortColumn.name : fields.find((f) => f.sortable).name
 }
 
 function renderList(
   listData: ListDataSources,
-  fields: FieldDefinition[],
+  fields: components['schemas']['FieldDefinition'][],
   reportQuery: ReportQuery,
   response: Response,
   next: NextFunction,
@@ -68,10 +68,8 @@ const renderListWithDefinition = ({
   reportingClient,
 }: RenderListWithDefinitionInput) => {
   reportingClient.getDefinition(token, definitionName, variantName).then((reportDefinition) => {
-    // eslint-disable-next-line dot-notation
-    const reportName = reportDefinition['name']
-    // eslint-disable-next-line dot-notation
-    const variantDefinition = reportDefinition['variant']
+    const reportName: string = reportDefinition.name
+    const variantDefinition = reportDefinition.variant
 
     const reportQuery = new ReportQuery(
       variantDefinition.specification.fields,

@@ -1,8 +1,11 @@
-import { components } from '../../types/api'
 import querystring from 'querystring'
+import { components } from '../../types/api'
 
 export default {
-  reportDefinitionsToCards: (reportDefinitions: Array<components['schemas']['ReportDefinition']>, pathPrefix: String) => {
+  reportDefinitionsToCards: (
+    reportDefinitions: Array<components['schemas']['ReportDefinition']>,
+    pathPrefix: string,
+  ) => {
     return reportDefinitions.map((d: components['schemas']['ReportDefinition']) => ({
       text: d.name,
       href: `${pathPrefix}/${d.id}`,
@@ -10,13 +13,17 @@ export default {
     }))
   },
 
-  variantDefinitionsToCards: (reportDefinition: components['schemas']['ReportDefinition'], pathPrefix: String, filterPrefix: String) => {
+  variantDefinitionsToCards: (
+    reportDefinition: components['schemas']['ReportDefinition'],
+    pathPrefix: string,
+    filterPrefix: string,
+  ) => {
     return reportDefinition.variants.map((v: components['schemas']['VariantDefinition']) => {
       const defaultFilters: Record<string, string> = {}
 
       v.specification.fields
-        .filter(f => f.filter && f.filter.defaultValue)
-        .forEach(f => {
+        .filter((f) => f.filter && f.filter.defaultValue)
+        .forEach((f) => {
           if (f.filter.type === 'daterange') {
             const dates = f.filter.defaultValue.split(' - ')
 
@@ -43,5 +50,5 @@ export default {
         description: v.description,
       }
     })
-  }
+  },
 }

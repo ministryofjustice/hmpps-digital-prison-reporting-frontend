@@ -12,7 +12,7 @@ export interface Count {
 
 export interface ListWithWarnings {
   data: Array<Dict<string>>
-  warnings : Warnings
+  warnings: Warnings
 }
 
 export interface Warnings {
@@ -39,25 +39,24 @@ export default class ReportingClient {
   }
 
   getList(resourceName: string, token: string, listRequest: ReportQuery): Promise<Array<Dict<string>>> {
-    return this.getListWithWarnings(resourceName, token, listRequest)
-      .then((response) => response.data)
+    return this.getListWithWarnings(resourceName, token, listRequest).then((response) => response.data)
   }
 
   getListWithWarnings(resourceName: string, token: string, listRequest: ReportQuery): Promise<ListWithWarnings> {
     logger.info(`Reporting client: Get ${resourceName} list`)
 
     return this.restClient
-        .getWithHeaders<Array<Dict<string>>>({
-          path: `/${resourceName}`,
-          query: listRequest.toRecordWithFilterPrefix(),
-          token,
-        })
-        .then((response: ResultWithHeaders<Array<Dict<string>>>) => ({
-            data: response.data,
-            warnings: {
-              noDataAvailable: response.headers['x-no-data-warning']
-            }
-        }))
+      .getWithHeaders<Array<Dict<string>>>({
+        path: `/${resourceName}`,
+        query: listRequest.toRecordWithFilterPrefix(),
+        token,
+      })
+      .then((response: ResultWithHeaders<Array<Dict<string>>>) => ({
+        data: response.data,
+        warnings: {
+          noDataAvailable: response.headers['x-no-data-warning'],
+        },
+      }))
   }
 
   getDefinitions(token: string): Promise<Array<components['schemas']['ReportDefinition']>> {

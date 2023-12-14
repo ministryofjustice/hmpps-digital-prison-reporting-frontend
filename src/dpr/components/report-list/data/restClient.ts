@@ -27,17 +27,17 @@ export default class RestClient {
   }
 
   async get<T>(request: GetRequest): Promise<T> {
-    return this.getWithHeaders<T>(request).then(result => result.data)
+    return this.getWithHeaders<T>(request).then((result) => result.data)
   }
 
   async getWithHeaders<T>({
-              path = null,
-              query = {},
-              headers = {},
-              responseType = '',
-              raw = false,
-              token,
-            }: GetRequest): Promise<ResultWithHeaders<T>> {
+    path = null,
+    query = {},
+    headers = {},
+    responseType = '',
+    raw = false,
+    token,
+  }: GetRequest): Promise<ResultWithHeaders<T>> {
     logger.info(`Get using user credentials: calling ${this.name}: ${this.config.url}${path} ${JSON.stringify(query)}`)
     try {
       const result = await superagent
@@ -55,7 +55,7 @@ export default class RestClient {
 
       return {
         data: raw ? result : result.body,
-        headers: result.headers
+        headers: result.headers,
       }
     } catch (error) {
       const sanitisedError = sanitiseError(error)

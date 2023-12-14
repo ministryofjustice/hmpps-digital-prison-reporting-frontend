@@ -21,7 +21,7 @@ function getDefaultSortColumn(fields: components['schemas']['FieldDefinition'][]
   return defaultSortColumn ? defaultSortColumn.name : fields.find((f) => f.sortable).name
 }
 
-function isListWithWarnings (data: Dict<string>[] | ListWithWarnings): data is ListWithWarnings {
+function isListWithWarnings(data: Dict<string>[] | ListWithWarnings): data is ListWithWarnings {
   return (data as ListWithWarnings).data !== undefined
 }
 
@@ -42,9 +42,11 @@ function renderList(
       let warnings: Warnings = {}
 
       if (isListWithWarnings(resolvedData[0])) {
+        // eslint-disable-next-line prefer-destructuring
         data = resolvedData[0].data
         warnings = resolvedData[0].warnings
       } else {
+        // eslint-disable-next-line prefer-destructuring
         data = resolvedData[0]
       }
 

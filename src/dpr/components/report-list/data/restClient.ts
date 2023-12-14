@@ -4,6 +4,12 @@ import Agent, { HttpsAgent } from 'agentkeepalive'
 import logger from '../../../utils/logger'
 import sanitiseError from '../../../utils/sanitisedError'
 import { ApiConfig, GetRequest } from './types'
+import Dict = NodeJS.Dict
+
+export interface ResultWithHeaders<T> {
+  data: T
+  headers: Dict<string>
+}
 
 export default class RestClient {
   agent: Agent
@@ -20,14 +26,18 @@ export default class RestClient {
     return this.config.agent.timeout
   }
 
-  async get({
-    path = null,
-    query = {},
-    headers = {},
-    responseType = '',
-    raw = false,
-    token,
-  }: GetRequest): Promise<unknown> {
+  async get<T>(request: GetRequest): Promise<T> {
+    return this.getWithHeaders<T>(request).then(result => result.data)
+  }
+
+  async getWithHeaders<T>({
+              path = null,
+              query = {},
+              headers = {},
+              responseType = '',
+              raw = false,
+              token,
+            }: GetRequest): Promise<ResultWithHeaders<T>> {
     logger.info(`Get using user credentials: calling ${this.name}: ${this.config.url}${path} ${JSON.stringify(query)}`)
     try {
       const result = await superagent
@@ -43,7 +53,10 @@ export default class RestClient {
         .responseType(responseType)
         .timeout(this.timeoutConfig())
 
-      return raw ? result : result.body
+      return {
+        data: raw ? result : result.body,
+        headers: result.headers
+      }
     } catch (error) {
       const sanitisedError = sanitiseError(error)
       logger.warn({ ...sanitisedError, query }, `Error calling ${this.name}, path: '${path}', verb: 'GET'`)

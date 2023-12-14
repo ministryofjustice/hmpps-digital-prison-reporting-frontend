@@ -3,6 +3,7 @@
 {% from "moj/components/button-menu/macro.njk" import mojButtonMenu -%}
 {% from "../data-table/view.njk" import dprDataTable %}
 {% from "../filters/view.njk"    import dprFilters %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% set pageTitle = applicationName + " - " + title %}
 {% set mainClasses = "app-container govuk-body" %}
@@ -20,6 +21,17 @@
 {% block content %}
 
   <h1 class="govuk-heading-m">{{ title }}</h1>
+
+  {% if warnings.noDataAvailable %}
+    {{ govukErrorSummary({
+      titleText: 'No data available',
+      errorList: [
+        {
+          text: warnings.noDataAvailable
+        }
+      ]
+    }) }}
+  {% endif %}
 
   <div class="moj-filter-layout">
     <div class="moj-filter-layout__filter">

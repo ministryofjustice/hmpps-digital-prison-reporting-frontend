@@ -10,8 +10,9 @@ import {
   RenderListWithDataInput,
   RenderListWithDefinitionInput,
 } from './types'
-import ReportingClient from './data/reportingClient'
+import ReportingClient, { ListWithWarnings, Warnings } from './data/reportingClient'
 import { components } from '../../types/api'
+import Dict = NodeJS.Dict
 
 const filtersQueryParameterPrefix = 'filters.'
 
@@ -20,10 +21,15 @@ function getDefaultSortColumn(fields: components['schemas']['FieldDefinition'][]
   return defaultSortColumn ? defaultSortColumn.name : fields.find((f) => f.sortable).name
 }
 
+function isListWithWarnings (data: Dict<string>[] | ListWithWarnings): data is ListWithWarnings {
+  return (data as ListWithWarnings).data !== undefined
+}
+
 function renderList(
   listData: ListDataSources,
   fields: components['schemas']['FieldDefinition'][],
   reportQuery: ReportQuery,
+  request: Request,
   response: Response,
   next: NextFunction,
   title: string,
@@ -32,9 +38,19 @@ function renderList(
 ) {
   Promise.all([listData.data, listData.count])
     .then((resolvedData) => {
+      let data
+      let warnings: Warnings = {}
+
+      if (isListWithWarnings(resolvedData[0])) {
+        data = resolvedData[0].data
+        warnings = resolvedData[0].warnings
+      } else {
+        data = resolvedData[0]
+      }
+
       const dataTableOptions: DataTableOptions = {
         head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
-        rows: DataTableUtils.mapData(resolvedData[0], fields),
+        rows: DataTableUtils.mapData(data, fields),
         count: resolvedData[1],
         currentQueryParams: reportQuery.toRecordWithFilterPrefix(),
       }
@@ -50,6 +66,7 @@ function renderList(
         filterOptions,
         layoutTemplate,
         ...otherOptions,
+        warnings,
       })
     })
     .catch((err) => next(err))
@@ -79,13 +96,14 @@ const renderListWithDefinition = ({
     )
 
     const getListData: ListDataSources = {
-      data: reportingClient.getList(variantDefinition.resourceName, token, reportQuery),
+      data: reportingClient.getListWithWarnings(variantDefinition.resourceName, token, reportQuery),
       count: reportingClient.getCount(variantDefinition.resourceName, token, reportQuery),
     }
     renderList(
       getListData,
       variantDefinition.specification.fields,
       reportQuery,
+      request,
       response,
       next,
       title ?? `${reportName} - ${variantDefinition.name}`,
@@ -116,7 +134,7 @@ export default {
     )
     const listData = getListDataSources(reportQuery)
 
-    renderList(listData, fields, reportQuery, response, next, title, layoutTemplate, otherOptions)
+    renderList(listData, fields, reportQuery, request, response, next, title, layoutTemplate, otherOptions)
   },
 
   createReportListRequestHandler: ({

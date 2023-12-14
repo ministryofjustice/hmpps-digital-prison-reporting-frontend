@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from 'express'
 import Dict = NodeJS.Dict
 import ReportQuery from '../../types/ReportQuery'
-import ReportingClient from './data/reportingClient'
+import ReportingClient, { ListWithWarnings } from './data/reportingClient'
 import defaultTokenProvider from './defaultTokenProvider'
 import { components } from '../../types/api'
 
 export interface ListDataSources {
-  data: Promise<Dict<string>[]>
+  data: Promise<Dict<string>[]> | Promise<ListWithWarnings>
   count: Promise<number>
 }
 

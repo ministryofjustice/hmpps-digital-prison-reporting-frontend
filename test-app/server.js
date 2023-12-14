@@ -81,7 +81,12 @@ app.get('/method', (req, res, next) => {
     response: res,
     next,
     getListDataSources: () => ({
-      data: Promise.resolve(data),
+      data: Promise.resolve({
+        data,
+        warnings: {
+          noDataAvailable: 'Test message'
+        }
+      }),
       count: Promise.resolve(data.length),
     }),
     layoutTemplate: 'page.njk',
@@ -111,6 +116,7 @@ app.get('/definitions/test-report/test-variant', (req, res) => {
 
 app.get('/reports/list', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
+  res.setHeader('x-no-data-warning', 'Test message');
   res.end(JSON.stringify(data));
 })
 

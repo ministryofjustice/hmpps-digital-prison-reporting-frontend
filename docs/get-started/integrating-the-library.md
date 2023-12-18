@@ -11,12 +11,19 @@ These steps assume your project is already using the Gov.uk and MoJ libraries, a
 
 ## Build configuration
 
-### NPM dependency
+### NPM dependency (and prerequisites)
 
 Add the library to your **package.json** within the **dependencies** section and run **npm install**:
 
 ```
 "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^1",
+```
+
+Ensure that you have the following dependencies in the expected ranges, to ensure compatibility between the libraries:
+
+```
+"govuk-frontend": "^4.7.0",
+"@ministryofjustice/frontend": "^1.7.0",
 ```
 
 ### SASS

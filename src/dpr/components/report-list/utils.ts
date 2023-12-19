@@ -18,7 +18,7 @@ const filtersQueryParameterPrefix = 'filters.'
 
 function getDefaultSortColumn(fields: components['schemas']['FieldDefinition'][]) {
   const defaultSortColumn = fields.find((f) => f.defaultsort)
-  return defaultSortColumn ? defaultSortColumn.name : fields.find((f) => f.sortable).name
+  return defaultSortColumn ? defaultSortColumn.name : fields.find((f) => f.sortable)?.name
 }
 
 function isListWithWarnings(data: Dict<string>[] | ListWithWarnings): data is ListWithWarnings {

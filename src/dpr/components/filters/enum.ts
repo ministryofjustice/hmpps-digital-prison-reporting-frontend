@@ -3,4 +3,5 @@ export enum FilterType {
   radio = 'Radio',
   dateRange = 'DateRange',
   select = 'Select',
+  autocomplete = 'Autocomplete',
 }

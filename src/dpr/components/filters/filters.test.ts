@@ -48,6 +48,16 @@ const defaultOptions = {
         end: '2004-05-06',
       },
     },
+    {
+      text: 'Autocomplete',
+      name: 'autocomplete',
+      type: FilterType.autocomplete.toLowerCase(),
+      value: 'Value',
+      options: [
+        { value: 'Value1', text: 'Value1' },
+        { value: 'Value2', text: 'Value2' },
+      ],
+    }
   ],
   urlWithNoFilters: 'urlWithNoFiltersValue',
 }
@@ -100,5 +110,22 @@ describe('Filters options render correctly', () => {
     expect(endDate[0].getAttribute('type')).toEqual('date')
     expect(endDate[0].getAttribute('value')).toEqual('2004-05-06')
     expect(endDate[0].getAttribute('max')).toEqual('2007-08-09')
+  })
+
+  it('Autocomplete filter renders successfully', () => {
+    const rendered = parse(env.renderString(testView, defaultOptions))
+
+    const autocomplete = rendered.querySelectorAll('#filters\\.autocomplete')
+    expect(autocomplete.length).toEqual(1)
+    expect(autocomplete[0].tagName).toBe('INPUT')
+    expect(autocomplete[0].getAttribute('type')).toEqual('search')
+    expect(autocomplete[0].getAttribute('value')).toEqual('Value')
+
+    const autocompleteList = rendered.querySelectorAll('#filtersautocomplete-list')
+    expect(autocompleteList.length).toEqual(1)
+    const options = autocompleteList[0].getElementsByTagName('button')
+    expect(options.length).toEqual(2)
+    expect(options[0].text.trim()).toEqual('Value1')
+    expect(options[1].text.trim()).toEqual('Value2')
   })
 })

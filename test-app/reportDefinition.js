@@ -43,6 +43,26 @@ const variant = {
         },
         defaultValue: '2003-02-01 - 2006-05-04',
       },
+      {
+        name: 'field4',
+        display: 'Field 4',
+        sortable: false,
+        type: 'string',
+        filter: {
+          type: 'autocomplete',
+          dynamicOptions: {
+            minimumLength: 3,
+            returnAsStaticOptions: true
+          },
+          staticOptions: [
+            { name: 'Fezzick', display: 'Fezzick' },
+            { name: 'Inigo Montoya', display: 'Inigo Montoya' },
+            { name: 'Prince Humperdink', display: 'Prince Humperdink' },
+            { name: 'Princess Buttercup', display: 'Princess Buttercup' },
+            { name: 'Westley', display: 'Westley' },
+          ],
+        },
+      },
     ],
   }
 }

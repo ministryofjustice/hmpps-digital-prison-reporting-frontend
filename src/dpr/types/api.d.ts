@@ -8,6 +8,10 @@ export interface paths {
     /** @description Returns the dataset for the given report ID and report variant ID filtered by the filters provided in the query. */
     get: operations['configuredApiDataset']
   }
+  '/reports/{reportId}/{reportVariantId}/{fieldId}': {
+    /** @description Returns the dataset for the given report ID and report variant ID filtered by the filters provided in the query. */
+    get: operations['configuredApiDynamicFilter']
+  }
   '/reports/{reportId}/{reportVariantId}/count': {
     /** @description Returns the number of records for the given report ID and report variant ID filtered by the filters provided in the query. */
     get: operations['configuredApiCount']
@@ -43,6 +47,11 @@ export interface components {
        */
       count: number
     }
+    DynamicFilterOption: {
+      /** Format: int32 */
+      minimumLength: number
+      returnAsStaticOptions: boolean
+    }
     FieldDefinition: {
       name: string
       display: string
@@ -52,12 +61,13 @@ export interface components {
       sortable: boolean
       defaultsort: boolean
       /** @enum {string} */
-      type: 'string' | 'date' | 'long'
+      type: 'string' | 'date' | 'long' | 'time'
     }
     FilterDefinition: {
       /** @enum {string} */
-      type: 'Radio' | 'Select' | 'daterange'
+      type: 'Radio' | 'Select' | 'daterange' | 'autocomplete'
       staticOptions?: components['schemas']['FilterOption'][]
+      dynamicOptions?: components['schemas']['DynamicFilterOption']
       defaultValue?: string
     }
     FilterOption: {
@@ -120,6 +130,12 @@ export interface operations {
         filters: {
           [key: string]: string
         }
+        /**
+         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
+         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         * @example definitions/prisons/orphanage
+         */
+        dataProductDefinitionsPath?: string
       }
       path: {
         reportId: string
@@ -127,14 +143,6 @@ export interface operations {
       }
     }
     responses: {
-      /** @description OK */
-      200: {
-        content: {
-          'application/json': {
-            [key: string]: Record<string, never>
-          }[]
-        }
-      }
       /** @description Bad Request */
       400: {
         content: {
@@ -145,6 +153,83 @@ export interface operations {
       500: {
         content: {
           'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description default response */
+      default: {
+        headers: {
+          /** @description Provides additional information about why no data has been returned. */
+          'x-no-data-warning'?: string
+        }
+        content: {
+          'application/json': {
+            [key: string]: Record<string, never>
+          }[]
+        }
+      }
+    }
+  }
+  /** @description Returns the dataset for the given report ID and report variant ID filtered by the filters provided in the query. */
+  configuredApiDynamicFilter: {
+    parameters: {
+      query: {
+        pageSize?: number
+        sortedAsc?: boolean
+        /**
+         * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
+         *       |For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *
+         * @example {
+         *   "filters.date.start": "2023-04-25",
+         *   "filters.date.end": "2023-05-30"
+         * }
+         */
+        filters: {
+          [key: string]: string
+        }
+        /**
+         * @description The value to match the start of the fieldId
+         * @example Lond
+         */
+        prefix: string
+        /**
+         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
+         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         * @example definitions/prisons/orphanage
+         */
+        dataProductDefinitionsPath?: string
+      }
+      path: {
+        reportId: string
+        reportVariantId: string
+        /**
+         * @description The name of the schema field which will be used as a dynamic filter.
+         * @example name
+         */
+        fieldId: string
+      }
+    }
+    responses: {
+      /** @description Bad Request */
+      400: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description default response */
+      default: {
+        headers: {
+          /** @description Provides additional information about why no data has been returned. */
+          'x-no-data-warning'?: string
+        }
+        content: {
+          'application/json': string[]
         }
       }
     }
@@ -165,6 +250,12 @@ export interface operations {
         filters: {
           [key: string]: string
         }
+        /**
+         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
+         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         * @example definitions/prisons/orphanage
+         */
+        dataProductDefinitionsPath?: string
       }
       path: {
         reportId: string
@@ -172,12 +263,6 @@ export interface operations {
       }
     }
     responses: {
-      /** @description OK */
-      200: {
-        content: {
-          'application/json': components['schemas']['Count']
-        }
-      }
       /** @description Bad Request */
       400: {
         content: {
@@ -188,6 +273,16 @@ export interface operations {
       500: {
         content: {
           'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description default response */
+      default: {
+        headers: {
+          /** @description Provides additional information about why no data has been returned. */
+          'x-no-data-warning'?: string
+        }
+        content: {
+          'application/json': components['schemas']['Count']
         }
       }
     }
@@ -201,6 +296,17 @@ export interface operations {
          * @example HTML
          */
         renderMethod?: 'HTML' | 'PDF' | 'SVG'
+        /**
+         * @description This optional parameter sets the maximum number of static options returned when there is a dynamic filter and returnAsStaticOptions is true.
+         * @example 30
+         */
+        maxStaticOptions?: number
+        /**
+         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
+         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         * @example definitions/prisons/orphanage
+         */
+        dataProductDefinitionsPath?: string
       }
     }
     responses: {
@@ -227,6 +333,19 @@ export interface operations {
   /** @description Gets report definition containing a single variant. */
   definition: {
     parameters: {
+      query?: {
+        /**
+         * @description This optional parameter sets the maximum number of static options returned when there is a dynamic filter and returnAsStaticOptions is true.
+         * @example 30
+         */
+        maxStaticOptions?: number
+        /**
+         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
+         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         * @example definitions/prisons/orphanage
+         */
+        dataProductDefinitionsPath?: string
+      }
       path: {
         /**
          * @description The ID of the report definition.

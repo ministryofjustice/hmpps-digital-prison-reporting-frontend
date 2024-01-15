@@ -21,6 +21,9 @@ export default {
             ? f.filter.staticOptions.map((o) => ({ value: o.name, text: o.display }))
             : null,
           value: filterValues[f.name],
+          dynamicOptions: f.filter.dynamicOptions ? {
+            minimumLength: f.filter.dynamicOptions.minimumLength
+          } : null
         }
 
         if (f.filter.type === FilterType.dateRange.toLowerCase()) {

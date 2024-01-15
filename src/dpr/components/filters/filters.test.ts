@@ -57,7 +57,7 @@ const defaultOptions = {
         { value: 'Value1', text: 'Value1' },
         { value: 'Value2', text: 'Value2' },
       ],
-    }
+    },
   ],
   urlWithNoFilters: 'urlWithNoFiltersValue',
 }

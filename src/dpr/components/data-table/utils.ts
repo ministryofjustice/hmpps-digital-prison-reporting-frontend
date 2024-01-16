@@ -4,6 +4,7 @@ import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'
 
 const mapDate = (isoDate: string) => {
+  if (!isoDate) return ''
   const date = new Date(isoDate)
   const add0 = (t: number) => {
     return t < 10 ? `0${t}` : t

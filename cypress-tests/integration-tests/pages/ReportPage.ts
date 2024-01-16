@@ -1,10 +1,6 @@
 export type PageElement = Cypress.Chainable<JQuery>
 
-export default class MainPage {
-  cards = (): PageElement => cy.get(`.card`)
-
-  card = (index: number): PageElement => cy.get(`.card:eq(${index})`)
-
+export default class ReportPage {
   showFilterButton = (): PageElement => cy.get(`.filter-summary-show-filter-button`)
 
   clearAllButton = (): PageElement => cy.get(`.moj-button-menu__wrapper .govuk-button--primary`)
@@ -16,6 +12,16 @@ export default class MainPage {
   filterPanel = (): PageElement => cy.get('.moj-filter')
 
   filter = (id): PageElement => cy.get(`#filters\\.${id}`)
+
+  hiddenAutocompleteOptions = (id): PageElement => this.filter(id)
+    .parentsUntil('.autocomplete-text-input')
+    .parent()
+    .find('li[style="display: none"]')
+
+  visibleAutocompleteOptions = (id): PageElement => this.filter(id)
+    .parentsUntil('.autocomplete-text-input')
+    .parent()
+    .find('li[style=""]')
 
   dataTable = (): PageElement => cy.get('table')
 

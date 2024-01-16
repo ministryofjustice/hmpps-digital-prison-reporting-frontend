@@ -27,7 +27,7 @@ function isListWithWarnings(data: Dict<string>[] | ListWithWarnings): data is Li
 
 function renderList(
   listData: ListDataSources,
-  fields: components['schemas']['FieldDefinition'][],
+  variantDefinition: components['schemas']['VariantDefinition'],
   reportQuery: ReportQuery,
   request: Request,
   response: Response,
@@ -40,6 +40,7 @@ function renderList(
     .then((resolvedData) => {
       let data
       let warnings: Warnings = {}
+      const fields = variantDefinition.specification.fields
 
       if (isListWithWarnings(resolvedData[0])) {
         // eslint-disable-next-line prefer-destructuring
@@ -58,7 +59,7 @@ function renderList(
       }
 
       const filterOptions = {
-        filters: FilterUtils.getFilters(fields, reportQuery.filters),
+        filters: FilterUtils.getFilters(variantDefinition, reportQuery.filters),
         selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
       }
 
@@ -103,7 +104,7 @@ const renderListWithDefinition = ({
     }
     renderList(
       getListData,
-      variantDefinition.specification.fields,
+      variantDefinition,
       reportQuery,
       request,
       response,
@@ -120,7 +121,7 @@ export default {
 
   renderListWithData: ({
     title,
-    fields,
+    variantDefinition,
     request,
     response,
     next,
@@ -128,6 +129,7 @@ export default {
     otherOptions,
     layoutTemplate,
   }: RenderListWithDataInput) => {
+    const fields = variantDefinition.specification.fields
     const reportQuery = new ReportQuery(
       fields,
       request.query,
@@ -136,7 +138,7 @@ export default {
     )
     const listData = getListDataSources(reportQuery)
 
-    renderList(listData, fields, reportQuery, request, response, next, title, layoutTemplate, otherOptions)
+    renderList(listData, variantDefinition, reportQuery, request, response, next, title, layoutTemplate, otherOptions)
   },
 
   createReportListRequestHandler: ({

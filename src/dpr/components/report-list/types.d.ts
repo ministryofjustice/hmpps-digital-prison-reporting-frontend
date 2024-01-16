@@ -12,7 +12,7 @@ export interface ListDataSources {
 
 export interface RenderListWithDataInput {
   title: string
-  fields: components['schemas']['FieldDefinition'][]
+  variantDefinition: components['schemas']['VariantDefinition']
   request: Request
   response: Response
   next: NextFunction

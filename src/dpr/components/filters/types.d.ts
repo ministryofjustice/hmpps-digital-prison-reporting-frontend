@@ -20,6 +20,7 @@ export interface FilterValue {
 
 export interface FilterDynamicOptions {
   minimumLength: number
+  resourceEndpoint?: string
 }
 
 export interface SelectedFilter {

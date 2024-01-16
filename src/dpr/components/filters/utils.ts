@@ -9,8 +9,8 @@ const LOCALE = 'en-GB'
 const toLocaleDate = (isoDate?: string) => (isoDate ? new Date(isoDate).toLocaleDateString(LOCALE) : null)
 
 export default {
-  getFilters: (format: Array<components['schemas']['FieldDefinition']>, filterValues: Dict<string>) =>
-    format
+  getFilters: (variantDefinition: components['schemas']['VariantDefinition'], filterValues: Dict<string>) =>
+    variantDefinition.specification.fields
       .filter((f) => f.filter)
       .map((f) => {
         const filter: FilterValue = {
@@ -24,6 +24,7 @@ export default {
           dynamicOptions: f.filter.dynamicOptions
             ? {
                 minimumLength: f.filter.dynamicOptions.minimumLength,
+                resourceEndpoint: f.filter.dynamicOptions.returnAsStaticOptions ? null : `${variantDefinition.resourceName}/${f.name}?prefix=`
               }
             : null,
         }

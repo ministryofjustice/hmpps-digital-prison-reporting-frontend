@@ -19,7 +19,8 @@
                 "aria-owns": listId,
                 "haspopup": "true",
                 "placeholder": "Search",
-                "data-minimum-length": options.dynamicOptions.minimumLength if options.dynamicOptions
+                "data-minimum-length": options.dynamicOptions.minimumLength if options.dynamicOptions,
+                "data-resource-endpoint": options.dynamicOptions.resourceEndpoint if options.dynamicOptions
             },
             autocomplete: "off",
             suffix: {
@@ -29,17 +30,29 @@
         }) }}
         <div id="{{ listId }}" class="autocomplete-text-input-list">
             <ul role="listbox">
-                {% for item in options.items %}
+                {% if (options.dynamicOptions and options.dynamicOptions.resourceEndpoint) %}
                     <li style='display: none'>
                         {{ govukButton({
-                            text: item.text,
+                            text: '~Template~',
                             classes: "govuk-button--inverse autocomplete-text-input-list-button",
                             attributes: {
                                 "data-parent-input": options.id
                             }
                         }) }}
                     </li>
-                {% endfor %}
+                {% else %}
+                    {% for item in options.items %}
+                        <li style='display: none'>
+                            {{ govukButton({
+                                text: item.text,
+                                classes: "govuk-button--inverse autocomplete-text-input-list-button",
+                                attributes: {
+                                    "data-parent-input": options.id
+                                }
+                            }) }}
+                        </li>
+                    {% endfor %}
+                {% endif %}
             </ul>
         </div>
     </div>

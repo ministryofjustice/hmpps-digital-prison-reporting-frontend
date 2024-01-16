@@ -160,6 +160,11 @@ Then('date times are displayed in the correct format', function (this: Mocha.Con
         .dataTable()
         .get(`tbody tr:first-child td:nth-child(${index + 1})`)
         .contains(/\d\d\/\d\d\/\d\d \d\d:\d\d/)
+
+      page
+        .dataTable()
+        .get(`tbody tr:nth-child(4) td:nth-child(${index + 1})`)
+        .should('be.empty')
     }
   })
 })

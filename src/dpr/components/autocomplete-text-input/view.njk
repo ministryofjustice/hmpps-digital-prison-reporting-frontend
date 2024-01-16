@@ -1,0 +1,46 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% macro dprAutocompleteTextInput(options) %}
+    {%  set listId = (options.id | replace(".", "")) + "-list" %}
+    <div class="autocomplete-text-input">
+        {{ govukInput({
+            id: options.id,
+            label: {
+                text: options.labelText,
+                classes: "govuk-label govuk-!-font-weight-bold"
+            },
+            name: options.name,
+            value: options.value,
+            type: "search",
+            attributes: {
+                "aria-autocomplete": "list",
+                "aria-expanded": "false",
+                "aria-owns": listId,
+                "haspopup": "true",
+                "placeholder": "Search",
+                "data-minimum-length": options.dynamicOptions.minimumLength if options.dynamicOptions
+            },
+            autocomplete: "off",
+            suffix: {
+                html: "&#x1F50D;"
+            },
+            classes: (options.classes if options.classes else "") + " autocomplete-text-input-box"
+        }) }}
+        <div id="{{ listId }}" class="autocomplete-text-input-list">
+            <ul role="listbox">
+                {% for item in options.items %}
+                    <li style='display: none'>
+                        {{ govukButton({
+                            text: item.text,
+                            classes: "govuk-button--inverse autocomplete-text-input-list-button",
+                            attributes: {
+                                "data-parent-input": options.id
+                            }
+                        }) }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endmacro %}

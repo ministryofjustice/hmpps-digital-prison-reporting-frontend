@@ -56,6 +56,7 @@ app.use('/assets/moj', express.static(path.join(__dirname, '../node_modules/@min
 app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr/assets')))
 app.use('/govuk/all.js', express.static(path.join(__dirname, '../node_modules/govuk-frontend/govuk/all.js')))
 app.use('/moj/all.js', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/all.js')))
+app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
 
 const definitions = require('./reportDefinition')
 const { fields } = definitions.variant.specification

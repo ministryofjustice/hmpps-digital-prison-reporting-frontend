@@ -1,0 +1,30 @@
+.autocomplete-text-input {
+  position: relative;
+
+  ul {
+    background-color: white;
+    display: inline-block;
+    left: 0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    z-index: 10000;
+  }
+
+  li {
+    border: #b1b4b6 1px solid;
+    border-top: 0;
+    text-align: left;
+    width: calc(100% - 2px);
+
+    button, a {
+      box-shadow: none;
+      margin-bottom: 0;
+      text-align: left;
+      width: 100%;
+    }
+  }
+}

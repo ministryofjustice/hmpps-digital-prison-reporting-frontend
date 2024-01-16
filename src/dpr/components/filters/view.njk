@@ -10,10 +10,11 @@
   parameterPrefix   // The prefix to apply to the filter parameters in the page URL.
 #}
 
-{% from "govuk/components/select/macro.njk"       import govukSelect %}
-{% from "govuk/components/radios/macro.njk"       import govukRadios %}
-{% from "govuk/components/input/macro.njk"        import govukInput %}
-{% from "moj/components/filter/macro.njk"         import mojFilter -%}
+{% from "govuk/components/select/macro.njk"               import govukSelect %}
+{% from "govuk/components/radios/macro.njk"               import govukRadios %}
+{% from "govuk/components/input/macro.njk"                import govukInput %}
+{% from "moj/components/filter/macro.njk"                 import mojFilter -%}
+{% from "dpr/components/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
 
 {% macro dprFilters(filters, urlWithNoFilters, parameterPrefix = "filters.") %}
   {% set today = getTodayIsoDate() %}
@@ -43,7 +44,7 @@
           items: filter.options,
           value: filter.value
         }) }}
-        {% elif filter.type === 'daterange' %}
+      {% elif filter.type === 'daterange' %}
         <div class="govuk-form-group">
           <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
@@ -75,6 +76,15 @@
             }) }}
           </fieldset>
         </div>
+      {% elif filter.type === 'autocomplete' %}
+        {{ dprAutocompleteTextInput({
+          id: parameterPrefix + filter.name,
+          name: parameterPrefix + filter.name,
+          items: filter.options,
+          value: filter.value,
+          labelText: filter.text,
+          dynamicOptions: filter.dynamicOptions
+        }) }}
       {% endif %}
     {%- endfor %}
   {%- endset %}

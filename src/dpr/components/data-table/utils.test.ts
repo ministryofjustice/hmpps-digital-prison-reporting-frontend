@@ -28,6 +28,30 @@ describe('mapData', () => {
     ])
   })
 
+  it('Dates with null values mapped to an empty string', () => {
+    const data: Dict<string> = {
+      date: '',
+    }
+    const fields: components['schemas']['FieldDefinition'] = {
+      name: 'date',
+      display: 'Date',
+      sortable: true,
+      defaultsort: false,
+      type: 'date',
+    }
+    const mapped = Utils.mapData([data], [fields])
+
+    expect(mapped).toEqual([
+      [
+        {
+          text: '',
+          format: 'numeric',
+          classes: null,
+        },
+      ],
+    ])
+  })
+
   it('Dates with values greater than 10 mapped without leading 0', () => {
     const data: Dict<string> = {
       date: '2010-11-12T13:14:15.016Z',

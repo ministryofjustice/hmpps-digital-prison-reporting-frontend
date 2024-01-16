@@ -52,7 +52,7 @@ const variant = {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true
+            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -64,19 +64,19 @@ const variant = {
         },
       },
     ],
-  }
+  },
 }
 
 module.exports = {
   report: {
     id: 'test-report',
     name: 'Test Report',
-    variants: [ variant ]
+    variants: [variant],
   },
   singleVariantReport: {
     id: 'test-report',
     name: 'Test Report',
-    variant: variant
+    variant,
   },
   variant,
 }

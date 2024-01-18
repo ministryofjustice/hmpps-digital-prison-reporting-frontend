@@ -1,8 +1,8 @@
 import superagent from 'superagent'
 import Agent, { HttpsAgent } from 'agentkeepalive'
 
-import logger from '../../../utils/logger'
-import sanitiseError from '../../../utils/sanitisedError'
+import logger from '../utils/logger'
+import sanitiseError from '../utils/sanitisedError'
 import { ApiConfig, GetRequest } from './types'
 import Dict = NodeJS.Dict
 

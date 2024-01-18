@@ -14,24 +14,27 @@ $('.autocomplete-text-input-box').each((index, element) => {
       return template
     }
 
+    function addItem(template, keepEvents, content) {
+      const item = template.clone(keepEvents, true)
+      item.children('button').html(content)
+      item.css('display', '')
+      $(listParentSelector).append(item)
+    }
+
     if (resourceEndpoint) {
       if (searchValue.length >= minLength) {
-        $.get(resourceEndpoint + encodeURI(searchValue))
+        addItem(clearListAndRecreateTemplate(), false, '<i>Searching...</i>')
+
+        $.get(resourceEndpoint.replace('{prefix}', encodeURI(searchValue)))
           .done( (results) => {
             const template = clearListAndRecreateTemplate()
 
             results.forEach(r => {
-              const item = template.clone(true, true)
-              item.children('button').text(r)
-              item.css('display', '')
-              $(listParentSelector).append(item)
+              addItem(template, true, r)
             })
         })
         .fail( (data, status, statusText) => {
-          const item = clearListAndRecreateTemplate().clone(false, true)
-          item.children('button').text('Failed to retrieve results: ' + statusText)
-          item.css('display', '')
-          $(listParentSelector).append(item)
+          addItem(clearListAndRecreateTemplate(), false, 'Failed to retrieve results: ' + statusText)
         })
       } else {
         clearListAndRecreateTemplate()

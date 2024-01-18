@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import Dict = NodeJS.Dict
 import ReportQuery from '../../types/ReportQuery'
-import ReportingClient, { ListWithWarnings } from './data/reportingClient'
+import ReportingClient, { ListWithWarnings } from '../../data/reportingClient'
 import defaultTokenProvider from './defaultTokenProvider'
 import { components } from '../../types/api'
 
@@ -18,7 +18,8 @@ export interface RenderListWithDataInput {
   next: NextFunction
   getListDataSources: (reportQuery: ReportQuery) => ListDataSources
   otherOptions?: Dict<object>
-  layoutTemplate: string
+  layoutTemplate: string,
+  dynamicAutocompleteEndpoint?: string
 }
 
 export interface RenderListWithDefinitionInput {
@@ -31,25 +32,20 @@ export interface RenderListWithDefinitionInput {
   otherOptions?: Dict<object>
   layoutTemplate: string
   token: string
-  reportingClient: ReportingClient
+  reportingClient: ReportingClient,
+  dynamicAutocompleteEndpoint?: string
 }
 
 export class CreateRequestHandlerInput {
   title?: string
-
   definitionName: string
-
   variantName: string
-
   apiUrl: string
-
   apiTimeout
-
   otherOptions?: Dict<object>
-
   layoutTemplate: string
-
   tokenProvider: (request: Request, response: Response, next: NextFunction) => string
+  dynamicAutocompleteEndpoint?: string
 
   constructor(
     title?: string,
@@ -60,6 +56,7 @@ export class CreateRequestHandlerInput {
     layoutTemplate: string,
     apiTimeout = 8000,
     tokenProvider: (request: Request, response: Response, next: NextFunction) => string = defaultTokenProvider,
+    dynamicAutocompleteEndpoint?: string
   ) {
     this.title = title
     this.definitionName = definitionName
@@ -69,5 +66,6 @@ export class CreateRequestHandlerInput {
     this.otherOptions = otherOptions
     this.layoutTemplate = layoutTemplate
     this.tokenProvider = tokenProvider
+    this.dynamicAutocompleteEndpoint = dynamicAutocompleteEndpoint
   }
 }

@@ -9,7 +9,7 @@ const LOCALE = 'en-GB'
 const toLocaleDate = (isoDate?: string) => (isoDate ? new Date(isoDate).toLocaleDateString(LOCALE) : null)
 
 export default {
-  getFilters: (variantDefinition: components['schemas']['VariantDefinition'], filterValues: Dict<string>) =>
+  getFilters: (variantDefinition: components['schemas']['VariantDefinition'], filterValues: Dict<string>, dynamicAutocompleteEndpoint: string = null) =>
     variantDefinition.specification.fields
       .filter((f) => f.filter)
       .map((f) => {
@@ -21,12 +21,8 @@ export default {
             ? f.filter.staticOptions.map((o) => ({ value: o.name, text: o.display }))
             : null,
           value: filterValues[f.name],
-          dynamicOptions: f.filter.dynamicOptions
-            ? {
-                minimumLength: f.filter.dynamicOptions.minimumLength,
-                resourceEndpoint: f.filter.dynamicOptions.returnAsStaticOptions ? null : `${variantDefinition.resourceName}/${f.name}?prefix=`
-              }
-            : null,
+          minimumLength: f.filter.dynamicOptions ? f.filter.dynamicOptions.minimumLength : null,
+          dynamicResourceEndpoint: f.filter.dynamicOptions && f.filter.dynamicOptions.returnAsStaticOptions ? null : dynamicAutocompleteEndpoint.replace('{fieldName}', f.name),
         }
 
         if (f.filter.type === FilterType.dateRange.toLowerCase()) {

@@ -15,12 +15,8 @@ export interface FilterValue {
   type: FilterType
   value?: string | DateRange
   options?: Array<FilterOption>
-  dynamicOptions: FilterDynamicOptions
-}
-
-export interface FilterDynamicOptions {
-  minimumLength: number
-  resourceEndpoint?: string
+  minimumLength?: number
+  dynamicResourceEndpoint?: string
 }
 
 export interface SelectedFilter {

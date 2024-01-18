@@ -10,7 +10,8 @@ import {
   RenderListWithDataInput,
   RenderListWithDefinitionInput,
 } from './types'
-import ReportingClient, { ListWithWarnings, Warnings } from './data/reportingClient'
+import ReportingClient from '../../data/reportingClient'
+import { ListWithWarnings, Warnings } from '../../data/types'
 import { components } from '../../types/api'
 import Dict = NodeJS.Dict
 
@@ -34,7 +35,8 @@ function renderList(
   next: NextFunction,
   title: string,
   layoutTemplate: string,
-  otherOptions: NodeJS.Dict<object>,
+  dynamicAutocompleteEndpoint?: string,
+  otherOptions?: NodeJS.Dict<object>,
 ) {
   Promise.all([listData.data, listData.count])
     .then((resolvedData) => {
@@ -59,7 +61,7 @@ function renderList(
       }
 
       const filterOptions = {
-        filters: FilterUtils.getFilters(variantDefinition, reportQuery.filters),
+        filters: FilterUtils.getFilters(variantDefinition, reportQuery.filters, dynamicAutocompleteEndpoint),
         selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
       }
 
@@ -86,6 +88,7 @@ const renderListWithDefinition = ({
   layoutTemplate,
   token,
   reportingClient,
+  dynamicAutocompleteEndpoint,
 }: RenderListWithDefinitionInput) => {
   reportingClient.getDefinition(token, definitionName, variantName).then((reportDefinition) => {
     const reportName: string = reportDefinition.name
@@ -111,6 +114,7 @@ const renderListWithDefinition = ({
       next,
       title ?? `${reportName} - ${variantDefinition.name}`,
       layoutTemplate,
+      dynamicAutocompleteEndpoint,
       otherOptions,
     )
   })
@@ -128,6 +132,7 @@ export default {
     getListDataSources,
     otherOptions,
     layoutTemplate,
+    dynamicAutocompleteEndpoint,
   }: RenderListWithDataInput) => {
     const fields = variantDefinition.specification.fields
     const reportQuery = new ReportQuery(
@@ -138,7 +143,7 @@ export default {
     )
     const listData = getListDataSources(reportQuery)
 
-    renderList(listData, variantDefinition, reportQuery, request, response, next, title, layoutTemplate, otherOptions)
+    renderList(listData, variantDefinition, reportQuery, request, response, next, title, layoutTemplate, dynamicAutocompleteEndpoint, otherOptions)
   },
 
   createReportListRequestHandler: ({
@@ -150,6 +155,7 @@ export default {
     otherOptions,
     layoutTemplate,
     tokenProvider,
+    dynamicAutocompleteEndpoint,
   }: CreateRequestHandlerInput): RequestHandler => {
     const reportingClient = new ReportingClient({
       url: apiUrl,
@@ -170,6 +176,7 @@ export default {
         layoutTemplate,
         token: tokenProvider(request, response, next),
         reportingClient,
+        dynamicAutocompleteEndpoint
       })
     }
   },

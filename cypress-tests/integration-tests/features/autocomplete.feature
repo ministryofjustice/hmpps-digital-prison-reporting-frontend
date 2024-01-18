@@ -40,11 +40,13 @@ Feature: Autocomplete
 
   Scenario: Dynamic autocomplete options are selectable
     Given I enter text longer than the minimum data length into the dynamic Autocomplete box
+    And a list of matching options is displayed
     When I select an autocomplete option
     Then that value is displayed in the autocomplete box
 
   Scenario: Dynamic autocomplete options are submitted
     Given I enter text longer than the minimum data length into the dynamic Autocomplete box
+    And a list of matching options is displayed
     And I select an autocomplete option
     When I apply the filters
     Then the selected option is displayed in the URL

@@ -19,8 +19,8 @@
                 "aria-owns": listId,
                 "haspopup": "true",
                 "placeholder": "Search",
-                "data-minimum-length": options.dynamicOptions.minimumLength if options.dynamicOptions,
-                "data-resource-endpoint": options.dynamicOptions.resourceEndpoint if options.dynamicOptions
+                "data-minimum-length": options.minimumLength,
+                "data-resource-endpoint": options.dynamicResourceEndpoint
             },
             autocomplete: "off",
             suffix: {
@@ -30,7 +30,7 @@
         }) }}
         <div id="{{ listId }}" class="autocomplete-text-input-list">
             <ul role="listbox">
-                {% if (options.dynamicOptions and options.dynamicOptions.resourceEndpoint) %}
+                {% if (options.dynamicResourceEndpoint) %}
                     <li style='display: none'>
                         {{ govukButton({
                             text: '~Template~',

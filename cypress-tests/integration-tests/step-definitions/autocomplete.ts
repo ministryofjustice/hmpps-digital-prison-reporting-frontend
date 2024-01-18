@@ -8,16 +8,19 @@ const longMatchingText = 'Pri'
 const staticFieldName = 'field4'
 const dynamicFieldName = 'field5'
 
-const getFieldNameFromType = type => (type === 'static' ? staticFieldName : dynamicFieldName)
+const getFieldNameFromType = (type) => (type === 'static' ? staticFieldName : dynamicFieldName)
 
-When(/^I enter text (longer|shorter) than the minimum data length into the (static|dynamic) Autocomplete box$/, function(this: Mocha.Context, length: string, type: string) {
-  const text = length === 'longer' ? longMatchingText : shortMatchingText
-  const fieldName = getFieldNameFromType(type)
+When(
+  /^I enter text (longer|shorter) than the minimum data length into the (static|dynamic) Autocomplete box$/,
+  function (this: Mocha.Context, length: string, type: string) {
+    const text = length === 'longer' ? longMatchingText : shortMatchingText
+    const fieldName = getFieldNameFromType(type)
 
-  this.selectedFieldName = fieldName
+    this.selectedFieldName = fieldName
 
-  new ReportPage().filter(fieldName).type(text)
-})
+    new ReportPage().filter(fieldName).type(text)
+  },
+)
 
 When(/^I select an autocomplete option$/, function (this: Mocha.Context) {
   new ReportPage().visibleAutocompleteOptions(this.selectedFieldName).first().click()

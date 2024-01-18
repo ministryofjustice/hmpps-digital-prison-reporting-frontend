@@ -217,6 +217,6 @@ const wrapInVariant = (fields: Array<components['schemas']['FieldDefinition']>) 
     specification: {
       template: 'list',
       fields,
-    }
+    },
   }
 }

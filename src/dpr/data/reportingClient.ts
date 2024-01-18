@@ -80,19 +80,19 @@ export default class ReportingClient {
   }
 
   getFieldValues({
-     token,
-     definitionName,
-     variantName,
-     fieldName,
-     prefix,
-   }: FieldValuesRequest): Promise<Array<string>> {
+    token,
+    definitionName,
+    variantName,
+    fieldName,
+    prefix,
+  }: FieldValuesRequest): Promise<Array<string>> {
     return this.restClient
       .get({
         path: `/reports/${definitionName}/${variantName}/${fieldName}`,
         token,
         query: {
           prefix,
-        }
+        },
       })
       .then((response) => <Array<string>>response)
   }

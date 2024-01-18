@@ -42,7 +42,7 @@ function renderList(
     .then((resolvedData) => {
       let data
       let warnings: Warnings = {}
-      const fields = variantDefinition.specification.fields
+      const { fields } = variantDefinition.specification
 
       if (isListWithWarnings(resolvedData[0])) {
         // eslint-disable-next-line prefer-destructuring
@@ -134,7 +134,7 @@ export default {
     layoutTemplate,
     dynamicAutocompleteEndpoint,
   }: RenderListWithDataInput) => {
-    const fields = variantDefinition.specification.fields
+    const { fields } = variantDefinition.specification
     const reportQuery = new ReportQuery(
       fields,
       request.query,
@@ -143,7 +143,18 @@ export default {
     )
     const listData = getListDataSources(reportQuery)
 
-    renderList(listData, variantDefinition, reportQuery, request, response, next, title, layoutTemplate, dynamicAutocompleteEndpoint, otherOptions)
+    renderList(
+      listData,
+      variantDefinition,
+      reportQuery,
+      request,
+      response,
+      next,
+      title,
+      layoutTemplate,
+      dynamicAutocompleteEndpoint,
+      otherOptions,
+    )
   },
 
   createReportListRequestHandler: ({
@@ -176,7 +187,7 @@ export default {
         layoutTemplate,
         token: tokenProvider(request, response, next),
         reportingClient,
-        dynamicAutocompleteEndpoint
+        dynamicAutocompleteEndpoint,
       })
     }
   },

@@ -6,7 +6,7 @@ arguments: autocomplete-text-input
 
 {%- from "dpr/components/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
 
-{{ dprAutocompleteTextInput([
+{{ dprAutocompleteTextInput({
     id: 'people',
     name: 'people',
     items: [
@@ -36,7 +36,6 @@ arguments: autocomplete-text-input
         { text: 'Paz Bamidele' },
         { text: 'Dajana Mikalay' }
     ],
-    value: null,
     labelText: 'People',
     minimumlength: 1
-]) }}
+}) }}

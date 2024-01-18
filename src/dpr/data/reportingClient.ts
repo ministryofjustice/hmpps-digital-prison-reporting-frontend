@@ -1,23 +1,10 @@
-import ReportQuery from '../../../types/ReportQuery'
-import logger from '../../../utils/logger'
+import ReportQuery from '../types/ReportQuery'
+import logger from '../utils/logger'
 import RestClient from './restClient'
 import Dict = NodeJS.Dict
-import { components, operations } from '../../../types/api'
-import { ApiConfig } from './types'
+import { components, operations } from '../types/api'
+import { ApiConfig, Count, FieldValuesRequest, ListWithWarnings } from './types'
 import type { ResultWithHeaders } from './restClient'
-
-export interface Count {
-  count: number
-}
-
-export interface ListWithWarnings {
-  data: Array<Dict<string>>
-  warnings: Warnings
-}
-
-export interface Warnings {
-  noDataAvailable?: string
-}
 
 export default class ReportingClient {
   restClient: RestClient
@@ -90,5 +77,23 @@ export default class ReportingClient {
         token,
       })
       .then((response) => <components['schemas']['SingleVariantReportDefinition']>response)
+  }
+
+  getFieldValues({
+    token,
+    definitionName,
+    variantName,
+    fieldName,
+    prefix,
+  }: FieldValuesRequest): Promise<Array<string>> {
+    return this.restClient
+      .get({
+        path: `/reports/${definitionName}/${variantName}/${fieldName}`,
+        token,
+        query: {
+          prefix,
+        },
+      })
+      .then((response) => <Array<string>>response)
   }
 }

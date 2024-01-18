@@ -1,8 +1,8 @@
 import nock from 'nock'
 
-import ReportQuery from '../../../types/ReportQuery'
+import ReportQuery from '../types/ReportQuery'
 import ReportingClient from './reportingClient'
-import { components } from '../../../types/api'
+import { components } from '../types/api'
 import AgentConfig from './agentConfig'
 
 describe('reportingClient', () => {

@@ -59,8 +59,8 @@ app.use('/moj/all.js', express.static(path.join(__dirname, '../node_modules/@min
 app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
 
 const definitions = require('./reportDefinition')
-const { fields } = definitions.variant.specification
 const data = require('./data')
+const ReportingClient = require('../package/dpr/data/reportingClient')
 
 // Set up routes
 
@@ -77,7 +77,7 @@ app.get('/', (req, res) => {
 app.get('/method', (req, res, next) => {
   reportListUtils.renderListWithData({
     title: 'Test app',
-    fields,
+    variantDefinition: definitions.variant,
     request: req,
     response: res,
     next,
@@ -91,6 +91,7 @@ app.get('/method', (req, res, next) => {
       count: Promise.resolve(data.length),
     }),
     layoutTemplate: 'page.njk',
+    dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}'
   })
 })
 
@@ -100,9 +101,41 @@ app.get('/handler', reportListUtils.createReportListRequestHandler({
     variantName: 'test-variant',
     apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
     layoutTemplate: 'page.njk',
-    tokenProvider: () => 'token'
+    tokenProvider: () => 'token',
+    dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}'
   })
 )
+
+// Dynamic autocomplete endpoint
+app.get('/dynamic-values/field5', (req, res, next) => {
+  // This delay is to simulate a real API request's delay, so we can see the message.
+  sleep(1000).then(() => {
+    new ReportingClient.default({
+      url: 'http://localhost:3010',
+      agent: {
+        timeout: 8000
+      }
+    }).getFieldValues({
+      token: 'token',
+      definitionName: 'test-report',
+      variantName: 'test-variant',
+      fieldName: 'field5',
+      prefix: req.query.prefix.toString(),
+    }).then(result => {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify(result))
+    }).catch(err => {
+      next(err)
+    })
+  })
+
+})
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
 // Fake API routes for the /handler endpoint to call
 app.get('/definitions', (req, res) => {
@@ -124,6 +157,19 @@ app.get('/reports/list', (req, res) => {
 app.get('/reports/list/count', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.end(JSON.stringify({count: 3}));
+})
+
+app.get('/reports/test-report/test-variant/field5', (req, res) => {
+  const prefix = req.query.prefix
+
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify([
+    'Fezzick',
+    'Inigo Montoya',
+    'Prince Humperdink',
+    'Princess Buttercup',
+    'Westley',
+  ].filter(p => p.toLowerCase().startsWith(prefix.toLowerCase()))));
 })
 
 const nodeModulesExists = fs.existsSync(path.join(__dirname, '../node_modules'))

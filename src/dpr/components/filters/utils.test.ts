@@ -63,7 +63,7 @@ describe('getFilters', () => {
       selectField: '2',
     }
 
-    const result = Utils.getFilters(selectFieldFormat, filterValues)
+    const result = Utils.getFilters(wrapInVariant(selectFieldFormat), filterValues)
 
     expect(result.length).toEqual(1)
     expect(result[0].name).toEqual(selectFieldFormat[0].name)
@@ -79,7 +79,7 @@ describe('getFilters', () => {
       radioField: '2',
     }
 
-    const result = Utils.getFilters(radioFieldFormat, filterValues)
+    const result = Utils.getFilters(wrapInVariant(radioFieldFormat), filterValues)
 
     expect(result.length).toEqual(1)
     expect(result[0].name).toEqual(radioFieldFormat[0].name)
@@ -96,7 +96,7 @@ describe('getFilters', () => {
       'dateRangeField.end': '2004-05-06',
     }
 
-    const result = Utils.getFilters(dateRangeFieldFormat, filterValues)
+    const result = Utils.getFilters(wrapInVariant(dateRangeFieldFormat), filterValues)
 
     expect(result.length).toEqual(1)
     expect(result[0].name).toEqual(dateRangeFieldFormat[0].name)
@@ -122,7 +122,7 @@ describe('getFilters', () => {
       selectField: '2',
     }
 
-    const result = Utils.getFilters(format, filterValues)
+    const result = Utils.getFilters(wrapInVariant(format), filterValues)
 
     expect(result.length).toEqual(0)
   })
@@ -208,3 +208,15 @@ describe('getSelectedFilters', () => {
     expect(result[0].href).toEqual('{"f.dateRangeField":"","selectedPage":"1"}')
   })
 })
+
+const wrapInVariant = (fields: Array<components['schemas']['FieldDefinition']>) => {
+  return {
+    id: 'test',
+    name: 'Test',
+    resourceName: 'test',
+    specification: {
+      template: 'list',
+      fields,
+    },
+  }
+}

@@ -1,15 +1,16 @@
 
 ### Rendering using method: `renderListWithData`
 
-| Name               | Type     | Required | Description                                                                                                                                    |
-|--------------------|----------|----------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| title              | String   | Yes      | The page title.                                                                                                                                |
-| fields             | Array    | Yes      | An array of columns to show on the report. See [Fields](#fields).                                                                              |
-| request            | Object   | Yes      | The request object (from the request handler's arguments).                                                                                     |
-| response           | Object   | Yes      | The response object (from the request handler's arguments).                                                                                    |
-| getListDataSources | Function | Yes      | A function that accepts a [Report Query](#report-query), and returns data sources for the report. See [List Data Sources](#list-data-sources). |
-| otherOptions       | Object   | No       | Other parameters to pass to the page (possibly used by the layout template).                                                                   |
-| layoutTemplate     | String   | No       | The name of the parent layout template - which should include header, footer, etc.                                                             |
+| Name                        | Type     | Required | Description                                                                                                                                                       |
+|-----------------------------|----------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| title                       | String   | Yes      | The page title.                                                                                                                                                   |
+| fields                      | Array    | Yes      | An array of columns to show on the report. See [Fields](#fields).                                                                                                 |
+| request                     | Object   | Yes      | The request object (from the request handler's arguments).                                                                                                        |
+| response                    | Object   | Yes      | The response object (from the request handler's arguments).                                                                                                       |
+| getListDataSources          | Function | Yes      | A function that accepts a [Report Query](#report-query), and returns data sources for the report. See [List Data Sources](#list-data-sources).                    |
+| otherOptions                | Object   | No       | Other parameters to pass to the page (possibly used by the layout template).                                                                                      |
+| layoutTemplate              | String   | No       | The name of the parent layout template - which should include header, footer, etc.                                                                                |
+| dynamicAutocompleteEndpoint | String   | No       | Endpoint for dynamic autocomplete filters (if used). This needs to have field name and prefix tokens, for example: `/dynamic-values/{fieldName}?prefix={prefix}`. |
 
 ### Fields
 
@@ -27,7 +28,7 @@
 
 | Name          | Type   | Required | Description                                                                            |
 |---------------|--------|----------|----------------------------------------------------------------------------------------|
-| type          | String | Yes      | The type of the filter. One of: Select, Radio, or DateRange.                           |
+| type          | String | Yes      | The type of the filter. One of: Select, Radio, DateRange, or Autocomplete.             |
 | staticOptions | Array  | No       | The options to display if this filter is a select or a radio. See [Options](#options). |
 | defaultValue  | String | No       | The value of the filter selected by default.                                           |
 
@@ -60,13 +61,14 @@ This object is passed to the getListDataSources function, to allow you to reques
 
 ### Rendering using handler: `createReportListRequestHandler`
 
-| Name               | Type     | Required | Description                                                                                                                           |
-|--------------------|----------|----------|---------------------------------------------------------------------------------------------------------------------------------------|
-| title              | String   | Yes      | The page title.                                                                                                                       |
-| definitionName               | String   | Yes      | The name of the report definition to use for this page.                                                                               |
-| variantName               | String   | Yes      | The name of the variant to use for this page.                                                                                         |
-| apiUrl               | String   | Yes      | The URL of the API to use (created using the [API library](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-lib)). |
-| apiTimeout               | Number   | No       | The timeout to use when calling the API.                                                                                              |
-| otherOptions       | Object   | No       | Other parameters to pass to the page (possibly used by the layout template).                                                          |
-| layoutTemplate     | String   | No       | The name of the parent layout template - which should include header, footer, etc.                                                    |
-| tokenProvider     | Function | No       | A function that can be called (with `(request, response, next)`) that will provide the user's authentication token.                   |
+| Name                        | Type     | Required | Description                                                                                                                                                       |
+|-----------------------------|----------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| title                       | String   | Yes      | The page title.                                                                                                                                                   |
+| definitionName              | String   | Yes      | The name of the report definition to use for this page.                                                                                                           |
+| variantName                 | String   | Yes      | The name of the variant to use for this page.                                                                                                                     |
+| apiUrl                      | String   | Yes      | The URL of the API to use (created using the [API library](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-lib)).                             |
+| apiTimeout                  | Number   | No       | The timeout to use when calling the API.                                                                                                                          |
+| otherOptions                | Object   | No       | Other parameters to pass to the page (possibly used by the layout template).                                                                                      |
+| layoutTemplate              | String   | No       | The name of the parent layout template - which should include header, footer, etc.                                                                                |
+| tokenProvider               | Function | No       | A function that can be called (with `(request, response, next)`) that will provide the user's authentication token.                                               |
+| dynamicAutocompleteEndpoint | String   | No       | Endpoint for dynamic autocomplete filters (if used). This needs to have field name and prefix tokens, for example: `/dynamic-values/{fieldName}?prefix={prefix}`. |

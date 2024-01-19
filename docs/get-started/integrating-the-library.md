@@ -7,11 +7,11 @@ This component library can be added to a UI project by following the steps below
 
 These steps assume your project is already using the Gov.uk and MoJ libraries, and is based on Node Express.
 
-# Installing the library
+{% header 1, "Installing the library" %}
 
-## Build configuration
+{% header 2, "Build configuration" %}
 
-### NPM dependency (and prerequisites)
+{% header 3, "NPM dependency (and prerequisites)" %}
 
 Add the library to your **package.json** within the **dependencies** section and run **npm install**:
 
@@ -26,15 +26,15 @@ Ensure that you have the following dependencies in the expected ranges, to ensur
 "@ministryofjustice/frontend": "^1.7.0",
 ```
 
-### SASS
+{% header 3, "SASS" %}
 Add the library's SASS to your application's SASS file:
 
 ```scss
 @import 'node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/all';
 ```
 
-## Node configuration
-### Assets
+{% header 2, "Node configuration" %}
+{% header 3, "Assets" %}
 Add the library's assets to your application's static resources:
 
 ```javascript
@@ -50,7 +50,7 @@ Add the client-side JavaScript to the nunjucks layout:
 {% endblock %}
 ```
 
-### Nunjucks
+{% header 3, "Nunjucks" %}
 Add the library's nunjucks templates to your nunjucks configuration:
 
 ```javascript
@@ -71,6 +71,6 @@ import setUpNunjucksFilters from '@ministryofjustice/hmpps-digital-prison-report
 setUpNunjucksFilters(nunjucksEnv)
 ```
 
-## API Library
+{% header 2, "API Library" %}
 
 As a counterpart to the UI library, there is also an API library that you can integrate into your own API. Please see the [API Integration guide](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-lib/blob/main/integrating-with-library.md). 

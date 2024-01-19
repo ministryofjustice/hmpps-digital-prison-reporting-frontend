@@ -9,7 +9,7 @@ Its purpose is to present lists of data in a consistent and accessible way.
 
 {% example "list-report", 500 %}
 
-## Notes
+{% header 2, "Notes" %}
 
 The List Report is intended to be used from the server-side (see the two options in the JavaScript tab  above); providing the required data and configuration in Node.js.
 

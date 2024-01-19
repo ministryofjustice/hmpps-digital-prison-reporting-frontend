@@ -8,19 +8,6 @@ $govuk-assets-path: "/hmpps-digital-prison-reporting-frontend/assets/govuk/";
 @import 'govuk/all';
 @import 'moj/all';
 
-h2 {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #0b0c0c;
-  display: block;
-  font-family: GDS Transport,arial,sans-serif;
-  font-weight: 700;
-  margin-bottom: 30px;
-  margin-top: 0;
-  font-size: 2.25rem;
-  line-height: 1.1111111111;
-}
-
 .app-header__logo {
   margin-left: 30px;
 }
@@ -32,3 +19,5 @@ div.govuk-width-container {
 th {
   text-align: left;
 }
+
+

@@ -90,5 +90,23 @@ module.exports = function (eleventyConfig) {
     return releasePackage.version;
   });
 
+  eleventyConfig.addShortcode("header", function (level, text) {
+    let classSuffix = ""
+
+    switch (Number(level)) {
+      case 1:
+        classSuffix = "l"
+        break;
+      case 2:
+        classSuffix = "m"
+        break;
+      case 3:
+        classSuffix = "s"
+        break;
+    }
+
+    return `<h${ level } class="govuk-heading-${ classSuffix }">${ text }</h${ level }>`;
+  });
+
   eleventyConfig.addPlugin(EleventyHtmlBasePlugin);
 };

@@ -9,10 +9,10 @@ Clicking "Apply filter" appends the selected options to the page URL. Parameters
 
 {% example "filters", 700 %}
 
-## When to use
+{% header 2, "When to use" %}
 
 If you have simple filtering requirements (Radio, Select, Date range), then this component is a good way to reduce code complexity.
 
-## When not to use
+{% header 2, "When not to use" %}
 
 If you have a requirement for more complex filter options, or options that are not supported by this component, then the [MoJ filter component](https://design-patterns.service.justice.gov.uk/components/filter/) may be more suitable.

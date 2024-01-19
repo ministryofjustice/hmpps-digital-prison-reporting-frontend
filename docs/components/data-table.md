@@ -9,6 +9,6 @@ Navigating the paging or changing the page size, appends the updated options to 
 
 {% example "data-table", 500 %}
 
-## When to use
+{% header 2, "When to use" %}
 
 Use this component to display tabular data to users, allowing sorting and paging of that data.

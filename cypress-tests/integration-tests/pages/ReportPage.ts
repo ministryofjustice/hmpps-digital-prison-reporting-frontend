@@ -13,11 +13,8 @@ export default class ReportPage {
 
   filter = (id): PageElement => cy.get(`#filters\\.${id}`)
 
-  hiddenAutocompleteOptions = (id): PageElement =>
-    this.filter(id).parentsUntil('.autocomplete-text-input').parent().find('li[style="display: none"]')
-
   visibleAutocompleteOptions = (id): PageElement =>
-    this.filter(id).parentsUntil('.autocomplete-text-input').parent().find('li[style=""]')
+    this.filter(id).parentsUntil('.autocomplete-text-input').parent().find('li:visible')
 
   dataTable = (): PageElement => cy.get('table')
 

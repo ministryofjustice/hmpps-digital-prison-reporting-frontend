@@ -31,7 +31,7 @@
         <div id="{{ listId }}" class="autocomplete-text-input-list">
             <ul role="listbox">
                 {% if (options.dynamicResourceEndpoint) %}
-                    <li style='display: none'>
+                    <li class="autocomplete-text-input-item-hide">
                         {{ govukButton({
                             text: '~Template~',
                             classes: "govuk-button--inverse autocomplete-text-input-list-button",
@@ -42,7 +42,7 @@
                     </li>
                 {% else %}
                     {% for item in options.items %}
-                        <li style='display: none'>
+                        <li class="autocomplete-text-input-item-hide">
                             {{ govukButton({
                                 text: item.text,
                                 classes: "govuk-button--inverse autocomplete-text-input-list-button",

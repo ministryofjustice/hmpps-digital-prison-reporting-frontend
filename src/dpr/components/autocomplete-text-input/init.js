@@ -29,7 +29,7 @@ $('.autocomplete-text-input-box').each((index, element) => {
         $.get(
           resourceEndpoint.replace('{prefix}', encodeURI(searchValue))
         )
-          .done( (results, status, req) => {
+          .done( (results) => {
             console.log(`searchValue: ${searchValue}`)
             console.log(`value: ${$(element).val()}`)
             if (searchValue === $(element).val().toLowerCase()) {

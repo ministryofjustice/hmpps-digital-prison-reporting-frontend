@@ -9,6 +9,7 @@ $('.autocomplete-text-input-box').each((index, element) => {
 
     function clearListAndRecreateTemplate() {
       const template = $(listItemsSelector).first().clone(true, true)
+      // template.css('display', 'none')
       $(listItemsSelector).remove()
       $(listParentSelector).append(template)
       return template

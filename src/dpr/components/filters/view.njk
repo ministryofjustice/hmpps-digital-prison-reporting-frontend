@@ -21,7 +21,7 @@
 
   {%- set filterOptionsHtml %}
     {%- for filter in filters %}
-      {%- if filter.type === 'Select' %}
+      {%- if filter.type | lower === 'select' %}
         {{ govukSelect({
           id: parameterPrefix + filter.name,
           name: parameterPrefix + filter.name,
@@ -31,7 +31,7 @@
             text: filter.text
           }
         }) }}
-      {% elif filter.type === 'Radio' %}
+      {% elif filter.type | lower === 'radio' %}
         {{ govukRadios({
           id: parameterPrefix + filter.name,
           name: parameterPrefix + filter.name,
@@ -44,7 +44,7 @@
           items: filter.options,
           value: filter.value
         }) }}
-      {% elif filter.type === 'daterange' %}
+      {% elif filter.type | lower === 'daterange' %}
         <div class="govuk-form-group">
           <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
@@ -76,7 +76,7 @@
             }) }}
           </fieldset>
         </div>
-      {% elif filter.type === 'autocomplete' %}
+      {% elif filter.type | lower === 'autocomplete' %}
         {{ dprAutocompleteTextInput({
           id: parameterPrefix + filter.name,
           name: parameterPrefix + filter.name,

@@ -9,7 +9,7 @@ $('.autocomplete-text-input-box').each((index, element) => {
 
     function clearListAndRecreateTemplate() {
       const template = $(listItemsSelector).first().clone(true, true)
-      // template.css('display', 'none')
+      template.addClass('autocomplete-text-input-item-hide')
       $(listItemsSelector).remove()
       $(listParentSelector).append(template)
       return template
@@ -18,7 +18,7 @@ $('.autocomplete-text-input-box').each((index, element) => {
     function addItem(template, keepEvents, content) {
       const item = template.clone(keepEvents, true)
       item.children('button').html(content)
-      item.css('display', '')
+      item.removeClass('autocomplete-text-input-item-hide')
       $(listParentSelector).append(item)
     }
 
@@ -49,9 +49,9 @@ $('.autocomplete-text-input-box').each((index, element) => {
     } else {
       $(listItemsSelector).each((itemIndex, item) => {
         if (searchValue.length >= minLength && $(item).text().trim().toLowerCase().startsWith(searchValue)) {
-          $(item).css('display', '')
+          $(item).removeClass('autocomplete-text-input-item-hide')
         } else {
-          $(item).css('display', 'none')
+          $(item).addClass('autocomplete-text-input-item-hide')
         }
       })
     }
@@ -68,7 +68,7 @@ $('.autocomplete-text-input-list-button').each((index, element) => {
     parent.trigger('focus')
 
     $(`#${listId} li`).each((itemIndex, item) => {
-      $(item).css('display', 'none')
+      $(item).addClass('autocomplete-text-input-item-hide')
     })
   })
 })

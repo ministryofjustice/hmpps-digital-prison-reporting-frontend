@@ -27,4 +27,12 @@
       width: 100%;
     }
   }
+
+  .autocomplete-text-input-item-hide {
+    display: none;
+
+    button {
+      display: none;
+    }
+  }
 }

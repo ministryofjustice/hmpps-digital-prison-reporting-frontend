@@ -26,13 +26,19 @@ $('.autocomplete-text-input-box').each((index, element) => {
       if (searchValue.length >= minLength) {
         addItem(clearListAndRecreateTemplate(), false, '<i>Searching...</i>')
 
-        $.get(resourceEndpoint.replace('{prefix}', encodeURI(searchValue)))
-          .done( (results) => {
-            const template = clearListAndRecreateTemplate()
+        $.get(
+          resourceEndpoint.replace('{prefix}', encodeURI(searchValue))
+        )
+          .done( (results, status, req) => {
+            console.log(`searchValue: ${searchValue}`)
+            console.log(`value: ${$(element).val()}`)
+            if (searchValue === $(element).val().toLowerCase()) {
+              const template = clearListAndRecreateTemplate()
 
-            results.forEach(r => {
-              addItem(template, true, r)
-            })
+              results.forEach(r => {
+                addItem(template, true, r)
+              })
+            }
         })
         .fail( (data, status, statusText) => {
           addItem(clearListAndRecreateTemplate(), false, 'Failed to retrieve results: ' + statusText)

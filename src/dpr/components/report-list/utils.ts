@@ -87,9 +87,17 @@ const renderListWithDefinition = ({
   otherOptions,
   layoutTemplate,
   token,
-  reportingClient,
+  apiUrl,
+  apiTimeout,
   dynamicAutocompleteEndpoint,
 }: RenderListWithDefinitionInput) => {
+  const reportingClient = new ReportingClient({
+    url: apiUrl,
+    agent: {
+      timeout: apiTimeout,
+    },
+  })
+
   reportingClient.getDefinition(token, definitionName, variantName).then((reportDefinition) => {
     const reportName: string = reportDefinition.name
     const variantDefinition = reportDefinition.variant
@@ -168,12 +176,6 @@ export default {
     tokenProvider,
     dynamicAutocompleteEndpoint,
   }: CreateRequestHandlerInput): RequestHandler => {
-    const reportingClient = new ReportingClient({
-      url: apiUrl,
-      agent: {
-        timeout: apiTimeout,
-      },
-    })
 
     return (request: Request, response: Response, next: NextFunction) => {
       renderListWithDefinition({
@@ -186,9 +188,12 @@ export default {
         otherOptions,
         layoutTemplate,
         token: tokenProvider(request, response, next),
-        reportingClient,
+        apiUrl,
+        apiTimeout,
         dynamicAutocompleteEndpoint,
       })
     }
   },
+
+  renderListWithDefinition,
 }

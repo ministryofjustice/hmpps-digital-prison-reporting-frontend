@@ -75,21 +75,14 @@ app.get('/', (req, res) => {
 })
 
 app.get('/method', (req, res, next) => {
-  reportListUtils.renderListWithData({
+  reportListUtils.renderListWithDefinition({
     title: 'Test app',
-    variantDefinition: definitions.variant,
+    definitionName: 'test-report',
+    variantName: 'test-variant',
     request: req,
     response: res,
     next,
-    getListDataSources: () => ({
-      data: Promise.resolve({
-        data,
-        warnings: {
-          noDataAvailable: 'Test message'
-        }
-      }),
-      count: Promise.resolve(data.length),
-    }),
+    apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
     layoutTemplate: 'page.njk',
     dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}'
   })

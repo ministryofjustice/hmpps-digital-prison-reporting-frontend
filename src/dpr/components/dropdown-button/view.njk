@@ -1,0 +1,54 @@
+{% macro dprDropdownButton(options) %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  {%- set id = options.id %}
+  {%- set text = options.text %}
+  {%- set classes = options.classes %}
+  {%- set items = options.items %}
+  {%- set groups = options.groups %}
+
+  <div class="dropdown-button">
+    {{ govukButton({
+        id: id + "-button",
+        text: text + " ▼",
+        classes: classes + " ",
+        attributes: {
+        "data-toggle-target": "#" + id + "-menu",
+        "aria-expanded": "false"
+        }
+    }) }}
+    <ul id="{{ id }}-menu" style="display: none">
+      {% for item in items %}
+        <li>
+          {{ govukButton({
+            id: item.id,
+            text: item.text,
+            classes: "govuk-button--inverse " + item.classes,
+            attributes: item.attributes,
+            href: item.href
+        }) }}
+        </li>
+      {% endfor %}
+      {% for group in groups %}
+        <li>
+          <div class="govuk-body-m">{{ group.title }}</div>
+        </li>
+        {% for groupItem in group.items %}
+          {% set groupItemHtml %}
+          <span>&nbsp;&nbsp;</span>
+          <span>{{ groupItem.text }}</span>
+          {% endset %}
+          <li>
+            {{ govukButton({
+                id: groupItem.id,
+                html: groupItemHtml,
+                classes: "govuk-button--inverse " + groupItem.classes,
+                attributes: groupItem.attributes,
+                href: groupItem.href
+            }) }}
+          </li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endmacro %}

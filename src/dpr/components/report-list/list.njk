@@ -2,7 +2,8 @@
 
 {% from "moj/components/button-menu/macro.njk" import mojButtonMenu -%}
 {% from "../data-table/view.njk" import dprDataTable %}
-{% from "../filters/view.njk"    import dprFilters %}
+{% from "../filters/view.njk" import dprFilters %}
+{% from "../dropdown-button/view.njk"    import dprDropdownButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% set pageTitle = applicationName + " - " + title %}
@@ -18,9 +19,34 @@
   }].concat(selectedFilters) %}
 {% endif %}
 
+{% set actions = [{
+  text: 'Print displayed results',
+  attributes: {
+    'onclick': 'window.print()'
+  },
+  classes: 'filter-summary-controls'
+}] %}
+
 {% block content %}
 
-  <h1 class="govuk-heading-m">{{ title }}</h1>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-m">{{ title }}</h1>
+    </div>
+    <div class="govuk-grid-column-one-third" style="text-align: right">
+      {% set subject = title | urlencode %}
+      {%  set body = ("Page URL: https://digital-prison-reporting-mi-prototype-main.apps.live.cloud-platform.service.justice.gov.uk" + originalUrl) | urlencode %}
+
+      {{ dprDropdownButton({
+          id: "actions",
+          text: "Actions",
+          classes: "",
+          attributes: {},
+          items: actions,
+          groups: []
+        }) }}
+    </div>
+  </div>
 
   {% if warnings.noDataAvailable %}
     {{ govukErrorSummary({

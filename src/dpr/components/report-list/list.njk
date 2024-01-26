@@ -34,10 +34,8 @@
       <h1 class="govuk-heading-m">{{ title }}</h1>
     </div>
     <div class="govuk-grid-column-one-third" style="text-align: right">
-      {% set subject = title | urlencode %}
-      {%  set body = ("Page URL: https://digital-prison-reporting-mi-prototype-main.apps.live.cloud-platform.service.justice.gov.uk" + originalUrl) | urlencode %}
-
-      {{ dprDropdownButton({
+      <div class="dpr-actions">
+        {{ dprDropdownButton({
           id: "actions",
           text: "Actions",
           classes: "",
@@ -45,6 +43,7 @@
           items: actions,
           groups: []
         }) }}
+      </div>
     </div>
   </div>
 
@@ -78,7 +77,8 @@
           dataTableOptions.head,
           dataTableOptions.rows,
           dataTableOptions.count,
-          dataTableOptions.currentQueryParams
+          dataTableOptions.currentQueryParams,
+          "OFFICIAL"
         ) }}
       </div>
     </div>

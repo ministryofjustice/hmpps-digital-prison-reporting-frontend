@@ -4,15 +4,10 @@
   totalRowCount,  // The total number of rows.
   createUrlForParameters // A function accepting a parameter object that maps to the target URL
 #}
-{% macro dprDataTable(
-    head,
-    rows,
-    totalRowCount,
-    currentQueryParams
-  ) %}
-  {% from "govuk/components/table/macro.njk"       import govukTable %}
-  {% from "govuk/components/pagination/macro.njk"  import govukPagination %}
-  {% from "govuk/components/select/macro.njk"      import govukSelect %}
+{% macro dprDataTable(head, rows, totalRowCount, currentQueryParams, classification) %}
+  {% from "govuk/components/table/macro.njk" import govukTable %}
+  {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+  {% from "govuk/components/select/macro.njk" import govukSelect %}
 
   {%- set selectedPage = currentQueryParams.selectedPage | int %}
   {%- set pageSize = currentQueryParams.pageSize | int %}
@@ -27,17 +22,22 @@
     {%- endif %}
   {%- endfor %}
 
-<div>
-    <div class="govuk-grid-column">
-        {{ govukTable({
-            head: head,
-            rows: rows
-        }) }}
-    </div>
-</div>
   <div>
+    <div class="govuk-grid-column">
+      {{ govukTable({
+        head: headers,
+        rows: rows,
+        attributes: { 
+          'id': 'dpr-data-table',
+          'data-classification': classification,
+          'data-length': head.length
+        }
+      }) }}
+    </div>
+  </div>
+  <div class="pagination">
     <div class="govuk-grid-column-two-thirds">
-    {{ govukPagination({
+      {{ govukPagination({
       previous: {
         href: currentQueryParams | createUrlForParameters({ selectedPage: selectedPage - 1 })
       } if ((selectedPage | int) > 1) else null,

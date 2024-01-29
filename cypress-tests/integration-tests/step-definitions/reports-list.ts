@@ -51,10 +51,10 @@ When('I click the selected filter', function () {
   page.selectedFilterButton().click()
 })
 
-When('I click a the Clear all button', function () {
+When('I click a the Reset filter button', function () {
   const page = new ReportPage()
 
-  page.clearAllButton().click()
+  page.resetFilterButton().click()
 })
 
 When('I select a column to sort on', function (this: Mocha.Context) {
@@ -193,6 +193,12 @@ Then('no filters are selected', function (this: Mocha.Context) {
   const page = new ReportPage()
 
   page.selectedFilterButton().should('not.exist')
+})
+
+Then('only the default filter is selected', function (this: Mocha.Context) {
+  const page = new ReportPage()
+
+  page.selectedFilterButton().should('have.length', 1)
 })
 
 Then('the selected filter value is shown in the URL', function (this: Mocha.Context) {

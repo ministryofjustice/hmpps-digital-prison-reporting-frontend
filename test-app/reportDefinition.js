@@ -19,6 +19,7 @@ const variant = {
             { name: 'value1.2', display: 'Value 1.2' },
             { name: 'value1.3', display: 'Value 1.3' },
           ],
+          defaultValue: 'value1.1'
         },
       },
       {

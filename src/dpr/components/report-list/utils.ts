@@ -80,21 +80,12 @@ function renderList(
   dynamicAutocompleteEndpoint?: string,
   otherOptions?: NodeJS.Dict<object>,
 ) {
-<<<<<<< HEAD
   Promise.all([listData.data, listData.count])
     .then((resolvedData) => {
       let data
       let warnings: Warnings = {}
       const { fields } = variantDefinition.specification
       const { classification, printable } = variantDefinition
-=======
-  if (!redirectWithDefaultFilters(reportQuery, variantDefinition, response, request)) {
-    Promise.all([listData.data, listData.count])
-      .then((resolvedData) => {
-        let data
-        let warnings: Warnings = {}
-        const { fields } = variantDefinition.specification
->>>>>>> main
 
         if (isListWithWarnings(resolvedData[0])) {
           // eslint-disable-next-line prefer-destructuring
@@ -105,7 +96,6 @@ function renderList(
           data = resolvedData[0]
         }
 
-<<<<<<< HEAD
       const dataTableOptions: DataTableOptions = {
         head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
         rows: DataTableUtils.mapData(data, fields),
@@ -114,14 +104,6 @@ function renderList(
         classification,
         printable,
       }
-=======
-        const dataTableOptions: DataTableOptions = {
-          head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
-          rows: DataTableUtils.mapData(data, fields),
-          count: resolvedData[1],
-          currentQueryParams: reportQuery.toRecordWithFilterPrefix(),
-        }
->>>>>>> main
 
         const filterOptions = {
           filters: FilterUtils.getFilters(variantDefinition, reportQuery.filters, dynamicAutocompleteEndpoint),

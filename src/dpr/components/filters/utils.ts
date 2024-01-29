@@ -60,7 +60,8 @@ export default {
       .filter((f) => f.filter)
       .filter((f) =>
         f.filter.type === FilterType.dateRange.toLowerCase()
-          ? filterHasValue(reportQuery.filters[`${f.name}.start`]) || filterHasValue(reportQuery.filters[`${f.name}.end`])
+          ? filterHasValue(reportQuery.filters[`${f.name}.start`]) ||
+            filterHasValue(reportQuery.filters[`${f.name}.end`])
           : filterHasValue(reportQuery.filters[f.name]),
       )
       .map((f) => {

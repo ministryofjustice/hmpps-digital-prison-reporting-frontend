@@ -4,16 +4,13 @@ import createUrlForParameters from '../../utils/urlHelper'
 import { DataTableOptions } from '../data-table/types'
 import DataTableUtils from '../data-table/utils'
 import FilterUtils from '../filters/utils'
-import {
-  CreateRequestHandlerInput,
-  ListDataSources,
-  RenderListWithDataInput,
-  RenderListWithDefinitionInput,
-} from './types'
+import { ListDataSources, RenderListWithDataInput } from './types'
 import ReportingClient from '../../data/reportingClient'
 import { ListWithWarnings, Warnings } from '../../data/types'
 import { components } from '../../types/api'
 import Dict = NodeJS.Dict
+import RenderListWithDefinitionInput from './RenderListWithDefinitionInput'
+import CreateRequestHandlerInput from './CreateRequestHandlerInput'
 
 const filtersQueryParameterPrefix = 'filters.'
 
@@ -26,13 +23,18 @@ function isListWithWarnings(data: Dict<string>[] | ListWithWarnings): data is Li
   return (data as ListWithWarnings).data !== undefined
 }
 
-function redirectWithDefaultFilters(reportQuery: ReportQuery, variantDefinition: {
-  id: string;
-  name: string;
-  resourceName: string;
-  description?: string;
-  specification?: components['schemas']['Specification']
-}, response: Response, request: Request) {
+function redirectWithDefaultFilters(
+  reportQuery: ReportQuery,
+  variantDefinition: {
+    id: string
+    name: string
+    resourceName: string
+    description?: string
+    specification?: components['schemas']['Specification']
+  },
+  response: Response,
+  request: Request,
+) {
   if (Object.keys(reportQuery.filters).length === 0) {
     const defaultFilters: Record<string, string> = {}
 
@@ -218,7 +220,6 @@ export default {
     tokenProvider,
     dynamicAutocompleteEndpoint,
   }: CreateRequestHandlerInput): RequestHandler => {
-
     return (request: Request, response: Response, next: NextFunction) => {
       renderListWithDefinition({
         title,

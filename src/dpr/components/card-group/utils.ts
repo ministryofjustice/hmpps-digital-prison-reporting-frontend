@@ -12,14 +12,11 @@ export default {
     }))
   },
 
-  variantDefinitionsToCards: (
-    reportDefinition: components['schemas']['ReportDefinition'],
-    pathPrefix: string,
-  ) => {
+  variantDefinitionsToCards: (reportDefinition: components['schemas']['ReportDefinition'], pathPrefix: string) => {
     return reportDefinition.variants.map((v: components['schemas']['VariantDefinition']) => ({
-        text: v.name,
-        href: `${pathPrefix}/${reportDefinition.id}/${v.id}`,
-        description: v.description,
-      }))
+      text: v.name,
+      href: `${pathPrefix}/${reportDefinition.id}/${v.id}`,
+      description: v.description,
+    }))
   },
 }

@@ -17,7 +17,7 @@ export interface paths {
     get: operations['configuredApiCount']
   }
   '/definitions': {
-    /** @description Gets all report definitions */
+    /** @description Gets summaries of all report definitions */
     get: operations['definitions']
   }
   '/definitions/{reportId}/{variantId}': {
@@ -47,10 +47,23 @@ export interface components {
        */
       count: number
     }
+    ReportDefinitionSummary: {
+      id: string
+      name: string
+      description?: string
+      variants: components['schemas']['VariantDefinitionSummary'][]
+    }
+    VariantDefinitionSummary: {
+      id: string
+      name: string
+      description?: string
+    }
     DynamicFilterOption: {
       /** Format: int32 */
-      minimumLength: number
+      minimumLength?: number
       returnAsStaticOptions: boolean
+      /** Format: int64 */
+      maximumOptions?: number
     }
     FieldDefinition: {
       name: string
@@ -74,11 +87,11 @@ export interface components {
       name: string
       display: string
     }
-    ReportDefinition: {
+    SingleVariantReportDefinition: {
       id: string
       name: string
       description?: string
-      variants: components['schemas']['VariantDefinition'][]
+      variant: components['schemas']['VariantDefinition']
     }
     Specification: {
       template: string
@@ -90,12 +103,6 @@ export interface components {
       resourceName: string
       description?: string
       specification?: components['schemas']['Specification']
-    }
-    SingleVariantReportDefinition: {
-      id: string
-      name: string
-      description?: string
-      variant: components['schemas']['VariantDefinition']
     }
   }
   responses: never
@@ -287,7 +294,7 @@ export interface operations {
       }
     }
   }
-  /** @description Gets all report definitions */
+  /** @description Gets summaries of all report definitions */
   definitions: {
     parameters: {
       query?: {
@@ -296,11 +303,6 @@ export interface operations {
          * @example HTML
          */
         renderMethod?: 'HTML' | 'PDF' | 'SVG'
-        /**
-         * @description This optional parameter sets the maximum number of static options returned when there is a dynamic filter and returnAsStaticOptions is true.
-         * @example 30
-         */
-        maxStaticOptions?: number
         /**
          * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
          *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
@@ -313,7 +315,7 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          'application/json': components['schemas']['ReportDefinition'][]
+          'application/json': components['schemas']['ReportDefinitionSummary'][]
         }
       }
       /** @description Bad Request */
@@ -334,11 +336,6 @@ export interface operations {
   definition: {
     parameters: {
       query?: {
-        /**
-         * @description This optional parameter sets the maximum number of static options returned when there is a dynamic filter and returnAsStaticOptions is true.
-         * @example 30
-         */
-        maxStaticOptions?: number
         /**
          * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
          *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.

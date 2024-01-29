@@ -3,7 +3,7 @@ import { components } from '../../types/api'
 
 describe('reportDefinitionsToCards', () => {
   it('Maps correctly', () => {
-    const report: components['schemas']['ReportDefinition'] = {
+    const report: components['schemas']['ReportDefinitionSummary'] = {
       id: 'one',
       name: 'Two',
       description: 'Three',
@@ -23,7 +23,7 @@ describe('reportDefinitionsToCards', () => {
 
 describe('variantDefinitionsToCards', () => {
   it('Maps correctly', () => {
-    const report: components['schemas']['ReportDefinition'] = {
+    const report: components['schemas']['ReportDefinitionSummary'] = {
       id: 'one',
       name: 'Two',
       description: 'Three',

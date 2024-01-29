@@ -19,13 +19,17 @@
   }].concat(selectedFilters) %}
 {% endif %}
 
-{% set actions = [{
-  text: 'Print displayed results',
-  attributes: {
-    'onclick': 'window.print()'
-  },
-  classes: 'filter-summary-controls'
-}] %}
+{% set actions = [] %}
+{% if dataTableOptions.printable %}
+  {% set printAction = {
+    text: 'Print displayed results',
+    attributes: {
+      'onclick': 'window.print()'
+    },
+    classes: 'filter-summary-controls'
+  } %}
+  {% set actions = (actions.push(printAction), actions) %}
+{% endif %}
 
 {% block content %}
 
@@ -78,7 +82,7 @@
           dataTableOptions.rows,
           dataTableOptions.count,
           dataTableOptions.currentQueryParams,
-          "OFFICIAL"
+          dataTableOptions.classification
         ) }}
       </div>
     </div>

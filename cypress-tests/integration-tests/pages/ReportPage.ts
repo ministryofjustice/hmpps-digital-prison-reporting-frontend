@@ -3,7 +3,7 @@ export type PageElement = Cypress.Chainable<JQuery>
 export default class ReportPage {
   showFilterButton = (): PageElement => cy.get(`.filter-summary-show-filter-button`)
 
-  clearAllButton = (): PageElement => cy.get(`.moj-button-menu__wrapper .govuk-button--primary`)
+  resetFilterButton = (): PageElement => cy.get(`.moj-button-menu__wrapper .govuk-button--secondary`).first()
 
   pagingLink = (): PageElement => cy.get('.govuk-pagination__link').first()
 

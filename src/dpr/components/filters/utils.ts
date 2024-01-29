@@ -3,10 +3,19 @@ import { FilterType } from './enum'
 import { FilterValue } from './types'
 import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'
+import { clearFilterValue } from '../../utils/urlHelper'
 
 const LOCALE = 'en-GB'
 
 const toLocaleDate = (isoDate?: string) => (isoDate ? new Date(isoDate).toLocaleDateString(LOCALE) : null)
+
+const filterHasValue = (value: string) => {
+  return value ? value !== clearFilterValue : false
+}
+
+const getFilterValue = (filterValues: Dict<string>, name: string) => {
+  return filterHasValue(filterValues[name]) ? filterValues[name] : null
+}
 
 export default {
   getFilters: (
@@ -24,7 +33,7 @@ export default {
           options: f.filter.staticOptions
             ? f.filter.staticOptions.map((o) => ({ value: o.name, text: o.display }))
             : null,
-          value: filterValues[f.name],
+          value: getFilterValue(filterValues, f.name),
           minimumLength: f.filter.dynamicOptions ? f.filter.dynamicOptions.minimumLength : null,
           dynamicResourceEndpoint:
             (f.filter.dynamicOptions && f.filter.dynamicOptions.returnAsStaticOptions) || !dynamicAutocompleteEndpoint
@@ -34,8 +43,8 @@ export default {
 
         if (f.filter.type === FilterType.dateRange.toLowerCase()) {
           filter.value = {
-            start: filterValues[`${f.name}.start`],
-            end: filterValues[`${f.name}.end`],
+            start: getFilterValue(filterValues, `${f.name}.start`),
+            end: getFilterValue(filterValues, `${f.name}.end`),
           }
         }
 
@@ -51,14 +60,14 @@ export default {
       .filter((f) => f.filter)
       .filter((f) =>
         f.filter.type === FilterType.dateRange.toLowerCase()
-          ? reportQuery.filters[`${f.name}.start`] || reportQuery.filters[`${f.name}.end`]
-          : reportQuery.filters[f.name],
+          ? filterHasValue(reportQuery.filters[`${f.name}.start`]) || filterHasValue(reportQuery.filters[`${f.name}.end`])
+          : filterHasValue(reportQuery.filters[f.name]),
       )
       .map((f) => {
-        let filterValueText = reportQuery.filters[f.name]
+        let filterValueText = getFilterValue(reportQuery.filters, f.name)
         if (f.filter.type === FilterType.dateRange.toLowerCase()) {
-          const start = toLocaleDate(reportQuery.filters[`${f.name}.start`])
-          const end = toLocaleDate(reportQuery.filters[`${f.name}.end`])
+          const start = toLocaleDate(getFilterValue(reportQuery.filters, `${f.name}.start`))
+          const end = toLocaleDate(getFilterValue(reportQuery.filters, `${f.name}.end`))
 
           if (start && end) {
             filterValueText = `${start} - ${end}`
@@ -68,7 +77,7 @@ export default {
             filterValueText = `Until ${end}`
           }
         } else if (f.filter.staticOptions) {
-          filterValueText = f.filter.staticOptions.find((o) => o.name === reportQuery.filters[f.name]).display
+          filterValueText = f.filter.staticOptions.find((o) => o.name === filterValueText).display
         }
 
         return {

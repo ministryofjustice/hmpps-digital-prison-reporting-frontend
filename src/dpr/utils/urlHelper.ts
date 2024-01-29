@@ -1,3 +1,5 @@
+export const clearFilterValue = '~clear~'
+
 const createUrlForParameters = (currentQueryParams: NodeJS.Dict<string>, updateQueryParams: NodeJS.Dict<string>) => {
   let queryParams: NodeJS.Dict<string>
 
@@ -13,7 +15,7 @@ const createUrlForParameters = (currentQueryParams: NodeJS.Dict<string>, updateQ
         Object.keys(queryParams)
           .filter((key) => key === q || key.startsWith(`${q}.`))
           .forEach((key) => {
-            queryParams[key] = null
+            queryParams[key] = clearFilterValue
           })
       }
     })

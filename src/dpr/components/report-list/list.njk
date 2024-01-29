@@ -8,15 +8,12 @@
 {% set pageTitle = applicationName + " - " + title %}
 {% set mainClasses = "app-container govuk-body" %}
 {% set urlWithNoFilters = dataTableOptions.currentQueryParams | createUrlForParameters(null) %}
-{% set selectedFilters = filterOptions.selectedFilters %}
 
-{% if (filterOptions.selectedFilters.length > 0) %}
-  {% set selectedFilters = [{
-    text: 'Clear all',
-    href: urlWithNoFilters,
-    classes: 'govuk-button--primary'
-  }].concat(selectedFilters) %}
-{% endif %}
+{% set selectedFilters = [{
+  text: 'Reset filter',
+  href: urlWithNoFilters,
+  classes: 'govuk-button--secondary'
+}].concat(filterOptions.selectedFilters) %}
 
 {% block content %}
 

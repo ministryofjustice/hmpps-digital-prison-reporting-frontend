@@ -27,7 +27,7 @@ const defaultQueryParams = {
 const defaultReportQuery: ReportQuery = new ReportQuery(defaultFields, defaultQueryParams, 'one', 'f.')
 
 describe('Create URL', () => {
-  it('Clear all filters', () => {
+  it('Reset filters', () => {
     const updateQueryParams: Dict<string> = null
 
     const url = createUrlForParameters(defaultReportQuery.toRecordWithFilterPrefix(), updateQueryParams)
@@ -51,7 +51,7 @@ describe('Create URL', () => {
 
     const url = createUrlForParameters(currentQueryParams.toRecordWithFilterPrefix(), updateQueryParams)
 
-    expect(url).toEqual('?selectedPage=10&pageSize=20&sortColumn=30&sortedAsc=false&f.type=jaunt')
+    expect(url).toEqual('?selectedPage=10&pageSize=20&sortColumn=30&sortedAsc=false&f.direction=~clear~&f.type=jaunt')
   })
 
   it('Change page with filters', () => {

@@ -4,16 +4,13 @@ import createUrlForParameters from '../../utils/urlHelper'
 import { DataTableOptions } from '../data-table/types'
 import DataTableUtils from '../data-table/utils'
 import FilterUtils from '../filters/utils'
-import {
-  CreateRequestHandlerInput,
-  ListDataSources,
-  RenderListWithDataInput,
-  RenderListWithDefinitionInput,
-} from './types'
+import { ListDataSources, RenderListWithDataInput } from './types'
 import ReportingClient from '../../data/reportingClient'
 import { ListWithWarnings, Warnings } from '../../data/types'
 import { components } from '../../types/api'
 import Dict = NodeJS.Dict
+import RenderListWithDefinitionInput from './RenderListWithDefinitionInput'
+import CreateRequestHandlerInput from './CreateRequestHandlerInput'
 
 const filtersQueryParameterPrefix = 'filters.'
 
@@ -24,6 +21,51 @@ function getDefaultSortColumn(fields: components['schemas']['FieldDefinition'][]
 
 function isListWithWarnings(data: Dict<string>[] | ListWithWarnings): data is ListWithWarnings {
   return (data as ListWithWarnings).data !== undefined
+}
+
+function redirectWithDefaultFilters(
+  reportQuery: ReportQuery,
+  variantDefinition: {
+    id: string
+    name: string
+    resourceName: string
+    description?: string
+    specification?: components['schemas']['Specification']
+  },
+  response: Response,
+  request: Request,
+) {
+  if (Object.keys(reportQuery.filters).length === 0) {
+    const defaultFilters: Record<string, string> = {}
+
+    variantDefinition.specification.fields
+      .filter((f) => f.filter && f.filter.defaultValue)
+      .forEach((f) => {
+        if (f.filter.type === 'daterange') {
+          const dates = f.filter.defaultValue.split(' - ')
+
+          if (dates.length >= 1) {
+            // eslint-disable-next-line prefer-destructuring
+            defaultFilters[`${filtersQueryParameterPrefix}${f.name}.start`] = dates[0]
+
+            if (dates.length >= 2) {
+              // eslint-disable-next-line prefer-destructuring
+              defaultFilters[`${filtersQueryParameterPrefix}${f.name}.end`] = dates[1]
+            }
+          }
+        } else {
+          defaultFilters[`${filtersQueryParameterPrefix}${f.name}`] = f.filter.defaultValue
+        }
+      })
+
+    if (Object.keys(defaultFilters).length > 0) {
+      const querystring = createUrlForParameters(reportQuery.toRecordWithFilterPrefix(), defaultFilters)
+      response.redirect(`${request.baseUrl}${request.path}${querystring}`)
+      return true
+    }
+  }
+
+  return false
 }
 
 function renderList(
@@ -38,43 +80,45 @@ function renderList(
   dynamicAutocompleteEndpoint?: string,
   otherOptions?: NodeJS.Dict<object>,
 ) {
-  Promise.all([listData.data, listData.count])
-    .then((resolvedData) => {
-      let data
-      let warnings: Warnings = {}
-      const { fields } = variantDefinition.specification
+  if (!redirectWithDefaultFilters(reportQuery, variantDefinition, response, request)) {
+    Promise.all([listData.data, listData.count])
+      .then((resolvedData) => {
+        let data
+        let warnings: Warnings = {}
+        const { fields } = variantDefinition.specification
 
-      if (isListWithWarnings(resolvedData[0])) {
-        // eslint-disable-next-line prefer-destructuring
-        data = resolvedData[0].data
-        warnings = resolvedData[0].warnings
-      } else {
-        // eslint-disable-next-line prefer-destructuring
-        data = resolvedData[0]
-      }
+        if (isListWithWarnings(resolvedData[0])) {
+          // eslint-disable-next-line prefer-destructuring
+          data = resolvedData[0].data
+          warnings = resolvedData[0].warnings
+        } else {
+          // eslint-disable-next-line prefer-destructuring
+          data = resolvedData[0]
+        }
 
-      const dataTableOptions: DataTableOptions = {
-        head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
-        rows: DataTableUtils.mapData(data, fields),
-        count: resolvedData[1],
-        currentQueryParams: reportQuery.toRecordWithFilterPrefix(),
-      }
+        const dataTableOptions: DataTableOptions = {
+          head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
+          rows: DataTableUtils.mapData(data, fields),
+          count: resolvedData[1],
+          currentQueryParams: reportQuery.toRecordWithFilterPrefix(),
+        }
 
-      const filterOptions = {
-        filters: FilterUtils.getFilters(variantDefinition, reportQuery.filters, dynamicAutocompleteEndpoint),
-        selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
-      }
+        const filterOptions = {
+          filters: FilterUtils.getFilters(variantDefinition, reportQuery.filters, dynamicAutocompleteEndpoint),
+          selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
+        }
 
-      response.render('dpr/components/report-list/list', {
-        title,
-        dataTableOptions,
-        filterOptions,
-        layoutTemplate,
-        ...otherOptions,
-        warnings,
+        response.render('dpr/components/report-list/list', {
+          title,
+          dataTableOptions,
+          filterOptions,
+          layoutTemplate,
+          ...otherOptions,
+          warnings,
+        })
       })
-    })
-    .catch((err) => next(err))
+      .catch((err) => next(err))
+  }
 }
 
 const renderListWithDefinition = ({
@@ -87,9 +131,17 @@ const renderListWithDefinition = ({
   otherOptions,
   layoutTemplate,
   token,
-  reportingClient,
+  apiUrl,
+  apiTimeout,
   dynamicAutocompleteEndpoint,
 }: RenderListWithDefinitionInput) => {
+  const reportingClient = new ReportingClient({
+    url: apiUrl,
+    agent: {
+      timeout: apiTimeout,
+    },
+  })
+
   reportingClient.getDefinition(token, definitionName, variantName).then((reportDefinition) => {
     const reportName: string = reportDefinition.name
     const variantDefinition = reportDefinition.variant
@@ -168,13 +220,6 @@ export default {
     tokenProvider,
     dynamicAutocompleteEndpoint,
   }: CreateRequestHandlerInput): RequestHandler => {
-    const reportingClient = new ReportingClient({
-      url: apiUrl,
-      agent: {
-        timeout: apiTimeout,
-      },
-    })
-
     return (request: Request, response: Response, next: NextFunction) => {
       renderListWithDefinition({
         title,
@@ -186,9 +231,12 @@ export default {
         otherOptions,
         layoutTemplate,
         token: tokenProvider(request, response, next),
-        reportingClient,
+        apiUrl,
+        apiTimeout,
         dynamicAutocompleteEndpoint,
       })
     }
   },
+
+  renderListWithDefinition,
 }

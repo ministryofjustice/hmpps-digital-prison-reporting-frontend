@@ -23,18 +23,15 @@ Feature: List report
     And the selected filter value is shown in the URL
 
   Scenario: Clicking a selected filter removes it
-    Given I click the Show Filter button
-    And I select a filter
-    And I apply the filters
     When I click the selected filter
     Then no filters are selected
 
-  Scenario: Clicking 'Clear all' removes all filters
+  Scenario: Clicking 'Reset filter' resets all filters
     Given I click the Show Filter button
     And I select a filter
     And I apply the filters
-    When I click a the Clear all button
-    Then no filters are selected
+    When I click a the Reset filter button
+    Then only the default filter is selected
 
   Scenario: Sorting on a previously unselected column
     When I select a column to sort on

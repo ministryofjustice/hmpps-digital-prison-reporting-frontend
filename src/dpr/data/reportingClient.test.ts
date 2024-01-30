@@ -107,6 +107,8 @@ describe('reportingClient', () => {
             id: 'test-variant',
             name: 'Test variant',
             resourceName: 'reports/test/test',
+            classification: 'OFFICIAL',
+            printable: false,
           },
         },
       ]

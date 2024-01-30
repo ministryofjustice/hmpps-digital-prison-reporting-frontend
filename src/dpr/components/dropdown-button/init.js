@@ -6,7 +6,7 @@ $(function () {
       event.stopPropagation()
 
       if ($(element).attr('aria-expanded') !== 'true') {
-        $($(element).data('toggle-target')).css('display', '')
+        $($(element).data('toggle-target')).css('display', 'inline-block')
         $(element).attr('aria-expanded', 'true')
       } else {
         $($(element).data('toggle-target')).css('display', 'none')

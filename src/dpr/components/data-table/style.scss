@@ -68,3 +68,16 @@
 .print-header-footer {
   display: none
 }
+
+.data-table-empty-message {
+  display: none;
+  text-align: center;
+}
+
+.data-table-empty-message.show {
+  display: block;
+}
+
+#table-container.hide {
+  display: none;
+}

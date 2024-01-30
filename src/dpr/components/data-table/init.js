@@ -6,10 +6,24 @@ $('[data-navigate-to]').each((index, element) => {
   })
 })
 
+function showNoResultsMessage() {
+  const table = document.getElementById('dpr-data-table')
+  const noResultsMessage = document.getElementById('data-table-empty-message')
+  if (table) {
+    const rowLength = table.getAttribute('data-row-length')
+    if (+rowLength === 0) {
+      const tableContainer = document.getElementById('table-container')
+      noResultsMessage.classList.add('show')
+      tableContainer.classList.add('hide')
+    }
+  }
+}
+
 function createTableHeaderAndFooter() {
   const table = document.getElementById('dpr-data-table')
   if (table) {
-    const { classification, length } = table.dataset
+    const classification = table.getAttribute('data-classification')
+    const headLength = table.getAttribute('data-head-length')
 
     const header = table.createTHead()
     const footer = table.createTFoot()
@@ -23,14 +37,15 @@ function createTableHeaderAndFooter() {
     const classList = 'govuk-table__header print-header-footer'
     const content = `<b>${classification}</b>`
 
-    headerCell.colSpan = length
+    headerCell.colSpan = headLength
     headerCell.classList = classList
     headerCell.innerHTML = content
 
-    footerCell.colSpan = length
+    footerCell.colSpan = headLength
     footerCell.classList = classList
     footerCell.innerHTML = content
   }
 }
 
 createTableHeaderAndFooter()
+showNoResultsMessage()

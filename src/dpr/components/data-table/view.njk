@@ -22,22 +22,24 @@
     {%- endif %}
   {%- endfor %}
 
-  <div>
-    <div class="govuk-grid-column">
-      {{ govukTable({
+  <div id="table-container" class='table-container'>
+    <div>
+      <div class="govuk-grid-column">
+        {{ govukTable({
         head: head,
         rows: rows,
         attributes: { 
           'id': 'dpr-data-table',
           'data-classification': classification,
-          'data-length': head.length
+          'data-head-length': head.length,
+          'data-row-length': rows.length
         }
       }) }}
+      </div>
     </div>
-  </div>
-  <div class="pagination">
-    <div class="govuk-grid-column-two-thirds">
-      {{ govukPagination({
+    <div class="pagination">
+      <div class="govuk-grid-column-two-thirds">
+        {{ govukPagination({
       previous: {
         href: currentQueryParams | createUrlForParameters({ selectedPage: selectedPage - 1 })
       } if ((selectedPage | int) > 1) else null,
@@ -46,10 +48,10 @@
       } if ((selectedPage | int) < lastPage) else null,
       items: pages
     }) }}
-    </div>
-    <div class="govuk-grid-column-one-third data-table-page-size">
-      <div class="govuk-input__wrapper">
-        {{ govukSelect({
+      </div>
+      <div class="govuk-grid-column-one-third data-table-page-size">
+        <div class="govuk-input__wrapper">
+          {{ govukSelect({
           id: "pageSize",
           name: "sort",
           value: pageSize,
@@ -79,10 +81,15 @@
             }
           ]
         }) }}
-        <div class="govuk-input__suffix" aria-hidden="true">
+          <div class="govuk-input__suffix" aria-hidden="true">
           rows per page
+        </div>
         </div>
       </div>
     </div>
+  </div>
+  <div id="data-table-empty-message" class="data-table-empty-message">
+    <h2 class="govuk-heading-m">No results from query</h2>
+    <p class="govuk-body">Update your filters to search for data</p>
   </div>
 {% endmacro %}

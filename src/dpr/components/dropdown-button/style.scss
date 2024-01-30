@@ -1,5 +1,6 @@
 .dropdown-button {
   position: relative;
+  float: right;
 
   button.govuk-button, a.govuk-button {
     box-shadow: none;
@@ -9,7 +10,7 @@
   ul {
     background-color: white;
     border-top: #b1b4b6 1px solid;
-    display: inline-block;
+    display: none;
     right: 2px;
     list-style-type: none;
     margin: 0;

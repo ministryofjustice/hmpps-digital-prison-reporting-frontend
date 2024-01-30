@@ -19,7 +19,7 @@ export default class ReportingClient {
     return this.restClient
       .get({
         path: `/${resourceName}/count`,
-        query: countRequest.toRecordWithFilterPrefix(),
+        query: countRequest.toRecordWithFilterPrefix(true),
         token,
       })
       .then((response) => (<Count>response).count)
@@ -35,7 +35,7 @@ export default class ReportingClient {
     return this.restClient
       .getWithHeaders<Array<Dict<string>>>({
         path: `/${resourceName}`,
-        query: listRequest.toRecordWithFilterPrefix(),
+        query: listRequest.toRecordWithFilterPrefix(true),
         token,
       })
       .then((response: ResultWithHeaders<Array<Dict<string>>>) => ({

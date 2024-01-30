@@ -46,7 +46,7 @@ export default class ReportingClient {
       }))
   }
 
-  getDefinitions(token: string): Promise<Array<components['schemas']['ReportDefinition']>> {
+  getDefinitions(token: string): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
     logger.info(`Reporting client: Get definitions`)
 
     const params: operations['definitions']['parameters'] = {
@@ -61,7 +61,7 @@ export default class ReportingClient {
         query: params.query,
         token,
       })
-      .then((response) => <Array<components['schemas']['ReportDefinition']>>response)
+      .then((response) => <Array<components['schemas']['ReportDefinitionSummary']>>response)
   }
 
   getDefinition(

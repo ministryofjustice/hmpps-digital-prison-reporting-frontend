@@ -2,6 +2,7 @@ import type { ParsedQs } from 'qs'
 import { FilteredListRequest } from './index'
 import Dict = NodeJS.Dict
 import { components } from './api'
+import { clearFilterValue } from '../utils/urlHelper'
 
 export default class ReportQuery implements FilteredListRequest {
   selectedPage: number
@@ -37,7 +38,7 @@ export default class ReportQuery implements FilteredListRequest {
       })
   }
 
-  toRecordWithFilterPrefix(): Record<string, string> {
+  toRecordWithFilterPrefix(removeClearedFilters = false): Record<string, string> {
     const record: Record<string, string> = {
       selectedPage: this.selectedPage.toString(),
       pageSize: this.pageSize.toString(),
@@ -46,7 +47,10 @@ export default class ReportQuery implements FilteredListRequest {
     }
 
     Object.keys(this.filters).forEach((filterName) => {
-      record[`${this.filtersPrefix}${filterName}`] = this.filters[filterName]
+      const value = this.filters[filterName]
+      if (!removeClearedFilters || value !== clearFilterValue) {
+        record[`${this.filtersPrefix}${filterName}`] = value
+      }
     })
 
     return record

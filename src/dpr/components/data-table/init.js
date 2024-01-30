@@ -6,19 +6,6 @@ $('[data-navigate-to]').each((index, element) => {
   })
 })
 
-function showNoResultsMessage() {
-  const table = document.getElementById('dpr-data-table')
-  const noResultsMessage = document.getElementById('data-table-empty-message')
-  if (table) {
-    const rowLength = table.getAttribute('data-row-length')
-    if (+rowLength === 0) {
-      const tableContainer = document.getElementById('table-container')
-      noResultsMessage.classList.add('show')
-      tableContainer.classList.add('hide')
-    }
-  }
-}
-
 function createTableHeaderAndFooter() {
   const table = document.getElementById('dpr-data-table')
   if (table) {
@@ -48,4 +35,3 @@ function createTableHeaderAndFooter() {
 }
 
 createTableHeaderAndFooter()
-showNoResultsMessage()

@@ -103,6 +103,8 @@ export interface components {
       resourceName: string
       description?: string
       specification?: components['schemas']['Specification']
+      classification: string
+      printable: boolean
     }
   }
   responses: never

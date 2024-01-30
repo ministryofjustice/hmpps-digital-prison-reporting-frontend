@@ -86,6 +86,7 @@ function renderList(
         let data
         let warnings: Warnings = {}
         const { fields } = variantDefinition.specification
+        const { classification, printable } = variantDefinition
 
         if (isListWithWarnings(resolvedData[0])) {
           // eslint-disable-next-line prefer-destructuring
@@ -101,6 +102,8 @@ function renderList(
           rows: DataTableUtils.mapData(data, fields),
           count: resolvedData[1],
           currentQueryParams: reportQuery.toRecordWithFilterPrefix(),
+          classification,
+          printable,
         }
 
         const filterOptions = {

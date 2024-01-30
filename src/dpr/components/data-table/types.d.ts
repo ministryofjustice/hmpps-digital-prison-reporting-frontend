@@ -16,4 +16,6 @@ export interface DataTableOptions {
   rows: Array<Array<Cell>>
   count: number
   currentQueryParams: Dict<string>
+  classification: string
+  printable?: boolean
 }

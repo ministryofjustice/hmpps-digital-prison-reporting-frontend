@@ -2,6 +2,8 @@ const variant = {
   id: 'test-variant',
   name: 'Test Variant',
   resourceName: 'reports/list',
+  classification: 'OFFICIAL',
+  printable: true,
   specification: {
     fields: [
       {

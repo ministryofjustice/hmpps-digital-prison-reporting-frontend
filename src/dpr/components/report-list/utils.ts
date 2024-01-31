@@ -104,6 +104,7 @@ function renderList(
           currentQueryParams: reportQuery.toRecordWithFilterPrefix(),
           classification,
           printable,
+          url: `${request.protocol}://${request.get('host')}${request.originalUrl}`,
         }
 
         const filterOptions = {

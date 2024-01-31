@@ -17,30 +17,25 @@
 }].concat(filterOptions.selectedFilters) %}
 
 {% set actions = [] %}
-{% if dataTableOptions.printable %}
-  {% set printAction = {
-    text: 'Print displayed results',
-    attributes: {
-      'onclick': 'window.print()'
-    },
-    classes: 'filter-summary-controls'
+{% if (dataTableOptions.printable) %}
+  {% set printAttributes = {
+    'onclick': 'window.print()'
   } %}
-  {% set actions = (actions.push(printAction), actions) %}
 {% else %}
-  {% set actions = [{
-    text: 'Print displayed results',
-    attributes: {
-      'disabled': 'true'
-    },
-    classes: 'filter-summary-controls'
-  }] %}
+  {% set printAttributes = {
+    'disabled': 'true'
+  } %}
 {% endif %}
 
+{% set printAction = {
+  text: 'Print displayed results',
+  attributes: printAttributes,
+  classes: 'filter-summary-controls'
+} %}
+{% set actions = (actions.push(printAction), actions) %}
+
 {% set subject = title | urlencode %}
-{% set queryParams = filterOptions
-  .selectedFilters[0]
-  .href %}
-{% set body = ("Page URL: https://digital-prison-reporting-mi-prototype-main.apps.live.cloud-platform.service.justice.gov.uk" + queryParams) | urlencode %}
+{% set body = (dataTableOptions.url) | urlencode %}
 {% set shareOptions = {
   title: "Share:",
   items: [
@@ -61,6 +56,7 @@
 
 {% block content %}
   <div class="govuk-grid-row">
+    {{ dataTableOptions.url }}
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-m">{{ title }}</h1>
     </div>

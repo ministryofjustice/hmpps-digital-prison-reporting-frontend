@@ -40,6 +40,14 @@
   }
 }
 
+@media screen {
+  .print-header-footer,
+  .govuk-table__header span,
+  .screen-hide {
+    display: none;
+  }
+}
+
 @media print {
   .data-table-paging,
   .moj-filter-layout__filter,
@@ -51,6 +59,8 @@
   .pagination,
   .dpr-actions,
   .filter-summary-show-filter-button,
+  #reset-filter-button,
+  .govuk-phase-banner,
   .print-hide {
     display: none;
   }

@@ -13,7 +13,10 @@
 {% set selectedFilters = [{
   text: 'Reset filter',
   href: urlWithNoFilters,
-  classes: 'govuk-button--secondary'
+  classes: 'govuk-button--secondary',
+  attributes: {
+    "id": "reset-filter-button"
+  }
 }].concat(filterOptions.selectedFilters) %}
 
 {% set actions = [] %}
@@ -61,26 +64,27 @@
 } %}
 
 {% block content %}
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-m">{{ title }}</h1>
-    </div>
-    <div class="govuk-grid-column-one-third">
-      <div class="dpr-actions">
-        {{ dprDropdownButton({
-          id: "actions",
-          text: "Actions",
-          classes: "",
-          attributes: {},
-          items: actions,
-          groups: [ shareOptions ]
-        }) }}
+  <div class="govuk-width-container {% if (dataTableOptions.printable == false) %}print-hide{% endif %}">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-m">{{ title }}</h1>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="dpr-actions">
+          {{ dprDropdownButton({
+            id: "actions",
+            text: "Actions",
+            classes: "",
+            attributes: {},
+            items: actions,
+            groups: [ shareOptions ]
+          }) }}
+        </div>
       </div>
     </div>
-  </div>
 
-  {% if warnings.noDataAvailable %}
-    {{ govukErrorSummary({
+    {% if warnings.noDataAvailable %}
+      {{ govukErrorSummary({
       titleText: 'No data available',
       errorList: [
         {
@@ -88,32 +92,40 @@
         }
       ]
     }) }}
-  {% endif %}
+    {% endif %}
 
-  <div class="moj-filter-layout">
-    <div class="moj-filter-layout__filter">
-      {{ dprFilters(
+    <div class="moj-filter-layout">
+      <div class="moj-filter-layout__filter">
+        {{ dprFilters(
         filterOptions.filters,
         urlWithNoFilters
       ) }}
-    </div>
-    <div class="moj-filter-layout__content">
-      <div class="moj-action-bar">
-        <div id="filter-bar" class="moj-button-menu"></div>
-        {{ mojButtonMenu({
+      </div>
+      <div class="moj-filter-layout__content">
+        <div class="moj-action-bar">
+          <div id="filter-bar" class="moj-button-menu"></div>
+          {{ mojButtonMenu({
           items: selectedFilters
         }) }}
-      </div>
-      <div class="moj-scrollable-pane">
-        {{ dprDataTable(
+        </div>
+        <div class="moj-scrollable-pane">
+          {{ dprDataTable(
           dataTableOptions.head,
           dataTableOptions.rows,
           dataTableOptions.count,
           dataTableOptions.currentQueryParams,
           dataTableOptions.classification
         ) }}
+        </div>
       </div>
     </div>
   </div>
+
+  {% if (dataTableOptions.printable == false) %}
+    <h3 class="screen-hide">
+      Printing this report has been disabled due to time or content sensitivity.<br/>
+      Please speak to your report administrator for further details.
+    </h3>
+  {% endif %}
 
 {% endblock %}

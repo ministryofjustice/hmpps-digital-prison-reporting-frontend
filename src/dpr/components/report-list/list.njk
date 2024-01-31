@@ -20,24 +20,48 @@
 }].concat(filterOptions.selectedFilters) %}
 
 {% set actions = [] %}
-{% if dataTableOptions.printable %}
-  {% set printAction = {
-    text: 'Print displayed results',
-    attributes: {
-      'onclick': 'window.print()'
-    },
-    classes: 'filter-summary-controls'
+{% if (dataTableOptions.printable) %}
+  {% set printAttributes = {
+    'id': 'print-button',
+    'onclick': 'window.print()'
   } %}
-  {% set actions = (actions.push(printAction), actions) %}
 {% else %}
-  {% set actions = [{
-    text: 'Print displayed results',
-    attributes: {
-      'disabled': 'true'
-    },
-    classes: 'filter-summary-controls'
-  }] %}
+  {% set printAttributes = {
+    'id': 'print-button-disabled',
+    'disabled': 'true'
+  } %}
 {% endif %}
+
+{% set printAction = {
+  text: 'Print displayed results',
+  attributes: printAttributes,
+  classes: 'filter-summary-controls'
+} %}
+{% set actions = (actions.push(printAction), actions) %}
+
+{% set subject = title | urlencode %}
+{% set body = (dataTableOptions.url) | urlencode %}
+{% set shareOptions = {
+  title: "Share:",
+  items: [
+    {
+      text: 'Copy URL',
+      attributes: {
+        'id': 'copy-url-button',
+        'onclick': 'navigator.clipboard.writeText(window.location)'
+      },
+      classes: 'filter-summary-controls'
+    },
+    {
+      text: 'Email',
+      href: 'mailto:?subject=' + subject + '&body=' + body,
+      attributes: {
+        'id': 'email-button'
+      },
+      classes: 'filter-summary-controls'
+    }
+  ]
+} %}
 
 {% block content %}
   <div class="govuk-width-container {% if (dataTableOptions.printable == false) %}print-hide{% endif %}">
@@ -48,13 +72,13 @@
       <div class="govuk-grid-column-one-third">
         <div class="dpr-actions">
           {{ dprDropdownButton({
-          id: "actions",
-          text: "Actions",
-          classes: "",
-          attributes: {},
-          items: actions,
-          groups: []
-        }) }}
+            id: "actions",
+            text: "Actions",
+            classes: "",
+            attributes: {},
+            items: actions,
+            groups: [ shareOptions ]
+          }) }}
         </div>
       </div>
     </div>

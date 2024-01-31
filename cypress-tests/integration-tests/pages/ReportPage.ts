@@ -25,4 +25,16 @@ export default class ReportPage {
   unsortedSortColumnLink = (): PageElement => this.dataTable().find(`a[aria-sort='none']`).first()
 
   currentSortColumnLink = (): PageElement => this.dataTable().find(`a[aria-sort!='none']`).first()
+
+  actionsButton = (): PageElement => cy.get('#actions-button')
+
+  actionsButtonMenu = (): PageElement => cy.get('#actions-menu')
+
+  printButton = (): PageElement => cy.get('#print-button')
+
+  printButtonDisabled = (): PageElement => cy.get('#print-button-disabled')
+
+  emailButton = (): PageElement => cy.get('#email-button')
+
+  copyUrlButton = (): PageElement => cy.get('#copy-url-button')
 }

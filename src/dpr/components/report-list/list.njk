@@ -19,10 +19,12 @@
 {% set actions = [] %}
 {% if (dataTableOptions.printable) %}
   {% set printAttributes = {
+    'id': 'print-button',
     'onclick': 'window.print()'
   } %}
 {% else %}
   {% set printAttributes = {
+    'id': 'print-button-disabled',
     'disabled': 'true'
   } %}
 {% endif %}
@@ -42,6 +44,7 @@
     {
       text: 'Copy URL',
       attributes: {
+        'id': 'copy-url-button',
         'onclick': 'navigator.clipboard.writeText(window.location)'
       },
       classes: 'filter-summary-controls'
@@ -49,6 +52,9 @@
     {
       text: 'Email',
       href: 'mailto:?subject=' + subject + '&body=' + body,
+      attributes: {
+        'id': 'email-button'
+      },
       classes: 'filter-summary-controls'
     }
   ]

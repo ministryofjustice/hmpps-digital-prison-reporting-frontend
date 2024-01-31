@@ -52,3 +52,4 @@ Feature: List report
   Scenario: Navigating paging
     When I click a paging link
     Then the current page is shown in the URL
+    

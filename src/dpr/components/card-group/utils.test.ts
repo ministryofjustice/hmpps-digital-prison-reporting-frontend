@@ -32,11 +32,6 @@ describe('variantDefinitionsToCards', () => {
           id: 'four',
           name: 'Five',
           description: 'Six',
-          resourceName: 'Seven',
-          specification: {
-            template: 'list',
-            fields: [],
-          },
         },
       ],
     }

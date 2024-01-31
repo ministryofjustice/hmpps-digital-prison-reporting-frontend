@@ -28,8 +28,30 @@
   {% set actions = (actions.push(printAction), actions) %}
 {% endif %}
 
-{% block content %}
+{% set subject = title | urlencode %}
+{% set queryParams = filterOptions
+  .selectedFilters[0]
+  .href %}
+{% set body = ("Page URL: https://digital-prison-reporting-mi-prototype-main.apps.live.cloud-platform.service.justice.gov.uk" + queryParams) | urlencode %}
+{% set shareOptions = {
+  title: "Share:",
+  items: [
+    {
+      text: 'Copy URL',
+      attributes: {
+        'onclick': 'navigator.clipboard.writeText(window.location)'
+      },
+      classes: 'filter-summary-controls'
+    },
+    {
+      text: 'Email',
+      href: 'mailto:?subject=' + subject + '&body=' + body,
+      classes: 'filter-summary-controls'
+    }
+  ]
+} %}
 
+{% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-m">{{ title }}</h1>
@@ -42,7 +64,7 @@
           classes: "",
           attributes: {},
           items: actions,
-          groups: []
+          groups: [ shareOptions ]
         }) }}
       </div>
     </div>

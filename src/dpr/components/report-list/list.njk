@@ -26,6 +26,14 @@
     classes: 'filter-summary-controls'
   } %}
   {% set actions = (actions.push(printAction), actions) %}
+{% else %}
+  {% set actions = [{
+    text: 'Print displayed results',
+    attributes: {
+      'disabled': 'true'
+    },
+    classes: 'filter-summary-controls'
+  }] %}
 {% endif %}
 
 {% block content %}

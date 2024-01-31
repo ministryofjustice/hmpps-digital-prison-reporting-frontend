@@ -250,3 +250,45 @@ Then('the current page is shown in the URL', function (this: Mocha.Context) {
     expect(location.search).to.contain(`selectedPage=${this.currentPage}`)
   })
 })
+
+When('I click the Action button', function () {
+  const page = new ReportPage()
+
+  page.actionsButton().click()
+})
+
+Then('the dropdown menu appears', function (this: Mocha.Context) {
+  const page = new ReportPage()
+
+  page.actionsButtonMenu().should('be.visible')
+})
+
+Then('the print action is shown', function (this: Mocha.Context) {
+  const page = new ReportPage()
+
+  page.printButton().should('be.visible')
+})
+
+Then('the email action is shown', function (this: Mocha.Context) {
+  const page = new ReportPage()
+
+  page.emailButton().should('be.visible')
+})
+
+Then('the copy url action is shown', function (this: Mocha.Context) {
+  const page = new ReportPage()
+
+  page.copyUrlButton().should('be.visible')
+})
+
+When('I click the copy url button', function () {
+  const page = new ReportPage()
+
+  page.copyUrlButton().click()
+})
+
+Then('the menu closes', function (this: Mocha.Context) {
+  const page = new ReportPage()
+
+  page.actionsButtonMenu().should('not.be.visible')
+})

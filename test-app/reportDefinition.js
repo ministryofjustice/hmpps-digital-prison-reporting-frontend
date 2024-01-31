@@ -3,7 +3,7 @@ const variant = {
   name: 'Test Variant',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
-  printable: false,
+  printable: true,
   specification: {
     fields: [
       {

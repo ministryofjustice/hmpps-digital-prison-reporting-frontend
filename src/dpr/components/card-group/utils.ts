@@ -1,6 +1,5 @@
-import { components } from '../../types/api'
 import qs from 'querystringify'
-
+import { components } from '../../types/api'
 
 const addAdditionalQueryParams = (path: string, additionalQueryParams?: NodeJS.Dict<string>) => {
   if (additionalQueryParams && Object.keys(additionalQueryParams).length > 0) {
@@ -33,5 +32,5 @@ export default {
       href: addAdditionalQueryParams(`${pathPrefix}/${reportDefinition.id}/${v.id}`, additionalQueryParams),
       description: v.description,
     }))
-  }
+  },
 }

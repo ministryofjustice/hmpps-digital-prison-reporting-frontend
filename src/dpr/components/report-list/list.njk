@@ -2,22 +2,13 @@
 
 {% from "moj/components/button-menu/macro.njk" import mojButtonMenu -%}
 {% from "../data-table/view.njk" import dprDataTable %}
-{% from "../filters/view.njk" import dprFilters %}
 {% from "../dropdown-button/view.njk"    import dprDropdownButton %}
+{% from "../filter-controls/view.njk"    import dprFilterControls %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% set pageTitle = applicationName + " - " + title %}
 {% set mainClasses = "app-container govuk-body" %}
 {% set urlWithNoFilters = dataTableOptions.currentQueryParams | createUrlForParameters(null) %}
-
-{% set selectedFilters = [{
-  text: 'Reset filter',
-  href: urlWithNoFilters,
-  classes: 'govuk-button--secondary',
-  attributes: {
-    "id": "reset-filter-button"
-  }
-}].concat(filterOptions.selectedFilters) %}
 
 {% set actions = [] %}
 {% if (dataTableOptions.printable) %}
@@ -95,18 +86,13 @@
     {% endif %}
 
     <div class="moj-filter-layout">
-      <div class="moj-filter-layout__filter">
-        {{ dprFilters(
-        filterOptions.filters,
-        urlWithNoFilters
-      ) }}
-      </div>
       <div class="moj-filter-layout__content">
         <div class="moj-action-bar">
-          <div id="filter-bar" class="moj-button-menu"></div>
-          {{ mojButtonMenu({
-          items: selectedFilters
-        }) }}
+          {{ dprFilterControls(
+            filterOptions.filters,
+            filterOptions.selectedFilters,
+            urlWithNoFilters
+          ) }}
         </div>
         <div class="moj-scrollable-pane">
           {{ dprDataTable(

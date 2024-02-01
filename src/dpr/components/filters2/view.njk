@@ -10,29 +10,37 @@
   parameterPrefix   // The prefix to apply to the filter parameters in the page URL.
 #}
 
-{% from "govuk/components/select/macro.njk"               import govukSelect %}
-{% from "govuk/components/radios/macro.njk"               import govukRadios %}
-{% from "govuk/components/input/macro.njk"                import govukInput %}
-{% from "moj/components/filter/macro.njk"                 import mojFilter -%}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "dpr/components/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% macro dprFilters(filters, urlWithNoFilters, parameterPrefix = "filters.") %}
+{% macro dprFilters2(filters, urlWithNoFilters, parameterPrefix = "filters.") %}
   {% set today = getTodayIsoDate() %}
 
-  {%- set filterOptionsHtml %}
+  <div class="filter-container">
     {%- for filter in filters %}
+
       {%- if filter.type | lower === 'select' %}
-        {{ govukSelect({
+
+        <div class='filter-item'>
+          {{ govukSelect({
           id: parameterPrefix + filter.name,
           name: parameterPrefix + filter.name,
           value: filter.value,
           items: filter.options,
           label: {
-            text: filter.text
+            text: filter.text,
+            classes: "govuk-label govuk-!-font-weight-bold"
           }
         }) }}
+        </div>
+
       {% elif filter.type | lower === 'radio' %}
-        {{ govukRadios({
+
+        <div class='filter-item'>
+          {{ govukRadios({
           id: parameterPrefix + filter.name,
           name: parameterPrefix + filter.name,
           fieldset: {
@@ -44,13 +52,17 @@
           items: filter.options,
           value: filter.value
         }) }}
+        </div>
+
       {% elif filter.type | lower === 'daterange' %}
-        <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset">
-            <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
-              {{ filter.text }}
-            </legend>
-            {{ govukInput({
+
+        <div class='filter-item'>
+          <div class="govuk-form-group">
+            <fieldset class="govuk-fieldset">
+              <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
+                {{ filter.text }}
+              </legend>
+              {{ govukInput({
               id: parameterPrefix + filter.name + '.start',
               label: {
                 text: 'Start'
@@ -62,7 +74,7 @@
                 max: today
               }
             }) }}
-            {{ govukInput({
+              {{ govukInput({
               id: parameterPrefix + filter.name + '.end',
               label: {
                 text: 'End'
@@ -74,10 +86,14 @@
                 max: today
               }
             }) }}
-          </fieldset>
+            </fieldset>
+          </div>
         </div>
+
       {% elif filter.type | lower === 'autocomplete' %}
-        {{ dprAutocompleteTextInput({
+
+        <div class='filter-item'>
+          {{ dprAutocompleteTextInput({
           id: parameterPrefix + filter.name,
           name: parameterPrefix + filter.name,
           items: filter.options,
@@ -86,23 +102,32 @@
           minimumLength: filter.minimumLength,
           dynamicResourceEndpoint: filter.dynamicResourceEndpoint
         }) }}
+        </div>
+
       {% endif %}
     {%- endfor %}
-  {%- endset %}
+  </div>
 
-  {{ mojFilter({
-    heading: {
-      text: 'Filter'
-    },
+  <div class="filter-actions">
+    <div class="filter-actions-buttons">
 
-    submit: {
-      attributes: {
-        'data-apply-form-to-querystring': 'true',
-        'data-apply-form-selector': '.moj-filter-layout__filter input',
-        'data-apply-base-url': urlWithNoFilters
-      }
-    },
+      {{ govukButton({
+        text: "Apply Filters",  
+        attributes: {
+          'data-apply-form-to-querystring': 'true',
+          'data-apply-form-selector': '.data-table-filters input',
+          'data-apply-base-url': urlWithNoFilters
+        },
+        classes: "govuk-button govuk-!-margin-bottom-0"
+      }) }}
 
-    optionsHtml: filterOptionsHtml
-  }) }}
+      {{ govukButton({
+        text: "Reset Filters",
+        href: urlWithNoFilters,
+        classes: "govuk-!-margin-bottom-0"
+      }) }}
+
+    </div>
+  </div>
+
 {% endmacro %}

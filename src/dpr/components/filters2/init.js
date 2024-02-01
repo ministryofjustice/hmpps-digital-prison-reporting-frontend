@@ -11,7 +11,9 @@ $(function () {
 
     url += $(formSelector).serialize()
     url = url.replaceAll('?&', '?').replaceAll('&&', '&')
+    console.log(url)
 
+    
     window.location.href = url
   })
 })

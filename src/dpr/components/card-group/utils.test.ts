@@ -19,6 +19,24 @@ describe('reportDefinitionsToCards', () => {
       },
     ])
   })
+
+  it('Maps correctly with dataProductDefinitionsPath', () => {
+    const report: components['schemas']['ReportDefinitionSummary'] = {
+      id: 'one',
+      name: 'Two',
+      description: 'Three',
+      variants: [],
+    }
+    const mapped = Utils.reportDefinitionsToCards([report], '/prefix', { dataProductDefinitionsPath: 'test-location' })
+
+    expect(mapped).toEqual([
+      {
+        text: 'Two',
+        href: `/prefix/one?dataProductDefinitionsPath=test-location`,
+        description: 'Three',
+      },
+    ])
+  })
 })
 
 describe('variantDefinitionsToCards', () => {
@@ -41,6 +59,30 @@ describe('variantDefinitionsToCards', () => {
       {
         text: 'Five',
         href: `/prefix/one/four`,
+        description: 'Six',
+      },
+    ])
+  })
+
+  it('Maps correctly with dataProductDefinitionsPath', () => {
+    const report: components['schemas']['ReportDefinitionSummary'] = {
+      id: 'one',
+      name: 'Two',
+      description: 'Three',
+      variants: [
+        {
+          id: 'four',
+          name: 'Five',
+          description: 'Six',
+        },
+      ],
+    }
+    const mapped = Utils.variantDefinitionsToCards(report, '/prefix', { dataProductDefinitionsPath: 'test-location' })
+
+    expect(mapped).toEqual([
+      {
+        text: 'Five',
+        href: `/prefix/one/four?dataProductDefinitionsPath=test-location`,
         description: 'Six',
       },
     ])

@@ -25,6 +25,7 @@ const createUrlForParameters = (currentQueryParams: NodeJS.Dict<string>, updateQ
       pageSize: currentQueryParams.pageSize,
       sortColumn: currentQueryParams.sortColumn,
       sortedAsc: currentQueryParams.sortedAsc,
+      dataProductDefinitionsPath: currentQueryParams.dataProductDefinitionsPath,
     }
   }
 

@@ -1,7 +1,15 @@
 /* eslint-disable func-names */
 
-import { Then } from '@badeball/cypress-cucumber-preprocessor'
+import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
 import HomePage from '../pages/HomePage'
+
+When(/^I click on the (.+) card$/, (cardTitle: string) => {
+  new HomePage().cards().each((card) => {
+    if (card.find('.card__link').text().trim() === cardTitle) {
+      card.trigger('click')
+    }
+  })
+})
 
 Then(/^(\d+) cards are displayed$/, (numberOfCards: number) => {
   new HomePage().cards().should('have.length', numberOfCards)

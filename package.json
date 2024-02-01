@@ -101,6 +101,7 @@
     "govuk-frontend": "^4.7.0",
     "jquery": "^3",
     "nunjucks": "^3.2.4",
+    "querystringify": "^2.2.0",
     "superagent": "^8.1.2"
   },
   "devDependencies": {
@@ -117,6 +118,7 @@
     "@types/node": "^20.5.9",
     "@types/nunjucks": "^3.2.3",
     "@types/qs": "^6.9.8",
+    "@types/querystringify": "^2.0.2",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.62.0",

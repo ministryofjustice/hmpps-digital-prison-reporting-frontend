@@ -1,6 +1,6 @@
 import nunjucks from 'nunjucks'
 import createUrlForParameters from './utils/urlHelper'
-import getTodayIsoDate from './components/filters2/today'
+import getTodayIsoDate from './components/filters/today'
 
 const setUpNunjucksFilters = (env: nunjucks.Environment) => {
   env.addFilter('createUrlForParameters', createUrlForParameters)

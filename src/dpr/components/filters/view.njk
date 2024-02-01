@@ -16,7 +16,7 @@
 {% from "dpr/components/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% macro dprFilters2(filters, urlWithNoFilters, parameterPrefix = "filters.") %}
+{% macro dprFilters(filters, urlWithNoFilters, parameterPrefix = "filters.") %}
   {% set today = getTodayIsoDate() %}
 
   <div class="filter-container">

@@ -1,5 +1,5 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
-{% from "../filters2/view.njk" import dprFilters2 %}
+{% from "../filters/view.njk" import dprFilters %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% macro dprFilterControls(filters, selectedFilters, urlWithNoFilters, parameterPrefix = "filters.") %}
@@ -7,7 +7,7 @@
 
   {% set filterHtml %}
   <div class="data-table-filters">
-    {{ dprFilters2(
+    {{ dprFilters(
       filters,
       urlWithNoFilters
     ) }}

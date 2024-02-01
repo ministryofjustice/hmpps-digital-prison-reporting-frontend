@@ -67,7 +67,7 @@ const ReportingClient = require('../package/dpr/data/reportingClient')
 app.get('/', (req, res) => {
   res.render('menu.njk', {
     cards: [
-      { text: 'Method', description: 'A test page rendered using the renderListWithData method.', href: '/method' },
+      { text: 'Method', description: 'A test page rendered using the renderListWithData method.', href: '/method?dataProductDefinitionsPath=test-location' },
       { text: 'Handler', description: 'A test page rendered using the createReportListRequestHandler method to create a request handler.', href: '/handler' },
       { text: 'Fake card', description: 'This is just here to check the alignment/wrapping of three cards.', href: '#fake' },
     ]

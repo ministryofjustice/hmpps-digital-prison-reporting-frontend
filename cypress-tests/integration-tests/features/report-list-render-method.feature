@@ -1,6 +1,7 @@
 Feature: List report
   Background:
-    Given I navigate to the method page
+    Given I navigate to the main page
+    And I click on the Method card
 
    Scenario: Filters are displayed
     Given the Show Filter button is displayed
@@ -21,6 +22,7 @@ Feature: List report
     And I apply the filters
     Then the selected filter value is displayed
     And the selected filter value is shown in the URL
+    And the definition path is shown in the URL
 
   Scenario: Clicking a selected filter removes it
     When I click the selected filter
@@ -32,12 +34,14 @@ Feature: List report
     And I apply the filters
     When I click a the Reset filter button
     Then only the default filter is selected
+    And the definition path is shown in the URL
 
   Scenario: Sorting on a previously unselected column
     When I select a column to sort on
     Then the sorted column is shown as sorted ascending in the header
     And the sorted column is shown in the URL
     And the ascending sort direction is shown in the URL
+    And the definition path is shown in the URL
 
   Scenario: Sorting on a selected column
     When I select a previously selected column to sort on

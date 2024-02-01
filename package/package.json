@@ -28,6 +28,7 @@
     "govuk-frontend": "^4.7",
     "jquery": "^3.6.4",
     "nunjucks": "^3.2.4",
+    "querystringify": "^2.2.0",
     "superagent": "^8.1.2"
   },
   "author": "HMPPS Digital Prison Reporting Team",

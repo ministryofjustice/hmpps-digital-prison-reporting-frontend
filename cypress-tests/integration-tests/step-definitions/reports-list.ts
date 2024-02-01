@@ -292,3 +292,9 @@ Then('the menu closes', function (this: Mocha.Context) {
 
   page.actionsButtonMenu().should('not.be.visible')
 })
+
+Then('the definition path is shown in the URL', function (this: Mocha.Context) {
+  cy.location().should((location) => {
+    expect(location.search).to.contain(`dataProductDefinitionsPath=test-location`)
+  })
+})

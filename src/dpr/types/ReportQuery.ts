@@ -17,6 +17,8 @@ export default class ReportQuery implements FilteredListRequest {
 
   filtersPrefix: string
 
+  dataProductDefinitionsPath?: string
+
   constructor(
     fields: Array<components['schemas']['FieldDefinition']>,
     queryParams: ParsedQs,
@@ -27,6 +29,7 @@ export default class ReportQuery implements FilteredListRequest {
     this.pageSize = queryParams.pageSize ? Number(queryParams.pageSize) : 20
     this.sortColumn = queryParams.sortColumn ? queryParams.sortColumn.toString() : defaultSortColumn
     this.sortedAsc = queryParams.sortedAsc !== 'false'
+    this.dataProductDefinitionsPath = queryParams.dataProductDefinitionsPath ? queryParams.dataProductDefinitionsPath.toString() : null
     this.filtersPrefix = filtersPrefix
 
     this.filters = {}
@@ -44,6 +47,10 @@ export default class ReportQuery implements FilteredListRequest {
       pageSize: this.pageSize.toString(),
       sortColumn: this.sortColumn,
       sortedAsc: this.sortedAsc.toString(),
+    }
+
+    if (this.dataProductDefinitionsPath) {
+      record['dataProductDefinitionsPath'] = this.dataProductDefinitionsPath
     }
 
     Object.keys(this.filters).forEach((filterName) => {

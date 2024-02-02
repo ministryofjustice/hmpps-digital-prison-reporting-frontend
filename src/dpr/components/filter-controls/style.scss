@@ -5,3 +5,53 @@
 .filter-section-row {
   position: relative;
 }
+
+.filter-section-accordion-button {
+  min-width: 130px;
+  padding-right: govuk-spacing(3);
+}
+
+.filters-accordion {
+  padding-top: govuk-spacing(3);
+}
+
+.filter-section-details {
+  position: absolute;
+  top: 6px;
+  left: 100px;
+}
+
+.filter-summary-remove-button:hover:after {
+  background-image: url(#{$dpr-images-path}icon-tag-remove-cross.svg);
+  content: "";
+  display: inline-block;
+  font-weight: bold;
+  height: 10px;
+  margin-left: 5px;
+  vertical-align: middle;
+  width: 10px;
+}
+
+.filter-summary-remove-button:after {
+  display: none;
+}
+
+.filter-summary-show-filter-button {
+  margin-right: 10px;
+}
+
+@media print {
+  .filter-summary-show-filter-button {
+    display: none;
+  }
+
+  .filter-section-details {
+    position: relative;
+    left: 0px;
+
+    a.govuk-button--inverse {
+      text-decoration: none;
+      color: black;
+    }
+  }
+}

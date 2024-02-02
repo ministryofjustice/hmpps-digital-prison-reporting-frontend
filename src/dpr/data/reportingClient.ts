@@ -46,13 +46,16 @@ export default class ReportingClient {
       }))
   }
 
-  getDefinitions(token: string, definitionsPath?: string): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
+  getDefinitions(
+    token: string,
+    definitionsPath?: string,
+  ): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
     logger.info(`Reporting client: Get definitions`)
 
     const params: operations['definitions']['parameters'] = {
       query: {
         renderMethod: 'HTML',
-        dataProductDefinitionsPath: definitionsPath
+        dataProductDefinitionsPath: definitionsPath,
       },
     }
 
@@ -74,7 +77,7 @@ export default class ReportingClient {
     logger.info(`Reporting client: Get single variant definition`)
 
     const query = {
-        dataProductDefinitionsPath: definitionsPath
+      dataProductDefinitionsPath: definitionsPath,
     }
 
     return this.restClient
@@ -102,7 +105,7 @@ export default class ReportingClient {
       .get({
         path: `/reports/${definitionName}/${variantName}/${fieldName}`,
         token,
-        query: query,
+        query,
       })
       .then((response) => <Array<string>>response)
   }

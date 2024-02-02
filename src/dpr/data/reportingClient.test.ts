@@ -68,7 +68,7 @@ describe('reportingClient', () => {
         sortColumn: 'three',
         sortedAsc: 'true',
         'f.original.filter': 'true',
-        dataProductDefinitionsPath: 'test-definition-path'
+        dataProductDefinitionsPath: 'test-definition-path',
       }
       const resourceName = 'external-movements'
 

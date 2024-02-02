@@ -33,4 +33,5 @@ export interface FieldValuesRequest {
   variantName: string
   fieldName: string
   prefix: string
+  definitionsPath?: string
 }

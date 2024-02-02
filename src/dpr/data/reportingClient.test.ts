@@ -28,6 +28,7 @@ describe('reportingClient', () => {
       sortColumn: 'three',
       sortedAsc: 'true',
       'f.original.filter': 'true',
+      dataProductDefinitionsPath: 'test-definition-path',
     },
     'one',
     'f.',
@@ -67,6 +68,7 @@ describe('reportingClient', () => {
         sortColumn: 'three',
         sortedAsc: 'true',
         'f.original.filter': 'true',
+        dataProductDefinitionsPath: 'test-definition-path',
       }
       const resourceName = 'external-movements'
 
@@ -95,6 +97,25 @@ describe('reportingClient', () => {
       const output = await reportingClient.getDefinitions(null)
       expect(output).toEqual(response)
     })
+
+    it('should return definitions from api with definitions path', async () => {
+      const response: Array<components['schemas']['ReportDefinitionSummary']> = [
+        {
+          id: 'test-report',
+          name: 'Test report',
+          variants: [],
+        },
+      ]
+      const query = {
+        renderMethod: 'HTML',
+        dataProductDefinitionsPath: 'test-definition-path',
+      }
+
+      fakeReportingApi.get(`/definitions`).query(query).reply(200, response)
+
+      const output = await reportingClient.getDefinitions(null, 'test-definition-path')
+      expect(output).toEqual(response)
+    })
   })
 
   describe('getDefinition', () => {
@@ -116,6 +137,30 @@ describe('reportingClient', () => {
       fakeReportingApi.get(`/definitions/test-report/test-variant`).reply(200, response)
 
       const output = await reportingClient.getDefinition(null, 'test-report', 'test-variant')
+      expect(output).toEqual(response)
+    })
+
+    it('should return definition from api with definitions path', async () => {
+      const response: Array<components['schemas']['SingleVariantReportDefinition']> = [
+        {
+          id: 'test-report',
+          name: 'Test report',
+          variant: {
+            id: 'test-variant',
+            name: 'Test variant',
+            resourceName: 'reports/test/test',
+            classification: 'OFFICIAL',
+            printable: false,
+          },
+        },
+      ]
+      const query = {
+        dataProductDefinitionsPath: 'test-definition-path',
+      }
+
+      fakeReportingApi.get(`/definitions/test-report/test-variant`).query(query).reply(200, response)
+
+      const output = await reportingClient.getDefinition(null, 'test-report', 'test-variant', 'test-definition-path')
       expect(output).toEqual(response)
     })
   })

@@ -24,12 +24,14 @@ Feature: List report
 
   Scenario: Clicking a selected filter removes it
     When I click the selected filter
+    When I click the selected filter
     Then no filters are selected
 
   Scenario: Clicking 'Reset filter' resets all filters
     Given I click the Show Filter button
     And I select a filter
     And I apply the filters
+    When I click the Show Filter button
     When I click a the Reset filter button
     Then only the default filter is selected
 

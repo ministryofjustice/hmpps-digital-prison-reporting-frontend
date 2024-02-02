@@ -8,7 +8,7 @@ import { components } from '../../../src/dpr/types/api'
 
 When(/^I click the Show Filter button$/, function () {
   const page = new ReportPage()
-  page.showFilterButton().click()
+  page.showFilterButton().click(10, 30)
 })
 
 When('I select a filter', function (this: Mocha.Context) {
@@ -48,7 +48,7 @@ When('I apply the filters', function () {
 When('I click the selected filter', function () {
   const page = new ReportPage()
 
-  page.selectedFilterButton().click()
+  page.selectedFilterButton().first().click()
 })
 
 When('I click a the Reset filter button', function () {
@@ -104,12 +104,12 @@ Then('the Show Filter button is displayed', function (this: Mocha.Context) {
 })
 
 Then(/^the Filter panel is (open|closed)$/, function (panelStatus) {
-  const panel = new ReportPage().filterPanel()
+  const panel = new ReportPage().showFilterButton()
 
   if (panelStatus === 'open') {
-    panel.should('not.have.class', 'moj-js-hidden')
+    panel.should('have.attr', 'open')
   } else {
-    panel.should('have.class', 'moj-js-hidden')
+    panel.should('not.have.attr', 'open')
   }
 })
 Then('filters are displayed for filterable fields', function (this: Mocha.Context) {
@@ -198,7 +198,7 @@ Then('no filters are selected', function (this: Mocha.Context) {
 Then('only the default filter is selected', function (this: Mocha.Context) {
   const page = new ReportPage()
 
-  page.selectedFilterButton().should('have.length', 1)
+  page.selectedFilterButton().should('have.length', 2)
 })
 
 Then('the selected filter value is shown in the URL', function (this: Mocha.Context) {

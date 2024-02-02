@@ -21,7 +21,10 @@
         {{ govukDetails({
             summaryText: "Filters",
             classes: detailsClasses,
-            html: filterHtml 
+            html: filterHtml,
+            attributes: {
+              "id": "filters-accordion-button"
+            }
           }) 
         }}
       </div>

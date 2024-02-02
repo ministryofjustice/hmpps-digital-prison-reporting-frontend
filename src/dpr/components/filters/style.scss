@@ -11,27 +11,6 @@
   padding: 1%;
 }
 
-.filter-summary-remove-button {
-  display: inline-block;
-  padding: govuk-spacing(2);
-  background-color: none;
-  position: relative;
-  cursor: pointer;
-  text-decoration: underline !important;
-  text-underline-offset: 4px;
-  color: govuk-colour("blue");
-  text-decoration-color: govuk-colour("blue");
-  text-decoration-thickness: 1px;
-  box-shadow: none;
-  text-underline-offset: 4px;
-
-  &:hover {
-    box-shadow: none;
-    text-decoration: none;
-    color: govuk-colour("black");
-  }
-}
-
 .govuk-details__summary-text {
   text-underline-offset: 4px;
 }

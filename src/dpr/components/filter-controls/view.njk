@@ -27,12 +27,14 @@
       </div>
 
       <div class="filter-section-details">
-        {%- for filter in selectedFilters %}
-          {{ govukButton(filter) }}
-        {%- endfor %}
+        <div class="filter-section-details-scroll">
+          {%- for filter in selectedFilters %}
+            <div class="selected-filters-button">
+              {{ govukButton(filter) }}
+            </div>
+          {%- endfor %}
+        </div>
       </div>
-
     </div>
-  </div>
 
-{% endmacro %}
+  {% endmacro %}

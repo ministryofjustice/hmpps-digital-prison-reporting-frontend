@@ -4,7 +4,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "../data-table/view.njk" import dprDataTable %}
 {% from "../dropdown-button/view.njk"    import dprDropdownButton %}
-{% from "../accordion-controls/view.njk"    import dprAccordionControls %}
+{% from "../accordion/view.njk" import dprAccordion %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "../filters/view.njk" import dprFilters %}
 
@@ -116,7 +116,7 @@
     <div class="moj-filter-layout">
       <div class="moj-filter-layout__content">
         <div class="moj-action-bar">
-          {{ dprAccordionControls(accordionItems) }}
+          {{ dprAccordion(accordionItems) }}
         </div>
         <div class="moj-scrollable-pane">
           {{ dprDataTable(

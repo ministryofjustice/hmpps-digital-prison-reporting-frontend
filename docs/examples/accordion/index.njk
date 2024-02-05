@@ -1,12 +1,12 @@
 ---
 layout: layouts/example.njk
-title: Accordion Controls (example)
+title: Accordion (example)
 arguments: items
 ---
 
-{% from "dpr/components/accordion-controls/view.njk"    import dprAccordionControls %}
+{% from "dpr/components/accordion/view.njk" import dprAccordion %}
 
-{{ dprAccordionControls([
+{{ dprAccordion([
   {
     summaryText: 'Section 1',
     bodyHtml: '<p>this is the body html content<p>',

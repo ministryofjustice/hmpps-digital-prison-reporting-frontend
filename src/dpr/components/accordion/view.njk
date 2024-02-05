@@ -1,0 +1,47 @@
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{#
+  accordionItems: {
+    summaryText: string,
+    bodyHtml: html string
+    headerHtml: html string - optional
+  }
+#}
+{% macro dprAccordion(accordionItems) %}
+  {% set detailsClasses = 'accordion-details govuk-!-margin-0' %}
+
+  <div class="accordion-section">
+    {%- for accordionItem in accordionItems %}
+
+      {% set summaryText = accordionItem.summaryText %}
+      {% set bodyHtml = accordionItem.bodyHtml %}
+      {% set headerHtml = accordionItem.headerHtml %}
+
+      <div class="accordion-section-row accordion-section-row__accordion">
+
+        <div class="accordion-section-button">
+          {{ govukDetails({
+            summaryText: summaryText,
+            classes: detailsClasses,
+            html: bodyHtml,
+            attributes: {
+              "id": summaryText + "-accordion-button"
+            }
+          }) 
+        }}
+        </div>
+
+        {% if headerHtml %}
+          <div class="accordion-section-header">
+            <div class="accordion-section-header-scroll">
+              {{ headerHtml | safe }}
+            </div>
+          </div>
+        {%- endif %}
+
+      </div>
+    {%- endfor %}
+  </div>
+
+{% endmacro %}

@@ -1,0 +1,70 @@
+---
+layout: layouts/example.njk
+title: Dropdown Button (example)
+arguments: dropdown-button
+---
+
+{% from "dpr/components/dropdown-button/view.njk"    import dprDropdownButton %}
+
+{{ dprDropdownButton({
+  id: "example-id",
+  text: "Example Text",
+  classes: 'dropdown-button-class',
+  attributes: {
+    'attribute-example': 'attribute-example'
+  },
+  items: [
+    {
+      text: 'Example 1',
+      href: "#",
+      classes: 'item-class',
+      attributes: {
+        'attribute-example': 'attribute-example'
+      }
+    },
+    {
+      text: 'Example 2',
+      href: "#",
+      attributes: {
+        'disabled': 'true',
+        'attribute-example': 'attribute-example'
+      }
+    }
+  ],
+  groups: [
+    {
+      title: 'Group 1',
+      items: [
+        {
+          text: 'Group 1 item',
+          href: "#",
+          classes: 'group-item-class',
+          attributes: {
+            'attribute-example': 'attribute-example'
+          }
+        },
+        {
+          text: 'Group 2 item',
+          href: "#",
+          classes: 'group-item-class',
+          attributes: {
+            'attribute-example': 'attribute-example'
+          }
+        }
+      ]
+    },
+    {
+      title: 'Group 2',
+      items: [
+        {
+          text: 'Group 2 item',
+          href: "#",
+          classes: 'item-class',
+          attributes: {
+            'attribute-example': 'attribute-example'
+          }
+        }
+      ]
+    }
+  ]
+ }) }}

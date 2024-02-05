@@ -1,0 +1,116 @@
+.accordion-section {
+  margin-bottom: govuk-spacing(8);
+  position: relative;
+}
+
+.accordion-section-row {
+  position: relative;
+}
+
+.accordion-section-button {
+  min-width: 130px;
+  padding-right: govuk-spacing(3);
+}
+
+.accordion-details {
+  padding-top: govuk-spacing(3);
+}
+
+.accordion-section-header {
+  position: absolute;
+  top: 6px;
+  width: calc(100% - 100px);
+  left: 100px;
+}
+
+.accordion-section-header-scroll {
+  width: auto;
+  position: relative;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+.accordion-summary-remove-button {
+  display: inline-block;
+  padding: govuk-spacing(2);
+  background-color: none;
+  position: relative;
+  cursor: pointer;
+  text-decoration: underline !important;
+  text-underline-offset: 4px;
+  color: govuk-colour("blue");
+  text-decoration-color: govuk-colour("blue");
+  text-decoration-thickness: 1px;
+  box-shadow: none;
+  text-underline-offset: 4px;
+
+  &:hover {
+    box-shadow: none;
+    text-decoration: none;
+    color: govuk-colour("black");
+  }
+}
+
+.accordion-summary-remove-button:hover:after {
+  background-image: url(#{$dpr-images-path}icon-tag-remove-cross.svg);
+  content: "";
+  display: inline-block;
+  font-weight: bold;
+  height: 10px;
+  margin-left: 5px;
+  vertical-align: middle;
+  width: 10px;
+}
+
+.accordion-summary-remove-button:after {
+  display: none;
+}
+
+.accordion-summary-show-accordion-button {
+  margin-right: 10px;
+}
+
+.selected-accordion-button {
+  display: inline-block;
+}
+
+@media print {
+  .accordion-section {
+    margin-bottom: govuk-spacing(3);
+  }
+
+  .accordion-section-details {
+    position: relative;
+    left: 0px;
+    margin-bottom: govuk-spacing(1);
+
+    .selected-accordion-button {
+      display: block;
+    }
+
+    a.govuk-button--inverse.accordion-summary-remove-button {
+      text-decoration: none !important;
+      color: black;
+      font-size: 14px;
+      position: relative;
+      padding: 0px;
+      padding-bottom: govuk-spacing(1);
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  height: 6px;
+  width: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: none; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: govuk-colour("mid-grey"); 
+}

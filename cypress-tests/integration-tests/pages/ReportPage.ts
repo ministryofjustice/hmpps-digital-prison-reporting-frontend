@@ -1,15 +1,15 @@
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default class ReportPage {
-  showFilterButton = (): PageElement => cy.get(`.filter-summary-show-filter-button`)
+  showFilterButton = (): PageElement => cy.get(`#Filters-accordion-button`)
 
-  resetFilterButton = (): PageElement => cy.get(`.moj-button-menu__wrapper .govuk-button--secondary`).first()
+  resetFilterButton = (): PageElement => cy.get(`.filter-actions-buttons .govuk-button.govuk-button--secondary`).first()
 
   pagingLink = (): PageElement => cy.get('.govuk-pagination__link').first()
 
   pageSizeSelector = (): PageElement => cy.get('#pageSize')
 
-  filterPanel = (): PageElement => cy.get('.moj-filter')
+  filterPanel = (): PageElement => cy.get('#filters-accordion-button .govuk-details__text')
 
   filter = (id): PageElement => cy.get(`#filters\\.${id}`)
 
@@ -20,7 +20,7 @@ export default class ReportPage {
 
   applyFiltersButton = (): PageElement => cy.get(`[data-apply-form-to-querystring='true']`)
 
-  selectedFilterButton = (): PageElement => cy.get('.filter-summary-remove-button')
+  selectedFilterButton = (): PageElement => cy.get(`.selected-accordion-button .accordion-summary-remove-button`)
 
   unsortedSortColumnLink = (): PageElement => this.dataTable().find(`a[aria-sort='none']`).first()
 

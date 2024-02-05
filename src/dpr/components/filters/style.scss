@@ -1,14 +1,24 @@
-.filter-summary-remove-button:after {
-  background-image: url(#{$dpr-images-path}icon-tag-remove-cross.svg);
-  content: "";
-  display: inline-block;
-  font-weight: bold;
-  height: 10px;
-  margin-left: 5px;
-  vertical-align: middle;
-  width: 10px;
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
-.filter-summary-show-filter-button {
-  margin-right: 10px;
+.filter-item {
+  background-color: lighten(govuk-colour("light-grey"), 4%);
+  flex-grow: 0;
+  width: 30%;
+  padding: 1%;
+}
+
+.govuk-details__summary-text {
+  text-underline-offset: 4px;
+}
+
+.filter-actions {
+  padding: govuk-spacing(3) 0px;
+
+  .filter-actions-buttons {
+    float: right;
+  }
 }

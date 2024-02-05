@@ -43,8 +43,8 @@ const variant = {
         type: 'date',
         filter: {
           type: 'daterange',
+          defaultValue: '2003-02-01 - 2006-05-04',
         },
-        defaultValue: '2003-02-01 - 2006-05-04',
       },
       {
         name: 'field4',

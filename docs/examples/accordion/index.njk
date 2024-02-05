@@ -1,0 +1,19 @@
+---
+layout: layouts/example.njk
+title: Accordion (example)
+arguments: accordion
+---
+
+{%- from "dpr/components/accordion/view.njk" import dprAccordion %}
+
+{{ dprAccordion([
+  {
+    summaryText: 'Section 1',
+    bodyHtml: '<p>this is the body html content<p>',
+    headerHtml: '<p>this is header html content<p>'
+  },
+  {
+    summaryText: 'Section 2',
+    bodyHtml: '<p>this is section 2s body html content<p>'
+  }
+]) }}

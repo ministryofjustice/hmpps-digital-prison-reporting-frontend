@@ -1,6 +1,13 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
+{#
+  accordionItems: {
+    summaryText: string,
+    bodyHtml: html string
+    headerHtml: html string - optional
+  }
+#}
 {% macro dprAccordion(accordionItems) %}
   {% set detailsClasses = 'accordion-details govuk-!-margin-0' %}
 

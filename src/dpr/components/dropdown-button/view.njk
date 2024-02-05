@@ -1,3 +1,22 @@
+{#
+  options: {
+    id: string,
+    text: string
+    classes: string
+    items: item[]
+    groups: item[]
+  }
+
+  item = {
+      id: string
+      text: string
+      classes: string
+      attributes: {
+        [key: string]: string
+      }
+      href: string
+    }
+#}
 {% macro dprDropdownButton(options) %}
   {% from "govuk/components/button/macro.njk" import govukButton %}
 

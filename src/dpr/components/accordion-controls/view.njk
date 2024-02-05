@@ -1,0 +1,45 @@
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% macro dprAccordionControls(accordionItems) %}
+  {% set detailsClasses = 'accordion-details govuk-!-margin-0' %}
+
+  <div class="accordion-section">
+    {%- for accordionItem in accordionItems %}
+
+      {% set summaryText = accordionItem.summaryText %}
+      {% set html = accordionItem.html %}
+      {% set selected = accordionItem.selected %}
+      {% set showSelectedButtons = accordionItem.showSelectedButtons %}
+
+      <div class="accordion-section-row accordion-section-row__accordion">
+
+        <div class="accordion-section-button">
+          {{ govukDetails({
+            summaryText: summaryText,
+            classes: detailsClasses,
+            html: html,
+            attributes: {
+              "id": "{{ summaryText }}-accordion-button"
+            }
+          }) 
+        }}
+        </div>
+
+        {% if showSelectedButtons %}
+          <div class="accordion-section-details">
+            <div class="accordion-section-details-scroll">
+              {%- for selectedItem in selected %}
+                <div class="selected-accordion-button">
+                  {{ govukButton(selectedItem) }}
+                </div>
+              {%- endfor %}
+            </div>
+          </div>
+        {%- endif %}
+
+      </div>
+    {%- endfor %}
+  </div>
+
+{% endmacro %}

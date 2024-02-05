@@ -1,29 +1,29 @@
-.filter-section {
+.accordion-section {
   margin-bottom: govuk-spacing(8);
   position: relative;
 }
 
-.filter-section-row {
+.accordion-section-row {
   position: relative;
 }
 
-.filter-section-accordion-button {
+.accordion-section-button {
   min-width: 130px;
   padding-right: govuk-spacing(3);
 }
 
-.filters-accordion {
+.accordion-details {
   padding-top: govuk-spacing(3);
 }
 
-.filter-section-details {
+.accordion-section-details {
   position: absolute;
   top: 6px;
   width: calc(100% - 100px);
   left: 100px;
 }
 
-.filter-section-details-scroll {
+.accordion-section-details-scroll {
   width: auto;
   position: relative;
   overflow-x: scroll;
@@ -31,7 +31,7 @@
   white-space: nowrap;
 }
 
-.filter-summary-remove-button {
+.accordion-summary-remove-button {
   display: inline-block;
   padding: govuk-spacing(2);
   background-color: none;
@@ -52,7 +52,7 @@
   }
 }
 
-.filter-summary-remove-button:hover:after {
+.accordion-summary-remove-button:hover:after {
   background-image: url(#{$dpr-images-path}icon-tag-remove-cross.svg);
   content: "";
   display: inline-block;
@@ -63,37 +63,33 @@
   width: 10px;
 }
 
-.filter-summary-remove-button:after {
+.accordion-summary-remove-button:after {
   display: none;
 }
 
-.filter-summary-show-filter-button {
+.accordion-summary-show-accordion-button {
   margin-right: 10px;
 }
 
-.selected-filters-button {
+.selected-accordion-button {
   display: inline-block;
 }
 
 @media print {
-  .filter-section {
+  .accordion-section {
     margin-bottom: govuk-spacing(3);
   }
 
-  .filter-summary-show-filter-button {
-    display: none;
-  }
-
-  .filter-section-details {
+  .accordion-section-details {
     position: relative;
     left: 0px;
     margin-bottom: govuk-spacing(1);
 
-    .selected-filters-button {
+    .selected-accordion-button {
       display: block;
     }
 
-    a.govuk-button--inverse.filter-summary-remove-button {
+    a.govuk-button--inverse.accordion-summary-remove-button {
       text-decoration: none !important;
       color: black;
       font-size: 14px;

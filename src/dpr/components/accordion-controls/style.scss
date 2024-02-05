@@ -16,14 +16,14 @@
   padding-top: govuk-spacing(3);
 }
 
-.accordion-section-details {
+.accordion-section-header {
   position: absolute;
   top: 6px;
   width: calc(100% - 100px);
   left: 100px;
 }
 
-.accordion-section-details-scroll {
+.accordion-section-header-scroll {
   width: auto;
   position: relative;
   overflow-x: scroll;

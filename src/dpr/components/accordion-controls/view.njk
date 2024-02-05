@@ -8,9 +8,8 @@
     {%- for accordionItem in accordionItems %}
 
       {% set summaryText = accordionItem.summaryText %}
-      {% set html = accordionItem.html %}
-      {% set selected = accordionItem.selected %}
-      {% set showSelectedButtons = accordionItem.showSelectedButtons %}
+      {% set bodyHtml = accordionItem.bodyHtml %}
+      {% set headerHtml = accordionItem.headerHtml %}
 
       <div class="accordion-section-row accordion-section-row__accordion">
 
@@ -18,22 +17,18 @@
           {{ govukDetails({
             summaryText: summaryText,
             classes: detailsClasses,
-            html: html,
+            html: bodyHtml,
             attributes: {
-              "id": "{{ summaryText }}-accordion-button"
+              "id": summaryText + "-accordion-button"
             }
           }) 
         }}
         </div>
 
-        {% if showSelectedButtons %}
-          <div class="accordion-section-details">
-            <div class="accordion-section-details-scroll">
-              {%- for selectedItem in selected %}
-                <div class="selected-accordion-button">
-                  {{ govukButton(selectedItem) }}
-                </div>
-              {%- endfor %}
+        {% if headerHtml %}
+          <div class="accordion-section-header">
+            <div class="accordion-section-header-scroll">
+              {{ headerHtml | safe }}
             </div>
           </div>
         {%- endif %}

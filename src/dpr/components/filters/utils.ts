@@ -87,7 +87,7 @@ export default {
             [`${reportQuery.filtersPrefix}${f.name}`]: '',
             selectedPage: '1',
           }),
-          classes: 'govuk-button--inverse filter-summary-remove-button govuk-!-margin-0',
+          classes: 'govuk-button--inverse accordion-summary-remove-button govuk-!-margin-0',
         }
       }),
 }

@@ -1,0 +1,37 @@
+---
+layout: layouts/example.njk
+title: Accordion Controls (example)
+arguments: items
+---
+
+{% from "dpr/components/accordion-controls/view.njk"    import dprAccordionControls %}
+
+{{ dprAccordionControls([
+  {
+    summaryText: 'Section 1',
+    html: '<p>this is some html content<p>',
+    selected: [
+      {
+        text: 'selected-button-1'
+        href: '#',
+        attributes: {
+          'data-attribute': 'my-data-attribute'
+        }
+      },
+      {
+        text: 'selected-button-2'
+        href: '#',
+        attributes: {
+          'data-attribute': 'my-data-attribute'
+        }
+      }
+    ],
+    showSelectedButtons: true
+  },
+  {
+    summaryText: 'Section 2',
+    html: '<p>this is some more html content<p>',
+    selected: [],
+    showSelectedButtons: false
+  }
+]) }}

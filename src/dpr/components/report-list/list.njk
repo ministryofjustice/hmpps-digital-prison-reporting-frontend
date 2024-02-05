@@ -1,6 +1,7 @@
 {% extends layoutTemplate %}
 
 {% from "moj/components/button-menu/macro.njk" import mojButtonMenu -%}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "../data-table/view.njk" import dprDataTable %}
 {% from "../dropdown-button/view.njk"    import dprDropdownButton %}
 {% from "../accordion-controls/view.njk"    import dprAccordionControls %}
@@ -55,22 +56,29 @@
   ]
 } %}
 
+{% set selectedFilters = filterOptions.selectedFilters %}
 {% set filterHtml %}
 <div class="data-table-accordion">
   {{ dprFilters(
     filterOptions.filters,
-    filterOptions.selectedFilters,
     urlWithNoFilters
   ) }}
 </div>
 {% endset %}
 
+{% set headerHtml %}
+{%- for selectedFilter in selectedFilters %}
+  <div class="selected-accordion-button">
+    {{ govukButton(selectedFilter) }}
+  </div>
+{%- endfor %}
+{% endset %}
+
 {% set accordionItems = [
   {
     summaryText: 'Filters',
-    html: filterHtml,
-    selected: filterOptions.selectedFilters,
-    showSelectedButtons: true
+    bodyHtml: filterHtml,
+    headerHtml: headerHtml
   }
 ] %}
 

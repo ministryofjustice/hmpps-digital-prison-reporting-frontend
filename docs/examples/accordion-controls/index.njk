@@ -9,29 +9,12 @@ arguments: items
 {{ dprAccordionControls([
   {
     summaryText: 'Section 1',
-    html: '<p>this is some html content<p>',
-    selected: [
-      {
-        text: 'selected-button-1'
-        href: '#',
-        attributes: {
-          'data-attribute': 'my-data-attribute'
-        }
-      },
-      {
-        text: 'selected-button-2'
-        href: '#',
-        attributes: {
-          'data-attribute': 'my-data-attribute'
-        }
-      }
-    ],
-    showSelectedButtons: true
+    bodyHtml: '<p>this is the body html content<p>',
+    headerHtml: '<p>this is header html content<p>'
   },
   {
     summaryText: 'Section 2',
-    html: '<p>this is some more html content<p>',
-    selected: [],
-    showSelectedButtons: false
+    bodyHtml: '<p>this is section 2s body html content<p>',
+    headerHtml: '<p>header content<p>'
   }
 ]) }}

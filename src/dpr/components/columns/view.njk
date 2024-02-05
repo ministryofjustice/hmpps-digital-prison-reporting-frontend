@@ -1,0 +1,46 @@
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% macro dprColumns(columns, parameterPrefix = "columns.") %}
+
+  <div class="columns-container">
+    {{ govukCheckboxes({
+      id: 'columns.' + columns.name,
+      name: 'columns.' + columns.name,
+      classes: "govuk-checkboxes--small",
+      formGroup: {
+        classes: "govuk-!-margin-bottom-3"
+      },
+      fieldset: {
+        legend: {
+          text: columns.text,
+          classes: "govuk-label govuk-!-font-weight-bold"
+        }
+      },
+      items: columns.options,
+      values: columns.value
+    }) }}
+  </div>
+
+  <div class="filter-actions">
+    <div class="filter-actions-buttons">
+
+      {{ govukButton({
+        text: "Apply Columns",  
+        attributes: {
+          'data-apply-columns-to-querystring': 'true',
+          'data-apply-form-selector': '.data-table-columns input',
+          'data-apply-base-url': urlWithNoFilters
+        },
+        classes: "govuk-button govuk-!-margin-bottom-0"
+      }) }}
+
+      {{ govukButton({
+        text: "Reset Columns",
+        classes: "govuk-button--secondary govuk-!-margin-bottom-0"
+      }) }}
+
+    </div>
+  </div>
+
+{% endmacro %}

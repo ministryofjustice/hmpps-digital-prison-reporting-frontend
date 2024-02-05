@@ -112,10 +112,17 @@ function renderList(
           selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
         }
 
+        const columnOptions = {
+          columns: '',
+          selectedColumns: '',
+        }
+
+
         response.render('dpr/components/report-list/list', {
           title,
           dataTableOptions,
           filterOptions,
+          columnOptions,
           layoutTemplate,
           ...otherOptions,
           warnings,

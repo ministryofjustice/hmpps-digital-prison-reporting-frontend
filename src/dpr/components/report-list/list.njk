@@ -7,6 +7,7 @@
 {% from "../accordion/view.njk" import dprAccordion %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "../filters/view.njk" import dprFilters %}
+{% from "../columns/view.njk" import dprColumns %}
 
 {% set pageTitle = applicationName + " - " + title %}
 {% set mainClasses = "app-container govuk-body" %}
@@ -58,7 +59,7 @@
 
 {% set selectedFilters = filterOptions.selectedFilters %}
 {% set filterHtml %}
-<div class="data-table-accordion">
+<div class="data-table-filters">
   {{ dprFilters(
     filterOptions.filters,
     urlWithNoFilters
@@ -66,7 +67,50 @@
 </div>
 {% endset %}
 
-{% set headerHtml %}
+{% set colsData = {
+    name: "columns",
+    options: [
+        {
+            value: "field1",
+            text: "Field 1",
+            disabled: true,
+            attributes: {
+                "data-mandatory-field": true
+            }
+        },
+        {
+            value: "field2",
+            text: "Field 2"
+        },
+        {
+            value: "field3",
+            text: "Field 3"
+        },
+        {
+            value: "field4",
+            text: "Field 4"
+        },
+        {
+            value: "field5",
+            text: "Field 5"
+        }
+    ],
+    value: [
+        "field1",
+        "field2",
+        "field3",
+        "field4",
+        "field5"
+    ]
+}%}
+
+{% set columnsHtml %}
+<div class="data-table-columns">
+  {{ dprColumns(colsData) }}
+</div>
+{% endset %}
+
+{% set filtersHeaderHtml %}
 {%- for selectedFilter in selectedFilters %}
   <div class="selected-accordion-button">
     {{ govukButton(selectedFilter) }}
@@ -74,11 +118,21 @@
 {%- endfor %}
 {% endset %}
 
+{% set colsHeaderHtml %}
+<div class="columns-header">
+  <p class="govuk-body govuk-!-margin-bottom-0">{{ colsData.value.length }} of {{ colsData.options.length }} shown</p>
+</div>
+{% endset %}
+
 {% set accordionItems = [
   {
     summaryText: 'Filters',
     bodyHtml: filterHtml,
-    headerHtml: headerHtml
+    headerHtml: filtersHeaderHtml
+  }, {
+    summaryText: 'Columns',
+    bodyHtml: columnsHtml,
+    headerHtml: colsHeaderHtml
   }
 ] %}
 

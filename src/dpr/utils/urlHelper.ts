@@ -40,7 +40,7 @@ const createUrlForParameters = (currentQueryParams: NodeJS.Dict<string>, updateQ
   return createQuerystringFromObject(nonEmptyQueryParams)
 }
 
-export const createQuerystringFromObject = (source: Object) => {
+export const createQuerystringFromObject = (source: object) => {
   const querystring = Object.keys(source)
     .map((key) => `${encodeURI(key)}=${encodeURI(source[key])}`)
     .join('&')

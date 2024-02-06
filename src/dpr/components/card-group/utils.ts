@@ -1,9 +1,9 @@
-import qs from 'querystringify'
 import { components } from '../../types/api'
+import { createQuerystringFromObject } from '../../utils/urlHelper'
 
 const addAdditionalQueryParams = (path: string, additionalQueryParams?: NodeJS.Dict<string>) => {
   if (additionalQueryParams && Object.keys(additionalQueryParams).length > 0) {
-    return `${path}${qs.stringify(additionalQueryParams, true)}`
+    return `${path}${createQuerystringFromObject(additionalQueryParams)}`
   }
 
   return path

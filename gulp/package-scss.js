@@ -14,7 +14,7 @@ gulp.task('package:scss', () => {
     .pipe(sass({
         outputStyle: 'compressed',
         includePaths: [
-            'node_modules/govuk-frontend',
+            'node_modules/govuk-frontend/dist',
             'node_modules/@ministryofjustice/frontend',
         ]
     }))

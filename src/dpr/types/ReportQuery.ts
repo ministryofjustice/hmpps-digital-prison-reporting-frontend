@@ -47,6 +47,7 @@ export default class ReportQuery implements FilteredListRequest {
     }
 
     this.filters = {}
+
     Object.keys(queryParams)
       .filter((key) => key.startsWith(filtersPrefix))
       .filter((key) => queryParams[key])

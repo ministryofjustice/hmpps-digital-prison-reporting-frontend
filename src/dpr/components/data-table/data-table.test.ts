@@ -36,13 +36,15 @@ const defaultQueryParams = {
   sortedAsc: 'true',
 }
 const defaultOptions: DataTableOptions = {
+  classification: '',
+  url: '',
   head: [{ html: 'Header 1' }, { html: 'Header 2' }],
   rows: [
     [{ text: 'Value 1.1' }, { text: 'Value 1.2' }],
     [{ text: 'Value 2.1' }, { text: 'Value 2.2' }],
   ],
   count: 20,
-  currentQueryParams: defaultQueryParams,
+  currentQueryParams: defaultQueryParams
 }
 
 describe('Content renders correctly', () => {

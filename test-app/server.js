@@ -13,7 +13,7 @@ const { default: reportListUtils } = require('../package/dpr/components/report-l
 
 // Set up application
 const appViews = [
-  path.join(__dirname, '../node_modules/govuk-frontend/'),
+  path.join(__dirname, '../node_modules/govuk-frontend/dist/'),
   path.join(__dirname, '../node_modules/@ministryofjustice/frontend/'),
   path.join(__dirname, '../src/dpr/'),
   path.join(__dirname, '../src/'),
@@ -51,12 +51,13 @@ app.set('view engine', 'njk')
 
 // Middleware to serve static assets
 app.use('/assets/ext/jquery.min.js', express.static(path.join(__dirname, '../node_modules/jquery/dist/jquery.min.js')))
-app.use('/assets/govuk', express.static(path.join(__dirname, '../node_modules/govuk-frontend/govuk/assets')))
+app.use('/assets/govuk', express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/assets')))
 app.use('/assets/moj', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/assets')))
 app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr/assets')))
-app.use('/govuk/all.js', express.static(path.join(__dirname, '../node_modules/govuk-frontend/govuk/all.js')))
+app.use('/govuk/all.js', express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js')))
 app.use('/moj/all.js', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/all.js')))
 app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
+app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest.json')))
 
 const definitions = require('./reportDefinition')
 const data = require('./data')

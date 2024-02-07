@@ -10,11 +10,14 @@
 {% block pageTitle %}Test App{% endblock %}
 
 {% block bodyEnd %}
-  <script src="/govuk/all.js"></script>
   <script src="/moj/all.js"></script>
   <script type="text/javascript">
-    window.GOVUKFrontend.initAll()
     window.MOJFrontend.initAll()
+  </script>
+  <script type="module" src="/govuk/all.js"></script>
+  <script type="module">
+    import { initAll } from '/govuk/all.js'
+    initAll()
   </script>
   <script src="/assets/dpr/js/client.js"></script>
 {% endblock %}

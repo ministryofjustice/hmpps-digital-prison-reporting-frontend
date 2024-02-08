@@ -47,12 +47,16 @@ const createUrlForParameters = (
       nonEmptyQueryParams[key] = queryParams[key]
     })
 
-  const querystring = Object.keys(nonEmptyQueryParams)
+  return createQuerystringFromObject(nonEmptyQueryParams)
+}
+
+export const createQuerystringFromObject = (source: object) => {
+  const querystring = Object.keys(source)
     .map((key) => {
       let k = key
       // eslint-disable-next-line prefer-destructuring
       if (key.includes('columns.')) k = key.split('.')[0]
-      return `${encodeURI(k)}=${encodeURI(nonEmptyQueryParams[key])}`
+      return `${encodeURI(k)}=${encodeURI(source[key])}`
     })
     .join('&')
 

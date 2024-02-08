@@ -122,6 +122,7 @@ function renderList(
             return {
               text: f.display,
               value: f.name,
+              // TODO: Once Disabled || mandatory is added to field def, then add here.
             }
           }),
           selectedColumns: reportQuery.columns,

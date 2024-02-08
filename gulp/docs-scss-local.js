@@ -5,9 +5,9 @@ const autoprefixer = require("autoprefixer");
 const cssnano = require("cssnano");
 const sass = require("gulp-sass")(require("sass"));
 
-gulp.task('docs:scss', () => {
+gulp.task('docs:scss-local', () => {
   return gulp.src([
-      'docs/scss/remote-paths.scss',
+      'docs/scss/local-paths.scss',
       'docs/scss/base.scss',
       'docs/scss/example.scss',
       'src/dpr/components/**/*.scss',

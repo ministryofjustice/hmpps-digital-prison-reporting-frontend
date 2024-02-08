@@ -30,3 +30,18 @@ gulp.task(
     "docs:filter-javascript",
   )
 );
+
+gulp.task(
+  "build:docs-local",
+  gulp.series(
+    "package:clean",
+    "docs:scss-local",
+    "package:copy-views",
+    "package:client-javascript",
+    "docs:copy-external-javascript",
+    "package:images",
+    "docs:assets",
+    "docs:copy-gov-assets",
+    "docs:filter-javascript",
+  )
+);

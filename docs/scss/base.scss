@@ -1,9 +1,6 @@
 $govuk-global-styles: true;
 $moj-page-width: 1170px;
 
-$dpr-images-path: "/hmpps-digital-prison-reporting-frontend/assets/dpr/images/";
-$govuk-assets-path: "/hmpps-digital-prison-reporting-frontend/assets/govuk/";
-
 @import "node_modules/highlight.js/scss/github.scss";
 @import 'govuk/all';
 @import 'moj/all';

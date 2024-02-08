@@ -13,7 +13,7 @@
     "ci:release": "HUSKY=0 CI=true semantic-release --debug",
     "ci:dryrun": "HUSKY=0 CI=true semantic-release --dry-run",
     "docs": "gulp build:docs && eleventy --input=./docs --output=package/dpr --pathprefix hmpps-digital-prison-reporting-frontend",
-    "docs:local": "gulp build:docs && eleventy --input=./docs --output=package/dpr --pathprefix hmpps-digital-prison-reporting-frontend/package/dpr",
+    "docs:local": "gulp build:docs-local && eleventy --input=./docs --output=package/dpr --pathprefix hmpps-digital-prison-reporting-frontend/package/dpr",
     "test": "npm-run-all --parallel test:*",
     "test:jest": "jest",
     "test:lint": "eslint . --cache --max-warnings 0",

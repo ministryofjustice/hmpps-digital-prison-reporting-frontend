@@ -63,3 +63,29 @@ Feature: List report
     And the copy url action is shown
     When I click the copy url button
     Then the menu closes
+
+  Scenario: Selecting columns displays correct results
+    Given I click the Show Columns button
+    When I select a column
+    And I apply the columns
+    Then the selected columns values are shown in the URL
+
+
+  Scenario: Clicking 'Reset Columns' resets all columns
+    Given I click the Show Columns button
+    And I select a column
+    And I apply the columns
+    When I click the Show Columns button
+    When I click the Reset Columns button
+    Then the default columns are selected
+
+  Scenario: Reseting filters keeps current columns
+    Given I click the Show Filter button
+    When I select a filter
+    And I apply the filters
+    When I click the Show Columns button
+    And I select a column
+    And I apply the columns
+    When I click the Show Filter button
+    When I click a the Reset filter button
+    Then the selected columns values are shown in the URL

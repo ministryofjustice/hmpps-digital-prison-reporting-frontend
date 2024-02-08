@@ -298,3 +298,41 @@ Then('the definition path is shown in the URL', function (this: Mocha.Context) {
     expect(location.search).to.contain(`dataProductDefinitionsPath=test-location`)
   })
 })
+
+When(/^I click the Show Columns button$/, function () {
+  const page = new ReportPage()
+  page.showColumnsButton().click(10, 30)
+})
+
+When('I select a column', function (this: Mocha.Context) {
+  const page = new ReportPage()
+
+  page.columnCheckBox().click()
+})
+
+When('I apply the columns', function () {
+  const page = new ReportPage()
+
+  page.applyColumnsButton().click()
+})
+
+Then('the selected columns values are shown in the URL', function (this: Mocha.Context) {
+  cy.location().should((location) => {
+    expect(location.search).not.to.contain(`columns=field1`)
+    expect(location.search).to.contain(`columns=field2`)
+    expect(location.search).to.contain(`columns=field3`)
+    expect(location.search).to.contain(`columns=field4`)
+    expect(location.search).to.contain(`columns=field5`)
+  })
+})
+
+When(/^I click the Reset Columns button$/, function () {
+  const page = new ReportPage()
+  page.resetColumnsButton().click()
+})
+
+Then('the default columns are selected', function (this: Mocha.Context) {
+  cy.location().should((location) => {
+    expect(location.search).not.to.contain(`columns`)
+  })
+})

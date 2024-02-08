@@ -29,7 +29,7 @@ export default {
 
     return format
       .filter((f) => {
-        return columns.includes(f.name)
+        return columns.includes(f.name) || !columns
       })
       .map((f) => {
         let header: Header
@@ -83,7 +83,7 @@ export default {
     return data.map((d) =>
       format
         .filter((f) => {
-          return columns.includes(f.name)
+          return columns.includes(f.name) || !columns
         })
         .map((f) => {
           let text: string = d[f.name]

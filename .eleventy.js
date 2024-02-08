@@ -35,6 +35,7 @@ module.exports = function (eleventyConfig) {
     "md",
     markdownIt({
       html: true,
+      breaks: false,
       highlight: (str, language) =>
         language ? hljs.highlight(str, { language }).value : str,
     })

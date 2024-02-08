@@ -1,3 +1,4 @@
+
 | Name             | Type   | Required | Description                                                                            |
 |------------------|--------|----------|----------------------------------------------------------------------------------------|
 | filters          | Array  | Yes      | An array of filters. See [Filters](#filters).                                          |

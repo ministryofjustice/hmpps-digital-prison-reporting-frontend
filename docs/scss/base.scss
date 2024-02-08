@@ -40,3 +40,8 @@ th {
   // Eleventy is stubbornly rendering <p>/<p> between the tab buttons and panels
   display: none;
 }
+
+li.govuk-tabs__list-item:has(> #tab_blank-tab), #blank-tab {
+  // The gov tabs component always opens the first tab, so for the docs the first tab is blank, and hidden.
+  display: none;
+}

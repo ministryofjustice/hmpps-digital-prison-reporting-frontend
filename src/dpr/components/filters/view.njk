@@ -123,8 +123,11 @@
 
       {{ govukButton({
         text: "Reset Filters",
-        href: urlWithNoFilters,
-        classes: "govuk-button--secondary govuk-!-margin-bottom-0"
+        classes: "govuk-button--secondary govuk-!-margin-bottom-0",
+        attributes: {
+          'data-reset-filters': 'true',
+          'data-apply-base-url': urlWithNoFilters
+        }
       }) }}
 
     </div>

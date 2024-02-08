@@ -69,39 +69,8 @@
 
 {% set colsData = {
     name: "columns",
-    options: [
-        {
-            value: "field1",
-            text: "Field 1",
-            disabled: true,
-            attributes: {
-                "data-mandatory-field": true
-            }
-        },
-        {
-            value: "field2",
-            text: "Field 2"
-        },
-        {
-            value: "field3",
-            text: "Field 3"
-        },
-        {
-            value: "field4",
-            text: "Field 4"
-        },
-        {
-            value: "field5",
-            text: "Field 5"
-        }
-    ],
-    value: [
-        "field1",
-        "field2",
-        "field3",
-        "field4",
-        "field5"
-    ]
+    options: columnOptions.columns,
+    value: columnOptions.selectedColumns
 }%}
 
 {% set columnsHtml %}

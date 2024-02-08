@@ -1,21 +1,23 @@
+/* global $ */
+
 $(function () {
   $('[data-apply-columns-to-querystring=true]').on('click', function () {
     const formSelector = $(this).data('apply-form-selector')
-    
-    const colsRegExp = new RegExp("columns=[^&]*", "g")
-    let url = decodeURI(window.location.href).replaceAll(colsRegExp,"")
+    const colsRegExp = /columns=[^&]*/g
+    const ampRexEx = /([&])\1+/g
 
-    if (url.indexOf("?") === -1) {
-      url += "?";
-    } else {
-      url += "&";
-    }
+    let url = decodeURI(window.location.href).replaceAll(colsRegExp, '')
+    url += url.indexOf('?') === -1 ? '?' : '&'
+    url += $(formSelector).serialize()
+    url = url.replaceAll('columns.', '').replaceAll('?&', '?').replaceAll(ampRexEx, '&')
 
-    url += $(formSelector).serialize().replaceAll("filters.","");
-    url = url
-      .replaceAll("?&","?")
-      .replaceAll("&&","&")
+    window.location.href = url
+  })
 
+  $('[data-reset-columns=true]').on('click', function () {
+    const resetColsRegExp = /&?columns=[^&]*/g
+    let url = decodeURI(window.location.href).replaceAll(resetColsRegExp, '')
+    url += url.indexOf('?') === -1 ? '?' : '&'
     window.location.href = url
   })
 })

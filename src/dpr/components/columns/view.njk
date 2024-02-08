@@ -29,14 +29,16 @@
         text: "Apply Columns",  
         attributes: {
           'data-apply-columns-to-querystring': 'true',
-          'data-apply-form-selector': '.data-table-columns input',
-          'data-apply-base-url': urlWithNoFilters
+          'data-apply-form-selector': '.data-table-columns input'
         },
         classes: "govuk-button govuk-!-margin-bottom-0"
       }) }}
 
       {{ govukButton({
         text: "Reset Columns",
+        attributes: {
+          'data-reset-columns': 'true'
+        },
         classes: "govuk-button--secondary govuk-!-margin-bottom-0"
       }) }}
 

@@ -9,6 +9,7 @@ gulp.task('docs:scss-local', () => {
   return gulp.src([
       'docs/scss/local-paths.scss',
       'docs/scss/base.scss',
+      'docs/scss/tabs.scss',
       'docs/scss/example.scss',
       'src/dpr/components/**/*.scss',
     ])

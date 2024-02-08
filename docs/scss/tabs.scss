@@ -1,0 +1,30 @@
+// These styles are to tweak the gov tabs into a form that works for the docs
+
+.govuk-tabs__panel {
+  font-size: 1rem;
+  line-height: 1;
+  overflow: scroll;
+  padding: 10px 20px !important;
+}
+
+.govuk-details__text {
+  table {
+    border-spacing: 0;
+  }
+
+  td, th {
+    border-bottom: 1px solid $govuk-border-colour;
+    padding: 5px;
+    vertical-align: top;
+  }
+}
+
+.govuk-tabs>p {
+  // Eleventy is stubbornly rendering <p>/<p> between the tab buttons and panels
+  display: none;
+}
+
+li.govuk-tabs__list-item:has(> #tab_blank-tab), #blank-tab {
+  // The gov tabs component always opens the first tab, so for the docs the first tab is blank, and hidden.
+  display: none;
+}

@@ -46,8 +46,6 @@ export default class ReportQuery implements FilteredListRequest {
       this.columns = fields.map((f) => f.name)
     }
 
-    console.log(this.columns)
-
     this.filters = {}
     Object.keys(queryParams)
       .filter((key) => key.startsWith(filtersPrefix))

@@ -3,6 +3,7 @@
 import { Autocomplete } from './components/autocomplete-text-input/clientClass.mjs'
 import { CardGroup } from './components/card-group/clientClass.mjs'
 import { DataTable } from './components/data-table/clientClass.mjs'
+import { DropDownButton } from './components/dropdown-button/clientClass.mjs'
 
 /**
  * Initialise all components
@@ -17,6 +18,7 @@ export function initAll() {
     Autocomplete,
     CardGroup,
     DataTable,
+    DropDownButton,
   ])
 
   components.forEach((Component) => {

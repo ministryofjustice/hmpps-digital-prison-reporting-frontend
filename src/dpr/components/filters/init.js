@@ -48,3 +48,15 @@ if (resetFiltersButton) {
     window.location.href = url
   })
 }
+
+const removeFilterButtons = document.getElementsByClassName('accordion-summary-remove-button')
+if (removeFilterButtons) {
+  Array.from(removeFilterButtons).forEach((removeFilterButton) => {
+    removeFilterButton.addEventListener('click', () => {
+      const loadingPanels = document.getElementsByClassName('loading-panel')
+      Array.from(loadingPanels).forEach((l) => {
+        l.classList.add('show')
+      })
+    })
+  })
+}

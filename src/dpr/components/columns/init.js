@@ -13,7 +13,6 @@ if (applyColumnsButton) {
     })
 
     const formData = new FormData(columnsForm)
-
     let serializedFormData = ''
     formData.forEach((n, v) => {
       serializedFormData += `&${v.replace('.columns', '')}=${n}`
@@ -36,6 +35,7 @@ if (applyColumnsButton) {
 const resetColumnsButton = document.body.querySelector('[data-reset-columns=true]')
 if (resetColumnsButton) {
   resetColumnsButton.addEventListener('click', (e) => {
+    e.preventDefault()
     const resetColsRegExp = /&?columns=[^&]*/g
     let url = decodeURI(window.location.href).replaceAll(resetColsRegExp, '')
     url += url.indexOf('?') === -1 ? '?' : '&'

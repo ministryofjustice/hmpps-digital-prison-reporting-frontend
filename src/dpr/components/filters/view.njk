@@ -19,13 +19,14 @@
 {% macro dprFilters(filters, urlWithNoFilters, parameterPrefix = "filters.") %}
   {% set today = getTodayIsoDate() %}
 
-  <div class="filter-container">
-    {%- for filter in filters %}
+  <form id="user-selected-filters-form">
+    <div class="filter-container">
+      {%- for filter in filters %}
 
-      {%- if filter.type | lower === 'select' %}
+        {%- if filter.type | lower === 'select' %}
 
-        <div class='filter-item'>
-          {{ govukSelect({
+          <div class='filter-item'>
+            {{ govukSelect({
             id: parameterPrefix + filter.name,
             name: parameterPrefix + filter.name,
             value: filter.value,
@@ -35,12 +36,12 @@
               classes: "govuk-label govuk-!-font-weight-bold"
             }
           }) }}
-        </div>
+          </div>
 
-      {% elif filter.type | lower === 'radio' %}
+        {% elif filter.type | lower === 'radio' %}
 
-        <div class='filter-item'>
-          {{ govukRadios({
+          <div class='filter-item'>
+            {{ govukRadios({
           id: parameterPrefix + filter.name,
           name: parameterPrefix + filter.name,
           fieldset: {
@@ -52,17 +53,17 @@
           items: filter.options,
           value: filter.value
         }) }}
-        </div>
+          </div>
 
-      {% elif filter.type | lower === 'daterange' %}
+        {% elif filter.type | lower === 'daterange' %}
 
-        <div class='filter-item'>
-          <div class="govuk-form-group">
-            <fieldset class="govuk-fieldset">
-              <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
-                {{ filter.text }}
-              </legend>
-              {{ govukInput({
+          <div class='filter-item'>
+            <div class="govuk-form-group">
+              <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
+                  {{ filter.text }}
+                </legend>
+                {{ govukInput({
               id: parameterPrefix + filter.name + '.start',
               label: {
                 text: 'Start'
@@ -74,7 +75,7 @@
                 max: today
               }
             }) }}
-              {{ govukInput({
+                {{ govukInput({
               id: parameterPrefix + filter.name + '.end',
               label: {
                 text: 'End'
@@ -86,14 +87,14 @@
                 max: today
               }
             }) }}
-            </fieldset>
+              </fieldset>
+            </div>
           </div>
-        </div>
 
-      {% elif filter.type | lower === 'autocomplete' %}
+        {% elif filter.type | lower === 'autocomplete' %}
 
-        <div class='filter-item'>
-          {{ dprAutocompleteTextInput({
+          <div class='filter-item'>
+            {{ dprAutocompleteTextInput({
           id: parameterPrefix + filter.name,
           name: parameterPrefix + filter.name,
           items: filter.options,
@@ -102,16 +103,16 @@
           minimumLength: filter.minimumLength,
           dynamicResourceEndpoint: filter.dynamicResourceEndpoint
         }) }}
-        </div>
+          </div>
 
-      {% endif %}
-    {%- endfor %}
-  </div>
+        {% endif %}
+      {%- endfor %}
+    </div>
 
-  <div class="filter-actions">
-    <div class="filter-actions-buttons">
+    <div class="filter-actions">
+      <div class="filter-actions-buttons">
 
-      {{ govukButton({
+        {{ govukButton({
         text: "Apply Filters",  
         attributes: {
           'data-apply-form-to-querystring': 'true',
@@ -121,7 +122,7 @@
         classes: "govuk-button govuk-!-margin-bottom-0"
       }) }}
 
-      {{ govukButton({
+        {{ govukButton({
         text: "Reset Filters",
         classes: "govuk-button--secondary govuk-!-margin-bottom-0",
         attributes: {
@@ -130,7 +131,7 @@
         }
       }) }}
 
+      </div>
     </div>
-  </div>
-
+  </form>
 {% endmacro %}

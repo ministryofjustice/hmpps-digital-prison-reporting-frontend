@@ -117,11 +117,14 @@ function renderList(
           selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
         }
 
+        let disabled = true
         const columnOptions = {
           columns: fields.map((f) => {
+            disabled = !disabled
             return {
               text: f.display,
               value: f.name,
+              disabled,
               // TODO: Once Disabled || mandatory is added to field def, then add here.
             }
           }),

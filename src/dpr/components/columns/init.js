@@ -1,32 +1,44 @@
-/* global $ */
-
-$(function () {
-  $('[data-apply-columns-to-querystring=true]').on('click', function () {
-    const formSelector = $(this).data('apply-form-selector')
-    const columnsFormInputs = $(formSelector)
-    const columnsForm = $(`${formSelector} input`)
+const applyColumnsButton = document.body.querySelector('[data-apply-columns-to-querystring=true]')
+if (applyColumnsButton) {
+  applyColumnsButton.addEventListener('click', (e) => {
+    e.preventDefault()
+    const columnsForm = document.getElementById('user-selected-columns-form')
+    const columnsFormInputs = document.body.querySelectorAll(`#user-selected-columns-form input`)
     const colsRegExp = /columns=[^&]*/g
     const ampRexEx = /([&])\1+/g
 
-    // get all disabled/mandatorty columns and enable temporarily
-    const disabled = columnsFormInputs.find("input[type='checkbox']:disabled").removeAttr('disabled')
-    // Then serialize to get all checkbox values
-    const serializedFormData = columnsForm.serialize()
-    // Then re-disable
-    disabled.attr('disabled', true)
+    columnsFormInputs.forEach((input) => {
+      // eslint-disable-next-line no-param-reassign
+      input.disabled = false
+    })
+
+    const formData = new FormData(columnsForm)
+
+    let serializedFormData = ''
+    formData.forEach((n, v) => {
+      serializedFormData += `&${v.replace('.columns', '')}=${n}`
+    })
+
+    columnsFormInputs.forEach((input) => {
+      // eslint-disable-next-line no-param-reassign
+      input.disabled = true
+    })
 
     let url = decodeURI(window.location.href).replaceAll(colsRegExp, '')
     url += url.indexOf('?') === -1 ? '?' : '&'
     url += serializedFormData
-    url = url.replaceAll('columns.', '').replaceAll('?&', '?').replaceAll(ampRexEx, '&')
+    url = url.replaceAll('?&', '?').replaceAll(ampRexEx, '&')
 
     window.location.href = url
   })
+}
 
-  $('[data-reset-columns=true]').on('click', function () {
+const resetColumnsButton = document.body.querySelector('[data-reset-columns=true]')
+if (resetColumnsButton) {
+  resetColumnsButton.addEventListener('click', (e) => {
     const resetColsRegExp = /&?columns=[^&]*/g
     let url = decodeURI(window.location.href).replaceAll(resetColsRegExp, '')
     url += url.indexOf('?') === -1 ? '?' : '&'
     window.location.href = url
   })
-})
+}

@@ -3,8 +3,9 @@
 
 {% macro dprColumns(columns, parameterPrefix = "columns.") %}
 
-  <div class="columns-container">
-    {{ govukCheckboxes({
+  <form id="user-selected-columns-form">
+    <div class="columns-container">
+      {{ govukCheckboxes({
       id: 'columns.' + columns.name,
       name: 'columns.' + columns.name,
       classes: "govuk-checkboxes--small",
@@ -20,12 +21,12 @@
       items: columns.options,
       values: columns.value
     }) }}
-  </div>
+    </div>
 
-  <div class="filter-actions">
-    <div class="filter-actions-buttons">
+    <div class="filter-actions">
+      <div class="filter-actions-buttons">
 
-      {{ govukButton({
+        {{ govukButton({
         text: "Apply Columns",  
         attributes: {
           'data-apply-columns-to-querystring': 'true',
@@ -34,7 +35,7 @@
         classes: "govuk-button govuk-!-margin-bottom-0"
       }) }}
 
-      {{ govukButton({
+        {{ govukButton({
         text: "Reset Columns",
         attributes: {
           'data-reset-columns': 'true'
@@ -42,7 +43,7 @@
         classes: "govuk-button--secondary govuk-!-margin-bottom-0"
       }) }}
 
+      </div>
     </div>
-  </div>
-
+  </form>
 {% endmacro %}

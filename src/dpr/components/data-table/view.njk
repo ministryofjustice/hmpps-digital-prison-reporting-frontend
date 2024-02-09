@@ -8,7 +8,6 @@
   {% from "govuk/components/table/macro.njk" import govukTable %}
   {% from "govuk/components/pagination/macro.njk" import govukPagination %}
   {% from "govuk/components/select/macro.njk" import govukSelect %}
-  {% from "dpr/components/loading-anim/view.njk" import dprLoadingAnim -%}
 
   {%- set selectedPage = currentQueryParams.selectedPage | int %}
   {%- set pageSize = currentQueryParams.pageSize | int %}
@@ -25,7 +24,6 @@
 
   {% if rows.length %}
     <div id="table-container" class='table-container'>
-      {{ dprLoadingAnim() }}
       <div>
         <div class="govuk-grid-column">
           {{ govukTable({

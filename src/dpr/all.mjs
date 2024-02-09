@@ -2,6 +2,7 @@
 
 import { Autocomplete } from './components/autocomplete-text-input/clientClass.mjs'
 import { CardGroup } from './components/card-group/clientClass.mjs'
+import { DataTable } from './components/data-table/clientClass.mjs'
 
 /**
  * Initialise all components
@@ -15,6 +16,7 @@ export function initAll() {
   const components = ([
     Autocomplete,
     CardGroup,
+    DataTable,
   ])
 
   components.forEach((Component) => {

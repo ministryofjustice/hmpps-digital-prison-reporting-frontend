@@ -26,21 +26,19 @@ $('.autocomplete-text-input-box').each((index, element) => {
       if (searchValue.length >= minLength) {
         addItem(clearListAndRecreateTemplate(), false, '<i>Searching...</i>')
 
-        $.get(
-          resourceEndpoint.replace('{prefix}', encodeURI(searchValue))
-        )
-          .done( (results) => {
+        $.get(resourceEndpoint.replace('{prefix}', encodeURI(searchValue)))
+          .done((results) => {
             if (searchValue === $(element).val().toLowerCase()) {
               const template = clearListAndRecreateTemplate()
 
-              results.forEach(r => {
+              results.forEach((r) => {
                 addItem(template, true, r)
               })
             }
-        })
-        .fail( (data, status, statusText) => {
-          addItem(clearListAndRecreateTemplate(), false, 'Failed to retrieve results: ' + statusText)
-        })
+          })
+          .fail((data, status, statusText) => {
+            addItem(clearListAndRecreateTemplate(), false, `Failed to retrieve results: ${statusText}`)
+          })
       } else {
         clearListAndRecreateTemplate()
       }
@@ -58,7 +56,8 @@ $('.autocomplete-text-input-box').each((index, element) => {
 
 $('.autocomplete-text-input-list-button').each((index, element) => {
   $(element).on('click', (event) => {
-    const parentSelector = '#' + $(event.target).data('parent-input').replaceAll('.', '\\\.')
+    event.preventDefault()
+    const parentSelector = `#${$(event.target).data('parent-input').replaceAll('.', '\\.')}`
     const parent = $(parentSelector)
     const listId = parent.attr('aria-owns')
 

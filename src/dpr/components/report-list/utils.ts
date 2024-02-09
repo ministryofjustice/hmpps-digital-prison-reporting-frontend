@@ -13,6 +13,7 @@ import RenderListWithDefinitionInput from './RenderListWithDefinitionInput'
 import CreateRequestHandlerInput from './CreateRequestHandlerInput'
 
 const filtersQueryParameterPrefix = 'filters.'
+const columnsQueryParameterPrefix = 'columns'
 
 function getDefaultSortColumn(fields: components['schemas']['FieldDefinition'][]) {
   const defaultSortColumn = fields.find((f) => f.defaultsort)
@@ -35,9 +36,9 @@ function redirectWithDefaultFilters(
   response: Response,
   request: Request,
 ) {
-  if (Object.keys(reportQuery.filters).length === 0) {
-    const defaultFilters: Record<string, string> = {}
+  const defaultFilters: Record<string, string> = {}
 
+  if (Object.keys(reportQuery.filters).length === 0) {
     variantDefinition.specification.fields
       .filter((f) => f.filter && f.filter.defaultValue)
       .forEach((f) => {
@@ -57,12 +58,16 @@ function redirectWithDefaultFilters(
           defaultFilters[`${filtersQueryParameterPrefix}${f.name}`] = f.filter.defaultValue
         }
       })
+  }
 
-    if (Object.keys(defaultFilters).length > 0) {
-      const querystring = createUrlForParameters(reportQuery.toRecordWithFilterPrefix(), defaultFilters)
-      response.redirect(`${request.baseUrl}${request.path}${querystring}`)
-      return true
-    }
+  if (Object.keys(defaultFilters).length > 0) {
+    const querystring = createUrlForParameters(
+      reportQuery.toRecordWithFilterPrefix(),
+      defaultFilters,
+      reportQuery.columns,
+    )
+    response.redirect(`${request.baseUrl}${request.path}${querystring}`)
+    return true
   }
 
   return false
@@ -99,7 +104,7 @@ function renderList(
 
         const dataTableOptions: DataTableOptions = {
           head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
-          rows: DataTableUtils.mapData(data, fields),
+          rows: DataTableUtils.mapData(data, fields, reportQuery),
           count: resolvedData[1],
           currentQueryParams: reportQuery.toRecordWithFilterPrefix(),
           classification,
@@ -112,10 +117,22 @@ function renderList(
           selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
         }
 
+        const columnOptions = {
+          columns: fields.map((f) => {
+            return {
+              text: f.display,
+              value: f.name,
+              // TODO: Once Disabled || mandatory is added to field def, then add here.
+            }
+          }),
+          selectedColumns: reportQuery.columns,
+        }
+
         response.render('dpr/components/report-list/list', {
           title,
           dataTableOptions,
           filterOptions,
+          columnOptions,
           layoutTemplate,
           ...otherOptions,
           warnings,
@@ -155,6 +172,7 @@ const renderListWithDefinition = ({
       request.query,
       getDefaultSortColumn(variantDefinition.specification.fields),
       filtersQueryParameterPrefix,
+      columnsQueryParameterPrefix,
     )
 
     const getListData: ListDataSources = {
@@ -196,6 +214,7 @@ export default {
       request.query,
       getDefaultSortColumn(fields),
       filtersQueryParameterPrefix,
+      columnsQueryParameterPrefix,
     )
     const listData = getListDataSources(reportQuery)
 

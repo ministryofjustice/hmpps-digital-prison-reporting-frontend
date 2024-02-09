@@ -14,7 +14,12 @@ const testView =
   ') }}'
 
 const env = nunjucks.configure(
-  [path.join(__dirname, '../../../../node_modules/govuk-frontend'), path.join(__dirname, '/')],
+  [
+    path.join(__dirname, '../../../../node_modules/govuk-frontend'),
+    path.join(__dirname, '../../..'),
+    path.join(__dirname, '/'),
+    path.join(__dirname, '.'),
+  ],
   { autoescape: true },
 )
 

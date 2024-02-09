@@ -11,11 +11,15 @@ export default class ReportQuery implements FilteredListRequest {
 
   sortColumn?: string
 
+  columns: Array<string>
+
   sortedAsc: boolean
 
   filters: Dict<string>
 
   filtersPrefix: string
+
+  columnsPrefix: string
 
   dataProductDefinitionsPath?: string
 
@@ -24,6 +28,7 @@ export default class ReportQuery implements FilteredListRequest {
     queryParams: ParsedQs,
     defaultSortColumn: string,
     filtersPrefix: string,
+    columnsPrefix: string,
   ) {
     this.selectedPage = queryParams.selectedPage ? Number(queryParams.selectedPage) : 1
     this.pageSize = queryParams.pageSize ? Number(queryParams.pageSize) : 20
@@ -33,6 +38,13 @@ export default class ReportQuery implements FilteredListRequest {
       ? queryParams.dataProductDefinitionsPath.toString()
       : null
     this.filtersPrefix = filtersPrefix
+    this.columnsPrefix = columnsPrefix
+
+    if (queryParams.columns) {
+      this.columns = typeof queryParams.columns === 'string' ? [queryParams.columns] : (queryParams.columns as string[])
+    } else {
+      this.columns = fields.map((f) => f.name)
+    }
 
     this.filters = {}
     Object.keys(queryParams)

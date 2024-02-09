@@ -5,18 +5,18 @@ $(function () {
     $(element).on('click', (event) => {
       event.stopPropagation()
 
-      if ($(element).attr('aria-expanded') !== 'true') {
-        $($(element).data('toggle-target')).css('display', 'inline-block')
-        $(element).attr('aria-expanded', 'true')
+      if ($(element).getAttribute('aria-expanded') !== 'true') {
+        $($(element).dataset.toggleTarget).css('display', 'inline-block')
+        $(element).setAttribute('aria-expanded', 'true')
       } else {
-        $($(element).data('toggle-target')).css('display', 'none')
-        $(element).attr('aria-expanded', 'false')
+        $($(element).dataset.toggleTarget).css('display', 'none')
+        $(element).setAttribute('aria-expanded', 'false')
       }
     })
 
     $('body').on('click', () => {
-      $($(element).data('toggle-target')).css('display', 'none')
-      $(element).attr('aria-expanded', 'false')
+      $($(element).dataset.toggleTarget).css('display', 'none')
+      $(element).setAttribute('aria-expanded', 'false')
     })
   })
 })

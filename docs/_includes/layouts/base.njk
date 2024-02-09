@@ -39,7 +39,12 @@
         initAll()
       </script>
       <script type="text/javascript" src="{{ '/assets/js/all.js' }}"></script>
-      <script type="text/javascript" src="{{ '/assets/js/client.js' }}"></script>
+      <script type="module" src="{{ '/assets/js/all.mjs' }}"></script>
+      <script type="module">
+        import { initAll } from '{{ '/assets/js/all.mjs' | url }}'
+
+        initAll()
+      </script>
     {% endblock %}
   </body>
 </html>

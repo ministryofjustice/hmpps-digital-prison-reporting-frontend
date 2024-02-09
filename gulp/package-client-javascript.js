@@ -1,12 +1,15 @@
 const gulp = require('gulp');
-const concat = require('gulp-concat');
-const uglify = require("gulp-uglify");
+const rollup = require('gulp-rollup');
 
 gulp.task('package:client-javascript', () => {
   return gulp.src([
-      'src/dpr/**/*.js',
+      'src/dpr/**/*.mjs',
     ])
-    .pipe(concat('client.js'))
-    .pipe(uglify())
+    .pipe(rollup({
+      input: 'src/dpr/all.mjs',
+      output: {
+        format: 'es'
+      }
+    }))
     .pipe(gulp.dest('package/dpr/assets/js'));
 });

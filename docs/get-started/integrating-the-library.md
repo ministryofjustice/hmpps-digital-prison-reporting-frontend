@@ -46,7 +46,12 @@ Add the client-side JavaScript to the nunjucks layout:
 ```html
 {% block bodyEnd %}
     ...
-    <script src="/assets/dpr/js/client.js"></script>
+    <script type="module" src="/assets/dpr/js/all.mjs"></script>
+    <script type="module">
+      import { initAll } from '/assets/dpr/js/all.mjs'
+    
+      initAll()
+    </script>
 {% endblock %}
 ```
 

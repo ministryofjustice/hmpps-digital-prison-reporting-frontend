@@ -14,6 +14,7 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "dpr/components/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
+{% from "dpr/components/loading-anim/view.njk" import dprLoadingAnim -%}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% macro dprFilters(filters, urlWithNoFilters, parameterPrefix = "filters.") %}
@@ -21,6 +22,7 @@
 
   <form id="user-selected-filters-form">
     <div class="filter-container">
+      {{ dprLoadingAnim() }}
       {%- for filter in filters %}
 
         {%- if filter.type | lower === 'select' %}

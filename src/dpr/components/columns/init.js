@@ -28,6 +28,11 @@ if (applyColumnsButton) {
     url += serializedFormData
     url = url.replaceAll('?&', '?').replaceAll(ampRexEx, '&')
 
+    const loadingPanels = document.getElementsByClassName('loading-panel')
+    Array.from(loadingPanels).forEach((l) => {
+      l.classList.add('show')
+    })
+
     window.location.href = url
   })
 }
@@ -39,6 +44,12 @@ if (resetColumnsButton) {
     const resetColsRegExp = /&?columns=[^&]*/g
     let url = decodeURI(window.location.href).replaceAll(resetColsRegExp, '')
     url += url.indexOf('?') === -1 ? '?' : '&'
+
+    const loadingPanels = document.getElementsByClassName('loading-panel')
+    Array.from(loadingPanels).forEach((l) => {
+      l.classList.add('show')
+    })
+
     window.location.href = url
   })
 }

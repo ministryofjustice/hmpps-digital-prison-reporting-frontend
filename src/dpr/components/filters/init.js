@@ -21,6 +21,11 @@ if (applyFiltersButton) {
     url += serializedFormData
     url = url.replaceAll('?&', '?').replaceAll(ampRexExp, '&')
 
+    const loadingPanels = document.getElementsByClassName('loading-panel')
+    Array.from(loadingPanels).forEach((l) => {
+      l.classList.add('show')
+    })
+
     window.location.href = url
   })
 }
@@ -34,6 +39,12 @@ if (resetFiltersButton) {
     const baseUrl = e.target.getAttribute('data-apply-base-url')
     let url = baseUrl
     if (columnsQuery) url += columnsQuery.join('')
+
+    const loadingPanels = document.getElementsByClassName('loading-panel')
+    Array.from(loadingPanels).forEach((l) => {
+      l.classList.add('show')
+    })
+
     window.location.href = url
   })
 }

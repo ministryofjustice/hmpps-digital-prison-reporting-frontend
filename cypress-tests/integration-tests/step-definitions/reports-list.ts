@@ -189,6 +189,13 @@ Then('html types are displayed in the correct format', function (this: Mocha.Con
     if (field.type === 'HTML') {
       const htmlItem = page.dataTable().find(`tbody tr:first-child td:nth-child(${index + 1})`)
       htmlItem.find('a').should('have.attr', 'href', '#').should('have.text', 'Value 6.1')
+
+      // Test visibility
+      page
+        .dataTable()
+        .get(`tbody tr:first-child td:nth-child(${index + 1})`)
+        .contains('href')
+        .should('not.exist')
     }
   })
 })

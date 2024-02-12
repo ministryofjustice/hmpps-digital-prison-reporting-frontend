@@ -56,7 +56,7 @@ export const createQuerystringFromObject = (source: object) => {
       let k = key
       // eslint-disable-next-line prefer-destructuring
       if (key.includes('columns.')) k = key.split('.')[0]
-      return `${encodeURI(k)}=${encodeURI(source[key])}`
+      return `${encodeURI(k)}=${encodeURI(source[key as keyof typeof source])}`
     })
     .join('&')
 

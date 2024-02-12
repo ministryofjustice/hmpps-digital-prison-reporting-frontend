@@ -79,6 +79,12 @@ const variant = {
           },
         },
       },
+      {
+        name: 'field6',
+        display: 'Field 6',
+        sortable: false,
+        type: 'HTML',
+      },
     ],
   },
 }

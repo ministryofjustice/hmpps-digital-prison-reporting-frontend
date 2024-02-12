@@ -168,14 +168,34 @@ Then('date times are displayed in the correct format', function (this: Mocha.Con
     }
   })
 })
+
 Then('the correct data is displayed on the page', function (this: Mocha.Context) {
   const page = new ReportPage()
 
   page.dataTable().find('tbody tr').should('have.length', data.length)
   const record = data[0]
+  const ignoreTypes = ['date', 'HTML']
   Object.keys(record).forEach((key) => {
-    if (reportDefinition.variant.specification.fields.find((f) => f.name === key).type !== 'date') {
+    if (!ignoreTypes.includes(reportDefinition.variant.specification.fields.find((f) => f.name === key).type)) {
       page.dataTable().find('tbody tr').first().contains(record[key])
+    }
+  })
+})
+
+Then('html types are displayed in the correct format', function (this: Mocha.Context) {
+  const page = new ReportPage()
+
+  reportDefinition.variant.specification.fields.forEach((field, index) => {
+    if (field.type === 'HTML') {
+      const htmlItem = page.dataTable().find(`tbody tr:first-child td:nth-child(${index + 1})`)
+      htmlItem.find('a').should('have.attr', 'href', '#').should('have.text', 'Value 6.1')
+
+      // Test visibility
+      page
+        .dataTable()
+        .get(`tbody tr:first-child td:nth-child(${index + 1})`)
+        .contains('href')
+        .should('not.exist')
     }
   })
 })

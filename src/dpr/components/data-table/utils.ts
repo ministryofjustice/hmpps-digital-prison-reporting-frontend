@@ -102,9 +102,9 @@ export default {
             default:
               fieldFormat = 'string'
           }
-
+          const isHtml = f.type === 'HTML'
           const cell: Cell = {
-            text,
+            ...(isHtml ? { html: text } : { text }),
             format: fieldFormat,
             classes: f.wordWrap ? `data-table-cell-wrap-${f.wordWrap.toLowerCase()}` : null,
           }

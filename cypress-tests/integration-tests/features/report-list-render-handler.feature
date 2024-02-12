@@ -13,6 +13,7 @@ Feature: List report
     When I navigate to the handler page
     Then the column headers are displayed correctly
     And date times are displayed in the correct format
+    And html types are displayed in the correct format
     And the correct data is displayed on the page
 
   Scenario: Filtering data displays correct results

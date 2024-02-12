@@ -74,7 +74,7 @@ export interface components {
       sortable: boolean
       defaultsort: boolean
       /** @enum {string} */
-      type: 'string' | 'date' | 'long' | 'time'
+      type: 'string' | 'date' | 'long' | 'time' | 'HTML'
     }
     FilterDefinition: {
       /** @enum {string} */

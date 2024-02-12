@@ -70,6 +70,19 @@ const variant = {
         name: 'field5',
         display: 'Field 5',
         sortable: false,
+        type: 'string',
+        filter: {
+          type: 'autocomplete',
+          dynamicOptions: {
+            minimumLength: 3,
+            returnAsStaticOptions: false,
+          },
+        },
+      },
+      {
+        name: 'field6',
+        display: 'Field 6',
+        sortable: false,
         type: 'HTML',
       },
     ],

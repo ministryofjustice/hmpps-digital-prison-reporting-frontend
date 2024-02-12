@@ -6,7 +6,8 @@ export interface Header {
 }
 
 export interface Cell {
-  text: string
+  text?: string
+  html?: string
   format?: string
   classes?: string
 }

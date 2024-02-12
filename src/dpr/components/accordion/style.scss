@@ -78,9 +78,13 @@
 @media print {
   .accordion-section {
     margin-bottom: govuk-spacing(3);
-  }
 
-  .accordion-section-details {
+    .accordion-section-row--Columns {
+      display: none;
+    }
+  }
+  
+  .accordion-section-header {
     position: relative;
     left: 0px;
     margin-bottom: govuk-spacing(1);

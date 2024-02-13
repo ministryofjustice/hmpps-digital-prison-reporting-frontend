@@ -1,6 +1,6 @@
-import { DprClientClass } from '../../baseClientClass.mjs'
+import { DprLoadingClientClass } from '../../DprLoadingClientClass.mjs'
 
-export class Filters extends DprClientClass {
+export class Filters extends DprLoadingClientClass {
 
   static getModuleName() {
     return "filters"
@@ -8,14 +8,19 @@ export class Filters extends DprClientClass {
 
   initialise() {
     const applyButton = this.getElement().querySelector('.filter-actions-apply-button')
-    applyButton.addEventListener('click', this.applyButtonClick)
+    applyButton.addEventListener('click', (e) => {
+      this.showLoadingAnimation()
+      this.applyButtonClick(e)
+    })
 
     const resetButton = this.getElement().querySelector('[data-reset-filters=true]')
-    resetButton.addEventListener('click', this.resetButtonClick)
+    resetButton.addEventListener('click', (e) => {
+      this.showLoadingAnimation()
+      this.resetButtonClick(e)
+    })
 
-    const removeFilterButtons = document.getElementsByClassName('accordion-summary-remove-button')
-    Array.from(removeFilterButtons).forEach((removeFilterButton) => {
-      removeFilterButton.addEventListener('click', this.removeFilterButtonClick)
+    document.querySelectorAll('.accordion-summary-remove-button').forEach((removeFilterButton) => {
+      removeFilterButton.addEventListener('click', this.showLoadingAnimation)
     })
   }
 
@@ -40,11 +45,6 @@ export class Filters extends DprClientClass {
     url += serializedFormData
     url = url.replaceAll('?&', '?').replaceAll(ampRexExp, '&')
 
-    const loadingPanels = document.getElementsByClassName('loading-panel')
-    Array.from(loadingPanels).forEach((l) => {
-      l.classList.add('show')
-    })
-
     window.location.href = url
   }
 
@@ -55,18 +55,6 @@ export class Filters extends DprClientClass {
     let url = e.target.getAttribute('data-apply-base-url')
     if (columnsQuery) url += columnsQuery.join('')
 
-    const loadingPanels = document.getElementsByClassName('loading-panel')
-    Array.from(loadingPanels).forEach((l) => {
-      l.classList.add('show')
-    })
-
     window.location.href = url
-  }
-
-  removeFilterButtonClick() {
-    const loadingPanels = document.getElementsByClassName('loading-panel')
-    Array.from(loadingPanels).forEach((l) => {
-      l.classList.add('show')
-    })
   }
 }

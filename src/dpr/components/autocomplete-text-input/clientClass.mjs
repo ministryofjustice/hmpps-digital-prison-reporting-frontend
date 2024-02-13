@@ -1,4 +1,4 @@
-import { DprClientClass } from '../../baseClientClass.mjs'
+import { DprClientClass } from '../../DprClientClass.mjs'
 
 export class Autocomplete extends DprClientClass {
   static getModuleName() {

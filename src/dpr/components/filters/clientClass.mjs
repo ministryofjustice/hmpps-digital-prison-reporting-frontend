@@ -8,26 +8,65 @@ export class Filters extends DprClientClass {
 
   initialise() {
     const applyButton = this.getElement().querySelector('.filter-actions-apply-button')
-    const filters = [...this.getElement().querySelectorAll('input, select')]
+    applyButton.addEventListener('click', this.applyButtonClick)
 
-    let baseUrl = this.getElement().dataset.baseUrl
-    if (baseUrl.indexOf('?') === -1) {
-      baseUrl += '?'
-    } else {
-      baseUrl += '&'
-    }
+    const resetButton = this.getElement().querySelector('[data-reset-filters=true]')
+    resetButton.addEventListener('click', this.resetButtonClick)
 
-    applyButton.addEventListener('click', () => {
-      let url = baseUrl
-        + filters
-          .map(filter => `${filter.name}=${filter.value}`)
-          .join('&')
+    const removeFilterButtons = document.getElementsByClassName('accordion-summary-remove-button')
+    Array.from(removeFilterButtons).forEach((removeFilterButton) => {
+      removeFilterButton.addEventListener('click', this.removeFilterButtonClick)
+    })
+  }
 
-      url = url
-        .replaceAll('?&', '?')
-        .replaceAll('&&', '&')
+  applyButtonClick(e) {
+    e.preventDefault()
+    const filtersForm = document.getElementById('user-selected-filters-form')
+    const filtersRegExp = /filters[.\w]+=[^&]*/g
+    const pagingRegExp = /paging\.selectedPage=\d+/
+    const ampRexExp = /(&)\1+/g
 
-      window.location.href = url
+    let url = decodeURI(window.location.href)
+      .replaceAll(filtersRegExp, '')
+      .replace(pagingRegExp, 'paging.selectedPage=1')
+    url += url.indexOf('?') === -1 ? '?' : '&'
+
+    const formData = new FormData(filtersForm)
+    let serializedFormData = ''
+    formData.forEach((n, v) => {
+      serializedFormData += `&${v}=${n}`
+    })
+
+    url += serializedFormData
+    url = url.replaceAll('?&', '?').replaceAll(ampRexExp, '&')
+
+    const loadingPanels = document.getElementsByClassName('loading-panel')
+    Array.from(loadingPanels).forEach((l) => {
+      l.classList.add('show')
+    })
+
+    window.location.href = url
+  }
+
+  resetButtonClick(e) {
+    e.preventDefault()
+    const resetColsRegExp = /&?columns=[^&]*/g
+    const columnsQuery = window.location.href.match(resetColsRegExp)
+    let url = e.target.getAttribute('data-apply-base-url')
+    if (columnsQuery) url += columnsQuery.join('')
+
+    const loadingPanels = document.getElementsByClassName('loading-panel')
+    Array.from(loadingPanels).forEach((l) => {
+      l.classList.add('show')
+    })
+
+    window.location.href = url
+  }
+
+  removeFilterButtonClick() {
+    const loadingPanels = document.getElementsByClassName('loading-panel')
+    Array.from(loadingPanels).forEach((l) => {
+      l.classList.add('show')
     })
   }
 }

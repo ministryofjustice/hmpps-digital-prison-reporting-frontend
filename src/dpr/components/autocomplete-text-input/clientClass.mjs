@@ -74,6 +74,7 @@ export class Autocomplete extends DprClientClass {
   }
 
   onOptionClick(event, textInput, topLevelElement) {
+    event.preventDefault()
     textInput.value = event.target.innerText.trim()
     textInput.focus()
 

@@ -71,6 +71,11 @@ Feature: List report
     And I apply the columns
     Then the selected columns values are shown in the URL
 
+  Scenario: Selecting a mandatory column displays correct results
+    Given I click the Show Columns button
+    When I select a mandatory column
+    And I apply the columns
+    Then the mandatory column value is shown in the URL
 
   Scenario: Clicking 'Reset Columns' resets all columns
     Given I click the Show Columns button

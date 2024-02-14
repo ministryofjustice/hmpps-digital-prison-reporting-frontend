@@ -12,7 +12,7 @@ const variant = {
         sortable: true,
         defaultsort: true,
         type: 'string',
-        mandatory: true,
+        mandatory: false,
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -28,7 +28,7 @@ const variant = {
         display: 'Field 2',
         sortable: true,
         type: 'string',
-        mandatory: false,
+        mandatory: true,
         filter: {
           type: 'Select',
           staticOptions: [

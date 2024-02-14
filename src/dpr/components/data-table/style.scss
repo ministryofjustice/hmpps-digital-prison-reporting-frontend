@@ -76,3 +76,9 @@
 .table-container {
   position: relative;
 }
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5;
+}

@@ -4,6 +4,7 @@ import createUrlForParameters from '../../utils/urlHelper'
 import { DataTableOptions } from '../data-table/types'
 import DataTableUtils from '../data-table/utils'
 import FilterUtils from '../filters/utils'
+import ColumnUtils from '../columns/utils'
 import { ListDataSources, RenderListWithDataInput } from './types'
 import ReportingClient from '../../data/reportingClient'
 import { ListWithWarnings, Warnings } from '../../data/types'
@@ -102,9 +103,16 @@ function renderList(
           data = resolvedData[0]
         }
 
+        const columns = ColumnUtils.getColumns(fields)
+        const selectedColumns = ColumnUtils.getSelectedColumns(columns, reportQuery.columns)
+        const columnOptions = {
+          columns,
+          selectedColumns,
+        }
+
         const dataTableOptions: DataTableOptions = {
-          head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
-          rows: DataTableUtils.mapData(data, fields, reportQuery),
+          head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters, selectedColumns),
+          rows: DataTableUtils.mapData(data, fields, selectedColumns),
           count: resolvedData[1],
           currentQueryParams: reportQuery.toRecordWithFilterPrefix(),
           classification,
@@ -115,17 +123,6 @@ function renderList(
         const filterOptions = {
           filters: FilterUtils.getFilters(variantDefinition, reportQuery.filters, dynamicAutocompleteEndpoint),
           selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
-        }
-
-        const columnOptions = {
-          columns: fields.map((f) => {
-            return {
-              text: f.display,
-              value: f.name,
-              // TODO: Once Disabled || mandatory is added to field def, then add here.
-            }
-          }),
-          selectedColumns: reportQuery.columns,
         }
 
         response.render('dpr/components/report-list/list', {

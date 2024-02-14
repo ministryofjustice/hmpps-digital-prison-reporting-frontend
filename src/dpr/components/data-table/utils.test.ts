@@ -4,10 +4,6 @@ import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'
 
 describe('mapData', () => {
-  const defaultQueryParams = {}
-  const filterPrefix = 'f.'
-  const columnsPrefix = 'c.'
-
   it('Dates with values less than 10 mapped with leading 0', () => {
     const data: Dict<string> = {
       date: '2000-01-02T03:04:05.006Z',
@@ -18,9 +14,9 @@ describe('mapData', () => {
       sortable: true,
       defaultsort: false,
       type: 'date',
+      mandatory: false,
     }
-    const reportQuery: ReportQuery = new ReportQuery([fields], defaultQueryParams, null, filterPrefix, columnsPrefix)
-    const mapped = Utils.mapData([data], [fields], reportQuery)
+    const mapped = Utils.mapData([data], [fields], ['date'])
 
     expect(mapped).toEqual([
       [
@@ -43,9 +39,9 @@ describe('mapData', () => {
       sortable: true,
       defaultsort: false,
       type: 'date',
+      mandatory: false,
     }
-    const reportQuery: ReportQuery = new ReportQuery([fields], defaultQueryParams, null, filterPrefix, columnsPrefix)
-    const mapped = Utils.mapData([data], [fields], reportQuery)
+    const mapped = Utils.mapData([data], [fields], ['date'])
 
     expect(mapped).toEqual([
       [
@@ -68,9 +64,9 @@ describe('mapData', () => {
       sortable: true,
       defaultsort: false,
       type: 'date',
+      mandatory: false,
     }
-    const reportQuery: ReportQuery = new ReportQuery([fields], defaultQueryParams, null, filterPrefix, columnsPrefix)
-    const mapped = Utils.mapData([data], [fields], reportQuery)
+    const mapped = Utils.mapData([data], [fields], ['date'])
 
     expect(mapped).toEqual([
       [
@@ -93,9 +89,9 @@ describe('mapData', () => {
       sortable: true,
       defaultsort: false,
       type: 'long',
+      mandatory: false,
     }
-    const reportQuery: ReportQuery = new ReportQuery([fields], defaultQueryParams, null, filterPrefix, columnsPrefix)
-    const mapped = Utils.mapData([data], [fields], reportQuery)
+    const mapped = Utils.mapData([data], [fields], ['number'])
 
     expect(mapped).toEqual([
       [
@@ -118,9 +114,9 @@ describe('mapData', () => {
       sortable: true,
       defaultsort: false,
       type: 'string',
+      mandatory: false,
     }
-    const reportQuery: ReportQuery = new ReportQuery([fields], defaultQueryParams, null, filterPrefix, columnsPrefix)
-    const mapped = Utils.mapData([data], [fields], reportQuery)
+    const mapped = Utils.mapData([data], [fields], ['string'])
 
     expect(mapped).toEqual([
       [
@@ -144,9 +140,9 @@ describe('mapData', () => {
       defaultsort: false,
       type: 'string',
       wordWrap: 'None',
+      mandatory: false,
     }
-    const reportQuery: ReportQuery = new ReportQuery([fields], defaultQueryParams, null, filterPrefix, columnsPrefix)
-    const mapped = Utils.mapData([data], [fields], reportQuery)
+    const mapped = Utils.mapData([data], [fields], ['string'])
 
     expect(mapped).toEqual([
       [
@@ -167,6 +163,7 @@ describe('mapHeader', () => {
     sortable: true,
     defaultsort: false,
     type: 'date',
+    mandatory: false,
   }
   const defaultQueryParams = {}
   const filterPrefix = 'f.'
@@ -188,7 +185,7 @@ describe('mapHeader', () => {
       ...defaultField,
       sortable: false,
     }
-    const mapped = Utils.mapHeader([field], defaultListRequest, createUrlForParameters)
+    const mapped = Utils.mapHeader([field], defaultListRequest, createUrlForParameters, ['date'])
 
     expect(mapped).toEqual([
       {
@@ -198,7 +195,7 @@ describe('mapHeader', () => {
   })
 
   it('Sortable unsorted field', () => {
-    const mapped = Utils.mapHeader([defaultField], defaultListRequest, createUrlForParameters)
+    const mapped = Utils.mapHeader([defaultField], defaultListRequest, createUrlForParameters, ['date'])
 
     expect(mapped).toEqual([
       {
@@ -225,7 +222,7 @@ describe('mapHeader', () => {
       filterPrefix,
       columnsPrefix,
     )
-    const mapped = Utils.mapHeader([defaultField], reportQuery, createUrlForParameters)
+    const mapped = Utils.mapHeader([defaultField], reportQuery, createUrlForParameters, ['date'])
 
     expect(mapped).toEqual([
       {
@@ -253,7 +250,7 @@ describe('mapHeader', () => {
       filterPrefix,
       columnsPrefix,
     )
-    const mapped = Utils.mapHeader([defaultField], reportQuery, createUrlForParameters)
+    const mapped = Utils.mapHeader([defaultField], reportQuery, createUrlForParameters, ['date'])
 
     expect(mapped).toEqual([
       {

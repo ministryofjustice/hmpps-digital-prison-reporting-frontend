@@ -12,6 +12,7 @@ const variant = {
         sortable: true,
         defaultsort: true,
         type: 'string',
+        mandatory: false,
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -27,6 +28,7 @@ const variant = {
         display: 'Field 2',
         sortable: true,
         type: 'string',
+        mandatory: true,
         filter: {
           type: 'Select',
           staticOptions: [
@@ -41,6 +43,7 @@ const variant = {
         display: 'Field 3',
         sortable: false,
         type: 'date',
+        mandatory: false,
         filter: {
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
@@ -71,6 +74,7 @@ const variant = {
         display: 'Field 5',
         sortable: false,
         type: 'string',
+        mandatory: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
@@ -84,6 +88,7 @@ const variant = {
         display: 'Field 6',
         sortable: false,
         type: 'HTML',
+        mandatory: false,
       },
     ],
   },

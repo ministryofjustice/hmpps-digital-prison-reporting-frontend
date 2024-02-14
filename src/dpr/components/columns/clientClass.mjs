@@ -1,9 +1,8 @@
 import { DprLoadingClientClass } from '../../DprLoadingClientClass.mjs'
 
 export class Columns extends DprLoadingClientClass {
-
   static getModuleName() {
-    return "columns"
+    return 'columns'
   }
 
   initialise() {

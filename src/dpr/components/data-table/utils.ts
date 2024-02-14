@@ -23,49 +23,47 @@ export default {
     format: Array<components['schemas']['FieldDefinition']>,
     reportQuery: ReportQuery,
     createUrlForParameters: (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) => string,
+    selectedColumns: Array<string>,
   ) => {
     const currentQueryParams = reportQuery.toRecordWithFilterPrefix()
-    const { columns } = reportQuery
 
     return format
       .filter((f) => {
-        return columns.includes(f.name) || !columns
+        return selectedColumns.includes(f.name)
       })
       .map((f) => {
         let header: Header
 
-        if (columns && columns.includes(f.name)) {
-          if (f.sortable) {
-            let ariaSort = 'none'
-            let url = createUrlForParameters(currentQueryParams, {
-              sortColumn: f.name,
-              sortedAsc: 'true',
-            })
+        if (f.sortable) {
+          let ariaSort = 'none'
+          let url = createUrlForParameters(currentQueryParams, {
+            sortColumn: f.name,
+            sortedAsc: 'true',
+          })
 
-            if (f.name === reportQuery.sortColumn) {
-              ariaSort = reportQuery.sortedAsc ? 'ascending' : 'descending'
+          if (f.name === reportQuery.sortColumn) {
+            ariaSort = reportQuery.sortedAsc ? 'ascending' : 'descending'
 
-              if (reportQuery.sortedAsc) {
-                url = createUrlForParameters(currentQueryParams, {
-                  sortColumn: f.name,
-                  sortedAsc: 'false',
-                })
-              }
+            if (reportQuery.sortedAsc) {
+              url = createUrlForParameters(currentQueryParams, {
+                sortColumn: f.name,
+                sortedAsc: 'false',
+              })
             }
+          }
 
-            header = {
-              html:
-                `<a ` +
-                `data-column="${f.name}" ` +
-                `aria-sort="${ariaSort}" ` +
-                `class="data-table-header-button data-table-header-button-sort-${ariaSort}" ` +
-                `href="${url}"` +
-                `>${f.display}</a>`,
-            }
-          } else {
-            header = {
-              html: `<a data-column="${f.name}" class="data-table-header-button">${f.display}</a>`,
-            }
+          header = {
+            html:
+              `<a ` +
+              `data-column="${f.name}" ` +
+              `aria-sort="${ariaSort}" ` +
+              `class="data-table-header-button data-table-header-button-sort-${ariaSort}" ` +
+              `href="${url}"` +
+              `>${f.display}</a>`,
+          }
+        } else {
+          header = {
+            html: `<a data-column="${f.name}" class="data-table-header-button">${f.display}</a>`,
           }
         }
 
@@ -76,14 +74,12 @@ export default {
   mapData: (
     data: Array<Dict<string>>,
     format: Array<components['schemas']['FieldDefinition']>,
-    reportQuery: ReportQuery,
+    selectedColumns: Array<string>,
   ) => {
-    const { columns } = reportQuery
-
     return data.map((d) =>
       format
         .filter((f) => {
-          return columns.includes(f.name) || !columns
+          return selectedColumns.includes(f.name)
         })
         .map((f) => {
           let text: string = d[f.name]

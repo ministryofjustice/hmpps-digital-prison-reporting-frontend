@@ -330,10 +330,22 @@ When('I select a column', function (this: Mocha.Context) {
   page.columnCheckBox().click({ force: true })
 })
 
+When('I select a mandatory column', function (this: Mocha.Context) {
+  const page = new ReportPage()
+
+  page.columnCheckBoxDisabled().should('be.disabled')
+})
+
 When('I apply the columns', function () {
   const page = new ReportPage()
 
   page.applyColumnsButton().click()
+})
+
+Then('the mandatory column value is shown in the URL', function (this: Mocha.Context) {
+  cy.location().should((location) => {
+    expect(location.search).to.contain(`columns=field2`)
+  })
 })
 
 Then('the selected columns values are shown in the URL', function (this: Mocha.Context) {

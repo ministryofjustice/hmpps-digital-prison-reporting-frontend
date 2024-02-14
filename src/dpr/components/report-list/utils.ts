@@ -103,9 +103,16 @@ function renderList(
           data = resolvedData[0]
         }
 
+        const columns = ColumnUtils.getColumns(fields)
+        const selectedColumns = ColumnUtils.getSelectedColumns(columns, reportQuery.columns)
+        const columnOptions = {
+          columns,
+          selectedColumns,
+        }
+
         const dataTableOptions: DataTableOptions = {
-          head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
-          rows: DataTableUtils.mapData(data, fields, reportQuery),
+          head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters, selectedColumns),
+          rows: DataTableUtils.mapData(data, fields, selectedColumns),
           count: resolvedData[1],
           currentQueryParams: reportQuery.toRecordWithFilterPrefix(),
           classification,
@@ -116,13 +123,6 @@ function renderList(
         const filterOptions = {
           filters: FilterUtils.getFilters(variantDefinition, reportQuery.filters, dynamicAutocompleteEndpoint),
           selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
-        }
-
-        const columns = ColumnUtils.getColumns(fields)
-        const selectedColumns = ColumnUtils.getSelectedColumns(columns, reportQuery.columns)
-        const columnOptions = {
-          columns,
-          selectedColumns,
         }
 
         response.render('dpr/components/report-list/list', {

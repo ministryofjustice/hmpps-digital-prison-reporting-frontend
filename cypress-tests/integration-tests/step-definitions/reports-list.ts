@@ -333,7 +333,7 @@ When('I select a column', function (this: Mocha.Context) {
 When('I select a mandatory column', function (this: Mocha.Context) {
   const page = new ReportPage()
 
-  page.columnCheckBox().click({ force: true })
+  page.columnCheckBoxDisabled().should('be.disabled')
 })
 
 When('I apply the columns', function () {

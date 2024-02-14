@@ -15,4 +15,14 @@ export class DprLoadingClientClass extends DprClientClass {
       b.disabled = true
     })
   }
+
+  hideLoadingAnimation() {
+    document.querySelectorAll('.loading-panel').forEach((l) => {
+      l.classList.remove('show')
+    })
+
+    this.getElement().querySelectorAll('button').forEach((b) => {
+      b.disabled = false
+    })
+  }
 }

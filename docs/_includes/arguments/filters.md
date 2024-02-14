@@ -10,7 +10,7 @@
 | Name    | Type   | Required | Description                                                                            |
 |---------|--------|----------|----------------------------------------------------------------------------------------|
 | text    | String | Yes      | The text to show next to the filter.                                                   |
-| id      | String | Yes      | The unique ID of the filter.                                                           |
+| name    | String | Yes      | The unique ID of the filter.                                                           |
 | type    | String | Yes      | The type of the filter. One of: Select, Radio, DateRange, or Autocomplete.             |
 | options | Array  | No       | The options to display if this filter is a select or a radio. See [Options](#options). |
 | value   | String | No       | The currently selected value of the filter.                                            |

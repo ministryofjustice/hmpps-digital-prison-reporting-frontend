@@ -3,27 +3,26 @@ import { DprLoadingClientClass } from '../../DprLoadingClientClass.mjs'
 export class Columns extends DprLoadingClientClass {
 
   static getModuleName() {
-    return "card-group"
+    return "columns"
   }
 
   initialise() {
     const applyColumnsButton = this.getElement().querySelector('[data-apply-columns-to-querystring=true]')
     applyColumnsButton.addEventListener('click', (e) => {
       this.showLoadingAnimation()
-      this.applyButtonClick(e)
+      this.applyButtonClick(e, this.getElement())
     })
 
-    const resetColumnsButton = this.getElement().querySelectorAll('[data-reset-columns=true]')
+    const resetColumnsButton = this.getElement().querySelector('[data-reset-columns=true]')
     resetColumnsButton.addEventListener('click', (e) => {
       this.showLoadingAnimation()
       this.resetButtonClick(e)
     })
   }
 
-  applyButtonClick(e) {
+  applyButtonClick(e, columnsForm) {
     e.preventDefault()
-    const columnsForm = document.getElementById('user-selected-columns-form')
-    const columnsFormInputs = document.body.querySelectorAll(`#user-selected-columns-form input`)
+    const columnsFormInputs = columnsForm.querySelectorAll(`input`)
     const colsRegExp = /columns=[^&]*/g
     const ampRexEx = /(&)\1+/g
 

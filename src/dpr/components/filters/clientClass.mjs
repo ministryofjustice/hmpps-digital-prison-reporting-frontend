@@ -16,11 +16,13 @@ export class Filters extends DprLoadingClientClass {
     const resetButton = this.getElement().querySelector('[data-reset-filters=true]')
     resetButton.addEventListener('click', (e) => {
       this.showLoadingAnimation()
-      this.resetButtonClick(e)
+      this.resetButtonClick(e, this.hideLoadingAnimation)
     })
 
     document.querySelectorAll('.accordion-summary-remove-button').forEach((removeFilterButton) => {
-      removeFilterButton.addEventListener('click', this.showLoadingAnimation)
+      removeFilterButton.addEventListener('click', () => {
+        this.showLoadingAnimation()
+      })
     })
   }
 
@@ -48,13 +50,17 @@ export class Filters extends DprLoadingClientClass {
     window.location.href = url
   }
 
-  resetButtonClick(e) {
+  resetButtonClick(e, hideLoadingAnimation) {
     e.preventDefault()
     const resetColsRegExp = /&?columns=[^&]*/g
     const columnsQuery = window.location.href.match(resetColsRegExp)
     let url = e.target.getAttribute('data-apply-base-url')
     if (columnsQuery) url += columnsQuery.join('')
 
-    window.location.href = url
+    if (url === window.location.href) {
+      hideLoadingAnimation()
+    } else {
+      window.location.href = url
+    }
   }
 }

@@ -44,7 +44,7 @@ const defaultOptions: DataTableOptions = {
     [{ text: 'Value 2.1' }, { text: 'Value 2.2' }],
   ],
   count: 20,
-  currentQueryParams: defaultQueryParams
+  currentQueryParams: defaultQueryParams,
 }
 
 describe('Content renders correctly', () => {
@@ -159,19 +159,27 @@ describe('Page picker renders correctly', () => {
   }
 
   const expectPreviousButton = (content: string) => {
-    expect(content).toContain('<span class="govuk-pagination__link-title">Previous<span class="govuk-visually-hidden"> page</span></span>')
+    expect(content).toContain(
+      '<span class="govuk-pagination__link-title">Previous<span class="govuk-visually-hidden"> page</span></span>',
+    )
   }
 
   const expectNoPreviousButton = (content: string) => {
-    expect(content).not.toContain('<span class="govuk-pagination__link-title">Previous<span class="govuk-visually-hidden"> page</span></span>')
+    expect(content).not.toContain(
+      '<span class="govuk-pagination__link-title">Previous<span class="govuk-visually-hidden"> page</span></span>',
+    )
   }
 
   const expectNextButton = (content: string) => {
-    expect(content).toContain('<span class="govuk-pagination__link-title">Next<span class="govuk-visually-hidden"> page</span></span>')
+    expect(content).toContain(
+      '<span class="govuk-pagination__link-title">Next<span class="govuk-visually-hidden"> page</span></span>',
+    )
   }
 
   const expectNoNextButton = (content: string) => {
-    expect(content).not.toContain('<span class="govuk-pagination__link-title">Next<span class="govuk-visually-hidden"> page</span></span>')
+    expect(content).not.toContain(
+      '<span class="govuk-pagination__link-title">Next<span class="govuk-visually-hidden"> page</span></span>',
+    )
   }
 })
 

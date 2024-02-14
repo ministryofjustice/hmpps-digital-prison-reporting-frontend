@@ -15,7 +15,7 @@ const testView =
 
 const env = nunjucks.configure(
   [
-    path.join(__dirname, '../../../../node_modules/govuk-frontend'),
+    path.join(__dirname, '../../../../node_modules/govuk-frontend/dist'),
     path.join(__dirname, '../../..'),
     path.join(__dirname, '/'),
     path.join(__dirname, '.'),
@@ -36,6 +36,8 @@ const defaultQueryParams = {
   sortedAsc: 'true',
 }
 const defaultOptions: DataTableOptions = {
+  classification: '',
+  url: '',
   head: [{ html: 'Header 1' }, { html: 'Header 2' }],
   rows: [
     [{ text: 'Value 1.1' }, { text: 'Value 1.2' }],
@@ -157,19 +159,27 @@ describe('Page picker renders correctly', () => {
   }
 
   const expectPreviousButton = (content: string) => {
-    expect(content).toContain('<span class="govuk-pagination__link-title">Previous</span>')
+    expect(content).toContain(
+      '<span class="govuk-pagination__link-title">Previous<span class="govuk-visually-hidden"> page</span></span>',
+    )
   }
 
   const expectNoPreviousButton = (content: string) => {
-    expect(content).not.toContain('<span class="govuk-pagination__link-title">Previous</span>')
+    expect(content).not.toContain(
+      '<span class="govuk-pagination__link-title">Previous<span class="govuk-visually-hidden"> page</span></span>',
+    )
   }
 
   const expectNextButton = (content: string) => {
-    expect(content).toContain('<span class="govuk-pagination__link-title">Next</span>')
+    expect(content).toContain(
+      '<span class="govuk-pagination__link-title">Next<span class="govuk-visually-hidden"> page</span></span>',
+    )
   }
 
   const expectNoNextButton = (content: string) => {
-    expect(content).not.toContain('<span class="govuk-pagination__link-title">Next</span>')
+    expect(content).not.toContain(
+      '<span class="govuk-pagination__link-title">Next<span class="govuk-visually-hidden"> page</span></span>',
+    )
   }
 })
 

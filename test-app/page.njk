@@ -3,18 +3,20 @@
 {% from "components/card-group/view.njk" import dprCardGroup %}
 
 {% block head %}
-  <script src="/assets/ext/jquery.min.js"></script>
   <link href="/assets/dpr/css/all.css" rel="stylesheet">
 {% endblock %}
 
 {% block pageTitle %}Test App{% endblock %}
 
 {% block bodyEnd %}
-  <script src="/govuk/all.js"></script>
-  <script src="/moj/all.js"></script>
-  <script type="text/javascript">
-    window.GOVUKFrontend.initAll()
-    window.MOJFrontend.initAll()
+  <script type="module" src="/govuk/all.js"></script>
+  <script type="module">
+    import { initAll } from '/govuk/all.js'
+    initAll()
   </script>
-  <script src="/assets/dpr/js/client.js"></script>
+  <script type="module" src="/assets/dpr/js/all.mjs"></script>
+  <script type="module">
+    import { initAll } from '/assets/dpr/js/all.mjs'
+    initAll()
+  </script>
 {% endblock %}

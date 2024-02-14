@@ -25,7 +25,7 @@ When('I select a filter', function (this: Mocha.Context) {
       page.filter(filterField.name).select(filterValue.name)
       break
     case 'Radio':
-      page.filter(filterField.name).click()
+      page.filter(filterField.name).click({ force: true })
       page.filter(filterField.name).then((selectedRadio) => {
         filterValue = filterField.filter.staticOptions.find((value) => value.name === selectedRadio.val())
       })
@@ -327,7 +327,7 @@ When(/^I click the Show Columns button$/, function () {
 When('I select a column', function (this: Mocha.Context) {
   const page = new ReportPage()
 
-  page.columnCheckBox().click()
+  page.columnCheckBox().click({ force: true })
 })
 
 When('I apply the columns', function () {

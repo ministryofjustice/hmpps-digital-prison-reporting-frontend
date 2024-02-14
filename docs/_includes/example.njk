@@ -1,3 +1,5 @@
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
 <div class="app-example">
   <span class="app-example__new-window">
     <a href="{{ href }}" target="_blank">Open this example <span class="govuk-visually-hidden">({{ title }})</span> in a new window</a>
@@ -5,49 +7,57 @@
   <iframe class="app-example__frame" height="{{ height }}" src="{{ href }}" title="{{ title }}"></iframe>
 </div>
 <div class="app-tabs" data-module="app-tabs">
-  <ul class="app-tabs__list" role="tablist">
-    <li class="app-tabs__list-item" role="presentation"><a class="app-tabs__tab" href="#html-default-{{ id }}" role="tab" id="tab_html-default-{{ id }}" aria-controls="html-default-{{ id }}">HTML</a></li>
-    <li class="app-tabs__list-item" role="presentation"><a class="app-tabs__tab" href="#nunjucks-default-{{ id }}" role="tab" id="tab_nunjucks-default-{{ id }}" aria-controls="nunjucks-default-{{ id }}">Nunjucks</a></li>
-    {% if jsCode %}<li class="app-tabs__list-item" role="presentation"><a class="app-tabs__tab" href="#js-default-{{ id }}" role="tab" id="tab_j-default-{{ id }}" aria-controls="js-default-{{ id }}">JavaScript</a></li>{% endif %}
-  </ul>
 
-  <div class="app-tabs__panel app-tabs__panel--hidden" id="html-default-{{ id }}" data-module="app-copy" role="tabpanel" aria-labelledby="tab_html-default-{{ id }}">
-
+{% set htmlTab %}
 ```html
 {{ htmlCode | safe }}
 ```
-  </div>
+{% endset -%}
 
-  <div class="app-tabs__panel app-tabs__panel--hidden" id="nunjucks-default-{{ id }}" role="tabpanel" aria-labelledby="tab_nunjucks-default-{{ id }}">
-
-{% if arguments %}
-  <details class="govuk-details govuk-!-padding-3" data-module="govuk-details">
-    <summary class="govuk-details__summary">
+{% set nunjucksTab %}
+  {%- if arguments %}
+    <details class="govuk-details" data-module="govuk-details">
+      <summary class="govuk-details__summary">
       <span class="govuk-details__summary-text">
         Nunjucks macro options
       </span>
-    </summary>
-    <div class="govuk-details__text">
+      </summary>
+      <div class="govuk-details__text">
 
-{% include "./arguments/" + arguments + ".md" %}
+        {% include "./arguments/" + arguments + ".md" %}
 
-    </div>
-  </details>
-{% endif %}
-
-  <div data-module="app-copy" style="position:relative;">
-
+      </div>
+    </details>
+  {% endif %}
 ```jinja
 {{ nunjucksCode | safe }}
 ```
+{% endset -%}
 
-  </div>
-
-  </div>
+{% set tabItems = [
+  {
+    label: "_",
+    id: "blank-tab"
+  },
+  {
+    label: "HTML",
+    id: "html",
+    panel: {
+      html: htmlTab
+    }
+  },
+  {
+    label: "Nunjucks",
+    id: "nunjucks",
+    panel: {
+      html: nunjucksTab
+    }
+  }
+] %}
 
 {% if jsCode %}
-  <div class="app-tabs__panel app-tabs__panel--hidden" id="js-default-{{ id }}" data-module="app-copy" role="tabpanel" aria-labelledby="tab_js-default-{{ id }}">
-    {% if jsArguments %}
+  {% set jsTab -%}
+    {% if jsArguments -%}
       <details class="govuk-details govuk-!-padding-3" data-module="govuk-details">
         <summary class="govuk-details__summary">
           <span class="govuk-details__summary-text">
@@ -57,14 +67,27 @@
         <div class="govuk-details__text">
 
           {% include "./arguments/" + jsArguments + ".md" %}
-
         </div>
       </details>
     {% endif %}
-
 ```js
 {{ jsCode | safe }}
 ```
-  </div>
+  {% endset -%}
+
+  {% set tabItems = tabItems.concat([
+    {
+      label: "JavaScript",
+      id: "javascript",
+      panel: {
+        html: jsTab
+      }
+    }
+  ]) %}
 {% endif %}
+
+{{ govukTabs({
+  items: tabItems
+}) }}
+
 </div>

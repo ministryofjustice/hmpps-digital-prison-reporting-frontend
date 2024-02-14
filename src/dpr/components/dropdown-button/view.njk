@@ -26,13 +26,12 @@
   {%- set items = options.items %}
   {%- set groups = options.groups %}
 
-  <div class="dropdown-button">
+  <div class="dropdown-button" data-dpr-module="dropdown-button">
     {{ govukButton({
         id: id + "-button",
         text: text + " ▼",
         classes: classes + " ",
         attributes: {
-        "data-toggle-target": "#" + id + "-menu",
         "aria-expanded": "false"
         }
     }) }}

@@ -327,7 +327,7 @@ When(/^I click the Show Columns button$/, function () {
 When('I select a column', function (this: Mocha.Context) {
   const page = new ReportPage()
 
-  page.columnCheckBox().click()
+  page.columnCheckBox().click({ force: true })
 })
 
 When('I apply the columns', function () {

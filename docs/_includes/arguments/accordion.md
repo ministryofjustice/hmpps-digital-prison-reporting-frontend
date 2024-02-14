@@ -1,8 +1,9 @@
-| Name           | Type   | Required | Description                                |
-| -------------- | ------ | -------- | ------------------------------------------ |
-| accordionItems | object | Yes      | Data object. See [Cards](#accordionItems). |
 
-### accordionItems
+| Name           | Type   | Required | Description                       |
+| -------------- | ------ | -------- |-----------------------------------|
+| accordionItems | object | Yes      | Data object. See [Items](#items). |
+
+### Items
 
 | Name        | Type   | Required | Description                                                  |
 | ----------- | ------ | -------- | ------------------------------------------------------------ |

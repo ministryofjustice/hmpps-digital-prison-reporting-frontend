@@ -1,5 +1,5 @@
 {% macro dprCardGroup(cards) %}
-  <ul class="govuk-grid-row card-group">
+  <ul class="govuk-grid-row card-group" data-dpr-module="card-group">
     {% for card in cards %}
     <li class="govuk-grid-column-one-third card-group__item" data-click-navigate-to="{{ card.href }}">
       <div class="card card--clickable">

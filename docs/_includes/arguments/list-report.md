@@ -1,5 +1,5 @@
 
-### Rendering using method: `renderListWithData`
+### Rendering using method: renderListWithData
 
 | Name                        | Type     | Required | Description                                                                                                                                                       |
 |-----------------------------|----------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -59,7 +59,7 @@ This object is passed to the getListDataSources function, to allow you to reques
 | sortedAsc    | Boolean | Yes      | Whether the data is sorted ascending or not.                        |
 | filters      | Object  | Yes      | A Dict (or map) of field names to currently selected filter values. |
 
-### Rendering using handler: `createReportListRequestHandler`
+### Rendering using handler: createReportListRequestHandler
 
 | Name                        | Type     | Required | Description                                                                                                                                                       |
 |-----------------------------|----------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|

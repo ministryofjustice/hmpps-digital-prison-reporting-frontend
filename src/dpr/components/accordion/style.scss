@@ -34,7 +34,7 @@
 .accordion-summary-remove-button {
   display: inline-block;
   padding: govuk-spacing(2);
-  background-color: none;
+  background-color: transparent;
   position: relative;
   cursor: pointer;
   text-decoration: underline !important;
@@ -43,7 +43,6 @@
   text-decoration-color: govuk-colour("blue");
   text-decoration-thickness: 1px;
   box-shadow: none;
-  text-underline-offset: 4px;
 
   &:hover {
     box-shadow: none;
@@ -86,7 +85,7 @@
   
   .accordion-section-header {
     position: relative;
-    left: 0px;
+    left: 0;
     margin-bottom: govuk-spacing(1);
 
     .selected-accordion-button {
@@ -98,15 +97,14 @@
       color: black;
       font-size: 14px;
       position: relative;
-      padding: 0px;
-      padding-bottom: govuk-spacing(1);
+      padding: 0 0 govuk-spacing(1);
     }
   }
 }
 
 ::-webkit-scrollbar {
   height: 6px;
-  width: 0px;
+  width: 0;
 }
 
 /* Track */

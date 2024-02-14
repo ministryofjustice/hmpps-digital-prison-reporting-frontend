@@ -14,7 +14,7 @@ module.exports = function (eleventyConfig) {
   const nunjucksEnv = nunjucks.configure([
     ".",
     "docs/_includes/",
-    "node_modules/govuk-frontend/",
+    "node_modules/govuk-frontend/dist/",
     "node_modules/@ministryofjustice/frontend/",
     "src/",
   ]);
@@ -35,6 +35,7 @@ module.exports = function (eleventyConfig) {
     "md",
     markdownIt({
       html: true,
+      breaks: false,
       highlight: (str, language) =>
         language ? hljs.highlight(str, { language }).value : str,
     })

@@ -3,7 +3,7 @@
     "/dpr/utils/urlHelper.js"
   ],
   "scripts": [
-    "/dpr/js/client.js"
+    "/dpr/js/all.mjs"
   ],
   "assets": [
     "/dpr/assets"

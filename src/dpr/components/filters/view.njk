@@ -19,11 +19,11 @@
 
 {% macro dprFilters(filters, urlWithNoFilters, parameterPrefix = "filters.") %}
   {% set today = getTodayIsoDate() %}
-
+<div data-dpr-module="filters" data-base-url="{{ urlWithNoFilters }}">
   <form id="user-selected-filters-form">
-    <div class="filter-container">
-      {{ dprLoadingAnim() }}
-      {%- for filter in filters %}
+  <div class="filter-container">
+    {{ dprLoadingAnim() }}
+    {%- for filter in filters %}
 
         {%- if filter.type | lower === 'select' %}
 
@@ -115,13 +115,13 @@
       <div class="filter-actions-buttons">
 
         {{ govukButton({
-        text: "Apply Filters",  
+        text: "Apply Filters",
         attributes: {
           'data-apply-form-to-querystring': 'true',
           'data-apply-form-selector': '.data-table-filters input',
           'data-apply-base-url': urlWithNoFilters
         },
-        classes: "govuk-button govuk-!-margin-bottom-0"
+        classes: "govuk-button govuk-!-margin-bottom-0 filter-actions-apply-button"
       }) }}
 
         {{ govukButton({
@@ -136,4 +136,5 @@
       </div>
     </div>
   </form>
+</div>
 {% endmacro %}

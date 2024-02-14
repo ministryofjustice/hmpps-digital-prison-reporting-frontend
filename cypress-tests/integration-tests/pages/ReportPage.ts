@@ -13,8 +13,6 @@ export default class ReportPage {
 
   pageSizeSelector = (): PageElement => cy.get('#pageSize')
 
-  filterPanel = (): PageElement => cy.get('#filters-accordion-button .govuk-details__text')
-
   filter = (id): PageElement => cy.get(`#filters\\.${id}`)
 
   columnCheckBox = (): PageElement => cy.get(`.data-table-columns input`).first()

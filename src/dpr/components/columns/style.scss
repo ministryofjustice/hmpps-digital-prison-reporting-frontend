@@ -7,6 +7,11 @@
 
 .columns-container {
   position: relative;
+
+  .govuk-checkboxes__input, .govuk-checkboxes__label {
+    display: inline-block;
+    vertical-align:top;
+  }
 }
 
 .columns-header {

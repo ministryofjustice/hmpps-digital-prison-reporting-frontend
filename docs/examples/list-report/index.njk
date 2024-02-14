@@ -30,7 +30,7 @@ jsArguments: list-report
         {
             text: "Radio filter: Two",
             href: "#",
-            classes: 'filter-summary-remove-button govuk-button--secondary'
+            classes: "govuk-button--inverse accordion-summary-remove-button govuk-!-margin-0"
         }
     ],
     filters: [
@@ -42,7 +42,16 @@ jsArguments: list-report
                 { value: "one", text: "One" },
                 { value: "two", text: "Two" }
             ],
-            value: 'two'
+            value: "two"
         }
     ]
+} %}
+
+{% set columnOptions = {
+    columns: [
+        { text: "Name", value: "name" },
+        { text: "Location", value: "location" },
+        { text: "Total", value: "total" }
+    ],
+    selectedColumns: [ "name", "location", "total" ]
 } %}

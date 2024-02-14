@@ -4,6 +4,7 @@ import createUrlForParameters from '../../utils/urlHelper'
 import { DataTableOptions } from '../data-table/types'
 import DataTableUtils from '../data-table/utils'
 import FilterUtils from '../filters/utils'
+import ColumnUtils from '../columns/utils'
 import { ListDataSources, RenderListWithDataInput } from './types'
 import ReportingClient from '../../data/reportingClient'
 import { ListWithWarnings, Warnings } from '../../data/types'
@@ -117,15 +118,11 @@ function renderList(
           selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
         }
 
+        const columns = ColumnUtils.getColumns(fields)
+        const selectedColumns = ColumnUtils.getSelectedColumns(columns, reportQuery.columns)
         const columnOptions = {
-          columns: fields.map((f) => {
-            return {
-              text: f.display,
-              value: f.name,
-              // TODO: Once Disabled || mandatory is added to field def, then add here.
-            }
-          }),
-          selectedColumns: reportQuery.columns,
+          columns,
+          selectedColumns,
         }
 
         response.render('dpr/components/report-list/list', {

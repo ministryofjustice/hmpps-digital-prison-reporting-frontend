@@ -15,7 +15,6 @@ gulp.task('package:scss', () => {
         outputStyle: 'compressed',
         includePaths: [
             'node_modules/govuk-frontend/dist',
-            'node_modules/@ministryofjustice/frontend',
         ]
     }))
     .pipe(postcss([autoprefixer, cssnano]))

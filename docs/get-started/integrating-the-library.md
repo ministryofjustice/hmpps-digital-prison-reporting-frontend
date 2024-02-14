@@ -19,11 +19,10 @@ Add the library to your **package.json** within the **dependencies** section and
 "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^3",
 ```
 
-Ensure that you have the following dependencies in the expected ranges, to ensure compatibility between the libraries:
+Ensure that you have the following dependency in the expected range, to ensure compatibility between the libraries:
 
 ```
 "govuk-frontend": "^5.1.0",
-"@ministryofjustice/frontend": "^2.1.0",
 ```
 
 {% header 3, "SASS" %}

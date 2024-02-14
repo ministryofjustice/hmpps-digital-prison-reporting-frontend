@@ -9,6 +9,7 @@ const fields: Array<components['schemas']['FieldDefinition']> = [
     sortable: false,
     defaultsort: false,
     type: 'string',
+    mandatory: false,
   },
   {
     display: 'Col Value 2',
@@ -16,6 +17,7 @@ const fields: Array<components['schemas']['FieldDefinition']> = [
     sortable: false,
     defaultsort: false,
     type: 'string',
+    mandatory: false,
   },
   {
     display: 'Col Value 3',
@@ -23,6 +25,7 @@ const fields: Array<components['schemas']['FieldDefinition']> = [
     sortable: true,
     defaultsort: false,
     type: 'string',
+    mandatory: true,
   },
   {
     display: 'Col Value 4',
@@ -30,6 +33,7 @@ const fields: Array<components['schemas']['FieldDefinition']> = [
     sortable: false,
     defaultsort: false,
     type: 'string',
+    mandatory: false,
   },
 ]
 

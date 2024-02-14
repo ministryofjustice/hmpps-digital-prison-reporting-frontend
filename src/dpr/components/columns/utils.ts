@@ -7,7 +7,7 @@ export default {
       return {
         text: f.display,
         value: f.name,
-        disabled: f.sortable, // TODO: Change this to correct attr for mandatory fields
+        disabled: f.mandatory, // TODO: Change this to correct attr for mandatory fields
       }
     })
   },

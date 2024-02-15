@@ -14,6 +14,7 @@ Then('the daterange filter is shown', () => {
   reportPage.dateEndFilter().should('exist')
 })
 
+// eslint-disable-next-line func-names
 When(/^I enter a (start|end) date$/, function (this: Mocha.Context, type: string) {
   const reportPage = new ReportPage()
   const filter = type === 'start' ? reportPage.dateStartFilter() : reportPage.dateEndFilter()
@@ -23,6 +24,7 @@ When(/^I enter a (start|end) date$/, function (this: Mocha.Context, type: string
 
 When(
   /^I enter a (start|end) date (before|after) the (min|max) date$/,
+  // eslint-disable-next-line func-names
   function (this: Mocha.Context, type: string, beforeAfter: string, minMax: string) {
     const reportPage = new ReportPage()
     const filter = type === 'start' ? reportPage.dateStartFilter() : reportPage.dateEndFilter()

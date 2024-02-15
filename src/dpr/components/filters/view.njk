@@ -32,7 +32,10 @@
             id: parameterPrefix + filter.name,
             name: parameterPrefix + filter.name,
             value: filter.value,
-            items: filter.options,
+            items: [{
+                    value: "",
+                    text: "( No filter )"
+                }].concat(filter.options),
             label: {
               text: filter.text,
               classes: "govuk-label govuk-!-font-weight-bold"

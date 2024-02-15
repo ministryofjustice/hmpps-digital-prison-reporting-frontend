@@ -12,7 +12,7 @@ When(/I navigate to the (method|handler) page/, (page: string) => {
 
 When(/I navigate to the fail page/, () => {
   cy.visit('/fail', {
-    failOnStatusCode: false
+    failOnStatusCode: false,
   })
 })
 

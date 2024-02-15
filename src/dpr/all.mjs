@@ -6,6 +6,7 @@ import { DataTable } from './components/data-table/clientClass.mjs'
 import { DropDownButton } from './components/dropdown-button/clientClass.mjs'
 import { Filters } from './components/filters/clientClass.mjs'
 import { Columns } from './components/columns/clientClass.mjs'
+import Daterange from './components/date-range/clientClass.mjs'
 
 /**
  * Initialise all components
@@ -15,20 +16,10 @@ import { Columns } from './components/columns/clientClass.mjs'
  *
  */
 export function initAll() {
-
-  const components = ([
-    Autocomplete,
-    CardGroup,
-    Columns,
-    DataTable,
-    DropDownButton,
-    Filters,
-  ])
+  const components = [Autocomplete, CardGroup, Columns, DataTable, DropDownButton, Filters, Daterange]
 
   components.forEach((Component) => {
-    const $elements = document.querySelectorAll(
-      `[data-dpr-module="${Component.getModuleName()}"]`
-    )
+    const $elements = document.querySelectorAll(`[data-dpr-module="${Component.getModuleName()}"]`)
 
     $elements.forEach(($element) => {
       try {

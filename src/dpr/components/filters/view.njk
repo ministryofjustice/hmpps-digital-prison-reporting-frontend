@@ -12,129 +12,101 @@
 
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
-{% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "dpr/components/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
 {% from "dpr/components/loading-anim/view.njk" import dprLoadingAnim -%}
+{% from "dpr/components/date-range/view.njk" import dprDateRange -%}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% macro dprFilters(filters, urlWithNoFilters, parameterPrefix = "filters.") %}
   {% set today = getTodayIsoDate() %}
-<div data-dpr-module="filters" data-base-url="{{ urlWithNoFilters }}">
-  <form id="user-selected-filters-form">
-  <div class="filter-container">
-    {{ dprLoadingAnim() }}
-    {%- for filter in filters %}
+  <div data-dpr-module="filters" data-base-url="{{ urlWithNoFilters }}">
+    <form id="user-selected-filters-form">
+      <div class="filter-container">
+        {{ dprLoadingAnim() }}
+        {%- for filter in filters %}
 
-        {%- if filter.type | lower === 'select' %}
+          {%- if filter.type | lower === 'select' %}
 
-          <div class='filter-item'>
-            {{ govukSelect({
-            id: parameterPrefix + filter.name,
-            name: parameterPrefix + filter.name,
-            value: filter.value,
-            items: filter.options,
-            label: {
-              text: filter.text,
-              classes: "govuk-label govuk-!-font-weight-bold"
+            <div class='filter-item'>
+              {{ govukSelect({
+                id: parameterPrefix + filter.name,
+                name: parameterPrefix + filter.name,
+                value: filter.value,
+                items: filter.options,
+                label: {
+                  text: filter.text,
+                  classes: "govuk-label govuk-!-font-weight-bold"
+                }
+              }) }}
+            </div>
+
+          {% elif filter.type | lower === 'radio' %}
+
+            <div class='filter-item'>
+              {{ govukRadios({
+                id: parameterPrefix + filter.name,
+                name: parameterPrefix + filter.name,
+                fieldset: {
+                  legend: {
+                    text: filter.text,
+                    classes: "govuk-label govuk-!-font-weight-bold"
+                  }
+                },
+                items: filter.options,
+                value: filter.value
+              }) }}
+            </div>
+
+          {% elif filter.type | lower === 'daterange' %}
+
+            <div class='filter-item'>
+              <div class="govuk-form-group">
+                {{ dprDateRange(filter, parameterPrefix) }}
+              </div>
+            </div>
+
+          {% elif filter.type | lower === 'autocomplete' %}
+
+            <div class='filter-item'>
+              {{ dprAutocompleteTextInput({
+                id: parameterPrefix + filter.name,
+                name: parameterPrefix + filter.name,
+                items: filter.options,
+                value: filter.value,
+                labelText: filter.text,
+                minimumLength: filter.minimumLength,
+                dynamicResourceEndpoint: filter.dynamicResourceEndpoint
+              }) }}
+            </div>
+
+          {% endif %}
+        {%- endfor %}
+      </div>
+
+      <div class="filter-actions">
+        <div class="filter-actions-buttons">
+
+          {{ govukButton({
+            text: "Apply Filters",
+            attributes: {
+              'data-apply-form-to-querystring': 'true',
+              'data-apply-form-selector': '.data-table-filters input',
+              'data-apply-base-url': urlWithNoFilters
+            },
+            classes: "govuk-button govuk-!-margin-bottom-0 filter-actions-apply-button"
+          }) }}
+
+          {{ govukButton({
+            text: "Reset Filters",
+            classes: "govuk-button--secondary govuk-!-margin-bottom-0",
+            attributes: {
+              'data-reset-filters': 'true',
+              'data-apply-base-url': urlWithNoFilters
             }
           }) }}
-          </div>
 
-        {% elif filter.type | lower === 'radio' %}
-
-          <div class='filter-item'>
-            {{ govukRadios({
-          id: parameterPrefix + filter.name,
-          name: parameterPrefix + filter.name,
-          fieldset: {
-            legend: {
-              text: filter.text,
-              classes: "govuk-label govuk-!-font-weight-bold"
-            }
-          },
-          items: filter.options,
-          value: filter.value
-        }) }}
-          </div>
-
-        {% elif filter.type | lower === 'daterange' %}
-
-          <div class='filter-item'>
-            <div class="govuk-form-group">
-              <fieldset class="govuk-fieldset">
-                <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
-                  {{ filter.text }}
-                </legend>
-                {{ govukInput({
-              id: parameterPrefix + filter.name + '.start',
-              label: {
-                text: 'Start'
-              },
-              name: parameterPrefix + filter.name + '.start',
-              value: filter.value.start,
-              type: 'date',
-              attributes: {
-                max: today
-              }
-            }) }}
-                {{ govukInput({
-              id: parameterPrefix + filter.name + '.end',
-              label: {
-                text: 'End'
-              },
-              name: parameterPrefix + filter.name + '.end',
-              value: filter.value.end,
-              type: 'date',
-              attributes: {
-                max: today
-              }
-            }) }}
-              </fieldset>
-            </div>
-          </div>
-
-        {% elif filter.type | lower === 'autocomplete' %}
-
-          <div class='filter-item'>
-            {{ dprAutocompleteTextInput({
-          id: parameterPrefix + filter.name,
-          name: parameterPrefix + filter.name,
-          items: filter.options,
-          value: filter.value,
-          labelText: filter.text,
-          minimumLength: filter.minimumLength,
-          dynamicResourceEndpoint: filter.dynamicResourceEndpoint
-        }) }}
-          </div>
-
-        {% endif %}
-      {%- endfor %}
-    </div>
-
-    <div class="filter-actions">
-      <div class="filter-actions-buttons">
-
-        {{ govukButton({
-        text: "Apply Filters",
-        attributes: {
-          'data-apply-form-to-querystring': 'true',
-          'data-apply-form-selector': '.data-table-filters input',
-          'data-apply-base-url': urlWithNoFilters
-        },
-        classes: "govuk-button govuk-!-margin-bottom-0 filter-actions-apply-button"
-      }) }}
-
-        {{ govukButton({
-        text: "Reset Filters",
-        classes: "govuk-button--secondary govuk-!-margin-bottom-0",
-        attributes: {
-          'data-reset-filters': 'true',
-          'data-apply-base-url': urlWithNoFilters
-        }
-      }) }}
-
+        </div>
       </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
 {% endmacro %}

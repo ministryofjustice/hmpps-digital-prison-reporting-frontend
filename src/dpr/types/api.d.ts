@@ -83,6 +83,8 @@ export interface components {
       staticOptions?: components['schemas']['FilterOption'][]
       dynamicOptions?: components['schemas']['DynamicFilterOption']
       defaultValue?: string
+      min?: string
+      max?: string
     }
     FilterOption: {
       name: string

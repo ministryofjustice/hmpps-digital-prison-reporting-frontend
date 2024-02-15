@@ -10,6 +10,10 @@
   flex-grow: 0;
   width: 30%;
   padding: 1%;
+
+  .govuk-form-group {
+    margin-bottom: govuk-spacing(2);
+  }
 }
 
 .govuk-details__summary-text {

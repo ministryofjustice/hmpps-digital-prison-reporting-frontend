@@ -188,6 +188,8 @@ const renderListWithDefinition = ({
       dynamicAutocompleteEndpoint,
       otherOptions,
     )
+  }).catch((error) => {
+    next(error)
   })
 }
 

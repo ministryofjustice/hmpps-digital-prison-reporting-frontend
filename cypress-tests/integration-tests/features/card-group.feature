@@ -11,7 +11,7 @@ Feature: Card Group
     And it has a link of <link>
 
     Examples:
-      | name       | description                                                                                       | link                                              |
-      | Method     | A test page rendered using the renderListWithData method.                                         | /method?dataProductDefinitionsPath=test-location  |
-      | Handler    | A test page rendered using the createReportListRequestHandler method to create a request handler. | /handler                                          |
-      | Fake card  | This is just here to check the alignment/wrapping of three cards.                                 | #fake                                             |
+      | name          | description                                                                                       | link                                              |
+      | Method        | A test page rendered using the renderListWithData method.                                         | /method?dataProductDefinitionsPath=test-location  |
+      | Handler       | A test page rendered using the createReportListRequestHandler method to create a request handler. | /handler                                          |
+      | Failing page  | This page will fail to retrieve the definition and fail gracefully.                               | /fail                                             |

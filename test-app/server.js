@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
     cards: [
       { text: 'Method', description: 'A test page rendered using the renderListWithData method.', href: '/method?dataProductDefinitionsPath=test-location' },
       { text: 'Handler', description: 'A test page rendered using the createReportListRequestHandler method to create a request handler.', href: '/handler' },
-      { text: 'Fake card', description: 'This is just here to check the alignment/wrapping of three cards.', href: '#fake' },
+      { text: 'Failing page', description: 'This page will fail to retrieve the definition and fail gracefully.', href: '/fail' },
     ]
   })
 })
@@ -87,6 +87,19 @@ app.get('/handler', reportListUtils.createReportListRequestHandler({
     dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}'
   })
 )
+
+app.get('/fail', (req, res, next) => {
+  reportListUtils.renderListWithDefinition({
+    title: 'Test app',
+    definitionName: 'failing-report',
+    variantName: 'failing-variant',
+    request: req,
+    response: res,
+    next,
+    apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
+    layoutTemplate: 'page.njk'
+  })
+})
 
 // Dynamic autocomplete endpoint
 app.get('/dynamic-values/field5', (req, res, next) => {
@@ -128,6 +141,10 @@ app.get('/definitions', (req, res) => {
 app.get('/definitions/test-report/test-variant', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.end(JSON.stringify(definitions.singleVariantReport));
+})
+
+app.get('/definitions/failing-report/failing-variant', () => {
+  throw new Error('Successfully failed.')
 })
 
 app.get('/reports/list', (req, res) => {

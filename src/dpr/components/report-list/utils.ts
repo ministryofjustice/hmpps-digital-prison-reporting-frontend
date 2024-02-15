@@ -160,35 +160,40 @@ const renderListWithDefinition = ({
     },
   })
 
-  reportingClient.getDefinition(token, definitionName, variantName).then((reportDefinition) => {
-    const reportName: string = reportDefinition.name
-    const variantDefinition = reportDefinition.variant
+  reportingClient
+    .getDefinition(token, definitionName, variantName)
+    .then((reportDefinition) => {
+      const reportName: string = reportDefinition.name
+      const variantDefinition = reportDefinition.variant
 
-    const reportQuery = new ReportQuery(
-      variantDefinition.specification.fields,
-      request.query,
-      getDefaultSortColumn(variantDefinition.specification.fields),
-      filtersQueryParameterPrefix,
-      columnsQueryParameterPrefix,
-    )
+      const reportQuery = new ReportQuery(
+        variantDefinition.specification.fields,
+        request.query,
+        getDefaultSortColumn(variantDefinition.specification.fields),
+        filtersQueryParameterPrefix,
+        columnsQueryParameterPrefix,
+      )
 
-    const getListData: ListDataSources = {
-      data: reportingClient.getListWithWarnings(variantDefinition.resourceName, token, reportQuery),
-      count: reportingClient.getCount(variantDefinition.resourceName, token, reportQuery),
-    }
-    renderList(
-      getListData,
-      variantDefinition,
-      reportQuery,
-      request,
-      response,
-      next,
-      title ?? `${reportName} - ${variantDefinition.name}`,
-      layoutTemplate,
-      dynamicAutocompleteEndpoint,
-      otherOptions,
-    )
-  })
+      const getListData: ListDataSources = {
+        data: reportingClient.getListWithWarnings(variantDefinition.resourceName, token, reportQuery),
+        count: reportingClient.getCount(variantDefinition.resourceName, token, reportQuery),
+      }
+      renderList(
+        getListData,
+        variantDefinition,
+        reportQuery,
+        request,
+        response,
+        next,
+        title ?? `${reportName} - ${variantDefinition.name}`,
+        layoutTemplate,
+        dynamicAutocompleteEndpoint,
+        otherOptions,
+      )
+    })
+    .catch((error) => {
+      next(error)
+    })
 }
 
 export default {

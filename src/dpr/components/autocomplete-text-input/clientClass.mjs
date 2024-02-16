@@ -1,8 +1,8 @@
 import { DprClientClass } from '../../DprClientClass.mjs'
 
-export class Autocomplete extends DprClientClass {
+export default class Autocomplete extends DprClientClass {
   static getModuleName() {
-    return "autocomplete-text-input"
+    return 'autocomplete-text-input'
   }
 
   constructor(element) {
@@ -13,18 +13,19 @@ export class Autocomplete extends DprClientClass {
     this.listParentSelector = `#${listId} ul`
   }
 
-
   initialise() {
     const textInput = this.getTextInput()
     textInput.addEventListener('keyup', (event) => {
       this.onTextInput(event, textInput)
     })
 
-    this.getElement().querySelectorAll('.autocomplete-text-input-list-button').forEach((button) => {
-      button.addEventListener('click', (event) => {
-        this.onOptionClick(event, textInput, this.getElement())
+    this.getElement()
+      .querySelectorAll('.autocomplete-text-input-list-button')
+      .forEach((button) => {
+        button.addEventListener('click', (event) => {
+          this.onOptionClick(event, textInput, this.getElement())
+        })
       })
-    })
   }
 
   getTextInput() {
@@ -33,24 +34,28 @@ export class Autocomplete extends DprClientClass {
 
   onTextInput(event, textInput) {
     const minLength = Number(textInput.dataset.minimumLength)
-    const resourceEndpoint = textInput.dataset.resourceEndpoint
+    const { resourceEndpoint } = textInput.dataset
     const searchValue = event.target.value.toLowerCase()
 
     if (resourceEndpoint) {
       if (searchValue.length >= minLength) {
         this.addItem(this.clearListAndRecreateTemplate(), '<i>Searching...</i>')
-        this.populateOptionsDynamically(resourceEndpoint, searchValue, textInput, () => this.clearListAndRecreateTemplate())
+        this.populateOptionsDynamically(resourceEndpoint, searchValue, textInput, () =>
+          this.clearListAndRecreateTemplate(),
+        )
       } else {
         this.clearListAndRecreateTemplate()
       }
     } else {
-      this.getElement().querySelectorAll(this.listItemsSelector).forEach((item) => {
-        if (searchValue.length >= minLength && item.innerText.trim().toLowerCase().startsWith(searchValue)) {
-          item.classList.remove('autocomplete-text-input-item-hide')
-        } else {
-          item.classList.add('autocomplete-text-input-item-hide')
-        }
-      })
+      this.getElement()
+        .querySelectorAll(this.listItemsSelector)
+        .forEach((item) => {
+          if (searchValue.length >= minLength && item.innerText.trim().toLowerCase().startsWith(searchValue)) {
+            item.classList.remove('autocomplete-text-input-item-hide')
+          } else {
+            item.classList.add('autocomplete-text-input-item-hide')
+          }
+        })
     }
   }
 
@@ -62,7 +67,7 @@ export class Autocomplete extends DprClientClass {
       if (searchValue === textInput.value.toLowerCase()) {
         const template = templateProvider()
 
-        results.forEach(r => {
+        results.forEach((r) => {
           this.addItem(template, r, (event) => {
             this.onOptionClick(event, textInput, this.getElement())
           })
@@ -75,6 +80,7 @@ export class Autocomplete extends DprClientClass {
 
   onOptionClick(event, textInput, topLevelElement) {
     event.preventDefault()
+    // eslint-disable-next-line no-param-reassign
     textInput.value = event.target.innerText.trim()
     textInput.focus()
 
@@ -99,7 +105,9 @@ export class Autocomplete extends DprClientClass {
   clearListAndRecreateTemplate() {
     const template = this.getElement().querySelector(this.listItemsSelector).cloneNode(true)
     template.classList.add('autocomplete-text-input-item-hide')
-    this.getElement().querySelectorAll(this.listItemsSelector).forEach(e => e.remove())
+    this.getElement()
+      .querySelectorAll(this.listItemsSelector)
+      .forEach((e) => e.remove())
     this.getElement().querySelector(this.listParentSelector).append(template)
     return template
   }

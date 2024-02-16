@@ -16,7 +16,8 @@
 {% if (dataTableOptions.printable) %}
   {% set printAttributes = {
     'id': 'print-button',
-    'onclick': 'window.print()'
+    'data-dropdown-submit': 'true',
+    'data-dropdown-submit-action': 'window.print()'
   } %}
 {% else %}
   {% set printAttributes = {
@@ -41,7 +42,8 @@
       text: 'Copy URL',
       attributes: {
         'id': 'copy-url-button',
-        'onclick': 'navigator.clipboard.writeText(window.location)'
+        'data-dropdown-submit': 'true',
+        'data-dropdown-submit-action': 'navigator.clipboard.writeText(window.location)'
       },
       classes: 'filter-summary-controls'
     },

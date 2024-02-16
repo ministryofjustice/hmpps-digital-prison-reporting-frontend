@@ -13,7 +13,7 @@ Feature: Daterange
     When I apply the filters
     Then the daterange is displays the values in the URL
 
-  Scenario: Daterange selecton constrains to min and max settings
+  Scenario: Daterange selection constrains to min and max settings
     When I enter a start date before the min date
     When I enter a end date after the max date
     When I apply the filters

@@ -1,6 +1,6 @@
 import { DprLoadingClientClass } from '../../DprLoadingClientClass.mjs'
 
-export class Columns extends DprLoadingClientClass {
+export default class Columns extends DprLoadingClientClass {
   static getModuleName() {
     return 'columns'
   }
@@ -19,6 +19,7 @@ export class Columns extends DprLoadingClientClass {
     })
   }
 
+  // eslint-disable-next-line class-methods-use-this
   applyButtonClick(e, columnsForm) {
     e.preventDefault()
     const columnsFormInputs = columnsForm.querySelectorAll(`input`)
@@ -49,6 +50,7 @@ export class Columns extends DprLoadingClientClass {
     window.location.href = url
   }
 
+  // eslint-disable-next-line class-methods-use-this
   resetButtonClick(e) {
     e.preventDefault()
     const resetColsRegExp = /&?columns=[^&]*/g

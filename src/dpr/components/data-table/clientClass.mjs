@@ -1,22 +1,24 @@
 import { DprClientClass } from '../../DprClientClass.mjs'
 
-export class DataTable extends DprClientClass {
-
+export default class DataTable extends DprClientClass {
   static getModuleName() {
-    return "data-table"
+    return 'data-table'
   }
 
   initialise() {
-    this.getElement().querySelectorAll('[data-navigate-to]').forEach((select) => {
-      select.addEventListener('change', (event) => {
-        window.location.href = select.dataset.navigateTo.replace(/thisValue/, event.target.value)
-        return false
+    this.getElement()
+      .querySelectorAll('[data-navigate-to]')
+      .forEach((select) => {
+        select.addEventListener('change', (event) => {
+          window.location.href = select.dataset.navigateTo.replace(/thisValue/, event.target.value)
+          return false
+        })
       })
-    })
 
     this.createTableHeaderAndFooter()
   }
 
+  // eslint-disable-next-line class-methods-use-this
   createTableHeaderAndFooter() {
     const table = document.getElementById('dpr-data-table')
     if (table) {

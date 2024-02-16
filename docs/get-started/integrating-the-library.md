@@ -29,7 +29,7 @@ Ensure that you have the following dependency in the expected range, to ensure c
 Add the library's SASS to your application's SASS file:
 
 ```scss
-@import 'node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/all';
+@import "node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/all";
 ```
 
 {% header 2, "Node configuration" %}
@@ -37,20 +37,27 @@ Add the library's SASS to your application's SASS file:
 Add the library's assets to your application's static resources:
 
 ```javascript
-
-router.use('/assets/dpr', express.static(path.join(process.cwd(), '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/assets')))
+router.use(
+  "/assets/dpr",
+  express.static(
+    path.join(
+      process.cwd(),
+      "/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/assets"
+    )
+  )
+);
 ```
 
 Add the client-side JavaScript to the nunjucks layout:
+
 ```html
-{% block bodyEnd %}
-    ...
-    <script type="module" src="/assets/dpr/js/all.mjs"></script>
-    <script type="module">
-      import { initAll } from '/assets/dpr/js/all.mjs'
-    
-      initAll()
-    </script>
+{% block bodyEnd %} ...
+<script type="module" src="/assets/dpr/js/all.mjs"></script>
+<script type="module">
+  import initAll from "/assets/dpr/js/all.mjs";
+
+  initAll();
+</script>
 {% endblock %}
 ```
 
@@ -58,23 +65,21 @@ Add the client-side JavaScript to the nunjucks layout:
 Add the library's nunjucks templates to your nunjucks configuration:
 
 ```javascript
-const nunjucksEnv = nunjucks.configure(
-    [
-      ... // Existing entries 
-      'node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/',
-      'node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/',
-    ]
-  )
+const nunjucksEnv = nunjucks.configure([
+  ...// Existing entries
+  "node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/",
+  "node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/",
+]);
 ```
 
 And finally add the library's filters to the nunjucks configuration:
 
 ```javascript
-import setUpNunjucksFilters from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/setUpNunjucksFilters'
+import setUpNunjucksFilters from "@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/setUpNunjucksFilters";
 
-setUpNunjucksFilters(nunjucksEnv)
+setUpNunjucksFilters(nunjucksEnv);
 ```
 
 {% header 2, "API Library" %}
 
-As a counterpart to the UI library, there is also an API library that you can integrate into your own API. Please see the [API Integration guide](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-lib/blob/main/integrating-with-library.md). 
+As a counterpart to the UI library, there is also an API library that you can integrate into your own API. Please see the [API Integration guide](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-lib/blob/main/integrating-with-library.md).

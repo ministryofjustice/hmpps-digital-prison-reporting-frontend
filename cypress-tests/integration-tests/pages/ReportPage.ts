@@ -15,6 +15,10 @@ export default class ReportPage {
 
   filter = (id): PageElement => cy.get(`#filters\\.${id}`)
 
+  dateStartFilter = (): PageElement => cy.get(`#filters\\.field3\\.start`)
+
+  dateEndFilter = (): PageElement => cy.get(`#filters\\.field3\\.end`)
+
   columnCheckBox = (): PageElement => cy.get(`.data-table-columns input`).first()
 
   columnCheckBoxDisabled = (): PageElement => cy.get(`.data-table-columns input`).eq(1)

@@ -3,7 +3,7 @@
 import { Autocomplete } from './components/autocomplete-text-input/clientClass.mjs'
 import { CardGroup } from './components/card-group/clientClass.mjs'
 import { DataTable } from './components/data-table/clientClass.mjs'
-import { DropDownButton } from './components/dropdown-button/clientClass.mjs'
+import DropDownButton from './components/dropdown-button/clientClass.mjs'
 import { Filters } from './components/filters/clientClass.mjs'
 import { Columns } from './components/columns/clientClass.mjs'
 
@@ -15,20 +15,10 @@ import { Columns } from './components/columns/clientClass.mjs'
  *
  */
 export function initAll() {
-
-  const components = ([
-    Autocomplete,
-    CardGroup,
-    Columns,
-    DataTable,
-    DropDownButton,
-    Filters,
-  ])
+  const components = [Autocomplete, CardGroup, Columns, DataTable, DropDownButton, Filters]
 
   components.forEach((Component) => {
-    const $elements = document.querySelectorAll(
-      `[data-dpr-module="${Component.getModuleName()}"]`
-    )
+    const $elements = document.querySelectorAll(`[data-dpr-module="${Component.getModuleName()}"]`)
 
     $elements.forEach(($element) => {
       try {

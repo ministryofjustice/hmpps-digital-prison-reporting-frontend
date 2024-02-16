@@ -1,10 +1,6 @@
 import { DprClientClass } from './DprClientClass.mjs'
 
-export class DprLoadingClientClass extends DprClientClass {
-  constructor(element) {
-    super(element)
-  }
-
+export default class DprLoadingClientClass extends DprClientClass {
   showLoadingAnimation() {
     document.querySelectorAll('.loading-panel').forEach((l) => {
       l.classList.add('show')
@@ -23,7 +19,10 @@ export class DprLoadingClientClass extends DprClientClass {
       b.classList.add('disabled')
     })
 
-    document.getElementById('pageSize').setAttribute('disabled', true)
+    const pageSizeElement = document.getElementById('pageSize')
+    if (pageSizeElement) {
+      pageSizeElement.setAttribute('disabled', true)
+    }
   }
 
   hideLoadingAnimation() {
@@ -45,6 +44,9 @@ export class DprLoadingClientClass extends DprClientClass {
       b.classList.remove('disabled')
     })
 
-    document.getElementById('pageSize').setAttribute('disabled', false)
+    const pageSizeElement = document.getElementById('pageSize')
+    if (pageSizeElement) {
+      pageSizeElement.setAttribute('disabled', false)
+    }
   }
 }

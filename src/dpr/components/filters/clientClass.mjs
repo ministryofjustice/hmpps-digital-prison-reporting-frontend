@@ -1,4 +1,4 @@
-import { DprLoadingClientClass } from '../../DprLoadingClientClass.mjs'
+import DprLoadingClientClass from '../../DprLoadingClientClass.mjs'
 
 export default class Filters extends DprLoadingClientClass {
   static getModuleName() {

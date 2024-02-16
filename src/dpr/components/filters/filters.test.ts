@@ -47,6 +47,7 @@ const defaultOptions = {
         start: '2001-02-03',
         end: '2004-05-06',
       },
+      max: '2007-08-09',
     },
     {
       text: 'Autocomplete',

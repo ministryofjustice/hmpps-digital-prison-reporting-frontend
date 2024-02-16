@@ -1,0 +1,63 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% macro dprDateRange(data, parameterPrefix = "filters.") %}
+  {% set min = data.min %}
+  {% set max = data.max %}
+  {% set startId = parameterPrefix + data.name + '.start' %}
+  {% set endId = parameterPrefix + data.name + '.end' %}
+
+  <div class="date-range" data-dpr-module="date-range">
+    <fieldset class="govuk-fieldset">
+      <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
+        {{ data.text }}
+      </legend>
+      {{ govukInput({
+        id: startId,
+        label: {
+          text: 'Start'
+        },
+        classes: 'daterange-start-input',
+        name: startId,
+        value: data.value.start,
+        type: 'date',
+        attributes: {
+          max: data.max,
+          min: data.min
+        }
+      }) }}
+      {% if min %}
+        <div class="govuk-body-xs daterange-set-to-minmax" 
+          data-set-to-input='{{ startId }}' 
+          data-set-min-max-value={{ min }} 
+          data-set-min-max-trigger='true'
+        > 
+          set to min ({{ min }})
+        </div>
+      {% endif %}
+      {{ govukInput({
+        id: endId,
+        label: {
+          text: 'End',
+          classes: 'govuk-!-margin-top-3'
+        },
+        classes: 'daterange-end-input',
+        name: endId,
+        value: data.value.end,
+        type: 'date',
+        attributes: {
+          max: data.max,
+          min: data.min
+        }
+      }) }}
+      {% if max %}
+        <div class="govuk-body-xs daterange-set-to-minmax" 
+          data-set-to-input='{{ endId }}' 
+          data-set-min-max-value={{ max }} 
+          data-set-min-max-trigger='true'
+        >
+          set to max ({{max}})
+        </div>
+      {% endif %}
+    </fieldset>
+  </div>
+{% endmacro %}

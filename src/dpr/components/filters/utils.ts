@@ -1,6 +1,6 @@
 import Dict = NodeJS.Dict
 import { FilterType } from './enum'
-import { FilterValue } from './types'
+import { DateFilterValue, FilterValue } from './types'
 import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'
 import { clearFilterValue } from '../../utils/urlHelper'
@@ -26,10 +26,10 @@ export default {
     variantDefinition.specification.fields
       .filter((f) => f.filter)
       .map((f) => {
-        const filter: FilterValue = {
+        let filter: FilterValue = {
           text: f.display,
           name: f.name,
-          type: f.filter.type,
+          type: f.filter.type as FilterType,
           options: f.filter.staticOptions
             ? f.filter.staticOptions.map((o) => ({ value: o.name, text: o.display }))
             : null,
@@ -42,9 +42,15 @@ export default {
         }
 
         if (f.filter.type === FilterType.dateRange.toLowerCase()) {
-          filter.value = {
-            start: getFilterValue(filterValues, `${f.name}.start`),
-            end: getFilterValue(filterValues, `${f.name}.end`),
+          filter = filter as unknown as DateFilterValue
+          filter = {
+            ...filter,
+            value: {
+              start: getFilterValue(filterValues, `${f.name}.start`),
+              end: getFilterValue(filterValues, `${f.name}.end`),
+            },
+            min: f.filter.min,
+            max: f.filter.max,
           }
         }
 

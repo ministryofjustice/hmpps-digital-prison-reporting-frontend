@@ -36,6 +36,10 @@
             {
               text: 'Filters',
               href: '/components/filters'
+            },
+            {
+              text: 'Date range',
+              href: '/components/date-range'
             }
             ]
           },
@@ -58,7 +62,8 @@
     <div class="govuk-grid-column-three-quarters">
       <main id="main-content" class="govuk-main-wrapper app-prose-scope" role="main">
         <h1 class="govuk-heading-xl">
-          {% if not isIndex %}<span class="govuk-caption-xl">Components</span>{% endif %}
+          {% if not isIndex %}
+            <span class="govuk-caption-xl">Components</span>{% endif %}
           {{ title }}
         </h1>
         {{ content | safe }}

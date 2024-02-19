@@ -3,7 +3,7 @@ layout: layouts/component.njk
 title: Copy URL Button
 ---
 
-{% example "print-button", 300 %}
+{% example "copy-url-button", 300 %}
 
 ## When to use
 

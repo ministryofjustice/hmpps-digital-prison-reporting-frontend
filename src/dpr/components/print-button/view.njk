@@ -1,5 +1,13 @@
-{% macro dprPrintButton( id, count, classes, printable = 'false') %}
+{% macro dprPrintButton(options) %}
   {% from "govuk/components/button/macro.njk" import govukButton %}
+  {% set id = options.id %}
+  {% set text = options.text %}
+  {% set count = options.count %}
+  {% if count %}
+    {% set text = options.text + '(' + count + ')' %}
+  {% endif %}
+  {% set printable = options.printable %}
+  {% set classes = options.classes %}
 
   {% if (printable) %}
     {% set printAttributes = {
@@ -12,12 +20,11 @@
     } %}
   {% endif %}
 
-
   <div class="print-button" data-dpr-module="print-button">
     {{ govukButton({
       id: 'print_' + id,
-      text: 'Print displayed results (' + count + ')',
+      text: text,
       classes: classes,
       attributes: printAttributes
     }) }}
-{% endmacro %}
+  {% endmacro %}

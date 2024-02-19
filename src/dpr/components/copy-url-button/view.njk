@@ -1,5 +1,7 @@
-{% macro dprCopyUrlButton( id, classes ) %}
+{% macro dprCopyUrlButton(options) %}
   {% from "govuk/components/button/macro.njk" import govukButton %}
+  {% set id = options.id %}
+  {% set classes = options.classes %}
 
   <div class="copy-url-button" data-dpr-module="copy-url-button">
     {{ govukButton({
@@ -10,4 +12,4 @@
         "data-copy-url": "true"
       }
     }) }}
-{% endmacro %}
+  {% endmacro %}

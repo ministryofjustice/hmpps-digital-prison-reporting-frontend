@@ -27,7 +27,11 @@
 
   .dropdown-group-item-li {
     padding-left: 4px;
-    background-color: govuk-colour("light-blue");
+    background-color: white;
+
+    &:Hover {
+      background-color: govuk-colour("light-blue");
+    }
   }
 
   li {

@@ -1,0 +1,12 @@
+---
+layout: layouts/example.njk
+title: Copy URL Button (example)
+arguments: copy-url-button
+---
+
+{%- from "dpr/components/copy-url-button/view.njk" import dprCopyUrlButton %}
+
+{{ dprCopyUrlButton({
+  id: 'id',
+  classes: 'my-class'
+}) }}

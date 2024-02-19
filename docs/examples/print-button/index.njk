@@ -1,0 +1,15 @@
+---
+layout: layouts/example.njk
+title: Print Button (example)
+arguments: print-button
+---
+
+{%- from "dpr/components/print-button/view.njk" import dprPrintButton %}
+
+{{ dprPrintButton({
+  id: 'id', 
+  text: 'My Print Button', 
+  count: dataTableOptions.rows.length, 
+  classes: 'govuk-button--inverse', 
+  printable: dataTableOptions.printable 
+}) }}

@@ -11,7 +11,7 @@
     background-color: white;
     border-top: #b1b4b6 1px solid;
     display: none;
-    right: 2px;
+    right: 0px;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -21,19 +21,30 @@
     z-index: 10000;
   }
 
+  .dropdown-group-name-li {
+    background-color: white;
+  }
+
+  .dropdown-group-item-li {
+    padding-left: 4px;
+    background-color: white;
+
+    &:Hover {
+      background-color: govuk-colour("light-blue");
+    }
+  }
+
   li {
     border: #b1b4b6 1px solid;
     border-top: 0;
     text-align: left;
-    width: 100%;
 
     button, a {
       text-align: left;
       width: 100%;
     }
 
-    div {
-
+    .dropdown-group-name {
       margin-bottom: 0;
       padding: 8px 12px 7px;
     }

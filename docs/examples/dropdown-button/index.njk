@@ -5,6 +5,17 @@ arguments: dropdown-button
 ---
 
 {% from "dpr/components/dropdown-button/view.njk"    import dprDropdownButton %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set bespokeButtonHtml %}
+  {{ govukButton({
+    id: 'MyCustomButtonID',
+    text: 'My Custom Button',
+    attributes: {
+      "data-my-button-action-listener": "true"
+    }
+  })}}
+{% endset %}
 
 {{ dprDropdownButton({
   id: "example-id",
@@ -23,12 +34,7 @@ arguments: dropdown-button
       }
     },
     {
-      text: 'Example 2',
-      href: "#",
-      attributes: {
-        'disabled': 'true',
-        'attribute-example': 'attribute-example'
-      }
+      html: bespokeButtonHtml
     }
   ],
   groups: [

@@ -7,31 +7,36 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "../filters/view.njk" import dprFilters %}
 {% from "../columns/view.njk" import dprColumns %}
+{% from "../print-button/view.njk" import dprPrintButton %}
+{% from "../copy-url-button/view.njk" import dprCopyUrlButton %}
 
 {% set pageTitle = applicationName + " - " + title %}
 {% set mainClasses = "app-container govuk-body" %}
 {% set urlWithNoFilters = dataTableOptions.currentQueryParams | createUrlForParameters(null) %}
 
 {% set actions = [] %}
-{% if (dataTableOptions.printable) %}
-  {% set printAttributes = {
-    'id': 'print-button',
-    'data-dropdown-submit': 'true',
-    'data-dropdown-submit-action': 'window.print()'
-  } %}
-{% else %}
-  {% set printAttributes = {
-    'id': 'print-button-disabled',
-    'disabled': 'true'
-  } %}
-{% endif %}
+
+{% set printButtonHtml %}
+{{ dprPrintButton({
+    id: 'dd', 
+    text: 'Print displayed results',
+    count: dataTableOptions.rows.length, 
+    classes: 'govuk-button--inverse', 
+    printable: dataTableOptions.printable 
+  }) }}
+{% endset %}
 
 {% set printAction = {
-  text: 'Print displayed results (' + dataTableOptions.rows.length + ')',
-  attributes: printAttributes,
-  classes: 'filter-summary-controls'
+  html: printButtonHtml
 } %}
 {% set actions = (actions.push(printAction), actions) %}
+
+{% set copyUrlHtml %}
+{{ dprCopyUrlButton({
+  id: 'dd', 
+  classes: "govuk-button--inverse"
+}) }}
+{% endset %}
 
 {% set subject = title | urlencode %}
 {% set body = (dataTableOptions.url) | urlencode %}
@@ -39,13 +44,7 @@
   title: "Share:",
   items: [
     {
-      text: 'Copy URL',
-      attributes: {
-        'id': 'copy-url-button',
-        'data-dropdown-submit': 'true',
-        'data-dropdown-submit-action': 'navigator.clipboard.writeText(window.location)'
-      },
-      classes: 'filter-summary-controls'
+      html: copyUrlHtml
     },
     {
       text: 'Email',

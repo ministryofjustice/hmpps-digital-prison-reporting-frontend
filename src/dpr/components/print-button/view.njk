@@ -1,0 +1,33 @@
+{% macro dprPrintButton(options) %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+  {% set id = 'print_' + options.id %}
+  {% set text = options.text %}
+  {% set count = options.count %}
+  {% if count %}
+    {% set text = options.text + ' (' + count + ')' %}
+  {% endif %}
+  {% set printable = options.printable %}
+  {% set classes = options.classes %}
+  {% if printable %}
+    {% set id = 'print_' + id + '_disabled' %}
+  {% endif %}
+
+  {% if (printable) %}
+    {% set printAttributes = {
+      "data-print-page": "true"
+    } %}
+  {% else %}
+    {% set printAttributes = {
+      "data-print-page": "true",
+      'disabled': 'true'
+    } %}
+  {% endif %}
+
+  <div class="print-button" data-dpr-module="print-button">
+    {{ govukButton({
+      id: id,
+      text: text,
+      classes: classes,
+      attributes: printAttributes
+    }) }}
+  {% endmacro %}

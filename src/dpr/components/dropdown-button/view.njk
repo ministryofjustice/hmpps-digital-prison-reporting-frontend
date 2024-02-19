@@ -8,6 +8,7 @@
   }
 
   item = {
+      html: string
       id: string
       text: string
       classes: string
@@ -32,41 +33,48 @@
         text: text + " ▼",
         classes: classes + " ",
         attributes: {
-        "aria-expanded": "false"
+          "aria-expanded": "false"
         }
     }) }}
+
     <ul id="{{ id }}-menu">
       {% for item in items %}
         <li>
-          {{ govukButton({
-            id: item.id,
-            text: item.text,
-            classes: "govuk-button--inverse " + item.classes,
-            attributes: item.attributes,
-            href: item.href
-        }) }}
+          {% if item.html %}
+            {{ item.html | safe }}
+          {% else %}
+            {{ govukButton({
+              id: item.id,
+              text: item.text,
+              classes: "govuk-button--inverse " + item.classes,
+              attributes: item.attributes,
+              href: item.href
+            }) }}
+          {% endif %}
         </li>
       {% endfor %}
+
       {% for group in groups %}
-        <li>
-          <div class="govuk-body-m">{{ group.title }}</div>
+        <li class="dropdown-group-name-li">
+          <div class="govuk-body-m dropdown-group-name">{{ group.title }}</div>
         </li>
         {% for groupItem in group.items %}
-          {% set groupItemHtml %}
-          <span>&nbsp;&nbsp;</span>
-          <span>{{ groupItem.text }}</span>
-          {% endset %}
-          <li>
-            {{ govukButton({
+          <li class="dropdown-group-item-li">
+            {% if groupItem.html %}
+              {{ groupItem.html | safe }}
+            {% else %}
+              {{ govukButton({
                 id: groupItem.id,
-                html: groupItemHtml,
+                text: groupItem.text,
                 classes: "govuk-button--inverse " + groupItem.classes,
                 attributes: groupItem.attributes,
                 href: groupItem.href
-            }) }}
+              }) }}
+            {% endif %}
           </li>
         {% endfor %}
       {% endfor %}
+      
     </ul>
   </div>
 {% endmacro %}

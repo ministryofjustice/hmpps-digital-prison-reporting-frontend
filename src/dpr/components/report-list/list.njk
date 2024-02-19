@@ -17,7 +17,7 @@
 {% set actions = [] %}
 
 {% set printButtonHtml %}
- {{ dprPrintButton('dd', dataTableOptions.rows.length, dataTableOptions.printable) }}
+ {{ dprPrintButton('dd', dataTableOptions.rows.length, 'govuk-button--inverse', dataTableOptions.printable) }}
 {% endset %}
 
 {% set printAction = {
@@ -26,7 +26,7 @@
 {% set actions = (actions.push(printAction), actions) %}
 
 {% set copyUrlHtml %}
- {{ dprCopyUrlButton('dd') }}
+ {{ dprCopyUrlButton('dd', "govuk-button--inverse") }}
 {% endset %}
 
 {% set subject = title | urlencode %}

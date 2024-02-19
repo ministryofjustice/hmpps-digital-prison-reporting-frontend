@@ -17,8 +17,9 @@
 
 | Name       | Type   | Required | Description                                |
 | ---------- | ------ | -------- | ------------------------------------------ |
-| id         | String | Yes      | The menu item ID.                          |
-| text       | String | Yes      | The menu item displayed name.              |
+| id         | String | No       | The menu item ID.                          |
+| text       | String | No       | The menu item displayed name.              |
 | classes    | String | No       | Class list to be applied to the menu item. |
 | attributes | Array  | No       | attributes applied to the menu item.       |
 | href       | Array  | No       | the href for the menu item.                |
+| html       | String | No       | A html string of the menu component        |        

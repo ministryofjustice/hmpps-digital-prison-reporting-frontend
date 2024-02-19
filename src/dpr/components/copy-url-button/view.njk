@@ -1,11 +1,11 @@
-{% macro dprCopyUrlButton( id ) %}
+{% macro dprCopyUrlButton( id, classes ) %}
   {% from "govuk/components/button/macro.njk" import govukButton %}
 
   <div class="copy-url-button" data-dpr-module="copy-url-button">
     {{ govukButton({
       id: 'copy_url_' + id,
       text: 'Copy URL',
-      classes: "govuk-button--inverse",
+      classes: classes,
       attributes: {
         "data-copy-url": "true"
       }

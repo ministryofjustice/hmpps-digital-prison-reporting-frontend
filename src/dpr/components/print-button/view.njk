@@ -1,4 +1,4 @@
-{% macro dprPrintButton( id, count, printable = 'false' ) %}
+{% macro dprPrintButton( id, count, classes, printable = 'false') %}
   {% from "govuk/components/button/macro.njk" import govukButton %}
 
   {% if (printable) %}
@@ -17,7 +17,7 @@
     {{ govukButton({
       id: 'print_' + id,
       text: 'Print displayed results (' + count + ')',
-      classes: "govuk-button--inverse",
+      classes: classes,
       attributes: printAttributes
     }) }}
 {% endmacro %}

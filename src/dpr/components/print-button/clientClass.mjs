@@ -6,9 +6,9 @@ export default class PrintButton extends DprClientClass {
   }
 
   initialise() {
-    const printButtons = document.querySelectorAll('[data-print-page=true]')
+    const copyUrlButtons = document.querySelectorAll('[data-print-page=true]')
 
-    printButtons.forEach((actionButton) => {
+    copyUrlButtons.forEach((actionButton) => {
       actionButton.addEventListener('click', () => {
         window.print()
       })

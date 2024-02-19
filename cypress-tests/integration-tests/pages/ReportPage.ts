@@ -42,9 +42,9 @@ export default class ReportPage {
 
   actionsButtonMenu = (): PageElement => cy.get('#actions-menu')
 
-  printButton = (): PageElement => cy.get('#print-button')
+  printButton = (): PageElement => cy.get('#print_dd')
 
-  printButtonDisabled = (): PageElement => cy.get('#print-button-disabled')
+  printButtonDisabled = (): PageElement => cy.get('#print_dd_disabled')
 
   emailButton = (): PageElement => cy.get('#email-button')
 

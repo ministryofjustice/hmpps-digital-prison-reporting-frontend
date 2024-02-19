@@ -15,4 +15,4 @@ Do not use this component for common, regulary used actions as hiding these opti
 
 ## How to use
 
-Menu items can be provided to the buttons as hyperlink button data, or as bespoke button components. When a menu item requires a specific action other than a href, and uses Javascript to perform that action, then a bespoke component should be built an passed in as html. 
+Menu items can be provided to the dropdown button as hyperlink button data, or as bespoke button components. When a menu item requires a specific action other than a href, and uses Javascript to perform that action, then a bespoke component should be built an passed in as html.

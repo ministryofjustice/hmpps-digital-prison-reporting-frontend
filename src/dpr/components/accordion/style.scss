@@ -14,6 +14,13 @@
 
 .accordion-details {
   padding-top: govuk-spacing(3);
+
+  .govuk-details__text {
+    border-left: none;
+    border-bottom: 1px Solid govuk-colour("mid-grey");
+    margin-top: 10px;
+    padding: 15px 0px;
+  }
 }
 
 .accordion-section-header {

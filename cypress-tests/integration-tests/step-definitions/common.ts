@@ -7,7 +7,11 @@ When(/I navigate to the main page/, () => {
 })
 
 When(/I navigate to the (method|handler) page/, (page: string) => {
-  cy.visit(`/${page.toLowerCase()}`)
+  let path = page.toLowerCase()
+  if (path === 'method') {
+    path += '?dataProductDefinitionsPath=test-location'
+  }
+  cy.visit(`/${path}`)
 })
 
 When(/I navigate to the fail page/, () => {

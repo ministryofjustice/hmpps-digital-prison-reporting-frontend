@@ -1,7 +1,7 @@
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default class HomePage {
-  cards = (): PageElement => cy.get(`.card`)
+  cards = (): PageElement => cy.get(`.dpr-card-group__item`)
 
-  card = (index: number): PageElement => cy.get(`.card:eq(${index})`)
+  card = (index: number): PageElement => cy.get(`.dpr-card-group__item:eq(${index})`)
 }

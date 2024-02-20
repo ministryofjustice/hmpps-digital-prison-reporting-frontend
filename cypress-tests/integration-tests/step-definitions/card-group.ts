@@ -5,7 +5,7 @@ import HomePage from '../pages/HomePage'
 
 When(/^I click on the (.+) card$/, (cardTitle: string) => {
   new HomePage().cards().each((card) => {
-    if (card.find('.card__link').text().trim() === cardTitle) {
+    if (card.find('a.card__link').text().trim() === cardTitle) {
       card.trigger('click')
     }
   })

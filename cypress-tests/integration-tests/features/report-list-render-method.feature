@@ -1,7 +1,6 @@
 Feature: List report
   Background:
-    Given I navigate to the main page
-    And I click on the Method card
+    Given I navigate to the method page
 
    Scenario: Filters are displayed
     Given the Show Filter button is displayed

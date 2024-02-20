@@ -1,7 +1,7 @@
 | Name    | Type   | Required | Description                             |
 | ------- | ------ | -------- | --------------------------------------- |
 | items   | array  | Yes      | An array of cards. See [Cards](#cards). |
-| variant | Number | no       | Card Variant ID. Defaults to style 1    |
+| variant | Number | No       | Card Variant ID. Defaults to style 1    |
 
 ### Cards
 

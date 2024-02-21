@@ -1,18 +1,11 @@
-{% macro dprCardGroup(cards) %}
-  <ul class="govuk-grid-row card-group" data-dpr-module="card-group">
+{% macro dprCardGroup(cards, variant = 1) %}
+  <div class="dpr-card-group" data-dpr-module="card-group">
     {% for card in cards %}
-    <li class="govuk-grid-column-one-third card-group__item" data-click-navigate-to="{{ card.href }}">
-      <div class="card card--clickable">
-        <h2 class="govuk-heading-m card__heading">
-          <a class="govuk-link card__link govuk-link--no-visited-state" href="{{ card.href }}">
-            {{ card.text }}
-          </a>
-        </h2>
-        <p class="govuk-body card__description">
-          {{ card.description }}
-        </p>
-      </div>
-    </li>
+      {% if variant === 1 %}
+        {% include "./includes/card-variant-1.html" %}
+      {% else %}
+        {% include "./includes/card-variant-2.html" %}
+      {% endif %}
     {% endfor %}
-  </ul>
+  </div>
 {% endmacro %}

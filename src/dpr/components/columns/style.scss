@@ -1,16 +1,14 @@
-.columns-container .govuk-checkboxes--small .govuk-checkboxes__item {
-  display: inline-block;
-  width: 28%;
-  vertical-align:top;
-  float: none;
-}
+.columns-container .govuk-checkboxes.govuk-checkboxes--small {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 10px;
 
-.columns-container {
-  position: relative;
-
-  .govuk-checkboxes__input, .govuk-checkboxes__label {
-    display: inline-block;
-    vertical-align:top;
+  @media(min-width: 769px) and (max-width: 1019px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  
+  @media(max-width: 768px) {
+    grid-template-columns: 1fr;
   }
 }
 

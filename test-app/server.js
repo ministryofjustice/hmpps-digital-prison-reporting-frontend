@@ -43,7 +43,10 @@ app.set('view engine', 'njk')
 // Middleware to serve static assets
 app.use('/assets/govuk', express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/assets')))
 app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr/assets')))
-app.use('/govuk/all.js', express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js')))
+app.use(
+  '/govuk/all.js',
+  express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js')),
+)
 app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
 app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest.json')))
 
@@ -56,10 +59,23 @@ const ReportingClient = require('../package/dpr/data/reportingClient')
 app.get('/', (req, res) => {
   res.render('menu.njk', {
     cards: [
-      { text: 'Method', description: 'A test page rendered using the renderListWithData method.', href: '/method?dataProductDefinitionsPath=test-location' },
-      { text: 'Handler', description: 'A test page rendered using the createReportListRequestHandler method to create a request handler.', href: '/handler' },
-      { text: 'Failing page', description: 'This page will fail to retrieve the definition and fail gracefully.', href: '/fail' },
-    ]
+      {
+        text: 'Method',
+        description: 'A test page rendered using the renderListWithData method.',
+        href: '/method?dataProductDefinitionsPath=test-location',
+      },
+      {
+        text: 'Handler',
+        description:
+          'A test page rendered using the createReportListRequestHandler method to create a request handler.',
+        href: '/handler',
+      },
+      {
+        text: 'Failing page',
+        description: 'This page will fail to retrieve the definition and fail gracefully.',
+        href: '/fail',
+      },
+    ],
   })
 })
 
@@ -73,19 +89,21 @@ app.get('/method', (req, res, next) => {
     next,
     apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
     layoutTemplate: 'page.njk',
-    dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}'
+    dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}',
   })
 })
 
-app.get('/handler', reportListUtils.createReportListRequestHandler({
+app.get(
+  '/handler',
+  reportListUtils.createReportListRequestHandler({
     title: 'Test app',
     definitionName: 'test-report',
     variantName: 'test-variant',
     apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
     layoutTemplate: 'page.njk',
     tokenProvider: () => 'token',
-    dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}'
-  })
+    dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}',
+  }),
 )
 
 app.get('/fail', (req, res, next) => {
@@ -97,7 +115,7 @@ app.get('/fail', (req, res, next) => {
     response: res,
     next,
     apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
-    layoutTemplate: 'page.njk'
+    layoutTemplate: 'page.njk',
   })
 })
 
@@ -108,39 +126,41 @@ app.get('/dynamic-values/field5', (req, res, next) => {
     new ReportingClient.default({
       url: 'http://localhost:3010',
       agent: {
-        timeout: 8000
-      }
-    }).getFieldValues({
-      token: 'token',
-      definitionName: 'test-report',
-      variantName: 'test-variant',
-      fieldName: 'field5',
-      prefix: req.query.prefix.toString(),
-    }).then(result => {
-      res.setHeader('Content-Type', 'application/json');
-      res.end(JSON.stringify(result))
-    }).catch(err => {
-      next(err)
+        timeout: 8000,
+      },
     })
+      .getFieldValues({
+        token: 'token',
+        definitionName: 'test-report',
+        variantName: 'test-variant',
+        fieldName: 'field5',
+        prefix: req.query.prefix.toString(),
+      })
+      .then((result) => {
+        res.setHeader('Content-Type', 'application/json')
+        res.end(JSON.stringify(result))
+      })
+      .catch((err) => {
+        next(err)
+      })
   })
-
 })
 
 function sleep(ms) {
   return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
+    setTimeout(resolve, ms)
+  })
 }
 
 // Fake API routes for the /handler endpoint to call
 app.get('/definitions', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify([ definitions.report ]));
+  res.setHeader('Content-Type', 'application/json')
+  res.end(JSON.stringify([definitions.report]))
 })
 
 app.get('/definitions/test-report/test-variant', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify(definitions.singleVariantReport));
+  res.setHeader('Content-Type', 'application/json')
+  res.end(JSON.stringify(definitions.singleVariantReport))
 })
 
 app.get('/definitions/failing-report/failing-variant', () => {
@@ -148,27 +168,27 @@ app.get('/definitions/failing-report/failing-variant', () => {
 })
 
 app.get('/reports/list', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('x-no-data-warning', 'Test message');
-  res.end(JSON.stringify(data));
+  res.setHeader('Content-Type', 'application/json')
+  res.setHeader('x-no-data-warning', 'Test message')
+  res.end(JSON.stringify(data))
 })
 
 app.get('/reports/list/count', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify({count: 3}));
+  res.setHeader('Content-Type', 'application/json')
+  res.end(JSON.stringify({ count: 3 }))
 })
 
 app.get('/reports/test-report/test-variant/field5', (req, res) => {
-  const prefix = req.query.prefix
+  const { prefix } = req.query
 
-  res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify([
-    'Fezzick',
-    'Inigo Montoya',
-    'Prince Humperdink',
-    'Princess Buttercup',
-    'Westley',
-  ].filter(p => p.toLowerCase().startsWith(prefix.toLowerCase()))));
+  res.setHeader('Content-Type', 'application/json')
+  res.end(
+    JSON.stringify(
+      ['Fezzick', 'Inigo Montoya', 'Prince Humperdink', 'Princess Buttercup', 'Westley'].filter((p) =>
+        p.toLowerCase().startsWith(prefix.toLowerCase()),
+      ),
+    ),
+  )
 })
 
 const nodeModulesExists = fs.existsSync(path.join(__dirname, '../node_modules'))

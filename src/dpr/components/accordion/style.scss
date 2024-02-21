@@ -1,5 +1,5 @@
 .accordion-section {
-  margin-bottom: govuk-spacing(8);
+  margin-bottom: govuk-spacing(6);
   position: relative;
 }
 
@@ -14,6 +14,12 @@
 
 .accordion-details {
   padding-top: govuk-spacing(3);
+
+  .govuk-details__text {
+    border-left: none;
+    border-bottom: 1px Solid govuk-colour("mid-grey");
+    padding: 15px 0px;
+  }
 }
 
 .accordion-section-header {

@@ -6,6 +6,8 @@ arguments: card-group
 
 {%- from "dpr/components/card-group/view.njk" import dprCardGroup -%}
 
+<h2 class="govuk-heading-m">Variant 1</h2>
+
 {{ dprCardGroup([
     {
         text: 'First card',
@@ -23,6 +25,8 @@ arguments: card-group
         description: 'The third card in the card group.'
     }
 ]) }}
+
+<h2 class="govuk-heading-m">Variant 2</h2>
 
 {{ dprCardGroup([
     {

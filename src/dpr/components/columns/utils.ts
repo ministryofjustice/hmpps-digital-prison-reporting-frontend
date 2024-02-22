@@ -12,10 +12,6 @@ export default {
   },
 
   getSelectedColumns: (columns: Array<components['schemas']['FieldDefinition']>, queryCols: string[]) => {
-    console.log(columns)
-    console.log(queryCols)
-    return columns
-      .filter((column) => column.mandatory || queryCols.includes(column.name))
-      .map((field) => field.name)
+    return columns.filter((column) => column.mandatory || queryCols.includes(column.name)).map((field) => field.name)
   },
 }

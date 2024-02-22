@@ -22,7 +22,6 @@ const createUrlForParameters = (
           })
       }
     })
-
   } else {
     queryParams = {
       selectedPage: '1',

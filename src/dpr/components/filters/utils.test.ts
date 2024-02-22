@@ -213,7 +213,9 @@ describe('getSelectedFilters', () => {
   })
 })
 
-const wrapInVariant = (fields: Array<components['schemas']['FieldDefinition']>): components['schemas']['VariantDefinition'] => {
+const wrapInVariant = (
+  fields: Array<components['schemas']['FieldDefinition']>,
+): components['schemas']['VariantDefinition'] => {
   return {
     id: 'test',
     name: 'Test',
@@ -222,7 +224,7 @@ const wrapInVariant = (fields: Array<components['schemas']['FieldDefinition']>):
       template: 'list',
       fields,
     },
-    classification: "",
+    classification: '',
     printable: false,
   }
 }

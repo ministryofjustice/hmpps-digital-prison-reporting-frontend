@@ -70,7 +70,7 @@ describe('reportingClient', () => {
         sortedAsc: 'true',
         'f.original.filter': 'true',
         dataProductDefinitionsPath: 'test-definition-path',
-        columns: 'original.filter'
+        columns: 'original.filter',
       }
       const resourceName = 'external-movements'
 

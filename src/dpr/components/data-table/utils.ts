@@ -22,7 +22,10 @@ export default {
   mapHeader: (
     format: Array<components['schemas']['FieldDefinition']>,
     reportQuery: ReportQuery,
-    createUrlForParameters: (currentQueryParams: Dict<string | Array<string>>, updateQueryParams: Dict<string>) => string,
+    createUrlForParameters: (
+      currentQueryParams: Dict<string | Array<string>>,
+      updateQueryParams: Dict<string>,
+    ) => string,
   ) => {
     const currentQueryParams = reportQuery.toRecordWithFilterPrefix()
 

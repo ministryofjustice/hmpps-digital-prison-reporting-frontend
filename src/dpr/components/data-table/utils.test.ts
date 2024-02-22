@@ -166,15 +166,10 @@ describe('mapHeader', () => {
     mandatory: false,
   }
   const defaultQueryParams = {
-    columns: 'date'
+    columns: 'date',
   }
   const filterPrefix = 'f.'
-  const defaultListRequest: ReportQuery = new ReportQuery(
-    [defaultField],
-    defaultQueryParams,
-    null,
-    filterPrefix,
-  )
+  const defaultListRequest: ReportQuery = new ReportQuery([defaultField], defaultQueryParams, null, filterPrefix)
   const createUrlForParameters: (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) => string = (
     currentQueryParams: Dict<string>,
     updateQueryParams: Dict<string>,

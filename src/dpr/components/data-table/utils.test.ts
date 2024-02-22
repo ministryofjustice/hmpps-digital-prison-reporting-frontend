@@ -184,7 +184,7 @@ describe('mapHeader', () => {
 
     expect(mapped).toEqual([
       {
-        html: '<a data-column="date" class="data-table-header-button">Date</a>',
+        text: 'Date',
       },
     ])
   })

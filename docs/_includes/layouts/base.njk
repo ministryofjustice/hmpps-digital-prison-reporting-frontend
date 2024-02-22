@@ -39,14 +39,14 @@
     {% block pageScripts %}
       <script type="module" src="{{ '/assets/govuk/govuk-frontend.min.js' }}"></script>
       <script type="module">
-        import {initAll} from '{{ ' / assets / govuk / govuk - frontend.min.js ' | url }}'
+        import {initAll} from "{{ '/assets/govuk/govuk-frontend.min.js' | url }}"
 
         initAll()
       </script>
       <script type="text/javascript" src="{{ '/assets/js/all.js' }}"></script>
       <script type="module" src="{{ '/assets/js/all.mjs' }}"></script>
       <script type="module">
-        import initAll from '{{ ' / assets / js / all.mjs ' | url }}'
+        import initAll from "{{ '/assets/js/all.mjs' | url }}"
 
         initAll()
       </script>

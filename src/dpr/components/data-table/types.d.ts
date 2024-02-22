@@ -1,7 +1,8 @@
 import Dict = NodeJS.Dict
 
 export interface Header {
-  html: string
+  html?: string
+  text?: string
   format?: string
 }
 

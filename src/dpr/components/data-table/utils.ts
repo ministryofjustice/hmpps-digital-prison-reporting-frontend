@@ -58,6 +58,7 @@ export default {
             html:
               `<a ` +
               `data-column="${f.name}" ` +
+              `data-column-click="${f.name}" ` +
               `aria-sort="${ariaSort}" ` +
               `class="data-table-header-button data-table-header-button-sort-${ariaSort}" ` +
               `href="${url}"` +
@@ -65,7 +66,7 @@ export default {
           }
         } else {
           header = {
-            html: `<a data-column="${f.name}" class="data-table-header-button">${f.display}</a>`,
+            text: f.display,
           }
         }
 

@@ -27,7 +27,7 @@
     <div id="table-container" class='table-container' data-dpr-module="data-table">
       {{ dprLoadingAnim() }}
       <div>
-        <div class="govuk-grid-column">
+        <div class="govuk-grid-column dpr-table-wrapper">
           {{ govukTable({
         head: head,
         rows: rows,
@@ -43,16 +43,19 @@
       <div class="pagination">
         <div class="govuk-grid-column-two-thirds govuk-!-padding-left-0">
           {{ govukPagination({
-      previous: {
-        href: currentQueryParams | createUrlForParameters({ selectedPage: selectedPage - 1 })
-      } if ((selectedPage | int) > 1) else null,
-      next: {
-        href: currentQueryParams | createUrlForParameters({ selectedPage: (selectedPage | int) + 1 })
-      } if ((selectedPage | int) < lastPage) else null,
-      items: pages
-    }) }}
+            previous: {
+              href: currentQueryParams | createUrlForParameters({ selectedPage: selectedPage - 1 })
+            } if ((selectedPage | int) > 1) else null,
+            next: {
+              href: currentQueryParams | createUrlForParameters({ selectedPage: (selectedPage | int) + 1 })
+            } if ((selectedPage | int) < lastPage) else null,
+            items: pages,
+            attributes: {
+              "data-navigate-to-page": "true"
+            }
+          }) }}
         </div>
-        <div class="govuk-grid-column-one-third govuk-!-padding-0">
+        <div class="govuk-grid-column-one-third govuk-!-padding-0 data-table-page-size-container">
           <div class="data-table-page-size">
             <div class="govuk-input__wrapper">
               {{ govukSelect({

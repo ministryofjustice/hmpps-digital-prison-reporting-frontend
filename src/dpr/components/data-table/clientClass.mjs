@@ -1,6 +1,6 @@
-import { DprClientClass } from '../../DprClientClass.mjs'
+import DprLoadingClientClass from '../../DprLoadingClientClass.mjs'
 
-export default class DataTable extends DprClientClass {
+export default class DataTable extends DprLoadingClientClass {
   static getModuleName() {
     return 'data-table'
   }
@@ -10,7 +10,26 @@ export default class DataTable extends DprClientClass {
       .querySelectorAll('[data-navigate-to]')
       .forEach((select) => {
         select.addEventListener('change', (event) => {
+          this.showLoadingAnimation()
           window.location.href = select.dataset.navigateTo.replace(/thisValue/, event.target.value)
+          return false
+        })
+      })
+
+    this.getElement()
+      .querySelectorAll('[data-navigate-to-page]')
+      .forEach((select) => {
+        select.addEventListener('click', () => {
+          this.showLoadingAnimation()
+          return false
+        })
+      })
+
+    this.getElement()
+      .querySelectorAll('[data-column]')
+      .forEach((select) => {
+        select.addEventListener('click', () => {
+          this.showLoadingAnimation()
           return false
         })
       })

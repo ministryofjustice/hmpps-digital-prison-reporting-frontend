@@ -65,7 +65,7 @@ export default {
           }
         } else {
           header = {
-            html: `<a data-column="${f.name}" class="data-table-header-button">${f.display}</a>`,
+            text: f.display,
           }
         }
 

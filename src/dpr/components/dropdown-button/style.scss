@@ -49,6 +49,15 @@
       padding: 8px 12px 7px;
     }
   }
+  
+  @media(max-width: 640px) {
+    width: 100%;
+    margin-bottom: govuk-spacing(2);
+
+    #actions-menu {
+      width: 100%;
+    }
+  }
 }
 
 @media screen {

@@ -26,7 +26,7 @@ export default class DataTable extends DprLoadingClientClass {
       })
 
     this.getElement()
-      .querySelectorAll('[data-column-click]')
+      .querySelectorAll('[data-column]')
       .forEach((select) => {
         select.addEventListener('click', () => {
           this.showLoadingAnimation()

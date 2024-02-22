@@ -45,7 +45,7 @@ const createUrlForParameters = (
 
 export const createQuerystringFromObject = (source: object) => {
   const querystring = Object.keys(source)
-    .map((key) => `${encodeURI(key)}=${encodeURI(source[key])}`)
+    .map((key) => `${encodeURI(key)}=${encodeURI(source[key as keyof typeof source])}`)
     .join('&')
 
   return `?${querystring}`

@@ -1,5 +1,4 @@
 import { components } from '../../types/api'
-import { Column } from './types'
 
 export default {
   getColumns: (fields: Array<components['schemas']['FieldDefinition']>) => {
@@ -12,7 +11,7 @@ export default {
     })
   },
 
-  getSelectedColumns: (columns: Column[], queryCols: string[]) => {
-    return columns.filter((column) => column.disabled || queryCols.includes(column.value)).map((field) => field.value)
+  getSelectedColumns: (columns: Array<components['schemas']['FieldDefinition']>, queryCols: string[]) => {
+    return columns.filter((column) => column.mandatory || queryCols.includes(column.name)).map((field) => field.name)
   },
 }

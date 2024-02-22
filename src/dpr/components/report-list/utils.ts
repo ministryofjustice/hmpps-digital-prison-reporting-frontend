@@ -14,7 +14,6 @@ import RenderListWithDefinitionInput from './RenderListWithDefinitionInput'
 import CreateRequestHandlerInput from './CreateRequestHandlerInput'
 
 const filtersQueryParameterPrefix = 'filters.'
-const columnsQueryParameterPrefix = 'columns'
 
 function getDefaultSortColumn(fields: components['schemas']['FieldDefinition'][]) {
   const defaultSortColumn = fields.find((f) => f.defaultsort)
@@ -62,11 +61,7 @@ function redirectWithDefaultFilters(
   }
 
   if (Object.keys(defaultFilters).length > 0) {
-    const querystring = createUrlForParameters(
-      reportQuery.toRecordWithFilterPrefix(),
-      defaultFilters,
-      reportQuery.columns,
-    )
+    const querystring = createUrlForParameters(reportQuery.toRecordWithFilterPrefix(), defaultFilters)
     response.redirect(`${request.baseUrl}${request.path}${querystring}`)
     return true
   }
@@ -103,16 +98,14 @@ function renderList(
           data = resolvedData[0]
         }
 
-        const columns = ColumnUtils.getColumns(fields)
-        const selectedColumns = ColumnUtils.getSelectedColumns(columns, reportQuery.columns)
         const columnOptions = {
-          columns,
-          selectedColumns,
+          columns: ColumnUtils.getColumns(fields),
+          selectedColumns: reportQuery.columns,
         }
 
         const dataTableOptions: DataTableOptions = {
-          head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters, selectedColumns),
-          rows: DataTableUtils.mapData(data, fields, selectedColumns),
+          head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
+          rows: DataTableUtils.mapData(data, fields, reportQuery.columns),
           count: resolvedData[1],
           currentQueryParams: reportQuery.toRecordWithFilterPrefix(),
           classification,
@@ -171,7 +164,6 @@ const renderListWithDefinition = ({
         request.query,
         getDefaultSortColumn(variantDefinition.specification.fields),
         filtersQueryParameterPrefix,
-        columnsQueryParameterPrefix,
       )
 
       const getListData: ListDataSources = {
@@ -216,7 +208,6 @@ export default {
       request.query,
       getDefaultSortColumn(fields),
       filtersQueryParameterPrefix,
-      columnsQueryParameterPrefix,
     )
     const listData = getListDataSources(reportQuery)
 

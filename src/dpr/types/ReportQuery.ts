@@ -3,6 +3,7 @@ import { FilteredListRequest } from './index'
 import Dict = NodeJS.Dict
 import { components } from './api'
 import { clearFilterValue } from '../utils/urlHelper'
+import ColumnUtils from '../components/columns/utils'
 
 export default class ReportQuery implements FilteredListRequest {
   selectedPage: number
@@ -19,8 +20,6 @@ export default class ReportQuery implements FilteredListRequest {
 
   filtersPrefix: string
 
-  columnsPrefix: string
-
   dataProductDefinitionsPath?: string
 
   constructor(
@@ -28,7 +27,6 @@ export default class ReportQuery implements FilteredListRequest {
     queryParams: ParsedQs,
     defaultSortColumn: string,
     filtersPrefix: string,
-    columnsPrefix: string,
   ) {
     this.selectedPage = queryParams.selectedPage ? Number(queryParams.selectedPage) : 1
     this.pageSize = queryParams.pageSize ? Number(queryParams.pageSize) : 20
@@ -38,10 +36,11 @@ export default class ReportQuery implements FilteredListRequest {
       ? queryParams.dataProductDefinitionsPath.toString()
       : null
     this.filtersPrefix = filtersPrefix
-    this.columnsPrefix = columnsPrefix
 
     if (queryParams.columns) {
-      this.columns = typeof queryParams.columns === 'string' ? [queryParams.columns] : (queryParams.columns as string[])
+      const columns =
+        typeof queryParams.columns === 'string' ? queryParams.columns.split(',') : (queryParams.columns as string[])
+      this.columns = ColumnUtils.getSelectedColumns(fields, columns)
     } else {
       this.columns = fields.map((f) => f.name)
     }
@@ -56,12 +55,13 @@ export default class ReportQuery implements FilteredListRequest {
       })
   }
 
-  toRecordWithFilterPrefix(removeClearedFilters = false): Record<string, string> {
-    const record: Record<string, string> = {
+  toRecordWithFilterPrefix(removeClearedFilters = false): Record<string, string | Array<string>> {
+    const record: Record<string, string | Array<string>> = {
       selectedPage: this.selectedPage.toString(),
       pageSize: this.pageSize.toString(),
       sortColumn: this.sortColumn,
       sortedAsc: this.sortedAsc.toString(),
+      columns: this.columns,
     }
 
     if (this.dataProductDefinitionsPath) {

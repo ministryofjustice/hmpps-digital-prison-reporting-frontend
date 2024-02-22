@@ -60,7 +60,10 @@ export default {
   getSelectedFilters: (
     format: Array<components['schemas']['FieldDefinition']>,
     reportQuery: ReportQuery,
-    createUrlForParameters: (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) => string,
+    createUrlForParameters: (
+      currentQueryParams: Dict<string | Array<string>>,
+      updateQueryParams: Dict<string>,
+    ) => string,
   ) =>
     format
       .filter((f) => f.filter)

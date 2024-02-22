@@ -1,11 +1,5 @@
 import { FilterType } from './enum'
 
-export interface FilterDefinition {
-  type: FilterType
-  options?: Array<FilterOption>
-  value?: string
-}
-
 export interface FilterOption {
   value: string
   text: string
@@ -23,7 +17,7 @@ export interface GenericFilterValue {
   dynamicResourceEndpoint?: string
 }
 
-export interface DateFilterValue extends FilterValue {
+export interface DateFilterValue extends GenericFilterValue {
   type: FilterType.dateRange
   value?: DateRange
   min?: string

@@ -16,7 +16,7 @@ export interface DataTableOptions {
   head: Array<Header>
   rows: Array<Array<Cell>>
   count: number
-  currentQueryParams: Dict<string>
+  currentQueryParams: Dict<string | Array<string>>
   classification: string
   printable?: boolean
   url: string

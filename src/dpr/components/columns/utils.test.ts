@@ -72,12 +72,12 @@ describe('getColumns', () => {
 
 describe('getSelectedColumns', () => {
   it('mapped the selected columns correctly', () => {
-    const selectedColumns = Utils.getSelectedColumns(columns, queryColumns)
+    const selectedColumns = Utils.getSelectedColumns(fields, queryColumns)
     expect(selectedColumns).toEqual(queryColumns)
   })
 
   it('should always inlcude disabled columns', () => {
-    const selectedColumns = Utils.getSelectedColumns(columns, queryColumnNoDisabled)
+    const selectedColumns = Utils.getSelectedColumns(fields, queryColumnNoDisabled)
     expect(selectedColumns).toEqual(queryColumns)
   })
 })

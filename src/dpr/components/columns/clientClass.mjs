@@ -47,7 +47,7 @@ export default class Columns extends DprLoadingClientClass {
     url += serializedFormData
     url = url.replaceAll('?&', '?').replaceAll(ampRexEx, '&')
 
-    window.location.href = url
+    // window.location.href = url
   }
 
   // eslint-disable-next-line class-methods-use-this

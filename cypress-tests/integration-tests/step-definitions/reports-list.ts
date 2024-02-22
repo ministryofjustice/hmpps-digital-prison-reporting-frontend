@@ -350,11 +350,11 @@ Then('the mandatory column value is shown in the URL', function (this: Mocha.Con
 
 Then('the selected columns values are shown in the URL', function (this: Mocha.Context) {
   cy.location().should((location) => {
-    expect(location.search).not.to.contain(`columns=field1`)
-    expect(location.search).to.contain(`columns=field2`)
-    expect(location.search).to.contain(`columns=field3`)
-    expect(location.search).to.contain(`columns=field4`)
-    expect(location.search).to.contain(`columns=field5`)
+    expect(location.search).to.not.match(/columns=[^&=]*field1/)
+    expect(location.search).to.match(/columns=[^&=]*field2/)
+    expect(location.search).to.match(/columns=[^&=]*field3/)
+    expect(location.search).to.match(/columns=[^&=]*field4/)
+    expect(location.search).to.match(/columns=[^&=]*field5/)
   })
 })
 

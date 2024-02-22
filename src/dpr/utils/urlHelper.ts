@@ -1,11 +1,10 @@
 export const clearFilterValue = '~clear~'
 
 const createUrlForParameters = (
-  currentQueryParams: NodeJS.Dict<string>,
+  currentQueryParams: NodeJS.Dict<string | Array<string>>,
   updateQueryParams: NodeJS.Dict<string>,
-  columns: Array<string> = [],
 ) => {
-  let queryParams: NodeJS.Dict<string>
+  let queryParams: NodeJS.Dict<string | Array<string>>
 
   if (updateQueryParams) {
     queryParams = {
@@ -24,11 +23,6 @@ const createUrlForParameters = (
       }
     })
 
-    if (columns.length) {
-      columns.forEach((col) => {
-        queryParams[`columns.${col}`] = col
-      })
-    }
   } else {
     queryParams = {
       selectedPage: '1',
@@ -39,7 +33,7 @@ const createUrlForParameters = (
     }
   }
 
-  const nonEmptyQueryParams: NodeJS.Dict<string> = {}
+  const nonEmptyQueryParams: NodeJS.Dict<string | Array<string>> = {}
 
   Object.keys(queryParams)
     .filter((key) => queryParams[key])
@@ -52,12 +46,7 @@ const createUrlForParameters = (
 
 export const createQuerystringFromObject = (source: object) => {
   const querystring = Object.keys(source)
-    .map((key) => {
-      let k = key
-      // eslint-disable-next-line prefer-destructuring
-      if (key.includes('columns.')) k = key.split('.')[0]
-      return `${encodeURI(k)}=${encodeURI(source[key as keyof typeof source])}`
-    })
+    .map((key) => `${encodeURI(key)}=${encodeURI(source[key])}`)
     .join('&')
 
   return `?${querystring}`

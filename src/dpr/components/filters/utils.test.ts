@@ -27,6 +27,7 @@ const selectFieldFormat: Array<components['schemas']['FieldDefinition']> = [
     sortable: true,
     defaultsort: false,
     type: 'string',
+    mandatory: false,
   },
 ]
 
@@ -41,6 +42,7 @@ const radioFieldFormat: Array<components['schemas']['FieldDefinition']> = [
     sortable: true,
     defaultsort: false,
     type: 'string',
+    mandatory: false,
   },
 ]
 
@@ -54,6 +56,7 @@ const dateRangeFieldFormat: Array<components['schemas']['FieldDefinition']> = [
     sortable: true,
     defaultsort: false,
     type: 'string',
+    mandatory: false,
   },
 ]
 
@@ -116,6 +119,7 @@ describe('getFilters', () => {
         sortable: true,
         defaultsort: false,
         type: 'string',
+        mandatory: false,
       },
     ]
     const filterValues: Dict<string> = {
@@ -209,7 +213,7 @@ describe('getSelectedFilters', () => {
   })
 })
 
-const wrapInVariant = (fields: Array<components['schemas']['FieldDefinition']>) => {
+const wrapInVariant = (fields: Array<components['schemas']['FieldDefinition']>): components['schemas']['VariantDefinition'] => {
   return {
     id: 'test',
     name: 'Test',
@@ -218,5 +222,7 @@ const wrapInVariant = (fields: Array<components['schemas']['FieldDefinition']>) 
       template: 'list',
       fields,
     },
+    classification: "",
+    printable: false,
   }
 }

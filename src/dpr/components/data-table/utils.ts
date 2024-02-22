@@ -22,14 +22,13 @@ export default {
   mapHeader: (
     format: Array<components['schemas']['FieldDefinition']>,
     reportQuery: ReportQuery,
-    createUrlForParameters: (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) => string,
-    selectedColumns: Array<string>,
+    createUrlForParameters: (currentQueryParams: Dict<string | Array<string>>, updateQueryParams: Dict<string>) => string,
   ) => {
     const currentQueryParams = reportQuery.toRecordWithFilterPrefix()
 
     return format
       .filter((f) => {
-        return selectedColumns.includes(f.name)
+        return reportQuery.columns.includes(f.name)
       })
       .map((f) => {
         let header: Header

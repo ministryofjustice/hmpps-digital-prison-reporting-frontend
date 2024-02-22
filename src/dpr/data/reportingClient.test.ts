@@ -20,6 +20,7 @@ describe('reportingClient', () => {
           type: 'Radio',
         },
         type: 'string',
+        mandatory: false,
       },
     ],
     {
@@ -69,6 +70,7 @@ describe('reportingClient', () => {
         sortedAsc: 'true',
         'f.original.filter': 'true',
         dataProductDefinitionsPath: 'test-definition-path',
+        columns: 'original.filter'
       }
       const resourceName = 'external-movements'
 

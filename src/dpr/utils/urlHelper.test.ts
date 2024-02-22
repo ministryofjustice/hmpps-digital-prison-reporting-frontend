@@ -13,6 +13,7 @@ const defaultFields: Array<components['schemas']['FieldDefinition']> = [
       type: 'Radio',
     },
     type: 'string',
+    mandatory: false
   },
 ]
 
@@ -51,7 +52,7 @@ describe('Create URL', () => {
 
     const url = createUrlForParameters(currentQueryParams.toRecordWithFilterPrefix(), updateQueryParams)
 
-    expect(url).toEqual('?selectedPage=10&pageSize=20&sortColumn=30&sortedAsc=false&f.direction=~clear~&f.type=jaunt')
+    expect(url).toEqual('?selectedPage=10&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&f.direction=~clear~&f.type=jaunt')
   })
 
   it('Change page with filters', () => {
@@ -61,6 +62,27 @@ describe('Create URL', () => {
 
     const url = createUrlForParameters(defaultReportQuery.toRecordWithFilterPrefix(), updateQueryParams)
 
-    expect(url).toEqual('?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&f.direction=out')
+    expect(url).toEqual('?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&f.direction=out')
+  })
+
+  it('Change page with column', () => {
+    const queryParams = {
+      selectedPage: '10',
+      pageSize: '20',
+      sortColumn: '30',
+      sortedAsc: 'false',
+      'f.direction': 'out',
+      columns: 'direction',
+    }
+
+    const reportQuery: ReportQuery = new ReportQuery(defaultFields, queryParams, 'one', 'f.')
+
+    const updateQueryParams: Dict<string> = {
+      selectedPage: '11',
+    }
+
+    const url = createUrlForParameters(reportQuery.toRecordWithFilterPrefix(), updateQueryParams)
+
+    expect(url).toEqual('?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&f.direction=out')
   })
 })

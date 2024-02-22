@@ -23,7 +23,7 @@
     {%- endif %}
   {%- endfor %}
 
-  {% if rows.length === 0 %}
+  {% if rows.length %}
     <div id="table-container" class='table-container' data-dpr-module="data-table">
       {{ dprLoadingAnim() }}
       <div>

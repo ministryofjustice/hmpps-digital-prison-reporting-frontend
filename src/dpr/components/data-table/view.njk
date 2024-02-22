@@ -27,7 +27,7 @@
     <div id="table-container" class='table-container' data-dpr-module="data-table">
       {{ dprLoadingAnim() }}
       <div>
-        <div class="govuk-grid-column">
+        <div class="govuk-grid-column dpr-table-wrapper">
           {{ govukTable({
         head: head,
         rows: rows,
@@ -55,7 +55,7 @@
             }
           }) }}
         </div>
-        <div class="govuk-grid-column-one-third govuk-!-padding-0">
+        <div class="govuk-grid-column-one-third govuk-!-padding-0 data-table-page-size-container">
           <div class="data-table-page-size">
             <div class="govuk-input__wrapper">
               {{ govukSelect({

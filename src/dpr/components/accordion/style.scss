@@ -25,9 +25,13 @@
 
 .accordion-section-header {
   position: absolute;
-  top: 0px;
   width: calc(100% - 120px);
   left: 120px;
+  top: 1px;
+
+  @media(max-width: 640px) {
+      top: -1px;
+  }
 }
 
 .accordion-section-header-scroll {
@@ -48,7 +52,7 @@
   text-underline-offset: 4px;
   color: govuk-colour("blue");
   text-decoration-color: govuk-colour("blue");
-  text-decoration-thickness: 1px;
+  text-decoration-thickness: 1px !important;
   box-shadow: none;
 
   &:hover {

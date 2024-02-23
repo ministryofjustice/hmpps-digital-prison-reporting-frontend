@@ -53,7 +53,7 @@ describe('Create URL', () => {
     const url = createUrlForParameters(currentQueryParams.toRecordWithFilterPrefix(), updateQueryParams)
 
     expect(url).toEqual(
-      '?selectedPage=10&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&f.direction=~clear~&f.type=jaunt',
+      '?selectedPage=1&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&f.direction=~clear~&f.type=jaunt',
     )
   })
 

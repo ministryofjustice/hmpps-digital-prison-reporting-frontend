@@ -9,6 +9,7 @@ const createUrlForParameters = (
   if (updateQueryParams) {
     queryParams = {
       ...currentQueryParams,
+      selectedPage: '1',
     }
 
     Object.keys(updateQueryParams).forEach((q) => {

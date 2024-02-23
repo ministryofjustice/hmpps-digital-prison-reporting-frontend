@@ -118,8 +118,12 @@ function renderList(
           selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
         }
 
+        const urlArr = request.originalUrl.split('/')
+        const product = urlArr[1] === 'reports' ? urlArr[2] : urlArr[1]
+
         response.render('dpr/components/report-list/list', {
           title,
+          product,
           dataTableOptions,
           filterOptions,
           columnOptions,

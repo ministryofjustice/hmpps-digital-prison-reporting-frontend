@@ -58,28 +58,61 @@ const ReportingClient = require('../package/dpr/data/reportingClient')
 
 app.get('/', (req, res) => {
   res.render('menu.njk', {
+    title: 'Home',
     cards: [
       {
-        text: 'Method',
-        description: 'A test page rendered using the renderListWithData method.',
-        href: '/method?dataProductDefinitionsPath=test-location',
-      },
-      {
-        text: 'Handler',
-        description:
-          'A test page rendered using the createReportListRequestHandler method to create a request handler.',
-        href: '/handler',
-      },
-      {
-        text: 'Failing page',
-        description: 'This page will fail to retrieve the definition and fail gracefully.',
-        href: '/fail',
+        text: 'Reports',
+        description: 'test reports',
+        href: '/reports',
       },
     ],
   })
 })
 
-app.get('/method', (req, res, next) => {
+app.get('/reports', (req, res) => {
+  res.render('menu.njk', {
+    title: 'Reports',
+    cards: [
+      {
+        text: 'Reports',
+        description: 'test reports',
+        href: '/reports/renderer',
+      },
+    ],
+    breadCrumbList: [{ text: 'Home', href: '/' }],
+  })
+})
+
+app.get('/reports/renderer', (req, res) => {
+  res.render('menu.njk', {
+    title: 'Render Types',
+    cards: [
+      {
+        text: 'Method',
+        description: 'A test page rendered using the renderListWithData method.',
+        href: '/reports/renderer/method?dataProductDefinitionsPath=test-location',
+      },
+      {
+        text: 'Handler',
+        description:
+          'A test page rendered using the createReportListRequestHandler method to create a request handler.',
+        href: '/reports/renderer/handler',
+      },
+      {
+        text: 'Failing page',
+        description: 'This page will fail to retrieve the definition and fail gracefully.',
+        href: '/reports/renderer/fail',
+      },
+    ],
+
+    breadCrumbList: [
+      { text: 'Home', href: '/' },
+      { text: 'reports', href: '/reports' },
+    ],
+  })
+})
+
+app.get('/reports/renderer/method', (req, res, next) => {
   reportListUtils.renderListWithDefinition({
     title: 'Test app',
     definitionName: 'test-report',
@@ -90,11 +123,17 @@ app.get('/method', (req, res, next) => {
     apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
     layoutTemplate: 'page.njk',
     dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}',
+    otherOptions: {
+      breadCrumbList: [
+        { text: 'Home', href: '/' },
+        { text: 'reports', href: '/reports/renderer' },
+      ],
+    },
   })
 })
 
 app.get(
-  '/handler',
+  '/reports/renderer/handler',
   reportListUtils.createReportListRequestHandler({
     title: 'Test app',
     definitionName: 'test-report',
@@ -106,7 +145,7 @@ app.get(
   }),
 )
 
-app.get('/fail', (req, res, next) => {
+app.get('/reports/renderer/fail', (req, res, next) => {
   reportListUtils.renderListWithDefinition({
     title: 'Test app',
     definitionName: 'failing-report',

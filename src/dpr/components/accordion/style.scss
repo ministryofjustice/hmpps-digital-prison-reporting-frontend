@@ -12,6 +12,13 @@
   padding-right: govuk-spacing(3);
 }
 
+.accordion-details.disabled {
+  pointer-events: none;
+  .govuk-details__summary-text, .govuk-details__summary:before {
+    opacity: .5
+  }
+}
+
 .accordion-details {
   padding-top: govuk-spacing(2);
   padding-bottom: govuk-spacing(1);

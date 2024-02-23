@@ -23,6 +23,10 @@ export default class DprLoadingClientClass extends DprClientClass {
     if (pageSizeElement) {
       pageSizeElement.setAttribute('disabled', true)
     }
+
+    document.querySelectorAll('.govuk-details.accordion-details').forEach((detailsButton) => {
+      detailsButton.classList.add('disabled')
+    })
   }
 
   hideLoadingAnimation() {

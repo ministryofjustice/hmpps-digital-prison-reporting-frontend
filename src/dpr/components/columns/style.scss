@@ -2,17 +2,21 @@
   margin-left: govuk-spacing(2);
 }
 
-.columns-container .govuk-checkboxes.govuk-checkboxes--small {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 10px;
-
-  @media(min-width: 769px) and (max-width: 1019px) {
-      grid-template-columns: 1fr 1fr;
-    }
+.columns-container {
+  position: relative;
   
-  @media(max-width: 768px) {
-    grid-template-columns: 1fr;
+  .govuk-checkboxes.govuk-checkboxes--small {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 10px;
+
+    @media(min-width: 769px) and (max-width: 1019px) {
+        grid-template-columns: 1fr 1fr;
+      }
+    
+    @media(max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
   }
 }
 

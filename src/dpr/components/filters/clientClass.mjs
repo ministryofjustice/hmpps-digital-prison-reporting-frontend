@@ -29,12 +29,10 @@ export default class Filters extends DprLoadingClientClass {
     e.preventDefault()
     const filtersForm = document.getElementById('user-selected-filters-form')
     const filtersRegExp = /filters[.\w]+=[^&]*/g
-    const pagingRegExp = /paging\.selectedPage=\d+/
+    const pagingRegExp = /selectedPage=\d+/
     const ampRexExp = /(&)\1+/g
 
-    let url = decodeURI(window.location.href)
-      .replaceAll(filtersRegExp, '')
-      .replace(pagingRegExp, 'paging.selectedPage=1')
+    let url = decodeURI(window.location.href).replaceAll(filtersRegExp, '').replace(pagingRegExp, 'selectedPage=1')
     url += url.indexOf('?') === -1 ? '?' : '&'
 
     const formData = new FormData(filtersForm)

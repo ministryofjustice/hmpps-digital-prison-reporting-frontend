@@ -38,7 +38,7 @@
 }) }}
 {% endset %}
 
-{% set subject = title | urlencode %}
+{% set subject = product + ' - ' + title | urlencode %}
 {% set body = (dataTableOptions.url) | urlencode %}
 {% set shareOptions = {
   title: "Share:",
@@ -110,7 +110,6 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-m">{{ title }}</h1>
-        {{ breadCrumbList | dump | safe }}
       </div>
       <div class="govuk-grid-column-one-third">
         <div class="dpr-actions">

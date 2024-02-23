@@ -118,8 +118,11 @@ function renderList(
           selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
         }
 
-        const urlArr = request.originalUrl.split('/')
-        const product = urlArr[1] === 'reports' ? urlArr[2] : urlArr[1]
+        const breadcrumb: { text: string }[] = otherOptions?.breadCrumbList as { text: string; href: string }[]
+        let product
+        if (breadcrumb) {
+          product = breadcrumb[breadcrumb.length - 1].text
+        }
 
         response.render('dpr/components/report-list/list', {
           title,

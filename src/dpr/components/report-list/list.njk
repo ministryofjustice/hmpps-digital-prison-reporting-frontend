@@ -38,7 +38,7 @@
 }) }}
 {% endset %}
 
-{% set subject = product + ' - ' + title | urlencode %}
+{% set subject = reportName + ' - ' + title | urlencode %}
 {% set body = (dataTableOptions.url) | urlencode %}
 {% set shareOptions = {
   title: "Share:",

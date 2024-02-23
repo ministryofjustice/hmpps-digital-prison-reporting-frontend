@@ -7,16 +7,12 @@ When(/I navigate to the main page/, () => {
 })
 
 When(/I navigate to the reports page/, () => {
-  cy.visit('/reports')
-})
-
-When(/I navigate to the render types page/, () => {
-  cy.visit('/reports/render-types')
+  cy.visit('/test-reports')
 })
 
 When(/I navigate to the (method|handler) page/, (page: string) => {
   const type = page.toLowerCase()
-  let path = 'reports/render-types/'
+  let path = 'test-reports/'
   if (type === 'method') {
     path += `${type}?dataProductDefinitionsPath=test-location`
   } else {
@@ -26,7 +22,7 @@ When(/I navigate to the (method|handler) page/, (page: string) => {
 })
 
 When(/I navigate to the fail page/, () => {
-  cy.visit('reports/render-types/fail', {
+  cy.visit('test-reports/fail', {
     failOnStatusCode: false,
   })
 })

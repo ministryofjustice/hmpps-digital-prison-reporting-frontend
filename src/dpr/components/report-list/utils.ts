@@ -80,6 +80,7 @@ function renderList(
   layoutTemplate: string,
   dynamicAutocompleteEndpoint?: string,
   otherOptions?: NodeJS.Dict<object>,
+  reportName?: string,
 ) {
   if (!redirectWithDefaultFilters(reportQuery, variantDefinition, response, request)) {
     Promise.all([listData.data, listData.count])
@@ -118,15 +119,9 @@ function renderList(
           selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
         }
 
-        const breadcrumb: { text: string }[] = otherOptions?.breadCrumbList as { text: string; href: string }[]
-        let product
-        if (breadcrumb) {
-          product = breadcrumb[breadcrumb.length - 1].text
-        }
-
         response.render('dpr/components/report-list/list', {
           title,
-          product,
+          reportName,
           dataTableOptions,
           filterOptions,
           columnOptions,
@@ -141,7 +136,7 @@ function renderList(
 
 const renderListWithDefinition = ({
   title,
-  definitionName,
+  definitionId,
   variantName,
   request,
   response,
@@ -161,7 +156,7 @@ const renderListWithDefinition = ({
   })
 
   reportingClient
-    .getDefinition(token, definitionName, variantName)
+    .getDefinition(token, definitionId, variantName)
     .then((reportDefinition) => {
       const reportName: string = reportDefinition.name
       const variantDefinition = reportDefinition.variant
@@ -188,6 +183,7 @@ const renderListWithDefinition = ({
         layoutTemplate,
         dynamicAutocompleteEndpoint,
         otherOptions,
+        reportName,
       )
     })
     .catch((error) => {
@@ -200,6 +196,7 @@ export default {
 
   renderListWithData: ({
     title,
+    reportName,
     variantDefinition,
     request,
     response,
@@ -229,12 +226,13 @@ export default {
       layoutTemplate,
       dynamicAutocompleteEndpoint,
       otherOptions,
+      reportName,
     )
   },
 
   createReportListRequestHandler: ({
     title,
-    definitionName,
+    definitionId,
     variantName,
     apiUrl,
     apiTimeout,
@@ -246,7 +244,7 @@ export default {
     return (request: Request, response: Response, next: NextFunction) => {
       renderListWithDefinition({
         title,
-        definitionName,
+        definitionId,
         variantName,
         request,
         response,

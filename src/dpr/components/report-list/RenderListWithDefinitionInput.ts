@@ -4,7 +4,7 @@ import Dict = NodeJS.Dict
 export default class RenderListWithDefinitionInput {
   title?: string
 
-  definitionName: string
+  definitionId: string
 
   variantName: string
 
@@ -27,7 +27,7 @@ export default class RenderListWithDefinitionInput {
   dynamicAutocompleteEndpoint?: string
 
   constructor(
-    definitionName: string,
+    definitionId: string,
     variantName: string,
     request: Request,
     response: Response,
@@ -41,7 +41,7 @@ export default class RenderListWithDefinitionInput {
     apiTimeout = 8000,
   ) {
     this.title = title
-    this.definitionName = definitionName
+    this.definitionId = definitionId
     this.variantName = variantName
     this.request = request
     this.response = response

@@ -5,7 +5,7 @@ import defaultTokenProvider from './defaultTokenProvider'
 export default class CreateRequestHandlerInput {
   title?: string
 
-  definitionName: string
+  definitionId: string
 
   variantName: string
 
@@ -22,7 +22,7 @@ export default class CreateRequestHandlerInput {
   dynamicAutocompleteEndpoint?: string
 
   constructor(
-    definitionName: string,
+    definitionId: string,
     variantName: string,
     apiUrl: string,
     layoutTemplate: string,
@@ -33,7 +33,7 @@ export default class CreateRequestHandlerInput {
     tokenProvider: (request: Request, response: Response, next: NextFunction) => string = defaultTokenProvider,
   ) {
     this.title = title
-    this.definitionName = definitionName
+    this.definitionId = definitionId
     this.variantName = variantName
     this.apiUrl = apiUrl
     this.apiTimeout = apiTimeout

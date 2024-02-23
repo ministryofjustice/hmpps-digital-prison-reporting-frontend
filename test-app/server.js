@@ -61,61 +61,44 @@ app.get('/', (req, res) => {
     title: 'Home',
     cards: [
       {
-        text: 'Reports',
+        text: 'Test Reports',
         description: 'test reports',
-        href: '/reports',
+        href: '/test-reports',
       },
     ],
   })
 })
 
-app.get('/reports', (req, res) => {
+app.get('/test-reports', (req, res) => {
   res.render('menu.njk', {
-    title: 'Reports',
-    cards: [
-      {
-        text: 'Render Types',
-        description: 'test reports',
-        href: '/reports/render-types',
-      },
-    ],
-    breadCrumbList: [{ text: 'Home', href: '/' }],
-  })
-})
-
-app.get('/reports/render-types', (req, res) => {
-  res.render('menu.njk', {
-    title: 'Render Types',
+    title: 'Test Reports',
     cards: [
       {
         text: 'Method',
         description: 'A test page rendered using the renderListWithData method.',
-        href: '/reports/render-types/method?dataProductDefinitionsPath=test-location',
+        href: '/test-reports/method?dataProductDefinitionsPath=test-location',
       },
       {
         text: 'Handler',
         description:
           'A test page rendered using the createReportListRequestHandler method to create a request handler.',
-        href: '/reports/render-types/handler',
+        href: '/test-reports/handler',
       },
       {
         text: 'Failing page',
         description: 'This page will fail to retrieve the definition and fail gracefully.',
-        href: '/reports/render-types/fail',
+        href: '/test-reports/fail',
       },
     ],
 
-    breadCrumbList: [
-      { text: 'Home', href: '/' },
-      { text: 'Reports', href: '/reports' },
-    ],
+    breadCrumbList: [{ text: 'Home', href: '/' }],
   })
 })
 
-app.get('/reports/render-types/method', (req, res, next) => {
+app.get('/test-reports/method', (req, res, next) => {
   reportListUtils.renderListWithDefinition({
     title: 'Method',
-    definitionName: 'test-report',
+    definitionId: 'test-report',
     variantName: 'test-variant',
     request: req,
     response: res,
@@ -126,18 +109,17 @@ app.get('/reports/render-types/method', (req, res, next) => {
     otherOptions: {
       breadCrumbList: [
         { text: 'Home', href: '/' },
-        { text: 'Reports', href: '/reports' },
-        { text: 'Render Types', href: '/reports/render-types' },
+        { text: 'Test Reports', href: '/test-reports' },
       ],
     },
   })
 })
 
 app.get(
-  '/reports/render-types/handler',
+  '/test-reports/handler',
   reportListUtils.createReportListRequestHandler({
     title: 'Handler',
-    definitionName: 'test-report',
+    definitionId: 'test-report',
     variantName: 'test-variant',
     apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
     layoutTemplate: 'page.njk',
@@ -146,17 +128,16 @@ app.get(
     otherOptions: {
       breadCrumbList: [
         { text: 'Home', href: '/' },
-        { text: 'Reports', href: '/reports' },
-        { text: 'Render Types', href: '/reports/render-types' },
+        { text: 'Test Reports', href: '/test-reports' },
       ],
     },
   }),
 )
 
-app.get('/reports/render-types/fail', (req, res, next) => {
+app.get('/test-reports/fail', (req, res, next) => {
   reportListUtils.renderListWithDefinition({
     title: 'Fail',
-    definitionName: 'failing-report',
+    definitionId: 'test-report',
     variantName: 'failing-variant',
     request: req,
     response: res,
@@ -167,7 +148,7 @@ app.get('/reports/render-types/fail', (req, res, next) => {
       breadCrumbList: [
         { text: 'Home', href: '/' },
         { text: 'Reports', href: '/reports' },
-        { text: 'Render Types', href: '/reports/render-types' },
+        { text: 'Test Reports', href: '/reports/test-reports' },
       ],
     },
   })

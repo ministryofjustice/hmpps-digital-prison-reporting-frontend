@@ -137,7 +137,7 @@ app.get(
 app.get('/test-reports/fail', (req, res, next) => {
   reportListUtils.renderListWithDefinition({
     title: 'Fail',
-    definitionId: 'test-report',
+    definitionId: 'failing-report',
     variantName: 'failing-variant',
     request: req,
     response: res,

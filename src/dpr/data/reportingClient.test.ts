@@ -21,6 +21,7 @@ describe('reportingClient', () => {
         },
         type: 'string',
         mandatory: false,
+        visible: true,
       },
     ],
     {

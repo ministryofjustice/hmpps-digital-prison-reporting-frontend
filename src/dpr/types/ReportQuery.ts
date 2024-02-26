@@ -38,11 +38,12 @@ export default class ReportQuery implements FilteredListRequest {
     this.filtersPrefix = filtersPrefix
 
     if (queryParams.columns) {
+      console.log(queryParams.columns)
       const columns =
         typeof queryParams.columns === 'string' ? queryParams.columns.split(',') : (queryParams.columns as string[])
       this.columns = ColumnUtils.getSelectedColumns(fields, columns)
     } else {
-      this.columns = fields.map((f) => f.name)
+      this.columns = fields.filter((f) => f.visible).map((f) => f.name)
     }
 
     this.filters = {}

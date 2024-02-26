@@ -9,21 +9,21 @@
       {{ dprLoadingAnim() }}
 
       {{ govukCheckboxes({
-      id: 'columns.' + columns.name,
-      name: 'columns.' + columns.name,
-      classes: "govuk-checkboxes--small",
-      formGroup: {
-        classes: "govuk-!-margin-bottom-3"
-      },
-      fieldset: {
-        legend: {
-          text: columns.text,
-          classes: "govuk-label govuk-!-font-weight-bold"
-        }
-      },
-      items: columns.options,
-      values: columns.value
-    }) }}
+          id: 'columns.' + columns.name,
+          name: 'columns.' + columns.name,
+          classes: "govuk-checkboxes--small",
+          formGroup: {
+            classes: "govuk-!-margin-bottom-3"
+          },
+          fieldset: {
+            legend: {
+              text: columns.text,
+              classes: "govuk-label govuk-!-font-weight-bold"
+            }
+          },
+          items: columns.options,
+          values: columns.value
+        }) }}
     </div>
 
     <div class="filter-actions">

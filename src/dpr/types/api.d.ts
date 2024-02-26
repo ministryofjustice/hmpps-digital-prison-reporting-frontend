@@ -76,6 +76,7 @@ export interface components {
       /** @enum {string} */
       type: 'string' | 'date' | 'long' | 'time' | 'HTML'
       mandatory: boolean
+      visible: boolean
     }
     FilterDefinition: {
       /** @enum {string} */

@@ -13,6 +13,7 @@ const variant = {
         defaultsort: true,
         type: 'string',
         mandatory: false,
+        visible: true,
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -29,6 +30,7 @@ const variant = {
         sortable: true,
         type: 'string',
         mandatory: true,
+        visible: true,
         filter: {
           type: 'Select',
           staticOptions: [
@@ -42,6 +44,7 @@ const variant = {
         name: 'field3',
         display: 'Field 3',
         sortable: false,
+        visible: true,
         type: 'date',
         mandatory: false,
         filter: {
@@ -54,6 +57,7 @@ const variant = {
       {
         name: 'field4',
         display: 'Field 4',
+        visible: false,
         sortable: false,
         type: 'string',
         filter: {
@@ -77,6 +81,7 @@ const variant = {
         sortable: false,
         type: 'string',
         mandatory: false,
+        visible: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
@@ -91,6 +96,7 @@ const variant = {
         sortable: false,
         type: 'HTML',
         mandatory: false,
+        visible: true,
       },
     ],
   },

@@ -136,7 +136,7 @@ function renderList(
 
 const renderListWithDefinition = ({
   title,
-  definitionId,
+  definitionName,
   variantName,
   request,
   response,
@@ -156,7 +156,7 @@ const renderListWithDefinition = ({
   })
 
   reportingClient
-    .getDefinition(token, definitionId, variantName)
+    .getDefinition(token, definitionName, variantName)
     .then((reportDefinition) => {
       const reportName: string = reportDefinition.name
       const variantDefinition = reportDefinition.variant
@@ -232,7 +232,7 @@ export default {
 
   createReportListRequestHandler: ({
     title,
-    definitionId,
+    definitionName,
     variantName,
     apiUrl,
     apiTimeout,
@@ -244,7 +244,7 @@ export default {
     return (request: Request, response: Response, next: NextFunction) => {
       renderListWithDefinition({
         title,
-        definitionId,
+        definitionName,
         variantName,
         request,
         response,

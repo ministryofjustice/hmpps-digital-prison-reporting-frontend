@@ -98,7 +98,7 @@ app.get('/test-reports', (req, res) => {
 app.get('/test-reports/method', (req, res, next) => {
   reportListUtils.renderListWithDefinition({
     title: 'Method',
-    definitionId: 'test-report',
+    definitionName: 'test-report',
     variantName: 'test-variant',
     request: req,
     response: res,
@@ -119,7 +119,7 @@ app.get(
   '/test-reports/handler',
   reportListUtils.createReportListRequestHandler({
     title: 'Handler',
-    definitionId: 'test-report',
+    definitionName: 'test-report',
     variantName: 'test-variant',
     apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
     layoutTemplate: 'page.njk',
@@ -137,7 +137,7 @@ app.get(
 app.get('/test-reports/fail', (req, res, next) => {
   reportListUtils.renderListWithDefinition({
     title: 'Fail',
-    definitionId: 'failing-report',
+    definitionName: 'failing-report',
     variantName: 'failing-variant',
     request: req,
     response: res,

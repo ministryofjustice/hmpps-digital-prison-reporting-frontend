@@ -42,7 +42,7 @@ export default class ReportQuery implements FilteredListRequest {
         typeof queryParams.columns === 'string' ? queryParams.columns.split(',') : (queryParams.columns as string[])
       this.columns = ColumnUtils.getSelectedColumns(fields, columns)
     } else {
-      this.columns = fields.map((f) => f.name)
+      this.columns = fields.filter((f) => f.visible).map((f) => f.name)
     }
 
     this.filters = {}

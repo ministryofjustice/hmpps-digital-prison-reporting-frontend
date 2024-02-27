@@ -147,24 +147,28 @@ Then('the column headers are displayed correctly', function (this: Mocha.Context
   const page = new ReportPage()
 
   reportDefinition.variant.specification.fields.forEach((field) => {
-    page.dataTable().find('thead').contains(field.display)
+    if (field.visible) page.dataTable().find('thead').contains(field.display)
   })
 })
 
 Then('date times are displayed in the correct format', function (this: Mocha.Context) {
   const page = new ReportPage()
 
-  reportDefinition.variant.specification.fields.forEach((field, index) => {
-    if (field.type === 'date') {
-      page
-        .dataTable()
-        .get(`tbody tr:first-child td:nth-child(${index + 1})`)
-        .contains(/\d\d\/\d\d\/\d\d \d\d:\d\d/)
+  let index = 0
+  reportDefinition.variant.specification.fields.forEach((field) => {
+    if (field.visible) {
+      if (field.type === 'date') {
+        page
+          .dataTable()
+          .get(`tbody tr:first-child td:nth-child(${index + 1})`)
+          .contains(/\d\d\/\d\d\/\d\d \d\d:\d\d/)
 
-      page
-        .dataTable()
-        .get(`tbody tr:nth-child(4) td:nth-child(${index + 1})`)
-        .should('be.empty')
+        page
+          .dataTable()
+          .get(`tbody tr:nth-child(4) td:nth-child(${index + 1})`)
+          .should('be.empty')
+      }
+      index += 1
     }
   })
 })
@@ -176,7 +180,8 @@ Then('the correct data is displayed on the page', function (this: Mocha.Context)
   const record = data[0]
   const ignoreTypes = ['date', 'HTML']
   Object.keys(record).forEach((key) => {
-    if (!ignoreTypes.includes(reportDefinition.variant.specification.fields.find((f) => f.name === key).type)) {
+    const field = reportDefinition.variant.specification.fields.find((f) => f.name === key)
+    if (field && field.visible && !ignoreTypes.includes(field.type)) {
       page.dataTable().find('tbody tr').first().contains(record[key])
     }
   })
@@ -185,17 +190,21 @@ Then('the correct data is displayed on the page', function (this: Mocha.Context)
 Then('html types are displayed in the correct format', function (this: Mocha.Context) {
   const page = new ReportPage()
 
-  reportDefinition.variant.specification.fields.forEach((field, index) => {
-    if (field.type === 'HTML') {
-      const htmlItem = page.dataTable().find(`tbody tr:first-child td:nth-child(${index + 1})`)
-      htmlItem.find('a').should('have.attr', 'href', '#').should('have.text', 'Value 6.1')
+  let index = 0
+  reportDefinition.variant.specification.fields.forEach((field) => {
+    if (field.visible) {
+      if (field.type === 'HTML') {
+        const htmlItem = page.dataTable().find(`tbody tr:first-child td:nth-child(${index + 1})`)
+        htmlItem.find('a').should('have.attr', 'href', '#').should('have.text', 'Value 6.1')
 
-      // Test visibility
-      page
-        .dataTable()
-        .get(`tbody tr:first-child td:nth-child(${index + 1})`)
-        .contains('href')
-        .should('not.exist')
+        // Test visibility
+        page
+          .dataTable()
+          .get(`tbody tr:first-child td:nth-child(${index + 1})`)
+          .contains('href')
+          .should('not.exist')
+      }
+      index += 1
     }
   })
 })
@@ -353,8 +362,6 @@ Then('the selected columns values are shown in the URL', function (this: Mocha.C
     expect(location.search).to.not.match(/columns=[^&=]*field1/)
     expect(location.search).to.match(/columns=[^&=]*field2/)
     expect(location.search).to.match(/columns=[^&=]*field3/)
-    expect(location.search).to.match(/columns=[^&=]*field4/)
-    expect(location.search).to.match(/columns=[^&=]*field5/)
   })
 })
 

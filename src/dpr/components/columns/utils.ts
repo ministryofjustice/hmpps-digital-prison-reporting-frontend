@@ -7,7 +7,6 @@ export default {
         text: f.display,
         value: f.name,
         disabled: f.mandatory,
-        visible: f.visible,
       }
     })
   },

@@ -11,6 +11,7 @@ export interface ListDataSources {
 
 export interface RenderListWithDataInput {
   title: string
+  reportName?: string
   variantDefinition: components['schemas']['VariantDefinition']
   request: Request
   response: Response

@@ -6,16 +6,23 @@ When(/I navigate to the main page/, () => {
   cy.visit('/')
 })
 
+When(/I navigate to the reports page/, () => {
+  cy.visit('/test-reports')
+})
+
 When(/I navigate to the (method|handler) page/, (page: string) => {
-  let path = page.toLowerCase()
-  if (path === 'method') {
-    path += '?dataProductDefinitionsPath=test-location'
+  const type = page.toLowerCase()
+  let path = 'test-reports/'
+  if (type === 'method') {
+    path += `${type}?dataProductDefinitionsPath=test-location`
+  } else {
+    path += type
   }
   cy.visit(`/${path}`)
 })
 
 When(/I navigate to the fail page/, () => {
-  cy.visit('/fail', {
+  cy.visit('test-reports/fail', {
     failOnStatusCode: false,
   })
 })

@@ -80,6 +80,7 @@ function renderList(
   layoutTemplate: string,
   dynamicAutocompleteEndpoint?: string,
   otherOptions?: NodeJS.Dict<object>,
+  reportName?: string,
 ) {
   if (!redirectWithDefaultFilters(reportQuery, variantDefinition, response, request)) {
     Promise.all([listData.data, listData.count])
@@ -120,6 +121,7 @@ function renderList(
 
         response.render('dpr/components/report-list/list', {
           title,
+          reportName,
           dataTableOptions,
           filterOptions,
           columnOptions,
@@ -181,6 +183,7 @@ const renderListWithDefinition = ({
         layoutTemplate,
         dynamicAutocompleteEndpoint,
         otherOptions,
+        reportName,
       )
     })
     .catch((error) => {
@@ -193,6 +196,7 @@ export default {
 
   renderListWithData: ({
     title,
+    reportName,
     variantDefinition,
     request,
     response,
@@ -222,6 +226,7 @@ export default {
       layoutTemplate,
       dynamicAutocompleteEndpoint,
       otherOptions,
+      reportName,
     )
   },
 

@@ -24,6 +24,8 @@ const setMinMax = (filter: components['schemas']['FilterDefinition'], startValue
     const minDate = new Date(min)
     const startDate = new Date(startValue)
     start = startDate < minDate ? min : startValue
+  } else {
+    start = startValue
   }
 
   let end
@@ -31,6 +33,8 @@ const setMinMax = (filter: components['schemas']['FilterDefinition'], startValue
     const maxDate = new Date(max)
     const endDate = new Date(endValue)
     end = endDate > maxDate ? max : endValue
+  } else {
+    end = endValue
   }
 
   return {
@@ -108,6 +112,7 @@ export default {
           const { start, end } = setMinMax(f.filter, startValue, endValue)
           const localeStart = toLocaleDate(start)
           const localeEnd = toLocaleDate(end)
+
           if (localeStart && localeEnd) {
             filterValueText = `${localeStart} - ${localeEnd}`
           } else if (localeStart) {

@@ -17,6 +17,28 @@ const getFilterValue = (filterValues: Dict<string>, name: string) => {
   return filterHasValue(filterValues[name]) ? filterValues[name] : null
 }
 
+const setMinMax = (filter: components['schemas']['FilterDefinition'], startValue: string, endValue: string) => {
+  const { min, max } = filter
+  let start
+  if (min) {
+    const minDate = new Date(min)
+    const startDate = new Date(startValue)
+    start = startDate < minDate ? min : startValue
+  }
+
+  let end
+  if (max) {
+    const maxDate = new Date(max)
+    const endDate = new Date(endValue)
+    end = endDate > maxDate ? max : endValue
+  }
+
+  return {
+    start,
+    end,
+  }
+}
+
 export default {
   getFilters: (
     variantDefinition: components['schemas']['VariantDefinition'],
@@ -42,12 +64,16 @@ export default {
         }
 
         if (f.filter.type === FilterType.dateRange.toLowerCase()) {
+          const startValue = getFilterValue(filterValues, `${f.name}.start`)
+          const endValue = getFilterValue(filterValues, `${f.name}.end`)
+          const { start, end } = setMinMax(f.filter, startValue, endValue)
+
           filter = filter as unknown as DateFilterValue
           filter = {
             ...filter,
             value: {
-              start: getFilterValue(filterValues, `${f.name}.start`),
-              end: getFilterValue(filterValues, `${f.name}.end`),
+              start,
+              end,
             },
             min: f.filter.min,
             max: f.filter.max,
@@ -75,16 +101,19 @@ export default {
       )
       .map((f) => {
         let filterValueText = getFilterValue(reportQuery.filters, f.name)
-        if (f.filter.type === FilterType.dateRange.toLowerCase()) {
-          const start = toLocaleDate(getFilterValue(reportQuery.filters, `${f.name}.start`))
-          const end = toLocaleDate(getFilterValue(reportQuery.filters, `${f.name}.end`))
 
-          if (start && end) {
-            filterValueText = `${start} - ${end}`
-          } else if (start) {
-            filterValueText = `From ${start}`
+        if (f.filter.type === FilterType.dateRange.toLowerCase()) {
+          const startValue = getFilterValue(reportQuery.filters, `${f.name}.start`)
+          const endValue = getFilterValue(reportQuery.filters, `${f.name}.end`)
+          const { start, end } = setMinMax(f.filter, startValue, endValue)
+          const localeStart = toLocaleDate(start)
+          const localeEnd = toLocaleDate(end)
+          if (localeStart && localeEnd) {
+            filterValueText = `${localeStart} - ${localeEnd}`
+          } else if (localeStart) {
+            filterValueText = `From ${localeStart}`
           } else {
-            filterValueText = `Until ${end}`
+            filterValueText = `Until ${localeEnd}`
           }
         } else if (f.filter.staticOptions) {
           filterValueText = f.filter.staticOptions.find((o) => o.name === filterValueText).display

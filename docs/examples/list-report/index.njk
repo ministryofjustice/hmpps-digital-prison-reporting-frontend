@@ -2,56 +2,84 @@
 jsArguments: list-report
 ---
 
-{% extends "dpr/components/report-list/list.njk" %}
+{%- from "dpr/components/list-report/view.njk" import dprReportList -%}
 
-{% set layoutTemplate = "layouts/example.njk" %}
-{% set applicationName = "List Report" %}
 {% set title = "Example" %}
 
 {% set dataTableOptions = {
-    head: [
-        { text: "Name" },
-        { text: "Location" },
-        { text: "Total", format: "numeric" }
+  head: [
+    { text: "Name" }, 
+    { text: "Location" }, 
+    { text: "Total", format: "numeric" }
+  ],
+  rows: [
+    [
+      { text: "Aardvark"}, 
+      { text: "London" }, 
+      { text: "2", format: "numeric" }
     ],
-    rows: [
-        [{ text: "Aardvark" }, { text: "London" }, { text: "2", format: "numeric" }],
-        [{ text: "Badger" }, { text: "Arctic" }, { text: "0", format: "numeric" }],
-        [{ text: "Cat" }, { text: "Cheshire" }, { text: "2312", format: "numeric" }]
+    [
+      { text: "Badger" }, 
+      { text: "Arctic" }, 
+      { text: "0", format: "numeric" }
     ],
-    count: 100,
-    currentQueryParams: {
-        selectedPage: 1,
-        pageSize: 10
-    }
-} %}
-{% set filterOptions = {
-    selectedFilters: [
-        {
-            text: "Radio filter: Two",
-            href: "#",
-            classes: "govuk-button--inverse accordion-summary-remove-button govuk-!-margin-0"
-        }
-    ],
-    filters: [
-        {
-            text: "Radio filter",
-            id: "radio",
-            type: "Radio",
-            options: [
-                { value: "one", text: "One" },
-                { value: "two", text: "Two" }
-            ],
-            value: "two"
-        }
+    [
+      { text: "Cat" }, 
+      { text: "Cheshire" }, 
+      { text: "2312", format: "numeric" }
     ]
+  ],
+  count: 100,
+  printable: false,
+  classification: 'OFFICIAL',
+  url: 'my-url'
+  currentQueryParams: {
+    selectedPage: 1,
+    pageSize: 10
+  }
+} %}
+
+{% set filterOptions = {
+  selectedFilters: [
+    {
+        text: "Radio filter: Two",
+        href: "#",
+        classes: "govuk-button--inverse accordion-summary-remove-button govuk-!-margin-0"
+    }
+  ],
+  filters: [
+    {
+      text: "Radio filter",
+      id: "radio",
+      type: "Radio",
+      options: [
+        { value: "one", text: "One" },
+        { value: "two", text: "Two" }
+      ],
+      value: "two"
+    }
+  ]
 } %}
 
 {% set columnOptions = {
-    columns: [
-        { text: "Name", value: "name" },
-        { text: "Location", value: "location" },
-        { text: "Total", value: "total" }
-    ],
-    selectedColumns: [ "name", "location", "total" ]
+  columns: [
+    {
+      text: "Name",
+      value: "name"
+    }, {
+      text: "Location",
+      value: "location"
+    }, {
+      text: "Total",
+      value: "total"
+    }
+  ],
+  selectedColumns: ["name", "location", "total"]
 } %}
+
+{{ dprReportList({
+  title: title,
+  dataTableOptions: dataTableOptions,
+  columnOptions: columnOptions,
+  filterOptions: filterOptions,
+}) }}

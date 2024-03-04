@@ -12,7 +12,6 @@
   {% set title = options.title %}
 
   {% set dataTableOptions = options.dataTableOptions %}
-  {% set dropdownOptions = options.dropdownOptions %}
   {% set columnOptions = options.columnOptions %}
   {% set filterOptions = options.filterOptions %}
   {% set warnings = options.warnings %}
@@ -51,7 +50,7 @@
     html: copyUrlHtml
   } %}
   {% set subject = reportName + ' - ' + title | urlencode %}
-  {% set body = (dataTableOptions.url) | urlencode %}
+  {% set body = url | urlencode %}
   {% set emailGroupItem = {
     text: 'Email',
     href: 'mailto:?subject=' + subject + '&body=' + body,

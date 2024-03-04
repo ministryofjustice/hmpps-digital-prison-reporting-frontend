@@ -80,6 +80,10 @@ a.disabled {
   opacity: 0.5;
 }
 
+.pagination {
+  overflow: auto;
+}
+
 .data-table-page-size-container {
   height: 40px;
 }

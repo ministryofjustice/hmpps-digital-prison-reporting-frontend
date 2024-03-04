@@ -1,34 +1,11 @@
 import ReportListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/report-list/utils'
 
-app.get('/', (req, res, next) => {
-  ReportListUtils.renderListWithData({
+app.get('/data', (req, res, next) => {
+  const MyVariantDefinition = Promise.resolve(reportName, variantName)
+  const args = {
     title: 'Test app',
-    fields: [
-      {
-        name: "name",
-        displayName: "Name",
-        sortable: true,
-        defaultSortColumn: false,
-        type: "String"
-      },
-      {
-        name: "location",
-        displayName: "Location",
-        sortable: true,
-        defaultSortColumn: false,
-        type: "String"
-      },
-      {
-        name: "total",
-        displayName: "Total",
-        sortable: true,
-        defaultSortColumn: false,
-        type: "Long"
-      }
-    ],
-    request: req,
-    response: res,
-    next,
+    reportName: 'ReportName',
+    variantDefinition: MyVariantDefinition,
     getListDataSources: () => ({
       data: Promise.resolve(data),
       count: Promise.resolve(data.length),
@@ -37,16 +14,42 @@ app.get('/', (req, res, next) => {
       exampleOption: true,
     },
     layoutTemplate: 'page.njk',
+  }
+
+  ReportListUtils.renderListWithData({
+    ...args,
+    request: req,
+    response: res,
+    next,
   })
 })
 
-app.get('/handler', ReportListUtils.createReportListRequestHandler({
+app.get('/method', (req, res, next) => {
+  const args = {
+    title: 'Method',
+    definitionName: 'test-report',
+    variantName: 'test-variant',
+    apiUrl: 'http://localhost:3010',
+    layoutTemplate: 'page.njk',
+  }
+
+  ReportListUtils.renderListWithDefinition({
+    ...args,
+    request: req,
+    response: res,
+    next,
+  })
+})
+
+app.get(
+  '/handler',
+  ReportListUtils.createReportListRequestHandler({
     title: 'Test app',
     definitionName: 'test-report',
     variantName: 'test-variant',
     apiUrl: `http://localhost:3010`,
     apiTimeout: 10000,
     layoutTemplate: 'page.njk',
-    tokenProvider: (req, res, next) => res.locals.user.token
-  })
+    tokenProvider: (req, res, next) => res.locals.user.token,
+  }),
 )

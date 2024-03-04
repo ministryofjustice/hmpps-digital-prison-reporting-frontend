@@ -11,7 +11,7 @@ Its purpose is to present lists of data in a consistent and accessible way.
 
 {% header 2, "Notes" %}
 
-The List Report is intended to be used from the server-side (see the two options in the JavaScript tab  above); providing the required data and configuration in Node.js.
+The List Report is intended to be used from the server-side (see the two options in the JavaScript tab above); providing the required data and configuration in Node.js.
 
 The filtering, sorting, etc. are then all handled within the component.
 

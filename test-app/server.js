@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 // Core dependencies
 const fs = require('fs')
 const path = require('path')
@@ -100,9 +101,6 @@ app.get('/test-reports/method', (req, res, next) => {
     title: 'Method',
     definitionName: 'test-report',
     variantName: 'test-variant',
-    request: req,
-    response: res,
-    next,
     apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
     layoutTemplate: 'page.njk',
     dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}',
@@ -112,6 +110,9 @@ app.get('/test-reports/method', (req, res, next) => {
         { text: 'Test Reports', href: '/test-reports' },
       ],
     },
+    request: req,
+    response: res,
+    next,
   })
 })
 

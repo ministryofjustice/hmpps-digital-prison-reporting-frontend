@@ -17,3 +17,7 @@ For a guide on how to integrate the component library into your project, see the
 {% header 2, "Contributing to the Pattern Library" %}
 
 You can contribute to the DPR Component Library by commenting on [existing discussions](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend/discussions) or starting a [new discussion](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend/discussions/new) on GitHub.
+
+{% header 2, "Change log" %}
+
+The changelog can be found here: [Changelog](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend/blob/main/CHANGELOG.md)

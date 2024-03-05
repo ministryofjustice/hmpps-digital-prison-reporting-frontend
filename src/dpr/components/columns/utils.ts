@@ -11,7 +11,7 @@ export default {
     })
   },
 
-  getSelectedColumns: (columns: Array<components["schemas"]['FieldDefinition']>, queryCols: string[]) => {
+  getSelectedColumns: (columns: Array<components['schemas']['FieldDefinition']>, queryCols: string[]) => {
     return columns.filter((column) => column.mandatory || queryCols.includes(column.name)).map((field) => field.name)
-  }
+  },
 }

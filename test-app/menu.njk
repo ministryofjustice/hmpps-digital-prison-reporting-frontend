@@ -4,21 +4,18 @@
 
 {% block content %}
   <div class="govuk-width-container">
-
-    {% set rows = [] %}
+    {% set rows = [{ text: 'Digital Prison Services', href: 'https://sign-in.hmpps.service.justice.gov.uk/auth/sign-in' }] %}
     {% if (breadCrumbList.length > 0) %}
       {% set rows = rows.concat(breadCrumbList) %}
     {% endif %}
 
-    {% if title !== 'Home' %}
-      <div class="govuk-!-margin-bottom-4">
-        {{ govukBreadcrumbs({
+    <div class="govuk-!-margin-bottom-4">
+      {{ govukBreadcrumbs({
           collapseOnMobile: true,
           items: rows,
           classes: "govuk-!-display-none-print hmpps-header__container"
         }) }}
-      </div>
-    {% endif %}
+    </div>
 
     <h1 class="govuk-heading-l">{{ title }}</h1>
 

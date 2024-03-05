@@ -79,7 +79,6 @@ export default class ReportingClient {
     const query = {
       dataProductDefinitionsPath: definitionsPath,
     }
-
     return this.restClient
       .get({
         path: `/definitions/${reportId}/${variantId}`,

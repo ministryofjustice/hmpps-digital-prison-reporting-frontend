@@ -1,0 +1,169 @@
+{% macro dprReportList(options) %}
+  {% from "../data-table/view.njk" import dprDataTable %}
+  {% from "../dropdown-button/view.njk"    import dprDropdownButton %}
+  {% from "../accordion/view.njk" import dprAccordion %}
+  {% from "../print-button/view.njk" import dprPrintButton %}
+  {% from "../copy-url-button/view.njk" import dprCopyUrlButton %}
+  {% from "../filters/view.njk" import dprFilters %}
+  {% from "../columns/view.njk" import dprColumns %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+  {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+  {% set title = options.title %}
+
+  {% set dataTableOptions = options.dataTableOptions %}
+  {% set columnOptions = options.columnOptions %}
+  {% set filterOptions = options.filterOptions %}
+  {% set warnings = options.warnings %}
+
+  {# Datatable #}
+  {% set head = dataTableOptions.head %}
+  {% set rows = dataTableOptions.rows %}
+  {% set count = dataTableOptions.count %}
+  {% set currentQueryParams = dataTableOptions.currentQueryParams %}
+  {% set classification = dataTableOptions.classification %}
+  {% set printable = dataTableOptions.printable %}
+  {% set url = dataTableOptions.url %}
+  {% set urlWithNoFilters = currentQueryParams | createUrlForParameters(null) %}
+
+  {# Dropdown Items #}
+  {% set ddItems = [] %}
+  {% set printButtonHtml %}
+  {{ dprPrintButton({
+    id: 'dd', 
+    text: 'Print displayed results',
+    count: dataTableOptions.rows.length, 
+    classes: 'govuk-button--inverse', 
+    printable: dataTableOptions.printable 
+  }) }}
+  {% endset %}
+  {% set printAction = {
+    html: printButtonHtml
+  } %}
+  {% set ddItems = (ddItems.push(printAction), ddItems) %}
+
+  {# Dropdown Grouped Itens #}
+  {% set copyUrlHtml %}
+  {{ dprCopyUrlButton({ id: 'dd', classes: "govuk-button--inverse" }) }}
+  {% endset %}
+  {% set copyUrlGroupItem = {
+    html: copyUrlHtml
+  } %}
+  {% set subject = reportName + ' - ' + title | urlencode %}
+  {% set body = url | urlencode %}
+  {% set emailGroupItem = {
+    text: 'Email',
+    href: 'mailto:?subject=' + subject + '&body=' + body,
+    attributes: {
+      'id': 'email-button'
+    },
+    classes: 'filter-summary-controls'
+  } %}
+  {% set shareOptions = {
+    title: "Share:",
+    items: [copyUrlGroupItem, emailGroupItem]
+  } %}
+  {% set ddGroups = [shareOptions] %}
+
+  {# Columns #}
+  {% set columns = columnOptions.columns %}
+  {% set selectedColumns = columnOptions.selectedColumns %}
+  {% set colsData = { name: "columns", options: columns, value: selectedColumns }%}
+  {% set columnsHtml %}
+  <div class="data-table-columns">
+    {{ dprColumns(colsData) }}
+  </div>
+  {% endset %}
+  {% set colsHeaderHtml %}
+  <div class="columns-header">
+    <p class="govuk-body govuk-!-margin-bottom-0">{{ colsData.value.length }} of {{ colsData.options.length }} shown</p>
+  </div>
+  {% endset %}
+  {% set columnsAccordionItem = {
+    summaryText: 'Columns',
+    bodyHtml: columnsHtml,
+    headerHtml: colsHeaderHtml
+  } %}
+
+  {# Filters #}
+  {% set filters = filterOptions.filters %}
+  {% set selectedFilters = filterOptions.selectedFilters %}
+  {% set filterHtml %}
+  <div class="data-table-filters">
+    {{ dprFilters( filters, urlWithNoFilters ) }}
+  </div>
+  {% endset %}
+  {% set filtersHeaderHtml %}
+  {%- for selectedFilter in selectedFilters %}
+    <div class="selected-accordion-button">
+      {{ govukButton(selectedFilter) }}
+    </div>
+  {%- endfor %}
+  {% endset %}
+  {% set filtersAccordionItem = {
+    summaryText: 'Filters',
+    bodyHtml: filterHtml,
+    headerHtml: filtersHeaderHtml
+  } %}
+
+  {# Accordion items #}
+  {% set accordionItems = [filtersAccordionItem, columnsAccordionItem] %}
+
+  <div class="govuk-width-container {% if (dataTableOptions.printable == false) %}print-hide{% endif %} govuk-!-margin-top-3">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-m">
+          {{ title }}
+        </h1>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="dpr-actions">
+          {{ dprDropdownButton({
+            id: "actions",
+            text: "Actions",
+            classes: "",
+            attributes: {},
+            items: ddItems,
+            groups: ddGroups
+          }) }}
+        </div>
+      </div>
+    </div>
+
+    {% if warnings.noDataAvailable %}
+      {{ govukErrorSummary({
+      titleText: 'No data available',
+      errorList: [
+        {
+          text: warnings.noDataAvailable
+        }
+      ]
+    }) }}
+    {% endif %}
+
+    <div class="moj-filter-layout">
+      <div class="moj-filter-layout__content">
+        <div class="moj-action-bar">
+          {{ dprAccordion(accordionItems) }}
+        </div>
+        <div class="moj-scrollable-pane">
+          {{ dprDataTable(
+            head,
+            rows,
+            count,
+            currentQueryParams,
+            classification
+          ) }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if (dataTableOptions.printable == false) %}
+    <h3 class="screen-hide">
+      Printing this report has been disabled due to time or content sensitivity.<br/>
+      Please speak to your report administrator for further details.
+    </h3>
+  {% endif %}
+
+{% endmacro %}

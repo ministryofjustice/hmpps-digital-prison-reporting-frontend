@@ -67,8 +67,8 @@
 
   {% set accordionItems = [] %}
   {# Filters #}
-  {% if filters.length %}
-    {% set filters = filterOptions.filters %}
+  {% set filters = filterOptions.filters %}
+  {% if filters.length > 0 %}
     {% set selectedFilters = filterOptions.selectedFilters %}
     {% set filterHtml %}
     <div class="data-table-filters">

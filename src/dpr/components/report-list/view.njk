@@ -65,6 +65,31 @@
   } %}
   {% set ddGroups = [shareOptions] %}
 
+  {% set accordionItems = [] %}
+  {# Filters #}
+  {% if filters.length %}
+    {% set filters = filterOptions.filters %}
+    {% set selectedFilters = filterOptions.selectedFilters %}
+    {% set filterHtml %}
+    <div class="data-table-filters">
+      {{ dprFilters( filters, urlWithNoFilters ) }}
+    </div>
+    {% endset %}
+    {% set filtersHeaderHtml %}
+    {%- for selectedFilter in selectedFilters %}
+      <div class="selected-accordion-button">
+        {{ govukButton(selectedFilter) }}
+      </div>
+    {%- endfor %}
+    {% endset %}
+    {% set filtersAccordionItem = {
+      summaryText: 'Filters',
+      bodyHtml: filterHtml,
+      headerHtml: filtersHeaderHtml
+    } %}
+    {% set accordionItems = (accordionItems.push(filtersAccordionItem), accordionItems) %}
+  {% endif %}
+
   {# Columns #}
   {% set columns = columnOptions.columns %}
   {% set selectedColumns = columnOptions.selectedColumns %}
@@ -84,30 +109,7 @@
     bodyHtml: columnsHtml,
     headerHtml: colsHeaderHtml
   } %}
-
-  {# Filters #}
-  {% set filters = filterOptions.filters %}
-  {% set selectedFilters = filterOptions.selectedFilters %}
-  {% set filterHtml %}
-  <div class="data-table-filters">
-    {{ dprFilters( filters, urlWithNoFilters ) }}
-  </div>
-  {% endset %}
-  {% set filtersHeaderHtml %}
-  {%- for selectedFilter in selectedFilters %}
-    <div class="selected-accordion-button">
-      {{ govukButton(selectedFilter) }}
-    </div>
-  {%- endfor %}
-  {% endset %}
-  {% set filtersAccordionItem = {
-    summaryText: 'Filters',
-    bodyHtml: filterHtml,
-    headerHtml: filtersHeaderHtml
-  } %}
-
-  {# Accordion items #}
-  {% set accordionItems = [filtersAccordionItem, columnsAccordionItem] %}
+  {% set accordionItems = (accordionItems.push(columnsAccordionItem), accordionItems) %}
 
   <div class="govuk-width-container {% if (dataTableOptions.printable == false) %}print-hide{% endif %} govuk-!-margin-top-3">
     <div class="govuk-grid-row">

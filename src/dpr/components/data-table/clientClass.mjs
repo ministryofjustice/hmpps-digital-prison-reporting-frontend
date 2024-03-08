@@ -47,22 +47,22 @@ export default class DataTable extends DprLoadingClientClass {
       const header = table.createTHead()
       const footer = table.createTFoot()
 
-      const headerRow = header.insertRow(0)
+      const rowClassList = ['govuk-table__row', 'print-header-footer']
       const footerRow = footer.insertRow(0)
+      const headerRow = header.insertRow(0)
+      headerRow.classList.add(...rowClassList)
+      footerRow.classList.add(...rowClassList)
 
       const headerCell = headerRow.insertCell(0)
       const footerCell = footerRow.insertCell(0)
 
-      const classList = ['govuk-table__header', 'print-header-footer']
       const content = `<b>${classification}</b>`
 
       headerCell.colSpan = headLength
-      headerCell.classList.add(...classList)
-      headerCell.innerHTML = content
+      headerCell.outerHTML = `<th class="govuk-table__header govuk-table__cell--content" colspan=${headLength}>${content}</th>`
 
       footerCell.colSpan = headLength
-      footerCell.classList.add(...classList)
-      footerCell.innerHTML = content
+      footerCell.outerHTML = `<td class="govuk-table__cell govuk-table__cell--content" colspan=${headLength}>${content}</td>`
     }
   }
 }

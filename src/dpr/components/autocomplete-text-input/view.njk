@@ -18,9 +18,10 @@
                 "aria-expanded": "false",
                 "aria-owns": listId,
                 "haspopup": "true",
-                "placeholder": "Search",
                 "data-minimum-length": options.minimumLength,
-                "data-resource-endpoint": options.dynamicResourceEndpoint
+                "data-resource-endpoint": options.dynamicResourceEndpoint,
+                "placeholder": "Search",
+                "role": "combobox"
             },
             autocomplete: "off",
             suffix: {
@@ -29,7 +30,7 @@
             classes: (options.classes if options.classes else "") + " autocomplete-text-input-box"
         }) }}
         <div id="{{ listId }}" class="autocomplete-text-input-list">
-            <ul role="listbox">
+            <ul role="listbox" aria-label="Autocomplete options">
                 {% if (options.dynamicResourceEndpoint) %}
                     <li class="autocomplete-text-input-item-hide">
                         {{ govukButton({

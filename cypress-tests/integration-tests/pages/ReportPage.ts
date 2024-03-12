@@ -34,9 +34,11 @@ export default class ReportPage {
 
   selectedFilterButton = (): PageElement => cy.get(`.selected-accordion-button .accordion-summary-remove-button`)
 
-  unsortedSortColumnLink = (): PageElement => this.dataTable().find(`a[aria-sort='none']`).first()
+  unsortedSortColumnLink = (): PageElement => this.dataTable().find(`.data-table-header-button-sort-none`).first()
 
-  currentSortColumnLink = (): PageElement => this.dataTable().find(`a[aria-sort!='none']`).first()
+  currentAscendingSortColumnLink = (): PageElement => this.dataTable().find(`.data-table-header-button-sort-ascending`).first()
+
+  currentDescendingSortColumnLink = (): PageElement => this.dataTable().find(`.data-table-header-button-sort-descending`).first()
 
   actionsButton = (): PageElement => cy.get('#actions-button')
 

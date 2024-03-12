@@ -63,7 +63,8 @@
                 name: "sort",
                 value: pageSize,
                 attributes: {
-                  "data-navigate-to": currentQueryParams | createUrlForParameters({ selectedPage: 1, pageSize: "thisValue" })
+                  "data-navigate-to": currentQueryParams | createUrlForParameters({ selectedPage: 1, pageSize: "thisValue" }),
+                  "aria-label": "Page size"
                 },
                 items: [
                   {

@@ -3,6 +3,7 @@ Feature: Card Group
   Scenario: The expected number of cards are displayed in the group
     When I navigate to the reports page
     Then 3 cards are displayed
+    And the page is accessible
 
   Scenario Outline: The card information is correctly rendered
     When I navigate to the reports page

@@ -197,7 +197,6 @@ describe('mapHeader', () => {
         html:
           '<a ' +
           'data-column="date" ' +
-          'aria-sort="none" ' +
           'class="data-table-header-button data-table-header-button-sort-none" ' +
           'href="{sortColumn:date,sortedAsc:true}">' +
           'Date' +
@@ -223,7 +222,6 @@ describe('mapHeader', () => {
         html:
           '<a ' +
           'data-column="date" ' +
-          'aria-sort="ascending" ' +
           'class="data-table-header-button data-table-header-button-sort-ascending" ' +
           'href="{sortColumn:date,sortedAsc:false}">' +
           'Date' +
@@ -250,7 +248,6 @@ describe('mapHeader', () => {
         html:
           '<a ' +
           'data-column="date" ' +
-          'aria-sort="descending" ' +
           'class="data-table-header-button data-table-header-button-sort-descending" ' +
           'href="{sortColumn:date,sortedAsc:true}">' +
           'Date' +

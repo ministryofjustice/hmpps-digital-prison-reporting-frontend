@@ -25,6 +25,18 @@ module.exports = defineConfig({
           plugins: [createEsbuildPlugin(config)],
         }),
       )
+      on('task', {
+        log(message) {
+          console.log(message)
+
+          return null
+        },
+        table(message) {
+          console.table(message)
+
+          return null
+        },
+      })
       return config
     },
     baseUrl: 'http://localhost:3010',

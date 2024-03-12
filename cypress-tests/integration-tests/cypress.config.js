@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const { defineConfig } = require('cypress')
 const createBundler = require('@bahmutov/cypress-esbuild-preprocessor')
 const { addCucumberPreprocessorPlugin } = require('@badeball/cypress-cucumber-preprocessor')
@@ -25,6 +26,18 @@ module.exports = defineConfig({
           plugins: [createEsbuildPlugin(config)],
         }),
       )
+      on('task', {
+        log(message) {
+          console.log(message)
+
+          return null
+        },
+        table(message) {
+          console.table(message)
+
+          return null
+        },
+      })
       return config
     },
     baseUrl: 'http://localhost:3010',

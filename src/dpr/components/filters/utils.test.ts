@@ -28,6 +28,7 @@ const selectFieldFormat: Array<components['schemas']['FieldDefinition']> = [
     defaultsort: false,
     type: 'string',
     mandatory: false,
+    visible: true,
   },
 ]
 
@@ -43,6 +44,7 @@ const radioFieldFormat: Array<components['schemas']['FieldDefinition']> = [
     defaultsort: false,
     type: 'string',
     mandatory: false,
+    visible: true,
   },
 ]
 
@@ -57,6 +59,7 @@ const dateRangeFieldFormat: Array<components['schemas']['FieldDefinition']> = [
     defaultsort: false,
     type: 'string',
     mandatory: false,
+    visible: true,
   },
 ]
 
@@ -120,6 +123,7 @@ describe('getFilters', () => {
         defaultsort: false,
         type: 'string',
         mandatory: false,
+        visible: true,
       },
     ]
     const filterValues: Dict<string> = {

@@ -85,7 +85,7 @@ Feature: List report
     When I click the Reset Columns button
     Then the default columns are selected
 
-  Scenario: Reseting filters keeps current columns
+  Scenario: Resetting filters keeps current columns
     Given I click the Show Filter button
     When I select a filter
     And I apply the filters
@@ -95,3 +95,8 @@ Feature: List report
     When I click the Show Filter button
     When I click a the Reset filter button
     Then the selected columns values are shown in the URL
+
+  Scenario: The page is accessible
+    When I click the Show Filter button
+    And I click the Show Columns button
+    Then the page is accessible

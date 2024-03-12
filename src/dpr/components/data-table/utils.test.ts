@@ -15,6 +15,7 @@ describe('mapData', () => {
       defaultsort: false,
       type: 'date',
       mandatory: false,
+      visible: true,
     }
     const mapped = Utils.mapData([data], [fields], ['date'])
 
@@ -40,6 +41,7 @@ describe('mapData', () => {
       defaultsort: false,
       type: 'date',
       mandatory: false,
+      visible: true,
     }
     const mapped = Utils.mapData([data], [fields], ['date'])
 
@@ -65,6 +67,7 @@ describe('mapData', () => {
       defaultsort: false,
       type: 'date',
       mandatory: false,
+      visible: true,
     }
     const mapped = Utils.mapData([data], [fields], ['date'])
 
@@ -90,6 +93,7 @@ describe('mapData', () => {
       defaultsort: false,
       type: 'long',
       mandatory: false,
+      visible: true,
     }
     const mapped = Utils.mapData([data], [fields], ['number'])
 
@@ -115,6 +119,7 @@ describe('mapData', () => {
       defaultsort: false,
       type: 'string',
       mandatory: false,
+      visible: true,
     }
     const mapped = Utils.mapData([data], [fields], ['string'])
 
@@ -141,6 +146,7 @@ describe('mapData', () => {
       type: 'string',
       wordWrap: 'None',
       mandatory: false,
+      visible: true,
     }
     const mapped = Utils.mapData([data], [fields], ['string'])
 
@@ -164,6 +170,7 @@ describe('mapHeader', () => {
     defaultsort: false,
     type: 'date',
     mandatory: false,
+    visible: true,
   }
   const defaultQueryParams = {
     columns: 'date',
@@ -197,7 +204,6 @@ describe('mapHeader', () => {
         html:
           '<a ' +
           'data-column="date" ' +
-          'aria-sort="none" ' +
           'class="data-table-header-button data-table-header-button-sort-none" ' +
           'href="{sortColumn:date,sortedAsc:true}">' +
           'Date' +
@@ -223,7 +229,6 @@ describe('mapHeader', () => {
         html:
           '<a ' +
           'data-column="date" ' +
-          'aria-sort="ascending" ' +
           'class="data-table-header-button data-table-header-button-sort-ascending" ' +
           'href="{sortColumn:date,sortedAsc:false}">' +
           'Date' +
@@ -250,7 +255,6 @@ describe('mapHeader', () => {
         html:
           '<a ' +
           'data-column="date" ' +
-          'aria-sort="descending" ' +
           'class="data-table-header-button data-table-header-button-sort-descending" ' +
           'href="{sortColumn:date,sortedAsc:true}">' +
           'Date' +

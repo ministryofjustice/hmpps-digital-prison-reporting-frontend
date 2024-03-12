@@ -72,7 +72,7 @@ When('I select a previously selected column to sort on', function (this: Mocha.C
   const page = new ReportPage()
 
   page
-    .currentSortColumnLink()
+    .currentAscendingSortColumnLink()
     .then((column) => {
       this.currentSortColumn = column.data('column')
     })
@@ -239,19 +239,25 @@ Then('the selected filter value is shown in the URL', function (this: Mocha.Cont
   })
 })
 
-Then(
-  /^the sorted column is shown as sorted (ascending|descending) in the header$/,
-  function (this: Mocha.Context, direction: string) {
-    const page = new ReportPage()
-    const { currentSortColumn } = this
+Then(/^the sorted column is shown as sorted ascending in the header$/, function (this: Mocha.Context) {
+  const page = new ReportPage()
+  const { currentSortColumn } = this
 
-    page.currentSortColumnLink().should((link) => {
-      expect(link).to.have.data('column', currentSortColumn)
-      expect(link).to.have.attr('aria-sort', direction)
-      expect(link).to.have.class(`data-table-header-button-sort-${direction}`)
-    })
-  },
-)
+  page.currentAscendingSortColumnLink().should((link) => {
+    expect(link).to.have.data('column', currentSortColumn)
+    expect(link).to.have.class(`data-table-header-button-sort-ascending`)
+  })
+})
+
+Then(/^the sorted column is shown as sorted descending in the header$/, function (this: Mocha.Context) {
+  const page = new ReportPage()
+  const { currentSortColumn } = this
+
+  page.currentDescendingSortColumnLink().should((link) => {
+    expect(link).to.have.data('column', currentSortColumn)
+    expect(link).to.have.class(`data-table-header-button-sort-descending`)
+  })
+})
 
 Then('the sorted column is shown in the URL', function (this: Mocha.Context) {
   const { currentSortColumn } = this

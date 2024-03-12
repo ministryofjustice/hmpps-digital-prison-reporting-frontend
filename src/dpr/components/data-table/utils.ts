@@ -37,14 +37,14 @@ export default {
         let header: Header
 
         if (f.sortable) {
-          let ariaSort = 'none'
+          let sortDirection = 'none'
           let url = createUrlForParameters(currentQueryParams, {
             sortColumn: f.name,
             sortedAsc: 'true',
           })
 
           if (f.name === reportQuery.sortColumn) {
-            ariaSort = reportQuery.sortedAsc ? 'ascending' : 'descending'
+            sortDirection = reportQuery.sortedAsc ? 'ascending' : 'descending'
 
             if (reportQuery.sortedAsc) {
               url = createUrlForParameters(currentQueryParams, {
@@ -58,8 +58,7 @@ export default {
             html:
               `<a ` +
               `data-column="${f.name}" ` +
-              `aria-sort="${ariaSort}" ` +
-              `class="data-table-header-button data-table-header-button-sort-${ariaSort}" ` +
+              `class="data-table-header-button data-table-header-button-sort-${sortDirection}" ` +
               `href="${url}"` +
               `>${f.display}</a>`,
           }

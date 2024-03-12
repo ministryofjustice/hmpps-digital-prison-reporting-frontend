@@ -4,6 +4,10 @@
  */
 
 export interface paths {
+  '/user/caseload/active': {
+    /** @description Gets a user's active caseloads */
+    get: operations['definitions']
+  }
   '/reports/{reportId}/{reportVariantId}': {
     /** @description Returns the dataset for the given report ID and report variant ID filtered by the filters provided in the query. */
     get: operations['configuredApiDataset']
@@ -18,7 +22,7 @@ export interface paths {
   }
   '/definitions': {
     /** @description Gets summaries of all report definitions */
-    get: operations['definitions']
+    get: operations['definitions_1']
   }
   '/definitions/{reportId}/{variantId}': {
     /** @description Gets report definition containing a single variant. */
@@ -107,8 +111,8 @@ export interface components {
       resourceName: string
       description?: string
       specification?: components['schemas']['Specification']
-      classification: string
-      printable: boolean
+      classification?: string
+      printable?: boolean
     }
   }
   responses: never
@@ -123,6 +127,29 @@ export type $defs = Record<string, never>
 export type external = Record<string, never>
 
 export interface operations {
+  /** @description Gets a user's active caseloads */
+  definitions: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          'application/json': string[]
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+    }
+  }
   /** @description Returns the dataset for the given report ID and report variant ID filtered by the filters provided in the query. */
   configuredApiDataset: {
     parameters: {
@@ -301,7 +328,7 @@ export interface operations {
     }
   }
   /** @description Gets summaries of all report definitions */
-  definitions: {
+  definitions_1: {
     parameters: {
       query?: {
         /**

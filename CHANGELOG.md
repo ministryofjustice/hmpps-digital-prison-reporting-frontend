@@ -7,3 +7,7 @@ Added changelog.
 ## v3.5.4
 
 Report List improvements
+
+## v3.5.6
+
+Add accessibility testing to CICD and fix highlighted issues.

@@ -15,6 +15,7 @@ describe('mapData', () => {
       defaultsort: false,
       type: 'date',
       mandatory: false,
+      visible: true,
     }
     const mapped = Utils.mapData([data], [fields], ['date'])
 
@@ -40,6 +41,7 @@ describe('mapData', () => {
       defaultsort: false,
       type: 'date',
       mandatory: false,
+      visible: true,
     }
     const mapped = Utils.mapData([data], [fields], ['date'])
 
@@ -65,6 +67,7 @@ describe('mapData', () => {
       defaultsort: false,
       type: 'date',
       mandatory: false,
+      visible: true,
     }
     const mapped = Utils.mapData([data], [fields], ['date'])
 
@@ -90,6 +93,7 @@ describe('mapData', () => {
       defaultsort: false,
       type: 'long',
       mandatory: false,
+      visible: true,
     }
     const mapped = Utils.mapData([data], [fields], ['number'])
 
@@ -115,6 +119,7 @@ describe('mapData', () => {
       defaultsort: false,
       type: 'string',
       mandatory: false,
+      visible: true,
     }
     const mapped = Utils.mapData([data], [fields], ['string'])
 
@@ -141,6 +146,7 @@ describe('mapData', () => {
       type: 'string',
       wordWrap: 'None',
       mandatory: false,
+      visible: true,
     }
     const mapped = Utils.mapData([data], [fields], ['string'])
 
@@ -164,6 +170,7 @@ describe('mapHeader', () => {
     defaultsort: false,
     type: 'date',
     mandatory: false,
+    visible: true,
   }
   const defaultQueryParams = {
     columns: 'date',

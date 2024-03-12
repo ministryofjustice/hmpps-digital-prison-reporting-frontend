@@ -36,9 +36,11 @@ export default class ReportPage {
 
   unsortedSortColumnLink = (): PageElement => this.dataTable().find(`.data-table-header-button-sort-none`).first()
 
-  currentAscendingSortColumnLink = (): PageElement => this.dataTable().find(`.data-table-header-button-sort-ascending`).first()
+  currentAscendingSortColumnLink = (): PageElement =>
+    this.dataTable().find(`.data-table-header-button-sort-ascending`).first()
 
-  currentDescendingSortColumnLink = (): PageElement => this.dataTable().find(`.data-table-header-button-sort-descending`).first()
+  currentDescendingSortColumnLink = (): PageElement =>
+    this.dataTable().find(`.data-table-header-button-sort-descending`).first()
 
   actionsButton = (): PageElement => cy.get('#actions-button')
 

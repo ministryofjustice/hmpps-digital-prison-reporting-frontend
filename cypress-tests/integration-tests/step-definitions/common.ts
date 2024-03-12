@@ -19,8 +19,8 @@ function terminalLog(violations: axe.Result[]) {
     cy.task('log', 'Violation detail')
     cy.task('log', '----------------')
 
-    violations.forEach(v => {
-      v.nodes.forEach(node => {
+    violations.forEach((v) => {
+      v.nodes.forEach((node) => {
         cy.task('log', node.failureSummary)
         cy.task('log', `Impact: ${node.impact}`)
         cy.task('log', `Target: ${node.target}`)

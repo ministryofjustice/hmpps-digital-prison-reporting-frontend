@@ -59,7 +59,7 @@ export default {
               `<a ` +
               `data-column="${f.name}" ` +
               `class="data-table-header-button data-table-header-button-sort-${sortDirection}" ` +
-              `href="${url}" ` +
+              `href="${url}" `+
               `>${f.display}</a>`,
           }
         } else {

@@ -52,7 +52,7 @@ export default class ReportingClient {
   ): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
     logger.info(`Reporting client: Get definitions`)
 
-    const params: operations['definitions']['parameters'] = {
+    const params: operations['definitions_1']['parameters'] = {
       query: {
         renderMethod: 'HTML',
         dataProductDefinitionsPath: definitionsPath,

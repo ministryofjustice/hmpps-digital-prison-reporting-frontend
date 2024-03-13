@@ -131,6 +131,9 @@ export default {
             selectedPage: '1',
           }),
           classes: 'govuk-button--inverse accordion-summary-remove-button govuk-!-margin-0',
+          attributes: {
+            'aria-label': `Selected Filter: ${f.display}: ${filterValueText}. Click to clear this filter`,
+          },
         }
       }),
 }

@@ -120,19 +120,19 @@
       </div>
       <div class="govuk-grid-column-one-third">
         <div class="dpr-actions">
-          {# {{ dprDropdownButton({
+          {{ dprDropdownButton({
             id: "actions",
             text: "Actions",
             classes: "",
             attributes: {},
             items: ddItems,
             groups: ddGroups
-          }) }} #}
+          }) }}
         </div>
       </div>
     </div>
 
-    {# {% if warnings.noDataAvailable %}
+    {% if warnings.noDataAvailable %}
       {{ govukErrorSummary({
       titleText: 'No data available',
       errorList: [
@@ -141,7 +141,7 @@
         }
       ]
     }) }}
-    {% endif %} #}
+    {% endif %}
 
     <div class="moj-filter-layout">
       <div class="moj-filter-layout__content">

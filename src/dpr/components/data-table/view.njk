@@ -8,7 +8,6 @@
   {% from "govuk/components/table/macro.njk" import govukTable %}
   {% from "govuk/components/pagination/macro.njk" import govukPagination %}
   {% from "govuk/components/select/macro.njk" import govukSelect %}
-  {% from "dpr/components/loading-anim/view.njk" import dprLoadingAnim -%}
 
   {%- set selectedPage = currentQueryParams.selectedPage | int %}
   {%- set pageSize = currentQueryParams.pageSize | int %}
@@ -25,7 +24,6 @@
 
   {% if rows.length %}
     <div id="table-container" class='table-container' data-dpr-module="data-table">
-      {{ dprLoadingAnim() }}
       <div>
         <div class="govuk-grid-column dpr-table-wrapper">
           {{ govukTable({
@@ -99,7 +97,6 @@
     </div>
   {% else %}
     <div id="data-table-empty-message" class="data-table-empty-message">
-      {{ dprLoadingAnim() }}
       <h2 class="govuk-heading-m">No results from query</h2>
       <p class="govuk-body">Update your filters to search for data</p>
     </div>

@@ -1,13 +1,10 @@
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "dpr/components/loading-anim/view.njk" import dprLoadingAnim -%}
 
 {% macro dprColumns(columns, parameterPrefix = "columns.") %}
 
   <form id="user-selected-columns-form" data-dpr-module="columns">
     <div class="columns-container">
-      {{ dprLoadingAnim() }}
-
       {{ govukCheckboxes({
           id: 'columns.' + columns.name,
           name: 'columns.' + columns.name,

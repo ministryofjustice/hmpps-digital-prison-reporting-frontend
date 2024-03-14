@@ -6,6 +6,7 @@
   {% from "../copy-url-button/view.njk" import dprCopyUrlButton %}
   {% from "../filters/view.njk" import dprFilters %}
   {% from "../columns/view.njk" import dprColumns %}
+  {% from "dpr/components/loading-anim/view.njk" import dprLoadingAnim -%}
   {% from "govuk/components/button/macro.njk" import govukButton %}
   {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
@@ -111,7 +112,8 @@
   } %}
   {% set accordionItems = (accordionItems.push(columnsAccordionItem), accordionItems) %}
 
-  <div class="govuk-width-container {% if (dataTableOptions.printable == false) %}print-hide{% endif %} govuk-!-margin-top-3">
+  <div class="govuk-width-container {% if (dataTableOptions.printable == false) %}print-hide{% endif %} govuk-!-margin-top-3" style="position: relative">
+    {{ dprLoadingAnim() }}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-m">

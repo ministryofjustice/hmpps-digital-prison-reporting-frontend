@@ -13,7 +13,6 @@
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "dpr/components/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
-{% from "dpr/components/loading-anim/view.njk" import dprLoadingAnim -%}
 {% from "dpr/components/date-range/view.njk" import dprDateRange -%}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
@@ -22,7 +21,6 @@
   <div data-dpr-module="filters" data-base-url="{{ urlWithNoFilters }}">
     <form id="user-selected-filters-form">
       <div class="filter-container">
-        {{ dprLoadingAnim() }}
         {%- for filter in filters %}
 
           {%- if filter.type | lower === 'select' %}

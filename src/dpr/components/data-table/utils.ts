@@ -89,7 +89,9 @@ export default {
           switch (f.type) {
             case 'date':
               fieldFormat = 'numeric'
-              text = mapDate(d[f.name])
+              if (!f.calculated) {
+                text = mapDate(d[f.name])
+              }
               break
 
             case 'long':

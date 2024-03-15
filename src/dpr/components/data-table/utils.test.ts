@@ -16,6 +16,7 @@ describe('mapData', () => {
       type: 'date',
       mandatory: false,
       visible: true,
+      calculated: false,
     }
     const mapped = Utils.mapData([data], [fields], ['date'])
 
@@ -42,6 +43,7 @@ describe('mapData', () => {
       type: 'date',
       mandatory: false,
       visible: true,
+      calculated: false,
     }
     const mapped = Utils.mapData([data], [fields], ['date'])
 
@@ -68,6 +70,7 @@ describe('mapData', () => {
       type: 'date',
       mandatory: false,
       visible: true,
+      calculated: false,
     }
     const mapped = Utils.mapData([data], [fields], ['date'])
 
@@ -94,6 +97,7 @@ describe('mapData', () => {
       type: 'long',
       mandatory: false,
       visible: true,
+      calculated: false,
     }
     const mapped = Utils.mapData([data], [fields], ['number'])
 
@@ -101,6 +105,33 @@ describe('mapData', () => {
       [
         {
           text: '1234.05',
+          format: 'numeric',
+          classes: null,
+        },
+      ],
+    ])
+  })
+
+  it('Calculated dates mapped correctly', () => {
+    const data: Dict<string> = {
+      date: '12/11/10',
+    }
+    const fields: components['schemas']['FieldDefinition'] = {
+      name: 'date',
+      display: 'Date',
+      sortable: true,
+      defaultsort: false,
+      type: 'date',
+      mandatory: false,
+      visible: true,
+      calculated: true,
+    }
+    const mapped = Utils.mapData([data], [fields], ['date'])
+
+    expect(mapped).toEqual([
+      [
+        {
+          text: '12/11/10',
           format: 'numeric',
           classes: null,
         },
@@ -120,6 +151,7 @@ describe('mapData', () => {
       type: 'string',
       mandatory: false,
       visible: true,
+      calculated: false,
     }
     const mapped = Utils.mapData([data], [fields], ['string'])
 
@@ -147,6 +179,7 @@ describe('mapData', () => {
       wordWrap: 'None',
       mandatory: false,
       visible: true,
+      calculated: false,
     }
     const mapped = Utils.mapData([data], [fields], ['string'])
 
@@ -171,6 +204,7 @@ describe('mapHeader', () => {
     type: 'date',
     mandatory: false,
     visible: true,
+    calculated: false,
   }
   const defaultQueryParams = {
     columns: 'date',

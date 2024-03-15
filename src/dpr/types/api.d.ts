@@ -81,6 +81,7 @@ export interface components {
       type: 'string' | 'date' | 'long' | 'time' | 'HTML'
       mandatory: boolean
       visible: boolean
+      calculated: boolean
     }
     FilterDefinition: {
       /** @enum {string} */

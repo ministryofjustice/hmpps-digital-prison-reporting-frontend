@@ -26,6 +26,8 @@
   {% set printable = dataTableOptions.printable %}
   {% set url = dataTableOptions.url %}
   {% set urlWithNoFilters = currentQueryParams | createUrlForParameters(null) %}
+  {% set rows = dataTableOptions.rows %}
+  {% set totalRowsOnPage = dataTableOptions.rows.length %}
 
   {# Dropdown Items #}
   {% set ddItems = [] %}
@@ -33,9 +35,9 @@
   {{ dprPrintButton({
     id: 'dd', 
     text: 'Print displayed results',
-    count: dataTableOptions.rows.length, 
+    count: totalRowsOnPage, 
     classes: 'govuk-button--inverse', 
-    printable: dataTableOptions.printable 
+    printable: printable 
   }) }}
   {% endset %}
   {% set printAction = {
@@ -116,9 +118,10 @@
     {{ dprLoadingAnim() }}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-m">
+        <h1 class="govuk-heading-m govuk-!-margin-bottom-1">
           {{ title }}
         </h1>
+        <h2 class="govuk-caption-m govuk-!-margin-top-1">{{ count }} total results</h2>
       </div>
       <div class="govuk-grid-column-one-third">
         <div class="dpr-actions">

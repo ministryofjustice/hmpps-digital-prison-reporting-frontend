@@ -43,26 +43,37 @@ export default class DataTable extends DprLoadingClientClass {
     if (table) {
       const classification = table.getAttribute('data-classification')
       const headLength = Number(table.getAttribute('data-head-length'))
+      const rowLength = Number(table.getAttribute('data-row-length'))
+      const pageSize = Number(table.getAttribute('data-page-size'))
+      const selectedPage = Number(table.getAttribute('data-selected-page'))
+      const totalRowCount = Number(table.getAttribute('data-total-results'))
 
+      const classificationContent = `<b>${classification}</b>`
+      const currentRangeStart = (selectedPage - 1) * pageSize
+      const currentRangeEnd = currentRangeStart + rowLength
+      const totalsContent = `${currentRangeStart + 1}-${currentRangeEnd} of ${totalRowCount}`
+
+      // Headers
       const header = table.createTHead()
+
+      const totalsHeaderRow = header.insertRow(0)
+      const totalsHeaderCell = totalsHeaderRow.insertCell(0)
+      totalsHeaderCell.outerHTML = `<th class="govuk-table__header govuk-table__cell--content table-row-count table-row-count--top table-row--no-border" colspan=${headLength}>${totalsContent}</th>`
+
+      const classificationHeaderRow = header.insertRow(1)
+      const classificationHeaderCell = classificationHeaderRow.insertCell(0)
+      classificationHeaderCell.outerHTML = `<th class="govuk-table__header govuk-table__cell--content print-header-footer" colspan=${headLength}>${classificationContent}</th>`
+
+      // Footers
       const footer = table.createTFoot()
 
-      const rowClassList = ['govuk-table__row', 'print-header-footer']
-      const footerRow = footer.insertRow(0)
-      const headerRow = header.insertRow(0)
-      headerRow.classList.add(...rowClassList)
-      footerRow.classList.add(...rowClassList)
+      const classificationfooterRow = footer.insertRow(0)
+      const classificationFooterCell = classificationfooterRow.insertCell(0)
+      classificationFooterCell.outerHTML = `<td class="govuk-table__cell govuk-table__cell--content print-header-footer table-row--no-border" colspan=${headLength}>${classificationContent}</td>`
 
-      const headerCell = headerRow.insertCell(0)
-      const footerCell = footerRow.insertCell(0)
-
-      const content = `<b>${classification}</b>`
-
-      headerCell.colSpan = headLength
-      headerCell.outerHTML = `<th class="govuk-table__header govuk-table__cell--content" colspan=${headLength}>${content}</th>`
-
-      footerCell.colSpan = headLength
-      footerCell.outerHTML = `<td class="govuk-table__cell govuk-table__cell--content" colspan=${headLength}>${content}</td>`
+      const totalsfooterRow = footer.insertRow(1)
+      const totalsFooterCell = totalsfooterRow.insertCell(0)
+      totalsFooterCell.outerHTML = `<td class="govuk-table__cell govuk-table__cell--content table-row-count table-row-count--bottom table-row--no-border" colspan=${headLength}>${totalsContent}</td>`
     }
   }
 }

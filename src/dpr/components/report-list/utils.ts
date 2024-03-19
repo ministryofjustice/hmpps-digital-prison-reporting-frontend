@@ -213,7 +213,6 @@ export default {
       getDefaultSortColumn(fields),
       filtersQueryParameterPrefix,
     )
-
     const listData = getListDataSources(reportQuery)
 
     renderList(

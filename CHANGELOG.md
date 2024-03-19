@@ -14,4 +14,10 @@ Add accessibility testing to CICD and fix highlighted issues.
 
 ## v3.5.7
 
-Avoid reformatting dates that are the product of a formula. 
+Avoid reformatting dates that are the product of a formula.
+
+## v3.6.0
+
+- Updated loading state on table view
+- Menu card loading state
+- Total Results count displayed on report list

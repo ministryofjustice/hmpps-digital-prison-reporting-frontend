@@ -168,8 +168,6 @@ const renderListWithDefinition = ({
         filtersQueryParameterPrefix,
       )
 
-      console.log({ reportQuery })
-
       const getListData: ListDataSources = {
         data: reportingClient.getListWithWarnings(variantDefinition.resourceName, token, reportQuery),
         count: reportingClient.getCount(variantDefinition.resourceName, token, reportQuery),

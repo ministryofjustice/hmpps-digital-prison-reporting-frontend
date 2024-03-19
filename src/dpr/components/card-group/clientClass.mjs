@@ -6,7 +6,6 @@ export default class CardGroup extends DprLoadingClientClass {
   }
 
   initialise() {
-    this.hideLoadingAnimation()
     this.getElement()
       .querySelectorAll('[data-click-navigate-to]')
       .forEach((card) => {

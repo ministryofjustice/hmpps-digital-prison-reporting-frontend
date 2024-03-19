@@ -45,13 +45,31 @@ export default class ReportQuery implements FilteredListRequest {
       this.columns = fields.filter((f) => f.visible).map((f) => f.name)
     }
 
+    let min: string
+    let max: string
+    const dateField = fields.find((f) => f.type === 'date')
+    if (dateField && dateField.filter) {
+      ;({ min, max } = dateField.filter)
+    }
+
     this.filters = {}
 
     Object.keys(queryParams)
       .filter((key) => key.startsWith(filtersPrefix))
       .filter((key) => queryParams[key])
       .forEach((key) => {
-        this.filters[key.replace(filtersPrefix, '')] = queryParams[key].toString()
+        const filter = key.replace(filtersPrefix, '')
+        let value = queryParams[key].toString()
+
+        if (filter.includes('.start') && min) {
+          if (new Date(value) < new Date(min)) value = min
+        }
+
+        if (filter.includes('.end') && max) {
+          if (new Date(value) > new Date(max)) value = max
+        }
+
+        this.filters[filter] = value
       })
   }
 

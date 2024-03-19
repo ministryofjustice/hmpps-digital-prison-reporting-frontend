@@ -47,10 +47,10 @@ export default class ReportQuery implements FilteredListRequest {
 
     let min: string
     let max: string
-    const dateField = fields.find((f) => f.type === 'date')
-    if (dateField && dateField.filter) {
-      ;({ min, max } = dateField.filter)
-    }
+    const dateField: components['schemas']['FieldDefinition'] = fields.find(
+      (f) => f.type === 'date' && dateField.filter,
+    )
+    if (dateField) ({ min, max } = dateField.filter)
 
     this.filters = {}
 

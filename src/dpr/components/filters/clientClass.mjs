@@ -44,7 +44,7 @@ export default class Filters extends DprLoadingClientClass {
     url += serializedFormData
     url = url.replaceAll('?&', '?').replaceAll(ampRexExp, '&')
 
-    // window.location.href = url
+    window.location.href = url
   }
 
   resetButtonClick(e, hideLoadingAnimation) {

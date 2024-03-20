@@ -12,6 +12,8 @@ export default class DprLoadingClientClass extends DprClientClass {
     document.querySelectorAll(loadingAnimClass).forEach((l) => {
       l.classList.add('show')
     })
+
+    this.loading = true
   }
 
   hideLoadingAnimation() {
@@ -21,5 +23,11 @@ export default class DprLoadingClientClass extends DprClientClass {
     document.querySelectorAll('.dpr-loading-anim').forEach((l) => {
       l.classList.remove('show')
     })
+
+    this.loading = false
+  }
+
+  isLoading() {
+    return this.loading
   }
 }

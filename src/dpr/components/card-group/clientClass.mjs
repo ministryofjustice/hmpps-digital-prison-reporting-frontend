@@ -6,14 +6,17 @@ export default class CardGroup extends DprLoadingClientClass {
   }
 
   initialise() {
+    this.loading = false
     this.getElement()
       .querySelectorAll('[data-click-navigate-to]')
       .forEach((card) => {
         card.addEventListener('click', () => {
-          const wrapperClass = 'card-loading'
-          card.classList.add(wrapperClass)
-          this.showLoadingAnimation(wrapperClass)
-          window.location.href = card.dataset.clickNavigateTo
+          if (!this.isLoading()) {
+            const wrapperClass = 'card-loading'
+            card.classList.add(wrapperClass)
+            this.showLoadingAnimation(wrapperClass)
+            window.location.href = card.dataset.clickNavigateTo
+          }
         })
       })
   }

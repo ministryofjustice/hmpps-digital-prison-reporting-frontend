@@ -116,3 +116,17 @@
 }
 
 // === END VARIANT 2 STYLES ===
+
+.card-loading {
+  pointer-events: none;
+}
+
+.card-disabled {
+  pointer-events: none;
+}
+
+.card-disabled:hover {
+  pointer-events: none;
+  border: 1px solid #d9dadb;
+  bottom: 0px;
+}

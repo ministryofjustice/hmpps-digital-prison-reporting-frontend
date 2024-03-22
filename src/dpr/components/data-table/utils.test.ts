@@ -24,7 +24,7 @@ describe('mapData', () => {
       [
         {
           text: '02/01/00 03:04',
-          format: 'numeric',
+          format: 'string',
           classes: null,
         },
       ],
@@ -51,7 +51,7 @@ describe('mapData', () => {
       [
         {
           text: '',
-          format: 'numeric',
+          format: 'string',
           classes: null,
         },
       ],
@@ -78,7 +78,7 @@ describe('mapData', () => {
       [
         {
           text: '12/11/10 13:14',
-          format: 'numeric',
+          format: 'string',
           classes: null,
         },
       ],
@@ -132,7 +132,7 @@ describe('mapData', () => {
       [
         {
           text: '12/11/10',
-          format: 'numeric',
+          format: 'string',
           classes: null,
         },
       ],

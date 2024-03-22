@@ -15,3 +15,7 @@ Add accessibility testing to CICD and fix highlighted issues.
 ## v3.5.7
 
 Avoid reformatting dates that are the product of a formula. 
+
+## v3.7.0
+
+Support more word wrapping options, and more field types.

@@ -176,7 +176,7 @@ describe('mapData', () => {
       sortable: true,
       defaultsort: false,
       type: 'string',
-      wordWrap: 'None',
+      wordWrap: 'none',
       mandatory: false,
       visible: true,
       calculated: false,

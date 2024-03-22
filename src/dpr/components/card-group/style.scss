@@ -20,6 +20,11 @@
   }
 }
 
+.card-wrapper {
+  position: relative;
+  height: 100%;
+}
+
 .card__heading {
   margin-top: 0;
   margin-bottom: 15px
@@ -111,3 +116,17 @@
 }
 
 // === END VARIANT 2 STYLES ===
+
+.card-loading {
+  pointer-events: none;
+}
+
+.card-disabled {
+  pointer-events: none;
+}
+
+.card-disabled:hover {
+  pointer-events: none;
+  border: 1px solid #d9dadb;
+  bottom: 0px;
+}

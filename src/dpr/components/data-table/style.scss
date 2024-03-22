@@ -57,6 +57,14 @@
   white-space: nowrap;
 }
 
+.data-table-cell-wrap-normal {
+  white-space: normal;
+}
+
+.data-table-cell-wrap-break-words {
+  word-break: break-all;
+}
+
 #pageSize {
   min-width: 5em;
 }
@@ -97,7 +105,7 @@ a.disabled {
 
   @media(max-width: 319px) {
     .govuk-form-group {
-      margin-bottom: 0px;
+      margin-bottom: 0;
     }
     height: 72px;
     margin-bottom: govuk-spacing(2);

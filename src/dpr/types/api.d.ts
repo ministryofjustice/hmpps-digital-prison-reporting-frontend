@@ -73,12 +73,12 @@ export interface components {
       name: string
       display: string
       /** @enum {string} */
-      wordWrap?: 'None'
+      wordWrap?: 'none' | 'normal' | 'break-words'
       filter?: components['schemas']['FilterDefinition']
       sortable: boolean
       defaultsort: boolean
       /** @enum {string} */
-      type: 'string' | 'date' | 'long' | 'time' | 'HTML'
+      type: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time'
       mandatory: boolean
       visible: boolean
       calculated: boolean

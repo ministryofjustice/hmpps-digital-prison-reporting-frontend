@@ -21,3 +21,7 @@ Avoid reformatting dates that are the product of a formula.
 - Updated loading state on table view
 - Menu card loading state
 - Total Results count displayed on report list
+
+## v3.7.0
+
+Support more word wrapping options, and more field types.

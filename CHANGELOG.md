@@ -1,20 +1,12 @@
 Below you can find the changes included in each release.
 
-## v3.5.3
+## v3.7.1
 
-Added changelog.
+Updated publish action to avoid writing to main. 
 
-## v3.5.4
+## v3.7.0
 
-Report List improvements
-
-## v3.5.6
-
-Add accessibility testing to CICD and fix highlighted issues.
-
-## v3.5.7
-
-Avoid reformatting dates that are the product of a formula.
+Support more word wrapping options, and more field types.
 
 ## v3.6.0
 
@@ -22,6 +14,18 @@ Avoid reformatting dates that are the product of a formula.
 - Menu card loading state
 - Total Results count displayed on report list
 
-## v3.7.0
+## v3.5.7
 
-Support more word wrapping options, and more field types.
+Avoid reformatting dates that are the product of a formula.
+
+## v3.5.6
+
+Add accessibility testing to CICD and fix highlighted issues.
+
+## v3.5.4
+
+Report List improvements
+
+## v3.5.3
+
+Added changelog.

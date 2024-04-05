@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v3.7.2
+
+Fixed Issue #83 - Inline style violates Content Security Policy directive
+
 ## v3.7.1
 
 Updated publish action to avoid writing to main. 

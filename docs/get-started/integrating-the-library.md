@@ -51,7 +51,8 @@ router.use(
 Add the client-side JavaScript to the nunjucks layout:
 
 ```html
-{% block bodyEnd %} ...
+{% block bodyEnd %}
+...
 <script type="module" src="/assets/dpr/js/all.mjs"></script>
 <script type="module">
   import initAll from "/assets/dpr/js/all.mjs";
@@ -60,6 +61,23 @@ Add the client-side JavaScript to the nunjucks layout:
 </script>
 {% endblock %}
 ```
+
+Alternatively, to avoid Chrome objecting to running scripts in line, you can add the initialisation to a separate JS file (in this example named "dprInit.mjs"):
+```javascript
+  import initAll from "/assets/dpr/js/all.mjs";
+
+  initAll();
+```
+
+And then include it to initialise the JavaScript:
+```html
+{% block bodyEnd %}
+...
+<script type="module" src="/assets/dpr/js/all.mjs"></script>
+<script type="module" src="/assets/js/dprInit.mjs"></script>
+{% endblock %}
+```
+
 
 {% header 3, "Nunjucks" %}
 Add the library's nunjucks templates to your nunjucks configuration:

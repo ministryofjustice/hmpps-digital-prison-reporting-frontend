@@ -22,7 +22,7 @@ Add the library to your **package.json** within the **dependencies** section and
 Ensure that you have the following dependency in the expected range, to ensure compatibility between the libraries:
 
 ```
-"govuk-frontend": "^5.1.0",
+"govuk-frontend": "^5.3.0",
 ```
 
 {% header 3, "SASS" %}

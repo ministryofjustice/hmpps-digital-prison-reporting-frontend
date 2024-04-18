@@ -152,33 +152,34 @@ describe('Page picker renders correctly', () => {
     expect(content).not.toMatch(new RegExp(`"Page ${pageNumber}"`))
   }
 
+  const ellipsisPattern = /<li class="govuk-pagination__item govuk-pagination__item--ellipses">\s*&ctdot;\s*<\/li>/g
+
   const expectEllipses = (content: string, numberOfEllipses: number) => {
-    expect(
-      content.match(/<li class="govuk-pagination__item govuk-pagination__item--ellipses">&ctdot;<\/li>/g).length,
-    ).toEqual(numberOfEllipses)
+    expect(content).toMatch(ellipsisPattern)
+    expect(content.match(ellipsisPattern).length).toEqual(numberOfEllipses)
   }
 
   const expectPreviousButton = (content: string) => {
-    expect(content).toContain(
-      '<span class="govuk-pagination__link-title">Previous<span class="govuk-visually-hidden"> page</span></span>',
+    expect(content).toMatch(
+      /<span class="govuk-pagination__link-title">\s*Previous<span class="govuk-visually-hidden"> page<\/span>\s*<\/span>/,
     )
   }
 
   const expectNoPreviousButton = (content: string) => {
-    expect(content).not.toContain(
-      '<span class="govuk-pagination__link-title">Previous<span class="govuk-visually-hidden"> page</span></span>',
+    expect(content).not.toMatch(
+      /<span class="govuk-pagination__link-title">\s*Previous<span class="govuk-visually-hidden"> page<\/span>\s*<\/span>/,
     )
   }
 
   const expectNextButton = (content: string) => {
-    expect(content).toContain(
-      '<span class="govuk-pagination__link-title">Next<span class="govuk-visually-hidden"> page</span></span>',
+    expect(content).toMatch(
+      /<span class="govuk-pagination__link-title">\s*Next<span class="govuk-visually-hidden"> page<\/span>\s*<\/span>/,
     )
   }
 
   const expectNoNextButton = (content: string) => {
-    expect(content).not.toContain(
-      '<span class="govuk-pagination__link-title">Next<span class="govuk-visually-hidden"> page</span></span>',
+    expect(content).not.toMatch(
+      /<span class="govuk-pagination__link-title">\s*Next<span class="govuk-visually-hidden"> page<\/span>\s*<\/span>/,
     )
   }
 })

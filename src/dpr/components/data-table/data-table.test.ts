@@ -152,7 +152,6 @@ describe('Page picker renders correctly', () => {
     expect(content).not.toMatch(new RegExp(`"Page ${pageNumber}"`))
   }
 
-
   const ellipsisPattern = /<li class="govuk-pagination__item govuk-pagination__item--ellipses">\s*&ctdot;\s*<\/li>/g
 
   const expectEllipses = (content: string, numberOfEllipses: number) => {

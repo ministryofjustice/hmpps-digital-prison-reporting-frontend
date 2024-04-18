@@ -1,8 +1,12 @@
 Below you can find the changes included in each release.
 
+## v3.7.6
+
+Update integration documentation to avoid Chrome security warnings about inline scripts.
+
 ## v3.7.5
 
-Update GovUK dependency
+Update GovUK dependency.
 
 ## v3.7.4
 

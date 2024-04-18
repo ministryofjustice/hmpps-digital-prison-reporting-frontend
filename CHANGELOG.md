@@ -1,8 +1,12 @@
 Below you can find the changes included in each release.
 
-## v3.7.3
+## v3.7.5
 
-Fix formatting in List Report documentation,
+Update GovUK dependency
+
+## v3.7.4
+
+Fix formatting in List Report documentation.
 
 ## v3.7.2
 

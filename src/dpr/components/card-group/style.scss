@@ -1,74 +1,74 @@
-// VARIANT 1 STYLES
+.dpr-card-group {
+  // VARIANT 1 STYLES
 
-.card {
-  margin-bottom: 30px;
-  background: #fff;
-  border: 1px solid #d9dadb;
-  position: relative;
-  padding: 25px;
+  .card {
+    margin-bottom: 30px;
+    background: #fff;
+    border: 1px solid #d9dadb;
+    position: relative;
+    padding: 25px;
 
-  @media(min-width: 769px) and (max-width: 1019px) {
-    margin-bottom: 10px;
-  }
+    @media(min-width: 769px) and (max-width: 1019px) {
+      margin-bottom: 10px;
+    }
 
-  @media(max-width: 768px) {
-    margin-bottom: 0px;
-    min-height: 0px !important;
-    a, p {
-      font-size: 18px !important;
+    @media(max-width: 768px) {
+      margin-bottom: 0;
+      min-height: 0 !important;
+      a, p {
+        font-size: 18px !important;
+      }
     }
   }
-}
 
-.card-wrapper {
-  position: relative;
-  height: 100%;
-}
+  .card-wrapper {
+    position: relative;
+    height: 100%;
+  }
 
-.card__heading {
-  margin-top: 0;
-  margin-bottom: 15px
-}
+  .card__heading {
+    margin-top: 0;
+    margin-bottom: 15px
+  }
 
-.card__description {
-  margin-bottom: 0
-}
+  .card__description {
+    margin-bottom: 0
+  }
 
-.card--clickable {
-  border-bottom-width: 5px
-}
+  .card--clickable {
+    border-bottom-width: 5px
+  }
 
-.card--clickable:hover,.card--clickable:active {
-  cursor: pointer
-}
+  .card--clickable:hover,.card--clickable:active {
+    cursor: pointer
+  }
 
-.card--clickable:hover .card__heading a,.card--clickable:hover .card__link,.card--clickable:active .card__heading a,.card--clickable:active .card__link {
-  color: #003078;
-  text-decoration: none
-}
+  .card--clickable:hover .card__heading a,.card--clickable:hover .card__link,.card--clickable:active .card__heading a,.card--clickable:active .card__link {
+    color: #003078;
+    text-decoration: none
+  }
 
-.card--clickable:hover .card__heading a:focus,.card--clickable:hover .card__link:focus,.card--clickable:active .card__heading a:focus,.card--clickable:active .card__link:focus {
-  outline: 3px solid transparent;
-  color: #0b0c0c;
-  background-color: #fd0;
-  box-shadow: 0 -2px #fd0,0 4px #0b0c0c;
-  text-decoration: none
-}
+  .card--clickable:hover .card__heading a:focus,.card--clickable:hover .card__link:focus,.card--clickable:active .card__heading a:focus,.card--clickable:active .card__link:focus {
+    outline: 3px solid transparent;
+    color: #0b0c0c;
+    background-color: #fd0;
+    box-shadow: 0 -2px #fd0,0 4px #0b0c0c;
+    text-decoration: none
+  }
 
-.card--clickable:hover {
-  border-color: #b1b4b6
-}
+  .card--clickable:hover {
+    border-color: #b1b4b6
+  }
 
-.card--clickable:active {
-  border-color: #b1b4b6;
-  bottom: -1px
-}
+  .card--clickable:active {
+    border-color: #b1b4b6;
+    bottom: -1px
+  }
 
-// === END VARIANT 1 STYLES ===
+  // === END VARIANT 1 STYLES ===
 
-// === VARIANT 2 STYLES ===
+  // === VARIANT 2 STYLES ===
 
-.dpr-card-group {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: 30px;
@@ -113,20 +113,20 @@
       }
     }
   }
-}
 
-// === END VARIANT 2 STYLES ===
+  // === END VARIANT 2 STYLES ===
 
-.card-loading {
-  pointer-events: none;
-}
+  .card-loading {
+    pointer-events: none;
+  }
 
-.card-disabled {
-  pointer-events: none;
-}
+  .card-disabled {
+    pointer-events: none;
+  }
 
-.card-disabled:hover {
-  pointer-events: none;
-  border: 1px solid #d9dadb;
-  bottom: 0px;
+  .card-disabled:hover {
+    pointer-events: none;
+    border: 1px solid #d9dadb;
+    bottom: 0;
+  }
 }

@@ -24,7 +24,7 @@ export default class ReportPage {
   columnCheckBoxDisabled = (): PageElement => cy.get(`.data-table-columns input`).eq(1)
 
   visibleAutocompleteOptions = (id): PageElement =>
-    this.filter(id).parentsUntil('.autocomplete-text-input').parent().find('li:visible')
+    this.filter(id).parentsUntil('.dpr-autocomplete-text-input').parent().find('li:visible')
 
   dataTable = (): PageElement => cy.get('table')
 

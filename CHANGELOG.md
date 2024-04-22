@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v3.7.7
+
+Isolate component SASS so that it does not interfere with consumers' site styles.
+
 ## v3.7.6
 
 Update integration documentation to avoid Chrome security warnings about inline scripts.

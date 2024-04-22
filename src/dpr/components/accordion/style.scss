@@ -63,6 +63,7 @@
     box-shadow: none;
 
     &:hover {
+      background-color: #e8f1f8;
       box-shadow: none;
       text-decoration: none;
       color: govuk-colour("black");
@@ -90,6 +91,10 @@
 
   .selected-accordion-button {
     display: inline-block;
+  }
+
+  .govuk-details__summary-text {
+    text-underline-offset: 4px;
   }
 
   @media print {

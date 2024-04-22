@@ -1,6 +1,5 @@
-.dpr-card-group {
-  // VARIANT 1 STYLES
-
+// VARIANT 1 STYLES
+.dpr-card-group-v1 {
   .card {
     margin-bottom: 30px;
     background: #fff;
@@ -39,20 +38,20 @@
     border-bottom-width: 5px
   }
 
-  .card--clickable:hover,.card--clickable:active {
+  .card--clickable:hover, .card--clickable:active {
     cursor: pointer
   }
 
-  .card--clickable:hover .card__heading a,.card--clickable:hover .card__link,.card--clickable:active .card__heading a,.card--clickable:active .card__link {
+  .card--clickable:hover .card__heading a, .card--clickable:hover .card__link, .card--clickable:active .card__heading a, .card--clickable:active .card__link {
     color: #003078;
     text-decoration: none
   }
 
-  .card--clickable:hover .card__heading a:focus,.card--clickable:hover .card__link:focus,.card--clickable:active .card__heading a:focus,.card--clickable:active .card__link:focus {
+  .card--clickable:hover .card__heading a:focus, .card--clickable:hover .card__link:focus, .card--clickable:active .card__heading a:focus, .card--clickable:active .card__link:focus {
     outline: 3px solid transparent;
     color: #0b0c0c;
     background-color: #fd0;
-    box-shadow: 0 -2px #fd0,0 4px #0b0c0c;
+    box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
     text-decoration: none
   }
 
@@ -64,11 +63,11 @@
     border-color: #b1b4b6;
     bottom: -1px
   }
+}
+// === END VARIANT 1 STYLES ===
 
-  // === END VARIANT 1 STYLES ===
-
-  // === VARIANT 2 STYLES ===
-
+// === VARIANT 2 STYLES ===
+.dpr-card-group-v2 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: 30px;
@@ -86,7 +85,6 @@
       font-size: 16px;
     }
   }
-
 
   .dpr-card-group__item {
     min-height: 120px;
@@ -113,9 +111,10 @@
       }
     }
   }
+}
+// === END VARIANT 2 STYLES ===
 
-  // === END VARIANT 2 STYLES ===
-
+.dpr-card-group {
   .card-loading {
     pointer-events: none;
   }

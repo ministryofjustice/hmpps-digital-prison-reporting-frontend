@@ -5,12 +5,13 @@ export default class CardGroup extends DprLoadingClientClass {
     return 'card-group'
   }
 
+
   initialise() {
     const cards = this.getElement().querySelectorAll('[data-click-navigate-to]')
+    const wrapperClass = 'card-loading'
 
     cards.forEach((card) => {
       card.addEventListener('click', () => {
-        const wrapperClass = 'card-loading'
         card.classList.add(wrapperClass)
         this.showLoadingAnimation(wrapperClass)
 

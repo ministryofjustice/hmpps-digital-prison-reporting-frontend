@@ -11,7 +11,7 @@
 {% macro dprAccordion(accordionItems) %}
   {% set detailsClasses = 'accordion-details govuk-!-margin-0' %}
 
-  <div class="accordion-section">
+  <div class="dpr-accordion-section">
     {%- for accordionItem in accordionItems %}
 
       {% set summaryText = accordionItem.summaryText %}

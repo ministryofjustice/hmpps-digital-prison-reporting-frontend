@@ -3,7 +3,7 @@
 
 {% macro dprAutocompleteTextInput(options) %}
     {%  set listId = (options.id | replace(".", "")) + "-list" %}
-    <div class="autocomplete-text-input" data-dpr-module="autocomplete-text-input">
+    <div class="dpr-autocomplete-text-input" data-dpr-module="autocomplete-text-input">
         {{ govukInput({
             id: options.id,
             label: {

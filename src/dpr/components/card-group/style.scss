@@ -68,24 +68,6 @@
 
 // === VARIANT 2 STYLES ===
 .dpr-card-group-v2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 30px;
-  row-gap: 20px;
-
-  @media(min-width: 769px) and (max-width: 1019px) {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  @media(max-width: 768px) {
-    grid-template-columns: 1fr;
-
-    a,
-    p {
-      font-size: 16px;
-    }
-  }
-
   .dpr-card-group__item {
     min-height: 120px;
     position: relative;
@@ -127,5 +109,23 @@
     pointer-events: none;
     border: 1px solid #d9dadb;
     bottom: 0;
+  }
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 30px;
+  row-gap: 20px;
+
+  @media(min-width: 769px) and (max-width: 1019px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media(max-width: 768px) {
+    grid-template-columns: 1fr;
+
+    a,
+    p {
+      font-size: 16px;
+    }
   }
 }

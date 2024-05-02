@@ -74,7 +74,7 @@ module.exports = function (eleventyConfig) {
         .trim();
     } catch (e) {}
 
-    return nunjucksEnv.render("example.njk", {
+    const renderedExample = nunjucksEnv.render("example.njk", {
       href: "/examples/" + exampleName,
       id: exampleName,
       arguments: data.arguments,
@@ -85,6 +85,10 @@ module.exports = function (eleventyConfig) {
       htmlCode,
       jsCode,
     });
+
+    // GovUK tabs now add a bunch of whitespace in front of their content.
+    // This means Eleventy doesn't spot the markdown tokens unless we remove the whitespace.
+    return renderedExample.replace(/ +(```|#|\|)/g, '$1')
   });
 
   eleventyConfig.addShortcode("version", function () {

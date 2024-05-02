@@ -15,13 +15,13 @@ These steps assume your project is already using the Gov.uk and MoJ libraries, a
 
 Add the library to your **package.json** within the **dependencies** section and run **npm install**:
 
-```
+```javascript
 "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^3",
 ```
 
 Ensure that you have the following dependency in the expected range, to ensure compatibility between the libraries:
 
-```
+```javascript
 "govuk-frontend": "^5.3.0",
 ```
 
@@ -64,9 +64,9 @@ Add the client-side JavaScript to the nunjucks layout:
 
 Alternatively, to avoid Chrome objecting to running scripts in line, you can add the initialisation to a separate JS file (in this example named "dprInit.mjs"):
 ```javascript
-  import initAll from "/assets/dpr/js/all.mjs";
+import initAll from "/assets/dpr/js/all.mjs";
 
-  initAll();
+initAll();
 ```
 
 And then include it to initialise the JavaScript:

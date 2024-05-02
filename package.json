@@ -152,7 +152,7 @@
     "jest-junit": "^16.0.0",
     "js-beautify": "^1.14.9",
     "lint-staged": "^13.2.3",
-    "markdown-it": "^13.0.2",
+    "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^8.6.7",
     "mocha-junit-reporter": "^2.2.1",
     "nock": "^13.3.8",

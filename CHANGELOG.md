@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v3.7.10
+
+Add definition path to Report List utility methods.
+
 ## v3.7.8
 
 Ensure no CSS adversely effects consumer projects

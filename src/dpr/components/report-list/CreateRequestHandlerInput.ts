@@ -21,6 +21,8 @@ export default class CreateRequestHandlerInput {
 
   dynamicAutocompleteEndpoint?: string
 
+  definitionsPath?: string
+
   constructor(
     definitionName: string,
     variantName: string,

@@ -147,6 +147,7 @@ const renderListWithDefinition = ({
   apiUrl,
   apiTimeout,
   dynamicAutocompleteEndpoint,
+  definitionsPath,
 }: RenderListWithDefinitionInput) => {
   const reportingClient = new ReportingClient({
     url: apiUrl,
@@ -156,7 +157,7 @@ const renderListWithDefinition = ({
   })
 
   reportingClient
-    .getDefinition(token, definitionName, variantName)
+    .getDefinition(token, definitionName, variantName, definitionsPath)
     .then((reportDefinition) => {
       const reportName: string = reportDefinition.name
       const variantDefinition = reportDefinition.variant
@@ -240,6 +241,7 @@ export default {
     layoutTemplate,
     tokenProvider,
     dynamicAutocompleteEndpoint,
+    definitionsPath,
   }: CreateRequestHandlerInput): RequestHandler => {
     return (request: Request, response: Response, next: NextFunction) => {
       renderListWithDefinition({
@@ -255,6 +257,7 @@ export default {
         apiUrl,
         apiTimeout,
         dynamicAutocompleteEndpoint,
+        definitionsPath,
       })
     }
   },

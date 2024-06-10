@@ -34,7 +34,7 @@ describe('userDataStore', () => {
 
       await expect(userDataStore.getUserConfig('user-1')).resolves.toEqual(mockStoreData)
 
-      expect(redisClient.get).toHaveBeenCalledWith('user-1')
+      expect(redisClient.get).toHaveBeenCalledWith('userConfig:user-1')
     })
 
     it('Connects when no connection calling getToken', async () => {

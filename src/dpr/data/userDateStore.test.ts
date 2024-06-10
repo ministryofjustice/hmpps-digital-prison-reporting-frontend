@@ -37,7 +37,7 @@ describe('userDataStore', () => {
       expect(redisClient.get).toHaveBeenCalledWith('userConfig:user-1')
     })
 
-    it('Connects when no connection calling getToken', async () => {
+    it('Connects when no connection calling getUserConfig', async () => {
       ;(redisClient as unknown as Record<string, boolean>).isOpen = false
 
       await userDataStore.getUserConfig('user-1')
@@ -46,8 +46,8 @@ describe('userDataStore', () => {
     })
   })
 
-  describe('set token', () => {
-    it('Can set token', async () => {
+  describe('set user config', () => {
+    it('Can set user config', async () => {
       const mockStoreData: UserStoreConfig = {
         requestedReports: [],
         recentlyViewedReports: [],
@@ -58,7 +58,7 @@ describe('userDataStore', () => {
       expect(redisClient.set).toHaveBeenCalledWith('userConfig:user-1', JSON.stringify(mockStoreData))
     })
 
-    it('Connects when no connection calling set token', async () => {
+    it('Connects when no connection calling setUserConfig', async () => {
       const mockStoreData: UserStoreConfig = {
         requestedReports: [],
         recentlyViewedReports: [],

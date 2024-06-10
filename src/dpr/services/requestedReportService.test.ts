@@ -30,7 +30,7 @@ describe('AsyncReportStoreService', () => {
 
   describe('saveState', () => {
     it('should save the state to the store', async () => {
-      asyncReportsStore.userConfig.requestedReports = [{ test: true }] as unknown as AsyncReportData[]
+      asyncReportsStore.requestedReports = [{ test: true }] as unknown as AsyncReportData[]
       await asyncReportsStore.saveState()
       expect(mockUserStore.setUserConfig).toHaveBeenCalledWith('userId', [{ test: true }])
     })
@@ -49,7 +49,7 @@ describe('AsyncReportStoreService', () => {
         tableId: 'dfsdf',
         variantName: 'vName',
         reportName: 'rName',
-        description: 'description',
+        variantDescription: 'description',
         fullUrl: 'fullUrl',
         pathname: 'pathname',
         search: 'search',
@@ -83,6 +83,7 @@ describe('AsyncReportStoreService', () => {
           reportId: 'reportId-1',
           variantId: 'variantId-1',
           executionId: 'ex1a2s3d4f5g6h7j8k',
+          dataProductDefinitionsPath: undefined,
           tableId: 'dfsdf',
           variantName: 'vName',
           reportName: 'rName',
@@ -90,11 +91,11 @@ describe('AsyncReportStoreService', () => {
           status: 'SUBMITTED',
           filters: {
             data: mockFiltersData,
-            queryString: 'filtersQueryString',
+            queryString: 'field1=value1.2&field3.start=2003-02-01&field3.end=2006-05-04',
           },
           sortBy: {
             data: mockSortData,
-            queryString: 'sortyByQueryString',
+            queryString: 'sortColumn=field1&sortAsc=true',
           },
           url: {
             origin: 'origin',
@@ -113,7 +114,9 @@ describe('AsyncReportStoreService', () => {
             data: mockQuery,
             summary: mockSummary,
           },
-          timestamp: {},
+          timestamp: {
+            requested: 'Requested at: 6/10/2024, 4:47:27 PM',
+          },
         },
         'SUBMITTED',
       )

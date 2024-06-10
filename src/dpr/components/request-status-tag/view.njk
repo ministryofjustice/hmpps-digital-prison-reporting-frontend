@@ -1,0 +1,16 @@
+{%- from "govuk/components/tag/macro.njk" import govukTag -%}
+
+{% macro dprRequestStatusTag(status) %}
+  {% set class = '' %}
+  {% if status === 'REQUESTED' %}
+    {% set class = 'govuk-tag--blue' %}
+  {% elif status === 'FINISHED' %}
+    {% set class = 'govuk-tag--green' %}
+  {% elif status === 'EXPIRED' %}
+    {% set class = 'govuk-tag--yellow' %}
+  {% elif status === 'FAILED' %}
+    {% set class = 'govuk-tag--red' %}
+  {% endif %}
+
+  {{ govukTag({ text: status, classes: class + ' dpr-request-status-tag' }) }}
+{% endmacro %}

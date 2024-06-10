@@ -1,0 +1,37 @@
+{% from "../static-icon/view.njk" import dprStaticIcon %}
+{% from "../toggle-content/view.njk" import dprToggleContent %}
+{% from "../content-slide-cards/view.njk" import dprContentSlideCards %}
+
+{% macro dprContentSlide(head, content) %}
+
+  {# HEADING CONTENT #}
+  {% set title = head.title %}
+  {% set subText = head.subText %}
+  {% set icon = head.icon %}
+
+  {# TOGGLE CONTENT #}
+  {% set toggle = content.toggle %}
+  {% set toggleIcons = content.icons %}
+  {% set items = content.items %}
+
+  <div class="dpr-slide-container">
+    <div class="dpr-slide__header">
+      <h3 class="govuk-heading-m dpr-slide__title">
+        {% if icon %}
+          {{ dprStaticIcon(icon, 'l') }}
+        {% endif %}
+        {{ title }}
+      </h3>
+
+      {% if subText.length %}
+        <p class="govuk-body dpr-slide__sub-text">{{ subText }}</p>
+      {% endif %}
+    </div>
+
+    {% if items and items.length %}
+      {{ dprToggleContent('slideId', toggleIcons, items) }}
+    {% else %}
+      {{ items[0].html | safe }}
+    {% endif %}
+  </div>
+{% endmacro %}

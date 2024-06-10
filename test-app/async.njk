@@ -1,0 +1,51 @@
+{% extends "page.njk" %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "components/content-slide/view.njk" import dprContentSlide %}
+{% from "components/content-slide-cards/view.njk" import dprContentSlideCards %}
+{% from "components/async-card-group/view.njk" import dprAsyncCardGroup %}
+
+{% block content %}
+  <div class="govuk-width-container">
+
+    {% set rows = [] %}
+    {% if (breadCrumbList.length > 0) %}
+      {% set rows = rows.concat(breadCrumbList) %}
+    {% endif %}
+    {% set rows = rows.concat([
+      {
+        text: title
+      }
+    ]) %}
+
+    {% if title !== 'Home' %}
+      <div class="govuk-!-margin-bottom-4">
+        {{ govukBreadcrumbs({
+          collapseOnMobile: true,
+          items: rows,
+          classes: "govuk-!-display-none-print hmpps-header__container"
+        }) }}
+      </div>
+    {% endif %}
+
+    <h1 class="govuk-heading-l">{{ title }}</h1>
+
+    {{ dprAsyncCardGroup(requestedReports.cardData, requestedReports.tableData) }}
+
+    {% set head = {
+      title: "Legacy Reports", 
+      icon: ''
+    }%}
+
+    {% set cardHtml %}
+    {{ dprContentSlideCards(legacyReports.cardData) }}
+    {% endset %}
+
+    {% set content = {
+      items: [
+        { active: true, html: cardHtml }
+      ]
+    }%}
+
+    {{ dprContentSlide(head, content) }}
+  </div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% macro dprAsyncColumns(columns) %}
+  {% set items = columns.options %}
+  {% set name = columns.name %}
+  {% set text = columns.text %}
+  {% set values = columns.value %}
+
+  <form id="async-columns-form" data-dpr-module="async-columns">
+    <div class="columns-container">
+      {{ govukCheckboxes({
+          id: name,
+          name: name,
+          classes: "govuk-checkboxes--small",
+          formGroup: {
+            classes: "govuk-!-margin-bottom-3"
+          },
+          fieldset: {
+            legend: {
+              text: text,
+              classes: "govuk-label govuk-!-font-weight-bold"
+            }
+          },
+          items: items,
+          values: values
+        }) }}
+    </div>
+
+    <div class="column-actions">
+      {{ govukButton({
+        text: "Apply Columns",
+        classes: "govuk-button govuk-!-margin-bottom-0",
+        attributes: {
+          'id': 'async-apply-columns-button'
+        }
+      }) }}
+
+      {{ govukButton({
+        text: "Reset Columns",
+        classes: "govuk-button--secondary govuk-!-margin-bottom-0",
+        attributes: {
+          'id': 'async-reset-columns-button'
+        }
+      }) }}
+    </div>
+  </form>
+{% endmacro %}

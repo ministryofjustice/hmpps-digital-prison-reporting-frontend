@@ -3,7 +3,7 @@ import logger from '../utils/logger'
 import RestClient from './restClient'
 import Dict = NodeJS.Dict
 import { components, operations } from '../types/api'
-import { ApiConfig, Count, FieldValuesRequest, ListWithWarnings } from './types'
+import { ApiConfig, AsyncRequestQuery, Count, FieldValuesRequest, ListWithWarnings } from './types'
 import type { ResultWithHeaders } from './restClient'
 
 export default class ReportingClient {
@@ -107,5 +107,64 @@ export default class ReportingClient {
         query,
       })
       .then((response) => <Array<string>>response)
+  }
+
+  requestAsyncReport(
+    token: string,
+    reportId: string,
+    variantId: string,
+    query: AsyncRequestQuery,
+  ): Promise<Dict<string>> {
+    logger.info(`Reporting client: request ${reportId}:${variantId}`)
+
+    return this.restClient
+      .get({
+        path: `/async/reports/${reportId}/${variantId}`,
+        token,
+        query,
+      })
+      .then((response) => <Dict<string>>response)
+  }
+
+  getAsyncReport(
+    token: string,
+    reportId: string,
+    variantId: string,
+    tableId: string,
+    selectedPage: number,
+    pageSize: number,
+  ): Promise<Array<Dict<string>>> {
+    logger.info(`Reporting client: Get variantId:${variantId} data`)
+
+    const query = { selectedPage, pageSize }
+    return this.restClient
+      .get({
+        path: `/reports/${reportId}/${variantId}/tables/${tableId}result`,
+        token,
+        query,
+      })
+      .then((response) => <Array<Dict<string>>>response)
+  }
+
+  getAsyncReportStatus(token: string, reportId: string, variantId: string, executionId: string): Promise<Dict<string>> {
+    logger.info(`Reporting client: Get statementId:${executionId} status`)
+
+    return this.restClient
+      .get({
+        path: `/reports/${reportId}/${variantId}/statements/${executionId}/status`,
+        token,
+      })
+      .then((response) => <Dict<string>>response)
+  }
+
+  getAsyncCount(token: string, tableId: string): Promise<number> {
+    logger.info(`Reporting client: Get tableId:${tableId} count`)
+
+    return this.restClient
+      .get({
+        path: `/report/tables/${tableId}`,
+        token,
+      })
+      .then((response) => (<Count>response).count)
   }
 }

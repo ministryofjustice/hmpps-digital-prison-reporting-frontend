@@ -1,0 +1,25 @@
+.drp-async-reports-heading-container {
+  position: relative;
+  margin-bottom: govuk-spacing(3);
+}
+
+.columns-select-wrapper {
+  .govuk-details {
+    margin-bottom: 0px;
+  }
+}
+
+@media print {
+  .columns-select-wrapper {
+    display: none;
+  }
+
+  .drp-async-reports-heading-container {
+    h1.govuk-heading-l {
+      font-size: 20px;
+    }
+    p.govuk-body-s {
+      font-size: 14px;
+    }
+  }
+}

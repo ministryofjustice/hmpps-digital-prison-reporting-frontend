@@ -48,8 +48,8 @@ export default {
     variantDefinition: components['schemas']['VariantDefinition'],
     filterValues: Dict<string>,
     dynamicAutocompleteEndpoint: string = null,
-  ) =>
-    variantDefinition.specification.fields
+  ) => {
+    const filters = variantDefinition.specification.fields
       .filter((f) => f.filter)
       .map((f) => {
         let filter: FilterValue = {
@@ -85,7 +85,36 @@ export default {
         }
 
         return filter
-      }),
+      })
+
+    return filters
+  },
+
+  setMinMax: (filter: components['schemas']['FilterDefinition'], startValue: string, endValue: string) => {
+    const { min, max } = filter
+    let start
+    if (min) {
+      const minDate = new Date(min)
+      const startDate = new Date(startValue)
+      start = startDate < minDate ? min : startValue
+    } else {
+      start = startValue
+    }
+
+    let end
+    if (max) {
+      const maxDate = new Date(max)
+      const endDate = new Date(endValue)
+      end = endDate > maxDate ? max : endValue
+    } else {
+      end = endValue
+    }
+
+    return {
+      start,
+      end,
+    }
+  },
 
   getSelectedFilters: (
     format: Array<components['schemas']['FieldDefinition']>,

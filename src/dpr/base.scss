@@ -4,3 +4,11 @@ $dpr-images-path: "/assets/dpr/images/";
 $govuk-assets-path: "/assets/govuk/";
 
 @import 'govuk/all';
+
+.govuk-width-container {
+  max-width: 1170px !important;
+}
+
+.drp-reports-heading-container {
+  position: relative;
+}

@@ -35,3 +35,14 @@ export interface FieldValuesRequest {
   prefix: string
   definitionsPath?: string
 }
+
+export interface AsyncRequestQuery {
+  sortColumn: string
+  sortedAsc: boolean
+  filters: filter[]
+  dataProductDefinitionsPath: string
+}
+
+interface filter {
+  [filterId: string]: string
+}

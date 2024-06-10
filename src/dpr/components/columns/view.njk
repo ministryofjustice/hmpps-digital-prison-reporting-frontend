@@ -2,6 +2,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% macro dprColumns(columns, parameterPrefix = "columns.") %}
+  {{ columns | dump | safe }}
 
   <form id="user-selected-columns-form" data-dpr-module="columns">
     <div class="columns-container">

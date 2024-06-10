@@ -1,0 +1,43 @@
+{% from "../data-table/view.njk" import dprDataTable %}
+{% from "../async-columns/view.njk" import dprAsyncColumns %}
+{% from "../pagination/view.njk" import dprPagination %}
+{% from "../async-data-table/view.njk" import dprAsyncDataTable %}
+{% from "../async-applied-filters/view.njk" import dprAsyncAppliedFiltersList %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "components/icon-button-list/view.njk" import dprIconButtonList %}
+
+{% macro dprAsyncReportList(options) %}
+
+  {% set columns = options.columns %}
+  {% set appliedFilters = options.appliedFilters %}
+  {% set pagination = options.pagination %}
+  {% set reportName = options.reportName %}
+  {% set variantName = options.variantName %}
+  {% set description = options.description %}
+  {% set actions = options.actions %}
+
+  <div class="drp-async-reports-heading-container">
+    <h1 class="govuk-heading-l govuk-!-margin-bottom-2">{{ reportName }} - {{ variantName }}</h1>
+    <p class="govuk-body-s govuk-!-margin-bottom-0">
+      <i>{{ description }}</i>
+    </p>
+    {{ dprIconButtonList(actions) }}
+  </div>
+
+  {{ dprAsyncAppliedFiltersList(appliedFilters) }}
+
+  <div class="columns-select-wrapper">
+    {% set columnsHtml %}
+    {{ dprAsyncColumns(columns) }}
+    {% endset %}
+
+    {{ govukDetails({
+      summaryText: "Columns",
+      html: columnsHtml 
+    }) }}
+  </div>
+
+  {{ dprAsyncDataTable(options) }}
+  {{ dprPagination(pagination) }}
+
+{% endmacro %}

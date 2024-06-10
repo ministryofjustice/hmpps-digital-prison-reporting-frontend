@@ -1,0 +1,51 @@
+{% from "components/async-filter-inputs/view.njk" import dprAsyncFilterInputs -%}
+{% from "components/async-request-details/view.njk" import dprAsyncRequestDetails %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% macro dprAsyncFilters(filters, sortBy, data, endpoint) %}
+  {% set reportId = data.reportId %}
+  {% set variantId = data.variantId %}
+  {% set variantName = data.variantName %}
+  {% set description = data.description %}
+  {% set reportName = data.reportName %}
+
+  {{ dprAsyncRequestDetails( reportName, variantName, description )}}
+
+  <div class="dpr-async-controls" data-dpr-module="async-filters">
+    <h3 class="govuk-heading-m">Request Query</h3>
+
+    <div class="dpr-async-controls__section">
+      <h3 class="govuk-heading-s">Filters</h3>
+      {{ dprAsyncFilterInputs('filters', filters) }}
+    </div>
+
+    <div class="dpr-async-controls__section">
+      <h3 class="govuk-heading-s">Sort By</h3>
+      {{ dprAsyncFilterInputs('sortby', sortBy) }}
+    </div>
+
+    <div class="dpr-async-controls__section">
+      {{ govukButton({
+        text: "Request Report",
+        classes: "govuk-button--primary",
+        attributes: {
+          'id': 'async-request-report-button',
+          'data-endpoint': endpoint,
+          'data-report-id': reportId,
+          'data-variant-id': variantId,
+          'data-variant-name': variantName,
+          'data-report-name': reportName,
+          'data-variant-description': description
+        }
+      }) }}
+
+      {{ govukButton({
+        text: "Reset Filters",
+        classes: "govuk-button--secondary",
+        attributes: {
+          'id': 'async-request-reset-filters-button'
+        }
+      }) }}
+    </div>
+  </div>
+{% endmacro %}

@@ -1,0 +1,17 @@
+.dpr-toggle-button-container {
+  position: absolute;
+  top: 30px;
+  right: 0px;
+
+  .dpr-icon-wrapper {
+    margin-right: 0px;
+  }
+}
+
+.dpr-toggle-content {
+  display: none;
+}
+
+.dpr-toggle-content--active {
+  display: block;
+}

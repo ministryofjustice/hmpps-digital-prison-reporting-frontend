@@ -1,6 +1,7 @@
 const variant = {
   id: 'test-variant',
   name: 'Test Variant',
+  description: 'Test Variant Desctription',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

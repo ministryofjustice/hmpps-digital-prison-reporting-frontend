@@ -3,7 +3,7 @@ import logger from '../utils/logger'
 import RestClient from './restClient'
 import Dict = NodeJS.Dict
 import { components, operations } from '../types/api'
-import { ApiConfig, AsyncRequestQuery, Count, FieldValuesRequest, ListWithWarnings } from './types'
+import { ApiConfig, Count, FieldValuesRequest, ListWithWarnings } from './types'
 import type { ResultWithHeaders } from './restClient'
 
 export default class ReportingClient {
@@ -131,7 +131,7 @@ export default class ReportingClient {
     reportId: string,
     variantId: string,
     tableId: string,
-    query: Dict<string>,
+    query: Dict<string | number>,
   ): Promise<Array<Dict<string>>> {
     logger.info(`Reporting client: Get variantId:${variantId} data`)
 

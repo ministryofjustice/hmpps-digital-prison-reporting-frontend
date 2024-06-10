@@ -5,7 +5,7 @@ import { DateFilterValue, FilterValue } from '../filters/types'
 import { FilterType } from '../filters/enum'
 import SortHelper from './sortByTemplate'
 import AsyncReportStoreService from '../../services/requestedReportsService'
-import ReportingClient from '../../../../package/dpr/data/reportingClient'
+import ReportingClient from '../../data/reportingClient'
 
 /**
  * Initialises the filters from the definition data

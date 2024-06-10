@@ -1,9 +1,9 @@
 import { RequestStatus } from '../../types/AsyncReport'
-import { RenderPollingParams } from './types'
+import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 
 const currentStatus = ''
 export default {
-  renderPolling: async ({ req, res, dataSources, asyncReportsStore }: RenderPollingParams) => {
+  renderPolling: async ({ req, res, dataSources, asyncReportsStore }: AsyncReportUtilsParams) => {
     const { token } = res.locals.user || 'token'
     const { reportId, variantId, executionId } = req.params
     let reportData = await asyncReportsStore.getReport(executionId)

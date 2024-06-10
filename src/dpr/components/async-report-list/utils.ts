@@ -1,15 +1,15 @@
 /* eslint-disable no-underscore-dangle */
-import { Request, Response } from 'express'
 import DataTableUtils from '../data-table/utils'
 import ColumnUtils from '../async-columns/utils'
 import PaginationUtils from '../pagination/utils'
 import ReportActionsUtils from '../icon-button-list/utils'
+import { components } from '../../types/api'
+import Dict = NodeJS.Dict
 
-import { GetReportParams } from './types'
-import AsyncReportStoreService from '../../services/requestedReportsService'
+import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { AsyncReportData } from '../../types/AsyncReport'
 
-const initDataSources = (req: Request, res: Response, dataSources: any, asyncReportsStore: AsyncReportStoreService) => {
+const initDataSources = ({ req, res, asyncReportsStore, dataSources }: AsyncReportUtilsParams) => {
   const { token } = res.locals.user || 'token'
   const { reportId, reportVariantId, tableId } = req.params
   const { selectedPage, pageSize, dataProductDefinitionsPath } = req.query
@@ -17,7 +17,7 @@ const initDataSources = (req: Request, res: Response, dataSources: any, asyncRep
   const reportDataPromise = dataSources.getAsyncReport(token, reportId, reportVariantId, tableId, {
     selectedPage: +selectedPage,
     pageSize: +pageSize,
-    dataProductDefinitionsPath,
+    dataProductDefinitionsPath: <string>dataProductDefinitionsPath,
   })
   const reportDataCountPromise = dataSources.getAsyncCount(token, tableId)
   const stateData = asyncReportsStore.getReportByTableId(tableId)
@@ -26,16 +26,16 @@ const initDataSources = (req: Request, res: Response, dataSources: any, asyncRep
 }
 
 export default {
-  renderReport: async ({ req, res, url, asyncReportsStore, dataSources }: GetReportParams) => {
+  renderReport: async ({ req, res, url, asyncReportsStore, dataSources }: AsyncReportUtilsParams) => {
     const { columns: reqColumns } = req.query
-    const dataPromises = initDataSources(req, res, dataSources, asyncReportsStore)
+    const dataPromises = initDataSources({ req, res, dataSources, asyncReportsStore })
 
     let renderData = {}
     await Promise.all(dataPromises).then((resolvedData) => {
-      const definition = resolvedData[0]
-      const reportData = resolvedData[1]
-      const count = resolvedData[2]
-      const reportStateData: AsyncReportData = resolvedData[3]
+      const definition = resolvedData[0] as unknown as components['schemas']['SingleVariantReportDefinition']
+      const reportData = <Array<Dict<string>>>resolvedData[1]
+      const count = <number>resolvedData[2]
+      const reportStateData: AsyncReportData = <AsyncReportData>resolvedData[3]
 
       const fieldDefinition = definition.variant.specification.fields
       const { classification } = definition.variant

@@ -1,6 +1,8 @@
 import AsyncReportStoreService from '../../services/requestedReportsService'
 import { AsyncReportData, RequestStatus } from '../../types/AsyncReport'
-import ReportingClient from '../../../../package/dpr/data/reportingClient'
+import ReportingClient from '../../data/reportingClient'
+import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
+import Dict = NodeJS.Dict
 
 const formatCardData = async (
   requestedReportsData: AsyncReportData,
@@ -69,7 +71,7 @@ const setDataFromStatus = (status: RequestStatus, requestedReportsData: AsyncRep
 
 const formatCards = async (
   asyncReportsStore: AsyncReportStoreService,
-  dataSources: any,
+  dataSources: ReportingClient,
   token: string,
 ): Promise<CardData[]> => {
   const requestedReportsData: AsyncReportData[] = await asyncReportsStore.getAllReports()
@@ -91,7 +93,7 @@ const formatTableData = (card: CardData) => {
   ]
 }
 
-const formatTable = (cardData: CardData[]): any => {
+const formatTable = (cardData: CardData[]) => {
   const rows = cardData.map((card: CardData) => {
     return formatTableData(card)
   })
@@ -103,11 +105,12 @@ const formatTable = (cardData: CardData[]): any => {
 }
 
 export default {
-  renderAsyncReportsList: async (
-    asyncReportsStore: AsyncReportStoreService,
-    dataSources: any,
-    token: string,
-  ): Promise<RenderAsyncReportsListResponse> => {
+  renderAsyncReportsList: async ({
+    asyncReportsStore,
+    dataSources,
+    res,
+  }: AsyncReportUtilsParams): Promise<RenderAsyncReportsListResponse> => {
+    const { token } = res.locals.user || 'token'
     const cardData = await formatCards(asyncReportsStore, dataSources, token)
     return {
       cardData: await formatCards(asyncReportsStore, dataSources, token),
@@ -116,10 +119,12 @@ export default {
   },
 }
 
-// TODO: put in types file and correct "any"
 interface RenderAsyncReportsListResponse {
   cardData: CardData[]
-  tableData: any
+  tableData: {
+    rows: Dict<string>[][]
+    head: Dict<string>[]
+  }
 }
 
 interface CardData {

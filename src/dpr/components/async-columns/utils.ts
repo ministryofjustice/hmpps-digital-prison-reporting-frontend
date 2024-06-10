@@ -9,10 +9,10 @@ import { Column, Columns } from './types'
  */
 const getColumnValues = (columns: Columns, queryColumns: string[]) => {
   const mandatoryColumns: string[] = columns.options
-    .filter((col: any) => {
+    .filter((col: Column) => {
       return col.disabled && columns.value.includes(col.value)
     })
-    .map((col: any) => col.value)
+    .map((col: Column) => col.value)
 
   return [...mandatoryColumns, ...queryColumns]
 }

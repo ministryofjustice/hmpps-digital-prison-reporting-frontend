@@ -1,11 +1,9 @@
-import { Request, Response } from 'express'
 import { components } from '../../types/api'
 import FilterUtils from '../filters/utils'
 import { DateFilterValue, FilterValue } from '../filters/types'
 import { FilterType } from '../filters/enum'
 import SortHelper from './sortByTemplate'
-import AsyncReportStoreService from '../../services/requestedReportsService'
-import ReportingClient from '../../data/reportingClient'
+import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 
 /**
  * Initialises the filters from the definition data
@@ -65,62 +63,65 @@ export default {
   /**
    * Returns the data required for rendering the async filters component
    *
-   * @param {AsyncUtilsRequest} { req, res, dataSources }
+   * @param {AsyncReportUtilsParams} { req, res, dataSources }
    * @return {*}
    */
-  renderFilters: async ({ req, res, dataSources }: AsyncUtilsRequest) => {
-    const { token } = res.locals.user || 'token'
-    const { reportId, variantId } = req.params
-    const { dataProductDefinitionsPath: definitionPath } = req.query
-    const definition = await dataSources.getDefinition(token, reportId, variantId)
-    const { name: reportName } = definition
-    const { name: variantName, description } = definition.variant
+  renderFilters: async ({ req, res, dataSources, next }: AsyncReportUtilsParams) => {
+    try {
+      const { token } = res.locals.user || 'token'
+      const { reportId, variantId } = req.params
+      const { dataProductDefinitionsPath: definitionPath } = req.query
+      const definition = await dataSources.getDefinition(token, reportId, variantId)
+      const { name: reportName } = definition
+      const { name: variantName, description } = definition.variant
 
-    return {
-      reportData: { reportName, variantName, description, reportId, variantId, definitionPath },
-      ...initFiltersFromDefinition(definition.variant),
+      return {
+        reportData: { reportName, variantName, description, reportId, variantId, definitionPath },
+        ...initFiltersFromDefinition(definition.variant),
+      }
+    } catch (error) {
+      next(error)
+      return false
     }
   },
 
   /**
    * Sends the request for the async report
    *
-   * @param {AsyncUtilsRequest} {
+   * @param {AsyncReportUtilsParams} {
    *     req,
    *     res,
    *     dataSources,
    *     asyncReportsStore,
    *   }
    */
-  requestReport: async ({ req, res, dataSources, asyncReportsStore }: AsyncUtilsRequest) => {
-    const { token } = res.locals.user || 'token'
-    const { reportId, variantId, query } = req.body
-    const response = await dataSources.requestAsyncReport(token, reportId, variantId, query)
-    const { executionId, tableId } = response
+  requestReport: async ({ req, res, dataSources, asyncReportsStore, next }: AsyncReportUtilsParams) => {
+    try {
+      const { token } = res.locals.user || 'token'
+      const { reportId, variantId, query } = req.body
+      const response = await dataSources.requestAsyncReport(token, reportId, variantId, query)
+      const { executionId, tableId } = response
 
-    let redirect = ''
-    if (executionId && tableId) {
-      const reportData = await asyncReportsStore.addReport(
-        {
-          ...req.body,
-          executionId,
-          tableId,
-        },
-        req.body.filterData,
-        req.body.sortData,
-        req.body.query,
-        req.body.querySummary,
-      )
-      redirect = reportData.url.polling.pathname
+      let redirect = ''
+      if (executionId && tableId) {
+        const reportData = await asyncReportsStore.addReport(
+          {
+            ...req.body,
+            executionId,
+            tableId,
+          },
+          req.body.filterData,
+          req.body.sortData,
+          req.body.query,
+          req.body.querySummary,
+        )
+        redirect = reportData.url.polling.pathname
+      }
+
+      return redirect
+    } catch (error) {
+      next(error)
+      return false
     }
-
-    return redirect
   },
-}
-
-interface AsyncUtilsRequest {
-  req: Request
-  res: Response
-  dataSources: ReportingClient
-  asyncReportsStore?: AsyncReportStoreService
 }

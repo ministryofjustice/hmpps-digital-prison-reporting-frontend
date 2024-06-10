@@ -88,7 +88,7 @@ app.get('/async-reports', async (req, res) => {
   res.render('async.njk', {
     title: 'Async Reports Home',
     requestedReports: {
-      ...(await AsyncCardGroupUtils.renderAsyncReportsList(asyncReportsStore, mockAsyncApis)),
+      ...(await AsyncCardGroupUtils.renderAsyncReportsList({ asyncReportsStore, dataSources: mockAsyncApis, res })),
     },
     legacyReports: {
       cardData: getMockCardData(req),

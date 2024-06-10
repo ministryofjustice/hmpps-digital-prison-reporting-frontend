@@ -23,3 +23,13 @@
     }
   }
 }
+
+.dpr-table-container {
+  @media screen {
+    .print-header-footer,
+    .govuk-table__header span,
+    .screen-hide {
+      display: none;
+    }
+  }
+}

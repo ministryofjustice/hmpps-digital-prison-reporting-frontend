@@ -10,7 +10,7 @@
   {% set totalRows = pagination.totalRows %}
   {% set currentPage = pagination.currentPage %}
 
-  <div id="table-container" class='table-container' data-dpr-module="async-data-table">
+  <div id="table-container" class='dpr-table-container' data-dpr-module="async-data-table">
     {{ govukTable({
       head: head,
       rows: rows,

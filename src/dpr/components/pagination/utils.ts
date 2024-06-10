@@ -91,10 +91,10 @@ const createPrev = (pathname: string, search: string): string | undefined => {
       return undefined
     }
     prevPage = currentPage - 1
+    queryParams.set(SELECTED_PAGE_PARAM, `${prevPage}`)
+    return `${pathname}?${queryParams.toString()}`
   }
-  queryParams.set(SELECTED_PAGE_PARAM, `${prevPage}`)
-
-  return `${pathname}?${queryParams.toString()}`
+  return undefined
 }
 
 /**

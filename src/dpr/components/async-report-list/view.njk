@@ -16,28 +16,31 @@
   {% set description = options.description %}
   {% set actions = options.actions %}
 
-  <div class="drp-async-reports-heading-container">
-    <h1 class="govuk-heading-l govuk-!-margin-bottom-2">{{ reportName }} - {{ variantName }}</h1>
-    <p class="govuk-body-s govuk-!-margin-bottom-0">
-      <i>{{ description }}</i>
-    </p>
-    {{ dprIconButtonList(actions) }}
-  </div>
+  <div class="govuk-width-container report-list-container">
+    <div class="drp-async-reports-heading-container">
+      <h1 class="govuk-heading-l govuk-!-margin-bottom-2">{{ reportName }} - {{ variantName }}</h1>
+      <p class="govuk-body-s govuk-!-margin-bottom-0">
+        <i>{{ description }}</i>
+      </p>
+      {{ dprIconButtonList(actions) }}
+    </div>
 
-  {{ dprAsyncAppliedFiltersList(appliedFilters) }}
+    {{ dprAsyncAppliedFiltersList(appliedFilters) }}
 
-  <div class="columns-select-wrapper">
-    {% set columnsHtml %}
-    {{ dprAsyncColumns(columns) }}
-    {% endset %}
+    <div class="columns-select-wrapper">
+      {% set columnsHtml %}
+      {{ dprAsyncColumns(columns) }}
+      {% endset %}
 
-    {{ govukDetails({
+      {{ govukDetails({
       summaryText: "Columns",
       html: columnsHtml 
     }) }}
+    </div>
+
+    <div class='dpr-table-container'>
+      {{ dprAsyncDataTable(options) }}
+      {{ dprPagination(pagination) }}
+    </div>
   </div>
-
-  {{ dprAsyncDataTable(options) }}
-  {{ dprPagination(pagination) }}
-
 {% endmacro %}

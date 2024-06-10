@@ -114,7 +114,7 @@
   } %}
   {% set accordionItems = (accordionItems.push(columnsAccordionItem), accordionItems) %}
 
-  <div class="govuk-width-container {% if (dataTableOptions.printable == false) %}print-hide{% endif %} govuk-!-margin-top-3" style="position: relative">
+  <div class="govuk-width-container report-list-container {% if (dataTableOptions.printable == false) %}print-hide{% endif %} govuk-!-margin-top-3">
     {{ dprLoadingAnim() }}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">

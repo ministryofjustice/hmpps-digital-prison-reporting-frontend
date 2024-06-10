@@ -18,6 +18,11 @@ const mapDate = (isoDate: string) => {
   return `${day}/${month}/${year} ${hours}:${minutes}`
 }
 
+const mapBoolean = (value: string) => {
+  if (!value) return ''
+  return value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase()
+}
+
 export default {
   mapHeader: (
     format: Array<components['schemas']['FieldDefinition']>,
@@ -94,22 +99,26 @@ export default {
         })
         .map((f) => {
           let text: string = d[f.name]
-          let fieldFormat: string
+          let fieldFormat = 'string'
 
           switch (f.type) {
+            case 'boolean':
+              text = mapBoolean(d[f.name])
+              break
+
             case 'date':
-              fieldFormat = 'numeric'
+            case 'time':
               if (!f.calculated) {
                 text = mapDate(d[f.name])
               }
               break
 
+            case 'double':
             case 'long':
               fieldFormat = 'numeric'
               break
 
             default:
-              fieldFormat = 'string'
           }
           const isHtml = f.type === 'HTML'
           const cell: Cell = {

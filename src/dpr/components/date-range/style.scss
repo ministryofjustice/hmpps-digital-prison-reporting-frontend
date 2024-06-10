@@ -1,16 +1,16 @@
-.date-range {
+.date-range-date-range {
   .govuk-form-group {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
-}
 
-.daterange-set-to-minmax {
-  cursor: pointer;
-  text-align: right;
-  margin-bottom: govuk-spacing(0);
-  margin-top: govuk-spacing(1);
+  .daterange-set-to-minmax {
+    cursor: pointer;
+    text-align: right;
+    margin-bottom: govuk-spacing(0);
+    margin-top: govuk-spacing(1);
 
-  &:hover {
-    color: govuk-colour("light-blue")
+    &:hover {
+      color: govuk-colour("light-blue")
+    }
   }
 }

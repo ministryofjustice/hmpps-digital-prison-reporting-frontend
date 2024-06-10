@@ -26,6 +26,8 @@ export default class RenderListWithDefinitionInput {
 
   dynamicAutocompleteEndpoint?: string
 
+  definitionsPath?: string
+
   constructor(
     definitionName: string,
     variantName: string,

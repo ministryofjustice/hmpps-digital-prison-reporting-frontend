@@ -18,7 +18,7 @@
 
 {% macro dprFilters(filters, urlWithNoFilters, parameterPrefix = "filters.") %}
   {% set today = getTodayIsoDate() %}
-  <div data-dpr-module="filters" data-base-url="{{ urlWithNoFilters }}">
+  <div data-dpr-module="filters" data-base-url="{{ urlWithNoFilters }}" class="dpr-filters">
     <form id="user-selected-filters-form">
       <div class="filter-container">
         {%- for filter in filters %}

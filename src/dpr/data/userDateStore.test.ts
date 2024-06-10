@@ -29,7 +29,7 @@ describe('userDataStore', () => {
 
       await expect(userDataStore.getUserConfig('user-1')).resolves.toBe('token-1')
 
-      expect(redisClient.get).toHaveBeenCalledWith('systemToken:user-1')
+      expect(redisClient.get).toHaveBeenCalledWith('user-1')
     })
 
     it('Connects when no connection calling getToken', async () => {
@@ -50,7 +50,7 @@ describe('userDataStore', () => {
       }
       await userDataStore.setUserConfig('user-1', mockStoreData)
 
-      expect(redisClient.set).toHaveBeenCalledWith('systemToken:user-1', 'token-1')
+      expect(redisClient.set).toHaveBeenCalledWith('user-1', JSON.stringify(mockStoreData))
     })
 
     it('Connects when no connection calling set token', async () => {

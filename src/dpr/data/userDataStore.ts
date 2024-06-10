@@ -35,7 +35,7 @@ export default class UserDataStore {
   public async getUserConfig(userId: string): Promise<UserStoreConfig> {
     await this.ensureConnected()
     const userConfig = await this.redisClient.get(`${this.prefix}${userId}`)
-    return JSON.parse(userConfig)
+    return userConfig ? JSON.parse(userConfig) : {}
   }
 }
 

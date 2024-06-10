@@ -89,7 +89,6 @@ export default class DprQueryParamClass extends DprClientClass {
    * @param {*} queryParams
    * @param {*} name
    * @param {*} value
-   * @param {'delete' | 'append' | null } type
    * @memberof DprQueryParamClass
    */
   updateQueryParam (name, value, type) {

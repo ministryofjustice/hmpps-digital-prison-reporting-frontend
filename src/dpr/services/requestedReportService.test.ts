@@ -1,6 +1,6 @@
 import AsyncReportStoreService from './requestedReportsService'
 import UserDataStore from '../data/userDataStore'
-import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
+import { AsyncReportData } from '../types/AsyncReport'
 
 const mockUserStore = {
   setUserConfig: jest.fn(),

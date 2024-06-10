@@ -100,11 +100,17 @@ export default {
 
     let redirect = ''
     if (executionId && tableId) {
-      const reportData = await asyncReportsStore.addReport({
-        ...req.body,
-        executionId,
-        tableId,
-      })
+      const reportData = await asyncReportsStore.addReport(
+        {
+          ...req.body,
+          executionId,
+          tableId,
+        },
+        req.body.filterData,
+        req.body.sortData,
+        req.body.query,
+        req.body.querySummary,
+      )
       redirect = reportData.url.polling.pathname
     }
 

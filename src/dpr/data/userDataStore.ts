@@ -47,6 +47,6 @@ const baseplateStore: UserStoreConfig = {
 
 export interface UserStoreConfig {
   requestedReports: AsyncReportData[]
-  recentlyViewedReports: any[]
+  recentlyViewedReports: []
   bookmarks: []
 }

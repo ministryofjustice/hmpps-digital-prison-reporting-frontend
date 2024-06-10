@@ -32,7 +32,7 @@ interface AsyncReportUrlItemData {
 
 interface AsyncReportQueryData {
   data: Dict<string>
-  summary: { name: string; value: string }[]
+  summary: Array<Dict<string>>
 }
 
 export interface ParamsConfig {

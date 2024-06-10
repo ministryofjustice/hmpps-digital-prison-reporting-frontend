@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import UserDataStore, { UserStoreConfig } from '../data/userDataStore'
 import Dict = NodeJS.Dict
-import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
+import { AsyncReportData, ParamsConfig, RequestStatus } from '../types/AsyncReport'
 
 export default class AsyncReportStoreService {
   userConfig: UserStoreConfig
@@ -29,17 +29,19 @@ export default class AsyncReportStoreService {
     await this.userStore.setUserConfig(this.userId, this.userConfig)
   }
 
-  async addReport(reportData: any) {
+  async addReport(
+    reportData: Dict<string>,
+    filterData: Dict<string>,
+    sortData: Dict<string>,
+    query: Dict<string>,
+    querySummary: Array<Dict<string>>,
+  ) {
     await this.getState()
     const {
       reportId,
       variantId,
-      sortData,
-      filterData,
       executionId,
       tableId,
-      query,
-      querySummary,
       href: fullUrl,
       pathname,
       search,

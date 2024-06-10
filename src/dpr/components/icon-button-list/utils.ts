@@ -1,4 +1,6 @@
+import { AsyncReportData } from '../../types/AsyncReport'
 import { components } from '../../types/api'
+import Dict = NodeJS.Dict
 
 const FULL_BUTTON_LIST = [
   {
@@ -49,7 +51,7 @@ const filterButtonList = (actions: ReportAction[]) => {
 }
 
 export default {
-  initReportActions: (variant: components['schemas']['VariantDefinition'], reportData: any) => {
+  initReportActions: (variant: components['schemas']['VariantDefinition'], reportData: AsyncReportData) => {
     const actions: ReportAction[] = []
 
     // PRINT
@@ -80,5 +82,5 @@ export default {
 
 interface ReportAction {
   type: string
-  data?: any
+  data?: Dict<string>
 }

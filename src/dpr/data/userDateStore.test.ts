@@ -50,7 +50,7 @@ describe('userDataStore', () => {
       }
       await userDataStore.setUserConfig('user-1', mockStoreData)
 
-      expect(redisClient.set).toHaveBeenCalledWith('user-1', JSON.stringify(mockStoreData))
+      expect(redisClient.set).toHaveBeenCalledWith('userConfig:user-1', JSON.stringify(mockStoreData))
     })
 
     it('Connects when no connection calling set token', async () => {

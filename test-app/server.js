@@ -59,7 +59,7 @@ app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest
 const definitions = require('./reportDefinition')
 const mockAsyncApis = require('./mockData/mockAsyncApis')
 const MockUserStoreService = require('./mockData/mockRedisStore')
-const MockLegacyReportCards = require('./mockData/mockLegacyReportCards')
+const getMockCardData = require('./mockData/mockLegacyReportCards')
 const data = require('./data')
 const ReportingClient = require('../package/dpr/data/reportingClient')
 const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
@@ -91,7 +91,7 @@ app.get('/async-reports', async (req, res) => {
       ...(await AsyncCardGroupUtils.renderAsyncReportsList(asyncReportsStore, mockAsyncApis)),
     },
     legacyReports: {
-      cardData: MockLegacyReportCards,
+      cardData: getMockCardData(req),
     },
   })
 })

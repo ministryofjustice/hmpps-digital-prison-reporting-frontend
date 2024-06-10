@@ -35,6 +35,7 @@ export default class AsyncFilters extends DprQueryParamClass {
     const variantName = this.submitButton.getAttribute('data-variant-name')
     const reportName = this.submitButton.getAttribute('data-report-name')
     const variantDescription = this.submitButton.getAttribute('data-variant-description')
+    const dataProductDefinitionsPath = this.submitButton.getAttribute('data-definition-path')
 
     this.submitButton.addEventListener('click', async () => {
       const sortData = this.getFormDataAsObject(this.sortedByForm, '')
@@ -47,7 +48,7 @@ export default class AsyncFilters extends DprQueryParamClass {
           value: mergedFilters[key],
         }
       })
-      const query = { ...filterDataForQuery, ...sortData }
+      const query = { ...filterDataForQuery, ...sortData, dataProductDefinitionsPath }
 
       const { origin, href, pathname, search } = window.location
 
@@ -71,6 +72,7 @@ export default class AsyncFilters extends DprQueryParamClass {
           pathname,
           search,
           origin,
+          dataProductDefinitionsPath,
         }),
       })
 

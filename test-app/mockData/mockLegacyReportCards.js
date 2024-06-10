@@ -19,4 +19,19 @@ const mockLegacyReportCards = [
   },
 ]
 
-module.exports = mockLegacyReportCards
+const getMockCardData = (req) => {
+  const { dataProductDefinitionsPath } = req.query
+  let cards = mockLegacyReportCards
+  if (dataProductDefinitionsPath) {
+    cards = mockLegacyReportCards.map((card) => {
+      return {
+        ...card,
+        href: `${card.href}?dataProductDefinitionsPath=${dataProductDefinitionsPath}`,
+      }
+    })
+  }
+
+  return cards
+}
+
+module.exports = getMockCardData

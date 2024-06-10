@@ -8,6 +8,7 @@
   {% set variantName = data.variantName %}
   {% set description = data.description %}
   {% set reportName = data.reportName %}
+  {% set definitionPath = data.definitionPath %}
 
   {{ dprAsyncRequestDetails( reportName, variantName, description )}}
 
@@ -35,7 +36,8 @@
           'data-variant-id': variantId,
           'data-variant-name': variantName,
           'data-report-name': reportName,
-          'data-variant-description': description
+          'data-variant-description': description,
+          'data-definition-path': definitionPath
         }
       }) }}
 

@@ -12,12 +12,12 @@ import { AsyncReportData } from '../../types/AsyncReport'
 const initDataSources = (req: Request, res: Response, dataSources: any, asyncReportsStore: AsyncReportStoreService) => {
   const { token } = res.locals.user || 'token'
   const { reportId, reportVariantId, tableId } = req.params
-  const { selectedPage, pageSize } = req.query
-
+  const { selectedPage, pageSize, dataProductDefinitionsPath } = req.query
   const reportDefinitionPromise = dataSources.getDefinition(token, reportId, reportVariantId)
   const reportDataPromise = dataSources.getAsyncReport(token, reportId, reportVariantId, tableId, {
     selectedPage: +selectedPage,
     pageSize: +pageSize,
+    dataProductDefinitionsPath,
   })
   const reportDataCountPromise = dataSources.getAsyncCount(token, tableId)
   const stateData = asyncReportsStore.getReportByTableId(tableId)

@@ -44,6 +44,7 @@ export default class AsyncReportStoreService {
       pathname,
       search,
       origin,
+      dataProductDefinitionsPath,
     } = reportData
 
     const filtersQueryString = new URLSearchParams(filterData).toString()
@@ -84,6 +85,7 @@ export default class AsyncReportStoreService {
         summary: querySummary,
       },
       timestamp: {},
+      dataProductDefinitionsPath,
     }
 
     reportStateData = this.updateDataByStatus(reportStateData, RequestStatus.SUBMITTED)
@@ -159,6 +161,9 @@ export default class AsyncReportStoreService {
         report.timestamp.completed = `Ready at: ${ts}`
         report.url.report.pathname = `${report.url.request.pathname}/${tableId}/report`
         report.url.report.fullUrl = `${report.url.origin}${report.url.report.pathname}`
+        if (report.dataProductDefinitionsPath) {
+          report.url.report.fullUrl = `${report.url.report.fullUrl}?dataProductDefinitionsPath=${report.dataProductDefinitionsPath}`
+        }
         break
       case RequestStatus.SUBMITTED:
         report.timestamp.requested = `Requested at: ${ts}`

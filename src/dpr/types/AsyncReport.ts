@@ -14,6 +14,7 @@ export interface AsyncReportData {
   url: AsyncReportUrlData
   timestamp: AsyncReportsTimestamp
   query: AsyncReportQueryData
+  dataProductDefinitionsPath?: string
 }
 
 interface AsyncReportUrlData {

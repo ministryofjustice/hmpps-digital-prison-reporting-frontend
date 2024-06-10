@@ -4,7 +4,11 @@ import { AsyncReportData } from '../types/AsyncReport'
 
 const mockUserStore = {
   setUserConfig: jest.fn(),
-  getUserConfig: jest.fn(),
+  getUserConfig: jest.fn().mockImplementation((userId: string) => {
+    Promise.resolve({
+      requestedReports: [],
+    })
+  }),
   ensureConnected: jest.fn(),
   init: jest.fn(),
 } as unknown as jest.Mocked<UserDataStore>
@@ -25,7 +29,7 @@ describe('AsyncReportStoreService', () => {
 
   describe('saveState', () => {
     it('should save the state to the store', async () => {
-      asyncReportsStore.requestedReports = [{ test: true }] as unknown as AsyncReportData[]
+      asyncReportsStore.userConfig.requestedReports = [{ test: true }] as unknown as AsyncReportData[]
       await asyncReportsStore.saveState()
       expect(mockUserStore.setUserConfig).toHaveBeenCalledWith('userId', [{ test: true }])
     })

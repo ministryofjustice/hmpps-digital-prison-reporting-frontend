@@ -32,7 +32,7 @@ describe('AsyncReportStoreService', () => {
     it('should save the state to the store', async () => {
       asyncReportsStore.requestedReports = [{ test: true }] as unknown as AsyncReportData[]
       await asyncReportsStore.saveState()
-      expect(mockUserStore.setUserConfig).toHaveBeenCalledWith('userId', [{ test: true }])
+      expect(mockUserStore.setUserConfig).toHaveBeenCalledWith('userId', { requestedReports: [{ test: true }] })
     })
   })
 

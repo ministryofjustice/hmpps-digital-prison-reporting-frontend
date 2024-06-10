@@ -90,7 +90,7 @@ export default class AsyncReportStoreService {
       dataProductDefinitionsPath,
     }
 
-    reportStateData = this.updateDataByStatus(JSON.parse(JSON.stringify(reportStateData)), RequestStatus.SUBMITTED)
+    reportStateData = this.updateDataByStatus(reportStateData, RequestStatus.SUBMITTED)
     this.requestedReports.unshift(reportStateData)
     await this.saveState()
 

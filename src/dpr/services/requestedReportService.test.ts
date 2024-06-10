@@ -1,6 +1,6 @@
 import AsyncReportStoreService from './requestedReportsService'
 import UserDataStore from '../data/userDataStore'
-import { AsyncReportData } from '../types/AsyncReport'
+import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
 
 const mockUserStore = {
   setUserConfig: jest.fn(),
@@ -40,7 +40,11 @@ describe('AsyncReportStoreService', () => {
     it('should add a report to the store', async () => {
       const getStateSpy = jest.spyOn(asyncReportsStore, 'getState')
       const saveStateSpy = jest.spyOn(asyncReportsStore, 'saveState')
-      const updateStatusSpy = jest.spyOn(asyncReportsStore, 'updateDataByStatus')
+      const updateStatusSpy = jest
+        .spyOn(asyncReportsStore, 'updateDataByStatus')
+        .mockImplementation((report: AsyncReportData, status: RequestStatus) => {
+          return '' as unknown as AsyncReportData
+        })
 
       const mockreportData = {
         reportId: 'reportId-1',

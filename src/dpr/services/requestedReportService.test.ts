@@ -83,40 +83,70 @@ describe('AsyncReportStoreService', () => {
           reportId: 'reportId-1',
           variantId: 'variantId-1',
           executionId: 'ex1a2s3d4f5g6h7j8k',
-          dataProductDefinitionsPath: undefined,
           tableId: 'dfsdf',
-          variantName: 'vName',
+          name: 'vName',
           reportName: 'rName',
           description: 'description',
           status: 'SUBMITTED',
           filters: {
-            data: mockFiltersData,
+            data: {
+              field1: 'value1.2',
+              'field3.start': '2003-02-01',
+              'field3.end': '2006-05-04',
+            },
             queryString: 'field1=value1.2&field3.start=2003-02-01&field3.end=2006-05-04',
           },
           sortBy: {
-            data: mockSortData,
+            data: {
+              sortColumn: 'field1',
+              sortAsc: 'true',
+            },
             queryString: 'sortColumn=field1&sortAsc=true',
           },
           url: {
             origin: 'origin',
             request: {
-              fullUrl: 'fullUrl',
               pathname: 'pathname',
               search: 'search',
             },
             polling: {
-              fullUrl: `originpathname/ex1a2s3d4f5g6h7j8k`,
-              pathname: `pathname/ex1a2s3d4f5g6h7j8k`,
+              fullUrl: 'originpathname/ex1a2s3d4f5g6h7j8k',
+              pathname: 'pathname/ex1a2s3d4f5g6h7j8k',
             },
             report: {},
           },
           query: {
-            data: mockQuery,
-            summary: mockSummary,
+            data: {
+              'filters.field1': 'value1.2',
+              'filters.field3.start': '2003-02-01',
+              'filters.field3.end': '2006-05-04',
+              sortColumn: 'field1',
+              sortAsc: 'true',
+            },
+            summary: [
+              {
+                name: 'field1',
+                value: 'value1.2',
+              },
+              {
+                name: 'field3.start',
+                value: '2003-02-01',
+              },
+              {
+                name: 'field3.end',
+                value: '2006-05-04',
+              },
+              {
+                name: 'sortColumn',
+                value: 'field1',
+              },
+              {
+                name: 'sortAsc',
+                value: 'true',
+              },
+            ],
           },
-          timestamp: {
-            requested: 'Requested at: 6/10/2024, 4:47:27 PM',
-          },
+          timestamp: {},
         },
         'SUBMITTED',
       )

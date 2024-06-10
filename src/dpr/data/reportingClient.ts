@@ -113,7 +113,7 @@ export default class ReportingClient {
     token: string,
     reportId: string,
     variantId: string,
-    query: AsyncRequestQuery,
+    query: Record<string, string | boolean | number>,
   ): Promise<Dict<string>> {
     logger.info(`Reporting client: request ${reportId}:${variantId}`)
 
@@ -131,15 +131,13 @@ export default class ReportingClient {
     reportId: string,
     variantId: string,
     tableId: string,
-    selectedPage: number,
-    pageSize: number,
+    query: Dict<string>,
   ): Promise<Array<Dict<string>>> {
     logger.info(`Reporting client: Get variantId:${variantId} data`)
 
-    const query = { selectedPage, pageSize }
     return this.restClient
       .get({
-        path: `/reports/${reportId}/${variantId}/tables/${tableId}result`,
+        path: `/reports/${reportId}/${variantId}/tables/${tableId}/result`,
         token,
         query,
       })

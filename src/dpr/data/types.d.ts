@@ -39,8 +39,8 @@ export interface FieldValuesRequest {
 export interface AsyncRequestQuery {
   sortColumn: string
   sortedAsc: boolean
-  filters: filter[]
   dataProductDefinitionsPath: string
+  [key: string]: string
 }
 
 interface filter {

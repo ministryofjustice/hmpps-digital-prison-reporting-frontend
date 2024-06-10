@@ -57,7 +57,7 @@ app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './fav
 app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest.json')))
 
 const definitions = require('./reportDefinition')
-const { mockAsyncApis } = require('./mockData/mockAsyncApis')
+const mockAsyncApis = require('./mockData/mockAsyncApis')
 const MockUserStoreService = require('./mockData/mockRedisStore')
 const MockLegacyReportCards = require('./mockData/mockLegacyReportCards')
 const data = require('./data')

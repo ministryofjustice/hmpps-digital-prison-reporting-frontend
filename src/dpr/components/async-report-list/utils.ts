@@ -15,14 +15,10 @@ const initDataSources = (req: Request, res: Response, dataSources: any, asyncRep
   const { selectedPage, pageSize } = req.query
 
   const reportDefinitionPromise = dataSources.getDefinition(token, reportId, reportVariantId)
-  const reportDataPromise = dataSources.getAsyncReport(
-    token,
-    reportId,
-    reportVariantId,
-    tableId,
-    +selectedPage,
-    +pageSize,
-  )
+  const reportDataPromise = dataSources.getAsyncReport(token, reportId, reportVariantId, tableId, {
+    selectedPage: +selectedPage,
+    pageSize: +pageSize,
+  })
   const reportDataCountPromise = dataSources.getAsyncCount(token, tableId)
   const stateData = asyncReportsStore.getReportByTableId(tableId)
 

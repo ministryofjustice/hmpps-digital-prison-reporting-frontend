@@ -30,7 +30,7 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
   if (nextStatus) {
     mockAPIStatus[reportIndex].status = nextStatus
   }
-  return Promise.resolve(mockAPIStatus[reportIndex].status)
+  return Promise.resolve({ status: mockAPIStatus[reportIndex].status })
 }
 
 const requestAsyncReport = (token, reportId, variantId, query) => {

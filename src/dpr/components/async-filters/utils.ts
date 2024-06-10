@@ -71,7 +71,6 @@ export default {
   renderFilters: async ({ req, res, dataSources }: AsyncUtilsRequest) => {
     const { token } = res.locals.user || 'token'
     const { reportId, variantId } = req.params
-
     const definition = await dataSources.getDefinition(token, reportId, variantId)
     const { name: reportName } = definition
     const { name: variantName, description } = definition.variant

@@ -20,7 +20,7 @@ const mockDataItem = {
   field6: '<a href="#" target="_blank">Value 6</a>',
 }
 
-const statuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED']
+const statuses = ['redirect-call', 'actual-first-call', 'SUBMITTED', 'PICKED', 'STARTED', 'FINISHED']
 
 const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
   const reportIndex = mockAPIStatus.findIndex((r) => r.executionId === executionId)
@@ -35,7 +35,7 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
 
 const requestAsyncReport = (token, reportId, variantId, query) => {
   return new Promise((resolve) => {
-    mockAPIStatus.push({ executionId: `exId_${variantId}`, status: 'SUBMITTED' })
+    mockAPIStatus.push({ executionId: `exId_${variantId}`, status: 'redirect-call' })
     setTimeout(resolve, 1000, { executionId: `exId_${variantId}`, tableId: `tblId_${variantId}` })
   })
 }

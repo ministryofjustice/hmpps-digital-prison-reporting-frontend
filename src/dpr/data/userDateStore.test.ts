@@ -32,7 +32,7 @@ describe('userDataStore', () => {
       }
       redisClient.get.mockResolvedValue(JSON.stringify(mockStoreData))
 
-      await expect(userDataStore.getUserConfig('user-1')).resolves.toBe(mockStoreData)
+      await expect(userDataStore.getUserConfig('user-1')).resolves.toEqual(mockStoreData)
 
       expect(redisClient.get).toHaveBeenCalledWith('user-1')
     })

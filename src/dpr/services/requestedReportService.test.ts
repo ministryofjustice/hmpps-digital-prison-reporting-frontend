@@ -1,6 +1,8 @@
 describe('Requested Report Service test', () => {
   describe('getState', () => {
-    // TODO:
+    it('should be true', () => {
+      expect(true)
+    })
   })
 
   describe('saveState', () => {

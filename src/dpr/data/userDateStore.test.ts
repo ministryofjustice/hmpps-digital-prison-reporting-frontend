@@ -25,9 +25,14 @@ describe('userDataStore', () => {
 
   describe('get user config', () => {
     it('Can retrieve user config', async () => {
-      redisClient.get.mockResolvedValue('token-1')
+      const mockStoreData: UserStoreConfig = {
+        requestedReports: [],
+        recentlyViewedReports: [],
+        bookmarks: [],
+      }
+      redisClient.get.mockResolvedValue(JSON.stringify(mockStoreData))
 
-      await expect(userDataStore.getUserConfig('user-1')).resolves.toBe('token-1')
+      await expect(userDataStore.getUserConfig('user-1')).resolves.toBe(mockStoreData)
 
       expect(redisClient.get).toHaveBeenCalledWith('user-1')
     })

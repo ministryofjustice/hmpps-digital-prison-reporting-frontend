@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import UserDataStore, { UserStoreConfig } from '../data/userDataStore'
 import Dict = NodeJS.Dict
-import { AsyncReportData, ParamsConfig, RequestStatus } from '../types/AsyncReport'
+import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
 
 export default class AsyncReportStoreService {
   userConfig: UserStoreConfig

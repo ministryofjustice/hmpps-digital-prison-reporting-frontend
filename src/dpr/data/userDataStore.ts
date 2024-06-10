@@ -5,10 +5,10 @@ import { AsyncReportData } from '../types/AsyncReport'
 
 export type RedisClient = ReturnType<typeof createClient>
 
-export default class UserStoreService {
+export default class UserDataStore {
   private readonly prefix = 'userConfig:'
 
-  constructor(private readonly redisClient: RedisClient, userId: string) {
+  constructor(private readonly redisClient: RedisClient) {
     redisClient.on('error', (error) => {
       logger.error(error, `Redis error`)
     })

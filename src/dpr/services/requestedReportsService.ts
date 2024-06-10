@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import UserStoreService, { UserStoreConfig } from './userStoreService'
+import UserDataStore, { UserStoreConfig } from '../data/userDataStore'
 import Dict = NodeJS.Dict
 import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
 
@@ -10,7 +10,7 @@ export default class AsyncReportStoreService {
 
   requestedReports: AsyncReportData[]
 
-  constructor(private readonly userStore: UserStoreService, userId: string) {
+  constructor(private readonly userStore: UserDataStore, userId: string) {
     this.userId = userId
     this.userStore = userStore
   }

@@ -4,7 +4,7 @@ import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
 
 const mockUserStore = {
   setUserConfig: jest.fn(),
-  getUserConfig: jest.fn().mockImplementation((userId: string) => {
+  getUserConfig: jest.fn().mockImplementation(() => {
     return Promise.resolve({
       requestedReports: [],
     })
@@ -40,11 +40,9 @@ describe('AsyncReportStoreService', () => {
     it('should add a report to the store', async () => {
       const getStateSpy = jest.spyOn(asyncReportsStore, 'getState')
       const saveStateSpy = jest.spyOn(asyncReportsStore, 'saveState')
-      const updateStatusSpy = jest
-        .spyOn(asyncReportsStore, 'updateDataByStatus')
-        .mockImplementation((report: AsyncReportData, status: RequestStatus) => {
-          return '' as unknown as AsyncReportData
-        })
+      const updateStatusSpy = jest.spyOn(asyncReportsStore, 'updateDataByStatus').mockImplementation(() => {
+        return '' as unknown as AsyncReportData
+      })
 
       const mockreportData = {
         reportId: 'reportId-1',

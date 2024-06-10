@@ -18,6 +18,7 @@ describe('AsyncReportStoreService', () => {
 
   beforeEach(() => {
     asyncReportsStore = new AsyncReportStoreService(mockUserStore, 'userId')
+    asyncReportsStore.init()
   })
 
   describe('getState', () => {

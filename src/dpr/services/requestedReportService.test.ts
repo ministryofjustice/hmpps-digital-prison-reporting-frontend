@@ -5,7 +5,7 @@ import { AsyncReportData } from '../types/AsyncReport'
 const mockUserStore = {
   setUserConfig: jest.fn(),
   getUserConfig: jest.fn().mockImplementation((userId: string) => {
-    Promise.resolve({
+    return Promise.resolve({
       requestedReports: [],
     })
   }),

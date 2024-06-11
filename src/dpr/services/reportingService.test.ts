@@ -1,9 +1,9 @@
-import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
-import ReportingClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient'
+import ReportingClient from '../data/reportingClient'
+import { components } from '../types/api'
 import ReportingService from './reportingService'
 import Dict = NodeJS.Dict
 
-jest.mock('@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient')
+jest.mock('../data/reportingClient')
 
 describe('Reporting service', () => {
   let reportingClient: jest.Mocked<ReportingClient>

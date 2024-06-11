@@ -12,9 +12,6 @@ const bodyParser = require('body-parser')
 
 // Local dependencies
 const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
-const AsyncFiltersUtils = require('../package/dpr/components/async-filters/utils').default
-const AsyncReportListUtils = require('../package/dpr/components/async-report-list/utils').default
-const AsyncPollingUtils = require('../package/dpr/components/async-polling/utils').default
 const AsyncCardGroupUtils = require('../package/dpr/components/async-card-group/utils').default
 
 // Set up application

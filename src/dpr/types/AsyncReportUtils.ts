@@ -1,11 +1,11 @@
 import { Response, Request, NextFunction } from 'express'
 import AsyncReportStoreService from '../services/requestedReportsService'
-import ReportingClient from '../data/reportingClient'
+import ReportingService from '../services/reportingService'
 
 export interface AsyncReportUtilsParams {
   req?: Request
   res: Response
   next?: NextFunction
-  dataSources?: ReportingClient
+  dataSources?: ReportingService
   asyncReportsStore?: AsyncReportStoreService
 }

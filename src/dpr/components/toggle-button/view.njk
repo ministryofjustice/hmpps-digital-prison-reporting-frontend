@@ -1,0 +1,9 @@
+{% macro dprToggleButton(id, icons) %}
+  <div class="dpr-toggle-button" id="{{ id }}" data-dpr-module="toggle-button">
+    {% for icon in icons %}
+      <div class="dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live {% if icon.active %}dpr-icon--active{% endif %}" index={{ loop.index - 1}} tooltip="{{ icon.tooltip }}">
+        <i class="dpr-icon {{ icon.name }}-icon"></i>
+      </div>
+    {% endfor %}
+  </div>
+{% endmacro %}

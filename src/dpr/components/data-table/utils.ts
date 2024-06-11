@@ -77,6 +77,16 @@ export default {
       })
   },
 
+  mapAsyncHeader: (FieldDefinition: Array<components['schemas']['FieldDefinition']>, columns: string[]) => {
+    return FieldDefinition.filter((field) => {
+      return columns.includes(field.name)
+    }).map((field) => {
+      return {
+        text: field.display,
+      }
+    })
+  },
+
   mapData: (
     data: Array<Dict<string>>,
     format: Array<components['schemas']['FieldDefinition']>,

@@ -1,0 +1,35 @@
+{% extends "page.njk" %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "components/async-columns/view.njk" import dprAsyncColumns %}
+{% from "components/async-polling/view.njk" import dprAsyncPolling %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block content %}
+  <div class="govuk-width-container">
+
+    {% set rows = [] %}
+    {% if (breadCrumbList.length > 0) %}
+      {% set rows = rows.concat(breadCrumbList) %}
+    {% endif %}
+    {% set rows = rows.concat([
+      {
+        text: title
+      }
+    ]) %}
+
+    {% if title !== 'Home' %}
+      <div class="govuk-!-margin-bottom-4">
+        {{ govukBreadcrumbs({
+          collapseOnMobile: true,
+          items: rows,
+          classes: "govuk-!-display-none-print hmpps-header__container"
+        }) }}
+      </div>
+    {% endif %}
+
+    <h1 class="govuk-heading-l">{{ title }}</h1>
+
+    {{ dprAsyncPolling(pollingRenderData) }}
+
+  </div>
+{% endblock %}

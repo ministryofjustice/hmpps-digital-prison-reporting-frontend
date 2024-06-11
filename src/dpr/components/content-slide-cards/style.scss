@@ -1,0 +1,39 @@
+.dpr-card-group {
+  padding-bottom: govuk-spacing(6);
+  .dpr-card-group__item {
+    padding-bottom: govuk-spacing(5);
+
+    .dpr-card-group__item_header {
+
+    }
+
+    .dpr-card-group__item__description {
+      margin-top: 10px;
+    }
+    
+    ul.dpr-card-group__item__filters-list {
+      list-style-type: none;
+      padding: 0;
+
+      li {
+        margin-bottom: 0px;
+      }
+    }
+
+    .dpr-card-group__item__timestamp {
+      position: absolute;
+      bottom: 1px;
+      left: 0px;
+      padding-bottom: 0px;
+      margin-bottom: 0px;
+      font-size: 14px;
+      color: #505a5f;
+    }
+
+    .dpr-card-group__item__status {
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+    }
+  }
+}

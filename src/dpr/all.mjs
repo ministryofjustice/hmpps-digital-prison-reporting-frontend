@@ -9,6 +9,13 @@ import Columns from './components/columns/clientClass.mjs'
 import Daterange from './components/date-range/clientClass.mjs'
 import PrintButton from './components/print-button/clientClass.mjs'
 import CopyUrlButton from './components/copy-url-button/clientClass.mjs'
+import ToggleButton from './components/toggle-button/clientClass.mjs'
+import AsyncFilters from './components/async-filters/clientClass.mjs'
+import AsyncColumns from './components/async-columns/clientClass.mjs'
+import Pagination from './components/pagination/clientClass.mjs'
+import IconButtonList from './components/icon-button-list/clientClass.mjs'
+import AsyncDataTable from './components/async-data-table/clientClass.mjs'
+import AsyncPolling from './components/async-polling/clientClass.mjs'
 
 /**
  * Initialise all components
@@ -17,7 +24,7 @@ import CopyUrlButton from './components/copy-url-button/clientClass.mjs'
  * components provided as part of DPR Frontend.
  *
  */
-export default function initAll() {
+export default function initAll () {
   const components = [
     Autocomplete,
     CardGroup,
@@ -28,12 +35,18 @@ export default function initAll() {
     Daterange,
     PrintButton,
     CopyUrlButton,
+    ToggleButton,
+    AsyncFilters,
+    AsyncColumns,
+    Pagination,
+    IconButtonList,
+    AsyncDataTable,
+    AsyncPolling,
   ]
 
   components.forEach((Component) => {
     const $elements = document.querySelectorAll(`[data-dpr-module="${Component.getModuleName()}"]`)
-
-    $elements.forEach(($element) => {
+    $elements.forEach(async ($element) => {
       try {
         new Component($element).initialise()
       } catch (error) {

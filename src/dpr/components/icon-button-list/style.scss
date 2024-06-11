@@ -1,0 +1,15 @@
+.icon-button-list {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+
+  .dpr-icon-wrapper {
+    margin-right: 0px;
+  }
+}
+
+@media print {
+  .icon-button-list {
+    display: none;
+  }
+}

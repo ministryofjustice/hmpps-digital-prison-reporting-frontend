@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable new-cap */
 // Core dependencies
 const fs = require('fs')
@@ -11,6 +12,7 @@ const bodyParser = require('body-parser')
 
 // Local dependencies
 const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
+const AsyncCardGroupUtils = require('../package/dpr/components/async-card-group/utils').default
 
 // Set up application
 const appViews = [
@@ -52,8 +54,13 @@ app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './fav
 app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest.json')))
 
 const definitions = require('./reportDefinition')
+const mockAsyncApis = require('./mockData/mockAsyncApis')
+const MockUserStoreService = require('./mockData/mockRedisStore')
+const getMockCardData = require('./mockData/mockLegacyReportCards')
 const data = require('./data')
 const ReportingClient = require('../package/dpr/data/reportingClient')
+const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
+const addAsyncReportingRoutes = require('../package/dpr/routes/async-reports/routes')
 
 // Set up routes
 
@@ -67,6 +74,29 @@ app.get('/', (req, res) => {
         href: '/test-reports',
       },
     ],
+  })
+})
+
+// ----- ASYNC REPORTS -----
+
+// Step 1 - initialise the UserStore + AsyncReportStore
+const mockUserStore = new MockUserStoreService()
+const asyncReportsStore = new AsyncReportStoreService(mockUserStore, 'userId')
+asyncReportsStore.init()
+
+// Step 2 - Add routes to root routes file
+addAsyncReportingRoutes({ app, asyncReportsStore, dataSources: mockAsyncApis })
+
+// Step 3 - Add Requested Reports Slide to homepage
+app.get('/async-reports', async (req, res) => {
+  res.render('async.njk', {
+    title: 'Home',
+    requestedReports: {
+      ...(await AsyncCardGroupUtils.renderAsyncReportsList({ asyncReportsStore, dataSources: mockAsyncApis, res })),
+    },
+    legacyReports: {
+      cardData: getMockCardData(req),
+    },
   })
 })
 
@@ -182,7 +212,7 @@ app.get('/dynamic-values/field5', (req, res, next) => {
   })
 })
 
-function sleep(ms) {
+function sleep (ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms)
   })

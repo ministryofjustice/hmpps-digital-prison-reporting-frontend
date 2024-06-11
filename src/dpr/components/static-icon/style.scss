@@ -1,0 +1,246 @@
+.dpr-icon:before {
+  font-family: "Material Icons";
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "liga" 1;
+  font-style: normal;
+  text-transform: none;
+  line-height: 26px;
+  font-size: 36px;
+  display: inline-block;
+  color: black;
+}
+
+.dpr-icon-wrapper {
+  display: inline-block;
+  position: relative;
+  border-radius: 100px;
+  background-color: govuk-colour("mid-grey");
+  width: 26px;
+  height: 26px;
+  padding: 0px;
+  margin-right: 6px;
+  vertical-align: middle;
+
+  .dpr-icon:before {
+    line-height: 26px;
+    font-size: 16px;
+    text-align: center;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: white;
+    width: 26px;
+    height: 26px
+  }
+
+  .viewed-icon.icon:before {
+    content: "history";
+    font-size: 20px;
+  }
+}
+
+.dpr-icon-live {
+  border-radius: 0px;
+  background-color: govuk-colour("blue");
+
+  &.dpr-icon--active {
+    background-color: govuk-colour("yellow");
+
+    &:hover {
+      background-color: govuk-colour("yellow");
+      .dpr-icon:before {
+        color: black;
+      }
+    }
+
+    .dpr-icon:before {
+      color: black;
+    }
+  }
+
+  &:hover {
+    background-color: govuk-colour("light-blue");
+    cursor: pointer;
+
+    .dpr-icon:before {
+      color: white;
+    }
+  }
+
+  &:active {
+    background-color: govuk-colour("yellow");
+
+    .dpr-icon:before {
+      color: black;
+    }
+  }
+
+  &.dpr-icon-disabled {
+    background-color: govuk-colour("mid-grey");
+
+    &:hover {
+      background-color: lighten(govuk-colour("mid-grey"), 5%);
+      cursor: pointer;
+
+      .dpr-icon:before {
+        color: white;
+      }
+    }
+  }
+}
+
+.dpr-icon-live:hover:after {
+  background: govuk-colour("dark-grey");
+  content: attr(tooltip);
+  display: block;
+  color: white;
+  padding: govuk-spacing(3);
+  position: absolute;
+  white-space: nowrap;
+  text-transform: none;
+  z-index: 98;
+  font-size: 14px;
+  font-weight: normal;
+  text-align: center;
+  font-family: Helvetica Neue, Helvetica, Arial;
+}
+
+.dpr-icon-live:hover:before {
+  content: '';
+  z-index: 98;
+  display: block;
+  position: absolute;
+  width: 20;
+  height: 20;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid govuk-colour("dark-grey");
+}
+
+
+.dpr-icon-live.dpr-icon-wrapper--xl:hover:after {
+  top: 65px !important;
+}
+
+.dpr-icon-live.dpr-icon-wrapper--xl:hover:before {
+  top: 56px !important;
+  left: 15px !important;
+}
+
+.dpr-icon-live.dpr-icon-wrapper--l:hover:after {
+  top: 50px !important;
+}
+
+.dpr-icon-live.dpr-icon-wrapper--l:hover:before {
+  top: 44px !important;
+  left: 8px !important;
+}
+
+.dpr-icon-live.dpr-icon-wrapper:hover:after {
+  top: 38px;
+}
+
+.dpr-icon-live.dpr-icon-wrapper:hover:before {
+  top: 32px;
+  left: 5px;
+}
+
+.dpr-icon-wrapper--l {
+  width: 35px;
+  height: 35px;
+
+  .dpr-icon:before {
+    line-height: 35px;
+    font-size: 21px;
+    // background-color: rgba(0, 0, 0, 0.5);
+    width: 35px;
+    height: 35px
+  }
+
+  .viewed-icon.dpr-icon:before {
+    content: "history";
+    font-size: 25px;
+  }
+}
+
+.dpr-icon-wrapper--xl {
+  width: 50px;
+  height: 50px;
+
+  .dpr-icon:before {
+    line-height: 50px;
+    font-size: 30px;
+    // background-color: rgba(0, 0, 0, 0.5);
+    width: 50px;
+    height: 50px
+  }
+
+  .viewed-icon.dpr-icon:before {
+    content: "history";
+    font-size: 35px;
+  }
+}
+
+.bookmark-icon.dpr-icon:before {
+  content: "bookmark";
+}
+
+.viewed-icon.dpr-icon:before {
+  content: "history";
+}
+
+.list-icon.dpr-icon:before {
+  content: "list";
+}
+
+.card-icon.dpr-icon:before {
+  content: "grid_view";
+}
+
+.print-icon.dpr-icon:before {
+  content: "print";
+}
+
+.download-icon.dpr-icon:before {
+  content: "download";
+}
+
+.share-icon.dpr-icon:before {
+  content: "share";
+}
+
+.close-icon.dpr-icon:before {
+  content: "close";
+}
+
+.info-icon.dpr-icon:before {
+  content: "info";
+}
+
+.info-icon.dpr-icon:before {
+  content: "info";
+}
+
+.pending-icon.dpr-icon:before {
+  content: "pending";
+}
+
+.hourglass-icon.dpr-icon:before {
+  content: "hourglass_empty";
+}
+
+.pending-actions-icon.dpr-icon:before {
+  content: "pending_actions";
+}
+
+.copy-icon.dpr-icon:before {
+  content: "content_copy";
+}
+
+.dpr-icon-info-tooltip:before {
+  display: inline-block;
+  color: govuk-colour("dark-grey");
+  font-size: 24px;
+  vertical-align: middle;
+  cursor: pointer;
+}

@@ -1,0 +1,33 @@
+{% from "../content-slide/view.njk" import dprContentSlide %}
+{% from "../content-slide-cards/view.njk" import dprContentSlideCards %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+{% macro dprAsyncCardGroup(cardData, tableData) %}
+
+  {% set head = {
+    title: "Requested Reports", 
+    icon: 'hourglass'
+  }%}
+
+  {% set cardHtml %}
+  {{ dprContentSlideCards(cardData) }}
+  {% endset %}
+
+  {% set tableHtml %}
+  {{ govukTable(tableData) }}
+  {% endset %}
+
+  {% set content = {
+      icons: [
+        { name:'card', tooltip: 'Card view', active: true },
+        { name:'list', tooltip: 'List view' }
+      ],
+      items: [
+        { active: true, html: cardHtml }, 
+        { active: false, html: tableHtml }
+      ]
+    }%}
+
+  {{ dprContentSlide(head, content) }}
+
+{% endmacro %}

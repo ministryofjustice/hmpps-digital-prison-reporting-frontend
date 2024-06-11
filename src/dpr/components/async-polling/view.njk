@@ -1,0 +1,92 @@
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "components/request-status-tag/view.njk" import dprRequestStatusTag %}
+{% from "components/async-request-details/view.njk" import dprAsyncRequestDetails %}
+
+{% macro dprAsyncPolling(data) %}
+  {% set description = data.variantDescription %}
+  {% set status = data.status %}
+  {% set variantName = data.variantName %}
+  {% set reportName = data.reportName %}
+  {% set querySummary = data.querySummary %}
+  {% set reportId = data.reportId %}
+  {% set variantId = data.variantId %}
+  {% set tableId = data.tableId %}
+  {% set reportUrl = data.reportUrl %}
+
+  <div id="async-request-polling-status" 
+    data-current-status={{ status }}
+    data-dpr-module="async-polling-content">
+
+    {% set filtersHtml %}
+    {% if querySummary %}
+      <ul>
+        {% for query in querySummary %}
+          <li class="govuk-body govuk-!-margin-bottom-1">{{ query.name }}: {{ query.value }}</li>
+        {% endfor %}
+      </ul>
+
+    {% endif %}
+    {% endset %}
+
+    {% if status === 'STARTED' or status === 'SUBMITTED' or status === 'PICKED' %}
+
+      <h3 class="govuk-heading-s govuk-!-margin-top-5">We are generating your report...</h3>
+
+      <p>Status: {{ dprRequestStatusTag(status) }}</p>
+
+      {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml)}}
+
+      {{ govukInsetText({
+        html: "<p>It can take up to 10 mins to generate a report.</p> <p>You can close and revisit this page at anytime, Navigate to the homepage to check on its status or your report</p>"
+      }) }}
+
+      {{ govukButton({
+        id: "cancel-async-request",
+        text: "Cancel Request",  
+        classes: "govuk-button--warning govuk-!-margin-bottom-0"
+      }) }}
+
+    {% endif %}
+
+    {% if status === 'FAILED' %}
+
+      <p>Status: {{ dprRequestStatusTag(status) }}</p>
+
+      {{ govukErrorSummary({
+      titleText: "Your report has failed to generate. The issue has been reported to admin staff",
+      classes: "govuk-!-margin-top-6",
+      errorList: [
+        {
+          text: error
+        }
+      ]
+    }) }}
+
+      {{ govukButton({
+      id: "retry-async-request",
+      text: "Retry",  
+      classes: "govuk-button govuk-!-margin-top-5"
+    }) }}
+
+    {% endif %}
+
+    {% if status === 'FINISHED' %}
+
+      <p class="govuk-!-margin-top-5">Your report has been generated</p>
+
+      <p>Status: {{ dprRequestStatusTag(status) }}</p>
+
+      {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml)}}
+
+      {{ govukButton({
+        text: "view report",
+        classes: "govuk-button--primary",
+        href: reportUrl
+      }) }}
+
+    {% endif %}
+
+  </div>
+{% endmacro %}

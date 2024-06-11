@@ -1,0 +1,17 @@
+.dpr-slide-container {
+  position: relative;
+  padding-top: govuk-spacing(6);
+  padding-bottom: govuk-spacing(6);
+
+  .dpr-slide__header {
+    margin-bottom: govuk-spacing(4);  
+
+    .dpr-slide__title {
+      margin-bottom: govuk-spacing(1);
+    }
+  
+    .dpr-slide__sub-text {
+      margin-bottom: govuk-spacing(0);
+    }
+  }
+}

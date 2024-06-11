@@ -1,7 +1,7 @@
 import { DprClientClass } from '../../DprClientClass.mjs'
 
 export default class Autocomplete extends DprClientClass {
-  static getModuleName() {
+  static getModuleName () {
     return 'autocomplete-text-input'
   }
 
@@ -13,7 +13,7 @@ export default class Autocomplete extends DprClientClass {
     this.listParentSelector = `#${listId} ul`
   }
 
-  initialise() {
+  initialise () {
     const textInput = this.getTextInput()
     textInput.addEventListener('keyup', (event) => {
       this.onTextInput(event, textInput)
@@ -28,11 +28,11 @@ export default class Autocomplete extends DprClientClass {
       })
   }
 
-  getTextInput() {
+  getTextInput () {
     return this.getElement().querySelector('.autocomplete-text-input-box')
   }
 
-  onTextInput(event, textInput) {
+  onTextInput (event, textInput) {
     const minLength = Number(textInput.dataset.minimumLength)
     const { resourceEndpoint } = textInput.dataset
     const searchValue = event.target.value.toLowerCase()
@@ -59,7 +59,7 @@ export default class Autocomplete extends DprClientClass {
     }
   }
 
-  async populateOptionsDynamically(resourceEndpoint, searchValue, textInput, templateProvider) {
+  async populateOptionsDynamically (resourceEndpoint, searchValue, textInput, templateProvider) {
     try {
       const response = await fetch(resourceEndpoint.replace('{prefix}', encodeURI(searchValue)))
       const results = await response.json()
@@ -78,18 +78,20 @@ export default class Autocomplete extends DprClientClass {
     }
   }
 
-  onOptionClick(event, textInput, topLevelElement) {
+  onOptionClick (event, textInput, topLevelElement) {
     event.preventDefault()
     // eslint-disable-next-line no-param-reassign
     textInput.value = event.target.innerText.trim()
     textInput.focus()
+    const changeEvent = new Event('change')
+    textInput.dispatchEvent(changeEvent)
 
     topLevelElement.querySelectorAll('li').forEach((item) => {
       item.classList.add('autocomplete-text-input-item-hide')
     })
   }
 
-  addItem(template, content, clickEvent) {
+  addItem (template, content, clickEvent) {
     const item = template.cloneNode(true)
     item.querySelector('button').innerHTML = content
     item.classList.remove('autocomplete-text-input-item-hide')
@@ -102,7 +104,7 @@ export default class Autocomplete extends DprClientClass {
     }
   }
 
-  clearListAndRecreateTemplate() {
+  clearListAndRecreateTemplate () {
     const template = this.getElement().querySelector(this.listItemsSelector).cloneNode(true)
     template.classList.add('autocomplete-text-input-item-hide')
     this.getElement()

@@ -22,6 +22,7 @@ describe('reportingClient', () => {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
       },
     ],
     {
@@ -165,6 +166,75 @@ describe('reportingClient', () => {
 
       const output = await reportingClient.getDefinition(null, 'test-report', 'test-variant', 'test-definition-path')
       expect(output).toEqual(response)
+    })
+  })
+
+  describe('requestAsyncReport', () => {
+    it('should request the async report', async () => {
+      const response = [{ test: 'true' }]
+      const expectedQuery: Record<string, string | boolean> = {
+        sortedAsc: true,
+        sortColumn: 'sort-column',
+        'f.original.filter': 'true',
+        dataProductDefinitionsPath: 'test-definition-path',
+      }
+      const reportId = 'report-id'
+      const variantId = 'variant-id'
+
+      fakeReportingApi.get(`/async/reports/${reportId}/${variantId}`).query(expectedQuery).reply(200, response)
+
+      const output = await reportingClient.requestAsyncReport(null, reportId, variantId, expectedQuery)
+      expect(output).toEqual(response)
+    })
+  })
+
+  describe('getAsyncReport', () => {
+    it('should return data from api', async () => {
+      const response = [{ test: 'true' }]
+      const expectedQuery: Record<string, string> = {
+        selectedPage: '1',
+        pageSize: '2',
+        dataProductDefinitionsPath: 'test-definition-path',
+      }
+      const reportId = 'report-id'
+      const variantId = 'variant-id'
+      const tableId = 'table-id'
+
+      fakeReportingApi
+        .get(`/reports/${reportId}/${variantId}/tables/${tableId}/result`)
+        .query(expectedQuery)
+        .reply(200, response)
+
+      const output = await reportingClient.getAsyncReport(null, reportId, variantId, tableId, expectedQuery)
+      expect(output).toEqual(response)
+    })
+  })
+
+  describe('getAsyncReportStatus', () => {
+    it('should return the request status', async () => {
+      const response = { status: 'STARTED' }
+      const reportId = 'report-id'
+      const variantId = 'variant-id'
+      const executionId = 'execution-id'
+      const resource = `/reports/${reportId}/${variantId}/statements/${executionId}/status`
+
+      fakeReportingApi.get(resource).reply(200, response)
+
+      const output = await reportingClient.getAsyncReportStatus(null, reportId, variantId, executionId)
+      expect(output).toEqual(response)
+    })
+  })
+
+  describe('getAsyncCount', () => {
+    it('should return data from api', async () => {
+      const response = { count: 123 }
+      const tableId = 'table-id'
+      const resource = `/report/tables/${tableId}`
+
+      fakeReportingApi.get(resource).reply(200, response)
+
+      const output = await reportingClient.getAsyncCount(null, tableId)
+      expect(output).toEqual(response.count)
     })
   })
 })

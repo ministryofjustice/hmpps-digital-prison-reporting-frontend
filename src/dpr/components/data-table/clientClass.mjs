@@ -1,11 +1,11 @@
 import DprLoadingClientClass from '../../DprLoadingClientClass.mjs'
 
 export default class DataTable extends DprLoadingClientClass {
-  static getModuleName() {
+  static getModuleName () {
     return 'data-table'
   }
 
-  initialise() {
+  initialise () {
     this.getElement()
       .querySelectorAll('[data-navigate-to]')
       .forEach((select) => {
@@ -38,7 +38,7 @@ export default class DataTable extends DprLoadingClientClass {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  createTableHeaderAndFooter() {
+  createTableHeaderAndFooter () {
     const table = document.getElementById('dpr-data-table')
     if (table) {
       const classification = table.getAttribute('data-classification')

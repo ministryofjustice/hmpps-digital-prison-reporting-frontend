@@ -1,0 +1,13 @@
+{% macro dprStaticIcon(type, size) %}
+  {% if size === 'l' %}
+    {% set sizeClass = 'dpr-icon-wrapper--l' %}
+  {% elif size === 'xl' %}
+    {% set sizeClass = 'dpr-icon-wrapper--xl' %}
+  {% else %}
+    {% set sizeClass = '' %}
+  {% endif %}
+
+  <div class="dpr-icon-wrapper {{ sizeClass }}">
+    <i class="dpr-icon {{ type }}-icon"></i>
+  </div>
+{% endmacro %}

@@ -1,11 +1,11 @@
 import { DprClientClass } from '../../DprClientClass.mjs'
 
 export default class Daterange extends DprClientClass {
-  static getModuleName() {
+  static getModuleName () {
     return 'date-range'
   }
 
-  initialise() {
+  initialise () {
     this.startInputs = document.querySelectorAll(`input.daterange-start-input`)
     this.endInputs = document.querySelectorAll(`input.daterange-end-input`)
     this.setToValueTriggers = document.querySelectorAll(`[data-set-min-max-trigger='true']`)
@@ -13,7 +13,7 @@ export default class Daterange extends DprClientClass {
     this.setToValue()
   }
 
-  setMinMaxValue() {
+  setMinMaxValue () {
     this.startInputs.forEach((startInput) => {
       this.setMinMaxEventListener(startInput)
     })
@@ -22,7 +22,7 @@ export default class Daterange extends DprClientClass {
     })
   }
 
-  setMinMaxEventListener(element) {
+  setMinMaxEventListener (element) {
     const min = element.getAttribute('min')
     const max = element.getAttribute('max')
 
@@ -45,15 +45,20 @@ export default class Daterange extends DprClientClass {
           }
         }
       }
+      const changeEvent = new Event('change')
+      element.dispatchEvent(changeEvent)
     })
   }
 
-  setToValue() {
+  setToValue () {
     this.setToValueTriggers.forEach((set) => {
       set.addEventListener('click', (e) => {
         const value = e.target.getAttribute('data-set-min-max-value')
         const inputId = e.target.getAttribute('data-set-to-input')
-        document.getElementById(inputId).value = value
+        const input = document.getElementById(inputId)
+        input.value = value
+        const changeEvent = new Event('change')
+        input.dispatchEvent(changeEvent)
       })
     })
   }

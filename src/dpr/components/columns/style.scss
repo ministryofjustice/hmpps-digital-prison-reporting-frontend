@@ -19,3 +19,14 @@
     }
   }
 }
+
+.columns-header {
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+@media print {
+  .columns-select-wrapper {
+    display: none;
+  }
+}

@@ -21,6 +21,15 @@ export default class ReportingService {
     return this.reportingClient.getDefinitions(token, dataProductDefinitionsPath)
   }
 
+  async getDefinition(
+    token: string,
+    reportId: string,
+    variantId: string,
+    dataProductDefinitionsPath?: string,
+  ): Promise<components['schemas']['SingleVariantReportDefinition']> {
+    return this.reportingClient.getDefinition(token, reportId, variantId, dataProductDefinitionsPath)
+  }
+
   async requestAsyncReport(
     token: string,
     reportId: string,

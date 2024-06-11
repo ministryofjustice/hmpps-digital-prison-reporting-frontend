@@ -3,8 +3,8 @@ import type { Router } from 'express'
 import AsyncFiltersUtils from '../components/async-filters/utils'
 import AsyncReportListUtils from '../components/async-report-list/utils'
 import AsyncPollingUtils from '../components/async-polling/utils'
-import ReportingClient from '../data/reportingClient'
 import AsyncReportStoreService from '../services/requestedReportsService'
+import ReportingService from '../services/reportingService'
 
 export default function routes({
   router,
@@ -13,7 +13,7 @@ export default function routes({
 }: {
   router: Router
   asyncReportsStore: AsyncReportStoreService
-  dataSources: ReportingClient
+  dataSources: ReportingService
 }) {
   // 1 - get filters for the report + make request
   router.get('/async-reports/:reportId/:variantId/request', async (req, res, next) => {

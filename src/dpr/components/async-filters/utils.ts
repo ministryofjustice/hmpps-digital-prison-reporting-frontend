@@ -71,7 +71,7 @@ export default {
       const { token } = res.locals.user || 'token'
       const { reportId, variantId } = req.params
       const { dataProductDefinitionsPath: definitionPath } = req.query
-      const definition = await dataSources.getDefinition(token, reportId, variantId)
+      const definition = await dataSources.getDefinition(token, reportId, variantId, <string>definitionPath)
       const { name: reportName } = definition
       const { name: variantName, description } = definition.variant
 

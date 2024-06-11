@@ -10,12 +10,12 @@ export default class AsyncReportStoreService {
 
   requestedReports: AsyncReportData[]
 
-  constructor(private readonly userStore: UserDataStore, userId: string) {
-    this.userId = userId
+  constructor(private readonly userStore: UserDataStore) {
     this.userStore = userStore
   }
 
-  async init() {
+  async init(userId: string) {
+    this.userId = userId
     this.getState()
   }
 

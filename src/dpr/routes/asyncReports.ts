@@ -1,13 +1,22 @@
 /* eslint-disable no-underscore-dangle */
-// eslint-disable-next-line import/no-extraneous-dependencies
-const bodyParser = require('body-parser')
-const AsyncFiltersUtils = require('../../components/async-filters/utils').default
-const AsyncReportListUtils = require('../../components/async-report-list/utils').default
-const AsyncPollingUtils = require('../../components/async-polling/utils').default
+import type { Router } from 'express'
+import AsyncFiltersUtils from '../components/async-filters/utils'
+import AsyncReportListUtils from '../components/async-report-list/utils'
+import AsyncPollingUtils from '../components/async-polling/utils'
+import ReportingClient from '../data/reportingClient'
+import AsyncReportStoreService from '../services/requestedReportsService'
 
-const addAsyncReportingRoutes = ({ app, asyncReportsStore, dataSources }) => {
+export default function routes({
+  router,
+  asyncReportsStore,
+  dataSources,
+}: {
+  router: Router
+  asyncReportsStore: AsyncReportStoreService
+  dataSources: ReportingClient
+}) {
   // 1 - get filters for the report + make request
-  app.get('/async-reports/:reportId/:variantId/request', async (req, res, next) => {
+  router.get('/async-reports/:reportId/:variantId/request', async (req, res, next) => {
     res.render('async-request.njk', {
       title: 'Request Report',
       postEndpoint: '/requestReport/',
@@ -16,8 +25,7 @@ const addAsyncReportingRoutes = ({ app, asyncReportsStore, dataSources }) => {
   })
 
   // 2 - handle the post request to request the report data
-  app.use(bodyParser.json())
-  app.post('/requestReport/', async (req, res, next) => {
+  router.post('/requestReport/', async (req, res, next) => {
     const redirectToPollingPage = await AsyncFiltersUtils.requestReport({
       req,
       res,
@@ -25,12 +33,14 @@ const addAsyncReportingRoutes = ({ app, asyncReportsStore, dataSources }) => {
       asyncReportsStore,
       next,
     })
-    res.redirect(redirectToPollingPage)
+    if (redirectToPollingPage) {
+      res.redirect(redirectToPollingPage)
+    }
     res.end()
   })
 
   // 3 - polling the status of the request
-  app.get('/async-reports/:reportId/:variantId/request/:executionId', async (req, res, next) => {
+  router.get('/async-reports/:reportId/:variantId/request/:executionId', async (req, res, next) => {
     res.render('async-polling.njk', {
       title: 'Report Requested',
       ...(await AsyncPollingUtils.renderPolling({ req, res, dataSources, asyncReportsStore, next })),
@@ -38,18 +48,15 @@ const addAsyncReportingRoutes = ({ app, asyncReportsStore, dataSources }) => {
   })
 
   // 3 - load the report data
-  app.get('/async-reports/:reportId/:reportVariantId/request/:tableId/report', async (req, res, next) => {
+  router.get('/async-reports/:reportId/:reportVariantId/request/:tableId/report', async (req, res, next) => {
     res.render('async-report.njk', {
       ...(await AsyncReportListUtils.renderReport({
         req,
         res,
         dataSources,
         asyncReportsStore,
-        url: req._parsedUrl,
         next,
       })),
     })
   })
 }
-
-module.exports = addAsyncReportingRoutes

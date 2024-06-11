@@ -1,4 +1,5 @@
-import { Page, UrlData } from './types'
+import { Url } from 'url'
+import { Page } from './types'
 
 const SELECTED_PAGE_PARAM = 'selectedPage'
 const PAGE_SIZE_PARAM = 'pageSize'
@@ -121,7 +122,7 @@ const setPageSizes = (totalRows: number) => {
  * @return {*}
  */
 export default {
-  getPaginationData: (url: UrlData, totalRows: number) => {
+  getPaginationData: (url: Url, totalRows: number) => {
     const { pathname, search } = url
     const { pages, pagesLength } = createPages(pathname, search, totalRows)
     return {

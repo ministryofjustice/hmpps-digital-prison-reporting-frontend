@@ -52,6 +52,7 @@ app.use(
 )
 app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
 app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest.json')))
+app.use(bodyParser.json())
 
 const definitions = require('./reportDefinition')
 const mockAsyncApis = require('./mockData/mockAsyncApis')
@@ -60,7 +61,7 @@ const getMockCardData = require('./mockData/mockLegacyReportCards')
 const data = require('./data')
 const ReportingClient = require('../package/dpr/data/reportingClient')
 const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
-const addAsyncReportingRoutes = require('../package/dpr/routes/async-reports/routes')
+const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
 
 // Set up routes
 
@@ -85,7 +86,7 @@ const asyncReportsStore = new AsyncReportStoreService(mockUserStore, 'userId')
 asyncReportsStore.init()
 
 // Step 2 - Add routes to root routes file
-addAsyncReportingRoutes({ app, asyncReportsStore, dataSources: mockAsyncApis })
+addAsyncReportingRoutes({ router: app, asyncReportsStore, dataSources: mockAsyncApis })
 
 // Step 3 - Add Requested Reports Slide to homepage
 app.get('/async-reports', async (req, res) => {

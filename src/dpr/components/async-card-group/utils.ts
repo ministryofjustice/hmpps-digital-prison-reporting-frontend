@@ -1,12 +1,12 @@
 import AsyncReportStoreService from '../../services/requestedReportsService'
 import { AsyncReportData, RequestStatus } from '../../types/AsyncReport'
-import ReportingClient from '../../data/reportingClient'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import Dict = NodeJS.Dict
+import ReportingService from '../../services/reportingService'
 
 const formatCardData = async (
   requestedReportsData: AsyncReportData,
-  dataSources: ReportingClient,
+  dataSources: ReportingService,
   token: string,
   asyncReportsStore: AsyncReportStoreService,
 ): Promise<CardData> => {
@@ -71,7 +71,7 @@ const setDataFromStatus = (status: RequestStatus, requestedReportsData: AsyncRep
 
 const formatCards = async (
   asyncReportsStore: AsyncReportStoreService,
-  dataSources: ReportingClient,
+  dataSources: ReportingService,
   token: string,
 ): Promise<CardData[]> => {
   const requestedReportsData: AsyncReportData[] = await asyncReportsStore.getAllReports()

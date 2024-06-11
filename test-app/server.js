@@ -61,7 +61,11 @@ const getMockCardData = require('./mockData/mockLegacyReportCards')
 const data = require('./data')
 const ReportingClient = require('../package/dpr/data/reportingClient')
 const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
+<<<<<<< HEAD
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
+=======
+const addAsyncReportingRoutes = require('../package/dpr/routes/async-reports/routes')
+>>>>>>> main
 
 // Set up routes
 
@@ -86,7 +90,11 @@ const asyncReportsStore = new AsyncReportStoreService(mockUserStore, 'userId')
 asyncReportsStore.init()
 
 // Step 2 - Add routes to root routes file
+<<<<<<< HEAD
 addAsyncReportingRoutes({ router: app, asyncReportsStore, dataSources: mockAsyncApis })
+=======
+addAsyncReportingRoutes({ app, asyncReportsStore, dataSources: mockAsyncApis })
+>>>>>>> main
 
 // Step 3 - Add Requested Reports Slide to homepage
 app.get('/async-reports', async (req, res) => {

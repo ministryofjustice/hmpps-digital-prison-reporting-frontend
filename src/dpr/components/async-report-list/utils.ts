@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import parseUrl from 'parseurl'
 import DataTableUtils from '../data-table/utils'
 import ColumnUtils from '../async-columns/utils'
 import PaginationUtils from '../pagination/utils'
@@ -31,7 +32,7 @@ const initDataSources = ({ req, res, next, asyncReportsStore, dataSources }: Asy
 }
 
 export default {
-  renderReport: async ({ req, res, next, url, asyncReportsStore, dataSources }: AsyncReportUtilsParams) => {
+  renderReport: async ({ req, res, next, asyncReportsStore, dataSources }: AsyncReportUtilsParams) => {
     const { columns: reqColumns } = req.query
     const dataPromises = initDataSources({ req, res, next, dataSources, asyncReportsStore })
 
@@ -47,6 +48,7 @@ export default {
           const { classification } = definition.variant
 
           const columns = ColumnUtils.getColumns(fieldDefinition, <string[]>reqColumns)
+          const url = parseUrl(req)
           const pagination = PaginationUtils.getPaginationData(url, count)
           const actions = ReportActionsUtils.initReportActions(definition.variant, reportStateData)
           const rows = DataTableUtils.mapData(reportData, fieldDefinition, columns.value)

@@ -5,3 +5,9 @@
 #page-size-select {
   min-width: 5em;
 }
+
+@media print {
+  .dpr-pagination {
+    display: none;
+  }
+}

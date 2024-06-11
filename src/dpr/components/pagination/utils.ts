@@ -61,7 +61,7 @@ const createPages = (pathname: string, search: string, totalRows: number): { pag
 const createNext = (pathname: string, search: string, lastPage: number): string | undefined => {
   const queryParams = new URLSearchParams(search)
 
-  let nextPage = 0
+  let nextPage = 2
   if (queryParams.has(SELECTED_PAGE_PARAM)) {
     currentPage = +queryParams.get(SELECTED_PAGE_PARAM)
     if (currentPage === lastPage) {
@@ -69,6 +69,7 @@ const createNext = (pathname: string, search: string, lastPage: number): string 
     }
     nextPage = currentPage + 1
   }
+
   queryParams.set(SELECTED_PAGE_PARAM, `${nextPage}`)
 
   return `${pathname}?${queryParams.toString()}`

@@ -63,8 +63,7 @@ const getMockCardData = require('./mockData/mockLegacyReportCards')
 const data = require('./data')
 const ReportingClient = require('../package/dpr/data/reportingClient')
 const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
-
-const addAsyncReportingRoutes = require('../src/dpr/routes/async-reports/routes')
+const addAsyncReportingRoutes = require('../package/dpr/routes/async-reports/routes')
 
 // Set up routes
 

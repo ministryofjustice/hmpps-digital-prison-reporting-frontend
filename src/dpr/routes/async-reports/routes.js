@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 // eslint-disable-next-line import/no-extraneous-dependencies
 const bodyParser = require('body-parser')
-const AsyncFiltersUtils = require('../../../../package/dpr/components/async-filters/utils').default
-const AsyncReportListUtils = require('../../../../package/dpr/components/async-report-list/utils').default
-const AsyncPollingUtils = require('../../../../package/dpr/components/async-polling/utils').default
+const AsyncFiltersUtils = require('../../components/async-filters/utils').default
+const AsyncReportListUtils = require('../../components/async-report-list/utils').default
+const AsyncPollingUtils = require('../../components/async-polling/utils').default
 
 const addAsyncReportingRoutes = ({ app, asyncReportsStore, dataSources }) => {
   // 1 - get filters for the report + make request

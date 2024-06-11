@@ -48,9 +48,12 @@ const getDefinition = (token, reportId, variantId) => {
   return Promise.resolve(report)
 }
 
-const getAsyncReport = (query) => {
+const getAsyncReport = (token, reportId, variantId, tableId, query) => {
   const pageSize = query.pageSize ? +query.pageSize : 10
-  return () => Promise.resolve(createMockData(pageSize))
+  const report = createMockData(pageSize)
+  return new Promise((resolve) => {
+    resolve(report)
+  })
 }
 
 const getAsyncCount = () => Promise.resolve(100)

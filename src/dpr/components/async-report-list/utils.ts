@@ -43,7 +43,6 @@ export default {
           const reportData = <Array<Dict<string>>>resolvedData[1]
           const count = <number>resolvedData[2]
           const reportStateData: AsyncReportData = <AsyncReportData>resolvedData[3]
-
           const fieldDefinition = definition.variant.specification.fields
           const { classification } = definition.variant
 

@@ -101,7 +101,6 @@ export default {
       const { reportId, variantId, query } = req.body
       const response = await dataSources.requestAsyncReport(token, reportId, variantId, query)
       const { executionId, tableId } = response
-
       let redirect = ''
       if (executionId && tableId) {
         const reportData = await asyncReportsStore.addReport(

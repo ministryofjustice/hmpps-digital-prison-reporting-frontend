@@ -64,6 +64,8 @@ const data = require('./data')
 const ReportingClient = require('../package/dpr/data/reportingClient')
 const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
 
+const addAsyncReportingRoutes = require('../src/dpr/routes/async-reports/routes')
+
 // Set up routes
 
 app.get('/', (req, res) => {
@@ -80,68 +82,25 @@ app.get('/', (req, res) => {
 })
 
 // ----- ASYNC REPORTS -----
+
+// Step 1 - initialise the UserStore + AsyncReportStore
 const mockUserStore = new MockUserStoreService()
 const asyncReportsStore = new AsyncReportStoreService(mockUserStore, 'userId')
+asyncReportsStore.init()
 
-// Step 1 - display list of async reports
+// Step 2 - Add routes to root routes file
+addAsyncReportingRoutes({ app, asyncReportsStore, dataSources: mockAsyncApis })
+
+// Step 3 - Add Requested Reports Slide to homepage
 app.get('/async-reports', async (req, res) => {
   res.render('async.njk', {
-    title: 'Async Reports Home',
+    title: 'Home',
     requestedReports: {
       ...(await AsyncCardGroupUtils.renderAsyncReportsList({ asyncReportsStore, dataSources: mockAsyncApis, res })),
     },
     legacyReports: {
       cardData: getMockCardData(req),
     },
-  })
-})
-
-// Step 2 - get filters for the report + make request
-app.get('/async-reports/:reportId/:variantId/request', async (req, res) => {
-  res.render('async-request.njk', {
-    title: 'Request Report',
-    postEndpoint: '/requestReport/',
-    ...(await AsyncFiltersUtils.renderFilters({ req, res, dataSources: mockAsyncApis })),
-  })
-})
-
-// Step 3 - handle the post request to request the report data
-app.use(bodyParser.json())
-app.post('/requestReport/', async (req, res) => {
-  const redirectToPollingPage = await AsyncFiltersUtils.requestReport({
-    req,
-    res,
-    dataSources: mockAsyncApis,
-    asyncReportsStore,
-  })
-  res.redirect(redirectToPollingPage)
-  res.end()
-})
-
-// Step 4 - polling the status of the request
-app.get('/async-reports/:reportId/:variantId/request/:executionId', async (req, res) => {
-  res.render('async-polling.njk', {
-    title: 'Report Requested',
-    ...(await AsyncPollingUtils.renderPolling({ req, res, dataSources: mockAsyncApis, asyncReportsStore })),
-  })
-})
-
-// Step 5 - load the report data
-app.get('/async-reports/:reportId/:reportVariantId/request/:tableId/report', async (req, res) => {
-  // TODO: FIXE this so its more generic and not coupled to the mock
-  const dataSources = {
-    ...mockAsyncApis,
-    getAsyncReport: mockAsyncApis.getAsyncReport(req.query),
-  }
-
-  res.render('async-report.njk', {
-    ...(await AsyncReportListUtils.renderReport({
-      req,
-      res,
-      dataSources,
-      asyncReportsStore,
-      url: req._parsedUrl,
-    })),
   })
 })
 

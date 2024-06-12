@@ -27,7 +27,7 @@ export default {
     pathPrefix: string,
     additionalQueryParams?: NodeJS.Dict<string>,
   ) => {
-    let suffix: string
+    let suffix = ''
     if (pathPrefix === '/async-reports') suffix = '/request'
 
     return reportDefinition.variants.map((v: components['schemas']['VariantDefinitionSummary']) => ({

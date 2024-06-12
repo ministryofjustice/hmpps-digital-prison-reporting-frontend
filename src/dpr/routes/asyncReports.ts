@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import type { Router } from 'express'
+import csurf from 'csurf'
 import AsyncFiltersUtils from '../components/async-filters/utils'
 import AsyncReportListUtils from '../components/async-report-list/utils'
 import AsyncPollingUtils from '../components/async-polling/utils'

@@ -36,6 +36,7 @@ export default class AsyncFilters extends DprQueryParamClass {
     const reportName = this.submitButton.getAttribute('data-report-name')
     const variantDescription = this.submitButton.getAttribute('data-variant-description')
     const dataProductDefinitionsPath = this.submitButton.getAttribute('data-definition-path')
+    const csrfToken = this.submitButton.getAttribute('data-csrf-token')
 
     this.submitButton.addEventListener('click', async () => {
       const sortData = this.getFormDataAsObject(this.sortedByForm, '')
@@ -57,6 +58,7 @@ export default class AsyncFilters extends DprQueryParamClass {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          'CSRF-Token': csrfToken,
         },
         body: JSON.stringify({
           reportId,

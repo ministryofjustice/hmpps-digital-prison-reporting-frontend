@@ -1,8 +1,8 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
-{% from "components/request-status-tag/view.njk" import dprRequestStatusTag %}
-{% from "components/async-request-details/view.njk" import dprAsyncRequestDetails %}
+{% from "../request-status-tag/view.njk" import dprRequestStatusTag %}
+{% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
 
 {% macro dprAsyncPolling(data) %}
   {% set description = data.variantDescription %}

@@ -53,7 +53,6 @@ export default class AsyncFilters extends DprQueryParamClass {
 
       const { origin, href, pathname, search } = window.location
 
-<<<<<<< HEAD
       try {
         const res = await fetch(endpoint, {
           method: 'post',
@@ -84,34 +83,6 @@ export default class AsyncFilters extends DprQueryParamClass {
       } catch (error) {
         console.log(error)
       }
-=======
-      const res = await fetch(endpoint, {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'CSRF-Token': csrfToken,
-        },
-        body: JSON.stringify({
-          reportId,
-          variantId,
-          variantName,
-          reportName,
-          variantDescription,
-          sortData,
-          filterData,
-          query,
-          querySummary,
-          href,
-          pathname,
-          search,
-          origin,
-          dataProductDefinitionsPath,
-        }),
-      })
-
-      window.location.href = res.url
->>>>>>> main
     })
   }
 

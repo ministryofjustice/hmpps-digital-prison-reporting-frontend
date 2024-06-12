@@ -1,5 +1,5 @@
-{% from "components/async-filter-inputs/view.njk" import dprAsyncFilterInputs -%}
-{% from "components/async-request-details/view.njk" import dprAsyncRequestDetails %}
+{% from "../async-filter-inputs/view.njk" import dprAsyncFilterInputs -%}
+{% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% macro dprAsyncFilters(filters, sortBy, data, endpoint) %}
@@ -9,6 +9,7 @@
   {% set description = data.description %}
   {% set reportName = data.reportName %}
   {% set definitionPath = data.definitionPath %}
+  {% set csrfToken = data.csrfToken %}
 
   {{ dprAsyncRequestDetails( reportName, variantName, description )}}
 
@@ -38,6 +39,7 @@
           'data-report-name': reportName,
           'data-variant-description': description,
           'data-definition-path': definitionPath
+          'data-csrf-token': csrfToken
         }
       }) }}
 

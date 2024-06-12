@@ -69,6 +69,7 @@ export default {
   renderFilters: async ({ req, res, dataSources, next }: AsyncReportUtilsParams) => {
     try {
       const { token } = res.locals.user || 'token'
+      const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
       const { reportId, variantId } = req.params
       const { dataProductDefinitionsPath: definitionPath } = req.query
       const definition = await dataSources.getDefinition(token, reportId, variantId, <string>definitionPath)
@@ -76,7 +77,7 @@ export default {
       const { name: variantName, description } = definition.variant
 
       return {
-        reportData: { reportName, variantName, description, reportId, variantId, definitionPath },
+        reportData: { reportName, variantName, description, reportId, variantId, definitionPath, csrfToken },
         ...initFiltersFromDefinition(definition.variant),
       }
     } catch (error) {

@@ -20,10 +20,10 @@ export default class UserDataStore {
     }
   }
 
-  public async init(userId: string) {
+  public async initUser(userId: string) {
     const config = this.getUserConfig(userId)
-    if (!config) {
-      this.setUserConfig(userId, { ...baseplateStore })
+    if (!config || Object.keys(config).length === 0) {
+      await this.setUserConfig(userId, { ...baseplateStore })
     }
   }
 

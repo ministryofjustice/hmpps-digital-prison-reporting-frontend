@@ -16,7 +16,10 @@ export default class AsyncReportStoreService {
 
   async init(userId: string) {
     this.userId = userId
-    this.getState()
+    await this.getState()
+    if (Object.keys(this.userConfig).length === 0) {
+      this.userStore.initUser(this.userId)
+    }
   }
 
   async getState() {

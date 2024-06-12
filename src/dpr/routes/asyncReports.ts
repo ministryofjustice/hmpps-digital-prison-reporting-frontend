@@ -34,7 +34,7 @@ export default function routes({
       next,
     })
     if (redirectToPollingPage) {
-      res.redirect(redirectToPollingPage)
+      res.send({ redirectUrl: redirectToPollingPage })
     }
     res.end()
   })

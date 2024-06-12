@@ -53,36 +53,35 @@ export default class AsyncFilters extends DprQueryParamClass {
 
       const { origin, href, pathname, search } = window.location
 
-      try {
-        const res = await fetch(endpoint, {
-          method: 'post',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            'CSRF-Token': csrfToken,
-          },
-          body: JSON.stringify({
-            reportId,
-            variantId,
-            variantName,
-            reportName,
-            variantDescription,
-            sortData,
-            filterData,
-            query,
-            querySummary,
-            href,
-            pathname,
-            search,
-            origin,
-            dataProductDefinitionsPath,
-          }),
+      await fetch(endpoint, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'CSRF-Token': csrfToken,
+        },
+        body: JSON.stringify({
+          reportId,
+          variantId,
+          variantName,
+          reportName,
+          variantDescription,
+          sortData,
+          filterData,
+          query,
+          querySummary,
+          href,
+          pathname,
+          search,
+          origin,
+          dataProductDefinitionsPath,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          window.location.href = data.redirectUrl
         })
-        console.log(res)
-        window.location.href = res.url
-      } catch (error) {
-        console.log(error)
-      }
+        .catch((error) => console.error('Error:', error))
     })
   }
 

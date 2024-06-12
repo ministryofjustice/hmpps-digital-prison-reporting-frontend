@@ -17,8 +17,8 @@ describe('AsyncReportStoreService', () => {
   let asyncReportsStore: AsyncReportStoreService
 
   beforeEach(() => {
-    asyncReportsStore = new AsyncReportStoreService(mockUserStore, 'userId')
-    asyncReportsStore.init()
+    asyncReportsStore = new AsyncReportStoreService(mockUserStore)
+    asyncReportsStore.init('userId')
   })
 
   describe('getState', () => {

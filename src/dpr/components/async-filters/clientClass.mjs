@@ -53,7 +53,7 @@ export default class AsyncFilters extends DprQueryParamClass {
 
       const { origin, href, pathname, search } = window.location
 
-      const res = await fetch(endpoint, {
+      await fetch(endpoint, {
         method: 'post',
         headers: {
           Accept: 'application/json',
@@ -77,8 +77,11 @@ export default class AsyncFilters extends DprQueryParamClass {
           dataProductDefinitionsPath,
         }),
       })
-
-      window.location.href = res.url
+        .then((res) => res.json())
+        .then((data) => {
+          window.location.href = data.redirectUrl
+        })
+        .catch((error) => console.error('Error:', error))
     })
   }
 

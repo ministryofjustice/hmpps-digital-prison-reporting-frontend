@@ -12,8 +12,8 @@ const formatCardData = async (
 ): Promise<CardData> => {
   let reportData = JSON.parse(JSON.stringify(requestedReportsData))
   const { executionId, reportId, variantId } = reportData
-
   let response: Dict<string>
+
   try {
     response = await dataSources.getAsyncReportStatus(token, reportId, variantId, executionId)
   } catch {

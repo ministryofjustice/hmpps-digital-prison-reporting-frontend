@@ -71,7 +71,7 @@ app.get('/', (req, res) => {
     cards: [
       {
         text: 'Synchronous Reports',
-        description: 'Reports that return immediately',
+        description: 'Reports that return immediately.',
         href: '/test-reports',
       },
       {

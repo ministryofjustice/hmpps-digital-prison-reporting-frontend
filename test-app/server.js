@@ -70,9 +70,14 @@ app.get('/', (req, res) => {
     title: 'Home',
     cards: [
       {
-        text: 'Test Reports',
-        description: 'test reports',
+        text: 'Synchronous Reports',
+        description: 'Reports that return immediately.',
         href: '/test-reports',
+      },
+      {
+        text: 'Asynchronous Reports',
+        description: 'Reports that are requested and displayed separately.',
+        href: '/async-reports',
       },
     ],
   })

@@ -14,7 +14,7 @@ const initDataSources = ({ req, res, next, asyncReportsStore, dataSources }: Asy
   try {
     const { token } = res.locals.user || 'token'
     const { reportId, reportVariantId, tableId } = req.params
-    const { selectedPage, pageSize, dataProductDefinitionsPath } = req.query
+    const { selectedPage = 1, pageSize = 10, dataProductDefinitionsPath } = req.query
     const reportDefinitionPromise = dataSources.getDefinition(
       token,
       reportId,

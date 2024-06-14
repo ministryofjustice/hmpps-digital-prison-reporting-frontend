@@ -229,7 +229,7 @@ describe('reportingClient', () => {
     it('should return data from api', async () => {
       const response = { count: 123 }
       const tableId = 'table-id'
-      const resource = `/report/tables/${tableId}`
+      const resource = `/report/tables/${tableId}/count`
 
       fakeReportingApi.get(resource).reply(200, response)
 

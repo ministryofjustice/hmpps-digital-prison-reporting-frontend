@@ -18,7 +18,7 @@ const formatCardData = async (
     response = await dataSources.getAsyncReportStatus(token, reportId, variantId, executionId)
   } catch {
     response = {
-      status: 'FAILED'
+      status: RequestStatus.FAILED
     }
   }
 

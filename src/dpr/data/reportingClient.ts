@@ -160,7 +160,7 @@ export default class ReportingClient {
 
     return this.restClient
       .get({
-        path: `/report/tables/${tableId}`,
+        path: `/report/tables/${tableId}/count`,
         token,
       })
       .then((response) => (<Count>response).count)

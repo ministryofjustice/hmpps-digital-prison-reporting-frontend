@@ -42,9 +42,9 @@ Support more word wrapping options, and more field types.
 
 ## v3.6.0
 
-- Updated loading state on table view
-- Menu card loading state
-- Total Results count displayed on report list
+- Updated loading state on table view.
+- Menu card loading state.
+- Total Results count displayed on report list.
 
 ## v3.5.7
 

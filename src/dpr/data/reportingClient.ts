@@ -144,7 +144,13 @@ export default class ReportingClient {
       .then((response) => <Array<Dict<string>>>response)
   }
 
-  getAsyncReportStatus(token: string, reportId: string, variantId: string, executionId: string, dataProductDefinitionsPath?: string): Promise<Dict<string>> {
+  getAsyncReportStatus(
+    token: string,
+    reportId: string,
+    variantId: string,
+    executionId: string,
+    dataProductDefinitionsPath?: string,
+  ): Promise<Dict<string>> {
     logger.info(`Reporting client: Get statementId:${executionId} status`)
 
     return this.restClient
@@ -153,7 +159,7 @@ export default class ReportingClient {
         token,
         query: {
           dataProductDefinitionsPath,
-        }
+        },
       })
       .then((response) => <Dict<string>>response)
   }

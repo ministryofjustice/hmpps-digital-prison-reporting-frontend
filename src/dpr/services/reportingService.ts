@@ -56,7 +56,13 @@ export default class ReportingService {
     executionId: string,
     dataProductDefinitionsPath: string,
   ): Promise<Dict<string>> {
-    return this.reportingClient.getAsyncReportStatus(token, reportId, variantId, executionId, dataProductDefinitionsPath)
+    return this.reportingClient.getAsyncReportStatus(
+      token,
+      reportId,
+      variantId,
+      executionId,
+      dataProductDefinitionsPath,
+    )
   }
 
   async getAsyncCount(token: string, tableId: string, dataProductDefinitionsPath?: string): Promise<number> {

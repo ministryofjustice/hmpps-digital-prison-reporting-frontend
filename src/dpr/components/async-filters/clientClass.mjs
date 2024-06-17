@@ -19,6 +19,8 @@ export default class AsyncFilters extends DprQueryParamClass {
 
     document.getElementById('async-filters-form-pathname').value = window.location.pathname
     document.getElementById('async-filters-form-origin').value = window.location.origin
+    document.getElementById('async-filters-form-href').value = window.location.href
+    document.getElementById('async-filters-form-search').value = window.location.search
   }
 
   initResetButton () {

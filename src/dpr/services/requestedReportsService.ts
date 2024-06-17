@@ -165,8 +165,12 @@ export default class AsyncReportStoreService {
         break
       case RequestStatus.FINISHED:
         report.timestamp.completed = `Ready at: ${ts}`
-        report.url.report.pathname = `${report.url.request.pathname}/${tableId}/report${getDpdPathSuffix(report.dataProductDefinitionsPath)}`
-        report.url.report.fullUrl = `${report.url.origin}${report.url.report.pathname}${getDpdPathSuffix(report.dataProductDefinitionsPath)}`
+        report.url.report.pathname = `${report.url.request.pathname}/${tableId}/report${getDpdPathSuffix(
+          report.dataProductDefinitionsPath,
+        )}`
+        report.url.report.fullUrl = `${report.url.origin}${report.url.report.pathname}${getDpdPathSuffix(
+          report.dataProductDefinitionsPath,
+        )}`
         break
       case RequestStatus.SUBMITTED:
         report.timestamp.requested = `Requested at: ${ts}`

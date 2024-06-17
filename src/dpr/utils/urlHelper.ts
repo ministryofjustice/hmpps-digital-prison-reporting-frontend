@@ -54,7 +54,7 @@ export const createQuerystringFromObject = (source: object) => {
 
 export const getDpdPathSuffix = (dpdsPath: string) => {
   if (dpdsPath && dpdsPath !== '') {
-      return `?dataProductDefinitionsPath=${dpdsPath}`
+    return `?dataProductDefinitionsPath=${dpdsPath}`
   }
 
   return ''

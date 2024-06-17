@@ -35,7 +35,7 @@ const initFiltersFromDefinition = (definition: components['schemas']['VariantDef
         let startValue = min
         let endValue = max
         if (defaultValue) {
-          [startValue, endValue] = defaultValue.split(' - ')
+          ;[startValue, endValue] = defaultValue.split(' - ')
         }
 
         filterData = filterData as unknown as DateFilterValue
@@ -106,23 +106,23 @@ export default {
       const sortData = {}
 
       Object.keys(req.body)
-        .filter(name => name !== "_csrf" && req.body[name] !== '')
-        .forEach(name => {
-          const shortName = name.replace('filters.','')
+        .filter((name) => name !== '_csrf' && req.body[name] !== '')
+        .forEach((name) => {
+          const shortName = name.replace('filters.', '')
           const value = req.body[name]
 
           query[name] = value
 
-          if (name.startsWith("filters.") && value !== '') {
+          if (name.startsWith('filters.') && value !== '') {
             filterData[shortName] = value
             querySummary.push({
               name: shortName,
               value,
             })
-          } else if (name.startsWith("sort")) {
+          } else if (name.startsWith('sort')) {
             sortData[name] = value
             querySummary.push({
-              name: name,
+              name,
               value,
             })
           }

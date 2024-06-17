@@ -10,15 +10,20 @@ export default function routes({
   router,
   asyncReportsStore,
   dataSources,
+  layoutPath,
+  templatePath = '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/views/',
 }: {
   router: Router
   asyncReportsStore: AsyncReportStoreService
   dataSources: ReportingService
+  layoutPath: string
+  templatePath: string
 }) {
   // 1 - get filters for the report + make request
   router.get('/async-reports/:reportId/:variantId/request', async (req, res, next) => {
-    res.render('async-request.njk', {
+    res.render(`${templatePath}async-request`, {
       title: 'Request Report',
+      layoutPath,
       postEndpoint: '/requestReport/',
       ...(await AsyncFiltersUtils.renderFilters({ req, res, dataSources, next })),
     })
@@ -41,15 +46,17 @@ export default function routes({
 
   // 3 - polling the status of the request
   router.get('/async-reports/:reportId/:variantId/request/:executionId', async (req, res, next) => {
-    res.render('async-polling.njk', {
+    res.render(`${templatePath}/async-polling`, {
       title: 'Report Requested',
+      layoutPath,
       ...(await AsyncPollingUtils.renderPolling({ req, res, dataSources, asyncReportsStore, next })),
     })
   })
 
   // 3 - load the report data
   router.get('/async-reports/:reportId/:reportVariantId/request/:tableId/report', async (req, res, next) => {
-    res.render('async-report.njk', {
+    res.render(`${templatePath}async-report`, {
+      layoutPath,
       ...(await AsyncReportListUtils.renderReport({
         req,
         res,

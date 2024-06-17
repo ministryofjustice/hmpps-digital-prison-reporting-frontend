@@ -91,7 +91,13 @@ const asyncReportsStore = new AsyncReportStoreService(mockUserStore, 'userId')
 asyncReportsStore.init()
 
 // Step 2 - Add routes to root routes file
-addAsyncReportingRoutes({ router: app, asyncReportsStore, dataSources: mockAsyncApis })
+addAsyncReportingRoutes({
+  router: app,
+  asyncReportsStore,
+  dataSources: mockAsyncApis,
+  layoutPath: 'page.njk',
+  templatePath: 'dpr/views/',
+})
 
 // Step 3 - Add Requested Reports Slide to homepage
 app.get('/async-reports', async (req, res) => {

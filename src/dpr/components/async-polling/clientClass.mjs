@@ -7,7 +7,7 @@ export default class dprAsyncPolling extends DprClientClass {
   }
 
   async initialise () {
-    this.POLLING_STATUSES = ['SUBMITTED', 'STARTED', 'PICKED']
+    this.POLLING_STATUSES = ['SUBMITTED', 'STARTED', 'PICKED', 'FAILED']
     this.POLLING_FREQUENCY = '5000' // 5 seconds
 
     this.statusSection = document.getElementById('async-request-polling-status')

@@ -28,6 +28,7 @@ export default {
           tableId: reportData.tableId,
           querySummary: reportData.query.summary,
           ...(reportData.url.report?.fullUrl && { reportUrl: reportData.url.report.fullUrl }),
+          ...(reportData.url.request.fullUrl && { requestUrl: reportData.url.request.fullUrl }),
         },
       }
     } catch (error) {

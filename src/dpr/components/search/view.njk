@@ -1,0 +1,31 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{%- from "govuk/components/tag/macro.njk" import govukTag -%}
+{%- from "govuk/components/button/macro.njk" import govukButton -%}
+
+{% macro appSearchBox(definitions) %}
+
+<div class="dpr-search" data-dpr-module="search">
+  {{ govukInput({
+    name: 'search',
+    autocomplete: "off",
+    suffix: {
+      html: "&#x1F50D;"
+    },
+    classes: "dpr-search-box"
+  }) }}
+
+  {{ govukTable({
+    captionClasses: "govuk-table__caption--m",
+    head: [
+      {
+        text: "Product"
+      },
+      {
+        text: "Name"
+      }
+    ],
+    classes: "dpr-search-table"
+  }) }}
+</div>
+
+{% endmacro %}

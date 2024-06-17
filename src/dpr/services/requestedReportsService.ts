@@ -145,22 +145,23 @@ export default class AsyncReportStoreService {
     await this.saveState()
   }
 
-  async updateStatus(id: string, status: RequestStatus) {
+  async updateStatus(id: string, status: RequestStatus, errorMessage?: string) {
     await this.getState()
     const index = this.findReportIndex(id)
     let report: AsyncReportData = this.requestedReports[index]
-    if (report) report = this.updateDataByStatus(report, status)
+    if (report) report = this.updateDataByStatus(report, status, errorMessage)
     this.requestedReports[index] = report
     await this.saveState()
   }
 
-  updateDataByStatus(report: AsyncReportData, status: RequestStatus | undefined) {
+  updateDataByStatus(report: AsyncReportData, status: RequestStatus | undefined, errorMessage?: string) {
     const ts = new Date().toLocaleString()
     const { tableId } = report
     report.status = status
     switch (status) {
       case RequestStatus.FAILED:
         report.timestamp.failed = `Failed at: ${ts}`
+        report.errorMessage = errorMessage
         break
       case RequestStatus.FINISHED:
         report.timestamp.completed = `Ready at: ${ts}`

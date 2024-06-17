@@ -34,12 +34,4 @@ export default class dprAsyncPolling extends DprClientClass {
       })
     }
   }
-
-  initRetryRequestButton () {
-    if (this.retryRequestButton) {
-      this.retryRequestButton.addEventListener('click', () => {
-        // TODO
-      })
-    }
-  }
 }

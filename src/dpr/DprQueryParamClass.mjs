@@ -43,7 +43,7 @@ export default class DprQueryParamClass extends DprClientClass {
    */
   initQueryParamsFromInputs (elements) {
     Array.from(elements).forEach((input) => {
-      this.setQueryParamFromInput(input)
+      if (input.type !== 'hidden') this.setQueryParamFromInput(input)
     })
   }
 

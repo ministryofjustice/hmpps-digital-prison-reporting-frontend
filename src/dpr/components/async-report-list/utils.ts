@@ -55,6 +55,7 @@ export default {
           const columns = ColumnUtils.getColumns(fieldDefinition, <string[]>reqColumns)
           const url = parseUrl(req)
           const pagination = PaginationUtils.getPaginationData(url, count)
+          console.log(JSON.stringify(reportStateData, null, 2))
           const actions = ReportActionsUtils.initReportActions(definition.variant, reportStateData)
           const rows = DataTableUtils.mapData(reportData, fieldDefinition, columns.value)
           const head = DataTableUtils.mapAsyncHeader(fieldDefinition, columns.value)

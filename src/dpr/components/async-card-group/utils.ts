@@ -1,6 +1,7 @@
 import AsyncReportStoreService from '../../services/requestedReportsService'
 import { AsyncReportData, RequestStatus } from '../../types/AsyncReport'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
+import AsyncPollingUtils from '../async-polling/utils'
 import Dict = NodeJS.Dict
 import ReportingService from '../../services/reportingService'
 
@@ -12,23 +13,21 @@ const formatCardData = async (
 ): Promise<CardData> => {
   let reportData = JSON.parse(JSON.stringify(requestedReportsData))
   const { executionId, reportId, variantId } = reportData
-  let response: Dict<string>
 
-  try {
-    response = await dataSources.getAsyncReportStatus(token, reportId, variantId, executionId)
-  } catch {
-    response = {
-      status: RequestStatus.FAILED,
-    }
-  }
+  const statusResponse = await AsyncPollingUtils.getStatus(
+    token,
+    reportId,
+    variantId,
+    executionId,
+    reportData.status,
+    dataSources,
+    asyncReportsStore,
+  )
 
-  const { status: newStatus } = response
-  if (newStatus !== reportData.status) {
-    await asyncReportsStore.updateStatus(executionId, newStatus as RequestStatus)
-    reportData = await asyncReportsStore.getReportByExecutionId(executionId)
-  }
+  const { status } = statusResponse
+  if (statusResponse.reportData) reportData = statusResponse.reportData
 
-  const { executionId: id, status, name: text, description, query } = reportData
+  const { executionId: id, name: text, description, query } = reportData
   const { summary } = query
 
   return {

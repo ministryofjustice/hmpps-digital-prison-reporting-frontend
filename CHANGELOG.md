@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v3.9.0
+
+Added Search component.
+
 ## v3.7.10
 
 Add definition path to Report List utility methods.

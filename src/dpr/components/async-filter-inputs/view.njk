@@ -2,81 +2,79 @@
 {% from "dpr/components/date-range/view.njk" import dprDateRange -%}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
-{% from "dpr/components/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
+{% from "dpr/components/autocomplete-text-input/view.njk" import dprAutocompleteTextInput %}
 
-{% macro dprAsyncFilterInputs(formId, filters) %}
+{% macro dprAsyncFilterInputs(formId, filters, prefix = "") %}
 
-  <form id="async-filters-form-{{ formId }}">
-    <div class="filter-container">
-      {%- for filter in filters %}
+<div class="filter-container">
+  {%- for filter in filters %}
 
-        {% set filterType = filter.type | lower %}
-        {% set name = filter.name %}
-        {% set value = filter.value %}
-        {% set text = filter.text %}
+    {% set filterType = filter.type | lower %}
+    {% set name = prefix + filter.name %}
+    {% set value = filter.value %}
+    {% set text = filter.text %}
 
-        <div class='filter-item'>
-          {%- if filterType === 'select' %}
+    <div class='filter-item'>
+      {%- if filterType === 'select' %}
 
-            {% set items = [
-              {
-                value: "",
-                text: "( No filter )"
-              }
-            ].concat(filter.options) %}
+        {% set items = [
+          {
+            value: "",
+            text: "( No filter )"
+          }
+        ].concat(filter.options) %}
 
-            {{ govukSelect({
-                id: name,
-                name: name,
-                value: value,
-                items: items,
-                label: { text: text, classes: "govuk-label govuk-!-font-weight-bold" }
-              }) }}
+        {{ govukSelect({
+            id: name,
+            name: name,
+            value: value,
+            items: items,
+            label: { text: text, classes: "govuk-label govuk-!-font-weight-bold" }
+          }) }}
 
-          {% elif filterType === 'radio' %}
+      {% elif filterType === 'radio' %}
 
-            {% set options = filter.options %}
+        {% set options = filter.options %}
 
-            {{ govukRadios({
-              id: name,
-              name: name,
-              classes: "govuk-radios--small",
-              fieldset: {
-                legend: {
-                  text: text,
-                  classes: "govuk-label govuk-!-font-weight-bold"
-                }
-              },
-              items: options,
-              value: value
-            }) }}
+        {{ govukRadios({
+          id: name,
+          name: name,
+          classes: "govuk-radios--small",
+          fieldset: {
+            legend: {
+              text: text,
+              classes: "govuk-label govuk-!-font-weight-bold"
+            }
+          },
+          items: options,
+          value: value
+        }) }}
 
-          {% elif filterType === 'daterange' %}
+      {% elif filterType === 'daterange' %}
 
-            <div class="govuk-form-group">
-              {{ dprDateRange(filter, '') }}
-            </div>
-
-          {% elif filterType === 'autocomplete' %}
-
-            {% set minimumLength = filter.minimumLength %}
-            {% set dynamicResourceEndpoint = filter.dynamicResourceEndpoint %}
-
-            {{ dprAutocompleteTextInput({
-              id: name,
-              name: name,
-              items: options,
-              value: value,
-              labelText: text,
-              minimumLength: minimumLength,
-              dynamicResourceEndpoint: dynamicResourceEndpoint
-            }) }}
-
-          {%- endif %}
-
+        <div class="govuk-form-group">
+          {{ dprDateRange(filter, '') }}
         </div>
-      {%- endfor %}
+
+      {% elif filterType === 'autocomplete' %}
+
+        {% set minimumLength = filter.minimumLength %}
+        {% set dynamicResourceEndpoint = filter.dynamicResourceEndpoint %}
+
+        {{ dprAutocompleteTextInput({
+          id: name,
+          name: name,
+          items: options,
+          value: value,
+          labelText: text,
+          minimumLength: minimumLength,
+          dynamicResourceEndpoint: dynamicResourceEndpoint
+        }) }}
+
+      {%- endif %}
+
     </div>
-  </form>
+  {%- endfor %}
+</div>
 
 {% endmacro %}

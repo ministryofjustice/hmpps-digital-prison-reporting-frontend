@@ -48,7 +48,7 @@ export default class AsyncReportStoreService {
       href: fullUrl,
       pathname,
       search,
-      origin,
+      origin = '',
       dataProductDefinitionsPath,
     } = reportData
 

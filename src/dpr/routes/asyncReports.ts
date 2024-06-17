@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import type { Router } from 'express'
 import AsyncFiltersUtils from '../components/async-filters/utils'
 import AsyncReportListUtils from '../components/async-report-list/utils'
@@ -39,9 +38,10 @@ export default function routes({
       next,
     })
     if (redirectToPollingPage) {
-      res.send({ redirectUrl: redirectToPollingPage })
+      res.redirect(redirectToPollingPage)
+    } else {
+      res.end()
     }
-    res.end()
   })
 
   // 3 - polling the status of the request

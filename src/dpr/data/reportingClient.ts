@@ -144,24 +144,36 @@ export default class ReportingClient {
       .then((response) => <Array<Dict<string>>>response)
   }
 
-  getAsyncReportStatus(token: string, reportId: string, variantId: string, executionId: string): Promise<Dict<string>> {
+  getAsyncReportStatus(
+    token: string,
+    reportId: string,
+    variantId: string,
+    executionId: string,
+    dataProductDefinitionsPath?: string,
+  ): Promise<Dict<string>> {
     logger.info(`Reporting client: Get statementId:${executionId} status`)
 
     return this.restClient
       .get({
         path: `/reports/${reportId}/${variantId}/statements/${executionId}/status`,
         token,
+        query: {
+          dataProductDefinitionsPath,
+        },
       })
       .then((response) => <Dict<string>>response)
   }
 
-  getAsyncCount(token: string, tableId: string): Promise<number> {
+  getAsyncCount(token: string, tableId: string, dataProductDefinitionsPath?: string): Promise<number> {
     logger.info(`Reporting client: Get tableId:${tableId} count`)
 
     return this.restClient
       .get({
         path: `/report/tables/${tableId}/count`,
         token,
+        query: {
+          dataProductDefinitionsPath,
+        },
       })
       .then((response) => (<Count>response).count)
   }

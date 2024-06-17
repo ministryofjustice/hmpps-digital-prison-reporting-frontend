@@ -15,7 +15,13 @@ const formatCardData = async (
   let response: Dict<string>
 
   try {
-    response = await dataSources.getAsyncReportStatus(token, reportId, variantId, executionId)
+    response = await dataSources.getAsyncReportStatus(
+      token,
+      reportId,
+      variantId,
+      executionId,
+      reportData.dataProductDefinitionsPath,
+    )
   } catch {
     response = {
       status: RequestStatus.FAILED,

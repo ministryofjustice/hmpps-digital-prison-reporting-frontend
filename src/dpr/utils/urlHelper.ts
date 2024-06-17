@@ -52,4 +52,12 @@ export const createQuerystringFromObject = (source: object) => {
   return `?${querystring}`
 }
 
+export const getDpdPathSuffix = (dpdsPath: string) => {
+  if (dpdsPath && dpdsPath !== '') {
+    return `?dataProductDefinitionsPath=${dpdsPath}`
+  }
+
+  return ''
+}
+
 export default createUrlForParameters

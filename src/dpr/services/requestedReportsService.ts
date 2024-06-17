@@ -80,8 +80,8 @@ export default class AsyncReportStoreService {
           search,
         },
         polling: {
-          fullUrl: `${origin}${pathname}/${executionId}`,
-          pathname: `${pathname}/${executionId}`,
+          fullUrl: `${origin}${pathname}/${executionId}?dataProductDefinitionsPath=${dataProductDefinitionsPath}`,
+          pathname: `${pathname}/${executionId}?dataProductDefinitionsPath=${dataProductDefinitionsPath}`,
         },
         report: {},
       },

@@ -5,56 +5,32 @@ export default class Search extends DprClientClass {
     return 'search'
   }
 
-  highlightText (text, searchValue) {
-    return text.replaceAll(new RegExp(`(${searchValue})`, 'gi'), '<b>$1</b>')
-  }
-
-  addAndHighlightColumn = (row, content, searchValue, id, path) => {
-    const column = document.createElement('td')
-    if (id) {
-      column.innerHTML = `<a href="./${path}/${id}/">` + this.highlightText(content, searchValue) + '</a>'
-    } else {
-      column.innerHTML = this.highlightText(content, searchValue)
-    }
-    column.classList.add('govuk-table__cell')
-    row.appendChild(column)
-  }
-
   updateSearchListing (value) {
     const table = this.getElement().querySelector('.dpr-search-table').querySelector('tbody')
 
-    while (table.rows.length > 0) {
-      table.deleteRow(0)
-    }
+    const rows = Array.from(table.rows)
+    rows.forEach(row => row.classList.add('search-option-hide'))
 
     const searchValue = value.toLowerCase()
 
-    document.definitions
-      .filter(d => !value ||
+    rows
+      .filter(row => !value ||
         value.length === 0 ||
-        d.name.toLowerCase().includes(searchValue) ||
-        d.author.toLowerCase().includes(searchValue) ||
-        d.tags.find(tag => tag.toLowerCase().includes(searchValue)) ||
-        Object.values(d.keywords).find(keyword => keyword.toLowerCase().includes(searchValue))
+        Array.from(row.cells).find(cell => cell.innerText.toLowerCase().includes(searchValue.toLowerCase()))
       )
-      .sort((a, b) => {
-        if (a.product === b.product) {
-          return a.name > b.name ? 1 : -1
-        } else {
-          return a.product > b.product ? 1 : -1
-        }
+      .forEach(row => {
+        Array.from(row.cells).forEach(cell => {
+          cell.innerHTML = cell.innerHTML
+              .replace(/<\/?b>/gi, '')
+
+            if (searchValue) {
+              const text = cell.innerText.replaceAll(new RegExp(`(${searchValue})`, 'gi'), `<b>$1</b>`)
+              cell.innerHTML = cell.innerHTML.replace(cell.innerText, text)
+            }
+          }
+        )
+        row.classList.remove('search-option-hide')
       })
-      .map(report => {
-        const row = document.createElement('tr')
-
-        row.classList.add('govuk-table__row')
-
-        this.addAndHighlightColumn(row, report.product, searchValue)
-        this.addAndHighlightColumn(row, report.name, searchValue, report.id, report.path)
-
-        return row
-      })
-      .forEach(row => table.appendChild(row))
   }
 
   initialise() {

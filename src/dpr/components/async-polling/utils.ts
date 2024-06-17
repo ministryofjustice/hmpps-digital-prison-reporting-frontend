@@ -13,7 +13,7 @@ const getStatus = async (
   asyncReportsStore: AsyncReportStoreService,
 ): Promise<GetStatusUtilsResponse> => {
   let status: RequestStatus
-  let errorMessage = ''
+  let errorMessage
 
   try {
     const statusResponse = await dataSources.getAsyncReportStatus(token, reportId, variantId, executionId)
@@ -23,12 +23,12 @@ const getStatus = async (
     }
   } catch (error) {
     status = RequestStatus.FAILED
-    errorMessage = error.userMessage
+    errorMessage = error.message
   }
 
   const res: GetStatusUtilsResponse = {
     status,
-    errorMessage,
+    ...(errorMessage && { errorMessage }),
   }
 
   if (currentStatus !== status) {

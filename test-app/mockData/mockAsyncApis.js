@@ -22,9 +22,24 @@ const mockDataItem = {
 
 const happyStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED', 400]
 const sadStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FAILED']
+const sadServerStatuses = ['SUBMITTED', 'PICKED', 500]
 
 const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
-  const statuses = variantId === 'variantId-3' ? sadStatuses : happyStatuses
+  let statuses
+  switch (variantId) {
+    case 'variantId-1':
+      statuses = happyStatuses
+      break
+    case 'variantId-2':
+      statuses = sadStatuses
+      break
+    case 'variantId-3':
+      statuses = sadServerStatuses
+      break
+    default:
+      break
+  }
+
   const reportIndex = mockAPIStatus.findIndex((r) => r.executionId === executionId)
   const currentStatus = mockAPIStatus[reportIndex].status
   const statusIndex = statuses.findIndex((status) => status === currentStatus)
@@ -33,16 +48,23 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
     mockAPIStatus[reportIndex].status = nextStatus
   }
   const res = { status: mockAPIStatus[reportIndex].status }
+
   if (nextStatus === 'FAILED') {
-    //
+    res.error = 'An error has occurred for some reason'
   }
+
+  if (typeof nextStatus !== 'string') {
+    res.userMessage = 'A server error has occurred for some reason'
+  }
+
   return Promise.resolve(res)
 }
 
 const requestAsyncReport = (token, reportId, variantId, query) => {
+  const unix = Date.now()
   return new Promise((resolve) => {
-    mockAPIStatus.push({ executionId: `exId_${variantId}`, status: 'redirect-call' })
-    setTimeout(resolve, 1000, { executionId: `exId_${variantId}`, tableId: `tblId_${variantId}` })
+    mockAPIStatus.push({ executionId: `exId_${unix}`, status: 'redirect-call' })
+    setTimeout(resolve, 1000, { executionId: `exId_${unix}`, tableId: `tblId_${unix}` })
   })
 }
 

@@ -167,6 +167,7 @@ const renderListWithDefinition = ({
         request.query,
         getDefaultSortColumn(variantDefinition.specification.fields),
         filtersQueryParameterPrefix,
+        definitionsPath,
       )
 
       const getListData: ListDataSources = {

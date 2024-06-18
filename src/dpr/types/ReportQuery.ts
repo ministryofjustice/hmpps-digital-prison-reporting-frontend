@@ -27,14 +27,16 @@ export default class ReportQuery implements FilteredListRequest {
     queryParams: ParsedQs,
     defaultSortColumn: string,
     filtersPrefix: string,
+    definitionsPath?: string,
   ) {
     this.selectedPage = queryParams.selectedPage ? Number(queryParams.selectedPage) : 1
     this.pageSize = queryParams.pageSize ? Number(queryParams.pageSize) : 20
     this.sortColumn = queryParams.sortColumn ? queryParams.sortColumn.toString() : defaultSortColumn
     this.sortedAsc = queryParams.sortedAsc !== 'false'
-    this.dataProductDefinitionsPath = queryParams.dataProductDefinitionsPath
-      ? queryParams.dataProductDefinitionsPath.toString()
-      : null
+    this.dataProductDefinitionsPath =
+      definitionsPath ?? queryParams.dataProductDefinitionsPath
+        ? queryParams.dataProductDefinitionsPath.toString()
+        : null
     this.filtersPrefix = filtersPrefix
 
     if (queryParams.columns) {

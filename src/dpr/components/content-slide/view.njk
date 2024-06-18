@@ -8,6 +8,7 @@
   {% set title = head.title %}
   {% set subText = head.subText %}
   {% set icon = head.icon %}
+  {% set id = head.id %}
 
   {# TOGGLE CONTENT #}
   {% set toggle = content.toggle %}
@@ -29,7 +30,7 @@
     </div>
 
     {% if items and items.length %}
-      {{ dprToggleContent('slideId', toggleIcons, items) }}
+      {{ dprToggleContent( id, toggleIcons, items) }}
     {% else %}
       {{ items[0].html | safe }}
     {% endif %}

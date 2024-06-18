@@ -2,7 +2,6 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "components/content-slide/view.njk" import dprContentSlide %}
 {% from "components/content-slide-cards/view.njk" import dprContentSlideCards %}
-{% from "components/async-card-group/view.njk" import dprAsyncCardGroup %}
 {% from "components/table-card-group/view.njk" import dprTableCardGroup %}
 
 {% block content %}
@@ -29,8 +28,8 @@
     {% endif %}
 
     <h1 class="govuk-heading-l">{{ title }}</h1>
-    {{ dprTableCardGroup({ title: "Requested Reports", icon: 'hourglass' }, requestedReports.cardData, requestedReports.tableData) }}
-    {{ dprTableCardGroup({ title: "Recently Viewed", icon: 'viewed' }, requestedReports.cardData, requestedReports.tableData) }}
-    {{ dprTableCardGroup({ title: "Legacy Reports", icon: '' }, legacyReports.cardData, requestedReports.tableData) }}
+    {{ dprTableCardGroup({ title: "Requested Reports", icon: 'hourglass', id:'requested-reports' }, requestedReports.cardData, requestedReports.tableData) }}
+    {{ dprTableCardGroup({ title: "Recently Viewed", icon: 'viewed', id:'recently-viewed' }, requestedReports.cardData, requestedReports.tableData) }}
+    {{ dprTableCardGroup({ title: "Legacy Reports", icon: '', id:'legacy-reports' }, legacyReports.cardData, requestedReports.tableData) }}
   </div>
 {% endblock %}

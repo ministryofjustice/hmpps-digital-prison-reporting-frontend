@@ -1,6 +1,6 @@
 import type { Router } from 'express'
 import AsyncFiltersUtils from '../components/async-filters/utils'
-import AsyncReportListUtils from '../components/async-report-list/utils'
+import * as AsyncReportListUtils from '../components/async-report-list/utils'
 import AsyncPollingUtils from '../components/async-polling/utils'
 import AsyncReportStoreService from '../services/requestedReportsService'
 import ReportingService from '../services/reportingService'

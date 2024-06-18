@@ -10,7 +10,7 @@ import Dict = NodeJS.Dict
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { AsyncReportData } from '../../types/AsyncReport'
 
-const initDataSources = ({ req, res, next, asyncReportsStore, dataSources }: AsyncReportUtilsParams) => {
+export const initDataSources = ({ req, res, next, asyncReportsStore, dataSources }: AsyncReportUtilsParams) => {
   try {
     const { token } = res.locals.user || 'token'
     const { reportId, reportVariantId, tableId } = req.params
@@ -36,46 +36,47 @@ const initDataSources = ({ req, res, next, asyncReportsStore, dataSources }: Asy
   }
 }
 
-export default {
-  renderReport: async ({ req, res, next, asyncReportsStore, dataSources }: AsyncReportUtilsParams) => {
-    const { columns: reqColumns } = req.query
-    const dataPromises = initDataSources({ req, res, next, dataSources, asyncReportsStore })
+export const renderReport = async ({ req, res, next, asyncReportsStore, dataSources }: AsyncReportUtilsParams) => {
+  const { columns: reqColumns } = req.query
 
-    let renderData = {}
-    if (dataPromises) {
-      await Promise.all(dataPromises)
-        .then((resolvedData) => {
-          const definition = resolvedData[0] as unknown as components['schemas']['SingleVariantReportDefinition']
-          const reportData = <Array<Dict<string>>>resolvedData[1]
-          const count = <number>resolvedData[2]
-          const reportStateData: AsyncReportData = <AsyncReportData>resolvedData[3]
-          const fieldDefinition = definition.variant.specification.fields
-          const { classification } = definition.variant
+  const dataPromises = initDataSources({ req, res, next, dataSources, asyncReportsStore })
+  let renderData = {}
+  if (dataPromises) {
+    await Promise.all(dataPromises)
+      .then((resolvedData) => {
+        const definition = resolvedData[0] as unknown as components['schemas']['SingleVariantReportDefinition']
+        const reportData = <Array<Dict<string>>>resolvedData[1]
+        const count = <number>resolvedData[2]
+        const reportStateData: AsyncReportData = <AsyncReportData>resolvedData[3]
 
-          const columns = ColumnUtils.getColumns(fieldDefinition, <string[]>reqColumns)
-          const url = parseUrl(req)
-          const pagination = PaginationUtils.getPaginationData(url, count)
-          console.log(JSON.stringify(reportStateData, null, 2))
-          const actions = ReportActionsUtils.initReportActions(definition.variant, reportStateData)
-          const rows = DataTableUtils.mapData(reportData, fieldDefinition, columns.value)
-          const head = DataTableUtils.mapAsyncHeader(fieldDefinition, columns.value)
-          const { reportName, name: variantName, query, description } = reportStateData
+        const fieldDefinition = definition.variant.specification.fields
+        const { classification } = definition.variant
 
-          renderData = {
-            variantName,
-            reportName,
-            description,
-            rows,
-            head,
-            columns,
-            pagination,
-            actions,
-            appliedFilters: query.summary,
-            classification,
-          }
-        })
-        .catch((err) => next(err))
-    }
-    return { renderData }
-  },
+        const columns = ColumnUtils.getColumns(fieldDefinition, <string[]>reqColumns)
+        const url = parseUrl(req)
+        const pagination = PaginationUtils.getPaginationData(url, count)
+        const actions = ReportActionsUtils.initReportActions(definition.variant, reportStateData)
+        const rows = DataTableUtils.mapData(reportData, fieldDefinition, columns.value)
+        const head = DataTableUtils.mapAsyncHeader(fieldDefinition, columns.value)
+        const { reportName, name: variantName, query, description } = reportStateData
+
+        renderData = {
+          variantName,
+          reportName,
+          description,
+          rows,
+          head,
+          columns,
+          pagination,
+          actions,
+          appliedFilters: query.summary,
+          classification,
+        }
+      })
+      .catch((err: any) => {
+        console.log(err)
+        next(err)
+      })
+  }
+  return { renderData }
 }

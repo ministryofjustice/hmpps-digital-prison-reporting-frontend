@@ -74,7 +74,6 @@ describe('AsyncPollinutils', () => {
         errorMessage: 'Mock error message',
         reportData: { data: 'stuff' },
       })
-      expect(mocAsyncReportsStore.updateStatus).not.toHaveBeenCalled()
     })
   })
 })

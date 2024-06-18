@@ -1,12 +1,12 @@
-import UserDataStore, { UserStoreConfig } from '../data/userDataStore'
+import UserDataStore from '../data/userDataStore'
 import { AsyncReportData } from '../types/AsyncReport'
+import { UserStoreConfig } from '../types/UserStore'
+import { RecentlyViewedReportData } from '../types/RecentlyViewed'
 
 export default class UserStoreService {
   userConfig: UserStoreConfig
 
   userId: string
-
-  requestedReports: AsyncReportData[]
 
   userStore: UserDataStore
 
@@ -24,9 +24,14 @@ export default class UserStoreService {
 
   async getState() {
     this.userConfig = await this.userStore.getUserConfig(this.userId)
+    // console.log(JSON.stringify(this.userConfig, null, 2))
   }
 
   async saveState() {
     await this.userStore.setUserConfig(this.userId, this.userConfig)
+  }
+
+  findIndexByExecutionId(id: string, array: RecentlyViewedReportData[] | AsyncReportData[]) {
+    return array.findIndex((report) => report.executionId === id)
   }
 }

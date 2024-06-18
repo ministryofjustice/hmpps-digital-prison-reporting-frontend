@@ -4,16 +4,19 @@ import * as AsyncReportListUtils from '../components/async-report-list/utils'
 import AsyncPollingUtils from '../components/async-polling/utils'
 import AsyncReportStoreService from '../services/requestedReportsService'
 import ReportingService from '../services/reportingService'
+import RecentlyViewedStoreService from '../services/recentlyViewedService'
 
 export default function routes({
   router,
   asyncReportsStore,
+  recentlyViewedStoreService,
   dataSources,
   layoutPath,
   templatePath = '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/views/',
 }: {
   router: Router
   asyncReportsStore: AsyncReportStoreService
+  recentlyViewedStoreService: RecentlyViewedStoreService
   dataSources: ReportingService
   layoutPath: string
   templatePath: string
@@ -62,6 +65,7 @@ export default function routes({
         res,
         dataSources,
         asyncReportsStore,
+        recentlyViewedStoreService,
         next,
       })),
     })

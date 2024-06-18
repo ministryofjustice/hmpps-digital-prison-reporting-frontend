@@ -51,7 +51,7 @@ export default {
     try {
       const { token } = res.locals.user || 'token'
       const { reportId, variantId, executionId } = req.params
-      let reportData = await asyncReportsStore.getReport(executionId)
+      let reportData = await asyncReportsStore.getReportByExecutionId(executionId)
 
       const statusResponse = await getStatus(
         token,

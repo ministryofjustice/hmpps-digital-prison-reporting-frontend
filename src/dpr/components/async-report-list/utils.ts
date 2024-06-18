@@ -27,27 +27,37 @@ export const initDataSources = ({ req, res, next, asyncReportsStore, dataSources
       dataProductDefinitionsPath: <string>dataProductDefinitionsPath,
     })
     const reportDataCountPromise = dataSources.getAsyncCount(token, tableId)
-    const stateData = asyncReportsStore.getReportByTableId(tableId)
 
-    return [reportDefinitionPromise, reportDataPromise, reportDataCountPromise, stateData]
+    const stateDataPromise = asyncReportsStore.getReportByTableId(tableId)
+
+    return [reportDefinitionPromise, reportDataPromise, reportDataCountPromise, stateDataPromise]
   } catch (error) {
     next(error)
     return false
   }
 }
 
-export const renderReport = async ({ req, res, next, asyncReportsStore, dataSources }: AsyncReportUtilsParams) => {
+export const renderReport = async ({
+  req,
+  res,
+  next,
+  asyncReportsStore,
+  recentlyViewedStoreService,
+  dataSources,
+}: AsyncReportUtilsParams) => {
   const { columns: reqColumns } = req.query
 
   const dataPromises = initDataSources({ req, res, next, dataSources, asyncReportsStore })
+
   let renderData = {}
+  let reportStateData: AsyncReportData
   if (dataPromises) {
     await Promise.all(dataPromises)
       .then((resolvedData) => {
         const definition = resolvedData[0] as unknown as components['schemas']['SingleVariantReportDefinition']
         const reportData = <Array<Dict<string>>>resolvedData[1]
         const count = <number>resolvedData[2]
-        const reportStateData: AsyncReportData = <AsyncReportData>resolvedData[3]
+        reportStateData = <AsyncReportData>resolvedData[3]
 
         const fieldDefinition = definition.variant.specification.fields
         const { classification } = definition.variant
@@ -73,10 +83,15 @@ export const renderReport = async ({ req, res, next, asyncReportsStore, dataSour
           classification,
         }
       })
-      .catch((err: any) => {
-        console.log(err)
+      .catch((err) => {
         next(err)
       })
   }
+
+  if (Object.keys(renderData).length && Object.keys(reportStateData).length) {
+    await asyncReportsStore.updateLastViewed(reportStateData.executionId)
+    await recentlyViewedStoreService.setRecentlyViewed(reportStateData)
+  }
+
   return { renderData }
 }

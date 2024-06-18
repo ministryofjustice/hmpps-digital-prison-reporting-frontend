@@ -11,7 +11,7 @@ export default class AsyncReportStoreService extends UserStoreService {
     super(userDataStore)
   }
 
-  async getRequestedRportsState() {
+  async getRequestedReportsState() {
     await this.getState()
     this.requestedReports = <AsyncReportData[]>this.userConfig.requestedReports
   }
@@ -28,7 +28,7 @@ export default class AsyncReportStoreService extends UserStoreService {
     query: Dict<string>,
     querySummary: Array<Dict<string>>,
   ) {
-    await this.getRequestedRportsState()
+    await this.getRequestedReportsState()
     const {
       reportId,
       variantId,
@@ -90,39 +90,30 @@ export default class AsyncReportStoreService extends UserStoreService {
   }
 
   async removeReport(id: string) {
-    await this.getRequestedRportsState()
-    const index = this.findReportIndex(id)
+    await this.getRequestedReportsState()
+    const index = this.findIndexByExecutionId(id, this.requestedReports)
     this.requestedReports.splice(index, 1)
     await this.saveRequestedReportState()
   }
 
-  findReportIndex(id: string) {
-    return this.requestedReports.findIndex((report) => report.executionId === id)
-  }
-
-  async getReport(id: string) {
-    await this.getRequestedRportsState()
-    return this.requestedReports.find((report) => report.executionId === id)
-  }
-
   async getReportByExecutionId(id: string) {
-    await this.getRequestedRportsState()
+    await this.getRequestedReportsState()
     return this.requestedReports.find((report) => report.executionId === id)
   }
 
   async getReportByTableId(id: string) {
-    await this.getRequestedRportsState()
+    await this.getRequestedReportsState()
     return this.requestedReports.find((report) => report.tableId === id)
   }
 
   async getAllReports() {
-    await this.getRequestedRportsState()
+    await this.getRequestedReportsState()
     return this.requestedReports
   }
 
   async updateReport(id: string, data: Dict<string | number | RequestStatus>) {
-    await this.getRequestedRportsState()
-    const index = this.findReportIndex(id)
+    await this.getRequestedReportsState()
+    const index = this.findIndexByExecutionId(id, this.requestedReports)
     let report: AsyncReportData = this.requestedReports[index]
     if (report) {
       report = {
@@ -134,19 +125,28 @@ export default class AsyncReportStoreService extends UserStoreService {
     await this.saveRequestedReportState()
   }
 
-  async updateStatus(id: string, status: RequestStatus, errorMessage?: string) {
-    await this.getRequestedRportsState()
-    const index = this.findReportIndex(id)
+  async updateLastViewed(id: string) {
+    await this.getRequestedReportsState()
+    const index = this.findIndexByExecutionId(id, this.requestedReports)
+    const report: AsyncReportData = this.requestedReports[index]
+    report.timestamp.lastViewed = `Last viewed: ${new Date().toLocaleString()}`
+    this.requestedReports[index] = report
+    await this.saveRequestedReportState()
+  }
+
+  async updateStatus(id: string, status?: RequestStatus, errorMessage?: string) {
+    await this.getRequestedReportsState()
+    const index = this.findIndexByExecutionId(id, this.requestedReports)
     let report: AsyncReportData = this.requestedReports[index]
     if (report) report = this.updateDataByStatus(report, status, errorMessage)
     this.requestedReports[index] = report
     await this.saveRequestedReportState()
   }
 
-  updateDataByStatus(report: AsyncReportData, status: RequestStatus | undefined, errorMessage?: string) {
+  updateDataByStatus(report: AsyncReportData, status?: RequestStatus | undefined, errorMessage?: string) {
     const ts = new Date().toLocaleString()
     const { tableId } = report
-    report.status = status
+    if (status) report.status = status
     switch (status) {
       case RequestStatus.FAILED:
         report.timestamp.failed = `Failed at: ${ts}`
@@ -162,6 +162,9 @@ export default class AsyncReportStoreService extends UserStoreService {
         break
       case RequestStatus.SUBMITTED:
         report.timestamp.requested = `Requested at: ${ts}`
+        break
+      case RequestStatus.STARTED:
+      case RequestStatus.PICKED:
         break
       default:
         report.timestamp.lastViewed = `Last viewed: ${ts}`

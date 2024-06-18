@@ -64,6 +64,7 @@ const getMockCardData = require('./mockData/mockLegacyReportCards')
 const data = require('./data')
 const ReportingClient = require('../package/dpr/data/reportingClient')
 const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
+const RecentlyViewedStoreService = require('../package/dpr/services/recentlyViewedService').default
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
 
 // Set up routes
@@ -92,11 +93,14 @@ app.get('/', (req, res) => {
 const mockUserStore = new MockUserStoreService()
 const asyncReportsStore = new AsyncReportStoreService(mockUserStore)
 asyncReportsStore.init('userId')
+const recentlyViewedStoreService = new RecentlyViewedStoreService(mockUserStore)
+recentlyViewedStoreService.init('userId')
 
 // Step 2 - Add routes to root routes file
 addAsyncReportingRoutes({
   router: app,
   asyncReportsStore,
+  recentlyViewedStoreService,
   dataSources: mockAsyncApis,
   layoutPath: 'page.njk',
   templatePath: 'dpr/views/',
@@ -110,7 +114,7 @@ app.get('/async-reports', async (req, res) => {
       ...(await AsyncCardGroupUtils.renderAsyncReportsList({ asyncReportsStore, dataSources: mockAsyncApis, res })),
     },
     viewedReports: {
-      ...RecentlyViewedCardGroupUtils.testFunc(),
+      ...(await RecentlyViewedCardGroupUtils.renderRecentlyViewedList(recentlyViewedStoreService)),
     },
     legacyReports: {
       cardData: getMockCardData(req),

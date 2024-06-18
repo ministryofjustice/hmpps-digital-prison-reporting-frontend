@@ -2,8 +2,8 @@ import AsyncReportStoreService from '../../../services/requestedReportsService'
 import { AsyncReportData, RequestStatus } from '../../../types/AsyncReport'
 import { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
 import AsyncPollingUtils from '../../async-polling/utils'
-import Dict = NodeJS.Dict
 import ReportingService from '../../../services/reportingService'
+import { CardData, RenderTableListResponse } from '../types'
 
 const formatCardData = async (
   requestedReportsData: AsyncReportData,
@@ -83,9 +83,13 @@ const formatCards = async (
 ): Promise<CardData[]> => {
   const requestedReportsData: AsyncReportData[] = await asyncReportsStore.getAllReports()
   return Promise.all(
-    requestedReportsData.map((report: AsyncReportData) => {
-      return formatCardData(report, dataSources, token, asyncReportsStore)
-    }),
+    requestedReportsData
+      .filter((report: AsyncReportData) => {
+        return !report.timestamp.lastViewed
+      })
+      .map((report: AsyncReportData) => {
+        return formatCardData(report, dataSources, token, asyncReportsStore)
+      }),
   )
 }
 
@@ -116,31 +120,12 @@ export default {
     asyncReportsStore,
     dataSources,
     res,
-  }: AsyncReportUtilsParams): Promise<RenderAsyncReportsListResponse> => {
+  }: AsyncReportUtilsParams): Promise<RenderTableListResponse> => {
     const { token } = res.locals.user || 'token'
     const cardData = await formatCards(asyncReportsStore, dataSources, token)
     return {
-      cardData: await formatCards(asyncReportsStore, dataSources, token),
+      cardData,
       tableData: formatTable(cardData),
     }
   },
-}
-
-interface RenderAsyncReportsListResponse {
-  cardData: CardData[]
-  tableData: {
-    rows: Dict<string>[][]
-    head: Dict<string>[]
-  }
-}
-
-interface CardData {
-  id: string
-  href: string
-  text: string
-  description: string
-  timestamp: string
-  tag: string
-  status: string
-  summary: { name: string; value: string }[]
 }

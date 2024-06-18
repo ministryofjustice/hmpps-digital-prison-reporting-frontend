@@ -12,7 +12,21 @@ const formatCardData = async (
 ): Promise<CardData> => {
   let reportData = JSON.parse(JSON.stringify(requestedReportsData))
   const { executionId, reportId, variantId } = reportData
-  const response = await dataSources.getAsyncReportStatus(token, reportId, variantId, executionId)
+  let response: Dict<string>
+
+  try {
+    response = await dataSources.getAsyncReportStatus(
+      token,
+      reportId,
+      variantId,
+      executionId,
+      reportData.dataProductDefinitionsPath,
+    )
+  } catch {
+    response = {
+      status: RequestStatus.FAILED,
+    }
+  }
 
   const { status: newStatus } = response
   if (newStatus !== reportData.status) {

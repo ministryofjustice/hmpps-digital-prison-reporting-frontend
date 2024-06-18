@@ -2,6 +2,7 @@
   padding-bottom: govuk-spacing(6);
   .dpr-card-group__item {
     padding-bottom: govuk-spacing(5);
+    position: relative;
 
     .dpr-card-group__item_header {
 
@@ -16,24 +17,24 @@
       padding: 0;
 
       li {
-        margin-bottom: 0px;
+        margin-bottom: 0;
       }
     }
 
     .dpr-card-group__item__timestamp {
       position: absolute;
       bottom: 1px;
-      left: 0px;
-      padding-bottom: 0px;
-      margin-bottom: 0px;
+      left: 0;
+      padding-bottom: 0;
+      margin-bottom: 0;
       font-size: 14px;
       color: #505a5f;
     }
 
     .dpr-card-group__item__status {
       position: absolute;
-      bottom: 0px;
-      right: 0px;
+      bottom: 0;
+      right: 0;
     }
   }
 }

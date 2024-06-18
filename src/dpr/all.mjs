@@ -16,6 +16,7 @@ import Pagination from './components/pagination/clientClass.mjs'
 import IconButtonList from './components/icon-button-list/clientClass.mjs'
 import AsyncDataTable from './components/async-data-table/clientClass.mjs'
 import AsyncPolling from './components/async-polling/clientClass.mjs'
+import Search from './components/search/clientClass.mjs'
 
 /**
  * Initialise all components
@@ -42,6 +43,7 @@ export default function initAll () {
     IconButtonList,
     AsyncDataTable,
     AsyncPolling,
+    Search,
   ]
 
   components.forEach((Component) => {

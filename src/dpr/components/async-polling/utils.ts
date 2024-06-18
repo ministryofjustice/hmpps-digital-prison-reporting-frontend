@@ -20,12 +20,8 @@ const getStatus = async (
     status = statusResponse.status as RequestStatus
 
     if (typeof status !== 'string') {
-      console.log({ status })
-      console.log({ currentStatus })
       if (currentStatus === RequestStatus.FINISHED || !currentStatus) {
         status = RequestStatus.EXPIRED
-
-        console.log({ newStatus: status })
       } else {
         throw new Error(statusResponse.userMessage)
       }
@@ -46,8 +42,6 @@ const getStatus = async (
     await asyncReportsStore.updateStatus(executionId, status as RequestStatus, errorMessage)
     res.reportData = await asyncReportsStore.getReportByExecutionId(executionId)
   }
-
-  console.log(res.status)
 
   return res
 }

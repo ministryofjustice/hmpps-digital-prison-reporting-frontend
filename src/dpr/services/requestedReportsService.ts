@@ -1,35 +1,24 @@
 /* eslint-disable no-param-reassign */
-import UserDataStore, { UserStoreConfig } from '../data/userDataStore'
+import UserDataStore from '../data/userDataStore'
 import Dict = NodeJS.Dict
 import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
+import UserStoreService from './userStoreService'
 
-export default class AsyncReportStoreService {
-  userConfig: UserStoreConfig
-
-  userId: string
-
+export default class AsyncReportStoreService extends UserStoreService {
   requestedReports: AsyncReportData[]
 
-  constructor(private readonly userStore: UserDataStore) {
-    this.userStore = userStore
+  constructor(userDataStore: UserDataStore) {
+    super(userDataStore)
   }
 
-  async init(userId: string) {
-    this.userId = userId
+  async getRequestedRportsState() {
     await this.getState()
-    if (Object.keys(this.userConfig).length === 0) {
-      this.userStore.initUser(this.userId)
-    }
-  }
-
-  async getState() {
-    this.userConfig = await this.userStore.getUserConfig(this.userId)
     this.requestedReports = <AsyncReportData[]>this.userConfig.requestedReports
   }
 
-  async saveState() {
+  async saveRequestedReportState() {
     this.userConfig.requestedReports = this.requestedReports
-    await this.userStore.setUserConfig(this.userId, this.userConfig)
+    await this.saveState()
   }
 
   async addReport(
@@ -39,7 +28,7 @@ export default class AsyncReportStoreService {
     query: Dict<string>,
     querySummary: Array<Dict<string>>,
   ) {
-    await this.getState()
+    await this.getRequestedRportsState()
     const {
       reportId,
       variantId,
@@ -95,16 +84,16 @@ export default class AsyncReportStoreService {
 
     reportStateData = this.updateDataByStatus(reportStateData, RequestStatus.SUBMITTED)
     this.requestedReports.unshift(reportStateData)
-    await this.saveState()
+    await this.saveRequestedReportState()
 
     return reportStateData
   }
 
   async removeReport(id: string) {
-    await this.getState()
+    await this.getRequestedRportsState()
     const index = this.findReportIndex(id)
     this.requestedReports.splice(index, 1)
-    await this.saveState()
+    await this.saveRequestedReportState()
   }
 
   findReportIndex(id: string) {
@@ -112,27 +101,27 @@ export default class AsyncReportStoreService {
   }
 
   async getReport(id: string) {
-    await this.getState()
+    await this.getRequestedRportsState()
     return this.requestedReports.find((report) => report.executionId === id)
   }
 
   async getReportByExecutionId(id: string) {
-    await this.getState()
+    await this.getRequestedRportsState()
     return this.requestedReports.find((report) => report.executionId === id)
   }
 
   async getReportByTableId(id: string) {
-    await this.getState()
+    await this.getRequestedRportsState()
     return this.requestedReports.find((report) => report.tableId === id)
   }
 
   async getAllReports() {
-    await this.getState()
+    await this.getRequestedRportsState()
     return this.requestedReports
   }
 
   async updateReport(id: string, data: Dict<string | number | RequestStatus>) {
-    await this.getState()
+    await this.getRequestedRportsState()
     const index = this.findReportIndex(id)
     let report: AsyncReportData = this.requestedReports[index]
     if (report) {
@@ -142,16 +131,16 @@ export default class AsyncReportStoreService {
       }
     }
     this.requestedReports[index] = report
-    await this.saveState()
+    await this.saveRequestedReportState()
   }
 
   async updateStatus(id: string, status: RequestStatus, errorMessage?: string) {
-    await this.getState()
+    await this.getRequestedRportsState()
     const index = this.findReportIndex(id)
     let report: AsyncReportData = this.requestedReports[index]
     if (report) report = this.updateDataByStatus(report, status, errorMessage)
     this.requestedReports[index] = report
-    await this.saveState()
+    await this.saveRequestedReportState()
   }
 
   updateDataByStatus(report: AsyncReportData, status: RequestStatus | undefined, errorMessage?: string) {

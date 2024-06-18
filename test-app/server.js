@@ -90,8 +90,8 @@ app.get('/', (req, res) => {
 
 // Step 1 - initialise the UserStore + AsyncReportStore
 const mockUserStore = new MockUserStoreService()
-const asyncReportsStore = new AsyncReportStoreService(mockUserStore, 'userId')
-asyncReportsStore.init()
+const asyncReportsStore = new AsyncReportStoreService(mockUserStore)
+asyncReportsStore.init('userId')
 
 // Step 2 - Add routes to root routes file
 addAsyncReportingRoutes({

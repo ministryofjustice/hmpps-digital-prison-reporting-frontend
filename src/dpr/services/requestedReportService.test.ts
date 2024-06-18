@@ -23,7 +23,7 @@ describe('AsyncReportStoreService', () => {
 
   describe('getState', () => {
     it('should get the state from the store', async () => {
-      await asyncReportsStore.getState()
+      await asyncReportsStore.getRequestedRportsState()
       expect(mockUserStore.getUserConfig).toHaveBeenCalledWith('userId')
     })
   })
@@ -31,7 +31,7 @@ describe('AsyncReportStoreService', () => {
   describe('saveState', () => {
     it('should save the state to the store', async () => {
       asyncReportsStore.requestedReports = [{ test: true }] as unknown as AsyncReportData[]
-      await asyncReportsStore.saveState()
+      await asyncReportsStore.saveRequestedReportState()
       expect(mockUserStore.setUserConfig).toHaveBeenCalledWith('userId', { requestedReports: [{ test: true }] })
     })
   })

@@ -9,8 +9,15 @@ export default {
       const { reportId, variantId, executionId } = req.params
       let reportData = await asyncReportsStore.getReport(executionId)
 
-      const statusResponse = await dataSources.getAsyncReportStatus(token, reportId, reportId, executionId)
+      const statusResponse = await dataSources.getAsyncReportStatus(
+        token,
+        reportId,
+        variantId,
+        executionId,
+        reportData.dataProductDefinitionsPath,
+      )
       const { status: latestStatus } = statusResponse
+
       if (currentStatus !== latestStatus) {
         await asyncReportsStore.updateStatus(reportData.executionId, latestStatus as RequestStatus)
         reportData = await asyncReportsStore.getReport(executionId)

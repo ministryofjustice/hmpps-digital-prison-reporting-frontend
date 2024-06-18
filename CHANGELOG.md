@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v3.9.0
+
+Added Search component.
+
 ## v3.7.10
 
 Add definition path to Report List utility methods.
@@ -38,9 +42,9 @@ Support more word wrapping options, and more field types.
 
 ## v3.6.0
 
-- Updated loading state on table view
-- Menu card loading state
-- Total Results count displayed on report list
+- Updated loading state on table view.
+- Menu card loading state.
+- Total Results count displayed on report list.
 
 ## v3.5.7
 

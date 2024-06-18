@@ -1,0 +1,11 @@
+{% extends "page.njk" %}
+
+{% from "components/search/view.njk" import dprSearch %}
+
+<h1 class="govuk-heading-l">{{ title }}</h1>
+
+{% block content %}
+  <div class="govuk-width-container">
+    {{ dprSearch(head, rows) }}
+  </div>
+{% endblock %}

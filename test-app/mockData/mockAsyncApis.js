@@ -20,7 +20,7 @@ const mockDataItem = {
   field6: '<a href="#" target="_blank">Value 6</a>',
 }
 
-const statuses = ['redirect-call', 'actual-first-call', 'SUBMITTED', 'PICKED', 'STARTED', 'FINISHED']
+const statuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED']
 
 const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
   const reportIndex = mockAPIStatus.findIndex((r) => r.executionId === executionId)

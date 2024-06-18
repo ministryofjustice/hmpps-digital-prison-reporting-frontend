@@ -18,7 +18,18 @@ const getStatus = async (
   try {
     const statusResponse = await dataSources.getAsyncReportStatus(token, reportId, variantId, executionId)
     status = statusResponse.status as RequestStatus
-    if (typeof status === 'string' && status === RequestStatus.FAILED) {
+
+    if (typeof status !== 'string') {
+      console.log({ status })
+      console.log({ currentStatus })
+      if (currentStatus === RequestStatus.FINISHED || !currentStatus) {
+        status = RequestStatus.EXPIRED
+
+        console.log({ newStatus: status })
+      } else {
+        throw new Error(statusResponse.userMessage)
+      }
+    } else if (status === RequestStatus.FAILED) {
       throw new Error(statusResponse.error)
     }
   } catch (error) {
@@ -35,6 +46,8 @@ const getStatus = async (
     await asyncReportsStore.updateStatus(executionId, status as RequestStatus, errorMessage)
     res.reportData = await asyncReportsStore.getReportByExecutionId(executionId)
   }
+
+  console.log(res.status)
 
   return res
 }

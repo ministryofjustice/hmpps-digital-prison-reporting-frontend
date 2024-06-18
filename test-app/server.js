@@ -114,7 +114,12 @@ app.get('/async-reports', async (req, res) => {
       ...(await AsyncCardGroupUtils.renderAsyncReportsList({ asyncReportsStore, dataSources: mockAsyncApis, res })),
     },
     viewedReports: {
-      ...(await RecentlyViewedCardGroupUtils.renderRecentlyViewedList(recentlyViewedStoreService)),
+      ...(await RecentlyViewedCardGroupUtils.renderRecentlyViewedList({
+        recentlyViewedStoreService,
+        asyncReportsStore,
+        dataSources: mockAsyncApis,
+        res,
+      })),
     },
     legacyReports: {
       cardData: getMockCardData(req),

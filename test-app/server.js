@@ -12,7 +12,10 @@ const bodyParser = require('body-parser')
 
 // Local dependencies
 const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
-const AsyncCardGroupUtils = require('../package/dpr/components/async-card-group/utils').default
+const {
+  RecentlyViewedCardGroupUtils,
+  AsyncCardGroupUtils,
+} = require('../package/dpr/components/table-card-group/utils')
 
 // Set up application
 const appViews = [
@@ -105,6 +108,9 @@ app.get('/async-reports', async (req, res) => {
     title: 'Home',
     requestedReports: {
       ...(await AsyncCardGroupUtils.renderAsyncReportsList({ asyncReportsStore, dataSources: mockAsyncApis, res })),
+    },
+    viewedReports: {
+      ...RecentlyViewedCardGroupUtils.testFunc(),
     },
     legacyReports: {
       cardData: getMockCardData(req),

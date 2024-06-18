@@ -1,9 +1,9 @@
-import AsyncReportStoreService from '../../services/requestedReportsService'
-import { AsyncReportData, RequestStatus } from '../../types/AsyncReport'
-import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
-import AsyncPollingUtils from '../async-polling/utils'
+import AsyncReportStoreService from '../../../services/requestedReportsService'
+import { AsyncReportData, RequestStatus } from '../../../types/AsyncReport'
+import { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
+import AsyncPollingUtils from '../../async-polling/utils'
 import Dict = NodeJS.Dict
-import ReportingService from '../../services/reportingService'
+import ReportingService from '../../../services/reportingService'
 
 const formatCardData = async (
   requestedReportsData: AsyncReportData,

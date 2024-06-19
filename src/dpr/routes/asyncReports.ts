@@ -38,6 +38,7 @@ export default function routes({
       res,
       dataSources,
       asyncReportsStore,
+      recentlyViewedStoreService,
       next,
     })
     if (redirectToPollingPage) {

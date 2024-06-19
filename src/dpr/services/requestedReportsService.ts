@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import UserDataStore from '../data/userDataStore'
 import Dict = NodeJS.Dict
-import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
+import { AsyncReportData, AsyncReportsTimestamp, RequestStatus } from '../types/AsyncReport'
 import UserStoreService from './userStoreService'
 import { getDpdPathSuffix } from '../utils/urlHelper'
 
@@ -112,7 +112,7 @@ export default class AsyncReportStoreService extends UserStoreService {
     return this.requestedReports
   }
 
-  async updateReport(id: string, data: Dict<string | number | RequestStatus>) {
+  async updateReport(id: string, data: Dict<string | number | RequestStatus | AsyncReportsTimestamp>) {
     await this.getRequestedReportsState()
     const index = this.findIndexByExecutionId(id, this.requestedReports)
     let report: AsyncReportData = this.requestedReports[index]
@@ -124,6 +124,15 @@ export default class AsyncReportStoreService extends UserStoreService {
     }
     this.requestedReports[index] = report
     await this.saveRequestedReportState()
+  }
+
+  async setReportRetriedTimestamp(id: string) {
+    const retriedReport = await this.getReportByExecutionId(id)
+    const timestamp: AsyncReportsTimestamp = {
+      ...retriedReport.timestamp,
+      retried: `Retried at: ${new Date().toLocaleString()}`,
+    }
+    await this.updateReport(id, { timestamp })
   }
 
   async updateLastViewed(id: string) {

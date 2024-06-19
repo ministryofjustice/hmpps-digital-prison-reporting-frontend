@@ -15,9 +15,13 @@ const formatCards = async (
 ): Promise<CardData[]> => {
   const requestedReportsData: RecentlyViewedReportData[] = await recentlyViewedStoreService.getAllReports()
   return Promise.all(
-    requestedReportsData.map((report: RecentlyViewedReportData) => {
-      return formatCardData(report, dataSources, token, recentlyViewedStoreService, asyncReportsStore)
-    }),
+    requestedReportsData
+      .filter((report: RecentlyViewedReportData) => {
+        return !report.timestamp.retried
+      })
+      .map((report: RecentlyViewedReportData) => {
+        return formatCardData(report, dataSources, token, recentlyViewedStoreService, asyncReportsStore)
+      }),
   )
 }
 
@@ -38,6 +42,7 @@ const formatCardData = async (
     executionId,
     reportId,
     variantId,
+    dataProductDefinitionsPath,
   } = reportData
   let { status } = reportData
 
@@ -49,13 +54,14 @@ const formatCardData = async (
     reportData.status,
     dataSources,
     asyncReportsStore,
+    dataProductDefinitionsPath,
   )
 
   if (statusResponse.status === RequestStatus.EXPIRED) {
     status = statusResponse.status
   }
   const summary = query.summary as { name: string; value: string }[]
-  const href = status ? url.request.fullUrl : url.report.fullUrl
+  const href = status ? `${url.request.fullUrl}&retryId=${executionId}` : url.report.fullUrl
 
   return { id, text, description, tag: 'MIS', summary, href, timestamp: timestamp.lastViewed, status }
 }

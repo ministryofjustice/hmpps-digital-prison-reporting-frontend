@@ -96,7 +96,14 @@ export default {
    *     asyncReportsStore,
    *   }
    */
-  requestReport: async ({ req, res, dataSources, asyncReportsStore, next }: AsyncReportUtilsParams) => {
+  requestReport: async ({
+    req,
+    res,
+    dataSources,
+    asyncReportsStore,
+    recentlyViewedStoreService,
+    next,
+  }: AsyncReportUtilsParams) => {
     try {
       let redirect = ''
 
@@ -129,9 +136,14 @@ export default {
         })
 
       const { token } = res.locals.user || 'token'
-      const { reportId, variantId } = req.body
+      const { reportId, variantId, retryId } = req.body
       const response = await dataSources.requestAsyncReport(token, reportId, variantId, query)
       const { executionId, tableId } = response
+
+      if (retryId) {
+        await asyncReportsStore.setReportRetriedTimestamp(retryId)
+        await recentlyViewedStoreService.setReportRetriedTimestamp(retryId)
+      }
 
       if (executionId && tableId) {
         const reportData = await asyncReportsStore.addReport(

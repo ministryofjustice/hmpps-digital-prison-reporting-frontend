@@ -52,10 +52,11 @@ export enum RequestStatus {
   ALL = 'ALL',
 }
 
-interface AsyncReportsTimestamp {
+export interface AsyncReportsTimestamp {
   lastViewed?: string
   requested?: string
   completed?: string
   expired?: string
   failed?: string
+  retried?: string
 }

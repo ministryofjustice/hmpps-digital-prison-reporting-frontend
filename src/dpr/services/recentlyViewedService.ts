@@ -1,7 +1,8 @@
 import UserStoreService from './userStoreService'
 import UserDataStore from '../data/userDataStore'
+import Dict = NodeJS.Dict
 import { RecentlyViewedReportData } from '../types/RecentlyViewed'
-import { RequestStatus, AsyncReportData } from '../types/AsyncReport'
+import { RequestStatus, AsyncReportData, AsyncReportsTimestamp } from '../types/AsyncReport'
 
 export default class RecentlyViewedStoreService extends UserStoreService {
   recentlyViewedReports: RecentlyViewedReportData[]
@@ -89,6 +90,29 @@ export default class RecentlyViewedStoreService extends UserStoreService {
     await this.saveRecentlyViewedState()
 
     return recentlyViewedReportData
+  }
+
+  async updateReport(id: string, data: Dict<string | number | RequestStatus | AsyncReportsTimestamp>) {
+    await this.getRecentlyViewedState()
+    const index = this.findIndexByExecutionId(id, this.recentlyViewedReports)
+    let report: RecentlyViewedReportData = this.recentlyViewedReports[index]
+    if (report) {
+      report = {
+        ...report,
+        ...data,
+      }
+    }
+    this.recentlyViewedReports[index] = report
+    await this.saveRecentlyViewedState()
+  }
+
+  async setReportRetriedTimestamp(id: string) {
+    const retriedReport = await this.getReportByExecutionId(id)
+    const timestamp: AsyncReportsTimestamp = {
+      ...retriedReport.timestamp,
+      retried: `Retried at: ${new Date().toLocaleString()}`,
+    }
+    await this.updateReport(id, { timestamp })
   }
 
   async setToExpired(id: string) {

@@ -11,6 +11,7 @@ export interface RecentlyViewedReportData {
   timestamp: {
     lastViewed: string
     expired?: string
+    retried?: string
   }
   status?: RequestStatus
   url: AsyncReportUrlData

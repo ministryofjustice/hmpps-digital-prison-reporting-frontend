@@ -11,8 +11,8 @@ const formatCardData = async (
   token: string,
   asyncReportsStore: AsyncReportStoreService,
 ): Promise<CardData> => {
-  let reportData = JSON.parse(JSON.stringify(requestedReportsData))
-  const { executionId, reportId, variantId } = reportData
+  let reportData: AsyncReportData = JSON.parse(JSON.stringify(requestedReportsData))
+  const { executionId, reportId, variantId, dataProductDefinitionsPath } = reportData
 
   const statusResponse = await AsyncPollingUtils.getStatus(
     token,
@@ -22,13 +22,14 @@ const formatCardData = async (
     reportData.status,
     dataSources,
     asyncReportsStore,
+    dataProductDefinitionsPath,
   )
 
   const { status } = statusResponse
   if (statusResponse.reportData) reportData = statusResponse.reportData
 
   const { executionId: id, name: text, description, query } = reportData
-  const { summary } = query
+  const summary = query.summary as { name: string; value: string }[]
 
   return {
     id,
@@ -45,10 +46,12 @@ const setDataFromStatus = (status: RequestStatus, requestedReportsData: AsyncRep
   let timestamp
   let href
   switch (status) {
-    case RequestStatus.FAILED:
-      href = requestedReportsData.url.request.fullUrl
+    case RequestStatus.FAILED: {
+      const retryParam = `&retryId=${requestedReportsData.executionId}`
+      href = `${requestedReportsData.url.request.fullUrl}${retryParam}`
       timestamp = requestedReportsData.timestamp.failed
       break
+    }
     case RequestStatus.FINISHED:
       href = requestedReportsData.url.report.fullUrl
       timestamp = requestedReportsData.timestamp.completed
@@ -85,7 +88,7 @@ const formatCards = async (
   return Promise.all(
     requestedReportsData
       .filter((report: AsyncReportData) => {
-        return !report.timestamp.lastViewed
+        return !report.timestamp.lastViewed && !report.timestamp.retried
       })
       .map((report: AsyncReportData) => {
         return formatCardData(report, dataSources, token, asyncReportsStore)

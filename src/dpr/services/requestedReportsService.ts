@@ -3,6 +3,7 @@ import UserDataStore from '../data/userDataStore'
 import Dict = NodeJS.Dict
 import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
 import UserStoreService from './userStoreService'
+import { getDpdPathSuffix } from '../utils/urlHelper'
 
 export default class AsyncReportStoreService extends UserStoreService {
   requestedReports: AsyncReportData[]
@@ -69,8 +70,8 @@ export default class AsyncReportStoreService extends UserStoreService {
           search,
         },
         polling: {
-          fullUrl: `${origin}${pathname}/${executionId}`,
-          pathname: `${pathname}/${executionId}`,
+          fullUrl: `${origin}${pathname}/${executionId}${getDpdPathSuffix(dataProductDefinitionsPath)}`,
+          pathname: `${pathname}/${executionId}${getDpdPathSuffix(dataProductDefinitionsPath)}`,
         },
         report: {},
       },
@@ -154,11 +155,12 @@ export default class AsyncReportStoreService extends UserStoreService {
         break
       case RequestStatus.FINISHED:
         report.timestamp.completed = `Ready at: ${ts}`
-        report.url.report.pathname = `${report.url.request.pathname}/${tableId}/report`
-        report.url.report.fullUrl = `${report.url.origin}${report.url.report.pathname}`
-        if (report.dataProductDefinitionsPath) {
-          report.url.report.fullUrl = `${report.url.report.fullUrl}?dataProductDefinitionsPath=${report.dataProductDefinitionsPath}`
-        }
+        report.url.report.pathname = `${report.url.request.pathname}/${tableId}/report${getDpdPathSuffix(
+          report.dataProductDefinitionsPath,
+        )}`
+        report.url.report.fullUrl = `${report.url.origin}${report.url.report.pathname}${getDpdPathSuffix(
+          report.dataProductDefinitionsPath,
+        )}`
         break
       case RequestStatus.SUBMITTED:
         report.timestamp.requested = `Requested at: ${ts}`

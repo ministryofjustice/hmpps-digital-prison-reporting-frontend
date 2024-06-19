@@ -98,7 +98,7 @@ const formatCards = async (
 
 const formatTableData = (card: CardData) => {
   return [
-    { text: card.text },
+    { html: `<a href='${card.href}'>${card.text}</a>` },
     { text: card.description },
     {
       html: `<strong class="govuk-tag dpr-request-status-tag">${card.status}</strong>`,

@@ -66,6 +66,29 @@ const formatCardData = async (
   return { id, text, description, tag: 'MIS', summary, href, timestamp: timestamp.lastViewed, status }
 }
 
+const formatTable = (cardData: CardData[]) => {
+  const rows = cardData.map((card: CardData) => {
+    return formatTableData(card)
+  })
+
+  return {
+    rows,
+    head: [{ text: 'Name' }, { text: 'Description' }, { text: 'Status' }, { text: 'Timestamp' }],
+  }
+}
+
+const formatTableData = (card: CardData) => {
+  const status = card.status ? card.status : 'READY'
+  return [
+    { html: `<a href='${card.href}'>${card.text}</a>` },
+    { text: card.description },
+    {
+      html: `<strong class="govuk-tag dpr-request-status-tag">${status}</strong>`,
+    },
+    { text: card.timestamp },
+  ]
+}
+
 export default {
   renderRecentlyViewedList: async ({
     recentlyViewedStoreService,
@@ -77,7 +100,7 @@ export default {
     const cardData = await formatCards(recentlyViewedStoreService, asyncReportsStore, dataSources, token)
     return {
       cardData,
-      tableData: { rows: [], head: [] },
+      tableData: formatTable(cardData),
     }
   },
 }

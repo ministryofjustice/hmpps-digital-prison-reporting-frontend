@@ -1,0 +1,36 @@
+---
+layout: layouts/example.njk
+title: Toggle Content (example)
+arguments: toggle-content
+---
+
+{% from "dpr/components/toggle-content/view.njk" import dprToggleContent %}
+
+{% set icons = [
+  {
+    name: 'list',
+    tooltip: 'content-1'
+  }, {
+    name: 'card',
+    tooltip: 'content-2'
+  }
+] %}
+
+{% set contentOneHtml %}
+<p>This is the first toggled content</p>
+{% endset %}
+
+{% set contentTwoHtml %}
+<p>This is the second toggled content</p>
+{% endset %}
+
+{% set items = [
+  {
+    active: true,
+    html: contentOneHtml
+  }), {
+    active: false,
+    html: contentTwoHtml
+  })] %}
+
+{{ dprToggleContent( 'id', icons, items) }}

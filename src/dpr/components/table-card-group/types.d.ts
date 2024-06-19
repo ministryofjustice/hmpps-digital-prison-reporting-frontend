@@ -13,8 +13,8 @@ export interface CardData {
   href: string
   text: string
   description: string
-  timestamp: string
-  tag: string
+  timestamp?: string
+  tag?: string
   status?: string
-  summary: { name: string; value: string }[]
+  summary?: { name: string; value: string }[]
 }

@@ -11,12 +11,19 @@ const getStatus = async (
   currentStatus: RequestStatus,
   dataSources: ReportingService,
   asyncReportsStore: AsyncReportStoreService,
+  dataProductDefinitionsPath: string,
 ): Promise<GetStatusUtilsResponse> => {
   let status: RequestStatus
   let errorMessage
 
   try {
-    const statusResponse = await dataSources.getAsyncReportStatus(token, reportId, variantId, executionId)
+    const statusResponse = await dataSources.getAsyncReportStatus(
+      token,
+      reportId,
+      variantId,
+      executionId,
+      dataProductDefinitionsPath,
+    )
     status = statusResponse.status as RequestStatus
 
     if (typeof status !== 'string') {
@@ -68,6 +75,7 @@ export default {
         reportData.status,
         dataSources,
         asyncReportsStore,
+        reportData.dataProductDefinitionsPath,
       )
 
       const { status, errorMessage } = statusResponse

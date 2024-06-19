@@ -34,9 +34,9 @@ export default class ReportQuery implements FilteredListRequest {
     this.sortColumn = queryParams.sortColumn ? queryParams.sortColumn.toString() : defaultSortColumn
     this.sortedAsc = queryParams.sortedAsc !== 'false'
     this.dataProductDefinitionsPath =
-      definitionsPath ?? queryParams.dataProductDefinitionsPath
+      definitionsPath ?? (queryParams.dataProductDefinitionsPath
         ? queryParams.dataProductDefinitionsPath.toString()
-        : null
+        : null)
     this.filtersPrefix = filtersPrefix
 
     if (queryParams.columns) {

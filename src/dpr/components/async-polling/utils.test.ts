@@ -27,6 +27,7 @@ describe('AsyncPollinutils', () => {
         RequestStatus.STARTED,
         mockReportingService,
         mocAsyncReportsStore,
+        '',
       )
 
       expect(res).toEqual({ status: RequestStatus.FINISHED, reportData: { data: 'stuff' } })
@@ -46,6 +47,7 @@ describe('AsyncPollinutils', () => {
         RequestStatus.STARTED,
         mockReportingService,
         mocAsyncReportsStore,
+        '',
       )
 
       expect(res).toEqual({ status: RequestStatus.STARTED })
@@ -67,6 +69,7 @@ describe('AsyncPollinutils', () => {
         RequestStatus.STARTED,
         mockReportingService,
         mocAsyncReportsStore,
+        '',
       )
 
       expect(res).toEqual({

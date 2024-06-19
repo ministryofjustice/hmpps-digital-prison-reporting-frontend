@@ -35,7 +35,7 @@ const reportState = {
 const mockReportData = createMockData(10)
 
 jest.spyOn(AsyncReportListUtils, 'initDataSources').mockImplementation(() => [
-  mockAsyncApis.getDefinition('', '', 'variantId-2') as any,
+  mockAsyncApis.getDefinition('', '', 'variantId-2'),
   mockAsyncApis.getAsyncReport('', '', '', '', { pageSize: 10 }),
   mockAsyncApis.getAsyncCount(),
   new Promise((resolve) => {

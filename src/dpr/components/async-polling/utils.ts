@@ -60,7 +60,6 @@ const getStatus = async (
 
 const timeoutRequest = (requestTime: Date) => {
   if (!requestTime) return false
-
   const TIMEOUT_MINS_MAX = 15
   const today: Date = new Date()
   const requested: Date = new Date(requestTime)

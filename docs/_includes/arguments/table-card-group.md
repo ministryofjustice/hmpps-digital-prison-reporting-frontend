@@ -8,15 +8,15 @@
 
 ### CardsData
 
-| Name        | Type      | Required | Description                                                          |
-| ----------- | --------- | -------- | -------------------------------------------------------------------- |
-| id          | String    | Yes      | The card Unique ID                                                   |
-| text        | String    | Yes      | The text to be displayed in the title link of the card.              |
-| href        | String    | Yes      | The URL that the card should link to.                                |
-| description | String    | Yes      | The explanatory text to be displayed underneath the card title link. |
-| timestamp   | String    | no       | The timestamp displayed at the bottom of the card                    |
-| status      | String    | no       | A status that displays in the bottom right                           |
-| Summary     | Summary[] | no       | A bulleted list Replaces the description if provided description     |
+| Name        | Type      | Required | Description                                                                                |
+| ----------- | --------- | -------- | ------------------------------------------------------------------------------------------ |
+| id          | String    | Yes      | The card Unique ID                                                                         |
+| text        | String    | Yes      | The text to be displayed in the title link of the card.                                    |
+| href        | String    | Yes      | The URL that the card should link to.                                                      |
+| description | String    | Yes      | The explanatory text to be displayed underneath the card title link.                       |
+| timestamp   | String    | no       | The timestamp displayed at the bottom of the card                                          |
+| status      | String    | no       | A status that displays in the bottom right                                                 |
+| Summary     | Summary[] | no       | A bulleted list Replaces the description if provided description, See [Summary](#summary). |
 
 ### TableData
 

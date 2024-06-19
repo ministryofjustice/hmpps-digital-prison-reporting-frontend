@@ -1,10 +1,10 @@
 ### Options
 
-| Name  | Type   | Required | Description      |
-| ----- | ------ | -------- | ---------------- |
-| id    | String | Yes      | The unique id    |
-| icons | Icons  | Yes      | The Icon data    |
-| items | Items  | Yes      | The content data |
+| Name  | Type   | Required | Description                            |
+| ----- | ------ | -------- | -------------------------------------- |
+| id    | String | Yes      | The unique id                          |
+| icons | Icons  | Yes      | The Icon data. See [Icons](#icons).    |
+| items | Items  | Yes      | The content data. See [Items](#items). |
 
 ### Icons
 

@@ -14,6 +14,7 @@ import ReportingService from '../../services/reportingService'
 
 import definitions from '../../../../test-app/mockData/mockReportDefinition'
 import mockReportListRenderData from '../../../../test-app/mockData/mockReportListRenderData'
+import RecentlyViewedStoreService from '../../services/recentlyViewedService'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
@@ -54,7 +55,12 @@ describe('AsyncReportListUtils', () => {
     it('should return data to render the report', async () => {
       const mockReq = { query: { columns: ['column'] } } as unknown as Request
       const mockRes = { locals: { user: { token: 'token' } } } as unknown as Response
-      const mockAsyncReportsStore = { locals: { user: { token: 'token' } } } as unknown as AsyncReportStoreService
+      const mockAsyncReportsStore = {
+        updateLastViewed: jest.fn(),
+      } as unknown as AsyncReportStoreService
+      const mockRecentlyViewedStoreService = {
+        setRecentlyViewed: jest.fn(),
+      } as unknown as RecentlyViewedStoreService
       const mockDataSources = { locals: { user: { token: 'token' } } } as unknown as ReportingService
 
       const result = await AsyncReportListUtils.renderReport({
@@ -62,6 +68,7 @@ describe('AsyncReportListUtils', () => {
         res: mockRes,
         asyncReportsStore: mockAsyncReportsStore,
         dataSources: mockDataSources,
+        recentlyViewedStoreService: mockRecentlyViewedStoreService,
       })
 
       expect(ColumnUtilsSpy).toHaveBeenCalledWith(definitions.report.variants[1].specification.fields, ['column'])

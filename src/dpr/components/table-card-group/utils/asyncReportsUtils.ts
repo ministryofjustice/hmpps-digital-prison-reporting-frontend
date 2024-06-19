@@ -23,6 +23,7 @@ const formatCardData = async (
     dataSources,
     asyncReportsStore,
     dataProductDefinitionsPath,
+    reportData.timestamp.requested,
   )
 
   const { status } = statusResponse
@@ -49,27 +50,22 @@ const setDataFromStatus = (status: RequestStatus, requestedReportsData: AsyncRep
     case RequestStatus.FAILED: {
       const retryParam = `&retryId=${requestedReportsData.executionId}`
       href = `${requestedReportsData.url.request.fullUrl}${retryParam}`
-      timestamp = requestedReportsData.timestamp.failed
+      timestamp = `Failed at: ${new Date(requestedReportsData.timestamp.failed).toLocaleString()}`
       break
     }
     case RequestStatus.FINISHED:
       href = requestedReportsData.url.report.fullUrl
-      timestamp = requestedReportsData.timestamp.completed
+      timestamp = `Ready at: ${new Date(requestedReportsData.timestamp.completed).toLocaleString()}`
       break
     case RequestStatus.SUBMITTED:
       href = requestedReportsData.url.polling.fullUrl
-      timestamp = requestedReportsData.timestamp.requested
+      timestamp = `Requested at: ${new Date(requestedReportsData.timestamp.requested).toLocaleString()}`
       break
     case RequestStatus.STARTED:
-      href = requestedReportsData.url.polling.fullUrl
-      timestamp = requestedReportsData.timestamp.requested
-      break
     case RequestStatus.PICKED:
-      href = requestedReportsData.url.polling.fullUrl
-      timestamp = requestedReportsData.timestamp.requested
       break
     default:
-      timestamp = requestedReportsData.timestamp.lastViewed
+      timestamp = `Last viewed: ${new Date(requestedReportsData.timestamp.lastViewed).toLocaleString()}`
       break
   }
 

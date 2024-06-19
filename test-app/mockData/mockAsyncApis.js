@@ -20,7 +20,7 @@ const mockDataItem = {
   field6: '<a href="#" target="_blank">Value 6</a>',
 }
 
-const happyStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED', 400]
+const happyStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED']
 const sadStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FAILED']
 const sadServerStatuses = ['SUBMITTED', 'PICKED', 500]
 

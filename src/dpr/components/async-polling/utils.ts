@@ -12,28 +12,33 @@ const getStatus = async (
   dataSources: ReportingService,
   asyncReportsStore: AsyncReportStoreService,
   dataProductDefinitionsPath: string,
+  requestTime?: Date,
 ): Promise<GetStatusUtilsResponse> => {
   let status: RequestStatus
   let errorMessage
 
   try {
-    const statusResponse = await dataSources.getAsyncReportStatus(
-      token,
-      reportId,
-      variantId,
-      executionId,
-      dataProductDefinitionsPath,
-    )
-    status = statusResponse.status as RequestStatus
+    if (timeoutRequest(requestTime)) {
+      throw new Error('Request Timedout')
+    } else {
+      const statusResponse = await dataSources.getAsyncReportStatus(
+        token,
+        reportId,
+        variantId,
+        executionId,
+        dataProductDefinitionsPath,
+      )
+      status = statusResponse.status as RequestStatus
 
-    if (typeof status !== 'string') {
-      if (currentStatus === RequestStatus.FINISHED || !currentStatus) {
-        status = RequestStatus.EXPIRED
-      } else {
-        throw new Error(statusResponse.userMessage)
+      if (typeof status !== 'string') {
+        if (currentStatus === RequestStatus.FINISHED || !currentStatus) {
+          status = RequestStatus.EXPIRED
+        } else {
+          throw new Error(statusResponse.userMessage)
+        }
+      } else if (status === RequestStatus.FAILED) {
+        throw new Error(statusResponse.error)
       }
-    } else if (status === RequestStatus.FAILED) {
-      throw new Error(statusResponse.error)
     }
   } catch (error) {
     status = RequestStatus.FAILED
@@ -51,6 +56,17 @@ const getStatus = async (
   }
 
   return res
+}
+
+const timeoutRequest = (requestTime: Date) => {
+  if (!requestTime) return false
+
+  const TIMEOUT_MINS_MAX = 15
+  const today: Date = new Date()
+  const requested: Date = new Date(requestTime)
+  const diffMs = today.valueOf() - requested.valueOf()
+  const diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000)
+  return diffMins >= TIMEOUT_MINS_MAX
 }
 
 interface GetStatusUtilsResponse {
@@ -76,6 +92,7 @@ export default {
         dataSources,
         asyncReportsStore,
         reportData.dataProductDefinitionsPath,
+        reportData.timestamp.requested,
       )
 
       const { status, errorMessage } = statusResponse

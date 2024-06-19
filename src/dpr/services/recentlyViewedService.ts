@@ -50,7 +50,6 @@ export default class RecentlyViewedStoreService extends UserStoreService {
 
   async addReport(reportData: AsyncReportData) {
     await this.getRecentlyViewedState()
-    const lastViewedTs = new Date().toLocaleString()
     const {
       reportId,
       variantId,
@@ -81,7 +80,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
         },
       },
       timestamp: {
-        lastViewed: `Last viewed: ${lastViewedTs}`,
+        lastViewed: new Date(),
       },
       query,
     }
@@ -110,14 +109,13 @@ export default class RecentlyViewedStoreService extends UserStoreService {
     const retriedReport = await this.getReportByExecutionId(id)
     const timestamp: AsyncReportsTimestamp = {
       ...retriedReport.timestamp,
-      retried: `Retried at: ${new Date().toLocaleString()}`,
+      retried: new Date(),
     }
     await this.updateReport(id, { timestamp })
   }
 
   async setToExpired(id: string) {
     await this.getRecentlyViewedState()
-    const expiredTs = new Date().toLocaleString()
     const index = this.findIndexByExecutionId(id, this.recentlyViewedReports)
     let report: RecentlyViewedReportData = this.recentlyViewedReports[index]
     if (report) {
@@ -126,7 +124,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
         status: RequestStatus.EXPIRED,
         timestamp: {
           ...report.timestamp,
-          expired: expiredTs,
+          expired: new Date(),
         },
       }
     }

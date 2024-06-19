@@ -9,9 +9,9 @@ export interface RecentlyViewedReportData {
   variantName: string
   description: string
   timestamp: {
-    lastViewed: string
-    expired?: string
-    retried?: string
+    lastViewed: Date
+    expired?: Date
+    retried?: Date
   }
   status?: RequestStatus
   url: AsyncReportUrlData

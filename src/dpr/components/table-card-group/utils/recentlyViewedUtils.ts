@@ -63,7 +63,16 @@ const formatCardData = async (
   const summary = query.summary as { name: string; value: string }[]
   const href = status ? `${url.request.fullUrl}&retryId=${executionId}` : url.report.fullUrl
 
-  return { id, text, description, tag: 'MIS', summary, href, timestamp: timestamp.lastViewed, status }
+  return {
+    id,
+    text,
+    description,
+    tag: 'MIS',
+    summary,
+    href,
+    timestamp: `Last viewed: ${new Date(timestamp.lastViewed).toLocaleString()}`,
+    status,
+  }
 }
 
 const formatTable = (cardData: CardData[]) => {

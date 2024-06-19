@@ -53,10 +53,10 @@ export enum RequestStatus {
 }
 
 export interface AsyncReportsTimestamp {
-  lastViewed?: string
-  requested?: string
-  completed?: string
-  expired?: string
-  failed?: string
-  retried?: string
+  lastViewed?: Date
+  requested?: Date
+  completed?: Date
+  expired?: Date
+  failed?: Date
+  retried?: Date
 }

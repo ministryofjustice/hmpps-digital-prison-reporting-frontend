@@ -131,7 +131,7 @@ export default class AsyncReportStoreService extends UserStoreService {
     const retriedReport = await this.getReportByExecutionId(id)
     const timestamp: AsyncReportsTimestamp = {
       ...retriedReport.timestamp,
-      retried: `Retried at: ${new Date().toLocaleString()}`,
+      retried: new Date(),
     }
     await this.updateReport(id, { timestamp })
   }
@@ -140,7 +140,7 @@ export default class AsyncReportStoreService extends UserStoreService {
     await this.getRequestedReportsState()
     const index = this.findIndexByExecutionId(id, this.requestedReports)
     const report: AsyncReportData = this.requestedReports[index]
-    report.timestamp.lastViewed = `Last viewed: ${new Date().toLocaleString()}`
+    report.timestamp.lastViewed = new Date()
     this.requestedReports[index] = report
     await this.saveRequestedReportState()
   }
@@ -155,16 +155,16 @@ export default class AsyncReportStoreService extends UserStoreService {
   }
 
   updateDataByStatus(report: AsyncReportData, status?: RequestStatus | undefined, errorMessage?: string) {
-    const ts = new Date().toLocaleString()
+    const ts = new Date()
     const { tableId } = report
     if (status) report.status = status
     switch (status) {
       case RequestStatus.FAILED:
-        report.timestamp.failed = `Failed at: ${ts}`
+        report.timestamp.failed = ts
         report.errorMessage = errorMessage
         break
       case RequestStatus.FINISHED:
-        report.timestamp.completed = `Ready at: ${ts}`
+        report.timestamp.completed = ts
         report.url.report.pathname = `${report.url.request.pathname}/${tableId}/report${getDpdPathSuffix(
           report.dataProductDefinitionsPath,
         )}`
@@ -173,13 +173,13 @@ export default class AsyncReportStoreService extends UserStoreService {
         )}`
         break
       case RequestStatus.SUBMITTED:
-        report.timestamp.requested = `Requested at: ${ts}`
+        report.timestamp.requested = ts
         break
       case RequestStatus.STARTED:
       case RequestStatus.PICKED:
         break
       default:
-        report.timestamp.lastViewed = `Last viewed: ${ts}`
+        report.timestamp.lastViewed = ts
         break
     }
     return report

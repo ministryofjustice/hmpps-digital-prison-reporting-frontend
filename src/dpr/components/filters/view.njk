@@ -10,78 +10,15 @@
   parameterPrefix   // The prefix to apply to the filter parameters in the page URL.
 #}
 
-{% from "govuk/components/select/macro.njk" import govukSelect %}
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
-{% from "dpr/components/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
-{% from "dpr/components/date-range/view.njk" import dprDateRange -%}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "dpr/components/filter-input/view.njk" import dprFilterInput %}
 
 {% macro dprFilters(filters, urlWithNoFilters, parameterPrefix = "filters.") %}
-  {% set today = getTodayIsoDate() %}
   <div data-dpr-module="filters" data-base-url="{{ urlWithNoFilters }}" class="dpr-filters">
     <form id="user-selected-filters-form">
       <div class="filter-container">
         {%- for filter in filters %}
-
-          {%- if filter.type | lower === 'select' %}
-
-            <div class='filter-item'>
-              {{ govukSelect({
-                id: parameterPrefix + filter.name,
-                name: parameterPrefix + filter.name,
-                value: filter.value,
-                items: [{
-                  value: "",
-                  text: "( No filter )"
-                }].concat(filter.options),
-                label: {
-                  text: filter.text,
-                  classes: "govuk-label govuk-!-font-weight-bold"
-                }
-              }) }}
-            </div>
-
-          {% elif filter.type | lower === 'radio' %}
-
-            <div class='filter-item'>
-              {{ govukRadios({
-                id: parameterPrefix + filter.name,
-                name: parameterPrefix + filter.name,
-                classes: "govuk-radios--small",
-                fieldset: {
-                  legend: {
-                    text: filter.text,
-                    classes: "govuk-label govuk-!-font-weight-bold"
-                  }
-                },
-                items: filter.options,
-                value: filter.value
-              }) }}
-            </div>
-
-          {% elif filter.type | lower === 'daterange' %}
-
-            <div class='filter-item'>
-              <div class="govuk-form-group">
-                {{ dprDateRange(filter, parameterPrefix) }}
-              </div>
-            </div>
-
-          {% elif filter.type | lower === 'autocomplete' %}
-
-            <div class='filter-item'>
-              {{ dprAutocompleteTextInput({
-                id: parameterPrefix + filter.name,
-                name: parameterPrefix + filter.name,
-                items: filter.options,
-                value: filter.value,
-                labelText: filter.text,
-                minimumLength: filter.minimumLength,
-                dynamicResourceEndpoint: filter.dynamicResourceEndpoint
-              }) }}
-            </div>
-
-          {% endif %}
+          {{ dprFilterInput(filter, parameterPrefix) }}
         {%- endfor %}
       </div>
 

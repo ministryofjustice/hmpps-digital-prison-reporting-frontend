@@ -1,7 +1,7 @@
 import { parse } from 'node-html-parser'
 import nunjucks from 'nunjucks'
 import path from 'path'
-import { FilterType } from './enum'
+import { FilterType } from '../filter-input/enum'
 import setUpNunjucksFilters from '../../setUpNunjucksFilters'
 
 const env = nunjucks.configure(
@@ -15,7 +15,6 @@ const env = nunjucks.configure(
 )
 
 setUpNunjucksFilters(env)
-env.addGlobal('getTodayIsoDate', () => '2007-08-09')
 
 const defaultOptions = {
   filters: [

@@ -1,0 +1,55 @@
+---
+layout: layouts/example.njk
+title: Table Card group (example)
+arguments: card-group
+---
+{% from "dpr/components/table-card-group/view.njk" import dprTableCardGroup %}
+
+{% set head = { 
+  title: "Section heading", 
+  icon: 'bookmark', 
+  id:'section-id' 
+} %}
+
+{% set cardData = [
+  {
+    id: 'card-id-1', 
+    href: '#',
+    text: 'Card title 1',
+    description: 'Card Description 1'
+  },
+  {
+    id: 'card-id-2', 
+    href: '#',
+    text: 'Card title 2',
+    description: 'Card Description 2'
+  }
+] %}
+
+{% set tableData = {
+  rows: [
+    [
+      {
+        text: 'field 1.1'
+      }, {
+        text: 'field 1.2'
+      }
+    ],
+    [
+      {
+        text: 'field 2.1'
+      }, {
+        text: 'field 2.2'
+      }
+    ]
+  ],
+  head: [
+    {
+      text: 'Column Head 1'
+    }, {
+      text: 'Column Head 2'
+    }
+  ]
+} %}
+
+{{ dprTableCardGroup(head, cardData, tableData) }}

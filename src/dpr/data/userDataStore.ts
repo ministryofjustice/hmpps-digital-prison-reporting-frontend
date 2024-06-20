@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createClient } from 'redis'
 import logger from '../utils/logger'
-import { AsyncReportData } from '../types/AsyncReport'
+import { UserStoreConfig } from '../types/UserStore'
 
 export type RedisClient = ReturnType<typeof createClient>
 
@@ -43,10 +43,4 @@ const baseplateStore: UserStoreConfig = {
   requestedReports: [],
   recentlyViewedReports: [],
   bookmarks: [],
-}
-
-export interface UserStoreConfig {
-  requestedReports: AsyncReportData[]
-  recentlyViewedReports: []
-  bookmarks: []
 }

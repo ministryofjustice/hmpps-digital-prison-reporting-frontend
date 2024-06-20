@@ -12,7 +12,7 @@ const bodyParser = require('body-parser')
 
 // Local dependencies
 const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
-const AsyncCardGroupUtils = require('../package/dpr/components/async-card-group/utils').default
+const AsyncReportslistUtils = require('../package/dpr/components/async-reports-list/utils').default
 
 // Set up application
 const appViews = [
@@ -61,6 +61,7 @@ const getMockCardData = require('./mockData/mockLegacyReportCards')
 const data = require('./data')
 const ReportingClient = require('../package/dpr/data/reportingClient')
 const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
+const RecentlyViewedStoreService = require('../package/dpr/services/recentlyViewedService').default
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
 
 // Set up routes
@@ -92,19 +93,31 @@ app.get('/', (req, res) => {
 
 // Step 1 - initialise the UserStore + AsyncReportStore
 const mockUserStore = new MockUserStoreService()
-const asyncReportsStore = new AsyncReportStoreService(mockUserStore, 'userId')
-asyncReportsStore.init()
+const asyncReportsStore = new AsyncReportStoreService(mockUserStore)
+asyncReportsStore.init('userId')
+const recentlyViewedStoreService = new RecentlyViewedStoreService(mockUserStore)
+recentlyViewedStoreService.init('userId')
 
 // Step 2 - Add routes to root routes file
-addAsyncReportingRoutes({ router: app, asyncReportsStore, dataSources: mockAsyncApis })
+addAsyncReportingRoutes({
+  router: app,
+  asyncReportsStore,
+  recentlyViewedStoreService,
+  dataSources: mockAsyncApis,
+  layoutPath: 'page.njk',
+  templatePath: 'dpr/views/',
+})
 
 // Step 3 - Add Requested Reports Slide to homepage
 app.get('/async-reports', async (req, res) => {
   res.render('async.njk', {
     title: 'Home',
-    requestedReports: {
-      ...(await AsyncCardGroupUtils.renderAsyncReportsList({ asyncReportsStore, dataSources: mockAsyncApis, res })),
-    },
+    ...(await AsyncReportslistUtils.renderList({
+      recentlyViewedStoreService,
+      asyncReportsStore,
+      dataSources: mockAsyncApis,
+      res,
+    })),
     legacyReports: {
       cardData: getMockCardData(req),
     },
@@ -199,10 +212,7 @@ app.get('/test-reports/fail', (req, res, next) => {
 app.get('/search', (req, res) => {
   res.render('search.njk', {
     title: 'Search',
-    head: [
-      { text: 'Product' },
-      { text: 'Name' },
-    ],
+    head: [{ text: 'Product' }, { text: 'Name' }],
     rows: [
       [{ text: 'Product one' }, { text: 'Report one' }],
       [{ text: 'Product one' }, { text: 'Report two' }],
@@ -210,7 +220,7 @@ app.get('/search', (req, res) => {
       [{ text: 'Product two' }, { text: 'Report four' }],
       [{ text: 'Product three' }, { text: 'Report five' }],
       [{ text: 'Product three' }, { text: 'Report six' }],
-    ]
+    ],
   })
 })
 

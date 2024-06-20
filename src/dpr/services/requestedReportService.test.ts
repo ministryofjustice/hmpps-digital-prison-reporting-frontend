@@ -23,7 +23,7 @@ describe('AsyncReportStoreService', () => {
 
   describe('getState', () => {
     it('should get the state from the store', async () => {
-      await asyncReportsStore.getState()
+      await asyncReportsStore.getRequestedReportsState()
       expect(mockUserStore.getUserConfig).toHaveBeenCalledWith('userId')
     })
   })
@@ -31,7 +31,7 @@ describe('AsyncReportStoreService', () => {
   describe('saveState', () => {
     it('should save the state to the store', async () => {
       asyncReportsStore.requestedReports = [{ test: true }] as unknown as AsyncReportData[]
-      await asyncReportsStore.saveState()
+      await asyncReportsStore.saveRequestedReportState()
       expect(mockUserStore.setUserConfig).toHaveBeenCalledWith('userId', { requestedReports: [{ test: true }] })
     })
   })
@@ -51,7 +51,7 @@ describe('AsyncReportStoreService', () => {
         tableId: 'dfsdf',
         variantName: 'vName',
         reportName: 'rName',
-        variantDescription: 'description',
+        description: 'description',
         fullUrl: 'fullUrl',
         pathname: 'pathname',
         search: 'search',
@@ -90,6 +90,7 @@ describe('AsyncReportStoreService', () => {
           reportName: 'rName',
           description: 'description',
           status: 'SUBMITTED',
+          dataProductDefinitionsPath: undefined,
           filters: {
             data: {
               field1: 'value1.2',
@@ -108,6 +109,7 @@ describe('AsyncReportStoreService', () => {
           url: {
             origin: 'origin',
             request: {
+              fullUrl: undefined,
               pathname: 'pathname',
               search: 'search',
             },

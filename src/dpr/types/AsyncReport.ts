@@ -15,9 +15,10 @@ export interface AsyncReportData {
   timestamp: AsyncReportsTimestamp
   query: AsyncReportQueryData
   dataProductDefinitionsPath?: string
+  errorMessage?: string
 }
 
-interface AsyncReportUrlData {
+export interface AsyncReportUrlData {
   origin: string
   request: AsyncReportUrlItemData
   report?: AsyncReportUrlItemData
@@ -30,7 +31,7 @@ interface AsyncReportUrlItemData {
   search?: string
 }
 
-interface AsyncReportQueryData {
+export interface AsyncReportQueryData {
   data: Dict<string>
   summary: Array<Dict<string>>
 }
@@ -47,13 +48,15 @@ export enum RequestStatus {
   FINISHED = 'FINISHED',
   FAILED = 'FAILED',
   ABORTED = 'ABORTED',
+  EXPIRED = 'EXPIRED',
   ALL = 'ALL',
 }
 
-interface AsyncReportsTimestamp {
-  lastViewed?: string
-  requested?: string
-  completed?: string
-  expired?: string
-  failed?: string
+export interface AsyncReportsTimestamp {
+  lastViewed?: Date
+  requested?: Date
+  completed?: Date
+  expired?: Date
+  failed?: Date
+  retried?: Date
 }

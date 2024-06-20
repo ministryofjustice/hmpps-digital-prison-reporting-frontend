@@ -1,13 +1,14 @@
 {% from "../static-icon/view.njk" import dprStaticIcon %}
 {% from "../toggle-content/view.njk" import dprToggleContent %}
-{% from "../content-slide-cards/view.njk" import dprContentSlideCards %}
 
-{% macro dprContentSlide(head, content) %}
+{% macro dprContentSlide(head, content, empty = false) %}
 
   {# HEADING CONTENT #}
   {% set title = head.title %}
   {% set subText = head.subText %}
   {% set icon = head.icon %}
+  {% set id = head.id %}
+  {% set emptyMessage = head.emptyMessage %}
 
   {# TOGGLE CONTENT #}
   {% set toggle = content.toggle %}
@@ -28,10 +29,14 @@
       {% endif %}
     </div>
 
-    {% if items and items.length %}
-      {{ dprToggleContent('slideId', toggleIcons, items) }}
+    {% if emptyMessage.length %}
+      <p>{{emptyMessage}}</p>
     {% else %}
-      {{ items[0].html | safe }}
+      {% if items and items.length %}
+        {{ dprToggleContent( id, toggleIcons, items) }}
+      {% else %}
+        {{ items[0].html | safe }}
+      {% endif %}
     {% endif %}
   </div>
 {% endmacro %}

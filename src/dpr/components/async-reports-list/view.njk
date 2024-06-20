@@ -1,0 +1,17 @@
+{% from "../table-card-group/view.njk" import dprTableCardGroup %}
+
+{% macro dprAsyncReportsList(requestedReports, viewedReports) %}
+
+  {{ dprTableCardGroup(
+    requestedReports.head,
+    requestedReports.cardData, 
+    requestedReports.tableData
+  )}}
+
+  {{ dprTableCardGroup(
+    viewedReports.head, 
+    viewedReports.cardData, 
+    viewedReports.tableData
+  ) }}
+
+{% endmacro %}

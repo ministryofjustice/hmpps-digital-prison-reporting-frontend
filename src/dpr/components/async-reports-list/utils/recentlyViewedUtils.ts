@@ -2,10 +2,10 @@ import RecentlyViewedStoreService from '../../../services/recentlyViewedService'
 import ReportingService from '../../../services/reportingService'
 import { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
 import { RecentlyViewedReportData } from '../../../types/RecentlyViewed'
-import { CardData, RenderTableListResponse } from '../types'
 import AsyncPollingUtils from '../../async-polling/utils'
 import AsyncReportStoreService from '../../../services/requestedReportsService'
 import { RequestStatus } from '../../../types/AsyncReport'
+import { CardData, RenderTableListResponse } from '../../table-card-group/types'
 
 const formatCards = async (
   recentlyViewedStoreService: RecentlyViewedStoreService,

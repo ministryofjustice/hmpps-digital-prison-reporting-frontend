@@ -3,7 +3,7 @@ import { AsyncReportData, RequestStatus } from '../../../types/AsyncReport'
 import { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
 import AsyncPollingUtils from '../../async-polling/utils'
 import ReportingService from '../../../services/reportingService'
-import { CardData, RenderTableListResponse } from '../types'
+import { CardData, RenderTableListResponse } from '../../table-card-group/types'
 
 const formatCardData = async (
   requestedReportsData: AsyncReportData,
@@ -128,7 +128,6 @@ export default {
       id: 'requested-reports',
       ...(!cardData.length && { emptyMessage: 'You have 0 requested reports' }),
     }
-    console.log(head)
     return {
       head,
       cardData,

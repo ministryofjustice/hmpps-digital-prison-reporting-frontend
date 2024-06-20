@@ -28,8 +28,19 @@
     {% endif %}
 
     <h1 class="govuk-heading-l">{{ title }}</h1>
-    {{ dprTableCardGroup({ title: "Requested Reports", icon: 'hourglass', id:'requested-reports' }, requestedReports.cardData, requestedReports.tableData) }}
-    {{ dprTableCardGroup({ title: "Recently Viewed", icon: 'viewed', id:'recently-viewed' }, viewedReports.cardData, viewedReports.tableData) }}
+
+    {{ dprTableCardGroup(
+      requestedReports.head,
+      requestedReports.cardData, 
+      requestedReports.tableData
+    )}}
+
+    {{ dprTableCardGroup(
+      viewedReports.head, 
+      viewedReports.cardData, 
+      viewedReports.tableData
+    ) }}
+
     {{ dprTableCardGroup({ title: "Legacy Reports", icon: '', id:'legacy-reports' }, legacyReports.cardData, requestedReports.tableData) }}
   </div>
 {% endblock %}

@@ -12,10 +12,7 @@ const bodyParser = require('body-parser')
 
 // Local dependencies
 const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
-const {
-  RecentlyViewedCardGroupUtils,
-  AsyncCardGroupUtils,
-} = require('../package/dpr/components/table-card-group/utils')
+const AsyncReportslistUtils = require('../package/dpr/components/async-reports-list/utils').default
 
 // Set up application
 const appViews = [
@@ -115,17 +112,12 @@ addAsyncReportingRoutes({
 app.get('/async-reports', async (req, res) => {
   res.render('async.njk', {
     title: 'Home',
-    requestedReports: {
-      ...(await AsyncCardGroupUtils.renderAsyncReportsList({ asyncReportsStore, dataSources: mockAsyncApis, res })),
-    },
-    viewedReports: {
-      ...(await RecentlyViewedCardGroupUtils.renderRecentlyViewedList({
-        recentlyViewedStoreService,
-        asyncReportsStore,
-        dataSources: mockAsyncApis,
-        res,
-      })),
-    },
+    ...(await AsyncReportslistUtils.renderList({
+      recentlyViewedStoreService,
+      asyncReportsStore,
+      dataSources: mockAsyncApis,
+      res,
+    })),
     legacyReports: {
       cardData: getMockCardData(req),
     },
@@ -220,10 +212,7 @@ app.get('/test-reports/fail', (req, res, next) => {
 app.get('/search', (req, res) => {
   res.render('search.njk', {
     title: 'Search',
-    head: [
-      { text: 'Product' },
-      { text: 'Name' },
-    ],
+    head: [{ text: 'Product' }, { text: 'Name' }],
     rows: [
       [{ text: 'Product one' }, { text: 'Report one' }],
       [{ text: 'Product one' }, { text: 'Report two' }],
@@ -231,7 +220,7 @@ app.get('/search', (req, res) => {
       [{ text: 'Product two' }, { text: 'Report four' }],
       [{ text: 'Product three' }, { text: 'Report five' }],
       [{ text: 'Product three' }, { text: 'Report six' }],
-    ]
+    ],
   })
 })
 

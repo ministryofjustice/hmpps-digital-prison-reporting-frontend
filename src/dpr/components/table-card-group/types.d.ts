@@ -1,6 +1,12 @@
 import Dict = NodeJS.Dict
 
 export interface RenderTableListResponse {
+  head: {
+    title: string
+    icon: string
+    id: string
+    emptyMessage: string
+  }
   cardData: CardData[]
   tableData: {
     rows: Dict<string>[][]

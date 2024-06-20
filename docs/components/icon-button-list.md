@@ -3,7 +3,7 @@ layout: layouts/component.njk
 title: Icon Button List
 ---
 
-{% example "toggle-content", 300 %}
+{% example "icon-button-list", 300 %}
 
 ## When to use
 

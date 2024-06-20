@@ -25,8 +25,8 @@ When('I select a filter', function (this: Mocha.Context) {
       page.filter(filterField.name).select(filterValue.name)
       break
     case 'Radio':
-      page.filter(filterField.name).click({ force: true })
-      page.filter(filterField.name).then((selectedRadio) => {
+      page.filterOption(filterField.name, 2).click({ force: true })
+      page.filterOption(filterField.name, 2).then((selectedRadio) => {
         filterValue = filterField.filter.staticOptions.find((value) => value.name === selectedRadio.val())
       })
       break

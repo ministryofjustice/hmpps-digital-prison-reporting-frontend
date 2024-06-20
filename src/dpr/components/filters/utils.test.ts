@@ -1,6 +1,6 @@
 import Utils from './utils'
 import Dict = NodeJS.Dict
-import { FilterType } from './enum'
+import { FilterType } from '../filter-input/enum'
 import { DateRange } from './types'
 import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'
@@ -29,6 +29,7 @@ const selectFieldFormat: Array<components['schemas']['FieldDefinition']> = [
     type: 'string',
     mandatory: false,
     visible: true,
+    calculated: false,
   },
 ]
 
@@ -45,6 +46,7 @@ const radioFieldFormat: Array<components['schemas']['FieldDefinition']> = [
     type: 'string',
     mandatory: false,
     visible: true,
+    calculated: false,
   },
 ]
 
@@ -60,6 +62,7 @@ const dateRangeFieldFormat: Array<components['schemas']['FieldDefinition']> = [
     type: 'string',
     mandatory: false,
     visible: true,
+    calculated: false,
   },
 ]
 
@@ -124,6 +127,7 @@ describe('getFilters', () => {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
       },
     ]
     const filterValues: Dict<string> = {

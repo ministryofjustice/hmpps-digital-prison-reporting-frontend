@@ -1,5 +1,5 @@
 import Dict = NodeJS.Dict
-import { FilterType } from './enum'
+import { FilterType } from '../filter-input/enum'
 import { DateFilterValue, FilterValue } from './types'
 import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'
@@ -49,7 +49,7 @@ export default {
     filterValues: Dict<string>,
     dynamicAutocompleteEndpoint: string = null,
   ) => {
-    const filters = variantDefinition.specification.fields
+    return variantDefinition.specification.fields
       .filter((f) => f.filter)
       .map((f) => {
         let filter: FilterValue = {
@@ -86,8 +86,6 @@ export default {
 
         return filter
       })
-
-    return filters
   },
 
   setMinMax: (filter: components['schemas']['FilterDefinition'], startValue: string, endValue: string) => {

@@ -1,0 +1,80 @@
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "dpr/components/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
+{% from "dpr/components/date-range/view.njk" import dprDateRange -%}
+
+{% macro dprFilterInput(filter, parameterPrefix = "filters.") %}
+  {% set filterType = filter.type | lower %}
+  {% set id = parameterPrefix + filter.name %}
+  {% set name = parameterPrefix + filter.name %}
+  {% set value = filter.value %}
+  {% set text = filter.text %}
+  {% set options = filter.options %}
+
+  {% set optionsWithNone = [
+    {
+      value: "",
+      text: "( No filter )"
+    }
+  ].concat(options) %}
+
+  <div class='filter-item'>
+  {%- if filterType === 'select' %}
+
+    {{ govukSelect({
+      id: id,
+      name: name,
+      value: value,
+      items: optionsWithNone,
+      label: {
+        text: text,
+        classes: "govuk-label govuk-!-font-weight-bold"
+      }
+    }) }}
+
+  {% elif filterType === 'radio' %}
+
+    <div class='filter-item'>
+      {{ govukRadios({
+        id: id,
+        name: name,
+        classes: "govuk-radios--small",
+        fieldset: {
+          legend: {
+            text: text,
+            classes: "govuk-label govuk-!-font-weight-bold"
+          }
+        },
+        items: optionsWithNone,
+        value: value
+      }) }}
+    </div>
+
+  {% elif filterType === 'daterange' %}
+
+    <div class='filter-item'>
+      <div class="govuk-form-group">
+        {{ dprDateRange(filter, parameterPrefix) }}
+      </div>
+    </div>
+
+  {% elif filterType === 'autocomplete' %}
+
+    {% set minimumLength = filter.minimumLength %}
+    {% set dynamicResourceEndpoint = filter.dynamicResourceEndpoint %}
+
+    <div class='filter-item'>
+      {{ dprAutocompleteTextInput({
+        id: id,
+        name: name,
+        items: options,
+        value: value,
+        labelText: text,
+        minimumLength: minimumLength,
+        dynamicResourceEndpoint: dynamicResourceEndpoint
+      }) }}
+    </div>
+
+  {% endif %}
+  </div>
+{% endmacro %}

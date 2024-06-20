@@ -2,7 +2,7 @@ import Dict = NodeJS.Dict
 import { components } from '../../types/api'
 import FilterUtils from '../filters/utils'
 import { DateFilterValue, FilterValue } from '../filters/types'
-import { FilterType } from '../filters/enum'
+import { FilterType } from '../filter-input/enum'
 import SortHelper from './sortByTemplate'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 

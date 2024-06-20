@@ -15,6 +15,8 @@ export default class ReportPage {
 
   filter = (id): PageElement => cy.get(`#filters\\.${id}`)
 
+  filterOption = (id, index = 1): PageElement => cy.get(`#filters\\.${id}-${index}`)
+
   dateStartFilter = (): PageElement => cy.get(`#filters\\.field3\\.start`)
 
   dateEndFilter = (): PageElement => cy.get(`#filters\\.field3\\.end`)

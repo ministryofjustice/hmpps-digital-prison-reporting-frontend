@@ -19,9 +19,9 @@
   ].concat(options) %}
 
   <div class='filter-item'>
-  {%- if filterType === 'select' %}
+    {%- if filterType === 'select' %}
 
-    {{ govukSelect({
+      {{ govukSelect({
       id: id,
       name: name,
       value: value,
@@ -32,9 +32,8 @@
       }
     }) }}
 
-  {% elif filterType === 'radio' %}
+    {% elif filterType === 'radio' %}
 
-    <div class='filter-item'>
       {{ govukRadios({
         id: id,
         name: name,
@@ -48,22 +47,18 @@
         items: optionsWithNone,
         value: value
       }) }}
-    </div>
 
-  {% elif filterType === 'daterange' %}
+    {% elif filterType === 'daterange' %}
 
-    <div class='filter-item'>
       <div class="govuk-form-group">
         {{ dprDateRange(filter, parameterPrefix) }}
       </div>
-    </div>
 
-  {% elif filterType === 'autocomplete' %}
+    {% elif filterType === 'autocomplete' %}
 
-    {% set minimumLength = filter.minimumLength %}
-    {% set dynamicResourceEndpoint = filter.dynamicResourceEndpoint %}
+      {% set minimumLength = filter.minimumLength %}
+      {% set dynamicResourceEndpoint = filter.dynamicResourceEndpoint %}
 
-    <div class='filter-item'>
       {{ dprAutocompleteTextInput({
         id: id,
         name: name,
@@ -73,8 +68,7 @@
         minimumLength: minimumLength,
         dynamicResourceEndpoint: dynamicResourceEndpoint
       }) }}
-    </div>
 
-  {% endif %}
+    {% endif %}
   </div>
 {% endmacro %}

@@ -8,7 +8,7 @@ export default class dprAsyncPolling extends DprClientClass {
 
   async initialise () {
     this.POLLING_STATUSES = ['SUBMITTED', 'STARTED', 'PICKED']
-    this.POLLING_FREQUENCY = '5000' // 5 seconds
+    this.POLLING_FREQUENCY = '2000' // 2 seconds
 
     this.statusSection = document.getElementById('async-request-polling-status')
     this.retryRequestButton = document.getElementById('retry-async-request')
@@ -30,14 +30,6 @@ export default class dprAsyncPolling extends DprClientClass {
   initCancelRequestButton () {
     if (this.cancelRequestButton) {
       this.cancelRequestButton.addEventListener('click', () => {
-        // TODO
-      })
-    }
-  }
-
-  initRetryRequestButton () {
-    if (this.retryRequestButton) {
-      this.retryRequestButton.addEventListener('click', () => {
         // TODO
       })
     }

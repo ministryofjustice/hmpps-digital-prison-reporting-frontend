@@ -14,6 +14,8 @@
   {% set variantId = data.variantId %}
   {% set tableId = data.tableId %}
   {% set reportUrl = data.reportUrl %}
+  {% set requestUrl = data.requestUrl %}
+  {% set errorMessage = data.errorMessage %}
 
   <div id="async-request-polling-status" 
     data-current-status={{ status }}
@@ -55,20 +57,21 @@
       <p>Status: {{ dprRequestStatusTag(status) }}</p>
 
       {{ govukErrorSummary({
-      titleText: "Your report has failed to generate. The issue has been reported to admin staff",
-      classes: "govuk-!-margin-top-6",
-      errorList: [
-        {
-          text: error
-        }
-      ]
-    }) }}
+        titleText: "Your report has failed to generate. The issue has been reported to admin staff",
+        classes: "govuk-!-margin-top-6",
+        errorList: [
+          {
+            text: errorMessage
+          }
+        ]
+      }) }}
 
       {{ govukButton({
-      id: "retry-async-request",
-      text: "Retry",  
-      classes: "govuk-button govuk-!-margin-top-5"
-    }) }}
+        id: "retry-async-request",
+        text: "Retry",  
+        classes: "govuk-button govuk-!-margin-top-5",
+        href: requestUrl
+      }) }}
 
     {% endif %}
 

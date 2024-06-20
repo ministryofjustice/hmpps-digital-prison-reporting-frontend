@@ -1,36 +1,25 @@
 /* eslint-disable no-param-reassign */
-import UserDataStore, { UserStoreConfig } from '../data/userDataStore'
+import UserDataStore from '../data/userDataStore'
 import Dict = NodeJS.Dict
-import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
+import { AsyncReportData, AsyncReportsTimestamp, RequestStatus } from '../types/AsyncReport'
+import UserStoreService from './userStoreService'
 import { getDpdPathSuffix } from '../utils/urlHelper'
 
-export default class AsyncReportStoreService {
-  userConfig: UserStoreConfig
-
-  userId: string
-
+export default class AsyncReportStoreService extends UserStoreService {
   requestedReports: AsyncReportData[]
 
-  constructor(private readonly userStore: UserDataStore) {
-    this.userStore = userStore
+  constructor(userDataStore: UserDataStore) {
+    super(userDataStore)
   }
 
-  async init(userId: string) {
-    this.userId = userId
+  async getRequestedReportsState() {
     await this.getState()
-    if (Object.keys(this.userConfig).length === 0) {
-      this.userStore.initUser(this.userId)
-    }
-  }
-
-  async getState() {
-    this.userConfig = await this.userStore.getUserConfig(this.userId)
     this.requestedReports = <AsyncReportData[]>this.userConfig.requestedReports
   }
 
-  async saveState() {
+  async saveRequestedReportState() {
     this.userConfig.requestedReports = this.requestedReports
-    await this.userStore.setUserConfig(this.userId, this.userConfig)
+    await this.saveState()
   }
 
   async addReport(
@@ -40,7 +29,7 @@ export default class AsyncReportStoreService {
     query: Dict<string>,
     querySummary: Array<Dict<string>>,
   ) {
-    await this.getState()
+    await this.getRequestedReportsState()
     const {
       reportId,
       variantId,
@@ -51,6 +40,7 @@ export default class AsyncReportStoreService {
       search,
       origin = '',
       dataProductDefinitionsPath,
+      description,
     } = reportData
 
     const filtersQueryString = new URLSearchParams(filterData).toString()
@@ -63,7 +53,7 @@ export default class AsyncReportStoreService {
       tableId,
       name: reportData.variantName,
       reportName: reportData.reportName,
-      description: reportData.variantDescription,
+      description,
       status: RequestStatus.SUBMITTED,
       filters: {
         data: filterData,
@@ -96,45 +86,36 @@ export default class AsyncReportStoreService {
 
     reportStateData = this.updateDataByStatus(reportStateData, RequestStatus.SUBMITTED)
     this.requestedReports.unshift(reportStateData)
-    await this.saveState()
+    await this.saveRequestedReportState()
 
     return reportStateData
   }
 
   async removeReport(id: string) {
-    await this.getState()
-    const index = this.findReportIndex(id)
+    await this.getRequestedReportsState()
+    const index = this.findIndexByExecutionId(id, this.requestedReports)
     this.requestedReports.splice(index, 1)
-    await this.saveState()
-  }
-
-  findReportIndex(id: string) {
-    return this.requestedReports.findIndex((report) => report.executionId === id)
-  }
-
-  async getReport(id: string) {
-    await this.getState()
-    return this.requestedReports.find((report) => report.executionId === id)
+    await this.saveRequestedReportState()
   }
 
   async getReportByExecutionId(id: string) {
-    await this.getState()
+    await this.getRequestedReportsState()
     return this.requestedReports.find((report) => report.executionId === id)
   }
 
   async getReportByTableId(id: string) {
-    await this.getState()
+    await this.getRequestedReportsState()
     return this.requestedReports.find((report) => report.tableId === id)
   }
 
   async getAllReports() {
-    await this.getState()
+    await this.getRequestedReportsState()
     return this.requestedReports
   }
 
-  async updateReport(id: string, data: Dict<string | number | RequestStatus>) {
-    await this.getState()
-    const index = this.findReportIndex(id)
+  async updateReport(id: string, data: Dict<string | number | RequestStatus | AsyncReportsTimestamp>) {
+    await this.getRequestedReportsState()
+    const index = this.findIndexByExecutionId(id, this.requestedReports)
     let report: AsyncReportData = this.requestedReports[index]
     if (report) {
       report = {
@@ -143,28 +124,47 @@ export default class AsyncReportStoreService {
       }
     }
     this.requestedReports[index] = report
-    await this.saveState()
+    await this.saveRequestedReportState()
   }
 
-  async updateStatus(id: string, status: RequestStatus) {
-    await this.getState()
-    const index = this.findReportIndex(id)
-    let report: AsyncReportData = this.requestedReports[index]
-    if (report) report = this.updateDataByStatus(report, status)
+  async setReportRetriedTimestamp(id: string) {
+    const retriedReport = await this.getReportByExecutionId(id)
+    const timestamp: AsyncReportsTimestamp = {
+      ...retriedReport.timestamp,
+      retried: new Date(),
+    }
+    await this.updateReport(id, { timestamp })
+  }
+
+  async updateLastViewed(id: string) {
+    await this.getRequestedReportsState()
+    const index = this.findIndexByExecutionId(id, this.requestedReports)
+    const report: AsyncReportData = this.requestedReports[index]
+    report.timestamp.lastViewed = new Date()
     this.requestedReports[index] = report
-    await this.saveState()
+    await this.saveRequestedReportState()
   }
 
-  updateDataByStatus(report: AsyncReportData, status: RequestStatus | undefined) {
-    const ts = new Date().toLocaleString()
+  async updateStatus(id: string, status?: RequestStatus, errorMessage?: string) {
+    await this.getRequestedReportsState()
+    const index = this.findIndexByExecutionId(id, this.requestedReports)
+    let report: AsyncReportData = this.requestedReports[index]
+    if (report) report = this.updateDataByStatus(report, status, errorMessage)
+    this.requestedReports[index] = report
+    await this.saveRequestedReportState()
+  }
+
+  updateDataByStatus(report: AsyncReportData, status?: RequestStatus | undefined, errorMessage?: string) {
+    const ts = new Date()
     const { tableId } = report
-    report.status = status
+    if (status) report.status = status
     switch (status) {
       case RequestStatus.FAILED:
-        report.timestamp.failed = `Failed at: ${ts}`
+        report.timestamp.failed = ts
+        report.errorMessage = errorMessage
         break
       case RequestStatus.FINISHED:
-        report.timestamp.completed = `Ready at: ${ts}`
+        report.timestamp.completed = ts
         report.url.report.pathname = `${report.url.request.pathname}/${tableId}/report${getDpdPathSuffix(
           report.dataProductDefinitionsPath,
         )}`
@@ -173,10 +173,13 @@ export default class AsyncReportStoreService {
         )}`
         break
       case RequestStatus.SUBMITTED:
-        report.timestamp.requested = `Requested at: ${ts}`
+        report.timestamp.requested = ts
+        break
+      case RequestStatus.STARTED:
+      case RequestStatus.PICKED:
         break
       default:
-        report.timestamp.lastViewed = `Last viewed: ${ts}`
+        report.timestamp.lastViewed = ts
         break
     }
     return report

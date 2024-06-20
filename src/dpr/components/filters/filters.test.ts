@@ -79,14 +79,21 @@ describe('Filters options render correctly', () => {
   it('Radio filter renders successfully', () => {
     const rendered = parse(env.renderString(testView, defaultOptions))
 
-    const firstDirectionRadio = rendered.querySelectorAll('#filters\\.direction')
+    const clearDirectionRadio = rendered.querySelectorAll('#filters\\.direction')
+    expect(clearDirectionRadio.length).toEqual(1)
+    expect(clearDirectionRadio[0].tagName).toBe('INPUT')
+    expect(clearDirectionRadio[0].getAttribute('type')).toEqual('radio')
+    expect(clearDirectionRadio[0].getAttribute('value')).toEqual('')
+    expect(clearDirectionRadio[0].getAttribute('checked')).toBeUndefined()
+
+    const firstDirectionRadio = rendered.querySelectorAll('#filters\\.direction-2')
     expect(firstDirectionRadio.length).toEqual(1)
     expect(firstDirectionRadio[0].tagName).toBe('INPUT')
     expect(firstDirectionRadio[0].getAttribute('type')).toEqual('radio')
     expect(firstDirectionRadio[0].getAttribute('value')).toEqual('in')
     expect(firstDirectionRadio[0].getAttribute('checked')).toBeDefined()
 
-    const secondDirectionRadio = rendered.querySelectorAll('#filters\\.direction-2')
+    const secondDirectionRadio = rendered.querySelectorAll('#filters\\.direction-3')
     expect(secondDirectionRadio.length).toEqual(1)
     expect(secondDirectionRadio[0].tagName).toBe('INPUT')
     expect(secondDirectionRadio[0].getAttribute('type')).toEqual('radio')

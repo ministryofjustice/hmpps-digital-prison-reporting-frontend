@@ -5,6 +5,7 @@
 
 {% macro dprFilterInput(filter, parameterPrefix = "filters.") %}
   {% set filterType = filter.type | lower %}
+  {% set id = parameterPrefix + filter.name %}
   {% set name = parameterPrefix + filter.name %}
   {% set value = filter.value %}
   {% set text = filter.text %}

@@ -128,7 +128,6 @@ export default {
       id: 'requested-reports',
       ...(!cardData.length && { emptyMessage: 'You have 0 requested reports' }),
     }
-    console.log(head)
     return {
       head,
       cardData,

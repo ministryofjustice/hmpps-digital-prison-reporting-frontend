@@ -3,7 +3,7 @@ layout: layouts/component.njk
 title: Table Card Group
 ---
 
-{% example "card-group", 300 %}
+{% example "table-card-group", 300 %}
 
 {% header 2, "When to use" %}
 

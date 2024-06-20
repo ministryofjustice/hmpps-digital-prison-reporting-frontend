@@ -10,6 +10,6 @@ When(/^I enter a search value of (.+)$/, (searchText: string) => {
 Then(/^(\d+) results are displayed$/, (numberOfResults: number) => {
   new SearchPage().results().should('have.length', numberOfResults)
 })
-When(/^I enter an empty search value$/, function() {
+When(/^I enter an empty search value$/, function () {
   new SearchPage().textBox().clear()
-});
+})

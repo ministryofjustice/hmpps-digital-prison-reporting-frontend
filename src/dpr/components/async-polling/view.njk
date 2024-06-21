@@ -67,6 +67,8 @@
         ]
       }) }}
 
+      {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml)}}
+
       {{ govukButton({
         id: "retry-async-request",
         text: "Retry",  

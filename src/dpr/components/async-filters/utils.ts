@@ -104,66 +104,61 @@ export default {
     recentlyViewedStoreService,
     next,
   }: AsyncReportUtilsParams) => {
-    try {
-      let redirect = ''
+    let redirect = ''
 
-      const query = {}
-      const querySummary: Array<Dict<string>> = []
-      const filterData = {}
-      const sortData = {}
+    const query = {}
+    const querySummary: Array<Dict<string>> = []
+    const filterData = {}
+    const sortData = {}
 
-      Object.keys(req.body)
-        .filter((name) => name !== '_csrf' && req.body[name] !== '')
-        .forEach((name) => {
-          const shortName = name.replace('filters.', '')
-          const value = req.body[name]
+    Object.keys(req.body)
+      .filter((name) => name !== '_csrf' && req.body[name] !== '')
+      .forEach((name) => {
+        const shortName = name.replace('filters.', '')
+        const value = req.body[name]
 
-          query[name] = value
+        query[name] = value
 
-          if (name.startsWith('filters.') && value !== '') {
-            filterData[shortName] = value
-            querySummary.push({
-              name: shortName,
-              value,
-            })
-          } else if (name.startsWith('sort')) {
-            sortData[name] = value
-            querySummary.push({
-              name,
-              value,
-            })
-          }
-        })
+        if (name.startsWith('filters.') && value !== '') {
+          filterData[shortName] = value
+          querySummary.push({
+            name: shortName,
+            value,
+          })
+        } else if (name.startsWith('sort')) {
+          sortData[name] = value
+          querySummary.push({
+            name,
+            value,
+          })
+        }
+      })
 
-      const { token } = res.locals.user || 'token'
-      const { reportId, variantId, retryId } = req.body
-      const response = await dataSources.requestAsyncReport(token, reportId, variantId, query)
-      const { executionId, tableId } = response
+    const { token } = res.locals.user || 'token'
+    const { reportId, variantId, retryId } = req.body
+    const response = await dataSources.requestAsyncReport(token, reportId, variantId, query)
+    const { executionId, tableId } = response
 
-      if (retryId) {
-        await asyncReportsStore.setReportRetriedTimestamp(retryId)
-        await recentlyViewedStoreService.setReportRetriedTimestamp(retryId)
-      }
-
-      if (executionId && tableId) {
-        const reportData = await asyncReportsStore.addReport(
-          {
-            ...req.body,
-            executionId,
-            tableId,
-          },
-          filterData,
-          sortData,
-          query,
-          querySummary,
-        )
-        redirect = reportData.url.polling.pathname
-      }
-
-      return redirect
-    } catch (error) {
-      next(error)
-      return false
+    if (retryId) {
+      await asyncReportsStore.setReportRetriedTimestamp(retryId)
+      await recentlyViewedStoreService.setReportRetriedTimestamp(retryId)
     }
+
+    if (executionId && tableId) {
+      const reportData = await asyncReportsStore.addReport(
+        {
+          ...req.body,
+          executionId,
+          tableId,
+        },
+        filterData,
+        sortData,
+        query,
+        querySummary,
+      )
+      redirect = reportData.url.polling.pathname
+    }
+
+    return redirect
   },
 }

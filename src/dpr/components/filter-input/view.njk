@@ -3,7 +3,7 @@
 {% from "dpr/components/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
 {% from "dpr/components/date-range/view.njk" import dprDateRange -%}
 
-{% macro dprFilterInput(filter, parameterPrefix = "filters.") %}
+{% macro dprFilterInput(filter, parameterPrefix) %}
   {% set filterType = filter.type | lower %}
   {% set id = parameterPrefix + filter.name %}
   {% set name = parameterPrefix + filter.name %}

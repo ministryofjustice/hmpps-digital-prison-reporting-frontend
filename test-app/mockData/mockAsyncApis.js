@@ -71,9 +71,13 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
 
 const requestAsyncReport = (token, reportId, variantId, query) => {
   const unix = Date.now()
-  return new Promise((resolve) => {
-    mockAPIStatus.push({ executionId: `exId_${unix}`, status: 'redirect-call' })
-    setTimeout(resolve, 1000, { executionId: `exId_${unix}`, tableId: `tblId_${unix}` })
+  return new Promise((resolve, reject) => {
+    // mockAPIStatus.push({ executionId: `exId_${unix}`, status: 'redirect-call' })
+    // setTimeout(resolve, 1000, { executionId: `exId_${unix}`, tableId: `tblId_${unix}` })
+    const error = new Error('Bad request')
+    error.text =
+      '{"status":400,"userMessage":"Validation failure: Invalid filters provided.","developerMessage":"Invalid filters provided."}'
+    reject(error)
   })
 }
 

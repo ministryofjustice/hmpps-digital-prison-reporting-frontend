@@ -1,0 +1,42 @@
+{% extends layoutPath %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "../components/request-status-tag/view.njk" import dprRequestStatusTag %}
+{% from "../components/async-request-details/view.njk" import dprAsyncRequestDetails %}
+
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+
+  <p>Status: {{ dprRequestStatusTag(error.status) }}</p>
+
+  {{ govukErrorSummary({
+    titleText: "Your report has failed to generate. The issue has been reported to admin staff",
+    classes: "govuk-!-margin-top-6",
+    errorList: [
+      {
+        text: error.userMessage
+      }
+    ]
+  }) }}
+
+  {% set filtersHtml %}
+  {% if filters.length %}
+    <ul>
+      {% for filter in filters %}
+        <li class="govuk-body govuk-!-margin-bottom-1">{{ filter.name }}: {{ filter.value }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  {% endset %}
+
+  {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml )}}
+
+  {{ govukButton({
+    id: "retry-async-request",
+    text: "Retry",  
+    classes: "govuk-button govuk-!-margin-top-5",
+    href: href
+  }) }}
+{% endblock %}

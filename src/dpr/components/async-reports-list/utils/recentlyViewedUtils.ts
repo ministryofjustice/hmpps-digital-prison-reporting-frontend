@@ -57,13 +57,7 @@ const formatCardData = async (
     dataProductDefinitionsPath,
   )
 
-<<<<<<< HEAD
   status = statusResponse.status === RequestStatus.EXPIRED ? statusResponse.status : undefined
-=======
-  if (statusResponse.status === RequestStatus.EXPIRED) {
-    status = statusResponse.status
-  }
->>>>>>> main
   const summary = query.summary as { name: string; value: string }[]
   const href = status ? `${url.request.fullUrl}&retryId=${executionId}` : url.report.fullUrl
 

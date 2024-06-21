@@ -57,9 +57,7 @@ const formatCardData = async (
     dataProductDefinitionsPath,
   )
 
-  if (statusResponse.status === RequestStatus.EXPIRED) {
-    status = statusResponse.status
-  }
+  status = statusResponse.status === RequestStatus.EXPIRED ? statusResponse.status : undefined
   const summary = query.summary as { name: string; value: string }[]
   const href = status ? `${url.request.fullUrl}&retryId=${executionId}` : url.report.fullUrl
 
@@ -87,12 +85,14 @@ const formatTable = (cardData: CardData[]) => {
 }
 
 const formatTableData = (card: CardData) => {
-  const status = card.status ? card.status : 'READY'
+  const statusHtml = card.status
+    ? `<strong class="govuk-tag dpr-request-status-tag govuk-tag--yellow">${card.status}</strong>`
+    : ''
   return [
     { html: `<a href='${card.href}'>${card.text}</a>` },
     { text: card.description },
     {
-      html: `<strong class="govuk-tag dpr-request-status-tag">${status}</strong>`,
+      html: statusHtml,
     },
     { text: card.timestamp },
   ]

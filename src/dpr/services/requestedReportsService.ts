@@ -165,6 +165,9 @@ export default class AsyncReportStoreService extends UserStoreService {
         report.timestamp.failed = ts
         report.errorMessage = errorMessage
         break
+      case RequestStatus.EXPIRED:
+        report.timestamp.expired = ts
+        break
       case RequestStatus.FINISHED:
         report.timestamp.completed = ts
         report.url.report.pathname = `${report.url.request.pathname}/${tableId}/report${getDpdPathSuffix(

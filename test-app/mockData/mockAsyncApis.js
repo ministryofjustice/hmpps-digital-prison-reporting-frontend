@@ -23,6 +23,7 @@ const mockDataItem = {
 const happyStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED']
 const sadStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FAILED']
 const sadServerStatuses = ['SUBMITTED', 'PICKED', 500]
+const expiredStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED', 'READY', 'EXPIRED']
 
 const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
   let statuses
@@ -36,6 +37,9 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
     case 'variantId-3':
       statuses = sadServerStatuses
       break
+    case 'variantId-4':
+      statuses = expiredStatuses
+      break
     default:
       break
   }
@@ -44,6 +48,7 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
   const currentStatus = mockAPIStatus[reportIndex].status
   const statusIndex = statuses.findIndex((status) => status === currentStatus)
   const nextStatus = statuses[statusIndex + 1]
+
   if (nextStatus) {
     mockAPIStatus[reportIndex].status = nextStatus
   }
@@ -51,6 +56,10 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
 
   if (nextStatus === 'FAILED') {
     res.error = 'An error has occurred for some reason'
+  }
+
+  if (nextStatus === 'READY') {
+    res.status = 'FINISHED'
   }
 
   if (typeof nextStatus !== 'string') {

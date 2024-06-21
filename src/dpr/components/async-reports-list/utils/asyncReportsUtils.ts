@@ -62,7 +62,10 @@ const setDataFromStatus = (status: RequestStatus, requestedReportsData: AsyncRep
       timestamp = `Requested at: ${new Date(requestedReportsData.timestamp.requested).toLocaleString()}`
       break
     case RequestStatus.STARTED:
+      href = requestedReportsData.url.polling.fullUrl
+      break
     case RequestStatus.PICKED:
+      href = requestedReportsData.url.polling.fullUrl
       break
     default:
       timestamp = `Last viewed: ${new Date(requestedReportsData.timestamp.lastViewed).toLocaleString()}`

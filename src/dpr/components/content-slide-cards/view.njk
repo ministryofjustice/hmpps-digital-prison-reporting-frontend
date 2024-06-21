@@ -6,10 +6,11 @@
       {% set status = item.status %}
       {% set timestamp = item.timestamp %}
       {% set type = item.type %}
+      {% set executionId = item.executionId %}
 
       <div class="dpr-card-group__item" data-href="{{ item.href }}">
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-static-margin-top-0">
-
+        {{ executionId }}
         {# HEADING #}
         <div class="dpr-card-group__item-header">
           <a class="dpr-content-card__item__title govuk-link govuk-!-font-weight-bold govuk-link--no-visited-state govuk-body card__link" href="{{ item.href }}">

@@ -16,6 +16,7 @@
   {% set reportUrl = data.reportUrl %}
   {% set requestUrl = data.requestUrl %}
   {% set errorMessage = data.errorMessage %}
+  {% set executionId = data.executionId %}
 
   <div id="async-request-polling-status" 
     data-current-status={{ status }}
@@ -70,7 +71,7 @@
         id: "retry-async-request",
         text: "Retry",  
         classes: "govuk-button govuk-!-margin-top-5",
-        href: requestUrl
+        href: requestUrl + '&retryId=' + executionId
       }) }}
 
     {% endif %}

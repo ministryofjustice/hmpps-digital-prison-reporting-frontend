@@ -32,7 +32,7 @@
     {% if emptyMessage.length %}
       <p>{{emptyMessage}}</p>
     {% else %}
-      {% if items and items.length %}
+      {% if items and items.length > 1 %}
         {{ dprToggleContent( id, toggleIcons, items) }}
       {% else %}
         {{ items[0].html | safe }}

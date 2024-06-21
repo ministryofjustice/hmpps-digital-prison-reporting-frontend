@@ -102,6 +102,7 @@ export default {
           reportName: reportData.reportName,
           variantName: reportData.name,
           variantDescription: reportData.description,
+          executionId,
           reportId,
           variantId,
           status,

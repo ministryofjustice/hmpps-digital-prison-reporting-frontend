@@ -16,11 +16,20 @@ export default class AsyncFilters extends DprQueryParamClass {
 
     this.initResetButton()
     this.initRetryInputFromQueryParams()
+    this.initFormData()
+  }
 
-    document.getElementById('async-filters-form-pathname').value = window.location.pathname
-    document.getElementById('async-filters-form-origin').value = window.location.origin
-    document.getElementById('async-filters-form-href').value = window.location.href
-    document.getElementById('async-filters-form-search').value = window.location.search
+  initFormData () {
+    const { origin, pathname, search } = window.location
+    document.getElementById('async-filters-form-pathname').value = pathname
+    document.getElementById('async-filters-form-origin').value = origin
+    document.getElementById('async-filters-form-search').value = search
+
+    const params = new URLSearchParams(search)
+    params.delete('retryId')
+    const href = `${origin}${pathname}?${params.toString()}`
+
+    document.getElementById('async-filters-form-href').value = href
   }
 
   initResetButton () {

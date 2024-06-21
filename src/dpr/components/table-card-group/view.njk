@@ -7,22 +7,22 @@
   {% set icons = [] %}
   {% set items = [] %}
 
-  {% if cardData %}
-    {% set cardHtml %}
-    {{ dprContentSlideCards(cardData) }}
-    {% endset %}
-
-    {% set icons = (icons.push({name: 'card', tooltip: 'Card view', active: true}), icons) %}
-    {% set items = (items.push({active: true, html: cardHtml}), items) %}
-  {% endif %}
-
   {% if tableData %}
     {% set tableHtml %}
     {{ govukTable(tableData) }}
     {% endset %}
 
-    {% set icons = (icons.push({name: 'list', tooltip: 'List view'}), icons) %}
-    {% set items = (items.push({active: false, html: tableHtml}), items) %}
+    {% set icons = (icons.push({name: 'list', tooltip: 'List view', active: true}), icons) %}
+    {% set items = (items.push({active: true, html: tableHtml}), items) %}
+  {% endif %}
+
+  {% if cardData %}
+    {% set cardHtml %}
+    {{ dprContentSlideCards(cardData) }}
+    {% endset %}
+
+    {% set icons = (icons.push({name: 'card', tooltip: 'Card view', active: false}), icons) %}
+    {% set items = (items.push({active: false, html: cardHtml}), items) %}
   {% endif %}
 
   {% set content = { icons: icons, items: items }%}

@@ -34,7 +34,8 @@ const getStatus = async (
         if (currentStatus === RequestStatus.FINISHED || !currentStatus) {
           status = RequestStatus.EXPIRED
         } else {
-          throw new Error(statusResponse.userMessage)
+          const { userMessage } = JSON.parse(statusResponse.text)
+          throw new Error(userMessage)
         }
       } else if (status === RequestStatus.FAILED) {
         throw new Error(statusResponse.error)

@@ -3,6 +3,7 @@
 {% from "components/content-slide/view.njk" import dprContentSlide %}
 {% from "components/content-slide-cards/view.njk" import dprContentSlideCards %}
 {% from "components/table-card-group/view.njk" import dprTableCardGroup %}
+{% from "components/async-reports-list/view.njk" import dprAsyncReportsList %}
 
 {% block content %}
   <div class="govuk-width-container">
@@ -29,17 +30,7 @@
 
     <h1 class="govuk-heading-l">{{ title }}</h1>
 
-    {{ dprTableCardGroup(
-      requestedReports.head,
-      requestedReports.cardData, 
-      requestedReports.tableData
-    )}}
-
-    {{ dprTableCardGroup(
-      viewedReports.head, 
-      viewedReports.cardData, 
-      viewedReports.tableData
-    ) }}
+    {{ dprAsyncReportsList(requestedReports, viewedReports) }}
 
     {{ dprTableCardGroup({ title: "Legacy Reports", icon: '', id:'legacy-reports' }, legacyReports.cardData) }}
   </div>

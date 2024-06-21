@@ -1,4 +1,4 @@
-import type { Router } from 'express'
+import type { RequestHandler, Router } from 'express'
 import AsyncFiltersUtils from '../components/async-filters/utils'
 import * as AsyncReportListUtils from '../components/async-report-list/utils'
 import AsyncPollingUtils from '../components/async-polling/utils'
@@ -32,21 +32,43 @@ export default function routes({
   })
 
   // 2 - handle the post request to request the report data
-  router.post('/requestReport/', async (req, res, next) => {
-    const redirectToPollingPage = await AsyncFiltersUtils.requestReport({
-      req,
-      res,
-      dataSources,
-      asyncReportsStore,
-      recentlyViewedStoreService,
-      next,
-    })
-    if (redirectToPollingPage) {
-      res.redirect(redirectToPollingPage)
-    } else {
-      res.end()
+  const asyncRequestHandler: RequestHandler = async (req, res, next) => {
+    try {
+      const redirectToPollingPage = await AsyncFiltersUtils.requestReport({
+        req,
+        res,
+        dataSources,
+        asyncReportsStore,
+        recentlyViewedStoreService,
+        next,
+      })
+      if (redirectToPollingPage) {
+        res.redirect(redirectToPollingPage)
+      } else {
+        res.end()
+      }
+    } catch (error) {
+      req.body.error = JSON.parse(error.text)
+      next()
     }
-  })
+  }
+
+  const asyncRequestErrorHandler: RequestHandler = async (req, res, next) => {
+    const filters = Object.keys(req.body)
+      .filter((attr) => attr.includes('filters.'))
+      .filter((attr) => !!req.body[attr])
+      .map((attr) => {
+        return { name: attr, value: req.body[attr] }
+      })
+    res.render(`${templatePath}/async-error`, {
+      title: 'Request Failed',
+      layoutPath,
+      ...req.body,
+      filters,
+    })
+  }
+
+  router.post('/requestReport/', asyncRequestHandler, asyncRequestErrorHandler)
 
   // 3 - polling the status of the request
   router.get('/async-reports/:reportId/:variantId/request/:executionId', async (req, res, next) => {

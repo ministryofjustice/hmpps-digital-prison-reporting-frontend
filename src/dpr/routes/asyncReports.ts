@@ -12,14 +12,14 @@ export default function routes({
   recentlyViewedStoreService,
   dataSources,
   layoutPath,
-  templatePath = '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/views/',
+  templatePath = 'dpr/views/',
 }: {
   router: Router
   asyncReportsStore: AsyncReportStoreService
   recentlyViewedStoreService: RecentlyViewedStoreService
   dataSources: ReportingService
   layoutPath: string
-  templatePath: string
+  templatePath?: string
 }) {
   // 1 - get filters for the report + make request
   router.get('/async-reports/:reportId/:variantId/request', async (req, res, next) => {

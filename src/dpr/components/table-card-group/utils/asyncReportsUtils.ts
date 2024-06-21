@@ -1,7 +1,7 @@
 import AsyncReportStoreService from '../../../services/requestedReportsService'
 import { AsyncReportData, RequestStatus } from '../../../types/AsyncReport'
 import { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
-import AsyncPollingUtils from '../../async-polling/utils'
+import AsyncPollingUtils, { timeoutRequest } from '../../async-polling/utils'
 import ReportingService from '../../../services/reportingService'
 import { CardData, RenderTableListResponse } from '../types'
 
@@ -14,20 +14,30 @@ const formatCardData = async (
   let reportData: AsyncReportData = JSON.parse(JSON.stringify(requestedReportsData))
   const { executionId, reportId, variantId, dataProductDefinitionsPath } = reportData
 
-  const statusResponse = await AsyncPollingUtils.getStatus(
-    token,
-    reportId,
-    variantId,
-    executionId,
-    reportData.status,
-    dataSources,
-    asyncReportsStore,
-    dataProductDefinitionsPath,
-    reportData.timestamp.requested,
-  )
+  let { status } = reportData
+  if (status !== RequestStatus.FAILED) {
+    let statusResponse
+    if (timeoutRequest(reportData.timestamp.requested)) {
+      statusResponse = {
+        status: RequestStatus.FAILED,
+        errorMessage: 'Request taking too long. Request Halted',
+      }
+    } else {
+      statusResponse = await AsyncPollingUtils.getStatus(
+        token,
+        reportId,
+        variantId,
+        executionId,
+        status,
+        dataSources,
+        asyncReportsStore,
+        dataProductDefinitionsPath,
+      )
 
-  const { status } = statusResponse
-  if (statusResponse.reportData) reportData = statusResponse.reportData
+      status = statusResponse.status
+      if (statusResponse.reportData) reportData = statusResponse.reportData
+    }
+  }
 
   const { executionId: id, name: text, description, query } = reportData
   const summary = query.summary as { name: string; value: string }[]

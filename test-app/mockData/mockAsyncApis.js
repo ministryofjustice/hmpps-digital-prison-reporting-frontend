@@ -1,5 +1,8 @@
 /* eslint-disable prefer-destructuring */
 const definitions = require('./mockReportDefinition')
+const mockStatusApiResponse = require('./mockStatusApiReponse')
+const mockStatusApiError = require('./mockStatusResponseError')
+const mockBadQueryRequest = require('./mockBadQueryRequest')
 
 const mockAPIStatus = []
 
@@ -26,6 +29,7 @@ const sadServerStatuses = ['SUBMITTED', 'PICKED', 500]
 const expiredStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED', 'READY', 'EXPIRED']
 
 const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
+  const mockResponse = Object.assign(mockStatusApiResponse, {})
   let statuses
   switch (variantId) {
     case 'variantId-1':
@@ -52,32 +56,32 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
   if (nextStatus) {
     mockAPIStatus[reportIndex].status = nextStatus
   }
-  const res = { status: mockAPIStatus[reportIndex].status }
+  mockResponse.status = mockAPIStatus[reportIndex].status
 
   if (nextStatus === 'FAILED') {
-    res.error = 'An error has occurred for some reason'
+    mockResponse.error = 'An error has occurred for some reason - Status API returned Failed Status'
   }
 
   if (nextStatus === 'READY') {
-    res.status = 'FINISHED'
+    mockResponse.status = 'FINISHED'
   }
 
   if (typeof nextStatus !== 'string') {
-    res.userMessage = 'A server error has occurred for some reason'
+    return Promise.reject(mockStatusApiError)
   }
 
-  return Promise.resolve(res)
+  return Promise.resolve(mockResponse)
 }
 
 const requestAsyncReport = (token, reportId, variantId, query) => {
   const unix = Date.now()
   return new Promise((resolve, reject) => {
-    // mockAPIStatus.push({ executionId: `exId_${unix}`, status: 'redirect-call' })
-    // setTimeout(resolve, 1000, { executionId: `exId_${unix}`, tableId: `tblId_${unix}` })
-    const error = new Error('Bad request')
-    error.text =
-      '{"status":400,"userMessage":"Validation failure: Invalid filters provided.","developerMessage":"Invalid filters provided."}'
-    reject(error)
+    if (variantId !== 'variantId-5') {
+      mockAPIStatus.push({ executionId: `exId_${unix}`, status: 'redirect-call' })
+      setTimeout(resolve, 1000, { executionId: `exId_${unix}`, tableId: `tblId_${unix}` })
+    } else {
+      reject(mockBadQueryRequest)
+    }
   })
 }
 

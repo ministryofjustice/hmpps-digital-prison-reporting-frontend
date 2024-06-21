@@ -23,6 +23,12 @@ const mockLegacyReportCards = [
     text: 'Test Variant 4',
     description: 'Test Variant 4 description - this will Expire',
   },
+  {
+    id: 'variantId-5',
+    href: './async-reports/reportId-1/variantId-5/request',
+    text: 'Test Variant 4',
+    description: 'Test Variant 5 description - this will return a request error',
+  },
 ]
 
 const getMockCardData = (req) => {

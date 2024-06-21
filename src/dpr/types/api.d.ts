@@ -115,6 +115,13 @@ export interface components {
       classification?: string
       printable?: boolean
     }
+    Status: {
+      status: RequestStatus
+      duration: number
+      queryString: string
+      resultRows: number
+      resultSize: number
+    }
   }
   responses: never
   parameters: never

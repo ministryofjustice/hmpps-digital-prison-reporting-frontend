@@ -12,38 +12,27 @@ const getStatus = async (
   dataSources: ReportingService,
   asyncReportsStore: AsyncReportStoreService,
   dataProductDefinitionsPath: string,
-  requestTime?: Date,
 ): Promise<GetStatusUtilsResponse> => {
   let status: RequestStatus
   let errorMessage
 
   try {
-    if (timeoutRequest(requestTime)) {
-      throw new Error('Request Timedout')
-    } else {
-      const statusResponse = await dataSources.getAsyncReportStatus(
-        token,
-        reportId,
-        variantId,
-        executionId,
-        dataProductDefinitionsPath,
-      )
-      status = statusResponse.status as RequestStatus
+    const statusResponse = await dataSources.getAsyncReportStatus(
+      token,
+      reportId,
+      variantId,
+      executionId,
+      dataProductDefinitionsPath,
+    )
+    status = statusResponse.status as RequestStatus
 
-      if (typeof status !== 'string') {
-        if (currentStatus === RequestStatus.FINISHED || !currentStatus) {
-          status = RequestStatus.EXPIRED
-        } else {
-          const { userMessage } = JSON.parse(statusResponse.text)
-          throw new Error(userMessage)
-        }
-      } else if (status === RequestStatus.FAILED) {
-        throw new Error(statusResponse.error)
-      }
+    if (status === RequestStatus.FAILED) {
+      errorMessage = statusResponse.error
     }
   } catch (error) {
-    status = RequestStatus.FAILED
-    errorMessage = error.message
+    const { data } = error
+    errorMessage = data.userMessage
+    status = currentStatus === RequestStatus.FINISHED ? RequestStatus.EXPIRED : RequestStatus.FAILED
   }
 
   const res: GetStatusUtilsResponse = {
@@ -59,7 +48,7 @@ const getStatus = async (
   return res
 }
 
-const timeoutRequest = (requestTime: Date) => {
+export const timeoutRequest = (requestTime: Date) => {
   if (!requestTime) return false
   const TIMEOUT_MINS_MAX = 15
   const today: Date = new Date()
@@ -83,18 +72,24 @@ export default {
       const { reportId, variantId, executionId } = req.params
       let reportData = await asyncReportsStore.getReportByExecutionId(executionId)
 
-      const statusResponse = await getStatus(
-        token,
-        reportId,
-        variantId,
-        executionId,
-        reportData.status,
-        dataSources,
-        asyncReportsStore,
-        reportData.dataProductDefinitionsPath,
-        reportData.timestamp.requested,
-      )
-
+      let statusResponse
+      if (timeoutRequest(reportData.timestamp.requested)) {
+        statusResponse = {
+          status: RequestStatus.FAILED,
+          errorMessage: 'Request taking too long. Request Halted',
+        }
+      } else {
+        statusResponse = await getStatus(
+          token,
+          reportId,
+          variantId,
+          executionId,
+          reportData.status,
+          dataSources,
+          asyncReportsStore,
+          reportData.dataProductDefinitionsPath,
+        )
+      }
       const { status, errorMessage } = statusResponse
       if (statusResponse.reportData) reportData = statusResponse.reportData
 

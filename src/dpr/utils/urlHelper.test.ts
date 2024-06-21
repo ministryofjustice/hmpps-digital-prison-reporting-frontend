@@ -15,6 +15,7 @@ const defaultFields: Array<components['schemas']['FieldDefinition']> = [
     type: 'string',
     mandatory: false,
     visible: true,
+    calculated: false,
   },
 ]
 

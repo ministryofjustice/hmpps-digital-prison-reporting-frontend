@@ -39,21 +39,25 @@ When(/I navigate to the reports page/, () => {
   cy.visit('/test-reports')
 })
 
+When(/I navigate to the fail page/, () => {
+  cy.visit('/test-reports/fail', {
+    failOnStatusCode: false,
+  })
+})
+
+When(/I navigate to the search page/, () => {
+  cy.visit('/search')
+})
+
 When(/I navigate to the (method|handler) page/, (page: string) => {
   const type = page.toLowerCase()
-  let path = 'test-reports/'
+  let path = '/test-reports/'
   if (type === 'method') {
     path += `${type}?dataProductDefinitionsPath=test-location`
   } else {
     path += type
   }
   cy.visit(`/${path}`)
-})
-
-When(/I navigate to the fail page/, () => {
-  cy.visit('test-reports/fail', {
-    failOnStatusCode: false,
-  })
 })
 
 Then(/The text (.+) is displayed on the page/, (text) => {

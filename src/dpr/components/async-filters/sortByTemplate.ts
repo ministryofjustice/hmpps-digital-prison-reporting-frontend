@@ -1,4 +1,4 @@
-import { FilterType } from '../filters/enum'
+import { FilterType } from '../filter-input/enum'
 import { FilterValue } from '../filters/types'
 
 export default {

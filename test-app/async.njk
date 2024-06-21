@@ -2,7 +2,7 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "components/content-slide/view.njk" import dprContentSlide %}
 {% from "components/content-slide-cards/view.njk" import dprContentSlideCards %}
-{% from "components/async-card-group/view.njk" import dprAsyncCardGroup %}
+{% from "components/table-card-group/view.njk" import dprTableCardGroup %}
 
 {% block content %}
   <div class="govuk-width-container">
@@ -29,23 +29,18 @@
 
     <h1 class="govuk-heading-l">{{ title }}</h1>
 
-    {{ dprAsyncCardGroup(requestedReports.cardData, requestedReports.tableData) }}
+    {{ dprTableCardGroup(
+      requestedReports.head,
+      requestedReports.cardData, 
+      requestedReports.tableData
+    )}}
 
-    {% set head = {
-      title: "Legacy Reports", 
-      icon: ''
-    }%}
+    {{ dprTableCardGroup(
+      viewedReports.head, 
+      viewedReports.cardData, 
+      viewedReports.tableData
+    ) }}
 
-    {% set cardHtml %}
-    {{ dprContentSlideCards(legacyReports.cardData) }}
-    {% endset %}
-
-    {% set content = {
-      items: [
-        { active: true, html: cardHtml }
-      ]
-    }%}
-
-    {{ dprContentSlide(head, content) }}
+    {{ dprTableCardGroup({ title: "Legacy Reports", icon: '', id:'legacy-reports' }, legacyReports.cardData, requestedReports.tableData) }}
   </div>
 {% endblock %}

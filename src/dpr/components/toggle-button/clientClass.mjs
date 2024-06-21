@@ -47,22 +47,24 @@ export default class ToggleButton extends DprClientClass {
 
     urlParams.keys().forEach((key) => {
       const toggle = document.getElementById(key)
-      const value = urlParams.get(key)
-      const icons = Array.from(toggle.getElementsByClassName('dpr-icon-wrapper'))
+      if (toggle) {
+        const value = urlParams.get(key)
+        const icons = Array.from(toggle.getElementsByClassName('dpr-icon-wrapper'))
 
-      const toggleContainer = toggle.parentNode.parentNode
-      const contentContainers = Array.from(toggleContainer.getElementsByClassName('dpr-toggle-content'))
+        const toggleContainer = toggle.parentNode.parentNode
+        const contentContainers = Array.from(toggleContainer.getElementsByClassName('dpr-toggle-content'))
 
-      icons.forEach((icon) => {
-        const index = icon.getAttribute('index')
-        if (value === index) {
-          icon.classList.add('dpr-icon--active')
-          contentContainers[index].classList.add('dpr-toggle-content--active')
-        } else {
-          icon.classList.remove('dpr-icon--active')
-          contentContainers[index].classList.remove('dpr-toggle-content--active')
-        }
-      })
+        icons.forEach((icon) => {
+          const index = icon.getAttribute('index')
+          if (value === index) {
+            icon.classList.add('dpr-icon--active')
+            contentContainers[index].classList.add('dpr-toggle-content--active')
+          } else {
+            icon.classList.remove('dpr-icon--active')
+            contentContainers[index].classList.remove('dpr-toggle-content--active')
+          }
+        })
+      }
     })
   }
 }

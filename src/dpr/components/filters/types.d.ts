@@ -1,4 +1,4 @@
-import { FilterType } from './enum'
+import { FilterType } from '../filter-input/enum'
 
 export interface FilterOption {
   value: string

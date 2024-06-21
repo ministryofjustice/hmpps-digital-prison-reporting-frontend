@@ -98,7 +98,6 @@ const formatCards = async (
 }
 
 const formatTableData = (card: CardData) => {
-<<<<<<< HEAD
   let statusClass
   switch (card.status) {
     case 'FAILED':
@@ -114,17 +113,11 @@ const formatTableData = (card: CardData) => {
       break
   }
 
-=======
->>>>>>> main
   return [
     { html: `<a href='${card.href}'>${card.text}</a>` },
     { text: card.description },
     {
-<<<<<<< HEAD
       html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${card.status}</strong>`,
-=======
-      html: `<strong class="govuk-tag dpr-request-status-tag">${card.status}</strong>`,
->>>>>>> main
     },
     { text: card.timestamp },
   ]

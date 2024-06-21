@@ -3,7 +3,7 @@ import { AsyncReportData, RequestStatus } from '../../../types/AsyncReport'
 import { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
 import AsyncPollingUtils from '../../async-polling/utils'
 import ReportingService from '../../../services/reportingService'
-import { CardData, RenderTableListResponse } from '../../table-card-group/types'
+import { CardData, RenderTableListResponse } from '../types'
 
 const formatCardData = async (
   requestedReportsData: AsyncReportData,
@@ -57,17 +57,12 @@ const setDataFromStatus = (status: RequestStatus, requestedReportsData: AsyncRep
       href = requestedReportsData.url.report.fullUrl
       timestamp = `Ready at: ${new Date(requestedReportsData.timestamp.completed).toLocaleString()}`
       break
-    case RequestStatus.EXPIRED: {
-      const retryParam = `&retryId=${requestedReportsData.executionId}`
-      href = `${requestedReportsData.url.request.fullUrl}${retryParam}`
-      timestamp = `Expired at: ${new Date(requestedReportsData.timestamp.expired).toLocaleString()}`
-      break
-    }
     case RequestStatus.SUBMITTED:
-    case RequestStatus.STARTED:
-    case RequestStatus.PICKED:
       href = requestedReportsData.url.polling.fullUrl
       timestamp = `Requested at: ${new Date(requestedReportsData.timestamp.requested).toLocaleString()}`
+      break
+    case RequestStatus.STARTED:
+    case RequestStatus.PICKED:
       break
     default:
       timestamp = `Last viewed: ${new Date(requestedReportsData.timestamp.lastViewed).toLocaleString()}`
@@ -98,33 +93,11 @@ const formatCards = async (
 }
 
 const formatTableData = (card: CardData) => {
-<<<<<<< HEAD
-  let statusClass
-  switch (card.status) {
-    case 'FAILED':
-      statusClass = 'govuk-tag--red'
-      break
-    case 'EXPIRED':
-      statusClass = 'govuk-tag--yellow'
-      break
-    case 'FINISHED':
-      statusClass = 'govuk-tag--green'
-      break
-    default:
-      break
-  }
-
-=======
->>>>>>> main
   return [
     { html: `<a href='${card.href}'>${card.text}</a>` },
     { text: card.description },
     {
-<<<<<<< HEAD
-      html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${card.status}</strong>`,
-=======
       html: `<strong class="govuk-tag dpr-request-status-tag">${card.status}</strong>`,
->>>>>>> main
     },
     { text: card.timestamp },
   ]

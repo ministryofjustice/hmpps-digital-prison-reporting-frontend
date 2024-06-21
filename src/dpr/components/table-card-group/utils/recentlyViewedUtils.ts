@@ -2,10 +2,10 @@ import RecentlyViewedStoreService from '../../../services/recentlyViewedService'
 import ReportingService from '../../../services/reportingService'
 import { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
 import { RecentlyViewedReportData } from '../../../types/RecentlyViewed'
+import { CardData, RenderTableListResponse } from '../types'
 import AsyncPollingUtils from '../../async-polling/utils'
 import AsyncReportStoreService from '../../../services/requestedReportsService'
 import { RequestStatus } from '../../../types/AsyncReport'
-import { CardData, RenderTableListResponse } from '../../table-card-group/types'
 
 const formatCards = async (
   recentlyViewedStoreService: RecentlyViewedStoreService,
@@ -57,13 +57,9 @@ const formatCardData = async (
     dataProductDefinitionsPath,
   )
 
-<<<<<<< HEAD
-  status = statusResponse.status === RequestStatus.EXPIRED ? statusResponse.status : undefined
-=======
   if (statusResponse.status === RequestStatus.EXPIRED) {
     status = statusResponse.status
   }
->>>>>>> main
   const summary = query.summary as { name: string; value: string }[]
   const href = status ? `${url.request.fullUrl}&retryId=${executionId}` : url.report.fullUrl
 
@@ -91,14 +87,12 @@ const formatTable = (cardData: CardData[]) => {
 }
 
 const formatTableData = (card: CardData) => {
-  const statusHtml = card.status
-    ? `<strong class="govuk-tag dpr-request-status-tag govuk-tag--yellow">${card.status}</strong>`
-    : ''
+  const status = card.status ? card.status : 'READY'
   return [
     { html: `<a href='${card.href}'>${card.text}</a>` },
     { text: card.description },
     {
-      html: statusHtml,
+      html: `<strong class="govuk-tag dpr-request-status-tag">${status}</strong>`,
     },
     { text: card.timestamp },
   ]

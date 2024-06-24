@@ -163,7 +163,7 @@ export default {
     return redirect
   },
 
-  handleError: (error: any, req: Request) => {
+  handleError: (error: Dict<string>, req: Request) => {
     const filters = Object.keys(req.body)
       .filter((attr) => attr.includes('filters.'))
       .filter((attr) => !!req.body[attr])

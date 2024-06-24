@@ -22,15 +22,18 @@
     {%- if filterType === 'select' %}
 
       {{ govukSelect({
-      id: id,
-      name: name,
-      value: value,
-      items: optionsWithNone,
-      label: {
-        text: text,
-        classes: "govuk-label govuk-!-font-weight-bold"
-      }
-    }) }}
+        id: id,
+        name: name,
+        value: value,
+        items: optionsWithNone,
+        label: {
+          text: text,
+          classes: "govuk-label govuk-!-font-weight-bold"
+        },
+        attributes: {
+          'display-name': text
+        }
+      }) }}
 
     {% elif filterType === 'radio' %}
 

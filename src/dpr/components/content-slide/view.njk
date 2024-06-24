@@ -1,7 +1,7 @@
 {% from "../static-icon/view.njk" import dprStaticIcon %}
 {% from "../toggle-content/view.njk" import dprToggleContent %}
 
-{% macro dprContentSlide(head, content, empty = false) %}
+{% macro dprContentSlide(head, content, total) %}
 
   {# HEADING CONTENT #}
   {% set title = head.title %}
@@ -9,6 +9,7 @@
   {% set icon = head.icon %}
   {% set id = head.id %}
   {% set emptyMessage = head.emptyMessage %}
+  {% set href = head.href %}
 
   {# TOGGLE CONTENT #}
   {% set toggle = content.toggle %}
@@ -21,11 +22,15 @@
         {% if icon %}
           {{ dprStaticIcon(icon, 'l') }}
         {% endif %}
-        {{ title }}
+        {% if href %}
+          <a href='{{ href }}'>{{ title }}</a>
+        {% else %}
+          {{ title }}
+        {% endif %}
       </h3>
 
-      {% if subText.length %}
-        <p class="govuk-body dpr-slide__sub-text">{{ subText }}</p>
+      {% if not emptyMessage.length and total %}
+        <p class="govuk-body dpr-slide__sub-text">Showing {{ total.shown }} of  {{ total.amount }}. </p>
       {% endif %}
     </div>
 

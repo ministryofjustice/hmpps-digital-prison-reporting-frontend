@@ -1,17 +1,18 @@
 {% from "../table-card-group/view.njk" import dprTableCardGroup %}
 
 {% macro dprAsyncReportsList(requestedReports, viewedReports) %}
-
   {{ dprTableCardGroup(
     requestedReports.head,
     requestedReports.cardData, 
-    requestedReports.tableData
+    requestedReports.tableData,
+    requestedReports.total
   )}}
 
   {{ dprTableCardGroup(
     viewedReports.head, 
     viewedReports.cardData, 
-    viewedReports.tableData
+    viewedReports.tableData,
+    viewedReports.total
   ) }}
 
 {% endmacro %}

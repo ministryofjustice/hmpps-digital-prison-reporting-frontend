@@ -6,6 +6,9 @@ import AsyncReportStoreService from '../services/requestedReportsService'
 import ReportingService from '../services/reportingService'
 import RecentlyViewedStoreService from '../services/recentlyViewedService'
 
+import AsyncReportslistUtils from '../components/async-reports-list/utils/asyncReportsUtils'
+import RecentReportslistUtils from '../components/async-reports-list/utils/recentlyViewedUtils'
+
 export default function routes({
   router,
   asyncReportsStore,
@@ -120,4 +123,30 @@ export default function routes({
     getReportListHandler,
     asyncErrorHandler,
   )
+
+  router.get('/async-reports/requested', async (req, res) => {
+    res.render(`${templatePath}/async-reports`, {
+      title: 'Requested Reports',
+      layoutPath,
+      ...(await AsyncReportslistUtils.renderAsyncReportsList({
+        recentlyViewedStoreService,
+        asyncReportsStore,
+        dataSources,
+        res,
+      })),
+    })
+  })
+
+  router.get('/async-reports/recently-viewed', async (req, res) => {
+    res.render(`${templatePath}/async-reports`, {
+      title: 'Requested Reports',
+      layoutPath,
+      ...(await RecentReportslistUtils.renderRecentlyViewedList({
+        recentlyViewedStoreService,
+        asyncReportsStore,
+        dataSources,
+        res,
+      })),
+    })
+  })
 }

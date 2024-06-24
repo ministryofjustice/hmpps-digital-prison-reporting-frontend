@@ -59,21 +59,24 @@ const createPages = (pathname: string, search: string, totalRows: number): { pag
  * @param {number} lastPage
  * @return {*}  {(string | undefined)}
  */
-const createNext = (pathname: string, search: string, lastPage: number): string | undefined => {
+const createNext = (pathname: string, search: string, lastPage: number, totalRows: number): string | undefined => {
   const queryParams = new URLSearchParams(search)
 
-  let nextPage = 2
-  if (queryParams.has(SELECTED_PAGE_PARAM)) {
-    currentPage = +queryParams.get(SELECTED_PAGE_PARAM)
-    if (currentPage === lastPage) {
-      return undefined
+  if (totalRows > 0) {
+    let nextPage = 2
+    if (queryParams.has(SELECTED_PAGE_PARAM)) {
+      currentPage = +queryParams.get(SELECTED_PAGE_PARAM)
+      if (currentPage === lastPage) {
+        return undefined
+      }
+      nextPage = currentPage + 1
     }
-    nextPage = currentPage + 1
+
+    queryParams.set(SELECTED_PAGE_PARAM, `${nextPage}`)
+
+    return `${pathname}?${queryParams.toString()}`
   }
-
-  queryParams.set(SELECTED_PAGE_PARAM, `${nextPage}`)
-
-  return `${pathname}?${queryParams.toString()}`
+  return undefined
 }
 
 /**
@@ -126,7 +129,7 @@ export default {
     const { pathname, search } = url
     const { pages, pagesLength } = createPages(pathname, search, totalRows)
     return {
-      next: createNext(pathname, search, pagesLength),
+      next: createNext(pathname, search, pagesLength, totalRows),
       prev: createPrev(pathname, search),
       pages,
       pageSize,

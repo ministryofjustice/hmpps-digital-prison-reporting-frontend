@@ -148,19 +148,33 @@ export default {
     asyncReportsStore,
     dataSources,
     res,
-  }: AsyncReportUtilsParams): Promise<RenderTableListResponse> => {
+    maxRows,
+  }: { maxRows?: number } & AsyncReportUtilsParams): Promise<RenderTableListResponse> => {
     const { token } = res.locals.user || 'token'
-    const cardData = await formatCards(asyncReportsStore, dataSources, token)
+
+    let cardData = await formatCards(asyncReportsStore, dataSources, token)
+
     const head = {
       title: 'Requested Reports',
       icon: 'hourglass',
       id: 'requested-reports',
+      ...(cardData.length && { href: './async-reports/requested' }),
       ...(!cardData.length && { emptyMessage: 'You have 0 requested reports' }),
     }
+
+    const total = {
+      amount: cardData.length,
+      shown: cardData.length > maxRows ? maxRows : cardData.length,
+      max: maxRows,
+    }
+
+    if (maxRows) cardData = cardData.slice(0, maxRows)
+
     return {
       head,
       cardData,
       tableData: formatTable(cardData),
+      total,
     }
   },
 }

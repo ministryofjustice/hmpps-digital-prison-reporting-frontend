@@ -5,12 +5,17 @@ export interface RenderTableListResponse {
     title: string
     icon: string
     id: string
-    emptyMessage: string
+    href?: string
   }
   cardData: CardData[]
   tableData: {
     rows: Dict<string>[][]
     head: Dict<string>[]
+  }
+  total: {
+    amount: number
+    shown: number
+    max: number
   }
 }
 

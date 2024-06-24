@@ -1,0 +1,18 @@
+{% extends layoutPath %}
+
+{% from "../components/table-card-group/view.njk" import dprTableCardGroup %}
+
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    {% set head = {
+      title: head.title,
+      icon: head.icon,
+      id: head.id,
+      emptyMessage: head.emptyMessage
+    }%}
+
+    {{ dprTableCardGroup(head, cardData, tableData, total )}}
+  </div>
+{% endblock %}

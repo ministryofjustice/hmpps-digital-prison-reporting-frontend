@@ -104,18 +104,30 @@ export default {
     asyncReportsStore,
     dataSources,
     res,
-  }: AsyncReportUtilsParams): Promise<RenderTableListResponse> => {
+    maxRows,
+  }: { maxRows?: number } & AsyncReportUtilsParams): Promise<RenderTableListResponse> => {
     const { token } = res.locals.user || 'token'
-    const cardData = await formatCards(recentlyViewedStoreService, asyncReportsStore, dataSources, token)
+    let cardData = await formatCards(recentlyViewedStoreService, asyncReportsStore, dataSources, token)
+
+    const total = {
+      amount: cardData.length,
+      shown: cardData.length > maxRows ? maxRows : cardData.length,
+      max: maxRows,
+    }
+
+    if (maxRows) cardData = cardData.slice(0, maxRows)
+
     return {
       head: {
         title: 'Recently Viewed',
         icon: 'viewed',
         id: 'recently-viewed',
+        ...(cardData.length && { href: '/async-reports/recently-viewed' }),
         ...(!cardData.length && { emptyMessage: 'You have 0 recently viewed reports' }),
       },
       cardData,
       tableData: formatTable(cardData),
+      total,
     }
   },
 }

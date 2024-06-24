@@ -23,7 +23,8 @@ export default class AsyncDataTable extends DprClientClass {
       const classificationContent = `<b>${classification}</b>`
       const currentRangeStart = (selectedPage - 1) * pageSize
       const currentRangeEnd = currentRangeStart + rowLength
-      const totalsContent = `${currentRangeStart + 1}-${currentRangeEnd} of ${totalRowCount}`
+      const totalsContent =
+        totalRowCount > 0 ? `${currentRangeStart + 1}-${currentRangeEnd} of ${totalRowCount}` : `0-0 of 0`
 
       // Headers
       const header = this.table.createTHead()

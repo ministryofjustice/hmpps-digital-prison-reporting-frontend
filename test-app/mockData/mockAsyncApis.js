@@ -66,7 +66,7 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
     mockResponse.status = 'FINISHED'
   }
 
-  if (typeof nextStatus !== 'string') {
+  if (typeof mockResponse.status !== 'string') {
     return Promise.reject(mockStatusApiError)
   }
 

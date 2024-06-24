@@ -17,6 +17,7 @@ const getStatus = async (
   let errorMessage
 
   try {
+    console.log('1')
     const statusResponse = await dataSources.getAsyncReportStatus(
       token,
       reportId,
@@ -26,15 +27,18 @@ const getStatus = async (
     )
     status = statusResponse.status as RequestStatus
 
+    console.log(2, status)
     if (status === RequestStatus.FAILED) {
       errorMessage = statusResponse.error
     }
   } catch (error) {
+    console.log('here')
     const { data } = error
     errorMessage = data.userMessage
     status = currentStatus === RequestStatus.FINISHED ? RequestStatus.EXPIRED : RequestStatus.FAILED
   }
 
+  if (typeof status === 'number') status = RequestStatus.FAILED
   const res: GetStatusUtilsResponse = {
     status,
     ...(errorMessage && { errorMessage }),

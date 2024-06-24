@@ -1,3 +1,4 @@
+import { Request } from 'express'
 import Dict = NodeJS.Dict
 import { components } from '../../types/api'
 import FilterUtils from '../filters/utils'
@@ -160,5 +161,21 @@ export default {
     }
 
     return redirect
+  },
+
+  handleError: (error: any, req: Request) => {
+    const filters = Object.keys(req.body)
+      .filter((attr) => attr.includes('filters.'))
+      .filter((attr) => !!req.body[attr])
+      .map((attr) => {
+        return { name: attr, value: req.body[attr] }
+      })
+    return {
+      title: 'Request Failed',
+      description: 'Your report has failed to generate. The issue has been reported to admin staff',
+      retry: true,
+      error: error.data,
+      filters,
+    }
   },
 }

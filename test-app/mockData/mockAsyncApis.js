@@ -96,7 +96,10 @@ const getDefinition = (token, reportId, variantId) => {
 const getAsyncReport = (token, reportId, variantId, tableId, query) => {
   const pageSize = query.pageSize ? +query.pageSize : 10
   const report = createMockData(pageSize)
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+    if (variantId === 'variantId-6') {
+      reject(mockStatusApiError)
+    }
     resolve(report)
   })
 }

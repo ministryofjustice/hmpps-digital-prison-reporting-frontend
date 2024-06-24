@@ -57,7 +57,6 @@ export const timeoutRequest = (requestTime: Date) => {
   const diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000)
   return diffMins >= TIMEOUT_MINS_MAX
 }
-
 interface GetStatusUtilsResponse {
   status: RequestStatus
   errorMessage: string
@@ -67,51 +66,46 @@ interface GetStatusUtilsResponse {
 export default {
   getStatus,
   renderPolling: async ({ req, res, dataSources, asyncReportsStore, next }: AsyncReportUtilsParams) => {
-    try {
-      const { token } = res.locals.user || 'token'
-      const { reportId, variantId, executionId } = req.params
-      let reportData = await asyncReportsStore.getReportByExecutionId(executionId)
+    const { token } = res.locals.user || 'token'
+    const { reportId, variantId, executionId } = req.params
+    let reportData = await asyncReportsStore.getReportByExecutionId(executionId)
 
-      let statusResponse
-      if (timeoutRequest(reportData.timestamp.requested)) {
-        statusResponse = {
-          status: RequestStatus.FAILED,
-          errorMessage: 'Request taking too long. Request Halted',
-        }
-      } else {
-        statusResponse = await getStatus(
-          token,
-          reportId,
-          variantId,
-          executionId,
-          reportData.status,
-          dataSources,
-          asyncReportsStore,
-          reportData.dataProductDefinitionsPath,
-        )
+    let statusResponse
+    if (timeoutRequest(reportData.timestamp.requested)) {
+      statusResponse = {
+        status: RequestStatus.FAILED,
+        errorMessage: 'Request taking too long. Request Halted',
       }
-      const { status, errorMessage } = statusResponse
-      if (statusResponse.reportData) reportData = statusResponse.reportData
+    } else {
+      statusResponse = await getStatus(
+        token,
+        reportId,
+        variantId,
+        executionId,
+        reportData.status,
+        dataSources,
+        asyncReportsStore,
+        reportData.dataProductDefinitionsPath,
+      )
+    }
+    const { status, errorMessage } = statusResponse
+    if (statusResponse.reportData) reportData = statusResponse.reportData
 
-      return {
-        pollingRenderData: {
-          reportName: reportData.reportName,
-          variantName: reportData.name,
-          variantDescription: reportData.description,
-          executionId,
-          reportId,
-          variantId,
-          status,
-          tableId: reportData.tableId,
-          querySummary: reportData.query.summary,
-          ...(reportData.url.report?.fullUrl && { reportUrl: reportData.url.report.fullUrl }),
-          ...(reportData.url.request.fullUrl && { requestUrl: reportData.url.request.fullUrl }),
-          ...(errorMessage && { errorMessage }),
-        },
-      }
-    } catch (error) {
-      next(error)
-      return false
+    return {
+      pollingRenderData: {
+        reportName: reportData.reportName,
+        variantName: reportData.name,
+        variantDescription: reportData.description,
+        executionId,
+        reportId,
+        variantId,
+        status,
+        tableId: reportData.tableId,
+        querySummary: reportData.query.summary,
+        ...(reportData.url.report?.fullUrl && { reportUrl: reportData.url.report.fullUrl }),
+        ...(reportData.url.request.fullUrl && { requestUrl: reportData.url.request.fullUrl }),
+        ...(errorMessage && { errorMessage }),
+      },
     }
   },
 }

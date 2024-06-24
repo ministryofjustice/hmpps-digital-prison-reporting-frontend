@@ -21,17 +21,30 @@ export default function routes({
   layoutPath: string
   templatePath?: string
 }) {
-  // 1 - get filters for the report + make request
-  router.get('/async-reports/:reportId/:variantId/request', async (req, res, next) => {
-    res.render(`${templatePath}async-request`, {
-      title: 'Request Report',
+  const asyncErrorHandler: RequestHandler = async (req, res) => {
+    res.render(`${templatePath}/async-error`, {
       layoutPath,
-      postEndpoint: '/requestReport/',
-      ...(await AsyncFiltersUtils.renderFilters({ req, res, dataSources, next })),
+      ...req.body,
     })
-  })
+  }
 
-  // 2 - handle the post request to request the report data
+  const getReportFiltersHandler: RequestHandler = async (req, res, next) => {
+    try {
+      const filtersRenderData = await AsyncFiltersUtils.renderFilters({ req, res, dataSources, next })
+      res.render(`${templatePath}async-request`, {
+        title: 'Request Report',
+        layoutPath,
+        postEndpoint: '/requestReport/',
+        ...filtersRenderData,
+      })
+    } catch (error) {
+      req.body.title = 'Report Failed'
+      req.body.description = 'Your report has failed to generate. The issue has been reported to admin staff'
+      req.body.error = error.data
+      next()
+    }
+  }
+
   const asyncRequestHandler: RequestHandler = async (req, res, next) => {
     try {
       const redirectToPollingPage = await AsyncFiltersUtils.requestReport({
@@ -48,49 +61,63 @@ export default function routes({
         res.end()
       }
     } catch (error) {
-      req.body.error = JSON.parse(error.text)
+      req.body = {
+        ...req.body,
+        ...AsyncFiltersUtils.handleError(error, req),
+      }
       next()
     }
   }
 
-  const asyncRequestErrorHandler: RequestHandler = async (req, res, next) => {
-    const filters = Object.keys(req.body)
-      .filter((attr) => attr.includes('filters.'))
-      .filter((attr) => !!req.body[attr])
-      .map((attr) => {
-        return { name: attr, value: req.body[attr] }
+  const pollingHandler: RequestHandler = async (req, res, next) => {
+    try {
+      const pollingRenderData = await AsyncPollingUtils.renderPolling({
+        req,
+        res,
+        dataSources,
+        asyncReportsStore,
+        next,
       })
-    res.render(`${templatePath}/async-error`, {
-      title: 'Request Failed',
-      layoutPath,
-      ...req.body,
-      filters,
-    })
+      res.render(`${templatePath}/async-polling`, {
+        title: 'Report Request Status',
+        layoutPath,
+        ...pollingRenderData,
+      })
+    } catch (error) {
+      req.body.title = 'Failed to retrieve Report status'
+      req.body.description = 'We were unable to retrieve the report status:'
+      req.body.error = error.data
+      next()
+    }
   }
 
-  router.post('/requestReport/', asyncRequestHandler, asyncRequestErrorHandler)
-
-  // 3 - polling the status of the request
-  router.get('/async-reports/:reportId/:variantId/request/:executionId', async (req, res, next) => {
-    res.render(`${templatePath}/async-polling`, {
-      title: 'Report Requested',
-      layoutPath,
-      ...(await AsyncPollingUtils.renderPolling({ req, res, dataSources, asyncReportsStore, next })),
-    })
-  })
-
-  // 3 - load the report data
-  router.get('/async-reports/:reportId/:reportVariantId/request/:tableId/report', async (req, res, next) => {
-    res.render(`${templatePath}async-report`, {
-      layoutPath,
-      ...(await AsyncReportListUtils.renderReport({
+  const getReportListHandler: RequestHandler = async (req, res, next) => {
+    try {
+      const reportRenderData = await AsyncReportListUtils.renderReport({
         req,
         res,
         dataSources,
         asyncReportsStore,
         recentlyViewedStoreService,
         next,
-      })),
-    })
-  })
+      })
+      res.render(`${templatePath}async-report`, {
+        layoutPath,
+        ...reportRenderData,
+      })
+    } catch (error) {
+      req.body.title = 'Failed to retrieve Report'
+      req.body.description = 'We were unable to retrieve this report for the following reason:'
+      next()
+    }
+  }
+
+  router.get('/async-reports/:reportId/:variantId/request', getReportFiltersHandler, asyncErrorHandler)
+  router.post('/requestReport/', asyncRequestHandler, asyncErrorHandler)
+  router.get('/async-reports/:reportId/:variantId/request/:executionId', pollingHandler, asyncErrorHandler)
+  router.get(
+    '/async-reports/:reportId/:reportVariantId/request/:tableId/report',
+    getReportListHandler,
+    asyncErrorHandler,
+  )
 }

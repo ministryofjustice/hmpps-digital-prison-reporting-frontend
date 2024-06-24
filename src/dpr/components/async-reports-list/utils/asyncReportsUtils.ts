@@ -58,8 +58,7 @@ const setDataFromStatus = (status: RequestStatus, requestedReportsData: AsyncRep
   let href
   switch (status) {
     case RequestStatus.FAILED: {
-      const retryParam = `&retryId=${requestedReportsData.executionId}`
-      href = `${requestedReportsData.url.request.fullUrl}${retryParam}`
+      href = `${requestedReportsData.url.polling.fullUrl}`
       timestamp = `Failed at: ${new Date(requestedReportsData.timestamp.failed).toLocaleString()}`
       break
     }

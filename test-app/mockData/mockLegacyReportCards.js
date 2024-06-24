@@ -26,8 +26,14 @@ const mockLegacyReportCards = [
   {
     id: 'variantId-5',
     href: './async-reports/reportId-1/variantId-5/request',
-    text: 'Test Variant 4',
+    text: 'Test Variant 5',
     description: 'Test Variant 5 description - this will return a request error',
+  },
+  {
+    id: 'variantId-6',
+    href: './async-reports/:reportId-1/variantId-6/request/:tableId/report',
+    text: 'Test Variant 6',
+    description: 'This demonstrates an expired bookmarked report list page',
   },
 ]
 

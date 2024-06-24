@@ -12,7 +12,7 @@
   <p>Status: {{ dprRequestStatusTag(error.status) }}</p>
 
   {{ govukErrorSummary({
-    titleText: "Your report has failed to generate. The issue has been reported to admin staff",
+    titleText: description,
     classes: "govuk-!-margin-top-6",
     errorList: [
       {
@@ -31,12 +31,16 @@
   {% endif %}
   {% endset %}
 
-  {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml )}}
+  {% if reportName %}
+    {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml )}}
+  {% endif %}
 
-  {{ govukButton({
+  {% if retry %}
+    {{ govukButton({
     id: "retry-async-request",
     text: "Retry",  
     classes: "govuk-button govuk-!-margin-top-5",
     href: href
   }) }}
+  {% endif %}
 {% endblock %}

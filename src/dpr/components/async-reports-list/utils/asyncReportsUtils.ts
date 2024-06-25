@@ -150,7 +150,7 @@ export default {
     res,
     maxRows,
   }: { maxRows?: number } & AsyncReportUtilsParams): Promise<RenderTableListResponse> => {
-    const { token } = res.locals.user || 'token'
+    const { token } = res.locals.user
 
     let cardData = await formatCards(asyncReportsStore, dataSources, token)
 

@@ -69,7 +69,7 @@ export default {
    */
   renderFilters: async ({ req, res, dataSources, next }: AsyncReportUtilsParams) => {
     try {
-      const { token } = res.locals.user || 'token'
+      const { token } = res.locals.user
       const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
       const { reportId, variantId } = req.params
       const { dataProductDefinitionsPath: definitionPath } = req.query
@@ -107,10 +107,10 @@ export default {
   }: AsyncReportUtilsParams) => {
     let redirect = ''
 
-    const query = {}
+    const query: Dict<string> = {}
     const querySummary: Array<Dict<string>> = []
-    const filterData = {}
-    const sortData = {}
+    const filterData: Dict<string> = {}
+    const sortData: Dict<string> = {}
 
     Object.keys(req.body)
       .filter((name) => name !== '_csrf' && req.body[name] !== '')
@@ -118,16 +118,16 @@ export default {
         const shortName = name.replace('filters.', '')
         const value = req.body[name]
 
-        query[name] = value
+        query[name as keyof Dict<string>] = value
 
         if (name.startsWith('filters.') && value !== '') {
-          filterData[shortName] = value
+          filterData[shortName as keyof Dict<string>] = value
           querySummary.push({
             name: shortName,
             value,
           })
         } else if (name.startsWith('sort')) {
-          sortData[name] = value
+          sortData[name as keyof Dict<string>] = value
           querySummary.push({
             name,
             value,
@@ -135,7 +135,7 @@ export default {
         }
       })
 
-    const { token } = res.locals.user || 'token'
+    const { token } = res.locals.user
     const { reportId, variantId, retryId } = req.body
     const response = await dataSources.requestAsyncReport(token, reportId, variantId, query)
     const { executionId, tableId } = response

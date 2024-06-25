@@ -49,6 +49,7 @@ export enum RequestStatus {
   FAILED = 'FAILED',
   ABORTED = 'ABORTED',
   EXPIRED = 'EXPIRED',
+  READY = 'READY',
   ALL = 'ALL',
 }
 

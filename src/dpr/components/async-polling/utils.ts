@@ -67,7 +67,7 @@ interface GetStatusUtilsResponse {
 export default {
   getStatus,
   renderPolling: async ({ req, res, dataSources, asyncReportsStore, next }: AsyncReportUtilsParams) => {
-    const { token } = res.locals.user
+    const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const { reportId, variantId, executionId } = req.params
     let reportData = await asyncReportsStore.getReportByExecutionId(executionId)
 

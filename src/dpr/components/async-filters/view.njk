@@ -11,7 +11,7 @@
   {% set definitionPath = data.definitionPath %}
   {% set csrfToken = data.csrfToken %}
 
-  {{ dprAsyncRequestDetails( reportName, variantName, description )}}
+  {{ dprAsyncRequestDetails( reportName, variantName, description, '', reportId, variantId )}}
 
   <div class="dpr-async-controls dpr-filters" data-dpr-module="async-filters">
     <h3 class="govuk-heading-m">Request Query</h3>

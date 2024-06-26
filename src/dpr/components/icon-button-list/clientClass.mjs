@@ -6,11 +6,13 @@ export default class IconButtonList extends DprClientClass {
   }
 
   initialise () {
+    this.refreshButton = document.getElementById('refresh')
     this.printButton = document.getElementById('printable')
     this.shareButton = document.getElementById('sharable')
     this.downloadButton = document.getElementById('downloadable')
     this.copyButton = document.getElementById('copy')
 
+    this.initRefreshEvent()
     this.initPrintButtonEvent()
     this.initShareButtonEvent()
     this.initCopyButtonEvent()
@@ -39,6 +41,13 @@ export default class IconButtonList extends DprClientClass {
   initExportButtonEvent () {
     this.downloadButton.addEventListener('click', () => {
       // todo
+    })
+  }
+
+  initRefreshEvent () {
+    const href = this.refreshButton.getAttribute('data-href')
+    this.refreshButton.addEventListener('click', () => {
+      window.location = href
     })
   }
 }

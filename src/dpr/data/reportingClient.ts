@@ -126,13 +126,12 @@ export default class ReportingClient {
       .then((response) => <Dict<string>>response)
   }
 
-  // TODO: fix this
   cancelAsyncRequest(token: string, reportId: string, variantId: string, executionId: string): Promise<Dict<string>> {
     logger.info(`Reporting client: request ${reportId}:${variantId}`)
 
     return this.restClient
-      .get({
-        path: `/async/reports/${reportId}/${variantId}/executionId`,
+      .delete({
+        path: `/reports/${reportId}/${variantId}/statements/${executionId}`,
         token,
       })
       .then((response) => <Dict<string>>response)

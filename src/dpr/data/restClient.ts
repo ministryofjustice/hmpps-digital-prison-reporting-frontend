@@ -63,4 +63,42 @@ export default class RestClient {
       throw sanitisedError
     }
   }
+
+  async deleteWithHeaders<T>({
+    path = null,
+    query = {},
+    headers = {},
+    responseType = '',
+    raw = false,
+    token,
+  }: GetRequest): Promise<ResultWithHeaders<T>> {
+    logger.info(`Get using user credentials: calling ${this.name}: ${this.config.url}${path} ${JSON.stringify(query)}`)
+    try {
+      const result = await superagent
+        .get(`${this.apiUrl()}${path}`)
+        .agent(this.agent)
+        .retry(2, (err) => {
+          if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
+          return undefined // retry handler only for logging retries, not to influence retry logic
+        })
+        .query(query)
+        .auth(token, { type: 'bearer' })
+        .set(headers)
+        .responseType(responseType)
+        .timeout(this.timeoutConfig())
+
+      return {
+        data: raw ? result : result.body,
+        headers: result.headers,
+      }
+    } catch (error) {
+      const sanitisedError = sanitiseError(error)
+      logger.warn({ ...sanitisedError, query }, `Error calling ${this.name}, path: '${path}', verb: 'GET'`)
+      throw sanitisedError
+    }
+  }
+
+  async delete<T>(request: GetRequest): Promise<T> {
+    return this.deleteWithHeaders<T>(request).then((result) => result.data)
+  }
 }

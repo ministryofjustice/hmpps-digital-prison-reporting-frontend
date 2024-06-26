@@ -28,9 +28,31 @@ export default class dprAsyncPolling extends DprClientClass {
   }
 
   initCancelRequestButton () {
+    const executionId = this.retryRequestButton.getAttribute('data-execution-id')
+    const reportId = this.retryRequestButton.getAttribute('data-report-id')
+    const variantId = this.retryRequestButton.getAttribute('data-variant-id')
+    const csrfToken = this.retryRequestButton.getAttribute('data-csrf-token')
+
     if (this.cancelRequestButton) {
-      this.cancelRequestButton.addEventListener('click', () => {
-        // TODO
+      this.cancelRequestButton.addEventListener('click', async () => {
+        await fetch('/cancelRequest/', {
+          method: 'post',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrfToken,
+          },
+          body: {
+            executionId,
+            reportId,
+            variantId,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            window.location.href = data.redirectUrl
+          })
+          .catch((error) => console.error('Error:', error))
       })
     }
   }

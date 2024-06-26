@@ -103,7 +103,6 @@ export default {
     dataSources,
     asyncReportsStore,
     recentlyViewedStoreService,
-    next,
   }: AsyncReportUtilsParams) => {
     let redirect = ''
 
@@ -160,6 +159,19 @@ export default {
       redirect = reportData.url.polling.pathname
     }
 
+    return redirect
+  },
+
+  cancelRequest: async ({ req, res, dataSources, asyncReportsStore }: AsyncReportUtilsParams) => {
+    let redirect = ''
+    const { token } = res.locals.user
+    const { reportId, variantId, executionId } = req.body
+    const response = await dataSources.cancelAsyncRequest(token, reportId, variantId, executionId)
+
+    if (response) {
+      await asyncReportsStore.removeReport(executionId)
+      redirect = 'TODO'
+    }
     return redirect
   },
 

@@ -49,6 +49,12 @@
         id: "cancel-async-request",
         text: "Cancel Request",  
         classes: "govuk-button--warning govuk-!-margin-bottom-0"
+        attributes: {
+          'data-execution-id': executionId,
+          'data-report-id': reportId,
+          'data-variant-id': variantId,
+          'data-csrf-token': csrfToken,
+        }
       }) }}
 
     {% endif %}

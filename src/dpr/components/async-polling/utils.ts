@@ -68,6 +68,7 @@ export default {
   getStatus,
   renderPolling: async ({ req, res, dataSources, asyncReportsStore, next }: AsyncReportUtilsParams) => {
     const { token } = res.locals.user
+    const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
     const { reportId, variantId, executionId } = req.params
     let reportData = await asyncReportsStore.getReportByExecutionId(executionId)
 
@@ -103,6 +104,7 @@ export default {
         status,
         tableId: reportData.tableId,
         querySummary: reportData.query.summary,
+        csrfToken,
         ...(reportData.url.report?.fullUrl && { reportUrl: reportData.url.report.fullUrl }),
         ...(reportData.url.request.fullUrl && { requestUrl: reportData.url.request.fullUrl }),
         ...(errorMessage && { errorMessage }),

@@ -72,6 +72,28 @@ export default function routes({
     }
   }
 
+  const cancelRequestHandler: RequestHandler = async (req, res, next) => {
+    try {
+      const redirect = await AsyncFiltersUtils.cancelRequest({
+        req,
+        res,
+        dataSources,
+        asyncReportsStore,
+      })
+      if (redirect) {
+        res.send({ redirectUrl: redirect })
+      } else {
+        res.end()
+      }
+    } catch (error) {
+      req.body = {
+        ...req.body,
+        ...AsyncFiltersUtils.handleError(error, req),
+      }
+      next()
+    }
+  }
+
   const pollingHandler: RequestHandler = async (req, res, next) => {
     try {
       const pollingRenderData = await AsyncPollingUtils.renderPolling({
@@ -117,6 +139,7 @@ export default function routes({
 
   router.get('/async-reports/:reportId/:variantId/request', getReportFiltersHandler, asyncErrorHandler)
   router.post('/requestReport/', asyncRequestHandler, asyncErrorHandler)
+  router.post('/cancelRequest/', cancelRequestHandler, asyncErrorHandler)
   router.get('/async-reports/:reportId/:variantId/request/:executionId', pollingHandler, asyncErrorHandler)
   router.get(
     '/async-reports/:reportId/:reportVariantId/request/:tableId/report',

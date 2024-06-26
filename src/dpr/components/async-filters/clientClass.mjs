@@ -35,8 +35,8 @@ export default class AsyncFilters extends DprQueryParamClass {
 
   initSubmitButton () {
     this.submitButton.addEventListener('click', (e) => {
-      this.initFormData()
       e.preventDefault()
+      this.initFormData()
       this.mainForm.requestSubmit()
     })
   }

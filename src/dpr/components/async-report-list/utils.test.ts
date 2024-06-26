@@ -84,6 +84,8 @@ describe('AsyncReportListUtils', () => {
         'column',
       ])
 
+      console.log(JSON.stringify(result, null, 2))
+
       expect(result).toEqual(mockReportListRenderData)
     })
   })

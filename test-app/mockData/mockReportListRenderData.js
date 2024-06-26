@@ -165,6 +165,14 @@ const mockReportListRenderData = {
     },
     actions: [
       {
+        id: 'refresh',
+        icon: 'refresh',
+        disabled: false,
+        tooltipText: 'Refresh report',
+        ariaLabelText: 'Print report',
+        href: 'fullUrl',
+      },
+      {
         id: 'printable',
         icon: 'print',
         disabled: false,

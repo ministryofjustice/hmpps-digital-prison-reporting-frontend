@@ -237,6 +237,10 @@
   content: "content_copy";
 }
 
+.refresh-icon.dpr-icon:before {
+  content: "refresh";
+}
+
 .dpr-icon-info-tooltip:before {
   display: inline-block;
   color: govuk-colour("dark-grey");

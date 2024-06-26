@@ -39,7 +39,7 @@
 
       <p>Status: {{ dprRequestStatusTag(status) }}</p>
 
-      {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml)}}
+      {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml, reportId, variantId, exceutionId, tableId  )}}
 
       {{ govukInsetText({
         html: "<p>It can take up to 10 mins to generate a report.</p> <p>You can close and revisit this page at anytime, Navigate to the homepage to check on its status or your report</p>"
@@ -67,7 +67,7 @@
         ]
       }) }}
 
-      {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml)}}
+      {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml, reportId, variantId, exceutionId, tableId  )}}
 
       {{ govukButton({
         id: "retry-async-request",
@@ -84,7 +84,7 @@
 
       <p>Status: {{ dprRequestStatusTag(status) }}</p>
 
-      {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml)}}
+      {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml, reportId, variantId, exceutionId, tableId  )}}
 
       {{ govukButton({
         text: "View report",

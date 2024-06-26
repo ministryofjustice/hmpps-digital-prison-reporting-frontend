@@ -1,11 +1,47 @@
-{% macro dprAsyncRequestDetails(reportName, variantName, description, htmlContent) %}
+{% macro dprAsyncRequestDetails(reportName, variantName, description, htmlContent, reportId, variantId, exceutionId, tableId) %}
   <div class="dpr-request-details">
     <span class="govuk-caption-m govuk-!-margin-bottom-2">Report details:</span>
-    <h1 class="govuk-heading-m govuk-!-margin-bottom-2">{{ reportName }} - {{ variantName }}</h1>
-    <p class="govuk-body-s govuk-!-margin-bottom-0">
-      <i>{{ description }}</i>
-    </p>
+
+    {% if reportName %}
+      <h1 class="govuk-heading-m govuk-!-margin-bottom-2">{{ reportName }} - {{ variantName }}</h1>
+    {% endif %}
+    {% if description %}
+      <p class="govuk-body-s govuk-!-margin-bottom-0">
+        <i>{{ description }}</i>
+      </p>
+    {% endif %}
 
     {{ htmlContent | safe }}
+
+    <div class="govuk-!-margin-top-6">
+      {% if reportId %}
+        <p class="govuk-body-s govuk-!-margin-bottom-1">
+          <i>
+            <strong>Report ID:</strong>
+            {{ reportId }}</i>
+        </p>
+      {% endif %}
+      {% if variantId %}
+        <p class="govuk-body-s govuk-!-margin-bottom-1">
+          <i>
+            <strong>Variant ID:</strong>
+            {{ variantId }}</i>
+        </p>
+      {% endif %}
+      {% if executionId %}
+        <p class="govuk-body-s govuk-!-margin-bottom-1">
+          <i>
+            <strong>Execution ID:</strong>
+            {{ executionId }}</i>
+        </p>
+      {% endif %}
+      {% if tableId %}
+        <p class="govuk-body-s govuk-!-margin-bottom-1">
+          <i>
+            <strong>Table ID:</strong>
+            {{ tableId }}</i>
+        </p>
+      {% endif %}
+    </div>
   </div>
 {% endmacro %}

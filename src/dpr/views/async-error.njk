@@ -12,7 +12,7 @@
   <p>Status: {{ dprRequestStatusTag(error.status) }}</p>
 
   {{ govukErrorSummary({
-    titleText: description,
+    titleText: errorDescription,
     classes: "govuk-!-margin-top-6",
     errorList: [
       {
@@ -31,9 +31,7 @@
   {% endif %}
   {% endset %}
 
-  {% if reportName %}
-    {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml )}}
-  {% endif %}
+  {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml, reportId, variantId, exceutionId, tableId  )}}
 
   {% if retry %}
     {{ govukButton({

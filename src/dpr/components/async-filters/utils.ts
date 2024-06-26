@@ -69,7 +69,7 @@ export default {
    */
   renderFilters: async ({ req, res, dataSources, next }: AsyncReportUtilsParams) => {
     try {
-      const { token } = res.locals.user
+      const token = res.locals.user?.token ? res.locals.user.token : 'token'
       const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
       const { reportId, variantId } = req.params
       const { dataProductDefinitionsPath: definitionPath } = req.query
@@ -135,7 +135,7 @@ export default {
         }
       })
 
-    const { token } = res.locals.user
+    const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const { reportId, variantId, retryId } = req.body
     const response = await dataSources.requestAsyncReport(token, reportId, variantId, query)
     const { executionId, tableId } = response
@@ -172,7 +172,7 @@ export default {
       })
     return {
       title: 'Request Failed',
-      description: 'Your report has failed to generate. The issue has been reported to admin staff',
+      errorDescription: 'Your report has failed to generate. The issue has been reported to admin staff',
       retry: true,
       error: error.data,
       filters,

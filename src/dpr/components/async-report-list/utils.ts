@@ -11,8 +11,8 @@ import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { AsyncReportData } from '../../types/AsyncReport'
 
 export const initDataSources = ({ req, res, next, asyncReportsStore, dataSources }: AsyncReportUtilsParams) => {
-  const { token } = res.locals.user
-  const { reportId, reportVariantId, tableId } = req.params
+  const token = res.locals.user?.token ? res.locals.user.token : 'token'
+  const { reportId, variantId: reportVariantId, tableId } = req.params
   const { selectedPage = 1, pageSize = 10 } = req.query
   const dataProductDefinitionsPath = <string>req.query.dataProductDefinitionsPath
   const reportDefinitionPromise = dataSources.getDefinition(

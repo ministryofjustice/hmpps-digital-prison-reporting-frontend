@@ -70,6 +70,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
       reportName,
       variantName,
       description,
+      status: RequestStatus.READY,
       url: {
         origin: url.origin,
         request: {

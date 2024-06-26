@@ -4,6 +4,13 @@ import Dict = NodeJS.Dict
 
 const FULL_BUTTON_LIST = [
   {
+    id: 'refresh',
+    icon: 'refresh',
+    disabled: false,
+    tooltipText: 'Refresh report',
+    ariaLabelText: 'Print report',
+  },
+  {
     id: 'printable',
     icon: 'print',
     disabled: true,
@@ -53,6 +60,13 @@ const filterButtonList = (actions: ReportAction[]) => {
 export default {
   initReportActions: (variant: components['schemas']['VariantDefinition'], reportData: AsyncReportData) => {
     const actions: ReportAction[] = []
+
+    actions.push({
+      type: 'refresh',
+      data: {
+        href: reportData.url.request.fullUrl,
+      },
+    })
 
     // PRINT
     if (variant.printable) actions.push({ type: 'printable' })

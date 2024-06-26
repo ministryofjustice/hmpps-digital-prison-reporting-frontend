@@ -48,9 +48,8 @@ export default class dprAsyncPolling extends DprClientClass {
             variantId,
           },
         })
-          .then((res) => res.json())
-          .then((data) => {
-            window.location.href = data.redirectUrl
+          .then(() => {
+            window.location.reload()
           })
           .catch((error) => console.error('Error:', error))
       })

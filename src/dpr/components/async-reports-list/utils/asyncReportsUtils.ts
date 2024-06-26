@@ -113,6 +113,7 @@ const formatTableData = (card: CardData) => {
       statusClass = 'govuk-tag--red'
       break
     case 'EXPIRED':
+    case 'ABORTED':
       statusClass = 'govuk-tag--yellow'
       break
     case 'FINISHED':
@@ -125,10 +126,10 @@ const formatTableData = (card: CardData) => {
   return [
     { html: `<a href='${card.href}'>${card.text}</a>` },
     { text: card.description },
+    { text: card.timestamp },
     {
       html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${card.status}</strong>`,
     },
-    { text: card.timestamp },
   ]
 }
 
@@ -139,7 +140,7 @@ const formatTable = (cardData: CardData[]) => {
 
   return {
     rows,
-    head: [{ text: 'Name' }, { text: 'Description' }, { text: 'Status' }, { text: 'Timestamp' }],
+    head: [{ text: 'Name' }, { text: 'Description' }, { text: 'Timestamp' }, { text: 'Status' }],
   }
 }
 
@@ -150,7 +151,7 @@ export default {
     res,
     maxRows,
   }: { maxRows?: number } & AsyncReportUtilsParams): Promise<RenderTableListResponse> => {
-    const { token } = res.locals.user
+    const token = res.locals.user?.token ? res.locals.user.token : 'token'
 
     let cardData = await formatCards(asyncReportsStore, dataSources, token)
 

@@ -28,6 +28,7 @@ export default function routes({
     res.render(`${templatePath}/async-error`, {
       layoutPath,
       ...req.body,
+      ...req.params,
     })
   }
 
@@ -42,7 +43,7 @@ export default function routes({
       })
     } catch (error) {
       req.body.title = 'Report Failed'
-      req.body.description = 'Your report has failed to generate. The issue has been reported to admin staff'
+      req.body.errorDescription = 'Your report has failed to generate. The issue has been reported to admin staff'
       req.body.error = error.data
       next()
     }
@@ -74,17 +75,13 @@ export default function routes({
 
   const cancelRequestHandler: RequestHandler = async (req, res, next) => {
     try {
-      const redirect = await AsyncFiltersUtils.cancelRequest({
+      await AsyncFiltersUtils.cancelRequest({
         req,
         res,
         dataSources,
         asyncReportsStore,
       })
-      if (redirect) {
-        res.send({ redirectUrl: redirect })
-      } else {
-        res.end()
-      }
+      res.end()
     } catch (error) {
       req.body = {
         ...req.body,
@@ -110,7 +107,7 @@ export default function routes({
       })
     } catch (error) {
       req.body.title = 'Failed to retrieve Report status'
-      req.body.description = 'We were unable to retrieve the report status:'
+      req.body.errorDescription = 'We were unable to retrieve the report status:'
       req.body.error = error.data
       next()
     }
@@ -132,7 +129,7 @@ export default function routes({
       })
     } catch (error) {
       req.body.title = 'Failed to retrieve Report'
-      req.body.description = 'We were unable to retrieve this report for the following reason:'
+      req.body.errorDescription = 'We were unable to retrieve this report for the following reason:'
       next()
     }
   }
@@ -141,11 +138,7 @@ export default function routes({
   router.post('/requestReport/', asyncRequestHandler, asyncErrorHandler)
   router.post('/cancelRequest/', cancelRequestHandler, asyncErrorHandler)
   router.get('/async-reports/:reportId/:variantId/request/:executionId', pollingHandler, asyncErrorHandler)
-  router.get(
-    '/async-reports/:reportId/:reportVariantId/request/:tableId/report',
-    getReportListHandler,
-    asyncErrorHandler,
-  )
+  router.get('/async-reports/:reportId/:variantId/request/:tableId/report', getReportListHandler, asyncErrorHandler)
 
   router.get('/async-reports/requested', async (req, res) => {
     res.render(`${templatePath}/async-reports`, {

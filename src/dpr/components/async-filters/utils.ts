@@ -6,6 +6,7 @@ import { DateFilterValue, FilterValue } from '../filters/types'
 import { FilterType } from '../filter-input/enum'
 import SortHelper from './sortByTemplate'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
+import { RequestStatus } from '../../types/AsyncReport'
 
 /**
  * Initialises the filters from the definition data
@@ -69,7 +70,7 @@ export default {
    */
   renderFilters: async ({ req, res, dataSources, next }: AsyncReportUtilsParams) => {
     try {
-      const { token } = res.locals.user
+      const token = res.locals.user?.token ? res.locals.user.token : 'token'
       const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
       const { reportId, variantId } = req.params
       const { dataProductDefinitionsPath: definitionPath } = req.query
@@ -134,7 +135,7 @@ export default {
         }
       })
 
-    const { token } = res.locals.user
+    const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const { reportId, variantId, retryId } = req.body
     const response = await dataSources.requestAsyncReport(token, reportId, variantId, query)
     const { executionId, tableId } = response
@@ -163,16 +164,12 @@ export default {
   },
 
   cancelRequest: async ({ req, res, dataSources, asyncReportsStore }: AsyncReportUtilsParams) => {
-    let redirect = ''
     const { token } = res.locals.user
     const { reportId, variantId, executionId } = req.body
     const response = await dataSources.cancelAsyncRequest(token, reportId, variantId, executionId)
-
     if (response) {
-      await asyncReportsStore.removeReport(executionId)
-      redirect = 'TODO'
+      await asyncReportsStore.updateStatus(executionId, RequestStatus.ABORTED)
     }
-    return redirect
   },
 
   handleError: (error: Dict<string>, req: Request) => {
@@ -184,7 +181,7 @@ export default {
       })
     return {
       title: 'Request Failed',
-      description: 'Your report has failed to generate. The issue has been reported to admin staff',
+      errorDescription: 'Your report has failed to generate. The issue has been reported to admin staff',
       retry: true,
       error: error.data,
       filters,

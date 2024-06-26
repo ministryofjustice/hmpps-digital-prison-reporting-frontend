@@ -51,13 +51,13 @@ const formatCardData = async (
     reportId,
     variantId,
     executionId,
-    reportData.status,
+    status,
     dataSources,
     asyncReportsStore,
     dataProductDefinitionsPath,
   )
 
-  status = statusResponse.status === RequestStatus.EXPIRED ? statusResponse.status : undefined
+  status = statusResponse.status === RequestStatus.EXPIRED ? statusResponse.status : RequestStatus.READY
   const summary = query.summary as { name: string; value: string }[]
   const href = status ? `${url.request.fullUrl}&retryId=${executionId}` : url.report.fullUrl
 
@@ -85,9 +85,9 @@ const formatTable = (cardData: CardData[]) => {
 }
 
 const formatTableData = (card: CardData) => {
-  const statusHtml = card.status
-    ? `<strong class="govuk-tag dpr-request-status-tag govuk-tag--yellow">${card.status}</strong>`
-    : ''
+  const statusClass = card.status === RequestStatus.EXPIRED ? 'yellow' : 'green'
+  const statusHtml = `<strong class="govuk-tag dpr-request-status-tag govuk-tag--${statusClass}">${card.status}</strong>`
+
   return [
     { html: `<a href='${card.href}'>${card.text}</a>` },
     { text: card.description },
@@ -106,7 +106,7 @@ export default {
     res,
     maxRows,
   }: { maxRows?: number } & AsyncReportUtilsParams): Promise<RenderTableListResponse> => {
-    const { token } = res.locals.user
+    const token = res.locals.user?.token ? res.locals.user.token : 'token'
     let cardData = await formatCards(recentlyViewedStoreService, asyncReportsStore, dataSources, token)
 
     const total = {

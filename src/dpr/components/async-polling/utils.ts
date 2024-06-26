@@ -67,8 +67,8 @@ interface GetStatusUtilsResponse {
 export default {
   getStatus,
   renderPolling: async ({ req, res, dataSources, asyncReportsStore, next }: AsyncReportUtilsParams) => {
-    const { token } = res.locals.user
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+    const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const { reportId, variantId, executionId } = req.params
     let reportData = await asyncReportsStore.getReportByExecutionId(executionId)
 
@@ -77,6 +77,15 @@ export default {
       statusResponse = {
         status: RequestStatus.FAILED,
         errorMessage: 'Request taking too long. Request Halted',
+      }
+    } else if (reportData.status === RequestStatus.FAILED) {
+      statusResponse = {
+        status: RequestStatus.FAILED,
+        errorMessage: reportData.errorMessage,
+      }
+    } else if (reportData.status === RequestStatus.ABORTED) {
+      statusResponse = {
+        status: RequestStatus.ABORTED,
       }
     } else {
       statusResponse = await getStatus(

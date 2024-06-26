@@ -49,6 +49,7 @@ export enum RequestStatus {
   FAILED = 'FAILED',
   ABORTED = 'ABORTED',
   EXPIRED = 'EXPIRED',
+  READY = 'READY',
   ALL = 'ALL',
 }
 
@@ -59,4 +60,5 @@ export interface AsyncReportsTimestamp {
   expired?: Date
   failed?: Date
   retried?: Date
+  aborted?: Date
 }

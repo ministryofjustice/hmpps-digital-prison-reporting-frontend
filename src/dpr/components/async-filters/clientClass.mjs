@@ -15,6 +15,7 @@ export default class AsyncFilters extends DprQueryParamClass {
     this.initInputEvents(this.mainForm.elements)
 
     this.initResetButton()
+    this.initSubmitButton()
     this.initRetryInputFromQueryParams()
     this.initFormData()
   }
@@ -30,6 +31,14 @@ export default class AsyncFilters extends DprQueryParamClass {
     const href = `${origin}${pathname}?${params.toString()}`
 
     document.getElementById('async-filters-form-href').value = href
+  }
+
+  initSubmitButton () {
+    this.submitButton.addEventListener('click', (e) => {
+      e.preventDefault()
+      this.initFormData()
+      this.mainForm.requestSubmit()
+    })
   }
 
   initResetButton () {

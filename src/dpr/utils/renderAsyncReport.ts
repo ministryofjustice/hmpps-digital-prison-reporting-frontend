@@ -3,6 +3,7 @@ import Dict = NodeJS.Dict
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 import { AsyncReportData } from '../types/AsyncReport'
 import AsyncReportListUtils from '../components/async-report-list/utils'
+import ReportActionsUtils from '../components/icon-button-list/utils'
 
 export const initDataSources = ({ req, res, next, asyncReportsStore, dataSources }: AsyncReportUtilsParams) => {
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
@@ -45,16 +46,36 @@ export const getReport = async ({
       const count = <number>resolvedData[2]
       reportStateData = <AsyncReportData>resolvedData[3]
 
+      const { classification } = definition.variant
       const { template } = definition.variant.specification
+      const { reportName, name: variantName, description, timestamp } = reportStateData
+      const actions = ReportActionsUtils.initReportActions(definition.variant, reportStateData)
+
+      renderData = {
+        variantName,
+        reportName,
+        description,
+        classification,
+        template,
+        actions,
+        requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
+      }
+
       switch (template) {
         case 'list':
-          renderData = AsyncReportListUtils.getRenderData(req, definition, reportData, count, reportStateData)
+          renderData = {
+            ...renderData,
+            ...AsyncReportListUtils.getRenderData(req, definition, reportData, count, reportStateData),
+          }
           break
         case 'listWithSections':
-          // TODO
+          // TODO: add list eith sections utils here
           break
         default:
-          renderData = AsyncReportListUtils.getRenderData(req, definition, reportData, count, reportStateData)
+          renderData = {
+            ...renderData,
+            ...AsyncReportListUtils.getRenderData(req, definition, reportData, count, reportStateData),
+          }
           break
       }
     })

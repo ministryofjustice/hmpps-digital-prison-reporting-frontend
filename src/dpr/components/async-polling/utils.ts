@@ -66,16 +66,35 @@ interface GetStatusUtilsResponse {
 
 export default {
   getStatus,
+
+  cancelRequest: async ({ req, res, dataSources, asyncReportsStore }: AsyncReportUtilsParams) => {
+    const token = res.locals.user?.token ? res.locals.user.token : 'token'
+    const { reportId, variantId, executionId } = req.body
+    const response = await dataSources.cancelAsyncRequest(token, reportId, variantId, executionId)
+    if (response && response.cancellationSucceeded) {
+      await asyncReportsStore.updateStatus(executionId, RequestStatus.ABORTED)
+    }
+  },
+
   renderPolling: async ({ req, res, dataSources, asyncReportsStore, next }: AsyncReportUtilsParams) => {
+    const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const { reportId, variantId, executionId } = req.params
     let reportData = await asyncReportsStore.getReportByExecutionId(executionId)
-
     let statusResponse
     if (timeoutRequest(reportData.timestamp.requested)) {
       statusResponse = {
         status: RequestStatus.FAILED,
         errorMessage: 'Request taking too long. Request Halted',
+      }
+    } else if (reportData.status === RequestStatus.FAILED) {
+      statusResponse = {
+        status: RequestStatus.FAILED,
+        errorMessage: reportData.errorMessage,
+      }
+    } else if (reportData.status === RequestStatus.ABORTED) {
+      statusResponse = {
+        status: RequestStatus.ABORTED,
       }
     } else {
       statusResponse = await getStatus(
@@ -103,6 +122,7 @@ export default {
         status,
         tableId: reportData.tableId,
         querySummary: reportData.query.summary,
+        csrfToken,
         ...(reportData.url.report?.fullUrl && { reportUrl: reportData.url.report.fullUrl }),
         ...(reportData.url.request.fullUrl && { requestUrl: reportData.url.request.fullUrl }),
         ...(errorMessage && { errorMessage }),

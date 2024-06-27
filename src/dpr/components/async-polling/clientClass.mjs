@@ -8,13 +8,14 @@ export default class dprAsyncPolling extends DprClientClass {
 
   async initialise () {
     this.POLLING_STATUSES = ['SUBMITTED', 'STARTED', 'PICKED']
-    this.POLLING_FREQUENCY = '500' // 2 seconds
+    this.POLLING_FREQUENCY = '5000' // 5 seconds
 
     this.statusSection = document.getElementById('async-request-polling-status')
     this.retryRequestButton = document.getElementById('retry-async-request')
     this.cancelRequestButton = document.getElementById('cancel-async-request')
     this.viewReportButton = document.getElementById('view-async-report-button')
 
+    this.initCancelRequestButton()
     this.initPollingStatus()
   }
 
@@ -29,8 +30,29 @@ export default class dprAsyncPolling extends DprClientClass {
 
   initCancelRequestButton () {
     if (this.cancelRequestButton) {
-      this.cancelRequestButton.addEventListener('click', () => {
-        // TODO
+      const executionId = this.cancelRequestButton.getAttribute('data-execution-id')
+      const reportId = this.cancelRequestButton.getAttribute('data-report-id')
+      const variantId = this.cancelRequestButton.getAttribute('data-variant-id')
+      const csrfToken = this.cancelRequestButton.getAttribute('data-csrf-token')
+
+      this.cancelRequestButton.addEventListener('click', async () => {
+        await fetch('/cancelRequest/', {
+          method: 'post',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrfToken,
+          },
+          body: JSON.stringify({
+            executionId,
+            reportId,
+            variantId,
+          }),
+        })
+          .then(() => {
+            window.location.reload()
+          })
+          .catch((error) => console.error('Error:', error))
       })
     }
   }

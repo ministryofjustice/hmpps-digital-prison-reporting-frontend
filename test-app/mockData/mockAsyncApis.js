@@ -106,7 +106,9 @@ const getAsyncReport = (token, reportId, variantId, tableId, query) => {
 
 const cancelAsyncRequest = (token, reportId, variantId, executionId) => {
   return new Promise((resolve) => {
-    resolve(true)
+    resolve({
+      cancellationSucceeded: true,
+    })
   })
 }
 

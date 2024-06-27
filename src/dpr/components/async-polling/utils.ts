@@ -71,7 +71,7 @@ export default {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const { reportId, variantId, executionId } = req.body
     const response = await dataSources.cancelAsyncRequest(token, reportId, variantId, executionId)
-    if (response) {
+    if (response && response.cancellationSucceeded) {
       await asyncReportsStore.updateStatus(executionId, RequestStatus.ABORTED)
     }
   },

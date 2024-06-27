@@ -1,5 +1,6 @@
 import { Response, Request } from 'express'
 import { Url } from 'url'
+import { timeStamp } from 'console'
 import * as AsyncReportUtils from './renderAsyncReport'
 import DataTableUtils from '../components/data-table/utils'
 import ColumnUtils from '../components/async-columns/utils'
@@ -10,8 +11,9 @@ import mockAsyncApis from '../../../test-app/mockData/mockAsyncApis'
 import { AsyncReportData } from '../types/AsyncReport'
 import AsyncReportStoreService from '../services/requestedReportsService'
 import ReportingService from '../services/reportingService'
-import mockReportListRenderData from '../../../test-app/mockData/mockReportListRenderData'
+import { mockGetReportListRenderData } from '../../../test-app/mockData/mockReportListRenderData'
 import RecentlyViewedStoreService from '../services/recentlyViewedService'
+import definitions from '../../../test-app/mockData/mockReportDefinition'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
@@ -28,6 +30,9 @@ const reportState = {
       fullUrl: 'fullUrl',
     },
   },
+  timestamp: {
+    requested: '2024-06-27T13:41:13.284Z',
+  },
 } as unknown as AsyncReportData
 
 jest.spyOn(AsyncReportUtils, 'initDataSources').mockImplementation(() => [
@@ -41,7 +46,7 @@ jest.spyOn(AsyncReportUtils, 'initDataSources').mockImplementation(() => [
 
 describe('AsyncReportUtils', () => {
   jest.spyOn(PaginationUtils, 'getPaginationData')
-  jest.spyOn(ReportActionsUtils, 'initReportActions')
+  const ReportActionsUtilsSpy = jest.spyOn(ReportActionsUtils, 'initReportActions')
   jest.spyOn(DataTableUtils, 'mapData')
   jest.spyOn(DataTableUtils, 'mapAsyncHeader')
   jest.spyOn(ColumnUtils, 'getColumns')
@@ -66,7 +71,9 @@ describe('AsyncReportUtils', () => {
         recentlyViewedStoreService: mockRecentlyViewedStoreService,
       })
 
-      expect(result).toEqual({ renderData: mockReportListRenderData })
+      expect(ReportActionsUtilsSpy).toHaveBeenCalledWith(definitions.report.variants[1], reportState)
+
+      expect(result).toEqual(mockGetReportListRenderData)
     })
   })
 })

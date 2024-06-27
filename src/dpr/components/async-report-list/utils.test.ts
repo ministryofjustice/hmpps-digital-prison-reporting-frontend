@@ -4,10 +4,9 @@ import AsyncReportListUtils from './utils'
 import DataTableUtils from '../data-table/utils'
 import ColumnUtils from '../async-columns/utils'
 import PaginationUtils from '../pagination/utils'
-import ReportActionsUtils from '../icon-button-list/utils'
 
 import createMockData from '../../../../test-app/mockData/mockAsyncData'
-import mockReportListRenderData from '../../../../test-app/mockData/mockReportListRenderData'
+import { mockReportListRenderData } from '../../../../test-app/mockData/mockReportListRenderData'
 
 import definitions from '../../../../test-app/mockData/mockReportDefinition'
 import { AsyncReportData } from '../../types/AsyncReport'
@@ -27,13 +26,13 @@ const reportState = {
       fullUrl: 'fullUrl',
     },
   },
+  requestedTimestamp: 'ts',
 } as unknown as AsyncReportData
 
 const mockReportData = createMockData(10)
 
 describe('AsyncReportListUtils', () => {
   const PaginationUtilsSpy = jest.spyOn(PaginationUtils, 'getPaginationData')
-  const ReportActionsUtilsSpy = jest.spyOn(ReportActionsUtils, 'initReportActions')
   const DataTableUtilsMapDataSpy = jest.spyOn(DataTableUtils, 'mapData')
   const DataTableUtilsMapHeaderSpy = jest.spyOn(DataTableUtils, 'mapAsyncHeader')
   const ColumnUtilsSpy = jest.spyOn(ColumnUtils, 'getColumns')
@@ -55,7 +54,6 @@ describe('AsyncReportListUtils', () => {
 
       expect(ColumnUtilsSpy).toHaveBeenCalledWith(variant.specification.fields, ['column'])
       expect(PaginationUtilsSpy).toHaveBeenCalledWith({ pathname: 'pathname', search: 'search' }, 100)
-      expect(ReportActionsUtilsSpy).toHaveBeenCalledWith(variant, reportState)
       expect(DataTableUtilsMapDataSpy).toHaveBeenCalledWith(mockReportData, variant.specification.fields, [
         'field2',
         'column',

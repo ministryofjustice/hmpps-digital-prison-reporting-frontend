@@ -8,13 +8,14 @@ export default class dprAsyncPolling extends DprClientClass {
 
   async initialise () {
     this.POLLING_STATUSES = ['SUBMITTED', 'STARTED', 'PICKED']
-    this.POLLING_FREQUENCY = '500' // 2 seconds
+    this.POLLING_FREQUENCY = '50000' // 2 seconds
 
     this.statusSection = document.getElementById('async-request-polling-status')
     this.retryRequestButton = document.getElementById('retry-async-request')
     this.cancelRequestButton = document.getElementById('cancel-async-request')
     this.viewReportButton = document.getElementById('view-async-report-button')
 
+    this.initCancelRequestButton()
     this.initPollingStatus()
   }
 
@@ -28,12 +29,12 @@ export default class dprAsyncPolling extends DprClientClass {
   }
 
   initCancelRequestButton () {
-    const executionId = this.retryRequestButton.getAttribute('data-execution-id')
-    const reportId = this.retryRequestButton.getAttribute('data-report-id')
-    const variantId = this.retryRequestButton.getAttribute('data-variant-id')
-    const csrfToken = this.retryRequestButton.getAttribute('data-csrf-token')
-
     if (this.cancelRequestButton) {
+      const executionId = this.cancelRequestButton.getAttribute('data-execution-id')
+      const reportId = this.cancelRequestButton.getAttribute('data-report-id')
+      const variantId = this.cancelRequestButton.getAttribute('data-variant-id')
+      const csrfToken = this.cancelRequestButton.getAttribute('data-csrf-token')
+
       this.cancelRequestButton.addEventListener('click', async () => {
         await fetch('/cancelRequest/', {
           method: 'post',
@@ -42,11 +43,11 @@ export default class dprAsyncPolling extends DprClientClass {
             'Content-Type': 'application/json',
             'CSRF-Token': csrfToken,
           },
-          body: {
+          body: JSON.stringify({
             executionId,
             reportId,
             variantId,
-          },
+          }),
         })
           .then(() => {
             window.location.reload()

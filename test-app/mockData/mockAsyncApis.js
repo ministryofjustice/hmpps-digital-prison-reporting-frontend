@@ -104,6 +104,12 @@ const getAsyncReport = (token, reportId, variantId, tableId, query) => {
   })
 }
 
+const cancelAsyncRequest = (token, reportId, variantId, executionId) => {
+  return new Promise((resolve) => {
+    resolve(true)
+  })
+}
+
 const getAsyncCount = () => Promise.resolve(100)
 
 module.exports = {
@@ -112,4 +118,5 @@ module.exports = {
   getAsyncReport,
   getDefinition,
   getAsyncCount,
+  cancelAsyncRequest,
 }

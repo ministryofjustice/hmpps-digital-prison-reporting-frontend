@@ -24,7 +24,6 @@ export default class UserStoreService {
 
   async getState() {
     this.userConfig = await this.userStore.getUserConfig(this.userId)
-    // console.log(JSON.stringify(this.userConfig, null, 2))
   }
 
   async saveState() {

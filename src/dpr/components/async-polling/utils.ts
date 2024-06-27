@@ -66,12 +66,21 @@ interface GetStatusUtilsResponse {
 
 export default {
   getStatus,
+
+  cancelRequest: async ({ req, res, dataSources, asyncReportsStore }: AsyncReportUtilsParams) => {
+    const token = res.locals.user?.token ? res.locals.user.token : 'token'
+    const { reportId, variantId, executionId } = req.body
+    const response = await dataSources.cancelAsyncRequest(token, reportId, variantId, executionId)
+    if (response) {
+      await asyncReportsStore.updateStatus(executionId, RequestStatus.ABORTED)
+    }
+  },
+
   renderPolling: async ({ req, res, dataSources, asyncReportsStore, next }: AsyncReportUtilsParams) => {
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const { reportId, variantId, executionId } = req.params
     let reportData = await asyncReportsStore.getReportByExecutionId(executionId)
-
     let statusResponse
     if (timeoutRequest(reportData.timestamp.requested)) {
       statusResponse = {

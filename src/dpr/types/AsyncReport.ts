@@ -16,6 +16,7 @@ export interface AsyncReportData {
   query: AsyncReportQueryData
   dataProductDefinitionsPath?: string
   errorMessage?: string
+  template: string // TODO convert this to enum once we know the types
 }
 
 export interface AsyncReportUrlData {

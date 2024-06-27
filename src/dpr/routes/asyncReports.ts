@@ -75,7 +75,7 @@ export default function routes({
 
   const cancelRequestHandler: RequestHandler = async (req, res, next) => {
     try {
-      await AsyncFiltersUtils.cancelRequest({
+      await AsyncPollingUtils.cancelRequest({
         req,
         res,
         dataSources,
@@ -83,10 +83,9 @@ export default function routes({
       })
       res.end()
     } catch (error) {
-      req.body = {
-        ...req.body,
-        ...AsyncFiltersUtils.handleError(error, req),
-      }
+      req.body.title = 'Failed to abort request'
+      req.body.errorDescription = 'We were unable to abort the report request for the following reason:'
+      req.body.error = error.data
       next()
     }
   }

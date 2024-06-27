@@ -77,9 +77,10 @@ export default {
       const definition = await dataSources.getDefinition(token, reportId, variantId, <string>definitionPath)
       const { name: reportName } = definition
       const { name: variantName, description } = definition.variant
+      const { template } = definition.variant.specification
 
       return {
-        reportData: { reportName, variantName, description, reportId, variantId, definitionPath, csrfToken },
+        reportData: { reportName, variantName, description, reportId, variantId, definitionPath, csrfToken, template },
         ...initFiltersFromDefinition(definition.variant),
       }
     } catch (error) {
@@ -161,15 +162,6 @@ export default {
     }
 
     return redirect
-  },
-
-  cancelRequest: async ({ req, res, dataSources, asyncReportsStore }: AsyncReportUtilsParams) => {
-    const { token } = res.locals.user
-    const { reportId, variantId, executionId } = req.body
-    const response = await dataSources.cancelAsyncRequest(token, reportId, variantId, executionId)
-    if (response) {
-      await asyncReportsStore.updateStatus(executionId, RequestStatus.ABORTED)
-    }
   },
 
   handleError: (error: Dict<string>, req: Request) => {

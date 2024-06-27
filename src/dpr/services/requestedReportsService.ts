@@ -41,6 +41,7 @@ export default class AsyncReportStoreService extends UserStoreService {
       origin = '',
       dataProductDefinitionsPath,
       description,
+      template,
     } = reportData
 
     const filtersQueryString = new URLSearchParams(filterData).toString()
@@ -54,6 +55,7 @@ export default class AsyncReportStoreService extends UserStoreService {
       name: reportData.variantName,
       reportName: reportData.reportName,
       description,
+      template,
       status: RequestStatus.SUBMITTED,
       filters: {
         data: filterData,

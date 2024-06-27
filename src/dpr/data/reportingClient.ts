@@ -126,6 +126,17 @@ export default class ReportingClient {
       .then((response) => <Dict<string>>response)
   }
 
+  cancelAsyncRequest(token: string, reportId: string, variantId: string, executionId: string): Promise<Dict<string>> {
+    logger.info(`Reporting client: request ${reportId}:${variantId}`)
+
+    return this.restClient
+      .delete({
+        path: `/reports/${reportId}/${variantId}/statements/${executionId}`,
+        token,
+      })
+      .then((response) => <Dict<string>>response)
+  }
+
   getAsyncReport(
     token: string,
     reportId: string,

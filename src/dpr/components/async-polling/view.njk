@@ -17,6 +17,7 @@
   {% set requestUrl = data.requestUrl %}
   {% set errorMessage = data.errorMessage %}
   {% set executionId = data.executionId %}
+  {% set csrfToken = data.csrfToken %}
 
   <div id="async-request-polling-status" 
     data-current-status={{ status }}
@@ -48,7 +49,13 @@
       {{ govukButton({
         id: "cancel-async-request",
         text: "Cancel Request",  
-        classes: "govuk-button--warning govuk-!-margin-bottom-0"
+        classes: "govuk-button--warning govuk-!-margin-bottom-0",
+        attributes: {
+          'data-execution-id': executionId,
+          'data-report-id': reportId,
+          'data-variant-id': variantId,
+          'data-csrf-token': csrfToken
+        }
       }) }}
 
     {% endif %}
@@ -78,11 +85,28 @@
 
     {% endif %}
 
-    {% if status === 'FINISHED' %}
-
-      <p class="govuk-!-margin-top-5">Your report has been generated</p>
+    {% if status === 'ABORTED' %}
 
       <p>Status: {{ dprRequestStatusTag(status) }}</p>
+
+      <p class="govuk-!-margin-top-5">Your request has been cancelled</p>
+
+      {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml, reportId, variantId, exceutionId, tableId  )}}
+
+      {{ govukButton({
+        id: "retry-async-request",
+        text: "Return to filters",  
+        classes: "govuk-button govuk-!-margin-top-5",
+        href: requestUrl
+      }) }}
+
+    {% endif %}
+
+    {% if status === 'FINISHED' %}
+
+      <p>Status: {{ dprRequestStatusTag(status) }}</p>
+
+      <p class="govuk-!-margin-top-5">Your report has been generated</p>
 
       {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml, reportId, variantId, exceutionId, tableId  )}}
 

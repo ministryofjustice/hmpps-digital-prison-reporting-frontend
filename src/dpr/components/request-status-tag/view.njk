@@ -10,6 +10,8 @@
     {% set class = 'govuk-tag--yellow' %}
   {% elif status === 'FAILED' %}
     {% set class = 'govuk-tag--red' %}
+  {% elif status === 'ABORTED' %}
+    {% set class = 'govuk-tag--orange' %}
   {% endif %}
 
   {{ govukTag({ text: status, classes: class + ' dpr-request-status-tag' }) }}

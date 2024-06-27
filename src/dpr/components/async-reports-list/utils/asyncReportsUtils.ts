@@ -15,7 +15,7 @@ const formatCardData = async (
   const { executionId, reportId, variantId, dataProductDefinitionsPath } = reportData
 
   let { status } = reportData
-  if (status !== RequestStatus.FAILED) {
+  if (status !== RequestStatus.FAILED && status !== RequestStatus.ABORTED) {
     let statusResponse
     if (timeoutRequest(reportData.timestamp.requested)) {
       statusResponse = {
@@ -113,6 +113,7 @@ const formatTableData = (card: CardData) => {
       statusClass = 'govuk-tag--red'
       break
     case 'EXPIRED':
+    case 'ABORTED':
       statusClass = 'govuk-tag--yellow'
       break
     case 'FINISHED':

@@ -31,7 +31,7 @@ const reportState = {
     },
   },
   timestamp: {
-    requested: '2024-06-27T13:41:13.284Z',
+    requested: 'ts',
   },
 } as unknown as AsyncReportData
 

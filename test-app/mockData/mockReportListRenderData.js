@@ -2,7 +2,7 @@ const mockGetReportListRenderData = {
   renderData: {
     variantName: 'variantName',
     reportName: 'reportName',
-    requestedTimestamp: '27/06/2024, 14:41:13',
+    requestedTimestamp: 'Invalid Date',
     description: 'description',
     rows: [
       [

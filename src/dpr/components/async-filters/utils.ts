@@ -6,7 +6,6 @@ import { DateFilterValue, FilterValue } from '../filters/types'
 import { FilterType } from '../filter-input/enum'
 import SortHelper from './sortByTemplate'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
-import { RequestStatus } from '../../types/AsyncReport'
 
 /**
  * Initialises the filters from the definition data

@@ -1,10 +1,44 @@
 {% extends layoutPath %}
 {% from "../components/async-report-list/view.njk" import dprAsyncReportList %}
+{% from "../components/async-applied-filters/view.njk" import dprAsyncAppliedFiltersList %}
+{% from "../components/icon-button-list/view.njk" import dprIconButtonList %}
 
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
+  {% set template = renderData.template %}
+  {% set appliedFilters = renderData.appliedFilters %}
+  {% set reportName = renderData.reportName %}
+  {% set variantName = renderData.variantName %}
+  {% set description = renderData.description %}
+  {% set actions = renderData.actions %}
+
   <div class="govuk-width-container">
-    {{ dprAsyncReportList(renderData) }}
+    <div class="govuk-width-container report-list-container">
+
+      <div class="drp-async-reports-heading-container">
+        <h1 class="govuk-heading-l govuk-!-margin-bottom-2">{{ reportName }} - {{ variantName }}</h1>
+        <p class="govuk-body-s govuk-!-margin-bottom-0">
+          <i>{{ description }}</i>
+        </p>
+        {{ dprIconButtonList(actions) }}
+      </div>
+
+      {{ dprAsyncAppliedFiltersList(appliedFilters) }}
+
+      {% if template === 'list' %}
+
+        {{ dprAsyncReportList(renderData) }}
+
+      {% elif(template === 'listWithSection') %}
+
+        {# TODO: Add template view here #}
+
+      {% else %}
+
+        {{ dprAsyncReportList(renderData) }}
+
+      {% endif %}
+    </div>
   </div>
 {% endblock %}

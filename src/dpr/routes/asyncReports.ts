@@ -1,10 +1,10 @@
 import type { RequestHandler, Router } from 'express'
 import AsyncFiltersUtils from '../components/async-filters/utils'
-import * as AsyncReportListUtils from '../components/async-report-list/utils'
 import AsyncPollingUtils from '../components/async-polling/utils'
 import AsyncReportStoreService from '../services/requestedReportsService'
 import ReportingService from '../services/reportingService'
 import RecentlyViewedStoreService from '../services/recentlyViewedService'
+import * as AsyncReportUtils from '../utils/renderAsyncReport'
 
 import AsyncReportslistUtils from '../components/async-reports-list/utils/asyncReportsUtils'
 import RecentReportslistUtils from '../components/async-reports-list/utils/recentlyViewedUtils'
@@ -95,9 +95,9 @@ export default function routes({
     }
   }
 
-  const getReportListHandler: RequestHandler = async (req, res, next) => {
+  const getReportHandler: RequestHandler = async (req, res, next) => {
     try {
-      const reportRenderData = await AsyncReportListUtils.renderReport({
+      const reportRenderData = await AsyncReportUtils.getReport({
         req,
         res,
         dataSources,
@@ -119,7 +119,7 @@ export default function routes({
   router.get('/async-reports/:reportId/:variantId/request', getReportFiltersHandler, asyncErrorHandler)
   router.post('/requestReport/', asyncRequestHandler, asyncErrorHandler)
   router.get('/async-reports/:reportId/:variantId/request/:executionId', pollingHandler, asyncErrorHandler)
-  router.get('/async-reports/:reportId/:variantId/request/:tableId/report', getReportListHandler, asyncErrorHandler)
+  router.get('/async-reports/:reportId/:variantId/request/:tableId/report', getReportHandler, asyncErrorHandler)
 
   router.get('/async-reports/requested', async (req, res) => {
     res.render(`${templatePath}/async-reports`, {

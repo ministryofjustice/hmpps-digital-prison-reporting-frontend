@@ -6,6 +6,7 @@ const variant1 = {
   classification: 'OFFICIAL',
   printable: true,
   specification: {
+    template: 'list',
     fields: [
       {
         name: 'field1',
@@ -111,6 +112,7 @@ const variant2 = {
   classification: 'OFFICIAL',
   printable: true,
   specification: {
+    template: 'list',
     fields: [
       {
         name: 'field1',
@@ -216,6 +218,7 @@ const variant3 = {
   classification: 'OFFICIAL',
   printable: true,
   specification: {
+    template: 'list',
     fields: [
       {
         name: 'field1',
@@ -321,6 +324,7 @@ const variant4 = {
   classification: 'OFFICIAL',
   printable: true,
   specification: {
+    template: 'list',
     fields: [
       {
         name: 'field1',
@@ -426,6 +430,7 @@ const variant5 = {
   classification: 'OFFICIAL',
   printable: true,
   specification: {
+    template: 'list',
     fields: [
       {
         name: 'field1',
@@ -522,6 +527,7 @@ const variant5 = {
     ],
   },
 }
+
 const variant6 = {
   id: 'variantId-6',
   name: 'Test Variant 6',
@@ -530,6 +536,7 @@ const variant6 = {
   classification: 'OFFICIAL',
   printable: true,
   specification: {
+    template: 'list',
     fields: [
       {
         name: 'field1',

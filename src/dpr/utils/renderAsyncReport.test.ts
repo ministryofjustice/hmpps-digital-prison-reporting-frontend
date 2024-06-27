@@ -1,6 +1,5 @@
 import { Response, Request } from 'express'
 import { Url } from 'url'
-import { timeStamp } from 'console'
 import * as AsyncReportUtils from './renderAsyncReport'
 import DataTableUtils from '../components/data-table/utils'
 import ColumnUtils from '../components/async-columns/utils'

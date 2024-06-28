@@ -98,6 +98,96 @@ const variant = {
         type: 'HTML',
         mandatory: false,
         visible: true,
+        filter: {
+          type: 'text',
+          pattern: 'Value 6\\.\\d'
+        }
+      },
+      {
+        name: 'mField1',
+        display: 'Mandatory Field 1',
+        sortable: true,
+        defaultsort: true,
+        type: 'string',
+        mandatory: false,
+        visible: false,
+        filter: {
+          type: 'Radio',
+          staticOptions: [
+            { name: 'value1.1', display: 'Value 1.1' },
+            { name: 'value1.2', display: 'Value 1.2' },
+            { name: 'value1.3', display: 'Value 1.3' },
+          ],
+          defaultValue: 'value1.1',
+          mandatory: true,
+        },
+      },
+      {
+        name: 'mField2',
+        display: 'Mandatory Field 2',
+        sortable: true,
+        type: 'string',
+        mandatory: false,
+        visible: false,
+        filter: {
+          type: 'Select',
+          staticOptions: [
+            { name: 'value2.1', display: 'Value 2.1' },
+            { name: 'value2.2', display: 'Value 2.2' },
+            { name: 'value2.3', display: 'Value 2.3' },
+          ],
+          mandatory: true,
+        },
+      },
+      {
+        name: 'mField3',
+        display: 'Mandatory Field 3',
+        sortable: false,
+        type: 'date',
+        mandatory: false,
+        visible: false,
+        filter: {
+          type: 'daterange',
+          defaultValue: '2003-02-01 - 2006-05-04',
+          min: '2003-02-01',
+          max: '2007-05-04',
+          mandatory: true,
+        },
+      },
+      {
+        name: 'mField4',
+        display: 'Mandatory Field 4',
+        visible: false,
+        sortable: false,
+        type: 'string',
+        filter: {
+          type: 'autocomplete',
+          dynamicOptions: {
+            minimumLength: 3,
+            returnAsStaticOptions: true,
+          },
+          staticOptions: [
+            { name: 'Fezzick', display: 'Fezzick' },
+            { name: 'Inigo Montoya', display: 'Inigo Montoya' },
+            { name: 'Prince Humperdink', display: 'Prince Humperdink' },
+            { name: 'Princess Buttercup', display: 'Princess Buttercup' },
+            { name: 'Westley', display: 'Westley' },
+          ],
+          mandatory: true,
+        },
+      },
+      {
+        name: 'mField6',
+        display: 'Mandatory Field 6',
+        sortable: false,
+        type: 'string',
+        mandatory: false,
+        visible: false,
+        filter: {
+          type: 'text',
+          pattern: 'Value 6\\.\\d',
+          mandatory: true,
+        }
       },
     ],
   },

@@ -90,7 +90,9 @@ export interface components {
       dynamicOptions?: components['schemas']['DynamicFilterOption']
       defaultValue?: string
       min?: string
-      max?: string
+      max?: string,
+      pattern?: string,
+      mandatory?: boolean
     }
     FilterOption: {
       name: string

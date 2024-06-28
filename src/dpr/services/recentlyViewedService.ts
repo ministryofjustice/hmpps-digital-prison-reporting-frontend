@@ -106,14 +106,15 @@ export default class RecentlyViewedStoreService extends UserStoreService {
     await this.saveRecentlyViewedState()
   }
 
-  async setReportRetriedTimestamp(id: string) {
-    const retriedReport = await this.getReportByExecutionId(id)
-    if (retriedReport) {
+  async setReportTimestamp(executionId: string, type: string) {
+    const report = await this.getReportByExecutionId(executionId)
+    if (report) {
       const timestamp: AsyncReportsTimestamp = {
-        ...retriedReport.timestamp,
-        retried: new Date(),
+        ...report.timestamp,
+        ...(type === 'retry' && { retried: new Date() }),
+        ...(type === 'refresh' && { refresh: new Date() }),
       }
-      await this.updateReport(id, { timestamp })
+      await this.updateReport(executionId, { timestamp })
     }
   }
 

@@ -12,6 +12,7 @@ export interface RecentlyViewedReportData {
     lastViewed: Date
     expired?: Date
     retried?: Date
+    refresh?: Date
   }
   status?: RequestStatus
   url: AsyncReportUrlData

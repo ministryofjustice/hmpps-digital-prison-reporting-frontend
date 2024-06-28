@@ -62,4 +62,5 @@ export interface AsyncReportsTimestamp {
   failed?: Date
   retried?: Date
   aborted?: Date
+  refesh?: Date
 }

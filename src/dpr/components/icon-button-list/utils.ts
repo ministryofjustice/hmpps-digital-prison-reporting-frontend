@@ -64,7 +64,7 @@ export default {
     actions.push({
       type: 'refresh',
       data: {
-        href: reportData.url.request.fullUrl,
+        href: `${reportData.url.request.fullUrl}&refreshId=${reportData.executionId}`,
       },
     })
 

@@ -8,7 +8,7 @@ const FULL_BUTTON_LIST = [
     icon: 'refresh',
     disabled: false,
     tooltipText: 'Refresh report',
-    ariaLabelText: 'Print report',
+    ariaLabelText: 'Refresh report',
   },
   {
     id: 'printable',
@@ -64,7 +64,7 @@ export default {
     actions.push({
       type: 'refresh',
       data: {
-        href: reportData.url.request.fullUrl,
+        href: `${reportData.url.request.fullUrl}&refreshId=${reportData.executionId}`,
       },
     })
 

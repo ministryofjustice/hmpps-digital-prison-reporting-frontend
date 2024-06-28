@@ -17,7 +17,7 @@ const formatCards = async (
   return Promise.all(
     requestedReportsData
       .filter((report: RecentlyViewedReportData) => {
-        return !report.timestamp.retried
+        return !report.timestamp.retried && !report.timestamp.refresh
       })
       .map((report: RecentlyViewedReportData) => {
         return formatCardData(report, dataSources, token, recentlyViewedStoreService, asyncReportsStore)
@@ -57,16 +57,21 @@ const formatCardData = async (
     dataProductDefinitionsPath,
   )
 
-  status = statusResponse.status === RequestStatus.EXPIRED ? statusResponse.status : RequestStatus.READY
-  const summary = query.summary as { name: string; value: string }[]
-  const href = status ? `${url.request.fullUrl}&retryId=${executionId}` : url.report.fullUrl
+  let href
+  if (statusResponse.status === RequestStatus.EXPIRED) {
+    status = statusResponse.status
+    href = `${url.request.fullUrl}&retryId=${executionId}`
+  } else {
+    status = RequestStatus.READY
+    href = url.report.fullUrl
+  }
 
   return {
     id,
     text,
     description,
     tag: 'MIS',
-    summary,
+    summary: query.summary as { name: string; value: string }[],
     href,
     timestamp: `Last viewed: ${new Date(timestamp.lastViewed).toLocaleString()}`,
     status,

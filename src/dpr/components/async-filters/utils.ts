@@ -136,13 +136,18 @@ export default {
       })
 
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const { reportId, variantId, retryId } = req.body
+    const { reportId, variantId, retryId, refreshId } = req.body
     const response = await dataSources.requestAsyncReport(token, reportId, variantId, query)
     const { executionId, tableId } = response
 
     if (retryId) {
-      await asyncReportsStore.setReportRetriedTimestamp(retryId)
-      await recentlyViewedStoreService.setReportRetriedTimestamp(retryId)
+      await asyncReportsStore.setReportTimestamp(retryId, 'retry')
+      await recentlyViewedStoreService.setReportTimestamp(retryId, 'retry')
+    }
+
+    if (refreshId) {
+      await asyncReportsStore.setReportTimestamp(refreshId, 'refresh')
+      await recentlyViewedStoreService.setReportTimestamp(refreshId, 'refresh')
     }
 
     if (executionId && tableId) {

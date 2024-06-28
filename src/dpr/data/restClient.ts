@@ -75,7 +75,7 @@ export default class RestClient {
     logger.info(`Get using user credentials: calling ${this.name}: ${this.config.url}${path} ${JSON.stringify(query)}`)
     try {
       const result = await superagent
-        .get(`${this.apiUrl()}${path}`)
+        .delete(`${this.apiUrl()}${path}`)
         .agent(this.agent)
         .retry(2, (err) => {
           if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)

@@ -536,6 +536,7 @@ const variant6 = {
   classification: 'OFFICIAL',
   printable: true,
   specification: {
+    template: 'list',
     fields: [
       {
         name: 'field1',

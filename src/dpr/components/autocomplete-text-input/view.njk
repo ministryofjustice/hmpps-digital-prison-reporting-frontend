@@ -21,7 +21,19 @@
                 "data-minimum-length": options.minimumLength,
                 "data-resource-endpoint": options.dynamicResourceEndpoint,
                 "placeholder": "Search",
-                "role": "combobox"
+                "role": "combobox",
+                pattern: options.pattern,
+                required: true
+            } if options.mandatory else {
+                "aria-autocomplete": "list",
+                "aria-expanded": "false",
+                "aria-owns": listId,
+                "haspopup": "true",
+                "data-minimum-length": options.minimumLength,
+                "data-resource-endpoint": options.dynamicResourceEndpoint,
+                "placeholder": "Search",
+                "role": "combobox",
+                pattern: options.pattern
             },
             autocomplete: "off",
             suffix: {

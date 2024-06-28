@@ -14,7 +14,9 @@ export interface GenericFilterValue {
   value?: string
   options?: Array<FilterOption>
   minimumLength?: number
-  dynamicResourceEndpoint?: string
+  dynamicResourceEndpoint?: string,
+  pattern?: string,
+  mandatory?: boolean
 }
 
 export interface DateFilterValue extends GenericFilterValue {

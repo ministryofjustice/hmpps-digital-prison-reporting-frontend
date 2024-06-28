@@ -169,8 +169,8 @@ const mockReportListRenderData = {
         icon: 'refresh',
         disabled: false,
         tooltipText: 'Refresh report',
-        ariaLabelText: 'Print report',
-        href: 'fullUrl',
+        ariaLabelText: 'Refresh report',
+        href: 'fullUrl&refreshId=executionId',
       },
       {
         id: 'printable',

@@ -8,7 +8,7 @@ const FULL_BUTTON_LIST = [
     icon: 'refresh',
     disabled: false,
     tooltipText: 'Refresh report',
-    ariaLabelText: 'Print report',
+    ariaLabelText: 'Refresh report',
   },
   {
     id: 'printable',

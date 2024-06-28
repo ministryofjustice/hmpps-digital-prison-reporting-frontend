@@ -23,6 +23,7 @@ jest.mock('parseurl', () => ({
 
 const reportState = {
   reportName: 'reportName',
+  executionId: 'executionId',
   name: 'variantName',
   query: { summary: 'summary' },
   description: 'description',

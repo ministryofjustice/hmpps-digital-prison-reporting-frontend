@@ -7,7 +7,7 @@ const fieldNames = {
   radio: 'field1',
   select: 'field2',
   autocomplete: 'field4',
-  text: 'field6'
+  text: 'field6',
 }
 
 When(/^I type an invalid string into the (.+) box$/, (filterType: string) => {
@@ -22,7 +22,7 @@ Then(/^there is (an|no) empty (radio|select) option$/, (present, filterType) => 
   const page = new ReportPage()
   let option
 
-  switch(filterType) {
+  switch (filterType) {
     case 'radio':
       option = page.filter(fieldNames[filterType]).parent().find('label')
       break
@@ -30,9 +30,12 @@ Then(/^there is (an|no) empty (radio|select) option$/, (present, filterType) => 
     case 'select':
       option = page.filter(fieldNames[filterType]).find('option')
       break
+
+    default:
+      option = {}
   }
 
-  option.should(o => {
+  option.should((o) => {
     if (present === 'no') {
       expect(o.text()).to.not.contain('( No filter )')
     } else {
@@ -42,12 +45,17 @@ Then(/^there is (an|no) empty (radio|select) option$/, (present, filterType) => 
 })
 
 Then(/^the (.+) box fails pattern validation$/, (filterType: string) => {
-  new ReportPage().filter(fieldNames[filterType]).then(t => {
-    // @ts-ignore
-    expect(t[0].validationMessage).to.eq('Please match the format requested.')
+  new ReportPage().filter(fieldNames[filterType]).then((t) => {
+    expect(t[0]['validationMessage']).to.eq('Please match the format requested.')
   })
 })
 
-Then(/^all the filters are not valid$/, function() {
+Then(/^all the filters are not valid$/, function () {
   cy.get('input:invalid').should('have.length', 6)
+})
+
+Then(/^the filter form is not valid$/, function() {
+  new ReportPage().filterForm().should(f => {
+    expect(f.get()[0]['reportValidity']()).to.eq(false)
+  })
 })

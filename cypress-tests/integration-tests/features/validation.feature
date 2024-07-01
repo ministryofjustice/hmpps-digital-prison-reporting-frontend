@@ -24,3 +24,4 @@ Feature: Validation
   Scenario: Filters are not applied if none are chosen
     When I apply the filters
     Then all the filters are not valid
+    And the filter form is not valid

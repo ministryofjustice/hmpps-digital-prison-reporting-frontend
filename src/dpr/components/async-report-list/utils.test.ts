@@ -5,14 +5,10 @@ import DataTableUtils from '../data-table/utils'
 import ColumnUtils from '../async-columns/utils'
 import PaginationUtils from '../pagination/utils'
 
-import mockAsyncApis from '../../../../test-app/mockAsyncData/mockAsyncApis'
 import createMockData from '../../../../test-app/mockAsyncData/mockAsyncData'
-import AsyncReportStoreService from '../../services/requestedReportsService'
-import ReportingService from '../../services/reportingService'
 
 import definitions from '../../../../test-app/mockAsyncData/mockReportDefinition'
-import mockReportListRenderData from '../../../../test-app/mockAsyncData/mockReportListRenderData'
-import RecentlyViewedStoreService from '../../services/recentlyViewedService'
+import { mockReportListRenderData } from '../../../../test-app/mockAsyncData/mockReportListRenderData'
 import { AsyncReportData } from '../../types/AsyncReport'
 
 jest.mock('parseurl', () => ({
@@ -49,7 +45,7 @@ describe('AsyncReportListUtils', () => {
       const variant = definitions.report.variants[1]
       reportDefinition.variant = variant
 
-      const result = await AsyncReportListUtils.getRenderData(
+      const result = AsyncReportListUtils.getRenderData(
         mockReq,
         reportDefinition,
         mockReportData,

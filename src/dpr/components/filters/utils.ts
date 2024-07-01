@@ -66,7 +66,7 @@ export default {
               ? null
               : dynamicAutocompleteEndpoint.replace('{fieldName}', f.name),
           pattern: f.filter.pattern,
-          mandatory: f.filter.mandatory
+          mandatory: f.filter.mandatory,
         }
 
         if (f.filter.type === FilterType.dateRange.toLowerCase()) {

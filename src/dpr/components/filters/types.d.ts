@@ -14,8 +14,8 @@ export interface GenericFilterValue {
   value?: string
   options?: Array<FilterOption>
   minimumLength?: number
-  dynamicResourceEndpoint?: string,
-  pattern?: string,
+  dynamicResourceEndpoint?: string
+  pattern?: string
   mandatory?: boolean
 }
 

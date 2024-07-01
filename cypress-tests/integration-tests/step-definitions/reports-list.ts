@@ -2,8 +2,8 @@
 
 import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
 import ReportPage from '../pages/ReportPage'
-import reportDefinition from '../../../test-app/reportDefinition'
-import data from '../../../test-app/data'
+import reportDefinition from '../../../test-app/mockSyncData/reportDefinition'
+import data from '../../../test-app/mockSyncData/data'
 import { components } from '../../../src/dpr/types/api'
 
 When(/^I click the Show Filter button$/, function () {

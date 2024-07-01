@@ -5,10 +5,10 @@ import DataTableUtils from '../data-table/utils'
 import ColumnUtils from '../async-columns/utils'
 import PaginationUtils from '../pagination/utils'
 
-import createMockData from '../../../../test-app/mockData/mockAsyncData'
-import { mockReportListRenderData } from '../../../../test-app/mockData/mockReportListRenderData'
+import createMockData from '../../../../test-app/mockAsyncData/mockAsyncData'
 
-import definitions from '../../../../test-app/mockData/mockReportDefinition'
+import definitions from '../../../../test-app/mockAsyncData/mockReportDefinition'
+import { mockReportListRenderData } from '../../../../test-app/mockAsyncData/mockReportListRenderData'
 import { AsyncReportData } from '../../types/AsyncReport'
 
 jest.mock('parseurl', () => ({
@@ -45,13 +45,7 @@ describe('AsyncReportListUtils', () => {
       const variant = definitions.report.variants[1]
       reportDefinition.variant = variant
 
-      const result = await AsyncReportListUtils.getRenderData(
-        mockReq,
-        reportDefinition,
-        mockReportData,
-        100,
-        reportState,
-      )
+      const result = AsyncReportListUtils.getRenderData(mockReq, reportDefinition, mockReportData, 100, reportState)
 
       expect(ColumnUtilsSpy).toHaveBeenCalledWith(variant.specification.fields, ['column'])
       expect(PaginationUtilsSpy).toHaveBeenCalledWith({ pathname: 'pathname', search: 'search' }, 100)

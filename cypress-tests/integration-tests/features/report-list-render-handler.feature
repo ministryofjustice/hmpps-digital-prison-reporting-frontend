@@ -100,3 +100,9 @@ Feature: List report
     When I click the Show Filter button
     And I click the Show Columns button
     Then the page is accessible
+
+  Scenario: Optional filters have empty options
+    Given the Show Filter button is displayed
+    When I click the Show Filter button
+    Then there is an empty radio option
+    And there is an empty select option

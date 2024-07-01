@@ -19,7 +19,7 @@ const initFiltersFromDefinition = (definition: components['schemas']['VariantDef
     .filter((f) => f.filter)
     .map((f) => {
       const { display: text, name, filter, sortable, defaultsort } = f
-      const { type, staticOptions, dynamicOptions, defaultValue } = filter
+      const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern } = filter
 
       let filterData: FilterValue = {
         text,
@@ -29,6 +29,8 @@ const initFiltersFromDefinition = (definition: components['schemas']['VariantDef
         value: defaultValue || null,
         minimumLength: dynamicOptions ? dynamicOptions.minimumLength : null,
         dynamicResourceEndpoint: null,
+        mandatory,
+        pattern,
       }
 
       if (type === FilterType.dateRange.toLowerCase()) {

@@ -99,6 +99,11 @@ const variant1 = {
         type: 'HTML',
         mandatory: false,
         visible: true,
+        filter: {
+          type: 'text',
+          pattern: 'Value 6\\.\\d',
+          mandatory: true
+        },
       },
     ],
   },

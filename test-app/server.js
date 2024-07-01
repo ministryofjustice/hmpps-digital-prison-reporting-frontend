@@ -13,6 +13,7 @@ const bodyParser = require('body-parser')
 // Local dependencies
 const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
 const AsyncReportslistUtils = require('../package/dpr/components/async-reports-list/utils').default
+const BookmarklistUtils = require('../package/dpr/components/bookmark-list/utils').default
 
 // Set up application
 const appViews = [
@@ -59,6 +60,7 @@ const MockUserStoreService = require('./mockAsyncData/mockRedisStore')
 const getMockCardData = require('./mockAsyncData/mockLegacyReportCards')
 const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
 const RecentlyViewedStoreService = require('../package/dpr/services/recentlyViewedService').default
+const BookmarkService = require('../package/dpr/services/bookmarkService').default
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
 
 // Set up routes
@@ -94,6 +96,8 @@ const asyncReportsStore = new AsyncReportStoreService(mockUserStore)
 asyncReportsStore.init('userId')
 const recentlyViewedStoreService = new RecentlyViewedStoreService(mockUserStore)
 recentlyViewedStoreService.init('userId')
+const bookmarkService = new BookmarkService(mockUserStore)
+bookmarkService.init('userId')
 
 // Step 2 - Add routes to root routes file
 addAsyncReportingRoutes({
@@ -115,6 +119,9 @@ app.get('/async-reports', async (req, res) => {
       dataSources: mockAsyncApis,
       res,
     })),
+    bookmarks: {
+      ...(await BookmarklistUtils.renderBookmarkList(bookmarkService, 6)),
+    },
     legacyReports: {
       cardData: getMockCardData(req),
     },
@@ -246,6 +253,7 @@ app.get('/search', (req, res) => {
 })
 
 const setUpMockSyncApis = require('./mockSyncData/mockSyncApis')
+
 setUpMockSyncApis(app)
 
 const nodeModulesExists = fs.existsSync(path.join(__dirname, '../node_modules'))

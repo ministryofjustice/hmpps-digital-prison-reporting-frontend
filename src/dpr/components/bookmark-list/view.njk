@@ -1,0 +1,10 @@
+{% from "../table-card-group/view.njk" import dprTableCardGroup %}
+
+{% macro dprBookmarkList(bookmarkedReports) %}
+  {{ dprTableCardGroup(
+    bookmarkedReports.head,
+    bookmarkedReports.cardData, 
+    bookmarkedReports.tableData,
+    bookmarkedReports.total
+  )}}
+{% endmacro %}

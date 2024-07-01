@@ -4,6 +4,7 @@
 {% from "components/content-slide-cards/view.njk" import dprContentSlideCards %}
 {% from "components/table-card-group/view.njk" import dprTableCardGroup %}
 {% from "components/async-reports-list/view.njk" import dprAsyncReportsList %}
+{% from "components/bookmark-list/view.njk" import dprBookmarkList %}
 
 {% block content %}
   <div class="govuk-width-container">
@@ -31,6 +32,8 @@
     <h1 class="govuk-heading-l">{{ title }}</h1>
 
     {{ dprAsyncReportsList(requestedReports, viewedReports) }}
+
+    {{ dprBookmarkList(bookmarks) }}
 
     {{ dprTableCardGroup({ title: "Legacy Reports", icon: '', id:'legacy-reports' }, legacyReports.cardData) }}
   </div>

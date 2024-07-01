@@ -66,7 +66,7 @@ const setDataFromStatus = (status: RequestStatus, requestedReportsData: AsyncRep
     }
     case RequestStatus.ABORTED: {
       href = `${url.request.fullUrl}${retryParam}`
-      timestamp = `Failed at: ${new Date(time.aborted).toLocaleString()}`
+      timestamp = `Aborted at: ${new Date(time.aborted).toLocaleString()}`
       break
     }
     case RequestStatus.FINISHED:

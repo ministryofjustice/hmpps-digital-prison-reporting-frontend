@@ -46,8 +46,8 @@ Then(/^there is (an|no) empty (radio|select) option$/, (present, filterType) => 
 
 Then(/^the (.+) box fails pattern validation$/, (filterType: string) => {
   new ReportPage().filter(fieldNames[filterType]).then((t) => {
-    expect(t[0].validationMessage).to
-      // Different browsers have different word order.
+    expect(t[0].validationMessage)
+      .to // Different browsers have different word order.
       .contain('Please match the')
       .contain('format')
       .contain('requested')

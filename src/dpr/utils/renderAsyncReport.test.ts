@@ -6,13 +6,13 @@ import ColumnUtils from '../components/async-columns/utils'
 import PaginationUtils from '../components/pagination/utils'
 import ReportActionsUtils from '../components/icon-button-list/utils'
 
-import mockAsyncApis from '../../../test-app/mockData/mockAsyncApis'
+import mockAsyncApis from '../../../test-app/mockAsyncData/mockAsyncApis'
 import { AsyncReportData } from '../types/AsyncReport'
 import AsyncReportStoreService from '../services/requestedReportsService'
 import ReportingService from '../services/reportingService'
-import { mockGetReportListRenderData } from '../../../test-app/mockData/mockReportListRenderData'
+import { mockGetReportListRenderData } from '../../../test-app/mockAsyncData/mockReportListRenderData'
 import RecentlyViewedStoreService from '../services/recentlyViewedService'
-import definitions from '../../../test-app/mockData/mockReportDefinition'
+import definitions from '../../../test-app/mockAsyncData/mockReportDefinition'
 
 jest.mock('parseurl', () => ({
   __esModule: true,

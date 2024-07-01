@@ -55,4 +55,6 @@ export default class ReportPage {
   emailButton = (): PageElement => cy.get('#email-button')
 
   copyUrlButton = (): PageElement => cy.get('[data-copy-url="true"]')
+
+  filterForm = (): PageElement => cy.get('#user-selected-filters-form')
 }

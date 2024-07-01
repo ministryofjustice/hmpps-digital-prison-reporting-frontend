@@ -1,5 +1,3 @@
-const mockRedisRequestedReports = require('./mockRedisRequestedReports')
-
 const MockUserStoreService = class MockUserStoreService {
   constructor() {
     this.userStore = JSON.stringify({
@@ -14,7 +12,7 @@ const MockUserStoreService = class MockUserStoreService {
     return Promise.resolve()
   }
 
-  async getUserConfig (key) {
+  async getUserConfig () {
     return Promise.resolve(JSON.parse(this.userStore))
   }
 }

@@ -50,7 +50,7 @@ export default {
     dynamicAutocompleteEndpoint: string = null,
   ) => {
     return variantDefinition.specification.fields
-      .filter((f) => f.filter)
+      .filter((field) => field.filter)
       .map((f) => {
         let filter: FilterValue = {
           text: f.display,
@@ -65,6 +65,8 @@ export default {
             (f.filter.dynamicOptions && f.filter.dynamicOptions.returnAsStaticOptions) || !dynamicAutocompleteEndpoint
               ? null
               : dynamicAutocompleteEndpoint.replace('{fieldName}', f.name),
+          pattern: f.filter.pattern,
+          mandatory: f.filter.mandatory,
         }
 
         if (f.filter.type === FilterType.dateRange.toLowerCase()) {

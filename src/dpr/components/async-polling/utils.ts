@@ -15,7 +15,6 @@ const getStatus = async (
 ): Promise<GetStatusUtilsResponse> => {
   let status: RequestStatus
   let errorMessage
-
   try {
     const statusResponse = await dataSources.getAsyncReportStatus(
       token,
@@ -60,7 +59,7 @@ export const timeoutRequest = (requestTime: Date) => {
 }
 interface GetStatusUtilsResponse {
   status: RequestStatus
-  errorMessage: string
+  errorMessage?: string
   reportData?: AsyncReportData | undefined
 }
 

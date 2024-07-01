@@ -1,7 +1,7 @@
 const createMockData = (amount) => {
   return Array(amount)
     .fill(0)
-    .map((_, i) => {
+    .map((_) => {
       return mockDataItem
     })
 }

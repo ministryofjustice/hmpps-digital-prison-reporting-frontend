@@ -91,6 +91,8 @@ export interface components {
       defaultValue?: string
       min?: string
       max?: string
+      pattern?: string
+      mandatory?: boolean
     }
     FilterOption: {
       name: string

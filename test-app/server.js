@@ -54,12 +54,9 @@ app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './fav
 app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest.json')))
 app.use(bodyParser.json())
 
-const definitions = require('./reportDefinition')
-const mockAsyncApis = require('./mockData/mockAsyncApis')
-const MockUserStoreService = require('./mockData/mockRedisStore')
-const getMockCardData = require('./mockData/mockLegacyReportCards')
-const data = require('./data')
-const ReportingClient = require('../package/dpr/data/reportingClient')
+const mockAsyncApis = require('./mockAsyncData/mockAsyncApis')
+const MockUserStoreService = require('./mockAsyncData/mockRedisStore')
+const getMockCardData = require('./mockAsyncData/mockLegacyReportCards')
 const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
 const RecentlyViewedStoreService = require('../package/dpr/services/recentlyViewedService').default
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
@@ -140,6 +137,11 @@ app.get('/test-reports', (req, res) => {
         href: '/test-reports/handler',
       },
       {
+        text: 'Validation',
+        description: 'A test page for field validation.',
+        href: '/test-reports/validation',
+      },
+      {
         text: 'Failing page',
         description: 'This page will fail to retrieve the definition and fail gracefully.',
         href: '/test-reports/fail',
@@ -189,6 +191,25 @@ app.get(
   }),
 )
 
+app.get(
+  '/test-reports/validation',
+  reportListUtils.createReportListRequestHandler({
+    title: 'Handler',
+    definitionName: 'test-report',
+    variantName: 'test-validation-variant',
+    apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
+    layoutTemplate: 'page.njk',
+    tokenProvider: () => 'token',
+    dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}',
+    otherOptions: {
+      breadCrumbList: [
+        { text: 'Home', href: '/' },
+        { text: 'Test Reports', href: '/test-reports' },
+      ],
+    },
+  }),
+)
+
 app.get('/test-reports/fail', (req, res, next) => {
   reportListUtils.renderListWithDefinition({
     title: 'Fail',
@@ -224,77 +245,8 @@ app.get('/search', (req, res) => {
   })
 })
 
-// Dynamic autocomplete endpoint
-app.get('/dynamic-values/field5', (req, res, next) => {
-  // This delay is to simulate a real API request's delay, so we can see the message.
-  sleep(1000).then(() => {
-    new ReportingClient.default({
-      url: 'http://localhost:3010',
-      agent: {
-        timeout: 8000,
-      },
-    })
-      .getFieldValues({
-        token: 'token',
-        definitionName: 'test-report',
-        variantName: 'test-variant',
-        fieldName: 'field5',
-        prefix: req.query.prefix.toString(),
-      })
-      .then((result) => {
-        res.setHeader('Content-Type', 'application/json')
-        res.end(JSON.stringify(result))
-      })
-      .catch((err) => {
-        next(err)
-      })
-  })
-})
-
-function sleep (ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms)
-  })
-}
-
-// Fake API routes for the /handler endpoint to call
-app.get('/definitions', (req, res) => {
-  res.setHeader('Content-Type', 'application/json')
-  res.end(JSON.stringify([definitions.report]))
-})
-
-app.get('/definitions/test-report/test-variant', (req, res) => {
-  res.setHeader('Content-Type', 'application/json')
-  res.end(JSON.stringify(definitions.singleVariantReport))
-})
-
-app.get('/definitions/failing-report/failing-variant', () => {
-  throw new Error('Successfully failed.')
-})
-
-app.get('/reports/list', (req, res) => {
-  res.setHeader('Content-Type', 'application/json')
-  res.setHeader('x-no-data-warning', 'Test message')
-  res.end(JSON.stringify(data))
-})
-
-app.get('/reports/list/count', (req, res) => {
-  res.setHeader('Content-Type', 'application/json')
-  res.end(JSON.stringify({ count: 3 }))
-})
-
-app.get('/reports/test-report/test-variant/field5', (req, res) => {
-  const { prefix } = req.query
-
-  res.setHeader('Content-Type', 'application/json')
-  res.end(
-    JSON.stringify(
-      ['Fezzick', 'Inigo Montoya', 'Prince Humperdink', 'Princess Buttercup', 'Westley'].filter((p) =>
-        p.toLowerCase().startsWith(prefix.toLowerCase()),
-      ),
-    ),
-  )
-})
+const setUpMockSyncApis = require('./mockSyncData/mockSyncApis')
+setUpMockSyncApis(app)
 
 const nodeModulesExists = fs.existsSync(path.join(__dirname, '../node_modules'))
 if (!nodeModulesExists) {

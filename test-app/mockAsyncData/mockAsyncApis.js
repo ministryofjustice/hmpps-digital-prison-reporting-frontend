@@ -9,7 +9,7 @@ const mockAPIStatus = []
 const createMockData = (amount) => {
   return Array(amount)
     .fill(0)
-    .map((_, i) => {
+    .map((_) => {
       return mockDataItem
     })
 }
@@ -73,7 +73,7 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
   return Promise.resolve(mockResponse)
 }
 
-const requestAsyncReport = (token, reportId, variantId, query) => {
+const requestAsyncReport = (token, reportId, variantId) => {
   const unix = Date.now()
   return new Promise((resolve, reject) => {
     if (variantId !== 'variantId-5') {
@@ -104,7 +104,7 @@ const getAsyncReport = (token, reportId, variantId, tableId, query) => {
   })
 }
 
-const cancelAsyncRequest = (token, reportId, variantId, executionId) => {
+const cancelAsyncRequest = () => {
   return new Promise((resolve) => {
     resolve({
       cancellationSucceeded: true,

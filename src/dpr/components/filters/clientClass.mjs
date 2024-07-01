@@ -32,19 +32,23 @@ export default class Filters extends DprLoadingClientClass {
     const pagingRegExp = /selectedPage=\d+/
     const ampRexExp = /(&)\1+/g
 
-    let url = decodeURI(window.location.href).replaceAll(filtersRegExp, '').replace(pagingRegExp, 'selectedPage=1')
-    url += url.indexOf('?') === -1 ? '?' : '&'
+    if (filtersForm.reportValidity()) {
+      let url = decodeURI(window.location.href).replaceAll(filtersRegExp, '').replace(pagingRegExp, 'selectedPage=1')
+      url += url.indexOf('?') === -1 ? '?' : '&'
 
-    const formData = new FormData(filtersForm)
-    let serializedFormData = ''
-    formData.forEach((n, v) => {
-      serializedFormData += `&${v}=${n}`
-    })
+      const formData = new FormData(filtersForm)
+      let serializedFormData = ''
+      formData.forEach((n, v) => {
+        serializedFormData += `&${v}=${n}`
+      })
 
-    url += serializedFormData
-    url = url.replaceAll('?&', '?').replaceAll(ampRexExp, '&')
+      url += serializedFormData
+      url = url.replaceAll('?&', '?').replaceAll(ampRexExp, '&')
 
-    window.location.href = url
+      window.location.href = url
+    } else {
+      this.hideLoadingAnimation()
+    }
   }
 
   resetButtonClick(e, hideLoadingAnimation) {

@@ -1,5 +1,6 @@
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "dpr/components/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
 {% from "dpr/components/date-range/view.njk" import dprDateRange -%}
 
@@ -10,6 +11,8 @@
   {% set value = filter.value %}
   {% set text = filter.text %}
   {% set options = filter.options %}
+  {% set pattern = filter.pattern if filter.pattern else '.+' %}
+  {% set mandatory = filter.mandatory if filter.mandatory else false %}
 
   {% set optionsWithNone = [
     {
@@ -25,7 +28,7 @@
         id: id,
         name: name,
         value: value,
-        items: optionsWithNone,
+        items: options if mandatory else optionsWithNone,
         label: {
           text: text,
           classes: "govuk-label govuk-!-font-weight-bold"
@@ -47,14 +50,17 @@
             classes: "govuk-label govuk-!-font-weight-bold"
           }
         },
-        items: optionsWithNone,
-        value: value
+        items: (options | addRequiredAttributeToAll) if mandatory else optionsWithNone,
+        value: value,
+        attributes: {
+          required: true
+        } if mandatory else null
       }) }}
 
     {% elif filterType === 'daterange' %}
 
       <div class="govuk-form-group">
-        {{ dprDateRange(filter, parameterPrefix) }}
+        {{ dprDateRange(filter, parameterPrefix, mandatory) }}
       </div>
 
     {% elif filterType === 'autocomplete' %}
@@ -69,7 +75,27 @@
         value: value,
         labelText: text,
         minimumLength: minimumLength,
-        dynamicResourceEndpoint: dynamicResourceEndpoint
+        dynamicResourceEndpoint: dynamicResourceEndpoint,
+        pattern: pattern,
+        mandatory: mandatory
+      }) }}
+
+    {% elif filterType === 'text' %}
+
+      {{ govukInput({
+        id: id,
+        name: name,
+        value: value,
+        label: {
+          text: text,
+          classes: 'govuk-!-font-weight-bold'
+        },
+        attributes: {
+          pattern: pattern,
+          required: true
+        } if mandatory else {
+          pattern: pattern
+        }
       }) }}
 
     {% endif %}

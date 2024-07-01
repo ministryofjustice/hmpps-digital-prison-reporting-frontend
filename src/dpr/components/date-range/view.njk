@@ -1,6 +1,6 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
-{% macro dprDateRange(data, parameterPrefix = "filters.") %}
+{% macro dprDateRange(data, parameterPrefix = "filters.", mandatory = false) %}
   {% set min = data.min %}
   {% set max = data.max %}
   {% set startId = parameterPrefix + data.name + '.start' %}
@@ -21,6 +21,10 @@
         value: data.value.start,
         type: 'date',
         attributes: {
+          max: data.max,
+          min: data.min,
+          required: true
+        } if mandatory else {
           max: data.max,
           min: data.min
         }
@@ -45,6 +49,10 @@
         value: data.value.end,
         type: 'date',
         attributes: {
+          max: data.max,
+          min: data.min,
+          required: true
+        } if mandatory else {
           max: data.max,
           min: data.min
         }

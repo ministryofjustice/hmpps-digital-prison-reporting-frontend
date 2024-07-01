@@ -43,6 +43,7 @@ Then(/^there is (an|no) empty (radio|select) option$/, (present, filterType) => 
 
 Then(/^the (.+) box fails pattern validation$/, (filterType: string) => {
   new ReportPage().filter(fieldNames[filterType]).then(t => {
+    // @ts-ignore
     expect(t[0].validationMessage).to.eq('Please match the format requested.')
   })
 })

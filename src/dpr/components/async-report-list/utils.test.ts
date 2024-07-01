@@ -45,13 +45,7 @@ describe('AsyncReportListUtils', () => {
       const variant = definitions.report.variants[1]
       reportDefinition.variant = variant
 
-      const result = AsyncReportListUtils.getRenderData(
-        mockReq,
-        reportDefinition,
-        mockReportData,
-        100,
-        reportState,
-      )
+      const result = AsyncReportListUtils.getRenderData(mockReq, reportDefinition, mockReportData, 100, reportState)
 
       expect(ColumnUtilsSpy).toHaveBeenCalledWith(variant.specification.fields, ['column'])
       expect(PaginationUtilsSpy).toHaveBeenCalledWith({ pathname: 'pathname', search: 'search' }, 100)

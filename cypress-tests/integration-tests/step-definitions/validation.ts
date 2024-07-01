@@ -46,7 +46,7 @@ Then(/^there is (an|no) empty (radio|select) option$/, (present, filterType) => 
 
 Then(/^the (.+) box fails pattern validation$/, (filterType: string) => {
   new ReportPage().filter(fieldNames[filterType]).then((t) => {
-    expect(t[0]['validationMessage']).to.eq('Please match the format requested.')
+    expect(t[0].validationMessage).to.eq('Please match the format requested.')
   })
 })
 
@@ -54,8 +54,8 @@ Then(/^all the filters are not valid$/, function () {
   cy.get('input:invalid').should('have.length', 6)
 })
 
-Then(/^the filter form is not valid$/, function() {
-  new ReportPage().filterForm().should(f => {
-    expect(f.get()[0]['reportValidity']()).to.eq(false)
+Then(/^the filter form is not valid$/, function () {
+  new ReportPage().filterForm().should((f) => {
+    expect(f.get()[0].reportValidity()).to.eq(false)
   })
 })

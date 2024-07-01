@@ -32,7 +32,7 @@ export default class Filters extends DprLoadingClientClass {
     const pagingRegExp = /selectedPage=\d+/
     const ampRexExp = /(&)\1+/g
 
-    if (filtersForm.isValid !== false) {
+    if (filtersForm.reportValidity()) {
       let url = decodeURI(window.location.href).replaceAll(filtersRegExp, '').replace(pagingRegExp, 'selectedPage=1')
       url += url.indexOf('?') === -1 ? '?' : '&'
 
@@ -48,7 +48,6 @@ export default class Filters extends DprLoadingClientClass {
       window.location.href = url
     } else {
       this.hideLoadingAnimation()
-      filtersForm.reportValidity()
     }
   }
 

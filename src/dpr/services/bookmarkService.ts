@@ -26,18 +26,26 @@ export default class RecentlyViewedStoreService extends UserStoreService {
 
   async getAllBookmarks() {
     await this.getBookmarkState()
-    return this.bookmarks
+    return [
+      { reportId: 'string', variantId: 'string' },
+      { reportId: 'string', variantId: 'string' },
+      { reportId: 'string', variantId: 'string' },
+    ]
   }
 
-  async addBookmark() {
+  async addBookmark(reportId: string, variantId: string) {
     await this.getBookmarkState()
-    //
+    console.log('addBookmark')
     await this.saveBookmarkState()
   }
 
-  async removeBookmark(id: string) {
+  async removeBookmark(reportId: string, variantId: string) {
     await this.getBookmarkState()
-    //
+    console.log('removeBookmark')
     await this.saveBookmarkState()
+  }
+
+  isBookmarked = (variantId: string) => {
+    return this.bookmarks.filter((bookmark) => bookmark.variantId === variantId).length > 0
   }
 }

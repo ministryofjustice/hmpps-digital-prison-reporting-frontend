@@ -5,5 +5,4 @@ export interface BookmarkedReportData {
   name: string
   description: string
   href: string
-  dataProductDefinitionsPath?: string
 }

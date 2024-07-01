@@ -62,6 +62,8 @@ const AsyncReportStoreService = require('../package/dpr/services/requestedReport
 const RecentlyViewedStoreService = require('../package/dpr/services/recentlyViewedService').default
 const BookmarkService = require('../package/dpr/services/bookmarkService').default
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
+const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
+const definitions = require('./mockAsyncData/mockReportDefinition')
 
 // Set up routes
 
@@ -120,12 +122,17 @@ app.get('/async-reports', async (req, res) => {
       res,
     })),
     bookmarks: {
-      ...(await BookmarklistUtils.renderBookmarkList(bookmarkService, 6)),
+      ...(await BookmarklistUtils.renderBookmarkList(bookmarkService, 6, definitions.report.variants, res)),
     },
     legacyReports: {
       cardData: getMockCardData(req),
     },
   })
+})
+
+addBookmarkingRoutes({
+  router: app,
+  bookmarkService,
 })
 
 app.get('/test-reports', (req, res) => {

@@ -17,6 +17,7 @@ import IconButtonList from './components/icon-button-list/clientClass.mjs'
 import AsyncDataTable from './components/async-data-table/clientClass.mjs'
 import AsyncPolling from './components/async-polling/clientClass.mjs'
 import Search from './components/search/clientClass.mjs'
+import BookmarkToggle from './components/bookmark-toggle/clientClass.mjs'
 
 /**
  * Initialise all components
@@ -44,6 +45,7 @@ export default function initAll () {
     AsyncDataTable,
     AsyncPolling,
     Search,
+    BookmarkToggle,
   ]
 
   components.forEach((Component) => {

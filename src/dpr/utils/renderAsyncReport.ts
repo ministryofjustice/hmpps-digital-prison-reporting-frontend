@@ -35,6 +35,7 @@ export const getReport = async ({
   recentlyViewedStoreService,
   dataSources,
 }: AsyncReportUtilsParams) => {
+  const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
   const dataPromises = initDataSources({ req, res, next, dataSources, asyncReportsStore })
 
   let renderData = {}
@@ -48,17 +49,20 @@ export const getReport = async ({
 
       const { classification } = definition.variant
       const { template } = definition.variant.specification
-      const { reportName, name: variantName, description, timestamp } = reportStateData
+      const { reportName, name: variantName, description, timestamp, reportId, variantId } = reportStateData
       const actions = ReportActionsUtils.initReportActions(definition.variant, reportStateData)
 
       renderData = {
         variantName,
+        variantId,
         reportName,
+        reportId,
         description,
         classification,
         template,
         actions,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
+        csrfToken,
       }
 
       switch (template) {

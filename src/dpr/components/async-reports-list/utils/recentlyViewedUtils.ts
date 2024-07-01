@@ -7,7 +7,7 @@ import AsyncReportStoreService from '../../../services/requestedReportsService'
 import { RequestStatus } from '../../../types/AsyncReport'
 import { CardData, RenderTableListResponse } from '../../table-card-group/types'
 
-const formatCards = async (
+export const formatCards = async (
   recentlyViewedStoreService: RecentlyViewedStoreService,
   asyncReportsStore: AsyncReportStoreService,
   dataSources: ReportingService,
@@ -25,7 +25,7 @@ const formatCards = async (
   )
 }
 
-const formatCardData = async (
+export const formatCardData = async (
   reportData: RecentlyViewedReportData,
   dataSources: ReportingService,
   token: string,

@@ -5,7 +5,7 @@ import AsyncPollingUtils, { timeoutRequest } from '../../async-polling/utils'
 import ReportingService from '../../../services/reportingService'
 import { CardData, RenderTableListResponse } from '../../table-card-group/types'
 
-const formatCardData = async (
+export const formatCardData = async (
   requestedReportsData: AsyncReportData,
   dataSources: ReportingService,
   token: string,
@@ -20,7 +20,6 @@ const formatCardData = async (
     if (timeoutRequest(reportData.timestamp.requested)) {
       statusResponse = {
         status: RequestStatus.FAILED,
-        errorMessage: 'Request taking too long. Request Halted',
       }
     } else {
       statusResponse = await AsyncPollingUtils.getStatus(
@@ -53,7 +52,7 @@ const formatCardData = async (
   }
 }
 
-const setDataFromStatus = (status: RequestStatus, requestedReportsData: AsyncReportData) => {
+export const setDataFromStatus = (status: RequestStatus, requestedReportsData: AsyncReportData) => {
   let timestamp
   let href
   const { url, timestamp: time } = requestedReportsData
@@ -95,7 +94,7 @@ const setDataFromStatus = (status: RequestStatus, requestedReportsData: AsyncRep
   }
 }
 
-const formatCards = async (
+export const formatCards = async (
   asyncReportsStore: AsyncReportStoreService,
   dataSources: ReportingService,
   token: string,

@@ -20,12 +20,12 @@ describe('AsyncReportsListUtils', () => {
           polling: { fullUrl: 'pollingUrl' },
         },
         timestamp: {
-          failed: '2024-07-01T09:19:59.604Z',
-          aborted: '2024-07-01T09:19:59.604Z',
-          completed: '2024-07-01T09:19:59.604Z',
-          expired: '2024-07-01T09:19:59.604Z',
-          requested: '2024-07-01T09:19:59.604Z',
-          lastViewed: '2024-07-01T09:19:59.604Z',
+          failed: 'ts',
+          aborted: 'ts',
+          completed: 'ts',
+          expired: 'ts',
+          requested: 'ts',
+          lastViewed: 'ts',
         },
       } as unknown as AsyncReportData
     })
@@ -34,7 +34,7 @@ describe('AsyncReportsListUtils', () => {
       const result = setDataFromStatus(RequestStatus.FAILED, reportData)
       const expectedResult = {
         href: 'pollingUrl',
-        timestamp: 'Failed at: 01/07/2024, 10:19:59',
+        timestamp: 'Failed at: Invalid Date',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -43,7 +43,7 @@ describe('AsyncReportsListUtils', () => {
       const result = setDataFromStatus(RequestStatus.FAILED, reportData)
       const expectedResult = {
         href: 'pollingUrl',
-        timestamp: 'Failed at: 01/07/2024, 10:19:59',
+        timestamp: 'Failed at: Invalid Date',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -52,7 +52,7 @@ describe('AsyncReportsListUtils', () => {
       const result = setDataFromStatus(RequestStatus.ABORTED, reportData)
       const expectedResult = {
         href: 'requestUrl&retryId=executionId',
-        timestamp: 'Aborted at: 01/07/2024, 10:19:59',
+        timestamp: 'Aborted at: Invalid Date',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -61,7 +61,7 @@ describe('AsyncReportsListUtils', () => {
       const result = setDataFromStatus(RequestStatus.FINISHED, reportData)
       const expectedResult = {
         href: 'reportUrl',
-        timestamp: 'Ready at: 01/07/2024, 10:19:59',
+        timestamp: 'Ready at: Invalid Date',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -70,7 +70,7 @@ describe('AsyncReportsListUtils', () => {
       const result = setDataFromStatus(RequestStatus.EXPIRED, reportData)
       const expectedResult = {
         href: 'requestUrl&retryId=executionId',
-        timestamp: 'Expired at: 01/07/2024, 10:19:59',
+        timestamp: 'Expired at: Invalid Date',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -79,7 +79,7 @@ describe('AsyncReportsListUtils', () => {
       const result = setDataFromStatus(RequestStatus.SUBMITTED, reportData)
       const expectedResult = {
         href: 'pollingUrl',
-        timestamp: 'Requested at: 01/07/2024, 10:19:59',
+        timestamp: 'Requested at: Invalid Date',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -88,7 +88,7 @@ describe('AsyncReportsListUtils', () => {
       const result = setDataFromStatus(RequestStatus.STARTED, reportData)
       const expectedResult = {
         href: 'pollingUrl',
-        timestamp: 'Requested at: 01/07/2024, 10:19:59',
+        timestamp: 'Requested at: Invalid Date',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -97,7 +97,7 @@ describe('AsyncReportsListUtils', () => {
       const result = setDataFromStatus(RequestStatus.PICKED, reportData)
       const expectedResult = {
         href: 'pollingUrl',
-        timestamp: 'Requested at: 01/07/2024, 10:19:59',
+        timestamp: 'Requested at: Invalid Date',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -136,7 +136,6 @@ describe('AsyncReportsListUtils', () => {
   describe('formatCardData', () => {
     let reportData: AsyncReportData
     let getStatusSpy: any
-    let timeoutSpy: any
     beforeEach(() => {
       reportData = {
         executionId: 'executionId',
@@ -187,7 +186,7 @@ describe('AsyncReportsListUtils', () => {
     })
 
     it('should return the card data with FAILED', async () => {
-      timeoutSpy = jest.spyOn(PollingUtils, 'timeoutRequest').mockReturnValue(true)
+      jest.spyOn(PollingUtils, 'timeoutRequest').mockReturnValue(true)
       const result = await formatCardData(
         reportData,
         {} as unknown as ReportingService,

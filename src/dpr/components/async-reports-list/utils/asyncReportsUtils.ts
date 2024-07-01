@@ -56,30 +56,36 @@ const formatCardData = async (
 const setDataFromStatus = (status: RequestStatus, requestedReportsData: AsyncReportData) => {
   let timestamp
   let href
+  const { url, timestamp: time } = requestedReportsData
+  const retryParam = `&retryId=${requestedReportsData.executionId}`
   switch (status) {
     case RequestStatus.FAILED: {
-      href = `${requestedReportsData.url.polling.fullUrl}`
-      timestamp = `Failed at: ${new Date(requestedReportsData.timestamp.failed).toLocaleString()}`
+      href = `${url.polling.fullUrl}`
+      timestamp = `Failed at: ${new Date(time.failed).toLocaleString()}`
+      break
+    }
+    case RequestStatus.ABORTED: {
+      href = `${url.request.fullUrl}${retryParam}`
+      timestamp = `Failed at: ${new Date(time.aborted).toLocaleString()}`
       break
     }
     case RequestStatus.FINISHED:
-      href = requestedReportsData.url.report.fullUrl
-      timestamp = `Ready at: ${new Date(requestedReportsData.timestamp.completed).toLocaleString()}`
+      href = url.report.fullUrl
+      timestamp = `Ready at: ${new Date(time.completed).toLocaleString()}`
       break
     case RequestStatus.EXPIRED: {
-      const retryParam = `&retryId=${requestedReportsData.executionId}`
-      href = `${requestedReportsData.url.request.fullUrl}${retryParam}`
-      timestamp = `Expired at: ${new Date(requestedReportsData.timestamp.expired).toLocaleString()}`
+      href = `${url.request.fullUrl}${retryParam}`
+      timestamp = `Expired at: ${new Date(time.expired).toLocaleString()}`
       break
     }
     case RequestStatus.SUBMITTED:
     case RequestStatus.STARTED:
     case RequestStatus.PICKED:
-      href = requestedReportsData.url.polling.fullUrl
-      timestamp = `Requested at: ${new Date(requestedReportsData.timestamp.requested).toLocaleString()}`
+      href = url.polling.fullUrl
+      timestamp = `Requested at: ${new Date(time.requested).toLocaleString()}`
       break
     default:
-      timestamp = `Last viewed: ${new Date(requestedReportsData.timestamp.lastViewed).toLocaleString()}`
+      timestamp = `Last viewed: ${new Date(time.lastViewed).toLocaleString()}`
       break
   }
 
@@ -113,8 +119,10 @@ const formatTableData = (card: CardData) => {
       statusClass = 'govuk-tag--red'
       break
     case 'EXPIRED':
-    case 'ABORTED':
       statusClass = 'govuk-tag--yellow'
+      break
+    case 'ABORTED':
+      statusClass = 'govuk-tag--orange'
       break
     case 'FINISHED':
       statusClass = 'govuk-tag--green'

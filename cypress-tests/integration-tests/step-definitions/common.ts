@@ -49,7 +49,7 @@ When(/I navigate to the search page/, () => {
   cy.visit('/search')
 })
 
-When(/I navigate to the (method|handler) page/, (page: string) => {
+When(/I navigate to the (method|handler|validation) page/, (page: string) => {
   const type = page.toLowerCase()
   let path = '/test-reports/'
   if (type === 'method') {

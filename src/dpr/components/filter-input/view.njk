@@ -11,7 +11,7 @@
   {% set value = filter.value %}
   {% set text = filter.text %}
   {% set options = filter.options %}
-  {% set pattern = filter.pattern %}
+  {% set pattern = filter.pattern if filter.pattern else '.+' %}
   {% set mandatory = filter.mandatory if filter.mandatory else false %}
 
   {% set optionsWithNone = [

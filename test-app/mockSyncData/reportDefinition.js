@@ -1,7 +1,7 @@
-const variant = {
+const defaultVariant = {
   id: 'test-variant',
   name: 'Test Variant',
-  description: 'Test Variant Desctription',
+  description: 'Test Variant Description',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
@@ -99,13 +99,25 @@ const variant = {
         mandatory: false,
         visible: true,
         filter: {
-          type: 'text',
-          pattern: 'Value 6\\.\\d'
+          type: 'text'
         }
       },
+    ],
+  },
+}
+
+const validationVariant = {
+  id: 'test-validation-variant',
+  name: 'Test Validation Variant',
+  description: 'Test Validation Variant Description',
+  resourceName: 'reports/list',
+  classification: 'OFFICIAL',
+  printable: true,
+  specification: {
+    fields: [
       {
-        name: 'mField1',
-        display: 'Mandatory Field 1',
+        name: 'field1',
+        display: 'Field 1',
         sortable: true,
         defaultsort: true,
         type: 'string',
@@ -118,13 +130,12 @@ const variant = {
             { name: 'value1.2', display: 'Value 1.2' },
             { name: 'value1.3', display: 'Value 1.3' },
           ],
-          defaultValue: 'value1.1',
           mandatory: true,
         },
       },
       {
-        name: 'mField2',
-        display: 'Mandatory Field 2',
+        name: 'field2',
+        display: 'Field 2',
         sortable: true,
         type: 'string',
         mandatory: false,
@@ -140,23 +151,22 @@ const variant = {
         },
       },
       {
-        name: 'mField3',
-        display: 'Mandatory Field 3',
+        name: 'field3',
+        display: 'Field 3',
         sortable: false,
         type: 'date',
         mandatory: false,
         visible: false,
         filter: {
           type: 'daterange',
-          defaultValue: '2003-02-01 - 2006-05-04',
           min: '2003-02-01',
           max: '2007-05-04',
           mandatory: true,
         },
       },
       {
-        name: 'mField4',
-        display: 'Mandatory Field 4',
+        name: 'field4',
+        display: 'Field 4',
         visible: false,
         sortable: false,
         type: 'string',
@@ -164,7 +174,7 @@ const variant = {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true,
+            returnAsStaticOptions: true
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -174,11 +184,12 @@ const variant = {
             { name: 'Westley', display: 'Westley' },
           ],
           mandatory: true,
+          pattern: '(?!Invalid).+',
         },
       },
       {
-        name: 'mField6',
-        display: 'Mandatory Field 6',
+        name: 'field6',
+        display: 'Field 6',
         sortable: false,
         type: 'string',
         mandatory: false,
@@ -193,16 +204,18 @@ const variant = {
   },
 }
 
+const variants = [defaultVariant, validationVariant]
+
 module.exports = {
   report: {
     id: 'test-report',
     name: 'Test Report',
-    variants: [variant],
+    variants,
   },
-  singleVariantReport: {
+  singleVariantReport: (variantId) => ({
     id: 'test-report',
     name: 'Test Report',
-    variant,
-  },
-  variant,
+    variant: variants.find(v => v.id === variantId),
+  }),
+  variant: defaultVariant,
 }

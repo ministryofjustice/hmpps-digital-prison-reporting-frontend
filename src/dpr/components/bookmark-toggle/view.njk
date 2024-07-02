@@ -1,4 +1,4 @@
-{% macro dprBookmarkToggle(variantId, reportId, csrfToken, bookmarked) %}
+{% macro dprBookmarkToggle(reportId, variantId, csrfToken, bookmarked) %}
   {% set id = id %}
   {% set checked %}{{ 'checked' if bookmarked else '' }}{% endset %}
   {% set tooltip %}{{ 'Remove Bookmark' if bookmarked else 'Add Bookmark' }}{% endset %}

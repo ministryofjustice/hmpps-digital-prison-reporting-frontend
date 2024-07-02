@@ -3,12 +3,13 @@ import BookmarkService from '../services/bookmarkService'
 
 export default function routes({ router, bookmarkService }: { router: Router; bookmarkService: BookmarkService }) {
   router.post('/addBookmark/', (req, res) => {
-    bookmarkService.addBookmark(req.body.reportId, req.body.variantId)
+    const { reportId, variantId } = req.body
+    bookmarkService.addBookmark(reportId, variantId)
     res.end()
   })
 
   router.post('/removeBookmark/', (req, res) => {
-    bookmarkService.removeBookmark(req.body.reportId, req.body.variantId)
+    bookmarkService.removeBookmark(req.body.variantId)
     res.end()
   })
 }

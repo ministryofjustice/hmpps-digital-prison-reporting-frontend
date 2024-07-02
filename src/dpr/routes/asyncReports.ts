@@ -8,11 +8,13 @@ import * as AsyncReportUtils from '../utils/renderAsyncReport'
 
 import AsyncReportslistUtils from '../components/async-reports-list/utils/asyncReportsUtils'
 import RecentReportslistUtils from '../components/async-reports-list/utils/recentlyViewedUtils'
+import BookmarkService from '../services/bookmarkService'
 
 export default function routes({
   router,
   asyncReportsStore,
   recentlyViewedStoreService,
+  bookmarkService,
   dataSources,
   layoutPath,
   templatePath = 'dpr/views/',
@@ -20,6 +22,7 @@ export default function routes({
   router: Router
   asyncReportsStore: AsyncReportStoreService
   recentlyViewedStoreService: RecentlyViewedStoreService
+  bookmarkService: BookmarkService
   dataSources: ReportingService
   layoutPath: string
   templatePath?: string
@@ -119,6 +122,7 @@ export default function routes({
         res,
         dataSources,
         asyncReportsStore,
+        bookmarkService,
         recentlyViewedStoreService,
         next,
       })

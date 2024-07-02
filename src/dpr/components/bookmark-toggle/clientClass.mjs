@@ -28,7 +28,6 @@ export default class BookmarkToggle extends DprClientClass {
 
   async toggleBookmark (type, variantId, reportId, csrfToken) {
     const endpoint = type === 'add' ? '/addBookmark/' : '/removeBookmark/'
-
     await fetch(endpoint, {
       method: 'post',
       headers: {

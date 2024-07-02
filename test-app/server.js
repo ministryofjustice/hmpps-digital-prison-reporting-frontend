@@ -106,6 +106,7 @@ addAsyncReportingRoutes({
   router: app,
   asyncReportsStore,
   recentlyViewedStoreService,
+  bookmarkService,
   dataSources: mockAsyncApis,
   layoutPath: 'page.njk',
   templatePath: 'dpr/views/',
@@ -122,10 +123,10 @@ app.get('/async-reports', async (req, res) => {
       res,
     })),
     bookmarks: {
-      ...(await BookmarklistUtils.renderBookmarkList(bookmarkService, 6, definitions.report.variants, res)),
+      ...(await BookmarklistUtils.renderBookmarkList(bookmarkService, 6, definitions.reports, res)),
     },
     legacyReports: {
-      cardData: getMockCardData(req),
+      cardData: getMockCardData(req, definitions),
     },
   })
 })

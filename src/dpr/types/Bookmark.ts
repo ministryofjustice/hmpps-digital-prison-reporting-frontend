@@ -6,3 +6,8 @@ export interface BookmarkedReportData {
   description: string
   href: string
 }
+
+export interface BookmarkStoreData {
+  reportId: string
+  variantId: string
+}

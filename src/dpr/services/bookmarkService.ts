@@ -1,9 +1,9 @@
 import UserStoreService from './userStoreService'
 import UserDataStore from '../data/userDataStore'
-import { BookmarkedReportData } from '../types/Bookmark'
+import { BookmarkStoreData } from '../types/Bookmark'
 
-export default class RecentlyViewedStoreService extends UserStoreService {
-  bookmarks: BookmarkedReportData[]
+export default class BookmarkService extends UserStoreService {
+  bookmarks: BookmarkStoreData[]
 
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
@@ -26,26 +26,44 @@ export default class RecentlyViewedStoreService extends UserStoreService {
 
   async getAllBookmarks() {
     await this.getBookmarkState()
-    return [
-      { reportId: 'string', variantId: 'string' },
-      { reportId: 'string', variantId: 'string' },
-      { reportId: 'string', variantId: 'string' },
-    ]
+    return this.bookmarks
   }
 
   async addBookmark(reportId: string, variantId: string) {
     await this.getBookmarkState()
-    console.log('addBookmark')
+    if (!this.isBookmarked(variantId)) this.bookmarks.unshift({ reportId, variantId })
+    console.log('addBookmark', this.bookmarks)
     await this.saveBookmarkState()
   }
 
-  async removeBookmark(reportId: string, variantId: string) {
+  async removeBookmark(variantId: string) {
     await this.getBookmarkState()
-    console.log('removeBookmark')
+    const index = this.bookmarks.findIndex((bookmark) => bookmark.variantId === variantId)
+    if (index >= 0) {
+      this.bookmarks.splice(index, 1)
+    }
+    console.log('removeBookmark', this.bookmarks)
     await this.saveBookmarkState()
+  }
+
+  async bumpBookmark(reportId: string, variantId: string) {
+    await this.getBookmarkState()
+    if (this.isBookmarked(variantId)) {
+      await this.removeBookmark(variantId)
+      await this.addBookmark(reportId, variantId)
+    }
   }
 
   isBookmarked = (variantId: string) => {
     return this.bookmarks.filter((bookmark) => bookmark.variantId === variantId).length > 0
+  }
+
+  createBookMarkToggleHtml(reportId: string, variantId: string, csrfToken: string) {
+    const checked = this.isBookmarked(variantId) ? 'checked' : null
+    const tooltip = !checked ? 'Add Bookmark' : 'Remove Bookmark'
+    return `<div class='bookmark dpr-bookmark-tooltip' tooltip="${tooltip}" data-dpr-module="bookmark-toggle">
+  <input class="bookmark-input" type='checkbox' id='${variantId}' data-report-id='${reportId}' data-csrf-token='${csrfToken}' ${checked} />
+  <label for='${variantId}'></label>
+</div>`
   }
 }

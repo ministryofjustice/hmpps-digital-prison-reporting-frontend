@@ -24,9 +24,14 @@ export const formatCardData = (bookmarkData: BookmarkedReportData): CardData => 
   }
 }
 
-const formatTable = (bookmarksData: BookmarkedReportData[], maxRows: number) => {
+const formatTable = (
+  bookmarksData: BookmarkedReportData[],
+  maxRows: number,
+  bookmarkStore: BookmarkService,
+  csrfToken: string,
+) => {
   const rows = bookmarksData.map((bookmark: BookmarkedReportData) => {
-    return formatTableData(bookmark)
+    return formatTableData(bookmark, bookmarkStore, csrfToken)
   })
 
   return {
@@ -35,20 +40,14 @@ const formatTable = (bookmarksData: BookmarkedReportData[], maxRows: number) => 
   }
 }
 
-const formatTableData = (bookmarksData: BookmarkedReportData) => {
+const formatTableData = (bookmarksData: BookmarkedReportData, bookmarkStore: BookmarkService, csrfToken: string) => {
+  const { description, reportName, reportId, variantId, href, name } = bookmarksData
   return [
-    { html: `<a href='${bookmarksData.href}'>${bookmarksData.name}</a>` },
-    { text: bookmarksData.description },
-    { text: bookmarksData.reportName },
-    { html: createBookMarkToggleHtml(bookmarksData.variantId) },
+    { html: `<a href='${href}'>${name}</a>` },
+    { text: description },
+    { text: reportName },
+    { html: bookmarkStore.createBookMarkToggleHtml(reportId, variantId, csrfToken) },
   ]
-}
-
-const createBookMarkToggleHtml = (id: string) => {
-  return `<div class='bookmark dpr-bookmark-tooltip' tooltip="Remove Bookmark" data-dpr-module="bookmark-toggle">
-  <input class="bookmark-input" type='checkbox' id='${id}' checked />
-  <label for='${id}'></label>
-</div>`
 }
 
 const mapBookmarkIdsToDefinition = (
@@ -73,7 +72,7 @@ const mapBookmarkIdsToDefinition = (
     }
   })
 
-  return []
+  return bookmarkData
 }
 
 export default {
@@ -86,10 +85,12 @@ export default {
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
 
     const bookmarks: { reportId: string; variantId: string }[] = await bookmarkStore.getAllBookmarks()
+    console.log({ bookmarks })
     const bookmarksData: BookmarkedReportData[] = mapBookmarkIdsToDefinition(bookmarks, definitions)
+    console.log({ bookmarksData })
 
     const cardData = await formatCards(bookmarksData, maxRows)
-    const tableData = await formatTable(bookmarksData, maxRows)
+    const tableData = await formatTable(bookmarksData, maxRows, bookmarkStore, csrfToken)
 
     const head = {
       title: 'My Bookmarks',

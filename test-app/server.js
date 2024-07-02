@@ -90,9 +90,6 @@ app.get('/', (req, res) => {
   })
 })
 
-// ----- ASYNC REPORTS -----
-
-// Step 1 - initialise the UserStore + AsyncReportStore
 const mockUserStore = new MockUserStoreService()
 const asyncReportsStore = new AsyncReportStoreService(mockUserStore)
 asyncReportsStore.init('userId')
@@ -101,7 +98,14 @@ recentlyViewedStoreService.init('userId')
 const bookmarkService = new BookmarkService(mockUserStore)
 bookmarkService.init('userId')
 
-// Step 2 - Add routes to root routes file
+addBookmarkingRoutes({
+  router: app,
+  bookmarkService,
+  definitions: definitions.reports,
+  layoutPath: 'page.njk',
+  templatePath: 'dpr/views/',
+})
+
 addAsyncReportingRoutes({
   router: app,
   asyncReportsStore,
@@ -112,7 +116,6 @@ addAsyncReportingRoutes({
   templatePath: 'dpr/views/',
 })
 
-// Step 3 - Add Requested Reports Slide to homepage
 app.get('/async-reports', async (req, res) => {
   res.render('async.njk', {
     title: 'Home',
@@ -123,17 +126,17 @@ app.get('/async-reports', async (req, res) => {
       res,
     })),
     bookmarks: {
-      ...(await BookmarklistUtils.renderBookmarkList(bookmarkService, 6, definitions.reports, res)),
+      ...(await BookmarklistUtils.renderBookmarkList({
+        bookmarkService,
+        maxRows: 6,
+        definitions: definitions.reports,
+        res,
+      })),
     },
     legacyReports: {
       cardData: getMockCardData(req, definitions),
     },
   })
-})
-
-addBookmarkingRoutes({
-  router: app,
-  bookmarkService,
 })
 
 app.get('/test-reports', (req, res) => {

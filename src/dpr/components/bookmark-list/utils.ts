@@ -4,7 +4,7 @@ import { BookmarkedReportData } from '../../types/Bookmark'
 import { components } from '../../types/api'
 import { CardData } from '../table-card-group/types'
 
-export const formatCards = async (bookmarksData: BookmarkedReportData[], maxRows: number): Promise<CardData[]> => {
+export const formatCards = async (bookmarksData: BookmarkedReportData[], maxRows?: number): Promise<CardData[]> => {
   const cards = bookmarksData.map((report: BookmarkedReportData) => {
     return formatCardData(report)
   })
@@ -26,27 +26,27 @@ export const formatCardData = (bookmarkData: BookmarkedReportData): CardData => 
 
 const formatTable = (
   bookmarksData: BookmarkedReportData[],
-  maxRows: number,
-  bookmarkStore: BookmarkService,
+  bookmarkService: BookmarkService,
   csrfToken: string,
+  maxRows?: number,
 ) => {
   const rows = bookmarksData.map((bookmark: BookmarkedReportData) => {
-    return formatTableData(bookmark, bookmarkStore, csrfToken)
+    return formatTableData(bookmark, bookmarkService, csrfToken)
   })
 
   return {
     rows: maxRows ? rows.slice(0, maxRows) : rows,
-    head: [{ text: 'Name' }, { text: 'Description' }, { text: 'Product' }],
+    head: [{ text: 'Name' }, { text: 'Description' }, { text: 'Product' }, { text: '' }],
   }
 }
 
-const formatTableData = (bookmarksData: BookmarkedReportData, bookmarkStore: BookmarkService, csrfToken: string) => {
+const formatTableData = (bookmarksData: BookmarkedReportData, bookmarkService: BookmarkService, csrfToken: string) => {
   const { description, reportName, reportId, variantId, href, name } = bookmarksData
   return [
     { html: `<a href='${href}'>${name}</a>` },
     { text: description },
     { text: reportName },
-    { html: bookmarkStore.createBookMarkToggleHtml(reportId, variantId, csrfToken) },
+    { html: bookmarkService.createBookMarkToggleHtml(reportId, variantId, csrfToken) },
   ]
 }
 
@@ -76,21 +76,26 @@ const mapBookmarkIdsToDefinition = (
 }
 
 export default {
-  renderBookmarkList: async (
-    bookmarkStore: BookmarkService,
-    maxRows: number,
-    definitions: components['schemas']['ReportDefinitionSummary'][],
-    res: Response,
-  ) => {
+  renderBookmarkList: async ({
+    bookmarkService,
+    maxRows,
+    definitions,
+    res,
+  }: {
+    bookmarkService: BookmarkService
+    maxRows?: number
+    definitions: components['schemas']['ReportDefinitionSummary'][]
+    res: Response
+  }) => {
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
 
-    const bookmarks: { reportId: string; variantId: string }[] = await bookmarkStore.getAllBookmarks()
+    const bookmarks: { reportId: string; variantId: string }[] = await bookmarkService.getAllBookmarks()
     console.log({ bookmarks })
     const bookmarksData: BookmarkedReportData[] = mapBookmarkIdsToDefinition(bookmarks, definitions)
     console.log({ bookmarksData })
 
     const cardData = await formatCards(bookmarksData, maxRows)
-    const tableData = await formatTable(bookmarksData, maxRows, bookmarkStore, csrfToken)
+    const tableData = await formatTable(bookmarksData, bookmarkService, csrfToken, maxRows)
 
     const head = {
       title: 'My Bookmarks',

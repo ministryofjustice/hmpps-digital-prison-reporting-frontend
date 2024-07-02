@@ -48,28 +48,14 @@ router.use(
 );
 ```
 
-Add the client-side JavaScript to the nunjucks layout:
-
-```html
-{% block bodyEnd %}
-...
-<script type="module" src="/assets/dpr/js/all.mjs"></script>
-<script type="module">
-  import initAll from "/assets/dpr/js/all.mjs";
-
-  initAll();
-</script>
-{% endblock %}
-```
-
-Alternatively, to avoid Chrome objecting to running scripts in line, you can add the initialisation to a separate JS file (in this example named "dprInit.mjs"):
+Add the DPR client-side JavaScript initialisation to a new JS file (in this example named "dprInit.mjs") in your 'assets' folder:
 ```javascript
 import initAll from "/assets/dpr/js/all.mjs";
 
 initAll();
 ```
 
-And then include it to initialise the JavaScript:
+Add the client-side JavaScript to the nunjucks layout:
 ```html
 {% block bodyEnd %}
 ...
@@ -90,12 +76,23 @@ const nunjucksEnv = nunjucks.configure([
 ]);
 ```
 
-And finally add the library's filters to the nunjucks configuration:
+Add the library's filters to the nunjucks configuration:
 
 ```javascript
 import setUpNunjucksFilters from "@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/setUpNunjucksFilters";
 
 setUpNunjucksFilters(nunjucksEnv);
+```
+
+{% header 3, "Fonts" %}
+
+The DPR library uses Google fonts for some of its components. To allow these to be used without security warnings, you will need to allow the Google URLs in your web security configuration. 
+
+If you have already integrated the DPS header and footer, then you can simply update the following two lines in `setUpWebSecurity.ts`:
+
+```javascript
+const styleSrc = ["'self'", (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`, 'fonts.googleapis.com']
+const fontSrc = ["'self'", 'fonts.gstatic.com']
 ```
 
 {% header 2, "API Library" %}

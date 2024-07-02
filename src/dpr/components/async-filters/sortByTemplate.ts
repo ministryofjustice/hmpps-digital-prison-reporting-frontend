@@ -11,6 +11,7 @@ export default {
         options: [],
         value: null,
         minimumLength: null,
+        mandatory: true,
       },
       {
         text: 'Direction',
@@ -28,6 +29,7 @@ export default {
         ],
         value: 'true',
         minimumLength: null,
+        mandatory: true,
       },
     ]
   },

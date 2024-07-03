@@ -1,5 +1,21 @@
 Below you can find the changes included in each release.
 
+## v3.14.2
+
+- Make async sorting options mandatory
+- Update documentation for Google fonts
+
+## v3.14.1
+
+Abort status updates
+
+## v3.14.0
+
+Added:
+- Text filter type.
+- Mandatory filter validation.
+- Filter text pattern validation.
+
 ## v3.9.0
 
 Added Search component.

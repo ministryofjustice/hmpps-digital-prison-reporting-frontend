@@ -5,39 +5,31 @@ import { AsyncReportData } from '../types/AsyncReport'
 import AsyncReportListUtils from '../components/async-report-list/utils'
 import ReportActionsUtils from '../components/icon-button-list/utils'
 
-export const initDataSources = ({ req, res, next, asyncReportsStore, dataSources }: AsyncReportUtilsParams) => {
+export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) => {
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
   const { reportId, variantId: reportVariantId, tableId } = req.params
   const { selectedPage = 1, pageSize = 10 } = req.query
   const dataProductDefinitionsPath = <string>req.query.dataProductDefinitionsPath
-  const reportDefinitionPromise = dataSources.getDefinition(
+  const reportDefinitionPromise = services.reportingService.getDefinition(
     token,
     reportId,
     reportVariantId,
     dataProductDefinitionsPath,
   )
-  const reportDataPromise = dataSources.getAsyncReport(token, reportId, reportVariantId, tableId, {
+  const reportDataPromise = services.reportingService.getAsyncReport(token, reportId, reportVariantId, tableId, {
     selectedPage: +selectedPage,
     pageSize: +pageSize,
     dataProductDefinitionsPath,
   })
-  const reportDataCountPromise = dataSources.getAsyncCount(token, tableId)
-  const stateDataPromise = asyncReportsStore.getReportByTableId(tableId)
+  const reportDataCountPromise = services.reportingService.getAsyncCount(token, tableId)
+  const stateDataPromise = services.asyncReportsStore.getReportByTableId(tableId)
 
   return [reportDefinitionPromise, reportDataPromise, reportDataCountPromise, stateDataPromise]
 }
 
-export const getReport = async ({
-  req,
-  res,
-  next,
-  asyncReportsStore,
-  bookmarkService,
-  recentlyViewedStoreService,
-  dataSources,
-}: AsyncReportUtilsParams) => {
+export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
-  const dataPromises = initDataSources({ req, res, next, dataSources, asyncReportsStore, bookmarkService })
+  const dataPromises = initDataSources({ req, res, services })
 
   let renderData = {}
   let reportStateData: AsyncReportData
@@ -64,7 +56,7 @@ export const getReport = async ({
         actions,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         csrfToken,
-        bookmarked: bookmarkService.isBookmarked(variantId),
+        bookmarked: services.bookmarkService.isBookmarked(variantId),
       }
 
       switch (template) {
@@ -88,8 +80,8 @@ export const getReport = async ({
   }
 
   if (Object.keys(renderData).length && Object.keys(reportStateData).length) {
-    await asyncReportsStore.updateLastViewed(reportStateData.executionId)
-    await recentlyViewedStoreService.setRecentlyViewed(reportStateData)
+    await services.asyncReportsStore.updateLastViewed(reportStateData.executionId)
+    await services.recentlyViewedStoreService.setRecentlyViewed(reportStateData)
   }
 
   return { renderData }

@@ -4,8 +4,9 @@ import AsyncReportStoreService from '../services/requestedReportsService'
 import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
 import { setDataFromStatus, formatCardData } from './asyncReportsUtils'
 import * as AsyncReportsUtils from './asyncReportsUtils'
-import AsyncPollingUtils from '../components/async-polling/utils'
 import * as PollingUtils from '../components/async-polling/utils'
+import ReportStatusUtils from './reportStatusUtils'
+import { Services } from '../types/Services'
 
 describe('AsyncReportsListUtils', () => {
   describe('setDataFromStatus', () => {
@@ -128,7 +129,13 @@ describe('AsyncReportsListUtils', () => {
     })
 
     it('should filter out retried and last viewed items', async () => {
-      await AsyncReportsUtils.formatCards(mockAsyncReportsStore, {} as unknown as ReportingService, '')
+      const services: Services = {
+        asyncReportsStore: mockAsyncReportsStore,
+        recentlyViewedStoreService: {},
+        bookmarkService: {},
+        reportingService: {},
+      }
+      await AsyncReportsUtils.formatCards(services, '')
       expect(formatCardDataSpy).toHaveBeenCalledTimes(3)
     })
   })
@@ -153,7 +160,7 @@ describe('AsyncReportsListUtils', () => {
         },
       } as unknown as AsyncReportData
 
-      getStatusSpy = jest.spyOn(AsyncPollingUtils, 'getStatus').mockResolvedValue({
+      getStatusSpy = jest.spyOn(ReportStatusUtils, 'getStatus').mockResolvedValue({
         status: RequestStatus.FINISHED,
       })
 
@@ -168,9 +175,13 @@ describe('AsyncReportsListUtils', () => {
     it('should return the card data with SUCCESS status', async () => {
       const result = await formatCardData(
         reportData,
-        {} as unknown as ReportingService,
+        {
+          recentlyViewedStoreService: {},
+          asyncReportsStore: {},
+          reportingService: {},
+          bookmarkService: {},
+        },
         '',
-        {} as unknown as AsyncReportStoreService,
       )
 
       const expectedResult = {
@@ -186,12 +197,16 @@ describe('AsyncReportsListUtils', () => {
     })
 
     it('should return the card data with FAILED', async () => {
-      jest.spyOn(PollingUtils, 'timeoutRequest').mockReturnValue(true)
+      jest.spyOn(ReportStatusUtils, 'timeoutRequest').mockReturnValue(true)
       const result = await formatCardData(
         reportData,
-        {} as unknown as ReportingService,
+        {
+          recentlyViewedStoreService: {},
+          asyncReportsStore: {},
+          reportingService: {},
+          bookmarkService: {},
+        },
         '',
-        {} as unknown as AsyncReportStoreService,
       )
 
       expect(getStatusSpy).not.toHaveBeenCalled()
@@ -202,9 +217,13 @@ describe('AsyncReportsListUtils', () => {
       reportData.status = RequestStatus.FAILED
       const result = await formatCardData(
         reportData,
-        {} as unknown as ReportingService,
+        {
+          recentlyViewedStoreService: {},
+          asyncReportsStore: {},
+          reportingService: {},
+          bookmarkService: {},
+        },
         '',
-        {} as unknown as AsyncReportStoreService,
       )
 
       expect(getStatusSpy).not.toHaveBeenCalled()
@@ -215,9 +234,13 @@ describe('AsyncReportsListUtils', () => {
       reportData.status = RequestStatus.ABORTED
       const result = await formatCardData(
         reportData,
-        {} as unknown as ReportingService,
+        {
+          recentlyViewedStoreService: {},
+          asyncReportsStore: {},
+          reportingService: {},
+          bookmarkService: {},
+        },
         '',
-        {} as unknown as AsyncReportStoreService,
       )
 
       expect(getStatusSpy).not.toHaveBeenCalled()

@@ -1,26 +1,26 @@
 import type { Router } from 'express'
-import BookmarkService from '../services/bookmarkService'
 import BookmarklistUtils from '../utils/bookmarkListUtils'
+import { Services } from '../types/Services'
 
 export default function routes({
   router,
-  bookmarkService,
+  services,
   layoutPath,
   templatePath = 'dpr/views/',
 }: {
   router: Router
-  bookmarkService: BookmarkService
+  services: Services
   layoutPath: string
   templatePath?: string
 }) {
   router.post('/addBookmark/', (req, res) => {
     const { reportId, variantId } = req.body
-    bookmarkService.addBookmark(reportId, variantId)
+    services.bookmarkService.addBookmark(reportId, variantId)
     res.end()
   })
 
   router.post('/removeBookmark/', (req, res) => {
-    bookmarkService.removeBookmark(req.body.variantId)
+    services.bookmarkService.removeBookmark(req.body.variantId)
     res.end()
   })
 
@@ -28,7 +28,7 @@ export default function routes({
     res.render(`${templatePath}/async-reports`, {
       title: 'Requested Reports',
       layoutPath,
-      ...(await BookmarklistUtils.renderBookmarkList({ bookmarkService, res })),
+      ...(await BookmarklistUtils.renderBookmarkList({ services, res })),
     })
   })
 }

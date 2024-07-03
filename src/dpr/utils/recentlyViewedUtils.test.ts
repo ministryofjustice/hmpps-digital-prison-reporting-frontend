@@ -1,5 +1,4 @@
 import RecentlyViewedStoreService from '../services/recentlyViewedService'
-import ReportingService from '../services/reportingService'
 import AsyncReportStoreService from '../services/requestedReportsService'
 import * as RecentlyViewedUtils from './recentlyViewedUtils'
 
@@ -21,9 +20,12 @@ describe('AsyncReportsListUtils', () => {
 
     it('should set the correct href and timestamp for PICKED status', async () => {
       await RecentlyViewedUtils.formatCards(
-        mockRecentlyViewedStore,
-        mockAsyncStore,
-        {} as unknown as ReportingService,
+        {
+          recentlyViewedStoreService: mockRecentlyViewedStore,
+          asyncReportsStore: mockAsyncStore,
+          reportingService: {},
+          bookmarkService: {},
+        },
         '',
       )
       expect(formatCardDataSpy).toHaveBeenCalledTimes(2)

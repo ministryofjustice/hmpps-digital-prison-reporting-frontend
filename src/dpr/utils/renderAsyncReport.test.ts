@@ -68,13 +68,17 @@ describe('AsyncReportUtils', () => {
       } as unknown as RecentlyViewedStoreService
       const mockDataSources = { locals: { user: { token: 'token' } } } as unknown as ReportingService
 
+      const services = {
+        asyncReportsStore: mockAsyncReportsStore,
+        reportingService: mockDataSources,
+        recentlyViewedStoreService: mockRecentlyViewedStoreService,
+        bookmarkService: mockBookmarkService,
+      }
+
       const result = await AsyncReportUtils.getReport({
         req: mockReq,
         res: mockRes,
-        asyncReportsStore: mockAsyncReportsStore,
-        dataSources: mockDataSources,
-        recentlyViewedStoreService: mockRecentlyViewedStoreService,
-        bookmarkService: mockBookmarkService,
+        services,
       })
 
       expect(ReportActionsUtilsSpy).toHaveBeenCalledWith(definitions.report.variants[1], reportState)

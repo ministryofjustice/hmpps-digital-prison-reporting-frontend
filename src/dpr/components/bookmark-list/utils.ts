@@ -36,17 +36,17 @@ const formatTable = (
 
   return {
     rows: maxRows ? rows.slice(0, maxRows) : rows,
-    head: [{ text: 'Name' }, { text: 'Description' }, { text: 'Product' }, { text: '' }],
+    head: [{ text: 'Name' }, { text: 'Name' }, { text: 'Description' }, { text: 'Product' }, { text: '' }],
   }
 }
 
 const formatTableData = (bookmarksData: BookmarkedReportData, bookmarkService: BookmarkService, csrfToken: string) => {
   const { description, reportName, reportId, variantId, href, name } = bookmarksData
   return [
+    { text: reportName },
     { html: `<a href='${href}'>${name}</a>` },
     { text: description },
-    { text: reportName },
-    { html: bookmarkService.createBookMarkToggleHtml(reportId, variantId, csrfToken) },
+    { html: bookmarkService.createBookMarkToggleHtml(reportId, variantId, csrfToken, 'bookmark-list') },
   ]
 }
 
@@ -79,20 +79,17 @@ export default {
   renderBookmarkList: async ({
     bookmarkService,
     maxRows,
-    definitions,
     res,
   }: {
     bookmarkService: BookmarkService
     maxRows?: number
-    definitions: components['schemas']['ReportDefinitionSummary'][]
     res: Response
   }) => {
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+    const definitions = (res.locals.definitions as unknown as components['schemas']['ReportDefinitionSummary'][]) || []
 
     const bookmarks: { reportId: string; variantId: string }[] = await bookmarkService.getAllBookmarks()
-    console.log({ bookmarks })
     const bookmarksData: BookmarkedReportData[] = mapBookmarkIdsToDefinition(bookmarks, definitions)
-    console.log({ bookmarksData })
 
     const cardData = await formatCards(bookmarksData, maxRows)
     const tableData = await formatTable(bookmarksData, bookmarkService, csrfToken, maxRows)

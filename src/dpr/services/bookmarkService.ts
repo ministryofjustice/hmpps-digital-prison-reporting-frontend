@@ -32,7 +32,6 @@ export default class BookmarkService extends UserStoreService {
   async addBookmark(reportId: string, variantId: string) {
     await this.getBookmarkState()
     if (!this.isBookmarked(variantId)) this.bookmarks.unshift({ reportId, variantId })
-    console.log('addBookmark', this.bookmarks)
     await this.saveBookmarkState()
   }
 
@@ -42,7 +41,6 @@ export default class BookmarkService extends UserStoreService {
     if (index >= 0) {
       this.bookmarks.splice(index, 1)
     }
-    console.log('removeBookmark', this.bookmarks)
     await this.saveBookmarkState()
   }
 
@@ -58,12 +56,12 @@ export default class BookmarkService extends UserStoreService {
     return this.bookmarks.filter((bookmark) => bookmark.variantId === variantId).length > 0
   }
 
-  createBookMarkToggleHtml(reportId: string, variantId: string, csrfToken: string) {
+  createBookMarkToggleHtml(reportId: string, variantId: string, csrfToken: string, id: string) {
     const checked = this.isBookmarked(variantId) ? 'checked' : null
     const tooltip = !checked ? 'Add Bookmark' : 'Remove Bookmark'
     return `<div class='bookmark dpr-bookmark-tooltip' tooltip="${tooltip}" data-dpr-module="bookmark-toggle">
-  <input class="bookmark-input" type='checkbox' id='${variantId}' data-report-id='${reportId}' data-csrf-token='${csrfToken}' ${checked} />
-  <label for='${variantId}'></label>
+  <input class="bookmark-input" type='checkbox' id='${variantId}-${id}' data-report-id='${reportId}' data-variant-id='${variantId}' data-csrf-token='${csrfToken}' ${checked} />
+  <label for='${variantId}-${id}'></label>
 </div>`
   }
 }

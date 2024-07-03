@@ -54,7 +54,6 @@ export const getReport = async ({
       const actions = ReportActionsUtils.initReportActions(definition.variant, reportStateData)
 
       const bookmarked = bookmarkService.isBookmarked(variantId)
-      console.log({ bookmarked })
 
       renderData = {
         variantName,

@@ -14,6 +14,7 @@ const bodyParser = require('body-parser')
 const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
 const AsyncReportslistUtils = require('../package/dpr/components/async-reports-list/utils').default
 const BookmarklistUtils = require('../package/dpr/components/bookmark-list/utils').default
+const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
 
 // Set up application
 const appViews = [
@@ -57,7 +58,6 @@ app.use(bodyParser.json())
 
 const mockAsyncApis = require('./mockAsyncData/mockAsyncApis')
 const MockUserStoreService = require('./mockAsyncData/mockRedisStore')
-const getMockCardData = require('./mockAsyncData/mockLegacyReportCards')
 const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
 const RecentlyViewedStoreService = require('../package/dpr/services/recentlyViewedService').default
 const BookmarkService = require('../package/dpr/services/bookmarkService').default
@@ -101,7 +101,6 @@ bookmarkService.init('userId')
 addBookmarkingRoutes({
   router: app,
   bookmarkService,
-  definitions: definitions.reports,
   layoutPath: 'page.njk',
   templatePath: 'dpr/views/',
 })
@@ -117,6 +116,10 @@ addAsyncReportingRoutes({
 })
 
 app.get('/async-reports', async (req, res) => {
+  res.locals.definitions = definitions.reports
+  res.locals.csrfToken = 'csrfToken'
+  res.locals.pathSuffix = ''
+
   res.render('async.njk', {
     title: 'Home',
     ...(await AsyncReportslistUtils.renderList({
@@ -127,14 +130,13 @@ app.get('/async-reports', async (req, res) => {
     })),
     bookmarks: {
       ...(await BookmarklistUtils.renderBookmarkList({
+        res,
         bookmarkService,
         maxRows: 6,
-        definitions: definitions.reports,
-        res,
       })),
     },
-    legacyReports: {
-      cardData: getMockCardData(req, definitions),
+    reports: {
+      ...ReportslistUtils.mapReportsList(res, bookmarkService),
     },
   })
 })

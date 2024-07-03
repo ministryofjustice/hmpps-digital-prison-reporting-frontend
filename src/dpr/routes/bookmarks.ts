@@ -8,7 +8,6 @@ export default function routes({
   bookmarkService,
   layoutPath,
   templatePath = 'dpr/views/',
-  definitions,
 }: {
   router: Router
   bookmarkService: BookmarkService
@@ -31,7 +30,7 @@ export default function routes({
     res.render(`${templatePath}/async-reports`, {
       title: 'Requested Reports',
       layoutPath,
-      ...(await BookmarklistUtils.renderBookmarkList({ bookmarkService, definitions, res })),
+      ...(await BookmarklistUtils.renderBookmarkList({ bookmarkService, res })),
     })
   })
 }

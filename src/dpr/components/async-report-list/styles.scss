@@ -3,14 +3,14 @@
   margin-bottom: govuk-spacing(3);
 }
 
-.columns-select-wrapper {
+.dpr-columns-section-wrapper {
   .govuk-details {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
 }
 
 @media print {
-  .columns-select-wrapper {
+  .dpr-columns-section-wrapper {
     display: none;
   }
 

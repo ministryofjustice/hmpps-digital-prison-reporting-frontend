@@ -8,7 +8,7 @@
             id: options.id,
             label: {
                 text: options.labelText,
-                classes: "govuk-label govuk-!-font-weight-bold"
+                classes: "govuk-!-font-weight-bold dpr-inline-label"
             },
             name: options.name,
             value: options.value,
@@ -39,7 +39,10 @@
             suffix: {
                 html: "&#x1F50D;"
             },
-            classes: (options.classes if options.classes else "") + " autocomplete-text-input-box"
+            classes: (options.classes if options.classes else "") + " autocomplete-text-input-box",
+            hint: {
+                html: "(Optional)"
+            } if not options.mandatory
         }) }}
         <div id="{{ listId }}" class="autocomplete-text-input-list">
             <ul role="listbox" aria-label="Autocomplete options">

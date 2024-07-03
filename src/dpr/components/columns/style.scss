@@ -1,4 +1,4 @@
-#user-selected-columns-form {
+.dpr-columns-form {
   margin-left: govuk-spacing(2);
 
   .columns-container {
@@ -18,15 +18,9 @@
       }
     }
   }
-}
 
-.columns-header {
-  padding-left: 10px;
-  padding-top: 10px;
-}
-
-@media print {
-  .columns-select-wrapper {
-    display: none;
+  .columns-header {
+    padding-left: 10px;
+    padding-top: 10px;
   }
 }

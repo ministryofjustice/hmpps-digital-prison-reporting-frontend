@@ -1,6 +1,6 @@
-import DprLoadingClientClass from '../../DprLoadingClientClass.mjs'
+import { DprClientClass } from '../../DprClientClass.mjs'
 
-export default class CardGroup extends DprLoadingClientClass {
+export default class CardGroup extends DprClientClass {
   static getModuleName() {
     return 'card-group'
   }
@@ -13,7 +13,7 @@ export default class CardGroup extends DprLoadingClientClass {
     cards.forEach((card) => {
       card.addEventListener('click', () => {
         card.classList.add(wrapperClass)
-        this.showLoadingAnimation(wrapperClass)
+        this.loadingHelper.showLoadingAnimation(wrapperClass)
 
         cards.forEach((c) => {
           if (!c.classList.contains('card-loading')) {

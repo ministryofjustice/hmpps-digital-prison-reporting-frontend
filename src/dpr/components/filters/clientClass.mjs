@@ -1,6 +1,6 @@
-import DprLoadingClientClass from '../../DprLoadingClientClass.mjs'
+import { DprClientClass } from '../../DprClientClass.mjs'
 
-export default class Filters extends DprLoadingClientClass {
+export default class Filters extends DprClientClass {
   static getModuleName() {
     return 'filters'
   }
@@ -8,19 +8,19 @@ export default class Filters extends DprLoadingClientClass {
   initialise() {
     const applyButton = this.getElement().querySelector('.filter-actions-apply-button')
     applyButton.addEventListener('click', (e) => {
-      this.showLoadingAnimation()
+      this.loadingHelper.showLoadingAnimation()
       this.applyButtonClick(e)
     })
 
     const resetButton = this.getElement().querySelector('[data-reset-filters=true]')
     resetButton.addEventListener('click', (e) => {
-      this.showLoadingAnimation()
-      this.resetButtonClick(e, this.hideLoadingAnimation)
+      this.loadingHelper.showLoadingAnimation()
+      this.resetButtonClick(e, this.loadingHelper.hideLoadingAnimation)
     })
 
     document.querySelectorAll('.accordion-summary-remove-button').forEach((removeFilterButton) => {
       removeFilterButton.addEventListener('click', () => {
-        this.showLoadingAnimation()
+        this.loadingHelper.showLoadingAnimation()
       })
     })
   }
@@ -47,7 +47,7 @@ export default class Filters extends DprLoadingClientClass {
 
       window.location.href = url
     } else {
-      this.hideLoadingAnimation()
+      this.loadingHelper.hideLoadingAnimation()
     }
   }
 

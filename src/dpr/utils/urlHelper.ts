@@ -44,9 +44,17 @@ const createUrlForParameters = (
   return createQuerystringFromObject(nonEmptyQueryParams)
 }
 
-export const createQuerystringFromObject = (source: object) => {
+export const createQuerystringFromObject = (source: NodeJS.Dict<string | Array<string>>) => {
   const querystring = Object.keys(source)
-    .map((key) => `${encodeURI(key)}=${encodeURI(source[key as keyof typeof source])}`)
+    .flatMap((key: string) => {
+      const value = source[key]
+
+      if (Array.isArray(value)) {
+        return value.map(v => `${encodeURI(key)}=${encodeURI(v)}`)
+      } else {
+        return [`${encodeURI(key)}=${encodeURI(value)}`]
+      }
+    })
     .join('&')
 
   return `?${querystring}`

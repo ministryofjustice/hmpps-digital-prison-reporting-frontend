@@ -1,6 +1,4 @@
-import { DprClientClass } from './DprClientClass.mjs'
-
-export default class DprLoadingClientClass extends DprClientClass {
+export default class DprLoadingHelper {
   showLoadingAnimation(wrapperClass) {
     const loadingPanelClass = '.dpr-loading-panel'
     document.querySelectorAll(loadingPanelClass).forEach((l) => {

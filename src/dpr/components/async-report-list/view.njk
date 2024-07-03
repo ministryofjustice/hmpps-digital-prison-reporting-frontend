@@ -1,8 +1,7 @@
-{% from "../async-columns/view.njk" import dprAsyncColumns %}
 {% from "../pagination/view.njk" import dprPagination %}
 {% from "../async-data-table/view.njk" import dprAsyncDataTable %}
 {% from "../async-applied-filters/view.njk" import dprAsyncAppliedFiltersList %}
-{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "../column-section/view.njk" import dprColumnSection %}
 
 {% macro dprAsyncReportList(options) %}
 
@@ -12,16 +11,7 @@
 
   {{ dprAsyncAppliedFiltersList(appliedFilters) }}
 
-  <div class="columns-select-wrapper">
-    {% set columnsHtml %}
-    {{ dprAsyncColumns(columns) }}
-    {% endset %}
-
-    {{ govukDetails({
-      summaryText: "Columns",
-      html: columnsHtml 
-    }) }}
-  </div>
+  {{ dprColumnSection(columns) }}
 
   <div class='dpr-table-container'>
     {{ dprAsyncDataTable(options) }}

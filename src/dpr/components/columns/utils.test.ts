@@ -10,6 +10,8 @@ const fields: Array<components['schemas']['FieldDefinition']> = [
     defaultsort: false,
     type: 'string',
     mandatory: false,
+    visible: true,
+    calculated: false,
   },
   {
     display: 'Col Value 2',
@@ -18,6 +20,8 @@ const fields: Array<components['schemas']['FieldDefinition']> = [
     defaultsort: false,
     type: 'string',
     mandatory: false,
+    visible: true,
+    calculated: false,
   },
   {
     display: 'Col Value 3',
@@ -26,6 +30,8 @@ const fields: Array<components['schemas']['FieldDefinition']> = [
     defaultsort: false,
     type: 'string',
     mandatory: true,
+    visible: true,
+    calculated: false,
   },
   {
     display: 'Col Value 4',
@@ -34,6 +40,8 @@ const fields: Array<components['schemas']['FieldDefinition']> = [
     defaultsort: false,
     type: 'string',
     mandatory: false,
+    visible: true,
+    calculated: false,
   },
 ]
 
@@ -60,24 +68,24 @@ const columns: Column[] = [
   },
 ]
 
-const queryColumns: string[] = ['ColValue1', 'ColValue2', 'ColValue3', 'ColValue4']
+const queryColumns: string[] = ['ColValue3', 'ColValue1', 'ColValue2', 'ColValue4']
 const queryColumnNoDisabled: string[] = ['ColValue1', 'ColValue2', 'ColValue4']
 
 describe('getColumns', () => {
   it('mapped the columns correctly', () => {
     const cols = Utils.getColumns(fields)
-    expect(cols).toEqual(columns)
+    expect(cols.options).toEqual(columns)
   })
 })
 
 describe('getSelectedColumns', () => {
   it('mapped the selected columns correctly', () => {
-    const selectedColumns = Utils.getSelectedColumns(fields, queryColumns)
+    const selectedColumns = Utils.ensureMandatoryColumns(fields, queryColumns)
     expect(selectedColumns).toEqual(queryColumns)
   })
 
   it('should always inlcude disabled columns', () => {
-    const selectedColumns = Utils.getSelectedColumns(fields, queryColumnNoDisabled)
+    const selectedColumns = Utils.ensureMandatoryColumns(fields, queryColumnNoDisabled)
     expect(selectedColumns).toEqual(queryColumns)
   })
 })

@@ -11,13 +11,14 @@ import PrintButton from './components/print-button/clientClass.mjs'
 import CopyUrlButton from './components/copy-url-button/clientClass.mjs'
 import ToggleButton from './components/toggle-button/clientClass.mjs'
 import AsyncFilters from './components/async-filters/clientClass.mjs'
-import AsyncColumns from './components/async-columns/clientClass.mjs'
+import AsyncColumns from './components/columns/clientClass.mjs'
 import Pagination from './components/pagination/clientClass.mjs'
 import IconButtonList from './components/icon-button-list/clientClass.mjs'
 import AsyncDataTable from './components/async-data-table/clientClass.mjs'
 import AsyncPolling from './components/async-polling/clientClass.mjs'
 import Search from './components/search/clientClass.mjs'
 import BookmarkToggle from './components/bookmark-toggle/clientClass.mjs'
+import DprLoadingHelper from './DprLoadingHelper.mjs'
 
 /**
  * Initialise all components
@@ -27,6 +28,8 @@ import BookmarkToggle from './components/bookmark-toggle/clientClass.mjs'
  *
  */
 export default function initAll () {
+  const loadingHelper = new DprLoadingHelper()
+
   const components = [
     Autocomplete,
     CardGroup,
@@ -52,7 +55,7 @@ export default function initAll () {
     const $elements = document.querySelectorAll(`[data-dpr-module="${Component.getModuleName()}"]`)
     $elements.forEach(async ($element) => {
       try {
-        new Component($element).initialise()
+        new Component($element, loadingHelper).initialise()
       } catch (error) {
         console.log(error)
       }

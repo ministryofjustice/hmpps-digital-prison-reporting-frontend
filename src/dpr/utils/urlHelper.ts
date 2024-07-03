@@ -50,10 +50,9 @@ export const createQuerystringFromObject = (source: NodeJS.Dict<string | Array<s
       const value = source[key]
 
       if (Array.isArray(value)) {
-        return value.map(v => `${encodeURI(key)}=${encodeURI(v)}`)
-      } else {
-        return [`${encodeURI(key)}=${encodeURI(value)}`]
+        return value.map((v) => `${encodeURI(key)}=${encodeURI(v)}`)
       }
+      return [`${encodeURI(key)}=${encodeURI(value)}`]
     })
     .join('&')
 

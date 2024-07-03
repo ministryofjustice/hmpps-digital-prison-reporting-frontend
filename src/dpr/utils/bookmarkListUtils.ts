@@ -5,9 +5,11 @@ import { components } from '../types/api'
 import { CardData } from '../components/table-card-group/types'
 
 export const formatCards = async (bookmarksData: BookmarkedReportData[], maxRows?: number): Promise<CardData[]> => {
-  const cards = bookmarksData.map((report: BookmarkedReportData) => {
-    return formatCardData(report)
-  })
+  const cards = bookmarksData
+    .map((report: BookmarkedReportData) => {
+      return formatCardData(report)
+    })
+    .sort((a, b) => a.text.localeCompare(b.text))
 
   return maxRows ? cards.slice(0, maxRows) : cards
 }
@@ -30,9 +32,11 @@ const formatTable = (
   csrfToken: string,
   maxRows?: number,
 ) => {
-  const rows = bookmarksData.map((bookmark: BookmarkedReportData) => {
-    return formatTableData(bookmark, bookmarkService, csrfToken)
-  })
+  const rows = bookmarksData
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((bookmark: BookmarkedReportData) => {
+      return formatTableData(bookmark, bookmarkService, csrfToken)
+    })
 
   return {
     rows: maxRows ? rows.slice(0, maxRows) : rows,

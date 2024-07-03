@@ -1,4 +1,3 @@
-import BookmarkService from '../services/bookmarkService'
 import ReportingService from '../services/reportingService'
 import AsyncReportStoreService from '../services/requestedReportsService'
 import { RequestStatus } from '../types/AsyncReport'

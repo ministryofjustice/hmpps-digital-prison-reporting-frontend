@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ReportingService from '../services/reportingService'
 import AsyncReportStoreService from '../services/requestedReportsService'
 import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
 import { setDataFromStatus, formatCardData } from './asyncReportsUtils'
 import * as AsyncReportsUtils from './asyncReportsUtils'
-import * as PollingUtils from '../components/async-polling/utils'
 import ReportStatusUtils from './reportStatusUtils'
 import { Services } from '../types/Services'
 

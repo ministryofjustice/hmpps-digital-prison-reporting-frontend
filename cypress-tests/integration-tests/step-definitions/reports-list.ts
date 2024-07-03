@@ -336,7 +336,7 @@ Then('the definition path is shown in the URL', function (this: Mocha.Context) {
 
 When(/^I click the Show Columns button$/, function () {
   const page = new ReportPage()
-  page.showColumnsButton().click(10, 30)
+  page.showColumnsButton().click()
 })
 
 When('I select a column', function (this: Mocha.Context) {
@@ -377,7 +377,6 @@ When(/^I click the Reset Columns button$/, function () {
 })
 
 Then('the default columns are selected', function (this: Mocha.Context) {
-  cy.location().should((location) => {
-    expect(location.search).not.to.contain(`columns`)
-  })
+  const page = new ReportPage()
+  page.selectedColumnCheckBoxes().should('have.length', 4)
 })

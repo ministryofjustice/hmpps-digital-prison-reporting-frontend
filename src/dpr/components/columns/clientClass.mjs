@@ -7,8 +7,8 @@ export default class Columns extends DprQueryParamClass {
 
   initialise () {
     this.form = this.getElement()
-    this.submitButton = this.getElement().querySelector('.async-apply-columns-button')
-    this.resetButton = this.getElement().querySelector('.async-reset-columns-button')
+    this.submitButton = this.getElement().querySelector('.dpr-apply-columns-button')
+    this.resetButton = this.getElement().querySelector('.dpr-reset-columns-button')
 
     this.initInputsFromQueryParams()
     this.initQueryParamsFromInputs(this.form.elements)

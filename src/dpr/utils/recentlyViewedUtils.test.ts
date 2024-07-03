@@ -1,6 +1,6 @@
-import RecentlyViewedStoreService from '../../../services/recentlyViewedService'
-import ReportingService from '../../../services/reportingService'
-import AsyncReportStoreService from '../../../services/requestedReportsService'
+import RecentlyViewedStoreService from '../services/recentlyViewedService'
+import ReportingService from '../services/reportingService'
+import AsyncReportStoreService from '../services/requestedReportsService'
 import * as RecentlyViewedUtils from './recentlyViewedUtils'
 
 describe('AsyncReportsListUtils', () => {

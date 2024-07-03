@@ -53,8 +53,6 @@ export const getReport = async ({
       const { reportName, name: variantName, description, timestamp, reportId, variantId } = reportStateData
       const actions = ReportActionsUtils.initReportActions(definition.variant, reportStateData)
 
-      const bookmarked = bookmarkService.isBookmarked(variantId)
-
       renderData = {
         variantName,
         variantId,

@@ -1,9 +1,9 @@
-import AsyncReportStoreService from '../../../services/requestedReportsService'
-import { AsyncReportData, RequestStatus } from '../../../types/AsyncReport'
-import { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
-import AsyncPollingUtils, { timeoutRequest } from '../../async-polling/utils'
-import ReportingService from '../../../services/reportingService'
-import { CardData, RenderTableListResponse } from '../../table-card-group/types'
+import AsyncReportStoreService from '../services/requestedReportsService'
+import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
+import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
+import AsyncPollingUtils, { timeoutRequest } from '../components/async-polling/utils'
+import ReportingService from '../services/reportingService'
+import { CardData, RenderTableListResponse } from '../components/table-card-group/types'
 
 export const formatCardData = async (
   requestedReportsData: AsyncReportData,

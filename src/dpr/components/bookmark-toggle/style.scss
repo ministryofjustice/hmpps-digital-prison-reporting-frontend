@@ -74,15 +74,15 @@
   position: relative;
 }
 
-.dpr-bookmark-tooltip:hover:after,
-.dpr-tag:hover:after {
+.dpr-bookmark-tooltip:hover:after {
   background: govuk-colour("dark-grey");
   content: attr(tooltip);
   display: block;
   color: white;
   padding: govuk-spacing(3);
   position: absolute;
-  top: 34px;
+  top: -12px;
+  left: 42px;
   white-space: nowrap;
   text-transform: none;
   z-index: 98;
@@ -91,22 +91,19 @@
   text-align: center;
 }
 
-.dpr-tag--no-tooltip:hover:after {
-  display: none;
-}
-
-.dpr-bookmark-tooltip:hover:before,
-.dpr-tag:hover:before {
+.dpr-bookmark-tooltip:hover:before{
   content: '';
   z-index: 98;
   display: block;
   position: absolute;
-  top: 28px;
+  top: 3px;
+  left: 23px;
   width: 20;
   height: 20;
   border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid govuk-colour("dark-grey");
+  border-right: 10px solid govuk-colour("dark-grey");
+  border-bottom: 10px solid transparent;
+  border-top: 10px solid transparent;
 }
 
 .dpr-bookmark-inline {

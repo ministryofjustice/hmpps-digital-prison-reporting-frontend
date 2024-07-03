@@ -1,6 +1,6 @@
 import type { Router } from 'express'
 import BookmarkService from '../services/bookmarkService'
-import BookmarklistUtils from '../components/bookmark-list/utils'
+import BookmarklistUtils from '../utils/bookmarkListUtils'
 import { components } from '../types/api'
 
 export default function routes({

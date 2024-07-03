@@ -1,8 +1,8 @@
 import { Response } from 'express'
-import BookmarkService from '../../services/bookmarkService'
-import { BookmarkedReportData } from '../../types/Bookmark'
-import { components } from '../../types/api'
-import { CardData } from '../table-card-group/types'
+import BookmarkService from '../services/bookmarkService'
+import { BookmarkedReportData } from '../types/Bookmark'
+import { components } from '../types/api'
+import { CardData } from '../components/table-card-group/types'
 
 export const formatCards = async (bookmarksData: BookmarkedReportData[], maxRows?: number): Promise<CardData[]> => {
   const cards = bookmarksData.map((report: BookmarkedReportData) => {
@@ -36,7 +36,7 @@ const formatTable = (
 
   return {
     rows: maxRows ? rows.slice(0, maxRows) : rows,
-    head: [{ text: 'Name' }, { text: 'Name' }, { text: 'Description' }, { text: 'Product' }, { text: '' }],
+    head: [{ text: 'Product' }, { text: 'Name' }, { text: 'Description' }, { text: '' }],
   }
 }
 

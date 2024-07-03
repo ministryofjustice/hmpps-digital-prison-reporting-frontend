@@ -12,9 +12,10 @@ const bodyParser = require('body-parser')
 
 // Local dependencies
 const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
-const AsyncReportslistUtils = require('../package/dpr/components/async-reports-list/utils').default
-const BookmarklistUtils = require('../package/dpr/components/bookmark-list/utils').default
+const BookmarklistUtils = require('../package/dpr/utils/bookmarkListUtils').default
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
+const AsyncCardGroupUtils = require('../package/dpr/utils/asyncReportsUtils').default
+const RecentlyViewedCardGroupUtils = require('../package/dpr/utils/recentlyViewedUtils').default
 
 // Set up application
 const appViews = [
@@ -63,6 +64,7 @@ const RecentlyViewedStoreService = require('../package/dpr/services/recentlyView
 const BookmarkService = require('../package/dpr/services/bookmarkService').default
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
 const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
+const addRecenltyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
 const definitions = require('./mockAsyncData/mockReportDefinition')
 
 // Set up routes
@@ -91,28 +93,40 @@ app.get('/', (req, res) => {
 })
 
 const mockUserStore = new MockUserStoreService()
+
 const asyncReportsStore = new AsyncReportStoreService(mockUserStore)
 asyncReportsStore.init('userId')
+
 const recentlyViewedStoreService = new RecentlyViewedStoreService(mockUserStore)
 recentlyViewedStoreService.init('userId')
+
 const bookmarkService = new BookmarkService(mockUserStore)
 bookmarkService.init('userId')
 
-addBookmarkingRoutes({
+const routeImportParams = {
   router: app,
-  bookmarkService,
   layoutPath: 'page.njk',
   templatePath: 'dpr/views/',
+}
+
+addBookmarkingRoutes({
+  ...routeImportParams,
+  bookmarkService,
+})
+
+addRecenltyViewedRoutes({
+  ...routeImportParams,
+  recentlyViewedStoreService,
+  asyncReportsStore,
+  dataSources: mockAsyncApis,
 })
 
 addAsyncReportingRoutes({
-  router: app,
+  ...routeImportParams,
   asyncReportsStore,
   recentlyViewedStoreService,
   bookmarkService,
   dataSources: mockAsyncApis,
-  layoutPath: 'page.njk',
-  templatePath: 'dpr/views/',
 })
 
 app.get('/async-reports', async (req, res) => {
@@ -122,12 +136,23 @@ app.get('/async-reports', async (req, res) => {
 
   res.render('async.njk', {
     title: 'Home',
-    ...(await AsyncReportslistUtils.renderList({
-      recentlyViewedStoreService,
-      asyncReportsStore,
-      dataSources: mockAsyncApis,
-      res,
-    })),
+    requestedReports: {
+      ...(await AsyncCardGroupUtils.renderAsyncReportsList({
+        asyncReportsStore,
+        dataSources: mockAsyncApis,
+        res,
+        maxRows: 6,
+      })),
+    },
+    viewedReports: {
+      ...(await RecentlyViewedCardGroupUtils.renderRecentlyViewedList({
+        recentlyViewedStoreService,
+        asyncReportsStore,
+        dataSources: mockAsyncApis,
+        res,
+        maxRows: 6,
+      })),
+    },
     bookmarks: {
       ...(await BookmarklistUtils.renderBookmarkList({
         res,

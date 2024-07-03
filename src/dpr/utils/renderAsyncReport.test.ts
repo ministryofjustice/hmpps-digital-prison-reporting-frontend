@@ -13,6 +13,7 @@ import ReportingService from '../services/reportingService'
 import { mockGetReportListRenderData } from '../../../test-app/mockAsyncData/mockReportListRenderData'
 import RecentlyViewedStoreService from '../services/recentlyViewedService'
 import definitions from '../../../test-app/mockAsyncData/mockReportDefinition'
+import BookmarkService from '../services/bookmarkService'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
@@ -58,6 +59,10 @@ describe('AsyncReportUtils', () => {
       const mockAsyncReportsStore = {
         updateLastViewed: jest.fn(),
       } as unknown as AsyncReportStoreService
+      const mockBookmarkService = {
+        isBookmarked: jest.fn().mockReturnValue(false),
+      } as unknown as BookmarkService
+
       const mockRecentlyViewedStoreService = {
         setRecentlyViewed: jest.fn(),
       } as unknown as RecentlyViewedStoreService
@@ -69,6 +74,7 @@ describe('AsyncReportUtils', () => {
         asyncReportsStore: mockAsyncReportsStore,
         dataSources: mockDataSources,
         recentlyViewedStoreService: mockRecentlyViewedStoreService,
+        bookmarkService: mockBookmarkService,
       })
 
       expect(ReportActionsUtilsSpy).toHaveBeenCalledWith(definitions.report.variants[1], reportState)

@@ -7,7 +7,7 @@ export default class Search extends DprClientClass {
   }
 
   updateSearchListing (value) {
-    const table = this.getElement().querySelector('.dpr-search-table').querySelector('tbody')
+    const table = this.getElement().querySelector('table').querySelector('tbody')
 
     const rows = Array.from(table.rows)
     rows.forEach((row) => row.classList.add('search-option-hide'))

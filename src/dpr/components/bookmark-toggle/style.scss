@@ -1,4 +1,4 @@
-.bookmark {
+.dpr-bookmark {
 
   [type="checkbox"]:not(:checked),
   [type="checkbox"]:checked {
@@ -57,7 +57,7 @@
   }
 }
 
-.bookmark.dpr-bookmark-inline {
+.dpr-bookmark.dpr-bookmark-inline {
 
   [type="checkbox"]:not(:checked)+label:before,
   [type="checkbox"]:checked+label:before {

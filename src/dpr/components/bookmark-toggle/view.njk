@@ -3,7 +3,7 @@
   {% set checked %}{{ 'checked' if bookmarked else '' }}{% endset %}
   {% set tooltip %}{{ 'Remove Bookmark' if bookmarked else 'Add Bookmark' }}{% endset %}
 
-  <div class='bookmark dpr-bookmark-inline dpr-bookmark-tooltip' tooltip="{{ tooltip }}" data-dpr-module="bookmark-toggle">
+  <div class='dpr-bookmark dpr-bookmark-inline dpr-bookmark-tooltip' tooltip="{{ tooltip }}" data-dpr-module="bookmark-toggle">
     <input class="bookmark-input" type='checkbox' id='{{ variantId }}-{{id}}' data-variant-id='{{ variantId }}' data-report-id='{{ reportId }}' data-csrf-token='{{ csrfToken }}' {{ checked }}/>
     <label for='{{ variantId }}-{{id}}'></label>
   </div>

@@ -59,7 +59,7 @@ export default class BookmarkService extends UserStoreService {
   createBookMarkToggleHtml(reportId: string, variantId: string, csrfToken: string, id: string) {
     const checked = this.isBookmarked(variantId) ? 'checked' : null
     const tooltip = !checked ? 'Add Bookmark' : 'Remove Bookmark'
-    return `<div class='bookmark dpr-bookmark-tooltip' tooltip="${tooltip}" data-dpr-module="bookmark-toggle">
+    return `<div class='dpr-bookmark dpr-bookmark-tooltip' tooltip="${tooltip}" data-dpr-module="bookmark-toggle">
   <input class="bookmark-input" type='checkbox' id='${variantId}-${id}' data-report-id='${reportId}' data-variant-id='${variantId}' data-csrf-token='${csrfToken}' ${checked} />
   <label for='${variantId}-${id}'></label>
 </div>`

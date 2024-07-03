@@ -1,7 +1,6 @@
 import type { Router } from 'express'
 import BookmarkService from '../services/bookmarkService'
 import BookmarklistUtils from '../utils/bookmarkListUtils'
-import { components } from '../types/api'
 
 export default function routes({
   router,
@@ -13,7 +12,6 @@ export default function routes({
   bookmarkService: BookmarkService
   layoutPath: string
   templatePath?: string
-  definitions: components['schemas']['ReportDefinitionSummary'][]
 }) {
   router.post('/addBookmark/', (req, res) => {
     const { reportId, variantId } = req.body

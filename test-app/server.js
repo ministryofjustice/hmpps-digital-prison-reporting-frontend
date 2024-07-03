@@ -12,7 +12,10 @@ const bodyParser = require('body-parser')
 
 // Local dependencies
 const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
-const AsyncReportslistUtils = require('../package/dpr/components/async-reports-list/utils').default
+const BookmarklistUtils = require('../package/dpr/utils/bookmarkListUtils').default
+const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
+const AsyncCardGroupUtils = require('../package/dpr/utils/asyncReportsUtils').default
+const RecentlyViewedCardGroupUtils = require('../package/dpr/utils/recentlyViewedUtils').default
 
 // Set up application
 const appViews = [
@@ -56,10 +59,13 @@ app.use(bodyParser.json())
 
 const mockAsyncApis = require('./mockAsyncData/mockAsyncApis')
 const MockUserStoreService = require('./mockAsyncData/mockRedisStore')
-const getMockCardData = require('./mockAsyncData/mockLegacyReportCards')
 const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
 const RecentlyViewedStoreService = require('../package/dpr/services/recentlyViewedService').default
+const BookmarkService = require('../package/dpr/services/bookmarkService').default
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
+const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
+const addRecenltyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
+const definitions = require('./mockAsyncData/mockReportDefinition')
 
 // Set up routes
 
@@ -86,37 +92,76 @@ app.get('/', (req, res) => {
   })
 })
 
-// ----- ASYNC REPORTS -----
-
-// Step 1 - initialise the UserStore + AsyncReportStore
 const mockUserStore = new MockUserStoreService()
+
 const asyncReportsStore = new AsyncReportStoreService(mockUserStore)
 asyncReportsStore.init('userId')
+
 const recentlyViewedStoreService = new RecentlyViewedStoreService(mockUserStore)
 recentlyViewedStoreService.init('userId')
 
-// Step 2 - Add routes to root routes file
-addAsyncReportingRoutes({
+const bookmarkService = new BookmarkService(mockUserStore)
+bookmarkService.init('userId')
+
+const routeImportParams = {
   router: app,
-  asyncReportsStore,
-  recentlyViewedStoreService,
-  dataSources: mockAsyncApis,
   layoutPath: 'page.njk',
   templatePath: 'dpr/views/',
+}
+
+addBookmarkingRoutes({
+  ...routeImportParams,
+  bookmarkService,
 })
 
-// Step 3 - Add Requested Reports Slide to homepage
+addRecenltyViewedRoutes({
+  ...routeImportParams,
+  recentlyViewedStoreService,
+  asyncReportsStore,
+  dataSources: mockAsyncApis,
+})
+
+addAsyncReportingRoutes({
+  ...routeImportParams,
+  asyncReportsStore,
+  recentlyViewedStoreService,
+  bookmarkService,
+  dataSources: mockAsyncApis,
+})
+
 app.get('/async-reports', async (req, res) => {
+  res.locals.definitions = definitions.reports
+  res.locals.csrfToken = 'csrfToken'
+  res.locals.pathSuffix = ''
+
   res.render('async.njk', {
     title: 'Home',
-    ...(await AsyncReportslistUtils.renderList({
-      recentlyViewedStoreService,
-      asyncReportsStore,
-      dataSources: mockAsyncApis,
-      res,
-    })),
-    legacyReports: {
-      cardData: getMockCardData(req),
+    requestedReports: {
+      ...(await AsyncCardGroupUtils.renderAsyncReportsList({
+        asyncReportsStore,
+        dataSources: mockAsyncApis,
+        res,
+        maxRows: 6,
+      })),
+    },
+    viewedReports: {
+      ...(await RecentlyViewedCardGroupUtils.renderRecentlyViewedList({
+        recentlyViewedStoreService,
+        asyncReportsStore,
+        dataSources: mockAsyncApis,
+        res,
+        maxRows: 6,
+      })),
+    },
+    bookmarks: {
+      ...(await BookmarklistUtils.renderBookmarkList({
+        res,
+        bookmarkService,
+        maxRows: 6,
+      })),
+    },
+    reports: {
+      ...ReportslistUtils.mapReportsList(res, bookmarkService),
     },
   })
 })
@@ -246,6 +291,7 @@ app.get('/search', (req, res) => {
 })
 
 const setUpMockSyncApis = require('./mockSyncData/mockSyncApis')
+
 setUpMockSyncApis(app)
 
 const nodeModulesExists = fs.existsSync(path.join(__dirname, '../node_modules'))

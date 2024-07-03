@@ -1,0 +1,112 @@
+.dpr-bookmark {
+
+  [type="checkbox"]:not(:checked),
+  [type="checkbox"]:checked {
+    display: none;
+  }
+
+  [type="checkbox"]:not(:checked)+label,
+  [type="checkbox"]:checked+label {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+  }
+
+  [type="checkbox"]:not(:checked)+label:before,
+  [type="checkbox"]:checked+label:before {
+    font-family: 'Material Icons';
+    content: 'bookmark_border';
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "liga" 1;
+    font-style: normal;
+    text-transform: none;
+    line-height: 23px;
+    font-size: 28px;
+    text-align: center;
+    position: absolute;
+    top: 2px;
+    left: 0px;
+    display: inline-block;
+    color: govuk-colour("blue");
+  }
+
+  [type="checkbox"]:not(:checked)+label:after,
+  [type="checkbox"]:checked+label:after {
+    font-family: 'Material Icons';
+    content: 'bookmark';
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "liga" 1;
+    font-style: normal;
+    text-transform: none;
+    line-height: 23px;
+    font-size: 28px;
+    text-align: center;
+    position: absolute;
+    top: 2px;
+    left: 0px;
+    display: inline-block;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: govuk-colour("blue");
+  }
+
+  [type="checkbox"]:not(:checked)+label:after {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+.dpr-bookmark.dpr-bookmark-inline {
+
+  [type="checkbox"]:not(:checked)+label:before,
+  [type="checkbox"]:checked+label:before {
+    line-height: 43px;
+  }
+
+  [type="checkbox"]:not(:checked)+label:after,
+  [type="checkbox"]:checked+label:after {
+    line-height: 43px;
+  }
+}
+
+.dpr-bookmark-tooltip {
+  position: relative;
+}
+
+.dpr-bookmark-tooltip:hover:after {
+  background: govuk-colour("dark-grey");
+  content: attr(tooltip);
+  display: block;
+  color: white;
+  padding: govuk-spacing(3);
+  position: absolute;
+  top: -12px;
+  left: 42px;
+  white-space: nowrap;
+  text-transform: none;
+  z-index: 98;
+  font-size: 14px;
+  font-weight: normal;
+  text-align: center;
+}
+
+.dpr-bookmark-tooltip:hover:before{
+  content: '';
+  z-index: 98;
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 23px;
+  width: 20;
+  height: 20;
+  border-left: 10px solid transparent;
+  border-right: 10px solid govuk-colour("dark-grey");
+  border-bottom: 10px solid transparent;
+  border-top: 10px solid transparent;
+}
+
+.dpr-bookmark-inline {
+  display: inline-block;
+  padding-left: 6px;
+}

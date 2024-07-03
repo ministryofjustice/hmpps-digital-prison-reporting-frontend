@@ -32,10 +32,12 @@ export const getReport = async ({
   res,
   next,
   asyncReportsStore,
+  bookmarkService,
   recentlyViewedStoreService,
   dataSources,
 }: AsyncReportUtilsParams) => {
-  const dataPromises = initDataSources({ req, res, next, dataSources, asyncReportsStore })
+  const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+  const dataPromises = initDataSources({ req, res, next, dataSources, asyncReportsStore, bookmarkService })
 
   let renderData = {}
   let reportStateData: AsyncReportData
@@ -48,17 +50,21 @@ export const getReport = async ({
 
       const { classification } = definition.variant
       const { template } = definition.variant.specification
-      const { reportName, name: variantName, description, timestamp } = reportStateData
+      const { reportName, name: variantName, description, timestamp, reportId, variantId } = reportStateData
       const actions = ReportActionsUtils.initReportActions(definition.variant, reportStateData)
 
       renderData = {
         variantName,
+        variantId,
         reportName,
+        reportId,
         description,
         classification,
         template,
         actions,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
+        csrfToken,
+        bookmarked: bookmarkService.isBookmarked(variantId),
       }
 
       switch (template) {

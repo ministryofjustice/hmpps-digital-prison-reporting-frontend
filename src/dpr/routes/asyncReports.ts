@@ -6,13 +6,14 @@ import ReportingService from '../services/reportingService'
 import RecentlyViewedStoreService from '../services/recentlyViewedService'
 import * as AsyncReportUtils from '../utils/renderAsyncReport'
 
-import AsyncReportslistUtils from '../components/async-reports-list/utils/asyncReportsUtils'
-import RecentReportslistUtils from '../components/async-reports-list/utils/recentlyViewedUtils'
+import AsyncReportslistUtils from '../utils/asyncReportsUtils'
+import BookmarkService from '../services/bookmarkService'
 
 export default function routes({
   router,
   asyncReportsStore,
   recentlyViewedStoreService,
+  bookmarkService,
   dataSources,
   layoutPath,
   templatePath = 'dpr/views/',
@@ -20,6 +21,7 @@ export default function routes({
   router: Router
   asyncReportsStore: AsyncReportStoreService
   recentlyViewedStoreService: RecentlyViewedStoreService
+  bookmarkService: BookmarkService
   dataSources: ReportingService
   layoutPath: string
   templatePath?: string
@@ -119,6 +121,7 @@ export default function routes({
         res,
         dataSources,
         asyncReportsStore,
+        bookmarkService,
         recentlyViewedStoreService,
         next,
       })
@@ -144,19 +147,6 @@ export default function routes({
       title: 'Requested Reports',
       layoutPath,
       ...(await AsyncReportslistUtils.renderAsyncReportsList({
-        recentlyViewedStoreService,
-        asyncReportsStore,
-        dataSources,
-        res,
-      })),
-    })
-  })
-
-  router.get('/async-reports/recently-viewed', async (req, res) => {
-    res.render(`${templatePath}/async-reports`, {
-      title: 'Requested Reports',
-      layoutPath,
-      ...(await RecentReportslistUtils.renderRecentlyViewedList({
         recentlyViewedStoreService,
         asyncReportsStore,
         dataSources,

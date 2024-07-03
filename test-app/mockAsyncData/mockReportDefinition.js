@@ -1,7 +1,8 @@
 const variant1 = {
   id: 'variantId-1',
   name: 'Test Variant 1',
-  description: 'Test Variant 1 description',
+  description:
+    'Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
@@ -102,7 +103,7 @@ const variant1 = {
         filter: {
           type: 'text',
           pattern: 'Value 6\\.\\d',
-          mandatory: true
+          mandatory: true,
         },
       },
     ],
@@ -112,7 +113,7 @@ const variant1 = {
 const variant2 = {
   id: 'variantId-2',
   name: 'Test Variant 2',
-  description: 'Test Variant 2 description',
+  description: 'Test Variant 2 description - this will fail with returned Status: FAILED',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
@@ -218,7 +219,7 @@ const variant2 = {
 const variant3 = {
   id: 'variantId-3',
   name: 'Test Variant 3',
-  description: 'Test Variant 3 description',
+  description: 'Test Variant 3 description - this will fail with status code error',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
@@ -324,7 +325,7 @@ const variant3 = {
 const variant4 = {
   id: 'variantId-4',
   name: 'Test Variant 4',
-  description: 'Test Variant 4 description',
+  description: 'Test Variant 4 description - this will Expire',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
@@ -430,7 +431,7 @@ const variant4 = {
 const variant5 = {
   id: 'variantId-5',
   name: 'Test Variant 5',
-  description: 'Test Variant 5 description',
+  description: 'Test Variant 5 description - this will return a request error',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
@@ -536,7 +537,7 @@ const variant5 = {
 const variant6 = {
   id: 'variantId-6',
   name: 'Test Variant 6',
-  description: 'Test Variant 6 description',
+  description: 'This demonstrates an expired bookmarked report list page',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
@@ -645,4 +646,11 @@ module.exports = {
     name: 'Test Report',
     variants: [variant1, variant2, variant3, variant4, variant5, variant6],
   },
+  reports: [
+    {
+      id: 'test-report-1',
+      name: 'Test Report',
+      variants: [variant1, variant2, variant3, variant4, variant5, variant6],
+    },
+  ],
 }

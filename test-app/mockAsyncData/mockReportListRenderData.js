@@ -205,8 +205,10 @@ const mockGetReportListRenderData = {
       },
     ],
     appliedFilters: 'summary',
+    bookmarked: false,
     classification: 'OFFICIAL',
     template: 'list',
+    csrfToken: 'csrfToken',
   },
 }
 

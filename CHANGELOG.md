@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v3.15.1
+
+- Bookmarking
+
 ## v3.14.2
 
 - Make async sorting options mandatory
@@ -12,6 +16,7 @@ Abort status updates
 ## v3.14.0
 
 Added:
+
 - Text filter type.
 - Mandatory filter validation.
 - Filter text pattern validation.
@@ -50,7 +55,7 @@ Fixed Issue #83 - Inline style violates Content Security Policy directive.
 
 ## v3.7.1
 
-Updated publish action to avoid writing to main. 
+Updated publish action to avoid writing to main.
 
 ## v3.7.0
 

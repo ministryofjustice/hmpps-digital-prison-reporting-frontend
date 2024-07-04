@@ -16,12 +16,15 @@ export default {
           { text: reportName },
           { html: `<a href="/async-reports/${reportId}/${variantId}/request${pathSuffix}">${variantName}</a>` },
           { text: variantDescription || reportDescription },
-          { html: services.bookmarkService.createBookMarkToggleHtml(reportId, variantId, csrfToken, 'reports-list') },
+          {
+            html: services.bookmarkService.createBookMarkToggleHtml(reportId, variantId, csrfToken, 'reports-list'),
+            classes: 'dpr-vertical-align',
+          },
         ]
       })
     })
 
-    const head = [{ text: 'Product' }, { text: 'Name' }, { text: 'Description' }, { text: '' }]
+    const head = [{ text: 'Product' }, { text: 'Name' }, { text: 'Description' }, { text: 'Bookmark' }]
 
     return {
       head,

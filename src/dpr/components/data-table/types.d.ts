@@ -20,5 +20,4 @@ export interface DataTableOptions {
   currentQueryParams: Dict<string | Array<string>>
   classification: string
   printable?: boolean
-  url: string
 }

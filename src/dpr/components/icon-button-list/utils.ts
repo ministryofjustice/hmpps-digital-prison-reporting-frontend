@@ -1,100 +1,92 @@
 import { AsyncReportData } from '../../types/AsyncReport'
 import { components } from '../../types/api'
-import Dict = NodeJS.Dict
 
-const FULL_BUTTON_LIST = [
-  {
-    id: 'refresh',
+const BUTTON_TEMPLATES = {
+  refresh: {
+    id: 'dpr-button-refresh',
     icon: 'refresh',
     disabled: false,
     tooltipText: 'Refresh report',
     ariaLabelText: 'Refresh report',
   },
-  {
-    id: 'printable',
+  printable: {
+    id: 'dpr-button-printable',
     icon: 'print',
-    disabled: true,
+    disabled: false,
     tooltipText: 'Print report',
     ariaLabelText: 'Print report',
   },
-  {
-    id: 'sharable',
+  sharable: {
+    id: 'dpr-button-sharable',
     icon: 'share',
-    disabled: true,
+    disabled: false,
     tooltipText: 'Share report request via email',
     ariaLabelText: 'Share report request via email',
   },
-  {
-    id: 'copy',
+  copy: {
+    id: 'dpr-button-copy',
     icon: 'copy',
-    disabled: true,
+    disabled: false,
     tooltipText: 'Copy report request',
     ariaLabelText: 'report request',
   },
-  {
-    id: 'downloadable',
+  downloadable: {
+    id: 'dpr-button-downloadable',
     icon: 'download',
     disabled: true,
     tooltipText: 'Download report',
     ariaLabelText: 'Download report',
   },
-]
+}
 
-/**
- * Sets the buttons to enabled/disabled
- *
- * @param {string[]} actions
- * @return {*}
- */
-const filterButtonList = (actions: ReportAction[]) => {
-  return FULL_BUTTON_LIST.map((button) => {
-    const action = actions.find((a: ReportAction) => a.type === button.id)
-    return {
-      ...button,
-      disabled: !action,
-      ...(action && action.data && { ...action.data }),
-    }
+const initReportActions = (reportName: string, variantName: string, printable: boolean, url: string, executionId: string = null): ReportAction[] => {
+  const actions: ReportAction[] = []
+
+  // Refresh
+  if (executionId) {
+    actions.push({
+      ...BUTTON_TEMPLATES.refresh,
+      href: `${url}&refreshId=${executionId}`,
+    })
+  }
+
+  // Print
+  actions.push({
+    ...BUTTON_TEMPLATES.printable,
+    disabled: !printable,
   })
+
+  // Share
+  actions.push({
+    ...BUTTON_TEMPLATES.sharable,
+    href: `mailto:?subject=${reportName}-${variantName}&body=${encodeURIComponent(url)}`,
+  })
+
+  // Copy
+  actions.push({
+    ...BUTTON_TEMPLATES.copy,
+    href: url,
+  })
+
+  // Downloadable
+  actions.push(BUTTON_TEMPLATES.downloadable)
+
+  return actions
 }
 
 export default {
-  initReportActions: (variant: components['schemas']['VariantDefinition'], reportData: AsyncReportData) => {
-    const actions: ReportAction[] = []
-
-    actions.push({
-      type: 'refresh',
-      data: {
-        href: `${reportData.url.request.fullUrl}&refreshId=${reportData.executionId}`,
-      },
-    })
-
-    // PRINT
-    if (variant.printable) actions.push({ type: 'printable' })
-
-    // SHARE
-    actions.push({
-      type: 'sharable',
-      data: {
-        href: `mailto:?subject=${reportData.reportName}-${reportData.name}&body=${encodeURIComponent(
-          reportData.url.request.fullUrl,
-        )}`,
-      },
-    })
-
-    // Copy
-    actions.push({
-      type: 'copy',
-      data: {
-        href: reportData.url.request.fullUrl,
-      },
-    })
-
-    const buttons = filterButtonList(actions)
-    return buttons
+  initAsyncReportActions: (variant: components['schemas']['VariantDefinition'], reportData: AsyncReportData) => {
+    return initReportActions(reportData.reportName, reportData.name, variant.printable, reportData.url.request.fullUrl, reportData.executionId)
   },
+
+  initReportActions,
 }
 
 interface ReportAction {
-  type: string
-  data?: Dict<string>
+  id: string,
+  icon: string,
+  disabled: boolean,
+  tooltipText: string,
+  ariaLabelText: string,
+  href?: string,
 }

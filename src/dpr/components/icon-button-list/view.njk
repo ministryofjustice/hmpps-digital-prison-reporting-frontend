@@ -1,6 +1,5 @@
 {% macro dprIconButtonList(buttonList) %}
   <div class="icon-button-list" data-dpr-module='icon-button-list'>
-    {# {{ buttonList | dump | safe }} #}
     {% for button in buttonList %}
       <div
         id="{{ button.id }}"

@@ -12,6 +12,7 @@ import { components } from '../../types/api'
 import Dict = NodeJS.Dict
 import RenderListWithDefinitionInput from './RenderListWithDefinitionInput'
 import CreateRequestHandlerInput from './CreateRequestHandlerInput'
+import ReportActionsUtils from '../icon-button-list/utils'
 
 const filtersQueryParameterPrefix = 'filters.'
 
@@ -106,13 +107,19 @@ function renderList(
           currentQueryParams: reportQuery.toRecordWithFilterPrefix(),
           classification,
           printable,
-          url: `${request.protocol}://${request.get('host')}${request.originalUrl}`,
         }
 
         const filterOptions = {
           filters: FilterUtils.getFilters(variantDefinition, reportQuery.filters, dynamicAutocompleteEndpoint),
           selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
         }
+
+        const actions = ReportActionsUtils.initReportActions(
+          reportName,
+          variantDefinition.name,
+          variantDefinition.printable,
+          `${request.protocol}://${request.get('host')}${request.originalUrl}`,
+        )
 
         response.render('dpr/components/report-list/list', {
           title,
@@ -123,6 +130,7 @@ function renderList(
           layoutTemplate,
           ...otherOptions,
           warnings,
+          actions,
         })
       })
       .catch((err) => next(err))

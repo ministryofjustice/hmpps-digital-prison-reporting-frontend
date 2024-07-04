@@ -1,14 +1,12 @@
 {% macro dprReportList(options) %}
-  {% from "../data-table/view.njk" import dprDataTable %}
-  {% from "../dropdown-button/view.njk"    import dprDropdownButton %}
-  {% from "../accordion/view.njk" import dprAccordion %}
-  {% from "../print-button/view.njk" import dprPrintButton %}
-  {% from "../copy-url-button/view.njk" import dprCopyUrlButton %}
-  {% from "../filters/view.njk" import dprFilters %}
-  {% from "dpr/components/loading-anim/view.njk" import dprLoadingAnim -%}
   {% from "govuk/components/button/macro.njk" import govukButton %}
   {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+  {% from "dpr/components/data-table/view.njk" import dprDataTable %}
+  {% from "dpr/components/accordion/view.njk" import dprAccordion %}
+  {% from "dpr/components/filters/view.njk" import dprFilters %}
+  {% from "dpr/components/loading-anim/view.njk" import dprLoadingAnim -%}
   {% from "dpr/components/column-section/view.njk" import dprColumnSection %}
+  {% from "dpr/components/icon-button-list/view.njk" import dprIconButtonList %}
 
   {% set title = options.title %}
 
@@ -24,49 +22,9 @@
   {% set currentQueryParams = dataTableOptions.currentQueryParams %}
   {% set classification = dataTableOptions.classification %}
   {% set printable = dataTableOptions.printable %}
-  {% set url = dataTableOptions.url %}
   {% set urlWithNoFilters = currentQueryParams | createUrlForParameters(null) %}
   {% set rows = dataTableOptions.rows %}
   {% set totalRowsOnPage = dataTableOptions.rows.length %}
-
-  {# Dropdown Items #}
-  {% set ddItems = [] %}
-  {% set printButtonHtml %}
-  {{ dprPrintButton({
-    id: 'dd', 
-    text: 'Print displayed results',
-    count: totalRowsOnPage, 
-    classes: 'govuk-button--inverse', 
-    printable: printable 
-  }) }}
-  {% endset %}
-  {% set printAction = {
-    html: printButtonHtml
-  } %}
-  {% set ddItems = (ddItems.push(printAction), ddItems) %}
-
-  {# Dropdown Grouped Itens #}
-  {% set copyUrlHtml %}
-  {{ dprCopyUrlButton({ id: 'dd', classes: "govuk-button--inverse" }) }}
-  {% endset %}
-  {% set copyUrlGroupItem = {
-    html: copyUrlHtml
-  } %}
-  {% set subject = reportName + ' - ' + title | urlencode %}
-  {% set body = url | urlencode %}
-  {% set emailGroupItem = {
-    text: 'Email',
-    href: 'mailto:?subject=' + subject + '&body=' + body,
-    attributes: {
-      'id': 'email-button'
-    },
-    classes: 'filter-summary-controls'
-  } %}
-  {% set shareOptions = {
-    title: "Share:",
-    items: [copyUrlGroupItem, emailGroupItem]
-  } %}
-  {% set ddGroups = [shareOptions] %}
 
   {% set accordionItems = [] %}
   {# Filters #}
@@ -104,14 +62,7 @@
       </div>
       <div class="govuk-grid-column-one-third">
         <div class="dpr-actions">
-          {{ dprDropdownButton({
-            id: "actions",
-            text: "Actions",
-            classes: "",
-            attributes: {},
-            items: ddItems,
-            groups: ddGroups
-          }) }}
+          {{ dprIconButtonList(options.actions) }}
         </div>
       </div>
     </div>

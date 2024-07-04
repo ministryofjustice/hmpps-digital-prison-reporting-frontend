@@ -47,7 +47,7 @@ jest.spyOn(AsyncReportUtils, 'initDataSources').mockImplementation(() => [
 
 describe('AsyncReportUtils', () => {
   jest.spyOn(PaginationUtils, 'getPaginationData')
-  const ReportActionsUtilsSpy = jest.spyOn(ReportActionsUtils, 'initReportActions')
+  const ReportActionsUtilsSpy = jest.spyOn(ReportActionsUtils, 'initAsyncReportActions')
   jest.spyOn(DataTableUtils, 'mapData')
   jest.spyOn(DataTableUtils, 'mapAsyncHeader')
   jest.spyOn(ColumnUtils, 'getColumns')

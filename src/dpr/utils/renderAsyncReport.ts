@@ -43,7 +43,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
       const { classification } = definition.variant
       const { template } = definition.variant.specification
       const { reportName, name: variantName, description, timestamp, reportId, variantId } = reportStateData
-      const actions = ReportActionsUtils.initReportActions(definition.variant, reportStateData)
+      const actions = ReportActionsUtils.initAsyncReportActions(definition.variant, reportStateData)
 
       renderData = {
         variantName,
@@ -67,7 +67,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
           }
           break
         case 'listWithSections':
-          // TODO: add list eith sections utils here
+          // TODO: add list with sections utils here
           break
         default:
           renderData = {

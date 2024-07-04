@@ -113,6 +113,7 @@ export default {
     const { reportId, variantId, retryId, refreshId } = req.body
 
     const currentVariant = DefinitionUtils.getCurrentVariantDefinition(definitions, reportId, variantId)
+    const fields = currentVariant ? currentVariant.specification.fields : []
 
     const query: Dict<string> = {}
     const querySummary: Array<Dict<string>> = []
@@ -129,14 +130,14 @@ export default {
 
         if (name.startsWith('filters.') && value !== '') {
           filterData[shortName as keyof Dict<string>] = value
-          const fieldDisplayName = DefinitionUtils.getFieldDisplayName(currentVariant.specification.fields, shortName)
+          const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
           querySummary.push({
             name: fieldDisplayName || shortName,
             value,
           })
         } else if (name.startsWith('sort')) {
           sortData[name as keyof Dict<string>] = value
-          const fieldDef = DefinitionUtils.getField(currentVariant.specification.fields, value)
+          const fieldDef = DefinitionUtils.getField(fields, value)
 
           let displayName = 'Sort Direction'
           let displayValue = value

@@ -6,7 +6,6 @@ import * as AsyncReportUtils from '../utils/renderAsyncReport'
 
 import AsyncReportslistUtils from '../utils/asyncReportsUtils'
 import { Services } from '../types/Services'
-import definitions from '../../../test-app/mockAsyncData/mockReportDefinition'
 
 export default function routes({
   router,
@@ -50,7 +49,6 @@ export default function routes({
   }
 
   const asyncRequestHandler: RequestHandler = async (req, res, next) => {
-    res.locals.definitions = definitions.reports
     try {
       const redirectToPollingPage = await AsyncFiltersUtils.requestReport({
         req,

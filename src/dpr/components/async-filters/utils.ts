@@ -111,9 +111,11 @@ export default {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const definitions = res.locals.definitions ? res.locals.definitions : []
     const { reportId, variantId, retryId, refreshId } = req.body
-
+    console.log({ definitions })
     const currentVariant = DefinitionUtils.getCurrentVariantDefinition(definitions, reportId, variantId)
     const fields = currentVariant ? currentVariant.specification.fields : []
+
+    console.log({ fields })
 
     const query: Dict<string> = {}
     const querySummary: Array<Dict<string>> = []

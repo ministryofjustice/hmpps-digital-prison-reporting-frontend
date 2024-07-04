@@ -60,7 +60,7 @@ export default class BookmarkService extends UserStoreService {
     const checked = this.isBookmarked(variantId) ? 'checked' : null
     const tooltip = !checked ? 'Add Bookmark' : 'Remove Bookmark'
     return `<div class='dpr-bookmark dpr-bookmark-tooltip' tooltip="${tooltip}" data-dpr-module="bookmark-toggle">
-  <input class="bookmark-input" type='checkbox' id='${variantId}-${id}' data-report-id='${reportId}' data-variant-id='${variantId}' data-csrf-token='${csrfToken}' ${checked} />
+  <input class="bookmark-input" aria-label="bookmark toggle" type='checkbox' id='${variantId}-${id}' data-report-id='${reportId}' data-variant-id='${variantId}' data-csrf-token='${csrfToken}' ${checked} />
   <label for='${variantId}-${id}'></label>
 </div>`
   }

@@ -1,15 +1,13 @@
-import AsyncReportStoreService from '../services/requestedReportsService'
 import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
-import AsyncPollingUtils, { timeoutRequest } from '../components/async-polling/utils'
-import ReportingService from '../services/reportingService'
 import { CardData, RenderTableListResponse } from '../components/table-card-group/types'
+import { Services } from '../types/Services'
+import ReportStatusUtils from './reportStatusUtils'
 
 export const formatCardData = async (
   requestedReportsData: AsyncReportData,
-  dataSources: ReportingService,
+  services: Services,
   token: string,
-  asyncReportsStore: AsyncReportStoreService,
 ): Promise<CardData> => {
   let reportData: AsyncReportData = JSON.parse(JSON.stringify(requestedReportsData))
   const { executionId, reportId, variantId, dataProductDefinitionsPath } = reportData
@@ -17,19 +15,18 @@ export const formatCardData = async (
   let { status } = reportData
   if (status !== RequestStatus.FAILED && status !== RequestStatus.ABORTED) {
     let statusResponse
-    if (timeoutRequest(reportData.timestamp.requested)) {
+    if (ReportStatusUtils.timeoutRequest(reportData.timestamp.requested)) {
       statusResponse = {
         status: RequestStatus.FAILED,
       }
     } else {
-      statusResponse = await AsyncPollingUtils.getStatus(
+      statusResponse = await ReportStatusUtils.getStatus(
         token,
         reportId,
         variantId,
         executionId,
         status,
-        dataSources,
-        asyncReportsStore,
+        services,
         dataProductDefinitionsPath,
       )
     }
@@ -94,19 +91,15 @@ export const setDataFromStatus = (status: RequestStatus, requestedReportsData: A
   }
 }
 
-export const formatCards = async (
-  asyncReportsStore: AsyncReportStoreService,
-  dataSources: ReportingService,
-  token: string,
-): Promise<CardData[]> => {
-  const requestedReportsData: AsyncReportData[] = await asyncReportsStore.getAllReports()
+export const formatCards = async (services: Services, token: string): Promise<CardData[]> => {
+  const requestedReportsData: AsyncReportData[] = await services.asyncReportsStore.getAllReports()
   return Promise.all(
     requestedReportsData
       .filter((report: AsyncReportData) => {
         return !report.timestamp.lastViewed && !report.timestamp.retried
       })
       .map((report: AsyncReportData) => {
-        return formatCardData(report, dataSources, token, asyncReportsStore)
+        return formatCardData(report, services, token)
       }),
   )
 }
@@ -153,14 +146,13 @@ const formatTable = (cardData: CardData[]) => {
 
 export default {
   renderAsyncReportsList: async ({
-    asyncReportsStore,
-    dataSources,
+    services,
     res,
     maxRows,
   }: { maxRows?: number } & AsyncReportUtilsParams): Promise<RenderTableListResponse> => {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
 
-    let cardData = await formatCards(asyncReportsStore, dataSources, token)
+    let cardData = await formatCards(services, token)
 
     const head = {
       title: 'Requested Reports',

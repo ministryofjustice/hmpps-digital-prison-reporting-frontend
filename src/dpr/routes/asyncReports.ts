@@ -1,28 +1,20 @@
 import type { RequestHandler, Router } from 'express'
 import AsyncFiltersUtils from '../components/async-filters/utils'
 import AsyncPollingUtils from '../components/async-polling/utils'
-import AsyncReportStoreService from '../services/requestedReportsService'
-import ReportingService from '../services/reportingService'
-import RecentlyViewedStoreService from '../services/recentlyViewedService'
+
 import * as AsyncReportUtils from '../utils/renderAsyncReport'
 
 import AsyncReportslistUtils from '../utils/asyncReportsUtils'
-import BookmarkService from '../services/bookmarkService'
+import { Services } from '../types/Services'
 
 export default function routes({
   router,
-  asyncReportsStore,
-  recentlyViewedStoreService,
-  bookmarkService,
-  dataSources,
+  services,
   layoutPath,
   templatePath = 'dpr/views/',
 }: {
   router: Router
-  asyncReportsStore: AsyncReportStoreService
-  recentlyViewedStoreService: RecentlyViewedStoreService
-  bookmarkService: BookmarkService
-  dataSources: ReportingService
+  services: Services
   layoutPath: string
   templatePath?: string
 }) {
@@ -36,7 +28,12 @@ export default function routes({
 
   const getReportFiltersHandler: RequestHandler = async (req, res, next) => {
     try {
-      const filtersRenderData = await AsyncFiltersUtils.renderFilters({ req, res, dataSources, next })
+      const filtersRenderData = await AsyncFiltersUtils.renderFilters({
+        req,
+        res,
+        services,
+        next,
+      })
       res.render(`${templatePath}async-request`, {
         title: 'Request Report',
         layoutPath,
@@ -56,9 +53,7 @@ export default function routes({
       const redirectToPollingPage = await AsyncFiltersUtils.requestReport({
         req,
         res,
-        dataSources,
-        asyncReportsStore,
-        recentlyViewedStoreService,
+        services,
         next,
       })
       if (redirectToPollingPage) {
@@ -80,8 +75,7 @@ export default function routes({
       await AsyncPollingUtils.cancelRequest({
         req,
         res,
-        dataSources,
-        asyncReportsStore,
+        services,
       })
       res.end()
     } catch (error) {
@@ -97,8 +91,7 @@ export default function routes({
       const pollingRenderData = await AsyncPollingUtils.renderPolling({
         req,
         res,
-        dataSources,
-        asyncReportsStore,
+        services,
         next,
       })
       res.render(`${templatePath}/async-polling`, {
@@ -119,10 +112,7 @@ export default function routes({
       const reportRenderData = await AsyncReportUtils.getReport({
         req,
         res,
-        dataSources,
-        asyncReportsStore,
-        bookmarkService,
-        recentlyViewedStoreService,
+        services,
         next,
       })
       res.render(`${templatePath}async-report`, {
@@ -147,9 +137,7 @@ export default function routes({
       title: 'Requested Reports',
       layoutPath,
       ...(await AsyncReportslistUtils.renderAsyncReportsList({
-        recentlyViewedStoreService,
-        asyncReportsStore,
-        dataSources,
+        services,
         res,
       })),
     })

@@ -69,13 +69,18 @@ export default {
    * @param {AsyncReportUtilsParams} { req, res, dataSources }
    * @return {*}
    */
-  renderFilters: async ({ req, res, dataSources, next }: AsyncReportUtilsParams) => {
+  renderFilters: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
     try {
       const token = res.locals.user?.token ? res.locals.user.token : 'token'
       const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
       const { reportId, variantId } = req.params
       const { dataProductDefinitionsPath: definitionPath } = req.query
-      const definition = await dataSources.getDefinition(token, reportId, variantId, <string>definitionPath)
+      const definition = await services.reportingService.getDefinition(
+        token,
+        reportId,
+        variantId,
+        <string>definitionPath,
+      )
       const { name: reportName } = definition
       const { name: variantName, description } = definition.variant
       const { template } = definition.variant.specification
@@ -100,13 +105,7 @@ export default {
    *     asyncReportsStore,
    *   }
    */
-  requestReport: async ({
-    req,
-    res,
-    dataSources,
-    asyncReportsStore,
-    recentlyViewedStoreService,
-  }: AsyncReportUtilsParams) => {
+  requestReport: async ({ req, res, services }: AsyncReportUtilsParams) => {
     let redirect = ''
 
     const query: Dict<string> = {}
@@ -139,21 +138,21 @@ export default {
 
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const { reportId, variantId, retryId, refreshId } = req.body
-    const response = await dataSources.requestAsyncReport(token, reportId, variantId, query)
+    const response = await services.reportingService.requestAsyncReport(token, reportId, variantId, query)
     const { executionId, tableId } = response
 
     if (retryId) {
-      await asyncReportsStore.setReportTimestamp(retryId, 'retry')
-      await recentlyViewedStoreService.setReportTimestamp(retryId, 'retry')
+      await services.asyncReportsStore.setReportTimestamp(retryId, 'retry')
+      await services.recentlyViewedStoreService.setReportTimestamp(retryId, 'retry')
     }
 
     if (refreshId) {
-      await asyncReportsStore.setReportTimestamp(refreshId, 'refresh')
-      await recentlyViewedStoreService.setReportTimestamp(refreshId, 'refresh')
+      await services.asyncReportsStore.setReportTimestamp(refreshId, 'refresh')
+      await services.recentlyViewedStoreService.setReportTimestamp(refreshId, 'refresh')
     }
 
     if (executionId && tableId) {
-      const reportData = await asyncReportsStore.addReport(
+      const reportData = await services.asyncReportsStore.addReport(
         {
           ...req.body,
           executionId,

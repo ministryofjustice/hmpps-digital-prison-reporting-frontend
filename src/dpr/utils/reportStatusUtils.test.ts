@@ -1,16 +1,26 @@
-import AsyncPollingUtils from './utils'
-import { RequestStatus } from '../../types/AsyncReport'
-import ReportingService from '../../services/reportingService'
-import AsyncReportStoreService from '../../services/requestedReportsService'
+import ReportingService from '../services/reportingService'
+import AsyncReportStoreService from '../services/requestedReportsService'
+import { RequestStatus } from '../types/AsyncReport'
+import { Services } from '../types/Services'
+import ReportStatusUtils from './reportStatusUtils'
 
-describe('AsyncPollinutils', () => {
+describe('ReportStatusUtils', () => {
   let mocAsyncReportsStore: AsyncReportStoreService
+
+  const services: Services = {
+    asyncReportsStore: {},
+    recentlyViewedStoreService: {},
+    bookmarkService: {},
+    reportingService: {},
+  }
 
   beforeEach(() => {
     mocAsyncReportsStore = {
       updateStatus: jest.fn(),
       getReportByExecutionId: jest.fn().mockResolvedValue({ data: 'stuff' }),
     } as unknown as AsyncReportStoreService
+
+    services.asyncReportsStore = mocAsyncReportsStore
   })
 
   describe('getStatus', () => {
@@ -19,14 +29,15 @@ describe('AsyncPollinutils', () => {
         getAsyncReportStatus: jest.fn().mockResolvedValue({ status: RequestStatus.FINISHED }),
       } as unknown as ReportingService
 
-      const res = await AsyncPollingUtils.getStatus(
+      services.reportingService = mockReportingService
+
+      const res = await ReportStatusUtils.getStatus(
         'token',
         'reportId',
         'variantId',
         'executionId',
         RequestStatus.STARTED,
-        mockReportingService,
-        mocAsyncReportsStore,
+        services,
         '',
       )
 
@@ -39,14 +50,15 @@ describe('AsyncPollinutils', () => {
         getAsyncReportStatus: jest.fn().mockResolvedValue({ status: RequestStatus.STARTED }),
       } as unknown as ReportingService
 
-      const res = await AsyncPollingUtils.getStatus(
+      services.reportingService = mockReportingService
+
+      const res = await ReportStatusUtils.getStatus(
         'token',
         'reportId',
         'variantId',
         'executionId',
         RequestStatus.STARTED,
-        mockReportingService,
-        mocAsyncReportsStore,
+        services,
         '',
       )
 
@@ -61,14 +73,15 @@ describe('AsyncPollinutils', () => {
           .mockResolvedValue({ status: RequestStatus.FAILED, error: 'Mock error message' }),
       } as unknown as ReportingService
 
-      const res = await AsyncPollingUtils.getStatus(
+      services.reportingService = mockReportingService
+
+      const res = await ReportStatusUtils.getStatus(
         'token',
         'reportId',
         'variantId',
         'executionId',
         RequestStatus.STARTED,
-        mockReportingService,
-        mocAsyncReportsStore,
+        services,
         '',
       )
 

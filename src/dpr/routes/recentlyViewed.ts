@@ -1,21 +1,15 @@
 import type { Router } from 'express'
 import RecentReportslistUtils from '../utils/recentlyViewedUtils'
-import RecentlyViewedStoreService from '../services/recentlyViewedService'
-import AsyncReportStoreService from '../services/requestedReportsService'
-import ReportingService from '../services/reportingService'
+import { Services } from '../types/Services'
 
 export default function routes({
   router,
-  asyncReportsStore,
-  recentlyViewedStoreService,
-  dataSources,
+  services,
   layoutPath,
   templatePath = 'dpr/views/',
 }: {
   router: Router
-  recentlyViewedStoreService: RecentlyViewedStoreService
-  asyncReportsStore: AsyncReportStoreService
-  dataSources: ReportingService
+  services: Services
   layoutPath: string
   templatePath?: string
 }) {
@@ -24,9 +18,7 @@ export default function routes({
       title: 'Requested Reports',
       layoutPath,
       ...(await RecentReportslistUtils.renderRecentlyViewedList({
-        recentlyViewedStoreService,
-        asyncReportsStore,
-        dataSources,
+        services,
         res,
       })),
     })

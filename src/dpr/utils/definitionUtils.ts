@@ -25,7 +25,10 @@ export default {
     const field = fields.find((f) => {
       return f.name === ids[0]
     })
-    return ids[1] ? `${field.display} ${ids[1]}` : field.display
+    if (field) {
+      return ids[1] ? `${field.display} ${ids[1]}` : field.display
+    }
+    return fieldId
   },
 
   getField: (fields: components['schemas']['FieldDefinition'][], fieldId: string) => {

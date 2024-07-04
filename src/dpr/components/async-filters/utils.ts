@@ -111,7 +111,6 @@ export default {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const definitions = res.locals.definitions ? res.locals.definitions : []
     const { reportId, variantId, retryId, refreshId } = req.body
-
     const currentVariant = DefinitionUtils.getCurrentVariantDefinition(definitions, reportId, variantId)
     const fields = currentVariant ? currentVariant.specification.fields : []
 

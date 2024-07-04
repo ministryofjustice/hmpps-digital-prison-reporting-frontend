@@ -6,6 +6,7 @@ import { DateFilterValue, FilterValue } from '../filters/types'
 import { FilterType } from '../filter-input/enum'
 import SortHelper from './sortByTemplate'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
+import DefinitionUtils from '../../utils/definitionUtils'
 
 /**
  * Initialises the filters from the definition data
@@ -107,6 +108,12 @@ export default {
    */
   requestReport: async ({ req, res, services }: AsyncReportUtilsParams) => {
     let redirect = ''
+    const token = res.locals.user?.token ? res.locals.user.token : 'token'
+    const definitions = res.locals.definitions ? res.locals.definitions : []
+    const { reportId, variantId, retryId, refreshId } = req.body
+
+    const currentVariant = DefinitionUtils.getCurrentVariantDefinition(definitions, reportId, variantId)
+    const fields = currentVariant ? currentVariant.specification.fields : []
 
     const query: Dict<string> = {}
     const querySummary: Array<Dict<string>> = []
@@ -123,21 +130,29 @@ export default {
 
         if (name.startsWith('filters.') && value !== '') {
           filterData[shortName as keyof Dict<string>] = value
+          const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
           querySummary.push({
-            name: shortName,
+            name: fieldDisplayName || shortName,
             value,
           })
         } else if (name.startsWith('sort')) {
           sortData[name as keyof Dict<string>] = value
+          const fieldDef = DefinitionUtils.getField(fields, value)
+
+          let displayName = 'Sort Direction'
+          let displayValue = value
+          if (fieldDef) {
+            displayName = 'Sort Column'
+            displayValue = fieldDef.display
+          }
+
           querySummary.push({
-            name,
-            value,
+            name: displayName,
+            value: displayValue,
           })
         }
       })
 
-    const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const { reportId, variantId, retryId, refreshId } = req.body
     const response = await services.reportingService.requestAsyncReport(token, reportId, variantId, query)
     const { executionId, tableId } = response
 

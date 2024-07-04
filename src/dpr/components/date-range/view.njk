@@ -27,7 +27,10 @@
         } if mandatory else {
           max: data.max,
           min: data.min
-        }
+        },
+        hint: {
+          html: "(Optional)"
+        } if not mandatory
       }) }}
       {% if min %}
         <div class="govuk-body-xs daterange-set-to-minmax" 
@@ -55,7 +58,10 @@
         } if mandatory else {
           max: data.max,
           min: data.min
-        }
+        },
+        hint: {
+          html: "(Optional)"
+        } if not mandatory
       }) }}
       {% if max %}
         <div class="govuk-body-xs daterange-set-to-minmax" 

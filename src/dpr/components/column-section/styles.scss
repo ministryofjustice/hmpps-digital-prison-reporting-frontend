@@ -1,0 +1,23 @@
+.dpr-columns-section-wrapper {
+  position: relative;
+
+  @media print {
+    display: none;
+  }
+
+  .columns-section-button {
+    min-width: 130px;
+    padding-right: govuk-spacing(3);
+  }
+
+  .columns-section-header {
+    position: absolute;
+    width: calc(100% - 120px);
+    left: 120px;
+    top: 1px;
+
+    @media(max-width: 640px) {
+      top: -1px;
+    }
+  }
+}

@@ -122,6 +122,7 @@ const validationVariant = {
         defaultsort: true,
         type: 'string',
         mandatory: false,
+        visible: true,
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -138,6 +139,7 @@ const validationVariant = {
         sortable: true,
         type: 'string',
         mandatory: false,
+        visible: true,
         filter: {
           type: 'Select',
           staticOptions: [
@@ -154,6 +156,7 @@ const validationVariant = {
         sortable: false,
         type: 'date',
         mandatory: false,
+        visible: true,
         filter: {
           type: 'daterange',
           min: '2003-02-01',
@@ -166,6 +169,7 @@ const validationVariant = {
         display: 'Field 4',
         sortable: false,
         type: 'string',
+        visible: true,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {

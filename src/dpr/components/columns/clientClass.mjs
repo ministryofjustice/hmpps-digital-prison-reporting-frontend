@@ -1,62 +1,37 @@
-import DprLoadingClientClass from '../../DprLoadingClientClass.mjs'
+import DprQueryParamClass from '../../DprQueryParamClass.mjs'
 
-export default class Columns extends DprLoadingClientClass {
-  static getModuleName() {
+export default class Columns extends DprQueryParamClass {
+  static getModuleName () {
     return 'columns'
   }
 
-  initialise() {
-    const applyColumnsButton = this.getElement().querySelector('[data-apply-columns-to-querystring=true]')
-    applyColumnsButton.addEventListener('click', (e) => {
-      this.showLoadingAnimation()
-      this.applyButtonClick(e, this.getElement())
-    })
+  initialise () {
+    this.form = this.getElement()
+    this.submitButton = this.getElement().querySelector('.dpr-apply-columns-button')
+    this.resetButton = this.getElement().querySelector('.dpr-reset-columns-button')
 
-    const resetColumnsButton = this.getElement().querySelector('[data-reset-columns=true]')
-    resetColumnsButton.addEventListener('click', (e) => {
-      this.showLoadingAnimation()
-      this.resetButtonClick(e)
+    this.initInputsFromQueryParams()
+    this.initQueryParamsFromInputs(this.form.elements)
+    this.initInputEvents(this.form.elements)
+
+    this.initSubmitButton()
+    this.initResetButton()
+  }
+
+  initSubmitButton () {
+    this.submitButton.addEventListener('click', (e) => {
+      e.preventDefault()
+      this.loadingHelper.showLoadingAnimation()
+      window.location.reload()
     })
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  applyButtonClick(e, columnsForm) {
-    e.preventDefault()
-    const columnsFormInputs = columnsForm.querySelectorAll(`input`)
-    const colsRegExp = /columns=[^&]*/g
-    const ampRexEx = /(&)\1+/g
-
-    columnsFormInputs.forEach((input) => {
-      // eslint-disable-next-line no-param-reassign
-      input.disabled = false
+  initResetButton () {
+    this.resetButton.addEventListener('click', (e) => {
+      e.preventDefault()
+      this.loadingHelper.showLoadingAnimation()
+      this.clearQueryParams('columns')
+      window.location.reload()
     })
-
-    const formData = new FormData(columnsForm)
-    let serializedFormData = ''
-    formData.forEach((n, v) => {
-      serializedFormData += `&${v.replace('.columns', '')}=${n}`
-    })
-
-    columnsFormInputs.forEach((input) => {
-      // eslint-disable-next-line no-param-reassign
-      input.disabled = true
-    })
-
-    let url = decodeURI(window.location.href).replaceAll(colsRegExp, '')
-    url += url.indexOf('?') === -1 ? '?' : '&'
-    url += serializedFormData
-    url = url.replaceAll('?&', '?').replaceAll(ampRexEx, '&')
-
-    window.location.href = url
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  resetButtonClick(e) {
-    e.preventDefault()
-    const resetColsRegExp = /&?columns=[^&]*/g
-    let url = decodeURI(window.location.href).replaceAll(resetColsRegExp, '')
-    url += url.indexOf('?') === -1 ? '?' : '&'
-
-    window.location.href = url
   }
 }

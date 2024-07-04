@@ -1,7 +1,8 @@
 export class DprClientClass {
 
-  constructor(element) {
+  constructor(element, loadingHelper) {
     this.element = element
+    this.loadingHelper = loadingHelper
   }
 
   static getModuleName() {

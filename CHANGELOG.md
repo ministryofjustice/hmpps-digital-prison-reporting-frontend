@@ -1,6 +1,13 @@
 Below you can find the changes included in each release.
 
-## v3.15.1
+## v3.15.3
+
+- Single component for choosing columns in both journeys.
+- Async column section now has loading spinner and "X of Y shown" summary.
+- Optional hint on non-mandatory filters.
+
+
+## v3.15.1 - v3.15.2
 
 - Bookmarking
 

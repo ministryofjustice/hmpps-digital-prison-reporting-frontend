@@ -1,7 +1,7 @@
 import parseUrl from 'parseurl'
 import { Request } from 'express'
 import DataTableUtils from '../data-table/utils'
-import ColumnUtils from '../async-columns/utils'
+import ColumnUtils from '../columns/utils'
 import PaginationUtils from '../pagination/utils'
 import { components } from '../../types/api'
 import Dict = NodeJS.Dict

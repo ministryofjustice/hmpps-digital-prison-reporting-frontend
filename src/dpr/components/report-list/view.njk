@@ -5,17 +5,17 @@
   {% from "../print-button/view.njk" import dprPrintButton %}
   {% from "../copy-url-button/view.njk" import dprCopyUrlButton %}
   {% from "../filters/view.njk" import dprFilters %}
-  {% from "../columns/view.njk" import dprColumns %}
   {% from "dpr/components/loading-anim/view.njk" import dprLoadingAnim -%}
   {% from "govuk/components/button/macro.njk" import govukButton %}
   {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+  {% from "dpr/components/column-section/view.njk" import dprColumnSection %}
 
   {% set title = options.title %}
 
   {% set dataTableOptions = options.dataTableOptions %}
-  {% set columnOptions = options.columnOptions %}
   {% set filterOptions = options.filterOptions %}
   {% set warnings = options.warnings %}
+  {% set columns = options.columns %}
 
   {# Datatable #}
   {% set head = dataTableOptions.head %}
@@ -93,27 +93,6 @@
     {% set accordionItems = (accordionItems.push(filtersAccordionItem), accordionItems) %}
   {% endif %}
 
-  {# Columns #}
-  {% set columns = columnOptions.columns %}
-  {% set selectedColumns = columnOptions.selectedColumns %}
-  {% set colsData = { name: "columns", options: columns, value: selectedColumns }%}
-  {% set columnsHtml %}
-  <div class="data-table-columns">
-    {{ dprColumns(colsData) }}
-  </div>
-  {% endset %}
-  {% set colsHeaderHtml %}
-  <div class="columns-header">
-    <p class="govuk-body govuk-!-margin-bottom-0">{{ colsData.value.length }} of {{ colsData.options.length }} shown</p>
-  </div>
-  {% endset %}
-  {% set columnsAccordionItem = {
-    summaryText: 'Columns',
-    bodyHtml: columnsHtml,
-    headerHtml: colsHeaderHtml
-  } %}
-  {% set accordionItems = (accordionItems.push(columnsAccordionItem), accordionItems) %}
-
   <div class="govuk-width-container report-list-container {% if (dataTableOptions.printable == false) %}print-hide{% endif %} govuk-!-margin-top-3">
     {{ dprLoadingAnim() }}
     <div class="govuk-grid-row">
@@ -152,6 +131,7 @@
       <div class="moj-filter-layout__content">
         <div class="moj-action-bar">
           {{ dprAccordion(accordionItems) }}
+          {{ dprColumnSection(columns) }}
         </div>
         <div class="moj-scrollable-pane">
           {{ dprDataTable(

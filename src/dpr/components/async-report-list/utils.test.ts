@@ -2,7 +2,7 @@ import { Request } from 'express'
 import { Url } from 'url'
 import AsyncReportListUtils from './utils'
 import DataTableUtils from '../data-table/utils'
-import ColumnUtils from '../async-columns/utils'
+import ColumnUtils from '../columns/utils'
 import PaginationUtils from '../pagination/utils'
 
 import createMockData from '../../../../test-app/mockAsyncData/mockAsyncData'

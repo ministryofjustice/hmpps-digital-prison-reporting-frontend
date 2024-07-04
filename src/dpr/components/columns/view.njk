@@ -1,48 +1,42 @@
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% macro dprColumns(columns, parameterPrefix = "columns.") %}
-  <form id="user-selected-columns-form" data-dpr-module="columns">
+{% macro dprColumns(columns) %}
+  {% set items = columns.options %}
+  {% set name = columns.name %}
+  {% set text = columns.text %}
+  {% set values = columns.value %}
+
+  <form data-dpr-module="columns" class="dpr-columns-form">
     <div class="columns-container">
       {{ govukCheckboxes({
-          id: 'columns.' + columns.name,
-          name: 'columns.' + columns.name,
+          id: name,
+          name: name,
           classes: "govuk-checkboxes--small",
           formGroup: {
             classes: "govuk-!-margin-bottom-3"
           },
           fieldset: {
             legend: {
-              text: columns.text,
+              text: text,
               classes: "govuk-label govuk-!-font-weight-bold"
             }
           },
-          items: columns.options,
-          values: columns.value
+          items: items,
+          values: values
         }) }}
     </div>
 
-    <div class="filter-actions">
-      <div class="filter-actions-buttons">
-
-        {{ govukButton({
-        text: "Apply Columns",  
-        attributes: {
-          'data-apply-columns-to-querystring': 'true',
-          'data-apply-form-selector': '.data-table-columns'
-        },
-        classes: "govuk-button govuk-!-margin-bottom-0"
+    <div class="column-actions">
+      {{ govukButton({
+        text: "Apply Columns",
+        classes: "govuk-button govuk-!-margin-bottom-0 dpr-apply-columns-button"
       }) }}
 
-        {{ govukButton({
+      {{ govukButton({
         text: "Reset Columns",
-        attributes: {
-          'data-reset-columns': 'true'
-        },
-        classes: "govuk-button--secondary govuk-!-margin-bottom-0"
+        classes: "govuk-button--secondary govuk-!-margin-bottom-0 dpr-reset-columns-button"
       }) }}
-
-      </div>
     </div>
   </form>
 {% endmacro %}

@@ -41,7 +41,7 @@ export default class ReportQuery implements FilteredListRequest {
     if (queryParams.columns) {
       const columns =
         typeof queryParams.columns === 'string' ? queryParams.columns.split(',') : (queryParams.columns as string[])
-      this.columns = ColumnUtils.getSelectedColumns(fields, columns)
+      this.columns = ColumnUtils.ensureMandatoryColumns(fields, columns)
     } else {
       this.columns = fields.filter((f) => f.visible).map((f) => f.name)
     }

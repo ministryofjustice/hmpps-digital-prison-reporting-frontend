@@ -99,11 +99,6 @@ function renderList(
           data = resolvedData[0]
         }
 
-        const columnOptions = {
-          columns: ColumnUtils.getColumns(fields),
-          selectedColumns: reportQuery.columns,
-        }
-
         const dataTableOptions: DataTableOptions = {
           head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
           rows: DataTableUtils.mapData(data, fields, reportQuery.columns),
@@ -124,7 +119,7 @@ function renderList(
           reportName,
           dataTableOptions,
           filterOptions,
-          columnOptions,
+          columns: ColumnUtils.getColumns(fields, reportQuery.columns),
           layoutTemplate,
           ...otherOptions,
           warnings,

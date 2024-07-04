@@ -21,7 +21,7 @@
     }
   ].concat(options) %}
 
-  <div class='filter-item'>
+  <div class="dpr-filter-item">
     {%- if filterType === 'select' %}
 
       {{ govukSelect({
@@ -88,14 +88,17 @@
         value: value,
         label: {
           text: text,
-          classes: 'govuk-!-font-weight-bold'
+          classes: 'govuk-!-font-weight-bold dpr-inline-label'
         },
         attributes: {
           pattern: pattern,
           required: true
         } if mandatory else {
           pattern: pattern
-        }
+        },
+        hint: {
+          html: "(Optional)"
+        } if not mandatory
       }) }}
 
     {% endif %}

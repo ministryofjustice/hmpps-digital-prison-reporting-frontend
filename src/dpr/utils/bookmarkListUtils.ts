@@ -41,7 +41,7 @@ const formatTable = (
 
   return {
     rows: maxRows ? rows.slice(0, maxRows) : rows,
-    head: [{ text: 'Product' }, { text: 'Name' }, { text: 'Description' }, { text: '' }],
+    head: [{ text: 'Product' }, { text: 'Name' }, { text: 'Description' }, { text: 'Bookmark' }],
   }
 }
 

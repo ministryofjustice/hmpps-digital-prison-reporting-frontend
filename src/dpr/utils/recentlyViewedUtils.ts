@@ -4,6 +4,7 @@ import { RecentlyViewedReportData } from '../types/RecentlyViewed'
 import { RequestStatus } from '../types/AsyncReport'
 import { Services } from '../types/Services'
 import ReportStatusUtils from './reportStatusUtils'
+import { createDetailsHtml, createSummaryHtml } from './reportSummaryHelper'
 
 export const formatCards = async (services: Services, token: string): Promise<CardData[]> => {
   const requestedReportsData: RecentlyViewedReportData[] = await services.recentlyViewedStoreService.getAllReports()
@@ -75,7 +76,13 @@ const formatTable = (cardData: CardData[]) => {
 
   return {
     rows,
-    head: [{ text: 'Name' }, { text: 'Description' }, { text: 'Status' }, { text: 'Timestamp' }],
+    head: [
+      { text: 'Name' },
+      { text: 'Description' },
+      { text: 'Applied Filters', classes: `dpr-req-filters-summary` },
+      { text: 'Timestamp' },
+      { text: 'Status' },
+    ],
   }
 }
 
@@ -85,11 +92,12 @@ const formatTableData = (card: CardData) => {
 
   return [
     { html: `<a href='${card.href}'>${card.text}</a>` },
-    { text: card.description },
+    { html: createDetailsHtml('Description', card.description) },
+    { html: createDetailsHtml('Applied Filters', createSummaryHtml(card)) },
+    { text: card.timestamp },
     {
       html: statusHtml,
     },
-    { text: card.timestamp },
   ]
 }
 

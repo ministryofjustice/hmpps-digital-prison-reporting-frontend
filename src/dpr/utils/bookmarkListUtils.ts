@@ -41,7 +41,12 @@ const formatTable = (
 
   return {
     rows: maxRows ? rows.slice(0, maxRows) : rows,
-    head: [{ text: 'Product' }, { text: 'Name' }, { text: 'Description' }, { text: 'Bookmark' }],
+    head: [
+      { text: 'Product' },
+      { text: 'Name' },
+      { text: 'Description', classes: 'dpr-description-head' },
+      { text: 'Bookmark', classes: 'dpr-bookmark-head' },
+    ],
   }
 }
 
@@ -51,7 +56,10 @@ const formatTableData = (bookmarksData: BookmarkedReportData, bookmarkService: B
     { text: reportName },
     { html: `<a href='${href}'>${name}</a>` },
     { text: description },
-    { html: bookmarkService.createBookMarkToggleHtml(reportId, variantId, csrfToken, 'bookmark-list') },
+    {
+      html: bookmarkService.createBookMarkToggleHtml(reportId, variantId, csrfToken, 'bookmark-list'),
+      classes: 'dpr-vertical-align',
+    },
   ]
 }
 

@@ -3,6 +3,7 @@ import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 import { CardData, RenderTableListResponse } from '../components/table-card-group/types'
 import { Services } from '../types/Services'
 import ReportStatusUtils from './reportStatusUtils'
+import { createDetailsHtml, createSummaryHtml } from './reportSummaryHelper'
 
 export const formatCardData = async (
   requestedReportsData: AsyncReportData,
@@ -125,7 +126,8 @@ const formatTableData = (card: CardData) => {
 
   return [
     { html: `<a href='${card.href}'>${card.text}</a>` },
-    { text: card.description },
+    { html: createDetailsHtml('Description', card.description) },
+    { html: createDetailsHtml('Applied Filters', createSummaryHtml(card)) },
     { text: card.timestamp },
     {
       html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${card.status}</strong>`,
@@ -140,7 +142,13 @@ const formatTable = (cardData: CardData[]) => {
 
   return {
     rows,
-    head: [{ text: 'Name' }, { text: 'Description' }, { text: 'Timestamp' }, { text: 'Status' }],
+    head: [
+      { text: 'Name' },
+      { text: 'Description' },
+      { text: 'Applied Filters', classes: `dpr-req-filters-summary` },
+      { text: 'Timestamp' },
+      { text: 'Status' },
+    ],
   }
 }
 

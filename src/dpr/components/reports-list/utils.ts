@@ -7,7 +7,8 @@ export default {
     res: Response,
     services: Services,
   ): { head: { text: string }[]; rows: { text?: string; html?: string }[] } => {
-    const { definitions, pathSuffix, csrfToken } = res.locals
+    const { definitions, csrfToken } = res.locals
+    const pathSuffix = res.locals.pathSuffix || ''
     const rows = definitions.flatMap((d: components['schemas']['ReportDefinitionSummary']) => {
       const { id: reportId, name: reportName, description: reportDescription } = d
       return d.variants.map((v) => {
@@ -24,7 +25,12 @@ export default {
       })
     })
 
-    const head = [{ text: 'Product' }, { text: 'Name' }, { text: 'Description' }, { text: 'Bookmark' }]
+    const head = [
+      { text: 'Product' },
+      { text: 'Name' },
+      { text: 'Description', classes: 'dpr-description-head' },
+      { text: 'Bookmark', classes: 'dpr-bookmark-head' },
+    ]
 
     return {
       head,

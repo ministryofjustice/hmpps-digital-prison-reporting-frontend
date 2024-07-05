@@ -44,7 +44,7 @@ const formatTable = (
     head: [
       { text: 'Product' },
       { text: 'Name' },
-      { text: 'Description' },
+      { text: 'Description', classes: 'dpr-description-head' },
       { text: 'Bookmark', classes: 'dpr-bookmark-head' },
     ],
   }

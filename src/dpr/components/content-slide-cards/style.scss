@@ -11,15 +11,6 @@
     .dpr-card-group__item__description {
       margin-top: 10px;
     }
-    
-    ul.dpr-card-group__item__filters-list {
-      list-style-type: none;
-      padding: 0;
-
-      li {
-        margin-bottom: 0;
-      }
-    }
 
     .dpr-card-group__item__timestamp {
       position: absolute;
@@ -36,5 +27,14 @@
       bottom: 0;
       right: 0;
     }
+  }
+}
+
+ul.dpr-card-group__item__filters-list {
+  list-style-type: none;
+  padding: 0;
+
+  li {
+    margin-bottom: 0;
   }
 }

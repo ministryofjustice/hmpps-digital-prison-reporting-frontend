@@ -26,7 +26,7 @@ export interface AsyncReportUrlData {
   polling?: AsyncReportUrlItemData
 }
 
-interface AsyncReportUrlItemData {
+export interface AsyncReportUrlItemData {
   pathname?: string
   fullUrl?: string
   search?: string

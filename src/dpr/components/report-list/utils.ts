@@ -1,5 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express'
 import ReportQuery from '../../types/ReportQuery'
+import { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 import createUrlForParameters from '../../utils/urlHelper'
 import { DataTableOptions } from '../data-table/types'
 import FilterUtils from '../filters/utils'
@@ -17,13 +18,6 @@ import { DataTable } from '../../utils/DataTableBuilder/types'
 import PaginationUtils from '../pagination/utils'
 import parseUrl from 'parseurl'
 import { FilterOptions } from '../filters/types'
-
-const filtersQueryParameterPrefix = 'filters.'
-
-function getDefaultSortColumn(fields: components['schemas']['FieldDefinition'][]) {
-  const defaultSortColumn = fields.find((f) => f.defaultsort)
-  return defaultSortColumn ? defaultSortColumn.name : fields.find((f) => f.sortable)?.name
-}
 
 function isListWithWarnings(data: Dict<string>[] | ListWithWarnings): data is ListWithWarnings {
   return (data as ListWithWarnings).data !== undefined
@@ -52,15 +46,15 @@ function redirectWithDefaultFilters(
 
           if (dates.length >= 1) {
             // eslint-disable-next-line prefer-destructuring
-            defaultFilters[`${filtersQueryParameterPrefix}${f.name}.start`] = dates[0]
+            defaultFilters[`${DEFAULT_FILTERS_PREFIX}${f.name}.start`] = dates[0]
 
             if (dates.length >= 2) {
               // eslint-disable-next-line prefer-destructuring
-              defaultFilters[`${filtersQueryParameterPrefix}${f.name}.end`] = dates[1]
+              defaultFilters[`${DEFAULT_FILTERS_PREFIX}${f.name}.end`] = dates[1]
             }
           }
         } else {
-          defaultFilters[`${filtersQueryParameterPrefix}${f.name}`] = f.filter.defaultValue
+          defaultFilters[`${DEFAULT_FILTERS_PREFIX}${f.name}`] = f.filter.defaultValue
         }
       })
   }
@@ -179,8 +173,6 @@ const renderListWithDefinition = ({
       const reportQuery = new ReportQuery(
         variantDefinition.specification,
         request.query,
-        getDefaultSortColumn(variantDefinition.specification.fields),
-        filtersQueryParameterPrefix,
         definitionsPath,
       )
 
@@ -208,8 +200,6 @@ const renderListWithDefinition = ({
 }
 
 export default {
-  filtersQueryParameterPrefix,
-
   renderListWithData: ({
     title,
     reportName,
@@ -223,12 +213,9 @@ export default {
     dynamicAutocompleteEndpoint,
   }: RenderListWithDataInput) => {
     const { specification } = variantDefinition
-    const { fields } = specification
     const reportQuery = new ReportQuery(
       specification,
       request.query,
-      getDefaultSortColumn(fields),
-      filtersQueryParameterPrefix,
     )
     const listData = getListDataSources(reportQuery)
 

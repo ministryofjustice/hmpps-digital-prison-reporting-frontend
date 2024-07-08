@@ -41,11 +41,12 @@
 
       {% elif template === 'list-section' %}
 
-
+        {{ dprAsyncReportList(renderData) }}
 
       {% else %}
 
         {{ dprAsyncReportList(renderData) }}
+        {{ dprPagination(pagination) }}
 
       {% endif %}
     </div>

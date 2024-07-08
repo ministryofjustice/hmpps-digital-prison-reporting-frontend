@@ -6,6 +6,8 @@ import { clearFilterValue } from '../utils/urlHelper'
 import ColumnUtils from '../components/columns/utils'
 import { Template } from './Template'
 
+export const DEFAULT_FILTERS_PREFIX = 'filters.'
+
 export default class ReportQuery implements FilteredListRequest {
   selectedPage: number
 
@@ -26,15 +28,14 @@ export default class ReportQuery implements FilteredListRequest {
   constructor(
     specification: components['schemas']['Specification'],
     queryParams: ParsedQs,
-    defaultSortColumn: string,
-    filtersPrefix: string,
     definitionsPath?: string,
+    filtersPrefix: string = DEFAULT_FILTERS_PREFIX,
   ) {
     const { fields, template } = specification
 
     this.selectedPage = queryParams.selectedPage ? Number(queryParams.selectedPage) : 1
     this.pageSize = queryParams.pageSize ? Number(queryParams.pageSize) : this.getDefaultPageSize(template as Template)
-    this.sortColumn = queryParams.sortColumn ? queryParams.sortColumn.toString() : defaultSortColumn
+    this.sortColumn = queryParams.sortColumn ? queryParams.sortColumn.toString() : this.getDefaultSortColumn(fields)
     this.sortedAsc = queryParams.sortedAsc !== 'false'
     this.dataProductDefinitionsPath =
       definitionsPath ??
@@ -59,10 +60,10 @@ export default class ReportQuery implements FilteredListRequest {
     this.filters = {}
 
     Object.keys(queryParams)
-      .filter((key) => key.startsWith(filtersPrefix))
+      .filter((key) => key.startsWith(this.filtersPrefix))
       .filter((key) => queryParams[key])
       .forEach((key) => {
-        const filter = key.replace(filtersPrefix, '')
+        const filter = key.replace(this.filtersPrefix, '')
         let value = queryParams[key].toString()
         if (filter.includes('.start') && min) {
           if (new Date(value) < new Date(min)) value = min
@@ -72,6 +73,11 @@ export default class ReportQuery implements FilteredListRequest {
         }
         this.filters[filter] = value
       })
+  }
+
+  private getDefaultSortColumn(fields: components['schemas']['FieldDefinition'][]) {
+    const defaultSortColumn = fields.find((f) => f.defaultsort)
+    return defaultSortColumn ? defaultSortColumn.name : fields.find((f) => f.sortable)?.name
   }
 
   toRecordWithFilterPrefix(removeClearedFilters = false): Record<string, string | Array<string>> {

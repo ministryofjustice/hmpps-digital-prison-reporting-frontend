@@ -146,6 +146,7 @@ app.get('/async-reports', async (req, res) => {
     bookmarks: {
       ...(await BookmarklistUtils.renderBookmarkList({
         res,
+        req,
         services,
         maxRows: 6,
       })),

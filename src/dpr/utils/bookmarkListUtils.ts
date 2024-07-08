@@ -71,7 +71,7 @@ const mapBookmarkIdsToDefinition = async (
   const bookmarkData: BookmarkedReportData[] = []
   const { dataProductDefinitionsPath: definitionPath } = req.query
 
-  Promise.all(
+  await Promise.all(
     bookmarks.map(async (bookmark) => {
       const definition = await services.reportingService.getDefinition(
         token,

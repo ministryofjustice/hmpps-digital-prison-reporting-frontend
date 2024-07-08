@@ -109,10 +109,10 @@ export default {
   requestReport: async ({ req, res, services }: AsyncReportUtilsParams) => {
     let redirect = ''
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const definitions = res.locals.definitions ? res.locals.definitions : []
     const { reportId, variantId, retryId, refreshId } = req.body
-    const currentVariant = DefinitionUtils.getCurrentVariantDefinition(definitions, reportId, variantId)
-    const fields = currentVariant ? currentVariant.specification.fields : []
+    const { dataProductDefinitionsPath: definitionPath } = req.query
+    const definition = await services.reportingService.getDefinition(token, reportId, variantId, <string>definitionPath)
+    const fields = definition ? definition.variant.specification.fields : []
 
     const query: Dict<string> = {}
     const querySummary: Array<Dict<string>> = []
@@ -194,7 +194,7 @@ export default {
       title: 'Request Failed',
       errorDescription: 'Your report has failed to generate. The issue has been reported to admin staff',
       retry: true,
-      error: error.data,
+      error: error.data ? error.data : error,
       filters,
     }
   },

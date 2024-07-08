@@ -13,14 +13,14 @@ export default function routes({
   layoutPath: string
   templatePath?: string
 }) {
-  router.post('/addBookmark/', (req, res) => {
+  router.post('/addBookmark/', async (req, res) => {
     const { reportId, variantId } = req.body
-    services.bookmarkService.addBookmark(reportId, variantId)
+    await services.bookmarkService.addBookmark(reportId, variantId)
     res.end()
   })
 
-  router.post('/removeBookmark/', (req, res) => {
-    services.bookmarkService.removeBookmark(req.body.variantId)
+  router.post('/removeBookmark/', async (req, res) => {
+    await services.bookmarkService.removeBookmark(req.body.variantId)
     res.end()
   })
 

@@ -1,12 +1,13 @@
 {% macro dprReportList(options) %}
   {% from "govuk/components/button/macro.njk" import govukButton %}
   {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
-  {% from "dpr/components/data-table/view.njk" import dprDataTable %}
   {% from "dpr/components/accordion/view.njk" import dprAccordion %}
   {% from "dpr/components/filters/view.njk" import dprFilters %}
   {% from "dpr/components/loading-anim/view.njk" import dprLoadingAnim -%}
   {% from "dpr/components/column-section/view.njk" import dprColumnSection %}
   {% from "dpr/components/icon-button-list/view.njk" import dprIconButtonList %}
+  {% from "dpr/components/pagination/view.njk" import dprPagination %}
+  {% from "dpr/components/data-table/view.njk" import dprDataTable %}
 
   {% set title = options.title %}
 
@@ -16,21 +17,15 @@
   {% set columns = options.columns %}
 
   {# Datatable #}
-  {% set head = dataTableOptions.head %}
-  {% set rows = dataTableOptions.rows %}
-  {% set count = dataTableOptions.count %}
-  {% set currentQueryParams = dataTableOptions.currentQueryParams %}
-  {% set classification = dataTableOptions.classification %}
+  {% set pagination = dataTableOptions.pagination %}
   {% set printable = dataTableOptions.printable %}
-  {% set urlWithNoFilters = currentQueryParams | createUrlForParameters(null) %}
-  {% set rows = dataTableOptions.rows %}
-  {% set totalRowsOnPage = dataTableOptions.rows.length %}
 
   {% set accordionItems = [] %}
   {# Filters #}
   {% set filters = filterOptions.filters %}
   {% if filters.length > 0 %}
     {% set selectedFilters = filterOptions.selectedFilters %}
+    {% set urlWithNoFilters = filterOptions.urlWithNoFilters %}
     {% set filterHtml %}
     <div class="data-table-filters">
       {{ dprFilters( filters, urlWithNoFilters ) }}
@@ -51,14 +46,14 @@
     {% set accordionItems = (accordionItems.push(filtersAccordionItem), accordionItems) %}
   {% endif %}
 
-  <div class="govuk-width-container report-list-container {% if (dataTableOptions.printable == false) %}print-hide{% endif %} govuk-!-margin-top-3">
+  <div class="govuk-width-container report-list-container {% if (printable == false) %}print-hide{% endif %} govuk-!-margin-top-3">
     {{ dprLoadingAnim() }}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-m govuk-!-margin-bottom-1">
           {{ title }}
         </h1>
-        <h2 class="govuk-caption-m govuk-!-margin-top-1">{{ count }} total results</h2>
+        <h2 class="govuk-caption-m govuk-!-margin-top-1">{{ pagination.totalRows }} total results</h2>
       </div>
       <div class="govuk-grid-column-one-third">
         <div class="dpr-actions">
@@ -85,19 +80,17 @@
           {{ dprColumnSection(columns) }}
         </div>
         <div class="moj-scrollable-pane">
-          {{ dprDataTable(
-            head,
-            rows,
-            count,
-            currentQueryParams,
-            classification
-          ) }}
+          {{ dprDataTable(dataTableOptions) }}
+
+          {% if template === 'list' %}
+            {{ dprPagination(pagination) }}
+          {% endif %}
         </div>
       </div>
     </div>
   </div>
 
-  {% if (dataTableOptions.printable == false) %}
+  {% if (printable == false) %}
     <h3 class="screen-hide">
       Printing this report has been disabled due to time or content sensitivity.<br/>
       Please speak to your report administrator for further details.

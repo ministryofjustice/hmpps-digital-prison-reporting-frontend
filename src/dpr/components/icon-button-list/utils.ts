@@ -39,7 +39,13 @@ const BUTTON_TEMPLATES = {
   },
 }
 
-const initReportActions = (reportName: string, variantName: string, printable: boolean, url: string, executionId: string = null): ReportAction[] => {
+const initReportActions = (
+  reportName: string,
+  variantName: string,
+  printable: boolean,
+  url: string,
+  executionId: string = null,
+): ReportAction[] => {
   const actions: ReportAction[] = []
 
   // Refresh
@@ -76,17 +82,23 @@ const initReportActions = (reportName: string, variantName: string, printable: b
 
 export default {
   initAsyncReportActions: (variant: components['schemas']['VariantDefinition'], reportData: AsyncReportData) => {
-    return initReportActions(reportData.reportName, reportData.name, variant.printable, reportData.url.request.fullUrl, reportData.executionId)
+    return initReportActions(
+      reportData.reportName,
+      reportData.name,
+      variant.printable,
+      reportData.url.request.fullUrl,
+      reportData.executionId,
+    )
   },
 
   initReportActions,
 }
 
 interface ReportAction {
-  id: string,
-  icon: string,
-  disabled: boolean,
-  tooltipText: string,
-  ariaLabelText: string,
-  href?: string,
+  id: string
+  icon: string
+  disabled: boolean
+  tooltipText: string
+  ariaLabelText: string
+  href?: string
 }

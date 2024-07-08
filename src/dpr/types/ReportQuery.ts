@@ -4,6 +4,7 @@ import Dict = NodeJS.Dict
 import { components } from './api'
 import { clearFilterValue } from '../utils/urlHelper'
 import ColumnUtils from '../components/columns/utils'
+import { Template } from './Template'
 
 export default class ReportQuery implements FilteredListRequest {
   selectedPage: number
@@ -23,14 +24,16 @@ export default class ReportQuery implements FilteredListRequest {
   dataProductDefinitionsPath?: string
 
   constructor(
-    fields: Array<components['schemas']['FieldDefinition']>,
+    specification: components['schemas']['Specification'],
     queryParams: ParsedQs,
     defaultSortColumn: string,
     filtersPrefix: string,
     definitionsPath?: string,
   ) {
+    const { fields, template } = specification
+
     this.selectedPage = queryParams.selectedPage ? Number(queryParams.selectedPage) : 1
-    this.pageSize = queryParams.pageSize ? Number(queryParams.pageSize) : 20
+    this.pageSize = queryParams.pageSize ? Number(queryParams.pageSize) : this.getDefaultPageSize(template as Template)
     this.sortColumn = queryParams.sortColumn ? queryParams.sortColumn.toString() : defaultSortColumn
     this.sortedAsc = queryParams.sortedAsc !== 'false'
     this.dataProductDefinitionsPath =
@@ -92,5 +95,18 @@ export default class ReportQuery implements FilteredListRequest {
     })
 
     return record
+  }
+
+  private getDefaultPageSize(template: Template) {
+    const maxResultsSize = 2000
+    const standardPage = 20
+
+    switch (template) {
+      case 'list-section':
+        return maxResultsSize
+
+      default:
+        return standardPage
+    }
   }
 }

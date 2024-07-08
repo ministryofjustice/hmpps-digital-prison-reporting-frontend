@@ -2,7 +2,6 @@ import { NextFunction, Request, RequestHandler, Response } from 'express'
 import ReportQuery from '../../types/ReportQuery'
 import createUrlForParameters from '../../utils/urlHelper'
 import { DataTableOptions } from '../data-table/types'
-import DataTableUtils from '../data-table/utils'
 import FilterUtils from '../filters/utils'
 import ColumnUtils from '../columns/utils'
 import { ListDataSources, RenderListWithDataInput } from './types'
@@ -13,6 +12,11 @@ import Dict = NodeJS.Dict
 import RenderListWithDefinitionInput from './RenderListWithDefinitionInput'
 import CreateRequestHandlerInput from './CreateRequestHandlerInput'
 import ReportActionsUtils from '../icon-button-list/utils'
+import { DataTableBuilder } from '../../utils/DataTableBuilder/DataTableBuilder'
+import { DataTable } from '../../utils/DataTableBuilder/types'
+import PaginationUtils from '../pagination/utils'
+import parseUrl from 'parseurl'
+import { FilterOptions } from '../filters/types'
 
 const filtersQueryParameterPrefix = 'filters.'
 
@@ -88,8 +92,11 @@ function renderList(
       .then((resolvedData) => {
         let data
         let warnings: Warnings = {}
-        const { fields } = variantDefinition.specification
+        const { specification } = variantDefinition
+        const { fields, template } = specification
         const { classification, printable } = variantDefinition
+        const url = parseUrl(request)
+        const count = resolvedData[1]
 
         if (isListWithWarnings(resolvedData[0])) {
           // eslint-disable-next-line prefer-destructuring
@@ -100,18 +107,21 @@ function renderList(
           data = resolvedData[0]
         }
 
+        const dataTable: DataTable = new DataTableBuilder(specification)
+          .withHeaderSortOptions(reportQuery)
+          .buildTable(data)
+
         const dataTableOptions: DataTableOptions = {
-          head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
-          rows: DataTableUtils.mapData(data, fields, reportQuery.columns),
-          count: resolvedData[1],
-          currentQueryParams: reportQuery.toRecordWithFilterPrefix(),
+          ...dataTable,
           classification,
           printable,
+          pagination: PaginationUtils.getPaginationData(url, count, reportQuery.pageSize, reportQuery.selectedPage)
         }
 
-        const filterOptions = {
+        const filterOptions: FilterOptions = {
           filters: FilterUtils.getFilters(variantDefinition, reportQuery.filters, dynamicAutocompleteEndpoint),
           selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
+          urlWithNoFilters: createUrlForParameters(reportQuery.toRecordWithFilterPrefix(), null)
         }
 
         const actions = ReportActionsUtils.initReportActions(
@@ -121,16 +131,17 @@ function renderList(
           `${request.protocol}://${request.get('host')}${request.originalUrl}`,
         )
 
-        response.render('dpr/components/report-list/list', {
+        response.render(`dpr/components/report-list/list`, {
           title,
           reportName,
           dataTableOptions,
           filterOptions,
-          columns: ColumnUtils.getColumns(fields, reportQuery.columns),
+          columns: ColumnUtils.getColumns(variantDefinition.specification, reportQuery.columns),
           layoutTemplate,
           ...otherOptions,
           warnings,
           actions,
+          template,
         })
       })
       .catch((err) => next(err))
@@ -166,7 +177,7 @@ const renderListWithDefinition = ({
       const variantDefinition = reportDefinition.variant
 
       const reportQuery = new ReportQuery(
-        variantDefinition.specification.fields,
+        variantDefinition.specification,
         request.query,
         getDefaultSortColumn(variantDefinition.specification.fields),
         filtersQueryParameterPrefix,
@@ -211,9 +222,10 @@ export default {
     layoutTemplate,
     dynamicAutocompleteEndpoint,
   }: RenderListWithDataInput) => {
-    const { fields } = variantDefinition.specification
+    const { specification } = variantDefinition
+    const { fields } = specification
     const reportQuery = new ReportQuery(
-      fields,
+      specification,
       request.query,
       getDefaultSortColumn(fields),
       filtersQueryParameterPrefix,

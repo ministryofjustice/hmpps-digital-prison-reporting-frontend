@@ -6,6 +6,8 @@ module.exports = [
     field4: 'Value 4.1',
     field5: 'Value 5.4',
     field6: '<a href="#" target="_blank">Value 6.1</a>',
+    section1: 'One',
+    section2: 'A',
   },
   {
     field1: 'Value 1.2',
@@ -14,6 +16,8 @@ module.exports = [
     field4: 'Value 4.2',
     field5: 'Value 5.4',
     field6: '<a href="#" target="_blank">Value 6.2</a>',
+    section1: 'Two',
+    section2: 'B',
   },
   {
     field1: 'Value 1.3',
@@ -22,6 +26,8 @@ module.exports = [
     field4: 'Value 4.3',
     field5: 'Value 5.4',
     field6: '<a href="#" target="_blank">Value 6.3</a>',
+    section1: 'One',
+    section2: 'A',
   },
   {
     field1: 'Value 1.4',
@@ -30,5 +36,17 @@ module.exports = [
     field4: 'Value 4.4',
     field5: 'Value 5.4',
     field6: '<a href="#" target="_blank">Value 6.4</a>',
+    section1: 'One',
+    section2: 'B',
+  },
+  {
+    field1: 'Value 1.5',
+    field2: 'Value 2.5',
+    field3: '',
+    field4: 'Value 4.5',
+    field5: 'Value 5.5',
+    field6: '<a href="#" target="_blank">Value 6.5</a>',
+    section1: 'One',
+    section2: 'B',
   },
 ]

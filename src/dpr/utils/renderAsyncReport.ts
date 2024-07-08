@@ -4,6 +4,7 @@ import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 import { AsyncReportData } from '../types/AsyncReport'
 import AsyncReportListUtils from '../components/async-report-list/utils'
 import ReportActionsUtils from '../components/icon-button-list/utils'
+import { Template } from '../types/Template'
 
 export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) => {
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
@@ -59,16 +60,14 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         bookmarked: services.bookmarkService.isBookmarked(variantId),
       }
 
-      switch (template) {
-        case 'list':
-          renderData = {
-            ...renderData,
-            ...AsyncReportListUtils.getRenderData(req, definition, reportData, count, reportStateData),
-          }
+      switch (template as Template) {
+        case 'list-aggregate':
+        case 'list-tab':
+        case 'crosstab':
+        case 'summary':
+          // Add template-specific calls here
           break
-        case 'listWithSections':
-          // TODO: add list with sections utils here
-          break
+
         default:
           renderData = {
             ...renderData,

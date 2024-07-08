@@ -1,14 +1,20 @@
-import Utils from './utils'
 import Dict = NodeJS.Dict
 import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'
+import { DataTableBuilder } from './DataTableBuilder'
+
+const defaultSpec: components['schemas']['Specification'] = {
+  fields: [],
+  template: 'list',
+  sections: []
+}
 
 describe('mapData', () => {
   it('Dates with values less than 10 mapped with leading 0', () => {
     const data: Dict<string> = {
       date: '2000-01-02T03:04:05.006Z',
     }
-    const fields: components['schemas']['FieldDefinition'] = {
+    const field: components['schemas']['FieldDefinition'] = {
       name: 'date',
       display: 'Date',
       sortable: true,
@@ -18,7 +24,9 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = Utils.mapData([data], [fields], ['date'])
+    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [field] })
+      .withNoHeaderOptions(['date'])
+      .buildTable([data])
 
     expect(mapped).toEqual([
       [
@@ -35,7 +43,7 @@ describe('mapData', () => {
     const data: Dict<string> = {
       date: '',
     }
-    const fields: components['schemas']['FieldDefinition'] = {
+    const field: components['schemas']['FieldDefinition'] = {
       name: 'date',
       display: 'Date',
       sortable: true,
@@ -45,7 +53,9 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = Utils.mapData([data], [fields], ['date'])
+    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [field] })
+      .withNoHeaderOptions(['date'])
+      .buildTable([data])
 
     expect(mapped).toEqual([
       [
@@ -62,7 +72,7 @@ describe('mapData', () => {
     const data: Dict<string> = {
       date: '2010-11-12T13:14:15.016Z',
     }
-    const fields: components['schemas']['FieldDefinition'] = {
+    const field: components['schemas']['FieldDefinition'] = {
       name: 'date',
       display: 'Date',
       sortable: true,
@@ -72,9 +82,11 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = Utils.mapData([data], [fields], ['date'])
+    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [field] })
+      .withNoHeaderOptions(['date'])
+      .buildTable([data])
 
-    expect(mapped).toEqual([
+    expect(mapped.rows).toEqual([
       [
         {
           text: '12/11/10 13:14',
@@ -89,7 +101,7 @@ describe('mapData', () => {
     const data: Dict<string> = {
       number: '1234.05',
     }
-    const fields: components['schemas']['FieldDefinition'] = {
+    const field: components['schemas']['FieldDefinition'] = {
       name: 'number',
       display: 'Number',
       sortable: true,
@@ -99,9 +111,11 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = Utils.mapData([data], [fields], ['number'])
+    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [field] })
+      .withNoHeaderOptions(['number'])
+      .buildTable([data])
 
-    expect(mapped).toEqual([
+    expect(mapped.rows).toEqual([
       [
         {
           text: '1234.05',
@@ -116,7 +130,7 @@ describe('mapData', () => {
     const data: Dict<string> = {
       date: '12/11/10',
     }
-    const fields: components['schemas']['FieldDefinition'] = {
+    const field: components['schemas']['FieldDefinition'] = {
       name: 'date',
       display: 'Date',
       sortable: true,
@@ -126,9 +140,11 @@ describe('mapData', () => {
       visible: true,
       calculated: true,
     }
-    const mapped = Utils.mapData([data], [fields], ['date'])
+    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [field] })
+      .withNoHeaderOptions(['date'])
+      .buildTable([data])
 
-    expect(mapped).toEqual([
+    expect(mapped.rows).toEqual([
       [
         {
           text: '12/11/10',
@@ -153,9 +169,11 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = Utils.mapData([data], [fields], ['string'])
+    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [fields] })
+      .withNoHeaderOptions(['string'])
+      .buildTable([data])
 
-    expect(mapped).toEqual([
+    expect(mapped.rows).toEqual([
       [
         {
           text: '1234.05',
@@ -181,9 +199,11 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = Utils.mapData([data], [fields], ['string'])
+    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [fields] })
+      .withNoHeaderOptions(['string'])
+      .buildTable([data])
 
-    expect(mapped).toEqual([
+    expect(mapped.rows).toEqual([
       [
         {
           text: '1234.05',
@@ -210,20 +230,18 @@ describe('mapHeader', () => {
     columns: 'date',
   }
   const filterPrefix = 'f.'
-  const defaultListRequest: ReportQuery = new ReportQuery([defaultField], defaultQueryParams, null, filterPrefix)
-  const createUrlForParameters: (currentQueryParams: Dict<string>, updateQueryParams: Dict<string>) => string = (
-    currentQueryParams: Dict<string>,
-    updateQueryParams: Dict<string>,
-  ) => JSON.stringify(updateQueryParams).replace(/"/g, '')
+  const defaultListRequest: ReportQuery = new ReportQuery({ ...defaultSpec, fields: [defaultField] }, defaultQueryParams, null, filterPrefix)
 
   it('Unsortable field', () => {
     const field = {
       ...defaultField,
       sortable: false,
     }
-    const mapped = Utils.mapHeader([field], defaultListRequest, createUrlForParameters)
+    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [field] })
+      .withHeaderSortOptions(defaultListRequest)
+      .buildTable([])
 
-    expect(mapped).toEqual([
+    expect(mapped.head).toEqual([
       {
         text: 'Date',
       },
@@ -231,7 +249,9 @@ describe('mapHeader', () => {
   })
 
   it('Sortable unsorted field', () => {
-    const mapped = Utils.mapHeader([defaultField], defaultListRequest, createUrlForParameters)
+    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [defaultField] })
+      .withHeaderSortOptions(defaultListRequest)
+      .buildTable([])
 
     expect(mapped).toEqual([
       {
@@ -248,7 +268,7 @@ describe('mapHeader', () => {
 
   it('Sortable field sorted ascending', () => {
     const reportQuery: ReportQuery = new ReportQuery(
-      [defaultField],
+      { ...defaultSpec, fields: [defaultField] },
       {
         ...defaultQueryParams,
         sortColumn: 'date',
@@ -256,7 +276,9 @@ describe('mapHeader', () => {
       defaultField.name,
       filterPrefix,
     )
-    const mapped = Utils.mapHeader([defaultField], reportQuery, createUrlForParameters)
+    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [defaultField] })
+      .withHeaderSortOptions(reportQuery)
+      .buildTable([])
 
     expect(mapped).toEqual([
       {
@@ -273,7 +295,7 @@ describe('mapHeader', () => {
 
   it('Sortable field sorted descending', () => {
     const reportQuery: ReportQuery = new ReportQuery(
-      [defaultField],
+      { ...defaultSpec, fields: [defaultField] },
       {
         ...defaultQueryParams,
         sortColumn: 'date',
@@ -282,7 +304,9 @@ describe('mapHeader', () => {
       defaultField.name,
       filterPrefix,
     )
-    const mapped = Utils.mapHeader([defaultField], reportQuery, createUrlForParameters)
+    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [defaultField] })
+      .withHeaderSortOptions(reportQuery)
+      .buildTable([])
 
     expect(mapped).toEqual([
       {

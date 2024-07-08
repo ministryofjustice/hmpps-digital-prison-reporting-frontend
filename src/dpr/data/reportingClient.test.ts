@@ -9,22 +9,26 @@ describe('reportingClient', () => {
   let fakeReportingApi: nock.Scope
   let reportingClient: ReportingClient
 
-  const listRequest: ReportQuery = new ReportQuery(
-    [
-      {
-        name: 'original.filter',
-        display: 'Original',
-        sortable: true,
-        defaultsort: false,
-        filter: {
-          type: 'Radio',
+  const listRequest: ReportQuery = new ReportQuery({
+      template: 'list',
+      sections: [],
+      fields: [
+        {
+          name: 'original.filter',
+          display: 'Original',
+          sortable: true,
+          defaultsort: false,
+          filter: {
+            type: 'Radio',
+            mandatory: false,
+          },
+          type: 'string',
+          mandatory: false,
+          visible: true,
+          calculated: false,
         },
-        type: 'string',
-        mandatory: false,
-        visible: true,
-        calculated: false,
-      },
-    ],
+      ]
+    },
     {
       selectedPage: '1',
       pageSize: '2',

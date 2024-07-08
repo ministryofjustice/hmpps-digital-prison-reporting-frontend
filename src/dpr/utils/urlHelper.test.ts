@@ -11,6 +11,7 @@ const defaultFields: Array<components['schemas']['FieldDefinition']> = [
     defaultsort: true,
     filter: {
       type: 'Radio',
+      mandatory: false,
     },
     type: 'string',
     mandatory: false,
@@ -27,7 +28,13 @@ const defaultQueryParams = {
   'f.direction': 'out',
 }
 
-const defaultReportQuery: ReportQuery = new ReportQuery(defaultFields, defaultQueryParams, 'one', 'f.')
+const defaultSpec: components['schemas']['Specification'] = {
+  fields: defaultFields,
+  template: 'list',
+  sections: []
+}
+
+const defaultReportQuery: ReportQuery = new ReportQuery(defaultSpec, defaultQueryParams, 'one', 'f.')
 
 describe('Create URL', () => {
   it('Reset filters', () => {
@@ -40,7 +47,7 @@ describe('Create URL', () => {
 
   it('Clear single filter', () => {
     const currentQueryParams: ReportQuery = new ReportQuery(
-      defaultFields,
+      defaultSpec,
       {
         ...defaultQueryParams,
         'f.type': 'jaunt',
@@ -79,7 +86,7 @@ describe('Create URL', () => {
       columns: 'direction',
     }
 
-    const reportQuery: ReportQuery = new ReportQuery(defaultFields, queryParams, 'one', 'f.')
+    const reportQuery: ReportQuery = new ReportQuery(defaultSpec, queryParams, 'one', 'f.')
 
     const updateQueryParams: Dict<string> = {
       selectedPage: '11',

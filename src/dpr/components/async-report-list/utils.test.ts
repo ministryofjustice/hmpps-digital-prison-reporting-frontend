@@ -1,7 +1,6 @@
 import { Request } from 'express'
 import { Url } from 'url'
 import AsyncReportListUtils from './utils'
-import DataTableUtils from '../data-table/utils'
 import ColumnUtils from '../columns/utils'
 import PaginationUtils from '../pagination/utils'
 
@@ -34,8 +33,6 @@ const mockReportData = createMockData(10)
 
 describe('AsyncReportListUtils', () => {
   const PaginationUtilsSpy = jest.spyOn(PaginationUtils, 'getPaginationData')
-  const DataTableUtilsMapDataSpy = jest.spyOn(DataTableUtils, 'mapData')
-  const DataTableUtilsMapHeaderSpy = jest.spyOn(DataTableUtils, 'mapAsyncHeader')
   const ColumnUtilsSpy = jest.spyOn(ColumnUtils, 'getColumns')
 
   describe('getRenderData', () => {
@@ -49,11 +46,6 @@ describe('AsyncReportListUtils', () => {
 
       expect(ColumnUtilsSpy).toHaveBeenCalledWith(variant.specification.fields, ['column'])
       expect(PaginationUtilsSpy).toHaveBeenCalledWith({ pathname: 'pathname', search: 'search' }, 100)
-      expect(DataTableUtilsMapDataSpy).toHaveBeenCalledWith(mockReportData, variant.specification.fields, [
-        'field2',
-        'column',
-      ])
-      expect(DataTableUtilsMapHeaderSpy).toHaveBeenCalledWith(variant.specification.fields, ['field2', 'column'])
       expect(result).toEqual(mockReportListRenderData)
     })
   })

@@ -1,13 +1,9 @@
 import { Url } from 'url'
-import { Page } from './types'
+import { Page, PageSize, Pagination } from './types'
 
 const SELECTED_PAGE_PARAM = 'selectedPage'
-const PAGE_SIZE_PARAM = 'pageSize'
 const DEFAULT_PAGE = 1
-const DEFAULT_PAGE_SIZE = 10
-
-let pageSize = DEFAULT_PAGE_SIZE
-let currentPage = DEFAULT_PAGE
+const DEFAULT_PAGE_SIZE = 20
 
 /**
  * Creates the pages for the pagination component
@@ -15,12 +11,18 @@ let currentPage = DEFAULT_PAGE
  * @param {string} pathname
  * @param {string} search
  * @param {number} totalRows
+ * @param pageSize
+ * @param currentPage
  * @return {*}  {{ pages: page[]; pagesLength: number }}
  */
-const createPages = (pathname: string, search: string, totalRows: number): { pages: Page[]; pagesLength: number } => {
+const createPages = (
+  pathname: string,
+  search: string,
+  totalRows: number,
+  pageSize: number,
+  currentPage: number
+): { pages: Page[]; pagesLength: number } => {
   const queryParams = new URLSearchParams(search)
-  pageSize = +queryParams.get(PAGE_SIZE_PARAM) || DEFAULT_PAGE_SIZE
-  currentPage = +queryParams.get(SELECTED_PAGE_PARAM) || DEFAULT_PAGE
   const pagesLength = Math.ceil(totalRows / pageSize)
 
   const pages: Page[] = []
@@ -52,14 +54,22 @@ const createPages = (pathname: string, search: string, totalRows: number): { pag
 }
 
 /**
- * Creates the the next link
+ * Creates the next link
  *
  * @param {string} pathname
  * @param {string} search
  * @param {number} lastPage
+ * @param totalRows
+ * @param currentPage
  * @return {*}  {(string | undefined)}
  */
-const createNext = (pathname: string, search: string, lastPage: number, totalRows: number): string | undefined => {
+const createNext = (
+  pathname: string,
+  search: string,
+  lastPage: number,
+  totalRows: number,
+  currentPage: number
+): string | undefined => {
   const queryParams = new URLSearchParams(search)
 
   if (totalRows > 0) {
@@ -84,9 +94,14 @@ const createNext = (pathname: string, search: string, lastPage: number, totalRow
  *
  * @param {string} pathname
  * @param {string} search
+ * @param currentPage
  * @return {*}  {(string | undefined)}
  */
-const createPrev = (pathname: string, search: string): string | undefined => {
+const createPrev = (
+  pathname: string,
+  search: string,
+  currentPage: number
+): string | undefined => {
   const queryParams = new URLSearchParams(search)
 
   let prevPage = 0
@@ -108,29 +123,33 @@ const createPrev = (pathname: string, search: string): string | undefined => {
  * @param {number} totalRows
  * @return {*}
  */
-const setPageSizes = (totalRows: number) => {
+const setPageSizes = (totalRows: number): PageSize[] => {
   const pageSizes = [10, 20, 100, 200, totalRows]
   return pageSizes.map((size, i) => {
     if (i === pageSizes.length - 1) {
       return { value: totalRows, text: 'All' }
     }
-    return { value: size, text: size }
+    return { value: size, text: size.toString() }
   })
 }
 
 /**
  * Init pagination
  *
- * @param {urlData} url
  * @return {*}
  */
 export default {
-  getPaginationData: (url: Url, totalRows: number) => {
+  getPaginationData: (
+    url: Url,
+    totalRows: number,
+    pageSize: number = DEFAULT_PAGE_SIZE,
+    currentPage: number = DEFAULT_PAGE
+  ): Pagination => {
     const { pathname, search } = url
-    const { pages, pagesLength } = createPages(pathname, search, totalRows)
+    const { pages, pagesLength } = createPages(pathname, search, totalRows, pageSize, currentPage)
     return {
-      next: createNext(pathname, search, pagesLength, totalRows),
-      prev: createPrev(pathname, search),
+      next: createNext(pathname, search, pagesLength, totalRows, currentPage),
+      prev: createPrev(pathname, search, currentPage),
       pages,
       pageSize,
       currentPage,

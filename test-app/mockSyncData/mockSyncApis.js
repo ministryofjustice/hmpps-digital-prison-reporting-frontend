@@ -60,7 +60,7 @@ const setUpMockSyncApis = (app) => {
 
   app.get('/reports/list/count', (req, res) => {
     res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify({ count: 3 }))
+    res.end(JSON.stringify({ count: 5 }))
   })
 
   app.get('/reports/test-report/test-variant/field5', (req, res) => {

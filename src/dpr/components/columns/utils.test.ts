@@ -73,7 +73,13 @@ const queryColumnNoDisabled: string[] = ['ColValue1', 'ColValue2', 'ColValue4']
 
 describe('getColumns', () => {
   it('mapped the columns correctly', () => {
-    const cols = Utils.getColumns(fields)
+    const specification: components['schemas']['Specification'] = {
+      template: 'Test',
+      fields,
+      sections: []
+    }
+
+    const cols = Utils.getColumns(specification)
     expect(cols.options).toEqual(columns)
   })
 })

@@ -5,10 +5,17 @@ export interface Page {
   ellipsis?: boolean
 }
 
-export interface UrlData {
-  search: string
-  query: string
-  pathname: string
-  path: string
-  href: string
+export interface Pagination {
+  next?: string,
+  prev?: string
+  pages: Page[],
+  pageSize: number,
+  currentPage: number,
+  totalRows: number,
+  sizes: PageSize[]
+}
+
+interface PageSize {
+  value: number,
+  text: string,
 }

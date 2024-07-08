@@ -21,10 +21,7 @@ export default class UserDataStore {
   }
 
   public async initUser(userId: string) {
-    const config = this.getUserConfig(userId)
-    if (!config || Object.keys(config).length === 0) {
-      await this.setUserConfig(userId, { ...baseplateStore })
-    }
+    await this.setUserConfig(userId, { ...baseplateStore })
   }
 
   public async setUserConfig(userId: string, config: UserStoreConfig): Promise<void> {

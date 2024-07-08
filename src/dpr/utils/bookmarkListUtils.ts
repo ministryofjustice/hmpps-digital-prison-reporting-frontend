@@ -1,7 +1,6 @@
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import BookmarkService from '../services/bookmarkService'
 import { BookmarkedReportData } from '../types/Bookmark'
-import { components } from '../types/api'
 import { CardData } from '../components/table-card-group/types'
 import { Services } from '../types/Services'
 
@@ -63,38 +62,55 @@ const formatTableData = (bookmarksData: BookmarkedReportData, bookmarkService: B
   ]
 }
 
-const mapBookmarkIdsToDefinition = (
+const mapBookmarkIdsToDefinition = async (
   bookmarks: { reportId: string; variantId: string }[],
-  definitions: components['schemas']['ReportDefinitionSummary'][],
-): BookmarkedReportData[] => {
+  req: Request,
+  token: string,
+  services: Services,
+): Promise<BookmarkedReportData[]> => {
   const bookmarkData: BookmarkedReportData[] = []
-  bookmarks.forEach((bookmark) => {
-    const reportDef = definitions.find((report) => report.id === bookmark.reportId)
-    if (reportDef) {
-      const variantDef = reportDef.variants.find((variant) => variant.id === bookmark.variantId)
+  const { dataProductDefinitionsPath: definitionPath } = req.query
 
-      if (variantDef)
+  Promise.all(
+    bookmarks.map(async (bookmark) => {
+      const definition = await services.reportingService.getDefinition(
+        token,
+        bookmark.reportId,
+        bookmark.variantId,
+        <string>definitionPath,
+      )
+      if (definition) {
         bookmarkData.push({
           reportId: bookmark.reportId,
           variantId: bookmark.variantId,
-          reportName: reportDef.name,
-          name: variantDef.name,
-          description: variantDef.description,
+          reportName: definition.name,
+          name: definition.variant.name,
+          description: definition.variant.description,
           href: `/async-reports/${bookmark.reportId}/${bookmark.variantId}/request`,
         })
-    }
-  })
-
+      }
+    }),
+  )
   return bookmarkData
 }
 
 export default {
-  renderBookmarkList: async ({ services, maxRows, res }: { services: Services; maxRows?: number; res: Response }) => {
+  renderBookmarkList: async ({
+    services,
+    maxRows,
+    res,
+    req,
+  }: {
+    services: Services
+    maxRows?: number
+    res: Response
+    req: Request
+  }) => {
+    const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
-    const definitions = (res.locals.definitions as unknown as components['schemas']['ReportDefinitionSummary'][]) || []
 
     const bookmarks: { reportId: string; variantId: string }[] = await services.bookmarkService.getAllBookmarks()
-    const bookmarksData: BookmarkedReportData[] = mapBookmarkIdsToDefinition(bookmarks, definitions)
+    const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, token, services)
 
     const cardData = await formatCards(bookmarksData, maxRows)
     const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, maxRows)

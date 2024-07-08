@@ -28,15 +28,20 @@ describe('mapData', () => {
       .withNoHeaderOptions(['date'])
       .buildTable([data])
 
-    expect(mapped).toEqual([
-      [
-        {
-          text: '02/01/00 03:04',
-          format: 'string',
-          classes: null,
-        },
-      ],
-    ])
+    expect(mapped).toEqual({
+      colCount: 1,
+      head: [{ "text": "Date" }],
+      rowCount: 1,
+      rows: [
+        [
+          {
+            text: '02/01/00 03:04',
+            format: 'string',
+            classes: null,
+          },
+        ],
+      ]
+    })
   })
 
   it('Dates with null values mapped to an empty string', () => {
@@ -57,15 +62,20 @@ describe('mapData', () => {
       .withNoHeaderOptions(['date'])
       .buildTable([data])
 
-    expect(mapped).toEqual([
-      [
-        {
-          text: '',
-          format: 'string',
-          classes: null,
-        },
-      ],
-    ])
+    expect(mapped).toEqual({
+      colCount: 1,
+      head: [{ "text": "Date" }],
+      rowCount: 1,
+      rows: [
+        [
+          {
+            text: '',
+            format: 'string',
+            classes: null,
+          },
+        ],
+      ]
+    })
   })
 
   it('Dates with values greater than 10 mapped without leading 0', () => {
@@ -253,17 +263,22 @@ describe('mapHeader', () => {
       .withHeaderSortOptions(defaultListRequest)
       .buildTable([])
 
-    expect(mapped).toEqual([
-      {
-        html:
-          '<a ' +
-          'data-column="date" ' +
-          'class="data-table-header-button data-table-header-button-sort-none" ' +
-          'href="{sortColumn:date,sortedAsc:true}">' +
-          'Date' +
-          '</a>',
-      },
-    ])
+    expect(mapped).toEqual({
+      colCount: 1,
+      head: [
+        {
+          html:
+            '<a ' +
+            'data-column="date" ' +
+            'class="data-table-header-button data-table-header-button-sort-ascending" ' +
+            'href="?selectedPage=1&pageSize=20&sortColumn=date&sortedAsc=false&columns=date">' +
+            'Date' +
+            '</a>',
+        },
+      ],
+      rowCount: 0,
+      rows: [],
+    })
   })
 
   it('Sortable field sorted ascending', () => {
@@ -280,17 +295,22 @@ describe('mapHeader', () => {
       .withHeaderSortOptions(reportQuery)
       .buildTable([])
 
-    expect(mapped).toEqual([
-      {
-        html:
-          '<a ' +
-          'data-column="date" ' +
-          'class="data-table-header-button data-table-header-button-sort-ascending" ' +
-          'href="{sortColumn:date,sortedAsc:false}">' +
-          'Date' +
-          '</a>',
-      },
-    ])
+    expect(mapped).toEqual({
+      colCount: 1,
+      head: [
+        {
+          html:
+            '<a ' +
+            'data-column="date" ' +
+            'class="data-table-header-button data-table-header-button-sort-ascending" ' +
+            'href="?selectedPage=1&pageSize=20&sortColumn=date&sortedAsc=false&columns=date&dataProductDefinitionsPath=date">' +
+            'Date' +
+            '</a>',
+        },
+      ],
+      rowCount: 0,
+      rows: [],
+    })
   })
 
   it('Sortable field sorted descending', () => {
@@ -308,16 +328,21 @@ describe('mapHeader', () => {
       .withHeaderSortOptions(reportQuery)
       .buildTable([])
 
-    expect(mapped).toEqual([
-      {
-        html:
-          '<a ' +
-          'data-column="date" ' +
-          'class="data-table-header-button data-table-header-button-sort-descending" ' +
-          'href="{sortColumn:date,sortedAsc:true}">' +
-          'Date' +
-          '</a>',
-      },
-    ])
+    expect(mapped).toEqual({
+      colCount: 1,
+      head: [
+        {
+          html:
+            '<a ' +
+            'data-column="date" ' +
+            'class="data-table-header-button data-table-header-button-sort-descending" ' +
+            'href="?selectedPage=1&pageSize=20&sortColumn=date&sortedAsc=true&columns=date&dataProductDefinitionsPath=date">' +
+            'Date' +
+            '</a>',
+        },
+      ],
+      rowCount: 0,
+      rows: [],
+    })
   })
 })

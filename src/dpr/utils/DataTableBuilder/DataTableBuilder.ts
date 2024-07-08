@@ -117,9 +117,9 @@ export class DataTableBuilder {
           header = {
             html:
               `<a ` +
-              `data-column='${f.name}' ` +
-              `class='data-table-header-button data-table-header-button-sort-${sortDirection}' ` +
-              `href='${url}'` +
+              `data-column="${f.name}" ` +
+              `class="data-table-header-button data-table-header-button-sort-${sortDirection}" ` +
+              `href="${url}"` +
               `>${f.display}</a>`,
           }
         } else {

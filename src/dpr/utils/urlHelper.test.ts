@@ -42,7 +42,7 @@ describe('Create URL', () => {
 
     const url = createUrlForParameters(defaultReportQuery.toRecordWithFilterPrefix(), updateQueryParams)
 
-    expect(url).toEqual('?selectedPage=1&pageSize=20&sortColumn=30&sortedAsc=false')
+    expect(url).toEqual('?selectedPage=1&pageSize=20&sortColumn=30&sortedAsc=false&dataProductDefinitionsPath=one')
   })
 
   it('Clear single filter', () => {
@@ -62,7 +62,7 @@ describe('Create URL', () => {
     const url = createUrlForParameters(currentQueryParams.toRecordWithFilterPrefix(), updateQueryParams)
 
     expect(url).toEqual(
-      '?selectedPage=1&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&f.direction=~clear~&f.type=jaunt',
+      '?selectedPage=1&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&dataProductDefinitionsPath=one&f.direction=~clear~&f.type=jaunt',
     )
   })
 
@@ -73,7 +73,7 @@ describe('Create URL', () => {
 
     const url = createUrlForParameters(defaultReportQuery.toRecordWithFilterPrefix(), updateQueryParams)
 
-    expect(url).toEqual('?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&f.direction=out')
+    expect(url).toEqual('?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&dataProductDefinitionsPath=one&f.direction=out')
   })
 
   it('Change page with column', () => {
@@ -94,6 +94,6 @@ describe('Create URL', () => {
 
     const url = createUrlForParameters(reportQuery.toRecordWithFilterPrefix(), updateQueryParams)
 
-    expect(url).toEqual('?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&f.direction=out')
+    expect(url).toEqual('?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&dataProductDefinitionsPath=one&f.direction=out')
   })
 })

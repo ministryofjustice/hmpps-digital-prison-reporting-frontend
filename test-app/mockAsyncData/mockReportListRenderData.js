@@ -1,9 +1,12 @@
 const mockGetReportListRenderData = {
   renderData: {
+    variantId: undefined,
     variantName: 'variantName',
+    reportId: undefined,
     reportName: 'reportName',
     requestedTimestamp: 'Invalid Date',
     description: 'description',
+    rowCount: 10,
     rows: [
       [
         {
@@ -102,6 +105,7 @@ const mockGetReportListRenderData = {
         {
           text: 'Field 4',
           value: 'field4',
+          disabled: undefined,
         },
         {
           text: 'Field 5',
@@ -133,30 +137,31 @@ const mockGetReportListRenderData = {
           ellipsis: true,
         },
         {
-          number: 10,
-          href: 'pathname?search=&selectedPage=10',
+          number: 5,
+          href: 'pathname?search=&selectedPage=5',
           current: false,
         },
       ],
-      pageSize: 10,
+      pageSize: 20,
       currentPage: 1,
       totalRows: 100,
+      prev: undefined,
       sizes: [
         {
           value: 10,
-          text: 10,
+          text: '10',
         },
         {
           value: 20,
-          text: 20,
+          text: '20',
         },
         {
           value: 100,
-          text: 100,
+          text: '100',
         },
         {
           value: 200,
-          text: 200,
+          text: '200',
         },
         {
           value: 100,
@@ -166,7 +171,7 @@ const mockGetReportListRenderData = {
     },
     actions: [
       {
-        id: 'refresh',
+        id: 'dpr-button-refresh',
         icon: 'refresh',
         disabled: false,
         tooltipText: 'Refresh report',
@@ -174,14 +179,14 @@ const mockGetReportListRenderData = {
         href: 'fullUrl&refreshId=executionId',
       },
       {
-        id: 'printable',
+        id: 'dpr-button-printable',
         icon: 'print',
         disabled: false,
         tooltipText: 'Print report',
         ariaLabelText: 'Print report',
       },
       {
-        id: 'sharable',
+        id: 'dpr-button-sharable',
         icon: 'share',
         disabled: false,
         tooltipText: 'Share report request via email',
@@ -189,7 +194,7 @@ const mockGetReportListRenderData = {
         href: 'mailto:?subject=reportName-variantName&body=fullUrl',
       },
       {
-        id: 'copy',
+        id: 'dpr-button-copy',
         icon: 'copy',
         disabled: false,
         tooltipText: 'Copy report request',
@@ -197,7 +202,7 @@ const mockGetReportListRenderData = {
         href: 'fullUrl',
       },
       {
-        id: 'downloadable',
+        id: 'dpr-button-downloadable',
         icon: 'download',
         disabled: true,
         tooltipText: 'Download report',
@@ -207,12 +212,14 @@ const mockGetReportListRenderData = {
     appliedFilters: 'summary',
     bookmarked: false,
     classification: 'OFFICIAL',
+    colCount: 2,
     template: 'list',
     csrfToken: 'csrfToken',
   },
 }
 
 const mockReportListRenderData = {
+  rowCount: 10,
   rows: [
     [
       {
@@ -290,6 +297,7 @@ const mockReportListRenderData = {
       text: 'Field 2',
     },
   ],
+  colCount: 2,
   columns: {
     name: 'columns',
     options: [
@@ -311,6 +319,7 @@ const mockReportListRenderData = {
       {
         text: 'Field 4',
         value: 'field4',
+        disabled: undefined,
       },
       {
         text: 'Field 5',
@@ -326,6 +335,7 @@ const mockReportListRenderData = {
     value: ['field2', 'column'],
   },
   pagination: {
+    prev: undefined,
     next: 'pathname?search=&selectedPage=2',
     pages: [
       {
@@ -342,30 +352,30 @@ const mockReportListRenderData = {
         ellipsis: true,
       },
       {
-        number: 10,
-        href: 'pathname?search=&selectedPage=10',
+        number: 5,
+        href: 'pathname?search=&selectedPage=5',
         current: false,
       },
     ],
-    pageSize: 10,
+    pageSize: 20,
     currentPage: 1,
     totalRows: 100,
     sizes: [
       {
         value: 10,
-        text: 10,
+        text: '10',
       },
       {
         value: 20,
-        text: 20,
+        text: '20',
       },
       {
         value: 100,
-        text: 100,
+        text: '100',
       },
       {
         value: 200,
-        text: 200,
+        text: '200',
       },
       {
         value: 100,

@@ -87,7 +87,7 @@ function renderList(
         let data
         let warnings: Warnings = {}
         const { specification } = variantDefinition
-        const { fields, template } = specification
+        const { template } = specification
         const { classification, printable } = variantDefinition
         const url = parseUrl(request)
         const count = resolvedData[1]
@@ -112,11 +112,13 @@ function renderList(
           pagination: PaginationUtils.getPaginationData(url, count, reportQuery.pageSize, reportQuery.selectedPage)
         }
 
-        const filterOptions: FilterOptions = {
-          filters: FilterUtils.getFilters(variantDefinition, reportQuery.filters, dynamicAutocompleteEndpoint),
-          selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
-          urlWithNoFilters: createUrlForParameters(reportQuery.toRecordWithFilterPrefix(), null)
-        }
+        const filterOptions: FilterOptions = FilterUtils.getFilterOptions(
+          variantDefinition,
+          reportQuery.filters,
+          dynamicAutocompleteEndpoint,
+          reportQuery,
+          createUrlForParameters
+        )
 
         const actions = ReportActionsUtils.initReportActions(
           reportName,

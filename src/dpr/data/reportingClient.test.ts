@@ -35,9 +35,8 @@ describe('reportingClient', () => {
       sortColumn: 'three',
       sortedAsc: 'true',
       'f.original.filter': 'true',
-      dataProductDefinitionsPath: 'test-definition-path',
     },
-    'one',
+    'test-definition-path',
     'f.',
   )
 

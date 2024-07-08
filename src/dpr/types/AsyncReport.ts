@@ -1,4 +1,5 @@
 import Dict = NodeJS.Dict
+import { Template } from './Template'
 
 export interface AsyncReportData {
   reportId: string
@@ -16,7 +17,7 @@ export interface AsyncReportData {
   query: AsyncReportQueryData
   dataProductDefinitionsPath?: string
   errorMessage?: string
-  template: string // TODO convert this to enum once we know the types
+  template: Template
 }
 
 export interface AsyncReportUrlData {

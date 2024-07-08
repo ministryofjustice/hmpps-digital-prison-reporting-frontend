@@ -44,7 +44,7 @@ describe('AsyncReportListUtils', () => {
 
       const result = AsyncReportListUtils.getRenderData(mockReq, reportDefinition, mockReportData, 100, reportState)
 
-      expect(ColumnUtilsSpy).toHaveBeenCalledWith(variant.specification.fields, ['column'])
+      expect(ColumnUtilsSpy).toHaveBeenCalledWith(variant.specification, ['column'])
       expect(PaginationUtilsSpy).toHaveBeenCalledWith({ pathname: 'pathname', search: 'search' }, 100)
       expect(result).toEqual(mockReportListRenderData)
     })

@@ -28,7 +28,7 @@ export default function routes({
     res.render(`${templatePath}/async-reports`, {
       title: 'Requested Reports',
       layoutPath,
-      ...(await BookmarklistUtils.renderBookmarkList({ services, res })),
+      ...(await BookmarklistUtils.renderBookmarkList({ services, res, req })),
     })
   })
 }

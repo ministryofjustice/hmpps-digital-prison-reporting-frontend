@@ -18,7 +18,7 @@ export default class UserStoreService {
     this.userId = userId
     await this.getState()
     if (Object.keys(this.userConfig).length === 0) {
-      this.userStore.initUser(this.userId)
+      await this.userStore.initUser(this.userId)
     }
   }
 

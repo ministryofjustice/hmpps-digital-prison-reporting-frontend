@@ -116,6 +116,12 @@ export default class AsyncReportStoreService extends UserStoreService {
     return this.requestedReports
   }
 
+  async getAllReportsByVariantId(variantId: string) {
+    return this.requestedReports.filter((report) => {
+      return report.variantId === variantId
+    })
+  }
+
   async updateReport(id: string, data: Dict<string | number | RequestStatus | AsyncReportsTimestamp>) {
     await this.getRequestedReportsState()
     const index = this.findIndexByExecutionId(id, this.requestedReports)

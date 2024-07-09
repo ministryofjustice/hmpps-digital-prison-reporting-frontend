@@ -19,9 +19,14 @@ export default function routes({
   templatePath?: string
 }) {
   const asyncErrorHandler: RequestHandler = async (req, res) => {
+    let { error } = req.body
+    error = error.message
+      ? { userMessage: `${error.name}: ${error.message}`, status: 'FAILED', stack: error.stack }
+      : error.data
     res.render(`${templatePath}/async-error`, {
       layoutPath,
       ...req.body,
+      error,
       ...req.params,
     })
   }
@@ -43,7 +48,7 @@ export default function routes({
     } catch (error) {
       req.body.title = 'Report Failed'
       req.body.errorDescription = 'Your report has failed to generate. The issue has been reported to admin staff'
-      req.body.error = error.data
+      req.body.error = error
       next()
     }
   }
@@ -81,7 +86,7 @@ export default function routes({
     } catch (error) {
       req.body.title = 'Failed to abort request'
       req.body.errorDescription = 'We were unable to abort the report request for the following reason:'
-      req.body.error = error.data
+      req.body.error = error
       next()
     }
   }
@@ -102,7 +107,7 @@ export default function routes({
     } catch (error) {
       req.body.title = 'Failed to retrieve Report status'
       req.body.errorDescription = 'We were unable to retrieve the report status:'
-      req.body.error = error.data
+      req.body.error = error
       next()
     }
   }

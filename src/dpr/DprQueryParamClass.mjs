@@ -60,7 +60,7 @@ export default class DprQueryParamClass extends DprClientClass {
       this.setMultiSelectQueryParam(input, toggleCheckbox)
     } else {
       const { name, value } = input
-      if (value) this.updateQueryParam(name, value)
+      if (name) this.updateQueryParam(name, value)
     }
   }
 
@@ -93,16 +93,20 @@ export default class DprQueryParamClass extends DprClientClass {
    */
   updateQueryParam (name, value, type) {
     this.queryParams = new URLSearchParams(window.location.search)
-    switch (type) {
-      case 'append':
-        this.queryParams.append(name, value)
-        break
-      case 'delete':
-        this.queryParams.delete(name, value)
-        break
-      default:
-        this.queryParams.set(name, value)
-        break
+    if (!value && name.length) {
+      this.queryParams.delete(name)
+    } else {
+      switch (type) {
+        case 'append':
+          this.queryParams.append(name, value)
+          break
+        case 'delete':
+          this.queryParams.delete(name, value)
+          break
+        default:
+          this.queryParams.set(name, value)
+          break
+      }
     }
     window.history.replaceState(null, null, `?${this.queryParams.toString()}`)
   }

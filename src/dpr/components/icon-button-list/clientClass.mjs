@@ -6,11 +6,11 @@ export default class IconButtonList extends DprClientClass {
   }
 
   initialise () {
-    this.refreshButton = document.getElementById('refresh')
-    this.printButton = document.getElementById('printable')
-    this.shareButton = document.getElementById('sharable')
-    this.downloadButton = document.getElementById('downloadable')
-    this.copyButton = document.getElementById('copy')
+    this.refreshButton = document.getElementById('dpr-button-refresh')
+    this.printButton = document.getElementById('dpr-button-printable')
+    this.shareButton = document.getElementById('dpr-button-sharable')
+    this.downloadButton = document.getElementById('dpr-button-downloadable')
+    this.copyButton = document.getElementById('dpr-button-copy')
 
     this.initRefreshEvent()
     this.initPrintButtonEvent()
@@ -45,9 +45,11 @@ export default class IconButtonList extends DprClientClass {
   }
 
   initRefreshEvent () {
-    const href = this.refreshButton.getAttribute('data-href')
-    this.refreshButton.addEventListener('click', () => {
-      window.location = href
-    })
+    if (this.refreshButton) {
+      const href = this.refreshButton.getAttribute('data-href')
+      this.refreshButton.addEventListener('click', () => {
+        window.location = href
+      })
+    }
   }
 }

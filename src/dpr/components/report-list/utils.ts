@@ -1,8 +1,8 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express'
-import ReportQuery from '../../types/ReportQuery'
+import parseUrl from 'parseurl'
+import ReportQuery, { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 import createUrlForParameters from '../../utils/urlHelper'
 import { DataTableOptions } from '../data-table/types'
-import DataTableUtils from '../data-table/utils'
 import FilterUtils from '../filters/utils'
 import ColumnUtils from '../columns/utils'
 import { ListDataSources, RenderListWithDataInput } from './types'
@@ -12,13 +12,11 @@ import { components } from '../../types/api'
 import Dict = NodeJS.Dict
 import RenderListWithDefinitionInput from './RenderListWithDefinitionInput'
 import CreateRequestHandlerInput from './CreateRequestHandlerInput'
-
-const filtersQueryParameterPrefix = 'filters.'
-
-function getDefaultSortColumn(fields: components['schemas']['FieldDefinition'][]) {
-  const defaultSortColumn = fields.find((f) => f.defaultsort)
-  return defaultSortColumn ? defaultSortColumn.name : fields.find((f) => f.sortable)?.name
-}
+import ReportActionsUtils from '../icon-button-list/utils'
+import DataTableBuilder from '../../utils/DataTableBuilder/DataTableBuilder'
+import { DataTable } from '../../utils/DataTableBuilder/types'
+import PaginationUtils from '../pagination/utils'
+import { FilterOptions } from '../filters/types'
 
 function isListWithWarnings(data: Dict<string>[] | ListWithWarnings): data is ListWithWarnings {
   return (data as ListWithWarnings).data !== undefined
@@ -47,15 +45,15 @@ function redirectWithDefaultFilters(
 
           if (dates.length >= 1) {
             // eslint-disable-next-line prefer-destructuring
-            defaultFilters[`${filtersQueryParameterPrefix}${f.name}.start`] = dates[0]
+            defaultFilters[`${DEFAULT_FILTERS_PREFIX}${f.name}.start`] = dates[0]
 
             if (dates.length >= 2) {
               // eslint-disable-next-line prefer-destructuring
-              defaultFilters[`${filtersQueryParameterPrefix}${f.name}.end`] = dates[1]
+              defaultFilters[`${DEFAULT_FILTERS_PREFIX}${f.name}.end`] = dates[1]
             }
           }
         } else {
-          defaultFilters[`${filtersQueryParameterPrefix}${f.name}`] = f.filter.defaultValue
+          defaultFilters[`${DEFAULT_FILTERS_PREFIX}${f.name}`] = f.filter.defaultValue
         }
       })
   }
@@ -87,8 +85,10 @@ function renderList(
       .then((resolvedData) => {
         let data
         let warnings: Warnings = {}
-        const { fields } = variantDefinition.specification
-        const { classification, printable } = variantDefinition
+        const { specification, classification, printable } = variantDefinition
+        const { template } = specification
+        const url = parseUrl(request)
+        const count = resolvedData[1]
 
         if (isListWithWarnings(resolvedData[0])) {
           // eslint-disable-next-line prefer-destructuring
@@ -99,30 +99,43 @@ function renderList(
           data = resolvedData[0]
         }
 
+        const dataTable: DataTable = new DataTableBuilder(specification)
+          .withHeaderSortOptions(reportQuery)
+          .buildTable(data)
+
         const dataTableOptions: DataTableOptions = {
-          head: DataTableUtils.mapHeader(fields, reportQuery, createUrlForParameters),
-          rows: DataTableUtils.mapData(data, fields, reportQuery.columns),
-          count: resolvedData[1],
-          currentQueryParams: reportQuery.toRecordWithFilterPrefix(),
+          ...dataTable,
           classification,
           printable,
-          url: `${request.protocol}://${request.get('host')}${request.originalUrl}`,
+          pagination: PaginationUtils.getPaginationData(url, count, reportQuery.pageSize, reportQuery.selectedPage),
         }
 
-        const filterOptions = {
-          filters: FilterUtils.getFilters(variantDefinition, reportQuery.filters, dynamicAutocompleteEndpoint),
-          selectedFilters: FilterUtils.getSelectedFilters(fields, reportQuery, createUrlForParameters),
-        }
+        const filterOptions: FilterOptions = FilterUtils.getFilterOptions(
+          variantDefinition,
+          reportQuery.filters,
+          reportQuery,
+          createUrlForParameters,
+          dynamicAutocompleteEndpoint,
+        )
 
-        response.render('dpr/components/report-list/list', {
+        const actions = ReportActionsUtils.initReportActions(
+          reportName,
+          variantDefinition.name,
+          variantDefinition.printable,
+          `${request.protocol}://${request.get('host')}${request.originalUrl}`,
+        )
+
+        response.render(`dpr/components/report-list/list`, {
           title,
           reportName,
           dataTableOptions,
           filterOptions,
-          columns: ColumnUtils.getColumns(fields, reportQuery.columns),
+          columns: ColumnUtils.getColumns(variantDefinition.specification, reportQuery.columns),
           layoutTemplate,
           ...otherOptions,
           warnings,
+          actions,
+          template,
         })
       })
       .catch((err) => next(err))
@@ -157,13 +170,7 @@ const renderListWithDefinition = ({
       const reportName: string = reportDefinition.name
       const variantDefinition = reportDefinition.variant
 
-      const reportQuery = new ReportQuery(
-        variantDefinition.specification.fields,
-        request.query,
-        getDefaultSortColumn(variantDefinition.specification.fields),
-        filtersQueryParameterPrefix,
-        definitionsPath,
-      )
+      const reportQuery = new ReportQuery(variantDefinition.specification, request.query, definitionsPath)
 
       const getListData: ListDataSources = {
         data: reportingClient.getListWithWarnings(variantDefinition.resourceName, token, reportQuery),
@@ -189,8 +196,6 @@ const renderListWithDefinition = ({
 }
 
 export default {
-  filtersQueryParameterPrefix,
-
   renderListWithData: ({
     title,
     reportName,
@@ -203,13 +208,8 @@ export default {
     layoutTemplate,
     dynamicAutocompleteEndpoint,
   }: RenderListWithDataInput) => {
-    const { fields } = variantDefinition.specification
-    const reportQuery = new ReportQuery(
-      fields,
-      request.query,
-      getDefaultSortColumn(fields),
-      filtersQueryParameterPrefix,
-    )
+    const { specification } = variantDefinition
+    const reportQuery = new ReportQuery(specification, request.query)
     const listData = getListDataSources(reportQuery)
 
     renderList(

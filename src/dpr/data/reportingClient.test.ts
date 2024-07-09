@@ -10,30 +10,34 @@ describe('reportingClient', () => {
   let reportingClient: ReportingClient
 
   const listRequest: ReportQuery = new ReportQuery(
-    [
-      {
-        name: 'original.filter',
-        display: 'Original',
-        sortable: true,
-        defaultsort: false,
-        filter: {
-          type: 'Radio',
+    {
+      template: 'list',
+      sections: [],
+      fields: [
+        {
+          name: 'original.filter',
+          display: 'Original',
+          sortable: true,
+          defaultsort: false,
+          filter: {
+            type: 'Radio',
+            mandatory: false,
+          },
+          type: 'string',
+          mandatory: false,
+          visible: true,
+          calculated: false,
         },
-        type: 'string',
-        mandatory: false,
-        visible: true,
-        calculated: false,
-      },
-    ],
+      ],
+    },
     {
       selectedPage: '1',
       pageSize: '2',
       sortColumn: 'three',
       sortedAsc: 'true',
       'f.original.filter': 'true',
-      dataProductDefinitionsPath: 'test-definition-path',
     },
-    'one',
+    'test-definition-path',
     'f.',
   )
 

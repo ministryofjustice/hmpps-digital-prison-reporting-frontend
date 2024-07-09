@@ -1,107 +1,30 @@
-{#
-  head,           // A list of columns containing 'text', and optionally 'format' (e.g. numeric)
-  rows,           // A list (rows) of a list (cells) containing 'text', and optionally 'format' (e.g. numeric)
-  totalRowCount,  // The total number of rows.
-  createUrlForParameters // A function accepting a parameter object that maps to the target URL
-#}
-{% macro dprDataTable(head, rows, totalRowCount, currentQueryParams, classification) %}
-  {% from "govuk/components/table/macro.njk" import govukTable %}
-  {% from "govuk/components/pagination/macro.njk" import govukPagination %}
-  {% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
 
-  {%- set selectedPage = currentQueryParams.selectedPage | int %}
-  {%- set pageSize = currentQueryParams.pageSize | int %}
-  {%- set pages = [] %}
-  {%- set lastPage = (totalRowCount / pageSize) | round(0, 'ceil') %}
-  {%- for page in range(1, lastPage + 1) %}
-    {%- if page === 1 or page === lastPage or (page >= selectedPage - 1 and page <= (selectedPage | int) + 1) %}
-      {%- set href = currentQueryParams | createUrlForParameters({ selectedPage: page }) %}
-      {%- set pages = pages.concat({ number: page, href: href, current: (page === (selectedPage | int)) }) %}
-    {%- elif page === 2 or page === lastPage - 1 %}
-      {%- set pages = pages.concat({ ellipsis: true }) %}
-    {%- endif %}
-  {%- endfor %}
+{% macro dprDataTable(options) %}
 
-  {% if rows.length %}
-    <div id="table-container" class='dpr-table-container' data-dpr-module="data-table">
-      <div>
-        <div class="govuk-grid-column dpr-table-wrapper">
-          {{ govukTable({
-            head: head,
-            rows: rows,
-            attributes: { 
-              'id': 'dpr-data-table',
-              'data-classification': classification,
-              'data-head-length': head.length,
-              'data-row-length': rows.length,
-              'data-page-size': pageSize,
-              'data-selected-page': selectedPage,
-              'data-total-results': totalRowCount
-            }
-          }) }}
-        </div>
-      </div>
-      <div class="pagination">
-        <div class="govuk-grid-column-two-thirds govuk-!-padding-left-0">
-          {{ govukPagination({
-            previous: {
-              href: currentQueryParams | createUrlForParameters({ selectedPage: selectedPage - 1 })
-            } if ((selectedPage | int) > 1) else null,
-            next: {
-              href: currentQueryParams | createUrlForParameters({ selectedPage: (selectedPage | int) + 1 })
-            } if ((selectedPage | int) < lastPage) else null,
-            items: pages,
-            attributes: {
-              "data-navigate-to-page": "true"
-            }
-          }) }}
-        </div>
-        <div class="govuk-grid-column-one-third govuk-!-padding-0 data-table-page-size-container">
-          <div class="data-table-page-size">
-            <div class="govuk-input__wrapper">
-              {{ govukSelect({
-                id: "pageSize",
-                name: "sort",
-                value: pageSize,
-                attributes: {
-                  "data-navigate-to": currentQueryParams | createUrlForParameters({ selectedPage: 1, pageSize: "thisValue" }),
-                  "aria-label": "Page size"
-                },
-                items: [
-                  {
-                    value: "10",
-                    text: "10"
-                  },
-                  {
-                    value: "20",
-                    text: "20"
-                  },
-                  {
-                    value: "100",
-                    text: "100"
-                  },
-                  {
-                    value: "200",
-                    text: "200"
-                  },
-                  {
-                    value: totalRowCount,
-                    text: "All"
-                  }
-                ]
-              }) }}
-              <div class="govuk-input__suffix" aria-hidden="true">
-                rows per page
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  {% else %}
-    <div id="data-table-empty-message" class="data-table-empty-message">
-      <h2 class="govuk-heading-m">No results from query</h2>
-      <p class="govuk-body">Update your filters to search for data</p>
-    </div>
-  {%- endif %}
+  {% set rows = options.rows %}
+  {% set head = options.head %}
+  {% set classification = options.classification %}
+  {% set rowCount = options.rowCount %}
+  {% set colCount = options.colCount %}
+  {% set pagination = options.pagination %}
+  {% set pageSize = pagination.pageSize %}
+  {% set totalRows = pagination.totalRows %}
+  {% set currentPage = pagination.currentPage %}
+
+  <div id="table-container" class='dpr-table-container' data-dpr-module="data-table">
+    {{ govukTable({
+      head: head,
+      rows: rows,
+      attributes: { 
+        'id': 'dpr-data-table',
+        'data-classification': classification,
+        'data-col-length': colCount,
+        'data-row-length': rowCount,
+        'data-page-size': pageSize,
+        'data-selected-page': currentPage,
+        'data-total-results': totalRows
+      }
+    }) }}
+  </div>
 {% endmacro %}

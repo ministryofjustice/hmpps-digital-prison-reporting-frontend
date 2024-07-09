@@ -35,17 +35,18 @@
         {{ dprIconButtonList(actions) }}
       </div>
 
-      {% if template === 'list' %}
+      {% if template === 'list-aggregate' or template === 'list-tab' or template === 'crosstab' or template === 'summary' %}
+
+        {# Add template view here #}
+
+      {% elif template === 'list-section' %}
 
         {{ dprAsyncReportList(renderData) }}
-
-      {% elif(template === 'listWithSection') %}
-
-        {# TODO: Add template view here #}
 
       {% else %}
 
         {{ dprAsyncReportList(renderData) }}
+        {{ dprPagination(pagination) }}
 
       {% endif %}
     </div>

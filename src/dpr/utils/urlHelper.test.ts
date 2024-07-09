@@ -11,6 +11,7 @@ const defaultFields: Array<components['schemas']['FieldDefinition']> = [
     defaultsort: true,
     filter: {
       type: 'Radio',
+      mandatory: false,
     },
     type: 'string',
     mandatory: false,
@@ -27,7 +28,13 @@ const defaultQueryParams = {
   'f.direction': 'out',
 }
 
-const defaultReportQuery: ReportQuery = new ReportQuery(defaultFields, defaultQueryParams, 'one', 'f.')
+const defaultSpec: components['schemas']['Specification'] = {
+  fields: defaultFields,
+  template: 'list',
+  sections: [],
+}
+
+const defaultReportQuery: ReportQuery = new ReportQuery(defaultSpec, defaultQueryParams, 'one', 'f.')
 
 describe('Create URL', () => {
   it('Reset filters', () => {
@@ -35,12 +42,12 @@ describe('Create URL', () => {
 
     const url = createUrlForParameters(defaultReportQuery.toRecordWithFilterPrefix(), updateQueryParams)
 
-    expect(url).toEqual('?selectedPage=1&pageSize=20&sortColumn=30&sortedAsc=false')
+    expect(url).toEqual('?selectedPage=1&pageSize=20&sortColumn=30&sortedAsc=false&dataProductDefinitionsPath=one')
   })
 
   it('Clear single filter', () => {
     const currentQueryParams: ReportQuery = new ReportQuery(
-      defaultFields,
+      defaultSpec,
       {
         ...defaultQueryParams,
         'f.type': 'jaunt',
@@ -55,7 +62,7 @@ describe('Create URL', () => {
     const url = createUrlForParameters(currentQueryParams.toRecordWithFilterPrefix(), updateQueryParams)
 
     expect(url).toEqual(
-      '?selectedPage=1&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&f.direction=~clear~&f.type=jaunt',
+      '?selectedPage=1&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&dataProductDefinitionsPath=one&f.direction=~clear~&f.type=jaunt',
     )
   })
 
@@ -66,7 +73,9 @@ describe('Create URL', () => {
 
     const url = createUrlForParameters(defaultReportQuery.toRecordWithFilterPrefix(), updateQueryParams)
 
-    expect(url).toEqual('?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&f.direction=out')
+    expect(url).toEqual(
+      '?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&dataProductDefinitionsPath=one&f.direction=out',
+    )
   })
 
   it('Change page with column', () => {
@@ -79,7 +88,7 @@ describe('Create URL', () => {
       columns: 'direction',
     }
 
-    const reportQuery: ReportQuery = new ReportQuery(defaultFields, queryParams, 'one', 'f.')
+    const reportQuery: ReportQuery = new ReportQuery(defaultSpec, queryParams, 'one', 'f.')
 
     const updateQueryParams: Dict<string> = {
       selectedPage: '11',
@@ -87,6 +96,8 @@ describe('Create URL', () => {
 
     const url = createUrlForParameters(reportQuery.toRecordWithFilterPrefix(), updateQueryParams)
 
-    expect(url).toEqual('?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&f.direction=out')
+    expect(url).toEqual(
+      '?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&dataProductDefinitionsPath=one&f.direction=out',
+    )
   })
 })

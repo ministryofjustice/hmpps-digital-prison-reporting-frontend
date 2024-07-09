@@ -1,11 +1,12 @@
 import parseUrl from 'parseurl'
 import { Request } from 'express'
-import DataTableUtils from '../data-table/utils'
 import ColumnUtils from '../columns/utils'
 import PaginationUtils from '../pagination/utils'
 import { components } from '../../types/api'
 import Dict = NodeJS.Dict
 import { AsyncReportData } from '../../types/AsyncReport'
+import DataTableBuilder from '../../utils/DataTableBuilder/DataTableBuilder'
+import { DataTable } from '../../utils/DataTableBuilder/types'
 
 export default {
   getRenderData: (
@@ -15,19 +16,18 @@ export default {
     count: number,
     reportStateData: AsyncReportData,
   ) => {
+    const { specification } = definition.variant
     const { columns: reqColumns } = req.query
-    const { fields } = definition.variant.specification
-
-    const columns = ColumnUtils.getColumns(fields, <string[]>reqColumns)
+    const columns = ColumnUtils.getColumns(specification, <string[]>reqColumns)
     const url = parseUrl(req)
     const pagination = PaginationUtils.getPaginationData(url, count)
-    const rows = DataTableUtils.mapData(reportData, fields, columns.value)
-    const head = DataTableUtils.mapAsyncHeader(fields, columns.value)
     const { query } = reportStateData
+    const dataTable: DataTable = new DataTableBuilder(specification)
+      .withNoHeaderOptions(columns.value)
+      .buildTable(reportData)
 
     return {
-      rows,
-      head,
+      ...dataTable,
       columns,
       pagination,
       appliedFilters: query.summary,

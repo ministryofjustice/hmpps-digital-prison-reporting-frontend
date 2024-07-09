@@ -14,15 +14,19 @@ export default {
   /**
    * Converts the columns from a DPD into a column readable format
    *
-   * @param {Array<components['schemas']['FieldDefinition']>} fields
+   * @param specification
    * @param requestedColumns
    */
-  getColumns: (fields: Array<components['schemas']['FieldDefinition']>, requestedColumns: string[] = null): Columns => {
-    const options: Column[] = fields.map((field) => ({
-      text: field.display,
-      value: field.name,
-      disabled: field.mandatory,
-    }))
+  getColumns: (specification: components['schemas']['Specification'], requestedColumns: string[] = null): Columns => {
+    const { fields } = specification
+
+    const options: Column[] = fields
+      .filter((field) => !specification.sections || !specification.sections.includes(field.name))
+      .map((field) => ({
+        text: field.display,
+        value: field.name,
+        disabled: field.mandatory,
+      }))
 
     return {
       name: 'columns',

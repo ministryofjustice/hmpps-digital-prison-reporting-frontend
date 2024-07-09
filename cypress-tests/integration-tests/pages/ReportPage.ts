@@ -11,7 +11,7 @@ export default class ReportPage {
 
   pagingLink = (): PageElement => cy.get('.govuk-pagination__link').first()
 
-  pageSizeSelector = (): PageElement => cy.get('#pageSize')
+  pageSizeSelector = (): PageElement => cy.get('#page-size-select')
 
   filter = (id): PageElement => cy.get(`#filters\\.${id}`)
 
@@ -46,17 +46,13 @@ export default class ReportPage {
   currentDescendingSortColumnLink = (): PageElement =>
     this.dataTable().find(`.data-table-header-button-sort-descending`).first()
 
-  actionsButton = (): PageElement => cy.get('#actions-button')
+  actionsButtonMenu = (): PageElement => cy.get('.icon-button-list')
 
-  actionsButtonMenu = (): PageElement => cy.get('#actions-menu')
+  printButton = (): PageElement => cy.get('#dpr-button-printable')
 
-  printButton = (): PageElement => cy.get('[data-print-page="true"]')
+  emailButton = (): PageElement => cy.get('#dpr-button-sharable')
 
-  printButtonDisabled = (): PageElement => cy.get('#actions-menu .print-button button#print_dd_disabled')
-
-  emailButton = (): PageElement => cy.get('#email-button')
-
-  copyUrlButton = (): PageElement => cy.get('[data-copy-url="true"]')
+  copyUrlButton = (): PageElement => cy.get('#dpr-button-copy')
 
   filterForm = (): PageElement => cy.get('#user-selected-filters-form')
 }

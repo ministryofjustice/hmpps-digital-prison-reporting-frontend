@@ -1,7 +1,6 @@
 import { Response, Request } from 'express'
 import { Url } from 'url'
 import * as AsyncReportUtils from './renderAsyncReport'
-import DataTableUtils from '../components/data-table/utils'
 import ColumnUtils from '../components/columns/utils'
 import PaginationUtils from '../components/pagination/utils'
 import ReportActionsUtils from '../components/icon-button-list/utils'
@@ -47,9 +46,7 @@ jest.spyOn(AsyncReportUtils, 'initDataSources').mockImplementation(() => [
 
 describe('AsyncReportUtils', () => {
   jest.spyOn(PaginationUtils, 'getPaginationData')
-  const ReportActionsUtilsSpy = jest.spyOn(ReportActionsUtils, 'initReportActions')
-  jest.spyOn(DataTableUtils, 'mapData')
-  jest.spyOn(DataTableUtils, 'mapAsyncHeader')
+  const ReportActionsUtilsSpy = jest.spyOn(ReportActionsUtils, 'initAsyncReportActions')
   jest.spyOn(ColumnUtils, 'getColumns')
 
   describe('getReport', () => {

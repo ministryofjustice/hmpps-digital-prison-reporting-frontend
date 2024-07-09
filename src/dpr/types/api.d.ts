@@ -16,9 +16,33 @@ export interface paths {
     /** @description Returns the dataset for the given report ID and report variant ID filtered by the filters provided in the query. */
     get: operations['configuredApiDynamicFilter']
   }
+  '/reports/{reportId}/{reportVariantId}/tables/{tableId}/result': {
+    /** @description Returns the resulting rows of the executed statement in a paginated fashion which has been have been stored in a dedicated table. */
+    get: operations['getQueryExecutionResult']
+  }
+  '/reports/{reportId}/{reportVariantId}/statements/{statementId}/status': {
+    /**
+     * @description Returns the status of the statement execution based on the statement ID provided.The following status values can be returned:
+     * ABORTED - The query run was stopped by the user.
+     * ALL - A status value that includes all query statuses. This value can be used to filter results.
+     * FAILED - The query run failed.
+     * FINISHED - The query has finished running.
+     * PICKED - The query has been chosen to be run.
+     * STARTED - The query run has started.
+     * SUBMITTED - The query was submitted, but not yet processed.
+     * Note: When the status is FAILED the error field of the response will be populated.ResultRows is the number of rows returned from the SQL statement. A -1 indicates the value is null.ResultSize is the size in bytes of the returned results. A -1 indicates the value is null.
+     * For Athena:
+     * Athena automatically retries your queries in cases of certain transient errors. As a result, you may see the query state transition from STARTED or FAILED to SUBMITTED.
+     */
+    get: operations['getQueryExecutionStatus']
+  }
   '/reports/{reportId}/{reportVariantId}/count': {
     /** @description Returns the number of records for the given report ID and report variant ID filtered by the filters provided in the query. */
     get: operations['configuredApiCount']
+  }
+  '/report/tables/{tableId}/count': {
+    /** @description Returns the number of rows of the table which contains the result of a previously executed query. */
+    get: operations['getExternalTableRowCount']
   }
   '/definitions': {
     /** @description Gets summaries of all report definitions */
@@ -27,6 +51,14 @@ export interface paths {
   '/definitions/{reportId}/{variantId}': {
     /** @description Gets report definition containing a single variant. */
     get: operations['definition']
+  }
+  '/async/reports/{reportId}/{reportVariantId}': {
+    /** @description Executes asynchronously the dataset query for the given report and stores the result into an external table.The response returned contains the table ID and the execution ID. This is the asynchronous version of the /reports/{reportId}/{reportVariantId} API. */
+    get: operations['asyncConfiguredApiExecuteQuery']
+  }
+  '/reports/{reportId}/{reportVariantId}/statements/{statementId}': {
+    /** @description Cancels the execution of a running query. */
+    delete: operations['cancelQueryExecution']
   }
 }
 
@@ -42,6 +74,41 @@ export interface components {
       userMessage?: string
       developerMessage?: string
       moreInfo?: string
+    }
+    StatementExecutionStatus: {
+      /** @description The status of the statement execution. */
+      status: string
+      /**
+       * Format: int64
+       * @description The amount of time in nanoseconds that the statement ran.
+       * @example 10562762848
+       */
+      duration: number
+      queryString: string
+      /**
+       * Format: int64
+       * @description The number of rows returned from the query.
+       * @example 10
+       */
+      resultRows: number
+      /**
+       * Format: int64
+       * @description The size in bytes of the returned results. A -1 indicates the value is null.
+       * @example 0
+       */
+      resultSize?: number
+      /** @description Contains a short description of the error that occurred. */
+      error?: string
+      /**
+       * Format: int32
+       * @description Specific to Athena queries. An integer value that specifies the category of a query failure error. The following list shows the category for each integer value.
+       * 1 - System
+       * 2 - User
+       * 3 - Other
+       */
+      errorCategory?: number
+      /** @description Specific to Athena queries. Further detail about the status of the query. */
+      stateChangeReason?: string
     }
     Count: {
       /**
@@ -68,6 +135,9 @@ export interface components {
       returnAsStaticOptions: boolean
       /** Format: int64 */
       maximumOptions?: number
+      dataset?: string
+      name?: string
+      display?: string
     }
     FieldDefinition: {
       name: string
@@ -85,14 +155,14 @@ export interface components {
     }
     FilterDefinition: {
       /** @enum {string} */
-      type: 'Radio' | 'Select' | 'daterange' | 'autocomplete'
+      type: 'Radio' | 'Select' | 'daterange' | 'autocomplete' | 'text'
+      mandatory: boolean
+      pattern?: string
       staticOptions?: components['schemas']['FilterOption'][]
       dynamicOptions?: components['schemas']['DynamicFilterOption']
       defaultValue?: string
       min?: string
       max?: string
-      pattern?: string
-      mandatory?: boolean
     }
     FilterOption: {
       name: string
@@ -107,6 +177,7 @@ export interface components {
     Specification: {
       template: string
       fields: components['schemas']['FieldDefinition'][]
+      sections: string[]
     }
     VariantDefinition: {
       id: string
@@ -117,12 +188,13 @@ export interface components {
       classification?: string
       printable?: boolean
     }
-    Status: {
-      status: RequestStatus
-      duration: number
-      queryString: string
-      resultRows: number
-      resultSize: number
+    StatementExecutionResponse: {
+      tableId: string
+      executionId: string
+    }
+    StatementCancellationResponse: {
+      /** @description A value that indicates whether the cancel statement succeeded (true). */
+      cancellationSucceeded: boolean
     }
   }
   responses: never
@@ -148,6 +220,12 @@ export interface operations {
       }
       /** @description Bad Request */
       400: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
@@ -195,6 +273,12 @@ export interface operations {
     responses: {
       /** @description Bad Request */
       400: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
@@ -266,6 +350,12 @@ export interface operations {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
+      /** @description Too Many Requests */
+      429: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
       /** @description Internal Server Error */
       500: {
         content: {
@@ -280,6 +370,105 @@ export interface operations {
         }
         content: {
           'application/json': string[]
+        }
+      }
+    }
+  }
+  /** @description Returns the resulting rows of the executed statement in a paginated fashion which has been have been stored in a dedicated table. */
+  getQueryExecutionResult: {
+    parameters: {
+      query?: {
+        dataProductDefinitionsPath?: string
+        selectedPage?: number
+        pageSize?: number
+      }
+      path: {
+        reportId: string
+        reportVariantId: string
+        tableId: string
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          'application/json': {
+            [key: string]: Record<string, never>
+          }[]
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+    }
+  }
+  /**
+   * @description Returns the status of the statement execution based on the statement ID provided.The following status values can be returned:
+   * ABORTED - The query run was stopped by the user.
+   * ALL - A status value that includes all query statuses. This value can be used to filter results.
+   * FAILED - The query run failed.
+   * FINISHED - The query has finished running.
+   * PICKED - The query has been chosen to be run.
+   * STARTED - The query run has started.
+   * SUBMITTED - The query was submitted, but not yet processed.
+   * Note: When the status is FAILED the error field of the response will be populated.ResultRows is the number of rows returned from the SQL statement. A -1 indicates the value is null.ResultSize is the size in bytes of the returned results. A -1 indicates the value is null.
+   * For Athena:
+   * Athena automatically retries your queries in cases of certain transient errors. As a result, you may see the query state transition from STARTED or FAILED to SUBMITTED.
+   */
+  getQueryExecutionStatus: {
+    parameters: {
+      query?: {
+        /**
+         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
+         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         * @example definitions/prisons/orphanage
+         */
+        dataProductDefinitionsPath?: string
+      }
+      path: {
+        reportId: string
+        reportVariantId: string
+        statementId: string
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['StatementExecutionStatus']
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
         }
       }
     }
@@ -315,6 +504,50 @@ export interface operations {
     responses: {
       /** @description Bad Request */
       400: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description default response */
+      default: {
+        headers: {
+          /** @description Provides additional information about why no data has been returned. */
+          'x-no-data-warning'?: string
+        }
+        content: {
+          'application/json': components['schemas']['Count']
+        }
+      }
+    }
+  }
+  /** @description Returns the number of rows of the table which contains the result of a previously executed query. */
+  getExternalTableRowCount: {
+    parameters: {
+      path: {
+        tableId: string
+      }
+    }
+    responses: {
+      /** @description Bad Request */
+      400: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
@@ -367,6 +600,12 @@ export interface operations {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
+      /** @description Too Many Requests */
+      429: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
       /** @description Internal Server Error */
       500: {
         content: {
@@ -408,6 +647,117 @@ export interface operations {
       }
       /** @description Bad Request */
       400: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+    }
+  }
+  /** @description Executes asynchronously the dataset query for the given report and stores the result into an external table.The response returned contains the table ID and the execution ID. This is the asynchronous version of the /reports/{reportId}/{reportVariantId} API. */
+  asyncConfiguredApiExecuteQuery: {
+    parameters: {
+      query: {
+        sortColumn?: string
+        sortedAsc?: boolean
+        /**
+         * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
+         *       |For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *
+         * @example {
+         *   "filters.date.start": "2023-04-25",
+         *   "filters.date.end": "2023-05-30"
+         * }
+         */
+        filters: {
+          [key: string]: string
+        }
+        /**
+         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
+         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         * @example definitions/prisons/orphanage
+         */
+        dataProductDefinitionsPath?: string
+      }
+      path: {
+        reportId: string
+        reportVariantId: string
+      }
+    }
+    responses: {
+      /** @description Bad Request */
+      400: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description default response */
+      default: {
+        headers: {
+          /** @description Provides additional information about why no data has been returned. */
+          'x-no-data-warning'?: string
+        }
+        content: {
+          'application/json': components['schemas']['StatementExecutionResponse']
+        }
+      }
+    }
+  }
+  /** @description Cancels the execution of a running query. */
+  cancelQueryExecution: {
+    parameters: {
+      query?: {
+        /**
+         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
+         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         * @example definitions/prisons/orphanage
+         */
+        dataProductDefinitionsPath?: string
+      }
+      path: {
+        reportId: string
+        reportVariantId: string
+        statementId: string
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['StatementCancellationResponse']
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }

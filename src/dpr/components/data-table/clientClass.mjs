@@ -20,7 +20,7 @@ export default class DataTable extends DprClientClass {
     const currentRangeEnd = currentRangeStart + rowLength
 
     if (currentRangeStart === 0 && totalRowCount === currentRangeEnd) {
-      return totalRowCount === 1 ? `${totalRowCount} row` : `${totalRowCount} rows`
+      return totalRowCount === 1 ? `${totalRowCount} total result` : `${totalRowCount} total results`
     }
 
     return totalRowCount > 0 ? `${currentRangeStart + 1}-${currentRangeEnd} of ${totalRowCount}` : `0-0 of 0`

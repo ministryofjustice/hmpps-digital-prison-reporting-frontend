@@ -166,14 +166,20 @@ export class DataTableBuilder {
 
     return Object.keys(sectionedData)
       .sort()
-      .flatMap(sectionDescription => [
-        [{
-          colspan: this.columns.length,
-          html: `<h2>${sectionDescription}</h2>`
-        }],
-        headerRow,
-        ...sectionedData[sectionDescription],
-      ])
+      .flatMap(sectionDescription => {
+        const count = sectionedData[sectionDescription].length
+        const countDescription = `${count} result${count === 1 ? '' : 's'}`
+
+        return [
+          [{
+            colspan: this.columns.length,
+            html: `<h2>${sectionDescription} <span class='govuk-caption-m'>${countDescription}</span></h2>`
+          }],
+          headerRow,
+          ...
+            sectionedData[sectionDescription],
+        ]
+      })
   }
 
   withHeaderSortOptions(reportQuery: ReportQuery) {

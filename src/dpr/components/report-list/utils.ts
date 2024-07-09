@@ -86,9 +86,8 @@ function renderList(
       .then((resolvedData) => {
         let data
         let warnings: Warnings = {}
-        const { specification } = variantDefinition
+        const { specification, classification, printable } = variantDefinition
         const { template } = specification
-        const { classification, printable } = variantDefinition
         const url = parseUrl(request)
         const count = resolvedData[1]
 

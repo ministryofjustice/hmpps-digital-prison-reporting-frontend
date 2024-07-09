@@ -10,11 +10,11 @@
   {% from "dpr/components/data-table/view.njk" import dprDataTable %}
 
   {% set title = options.title %}
-
   {% set dataTableOptions = options.dataTableOptions %}
   {% set filterOptions = options.filterOptions %}
   {% set warnings = options.warnings %}
   {% set columns = options.columns %}
+  {% set template = options.template %}
 
   {# Datatable #}
   {% set pagination = dataTableOptions.pagination %}

@@ -5,8 +5,9 @@
         id="{{ button.id }}"
         data-href="{{ button.href }}"
         class="dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live {% if button.disabled %}dpr-icon-disabled{% endif %}" 
-        tooltip="{{ button.tooltipText }}" 
-        aria-label="{{ button.ariaLabelText }}">
+        tooltip="{{ button.tooltipText }}"
+        aria-label="{{ button.ariaLabelText }}"
+        role="button">
         <i class="dpr-icon {{ button.icon }}-icon"></i>
       </div>
     {% endfor %}

@@ -56,14 +56,12 @@ Feature: List report
     When I click a paging link
     Then the current page is shown in the URL
 
-  Scenario: Selecting an action
-    When I click the Action button
-    Then the dropdown menu appears
+  Scenario: Actions are displayed
+    When I navigate to the handler page
+    Then the icon list is visible
     And the print action is shown
     And the email action is shown
     And the copy url action is shown
-    When I click the copy url button
-    Then the menu closes
 
   Scenario: Selecting columns displays correct results
     Given I click the Show Columns button

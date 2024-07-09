@@ -57,6 +57,11 @@ export default class Autocomplete extends DprClientClass {
           }
         })
     }
+
+    if (searchValue.length === 0) {
+      const changeEvent = new Event('change')
+      textInput.dispatchEvent(changeEvent)
+    }
   }
 
   async populateOptionsDynamically (resourceEndpoint, searchValue, textInput, templateProvider) {

@@ -7,6 +7,8 @@ import { FilterType } from '../filter-input/enum'
 import SortHelper from './sortByTemplate'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import DefinitionUtils from '../../utils/definitionUtils'
+import { getDuplicateRequestIds } from '../../utils/reportSummaryHelper'
+import { Services } from '../../types/Services'
 
 /**
  * Initialises the filters from the definition data
@@ -63,6 +65,127 @@ const initFiltersFromDefinition = (definition: components['schemas']['VariantDef
   }
 }
 
+/**
+ * Updates the store with the request details
+ *
+ * @param {Request} req
+ * @param {Services} services
+ * @param {components['schemas']['FieldDefinition'][]} fields
+ * @param {querySummaryResult} querySummaryData
+ * @param {string} executionId
+ * @param {string} tableId
+ * @return {*}  {Promise<string>}
+ */
+const updateStore = async (
+  req: Request,
+  services: Services,
+  fields: components['schemas']['FieldDefinition'][],
+  querySummaryData: querySummaryResult,
+  executionId: string,
+  tableId: string,
+): Promise<string> => {
+  const { retryId, refreshId, search, variantId } = req.body
+  const { query, filterData, querySummary, sortData } = querySummaryData
+
+  // 1. check for duplicate requests and flag them with a timestamp
+  const requestedReports = await services.asyncReportsStore.getAllReportsByVariantId(variantId)
+  const duplicateRequestIds = getDuplicateRequestIds(search, requestedReports)
+  if (duplicateRequestIds.length) {
+    await Promise.all(
+      duplicateRequestIds.map(async (id: string) => {
+        await setTimestamps(id, services, 'retry')
+      }),
+    )
+  }
+
+  // 2. Add the new request data to the store
+  const reportData = await services.asyncReportsStore.addReport(
+    {
+      ...req.body,
+      executionId,
+      tableId,
+    },
+    filterData,
+    sortData,
+    query,
+    querySummary,
+  )
+
+  // 3. Add refresh + retry timestamps
+  if (retryId) await setTimestamps(retryId, services, 'retry')
+  if (refreshId) await setTimestamps(refreshId, services, 'refresh')
+
+  return reportData.url.polling.pathname
+}
+
+const setTimestamps = async (id: string, services: Services, type: 'retry' | 'refresh') => {
+  await services.asyncReportsStore.setReportTimestamp(id, type)
+  await services.recentlyViewedStoreService.setReportTimestamp(id, type)
+}
+
+interface querySummaryResult {
+  query: Dict<string>
+  filterData: Dict<string>
+  querySummary: Array<Dict<string>>
+  sortData: Dict<string>
+}
+
+/**
+ * Sets the query, and summary for the store
+ *
+ * @param {Request} req
+ * @param {components['schemas']['FieldDefinition'][]} fields
+ * @return {*}  {querySummaryResult}
+ */
+const setQuerySummary = (req: Request, fields: components['schemas']['FieldDefinition'][]): querySummaryResult => {
+  const query: Dict<string> = {}
+  const filterData: Dict<string> = {}
+  const querySummary: Array<Dict<string>> = []
+  const sortData: Dict<string> = {}
+
+  Object.keys(req.body)
+    .filter((name) => name !== '_csrf' && req.body[name] !== '')
+    .forEach((name) => {
+      const shortName = name.replace('filters.', '')
+      const value = req.body[name]
+
+      if (name.startsWith('filters.') && value !== '') {
+        query[name as keyof Dict<string>] = value
+        filterData[shortName as keyof Dict<string>] = value
+
+        const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
+        querySummary.push({
+          name: fieldDisplayName || shortName,
+          value,
+        })
+      } else if (name.startsWith('sort')) {
+        query[name as keyof Dict<string>] = value
+        sortData[name as keyof Dict<string>] = value
+
+        const fieldDef = DefinitionUtils.getField(fields, value)
+
+        let displayName = 'Sort Direction'
+        let displayValue = value ? 'Ascending' : 'Descending'
+        if (fieldDef) {
+          displayName = 'Sort Column'
+          displayValue = fieldDef.display
+        }
+
+        querySummary.push({
+          name: displayName,
+          value: displayValue,
+        })
+      }
+    })
+
+  return {
+    query,
+    filterData,
+    querySummary,
+    sortData,
+  }
+}
+
 export default {
   /**
    * Returns the data required for rendering the async filters component
@@ -99,85 +222,28 @@ export default {
   /**
    * Sends the request for the async report
    *
-   * @param {AsyncReportUtilsParams} {
-   *     req,
-   *     res,
-   *     dataSources,
-   *     asyncReportsStore,
-   *   }
+   * @param {AsyncReportUtilsParams} { req, res, services }
+   * @return {*}
    */
   requestReport: async ({ req, res, services }: AsyncReportUtilsParams) => {
-    let redirect = ''
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const { reportId, variantId, retryId, refreshId } = req.body
     const { dataProductDefinitionsPath: definitionPath } = req.query
+    const { reportId, variantId } = req.body
+
     const definition = await services.reportingService.getDefinition(token, reportId, variantId, <string>definitionPath)
     const fields = definition ? definition.variant.specification.fields : []
+    const querySummaryData = setQuerySummary(req, fields)
 
-    const query: Dict<string> = {}
-    const querySummary: Array<Dict<string>> = []
-    const filterData: Dict<string> = {}
-    const sortData: Dict<string> = {}
+    const { executionId, tableId } = await services.reportingService.requestAsyncReport(
+      token,
+      reportId,
+      variantId,
+      querySummaryData.query,
+    )
 
-    Object.keys(req.body)
-      .filter((name) => name !== '_csrf' && req.body[name] !== '')
-      .forEach((name) => {
-        const shortName = name.replace('filters.', '')
-        const value = req.body[name]
-
-        query[name as keyof Dict<string>] = value
-
-        if (name.startsWith('filters.') && value !== '') {
-          filterData[shortName as keyof Dict<string>] = value
-          const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
-          querySummary.push({
-            name: fieldDisplayName || shortName,
-            value,
-          })
-        } else if (name.startsWith('sort')) {
-          sortData[name as keyof Dict<string>] = value
-          const fieldDef = DefinitionUtils.getField(fields, value)
-
-          let displayName = 'Sort Direction'
-          let displayValue = value
-          if (fieldDef) {
-            displayName = 'Sort Column'
-            displayValue = fieldDef.display
-          }
-
-          querySummary.push({
-            name: displayName,
-            value: displayValue,
-          })
-        }
-      })
-
-    const response = await services.reportingService.requestAsyncReport(token, reportId, variantId, query)
-    const { executionId, tableId } = response
-
-    if (retryId) {
-      await services.asyncReportsStore.setReportTimestamp(retryId, 'retry')
-      await services.recentlyViewedStoreService.setReportTimestamp(retryId, 'retry')
-    }
-
-    if (refreshId) {
-      await services.asyncReportsStore.setReportTimestamp(refreshId, 'refresh')
-      await services.recentlyViewedStoreService.setReportTimestamp(refreshId, 'refresh')
-    }
-
+    let redirect = ''
     if (executionId && tableId) {
-      const reportData = await services.asyncReportsStore.addReport(
-        {
-          ...req.body,
-          executionId,
-          tableId,
-        },
-        filterData,
-        sortData,
-        query,
-        querySummary,
-      )
-      redirect = reportData.url.polling.pathname
+      redirect = await updateStore(req, services, fields, querySummaryData, executionId, tableId)
     }
 
     return redirect

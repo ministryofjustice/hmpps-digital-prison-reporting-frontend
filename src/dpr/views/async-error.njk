@@ -11,14 +11,22 @@
 
   <p>Status: {{ dprRequestStatusTag(error.status) }}</p>
 
+  {% set errorList = [
+    {
+      text: error.userMessage
+    }
+  ]%}
+
+  {% if error.stack %}
+    {% set errorList = (errorList.push({
+      html: '<p class="govuk-body-s">' + error.stack + '</p>'
+    }), errorList) %}
+  {% endif %}
+
   {{ govukErrorSummary({
     titleText: errorDescription,
     classes: "govuk-!-margin-top-6",
-    errorList: [
-      {
-        text: error.userMessage
-      }
-    ]
+    errorList: errorList
   }) }}
 
   {% set filtersHtml %}

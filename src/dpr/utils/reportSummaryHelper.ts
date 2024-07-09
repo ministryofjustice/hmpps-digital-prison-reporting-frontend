@@ -1,5 +1,5 @@
 import { CardData } from '../components/table-card-group/types'
-import { AsyncReportData, AsyncReportUrlItemData } from '../types/AsyncReport'
+import { AsyncReportData } from '../types/AsyncReport'
 
 export const createDetailsHtml = (title: string, content: string) => {
   return `<details class="govuk-details">

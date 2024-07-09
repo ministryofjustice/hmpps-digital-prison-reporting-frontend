@@ -4,7 +4,6 @@ import Dict = NodeJS.Dict
 import { AsyncReportData, AsyncReportsTimestamp, RequestStatus } from '../types/AsyncReport'
 import UserStoreService from './userStoreService'
 import { getDpdPathSuffix } from '../utils/urlHelper'
-import { getDuplicateRequestIds } from '../utils/reportSummaryHelper'
 
 export default class AsyncReportStoreService extends UserStoreService {
   requestedReports: AsyncReportData[]
@@ -45,11 +44,6 @@ export default class AsyncReportStoreService extends UserStoreService {
       template,
     } = reportData
 
-    const requestedReports = await this.getAllReportsByVariantId(variantId)
-    const duplicateRequestIds = getDuplicateRequestIds(search, requestedReports)
-    if (duplicateRequestIds.length) {
-      // do something
-    }
     const filtersQueryString = new URLSearchParams(filterData).toString()
     const sortyByQueryString = new URLSearchParams(sortData).toString()
 

@@ -1,4 +1,4 @@
-import { AsyncReportData, AsyncReportUrlItemData } from '../types/AsyncReport'
+import { AsyncReportData } from '../types/AsyncReport'
 import * as ReportSummaryHelper from './reportSummaryHelper'
 
 describe('ReportSummaryHelper', () => {

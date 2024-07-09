@@ -1,5 +1,11 @@
 Below you can find the changes included in each release.
 
+## v3.16.0
+
+- Sectioned list template.
+- Icon action list in sync data table.
+- Removed redundant dropdown action list and component buttons.
+
 ## v3.15.3
 
 - Single component for choosing columns in both journeys.

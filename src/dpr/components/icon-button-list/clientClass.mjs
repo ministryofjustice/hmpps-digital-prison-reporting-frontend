@@ -19,23 +19,29 @@ export default class IconButtonList extends DprClientClass {
   }
 
   initPrintButtonEvent () {
-    this.printButton.addEventListener('click', () => {
-      window.print()
-    })
+    if (this.printButton) {
+      this.printButton.addEventListener('click', () => {
+        window.print()
+      })
+    }
   }
 
   initShareButtonEvent () {
-    const href = this.shareButton.getAttribute('data-href')
-    this.shareButton.addEventListener('click', () => {
-      window.location = href
-    })
+    if (this.shareButton) {
+      const href = this.shareButton.getAttribute('data-href')
+      this.shareButton.addEventListener('click', () => {
+        window.location = href
+      })
+    }
   }
 
   initCopyButtonEvent () {
-    const href = this.copyButton.getAttribute('data-href')
-    this.copyButton.addEventListener('click', () => {
-      navigator.clipboard.writeText(href)
-    })
+    if (this.copyButton) {
+      const href = this.copyButton.getAttribute('data-href')
+      this.copyButton.addEventListener('click', () => {
+        navigator.clipboard.writeText(href)
+      })
+    }
   }
 
   initExportButtonEvent () {

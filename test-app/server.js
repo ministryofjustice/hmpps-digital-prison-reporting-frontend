@@ -178,6 +178,11 @@ app.get('/test-reports', (req, res) => {
         href: '/test-reports/validation',
       },
       {
+        text: 'Sections',
+        description: 'A sectioned report.',
+        href: '/test-reports/sections',
+      },
+      {
         text: 'Failing page',
         description: 'This page will fail to retrieve the definition and fail gracefully.',
         href: '/test-reports/fail',
@@ -233,6 +238,25 @@ app.get(
     title: 'Handler',
     definitionName: 'test-report',
     variantName: 'test-validation-variant',
+    apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
+    layoutTemplate: 'page.njk',
+    tokenProvider: () => 'token',
+    dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}',
+    otherOptions: {
+      breadCrumbList: [
+        { text: 'Home', href: '/' },
+        { text: 'Test Reports', href: '/test-reports' },
+      ],
+    },
+  }),
+)
+
+app.get(
+  '/test-reports/sections',
+  reportListUtils.createReportListRequestHandler({
+    title: 'Handler',
+    definitionName: 'test-report',
+    variantName: 'test-section-variant',
     apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
     layoutTemplate: 'page.njk',
     tokenProvider: () => 'token',

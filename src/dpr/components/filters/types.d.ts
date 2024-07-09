@@ -40,4 +40,5 @@ export interface DateRange {
 export interface FilterOptions {
   filters: Array<FilterValue>
   selectedFilters: Array<SelectedFilter>
+  urlWithNoFilters: string
 }

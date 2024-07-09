@@ -1,5 +1,5 @@
 {% from "../pagination/view.njk" import dprPagination %}
-{% from "../async-data-table/view.njk" import dprAsyncDataTable %}
+{% from "../data-table/view.njk" import dprDataTable %}
 {% from "../async-applied-filters/view.njk" import dprAsyncAppliedFiltersList %}
 {% from "../column-section/view.njk" import dprColumnSection %}
 
@@ -14,7 +14,6 @@
   {{ dprColumnSection(columns) }}
 
   <div class='dpr-table-container'>
-    {{ dprAsyncDataTable(options) }}
-    {{ dprPagination(pagination) }}
+    {{ dprDataTable(options) }}
   </div>
 {% endmacro %}

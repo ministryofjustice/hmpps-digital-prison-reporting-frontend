@@ -4,11 +4,12 @@ import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 import { AsyncReportData } from '../types/AsyncReport'
 import AsyncReportListUtils from '../components/async-report-list/utils'
 import ReportActionsUtils from '../components/icon-button-list/utils'
+import { Template } from '../types/Template'
+import ReportQuery from '../types/ReportQuery'
 
 export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) => {
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
   const { reportId, variantId: reportVariantId, tableId } = req.params
-  const { selectedPage = 1, pageSize = 10 } = req.query
   const dataProductDefinitionsPath = <string>req.query.dataProductDefinitionsPath
   const reportDefinitionPromise = services.reportingService.getDefinition(
     token,
@@ -16,11 +17,19 @@ export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) 
     reportVariantId,
     dataProductDefinitionsPath,
   )
-  const reportDataPromise = services.reportingService.getAsyncReport(token, reportId, reportVariantId, tableId, {
-    selectedPage: +selectedPage,
-    pageSize: +pageSize,
-    dataProductDefinitionsPath,
-  })
+  const reportDataPromise = reportDefinitionPromise.then(
+    (definition: components['schemas']['SingleVariantReportDefinition']) => {
+      const { variant } = definition
+      const { specification } = variant
+      const reportQuery = new ReportQuery(specification, req.query, dataProductDefinitionsPath)
+
+      return services.reportingService.getAsyncReport(token, reportId, reportVariantId, tableId, {
+        selectedPage: reportQuery.selectedPage,
+        pageSize: reportQuery.pageSize,
+        dataProductDefinitionsPath,
+      })
+    },
+  )
   const reportDataCountPromise = services.reportingService.getAsyncCount(token, tableId)
   const stateDataPromise = services.asyncReportsStore.getReportByTableId(tableId)
 
@@ -43,7 +52,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
       const { classification } = definition.variant
       const { template } = definition.variant.specification
       const { reportName, name: variantName, description, timestamp, reportId, variantId } = reportStateData
-      const actions = ReportActionsUtils.initReportActions(definition.variant, reportStateData)
+      const actions = ReportActionsUtils.initAsyncReportActions(definition.variant, reportStateData)
 
       renderData = {
         variantName,
@@ -59,16 +68,14 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         bookmarked: services.bookmarkService.isBookmarked(variantId),
       }
 
-      switch (template) {
-        case 'list':
-          renderData = {
-            ...renderData,
-            ...AsyncReportListUtils.getRenderData(req, definition, reportData, count, reportStateData),
-          }
+      switch (template as Template) {
+        case 'list-aggregate':
+        case 'list-tab':
+        case 'crosstab':
+        case 'summary':
+          // Add template-specific calls here
           break
-        case 'listWithSections':
-          // TODO: add list eith sections utils here
-          break
+
         default:
           renderData = {
             ...renderData,

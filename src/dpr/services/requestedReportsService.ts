@@ -4,6 +4,7 @@ import Dict = NodeJS.Dict
 import { AsyncReportData, AsyncReportsTimestamp, RequestStatus } from '../types/AsyncReport'
 import UserStoreService from './userStoreService'
 import { getDpdPathSuffix } from '../utils/urlHelper'
+import { Template } from '../types/Template'
 
 export default class AsyncReportStoreService extends UserStoreService {
   requestedReports: AsyncReportData[]
@@ -55,7 +56,7 @@ export default class AsyncReportStoreService extends UserStoreService {
       name: reportData.variantName,
       reportName: reportData.reportName,
       description,
-      template,
+      template: template as Template,
       status: RequestStatus.SUBMITTED,
       filters: {
         data: filterData,

@@ -1,8 +1,12 @@
 const createMockData = (amount) => {
   return Array(amount)
     .fill(0)
-    .map((_) => {
-      return mockDataItem
+    .map((_, index) => {
+      return {
+        ...mockDataItem,
+        section1: (index % 2) ? 'Two': 'One',
+        section2: (index % 3) ? 'B': 'A',
+      }
     })
 }
 
@@ -13,6 +17,8 @@ const mockDataItem = {
   field4: 'Value 4',
   field5: 'Value 5',
   field6: '<a href="#" target="_blank">Value 6</a>',
+  section1: 'One',
+  section2: 'A',
 }
 
 module.exports = createMockData

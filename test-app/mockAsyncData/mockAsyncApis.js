@@ -3,36 +3,22 @@ const definitions = require('./mockReportDefinition')
 const mockStatusApiResponse = require('./mockStatusApiReponse')
 const mockStatusApiError = require('./mockStatusResponseError')
 const mockBadQueryRequest = require('./mockBadQueryRequest')
+const createMockData = require('./mockAsyncData')
 
 const mockAPIStatus = []
-
-const createMockData = (amount) => {
-  return Array(amount)
-    .fill(0)
-    .map((_) => {
-      return mockDataItem
-    })
-}
-
-const mockDataItem = {
-  field1: 'Value 1',
-  field2: 'Value 2',
-  field3: '2003-02-01T01:00',
-  field4: 'Value 4',
-  field5: 'Value 5',
-  field6: '<a href="#" target="_blank">Value 6</a>',
-}
-
 const happyStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED']
 const sadStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FAILED']
 const sadServerStatuses = ['SUBMITTED', 'PICKED', 500]
 const expiredStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED', 'READY', 'EXPIRED']
+const RESULT_COUNT = 100
 
 const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
   const mockResponse = Object.assign(mockStatusApiResponse, {})
   let statuses
   switch (variantId) {
     case 'variantId-1':
+    case 'variantId-7':
+    case 'variantId-8':
       statuses = happyStatuses
       break
     case 'variantId-2':
@@ -94,7 +80,7 @@ const getDefinition = (token, reportId, variantId) => {
 }
 
 const getAsyncReport = (token, reportId, variantId, tableId, query) => {
-  const pageSize = query.pageSize ? +query.pageSize : 10
+  const pageSize = +query.pageSize < RESULT_COUNT ? +query.pageSize : RESULT_COUNT
   const report = createMockData(pageSize)
   return new Promise((resolve, reject) => {
     if (variantId === 'variantId-6') {
@@ -112,7 +98,7 @@ const cancelAsyncRequest = () => {
   })
 }
 
-const getAsyncCount = () => Promise.resolve(100)
+const getAsyncCount = () => Promise.resolve(RESULT_COUNT)
 
 module.exports = {
   getAsyncReportStatus,

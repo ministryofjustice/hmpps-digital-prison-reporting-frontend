@@ -18,7 +18,7 @@ export default {
    * @param requestedColumns
    */
   getColumns: (specification: components['schemas']['Specification'], requestedColumns: string[] = null): Columns => {
-    const fields: Array<components['schemas']['FieldDefinition']> = specification.fields
+    const { fields } = specification
 
     const options: Column[] = fields
       .filter((field) => !specification.sections || !specification.sections.includes(field.name))

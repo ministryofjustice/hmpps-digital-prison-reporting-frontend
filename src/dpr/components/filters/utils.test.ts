@@ -23,6 +23,7 @@ const selectFieldFormat: Array<components['schemas']['FieldDefinition']> = [
     filter: {
       type: FilterType.select,
       staticOptions: options,
+      mandatory: false,
     },
     sortable: true,
     defaultsort: false,
@@ -40,6 +41,7 @@ const radioFieldFormat: Array<components['schemas']['FieldDefinition']> = [
     filter: {
       type: FilterType.radio,
       staticOptions: options,
+      mandatory: false,
     },
     sortable: true,
     defaultsort: false,
@@ -56,6 +58,7 @@ const dateRangeFieldFormat: Array<components['schemas']['FieldDefinition']> = [
     name: 'dateRangeField',
     filter: {
       type: 'daterange',
+      mandatory: false,
     },
     sortable: true,
     defaultsort: false,
@@ -147,7 +150,7 @@ function mockReportQuery(filterValues: NodeJS.Dict<string>) {
   const reportQuery: ReportQuery = jest.createMockFromModule('../../types/ReportQuery')
   reportQuery.filters = filterValues
 
-  const prefixedFilterValues = {}
+  const prefixedFilterValues: Dict<string> = {}
   Object.keys(filterValues).forEach((key) => {
     prefixedFilterValues[`filters.${key}`] = filterValues[key]
   })
@@ -231,6 +234,7 @@ const wrapInVariant = (
     specification: {
       template: 'list',
       fields,
+      sections: [],
     },
     classification: '',
     printable: false,

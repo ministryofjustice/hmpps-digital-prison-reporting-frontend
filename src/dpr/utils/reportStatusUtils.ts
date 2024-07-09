@@ -34,7 +34,7 @@ export default {
       }
     } catch (error) {
       const { data } = error
-      errorMessage =  (data ?? {}).userMessage
+      errorMessage = (data ?? {}).userMessage
       status = currentStatus === RequestStatus.FINISHED ? RequestStatus.EXPIRED : RequestStatus.FAILED
     }
 

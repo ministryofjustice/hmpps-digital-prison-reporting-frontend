@@ -6,16 +6,16 @@ export interface Page {
 }
 
 export interface Pagination {
-  next?: string,
+  next?: string
   prev?: string
-  pages: Page[],
-  pageSize: number,
-  currentPage: number,
-  totalRows: number,
+  pages: Page[]
+  pageSize: number
+  currentPage: number
+  totalRows: number
   sizes: PageSize[]
 }
 
-interface PageSize {
-  value: number,
-  text: string,
+export interface PageSize {
+  value: number
+  text: string
 }

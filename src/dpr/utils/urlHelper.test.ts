@@ -31,7 +31,7 @@ const defaultQueryParams = {
 const defaultSpec: components['schemas']['Specification'] = {
   fields: defaultFields,
   template: 'list',
-  sections: []
+  sections: [],
 }
 
 const defaultReportQuery: ReportQuery = new ReportQuery(defaultSpec, defaultQueryParams, 'one', 'f.')
@@ -73,7 +73,9 @@ describe('Create URL', () => {
 
     const url = createUrlForParameters(defaultReportQuery.toRecordWithFilterPrefix(), updateQueryParams)
 
-    expect(url).toEqual('?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&dataProductDefinitionsPath=one&f.direction=out')
+    expect(url).toEqual(
+      '?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&dataProductDefinitionsPath=one&f.direction=out',
+    )
   })
 
   it('Change page with column', () => {
@@ -94,6 +96,8 @@ describe('Create URL', () => {
 
     const url = createUrlForParameters(reportQuery.toRecordWithFilterPrefix(), updateQueryParams)
 
-    expect(url).toEqual('?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&dataProductDefinitionsPath=one&f.direction=out')
+    expect(url).toEqual(
+      '?selectedPage=11&pageSize=20&sortColumn=30&sortedAsc=false&columns=direction&dataProductDefinitionsPath=one&f.direction=out',
+    )
   })
 })

@@ -5,7 +5,7 @@ import PaginationUtils from '../pagination/utils'
 import { components } from '../../types/api'
 import Dict = NodeJS.Dict
 import { AsyncReportData } from '../../types/AsyncReport'
-import { DataTableBuilder } from '../../utils/DataTableBuilder/DataTableBuilder'
+import DataTableBuilder from '../../utils/DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../../utils/DataTableBuilder/types'
 
 export default {

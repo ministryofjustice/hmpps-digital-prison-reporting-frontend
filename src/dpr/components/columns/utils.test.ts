@@ -76,7 +76,7 @@ describe('getColumns', () => {
     const specification: components['schemas']['Specification'] = {
       template: 'Test',
       fields,
-      sections: []
+      sections: [],
     }
 
     const cols = Utils.getColumns(specification)

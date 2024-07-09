@@ -1,12 +1,12 @@
 import Dict = NodeJS.Dict
 import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'
-import { DataTableBuilder } from './DataTableBuilder'
+import DataTableBuilder from './DataTableBuilder'
 
 const defaultSpec: components['schemas']['Specification'] = {
   fields: [],
   template: 'list',
-  sections: []
+  sections: [],
 }
 
 describe('mapData', () => {
@@ -30,7 +30,7 @@ describe('mapData', () => {
 
     expect(mapped).toEqual({
       colCount: 1,
-      head: [{ "text": "Date" }],
+      head: [{ text: 'Date' }],
       rowCount: 1,
       rows: [
         [
@@ -40,7 +40,7 @@ describe('mapData', () => {
             classes: null,
           },
         ],
-      ]
+      ],
     })
   })
 
@@ -64,7 +64,7 @@ describe('mapData', () => {
 
     expect(mapped).toEqual({
       colCount: 1,
-      head: [{ "text": "Date" }],
+      head: [{ text: 'Date' }],
       rowCount: 1,
       rows: [
         [
@@ -74,7 +74,7 @@ describe('mapData', () => {
             classes: null,
           },
         ],
-      ]
+      ],
     })
   })
 
@@ -240,7 +240,12 @@ describe('mapHeader', () => {
     columns: 'date',
   }
   const filterPrefix = 'f.'
-  const defaultListRequest: ReportQuery = new ReportQuery({ ...defaultSpec, fields: [defaultField] }, defaultQueryParams, null, filterPrefix)
+  const defaultListRequest: ReportQuery = new ReportQuery(
+    { ...defaultSpec, fields: [defaultField] },
+    defaultQueryParams,
+    null,
+    filterPrefix,
+  )
 
   it('Unsortable field', () => {
     const field = {

@@ -1,6 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express'
-import ReportQuery from '../../types/ReportQuery'
-import { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
+import parseUrl from 'parseurl'
+import ReportQuery, { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 import createUrlForParameters from '../../utils/urlHelper'
 import { DataTableOptions } from '../data-table/types'
 import FilterUtils from '../filters/utils'
@@ -13,10 +13,9 @@ import Dict = NodeJS.Dict
 import RenderListWithDefinitionInput from './RenderListWithDefinitionInput'
 import CreateRequestHandlerInput from './CreateRequestHandlerInput'
 import ReportActionsUtils from '../icon-button-list/utils'
-import { DataTableBuilder } from '../../utils/DataTableBuilder/DataTableBuilder'
+import DataTableBuilder from '../../utils/DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../../utils/DataTableBuilder/types'
 import PaginationUtils from '../pagination/utils'
-import parseUrl from 'parseurl'
 import { FilterOptions } from '../filters/types'
 
 function isListWithWarnings(data: Dict<string>[] | ListWithWarnings): data is ListWithWarnings {
@@ -108,15 +107,15 @@ function renderList(
           ...dataTable,
           classification,
           printable,
-          pagination: PaginationUtils.getPaginationData(url, count, reportQuery.pageSize, reportQuery.selectedPage)
+          pagination: PaginationUtils.getPaginationData(url, count, reportQuery.pageSize, reportQuery.selectedPage),
         }
 
         const filterOptions: FilterOptions = FilterUtils.getFilterOptions(
           variantDefinition,
           reportQuery.filters,
-          dynamicAutocompleteEndpoint,
           reportQuery,
-          createUrlForParameters
+          createUrlForParameters,
+          dynamicAutocompleteEndpoint,
         )
 
         const actions = ReportActionsUtils.initReportActions(
@@ -171,11 +170,7 @@ const renderListWithDefinition = ({
       const reportName: string = reportDefinition.name
       const variantDefinition = reportDefinition.variant
 
-      const reportQuery = new ReportQuery(
-        variantDefinition.specification,
-        request.query,
-        definitionsPath,
-      )
+      const reportQuery = new ReportQuery(variantDefinition.specification, request.query, definitionsPath)
 
       const getListData: ListDataSources = {
         data: reportingClient.getListWithWarnings(variantDefinition.resourceName, token, reportQuery),
@@ -214,10 +209,7 @@ export default {
     dynamicAutocompleteEndpoint,
   }: RenderListWithDataInput) => {
     const { specification } = variantDefinition
-    const reportQuery = new ReportQuery(
-      specification,
-      request.query,
-    )
+    const reportQuery = new ReportQuery(specification, request.query)
     const listData = getListDataSources(reportQuery)
 
     renderList(

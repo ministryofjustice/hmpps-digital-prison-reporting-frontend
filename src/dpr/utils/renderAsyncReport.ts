@@ -17,17 +17,19 @@ export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) 
     reportVariantId,
     dataProductDefinitionsPath,
   )
-  const reportDataPromise = reportDefinitionPromise.then((definition: components['schemas']['SingleVariantReportDefinition']) => {
-    const { variant } = definition
-    const { specification } = variant
-    const reportQuery = new ReportQuery(specification, req.query, dataProductDefinitionsPath)
+  const reportDataPromise = reportDefinitionPromise.then(
+    (definition: components['schemas']['SingleVariantReportDefinition']) => {
+      const { variant } = definition
+      const { specification } = variant
+      const reportQuery = new ReportQuery(specification, req.query, dataProductDefinitionsPath)
 
-    return services.reportingService.getAsyncReport(token, reportId, reportVariantId, tableId, {
-      selectedPage: reportQuery.selectedPage,
-      pageSize: reportQuery.pageSize,
-      dataProductDefinitionsPath,
-    })
-  })
+      return services.reportingService.getAsyncReport(token, reportId, reportVariantId, tableId, {
+        selectedPage: reportQuery.selectedPage,
+        pageSize: reportQuery.pageSize,
+        dataProductDefinitionsPath,
+      })
+    },
+  )
   const reportDataCountPromise = services.reportingService.getAsyncCount(token, tableId)
   const stateDataPromise = services.asyncReportsStore.getReportByTableId(tableId)
 

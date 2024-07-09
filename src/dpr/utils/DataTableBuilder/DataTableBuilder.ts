@@ -5,14 +5,16 @@ import { Cell, DataTable, Header } from './types'
 import createUrlForParameters from '../urlHelper'
 import type { Template } from '../../types/Template'
 
-export class DataTableBuilder {
-
+export default class DataTableBuilder {
   private specification: components['schemas']['Specification']
+
   private template: Template
+
   private columns: Array<string> = []
 
   // Sortable headers only
   private reportQuery: ReportQuery = null
+
   private currentQueryParams: Record<string, string | Array<string>> = null
 
   constructor(specification: components['schemas']['Specification']) {
@@ -82,76 +84,70 @@ export class DataTableBuilder {
 
   private getSectionDescription(sections: string[], rowData: NodeJS.Dict<string>): string {
     return sections
-      .map(s => {
-        const sectionField = this.specification.fields.find(f => f.name === s)
+      .map((s) => {
+        const sectionField = this.specification.fields.find((f) => f.name === s)
         return `${sectionField.display}: ${this.mapCellValue(sectionField, rowData[s])}`
       })
       .join(', ')
   }
 
-  private mapHeader(disableSort: boolean = false): Cell[] {
+  private mapHeader(disableSort = false): Cell[] {
     return this.specification.fields
       .filter((field) => this.columns.includes(field.name))
       .map((f) => {
-      if (this.reportQuery && !disableSort) {
-        let header: Header
+        if (this.reportQuery && !disableSort) {
+          let header: Header
 
-        if (f.sortable) {
-          let sortDirection = 'none'
-          let url = createUrlForParameters(this.currentQueryParams, {
-            sortColumn: f.name,
-            sortedAsc: 'true',
-          })
+          if (f.sortable) {
+            let sortDirection = 'none'
+            let url = createUrlForParameters(this.currentQueryParams, {
+              sortColumn: f.name,
+              sortedAsc: 'true',
+            })
 
-          if (f.name === this.reportQuery.sortColumn) {
-            sortDirection = this.reportQuery.sortedAsc ? 'ascending' : 'descending'
+            if (f.name === this.reportQuery.sortColumn) {
+              sortDirection = this.reportQuery.sortedAsc ? 'ascending' : 'descending'
 
-            if (this.reportQuery.sortedAsc) {
-              url = createUrlForParameters(this.currentQueryParams, {
-                sortColumn: f.name,
-                sortedAsc: 'false',
-              })
+              if (this.reportQuery.sortedAsc) {
+                url = createUrlForParameters(this.currentQueryParams, {
+                  sortColumn: f.name,
+                  sortedAsc: 'false',
+                })
+              }
+            }
+
+            header = {
+              html:
+                `<a ` +
+                `data-column="${f.name}" ` +
+                `class="data-table-header-button data-table-header-button-sort-${sortDirection}" ` +
+                `href="${url}"` +
+                `>${f.display}</a>`,
+            }
+          } else {
+            header = {
+              text: f.display,
             }
           }
 
-          header = {
-            html:
-              `<a ` +
-              `data-column="${f.name}" ` +
-              `class="data-table-header-button data-table-header-button-sort-${sortDirection}" ` +
-              `href="${url}"` +
-              `>${f.display}</a>`,
-          }
-        } else {
-          header = {
-            text: f.display,
-          }
+          return header
         }
-
-        return header
-      } else {
         return {
           text: f.display,
         }
-      }
-    })
+      })
   }
 
-  private mapData(
-    data: Array<Dict<string>>,
-  ): Cell[][] {
+  private mapData(data: Array<Dict<string>>): Cell[][] {
     return data.map((rowData) => this.mapCells(rowData))
   }
 
-  private mapSectionedData(
-    data: Array<Dict<string>>,
-    header: Cell[],
-  ): Cell[][] {
+  private mapSectionedData(data: Array<Dict<string>>, header: Cell[]): Cell[][] {
     const { sections } = this.specification
     const sectionedData: Dict<Cell[][]> = {}
-    const headerRow = header.map(h => ({
+    const headerRow = header.map((h) => ({
       ...h,
-      classes: 'govuk-table__header'
+      classes: 'govuk-table__header',
     }))
 
     data.forEach((rowData) => {
@@ -166,18 +162,19 @@ export class DataTableBuilder {
 
     return Object.keys(sectionedData)
       .sort()
-      .flatMap(sectionDescription => {
+      .flatMap((sectionDescription) => {
         const count = sectionedData[sectionDescription].length
         const countDescription = `${count} result${count === 1 ? '' : 's'}`
 
         return [
-          [{
-            colspan: this.columns.length,
-            html: `<h2>${sectionDescription} <span class='govuk-caption-m'>${countDescription}</span></h2>`
-          }],
+          [
+            {
+              colspan: this.columns.length,
+              html: `<h2>${sectionDescription} <span class='govuk-caption-m'>${countDescription}</span></h2>`,
+            },
+          ],
           headerRow,
-          ...
-            sectionedData[sectionDescription],
+          ...sectionedData[sectionDescription],
         ]
       })
   }
@@ -199,7 +196,7 @@ export class DataTableBuilder {
   buildTable(data: Array<Dict<string>>): DataTable {
     const counts = {
       rowCount: data.length,
-      colCount: this.columns.length
+      colCount: this.columns.length,
     }
 
     switch (this.template) {
@@ -207,14 +204,14 @@ export class DataTableBuilder {
         return {
           head: null,
           rows: this.mapSectionedData(data, this.mapHeader(true)),
-          ...counts
+          ...counts,
         }
 
       default:
         return {
           head: this.mapHeader(),
           rows: this.mapData(data),
-          ...counts
+          ...counts,
         }
     }
   }

@@ -9,7 +9,8 @@ describe('reportingClient', () => {
   let fakeReportingApi: nock.Scope
   let reportingClient: ReportingClient
 
-  const listRequest: ReportQuery = new ReportQuery({
+  const listRequest: ReportQuery = new ReportQuery(
+    {
       template: 'list',
       sections: [],
       fields: [
@@ -27,7 +28,7 @@ describe('reportingClient', () => {
           visible: true,
           calculated: false,
         },
-      ]
+      ],
     },
     {
       selectedPage: '1',

@@ -165,7 +165,7 @@ const setQuerySummary = (req: Request, fields: components['schemas']['FieldDefin
         const fieldDef = DefinitionUtils.getField(fields, value)
 
         let displayName = 'Sort Direction'
-        let displayValue = value ? 'Ascending' : 'Descending'
+        let displayValue = value === 'true' ? 'Ascending' : 'Descending'
         if (fieldDef) {
           displayName = 'Sort Column'
           displayValue = fieldDef.display

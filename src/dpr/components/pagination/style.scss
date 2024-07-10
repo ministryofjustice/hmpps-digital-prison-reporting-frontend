@@ -2,6 +2,10 @@
   overflow: auto;
 }
 
+.drp-pagination-rows-suffix {
+  flex-grow: 1;
+}
+
 #page-size-select {
   min-width: 5em;
 }

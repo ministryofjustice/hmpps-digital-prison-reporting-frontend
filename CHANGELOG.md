@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v3.17.0
+
+- Consolidated report requests
+
 ## v3.16.0
 
 - Sectioned list template.
@@ -11,7 +15,6 @@ Below you can find the changes included in each release.
 - Single component for choosing columns in both journeys.
 - Async column section now has loading spinner and "X of Y shown" summary.
 - Optional hint on non-mandatory filters.
-
 
 ## v3.15.1 - v3.15.2
 

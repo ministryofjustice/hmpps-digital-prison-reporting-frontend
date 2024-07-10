@@ -14,7 +14,8 @@ export const formatCardData = async (
   const { executionId, reportId, variantId, dataProductDefinitionsPath } = reportData
 
   let { status } = reportData
-  if (status !== RequestStatus.FAILED && status !== RequestStatus.ABORTED) {
+  const getStatusStates = [RequestStatus.FAILED, RequestStatus.ABORTED, RequestStatus.READY]
+  if (!getStatusStates.includes(status)) {
     let statusResponse
     if (ReportStatusUtils.timeoutRequest(reportData.timestamp.requested)) {
       statusResponse = {

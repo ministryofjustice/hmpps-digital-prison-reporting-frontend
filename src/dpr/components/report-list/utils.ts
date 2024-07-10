@@ -107,7 +107,7 @@ function renderList(
           ...dataTable,
           classification,
           printable,
-          pagination: PaginationUtils.getPaginationData(url, count, reportQuery.pageSize, reportQuery.selectedPage),
+          pagination: PaginationUtils.getPaginationData(url, count),
         }
 
         const filterOptions: FilterOptions = FilterUtils.getFilterOptions(

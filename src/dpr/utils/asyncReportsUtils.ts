@@ -14,7 +14,8 @@ export const formatCardData = async (
   const { executionId, reportId, variantId, dataProductDefinitionsPath } = reportData
 
   let { status } = reportData
-  if (status !== RequestStatus.FAILED && status !== RequestStatus.ABORTED) {
+  const getStatusStates = [RequestStatus.FAILED, RequestStatus.ABORTED, RequestStatus.READY]
+  if (!getStatusStates.includes(status)) {
     let statusResponse
     if (ReportStatusUtils.timeoutRequest(reportData.timestamp.requested)) {
       statusResponse = {
@@ -57,8 +58,9 @@ export const setDataFromStatus = (status: RequestStatus, requestedReportsData: A
   const retryParam = `&retryId=${requestedReportsData.executionId}`
   switch (status) {
     case RequestStatus.FAILED: {
+      const failedTime = time.failed ? new Date(time.failed).toLocaleString() : new Date().toLocaleString()
       href = `${url.polling.fullUrl}`
-      timestamp = `Failed at: ${new Date(time.failed).toLocaleString()}`
+      timestamp = `Failed at: ${failedTime}`
       break
     }
     case RequestStatus.ABORTED: {

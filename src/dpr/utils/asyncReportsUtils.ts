@@ -58,8 +58,9 @@ export const setDataFromStatus = (status: RequestStatus, requestedReportsData: A
   const retryParam = `&retryId=${requestedReportsData.executionId}`
   switch (status) {
     case RequestStatus.FAILED: {
+      const failedTime = time.failed ? new Date(time.failed).toLocaleString() : new Date().toLocaleString()
       href = `${url.polling.fullUrl}`
-      timestamp = `Failed at: ${new Date(time.failed).toLocaleString()}`
+      timestamp = `Failed at: ${failedTime}`
       break
     }
     case RequestStatus.ABORTED: {

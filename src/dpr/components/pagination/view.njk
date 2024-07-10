@@ -9,7 +9,7 @@
   {% set sizes = pagination.sizes %}
 
   <div class="dpr-pagination">
-    <div class="govuk-grid-column-two-thirds govuk-!-padding-left-0">
+    <div class="govuk-grid-column-three-quarters govuk-!-padding-left-0">
       {{ govukPagination({
         previous: {
           href: previousHref
@@ -20,7 +20,7 @@
         items: pages
       }) }}
     </div>
-    <div class="govuk-grid-column-one-third govuk-!-padding-0 data-table-page-size-container">
+    <div class="govuk-grid-column-one-quarter govuk-!-padding-0 data-table-page-size-container">
       <div class="data-table-page-size">
         <div class="govuk-input__wrapper">
           <form id="pagination-page-size-form" data-dpr-module="pagination">
@@ -34,7 +34,7 @@
               }
             }) }}
           </form>
-          <div class="govuk-input__suffix" aria-hidden="true">
+          <div class="govuk-input__suffix drp-pagination-rows-suffix" aria-hidden="true">
             rows per page
           </div>
         </div>

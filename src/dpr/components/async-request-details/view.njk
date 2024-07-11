@@ -1,47 +1,122 @@
-{% macro dprAsyncRequestDetails(reportName, variantName, description, htmlContent, reportId, variantId, exceutionId, tableId) %}
+{% macro dprAsyncRequestDetails(reportData) %}
+  {% set reportName = reportData.reportName %}
+  {% set variantName = reportData.variantName %}
+  {% set description = reportData.description %}
+  {% set htmlContent = reportData.htmlContent %}
+  {% set querySummary = reportData.querySummary %}
+  {% set reportId = reportData.reportId %}
+  {% set variantId = reportData.variantId %}
+  {% set executionId = reportData.executionId %}
+  {% set classification = reportData.classification %}
+  {% set requestedTimestamp = reportData.requestedTimestamp %}
+
+  {% set filtersHtml %}
+  {% if querySummary %}
+    <ul>
+      {% for query in querySummary %}
+        <li class="govuk-body govuk-!-margin-bottom-1">{{ query.name }}: {{ query.value }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  {% endset %}
+
   <div class="dpr-request-details">
-    <span class="govuk-caption-m govuk-!-margin-bottom-2">Report details:</span>
 
-    {% if reportName %}
-      <h1 class="govuk-heading-m govuk-!-margin-bottom-2">{{ reportName }} - {{ variantName }}</h1>
-    {% endif %}
-    {% if description %}
-      <p class="govuk-body-s govuk-!-margin-bottom-0">
-        <i>{{ description }}</i>
-      </p>
-    {% endif %}
+    <table class="dpr-request-details__table">
+      <tbody>
+        {% if variantName %}
+          <tr>
+            <td class="dpr-request-details__table-heading">
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Report Name:</p>
+            </td>
+            <td>
+              <h1 class="govuk-heading-s govuk-!-margin-bottom-2">{{ variantName }}</h1>
+            </td>
+          </tr>
+        {% endif %}
+        {% if reportName %}
+          <tr>
+            <td class="dpr-request-details__table-heading">
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Product:</p>
+            </td>
+            <td>
+              <h1 class="govuk-heading-s govuk-!-margin-bottom-2">{{ reportName }}</h1>
+            </td>
+          </tr>
+        {% endif %}
+        {% if description %}
+          <tr>
+            <td class="dpr-request-details__table-heading">
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Description:</p>
+            </td>
+            <td>
+              <p class="govuk-body-m">{{ description }}</p>
+            </td>
+          </tr>
+        {% endif %}
+        {% if classification %}
+          <tr>
+            <td class="dpr-request-details__table-heading">
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Classification:</p>
+            </td>
+            <td>
+              <p class="govuk-body-m">{{ classification }}</p>
+            </td>
+          </tr>
+        {% endif %}
+        {% if requestedTimestamp %}
+          <tr>
+            <td class="dpr-request-details__table-heading">
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Requested at:</p>
+            </td>
+            <td>
+              <p class="govuk-body-m govuk-!-margin-bottom-2">{{ requestedTimestamp }}</p>
+            </td>
+          </tr>
+        {% endif %}
+        {% if querySummary %}
+          <tr>
+            <td class="dpr-request-details__table-heading">
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Applied Filters:</p>
+            </td>
+            <td>
+              {{ filtersHtml | safe }}
+            </td>
+          </tr>
+        {% endif %}
+        {% if reportId %}
+          <tr>
+            <td class="dpr-request-details__table-heading">
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Report ID:</p>
+            </td>
+            <td>
+              <p class="govuk-body-m govuk-!-margin-bottom-1">{{ reportId }}</p>
+            </td>
+          </tr>
+        {% endif %}
 
-    {{ htmlContent | safe }}
+        {% if variantId %}
+          <tr>
+            <td class="dpr-request-details__table-heading">
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Variant ID:</p>
+            </td>
+            <td>
+              <p class="govuk-body-m govuk-!-margin-bottom-1">{{ variantId }}</p>
+            </td>
+          </tr>
+        {% endif %}
 
-    <div class="govuk-!-margin-top-6">
-      {% if reportId %}
-        <p class="govuk-body-s govuk-!-margin-bottom-1">
-          <i>
-            <strong>Report ID:</strong>
-            {{ reportId }}</i>
-        </p>
-      {% endif %}
-      {% if variantId %}
-        <p class="govuk-body-s govuk-!-margin-bottom-1">
-          <i>
-            <strong>Variant ID:</strong>
-            {{ variantId }}</i>
-        </p>
-      {% endif %}
-      {% if executionId %}
-        <p class="govuk-body-s govuk-!-margin-bottom-1">
-          <i>
-            <strong>Execution ID:</strong>
-            {{ executionId }}</i>
-        </p>
-      {% endif %}
-      {% if tableId %}
-        <p class="govuk-body-s govuk-!-margin-bottom-1">
-          <i>
-            <strong>Table ID:</strong>
-            {{ tableId }}</i>
-        </p>
-      {% endif %}
-    </div>
+        {% if executionId %}
+          <tr>
+            <td class="dpr-request-details__table-heading">
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Execution ID:</p>
+            </td>
+            <td>
+              <p class="govuk-body-m govuk-!-margin-bottom-1">{{ executionId }}</p>
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
   </div>
 {% endmacro %}

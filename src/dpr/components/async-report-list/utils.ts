@@ -30,7 +30,7 @@ export default {
       ...dataTable,
       columns,
       pagination,
-      appliedFilters: query.summary,
+      querySummary: query.summary,
     }
   },
 }

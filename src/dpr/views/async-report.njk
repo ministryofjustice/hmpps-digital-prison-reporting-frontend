@@ -1,56 +1,49 @@
 {% extends layoutPath %}
 {% from "../components/async-report-list/view.njk" import dprAsyncReportList %}
-{% from "../components/icon-button-list/view.njk" import dprIconButtonList %}
-{% from "../components/bookmark-toggle/view.njk" import dprBookmarkToggle %}
 {% from "../components/loading-anim/view.njk" import dprLoadingAnim %}
 {% from "../components/pagination/view.njk" import dprPagination %}
+{% from "../components/report-heading/view.njk" import dprReportHeading %}
 
+{% set template = renderData.template %}
+{% set pagination = renderData.pagination %}
+{% set printable = renderData.printable %}
 {% set mainClasses = "app-container govuk-body" %}
+{% set disabledPrintHtml %}
+{% if (printable == false) %}
+  <h3 class="govuk-heading-s screen-hide">
+    Printing this report has been disabled due to time or content sensitivity.<br/>
+    Please speak to your report administrator for further details.
+  </h3>
+{% endif %}
+{% endset %}
 
 {% block content %}
-  {% set template = renderData.template %}
-  {% set reportName = renderData.reportName %}
-  {% set variantName = renderData.variantName %}
-  {% set description = renderData.description %}
-  {% set actions = renderData.actions %}
-  {% set requestedTimestamp = renderData.requestedTimestamp %}
-  {% set reportId = renderData.reportId %}
-  {% set variantId = renderData.variantId %}
-  {% set csrfToken = renderData.csrfToken %}
-  {% set bookmarked = renderData.bookmarked %}
-  {% set pagination = renderData.pagination %}
 
   <div class="govuk-width-container">
     <div class="govuk-width-container report-list-container">
       {{ dprLoadingAnim() }}
-      <div class="drp-async-reports-heading-container">
-        <h1 class="govuk-heading-l govuk-!-margin-bottom-2">{{ reportName }} - {{ variantName }}
-          {{ dprBookmarkToggle(reportId, variantId, csrfToken, bookmarked) }}</h1>
-        <p class="govuk-body-s govuk-!-margin-bottom-2">
-          <i>{{ description }}</i>
-        </p>
-        <p class="govuk-body-s govuk-!-margin-bottom-0">
-          <strong>Requested at:</strong>
-          {{ requestedTimestamp }}
-        </p>
+      {{ disabledPrintHtml | safe }}
 
-        {{ dprIconButtonList(actions) }}
+      <div class="drp-async-reports-heading-container">
+        {{ dprReportHeading(renderData) }}
       </div>
 
-      {% if template === 'list-aggregate' or template === 'list-tab' or template === 'crosstab' or template === 'summary' %}
+      <div class="report-template-container  {% if (printable == false) %}print-hide{% endif %}">
+        {% if template === 'list-aggregate' or template === 'list-tab' or template === 'crosstab' or template === 'summary' %}
 
-        {# Add template view here #}
+          {# Add template view here #}
 
-      {% elif template === 'list-section' %}
+        {% elif template === 'list-section' %}
 
-        {{ dprAsyncReportList(renderData) }}
+          {{ dprAsyncReportList(renderData) }}
 
-      {% else %}
+        {% else %}
 
-        {{ dprAsyncReportList(renderData) }}
-        {{ dprPagination(pagination) }}
+          {{ dprAsyncReportList(renderData) }}
+          {{ dprPagination(pagination) }}
 
-      {% endif %}
+        {% endif %}
+      </div>
     </div>
   </div>
 {% endblock %}

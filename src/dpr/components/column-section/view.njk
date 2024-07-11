@@ -3,22 +3,22 @@
 
 {% macro dprColumnSection(columns) %}
 
-<div class="dpr-columns-section-wrapper">
+  <div class="dpr-columns-section-wrapper">
 
-  {% set columnsHtml %}
+    {% set columnsHtml %}
     {{ dprColumns(columns) }}
-  {% endset %}
+    {% endset %}
 
-  <div class="columns-section-button">
-    {{ govukDetails({
+    <div class="columns-section-button">
+      {{ govukDetails({
       summaryText: "Columns",
       html: columnsHtml
     }) }}
-  </div>
+    </div>
 
-  <div class="columns-section-header">
-    <p class="govuk-body govuk-!-margin-bottom-0">{{ columns.value.length }} of {{ columns.options.length }} shown</p>
+    <div class="columns-section-header">
+      <p class="govuk-body govuk-!-margin-bottom-0">{{ columns.value.length }} of {{ columns.options.length }} shown</p>
+    </div>
   </div>
-</div>
 
 {% endmacro %}

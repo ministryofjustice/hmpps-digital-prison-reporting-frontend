@@ -7,9 +7,6 @@
 
   {% set columns = options.columns %}
   {% set pagination = options.pagination %}
-  {% set appliedFilters = options.appliedFilters %}
-
-  {{ dprAsyncAppliedFiltersList(appliedFilters) }}
 
   {{ dprColumnSection(columns) }}
 

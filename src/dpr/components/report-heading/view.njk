@@ -1,0 +1,40 @@
+{% from "../bookmark-toggle/view.njk" import dprBookmarkToggle %}
+{% from "../icon-button-list/view.njk" import dprIconButtonList %}
+{% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% macro dprReportHeading(reportData) %}
+  {% set variantName = reportData.variantName %}
+  {% set reportId = reportData.reportId %}
+  {% set variantId = reportData.variantId %}
+  {% set csrfToken = reportData.csrfToken %}
+  {% set bookmarked = reportData.bookmarked %}
+  {% set actions = reportData.actions %}
+
+  <div class="dpr-report-header">
+    <div class="dpr-report-heading">
+      <div class="dpr-report-heading__title">
+        <h1 class="govuk-heading-l govuk-!-margin-bottom-4">
+          {{ variantName }}
+          {{ dprBookmarkToggle(reportId, variantId, csrfToken, bookmarked) }}
+        </h1>
+      </div>
+      <div class="dpr-report-heading__actions">
+        {{ dprIconButtonList(actions) }}
+      </div>
+    </div>
+    {% set reportDetailsHtml %}
+    {{ dprAsyncRequestDetails(reportData)}}
+    {% endset %}
+
+    {{ govukDetails({
+        summaryText: 'Report Details',
+        html: reportDetailsHtml,
+        classes: 'dpr-meta-data-details'
+      }) }}
+
+    <div class="dpr-report-details-print">
+      {{ dprAsyncRequestDetails(reportData)}}
+    </div>
+  </div>
+{% endmacro %}

@@ -209,12 +209,14 @@ const mockGetReportListRenderData = {
         ariaLabelText: 'Download report',
       },
     ],
-    appliedFilters: 'summary',
+    querySummary: 'summary',
     bookmarked: false,
     classification: 'OFFICIAL',
     colCount: 2,
     template: 'list',
     csrfToken: 'csrfToken',
+    printable: true,
+    executionId: 'executionId',
   },
 }
 
@@ -383,7 +385,7 @@ const mockReportListRenderData = {
       },
     ],
   },
-  appliedFilters: 'summary',
+  querySummary: 'summary',
 }
 
 module.exports = { mockReportListRenderData, mockGetReportListRenderData }

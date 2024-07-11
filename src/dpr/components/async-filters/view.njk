@@ -1,6 +1,7 @@
 {% from "../async-filter-inputs/view.njk" import dprAsyncFilterInputs -%}
 {% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% macro dprAsyncFilters(filters, sortBy, data, endpoint) %}
   {% set reportId = data.reportId %}
@@ -12,11 +13,17 @@
   {% set csrfToken = data.csrfToken %}
   {% set template = data.template %}
 
-  {{ dprAsyncRequestDetails( reportName, variantName, description, '', reportId, variantId )}}
+  {% set reportDetailsHtml %}
+  {{ dprAsyncRequestDetails(data)}}
+  {% endset %}
+
+  {{ govukDetails({
+    summaryText: 'Report Details for ' + variantName,
+    html: reportDetailsHtml,
+    classes: 'dpr-meta-data-details'
+  }) }}
 
   <div class="dpr-async-controls dpr-filters" data-dpr-module="async-filters">
-    <h3 class="govuk-heading-m">Request Query</h3>
-
     <form action="{{ endpoint }}" method="post" id="async-filters-form">
       <input type="hidden" name="dataProductDefinitionsPath" value="{{ definitionPath }}">
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
@@ -33,7 +40,7 @@
       <input type="hidden" name="retryId" id="async-filters-retry-id" value="">
       <input type="hidden" name="refreshId" id="async-filters-refresh-id" value="">
 
-      <div class="dpr-async-controls__section">
+      <div class="dpr-async-controls__section govuk-!-margin-top-4">
         <h3 class="govuk-heading-s">Filters</h3>
         {{ dprAsyncFilterInputs(filters, 'filters.') }}
       </div>

@@ -1,0 +1,50 @@
+.dpr-report-header {
+  .dpr-report-heading {
+    column-gap: 15px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    position: relative;
+    row-gap: 15px;
+  }
+
+  .dpr-report-details-print {
+    display: none;
+  }
+
+  @media print {
+    .dpr-bookmark,
+    .dpr-meta-data-details,
+    .dpr-report-heading,
+    .dpr-pagination {
+      display: none;
+    }
+
+    .dpr-report-details-print {
+      display: block;
+
+      .dpr-request-details {
+        p, ul, li, h1 {
+          font-size: 12px;
+          margin-top: 0px;
+          margin-bottom: 10px;
+          padding-top: 0px;
+        }
+        ul {
+          li {
+            display: inline;
+            padding-right: 10px;
+          }
+        }
+        .dpr-request-details__table {
+          tbody {
+            vertical-align: top;
+          }
+
+          .dpr-request-details__table-heading {
+            width: 15%;
+          }
+        }
+      }
+    }
+  }
+}

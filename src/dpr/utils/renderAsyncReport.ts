@@ -51,10 +51,19 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
 
       const { classification } = definition.variant
       const { template } = definition.variant.specification
-      const { reportName, name: variantName, description, timestamp, reportId, variantId } = reportStateData
+      const {
+        reportName,
+        name: variantName,
+        description,
+        timestamp,
+        reportId,
+        variantId,
+        executionId,
+      } = reportStateData
       const actions = ReportActionsUtils.initAsyncReportActions(definition.variant, reportStateData)
 
       renderData = {
+        executionId,
         variantName,
         variantId,
         reportName,
@@ -63,6 +72,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         classification,
         template,
         actions,
+        printable: definition.variant.printable,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         csrfToken,
         bookmarked: services.bookmarkService.isBookmarked(variantId),

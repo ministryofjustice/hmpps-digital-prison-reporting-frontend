@@ -20,8 +20,11 @@ export default class IconButtonList extends DprClientClass {
 
   initPrintButtonEvent () {
     if (this.printButton) {
+      const disabled = this.printButton.getAttribute('data-disabled')
       this.printButton.addEventListener('click', () => {
-        window.print()
+        if (disabled && disabled !== 'true') {
+          window.print()
+        }
       })
     }
   }

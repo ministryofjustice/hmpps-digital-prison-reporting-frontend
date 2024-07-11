@@ -18,7 +18,7 @@ export default {
     const { reportId, variantId, executionId } = req.params
     let reportData = await services.asyncReportsStore.getReportByExecutionId(executionId)
     let statusResponse
-    if (ReportStatusUtils.timeoutRequest(reportData.timestamp.requested)) {
+    if (ReportStatusUtils.timeoutRequest(reportData.timestamp.requested) && reportData.status !== RequestStatus.READY) {
       statusResponse = {
         status: RequestStatus.FAILED,
         errorMessage: 'Request taking too long. Request Halted',
@@ -50,7 +50,7 @@ export default {
       pollingRenderData: {
         reportName: reportData.reportName,
         variantName: reportData.name,
-        variantDescription: reportData.description,
+        description: reportData.description,
         executionId,
         reportId,
         variantId,

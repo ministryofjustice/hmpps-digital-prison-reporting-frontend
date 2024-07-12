@@ -1,5 +1,6 @@
 import { Request } from 'express'
 import Dict = NodeJS.Dict
+import moment from 'moment'
 import { components } from '../../types/api'
 import FilterUtils from '../filters/utils'
 import { DateFilterValue, FilterValue } from '../filters/types'
@@ -142,17 +143,21 @@ const setQuerySummary = (req: Request, fields: components['schemas']['FieldDefin
   const filterData: Dict<string> = {}
   const querySummary: Array<Dict<string>> = []
   const sortData: Dict<string> = {}
+  const dateRegEx = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/
 
   Object.keys(req.body)
     .filter((name) => name !== '_csrf' && req.body[name] !== '')
     .forEach((name) => {
       const shortName = name.replace('filters.', '')
-      const value = req.body[name]
+      let value = req.body[name]
 
       if (name.startsWith('filters.') && value !== '') {
         query[name as keyof Dict<string>] = value
         filterData[shortName as keyof Dict<string>] = value
 
+        if (value.match(dateRegEx)) {
+          value = moment(value).format('DD-MM-YYYY')
+        }
         const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
         querySummary.push({
           name: fieldDisplayName || shortName,

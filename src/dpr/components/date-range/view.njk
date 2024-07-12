@@ -38,7 +38,7 @@
           data-set-min-max-value={{ min }} 
           data-set-min-max-trigger='true'
         > 
-          set to min ({{ min }})
+          set to min ({{ min | date }})
         </div>
       {% endif %}
       {{ govukInput({
@@ -69,7 +69,7 @@
           data-set-min-max-value={{ max }} 
           data-set-min-max-trigger='true'
         >
-          set to max ({{max}})
+          set to max ({{ max | date }})
         </div>
       {% endif %}
     </fieldset>

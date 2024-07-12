@@ -143,6 +143,7 @@ const setQuerySummary = (req: Request, fields: components['schemas']['FieldDefin
   const filterData: Dict<string> = {}
   const querySummary: Array<Dict<string>> = []
   const sortData: Dict<string> = {}
+  // eslint-disable-next-line no-useless-escape
   const dateRegEx = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/
 
   Object.keys(req.body)

@@ -118,13 +118,15 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
 const collateSummarySections = (summaries: Array<AsyncSummary>) => {
   const collatedSummaries: Dict<Array<AsyncSummary>> = {}
 
-  summaries.forEach((summary) => {
-    if (!collatedSummaries[summary.template]) {
-      collatedSummaries[summary.template] = []
-    }
+  if (summaries) {
+    summaries.forEach((summary) => {
+      if (!collatedSummaries[summary.template]) {
+        collatedSummaries[summary.template] = []
+      }
 
-    collatedSummaries[summary.template].push(summary)
-  })
+      collatedSummaries[summary.template].push(summary)
+    })
+  }
 
   return collatedSummaries
 }

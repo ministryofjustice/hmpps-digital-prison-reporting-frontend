@@ -1,6 +1,6 @@
 import { Request } from 'express'
-import Dict = NodeJS.Dict
 import moment from 'moment'
+import Dict = NodeJS.Dict
 import { components } from '../../types/api'
 import FilterUtils from '../filters/utils'
 import { DateFilterValue, FilterValue } from '../filters/types'

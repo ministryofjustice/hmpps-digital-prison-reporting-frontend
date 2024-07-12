@@ -149,19 +149,20 @@ const setQuerySummary = (req: Request, fields: components['schemas']['FieldDefin
     .filter((name) => name !== '_csrf' && req.body[name] !== '')
     .forEach((name) => {
       const shortName = name.replace('filters.', '')
-      let value = req.body[name]
+      const value = req.body[name]
 
       if (name.startsWith('filters.') && value !== '') {
         query[name as keyof Dict<string>] = value
         filterData[shortName as keyof Dict<string>] = value
 
+        let dateDisplayValue
         if (value.match(dateRegEx)) {
-          value = moment(value).format('DD-MM-YYYY')
+          dateDisplayValue = moment(value).format('DD-MM-YYYY')
         }
         const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
         querySummary.push({
           name: fieldDisplayName || shortName,
-          value,
+          value: dateDisplayValue || value,
         })
       } else if (name.startsWith('sort')) {
         query[name as keyof Dict<string>] = value

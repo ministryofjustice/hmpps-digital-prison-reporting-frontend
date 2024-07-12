@@ -214,7 +214,7 @@ const mockGetReportListRenderData = {
     classification: 'OFFICIAL',
     colCount: 2,
     summaryData: {},
-template: 'list',
+    template: 'list',
     csrfToken: 'csrfToken',
     printable: true,
     executionId: 'executionId',

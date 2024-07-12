@@ -31,14 +31,15 @@ export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) 
     },
   )
   const summaryDataPromise = reportDefinitionPromise.then(
-    (definition: components['schemas']['SingleVariantReportDefinition']) => (
-      Promise.all(definition.variant.summaries.map(summary => ({
-        ...summary,
-        data: services.reportingService.getAsyncSummaryReport(token, reportId, reportVariantId, tableId, summary.id, {
-          dataProductDefinitionsPath,
-        })
-      })))
-    )
+    (definition: components['schemas']['SingleVariantReportDefinition']) =>
+      Promise.all(
+        definition.variant.summaries.map((summary) => ({
+          ...summary,
+          data: services.reportingService.getAsyncSummaryReport(token, reportId, reportVariantId, tableId, summary.id, {
+            dataProductDefinitionsPath,
+          }),
+        })),
+      ),
   )
   const reportDataCountPromise = services.reportingService.getAsyncCount(token, tableId)
   const stateDataPromise = services.asyncReportsStore.getReportByTableId(tableId)
@@ -117,7 +118,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
 const collateSummarySections = (summaries: Array<AsyncSummary>) => {
   const collatedSummaries: Dict<Array<AsyncSummary>> = {}
 
-  summaries.forEach(summary => {
+  summaries.forEach((summary) => {
     if (!collatedSummaries[summary.template]) {
       collatedSummaries[summary.template] = []
     }

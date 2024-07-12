@@ -67,9 +67,9 @@ export interface AsyncReportsTimestamp {
 }
 
 export interface AsyncSummary {
-  id: string,
-  template: SummaryTemplate,
-  fields: Array<AsyncSummaryField>,
+  id: string
+  template: SummaryTemplate
+  fields: Array<AsyncSummaryField>
   data: Array<Dict<string>>
 }
 

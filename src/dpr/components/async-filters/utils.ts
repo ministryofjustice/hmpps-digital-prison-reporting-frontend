@@ -251,15 +251,10 @@ export default {
     const fields = definition ? definition.variant.specification.fields : []
     const querySummaryData = setQuerySummary(req, fields)
 
-    const { executionId, tableId } = await services.reportingService.requestAsyncReport(
-      token,
-      reportId,
-      variantId,
-      {
-        ...querySummaryData.query,
-        dataProductDefinitionsPath: definitionPath
-      }
-    )
+    const { executionId, tableId } = await services.reportingService.requestAsyncReport(token, reportId, variantId, {
+      ...querySummaryData.query,
+      dataProductDefinitionsPath: definitionPath,
+    })
 
     let redirect = ''
     if (executionId && tableId) {

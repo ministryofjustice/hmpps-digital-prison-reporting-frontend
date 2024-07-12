@@ -3,7 +3,7 @@ import { components } from '../../types/api'
 import ReportQuery from '../../types/ReportQuery'
 import { Cell, DataTable, Header } from './types'
 import createUrlForParameters from '../urlHelper'
-import type { Template } from '../../types/Template'
+import type { Template } from '../../types/Templates'
 
 export default class DataTableBuilder {
   private specification: components['schemas']['Specification']

@@ -255,7 +255,10 @@ export default {
       token,
       reportId,
       variantId,
-      querySummaryData.query,
+      {
+        ...querySummaryData.query,
+        dataProductDefinitionsPath: definitionPath
+      }
     )
 
     let redirect = ''

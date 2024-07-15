@@ -1,24 +1,21 @@
 import { DprClientClass } from '../../DprClientClass.mjs'
 
-export default class Daterange extends DprClientClass {
+export default class DateInput extends DprClientClass {
   static getModuleName () {
-    return 'date-range'
+    return 'date-input'
   }
 
   initialise () {
-    this.startInputs = document.querySelectorAll(`input.daterange-start-input`)
-    this.endInputs = document.querySelectorAll(`input.daterange-end-input`)
+    this.dateInput = document.querySelectorAll(`input.dpr-date-input`)
     this.setToValueTriggers = document.querySelectorAll(`[data-set-min-max-trigger='true']`)
     this.setMinMaxValue()
     this.setToValue()
   }
 
   setMinMaxValue () {
-    this.startInputs.forEach((startInput) => {
+    console.log(this.dateInput)
+    this.dateInput.forEach((startInput) => {
       this.setMinMaxEventListener(startInput)
-    })
-    this.endInputs.forEach((endInput) => {
-      this.setMinMaxEventListener(endInput)
     })
   }
 
@@ -27,19 +24,24 @@ export default class Daterange extends DprClientClass {
     const max = element.getAttribute('max')
 
     element.addEventListener('blur', () => {
+      console.log('value =', element.value)
       if (element.value) {
-        const startDate = new Date(element.value)
+        const dateValue = new Date(element.value)
 
         if (min) {
           const minDate = new Date(min)
-          if (startDate < minDate) {
+          console.log({ minDate, dateValue })
+
+          if (dateValue < minDate) {
+            console.log(dateValue < minDate)
             // eslint-disable-next-line
             element.value = minDate.toISOString().split('T')[0]
+            console.log(element.value)
           }
         }
         if (max) {
           const maxDate = new Date(max)
-          if (startDate > maxDate) {
+          if (dateValue > maxDate) {
             // eslint-disable-next-line
             element.value = maxDate.toISOString().split('T')[0]
           }

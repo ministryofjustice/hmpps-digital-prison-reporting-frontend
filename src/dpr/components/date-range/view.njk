@@ -1,4 +1,5 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "../date-input/view.njk" import dprDate %}
 
 {% macro dprDateRange(data, parameterPrefix = "filters.", mandatory = false) %}
   {% set min = data.min %}
@@ -6,72 +7,40 @@
   {% set startId = parameterPrefix + data.name + '.start' %}
   {% set endId = parameterPrefix + data.name + '.end' %}
 
-  <div class="dpr-date-range" data-dpr-module="date-range">
+  <div class="dpr-date-range">
     <fieldset class="govuk-fieldset">
       <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
         {{ data.text }}
       </legend>
-      {{ govukInput({
-        id: startId,
-        label: {
-          text: 'Start'
+
+      {# START #}
+      {{ dprDate(
+        {
+          name: data.name,
+          value: data.value.start,
+          min: min,
+          max: max,
+          mandatory: mandatory
         },
-        classes: 'daterange-start-input',
-        name: startId,
-        value: data.value.start,
-        type: 'date',
-        attributes: {
-          max: data.max,
-          min: data.min,
-          required: true
-        } if mandatory else {
-          max: data.max,
-          min: data.min
+        'Start',
+        '.start',
+        true,
+        false
+      )}}
+
+      {# END #}
+      {{ dprDate(
+        {
+          name: data.name,
+          value: data.value.end,
+          min: min,
+          max: max,
+          mandatory: mandatory
         },
-        hint: {
-          html: "(Optional)"
-        } if not mandatory
-      }) }}
-      {% if min %}
-        <div class="govuk-body-xs daterange-set-to-minmax" 
-          data-set-to-input='{{ startId }}' 
-          data-set-min-max-value={{ min }} 
-          data-set-min-max-trigger='true'
-        > 
-          set to min ({{ min | date }})
-        </div>
-      {% endif %}
-      {{ govukInput({
-        id: endId,
-        label: {
-          text: 'End',
-          classes: 'govuk-!-margin-top-1'
-        },
-        classes: 'daterange-end-input',
-        name: endId,
-        value: data.value.end,
-        type: 'date',
-        attributes: {
-          max: data.max,
-          min: data.min,
-          required: true
-        } if mandatory else {
-          max: data.max,
-          min: data.min
-        },
-        hint: {
-          html: "(Optional)"
-        } if not mandatory
-      }) }}
-      {% if max %}
-        <div class="govuk-body-xs daterange-set-to-minmax" 
-          data-set-to-input='{{ endId }}' 
-          data-set-min-max-value={{ max }} 
-          data-set-min-max-trigger='true'
-        >
-          set to max ({{ max | date }})
-        </div>
-      {% endif %}
+        'End',
+        '.end',
+        false
+      )}}
     </fieldset>
   </div>
 {% endmacro %}

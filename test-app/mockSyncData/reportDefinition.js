@@ -163,6 +163,7 @@ const validationVariant = {
           type: 'daterange',
           min: '2003-02-01',
           max: '2007-05-04',
+          mandatory: true,
         },
       },
       {

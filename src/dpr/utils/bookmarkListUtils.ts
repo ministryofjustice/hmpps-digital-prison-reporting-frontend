@@ -73,21 +73,27 @@ const mapBookmarkIdsToDefinition = async (
 
   await Promise.all(
     bookmarks.map(async (bookmark) => {
-      const definition = await services.reportingService.getDefinition(
-        token,
-        bookmark.reportId,
-        bookmark.variantId,
-        <string>definitionPath,
-      )
-      if (definition) {
-        bookmarkData.push({
-          reportId: bookmark.reportId,
-          variantId: bookmark.variantId,
-          reportName: definition.name,
-          name: definition.variant.name,
-          description: definition.variant.description,
-          href: `/async-reports/${bookmark.reportId}/${bookmark.variantId}/request`,
-        })
+      let definition
+      try {
+        definition = await services.reportingService.getDefinition(
+          token,
+          bookmark.reportId,
+          bookmark.variantId,
+          <string>definitionPath,
+        )
+        if (definition) {
+          bookmarkData.push({
+            reportId: bookmark.reportId,
+            variantId: bookmark.variantId,
+            reportName: definition.name,
+            name: definition.variant.name,
+            description: definition.variant.description,
+            href: `/async-reports/${bookmark.reportId}/${bookmark.variantId}/request`,
+          })
+        }
+      } catch (error) {
+        // DPD has been deleted so API throws error
+        await services.bookmarkService.removeBookmark(bookmark.variantId)
       }
     }),
   )

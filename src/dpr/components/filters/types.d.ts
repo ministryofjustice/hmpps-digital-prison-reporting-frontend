@@ -20,8 +20,8 @@ export interface GenericFilterValue {
 }
 
 export interface DateFilterValue extends GenericFilterValue {
-  type: FilterType.dateRange
-  value?: DateRange
+  type: FilterType.dateRange | FilterType.date
+  value?: DateRange | string
   min?: string
   max?: string
 }

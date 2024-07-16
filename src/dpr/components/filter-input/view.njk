@@ -3,6 +3,7 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "dpr/components/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
 {% from "dpr/components/date-range/view.njk" import dprDateRange -%}
+{% from "../date-input/view.njk" import dprDate %}
 
 {% macro dprFilterInput(filter, parameterPrefix) %}
   {% set filterType = filter.type | lower %}
@@ -11,8 +12,10 @@
   {% set value = filter.value %}
   {% set text = filter.text %}
   {% set options = filter.options %}
-  {% set pattern = filter.pattern if filter.pattern else '.+' %}
-  {% set mandatory = filter.mandatory if filter.mandatory else false %}
+  {% set pattern = filter.pattern if filter.pattern else 
+    '.+' %}
+  {% set mandatory = filter.mandatory if filter.mandatory else 
+    false %}
 
   {% set optionsWithNone = [
     {
@@ -56,6 +59,10 @@
           required: true
         } if mandatory else null
       }) }}
+
+    {% elif filterType === 'date' %}
+
+      {{ dprDate(filter) }}
 
     {% elif filterType === 'daterange' %}
 

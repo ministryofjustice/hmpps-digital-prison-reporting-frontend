@@ -4,6 +4,7 @@ import { FilterType } from '../filter-input/enum'
 import { DateRange } from './types'
 import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'
+import * as FiltersUtils from './utils'
 
 const options = [
   {
@@ -221,6 +222,99 @@ describe('getSelectedFilters', () => {
     expect(result.length).toEqual(1)
     expect(result[0].text).toEqual('Date Range Field: Until 06/05/2004')
     expect(result[0].href).toEqual('{"f.dateRangeField":"","selectedPage":"1"}')
+  })
+})
+
+describe('Date filter Utils', () => {
+  describe('setDateValueWithinMinMax', () => {
+    it('should set the default value to the min value', () => {
+      const dateFilterFormat: components['schemas']['FilterDefinition'] = {
+        type: 'date' as components['schemas']['FilterDefinition']['type'],
+        mandatory: false,
+        defaultValue: '2002-02-01',
+        min: '2003-02-01',
+        max: '2007-05-04',
+      }
+
+      const res = FiltersUtils.default.setDateValueWithinMinMax(dateFilterFormat)
+      expect(res).toEqual('2003-02-01')
+    })
+
+    it('should set the default value to the max value', () => {
+      const dateFilterFormat: components['schemas']['FilterDefinition'] = {
+        type: 'date' as components['schemas']['FilterDefinition']['type'],
+        mandatory: false,
+        defaultValue: '2009-02-01',
+        min: '2003-02-01',
+        max: '2007-05-04',
+      }
+
+      const res = FiltersUtils.default.setDateValueWithinMinMax(dateFilterFormat)
+      expect(res).toEqual('2007-05-04')
+    })
+
+    it('should set the default value', () => {
+      const dateFilterFormat: components['schemas']['FilterDefinition'] = {
+        type: 'date' as components['schemas']['FilterDefinition']['type'],
+        mandatory: false,
+        defaultValue: '2005-02-01',
+        min: '2003-02-01',
+        max: '2007-05-04',
+      }
+
+      const res = FiltersUtils.default.setDateValueWithinMinMax(dateFilterFormat)
+      expect(res).toEqual('2005-02-01')
+    })
+  })
+
+  describe('setDateRangeValuesWithinMinMax', () => {
+    it('should set the default value to the min value', () => {
+      const dateRangeFilterFormat: components['schemas']['FilterDefinition'] = {
+        type: 'daterange' as components['schemas']['FilterDefinition']['type'],
+        mandatory: false,
+        defaultValue: '2002-02-01 - 2005-02-01',
+        min: '2003-02-01',
+        max: '2007-05-04',
+      }
+
+      const res = FiltersUtils.default.setDateRangeValuesWithinMinMax(dateRangeFilterFormat, '2002-02-01', '2005-02-01')
+      expect(res).toEqual({
+        start: '2003-02-01',
+        end: '2005-02-01',
+      })
+    })
+
+    it('should set the default value to the max value', () => {
+      const dateRangeFilterFormat: components['schemas']['FilterDefinition'] = {
+        type: 'daterange' as components['schemas']['FilterDefinition']['type'],
+        mandatory: false,
+        defaultValue: '2005-02-01 - 2009-05-04',
+        min: '2003-02-01',
+        max: '2007-05-04',
+      }
+
+      const res = FiltersUtils.default.setDateRangeValuesWithinMinMax(dateRangeFilterFormat, '2005-02-01', '2009-05-04')
+      expect(res).toEqual({
+        start: '2005-02-01',
+        end: '2007-05-04',
+      })
+    })
+
+    it('should set the default values', () => {
+      const dateRangeFilterFormat: components['schemas']['FilterDefinition'] = {
+        type: 'daterange' as components['schemas']['FilterDefinition']['type'],
+        mandatory: false,
+        defaultValue: '2005-02-01 - 2006-05-04',
+        min: '2003-02-01',
+        max: '2007-05-04',
+      }
+
+      const res = FiltersUtils.default.setDateRangeValuesWithinMinMax(dateRangeFilterFormat, '2005-02-01', '2006-05-04')
+      expect(res).toEqual({
+        start: '2005-02-01',
+        end: '2006-05-04',
+      })
+    })
   })
 })
 

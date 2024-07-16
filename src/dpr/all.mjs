@@ -4,10 +4,8 @@ import Autocomplete from './components/autocomplete-text-input/clientClass.mjs'
 import CardGroup from './components/card-group/clientClass.mjs'
 import Filters from './components/filters/clientClass.mjs'
 import Columns from './components/columns/clientClass.mjs'
-import Daterange from './components/date-range/clientClass.mjs'
 import ToggleButton from './components/toggle-button/clientClass.mjs'
 import AsyncFilters from './components/async-filters/clientClass.mjs'
-import AsyncColumns from './components/columns/clientClass.mjs'
 import Pagination from './components/pagination/clientClass.mjs'
 import IconButtonList from './components/icon-button-list/clientClass.mjs'
 import DataTable from './components/data-table/clientClass.mjs'
@@ -15,6 +13,7 @@ import AsyncPolling from './components/async-polling/clientClass.mjs'
 import Search from './components/search/clientClass.mjs'
 import BookmarkToggle from './components/bookmark-toggle/clientClass.mjs'
 import DprLoadingHelper from './DprLoadingHelper.mjs'
+import DateInput from './components/date-input/clientClass.mjs'
 
 /**
  * Initialise all components
@@ -31,16 +30,15 @@ export default function initAll () {
     CardGroup,
     Columns,
     Filters,
-    Daterange,
     ToggleButton,
     AsyncFilters,
-    AsyncColumns,
     Pagination,
     IconButtonList,
     DataTable,
     AsyncPolling,
     Search,
     BookmarkToggle,
+    DateInput,
   ]
 
   components.forEach((Component) => {

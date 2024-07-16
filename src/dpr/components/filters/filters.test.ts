@@ -105,6 +105,7 @@ describe('Filters options render correctly', () => {
     const rendered = parse(env.renderString(testView, defaultOptions))
 
     const startDate = rendered.querySelectorAll('#filters\\.date\\.start')
+
     expect(startDate.length).toEqual(1)
     expect(startDate[0].tagName).toBe('INPUT')
     expect(startDate[0].getAttribute('type')).toEqual('date')

@@ -1,9 +1,10 @@
-.date-range-date-range {
+.dpr-date, .dpr-date-range {
   .govuk-form-group {
     margin-bottom: 0;
   }
 
   .daterange-set-to-minmax {
+    display: block;
     cursor: pointer;
     text-align: right;
     margin-bottom: govuk-spacing(0);

@@ -157,7 +157,7 @@ const validationVariant = {
         display: 'Field 3',
         sortable: false,
         type: 'date',
-        mandatory: true,
+        mandatory: false,
         visible: true,
         filter: {
           type: 'daterange',

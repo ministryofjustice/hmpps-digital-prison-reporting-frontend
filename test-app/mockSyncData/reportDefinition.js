@@ -100,8 +100,8 @@ const defaultVariant = {
         mandatory: false,
         visible: true,
         filter: {
-          type: 'text'
-        }
+          type: 'text',
+        },
       },
     ],
   },
@@ -176,7 +176,7 @@ const validationVariant = {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true
+            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -199,12 +199,11 @@ const validationVariant = {
           type: 'text',
           pattern: 'Value 6\\.\\d',
           mandatory: true,
-        }
+        },
       },
     ],
   },
 }
-
 
 const sectionedVariant = {
   id: 'test-section-variant',
@@ -215,7 +214,7 @@ const sectionedVariant = {
   printable: true,
   specification: {
     template: 'list-section',
-    sections: ['section1','section2'],
+    sections: ['section1', 'section2'],
     fields: [
       {
         name: 'field1',
@@ -276,7 +275,7 @@ const sectionedVariant = {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true
+            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -299,7 +298,7 @@ const sectionedVariant = {
           type: 'text',
           pattern: 'Value 6\\.\\d',
           mandatory: true,
-        }
+        },
       },
       {
         name: 'section1',
@@ -334,7 +333,7 @@ module.exports = {
   singleVariantReport: (variantId) => ({
     id: 'test-report',
     name: 'Test Report',
-    variant: variants.find(v => v.id === variantId),
+    variant: variants.find((v) => v.id === variantId),
   }),
   variant: defaultVariant,
 }

@@ -48,7 +48,18 @@ const initFiltersFromDefinition = (definition: components['schemas']['VariantDef
         filterData = filterData as unknown as DateFilterValue
         filterData = {
           ...filterData,
-          value: FilterUtils.setMinMax(filter, startValue, endValue),
+          value: FilterUtils.setDateRangeValuesWithinMinMax(filter, startValue, endValue),
+          min,
+          max,
+        }
+      }
+
+      if (type === FilterType.date.toLowerCase()) {
+        const { min, max } = filter
+        filterData = filterData as unknown as DateFilterValue
+        filterData = {
+          ...filterData,
+          value: FilterUtils.setDateValueWithinMinMax(filter),
           min,
           max,
         }

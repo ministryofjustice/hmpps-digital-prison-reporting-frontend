@@ -25,6 +25,7 @@ const variant1 = {
             { name: 'value1.3', display: 'Value 1.3' },
           ],
           defaultValue: 'value1.2',
+          mandatory: false,
         },
       },
       {
@@ -41,6 +42,7 @@ const variant1 = {
             { name: 'value2.2', display: 'Value 2.2' },
             { name: 'value2.3', display: 'Value 2.3' },
           ],
+          mandatory: true,
         },
       },
       {
@@ -55,6 +57,7 @@ const variant1 = {
           defaultValue: '2003-02-01 - 2006-05-04',
           min: '2003-02-01',
           max: '2007-05-04',
+          mandatory: true,
         },
       },
       {
@@ -76,6 +79,7 @@ const variant1 = {
             { name: 'Princess Buttercup', display: 'Princess Buttercup' },
             { name: 'Westley', display: 'Westley' },
           ],
+          mandatory: false,
         },
       },
       {
@@ -91,6 +95,7 @@ const variant1 = {
             minimumLength: 3,
             returnAsStaticOptions: false,
           },
+          mandatory: false,
         },
       },
       {
@@ -102,6 +107,20 @@ const variant1 = {
         visible: true,
         filter: {
           type: 'text',
+        },
+      },
+      {
+        name: 'field7',
+        display: 'Field 7',
+        sortable: false,
+        visible: true,
+        type: 'date',
+        mandatory: false,
+        filter: {
+          type: 'date',
+          defaultValue: '2005-02-01',
+          min: '2003-02-01',
+          max: '2007-05-04',
         },
       },
     ],
@@ -641,8 +660,7 @@ const variant6 = {
 const variant7 = {
   id: 'variantId-7',
   name: 'Test Variant 7',
-  description:
-    'Test Variant 7 description - An unprintable variant.',
+  description: 'Test Variant 7 description - An unprintable variant.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: false,
@@ -751,14 +769,13 @@ const variant7 = {
 const variant8 = {
   id: 'variantId-8',
   name: 'Test Variant 8',
-  description:
-    'Test Variant 8 description - A sectioned report.',
+  description: 'Test Variant 8 description - A sectioned report.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
   specification: {
     template: 'list-section',
-    sections: ['section1','section2'],
+    sections: ['section1', 'section2'],
     fields: [
       {
         name: 'field1',
@@ -819,7 +836,7 @@ const variant8 = {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true
+            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -842,7 +859,7 @@ const variant8 = {
           type: 'text',
           pattern: 'Value 6\\.\\d',
           mandatory: false,
-        }
+        },
       },
       {
         name: 'section1',

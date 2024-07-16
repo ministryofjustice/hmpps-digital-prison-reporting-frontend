@@ -73,12 +73,17 @@ const mapBookmarkIdsToDefinition = async (
 
   await Promise.all(
     bookmarks.map(async (bookmark) => {
-      const definition = await services.reportingService.getDefinition(
-        token,
-        bookmark.reportId,
-        bookmark.variantId,
-        <string>definitionPath,
-      )
+      let definition
+      try {
+        definition = await services.reportingService.getDefinition(
+          token,
+          bookmark.reportId,
+          bookmark.variantId,
+          <string>definitionPath,
+        )
+      } catch (error) {
+        // Do nothing. DPD has been deleted
+      }
       if (definition) {
         bookmarkData.push({
           reportId: bookmark.reportId,

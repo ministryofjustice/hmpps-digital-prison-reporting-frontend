@@ -100,8 +100,8 @@ const defaultVariant = {
         mandatory: false,
         visible: true,
         filter: {
-          type: 'text'
-        }
+          type: 'text',
+        },
       },
     ],
   },
@@ -157,13 +157,12 @@ const validationVariant = {
         display: 'Field 3',
         sortable: false,
         type: 'date',
-        mandatory: false,
+        mandatory: true,
         visible: true,
         filter: {
           type: 'daterange',
           min: '2003-02-01',
           max: '2007-05-04',
-          mandatory: true,
         },
       },
       {
@@ -176,7 +175,7 @@ const validationVariant = {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true
+            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -199,12 +198,11 @@ const validationVariant = {
           type: 'text',
           pattern: 'Value 6\\.\\d',
           mandatory: true,
-        }
+        },
       },
     ],
   },
 }
-
 
 const sectionedVariant = {
   id: 'test-section-variant',
@@ -215,7 +213,7 @@ const sectionedVariant = {
   printable: true,
   specification: {
     template: 'list-section',
-    sections: ['section1','section2'],
+    sections: ['section1', 'section2'],
     fields: [
       {
         name: 'field1',
@@ -276,7 +274,7 @@ const sectionedVariant = {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true
+            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -299,7 +297,7 @@ const sectionedVariant = {
           type: 'text',
           pattern: 'Value 6\\.\\d',
           mandatory: true,
-        }
+        },
       },
       {
         name: 'section1',
@@ -334,7 +332,7 @@ module.exports = {
   singleVariantReport: (variantId) => ({
     id: 'test-report',
     name: 'Test Report',
-    variant: variants.find(v => v.id === variantId),
+    variant: variants.find((v) => v.id === variantId),
   }),
   variant: defaultVariant,
 }

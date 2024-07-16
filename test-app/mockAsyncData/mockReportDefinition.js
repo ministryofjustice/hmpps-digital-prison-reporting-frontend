@@ -25,6 +25,7 @@ const variant1 = {
             { name: 'value1.3', display: 'Value 1.3' },
           ],
           defaultValue: 'value1.2',
+          mandatory: false,
         },
       },
       {
@@ -41,6 +42,7 @@ const variant1 = {
             { name: 'value2.2', display: 'Value 2.2' },
             { name: 'value2.3', display: 'Value 2.3' },
           ],
+          mandatory: true,
         },
       },
       {
@@ -55,6 +57,7 @@ const variant1 = {
           defaultValue: '2003-02-01 - 2006-05-04',
           min: '2003-02-01',
           max: '2007-05-04',
+          mandatory: true,
         },
       },
       {
@@ -76,6 +79,7 @@ const variant1 = {
             { name: 'Princess Buttercup', display: 'Princess Buttercup' },
             { name: 'Westley', display: 'Westley' },
           ],
+          mandatory: false,
         },
       },
       {
@@ -91,6 +95,7 @@ const variant1 = {
             minimumLength: 3,
             returnAsStaticOptions: false,
           },
+          mandatory: false,
         },
       },
       {

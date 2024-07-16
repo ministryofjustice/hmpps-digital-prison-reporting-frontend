@@ -81,18 +81,19 @@ const mapBookmarkIdsToDefinition = async (
           bookmark.variantId,
           <string>definitionPath,
         )
+        if (definition) {
+          bookmarkData.push({
+            reportId: bookmark.reportId,
+            variantId: bookmark.variantId,
+            reportName: definition.name,
+            name: definition.variant.name,
+            description: definition.variant.description,
+            href: `/async-reports/${bookmark.reportId}/${bookmark.variantId}/request`,
+          })
+        }
       } catch (error) {
-        // Do nothing. DPD has been deleted
-      }
-      if (definition) {
-        bookmarkData.push({
-          reportId: bookmark.reportId,
-          variantId: bookmark.variantId,
-          reportName: definition.name,
-          name: definition.variant.name,
-          description: definition.variant.description,
-          href: `/async-reports/${bookmark.reportId}/${bookmark.variantId}/request`,
-        })
+        // DPD has been deleted so API throws error
+        await services.bookmarkService.removeBookmark(bookmark.variantId)
       }
     }),
   )

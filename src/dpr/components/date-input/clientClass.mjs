@@ -13,8 +13,8 @@ export default class DateInput extends DprClientClass {
   }
 
   setMinMaxValue () {
-    this.dateInput.forEach((startInput) => {
-      this.setMinMaxEventListener(startInput)
+    this.dateInput.forEach((input) => {
+      this.setMinMaxEventListener(input)
     })
   }
 

@@ -39,7 +39,9 @@
   {% endif %}
   {% endset %}
 
-  {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml, reportId, variantId, exceutionId, tableId  )}}
+  {% if reportName %}
+    {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml, reportId, variantId, exceutionId, tableId  )}}
+  {% endif %}
 
   {% if retry %}
     {{ govukButton({

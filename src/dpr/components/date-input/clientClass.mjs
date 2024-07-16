@@ -13,7 +13,6 @@ export default class DateInput extends DprClientClass {
   }
 
   setMinMaxValue () {
-    console.log(this.dateInput)
     this.dateInput.forEach((startInput) => {
       this.setMinMaxEventListener(startInput)
     })
@@ -24,19 +23,15 @@ export default class DateInput extends DprClientClass {
     const max = element.getAttribute('max')
 
     element.addEventListener('blur', () => {
-      console.log('value =', element.value)
       if (element.value) {
         const dateValue = new Date(element.value)
 
         if (min) {
           const minDate = new Date(min)
-          console.log({ minDate, dateValue })
 
           if (dateValue < minDate) {
-            console.log(dateValue < minDate)
             // eslint-disable-next-line
             element.value = minDate.toISOString().split('T')[0]
-            console.log(element.value)
           }
         }
         if (max) {

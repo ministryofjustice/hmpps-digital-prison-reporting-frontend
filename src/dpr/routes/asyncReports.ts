@@ -20,9 +20,13 @@ export default function routes({
 }) {
   const asyncErrorHandler: RequestHandler = async (req, res) => {
     let { error } = req.body
-    error = error.message
-      ? { userMessage: `${error.name}: ${error.message}`, status: 'FAILED', stack: error.stack }
-      : error.data
+
+    if (error.message) {
+      error = { userMessage: `${error.name}: ${error.message}`, status: 'FAILED', stack: error.stack }
+    } else if (error.data) {
+      error = error.data
+    }
+
     res.render(`${templatePath}/async-error`, {
       layoutPath,
       ...req.body,

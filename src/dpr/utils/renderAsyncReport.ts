@@ -34,12 +34,14 @@ export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) 
     (definition: components['schemas']['SingleVariantReportDefinition']) =>
       Promise.all(
         definition.variant.summaries.map((summary) => {
-          return services.reportingService.getAsyncSummaryReport(token, reportId, reportVariantId, tableId, summary.id, {
-            dataProductDefinitionsPath,
-          }).then((data: Array<Dict<string>>) => ({
-            ...summary,
-            data: data,
-          }))
+          return services.reportingService
+            .getAsyncSummaryReport(token, reportId, reportVariantId, tableId, summary.id, {
+              dataProductDefinitionsPath,
+            })
+            .then((data: Array<Dict<string>>) => ({
+              ...summary,
+              data,
+            }))
         }),
       ),
   )

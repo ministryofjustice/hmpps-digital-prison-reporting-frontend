@@ -6,6 +6,7 @@ import * as AsyncReportUtils from '../utils/renderAsyncReport'
 
 import AsyncReportslistUtils from '../utils/asyncReportsUtils'
 import { Services } from '../types/Services'
+import logger from '../utils/logger'
 
 export default function routes({
   router,
@@ -19,7 +20,7 @@ export default function routes({
   templatePath?: string
 }) {
   const asyncErrorHandler: RequestHandler = async (req, res) => {
-    console.log(`Error: ${JSON.stringify(req.body)}`)
+    logger.error(`Error: ${JSON.stringify(req.body)}`)
     let { error } = req.body
 
     if (error && error.message) {

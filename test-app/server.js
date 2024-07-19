@@ -64,7 +64,7 @@ const RecentlyViewedStoreService = require('../package/dpr/services/recentlyView
 const BookmarkService = require('../package/dpr/services/bookmarkService').default
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
 const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
-const addRecenltyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
+const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
 const definitions = require('./mockAsyncData/mockReportDefinition')
 
 // Set up routes
@@ -119,7 +119,7 @@ const routeImportParams = {
 }
 
 addBookmarkingRoutes(routeImportParams)
-addRecenltyViewedRoutes(routeImportParams)
+addRecentlyViewedRoutes(routeImportParams)
 addAsyncReportingRoutes(routeImportParams)
 
 app.get('/async-reports', async (req, res) => {

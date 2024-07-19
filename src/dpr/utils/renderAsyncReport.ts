@@ -63,7 +63,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
       const reportData = <Array<Dict<string>>>resolvedData[1]
       const count = <number>resolvedData[2]
       reportStateData = <AsyncReportData>resolvedData[3]
-      const summaryData: Dict<Array<AsyncSummary>> = collateSummarySections(<Array<AsyncSummary>>resolvedData[4])
+      const reportSummaries: Dict<Array<AsyncSummary>> = collateSummarySections(<Array<AsyncSummary>>resolvedData[4])
 
       const { classification } = definition.variant
       const { template } = definition.variant.specification
@@ -92,7 +92,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         csrfToken,
         bookmarked: services.bookmarkService.isBookmarked(variantId),
-        summaryData,
+        reportSummaries,
       }
 
       switch (template as Template) {
@@ -123,7 +123,7 @@ const collateSummarySections = (summaries: Array<AsyncSummary>) => {
   const collatedSummaries: Dict<Array<AsyncSummary>> = {}
 
   if (summaries) {
-    summaries.forEach((summary) => {
+    summaries.forEach((summary: AsyncSummary) => {
       if (!collatedSummaries[summary.template]) {
         collatedSummaries[summary.template] = []
       }

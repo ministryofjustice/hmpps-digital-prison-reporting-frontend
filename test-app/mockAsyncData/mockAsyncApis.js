@@ -19,6 +19,8 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
     case 'variantId-1':
     case 'variantId-7':
     case 'variantId-8':
+    case 'variantId-9':
+    case 'variantId-10':
       statuses = happyStatuses
       break
     case 'variantId-2':
@@ -100,6 +102,15 @@ const cancelAsyncRequest = () => {
 
 const getAsyncCount = () => Promise.resolve(RESULT_COUNT)
 
+const getAsyncSummaryReport = (token, reportId, variantId, tableId, summaryId) => {
+  switch (summaryId) {
+    case 'summary3':
+      return Promise.resolve([{ percentGood: 45, percentBad: 10, percentUgly: 98 }])
+    default:
+      return Promise.resolve([{ total: 52 }])
+  }
+}
+
 module.exports = {
   getAsyncReportStatus,
   requestAsyncReport,
@@ -107,4 +118,5 @@ module.exports = {
   getDefinition,
   getAsyncCount,
   cancelAsyncRequest,
+  getAsyncSummaryReport,
 }

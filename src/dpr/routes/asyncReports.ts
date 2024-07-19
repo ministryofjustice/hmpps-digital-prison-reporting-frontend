@@ -19,11 +19,12 @@ export default function routes({
   templatePath?: string
 }) {
   const asyncErrorHandler: RequestHandler = async (req, res) => {
+    console.log(`Error: ${JSON.stringify(req.body)}`)
     let { error } = req.body
 
-    if (error.message) {
+    if (error && error.message) {
       error = { userMessage: `${error.name}: ${error.message}`, status: 'FAILED', stack: error.stack }
-    } else if (error.data) {
+    } else if (error && error.data) {
       error = error.data
     }
 
@@ -131,6 +132,7 @@ export default function routes({
     } catch (error) {
       req.body.title = 'Failed to retrieve Report'
       req.body.errorDescription = 'We were unable to retrieve this report for the following reason:'
+      req.body.error = error
       next()
     }
   }

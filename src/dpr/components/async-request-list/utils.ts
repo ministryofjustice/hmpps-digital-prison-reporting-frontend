@@ -1,9 +1,8 @@
 import { CardData, RenderTableListResponse } from '../table-card-group/types'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { AsyncReportData, RequestStatus } from '../../types/AsyncReport'
-import { Services } from '../../types/Services'
-import { createDetailsHtml, createSummaryHtml } from '../../utils/reportSummaryHelper'
 import { getStatus } from '../../utils/reportStatusHelper'
+import * as ReportListHelper from '../../utils/reportsListHelper'
 
 export const formatCardData = (requestedReportsData: AsyncReportData): CardData => {
   const reportData: AsyncReportData = JSON.parse(JSON.stringify(requestedReportsData))
@@ -82,64 +81,6 @@ export const setDataFromStatus = (status: RequestStatus, requestedReportsData: A
   }
 }
 
-export const formatCards = async (services: Services): Promise<CardData[]> => {
-  const requestedReportsData: AsyncReportData[] = await services.asyncReportsStore.getAllReports()
-  return requestedReportsData
-    .filter((report: AsyncReportData) => {
-      return !report.timestamp.lastViewed && !report.timestamp.retried
-    })
-    .map((report: AsyncReportData) => {
-      return formatCardData(report)
-    })
-}
-
-const formatTableData = (card: CardData) => {
-  let statusClass
-  switch (card.status) {
-    case 'FAILED':
-      statusClass = 'govuk-tag--red'
-      break
-    case 'EXPIRED':
-      statusClass = 'govuk-tag--yellow'
-      break
-    case 'ABORTED':
-      statusClass = 'govuk-tag--orange'
-      break
-    case 'FINISHED':
-      statusClass = 'govuk-tag--green'
-      break
-    default:
-      break
-  }
-
-  return [
-    { html: `<a href='${card.href}'>${card.text}</a>` },
-    { html: createDetailsHtml('Description', card.description) },
-    { html: createDetailsHtml('Applied Filters', createSummaryHtml(card)) },
-    { text: card.timestamp },
-    {
-      html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${card.status}</strong>`,
-    },
-  ]
-}
-
-const formatTable = (cardData: CardData[]) => {
-  const rows = cardData.map((card: CardData) => {
-    return formatTableData(card)
-  })
-
-  return {
-    rows,
-    head: [
-      { text: 'Name' },
-      { text: 'Description' },
-      { text: 'Applied Filters', classes: `dpr-req-filters-summary` },
-      { text: 'Timestamp' },
-      { text: 'Status' },
-    ],
-  }
-}
-
 export default {
   getRequestStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
     const { executionId, status: currentStatus } = req.body
@@ -163,8 +104,13 @@ export default {
     maxRows,
   }: { maxRows?: number } & AsyncReportUtilsParams): Promise<RenderTableListResponse> => {
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+    const requestedReportsData: AsyncReportData[] = await services.asyncReportsStore.getAllReports()
 
-    let cardData = await formatCards(services)
+    const filterFunction = (report: AsyncReportData) => {
+      return !report.timestamp.lastViewed && !report.timestamp.retried
+    }
+    let cardData = await ReportListHelper.formatCards(requestedReportsData, filterFunction, formatCardData)
+    if (maxRows) cardData = cardData.slice(0, maxRows)
 
     const head = {
       title: 'Requested Reports',
@@ -174,30 +120,12 @@ export default {
       ...(!cardData.length && { emptyMessage: 'You have 0 requested reports' }),
     }
 
-    const total = {
-      amount: cardData.length,
-      shown: cardData.length > maxRows ? maxRows : cardData.length,
-      max: maxRows,
-    }
-
-    const meta = cardData.map((d) => {
-      return {
-        reportId: d.meta.reportId,
-        variantId: d.meta.variantId,
-        executionId: d.meta.executionId,
-        status: d.meta.status,
-        requestedAt: d.meta.requestedAt,
-      }
-    })
-
-    if (maxRows) cardData = cardData.slice(0, maxRows)
-
     return {
       head,
       cardData,
-      tableData: formatTable(cardData),
-      total,
-      meta,
+      tableData: ReportListHelper.formatTable(cardData),
+      total: ReportListHelper.getTotals(cardData, maxRows),
+      meta: ReportListHelper.getMeta(cardData),
       csrfToken,
     }
   },

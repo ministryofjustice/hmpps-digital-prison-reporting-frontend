@@ -1,11 +1,29 @@
-import { CardData, RenderTableListResponse } from '../components/table-card-group/types'
-import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
+import { CardData } from '../components/table-card-group/types'
 import { createDetailsHtml, createSummaryHtml } from './reportSummaryHelper'
-import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
-import { Services } from '../types/Services'
+import { AsyncReportData } from '../types/AsyncReport'
 import { RecentlyViewedReportData } from '../types/RecentlyViewed'
 
-const formatTable = (cardData: CardData[]) => {
+export const getTotals = (cardData: CardData[], maxRows: number) => {
+  return {
+    amount: cardData.length,
+    shown: cardData.length > maxRows ? maxRows : cardData.length,
+    max: maxRows,
+  }
+}
+
+export const getMeta = (cardData: CardData[]) => {
+  return cardData.map((d) => {
+    return {
+      reportId: d.meta.reportId,
+      variantId: d.meta.variantId,
+      executionId: d.meta.executionId,
+      status: d.meta.status,
+      requestedAt: d.meta.requestedAt,
+    }
+  })
+}
+
+export const formatTable = (cardData: CardData[]) => {
   const rows = cardData.map((card: CardData) => {
     return formatTableData(card)
   })
@@ -22,7 +40,7 @@ const formatTable = (cardData: CardData[]) => {
   }
 }
 
-const formatTableData = (card: CardData) => {
+export const formatTableData = (card: CardData) => {
   let statusClass
   switch (card.status) {
     case 'FAILED':
@@ -53,12 +71,12 @@ const formatTableData = (card: CardData) => {
   ]
 }
 
-const formatCards = async (
+export const formatCards = async (
   reports: AsyncReportData[] | RecentlyViewedReportData[],
-  filterFunction: () => boolean,
+  filterFunction: (report: AsyncReportData | RecentlyViewedReportData) => boolean,
   formatFuntion: (reportData: RecentlyViewedReportData | AsyncReportData) => CardData,
 ): Promise<CardData[]> => {
-  return reports.filter(filterFunction).map((report: AsyncReportData) => {
+  return reports.filter(filterFunction).map((report: AsyncReportData | RecentlyViewedReportData) => {
     return formatFuntion(report)
   })
 }

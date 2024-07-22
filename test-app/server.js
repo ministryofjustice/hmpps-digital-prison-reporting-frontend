@@ -14,7 +14,7 @@ const bodyParser = require('body-parser')
 const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
 const BookmarklistUtils = require('../package/dpr/utils/bookmarkListUtils').default
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
-const AsyncReportListUtils = require('../package/dpr/utils/asyncReportsUtils').default
+const AsyncReportListUtils = require('../package/dpr/components/async-request-list/utils').default
 const RecentlyViewedCardGroupUtils = require('../package/dpr/utils/recentlyViewedUtils').default
 
 // Set up application
@@ -127,15 +127,15 @@ app.get('/async-reports', async (req, res) => {
   res.locals.csrfToken = 'csrfToken'
   res.locals.pathSuffix = ''
 
+  const requestedReports = await AsyncReportListUtils.renderList({
+    services,
+    res,
+    maxRows: 6,
+  })
+
   res.render('async.njk', {
     title: 'Home',
-    requestedReports: {
-      ...(await AsyncReportListUtils.renderAsyncReportsList({
-        services,
-        res,
-        maxRows: 6,
-      })),
-    },
+    requestedReports,
     viewedReports: {
       ...(await RecentlyViewedCardGroupUtils.renderRecentlyViewedList({
         services,

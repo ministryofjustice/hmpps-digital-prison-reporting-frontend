@@ -5,6 +5,7 @@ import AsyncPollingUtils from '../components/async-polling/utils'
 import * as AsyncReportUtils from '../utils/renderAsyncReport'
 
 import AsyncReportslistUtils from '../utils/asyncReportsUtils'
+import AsyncReportStatusUtils from '../utils/reportStatusUtils'
 import { Services } from '../types/Services'
 
 export default function routes({
@@ -95,7 +96,20 @@ export default function routes({
     }
   }
 
+  const getStatusHandler: RequestHandler = async (req, res, next) => {
+    try {
+      const response = await AsyncReportStatusUtils.getStatus({ req, res, services })
+      res.send({ status: response.status })
+    } catch (error) {
+      req.body.title = 'Failed to abort request'
+      req.body.errorDescription = 'We were unable to abort the report request for the following reason:'
+      req.body.error = error
+      next()
+    }
+  }
+
   const pollingHandler: RequestHandler = async (req, res, next) => {
+    console.log('pollingHandler')
     try {
       const pollingRenderData = await AsyncPollingUtils.renderPolling({
         req,
@@ -138,6 +152,7 @@ export default function routes({
   router.get('/async-reports/:reportId/:variantId/request', getReportFiltersHandler, asyncErrorHandler)
   router.post('/requestReport/', asyncRequestHandler, asyncErrorHandler)
   router.post('/cancelRequest/', cancelRequestHandler, asyncErrorHandler)
+  router.post('/getStatus/', getStatusHandler, asyncErrorHandler)
   router.get('/async-reports/:reportId/:variantId/request/:executionId', pollingHandler, asyncErrorHandler)
   router.get('/async-reports/:reportId/:variantId/request/:tableId/report', getReportHandler, asyncErrorHandler)
 

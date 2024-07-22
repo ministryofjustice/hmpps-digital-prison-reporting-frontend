@@ -1,8 +1,8 @@
-import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
-import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
-import { CardData, RenderTableListResponse } from '../components/table-card-group/types'
-import { Services } from '../types/Services'
-import { createDetailsHtml, createSummaryHtml } from './reportSummaryHelper'
+import { AsyncReportData, RequestStatus } from '../../types/AsyncReport'
+import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
+import { CardData, RenderTableListResponse } from '../table-card-group/types'
+import { Services } from '../../types/Services'
+import { createDetailsHtml, createSummaryHtml } from '../../utils/reportSummaryHelper'
 
 export const formatCardData = (requestedReportsData: AsyncReportData): CardData => {
   const reportData: AsyncReportData = JSON.parse(JSON.stringify(requestedReportsData))
@@ -129,7 +129,7 @@ const formatTable = (cardData: CardData[]) => {
 }
 
 export default {
-  renderAsyncReportsList: async ({
+  renderList: async ({
     services,
     res,
     maxRows,

@@ -58,6 +58,17 @@ export default class ReportingService {
     return this.reportingClient.getAsyncReport(token, reportId, variantId, tableId, query)
   }
 
+  async getAsyncSummaryReport(
+    token: string,
+    reportId: string,
+    variantId: string,
+    tableId: string,
+    summaryId: string,
+    query: Dict<string | number>,
+  ): Promise<Array<Dict<string>>> {
+    return this.reportingClient.getAsyncSummaryReport(token, reportId, variantId, tableId, summaryId, query)
+  }
+
   async getAsyncReportStatus(
     token: string,
     reportId: string,

@@ -1,5 +1,5 @@
 import Dict = NodeJS.Dict
-import { Template } from './Template'
+import { SummaryTemplate, Template } from './Templates'
 
 export interface AsyncReportData {
   reportId: string
@@ -64,4 +64,16 @@ export interface AsyncReportsTimestamp {
   retried?: Date
   aborted?: Date
   refresh?: Date
+}
+
+export interface AsyncSummary {
+  id: string
+  template: SummaryTemplate
+  fields: Array<AsyncSummaryField>
+  data: Array<Dict<string>>
+}
+
+export interface AsyncSummaryField {
+  name: string
+  display: string
 }

@@ -4,6 +4,7 @@ const mockGetReportListRenderData = {
     variantName: 'variantName',
     reportId: undefined,
     reportName: 'reportName',
+    reportSummaries: {},
     requestedTimestamp: 'Invalid Date',
     description: 'description',
     rowCount: 10,

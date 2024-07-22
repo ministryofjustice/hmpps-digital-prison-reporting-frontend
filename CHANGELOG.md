@@ -1,8 +1,12 @@
 Below you can find the changes included in each release.
 
+## v3.18.0
+
+- Header and footer page summaries.
+
 ## v3.17.0
 
-- Consolidated report requests
+- Consolidated report requests.
 
 ## v3.16.0
 

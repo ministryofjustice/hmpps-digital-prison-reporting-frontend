@@ -2,15 +2,21 @@
 {% from "../data-table/view.njk" import dprDataTable %}
 {% from "../async-applied-filters/view.njk" import dprAsyncAppliedFiltersList %}
 {% from "../column-section/view.njk" import dprColumnSection %}
+{% from "../summary-table/view.njk" import dprReportSummary %}
 
 {% macro dprAsyncReportList(options) %}
 
   {% set columns = options.columns %}
   {% set pagination = options.pagination %}
+  {% set reportSummaries = options.reportSummaries %}
 
   {{ dprColumnSection(columns) }}
+  {{ dprReportSummary(reportSummaries, 'page-header') }}
 
   <div class='dpr-table-container'>
     {{ dprDataTable(options) }}
   </div>
+
+  {{ dprReportSummary(reportSummaries, 'page-footer') }}
+
 {% endmacro %}

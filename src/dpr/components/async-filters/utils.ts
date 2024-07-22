@@ -245,19 +245,16 @@ export default {
    */
   requestReport: async ({ req, res, services }: AsyncReportUtilsParams) => {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const { dataProductDefinitionsPath: definitionPath } = req.query
-    const { reportId, variantId } = req.body
+    const { reportId, variantId, dataProductDefinitionsPath: definitionPath } = req.body
 
     const definition = await services.reportingService.getDefinition(token, reportId, variantId, <string>definitionPath)
     const fields = definition ? definition.variant.specification.fields : []
     const querySummaryData = setQuerySummary(req, fields)
 
-    const { executionId, tableId } = await services.reportingService.requestAsyncReport(
-      token,
-      reportId,
-      variantId,
-      querySummaryData.query,
-    )
+    const { executionId, tableId } = await services.reportingService.requestAsyncReport(token, reportId, variantId, {
+      ...querySummaryData.query,
+      dataProductDefinitionsPath: definitionPath,
+    })
 
     let redirect = ''
     if (executionId && tableId) {

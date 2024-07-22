@@ -15,7 +15,7 @@ export default {
     reportData: Array<Dict<string>>,
     count: number,
     reportStateData: AsyncReportData,
-    reportSummaries: Dict<Array<AsyncSummary>>
+    reportSummaries: Dict<Array<AsyncSummary>>,
   ) => {
     const { specification } = definition.variant
     const { columns: reqColumns } = req.query

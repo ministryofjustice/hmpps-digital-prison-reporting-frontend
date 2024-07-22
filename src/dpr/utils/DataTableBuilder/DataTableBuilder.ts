@@ -45,11 +45,11 @@ export default class DataTableBuilder {
     return value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase()
   }
 
-  private mapRow(rowData: NodeJS.Dict<string>, extraClasses: string = '', overrideFields: Array<FieldDefinition> = []): Cell[] {
+  private mapRow(rowData: NodeJS.Dict<string>, extraClasses = '', overrideFields: Array<FieldDefinition> = []): Cell[] {
     return this.specification.fields
       .filter((f) => this.columns.includes(f.name))
       .map((f) => {
-        const overrideField = overrideFields.find(o => o.name === f.name)
+        const overrideField = overrideFields.find((o) => o.name === f.name)
         const field = overrideField ?? f
         const text: string = this.mapCellValue(field, rowData[field.name])
         const classes = extraClasses + (field.wordWrap ? ` data-table-cell-wrap-${field.wordWrap.toLowerCase()}` : '')
@@ -149,16 +149,16 @@ export default class DataTableBuilder {
     const mappedTableData = data.map((rowData) => this.mapRow(rowData))
     const mappedFooterSummary = this.mapSummary('table-footer')
 
-    return mappedHeaderSummary
-      .concat(mappedTableData)
-      .concat(mappedFooterSummary)
+    return mappedHeaderSummary.concat(mappedTableData).concat(mappedFooterSummary)
   }
 
   private mapSummary(template: SummaryTemplate): Cell[][] {
     if (this.reportSummaries[template]) {
-      return this.reportSummaries[template]
-        .flatMap(reportSummary => reportSummary.data
-          .map(rowData => this.mapRow(rowData, `dpr-report-summary-cell dpr-report-summary-cell-${template}`, reportSummary.fields)))
+      return this.reportSummaries[template].flatMap((reportSummary) =>
+        reportSummary.data.map((rowData) =>
+          this.mapRow(rowData, `dpr-report-summary-cell dpr-report-summary-cell-${template}`, reportSummary.fields),
+        ),
+      )
     }
     return []
   }

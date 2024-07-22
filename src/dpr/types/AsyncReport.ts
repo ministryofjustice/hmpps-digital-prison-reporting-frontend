@@ -1,5 +1,6 @@
 import Dict = NodeJS.Dict
 import { SummaryTemplate, Template } from './Templates'
+import { FieldDefinition } from '../utils/DataTableBuilder/types'
 
 export interface AsyncReportData {
   reportId: string
@@ -69,11 +70,6 @@ export interface AsyncReportsTimestamp {
 export interface AsyncSummary {
   id: string
   template: SummaryTemplate
-  fields: Array<AsyncSummaryField>
+  fields: Array<FieldDefinition>
   data: Array<Dict<string>>
-}
-
-export interface AsyncSummaryField {
-  name: string
-  display: string
 }

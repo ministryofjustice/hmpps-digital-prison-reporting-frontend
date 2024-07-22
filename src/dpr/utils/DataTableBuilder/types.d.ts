@@ -18,3 +18,11 @@ export interface DataTable {
   rowCount: number
   colCount: number
 }
+
+export interface FieldDefinition {
+  name: string
+  display: string
+  type: string
+  wordWrap?: string
+  calculated?: boolean
+}

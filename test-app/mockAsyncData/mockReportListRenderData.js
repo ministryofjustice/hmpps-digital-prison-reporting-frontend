@@ -13,70 +13,70 @@ const mockGetReportListRenderData = {
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
     ],
@@ -228,70 +228,70 @@ const mockReportListRenderData = {
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
   ],

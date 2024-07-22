@@ -27,6 +27,7 @@ interface meta {
   executionId: string
   status?: string
   requestedAt?: Date
+  dataProductDefinitionsPath?: string
 }
 
 export interface CardData {

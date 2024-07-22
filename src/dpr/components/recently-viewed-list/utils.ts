@@ -28,6 +28,7 @@ export const formatCardData = (reportData: RecentlyViewedReportData): CardData =
     executionId,
     reportId,
     variantId,
+    dataProductDefinitionsPath,
   } = reportData
   let { status } = reportData
 
@@ -53,6 +54,7 @@ export const formatCardData = (reportData: RecentlyViewedReportData): CardData =
       variantId,
       executionId,
       status,
+      dataProductDefinitionsPath,
     },
   }
 }

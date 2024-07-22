@@ -1,13 +1,23 @@
-import { AsyncReportData, RequestStatus } from '../../types/AsyncReport'
-import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { CardData, RenderTableListResponse } from '../table-card-group/types'
+import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
+import { AsyncReportData, RequestStatus } from '../../types/AsyncReport'
 import { Services } from '../../types/Services'
 import { createDetailsHtml, createSummaryHtml } from '../../utils/reportSummaryHelper'
 import { getStatus } from '../../utils/reportStatusHelper'
 
 export const formatCardData = (requestedReportsData: AsyncReportData): CardData => {
   const reportData: AsyncReportData = JSON.parse(JSON.stringify(requestedReportsData))
-  const { executionId, reportId, variantId, name: text, description, query, status, timestamp } = reportData
+  const {
+    executionId,
+    reportId,
+    variantId,
+    name: text,
+    description,
+    query,
+    status,
+    timestamp,
+    dataProductDefinitionsPath,
+  } = reportData
   const summary = query.summary as { name: string; value: string }[]
 
   return {
@@ -24,6 +34,7 @@ export const formatCardData = (requestedReportsData: AsyncReportData): CardData 
       executionId,
       status,
       requestedAt: timestamp.requested,
+      dataProductDefinitionsPath,
     },
   }
 }

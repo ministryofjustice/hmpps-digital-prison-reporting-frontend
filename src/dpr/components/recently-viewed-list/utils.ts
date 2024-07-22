@@ -18,7 +18,17 @@ export const formatCards = async (services: Services): Promise<CardData[]> => {
 }
 
 export const formatCardData = (reportData: RecentlyViewedReportData): CardData => {
-  const { executionId: id, variantName: text, description, query, url, timestamp, executionId } = reportData
+  const {
+    executionId: id,
+    variantName: text,
+    description,
+    query,
+    url,
+    timestamp,
+    executionId,
+    reportId,
+    variantId,
+  } = reportData
   let { status } = reportData
 
   let href
@@ -38,6 +48,12 @@ export const formatCardData = (reportData: RecentlyViewedReportData): CardData =
     href,
     timestamp: `Last viewed: ${new Date(timestamp.lastViewed).toLocaleString()}`,
     status,
+    meta: {
+      reportId,
+      variantId,
+      executionId,
+      status,
+    },
   }
 }
 
@@ -87,6 +103,7 @@ export default {
     res,
     maxRows,
   }: { maxRows?: number } & AsyncReportUtilsParams): Promise<RenderTableListResponse> => {
+    const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
     let cardData = await formatCards(services)
 
     const total = {
@@ -94,6 +111,16 @@ export default {
       shown: cardData.length > maxRows ? maxRows : cardData.length,
       max: maxRows,
     }
+
+    const meta = cardData.map((d) => {
+      return {
+        reportId: d.meta.reportId,
+        variantId: d.meta.variantId,
+        executionId: d.meta.executionId,
+        status: d.meta.status,
+        requestedAt: d.meta.requestedAt,
+      }
+    })
 
     if (maxRows) cardData = cardData.slice(0, maxRows)
 
@@ -108,6 +135,8 @@ export default {
       cardData,
       tableData: formatTable(cardData),
       total,
+      meta,
+      csrfToken,
     }
   },
 }

@@ -8,7 +8,7 @@ export default class DprRecentlyViewedList extends DprPollingStatusClass {
 
   initialise () {
     this.POLLING_STATUSES = []
-    this.POLLING_FREQUENCY = this.getPollingFrquency()
+    this.POLLING_FREQUENCY = '300000' // 5 mins
 
     this.viewedList = document.getElementById('dpr-recently-viewed-component')
     this.viewedReportData = this.viewedList.getAttribute('data-request-data')
@@ -22,9 +22,11 @@ export default class DprRecentlyViewedList extends DprPollingStatusClass {
         const meta = JSON.parse(this.viewedReportData)
         await Promise.all(
           meta.map(async (metaData) => {
-            const response = await this.getExpiredStatus(metaData, this.csrfToken)
-            if (response.isExpired) {
-              window.location.reload()
+            if (metaData.status !== 'EXPIRED') {
+              const response = await this.getExpiredStatus(metaData, this.csrfToken)
+              if (response.isExpired) {
+                window.location.reload()
+              }
             }
           }),
         )

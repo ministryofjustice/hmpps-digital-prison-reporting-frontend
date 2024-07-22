@@ -26,7 +26,7 @@ interface meta {
   variantId: string
   executionId: string
   status?: string
-  requestedAt: Date
+  requestedAt?: Date
 }
 
 export interface CardData {

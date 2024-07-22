@@ -9,12 +9,16 @@ export default class DprPollingStatusClass extends DprClientClass {
     return ['SUBMITTED', 'STARTED', 'PICKED']
   }
 
+  getEndStatuses () {
+    return ['FINISHED', 'FAILED', 'EXPIRED']
+  }
+
   async getRequestStatus (metaData, csrfToken) {
-    await this.getStatus('/getStatus/', metaData, csrfToken)
+    return this.getStatus('/getStatus/', metaData, csrfToken)
   }
 
   async getExpiredStatus (metaData, csrfToken) {
-    await this.getStatus('/getExpiredStatus/', metaData, csrfToken)
+    return this.getStatus('/getExpiredStatus/', metaData, csrfToken)
   }
 
   async getStatus (endpoint, body, csrfToken) {

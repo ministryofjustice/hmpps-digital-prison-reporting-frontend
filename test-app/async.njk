@@ -5,6 +5,7 @@
 {% from "components/content-slide-cards/view.njk" import dprContentSlideCards %}
 {% from "components/table-card-group/view.njk" import dprTableCardGroup %}
 {% from "components/async-request-list/view.njk" import dprAsyncRequestList %}
+{% from "components/recently-viewed-list/view.njk" import dprRecentlyViewedList %}
 {% from "components/reports-list/view.njk" import dprReportsList %}
 
 {% block content %}
@@ -38,16 +39,19 @@
       requestedReports.cardData, 
       requestedReports.tableData,
       requestedReports.total,
-      requestedReports.meta
+      requestedReports.meta,
+      requestedReports.csrfToken
     )}}
     {% endset -%}
 
     {% set recentlyViewedHtml %}
-    {{ dprTableCardGroup(
+    {{ dprRecentlyViewedList(
       viewedReports.head, 
       viewedReports.cardData, 
       viewedReports.tableData,
-      viewedReports.total
+      viewedReports.total,
+      viewedReports.meta,
+      requestedReports.csrfToken
   ) }}
     {% endset -%}
 

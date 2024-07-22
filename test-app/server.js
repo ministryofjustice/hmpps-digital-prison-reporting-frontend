@@ -15,7 +15,7 @@ const { default: reportListUtils } = require('../package/dpr/components/report-l
 const BookmarklistUtils = require('../package/dpr/utils/bookmarkListUtils').default
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
 const AsyncReportListUtils = require('../package/dpr/components/async-request-list/utils').default
-const RecentlyViewedCardGroupUtils = require('../package/dpr/utils/recentlyViewedUtils').default
+const RecentlyViewedCardGroupUtils = require('../package/dpr/components/recently-viewed-list/utils').default
 
 // Set up application
 const appViews = [

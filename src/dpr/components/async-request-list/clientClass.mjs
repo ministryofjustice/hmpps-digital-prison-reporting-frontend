@@ -7,8 +7,8 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
   }
 
   initialise () {
-    this.POLLING_STATUSES = []
-    this.POLLING_FREQUENCY = '2000'
+    this.POLLING_STATUSES = ['FINISHED', 'FAILED', 'EXPIRED']
+    this.POLLING_FREQUENCY = this.getPollingFrquency()
 
     this.requestList = document.getElementById('dpr-async-request-component')
     this.requestData = this.requestList.getAttribute('data-request-data')
@@ -22,8 +22,10 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
         const meta = JSON.parse(this.requestData)
         await Promise.all(
           meta.map(async (metaData) => {
-            await this.getStatus(metaData, this.csrfToken)
-            return metaData
+            const response = await this.getRequestStatus(metaData, this.csrfToken)
+            if (this.POLLING_STATUSES.includes(response.status)) {
+              window.location.reload()
+            }
           }),
         )
       }

@@ -3,6 +3,7 @@ import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { CardData, RenderTableListResponse } from '../table-card-group/types'
 import { Services } from '../../types/Services'
 import { createDetailsHtml, createSummaryHtml } from '../../utils/reportSummaryHelper'
+import { getStatus } from '../../utils/reportStatusHelper'
 
 export const formatCardData = (requestedReportsData: AsyncReportData): CardData => {
   const reportData: AsyncReportData = JSON.parse(JSON.stringify(requestedReportsData))
@@ -129,6 +130,22 @@ const formatTable = (cardData: CardData[]) => {
 }
 
 export default {
+  getRequestStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
+    const { executionId, status: currentStatus } = req.body
+    const response = await getStatus({ req, res, services })
+
+    if (currentStatus !== response.status) {
+      await services.asyncReportsStore.updateStatus(
+        executionId,
+        response.status as RequestStatus,
+        response.errorMessage,
+      )
+      response.reportData = await services.asyncReportsStore.getReportByExecutionId(executionId)
+    }
+
+    return response
+  },
+
   renderList: async ({
     services,
     res,

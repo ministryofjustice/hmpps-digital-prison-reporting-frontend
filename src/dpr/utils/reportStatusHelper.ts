@@ -7,7 +7,7 @@ interface GetStatusUtilsResponse {
   reportData?: AsyncReportData | undefined
 }
 
-const getStatus = async ({ req, res, services }: AsyncReportUtilsParams): Promise<GetStatusUtilsResponse> => {
+export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams): Promise<GetStatusUtilsResponse> => {
   let errorMessage
   let status
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
@@ -45,15 +45,19 @@ const getStatus = async ({ req, res, services }: AsyncReportUtilsParams): Promis
     ...(errorMessage && { errorMessage }),
   }
 
-  if (currentStatus !== status) {
-    await services.asyncReportsStore.updateStatus(executionId, status as RequestStatus, errorMessage)
-    result.reportData = await services.asyncReportsStore.getReportByExecutionId(executionId)
-  }
-
   return result
 }
 
-const getExpiredStatus = async ({ req, res, services }: AsyncReportUtilsParams) => {
+/**
+ * Gets the expired status of a viewed report
+ * - if reports status was READY/FINISHED
+ * - And the new Status is an error status
+ * - it means the report has expired
+ *
+ * @param {AsyncReportUtilsParams} { req, res, services }
+ * @return {*}
+ */
+export const getExpiredStatus = async ({ req, res, services }: AsyncReportUtilsParams) => {
   let errorMessage
   let status
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
@@ -79,12 +83,10 @@ const getExpiredStatus = async ({ req, res, services }: AsyncReportUtilsParams) 
     ...(errorMessage && { errorMessage }),
   }
 
-  if (currentStatus !== status) {
-    await services.asyncReportsStore.updateStatus(executionId, status as RequestStatus)
-    result.reportData = await services.asyncReportsStore.getReportByExecutionId(executionId)
+  return {
+    isExpired: result.status === RequestStatus.EXPIRED,
+    executionId,
   }
-
-  return result
 }
 
 const timeoutRequest = (requestTime: Date) => {

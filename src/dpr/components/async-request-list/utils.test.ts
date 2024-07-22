@@ -3,7 +3,7 @@ import AsyncReportStoreService from '../../services/requestedReportsService'
 import { AsyncReportData, RequestStatus } from '../../types/AsyncReport'
 import { setDataFromStatus, formatCardData } from './utils'
 import * as AsyncReportsUtils from './utils'
-import ReportStatusUtils from '../../utils/reportStatusUtils'
+import ReportStatusHelper from '../../utils/reportStatusHelper'
 import { Services } from '../../types/Services'
 
 describe('AsyncReportsListUtils', () => {
@@ -181,7 +181,7 @@ describe('AsyncReportsListUtils', () => {
     })
 
     it('should return the card data with FAILED', async () => {
-      jest.spyOn(ReportStatusUtils, 'timeoutRequest').mockReturnValue(true)
+      jest.spyOn(ReportStatusHelper, 'timeoutRequest').mockReturnValue(true)
       const result = await formatCardData(reportData)
       expect(result.status).toEqual(RequestStatus.FAILED)
     })

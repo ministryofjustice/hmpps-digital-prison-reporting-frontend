@@ -9,8 +9,17 @@ export default class DprPollingStatusClass extends DprClientClass {
     return ['SUBMITTED', 'STARTED', 'PICKED']
   }
 
-  async getStatus (metaData, csrfToken) {
-    await fetch('/getStatus/', {
+  async getRequestStatus (metaData, csrfToken) {
+    await this.getStatus('/getStatus/', metaData, csrfToken)
+  }
+
+  async getExpiredStatus (metaData, csrfToken) {
+    await this.getStatus('/getExpiredStatus/', metaData, csrfToken)
+  }
+
+  async getStatus (endpoint, body, csrfToken) {
+    let response
+    await fetch(endpoint, {
       method: 'post',
       headers: {
         Accept: 'application/json',
@@ -18,13 +27,15 @@ export default class DprPollingStatusClass extends DprClientClass {
         'CSRF-Token': csrfToken,
       },
       body: JSON.stringify({
-        ...metaData,
+        ...body,
       }),
     })
       .then((res) => res.json())
       .then((res) => {
-        window.location.reload()
+        response = res
       })
       .catch((error) => console.error('Error:', error))
+
+    return response
   }
 }

@@ -1,56 +1,28 @@
-import { CardData, RenderTableListResponse } from '../components/table-card-group/types'
-import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
-import { RecentlyViewedReportData } from '../types/RecentlyViewed'
-import { RequestStatus } from '../types/AsyncReport'
-import { Services } from '../types/Services'
-import ReportStatusUtils from './reportStatusUtils'
-import { createDetailsHtml, createSummaryHtml } from './reportSummaryHelper'
+import { CardData, RenderTableListResponse } from '../table-card-group/types'
+import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
+import { RecentlyViewedReportData } from '../../types/RecentlyViewed'
+import { RequestStatus } from '../../types/AsyncReport'
+import { Services } from '../../types/Services'
+import { createDetailsHtml, createSummaryHtml } from '../../utils/reportSummaryHelper'
+import { getExpiredStatus } from '../../utils/reportStatusHelper'
 
-export const formatCards = async (services: Services, token: string): Promise<CardData[]> => {
+export const formatCards = async (services: Services): Promise<CardData[]> => {
   const requestedReportsData: RecentlyViewedReportData[] = await services.recentlyViewedStoreService.getAllReports()
-  return Promise.all(
-    requestedReportsData
-      .filter((report: RecentlyViewedReportData) => {
-        return !report.timestamp.retried && !report.timestamp.refresh
-      })
-      .map((report: RecentlyViewedReportData) => {
-        return formatCardData(report, services, token)
-      }),
-  )
+  return requestedReportsData
+    .filter((report: RecentlyViewedReportData) => {
+      return !report.timestamp.retried && !report.timestamp.refresh
+    })
+    .map((report: RecentlyViewedReportData) => {
+      return formatCardData(report)
+    })
 }
 
-export const formatCardData = async (
-  reportData: RecentlyViewedReportData,
-  services: Services,
-  token: string,
-): Promise<CardData> => {
-  const {
-    executionId: id,
-    variantName: text,
-    description,
-    query,
-    url,
-    timestamp,
-    executionId,
-    reportId,
-    variantId,
-    dataProductDefinitionsPath,
-  } = reportData
+export const formatCardData = (reportData: RecentlyViewedReportData): CardData => {
+  const { executionId: id, variantName: text, description, query, url, timestamp, executionId } = reportData
   let { status } = reportData
 
-  const statusResponse = await ReportStatusUtils.getStatus(
-    token,
-    reportId,
-    variantId,
-    executionId,
-    status,
-    services,
-    dataProductDefinitionsPath,
-  )
-
   let href
-  if (statusResponse.status === RequestStatus.EXPIRED) {
-    status = statusResponse.status
+  if (status === RequestStatus.EXPIRED) {
     href = `${url.request.fullUrl}&retryId=${executionId}`
   } else {
     status = RequestStatus.READY
@@ -102,13 +74,20 @@ const formatTableData = (card: CardData) => {
 }
 
 export default {
+  getExpiredStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
+    const report = await getExpiredStatus({ req, res, services })
+    if (report.isExpired) {
+      await services.recentlyViewedStoreService.setToExpired(report.executionId)
+    }
+    return report.isExpired
+  },
+
   renderRecentlyViewedList: async ({
     services,
     res,
     maxRows,
   }: { maxRows?: number } & AsyncReportUtilsParams): Promise<RenderTableListResponse> => {
-    const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    let cardData = await formatCards(services, token)
+    let cardData = await formatCards(services)
 
     const total = {
       amount: cardData.length,

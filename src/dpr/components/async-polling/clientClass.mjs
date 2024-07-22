@@ -28,7 +28,8 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
       setInterval(async () => {
         if (this.requestData) {
           const meta = JSON.parse(this.requestData)
-          await this.getStatus(meta, this.csrfToken)
+          await this.getRequestStatus(meta, this.csrfToken)
+          window.location.reload()
         }
       }, this.POLLING_FREQUENCY)
     }

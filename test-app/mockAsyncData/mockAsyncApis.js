@@ -16,13 +16,6 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
   const mockResponse = Object.assign(mockStatusApiResponse, {})
   let statuses
   switch (variantId) {
-    case 'variantId-1':
-    case 'variantId-7':
-    case 'variantId-8':
-    case 'variantId-9':
-    case 'variantId-10':
-      statuses = happyStatuses
-      break
     case 'variantId-2':
       statuses = sadStatuses
       break
@@ -33,6 +26,7 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
       statuses = expiredStatuses
       break
     default:
+      statuses = happyStatuses
       break
   }
 
@@ -106,6 +100,10 @@ const getAsyncSummaryReport = (token, reportId, variantId, tableId, summaryId) =
   switch (summaryId) {
     case 'summary3':
       return Promise.resolve([{ percentGood: 45, percentBad: 10, percentUgly: 98 }])
+    case 'summary4':
+      return Promise.resolve([{ field1: 57, field2: 1, field3: 12219380923, field4: '3 Freds'  }])
+    case 'summary5':
+      return Promise.resolve([{ field1: 'Percentageness', field2: '10%', field3: '20%', field4: '90%'  }])
     default:
       return Promise.resolve([{ total: 52 }])
   }

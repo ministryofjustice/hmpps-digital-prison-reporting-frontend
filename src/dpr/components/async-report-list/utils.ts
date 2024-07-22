@@ -4,7 +4,7 @@ import ColumnUtils from '../columns/utils'
 import PaginationUtils from '../pagination/utils'
 import { components } from '../../types/api'
 import Dict = NodeJS.Dict
-import { AsyncReportData } from '../../types/AsyncReport'
+import { AsyncReportData, AsyncSummary } from '../../types/AsyncReport'
 import DataTableBuilder from '../../utils/DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../../utils/DataTableBuilder/types'
 
@@ -15,6 +15,7 @@ export default {
     reportData: Array<Dict<string>>,
     count: number,
     reportStateData: AsyncReportData,
+    reportSummaries: Dict<Array<AsyncSummary>>,
   ) => {
     const { specification } = definition.variant
     const { columns: reqColumns } = req.query
@@ -23,6 +24,7 @@ export default {
     const pagination = PaginationUtils.getPaginationData(url, count)
     const { query } = reportStateData
     const dataTable: DataTable = new DataTableBuilder(specification)
+      .withSummaries(reportSummaries)
       .withNoHeaderOptions(columns.value)
       .buildTable(reportData)
 

@@ -104,7 +104,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         default:
           renderData = {
             ...renderData,
-            ...AsyncReportListUtils.getRenderData(req, definition, reportData, count, reportStateData),
+            ...AsyncReportListUtils.getRenderData(req, definition, reportData, count, reportStateData, reportSummaries),
           }
           break
       }

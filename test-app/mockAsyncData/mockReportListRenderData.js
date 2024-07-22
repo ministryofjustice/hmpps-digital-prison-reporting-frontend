@@ -4,6 +4,7 @@ const mockGetReportListRenderData = {
     variantName: 'variantName',
     reportId: undefined,
     reportName: 'reportName',
+    reportSummaries: {},
     requestedTimestamp: 'Invalid Date',
     description: 'description',
     rowCount: 10,
@@ -12,70 +13,70 @@ const mockGetReportListRenderData = {
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
       [
         {
           text: 'Value 2',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
     ],
@@ -227,70 +228,70 @@ const mockReportListRenderData = {
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
     [
       {
         text: 'Value 2',
         format: 'string',
-        classes: null,
+        classes: '',
       },
     ],
   ],

@@ -2,9 +2,20 @@ import Dict = NodeJS.Dict
 import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'
 import DataTableBuilder from './DataTableBuilder'
+import { AsyncSummary } from '../../types/AsyncReport'
 
+const defaultField: components['schemas']['FieldDefinition'] = {
+  name: 'date',
+  display: 'Date',
+  sortable: true,
+  defaultsort: false,
+  type: 'date',
+  mandatory: false,
+  visible: true,
+  calculated: false,
+}
 const defaultSpec: components['schemas']['Specification'] = {
-  fields: [],
+  fields: [defaultField],
   template: 'list',
   sections: [],
 }
@@ -37,7 +48,7 @@ describe('mapData', () => {
           {
             text: '02/01/00 03:04',
             format: 'string',
-            classes: null,
+            classes: '',
           },
         ],
       ],
@@ -71,7 +82,7 @@ describe('mapData', () => {
           {
             text: '',
             format: 'string',
-            classes: null,
+            classes: '',
           },
         ],
       ],
@@ -101,7 +112,7 @@ describe('mapData', () => {
         {
           text: '12/11/10 13:14',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
     ])
@@ -130,7 +141,7 @@ describe('mapData', () => {
         {
           text: '1234.05',
           format: 'numeric',
-          classes: null,
+          classes: '',
         },
       ],
     ])
@@ -159,7 +170,7 @@ describe('mapData', () => {
         {
           text: '12/11/10',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
     ])
@@ -188,7 +199,7 @@ describe('mapData', () => {
         {
           text: '1234.05',
           format: 'string',
-          classes: null,
+          classes: '',
         },
       ],
     ])
@@ -226,26 +237,11 @@ describe('mapData', () => {
 })
 
 describe('mapHeader', () => {
-  const defaultField: components['schemas']['FieldDefinition'] = {
-    name: 'date',
-    display: 'Date',
-    sortable: true,
-    defaultsort: false,
-    type: 'date',
-    mandatory: false,
-    visible: true,
-    calculated: false,
-  }
   const defaultQueryParams = {
     columns: 'date',
   }
   const filterPrefix = 'f.'
-  const defaultListRequest: ReportQuery = new ReportQuery(
-    { ...defaultSpec, fields: [defaultField] },
-    defaultQueryParams,
-    null,
-    filterPrefix,
-  )
+  const defaultListRequest: ReportQuery = new ReportQuery(defaultSpec, defaultQueryParams, null, filterPrefix)
 
   it('Unsortable field', () => {
     const field = {
@@ -264,9 +260,7 @@ describe('mapHeader', () => {
   })
 
   it('Sortable unsorted field', () => {
-    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [defaultField] })
-      .withHeaderSortOptions(defaultListRequest)
-      .buildTable([])
+    const mapped = new DataTableBuilder(defaultSpec).withHeaderSortOptions(defaultListRequest).buildTable([])
 
     expect(mapped).toEqual({
       colCount: 1,
@@ -288,7 +282,7 @@ describe('mapHeader', () => {
 
   it('Sortable field sorted ascending', () => {
     const reportQuery: ReportQuery = new ReportQuery(
-      { ...defaultSpec, fields: [defaultField] },
+      defaultSpec,
       {
         ...defaultQueryParams,
         sortColumn: 'date',
@@ -296,9 +290,7 @@ describe('mapHeader', () => {
       defaultField.name,
       filterPrefix,
     )
-    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [defaultField] })
-      .withHeaderSortOptions(reportQuery)
-      .buildTable([])
+    const mapped = new DataTableBuilder(defaultSpec).withHeaderSortOptions(reportQuery).buildTable([])
 
     expect(mapped).toEqual({
       colCount: 1,
@@ -320,7 +312,7 @@ describe('mapHeader', () => {
 
   it('Sortable field sorted descending', () => {
     const reportQuery: ReportQuery = new ReportQuery(
-      { ...defaultSpec, fields: [defaultField] },
+      defaultSpec,
       {
         ...defaultQueryParams,
         sortColumn: 'date',
@@ -329,9 +321,7 @@ describe('mapHeader', () => {
       defaultField.name,
       filterPrefix,
     )
-    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [defaultField] })
-      .withHeaderSortOptions(reportQuery)
-      .buildTable([])
+    const mapped = new DataTableBuilder(defaultSpec).withHeaderSortOptions(reportQuery).buildTable([])
 
     expect(mapped).toEqual({
       colCount: 1,
@@ -348,6 +338,235 @@ describe('mapHeader', () => {
       ],
       rowCount: 0,
       rows: [],
+    })
+  })
+})
+
+describe('withSummary', () => {
+  const field: components['schemas']['FieldDefinition'] = {
+    name: 'mainField',
+    display: 'Main Field',
+    sortable: true,
+    defaultsort: false,
+    type: 'string',
+    mandatory: false,
+    visible: true,
+    calculated: false,
+  }
+  const summarySpec: components['schemas']['Specification'] = {
+    ...defaultSpec,
+    fields: [field],
+  }
+  const headerSummary: Dict<Array<AsyncSummary>> = {
+    'table-header': [
+      {
+        id: 'test-header-summary',
+        template: 'table-header',
+        fields: [],
+        data: [
+          {
+            mainField: 'Header',
+          },
+        ],
+      },
+    ],
+  }
+  const footerSummary: Dict<Array<AsyncSummary>> = {
+    'table-footer': [
+      {
+        id: 'test-footer-summary',
+        template: 'table-header',
+        fields: [],
+        data: [
+          {
+            mainField: 'Footer',
+          },
+        ],
+      },
+    ],
+  }
+
+  it('Valid header summary', () => {
+    const mapped = new DataTableBuilder(summarySpec)
+      .withNoHeaderOptions([field.name])
+      .withSummaries(headerSummary)
+      .buildTable([{ mainField: 'Body' }])
+
+    expect(mapped.rows.length).toEqual(2)
+
+    expect(mapped.rows[0][0]).toEqual({
+      text: 'Header',
+      format: 'string',
+      classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
+    })
+    expect(mapped.rows[1][0]).toEqual({
+      text: 'Body',
+      format: 'string',
+      classes: '',
+    })
+  })
+
+  it('Valid footer summary', () => {
+    const mapped = new DataTableBuilder(summarySpec)
+      .withNoHeaderOptions([field.name])
+      .withSummaries(footerSummary)
+      .buildTable([{ mainField: 'Body' }])
+
+    expect(mapped.rows.length).toEqual(2)
+
+    expect(mapped.rows[0][0]).toEqual({
+      text: 'Body',
+      format: 'string',
+      classes: '',
+    })
+    expect(mapped.rows[1][0]).toEqual({
+      text: 'Footer',
+      format: 'string',
+      classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
+    })
+  })
+
+  it('Valid header and footer summary', () => {
+    const mapped = new DataTableBuilder(summarySpec)
+      .withNoHeaderOptions([field.name])
+      .withSummaries({
+        ...headerSummary,
+        ...footerSummary,
+      })
+      .buildTable([{ mainField: 'Body' }])
+
+    expect(mapped.rows.length).toEqual(3)
+
+    expect(mapped.rows[0][0]).toEqual({
+      text: 'Header',
+      format: 'string',
+      classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
+    })
+    expect(mapped.rows[1][0]).toEqual({
+      text: 'Body',
+      format: 'string',
+      classes: '',
+    })
+    expect(mapped.rows[2][0]).toEqual({
+      text: 'Footer',
+      format: 'string',
+      classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
+    })
+  })
+
+  it('Multiple valid header and footer summaries', () => {
+    const summaries: Dict<Array<AsyncSummary>> = {
+      'table-header': [
+        {
+          id: 'test-header-summary-1',
+          template: 'table-header',
+          fields: [],
+          data: [
+            {
+              mainField: 'Header 1',
+            },
+          ],
+        },
+        {
+          id: 'test-header-summary-2',
+          template: 'table-header',
+          fields: [],
+          data: [
+            {
+              mainField: 'Header 2',
+            },
+          ],
+        },
+      ],
+      'table-footer': [
+        {
+          id: 'test-footer-summary-1',
+          template: 'table-header',
+          fields: [],
+          data: [
+            {
+              mainField: 'Footer 1',
+            },
+          ],
+        },
+        {
+          id: 'test-footer-summary-2',
+          template: 'table-header',
+          fields: [],
+          data: [
+            {
+              mainField: 'Footer 2',
+            },
+          ],
+        },
+      ],
+    }
+
+    const mapped = new DataTableBuilder(summarySpec)
+      .withNoHeaderOptions([field.name])
+      .withSummaries(summaries)
+      .buildTable([{ mainField: 'Body' }])
+
+    expect(mapped.rows.length).toEqual(5)
+
+    expect(mapped.rows[0][0]).toEqual({
+      text: 'Header 1',
+      format: 'string',
+      classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
+    })
+    expect(mapped.rows[1][0]).toEqual({
+      text: 'Header 2',
+      format: 'string',
+      classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
+    })
+    expect(mapped.rows[2][0]).toEqual({
+      text: 'Body',
+      format: 'string',
+      classes: '',
+    })
+    expect(mapped.rows[3][0]).toEqual({
+      text: 'Footer 1',
+      format: 'string',
+      classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
+    })
+    expect(mapped.rows[4][0]).toEqual({
+      text: 'Footer 2',
+      format: 'string',
+      classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
+    })
+  })
+
+  it('Invalid header summary', () => {
+    const invalidHeaderSummary: Dict<Array<AsyncSummary>> = {
+      'table-header': [
+        {
+          id: 'test-header-summary',
+          template: 'table-header',
+          fields: [],
+          data: [
+            {
+              invalidField: 'Header',
+            },
+          ],
+        },
+      ],
+    }
+
+    const mapped = new DataTableBuilder(summarySpec)
+      .withNoHeaderOptions([field.name])
+      .withSummaries(invalidHeaderSummary)
+      .buildTable([{ mainField: 'Body' }])
+
+    expect(mapped.rows.length).toEqual(2)
+
+    expect(mapped.rows[0][0]).toEqual({
+      format: 'string',
+      classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
+    })
+    expect(mapped.rows[1][0]).toEqual({
+      text: 'Body',
+      format: 'string',
+      classes: '',
     })
   })
 })

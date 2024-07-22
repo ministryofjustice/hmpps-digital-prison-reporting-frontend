@@ -1,9 +1,10 @@
 import Dict = NodeJS.Dict
 import { components } from '../../types/api'
 import ReportQuery from '../../types/ReportQuery'
-import { Cell, DataTable, Header } from './types'
+import { Cell, DataTable, FieldDefinition, Header } from './types'
 import createUrlForParameters from '../urlHelper'
-import type { Template } from '../../types/Template'
+import type { SummaryTemplate, Template } from '../../types/Templates'
+import { AsyncSummary } from '../../types/AsyncReport'
 
 export default class DataTableBuilder {
   private specification: components['schemas']['Specification']
@@ -11,6 +12,8 @@ export default class DataTableBuilder {
   private template: Template
 
   private columns: Array<string> = []
+
+  private reportSummaries: Dict<Array<AsyncSummary>> = {}
 
   // Sortable headers only
   private reportQuery: ReportQuery = null
@@ -42,29 +45,32 @@ export default class DataTableBuilder {
     return value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase()
   }
 
-  private mapCells(rowData: NodeJS.Dict<string>): Cell[] {
+  private mapRow(rowData: NodeJS.Dict<string>, extraClasses = '', overrideFields: Array<FieldDefinition> = []): Cell[] {
     return this.specification.fields
       .filter((f) => this.columns.includes(f.name))
       .map((f) => {
-        const text: string = this.mapCellValue(f, rowData[f.name])
+        const overrideField = overrideFields.find((o) => o.name === f.name)
+        const field = overrideField ?? f
+        const text: string = this.mapCellValue(field, rowData[field.name])
+        const classes = extraClasses + (field.wordWrap ? ` data-table-cell-wrap-${field.wordWrap.toLowerCase()}` : '')
         let fieldFormat = 'string'
 
-        if (f.type === 'double' || f.type === 'long') {
+        if (field.type === 'double' || field.type === 'long') {
           fieldFormat = 'numeric'
         }
 
-        const isHtml = f.type === 'HTML'
+        const isHtml = field.type === 'HTML'
         const cell: Cell = {
           ...(isHtml ? { html: text } : { text }),
           format: fieldFormat,
-          classes: f.wordWrap ? `data-table-cell-wrap-${f.wordWrap.toLowerCase()}` : null,
+          classes: classes.trim(),
         }
 
         return cell
       })
   }
 
-  private mapCellValue(field: components['schemas']['FieldDefinition'], cellData: string) {
+  private mapCellValue(field: FieldDefinition, cellData: string) {
     if (field.calculated) {
       return cellData
     }
@@ -139,7 +145,22 @@ export default class DataTableBuilder {
   }
 
   private mapData(data: Array<Dict<string>>): Cell[][] {
-    return data.map((rowData) => this.mapCells(rowData))
+    const mappedHeaderSummary = this.mapSummary('table-header')
+    const mappedTableData = data.map((rowData) => this.mapRow(rowData))
+    const mappedFooterSummary = this.mapSummary('table-footer')
+
+    return mappedHeaderSummary.concat(mappedTableData).concat(mappedFooterSummary)
+  }
+
+  private mapSummary(template: SummaryTemplate): Cell[][] {
+    if (this.reportSummaries[template]) {
+      return this.reportSummaries[template].flatMap((reportSummary) =>
+        reportSummary.data.map((rowData) =>
+          this.mapRow(rowData, `dpr-report-summary-cell dpr-report-summary-cell-${template}`, reportSummary.fields),
+        ),
+      )
+    }
+    return []
   }
 
   private mapSectionedData(data: Array<Dict<string>>, header: Cell[]): Cell[][] {
@@ -157,7 +178,7 @@ export default class DataTableBuilder {
         sectionedData[sectionDescription] = []
       }
 
-      sectionedData[sectionDescription].push(this.mapCells(rowData))
+      sectionedData[sectionDescription].push(this.mapRow(rowData))
     })
 
     return Object.keys(sectionedData)
@@ -214,5 +235,10 @@ export default class DataTableBuilder {
           ...counts,
         }
     }
+  }
+
+  withSummaries(reportSummaries: Dict<Array<AsyncSummary>>) {
+    this.reportSummaries = reportSummaries
+    return this
   }
 }

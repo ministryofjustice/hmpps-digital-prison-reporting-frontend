@@ -1,0 +1,30 @@
+.dpr-summary-container-group {
+  column-gap: 15px;
+  display: flex;
+  position: relative;
+  row-gap: 15px;
+
+  .dpr-summary-container {
+    min-width: 200px;
+    width: fit-content;
+
+    .govuk-table {
+      border: solid 1px govuk-colour("mid-grey");
+      margin-bottom: 0;
+
+      th, td {
+        padding: 10px;
+      }
+    }
+  }
+}
+
+.dpr-summary-container-group-page-header {
+  margin-top: 30px;
+}
+
+.dpr-summary-container-group-page-footer {
+  margin-bottom: 30px;
+}
+
+

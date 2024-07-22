@@ -17,8 +17,12 @@ export interface paths {
     get: operations['configuredApiDynamicFilter']
   }
   '/reports/{reportId}/{reportVariantId}/tables/{tableId}/result': {
-    /** @description Returns the resulting rows of the executed statement in a paginated fashion which has been have been stored in a dedicated table. */
+    /** @description Returns the resulting rows of the executed statement in a paginated fashion which has been stored in a dedicated table. */
     get: operations['getQueryExecutionResult']
+  }
+  '/reports/{reportId}/{reportVariantId}/tables/{tableId}/result/summary/{summaryId}': {
+    /** @description Returns a summary of a request, which has been stored in a dedicated table. */
+    get: operations['getSummaryQueryExecutionResult']
   }
   '/reports/{reportId}/{reportVariantId}/statements/{statementId}/status': {
     /**
@@ -168,6 +172,12 @@ export interface components {
       name: string
       display: string
     }
+    ReportSummary: {
+      id: string
+      /** @enum {string} */
+      template: 'table-header' | 'table-footer' | 'section-footer' | 'page-header' | 'page-footer'
+      fields: components['schemas']['SummaryField'][]
+    }
     SingleVariantReportDefinition: {
       id: string
       name: string
@@ -175,9 +185,14 @@ export interface components {
       variant: components['schemas']['VariantDefinition']
     }
     Specification: {
-      template: string
+      /** @enum {string} */
+      template: 'list' | 'list-section' | 'list-aggregate' | 'list-tab' | 'crosstab' | 'summary'
       fields: components['schemas']['FieldDefinition'][]
       sections: string[]
+    }
+    SummaryField: {
+      name: string
+      display: string
     }
     VariantDefinition: {
       id: string
@@ -187,6 +202,7 @@ export interface components {
       specification?: components['schemas']['Specification']
       classification?: string
       printable?: boolean
+      summaries?: components['schemas']['ReportSummary'][]
     }
     StatementExecutionResponse: {
       tableId: string
@@ -374,7 +390,7 @@ export interface operations {
       }
     }
   }
-  /** @description Returns the resulting rows of the executed statement in a paginated fashion which has been have been stored in a dedicated table. */
+  /** @description Returns the resulting rows of the executed statement in a paginated fashion which has been stored in a dedicated table. */
   getQueryExecutionResult: {
     parameters: {
       query?: {
@@ -386,6 +402,48 @@ export interface operations {
         reportId: string
         reportVariantId: string
         tableId: string
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          'application/json': {
+            [key: string]: Record<string, never>
+          }[]
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+    }
+  }
+  /** @description Returns a summary of a request, which has been stored in a dedicated table. */
+  getSummaryQueryExecutionResult: {
+    parameters: {
+      query?: {
+        dataProductDefinitionsPath?: string
+      }
+      path: {
+        reportId: string
+        reportVariantId: string
+        tableId: string
+        summaryId: string
       }
     }
     responses: {

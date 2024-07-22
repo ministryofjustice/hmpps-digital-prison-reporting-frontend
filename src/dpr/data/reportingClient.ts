@@ -155,6 +155,25 @@ export default class ReportingClient {
       .then((response) => <Array<Dict<string>>>response)
   }
 
+  getAsyncSummaryReport(
+    token: string,
+    reportId: string,
+    variantId: string,
+    tableId: string,
+    summaryId: string,
+    query: Dict<string | number>,
+  ): Promise<Array<Dict<string>>> {
+    logger.info(`Reporting client: Get variantId:${variantId} summaryId:${summaryId} data`)
+
+    return this.restClient
+      .get({
+        path: `/reports/${reportId}/${variantId}/tables/${tableId}/result/summary/${summaryId}`,
+        token,
+        query,
+      })
+      .then((response) => <Array<Dict<string>>>response)
+  }
+
   getAsyncReportStatus(
     token: string,
     reportId: string,

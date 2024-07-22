@@ -4,7 +4,7 @@ import Dict = NodeJS.Dict
 import { components } from './api'
 import { clearFilterValue } from '../utils/urlHelper'
 import ColumnUtils from '../components/columns/utils'
-import { Template } from './Template'
+import { Template } from './Templates'
 
 export const DEFAULT_FILTERS_PREFIX = 'filters.'
 

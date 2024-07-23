@@ -14,7 +14,8 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
   const { reportId, variantId, executionId, status: currentStatus, dataProductDefinitionsPath, requestedAt } = req.body
 
   try {
-    if (timeoutRequest(requestedAt) && currentStatus !== RequestStatus.READY) {
+    const timeoutExemptStatuses = [RequestStatus.READY, RequestStatus.EXPIRED, RequestStatus.FAILED]
+    if (timeoutRequest(requestedAt) && !timeoutExemptStatuses.includes(currentStatus)) {
       throw new Error('Request taking too long. Request Halted')
     }
 
@@ -32,7 +33,7 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
     }
   } catch (error) {
     const { data } = error
-    errorMessage = (data ?? {}).userMessage
+    errorMessage = data ? data.userMessage : error.message
     status = currentStatus === RequestStatus.FINISHED ? RequestStatus.EXPIRED : RequestStatus.FAILED
   }
 
@@ -96,7 +97,8 @@ const timeoutRequest = (requestTime: Date) => {
   const requested: Date = new Date(requestTime)
   const diffMs = today.valueOf() - requested.valueOf()
   const diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000)
-  return diffMins >= TIMEOUT_MINS_MAX
+  const res = diffMins >= TIMEOUT_MINS_MAX
+  return res
 }
 
 export default {

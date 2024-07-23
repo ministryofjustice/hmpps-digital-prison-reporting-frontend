@@ -47,6 +47,10 @@ export const formatCardData = (reportData: RecentlyViewedReportData): CardData =
   }
 }
 
+export const filterReports = (report: RecentlyViewedReportData) => {
+  return !report.timestamp.retried && !report.timestamp.refresh
+}
+
 export default {
   getExpiredStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
     const report = await getExpiredStatus({ req, res, services })
@@ -64,10 +68,7 @@ export default {
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
     const requestedReportsData: RecentlyViewedReportData[] = await services.recentlyViewedStoreService.getAllReports()
 
-    const filterFunction = (report: RecentlyViewedReportData) => {
-      return !report.timestamp.retried && !report.timestamp.refresh
-    }
-    let cardData = await ReportListHelper.formatCards(requestedReportsData, filterFunction, formatCardData)
+    let cardData = await ReportListHelper.formatCards(requestedReportsData, filterReports, formatCardData)
     if (maxRows) cardData = cardData.slice(0, maxRows)
 
     const head = {

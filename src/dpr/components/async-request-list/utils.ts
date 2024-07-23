@@ -81,6 +81,10 @@ export const setDataFromStatus = (status: RequestStatus, requestedReportsData: A
   }
 }
 
+export const filterReports = (report: AsyncReportData) => {
+  return !report.timestamp.lastViewed && !report.timestamp.retried
+}
+
 export default {
   getRequestStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
     const { executionId, status: currentStatus } = req.body
@@ -106,10 +110,7 @@ export default {
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
     const requestedReportsData: AsyncReportData[] = await services.asyncReportsStore.getAllReports()
 
-    const filterFunction = (report: AsyncReportData) => {
-      return !report.timestamp.lastViewed && !report.timestamp.retried
-    }
-    let cardData = await ReportListHelper.formatCards(requestedReportsData, filterFunction, formatCardData)
+    let cardData = await ReportListHelper.formatCards(requestedReportsData, filterReports, formatCardData)
     if (maxRows) cardData = cardData.slice(0, maxRows)
 
     const head = {

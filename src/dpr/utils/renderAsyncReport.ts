@@ -31,8 +31,11 @@ export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) 
     },
   )
   const summaryDataPromise = reportDefinitionPromise.then(
-    (definition: components['schemas']['SingleVariantReportDefinition']) =>
-      Promise.all(
+    (definition: components['schemas']['SingleVariantReportDefinition']) => {
+      if (!definition.variant.summaries) {
+        return Promise.resolve([])
+      }
+      return Promise.all(
         definition.variant.summaries.map((summary) => {
           return services.reportingService
             .getAsyncSummaryReport(token, reportId, reportVariantId, tableId, summary.id, {
@@ -43,7 +46,8 @@ export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) 
               data,
             }))
         }),
-      ),
+      )
+    },
   )
   const reportDataCountPromise = services.reportingService.getAsyncCount(token, tableId)
   const stateDataPromise = services.asyncReportsStore.getReportByTableId(tableId)

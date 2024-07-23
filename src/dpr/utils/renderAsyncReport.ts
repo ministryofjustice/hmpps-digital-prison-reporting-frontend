@@ -31,22 +31,22 @@ export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) 
     },
   )
   const summaryDataPromise = reportDefinitionPromise.then(
-    // eslint-disable-next-line consistent-return
     (definition: components['schemas']['SingleVariantReportDefinition']) => {
-      if (definition.variant.summaries) {
-        return Promise.all(
-          definition.variant.summaries.map((summary) => {
-            return services.reportingService
-              .getAsyncSummaryReport(token, reportId, reportVariantId, tableId, summary.id, {
-                dataProductDefinitionsPath,
-              })
-              .then((data: Array<Dict<string>>) => ({
-                ...summary,
-                data,
-              }))
-          }),
-        )
+      if (!definition.variant.summaries) {
+        return Promise.resolve([])
       }
+      return Promise.all(
+        definition.variant.summaries.map((summary) => {
+          return services.reportingService
+            .getAsyncSummaryReport(token, reportId, reportVariantId, tableId, summary.id, {
+              dataProductDefinitionsPath,
+            })
+            .then((data: Array<Dict<string>>) => ({
+              ...summary,
+              data,
+            }))
+        }),
+      )
     },
   )
   const reportDataCountPromise = services.reportingService.getAsyncCount(token, tableId)

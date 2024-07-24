@@ -23,12 +23,13 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
 
   initPollingStatus () {
     const status = this.statusSection.getAttribute('data-current-status')
+    const csrfToken = this.cancelRequestButton.getAttribute('data-csrf-token')
 
     if (this.POLLING_STATUSES.includes(status)) {
       setInterval(async () => {
         if (this.requestData) {
           const meta = JSON.parse(this.requestData)
-          await this.getRequestStatus(meta, this.csrfToken)
+          await this.getRequestStatus(meta, csrfToken)
           window.location.reload()
         }
       }, this.POLLING_FREQUENCY)

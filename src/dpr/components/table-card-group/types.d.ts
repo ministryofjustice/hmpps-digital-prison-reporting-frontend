@@ -17,6 +17,17 @@ export interface RenderTableListResponse {
     shown: number
     max: number
   }
+  meta?: meta[]
+  csrfToken?: string
+}
+
+interface meta {
+  reportId: string
+  variantId: string
+  executionId: string
+  status?: string
+  requestedAt?: Date
+  dataProductDefinitionsPath?: string
 }
 
 export interface CardData {
@@ -28,4 +39,5 @@ export interface CardData {
   tag?: string
   status?: string
   summary?: { name: string; value: string }[]
+  meta?: meta
 }

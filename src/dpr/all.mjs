@@ -14,6 +14,8 @@ import Search from './components/search/clientClass.mjs'
 import BookmarkToggle from './components/bookmark-toggle/clientClass.mjs'
 import DprLoadingHelper from './DprLoadingHelper.mjs'
 import DateInput from './components/date-input/clientClass.mjs'
+import AsyncRequestList from './components/async-request-list/clientClass.mjs'
+import RecentlyViewedList from './components/recently-viewed-list/clientClass.mjs'
 
 /**
  * Initialise all components
@@ -39,6 +41,8 @@ export default function initAll () {
     Search,
     BookmarkToggle,
     DateInput,
+    AsyncRequestList,
+    RecentlyViewedList,
   ]
 
   components.forEach((Component) => {

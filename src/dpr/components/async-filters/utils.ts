@@ -260,7 +260,6 @@ export default {
     if (executionId && tableId) {
       redirect = await updateStore(req, services, fields, querySummaryData, executionId, tableId)
     }
-
     return redirect
   },
 

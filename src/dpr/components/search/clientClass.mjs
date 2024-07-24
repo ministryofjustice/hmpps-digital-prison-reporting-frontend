@@ -40,9 +40,27 @@ export default class Search extends DprClientClass {
     if (searchBox) {
       searchBox.addEventListener('keyup', (e) => {
         this.updateSearchListing(e.target.value)
+
+        // Update Query Params
+        const queryParams = new URLSearchParams(window.location.search)
+        queryParams.set(searchBox.id, e.target.value)
+        window.history.replaceState(null, null, `?${queryParams.toString()}`)
       })
 
-      this.updateSearchListing('')
+      this.initInputFromQueryParams()
     }
+  }
+
+  // eslint-disable-next-line
+  initInputFromQueryParams () {
+    const urlParams = new URLSearchParams(window.location.search)
+
+    urlParams.forEach((value, key) => {
+      const element = document.getElementById(key)
+      if (element && element.classList.contains('dpr-search-box')) {
+        element.value = value
+        this.updateSearchListing(element.value)
+      }
+    })
   }
 }

@@ -18,10 +18,21 @@
   {% set errorMessage = data.errorMessage %}
   {% set executionId = data.executionId %}
   {% set csrfToken = data.csrfToken %}
+  {% set requestedAt = data.requestedAt %}
   {% set descriptionClasses = 'govuk-!-margin-top-4 govuk-!-margin-bottom-6'%}
 
+  {% set meta = { 
+    reportId: reportId, 
+    variantId: variantId, 
+    executionId: executionId, 
+    status: status,
+    requestedAt: requestedAt
+  }%}
+
   <div id="async-request-polling-status" 
-    data-current-status={{ status }}
+    data-current-status='{{ status }}'
+    data-request-data='{{ meta | dump | safe }}'
+    data-csrf-token="{{ csrfToken }}"
     data-dpr-module="async-polling-content">
 
     {% set filtersHtml %}

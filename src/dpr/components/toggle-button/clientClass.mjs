@@ -46,12 +46,13 @@ export default class ToggleButton extends DprClientClass {
     const urlParams = new URLSearchParams(window.location.search)
 
     urlParams.keys().forEach((key) => {
-      const toggle = document.getElementById(key)
-      if (toggle) {
+      const element = document.getElementById(key)
+      if (element && element.classList.contains('dpr-toggle-button')) {
+        console.log('is toggle', key)
         const value = urlParams.get(key)
-        const icons = Array.from(toggle.getElementsByClassName('dpr-icon-wrapper'))
+        const icons = Array.from(element.getElementsByClassName('dpr-icon-wrapper'))
 
-        const toggleContainer = toggle.parentNode.parentNode
+        const toggleContainer = element.parentNode.parentNode
         const contentContainers = Array.from(toggleContainer.getElementsByClassName('dpr-toggle-content'))
 
         icons.forEach((icon) => {

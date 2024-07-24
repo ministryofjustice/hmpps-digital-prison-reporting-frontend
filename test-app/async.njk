@@ -4,6 +4,8 @@
 {% from "components/content-slide/view.njk" import dprContentSlide %}
 {% from "components/content-slide-cards/view.njk" import dprContentSlideCards %}
 {% from "components/table-card-group/view.njk" import dprTableCardGroup %}
+{% from "components/async-request-list/view.njk" import dprAsyncRequestList %}
+{% from "components/recently-viewed-list/view.njk" import dprRecentlyViewedList %}
 {% from "components/reports-list/view.njk" import dprReportsList %}
 
 {% block content %}
@@ -32,20 +34,24 @@
     <h1 class="govuk-heading-l">{{ title }}</h1>
 
     {% set requestedReportsHtml %}
-    {{ dprTableCardGroup(
+    {{ dprAsyncRequestList(
       requestedReports.head,
       requestedReports.cardData, 
       requestedReports.tableData,
-      requestedReports.total
+      requestedReports.total,
+      requestedReports.meta,
+      requestedReports.csrfToken
     )}}
     {% endset -%}
 
     {% set recentlyViewedHtml %}
-    {{ dprTableCardGroup(
+    {{ dprRecentlyViewedList(
       viewedReports.head, 
       viewedReports.cardData, 
       viewedReports.tableData,
-      viewedReports.total
+      viewedReports.total,
+      viewedReports.meta,
+      requestedReports.csrfToken
   ) }}
     {% endset -%}
 

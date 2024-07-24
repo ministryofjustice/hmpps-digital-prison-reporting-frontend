@@ -1,19 +1,21 @@
 /* eslint-disable class-methods-use-this */
-import { DprClientClass } from '../../DprClientClass.mjs'
+import DprPollingStatusClass from '../../DprPollingStatusClass.mjs'
 
-export default class dprAsyncPolling extends DprClientClass {
+export default class DprAsyncPolling extends DprPollingStatusClass {
   static getModuleName () {
     return 'async-polling-content'
   }
 
-  async initialise () {
-    this.POLLING_STATUSES = ['SUBMITTED', 'STARTED', 'PICKED']
-    this.POLLING_FREQUENCY = '2000' // 2 seconds
+  initialise () {
+    this.POLLING_STATUSES = this.getPollingStatuses()
+    this.POLLING_FREQUENCY = this.getPollingFrquency()
 
     this.statusSection = document.getElementById('async-request-polling-status')
     this.retryRequestButton = document.getElementById('retry-async-request')
     this.cancelRequestButton = document.getElementById('cancel-async-request')
     this.viewReportButton = document.getElementById('view-async-report-button')
+
+    this.requestData = this.statusSection.getAttribute('data-request-data')
 
     this.initCancelRequestButton()
     this.initPollingStatus()
@@ -21,9 +23,14 @@ export default class dprAsyncPolling extends DprClientClass {
 
   initPollingStatus () {
     const status = this.statusSection.getAttribute('data-current-status')
+
     if (this.POLLING_STATUSES.includes(status)) {
-      setTimeout(() => {
-        window.location.reload()
+      setInterval(async () => {
+        if (this.requestData) {
+          const meta = JSON.parse(this.requestData)
+          await this.getRequestStatus(meta, this.csrfToken)
+          window.location.reload()
+        }
       }, this.POLLING_FREQUENCY)
     }
   }

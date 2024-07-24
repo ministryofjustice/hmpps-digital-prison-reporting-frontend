@@ -1,10 +1,10 @@
 import type { RequestHandler, Router } from 'express'
 import AsyncFiltersUtils from '../components/async-filters/utils'
 import AsyncPollingUtils from '../components/async-polling/utils'
+import AsyncRequestListUtils from '../components/async-request-list/utils'
 
 import * as AsyncReportUtils from '../utils/renderAsyncReport'
 
-import AsyncReportslistUtils from '../utils/asyncReportsUtils'
 import { Services } from '../types/Services'
 import logger from '../utils/logger'
 
@@ -97,6 +97,15 @@ export default function routes({
     }
   }
 
+  const getStatusHandler: RequestHandler = async (req, res, next) => {
+    try {
+      const response = await AsyncRequestListUtils.getRequestStatus({ req, res, services })
+      res.send({ status: response.status })
+    } catch (error) {
+      res.send({ status: 'FAILED' })
+    }
+  }
+
   const pollingHandler: RequestHandler = async (req, res, next) => {
     try {
       const pollingRenderData = await AsyncPollingUtils.renderPolling({
@@ -141,14 +150,14 @@ export default function routes({
   router.get('/async-reports/:reportId/:variantId/request', getReportFiltersHandler, asyncErrorHandler)
   router.post('/requestReport/', asyncRequestHandler, asyncErrorHandler)
   router.post('/cancelRequest/', cancelRequestHandler, asyncErrorHandler)
+  router.post('/getStatus/', getStatusHandler)
   router.get('/async-reports/:reportId/:variantId/request/:executionId', pollingHandler, asyncErrorHandler)
   router.get('/async-reports/:reportId/:variantId/request/:tableId/report', getReportHandler, asyncErrorHandler)
-
   router.get('/async-reports/requested', async (req, res) => {
     res.render(`${templatePath}/async-reports`, {
       title: 'Requested Reports',
       layoutPath,
-      ...(await AsyncReportslistUtils.renderAsyncReportsList({
+      ...(await AsyncRequestListUtils.renderList({
         services,
         res,
       })),

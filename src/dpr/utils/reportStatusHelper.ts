@@ -15,10 +15,6 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
 
   try {
     const timeoutExemptStatuses = [RequestStatus.READY, RequestStatus.EXPIRED, RequestStatus.FAILED]
-    if (timeoutRequest(requestedAt) && !timeoutExemptStatuses.includes(currentStatus)) {
-      throw new Error('Request taking too long. Request Halted')
-    }
-
     const statusResponse = await services.reportingService.getAsyncReportStatus(
       token,
       reportId,
@@ -27,6 +23,10 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
       dataProductDefinitionsPath,
     )
     status = statusResponse.status as RequestStatus
+
+    if (timeoutRequest(requestedAt) && !timeoutExemptStatuses.includes(status)) {
+      throw new Error('Request taking too long. Request Halted')
+    }
 
     if (status === RequestStatus.FAILED) {
       errorMessage = statusResponse.error

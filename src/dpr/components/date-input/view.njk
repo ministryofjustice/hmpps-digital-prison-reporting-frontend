@@ -42,7 +42,7 @@
         } if not mandatory
       }) }}
 
-    {% if toggleMin %}
+    {% if toggleMin and min %}
       <a class="govuk-body-xs daterange-set-to-minmax" 
           data-set-to-input='{{ id }}' 
           data-set-min-max-value={{ min }} 
@@ -52,7 +52,7 @@
         </a>
     {% endif %}
 
-    {% if toggleMax %}
+    {% if toggleMax and max %}
       <a class="govuk-body-xs daterange-set-to-minmax" 
           data-set-to-input='{{ id }}' 
           data-set-min-max-value={{ max }} 

@@ -1,4 +1,4 @@
-{% from "components/table-card-group/view.njk" import dprTableCardGroup %}
+{% from "../table-card-group/view.njk" import dprTableCardGroup %}
 
 {% macro dprAsyncRequestList(head, cardData, tableData, total, meta, csrfToken) %}
   <div id="dpr-async-request-component" data-dpr-module="async-request-list" data-request-data='{{ meta | dump | safe }}' data-csrf-token="{{ csrfToken }}">

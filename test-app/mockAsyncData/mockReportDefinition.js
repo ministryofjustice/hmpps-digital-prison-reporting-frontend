@@ -181,8 +181,6 @@ const variant2 = {
         filter: {
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
-          min: '2003-02-01',
-          max: '2007-05-04',
         },
       },
       {
@@ -886,8 +884,7 @@ const variant8 = {
 const variant9 = {
   id: 'variantId-9',
   name: 'Page Summaries',
-  description:
-    'Test Variant 9 description - A report with summaries.',
+  description: 'Test Variant 9 description - A report with summaries.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
@@ -895,18 +892,22 @@ const variant9 = {
     {
       id: 'summary1',
       template: 'page-header',
-      fields: [{
-        name: 'total',
-        display: 'Total'
-      }]
+      fields: [
+        {
+          name: 'total',
+          display: 'Total',
+        },
+      ],
     },
     {
       id: 'summary2',
       template: 'page-header',
-      fields: [{
-        name: 'total',
-        display: 'Other Total'
-      }]
+      fields: [
+        {
+          name: 'total',
+          display: 'Other Total',
+        },
+      ],
     },
     {
       id: 'summary3',
@@ -914,18 +915,18 @@ const variant9 = {
       fields: [
         {
           name: 'percentGood',
-          display: 'Good (%)'
+          display: 'Good (%)',
         },
         {
           name: 'percentBad',
-          display: 'Bad (%)'
+          display: 'Bad (%)',
         },
         {
           name: 'percentUgly',
-          display: 'Ugly (%)'
-        }
-      ]
-    }
+          display: 'Ugly (%)',
+        },
+      ],
+    },
   ],
   specification: {
     template: 'list',
@@ -989,7 +990,7 @@ const variant9 = {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true
+            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -1012,7 +1013,7 @@ const variant9 = {
           type: 'text',
           pattern: 'Value 6\\.\\d',
           mandatory: false,
-        }
+        },
       },
       {
         name: 'section1',
@@ -1039,8 +1040,7 @@ const variant9 = {
 const variant10 = {
   id: 'variantId-10',
   name: 'Page Summaries and Sections',
-  description:
-    'Test Variant 10 description - A report with summaries and sections.',
+  description: 'Test Variant 10 description - A report with summaries and sections.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
@@ -1048,10 +1048,12 @@ const variant10 = {
     {
       id: 'summary1',
       template: 'page-header',
-      fields: [{
-        name: 'total',
-        display: 'Total'
-      }]
+      fields: [
+        {
+          name: 'total',
+          display: 'Total',
+        },
+      ],
     },
     {
       id: 'summary3',
@@ -1059,18 +1061,18 @@ const variant10 = {
       fields: [
         {
           name: 'percentGood',
-          display: 'Good (%)'
+          display: 'Good (%)',
         },
         {
           name: 'percentBad',
-          display: 'Bad (%)'
+          display: 'Bad (%)',
         },
         {
           name: 'percentUgly',
-          display: 'Ugly (%)'
-        }
-      ]
-    }
+          display: 'Ugly (%)',
+        },
+      ],
+    },
   ],
   specification: {
     template: 'list-section',
@@ -1135,7 +1137,7 @@ const variant10 = {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true
+            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -1158,7 +1160,7 @@ const variant10 = {
           type: 'text',
           pattern: 'Value 6\\.\\d',
           mandatory: false,
-        }
+        },
       },
       {
         name: 'section1',
@@ -1185,8 +1187,7 @@ const variant10 = {
 const variant11 = {
   id: 'variantId-11',
   name: 'Table Summaries',
-  description:
-    'Test Variant 11 description - A report with table summaries.',
+  description: 'Test Variant 11 description - A report with table summaries.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
@@ -1214,8 +1215,8 @@ const variant11 = {
           name: 'field4',
           display: 'Field 1',
           type: 'string',
-        }
-      ]
+        },
+      ],
     },
     {
       id: 'summary5',
@@ -1240,9 +1241,9 @@ const variant11 = {
           name: 'field4',
           display: 'Field 1',
           type: 'string',
-        }
-      ]
-    }
+        },
+      ],
+    },
   ],
   specification: {
     template: 'list',
@@ -1306,7 +1307,7 @@ const variant11 = {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true
+            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -1329,7 +1330,7 @@ const variant11 = {
           type: 'text',
           pattern: 'Value 6\\.\\d',
           mandatory: false,
-        }
+        },
       },
       {
         name: 'section1',
@@ -1357,13 +1358,37 @@ module.exports = {
   report: {
     id: 'test-report-1',
     name: 'Test Report',
-    variants: [variant1, variant2, variant3, variant4, variant5, variant6, variant7, variant8, variant9, variant10, variant11],
+    variants: [
+      variant1,
+      variant2,
+      variant3,
+      variant4,
+      variant5,
+      variant6,
+      variant7,
+      variant8,
+      variant9,
+      variant10,
+      variant11,
+    ],
   },
   reports: [
     {
       id: 'test-report-1',
       name: 'Test Report',
-      variants: [variant1, variant2, variant3, variant4, variant5, variant6, variant7, variant8, variant9, variant10, variant11],
+      variants: [
+        variant1,
+        variant2,
+        variant3,
+        variant4,
+        variant5,
+        variant6,
+        variant7,
+        variant8,
+        variant9,
+        variant10,
+        variant11,
+      ],
     },
   ],
 }

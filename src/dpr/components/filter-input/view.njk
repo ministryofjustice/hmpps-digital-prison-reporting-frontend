@@ -24,7 +24,7 @@
     }
   ].concat(options) %}
 
-  <div class="dpr-filter-item">
+  <div class="dpr-filter-item {% if filterType === 'daterange' %}dpr-filter-item__daterange{% endif %}">
     {%- if filterType === 'select' %}
 
       {{ govukSelect({
@@ -43,7 +43,8 @@
 
     {% elif filterType === 'radio' %}
 
-      {{ govukRadios({
+      <div class="dpr-filter-item__radio">
+        {{ govukRadios({
         id: id,
         name: name,
         classes: "govuk-radios--small",
@@ -59,6 +60,7 @@
           required: true
         } if mandatory else null
       }) }}
+      </div>
 
     {% elif filterType === 'date' %}
 
@@ -97,6 +99,7 @@
           text: text,
           classes: 'govuk-!-font-weight-bold dpr-inline-label'
         },
+        classes: 'dpr-text-input',
         attributes: {
           pattern: pattern,
           required: true

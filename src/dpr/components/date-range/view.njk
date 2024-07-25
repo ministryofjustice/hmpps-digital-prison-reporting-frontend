@@ -13,8 +13,9 @@
         {{ data.text }}
       </legend>
 
-      {# START #}
-      {{ dprDate(
+      <div class="dpr-date-range-container">
+        {# START #}
+        {{ dprDate(
         {
           name: data.name,
           value: data.value.start,
@@ -28,8 +29,8 @@
         false
       )}}
 
-      {# END #}
-      {{ dprDate(
+        {# END #}
+        {{ dprDate(
         {
           name: data.name,
           value: data.value.end,
@@ -41,6 +42,7 @@
         '.end',
         false
       )}}
+      </div>
     </fieldset>
   </div>
 {% endmacro %}

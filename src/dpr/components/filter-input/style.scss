@@ -10,4 +10,12 @@
     display: contents;
     width: fit-content;
   }
+
+  .dpr-text-input {
+    margin-top: 5px;
+  }
+}
+
+.dpr-filter-item.dpr-filter-item__daterange {
+  // grid-column: span 2;
 }

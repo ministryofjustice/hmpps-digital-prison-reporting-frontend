@@ -16,12 +16,17 @@
   }
 
   .dpr-filter-item {
-    border-bottom: 2px Solid govuk-colour("mid-grey");
     background-color: lighten(govuk-colour("light-grey"), 3%);
     padding: govuk-spacing(4);
 
     .govuk-form-group {
       margin-bottom: govuk-spacing(2);
+    }
+
+    .dpr-filter-item__radio {
+      .govuk-form-group {
+          margin-bottom: govuk-spacing(0);
+        }
     }
   }
 

@@ -1,6 +1,10 @@
 .dpr-autocomplete-text-input {
   position: relative;
 
+  .govuk-input__wrapper {
+    margin-top: 5px
+  }
+  
   ul {
     background-color: white;
     display: inline-block;

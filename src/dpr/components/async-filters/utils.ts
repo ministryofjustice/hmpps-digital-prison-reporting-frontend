@@ -10,19 +10,50 @@ import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import DefinitionUtils from '../../utils/definitionUtils'
 import { getDuplicateRequestIds } from '../../utils/reportSummaryHelper'
 import { Services } from '../../types/Services'
+import { RenderFiltersReturnValue } from './types'
 
 /**
- * Initialises the filters from the definition data
+ * Initialises the filters & Sort from the definition data
  *
  * @param {components['schemas']['VariantDefinition']} definition
  * @return {*}
  */
 const initFiltersFromDefinition = (definition: components['schemas']['VariantDefinition']) => {
+  return {
+    filters: getFiltersFromDefinition(definition),
+    sortBy: getSortByFromDefinition(definition),
+  }
+}
+
+/**
+ * Initialises the sortData from the definition
+ *
+ * @param {components['schemas']['VariantDefinition']} definition
+ * @return {*}
+ */
+const getSortByFromDefinition = (definition: components['schemas']['VariantDefinition']) => {
   const sortBy = SortHelper.sortByTemplate()
-  const filters = definition.specification.fields
+  sortBy[0].options = definition.specification.fields
+    .filter((f) => f.sortable)
+    .map((f) => {
+      if (f.defaultsort) sortBy[0].value = f.name
+      return { value: f.name, text: f.display }
+    })
+
+  return sortBy
+}
+
+/**
+ * Initialises the filters from the definition
+ *
+ * @param {components['schemas']['VariantDefinition']} definition
+ * @return {*}
+ */
+const getFiltersFromDefinition = (definition: components['schemas']['VariantDefinition']) => {
+  return definition.specification.fields
     .filter((f) => f.filter)
     .map((f) => {
-      const { display: text, name, filter, sortable, defaultsort } = f
+      const { display: text, name, filter } = f
       const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern } = filter
 
       let filterData: FilterValue = {
@@ -65,16 +96,8 @@ const initFiltersFromDefinition = (definition: components['schemas']['VariantDef
         }
       }
 
-      if (sortable) sortBy[0].options.push({ value: name, text })
-      if (defaultsort) sortBy[0].value = name
-
       return filterData
     })
-
-  return {
-    filters,
-    sortBy,
-  }
 }
 
 /**
@@ -88,7 +111,7 @@ const initFiltersFromDefinition = (definition: components['schemas']['VariantDef
  * @param {string} tableId
  * @return {*}  {Promise<string>}
  */
-const updateStore = async (
+export const updateStore = async (
   req: Request,
   services: Services,
   fields: components['schemas']['FieldDefinition'][],
@@ -211,7 +234,12 @@ export default {
    * @param {AsyncReportUtilsParams} { req, res, dataSources }
    * @return {*}
    */
-  renderFilters: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
+  renderFilters: async ({
+    req,
+    res,
+    services,
+    next,
+  }: AsyncReportUtilsParams): Promise<RenderFiltersReturnValue | boolean> => {
     try {
       const token = res.locals.user?.token ? res.locals.user.token : 'token'
       const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'

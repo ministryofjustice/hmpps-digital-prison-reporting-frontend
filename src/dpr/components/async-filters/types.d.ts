@@ -43,3 +43,18 @@ interface RequestedReportStateItem {
     failed?: string
   }
 }
+
+export interface RenderFiltersReturnValue {
+  reportData: {
+    reportName: string
+    variantName: string
+    description: string
+    reportId: string
+    variantId: string
+    definitionPath: string | string[] | ParsedQs | ParsedQs[]
+    csrfToken: string
+    template: string
+  }
+  filters: FilterValue[]
+  sortBy: FilterValue[]
+}

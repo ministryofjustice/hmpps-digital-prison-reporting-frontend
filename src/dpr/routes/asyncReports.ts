@@ -7,6 +7,7 @@ import * as AsyncReportUtils from '../utils/renderAsyncReport'
 
 import { Services } from '../types/Services'
 import logger from '../utils/logger'
+import { RenderFiltersReturnValue } from '../components/async-filters/types'
 
 export default function routes({
   router,
@@ -39,7 +40,7 @@ export default function routes({
 
   const getReportFiltersHandler: RequestHandler = async (req, res, next) => {
     try {
-      const filtersRenderData = await AsyncFiltersUtils.renderFilters({
+      const filtersRenderData = <RenderFiltersReturnValue>await AsyncFiltersUtils.renderFilters({
         req,
         res,
         services,

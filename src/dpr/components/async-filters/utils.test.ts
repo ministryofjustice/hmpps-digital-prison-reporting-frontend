@@ -41,6 +41,7 @@ describe('AsyncFiltersUtils', () => {
         setReportTimestamp: jest.fn(),
       },
       recentlyViewedStoreService: {
+        getAllReportsByVariantId: jest.fn().mockResolvedValue([]),
         setReportTimestamp: jest.fn(),
       },
     } as unknown as Services
@@ -67,8 +68,6 @@ describe('AsyncFiltersUtils', () => {
         'filters.field4': 'Fezzick',
         sortBy: 'field5',
         sortDirection: 'true',
-        retryId: 'retryId',
-        refreshId: 'refreshId',
         search: 'search',
         variantId: 'variantId',
       },

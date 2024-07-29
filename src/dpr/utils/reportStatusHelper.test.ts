@@ -4,7 +4,7 @@ import { RequestStatus } from '../types/AsyncReport'
 import { Services } from '../types/Services'
 import * as ReportStatusHelper from './reportStatusHelper'
 
-describe('ReportStatusUtils', () => {
+describe('ReportStatusHelper', () => {
   const services: Services = {
     asyncReportsStore: {},
     recentlyViewedStoreService: {},
@@ -102,7 +102,7 @@ describe('ReportStatusUtils', () => {
       const req = {
         body: {
           executionId: 'executionId',
-          status: RequestStatus.FINISHED,
+          status: RequestStatus.READY,
           requestedAt: new Date(),
         },
       } as unknown as Request

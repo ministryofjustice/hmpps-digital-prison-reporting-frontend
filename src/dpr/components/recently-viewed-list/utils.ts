@@ -22,7 +22,7 @@ export const formatCardData = (reportData: RecentlyViewedReportData): CardData =
 
   let href
   if (status === RequestStatus.EXPIRED) {
-    href = `${url.request.fullUrl}&retryId=${executionId}`
+    href = `${url.request.fullUrl}`
   } else {
     status = RequestStatus.READY
     href = url.report.fullUrl
@@ -48,7 +48,7 @@ export const formatCardData = (reportData: RecentlyViewedReportData): CardData =
 }
 
 export const filterReports = (report: RecentlyViewedReportData) => {
-  return !report.timestamp.retried && !report.timestamp.refresh
+  return report.executionId.length !== 0
 }
 
 export default {

@@ -16,7 +16,6 @@ export default class AsyncFilters extends DprQueryParamClass {
 
     this.initResetButton()
     this.initSubmitButton()
-    this.initRetryInputFromQueryParams()
     this.initFormData()
   }
 
@@ -27,8 +26,6 @@ export default class AsyncFilters extends DprQueryParamClass {
     document.getElementById('async-filters-form-search').value = search
 
     const params = new URLSearchParams(search)
-    params.delete('retryId')
-    params.delete('refreshId')
     const href = `${origin}${pathname}?${params.toString()}`
 
     document.getElementById('async-filters-form-href').value = href
@@ -48,17 +45,5 @@ export default class AsyncFilters extends DprQueryParamClass {
       this.clearQueryParams()
       window.location.reload()
     })
-  }
-
-  initRetryInputFromQueryParams () {
-    this.queryParams = new URLSearchParams(window.location.search)
-    const retryId = this.queryParams.get('retryId')
-    const refreshId = this.queryParams.get('refreshId')
-    if (retryId) {
-      document.getElementById('async-filters-retry-id').value = retryId
-    }
-    if (refreshId) {
-      document.getElementById('async-filters-refresh-id').value = refreshId
-    }
   }
 }

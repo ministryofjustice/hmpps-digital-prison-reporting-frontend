@@ -46,7 +46,7 @@ describe('AsyncRequestListUtils', () => {
     it('should set the correct href and timestamp for ABORTED status', async () => {
       const result = setDataFromStatus(RequestStatus.ABORTED, reportData)
       const expectedResult = {
-        href: 'requestUrl&retryId=executionId',
+        href: 'requestUrl',
         timestamp: 'Aborted at: Invalid Date',
       }
       expect(result).toEqual(expectedResult)
@@ -64,7 +64,7 @@ describe('AsyncRequestListUtils', () => {
     it('should set the correct href and timestamp for EXPIRED status', async () => {
       const result = setDataFromStatus(RequestStatus.EXPIRED, reportData)
       const expectedResult = {
-        href: 'requestUrl&retryId=executionId',
+        href: 'requestUrl',
         timestamp: 'Expired at: Invalid Date',
       }
       expect(result).toEqual(expectedResult)

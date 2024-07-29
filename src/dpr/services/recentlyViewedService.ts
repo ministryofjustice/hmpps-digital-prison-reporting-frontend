@@ -36,6 +36,12 @@ export default class RecentlyViewedStoreService extends UserStoreService {
     return this.recentlyViewedReports
   }
 
+  async getAllReportsByVariantId(variantId: string) {
+    return this.recentlyViewedReports.filter((report) => {
+      return report.variantId === variantId
+    })
+  }
+
   reportExists(id: string) {
     return this.recentlyViewedReports.filter((rec) => rec.executionId === id).length > 0
   }
@@ -75,6 +81,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
         origin: url.origin,
         request: {
           fullUrl: url.request.fullUrl,
+          search: url.request.search,
         },
         report: {
           fullUrl: url.report.fullUrl,

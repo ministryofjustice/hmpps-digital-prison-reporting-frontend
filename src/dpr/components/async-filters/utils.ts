@@ -33,12 +33,23 @@ const initFiltersFromDefinition = (definition: components['schemas']['VariantDef
  */
 const getSortByFromDefinition = (definition: components['schemas']['VariantDefinition']) => {
   const sortBy = SortHelper.sortByTemplate()
-  sortBy[0].options = definition.specification.fields
+  const options = definition.specification.fields
     .filter((f) => f.sortable)
     .map((f) => {
       if (f.defaultsort) sortBy[0].value = f.name
       return { value: f.name, text: f.display }
     })
+
+  if (options.length) {
+    sortBy[0].options = definition.specification.fields
+      .filter((f) => f.sortable)
+      .map((f) => {
+        if (f.defaultsort) sortBy[0].value = f.name
+        return { value: f.name, text: f.display }
+      })
+  } else {
+    sortBy.splice(0, 1)
+  }
 
   return sortBy
 }
@@ -119,16 +130,27 @@ export const updateStore = async (
   executionId: string,
   tableId: string,
 ): Promise<string> => {
-  const { retryId, refreshId, search, variantId } = req.body
+  const { search, variantId } = req.body
   const { query, filterData, querySummary, sortData } = querySummaryData
 
-  // 1. check for duplicate requests and flag them with a timestamp
+  // 1. check for duplicate requests and remove them from the request list
   const requestedReports = await services.asyncReportsStore.getAllReportsByVariantId(variantId)
+  const viewedReports = await services.recentlyViewedStoreService.getAllReportsByVariantId(variantId)
+
   const duplicateRequestIds = getDuplicateRequestIds(search, requestedReports)
   if (duplicateRequestIds.length) {
     await Promise.all(
       duplicateRequestIds.map(async (id: string) => {
-        await setTimestamps(id, services, 'retry')
+        await await services.asyncReportsStore.removeReport(id)
+      }),
+    )
+  }
+
+  const duplicateViewedReportIds = getDuplicateRequestIds(search, viewedReports)
+  if (duplicateViewedReportIds.length) {
+    await Promise.all(
+      duplicateViewedReportIds.map(async (id: string) => {
+        await await services.recentlyViewedStoreService.removeReport(id)
       }),
     )
   }
@@ -146,16 +168,7 @@ export const updateStore = async (
     querySummary,
   )
 
-  // 3. Add refresh + retry timestamps
-  if (retryId) await setTimestamps(retryId, services, 'retry')
-  if (refreshId) await setTimestamps(refreshId, services, 'refresh')
-
   return reportData.url.polling.pathname
-}
-
-const setTimestamps = async (id: string, services: Services, type: 'retry' | 'refresh') => {
-  await services.asyncReportsStore.setReportTimestamp(id, type)
-  await services.recentlyViewedStoreService.setReportTimestamp(id, type)
 }
 
 interface querySummaryResult {

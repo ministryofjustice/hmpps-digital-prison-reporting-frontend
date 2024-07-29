@@ -42,7 +42,6 @@ export const setDataFromStatus = (status: RequestStatus, requestedReportsData: A
   let timestamp
   let href
   const { url, timestamp: time } = requestedReportsData
-  const retryParam = `&retryId=${requestedReportsData.executionId}`
   switch (status) {
     case RequestStatus.FAILED: {
       const failedTime = time.failed ? new Date(time.failed).toLocaleString() : new Date().toLocaleString()
@@ -51,7 +50,7 @@ export const setDataFromStatus = (status: RequestStatus, requestedReportsData: A
       break
     }
     case RequestStatus.ABORTED: {
-      href = `${url.request.fullUrl}${retryParam}`
+      href = `${url.request.fullUrl}`
       timestamp = `Aborted at: ${new Date(time.aborted).toLocaleString()}`
       break
     }
@@ -60,7 +59,7 @@ export const setDataFromStatus = (status: RequestStatus, requestedReportsData: A
       timestamp = `Ready at: ${new Date(time.completed).toLocaleString()}`
       break
     case RequestStatus.EXPIRED: {
-      href = `${url.request.fullUrl}${retryParam}`
+      href = `${url.request.fullUrl}`
       timestamp = `Expired at: ${new Date(time.expired).toLocaleString()}`
       break
     }
@@ -82,7 +81,7 @@ export const setDataFromStatus = (status: RequestStatus, requestedReportsData: A
 }
 
 export const filterReports = (report: AsyncReportData) => {
-  return !report.timestamp.lastViewed && !report.timestamp.retried
+  return !report.timestamp.lastViewed
 }
 
 export default {

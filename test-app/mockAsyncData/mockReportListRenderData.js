@@ -177,7 +177,7 @@ const mockGetReportListRenderData = {
         disabled: false,
         tooltipText: 'Refresh report',
         ariaLabelText: 'Refresh report',
-        href: 'fullUrl&refreshId=executionId',
+        href: 'fullUrl',
       },
       {
         id: 'dpr-button-printable',

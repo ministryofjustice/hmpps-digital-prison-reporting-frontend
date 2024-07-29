@@ -52,7 +52,7 @@ const initReportActions = (
   if (executionId) {
     actions.push({
       ...BUTTON_TEMPLATES.refresh,
-      href: `${url}&refreshId=${executionId}`,
+      href: url,
     })
   }
 

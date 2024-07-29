@@ -117,7 +117,7 @@ export default class DprQueryParamClass extends DprClientClass {
    * @memberof DprQueryParamClass
    */
   clearQueryParams () {
-    const sacredParams = ['dataProductDefinitionsPath', 'retryId']
+    const sacredParams = ['dataProductDefinitionsPath']
     this.queryParams = new URLSearchParams(window.location.search)
     const params = Array.from(this.queryParams)
     params.forEach((p) => {

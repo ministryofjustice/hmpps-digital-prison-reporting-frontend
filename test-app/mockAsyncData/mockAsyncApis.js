@@ -9,7 +9,7 @@ const mockAPIStatus = []
 const happyStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED']
 const sadStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FAILED']
 const sadServerStatuses = ['SUBMITTED', 'PICKED', 500]
-const expiredStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED', 'READY', 'EXPIRED']
+const expiredStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED', 'READY', 500]
 const RESULT_COUNT = 100
 
 const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
@@ -101,9 +101,9 @@ const getAsyncSummaryReport = (token, reportId, variantId, tableId, summaryId) =
     case 'summary3':
       return Promise.resolve([{ percentGood: 45, percentBad: 10, percentUgly: 98 }])
     case 'summary4':
-      return Promise.resolve([{ field1: 57, field2: 1, field3: 12219380923, field4: '3 Freds'  }])
+      return Promise.resolve([{ field1: 57, field2: 1, field3: 12219380923, field4: '3 Freds' }])
     case 'summary5':
-      return Promise.resolve([{ field1: 'Percentageness', field2: '10%', field3: '20%', field4: '90%'  }])
+      return Promise.resolve([{ field1: 'Percentageness', field2: '10%', field3: '20%', field4: '90%' }])
     default:
       return Promise.resolve([{ total: 52 }])
   }

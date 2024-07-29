@@ -1,5 +1,6 @@
 import { CardData } from '../components/table-card-group/types'
 import { AsyncReportData } from '../types/AsyncReport'
+import { RecentlyViewedReportData } from '../types/RecentlyViewed'
 
 export const createDetailsHtml = (title: string, content: string) => {
   return `<details class="govuk-details">
@@ -19,11 +20,22 @@ export const createSummaryHtml = (card: CardData) => {
   return `<ul class="dpr-card-group__item__filters-list">${summaryHtml}</ul>`
 }
 
-export const getDuplicateRequestIds = (newReportSearchParams: string, existingReports: AsyncReportData[]) => {
+/**
+ * Gets the execution IDs of duplicate requests
+ * - Checks whether the request query are the same
+ *
+ * @param {string} newReportSearchParams
+ * @param {AsyncReportData[]} existingReports
+ * @return {string[]}  ids of the duplicate requests
+ */
+export const getDuplicateRequestIds = (
+  newReportSearchParams: string,
+  existingReports: AsyncReportData[] | RecentlyViewedReportData[],
+) => {
   const duplicates: string[] = []
   const newQueryParams = new URLSearchParams(newReportSearchParams)
 
-  existingReports.forEach((existingReportData: AsyncReportData) => {
+  existingReports.forEach((existingReportData: AsyncReportData | RecentlyViewedReportData) => {
     const matches: boolean[] = []
     const existingQueryParams = new URLSearchParams(existingReportData.url.request.search)
 

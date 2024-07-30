@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 
@@ -24,7 +25,10 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
     )
     status = statusResponse.status as RequestStatus
 
-    if (timeoutRequest(requestedAt) && !timeoutExemptStatuses.includes(status)) {
+    if (
+      shouldTimeoutRequest({ requestedAt, compareTime: new Date(), durationMins: 15 }) &&
+      !timeoutExemptStatuses.includes(status)
+    ) {
       throw new Error('Request taking too long. Request Halted')
     }
 
@@ -90,19 +94,25 @@ export const getExpiredStatus = async ({ req, res, services }: AsyncReportUtilsP
   }
 }
 
-const timeoutRequest = (requestTime: Date) => {
-  if (!requestTime) return false
-  const TIMEOUT_MINS_MAX = 15
-  const today: Date = new Date()
-  const requested: Date = new Date(requestTime)
-  const diffMs = today.valueOf() - requested.valueOf()
-  const diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000)
-  const res = diffMins >= TIMEOUT_MINS_MAX
-  return res
+export const shouldTimeoutRequest = ({
+  requestedAt,
+  compareTime,
+  durationMins,
+}: {
+  requestedAt: Date
+  compareTime: Date
+  durationMins: number
+}) => {
+  const dateOne = moment(compareTime)
+  const dateTwo = moment(requestedAt)
+
+  const result = dateOne.diff(dateTwo, 'minutes')
+
+  return result >= durationMins
 }
 
 export default {
   getStatus,
   getExpiredStatus,
-  timeoutRequest,
+  shouldTimeoutRequest,
 }

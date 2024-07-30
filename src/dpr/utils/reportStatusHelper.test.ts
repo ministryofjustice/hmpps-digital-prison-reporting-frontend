@@ -79,10 +79,13 @@ describe('ReportStatusHelper', () => {
         getAsyncReportStatus: jest.fn().mockResolvedValue({ status: RequestStatus.STARTED }),
       } as unknown as ReportingService
 
+      const requestedAt = new Date()
+      requestedAt.setMinutes(requestedAt.getMinutes() - 20)
+
       const req = {
         body: {
           status: RequestStatus.STARTED,
-          requestedAt: '2024-07-23T10:00:22.834Z',
+          requestedAt,
         },
       } as unknown as Request
 
@@ -130,6 +133,38 @@ describe('ReportStatusHelper', () => {
 
       expect(result.isExpired).toBeFalsy()
       expect(result.executionId).toEqual('executionId')
+    })
+  })
+
+  describe('timeoutRequest', () => {
+    it('should timeout the request', async () => {
+      const requestedAt = new Date()
+      requestedAt.setMinutes(requestedAt.getMinutes() - 20)
+
+      const compareTime = new Date()
+
+      const result = ReportStatusHelper.shouldTimeoutRequest({
+        requestedAt,
+        compareTime,
+        durationMins: 15,
+      })
+
+      expect(result).toBeTruthy()
+    })
+
+    it('should timeout the request', async () => {
+      const requestedAt = new Date()
+      requestedAt.setMinutes(requestedAt.getMinutes() - 10)
+
+      const compareTime = new Date()
+
+      const result = ReportStatusHelper.shouldTimeoutRequest({
+        requestedAt,
+        compareTime,
+        durationMins: 15,
+      })
+
+      expect(result).toBeFalsy()
     })
   })
 })

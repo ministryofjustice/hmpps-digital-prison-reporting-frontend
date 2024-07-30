@@ -209,7 +209,7 @@ export default class DataTableBuilder {
       })
   }
 
-  private mapSectionSummary(template: SummaryTemplate, sectionDescription: String): Cell[][] {
+  private mapSectionSummary(template: SummaryTemplate, sectionDescription: string): Cell[][] {
     const { sections } = this.specification
 
     if (this.reportSummaries[template]) {
@@ -218,7 +218,7 @@ export default class DataTableBuilder {
           .filter((rowData) => this.getSectionDescription(sections, rowData) === sectionDescription)
           .map((rowData) =>
             this.mapRow(rowData, `dpr-report-summary-cell dpr-report-summary-cell-${template}`, reportSummary.fields),
-        ),
+          ),
       )
     }
     return []

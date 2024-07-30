@@ -1073,6 +1073,58 @@ const variant10 = {
         },
       ],
     },
+    {
+      id: 'summary6',
+      template: 'table-header',
+      fields: [
+        {
+          name: 'field1',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field2',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field3',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field4',
+          display: 'Field 1',
+          type: 'string',
+        },
+      ],
+    },
+    {
+      id: 'summary7',
+      template: 'table-footer',
+      fields: [
+        {
+          name: 'field1',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field2',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field3',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field4',
+          display: 'Field 1',
+          type: 'string',
+        },
+      ],
+    },
   ],
   specification: {
     template: 'list-section',

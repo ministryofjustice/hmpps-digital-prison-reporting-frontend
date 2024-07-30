@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v3.20.0
+
+- Section summaries.
+
 ## v3.18.0
 
 - Header and footer page summaries.

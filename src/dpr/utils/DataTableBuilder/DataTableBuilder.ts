@@ -186,6 +186,15 @@ export default class DataTableBuilder {
       .flatMap((sectionDescription) => {
         const count = sectionedData[sectionDescription].length
         const countDescription = `${count} result${count === 1 ? '' : 's'}`
+        const mappedHeaderSummary = this.mapSectionSummary('table-header', sectionDescription)
+        const mappedTableData = sectionedData[sectionDescription]
+        const mappedSectionSummary = this.mapSectionSummary('section-footer', sectionDescription)
+        const mappedFooterSummary = this.mapSectionSummary('table-footer', sectionDescription)
+
+        const tableContent = mappedHeaderSummary
+          .concat(mappedTableData)
+          .concat(mappedSectionSummary)
+          .concat(mappedFooterSummary)
 
         return [
           [
@@ -195,9 +204,24 @@ export default class DataTableBuilder {
             },
           ],
           headerRow,
-          ...sectionedData[sectionDescription],
+          ...tableContent,
         ]
       })
+  }
+
+  private mapSectionSummary(template: SummaryTemplate, sectionDescription: String): Cell[][] {
+    const { sections } = this.specification
+
+    if (this.reportSummaries[template]) {
+      return this.reportSummaries[template].flatMap((reportSummary) =>
+        reportSummary.data
+          .filter((rowData) => this.getSectionDescription(sections, rowData) === sectionDescription)
+          .map((rowData) =>
+            this.mapRow(rowData, `dpr-report-summary-cell dpr-report-summary-cell-${template}`, reportSummary.fields),
+        ),
+      )
+    }
+    return []
   }
 
   withHeaderSortOptions(reportQuery: ReportQuery) {

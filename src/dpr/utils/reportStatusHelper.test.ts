@@ -152,7 +152,7 @@ describe('ReportStatusHelper', () => {
       expect(result).toBeTruthy()
     })
 
-    it('should timeout the request', async () => {
+    it('should not timeout the request', async () => {
       const requestedAt = new Date()
       requestedAt.setMinutes(requestedAt.getMinutes() - 10)
 

@@ -103,10 +103,10 @@ export const shouldTimeoutRequest = ({
   compareTime: Date
   durationMins: number
 }) => {
-  const dateOne = moment(compareTime)
-  const dateTwo = moment(requestedAt)
+  const compareDate = moment(compareTime)
+  const requestDate = moment(requestedAt)
 
-  const result = dateOne.diff(dateTwo, 'minutes')
+  const result = compareDate.diff(requestDate, 'minutes')
 
   return result >= durationMins
 }

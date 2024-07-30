@@ -15,7 +15,7 @@ export default {
       },
       {
         text: 'Direction',
-        name: 'sortAsc',
+        name: 'sortedAsc',
         type: 'Radio' as FilterType,
         options: [
           {

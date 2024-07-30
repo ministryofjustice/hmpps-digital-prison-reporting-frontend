@@ -114,7 +114,7 @@ const mockRenderFiltersData = {
     },
     {
       text: 'Direction',
-      name: 'sortAsc',
+      name: 'sortedAsc',
       type: 'Radio',
       options: [
         {

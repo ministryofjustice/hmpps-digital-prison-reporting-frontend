@@ -62,20 +62,20 @@ describe('AsyncReportStoreService', () => {
         'field3.start': '2003-02-01',
         'field3.end': '2006-05-04',
       }
-      const mockSortData = { sortColumn: 'field1', sortAsc: 'true' }
+      const mockSortData = { sortColumn: 'field1', sortedAsc: 'true' }
       const mockQuery = {
         'filters.field1': 'value1.2',
         'filters.field3.start': '2003-02-01',
         'filters.field3.end': '2006-05-04',
         sortColumn: 'field1',
-        sortAsc: 'true',
+        sortedAsc: 'true',
       }
       const mockSummary = [
         { name: 'field1', value: 'value1.2' },
         { name: 'field3.start', value: '2003-02-01' },
         { name: 'field3.end', value: '2006-05-04' },
         { name: 'sortColumn', value: 'field1' },
-        { name: 'sortAsc', value: 'true' },
+        { name: 'sortedAsc', value: 'true' },
       ]
       await asyncReportsStore.addReport(mockreportData, mockFiltersData, mockSortData, mockQuery, mockSummary)
 
@@ -102,9 +102,9 @@ describe('AsyncReportStoreService', () => {
           sortBy: {
             data: {
               sortColumn: 'field1',
-              sortAsc: 'true',
+              sortedAsc: 'true',
             },
-            queryString: 'sortColumn=field1&sortAsc=true',
+            queryString: 'sortColumn=field1&sortedAsc=true',
           },
           url: {
             origin: 'origin',
@@ -125,7 +125,7 @@ describe('AsyncReportStoreService', () => {
               'filters.field3.start': '2003-02-01',
               'filters.field3.end': '2006-05-04',
               sortColumn: 'field1',
-              sortAsc: 'true',
+              sortedAsc: 'true',
             },
             summary: [
               {
@@ -145,7 +145,7 @@ describe('AsyncReportStoreService', () => {
                 value: 'field1',
               },
               {
-                name: 'sortAsc',
+                name: 'sortedAsc',
                 value: 'true',
               },
             ],

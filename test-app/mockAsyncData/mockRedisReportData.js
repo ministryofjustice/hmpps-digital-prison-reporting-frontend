@@ -23,18 +23,18 @@ const mockRequestedReports = [
     sortBy: {
       data: {
         sortColumn: 'field1',
-        sortAsc: 'true',
+        sortedAsc: 'true',
       },
-      queryString: 'sortColumn=field1&sortAsc=true',
+      queryString: 'sortColumn=field1&sortedAsc=true',
     },
     url: {
       origin: 'http://localhost:3010',
       request: {
         fullUrl:
-          'http://localhost:3010/async-reports/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortAsc=true',
+          'http://localhost:3010/async-reports/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
         pathname: '/async-reports/test-report-1/variantId-1/request',
         search:
-          '?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortAsc=true',
+          '?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
       },
       polling: {
         fullUrl: 'http://localhost:3010/async-reports/test-report-1/variantId-1/request/exId_1721738244284',
@@ -50,7 +50,7 @@ const mockRequestedReports = [
         'filters.field3.end': '2006-05-04',
         'filters.field7': '2005-02-01',
         sortColumn: 'field1',
-        sortAsc: 'true',
+        sortedAsc: 'true',
       },
       summary: [
         {
@@ -112,18 +112,18 @@ const mockRequestedReports = [
     sortBy: {
       data: {
         sortColumn: 'field1',
-        sortAsc: 'true',
+        sortedAsc: 'true',
       },
-      queryString: 'sortColumn=field1&sortAsc=true',
+      queryString: 'sortColumn=field1&sortedAsc=true',
     },
     url: {
       origin: 'http://localhost:3010',
       request: {
         fullUrl:
-          'http://localhost:3010/async-reports/test-report-2/variantId-2/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortAsc=true',
+          'http://localhost:3010/async-reports/test-report-2/variantId-2/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
         pathname: '/async-reports/test-report-2/variantId-2/request',
         search:
-          '?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortAsc=true',
+          '?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
       },
       polling: {
         fullUrl: 'http://localhost:3010/async-reports/test-report-2/variantId-2/request/exId_1721738244285',
@@ -139,7 +139,7 @@ const mockRequestedReports = [
         'filters.field3.end': '2006-05-04',
         'filters.field7': '2005-02-01',
         sortColumn: 'field1',
-        sortAsc: 'true',
+        sortedAsc: 'true',
       },
       summary: [
         {
@@ -202,18 +202,18 @@ const mockRequestedReports = [
     sortBy: {
       data: {
         sortColumn: 'field1',
-        sortAsc: 'true',
+        sortedAsc: 'true',
       },
-      queryString: 'sortColumn=field1&sortAsc=true',
+      queryString: 'sortColumn=field1&sortedAsc=true',
     },
     url: {
       origin: 'http://localhost:3010',
       request: {
         fullUrl:
-          'http://localhost:3010/async-reports/test-report-3/variantId-3/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortAsc=true',
+          'http://localhost:3010/async-reports/test-report-3/variantId-3/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
         pathname: '/async-reports/test-report-3/variantId-3/request',
         search:
-          '?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortAsc=true',
+          '?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
       },
       polling: {
         fullUrl: 'http://localhost:3010/async-reports/test-report-3/variantId-3/request/exId_1721738244287',
@@ -229,7 +229,7 @@ const mockRequestedReports = [
         'filters.field3.end': '2006-05-04',
         'filters.field7': '2005-02-01',
         sortColumn: 'field1',
-        sortAsc: 'true',
+        sortedAsc: 'true',
       },
       summary: [
         {
@@ -286,7 +286,7 @@ const mockViewedReports = [
       origin: 'http://localhost:3010',
       request: {
         fullUrl:
-          'http://localhost:3010/async-reports/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortAsc=true',
+          'http://localhost:3010/async-reports/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
       },
       report: {
         fullUrl: 'http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1721738907385/report',
@@ -304,7 +304,7 @@ const mockViewedReports = [
         'filters.field3.end': '2006-05-04',
         'filters.field7': '2005-02-01',
         sortColumn: 'field1',
-        sortAsc: 'true',
+        sortedAsc: 'true',
       },
       summary: [
         {
@@ -352,7 +352,7 @@ const mockViewedReports = [
       origin: 'http://localhost:3010',
       request: {
         fullUrl:
-          'http://localhost:3010/async-reports/test-report-2/variantId-2/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortAsc=true',
+          'http://localhost:3010/async-reports/test-report-2/variantId-2/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
       },
       report: {
         fullUrl: 'http://localhost:3010/async-reports/test-report-2/variantId-2/request/tblId_1721738907386/report',
@@ -370,7 +370,7 @@ const mockViewedReports = [
         'filters.field3.end': '2006-05-04',
         'filters.field7': '2005-02-01',
         sortColumn: 'field1',
-        sortAsc: 'true',
+        sortedAsc: 'true',
       },
       summary: [
         {
@@ -418,7 +418,7 @@ const mockViewedReports = [
       origin: 'http://localhost:3010',
       request: {
         fullUrl:
-          'http://localhost:3010/async-reports/test-report-3/variantId-3/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortAsc=true',
+          'http://localhost:3010/async-reports/test-report-3/variantId-3/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
       },
       report: {
         fullUrl: 'http://localhost:3010/async-reports/test-report-3/variantId-3/request/tblId_1721738907388/report',
@@ -435,7 +435,7 @@ const mockViewedReports = [
         'filters.field3.end': '2006-05-04',
         'filters.field7': '2005-02-01',
         sortColumn: 'field1',
-        sortAsc: 'true',
+        sortedAsc: 'true',
       },
       summary: [
         {

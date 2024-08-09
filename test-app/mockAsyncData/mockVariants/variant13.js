@@ -1,0 +1,70 @@
+const variant13 = {
+  id: 'variantId-13',
+  name: 'Test Variant 13',
+  description: 'No filters or Sort columns',
+  resourceName: 'reports/list',
+  classification: 'OFFICIAL',
+  printable: false,
+  specification: {
+    template: 'list',
+    fields: [
+      {
+        name: 'field1',
+        display: 'Field 1',
+        sortable: false,
+        type: 'string',
+        mandatory: false,
+        visible: true,
+      },
+      {
+        name: 'field2',
+        display: 'Field 2',
+        sortable: false,
+        type: 'string',
+        mandatory: true,
+        visible: true,
+      },
+      {
+        name: 'field3',
+        display: 'Field 3',
+        sortable: false,
+        visible: true,
+        type: 'date',
+        mandatory: false,
+      },
+      {
+        name: 'field4',
+        display: 'Field 4',
+        visible: false,
+        sortable: false,
+        type: 'string',
+      },
+      {
+        name: 'field5',
+        display: 'Field 5',
+        sortable: false,
+        type: 'string',
+        mandatory: false,
+        visible: false,
+      },
+      {
+        name: 'field6',
+        display: 'Field 6',
+        sortable: false,
+        type: 'HTML',
+        mandatory: false,
+        visible: true,
+      },
+      {
+        name: 'field7',
+        display: 'Field 7',
+        sortable: false,
+        visible: true,
+        type: 'date',
+        mandatory: false,
+      },
+    ],
+  },
+}
+
+module.exports = variant13

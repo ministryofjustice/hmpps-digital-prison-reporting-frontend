@@ -24,7 +24,7 @@
     }
   ].concat(options) %}
 
-  <div class="dpr-filter-item">
+  <div class="dpr-filter-item {% if filterType === 'daterange'%} dpr-filter-item__span-2 {% endif %}">
     {%- if filterType === 'select' %}
 
       {{ govukSelect({

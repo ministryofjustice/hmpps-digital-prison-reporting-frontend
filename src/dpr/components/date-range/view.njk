@@ -62,9 +62,10 @@
       }) }}
       {% endset -%}
 
-      {% if relativeOptions.length === 0 %}
+      {% if relativeOptions === undefined or relativeOptions.length === 0 %}
         {{ datepickerHtml | safe }}
       {% else %}
+      {{ relativeOptions }}
         {{ govukTabs({
           items: [
             {

@@ -24,6 +24,7 @@ export interface DateFilterValue extends GenericFilterValue {
   value?: DateRange | string
   min?: string
   max?: string
+  relativeOptions?: { value: string; text: string }[]
 }
 
 export interface SelectedFilter {

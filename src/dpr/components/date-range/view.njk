@@ -1,32 +1,37 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "../date-input/view.njk" import dprDate %}
 
 {% macro dprDateRange(data, parameterPrefix = "filters.", mandatory = false) %}
   {% set min = data.min %}
   {% set max = data.max %}
+  {% set relativeOptions = data.relativeOptions %}
   {% set startId = parameterPrefix + data.name + '.start' %}
   {% set endId = parameterPrefix + data.name + '.end' %}
 
-  <div class="dpr-date-range">
+  <div class="dpr-date-range" data-dpr-module="date-range-input">
     <fieldset class="govuk-fieldset">
       <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
         {{ data.text }}
       </legend>
 
+      {% set datepickerHtml %}
+      <div id='dpr-date-range' data-field-name='{{ data.name }}' data-initialised-value='{{ data.value }}' >
       {# START #}
-      {{ dprDate(
-        {
-          name: data.name,
-          value: data.value.start,
-          min: min,
-          max: max,
-          mandatory: mandatory
-        },
-        'Start',
-        '.start',
-        true,
-        false
-      )}}
+        {{ dprDate(
+          {
+            name: data.name,
+            value: data.value.start,
+            min: min,
+            max: max,
+            mandatory: mandatory
+          },
+          'Start',
+          '.start',
+          true,
+          false
+        )}}
 
       {# END #}
       {{ dprDate(
@@ -41,6 +46,47 @@
         '.end',
         false
       )}}
+      </div>
+      {% endset %}
+
+      {% set relativeRangeHtml %}
+      {{ govukRadios({
+        classes: 'govuk-radios--small',
+        id: data.name + '.relative-duration',
+        name: data.name + '.relative-duration',
+        formGroup: {
+          classes: "govuk-!-margin-bottom-3 dpr-relative-range-radio"
+        },
+        items: relativeOptions,
+        value: data.value
+      }) }}
+      {% endset -%}
+
+      {% if relativeOptions === undefined or relativeOptions.length === 0 %}
+        {{ datepickerHtml | safe }}
+      {% else %}
+      {{ relativeOptions }}
+        {{ govukTabs({
+          items: [
+            {
+              label: "Date picker",
+              id: "date-picker",
+              panel: {
+                html: datepickerHtml
+              }
+            },
+            {
+              label: "Relative Range",
+              id: "relative-range",
+              panel: {
+                html: relativeRangeHtml
+              }
+            }
+          ]
+        }) }}
+      {% endif %}
+
     </fieldset>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
 {% endmacro %}

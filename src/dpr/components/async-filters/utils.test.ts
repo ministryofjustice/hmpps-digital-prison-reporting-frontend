@@ -1,7 +1,6 @@
 import { Response, Request, NextFunction } from 'express'
 import dayjs from 'dayjs'
 import MockDate from 'mockdate'
-import Dict = NodeJS.Dict
 import * as AsyncFiltersUtils from './utils'
 import MockDefinitions from '../../../../test-app/mockAsyncData/mockReportDefinition'
 import MockRenderFiltersData from '../../../../test-app/mockAsyncData/mockRenderFiltersData'

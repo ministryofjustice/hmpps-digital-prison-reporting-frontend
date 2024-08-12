@@ -16,6 +16,7 @@ import DprLoadingHelper from './DprLoadingHelper.mjs'
 import DateInput from './components/date-input/clientClass.mjs'
 import AsyncRequestList from './components/async-request-list/clientClass.mjs'
 import RecentlyViewedList from './components/recently-viewed-list/clientClass.mjs'
+import DateRange from './components/date-range/clientClass.mjs'
 
 /**
  * Initialise all components
@@ -43,6 +44,7 @@ export default function initAll () {
     DateInput,
     AsyncRequestList,
     RecentlyViewedList,
+    DateRange,
   ]
 
   components.forEach((Component) => {

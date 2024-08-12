@@ -2,6 +2,7 @@
 import { Request } from 'express'
 import moment from 'moment'
 import dayjs from 'dayjs'
+import isBetween from 'dayjs/plugin/isBetween'
 import Dict = NodeJS.Dict
 import { components } from '../../types/api'
 import FilterUtils from '../filters/utils'
@@ -57,14 +58,18 @@ const getSortByFromDefinition = (definition: components['schemas']['VariantDefin
 }
 
 const dateIsInBounds = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs, min: string, max: string) => {
+  dayjs.extend(isBetween)
+
   const minDate = dayjs(min)
   const maxDate = dayjs(max)
-  return (
-    startDate.isBefore(maxDate) && startDate.isAfter(minDate) && endDate.isBefore(maxDate) && endDate.isAfter(minDate)
-  )
+
+  const startDateIsBetweenMinAndMax = startDate.isBetween(minDate, maxDate, 'day', '[]')
+  const endDateIsBetweenMinAndMax = endDate.isBetween(minDate, maxDate, 'day', '[]')
+
+  return startDateIsBetweenMinAndMax && endDateIsBetweenMinAndMax
 }
 
-const calcDates = (durationValue: string) => {
+export const calcDates = (durationValue: string) => {
   let endDate
   let startDate
 
@@ -103,8 +108,8 @@ const calcDates = (durationValue: string) => {
   }
 }
 
-const getRelativeDateOptions = (min: string, max: string) => {
-  const options = [
+export const getRelativeDateOptions = (min: string, max: string) => {
+  let options: { value: string; text: string; disabled?: boolean }[] = [
     { value: 'yesterday', text: 'Yesterday' },
     { value: 'tomorrow', text: 'Tomorrow' },
     { value: 'last-week', text: 'Last week' },
@@ -120,6 +125,9 @@ const getRelativeDateOptions = (min: string, max: string) => {
     }
   })
 
+  if (options.every((opt: { value: string; text: string; disabled?: boolean }) => opt.disabled)) {
+    options = []
+  }
   return options
 }
 
@@ -255,7 +263,7 @@ interface querySummaryResult {
   sortData: Dict<string>
 }
 
-const setDurationStartAndEnd = (
+export const setDurationStartAndEnd = (
   name: string,
   value: string,
   query: Dict<string>,

@@ -44,6 +44,7 @@ const mockRenderFiltersData = {
       },
       minimumLength: null,
       dynamicResourceEndpoint: null,
+      relativeOptions: [],
       mandatory: true,
       min: '2003-02-01',
       max: '2007-05-04',

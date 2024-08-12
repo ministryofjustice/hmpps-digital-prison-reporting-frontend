@@ -157,10 +157,15 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
       }
 
       if (type === FilterType.dateRange.toLowerCase()) {
-        const { min, max } = filter
+        const defaultMax = '9999-01-01'
         const dateRegEx = /^\d{1,4}-\d{1,2}-\d{2,2} - \d{1,4}-\d{1,2}-\d{1,2}$/
-        let startValue = min
-        let endValue = max
+        const { min, max } = filter
+        let startValue
+        let endValue
+
+        if (min) startValue = min
+        if (max && max !== defaultMax) endValue = max
+
         let value
         if (defaultValue && defaultValue.match(dateRegEx)) {
           ;[startValue, endValue] = defaultValue.split(' - ')
@@ -174,9 +179,9 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
         filterData = filterData as unknown as DateFilterValue
         filterData = {
           ...filterData,
+          min: filter.min,
+          max: filter.max || defaultMax,
           value,
-          min,
-          max,
           relativeOptions: getRelativeDateOptions(min, max),
         }
       }

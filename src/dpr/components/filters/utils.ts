@@ -150,7 +150,7 @@ const getFilters = (
             end,
           },
           min: f.filter.min,
-          max: f.filter.max,
+          max: f.filter.max || '9999-01-01',
         }
       }
 

@@ -52,7 +52,7 @@
         </a>
     {% endif %}
 
-    {% if toggleMax and max %}
+    {% if toggleMax and max and max !== '9999-01-01' %}
       <a class="govuk-body-xs daterange-set-to-minmax" 
           data-set-to-input='{{ id }}' 
           data-set-min-max-value={{ max }} 

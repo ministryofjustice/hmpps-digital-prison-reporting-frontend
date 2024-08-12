@@ -80,9 +80,14 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
       }
 
       if (type === FilterType.dateRange.toLowerCase()) {
+        const defaultMax = '9999-01-01'
         const { min, max } = filter
-        let startValue = min
-        let endValue = max
+        let startValue
+        let endValue
+
+        if (min) startValue = min
+        if (max && max !== defaultMax) endValue = max
+
         if (defaultValue) {
           ;[startValue, endValue] = defaultValue.split(' - ')
         }
@@ -91,8 +96,8 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
         filterData = {
           ...filterData,
           value: FilterUtils.setDateRangeValuesWithinMinMax(filter, startValue, endValue),
-          min,
-          max,
+          min: filter.min,
+          max: filter.max || defaultMax,
         }
       }
 

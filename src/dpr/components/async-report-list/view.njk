@@ -3,6 +3,7 @@
 {% from "../async-applied-filters/view.njk" import dprAsyncAppliedFiltersList %}
 {% from "../column-section/view.njk" import dprColumnSection %}
 {% from "../summary-table/view.njk" import dprReportSummary %}
+{% from "../report-totals/view.njk" import dprReportTotals %}
 
 {% macro dprAsyncReportList(options) %}
 
@@ -12,6 +13,8 @@
 
   {{ dprColumnSection(columns) }}
   {{ dprReportSummary(reportSummaries, 'page-header') }}
+  
+  {{ dprReportTotals(pagination) }}
 
   <div class='dpr-table-container'>
     {{ dprDataTable(options) }}

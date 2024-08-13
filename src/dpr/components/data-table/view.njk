@@ -13,18 +13,21 @@
   {% set currentPage = pagination.currentPage %}
 
   <div id="table-container" class='dpr-table-container' data-dpr-module="data-table">
-    {{ govukTable({
-      head: head,
-      rows: rows,
-      attributes: { 
-        'id': 'dpr-data-table',
-        'data-classification': classification,
-        'data-col-length': colCount,
-        'data-row-length': rowCount,
-        'data-page-size': pageSize,
-        'data-selected-page': currentPage,
-        'data-total-results': totalRows
-      }
-    }) }}
+    <div class="dpr-overflow-gradient" id="dpr-overflow-gradient"></div>
+    <div class="dpr-table-wrapper" id="dpr-table-wrapper">
+      {{ govukTable({
+        head: head,
+        rows: rows,
+        attributes: { 
+          'id': 'dpr-data-table',
+          'data-classification': classification,
+          'data-col-length': colCount,
+          'data-row-length': rowCount,
+          'data-page-size': pageSize,
+          'data-selected-page': currentPage,
+          'data-total-results': totalRows
+        }
+      }) }}
+    </div>
   </div>
 {% endmacro %}

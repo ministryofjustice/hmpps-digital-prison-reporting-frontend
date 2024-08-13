@@ -8,6 +8,7 @@
   {% from "dpr/components/icon-button-list/view.njk" import dprIconButtonList %}
   {% from "dpr/components/pagination/view.njk" import dprPagination %}
   {% from "dpr/components/data-table/view.njk" import dprDataTable %}
+{% from "../report-totals/view.njk" import dprReportTotals %}
 
   {% set title = options.title %}
   {% set dataTableOptions = options.dataTableOptions %}
@@ -15,6 +16,7 @@
   {% set warnings = options.warnings %}
   {% set columns = options.columns %}
   {% set template = options.template %}
+  {% set totals = dataTableOptions.totals %}
 
   {# Datatable #}
   {% set pagination = dataTableOptions.pagination %}
@@ -80,13 +82,16 @@
             {{ dprAccordion(accordionItems) }}
             {{ dprColumnSection(columns) }}
           </div>
+          {{ dprReportTotals(totals) }}
           <div class="moj-scrollable-pane">
             {{ dprDataTable(dataTableOptions) }}
-
-            {% if template === 'list' %}
-              {{ dprPagination(pagination) }}
-            {% endif %}
           </div>
+          <div class='govuk-!-margin-bottom-6'>
+            {{ dprReportTotals(totals) }}
+          </div>
+          {% if template === 'list' %}
+            {{ dprPagination(pagination) }}
+          {% endif %}
         </div>
       </div>
     </div>

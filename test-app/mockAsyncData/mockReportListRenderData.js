@@ -215,6 +215,7 @@ const mockGetReportListRenderData = {
     classification: 'OFFICIAL',
     colCount: 2,
     template: 'list',
+    totals: '1-10 of 100',
     csrfToken: 'csrfToken',
     printable: true,
     executionId: 'executionId',
@@ -295,6 +296,7 @@ const mockReportListRenderData = {
       },
     ],
   ],
+  totals: '1-10 of 100',
   head: [
     {
       text: 'Field 2',

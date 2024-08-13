@@ -1,5 +1,5 @@
-{% macro dprReportTotals(data) %}
-  {{ data.currentPage }}-
-  {{ data.pageSize }} of 
-  {{ data.totalRows }}
+{% macro dprReportTotals(totals) %}
+  <div class="dpr-report-totals">
+    <p class="govuk-body">{{ totals }}</p>
+  </div>
 {% endmacro %}

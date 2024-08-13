@@ -2,6 +2,7 @@ import parseUrl from 'parseurl'
 import { Request } from 'express'
 import ColumnUtils from '../columns/utils'
 import PaginationUtils from '../pagination/utils'
+import TotalsUtils from '../report-totals/utils'
 import { components } from '../../types/api'
 import Dict = NodeJS.Dict
 import { AsyncReportData, AsyncSummary } from '../../types/AsyncReport'
@@ -28,11 +29,19 @@ export default {
       .withNoHeaderOptions(columns.value)
       .buildTable(reportData)
 
+    const totals = TotalsUtils.getTotals(
+      pagination.pageSize,
+      pagination.currentPage,
+      pagination.totalRows,
+      dataTable.rowCount,
+    )
+
     return {
       ...dataTable,
       columns,
       pagination,
       querySummary: query.summary,
+      totals,
     }
   },
 }

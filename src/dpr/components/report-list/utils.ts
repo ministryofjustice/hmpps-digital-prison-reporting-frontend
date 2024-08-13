@@ -3,6 +3,8 @@ import parseUrl from 'parseurl'
 import ReportQuery, { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 import createUrlForParameters from '../../utils/urlHelper'
 import { DataTableOptions } from '../data-table/types'
+
+import TotalsUtils from '../report-totals/utils'
 import FilterUtils from '../filters/utils'
 import ColumnUtils from '../columns/utils'
 import { ListDataSources, RenderListWithDataInput } from './types'
@@ -103,11 +105,18 @@ function renderList(
           .withHeaderSortOptions(reportQuery)
           .buildTable(data)
 
+        const pagination = PaginationUtils.getPaginationData(url, count)
         const dataTableOptions: DataTableOptions = {
           ...dataTable,
           classification,
           printable,
-          pagination: PaginationUtils.getPaginationData(url, count),
+          pagination,
+          totals: TotalsUtils.getTotals(
+            pagination.pageSize,
+            pagination.currentPage,
+            pagination.totalRows,
+            dataTable.rowCount,
+          ),
         }
 
         const filterOptions: FilterOptions = FilterUtils.getFilterOptions(

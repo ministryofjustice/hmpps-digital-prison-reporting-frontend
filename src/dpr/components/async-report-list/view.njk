@@ -14,12 +14,13 @@
   {{ dprColumnSection(columns) }}
   {{ dprReportSummary(reportSummaries, 'page-header') }}
   
-  {{ dprReportTotals(pagination) }}
-
+  {{ dprReportTotals(options.totals) }}
   <div class='dpr-table-container'>
     {{ dprDataTable(options) }}
   </div>
-
+  <div class='govuk-!-margin-bottom-6'>
+    {{ dprReportTotals(options.totals) }}
+  </div>
   {{ dprReportSummary(reportSummaries, 'page-footer') }}
 
 {% endmacro %}

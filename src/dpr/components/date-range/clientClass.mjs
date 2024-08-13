@@ -27,10 +27,12 @@ export default class DateRangeInput extends DprClientClass {
 
     this.initialisedValue = this.dateRangeInputs.getAttribute('data-initialised-value')
 
-    this.initDatePickerTabClick()
-    this.initRelativeDurationTabClick()
-    this.initTabs()
-    this.initDurationRadionButtonClick()
+    if (this.datePickerTab && this.relativeDurationTab) {
+      this.initDatePickerTabClick()
+      this.initRelativeDurationTabClick()
+      this.initTabs()
+      this.initDurationRadionButtonClick()
+    }
   }
 
   initTabs() {

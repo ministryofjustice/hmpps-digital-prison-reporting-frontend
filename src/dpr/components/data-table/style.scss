@@ -2,6 +2,21 @@
 
 .dpr-table-container {
   position: relative;
+  // overflow: scroll;
+
+  .dpr-overflow-gradient {
+    display: none;
+    width: 25px;
+    height: 100%;
+    background-color: rgba(177, 180, 182, 0.7);
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+    -webkit-mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: left top, left bottom;
+  }
 
   .data-table-header-button {
     background-color: transparent;

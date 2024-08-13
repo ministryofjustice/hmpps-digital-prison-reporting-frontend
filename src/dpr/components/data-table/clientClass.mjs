@@ -6,8 +6,37 @@ export default class DataTable extends DprClientClass {
   }
 
   initialise() {
+    this.tableContainer = document.getElementById('dpr-table-wrapper')
     this.table = document.getElementById('dpr-data-table')
+    this.overflowGradient = document.getElementById('dpr-overflow-gradient')
     this.createTableHeaderAndFooter()
+    this.initTableScrollListener()
+  }
+
+  initTableScrollListener() {
+    this.checkOffsetWidths()
+
+    window.addEventListener('resize', () => {
+      this.checkOffsetWidths()
+    })
+
+    this.tableContainer.addEventListener('scroll', (event) => {
+      const endOfScroll = this.table.offsetWidth
+      const currentScroll = event.target.offsetWidth + event.target.scrollLeft
+      if (endOfScroll === currentScroll) {
+        this.overflowGradient.style.display = 'none'
+      } else {
+        this.overflowGradient.style.display = 'block'
+      }
+    })
+  }
+
+  checkOffsetWidths() {
+    if (this.tableContainer.offsetWidth >= this.table.offsetWidth) {
+      this.overflowGradient.style.display = 'none'
+    } else {
+      this.overflowGradient.style.display = 'block'
+    }
   }
 
   createTableHeaderAndFooter() {

@@ -1,27 +1,27 @@
 import { DprClientClass } from './DprClientClass.mjs'
 
 export default class DprPollingStatusClass extends DprClientClass {
-  getPollingFrquency () {
-    return '2000' // 2 seconds
+  getPollingFrquency() {
+    return '20' // 2 seconds
   }
 
-  getPollingStatuses () {
+  getPollingStatuses() {
     return ['SUBMITTED', 'STARTED', 'PICKED']
   }
 
-  getEndStatuses () {
+  getEndStatuses() {
     return ['FINISHED', 'FAILED', 'EXPIRED']
   }
 
-  async getRequestStatus (metaData, csrfToken) {
+  async getRequestStatus(metaData, csrfToken) {
     return this.getStatus('/getStatus/', metaData, csrfToken)
   }
 
-  async getExpiredStatus (metaData, csrfToken) {
+  async getExpiredStatus(metaData, csrfToken) {
     return this.getStatus('/getExpiredStatus/', metaData, csrfToken)
   }
 
-  async getStatus (endpoint, body, csrfToken) {
+  async getStatus(endpoint, body, csrfToken) {
     let response
     await fetch(endpoint, {
       method: 'post',

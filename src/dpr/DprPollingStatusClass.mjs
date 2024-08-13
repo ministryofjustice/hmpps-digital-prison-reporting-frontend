@@ -2,7 +2,7 @@ import { DprClientClass } from './DprClientClass.mjs'
 
 export default class DprPollingStatusClass extends DprClientClass {
   getPollingFrquency() {
-    return '20' // 2 seconds
+    return '2000' // 2 seconds
   }
 
   getPollingStatuses() {

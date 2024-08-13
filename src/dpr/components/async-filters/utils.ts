@@ -143,6 +143,7 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
     .map((f) => {
       const { display: text, name, filter } = f
       const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern } = filter
+      const defaultMaxDate = '9999-01-01'
 
       let filterData: FilterValue = {
         text,
@@ -157,14 +158,13 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
       }
 
       if (type === FilterType.dateRange.toLowerCase()) {
-        const defaultMax = '9999-01-01'
         const dateRegEx = /^\d{1,4}-\d{1,2}-\d{2,2} - \d{1,4}-\d{1,2}-\d{1,2}$/
         const { min, max } = filter
         let startValue
         let endValue
 
         if (min) startValue = min
-        if (max && max !== defaultMax) endValue = max
+        if (max && max !== defaultMaxDate) endValue = max
 
         let value
         if (defaultValue && defaultValue.match(dateRegEx)) {
@@ -180,20 +180,19 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
         filterData = {
           ...filterData,
           min: filter.min,
-          max: filter.max || defaultMax,
+          max: filter.max || defaultMaxDate,
           value,
           relativeOptions: getRelativeDateOptions(min, max),
         }
       }
 
       if (type === FilterType.date.toLowerCase()) {
-        const { min, max } = filter
         filterData = filterData as unknown as DateFilterValue
         filterData = {
           ...filterData,
           value: FilterUtils.setDateValueWithinMinMax(filter),
-          min,
-          max,
+          min: filter.min,
+          max: filter.max || defaultMaxDate,
         }
       }
 

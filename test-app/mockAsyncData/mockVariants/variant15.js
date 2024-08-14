@@ -18,8 +18,6 @@ const variant15 = {
         filter: {
           type: 'daterange',
           defaultValue: 'next-week',
-          min: '2003-02-01',
-          max: '2024-08-20',
           mandatory: true,
         },
       },

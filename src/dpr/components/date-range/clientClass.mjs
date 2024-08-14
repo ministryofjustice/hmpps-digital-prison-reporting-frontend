@@ -25,8 +25,6 @@ export default class DateRangeInput extends DprClientClass {
     this.datePickerTab = document.getElementById('tab_date-picker')
     this.relativeDurationTab = document.getElementById('tab_relative-range')
 
-    this.initialisedValue = this.dateRangeInputs.getAttribute('data-initialised-value')
-
     if (this.datePickerTab && this.relativeDurationTab) {
       this.initDatePickerTabClick()
       this.initRelativeDurationTabClick()
@@ -55,7 +53,6 @@ export default class DateRangeInput extends DprClientClass {
       this.queryParams = new URLSearchParams(window.location.search)
       if (this.queryParams.has(this.durationInputID)) {
         value = this.queryParams.get(this.durationInputID)
-        console.log(value)
         this.removeSearchParam(this.durationInputID)
       }
       this.updateInputs(value)

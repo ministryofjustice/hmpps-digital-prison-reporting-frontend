@@ -144,6 +144,7 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
       const { display: text, name, filter } = f
       const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern } = filter
       const defaultMaxDate = '9999-01-01'
+      const defaultMinDate = '1977-05-25'
 
       let filterData: FilterValue = {
         text,
@@ -179,11 +180,12 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
         filterData = filterData as unknown as DateFilterValue
         filterData = {
           ...filterData,
-          min: filter.min,
+          min: filter.min || defaultMinDate,
           max: filter.max || defaultMaxDate,
           value,
-          relativeOptions: getRelativeDateOptions(min, max),
         }
+
+        filterData.relativeOptions = getRelativeDateOptions(filterData.min, filterData.max)
       }
 
       if (type === FilterType.date.toLowerCase()) {

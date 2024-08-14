@@ -9,6 +9,15 @@
   {% set max = dateData.max %}
   {% set id = parameterPrefix + name + parameterSuffix %}
 
+  {% set defaultMinDate = '1977-05-25' %}
+  {% set defaultMaxDate = '9999-01-01'%}
+  {% if min ===  defaultMinDate %}
+    {% set toggleMin = false %}
+  {% endif %}
+  {% if max ===  defaultMaxDate %}
+    {% set toggleMax = false %}
+  {% endif %}
+
   {% if label %}
     {% set labelText = {
       text: label
@@ -52,7 +61,7 @@
         </a>
     {% endif %}
 
-    {% if toggleMax and max and max !== '9999-01-01' %}
+    {% if toggleMax and max %}
       <a class="govuk-body-xs daterange-set-to-minmax" 
           data-set-to-input='{{ id }}' 
           data-set-min-max-value={{ max }} 

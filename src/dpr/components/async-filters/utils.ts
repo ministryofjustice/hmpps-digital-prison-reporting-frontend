@@ -278,8 +278,6 @@ export const setDurationStartAndEnd = (
   fields: components['schemas']['FieldDefinition'][],
 ) => {
   const { startDate, endDate } = calcDates(value)
-  const startDateString = startDate.format('DD-MM-YYYY').toString()
-  const endDateString = endDate.format('DD-MM-YYYY').toString()
   const startDateDisplayString = startDate.format('YYYY-MM-DD').toString()
   const endDateDisplayString = endDate.format('YYYY-MM-DD').toString()
 
@@ -288,8 +286,8 @@ export const setDurationStartAndEnd = (
     return f.name === fieldId
   })
 
-  query[`filters.${fieldId}.start` as keyof Dict<string>] = startDateString
-  query[`filters.${fieldId}.end` as keyof Dict<string>] = endDateString
+  query[`filters.${fieldId}.start` as keyof Dict<string>] = startDateDisplayString
+  query[`filters.${fieldId}.end` as keyof Dict<string>] = endDateDisplayString
 
   filterData[name as keyof Dict<string>] = value
 
@@ -370,6 +368,8 @@ const setQuerySummary = (req: Request, fields: components['schemas']['FieldDefin
         })
       }
     })
+
+  console.log({ query })
 
   return {
     query,

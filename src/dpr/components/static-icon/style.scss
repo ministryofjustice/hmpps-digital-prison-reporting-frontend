@@ -10,6 +10,24 @@
   color: black;
 }
 
+.dpr-icon-wrapper__item-actions {
+  margin-left:15px;
+  display: inline-block;
+
+  .dpr-icon-wrapper--l {
+    height: 28px;
+    width: 28px;
+    margin-right: 3px;
+  
+    .dpr-icon:before {
+      font-size: 21px;
+      height: 21px;
+      line-height: 29px;
+      width: 28px;
+    }
+  }
+}
+
 .dpr-icon-wrapper {
   display: inline-block;
   position: relative;

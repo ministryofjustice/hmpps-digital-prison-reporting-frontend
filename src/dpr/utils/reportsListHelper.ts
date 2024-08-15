@@ -40,14 +40,26 @@ export const formatTable = (cardData: CardData[]) => {
   }
 }
 
+const removeItemButtonHtml = () => {
+  return `<div class="dpr-icon-wrapper__item-actions">
+      <div class="dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live" tooltip="Retry report">
+        <a href=""><i class="dpr-icon refresh-icon"></i></a>
+      </div><div class="dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live" tooltip="Remove from list">
+        <i class="dpr-icon close-icon"></i>
+      </div></div>`
+}
+
 export const formatTableData = (card: CardData) => {
   let statusClass
+  let removeButtonHtml = ''
   switch (card.status) {
     case 'FAILED':
       statusClass = 'govuk-tag--red'
+      removeButtonHtml = removeItemButtonHtml()
       break
     case 'EXPIRED':
       statusClass = 'govuk-tag--yellow'
+      removeButtonHtml = removeItemButtonHtml()
       break
     case 'ABORTED':
       statusClass = 'govuk-tag--orange'
@@ -66,7 +78,7 @@ export const formatTableData = (card: CardData) => {
     { html: createDetailsHtml('Applied Filters', createSummaryHtml(card)) },
     { text: card.timestamp },
     {
-      html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${card.status}</strong>`,
+      html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${card.status}</strong>${removeButtonHtml}`,
     },
   ]
 }

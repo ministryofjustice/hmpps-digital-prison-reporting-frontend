@@ -287,8 +287,8 @@ describe('AsyncFiltersUtils', () => {
         ],
         filterData: { 'DurationFieldName.relative-duration': 'next-week' },
         query: {
-          'filters.DurationFieldName.end': '13-06-2024',
-          'filters.DurationFieldName.start': '06-06-2024',
+          'filters.DurationFieldName.end': '2024-06-13',
+          'filters.DurationFieldName.start': '2024-06-06',
         },
       }
 
@@ -307,8 +307,8 @@ describe('AsyncFiltersUtils', () => {
         ],
         filterData: { 'DurationFieldName.relative-duration': 'last-week' },
         query: {
-          'filters.DurationFieldName.end': '06-06-2024',
-          'filters.DurationFieldName.start': '30-05-2024',
+          'filters.DurationFieldName.end': '2024-06-06',
+          'filters.DurationFieldName.start': '2024-05-30',
         },
       }
 
@@ -327,8 +327,8 @@ describe('AsyncFiltersUtils', () => {
         ],
         filterData: { 'DurationFieldName.relative-duration': 'last-month' },
         query: {
-          'filters.DurationFieldName.end': '06-06-2024',
-          'filters.DurationFieldName.start': '06-05-2024',
+          'filters.DurationFieldName.end': '2024-06-06',
+          'filters.DurationFieldName.start': '2024-05-06',
         },
       }
 
@@ -347,8 +347,8 @@ describe('AsyncFiltersUtils', () => {
         ],
         filterData: { 'DurationFieldName.relative-duration': 'next-month' },
         query: {
-          'filters.DurationFieldName.end': '06-07-2024',
-          'filters.DurationFieldName.start': '06-06-2024',
+          'filters.DurationFieldName.end': '2024-07-06',
+          'filters.DurationFieldName.start': '2024-06-06',
         },
       }
 
@@ -367,8 +367,8 @@ describe('AsyncFiltersUtils', () => {
         ],
         filterData: { 'DurationFieldName.relative-duration': 'yesterday' },
         query: {
-          'filters.DurationFieldName.end': '06-06-2024',
-          'filters.DurationFieldName.start': '05-06-2024',
+          'filters.DurationFieldName.end': '2024-06-06',
+          'filters.DurationFieldName.start': '2024-06-05',
         },
       }
 
@@ -387,8 +387,8 @@ describe('AsyncFiltersUtils', () => {
         ],
         filterData: { 'DurationFieldName.relative-duration': 'tomorrow' },
         query: {
-          'filters.DurationFieldName.end': '07-06-2024',
-          'filters.DurationFieldName.start': '06-06-2024',
+          'filters.DurationFieldName.end': '2024-06-07',
+          'filters.DurationFieldName.start': '2024-06-06',
         },
       }
 

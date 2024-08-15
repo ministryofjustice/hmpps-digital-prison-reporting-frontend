@@ -98,6 +98,18 @@ export default function routes({
     }
   }
 
+  const removeRequestedItemHandler: RequestHandler = async (req, res, next) => {
+    try {
+      await services.asyncReportsStore.removeReport(req.body.executionId)
+      res.end()
+    } catch (error) {
+      req.body.title = 'Failed to abort request'
+      req.body.errorDescription = 'We were unable to abort the report request for the following reason:'
+      req.body.error = error
+      next()
+    }
+  }
+
   const getStatusHandler: RequestHandler = async (req, res, next) => {
     try {
       const response = await AsyncRequestListUtils.getRequestStatus({ req, res, services })
@@ -151,6 +163,7 @@ export default function routes({
   router.get('/async-reports/:reportId/:variantId/request', getReportFiltersHandler, asyncErrorHandler)
   router.post('/requestReport/', asyncRequestHandler, asyncErrorHandler)
   router.post('/cancelRequest/', cancelRequestHandler, asyncErrorHandler)
+  router.post('/removeRequestedItem/', removeRequestedItemHandler, asyncErrorHandler)
   router.post('/getStatus/', getStatusHandler)
   router.get('/async-reports/:reportId/:variantId/request/:executionId', pollingHandler, asyncErrorHandler)
   router.get('/async-reports/:reportId/:variantId/request/:tableId/report', getReportHandler, asyncErrorHandler)

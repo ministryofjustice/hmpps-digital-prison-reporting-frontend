@@ -2,6 +2,7 @@
   <div class="icon-button-list" data-dpr-module='icon-button-list'>
     {% for button in buttonList %}
       <div
+        tabindex="0"
         id="{{ button.id }}"
         data-href="{{ button.href }}"
         class="dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live {% if button.disabled %}dpr-icon-disabled{% endif %}" 

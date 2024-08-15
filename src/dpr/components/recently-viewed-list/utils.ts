@@ -82,7 +82,7 @@ export default {
     return {
       head,
       cardData,
-      tableData: ReportListHelper.formatTable(cardData),
+      tableData: ReportListHelper.formatTable(cardData, 'viewed'),
       total: ReportListHelper.getTotals(cardData, maxRows),
       meta: ReportListHelper.getMeta(cardData),
       csrfToken,

@@ -23,9 +23,9 @@ export const getMeta = (cardData: CardData[]) => {
   })
 }
 
-export const formatTable = (cardData: CardData[]) => {
+export const formatTable = (cardData: CardData[], type: 'requested' | 'viewed') => {
   const rows = cardData.map((card: CardData) => {
-    return formatTableData(card)
+    return formatTableData(card, type)
   })
 
   return {
@@ -40,26 +40,26 @@ export const formatTable = (cardData: CardData[]) => {
   }
 }
 
-const removeItemButtonHtml = () => {
+const removeItemButtonHtml = (retryHref: string, executionId: string, type: 'requested' | 'viewed') => {
   return `<div class="dpr-icon-wrapper__item-actions">
       <div class="dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live" tooltip="Retry report">
-        <a href=""><i class="dpr-icon refresh-icon"></i></a>
-      </div><div class="dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live" tooltip="Remove from list">
-        <i class="dpr-icon close-icon"></i>
+        <a href="${retryHref}"><i class="dpr-icon refresh-icon"></i></a>
+      </div><div class="dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live dpr-remove-${type}-report-button" tooltip="Remove from list" data-execution-id='${executionId}'>
+        <a href=""><i class="dpr-icon close-icon"></i>
       </div></div>`
 }
 
-export const formatTableData = (card: CardData) => {
+export const formatTableData = (card: CardData, type: 'requested' | 'viewed') => {
   let statusClass
   let removeButtonHtml = ''
   switch (card.status) {
     case 'FAILED':
       statusClass = 'govuk-tag--red'
-      removeButtonHtml = removeItemButtonHtml()
+      removeButtonHtml = removeItemButtonHtml(card.href, card.id, type)
       break
     case 'EXPIRED':
       statusClass = 'govuk-tag--yellow'
-      removeButtonHtml = removeItemButtonHtml()
+      removeButtonHtml = removeItemButtonHtml(card.href, card.id, type)
       break
     case 'ABORTED':
       statusClass = 'govuk-tag--orange'

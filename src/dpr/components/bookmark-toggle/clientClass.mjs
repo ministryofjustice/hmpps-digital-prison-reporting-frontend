@@ -1,33 +1,50 @@
 import { DprClientClass } from '../../DprClientClass.mjs'
 
 export default class BookmarkToggle extends DprClientClass {
-  static getModuleName () {
+  static getModuleName() {
     return 'bookmark-toggle'
   }
 
-  initialise () {
+  initialise() {
     this.initToggles()
   }
 
-  initToggles () {
+  initToggles() {
     document.querySelectorAll('.bookmark-input[type=checkbox]').forEach((bookmarkToggle) => {
       const csrfToken = bookmarkToggle.getAttribute('data-csrf-token')
       const reportId = bookmarkToggle.getAttribute('data-report-id')
       const variantId = bookmarkToggle.getAttribute('data-variant-id')
 
+      const bookmarkWrapper = bookmarkToggle.parentNode
+      const bookmarkColumn = bookmarkWrapper.parentNode
+
       bookmarkToggle.addEventListener('change', async () => {
         if (bookmarkToggle.checked) {
-          bookmarkToggle.parentNode.setAttribute('tooltip', 'Remove Bookmark')
+          bookmarkWrapper.setAttribute('tooltip', 'Remove Bookmark')
           await this.toggleBookmark('add', variantId, reportId, csrfToken)
         } else {
-          bookmarkToggle.parentNode.setAttribute('tooltip', 'Add Bookmark')
+          bookmarkWrapper.setAttribute('tooltip', 'Add Bookmark')
           await this.toggleBookmark('remove', variantId, reportId, csrfToken)
+        }
+      })
+
+      bookmarkColumn.addEventListener('keyup', async (e) => {
+        if (e.key === 'Enter') {
+          if (bookmarkToggle.checked) {
+            bookmarkToggle.removeAttribute('checked')
+            bookmarkWrapper.setAttribute('tooltip', 'Remove Bookmark')
+            await this.toggleBookmark('remove', variantId, reportId, csrfToken)
+          } else {
+            bookmarkToggle.setAttribute('checked', true)
+            bookmarkWrapper.setAttribute('tooltip', 'Remove Bookmark')
+            await this.toggleBookmark('add', variantId, reportId, csrfToken)
+          }
         }
       })
     })
   }
 
-  async toggleBookmark (type, variantId, reportId, csrfToken) {
+  async toggleBookmark(type, variantId, reportId, csrfToken) {
     const endpoint = type === 'add' ? '/addBookmark/' : '/removeBookmark/'
     await fetch(endpoint, {
       method: 'post',

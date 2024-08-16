@@ -5,6 +5,6 @@
 
   <div class='dpr-bookmark dpr-bookmark-inline dpr-bookmark-tooltip' tooltip="{{ tooltip }}" data-dpr-module="bookmark-toggle">
     <input class="bookmark-input" aria-label="bookmark toggle" type='checkbox' id='{{ variantId }}-{{id}}' data-variant-id='{{ variantId }}' data-report-id='{{ reportId }}' data-csrf-token='{{ csrfToken }}' {{ checked }}/>
-    <label for='{{ variantId }}-{{id}}' class=''></label>
+    <label tabindex="0" for='{{ variantId }}-{{id}}' class=''></label>
   </div>
 {% endmacro %}

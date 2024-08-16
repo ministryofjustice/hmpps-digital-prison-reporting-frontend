@@ -17,7 +17,7 @@ import DateInput from './components/date-input/clientClass.mjs'
 import AsyncRequestList from './components/async-request-list/clientClass.mjs'
 import RecentlyViewedList from './components/recently-viewed-list/clientClass.mjs'
 import DateRange from './components/date-range/clientClass.mjs'
-
+import ReportsList from './components/reports-list/clientClass.mjs'
 /**
  * Initialise all components
  *
@@ -25,7 +25,7 @@ import DateRange from './components/date-range/clientClass.mjs'
  * components provided as part of DPR Frontend.
  *
  */
-export default function initAll () {
+export default function initAll() {
   const loadingHelper = new DprLoadingHelper()
 
   const components = [
@@ -45,6 +45,7 @@ export default function initAll () {
     AsyncRequestList,
     RecentlyViewedList,
     DateRange,
+    ReportsList,
   ]
 
   components.forEach((Component) => {

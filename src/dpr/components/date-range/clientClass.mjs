@@ -99,6 +99,8 @@ export default class DateRangeInput extends DprClientClass {
   removeRequiredFromDatePickers() {
     this.startInput.removeAttribute('required')
     this.endInput.removeAttribute('required')
+    this.startInput.value = ''
+    this.endInput.value = ''
   }
 
   updateInputs(durationValue) {

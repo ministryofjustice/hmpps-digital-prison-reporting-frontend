@@ -1,8 +1,8 @@
 const mockRenderFiltersData = {
   reportData: {
     reportName: 'name',
-    variantName: 'Test Variant 12',
-    description: 'Test Variant 12 description - sort by test',
+    variantName: 'Sort',
+    description: 'sort by test',
     reportId: 'reportId',
     variantId: 'variantId',
     definitionPath: 'token',

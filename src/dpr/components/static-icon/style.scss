@@ -19,6 +19,12 @@
     height: 28px;
     width: 28px;
     margin-right: 3px;
+
+    a:focus {
+      display: block;
+      height: 28px;
+      box-shadow: none;
+    }
   
     .dpr-icon:before {
       font-size: 21px;

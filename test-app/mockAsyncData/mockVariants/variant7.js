@@ -1,7 +1,7 @@
 const variant7 = {
   id: 'variantId-7',
-  name: 'Test Variant 7',
-  description: 'Test Variant 7 description - An unprintable variant.',
+  name: 'Unprintable',
+  description: 'An unprintable variant',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: false,

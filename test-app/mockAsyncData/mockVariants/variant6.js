@@ -1,6 +1,6 @@
 const variant6 = {
   id: 'variantId-6',
-  name: 'Test Variant 6',
+  name: 'Expired bookmarked',
   description: 'This demonstrates an expired bookmarked report list page',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',

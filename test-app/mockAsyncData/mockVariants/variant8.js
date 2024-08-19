@@ -1,7 +1,7 @@
 const variant8 = {
   id: 'variantId-8',
-  name: 'Test Variant 8',
-  description: 'Test Variant 8 description - A sectioned report.',
+  name: 'Sectioned',
+  description: 'A sectioned report.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

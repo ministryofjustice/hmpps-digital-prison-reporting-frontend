@@ -1,6 +1,6 @@
 const variant14 = {
   id: 'variantId-14',
-  name: 'Test Variant 14',
+  name: 'Timedout',
   description: 'This variant will timeout',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',

@@ -1,6 +1,6 @@
 const variant15 = {
   id: 'variantId-15',
-  name: 'Test Variant 15',
+  name: 'Relative Daterange',
   description: 'Relative Daterange variant',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',

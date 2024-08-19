@@ -1,7 +1,7 @@
 const variant4 = {
   id: 'variantId-4',
-  name: 'Test Variant 4',
-  description: 'Test Variant 4 description - this will Expire',
+  name: 'Expiring report',
+  description: 'This will Expire after one minute',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

@@ -11,21 +11,32 @@ export default {
     const pathSuffix = res.locals.pathSuffix || ''
     const rows = definitions.flatMap((d: components['schemas']['ReportDefinitionSummary']) => {
       const { id: reportId, name: reportName, description: reportDescription } = d
-      return d.variants.map((v) => {
-        const { id: variantId, name: variantName, description: variantDescription } = v
-        return [
-          { text: reportName },
-          { html: `<a href="/async-reports/${reportId}/${variantId}/request${pathSuffix}">${variantName}</a>` },
-          { text: variantDescription || reportDescription },
-          {
-            html: services.bookmarkService.createBookMarkToggleHtml(reportId, variantId, csrfToken, 'reports-list'),
-            classes: 'dpr-vertical-align',
-            attributes: {
-              tabindex: 0,
-            },
+      return d.variants
+        .sort(
+          (
+            a: components['schemas']['ReportDefinitionSummary'],
+            b: components['schemas']['ReportDefinitionSummary'],
+          ) => {
+            if (a.name < b.name) return -1
+            if (a.name > b.name) return 1
+            return 0
           },
-        ]
-      })
+        )
+        .map((v) => {
+          const { id: variantId, name: variantName, description: variantDescription } = v
+          return [
+            { text: reportName },
+            { html: `<a href="/async-reports/${reportId}/${variantId}/request${pathSuffix}">${variantName}</a>` },
+            { text: variantDescription || reportDescription },
+            {
+              html: services.bookmarkService.createBookMarkToggleHtml(reportId, variantId, csrfToken, 'reports-list'),
+              classes: 'dpr-vertical-align',
+              attributes: {
+                tabindex: 0,
+              },
+            },
+          ]
+        })
     })
 
     const head = [

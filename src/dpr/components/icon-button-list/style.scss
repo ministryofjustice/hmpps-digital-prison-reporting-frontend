@@ -5,6 +5,10 @@
 
   .dpr-icon-wrapper {
     margin-right: 0px;
+
+    &:focus {
+      background-color: govuk-colour("yellow");
+    }
   }
 }
 

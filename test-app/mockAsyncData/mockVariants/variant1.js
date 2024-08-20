@@ -1,8 +1,7 @@
 const variant1 = {
   id: 'variantId-1',
-  name: 'Test Variant 1',
-  description:
-    'Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed',
+  name: 'Successful Report',
+  description: 'this will succeed',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: false,

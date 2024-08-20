@@ -1,7 +1,7 @@
 const variant12 = {
   id: 'variantId-12',
-  name: 'Test Variant 12',
-  description: 'Test Variant 12 description - sort by test',
+  name: 'Sort',
+  description: 'Sort by test',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: false,

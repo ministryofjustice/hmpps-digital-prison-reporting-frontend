@@ -1,7 +1,7 @@
 const variant11 = {
   id: 'variantId-11',
   name: 'Table Summaries',
-  description: 'Test Variant 11 description - A report with table summaries.',
+  description: 'A report with table summaries.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

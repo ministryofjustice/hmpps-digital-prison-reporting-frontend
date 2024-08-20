@@ -1,5 +1,9 @@
 .dpr-bookmark {
 
+  &:focus {
+    background-color: red;
+  }
+
   [type="checkbox"]:not(:checked),
   [type="checkbox"]:checked {
     display: none;

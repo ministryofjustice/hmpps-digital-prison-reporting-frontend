@@ -2,21 +2,24 @@
 import DprPollingStatusClass from '../../DprPollingStatusClass.mjs'
 
 export default class DprAsyncRequestList extends DprPollingStatusClass {
-  static getModuleName () {
+  static getModuleName() {
     return 'async-request-list'
   }
 
-  initialise () {
+  initialise() {
     this.END_STATUSES = this.getEndStatuses()
     this.POLLING_FREQUENCY = this.getPollingFrquency()
 
     this.requestList = document.getElementById('dpr-async-request-component')
     this.requestData = this.requestList.getAttribute('data-request-data')
     this.csrfToken = this.requestList.getAttribute('data-csrf-token')
+    this.removeActions = document.querySelectorAll('.dpr-remove-requested-report-button')
+
+    this.initItemActions()
     this.initPollingStatus()
   }
 
-  initPollingStatus () {
+  initPollingStatus() {
     setInterval(async () => {
       if (this.requestData) {
         const meta = JSON.parse(this.requestData)
@@ -35,5 +38,35 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
         )
       }
     }, this.POLLING_FREQUENCY)
+  }
+
+  initItemActions() {
+    this.removeActions.forEach((button) => {
+      const id = button.getAttribute('data-execution-id')
+      button.addEventListener('click', () => {
+        this.removeItemFromList(id)
+      })
+    })
+  }
+
+  async removeItemFromList(executionId) {
+    let response
+    await fetch('/removeRequestedItem/', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'CSRF-Token': this.csrfToken,
+      },
+      body: JSON.stringify({
+        executionId,
+      }),
+    })
+      .then(() => {
+        window.location.reload()
+      })
+      .catch((error) => console.error('Error:', error))
+
+    return response
   }
 }

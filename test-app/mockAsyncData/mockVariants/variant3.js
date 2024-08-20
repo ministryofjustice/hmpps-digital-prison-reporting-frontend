@@ -1,7 +1,7 @@
 const variant3 = {
   id: 'variantId-3',
-  name: 'Test Variant 3',
-  description: 'Test Variant 3 description - this will fail with status code error',
+  name: 'Fail with Status Error',
+  description: 'This will fail with status code error',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

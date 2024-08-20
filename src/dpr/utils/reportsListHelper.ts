@@ -23,9 +23,9 @@ export const getMeta = (cardData: CardData[]) => {
   })
 }
 
-export const formatTable = (cardData: CardData[]) => {
+export const formatTable = (cardData: CardData[], type: 'requested' | 'viewed') => {
   const rows = cardData.map((card: CardData) => {
-    return formatTableData(card)
+    return formatTableData(card, type)
   })
 
   return {
@@ -40,14 +40,27 @@ export const formatTable = (cardData: CardData[]) => {
   }
 }
 
-export const formatTableData = (card: CardData) => {
+const itemActionsHtml = (retryHref: string, executionId: string, type: 'requested' | 'viewed') => {
+  const tooltip = type === 'requested' ? 'Retry report' : 'Refresh report'
+  return `<div class="dpr-icon-wrapper__item-actions">
+      <div class="dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live" tooltip="${tooltip}">
+        <a href="${retryHref}"><i class="dpr-icon refresh-icon"></i></a>
+      </div><div class="dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live dpr-remove-${type}-report-button" tooltip="Remove from list" data-execution-id='${executionId}'>
+        <a href=""><i class="dpr-icon close-icon"></i>
+      </div></div>`
+}
+
+export const formatTableData = (card: CardData, type: 'requested' | 'viewed') => {
   let statusClass
+  let itemActions = ''
   switch (card.status) {
     case 'FAILED':
       statusClass = 'govuk-tag--red'
+      itemActions = itemActionsHtml(card.href, card.id, type)
       break
     case 'EXPIRED':
       statusClass = 'govuk-tag--yellow'
+      itemActions = itemActionsHtml(card.href, card.id, type)
       break
     case 'ABORTED':
       statusClass = 'govuk-tag--orange'
@@ -66,7 +79,7 @@ export const formatTableData = (card: CardData) => {
     { html: createDetailsHtml('Applied Filters', createSummaryHtml(card)) },
     { text: card.timestamp },
     {
-      html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${card.status}</strong>`,
+      html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${card.status}</strong>${itemActions}`,
     },
   ]
 }

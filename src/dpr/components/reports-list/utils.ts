@@ -20,6 +20,9 @@ export default {
           {
             html: services.bookmarkService.createBookMarkToggleHtml(reportId, variantId, csrfToken, 'reports-list'),
             classes: 'dpr-vertical-align',
+            attributes: {
+              tabindex: 0,
+            },
           },
         ]
       })

@@ -1,6 +1,6 @@
 const variant13 = {
   id: 'variantId-13',
-  name: 'Test Variant 13',
+  name: 'Empty query',
   description: 'No filters or Sort columns',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',

@@ -1,7 +1,7 @@
 const variant2 = {
   id: 'variantId-2',
-  name: 'Test Variant 2',
-  description: 'Test Variant 2 description - this will fail with returned Status: FAILED',
+  name: 'Failed report',
+  description: 'this will fail with returned Status: FAILED',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

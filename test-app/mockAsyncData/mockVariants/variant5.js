@@ -1,7 +1,7 @@
 const variant5 = {
   id: 'variantId-5',
-  name: 'Test Variant 5',
-  description: 'Test Variant 5 description - this will return a request error',
+  name: 'Request Error',
+  description: 'This will return a request error',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

@@ -75,14 +75,14 @@ export default {
       title: 'Recently Viewed',
       icon: 'viewed',
       id: 'recently-viewed',
-      ...(cardData.length && { href: './async-reports/requested' }),
-      ...(!cardData.length && { emptyMessage: 'You have 0 requested reports' }),
+      ...(cardData.length && { href: './async-reports/recently-viewed' }),
+      ...(!cardData.length && { emptyMessage: 'You have 0 Recently viewed reports' }),
     }
 
     return {
       head,
       cardData,
-      tableData: ReportListHelper.formatTable(cardData),
+      tableData: ReportListHelper.formatTable(cardData, 'viewed'),
       total: ReportListHelper.getTotals(cardData, maxRows),
       meta: ReportListHelper.getMeta(cardData),
       csrfToken,

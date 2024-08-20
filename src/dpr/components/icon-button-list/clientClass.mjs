@@ -22,14 +22,14 @@ export default class IconButtonList extends DprClientClass {
     if (this.printButton) {
       const disabled = this.printButton.getAttribute('data-disabled')
       this.printButton.addEventListener('click', () => {
-        if (disabled && disabled !== 'true') {
+        if (disabled !== 'true') {
           window.print()
         }
       })
 
-      this.printButton.addEventListener('keypress', (e) => {
+      this.printButton.addEventListener('keyup', (e) => {
         if (e.key === 'Enter') {
-          if (disabled && disabled !== 'true') {
+          if (disabled !== 'true') {
             window.print()
           }
         }
@@ -44,7 +44,7 @@ export default class IconButtonList extends DprClientClass {
         window.location = href
       })
 
-      this.shareButton.addEventListener('keypress', (e) => {
+      this.shareButton.addEventListener('keyup', (e) => {
         if (e.key === 'Enter') {
           window.location = href
         }
@@ -59,7 +59,7 @@ export default class IconButtonList extends DprClientClass {
         navigator.clipboard.writeText(href)
       })
 
-      this.copyButton.addEventListener('keypress', (e) => {
+      this.copyButton.addEventListener('keyup', (e) => {
         if (e.key === 'Enter') {
           navigator.clipboard.writeText(href)
         }
@@ -80,7 +80,7 @@ export default class IconButtonList extends DprClientClass {
         window.location = href
       })
 
-      this.refreshButton.addEventListener('keypress', (e) => {
+      this.refreshButton.addEventListener('keyup', (e) => {
         if (e.key === 'Enter') {
           window.location = href
         }

@@ -8,7 +8,7 @@ export default class DprRecentlyViewedList extends DprPollingStatusClass {
 
   initialise() {
     this.POLLING_STATUSES = []
-    this.POLLING_FREQUENCY = '60' // 1 min
+    this.POLLING_FREQUENCY = '60000' // 1 min
 
     this.viewedList = document.getElementById('dpr-recently-viewed-component')
     this.viewedReportData = this.viewedList.getAttribute('data-request-data')

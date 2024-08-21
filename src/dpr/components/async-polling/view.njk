@@ -19,6 +19,7 @@
   {% set executionId = data.executionId %}
   {% set csrfToken = data.csrfToken %}
   {% set requestedAt = data.requestedAt %}
+  {% set definitionPath = data.definitionPath %}
   {% set descriptionClasses = 'govuk-!-margin-top-4 govuk-!-margin-bottom-6'%}
 
   {% set meta = { 
@@ -26,7 +27,8 @@
     variantId: variantId, 
     executionId: executionId, 
     status: status,
-    requestedAt: requestedAt
+    requestedAt: requestedAt,
+    dataProductDefinitionsPath: definitionPath
   }%}
 
   <div id="async-request-polling-status" 

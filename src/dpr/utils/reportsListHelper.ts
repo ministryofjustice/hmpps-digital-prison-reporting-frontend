@@ -44,9 +44,9 @@ const itemActionsHtml = (retryHref: string, executionId: string, type: 'requeste
   const tooltip = type === 'requested' ? 'Retry report' : 'Refresh report'
   return `<div class="dpr-icon-wrapper__item-actions">
       <div class="dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live" tooltip="${tooltip}">
-        <a href="${retryHref}"><i class="dpr-icon refresh-icon"></i></a>
+        <a href="${retryHref}"><span class='dpr-visually-hidden'>${tooltip}</span><i class="dpr-icon refresh-icon"></i></a>
       </div><div class="dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live dpr-remove-${type}-report-button" tooltip="Remove from list" data-execution-id='${executionId}'>
-        <a href=""><i class="dpr-icon close-icon"></i>
+        <a href="#"><span class='dpr-visually-hidden'>Remove Report from list</span><i class="dpr-icon close-icon"></i>
       </div></div>`
 }
 

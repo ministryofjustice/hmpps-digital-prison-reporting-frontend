@@ -14,6 +14,7 @@ export default {
 
   renderPolling: async ({ req, res, services }: AsyncReportUtilsParams) => {
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+    const { dataProductDefinitionsPath: definitionPath } = req.query
     const { reportId, variantId, executionId } = req.params
 
     const reportData = await services.asyncReportsStore.getReportByExecutionId(executionId)
@@ -29,6 +30,7 @@ export default {
         variantId,
         status,
         tableId,
+        definitionPath,
         querySummary: query.summary,
         requestedAt: timestamp.requested,
         csrfToken,

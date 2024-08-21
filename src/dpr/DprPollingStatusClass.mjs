@@ -23,7 +23,6 @@ export default class DprPollingStatusClass extends DprClientClass {
 
   async getStatus(endpoint, body, csrfToken) {
     let response
-    console.log({ body })
     await fetch(endpoint, {
       method: 'post',
       headers: {

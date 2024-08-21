@@ -24,10 +24,10 @@ export default function routes({
     logger.error(`Error: ${JSON.stringify(req.body)}`)
     let { error } = req.body
 
-    if (error && error.message) {
-      error = { userMessage: `${error.name}: ${error.message}`, status: 'FAILED', stack: error.stack }
-    } else if (error && error.data) {
+    if (error && error.data) {
       error = error.data
+    } else if (error && error.message) {
+      error = { userMessage: `${error.name}: ${error.message}`, status: 'FAILED', stack: error.stack }
     }
 
     res.render(`${templatePath}/async-error`, {

@@ -2,11 +2,11 @@
 import DprPollingStatusClass from '../../DprPollingStatusClass.mjs'
 
 export default class DprAsyncPolling extends DprPollingStatusClass {
-  static getModuleName () {
+  static getModuleName() {
     return 'async-polling-content'
   }
 
-  initialise () {
+  initialise() {
     this.POLLING_STATUSES = this.getPollingStatuses()
     this.POLLING_FREQUENCY = this.getPollingFrquency()
 
@@ -21,7 +21,7 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
     this.initPollingStatus()
   }
 
-  initPollingStatus () {
+  initPollingStatus() {
     const status = this.statusSection.getAttribute('data-current-status')
     const csrfToken = this.statusSection.getAttribute('data-csrf-token')
 
@@ -36,7 +36,7 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
     }
   }
 
-  initCancelRequestButton () {
+  initCancelRequestButton() {
     if (this.cancelRequestButton) {
       const executionId = this.cancelRequestButton.getAttribute('data-execution-id')
       const reportId = this.cancelRequestButton.getAttribute('data-report-id')

@@ -125,7 +125,9 @@ addAsyncReportingRoutes(routeImportParams)
 app.get('/async-reports', async (req, res) => {
   res.locals.definitions = definitions.reports
   res.locals.csrfToken = 'csrfToken'
-  res.locals.pathSuffix = ''
+  res.locals.pathSuffix = req.query.dataProductDefinitionsPath
+    ? `?dataProductDefinitionsPath=${req.query.dataProductDefinitionsPath}`
+    : ''
 
   const requestedReports = await AsyncReportListUtils.renderList({
     services,

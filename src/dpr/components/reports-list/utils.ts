@@ -1,6 +1,7 @@
 import { Response } from 'express'
 import { components } from '../../types/api'
 import { Services } from '../../types/Services'
+import { createShowMoreHtml } from '../../utils/reportsListHelper'
 
 interface variantData {
   reportName: string
@@ -46,10 +47,12 @@ export default {
 
     const rows = sortedVariants.map((v: variantData) => {
       const { variantId, variantName, variantDescription, reportName, reportId, reportDescription } = v
+      const description = variantDescription || reportDescription
+
       return [
         { text: reportName },
         { html: `<a href="/async-reports/${reportId}/${variantId}/request${pathSuffix}">${variantName}</a>` },
-        { text: variantDescription || reportDescription },
+        { html: createShowMoreHtml(description) },
         {
           html: services.bookmarkService.createBookMarkToggleHtml(reportId, variantId, csrfToken, 'reports-list'),
           classes: 'dpr-vertical-align',

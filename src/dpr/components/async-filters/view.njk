@@ -40,13 +40,13 @@
 
       {% if filters.length %}
         <div class="dpr-async-controls__section govuk-!-margin-top-4">
-          <h3 class="govuk-heading-s">Filters</h3>
+          <h2 class="govuk-heading-s">Filters</h2>
           {{ dprAsyncFilterInputs(filters, 'filters.') }}
         </div>
       {% endif %}
 
       <div class="dpr-async-controls__section">
-        <h3 class="govuk-heading-s">Sort By</h3>
+        <h2 class="govuk-heading-s">Sort By</h2>
         {{ dprAsyncFilterInputs(sortBy, '') }}
       </div>
 

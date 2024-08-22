@@ -8,6 +8,12 @@
   },
   "license": "MIT",
   "private": false,
+  "config": {
+    "home_url": "http://localhost:3010/async-reports",
+    "request_url": "http://localhost:3010/async-reports/test-report-1/variantId-1/request",
+    "polling_url": "http://localhost:3010/async-reports/test-report-1/variantId-1/request/exId_1724318007754",
+    "report_url": "http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1724318007754/report"
+  },
   "scripts": {
     "package": "gulp build:package",
     "ci:release": "HUSKY=0 CI=true semantic-release --debug",
@@ -25,6 +31,7 @@
     "int-test-ui": "cypress open --config-file cypress-tests/integration-tests/cypress.config.js",
     "clean": "gulp package:clean && rm -rf node_modules",
     "lint:fix": "./node_modules/.bin/eslint . --fix",
+    "lint:axe": "axe --exit $npm_package_config_home_url, $npm_package_config_request_url, $npm_package_config_polling_url, $npm_package_config_report_url",
     "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output src/dpr/types/api.d.ts && npm run lint:fix"
   },
   "engines": {
@@ -113,6 +120,7 @@
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
+    "@axe-core/cli": "^4.10.0",
     "@badeball/cypress-cucumber-preprocessor": "^18.0.6",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@ministryofjustice/frontend": "^2.1.0",

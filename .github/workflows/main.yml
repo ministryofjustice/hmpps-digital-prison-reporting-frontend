@@ -84,8 +84,7 @@ jobs:
           node-version: 'lts/*'
       - run: npm ci
       - run: npm run package
-      - name: Install Axe
-      - run: npm install -g @axe-core/cli
+      - run: npm install -g @axe-core/cli 
       - name: Run the node app and run Axe        
         run: |
           npm run start-test-app &

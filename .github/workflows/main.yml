@@ -85,6 +85,11 @@ jobs:
       - run: npm ci
       - run: npm run package
       - run: npm install -g @axe-core/cli 
+      - name: Get Chromium version
+        run: |
+          CHROMIUM_VERSION=$(wget -qO- https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_STABLE | cut -d. -f1)
+          echo "Chromium version: $CHROMIUM_VERSION"
+          echo "CHROMIUM_VERSION=$CHROMIUM_VERSION" >> $GITHUB_ENV
       - name: Run the node app and run Axe        
         run: |
           npm run start-test-app &

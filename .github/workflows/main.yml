@@ -103,5 +103,5 @@ jobs:
       - name: Run the node app and run Axe        
         run: |
           npm run start-test-app &
-          sleep 5
+          sleep 10
           axe --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver http://localhost:3010/async-reports --load-delay=1500 --exit 

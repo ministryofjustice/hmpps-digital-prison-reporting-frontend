@@ -85,5 +85,7 @@ jobs:
       - run: npm ci
       - run: npm run package
       - run: npm install -g @axe-core/cli 
-      - name: Run the node app and run Axe
-        run: npm run start-test-app & axe --exit http://localhost:3010/async-reports 
+      - name: Run the node app and run Axe        run: |
+          npm run start-test-app &
+          sleep 5
+          axe --exit http://localhost:3010/async-reports

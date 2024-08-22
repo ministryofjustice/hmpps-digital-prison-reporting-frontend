@@ -95,13 +95,10 @@ jobs:
         uses: browser-actions/setup-chrome@v1
         with:
           chrome-version: ${{ env.CHROMIUM_VERSION }}
-      - name: Install chromedriver
-        run: |
-          echo "Installing chromedriver version: $CHROMIUM_VERSION"
-          npm install -g chromedriver@$CHROMIUM_VERSION
-          echo "chromedriver version: $(chromedriver --version)"
       - name: Run the node app and run Axe        
         run: |
           npm run start-test-app &
           sleep 5
+          npm install -g chromedriver@$CHROMIUM_VERSION
+          echo "chromedriver version: $(chromedriver --version)"
           axe --exit --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver http://localhost:3010/async-reports 

@@ -87,9 +87,9 @@ jobs:
       - name: Install Axe
       - run: npm install -g @axe-core/cli
       - name: Get Chromium version
-        run: |
-          CHROMIUM_VERSION=$(wget -qO- https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_STABLE | cut -d. -f1)
-          echo "Chromium version: $CHROMIUM_VERSION"
+        # run: |
+        #   CHROMIUM_VERSION=$(wget -qO- https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_STABLE | cut -d. -f1)
+        #   echo "Chromium version: $CHROMIUM_VERSION"
       # - name: Setup Chrome
       #   uses: browser-actions/setup-chrome@v1
       #   with:

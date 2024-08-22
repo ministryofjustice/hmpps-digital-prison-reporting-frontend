@@ -98,7 +98,7 @@ jobs:
       - name: Install chromedriver
         run: |
           echo "Installing chromedriver version: $CHROMIUM_VERSION"
-          npm install chromedriver@$CHROMIUM_VERSION
+          npm install -g chromedriver@$CHROMIUM_VERSION
           echo "chromedriver version: $(chromedriver --version)"
       - name: Run the node app and run Axe        
         run: |

@@ -84,8 +84,6 @@ jobs:
           node-version: 'lts/*'
       - run: npm ci
       - run: npm run package
+      - run: npm install -g @axe-core/cli 
       - name: Run the node app and run Axe
-        run: |
-          npm run start-test-app &
-          sleep 5
-          axe --exit ${{ env.async-home }}, ${{ env.async-request }}, ${{ env.async-polling }}, ${{ env.async-report }} 
+        run: npm run start-test-app & axe --exit ${{ env.async-home }}, ${{ env.async-request }}, ${{ env.async-polling }}, ${{ env.async-report }} 

@@ -104,5 +104,4 @@ jobs:
         run: |
           npm run start-test-app &
           sleep 5
-          npx browser-driver-manager install chrome@CHROMIUM_VERSION
-          axe --exit http://localhost:3010/async-reports 
+          axe --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver http://localhost:3010/async-reports --load-delay=1500 --exit 

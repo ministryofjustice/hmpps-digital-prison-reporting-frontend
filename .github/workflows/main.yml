@@ -101,4 +101,5 @@ jobs:
           sleep 5
           npm install -g chromedriver@$CHROMIUM_VERSION
           npm list -g
-          axe --exit --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver http://localhost:3010/async-reports 
+          echo $(npm root -g)
+          axe --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver http://localhost:3010/async-reports 

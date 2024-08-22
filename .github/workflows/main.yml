@@ -90,4 +90,4 @@ jobs:
         run: |
           npm run start-test-app &
           sleep 5
-          axe --exit http://localhost:3010/async-reports --exit
+          axe --exit http://localhost:3010/async-reports

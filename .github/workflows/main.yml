@@ -98,10 +98,10 @@ jobs:
       - name: Install chromedriver
         run: |
           echo "Installing chromedriver version: $CHROMIUM_VERSION"
-          npm install -g chromedriver@$CHROMIUM_VERSION
+          npm install -g chromedriver@127
           echo "chromedriver version: $(chromedriver --version)"
       - name: Run the node app and run Axe        
         run: |
           npm run start-test-app &
           sleep 5
-          axe --exit http://localhost:3010/async-reports 
+          axe --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver http://localhost:3010/async-reports --load-delay=1500 --exit 

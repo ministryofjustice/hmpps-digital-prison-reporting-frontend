@@ -7,10 +7,10 @@ on:
     branches: [ main ]
 
 env:
-  async_home: 'http://localhost:3010/async-reports'
-  async_request: 'http://localhost:3010/async-reports/test-report-1/variantId-1/request'
-  async_polling: 'http://localhost:3010/async-reports/test-report-1/variantId-1/request/exId_1724318007754'
-  async_report: 'http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1724318007754/report'
+  HOME_URL: 'http://localhost:3010/async-reports'
+  REQUEST_URL: 'http://localhost:3010/async-reports/test-report-1/variantId-1/request'
+  POLLING_URL: 'http://localhost:3010/async-reports/test-report-1/variantId-1/request/exId_1724318007754'
+  REPORT_URL: 'http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1724318007754/report'
 
 jobs:
   build:
@@ -85,19 +85,8 @@ jobs:
       - run: npm ci
       - run: npm run package
       - run: npm install -g @axe-core/cli 
-      - name: Get Chromium version
-        run: |
-          CHROMIUM_VERSION=$(wget -qO- https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_STABLE | cut -d. -f1)
-          echo "Chromium version: $CHROMIUM_VERSION"
-          echo "CHROMIUM_VERSION=$CHROMIUM_VERSION" >> $GITHUB_ENV
-      - name: Setup Chrome
-        id: setup-chrome
-        uses: browser-actions/setup-chrome@v1
-        with:
-          chrome-version: ${{ env.CHROMIUM_VERSION }}
       - name: Install chromedriver
         run: |
-          echo "Installing chromedriver version: $CHROMIUM_VERSION"
           npm install -g chromedriver@127
           echo "chromedriver version: $(chromedriver --version)"
       - name: Run the node app and run Axe        
@@ -105,4 +94,4 @@ jobs:
           npm run start-test-app &
           sleep 10
           npx wait-on http://localhost:3010
-          axe --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver $npm_package_config_async_home, $npm_package_config_async_request, $npm_package_config_async_polling, $npm_package_config_async_report --load-delay=1500 --exit 
+          axe --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver $HOME_URL, $REQUEST_URL, $POLLING_URL, $REPORT_URL --load-delay=1500 --exit 

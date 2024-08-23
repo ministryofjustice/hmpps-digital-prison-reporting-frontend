@@ -41,25 +41,23 @@ module.exports = {
   reports: [
     {
       id: 'test-report-1',
-      name: 'Test Report',
-      variants: [
-        variant1,
-        variant2,
-        variant3,
-        variant4,
-        variant5,
-        variant6,
-        variant7,
-        variant8,
-        variant9,
-        variant10,
-        variant11,
-        variant12,
-        variant13,
-        variant14,
-        variant15,
-        variant16,
-      ],
+      name: 'C Test Report',
+      variants: [variant1, variant2, variant3, variant4],
+    },
+    {
+      id: 'test-report-1',
+      name: 'D Test Report',
+      variants: [variant5, variant6, variant7],
+    },
+    {
+      id: 'test-report-2',
+      name: 'B Test Report',
+      variants: [variant8, variant9, variant10, variant11],
+    },
+    {
+      id: 'test-report-2',
+      name: 'A Test Report',
+      variants: [variant12, variant13, variant14, variant15, variant16],
     },
   ],
 }

@@ -92,6 +92,5 @@ jobs:
       - name: Run the node app and run Axe        
         run: |
           npm run start-test-app &
-          sleep 10
           npx wait-on http://localhost:3010
           axe --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver $HOME_URL, $REQUEST_URL, $POLLING_URL, $REPORT_URL --load-delay=1500 --exit 

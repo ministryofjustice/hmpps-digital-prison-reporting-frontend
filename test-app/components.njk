@@ -1,0 +1,34 @@
+{% extends "page.njk" %}
+
+{% from "components/pagination/view.njk" import dprPagination %}
+{% from "components/icon-button-list/view.njk" import dprIconButtonList %}
+
+{% block content %}
+  <h1 class="govuk-heading-l">Component List</h1>
+
+  {{ data | dump | safe }}
+
+  <div class="dpr-component-cat-wrapper  govuk-!-margin-bottom-6">
+    <h2 class="govuk-heading-m">Filters</h2>
+
+  </div>
+
+  <div class="dpr-component-cat-wrapper govuk-!-margin-bottom-6">
+    <h2 class="govuk-heading-m">Report Components</h2>
+
+    <div class="dpr-component-wrapper govuk-!-margin-bottom-6">
+      <h3 class="govuk-heading-s">Pagination</h2>
+      {{ dprPagination(pagination) }}
+    </div>
+
+    <div class="dpr-component-wrapper govuk-!-margin-bottom-6" style="position: relative">
+      <h3 class="govuk-heading-s">Actions</h2>
+      {{ dprIconButtonList(iconButtonList) }}
+    </div>
+  </div>
+
+  <div class="govuk-!-margin-bottom-6">
+    <h2 class="govuk-heading-m">Lists</h2>
+  </div>
+
+{% endblock %}

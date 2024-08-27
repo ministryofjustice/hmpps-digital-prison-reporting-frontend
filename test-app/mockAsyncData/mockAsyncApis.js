@@ -5,7 +5,7 @@ const mockStatusApiError = require('./mockStatusResponseError')
 const mockBadQueryRequest = require('./mockBadQueryRequest')
 const createMockData = require('./mockAsyncData')
 
-const mockAPIStatus = []
+const mockAPIStatus = [{ executionId: `exId_1721738244284`, tableId: `tblId_1721738244284` }]
 const happyStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED']
 const sadStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FAILED']
 const sadServerStatuses = ['SUBMITTED', 'PICKED', 500]
@@ -14,6 +14,7 @@ const timedOutStatuses = new Array(500).fill('STARTED')
 const RESULT_COUNT = 100
 
 const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
+  console.log('getAsyncReportStatus', { variantId, executionId })
   const mockResponse = Object.assign(mockStatusApiResponse, {})
   let statuses
   switch (variantId) {
@@ -110,13 +111,41 @@ const getAsyncSummaryReport = (token, reportId, variantId, tableId, summaryId) =
       return Promise.resolve([{ field1: 'Percentageness', field2: '10%', field3: '20%', field4: '90%' }])
     case 'summary6':
       return Promise.resolve([
-        { section1: 'One', section2: 'A', field1: 'Section One A Header', field2: 1, field3: 12219380923, field4: '4 Freds' },
-        { section1: 'Two', section2: 'A', field1: 'Section Two A Header', field2: 1, field3: 12219380923, field4: '5 Freds' },
+        {
+          section1: 'One',
+          section2: 'A',
+          field1: 'Section One A Header',
+          field2: 1,
+          field3: 12219380923,
+          field4: '4 Freds',
+        },
+        {
+          section1: 'Two',
+          section2: 'A',
+          field1: 'Section Two A Header',
+          field2: 1,
+          field3: 12219380923,
+          field4: '5 Freds',
+        },
       ])
     case 'summary7':
       return Promise.resolve([
-        { section1: 'One', section2: 'A', field1: 'Section One A Footer', field2: 1, field3: 12219380923, field4: '6 Freds' },
-        { section1: 'One', section2: 'B', field1: 'Section One B Footer', field2: 1, field3: 12219380923, field4: '7 Freds' },
+        {
+          section1: 'One',
+          section2: 'A',
+          field1: 'Section One A Footer',
+          field2: 1,
+          field3: 12219380923,
+          field4: '6 Freds',
+        },
+        {
+          section1: 'One',
+          section2: 'B',
+          field1: 'Section One B Footer',
+          field2: 1,
+          field3: 12219380923,
+          field4: '7 Freds',
+        },
       ])
     default:
       return Promise.resolve([{ total: 52 }])

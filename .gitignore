@@ -147,3 +147,6 @@ package/package.zip
 /test_results/
 /cypress-tests/**/videos/
 /cypress-tests/**/screenshots/
+
+# axe
+axe_results.json

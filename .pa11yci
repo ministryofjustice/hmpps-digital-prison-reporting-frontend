@@ -1,0 +1,9 @@
+{
+  "urls": [
+    "http://localhost:3010/async-reports",
+    "http://localhost:3010/async-reports/test-report-1/variantId-1/request",
+    "http://localhost:3010/async-reports/test-report-1/variantId-1/request/exId_1721738244284",
+    "http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1721738244284/report",
+    "http://localhost:3010/components" 
+  ]
+}

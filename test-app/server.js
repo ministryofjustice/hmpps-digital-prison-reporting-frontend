@@ -16,6 +16,7 @@ const BookmarklistUtils = require('../package/dpr/utils/bookmarkListUtils').defa
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
 const AsyncReportListUtils = require('../package/dpr/components/async-request-list/utils').default
 const RecentlyViewedCardGroupUtils = require('../package/dpr/components/recently-viewed-list/utils').default
+const ReportActionsUtils = require('../package/dpr/components/icon-button-list/utils').default
 
 // Set up application
 const appViews = [
@@ -66,7 +67,7 @@ const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').de
 const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
 const definitions = require('./mockAsyncData/mockReportDefinition')
-
+const componentParams = require('./mockComponentParams')
 // Set up routes
 
 app.get('/', (req, res) => {
@@ -304,6 +305,12 @@ app.get('/search', (req, res) => {
       [{ text: 'Product three' }, { text: 'Report five' }],
       [{ text: 'Product three' }, { text: 'Report six' }],
     ],
+  })
+})
+
+app.get('/components', (req, res) => {
+  res.render('components.njk', {
+    ...componentParams,
   })
 })
 

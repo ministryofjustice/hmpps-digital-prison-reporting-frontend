@@ -19,30 +19,35 @@ export default {
     const { definitions, csrfToken } = res.locals
     const pathSuffix = res.locals.pathSuffix || ''
 
-    const allVariants = definitions.flatMap((def: components['schemas']['ReportDefinitionSummary']) => {
+    const sortedDefinitions = definitions.sort(
+      (a: components['schemas']['ReportDefinitionSummary'], b: components['schemas']['ReportDefinitionSummary']) => {
+        if (a.name < b.name) return -1
+        if (a.name > b.name) return 1
+        return 0
+      },
+    )
+
+    const sortedVariants = sortedDefinitions.flatMap((def: components['schemas']['ReportDefinitionSummary']) => {
       const { id: reportId, name: reportName, description: reportDescription } = def
       const { variants } = def
-      return variants.map((variant) => {
-        const { id: variantId, name: variantName, description: variantDescription } = variant
-        return {
-          reportName,
-          reportId,
-          variantId,
-          variantName,
-          variantDescription,
-          reportDescription,
-        }
-      })
-    })
 
-    const sortedVariants = allVariants.sort((a: variantData, b: variantData) => {
-      if (a.variantName < b.variantName) {
-        return -1
-      }
-      if (a.variantName > b.variantName) {
-        return 1
-      }
-      return 0
+      return variants
+        .map((variant) => {
+          const { id: variantId, name: variantName, description: variantDescription } = variant
+          return {
+            reportName,
+            reportId,
+            variantId,
+            variantName,
+            variantDescription,
+            reportDescription,
+          }
+        })
+        .sort((a: variantData, b: variantData) => {
+          if (a.variantName < b.variantName) return -1
+          if (a.variantName > b.variantName) return 1
+          return 0
+        })
     })
 
     const rows = sortedVariants.map((v: variantData) => {

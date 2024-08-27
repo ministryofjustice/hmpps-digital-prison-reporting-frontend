@@ -19,6 +19,7 @@ export const getMeta = (cardData: CardData[]) => {
       executionId: d.meta.executionId,
       status: d.meta.status,
       requestedAt: d.meta.requestedAt,
+      dataProductDefinitionsPath: d.meta.dataProductDefinitionsPath,
     }
   })
 }

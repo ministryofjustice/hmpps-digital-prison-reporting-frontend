@@ -90,7 +90,7 @@ jobs:
         run: |
           npm install -g chromedriver@127
           echo "chromedriver version: $(chromedriver --version)"
-      - name: Run the node app and run Axe        
+      - name: Run the node app and accesibility tests        
         run: |
           npm run start-test-app &
           npx wait-on http://localhost:3010

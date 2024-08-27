@@ -49,7 +49,7 @@ export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) 
       )
     },
   )
-  console.log({ tableId })
+
   const reportDataCountPromise = services.reportingService.getAsyncCount(token, tableId)
   const stateDataPromise = services.asyncReportsStore.getReportByTableId(tableId)
 

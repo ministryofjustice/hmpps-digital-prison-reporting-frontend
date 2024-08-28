@@ -85,14 +85,19 @@ jobs:
       - run: npm ci
       - run: npm run package
       - run: npm install -g @axe-core/cli 
+      - run: npm install -g pa11y
       - name: Install chromedriver
         run: |
           npm install -g chromedriver@127
           echo "chromedriver version: $(chromedriver --version)"
-      - name: Run the node app and accesibility tests        
+      - name: Run the node app and accesibility        
         run: |
           npm run start-test-app &
           npx wait-on http://localhost:3010
           axe --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver $HOME_URL, $REQUEST_URL, $POLLING_URL, $REPORT_URL --load-delay=1500 --exit
+          pa11y $HOME_URL
+          pa11y $REQUEST_URL
+          pa11y $POLLING_URL
+          pa11y $REPORT_URL
           npm run pa11y_tests
 

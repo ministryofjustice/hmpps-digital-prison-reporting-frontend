@@ -1,6 +1,7 @@
 {
   "defaults": {
-    "timeout": 100000
+    "timeout": 100000,
+    "concurrency": 1
   },
   "urls": [
     "http://localhost:3010/async-reports",

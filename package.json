@@ -12,8 +12,7 @@
     "home_url": "http://localhost:3010/async-reports",
     "request_url": "http://localhost:3010/async-reports/test-report-1/variantId-1/request",
     "polling_url": "http://localhost:3010/async-reports/test-report-1/variantId-1/request/exId_1721738244284",
-    "report_url": "http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1721738244284/report",
-    "components": "http://localhost:3010/components"
+    "report_url": "http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1721738244284/report"
   },
   "scripts": {
     "package": "gulp build:package",
@@ -34,7 +33,6 @@
     "lint:fix": "./node_modules/.bin/eslint . --fix",
     "axe_tests": "axe --exit --save axe_results.json $npm_package_config_home_url, $npm_package_config_request_url, $npm_package_config_polling_url, $npm_package_config_report_url",
     "pa11y_tests": "pa11y-ci",
-    "pa11y_t": "pa11y $npm_package_config_report_url",
     "accessibility_tests": "npm run axe_tests && npm run pa11y_tests",
     "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output src/dpr/types/api.d.ts && npm run lint:fix"
   },

@@ -16,10 +16,29 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
     this.removeActions = document.querySelectorAll('.dpr-remove-requested-report-button')
 
     this.initItemActions()
-    this.initPollingStatus()
+    this.initExpiredPollingStatus()
+    this.initStatusPollingStatus()
   }
 
-  initPollingStatus() {
+  initExpiredPollingStatus() {
+    setInterval(async () => {
+      if (this.requestData) {
+        const meta = JSON.parse(this.requestData)
+        await Promise.all(
+          meta.map(async (metaData) => {
+            if (metaData.status !== 'EXPIRED') {
+              const response = await this.getExpiredStatus(metaData, this.csrfToken)
+              if (response.isExpired) {
+                window.location.reload()
+              }
+            }
+          }),
+        )
+      }
+    }, 60000) // 1 minute
+  }
+
+  initStatusPollingStatus() {
     setInterval(async () => {
       if (this.requestData) {
         const meta = JSON.parse(this.requestData)
@@ -43,8 +62,8 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
   initItemActions() {
     this.removeActions.forEach((button) => {
       const id = button.getAttribute('data-execution-id')
-      button.addEventListener('click', () => {
-        this.removeItemFromList(id)
+      button.addEventListener('click', async () => {
+        await this.removeItemFromList(id)
       })
     })
   }

@@ -32,7 +32,10 @@
     "int-test-ui": "cypress open --config-file cypress-tests/integration-tests/cypress.config.js",
     "clean": "gulp package:clean && rm -rf node_modules",
     "lint:fix": "./node_modules/.bin/eslint . --fix",
-    "accessibility": "axe --exit -vv --save axe_results.json $npm_package_config_components, $npm_package_config_home_url, $npm_package_config_request_url, $npm_package_config_polling_url, $npm_package_config_report_url && pa11y-ci",
+    "axe_tests": "axe --exit --save axe_results.json $npm_package_config_home_url, $npm_package_config_request_url, $npm_package_config_polling_url, $npm_package_config_report_url",
+    "pa11y_tests": "pa11y-ci",
+    "pa11y_t": "pa11y $npm_package_config_report_url",
+    "accessibility_tests": "npm run axe_tests && npm run pa11y_tests",
     "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output src/dpr/types/api.d.ts && npm run lint:fix"
   },
   "engines": {

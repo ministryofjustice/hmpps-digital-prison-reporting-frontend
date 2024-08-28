@@ -14,7 +14,6 @@ const timedOutStatuses = new Array(500).fill('STARTED')
 const RESULT_COUNT = 100
 
 const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
-  console.log('getAsyncReportStatus', { variantId, executionId })
   const mockResponse = Object.assign(mockStatusApiResponse, {})
   let statuses
   switch (variantId) {

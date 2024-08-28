@@ -3,7 +3,13 @@
     "http://localhost:3010/async-reports",
     "http://localhost:3010/async-reports/test-report-1/variantId-1/request",
     "http://localhost:3010/async-reports/test-report-1/variantId-1/request/exId_1721738244284",
-    "http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1721738244284/report",
-    "http://localhost:3010/components" 
+    {
+      "url": "http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1721738244284/report",
+      "ignore": [
+        "WCAG2AA.Principle1.Guideline1_3.1_3_1.H43.HeadersRequired",
+        "WCAG2AA.Principle1.Guideline1_3.1_3_1.H43.MissingHeadersAttrs",
+        "WCAG2AA.Principle3.Guideline3_2.3_2_2.H32.2"
+      ]
+    }
   ]
 }

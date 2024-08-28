@@ -2,11 +2,6 @@ export interface Header {
   html?: string
   text?: string
   format?: string
-  attributes: {
-    id: string
-    scope: string
-    headers?: string
-  }
 }
 
 export interface Cell {
@@ -15,9 +10,6 @@ export interface Cell {
   format?: string
   classes?: string
   colspan?: number
-  attributes?: {
-    headers?: string
-  }
 }
 
 export interface DataTable {

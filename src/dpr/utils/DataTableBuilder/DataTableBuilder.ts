@@ -49,10 +49,6 @@ export default class DataTableBuilder {
     return this.specification.fields
       .filter((f) => this.columns.includes(f.name))
       .map((f) => {
-        const attributes = {
-          headers: `header_${f.name}_id table-classification-row-id`,
-        }
-
         const overrideField = overrideFields.find((o) => o.name === f.name)
         const field = overrideField ?? f
         const text: string = this.mapCellValue(field, rowData[field.name])
@@ -68,7 +64,6 @@ export default class DataTableBuilder {
           ...(isHtml ? { html: text } : { text }),
           format: fieldFormat,
           classes: classes.trim(),
-          attributes,
         }
 
         return cell
@@ -102,16 +97,10 @@ export default class DataTableBuilder {
       .join(', ')
   }
 
-  private mapHeader(disableSort = false): Header[] {
+  private mapHeader(disableSort = false): Cell[] {
     return this.specification.fields
       .filter((field) => this.columns.includes(field.name))
       .map((f) => {
-        const attributes = {
-          id: `header_${f.name}_id`,
-          scope: 'col',
-          // headers: `ht_${f.name}`,
-        }
-
         if (this.reportQuery && !disableSort) {
           let header: Header
 
@@ -140,13 +129,10 @@ export default class DataTableBuilder {
                 `class="data-table-header-button data-table-header-button-sort-${sortDirection}" ` +
                 `href="${url}"` +
                 `>${f.display}</a>`,
-
-              attributes,
             }
           } else {
             header = {
               text: f.display,
-              attributes,
             }
           }
 
@@ -154,7 +140,6 @@ export default class DataTableBuilder {
         }
         return {
           text: f.display,
-          attributes,
         }
       })
   }

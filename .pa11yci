@@ -1,4 +1,7 @@
 {
+  "defaults": {
+    "timeout": 10000
+  },
   "urls": [
     "http://localhost:3010/async-reports",
     "http://localhost:3010/async-reports/test-report-1/variantId-1/request",

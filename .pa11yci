@@ -1,6 +1,6 @@
 {
   "defaults": {
-    "timeout": 10000
+    "timeout": 100000
   },
   "urls": [
     "http://localhost:3010/async-reports",

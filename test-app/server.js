@@ -66,7 +66,6 @@ const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').de
 const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
 const definitions = require('./mockAsyncData/mockReportDefinition')
-
 // Set up routes
 
 app.get('/', (req, res) => {

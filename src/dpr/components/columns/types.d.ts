@@ -7,5 +7,6 @@ export interface Column {
 export interface Columns {
   name: string
   options: Column[]
+  text: string
   value: string[]
 }

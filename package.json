@@ -8,6 +8,12 @@
   },
   "license": "MIT",
   "private": false,
+  "config": {
+    "home_url": "http://localhost:3010/async-reports",
+    "request_url": "http://localhost:3010/async-reports/test-report-1/variantId-1/request",
+    "polling_url": "http://localhost:3010/async-reports/test-report-1/variantId-1/request/exId_1721738244284",
+    "report_url": "http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1721738244284/report"
+  },
   "scripts": {
     "package": "gulp build:package",
     "ci:release": "HUSKY=0 CI=true semantic-release --debug",
@@ -25,6 +31,9 @@
     "int-test-ui": "cypress open --config-file cypress-tests/integration-tests/cypress.config.js",
     "clean": "gulp package:clean && rm -rf node_modules",
     "lint:fix": "./node_modules/.bin/eslint . --fix",
+    "axe_tests": "axe --exit --save axe_results.json $npm_package_config_home_url, $npm_package_config_request_url, $npm_package_config_polling_url, $npm_package_config_report_url",
+    "pa11y_tests": "pa11y-ci",
+    "accessibility_tests": "npm run axe_tests && npm run pa11y_tests",
     "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output src/dpr/types/api.d.ts && npm run lint:fix"
   },
   "engines": {
@@ -113,6 +122,7 @@
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
+    "@axe-core/cli": "^4.10.0",
     "@badeball/cypress-cucumber-preprocessor": "^18.0.6",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@ministryofjustice/frontend": "^2.1.0",
@@ -173,6 +183,8 @@
     "node-html-parser": "^6.1.5",
     "npm-run-all": "^4.1.5",
     "openapi-typescript": "^6.5.4",
+    "pa11y": "^8.0.0",
+    "pa11y-ci": "^3.1.0",
     "prettier": "^2.8.7",
     "prettier-plugin-jinja-template": "^0.5.0",
     "require-dir": "^1.2.0",
@@ -180,7 +192,8 @@
     "semantic-release": "^22.0.5",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
-    "typescript": "^5.4"
+    "typescript": "^5.4",
+    "wait-on": "^8.0.0"
   },
   "publishConfig": {
     "access": "public"

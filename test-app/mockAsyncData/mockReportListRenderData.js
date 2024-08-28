@@ -119,6 +119,7 @@ const mockGetReportListRenderData = {
           disabled: false,
         },
       ],
+      text: 'Columns checkboxes',
       value: ['field2', 'column'],
     },
     pagination: {
@@ -337,6 +338,7 @@ const mockReportListRenderData = {
         disabled: false,
       },
     ],
+    text: 'Columns checkboxes',
     value: ['field2', 'column'],
   },
   pagination: {

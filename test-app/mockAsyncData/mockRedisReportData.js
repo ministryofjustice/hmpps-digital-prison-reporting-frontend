@@ -275,8 +275,8 @@ const mockViewedReports = [
   {
     reportId: 'test-report-1',
     variantId: 'variantId-1',
-    executionId: 'exId_1721738907385',
-    tableId: 'tblId_1721738907385',
+    executionId: 'exId_1721738244284',
+    tableId: 'tblId_1721738244284',
     reportName: 'Test Report',
     variantName: 'Test Variant 1',
     description:
@@ -289,7 +289,7 @@ const mockViewedReports = [
           'http://localhost:3010/async-reports/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
       },
       report: {
-        fullUrl: 'http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1721738907385/report',
+        fullUrl: 'http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1721738244284/report',
       },
     },
     timestamp: {

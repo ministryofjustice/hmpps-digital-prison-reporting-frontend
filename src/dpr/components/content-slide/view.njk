@@ -18,7 +18,7 @@
 
   <div class="dpr-slide-container">
     <div class="dpr-slide__header">
-      <h3 class="govuk-heading-m dpr-slide__title">
+      <h2 class="govuk-heading-m dpr-slide__title">
         {% if icon %}
           {{ dprStaticIcon(icon, 'l') }}
         {% endif %}
@@ -27,7 +27,7 @@
         {% else %}
           {{ title }}
         {% endif %}
-      </h3>
+      </h2>
 
       {% if not emptyMessage.length and total %}
         <p class="govuk-body dpr-slide__sub-text">Showing {{ total.shown }} of  {{ total.amount }}. </p>

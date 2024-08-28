@@ -31,6 +31,7 @@ export default {
     return {
       name: 'columns',
       options,
+      text: 'Columns checkboxes',
       value: ensureMandatoryColumns(fields, requestedColumns ?? visibleColumns(fields)),
     }
   },

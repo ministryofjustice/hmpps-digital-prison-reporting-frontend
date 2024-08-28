@@ -90,9 +90,17 @@ jobs:
         run: |
           npm install -g chromedriver@127
           echo "chromedriver version: $(chromedriver --version)"
-      - name: Run the node app and accesibility        
+      - name: Run the node app and axe        
         run: |
           npm run start-test-app &
           npx wait-on http://localhost:3010
           axe --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver $HOME_URL, $REQUEST_URL, $POLLING_URL, $REPORT_URL --load-delay=1500 --exit
+      - name: Run the node app       
+        run: |
+          npm run start-test-app &
+          npx wait-on http://localhost:3010
+      - name: Run the Axe tests        
+        run: axe --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver $HOME_URL, $REQUEST_URL, $POLLING_URL, $REPORT_URL --load-delay=1500 --exit
+      - name: Run the Pa11y tests        
+        run: pa11y $HOME_URL
 

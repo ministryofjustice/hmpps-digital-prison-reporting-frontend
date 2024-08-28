@@ -40,8 +40,8 @@ export default class DprRecentlyViewedList extends DprPollingStatusClass {
   initItemActions() {
     this.removeActions.forEach((button) => {
       const id = button.getAttribute('data-execution-id')
-      button.addEventListener('click', () => {
-        this.removeItemFromList(id)
+      button.addEventListener('click', async () => {
+        await this.removeItemFromList(id)
       })
     })
   }

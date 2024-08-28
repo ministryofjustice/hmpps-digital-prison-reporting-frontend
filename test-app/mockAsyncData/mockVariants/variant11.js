@@ -1,7 +1,8 @@
 const variant11 = {
   id: 'variantId-11',
   name: 'Table Summaries',
-  description: 'A report with table summaries.',
+  description:
+    'A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

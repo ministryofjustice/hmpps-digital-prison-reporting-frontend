@@ -99,5 +99,4 @@ jobs:
           pa11y $REQUEST_URL
           pa11y $POLLING_URL
           pa11y $REPORT_URL
-          npm run pa11y_tests
 

@@ -1,7 +1,14 @@
 {
   "defaults": {
     "timeout": 100000,
-    "concurrency": 1
+    "concurrency": 1,
+    "chromeLaunchConfig": {
+      "ignoreHTTPSErrors": true,
+      "args": [
+        "--disable-dev-shm-usage",
+        "--no-sandbox"
+      ]
+    }
   },
   "urls": [
     "http://localhost:3010/async-reports",

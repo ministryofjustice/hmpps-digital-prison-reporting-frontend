@@ -2,14 +2,13 @@ const mockRequestedReports = [
   {
     reportId: 'test-report-1',
     variantId: 'variantId-1',
-    executionId: 'exId_1721738244284',
-    tableId: 'tblId_1721738244284',
+    executionId: 'exId_1724943092549',
+    tableId: 'tblId_1724943092549',
     name: 'Test Variant 1',
     reportName: 'Test Report',
-    description:
-      'Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed',
+    description: 'this will succeed',
     template: 'list',
-    status: 'SUBMITTED',
+    status: 'FINISHED',
     filters: {
       data: {
         field1: 'value1.2',
@@ -37,10 +36,13 @@ const mockRequestedReports = [
           '?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
       },
       polling: {
-        fullUrl: 'http://localhost:3010/async-reports/test-report-1/variantId-1/request/exId_1721738244284',
-        pathname: '/async-reports/test-report-1/variantId-1/request/exId_1721738244284',
+        fullUrl: 'http://localhost:3010/async-reports/test-report-1/variantId-1/request/exId_1724943092549',
+        pathname: '/async-reports/test-report-1/variantId-1/request/exId_1724943092549',
       },
-      report: {},
+      report: {
+        pathname: '/async-reports/test-report-1/variantId-1/request/tblId_1724943092549/report',
+        fullUrl: 'http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1724943092549/report',
+      },
     },
     query: {
       data: {
@@ -84,7 +86,8 @@ const mockRequestedReports = [
       ],
     },
     timestamp: {
-      requested: '2024-07-23T12:37:25.288Z',
+      requested: '2024-08-29T14:51:33.557Z',
+      completed: '2024-08-29T14:51:41.807Z',
     },
     dataProductDefinitionsPath: '',
   },
@@ -98,7 +101,7 @@ const mockRequestedReports = [
     description:
       'Test Variant 2 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed',
     template: 'list',
-    status: 'SUBMITTED',
+    status: 'FAILED',
     filters: {
       data: {
         field1: 'value1.2',
@@ -180,21 +183,21 @@ const mockRequestedReports = [
   },
   {
     reportId: 'test-report-3',
-    variantId: 'variantId-3',
-    executionId: 'exId_1721738244287',
-    tableId: 'tblId_1721738244287',
+    variantId: 'variantId-4',
+    executionId: 'exId_1721738244290',
+    tableId: 'tblId_1721738244290',
     name: 'Test Variant 3',
-    reportName: 'Test Report 3',
+    reportName: 'Test Report',
     description:
       'Test Variant 3 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed',
     template: 'list',
-    status: 'SUBMITTED',
+    status: 'EXPIRED',
     filters: {
       data: {
         field1: 'value1.2',
         field2: 'value2.1',
-        'field3.start': '2003-02-01',
-        'field3.end': '2006-05-04',
+        'field3.start': '2003-02-10',
+        'field3.end': '2006-05-24',
         field7: '2005-02-01',
       },
       queryString: 'field1=value1.2&field2=value2.1&field3.start=2003-02-01&field3.end=2006-05-04&field7=2005-02-01',
@@ -210,14 +213,14 @@ const mockRequestedReports = [
       origin: 'http://localhost:3010',
       request: {
         fullUrl:
-          'http://localhost:3010/async-reports/test-report-3/variantId-3/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
-        pathname: '/async-reports/test-report-3/variantId-3/request',
+          'http://localhost:3010/async-reports/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
+        pathname: '/async-reports/test-report-1/variantId-1/request',
         search:
           '?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
       },
       polling: {
-        fullUrl: 'http://localhost:3010/async-reports/test-report-3/variantId-3/request/exId_1721738244287',
-        pathname: '/async-reports/test-report-1/variantId-1/request/exId_1721738244287',
+        fullUrl: 'http://localhost:3010/async-reports/test-report-1/variantId-1/request/exId_1721738244284',
+        pathname: '/async-reports/test-report-1/variantId-1/request/exId_1721738244284',
       },
       report: {},
     },
@@ -225,8 +228,8 @@ const mockRequestedReports = [
       data: {
         'filters.field1': 'value1.2',
         'filters.field2': 'value2.1',
-        'filters.field3.start': '2003-02-01',
-        'filters.field3.end': '2006-05-04',
+        'filters.field3.start': '2003-02-10',
+        'filters.field3.end': '2006-05-24',
         'filters.field7': '2005-02-01',
         sortColumn: 'field1',
         sortedAsc: 'true',
@@ -263,9 +266,7 @@ const mockRequestedReports = [
       ],
     },
     timestamp: {
-      requested: new Date('2024-07-23T12:37:25.288Z'),
-      retried: new Date('2024-07-23T12:37:25.288Z'),
-      lastViewed: new Date('2024-07-23T12:37:25.288Z'),
+      expired: new Date().toISOString(),
     },
     dataProductDefinitionsPath: '',
   },
@@ -347,7 +348,7 @@ const mockViewedReports = [
     variantName: 'Test Variant 2',
     description:
       'Test Variant 2 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed',
-    status: 'READY',
+    status: 'EXPIRED',
     url: {
       origin: 'http://localhost:3010',
       request: {

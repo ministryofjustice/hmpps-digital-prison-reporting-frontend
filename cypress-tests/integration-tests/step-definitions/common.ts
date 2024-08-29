@@ -60,6 +60,10 @@ When(/I navigate to the (method|handler|validation) page/, (page: string) => {
   cy.visit(`/${path}`)
 })
 
+When(/I navigate to the async-home page/, () => {
+  cy.visit('/async-reports')
+})
+
 Then(/The text (.+) is displayed on the page/, (text) => {
   cy.get('body').should('contain.text', text)
 })

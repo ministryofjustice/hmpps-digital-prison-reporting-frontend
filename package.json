@@ -149,6 +149,7 @@
     "cypress": "^13.1.0",
     "cypress-axe": "^1.5.0",
     "cypress-multi-reporters": "^1.6.3",
+    "cypress-xpath": "^2.0.1",
     "dayjs": "^1.11.12",
     "del": "^7.1.0",
     "eslint": "^8.57.0",

@@ -119,6 +119,16 @@ export default function routes({
     }
   }
 
+  const getExpiredStatus: RequestHandler = async (req, res, next) => {
+    try {
+      const response = await AsyncRequestListUtils.getExpiredStatus({ req, res, services })
+      console.log({ response })
+      res.send({ isExpired: response })
+    } catch (error) {
+      res.send({ status: 'FAILED' })
+    }
+  }
+
   const pollingHandler: RequestHandler = async (req, res, next) => {
     try {
       const pollingRenderData = await AsyncPollingUtils.renderPolling({
@@ -165,6 +175,7 @@ export default function routes({
   router.post('/cancelRequest/', cancelRequestHandler, asyncErrorHandler)
   router.post('/removeRequestedItem/', removeRequestedItemHandler, asyncErrorHandler)
   router.post('/getStatus/', getStatusHandler)
+  router.post('/getRequestedExpiredStatus/', getExpiredStatus)
   router.get('/async-reports/:reportId/:variantId/request/:executionId', pollingHandler, asyncErrorHandler)
   router.get('/async-reports/:reportId/:variantId/request/:tableId/report', getReportHandler, asyncErrorHandler)
   router.get('/async-reports/requested', async (req, res) => {

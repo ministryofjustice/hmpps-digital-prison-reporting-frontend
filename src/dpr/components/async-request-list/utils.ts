@@ -1,7 +1,7 @@
 import { CardData, RenderTableListResponse } from '../table-card-group/types'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { AsyncReportData, RequestStatus } from '../../types/AsyncReport'
-import { getStatus } from '../../utils/reportStatusHelper'
+import { getStatus, getExpiredStatus } from '../../utils/reportStatusHelper'
 import * as ReportListHelper from '../../utils/reportsListHelper'
 
 export const formatCardData = (requestedReportsData: AsyncReportData): CardData => {
@@ -99,6 +99,14 @@ export default {
     }
 
     return response
+  },
+
+  getExpiredStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
+    const report = await getExpiredStatus({ req, res, services })
+    if (report.isExpired) {
+      await services.asyncReportsStore.setToExpired(report.executionId)
+    }
+    return report.isExpired
   },
 
   renderList: async ({

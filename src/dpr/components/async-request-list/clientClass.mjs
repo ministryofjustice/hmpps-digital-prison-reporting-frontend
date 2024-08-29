@@ -27,7 +27,7 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
         await Promise.all(
           meta.map(async (metaData) => {
             if (metaData.status !== 'EXPIRED') {
-              const response = await this.getExpiredStatus(metaData, this.csrfToken)
+              const response = await this.getExpiredStatus('/getRequestedExpiredStatus/', metaData, this.csrfToken)
               if (response.isExpired) {
                 window.location.reload()
               }
@@ -35,7 +35,7 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
           }),
         )
       }
-    }, 60000) // 1 minute
+    }, '60000') // 1 minute
   }
 
   initStatusPollingStatus() {

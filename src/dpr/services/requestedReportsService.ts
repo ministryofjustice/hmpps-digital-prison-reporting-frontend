@@ -166,6 +166,24 @@ export default class AsyncReportStoreService extends UserStoreService {
     await this.saveRequestedReportState()
   }
 
+  async setToExpired(id: string) {
+    await this.getRequestedReportsState()
+    const index = this.findIndexByExecutionId(id, this.requestedReports)
+    let report: AsyncReportData = this.requestedReports[index]
+    if (report) {
+      report = {
+        ...report,
+        status: RequestStatus.EXPIRED,
+        timestamp: {
+          ...report.timestamp,
+          expired: new Date(),
+        },
+      }
+    }
+    this.requestedReports[index] = report
+    await this.saveRequestedReportState()
+  }
+
   updateDataByStatus(report: AsyncReportData, status?: RequestStatus | undefined, errorMessage?: string) {
     const ts = new Date()
     const { tableId } = report

@@ -122,7 +122,6 @@ export default function routes({
   const getExpiredStatus: RequestHandler = async (req, res, next) => {
     try {
       const response = await AsyncRequestListUtils.getExpiredStatus({ req, res, services })
-      console.log({ response })
       res.send({ isExpired: response })
     } catch (error) {
       res.send({ status: 'FAILED' })

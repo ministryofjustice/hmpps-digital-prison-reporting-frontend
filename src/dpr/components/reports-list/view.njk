@@ -4,14 +4,12 @@
 {% macro dprReportsList(head, rows, id = 'reports-search') %}
 
   {% set tableHtml %}
-  <div data-dpr-module="bookmark-toggle">
     {{ govukTable({
       captionClasses: "govuk-table__caption--m",
       head: head,
       rows: rows,
       classes: "dpr-search-table"
     }) }}
-  </div>
   {% endset %}
 
   {{ dprSearch(id, tableHtml) }}

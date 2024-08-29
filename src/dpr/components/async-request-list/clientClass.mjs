@@ -62,7 +62,8 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
   initItemActions() {
     this.removeActions.forEach((button) => {
       const id = button.getAttribute('data-execution-id')
-      button.addEventListener('click', async () => {
+      button.addEventListener('click', async (e) => {
+        e.preventDefault()
         await this.removeItemFromList(id)
       })
     })

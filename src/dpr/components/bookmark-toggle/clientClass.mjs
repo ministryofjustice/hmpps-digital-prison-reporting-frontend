@@ -10,7 +10,8 @@ export default class BookmarkToggle extends DprClientClass {
   }
 
   initToggles() {
-    document.querySelectorAll('.bookmark-input[type=checkbox]').forEach((bookmarkToggle) => {
+    const element = this.getElement()
+    element.querySelectorAll('.bookmark-input[type=checkbox]').forEach((bookmarkToggle) => {
       const csrfToken = bookmarkToggle.getAttribute('data-csrf-token')
       const reportId = bookmarkToggle.getAttribute('data-report-id')
       const variantId = bookmarkToggle.getAttribute('data-variant-id')

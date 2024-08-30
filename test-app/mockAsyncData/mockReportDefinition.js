@@ -59,20 +59,5 @@ module.exports = {
       name: 'A Test Report',
       variants: [variant12, variant13, variant14, variant15, variant16],
     },
-    {
-      id: 'test-report-5',
-      name: ' ORS Prisoners With No Visit History',
-      variants: [variant12, variant13, variant14, variant15, variant16],
-    },
-    {
-      id: 'test-report-6',
-      name: 'ORS A and O Contingency Report',
-      variants: [variant12, variant13, variant14, variant15, variant16],
-    },
-    {
-      id: 'test-report-6',
-      name: 'ORS Alternative Visits List',
-      variants: [variant12, variant13, variant14, variant15, variant16],
-    },
   ],
 }

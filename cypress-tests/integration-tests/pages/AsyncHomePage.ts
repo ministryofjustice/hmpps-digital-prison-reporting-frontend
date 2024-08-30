@@ -53,7 +53,7 @@ export default class HomePage {
 
   bookmarkRow = (): PageElement => cy.xpath(`//*[@id="my-bookmarks-tab"]/div/div[2]/div[2]/table/tbody/tr`)
 
-  bookmarkButton = (): PageElement => cy.xpath(`//*[@id="variantId-1-test-report-1-bookmark-label"]`)
+  bookmarkButton = (): PageElement => cy.xpath(`//*[@id="variantId-1-test-report-1-bookmark-list-bookmark-label"]`)
 
   bookmarkLink = (): PageElement => cy.xpath(`//*[@id="my-bookmarks-tab"]/div/div[2]/div[2]/table/tbody/tr[1]/td[2]/a`)
 

@@ -14,7 +14,7 @@ export default class ShowMore extends DprClientClass {
     const textContainer = element.querySelector('.dpr-show-more-content')
     const button = element.querySelector('.dpr-show-hide-button')
     const textContent = element.getAttribute('data-content')
-    const shortString = textContent.substring(0, 200)
+    const shortString = textContent.replaceAll(/<[^>]+>/g, '').substring(0, 200)
 
     if (textContent.length > 200) {
       textContainer.innerHTML = `${shortString}... `

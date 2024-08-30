@@ -64,6 +64,10 @@ When(/I navigate to the async-home page/, () => {
   cy.visit('/async-reports')
 })
 
+When(/I navigate to the async-query page/, () => {
+  cy.visit('/async-reports/test-report-1/variantId-1/request')
+})
+
 Then(/The text (.+) is displayed on the page/, (text) => {
   cy.get('body').should('contain.text', text)
 })

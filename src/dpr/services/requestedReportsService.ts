@@ -117,6 +117,7 @@ export default class AsyncReportStoreService extends UserStoreService {
   }
 
   async getAllReportsByVariantId(variantId: string) {
+    await this.getRequestedReportsState()
     return this.requestedReports.filter((report) => {
       return report.variantId === variantId
     })

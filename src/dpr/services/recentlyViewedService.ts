@@ -37,6 +37,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
   }
 
   async getAllReportsByVariantId(variantId: string) {
+    await this.getRecentlyViewedState()
     return this.recentlyViewedReports.filter((report) => {
       return report.variantId === variantId
     })

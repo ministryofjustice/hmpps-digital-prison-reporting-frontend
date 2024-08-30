@@ -2,7 +2,7 @@ const variant16 = {
   id: 'variantId-16',
   name: 'Big report',
   description:
-    'Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields',
+    'Lots of fields Lots of fields Lots of fields <i>Lots of fields</i> Lots of fields <b>Lots of fields</b> Lots of fields Lots of fields Lots of fields Lots of fields Lots of fields <span><i><b>Lots of <br />fields</b></i></span> Lots of fields Lots of fields Lots of fields Lots of fields<br />Lots of fields Lots of fields Lots of fields Lots of fields',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: false,

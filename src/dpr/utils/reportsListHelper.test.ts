@@ -17,7 +17,7 @@ describe('ReportsListHelper', () => {
         formatCardData,
       )
 
-      expect(result.length).toEqual(2)
+      expect(result.length).toEqual(3)
     })
   })
 })

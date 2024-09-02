@@ -20,22 +20,29 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
     this.initStatusPollingStatus()
   }
 
-  initExpiredPollingStatus() {
+  async initExpiredPollingStatus() {
+    // run expired check on load first
+    await this.checkIfExpired(true)
+
     setInterval(async () => {
-      if (this.requestData) {
-        const meta = JSON.parse(this.requestData)
-        await Promise.all(
-          meta.map(async (metaData) => {
-            if (metaData.status !== 'EXPIRED') {
-              const response = await this.getExpiredStatus('/getRequestedExpiredStatus/', metaData, this.csrfToken)
-              if (response.isExpired) {
-                window.location.reload()
-              }
+      await this.checkIfExpired()
+    }, '6000') // 1 minute
+  }
+
+  async checkIfExpired() {
+    if (this.requestData) {
+      const meta = JSON.parse(this.requestData)
+      await Promise.all(
+        meta.map(async (metaData) => {
+          if (metaData.status !== 'EXPIRED') {
+            const response = await this.getExpiredStatus('/getRequestedExpiredStatus/', metaData, this.csrfToken)
+            if (response.isExpired) {
+              window.location.reload()
             }
-          }),
-        )
-      }
-    }, '60000') // 1 minute
+          }
+        }),
+      )
+    }
   }
 
   initStatusPollingStatus() {

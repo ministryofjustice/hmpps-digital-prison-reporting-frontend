@@ -1,7 +1,7 @@
-const variant12 = {
-  id: 'variantId-12',
+const variant17 = {
+  id: 'variantId-17',
   name: 'Sort',
-  description: 'Sort by test',
+  //note description missing
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: false,
@@ -102,4 +102,4 @@ const variant12 = {
   },
 }
 
-module.exports = variant12
+module.exports = variant17

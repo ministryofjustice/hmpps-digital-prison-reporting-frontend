@@ -22,7 +22,7 @@ describe('AsyncFiltersUtils', () => {
     jest.spyOn(ReportSummaryHelper, 'getDuplicateRequestIds').mockReturnValue([])
 
     mockDefintionVariants = MockDefinitions.report.variants.filter(
-      (v) => v.id === 'variantId-12',
+      (v) => v.id === 'variantId-17',
     ) as components['schemas']['VariantDefinition'][]
 
     mockReport = {

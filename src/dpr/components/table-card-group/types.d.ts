@@ -34,6 +34,7 @@ export interface CardData {
   id: string
   href: string
   text: string
+  reportName: string
   description: string
   timestamp?: string
   tag?: string

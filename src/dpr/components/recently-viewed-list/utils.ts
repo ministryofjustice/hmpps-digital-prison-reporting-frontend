@@ -21,10 +21,13 @@ export const formatCardData = (reportData: RecentlyViewedReportData): CardData =
   let { status } = reportData
 
   let href
+  let ts
   if (status === RequestStatus.EXPIRED) {
     href = `${url.request.fullUrl}`
+    ts = `Expired at: ${new Date(timestamp.expired).toLocaleString()}`
   } else {
     status = RequestStatus.READY
+    ts = `Last viewed: ${new Date(timestamp.lastViewed).toLocaleString()}`
     href = url.report.fullUrl
   }
 
@@ -35,7 +38,7 @@ export const formatCardData = (reportData: RecentlyViewedReportData): CardData =
     tag: 'MIS',
     summary: query.summary as { name: string; value: string }[],
     href,
-    timestamp: `Last viewed: ${new Date(timestamp.lastViewed).toLocaleString()}`,
+    timestamp: ts,
     status,
     meta: {
       reportId,

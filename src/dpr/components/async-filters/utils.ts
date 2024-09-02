@@ -14,7 +14,6 @@ import DefinitionUtils from '../../utils/definitionUtils'
 import { getDuplicateRequestIds } from '../../utils/reportSummaryHelper'
 import { Services } from '../../types/Services'
 import { RenderFiltersReturnValue } from './types'
-
 /**
  * Initialises the filters & Sort from the definition data
  *

@@ -401,7 +401,9 @@ export default {
         <string>definitionPath,
       )
       const { name: reportName } = definition
-      const { name: variantName, description } = definition.variant
+      const { name: variantName } = definition.variant
+      const description = definition.variant.description || definition.description
+
       const { template } = definition.variant.specification
 
       return {

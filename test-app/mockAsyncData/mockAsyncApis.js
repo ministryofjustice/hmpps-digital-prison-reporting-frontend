@@ -34,10 +34,11 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
       break
   }
 
-  const reportIndex = mockAPIStatus.findIndex((r) => r.executionId === executionId)
+  let reportIndex = mockAPIStatus.findIndex((r) => r.executionId === executionId)
+  if (reportIndex === -1) reportIndex = 0
   const currentStatus = mockAPIStatus[reportIndex].status
   const statusIndex = statuses.findIndex((status) => status === currentStatus)
-  const nextStatus = statuses[statusIndex + 1]
+  const nextStatus = statuses.length > statusIndex + 1 ? statuses[statusIndex + 1] : statuses[statusIndex]
 
   if (nextStatus) {
     mockAPIStatus[reportIndex].status = nextStatus

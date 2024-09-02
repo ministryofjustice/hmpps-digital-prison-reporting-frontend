@@ -16,6 +16,7 @@ export const formatCardData = (reportData: RecentlyViewedReportData): CardData =
     executionId,
     reportId,
     variantId,
+    reportName,
     dataProductDefinitionsPath,
   } = reportData
   let { status } = reportData
@@ -34,6 +35,7 @@ export const formatCardData = (reportData: RecentlyViewedReportData): CardData =
   return {
     id,
     text,
+    reportName,
     description,
     tag: 'MIS',
     summary: query.summary as { name: string; value: string }[],

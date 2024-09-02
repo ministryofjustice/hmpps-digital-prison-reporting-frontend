@@ -16,10 +16,11 @@ export const formatCards = async (bookmarksData: BookmarkedReportData[], maxRows
 
 export const formatCardData = (bookmarkData: BookmarkedReportData): CardData => {
   const reportData: BookmarkedReportData = JSON.parse(JSON.stringify(bookmarkData))
-  const { variantId, name, description, href } = reportData
+  const { variantId, name, description, href, reportName } = reportData
 
   return {
     id: variantId,
+    reportName,
     text: name,
     description,
     href,

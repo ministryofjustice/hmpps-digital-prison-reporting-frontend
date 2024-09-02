@@ -15,6 +15,7 @@ export const formatCardData = (requestedReportsData: AsyncReportData): CardData 
     query,
     status,
     timestamp,
+    reportName,
     dataProductDefinitionsPath,
   } = reportData
   const summary = query.summary as { name: string; value: string }[]
@@ -22,6 +23,7 @@ export const formatCardData = (requestedReportsData: AsyncReportData): CardData 
   return {
     id: executionId,
     text,
+    reportName,
     description,
     ...setDataFromStatus(status, reportData),
     tag: 'MIS',

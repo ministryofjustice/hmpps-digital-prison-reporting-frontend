@@ -16,16 +16,16 @@ export default class HomePage {
     cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[4]`)
 
   requestedFailedRetryButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[3]/td[5]/div/div[1]/a`)
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[3]/td[6]/div/div[1]/a`)
 
   requestedFailedRemoveButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[3]/td[5]/div/div[2]/a`)
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[3]/td[6]/div/div[2]/a`)
 
   requestedExpiredRetryButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[4]/td[5]/div/div[1]`)
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[4]/td[6]/div/div[1]`)
 
   requestedExpiredRemoveButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[4]/td[5]/div/div[2]`)
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[4]/td[6]/div/div[2]`)
 
   // Viewed Reports
 
@@ -40,10 +40,10 @@ export default class HomePage {
     cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/div[2]/div[2]/table/tbody/tr[2]`)
 
   viewedExpiredRefreshButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/div[2]/div[2]/table/tbody/tr[2]/td[5]/div/div[1]`)
+    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/div[2]/div[2]/table/tbody/tr[2]/td[6]/div/div[1]`)
 
   viewedExpiredRemoveButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/div[2]/div[2]/table/tbody/tr[2]/td[5]/div/div[2]`)
+    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/div[2]/div[2]/table/tbody/tr[2]/td[6]/div/div[2]`)
 
   // Bookmarks
 

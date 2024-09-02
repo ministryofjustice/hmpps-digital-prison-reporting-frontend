@@ -40,6 +40,7 @@ export const formatTable = (cardData: CardData[], type: 'requested' | 'viewed') 
   return {
     rows,
     head: [
+      { text: 'Product' },
       { text: 'Name' },
       { text: 'Description' },
       { text: 'Applied Filters', classes: `dpr-req-filters-summary` },
@@ -83,6 +84,7 @@ export const formatTableData = (card: CardData, type: 'requested' | 'viewed') =>
   }
 
   return [
+    { text: card.reportName },
     { html: `<a href='${card.href}'>${card.text}</a>` },
     { html: createDetailsHtml('Description', card.description) },
     { html: createDetailsHtml('Applied Filters', createSummaryHtml(card)) },
@@ -96,9 +98,9 @@ export const formatTableData = (card: CardData, type: 'requested' | 'viewed') =>
 export const formatCards = async (
   reports: AsyncReportData[] | RecentlyViewedReportData[],
   filterFunction: (report: AsyncReportData | RecentlyViewedReportData) => boolean,
-  formatFuntion: (reportData: RecentlyViewedReportData | AsyncReportData) => CardData,
+  formatFunction: (reportData: RecentlyViewedReportData | AsyncReportData) => CardData,
 ): Promise<CardData[]> => {
   return reports.filter(filterFunction).map((report: AsyncReportData | RecentlyViewedReportData) => {
-    return formatFuntion(report)
+    return formatFunction(report)
   })
 }

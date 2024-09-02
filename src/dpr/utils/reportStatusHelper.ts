@@ -80,7 +80,10 @@ export const getExpiredStatus = async ({ req, res, services }: AsyncReportUtilsP
   } catch (error) {
     const { data } = error
     errorMessage = (data ?? {}).userMessage
-    status = currentStatus === RequestStatus.READY ? RequestStatus.EXPIRED : RequestStatus.FAILED
+    status =
+      currentStatus === RequestStatus.READY || currentStatus === RequestStatus.FINISHED
+        ? RequestStatus.EXPIRED
+        : RequestStatus.FAILED
   }
 
   const result: GetStatusUtilsResponse = {

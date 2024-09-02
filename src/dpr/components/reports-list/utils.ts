@@ -52,7 +52,8 @@ export default {
 
     const rows = sortedVariants.map((v: variantData) => {
       const { variantId, variantName, variantDescription, reportName, reportId, reportDescription } = v
-      const description = variantDescription || reportDescription
+      let description = variantDescription || reportDescription
+      description = JSON.stringify(description)
 
       return [
         { text: reportName },

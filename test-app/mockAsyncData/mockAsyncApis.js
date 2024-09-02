@@ -10,6 +10,7 @@ const happyStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED']
 const sadStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FAILED']
 const sadServerStatuses = ['SUBMITTED', 'PICKED', 500]
 const expiredStatuses = ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED', 'READY', 500]
+const expiredStatus = [500]
 const timedOutStatuses = new Array(500).fill('STARTED')
 const RESULT_COUNT = 100
 
@@ -30,7 +31,7 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
       statuses = timedOutStatuses
       break
     default:
-      statuses = happyStatuses
+      statuses = expiredStatus
       break
   }
 

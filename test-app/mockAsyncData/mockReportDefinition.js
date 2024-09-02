@@ -14,7 +14,6 @@ const variant13 = require('./mockVariants/variant13')
 const variant14 = require('./mockVariants/variant14')
 const variant15 = require('./mockVariants/variant15')
 const variant16 = require('./mockVariants/variant16')
-const variant17 = require('./mockVariants/variant17')
 
 module.exports = {
   report: {
@@ -36,8 +35,7 @@ module.exports = {
       variant13,
       variant14,
       variant15,
-      variant16,
-      variant17
+      variant16
     ],
   },
   reports: [

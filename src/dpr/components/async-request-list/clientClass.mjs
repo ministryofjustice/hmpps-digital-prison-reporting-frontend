@@ -26,7 +26,7 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
 
     setInterval(async () => {
       await this.checkIfExpired()
-    }, '6000') // 1 minute
+    }, '60000') // 1 minute
   }
 
   async checkIfExpired() {

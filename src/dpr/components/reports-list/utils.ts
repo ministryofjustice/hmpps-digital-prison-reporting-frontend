@@ -53,7 +53,6 @@ export default {
     const rows = sortedVariants.map((v: variantData) => {
       const { variantId, variantName, variantDescription, reportName, reportId, reportDescription } = v
       const description = variantDescription || reportDescription
-
       return [
         { text: reportName },
         { html: `<a href="/async-reports/${reportId}/${variantId}/request${pathSuffix}">${variantName}</a>` },

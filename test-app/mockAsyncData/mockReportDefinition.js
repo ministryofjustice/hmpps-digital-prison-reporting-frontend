@@ -35,7 +35,7 @@ module.exports = {
       variant13,
       variant14,
       variant15,
-      variant16
+      variant16,
     ],
   },
   reports: [

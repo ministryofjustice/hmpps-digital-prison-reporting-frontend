@@ -1,0 +1,14 @@
+{% extends "page.njk" %}
+
+{% from "components/chart/view.njk" import dprChart %}
+
+{% block content %}
+  <h1 class="govuk-heading-l">{{ title }}</h1>
+
+  <div class="govuk-width-container">
+    {% for chartData in charts %}
+      {{ dprChart(chartData) }}
+    {% endfor %}
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+{% endblock %}

@@ -1,5 +1,14 @@
 Below you can find the changes included in each release.
 
+## v3.24.0
+
+- Section header and footer summary.
+- Listless template.
+
+## v3.23.3
+
+Fix HTML tags interfering with Show More component.
+
 ## v3.20.0
 
 - Section summaries.

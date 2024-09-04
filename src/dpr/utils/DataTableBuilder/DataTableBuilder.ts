@@ -51,23 +51,27 @@ export default class DataTableBuilder {
       .map((f) => {
         const overrideField = overrideFields.find((o) => o.name === f.name)
         const field = overrideField ?? f
-        const text: string = this.mapCellValue(field, rowData[field.name])
-        const classes = extraClasses + (field.wordWrap ? ` data-table-cell-wrap-${field.wordWrap.toLowerCase()}` : '')
-        let fieldFormat = 'string'
-
-        if (field.type === 'double' || field.type === 'long') {
-          fieldFormat = 'numeric'
-        }
-
-        const isHtml = field.type === 'HTML'
-        const cell: Cell = {
-          ...(isHtml ? { html: text } : { text }),
-          format: fieldFormat,
-          classes: classes.trim(),
-        }
-
-        return cell
+        return this.mapCell(field, rowData, extraClasses)
       })
+  }
+
+  private mapCell(field: FieldDefinition, rowData: NodeJS.Dict<string>, extraClasses = '') {
+    const text: string = this.mapCellValue(field, rowData[field.name])
+    const classes = extraClasses + (field.wordWrap ? ` data-table-cell-wrap-${field.wordWrap.toLowerCase()}` : '')
+    let fieldFormat = 'string'
+
+    if (field.type === 'double' || field.type === 'long') {
+      fieldFormat = 'numeric'
+    }
+
+    const isHtml = field.type === 'HTML'
+    const cell: Cell = {
+      ...(isHtml ? { html: text } : { text }),
+      format: fieldFormat,
+      classes: classes.trim(),
+    }
+
+    return cell
   }
 
   private mapCellValue(field: FieldDefinition, cellData: string) {
@@ -88,7 +92,9 @@ export default class DataTableBuilder {
     }
   }
 
-  private getSectionDescription(sections: string[], rowData: NodeJS.Dict<string>): string {
+  mapSectionDescription(rowData: NodeJS.Dict<string>): string {
+    const { sections } = this.specification
+
     return sections
       .map((s) => {
         const sectionField = this.specification.fields.find((f) => f.name === s)
@@ -164,7 +170,6 @@ export default class DataTableBuilder {
   }
 
   private mapSectionedData(data: Array<Dict<string>>, header: Cell[]): Cell[][] {
-    const { sections } = this.specification
     const sectionedData: Dict<Cell[][]> = {}
     const headerRow = header.map((h) => ({
       ...h,
@@ -172,7 +177,7 @@ export default class DataTableBuilder {
     }))
 
     data.forEach((rowData) => {
-      const sectionDescription: string = this.getSectionDescription(sections, rowData)
+      const sectionDescription: string = this.mapSectionDescription(rowData)
 
       if (!sectionedData[sectionDescription]) {
         sectionedData[sectionDescription] = []
@@ -210,12 +215,10 @@ export default class DataTableBuilder {
   }
 
   private mapSectionSummary(template: SummaryTemplate, sectionDescription: string): Cell[][] {
-    const { sections } = this.specification
-
     if (this.reportSummaries[template]) {
       return this.reportSummaries[template].flatMap((reportSummary) =>
         reportSummary.data
-          .filter((rowData) => this.getSectionDescription(sections, rowData) === sectionDescription)
+          .filter((rowData) => this.mapSectionDescription(rowData) === sectionDescription)
           .map((rowData) =>
             this.mapRow(rowData, `dpr-report-summary-cell dpr-report-summary-cell-${template}`, reportSummary.fields),
           ),

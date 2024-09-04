@@ -186,7 +186,7 @@ export interface components {
     }
     Specification: {
       /** @enum {string} */
-      template: 'list' | 'list-section' | 'list-aggregate' | 'list-tab' | 'crosstab' | 'summary'
+      template: 'list' | 'list-section' | 'list-aggregate' | 'list-tab' | 'crosstab' | 'summary' | 'summary-section'
       fields: components['schemas']['FieldDefinition'][]
       sections: string[]
     }

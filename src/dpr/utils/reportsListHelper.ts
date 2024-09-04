@@ -25,7 +25,7 @@ export const getMeta = (cardData: CardData[]) => {
 }
 
 export const createShowMoreHtml = (text: string) => {
-  const sanitizedString = text ? text.replace(/"/g, "'") : ""
+  const sanitizedString = text ? text.replace(/"/g, "'") : ''
 
   return `<div class="dpr-show-more" data-content="${sanitizedString}" data-dpr-module="show-more">
     <p><span class='dpr-show-more-content'>${sanitizedString}</span><a class="dpr-show-hide-button" href="#">Show more</a></p>

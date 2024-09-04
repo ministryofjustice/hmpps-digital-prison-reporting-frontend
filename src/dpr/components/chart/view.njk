@@ -1,9 +1,9 @@
 {% macro dprChart(chartData) %}
-  
   {% set id = chartData.id %}
-  {% set type = chartData.data.type %}
+  {% set type = chartData.type %}
 
-  <div class="chart" data-dpr-module="chart" data-dpr-chart-data="{{ chartData.data }}">
+  <div class="chart" data-dpr-module="{{ type }}-chart" data-dpr-chart-data="{{ chartData | json }}">
     <canvas id="{{ id }}_{{ type }}" class="chart-canvas"></canvas>
-  <div>
+    <div id="js-legend-{{ id }}_{{ type }}" class="dpr-chart-legend"></div>
+  </div>
 {% endmacro %}

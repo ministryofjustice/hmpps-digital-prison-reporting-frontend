@@ -1,0 +1,35 @@
+.dpr-chart-legend {
+  padding-top: 15px;
+  font-family: 'GDS Transport';
+  font-size: 16px;
+
+  .dpr-pie-chart-title {
+    text-align: center;
+    font-weight: 800;
+    margin-bottom: govuk-spacing(2);
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline-flex;
+      min-width: 49%;
+      margin-bottom: 6px;
+      align-items: center;
+
+      span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 24px;
+        color: #fff;
+        font-size: 16px;
+        margin-right: 4px;
+      }
+    }
+  }
+}

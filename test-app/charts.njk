@@ -3,12 +3,31 @@
 {% from "components/chart/view.njk" import dprChart %}
 
 {% block content %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+  <script>
+    Chart.register(ChartDataLabels)
+    Chart.defaults.font.family = 'GDS Transport'
+    Chart.defaults.font.size = 16;
+  </script>
   <h1 class="govuk-heading-l">{{ title }}</h1>
 
   <div class="govuk-width-container">
-    {% for chartData in charts %}
-      {{ dprChart(chartData) }}
+
+    <h2 class="govuk-heading-m">Bar Charts</h2> 
+    {% for bar in barCharts %}
+      <div class="govuk-!-margin-bottom-6 govuk-!-margin-top-6 govuk-!-padding-bottom-6 govuk-!-padding-top-6">
+        {{ dprChart(bar) }}
+      </div>
     {% endfor %}
+
+    <h2 class="govuk-heading-m">Pie Charts</h2> 
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr;  column-gap: 50px">
+    {% for pie in pieCharts %}
+      <div class="govuk-!-margin-bottom-6 govuk-!-margin-top-6 govuk-!-padding-bottom-6 govuk-!-padding-top-6 ">
+        {{ dprChart(pie) }}
+      </div>
+    {% endfor %}
+    </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 {% endblock %}

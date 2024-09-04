@@ -16,6 +16,7 @@ const variant15 = require('./mockVariants/variant15')
 const variant16 = require('./mockVariants/variant16')
 const variant17 = require('./mockVariants/variant17')
 const variant18 = require('./mockVariants/variant18')
+const variant19 = require('./mockVariants/variant19')
 
 module.exports = {
   report: {
@@ -39,7 +40,8 @@ module.exports = {
       variant15,
       variant16,
       variant17,
-      variant18
+      variant18,
+      variant19
     ],
   },
   reports: [
@@ -56,7 +58,7 @@ module.exports = {
     {
       id: 'test-report-2',
       name: 'B Test Report',
-      variants: [variant8, variant9, variant10, variant11, variant17, variant18],
+      variants: [variant8, variant9, variant10, variant11, variant17, variant18, variant19],
     },
     {
       id: 'test-report-1',

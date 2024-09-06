@@ -15,6 +15,7 @@ export default class BarChartVisualisation extends ChartVisualisation {
   initSettings() {
     return {
       pluginsOptions: this.setPluginsOptions(),
+      toolTipOptions: this.setToolTipOptions(),
       styling: this.setDatasetStyling(),
     }
   }
@@ -33,6 +34,20 @@ export default class BarChartVisualisation extends ChartVisualisation {
         },
       }
     })
+  }
+
+  setToolTipOptions() {
+    const chartCtx = this
+    return {
+      callbacks: {
+        label(context) {
+          const { label } = context
+          const { data, label: legend } = context.dataset
+          const value = data[context.dataIndex]
+          chartCtx.setHoverValue(label, value, legend, chartCtx)
+        },
+      },
+    }
   }
 
   setPluginsOptions() {

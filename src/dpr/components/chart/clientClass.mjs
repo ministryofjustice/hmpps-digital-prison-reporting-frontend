@@ -13,7 +13,7 @@ export default class ChartVisualisation extends DprClientClass {
     // elements
     this.legend = this.getElement().querySelector(`#js-legend-${this.id}`)
 
-    // Chart card elements
+    // ChartCard elements
     this.tooltipDetailsEl = document.getElementById(`dpr-${this.id}-tooltip-details`)
     this.headlineValuesEl = document.getElementById(`dpr-${this.id}-headline-values`)
     this.labelElement = document.getElementById(`dpr-${this.id}-label`)
@@ -60,7 +60,6 @@ export default class ChartVisualisation extends DprClientClass {
       options: {
         responsive: true,
         maintainAspectRatio: true,
-        // animation: false,
         animation: {
           duration: 0,
         },

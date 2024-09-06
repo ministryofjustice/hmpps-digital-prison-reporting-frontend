@@ -13,12 +13,18 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 
     li {
       display: inline-flex;
-      min-width: 49%;
       margin-bottom: 6px;
       align-items: center;
+      margin-left: govuk-spacing(1);
+      margin-right: govuk-spacing(1);
+
 
       span {
         display: inline-flex;

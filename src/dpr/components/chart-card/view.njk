@@ -1,92 +1,61 @@
 {% from "../chart/view.njk" import dprChart %}
+{% from "../chart-tabs/view.njk" import dprChartTabs %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "govuk/components/table/macro.njk" import govukTable %}
+
 
 {% macro dprChartCard(chart) %}
   {% set id = chart.id %}
   {% set title = chart.title %}
-  {% set description = chart.description %}
   {% set type = chart.type %}
-  {% set chartData = chart.data.chart %}
-  {% set tableData = chart.data.table %}
+  {% set data = chart.data %}
+  {% set description = chart.description %}
   {% set details = chart.details %}
 
-  {% set tabItems = [] %}
-  {% for t in type %}
-    {% set chartHtml %}
-      {{ dprChart(id, t, chartData) }}
-    {% endset -%}
-    
-    {% set tabContent = {
-      label: t,
-      id: id + "_" + t + "_tab",
-      panel: {
-        html: chartHtml
-      }
-    } %}
+  <div class="dpr-chart-card" id="{{ id }}-chart-card">
+    <h2 class="govuk-heading-m">{{ title }}</h2>
 
-    {% set tabItems = (tabItems.push(tabContent), tabItems) %}
-  {% endfor -%}
-
-  {% if tableData %}
-  {% set tableHtml %}
-    {{ govukTable(tableData)}}
-  {% endset %}
-
-  {% set tabItems = (tabItems.push({
-      label: "Table",
-      id: id + "_table_week",
-      panel: {
-        html: tableHtml
-      }
-    }), tabItems) %}
+    {% if description %}
+    <p class="govuk-body">{{ description }}</p> 
     {% endif %}
 
-<div class="dpr-chart-card" id="{{ id }}-chart-card">
-  <h2 class="govuk-heading-m">{{ title }}</h2>
+    <div class="chart-tabs-container">
+      
+      {{ dprChartTabs(id, type, data) }}
 
-  {% if description %}
-  <p class="govuk-body">{{ description }}</p> 
-  {% endif %}
+      <div class="chart-tabs-details">
+        {% set headlines = details.headlines %}
+        {% set meta = details.meta %}
 
-  <div class="chart-tabs-container">
-    
-    {{ govukTabs({ items: tabItems, classes: 'dpr-chart-tabs' }) }}
+        <div id="dpr-{{ id }}-tooltip-details" class="chart-tabs-details__item chart-tabs-details__item--tooltip">
+          <h3 id="dpr-{{ id }}-label" class="govuk-heading-s dpr-chart-details-label">init</h3>
+          <p id="dpr-{{ id }}-value" class="govuk-body dpr-chart-details-value">init</p>
+          <p id="dpr-{{ id }}-legend" class="govuk-body-s dpr-chart-details-legend">init</p>
+        </div>
 
+        <div id="dpr-{{ id }}-headline-values" class="chart-tabs-details__item chart-tabs-details__item--headlines">
+          {% for headline in headlines %}
+            {% set label = headline.label %}
+            {% set value = headline.value %}
+            {% set legend = headline.legend %}
 
-    <div class="chart-tabs-details">
-      {% set headlines = details.headlines %}
-      {% set meta = details.meta %}
+            <h3 class="govuk-heading-s dpr-chart-details-label">{{ headline.label }}</h3>
+            <p class="govuk-body dpr-chart-details-value">{{ headline.value }}</p>
+            {% if legend %}
+            <p class="govuk-body-s dpr-chart-details-legend">{{ headline.legend }}</p>
+            {% endif -%}
+          {% endfor -%}
+        </div>
 
-      <div id="dpr-{{ id }}-tooltip-details" class="chart-tabs-details__item chart-tabs-details__item--tooltip">
-        <h3 id="dpr-{{ id }}-label" class="govuk-heading-s dpr-chart-details-label"></h3>
-        <p id="dpr-{{ id }}-value" class="govuk-body dpr-chart-details-value"></p>
-        <p id="dpr-{{ id }}-legend" class="govuk-body-s dpr-chart-details-legend"></p>
+        <div class="chart-tabs-details__item chart-tabs-details__item--meta">
+          {% for m in meta %}
+            <h3 id="dpr-{{ id }}-label" class="govuk-heading-s dpr-chart-details-label">{{ m.label }}</h3>
+            <p id="dpr-{{ id }}-value" class="govuk-body-s">{{ m.value }}</p>
+          {% endfor -%}
+        </div>
       </div>
 
-      <div id="dpr-{{ id }}-headline-values" class="chart-tabs-details__item chart-tabs-details__item--headlines">
-        {% for headline in headlines %}
-          {% set label = headline.label %}
-          {% set value = headline.value %}
-          {% set legend = headline.legend %}
-
-          <h3 class="govuk-heading-s dpr-chart-details-label">{{ headline.label }}</h3>
-          <p class="govuk-body dpr-chart-details-value">{{ headline.value }}</p>
-          {% if legend %}
-          <p class="govuk-body-s dpr-chart-details-legend">{{ headline.legend }}</p>
-          {% endif -%}
-        {% endfor -%}
-      </div>
-
-      <div class="chart-tabs-details__item chart-tabs-details__item--meta">
-        {% for m in meta %}
-          <h3 id="dpr-{{ id }}-label" class="govuk-heading-s dpr-chart-details-label">{{ m.label }}</h3>
-          <p id="dpr-{{ id }}-value" class="govuk-body-s">{{ m.value }}</p>
-        {% endfor -%}
-      </div>
     </div>
-
   </div>
-</div>
 
 {% endmacro %}

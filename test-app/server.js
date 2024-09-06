@@ -326,6 +326,34 @@ app.get('/charts', (req, res) => {
   })
 })
 
+app.get('/charts/bar', (req, res) => {
+  res.render('charts.njk', {
+    title: 'Charts',
+    barCharts: mockBarChartData,
+  })
+})
+
+app.get('/charts/donut', (req, res) => {
+  res.render('charts.njk', {
+    title: 'Charts',
+    pieCharts: mockPieChartData,
+  })
+})
+
+app.get('/charts/line', (req, res) => {
+  res.render('charts.njk', {
+    title: 'Charts',
+    lineCharts: mockLineChartData,
+  })
+})
+
+app.get('/charts/multi', (req, res) => {
+  res.render('charts.njk', {
+    title: 'Charts',
+    multiCharts: mockMulitChartData,
+  })
+})
+
 const setUpMockSyncApis = require('./mockSyncData/mockSyncApis')
 
 setUpMockSyncApis(app)

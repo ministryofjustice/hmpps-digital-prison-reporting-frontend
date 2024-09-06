@@ -5,31 +5,10 @@
 {% if reportSummaries and reportSummaries[template] %}
   <div class="dpr-summary-container-group dpr-summary-container-group-{{ template }}">
     {% for reportSummary in reportSummaries[template] %}
-      {% set head = [] %}
-      {% set rows = [] %}
-
-      {% for field in reportSummary.fields %}
-        {% set head = head.concat([{
-          text: field.display
-        }]) %}
-      {% endfor %}
-
-      {% for dataRow in reportSummary.data %}
-        {% set row = [] %}
-
-        {% for field in reportSummary.fields %}
-          {% set row = row.concat([{
-            text: dataRow[field.name]
-          }]) %}
-        {% endfor %}
-
-        {% set rows = rows.concat([row]) %}
-      {% endfor %}
-
       <div class="dpr-summary-container">
         {{ govukTable({
-          head: head,
-          rows: rows
+          head: reportSummary.head,
+          rows: reportSummary.rows
         }) }}
       </div>
     {% endfor %}

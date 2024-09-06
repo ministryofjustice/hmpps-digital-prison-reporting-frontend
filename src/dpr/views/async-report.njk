@@ -3,10 +3,13 @@
 {% from "../components/loading-anim/view.njk" import dprLoadingAnim %}
 {% from "../components/pagination/view.njk" import dprPagination %}
 {% from "../components/report-heading/view.njk" import dprReportHeading %}
+{% from "../components/sectioned-summary/view.njk" import dprSectionedSummary %}
+{% from "../components/summary-table/view.njk" import dprReportSummary %}
 
 {% set template = renderData.template %}
 {% set pagination = renderData.pagination %}
 {% set printable = renderData.printable %}
+{% set reportSummaries = renderData.reportSummaries %}
 {% set mainClasses = "app-container govuk-body" %}
 {% set disabledPrintHtml %}
 {% if (printable == false) %}
@@ -35,6 +38,15 @@
         {% elif template === 'list-section' %}
 
           {{ dprAsyncReportList(renderData) }}
+
+        {% elif template === 'summary' %}
+
+          {{ dprReportSummary(reportSummaries, 'page-header') }}
+          {{ dprReportSummary(reportSummaries, 'page-footer') }}
+
+        {% elif template === 'summary-section' %}
+
+          {{ dprSectionedSummary(reportSummaries) }}
 
         {% else %}
 

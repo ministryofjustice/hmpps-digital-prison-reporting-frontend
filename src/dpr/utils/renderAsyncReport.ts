@@ -1,11 +1,12 @@
 import { components } from '../types/api'
 import Dict = NodeJS.Dict
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
-import { AsyncReportData, AsyncSummary } from '../types/AsyncReport'
+import { AsyncReportData } from '../types/AsyncReport'
 import AsyncReportListUtils from '../components/async-report-list/utils'
 import ReportActionsUtils from '../components/icon-button-list/utils'
 import { Template } from '../types/Templates'
 import ReportQuery from '../types/ReportQuery'
+import CollatedSummaryBuilder from './CollatedSummaryBuilder/CollatedSummaryBuilder'
 
 export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) => {
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
@@ -68,10 +69,10 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
       const reportData = <Array<Dict<string>>>resolvedData[1]
       const count = <number>resolvedData[2]
       reportStateData = <AsyncReportData>resolvedData[3]
-      const reportSummaries: Dict<Array<AsyncSummary>> = collateSummarySections(<Array<AsyncSummary>>resolvedData[4])
 
-      const { classification } = definition.variant
-      const { template } = definition.variant.specification
+      const { variant } = definition
+      const { classification, printable, specification } = variant
+      const { template } = specification
       const {
         reportName,
         name: variantName,
@@ -81,7 +82,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         variantId,
         executionId,
       } = reportStateData
-      const actions = ReportActionsUtils.initAsyncReportActions(definition.variant, reportStateData)
+      const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, resolvedData[4])
 
       renderData = {
         executionId,
@@ -92,15 +93,21 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         description,
         classification,
         template,
-        actions,
-        printable: definition.variant.printable,
+        actions: ReportActionsUtils.initAsyncReportActions(variant, reportStateData),
+        printable,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         csrfToken,
         bookmarked: services.bookmarkService.isBookmarked(variantId),
-        reportSummaries,
       }
 
       switch (template as Template) {
+        case 'summary-section':
+          renderData = {
+            ...renderData,
+            reportSummaries: collatedSummaryBuilder.collateSectionedAndMapToDataTable(),
+          }
+          break
+
         case 'list-tab':
         case 'crosstab':
           // Add template-specific calls here
@@ -109,7 +116,15 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         default:
           renderData = {
             ...renderData,
-            ...AsyncReportListUtils.getRenderData(req, definition, reportData, count, reportStateData, reportSummaries),
+            reportSummaries: collatedSummaryBuilder.collateAndMapToDataTable(),
+            ...AsyncReportListUtils.getRenderData(
+              req,
+              definition,
+              reportData,
+              count,
+              reportStateData,
+              collatedSummaryBuilder.collate(),
+            ),
           }
           break
       }
@@ -122,20 +137,4 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
   }
 
   return { renderData }
-}
-
-const collateSummarySections = (summaries: Array<AsyncSummary>) => {
-  const collatedSummaries: Dict<Array<AsyncSummary>> = {}
-
-  if (summaries) {
-    summaries.forEach((summary: AsyncSummary) => {
-      if (!collatedSummaries[summary.template]) {
-        collatedSummaries[summary.template] = []
-      }
-
-      collatedSummaries[summary.template].push(summary)
-    })
-  }
-
-  return collatedSummaries
 }

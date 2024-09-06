@@ -22,7 +22,7 @@ export interface DataTable {
 export interface FieldDefinition {
   name: string
   display: string
-  type: string
-  wordWrap?: string
+  type: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time'
+  wordWrap?: 'none' | 'normal' | 'break-words'
   calculated?: boolean
 }

@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable new-cap */
 // Core dependencies
+
 const fs = require('fs')
 const path = require('path')
 
@@ -65,11 +66,14 @@ const BookmarkService = require('../package/dpr/services/bookmarkService').defau
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
 const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
+const dashboardRoutes = require('../package/dpr/routes/dashboard').default
 const definitions = require('./mockAsyncData/mockReportDefinition')
 const mockBarChartData = require('./mockChartData/mockBarChartData')
 const mockPieChartData = require('./mockChartData/mockPieChartData')
 const mockLineChartData = require('./mockChartData/mockLineChartData')
 const mockMulitChartData = require('./mockChartData/mockMultiChartData')
+
+const mockChartsApiData = [...mockLineChartData, ...mockMulitChartData]
 
 // Set up routes
 
@@ -130,6 +134,7 @@ const routeImportParams = {
 addBookmarkingRoutes(routeImportParams)
 addRecentlyViewedRoutes(routeImportParams)
 addAsyncReportingRoutes(routeImportParams)
+dashboardRoutes(routeImportParams, mockChartsApiData)
 
 app.get('/async-reports', async (req, res) => {
   res.locals.definitions = definitions.reports
@@ -313,6 +318,16 @@ app.get('/search', (req, res) => {
       [{ text: 'Product three' }, { text: 'Report five' }],
       [{ text: 'Product three' }, { text: 'Report six' }],
     ],
+  })
+})
+
+app.get('/dashboard/:id', (req, res) => {
+  res.render('charts.njk', {
+    title: 'Charts',
+    barCharts: mockBarChartData,
+    pieCharts: mockPieChartData,
+    lineCharts: mockLineChartData,
+    multiCharts: mockMulitChartData,
   })
 })
 

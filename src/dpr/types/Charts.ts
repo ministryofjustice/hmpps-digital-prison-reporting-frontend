@@ -1,12 +1,31 @@
-interface ChartCardData {
+interface Chart {
   id: string
-  title: string
-  description: string
+  type: ChartType
+  data: {
+    chart: ChartData
+  }
+}
+
+interface ChartTabs extends Omit<Chart, 'type'> {
   type: ChartType[]
   data: {
     chart: ChartData
     table: TableData
   }
+}
+
+export interface ChartCardData extends ChartTabs {
+  title: string
+  description: string
+  details: {
+    headlines: ChartCardDetailsItem[]
+    meta: ChartCardDetailsItem[]
+  }
+}
+
+interface ChartCardDetailsItem {
+  label: string
+  value: string | number
 }
 
 interface ChartData {

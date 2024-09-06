@@ -28,17 +28,17 @@ const mockBarChartData = [
           },
         ],
       },
-    },
-    table: {
-      head: [{ text: 'Colours' }, { text: 'No of prisoners' }],
-      rows: [
-        [{ text: 'Red' }, { text: '12' }],
-        [{ text: 'Blue' }, { text: '19' }],
-        [{ text: 'Yellow' }, { text: '3' }],
-        [{ text: 'Green' }, { text: '5' }],
-        [{ text: 'Purple' }, { text: '2' }],
-        [{ text: 'Orange' }, { text: '10' }],
-      ],
+      table: {
+        head: [{ text: 'Colours' }, { text: 'No of prisoners' }],
+        rows: [
+          [{ text: 'Red' }, { text: '12' }],
+          [{ text: 'Blue' }, { text: '19' }],
+          [{ text: 'Yellow' }, { text: '3' }],
+          [{ text: 'Green' }, { text: '5' }],
+          [{ text: 'Purple' }, { text: '2' }],
+          [{ text: 'Orange' }, { text: '10' }],
+        ],
+      },
     },
   },
   {

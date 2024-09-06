@@ -123,17 +123,14 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
     return {
       callbacks: {
         label(context) {
-          const { label: legend } = context.dataset
-          const { data } = context.chart
-          const { datasets, labels } = data
-          let value = datasets[0].data[context.dataIndex]
-          const label = labels[context.dataIndex]
-          const dataArr = datasets[0].data
+          const { label, parsed: value, dataset } = context
+          const { label: legend } = dataset
+          const dataArr = dataset.data
           const val = dataArr.reduce((sum, d) => sum + Number(d), 0)
           const percentage = `${((value * 100) / val).toFixed(2)}%`
-          value = `${value} (${percentage})`
-          chartCtx.setHoverValue(label, value, legend, chartCtx)
-          return `${legend}: ${value}`
+          const fullValue = `${value} (${percentage})`
+          chartCtx.setHoverValue(label, fullValue, legend, chartCtx)
+          return `${legend}: ${fullValue}`
         },
       },
     }

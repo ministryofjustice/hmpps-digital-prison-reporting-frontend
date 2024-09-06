@@ -67,7 +67,10 @@ const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
 const definitions = require('./mockAsyncData/mockReportDefinition')
 const mockBarChartData = require('./mockChartData/mockBarChartData')
-const mockPieChartData = require('./mockChartData/mockPieChartsData')
+const mockPieChartData = require('./mockChartData/mockPieChartData')
+const mockLineChartData = require('./mockChartData/mockLineChartData')
+const mockMulitChartData = require('./mockChartData/mockMultiChartData')
+
 // Set up routes
 
 app.get('/', (req, res) => {
@@ -318,6 +321,8 @@ app.get('/charts', (req, res) => {
     title: 'Charts',
     barCharts: mockBarChartData,
     pieCharts: mockPieChartData,
+    lineCharts: mockLineChartData,
+    multiCharts: mockMulitChartData,
   })
 })
 

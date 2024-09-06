@@ -16,16 +16,9 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
     return {
       styling: this.setDatasetStyling(),
       datalabels: this.setDataLabels(),
-      options: this.setOptions(),
       pluginsOptions: this.setPluginsOptions(),
       toolTipOptions: this.setToolTipOptions(),
       plugins: this.setPlugins(),
-    }
-  }
-
-  setOptions() {
-    return {
-      cutout: '60%',
     }
   }
 
@@ -52,7 +45,11 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
   }
 
   setPlugins() {
-    return [this.setCentralText(), this.setLegend()]
+    const plugins = [this.setLegend()]
+    if (this.chartParams.datasets.length === 1) {
+      plugins.push(this.setCentralText())
+    }
+    return plugins
   }
 
   setCentralText() {
@@ -66,7 +63,7 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
 
         ctx.textBaseline = 'middle'
         let fontSize = 2.5
-        ctx.font = `700 ${fontSize}em GDS Transport`
+        ctx.font = `100 ${fontSize}em GDS Transport`
         ctx.fillStyle = '	#505a5f'
 
         // Accumulated total
@@ -80,7 +77,7 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
 
         ctx.textBaseline = 'middle'
         fontSize = 1
-        ctx.font = `700 ${fontSize}em GDS Transport`
+        ctx.font = `100 ${fontSize}em GDS Transport`
         ctx.fillStyle = '	#505a5f'
 
         // Chart title
@@ -99,10 +96,6 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
     return {
       id: 'legend',
       beforeInit(chart) {
-        // const pTag = document.createElement('p')
-        // pTag.className = 'dpr-pie-chart-title'
-        // pTag.innerHTML = chart.data.datasets[0].label
-
         const ul = document.createElement('ul')
         const { labels } = chart.data
         const { backgroundColor, data } = chart.data.datasets[0]
@@ -110,15 +103,15 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
         labels.forEach((label, i) => {
           const colourIndex = i % backgroundColor.length
           const colour = backgroundColor[colourIndex]
+          const value = chart.data.datasets.length === 1 ? data[i] : ''
 
           ul.innerHTML += `
-              <li aria-label="${label} ${data[i]}">
-                <span style="background-color: ${colour}">${data[i]}</span>
+              <li aria-label="${label} ${value}">
+                <span style="background-color: ${colour}">${value}</span>
                 ${label}
               </li>
             `
         })
-        // legend.appendChild(pTag)
         legend.appendChild(ul)
         return legend.appendChild(ul)
       },
@@ -126,15 +119,21 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
   }
 
   setToolTipOptions() {
+    const chartCtx = this
     return {
       callbacks: {
         label(context) {
-          const { label } = context.dataset
-          const value = context.chart.data.datasets[0].data[context.dataIndex]
-          const dataArr = context.chart.data.datasets[0].data
-          const val = dataArr.reduce((sum, data) => sum + Number(data), 0)
+          const { label: legend } = context.dataset
+          const { data } = context.chart
+          const { datasets, labels } = data
+          let value = datasets[0].data[context.dataIndex]
+          const label = labels[context.dataIndex]
+          const dataArr = datasets[0].data
+          const val = dataArr.reduce((sum, d) => sum + Number(d), 0)
           const percentage = `${((value * 100) / val).toFixed(2)}%`
-          return `${label}: ${value} (${percentage})`
+          value = `${value} (${percentage})`
+          chartCtx.setHoverValue(label, value, legend, chartCtx)
+          return `${legend}: ${value}`
         },
       },
     }

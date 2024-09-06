@@ -2,7 +2,7 @@ import ChartVisualisation from '../clientClass.mjs'
 
 export default class BarChartVisualisation extends ChartVisualisation {
   static getModuleName() {
-    return 'bar-chart'
+    return 'line-chart'
   }
 
   initialise() {
@@ -14,9 +14,7 @@ export default class BarChartVisualisation extends ChartVisualisation {
 
   initSettings() {
     return {
-      options: this.setOptions(),
       pluginsOptions: this.setPluginsOptions(),
-      toolTipOptions: this.setToolTipOptions(),
       styling: this.setDatasetStyling(),
     }
   }
@@ -27,6 +25,9 @@ export default class BarChartVisualisation extends ChartVisualisation {
       return {
         borderColor: colour,
         backgroundColor: colour,
+        pointStyle: 'circle',
+        pointRadius: 4,
+        pointHoverRadius: 10,
         datalabels: {
           display: false,
         },
@@ -40,37 +41,6 @@ export default class BarChartVisualisation extends ChartVisualisation {
         display: true,
         position: 'bottom',
       },
-    }
-  }
-
-  setToolTipOptions() {
-    const chartCtx = this
-    return {
-      callbacks: {
-        label(context) {
-          const { label } = context
-          const { data, label: legend } = context.dataset
-          const value = data[context.dataIndex]
-          chartCtx.setHoverValue(label, value, legend, chartCtx)
-        },
-      },
-    }
-  }
-
-  setOptions() {
-    const { indexAxis, stacked } = this.chartParams
-    return {
-      indexAxis: indexAxis || 'x',
-      ...(stacked && {
-        scales: {
-          x: {
-            stacked: true,
-          },
-          y: {
-            stacked: true,
-          },
-        },
-      }),
     }
   }
 }

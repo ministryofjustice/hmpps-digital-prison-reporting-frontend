@@ -4,14 +4,26 @@ import { DprClientClass } from '../../DprClientClass.mjs'
 export default class ChartVisualisation extends DprClientClass {
   setupCanvas() {
     this.chartContext = this.getElement().querySelector('canvas')
+
+    // data
     this.id = this.chartContext.getAttribute('id')
-    this.legend = this.getElement().querySelector(`#js-legend-${this.id}`)
     this.chartParams = JSON.parse(this.getElement().getAttribute('data-dpr-chart-data'))
+    this.type = this.getElement().getAttribute('data-dpr-chart-type')
+
+    // elements
+    this.legend = this.getElement().querySelector(`#js-legend-${this.id}`)
+
+    // Chart card elements
+    this.tooltipDetailsEl = document.getElementById(`dpr-${this.id}-tooltip-details`)
+    this.headlineValuesEl = document.getElementById(`dpr-${this.id}-headline-values`)
+    this.labelElement = document.getElementById(`dpr-${this.id}-label`)
+    this.valueElement = document.getElementById(`dpr-${this.id}-value`)
+    this.legendElement = document.getElementById(`dpr-${this.id}-legend`)
   }
 
   initChart() {
-    // console.log(JSON.stringify(this.chartData, null, 2))
-    return new Chart(this.chartContext, this.chartData)
+    this.chart = new Chart(this.chartContext, this.chartData)
+    this.initChartEvents()
   }
 
   getColourPallette() {
@@ -26,20 +38,21 @@ export default class ChartVisualisation extends DprClientClass {
   createDatasets(datasets, styling) {
     return datasets.map((d, i) => {
       const { label, data } = d
+      const s = styling[i] ? styling[i] : styling[0]
       return {
         label,
         data,
-        ...styling[i],
+        ...s,
       }
     })
   }
 
   generateChartData(settings) {
-    const { type, datasets, labels } = this.chartParams
-    const { options, styling, datalabels, plugins, pluginsOptions, toolTipOptions } = settings
+    const { datasets, labels } = this.chartParams
+    const { options, styling, datalabels, plugins, pluginsOptions, toolTipOptions, hoverEvent } = settings
 
     return {
-      type,
+      type: this.type,
       data: {
         labels,
         datasets: this.createDatasets(datasets, styling),
@@ -47,8 +60,12 @@ export default class ChartVisualisation extends DprClientClass {
       options: {
         responsive: true,
         maintainAspectRatio: true,
-        animation: false,
+        // animation: false,
+        animation: {
+          duration: 0,
+        },
         ...(options && options),
+        ...(hoverEvent && hoverEvent),
         plugins: {
           ...(pluginsOptions && pluginsOptions),
           ...(datalabels && { datalabels }),
@@ -105,5 +122,24 @@ export default class ChartVisualisation extends DprClientClass {
         return legend.appendChild(ul)
       },
     }
+  }
+
+  setHoverValue(label, value, legend, ctx) {
+    if (ctx.tooltipDetailsEl) {
+      ctx.tooltipDetailsEl.style.display = 'block'
+      ctx.labelElement.innerHTML = `${label}`
+      ctx.valueElement.innerHTML = `${value}`
+      ctx.legendElement.innerHTML = `${legend}`
+    }
+    if (ctx.headlineValuesEl) {
+      ctx.headlineValuesEl.style.display = 'none'
+    }
+  }
+
+  initChartEvents() {
+    this.chart.canvas.addEventListener('mouseout', (e) => {
+      if (this.tooltipDetailsEl) this.tooltipDetailsEl.style.display = 'none'
+      if (this.headlineValuesEl) this.headlineValuesEl.style.display = 'block'
+    })
   }
 }

@@ -321,16 +321,6 @@ app.get('/search', (req, res) => {
   })
 })
 
-app.get('/dashboard/:id', (req, res) => {
-  res.render('charts.njk', {
-    title: 'Charts',
-    barCharts: mockBarChartData,
-    pieCharts: mockPieChartData,
-    lineCharts: mockLineChartData,
-    multiCharts: mockMulitChartData,
-  })
-})
-
 app.get('/charts', (req, res) => {
   res.render('charts.njk', {
     title: 'Charts',

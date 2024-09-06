@@ -100,29 +100,6 @@ export default class ChartVisualisation extends DprClientClass {
     }
   }
 
-  setLegendPlugin() {
-    const { legend } = this
-    return {
-      id: 'legend',
-      beforeInit(chart) {
-        const ul = document.createElement('ul')
-        const { labels } = chart.data
-        const { backgroundColor } = chart.data.datasets[0]
-        labels.forEach((label, i) => {
-          const colourIndex = i % backgroundColor.length
-          const colour = backgroundColor[colourIndex]
-          ul.innerHTML += `
-              <li class=''>
-                <span style="background-color: ${colour}">${chart.data.datasets[0].data[i]}</span>
-                ${label}
-              </li>
-            `
-        })
-        return legend.appendChild(ul)
-      },
-    }
-  }
-
   setHoverValue(label, value, legend, ctx) {
     if (ctx.tooltipDetailsEl) {
       ctx.tooltipDetailsEl.style.display = 'block'

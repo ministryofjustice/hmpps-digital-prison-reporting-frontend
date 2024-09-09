@@ -1,0 +1,50 @@
+.chart-tabs-container {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  column-gap: 30px;
+  row-gap: 20px;
+}
+
+.dpr-chart-tabs {
+  margin-bottom: 0px;
+}
+
+.dpr-chart-details-value {
+  font-size: 36px;
+  margin-bottom: 0px;
+  line-height: 1;
+  margin-bottom: govuk-spacing(1);
+}
+
+.dpr-chart-details-label {
+  margin-bottom: govuk-spacing(2);
+  border-bottom: dotted 2px #b1b4b6
+}
+
+.dpr-dotted-unterline {
+  border-bottom: dotted 2px #b1b4b6
+}
+
+.dpr-chart-details-legend {
+  margin-bottom: govuk-spacing(1);
+}
+
+.chart-tabs-details {
+  position: relative;
+
+  .chart-tabs-details__item {
+    &.chart-tabs-details__item--meta {
+      width: 100%;
+      position: absolute;
+      bottom: 0px;
+    }
+
+    &.chart-tabs-details__item--tooltip {
+      display: none;
+    }
+
+    p:last-of-type {
+      margin-bottom: 0px;
+    }
+  }
+}

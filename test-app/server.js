@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable new-cap */
 // Core dependencies
+
 const fs = require('fs')
 const path = require('path')
 
@@ -62,10 +63,22 @@ const MockUserStoreService = require('./mockAsyncData/mockRedisStore')
 const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
 const RecentlyViewedStoreService = require('../package/dpr/services/recentlyViewedService').default
 const BookmarkService = require('../package/dpr/services/bookmarkService').default
+const MetricsService = require('../package/dpr/services/metricsService').default
+const DashboardService = require('../package/dpr/services/dashboardService').default
+const MockDashboardClient = require('./mockChartData/mockDashboardClient')
+const MockMetricClient = require('./mockChartData/mockMetricClient')
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
 const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
+const dashboardRoutes = require('../package/dpr/routes/dashboard').default
 const definitions = require('./mockAsyncData/mockReportDefinition')
+const mockBarChartData = require('./mockChartData/mockBarChartData')
+const mockPieChartData = require('./mockChartData/mockPieChartData')
+const mockLineChartData = require('./mockChartData/mockLineChartData')
+const mockMulitChartData = require('./mockChartData/mockMultiChartData')
+
+const mockChartsApiData = [...mockLineChartData, ...mockMulitChartData]
+
 // Set up routes
 
 app.get('/', (req, res) => {
@@ -87,6 +100,11 @@ app.get('/', (req, res) => {
         description: 'Search component.',
         href: '/search',
       },
+      {
+        text: 'Charts',
+        description: 'Chart Visualisations',
+        href: '/charts',
+      },
     ],
   })
 })
@@ -103,11 +121,20 @@ const bookmarkService = new BookmarkService(mockUserStore)
 bookmarkService.init('userId')
 
 const reportingService = mockAsyncApis
+
+const metricClient = new MockMetricClient(mockChartsApiData)
+const metricService = new MetricsService(metricClient)
+
+const dashboardClient = new MockDashboardClient()
+const dashboardService = new DashboardService(dashboardClient)
+
 const services = {
   bookmarkService,
   recentlyViewedStoreService,
   asyncReportsStore,
   reportingService,
+  metricService,
+  dashboardService,
 }
 
 const routeImportParams = {
@@ -120,6 +147,7 @@ const routeImportParams = {
 addBookmarkingRoutes(routeImportParams)
 addRecentlyViewedRoutes(routeImportParams)
 addAsyncReportingRoutes(routeImportParams)
+dashboardRoutes(routeImportParams)
 
 app.get('/async-reports', async (req, res) => {
   res.locals.definitions = definitions.reports
@@ -303,6 +331,44 @@ app.get('/search', (req, res) => {
       [{ text: 'Product three' }, { text: 'Report five' }],
       [{ text: 'Product three' }, { text: 'Report six' }],
     ],
+  })
+})
+
+app.get('/charts', (req, res) => {
+  res.render('charts.njk', {
+    title: 'Charts',
+    barCharts: mockBarChartData,
+    pieCharts: mockPieChartData,
+    lineCharts: mockLineChartData,
+    multiCharts: mockMulitChartData,
+  })
+})
+
+app.get('/charts/bar', (req, res) => {
+  res.render('charts.njk', {
+    title: 'Charts',
+    barCharts: mockBarChartData,
+  })
+})
+
+app.get('/charts/donut', (req, res) => {
+  res.render('charts.njk', {
+    title: 'Charts',
+    pieCharts: mockPieChartData,
+  })
+})
+
+app.get('/charts/line', (req, res) => {
+  res.render('charts.njk', {
+    title: 'Charts',
+    lineCharts: mockLineChartData,
+  })
+})
+
+app.get('/charts/multi', (req, res) => {
+  res.render('charts.njk', {
+    title: 'Charts',
+    multiCharts: mockMulitChartData,
   })
 })
 

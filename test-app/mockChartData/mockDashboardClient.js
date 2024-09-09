@@ -1,6 +1,4 @@
-export default class MockDashboardClient {
-  dashboards: { id: string; metrics: { id: string }[] }[]
-
+class MockDashboardClient {
   constructor() {
     this.dashboards = [
       {
@@ -15,7 +13,7 @@ export default class MockDashboardClient {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async getDefinition(tokenC: string, idC: string): Promise<{ id: string; metrics: { id: string }[] }> {
+  async getDefinition(tokenC, idC) {
     return Promise.resolve(this.dashboards.find((d) => d.id === idC))
   }
 
@@ -23,3 +21,5 @@ export default class MockDashboardClient {
     Promise.resolve(this.dashboards)
   }
 }
+
+module.exports = MockDashboardClient

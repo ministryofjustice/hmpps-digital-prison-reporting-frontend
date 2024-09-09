@@ -65,6 +65,8 @@ const RecentlyViewedStoreService = require('../package/dpr/services/recentlyView
 const BookmarkService = require('../package/dpr/services/bookmarkService').default
 const MetricsService = require('../package/dpr/services/metricsService').default
 const DashboardService = require('../package/dpr/services/dashboardService').default
+const MockDashboardClient = require('./mockChartData/mockDashboardClient')
+const MockMetricClient = require('./mockChartData/mockMetricClient')
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
 const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
@@ -119,8 +121,12 @@ const bookmarkService = new BookmarkService(mockUserStore)
 bookmarkService.init('userId')
 
 const reportingService = mockAsyncApis
-const metricService = new MetricsService(mockChartsApiData)
-const dashboardService = new DashboardService()
+
+const metricClient = new MockMetricClient(mockChartsApiData)
+const metricService = new MetricsService(metricClient)
+
+const dashboardClient = new MockDashboardClient()
+const dashboardService = new DashboardService(dashboardClient)
 
 const services = {
   bookmarkService,

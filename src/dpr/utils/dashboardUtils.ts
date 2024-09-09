@@ -9,6 +9,7 @@ export default {
       const { id } = req.params
 
       const mockDashboardDefinition = await services.dashboardService.getDefinition(token, id)
+
       const mockChartsData: ChartCardData[] = await Promise.all(
         mockDashboardDefinition.metrics.map(async (metric: { id: string }) => {
           return ChartCardUtils.getChartData({ id: metric.id, req, res, services })

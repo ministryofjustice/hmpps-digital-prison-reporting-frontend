@@ -22,7 +22,7 @@ export default {
   }: AsyncReportUtilsParams & { id: string }): Promise<ChartCardData> => {
     try {
       const token = res.locals.user?.token ? res.locals.user.token : 'token'
-      const metricData = await services.metricService.getMetric(token, id)
+      const metricData = await services.metricService.getMetricData(token, id)
 
       // TODO: convert data from the metric Api to ChartCardData
       const convertedChartData: ChartCardData = metricData

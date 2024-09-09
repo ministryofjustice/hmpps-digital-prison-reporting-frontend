@@ -15,20 +15,20 @@ arguments: chart-card
       headlines: [
         {
           label: 'Total',
-          value: [12, 19, 3, 5, 2, 10].reduce((acc, val) => acc + val, 0),
-          legend: 'No. of Finds',
-        },
+          value: 51,
+          legend: 'No. of Finds'
+        }
       ],
       meta: [
         {
           label: 'Data for Period',
-          value: '6th Aug 2024 - 6th Sept 2024',
+          value: '6th Aug 2024 - 6th Sept 2024'
         },
         {
           label: 'Source data refreshed',
-          value: 'Friday, 6 September 2024',
-        },
-      ],
+          value: 'Friday, 6 September 2024'
+        }
+      ]
     },
     data: {
       chart: {
@@ -37,9 +37,9 @@ arguments: chart-card
           {
             label: 'No. of finds',
             data: [12, 19, 3, 5],
-            total: [12, 19, 3, 5].reduce((acc, val) => acc + val, 0),
-          },
-        ],
+            total: 39
+          }
+        ]
       },
       table: {
         head: [{ text: 'Colours' }, { text: 'No. of finds' }],
@@ -47,8 +47,8 @@ arguments: chart-card
           [{ text: 'Drugs' }, { text: '12' }],
           [{ text: 'Phones' }, { text: '19' }],
           [{ text: 'Weapons' }, { text: '3' }],
-          [{ text: 'Alcohol' }, { text: '5' }],
-        ],
-      },
-    },
+          [{ text: 'Alcohol' }, { text: '5' }]
+        ]
+      }
+    }
   }) }}

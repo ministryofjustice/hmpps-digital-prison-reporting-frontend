@@ -14,7 +14,9 @@
   {# TODO: 👆 These scripts need to go into the main UI and tools 👆 #}
 
   <h1>{{ title }}</h1>
-  {% for chart in charts %}
+  <p class="govuk-body">{{ description }}</p>
+  
+  {% for chart in data %}
     <div class="govuk-!-margin-bottom-6 govuk-!-padding-bottom-6">
       {{ dprChartCard(chart) }}
     </div>

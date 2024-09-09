@@ -1,41 +1,24 @@
 import type { RequestHandler, Router } from 'express'
-import { ChartCardData } from '../types/Charts'
-import ChartCardUtils from '../components/chart-card/utils'
+import DashboardUtils from '../utils/dashboardUtils'
+import { Services } from '../types/Services'
 
-export default function routes(
-  {
-    router,
-    layoutPath,
-    templatePath = 'dpr/views/',
-  }: {
-    router: Router
-    layoutPath: string
-    templatePath?: string
-  },
-  mockChartsApiData: ChartCardData[],
-) {
+export default function routes({
+  router,
+  layoutPath,
+  services,
+  templatePath = 'dpr/views/',
+}: {
+  router: Router
+  layoutPath: string
+  services: Services
+  templatePath?: string
+}) {
   const getDashboardDataHandler: RequestHandler = async (req, res, next) => {
     try {
-      const { id } = req.params
-      // TODO: get Dashboard Data from API
-      const mockDashboardData = await DashboardService.getDashboardData(id)
-
-      const mockMetricsService = {
-        getMetricData: async (metricId: string) => {
-          return Promise.resolve(mockChartsApiData.find((chart) => chart.id === metricId))
-        },
-      }
-
-      const mockChartsData: ChartCardData[] = await Promise.all(
-        mockDashboardData.map(async (metricId) => {
-          // TODO: implementaton to get & transform the metrics data
-          return ChartCardUtils.getChartData(metricId, mockMetricsService)
-        }),
-      )
+      const dashboardData = await DashboardUtils.getDashboardData({ req, res, next, services })
 
       res.render(`${templatePath}dashboard`, {
-        title: 'Mock Dashboard',
-        charts: mockChartsData,
+        ...dashboardData,
         layoutPath,
       })
     } catch (error) {
@@ -44,11 +27,4 @@ export default function routes(
   }
 
   router.get('/dashboard/:id', getDashboardDataHandler)
-}
-
-// Mock Dashboard service
-const DashboardService = {
-  getDashboardData: async (id: string) => {
-    return Promise.resolve(['multi_chart-0', 'multi_chart-2', 'line-chart-2'])
-  },
 }

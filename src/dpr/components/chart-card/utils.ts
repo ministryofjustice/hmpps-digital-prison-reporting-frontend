@@ -1,21 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { ChartCardData } from '../../types/Charts'
 
 export default {
   /**
    * Mock implementation of how data might be fetched and transformed
    *
-   * @param {string} metricId
-   * @param {ChartCardData[]} mockChartsApiData -temporary, will come from an API
-   * @return {*}  {ChartCardData}
+   * @param {(AsyncReportUtilsParams & { id: string })} {
+   *     res,
+   *     services,
+   *     next,
+   *     id,
+   *   }
+   * @return {*}  {Promise<ChartCardData>}
    */
-  getChartData: async (metricId: string, mockMetricsService: any): Promise<ChartCardData> => {
-    // TODO: get data from metrics API -
-    const dataFromMetricsApi = await mockMetricsService.getMetricData(metricId)
+  getChartData: async ({
+    res,
+    services,
+    next,
+    id,
+  }: AsyncReportUtilsParams & { id: string }): Promise<ChartCardData> => {
+    try {
+      const token = res.locals.user?.token ? res.locals.user.token : 'token'
+      const metricData = await services.metricService.getMetric(token, id)
 
-    // TODO: convert data from the metric Api to ChartCardData
-    const convertedChartData: ChartCardData = dataFromMetricsApi
+      // TODO: convert data from the metric Api to ChartCardData
+      const convertedChartData: ChartCardData = metricData
 
-    return convertedChartData
+      return convertedChartData
+    } catch (error) {
+      next(error)
+      return {} as unknown as ChartCardData
+    }
   },
 }

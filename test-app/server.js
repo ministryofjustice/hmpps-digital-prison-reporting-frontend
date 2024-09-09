@@ -63,10 +63,12 @@ const MockUserStoreService = require('./mockAsyncData/mockRedisStore')
 const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
 const RecentlyViewedStoreService = require('../package/dpr/services/recentlyViewedService').default
 const BookmarkService = require('../package/dpr/services/bookmarkService').default
+// const MetricsService = require('../package/dpr/services/metricsService').default
+// const DashboardService = require('../package/dpr/services/dashboardService').default
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
 const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
-const dashboardRoutes = require('../package/dpr/routes/dashboard').default
+// const dashboardRoutes = require('../package/dpr/routes/dashboard').default
 const definitions = require('./mockAsyncData/mockReportDefinition')
 const mockBarChartData = require('./mockChartData/mockBarChartData')
 const mockPieChartData = require('./mockChartData/mockPieChartData')
@@ -117,11 +119,16 @@ const bookmarkService = new BookmarkService(mockUserStore)
 bookmarkService.init('userId')
 
 const reportingService = mockAsyncApis
+// const metricService = new MetricsService(mockChartsApiData)
+// const dashboardService = new DashboardService()
+
 const services = {
   bookmarkService,
   recentlyViewedStoreService,
   asyncReportsStore,
   reportingService,
+  // metricService,
+  // dashboardService,
 }
 
 const routeImportParams = {
@@ -134,7 +141,7 @@ const routeImportParams = {
 addBookmarkingRoutes(routeImportParams)
 addRecentlyViewedRoutes(routeImportParams)
 addAsyncReportingRoutes(routeImportParams)
-dashboardRoutes(routeImportParams, mockChartsApiData)
+// dashboardRoutes(routeImportParams)
 
 app.get('/async-reports', async (req, res) => {
   res.locals.definitions = definitions.reports

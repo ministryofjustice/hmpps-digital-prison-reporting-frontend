@@ -1,0 +1,19 @@
+---
+layout: layouts/example.njk
+title: Chart (example)
+arguments: chart
+---
+
+{%- from "dpr/components/chart/view.njk" import dprChart -%}
+
+{{ dprChartCard('the-chart-id', 'bar',
+  {
+    labels: ['Drugs', 'Phones', 'Weapons', 'Alcohol'],
+    datasets: [
+      {
+        label: 'No. of finds',
+        data: [12, 19, 3, 5],
+        total: [12, 19, 3, 5].reduce((acc, val) => acc + val, 0),
+      },
+    ],
+  }) }}

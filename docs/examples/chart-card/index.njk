@@ -1,0 +1,54 @@
+---
+layout: layouts/example.njk
+title: Chart Card (example)
+arguments: chart-card
+---
+
+{%- from "dpr/components/chart-card/view.njk" import dprChartCard -%}
+
+{{ dprChartCard({
+    id: 'multi_chart-1',
+    title: 'Finds Incidents',
+    description: 'Total finds during this time period',
+    type: ['bar', 'doughnut'],
+    details: {
+      headlines: [
+        {
+          label: 'Total',
+          value: [12, 19, 3, 5, 2, 10].reduce((acc, val) => acc + val, 0),
+          legend: 'No. of Finds',
+        },
+      ],
+      meta: [
+        {
+          label: 'Data for Period',
+          value: '6th Aug 2024 - 6th Sept 2024',
+        },
+        {
+          label: 'Source data refreshed',
+          value: 'Friday, 6 September 2024',
+        },
+      ],
+    },
+    data: {
+      chart: {
+        labels: ['Drugs', 'Phones', 'Weapons', 'Alcohol'],
+        datasets: [
+          {
+            label: 'No. of finds',
+            data: [12, 19, 3, 5],
+            total: [12, 19, 3, 5].reduce((acc, val) => acc + val, 0),
+          },
+        ],
+      },
+      table: {
+        head: [{ text: 'Colours' }, { text: 'No. of finds' }],
+        rows: [
+          [{ text: 'Drugs' }, { text: '12' }],
+          [{ text: 'Phones' }, { text: '19' }],
+          [{ text: 'Weapons' }, { text: '3' }],
+          [{ text: 'Alcohol' }, { text: '5' }],
+        ],
+      },
+    },
+  }) }}

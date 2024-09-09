@@ -25,7 +25,9 @@
 
   {% if tableData %}
   {% set tableHtml %}
+  <div class="dpr-chart-tab-table">
     {{ govukTable(tableData)}}
+  </div>
   {% endset %}
 
   {% set tabItems = (tabItems.push({

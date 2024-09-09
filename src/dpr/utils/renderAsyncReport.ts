@@ -7,6 +7,8 @@ import ReportActionsUtils from '../components/icon-button-list/utils'
 import { Template } from '../types/Templates'
 import ReportQuery from '../types/ReportQuery'
 import CollatedSummaryBuilder from './CollatedSummaryBuilder/CollatedSummaryBuilder'
+import SectionedDataTableBuilder from './SectionedDataTableBuilder/SectionedDataTableBuilder'
+import ColumnUtils from '../components/columns/utils'
 
 export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) => {
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
@@ -81,8 +83,12 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         reportId,
         variantId,
         executionId,
+        query,
       } = reportStateData
       const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, resolvedData[4])
+
+      const { columns: reqColumns } = req.query
+      const columns = ColumnUtils.getColumns(specification, <string[]>reqColumns)
 
       renderData = {
         executionId,
@@ -98,13 +104,23 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         csrfToken,
         bookmarked: services.bookmarkService.isBookmarked(variantId),
+        reportSummaries: collatedSummaryBuilder.collatePageSummaries(),
       }
 
       switch (template as Template) {
+        case 'summary':
+          // No further data required
+          break
+
         case 'summary-section':
+        case 'list-section':
           renderData = {
             ...renderData,
-            reportSummaries: collatedSummaryBuilder.collateSectionedAndMapToDataTable(),
+            ...new SectionedDataTableBuilder(specification)
+              .withSummaries(collatedSummaryBuilder.collateDataTableSummaries())
+              .withNoHeaderOptions(columns.value)
+              .buildTable(reportData),
+            columns,
           }
           break
 
@@ -116,14 +132,14 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         default:
           renderData = {
             ...renderData,
-            reportSummaries: collatedSummaryBuilder.collateAndMapToDataTable(),
             ...AsyncReportListUtils.getRenderData(
               req,
-              definition,
+              specification,
               reportData,
               count,
-              reportStateData,
-              collatedSummaryBuilder.collate(),
+              query.summary,
+              collatedSummaryBuilder.collateDataTableSummaries(),
+              columns,
             ),
           }
           break

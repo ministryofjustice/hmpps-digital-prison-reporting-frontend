@@ -123,7 +123,7 @@ describe('collate', () => {
   })
 })
 
-describe('collateAndMapToDataTable', () => {
+describe('collatePageSummaries', () => {
   it('Summaries with the same template are grouped together', () => {
     const pageHeaderSummary1: AsyncSummary = {
       id: 'one',
@@ -146,96 +146,11 @@ describe('collateAndMapToDataTable', () => {
 
     const summaries: Array<AsyncSummary> = [pageHeaderSummary1, pageHeaderSummary2, pageFooterSummary]
 
-    const collated = new CollatedSummaryBuilder(defaultSpec, summaries).collateAndMapToDataTable()
+    const collated = new CollatedSummaryBuilder(defaultSpec, summaries).collatePageSummaries()
 
     expect(collated).toEqual({
       'page-footer': [expectedAllActivitiesDataTable],
       'page-header': [expectedAllActivitiesDataTable, expectedAllActivitiesDataTable],
-    })
-  })
-})
-
-describe('collateSectioned', () => {
-  it('Summaries with the same template are grouped together', () => {
-    const sectionHeaderSummary1: AsyncSummary = {
-      id: 'one',
-      template: 'section-header',
-      fields: defaultFields,
-      data: defaultData,
-    }
-    const sectionHeaderSummary2: AsyncSummary = {
-      id: 'two',
-      template: 'section-header',
-      fields: defaultFields,
-      data: defaultData,
-    }
-    const pageFooterSummary: AsyncSummary = {
-      id: 'three',
-      template: 'page-footer',
-      fields: defaultFields,
-      data: defaultData,
-    }
-
-    const summaries: Array<AsyncSummary> = [sectionHeaderSummary1, sectionHeaderSummary2, pageFooterSummary]
-
-    const collated = new CollatedSummaryBuilder(defaultSpec, summaries).collateSectionedAndMapToDataTable()
-
-    const expectedBobActivities = {
-      colCount: 1,
-      head: [
-        {
-          text: 'Activity',
-        },
-      ],
-      rowCount: 2,
-      rows: [
-        [
-          {
-            classes: '',
-            format: 'string',
-            text: 'Painting',
-          },
-        ],
-        [
-          {
-            classes: '',
-            format: 'string',
-            text: 'Cleaning',
-          },
-        ],
-      ],
-    }
-
-    const expectedJimActivities = {
-      colCount: 1,
-      head: [
-        {
-          text: 'Activity',
-        },
-      ],
-      rowCount: 2,
-      rows: [
-        [
-          {
-            classes: '',
-            format: 'string',
-            text: 'Painting',
-          },
-        ],
-        [
-          {
-            classes: '',
-            format: 'string',
-            text: 'Cooking',
-          },
-        ],
-      ],
-    }
-
-    expect(collated).toEqual({
-      'First name: Bob, Surname: Robertson': [expectedBobActivities, expectedBobActivities],
-      'First name: Jim, Surname: Jameson': [expectedJimActivities, expectedJimActivities],
-      'page-footer': [expectedAllActivitiesDataTable],
     })
   })
 })

@@ -3,31 +3,19 @@ import { Url } from 'url'
 import AsyncReportListUtils from './utils'
 import ColumnUtils from '../columns/utils'
 import PaginationUtils from '../pagination/utils'
+import Dict = NodeJS.Dict
 
 import createMockData from '../../../../test-app/mockAsyncData/mockAsyncData'
 
 import definitions from '../../../../test-app/mockAsyncData/mockReportDefinition'
 import { mockReportListRenderData } from '../../../../test-app/mockAsyncData/mockReportListRenderData'
-import { AsyncReportData } from '../../types/AsyncReport'
+import { Columns } from '../columns/types'
+import { components } from '../../types/api'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
   default: jest.fn().mockImplementation(() => ({ pathname: 'pathname', search: 'search' } as Url)),
 }))
-
-const reportState = {
-  reportName: 'reportName',
-  executionId: 'executionId',
-  name: 'variantName',
-  query: { summary: 'summary' },
-  description: 'description',
-  url: {
-    request: {
-      fullUrl: 'fullUrl',
-    },
-  },
-  requestedTimestamp: 'ts',
-} as unknown as AsyncReportData
 
 const mockReportData = createMockData(10)
 
@@ -38,13 +26,35 @@ describe('AsyncReportListUtils', () => {
   describe('getRenderData', () => {
     it('should return data to render the report list', async () => {
       const mockReq = { query: { columns: ['column'] } } as unknown as Request
-      const reportDefinition = JSON.parse(JSON.stringify(definitions.report))
-      const variant = definitions.report.variants[1]
-      reportDefinition.variant = variant
+      const mockSpecification = definitions.report.variants[1].specification
+      const specification: components['schemas']['Specification'] = {
+        template: mockSpecification.template,
+        fields: mockSpecification.fields,
+        sections: []
+      }
+      const querySummary: Array<Dict<string>> = [
+        {
+          query: 'summary',
+        },
+      ]
+      const columns: Columns = {
+        name: '',
+        options: [],
+        text: '',
+        value: ['column'],
+      }
 
-      const result = AsyncReportListUtils.getRenderData(mockReq, reportDefinition, mockReportData, 100, reportState, {})
+      const result = AsyncReportListUtils.getRenderData(
+        mockReq,
+        specification,
+        mockReportData,
+        100,
+        querySummary,
+        {},
+        columns,
+      )
 
-      expect(ColumnUtilsSpy).toHaveBeenCalledWith(variant.specification, ['column'])
+      expect(ColumnUtilsSpy).toHaveBeenCalledWith(specification, ['column'])
       expect(PaginationUtilsSpy).toHaveBeenCalledWith({ pathname: 'pathname', search: 'search' }, 100)
       expect(result).toEqual(mockReportListRenderData)
     })

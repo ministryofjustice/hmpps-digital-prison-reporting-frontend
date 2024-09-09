@@ -21,15 +21,15 @@ const mockReportData = createMockData(10)
 
 describe('AsyncReportListUtils', () => {
   const PaginationUtilsSpy = jest.spyOn(PaginationUtils, 'getPaginationData')
-  const ColumnUtilsSpy = jest.spyOn(ColumnUtils, 'getColumns')
+  const fieldNames = ['field2', 'column']
 
   describe('getRenderData', () => {
     it('should return data to render the report list', async () => {
-      const mockReq = { query: { columns: ['column'] } } as unknown as Request
+      const mockReq = { query: { columns: fieldNames } } as unknown as Request
       const mockSpecification = definitions.report.variants[1].specification
       const specification: components['schemas']['Specification'] = {
-        template: mockSpecification.template,
-        fields: mockSpecification.fields,
+        template: mockSpecification.template as 'list' | 'list-section' | 'list-aggregate' | 'list-tab' | 'crosstab' | 'summary' | 'summary-section',
+        fields: mockSpecification.fields as components['schemas']['FieldDefinition'][],
         sections: []
       }
       const querySummary: Array<Dict<string>> = [
@@ -37,12 +37,7 @@ describe('AsyncReportListUtils', () => {
           query: 'summary',
         },
       ]
-      const columns: Columns = {
-        name: '',
-        options: [],
-        text: '',
-        value: ['column'],
-      }
+      const columns: Columns = ColumnUtils.getColumns(specification, fieldNames)
 
       const result = AsyncReportListUtils.getRenderData(
         mockReq,
@@ -54,7 +49,6 @@ describe('AsyncReportListUtils', () => {
         columns,
       )
 
-      expect(ColumnUtilsSpy).toHaveBeenCalledWith(specification, ['column'])
       expect(PaginationUtilsSpy).toHaveBeenCalledWith({ pathname: 'pathname', search: 'search' }, 100)
       expect(result).toEqual(mockReportListRenderData)
     })

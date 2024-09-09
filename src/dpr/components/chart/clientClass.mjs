@@ -26,6 +26,7 @@ export default class ChartVisualisation extends DprClientClass {
     this.initChartEvents()
   }
 
+  // Accessible colours from the MoJ Pattern Library
   getColourPallette() {
     return [
       '#1d70b8', // brand blue

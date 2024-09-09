@@ -3,17 +3,6 @@ import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { ChartCardData } from '../../types/Charts'
 
 export default {
-  /**
-   * Mock implementation of how data might be fetched and transformed
-   *
-   * @param {(AsyncReportUtilsParams & { id: string })} {
-   *     res,
-   *     services,
-   *     next,
-   *     id,
-   *   }
-   * @return {*}  {Promise<ChartCardData>}
-   */
   getChartData: async ({
     res,
     services,
@@ -24,7 +13,8 @@ export default {
       const token = res.locals.user?.token ? res.locals.user.token : 'token'
       const metricData = await services.metricService.getMetricData(token, id)
 
-      // TODO: convert data from the metric Api to ChartCardData
+      // TODO: convert data from the metric Api to ChartCardData herr
+      // Currently returning data in its desired form
       const convertedChartData: ChartCardData = metricData
 
       return convertedChartData

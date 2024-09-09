@@ -13,8 +13,8 @@ class MockDashboardClient {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async getDefinition(tokenC, idC) {
-    return Promise.resolve(this.dashboards.find((d) => d.id === idC))
+  async getDefinition(token, id) {
+    return Promise.resolve(this.dashboards.find((d) => d.id === id))
   }
 
   async getDefinitions() {

@@ -89,28 +89,29 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
         const data = summary.data.filter((row) => this.mapSectionDescription(row) === sectionDescription)
 
         if (data.length > 0) {
-          const dataTable = DataTableBuilder
-            .getForSummary(summary, this.specification.sections)
-            .buildTable(data)
+          const dataTable = DataTableBuilder.getForSummary(summary, this.specification.sections).buildTable(data)
 
           const headers = dataTable.head.map(
             (h) => `<th scope='col' class='govuk-table__header'>${h.html ?? h.text}</th>`,
           )
           const rows = dataTable.rows.map(
             (r) =>
-              `<tr class='govuk-table__row'>${r.map(
-                (c) =>
-                  `<td class='govuk-table__cell govuk-table__cell--${c.format} ${c.classes}'>${c.html ?? c.text}</td>`
-              ).join('')}</tr>`,
+              `<tr class='govuk-table__row'>${r
+                .map(
+                  (c) =>
+                    `<td class='govuk-table__cell govuk-table__cell--${c.format} ${c.classes}'>${
+                      c.html ?? c.text
+                    }</td>`,
+                )
+                .join('')}</tr>`,
           )
 
           return `<div class='dpr-summary-container'><table class='govuk-table'>
                   <thead class='govuk-table__head'>${headers.join('')}</thead>
                   <tbody class='govuk-table__body'>${rows.join('')}</tbody>
                 </table></div>`
-        } else {
-          return ''
         }
+        return ''
       })
 
       const summaryContent = htmlTables.join('')
@@ -121,7 +122,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
               colspan: columnsLength,
               html: `<div class='dpr-summary-container-group dpr-summary-container-group-${summaryTemplate}'>${summaryContent}</div>`,
             },
-          ]
+          ],
         ]
       }
     }

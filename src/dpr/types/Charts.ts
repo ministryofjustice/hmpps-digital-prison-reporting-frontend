@@ -40,7 +40,7 @@ interface ChartDataset {
   total: number
 }
 
-enum ChartType {
+export enum ChartType {
   DONUT = 'doughnut',
   BAR = 'bar',
   LINE = 'line',

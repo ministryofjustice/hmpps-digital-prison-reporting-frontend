@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export default class DashboardService {
-  // TODO: use correct client type, once implemented. Currently using a mocked client
   constructor(private readonly dashboardClient: any) {}
 
-  async getDefinition(token: string, id: string) {
-    return this.dashboardClient.getDefinition(token, id)
+  async getDefinition(token: string, id: string, dataProductDefinitionsPath?: string) {
+    return this.dashboardClient.getDefinition(token, id, dataProductDefinitionsPath)
   }
 
-  async getDefinitions() {
-    return this.dashboardClient.getDefinitions()
+  async getDefinitions(token: string, dataProductDefinitionsPath?: string) {
+    return this.dashboardClient.getDefinitions(token, dataProductDefinitionsPath)
   }
 }

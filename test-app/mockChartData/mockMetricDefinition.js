@@ -5,16 +5,14 @@ const mockMetricDefinition1 = {
   description: 'Prisoner Images by Status Percentage',
   visualisationType: ['bar', 'doughnut'],
   specification: [
-    [
-      {
-        name: 'status',
-        display: 'Status',
-      },
-      {
-        name: 'count',
-        display: 'Count',
-      },
-    ],
+    {
+      name: 'status',
+      display: 'Status',
+    },
+    {
+      name: 'count',
+      display: 'Count',
+    },
   ],
 }
 

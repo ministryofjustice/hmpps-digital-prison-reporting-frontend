@@ -1,0 +1,6 @@
+{% macro dprChart(id, type, chartData) %}
+  <div id="{{ id }}-chart-wrapper" class="dpr-chart dpr-{{ type }}-chart" data-dpr-module="{{ type }}-chart" data-dpr-chart-data="{{ chartData | json }}" data-dpr-chart-type="{{ type }}">
+    <div><canvas id="{{ id }}" class="chart-canvas"></canvas></div>
+    <div id="js-legend-{{ id }}" class="dpr-chart-legend"></div>
+  </div>
+{% endmacro %}

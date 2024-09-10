@@ -18,6 +18,9 @@ import AsyncRequestList from './components/async-request-list/clientClass.mjs'
 import RecentlyViewedList from './components/recently-viewed-list/clientClass.mjs'
 import DateRange from './components/date-range/clientClass.mjs'
 import ShowMore from './components/show-more/clientClass.mjs'
+import BarChartVisualisation from './components/chart/bar/clientClass.mjs'
+import DoughnutChartVisualisation from './components/chart/doughnut/clientClass.mjs'
+import LineChartVisualisation from './components/chart/line/clientClass.mjs'
 /**
  * Initialise all components
  *
@@ -46,6 +49,9 @@ export default function initAll() {
     RecentlyViewedList,
     DateRange,
     ShowMore,
+    BarChartVisualisation,
+    DoughnutChartVisualisation,
+    LineChartVisualisation,
   ]
 
   components.forEach((Component) => {

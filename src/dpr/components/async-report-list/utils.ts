@@ -1,29 +1,27 @@
 import parseUrl from 'parseurl'
 import { Request } from 'express'
-import ColumnUtils from '../columns/utils'
 import PaginationUtils from '../pagination/utils'
 import TotalsUtils from '../report-totals/utils'
 import { components } from '../../types/api'
 import Dict = NodeJS.Dict
-import { AsyncReportData, AsyncSummary } from '../../types/AsyncReport'
+import { AsyncSummary } from '../../types/AsyncReport'
 import DataTableBuilder from '../../utils/DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../../utils/DataTableBuilder/types'
+import { Columns } from '../columns/types'
 
 export default {
   getRenderData: (
     req: Request,
-    definition: components['schemas']['SingleVariantReportDefinition'],
+    specification: components['schemas']['Specification'],
     reportData: Array<Dict<string>>,
     count: number,
-    reportStateData: AsyncReportData,
+    querySummary: Array<Dict<string>>,
     reportSummaries: Dict<Array<AsyncSummary>>,
+    columns: Columns,
   ) => {
-    const { specification } = definition.variant
-    const { columns: reqColumns } = req.query
-    const columns = ColumnUtils.getColumns(specification, <string[]>reqColumns)
     const url = parseUrl(req)
     const pagination = PaginationUtils.getPaginationData(url, count)
-    const { query } = reportStateData
+
     const dataTable: DataTable = new DataTableBuilder(specification)
       .withSummaries(reportSummaries)
       .withNoHeaderOptions(columns.value)
@@ -40,7 +38,7 @@ export default {
       ...dataTable,
       columns,
       pagination,
-      querySummary: query.summary,
+      querySummary,
       totals,
     }
   },

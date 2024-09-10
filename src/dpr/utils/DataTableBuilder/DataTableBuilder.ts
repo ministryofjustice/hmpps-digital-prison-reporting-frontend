@@ -7,13 +7,13 @@ import type { SummaryTemplate, Template } from '../../types/Templates'
 import { AsyncSummary } from '../../types/AsyncReport'
 
 export default class DataTableBuilder {
-  private specification: components['schemas']['Specification']
+  protected specification: components['schemas']['Specification']
 
   private template: Template
 
-  private columns: Array<string> = []
+  protected columns: Array<string> = []
 
-  private reportSummaries: Dict<Array<AsyncSummary>> = {}
+  protected reportSummaries: Dict<Array<AsyncSummary>> = {}
 
   // Sortable headers only
   private reportQuery: ReportQuery = null
@@ -45,7 +45,11 @@ export default class DataTableBuilder {
     return value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase()
   }
 
-  private mapRow(rowData: NodeJS.Dict<string>, extraClasses = '', overrideFields: Array<FieldDefinition> = []): Cell[] {
+  protected mapRow(
+    rowData: NodeJS.Dict<string>,
+    extraClasses = '',
+    overrideFields: Array<FieldDefinition> = [],
+  ): Cell[] {
     return this.specification.fields
       .filter((f) => this.columns.includes(f.name))
       .map((f) => {
@@ -74,7 +78,7 @@ export default class DataTableBuilder {
     return cell
   }
 
-  private mapCellValue(field: FieldDefinition, cellData: string) {
+  protected mapCellValue(field: FieldDefinition, cellData: string) {
     if (field.calculated) {
       return cellData
     }
@@ -92,18 +96,7 @@ export default class DataTableBuilder {
     }
   }
 
-  mapSectionDescription(rowData: NodeJS.Dict<string>): string {
-    const { sections } = this.specification
-
-    return sections
-      .map((s) => {
-        const sectionField = this.specification.fields.find((f) => f.name === s)
-        return `${sectionField.display}: ${this.mapCellValue(sectionField, rowData[s])}`
-      })
-      .join(', ')
-  }
-
-  private mapHeader(disableSort = false): Cell[] {
+  protected mapHeader(disableSort = false): Cell[] {
     return this.specification.fields
       .filter((field) => this.columns.includes(field.name))
       .map((f) => {
@@ -150,7 +143,7 @@ export default class DataTableBuilder {
       })
   }
 
-  private mapData(data: Array<Dict<string>>): Cell[][] {
+  protected mapData(data: Array<Dict<string>>): Cell[][] {
     const mappedHeaderSummary = this.mapSummary('table-header')
     const mappedTableData = data.map((rowData) => this.mapRow(rowData))
     const mappedFooterSummary = this.mapSummary('table-footer')
@@ -164,64 +157,6 @@ export default class DataTableBuilder {
         reportSummary.data.map((rowData) =>
           this.mapRow(rowData, `dpr-report-summary-cell dpr-report-summary-cell-${template}`, reportSummary.fields),
         ),
-      )
-    }
-    return []
-  }
-
-  private mapSectionedData(data: Array<Dict<string>>, header: Cell[]): Cell[][] {
-    const sectionedData: Dict<Cell[][]> = {}
-    const headerRow = header.map((h) => ({
-      ...h,
-      classes: 'govuk-table__header',
-    }))
-
-    data.forEach((rowData) => {
-      const sectionDescription: string = this.mapSectionDescription(rowData)
-
-      if (!sectionedData[sectionDescription]) {
-        sectionedData[sectionDescription] = []
-      }
-
-      sectionedData[sectionDescription].push(this.mapRow(rowData))
-    })
-
-    return Object.keys(sectionedData)
-      .sort()
-      .flatMap((sectionDescription) => {
-        const count = sectionedData[sectionDescription].length
-        const countDescription = `${count} result${count === 1 ? '' : 's'}`
-        const mappedHeaderSummary = this.mapSectionSummary('table-header', sectionDescription)
-        const mappedTableData = sectionedData[sectionDescription]
-        const mappedSectionSummary = this.mapSectionSummary('section-footer', sectionDescription)
-        const mappedFooterSummary = this.mapSectionSummary('table-footer', sectionDescription)
-
-        const tableContent = mappedHeaderSummary
-          .concat(mappedTableData)
-          .concat(mappedSectionSummary)
-          .concat(mappedFooterSummary)
-
-        return [
-          [
-            {
-              colspan: this.columns.length,
-              html: `<h2>${sectionDescription} <span class='govuk-caption-m'>${countDescription}</span></h2>`,
-            },
-          ],
-          headerRow,
-          ...tableContent,
-        ]
-      })
-  }
-
-  private mapSectionSummary(template: SummaryTemplate, sectionDescription: string): Cell[][] {
-    if (this.reportSummaries[template]) {
-      return this.reportSummaries[template].flatMap((reportSummary) =>
-        reportSummary.data
-          .filter((rowData) => this.mapSectionDescription(rowData) === sectionDescription)
-          .map((rowData) =>
-            this.mapRow(rowData, `dpr-report-summary-cell dpr-report-summary-cell-${template}`, reportSummary.fields),
-          ),
       )
     }
     return []
@@ -242,30 +177,36 @@ export default class DataTableBuilder {
   }
 
   buildTable(data: Array<Dict<string>>): DataTable {
-    const counts = {
+    return {
+      head: this.mapHeader(),
+      rows: this.mapData(data),
       rowCount: data.length,
       colCount: this.columns.length,
-    }
-
-    switch (this.template) {
-      case 'list-section':
-        return {
-          head: null,
-          rows: this.mapSectionedData(data, this.mapHeader(true)),
-          ...counts,
-        }
-
-      default:
-        return {
-          head: this.mapHeader(),
-          rows: this.mapData(data),
-          ...counts,
-        }
     }
   }
 
   withSummaries(reportSummaries: Dict<Array<AsyncSummary>>) {
     this.reportSummaries = reportSummaries
     return this
+  }
+
+  static getForSummary(summary: AsyncSummary, sections: Array<string>): DataTableBuilder {
+    const fields = summary.fields.map((field) => ({
+      ...field,
+      calculated: false,
+      sortable: false,
+      defaultsort: false,
+      mandatory: true,
+      visible: true,
+    }))
+    const columns = summary.fields
+      .filter((field) => !sections || !sections.includes(field.name))
+      .map((field) => field.name)
+
+    return new DataTableBuilder({
+      template: 'list',
+      fields,
+      sections: [],
+    }).withNoHeaderOptions(columns)
   }
 }

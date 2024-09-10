@@ -5,7 +5,7 @@ import { MetricsDataResponse, MetricsDefinition } from '../types/Metrics'
 export default class MetricService {
   constructor(private readonly metricClient: any) {}
 
-  async getDefinitions(token: string, dataProductDefinitionsPath?: string): Promise<MetricsDefinition> {
+  async getDefinitions(token: string, dataProductDefinitionsPath?: string): Promise<Array<MetricsDefinition>> {
     return this.metricClient.getDefinitions(token, dataProductDefinitionsPath)
   }
 
@@ -13,7 +13,7 @@ export default class MetricService {
     token: string,
     metricId: string,
     dataProductDefinitionsPath?: string,
-  ): Promise<Array<MetricsDefinition>> {
+  ): Promise<MetricsDefinition> {
     return this.metricClient.getDefinition(token, metricId, dataProductDefinitionsPath)
   }
 

@@ -1,13 +1,13 @@
 import { ChartType } from './Charts'
 
-export interface DahsboardDefinition {
+export interface DashboardDefinition {
   id: string
   name: string
   description: string
-  metrics: DahsboardMetricDefinition[]
+  metrics: DashboardMetricDefinition[]
 }
 
-export interface DahsboardMetricDefinition {
+export interface DashboardMetricDefinition {
   id: string
   visualisationType: ChartType[]
 }

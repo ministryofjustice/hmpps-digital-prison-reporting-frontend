@@ -17,7 +17,7 @@ class MockMetricClient {
   }
 
   async getMetricData(token, metricId) {
-    return Promise.resolve(this.mockMetricData.find((metric) => metric.id === metricId))
+    return Promise.resolve(this.mockMetricData[metricId])
   }
 }
 

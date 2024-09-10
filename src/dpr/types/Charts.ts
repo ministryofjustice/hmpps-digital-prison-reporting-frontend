@@ -10,14 +10,14 @@ interface ChartTabs extends Omit<Chart, 'type'> {
   type: ChartType[]
   data: {
     chart: ChartData
-    table: TableData
+    table: MoJTable
   }
 }
 
 export interface ChartCardData extends ChartTabs {
   title: string
   description: string
-  details: {
+  details?: {
     headlines: ChartCardDetailsItem[]
     meta: ChartCardDetailsItem[]
   }
@@ -46,7 +46,17 @@ export enum ChartType {
   LINE = 'line',
 }
 
-interface TableData {
-  head: { text: string }[]
-  rows: { text?: string; html?: string }[][]
+export interface MoJTable {
+  head: MoJTableHead[]
+  rows: MoJTableRow[][]
+}
+
+export interface MoJTableRow {
+  text?: string
+  html?: string
+}
+
+export interface MoJTableHead {
+  text?: string
+  html?: string
 }

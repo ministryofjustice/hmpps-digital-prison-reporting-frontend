@@ -5,7 +5,7 @@ const mockDashboardDefinition1 = {
   metrics: [
     {
       id: 'test-metric-id-1',
-      visualisationType: ['bar', 'dougnut'],
+      visualisationType: ['doughnut', 'bar'],
     },
   ],
 }

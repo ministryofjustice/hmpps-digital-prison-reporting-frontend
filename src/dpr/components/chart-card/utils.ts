@@ -1,26 +1,64 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
-import { ChartCardData } from '../../types/Charts'
+import { ChartCardData, MoJTable, MoJTableHead, MoJTableRow } from '../../types/Charts'
+import { MetricsDefinition, MetricsDataResponse } from '../../types/Metrics'
 
 export default {
-  getChartData: async ({
-    res,
-    services,
-    next,
-    id,
-  }: AsyncReportUtilsParams & { id: string }): Promise<ChartCardData> => {
-    try {
-      const token = res.locals.user?.token ? res.locals.user.token : 'token'
-      const metricData = await services.metricService.getMetricData(token, id)
+  getChartData: ({
+    definition,
+    table,
+  }: {
+    definition: MetricsDefinition
+    metric: MetricsDataResponse
+    table: MoJTable
+  }): ChartCardData => {
+    const { id, name: title, description, visualisationType: type } = definition
 
-      // TODO: convert data from the metric Api to ChartCardData herr
-      // Currently returning data in its desired form
-      const convertedChartData: ChartCardData = metricData
+    const labels = createLabels(table.rows)
+    const datasets = createDatasets(table)
 
-      return convertedChartData
-    } catch (error) {
-      next(error)
-      return {} as unknown as ChartCardData
+    const chartCardData = {
+      id,
+      title,
+      description,
+      type,
+      data: {
+        chart: {
+          labels,
+          datasets,
+        },
+        table,
+      },
     }
+
+    return chartCardData
   },
+}
+
+const createDatasets = (table: MoJTable) => {
+  const tableCopy = JSON.parse(JSON.stringify(table))
+
+  let { rows } = tableCopy
+  rows = tableCopy.rows.map((row: MoJTableRow[]) => {
+    row.shift()
+    return row
+  })
+
+  const { head } = tableCopy
+  head.shift()
+
+  return head.map((h: MoJTableHead, index: number) => {
+    const data = rows.map((r: MoJTableRow[]) => {
+      return +r[index].text
+    })
+    return {
+      label: h.text,
+      data,
+      total: data.reduce((acc: number, val: number) => acc + val, 0),
+    }
+  })
+}
+
+const createLabels = (rows: MoJTableRow[][]) => {
+  return rows.map((row: MoJTableRow[]) => {
+    return row[0].text
+  })
 }

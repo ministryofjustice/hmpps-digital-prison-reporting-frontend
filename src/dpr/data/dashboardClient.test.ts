@@ -2,7 +2,7 @@ import nock from 'nock'
 
 import DashboardClient from './dashboardClient'
 import AgentConfig from './agentConfig'
-import { DahsboardDefinition } from '../types/Dashboards'
+import { DashboardDefinition } from '../types/Dashboards'
 import { ChartType } from '../types/Charts'
 
 describe('dashboardClient', () => {
@@ -24,7 +24,7 @@ describe('dashboardClient', () => {
 
   describe('getDefinitions', () => {
     it('should return definitions from api', async () => {
-      const response: Array<DahsboardDefinition> = [
+      const response: Array<DashboardDefinition> = [
         {
           id: 'test-dashboard-1',
           name: 'Test Dashboard 1',
@@ -46,7 +46,7 @@ describe('dashboardClient', () => {
     })
 
     it('should return definitions from api with definitions path', async () => {
-      const response: Array<DahsboardDefinition> = [
+      const response: Array<DashboardDefinition> = [
         {
           id: 'test-dashboard-1',
           name: 'Test Dashboard 1',
@@ -72,7 +72,7 @@ describe('dashboardClient', () => {
 
   describe('getDefinition', () => {
     it('should return definition from api', async () => {
-      const response: DahsboardDefinition = {
+      const response: DashboardDefinition = {
         id: 'test-dashboard-1',
         name: 'Test Dashboard 1',
         description: 'Test Dashboard 1 Description',
@@ -91,7 +91,7 @@ describe('dashboardClient', () => {
     })
 
     it('should return definition from api with definitions path', async () => {
-      const response: DahsboardDefinition = {
+      const response: DashboardDefinition = {
         id: 'test-dashboard-1',
         name: 'Test Dashboard 1',
         description: 'Test Dashboard 1 Description',

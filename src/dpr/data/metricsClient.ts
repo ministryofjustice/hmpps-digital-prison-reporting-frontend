@@ -26,7 +26,7 @@ export default class MetricsClient {
       .then((response) => <Array<MetricsDefinition>>response)
   }
 
-  getDefinition(token: string, metricId: string, definitionsPath?: string): Promise<MetricsDefinition> {
+  getDefinition(token: string, metricId: string, dpdId: string, definitionsPath?: string): Promise<MetricsDefinition> {
     logger.info(`Mertrics client: Get definition:${metricId}`)
 
     const query = {
@@ -34,19 +34,19 @@ export default class MetricsClient {
     }
     return this.restClient
       .get({
-        path: `/definitions/metrics/${metricId}`,
+        path: `/definitions/${dpdId}/metrics/${metricId}`,
         query,
         token,
       })
       .then((response) => <MetricsDefinition>response)
   }
 
-  getMetricData(token: string, metricId: string): Promise<MetricsDataResponse> {
+  getMetricData(token: string, metricId: string, dpdId: string): Promise<MetricsDataResponse> {
     logger.info(`Metrics client: Get metricId:${metricId} data`)
 
     return this.restClient
       .get({
-        path: `/metrics/${metricId}`,
+        path: `reports/${dpdId}/metrics/${metricId}`,
         token,
       })
       .then((response) => <MetricsDataResponse>response)

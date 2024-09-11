@@ -2,7 +2,7 @@ import { ChartType, ChartUnit } from '../../types/Charts'
 import { MetricsDataResponse, MetricsDefinition } from '../../types/Metrics'
 import ChartCardUtils from './utils'
 
-describe('DashboardService', () => {
+describe('ChartCard Utils', () => {
   let mockMetricsDataResponse: MetricsDataResponse
   let mockMetricDefinition: MetricsDefinition
 

@@ -12,12 +12,13 @@ export default class MetricService {
   async getDefinition(
     token: string,
     metricId: string,
+    dpdId: string,
     dataProductDefinitionsPath?: string,
   ): Promise<MetricsDefinition> {
     return this.metricClient.getDefinition(token, metricId, dataProductDefinitionsPath)
   }
 
-  async getMetricData(token: string, metricId: string): Promise<MetricsDataResponse> {
-    return this.metricClient.getMetricData(token, metricId)
+  async getMetricData(token: string, metricId: string, dpdId: string): Promise<MetricsDataResponse> {
+    return this.metricClient.getMetricData(token, metricId, dpdId)
   }
 }

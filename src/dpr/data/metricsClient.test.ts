@@ -102,9 +102,9 @@ describe('metricsClient', () => {
         ],
       }
 
-      fakeReportingApi.get(`/definitions/metrics/test-metric`).reply(200, response)
+      fakeReportingApi.get(`/definitions/dpd-id/metrics/test-metric`).reply(200, response)
 
-      const output = await metricsClient.getDefinition(null, 'test-metric')
+      const output = await metricsClient.getDefinition(null, 'test-metric', 'dpd-id')
       expect(output).toEqual(response)
     })
 
@@ -130,9 +130,9 @@ describe('metricsClient', () => {
         dataProductDefinitionsPath: 'test-definition-path',
       }
 
-      fakeReportingApi.get(`/definitions/metrics/test-metric`).query(query).reply(200, response)
+      fakeReportingApi.get(`/definitions/dpd-id/metrics/test-metric`).query(query).reply(200, response)
 
-      const output = await metricsClient.getDefinition(null, 'test-metric', 'test-definition-path')
+      const output = await metricsClient.getDefinition(null, 'test-metric', 'dpd-id', 'test-definition-path')
       expect(output).toEqual(response)
     })
   })
@@ -141,9 +141,10 @@ describe('metricsClient', () => {
     it('should return data from api', async () => {
       const response = [{ test: 'true' }]
       const metricId = 'metric-id'
-      fakeReportingApi.get(`/metrics/${metricId}`).reply(200, response)
+      const dpdId = 'dpd-id'
+      fakeReportingApi.get(`reports/${dpdId}/metrics/${metricId}`).reply(200, response)
 
-      const output = await metricsClient.getMetricData(null, metricId)
+      const output = await metricsClient.getMetricData(null, metricId, dpdId)
       expect(output).toEqual(response)
     })
   })

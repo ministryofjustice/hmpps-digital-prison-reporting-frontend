@@ -16,6 +16,7 @@ export default class BarChartVisualisation extends ChartVisualisation {
     return {
       options: this.setOptions(),
       pluginsOptions: this.setPluginsOptions(),
+      datalabels: this.setDataLabels(),
       toolTipOptions: this.setToolTipOptions(),
       styling: this.setDatasetStyling(),
     }
@@ -28,7 +29,8 @@ export default class BarChartVisualisation extends ChartVisualisation {
         borderColor: colour,
         backgroundColor: colour,
         datalabels: {
-          display: false,
+          align: 'end',
+          anchor: 'center',
         },
       }
     })
@@ -44,14 +46,21 @@ export default class BarChartVisualisation extends ChartVisualisation {
   }
 
   setToolTipOptions() {
-    const chartCtx = this
+    const ctx = this
     return {
       callbacks: {
         label(context) {
           const { label } = context
           const { data, label: legend } = context.dataset
-          const value = data[context.dataIndex]
-          chartCtx.setHoverValue(label, value, legend, chartCtx)
+          let value = `${data[context.dataIndex]}${ctx.suffix}`
+
+          if (!ctx.isPercentage) {
+            value = `${legend}: ${value}`
+            ctx.setHoverValue({ label, value, legend, ctx })
+          } else {
+            ctx.setHoverValue({ label, value, ctx })
+          }
+          return value
         },
       },
     }
@@ -71,6 +80,24 @@ export default class BarChartVisualisation extends ChartVisualisation {
           },
         },
       }),
+    }
+  }
+
+  setDataLabels() {
+    return {
+      color: '#FFF',
+      formatter: (value) => {
+        return `${value}${this.suffix}`
+      },
+      labels: {
+        title: {
+          font: {
+            weight: 'bold',
+            size: 16,
+            color: '#FFF',
+          },
+        },
+      },
     }
   }
 }

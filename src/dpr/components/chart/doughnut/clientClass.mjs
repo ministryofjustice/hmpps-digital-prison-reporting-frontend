@@ -119,22 +119,24 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
   }
 
   setToolTipOptions() {
-    const chartCtx = this
+    const ctx = this
     return {
       callbacks: {
         label(context) {
           const { label, parsed: value, dataset } = context
           const { label: legend } = dataset
           const dataArr = dataset.data
-          let toolipValue = `${value}${chartCtx.suffix}`
+          let toolipValue = `${value}${ctx.suffix}`
 
-          if (!chartCtx.isPercentage) {
+          if (!ctx.isPercentage) {
             const val = dataArr.reduce((sum, d) => sum + Number(d), 0)
             const percentage = `${((value * 100) / val).toFixed(2)}%`
             toolipValue = `${value} (${percentage})`
+            ctx.setHoverValue({ label, value: toolipValue, legend, ctx })
+          } else {
+            ctx.setHoverValue({ label, value: toolipValue, ctx })
           }
 
-          chartCtx.setHoverValue(label, toolipValue, legend, chartCtx)
           return `${legend}: ${toolipValue}`
         },
       },

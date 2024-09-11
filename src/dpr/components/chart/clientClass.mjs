@@ -102,7 +102,7 @@ export default class ChartVisualisation extends DprClientClass {
     }
   }
 
-  setHoverValue(label, value, legend, ctx) {
+  setHoverValue({ label, value, legend, ctx }) {
     if (ctx.tooltipDetailsEl) {
       ctx.tooltipDetailsEl.style.display = 'block'
       ctx.labelElement.innerHTML = `${label}`
@@ -111,6 +111,9 @@ export default class ChartVisualisation extends DprClientClass {
     }
     if (ctx.headlineValuesEl) {
       ctx.headlineValuesEl.style.display = 'none'
+    }
+    if (!legend) {
+      ctx.legendElement.style.display = 'none'
     }
   }
 

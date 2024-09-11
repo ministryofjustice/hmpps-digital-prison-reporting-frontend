@@ -114,7 +114,7 @@ describe('DashboardUtils', () => {
                 ],
               },
               table: {
-                head: [{ text: 'status' }, { text: 'Percent' }],
+                head: [{ text: 'Status' }, { text: 'Percent' }],
                 rows: [
                   [{ text: 'Without' }, { text: '33%' }],
                   [{ text: 'Older than 2 years' }, { text: '27%' }],

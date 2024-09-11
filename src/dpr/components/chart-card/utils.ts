@@ -1,5 +1,5 @@
 import { ChartCardData, ChartUnit, MoJTableHead, MoJTableRow, ChartDataset } from '../../types/Charts'
-import { MetricsDataResponse, MetricsDefinition } from '../../types/Metrics'
+import { MetricsDataResponse, MetricsDefinition, MetricsDefinitionSpecification } from '../../types/Metrics'
 
 export default {
   getChartData: ({
@@ -42,7 +42,7 @@ const createLabels = (metric: MetricsDataResponse) => {
 }
 
 const createDatasets = (metric: MetricsDataResponse, definition: MetricsDefinition) => {
-  const { specification } = definition
+  const specification: MetricsDefinitionSpecification[] = JSON.parse(JSON.stringify(definition.specification))
   specification.shift()
 
   const datasets: ChartDataset[] = []
@@ -69,7 +69,8 @@ const createTable = (metric: MetricsDataResponse, definition: MetricsDefinition,
   Object.entries(metric.data[0]).forEach((key) => {
     const name = `${key[0]}`
     const spec = specification.find((s) => s.name === name)
-    head.push({ text: spec ? spec.display : name })
+    const text = spec ? spec.display : name
+    head.push({ text })
   })
 
   const rows: MoJTableRow[][] = []

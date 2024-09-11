@@ -8,7 +8,7 @@ class MockMetricClient {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async getDefinition(token, id, dataProductDefinitionsPath) {
+  async getDefinition(token, id, dpdId, dataProductDefinitionsPath) {
     return Promise.resolve(this.mockMetricDefinitions.find((d) => d.id === id))
   }
 
@@ -16,7 +16,7 @@ class MockMetricClient {
     Promise.resolve(this.mockMetricDefinitions)
   }
 
-  async getMetricData(token, metricId) {
+  async getMetricData(token, metricId, dpdId) {
     return Promise.resolve(this.mockMetricData[metricId])
   }
 }

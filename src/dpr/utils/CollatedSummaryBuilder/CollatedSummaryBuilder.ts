@@ -15,53 +15,35 @@ export default class CollatedSummaryBuilder {
     this.summaries = summaries
   }
 
-  sectionSummaryTemplates: Array<SummaryTemplate> = ['section-footer', 'section-header', 'table-footer', 'table-header']
+  pageSummaryTemplates: Array<SummaryTemplate> = ['page-header', 'page-footer']
 
-  collateAndMapToDataTable(avoidSummaryTemplates: Array<SummaryTemplate> = []): Dict<Array<DataTable>> {
-    const collatedSummaries = this.collate(avoidSummaryTemplates)
+  dataTableSummaryTemplates: Array<SummaryTemplate> = [
+    'section-footer',
+    'section-header',
+    'table-footer',
+    'table-header',
+  ]
+
+  collatePageSummaries(): Dict<Array<DataTable>> {
+    return this.collateAndMapToDataTable(this.pageSummaryTemplates)
+  }
+
+  collateDataTableSummaries(): Dict<Array<AsyncSummary>> {
+    return this.collate(this.dataTableSummaryTemplates)
+  }
+
+  collateAndMapToDataTable(summaryTemplates: Array<SummaryTemplate> = []): Dict<Array<DataTable>> {
+    const collatedSummaries = this.collate(summaryTemplates)
 
     return this.mapToDataTables(collatedSummaries)
   }
 
-  collateSectionedAndMapToDataTable(): Dict<Array<DataTable>> {
-    const collatedSummaries: Dict<Array<AsyncSummary>> = this.collate(this.sectionSummaryTemplates)
-
-    if (this.summaries) {
-      const builder = new DataTableBuilder(this.specification)
-
-      this.summaries.forEach((summary: AsyncSummary) => {
-        if (this.sectionSummaryTemplates.includes(summary.template)) {
-          summary.data.forEach((row) => {
-            const sectionDescription = builder.mapSectionDescription(row)
-
-            if (!collatedSummaries[sectionDescription]) {
-              collatedSummaries[sectionDescription] = []
-            }
-
-            const matchedBySummaryId = collatedSummaries[sectionDescription].find((s) => s.id === summary.id)
-
-            if (matchedBySummaryId) {
-              matchedBySummaryId.data.push(row)
-            } else {
-              collatedSummaries[sectionDescription].push({
-                ...summary,
-                data: [row],
-              })
-            }
-          })
-        }
-      })
-    }
-
-    return this.mapToDataTables(collatedSummaries)
-  }
-
-  collate(avoidSummaryTemplates: Array<SummaryTemplate> = []): Dict<Array<AsyncSummary>> {
+  collate(summaryTemplates: Array<SummaryTemplate> = this.pageSummaryTemplates): Dict<Array<AsyncSummary>> {
     const collatedSummaries: Dict<Array<AsyncSummary>> = {}
 
     if (this.summaries) {
       this.summaries.forEach((summary: AsyncSummary) => {
-        if (!avoidSummaryTemplates.includes(summary.template)) {
+        if (summaryTemplates.includes(summary.template)) {
           if (!collatedSummaries[summary.template]) {
             collatedSummaries[summary.template] = []
           }
@@ -79,31 +61,11 @@ export default class CollatedSummaryBuilder {
 
     Object.keys(summaries).forEach((summaryType) => {
       dataTables[summaryType] = summaries[summaryType].map((summary) => {
-        const builder = this.getDataTableBuilderForSummary(summary)
+        const builder = DataTableBuilder.getForSummary(summary, this.specification.sections)
         return builder.buildTable(summary.data)
       })
     })
 
     return dataTables
-  }
-
-  private getDataTableBuilderForSummary(summary: AsyncSummary): DataTableBuilder {
-    const fields = summary.fields.map((field) => ({
-      ...field,
-      calculated: false,
-      sortable: false,
-      defaultsort: false,
-      mandatory: true,
-      visible: true,
-    }))
-    const columns = summary.fields
-      .filter((field) => !this.specification.sections || !this.specification.sections.includes(field.name))
-      .map((field) => field.name)
-
-    return new DataTableBuilder({
-      template: 'list',
-      fields,
-      sections: [],
-    }).withNoHeaderOptions(columns)
   }
 }

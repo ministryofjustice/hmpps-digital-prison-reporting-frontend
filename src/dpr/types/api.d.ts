@@ -175,7 +175,7 @@ export interface components {
     ReportSummary: {
       id: string
       /** @enum {string} */
-      template: 'table-header' | 'table-footer' | 'section-footer' | 'page-header' | 'page-footer'
+      template: 'table-header' | 'table-footer' | 'section-header' | 'section-footer' | 'page-header' | 'page-footer'
       fields: components['schemas']['SummaryField'][]
     }
     SingleVariantReportDefinition: {

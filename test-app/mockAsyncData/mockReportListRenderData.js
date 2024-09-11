@@ -390,7 +390,11 @@ const mockReportListRenderData = {
       },
     ],
   },
-  querySummary: 'summary',
+  querySummary: [
+    {
+      query: 'summary',
+    }
+  ],
 }
 
 module.exports = { mockReportListRenderData, mockGetReportListRenderData }

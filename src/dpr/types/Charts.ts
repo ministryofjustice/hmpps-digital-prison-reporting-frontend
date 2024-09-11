@@ -40,7 +40,7 @@ interface ChartData {
   axis?: 'x' | 'y'
 }
 
-interface ChartDataset {
+export interface ChartDataset {
   label: string
   data: number[]
   total: number

@@ -126,18 +126,19 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
           const { label, parsed: value, dataset } = context
           const { label: legend } = dataset
           const dataArr = dataset.data
-          let toolipValue = `${value}${ctx.suffix}`
 
+          let toolipValue = `${value}${ctx.suffix}`
           if (!ctx.isPercentage) {
             const val = dataArr.reduce((sum, d) => sum + Number(d), 0)
             const percentage = `${((value * 100) / val).toFixed(2)}%`
-            toolipValue = `${value} (${percentage})`
+            toolipValue = `${legend}: ${toolipValue} (${percentage})`
             ctx.setHoverValue({ label, value: toolipValue, legend, ctx })
           } else {
+            toolipValue = `${toolipValue}`
             ctx.setHoverValue({ label, value: toolipValue, ctx })
           }
 
-          return `${legend}: ${toolipValue}`
+          return toolipValue
         },
       },
     }

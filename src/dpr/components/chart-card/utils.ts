@@ -9,12 +9,12 @@ export default {
     definition: MetricsDefinition
     metric: MetricsDataResponse
   }): ChartCardData => {
-    const { id, name: title, description, visualisationType: type, specification } = definition
+    const { id, display: title, description, visualisationType: type, specification } = definition
     const unit = specification[1].unit ? specification[1].unit : ChartUnit.NUMBER
 
-    const labels = createLabelsFromMetric(metric)
-    const datasets = createDatasetsFromMetric(metric, definition)
-    const table = createTableFromMetric(metric, definition, unit)
+    const labels = createLabels(metric)
+    const datasets = createDatasets(metric, definition)
+    const table = createTable(metric, definition, unit)
 
     const chartCardData = {
       id,
@@ -35,13 +35,13 @@ export default {
   },
 }
 
-const createLabelsFromMetric = (metric: MetricsDataResponse) => {
+const createLabels = (metric: MetricsDataResponse) => {
   return metric.data.map((d) => {
     return `${Object.values(d)[0]}`
   })
 }
 
-const createDatasetsFromMetric = (metric: MetricsDataResponse, definition: MetricsDefinition) => {
+const createDatasets = (metric: MetricsDataResponse, definition: MetricsDefinition) => {
   const { specification } = definition
   specification.shift()
 
@@ -61,7 +61,7 @@ const createDatasetsFromMetric = (metric: MetricsDataResponse, definition: Metri
   return datasets
 }
 
-const createTableFromMetric = (metric: MetricsDataResponse, definition: MetricsDefinition, unit: ChartUnit) => {
+const createTable = (metric: MetricsDataResponse, definition: MetricsDefinition, unit: ChartUnit) => {
   const { specification } = definition
   const head: MoJTableHead[] = []
   const suffix = setSuffix(unit)

@@ -84,9 +84,9 @@ describe('dashboardClient', () => {
         ],
       }
 
-      fakeReportingApi.get(`/definitions/dashboards/test-dashboard`).reply(200, response)
+      fakeReportingApi.get(`/definitions/dpd-id/dashboards/test-dashboard`).reply(200, response)
 
-      const output = await dashboardClient.getDefinition(null, 'test-dashboard')
+      const output = await dashboardClient.getDefinition(null, 'test-dashboard', 'dpd-id')
       expect(output).toEqual(response)
     })
 
@@ -106,9 +106,9 @@ describe('dashboardClient', () => {
         dataProductDefinitionsPath: 'test-definition-path',
       }
 
-      fakeReportingApi.get(`/definitions/dashboards/test-dashboard`).query(query).reply(200, response)
+      fakeReportingApi.get(`/definitions/dpd-id/dashboards/test-dashboard`).query(query).reply(200, response)
 
-      const output = await dashboardClient.getDefinition(null, 'test-dashboard', 'test-definition-path')
+      const output = await dashboardClient.getDefinition(null, 'test-dashboard', 'dpd-id', 'test-definition-path')
       expect(output).toEqual(response)
     })
   })

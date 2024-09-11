@@ -8,12 +8,13 @@ export default {
   getDashboardData: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
     try {
       const token = res.locals.user?.token ? res.locals.user.token : 'token'
-      const { id, dataProductDefinitionsPath } = req.params
+      const { dashboardId: id, dpdId, dataProductDefinitionsPath } = req.params
 
       // Get dashboard Definition
       const definition: DashboardDefinition = await services.dashboardService.getDefinition(
         token,
         id,
+        dpdId,
         dataProductDefinitionsPath,
       )
 
@@ -33,8 +34,8 @@ export default {
       )
 
       // Convert metrics data in to chart data
-      const chartsData: ChartCardData[] = metricsData.map((m) => {
-        return ChartCardUtils.getChartData(m)
+      const chartsData: ChartCardData[] = metricsData.map((metric) => {
+        return ChartCardUtils.getChartData(metric)
       })
 
       return {

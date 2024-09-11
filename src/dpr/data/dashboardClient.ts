@@ -26,14 +26,19 @@ export default class DashboardClient {
       .then((response) => <Array<DashboardDefinition>>response)
   }
 
-  getDefinition(token: string, dashboardId: string, definitionsPath?: string): Promise<DashboardDefinition> {
-    logger.info(`Dashboard client: Get definition: ${dashboardId}`)
+  getDefinition(
+    token: string,
+    dashboardId: string,
+    dpdId: string,
+    definitionsPath?: string,
+  ): Promise<DashboardDefinition> {
+    logger.info(`Dashboard client: Get definition: ${dpdId}/${dashboardId}`)
     const query = {
       dataProductDefinitionsPath: definitionsPath,
     }
     return this.restClient
       .get({
-        path: `/definitions/dashboards/${dashboardId}`,
+        path: `/definitions/${dpdId}/dashboards/${dashboardId}`,
         query,
         token,
       })

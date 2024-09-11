@@ -11,7 +11,8 @@
   {% set data = chart.data %}
   {% set description = chart.description %}
   {% set details = chart.details %}
-
+  {% set unit = chart.unit %}
+  
   <div class="dpr-chart-card" id="{{ id }}-chart-card">
     <h2 class="govuk-heading-m">{{ title }}</h2>
 
@@ -21,7 +22,7 @@
 
     <div class="chart-tabs-container">
       
-      {{ dprChartTabs(id, type, data) }}
+      {{ dprChartTabs(id, type, data, unit) }}
 
       <div class="chart-tabs-details">
         {% set headlines = details.headlines %}

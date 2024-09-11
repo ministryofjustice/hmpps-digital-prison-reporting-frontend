@@ -38,7 +38,6 @@ export default {
     next,
   }: { id: string; type: ChartType[] } & AsyncReportUtilsParams): Promise<{
     definition: MetricsDefinition
-    metric: MetricsDataResponse
     table: MoJTable
   }> => {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
@@ -48,12 +47,10 @@ export default {
     if (type) definition.visualisationType = type
 
     const metric = await services.metricService.getMetricData(token, id)
-
     const table = convertToTable(definition, metric)
 
     return {
       definition,
-      metric,
       table,
     }
   },

@@ -26,5 +26,5 @@ export default function routes({
     }
   }
 
-  router.get('/dashboard/:id', getDashboardDataHandler)
+  router.get('/dashboard/:dpdId/:dashboardId', getDashboardDataHandler)
 }

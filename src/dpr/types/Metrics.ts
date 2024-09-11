@@ -1,4 +1,4 @@
-import { ChartType } from './Charts'
+import { ChartType, ChartUnit } from './Charts'
 import Dict = NodeJS.Dict
 
 export interface MetricsDefinition {
@@ -13,7 +13,7 @@ export interface MetricsDefinition {
 export interface MetricsDefinitionSpecification {
   name: string
   display: string
-  unit?: 'number' | 'percentage'
+  unit?: ChartUnit
 }
 
 export interface MetricsDataResponse {

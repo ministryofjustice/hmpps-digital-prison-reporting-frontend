@@ -10,8 +10,9 @@ const mockMetricDefinition1 = {
       display: 'Status',
     },
     {
-      name: 'count',
-      display: 'Count',
+      name: 'percent',
+      display: 'Percent',
+      unit: 'percentage',
     },
   ],
 }

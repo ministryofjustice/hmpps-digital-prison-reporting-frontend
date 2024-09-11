@@ -1,16 +1,10 @@
-import { ChartCardData, MoJTable, MoJTableHead, MoJTableRow } from '../../types/Charts'
-import { MetricsDefinition, MetricsDataResponse } from '../../types/Metrics'
+import { ChartCardData, ChartUnit, MoJTable, MoJTableHead, MoJTableRow } from '../../types/Charts'
+import { MetricsDefinition } from '../../types/Metrics'
 
 export default {
-  getChartData: ({
-    definition,
-    table,
-  }: {
-    definition: MetricsDefinition
-    metric: MetricsDataResponse
-    table: MoJTable
-  }): ChartCardData => {
-    const { id, name: title, description, visualisationType: type } = definition
+  getChartData: ({ definition, table }: { definition: MetricsDefinition; table: MoJTable }): ChartCardData => {
+    const { id, name: title, description, visualisationType: type, specification } = definition
+    const unit = specification[1].unit ? specification[1].unit : ChartUnit.NUMBER
 
     const labels = createLabels(table.rows)
     const datasets = createDatasets(table)
@@ -20,6 +14,7 @@ export default {
       title,
       description,
       type,
+      unit,
       data: {
         chart: {
           labels,

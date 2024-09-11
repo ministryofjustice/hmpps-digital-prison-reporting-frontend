@@ -9,6 +9,7 @@ export default class ChartVisualisation extends DprClientClass {
     this.id = this.chartContext.getAttribute('id')
     this.chartParams = JSON.parse(this.getElement().getAttribute('data-dpr-chart-data'))
     this.type = this.getElement().getAttribute('data-dpr-chart-type')
+    this.setValueSuffix()
 
     // elements
     this.legend = this.getElement().querySelector(`#js-legend-${this.id}`)
@@ -111,6 +112,15 @@ export default class ChartVisualisation extends DprClientClass {
     if (ctx.headlineValuesEl) {
       ctx.headlineValuesEl.style.display = 'none'
     }
+  }
+
+  setValueSuffix() {
+    this.unit = this.getElement().getAttribute('data-dpr-chart-unit')
+    this.suffix = this.unit === 'percentage' ? '%' : ''
+  }
+
+  isPercentage() {
+    return this.unit === 'percentage'
   }
 
   initChartEvents() {

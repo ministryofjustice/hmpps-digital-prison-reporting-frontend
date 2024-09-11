@@ -4,8 +4,13 @@ import { DashboardDefinition } from '../types/Dashboards'
 export default class DashboardService {
   constructor(private readonly dashboardClient: any) {}
 
-  async getDefinition(token: string, id: string, dataProductDefinitionsPath?: string): Promise<DashboardDefinition> {
-    return this.dashboardClient.getDefinition(token, id, dataProductDefinitionsPath)
+  async getDefinition(
+    token: string,
+    id: string,
+    pdpId: string,
+    dataProductDefinitionsPath?: string,
+  ): Promise<DashboardDefinition> {
+    return this.dashboardClient.getDefinition(token, id, pdpId, dataProductDefinitionsPath)
   }
 
   async getDefinitions(token: string, dataProductDefinitionsPath?: string): Promise<Array<DashboardDefinition>> {

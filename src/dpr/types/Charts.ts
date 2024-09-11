@@ -1,9 +1,15 @@
 interface Chart {
   id: string
   type: ChartType
+  unit: ChartUnit
   data: {
     chart: ChartData
   }
+}
+
+export enum ChartUnit {
+  NUMBER = 'number',
+  PERCENTAGE = 'percentage',
 }
 
 interface ChartTabs extends Omit<Chart, 'type'> {

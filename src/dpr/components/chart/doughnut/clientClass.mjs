@@ -46,7 +46,7 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
 
   setPlugins() {
     const plugins = [this.setLegend()]
-    if (this.chartParams.datasets.length === 1) {
+    if (this.chartParams.datasets.length === 1 && !this.isPercentage) {
       plugins.push(this.setCentralText())
     }
     return plugins
@@ -92,7 +92,7 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
   }
 
   setLegend() {
-    const { legend } = this
+    const { legend, suffix } = this
     return {
       id: 'legend',
       beforeInit(chart) {
@@ -103,7 +103,7 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
         labels.forEach((label, i) => {
           const colourIndex = i % backgroundColor.length
           const colour = backgroundColor[colourIndex]
-          const value = chart.data.datasets.length === 1 ? data[i] : ''
+          const value = chart.data.datasets.length === 1 ? `${data[i]}${suffix}` : ''
 
           ul.innerHTML += `
               <li aria-label="${label} ${value}">
@@ -126,11 +126,16 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
           const { label, parsed: value, dataset } = context
           const { label: legend } = dataset
           const dataArr = dataset.data
-          const val = dataArr.reduce((sum, d) => sum + Number(d), 0)
-          const percentage = `${((value * 100) / val).toFixed(2)}%`
-          const fullValue = `${value} (${percentage})`
-          chartCtx.setHoverValue(label, fullValue, legend, chartCtx)
-          return `${legend}: ${fullValue}`
+          let toolipValue = `${value}${chartCtx.suffix}`
+
+          if (!chartCtx.isPercentage) {
+            const val = dataArr.reduce((sum, d) => sum + Number(d), 0)
+            const percentage = `${((value * 100) / val).toFixed(2)}%`
+            toolipValue = `${value} (${percentage})`
+          }
+
+          chartCtx.setHoverValue(label, toolipValue, legend, chartCtx)
+          return `${legend}: ${toolipValue}`
         },
       },
     }
@@ -145,6 +150,9 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
         const total = context.dataset.data.reduce((a, c) => a + c, 0)
         const percentage = (value / total) * 100
         return percentage > 4
+      },
+      formatter: (value) => {
+        return `${value}${this.suffix}`
       },
       labels: {
         title: {

@@ -29,7 +29,7 @@ export default class BarChartVisualisation extends ChartVisualisation {
         borderColor: colour,
         backgroundColor: colour,
         datalabels: {
-          align: 'end',
+          align: 'center',
           anchor: 'center',
         },
       }

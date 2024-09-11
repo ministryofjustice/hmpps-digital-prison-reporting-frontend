@@ -1,4 +1,6 @@
 /* global Chart */
+/* global ChartDataLabels */
+
 import { DprClientClass } from '../../DprClientClass.mjs'
 
 export default class ChartVisualisation extends DprClientClass {
@@ -23,6 +25,10 @@ export default class ChartVisualisation extends DprClientClass {
   }
 
   initChart() {
+    Chart.defaults.font.family = 'GDS Transport'
+    Chart.register(ChartDataLabels)
+    Chart.defaults.font.size = 16
+
     this.chart = new Chart(this.chartContext, this.chartData)
     this.initChartEvents()
   }

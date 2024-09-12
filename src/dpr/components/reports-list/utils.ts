@@ -16,9 +16,10 @@ export default {
     res: Response,
     services: Services,
   ): { head: { text: string }[]; rows: { text?: string; html?: string }[] } => {
-    const { definitions, csrfToken } = res.locals
+    const { definitions, csrfToken, dashboardDefinitions } = res.locals
     const pathSuffix = res.locals.pathSuffix || ''
 
+    // Sort report Definitions by product name
     const sortedDefinitions = definitions.sort(
       (a: components['schemas']['ReportDefinitionSummary'], b: components['schemas']['ReportDefinitionSummary']) => {
         if (a.name < b.name) return -1
@@ -27,6 +28,7 @@ export default {
       },
     )
 
+    // then sort by variant name
     const sortedVariants = sortedDefinitions.flatMap((def: components['schemas']['ReportDefinitionSummary']) => {
       const { id: reportId, name: reportName, description: reportDescription } = def
       const { variants } = def

@@ -72,6 +72,7 @@ const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
 const dashboardRoutes = require('../package/dpr/routes/dashboard').default
 const definitions = require('./mockAsyncData/mockReportDefinition')
+const dashboardDefinitions = require('./mockChartData/mockDashboardDefinition')
 const mockBarChartData = require('./mockChartData/mockBarChartData')
 const mockPieChartData = require('./mockChartData/mockPieChartData')
 const mockLineChartData = require('./mockChartData/mockLineChartData')
@@ -149,6 +150,7 @@ dashboardRoutes(routeImportParams)
 
 app.get('/async-reports', async (req, res) => {
   res.locals.definitions = definitions.reports
+  res.locals.dashboardDefinitions = dashboardDefinitions
   res.locals.csrfToken = 'csrfToken'
   res.locals.pathSuffix = req.query.dataProductDefinitionsPath
     ? `?dataProductDefinitionsPath=${req.query.dataProductDefinitionsPath}`

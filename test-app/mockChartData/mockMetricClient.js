@@ -1,10 +1,23 @@
+const mockMetricData = require('./mockMetricData')
+const mockMetricDefinitions = require('./mockMetricDefinition')
+
 class MockMetricClient {
-  constructor(mockMetricData) {
+  constructor() {
+    this.mockMetricDefinitions = mockMetricDefinitions
     this.mockMetricData = mockMetricData
   }
 
-  async getMetricData(token, metricId) {
-    return Promise.resolve(this.mockMetricData.find((metric) => metric.id === metricId))
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async getDefinition(token, id, dpdId, dataProductDefinitionsPath) {
+    return Promise.resolve(this.mockMetricDefinitions.find((d) => d.id === id))
+  }
+
+  async getDefinitions(token, dataProductDefinitionsPath) {
+    Promise.resolve(this.mockMetricDefinitions)
+  }
+
+  async getMetricData(token, metricId, dpdId) {
+    return Promise.resolve(this.mockMetricData[metricId])
   }
 }
 

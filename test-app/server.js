@@ -77,8 +77,6 @@ const mockPieChartData = require('./mockChartData/mockPieChartData')
 const mockLineChartData = require('./mockChartData/mockLineChartData')
 const mockMulitChartData = require('./mockChartData/mockMultiChartData')
 
-const mockChartsApiData = [...mockLineChartData, ...mockMulitChartData]
-
 // Set up routes
 
 app.get('/', (req, res) => {
@@ -122,7 +120,7 @@ bookmarkService.init('userId')
 
 const reportingService = mockAsyncApis
 
-const metricClient = new MockMetricClient(mockChartsApiData)
+const metricClient = new MockMetricClient()
 const metricService = new MetricsService(metricClient)
 
 const dashboardClient = new MockDashboardClient()

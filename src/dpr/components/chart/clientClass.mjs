@@ -1,4 +1,6 @@
 /* global Chart */
+/* global ChartDataLabels */
+
 import { DprClientClass } from '../../DprClientClass.mjs'
 
 export default class ChartVisualisation extends DprClientClass {
@@ -9,6 +11,7 @@ export default class ChartVisualisation extends DprClientClass {
     this.id = this.chartContext.getAttribute('id')
     this.chartParams = JSON.parse(this.getElement().getAttribute('data-dpr-chart-data'))
     this.type = this.getElement().getAttribute('data-dpr-chart-type')
+    this.setValueSuffix()
 
     // elements
     this.legend = this.getElement().querySelector(`#js-legend-${this.id}`)
@@ -22,6 +25,10 @@ export default class ChartVisualisation extends DprClientClass {
   }
 
   initChart() {
+    Chart.defaults.font.family = 'GDS Transport'
+    Chart.register(ChartDataLabels)
+    Chart.defaults.font.size = 16
+
     this.chart = new Chart(this.chartContext, this.chartData)
     this.initChartEvents()
   }
@@ -101,7 +108,7 @@ export default class ChartVisualisation extends DprClientClass {
     }
   }
 
-  setHoverValue(label, value, legend, ctx) {
+  setHoverValue({ label, value, legend, ctx }) {
     if (ctx.tooltipDetailsEl) {
       ctx.tooltipDetailsEl.style.display = 'block'
       ctx.labelElement.innerHTML = `${label}`
@@ -111,6 +118,18 @@ export default class ChartVisualisation extends DprClientClass {
     if (ctx.headlineValuesEl) {
       ctx.headlineValuesEl.style.display = 'none'
     }
+    if (!legend) {
+      ctx.legendElement.style.display = 'none'
+    }
+  }
+
+  setValueSuffix() {
+    this.unit = this.getElement().getAttribute('data-dpr-chart-unit')
+    this.suffix = this.unit === 'percentage' ? '%' : ''
+  }
+
+  isPercentage() {
+    return this.unit === 'percentage'
   }
 
   initChartEvents() {

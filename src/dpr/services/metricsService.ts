@@ -1,10 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { MetricsDataResponse, MetricsDefinition } from '../types/Metrics'
+
 export default class MetricService {
-  // TODO: use correct client type, once implemented. Currently using a mocked client
   constructor(private readonly metricClient: any) {}
 
-  async getMetricData(token: string, metricId: string) {
-    return this.metricClient.getMetricData(token, metricId)
+  async getDefinitions(token: string, dataProductDefinitionsPath?: string): Promise<Array<MetricsDefinition>> {
+    return this.metricClient.getDefinitions(token, dataProductDefinitionsPath)
+  }
+
+  async getDefinition(
+    token: string,
+    metricId: string,
+    dpdId: string,
+    dataProductDefinitionsPath?: string,
+  ): Promise<MetricsDefinition> {
+    return this.metricClient.getDefinition(token, metricId, dataProductDefinitionsPath)
+  }
+
+  async getMetricData(token: string, metricId: string, dpdId: string): Promise<MetricsDataResponse> {
+    return this.metricClient.getMetricData(token, metricId, dpdId)
   }
 }

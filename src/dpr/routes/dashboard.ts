@@ -31,7 +31,7 @@ export default function routes({
       ...req.params,
       dashboardData: JSON.stringify(dashboardData),
     }
-    // next()
+    next()
   }
 
   const loadDashboardHandler: RequestHandler = async (req, res, next) => {

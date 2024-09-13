@@ -17,7 +17,11 @@ class MockMetricClient {
   }
 
   async getMetricData(token, metricId, dpdId) {
-    return Promise.resolve(this.mockMetricData[metricId])
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(this.mockMetricData[metricId])
+      }, 5000)
+    })
   }
 }
 

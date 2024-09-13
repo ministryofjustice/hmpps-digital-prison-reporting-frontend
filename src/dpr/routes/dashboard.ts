@@ -26,14 +26,12 @@ export default function routes({
   }
 
   const dashboardRequestHandler: RequestHandler = async (req, res, next) => {
-    setTimeout(async () => {
-      const dashboardData = await DashboardUtils.requestDashboardData({ req, res, next, services })
-      req.params = {
-        ...req.params,
-        dashboardData: JSON.stringify(dashboardData),
-      }
-      next()
-    }, 5000)
+    const dashboardData = await DashboardUtils.requestDashboardData({ req, res, next, services })
+    req.params = {
+      ...req.params,
+      dashboardData: JSON.stringify(dashboardData),
+    }
+    // next()
   }
 
   const loadDashboardHandler: RequestHandler = async (req, res, next) => {

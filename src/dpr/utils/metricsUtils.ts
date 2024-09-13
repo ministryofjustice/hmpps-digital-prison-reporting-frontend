@@ -15,9 +15,10 @@ export default {
     metric: MetricsDataResponse
   }> => {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const { dataProductDefinitionsPath, dpdId } = req.params
+    const { dpdId } = req.params
+    const { dataProductDefinitionsPath } = req.query
 
-    const definition = await services.metricService.getDefinition(token, id, dpdId, dataProductDefinitionsPath)
+    const definition = await services.metricService.getDefinition(token, id, dpdId, <string>dataProductDefinitionsPath)
     if (type) definition.visualisationType = type
 
     const metric = await services.metricService.getMetricData(token, id, dpdId)

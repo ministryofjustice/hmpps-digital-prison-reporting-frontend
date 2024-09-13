@@ -1,0 +1,30 @@
+{% from "../components/chart-card/view.njk" import dprChartCard %}
+
+{% extends layoutPath %}
+{% set mainClasses = "app-container govuk-body" %}
+{% set title = definition.name %}
+{% set description = definition.description %}
+{% set metrics = definition.metrics | json %}
+
+{% block content %}
+  <h1>Loading Dashboard</h1>
+
+  <div class="govuk-!-margin-bottom-6 govuk-!-padding-bottom-6"data-dpr-module="load-dashboard">
+    <p class="govuk-body">{{ title }}</p>
+    <p class="govuk-body">{{ description }}</p>
+    <p class="govuk-body">{{ metrics }}</p>
+
+    <form id="dpr-dashboard-loading-form" action="/dashboards/{{ dpdId }}/dashboard/{{ id }}" method="post" id="async-filters-form">
+      <input type="hidden" name="dataProductDefinitionsPath" value="{{ definitionPath }}">
+      <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+      <input type="hidden" name="dpdId" value="{{ dpdId }}">
+      <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+      <input type="hidden" name="id" value="{{ id }}">
+      <input type="hidden" name="metrics" value="{{ metrics }}">
+      <input type="hidden" name="title" value="{{ title }}">
+      <input type="hidden" name="description" value="{{ description }}">
+    </form>
+  </div>
+
+
+{% endblock %}

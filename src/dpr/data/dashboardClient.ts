@@ -10,22 +10,6 @@ export default class DashboardClient {
     this.restClient = new RestClient('Dashboard API Client', config)
   }
 
-  getDefinitions(token: string, definitionsPath?: string): Promise<Array<DashboardDefinition>> {
-    logger.info(`Dashboard client: Get definitions`)
-
-    const query = {
-      dataProductDefinitionsPath: definitionsPath,
-    }
-
-    return this.restClient
-      .get({
-        path: '/definitions/dashboards',
-        query,
-        token,
-      })
-      .then((response) => <Array<DashboardDefinition>>response)
-  }
-
   getDefinition(
     token: string,
     dashboardId: string,

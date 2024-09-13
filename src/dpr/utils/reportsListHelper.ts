@@ -28,7 +28,7 @@ export const createShowMoreHtml = (text: string) => {
   const sanitizedString = text ? text.replace(/"/g, "'") : ''
 
   return `<div class="dpr-show-more" data-content="${sanitizedString}" data-dpr-module="show-more">
-    <p><span class='dpr-show-more-content'>${sanitizedString}</span><a class="dpr-show-hide-button" href="#">Show more</a></p>
+    <p class="govuk-body-s govuk-!-margin-bottom-0"><span class='dpr-show-more-content'>${sanitizedString}</span><a class="dpr-show-hide-button" href="#">Show more</a></p>
   </div>`
 }
 
@@ -40,10 +40,10 @@ export const formatTable = (cardData: CardData[], type: 'requested' | 'viewed') 
   return {
     rows,
     head: [
-      { text: 'Product' },
-      { text: 'Name' },
+      { text: 'Product', classes: 'dpr-req-product-head' },
+      { text: 'Name', classes: 'dpr-req-name-head' },
       { text: 'Description' },
-      { text: 'Applied Filters', classes: `dpr-req-filters-summary` },
+      { text: 'Filters', classes: `dpr-req-filters-summary` },
       { text: 'Timestamp' },
       { text: 'Status' },
     ],
@@ -87,8 +87,8 @@ export const formatTableData = (card: CardData, type: 'requested' | 'viewed') =>
     { text: card.reportName },
     { html: `<a href='${card.href}'>${card.text}</a>` },
     { html: createDetailsHtml('Description', card.description) },
-    { html: createDetailsHtml('Applied Filters', createSummaryHtml(card)) },
-    { text: card.timestamp },
+    { html: createDetailsHtml('Filters', createSummaryHtml(card)) },
+    { html: `<p class="govuk-body-s govuk-!-margin-bottom-0">${card.timestamp}</p>` },
     {
       html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${card.status}</strong>${itemActions}`,
     },

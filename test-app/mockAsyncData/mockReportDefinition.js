@@ -17,6 +17,7 @@ const variant16 = require('./mockVariants/variant16')
 const variant17 = require('./mockVariants/variant17')
 const variant18 = require('./mockVariants/variant18')
 const variant19 = require('./mockVariants/variant19')
+const dashboardDefinition = require('../mockChartData/mockDashboardDefinition')
 
 module.exports = {
   report: {
@@ -41,29 +42,34 @@ module.exports = {
       variant16,
       variant17,
       variant18,
-      variant19
+      variant19,
     ],
+    dashboards: dashboardDefinition,
   },
   reports: [
     {
       id: 'test-report-3',
       name: 'C Test Report',
       variants: [variant1, variant2, variant3, variant4],
+      dashboards: [dashboardDefinition[0]],
     },
     {
       id: 'test-report-4',
       name: 'D Test Report',
       variants: [variant5, variant6, variant7],
+      dashboards: [dashboardDefinition[1]],
     },
     {
       id: 'test-report-2',
       name: 'B Test Report',
       variants: [variant8, variant9, variant10, variant11, variant17, variant18, variant19],
+      dashboards: [dashboardDefinition[2]],
     },
     {
       id: 'test-report-1',
       name: 'A Test Report',
       variants: [variant12, variant13, variant14, variant15, variant16],
+      dashboards: dashboardDefinition,
     },
   ],
 }

@@ -21,6 +21,7 @@ import ShowMore from './components/show-more/clientClass.mjs'
 import BarChartVisualisation from './components/chart/bar/clientClass.mjs'
 import DoughnutChartVisualisation from './components/chart/doughnut/clientClass.mjs'
 import LineChartVisualisation from './components/chart/line/clientClass.mjs'
+import LoadDashboard from './DprLoadDashboard.mjs'
 /**
  * Initialise all components
  *
@@ -52,6 +53,7 @@ export default function initAll() {
     BarChartVisualisation,
     DoughnutChartVisualisation,
     LineChartVisualisation,
+    LoadDashboard,
   ]
 
   components.forEach((Component) => {

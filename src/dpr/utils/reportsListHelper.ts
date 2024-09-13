@@ -33,6 +33,12 @@ export const createShowMoreHtml = (text: string, length?: number) => {
   </div>`
 }
 
+export const createTag = (text: string, classes?: string) => {
+  return `<p class="govuk-body dpr-tag ${classes}">
+    ${text}
+  </p>`
+}
+
 export const formatTable = (cardData: CardData[], type: 'requested' | 'viewed') => {
   const rows = cardData.map((card: CardData) => {
     return formatTableData(card, type)
@@ -69,7 +75,7 @@ export const formatTableData = (card: CardData, type: 'requested' | 'viewed') =>
       itemActions = itemActionsHtml(card.href, card.id, type)
       break
     case 'EXPIRED':
-      statusClass = 'govuk-tag--yellow'
+      statusClass = 'govuk-tag--grey'
       itemActions = itemActionsHtml(card.href, card.id, type)
       break
     case 'ABORTED':

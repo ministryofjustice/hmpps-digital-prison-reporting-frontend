@@ -7,6 +7,7 @@
 {% from "components/async-request-list/view.njk" import dprAsyncRequestList %}
 {% from "components/recently-viewed-list/view.njk" import dprRecentlyViewedList %}
 {% from "components/reports-list/view.njk" import dprReportsList %}
+{% from "components/tag/view.njk" import dprTag %}
 
 {% block content %}
   <div class="govuk-width-container">
@@ -55,12 +56,14 @@
     {% endset -%}
 
     {% set bookmarksHtml %}
-    {{ dprTableCardGroup(
-      bookmarks.head,
-      bookmarks.cardData, 
-      bookmarks.tableData,
-      bookmarks.total
-    )}}
+    <div id="dpr-bookmarks-list">
+      {{ dprTableCardGroup(
+        bookmarks.head,
+        bookmarks.cardData, 
+        bookmarks.tableData,
+        bookmarks.total
+      )}}
+    </div>
     {% endset -%}
 
     {{ govukTabs({

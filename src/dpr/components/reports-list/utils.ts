@@ -1,7 +1,7 @@
 import { Response } from 'express'
 import { components } from '../../types/api'
 import { Services } from '../../types/Services'
-import { createShowMoreHtml } from '../../utils/reportsListHelper'
+import { createShowMoreHtml, createTag } from '../../utils/reportsListHelper'
 import { DashboardDefinition } from '../../types/Dashboards'
 
 interface definitionData {
@@ -83,20 +83,22 @@ export default {
 
       let hrefHtml
       let bookmarkColumn
+      let listType
       switch (type) {
         case 'report':
           hrefHtml = `<a href="/async-reports/${reportId}/${id}/request${pathSuffix}">${name}</a>`
           bookmarkColumn = {
             html: services.bookmarkService.createBookMarkToggleHtml(reportId, id, csrfToken, 'reports-list'),
-            classes: 'dpr-vertical-align',
             attributes: {
               tabindex: 0,
             },
           }
+          listType = createTag(type)
           break
         case 'dashboard':
           hrefHtml = `<a href="/dashboards/${reportId}/load/${id}${pathSuffix}">${name}</a>`
           bookmarkColumn = {}
+          listType = createTag(type)
           break
         default:
           hrefHtml = ''
@@ -108,7 +110,7 @@ export default {
         { text: reportName },
         { html: hrefHtml },
         { html: createShowMoreHtml(desc) },
-        { text: `${type}` },
+        { html: listType },
         {
           ...bookmarkColumn,
         },

@@ -17,6 +17,9 @@ describe('MetricsUtils', () => {
       params: {
         dpdId: 'dpd-id',
       },
+      query: {
+        dataProductDefinitionsPath: '',
+      },
     } as unknown as Request
 
     res = {

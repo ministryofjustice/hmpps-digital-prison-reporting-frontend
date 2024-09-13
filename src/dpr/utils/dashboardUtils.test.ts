@@ -15,10 +15,29 @@ describe('DashboardUtils', () => {
   let next: NextFunction
 
   beforeEach(() => {
+    mockDashboardDefinition = {
+      id: 'test-dashboard-1',
+      name: 'Test Dashboard 1',
+      description: 'Test Dashboard 1 Description',
+      metrics: [
+        {
+          id: 'test-metric-id-1',
+          visualisationType: [ChartType.BAR, ChartType.DONUT],
+        },
+      ],
+    }
+
     req = {
       params: {
-        dpdId: 'dpd-id',
+        dashboardId: 'test-dashboard-1',
+        dpdId: 'test-report-1',
       },
+      body: {
+        title: 'Test Dashboard 1',
+        description: 'Test Dashboard 1 Description',
+        metrics: JSON.stringify(mockDashboardDefinition.metrics),
+      },
+      query: {},
     } as unknown as Request
 
     res = {
@@ -39,18 +58,6 @@ describe('DashboardUtils', () => {
         { status: 'Under 2 years', percent: 40 },
       ],
       updated: 'ts',
-    }
-
-    mockDashboardDefinition = {
-      id: 'test-dashboard-1',
-      name: 'Test Dashboard 1',
-      description: 'Test Dashboard 1 Description',
-      metrics: [
-        {
-          id: 'test-metric-id-1',
-          visualisationType: [ChartType.BAR, ChartType.DONUT],
-        },
-      ],
     }
 
     mockMetricDefinition = {
@@ -86,6 +93,36 @@ describe('DashboardUtils', () => {
   describe('getDashboardData', () => {
     it('should get the dashboard data', async () => {
       const result = await DashboardUtils.getDashboardData({
+        res,
+        req,
+        next,
+        services: mockServices,
+      })
+
+      const expectedResult = {
+        definition: {
+          id: 'test-dashboard-1',
+          name: 'Test Dashboard 1',
+          description: 'Test Dashboard 1 Description',
+          metrics: [
+            {
+              id: 'test-metric-id-1',
+              visualisationType: ['bar', 'doughnut'],
+            },
+          ],
+        },
+        id: 'test-dashboard-1',
+        dpdId: 'test-report-1',
+        csrfToken: 'csrfToken',
+      }
+
+      expect(result).toEqual(expectedResult)
+    })
+  })
+
+  describe('requestDashboardData', () => {
+    it('should request the dashboard data', async () => {
+      const result = await DashboardUtils.requestDashboardData({
         res,
         req,
         next,

@@ -1,8 +1,29 @@
 #dpr-recently-viewed-component, #dpr-async-request-component {
   th.dpr-req-product-head, th.dpr-req-name-head {
-    min-width: 140px;
+    width: 175px;
+  }
+  th.dpr-req-description-head {
+    width: 275px;
   }
   td.govuk-table__cell {
-    vertical-align: middle;
+    vertical-align: top;
+    font-size: 16px;
+  }
+  td.dpr-req-middle-cell {
+    vertical-align: top;
+  }
+  td.dpr-req-cell {
+    p,a {
+      margin-top: 5px;
+    }
+    .govuk-tag {
+      margin-top: 0px;
+      float:right;
+      margin-right: 3px;
+    }
+  }
+
+  td.dpr-req-cell__status{
+    padding-top: 12px;
   }
 }

@@ -17,7 +17,7 @@ export const createDetailsHtml = (title: string, content: string) => {
 
 export const createSummaryHtml = (card: CardData) => {
   const summaryHtml = card.summary.map((item) => `<li class="govuk-body-s">${item.name}: ${item.value}</li>`).join('')
-  return `<ul class="dpr-card-group__item__filters-list">${summaryHtml}</ul>`
+  return `<ul class="dpr-card-group__item__filters-list govuk-!-margin-top-3">${summaryHtml}</ul>`
 }
 
 /**

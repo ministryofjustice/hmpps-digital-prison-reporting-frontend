@@ -17,12 +17,13 @@ const variant16 = require('./mockVariants/variant16')
 const variant17 = require('./mockVariants/variant17')
 const variant18 = require('./mockVariants/variant18')
 const variant19 = require('./mockVariants/variant19')
+const variant20 = require('./mockVariants/variant20')
 const dashboardDefinition = require('../mockChartData/mockDashboardDefinition')
 
 module.exports = {
   report: {
     id: 'test-report-1',
-    name: 'Test Report',
+    name: 'ORS Prisoner and Visitors Details Report',
     variants: [
       variant1,
       variant2,
@@ -43,6 +44,7 @@ module.exports = {
       variant17,
       variant18,
       variant19,
+      variant20,
     ],
     dashboards: dashboardDefinition,
   },
@@ -71,5 +73,13 @@ module.exports = {
       variants: [variant12, variant13, variant14, variant15, variant16],
       dashboards: dashboardDefinition,
     },
+    {
+      id: 'test-report-20',
+      name: 'ORS Prisoner and Visitors Details Report',
+      variants: [variant20],
+      dashboards: [],
+    },
   ],
+
+  // ORS Prisoner and Visitors Details Report
 }

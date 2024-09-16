@@ -52,18 +52,21 @@ export default {
           }
         })
 
-        const dashboardsArray = dashboards.map((dashboard) => {
-          const { id, name, description } = dashboard
-          return {
-            reportName,
-            reportId,
-            id,
-            name,
-            description,
-            type: 'dashboard',
-            reportDescription,
-          }
-        })
+        let dashboardsArray: definitionData[] = []
+        if (dashboards) {
+          dashboardsArray = dashboards.map((dashboard: DashboardDefinition) => {
+            const { id, name, description } = dashboard
+            return {
+              reportName,
+              reportId,
+              id,
+              name,
+              description,
+              type: 'dashboard',
+              reportDescription,
+            }
+          })
+        }
 
         const mergedArray = [...dashboardsArray, ...variantsArray]
 

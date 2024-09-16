@@ -52,7 +52,7 @@
               <p class="govuk-body-m dpr-request-details__table-heading_name">Description:</p>
             </td>
             <td>
-              <p class="govuk-body-m govuk-!-margin-bottom-1">{{ description }}</p>
+              <p class="govuk-body-m govuk-!-margin-bottom-1">{{ description | safe }}</p>
             </td>
           </tr>
         {% endif %}

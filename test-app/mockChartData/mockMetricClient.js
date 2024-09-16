@@ -20,7 +20,7 @@ class MockMetricClient {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(this.mockMetricData[metricId])
-      }, 5000)
+      }, 3000)
     })
   }
 }

@@ -62,4 +62,7 @@ export default class HomePage {
 
   bookmarkButtonFromReport = (): PageElement =>
     cy.xpath(`//*[@id="main-content"]/div/div/div[2]/div/div[1]/div[1]/h1/div/label`)
+
+  // Dashboards
+  dashboardLink = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div[2]/table/tbody/tr[5]/td[2]/a`)
 }

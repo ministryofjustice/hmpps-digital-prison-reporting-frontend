@@ -23,7 +23,7 @@ const dashboardDefinition = require('../mockChartData/mockDashboardDefinition')
 module.exports = {
   report: {
     id: 'test-report-1',
-    name: 'ORS Prisoner and Visitors Details Report',
+    name: 'Test Report',
     variants: [
       variant1,
       variant2,

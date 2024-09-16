@@ -13,7 +13,7 @@
     {% endset -%}
     
     {% set tabContent = {
-      label: t,
+      label: t | capitalize,
       id: id + "_" + t + "_tab",
       panel: {
         html: chartHtml
@@ -32,7 +32,7 @@
 
   {% set tabItems = (tabItems.push({
       label: "Table",
-      id: id + "_table_week",
+      id: id + "_table_tab",
       panel: {
         html: tableHtml
       }

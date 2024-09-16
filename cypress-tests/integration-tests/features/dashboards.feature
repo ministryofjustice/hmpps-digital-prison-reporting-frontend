@@ -12,5 +12,4 @@ Feature: Dashboards
   Scenario: Viewing Metric Data
     Then I see the metric data
     When I click the table tab
-
-
+    Then I see the metric data in a table

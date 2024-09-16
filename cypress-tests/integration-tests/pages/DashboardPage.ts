@@ -22,4 +22,8 @@ export default class DashboardPage {
   metricTable_row2 = (): PageElement => cy.xpath(`//*[@id="test-metric-id-1_table_tab"]/div/table/tbody/tr[2]`)
 
   metricTable_row3 = (): PageElement => cy.xpath(`//*[@id="test-metric-id-1_table_tab"]/div/table/tbody/tr[3]`)
+
+  metricDetailValue = (): PageElement => cy.xpath(`//*[@id="dpr-test-metric-id-1-tooltip-details"]`)
+
+  canvasWrapper = (): PageElement => cy.xpath(`//*[@id="test-metric-id-1-chart-wrapper"]`)
 }

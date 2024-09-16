@@ -35,27 +35,4 @@ describe('DashboardService', () => {
       expect(result).toEqual(expectedResponse)
     })
   })
-
-  describe('getDefinitions', () => {
-    it('Retrieves definitions from client', async () => {
-      const expectedResponse: Array<DashboardDefinition> = [
-        {
-          id: 'test-dashboard-1',
-          name: 'Test Dashboard 1',
-          description: 'Test Dashboard 1 Description',
-          metrics: [
-            {
-              id: 'test-metric-id-1',
-              visualisationType: [ChartType.BAR, ChartType.DONUT],
-            },
-          ],
-        },
-      ]
-      dashboardClient.getDefinitions.mockResolvedValue(expectedResponse)
-
-      const result = await dashboardService.getDefinitions(null)
-
-      expect(result).toEqual(expectedResponse)
-    })
-  })
 })

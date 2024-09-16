@@ -14,9 +14,10 @@ export default class ShowMore extends DprClientClass {
     const textContainer = element.querySelector('.dpr-show-more-content')
     const button = element.querySelector('.dpr-show-hide-button')
     const textContent = element.getAttribute('data-content')
-    const shortString = textContent.replaceAll(/<[^>]+>/g, '').substring(0, 200)
+    const length = +element.getAttribute('data-length') || 200
+    const shortString = textContent.replaceAll(/<[^>]+>/g, '').substring(0, length)
 
-    if (textContent.length > 200) {
+    if (textContent.length > length) {
       textContainer.innerHTML = `${shortString}... `
     } else {
       button.style.display = 'none'
@@ -24,12 +25,12 @@ export default class ShowMore extends DprClientClass {
 
     button.addEventListener('click', (event) => {
       event.preventDefault()
-      if (button.innerHTML === 'Show more') {
+      if (button.innerHTML === 'show more') {
         textContainer.innerHTML = `${textContent}  `
-        button.innerHTML = 'Show less'
-      } else if (button.innerHTML === 'Show less') {
+        button.innerHTML = 'show less'
+      } else if (button.innerHTML === 'show less') {
         textContainer.innerHTML = `${shortString}... `
-        button.innerHTML = 'Show more'
+        button.innerHTML = 'show more'
       }
     })
   }

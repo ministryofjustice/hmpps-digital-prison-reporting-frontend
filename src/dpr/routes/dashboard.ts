@@ -14,11 +14,10 @@ export default function routes({
   templatePath?: string
 }) {
   const getDashboardDataHandler: RequestHandler = async (req, res, next) => {
+    const { dashboardData } = req.params
     try {
-      const dashboardData = await DashboardUtils.getDashboardData({ req, res, next, services })
-
       res.render(`${templatePath}dashboard`, {
-        ...dashboardData,
+        ...JSON.parse(dashboardData),
         layoutPath,
       })
     } catch (error) {
@@ -26,5 +25,28 @@ export default function routes({
     }
   }
 
-  router.get('/dashboard/:dpdId/:dashboardId', getDashboardDataHandler)
+  const dashboardRequestHandler: RequestHandler = async (req, res, next) => {
+    const dashboardData = await DashboardUtils.requestDashboardData({ req, res, next, services })
+    req.params = {
+      ...req.params,
+      dashboardData: JSON.stringify(dashboardData),
+    }
+    next()
+  }
+
+  const loadDashboardHandler: RequestHandler = async (req, res, next) => {
+    try {
+      const dashboardDefinition = await DashboardUtils.getDashboardData({ req, res, next, services })
+
+      res.render(`${templatePath}dashboard-loading`, {
+        ...dashboardDefinition,
+        layoutPath,
+      })
+    } catch (error) {
+      next()
+    }
+  }
+
+  router.post('/dashboards/:dpdId/dashboard/:dashboardId', dashboardRequestHandler, getDashboardDataHandler)
+  router.get('/dashboards/:dpdId/load/:dashboardId', loadDashboardHandler)
 }

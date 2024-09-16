@@ -1,16 +1,19 @@
 import { Response } from 'express'
 import { components } from '../../types/api'
 import { Services } from '../../types/Services'
-import { createShowMoreHtml } from '../../utils/reportsListHelper'
+import { createShowMoreHtml, createTag } from '../../utils/reportsListHelper'
+import { DashboardDefinition } from '../../types/Dashboards'
 
-interface variantData {
+interface definitionData {
   reportName: string
   reportId: string
-  variantId: string
-  variantName: string
-  variantDescription: string
+  id: string
+  name: string
+  description: string
+  type: 'report' | 'dashboard'
   reportDescription: string
 }
+
 export default {
   mapReportsList: (
     res: Response,
@@ -19,6 +22,7 @@ export default {
     const { definitions, csrfToken } = res.locals
     const pathSuffix = res.locals.pathSuffix || ''
 
+    // Sort report Definitions by product name
     const sortedDefinitions = definitions.sort(
       (a: components['schemas']['ReportDefinitionSummary'], b: components['schemas']['ReportDefinitionSummary']) => {
         if (a.name < b.name) return -1
@@ -27,50 +31,100 @@ export default {
       },
     )
 
-    const sortedVariants = sortedDefinitions.flatMap((def: components['schemas']['ReportDefinitionSummary']) => {
-      const { id: reportId, name: reportName, description: reportDescription } = def
-      const { variants } = def
+    // Sort by variant/dashboard name
+    const sortedVariants = sortedDefinitions.flatMap(
+      // TODO: Fix type once API types properly generated
+      (def: components['schemas']['ReportDefinitionSummary'] & { dashboards: DashboardDefinition[] }) => {
+        const { id: reportId, name: reportName, description: reportDescription } = def
+        const { variants } = def
+        const { dashboards } = def
 
-      return variants
-        .map((variant) => {
-          const { id: variantId, name: variantName, description: variantDescription } = variant
+        const variantsArray = variants.map((variant) => {
+          const { id, name, description } = variant
           return {
             reportName,
             reportId,
-            variantId,
-            variantName,
-            variantDescription,
+            id,
+            name,
+            description,
+            type: 'report',
             reportDescription,
           }
         })
-        .sort((a: variantData, b: variantData) => {
-          if (a.variantName < b.variantName) return -1
-          if (a.variantName > b.variantName) return 1
+
+        let dashboardsArray: definitionData[] = []
+        if (dashboards) {
+          dashboardsArray = dashboards.map((dashboard: DashboardDefinition) => {
+            const { id, name, description } = dashboard
+            return {
+              reportName,
+              reportId,
+              id,
+              name,
+              description,
+              type: 'dashboard',
+              reportDescription,
+            }
+          })
+        }
+
+        const mergedArray = [...dashboardsArray, ...variantsArray]
+
+        mergedArray.sort((a: definitionData, b: definitionData) => {
+          if (a.name < b.name) return -1
+          if (a.name > b.name) return 1
           return 0
         })
-    })
 
-    const rows = sortedVariants.map((v: variantData) => {
-      const { variantId, variantName, variantDescription, reportName, reportId, reportDescription } = v
-      const description = variantDescription || reportDescription
+        return mergedArray
+      },
+    )
+
+    const rows = sortedVariants.map((v: definitionData) => {
+      const { id, name, description, reportName, reportId, reportDescription, type } = v
+      const desc = description || reportDescription
+
+      let hrefHtml
+      let bookmarkColumn
+      let listType
+      switch (type) {
+        case 'report':
+          hrefHtml = `<a href="/async-reports/${reportId}/${id}/request${pathSuffix}">${name}</a>`
+          bookmarkColumn = {
+            html: services.bookmarkService.createBookMarkToggleHtml(reportId, id, csrfToken, 'reports-list'),
+            attributes: {
+              tabindex: 0,
+            },
+          }
+          listType = createTag(type)
+          break
+        case 'dashboard':
+          hrefHtml = `<a href="/dashboards/${reportId}/load/${id}${pathSuffix}">${name}</a>`
+          bookmarkColumn = {}
+          listType = createTag(type)
+          break
+        default:
+          hrefHtml = ''
+          bookmarkColumn = {}
+          break
+      }
+
       return [
         { text: reportName },
-        { html: `<a href="/async-reports/${reportId}/${variantId}/request${pathSuffix}">${variantName}</a>` },
-        { html: createShowMoreHtml(description) },
+        { html: hrefHtml },
+        { html: createShowMoreHtml(desc) },
+        { html: listType },
         {
-          html: services.bookmarkService.createBookMarkToggleHtml(reportId, variantId, csrfToken, 'reports-list'),
-          classes: 'dpr-vertical-align',
-          attributes: {
-            tabindex: 0,
-          },
+          ...bookmarkColumn,
         },
       ]
     })
 
     const head = [
-      { text: 'Product' },
-      { text: 'Name' },
+      { text: 'Product', classes: 'dpr-product-head' },
+      { text: 'Name', classes: 'dpr-name-head' },
       { text: 'Description', classes: 'dpr-description-head' },
+      { text: 'Type', classes: 'dpr-type-head' },
       { text: 'Bookmark', classes: 'dpr-bookmark-head' },
     ]
 

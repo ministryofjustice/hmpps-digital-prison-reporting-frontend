@@ -3,6 +3,7 @@ import BookmarkService from '../services/bookmarkService'
 import { BookmarkedReportData } from '../types/Bookmark'
 import { CardData } from '../components/table-card-group/types'
 import { Services } from '../types/Services'
+import { createShowMoreHtml } from './reportsListHelper'
 
 export const formatCards = async (bookmarksData: BookmarkedReportData[], maxRows?: number): Promise<CardData[]> => {
   const cards = bookmarksData
@@ -55,7 +56,7 @@ const formatTableData = (bookmarksData: BookmarkedReportData, bookmarkService: B
   return [
     { text: reportName },
     { html: `<a href='${href}'>${name}</a>` },
-    { text: description },
+    { html: createShowMoreHtml(description) },
     {
       html: bookmarkService.createBookMarkToggleHtml(reportId, variantId, csrfToken, 'bookmark-list'),
       classes: 'dpr-vertical-align',

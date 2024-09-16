@@ -5,22 +5,12 @@ import MetricsUtils from './metricsUtils'
 import { DashboardDefinition, DashboardMetricDefinition } from '../types/Dashboards'
 
 export default {
-  getDashboardData: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
+  requestDashboardData: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
     try {
-      const token = res.locals.user?.token ? res.locals.user.token : 'token'
-      const { dashboardId: id, dpdId, dataProductDefinitionsPath } = req.params
-
-      // Get dashboard Definition
-      const definition: DashboardDefinition = await services.dashboardService.getDefinition(
-        token,
-        id,
-        dpdId,
-        dataProductDefinitionsPath,
-      )
-
-      // Get the metrics definitions and metrics data
+      const metrics = JSON.parse(req.body.metrics)
+      const { title, description } = req.body
       const metricsData = await Promise.all(
-        definition.metrics.map(async (metric: DashboardMetricDefinition) => {
+        metrics.map(async (metric: DashboardMetricDefinition) => {
           const { visualisationType: type } = metric
           return MetricsUtils.getMetricData({
             id: metric.id,
@@ -39,9 +29,36 @@ export default {
       })
 
       return {
-        title: definition.name,
-        description: definition.description,
+        title,
+        description,
         data: chartsData,
+      }
+    } catch (error) {
+      next(error)
+      return {}
+    }
+  },
+
+  getDashboardData: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
+    try {
+      const token = res.locals.user?.token ? res.locals.user.token : 'token'
+      const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+      const { dashboardId: id, dpdId } = req.params
+      const { dataProductDefinitionsPath } = req.query
+
+      const definition: DashboardDefinition = await services.dashboardService.getDefinition(
+        token,
+        id,
+        dpdId,
+        dataProductDefinitionsPath,
+      )
+
+      return {
+        definition,
+        id,
+        dpdId,
+        dataProductDefinitionsPath,
+        csrfToken,
       }
     } catch (error) {
       next(error)

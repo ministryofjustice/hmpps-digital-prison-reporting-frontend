@@ -16,16 +16,16 @@ export default class HomePage {
     cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[4]`)
 
   requestedFailedRetryButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[3]/td[6]/div/div[1]/a`)
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[3]/td[5]/div/div[1]/a`)
 
   requestedFailedRemoveButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[3]/td[6]/div/div[2]/a`)
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[3]/td[5]/div/div[2]/a`)
 
   requestedExpiredRetryButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[4]/td[6]/div/div[1]`)
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[4]/td[5]/div/div[1]`)
 
   requestedExpiredRemoveButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[4]/td[6]/div/div[2]`)
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/div[2]/div[2]/table/tbody/tr[4]/td[5]/div/div[2]`)
 
   // Viewed Reports
 
@@ -40,25 +40,29 @@ export default class HomePage {
     cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/div[2]/div[2]/table/tbody/tr[2]`)
 
   viewedExpiredRefreshButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/div[2]/div[2]/table/tbody/tr[2]/td[6]/div/div[1]`)
+    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/div[2]/div[2]/table/tbody/tr[2]/td[5]/div/div[1]`)
 
   viewedExpiredRemoveButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/div[2]/div[2]/table/tbody/tr[2]/td[6]/div/div[2]`)
+    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/div[2]/div[2]/table/tbody/tr[2]/td[5]/div/div[2]`)
 
   // Bookmarks
 
   bookmarksTab = (): PageElement => cy.get(`#tab_my-bookmarks-tab`)
 
-  bookmarkTable = (): PageElement => cy.xpath(`//*[@id="my-bookmarks-tab"]/div/div[2]/div[2]/table`)
+  bookmarkTable = (): PageElement => cy.xpath(`//*[@id="dpr-bookmarks-list"]/div/div[2]/div[2]/table`)
 
-  bookmarkRow = (): PageElement => cy.xpath(`//*[@id="my-bookmarks-tab"]/div/div[2]/div[2]/table/tbody/tr`)
+  bookmarkRow = (): PageElement => cy.xpath(`//*[@id="dpr-bookmarks-list"]/div/div[2]/div[2]/table/tbody/tr`)
 
   bookmarkButton = (): PageElement => cy.xpath(`//*[@id="variantId-1-test-report-1-bookmark-list-bookmark-label"]`)
 
-  bookmarkLink = (): PageElement => cy.xpath(`//*[@id="my-bookmarks-tab"]/div/div[2]/div[2]/table/tbody/tr[1]/td[2]/a`)
+  bookmarkLink = (): PageElement =>
+    cy.xpath(`//*[@id="dpr-bookmarks-list"]/div/div[2]/div[2]/table/tbody/tr[1]/td[2]/a`)
 
-  bookmarkButtonFromList = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div[2]/table/tbody/tr[1]/td[4]/div`)
+  bookmarkButtonFromList = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div[2]/table/tbody/tr[1]/td[5]/div`)
 
   bookmarkButtonFromReport = (): PageElement =>
     cy.xpath(`//*[@id="main-content"]/div/div/div[2]/div/div[1]/div[1]/h1/div/label`)
+
+  // Dashboards
+  dashboardLink = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div[2]/table/tbody/tr[5]/td[2]/a`)
 }

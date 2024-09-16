@@ -1,5 +1,5 @@
 import { CardData } from '../components/table-card-group/types'
-import { createDetailsHtml, createSummaryHtml } from './reportSummaryHelper'
+import { createSummaryHtml } from './reportSummaryHelper'
 import { AsyncReportData } from '../types/AsyncReport'
 import { RecentlyViewedReportData } from '../types/RecentlyViewed'
 
@@ -24,12 +24,19 @@ export const getMeta = (cardData: CardData[]) => {
   })
 }
 
-export const createShowMoreHtml = (text: string) => {
+export const createShowMoreHtml = (text: string, length?: number) => {
   const sanitizedString = text ? text.replace(/"/g, "'") : ''
-
-  return `<div class="dpr-show-more" data-content="${sanitizedString}" data-dpr-module="show-more">
-    <p><span class='dpr-show-more-content'>${sanitizedString}</span><a class="dpr-show-hide-button" href="#">Show more</a></p>
+  const stringLength = length || 200
+  const displayString = sanitizedString.length < stringLength ? sanitizedString : ''
+  return `<div class="dpr-show-more" data-content="${sanitizedString}" data-dpr-module="show-more" data-length="${stringLength}">
+    <p class="govuk-body-s govuk-!-margin-bottom-0"><span class='dpr-show-more-content'>${displayString}</span><a class="dpr-show-hide-button" href="#">show more</a></p>
   </div>`
+}
+
+export const createTag = (text: string, classes?: string) => {
+  return `<p class="govuk-body dpr-tag ${classes}">
+    ${text}
+  </p>`
 }
 
 export const formatTable = (cardData: CardData[], type: 'requested' | 'viewed') => {
@@ -40,12 +47,11 @@ export const formatTable = (cardData: CardData[], type: 'requested' | 'viewed') 
   return {
     rows,
     head: [
-      { text: 'Product' },
-      { text: 'Name' },
-      { text: 'Description' },
-      { text: 'Applied Filters', classes: `dpr-req-filters-summary` },
-      { text: 'Timestamp' },
-      { text: 'Status' },
+      { text: 'Product', classes: 'dpr-req-product-head' },
+      { text: 'Name', classes: 'dpr-req-name-head' },
+      { text: 'Description', classes: 'dpr-req-description-head' },
+      { text: 'Timestamp', classes: 'dpr-req-ts-head' },
+      { text: 'Status', classes: 'dpr-req-status-head' },
     ],
   }
 }
@@ -69,7 +75,7 @@ export const formatTableData = (card: CardData, type: 'requested' | 'viewed') =>
       itemActions = itemActionsHtml(card.href, card.id, type)
       break
     case 'EXPIRED':
-      statusClass = 'govuk-tag--yellow'
+      statusClass = 'govuk-tag--grey'
       itemActions = itemActionsHtml(card.href, card.id, type)
       break
     case 'ABORTED':
@@ -82,15 +88,23 @@ export const formatTableData = (card: CardData, type: 'requested' | 'viewed') =>
     default:
       break
   }
+  const filtersSummary = createSummaryHtml(card)
+  const description = `${card.description}${filtersSummary}`
 
   return [
-    { text: card.reportName },
-    { html: `<a href='${card.href}'>${card.text}</a>` },
-    { html: createDetailsHtml('Description', card.description) },
-    { html: createDetailsHtml('Applied Filters', createSummaryHtml(card)) },
-    { text: card.timestamp },
+    { html: `<p class="govuk-body-s govuk-!-margin-bottom-0">${card.reportName}</p>`, classes: 'dpr-req-cell' },
     {
-      html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${card.status}</strong>${itemActions}`,
+      html: `<a href='${card.href}'><p class="govuk-body-s govuk-!-margin-bottom-0">${card.text}</p></a>`,
+      classes: 'dpr-req-cell',
+    },
+    { html: createShowMoreHtml(description, 50), classes: 'dpr-req-cell' },
+    {
+      html: `<p class="govuk-body-s govuk-!-margin-bottom-0">${card.timestamp}</p>`,
+      classes: 'dpr-req-cell',
+    },
+    {
+      html: `${itemActions}<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${card.status}</strong>`,
+      classes: 'dpr-req-cell dpr-req-cell__status',
     },
   ]
 }

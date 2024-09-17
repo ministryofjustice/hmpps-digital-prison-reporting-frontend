@@ -1,5 +1,37 @@
-import { ChartCardData, ChartUnit, MoJTableHead, MoJTableRow, ChartDataset } from '../../types/Charts'
+import {
+  ChartCardData,
+  ChartUnit,
+  MoJTableHead,
+  MoJTableRow,
+  ChartDataset,
+  ChartType,
+  ChartData,
+  ChartDataValues,
+} from '../../types/Charts'
 import { MetricsDataResponse, MetricsDefinition, MetricsDefinitionSpecification } from '../../types/Metrics'
+
+interface ChartValue {
+  value: string | number
+  name: string
+  display: string
+  unit?: ChartUnit
+  chart?: ChartType[]
+}
+
+interface ChartValueS {
+  group?: ChartGroup
+  data: ChartValue[]
+}
+
+interface ChartGroup {
+  name: string
+  value: string
+}
+
+interface ChartsData {
+  type: ChartType
+  datasets: { data: ChartValue[]; group: ChartGroup }[]
+}
 
 export default {
   getChartData: ({
@@ -9,79 +41,125 @@ export default {
     definition: MetricsDefinition
     metric: MetricsDataResponse
   }): ChartCardData => {
-    const { id, display: title, description, visualisationType: type, specification } = definition
-    const unit = specification[1].unit ? specification[1].unit : ChartUnit.NUMBER
+    const { id, display: title, description, specification } = definition
+    const values = getValues(specification, metric)
+    const chartsValues = getChartsData(values)
+    const chartsData = chartsValues.map((value: ChartsData) => {
+      return createVisualisationData(value)
+    })
 
-    const labels = createLabels(metric)
-    const datasets = createDatasets(metric, definition)
-    const table = createTable(metric, definition, unit)
-
-    const chartCardData = {
+    return {
       id,
       title,
       description,
-      type,
-      unit,
       data: {
-        chart: {
-          labels,
-          datasets,
-        },
-        table,
+        chart: chartsData,
+        table: createTable(values),
       },
     }
-
-    return chartCardData
   },
 }
 
-const createLabels = (metric: MetricsDataResponse) => {
+const getChartsData = (values: ChartValueS[]) => {
+  const availableChartTypes = [ChartType.BAR, ChartType.DONUT, ChartType.LINE]
+
+  const chartsValues: { type: ChartType; datasets: { data: ChartValue[]; group: ChartGroup }[] }[] = []
+  availableChartTypes.forEach((chartType: ChartType) => {
+    const chartData = {
+      type: chartType,
+      datasets: [] as { data: ChartValue[]; group: ChartGroup }[],
+    }
+
+    values.forEach((value: ChartValueS) => {
+      const chartValues = value.data.filter((valueData: ChartValue) => {
+        return valueData.chart?.includes(chartType)
+      })
+      if (chartValues.length) chartData.datasets.push({ data: chartValues, group: value.group })
+    })
+
+    if (chartData.datasets.length) chartsValues.push(chartData)
+  })
+
+  return chartsValues
+}
+
+const getValues = (specification: MetricsDefinitionSpecification[], metric: MetricsDataResponse): ChartValueS[] => {
   return metric.data.map((d) => {
-    return `${Object.values(d)[0]}`
+    const groupArray: ChartValue[] = []
+    let groupValue = ''
+    let groupName = ''
+
+    Object.entries(d).forEach((attr) => {
+      const specificationData = specification.find((spec: MetricsDefinitionSpecification) => {
+        return spec.name === attr[0]
+      })
+      if (specificationData.group) {
+        groupName = specificationData.display
+        groupValue = `${attr[1]}`
+      } else {
+        groupArray.push({
+          ...specificationData,
+          value: attr[1],
+        })
+      }
+    })
+
+    return {
+      ...(groupName.length && { group: { name: groupName, value: groupValue } }),
+      data: groupArray,
+    }
   })
 }
 
-const createDatasets = (metric: MetricsDataResponse, definition: MetricsDefinition) => {
-  const specification: MetricsDefinitionSpecification[] = JSON.parse(JSON.stringify(definition.specification))
-  specification.shift()
+const createVisualisationData = (value: ChartsData): ChartData => {
+  const labels: string[] = value.datasets[0].data.map((d: ChartValue) => {
+    return d.display
+  })
 
-  const datasets: ChartDataset[] = []
-  specification.forEach((spec) => {
-    const label = spec.display
-    const data = metric.data.map((m) => {
-      return m[spec.name] as number
-    })
-    datasets.push({
-      label,
+  let unit
+  const datasets: ChartDataset[] = value.datasets.map((d: any) => {
+    const data = d.data.map((v: any) => v.value)
+    unit = d.data[0].unit
+    return {
+      label: d.group.value,
       data,
       total: data.reduce((acc: number, val: number) => acc + val, 0),
-    })
+    }
   })
 
-  return datasets
+  const visData: ChartData = {
+    type: value.type,
+    unit,
+    data: {
+      labels,
+      datasets,
+    },
+  }
+
+  return visData
 }
 
-const createTable = (metric: MetricsDataResponse, definition: MetricsDefinition, unit: ChartUnit) => {
-  const { specification } = definition
+const createTable = (values: ChartValueS[]) => {
   const head: MoJTableHead[] = []
-  const suffix = setSuffix(unit)
-
-  Object.entries(metric.data[0]).forEach((key) => {
-    const name = `${key[0]}`
-    const spec = specification.find((s) => s.name === name)
-    const text = spec ? spec.display : name
-    head.push({ text })
-  })
-
   const rows: MoJTableRow[][] = []
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  metric.data.forEach((item: any) => {
-    const row: MoJTableRow[] = []
+  // Head
+  if (values[0].group) {
+    head.push({ text: values[0].group.name })
+  }
+  values[0].data.forEach((v) => {
+    head.push({ text: v.display })
+  })
 
-    Object.entries(item).forEach((v) => {
-      const value = typeof v[1] === 'number' ? `${v[1]}${suffix}` : `${v[1]}`
-      row.push({ text: value })
+  // Rows
+  values.forEach((v) => {
+    const row: MoJTableRow[] = []
+    if (v.group) {
+      row.push({ text: v.group.value })
+    }
+    v.data.forEach((d) => {
+      const suffix = setSuffix(d.unit)
+      row.push({ text: `${d.value}${suffix}` })
     })
     rows.push(row)
   })

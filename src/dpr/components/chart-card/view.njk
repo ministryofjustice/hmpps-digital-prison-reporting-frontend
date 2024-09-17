@@ -7,11 +7,9 @@
 {% macro dprChartCard(chart) %}
   {% set id = chart.id %}
   {% set title = chart.title %}
-  {% set type = chart.type %}
   {% set data = chart.data %}
   {% set description = chart.description %}
   {% set details = chart.details %}
-  {% set unit = chart.unit %}
   
   <div class="dpr-chart-card" id="{{ id }}-chart-card">
     <h2 class="govuk-heading-m">{{ title }}</h2>
@@ -22,7 +20,7 @@
 
     <div class="chart-tabs-container">
       
-      {{ dprChartTabs(id, type, data, unit) }}
+      {{ dprChartTabs(id, data, unit) }}
 
       <div class="chart-tabs-details">
         {% set headlines = details.headlines %}
@@ -31,7 +29,6 @@
         <div id="dpr-{{ id }}-tooltip-details" class="chart-tabs-details__item chart-tabs-details__item--tooltip">
           <h3 id="dpr-{{ id }}-label" class="govuk-heading-s dpr-chart-details-label">init</h3>
           <p id="dpr-{{ id }}-value" class="govuk-body dpr-chart-details-value">init</p>
-          <p id="dpr-{{ id }}-legend" class="govuk-body-s dpr-chart-details-legend">init</p>
         </div>
 
         <div id="dpr-{{ id }}-headline-values" class="chart-tabs-details__item chart-tabs-details__item--headlines">

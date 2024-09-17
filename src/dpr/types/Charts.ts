@@ -1,10 +1,14 @@
 interface Chart {
   id: string
+  data: {
+    chart: ChartData[]
+  }
+}
+
+export interface ChartData {
   type: ChartType
   unit: ChartUnit
-  data: {
-    chart: ChartData
-  }
+  data: ChartDataValues
 }
 
 export enum ChartUnit {
@@ -13,10 +17,9 @@ export enum ChartUnit {
 }
 
 interface ChartTabs extends Omit<Chart, 'type'> {
-  type: ChartType[]
   data: {
-    chart: ChartData
-    table: MoJTable
+    chart: ChartData[]
+    table?: MoJTable
   }
 }
 
@@ -34,7 +37,7 @@ interface ChartCardDetailsItem {
   value: string | number
 }
 
-interface ChartData {
+export interface ChartDataValues {
   labels: string[]
   datasets: ChartDataset[]
   axis?: 'x' | 'y'

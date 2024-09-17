@@ -11,10 +11,8 @@ export default {
       const { title, description } = req.body
       const metricsData = await Promise.all(
         metrics.map(async (metric: DashboardMetricDefinition) => {
-          const { visualisationType: type } = metric
           return MetricsUtils.getMetricData({
             id: metric.id,
-            type,
             req,
             res,
             services,

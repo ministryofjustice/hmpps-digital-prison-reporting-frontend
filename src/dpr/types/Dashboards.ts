@@ -1,5 +1,3 @@
-import { ChartType } from './Charts'
-
 export interface DashboardDefinition {
   id: string
   name: string
@@ -9,5 +7,4 @@ export interface DashboardDefinition {
 
 export interface DashboardMetricDefinition {
   id: string
-  visualisationType: ChartType[]
 }

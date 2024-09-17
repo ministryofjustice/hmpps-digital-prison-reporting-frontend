@@ -111,9 +111,8 @@ export default class ChartVisualisation extends DprClientClass {
   setHoverValue({ label, value, legend, ctx }) {
     if (ctx.tooltipDetailsEl) {
       ctx.tooltipDetailsEl.style.display = 'block'
-      ctx.labelElement.innerHTML = `${label}`
+      ctx.labelElement.innerHTML = `${legend}: ${label}`
       ctx.valueElement.innerHTML = `${value}`
-      ctx.legendElement.innerHTML = `${legend}`
     }
     if (ctx.headlineValuesEl) {
       ctx.headlineValuesEl.style.display = 'none'

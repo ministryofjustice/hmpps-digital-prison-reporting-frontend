@@ -14,6 +14,7 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
 
   initSettings() {
     return {
+      options: this.setOptions(),
       styling: this.setDatasetStyling(),
       datalabels: this.setDataLabels(),
       pluginsOptions: this.setPluginsOptions(),
@@ -34,6 +35,13 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
         },
       },
     ]
+  }
+
+  setOptions() {
+    const cutoutValue = this.chartParams.datasets.length === 1 ? '50%' : '20%'
+    return {
+      cutout: cutoutValue,
+    }
   }
 
   setPluginsOptions() {
@@ -122,6 +130,11 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
     const ctx = this
     return {
       callbacks: {
+        title(context) {
+          const { label, dataset } = context[0]
+          const { label: establishmentId } = dataset
+          return `${establishmentId}: ${label}`
+        },
         label(context) {
           const { label, parsed: value, dataset } = context
           const { label: legend } = dataset
@@ -136,7 +149,7 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
             ctx.setHoverValue({ label, value: toolipValue, legend, ctx })
           } else {
             toolipValue = `${toolipValue}`
-            ctx.setHoverValue({ label, value: toolipValue, ctx })
+            ctx.setHoverValue({ label, value: toolipValue, legend, ctx })
           }
 
           return toolipValue
@@ -146,17 +159,23 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
   }
 
   setDataLabels() {
+    const ctx = this
     return {
       textAlign: 'center',
       color: '#FFF',
       display: (context) => {
-        const value = context.dataset.data[context.dataIndex]
-        const total = context.dataset.data.reduce((a, c) => a + c, 0)
+        const { dataset, dataIndex } = context
+        const value = dataset.data[dataIndex]
+        const total = dataset.data.reduce((a, c) => a + c, 0)
         const percentage = (value / total) * 100
         return percentage > 4
       },
-      formatter: (value) => {
-        return `${value}${this.suffix}`
+      formatter: (value, context) => {
+        const { dataset } = context
+        const label = `${value}${this.suffix}
+${dataset.label}`
+
+        return label
       },
       labels: {
         title: {

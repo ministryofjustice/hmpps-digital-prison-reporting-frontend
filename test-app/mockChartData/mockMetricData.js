@@ -1,13 +1,39 @@
 const mockMetricData1 = {
   id: 'test-metric-id-1',
   data: [
-    { status: 'Without', percent: 33 },
-    { status: 'Older than 2 years', percent: 27 },
-    { status: 'Under 2 years', percent: 40 },
+    {
+      establishment_id: 'KMI',
+      missing_ethnicity_percentage: 25.09,
+      present_ethnicity_percentage: 75.91,
+      no_of_prisoners: 300,
+      no_of_prisoners_without: 100,
+      random_data: 20,
+    },
+    {
+      establishment_id: 'LEI',
+      missing_ethnicity_percentage: 47.09,
+      present_ethnicity_percentage: 52.91,
+      no_of_prisoners: 100,
+      no_of_prisoners_without: 50,
+      random_data: 50,
+    },
   ],
-  updated: 'asdasdasd',
+  updated: 'string',
+}
+
+const mockMetricData2 = {
+  id: 'test-metric-id-2',
+  data: [
+    {
+      establishment_id: 'KMI',
+      missing_ethnicity_percentage: 25.09,
+      present_ethnicity_percentage: 75.91,
+    },
+  ],
+  updated: 'string',
 }
 
 module.exports = {
   'test-metric-id-1': mockMetricData1,
+  'test-metric-id-2': mockMetricData2,
 }

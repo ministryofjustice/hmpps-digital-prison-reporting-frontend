@@ -20,8 +20,8 @@ Then('I see the dashboard data', () => {
 
 Then('I see the metric data', () => {
   const page = new DasboardPage()
-  page.metricName().contains('Prisoner Images by Status Percentage')
-  page.metricDescription().contains('Prisoner Images by Status Percentage')
+  page.metricName().contains('Missing Ethnicity By Establishment Metric')
+  page.metricDescription().contains('Missing Ethnicity By Establishment Metric')
 
   page.metricBarTab().should('exist')
   page.matricTableTab().should('exist')
@@ -34,12 +34,9 @@ When('I click the table tab', () => {
 
 Then('I see the metric data in a table', () => {
   const page = new DasboardPage()
-  page.metricTable_row1().contains('Without')
-  page.metricTable_row1().contains('33%')
+  page.metricTable_row1().contains('KMI')
+  page.metricTable_row1().contains('25.09%')
 
-  page.metricTable_row2().contains('Older than 2 years')
-  page.metricTable_row2().contains('27%')
-
-  page.metricTable_row3().contains('Under 2 years')
-  page.metricTable_row3().contains('40%')
+  page.metricTable_row2().contains('LEI')
+  page.metricTable_row2().contains('47.09%')
 })

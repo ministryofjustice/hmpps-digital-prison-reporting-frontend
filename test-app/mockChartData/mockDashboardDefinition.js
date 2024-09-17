@@ -5,7 +5,9 @@ const mockDashboardDefinition1 = {
   metrics: [
     {
       id: 'test-metric-id-1',
-      visualisationType: ['doughnut', 'bar'],
+    },
+    {
+      id: 'test-metric-id-2',
     },
   ],
 }
@@ -17,7 +19,6 @@ const mockDashboardDefinition2 = {
   metrics: [
     {
       id: 'test-metric-id-1',
-      visualisationType: ['doughnut', 'bar'],
     },
   ],
 }
@@ -29,7 +30,6 @@ const mockDashboardDefinition3 = {
   metrics: [
     {
       id: 'test-metric-id-1',
-      visualisationType: ['doughnut', 'bar'],
     },
   ],
 }

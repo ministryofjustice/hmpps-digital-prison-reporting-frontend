@@ -6,6 +6,9 @@ const mockDashboardDefinition1 = {
     {
       id: 'test-metric-id-1',
     },
+    {
+      id: 'test-metric-id-2',
+    },
   ],
 }
 

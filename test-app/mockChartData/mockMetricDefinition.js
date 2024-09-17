@@ -38,4 +38,30 @@ const mockMetricDefinition1 = {
   ],
 }
 
-module.exports = [mockMetricDefinition1]
+const mockMetricDefinition2 = {
+  id: 'test-metric-id-2',
+  name: 'Missing Ethnicity By Establishment Metric',
+  display: 'Missing Ethnicity By Establishment Metric',
+  description: 'Missing Ethnicity By Establishment Metric',
+  specification: [
+    {
+      name: 'establishment_id',
+      display: 'Establishment ID',
+      group: true,
+    },
+    {
+      name: 'missing_ethnicity_percentage',
+      display: '% Missing Ethnicity',
+      chart: ['doughnut', 'bar'],
+      unit: 'percentage',
+    },
+    {
+      name: 'present_ethnicity_percentage',
+      display: '% With Ethnicity',
+      unit: 'percentage',
+      chart: ['doughnut', 'bar'],
+    },
+  ],
+}
+
+module.exports = [mockMetricDefinition1, mockMetricDefinition2]

@@ -21,6 +21,19 @@ const mockMetricData1 = {
   updated: 'string',
 }
 
+const mockMetricData2 = {
+  id: 'test-metric-id-2',
+  data: [
+    {
+      establishment_id: 'KMI',
+      missing_ethnicity_percentage: 25.09,
+      present_ethnicity_percentage: 75.91,
+    },
+  ],
+  updated: 'string',
+}
+
 module.exports = {
   'test-metric-id-1': mockMetricData1,
+  'test-metric-id-2': mockMetricData2,
 }

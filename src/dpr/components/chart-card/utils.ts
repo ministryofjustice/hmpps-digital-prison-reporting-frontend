@@ -6,32 +6,12 @@ import {
   ChartDataset,
   ChartType,
   ChartData,
-  ChartDataValues,
+  ChartCardValue,
+  ChartsData,
+  ChartValue,
+  ChartGroup,
 } from '../../types/Charts'
 import { MetricsDataResponse, MetricsDefinition, MetricsDefinitionSpecification } from '../../types/Metrics'
-
-interface ChartValue {
-  value: string | number
-  name: string
-  display: string
-  unit?: ChartUnit
-  chart?: ChartType[]
-}
-
-interface ChartValueS {
-  group?: ChartGroup
-  data: ChartValue[]
-}
-
-interface ChartGroup {
-  name: string
-  value: string
-}
-
-interface ChartsData {
-  type: ChartType
-  datasets: { data: ChartValue[]; group: ChartGroup }[]
-}
 
 export default {
   getChartData: ({
@@ -60,18 +40,18 @@ export default {
   },
 }
 
-const getChartsData = (values: ChartValueS[]) => {
+const getChartsData = (values: ChartValue[]) => {
   const availableChartTypes = [ChartType.BAR, ChartType.DONUT, ChartType.LINE]
 
-  const chartsValues: { type: ChartType; datasets: { data: ChartValue[]; group: ChartGroup }[] }[] = []
+  const chartsValues: ChartsData[] = []
   availableChartTypes.forEach((chartType: ChartType) => {
     const chartData = {
       type: chartType,
-      datasets: [] as { data: ChartValue[]; group: ChartGroup }[],
+      datasets: [] as { data: ChartCardValue[]; group: ChartGroup }[],
     }
 
-    values.forEach((value: ChartValueS) => {
-      const chartValues = value.data.filter((valueData: ChartValue) => {
+    values.forEach((value: ChartValue) => {
+      const chartValues = value.data.filter((valueData: ChartCardValue) => {
         return valueData.chart?.includes(chartType)
       })
       if (chartValues.length) chartData.datasets.push({ data: chartValues, group: value.group })
@@ -83,9 +63,9 @@ const getChartsData = (values: ChartValueS[]) => {
   return chartsValues
 }
 
-const getValues = (specification: MetricsDefinitionSpecification[], metric: MetricsDataResponse): ChartValueS[] => {
+const getValues = (specification: MetricsDefinitionSpecification[], metric: MetricsDataResponse): ChartValue[] => {
   return metric.data.map((d) => {
-    const groupArray: ChartValue[] = []
+    const groupArray: ChartCardValue[] = []
     let groupValue = ''
     let groupName = ''
 
@@ -112,16 +92,17 @@ const getValues = (specification: MetricsDefinitionSpecification[], metric: Metr
 }
 
 const createVisualisationData = (value: ChartsData): ChartData => {
-  const labels: string[] = value.datasets[0].data.map((d: ChartValue) => {
+  const labels: string[] = value.datasets[0].data.map((d: ChartCardValue) => {
     return d.display
   })
 
   let unit
-  const datasets: ChartDataset[] = value.datasets.map((d: any) => {
-    const data = d.data.map((v: any) => v.value)
+  const datasets: ChartDataset[] = value.datasets.map((d) => {
+    const data = d.data.map((v) => +v.value)
     unit = d.data[0].unit
+    const label = d.group ? d.group.value : ''
     return {
-      label: d.group.value,
+      label,
       data,
       total: data.reduce((acc: number, val: number) => acc + val, 0),
     }
@@ -139,7 +120,7 @@ const createVisualisationData = (value: ChartsData): ChartData => {
   return visData
 }
 
-const createTable = (values: ChartValueS[]) => {
+const createTable = (values: ChartValue[]) => {
   const head: MoJTableHead[] = []
   const rows: MoJTableRow[][] = []
 

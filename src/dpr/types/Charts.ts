@@ -69,3 +69,26 @@ export interface MoJTableHead {
   text?: string
   html?: string
 }
+
+export interface ChartCardValue {
+  value: string | number
+  name: string
+  display: string
+  unit?: ChartUnit
+  chart?: ChartType[]
+}
+
+export interface ChartValue {
+  group?: ChartGroup
+  data: ChartCardValue[]
+}
+
+export interface ChartGroup {
+  name: string
+  value: string
+}
+
+export interface ChartsData {
+  type: ChartType
+  datasets: { data: ChartCardValue[]; group: ChartGroup }[]
+}

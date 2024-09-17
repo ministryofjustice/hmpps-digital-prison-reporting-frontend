@@ -58,14 +58,6 @@ export default class BarChartVisualisation extends ChartVisualisation {
           const { label } = context
           const { data, label: legend } = context.dataset
           const value = `${data[context.dataIndex]}${ctx.suffix}`
-
-          // if (!ctx.isPercentage) {
-          //   value = `${legend}: ${value}`
-          //   ctx.setHoverValue({ label, value, legend, ctx })
-          // } else {
-          //   ctx.setHoverValue({ label, value, ctx })
-          // }
-
           ctx.setHoverValue({ label, value, legend, ctx })
           return value
         },

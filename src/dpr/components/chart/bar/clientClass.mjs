@@ -49,6 +49,11 @@ export default class BarChartVisualisation extends ChartVisualisation {
     const ctx = this
     return {
       callbacks: {
+        title(context) {
+          const { label, dataset } = context[0]
+          const { label: establishmentId } = dataset
+          return `${establishmentId}: ${label}`
+        },
         label(context) {
           const { label } = context
           const { data, label: legend } = context.dataset

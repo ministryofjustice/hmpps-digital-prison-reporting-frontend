@@ -171,15 +171,9 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
         return percentage > 4
       },
       formatter: (value, context) => {
-        let label
-
-        if (ctx.chartParams.datasets.length === 1) {
-          label = `${value}${this.suffix}`
-        } else {
-          const { dataset } = context
-          label = `${value}${this.suffix}
+        const { dataset } = context
+        const label = `${value}${this.suffix}
 ${dataset.label}`
-        }
 
         return label
       },

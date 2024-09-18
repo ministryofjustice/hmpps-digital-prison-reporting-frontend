@@ -23,7 +23,9 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
         sectionedData[sectionDescription] = []
       }
 
-      sectionedData[sectionDescription].push(this.mapRow(rowData))
+      if (this.specification.template !== 'summary-section') {
+        sectionedData[sectionDescription].push(this.mapRow(rowData))
+      }
     })
 
     return Object.keys(sectionedData)
@@ -56,7 +58,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
           [
             {
               colspan: this.columns.length,
-              html: `<h2>${sectionDescription} <span class='govuk-caption-m'>${countDescription}</span></h2>`,
+              html: `<h2>${sectionDescription}` + (count > 0 ? ` <span class='govuk-caption-m'>${countDescription}</span>` : '') + '</h2>',
             },
           ],
           ...tableContent,

@@ -49,11 +49,12 @@ const getSortByFromDefinition = (definition: components['schemas']['VariantDefin
         if (f.defaultsort) sortBy[0].value = f.name
         return { value: f.name, text: f.display }
       })
+
+    return sortBy
   } else {
-    sortBy.splice(0, 1)
+    return []
   }
 
-  return sortBy
 }
 
 const dateIsInBounds = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs, min: string, max: string) => {

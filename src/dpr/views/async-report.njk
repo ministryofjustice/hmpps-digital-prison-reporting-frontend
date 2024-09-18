@@ -35,7 +35,7 @@
 
           {# Add template view here #}
 
-        {% elif template === 'list-section' %}
+        {% elif template === 'list-section' or template === 'summary-section' %}
 
           {{ dprAsyncReportList(renderData) }}
 
@@ -43,10 +43,6 @@
 
           {{ dprReportSummary(reportSummaries, 'page-header') }}
           {{ dprReportSummary(reportSummaries, 'page-footer') }}
-
-        {% elif template === 'summary-section' %}
-
-          {{ dprSectionedSummary(reportSummaries) }}
 
         {% else %}
 

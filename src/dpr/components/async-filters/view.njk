@@ -20,7 +20,8 @@
   {{ govukDetails({
     summaryText: 'Report Details for ' + variantName,
     html: reportDetailsHtml,
-    classes: 'dpr-meta-data-details'
+    classes: 'dpr-meta-data-details',
+    open: (filters.length == 0)
   }) }}
   
   <div class="dpr-async-controls dpr-filters" data-dpr-module="async-filters">
@@ -45,10 +46,12 @@
         </div>
       {% endif %}
 
+      {%  if sortBy.length > 0 %}
       <div class="dpr-async-controls__section">
         <h2 class="govuk-heading-s">Sort By</h2>
         {{ dprAsyncFilterInputs(sortBy, '') }}
       </div>
+      {% endif %}
 
       <div class="dpr-async-controls__section">
         {{ govukButton({
@@ -59,6 +62,7 @@
           }
         }) }}
 
+        {% if filters.length > 0 %}
         {{ govukButton({
           text: "Reset Filters",
           classes: "govuk-button--secondary",
@@ -66,6 +70,7 @@
             'id': 'async-request-reset-filters-button'
           }
         }) }}
+        {% endif %}
       </div>
     </form>
   </div>

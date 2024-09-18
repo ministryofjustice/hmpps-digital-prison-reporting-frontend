@@ -1,4 +1,3 @@
-{% from "../pagination/view.njk" import dprPagination %}
 {% from "../data-table/view.njk" import dprDataTable %}
 {% from "../async-applied-filters/view.njk" import dprAsyncAppliedFiltersList %}
 {% from "../column-section/view.njk" import dprColumnSection %}
@@ -8,7 +7,6 @@
 {% macro dprAsyncReportList(options) %}
 
   {% set columns = options.columns %}
-  {% set pagination = options.pagination %}
   {% set reportSummaries = options.reportSummaries %}
 
   {{ dprColumnSection(columns) }}

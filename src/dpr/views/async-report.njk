@@ -3,7 +3,6 @@
 {% from "../components/loading-anim/view.njk" import dprLoadingAnim %}
 {% from "../components/pagination/view.njk" import dprPagination %}
 {% from "../components/report-heading/view.njk" import dprReportHeading %}
-{% from "../components/sectioned-summary/view.njk" import dprSectionedSummary %}
 {% from "../components/summary-table/view.njk" import dprReportSummary %}
 
 {% set template = renderData.template %}
@@ -35,7 +34,7 @@
 
           {# Add template view here #}
 
-        {% elif template === 'list-section' %}
+        {% elif template === 'list-section' or template === 'summary-section' %}
 
           {{ dprAsyncReportList(renderData) }}
 
@@ -43,10 +42,6 @@
 
           {{ dprReportSummary(reportSummaries, 'page-header') }}
           {{ dprReportSummary(reportSummaries, 'page-footer') }}
-
-        {% elif template === 'summary-section' %}
-
-          {{ dprSectionedSummary(reportSummaries) }}
 
         {% else %}
 

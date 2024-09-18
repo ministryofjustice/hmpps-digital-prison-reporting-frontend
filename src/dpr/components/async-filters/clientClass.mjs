@@ -26,9 +26,7 @@ export default class AsyncFilters extends DprQueryParamClass {
     document.getElementById('async-filters-form-search').value = search
 
     const params = new URLSearchParams(search)
-    const href = `${origin}${pathname}?${params.toString()}`
-
-    document.getElementById('async-filters-form-href').value = href
+    document.getElementById('async-filters-form-href').value = `${origin}${pathname}?${params.toString()}`
   }
 
   initSubmitButton() {
@@ -40,10 +38,12 @@ export default class AsyncFilters extends DprQueryParamClass {
   }
 
   initResetButton() {
-    this.resetButton.addEventListener('click', (e) => {
-      e.preventDefault()
-      this.clearQueryParams()
-      window.location.reload()
-    })
+    if (this.resetButton) {
+      this.resetButton.addEventListener('click', (e) => {
+        e.preventDefault()
+        this.clearQueryParams()
+        window.location.reload()
+      })
+    }
   }
 }

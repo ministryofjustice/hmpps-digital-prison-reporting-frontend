@@ -24,6 +24,7 @@ module.exports = {
   report: {
     id: 'test-report-1',
     name: 'Test Report',
+    description: 'Fallback description',
     variants: [
       variant1,
       variant2,
@@ -64,6 +65,7 @@ module.exports = {
     {
       id: 'test-report-2',
       name: 'B Test Report',
+      description: 'Fallback Description',
       variants: [variant8, variant9, variant10, variant11, variant17, variant18, variant19],
       dashboards: [dashboardDefinition[2]],
     },

@@ -48,7 +48,7 @@ export default {
             name,
             description,
             type: 'report',
-            reportDescription,
+            ...(reportDescription && reportDescription.length && { reportDescription }),
           }
         })
 

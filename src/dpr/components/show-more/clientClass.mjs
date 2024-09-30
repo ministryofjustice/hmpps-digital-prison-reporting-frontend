@@ -20,6 +20,7 @@ export default class ShowMore extends DprClientClass {
     if (textContent.length > length) {
       textContainer.innerHTML = `${shortString}... `
     } else {
+      textContainer.innerHTML = `${textContent}`
       button.style.display = 'none'
     }
 

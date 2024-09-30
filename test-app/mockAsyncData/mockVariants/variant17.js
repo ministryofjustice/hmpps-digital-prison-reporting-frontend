@@ -1,7 +1,7 @@
 const variant17 = {
   id: 'variantId-17',
   name: 'Sort',
-  //note description missing
+  // note description missing
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: false,

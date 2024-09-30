@@ -73,7 +73,9 @@ const requestAsyncReport = (token, reportId, variantId) => {
 }
 
 const getDefinition = (token, reportId, variantId) => {
-  const report = { ...definitions.report }
+  // const report = { ...definitions.report }
+  const reportData = definitions.reports.find((rep) => rep.id === reportId) || definitions.report
+  const report = { ...reportData }
   const variant = report.variants.filter((v) => v.id === variantId)
   report.variant = variant[0]
   delete report.variants

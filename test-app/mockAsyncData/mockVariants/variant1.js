@@ -102,7 +102,7 @@ const variant1 = {
         display: 'Field 6',
         sortable: false,
         type: 'HTML',
-        mandatory: false,
+        mandatory: true,
         visible: true,
         filter: {
           type: 'text',

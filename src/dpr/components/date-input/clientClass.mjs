@@ -1,58 +1,55 @@
 import { DprClientClass } from '../../DprClientClass.mjs'
 
 export default class DateInput extends DprClientClass {
-  static getModuleName () {
+  static getModuleName() {
     return 'date-input'
   }
 
-  initialise () {
-    this.dateInput = document.querySelectorAll(`input.dpr-date-input`)
+  initialise() {
+    const element = this.getElement()
+    this.dateInputWrapper = element.querySelectorAll(`.moj-datepicker`)
+    this.dateInput = element.querySelectorAll(`input.moj-js-datepicker-input`)
     this.setToValueTriggers = document.querySelectorAll(`[data-set-min-max-trigger='true']`)
-    this.setMinMaxValue()
+
+    this.setMinMaxEventListener()
     this.setToValue()
   }
 
-  setMinMaxValue () {
-    this.dateInput.forEach((input) => {
-      this.setMinMaxEventListener(input)
-    })
-  }
+  setMinMaxEventListener() {
+    const min = this.dateInputWrapper.getAttribute('data-min-date')
+    const max = this.dateInputWrapper.getAttribute('data-max-date')
 
-  setMinMaxEventListener (element) {
-    const min = element.getAttribute('min')
-    const max = element.getAttribute('max')
-
-    element.addEventListener('blur', () => {
-      if (element.value) {
-        const dateValue = new Date(element.value)
+    this.dateInput.addEventListener('blur', () => {
+      if (this.dateInput.value) {
+        const dateValue = new Date(this.dateInput.value)
 
         if (min) {
           const minDate = new Date(min)
-
           if (dateValue < minDate) {
-            // eslint-disable-next-line
-            element.value = minDate.toISOString().split('T')[0]
+            this.dateInput.value = min
           }
         }
+
         if (max) {
           const maxDate = new Date(max)
           if (dateValue > maxDate) {
-            // eslint-disable-next-line
-            element.value = maxDate.toISOString().split('T')[0]
+            this.dateInput.value = max
           }
         }
       }
+
       const changeEvent = new Event('change')
-      element.dispatchEvent(changeEvent)
+      this.dateInput.dispatchEvent(changeEvent)
     })
   }
 
-  setToValue () {
+  setToValue() {
     this.setToValueTriggers.forEach((set) => {
       set.addEventListener('click', (e) => {
         const value = e.target.getAttribute('data-set-min-max-value')
         const inputId = e.target.getAttribute('data-set-to-input')
         const input = document.getElementById(inputId)
+
         input.value = value
         const changeEvent = new Event('change')
         input.dispatchEvent(changeEvent)

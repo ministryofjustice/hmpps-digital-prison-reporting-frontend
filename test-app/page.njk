@@ -2,6 +2,7 @@
 {% from "components/card-group/view.njk" import dprCardGroup %}
 
 {% block head %}
+  <script src="/assets/ext/jquery.min.js"></script> 
   <link href="/assets/dpr/css/all.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% endblock %}
@@ -14,6 +15,12 @@
     import {initAll} from '/govuk/all.js'
     initAll()
   </script>
+
+  <script src="/moj/all.js"></script>
+  <script type="text/javascript">
+    window.MOJFrontend.initAll()
+  </script>
+
   <script type="module" src="/assets/dpr/js/all.mjs"></script>
   <script type="module">
     import initAll from '/assets/dpr/js/all.mjs'

@@ -4,6 +4,7 @@ import { BookmarkedReportData } from '../types/Bookmark'
 import { CardData } from '../components/table-card-group/types'
 import { Services } from '../types/Services'
 import { createShowMoreHtml } from './reportsListHelper'
+import logger from './logger'
 
 export const formatCards = async (bookmarksData: BookmarkedReportData[], maxRows?: number): Promise<CardData[]> => {
   const cards = bookmarksData
@@ -28,18 +29,18 @@ export const formatCardData = (bookmarkData: BookmarkedReportData): CardData => 
   }
 }
 
-const formatTable = (
+const formatTable = async (
   bookmarksData: BookmarkedReportData[],
   bookmarkService: BookmarkService,
   csrfToken: string,
   userId: string,
   maxRows?: number,
 ) => {
-  const rows = bookmarksData
+  const rows = await Promise.all(bookmarksData
     .sort((a, b) => a.name.localeCompare(b.name))
     .map(async (bookmark: BookmarkedReportData) => {
       return await formatTableData(bookmark, bookmarkService, csrfToken, userId)
-    })
+    }))
 
   return {
     rows: maxRows ? rows.slice(0, maxRows) : rows,
@@ -97,7 +98,9 @@ const mapBookmarkIdsToDefinition = async (
         }
       } catch (error) {
         // DPD has been deleted so API throws error
-        await services.bookmarkService.removeBookmark(res.locals.user.uuid, bookmark.variantId)
+        logger.warn(`Failed to map bookmark for: Report ${bookmark.reportId}, variant ${bookmark.variantId}`)
+        const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+        await services.bookmarkService.removeBookmark(userId, bookmark.variantId)
       }
     }),
   )

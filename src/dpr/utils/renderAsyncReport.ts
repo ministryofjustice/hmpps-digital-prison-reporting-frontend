@@ -68,7 +68,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
   let renderData = {}
   let reportStateData: AsyncReportData
   if (dataPromises) {
-    await Promise.all(dataPromises).then((resolvedData) => {
+    await Promise.all(dataPromises).then(async (resolvedData) => {
       const definition = resolvedData[0] as unknown as components['schemas']['SingleVariantReportDefinition']
       const reportData = <Array<Dict<string>>>resolvedData[1]
       const count = <number>resolvedData[2]
@@ -105,7 +105,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         printable,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         csrfToken,
-        bookmarked: services.bookmarkService.isBookmarked(variantId),
+        bookmarked: await services.bookmarkService.isBookmarked(variantId, userId),
         reportSummaries: collatedSummaryBuilder.collatePageSummaries(),
       }
 

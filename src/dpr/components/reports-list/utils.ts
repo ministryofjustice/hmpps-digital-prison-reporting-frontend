@@ -15,10 +15,10 @@ interface definitionData {
 }
 
 export default {
-  mapReportsList: (
+  mapReportsList: async (
     res: Response,
     services: Services,
-  ): { head: { text: string }[]; rows: { text?: string; html?: string }[] } => {
+  ): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[] }> => {
     const { definitions, csrfToken } = res.locals
     const pathSuffix = res.locals.pathSuffix || ''
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
@@ -81,7 +81,7 @@ export default {
       },
     )
 
-    const rows = sortedVariants.map(async (v: definitionData) => {
+    const rows = await Promise.all(sortedVariants.map(async (v: definitionData) => {
       const { id, name, description, reportName, reportId, reportDescription, type } = v
       const desc = description || reportDescription
 
@@ -119,7 +119,7 @@ export default {
           ...bookmarkColumn,
         },
       ]
-    })
+    }))
 
     const head = [
       { text: 'Product', classes: 'dpr-product-head' },

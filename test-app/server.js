@@ -181,7 +181,7 @@ app.get('/async-reports', async (req, res) => {
       })),
     },
     reports: {
-      ...ReportslistUtils.mapReportsList(res, services),
+      ...(await ReportslistUtils.mapReportsList(res, services)),
     },
   })
 })

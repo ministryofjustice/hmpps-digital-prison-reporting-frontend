@@ -39,7 +39,7 @@ const formatTable = async (
   const rows = await Promise.all(bookmarksData
     .sort((a, b) => a.name.localeCompare(b.name))
     .map(async (bookmark: BookmarkedReportData) => {
-      return await formatTableData(bookmark, bookmarkService, csrfToken, userId)
+      return formatTableData(bookmark, bookmarkService, csrfToken, userId)
     }))
 
   return {

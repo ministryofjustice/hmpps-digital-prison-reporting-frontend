@@ -115,7 +115,9 @@ export const formatCards = async (
   filterFunction: (report: AsyncReportData | RecentlyViewedReportData) => boolean,
   formatFunction: (reportData: RecentlyViewedReportData | AsyncReportData) => CardData,
 ): Promise<CardData[]> => {
-  return reports ? reports.filter(filterFunction).map((report: AsyncReportData | RecentlyViewedReportData) => {
-    return formatFunction(report)
-  }) : Promise.resolve([])
+  return reports
+    ? reports.filter(filterFunction).map((report: AsyncReportData | RecentlyViewedReportData) => {
+        return formatFunction(report)
+      })
+    : Promise.resolve([])
 }

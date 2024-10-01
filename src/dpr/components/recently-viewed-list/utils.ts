@@ -59,8 +59,10 @@ export const filterReports = (report: RecentlyViewedReportData) => {
 export default {
   getExpiredStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
     const report = await getExpiredStatus({ req, res, services })
+    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+
     if (report.isExpired) {
-      await services.recentlyViewedStoreService.setToExpired(report.executionId)
+      await services.recentlyViewedStoreService.setToExpired(report.executionId, userId)
     }
     return report.isExpired
   },

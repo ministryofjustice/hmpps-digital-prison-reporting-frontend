@@ -89,24 +89,27 @@ export const filterReports = (report: AsyncReportData) => {
 export default {
   getRequestStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
     const { executionId, status: currentStatus } = req.body
+    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const response = await getStatus({ req, res, services })
 
     if (currentStatus !== response.status) {
       await services.asyncReportsStore.updateStatus(
         executionId,
+        userId,
         response.status as RequestStatus,
         response.errorMessage,
       )
-      response.reportData = await services.asyncReportsStore.getReportByExecutionId(executionId)
+      response.reportData = await services.asyncReportsStore.getReportByExecutionId(executionId, userId)
     }
 
     return response
   },
 
   getExpiredStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
+    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const report = await getExpiredStatus({ req, res, services })
     if (report.isExpired) {
-      await services.asyncReportsStore.setToExpired(report.executionId)
+      await services.asyncReportsStore.setToExpired(report.executionId, userId)
     }
     return report.isExpired
   },
@@ -117,7 +120,8 @@ export default {
     maxRows,
   }: { maxRows?: number } & AsyncReportUtilsParams): Promise<RenderTableListResponse> => {
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
-    const requestedReportsData: AsyncReportData[] = await services.asyncReportsStore.getAllReports()
+    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+    const requestedReportsData: AsyncReportData[] = await services.asyncReportsStore.getAllReports(userId)
 
     let cardData = await ReportListHelper.formatCards(requestedReportsData, filterReports, formatCardData)
     if (maxRows) cardData = cardData.slice(0, maxRows)

@@ -1,62 +1,39 @@
 import UserStoreService from './userStoreService'
 import UserDataStore from '../data/userDataStore'
-import Dict = NodeJS.Dict
 import { RecentlyViewedReportData } from '../types/RecentlyViewed'
-import { RequestStatus, AsyncReportData, AsyncReportsTimestamp } from '../types/AsyncReport'
+import { RequestStatus, AsyncReportData } from '../types/AsyncReport'
+import { UserStoreConfig } from '../types/UserStore'
 
 export default class RecentlyViewedStoreService extends UserStoreService {
-  recentlyViewedReports: RecentlyViewedReportData[]
-
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
   }
 
-  async getRecentlyViewedState() {
-    await this.getState()
-    this.recentlyViewedReports = this.userConfig.recentlyViewedReports
+  async getAllReports(userId: string) {
+    const userConfig = await this.getState(userId)
+    return userConfig.recentlyViewedReports
   }
 
-  async saveRecentlyViewedState() {
-    this.userConfig.recentlyViewedReports = this.recentlyViewedReports
-    await this.saveState()
-  }
-
-  async getReportByExecutionId(id: string) {
-    await this.getRecentlyViewedState()
-    return this.recentlyViewedReports.find((report) => report.executionId === id)
-  }
-
-  async getReportByTableId(id: string) {
-    await this.getRecentlyViewedState()
-    return this.recentlyViewedReports.find((report) => report.tableId === id)
-  }
-
-  async getAllReports() {
-    await this.getRecentlyViewedState()
-    return this.recentlyViewedReports
-  }
-
-  async getAllReportsByVariantId(variantId: string) {
-    await this.getRecentlyViewedState()
-    return this.recentlyViewedReports.filter((report) => {
+  async getAllReportsByVariantId(variantId: string, userId: string) {
+    const userConfig = await this.getState(userId)
+    return userConfig.recentlyViewedReports.filter((report) => {
       return report.variantId === variantId
     })
   }
 
-  reportExists(id: string) {
-    return this.recentlyViewedReports.filter((rec) => rec.executionId === id).length > 0
-  }
+  async setRecentlyViewed(reportData: AsyncReportData, userId: string) {
+    const userConfig = await this.getState(userId)
+    const index = this.findIndexByExecutionId(reportData.executionId, userConfig.recentlyViewedReports)
 
-  async setRecentlyViewed(reportData: AsyncReportData) {
-    await this.getRecentlyViewedState()
-    if (this.reportExists(reportData.executionId)) {
-      await this.removeReport(reportData.executionId)
+    if (index > -1) {
+      userConfig.recentlyViewedReports.splice(index, 1)
+      await this.saveState(userId, userConfig)
     }
-    await this.addReport(reportData)
+
+    await this.addReport(reportData, userId, userConfig)
   }
 
-  async addReport(reportData: AsyncReportData) {
-    await this.getRecentlyViewedState()
+  async addReport(reportData: AsyncReportData, userId: string, userConfig: UserStoreConfig) {
     const {
       reportId,
       variantId,
@@ -94,42 +71,14 @@ export default class RecentlyViewedStoreService extends UserStoreService {
       query,
     }
 
-    this.recentlyViewedReports.unshift(recentlyViewedReportData)
-    await this.saveRecentlyViewedState()
-
-    return recentlyViewedReportData
+    userConfig.recentlyViewedReports.unshift(recentlyViewedReportData)
+    await this.saveState(userId, userConfig)
   }
 
-  async updateReport(id: string, data: Dict<string | number | RequestStatus | AsyncReportsTimestamp>) {
-    await this.getRecentlyViewedState()
-    const index = this.findIndexByExecutionId(id, this.recentlyViewedReports)
-    let report: RecentlyViewedReportData = this.recentlyViewedReports[index]
-    if (report) {
-      report = {
-        ...report,
-        ...data,
-      }
-    }
-    this.recentlyViewedReports[index] = report
-    await this.saveRecentlyViewedState()
-  }
-
-  async setReportTimestamp(executionId: string, type: string) {
-    const report = await this.getReportByExecutionId(executionId)
-    if (report) {
-      const timestamp: AsyncReportsTimestamp = {
-        ...report.timestamp,
-        ...(type === 'retry' && { retried: new Date() }),
-        ...(type === 'refresh' && { refresh: new Date() }),
-      }
-      await this.updateReport(executionId, { timestamp })
-    }
-  }
-
-  async setToExpired(id: string) {
-    await this.getRecentlyViewedState()
-    const index = this.findIndexByExecutionId(id, this.recentlyViewedReports)
-    let report: RecentlyViewedReportData = this.recentlyViewedReports[index]
+  async setToExpired(id: string, userId: string) {
+    const userConfig = await this.getState(userId)
+    const index = this.findIndexByExecutionId(id, userConfig.recentlyViewedReports)
+    let report: RecentlyViewedReportData = userConfig.recentlyViewedReports[index]
     if (report) {
       report = {
         ...report,
@@ -140,14 +89,14 @@ export default class RecentlyViewedStoreService extends UserStoreService {
         },
       }
     }
-    this.recentlyViewedReports[index] = report
-    await this.saveRecentlyViewedState()
+    userConfig.recentlyViewedReports[index] = report
+    await this.saveState(userId, userConfig)
   }
 
-  async removeReport(id: string) {
-    await this.getRecentlyViewedState()
-    const index = this.findIndexByExecutionId(id, this.recentlyViewedReports)
-    this.recentlyViewedReports.splice(index, 1)
-    await this.saveRecentlyViewedState()
+  async removeReport(id: string, userId: string) {
+    const userConfig = await this.getState(userId)
+    const index = this.findIndexByExecutionId(id, userConfig.recentlyViewedReports)
+    userConfig.recentlyViewedReports.splice(index, 1)
+    await this.saveState(userId, userConfig)
   }
 }

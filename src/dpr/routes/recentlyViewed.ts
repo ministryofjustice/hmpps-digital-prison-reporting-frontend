@@ -23,7 +23,8 @@ export default function routes({
   }
 
   const removeViewedItemHandler: RequestHandler = async (req, res, next) => {
-    await services.recentlyViewedStoreService.removeReport(req.body.executionId)
+    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+    await services.recentlyViewedStoreService.removeReport(req.body.executionId, userId)
     res.end()
   }
 

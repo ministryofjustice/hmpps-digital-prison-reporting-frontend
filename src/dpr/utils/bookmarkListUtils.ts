@@ -4,6 +4,7 @@ import { BookmarkedReportData } from '../types/Bookmark'
 import { CardData } from '../components/table-card-group/types'
 import { Services } from '../types/Services'
 import { createShowMoreHtml } from './reportsListHelper'
+import logger from './logger'
 
 export const formatCards = async (bookmarksData: BookmarkedReportData[], maxRows?: number): Promise<CardData[]> => {
   const cards = bookmarksData
@@ -28,17 +29,20 @@ export const formatCardData = (bookmarkData: BookmarkedReportData): CardData => 
   }
 }
 
-const formatTable = (
+const formatTable = async (
   bookmarksData: BookmarkedReportData[],
   bookmarkService: BookmarkService,
   csrfToken: string,
+  userId: string,
   maxRows?: number,
 ) => {
-  const rows = bookmarksData
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map((bookmark: BookmarkedReportData) => {
-      return formatTableData(bookmark, bookmarkService, csrfToken)
-    })
+  const rows = await Promise.all(
+    bookmarksData
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map(async (bookmark: BookmarkedReportData) => {
+        return formatTableData(bookmark, bookmarkService, csrfToken, userId)
+      }),
+  )
 
   return {
     rows: maxRows ? rows.slice(0, maxRows) : rows,
@@ -51,14 +55,19 @@ const formatTable = (
   }
 }
 
-const formatTableData = (bookmarksData: BookmarkedReportData, bookmarkService: BookmarkService, csrfToken: string) => {
+const formatTableData = async (
+  bookmarksData: BookmarkedReportData,
+  bookmarkService: BookmarkService,
+  csrfToken: string,
+  userId: string,
+) => {
   const { description, reportName, reportId, variantId, href, name } = bookmarksData
   return [
     { text: reportName },
     { html: `<a href='${href}'>${name}</a>` },
     { html: createShowMoreHtml(description) },
     {
-      html: bookmarkService.createBookMarkToggleHtml(reportId, variantId, csrfToken, 'bookmark-list'),
+      html: await bookmarkService.createBookMarkToggleHtml(userId, reportId, variantId, csrfToken, 'bookmark-list'),
       classes: 'dpr-vertical-align',
     },
   ]
@@ -67,6 +76,7 @@ const formatTableData = (bookmarksData: BookmarkedReportData, bookmarkService: B
 const mapBookmarkIdsToDefinition = async (
   bookmarks: { reportId: string; variantId: string }[],
   req: Request,
+  res: Response,
   token: string,
   services: Services,
 ): Promise<BookmarkedReportData[]> => {
@@ -95,7 +105,9 @@ const mapBookmarkIdsToDefinition = async (
         }
       } catch (error) {
         // DPD has been deleted so API throws error
-        await services.bookmarkService.removeBookmark(bookmark.variantId)
+        logger.warn(`Failed to map bookmark for: Report ${bookmark.reportId}, variant ${bookmark.variantId}`)
+        const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+        await services.bookmarkService.removeBookmark(userId, bookmark.variantId)
       }
     }),
   )
@@ -115,13 +127,14 @@ export default {
     req: Request
   }) => {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
+    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
 
-    const bookmarks: { reportId: string; variantId: string }[] = await services.bookmarkService.getAllBookmarks()
-    const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, token, services)
+    const bookmarks: { reportId: string; variantId: string }[] = await services.bookmarkService.getAllBookmarks(userId)
+    const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, res, token, services)
 
     const cardData = await formatCards(bookmarksData, maxRows)
-    const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, maxRows)
+    const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, userId, maxRows)
 
     const head = {
       title: 'My Bookmarks',

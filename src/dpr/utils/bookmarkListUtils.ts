@@ -36,11 +36,13 @@ const formatTable = async (
   userId: string,
   maxRows?: number,
 ) => {
-  const rows = await Promise.all(bookmarksData
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map(async (bookmark: BookmarkedReportData) => {
-      return formatTableData(bookmark, bookmarkService, csrfToken, userId)
-    }))
+  const rows = await Promise.all(
+    bookmarksData
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map(async (bookmark: BookmarkedReportData) => {
+        return formatTableData(bookmark, bookmarkService, csrfToken, userId)
+      }),
+  )
 
   return {
     rows: maxRows ? rows.slice(0, maxRows) : rows,
@@ -53,7 +55,12 @@ const formatTable = async (
   }
 }
 
-const formatTableData = async (bookmarksData: BookmarkedReportData, bookmarkService: BookmarkService, csrfToken: string, userId: string) => {
+const formatTableData = async (
+  bookmarksData: BookmarkedReportData,
+  bookmarkService: BookmarkService,
+  csrfToken: string,
+  userId: string,
+) => {
   const { description, reportName, reportId, variantId, href, name } = bookmarksData
   return [
     { text: reportName },

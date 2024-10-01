@@ -7,7 +7,6 @@ import { Template } from '../types/Templates'
 import Dict = NodeJS.Dict
 
 export default class AsyncReportStoreService extends UserStoreService {
-
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
   }
@@ -18,7 +17,7 @@ export default class AsyncReportStoreService extends UserStoreService {
     sortData: Dict<string>,
     query: Dict<string>,
     querySummary: Array<Dict<string>>,
-    userId: string
+    userId: string,
   ) {
     const userConfig = await this.getState(userId)
 

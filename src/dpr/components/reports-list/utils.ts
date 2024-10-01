@@ -81,45 +81,53 @@ export default {
       },
     )
 
-    const rows = await Promise.all(sortedVariants.map(async (v: definitionData) => {
-      const { id, name, description, reportName, reportId, reportDescription, type } = v
-      const desc = description || reportDescription
+    const rows = await Promise.all(
+      sortedVariants.map(async (v: definitionData) => {
+        const { id, name, description, reportName, reportId, reportDescription, type } = v
+        const desc = description || reportDescription
 
-      let hrefHtml
-      let bookmarkColumn
-      let listType
-      switch (type) {
-        case 'report':
-          hrefHtml = `<a href='/async-reports/${reportId}/${id}/request${pathSuffix}'>${name}</a>`
-          bookmarkColumn = {
-            html: await services.bookmarkService.createBookMarkToggleHtml(userId, reportId, id, csrfToken, 'reports-list'),
-            attributes: {
-              tabindex: 0,
-            },
-          }
-          listType = createTag(type)
-          break
-        case 'dashboard':
-          hrefHtml = `<a href='/dashboards/${reportId}/load/${id}${pathSuffix}'>${name}</a>`
-          bookmarkColumn = {}
-          listType = createTag(type)
-          break
-        default:
-          hrefHtml = ''
-          bookmarkColumn = {}
-          break
-      }
+        let hrefHtml
+        let bookmarkColumn
+        let listType
+        switch (type) {
+          case 'report':
+            hrefHtml = `<a href='/async-reports/${reportId}/${id}/request${pathSuffix}'>${name}</a>`
+            bookmarkColumn = {
+              html: await services.bookmarkService.createBookMarkToggleHtml(
+                userId,
+                reportId,
+                id,
+                csrfToken,
+                'reports-list',
+              ),
+              attributes: {
+                tabindex: 0,
+              },
+            }
+            listType = createTag(type)
+            break
+          case 'dashboard':
+            hrefHtml = `<a href='/dashboards/${reportId}/load/${id}${pathSuffix}'>${name}</a>`
+            bookmarkColumn = {}
+            listType = createTag(type)
+            break
+          default:
+            hrefHtml = ''
+            bookmarkColumn = {}
+            break
+        }
 
-      return [
-        { text: reportName },
-        { html: hrefHtml },
-        { html: createShowMoreHtml(desc) },
-        { html: listType },
-        {
-          ...bookmarkColumn,
-        },
-      ]
-    }))
+        return [
+          { text: reportName },
+          { html: hrefHtml },
+          { html: createShowMoreHtml(desc) },
+          { html: listType },
+          {
+            ...bookmarkColumn,
+          },
+        ]
+      }),
+    )
 
     const head = [
       { text: 'Product', classes: 'dpr-product-head' },

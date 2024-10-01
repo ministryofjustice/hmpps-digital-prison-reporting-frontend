@@ -13,7 +13,8 @@ export default class BookmarkService extends UserStoreService {
 
   async addBookmark(userId: string, reportId: string, variantId: string) {
     const userConfig = await this.getState(userId)
-    if (!userConfig.bookmarks.some((bookmark) => bookmark.variantId === variantId)) userConfig.bookmarks.unshift({ reportId, variantId })
+    if (!userConfig.bookmarks.some((bookmark) => bookmark.variantId === variantId))
+      userConfig.bookmarks.unshift({ reportId, variantId })
     await this.saveState(userId, userConfig)
   }
 

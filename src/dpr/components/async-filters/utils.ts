@@ -258,7 +258,7 @@ export const updateStore = async (
     sortData,
     query,
     querySummary,
-    userId
+    userId,
   )
 
   return reportData.url.polling.pathname

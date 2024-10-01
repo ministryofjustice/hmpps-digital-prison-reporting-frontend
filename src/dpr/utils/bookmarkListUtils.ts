@@ -37,8 +37,8 @@ const formatTable = (
 ) => {
   const rows = bookmarksData
     .sort((a, b) => a.name.localeCompare(b.name))
-    .map((bookmark: BookmarkedReportData) => {
-      return formatTableData(bookmark, bookmarkService, csrfToken, userId)
+    .map(async (bookmark: BookmarkedReportData) => {
+      return await formatTableData(bookmark, bookmarkService, csrfToken, userId)
     })
 
   return {
@@ -52,14 +52,14 @@ const formatTable = (
   }
 }
 
-const formatTableData = (bookmarksData: BookmarkedReportData, bookmarkService: BookmarkService, csrfToken: string, userId: string) => {
+const formatTableData = async (bookmarksData: BookmarkedReportData, bookmarkService: BookmarkService, csrfToken: string, userId: string) => {
   const { description, reportName, reportId, variantId, href, name } = bookmarksData
   return [
     { text: reportName },
     { html: `<a href='${href}'>${name}</a>` },
     { html: createShowMoreHtml(description) },
     {
-      html: bookmarkService.createBookMarkToggleHtml(userId, reportId, variantId, csrfToken, 'bookmark-list'),
+      html: await bookmarkService.createBookMarkToggleHtml(userId, reportId, variantId, csrfToken, 'bookmark-list'),
       classes: 'dpr-vertical-align',
     },
   ]

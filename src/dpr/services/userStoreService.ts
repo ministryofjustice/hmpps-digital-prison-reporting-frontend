@@ -18,7 +18,7 @@ export default class UserStoreService {
   }
 
   async getState(userId: string) {
-    return await this.userStore.getUserConfig(userId)
+    return this.userStore.getUserConfig(userId)
   }
 
   async saveState(userId: string, userConfig: UserStoreConfig) {

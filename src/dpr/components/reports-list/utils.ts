@@ -81,7 +81,7 @@ export default {
       },
     )
 
-    const rows = sortedVariants.map((v: definitionData) => {
+    const rows = sortedVariants.map(async (v: definitionData) => {
       const { id, name, description, reportName, reportId, reportDescription, type } = v
       const desc = description || reportDescription
 
@@ -90,9 +90,9 @@ export default {
       let listType
       switch (type) {
         case 'report':
-          hrefHtml = `<a href="/async-reports/${reportId}/${id}/request${pathSuffix}">${name}</a>`
+          hrefHtml = `<a href='/async-reports/${reportId}/${id}/request${pathSuffix}'>${name}</a>`
           bookmarkColumn = {
-            html: services.bookmarkService.createBookMarkToggleHtml(userId, reportId, id, csrfToken, 'reports-list'),
+            html: await services.bookmarkService.createBookMarkToggleHtml(userId, reportId, id, csrfToken, 'reports-list'),
             attributes: {
               tabindex: 0,
             },
@@ -100,7 +100,7 @@ export default {
           listType = createTag(type)
           break
         case 'dashboard':
-          hrefHtml = `<a href="/dashboards/${reportId}/load/${id}${pathSuffix}">${name}</a>`
+          hrefHtml = `<a href='/dashboards/${reportId}/load/${id}${pathSuffix}'>${name}</a>`
           bookmarkColumn = {}
           listType = createTag(type)
           break

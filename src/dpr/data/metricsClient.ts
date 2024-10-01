@@ -46,7 +46,7 @@ export default class MetricsClient {
 
     return this.restClient
       .get({
-        path: `reports/${dpdId}/metrics/${metricId}`,
+        path: `/reports/${dpdId}/metrics/${metricId}`,
         token,
       })
       .then((response) => <MetricsDataResponse>response)

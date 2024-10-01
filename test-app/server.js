@@ -48,6 +48,13 @@ setUpNunjucksFilters(nunjucksEnvironment)
 app.set('view engine', 'njk')
 
 // Middleware to serve static assets
+app.use('/assets/ext/chart.js', express.static(path.join(__dirname, '../node_modules/chart.js/dist/chart.umd.js')))
+app.use(
+  '/assets/ext/chartjs-datalabels.js',
+  express.static(
+    path.join(__dirname, '../node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js'),
+  ),
+)
 app.use('/assets/govuk', express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/assets')))
 app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr/assets')))
 app.use(

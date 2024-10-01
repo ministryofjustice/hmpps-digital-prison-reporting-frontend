@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { Request } from 'express'
+import { Request, Response } from 'express'
 import moment from 'moment'
 import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
@@ -204,6 +204,7 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
  * Updates the store with the request details
  *
  * @param {Request} req
+ * @param {Response} res
  * @param {Services} services
  * @param {components['schemas']['FieldDefinition'][]} fields
  * @param {querySummaryResult} querySummaryData
@@ -213,6 +214,7 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
  */
 export const updateStore = async (
   req: Request,
+  res: Response,
   services: Services,
   fields: components['schemas']['FieldDefinition'][],
   querySummaryData: querySummaryResult,
@@ -221,16 +223,17 @@ export const updateStore = async (
 ): Promise<string> => {
   const { search, variantId } = req.body
   const { query, filterData, querySummary, sortData } = querySummaryData
+  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
 
   // 1. check for duplicate requests and remove them from the request list
-  const requestedReports = await services.asyncReportsStore.getAllReportsByVariantId(variantId)
-  const viewedReports = await services.recentlyViewedStoreService.getAllReportsByVariantId(variantId)
+  const requestedReports = await services.asyncReportsStore.getAllReportsByVariantId(variantId, userId)
+  const viewedReports = await services.recentlyViewedStoreService.getAllReportsByVariantId(variantId, userId)
 
   const duplicateRequestIds = getDuplicateRequestIds(search, requestedReports)
   if (duplicateRequestIds.length) {
     await Promise.all(
       duplicateRequestIds.map(async (id: string) => {
-        await await services.asyncReportsStore.removeReport(id)
+        await await services.asyncReportsStore.removeReport(id, userId)
       }),
     )
   }
@@ -239,7 +242,7 @@ export const updateStore = async (
   if (duplicateViewedReportIds.length) {
     await Promise.all(
       duplicateViewedReportIds.map(async (id: string) => {
-        await await services.recentlyViewedStoreService.removeReport(id)
+        await await services.recentlyViewedStoreService.removeReport(id, userId)
       }),
     )
   }
@@ -255,6 +258,7 @@ export const updateStore = async (
     sortData,
     query,
     querySummary,
+    userId
   )
 
   return reportData.url.polling.pathname
@@ -436,7 +440,7 @@ export default {
 
     let redirect = ''
     if (executionId && tableId) {
-      redirect = await updateStore(req, services, fields, querySummaryData, executionId, tableId)
+      redirect = await updateStore(req, res, services, fields, querySummaryData, executionId, tableId)
     }
     return redirect
   },

@@ -21,6 +21,7 @@ export default {
   ): { head: { text: string }[]; rows: { text?: string; html?: string }[] } => {
     const { definitions, csrfToken } = res.locals
     const pathSuffix = res.locals.pathSuffix || ''
+    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
 
     // Sort report Definitions by product name
     const sortedDefinitions = definitions.sort(
@@ -91,7 +92,7 @@ export default {
         case 'report':
           hrefHtml = `<a href="/async-reports/${reportId}/${id}/request${pathSuffix}">${name}</a>`
           bookmarkColumn = {
-            html: services.bookmarkService.createBookMarkToggleHtml(reportId, id, csrfToken, 'reports-list'),
+            html: services.bookmarkService.createBookMarkToggleHtml(userId, reportId, id, csrfToken, 'reports-list'),
             attributes: {
               tabindex: 0,
             },

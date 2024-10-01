@@ -12,6 +12,7 @@ import ColumnUtils from '../components/columns/utils'
 
 export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) => {
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
+  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
   const { reportId, variantId: reportVariantId, tableId } = req.params
   const dataProductDefinitionsPath = <string>req.query.dataProductDefinitionsPath
   const reportDefinitionPromise = services.reportingService.getDefinition(
@@ -54,7 +55,7 @@ export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) 
   )
 
   const reportDataCountPromise = services.reportingService.getAsyncCount(token, tableId)
-  const stateDataPromise = services.asyncReportsStore.getReportByTableId(tableId)
+  const stateDataPromise = services.asyncReportsStore.getReportByTableId(tableId, userId)
 
   return [reportDefinitionPromise, reportDataPromise, reportDataCountPromise, stateDataPromise, summaryDataPromise]
 }
@@ -62,6 +63,7 @@ export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) 
 export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
   const dataPromises = initDataSources({ req, res, services })
+  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
 
   let renderData = {}
   let reportStateData: AsyncReportData
@@ -148,8 +150,8 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
   }
 
   if (Object.keys(renderData).length && Object.keys(reportStateData).length) {
-    await services.asyncReportsStore.updateLastViewed(reportStateData.executionId)
-    await services.recentlyViewedStoreService.setRecentlyViewed(reportStateData)
+    await services.asyncReportsStore.updateLastViewed(reportStateData.executionId, userId)
+    await services.recentlyViewedStoreService.setRecentlyViewed(reportStateData, userId)
   }
 
   return { renderData }

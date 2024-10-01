@@ -4,10 +4,6 @@ import { UserStoreConfig } from '../types/UserStore'
 import { RecentlyViewedReportData } from '../types/RecentlyViewed'
 
 export default class UserStoreService {
-  userConfig: UserStoreConfig
-
-  userId: string
-
   userStore: UserDataStore
 
   constructor(private readonly userDataStore: UserDataStore) {
@@ -15,19 +11,18 @@ export default class UserStoreService {
   }
 
   async init(userId: string) {
-    this.userId = userId
-    await this.getState()
-    if (Object.keys(this.userConfig).length === 0) {
-      await this.userStore.initUser(this.userId)
+    const userConfig = await this.getState(userId)
+    if (Object.keys(userConfig).length === 0) {
+      await this.userStore.initUser(userId)
     }
   }
 
-  async getState() {
-    this.userConfig = await this.userStore.getUserConfig(this.userId)
+  async getState(userId: string) {
+    return await this.userStore.getUserConfig(userId)
   }
 
-  async saveState() {
-    await this.userStore.setUserConfig(this.userId, this.userConfig)
+  async saveState(userId: string, userConfig: UserStoreConfig) {
+    await this.userStore.setUserConfig(userId, userConfig)
   }
 
   findIndexByExecutionId(id: string, array: RecentlyViewedReportData[] | AsyncReportData[]) {

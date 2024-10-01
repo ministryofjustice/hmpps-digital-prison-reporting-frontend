@@ -99,8 +99,10 @@ export default function routes({
   }
 
   const removeRequestedItemHandler: RequestHandler = async (req, res, next) => {
+    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+
     try {
-      await services.asyncReportsStore.removeReport(req.body.executionId)
+      await services.asyncReportsStore.removeReport(req.body.executionId, userId)
       res.end()
     } catch (error) {
       req.body.title = 'Failed to abort request'

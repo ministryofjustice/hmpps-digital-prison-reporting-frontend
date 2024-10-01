@@ -32,12 +32,13 @@ const formatTable = (
   bookmarksData: BookmarkedReportData[],
   bookmarkService: BookmarkService,
   csrfToken: string,
+  userId: string,
   maxRows?: number,
 ) => {
   const rows = bookmarksData
     .sort((a, b) => a.name.localeCompare(b.name))
     .map((bookmark: BookmarkedReportData) => {
-      return formatTableData(bookmark, bookmarkService, csrfToken)
+      return formatTableData(bookmark, bookmarkService, csrfToken, userId)
     })
 
   return {
@@ -51,14 +52,14 @@ const formatTable = (
   }
 }
 
-const formatTableData = (bookmarksData: BookmarkedReportData, bookmarkService: BookmarkService, csrfToken: string) => {
+const formatTableData = (bookmarksData: BookmarkedReportData, bookmarkService: BookmarkService, csrfToken: string, userId: string) => {
   const { description, reportName, reportId, variantId, href, name } = bookmarksData
   return [
     { text: reportName },
     { html: `<a href='${href}'>${name}</a>` },
     { html: createShowMoreHtml(description) },
     {
-      html: bookmarkService.createBookMarkToggleHtml(reportId, variantId, csrfToken, 'bookmark-list'),
+      html: bookmarkService.createBookMarkToggleHtml(userId, reportId, variantId, csrfToken, 'bookmark-list'),
       classes: 'dpr-vertical-align',
     },
   ]
@@ -67,6 +68,7 @@ const formatTableData = (bookmarksData: BookmarkedReportData, bookmarkService: B
 const mapBookmarkIdsToDefinition = async (
   bookmarks: { reportId: string; variantId: string }[],
   req: Request,
+  res: Response,
   token: string,
   services: Services,
 ): Promise<BookmarkedReportData[]> => {
@@ -95,7 +97,7 @@ const mapBookmarkIdsToDefinition = async (
         }
       } catch (error) {
         // DPD has been deleted so API throws error
-        await services.bookmarkService.removeBookmark(bookmark.variantId)
+        await services.bookmarkService.removeBookmark(res.locals.user.uuid, bookmark.variantId)
       }
     }),
   )
@@ -115,13 +117,14 @@ export default {
     req: Request
   }) => {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
+    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
 
-    const bookmarks: { reportId: string; variantId: string }[] = await services.bookmarkService.getAllBookmarks()
-    const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, token, services)
+    const bookmarks: { reportId: string; variantId: string }[] = await services.bookmarkService.getAllBookmarks(userId)
+    const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, res, token, services)
 
     const cardData = await formatCards(bookmarksData, maxRows)
-    const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, maxRows)
+    const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, userId, maxRows)
 
     const head = {
       title: 'My Bookmarks',

@@ -15,12 +15,12 @@ export default function routes({
 }) {
   router.post('/addBookmark/', async (req, res) => {
     const { reportId, variantId } = req.body
-    await services.bookmarkService.addBookmark(reportId, variantId)
+    await services.bookmarkService.addBookmark(res.locals.user.uuid, reportId, variantId)
     res.end()
   })
 
   router.post('/removeBookmark/', async (req, res) => {
-    await services.bookmarkService.removeBookmark(req.body.variantId)
+    await services.bookmarkService.removeBookmark(res.locals.user.uuid, req.body.variantId)
     res.end()
   })
 

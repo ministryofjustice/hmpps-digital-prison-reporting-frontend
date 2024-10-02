@@ -18,7 +18,7 @@ export default class ShowMore extends DprClientClass {
     const shortString = textContent.replaceAll(/<[^>]+>/g, '').substring(0, length)
 
     if (textContent.length > length) {
-      textContainer.innerHTML = `${shortString}... `
+      textContainer.innerHTML = `${shortString}...`
     } else {
       textContainer.innerHTML = `${textContent}`
       button.style.display = 'none'

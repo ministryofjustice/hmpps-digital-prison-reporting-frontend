@@ -54,10 +54,16 @@
           }
         },
         items: (options | addRequiredAttributeToAll) if mandatory else optionsWithNone,
+        errorMessage: {
+          text: "Select a value"
+        },
         value: value,
         attributes: {
-          required: true
-        } if mandatory else null
+          required: true,
+          'display-name': text
+        } if mandatory else {
+          'display-name': text
+        }
       }) }}
 
     {% elif filterType === 'date' %}
@@ -97,11 +103,16 @@
           text: text,
           classes: 'govuk-!-font-weight-bold dpr-inline-label'
         },
+        errorMessage: {
+          text: "This field is required"
+        } if mandatory,
         attributes: {
           pattern: pattern,
-          required: true
+          required: true,
+          'display-name': text
         } if mandatory else {
-          pattern: pattern
+          pattern: pattern,
+          'display-name': text
         },
         hint: {
           html: "(Optional)"

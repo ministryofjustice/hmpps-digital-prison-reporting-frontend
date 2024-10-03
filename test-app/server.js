@@ -21,6 +21,7 @@ const RecentlyViewedCardGroupUtils = require('../package/dpr/components/recently
 // Set up application
 const appViews = [
   path.join(__dirname, '../node_modules/govuk-frontend/dist/'),
+  path.join(__dirname, '../node_modules/@ministryofjustice/frontend/'),
   path.join(__dirname, '../src/dpr/'),
   path.join(__dirname, '../src/'),
   path.join(__dirname, '.'),
@@ -55,12 +56,15 @@ app.use(
     path.join(__dirname, '../node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js'),
   ),
 )
+app.use('/assets/ext/jquery.min.js', express.static(path.join(__dirname, '../node_modules/jquery/dist/jquery.min.js')))
 app.use('/assets/govuk', express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/assets')))
+app.use('/assets/moj', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/assets')))
 app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr/assets')))
 app.use(
   '/govuk/all.js',
   express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js')),
 )
+app.use('/moj/all.js', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/all.js')))
 app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
 app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest.json')))
 app.use(bodyParser.json())
@@ -78,6 +82,7 @@ const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').de
 const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
 const dashboardRoutes = require('../package/dpr/routes/dashboard').default
+const addDownloadRoutes = require('../package/dpr/routes/download').default
 const definitions = require('./mockAsyncData/mockReportDefinition')
 const dashboardDefinitions = require('./mockChartData/mockDashboardDefinition')
 const mockBarChartData = require('./mockChartData/mockBarChartData')
@@ -154,6 +159,7 @@ addBookmarkingRoutes(routeImportParams)
 addRecentlyViewedRoutes(routeImportParams)
 addAsyncReportingRoutes(routeImportParams)
 dashboardRoutes(routeImportParams)
+addDownloadRoutes(routeImportParams)
 
 app.get('/async-reports', async (req, res) => {
   res.locals.definitions = definitions.reports

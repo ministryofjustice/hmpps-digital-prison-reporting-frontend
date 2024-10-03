@@ -4,7 +4,7 @@ import { Services } from '../types/Services'
 export default function routes({
   router,
   layoutPath,
-  services,
+  // services,
   templatePath = 'dpr/views/',
 }: {
   router: Router

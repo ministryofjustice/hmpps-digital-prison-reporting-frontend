@@ -11,6 +11,7 @@ export default class DprFormValidationClass extends DprQueryParamClass {
           formGroup.classList.remove('govuk-form-group--error')
           errorMessageEl.classList.add('govuk-error-message--hidden')
           field.classList.remove('govuk-input--error')
+          this.hideFieldError(field, formGroup, errorMessageEl)
         }
       }
     })
@@ -26,11 +27,12 @@ export default class DprFormValidationClass extends DprQueryParamClass {
         const formGroupEl = field.closest('div.govuk-form-group')
 
         if (formGroupEl) {
-          const errorMessageElementEl = formGroupEl.querySelector('p.govuk-error-message')
+          const errorMessageEl = formGroupEl.querySelector('p.govuk-error-message')
+
           if (!field.checkValidity()) {
-            this.showFieldError(field, formGroupEl, errorMessageElementEl)
-          } else if (errorMessageElementEl && formGroupEl) {
-            this.hideFieldError(field, formGroupEl, errorMessageElementEl)
+            this.showFieldError(field, formGroupEl, errorMessageEl)
+          } else if (errorMessageEl && formGroupEl) {
+            this.hideFieldError(field, formGroupEl, errorMessageEl)
           }
         }
       }
@@ -45,19 +47,19 @@ export default class DprFormValidationClass extends DprQueryParamClass {
     }
   }
 
-  showFieldError(field, formGroupEl, errorMessageElementEl) {
+  showFieldError(field, formGroupEl, errorMessageEl) {
     formGroupEl.classList.add('govuk-form-group--error')
     const message = this.setValidationMessage(field.validity, field)
 
     // eslint-disable-next-line no-param-reassign
-    errorMessageElementEl.innerText = message
-    errorMessageElementEl.classList.remove('govuk-error-message--hidden')
+    errorMessageEl.innerText = message
+    errorMessageEl.classList.remove('govuk-error-message--hidden')
     field.classList.add('govuk-input--error')
   }
 
-  hideFieldError(field, formGroupEl, errorMessageElementEl) {
+  hideFieldError(field, formGroupEl, errorMessageEl) {
     formGroupEl.classList.remove('govuk-form-group--error')
-    errorMessageElementEl.classList.add('govuk-error-message--hidden')
+    errorMessageEl.classList.add('govuk-error-message--hidden')
     field.classList.remove('govuk-input--error')
   }
 

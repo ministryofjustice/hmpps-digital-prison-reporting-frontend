@@ -1,7 +1,9 @@
 {% from "../bookmark-toggle/view.njk" import dprBookmarkToggle %}
 {% from "../icon-button-list/view.njk" import dprIconButtonList %}
 {% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
+{% from "../download-message/view.njk" import dprDownloadMessage %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/cookie-banner/macro.njk" import govukCookieBanner %}
 
 {% macro dprReportHeading(reportData) %}
   {% set variantName = reportData.variantName %}
@@ -23,6 +25,7 @@
         {{ dprIconButtonList(actions) }}
       </div>
     </div>
+    {{ dprDownloadMessage(reportData) }}
     {% set reportDetailsHtml %}
     {{ dprAsyncRequestDetails(reportData)}}
     {% endset %}

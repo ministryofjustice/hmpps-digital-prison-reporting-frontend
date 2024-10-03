@@ -21,8 +21,10 @@ export default class DprFormValidationClass extends DprQueryParamClass {
     let prevfieldName = ''
     this.formFields.forEach((field) => {
       const currentFieldName = field.getAttribute('name')
+
       if (currentFieldName !== prevfieldName) {
         const formGroupEl = field.closest('div.govuk-form-group')
+
         if (formGroupEl) {
           const errorMessageElementEl = formGroupEl.querySelector('p.govuk-error-message')
           if (!field.checkValidity()) {

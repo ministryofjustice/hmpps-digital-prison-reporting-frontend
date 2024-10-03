@@ -97,11 +97,16 @@
           text: text,
           classes: 'govuk-!-font-weight-bold dpr-inline-label'
         },
+        errorMessage: {
+          text: "This field is required"
+        } if mandatory,
         attributes: {
           pattern: pattern,
-          required: true
+          required: true,
+          'display-name': text
         } if mandatory else {
-          pattern: pattern
+          pattern: pattern,
+          'display-name': text
         },
         hint: {
           html: "(Optional)"

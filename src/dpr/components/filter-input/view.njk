@@ -54,10 +54,16 @@
           }
         },
         items: (options | addRequiredAttributeToAll) if mandatory else optionsWithNone,
+        errorMessage: {
+          text: "Select a value"
+        },
         value: value,
         attributes: {
-          required: true
-        } if mandatory else null
+          required: true,
+          'display-name': text
+        } if mandatory else {
+          'display-name': text
+        }
       }) }}
 
     {% elif filterType === 'date' %}

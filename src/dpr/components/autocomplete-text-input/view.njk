@@ -13,6 +13,9 @@
             name: options.name,
             value: options.value,
             type: "search",
+            errorMessage: {
+                text: "This field is required"
+            } if options.mandatory,
             attributes: {
                 "aria-autocomplete": "list",
                 "aria-expanded": "false",
@@ -23,7 +26,8 @@
                 "placeholder": "Search",
                 "role": "combobox",
                 pattern: options.pattern,
-                required: true
+                required: true,
+                'display-name': options.labelText
             } if options.mandatory else {
                 "aria-autocomplete": "list",
                 "aria-expanded": "false",
@@ -33,7 +37,8 @@
                 "data-resource-endpoint": options.dynamicResourceEndpoint,
                 "placeholder": "Search",
                 "role": "combobox",
-                pattern: options.pattern
+                pattern: options.pattern,
+                'display-name': options.labelText
             },
             autocomplete: "off",
             suffix: {

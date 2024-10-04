@@ -108,16 +108,12 @@ describe('Filters options render correctly', () => {
 
     expect(startDate.length).toEqual(1)
     expect(startDate[0].tagName).toBe('INPUT')
-    expect(startDate[0].getAttribute('type')).toEqual('date')
-    expect(startDate[0].getAttribute('value')).toEqual('2001-02-03')
-    expect(startDate[0].getAttribute('max')).toEqual('2007-08-09')
+    expect(startDate[0].getAttribute('value')).toEqual('03/02/2001')
 
     const endDate = rendered.querySelectorAll('#filters\\.date\\.end')
     expect(endDate.length).toEqual(1)
     expect(endDate[0].tagName).toBe('INPUT')
-    expect(endDate[0].getAttribute('type')).toEqual('date')
-    expect(endDate[0].getAttribute('value')).toEqual('2004-05-06')
-    expect(endDate[0].getAttribute('max')).toEqual('2007-08-09')
+    expect(endDate[0].getAttribute('value')).toEqual('06/05/2004')
   })
 
   it('Autocomplete filter renders successfully', () => {

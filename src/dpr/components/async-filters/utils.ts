@@ -344,7 +344,7 @@ const setQuerySummary = (req: Request, fields: components['schemas']['FieldDefin
 
         let dateDisplayValue
         if (value.match(dateRegEx)) {
-          dateDisplayValue = moment(value).format('DD-MM-YYYY')
+          dateDisplayValue = moment(value).format('DD/MM/YYYY')
         }
         const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
         querySummary.push({
@@ -370,6 +370,11 @@ const setQuerySummary = (req: Request, fields: components['schemas']['FieldDefin
         })
       }
     })
+
+  console.log({
+    query,
+    querySummary,
+  })
 
   return {
     query,

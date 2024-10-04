@@ -28,7 +28,14 @@
     } %}
   {% endif %}
 
-  <div class="dpr-date" data-dpr-module="date-input">
+  <div class="dpr-date" 
+    data-dpr-module="date-input" 
+    data-required="{{ mandatory }}" 
+    data-display-name="{{ text }}"  
+    data-pattern="\d{1,2}\/\d{1,2}\/\d{2,4}" 
+    data-min="{{ min }}"
+    data-max="{{ max }}"
+    data-pattern-hint="DD/MM/YYY">
     {% if text %}
     <label class="govuk-label govuk-label govuk-!-font-weight-bold" for="{{id}}">
       {{ text }}
@@ -44,6 +51,9 @@
       maxDate: max | date,
       hint: {
         text: "For example, 17/5/2024."
+      },
+      errorMessage: {
+        text: 'Enter or select a date'
       }
     }) }}
 

@@ -68,6 +68,4 @@ export default class CollatedSummaryBuilder {
 
     return dataTables
   }
-
-
 }

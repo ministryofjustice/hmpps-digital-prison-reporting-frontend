@@ -59,8 +59,10 @@ export const filterReports = (report: RecentlyViewedReportData) => {
 export default {
   getExpiredStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
     const report = await getExpiredStatus({ req, res, services })
+    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+
     if (report.isExpired) {
-      await services.recentlyViewedStoreService.setToExpired(report.executionId)
+      await services.recentlyViewedStoreService.setToExpired(report.executionId, userId)
     }
     return report.isExpired
   },
@@ -71,7 +73,10 @@ export default {
     maxRows,
   }: { maxRows?: number } & AsyncReportUtilsParams): Promise<RenderTableListResponse> => {
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
-    const requestedReportsData: RecentlyViewedReportData[] = await services.recentlyViewedStoreService.getAllReports()
+    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+    const requestedReportsData: RecentlyViewedReportData[] = await services.recentlyViewedStoreService.getAllReports(
+      userId,
+    )
 
     let cardData = await ReportListHelper.formatCards(requestedReportsData, filterReports, formatCardData)
     if (maxRows) cardData = cardData.slice(0, maxRows)

@@ -154,6 +154,7 @@ describe('AsyncFiltersUtils', () => {
 
       expect(updateStoreSpy).toHaveBeenCalledWith(
         req,
+        res,
         services,
         mockDefintionVariants[0].specification.fields,
         resultQuerySummary,

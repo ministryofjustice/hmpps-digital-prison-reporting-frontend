@@ -142,7 +142,7 @@ describe('metricsClient', () => {
       const response = [{ test: 'true' }]
       const metricId = 'metric-id'
       const dpdId = 'dpd-id'
-      fakeReportingApi.get(`reports/${dpdId}/metrics/${metricId}`).reply(200, response)
+      fakeReportingApi.get(`/reports/${dpdId}/metrics/${metricId}`).reply(200, response)
 
       const output = await metricsClient.getMetricData(null, metricId, dpdId)
       expect(output).toEqual(response)

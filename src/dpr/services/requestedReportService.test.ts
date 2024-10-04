@@ -13,27 +13,14 @@ const mockUserStore = {
   init: jest.fn(),
 } as unknown as jest.Mocked<UserDataStore>
 
+const userId = 'userId'
+
 describe('AsyncReportStoreService', () => {
   let asyncReportsStore: AsyncReportStoreService
 
   beforeEach(() => {
     asyncReportsStore = new AsyncReportStoreService(mockUserStore)
-    asyncReportsStore.init('userId')
-  })
-
-  describe('getState', () => {
-    it('should get the state from the store', async () => {
-      await asyncReportsStore.getRequestedReportsState()
-      expect(mockUserStore.getUserConfig).toHaveBeenCalledWith('userId')
-    })
-  })
-
-  describe('saveState', () => {
-    it('should save the state to the store', async () => {
-      asyncReportsStore.requestedReports = [{ test: true }] as unknown as AsyncReportData[]
-      await asyncReportsStore.saveRequestedReportState()
-      expect(mockUserStore.setUserConfig).toHaveBeenCalledWith('userId', { requestedReports: [{ test: true }] })
-    })
+    asyncReportsStore.init(userId)
   })
 
   describe('addReport', () => {
@@ -77,7 +64,7 @@ describe('AsyncReportStoreService', () => {
         { name: 'sortColumn', value: 'field1' },
         { name: 'sortedAsc', value: 'true' },
       ]
-      await asyncReportsStore.addReport(mockreportData, mockFiltersData, mockSortData, mockQuery, mockSummary)
+      await asyncReportsStore.addReport(mockreportData, mockFiltersData, mockSortData, mockQuery, mockSummary, userId)
 
       expect(getStateSpy).toHaveBeenCalledTimes(1)
       expect(updateStatusSpy).toHaveBeenCalledWith(
@@ -170,13 +157,6 @@ describe('AsyncReportStoreService', () => {
   // TODO: Implement this test
   describe('getAllReports', () => {
     it('should get all reports from the user store', () => {
-      expect(true)
-    })
-  })
-
-  // TODO: Implement this test
-  describe('updateReport', () => {
-    it('should update a report', () => {
       expect(true)
     })
   })

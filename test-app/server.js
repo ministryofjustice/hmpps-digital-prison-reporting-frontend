@@ -49,6 +49,13 @@ setUpNunjucksFilters(nunjucksEnvironment)
 app.set('view engine', 'njk')
 
 // Middleware to serve static assets
+app.use('/assets/ext/chart.js', express.static(path.join(__dirname, '../node_modules/chart.js/dist/chart.umd.js')))
+app.use(
+  '/assets/ext/chartjs-datalabels.js',
+  express.static(
+    path.join(__dirname, '../node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js'),
+  ),
+)
 app.use('/assets/ext/jquery.min.js', express.static(path.join(__dirname, '../node_modules/jquery/dist/jquery.min.js')))
 app.use('/assets/govuk', express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/assets')))
 app.use('/assets/moj', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/assets')))
@@ -75,6 +82,7 @@ const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').de
 const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
 const dashboardRoutes = require('../package/dpr/routes/dashboard').default
+const addDownloadRoutes = require('../package/dpr/routes/download').default
 const definitions = require('./mockAsyncData/mockReportDefinition')
 const dashboardDefinitions = require('./mockChartData/mockDashboardDefinition')
 const mockBarChartData = require('./mockChartData/mockBarChartData')
@@ -151,6 +159,7 @@ addBookmarkingRoutes(routeImportParams)
 addRecentlyViewedRoutes(routeImportParams)
 addAsyncReportingRoutes(routeImportParams)
 dashboardRoutes(routeImportParams)
+addDownloadRoutes(routeImportParams)
 
 app.get('/async-reports', async (req, res) => {
   res.locals.definitions = definitions.reports
@@ -185,7 +194,7 @@ app.get('/async-reports', async (req, res) => {
       })),
     },
     reports: {
-      ...ReportslistUtils.mapReportsList(res, services),
+      ...(await ReportslistUtils.mapReportsList(res, services)),
     },
   })
 })

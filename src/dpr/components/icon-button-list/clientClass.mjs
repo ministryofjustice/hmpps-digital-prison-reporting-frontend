@@ -16,6 +16,7 @@ export default class IconButtonList extends DprClientClass {
     this.initPrintButtonEvent()
     this.initShareButtonEvent()
     this.initCopyButtonEvent()
+    this.initDownloadButtonEvent()
   }
 
   initPrintButtonEvent() {
@@ -67,9 +68,14 @@ export default class IconButtonList extends DprClientClass {
     }
   }
 
-  initExportButtonEvent() {
+  initDownloadButtonEvent() {
     this.downloadButton.addEventListener('click', () => {
-      // todo
+      const downloadMessage = document.getElementById('dpr-download-message')
+      if (downloadMessage.classList.contains('dpr-download-message--hidden')) {
+        downloadMessage.classList.remove('dpr-download-message--hidden')
+      } else {
+        downloadMessage.classList.add('dpr-download-message--hidden')
+      }
     })
   }
 

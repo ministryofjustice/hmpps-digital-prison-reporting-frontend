@@ -6,13 +6,6 @@
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 
 {% block content %}
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-  <script>
-    Chart.defaults.font.family = 'GDS Transport'
-    Chart.register(ChartDataLabels)
-    Chart.defaults.font.size = 16;
-  </script>
   <h1 class="govuk-heading-l">{{ title }}</h1>
 
   <div class="govuk-!-margin-bottom-6">

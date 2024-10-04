@@ -2,6 +2,7 @@
 {% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% macro dprAsyncFilters(filters, sortBy, data, endpoint) %}
   {% set reportId = data.reportId %}
@@ -26,6 +27,12 @@
   
   <div class="dpr-async-controls dpr-filters" data-dpr-module="async-filters">
     <form action="{{ endpoint }}" method="post" id="async-filters-form">
+      <div id="query-error-summary" class="query-error-summary query-error-summary--hidden">
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: []
+        }) }}
+      </div>
       <input type="hidden" name="dataProductDefinitionsPath" value="{{ definitionPath }}">
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
       <input type="hidden" name="reportId" value="{{ reportId }}">

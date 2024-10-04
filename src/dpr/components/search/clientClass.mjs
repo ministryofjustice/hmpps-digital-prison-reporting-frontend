@@ -2,11 +2,11 @@
 import { DprClientClass } from '../../DprClientClass.mjs'
 
 export default class Search extends DprClientClass {
-  static getModuleName () {
+  static getModuleName() {
     return 'search'
   }
 
-  updateSearchListing (value) {
+  updateSearchListing(value) {
     const table = this.getElement().querySelector('table').querySelector('tbody')
 
     const rows = Array.from(table.rows)
@@ -15,26 +15,34 @@ export default class Search extends DprClientClass {
     const searchValue = value.toLowerCase()
 
     rows
-      .filter(
-        (row) =>
+      .filter((row) => {
+        return (
           !value ||
           value.length === 0 ||
-          Array.from(row.cells).find((cell) => cell.innerText.toLowerCase().includes(searchValue.toLowerCase())),
-      )
+          Array.from(row.cells).find((cell) => {
+            return cell.innerText.toLowerCase().includes(searchValue.toLowerCase())
+          })
+        )
+      })
       .forEach((row) => {
-        Array.from(row.cells).forEach((cell) => {
-          cell.innerHTML = cell.innerHTML.replace(/<\/?b>/gi, '')
+        // NOTE: Text highlighting functionality below breaks the client class JS. Causing bookmarking & showmore to break
 
-          if (searchValue) {
-            const text = cell.innerText.replaceAll(new RegExp(`(${searchValue})`, 'gi'), `<b>$1</b>`)
-            cell.innerHTML = cell.innerHTML.replace(cell.innerText, text)
-          }
-        })
+        // Array.from(row.cells).forEach((cell) => {
+        //   const innerHTMLContent = cell.innerHTML
+        //   cell.innerHTML = innerHTMLContent.replace(/<\/?b>/gi, '')
+
+        //   if (searchValue) {
+        //     const innerHTMLText = cell.innerText
+        //     const text = innerHTMLText.replaceAll(new RegExp(`(${searchValue})`, 'gi'), `<b>$1</b>`)
+        //     const innerHTMLCont = cell.innerHTML
+        //     cell.innerHTML = innerHTMLCont.replace(cell.innerText, text)
+        //   }
+        // })
         row.classList.remove('search-option-hide')
       })
   }
 
-  initialise () {
+  initialise() {
     const searchBox = this.getElement().querySelector('.dpr-search-box')
 
     if (searchBox) {

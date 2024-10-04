@@ -27,10 +27,11 @@ export const getMeta = (cardData: CardData[]) => {
 export const createShowMoreHtml = (text: string, length?: number) => {
   const sanitizedString = text ? text.replace(/"/g, "'") : ''
   const stringLength = length || 200
-  const displayString = sanitizedString.length <= stringLength ? sanitizedString : ''
 
   return `<div class="dpr-show-more" data-content="${sanitizedString}" data-dpr-module="show-more" data-length="${stringLength}">
-    <p class="govuk-body-s govuk-!-margin-bottom-0"><span class='dpr-show-more-content'>${displayString}</span><a class="dpr-show-hide-button" href="#">show more</a></p>
+    <p class="govuk-body-s govuk-!-margin-bottom-0">
+      <div class='dpr-show-more-content'>${sanitizedString}</div><a class="dpr-show-hide-button" href="#">show more</a>
+    </p>
   </div>`
 }
 
@@ -115,7 +116,9 @@ export const formatCards = async (
   filterFunction: (report: AsyncReportData | RecentlyViewedReportData) => boolean,
   formatFunction: (reportData: RecentlyViewedReportData | AsyncReportData) => CardData,
 ): Promise<CardData[]> => {
-  return reports.filter(filterFunction).map((report: AsyncReportData | RecentlyViewedReportData) => {
-    return formatFunction(report)
-  })
+  return reports
+    ? reports.filter(filterFunction).map((report: AsyncReportData | RecentlyViewedReportData) => {
+        return formatFunction(report)
+      })
+    : Promise.resolve([])
 }

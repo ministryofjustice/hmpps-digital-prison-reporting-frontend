@@ -33,7 +33,7 @@ const BUTTON_TEMPLATES = {
   downloadable: {
     id: 'dpr-button-downloadable',
     icon: 'download',
-    disabled: true,
+    disabled: false,
     tooltipText: 'Download report',
     ariaLabelText: 'Download report',
   },

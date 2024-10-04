@@ -3,3 +3,11 @@
     margin-bottom: govuk-spacing(9);
   }
 }
+
+.govuk-error-message--hidden {
+  display: none;
+}
+
+.query-error-summary--hidden {
+  display: none;
+}

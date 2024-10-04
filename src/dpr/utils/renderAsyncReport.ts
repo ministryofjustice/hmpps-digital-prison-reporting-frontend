@@ -12,6 +12,7 @@ import ColumnUtils from '../components/columns/utils'
 
 export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) => {
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
+  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
   const { reportId, variantId: reportVariantId, tableId } = req.params
   const dataProductDefinitionsPath = <string>req.query.dataProductDefinitionsPath
   const reportDefinitionPromise = services.reportingService.getDefinition(
@@ -54,7 +55,7 @@ export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) 
   )
 
   const reportDataCountPromise = services.reportingService.getAsyncCount(token, tableId)
-  const stateDataPromise = services.asyncReportsStore.getReportByTableId(tableId)
+  const stateDataPromise = services.asyncReportsStore.getReportByTableId(tableId, userId)
 
   return [reportDefinitionPromise, reportDataPromise, reportDataCountPromise, stateDataPromise, summaryDataPromise]
 }
@@ -62,11 +63,12 @@ export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) 
 export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
   const dataPromises = initDataSources({ req, res, services })
+  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
 
   let renderData = {}
   let reportStateData: AsyncReportData
   if (dataPromises) {
-    await Promise.all(dataPromises).then((resolvedData) => {
+    await Promise.all(dataPromises).then(async (resolvedData) => {
       const definition = resolvedData[0] as unknown as components['schemas']['SingleVariantReportDefinition']
       const reportData = <Array<Dict<string>>>resolvedData[1]
       const count = <number>resolvedData[2]
@@ -103,7 +105,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         printable,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         csrfToken,
-        bookmarked: services.bookmarkService.isBookmarked(variantId),
+        bookmarked: await services.bookmarkService.isBookmarked(variantId, userId),
         reportSummaries: collatedSummaryBuilder.collatePageSummaries(),
       }
 
@@ -148,8 +150,8 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
   }
 
   if (Object.keys(renderData).length && Object.keys(reportStateData).length) {
-    await services.asyncReportsStore.updateLastViewed(reportStateData.executionId)
-    await services.recentlyViewedStoreService.setRecentlyViewed(reportStateData)
+    await services.asyncReportsStore.updateLastViewed(reportStateData.executionId, userId)
+    await services.recentlyViewedStoreService.setRecentlyViewed(reportStateData, userId)
   }
 
   return { renderData }

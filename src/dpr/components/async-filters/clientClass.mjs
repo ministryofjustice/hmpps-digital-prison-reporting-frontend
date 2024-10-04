@@ -1,12 +1,17 @@
-import DprQueryParamClass from '../../DprQueryParamClass.mjs'
+import DprFormValidationClass from '../../DprFormValidationClass.mjs'
 
-export default class AsyncFilters extends DprQueryParamClass {
+export default class AsyncFilters extends DprFormValidationClass {
   static getModuleName() {
     return 'async-filters'
   }
 
   initialise() {
+    this.errorMessages = []
     this.mainForm = document.getElementById('async-filters-form')
+    this.mainForm.noValidate = true
+    this.formFields = Array.from(this.mainForm.elements)
+
+    this.errorSummary = document.getElementById('query-error-summary')
     this.submitButton = document.getElementById('async-request-report-button')
     this.resetButton = document.getElementById('async-request-reset-filters-button')
 
@@ -27,13 +32,19 @@ export default class AsyncFilters extends DprQueryParamClass {
 
     const params = new URLSearchParams(search)
     document.getElementById('async-filters-form-href').value = `${origin}${pathname}?${params.toString()}`
+
+    this.initFormValidation(this.formFields)
   }
 
   initSubmitButton() {
     this.submitButton.addEventListener('click', (e) => {
       e.preventDefault()
       this.initFormData()
-      this.mainForm.requestSubmit()
+      this.validateForm()
+
+      if (this.mainForm.checkValidity()) {
+        this.mainForm.requestSubmit()
+      }
     })
   }
 

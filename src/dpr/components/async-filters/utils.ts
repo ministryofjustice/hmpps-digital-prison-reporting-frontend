@@ -371,11 +371,6 @@ const setQuerySummary = (req: Request, fields: components['schemas']['FieldDefin
       }
     })
 
-  console.log({
-    query,
-    querySummary,
-  })
-
   return {
     query,
     filterData,

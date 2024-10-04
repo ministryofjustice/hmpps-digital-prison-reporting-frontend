@@ -64,7 +64,7 @@ export default class CollatedSummaryBuilder {
         const builder = DataTableBuilder.getForSummary(summary, this.specification.sections)
         const sortedData = summary.data.sort((a, b) => {
           const sortValues = summary.fields
-            .map(field => {
+            .map((field) => {
               const aValue = a[field.name]
               const bValue = b[field.name]
 
@@ -73,8 +73,9 @@ export default class CollatedSummaryBuilder {
               }
 
               if (aValue === null) {
-                  return 1
-              } else if (bValue === null) {
+                return 1
+              }
+              if (bValue === null) {
                 return -1
               }
 
@@ -84,7 +85,7 @@ export default class CollatedSummaryBuilder {
 
               return 1
             })
-            .filter(c => c !== 0)
+            .filter((c) => c !== 0)
 
           return sortValues.length > 0 ? sortValues[0] : 0
         })

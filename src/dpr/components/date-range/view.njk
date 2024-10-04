@@ -25,7 +25,8 @@
             value: data.value.start,
             min: min,
             max: max,
-            mandatory: mandatory
+            mandatory: mandatory,
+            displayName: data.text + ' start date'
           },
           'Start',
           '.start',
@@ -34,18 +35,21 @@
         )}}
 
       {# END #}
-      {{ dprDate(
-        {
-          name: data.name,
-          value: data.value.end,
-          min: min,
-          max: max,
-          mandatory: mandatory
-        },
-        'End',
-        '.end',
-        false
-      )}}
+        <div class="govuk-!-margin-top-3">
+        {{ dprDate(
+          {
+            name: data.name,
+            value: data.value.end,
+            min: min,
+            max: max,
+            mandatory: mandatory,
+            displayName: data.text + ' start date'
+          },
+          'End',
+          '.end',
+          false
+        )}}
+        </div>
       </div>
       {% endset %}
 
@@ -87,5 +91,4 @@
 
     </fieldset>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
 {% endmacro %}

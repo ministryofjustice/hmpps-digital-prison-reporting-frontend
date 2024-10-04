@@ -5,15 +5,19 @@
 {% macro dprDate(dateData, label, parameterSuffix = '', toggleMin = true, toggleMax = true, parameterPrefix = 'filters.') %}
   {% set name = dateData.name %}
   {% set text = dateData.text %}
+  {% set displayName = dateData.displayName %}
+  {% if not displayName  %}
+    {% set displayName = text %}
+  {% endif %}
   {% set value = dateData.value %}
   {% set mandatory = dateData.mandatory %}
   {% set min = dateData.min %}
   {% set max = dateData.max %}
   {% set id = parameterPrefix + name + parameterSuffix %}
 
-  {% set defaultMinDate = '25/05/1977' %}
-  {% set defaultMaxDate = '01/01/9999' %}
-
+  {% set defaultMinDate = '1977-05-25' %}
+  {% set defaultMaxDate = '9999-01-01'%}
+  
   {% if min ===  defaultMinDate %}
     {% set toggleMin = false %}
   {% endif %}
@@ -31,7 +35,7 @@
   <div class="dpr-date" 
     data-dpr-module="date-input" 
     data-required="{{ mandatory }}" 
-    data-display-name="{{ text }}"  
+    data-display-name="{{ displayName }}"  
     data-pattern="\d{1,2}\/\d{1,2}\/\d{2,4}" 
     data-min="{{ min }}"
     data-max="{{ max }}"
@@ -58,20 +62,22 @@
     }) }}
 
     {% if toggleMin and min %}
-    <a class="govuk-body-xs daterange-set-to-minmax" 
+    <a class="govuk-body-s daterange-set-to-minmax" 
       data-set-to-input='{{ id }}' 
       data-set-min-max-value={{ min | date }} 
       data-set-min-max-trigger='true'
+      href="#"
     > 
       set to min ({{ min | date }})
     </a>
     {% endif %}
 
     {% if toggleMax and max %}
-    <a class="govuk-body-xs daterange-set-to-minmax" 
+    <a class="govuk-body-s daterange-set-to-minmax" 
       data-set-to-input='{{ id }}' 
       data-set-min-max-value={{ max | date }} 
       data-set-min-max-trigger='true'
+      href="#"
     >
       set to max ({{ max | date }})
     </a>

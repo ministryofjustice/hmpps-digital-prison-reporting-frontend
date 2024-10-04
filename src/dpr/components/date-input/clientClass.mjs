@@ -66,6 +66,7 @@ export default class DateInput extends DprClientClass {
   setToValue() {
     this.setToValueTriggers.forEach((set) => {
       set.addEventListener('click', (e) => {
+        e.preventDefault()
         const value = e.target.getAttribute('data-set-min-max-value')
         const inputId = e.target.getAttribute('data-set-to-input')
         const input = document.getElementById(inputId)

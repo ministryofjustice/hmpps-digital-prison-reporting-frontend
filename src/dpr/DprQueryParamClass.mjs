@@ -19,7 +19,7 @@ export default class DprQueryParamClass extends DprClientClass {
         if (type === 'radio' || type === 'checkbox') {
           this.setMultiSelectValue(input, value)
         } else if (input.classList.contains('moj-js-datepicker-input')) {
-          input.value = moment(value).format('DD/MM/YYYY')
+          input.value = moment(value, 'YYYY-MM-DD').format('DD/MM/YYYY')
         } else {
           input.value = value
         }
@@ -68,7 +68,8 @@ export default class DprQueryParamClass extends DprClientClass {
       let { value } = input
 
       if (input.classList.contains('moj-js-datepicker-input')) {
-        value = moment(value).format('YYYY-MM-DD')
+        const dateValue = moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD')
+        value = dateValue !== 'Invalid date' ? dateValue : ''
       }
 
       if (name) this.updateQueryParam(name, value)

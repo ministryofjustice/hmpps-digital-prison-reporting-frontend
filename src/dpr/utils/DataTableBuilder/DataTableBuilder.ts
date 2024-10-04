@@ -20,6 +20,8 @@ export default class DataTableBuilder {
 
   private currentQueryParams: Record<string, string | Array<string>> = null
 
+  private applySorting = false
+
   constructor(specification: components['schemas']['Specification']) {
     this.specification = specification
     this.template = specification.template as Template
@@ -162,6 +164,36 @@ export default class DataTableBuilder {
     return []
   }
 
+  private sort(data: Dict<string>[]) {
+    return data.sort((a, b) => {
+      const sortValues = this.specification.fields
+        .map((field) => {
+          const aValue = a[field.name]
+          const bValue = b[field.name]
+
+          if (aValue === bValue) {
+            return 0
+          }
+
+          if (aValue === null) {
+            return 1
+          }
+          if (bValue === null) {
+            return -1
+          }
+
+          if (aValue < bValue) {
+            return -1
+          }
+
+          return 1
+        })
+        .filter((c) => c !== 0)
+
+      return sortValues.length > 0 ? sortValues[0] : 0
+    })
+  }
+
   withHeaderSortOptions(reportQuery: ReportQuery) {
     this.reportQuery = reportQuery
     this.columns = reportQuery.columns
@@ -177,16 +209,22 @@ export default class DataTableBuilder {
   }
 
   buildTable(data: Array<Dict<string>>): DataTable {
+    const sortedData = this.applySorting ? this.sort(data) : data
     return {
       head: this.mapHeader(),
-      rows: this.mapData(data),
-      rowCount: data.length,
+      rows: this.mapData(sortedData),
+      rowCount: sortedData.length,
       colCount: this.columns.length,
     }
   }
 
   withSummaries(reportSummaries: Dict<Array<AsyncSummary>>) {
     this.reportSummaries = reportSummaries
+    return this
+  }
+
+  withApplySorting(apply: boolean) {
+    this.applySorting = apply
     return this
   }
 
@@ -207,6 +245,8 @@ export default class DataTableBuilder {
       template: 'list',
       fields,
       sections: [],
-    }).withNoHeaderOptions(columns)
+    })
+      .withNoHeaderOptions(columns)
+      .withApplySorting(true)
   }
 }

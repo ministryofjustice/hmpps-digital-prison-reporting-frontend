@@ -1,11 +1,11 @@
 import { DprClientClass } from '../../DprClientClass.mjs'
 
 export default class ToggleButton extends DprClientClass {
-  static getModuleName () {
+  static getModuleName() {
     return 'toggle-button'
   }
 
-  initialise () {
+  initialise() {
     this.initAllToggles()
     this.initToggleStateFromQueryParams()
   }
@@ -48,7 +48,6 @@ export default class ToggleButton extends DprClientClass {
     urlParams.keys().forEach((key) => {
       const element = document.getElementById(key)
       if (element && element.classList.contains('dpr-toggle-button')) {
-        console.log('is toggle', key)
         const value = urlParams.get(key)
         const icons = Array.from(element.getElementsByClassName('dpr-icon-wrapper'))
 

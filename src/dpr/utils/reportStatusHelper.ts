@@ -25,8 +25,6 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
     )
     status = statusResponse.status as RequestStatus
 
-    // console.log(statusResponse)
-
     if (
       shouldTimeoutRequest({ requestedAt, compareTime: new Date(), durationMins: 15 }) &&
       !timeoutExemptStatuses.includes(status)
@@ -39,7 +37,7 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
     }
   } catch (error) {
     const { data } = error
-    errorMessage = data || { developerMessage: error.message }
+    errorMessage = data || { userMessage: error.message }
     status = currentStatus === RequestStatus.FINISHED ? RequestStatus.EXPIRED : RequestStatus.FAILED
   }
 

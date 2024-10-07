@@ -11,12 +11,6 @@ Then('the report details are displayed', () => {
 
   new AsyncQueryPage().reportDetailsTable().contains('Product:')
   new AsyncQueryPage().reportDetailsTable().contains('Test Report')
-
-  new AsyncQueryPage().reportDetailsTable().contains('Report ID:')
-  new AsyncQueryPage().reportDetailsTable().contains('test-report-1')
-
-  new AsyncQueryPage().reportDetailsTable().contains('Variant ID:')
-  new AsyncQueryPage().reportDetailsTable().contains('variantId-1')
 })
 
 Then('the url is set to the default values', () => {

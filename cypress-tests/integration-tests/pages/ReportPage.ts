@@ -15,6 +15,10 @@ export default class ReportPage {
 
   filter = (id): PageElement => cy.get(`#filters\\.${id}`)
 
+  dateStartLabel = (): PageElement => cy.xpath('//*[@id="dpr-date-range"]/div[1]/div/div/label')
+
+  dateEndLabel = (): PageElement => cy.xpath('//*[@id="dpr-date-range"]/div[2]/div/div/div/label')
+
   filterOption = (id, index = 1): PageElement => cy.get(`#filters\\.${id}-${index}`)
 
   dateStartFilter = (): PageElement => cy.get(`#filters\\.field3\\.start`)
@@ -30,7 +34,7 @@ export default class ReportPage {
   visibleAutocompleteOptions = (id): PageElement =>
     this.filter(id).parentsUntil('.dpr-autocomplete-text-input').parent().find('li:visible')
 
-  dataTable = (): PageElement => cy.get('table')
+  dataTable = (): PageElement => cy.xpath('//*[@id="dpr-data-table"]')
 
   applyFiltersButton = (): PageElement => cy.get(`[data-apply-form-to-querystring='true']`)
 

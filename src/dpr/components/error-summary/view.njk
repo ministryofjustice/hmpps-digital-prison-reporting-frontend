@@ -1,0 +1,64 @@
+
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% macro dprErrorSummary(error, meta) %}
+    {% set reportId = meta.reportId %}
+    {% set variantId = meta.variantId %}
+    {% set executionId = meta.executionId %}
+    {% set tableId = meta.tableId %}
+
+    {% set errorList = [] %}
+
+    {% if error.userMessage %}
+      {% set errorList = (errorList.push({
+        html: '<p class="govuk-body">Error: ' + error.userMessage + '</p>'
+      }), errorList) %}
+    {% endif %}
+
+    {% set metaHtml %}
+      <div class="govuk-!-margin-top-3">
+        <p class="govuk-body-s">Please take note of the following meta data and use in any correspondence with the support team to help speed up your request:</p>
+        <ul class="govuk-list govuk-body-s">
+          {% if reportId %}<li><strong>Report ID: </strong>{{ reportId }}</li>{% endif %}
+          {% if variantId %}<li><strong>Variant ID: </strong>{{ variantId }}</li>{% endif %}
+          {% if executionId %}<li><strong>Execution ID: </strong>{{ executionId }}</li>{% endif %}
+          {% if tableId %}<li><strong>Table ID: </strong>{{ tableId }}</li>{% endif %}
+        </ul>
+      </div>
+    {% endset %}
+
+    {% if error.developerMessage or error.stack %}
+      {% set fullError = '' %}
+      {% if error.developerMessage %}
+        {% set fullError = '<p class="govuk-body-s">'+ error.developerMessage +'</p>' %}
+      {% endif %}
+      {% if error.stack %}
+        {% set fullError = fullError +'<p class="govuk-body-s">'+ error.stack +'</p>' %}
+      {% endif %}
+
+      {% set metaStackTracErrorHtml %}
+      <div class="govuk-!-margin-top-4">
+        {{ govukDetails({
+          summaryText: 'show full error',
+          html: fullError
+        }) }}
+      </div>
+      {% endset %}
+
+      {% set errorList = (errorList.push({
+        html: metaStackTracErrorHtml
+      }), errorList) %}
+    {% endif %}
+
+    {% set errorList = (errorList.push({   
+      html: metaHtml
+    }), errorList) %}
+
+    {{ govukErrorSummary({
+      titleText: "Your report has failed to generate",
+      classes: "govuk-!-margin-top-6",
+      errorList: errorList
+    }) }}
+
+{% endmacro %}

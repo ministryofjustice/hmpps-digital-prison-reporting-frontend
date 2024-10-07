@@ -3,6 +3,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "../components/request-status-tag/view.njk" import dprRequestStatusTag %}
 {% from "../components/async-request-details/view.njk" import dprAsyncRequestDetails %}
+{% from "../components/error-summary/view.njk" import dprErrorSummary %}
 
 {% set mainClasses = "app-container govuk-body" %}
 
@@ -11,22 +12,11 @@
 
   <p>Status: {{ dprRequestStatusTag(error.status) }}</p>
 
-  {% set errorList = [
-    {
-      text: error.userMessage
-    }
-  ]%}
-
-  {% if error.stack %}
-    {% set errorList = (errorList.push({
-      html: '<p class="govuk-body-s">' + error.stack + '</p>'
-    }), errorList) %}
-  {% endif %}
-
-  {{ govukErrorSummary({
-    titleText: errorDescription,
-    classes: "govuk-!-margin-top-6",
-    errorList: errorList
+  {{ dprErrorSummary(error, { 
+    reportId:reportId, 
+    variantId:variantId,
+    executionId:executionId, 
+    tableId:tableId 
   }) }}
 
   {% set filtersHtml %}
@@ -40,7 +30,12 @@
   {% endset %}
 
   {% if reportName %}
-    {{ dprAsyncRequestDetails( reportName, variantName, description, filtersHtml, reportId, variantId, exceutionId, tableId  )}}
+    {{ dprAsyncRequestDetails({ 
+      reportName:reportName, 
+      variantName:variantName, 
+      description:description, 
+      filtersHtml:filtersHtml   
+    })}}
   {% endif %}
 
   {% if retry %}

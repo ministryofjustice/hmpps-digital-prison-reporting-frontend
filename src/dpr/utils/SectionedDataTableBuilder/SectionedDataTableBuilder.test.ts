@@ -403,4 +403,21 @@ describe('buildTable', () => {
     expect(mapped.colCount).toEqual(2)
     expect(mapped.rowCount).toEqual(4)
   })
+
+  it('Large volumes of sections added correctly', () => {
+    let bigData: Dict<string>[] = []
+
+    for (let d = 0; d < 10000; d += 1) {
+      bigData = bigData.concat(data)
+    }
+
+    const mapped = new SectionedDataTableBuilder(specification)
+      .withNoHeaderOptions(['oranges', 'lemons'])
+      .buildTable(bigData)
+
+    expect(mapped.head).toBeNull()
+    expect(mapped.colCount).toEqual(2)
+    expect(mapped.rowCount).toEqual(40000)
+    expect(mapped.rows.length).toEqual(40006)
+  })
 })

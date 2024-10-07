@@ -92,7 +92,7 @@ describe('ReportStatusHelper', () => {
       const result = await ReportStatusHelper.getStatus({ req, res, services })
 
       expect(result.status).toEqual(RequestStatus.FAILED)
-      expect(result.errorMessage).toEqual('Request taking too long. Request Halted')
+      expect(result.errorMessage).toEqual({ userMessage: 'Request taking too long. Request Halted' })
     })
   })
 

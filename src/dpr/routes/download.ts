@@ -18,7 +18,6 @@ const mockUser = {
 export default function routes({
   router,
   layoutPath,
-  // services,
   templatePath = 'dpr/views/',
 }: {
   router: Router
@@ -53,7 +52,5 @@ export default function routes({
   }
 
   router.get('/download/:reportId/:variantId/feedback', feedbackFormHandler)
-
-  // TODO: implement the post handlers for the feedback form
   router.post('/submitFeedback/', feedbackSubmitHandler)
 }

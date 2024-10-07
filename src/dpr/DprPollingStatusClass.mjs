@@ -38,7 +38,7 @@ export default class DprPollingStatusClass extends DprClientClass {
       .then((res) => {
         response = res
       })
-      .catch((error) => console.error('Errorsssss:', error))
+      .catch((error) => console.error('Error:', error))
 
     return response
   }

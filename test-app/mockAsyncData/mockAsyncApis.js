@@ -48,7 +48,7 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
   if (nextStatus === 'FAILED') {
     mockResponse.error = {
       userMessage: 'An error has occurred for some reason - Status API returned Failed Status',
-      developerMessage: '',
+      developerMessage: 'Mock stack trace',
     }
   }
 

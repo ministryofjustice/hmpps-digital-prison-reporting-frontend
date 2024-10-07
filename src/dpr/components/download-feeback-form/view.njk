@@ -2,16 +2,36 @@
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
-{% macro dprDownloadFeedbackForm() %}
+{% macro dprDownloadFeedbackForm(user, report) %}
+  {% set name = user.displayName %}
+  {% set staffId = user.staffId %}
+  {% set staffId = user.activeCaseLoadId %}
+  {% set reportId = report.reportId %}
+  {% set variantId = report.variantId %}
+
   <div class="dpr-download-feedback-form-wrapper" data-dpr-module="download-feedback-form">
-    <form action="{{ endpoint }}" method="post" id="download-feedback-form">
-  
+    <form action="/submitFeedback/" method="post" id="download-feedback-form">
+      <div id="download-feedback-form-summary" class="query-error-summary query-error-summary--hidden">
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: []
+        }) }}
+      </div>
+      <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+      <input type="hidden" name="reportId" value="{{ reportId }}">
+      <input type="hidden" name="variantId" value="{{ variantId }}">
+      <input type="hidden" name="reportName" value="{{ reportName }}">
+      <input type="hidden" name="variantName" value="{{ variantName }}">
+      <input type="hidden" name="staffId" value="{{ staffId }}">
+      <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}">
+
       {# Name Input #}
       {{ govukInput({
         id: 'name',
         name: 'Full name',
-        value: '',
+        value: name,
         label: {
           text: 'What is your full name'
         },
@@ -19,8 +39,7 @@
           text: "Please enter your full name"
         },
         attributes: {
-          required: true,
-          'display-name': text
+          required: true
         }
       }) }}
 
@@ -36,8 +55,7 @@
           text: "Please enter your email address"
         },
         attributes: {
-          required: true,
-          'display-name': text
+          required: true
         }
       }) }}
 
@@ -53,8 +71,7 @@
           text: "Please enter your role"
         },
         attributes: {
-          required: true,
-          'display-name': text
+          required: true
         }
       }) }}
 
@@ -112,6 +129,7 @@
         text: "Submit my feedback",
         classes: "govuk-button--primary govuk-!-margin-bottom-0",
         attributes: {
+          id: 'download-feedback-form-submit',
           'data-submit-feedback': 'true'
         }
       }) }}

@@ -104,7 +104,28 @@ const getAsyncCount = () => Promise.resolve(RESULT_COUNT)
 const getAsyncSummaryReport = (token, reportId, variantId, tableId, summaryId) => {
   switch (summaryId) {
     case 'summary3':
-      return Promise.resolve([{ percentGood: 45, percentBad: 10, percentUgly: 98 }])
+      return Promise.resolve([
+        { percentGood: 1, percentBad: 10, percentUgly: 98 },
+        { percentGood: 2, percentBad: 12, percentUgly: 97 },
+        { percentGood: 3, percentBad: 11, percentUgly: 96 },
+        { percentGood: 4, percentBad: 14, percentUgly: 95 },
+        { percentGood: 5, percentBad: 12, percentUgly: 94 },
+        { percentGood: 1, percentBad: 10, percentUgly: 98 },
+        { percentGood: 2, percentBad: 12, percentUgly: 97 },
+        { percentGood: 3, percentBad: 11, percentUgly: 96 },
+        { percentGood: 4, percentBad: 14, percentUgly: 95 },
+        { percentGood: 5, percentBad: 12, percentUgly: 94 },
+        { percentGood: 1, percentBad: 10, percentUgly: 98 },
+        { percentGood: 2, percentBad: 12, percentUgly: 97 },
+        { percentGood: 3, percentBad: 11, percentUgly: 96 },
+        { percentGood: 4, percentBad: 14, percentUgly: 95 },
+        { percentGood: 5, percentBad: 12, percentUgly: 94 },
+        { percentGood: 1, percentBad: 10, percentUgly: 98 },
+        { percentGood: 2, percentBad: 12, percentUgly: 97 },
+        { percentGood: 3, percentBad: 11, percentUgly: 96 },
+        { percentGood: 4, percentBad: 14, percentUgly: 95 },
+        { percentGood: 5, percentBad: 12, percentUgly: 94 },
+      ])
     case 'summary4':
       return Promise.resolve([{ field1: 57, field2: 1, field3: 12219380923, field4: '3 Freds' }])
     case 'summary5':
@@ -116,6 +137,46 @@ const getAsyncSummaryReport = (token, reportId, variantId, tableId, summaryId) =
           section2: 'A',
           field1: 'Section One A Header',
           field2: 1,
+          field3: 12219380923,
+          field4: '4 Freds',
+        },
+        {
+          section1: 'One',
+          section2: 'A',
+          field1: 'Section One A Header',
+          field2: 2,
+          field3: 12219380923,
+          field4: '4 Freds',
+        },
+        {
+          section1: 'One',
+          section2: 'A',
+          field1: 'Section One A Header',
+          field2: 3,
+          field3: 12219380923,
+          field4: '4 Freds',
+        },
+        {
+          section1: 'One',
+          section2: 'A',
+          field1: 'Section One A Header',
+          field2: 4,
+          field3: 12219380923,
+          field4: '4 Freds',
+        },
+        {
+          section1: 'One',
+          section2: 'A',
+          field1: 'Section One A Header',
+          field2: 5,
+          field3: 12219380923,
+          field4: '4 Freds',
+        },
+        {
+          section1: 'One',
+          section2: 'A',
+          field1: 'Section One A Header',
+          field2: 6,
           field3: 12219380923,
           field4: '4 Freds',
         },

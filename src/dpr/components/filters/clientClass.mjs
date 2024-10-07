@@ -1,3 +1,5 @@
+/* global dayjs */
+
 import { DprClientClass } from '../../DprClientClass.mjs'
 
 export default class Filters extends DprClientClass {
@@ -23,6 +25,10 @@ export default class Filters extends DprClientClass {
         this.loadingHelper.showLoadingAnimation()
       })
     })
+
+    this.mainForm = document.getElementById('user-selected-filters-form')
+    this.formFields = Array.from(this.mainForm.elements)
+    this.initFormValidation()
   }
 
   applyButtonClick(e) {
@@ -39,6 +45,12 @@ export default class Filters extends DprClientClass {
       const formData = new FormData(filtersForm)
       let serializedFormData = ''
       formData.forEach((n, v) => {
+        const dateRegEx = /^\d{1,2}\/\d{1,2}\/\d{2,4}$/
+
+        if (n.match(dateRegEx)) {
+          // eslint-disable-next-line no-param-reassign
+          n = dayjs(n, 'DD/MM/YYYY').format('YYYY-MM-DD')
+        }
         serializedFormData += `&${v}=${n}`
       })
 
@@ -49,6 +61,20 @@ export default class Filters extends DprClientClass {
     } else {
       this.loadingHelper.hideLoadingAnimation()
     }
+  }
+
+  initFormValidation() {
+    this.formFields.forEach((field) => {
+      const formGroup = field.closest('div.govuk-form-group')
+      if (formGroup) {
+        const errorMessageEl = formGroup.querySelector('p.govuk-error-message')
+        if (errorMessageEl) {
+          formGroup.classList.remove('govuk-form-group--error')
+          errorMessageEl.classList.add('govuk-error-message--hidden')
+          field.classList.remove('govuk-input--error')
+        }
+      }
+    })
   }
 
   resetButtonClick(e, hideLoadingAnimation) {

@@ -151,8 +151,8 @@ export default class DateRangeInput extends DprClientClass {
     }
 
     return {
-      startDate: startDate.format('YYYY-MM-DD').toString(),
-      endDate: endDate.format('YYYY-MM-DD').toString(),
+      startDate: startDate.format('DD/MM/YYYY').toString(),
+      endDate: endDate.format('DD/MM/YYYY').toString(),
     }
   }
 }

@@ -1,58 +1,76 @@
+/* global dayjs */
+
 import { DprClientClass } from '../../DprClientClass.mjs'
 
 export default class DateInput extends DprClientClass {
-  static getModuleName () {
+  static getModuleName() {
     return 'date-input'
   }
 
-  initialise () {
-    this.dateInput = document.querySelectorAll(`input.dpr-date-input`)
+  initialise() {
+    const element = this.getElement()
+    this.dateInput = element.querySelector(`input.moj-js-datepicker-input`)
     this.setToValueTriggers = document.querySelectorAll(`[data-set-min-max-trigger='true']`)
-    this.setMinMaxValue()
+
+    this.required = this.getElement().getAttribute('data-required')
+    this.displayName = this.getElement().getAttribute('data-display-name')
+    this.pattern = this.getElement().getAttribute('data-pattern')
+    this.patternHint = this.getElement().getAttribute('data-pattern-hint')
+    this.min = this.getElement().getAttribute('data-min')
+    this.max = this.getElement().getAttribute('data-max')
+
+    this.setValidationOnInputEl()
+    this.setMinMaxEventListener()
+    this.setToMinMax()
     this.setToValue()
   }
 
-  setMinMaxValue () {
-    this.dateInput.forEach((input) => {
-      this.setMinMaxEventListener(input)
+  setValidationOnInputEl() {
+    this.dateInput.setAttribute('required', this.required)
+    this.dateInput.setAttribute('min', this.min)
+    this.dateInput.setAttribute('max', this.max)
+    this.dateInput.setAttribute('display-name', this.displayName)
+    this.dateInput.setAttribute('pattern', this.pattern)
+    this.dateInput.setAttribute('pattern-hint', this.patternHint)
+  }
+
+  setMinMaxEventListener() {
+    this.dateInput.addEventListener('blur', () => {
+      this.setToMinMax()
     })
   }
 
-  setMinMaxEventListener (element) {
-    const min = element.getAttribute('min')
-    const max = element.getAttribute('max')
+  setToMinMax() {
+    if (this.dateInput.value) {
+      const dateValue = new Date(this.dateInput.value)
 
-    element.addEventListener('blur', () => {
-      if (element.value) {
-        const dateValue = new Date(element.value)
-
-        if (min) {
-          const minDate = new Date(min)
-
-          if (dateValue < minDate) {
-            // eslint-disable-next-line
-            element.value = minDate.toISOString().split('T')[0]
-          }
-        }
-        if (max) {
-          const maxDate = new Date(max)
-          if (dateValue > maxDate) {
-            // eslint-disable-next-line
-            element.value = maxDate.toISOString().split('T')[0]
-          }
+      if (this.min) {
+        const minDate = new Date(this.min)
+        if (dateValue < minDate) {
+          this.dateInput.value = dayjs(this.min).format('DD/MM/YYYY')
         }
       }
-      const changeEvent = new Event('change')
-      element.dispatchEvent(changeEvent)
-    })
+
+      if (this.max) {
+        const maxDate = new Date(this.max)
+        if (dateValue > maxDate) {
+          this.dateInput.value = dayjs(this.max).format('DD/MM/YYYY')
+        }
+      }
+    }
+
+    const changeEvent = new Event('change')
+    this.dateInput.dispatchEvent(changeEvent)
   }
 
-  setToValue () {
+  setToValue() {
     this.setToValueTriggers.forEach((set) => {
       set.addEventListener('click', (e) => {
+        e.preventDefault()
         const value = e.target.getAttribute('data-set-min-max-value')
         const inputId = e.target.getAttribute('data-set-to-input')
         const input = document.getElementById(inputId)
+
         input.value = value
         const changeEvent = new Event('change')
         input.dispatchEvent(changeEvent)

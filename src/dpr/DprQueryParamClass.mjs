@@ -1,3 +1,5 @@
+/* global dayjs */
+
 /* eslint-disable class-methods-use-this */
 import { DprClientClass } from './DprClientClass.mjs'
 
@@ -7,16 +9,23 @@ export default class DprQueryParamClass extends DprClientClass {
    *
    * @memberof AsyncFilters
    */
-  initInputsFromQueryParams () {
+  initInputsFromQueryParams() {
     this.queryParams = new URLSearchParams(window.location.search)
     this.queryParams.forEach((value, key) => {
-      const input = document.getElementsByName(key)
-      if (input.length) {
-        const { type } = input[0]
+      const inputs = document.getElementsByName(key)
+      if (inputs.length) {
+        const input = inputs[0]
+        const { type } = input
         if (type === 'radio' || type === 'checkbox') {
           this.setMultiSelectValue(input, value)
+        } else if (input.classList.contains('moj-js-datepicker-input')) {
+          console.log({ value })
+          const formatted = dayjs(value, 'YYYY-MM-DD')
+          console.log({ formatted })
+          input.value = formatted.format('DD/MM/YYYY')
+          console.log('------->', input.value)
         } else {
-          input[0].value = value
+          input.value = value
         }
       }
     })
@@ -27,7 +36,7 @@ export default class DprQueryParamClass extends DprClientClass {
    *
    * @memberof AsyncFilters
    */
-  initInputEvents (elements) {
+  initInputEvents(elements) {
     Array.from(elements).forEach((input) => {
       input.addEventListener('change', () => {
         this.setQueryParamFromInput(input, true)
@@ -41,7 +50,7 @@ export default class DprQueryParamClass extends DprClientClass {
    * @param {*} elements
    * @memberof DprQueryParamClass
    */
-  initQueryParamsFromInputs (elements) {
+  initQueryParamsFromInputs(elements) {
     Array.from(elements).forEach((input) => {
       if (input.type !== 'hidden') this.setQueryParamFromInput(input)
     })
@@ -54,12 +63,21 @@ export default class DprQueryParamClass extends DprClientClass {
    * @param {*} toggleCheckbox
    * @memberof DprQueryParamClass
    */
-  setQueryParamFromInput (input, toggleCheckbox = false) {
+  setQueryParamFromInput(input, toggleCheckbox = false) {
     const { type } = input
     if (type === 'checkbox' || type === 'radio') {
       this.setMultiSelectQueryParam(input, toggleCheckbox)
     } else {
-      const { name, value } = input
+      const { name } = input
+      let { value } = input
+
+      if (input.classList.contains('moj-js-datepicker-input')) {
+        console.log({ value })
+        const dateValue = dayjs(value, 'DD/MM/YYYY').format('YYYY-MM-DD')
+        console.log('--->', dateValue)
+        value = dateValue !== 'Invalid date' ? dateValue : ''
+      }
+
       if (name) this.updateQueryParam(name, value)
     }
   }
@@ -71,7 +89,7 @@ export default class DprQueryParamClass extends DprClientClass {
    * @param {*} toggle - adds the delete step on toggle
    * @memberof DprQueryParamClass
    */
-  setMultiSelectQueryParam (input, toggle) {
+  setMultiSelectQueryParam(input, toggle) {
     this.queryParams = new URLSearchParams(window.location.search)
     const { name, value, checked, type } = input
     if (checked && !this.queryParams.has(name, value)) {
@@ -91,7 +109,7 @@ export default class DprQueryParamClass extends DprClientClass {
    * @param {*} value
    * @memberof DprQueryParamClass
    */
-  updateQueryParam (name, value, type) {
+  updateQueryParam(name, value, type) {
     this.queryParams = new URLSearchParams(window.location.search)
     if (!value && name.length) {
       this.queryParams.delete(name)
@@ -116,7 +134,7 @@ export default class DprQueryParamClass extends DprClientClass {
    *
    * @memberof DprQueryParamClass
    */
-  clearQueryParams () {
+  clearQueryParams() {
     const sacredParams = ['dataProductDefinitionsPath']
     this.queryParams = new URLSearchParams(window.location.search)
     const params = Array.from(this.queryParams)
@@ -136,7 +154,7 @@ export default class DprQueryParamClass extends DprClientClass {
    * @return {*}
    * @memberof AsyncFilters
    */
-  getFormDataAsObject (form, prefix) {
+  getFormDataAsObject(form, prefix) {
     const formData = new FormData(form)
     const array = Array.from(formData.entries())
       .filter((entry) => {
@@ -156,7 +174,7 @@ export default class DprQueryParamClass extends DprClientClass {
    * @param {*} value
    * @memberof AsyncFilters
    */
-  setMultiSelectValue (inputs, value) {
+  setMultiSelectValue(inputs, value) {
     const input = Array.from(inputs).find((i) => i.getAttribute('value') === value)
     if (input) input.checked = true
   }
@@ -168,7 +186,7 @@ export default class DprQueryParamClass extends DprClientClass {
    * @param {*} value
    * @memberof DprQueryParamClass
    */
-  setCheckBoxValues (inputs, value) {
+  setCheckBoxValues(inputs, value) {
     const input = Array.from(inputs).find((i) => i.getAttribute('value') === value)
     if (input) input.checked = true
   }

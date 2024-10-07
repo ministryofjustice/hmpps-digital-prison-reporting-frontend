@@ -127,11 +127,11 @@ describe('AsyncFiltersUtils', () => {
           },
           {
             name: 'Field 3 start',
-            value: '01-02-2003',
+            value: '01/02/2003',
           },
           {
             name: 'Field 3 end',
-            value: '04-05-2006',
+            value: '04/05/2006',
           },
           {
             name: 'Field 4',

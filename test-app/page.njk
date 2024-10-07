@@ -2,13 +2,20 @@
 {% from "components/card-group/view.njk" import dprCardGroup %}
 
 {% block head %}
+  <script src="/assets/ext/jquery.min.js"></script> 
   <link href="/assets/dpr/css/all.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% endblock %}
 
 {% block pageTitle %}Test App{% endblock %}
 
-{% block bodyEnd %}
+{% block bodyEnd %}  
+  <script type="module" src="/assets/ext/day.js"></script>
+  <script type="module" src="/assets/ext/dayjs/plugin/customParseFormat.js"></script>
+  <script type="module">
+    const customParseFormat = dayjs_plugin_customParseFormat
+    dayjs.extend(customParseFormat);
+  </script>
   <script type="module" src="/assets/ext/chart.js"></script>
   <script type="module" src="/assets/ext/chartjs-datalabels.js"></script>
   <script type="module" src="/govuk/all.js"></script>

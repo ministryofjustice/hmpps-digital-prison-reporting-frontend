@@ -27,6 +27,7 @@ export default function routes({
   templatePath?: string
 }) {
   const feedbackFormHandler: RequestHandler = async (req, res, next) => {
+    const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
     const { reportId, variantId } = req.params
     try {
       res.locals.user = mockUser
@@ -37,6 +38,7 @@ export default function routes({
           reportId,
           variantId,
         },
+        csrfToken,
         layoutPath,
         postEndpoint: '/submitFeedback/',
       })
@@ -50,7 +52,7 @@ export default function routes({
     console.log({ body })
   }
 
-  router.get('/download/:dpdId/:reportid/feedback', feedbackFormHandler)
+  router.get('/download/:reportId/:variantId/feedback', feedbackFormHandler)
 
   // TODO: implement the post handlers for the feedback form
   router.post('/submitFeedback/', feedbackSubmitHandler)

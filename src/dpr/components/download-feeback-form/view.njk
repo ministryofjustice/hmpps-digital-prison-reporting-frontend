@@ -7,7 +7,7 @@
 {% macro dprDownloadFeedbackForm(user, report) %}
   {% set name = user.displayName %}
   {% set staffId = user.staffId %}
-  {% set staffId = user.activeCaseLoadId %}
+  {% set activeCaseLoadId = user.activeCaseLoadId %}
   {% set reportId = report.reportId %}
   {% set variantId = report.variantId %}
 
@@ -22,8 +22,6 @@
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
       <input type="hidden" name="reportId" value="{{ reportId }}">
       <input type="hidden" name="variantId" value="{{ variantId }}">
-      <input type="hidden" name="reportName" value="{{ reportName }}">
-      <input type="hidden" name="variantName" value="{{ variantName }}">
       <input type="hidden" name="staffId" value="{{ staffId }}">
       <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}">
 

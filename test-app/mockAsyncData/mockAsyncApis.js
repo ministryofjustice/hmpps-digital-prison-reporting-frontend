@@ -46,7 +46,10 @@ const getAsyncReportStatus = (token, reportId, variantId, executionId) => {
   mockResponse.status = mockAPIStatus[reportIndex].status
 
   if (nextStatus === 'FAILED') {
-    mockResponse.error = 'An error has occurred for some reason - Status API returned Failed Status'
+    mockResponse.error = {
+      userMessage: 'An error has occurred for some reason - Status API returned Failed Status',
+      developerMessage: '',
+    }
   }
 
   if (nextStatus === 'READY') {

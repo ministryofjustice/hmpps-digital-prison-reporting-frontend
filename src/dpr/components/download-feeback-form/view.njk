@@ -1,0 +1,121 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% macro dprDownloadFeedbackForm() %}
+  <div class="dpr-download-feedback-form-wrapper" data-dpr-module="download-feedback-form">
+    <form action="{{ endpoint }}" method="post" id="download-feedback-form">
+  
+      {# Name Input #}
+      {{ govukInput({
+        id: 'name',
+        name: 'Full name',
+        value: '',
+        label: {
+          text: 'What is your full name'
+        },
+        errorMessage: {
+          text: "Please enter your full name"
+        },
+        attributes: {
+          required: true,
+          'display-name': text
+        }
+      }) }}
+
+      {# Email Input #}
+      {{ govukInput({
+        id: 'email',
+        name: 'email',
+        value: '',
+        label: {
+          text: 'What is your email address'
+        },
+        errorMessage: {
+          text: "Please enter your email address"
+        },
+        attributes: {
+          required: true,
+          'display-name': text
+        }
+      }) }}
+
+      {# Role Input #}
+      {{ govukInput({
+        id: 'role',
+        name: 'role',
+        value: '',
+        label: {
+          text: 'What is your role'
+        },
+        errorMessage: {
+          text: "Please enter your role"
+        },
+        attributes: {
+          required: true,
+          'display-name': text
+        }
+      }) }}
+
+      {{ govukCheckboxes({
+        name: "reasons",
+        fieldset: {
+          legend: {
+            text: "How will you use the downloaded report?",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        hint: {
+          text: "Select all that apply to you"
+        },
+        items: [
+          {
+            value: "filters",
+            text: "To apply specific filters"
+          },
+          {
+            value: "join",
+            text: "Join different tables"
+          },
+          {
+            value: "farm",
+            text: "Combine demographic information (eg. age, ethnicity) with other reports"
+          },
+          {
+            value: "visualisations",
+            text: "Produce visualisations such as graphs, pie charts etc"
+          },
+          {
+            value: "other",
+            text: "Other / unsure"
+          }
+        ]
+      }) }}
+
+      {{ govukTextarea({
+        name: "moreDetail",
+        id: "more-detail",
+        rows: "8",
+        label: {
+          text: "Can your provide more detail",
+          classes: "govuk-label--l",
+          isPageHeading: true
+        },
+        hint: {
+          text: "Please include details about how you will use this data once its downloaded, e.g. I will upload the data into excel and create visualsations. I will combine this data with other data by..."
+        }
+      }) }}
+
+      {{ govukButton({
+        text: "Submit my feedback",
+        classes: "govuk-button--primary govuk-!-margin-bottom-0",
+        attributes: {
+          'data-submit-feedback': 'true'
+        }
+      }) }}
+    
+    </form>
+  </div>
+{% endmacro %}

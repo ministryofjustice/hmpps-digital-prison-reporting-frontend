@@ -1,7 +1,7 @@
 import { components } from '../../types/api'
 import { Column, Columns } from './types'
+import { distinct } from '../../utils/arrayUtils'
 
-const distinct = (values: string[], value: string) => (values.includes(value) ? values : values.concat(value))
 const mandatoryColumns = (fields: Array<components['schemas']['FieldDefinition']>) =>
   fields.filter((field) => field.mandatory).map((field) => field.name)
 const visibleColumns = (fields: Array<components['schemas']['FieldDefinition']>) =>

@@ -407,7 +407,7 @@ describe('buildTable', () => {
   it('Large volumes of sections added correctly', () => {
     let bigData: Dict<string>[] = []
 
-    for (let d = 0; d < 10000 ; d++) {
+    for (let d = 0; d < 10000; d += 1) {
       bigData = bigData.concat(data)
     }
 

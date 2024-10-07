@@ -10,12 +10,12 @@
 {% block pageTitle %}Test App{% endblock %}
 
 {% block bodyEnd %}  
-  <script type="module" src="/assets/ext/moment.js"></script>
-  <script type="module">
-    import moment from '/assets/ext/moment.js'
-    window.moment = moment
-  </script>
   <script type="module" src="/assets/ext/day.js"></script>
+  <script type="module" src="/assets/ext/dayjs/plugin/customParseFormat.js"></script>
+  <script type="module">
+    const customParseFormat = dayjs_plugin_customParseFormat
+    dayjs.extend(customParseFormat);
+  </script>
   <script type="module" src="/assets/ext/chart.js"></script>
   <script type="module" src="/assets/ext/chartjs-datalabels.js"></script>
   <script type="module" src="/govuk/all.js"></script>

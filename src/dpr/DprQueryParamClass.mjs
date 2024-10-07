@@ -1,4 +1,4 @@
-/* global moment */
+/* global dayjs */
 
 /* eslint-disable class-methods-use-this */
 import { DprClientClass } from './DprClientClass.mjs'
@@ -19,7 +19,11 @@ export default class DprQueryParamClass extends DprClientClass {
         if (type === 'radio' || type === 'checkbox') {
           this.setMultiSelectValue(input, value)
         } else if (input.classList.contains('moj-js-datepicker-input')) {
-          input.value = moment(value, 'YYYY-MM-DD').format('DD/MM/YYYY')
+          console.log({ value })
+          const formatted = dayjs(value, 'YYYY-MM-DD')
+          console.log({ formatted })
+          input.value = formatted.format('DD/MM/YYYY')
+          console.log('------->', input.value)
         } else {
           input.value = value
         }
@@ -68,7 +72,9 @@ export default class DprQueryParamClass extends DprClientClass {
       let { value } = input
 
       if (input.classList.contains('moj-js-datepicker-input')) {
-        const dateValue = moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD')
+        console.log({ value })
+        const dateValue = dayjs(value, 'DD/MM/YYYY').format('YYYY-MM-DD')
+        console.log('--->', dateValue)
         value = dateValue !== 'Invalid date' ? dateValue : ''
       }
 

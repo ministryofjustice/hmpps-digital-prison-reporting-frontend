@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { Request, Response } from 'express'
-import moment from 'moment'
 import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
 import Dict = NodeJS.Dict
@@ -344,7 +343,7 @@ const setQuerySummary = (req: Request, fields: components['schemas']['FieldDefin
 
         let dateDisplayValue
         if (value.match(dateRegEx)) {
-          dateDisplayValue = moment(value).format('DD/MM/YYYY')
+          dateDisplayValue = dayjs(value).format('DD/MM/YYYY')
         }
         const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
         querySummary.push({

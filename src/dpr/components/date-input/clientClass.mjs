@@ -1,4 +1,4 @@
-/* global moment */
+/* global dayjs */
 
 import { DprClientClass } from '../../DprClientClass.mjs'
 
@@ -47,14 +47,14 @@ export default class DateInput extends DprClientClass {
       if (this.min) {
         const minDate = new Date(this.min)
         if (dateValue < minDate) {
-          this.dateInput.value = moment(this.min).format('DD/MM/YYYY')
+          this.dateInput.value = dayjs(this.min).format('DD/MM/YYYY')
         }
       }
 
       if (this.max) {
         const maxDate = new Date(this.max)
         if (dateValue > maxDate) {
-          this.dateInput.value = moment(this.max).format('DD/MM/YYYY')
+          this.dateInput.value = dayjs(this.max).format('DD/MM/YYYY')
         }
       }
     }

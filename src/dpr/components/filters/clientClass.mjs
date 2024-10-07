@@ -1,4 +1,4 @@
-/* global moment */
+/* global dayjs */
 
 import { DprClientClass } from '../../DprClientClass.mjs'
 
@@ -49,7 +49,7 @@ export default class Filters extends DprClientClass {
 
         if (n.match(dateRegEx)) {
           // eslint-disable-next-line no-param-reassign
-          n = moment(n, 'DD/MM/YYYY').format('YYYY-MM-DD')
+          n = dayjs(n, 'DD/MM/YYYY').format('YYYY-MM-DD')
         }
         serializedFormData += `&${v}=${n}`
       })

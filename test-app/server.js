@@ -57,8 +57,12 @@ app.use(
   ),
 )
 app.use('/assets/ext/jquery.min.js', express.static(path.join(__dirname, '../node_modules/jquery/dist/jquery.min.js')))
-app.use('/assets/ext/moment.js', express.static(path.join(__dirname, '../node_modules/moment/dist/moment.js')))
+
 app.use('/assets/ext/day.js', express.static(path.join(__dirname, '../node_modules/dayjs/dayjs.min.js')))
+app.use(
+  '/assets/ext/dayjs/plugin/customParseFormat.js',
+  express.static(path.join(__dirname, '../node_modules/dayjs/plugin/customParseFormat.js')),
+)
 app.use('/assets/govuk', express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/assets')))
 app.use('/assets/moj', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/assets')))
 app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr/assets')))

@@ -1,4 +1,4 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 
@@ -106,8 +106,8 @@ export const shouldTimeoutRequest = ({
   compareTime: Date
   durationMins: number
 }) => {
-  const compareDate = moment(compareTime)
-  const requestDate = moment(requestedAt)
+  const compareDate = dayjs(compareTime)
+  const requestDate = dayjs(requestedAt)
 
   const result = compareDate.diff(requestDate, 'minutes')
 

@@ -57,7 +57,6 @@ app.use(
   ),
 )
 app.use('/assets/ext/jquery.min.js', express.static(path.join(__dirname, '../node_modules/jquery/dist/jquery.min.js')))
-
 app.use('/assets/ext/day.js', express.static(path.join(__dirname, '../node_modules/dayjs/dayjs.min.js')))
 app.use(
   '/assets/ext/dayjs/plugin/customParseFormat.js',

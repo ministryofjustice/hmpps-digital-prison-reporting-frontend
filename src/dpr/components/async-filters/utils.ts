@@ -453,7 +453,7 @@ export default {
       })
     return {
       title: 'Request Failed',
-      errorDescription: 'Your report has failed to generate. The issue has been reported to admin staff',
+      errorDescription: 'Your report has failed to generate.',
       retry: true,
       error: error.data ? error.data : error,
       filters,

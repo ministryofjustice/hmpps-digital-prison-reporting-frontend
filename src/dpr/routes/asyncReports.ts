@@ -2,6 +2,7 @@ import type { RequestHandler, Router } from 'express'
 import AsyncFiltersUtils from '../components/async-filters/utils'
 import AsyncPollingUtils from '../components/async-polling/utils'
 import AsyncRequestListUtils from '../components/async-request-list/utils'
+import ErrorSummaryUtils from '../components/error-summary/utils'
 
 import * as AsyncReportUtils from '../utils/renderAsyncReport'
 
@@ -30,6 +31,8 @@ export default function routes({
       error = { userMessage: `${error.name}: ${error.message}`, status: 'FAILED', stack: error.stack }
     }
 
+    error.userMessage = ErrorSummaryUtils.mapError(error.userMessage)
+
     res.render(`${templatePath}/async-error`, {
       layoutPath,
       ...req.body,
@@ -54,7 +57,7 @@ export default function routes({
       })
     } catch (error) {
       req.body.title = 'Report Failed'
-      req.body.errorDescription = 'Your report has failed to generate. The issue has been reported to admin staff'
+      req.body.errorDescription = 'Your report has failed to generate'
       req.body.error = error
       next()
     }

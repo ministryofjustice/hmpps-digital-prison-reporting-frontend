@@ -44,7 +44,7 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
     }
   } catch (error) {
     const { data } = error
-    errorMessage = data || { developerMessage: error.message }
+    errorMessage = data || { userMessage: error.message }
     status = currentStatus === RequestStatus.FINISHED ? RequestStatus.EXPIRED : RequestStatus.FAILED
   }
 

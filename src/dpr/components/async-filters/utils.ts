@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { Request, Response } from 'express'
 import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import isBetween from 'dayjs/plugin/isBetween'
 import Dict = NodeJS.Dict
 import { components } from '../../types/api'
@@ -318,7 +319,10 @@ const setQuerySummary = (req: Request, fields: components['schemas']['FieldDefin
   let querySummary: Array<Dict<string>> = []
   const sortData: Dict<string> = {}
   // eslint-disable-next-line no-useless-escape
-  const dateRegEx = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/
+  const isoDateRegEx = /^(\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01]))$/
+  // eslint-disable-next-line no-useless-escape
+  const localDateRegEx = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
+  dayjs.extend(customParseFormat)
 
   Object.keys(req.body)
     .filter((name) => name !== '_csrf' && req.body[name] !== '')
@@ -342,9 +346,15 @@ const setQuerySummary = (req: Request, fields: components['schemas']['FieldDefin
         filterData[shortName as keyof Dict<string>] = value
 
         let dateDisplayValue
-        if (value.match(dateRegEx)) {
+        if (value.match(localDateRegEx)) {
+          const formatDate = dayjs(value, 'DD/MM/YYYY')
+          const isoFormatDate = formatDate.format('YYYY-MM-DD')
+          query[name as keyof Dict<string>] = isoFormatDate
+          filterData[shortName as keyof Dict<string>] = isoFormatDate
+        } else if (value.match(isoDateRegEx)) {
           dateDisplayValue = dayjs(value).format('DD/MM/YYYY')
         }
+
         const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
         querySummary.push({
           name: fieldDisplayName || shortName,

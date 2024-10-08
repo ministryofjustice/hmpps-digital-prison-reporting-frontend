@@ -11,7 +11,10 @@ export default class DprFormValidationClass extends DprQueryParamClass {
           formGroup.classList.remove('govuk-form-group--error')
           errorMessageEl.classList.add('govuk-error-message--hidden')
           field.classList.remove('govuk-input--error')
+<<<<<<< HEAD
           this.hideFieldError(field, formGroup, errorMessageEl)
+=======
+>>>>>>> main
         }
       }
     })
@@ -23,12 +26,19 @@ export default class DprFormValidationClass extends DprQueryParamClass {
     this.formFields.forEach((field) => {
       const currentFieldName = field.getAttribute('name')
 
+<<<<<<< HEAD
       if (currentFieldName !== prevfieldName) {
+=======
+      if (currentFieldName !== prevfieldName && field.tagName !== 'BUTTON') {
+>>>>>>> main
         const formGroupEl = field.closest('div.govuk-form-group')
 
         if (formGroupEl) {
           const errorMessageEl = formGroupEl.querySelector('p.govuk-error-message')
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
           if (!field.checkValidity()) {
             this.showFieldError(field, formGroupEl, errorMessageEl)
           } else if (errorMessageEl && formGroupEl) {
@@ -99,8 +109,8 @@ export default class DprFormValidationClass extends DprQueryParamClass {
     }
 
     if (validityState.patternMismatch) {
-      const pattern = field.getAttribute('pattern')
-      message = `This value for ${displayName} must include the correct pattern: ${pattern}`
+      const pattern = field.getAttribute('pattern-hint') || field.getAttribute('pattern')
+      message = `The value for ${displayName} must be in the correct pattern: ${pattern}`
       this.errorMessages.push({
         text: message,
         href: `#${inputId}`,

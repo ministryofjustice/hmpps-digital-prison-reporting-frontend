@@ -3,6 +3,8 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "../request-status-tag/view.njk" import dprRequestStatusTag %}
 {% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
+{% from "../error-summary/view.njk" import dprErrorSummary %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% macro dprAsyncPolling(data) %}
   {% set description = data.description %}
@@ -75,14 +77,10 @@
 
     {% if status === 'FAILED' %}
 
-      {{ govukErrorSummary({
-        titleText: "Your report has failed to generate. The issue has been reported to admin staff",
-        classes: "govuk-!-margin-top-6",
-        errorList: [
-          {
-            text: errorMessage
-          }
-        ]
+      {{ dprErrorSummary(errorMessage, { 
+        reportId:reportId, 
+        variantId:variantId,
+        executionId:executionId 
       }) }}
 
       {{ dprAsyncRequestDetails(data)}}

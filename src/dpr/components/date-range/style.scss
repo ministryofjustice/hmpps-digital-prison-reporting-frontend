@@ -6,12 +6,13 @@
   .daterange-set-to-minmax {
     display: block;
     cursor: pointer;
-    text-align: right;
+    text-align: left;
     margin-bottom: govuk-spacing(0);
     margin-top: govuk-spacing(1);
+    color: govuk-colour("blue");
 
     &:hover {
-      color: govuk-colour("light-blue")
+      color: govuk-colour("dark-blue")
     }
   }
 }

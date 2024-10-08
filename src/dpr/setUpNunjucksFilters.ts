@@ -5,7 +5,7 @@ import addRequiredAttributeToAll from './components/filter-input/filters'
 const setUpNunjucksFilters = (env: nunjucks.Environment) => {
   env.addFilter('addRequiredAttributeToAll', addRequiredAttributeToAll)
   env.addFilter('json', stringifyJson)
-  nunjucksDate.setDefaultFormat('DD-MM-YYYY')
+  nunjucksDate.setDefaultFormat('DD/MM/YYYY')
   nunjucksDate.install(env, 'date')
 }
 

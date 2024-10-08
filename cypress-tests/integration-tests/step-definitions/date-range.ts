@@ -1,10 +1,10 @@
 import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
 import ReportPage from '../pages/ReportPage'
 
-const validStartDate = '2004-12-20'
-const validEndDate = '2006-12-20'
-const invalidStartDate = '2000-12-20'
-const invalidEndDate = '2009-12-20'
+const validStartDate = '20/12/2004'
+const validEndDate = '20/12/2006'
+const invalidStartDate = '20/12/2000'
+const invalidEndDate = '20/12/2009'
 const minMaxURL = 'filters.field3.start=2003-02-01&filters.field3.end=2007-05-04'
 const validURL = 'filters.field3.start=2004-12-20&filters.field3.end=2006-12-20'
 
@@ -19,6 +19,7 @@ When(/^I enter a (start|end) date$/, function (this: Mocha.Context, type: string
   const reportPage = new ReportPage()
   const filter = type === 'start' ? reportPage.dateStartFilter() : reportPage.dateEndFilter()
   const date = type === 'start' ? validStartDate : validEndDate
+  filter.clear()
   filter.type(date)
 })
 
@@ -29,6 +30,7 @@ When(
     const reportPage = new ReportPage()
     const filter = type === 'start' ? reportPage.dateStartFilter() : reportPage.dateEndFilter()
     const date = minMax === 'min' ? invalidStartDate : invalidEndDate
+    filter.clear()
     filter.type(date)
   },
 )

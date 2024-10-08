@@ -1,4 +1,4 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 
@@ -37,7 +37,7 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
     }
   } catch (error) {
     const { data } = error
-    errorMessage = data ? data.userMessage : error.message
+    errorMessage = data || { userMessage: error.message }
     status = currentStatus === RequestStatus.FINISHED ? RequestStatus.EXPIRED : RequestStatus.FAILED
   }
 
@@ -106,8 +106,8 @@ export const shouldTimeoutRequest = ({
   compareTime: Date
   durationMins: number
 }) => {
-  const compareDate = moment(compareTime)
-  const requestDate = moment(requestedAt)
+  const compareDate = dayjs(compareTime)
+  const requestDate = dayjs(requestedAt)
 
   const result = compareDate.diff(requestDate, 'minutes')
 

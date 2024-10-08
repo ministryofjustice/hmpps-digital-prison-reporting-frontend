@@ -1,8 +1,14 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{%- from "moj/components/date-picker/macro.njk" import mojDatePicker -%}
+
 
 {% macro dprDate(dateData, label, parameterSuffix = '', toggleMin = true, toggleMax = true, parameterPrefix = 'filters.') %}
   {% set name = dateData.name %}
   {% set text = dateData.text %}
+  {% set displayName = dateData.displayName %}
+  {% if not displayName  %}
+    {% set displayName = text %}
+  {% endif %}
   {% set value = dateData.value %}
   {% set mandatory = dateData.mandatory %}
   {% set min = dateData.min %}
@@ -11,9 +17,11 @@
 
   {% set defaultMinDate = '1977-05-25' %}
   {% set defaultMaxDate = '9999-01-01'%}
+  
   {% if min ===  defaultMinDate %}
     {% set toggleMin = false %}
   {% endif %}
+  
   {% if max ===  defaultMaxDate %}
     {% set toggleMax = false %}
   {% endif %}
@@ -24,51 +32,55 @@
     } %}
   {% endif %}
 
-  <div class="dpr-date" data-dpr-module="date-input">
+  <div class="dpr-date" 
+    data-dpr-module="date-input" 
+    data-required="{{ mandatory }}" 
+    data-display-name="{{ displayName }}"  
+    data-pattern="\d{1,2}\/\d{1,2}\/\d{2,4}" 
+    data-min="{{ min }}"
+    data-max="{{ max }}"
+    data-pattern-hint="DD/MM/YYY">
     {% if text %}
-      <label class="govuk-label govuk-label govuk-!-font-weight-bold" for="{{id}}">
-        {{ text }}
-      </label>
+    <label class="govuk-label govuk-label govuk-!-font-weight-bold" for="{{id}}">
+      {{ text }}
+    </label>
     {% endif %}
 
-    {{ govukInput({
-        id: id,
-        label: labelText,
-        name: id,
-        value: value,
-        type: 'date',
-        classes: 'dpr-date-input',
-        attributes: {
-          max: max,
-          min: min,
-          required: true
-        } if mandatory else {
-          max: max,
-          min: min
-        },
-        hint: {
-          html: "(Optional)"
-        } if not mandatory
-      }) }}
+    {{ mojDatePicker({
+      id: id,
+      name: id,
+      label: labelText,
+      value: value | date,
+      minDate: min | date,
+      maxDate: max | date,
+      hint: {
+        text: "For example, 17/5/2024."
+      },
+      errorMessage: {
+        text: 'Enter or select a date'
+      }
+    }) }}
 
     {% if toggleMin and min %}
-      <a class="govuk-body-xs daterange-set-to-minmax" 
-          data-set-to-input='{{ id }}' 
-          data-set-min-max-value={{ min }} 
-          data-set-min-max-trigger='true'
-        > 
-          set to min ({{ min | date }})
-        </a>
+    <a class="govuk-body-s daterange-set-to-minmax" 
+      data-set-to-input='{{ id }}' 
+      data-set-min-max-value={{ min | date }} 
+      data-set-min-max-trigger='true'
+      href="#"
+    > 
+      set to min ({{ min | date }})
+    </a>
     {% endif %}
 
     {% if toggleMax and max %}
-      <a class="govuk-body-xs daterange-set-to-minmax" 
-          data-set-to-input='{{ id }}' 
-          data-set-min-max-value={{ max }} 
-          data-set-min-max-trigger='true'
-        >
-          set to max ({{ max | date }})
-        </a>
+    <a class="govuk-body-s daterange-set-to-minmax" 
+      data-set-to-input='{{ id }}' 
+      data-set-min-max-value={{ max | date }} 
+      data-set-min-max-trigger='true'
+      href="#"
+    >
+      set to max ({{ max | date }})
+    </a>
     {% endif %}
   </div>
 {% endmacro %}

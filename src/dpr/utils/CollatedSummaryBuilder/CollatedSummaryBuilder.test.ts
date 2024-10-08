@@ -64,20 +64,6 @@ const expectedAllActivitiesDataTable = {
       {
         classes: '',
         format: 'string',
-        text: 'Painting',
-      },
-    ],
-    [
-      {
-        classes: '',
-        format: 'string',
-        text: 'Painting',
-      },
-    ],
-    [
-      {
-        classes: '',
-        format: 'string',
         text: 'Cleaning',
       },
     ],
@@ -86,6 +72,20 @@ const expectedAllActivitiesDataTable = {
         classes: '',
         format: 'string',
         text: 'Cooking',
+      },
+    ],
+    [
+      {
+        classes: '',
+        format: 'string',
+        text: 'Painting',
+      },
+    ],
+    [
+      {
+        classes: '',
+        format: 'string',
+        text: 'Painting',
       },
     ],
   ],

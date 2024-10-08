@@ -3,6 +3,7 @@ import { components } from '../../types/api'
 import { Cell, DataTable } from '../DataTableBuilder/types'
 import type { SummaryTemplate } from '../../types/Templates'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
+import { distinct } from '../arrayUtils'
 
 export default class SectionedDataTableBuilder extends DataTableBuilder {
   constructor(specification: components['schemas']['Specification']) {
@@ -10,62 +11,69 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
   }
 
   private mapSectionedData(data: Array<Dict<string>>, header: Cell[]): Cell[][] {
-    const sectionedData: Dict<Cell[][]> = {}
+    let sectionedData: Dict<Cell[][]> = {}
     const headerRow = header.map((h) => ({
       ...h,
       classes: 'govuk-table__header',
     }))
 
-    data.forEach((rowData) => {
-      const sectionDescription: string = this.mapSectionDescription(rowData)
+    const sectionDescriptions = data
+      .map((rowData) => this.mapSectionDescription(rowData))
+      .reduce(distinct, [])
+      .sort()
 
-      if (!sectionedData[sectionDescription]) {
-        sectionedData[sectionDescription] = []
-      }
-
-      if (this.specification.template !== 'summary-section') {
-        sectionedData[sectionDescription].push(this.mapRow(rowData))
-      }
+    sectionDescriptions.forEach((sectionDescription) => {
+      sectionedData[sectionDescription] = []
     })
 
-    return Object.keys(sectionedData)
-      .sort()
-      .flatMap((sectionDescription) => {
-        const count = sectionedData[sectionDescription].length
-        const countDescription = `${count} result${count === 1 ? '' : 's'}`
-        const mappedSectionHeaderSummary = this.mapSectionSummaryTables(
-          sectionDescription,
-          'section-header',
-          this.columns.length,
-        )
-        const mappedHeaderSummary = this.mapSectionSummaryRows('table-header', sectionDescription)
-        const mappedTableData = sectionedData[sectionDescription]
-        const mappedFooterSummary = this.mapSectionSummaryRows('table-footer', sectionDescription)
-        const mappedSectionFooterSummary = this.mapSectionSummaryTables(
-          sectionDescription,
-          'section-footer',
-          this.columns.length,
-        )
+    if (this.specification.template !== 'summary-section') {
+      sectionedData = data.reduce((previousValue, rowData) => {
+        const sectionDescription: string = this.mapSectionDescription(rowData)
+        const mappedData = this.mapRow(rowData)
 
-        const tableContent = mappedSectionHeaderSummary
-          .concat([headerRow])
-          .concat(mappedHeaderSummary)
-          .concat(mappedTableData)
-          .concat(mappedFooterSummary)
-          .concat(mappedSectionFooterSummary)
+        return {
+          ...previousValue,
+          [sectionDescription]: previousValue[sectionDescription].concat([mappedData]),
+        }
+      }, sectionedData)
+    }
 
-        return [
-          [
-            {
-              colspan: this.columns.length,
-              html: `<h2>${sectionDescription}${
-                count > 0 ? ` <span class='govuk-caption-m'>${countDescription}</span>` : ''
-              }</h2>`,
-            },
-          ],
-          ...tableContent,
-        ]
-      })
+    return sectionDescriptions.flatMap((sectionDescription) => {
+      const count = sectionedData[sectionDescription].length
+      const countDescription = `${count} result${count === 1 ? '' : 's'}`
+      const mappedSectionHeaderSummary = this.mapSectionSummaryTables(
+        sectionDescription,
+        'section-header',
+        this.columns.length,
+      )
+      const mappedHeaderSummary = this.mapSectionSummaryRows('table-header', sectionDescription)
+      const mappedTableData = sectionedData[sectionDescription]
+      const mappedFooterSummary = this.mapSectionSummaryRows('table-footer', sectionDescription)
+      const mappedSectionFooterSummary = this.mapSectionSummaryTables(
+        sectionDescription,
+        'section-footer',
+        this.columns.length,
+      )
+
+      const tableContent = mappedSectionHeaderSummary
+        .concat(mappedTableData.length > 0 ? [headerRow] : [])
+        .concat(mappedHeaderSummary)
+        .concat(mappedTableData)
+        .concat(mappedFooterSummary)
+        .concat(mappedSectionFooterSummary)
+
+      return [
+        [
+          {
+            colspan: this.columns.length,
+            html: `<h2>${sectionDescription}${
+              count > 0 ? ` <span class='govuk-caption-m'>${countDescription}</span>` : ''
+            }</h2>`,
+          },
+        ],
+        ...tableContent,
+      ]
+    })
   }
 
   private mapSectionSummaryRows(template: SummaryTemplate, sectionDescription: string): Cell[][] {

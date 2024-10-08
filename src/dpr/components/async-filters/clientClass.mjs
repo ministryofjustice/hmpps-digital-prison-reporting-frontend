@@ -33,6 +33,7 @@ export default class AsyncFilters extends DprFormValidationClass {
     const params = new URLSearchParams(search)
     document.getElementById('async-filters-form-href').value = `${origin}${pathname}?${params.toString()}`
     this.initFormValidation(this.formFields)
+    this.mainForm.classList.remove('async-filters-form--hidden')
   }
 
   initSubmitButton() {

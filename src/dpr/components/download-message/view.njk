@@ -4,19 +4,20 @@
 {% macro dprDownloadMessage(reportData) %}
   {% set reportId = reportData.reportId %}
   {% set variantId = reportData.variantId %}
+  {% set tableId = reportData.tableId %}
   {% set html %}
     <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Download coming soon</h2>
     <p class="govuk-body">Download functionality is currently disabled on all reports. However, we are working hard to provide this feature to you.</p>
     
     {# NOTE: 👇🏽 Below is the messaging + link to the feedback form. Uncomment once form is completed 👇🏽 #}
-    {# <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Help us improve our service</h2>
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Help us improve our service</h2>
     <p class="govuk-body">We would like to understand more about your reasons for downloading this report. Please take 5 minutes to fill out a feedback form and help us improve our service to you, and provide features that will better suit your needs.</p>
-    <a href="/download/{{reportId}}/{{variantId}}/feedback" class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button">
+    <a href="/download/{{reportId}}/{{variantId}}/{{tableId}}/feedback" class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button">
       Leave feedback
-    </a> #}
+    </a>
   {% endset %}
 
-  <div id="dpr-download-message" class="dpr-download-message--hidden">
+  <div id="dpr-download-message" class="dpr-download-message--hidden govuk-!-margin-bottom-6">
     {{ mojTicketPanel({
       attributes: {
         'aria-label': 'Sub navigation 1'

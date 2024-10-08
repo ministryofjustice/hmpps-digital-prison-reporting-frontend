@@ -26,7 +26,7 @@
   }) }}
   
   <div class="dpr-async-controls dpr-filters" data-dpr-module="async-filters">
-    <form action="{{ endpoint }}" method="post" id="async-filters-form">
+    <form action="{{ endpoint }}" method="post" id="async-filters-form" class="async-filters-form--hidden">
       <div id="query-error-summary" class="query-error-summary query-error-summary--hidden">
         {{ govukErrorSummary({
           titleText: "There is a problem",

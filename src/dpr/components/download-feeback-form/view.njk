@@ -1,0 +1,161 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+
+{% macro dprDownloadFeedbackForm(user, report) %}
+  {% set name = user.displayName %}
+  {% set staffId = user.staffId %}
+  {% set activeCaseLoadId = user.activeCaseLoadId %}
+  {% set reportId = report.reportId %}
+  {% set variantId = report.variantId %}
+  {% set tableId = report.tableId %}
+
+  <div class="dpr-download-feedback-form-wrapper" data-dpr-module="download-feedback-form">
+
+    <div id="download-feedback-form-success" class="download-feedback-form-success--hidden">
+      {{ govukPanel({
+        titleText: "Your form has been submitted",
+        html: "Thank you for your feedback"
+      }) }}
+
+      {{ govukButton({
+        text: "Return to report",
+        classes: "govuk-button--primary govuk-!-margin-bottom-0",
+        href: '/async-reports/' + reportId + '/' + variantId + '/request/' + tableId + '/report'
+      }) }}
+    </div>
+
+    <form action="/submitFeedback/" method="post" id="download-feedback-form" class="download-feedback-form--hidden">
+      <p>Please take 5 minutes to fill out a feedback formand let us know why you use the download feature</p>
+      <p>The more detail you provide will help us to understand how we can improve improve our service to you, and provide features that will better suit your needs.</p>
+      <div id="download-feedback-form-summary" class="query-error-summary query-error-summary--hidden">
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: []
+        }) }}
+      </div>
+      <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+      <input type="hidden" name="reportId" value="{{ reportId }}">
+      <input type="hidden" name="variantId" value="{{ variantId }}">
+      <input type="hidden" name="variantId" value="{{ tableId }}">
+      <input type="hidden" name="staffId" value="{{ staffId }}">
+      <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}">
+
+      <h2 class="govuk-fieldset__legend govuk-fieldset__legend--l">About you</h2>
+      {# Name Input #}
+      {{ govukInput({
+        id: 'name',
+        name: 'Full name',
+        value: name,
+        label: {
+          text: 'What is your full name'
+        },
+        classes: "govuk-!-width-one-third",
+        errorMessage: {
+          text: "Please enter your full name"
+        },
+        attributes: {
+          required: true
+        }
+      }) }}
+
+      {# Email Input #}
+      {{ govukInput({
+        id: 'email',
+        name: 'email',
+        value: '',
+        label: {
+          text: 'What is your email address'
+        },
+        classes: "govuk-!-width-one-third",
+        errorMessage: {
+          text: "Please enter your email address"
+        },
+        attributes: {
+          required: true
+        }
+      }) }}
+
+      {# Role Input #}
+      {{ govukInput({
+        id: 'role',
+        name: 'role',
+        value: '',
+        label: {
+          text: 'What is your role'
+        },
+        classes: "govuk-!-width-one-third",
+        errorMessage: {
+          text: "Please enter your role"
+        },
+        attributes: {
+          required: true
+        }
+      }) }}
+
+      {{ govukCheckboxes({
+        name: "reasons",
+        fieldset: {
+          legend: {
+            text: "How will you use the downloaded report?",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        hint: {
+          text: "Select all that apply to you"
+        },
+        items: [
+          {
+            value: "apply-specific-filters",
+            text: "To apply specific filters"
+          },
+          {
+            value: "join-tables",
+            text: "Join different tables"
+          },
+          {
+            value: "combine-info",
+            text: "Combine demographic information (eg. age, ethnicity) with other reports"
+          },
+          {
+            value: "produce-visualisations",
+            text: "Produce visualisations such as graphs, pie charts etc"
+          },
+          {
+            value: "other",
+            text: "Other / unsure"
+          }
+        ]
+      }) }}
+
+      {{ govukTextarea({
+        name: "moreDetail",
+        id: "more-detail",
+        rows: "8",
+        classes: "govuk-!-width-three-quarters",
+        label: {
+          text: "Can your provide more detail",
+          classes: "govuk-label--l",
+          isPageHeading: true
+        },
+        hint: {
+          text: "Please include details about how you will use this data once its downloaded, e.g. I will upload the data into excel and create visualsations. I will combine this data with other data by..."
+        }
+      }) }}
+
+      {{ govukButton({
+        text: "Submit feedback",
+        classes: "govuk-button--primary govuk-!-margin-bottom-0",
+        attributes: {
+          id: 'download-feedback-form-submit',
+          'data-submit-feedback': 'true'
+        }
+      }) }}
+    
+    </form>
+  </div>
+{% endmacro %}

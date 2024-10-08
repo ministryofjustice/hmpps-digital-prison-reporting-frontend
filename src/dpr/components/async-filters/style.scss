@@ -4,10 +4,6 @@
   }
 }
 
-.govuk-error-message--hidden {
-  display: none;
-}
-
-.query-error-summary--hidden {
+.govuk-error-message--hidden, .query-error-summary--hidden, .async-filters-form--hidden {
   display: none;
 }

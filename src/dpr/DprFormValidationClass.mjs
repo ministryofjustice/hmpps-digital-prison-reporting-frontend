@@ -47,10 +47,10 @@ export default class DprFormValidationClass extends DprQueryParamClass {
 
   showFieldError(field, formGroupEl, errorMessageEl) {
     formGroupEl.classList.add('govuk-form-group--error')
-    const message = this.setValidationMessage(field.validity, field)
+    const message = this.setValidationMessage(field.validity, field, errorMessageEl)
 
     // eslint-disable-next-line no-param-reassign
-    errorMessageEl.innerText = message
+    errorMessageEl.innerHTML = `<span class="govuk-visually-hidden">Error:</span>${message}`
     errorMessageEl.classList.remove('govuk-error-message--hidden')
     field.classList.add('govuk-input--error')
   }
@@ -83,13 +83,14 @@ export default class DprFormValidationClass extends DprQueryParamClass {
     }
   }
 
-  setValidationMessage(validityState, field) {
+  setValidationMessage(validityState, field, errorMessageEl) {
+    const existingErrorMessage = errorMessageEl.lastChild.nodeValue.replace(/(\r\n|\n|\r)/gm, '').trim()
     const inputId = field.getAttribute('id')
     const displayName = this.getDisplayName(field)
     let message
 
     if (validityState.valueMissing) {
-      message = `${displayName} is required`
+      message = existingErrorMessage.length ? existingErrorMessage : `${displayName} is required`
       this.errorMessages.push({
         text: message,
         href: `#${inputId}`,
@@ -98,7 +99,9 @@ export default class DprFormValidationClass extends DprQueryParamClass {
 
     if (validityState.patternMismatch) {
       const pattern = field.getAttribute('pattern-hint') || field.getAttribute('pattern')
-      message = `The value for ${displayName} must be in the correct pattern: ${pattern}`
+      message = existingErrorMessage.length
+        ? existingErrorMessage
+        : `The value for ${displayName} must be in the correct pattern: ${pattern}`
       this.errorMessages.push({
         text: message,
         href: `#${inputId}`,

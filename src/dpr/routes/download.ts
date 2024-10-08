@@ -1,10 +1,10 @@
 import type { RequestHandler, Router } from 'express'
 import { Services } from '../types/Services'
+import logger from '../utils/logger'
 
 export default function routes({
   router,
   layoutPath,
-  // services,
   templatePath = 'dpr/views/',
 }: {
   router: Router
@@ -13,9 +13,18 @@ export default function routes({
   templatePath?: string
 }) {
   const feedbackFormHandler: RequestHandler = async (req, res, next) => {
+    const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+    const { reportId, variantId, tableId } = req.params
     try {
       res.render(`${templatePath}feedback-form`, {
-        title: 'Feedback Form',
+        title: 'Let us know why you download',
+        user: res.locals.user,
+        report: {
+          reportId,
+          variantId,
+          tableId,
+        },
+        csrfToken,
         layoutPath,
         postEndpoint: '/submitFeedback/',
       })
@@ -24,8 +33,11 @@ export default function routes({
     }
   }
 
-  router.get('/download/:dpdId/:reportid/feedback', feedbackFormHandler)
+  const feedbackSubmitHandler: RequestHandler = async (req, res, next) => {
+    const { body } = req
+    logger.info('Download Feedback Submission:', `${JSON.stringify(body)}`)
+  }
 
-  // TODO: implement the post handlers for the feedback form
-  // router.post('/submitFeedback/', feedbackSubmitHandler, feedbackSubmitSuccessHandler)
+  router.get('/download/:reportId/:variantId/:tableId/feedback', feedbackFormHandler)
+  router.post('/submitFeedback/', feedbackSubmitHandler)
 }

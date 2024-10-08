@@ -3,6 +3,7 @@
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
 
 {% macro dprDownloadFeedbackForm(user, report) %}
   {% set name = user.displayName %}
@@ -12,6 +13,14 @@
   {% set variantId = report.variantId %}
 
   <div class="dpr-download-feedback-form-wrapper" data-dpr-module="download-feedback-form">
+
+    <div>
+    {{ govukPanel({
+      titleText: "Thank you for your feedback",
+      html: "Your form has been submitted and we will review your comments. We thank you for helping us improve our service to you"
+    }) }}
+    </div>
+
     <form action="/submitFeedback/" method="post" id="download-feedback-form">
       <div id="download-feedback-form-summary" class="query-error-summary query-error-summary--hidden">
         {{ govukErrorSummary({

@@ -48,6 +48,9 @@ export default function routes({
 
   const feedbackSubmitHandler: RequestHandler = async (req, res, next) => {
     const { body } = req
+    console.log(body)
+
+    res
   }
 
   router.get('/download/:reportId/:variantId/feedback', feedbackFormHandler)

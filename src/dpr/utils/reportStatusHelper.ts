@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
+import logger from './logger'
 
 interface GetStatusUtilsResponse {
   status: RequestStatus
@@ -33,6 +34,7 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
     }
 
     if (status === RequestStatus.FAILED) {
+      logger.error(`Error: ${JSON.stringify(statusResponse.error)}`)
       const { userMessage, developerMessage } = statusResponse.error
       if (userMessage || developerMessage) {
         errorMessage = statusResponse.error
@@ -43,6 +45,7 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
       }
     }
   } catch (error) {
+    logger.error(`Error: ${JSON.stringify(error)}`)
     const { data } = error
     errorMessage = data || { userMessage: error.message }
     status = currentStatus === RequestStatus.FINISHED ? RequestStatus.EXPIRED : RequestStatus.FAILED

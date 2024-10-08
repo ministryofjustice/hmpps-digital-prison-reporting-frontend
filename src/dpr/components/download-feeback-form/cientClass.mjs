@@ -13,6 +13,7 @@ export default class AsyncFilters extends DprFormValidationClass {
 
     this.errorSummary = document.getElementById('download-feedback-form-summary')
     this.submitButton = document.getElementById('download-feedback-form-submit')
+    this.success = document.getElementById('download-feedback-form-success')
 
     this.initSubmitButton()
     this.initFormValidation(this.formFields)
@@ -25,6 +26,9 @@ export default class AsyncFilters extends DprFormValidationClass {
 
       if (this.mainForm.checkValidity()) {
         this.mainForm.requestSubmit()
+
+        this.success.classList.remove('download-feedback-form-success--hidden')
+        this.mainForm.classList.add('download-feedback-form--hidden')
       }
     })
   }

@@ -11,17 +11,26 @@
   {% set activeCaseLoadId = user.activeCaseLoadId %}
   {% set reportId = report.reportId %}
   {% set variantId = report.variantId %}
+  {% set tableId = report.tableId %}
 
   <div class="dpr-download-feedback-form-wrapper" data-dpr-module="download-feedback-form">
 
-    <div>
-    {{ govukPanel({
-      titleText: "Thank you for your feedback",
-      html: "Your form has been submitted and we will review your comments. We thank you for helping us improve our service to you"
-    }) }}
+    <div id="download-feedback-form-success" class="download-feedback-form-success--hidden">
+      {{ govukPanel({
+        titleText: "Your form has been submitted",
+        html: "Thank you for your feedback"
+      }) }}
+
+      {{ govukButton({
+        text: "Return to report",
+        classes: "govuk-button--primary govuk-!-margin-bottom-0",
+        href: '/async-reports/' + reportId + '/' + variantId + '/request/' + tableId + '/report'
+      }) }}
     </div>
 
     <form action="/submitFeedback/" method="post" id="download-feedback-form">
+      <p>Please take 5 minutes to fill out a feedback formand let us know why you use the download feature</p>
+      <p>The more detail you provide will help us to understand how we can improve improve our service to you, and provide features that will better suit your needs.</p>
       <div id="download-feedback-form-summary" class="query-error-summary query-error-summary--hidden">
         {{ govukErrorSummary({
           titleText: "There is a problem",
@@ -31,9 +40,11 @@
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
       <input type="hidden" name="reportId" value="{{ reportId }}">
       <input type="hidden" name="variantId" value="{{ variantId }}">
+      <input type="hidden" name="variantId" value="{{ tableId }}">
       <input type="hidden" name="staffId" value="{{ staffId }}">
       <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}">
 
+      <h2 class="govuk-fieldset__legend govuk-fieldset__legend--l">About you</h2>
       {# Name Input #}
       {{ govukInput({
         id: 'name',
@@ -42,6 +53,7 @@
         label: {
           text: 'What is your full name'
         },
+        classes: "govuk-!-width-one-third",
         errorMessage: {
           text: "Please enter your full name"
         },
@@ -58,6 +70,7 @@
         label: {
           text: 'What is your email address'
         },
+        classes: "govuk-!-width-one-third",
         errorMessage: {
           text: "Please enter your email address"
         },
@@ -74,6 +87,7 @@
         label: {
           text: 'What is your role'
         },
+        classes: "govuk-!-width-one-third",
         errorMessage: {
           text: "Please enter your role"
         },
@@ -96,19 +110,19 @@
         },
         items: [
           {
-            value: "filters",
+            value: "apply-specific-filters",
             text: "To apply specific filters"
           },
           {
-            value: "join",
+            value: "join-tables",
             text: "Join different tables"
           },
           {
-            value: "farm",
+            value: "combine-info",
             text: "Combine demographic information (eg. age, ethnicity) with other reports"
           },
           {
-            value: "visualisations",
+            value: "produce-visualisations",
             text: "Produce visualisations such as graphs, pie charts etc"
           },
           {
@@ -122,6 +136,7 @@
         name: "moreDetail",
         id: "more-detail",
         rows: "8",
+        classes: "govuk-!-width-three-quarters",
         label: {
           text: "Can your provide more detail",
           classes: "govuk-label--l",
@@ -133,7 +148,7 @@
       }) }}
 
       {{ govukButton({
-        text: "Submit my feedback",
+        text: "Submit feedback",
         classes: "govuk-button--primary govuk-!-margin-bottom-0",
         attributes: {
           id: 'download-feedback-form-submit',

@@ -104,7 +104,7 @@ export default class ReportQuery implements FilteredListRequest {
   }
 
   private getDefaultPageSize(template: Template) {
-    const maxResultsSize = 2000
+    const maxResultsSize = 50000
     const standardPage = 20
 
     switch (template) {

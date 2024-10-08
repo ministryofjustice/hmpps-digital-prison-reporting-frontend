@@ -54,7 +54,7 @@ describe('ReportStatusHelper', () => {
       const result = await ReportStatusHelper.getStatus({ req, res, services })
 
       expect(result.status).toEqual(RequestStatus.FAILED)
-      expect(result.errorMessage).toEqual('Error Message')
+      expect(result.errorMessage).toEqual({ developerMessage: 'Error Message' })
     })
 
     it('should get the request status as expired', async () => {

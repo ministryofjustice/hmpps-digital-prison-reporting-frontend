@@ -1,4 +1,5 @@
 /* eslint-disable no-new */
+/* global dayjs */
 
 import Autocomplete from './components/autocomplete-text-input/clientClass.mjs'
 import CardGroup from './components/card-group/clientClass.mjs'
@@ -57,6 +58,9 @@ export default function initAll() {
     LoadDashboard,
     DownloadFeedbackForm,
   ]
+
+  const customParseFormat = window.dayjs_plugin_customParseFormat
+  dayjs.extend(customParseFormat)
 
   components.forEach((Component) => {
     const $elements = document.querySelectorAll(`[data-dpr-module="${Component.getModuleName()}"]`)

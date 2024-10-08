@@ -17,6 +17,7 @@ export default class AsyncFilters extends DprFormValidationClass {
 
     this.initSubmitButton()
     this.initFormValidation(this.formFields)
+    this.mainForm.classList.remove('download-feedback-form--hidden')
   }
 
   initSubmitButton() {

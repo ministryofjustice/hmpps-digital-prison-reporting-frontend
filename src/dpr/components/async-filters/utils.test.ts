@@ -65,7 +65,7 @@ describe('AsyncFiltersUtils', () => {
       },
       body: {
         'filters.field2': 'value2.1',
-        'filters.field3.start': '2003-02-01',
+        'filters.field3.start': '01/02/2003',
         'filters.field3.end': '2006-05-04',
         'filters.field4': 'Fezzick',
         sortBy: 'field5',

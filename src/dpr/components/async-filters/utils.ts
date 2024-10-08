@@ -320,6 +320,7 @@ const setQuerySummary = (req: Request, fields: components['schemas']['FieldDefin
   const sortData: Dict<string> = {}
   // eslint-disable-next-line no-useless-escape
   const isoDateRegEx = /^(\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01]))$/
+  // eslint-disable-next-line no-useless-escape
   const localDateRegEx = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
   dayjs.extend(customParseFormat)
 

@@ -4,26 +4,33 @@
   {% set title = args.title %}
   {% set value = args.value %}
   {% set rag = args.rag %}
-  {% set href = args.href %}
+  {% set link = args.link %}
   {% set valueFor = args.valueFor %}
 
   {% set trend = args.trend %}
+  {% if trend.direction === 'Up' %}
+    {% set directionIcon = '▲' %}
+  {% elif trend.direction === 'Down' %}
+    {% set directionIcon = '▼' %}
+  {% else %}
+    {% set directionIcon = '◼' %}
+  {% endif %}
 
   <div class="dpr-scorecard">
     <h4 class="govuk-heading-s govuk-!-margin-bottom-1">
       {{ title }}
     </h4>
 
-    <p class="govuk-body dpr-scorecard__value">{{ value }}</p>
+    <p class="govuk-body dpr-scorecard__value govuk-tag--{{ rag }}">{{ value }}</p>
 
     <p class="govuk-body-s">Value for {{ valueFor }}.
-      {% if href %}
-        <a class="govuk-link govuk-link--no-visited-state" href="{{ href }}">View breakdown<span class="govuk-visually-hidden"> for {{ title }}</span></a>
+      {% if link.href %}
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ link.href }}">{{ link.displayName }}<span class="govuk-visually-hidden"> for {{ title }}</span></a>
       {% endif %}
     </p>
 
     <p class="govuk-body-s">
-      {{ trend.direction }} {{ trend.value }} from {{ trend.from }}
+      {{ directionIcon }} {{ trend.direction }} {{ trend.value }} from {{ trend.from }}
     </p>
   </div>
 {% endmacro %}

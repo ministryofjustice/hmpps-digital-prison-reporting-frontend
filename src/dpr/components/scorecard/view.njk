@@ -1,0 +1,29 @@
+{% macro dprScoreCard(args) %}
+  {% set classes = args.classes %}
+
+  {% set title = args.title %}
+  {% set value = args.value %}
+  {% set rag = args.rag %}
+  {% set href = args.href %}
+  {% set valueFor = args.valueFor %}
+
+  {% set trend = args.trend %}
+
+  <div class="drp-scorecard">
+    <h4 class="govuk-heading-s govuk-!-margin-bottom-1">
+      {{ title }}
+    </h4>
+
+    <p class="govuk-body drp-scorecard__value">{{ value }}</p>
+
+    <p class="govuk-body-s">Value for {{ valueFor }}.
+      {% if href %}
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ href }}">View measure<span class="govuk-visually-hidden"> for {{ title }}</span></a>
+      {% endif %}
+    </p>
+
+    <p class="govuk-body-s">
+      {{ trend.direction }} {{ trend.value }} from {{ trend.from }}
+    </p>
+  </div>
+{% endmacro %}

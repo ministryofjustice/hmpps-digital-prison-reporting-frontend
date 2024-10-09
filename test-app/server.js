@@ -94,6 +94,7 @@ const mockBarChartData = require('./mockChartData/mockBarChartData')
 const mockPieChartData = require('./mockChartData/mockPieChartData')
 const mockLineChartData = require('./mockChartData/mockLineChartData')
 const mockMulitChartData = require('./mockChartData/mockMultiChartData')
+const mockScoreCards = require('./mockScoreCards/mockScorecards')
 
 // Set up routes
 
@@ -387,6 +388,13 @@ app.get('/charts/multi', (req, res) => {
   res.render('charts.njk', {
     title: 'Charts',
     multiCharts: mockMulitChartData,
+  })
+})
+
+app.get('/scorecards', (req, res) => {
+  res.render('scorecards.njk', {
+    title: 'Score Cards',
+    scorecards: mockScoreCards,
   })
 })
 

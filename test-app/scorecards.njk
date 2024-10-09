@@ -1,0 +1,10 @@
+{% extends "page.njk" %}
+
+{% from "components/scorecard-group/view.njk" import dprScoreCardGroup %}
+
+{% block content %}
+  <h1 class="govuk-heading-l">{{ title }}</h1>
+
+  {{ dprScoreCardGroup(scorecards) }}
+{% endblock %}
+ 

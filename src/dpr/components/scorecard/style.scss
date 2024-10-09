@@ -1,0 +1,13 @@
+.drp-scorecard {
+  background-color: govuk-colour("light-grey");
+  padding: govuk-spacing(2);
+  border-top: dotted 2px govuk-colour("mid-grey");
+
+  .drp-scorecard__value {
+    font-size: 36px;
+    line-height: 1.1111111111;
+    font-weight: 400;
+    margin-top: 10px;
+    display: block;
+  }
+}

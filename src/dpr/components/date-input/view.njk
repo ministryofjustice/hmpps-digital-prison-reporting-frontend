@@ -11,19 +11,21 @@
   {% endif %}
   {% set value = dateData.value %}
   {% set mandatory = dateData.mandatory %}
-  {% set min = dateData.min %}
-  {% set max = dateData.max %}
+  {% set minDate = dateData.min %}
+  {% set maxDate = dateData.max %}
   {% set id = parameterPrefix + name + parameterSuffix %}
 
   {% set defaultMinDate = '1977-05-25' %}
   {% set defaultMaxDate = '9999-01-01'%}
   
-  {% if min ===  defaultMinDate %}
+  {% if not minDate %}
     {% set toggleMin = false %}
+    {% set minDate = defaultMinDate %}
   {% endif %}
   
-  {% if max ===  defaultMaxDate %}
+  {% if not maxDate %}
     {% set toggleMax = false %}
+    {% set maxDate = defaultMaxDate %}
   {% endif %}
 
   {% if label %}
@@ -37,8 +39,8 @@
     data-required="{{ mandatory }}" 
     data-display-name="{{ displayName }}"  
     data-pattern="\d{1,2}\/\d{1,2}\/\d{2,4}" 
-    data-min="{{ min }}"
-    data-max="{{ max }}"
+    data-min="{{ minDate }}"
+    data-max="{{ maxDate }}"
     data-pattern-hint="DD/MM/YYY">
     {% if text %}
     <label class="govuk-label govuk-label govuk-!-font-weight-bold" for="{{id}}">
@@ -46,13 +48,14 @@
     </label>
     {% endif %}
 
+    
     {{ mojDatePicker({
       id: id,
       name: id,
       label: labelText,
       value: value | date,
-      minDate: min | date,
-      maxDate: max | date,
+      minDate: minDate | date,
+      maxDate: maxDate | date,
       hint: {
         text: "For example, 17/5/2024."
       },
@@ -61,25 +64,25 @@
       }
     }) }}
 
-    {% if toggleMin and min %}
+    {% if toggleMin and minDate %}
     <a class="govuk-body-s daterange-set-to-minmax" 
       data-set-to-input='{{ id }}' 
-      data-set-min-max-value={{ min | date }} 
+      data-set-min-max-value={{ minDate | date }} 
       data-set-min-max-trigger='true'
       href="#"
     > 
-      set to min ({{ min | date }})
+      set to min ({{ minDate | date }})
     </a>
     {% endif %}
 
-    {% if toggleMax and max %}
+    {% if toggleMax and maxDate %}
     <a class="govuk-body-s daterange-set-to-minmax" 
       data-set-to-input='{{ id }}' 
-      data-set-min-max-value={{ max | date }} 
+      data-set-min-max-value={{ maxDate | date }} 
       data-set-min-max-trigger='true'
       href="#"
     >
-      set to max ({{ max | date }})
+      set to max ({{ maxDate | date }})
     </a>
     {% endif %}
   </div>

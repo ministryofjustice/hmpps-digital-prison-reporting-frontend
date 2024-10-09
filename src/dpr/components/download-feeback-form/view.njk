@@ -4,6 +4,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
 {% macro dprDownloadFeedbackForm(user, report) %}
   {% set name = user.displayName %}
@@ -29,8 +30,8 @@
     </div>
 
     <form action="/submitFeedback/" method="post" id="download-feedback-form" class="download-feedback-form--hidden">
-      <p>Please take 5 minutes to fill out a feedback formand let us know why you use the download feature</p>
-      <p>The more detail you provide will help us to understand how we can improve improve our service to you, and provide features that will better suit your needs.</p>
+      <p>Please take 5 minutes to fill out a feedback form and let us know why you would like to use the download feature</p>
+      <p>The more detail you provide, the better we can understand how to improve our service and offer features that meet your needs.</p>
       <div id="download-feedback-form-summary" class="query-error-summary query-error-summary--hidden">
         {{ govukErrorSummary({
           titleText: "There is a problem",
@@ -51,7 +52,7 @@
         name: 'Full name',
         value: name,
         label: {
-          text: 'What is your full name'
+          text: 'What is your full name?'
         },
         classes: "govuk-!-width-one-third",
         errorMessage: {
@@ -68,7 +69,7 @@
         name: 'email',
         value: '',
         label: {
-          text: 'What is your email address'
+          text: 'What is your email address?'
         },
         classes: "govuk-!-width-one-third",
         errorMessage: {
@@ -85,7 +86,7 @@
         name: 'role',
         value: '',
         label: {
-          text: 'What is your role'
+          text: 'What is your role?'
         },
         classes: "govuk-!-width-one-third",
         errorMessage: {
@@ -138,14 +139,26 @@
         rows: "8",
         classes: "govuk-!-width-three-quarters",
         label: {
-          text: "Can your provide more detail",
+          text: "Can you provide more detail",
           classes: "govuk-label--l",
           isPageHeading: true
         },
         hint: {
-          text: "Please include details about how you will use this data once its downloaded, e.g. I will upload the data into excel and create visualsations. I will combine this data with other data by..."
+          text: "Please include details about how you will use this data once it's downloaded, e.g. I will upload the data into excel and create visualisations. I will combine this data with other data by..."
         }
       }) }}
+
+      <h2 class="govuk-fieldset__legend govuk-fieldset__legend--l">Can you provide your outputs?</h2>
+
+      <p>If you have previously downloaded reports in the past, and produced any outputs from the data. e.g visualisations, combined reports, documents etc. we would be interested in seeing them.</p>
+      <p>Please email us at <a href="mailto:digitalprisonreporting@digital.justice.gov.uk?subject=DPR%20Download%20Feedback%20Documents">digitalprisonreporting@digital.justice.gov.uk</a> with your attachments.</p>
+      
+      {{ govukWarningText({
+        text: "Do not send any documents that contain sensitive data",
+        iconFallbackText: "Warning",
+        classes: 'govuk-!-margin-bottom-8'
+      }) }}
+
 
       {{ govukButton({
         text: "Submit feedback",

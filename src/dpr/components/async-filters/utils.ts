@@ -107,6 +107,8 @@ export const calcDates = (durationValue: string) => {
 }
 
 export const getRelativeDateOptions = (min: string, max: string) => {
+  if (!min) min = '1977-05-25'
+  if (!max) max = '9999-01-01'
   let options: { value: string; text: string; disabled?: boolean }[] = [
     { value: 'yesterday', text: 'Yesterday' },
     { value: 'tomorrow', text: 'Tomorrow' },

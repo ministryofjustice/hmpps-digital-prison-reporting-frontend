@@ -122,6 +122,11 @@ app.get('/', (req, res) => {
         description: 'Chart Visualisations',
         href: '/charts',
       },
+      {
+        text: 'Scorecards',
+        description: 'Metric scorecards',
+        href: '/scorecards',
+      },
     ],
   })
 })

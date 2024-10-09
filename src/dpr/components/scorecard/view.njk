@@ -9,16 +9,16 @@
 
   {% set trend = args.trend %}
 
-  <div class="drp-scorecard">
+  <div class="dpr-scorecard">
     <h4 class="govuk-heading-s govuk-!-margin-bottom-1">
       {{ title }}
     </h4>
 
-    <p class="govuk-body drp-scorecard__value">{{ value }}</p>
+    <p class="govuk-body dpr-scorecard__value">{{ value }}</p>
 
     <p class="govuk-body-s">Value for {{ valueFor }}.
       {% if href %}
-        <a class="govuk-link govuk-link--no-visited-state" href="{{ href }}">View measure<span class="govuk-visually-hidden"> for {{ title }}</span></a>
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ href }}">View breakdown<span class="govuk-visually-hidden"> for {{ title }}</span></a>
       {% endif %}
     </p>
 

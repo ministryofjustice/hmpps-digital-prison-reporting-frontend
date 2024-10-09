@@ -87,6 +87,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         variantId,
         executionId,
         query,
+        url,
       } = reportStateData
       const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, resolvedData[4])
 
@@ -107,6 +108,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         printable,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         csrfToken,
+        requestUrl: url.request,
         bookmarked: await services.bookmarkService.isBookmarked(variantId, userId),
         reportSummaries: collatedSummaryBuilder.collatePageSummaries(),
       }

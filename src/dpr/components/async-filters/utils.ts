@@ -107,6 +107,8 @@ export const calcDates = (durationValue: string) => {
 }
 
 export const getRelativeDateOptions = (min: string, max: string) => {
+  if (!min) min = '1977-05-25'
+  if (!max) max = '9999-01-01'
   let options: { value: string; text: string; disabled?: boolean }[] = [
     { value: 'yesterday', text: 'Yesterday' },
     { value: 'tomorrow', text: 'Tomorrow' },
@@ -141,8 +143,6 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
     .map((f) => {
       const { display: text, name, filter } = f
       const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern } = filter
-      const defaultMaxDate = '9999-01-01'
-      const defaultMinDate = '1977-05-25'
 
       let filterData: FilterValue = {
         text,
@@ -163,7 +163,7 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
         let endValue
 
         if (min) startValue = min
-        if (max && max !== defaultMaxDate) endValue = max
+        if (max) endValue = max
 
         let value
         if (defaultValue && defaultValue.match(dateRegEx)) {
@@ -178,8 +178,8 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
         filterData = filterData as unknown as DateFilterValue
         filterData = {
           ...filterData,
-          min: filter.min || defaultMinDate,
-          max: filter.max || defaultMaxDate,
+          min: filter.min,
+          max: filter.max,
           value,
         }
 
@@ -192,7 +192,7 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
           ...filterData,
           value: FilterUtils.setDateValueWithinMinMax(filter),
           min: filter.min,
-          max: filter.max || defaultMaxDate,
+          max: filter.max,
         }
       }
 

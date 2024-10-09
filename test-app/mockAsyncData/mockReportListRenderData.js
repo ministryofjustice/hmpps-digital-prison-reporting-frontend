@@ -5,6 +5,9 @@ const mockGetReportListRenderData = {
     reportId: undefined,
     reportName: 'reportName',
     reportSummaries: {},
+    requestUrl: {
+      fullUrl: 'fullUrl',
+    },
     requestedTimestamp: 'Invalid Date',
     description: 'description',
     rowCount: 10,

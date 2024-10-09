@@ -1,0 +1,23 @@
+---
+layout: layouts/example.njk
+title: Scorecard (example)
+arguments: scorecard
+---
+
+{% from "dpr/components/scorecard/view.njk" import dprScoreCard %}
+
+{{ dprScoreCard({
+  title: 'Prison operational capacity',
+  value: '88,818',
+  trend: {
+    direction: 'Up',
+    value: '1,959',
+    from: 'Jun 23'
+  },
+  link: {
+    href: '#',
+    displayName: 'View breakdown'
+  },
+  valueFor: 'Jun 24',
+  rag: 'red'
+}) }}

@@ -24,6 +24,7 @@ import DoughnutChartVisualisation from './components/chart/doughnut/clientClass.
 import LineChartVisualisation from './components/chart/line/clientClass.mjs'
 import DownloadFeedbackForm from './components/download-feeback-form/cientClass.mjs'
 import LoadDashboard from './DprLoadDashboard.mjs'
+import ScoreCard from './components/scorecard/clientClass.mjs'
 /**
  * Initialise all components
  *
@@ -57,6 +58,7 @@ export default function initAll() {
     LineChartVisualisation,
     LoadDashboard,
     DownloadFeedbackForm,
+    ScoreCard,
   ]
 
   const customParseFormat = window.dayjs_plugin_customParseFormat

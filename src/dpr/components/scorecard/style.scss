@@ -1,0 +1,36 @@
+.dpr-scorecard {
+  background-color: govuk-colour("light-grey");
+  padding: govuk-spacing(2);
+  padding-bottom: govuk-spacing(7);
+  border-top: dotted 2px govuk-colour("mid-grey");
+  position: relative;
+
+  .dpr-scorecard__value {
+    font-size: 36px;
+    line-height: 1.1111111111;
+    font-weight: 400;
+    margin-top: 10px;
+    display: inline-block;
+    padding: govuk-spacing(1);
+  }
+
+  .dpr-scorecard__value {
+    cursor: pointer;
+  }
+
+  .dpr-scorecard__value-from {
+    position: absolute;
+    bottom: 10px;
+    margin-bottom: 0px;
+  }
+
+  .dpr-scorecard__value-description {
+    display: none;
+  }
+
+  .dpr-scorecard__value-description--active {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: govuk-spacing(1);
+  }
+}

@@ -106,6 +106,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         template,
         actions: ReportActionsUtils.initAsyncReportActions(variant, reportStateData),
         printable,
+        querySummary: query.summary,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         csrfToken,
         requestUrl: url.request,

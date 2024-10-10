@@ -16,16 +16,20 @@ export default class DateMapper {
 
   private isoFormat = 'YYYY-MM-DD'
 
-  private localDateFormat = 'DD/MM/YYYY'
+  private localDateFormatInput = 'D/M/YYYY'
+  private localDateFormatOutput = 'DD/MM/YYYY'
 
-  private localDateShortYearFormat = 'DD/MM/YY'
+  private localDateShortYearFormatInput = 'D/M/YY'
+  private localDateShortYearFormatOutput = 'DD/MM/YY'
 
-  private localDateTimeFormat = 'DD/MM/YYYY HH:mm'
+  private localDateTimeFormatInput = 'D/M/YYYY HH:mm'
+  private localDateTimeFormatOutput = 'DD/MM/YYYY HH:mm'
 
-  private localDateTimeShortYearFormat = 'DD/MM/YY HH:mm'
+  private localDateTimeShortYearFormatInput = 'D/M/YY HH:mm'
+  private localDateTimeShortYearFormatOutput = 'DD/MM/YY HH:mm'
 
   getDateType(value: string): DateType {
-    if (value) {
+    if (value && value.match) {
       if (value.match(this.isoDateRegEx)) {
         return 'iso'
       }
@@ -57,13 +61,13 @@ export default class DateMapper {
       case 'iso':
         return dayjs(value)
       case 'local-date':
-        return dayjs(value, this.localDateFormat)
+        return dayjs(value, this.localDateFormatInput)
       case 'local-date-short-year':
-        return dayjs(value, this.localDateShortYearFormat)
+        return dayjs(value, this.localDateShortYearFormatInput)
       case 'local-datetime':
-        return dayjs(value, this.localDateTimeFormat)
+        return dayjs(value, this.localDateTimeFormatInput)
       case 'local-datetime-short-year':
-        return dayjs(value, this.localDateTimeShortYearFormat)
+        return dayjs(value, this.localDateTimeShortYearFormatInput)
       default:
         return null
     }
@@ -81,13 +85,13 @@ export default class DateMapper {
         case 'iso':
           return dateWrapper.format(this.isoFormat)
         case 'local-date':
-          return dateWrapper.format(this.localDateFormat)
+          return dateWrapper.format(this.localDateFormatOutput)
         case 'local-date-short-year':
-          return dateWrapper.format(this.localDateShortYearFormat)
+          return dateWrapper.format(this.localDateShortYearFormatOutput)
         case 'local-datetime':
-          return dateWrapper.format(this.localDateTimeFormat)
+          return dateWrapper.format(this.localDateTimeFormatOutput)
         case 'local-datetime-short-year':
-          return dateWrapper.format(this.localDateTimeShortYearFormat)
+          return dateWrapper.format(this.localDateTimeShortYearFormatOutput)
         default:
           logger.warn(`Invalid date type: ${type}`)
           return null

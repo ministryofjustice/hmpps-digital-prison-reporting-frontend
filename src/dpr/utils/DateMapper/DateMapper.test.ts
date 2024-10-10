@@ -41,6 +41,10 @@ describe('getDateWrapper', () => {
     expect(dateMapper.getDateWrapper('01/02/2003').format('YYYY-MM-DD')).toEqual('2003-02-01')
   })
 
+  it('Picker Local Date', () => {
+    expect(dateMapper.getDateWrapper('1/2/2003').format('YYYY-MM-DD')).toEqual('2003-02-01')
+  })
+
   it('Local Date Short YEar', () => {
     expect(dateMapper.getDateWrapper('01/02/03').format('YYYY-MM-DD')).toEqual('2003-02-01')
   })

@@ -30,6 +30,12 @@ describe('getDateType', () => {
   it('Non-date value', () => {
     expect(dateMapper.getDateType('Not a date')).toEqual('none')
   })
+
+  it('Not a matchable string', () => {
+    // eslint-disable-next-line  @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    expect(dateMapper.getDateType(0)).toEqual('none')
+  })
 })
 
 describe('getDateWrapper', () => {
@@ -39,6 +45,10 @@ describe('getDateWrapper', () => {
 
   it('Local Date', () => {
     expect(dateMapper.getDateWrapper('01/02/2003').format('YYYY-MM-DD')).toEqual('2003-02-01')
+  })
+
+  it('Picker Local Date', () => {
+    expect(dateMapper.getDateWrapper('1/2/2003').format('YYYY-MM-DD')).toEqual('2003-02-01')
   })
 
   it('Local Date Short YEar', () => {

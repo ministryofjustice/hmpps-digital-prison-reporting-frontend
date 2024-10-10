@@ -127,12 +127,13 @@ function renderList(
           dynamicAutocompleteEndpoint,
         )
 
-        const actions = ReportActionsUtils.initReportActions(
+        const actions = ReportActionsUtils.initReportActions({
           reportName,
-          variantDefinition.name,
-          variantDefinition.printable,
-          `${request.protocol}://${request.get('host')}${request.originalUrl}`,
-        )
+          variantName: variantDefinition.name,
+          printable: variantDefinition.printable,
+          url: `${request.protocol}://${request.get('host')}${request.originalUrl}`,
+          downloadable: false,
+        })
 
         response.render(`dpr/components/report-list/list`, {
           title,

@@ -6,13 +6,14 @@
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
-{% macro dprDownloadFeedbackForm(user, report) %}
+{% macro dprDownloadFeedbackForm(user, report, csrfToken) %}
   {% set name = user.displayName %}
   {% set staffId = user.staffId %}
   {% set activeCaseLoadId = user.activeCaseLoadId %}
   {% set reportId = report.reportId %}
   {% set variantId = report.variantId %}
   {% set tableId = report.tableId %}
+  {% set csrfToken = csrfToken %}
 
   <div class="dpr-download-feedback-form-wrapper" data-dpr-module="download-feedback-form">
 
@@ -41,7 +42,7 @@
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
       <input type="hidden" name="reportId" value="{{ reportId }}">
       <input type="hidden" name="variantId" value="{{ variantId }}">
-      <input type="hidden" name="variantId" value="{{ tableId }}">
+      <input type="hidden" name="tableId" value="{{ tableId }}">
       <input type="hidden" name="staffId" value="{{ staffId }}">
       <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}">
 

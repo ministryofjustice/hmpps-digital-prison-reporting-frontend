@@ -220,6 +220,7 @@ const mockGetReportListRenderData = {
     colCount: 2,
     template: 'list',
     totals: '1-10 of 100',
+    count: 100,
     csrfToken: 'csrfToken',
     printable: true,
     executionId: 'executionId',

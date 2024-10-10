@@ -23,6 +23,10 @@ Ensure that you have the following dependency in the expected range, to ensure c
 
 ```javascript
 "govuk-frontend": "^5.3.0",
+"@ministryofjustice/frontend": "^2.1.3",
+"dayjs": "^1.11.12",
+"chart.js": "^4.4.4",
+"chartjs-plugin-datalabels": "^2.2.0",
 ```
 
 {% header 3, "SASS" %}
@@ -46,19 +50,66 @@ router.use(
     )
   )
 );
+
+// Chart js
+router.use(
+  '/assets/ext/chart.js',
+  express.static(path.join(process.cwd(), '/node_modules/chart.js/dist/chart.umd.js')),
+)
+
+router.use(
+  '/assets/ext/chartjs-datalabels.js',
+  express.static(
+    path.join(process.cwd(), '/node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js'),
+  ),
+)
+
+// Dayjs
+router.use('/assets/ext/day.js', express.static(path.join(process.cwd(), '/node_modules/dayjs/dayjs.min.js')))
+
+router.use(
+  '/assets/ext/dayjs/plugin/customParseFormat.js',
+  express.static(path.join(process.cwd(), '/node_modules/dayjs/plugin/customParseFormat.js')),
+)
 ```
 
-Add the DPR client-side JavaScript initialisation to a new JS file (in this example named "dprInit.mjs") in your 'assets' folder:
+Add the DPR client-side JavaScript initialisation to a new JS file (in this example named `dprInit.mjs`) in your 'assets' folder:
 ```javascript
 import initAll from "/assets/dpr/js/all.mjs";
 
 initAll();
 ```
 
+Add the GOV client-side JavaScript initialisation to a new JS file (in this example named `govukInit.mjs`) in your 'assets' folder:
+```javascript
+import { initAll } from '/assets/govuk/all.js'
+
+initAll()
+```
+
+Add the Moj client-side JavaScript initialisation to a new JS file (in this example named `mojInit.mjs`) in your 'assets' folder:
+```javascript
+window.MOJFrontend.initAll()
+```
+
 Add the client-side JavaScript to the nunjucks layout:
 ```html
 {% block bodyEnd %}
 ...
+<script type="module" src="/assets/ext/day.js"></script>
+<script type="module" src="/assets/ext/dayjs/plugin/customParseFormat.js"></script>
+<script type="module" src="/assets/ext/chart.js"></script>
+<script type="module" src="/assets/ext/chartjs-datalabels.js"></script>  
+
+// Govuk Lib
+<script type="module" src="/assets/govuk/all.js"></script>
+<script type="module" src="/assets/govukInit.js"></script>
+
+// MoJ lib
+<script src="/assets/moj/all.js"></script>
+<script type="module" src="/assets/mojInit.js"></script>
+
+// DPR Lib
 <script type="module" src="/assets/dpr/js/all.mjs"></script>
 <script type="module" src="/assets/js/dprInit.mjs"></script>
 {% endblock %}

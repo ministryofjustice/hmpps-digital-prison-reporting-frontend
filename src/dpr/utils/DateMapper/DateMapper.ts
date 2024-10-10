@@ -17,15 +17,19 @@ export default class DateMapper {
   private isoFormat = 'YYYY-MM-DD'
 
   private localDateFormatInput = 'D/M/YYYY'
+
   private localDateFormatOutput = 'DD/MM/YYYY'
 
   private localDateShortYearFormatInput = 'D/M/YY'
+
   private localDateShortYearFormatOutput = 'DD/MM/YY'
 
   private localDateTimeFormatInput = 'D/M/YYYY HH:mm'
+
   private localDateTimeFormatOutput = 'DD/MM/YYYY HH:mm'
 
   private localDateTimeShortYearFormatInput = 'D/M/YY HH:mm'
+
   private localDateTimeShortYearFormatOutput = 'DD/MM/YY HH:mm'
 
   getDateType(value: string): DateType {

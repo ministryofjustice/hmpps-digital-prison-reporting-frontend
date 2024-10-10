@@ -5,25 +5,25 @@ import SectionedDataTableBuilder from './SectionedDataTableBuilder'
 const data: Array<Dict<string>> = [
   {
     sectionOne: 'A',
-    sectionTwo: 'B',
+    sectionTwo: '01/02/03',
     oranges: '5',
     lemons: 'Yes',
   },
   {
     sectionOne: 'A',
-    sectionTwo: 'B',
+    sectionTwo: '01/02/03',
     oranges: '6',
     lemons: 'No',
   },
   {
     sectionOne: 'A',
-    sectionTwo: 'C',
+    sectionTwo: '02/01/03',
     oranges: '7',
     lemons: 'Yeah',
   },
   {
     sectionOne: 'B',
-    sectionTwo: 'C',
+    sectionTwo: '02/01/03',
     oranges: '8',
     lemons: 'Nah',
   },
@@ -140,19 +140,19 @@ const sectionHeaders = [
   [
     {
       colspan: 2,
-      html: "<h2>Section One: A, Section Two: B <span class='govuk-caption-m'>2 results</span></h2>",
+      html: "<h2>Section One: A, Section Two: 01/02/03 <span class='govuk-caption-m'>2 results</span></h2>",
     },
   ],
   [
     {
       colspan: 2,
-      html: "<h2>Section One: A, Section Two: C <span class='govuk-caption-m'>1 result</span></h2>",
+      html: "<h2>Section One: A, Section Two: 02/01/03 <span class='govuk-caption-m'>1 result</span></h2>",
     },
   ],
   [
     {
       colspan: 2,
-      html: "<h2>Section One: B, Section Two: C <span class='govuk-caption-m'>1 result</span></h2>",
+      html: "<h2>Section One: B, Section Two: 02/01/03 <span class='govuk-caption-m'>1 result</span></h2>",
     },
   ],
 ]
@@ -163,13 +163,13 @@ describe('buildTable', () => {
       .buildTable(data)
 
     expect(mapped.rows).toEqual([
+      sectionHeaders[1],
+      headerResultRow,
+      resultRows[2],
       sectionHeaders[0],
       headerResultRow,
       resultRows[0],
       resultRows[1],
-      sectionHeaders[1],
-      headerResultRow,
-      resultRows[2],
       sectionHeaders[2],
       headerResultRow,
       resultRows[3],
@@ -191,13 +191,13 @@ describe('buildTable', () => {
             data: [
               {
                 sectionOne: 'A',
-                sectionTwo: 'B',
+                sectionTwo: '01/02/03',
                 oranges: 'Fruit',
                 lemons: 'Lots',
               },
               {
                 sectionOne: 'A',
-                sectionTwo: 'C',
+                sectionTwo: '02/01/03',
                 oranges: 'Fruit',
                 lemons: 'Not so much',
               },
@@ -212,13 +212,13 @@ describe('buildTable', () => {
             data: [
               {
                 sectionOne: 'A',
-                sectionTwo: 'C',
+                sectionTwo: '02/01/03',
                 oranges: 'Strawberry',
                 lemons: 'Lime',
               },
               {
                 sectionOne: 'B',
-                sectionTwo: 'C',
+                sectionTwo: '02/01/03',
                 oranges: 'Apples',
                 lemons: 'Oh no',
               },
@@ -229,22 +229,6 @@ describe('buildTable', () => {
       .buildTable(data)
 
     expect(mapped.rows).toEqual([
-      sectionHeaders[0],
-      headerResultRow,
-      [
-        {
-          classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
-          format: 'numeric',
-          text: 'Fruit',
-        },
-        {
-          classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
-          format: 'string',
-          text: 'Lots',
-        },
-      ],
-      resultRows[0],
-      resultRows[1],
       sectionHeaders[1],
       headerResultRow,
       [
@@ -272,6 +256,22 @@ describe('buildTable', () => {
           text: 'Lime',
         },
       ],
+      sectionHeaders[0],
+      headerResultRow,
+      [
+        {
+          classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
+          format: 'numeric',
+          text: 'Fruit',
+        },
+        {
+          classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
+          format: 'string',
+          text: 'Lots',
+        },
+      ],
+      resultRows[0],
+      resultRows[1],
       sectionHeaders[2],
       headerResultRow,
       resultRows[3],
@@ -311,12 +311,12 @@ describe('buildTable', () => {
             data: [
               {
                 sectionOne: 'A',
-                sectionTwo: 'B',
+                sectionTwo: '01/02/03',
                 squishy: 'Yes',
               },
               {
                 sectionOne: 'A',
-                sectionTwo: 'C',
+                sectionTwo: '02/01/03',
                 squishy: 'No',
               },
             ],
@@ -341,19 +341,19 @@ describe('buildTable', () => {
             data: [
               {
                 sectionOne: 'A',
-                sectionTwo: 'C',
+                sectionTwo: '02/01/03',
                 preference: 'Oranges',
                 eaten: '2005',
               },
               {
                 sectionOne: 'B',
-                sectionTwo: 'C',
-                preference: 'No',
+                sectionTwo: '02/01/03',
+                preference: 'NO',
                 eaten: '0',
               },
               {
                 sectionOne: 'B',
-                sectionTwo: 'C',
+                sectionTwo: '02/01/03',
                 preference: 'No, really',
                 eaten: '0',
               },
@@ -364,16 +364,6 @@ describe('buildTable', () => {
       .buildTable(data)
 
     expect(mapped.rows).toEqual([
-      sectionHeaders[0],
-      [
-        {
-          colspan: 2,
-          html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-header'><div class='dpr-summary-container'><table class='govuk-table'>\n                  <thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Squishy?</th></thead>\n                  <tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Yes</td></tr></tbody>\n                </table></div></div>",
-        },
-      ],
-      headerResultRow,
-      resultRows[0],
-      resultRows[1],
       sectionHeaders[1],
       [
         {
@@ -389,13 +379,23 @@ describe('buildTable', () => {
           html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-footer'><div class='dpr-summary-container'><table class='govuk-table'>\n                  <thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Preference</th><th scope='col' class='govuk-table__header'>Eaten</th></thead>\n                  <tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Oranges</td><td class='govuk-table__cell govuk-table__cell--numeric '>2005</td></tr></tbody>\n                </table></div></div>",
         },
       ],
+      sectionHeaders[0],
+      [
+        {
+          colspan: 2,
+          html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-header'><div class='dpr-summary-container'><table class='govuk-table'>\n                  <thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Squishy?</th></thead>\n                  <tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Yes</td></tr></tbody>\n                </table></div></div>",
+        },
+      ],
+      headerResultRow,
+      resultRows[0],
+      resultRows[1],
       sectionHeaders[2],
       headerResultRow,
       resultRows[3],
       [
         {
           colspan: 2,
-          html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-footer'><div class='dpr-summary-container'><table class='govuk-table'>\n                  <thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Preference</th><th scope='col' class='govuk-table__header'>Eaten</th></thead>\n                  <tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>No</td><td class='govuk-table__cell govuk-table__cell--numeric '>0</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>No, really</td><td class='govuk-table__cell govuk-table__cell--numeric '>0</td></tr></tbody>\n                </table></div></div>",
+          html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-footer'><div class='dpr-summary-container'><table class='govuk-table'>\n                  <thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Preference</th><th scope='col' class='govuk-table__header'>Eaten</th></thead>\n                  <tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>No, really</td><td class='govuk-table__cell govuk-table__cell--numeric '>0</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>NO</td><td class='govuk-table__cell govuk-table__cell--numeric '>0</td></tr></tbody>\n                </table></div></div>",
         },
       ],
     ])

@@ -17,10 +17,17 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
       classes: 'govuk-table__header',
     }))
 
+    const sectionFields = this.specification.sections
+      .map((s) => this.specification.fields.find((f) => f.name === s))
+
     const sectionDescriptions = data
-      .map((rowData) => this.mapSectionDescription(rowData))
+      .map((rowData) => ({
+        description:this.mapSectionDescription(rowData),
+        sortKey: this.getSortKey(rowData, sectionFields)
+      }))
+      .sort(this.sortKeyComparison())
+      .map(s => s.description)
       .reduce(distinct, [])
-      .sort()
 
     sectionDescriptions.forEach((sectionDescription) => {
       sectionedData[sectionDescription] = []

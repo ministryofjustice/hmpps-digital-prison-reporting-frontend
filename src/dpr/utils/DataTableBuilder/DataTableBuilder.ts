@@ -159,33 +159,53 @@ export default class DataTableBuilder {
   }
 
   private sort(data: Dict<string>[]) {
-    return data.sort((a, b) => {
-      const sortValues = this.specification.fields
-        .map((field) => {
-          const aValue = a[field.name]
-          const bValue = b[field.name]
+    return this.appendSortKeyToData(data).sort(this.sortKeyComparison())
+  }
 
-          if (aValue === bValue) {
-            return 0
-          }
+  protected sortKeyComparison() {
+    return (a: Dict<string>, b: Dict<string>) => {
+      const aValue = a.sortKey
+      const bValue = b.sortKey
 
-          if (aValue === null) {
-            return 1
-          }
-          if (bValue === null) {
-            return -1
-          }
+      if (aValue === bValue) {
+        return 0
+      }
 
-          if (aValue < bValue) {
-            return -1
-          }
+      if (aValue < bValue) {
+        return -1
+      }
 
-          return 1
-        })
-        .filter((c) => c !== 0)
+      return 1
+    }
+  }
 
-      return sortValues.length > 0 ? sortValues[0] : 0
+  private appendSortKeyToData(data: Dict<string>[], fields: FieldDefinition[] = null): Dict<string>[] {
+    const sortFields = fields || this.specification.fields
+
+    return data.map(rowData => {
+      const sortKey = this.getSortKey(rowData, sortFields)
+
+      return {
+        ...rowData,
+        sortKey
+      }
     })
+  }
+
+  protected getSortKey(rowData: NodeJS.Dict<string>, sortFields: FieldDefinition[]) {
+    return sortFields.map(f => {
+      const value = rowData[f.name]
+
+      if (value === null) {
+        return 'zzzzzzzz'
+      }
+
+      if (this.dateMapper.isDate(value)) {
+        return this.dateMapper.toDateString(value, 'iso')
+      }
+
+      return this.mapCellValue(f, value)
+    }).join('-').toLowerCase()
   }
 
   withHeaderSortOptions(reportQuery: ReportQuery) {

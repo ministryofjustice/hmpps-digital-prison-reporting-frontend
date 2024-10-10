@@ -104,6 +104,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         tableId,
         classification,
         template,
+        count,
         actions: ReportActionsUtils.initAsyncReportActions(variant, reportStateData),
         printable,
         querySummary: query.summary,

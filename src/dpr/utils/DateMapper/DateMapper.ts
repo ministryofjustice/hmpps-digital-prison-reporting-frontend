@@ -1,24 +1,30 @@
-// eslint-disable no-useless-escape
-
-import { DateType } from './types'
 import dayjs, { Dayjs } from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import { DateType } from './types'
 import logger from '../logger'
 
 export default class DateMapper {
-  private isoDateRegEx = /^(\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01]))/
-  private localDateRegEx = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
-  private localDateShortYearRegEx = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{2}$/
-  private localDateTimeRegEx = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4} [0-2]\d:[0-5]\d$/
-  private localDateTimeShortYearRegEx = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{2} [0-2]\d:[0-5]\d$/
+  private isoDateRegEx = /^(\d{4}[/-](0?[1-9]|1[012])[/-](0?[1-9]|[12][0-9]|3[01]))/
+
+  private localDateRegEx = /^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]\d{4}$/
+
+  private localDateShortYearRegEx = /^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]\d{2}$/
+
+  private localDateTimeRegEx = /^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]\d{4} [0-2]\d:[0-5]\d$/
+
+  private localDateTimeShortYearRegEx = /^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]\d{2} [0-2]\d:[0-5]\d$/
 
   private isoFormat = 'YYYY-MM-DD'
+
   private localDateFormat = 'DD/MM/YYYY'
+
   private localDateShortYearFormat = 'DD/MM/YY'
+
   private localDateTimeFormat = 'DD/MM/YYYY HH:mm'
+
   private localDateTimeShortYearFormat = 'DD/MM/YY HH:mm'
 
-  getDateType(value: string): DateType  {
+  getDateType(value: string): DateType {
     if (value) {
       if (value.match(this.isoDateRegEx)) {
         return 'iso'
@@ -44,7 +50,7 @@ export default class DateMapper {
     return 'none'
   }
 
-  getDateWrapper(value: string): Dayjs  {
+  getDateWrapper(value: string): Dayjs {
     dayjs.extend(customParseFormat)
 
     switch (this.getDateType(value)) {
@@ -58,9 +64,9 @@ export default class DateMapper {
         return dayjs(value, this.localDateTimeFormat)
       case 'local-datetime-short-year':
         return dayjs(value, this.localDateTimeShortYearFormat)
+      default:
+        return null
     }
-
-    return null
   }
 
   isDate(value: string): boolean {
@@ -82,13 +88,15 @@ export default class DateMapper {
           return dateWrapper.format(this.localDateTimeFormat)
         case 'local-datetime-short-year':
           return dateWrapper.format(this.localDateTimeShortYearFormat)
+        default:
+          logger.warn(`Invalid date type: ${type}`)
+          return null
       }
     }
 
     if (value) {
       logger.warn(`Could not map non-date value : ${value}`)
     }
-
     return null
   }
 }

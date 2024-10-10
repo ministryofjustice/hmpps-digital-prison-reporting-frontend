@@ -182,30 +182,33 @@ export default class DataTableBuilder {
   private appendSortKeyToData(data: Dict<string>[], fields: FieldDefinition[] = null): Dict<string>[] {
     const sortFields = fields || this.specification.fields
 
-    return data.map(rowData => {
+    return data.map((rowData) => {
       const sortKey = this.getSortKey(rowData, sortFields)
 
       return {
         ...rowData,
-        sortKey
+        sortKey,
       }
     })
   }
 
   protected getSortKey(rowData: NodeJS.Dict<string>, sortFields: FieldDefinition[]) {
-    return sortFields.map(f => {
-      const value = rowData[f.name]
+    return sortFields
+      .map((f) => {
+        const value = rowData[f.name]
 
-      if (value === null) {
-        return 'zzzzzzzz'
-      }
+        if (value === null) {
+          return 'zzzzzzzz'
+        }
 
-      if (this.dateMapper.isDate(value)) {
-        return this.dateMapper.toDateString(value, 'iso')
-      }
+        if (this.dateMapper.isDate(value)) {
+          return this.dateMapper.toDateString(value, 'iso')
+        }
 
-      return this.mapCellValue(f, value)
-    }).join('-').toLowerCase()
+        return this.mapCellValue(f, value)
+      })
+      .join('-')
+      .toLowerCase()
   }
 
   withHeaderSortOptions(reportQuery: ReportQuery) {

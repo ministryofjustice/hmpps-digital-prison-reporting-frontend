@@ -34,28 +34,23 @@ describe('getDateType', () => {
 
 describe('getDateWrapper', () => {
   it('Iso Date', () => {
-    expect(dateMapper.getDateWrapper('2001-02-03').format('YYYY-MM-DD'))
-      .toEqual('2001-02-03')
+    expect(dateMapper.getDateWrapper('2001-02-03').format('YYYY-MM-DD')).toEqual('2001-02-03')
   })
 
   it('Local Date', () => {
-    expect(dateMapper.getDateWrapper('01/02/2003').format('YYYY-MM-DD'))
-      .toEqual('2003-02-01')
+    expect(dateMapper.getDateWrapper('01/02/2003').format('YYYY-MM-DD')).toEqual('2003-02-01')
   })
 
   it('Local Date Short YEar', () => {
-    expect(dateMapper.getDateWrapper('01/02/03').format('YYYY-MM-DD'))
-      .toEqual('2003-02-01')
+    expect(dateMapper.getDateWrapper('01/02/03').format('YYYY-MM-DD')).toEqual('2003-02-01')
   })
 
   it('Local Date Time', () => {
-    expect(dateMapper.getDateWrapper('01/02/2003 04:05').format('YYYY-MM-DD'))
-      .toEqual('2003-02-01')
+    expect(dateMapper.getDateWrapper('01/02/2003 04:05').format('YYYY-MM-DD')).toEqual('2003-02-01')
   })
 
   it('Local Date Time Short Year', () => {
-    expect(dateMapper.getDateWrapper('01/02/03 04:05').format('YYYY-MM-DD'))
-      .toEqual('2003-02-01')
+    expect(dateMapper.getDateWrapper('01/02/03 04:05').format('YYYY-MM-DD')).toEqual('2003-02-01')
   })
 
   it('No value', () => {

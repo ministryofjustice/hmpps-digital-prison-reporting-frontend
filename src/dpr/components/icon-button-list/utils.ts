@@ -39,13 +39,21 @@ const BUTTON_TEMPLATES = {
   },
 }
 
-const initReportActions = (
-  reportName: string,
-  variantName: string,
-  printable: boolean,
-  url: string,
-  executionId: string = null,
-): ReportAction[] => {
+const initReportActions = ({
+  reportName,
+  variantName,
+  printable,
+  url,
+  executionId = null,
+  downloadable = true,
+}: {
+  reportName: string
+  variantName: string
+  printable: boolean
+  url: string
+  executionId?: string
+  downloadable?: boolean
+}): ReportAction[] => {
   const actions: ReportAction[] = []
 
   // Refresh
@@ -75,20 +83,23 @@ const initReportActions = (
   })
 
   // Downloadable
-  actions.push(BUTTON_TEMPLATES.downloadable)
+  actions.push({
+    ...BUTTON_TEMPLATES.downloadable,
+    disabled: !downloadable,
+  })
 
   return actions
 }
 
 export default {
   initAsyncReportActions: (variant: components['schemas']['VariantDefinition'], reportData: AsyncReportData) => {
-    return initReportActions(
-      reportData.reportName,
-      reportData.name,
-      variant.printable,
-      reportData.url.request.fullUrl,
-      reportData.executionId,
-    )
+    return initReportActions({
+      reportName: reportData.reportName,
+      variantName: reportData.name,
+      printable: variant.printable,
+      url: reportData.url.request.fullUrl,
+      executionId: reportData.executionId,
+    })
   },
 
   initReportActions,

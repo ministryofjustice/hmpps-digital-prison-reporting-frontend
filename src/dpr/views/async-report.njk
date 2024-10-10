@@ -30,7 +30,7 @@
         {{ dprReportHeading(renderData) }}
       </div>
 
-      {% if rowCount === 0 %}
+      {% if not rowCount or rowCount === 0 %}
       <div class="report-no-data-available">
         <p class="govuk-body-l govuk-!-margin-bottom-3"><strong>No data to display</strong></p>
         <p class="govuk-body">Review and update your query, and re-run the report to view data</p>

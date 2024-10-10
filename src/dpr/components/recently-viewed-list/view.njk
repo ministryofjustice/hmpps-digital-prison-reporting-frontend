@@ -1,12 +1,7 @@
-{% from "../table-card-group/view.njk" import dprTableCardGroup %}
+{% from "../user-list-content/view.njk" import dprUserList %}
 
-{% macro dprRecentlyViewedList(head, cardData, tableData, total, meta, csrfToken) %}
+{% macro dprRecentlyViewedList(args) %}
   <div id="dpr-recently-viewed-component" data-dpr-module="recently-viewed-list" data-request-data='{{ meta | dump | safe }}' data-csrf-token="{{ csrfToken }}">
-    {{ dprTableCardGroup(
-      head,
-      cardData, 
-      tableData,
-      total
-    )}}
+    {{ dprUserList(args) }}
   </div>
 {% endmacro %}

@@ -30,6 +30,12 @@ describe('getDateType', () => {
   it('Non-date value', () => {
     expect(dateMapper.getDateType('Not a date')).toEqual('none')
   })
+
+  it('Not a matchable string', () => {
+    // eslint-disable-next-line  @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    expect(dateMapper.getDateType(0)).toEqual('none')
+  })
 })
 
 describe('getDateWrapper', () => {

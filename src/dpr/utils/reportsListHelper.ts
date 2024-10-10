@@ -58,7 +58,7 @@ export const formatTable = (cardData: CardData[], type: 'requested' | 'viewed') 
   }
 }
 
-const itemActionsHtmL = (retryHref: string, executionId: string, type: 'requested' | 'viewed') => {
+const itemActionsHtml = (retryHref: string, executionId: string, type: 'requested' | 'viewed') => {
   const text = type === 'requested' ? 'Retry report' : 'Refresh report'
   return `<div class="dpr-icon-wrapper__item-actions">
       <a class='dpr-user-list-action govuk-link--no-visited-state' href="${retryHref}">${text}</a>
@@ -72,11 +72,11 @@ export const formatTableData = (card: CardData, type: 'requested' | 'viewed') =>
   switch (card.status) {
     case 'FAILED':
       statusClass = 'govuk-tag--red'
-      itemActions = itemActionsHtmL(card.href, card.id, type)
+      itemActions = itemActionsHtml(card.href, card.id, type)
       break
     case 'EXPIRED':
       statusClass = 'govuk-tag--grey'
-      itemActions = itemActionsHtmL(card.href, card.id, type)
+      itemActions = itemActionsHtml(card.href, card.id, type)
       break
     case 'ABORTED':
       statusClass = 'govuk-tag--orange'

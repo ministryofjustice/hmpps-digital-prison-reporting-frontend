@@ -5,6 +5,7 @@ import { Cell, DataTable, FieldDefinition, Header } from './types'
 import createUrlForParameters from '../urlHelper'
 import type { SummaryTemplate, Template } from '../../types/Templates'
 import { AsyncSummary } from '../../types/AsyncReport'
+import DateMapper from '../DateMapper/DateMapper'
 
 export default class DataTableBuilder {
   protected specification: components['schemas']['Specification']
@@ -22,6 +23,8 @@ export default class DataTableBuilder {
 
   private applySorting = false
 
+  private dateMapper = new DateMapper()
+
   constructor(specification: components['schemas']['Specification']) {
     this.specification = specification
     this.template = specification.template as Template
@@ -29,17 +32,8 @@ export default class DataTableBuilder {
 
   private mapDate(isoDate: string) {
     if (!isoDate) return ''
-    const date = new Date(isoDate)
-    const add0 = (t: number) => {
-      return t < 10 ? `0${t}` : t
-    }
-    const year = date.getFullYear().toString().slice(2)
-    const month = add0(date.getMonth() + 1) // 0 indexed
-    const day = add0(date.getDate())
-    const hours = add0(date.getHours())
-    const minutes = add0(date.getMinutes())
 
-    return `${day}/${month}/${year} ${hours}:${minutes}`
+    return this.dateMapper.toDateString(isoDate, 'local-datetime-short-year')
   }
 
   private mapBoolean(value: string) {

@@ -5,6 +5,6 @@
 
   <div class='dpr-bookmark dpr-bookmark-inline dpr-bookmark-component' data-dpr-module="bookmark-toggle">
     <input class="bookmark-input" aria-label="bookmark toggle" type='checkbox' id='{{ reportId }}-{{ variantId }}-{{id}}' data-variant-id='{{ variantId }}' data-report-id='{{ reportId }}' data-csrf-token='{{ csrfToken }}' {{ checked }}/>
-    <label id="${variantId}-${reportId}-${id}-bookmark-label" tabindex="0" for='{{ reportId }}-{{ variantId }}-{{id}}' class=''><span class="govuk-link--no-visited-state dpr-bookmark-label dpr-bookmark-label--component govuk-body-xs">{{tooltip}}</span></label>
+    <label id="{{variantId}}-{{reportId}}-{{id}}-bookmark-label" tabindex="0" for='{{ reportId }}-{{ variantId }}-{{id}}' class=''><span class="govuk-link--no-visited-state dpr-bookmark-label dpr-bookmark-label--component govuk-body-xs">{{tooltip}}</span></label>
   </div>
 {% endmacro %}

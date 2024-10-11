@@ -18,10 +18,8 @@
 
   <div>
     <div class="dpr-slide__header">
-      <h2 class="govuk-heading-m dpr-slide__title">{{ title }}</h2>
-
       {% if not emptyMessage.length and total %}
-        <p class="govuk-body dpr-slide__sub-text">Showing {{ total.shown }} of {{ total.amount }}.{% if total.amount > maxRows %} <a class="govuk-body-s" href='{{ href }}'>Show all</a>{% endif %}</p>
+        <p class="govuk-body-s dpr-slide__sub-text">Showing {{ total.shown }} of {{ total.amount }}.{% if total.amount > maxRows %} <a class="govuk-body-s" href='{{ href }}'>Show all</a>{% endif %}</p>
       {% endif %}
     </div>
     {% if emptyMessage.length %}

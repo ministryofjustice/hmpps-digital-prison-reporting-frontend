@@ -162,3 +162,31 @@
   white-space: nowrap;
   /* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
 }
+
+.dpr-bookmark-component {
+  position: relative;
+  text-align: center;
+  padding-left: 24px;
+
+  .dpr-bookmark-label {
+    left: 20px;
+    position: absolute;
+    padding-left: 10px;
+    width: max-content;
+    text-align: left;
+    top: 7px;
+    text-decoration: underline;
+    text-decoration-thickness: max(1px, .0625rem);
+    text-underline-offset: .1578em;
+  }
+
+  [type="checkbox"]:not(:checked)+label:before,
+  [type="checkbox"]:checked+label:before {
+    font-size: 22px;
+  }
+
+  [type="checkbox"]:not(:checked)+label:after,
+  [type="checkbox"]:checked+label:after {
+    font-size: 22px;
+  }
+}

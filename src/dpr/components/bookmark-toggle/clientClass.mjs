@@ -16,33 +16,44 @@ export default class BookmarkToggle extends DprClientClass {
       const reportId = bookmarkToggle.getAttribute('data-report-id')
       const variantId = bookmarkToggle.getAttribute('data-variant-id')
 
-      const bookmarkWrapper = bookmarkToggle.parentNode
-      const bookmarkColumn = bookmarkWrapper.parentNode
+      this.bookmarkWrapper = bookmarkToggle.parentNode
+      this.bookmarkColumn = this.bookmarkWrapper.parentNode
+      this.bookmarkLabel = this.bookmarkWrapper.querySelector('.dpr-bookmark-label--component')
 
       bookmarkToggle.addEventListener('change', async () => {
         if (bookmarkToggle.checked) {
-          bookmarkWrapper.setAttribute('tooltip', 'Remove Bookmark')
+          bookmarkToggle.setAttribute('checked', '')
+          this.bookmarkWrapper.setAttribute('tooltip', 'Remove Bookmark')
+          if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmarked'
           await this.toggleBookmark('add', variantId, reportId, csrfToken)
         } else {
-          bookmarkWrapper.setAttribute('tooltip', 'Add Bookmark')
+          bookmarkToggle.removeAttribute('checked')
+          this.bookmarkWrapper.setAttribute('tooltip', 'Add Bookmark')
+          if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmark removed'
           await this.toggleBookmark('remove', variantId, reportId, csrfToken)
         }
       })
 
-      bookmarkColumn.addEventListener('keyup', async (e) => {
+      this.bookmarkColumn.addEventListener('keyup', async (e) => {
         if (e.key === 'Enter') {
-          if (bookmarkToggle.checked) {
-            bookmarkToggle.removeAttribute('checked')
-            bookmarkWrapper.setAttribute('tooltip', 'Remove Bookmark')
-            await this.toggleBookmark('remove', variantId, reportId, csrfToken)
-          } else {
-            bookmarkToggle.setAttribute('checked', true)
-            bookmarkWrapper.setAttribute('tooltip', 'Remove Bookmark')
-            await this.toggleBookmark('add', variantId, reportId, csrfToken)
-          }
+          await this.handleBookmarkChange(bookmarkToggle, variantId, reportId, csrfToken)
         }
       })
     })
+  }
+
+  async handleBookmarkChange(bookmarkToggle, variantId, reportId, csrfToken) {
+    if (bookmarkToggle.checked) {
+      bookmarkToggle.removeAttribute('checked')
+      this.bookmarkWrapper.setAttribute('tooltip', 'Add Bookmark')
+      if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmark removed'
+      await this.toggleBookmark('remove', variantId, reportId, csrfToken)
+    } else {
+      bookmarkToggle.setAttribute('checked', '')
+      this.bookmarkWrapper.setAttribute('tooltip', 'Bookmarked')
+      if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmarked'
+      await this.toggleBookmark('add', variantId, reportId, csrfToken)
+    }
   }
 
   async toggleBookmark(type, variantId, reportId, csrfToken) {

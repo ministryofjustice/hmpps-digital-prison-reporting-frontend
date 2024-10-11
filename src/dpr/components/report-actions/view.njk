@@ -1,0 +1,35 @@
+{% from "moj/components/button-menu/macro.njk" import mojButtonMenu %}
+
+{% macro dprReportActions(buttonList) %}
+
+  {% set items = [] %}
+
+    {% for button in buttonList %}
+      {% set items = (items.push({
+        text: button.tooltipText,
+        attributes: {
+          id: button.id,
+          disabled: button.disabled,
+          "data-href": button.href
+        },
+        attributes: {
+          id: button.id,
+          disabled: button.disabled,
+          "data-href": button.href,
+          "aria-label": button.ariaLabelText
+        } if button.disabled else {
+          id: button.id,
+          "data-href": button.href,
+          "aria-label": button.ariaLabelText
+        },
+        classes: '{{button.id}} govuk-button--secondary'
+        }), items) %}
+    {% endfor %}
+
+  
+  <div class="report-actions" data-dpr-module='icon-button-list'>
+    {{ mojButtonMenu({
+      items: items
+    }) }}
+  </div>
+{% endmacro %}

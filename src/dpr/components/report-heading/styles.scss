@@ -2,9 +2,13 @@
   .dpr-report-heading {
     column-gap: 15px;
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
     position: relative;
     row-gap: 15px;
+
+    @media(max-width: 1019px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   .dpr-report-details-print {

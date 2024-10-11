@@ -99,7 +99,7 @@ const mapBookmarkIdsToDefinition = async (
             variantId: bookmark.variantId,
             reportName: definition.name,
             name: definition.variant.name,
-            description: definition.variant.description,
+            description: definition.variant.description || definition.description,
             href: `/async-reports/${bookmark.reportId}/${bookmark.variantId}/request`,
           })
         }

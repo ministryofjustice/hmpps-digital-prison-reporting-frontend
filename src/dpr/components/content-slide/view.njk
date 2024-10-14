@@ -19,9 +19,6 @@
   <div class="dpr-slide-container">
     <div class="dpr-slide__header">
       <h2 class="govuk-heading-m dpr-slide__title">
-        {% if icon %}
-          {{ dprStaticIcon(icon, 'l') }}
-        {% endif %}
         {% if href %}
           <a href='{{ href }}'>{{ title }}</a>
         {% else %}

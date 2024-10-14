@@ -4,5 +4,6 @@
 {% set mainClasses = "app-container govuk-body" %}
 {% block content %}
   <h1>{{ title }}</h1>
+  <p class="govuk-body">Customise your report using the filters below and sumbit your request.</p>
   {{ dprAsyncFilters( filters, sortBy, reportData, postEndpoint ) }}
 {% endblock %}

@@ -96,6 +96,7 @@ export default {
       total: ReportListHelper.getTotals(cardData, maxRows),
       meta: ReportListHelper.getMeta(cardData),
       csrfToken,
+      maxRows,
     }
   },
 }

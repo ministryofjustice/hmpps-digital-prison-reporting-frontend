@@ -3,7 +3,7 @@ import Dict = NodeJS.Dict
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 import { AsyncReportData } from '../types/AsyncReport'
 import AsyncReportListUtils from '../components/async-report-list/utils'
-import ReportActionsUtils from '../components/icon-button-list/utils'
+import ReportActionsUtils from '../components/report-actions/utils'
 import { Template } from '../types/Templates'
 import ReportQuery from '../types/ReportQuery'
 import CollatedSummaryBuilder from './CollatedSummaryBuilder/CollatedSummaryBuilder'

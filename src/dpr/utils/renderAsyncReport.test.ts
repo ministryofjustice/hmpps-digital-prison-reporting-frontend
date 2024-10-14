@@ -3,7 +3,7 @@ import { Url } from 'url'
 import * as AsyncReportUtils from './renderAsyncReport'
 import ColumnUtils from '../components/columns/utils'
 import PaginationUtils from '../components/pagination/utils'
-import ReportActionsUtils from '../components/icon-button-list/utils'
+import ReportActionsUtils from '../components/report-actions/utils'
 
 import mockAsyncApis from '../../../test-app/mockAsyncData/mockAsyncApis'
 import { AsyncReportData } from '../types/AsyncReport'

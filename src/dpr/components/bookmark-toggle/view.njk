@@ -3,8 +3,8 @@
   {% set checked %}{{ 'checked' if bookmarked else '' }}{% endset %}
   {% set tooltip %}{{ 'Remove Bookmark' if bookmarked else 'Add Bookmark' }}{% endset %}
 
-  <div class='dpr-bookmark dpr-bookmark-inline dpr-bookmark-tooltip' tooltip="{{ tooltip }}" data-dpr-module="bookmark-toggle">
+  <div class='dpr-bookmark dpr-bookmark-inline dpr-bookmark-component' data-dpr-module="bookmark-toggle">
     <input class="bookmark-input" aria-label="bookmark toggle" type='checkbox' id='{{ reportId }}-{{ variantId }}-{{id}}' data-variant-id='{{ variantId }}' data-report-id='{{ reportId }}' data-csrf-token='{{ csrfToken }}' {{ checked }}/>
-    <label id="${variantId}-${reportId}-${id}-bookmark-label" tabindex="0" for='{{ reportId }}-{{ variantId }}-{{id}}' class=''><span class="dpr-visually-hidden">Bookmark toggle</span></label>
+    <label id="{{variantId}}-{{reportId}}-{{id}}-bookmark-label" tabindex="0" for='{{ reportId }}-{{ variantId }}-{{id}}' class=''><span class="govuk-link--no-visited-state dpr-bookmark-label dpr-bookmark-label--component govuk-body-xs">{{tooltip}}</span></label>
   </div>
 {% endmacro %}

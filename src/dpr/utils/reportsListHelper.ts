@@ -30,7 +30,7 @@ export const createShowMoreHtml = (text: string, length?: number) => {
 
   return `<div class="dpr-show-more" data-content="${sanitizedString}" data-dpr-module="show-more" data-length="${stringLength}">
     <p class="govuk-body-s govuk-!-margin-bottom-0">
-      <div class='dpr-show-more-content'>${sanitizedString}</div><a class="dpr-show-hide-button" href="#">show more</a>
+      <div class='dpr-show-more-content'>${sanitizedString}</div><a class="dpr-show-hide-button govuk-link--no-visited-state" href="#">show more</a>
     </p>
   </div>`
 }
@@ -52,20 +52,18 @@ export const formatTable = (cardData: CardData[], type: 'requested' | 'viewed') 
       { text: 'Product', classes: 'dpr-req-product-head' },
       { text: 'Name', classes: 'dpr-req-name-head' },
       { text: 'Description', classes: 'dpr-req-description-head' },
-      { text: 'Timestamp', classes: 'dpr-req-ts-head' },
+      { text: 'Date', classes: 'dpr-req-ts-head' },
       { text: 'Status', classes: 'dpr-req-status-head' },
     ],
   }
 }
 
 const itemActionsHtml = (retryHref: string, executionId: string, type: 'requested' | 'viewed') => {
-  const tooltip = type === 'requested' ? 'Retry report' : 'Refresh report'
+  const text = type === 'requested' ? 'Retry report' : 'Refresh report'
   return `<div class="dpr-icon-wrapper__item-actions">
-      <div class="dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live" tooltip="${tooltip}">
-        <a href="${retryHref}"><span class='dpr-visually-hidden'>${tooltip}</span><i class="dpr-icon refresh-icon"></i></a>
-      </div><div class="dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live dpr-remove-${type}-report-button" tooltip="Remove from list" data-execution-id='${executionId}'>
-        <a href="#"><span class='dpr-visually-hidden'>Remove Report from list</span><i class="dpr-icon close-icon"></i>
-      </div></div>`
+      <a class='dpr-user-list-action govuk-link--no-visited-state' href="${retryHref}">${text}</a>
+      <a class="dpr-user-list-action govuk-link--no-visited-state dpr-remove-${type}-report-button"" href="#" data-execution-id='${executionId}'>Remove report</a>
+    </div>`
 }
 
 export const formatTableData = (card: CardData, type: 'requested' | 'viewed') => {
@@ -105,7 +103,7 @@ export const formatTableData = (card: CardData, type: 'requested' | 'viewed') =>
       classes: 'dpr-req-cell',
     },
     {
-      html: `${itemActions}<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${card.status}</strong>`,
+      html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${card.status}</strong> ${itemActions}`,
       classes: 'dpr-req-cell dpr-req-cell__status',
     },
   ]

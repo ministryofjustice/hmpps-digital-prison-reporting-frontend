@@ -8,6 +8,7 @@
 {% from "components/recently-viewed-list/view.njk" import dprRecentlyViewedList %}
 {% from "components/reports-list/view.njk" import dprReportsList %}
 {% from "components/tag/view.njk" import dprTag %}
+{% from "components/user-list-content/view.njk" import dprUserList %}
 
 {% block content %}
   <div class="govuk-width-container">
@@ -34,35 +35,33 @@
 
     <h1 class="govuk-heading-l">{{ title }}</h1>
     {% set requestedReportsHtml %}
-    {{ dprAsyncRequestList(
-      requestedReports.head,
-      requestedReports.cardData, 
-      requestedReports.tableData,
-      requestedReports.total,
-      requestedReports.meta,
-      requestedReports.csrfToken
-    )}}
+    {{ dprAsyncRequestList({
+      head: requestedReports.head,
+      tableData: requestedReports.tableData,
+      total: requestedReports.total,
+      meta: requestedReports.meta,
+      csrf: requestedReports.csrfToken
+    })}}
+
     {% endset -%}
 
     {% set recentlyViewedHtml %}
-    {{ dprRecentlyViewedList(
-      viewedReports.head, 
-      viewedReports.cardData, 
-      viewedReports.tableData,
-      viewedReports.total,
-      viewedReports.meta,
-      requestedReports.csrfToken
-  ) }}
+      {{ dprRecentlyViewedList({
+        head: viewedReports.head,
+        tableData: viewedReports.tableData,
+        total: viewedReports.total,
+        meta: viewedReports.meta,
+        csrf: viewedReports.csrfToken
+      }) }}
     {% endset -%}
 
     {% set bookmarksHtml %}
     <div id="dpr-bookmarks-list">
-      {{ dprTableCardGroup(
-        bookmarks.head,
-        bookmarks.cardData, 
-        bookmarks.tableData,
-        bookmarks.total
-      )}}
+      {{ dprUserList({
+        head: bookmarks.head,
+        tableData: bookmarks.tableData,
+        total: bookmarks.total
+      }) }}
     </div>
     {% endset -%}
 

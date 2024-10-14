@@ -1,12 +1,7 @@
-{% from "../table-card-group/view.njk" import dprTableCardGroup %}
+{% from "../user-list-content/view.njk" import dprUserList %}
 
-{% macro dprAsyncRequestList(head, cardData, tableData, total, meta, csrfToken) %}
+{% macro dprAsyncRequestList(args) %}
   <div id="dpr-async-request-component" data-dpr-module="async-request-list" data-request-data='{{ meta | dump | safe }}' data-csrf-token="{{ csrfToken }}">
-    {{ dprTableCardGroup(
-      head,
-      cardData, 
-      tableData,
-      total
-    )}}
+    {{ dprUserList(args) }}
   </div>
 {% endmacro %}

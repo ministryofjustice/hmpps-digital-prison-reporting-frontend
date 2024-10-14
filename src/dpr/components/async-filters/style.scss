@@ -7,3 +7,27 @@
 .govuk-error-message--hidden, .query-error-summary--hidden, .async-filters-form--hidden {
   display: none;
 }
+
+.dpr-filters {
+  .dpr-filters-container {
+    column-gap: 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    row-gap: 15px;
+
+    .dpr-async-controls__section {
+      background-color: lighten(govuk-colour("light-grey"), 3%);
+      padding: govuk-spacing(4);
+    }
+    
+      .filter-container {
+        display: block;
+      }
+
+      .dpr-filter-item {
+        background-color: none;
+        margin-bottom: govuk-spacing(2);
+      }
+  }
+}

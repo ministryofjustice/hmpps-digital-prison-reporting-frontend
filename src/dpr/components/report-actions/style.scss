@@ -1,0 +1,9 @@
+.report-actions {
+  float: right;
+}
+
+@media print {
+  .report-actions {
+    display: none;
+  }
+}

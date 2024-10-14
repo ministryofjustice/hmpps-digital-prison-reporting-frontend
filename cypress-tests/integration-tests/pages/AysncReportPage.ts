@@ -23,5 +23,5 @@ export default class QueryPage {
 
   refreshActionButton = (): PageElement => cy.xpath(`//*[@id="dpr-button-refresh"]`)
 
-  tableHeaders = (): PageElement => cy.xpath(`//*[@id="dpr-data-table"]/thead/tr[1]`)
+  tableHeaders = (): PageElement => cy.xpath(`//*[@id="dpr-data-table"]/thead/tr[2]`)
 }

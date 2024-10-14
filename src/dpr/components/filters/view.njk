@@ -23,7 +23,7 @@
       </div>
 
       <div class="filter-actions">
-        <div class="filter-actions-buttons">
+        <div class="govuk-button-group">
 
           {{ govukButton({
             text: "Apply Filters",
@@ -35,14 +35,7 @@
             classes: "govuk-button govuk-!-margin-bottom-0 filter-actions-apply-button"
           }) }}
 
-          {{ govukButton({
-            text: "Reset Filters",
-            classes: "govuk-button--secondary govuk-!-margin-bottom-0",
-            attributes: {
-              'data-reset-filters': 'true',
-              'data-apply-base-url': urlWithNoFilters
-            }
-          }) }}
+          <a class="govuk-link govuk-link--no-visited-state dpr-reset-columns-button" href="#" data-reset-filters=true data-apply-base-url="{{ urlWithNoFilters }}" >Reset filters</a>
 
         </div>
       </div>

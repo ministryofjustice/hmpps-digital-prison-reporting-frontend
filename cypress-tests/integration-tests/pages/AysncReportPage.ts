@@ -10,10 +10,10 @@ export default class QueryPage {
   column7CheckBox = (): PageElement => cy.xpath(`//*[@id="columns-7"]`)
 
   applyColumnsButton = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div[1]/details/div/form/div[2]/button[1]`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div/details/div/form/div[2]/button`)
 
   resetColumns = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div[1]/details/div/form/div[2]/button[2]`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div/details/div/form/div[2]/a`)
 
   pageSizeSelector = (): PageElement => cy.xpath(`//*[@id="page-size-select"]`)
 
@@ -23,5 +23,5 @@ export default class QueryPage {
 
   refreshActionButton = (): PageElement => cy.xpath(`//*[@id="dpr-button-refresh"]`)
 
-  tableHeaders = (): PageElement => cy.xpath(`//*[@id="dpr-data-table"]/thead/tr[1]`)
+  tableHeaders = (): PageElement => cy.xpath(`//*[@id="dpr-data-table"]/thead/tr[2]`)
 }

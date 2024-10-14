@@ -19,13 +19,13 @@
   {% endset %}
 
   {{ govukDetails({
-    summaryText: 'Report Details for ' + variantName,
+    summaryText: 'Details for "' + reportName + ': ' + variantName + '"',
     html: reportDetailsHtml,
     classes: 'dpr-meta-data-details',
     open: (filters.length == 0)
   }) }}
   
-  <div class="dpr-async-controls dpr-filters govuk-!-margin-top-4" data-dpr-module="async-filters">
+  <div class="dpr-async-request-filters dpr-filters govuk-!-margin-top-4" data-dpr-module="async-filters">
     <form action="{{ endpoint }}" method="post" id="async-filters-form" class="async-filters-form--hidden">
       <div id="query-error-summary" class="query-error-summary query-error-summary--hidden">
         {{ govukErrorSummary({
@@ -48,21 +48,21 @@
 
       <div class="dpr-filters-container">
         {% if filters.length %}
-          <div class="dpr-async-controls__section">
+          <div class="dpr-async-request-filters__section">
             <h2 class="govuk-heading-m">Filter options</h2>
             {{ dprAsyncFilterInputs(filters, 'filters.') }}
           </div>
         {% endif %}
 
         {%  if sortBy.length > 0 %}
-        <div class="dpr-async-controls__section">
+        <div class="dpr-async-request-filters__section">
           <h2 class="govuk-heading-m">Sort options</h2>
           {{ dprAsyncFilterInputs(sortBy, '') }}
         </div>
         {% endif %}
       </div>
 
-      <div class="dpr-async-controls__section">
+      <div class="govuk-button-group">
         {{ govukButton({
           text: "Request Report",
           classes: "govuk-button--primary",
@@ -72,13 +72,7 @@
         }) }}
 
         {% if filters.length > 0 %}
-        {{ govukButton({
-          text: "Reset Filters",
-          classes: "govuk-button--secondary",
-          attributes: {
-            'id': 'async-request-reset-filters-button'
-          }
-        }) }}
+        <a id="async-request-reset-filters-button" class="govuk-link govuk-link--no-visited-state" href="#">Reset filters</a>
         {% endif %}
       </div>
     </form>

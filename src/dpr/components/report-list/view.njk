@@ -6,6 +6,7 @@
   {% from "dpr/components/loading-anim/view.njk" import dprLoadingAnim -%}
   {% from "dpr/components/column-section/view.njk" import dprColumnSection %}
   {% from "dpr/components/icon-button-list/view.njk" import dprIconButtonList %}
+  {% from "dpr/components/report-actions/view.njk" import dprReportActions %}
   {% from "dpr/components/pagination/view.njk" import dprPagination %}
   {% from "dpr/components/data-table/view.njk" import dprDataTable %}
   {% from "../report-totals/view.njk" import dprReportTotals %}
@@ -52,15 +53,15 @@
     <div class="govuk-width-container {% if (printable == false) %}print-hide{% endif %} govuk-!-margin-top-3">
       {{ dprLoadingAnim() }}
       <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-grid-column-one-half">
           <h1 class="govuk-heading-m govuk-!-margin-bottom-1">
             {{ title }}
           </h1>
           <h2 class="govuk-caption-m govuk-!-margin-top-1">{{ pagination.totalRows }} total results</h2>
         </div>
-        <div class="govuk-grid-column-one-third">
+        <div class="govuk-grid-column-one-half">
           <div class="dpr-actions">
-            {{ dprIconButtonList(options.actions) }}
+            {{ dprReportActions(options.actions)}}
           </div>
         </div>
       </div>

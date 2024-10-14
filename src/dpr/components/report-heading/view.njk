@@ -1,5 +1,4 @@
 {% from "../bookmark-toggle/view.njk" import dprBookmarkToggle %}
-{% from "../icon-button-list/view.njk" import dprIconButtonList %}
 {% from "../report-actions/view.njk" import dprReportActions %}
 {% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
 {% from "../download-message/view.njk" import dprDownloadMessage %}
@@ -19,10 +18,10 @@
     <div class="dpr-report-heading">
       <div class="dpr-report-heading__title">
         <span class="govuk-caption-m">{{ reportName }}</span>
-        <h1 class="govuk-heading-l govuk-!-margin-bottom-4">
+        <h1 class="govuk-heading-l govuk-!-margin-bottom-0">
           {{ variantName }}
-          {{ dprBookmarkToggle(reportId, variantId, csrfToken, bookmarked) }}
         </h1>
+          {{ dprBookmarkToggle(reportId, variantId, csrfToken, bookmarked) }}
       </div>
       <div class="dpr-report-heading__actions">
         {{ dprReportActions(actions) }}
@@ -34,7 +33,7 @@
     {% endset %}
 
     {{ govukDetails({
-        summaryText: 'Report Details',
+        summaryText: 'Report details',
         html: reportDetailsHtml,
         classes: 'dpr-meta-data-details'
       }) }}

@@ -8,7 +8,7 @@ export default class ReportPage {
   resetFilterButton = (): PageElement => cy.xpath(`//*[@id="user-selected-filters-form"]/div[2]/div/a`)
 
   resetColumnsButton = (): PageElement =>
-    cy.get(`//*[@id="main-content"]/div/div/div[4]/div/div[1]/div[2]/div/details/div/form/div[2]/a`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[4]/div/div[1]/div[2]/div/details/div/form/div[2]/a`)
 
   pagingLink = (): PageElement => cy.get('.govuk-pagination__link').first()
 

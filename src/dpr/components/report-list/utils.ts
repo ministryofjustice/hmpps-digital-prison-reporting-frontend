@@ -14,7 +14,7 @@ import { components } from '../../types/api'
 import Dict = NodeJS.Dict
 import RenderListWithDefinitionInput from './RenderListWithDefinitionInput'
 import CreateRequestHandlerInput from './CreateRequestHandlerInput'
-import ReportActionsUtils from '../icon-button-list/utils'
+import ReportActionsUtils from '../report-actions/utils'
 import DataTableBuilder from '../../utils/DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../../utils/DataTableBuilder/types'
 import PaginationUtils from '../pagination/utils'

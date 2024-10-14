@@ -8,7 +8,6 @@
   {% set values = columns.value %}
 
   <form data-dpr-module="columns" class="dpr-columns-form">
-    {{ name }}-
     <div class="columns-container">
       {{ govukCheckboxes({
           id: name,
@@ -37,7 +36,7 @@
         classes: "govuk-button govuk-!-margin-bottom-0 dpr-apply-columns-button"
       }) }}
 
-      <a class="govuk-link govuk-link--no-visited-state dpr-reset-columns-button" href="#">Reset filters</a>
+      <a class="govuk-link govuk-link--no-visited-state dpr-reset-columns-button" href="#">Reset columns</a>
     </div>
   </form>
 {% endmacro %}

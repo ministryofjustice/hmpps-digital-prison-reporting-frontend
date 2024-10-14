@@ -19,10 +19,10 @@
     <div class="dpr-report-heading">
       <div class="dpr-report-heading__title">
         <span class="govuk-caption-m">{{ reportName }}</span>
-        <h1 class="govuk-heading-l govuk-!-margin-bottom-4">
+        <h1 class="govuk-heading-l govuk-!-margin-bottom-0">
           {{ variantName }}
-          {{ dprBookmarkToggle(reportId, variantId, csrfToken, bookmarked) }}
         </h1>
+          {{ dprBookmarkToggle(reportId, variantId, csrfToken, bookmarked) }}
       </div>
       <div class="dpr-report-heading__actions">
         {{ dprReportActions(actions) }}

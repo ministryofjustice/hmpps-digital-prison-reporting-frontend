@@ -133,11 +133,6 @@
   border-top: 10px solid transparent;
 }
 
-.dpr-bookmark-inline {
-  display: inline-block;
-  padding-left: 6px;
-}
-
 .dpr-bookmark-label {
   display: block;
   margin-top: govuk-spacing(1);
@@ -166,7 +161,7 @@
 .dpr-bookmark-component {
   position: relative;
   text-align: center;
-  padding-left: 24px;
+  height: 65px;
 
   .dpr-bookmark-label {
     left: 20px;
@@ -178,6 +173,13 @@
     text-decoration: underline;
     text-decoration-thickness: max(1px, .0625rem);
     text-underline-offset: .1578em;
+  }
+
+  [type="checkbox"]:not(:checked)+label,
+  [type="checkbox"]:checked+label {
+    position: static;
+    padding-left: 16px;
+    cursor: pointer;
   }
 
   [type="checkbox"]:not(:checked)+label:before,

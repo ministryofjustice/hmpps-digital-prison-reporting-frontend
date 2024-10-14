@@ -8,16 +8,17 @@
     {{ dprColumns(columns) }}
     {% endset %}
 
+    {% set columnsTitle = "Columns (" + columns.value.length + " of " + columns.options.length +" shown)"  %}
     <div class="columns-section-button">
       {{ govukDetails({
-      summaryText: "Columns",
+      summaryText: columnsTitle,
       html: columnsHtml
     }) }}
     </div>
 
-    <div class="columns-section-header">
+    {# <div class="columns-section-header">
       <p class="govuk-body govuk-!-margin-bottom-0">{{ columns.value.length }} of {{ columns.options.length }} shown</p>
-    </div>
+    </div> #}
   </div>
   {% endif %}
 

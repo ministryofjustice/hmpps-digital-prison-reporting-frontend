@@ -48,7 +48,7 @@ export default class DataTable extends DprClientClass {
       // Headers
       const header = this.table.createTHead()
 
-      const classificationHeaderRow = header.insertRow(1)
+      const classificationHeaderRow = header.insertRow(0)
       const classificationHeaderCell = classificationHeaderRow.insertCell(0)
       classificationHeaderCell.outerHTML = `<th class="govuk-table__header govuk-table__cell--content print-header-footer" colspan=${headLength}>${classificationContent}</th>`
 

@@ -164,8 +164,8 @@
   height: 65px;
 
   .dpr-bookmark-label {
-    left: 20px;
     position: absolute;
+    left: 20px;
     padding-left: 10px;
     width: max-content;
     text-align: left;
@@ -177,9 +177,12 @@
 
   [type="checkbox"]:not(:checked)+label,
   [type="checkbox"]:checked+label {
-    position: static;
     padding-left: 16px;
     cursor: pointer;
+    position: absolute;
+    left: 0px;
+    height: 50px;
+    width: 150px;
   }
 
   [type="checkbox"]:not(:checked)+label:before,

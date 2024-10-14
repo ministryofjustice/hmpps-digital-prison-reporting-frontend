@@ -5,9 +5,10 @@ export default class ReportPage {
 
   showColumnsButton = (): PageElement => cy.get(`.columns-section-button .govuk-details__summary`)
 
-  resetFilterButton = (): PageElement => cy.get(`.filter-actions-buttons .govuk-button.govuk-button--secondary`).first()
+  resetFilterButton = (): PageElement => cy.xpath(`//*[@id="user-selected-filters-form"]/div[2]/div/a`)
 
-  resetColumnsButton = (): PageElement => cy.get(`.dpr-reset-columns-button`)
+  resetColumnsButton = (): PageElement =>
+    cy.get(`//*[@id="main-content"]/div/div/div[4]/div/div[1]/div[2]/div/details/div/form/div[2]/a`)
 
   pagingLink = (): PageElement => cy.get('.govuk-pagination__link').first()
 
@@ -50,7 +51,7 @@ export default class ReportPage {
   currentDescendingSortColumnLink = (): PageElement =>
     this.dataTable().find(`.data-table-header-button-sort-descending`).first()
 
-  actionsButtonMenu = (): PageElement => cy.get('.icon-button-list')
+  actionsButtonMenu = (): PageElement => cy.get('.report-actions')
 
   printButton = (): PageElement => cy.get('#dpr-button-printable')
 

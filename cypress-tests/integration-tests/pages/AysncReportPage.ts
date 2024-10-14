@@ -13,7 +13,7 @@ export default class QueryPage {
     cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div[1]/details/div/form/div[2]/button[1]`)
 
   resetColumns = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div[1]/details/div/form/div[2]/button[2]`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div/details/div/form/div[2]/a`)
 
   pageSizeSelector = (): PageElement => cy.xpath(`//*[@id="page-size-select"]`)
 

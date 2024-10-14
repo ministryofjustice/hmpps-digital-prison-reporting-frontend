@@ -67,8 +67,7 @@ const initReportActions = ({
   // Print
   actions.push({
     ...BUTTON_TEMPLATES.printable,
-    // disabled: !printable,
-    disabled: false,
+    disabled: !printable,
     href: '#',
     ariaLabelText: !printable
       ? `${BUTTON_TEMPLATES.printable.ariaLabelText}, disabled`

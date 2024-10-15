@@ -9,6 +9,7 @@ import ToggleButton from './components/toggle-button/clientClass.mjs'
 import AsyncFilters from './components/async-filters/clientClass.mjs'
 import Pagination from './components/pagination/clientClass.mjs'
 import IconButtonList from './components/icon-button-list/clientClass.mjs'
+import ReportActions from './components/report-actions/clientClass.mjs'
 import DataTable from './components/data-table/clientClass.mjs'
 import AsyncPolling from './components/async-polling/clientClass.mjs'
 import Search from './components/search/clientClass.mjs'
@@ -25,6 +26,7 @@ import LineChartVisualisation from './components/chart/line/clientClass.mjs'
 import DownloadFeedbackForm from './components/download-feeback-form/cientClass.mjs'
 import LoadDashboard from './DprLoadDashboard.mjs'
 import ScoreCard from './components/scorecard/clientClass.mjs'
+import DownloadMessage from './components/download-message/clientClass.mjs'
 /**
  * Initialise all components
  *
@@ -59,6 +61,8 @@ export default function initAll() {
     LoadDashboard,
     DownloadFeedbackForm,
     ScoreCard,
+    ReportActions,
+    DownloadMessage,
   ]
 
   const customParseFormat = window.dayjs_plugin_customParseFormat

@@ -1,0 +1,21 @@
+
+{% extends layoutPath %}
+
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "../components/download-feeback-form/view.njk" import dprDownloadFeedbackForm %}
+
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+  {{ govukPanel({
+    titleText: "Your form has been submitted",
+    html: "Thank you for your feedback"
+  }) }}
+
+  {{ govukButton({
+    text: "Return to report",
+    classes: "govuk-button--primary govuk-!-margin-bottom-0",
+    href: '/async-reports/' + report.reportId + '/' + report.variantId + '/request/' + report.tableId + '/report'
+  }) }}
+{% endblock %}

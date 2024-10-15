@@ -2,7 +2,7 @@ import { DprClientClass } from '../../DprClientClass.mjs'
 
 export default class IconButtonList extends DprClientClass {
   static getModuleName() {
-    return 'icon-button-list'
+    return 'report-actions'
   }
 
   initialise() {
@@ -69,12 +69,15 @@ export default class IconButtonList extends DprClientClass {
   }
 
   initDownloadButtonEvent() {
+    const hashFragment = 'download'
+    if (window.location.hash === `#${hashFragment}`) {
+      this.downloadButton.setAttribute('disabled', '')
+    }
+
     this.downloadButton.addEventListener('click', () => {
-      const downloadMessage = document.getElementById('dpr-download-message')
-      if (downloadMessage.classList.contains('dpr-download-message--hidden')) {
-        downloadMessage.classList.remove('dpr-download-message--hidden')
-      } else {
-        downloadMessage.classList.add('dpr-download-message--hidden')
+      if (window.location.hash !== `#${hashFragment}`) {
+        this.downloadButton.setAttribute('disabled', '')
+        this.setHashAndReload(hashFragment, true)
       }
     })
   }
@@ -91,6 +94,13 @@ export default class IconButtonList extends DprClientClass {
           window.location = href
         }
       })
+    }
+  }
+
+  setHashAndReload(hashFragment, reload) {
+    window.location.hash = hashFragment
+    if (reload) {
+      window.location.reload()
     }
   }
 }

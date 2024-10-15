@@ -3,7 +3,6 @@
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
-{% from "govuk/components/panel/macro.njk" import govukPanel %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
 {% macro dprDownloadFeedbackForm(user, report, csrfToken) %}
@@ -16,19 +15,6 @@
   {% set csrfToken = csrfToken %}
 
   <div class="dpr-download-feedback-form-wrapper" data-dpr-module="download-feedback-form">
-
-    <div id="download-feedback-form-success" class="download-feedback-form-success--hidden">
-      {{ govukPanel({
-        titleText: "Your form has been submitted",
-        html: "Thank you for your feedback"
-      }) }}
-
-      {{ govukButton({
-        text: "Return to report",
-        classes: "govuk-button--primary govuk-!-margin-bottom-0",
-        href: '/async-reports/' + reportId + '/' + variantId + '/request/' + tableId + '/report'
-      }) }}
-    </div>
 
     <form action="/submitFeedback/" method="post" id="download-feedback-form" class="download-feedback-form--hidden">
       <p>Please take 5 minutes to fill out a feedback form and let us know why you would like to use the download feature</p>

@@ -35,9 +35,25 @@ export default function routes({
 
   const feedbackSubmitHandler: RequestHandler = async (req, res, next) => {
     const { body } = req
+    const { reportId, variantId, tableId } = body
     logger.info('Download Feedback Submission:', `${JSON.stringify(body)}`)
+    res.redirect(`/download/${reportId}/${variantId}/${tableId}/feedback/submitted`)
+  }
+
+  const feedbackSuccessHandler: RequestHandler = async (req, res, next) => {
+    const { reportId, variantId, tableId } = req.params
+    res.render(`${templatePath}feedback-form-success`, {
+      title: 'success',
+      layoutPath,
+      report: {
+        reportId,
+        variantId,
+        tableId,
+      },
+    })
   }
 
   router.get('/download/:reportId/:variantId/:tableId/feedback', feedbackFormHandler)
   router.post('/submitFeedback/', feedbackSubmitHandler)
+  router.get('/download/:reportId/:variantId/:tableId/feedback/submitted', feedbackSuccessHandler)
 }

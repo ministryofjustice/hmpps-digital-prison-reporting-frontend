@@ -27,9 +27,6 @@ export default class AsyncFilters extends DprFormValidationClass {
 
       if (this.mainForm.checkValidity()) {
         this.mainForm.requestSubmit()
-
-        this.success.classList.remove('download-feedback-form-success--hidden')
-        this.mainForm.classList.add('download-feedback-form--hidden')
       }
     })
   }

@@ -87,14 +87,15 @@ const initReportActions = ({
   })
 
   // Downloadable
+  // NOTE: Temporarily disabling for release 25
+  // eslint-disable-next-line no-param-reassign
+  downloadable = false
   actions.push({
     ...BUTTON_TEMPLATES.downloadable,
-    // disabled: !downloadable, // NOTE: Temporarily disabling for release 25
-    disabled: true,
-    // ariaLabelText: !downloadable
-    //   ? `${BUTTON_TEMPLATES.downloadable.ariaLabelText}, disabled`
-    //   : BUTTON_TEMPLATES.downloadable.ariaLabelText,
-    ariaLabelText: `${BUTTON_TEMPLATES.downloadable.ariaLabelText}, disabled`,
+    disabled: !downloadable,
+    ariaLabelText: !downloadable
+      ? `${BUTTON_TEMPLATES.downloadable.ariaLabelText}, disabled`
+      : BUTTON_TEMPLATES.downloadable.ariaLabelText,
   })
 
   return actions

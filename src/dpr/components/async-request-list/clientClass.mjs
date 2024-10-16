@@ -36,7 +36,7 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
         meta.map(async (metaData) => {
           if (metaData.status !== 'EXPIRED') {
             const response = await this.getExpiredStatus('/getRequestedExpiredStatus/', metaData, this.csrfToken)
-            if (response.isExpired) {
+            if (response && response.isExpired) {
               window.location.reload()
             }
           }

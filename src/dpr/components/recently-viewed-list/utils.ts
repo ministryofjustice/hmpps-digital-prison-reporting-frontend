@@ -61,7 +61,7 @@ export default {
     const report = await getExpiredStatus({ req, res, services })
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
 
-    if (report.isExpired) {
+    if (report && report.isExpired) {
       await services.recentlyViewedStoreService.setToExpired(report.executionId, userId)
     }
     return report.isExpired

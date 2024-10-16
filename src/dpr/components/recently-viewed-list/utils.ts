@@ -64,7 +64,7 @@ export default {
     if (report && report.isExpired) {
       await services.recentlyViewedStoreService.setToExpired(report.executionId, userId)
     }
-    return report.isExpired
+    return report ? report.isExpired : false
   },
 
   renderRecentlyViewedList: async ({

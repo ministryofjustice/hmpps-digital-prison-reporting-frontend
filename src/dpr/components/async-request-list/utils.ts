@@ -111,7 +111,7 @@ export default {
     if (report && report.isExpired) {
       await services.asyncReportsStore.setToExpired(report.executionId, userId)
     }
-    return report.isExpired
+    return report ? report.isExpired : false
   },
 
   renderList: async ({

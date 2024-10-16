@@ -1,4 +1,4 @@
-import { AsyncReportUrlData, RequestStatus, AsyncReportQueryData } from './AsyncReport'
+import { AsyncReportUrlData, RequestStatus, AsyncReportQueryData, AsyncReportsTimestamp } from './AsyncReport'
 
 export interface RecentlyViewedReportData {
   reportId: string
@@ -6,14 +6,10 @@ export interface RecentlyViewedReportData {
   executionId: string
   tableId: string
   reportName: string
-  variantName: string
+  variantName?: string
+  name?: string
   description: string
-  timestamp: {
-    lastViewed: Date
-    expired?: Date
-    retried?: Date
-    refresh?: Date
-  }
+  timestamp: AsyncReportsTimestamp
   status?: RequestStatus
   url: AsyncReportUrlData
   dataProductDefinitionsPath?: string

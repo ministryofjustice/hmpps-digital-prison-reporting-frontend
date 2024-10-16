@@ -9,6 +9,7 @@
 {% from "components/reports-list/view.njk" import dprReportsList %}
 {% from "components/tag/view.njk" import dprTag %}
 {% from "components/user-list-content/view.njk" import dprUserList %}
+{% from "components/user-reports-lists/view.njk" import dprUserReportsLists %}
 
 {% block content %}
   <div class="govuk-width-container">
@@ -34,63 +35,13 @@
     {% endif %}
 
     <h1 class="govuk-heading-l">{{ title }}</h1>
-    {% set requestedReportsHtml %}
-    {{ dprAsyncRequestList({
-      head: requestedReports.head,
-      tableData: requestedReports.tableData,
-      total: requestedReports.total,
-      meta: requestedReports.meta,
-      csrfToken: requestedReports.csrfToken
+
+    {{ dprUserReportsLists({
+      requestedReports: requestedReports,
+      viewedReports: viewedReports,
+      bookmarks: bookmarks
     })}}
-
-    {% endset -%}
-
-    {% set recentlyViewedHtml %}
-      {{ dprRecentlyViewedList({
-        head: viewedReports.head,
-        tableData: viewedReports.tableData,
-        total: viewedReports.total,
-        meta: viewedReports.meta,
-        csrfToken: viewedReports.csrfToken
-      }) }}
-    {% endset -%}
-
-    {% set bookmarksHtml %}
-    <div id="dpr-bookmarks-list">
-      {{ dprUserList({
-        head: bookmarks.head,
-        tableData: bookmarks.tableData,
-        total: bookmarks.total
-      }) }}
-    </div>
-    {% endset -%}
-
-    {{ govukTabs({
-      items: [
-        {
-          label: "Requested Reports (" + requestedReports.total.amount + ")",
-          id: "requested-reports-tab",
-          panel: {
-            html: requestedReportsHtml
-          }
-        },
-        {
-          label: "Recently Viewed (" + viewedReports.total.amount + ")",
-          id: "recently-viewed-tab",
-          panel: {
-            html: recentlyViewedHtml
-          }
-        },
-        {
-          label: "My Bookmarks (" + bookmarks.total.amount + ")",
-          id: "my-bookmarks-tab",
-          panel: {
-            html: bookmarksHtml
-          }
-        }
-      ]
-    }) }}
-
+  
     <h1 class="govuk-heading-l">Reports</h1>
 
     {{ dprReportsList(reports.head, reports.rows) }}

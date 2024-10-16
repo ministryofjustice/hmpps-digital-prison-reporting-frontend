@@ -1,0 +1,74 @@
+{% from "../user-list-content/view.njk" import dprUserList %}
+{% from "../async-request-list/view.njk" import dprAsyncRequestList %}
+{% from "../recently-viewed-list/view.njk" import dprRecentlyViewedList %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+{% macro dprUserReportsLists(args) %}
+
+    {% set items = [] %}
+    {% set requestedReports = args.requestedReports %}
+    {% set viewedReports = args.viewedReports %}
+    {% set bookmarks = args.bookmarks %}
+
+    {% if requestedReports %}
+      {% set requestedReportsHtml %}
+        {{ dprAsyncRequestList({
+          head: requestedReports.head,
+          tableData: requestedReports.tableData,
+          total: requestedReports.total,
+          meta: requestedReports.meta,
+          csrfToken: requestedReports.csrfToken
+        })}}
+      {% endset -%}
+
+      {% set items = (items.push({
+        label: "Requested Reports (" + requestedReports.total.amount + ")",
+        id: "requested-reports-tab",
+        panel: {
+          html: requestedReportsHtml
+        }
+      }), items) %}
+    {% endif %}
+
+    {% if viewedReports %}
+      {% set recentlyViewedHtml %}
+        {{ dprRecentlyViewedList({
+          head: viewedReports.head,
+          tableData: viewedReports.tableData,
+          total: viewedReports.total,
+          meta: viewedReports.meta,
+          csrfToken: viewedReports.csrfToken
+        }) }}
+      {% endset -%}
+
+      {% set items = (items.push({
+        label: "Recently Viewed (" + viewedReports.total.amount + ")",
+        id: "recently-viewed-tab",
+        panel: {
+          html: recentlyViewedHtml
+        }
+      }), items) %}
+    {% endif %}
+
+    {% if bookmarks %}
+      {% set bookmarksHtml %}
+        <div id="dpr-bookmarks-list">
+          {{ dprUserList({
+            head: bookmarks.head,
+            tableData: bookmarks.tableData,
+            total: bookmarks.total
+          }) }}
+        </div>
+      {% endset -%}
+      
+      {% set items = (items.push({
+        label: "My Bookmarks (" + bookmarks.total.amount + ")",
+        id: "my-bookmarks-tab",
+        panel: {
+          html: bookmarksHtml
+        }
+      }), items) %}
+    {% endif %}
+
+    {{ govukTabs({ items: items}) }}
+{% endmacro %}

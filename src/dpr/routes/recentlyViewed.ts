@@ -1,5 +1,6 @@
 import type { RequestHandler, Router } from 'express'
 import RecentReportslistUtils from '../components/recently-viewed-list/utils'
+import UserReportsListUtils from '../components/user-reports-lists/utils'
 import { Services } from '../types/Services'
 
 export default function routes({
@@ -15,7 +16,12 @@ export default function routes({
 }) {
   const getExpiredStatus: RequestHandler = async (req, res, next) => {
     try {
-      const response = await RecentReportslistUtils.getExpiredStatus({ req, res, services })
+      const response = await UserReportsListUtils.getExpiredStatus({
+        req,
+        res,
+        services,
+        storeService: services.recentlyViewedStoreService,
+      })
       res.send({ isExpired: response })
     } catch (error) {
       res.send({ status: 'FAILED' })
@@ -32,8 +38,9 @@ export default function routes({
     res.render(`${templatePath}/async-reports`, {
       title: 'Requested Reports',
       layoutPath,
-      ...(await RecentReportslistUtils.renderRecentlyViewedList({
-        services,
+      ...(await UserReportsListUtils.renderList({
+        storeService: services.recentlyViewedStoreService,
+        filterFunction: RecentReportslistUtils.filterReports,
         res,
       })),
     })

@@ -17,6 +17,7 @@ const BookmarklistUtils = require('../package/dpr/utils/bookmarkListUtils').defa
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
 const AsyncReportListUtils = require('../package/dpr/components/async-request-list/utils').default
 const RecentlyViewedCardGroupUtils = require('../package/dpr/components/recently-viewed-list/utils').default
+const UserReportsListUtils = require('../package/dpr/components/user-reports-lists/utils').default
 
 // Set up application
 const appViews = [
@@ -180,22 +181,24 @@ app.get('/async-reports', async (req, res) => {
     ? `?dataProductDefinitionsPath=${req.query.dataProductDefinitionsPath}`
     : ''
 
-  const requestedReports = await AsyncReportListUtils.renderList({
-    services,
+  const requestedReports = await UserReportsListUtils.renderList({
     res,
+    storeService: services.asyncReportsStore,
+    filterFunction: AsyncReportListUtils.filterReports,
+    maxRows: 6,
+  })
+
+  const viewedReports = await UserReportsListUtils.renderList({
+    res,
+    storeService: services.recentlyViewedStoreService,
+    filterFunction: RecentlyViewedCardGroupUtils.filterReports,
     maxRows: 6,
   })
 
   res.render('async.njk', {
     title: 'Home',
     requestedReports,
-    viewedReports: {
-      ...(await RecentlyViewedCardGroupUtils.renderRecentlyViewedList({
-        services,
-        res,
-        maxRows: 6,
-      })),
-    },
+    viewedReports,
     bookmarks: {
       ...(await BookmarklistUtils.renderBookmarkList({
         res,

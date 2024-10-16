@@ -108,7 +108,7 @@ export default {
   getExpiredStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const report = await getExpiredStatus({ req, res, services })
-    if (report.isExpired) {
+    if (report && report.isExpired) {
       await services.asyncReportsStore.setToExpired(report.executionId, userId)
     }
     return report.isExpired

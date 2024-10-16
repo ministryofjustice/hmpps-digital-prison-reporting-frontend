@@ -137,9 +137,6 @@ export default {
     const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, userId, maxRows)
 
     const head = {
-      title: 'My Bookmarks',
-      icon: 'bookmark',
-      id: 'my-bookmarks',
       ...(cardData.length && { href: './async-reports/bookmarks' }),
       ...(!cardData.length && { emptyMessage: 'You have 0 bookmarked reports' }),
     }
@@ -152,7 +149,6 @@ export default {
 
     return {
       head,
-      cardData,
       tableData,
       total,
       csrfToken,

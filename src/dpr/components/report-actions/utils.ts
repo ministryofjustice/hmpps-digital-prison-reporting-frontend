@@ -87,6 +87,9 @@ const initReportActions = ({
   })
 
   // Downloadable
+  // NOTE: Temporarily disabling for release 25
+  // eslint-disable-next-line no-param-reassign
+  downloadable = false
   actions.push({
     ...BUTTON_TEMPLATES.downloadable,
     disabled: !downloadable,

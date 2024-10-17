@@ -47,6 +47,6 @@ export default function routes({
     }
   }
 
-  router.post('/dashboards/:dpdId/dashboard/:dashboardId', dashboardRequestHandler, getDashboardDataHandler)
   router.get('/dashboards/:dpdId/load/:dashboardId', loadDashboardHandler)
+  router.post('/dashboards/:dpdId/dashboard/:dashboardId', dashboardRequestHandler, getDashboardDataHandler)
 }

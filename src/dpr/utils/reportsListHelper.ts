@@ -1,9 +1,7 @@
-import { CardData } from '../components/table-card-group/types'
+import { FormattedUserReportData } from '../types/UserReports'
 import { createSummaryHtml } from './reportSummaryHelper'
-import { AsyncReportData } from '../types/AsyncReport'
-import { RecentlyViewedReportData } from '../types/RecentlyViewed'
 
-export const getTotals = (cardData: CardData[], maxRows: number) => {
+export const getTotals = (cardData: FormattedUserReportData[], maxRows: number) => {
   return {
     amount: cardData.length,
     shown: cardData.length > maxRows ? maxRows : cardData.length,
@@ -11,7 +9,7 @@ export const getTotals = (cardData: CardData[], maxRows: number) => {
   }
 }
 
-export const getMeta = (cardData: CardData[]) => {
+export const getMeta = (cardData: FormattedUserReportData[]) => {
   return cardData.map((d) => {
     return {
       reportId: d.meta.reportId,
@@ -41,9 +39,9 @@ export const createTag = (text: string, classes?: string) => {
   </p>`
 }
 
-export const formatTable = (cardData: CardData[], type: 'requested' | 'viewed') => {
-  const rows = cardData.map((card: CardData) => {
-    return formatTableData(card, type)
+export const formatTable = (data: FormattedUserReportData[], type: 'requested' | 'viewed') => {
+  const rows = data.map((card: FormattedUserReportData) => {
+    return formatTableRow(card, type)
   })
 
   return {
@@ -52,6 +50,7 @@ export const formatTable = (cardData: CardData[], type: 'requested' | 'viewed') 
       { text: 'Product', classes: 'dpr-req-product-head' },
       { text: 'Name', classes: 'dpr-req-name-head' },
       { text: 'Description', classes: 'dpr-req-description-head' },
+      { text: 'Type', classes: 'dpr-req-type-head' },
       { text: 'Date', classes: 'dpr-req-ts-head' },
       { text: 'Status', classes: 'dpr-req-status-head' },
     ],
@@ -66,17 +65,19 @@ const itemActionsHtml = (retryHref: string, executionId: string, type: 'requeste
     </div>`
 }
 
-export const formatTableData = (card: CardData, type: 'requested' | 'viewed') => {
+export const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'viewed') => {
   let statusClass
   let itemActions = ''
-  switch (card.status) {
+
+  const { href, id, reportName, text, timestamp, type: reportType, status } = data
+  switch (status) {
     case 'FAILED':
       statusClass = 'govuk-tag--red'
-      itemActions = itemActionsHtml(card.href, card.id, type)
+      itemActions = itemActionsHtml(href, id, type)
       break
     case 'EXPIRED':
       statusClass = 'govuk-tag--grey'
-      itemActions = itemActionsHtml(card.href, card.id, type)
+      itemActions = itemActionsHtml(href, id, type)
       break
     case 'ABORTED':
       statusClass = 'govuk-tag--orange'
@@ -88,35 +89,27 @@ export const formatTableData = (card: CardData, type: 'requested' | 'viewed') =>
     default:
       break
   }
-  const filtersSummary = createSummaryHtml(card)
-  const description = `${card.description}${filtersSummary}`
+  const filtersSummary = createSummaryHtml(data)
+  const description = `${data.description}${filtersSummary}`
 
   return [
-    { html: `<p class="govuk-body-s govuk-!-margin-bottom-0">${card.reportName}</p>`, classes: 'dpr-req-cell' },
+    { html: `<p class="govuk-body-s govuk-!-margin-bottom-0">${reportName}</p>`, classes: 'dpr-req-cell' },
     {
-      html: `<a href='${card.href}'><p class="govuk-body-s govuk-!-margin-bottom-0">${card.text}</p></a>`,
+      html: `<a href='${href}'><p class="govuk-body-s govuk-!-margin-bottom-0">${text}</p></a>`,
       classes: 'dpr-req-cell',
     },
     { html: createShowMoreHtml(description, 50), classes: 'dpr-req-cell' },
     {
-      html: `<p class="govuk-body-s govuk-!-margin-bottom-0">${card.timestamp}</p>`,
+      html: createTag(reportType),
+      classes: 'dpr-req-cell dpr-req-cell__type',
+    },
+    {
+      html: `<p class="govuk-body-s govuk-!-margin-bottom-0">${timestamp}</p>`,
       classes: 'dpr-req-cell',
     },
     {
-      html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${card.status}</strong> ${itemActions}`,
+      html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${status}</strong> ${itemActions}`,
       classes: 'dpr-req-cell dpr-req-cell__status',
     },
   ]
-}
-
-export const formatCards = async (
-  reports: AsyncReportData[] | RecentlyViewedReportData[],
-  filterFunction: (report: AsyncReportData | RecentlyViewedReportData) => boolean,
-  formatFunction: (reportData: RecentlyViewedReportData | AsyncReportData) => CardData,
-): Promise<CardData[]> => {
-  return reports
-    ? reports.filter(filterFunction).map((report: AsyncReportData | RecentlyViewedReportData) => {
-        return formatFunction(report)
-      })
-    : Promise.resolve([])
 }

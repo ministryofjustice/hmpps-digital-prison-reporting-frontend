@@ -8,6 +8,7 @@ const mockRenderFiltersData = {
     definitionPath: 'token',
     csrfToken: 'csrfToken',
     template: 'list',
+    type: 'report',
   },
   filters: [
     {

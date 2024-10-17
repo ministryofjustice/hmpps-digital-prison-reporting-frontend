@@ -3,6 +3,7 @@ import { components } from '../../types/api'
 import { Services } from '../../types/Services'
 import { createShowMoreHtml, createTag } from '../../utils/reportsListHelper'
 import { DashboardDefinition } from '../../types/Dashboards'
+import { ReportType } from '../../types/UserReports'
 
 interface definitionData {
   reportName: string
@@ -48,7 +49,7 @@ export default {
             id,
             name,
             description,
-            type: 'report',
+            type: ReportType.REPORT,
             ...(reportDescription && reportDescription.length && { reportDescription }),
           }
         })
@@ -63,7 +64,7 @@ export default {
               id,
               name,
               description,
-              type: 'dashboard',
+              type: ReportType.DASHBOARD,
               reportDescription,
             }
           })

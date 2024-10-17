@@ -4,7 +4,7 @@ import MockDate from 'mockdate'
 import * as AsyncFiltersUtils from './utils'
 import MockDefinitions from '../../../../test-app/mockAsyncData/mockReportDefinition'
 import MockRenderFiltersData from '../../../../test-app/mockAsyncData/mockRenderFiltersData'
-import * as ReportSummaryHelper from '../../utils/reportSummaryHelper'
+import * as ReportSummaryHelper from '../../utils/reportStoreHelper'
 import { Services } from '../../types/Services'
 import { components } from '../../types/api'
 import { RenderFiltersReturnValue } from './types'
@@ -16,7 +16,6 @@ describe('AsyncFiltersUtils', () => {
   let next: NextFunction
   let mockDefintionVariants: components['schemas']['VariantDefinition'][]
   let mockReport: components['schemas']['SingleVariantReportDefinition']
-  const updateStoreSpy = jest.spyOn(AsyncFiltersUtils, 'updateStore')
 
   beforeEach(() => {
     jest.spyOn(ReportSummaryHelper, 'getDuplicateRequestIds').mockReturnValue([])
@@ -41,6 +40,7 @@ describe('AsyncFiltersUtils', () => {
         getAllReportsByVariantId: jest.fn().mockResolvedValue([]),
         addReport: jest.fn().mockResolvedValue({ url: { polling: { pathname: 'polling.pathname' } } }),
         setReportTimestamp: jest.fn(),
+        updateStore: jest.fn(),
       },
       recentlyViewedStoreService: {
         getAllReportsByVariantId: jest.fn().mockResolvedValue([]),
@@ -98,7 +98,7 @@ describe('AsyncFiltersUtils', () => {
 
   describe('requestReport', () => {
     it('should correctly set the request data', async () => {
-      const redirect = await AsyncFiltersUtils.default.requestReport({
+      await AsyncFiltersUtils.default.requestReport({
         services,
         req,
         res,
@@ -152,17 +152,14 @@ describe('AsyncFiltersUtils', () => {
         },
       }
 
-      expect(updateStoreSpy).toHaveBeenCalledWith(
+      expect(services.asyncReportsStore.updateStore).toHaveBeenCalledWith({
         req,
         res,
         services,
-        mockDefintionVariants[0].specification.fields,
-        resultQuerySummary,
-        'executionId',
-        'tableId',
-      )
-
-      expect(redirect).toEqual('polling.pathname')
+        querySummaryData: resultQuerySummary,
+        executionId: 'executionId',
+        tableId: 'tableId',
+      })
     })
   })
 

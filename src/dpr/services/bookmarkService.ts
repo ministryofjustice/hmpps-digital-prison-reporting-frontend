@@ -1,5 +1,6 @@
 import UserStoreService from './userStoreService'
 import UserDataStore from '../data/userDataStore'
+import { ReportType } from '../types/UserReports'
 
 export default class BookmarkService extends UserStoreService {
   constructor(userDataStore: UserDataStore) {
@@ -11,10 +12,11 @@ export default class BookmarkService extends UserStoreService {
     return userConfig.bookmarks
   }
 
-  async addBookmark(userId: string, reportId: string, variantId: string) {
+  async addBookmark(userId: string, reportId: string, variantId: string, type?: ReportType) {
     const userConfig = await this.getState(userId)
+    const reportType = type || ReportType.REPORT
     if (!userConfig.bookmarks.some((bookmark) => bookmark.variantId === variantId))
-      userConfig.bookmarks.unshift({ reportId, variantId })
+      userConfig.bookmarks.unshift({ reportId, variantId, reportType })
     await this.saveState(userId, userConfig)
   }
 

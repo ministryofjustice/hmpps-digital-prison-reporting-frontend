@@ -1,5 +1,5 @@
 import Dict = NodeJS.Dict
-import { AsyncSummary } from '../../types/AsyncReport'
+import { AsyncSummary } from '../../types/UserReports'
 import { SummaryTemplate } from '../../types/Templates'
 import { components } from '../../types/api'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'

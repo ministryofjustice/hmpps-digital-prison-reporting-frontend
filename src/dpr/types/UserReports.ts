@@ -2,24 +2,32 @@ import Dict = NodeJS.Dict
 import { SummaryTemplate, Template } from './Templates'
 import { FieldDefinition } from '../utils/DataTableBuilder/types'
 
-export interface AsyncReportData {
+interface StoredReportData {
   reportId: string
   variantId: string
   executionId: string
-  tableId: string
+  tableId?: string
   reportName: string
-  name: string
+  variantName?: string
+  name?: string
   description: string
-  status: RequestStatus
+  status?: RequestStatus
+  timestamp: AsyncReportsTimestamp
+  dataProductDefinitionsPath?: string
+  query: AsyncReportQueryData
+  url: AsyncReportUrlData
+  type: ReportType
+}
+
+export interface RequestedReport extends StoredReportData {
+  template: Template
+  errorMessage?: string
   filters: ParamsConfig
   sortBy: ParamsConfig
-  url: AsyncReportUrlData
-  timestamp: AsyncReportsTimestamp
-  query: AsyncReportQueryData
-  dataProductDefinitionsPath?: string
-  errorMessage?: string
-  template: Template
 }
+
+export type RecentlyViewedReport = StoredReportData
+export type UserReportData = RequestedReport | RecentlyViewedReport
 
 export interface AsyncReportUrlData {
   origin: string
@@ -56,6 +64,11 @@ export enum RequestStatus {
   ALL = 'ALL',
 }
 
+export enum ReportType {
+  REPORT = 'report',
+  DASHBOARD = 'dashboard',
+}
+
 export interface AsyncReportsTimestamp {
   lastViewed?: Date
   requested?: Date
@@ -72,4 +85,27 @@ export interface AsyncSummary {
   template: SummaryTemplate
   fields: Array<FieldDefinition>
   data: Array<Dict<string>>
+}
+
+export interface FormattedUserReportData {
+  id: string
+  href: string
+  text: string
+  reportName: string
+  description: string
+  timestamp?: string
+  tag?: string
+  status?: string
+  type: ReportType
+  summary?: { name: string; value: string }[]
+  meta?: meta
+}
+
+export interface meta {
+  reportId: string
+  variantId: string
+  executionId: string
+  status?: string
+  requestedAt?: Date
+  dataProductDefinitionsPath?: string
 }

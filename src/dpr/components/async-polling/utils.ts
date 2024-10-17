@@ -1,4 +1,4 @@
-import { RequestStatus } from '../../types/AsyncReport'
+import { RequestStatus } from '../../types/UserReports'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 
 export default {

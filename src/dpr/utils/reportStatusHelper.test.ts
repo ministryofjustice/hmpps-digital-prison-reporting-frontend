@@ -1,8 +1,9 @@
 import { Response, Request } from 'express'
 import ReportingService from '../services/reportingService'
-import { RequestStatus } from '../types/AsyncReport'
+import { RequestStatus } from '../types/UserReports'
 import { Services } from '../types/Services'
 import * as ReportStatusHelper from './reportStatusHelper'
+import MetricService from '../services/metricsService'
 
 describe('ReportStatusHelper', () => {
   const services: Services = {
@@ -10,6 +11,8 @@ describe('ReportStatusHelper', () => {
     recentlyViewedStoreService: {},
     bookmarkService: {},
     reportingService: {},
+    dashboardService: {},
+    metricService: {} as unknown as MetricService,
   }
 
   let res: Response

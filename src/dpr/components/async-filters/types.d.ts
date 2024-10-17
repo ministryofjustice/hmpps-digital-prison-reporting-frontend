@@ -1,3 +1,5 @@
+import { ReportType } from '../../types/UserReports'
+
 export interface requestAsyncReportParams {
   apiTimeout: number
   apiUrl: string
@@ -24,26 +26,6 @@ export interface SortByDefaults {
   value: string
 }
 
-interface RequestedReportStateItem {
-  reportId: string
-  variantId: string
-  statementId: string
-  tableId: string
-  status: string // TODO enum
-  filters: string
-  sortyBy: string
-  filtersQueryString: string
-  filtersUrl: string // for sharing
-  reportUrl?: string // once ready
-  timestamp: {
-    lastViewed?: string
-    requested?: string
-    completed?: string
-    expired?: string
-    failed?: string
-  }
-}
-
 export interface RenderFiltersReturnValue {
   reportData: {
     reportName: string
@@ -54,7 +36,15 @@ export interface RenderFiltersReturnValue {
     definitionPath: string | string[] | ParsedQs | ParsedQs[]
     csrfToken: string
     template: string
+    type: ReportType
   }
   filters: FilterValue[]
   sortBy: FilterValue[]
+}
+
+export interface querySummaryResult {
+  query: Dict<string>
+  filterData: Dict<string>
+  querySummary: Array<Dict<string>>
+  sortData: Dict<string>
 }

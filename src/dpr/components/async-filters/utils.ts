@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { Request, Response } from 'express'
+import { Request } from 'express'
 import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
 import Dict = NodeJS.Dict
@@ -10,10 +10,9 @@ import { FilterType } from '../filter-input/enum'
 import SortHelper from './sortByTemplate'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import DefinitionUtils from '../../utils/definitionUtils'
-import { getDuplicateRequestIds } from '../../utils/reportSummaryHelper'
-import { Services } from '../../types/Services'
-import { RenderFiltersReturnValue } from './types'
+import { querySummaryResult, RenderFiltersReturnValue } from './types'
 import DateMapper from '../../utils/DateMapper/DateMapper'
+import { ReportType } from '../../types/UserReports'
 /**
  * Initialises the filters & Sort from the definition data
  *
@@ -200,77 +199,6 @@ const getFiltersFromDefinition = (definition: components['schemas']['VariantDefi
     })
 }
 
-/**
- * Updates the store with the request details
- *
- * @param {Request} req
- * @param {Response} res
- * @param {Services} services
- * @param {components['schemas']['FieldDefinition'][]} fields
- * @param {querySummaryResult} querySummaryData
- * @param {string} executionId
- * @param {string} tableId
- * @return {*}  {Promise<string>}
- */
-export const updateStore = async (
-  req: Request,
-  res: Response,
-  services: Services,
-  fields: components['schemas']['FieldDefinition'][],
-  querySummaryData: querySummaryResult,
-  executionId: string,
-  tableId: string,
-): Promise<string> => {
-  const { search, variantId } = req.body
-  const { query, filterData, querySummary, sortData } = querySummaryData
-  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-
-  // 1. check for duplicate requests and remove them from the request list
-  const requestedReports = await services.asyncReportsStore.getAllReportsByVariantId(variantId, userId)
-  const viewedReports = await services.recentlyViewedStoreService.getAllReportsByVariantId(variantId, userId)
-
-  const duplicateRequestIds = getDuplicateRequestIds(search, requestedReports)
-  if (duplicateRequestIds.length) {
-    await Promise.all(
-      duplicateRequestIds.map(async (id: string) => {
-        await await services.asyncReportsStore.removeReport(id, userId)
-      }),
-    )
-  }
-
-  const duplicateViewedReportIds = getDuplicateRequestIds(search, viewedReports)
-  if (duplicateViewedReportIds.length) {
-    await Promise.all(
-      duplicateViewedReportIds.map(async (id: string) => {
-        await await services.recentlyViewedStoreService.removeReport(id, userId)
-      }),
-    )
-  }
-
-  // 2. Add the new request data to the store
-  const reportData = await services.asyncReportsStore.addReport(
-    {
-      ...req.body,
-      executionId,
-      tableId,
-    },
-    filterData,
-    sortData,
-    query,
-    querySummary,
-    userId,
-  )
-
-  return reportData.url.polling.pathname
-}
-
-interface querySummaryResult {
-  query: Dict<string>
-  filterData: Dict<string>
-  querySummary: Array<Dict<string>>
-  sortData: Dict<string>
-}
-
 export const setDurationStartAndEnd = (
   name: string,
   value: string,
@@ -415,7 +343,17 @@ export default {
       const { template } = definition.variant.specification
 
       return {
-        reportData: { reportName, variantName, description, reportId, variantId, definitionPath, csrfToken, template },
+        reportData: {
+          reportName,
+          variantName,
+          description,
+          reportId,
+          variantId,
+          definitionPath,
+          csrfToken,
+          template,
+          type: ReportType.REPORT,
+        },
         ...initFiltersFromDefinition(definition.variant),
       }
     } catch (error) {
@@ -445,7 +383,14 @@ export default {
 
     let redirect = ''
     if (executionId && tableId) {
-      redirect = await updateStore(req, res, services, fields, querySummaryData, executionId, tableId)
+      redirect = await services.asyncReportsStore.updateStore({
+        req,
+        res,
+        services,
+        querySummaryData,
+        executionId,
+        tableId,
+      })
     }
     return redirect
   },

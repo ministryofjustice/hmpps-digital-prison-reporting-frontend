@@ -1,9 +1,8 @@
-import { AsyncReportData } from './AsyncReport'
-import { RecentlyViewedReportData } from './RecentlyViewed'
 import { BookmarkStoreData } from './Bookmark'
+import { RequestedReport, RecentlyViewedReport } from './UserReports'
 
 export interface UserStoreConfig {
-  requestedReports: AsyncReportData[]
-  recentlyViewedReports: RecentlyViewedReportData[]
+  requestedReports: RequestedReport[]
+  recentlyViewedReports: RecentlyViewedReport[]
   bookmarks: BookmarkStoreData[]
 }

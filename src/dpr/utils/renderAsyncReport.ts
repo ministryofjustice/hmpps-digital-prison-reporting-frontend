@@ -1,7 +1,7 @@
 import { components } from '../types/api'
 import Dict = NodeJS.Dict
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
-import { AsyncReportData } from '../types/AsyncReport'
+import { RequestedReport } from '../types/UserReports'
 import AsyncReportListUtils from '../components/async-report-list/utils'
 import ReportActionsUtils from '../components/report-actions/utils'
 import { Template } from '../types/Templates'
@@ -66,13 +66,13 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
 
   let renderData = {}
-  let reportStateData: AsyncReportData
+  let reportStateData: RequestedReport
   if (dataPromises) {
     await Promise.all(dataPromises).then(async (resolvedData) => {
       const definition = resolvedData[0] as unknown as components['schemas']['SingleVariantReportDefinition']
       const reportData = <Array<Dict<string>>>resolvedData[1]
       const count = <number>resolvedData[2]
-      reportStateData = <AsyncReportData>resolvedData[3]
+      reportStateData = <RequestedReport>resolvedData[3]
 
       const { variant } = definition
       const { classification, printable, specification } = variant

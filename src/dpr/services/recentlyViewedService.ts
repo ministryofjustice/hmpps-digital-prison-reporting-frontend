@@ -1,7 +1,6 @@
 import UserStoreService from './userStoreService'
 import UserDataStore from '../data/userDataStore'
-import { RecentlyViewedReportData } from '../types/RecentlyViewed'
-import { RequestStatus, AsyncReportData } from '../types/AsyncReport'
+import { RequestStatus, RequestedReport, RecentlyViewedReport } from '../types/UserReports'
 import { UserStoreConfig } from '../types/UserStore'
 
 export default class RecentlyViewedStoreService extends UserStoreService {
@@ -21,7 +20,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
     })
   }
 
-  async setRecentlyViewed(reportData: AsyncReportData, userId: string) {
+  async setRecentlyViewed(reportData: RequestedReport, userId: string) {
     const userConfig = await this.getState(userId)
     const index = this.findIndexByExecutionId(reportData.executionId, userConfig.recentlyViewedReports)
 
@@ -33,7 +32,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
     await this.addReport(reportData, userId, userConfig)
   }
 
-  async addReport(reportData: AsyncReportData, userId: string, userConfig: UserStoreConfig) {
+  async addReport(reportData: RequestedReport, userId: string, userConfig: UserStoreConfig) {
     const {
       reportId,
       variantId,
@@ -44,16 +43,19 @@ export default class RecentlyViewedStoreService extends UserStoreService {
       description,
       url,
       query,
+      type,
     } = reportData
 
-    const recentlyViewedReportData: RecentlyViewedReportData = {
+    const recentlyViewedReportData: RecentlyViewedReport = {
       reportId,
       variantId,
       executionId,
       tableId,
       reportName,
       variantName,
+      name: variantName,
       description,
+      type,
       status: RequestStatus.READY,
       url: {
         origin: url.origin,
@@ -78,7 +80,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
   async setToExpired(id: string, userId: string) {
     const userConfig = await this.getState(userId)
     const index = this.findIndexByExecutionId(id, userConfig.recentlyViewedReports)
-    let report: RecentlyViewedReportData = userConfig.recentlyViewedReports[index]
+    let report: RecentlyViewedReport = userConfig.recentlyViewedReports[index]
     if (report) {
       report = {
         ...report,

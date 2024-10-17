@@ -4,7 +4,7 @@ import ReportQuery from '../../types/ReportQuery'
 import { Cell, DataTable, FieldDefinition, Header } from './types'
 import createUrlForParameters from '../urlHelper'
 import type { SummaryTemplate, Template } from '../../types/Templates'
-import { AsyncSummary } from '../../types/AsyncReport'
+import { AsyncSummary } from '../../types/UserReports'
 import DateMapper from '../DateMapper/DateMapper'
 
 export default class DataTableBuilder {

@@ -8,7 +8,6 @@ import Columns from './components/columns/clientClass.mjs'
 import ToggleButton from './components/toggle-button/clientClass.mjs'
 import AsyncFilters from './components/async-filters/clientClass.mjs'
 import Pagination from './components/pagination/clientClass.mjs'
-import IconButtonList from './components/icon-button-list/clientClass.mjs'
 import ReportActions from './components/report-actions/clientClass.mjs'
 import DataTable from './components/data-table/clientClass.mjs'
 import AsyncPolling from './components/async-polling/clientClass.mjs'
@@ -16,8 +15,8 @@ import Search from './components/search/clientClass.mjs'
 import BookmarkToggle from './components/bookmark-toggle/clientClass.mjs'
 import DprLoadingHelper from './DprLoadingHelper.mjs'
 import DateInput from './components/date-input/clientClass.mjs'
-import AsyncRequestList from './components/async-request-list/clientClass.mjs'
-import RecentlyViewedList from './components/recently-viewed-list/clientClass.mjs'
+import AsyncRequestList from './components/user-reports-request-list/clientClass.mjs'
+import RecentlyViewedList from './components/user-reports-viewed-list/clientClass.mjs'
 import DateRange from './components/date-range/clientClass.mjs'
 import ShowMore from './components/show-more/clientClass.mjs'
 import BarChartVisualisation from './components/chart/bar/clientClass.mjs'
@@ -45,7 +44,6 @@ export default function initAll() {
     ToggleButton,
     AsyncFilters,
     Pagination,
-    IconButtonList,
     DataTable,
     AsyncPolling,
     Search,

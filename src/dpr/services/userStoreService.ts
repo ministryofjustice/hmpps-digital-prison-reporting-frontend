@@ -1,7 +1,6 @@
 import UserDataStore from '../data/userDataStore'
-import { AsyncReportData } from '../types/AsyncReport'
+import { UserReportData } from '../types/UserReports'
 import { UserStoreConfig } from '../types/UserStore'
-import { RecentlyViewedReportData } from '../types/RecentlyViewed'
 
 export default class UserStoreService {
   userStore: UserDataStore
@@ -25,7 +24,7 @@ export default class UserStoreService {
     await this.userStore.setUserConfig(userId, userConfig)
   }
 
-  findIndexByExecutionId(id: string, array: RecentlyViewedReportData[] | AsyncReportData[]) {
+  findIndexByExecutionId(id: string, array: UserReportData[]) {
     return array.findIndex((report) => report.executionId === id)
   }
 }

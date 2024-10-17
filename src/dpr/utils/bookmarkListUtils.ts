@@ -51,10 +51,10 @@ const formatTable = async (
   return {
     rows: maxRows ? rows.slice(0, maxRows) : rows,
     head: [
-      { text: 'Product' },
-      { text: 'Name' },
-      { text: 'Type' },
-      { text: 'Description', classes: 'dpr-description-head' },
+      { text: 'Product', classes: 'dpr-req-product-head' },
+      { text: 'Name', classes: 'dpr-req-name-head' },
+      { text: 'Description', classes: 'dpr-bm-description-head' },
+      { text: 'Type', classes: 'dpr-req-type-head' },
       { text: 'Bookmark', classes: 'dpr-bookmark-head' },
     ],
   }
@@ -68,16 +68,16 @@ const formatTableData = async (
 ) => {
   const { description, reportName, reportId, variantId, href, name, type } = bookmarksData
   return [
-    { text: reportName },
-    { html: `<a href='${href}'>${name}</a>` },
+    { text: reportName, classes: 'dpr-req-cell' },
+    { html: `<a href='${href}'>${name}</a>`, classes: 'dpr-req-cell' },
+    { html: createShowMoreHtml(description), classes: 'dpr-req-cell' },
     {
       html: createTag(type),
-      classes: 'dpr-req-cell__type',
+      classes: 'dpr-req-cell dpr-req-cell__type',
     },
-    { html: createShowMoreHtml(description) },
     {
       html: await bookmarkService.createBookMarkToggleHtml(userId, reportId, variantId, csrfToken, 'bookmark-list'),
-      classes: 'dpr-vertical-align',
+      classes: 'dpr-req-cell dpr-vertical-align',
     },
   ]
 }

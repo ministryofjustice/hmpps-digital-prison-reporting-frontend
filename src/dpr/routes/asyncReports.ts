@@ -2,7 +2,7 @@ import type { RequestHandler, Router } from 'express'
 import AsyncFiltersUtils from '../components/async-filters/utils'
 import AsyncPollingUtils from '../components/async-polling/utils'
 import AsyncRequestListUtils from '../components/user-reports-request-list/utils'
-import UserReportsListUtils from '../components/user-reports-lists/utils'
+import UserReportsListUtils from '../components/user-reports/utils'
 import ErrorSummaryUtils from '../components/error-summary/utils'
 
 import * as AsyncReportUtils from '../utils/renderAsyncReport'

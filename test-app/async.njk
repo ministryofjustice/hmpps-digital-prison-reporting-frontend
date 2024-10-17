@@ -1,7 +1,7 @@
 {% extends "page.njk" %}
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "components/reports-list/view.njk" import dprReportsList %}
-{% from "components/user-reports-lists/view.njk" import dprUserReportsLists %}
+{% from "components/user-reports/view.njk" import dprUserReports %}
 
 {% block content %}
   <div class="govuk-width-container">
@@ -28,7 +28,7 @@
 
     <h1 class="govuk-heading-l">{{ title }}</h1>
 
-    {{ dprUserReportsLists({
+    {{ dprUserReports({
       requestedReports: requestedReports,
       viewedReports: viewedReports,
       bookmarks: bookmarks

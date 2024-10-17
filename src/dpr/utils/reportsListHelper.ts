@@ -49,8 +49,8 @@ export const formatTable = (data: FormattedUserReportData[], type: 'requested' |
     head: [
       { text: 'Product', classes: 'dpr-req-product-head' },
       { text: 'Name', classes: 'dpr-req-name-head' },
-      { text: 'Type', classes: 'dpr-req-type-head' },
       { text: 'Description', classes: 'dpr-req-description-head' },
+      { text: 'Type', classes: 'dpr-req-type-head' },
       { text: 'Date', classes: 'dpr-req-ts-head' },
       { text: 'Status', classes: 'dpr-req-status-head' },
     ],
@@ -98,11 +98,11 @@ export const formatTableRow = (data: FormattedUserReportData, type: 'requested' 
       html: `<a href='${href}'><p class="govuk-body-s govuk-!-margin-bottom-0">${text}</p></a>`,
       classes: 'dpr-req-cell',
     },
+    { html: createShowMoreHtml(description, 50), classes: 'dpr-req-cell' },
     {
       html: createTag(reportType),
       classes: 'dpr-req-cell dpr-req-cell__type',
     },
-    { html: createShowMoreHtml(description, 50), classes: 'dpr-req-cell' },
     {
       html: `<p class="govuk-body-s govuk-!-margin-bottom-0">${timestamp}</p>`,
       classes: 'dpr-req-cell',

@@ -1,6 +1,6 @@
 import type { RequestHandler, Router } from 'express'
 import RecentReportslistUtils from '../components/user-reports-viewed-list/utils'
-import UserReportsListUtils from '../components/user-reports-lists/utils'
+import UserReportsListUtils from '../components/user-reports/utils'
 import { Services } from '../types/Services'
 
 export default function routes({

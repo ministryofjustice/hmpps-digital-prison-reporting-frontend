@@ -196,6 +196,7 @@ export default function routes({
         storeService: services.asyncReportsStore,
         filterFunction: AsyncRequestListUtils.filterReports,
         res,
+        type: 'requested',
       })),
     })
   })

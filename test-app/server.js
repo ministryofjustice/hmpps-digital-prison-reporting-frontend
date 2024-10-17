@@ -186,6 +186,7 @@ app.get('/async-reports', async (req, res) => {
     storeService: services.asyncReportsStore,
     filterFunction: AsyncReportListUtils.filterReports,
     maxRows: 6,
+    type: 'requested',
   })
 
   const viewedReports = await UserReportsListUtils.renderList({
@@ -193,6 +194,7 @@ app.get('/async-reports', async (req, res) => {
     storeService: services.recentlyViewedStoreService,
     filterFunction: RecentlyViewedCardGroupUtils.filterReports,
     maxRows: 6,
+    type: 'viewed',
   })
 
   res.render('async.njk', {

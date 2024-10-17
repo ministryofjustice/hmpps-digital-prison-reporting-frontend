@@ -6,13 +6,15 @@ import PaginationUtils from '../components/pagination/utils'
 import ReportActionsUtils from '../components/report-actions/utils'
 
 import mockAsyncApis from '../../../test-app/mockAsyncData/mockAsyncApis'
-import { AsyncReportData } from '../types/AsyncReport'
+import { RequestedReport } from '../types/UserReports'
 import AsyncReportStoreService from '../services/requestedReportsService'
 import ReportingService from '../services/reportingService'
 import { mockGetReportListRenderData } from '../../../test-app/mockAsyncData/mockReportListRenderData'
 import RecentlyViewedStoreService from '../services/recentlyViewedService'
 import definitions from '../../../test-app/mockAsyncData/mockReportDefinition'
 import BookmarkService from '../services/bookmarkService'
+import MetricService from '../services/metricsService'
+import DashboardService from '../services/dashboardService'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
@@ -33,7 +35,7 @@ const reportState = {
   timestamp: {
     requested: 'ts',
   },
-} as unknown as AsyncReportData
+} as unknown as RequestedReport
 
 jest.spyOn(AsyncReportUtils, 'initDataSources').mockImplementation(() => [
   mockAsyncApis.getDefinition('', '', 'variantId-2'),
@@ -53,12 +55,17 @@ describe('AsyncReportUtils', () => {
     it('should return data to render the report list', async () => {
       const mockReq = { query: { columns: ['column'] } } as unknown as Request
       const mockRes = { locals: { user: { token: 'token' } } } as unknown as Response
+
       const mockAsyncReportsStore = {
         updateLastViewed: jest.fn(),
       } as unknown as AsyncReportStoreService
+
       const mockBookmarkService = {
         isBookmarked: jest.fn().mockReturnValue(false),
       } as unknown as BookmarkService
+
+      const mockMetricService = {} as unknown as MetricService
+      const mockDashboardService = {} as unknown as DashboardService
 
       const mockRecentlyViewedStoreService = {
         setRecentlyViewed: jest.fn(),
@@ -70,6 +77,8 @@ describe('AsyncReportUtils', () => {
         reportingService: mockDataSources,
         recentlyViewedStoreService: mockRecentlyViewedStoreService,
         bookmarkService: mockBookmarkService,
+        metricService: mockMetricService,
+        dashboardService: mockDashboardService,
       }
 
       const result = await AsyncReportUtils.getReport({

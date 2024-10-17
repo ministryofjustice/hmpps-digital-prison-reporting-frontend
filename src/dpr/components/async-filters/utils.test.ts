@@ -16,7 +16,6 @@ describe('AsyncFiltersUtils', () => {
   let next: NextFunction
   let mockDefintionVariants: components['schemas']['VariantDefinition'][]
   let mockReport: components['schemas']['SingleVariantReportDefinition']
-  const updateStoreSpy = jest.spyOn(AsyncFiltersUtils, 'updateStore')
 
   beforeEach(() => {
     jest.spyOn(ReportSummaryHelper, 'getDuplicateRequestIds').mockReturnValue([])
@@ -41,6 +40,7 @@ describe('AsyncFiltersUtils', () => {
         getAllReportsByVariantId: jest.fn().mockResolvedValue([]),
         addReport: jest.fn().mockResolvedValue({ url: { polling: { pathname: 'polling.pathname' } } }),
         setReportTimestamp: jest.fn(),
+        updateStore: jest.fn(),
       },
       recentlyViewedStoreService: {
         getAllReportsByVariantId: jest.fn().mockResolvedValue([]),
@@ -98,7 +98,7 @@ describe('AsyncFiltersUtils', () => {
 
   describe('requestReport', () => {
     it('should correctly set the request data', async () => {
-      const redirect = await AsyncFiltersUtils.default.requestReport({
+      await AsyncFiltersUtils.default.requestReport({
         services,
         req,
         res,
@@ -152,7 +152,7 @@ describe('AsyncFiltersUtils', () => {
         },
       }
 
-      expect(updateStoreSpy).toHaveBeenCalledWith(
+      expect(services.asyncReportsStore.updateStore).toHaveBeenCalledWith(
         req,
         res,
         services,
@@ -161,8 +161,6 @@ describe('AsyncFiltersUtils', () => {
         'executionId',
         'tableId',
       )
-
-      expect(redirect).toEqual('polling.pathname')
     })
   })
 

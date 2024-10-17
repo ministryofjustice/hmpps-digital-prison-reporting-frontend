@@ -1,5 +1,5 @@
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
-import { AsyncReportData, RequestStatus } from '../../types/AsyncReport'
+import { RequestedReport, RequestStatus } from '../../types/UserReports'
 import { getStatus } from '../../utils/reportStatusHelper'
 
 export default {
@@ -21,7 +21,7 @@ export default {
     return response
   },
 
-  filterReports: (report: AsyncReportData) => {
+  filterReports: (report: RequestedReport) => {
     return !report.timestamp.lastViewed
   },
 }

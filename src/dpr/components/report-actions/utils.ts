@@ -1,4 +1,4 @@
-import { AsyncReportData } from '../../types/AsyncReport'
+import { RequestedReport } from '../../types/UserReports'
 import { components } from '../../types/api'
 
 const BUTTON_TEMPLATES = {
@@ -102,7 +102,7 @@ const initReportActions = ({
 }
 
 export default {
-  initAsyncReportActions: (variant: components['schemas']['VariantDefinition'], reportData: AsyncReportData) => {
+  initAsyncReportActions: (variant: components['schemas']['VariantDefinition'], reportData: RequestedReport) => {
     return initReportActions({
       reportName: reportData.reportName,
       variantName: reportData.name,

@@ -2,7 +2,7 @@ import Dict = NodeJS.Dict
 import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'
 import DataTableBuilder from './DataTableBuilder'
-import { AsyncSummary } from '../../types/AsyncReport'
+import { AsyncSummary } from '../../types/UserReports'
 
 const defaultField: components['schemas']['FieldDefinition'] = {
   name: 'date',

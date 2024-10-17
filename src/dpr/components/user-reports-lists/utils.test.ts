@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AsyncReportData, RequestStatus } from '../../types/AsyncReport'
+import { RequestedReport, RequestStatus } from '../../types/UserReports'
 import { setDataFromStatus } from './utils'
 
 describe('AsyncRequestListUtils', () => {
   describe('setDataFromStatus', () => {
-    let reportData: AsyncReportData
+    let reportData: RequestedReport
 
     beforeEach(() => {
       reportData = {
@@ -22,7 +22,7 @@ describe('AsyncRequestListUtils', () => {
           requested: 'ts',
           lastViewed: 'ts',
         },
-      } as unknown as AsyncReportData
+      } as unknown as RequestedReport
     })
 
     it('should set the correct href and timestamp for FAILED status', async () => {

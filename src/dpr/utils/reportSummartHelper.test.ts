@@ -1,4 +1,4 @@
-import { AsyncReportData } from '../types/AsyncReport'
+import { RequestedReport } from '../types/UserReports'
 import * as ReportSummaryHelper from './reportSummaryHelper'
 
 describe('ReportSummaryHelper', () => {
@@ -7,7 +7,7 @@ describe('ReportSummaryHelper', () => {
       const matchingParams = '?paramOne=red&paramTwo.thing=blue&paramThree=yellow'
 
       const newParams = matchingParams
-      const existingParams: AsyncReportData[] = [
+      const existingParams: RequestedReport[] = [
         {
           executionId: 'exexutionId1',
           url: {
@@ -15,7 +15,7 @@ describe('ReportSummaryHelper', () => {
               search: matchingParams,
             },
           },
-        } as unknown as AsyncReportData,
+        } as unknown as RequestedReport,
       ]
 
       const result = ReportSummaryHelper.getDuplicateRequestIds(newParams, existingParams)
@@ -27,7 +27,7 @@ describe('ReportSummaryHelper', () => {
       const matchingParams = '?paramOne=red&paramTwo.thing=blue&paramThree=yellow'
 
       const newParams = matchingParams
-      const existingParams: AsyncReportData[] = [
+      const existingParams: RequestedReport[] = [
         {
           executionId: 'exexutionId1',
           url: {
@@ -35,7 +35,7 @@ describe('ReportSummaryHelper', () => {
               search: matchingParams,
             },
           },
-        } as unknown as AsyncReportData,
+        } as unknown as RequestedReport,
         {
           executionId: 'exexutionId2',
           url: {
@@ -43,7 +43,7 @@ describe('ReportSummaryHelper', () => {
               search: matchingParams,
             },
           },
-        } as unknown as AsyncReportData,
+        } as unknown as RequestedReport,
       ]
 
       const result = ReportSummaryHelper.getDuplicateRequestIds(newParams, existingParams)
@@ -55,7 +55,7 @@ describe('ReportSummaryHelper', () => {
       const matchingParams = '?paramOne=red&paramThree=yellow&paramTwo.thing=blue'
 
       const newParams = matchingParams
-      const existingParams: AsyncReportData[] = [
+      const existingParams: RequestedReport[] = [
         {
           executionId: 'exexutionId1',
           url: {
@@ -63,7 +63,7 @@ describe('ReportSummaryHelper', () => {
               search: matchingParams,
             },
           },
-        } as unknown as AsyncReportData,
+        } as unknown as RequestedReport,
       ]
 
       const result = ReportSummaryHelper.getDuplicateRequestIds(newParams, existingParams)
@@ -76,7 +76,7 @@ describe('ReportSummaryHelper', () => {
       const existingQParams = '?paramOne=red&paramTwo.thing=blue&paramThree=black'
 
       const newParams = newQParams
-      const existingParams: AsyncReportData[] = [
+      const existingParams: RequestedReport[] = [
         {
           exexutionId: 'exexutionId1',
           url: {
@@ -84,7 +84,7 @@ describe('ReportSummaryHelper', () => {
               search: existingQParams,
             },
           },
-        } as unknown as AsyncReportData,
+        } as unknown as RequestedReport,
       ]
 
       const result = ReportSummaryHelper.getDuplicateRequestIds(newParams, existingParams)
@@ -94,7 +94,7 @@ describe('ReportSummaryHelper', () => {
 
     it('should not find duplicate entries with same query params due to length', () => {
       const matchingParams = '?paramOne=red&paramTwo.thing=blue&paramThree=yellow'
-      const existingParams: AsyncReportData[] = [
+      const existingParams: RequestedReport[] = [
         {
           exexutionId: 'exexutionId1',
           url: {
@@ -102,7 +102,7 @@ describe('ReportSummaryHelper', () => {
               search: `${matchingParams}&extraParam=black`,
             },
           },
-        } as unknown as AsyncReportData,
+        } as unknown as RequestedReport,
       ]
 
       const result = ReportSummaryHelper.getDuplicateRequestIds(matchingParams, existingParams)

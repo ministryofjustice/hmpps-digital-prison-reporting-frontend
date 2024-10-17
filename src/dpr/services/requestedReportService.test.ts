@@ -1,6 +1,6 @@
 import AsyncReportStoreService from './requestedReportsService'
 import UserDataStore from '../data/userDataStore'
-import { AsyncReportData } from '../types/AsyncReport'
+import { RequestedReport } from '../types/UserReports'
 
 const mockUserStore = {
   setUserConfig: jest.fn(),
@@ -28,7 +28,7 @@ describe('AsyncReportStoreService', () => {
       const getStateSpy = jest.spyOn(asyncReportsStore, 'getState')
       const saveStateSpy = jest.spyOn(asyncReportsStore, 'saveState')
       const updateStatusSpy = jest.spyOn(asyncReportsStore, 'updateDataByStatus').mockImplementation(() => {
-        return '' as unknown as AsyncReportData
+        return '' as unknown as RequestedReport
       })
 
       const mockreportData = {
@@ -43,6 +43,7 @@ describe('AsyncReportStoreService', () => {
         pathname: 'pathname',
         search: 'search',
         origin: 'origin',
+        type: 'report',
       }
       const mockFiltersData = {
         field1: 'value1.2',
@@ -74,7 +75,9 @@ describe('AsyncReportStoreService', () => {
           executionId: 'ex1a2s3d4f5g6h7j8k',
           tableId: 'dfsdf',
           name: 'vName',
+          variantName: 'vName',
           reportName: 'rName',
+          type: 'report',
           description: 'description',
           status: 'SUBMITTED',
           dataProductDefinitionsPath: undefined,
@@ -142,8 +145,6 @@ describe('AsyncReportStoreService', () => {
         'SUBMITTED',
       )
       expect(saveStateSpy).toHaveBeenCalledTimes(1)
-
-      expect(true)
     })
   })
 

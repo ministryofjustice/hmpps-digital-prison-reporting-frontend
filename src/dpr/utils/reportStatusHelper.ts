@@ -1,12 +1,12 @@
 import dayjs from 'dayjs'
-import { AsyncReportData, RequestStatus } from '../types/AsyncReport'
+import { RequestedReport, RequestStatus } from '../types/UserReports'
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 import logger from './logger'
 
 interface GetStatusUtilsResponse {
   status: RequestStatus
   errorMessage?: string
-  reportData?: AsyncReportData | undefined
+  reportData?: RequestedReport | undefined
 }
 
 export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams): Promise<GetStatusUtilsResponse> => {

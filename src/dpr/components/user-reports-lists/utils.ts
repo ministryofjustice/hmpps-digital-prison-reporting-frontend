@@ -1,15 +1,14 @@
 import { Response } from 'express'
 import RecentlyViewedStoreService from '../../services/recentlyViewedService'
 import AsyncReportStoreService from '../../services/requestedReportsService'
-import { AsyncReportData, RequestStatus } from '../../types/AsyncReport'
-import { RecentlyViewedReportData } from '../../types/RecentlyViewed'
 import * as ReportListHelper from '../../utils/reportsListHelper'
 import { CardData, RenderTableListResponse } from '../table-card-group/types'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { getExpiredStatus } from '../../utils/reportStatusHelper'
+import { UserReportData, RequestStatus } from '../../types/UserReports'
 
-const formatData = (reportData: RecentlyViewedReportData | AsyncReportData): CardData => {
-  const reportDataCopy: AsyncReportData | RecentlyViewedReportData = JSON.parse(JSON.stringify(reportData))
+const formatData = (reportData: UserReportData): CardData => {
+  const reportDataCopy: UserReportData = JSON.parse(JSON.stringify(reportData))
 
   const {
     executionId,
@@ -47,7 +46,7 @@ const formatData = (reportData: RecentlyViewedReportData | AsyncReportData): Car
   }
 }
 
-export const setDataFromStatus = (status: RequestStatus, reportsData: AsyncReportData | RecentlyViewedReportData) => {
+export const setDataFromStatus = (status: RequestStatus, reportsData: UserReportData) => {
   let timestamp
   let href
   const { url, timestamp: time } = reportsData
@@ -73,7 +72,7 @@ export const setDataFromStatus = (status: RequestStatus, reportsData: AsyncRepor
       break
     }
     case RequestStatus.READY: {
-      href = `${url.request.fullUrl}`
+      href = `${url.report.fullUrl}`
       timestamp = `Last viewed: ${new Date(time.lastViewed).toLocaleString()}`
       break
     }
@@ -100,26 +99,26 @@ export default {
     storeService,
     maxRows,
     filterFunction,
+    type,
   }: {
     res: Response
     maxRows?: number
     storeService: AsyncReportStoreService | RecentlyViewedStoreService
-    filterFunction: (report: AsyncReportData | RecentlyViewedReportData) => boolean
+    filterFunction: (report: UserReportData) => boolean
+    type: 'requested' | 'viewed'
   }): Promise<RenderTableListResponse> => {
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
 
-    const requestedReportsData: AsyncReportData[] | RecentlyViewedReportData[] = await storeService.getAllReports(
-      userId,
-    )
+    const requestedReportsData: UserReportData[] = await storeService.getAllReports(userId)
 
     let formatted = requestedReportsData.filter(filterFunction).map(formatData)
-    const tableData = ReportListHelper.formatTable(formatted, 'requested')
+    const tableData = ReportListHelper.formatTable(formatted, type)
 
     if (maxRows) formatted = formatted.slice(0, maxRows)
 
     const head = {
-      ...(formatted.length && { href: './async-reports/requested' }),
+      ...(formatted.length && { href: `./async-reports/${type}` }),
       ...(!formatted.length && { emptyMessage: 'You have 0 requested reports' }),
     }
 

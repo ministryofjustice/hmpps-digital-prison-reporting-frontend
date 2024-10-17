@@ -1,6 +1,6 @@
 import { components } from '../../types/api'
 import CollatedSummaryBuilder from './CollatedSummaryBuilder'
-import { AsyncSummary } from '../../types/AsyncReport'
+import { AsyncSummary } from '../../types/UserReports'
 
 const activityField: components['schemas']['FieldDefinition'] = {
   name: 'activity',

@@ -42,6 +42,7 @@ export default function routes({
         storeService: services.recentlyViewedStoreService,
         filterFunction: RecentReportslistUtils.filterReports,
         res,
+        type: 'requested',
       })),
     })
   })

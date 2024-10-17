@@ -1,7 +1,5 @@
 import { CardData } from '../components/table-card-group/types'
 import { createSummaryHtml } from './reportSummaryHelper'
-import { AsyncReportData } from '../types/AsyncReport'
-import { RecentlyViewedReportData } from '../types/RecentlyViewed'
 
 export const getTotals = (cardData: CardData[], maxRows: number) => {
   return {
@@ -107,16 +105,4 @@ export const formatTableData = (card: CardData, type: 'requested' | 'viewed') =>
       classes: 'dpr-req-cell dpr-req-cell__status',
     },
   ]
-}
-
-export const formatCards = async (
-  reports: AsyncReportData[] | RecentlyViewedReportData[],
-  filterFunction: (report: AsyncReportData | RecentlyViewedReportData) => boolean,
-  formatFunction: (reportData: RecentlyViewedReportData | AsyncReportData) => CardData,
-): Promise<CardData[]> => {
-  return reports
-    ? reports.filter(filterFunction).map((report: AsyncReportData | RecentlyViewedReportData) => {
-        return formatFunction(report)
-      })
-    : Promise.resolve([])
 }

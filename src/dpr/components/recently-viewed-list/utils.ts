@@ -1,7 +1,7 @@
-import { RecentlyViewedReportData } from '../../types/RecentlyViewed'
+import { RecentlyViewedReport } from '../../types/UserReports'
 
 export default {
-  filterReports: (report: RecentlyViewedReportData) => {
+  filterReports: (report: RecentlyViewedReport) => {
     return report.executionId.length !== 0
   },
 }

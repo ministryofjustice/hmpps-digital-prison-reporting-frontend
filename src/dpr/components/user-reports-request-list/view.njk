@@ -1,7 +1,7 @@
-{% from "../user-list-content/view.njk" import dprUserList %}
+{% from "../user-reports-list/view.njk" import dprUserReportsList %}
 
 {% macro dprAsyncRequestList(args) %}
   <div id="dpr-async-request-component" data-dpr-module="async-request-list" data-request-data='{{ args.meta | dump | safe }}' data-csrf-token="{{ args.csrfToken }}">
-    {{ dprUserList(args) }}
+    {{ dprUserReportsList(args) }}
   </div>
 {% endmacro %}

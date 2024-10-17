@@ -4,7 +4,7 @@ import MockDate from 'mockdate'
 import * as AsyncFiltersUtils from './utils'
 import MockDefinitions from '../../../../test-app/mockAsyncData/mockReportDefinition'
 import MockRenderFiltersData from '../../../../test-app/mockAsyncData/mockRenderFiltersData'
-import * as ReportSummaryHelper from '../../utils/reportSummaryHelper'
+import * as ReportSummaryHelper from '../../utils/reportStoreHelper'
 import { Services } from '../../types/Services'
 import { components } from '../../types/api'
 import { RenderFiltersReturnValue } from './types'
@@ -152,15 +152,14 @@ describe('AsyncFiltersUtils', () => {
         },
       }
 
-      expect(services.asyncReportsStore.updateStore).toHaveBeenCalledWith(
+      expect(services.asyncReportsStore.updateStore).toHaveBeenCalledWith({
         req,
         res,
         services,
-        mockDefintionVariants[0].specification.fields,
-        resultQuerySummary,
-        'executionId',
-        'tableId',
-      )
+        querySummaryData: resultQuerySummary,
+        executionId: 'executionId',
+        tableId: 'tableId',
+      })
     })
   })
 

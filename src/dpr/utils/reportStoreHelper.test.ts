@@ -1,7 +1,7 @@
 import { RequestedReport } from '../types/UserReports'
-import * as ReportSummaryHelper from './reportSummaryHelper'
+import * as ReportStoreHelper from './reportStoreHelper'
 
-describe('ReportSummaryHelper', () => {
+describe('ReportStoreHelper', () => {
   describe('getDuplicateRequestIds', () => {
     it('should find a duplicate entry with same query params', () => {
       const matchingParams = '?paramOne=red&paramTwo.thing=blue&paramThree=yellow'
@@ -18,7 +18,7 @@ describe('ReportSummaryHelper', () => {
         } as unknown as RequestedReport,
       ]
 
-      const result = ReportSummaryHelper.getDuplicateRequestIds(newParams, existingParams)
+      const result = ReportStoreHelper.getDuplicateRequestIds(newParams, existingParams)
 
       expect(result).toEqual(['exexutionId1'])
     })
@@ -46,7 +46,7 @@ describe('ReportSummaryHelper', () => {
         } as unknown as RequestedReport,
       ]
 
-      const result = ReportSummaryHelper.getDuplicateRequestIds(newParams, existingParams)
+      const result = ReportStoreHelper.getDuplicateRequestIds(newParams, existingParams)
 
       expect(result).toEqual(['exexutionId1', 'exexutionId2'])
     })
@@ -66,7 +66,7 @@ describe('ReportSummaryHelper', () => {
         } as unknown as RequestedReport,
       ]
 
-      const result = ReportSummaryHelper.getDuplicateRequestIds(newParams, existingParams)
+      const result = ReportStoreHelper.getDuplicateRequestIds(newParams, existingParams)
 
       expect(result).toEqual(['exexutionId1'])
     })
@@ -87,7 +87,7 @@ describe('ReportSummaryHelper', () => {
         } as unknown as RequestedReport,
       ]
 
-      const result = ReportSummaryHelper.getDuplicateRequestIds(newParams, existingParams)
+      const result = ReportStoreHelper.getDuplicateRequestIds(newParams, existingParams)
 
       expect(result).toEqual([])
     })
@@ -105,7 +105,7 @@ describe('ReportSummaryHelper', () => {
         } as unknown as RequestedReport,
       ]
 
-      const result = ReportSummaryHelper.getDuplicateRequestIds(matchingParams, existingParams)
+      const result = ReportStoreHelper.getDuplicateRequestIds(matchingParams, existingParams)
 
       expect(result).toEqual([])
     })

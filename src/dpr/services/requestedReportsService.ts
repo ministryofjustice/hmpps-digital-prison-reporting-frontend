@@ -63,8 +63,6 @@ export default class AsyncReportStoreService extends UserStoreService {
       userId,
     )
 
-    console.log(JSON.stringify(reportData, null, 2))
-
     return reportData.url.polling.pathname
   }
 
@@ -97,8 +95,6 @@ export default class AsyncReportStoreService extends UserStoreService {
 
     const filtersQueryString = new URLSearchParams(filterData).toString()
     const sortByQueryString = new URLSearchParams(sortData).toString()
-
-    console.log('--->', executionId)
 
     let reportStateData: RequestedReport = {
       reportId,

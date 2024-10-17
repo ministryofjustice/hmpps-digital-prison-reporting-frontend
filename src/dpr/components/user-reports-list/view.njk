@@ -1,18 +1,14 @@
 
 {% from "govuk/components/table/macro.njk" import govukTable %}
 
-{% macro dprUserList(args) %}
-  {% set head = args.head %}
+{% macro dprUserReportsList(args) %}
   {% set tableData = args.tableData %}
   {% set total = args.total %}
   {% set meta = args.meta %}
   {% set csrfToken = args.csrfToken %}
   {% set maxRows = args.maxRows %}
 
-  {% set title = head.title %}
-  {% set subText = head.subText %}
-  {% set icon = head.icon %}
-  {% set id = head.id %}
+  {% set head = args.head %}
   {% set emptyMessage = head.emptyMessage %}
   {% set href = head.href %}
 

@@ -22,7 +22,7 @@
       {% endset -%}
 
       {% set items = (items.push({
-        label: "Requested Reports (" + requestedReports.total.amount + ")",
+        label: "Requested (" + requestedReports.total.amount + ")",
         id: "requested-reports-tab",
         panel: {
           html: requestedReportsHtml
@@ -42,7 +42,7 @@
       {% endset -%}
 
       {% set items = (items.push({
-        label: "Recently Viewed (" + viewedReports.total.amount + ")",
+        label: "Viewed (" + viewedReports.total.amount + ")",
         id: "recently-viewed-tab",
         panel: {
           html: recentlyViewedHtml
@@ -62,7 +62,7 @@
       {% endset -%}
       
       {% set items = (items.push({
-        label: "My Bookmarks (" + bookmarks.total.amount + ")",
+        label: "Bookmarks (" + bookmarks.total.amount + ")",
         id: "my-bookmarks-tab",
         panel: {
           html: bookmarksHtml

@@ -5,9 +5,11 @@ export interface BookmarkedReportData {
   name: string
   description: string
   href: string
+  type: string
 }
 
 export interface BookmarkStoreData {
   reportId: string
   variantId: string
+  reportType?: string
 }

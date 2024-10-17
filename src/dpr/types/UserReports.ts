@@ -86,3 +86,26 @@ export interface AsyncSummary {
   fields: Array<FieldDefinition>
   data: Array<Dict<string>>
 }
+
+export interface FormattedUserReportData {
+  id: string
+  href: string
+  text: string
+  reportName: string
+  description: string
+  timestamp?: string
+  tag?: string
+  status?: string
+  type: ReportType
+  summary?: { name: string; value: string }[]
+  meta?: meta
+}
+
+export interface meta {
+  reportId: string
+  variantId: string
+  executionId: string
+  status?: string
+  requestedAt?: Date
+  dataProductDefinitionsPath?: string
+}

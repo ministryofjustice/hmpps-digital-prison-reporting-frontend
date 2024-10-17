@@ -19,9 +19,14 @@
     vertical-align: top;
   }
 
+  td.dpr-req-cell__type {
+    padding-top: 20px;
+    min-width: 80px;
+  }
+
   td.dpr-req-cell__status{
     padding-top: 20px;
-    min-width: 155px;
+    min-width: 110px;
   }
 
   tr:last-child {

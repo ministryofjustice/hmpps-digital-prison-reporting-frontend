@@ -15,16 +15,16 @@ export default class HomePage {
     cy.xpath(`//*[@id="dpr-async-request-component"]/div/table/tbody/tr[4]`)
 
   requestedFailedRetryButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table/tbody/tr[3]/td[5]/div/a[1]`)
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table/tbody/tr[3]/td[6]/div/a[1]`)
 
   requestedFailedRemoveButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table/tbody/tr[3]/td[5]/div/a[2]`)
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table/tbody/tr[3]/td[6]/div/a[2]`)
 
   requestedExpiredRetryButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table/tbody/tr[4]/td[5]/div/a[1]`)
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table/tbody/tr[4]/td[6]/div/a[1]`)
 
   requestedExpiredRemoveButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table/tbody/tr[4]/td[5]/div/a[2]`)
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table/tbody/tr[4]/td[6]/div/a[2]`)
 
   // Viewed Reports
 
@@ -37,10 +37,10 @@ export default class HomePage {
   viewedExpiredRow = (): PageElement => cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table/tbody/tr[2]`)
 
   viewedExpiredRefreshButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table/tbody/tr[2]/td[5]/div/a[1]`)
+    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table/tbody/tr[2]/td[6]/div/a[1]`)
 
   viewedExpiredRemoveButton = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table/tbody/tr[2]/td[5]/div/a[2]`)
+    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table/tbody/tr[2]/td[6]/div/a[2]`)
 
   // Bookmarks
 

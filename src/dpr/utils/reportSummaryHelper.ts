@@ -1,4 +1,4 @@
-import { CardData } from '../components/table-card-group/types'
+import { FormattedUserReportData } from '../types/UserReports'
 
 export const createDetailsHtml = (title: string, content: string) => {
   return `<details class="govuk-details">
@@ -13,7 +13,7 @@ export const createDetailsHtml = (title: string, content: string) => {
 </details>`
 }
 
-export const createSummaryHtml = (card: CardData) => {
-  const summaryHtml = card.summary.map((item) => `<li class="govuk-body-s">${item.name}: ${item.value}</li>`).join('')
+export const createSummaryHtml = (data: FormattedUserReportData) => {
+  const summaryHtml = data.summary.map((item) => `<li class="govuk-body-s">${item.name}: ${item.value}</li>`).join('')
   return `<ul class="dpr-card-group__item__filters-list govuk-!-margin-top-3">${summaryHtml}</ul>`
 }

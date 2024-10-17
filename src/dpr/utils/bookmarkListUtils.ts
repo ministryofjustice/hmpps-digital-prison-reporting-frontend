@@ -1,12 +1,15 @@
 import { Response, Request } from 'express'
 import BookmarkService from '../services/bookmarkService'
 import { BookmarkedReportData } from '../types/Bookmark'
-import { CardData } from '../components/table-card-group/types'
+import { FormattedUserReportData, ReportType } from '../types/UserReports'
 import { Services } from '../types/Services'
 import { createShowMoreHtml } from './reportsListHelper'
 import logger from './logger'
 
-export const formatCards = async (bookmarksData: BookmarkedReportData[], maxRows?: number): Promise<CardData[]> => {
+export const formatCards = async (
+  bookmarksData: BookmarkedReportData[],
+  maxRows?: number,
+): Promise<FormattedUserReportData[]> => {
   const cards = bookmarksData
     .map((report: BookmarkedReportData) => {
       return formatCardData(report)
@@ -16,7 +19,7 @@ export const formatCards = async (bookmarksData: BookmarkedReportData[], maxRows
   return maxRows ? cards.slice(0, maxRows) : cards
 }
 
-export const formatCardData = (bookmarkData: BookmarkedReportData): CardData => {
+export const formatCardData = (bookmarkData: BookmarkedReportData): FormattedUserReportData => {
   const reportData: BookmarkedReportData = JSON.parse(JSON.stringify(bookmarkData))
   const { variantId, name, description, href, reportName } = reportData
 
@@ -26,6 +29,7 @@ export const formatCardData = (bookmarkData: BookmarkedReportData): CardData => 
     text: name,
     description,
     href,
+    type: ReportType.REPORT, // TODO
   }
 }
 

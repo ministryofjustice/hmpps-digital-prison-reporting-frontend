@@ -2,12 +2,12 @@ import { Response } from 'express'
 import RecentlyViewedStoreService from '../../services/recentlyViewedService'
 import AsyncReportStoreService from '../../services/requestedReportsService'
 import * as ReportListHelper from '../../utils/reportsListHelper'
-import { CardData, RenderTableListResponse } from '../table-card-group/types'
+import { RenderTableListResponse } from './types'
+import { FormattedUserReportData, UserReportData, RequestStatus } from '../../types/UserReports'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { getExpiredStatus } from '../../utils/reportStatusHelper'
-import { UserReportData, RequestStatus } from '../../types/UserReports'
 
-const formatData = (reportData: UserReportData): CardData => {
+const formatData = (reportData: UserReportData): FormattedUserReportData => {
   const reportDataCopy: UserReportData = JSON.parse(JSON.stringify(reportData))
 
   const {
@@ -22,6 +22,7 @@ const formatData = (reportData: UserReportData): CardData => {
     timestamp,
     reportName,
     dataProductDefinitionsPath,
+    type,
   } = reportDataCopy
 
   const summary = query.summary as { name: string; value: string }[]
@@ -35,6 +36,7 @@ const formatData = (reportData: UserReportData): CardData => {
     summary,
     timestamp,
     status,
+    type,
     ...setDataFromStatus(status, reportDataCopy),
     meta: {
       reportId,

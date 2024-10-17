@@ -5,6 +5,7 @@ const mockViewedReports = [
     executionId: 'exId_1721738244284',
     tableId: 'tblId_1721738244284',
     reportName: 'Test Report',
+    type: 'report',
     variantName: 'Test Variant 1',
     description:
       'Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed',
@@ -68,6 +69,7 @@ const mockViewedReports = [
   {
     reportId: 'test-report-2',
     variantId: 'variantId-2',
+    type: 'report',
     executionId: 'exId_1721738907386',
     tableId: 'tblId_1721738907386',
     reportName: 'Test Report 2',
@@ -138,6 +140,7 @@ const mockViewedReports = [
     tableId: 'tblId_1721738907388',
     reportName: 'Test Report 3',
     variantName: 'Test Variant 3',
+    type: 'report',
     description:
       'Test Variant 3 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed',
     status: 'READY',
@@ -208,6 +211,7 @@ const mockRequestedReports = [
     reportName: 'Test Report',
     description: 'this will succeed',
     template: 'list',
+    type: 'report',
     status: 'FINISHED',
     filters: {
       data: {
@@ -301,6 +305,7 @@ const mockRequestedReports = [
     description:
       'Test Variant 2 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed',
     template: 'list',
+    type: 'report',
     status: 'FAILED',
     filters: {
       data: {
@@ -388,6 +393,7 @@ const mockRequestedReports = [
     tableId: 'tblId_1721738244290',
     name: 'Test Variant 3',
     reportName: 'Test Report',
+    type: 'report',
     description:
       'Test Variant 3 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed',
     template: 'list',
@@ -475,6 +481,7 @@ const mockRequestedReports = [
     variantId: 'variantId-1',
     executionId: 'exId_1721738244284',
     tableId: 'tblId_1721738244284',
+    type: 'report',
     name: 'Test Variant 1',
     reportName: 'Test Report',
     description: 'this will succeed',

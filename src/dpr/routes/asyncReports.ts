@@ -4,6 +4,7 @@ import AsyncPollingUtils from '../components/async-polling/utils'
 import AsyncRequestListUtils from '../components/user-reports-request-list/utils'
 import UserReportsListUtils from '../components/user-reports/utils'
 import ErrorSummaryUtils from '../components/error-summary/utils'
+import AysncRequestUtils, { RequestDataResult } from '../utils/asyncRequestUtils'
 
 import * as AsyncReportUtils from '../utils/renderAsyncReport'
 
@@ -42,22 +43,34 @@ export default function routes({
     })
   }
 
-  const getReportFiltersHandler: RequestHandler = async (req, res, next) => {
+  const renderRequestHandler: RequestHandler = async (req, res, next) => {
     try {
-      const filtersRenderData = <RenderFiltersReturnValue>await AsyncFiltersUtils.renderFilters({
+      const requestRenderData = <RequestDataResult>await AysncRequestUtils.renderRequestData({
         req,
         res,
         services,
         next,
       })
+
+      let filtersRenderData = {}
+      if (requestRenderData.definition) {
+        filtersRenderData = <RenderFiltersReturnValue>(
+          await AsyncFiltersUtils.renderFilters(requestRenderData.definition)
+        )
+      }
+
       res.render(`${templatePath}async-request`, {
-        title: 'Request Report',
+        title: `Request ${requestRenderData.reportData.type}`,
+        description: 'Customise your report using the filters below and submit your request.',
         layoutPath,
         postEndpoint: '/requestReport/',
+        reportData: {
+          ...requestRenderData.reportData,
+        },
         ...filtersRenderData,
       })
     } catch (error) {
-      req.body.title = 'Report Failed'
+      req.body.title = 'Report failed'
       req.body.errorDescription = 'Your report has failed to generate'
       req.body.error = error
       next()
@@ -66,7 +79,7 @@ export default function routes({
 
   const asyncRequestHandler: RequestHandler = async (req, res, next) => {
     try {
-      const redirectToPollingPage = await AsyncFiltersUtils.requestReport({
+      const redirectToPollingPage = await AysncRequestUtils.request({
         req,
         res,
         services,
@@ -80,7 +93,7 @@ export default function routes({
     } catch (error) {
       req.body = {
         ...req.body,
-        ...AsyncFiltersUtils.handleError(error, req),
+        ...AysncRequestUtils.handleError(error, req),
       }
       next()
     }
@@ -140,6 +153,7 @@ export default function routes({
   }
 
   const pollingHandler: RequestHandler = async (req, res, next) => {
+    console.log(req.params[0].split('/'))
     try {
       const pollingRenderData = await AsyncPollingUtils.renderPolling({
         req,
@@ -148,12 +162,12 @@ export default function routes({
         next,
       })
       res.render(`${templatePath}/async-polling`, {
-        title: 'Report Request Status',
+        title: 'Report request status',
         layoutPath,
         ...pollingRenderData,
       })
     } catch (error) {
-      req.body.title = 'Failed to retrieve Report status'
+      req.body.title = 'Failed to retrieve report status'
       req.body.errorDescription = 'We were unable to retrieve the report status:'
       req.body.error = error
       next()
@@ -173,24 +187,16 @@ export default function routes({
         ...reportRenderData,
       })
     } catch (error) {
-      req.body.title = 'Failed to retrieve Report'
+      req.body.title = 'Failed to retrieve report'
       req.body.errorDescription = 'We were unable to retrieve this report for the following reason:'
       req.body.error = error
       next()
     }
   }
 
-  router.get('/async-reports/:reportId/:variantId/request', getReportFiltersHandler, asyncErrorHandler)
-  router.post('/requestReport/', asyncRequestHandler, asyncErrorHandler)
-  router.post('/cancelRequest/', cancelRequestHandler, asyncErrorHandler)
-  router.post('/removeRequestedItem/', removeRequestedItemHandler, asyncErrorHandler)
-  router.post('/getStatus/', getStatusHandler)
-  router.post('/getRequestedExpiredStatus/', getExpiredStatus)
-  router.get('/async-reports/:reportId/:variantId/request/:executionId', pollingHandler, asyncErrorHandler)
-  router.get('/async-reports/:reportId/:variantId/request/:tableId/report', getReportHandler, asyncErrorHandler)
-  router.get('/async-reports/requested', async (req, res) => {
+  const listingHandler: RequestHandler = async (req, res, next) => {
     res.render(`${templatePath}/async-reports`, {
-      title: 'Requested Reports',
+      title: 'Requested reports',
       layoutPath,
       ...(await UserReportsListUtils.renderList({
         storeService: services.asyncReportsStore,
@@ -199,5 +205,30 @@ export default function routes({
         type: 'requested',
       })),
     })
-  })
+  }
+
+  // 1. Request
+  const asyncRequestPaths = [
+    '/async-reports/:reportId/:variantId/request',
+    '/async/:type/:reportId/:dashboardId/request',
+  ]
+  router.get(asyncRequestPaths, renderRequestHandler, asyncErrorHandler)
+  router.post('/requestReport/', asyncRequestHandler, asyncErrorHandler)
+
+  // 2. Polling
+  const asyncPollingPaths = [
+    '/async-reports/:reportId/:variantId/request/:executionId',
+    '/async/:type/:reportId/:dashboardId/request/*',
+  ]
+  router.get(asyncPollingPaths, pollingHandler, asyncErrorHandler)
+  router.post('/getStatus/', getStatusHandler)
+  router.post('/cancelRequest/', cancelRequestHandler, asyncErrorHandler)
+
+  // 3. Report
+  router.get('/async-reports/:reportId/:variantId/request/:tableId/report', getReportHandler, asyncErrorHandler)
+
+  // Homepage widget routes
+  router.post('/removeRequestedItem/', removeRequestedItemHandler, asyncErrorHandler)
+  router.post('/getRequestedExpiredStatus/', getExpiredStatus)
+  router.get('/async-reports/requested', listingHandler)
 }

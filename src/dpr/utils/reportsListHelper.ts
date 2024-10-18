@@ -89,7 +89,11 @@ export const formatTableRow = (data: FormattedUserReportData, type: 'requested' 
     default:
       break
   }
-  const filtersSummary = createSummaryHtml(data)
+
+  let filtersSummary = ''
+  if (data.summary) {
+    filtersSummary = createSummaryHtml(data)
+  }
   const description = `${data.description}${filtersSummary}`
 
   return [

@@ -8,7 +8,7 @@ import { Template } from '../types/Templates'
 import Dict = NodeJS.Dict
 import { removeDuplicates } from '../utils/reportStoreHelper'
 import { Services } from '../types/Services'
-import { querySummaryResult } from '../components/async-filters/types'
+import { SetQueryFromFiltersResult } from '../components/async-filters/types'
 
 export default class AsyncReportStoreService extends UserStoreService {
   constructor(userDataStore: UserDataStore) {
@@ -21,7 +21,7 @@ export default class AsyncReportStoreService extends UserStoreService {
    * @param {Request} req
    * @param {Response} res
    * @param {Services} services
-   * @param {querySummaryResult} querySummaryData
+   * @param {SetQueryFromFiltersResult} querySummaryData
    * @param {string} executionId
    * @param {string} tableId
    * @return {*}  {Promise<string>}
@@ -31,48 +31,53 @@ export default class AsyncReportStoreService extends UserStoreService {
     res,
     services,
     querySummaryData,
-    executionId,
-    tableId,
+    executionData,
+    pollingUrlData,
   }: {
     req: Request
     res: Response
     services: Services
-    querySummaryData: querySummaryResult
-    executionId: string
-    tableId: string
+    querySummaryData?: SetQueryFromFiltersResult
+    executionData: {
+      executionId: string
+      tableId: string
+    }[]
+    pollingUrlData: {
+      fullUrl: string
+      pathname: string
+    }
   }): Promise<string> {
-    const { search, variantId } = req.body
-    const { query, filterData, querySummary, sortData } = querySummaryData
+    const { search, variantId, type } = req.body
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
 
     // 1. check for duplicate requests and remove them from the request list
     removeDuplicates({ storeService: services.asyncReportsStore, userId, variantId, search })
     removeDuplicates({ storeService: services.recentlyViewedStoreService, userId, variantId, search })
 
-    // 2. Add the new request data to the store
-    const reportData = await this.addReport(
-      {
-        ...req.body,
-        executionId,
-        tableId,
-      },
-      filterData,
-      sortData,
-      query,
-      querySummary,
-      userId,
-    )
+    const reportData = {
+      ...req.body,
+    }
+    if (type === ReportType.REPORT) {
+      reportData.executionId = executionData[0].executionId
+      reportData.tableId = executionData[0].tableId
+    } else {
+      reportData.executionData = executionData
+    }
 
-    return reportData.url.polling.pathname
+    // 2. Add the new request data to the store
+    const storedData = await this.addReport(reportData, userId, pollingUrlData, querySummaryData)
+
+    return storedData.url.polling.pathname
   }
 
   async addReport(
     reportData: Dict<string>,
-    filterData: Dict<string>,
-    sortData: Dict<string>,
-    query: Dict<string>,
-    querySummary: Array<Dict<string>>,
     userId: string,
+    pollingUrlData: {
+      fullUrl: string
+      pathname: string
+    },
+    querySummaryData?: SetQueryFromFiltersResult,
   ) {
     const userConfig = await this.getState(userId)
 
@@ -88,34 +93,48 @@ export default class AsyncReportStoreService extends UserStoreService {
       dataProductDefinitionsPath,
       description,
       template,
-      variantName,
+      name,
       reportName,
       type,
     } = reportData
 
-    const filtersQueryString = new URLSearchParams(filterData).toString()
-    const sortByQueryString = new URLSearchParams(sortData).toString()
+    let filtersQueryString
+    let sortByQueryString
+    let query
+    let querySummary
+    let filterData
+    let sortData
+
+    if (querySummaryData) {
+      ;({ filterData, sortData, query, querySummary } = querySummaryData)
+      filtersQueryString = new URLSearchParams(filterData).toString()
+      sortByQueryString = new URLSearchParams(sortData).toString()
+    }
 
     let reportStateData: RequestedReport = {
       reportId,
       variantId,
       executionId,
       tableId,
-      name: variantName,
-      variantName,
+      name,
+      variantName: name,
       reportName,
       description,
       type: type as ReportType,
       template: template as Template,
       status: RequestStatus.SUBMITTED,
-      filters: {
-        data: filterData,
-        queryString: filtersQueryString,
-      },
-      sortBy: {
-        data: sortData,
-        queryString: sortByQueryString,
-      },
+      ...(filterData && {
+        filters: {
+          data: filterData,
+          queryString: filtersQueryString,
+        },
+      }),
+      ...(sortData && {
+        sortBy: {
+          data: sortData,
+          queryString: sortByQueryString,
+        },
+      }),
       url: {
         origin,
         request: {
@@ -123,16 +142,15 @@ export default class AsyncReportStoreService extends UserStoreService {
           pathname,
           search,
         },
-        polling: {
-          fullUrl: `${origin}${pathname}/${executionId}${getDpdPathSuffix(dataProductDefinitionsPath)}`,
-          pathname: `${pathname}/${executionId}${getDpdPathSuffix(dataProductDefinitionsPath)}`,
-        },
+        polling: pollingUrlData,
         report: {},
       },
-      query: {
-        data: query,
-        summary: querySummary,
-      },
+      ...(query && {
+        query: {
+          data: query,
+          summary: querySummary,
+        },
+      }),
       timestamp: {},
       dataProductDefinitionsPath,
     }

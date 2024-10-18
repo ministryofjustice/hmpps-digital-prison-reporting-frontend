@@ -4,69 +4,97 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
-{% macro dprAsyncFilters(filters, sortBy, data, endpoint) %}
+{% macro dprAsyncFilters(args) %}
+  {% set filters = args.filters %}
+  {% set sortBy = args.sortBy %}
+  {% set data = args.data %}
+  {% set endpoint = args.endpoint %}
+  {% set type = args.type %}
+
   {% set reportId = data.reportId %}
   {% set variantId = data.variantId %}
-  {% set variantName = data.variantName %}
+  {% set name = data.name %}
   {% set description = data.description %}
   {% set reportName = data.reportName %}
   {% set definitionPath = data.definitionPath %}
   {% set csrfToken = data.csrfToken %}
   {% set template = data.template %}
-  {% set template = data.type %}
+  {% set type = data.type %}
+  {% set metrics = data.metrics %}
+  {% set dashboardId = data.dashboardId %}
 
   {% set reportDetailsHtml %}
   {{ dprAsyncRequestDetails(data)}}
   {% endset %}
 
   {{ govukDetails({
-    summaryText: 'Details for "' + reportName + ': ' + variantName + '"',
+    summaryText: 'Details for "' + reportName + ': ' + name + '"',
     html: reportDetailsHtml,
     classes: 'dpr-meta-data-details',
-    open: (filters.length == 0)
+    open: (filters.length == null or filters.length == 0)
   }) }}
   
   <div class="dpr-async-request-filters dpr-filters govuk-!-margin-top-4" data-dpr-module="async-filters">
     <form action="{{ endpoint }}" method="post" id="async-filters-form" class="async-filters-form--hidden">
+
       <div id="query-error-summary" class="query-error-summary query-error-summary--hidden">
         {{ govukErrorSummary({
           titleText: "There is a problem",
           errorList: []
         }) }}
       </div>
+
       <input type="hidden" name="dataProductDefinitionsPath" value="{{ definitionPath }}">
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
       <input type="hidden" name="reportId" value="{{ reportId }}">
-      <input type="hidden" name="variantId" value="{{ variantId }}">
+      <input type="hidden" name="name" value="{{ name }}">
       <input type="hidden" name="reportName" value="{{ reportName }}">
-      <input type="hidden" name="variantName" value="{{ variantName }}">
       <input type="hidden" name="description" value="{{ description }}">
       <input type="hidden" name="type" value="{{ type }}">
-      <input type="hidden" name="template" value="{{ template }}">
       <input type="hidden" name="pathname" id="async-filters-form-pathname" value="">
       <input type="hidden" name="origin" id="async-filters-form-origin" value="">
       <input type="hidden" name="href" id="async-filters-form-href" value="">
       <input type="hidden" name="search" id="async-filters-form-search" value="">
+      
+      {% if dashboardId %}
+        <input type="hidden" name="dahsboardId" value="{{ dashboardId }}">
+      {%endif%}
 
-      <div class="dpr-filters-container">
-        {% if filters.length %}
+      {% if variantId %}
+        <input type="hidden" name="variantId" value="{{ variantId }}">
+      {%endif%}
+      
+      
+      {% if template %}
+        <input type="hidden" name="template" value="{{ template }}">
+      {% endif %}
+      
+      {% if metrics %}
+        <input type="hidden" name="metrics" value="{{ metrics | json }}">
+      {% endif %}
+
+
+      {% if filters.length or sortBy.length > 0 %}
+        <div class="dpr-filters-container">
+          {% if filters.length %}
+            <div class="dpr-async-request-filters__section">
+              <h2 class="govuk-heading-m">Filter options</h2>
+              {{ dprAsyncFilterInputs(filters, 'filters.') }}
+            </div>
+          {% endif %}
+
+          {%  if sortBy.length > 0 %}
           <div class="dpr-async-request-filters__section">
-            <h2 class="govuk-heading-m">Filter options</h2>
-            {{ dprAsyncFilterInputs(filters, 'filters.') }}
+            <h2 class="govuk-heading-m">Sort options</h2>
+            {{ dprAsyncFilterInputs(sortBy, '') }}
           </div>
-        {% endif %}
-
-        {%  if sortBy.length > 0 %}
-        <div class="dpr-async-request-filters__section">
-          <h2 class="govuk-heading-m">Sort options</h2>
-          {{ dprAsyncFilterInputs(sortBy, '') }}
+          {% endif %}
         </div>
-        {% endif %}
-      </div>
+      {% endif %}
 
       <div class="govuk-button-group">
         {{ govukButton({
-          text: "Request Report",
+          text: "Request " + type,
           classes: "govuk-button--primary",
           attributes: {
             'id': 'async-request-report-button'

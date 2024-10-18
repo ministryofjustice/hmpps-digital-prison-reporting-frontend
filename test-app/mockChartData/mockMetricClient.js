@@ -1,10 +1,12 @@
 const mockMetricData = require('./mockMetricData')
 const mockMetricDefinitions = require('./mockMetricDefinition')
+const mockMetricAsyncRequestResponses = require('./mockMetricAsyncRequest')
 
 class MockMetricClient {
   constructor() {
     this.mockMetricDefinitions = mockMetricDefinitions
     this.mockMetricData = mockMetricData
+    this.mockMetricAsyncRequestData = mockMetricAsyncRequestResponses
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -20,6 +22,14 @@ class MockMetricClient {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(this.mockMetricData[metricId])
+      }, 3000)
+    })
+  }
+
+  async getMetricDataAsync(token, metricId, dpdId) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(this.mockMetricAsyncRequestData.find((res) => res.id === metricId))
       }, 3000)
     })
   }

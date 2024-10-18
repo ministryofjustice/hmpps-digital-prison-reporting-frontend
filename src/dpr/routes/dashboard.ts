@@ -13,6 +13,8 @@ export default function routes({
   services: Services
   templatePath?: string
 }) {
+  // Sync Routes
+
   const getDashboardDataHandler: RequestHandler = async (req, res, next) => {
     const { dashboardData } = req.params
     try {

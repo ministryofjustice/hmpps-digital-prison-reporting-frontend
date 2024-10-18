@@ -25,7 +25,10 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
     type,
   } = reportDataCopy
 
-  const summary = query.summary as { name: string; value: string }[]
+  let summary
+  if (query) {
+    summary = query.summary as { name: string; value: string }[]
+  }
 
   return {
     id: executionId,

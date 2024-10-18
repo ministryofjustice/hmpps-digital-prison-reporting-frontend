@@ -1,8 +1,11 @@
+import { Request } from 'express'
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 import { ChartCardData } from '../types/Charts'
 import ChartCardUtils from '../components/chart-card/utils'
 import MetricsUtils from './metricsUtils'
 import { DashboardDefinition, DashboardMetricDefinition } from '../types/Dashboards'
+import DashboardService from '../services/dashboardService'
+import MetricService from '../services/metricsService'
 
 export default {
   requestDashboardData: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
@@ -35,6 +38,24 @@ export default {
       next(error)
       return {}
     }
+  },
+
+  requestDashboardDataAsync: async ({
+    req,
+    token,
+    metricsService,
+  }: {
+    req: Request
+    token: string
+    metricsService: MetricService
+  }) => {
+    const { reportId } = req.body
+    const metrics = JSON.parse(req.body.metrics)
+    return Promise.all(
+      metrics.map(async (metric: DashboardMetricDefinition) => {
+        return metricsService.getMetricDataAsync(token, metric.id, reportId)
+      }),
+    )
   },
 
   getDashboardData: async ({ req, res, services, next }: AsyncReportUtilsParams) => {

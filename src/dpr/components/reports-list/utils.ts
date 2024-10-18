@@ -108,7 +108,7 @@ export default {
             listType = createTag(type)
             break
           case 'dashboard':
-            hrefHtml = `<a href='/dashboards/${reportId}/load/${id}${pathSuffix}'>${name}</a>`
+            hrefHtml = `<a href='/async/${type}/${reportId}/${id}/request${pathSuffix}'>${name}</a>`
             bookmarkColumn = {}
             listType = createTag(type)
             break

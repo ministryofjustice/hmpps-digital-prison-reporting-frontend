@@ -1,6 +1,6 @@
 {% macro dprAsyncRequestDetails(reportData) %}
   {% set reportName = reportData.reportName %}
-  {% set variantName = reportData.variantName %}
+  {% set name = reportData.name %}
   {% set description = reportData.description %}
   {% set htmlContent = reportData.htmlContent %}
   {% set querySummary = reportData.querySummary %}
@@ -9,6 +9,7 @@
   {% set executionId = reportData.executionId %}
   {% set classification = reportData.classification %}
   {% set requestedTimestamp = reportData.requestedTimestamp %}
+  {% set metrics = reportData.metrics %}
 
   {% set filtersHtml %}
   {% if querySummary %}
@@ -24,13 +25,13 @@
 
     <table class="dpr-request-details__table">
       <tbody>
-        {% if variantName %}
+        {% if name %}
           <tr>
             <td class="dpr-request-details__table-heading">
-              <p class="govuk-body-m dpr-request-details__table-heading_name">Report Name:</p>
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Name:</p>
             </td>
             <td>
-              <h1 class="govuk-heading-s govuk-!-margin-bottom-1">{{ variantName }}</h1>
+              <h1 class="govuk-heading-s govuk-!-margin-bottom-1">{{ name }}</h1>
             </td>
           </tr>
         {% endif %}
@@ -86,6 +87,17 @@
             </td>
             <td>
               {{ filtersHtml | safe }}
+            </td>
+          </tr>
+        {% endif %}
+
+        {% if metrics %}
+          <tr>
+            <td class="dpr-request-details__table-heading">
+              <p class="govuk-body-m dpr-request-details__table-heading_name">No of metrics:</p>
+            </td>
+            <td>
+              {{ metrics.length }}
             </td>
           </tr>
         {% endif %}

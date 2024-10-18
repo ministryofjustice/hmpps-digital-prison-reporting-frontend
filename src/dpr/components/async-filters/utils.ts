@@ -8,11 +8,9 @@ import FilterUtils from '../filters/utils'
 import { DateFilterValue, FilterValue } from '../filters/types'
 import { FilterType } from '../filter-input/enum'
 import SortHelper from './sortByTemplate'
-import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import DefinitionUtils from '../../utils/definitionUtils'
-import { querySummaryResult, RenderFiltersReturnValue } from './types'
+import { SetQueryFromFiltersResult } from './types'
 import DateMapper from '../../utils/DateMapper/DateMapper'
-import { ReportType } from '../../types/UserReports'
 /**
  * Initialises the filters & Sort from the definition data
  *
@@ -234,83 +232,6 @@ export const setDurationStartAndEnd = (
     query,
   }
 }
-/**
- * Sets the query, and summary for the store
- *
- * @param {Request} req
- * @param {components['schemas']['FieldDefinition'][]} fields
- * @return {*}  {querySummaryResult}
- */
-const setQuerySummary = (req: Request, fields: components['schemas']['FieldDefinition'][]): querySummaryResult => {
-  let query: Dict<string> = {}
-  let filterData: Dict<string> = {}
-  let querySummary: Array<Dict<string>> = []
-  const sortData: Dict<string> = {}
-  const dateMapper = new DateMapper()
-
-  Object.keys(req.body)
-    .filter((name) => name !== '_csrf' && req.body[name] !== '')
-    .forEach((name) => {
-      const shortName = name.replace('filters.', '')
-      const value = req.body[name]
-
-      if (name.includes('relative-duration')) {
-        ;({ query, filterData, querySummary } = setDurationStartAndEnd(
-          name,
-          value,
-          query,
-          filterData,
-          querySummary,
-          fields,
-        ))
-      }
-
-      if (name.startsWith('filters.') && value !== '' && !query[name]) {
-        query[name as keyof Dict<string>] = value
-        filterData[shortName as keyof Dict<string>] = value
-
-        let dateDisplayValue
-
-        if (dateMapper.isDate(value)) {
-          dateDisplayValue = dateMapper.toDateString(value, 'local-date')
-
-          const isoFormatDate = dateMapper.toDateString(value, 'iso')
-          query[name as keyof Dict<string>] = isoFormatDate
-          filterData[shortName as keyof Dict<string>] = isoFormatDate
-        }
-
-        const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
-        querySummary.push({
-          name: fieldDisplayName || shortName,
-          value: dateDisplayValue || value,
-        })
-      } else if (name.startsWith('sort')) {
-        query[name as keyof Dict<string>] = value
-        sortData[name as keyof Dict<string>] = value
-
-        const fieldDef = DefinitionUtils.getField(fields, value)
-
-        let displayName = 'Sort Direction'
-        let displayValue = value === 'true' ? 'Ascending' : 'Descending'
-        if (fieldDef) {
-          displayName = 'Sort Column'
-          displayValue = fieldDef.display
-        }
-
-        querySummary.push({
-          name: displayName,
-          value: displayValue,
-        })
-      }
-    })
-
-  return {
-    query,
-    filterData,
-    querySummary,
-    sortData,
-  }
-}
 
 export default {
   /**
@@ -319,95 +240,83 @@ export default {
    * @param {AsyncReportUtilsParams} { req, res, dataSources }
    * @return {*}
    */
-  renderFilters: async ({
-    req,
-    res,
-    services,
-    next,
-  }: AsyncReportUtilsParams): Promise<RenderFiltersReturnValue | boolean> => {
-    try {
-      const token = res.locals.user?.token ? res.locals.user.token : 'token'
-      const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
-      const { reportId, variantId } = req.params
-      const { dataProductDefinitionsPath: definitionPath } = req.query
-      const definition = await services.reportingService.getDefinition(
-        token,
-        reportId,
-        variantId,
-        <string>definitionPath,
-      )
-      const { name: reportName } = definition
-      const { name: variantName } = definition.variant
-      const description = definition.variant.description || definition.description
-
-      const { template } = definition.variant.specification
-
-      return {
-        reportData: {
-          reportName,
-          variantName,
-          description,
-          reportId,
-          variantId,
-          definitionPath,
-          csrfToken,
-          template,
-          type: ReportType.REPORT,
-        },
-        ...initFiltersFromDefinition(definition.variant),
-      }
-    } catch (error) {
-      next(error)
-      return false
-    }
-  },
-
-  /**
-   * Sends the request for the async report
-   *
-   * @param {AsyncReportUtilsParams} { req, res, services }
-   * @return {*}
-   */
-  requestReport: async ({ req, res, services }: AsyncReportUtilsParams) => {
-    const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const { reportId, variantId, dataProductDefinitionsPath: definitionPath } = req.body
-
-    const definition = await services.reportingService.getDefinition(token, reportId, variantId, <string>definitionPath)
-    const fields = definition ? definition.variant.specification.fields : []
-    const querySummaryData = setQuerySummary(req, fields)
-
-    const { executionId, tableId } = await services.reportingService.requestAsyncReport(token, reportId, variantId, {
-      ...querySummaryData.query,
-      dataProductDefinitionsPath: definitionPath,
-    })
-
-    let redirect = ''
-    if (executionId && tableId) {
-      redirect = await services.asyncReportsStore.updateStore({
-        req,
-        res,
-        services,
-        querySummaryData,
-        executionId,
-        tableId,
-      })
-    }
-    return redirect
-  },
-
-  handleError: (error: Dict<string>, req: Request) => {
-    const filters = Object.keys(req.body)
-      .filter((attr) => attr.includes('filters.'))
-      .filter((attr) => !!req.body[attr])
-      .map((attr) => {
-        return { name: attr, value: req.body[attr] }
-      })
+  renderFilters: async (definition: components['schemas']['SingleVariantReportDefinition']) => {
     return {
-      title: 'Request Failed',
-      errorDescription: 'Your report has failed to generate.',
-      retry: true,
-      error: error.data ? error.data : error,
-      filters,
+      ...initFiltersFromDefinition(definition.variant),
+    }
+  },
+
+  setQueryFromFilters: (
+    req: Request,
+    fields: components['schemas']['FieldDefinition'][],
+  ): SetQueryFromFiltersResult => {
+    let query: Dict<string> = {}
+    let filterData: Dict<string> = {}
+    let querySummary: Array<Dict<string>> = []
+    const sortData: Dict<string> = {}
+    const dateMapper = new DateMapper()
+
+    Object.keys(req.body)
+      .filter((name) => name !== '_csrf' && req.body[name] !== '')
+      .forEach((name) => {
+        const shortName = name.replace('filters.', '')
+        const value = req.body[name]
+
+        if (name.includes('relative-duration')) {
+          ;({ query, filterData, querySummary } = setDurationStartAndEnd(
+            name,
+            value,
+            query,
+            filterData,
+            querySummary,
+            fields,
+          ))
+        }
+
+        if (name.startsWith('filters.') && value !== '' && !query[name]) {
+          query[name as keyof Dict<string>] = value
+          filterData[shortName as keyof Dict<string>] = value
+
+          let dateDisplayValue
+
+          if (dateMapper.isDate(value)) {
+            dateDisplayValue = dateMapper.toDateString(value, 'local-date')
+
+            const isoFormatDate = dateMapper.toDateString(value, 'iso')
+            query[name as keyof Dict<string>] = isoFormatDate
+            filterData[shortName as keyof Dict<string>] = isoFormatDate
+          }
+
+          const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
+          querySummary.push({
+            name: fieldDisplayName || shortName,
+            value: dateDisplayValue || value,
+          })
+        } else if (name.startsWith('sort')) {
+          query[name as keyof Dict<string>] = value
+          sortData[name as keyof Dict<string>] = value
+
+          const fieldDef = DefinitionUtils.getField(fields, value)
+
+          let displayName = 'Sort Direction'
+          let displayValue = value === 'true' ? 'Ascending' : 'Descending'
+          if (fieldDef) {
+            displayName = 'Sort Column'
+            displayValue = fieldDef.display
+          }
+
+          querySummary.push({
+            name: displayName,
+            value: displayValue,
+          })
+        }
+      })
+
+    return {
+      query,
+      filterData,
+      querySummary,
+      sortData,
     }
   },
 }

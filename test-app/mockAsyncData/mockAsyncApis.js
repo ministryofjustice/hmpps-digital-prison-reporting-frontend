@@ -83,6 +83,10 @@ const getDefinition = (token, reportId, variantId) => {
   return Promise.resolve(report)
 }
 
+const getDefinitions = () => {
+  return Promise.resolve(definitions.reports)
+}
+
 const getAsyncReport = (token, reportId, variantId, tableId, query) => {
   const pageSize = +query.pageSize < RESULT_COUNT ? +query.pageSize : RESULT_COUNT
   const report = createMockData(pageSize)
@@ -224,4 +228,5 @@ module.exports = {
   getAsyncCount,
   cancelAsyncRequest,
   getAsyncSummaryReport,
+  getDefinitions,
 }

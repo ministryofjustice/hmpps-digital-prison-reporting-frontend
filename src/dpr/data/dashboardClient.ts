@@ -1,6 +1,7 @@
 import { DashboardDefinition } from '../types/Dashboards'
 import logger from '../utils/logger'
 import RestClient from './restClient'
+import Dict = NodeJS.Dict
 import { ApiConfig } from './types'
 
 export default class DashboardClient {
@@ -27,5 +28,22 @@ export default class DashboardClient {
         token,
       })
       .then((response) => <DashboardDefinition>response)
+  }
+
+  requestAsyncDashboard(
+    token: string,
+    reportId: string,
+    variantId: string,
+    query: Record<string, string | boolean | number>,
+  ): Promise<Dict<string>> {
+    logger.info(`Dashboard client: request ${reportId}:${variantId}`)
+
+    return this.restClient
+      .get({
+        path: `/async/dashboards/${reportId}/${variantId}`,
+        token,
+        query,
+      })
+      .then((response) => <Dict<string>>response)
   }
 }

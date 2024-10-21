@@ -135,8 +135,8 @@ app.get('/', (req, res) => {
 
 const mockUserStore = new MockUserStoreService()
 
-const asyncReportsStore = new RequestedReportService(mockUserStore)
-asyncReportsStore.init('userId')
+const requestedReportService = new RequestedReportService(mockUserStore)
+requestedReportService.init('userId')
 
 const recentlyViewedService = new RecentlyViewedStoreService(mockUserStore)
 recentlyViewedService.init('userId')
@@ -155,7 +155,7 @@ const dashboardService = new DashboardService(dashboardClient)
 const services = {
   bookmarkService,
   recentlyViewedService,
-  asyncReportsStore,
+  requestedReportService,
   reportingService,
   metricService,
   dashboardService,

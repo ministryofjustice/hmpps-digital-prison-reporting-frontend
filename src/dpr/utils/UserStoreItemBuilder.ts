@@ -40,7 +40,7 @@ export default class UserStoreItemBuilder {
       case ReportType.DASHBOARD:
         this.userStoreItem = {
           ...this.userStoreItem,
-          dashboardId: this.requestFormData.variantId,
+          dashboardId: this.requestFormData.dashboardId,
           name: this.requestFormData.name,
         }
         break

@@ -40,7 +40,8 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
     if (this.cancelRequestButton) {
       const executionId = this.cancelRequestButton.getAttribute('data-execution-id')
       const reportId = this.cancelRequestButton.getAttribute('data-report-id')
-      const variantId = this.cancelRequestButton.getAttribute('data-variant-id')
+      const id = this.cancelRequestButton.getAttribute('data-id')
+      const type = this.cancelRequestButton.getAttribute('data-type')
       const csrfToken = this.cancelRequestButton.getAttribute('data-csrf-token')
 
       this.cancelRequestButton.addEventListener('click', async () => {
@@ -54,7 +55,8 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
           body: JSON.stringify({
             executionId,
             reportId,
-            variantId,
+            id,
+            type,
           }),
         })
           .then(() => {

@@ -16,7 +16,6 @@ class MockDashboardClient {
   }
 
   async requestAsyncDashboard(token, reportId, variantId) {
-    console.log('mock requestAsyncDashboard client')
     const unix = Date.now()
     return new Promise((resolve, reject) => {
       if (variantId !== 'variantId-5') {
@@ -25,6 +24,18 @@ class MockDashboardClient {
       } else {
         reject()
       }
+    })
+  }
+
+  async getAsyncStatus(token, reportId, dashboardId, executionId, dataProductDefinitionsPath) {
+    return Promise.resolve({ status: 'SUBMITTED' })
+  }
+
+  async cancelAsyncRequest() {
+    return new Promise((resolve) => {
+      resolve({
+        cancellationSucceeded: true,
+      })
     })
   }
 }

@@ -1,22 +1,23 @@
 import { FormattedUserReportData } from '../types/UserReports'
 import { createSummaryHtml } from './reportSummaryHelper'
 
-export const getTotals = (cardData: FormattedUserReportData[], maxRows: number) => {
+export const getTotals = (formattedData: FormattedUserReportData[], maxRows: number) => {
   return {
-    amount: cardData.length,
-    shown: cardData.length > maxRows ? maxRows : cardData.length,
+    amount: formattedData.length,
+    shown: formattedData.length > maxRows ? maxRows : formattedData.length,
     max: maxRows,
   }
 }
 
-export const getMeta = (cardData: FormattedUserReportData[]) => {
-  return cardData.map((d) => {
+export const getMeta = (formattedData: FormattedUserReportData[]) => {
+  return formattedData.map((d) => {
     return {
       reportId: d.meta.reportId,
-      variantId: d.meta.variantId,
+      id: d.meta.id,
       executionId: d.meta.executionId,
       status: d.meta.status,
       requestedAt: d.meta.requestedAt,
+      type: d.meta.type,
       dataProductDefinitionsPath: d.meta.dataProductDefinitionsPath,
     }
   })
@@ -58,10 +59,10 @@ export const formatTable = (data: FormattedUserReportData[], type: 'requested' |
 }
 
 const itemActionsHtml = (retryHref: string, executionId: string, type: 'requested' | 'viewed') => {
-  const text = type === 'requested' ? 'Retry report' : 'Refresh report'
+  const text = type === 'requested' ? 'Retry' : 'Refresh'
   return `<div class="dpr-icon-wrapper__item-actions">
       <a class='dpr-user-list-action govuk-link--no-visited-state' href="${retryHref}">${text}</a>
-      <a class="dpr-user-list-action govuk-link--no-visited-state dpr-remove-${type}-report-button"" href="#" data-execution-id='${executionId}'>Remove report</a>
+      <a class="dpr-user-list-action govuk-link--no-visited-state dpr-remove-${type}-report-button"" href="#" data-execution-id='${executionId}'>Remove</a>
     </div>`
 }
 
@@ -81,6 +82,7 @@ export const formatTableRow = (data: FormattedUserReportData, type: 'requested' 
       break
     case 'ABORTED':
       statusClass = 'govuk-tag--orange'
+      itemActions = itemActionsHtml(href, id, type)
       break
     case 'READY':
     case 'FINISHED':

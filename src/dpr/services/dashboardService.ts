@@ -24,7 +24,25 @@ export default class DashboardService {
     dashboardId: string,
     query: Record<string, string | boolean | number>,
   ): Promise<Dict<string>> {
-    console.log('requestAsyncDashboard')
     return this.dashboardClient.requestAsyncDashboard(token, reportId, dashboardId, query)
+  }
+
+  async cancelAsyncRequest(
+    token: string,
+    reportId: string,
+    dashboardId: string,
+    executionId: string,
+  ): Promise<Dict<string>> {
+    return this.dashboardClient.cancelAsyncRequest(token, reportId, dashboardId, executionId)
+  }
+
+  async getAsyncStatus(
+    token: string,
+    reportId: string,
+    dashboardId: string,
+    executionId: string,
+    dataProductDefinitionsPath: string,
+  ): Promise<Dict<string>> {
+    return this.dashboardClient.getAsyncStatus(token, reportId, dashboardId, executionId, dataProductDefinitionsPath)
   }
 }

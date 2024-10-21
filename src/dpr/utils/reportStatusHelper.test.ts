@@ -1,13 +1,13 @@
 import { Response, Request } from 'express'
 import ReportingService from '../services/reportingService'
-import { RequestStatus } from '../types/UserReports'
+import { ReportType, RequestStatus } from '../types/UserReports'
 import { Services } from '../types/Services'
 import * as ReportStatusHelper from './reportStatusHelper'
 import MetricService from '../services/metricsService'
 
 describe('ReportStatusHelper', () => {
   const services: Services = {
-    asyncReportsStore: {},
+    requestedReportService: {},
     recentlyViewedService: {},
     bookmarkService: {},
     reportingService: {},
@@ -34,6 +34,7 @@ describe('ReportStatusHelper', () => {
         body: {
           status: RequestStatus.STARTED,
           requestedAt: new Date(),
+          type: ReportType.REPORT,
         },
       } as unknown as Request
 
@@ -51,6 +52,7 @@ describe('ReportStatusHelper', () => {
         body: {
           status: RequestStatus.STARTED,
           requestedAt: new Date(),
+          type: ReportType.REPORT,
         },
       } as unknown as Request
 
@@ -69,6 +71,7 @@ describe('ReportStatusHelper', () => {
         body: {
           status: RequestStatus.FINISHED,
           requestedAt: new Date(),
+          type: ReportType.REPORT,
         },
       } as unknown as Request
 
@@ -89,6 +92,7 @@ describe('ReportStatusHelper', () => {
         body: {
           status: RequestStatus.STARTED,
           requestedAt,
+          type: ReportType.REPORT,
         },
       } as unknown as Request
 
@@ -110,6 +114,7 @@ describe('ReportStatusHelper', () => {
           executionId: 'executionId',
           status: RequestStatus.READY,
           requestedAt: new Date(),
+          type: ReportType.REPORT,
         },
       } as unknown as Request
 

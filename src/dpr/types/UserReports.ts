@@ -104,9 +104,10 @@ export interface FormattedUserReportData {
 
 export interface meta {
   reportId: string
-  variantId: string
+  id: string
   executionId: string
   status?: string
+  type: ReportType
   requestedAt?: Date
   dataProductDefinitionsPath?: string
 }

@@ -73,7 +73,7 @@ describe('AsyncReportUtils', () => {
       const mockDataSources = { locals: { user: { token: 'token' } } } as unknown as ReportingService
 
       const services = {
-        asyncReportsStore: mockAsyncReportsStore,
+        requestedReportService: mockAsyncReportsStore,
         reportingService: mockDataSources,
         recentlyViewedService: mockRecentlyViewedStoreService,
         bookmarkService: mockBookmarkService,

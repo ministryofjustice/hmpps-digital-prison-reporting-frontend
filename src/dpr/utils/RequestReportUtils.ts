@@ -240,6 +240,24 @@ export default {
     return redirect
   },
 
+  cancelRequest: async ({ req, res, services }: AsyncReportUtilsParams) => {
+    const token = res.locals.user?.token ? res.locals.user.token : 'token'
+    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+    const { reportId, id, executionId, type } = req.body
+
+    let response
+    if (type === ReportType.REPORT) {
+      response = await services.reportingService.cancelAsyncRequest(token, reportId, id, executionId)
+    }
+    if (type === ReportType.DASHBOARD) {
+      response = await services.reportingService.cancelAsyncRequest(token, reportId, id, executionId)
+    }
+
+    if (response && response.cancellationSucceeded) {
+      await services.requestedReportService.updateStatus(executionId, userId, RequestStatus.ABORTED)
+    }
+  },
+
   /**
    * Returns the data required for rendering the async filters component
    *

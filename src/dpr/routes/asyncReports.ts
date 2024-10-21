@@ -102,7 +102,7 @@ export default function routes({
 
   const cancelRequestHandler: RequestHandler = async (req, res, next) => {
     try {
-      await AsyncPollingUtils.cancelRequest({
+      await AysncRequestUtils.cancelRequest({
         req,
         res,
         services,

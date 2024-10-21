@@ -7,14 +7,12 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% macro dprAsyncPolling(data) %}
-  {% set description = data.description %}
   {% set status = data.status %}
-  {% set variantName = data.variantName %}
-  {% set reportName = data.reportName %}
   {% set querySummary = data.querySummary %}
   {% set reportId = data.reportId %}
   {% set variantId = data.variantId %}
-  {% set tableId = data.tableId %}
+  {% set type = data.type %}
+  {% set dashboardId = data.dashboardId %}
   {% set reportUrl = data.reportUrl %}
   {% set requestUrl = data.requestUrl %}
   {% set errorMessage = data.errorMessage %}
@@ -24,10 +22,17 @@
   {% set definitionPath = data.definitionPath %}
   {% set descriptionClasses = 'govuk-!-margin-top-4 govuk-!-margin-bottom-6'%}
 
+  {% if type === 'report'%}
+    {% set id = variantId %}
+  {% else %}
+    {% set id = dashboardId %}
+  {% endif %}
+
   {% set meta = { 
     reportId: reportId, 
-    variantId: variantId, 
+    id: id,
     executionId: executionId, 
+    type: type,
     status: status,
     requestedAt: requestedAt,
     dataProductDefinitionsPath: definitionPath
@@ -53,12 +58,12 @@
 
     {% if status === 'STARTED' or status === 'SUBMITTED' or status === 'PICKED' %}
 
-      <p class="{{ descriptionClasses }}">We are generating your report.</p>
+      <p class="{{ descriptionClasses }}">We are generating your {{ type }}.</p>
 
       {{ dprAsyncRequestDetails(data)}}
 
       {{ govukInsetText({
-        html: "<p>It can take up to 10 mins to generate a report.</p> <p>You can close and revisit this page at anytime, Navigate to the homepage to check on its status or your report</p>"
+        html: "<p>It can take up to 10 mins to generate a " + type + " .</p> <p>You can close and revisit this page at anytime, Navigate to the homepage to check on its status or your  " + type + " </p>"
       }) }}
 
       {{ govukButton({
@@ -68,7 +73,8 @@
         attributes: {
           'data-execution-id': executionId,
           'data-report-id': reportId,
-          'data-variant-id': variantId,
+          'data-id': id,
+          'data-type': type,
           'data-csrf-token': csrfToken
         }
       }) }}
@@ -77,11 +83,7 @@
 
     {% if status === 'FAILED' %}
 
-      {{ dprErrorSummary(errorMessage, { 
-        reportId:reportId, 
-        variantId:variantId,
-        executionId:executionId 
-      }) }}
+      {{ dprErrorSummary(errorMessage, meta) }}
 
       {{ dprAsyncRequestDetails(data)}}
 
@@ -102,7 +104,7 @@
 
       {{ govukButton({
         id: "retry-async-request",
-        text: "Return to filters",  
+        text: "Return to request page",  
         classes: "govuk-button govuk-!-margin-top-5",
         href: requestUrl
       }) }}
@@ -111,12 +113,12 @@
 
     {% if status === 'FINISHED' %}
 
-      <p class="{{ descriptionClasses }}">Your report has been generated</p>
+      <p class="{{ descriptionClasses }}">Your {{ type }} has been generated</p>
 
       {{ dprAsyncRequestDetails(data)}}
 
       {{ govukButton({
-        text: "View report",
+        text: "View " + type,
         classes: "govuk-button--primary",
         href: reportUrl
       }) }}

@@ -1,39 +1,31 @@
-import { RequestStatus } from '../../types/UserReports'
+import { ReportType } from '../../types/UserReports'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 
 export default {
-  cancelRequest: async ({ req, res, services }: AsyncReportUtilsParams) => {
-    const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-    const { reportId, variantId, executionId } = req.body
-
-    const response = await services.reportingService.cancelAsyncRequest(token, reportId, variantId, executionId)
-    if (response && response.cancellationSucceeded) {
-      await services.requestedReportService.updateStatus(executionId, userId, RequestStatus.ABORTED)
-    }
-  },
-
   renderPolling: async ({ req, res, services }: AsyncReportUtilsParams) => {
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+
     const { dataProductDefinitionsPath: definitionPath } = req.query
-    const { reportId, variantId, executionId } = req.params
+    const { reportId, variantId, executionId, dashboardId, type } = req.params
 
-    const reportData = await services.requestedReportService.getReportByExecutionId(executionId, userId)
-    const { reportName, name, description, status, tableId, query, timestamp, url, errorMessage } = reportData
+    const requestReportData = await services.requestedReportService.getReportByExecutionId(executionId, userId)
 
+    const { reportName, name, variantName, description, status, query, timestamp, url, errorMessage } =
+      requestReportData
     return {
       pollingRenderData: {
         reportName,
-        variantName: name,
-        description,
+        name: variantName || name,
         executionId,
+        dashboardId,
+        description,
+        type: type || ReportType.REPORT,
         reportId,
         variantId,
         status,
-        tableId,
         definitionPath,
-        querySummary: query.summary,
+        ...(query && { querySummary: query.summary }),
         requestedAt: timestamp.requested,
         csrfToken,
         ...(url.report?.fullUrl && { reportUrl: url.report.fullUrl }),

@@ -4,7 +4,10 @@
 {% set mainClasses = "app-container govuk-body" %}
 {% block content %}
   <h1>{{ title }}</h1>
-  <p class="govuk-body">{{ description }}</p>
+
+  {% if filters %}
+    <p class="govuk-body">{{ filterDescription }}</p>
+  {% endif %}
     
   {{ dprAsyncFilters({ 
     filters: filters, 

@@ -21,9 +21,10 @@ export default class DashboardService {
   async requestAsyncDashboard(
     token: string,
     reportId: string,
-    variantId: string,
+    dashboardId: string,
     query: Record<string, string | boolean | number>,
   ): Promise<Dict<string>> {
-    return this.dashboardClient.requestAsyncDashboard(token, reportId, variantId, query)
+    console.log('requestAsyncDashboard')
+    return this.dashboardClient.requestAsyncDashboard(token, reportId, dashboardId, query)
   }
 }

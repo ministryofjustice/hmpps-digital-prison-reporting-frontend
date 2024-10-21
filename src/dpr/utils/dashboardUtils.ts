@@ -4,7 +4,6 @@ import { ChartCardData } from '../types/Charts'
 import ChartCardUtils from '../components/chart-card/utils'
 import MetricsUtils from './metricsUtils'
 import { DashboardDefinition, DashboardMetricDefinition } from '../types/Dashboards'
-import DashboardService from '../services/dashboardService'
 import MetricService from '../services/metricsService'
 
 export default {
@@ -24,7 +23,6 @@ export default {
         }),
       )
 
-      // Convert metrics data in to chart data
       const chartsData: ChartCardData[] = metricsData.map((metric) => {
         return ChartCardUtils.getChartData(metric)
       })
@@ -40,7 +38,7 @@ export default {
     }
   },
 
-  requestDashboardDataAsync: async ({
+  requestDashboardMetricsDataAsync: async ({
     req,
     token,
     metricsService,
@@ -51,6 +49,7 @@ export default {
   }) => {
     const { reportId } = req.body
     const metrics = JSON.parse(req.body.metrics)
+
     return Promise.all(
       metrics.map(async (metric: DashboardMetricDefinition) => {
         return metricsService.getMetricDataAsync(token, metric.id, reportId)

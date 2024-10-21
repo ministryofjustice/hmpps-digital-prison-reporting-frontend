@@ -1,16 +1,16 @@
 /* eslint-disable no-param-reassign */
 import { Request } from 'express'
 import Dict = NodeJS.Dict
-import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
+import { AsyncReportUtilsParams, ExecutionData, RequestDataResult } from '../types/AsyncReportUtils'
 import type ReportingService from '../services/reportingService'
 import { ReportType } from '../types/UserReports'
 import filtersHelper from '../components/async-filters/utils'
 import { components } from '../types/api'
 import { DashboardDefinition, DashboardMetricDefinition } from '../types/Dashboards'
 import { Services } from '../types/Services'
-import DashboardUtils from './dashboardUtils'
-import MetricService from '../services/metricsService'
-import { getDpdPathSuffix } from './urlHelper'
+import { updateStore } from './reportStoreHelper'
+import { SetQueryFromFiltersResult } from '../components/async-filters/types'
+import type DashboardService from '../services/dashboardService'
 
 /**
  * Sends the request for the async report
@@ -34,44 +34,26 @@ const requestReport = async ({
   req: Request
   token: string
   reportingService: ReportingService
-}) => {
+}): Promise<{ executionData: ExecutionData; queryData: SetQueryFromFiltersResult }> => {
   const { reportId, variantId, dataProductDefinitionsPath } = req.body
+
   const definition = await reportingService.getDefinition(
     token,
     reportId,
     variantId,
     <string>dataProductDefinitionsPath,
   )
-
   const fields = definition ? definition.variant.specification.fields : []
-  const querySummaryData = filtersHelper.setQueryFromFilters(req, fields)
+  const queryData = filtersHelper.setQueryFromFilters(req, fields)
 
   const { executionId, tableId } = await reportingService.requestAsyncReport(token, reportId, variantId, {
-    ...querySummaryData.query,
+    ...queryData.query,
     dataProductDefinitionsPath,
   })
 
   return {
-    executionData: [{ executionId, tableId }],
-    querySummaryData,
-  }
-}
-
-const setPollingUrl = ({
-  req,
-  executionData,
-}: {
-  req: Request
-  executionData: { executionId: string; tableId: string }[]
-}) => {
-  const { pathname, dataProductDefinitionsPath, origin } = req.body
-  let executionId = ''
-  executionData.forEach((item: { executionId: string; tableId: string }) => {
-    executionId = `${executionId}/${item.executionId}`
-  })
-  return {
-    fullUrl: `${origin}${pathname}${executionId}${getDpdPathSuffix(dataProductDefinitionsPath)}`,
-    pathname: `${pathname}${executionId}${getDpdPathSuffix(dataProductDefinitionsPath)}`,
+    executionData: { executionId, tableId },
+    queryData,
   }
 }
 
@@ -92,16 +74,20 @@ const setPollingUrl = ({
 const requestDashboard = async ({
   req,
   token,
-  metricsService,
+  dashboardService,
 }: {
   req: Request
   token: string
-  metricsService: MetricService
+  dashboardService: DashboardService
 }) => {
-  const metricsExecutionResponses = await DashboardUtils.requestDashboardDataAsync({ req, token, metricsService })
-  return {
-    executionData: metricsExecutionResponses,
-  }
+  console.log('requestDashboard')
+  const { reportId, dashboardId, dataProductDefinitionsPath } = req.body
+  const { executionId, tableId } = await dashboardService.requestAsyncDashboard(token, reportId, dashboardId, {
+    dataProductDefinitionsPath,
+  })
+
+  console.log({ executionId, tableId })
+  return { executionData: { executionId, tableId } }
 }
 
 const renderDashboardRequestData = async (
@@ -151,23 +137,6 @@ const renderReportRequestData = async (
   }
 }
 
-export interface RequestDataResult {
-  definition?: components['schemas']['SingleVariantReportDefinition']
-  reportData: {
-    reportName: string
-    name: string
-    description: string
-    reportId: string
-    variantId?: string
-    dashboardId?: string
-    definitionPath: string
-    csrfToken: string
-    template?: string
-    metrics?: DashboardMetricDefinition[]
-    type: ReportType
-  }
-}
-
 export default {
   /**
    * Sends the request for the async report
@@ -179,11 +148,11 @@ export default {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const { type } = req.body
 
-    let executionData: { executionId: string; tableId: string }[]
-    let querySummaryData
+    let executionData: ExecutionData
+    let queryData: SetQueryFromFiltersResult
 
     if (type === ReportType.REPORT) {
-      ;({ executionData, querySummaryData } = await requestReport({
+      ;({ executionData, queryData } = await requestReport({
         req,
         token,
         reportingService: services.reportingService,
@@ -194,22 +163,18 @@ export default {
       ;({ executionData } = await requestDashboard({
         req,
         token,
-        metricsService: services.metricService,
+        dashboardService: services.dashboardService,
       }))
     }
 
-    const pollingUrlData = setPollingUrl({ req, executionData })
-    console.log({ pollingUrlData })
-
     let redirect = ''
-    if (executionData.length) {
-      redirect = await services.asyncReportsStore.updateStore({
+    if (executionData) {
+      redirect = await updateStore({
         req,
         res,
         services,
-        querySummaryData,
+        queryData,
         executionData,
-        pollingUrlData,
       })
     }
     return redirect
@@ -226,8 +191,7 @@ export default {
     res,
     services,
     next,
-  }: // TODO: fix interfaces here
-  AsyncReportUtilsParams): Promise<RequestDataResult | boolean> => {
+  }: AsyncReportUtilsParams): Promise<RequestDataResult | boolean> => {
     try {
       const token = res.locals.user?.token ? res.locals.user.token : 'token'
       const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'

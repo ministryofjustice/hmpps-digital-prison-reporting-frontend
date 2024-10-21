@@ -82,84 +82,9 @@ describe('AsyncFiltersUtils', () => {
 
   describe('renderFilters', () => {
     it('should get the render data for the filters page', async () => {
-      const filterRenderData = <RenderFiltersReturnValue>await AsyncFiltersUtils.default.renderFilters({
-        services,
-        req,
-        res,
-        next,
-      })
-
-      expect(filterRenderData.reportData.description).toEqual('descriptionFromReport')
-      expect(filterRenderData.reportData).toEqual(MockRenderFiltersData.reportData)
+      const filterRenderData = <RenderFiltersReturnValue>await AsyncFiltersUtils.default.renderFilters(mockReport)
       expect(filterRenderData.filters).toEqual(MockRenderFiltersData.filters)
       expect(filterRenderData.sortBy).toEqual(MockRenderFiltersData.sortBy)
-    })
-  })
-
-  describe('requestReport', () => {
-    it('should correctly set the request data', async () => {
-      await AsyncFiltersUtils.default.requestReport({
-        services,
-        req,
-        res,
-        next,
-      })
-
-      const resultQuerySummary = {
-        query: {
-          'filters.field2': 'value2.1',
-          'filters.field3.start': '2003-02-01',
-          'filters.field3.end': '2006-05-04',
-          'filters.field4': 'Fezzick',
-          sortBy: 'field5',
-          sortDirection: 'true',
-        },
-        filterData: {
-          field2: 'value2.1',
-          'field3.start': '2003-02-01',
-          'field3.end': '2006-05-04',
-          field4: 'Fezzick',
-        },
-        querySummary: [
-          {
-            name: 'Field 2',
-            value: 'value2.1',
-          },
-          {
-            name: 'Field 3 start',
-            value: '01/02/2003',
-          },
-          {
-            name: 'Field 3 end',
-            value: '04/05/2006',
-          },
-          {
-            name: 'Field 4',
-            value: 'Fezzick',
-          },
-          {
-            name: 'Sort Column',
-            value: 'Field 5',
-          },
-          {
-            name: 'Sort Direction',
-            value: 'Ascending',
-          },
-        ],
-        sortData: {
-          sortBy: 'field5',
-          sortDirection: 'true',
-        },
-      }
-
-      expect(services.asyncReportsStore.updateStore).toHaveBeenCalledWith({
-        req,
-        res,
-        services,
-        querySummaryData: resultQuerySummary,
-        executionId: 'executionId',
-        tableId: 'tableId',
-      })
     })
   })
 

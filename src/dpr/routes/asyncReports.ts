@@ -4,13 +4,14 @@ import AsyncPollingUtils from '../components/async-polling/utils'
 import AsyncRequestListUtils from '../components/user-reports-request-list/utils'
 import UserReportsListUtils from '../components/user-reports/utils'
 import ErrorSummaryUtils from '../components/error-summary/utils'
-import AysncRequestUtils, { RequestDataResult } from '../utils/asyncRequestUtils'
+import AysncRequestUtils from '../utils/asyncRequestUtils'
 
 import * as AsyncReportUtils from '../utils/renderAsyncReport'
 
 import { Services } from '../types/Services'
 import logger from '../utils/logger'
 import { RenderFiltersReturnValue } from '../components/async-filters/types'
+import { RequestDataResult } from '../types/AsyncReportUtils'
 
 export default function routes({
   router,
@@ -61,7 +62,7 @@ export default function routes({
 
       res.render(`${templatePath}async-request`, {
         title: `Request ${requestRenderData.reportData.type}`,
-        description: 'Customise your report using the filters below and submit your request.',
+        filtersDescription: `Customise your ${requestRenderData.reportData.type} using the filters below and submit your request.`,
         layoutPath,
         postEndpoint: '/requestReport/',
         reportData: {
@@ -153,7 +154,6 @@ export default function routes({
   }
 
   const pollingHandler: RequestHandler = async (req, res, next) => {
-    console.log(req.params[0].split('/'))
     try {
       const pollingRenderData = await AsyncPollingUtils.renderPolling({
         req,
@@ -218,7 +218,7 @@ export default function routes({
   // 2. Polling
   const asyncPollingPaths = [
     '/async-reports/:reportId/:variantId/request/:executionId',
-    '/async/:type/:reportId/:dashboardId/request/*',
+    '/async/:type/:reportId/:dashboardId/request/:executionId',
   ]
   router.get(asyncPollingPaths, pollingHandler, asyncErrorHandler)
   router.post('/getStatus/', getStatusHandler)

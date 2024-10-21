@@ -33,16 +33,15 @@ export default class DashboardClient {
   requestAsyncDashboard(
     token: string,
     reportId: string,
-    variantId: string,
+    dashboardId: string,
     query: Record<string, string | boolean | number>,
   ): Promise<Dict<string>> {
-    logger.info(`Dashboard client: request ${reportId}:${variantId}`)
+    logger.info(`Dashboard client: request ${reportId}:${dashboardId}`)
 
     return this.restClient
       .get({
-        path: `/async/dashboards/${reportId}/${variantId}`,
+        path: `/async/dashboards/${reportId}/${dashboardId}`,
         token,
-        query,
       })
       .then((response) => <Dict<string>>response)
   }

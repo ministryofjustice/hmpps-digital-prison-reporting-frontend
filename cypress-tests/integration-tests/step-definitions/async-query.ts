@@ -6,7 +6,7 @@ Then('I click the reports details button', () => {
 })
 
 Then('the report details are displayed', () => {
-  new AsyncQueryPage().reportDetailsTable().contains('Report Name:')
+  new AsyncQueryPage().reportDetailsTable().contains('Name:')
   new AsyncQueryPage().reportDetailsTable().contains('Successful Report')
 
   new AsyncQueryPage().reportDetailsTable().contains('Product:')

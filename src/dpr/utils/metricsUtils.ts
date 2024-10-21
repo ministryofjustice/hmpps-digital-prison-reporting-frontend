@@ -1,7 +1,5 @@
-import { Request } from 'express'
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 import { MetricsDataResponse, MetricsDefinition } from '../types/Metrics'
-import MetricService from '../services/metricsService'
 
 export default {
   getMetricData: async ({

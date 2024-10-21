@@ -55,7 +55,7 @@ export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) 
   )
 
   const reportDataCountPromise = services.reportingService.getAsyncCount(token, tableId)
-  const stateDataPromise = services.asyncReportsStore.getReportByTableId(tableId, userId)
+  const stateDataPromise = services.requestedReportService.getReportByTableId(tableId, userId)
 
   return [reportDefinitionPromise, reportDataPromise, reportDataCountPromise, stateDataPromise, summaryDataPromise]
 }
@@ -156,8 +156,8 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
   }
 
   if (Object.keys(renderData).length && Object.keys(reportStateData).length) {
-    await services.asyncReportsStore.updateLastViewed(reportStateData.executionId, userId)
-    await services.recentlyViewedStoreService.setRecentlyViewed(reportStateData, userId)
+    await services.requestedReportService.updateLastViewed(reportStateData.executionId, userId)
+    await services.recentlyViewedService.setRecentlyViewed(reportStateData, userId)
   }
 
   return { renderData }

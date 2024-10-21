@@ -1,73 +1,6 @@
-import { Request, Response } from 'express'
-import { SetQueryFromFiltersResult } from '../components/async-filters/types'
 import type RecentlyViewedStoreService from '../services/recentlyViewedService'
-import type AsyncReportStoreService from '../services/requestedReportsService'
-import { Services } from '../types/Services'
-import { ReportType, RequestFormData, RequestStatus, UserReportData } from '../types/UserReports'
-import UserStoreItemBuilder from './UserStoreItemBuilder'
-import { ExecutionData } from '../types/AsyncReportUtils'
-
-/**
- * Updates the store with the request details
- *
- * @param {Request} req
- * @param {Response} res
- * @param {Services} services
- * @param {SetQueryFromFiltersResult} querySummaryData
- * @param {string} executionId
- * @param {string} tableId
- * @return {*}  {Promise<string>}
- */
-export const updateStore = async ({
-  req,
-  res,
-  services,
-  queryData,
-  executionData,
-}: {
-  req: Request
-  res: Response
-  services: Services
-  queryData?: SetQueryFromFiltersResult
-  executionData: ExecutionData
-}): Promise<string> => {
-  const { search, variantId, type } = req.body
-  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-
-  removeDuplicates({ storeService: services.asyncReportsStore, userId, variantId, search })
-  removeDuplicates({ storeService: services.recentlyViewedStoreService, userId, variantId, search })
-
-  const reportData: RequestFormData = req.body
-
-  let requestedReportData
-  switch (type) {
-    case ReportType.REPORT:
-      requestedReportData = new UserStoreItemBuilder(reportData)
-        .addExecutionData(executionData)
-        .addFilters(queryData.filterData)
-        .addSortData(queryData.sortData)
-        .addUrls()
-        .addQuery(queryData)
-        .addStatus(RequestStatus.SUBMITTED)
-        .addTimestamp()
-        .build()
-      break
-    case ReportType.DASHBOARD:
-      requestedReportData = new UserStoreItemBuilder(reportData)
-        .addExecutionData(executionData)
-        .addUrls()
-        .addStatus(RequestStatus.SUBMITTED)
-        .addTimestamp()
-        .build()
-      break
-    default:
-      break
-  }
-
-  await services.asyncReportsStore.addReport(userId, requestedReportData)
-
-  return requestedReportData.url.polling.pathname
-}
+import type RequestedReportService from '../services/requestedReportsService'
+import { UserReportData } from '../types/UserReports'
 
 export const removeDuplicates = async ({
   storeService,
@@ -75,7 +8,7 @@ export const removeDuplicates = async ({
   variantId,
   search,
 }: {
-  storeService: AsyncReportStoreService | RecentlyViewedStoreService
+  storeService: RequestedReportService | RecentlyViewedStoreService
   userId: string
   variantId: string
   search: string

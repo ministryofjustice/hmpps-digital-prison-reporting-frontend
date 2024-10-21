@@ -8,7 +8,7 @@ import MetricService from '../services/metricsService'
 describe('ReportStatusHelper', () => {
   const services: Services = {
     asyncReportsStore: {},
-    recentlyViewedStoreService: {},
+    recentlyViewedService: {},
     bookmarkService: {},
     reportingService: {},
     dashboardService: {},

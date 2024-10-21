@@ -77,7 +77,7 @@ app.use(bodyParser.json())
 
 const mockAsyncApis = require('./mockAsyncData/mockAsyncApis')
 const MockUserStoreService = require('./mockAsyncData/mockRedisStore')
-const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
+const RequestedReportService = require('../package/dpr/services/requestedReportService').default
 const RecentlyViewedStoreService = require('../package/dpr/services/recentlyViewedService').default
 const BookmarkService = require('../package/dpr/services/bookmarkService').default
 const MetricsService = require('../package/dpr/services/metricsService').default
@@ -135,11 +135,11 @@ app.get('/', (req, res) => {
 
 const mockUserStore = new MockUserStoreService()
 
-const asyncReportsStore = new AsyncReportStoreService(mockUserStore)
+const asyncReportsStore = new RequestedReportService(mockUserStore)
 asyncReportsStore.init('userId')
 
-const recentlyViewedStoreService = new RecentlyViewedStoreService(mockUserStore)
-recentlyViewedStoreService.init('userId')
+const recentlyViewedService = new RecentlyViewedStoreService(mockUserStore)
+recentlyViewedService.init('userId')
 
 const bookmarkService = new BookmarkService(mockUserStore)
 bookmarkService.init('userId')
@@ -154,7 +154,7 @@ const dashboardService = new DashboardService(dashboardClient)
 
 const services = {
   bookmarkService,
-  recentlyViewedStoreService,
+  recentlyViewedService,
   asyncReportsStore,
   reportingService,
   metricService,
@@ -185,7 +185,7 @@ app.get('/async-reports', async (req, res) => {
 
   const requestedReports = await UserReportsListUtils.renderList({
     res,
-    storeService: services.asyncReportsStore,
+    storeService: services.requestedReportService,
     filterFunction: AsyncReportListUtils.filterReports,
     maxRows: 6,
     type: 'requested',
@@ -193,7 +193,7 @@ app.get('/async-reports', async (req, res) => {
 
   const viewedReports = await UserReportsListUtils.renderList({
     res,
-    storeService: services.recentlyViewedStoreService,
+    storeService: services.recentlyViewedService,
     filterFunction: RecentlyViewedCardGroupUtils.filterReports,
     maxRows: 6,
     type: 'viewed',

@@ -1,6 +1,6 @@
 import type { RequestHandler, Router } from 'express'
 import ErrorSummaryUtils from '../components/error-summary/utils'
-import AysncRequestUtils from '../utils/asyncRequestUtils'
+import RequestReportUtils from '../utils/RequestReportUtils'
 
 import { Services } from '../types/Services'
 import logger from '../utils/logger'
@@ -31,7 +31,7 @@ export default function routes({
 
   const requestDashboardHandler: RequestHandler = async (req, res, next) => {
     try {
-      const redirectToPollingPage = await AysncRequestUtils.request({
+      const redirectToPollingPage = await RequestReportUtils.request({
         req,
         res,
         services,

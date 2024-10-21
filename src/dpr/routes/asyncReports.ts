@@ -4,7 +4,7 @@ import AsyncPollingUtils from '../components/async-polling/utils'
 import AsyncRequestListUtils from '../components/user-reports-request-list/utils'
 import UserReportsListUtils from '../components/user-reports/utils'
 import ErrorSummaryUtils from '../components/error-summary/utils'
-import AysncRequestUtils from '../utils/asyncRequestUtils'
+import AysncRequestUtils from '../utils/RequestReportUtils'
 
 import * as AsyncReportUtils from '../utils/renderAsyncReport'
 
@@ -120,7 +120,7 @@ export default function routes({
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
 
     try {
-      await services.asyncReportsStore.removeReport(req.body.executionId, userId)
+      await services.requestedReportService.removeReport(req.body.executionId, userId)
       res.end()
     } catch (error) {
       req.body.title = 'Failed to abort request'
@@ -145,7 +145,7 @@ export default function routes({
         req,
         res,
         services,
-        storeService: services.asyncReportsStore,
+        storeService: services.requestedReportService,
       })
       res.send({ isExpired: response })
     } catch (error) {
@@ -199,7 +199,7 @@ export default function routes({
       title: 'Requested reports',
       layoutPath,
       ...(await UserReportsListUtils.renderList({
-        storeService: services.asyncReportsStore,
+        storeService: services.requestedReportService,
         filterFunction: AsyncRequestListUtils.filterReports,
         res,
         type: 'requested',

@@ -9,7 +9,7 @@ export default {
 
     const response = await services.reportingService.cancelAsyncRequest(token, reportId, variantId, executionId)
     if (response && response.cancellationSucceeded) {
-      await services.asyncReportsStore.updateStatus(executionId, userId, RequestStatus.ABORTED)
+      await services.requestedReportService.updateStatus(executionId, userId, RequestStatus.ABORTED)
     }
   },
 
@@ -19,7 +19,7 @@ export default {
     const { dataProductDefinitionsPath: definitionPath } = req.query
     const { reportId, variantId, executionId } = req.params
 
-    const reportData = await services.asyncReportsStore.getReportByExecutionId(executionId, userId)
+    const reportData = await services.requestedReportService.getReportByExecutionId(executionId, userId)
     const { reportName, name, description, status, tableId, query, timestamp, url, errorMessage } = reportData
 
     return {

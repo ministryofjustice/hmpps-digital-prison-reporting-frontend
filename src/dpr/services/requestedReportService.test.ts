@@ -1,4 +1,4 @@
-import AsyncReportStoreService from './requestedReportsService'
+import RequestedReportService from './requestedReportService'
 import UserDataStore from '../data/userDataStore'
 import { ReportType, RequestedReport, RequestStatus } from '../types/UserReports'
 
@@ -15,11 +15,11 @@ const mockUserStore = {
 
 const userId = 'userId'
 
-describe('AsyncReportStoreService', () => {
-  let asyncReportsStore: AsyncReportStoreService
+describe('RequestedReportService', () => {
+  let asyncReportsStore: RequestedReportService
 
   beforeEach(() => {
-    asyncReportsStore = new AsyncReportStoreService(mockUserStore)
+    asyncReportsStore = new RequestedReportService(mockUserStore)
     asyncReportsStore.init(userId)
   })
 

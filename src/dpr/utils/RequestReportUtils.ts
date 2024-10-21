@@ -1,17 +1,79 @@
 /* eslint-disable no-param-reassign */
-import { Request } from 'express'
+import { Request, Response } from 'express'
 import Dict = NodeJS.Dict
 import { AsyncReportUtilsParams, ExecutionData, RequestDataResult } from '../types/AsyncReportUtils'
 import type ReportingService from '../services/reportingService'
-import { ReportType } from '../types/UserReports'
+import { ReportType, RequestFormData, RequestStatus } from '../types/UserReports'
 import filtersHelper from '../components/async-filters/utils'
 import { components } from '../types/api'
 import { DashboardDefinition, DashboardMetricDefinition } from '../types/Dashboards'
 import { Services } from '../types/Services'
-import { updateStore } from './reportStoreHelper'
 import { SetQueryFromFiltersResult } from '../components/async-filters/types'
 import type DashboardService from '../services/dashboardService'
+import { removeDuplicates } from './reportStoreHelper'
+import UserStoreItemBuilder from './UserStoreItemBuilder'
 
+/**
+ * Updates the store with the request details
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Services} services
+ * @param {SetQueryFromFiltersResult} querySummaryData
+ * @param {string} executionId
+ * @param {string} tableId
+ * @return {*}  {Promise<string>}
+ */
+export const updateStore = async ({
+  req,
+  res,
+  services,
+  queryData,
+  executionData,
+}: {
+  req: Request
+  res: Response
+  services: Services
+  queryData?: SetQueryFromFiltersResult
+  executionData: ExecutionData
+}): Promise<string> => {
+  const { search, variantId, type } = req.body
+  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+
+  removeDuplicates({ storeService: services.requestedReportService, userId, variantId, search })
+  removeDuplicates({ storeService: services.recentlyViewedService, userId, variantId, search })
+
+  const reportData: RequestFormData = req.body
+
+  let requestedReportData
+  switch (type) {
+    case ReportType.REPORT:
+      requestedReportData = new UserStoreItemBuilder(reportData)
+        .addExecutionData(executionData)
+        .addFilters(queryData.filterData)
+        .addSortData(queryData.sortData)
+        .addRequestUrls()
+        .addQuery(queryData)
+        .addStatus(RequestStatus.SUBMITTED)
+        .addTimestamp()
+        .build()
+      break
+    case ReportType.DASHBOARD:
+      requestedReportData = new UserStoreItemBuilder(reportData)
+        .addExecutionData(executionData)
+        .addRequestUrls()
+        .addStatus(RequestStatus.SUBMITTED)
+        .addTimestamp()
+        .build()
+      break
+    default:
+      break
+  }
+
+  await services.requestedReportService.addReport(userId, requestedReportData)
+
+  return requestedReportData.url.polling.pathname
+}
 /**
  * Sends the request for the async report
  *
@@ -80,13 +142,11 @@ const requestDashboard = async ({
   token: string
   dashboardService: DashboardService
 }) => {
-  console.log('requestDashboard')
   const { reportId, dashboardId, dataProductDefinitionsPath } = req.body
   const { executionId, tableId } = await dashboardService.requestAsyncDashboard(token, reportId, dashboardId, {
     dataProductDefinitionsPath,
   })
 
-  console.log({ executionId, tableId })
   return { executionData: { executionId, tableId } }
 }
 

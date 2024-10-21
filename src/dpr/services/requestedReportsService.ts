@@ -4,7 +4,7 @@ import { RequestedReport, RequestStatus } from '../types/UserReports'
 import UserStoreService from './userStoreService'
 import { getDpdPathSuffix } from '../utils/urlHelper'
 
-export default class AsyncReportStoreService extends UserStoreService {
+export default class RequestedReportService extends UserStoreService {
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
   }

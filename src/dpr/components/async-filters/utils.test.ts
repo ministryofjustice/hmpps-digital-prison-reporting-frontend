@@ -42,7 +42,7 @@ describe('AsyncFiltersUtils', () => {
         setReportTimestamp: jest.fn(),
         updateStore: jest.fn(),
       },
-      recentlyViewedStoreService: {
+      recentlyViewedService: {
         getAllReportsByVariantId: jest.fn().mockResolvedValue([]),
         setReportTimestamp: jest.fn(),
       },

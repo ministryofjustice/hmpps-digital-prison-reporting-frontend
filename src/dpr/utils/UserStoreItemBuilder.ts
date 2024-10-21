@@ -87,7 +87,7 @@ export default class UserStoreItemBuilder {
     return this
   }
 
-  addUrls = () => {
+  addRequestUrls = () => {
     const { origin, pathname, search, href } = this.requestFormData
     const { executionId, dataProductDefinitionsPath } = this.userStoreItem
 

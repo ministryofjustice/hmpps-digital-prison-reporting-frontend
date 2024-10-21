@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import RecentlyViewedStoreService from '../../services/recentlyViewedService'
-import AsyncReportStoreService from '../../services/requestedReportsService'
+import RequestedReportService from '../../services/requestedReportService'
 import * as ReportListHelper from '../../utils/reportsListHelper'
 import { RenderTableListResponse } from './types'
 import { FormattedUserReportData, UserReportData, RequestStatus } from '../../types/UserReports'
@@ -108,7 +108,7 @@ export default {
   }: {
     res: Response
     maxRows?: number
-    storeService: AsyncReportStoreService | RecentlyViewedStoreService
+    storeService: RequestedReportService | RecentlyViewedStoreService
     filterFunction: (report: UserReportData) => boolean
     type: 'requested' | 'viewed'
   }): Promise<RenderTableListResponse> => {
@@ -142,7 +142,7 @@ export default {
     res,
     services,
     storeService,
-  }: AsyncReportUtilsParams & { storeService: AsyncReportStoreService | RecentlyViewedStoreService }) => {
+  }: AsyncReportUtilsParams & { storeService: RequestedReportService | RecentlyViewedStoreService }) => {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const report = await getExpiredStatus({ req, res, services })
 

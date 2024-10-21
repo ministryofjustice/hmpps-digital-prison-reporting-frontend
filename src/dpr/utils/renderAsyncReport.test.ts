@@ -7,7 +7,7 @@ import ReportActionsUtils from '../components/report-actions/utils'
 
 import mockAsyncApis from '../../../test-app/mockAsyncData/mockAsyncApis'
 import { RequestedReport } from '../types/UserReports'
-import AsyncReportStoreService from '../services/requestedReportsService'
+import RequestedReportService from '../services/requestedReportService'
 import ReportingService from '../services/reportingService'
 import { mockGetReportListRenderData } from '../../../test-app/mockAsyncData/mockReportListRenderData'
 import RecentlyViewedStoreService from '../services/recentlyViewedService'
@@ -58,7 +58,7 @@ describe('AsyncReportUtils', () => {
 
       const mockAsyncReportsStore = {
         updateLastViewed: jest.fn(),
-      } as unknown as AsyncReportStoreService
+      } as unknown as RequestedReportService
 
       const mockBookmarkService = {
         isBookmarked: jest.fn().mockReturnValue(false),
@@ -75,7 +75,7 @@ describe('AsyncReportUtils', () => {
       const services = {
         asyncReportsStore: mockAsyncReportsStore,
         reportingService: mockDataSources,
-        recentlyViewedStoreService: mockRecentlyViewedStoreService,
+        recentlyViewedService: mockRecentlyViewedStoreService,
         bookmarkService: mockBookmarkService,
         metricService: mockMetricService,
         dashboardService: mockDashboardService,

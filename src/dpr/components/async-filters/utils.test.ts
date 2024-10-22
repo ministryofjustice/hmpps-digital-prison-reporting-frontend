@@ -24,52 +24,6 @@ describe('AsyncFiltersUtils', () => {
       description: 'descriptionFromReport',
       variant: mockDefintionVariants[0],
     }
-    //   reportingService: {
-    //     getDefinition: jest.fn().mockResolvedValue(mockReport),
-    //     requestAsyncReport: jest.fn().mockResolvedValue({ executionId: 'executionId', tableId: 'tableId' }),
-    //   },
-    //   asyncReportsStore: {
-    //     getAllReportsByVariantId: jest.fn().mockResolvedValue([]),
-    //     addReport: jest.fn().mockResolvedValue({ url: { polling: { pathname: 'polling.pathname' } } }),
-    //     setReportTimestamp: jest.fn(),
-    //     updateStore: jest.fn(),
-    //   },
-    //   recentlyViewedService: {
-    //     getAllReportsByVariantId: jest.fn().mockResolvedValue([]),
-    //     setReportTimestamp: jest.fn(),
-    //   },
-    // } as unknown as Services
-
-    // res = {
-    //   locals: {
-    //     token: 'token',
-    //     csrfToken: 'csrfToken',
-    //   },
-    // } as unknown as Response
-
-    // req = {
-    //   query: {
-    //     dataProductDefinitionsPath: 'token',
-    //   },
-    //   params: {
-    //     reportId: 'reportId',
-    //     variantId: 'variantId',
-    //   },
-    //   body: {
-    //     'filters.field2': 'value2.1',
-    //     'filters.field3.start': '01/02/2003',
-    //     'filters.field3.end': '2006-05-04',
-    //     'filters.field4': 'Fezzick',
-    //     sortBy: 'field5',
-    //     sortDirection: 'true',
-    //     search: 'search',
-    //     variantId: 'variantId',
-    //   },
-    // } as unknown as Request
-
-    // next = ((error: Error) => {
-    //   //
-    // }) as unknown as NextFunction
   })
 
   describe('renderFilters', () => {

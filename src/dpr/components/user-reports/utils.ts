@@ -5,7 +5,7 @@ import * as ReportListHelper from '../../utils/reportsListHelper'
 import { RenderTableListResponse } from './types'
 import { FormattedUserReportData, UserReportData, RequestStatus, ReportType } from '../../types/UserReports'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
-import { getExpiredStatus } from '../../utils/reportStatusHelper'
+import { getExpiredStatus } from '../../utils/requestStatusHelper'
 
 const formatData = (reportData: UserReportData): FormattedUserReportData => {
   const reportDataCopy: UserReportData = JSON.parse(JSON.stringify(reportData))

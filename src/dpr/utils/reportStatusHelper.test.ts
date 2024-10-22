@@ -2,7 +2,7 @@ import { Response, Request } from 'express'
 import ReportingService from '../services/reportingService'
 import { ReportType, RequestStatus } from '../types/UserReports'
 import { Services } from '../types/Services'
-import * as ReportStatusHelper from './reportStatusHelper'
+import * as ReportStatusHelper from './requestStatusHelper'
 import MetricService from '../services/metricsService'
 
 describe('ReportStatusHelper', () => {

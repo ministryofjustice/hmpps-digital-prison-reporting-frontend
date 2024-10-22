@@ -74,6 +74,7 @@ export const updateStore = async ({
 
   return requestedReportData.url.polling.pathname
 }
+
 /**
  * Sends the request for the async report
  *

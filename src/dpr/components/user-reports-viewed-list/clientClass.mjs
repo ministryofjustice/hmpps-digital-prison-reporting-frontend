@@ -7,7 +7,7 @@ export default class DprRecentlyViewedList extends DprPollingStatusClass {
   }
 
   initialise() {
-    this.POLLING_STATUSES = []
+    this.EXPIRED_END_STATUSES = this.getExpiredCheckStatuses()
     this.POLLING_FREQUENCY = '60000' // 1 min
 
     this.viewedList = document.getElementById('dpr-recently-viewed-component')
@@ -16,25 +16,31 @@ export default class DprRecentlyViewedList extends DprPollingStatusClass {
     this.removeActions = document.querySelectorAll('.dpr-remove-viewed-report-button')
 
     this.initItemActions()
-    this.initPollingStatus()
+    this.initPollingIntervals()
   }
 
-  initPollingStatus() {
-    setInterval(async () => {
-      if (this.viewedReportData) {
-        const meta = JSON.parse(this.viewedReportData)
-        await Promise.all(
-          meta.map(async (metaData) => {
-            if (metaData.status !== 'EXPIRED') {
-              const response = await this.getExpiredStatus('/getExpiredStatus/', metaData, this.csrfToken)
-              if (response && response.isExpired) {
-                window.location.reload()
-              }
-            }
-          }),
-        )
-      }
-    }, this.POLLING_FREQUENCY)
+  async initPollingIntervals() {
+    await this.checkIsExpired()
+
+    if (this.viewedReportData && this.shouldPollExpired(this.viewedReportData)) {
+      this.expiredViewedInterval = setInterval(async () => {
+        await this.checkIsExpired()
+      }, this.POLLING_FREQUENCY)
+    }
+  }
+
+  async checkIsExpired() {
+    await Promise.all(
+      JSON.parse(this.viewedReportData).map(async (metaData) => {
+        if (metaData.status !== 'EXPIRED') {
+          const response = await this.getExpiredStatus('/getExpiredStatus/', metaData, this.csrfToken)
+          if (response && response.isExpired) {
+            window.location.reload()
+            clearInterval(this.expiredViewedInterval)
+          }
+        }
+      }),
+    )
   }
 
   initItemActions() {

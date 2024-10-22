@@ -28,6 +28,7 @@ const getStatusByReportType = async (services: Services, req: Request, token: st
   }
 
   if (type === ReportType.DASHBOARD) {
+    console.log('getting Dashboard Status')
     statusResponse = await services.dashboardService.getAsyncStatus(
       token,
       reportId,

@@ -1,6 +1,6 @@
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { RequestedReport, RequestStatus } from '../../types/UserReports'
-import { getStatus } from '../../utils/reportStatusHelper'
+import { getStatus } from '../../utils/requestStatusHelper'
 
 export default {
   getRequestStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {

@@ -8,6 +8,7 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
 
   initialise() {
     this.END_STATUSES = this.getEndStatuses()
+    this.EXPIRED_END_STATUSES = this.getExpiredCheckStatuses()
     this.POLLING_FREQUENCY = this.getPollingFrquency()
 
     this.requestList = document.getElementById('dpr-async-request-component')
@@ -16,54 +17,56 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
     this.removeActions = document.querySelectorAll('.dpr-remove-requested-report-button')
 
     this.initItemActions()
-    this.initExpiredPollingStatus()
-    this.initStatusPollingStatus()
+    this.initPollingIntervals()
   }
 
-  async initExpiredPollingStatus() {
-    // run expired check on load first
-    await this.checkIfExpired(true)
+  async initPollingIntervals() {
+    await this.checkIfExpired()
 
-    setInterval(async () => {
-      await this.checkIfExpired()
-    }, '60000') // 1 minute
-  }
-
-  async checkIfExpired() {
     if (this.requestData) {
-      const meta = JSON.parse(this.requestData)
-      await Promise.all(
-        meta.map(async (metaData) => {
-          if (metaData.status !== 'EXPIRED') {
-            const response = await this.getExpiredStatus('/getRequestedExpiredStatus/', metaData, this.csrfToken)
-            if (response && response.isExpired) {
-              window.location.reload()
-            }
-          }
-        }),
-      )
+      if (this.shouldPollExpired(this.requestData)) {
+        this.expiredInterval = setInterval(async () => {
+          await this.checkIfExpired()
+        }, '6000') // 1 minute
+      }
+
+      if (this.shouldPollStatus(this.requestData)) {
+        this.pollingInterval = setInterval(async () => {
+          await this.pollStatus()
+        }, this.POLLING_FREQUENCY)
+      }
     }
   }
 
-  initStatusPollingStatus() {
-    setInterval(async () => {
-      if (this.requestData) {
-        const meta = JSON.parse(this.requestData)
-        await Promise.all(
-          meta.map(async (metaData) => {
-            // Don't poll if current state is an end state
-            if (!this.END_STATUSES.includes(metaData.status)) {
-              const response = await this.getRequestStatus(metaData, this.csrfToken)
+  async checkIfExpired() {
+    await Promise.all(
+      JSON.parse(this.requestData).map(async (metaData) => {
+        if (!this.EXPIRED_END_STATUSES.includes(metaData.status)) {
+          const response = await this.getExpiredStatus('/getRequestedExpiredStatus/', metaData, this.csrfToken)
+          if (response && response.isExpired) {
+            clearInterval(this.expiredInterval)
+            window.location.reload()
+          }
+        }
+      }),
+    )
+  }
 
-              // Reload if new status is an end state
-              if (this.END_STATUSES.includes(response.status)) {
-                window.location.reload()
-              }
-            }
-          }),
-        )
-      }
-    }, this.POLLING_FREQUENCY)
+  async pollStatus() {
+    await Promise.all(
+      JSON.parse(this.requestData).map(async (metaData) => {
+        // Don't poll if current state is an end state
+        if (!this.END_STATUSES.includes(metaData.status)) {
+          const response = await this.getRequestStatus(metaData, this.csrfToken)
+
+          // Reload if new status is an end state
+          if (this.END_STATUSES.includes(response.status)) {
+            clearInterval(this.pollingInterval)
+            window.location.reload()
+          }
+        }
+      }),
+    )
   }
 
   initItemActions() {

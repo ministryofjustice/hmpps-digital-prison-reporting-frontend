@@ -7,22 +7,22 @@ export default {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
 
     const { dataProductDefinitionsPath: definitionPath } = req.query
-    const { reportId, variantId, executionId, dashboardId, type } = req.params
+    const { reportId, variantId, executionId, id, type } = req.params
 
     const requestReportData = await services.requestedReportService.getReportByExecutionId(executionId, userId)
 
     const { reportName, name, variantName, description, status, query, timestamp, url, errorMessage } =
       requestReportData
+
     return {
       pollingRenderData: {
         reportName,
         name: variantName || name,
         executionId,
-        dashboardId,
+        id: variantId || id,
         description,
         type: type || ReportType.REPORT,
         reportId,
-        variantId,
         status,
         definitionPath,
         ...(query && { querySummary: query.summary }),

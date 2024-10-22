@@ -1,11 +1,8 @@
 import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
-import AsyncHomePage from '../pages/AsyncHomePage'
 import DasboardPage from '../pages/DashboardPage'
 
-When('I click the dashboard link', () => {
-  const page = new AsyncHomePage()
-  page.dashboardLink().should('have.attr', 'href').and('eq', '/dashboards/test-report-1/load/test-dashboard-1')
-  page.dashboardLink().click()
+When('I load a dashboard', () => {
+  cy.visit('http://localhost:3010/dashboards/test-report-1/load/test-dashboard-1')
 })
 
 Then('I am taken to the dashboard', () => {

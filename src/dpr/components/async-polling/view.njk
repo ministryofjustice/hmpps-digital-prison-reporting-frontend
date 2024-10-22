@@ -10,7 +10,7 @@
   {% set status = data.status %}
   {% set querySummary = data.querySummary %}
   {% set reportId = data.reportId %}
-  {% set variantId = data.variantId %}
+  {% set id = data.id %}
   {% set type = data.type %}
   {% set dashboardId = data.dashboardId %}
   {% set reportUrl = data.reportUrl %}
@@ -21,12 +21,6 @@
   {% set requestedAt = data.requestedAt %}
   {% set definitionPath = data.definitionPath %}
   {% set descriptionClasses = 'govuk-!-margin-top-4 govuk-!-margin-bottom-6'%}
-
-  {% if type === 'report'%}
-    {% set id = variantId %}
-  {% else %}
-    {% set id = dashboardId %}
-  {% endif %}
 
   {% set meta = { 
     reportId: reportId, 

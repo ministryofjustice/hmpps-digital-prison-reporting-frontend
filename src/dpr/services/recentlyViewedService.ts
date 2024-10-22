@@ -36,6 +36,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
     const {
       reportId,
       variantId,
+      id,
       executionId,
       tableId,
       reportName,
@@ -49,6 +50,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
     const recentlyViewedReportData: RecentlyViewedReport = {
       reportId,
       variantId,
+      id,
       executionId,
       tableId,
       reportName,

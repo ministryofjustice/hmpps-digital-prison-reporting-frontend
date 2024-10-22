@@ -98,18 +98,13 @@ const requestReport = async ({
   token: string
   reportingService: ReportingService
 }): Promise<{ executionData: ExecutionData; queryData: SetQueryFromFiltersResult }> => {
-  const { reportId, variantId, dataProductDefinitionsPath } = req.body
+  const { reportId, id, dataProductDefinitionsPath } = req.body
 
-  const definition = await reportingService.getDefinition(
-    token,
-    reportId,
-    variantId,
-    <string>dataProductDefinitionsPath,
-  )
+  const definition = await reportingService.getDefinition(token, reportId, id, <string>dataProductDefinitionsPath)
   const fields = definition ? definition.variant.specification.fields : []
   const queryData = filtersHelper.setQueryFromFilters(req, fields)
 
-  const { executionId, tableId } = await reportingService.requestAsyncReport(token, reportId, variantId, {
+  const { executionId, tableId } = await reportingService.requestAsyncReport(token, reportId, id, {
     ...queryData.query,
     dataProductDefinitionsPath,
   })
@@ -143,21 +138,27 @@ const requestDashboard = async ({
   token: string
   dashboardService: DashboardService
 }) => {
-  const { reportId, dashboardId, dataProductDefinitionsPath } = req.body
-  const { executionId, tableId } = await dashboardService.requestAsyncDashboard(token, reportId, dashboardId, {
+  const { reportId, id, dataProductDefinitionsPath } = req.body
+  const { executionId, tableId } = await dashboardService.requestAsyncDashboard(token, reportId, id, {
     dataProductDefinitionsPath,
   })
 
   return { executionData: { executionId, tableId } }
 }
 
-const renderDashboardRequestData = async (
-  token: string,
-  reportId: string,
-  dashboardId: string,
-  definitionPath: string,
-  services: Services,
-) => {
+const renderDashboardRequestData = async ({
+  token,
+  reportId,
+  id,
+  definitionPath,
+  services,
+}: {
+  token: string
+  reportId: string
+  id: string
+  definitionPath: string
+  services: Services
+}) => {
   const productDefinitions = await services.reportingService.getDefinitions(token, <string>definitionPath)
   const productDefinition = productDefinitions.find(
     (def: components['schemas']['ReportDefinitionSummary']) => def.id === reportId,
@@ -166,7 +167,7 @@ const renderDashboardRequestData = async (
 
   const dashboardDefinition: DashboardDefinition = await services.dashboardService.getDefinition(
     token,
-    dashboardId,
+    id,
     reportId,
     <string>definitionPath,
   )
@@ -180,14 +181,20 @@ const renderDashboardRequestData = async (
   }
 }
 
-const renderReportRequestData = async (
-  token: string,
-  reportId: string,
-  variantId: string,
-  definitionPath: string,
-  services: Services,
-) => {
-  const definition = await services.reportingService.getDefinition(token, reportId, variantId, <string>definitionPath)
+const renderReportRequestData = async ({
+  token,
+  reportId,
+  id,
+  definitionPath,
+  services,
+}: {
+  token: string
+  reportId: string
+  id: string
+  definitionPath: string
+  services: Services
+}) => {
+  const definition = await services.reportingService.getDefinition(token, reportId, id, <string>definitionPath)
 
   return {
     definition,
@@ -212,18 +219,21 @@ export default {
     let executionData: ExecutionData
     let queryData: SetQueryFromFiltersResult
 
+    const requestArgs = {
+      req,
+      token,
+    }
+
     if (type === ReportType.REPORT) {
       ;({ executionData, queryData } = await requestReport({
-        req,
-        token,
+        ...requestArgs,
         reportingService: services.reportingService,
       }))
     }
 
     if (type === ReportType.DASHBOARD) {
       ;({ executionData } = await requestDashboard({
-        req,
-        token,
+        ...requestArgs,
         dashboardService: services.dashboardService,
       }))
     }
@@ -275,7 +285,7 @@ export default {
       const token = res.locals.user?.token ? res.locals.user.token : 'token'
       const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
 
-      const { reportId, variantId, dashboardId, type } = req.params
+      const { reportId, variantId, type, id } = req.params
       const { dataProductDefinitionsPath: definitionPath } = req.query
 
       let name
@@ -285,24 +295,21 @@ export default {
       let definition
       let metrics
 
-      if ((variantId && !type) || type === ReportType.REPORT) {
-        ;({ name, reportName, description, definition } = await renderReportRequestData(
-          token,
-          reportId,
-          variantId,
-          <string>definitionPath,
-          services,
-        ))
+      const renderArgs = {
+        token,
+        reportId,
+        id: variantId || id, // NOTE: variantId is in old route - need to check for this also
+        definitionPath: <string>definitionPath,
+        services,
       }
 
-      if (dashboardId && type === ReportType.DASHBOARD) {
-        ;({ name, reportName, description, metrics } = await renderDashboardRequestData(
-          token,
-          reportId,
-          dashboardId,
-          <string>definitionPath,
-          services,
-        ))
+      // NOTE: Old route will not have type, therefore a report. (See routes for more details)
+      if (!type || type === ReportType.REPORT) {
+        ;({ name, reportName, description, definition } = await renderReportRequestData(renderArgs))
+      }
+
+      if (type === ReportType.DASHBOARD) {
+        ;({ name, reportName, description, metrics } = await renderDashboardRequestData(renderArgs))
       }
 
       return {
@@ -312,8 +319,7 @@ export default {
           name,
           description,
           reportId,
-          variantId,
-          dashboardId,
+          id: renderArgs.id,
           definitionPath: definitionPath as string,
           csrfToken,
           template,

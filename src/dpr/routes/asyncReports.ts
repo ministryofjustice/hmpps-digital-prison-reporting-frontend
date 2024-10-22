@@ -207,25 +207,35 @@ export default function routes({
     })
   }
 
-  // 1. Request
-  const asyncRequestPaths = [
-    '/async-reports/:reportId/:variantId/request',
-    '/async/:type/:reportId/:dashboardId/request',
-  ]
+  /**
+   * NOTE:
+   * - New types have been added to the async route. The second route is a generic route that will accept any type.
+   * - Going forward, all requests will be made to the this second route
+   * - HOWEVER, because we store reports in Redis, including the request path, we must keep the initial route in place
+   * - As requests expire after 24hrs, eventually the old route will dissapear from the store and only include the second route.
+   * - At this point we can consider removing this route all together
+   */
+
+  // 1 - REQUEST
+  const asyncRequestPaths = ['/async-reports/:reportId/:variantId/request', '/async/:type/:reportId/:id/request']
   router.get(asyncRequestPaths, renderRequestHandler, asyncErrorHandler)
   router.post('/requestReport/', asyncRequestHandler, asyncErrorHandler)
 
-  // 2. Polling
+  // 2 - POLLING
   const asyncPollingPaths = [
     '/async-reports/:reportId/:variantId/request/:executionId',
-    '/async/:type/:reportId/:dashboardId/request/:executionId',
+    '/async/:type/:reportId/:id/request/:executionId',
   ]
   router.get(asyncPollingPaths, pollingHandler, asyncErrorHandler)
   router.post('/getStatus/', getStatusHandler)
   router.post('/cancelRequest/', cancelRequestHandler, asyncErrorHandler)
 
-  // 3. Report
-  router.get('/async-reports/:reportId/:variantId/request/:tableId/report', getReportHandler, asyncErrorHandler)
+  // 3 - REPORT
+  const asyncReportPaths = [
+    '/async-reports/:reportId/:variantId/request/:tableId/report',
+    '/async/:type/:reportId/:id/request/:tableId/report',
+  ]
+  router.get(asyncReportPaths, getReportHandler, asyncErrorHandler)
 
   // Homepage widget routes
   router.post('/removeRequestedItem/', removeRequestedItemHandler, asyncErrorHandler)

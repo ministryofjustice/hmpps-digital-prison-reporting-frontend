@@ -18,36 +18,16 @@ export default class UserStoreItemBuilder {
   }
 
   initialiseItem = () => {
-    const type = this.requestFormData.type as ReportType
-
     this.userStoreItem = {
       dataProductDefinitionsPath: this.requestFormData.dataProductDefinitionsPath,
       type: this.requestFormData.type as ReportType,
       reportId: this.requestFormData.reportId,
       reportName: this.requestFormData.reportName,
       description: this.requestFormData.description,
+      id: this.requestFormData.id,
+      name: this.requestFormData.name,
       timestamp: {},
     }
-
-    switch (type) {
-      case ReportType.REPORT:
-        this.userStoreItem = {
-          ...this.userStoreItem,
-          variantId: this.requestFormData.variantId,
-          variantName: this.requestFormData.name,
-        }
-        break
-      case ReportType.DASHBOARD:
-        this.userStoreItem = {
-          ...this.userStoreItem,
-          dashboardId: this.requestFormData.dashboardId,
-          name: this.requestFormData.name,
-        }
-        break
-      default:
-        break
-    }
-
     return this
   }
 

@@ -1,10 +1,7 @@
-Feature: Dashboards
+Feature: Sync Dashboards
 
   Background:
-    Given I navigate to the async-home page
-    When I enter a search value of dashboard
-    When I click the dashboard link
-    Then I am taken to the dashboard
+    When I load a dashboard
 
   Scenario: Viewing Dashboard Data
     Then I see the dashboard data

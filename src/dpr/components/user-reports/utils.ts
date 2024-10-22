@@ -3,7 +3,7 @@ import RecentlyViewedStoreService from '../../services/recentlyViewedService'
 import RequestedReportService from '../../services/requestedReportService'
 import * as ReportListHelper from '../../utils/reportsListHelper'
 import { RenderTableListResponse } from './types'
-import { FormattedUserReportData, UserReportData, RequestStatus, ReportType } from '../../types/UserReports'
+import { FormattedUserReportData, UserReportData, RequestStatus } from '../../types/UserReports'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { getExpiredStatus } from '../../utils/requestStatusHelper'
 
@@ -16,7 +16,7 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
     name,
     reportId,
     variantId,
-    dashboardId,
+    id,
     description,
     query,
     status,
@@ -44,7 +44,7 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
     ...setDataFromStatus(status, reportDataCopy),
     meta: {
       reportId,
-      id: variantId || dashboardId,
+      id: variantId || id,
       executionId,
       status,
       type,

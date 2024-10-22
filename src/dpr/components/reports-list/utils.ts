@@ -87,12 +87,9 @@ export default {
         const { id, name, description, reportName, reportId, reportDescription, type } = v
         const desc = description || reportDescription
 
-        let hrefHtml
         let bookmarkColumn
-        let listType
         switch (type) {
-          case 'report':
-            hrefHtml = `<a href='/async-reports/${reportId}/${id}/request${pathSuffix}'>${name}</a>`
+          case ReportType.REPORT:
             bookmarkColumn = {
               html: await services.bookmarkService.createBookMarkToggleHtml(
                 userId,
@@ -105,24 +102,20 @@ export default {
                 tabindex: 0,
               },
             }
-            listType = createTag(type)
             break
-          case 'dashboard':
-            hrefHtml = `<a href='/async/${type}/${reportId}/${id}/request${pathSuffix}'>${name}</a>`
+          case ReportType.DASHBOARD:
             bookmarkColumn = {}
-            listType = createTag(type)
             break
           default:
-            hrefHtml = ''
             bookmarkColumn = {}
             break
         }
 
         return [
           { text: reportName },
-          { html: hrefHtml },
+          { html: `<a href='/async/${type}/${reportId}/${id}/request${pathSuffix}'>${name}</a>` },
           { html: createShowMoreHtml(desc) },
-          { html: listType },
+          { html: createTag(type) },
           {
             ...bookmarkColumn,
           },

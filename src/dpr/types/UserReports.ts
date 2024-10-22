@@ -4,8 +4,8 @@ import { FieldDefinition } from '../utils/DataTableBuilder/types'
 
 export interface StoredReportData {
   reportId: string
-  variantId?: string
-  dashboardId?: string
+  variantId?: string // NOTE variant ID exists fir V1 async routes
+  id: string
   executionId?: string
   tableId?: string
   reportName: string
@@ -123,7 +123,7 @@ export interface RequestFormData extends RequestFormFilterData {
   origin: string
   href: string
   search: string
-  dashboardId?: string
+  id: string
   variantId?: string
   template?: string
   metrics?: string

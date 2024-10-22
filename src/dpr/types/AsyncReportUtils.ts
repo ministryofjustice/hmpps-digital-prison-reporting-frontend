@@ -23,8 +23,7 @@ export interface RequestDataResult {
     name: string
     description: string
     reportId: string
-    variantId?: string
-    dashboardId?: string
+    id: string
     definitionPath: string
     csrfToken: string
     template?: string

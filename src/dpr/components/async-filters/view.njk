@@ -12,7 +12,7 @@
   {% set type = args.type %}
 
   {% set reportId = data.reportId %}
-  {% set variantId = data.variantId %}
+  {% set id = data.id %}
   {% set name = data.name %}
   {% set description = data.description %}
   {% set reportName = data.reportName %}
@@ -55,15 +55,7 @@
       <input type="hidden" name="origin" id="async-filters-form-origin" value="">
       <input type="hidden" name="href" id="async-filters-form-href" value="">
       <input type="hidden" name="search" id="async-filters-form-search" value="">
-      
-      {% if dashboardId %}
-        <input type="hidden" name="dashboardId" value="{{ dashboardId }}">
-      {%endif%}
-
-      {% if variantId %}
-        <input type="hidden" name="variantId" value="{{ variantId }}">
-      {%endif%}
-      
+      <input type="hidden" name="id" value="{{ id }}">
       
       {% if template %}
         <input type="hidden" name="template" value="{{ template }}">

@@ -17,10 +17,10 @@ import DateMapper from '../../utils/DateMapper/DateMapper'
  * @param {components['schemas']['VariantDefinition']} definition
  * @return {*}
  */
-const initFiltersFromDefinition = (definition: components['schemas']['VariantDefinition']) => {
+const initFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][]) => {
   return {
-    filters: getFiltersFromDefinition(definition),
-    sortBy: getSortByFromDefinition(definition),
+    filters: getFiltersFromDefinition(fields),
+    sortBy: getSortByFromDefinition(fields),
   }
 }
 
@@ -30,9 +30,9 @@ const initFiltersFromDefinition = (definition: components['schemas']['VariantDef
  * @param {components['schemas']['VariantDefinition']} definition
  * @return {*}
  */
-const getSortByFromDefinition = (definition: components['schemas']['VariantDefinition']) => {
+const getSortByFromDefinition = (fields: components['schemas']['FieldDefinition'][]) => {
   const sortBy = SortHelper.sortByTemplate()
-  const options = definition.specification.fields
+  const options = fields
     .filter((f) => f.sortable)
     .map((f) => {
       if (f.defaultsort) sortBy[0].value = f.name
@@ -40,7 +40,7 @@ const getSortByFromDefinition = (definition: components['schemas']['VariantDefin
     })
 
   if (options.length) {
-    sortBy[0].options = definition.specification.fields
+    sortBy[0].options = fields
       .filter((f) => f.sortable)
       .map((f) => {
         if (f.defaultsort) sortBy[0].value = f.name
@@ -134,8 +134,8 @@ export const getRelativeDateOptions = (min: string, max: string) => {
  * @param {components['schemas']['VariantDefinition']} definition
  * @return {*}
  */
-const getFiltersFromDefinition = (definition: components['schemas']['VariantDefinition']) => {
-  return definition.specification.fields
+const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][]) => {
+  return fields
     .filter((f) => f.filter)
     .map((f) => {
       const { display: text, name, filter } = f
@@ -240,9 +240,9 @@ export default {
    * @param {AsyncReportUtilsParams} { req, res, dataSources }
    * @return {*}
    */
-  renderFilters: async (definition: components['schemas']['SingleVariantReportDefinition']) => {
+  renderFilters: async (fields: components['schemas']['FieldDefinition'][]) => {
     return {
-      ...initFiltersFromDefinition(definition.variant),
+      ...initFiltersFromDefinition(fields),
     }
   },
 

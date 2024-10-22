@@ -261,7 +261,7 @@ export default {
       response = await services.reportingService.cancelAsyncRequest(token, reportId, id, executionId)
     }
     if (type === ReportType.DASHBOARD) {
-      response = await services.reportingService.cancelAsyncRequest(token, reportId, id, executionId)
+      response = await services.dashboardService.cancelAsyncRequest(token, reportId, id, executionId)
     }
 
     if (response && response.cancellationSucceeded) {
@@ -292,7 +292,8 @@ export default {
       let reportName
       let description
       let template
-      let definition
+      let definition: components['schemas']['SingleVariantReportDefinition']
+      let fields: components['schemas']['FieldDefinition'][]
       let metrics
 
       const renderArgs = {
@@ -306,6 +307,7 @@ export default {
       // NOTE: Old route will not have type, therefore a report. (See routes for more details)
       if (!type || type === ReportType.REPORT) {
         ;({ name, reportName, description, definition } = await renderReportRequestData(renderArgs))
+        fields = definition?.variant?.specification?.fields
       }
 
       if (type === ReportType.DASHBOARD) {
@@ -313,7 +315,7 @@ export default {
       }
 
       return {
-        ...(definition && { definition }),
+        ...(fields && { fields }),
         reportData: {
           reportName,
           name,

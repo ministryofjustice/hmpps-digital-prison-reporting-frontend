@@ -17,7 +17,7 @@ export interface ExecutionData {
 }
 
 export interface RequestDataResult {
-  definition?: components['schemas']['SingleVariantReportDefinition']
+  fields?: components['schemas']['FieldDefinition'][]
   reportData: {
     reportName: string
     name: string

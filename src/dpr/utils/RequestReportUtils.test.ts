@@ -177,7 +177,7 @@ describe('RequestReportUtils', () => {
         reportData: {
           reportName: 'reportName',
           name: 'Test Dashboard 1',
-          description: 'Test Dashboard 1 Description',
+          description: 'Will Succeed',
           reportId: 'reportId',
           id: 'mockDashboardId',
           definitionPath: undefined,
@@ -245,7 +245,7 @@ describe('RequestReportUtils', () => {
         reportData: {
           reportName: 'reportName',
           name: 'Test Dashboard 1',
-          description: 'Test Dashboard 1 Description',
+          description: 'Will Succeed',
           reportId: 'reportId',
           id: 'mockDashboardId',
           definitionPath: 'dataProductDefinitionsPath',

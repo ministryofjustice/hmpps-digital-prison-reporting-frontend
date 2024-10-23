@@ -1,10 +1,12 @@
 /* eslint-disable class-methods-use-this */
 const dashboardDefinitions = require('./mockDashboardDefinition')
+const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 
 class MockDashboardClient {
   constructor() {
     this.dashboards = dashboardDefinitions
-    this.requests = []
+    this.requests = [{ executionId: `exId_1721738244284`, tableId: `tblId_1721738244284` }]
+    this.statusResponses = mockStatusSequence
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -16,10 +18,10 @@ class MockDashboardClient {
     Promise.resolve(this.dashboards)
   }
 
-  async requestAsyncDashboard(token, reportId, variantId) {
+  async requestAsyncDashboard(token, reportId, id) {
     const unix = Date.now()
     return new Promise((resolve, reject) => {
-      if (variantId !== 'variantId-5') {
+      if (id !== 'test-dashboard-6') {
         this.requests.push({ executionId: `exId_${unix}`, status: 'redirect-call' })
         setTimeout(resolve, 1000, { executionId: `exId_${unix}`, tableId: `tblId_${unix}` })
       } else {
@@ -28,8 +30,9 @@ class MockDashboardClient {
     })
   }
 
-  async getAsyncStatus(token, reportId, dashboardId, executionId, dataProductDefinitionsPath) {
-    return Promise.resolve({ status: 'SUBMITTED' })
+  async getAsyncStatus(token, reportId, id, executionId) {
+    const statuses = this.getStatusResponses(id)
+    return mockStatusHelper(this.requests, statuses, executionId)
   }
 
   async cancelAsyncRequest() {
@@ -38,6 +41,22 @@ class MockDashboardClient {
         cancellationSucceeded: true,
       })
     })
+  }
+
+  // Mock Helpers
+  getStatusResponses(dashboardId) {
+    switch (dashboardId) {
+      case 'test-dashboard-2':
+        return this.statusResponses.sadStatuses
+      case 'test-dashboard-3':
+        return this.statusResponses.sadServerStatuses
+      case 'test-dashboard-4':
+        return this.statusResponses.expiredStatuses
+      case 'test-dashboard-5':
+        return this.statusResponses.timedOutStatuses
+      default:
+        return this.statusResponses.happyStatuses
+    }
   }
 }
 

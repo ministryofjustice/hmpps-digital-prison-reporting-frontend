@@ -1,20 +1,15 @@
 /* eslint-disable class-methods-use-this */
 const definitions = require('./mockReportDefinition')
-const mockStatusApiResponse = require('./mockStatusApiReponse')
 const mockStatusApiError = require('./mockStatusResponseError')
 const mockBadQueryRequest = require('./mockBadQueryRequest')
 const createMockData = require('./mockAsyncData')
 
+const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
+
 class MockReportingClient {
   constructor() {
     this.mockRequests = [{ executionId: `exId_1721738244284`, tableId: `tblId_1721738244284` }]
-    this.statusResponses = {
-      happyStatuses: ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED'],
-      sadStatuses: ['SUBMITTED', 'PICKED', 'STARTED', 'FAILED'],
-      sadServerStatuses: ['SUBMITTED', 'PICKED', 500],
-      expiredStatuses: ['SUBMITTED', 'PICKED', 'STARTED', 'FINISHED', 'READY', 500],
-      timedOutStatuses: new Array(500).fill('STARTED'),
-    }
+    this.statusResponses = mockStatusSequence
     this.RESULT_COUNT = 100
   }
 
@@ -31,38 +26,8 @@ class MockReportingClient {
   }
 
   async getAsyncReportStatus(token, reportId, variantId, executionId) {
-    const mockResponse = Object.assign(mockStatusApiResponse, {})
     const statuses = this.getStatusResponses(variantId)
-
-    let reportIndex = this.mockRequests.findIndex((r) => r.executionId === executionId)
-    if (reportIndex === -1) reportIndex = 0
-
-    const currentStatus = this.mockRequests[reportIndex].status
-    const currentStatusIndex = statuses.findIndex((status) => status === currentStatus)
-    const nextStatus =
-      statuses.length > currentStatusIndex + 1 ? statuses[currentStatusIndex + 1] : statuses[currentStatusIndex]
-
-    if (nextStatus) {
-      this.mockRequests[reportIndex].status = nextStatus
-    }
-    mockResponse.status = this.mockRequests[reportIndex].status
-
-    if (nextStatus === 'FAILED') {
-      mockResponse.error = {
-        userMessage: 'An error has occurred for some reason - Status API returned Failed Status',
-        developerMessage: 'Mock stack trace',
-      }
-    }
-
-    if (nextStatus === 'READY') {
-      mockResponse.status = 'FINISHED'
-    }
-
-    if (typeof mockResponse.status !== 'string') {
-      return Promise.reject(mockStatusApiError)
-    }
-
-    return Promise.resolve(mockResponse)
+    return mockStatusHelper(this.mockRequests, statuses, executionId)
   }
 
   async getDefinition(token, reportId, variantId) {

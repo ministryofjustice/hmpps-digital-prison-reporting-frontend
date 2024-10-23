@@ -12,7 +12,7 @@ Then('I am taken to the dashboard', () => {
 Then('I see the dashboard data', () => {
   const page = new DasboardPage()
   page.dashboardName().contains('Test Dashboard 1')
-  page.dashboardDescription().contains('Test Dashboard 1 Description')
+  page.dashboardDescription().contains('Will Succeed')
 })
 
 Then('I see the metric data', () => {

@@ -1,3 +1,6 @@
+/**
+ * NOTE: This data structure is deprecated. But Could still remain in the user store
+ */
 const mockViewedReports = [
   {
     reportId: 'test-report-1',
@@ -5,7 +8,6 @@ const mockViewedReports = [
     executionId: 'exId_1721738244284',
     tableId: 'tblId_1721738244284',
     reportName: 'Test Report',
-    type: 'report',
     variantName: 'Test Variant 1',
     description:
       'Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed',
@@ -69,7 +71,6 @@ const mockViewedReports = [
   {
     reportId: 'test-report-2',
     variantId: 'variantId-2',
-    type: 'report',
     executionId: 'exId_1721738907386',
     tableId: 'tblId_1721738907386',
     reportName: 'Test Report 2',
@@ -140,7 +141,6 @@ const mockViewedReports = [
     tableId: 'tblId_1721738907388',
     reportName: 'Test Report 3',
     variantName: 'Test Variant 3',
-    type: 'report',
     description:
       'Test Variant 3 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed',
     status: 'READY',
@@ -208,10 +208,9 @@ const mockRequestedReports = [
     executionId: 'exId_1724943092549',
     tableId: 'tblId_1724943092549',
     name: 'Test Variant 1',
-    reportName: 'Test Report',
-    description: 'this will succeed',
+    reportName: 'Test Report 1',
+    description: 'V1 requested variant',
     template: 'list',
-    type: 'report',
     status: 'FINISHED',
     filters: {
       data: {
@@ -302,10 +301,8 @@ const mockRequestedReports = [
     tableId: 'tblId_1721738244285',
     name: 'Test Variant 2',
     reportName: 'Test Report 2',
-    description:
-      'Test Variant 2 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed',
+    description: 'V1 requested variant',
     template: 'list',
-    type: 'report',
     status: 'FAILED',
     filters: {
       data: {
@@ -392,10 +389,8 @@ const mockRequestedReports = [
     executionId: 'exId_1721738244290',
     tableId: 'tblId_1721738244290',
     name: 'Test Variant 3',
-    reportName: 'Test Report',
-    type: 'report',
-    description:
-      'Test Variant 3 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed Test Variant 1 description - this will succeed',
+    reportName: 'Test Report 3',
+    description: 'V1 requested variant',
     template: 'list',
     status: 'EXPIRED',
     filters: {
@@ -481,7 +476,6 @@ const mockRequestedReports = [
     variantId: 'variantId-1',
     executionId: 'exId_1721738244284',
     tableId: 'tblId_1721738244284',
-    type: 'report',
     name: 'Test Variant 1',
     reportName: 'Test Report',
     description: 'this will succeed',

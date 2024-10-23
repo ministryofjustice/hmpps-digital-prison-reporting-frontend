@@ -1,11 +1,11 @@
 import { Response, Request } from 'express'
-import BookmarkService from '../services/bookmarkService'
-import { BookmarkedReportData, BookmarkStoreData } from '../types/Bookmark'
-import { FormattedUserReportData, ReportType } from '../types/UserReports'
-import { Services } from '../types/Services'
-import TagUtils from '../components/tag/utils'
-import ShowMoreUtils from '../components/show-more/utils'
-import logger from './logger'
+import BookmarkService from '../../services/bookmarkService'
+import { BookmarkedReportData, BookmarkStoreData } from '../../types/Bookmark'
+import { FormattedUserReportData, ReportType } from '../../types/UserReports'
+import { Services } from '../../types/Services'
+import TagUtils from '../tag/utils'
+import ShowMoreUtils from '../show-more/utils'
+import logger from '../../utils/logger'
 
 export const formatBookmarks = async (
   bookmarksData: BookmarkedReportData[],

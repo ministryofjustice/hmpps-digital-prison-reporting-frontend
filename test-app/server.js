@@ -13,7 +13,7 @@ const bodyParser = require('body-parser')
 
 // Local dependencies
 const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
-const BookmarklistUtils = require('../package/dpr/utils/bookmarkListUtils').default
+const BookmarklistUtils = require('../package/dpr/components/user-reports-bookmarks-list/utils').default
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
 const AsyncReportListUtils = require('../package/dpr/components/user-reports-request-list/utils').default
 const RecentlyViewedCardGroupUtils = require('../package/dpr/components/user-reports-viewed-list/utils').default
@@ -191,7 +191,7 @@ app.get('/async-reports', async (req, res) => {
     res,
     storeService: services.requestedReportService,
     filterFunction: AsyncReportListUtils.filterReports,
-    maxRows: 6,
+    maxRows: 10,
     type: 'requested',
   })
 
@@ -203,18 +203,18 @@ app.get('/async-reports', async (req, res) => {
     type: 'viewed',
   })
 
+  const bookmarks = await BookmarklistUtils.renderBookmarkList({
+    res,
+    req,
+    services,
+    maxRows: 6,
+  })
+
   res.render('async.njk', {
     title: 'Home',
     requestedReports,
     viewedReports,
-    bookmarks: {
-      ...(await BookmarklistUtils.renderBookmarkList({
-        res,
-        req,
-        services,
-        maxRows: 6,
-      })),
-    },
+    bookmarks,
     reports: {
       ...(await ReportslistUtils.mapReportsList(res, services)),
     },

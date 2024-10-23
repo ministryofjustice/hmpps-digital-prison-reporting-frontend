@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Response } from 'express'
 import { RequestedReport, RequestStatus } from '../../types/UserReports'
 import { setDataFromStatus } from './utils'
+import type RequestedReportService from '../../services/requestedReportService'
+import type RecentlyViewedStoreService from '../../services/recentlyViewedService'
+import mockStoreData from '../../../../test-app/mocks/mockClients/store/mockUserListDataV1'
 
 describe('AsyncRequestListUtils', () => {
   describe('setDataFromStatus', () => {
@@ -95,6 +99,56 @@ describe('AsyncRequestListUtils', () => {
         timestamp: 'Requested at: Invalid Date',
       }
       expect(result).toEqual(expectedResult)
+    })
+  })
+
+  describe('renderList', () => {
+    let res: Response
+    let storeService: RequestedReportService | RecentlyViewedStoreService
+    let requestedReportService: RequestedReportService
+    let recentlyViewedStoreService: RecentlyViewedStoreService
+
+    beforeEach(() => {
+      res = {
+        locals: {
+          user: {
+            uuid: 'UuId',
+          },
+          csfrToken: 'CsRfToKeN',
+        },
+      } as unknown as Response
+
+      requestedReportService = {
+        getAllReports: jest.fn().mockResolvedValue(mockStoreData.mockRequestedReports),
+      } as unknown as RequestedReportService
+
+      recentlyViewedStoreService = {
+        getAllReports: jest.fn().mockResolvedValue(mockStoreData.mockViewedReports),
+      } as unknown as RecentlyViewedStoreService
+    })
+
+    describe('Requested Reports', () => {
+      beforeEach(() => {
+        requestedReportService = {
+          getAllReports: jest.fn().mockResolvedValue(mockStoreData.mockRequestedReports),
+        } as unknown as RequestedReportService
+
+        storeService = requestedReportService
+      })
+
+      it('should return the render list data', () => {})
+    })
+
+    describe('Viewed Reports', () => {
+      beforeEach(() => {
+        recentlyViewedStoreService = {
+          getAllReports: jest.fn().mockResolvedValue(mockStoreData.mockViewedReports),
+        } as unknown as RecentlyViewedStoreService
+
+        storeService = recentlyViewedStoreService
+      })
+
+      it('should return the render list data', () => {})
     })
   })
 })

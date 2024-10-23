@@ -2,7 +2,7 @@ import { Response } from 'express'
 import RecentlyViewedStoreService from '../../services/recentlyViewedService'
 import RequestedReportService from '../../services/requestedReportService'
 import { RenderTableListResponse } from './types'
-import { FormattedUserReportData, UserReportData, RequestStatus } from '../../types/UserReports'
+import { FormattedUserReportData, UserReportData, RequestStatus, ReportType } from '../../types/UserReports'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { getExpiredStatus } from '../../utils/requestStatusHelper'
 import TagUtils from '../tag/utils'
@@ -24,13 +24,15 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
     timestamp,
     reportName,
     dataProductDefinitionsPath,
-    type,
+    type: reportType,
   } = reportDataCopy
 
   let summary
   if (query) {
     summary = query.summary as { name: string; value: string }[]
   }
+
+  const type = reportType || ReportType.REPORT
 
   return {
     id: executionId,

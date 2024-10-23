@@ -75,22 +75,30 @@ app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './fav
 app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest.json')))
 app.use(bodyParser.json())
 
-const mockAsyncApis = require('./mockAsyncData/mockAsyncApis')
-const MockUserStoreService = require('./mockAsyncData/mockRedisStore')
+// Mock Clients & API responses
+const MockReportingClient = require('./mockClients/reports/mockReportingClient')
+const MockDashboardClient = require('./mockClients/dashboards/mockDashboardClient')
+const MockMetricClient = require('./mockClients/metrics/mockMetricClient')
+const MockUserStoreService = require('./mockClients/store/mockRedisStore')
+const mockDefinitions = require('./mockClients/reports/mockReportDefinition')
+const mockDashboardDefinitions = require('./mockClients/dashboards/mockDashboardDefinition')
+
+// Services
+const ReportingService = require('../package/dpr/services/reportingService').default
 const RequestedReportService = require('../package/dpr/services/requestedReportService').default
 const RecentlyViewedStoreService = require('../package/dpr/services/recentlyViewedService').default
 const BookmarkService = require('../package/dpr/services/bookmarkService').default
 const MetricsService = require('../package/dpr/services/metricsService').default
 const DashboardService = require('../package/dpr/services/dashboardService').default
-const MockDashboardClient = require('./mockChartData/mockDashboardClient')
-const MockMetricClient = require('./mockChartData/mockMetricClient')
+
+// Routes
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
 const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
 const dashboardRoutes = require('../package/dpr/routes/dashboard').default
 const addDownloadRoutes = require('../package/dpr/routes/download').default
-const definitions = require('./mockAsyncData/mockReportDefinition')
-const dashboardDefinitions = require('./mockChartData/mockDashboardDefinition')
+
+// Charts
 const mockBarChartData = require('./mockChartData/mockBarChartData')
 const mockPieChartData = require('./mockChartData/mockPieChartData')
 const mockLineChartData = require('./mockChartData/mockLineChartData')
@@ -133,17 +141,15 @@ app.get('/', (req, res) => {
 })
 
 const mockUserStore = new MockUserStoreService()
-
 const requestedReportService = new RequestedReportService(mockUserStore)
-requestedReportService.init('userId')
-
 const recentlyViewedService = new RecentlyViewedStoreService(mockUserStore)
-recentlyViewedService.init('userId')
-
 const bookmarkService = new BookmarkService(mockUserStore)
+requestedReportService.init('userId')
+recentlyViewedService.init('userId')
 bookmarkService.init('userId')
 
-const reportingService = mockAsyncApis
+const reportingClient = new MockReportingClient()
+const reportingService = new ReportingService(reportingClient)
 
 const metricClient = new MockMetricClient()
 const metricService = new MetricsService(metricClient)
@@ -174,8 +180,8 @@ dashboardRoutes(routeImportParams)
 addDownloadRoutes(routeImportParams)
 
 app.get('/async-reports', async (req, res) => {
-  res.locals.definitions = definitions.reports
-  res.locals.dashboardDefinitions = dashboardDefinitions
+  res.locals.definitions = mockDefinitions.reports
+  res.locals.dashboardDefinitions = mockDashboardDefinitions
   res.locals.csrfToken = 'csrfToken'
   res.locals.pathSuffix = req.query.dataProductDefinitionsPath
     ? `?dataProductDefinitionsPath=${req.query.dataProductDefinitionsPath}`

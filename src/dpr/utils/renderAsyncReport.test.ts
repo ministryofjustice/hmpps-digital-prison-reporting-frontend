@@ -5,13 +5,13 @@ import ColumnUtils from '../components/columns/utils'
 import PaginationUtils from '../components/pagination/utils'
 import ReportActionsUtils from '../components/report-actions/utils'
 
-import mockAsyncApis from '../../../test-app/mockAsyncData/mockAsyncApis'
+import MockReportingClient from '../../../test-app/mockClients/reports/mockReportingClient'
 import { RequestedReport } from '../types/UserReports'
 import RequestedReportService from '../services/requestedReportService'
 import ReportingService from '../services/reportingService'
 import { mockGetReportListRenderData } from '../../../test-app/mockAsyncData/mockReportListRenderData'
 import RecentlyViewedStoreService from '../services/recentlyViewedService'
-import definitions from '../../../test-app/mockAsyncData/mockReportDefinition'
+import definitions from '../../../test-app/mockClients/reports/mockReportDefinition'
 import BookmarkService from '../services/bookmarkService'
 import MetricService from '../services/metricsService'
 import DashboardService from '../services/dashboardService'
@@ -37,10 +37,12 @@ const reportState = {
   },
 } as unknown as RequestedReport
 
+const mockReportingClient = new MockReportingClient()
+
 jest.spyOn(AsyncReportUtils, 'initDataSources').mockImplementation(() => [
-  mockAsyncApis.getDefinition('', '', 'variantId-2'),
-  mockAsyncApis.getAsyncReport('', '', '', '', { pageSize: 10 }),
-  mockAsyncApis.getAsyncCount(),
+  mockReportingClient.getDefinition('', '', 'variantId-2'),
+  mockReportingClient.getAsyncReport('', '', '', '', { pageSize: 10 }),
+  mockReportingClient.getAsyncCount(),
   new Promise((resolve) => {
     resolve(reportState)
   }),

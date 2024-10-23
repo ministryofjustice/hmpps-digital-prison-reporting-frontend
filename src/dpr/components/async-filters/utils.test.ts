@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import MockDate from 'mockdate'
 import * as AsyncFiltersUtils from './utils'
-import MockDefinitions from '../../../../test-app/mockAsyncData/mockReportDefinition'
+import MockDefinitions from '../../../../test-app/mockClients/reports/mockReportDefinition'
 import MockRenderFiltersData from '../../../../test-app/mockAsyncData/mockRenderFiltersData'
 import * as ReportSummaryHelper from '../../utils/reportStoreHelper'
 import { components } from '../../types/api'

@@ -123,7 +123,7 @@ const mapBookmarkIdsToDefinition = async (
             reportName: definition.name,
             name: definition.variant.name,
             description: definition.variant.description || definition.description,
-            type: bookmark.reportType as ReportType,
+            type: bookmark.reportType ? (bookmark.reportType as ReportType) : ReportType.REPORT,
             href: `/async/${bookmark.reportType}/${bookmark.reportId}/${bookmark.variantId}/request`,
           })
         }
@@ -178,8 +178,6 @@ export default {
       total,
       csrfToken,
     }
-
-    console.log(JSON.stringify(result, null, 2))
 
     return result
   },

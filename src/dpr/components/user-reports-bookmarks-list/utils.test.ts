@@ -71,6 +71,7 @@ describe('BookmarkUtils', () => {
       expect(result.tableData.rows.length).toEqual(1)
       expect(result.tableData.rows[0][0].text).toContain('reportName')
       expect(result.tableData.rows[0][1].html).toContain('Successful Report')
+      expect(result.tableData.rows[0][3].html).toContain('report')
       expect(result.tableData.rows[0][4].html).toContain('Bookmark toggle')
     })
   })

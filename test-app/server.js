@@ -76,12 +76,12 @@ app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest
 app.use(bodyParser.json())
 
 // Mock Clients & API responses
-const MockReportingClient = require('./mockClients/reports/mockReportingClient')
-const MockDashboardClient = require('./mockClients/dashboards/mockDashboardClient')
-const MockMetricClient = require('./mockClients/metrics/mockMetricClient')
-const MockUserStoreService = require('./mockClients/store/mockRedisStore')
-const mockDefinitions = require('./mockClients/reports/mockReportDefinition')
-const mockDashboardDefinitions = require('./mockClients/dashboards/mockDashboardDefinition')
+const MockReportingClient = require('./mocks/mockClients/reports/mockReportingClient')
+const MockDashboardClient = require('./mocks/mockClients/dashboards/mockDashboardClient')
+const MockMetricClient = require('./mocks/mockClients/metrics/mockMetricClient')
+const MockUserStoreService = require('./mocks/mockClients/store/mockRedisStore')
+const mockDefinitions = require('./mocks/mockClients/reports/mockReportDefinition')
+const mockDashboardDefinitions = require('./mocks/mockClients/dashboards/mockDashboardDefinition')
 
 // Services
 const ReportingService = require('../package/dpr/services/reportingService').default
@@ -99,11 +99,11 @@ const dashboardRoutes = require('../package/dpr/routes/dashboard').default
 const addDownloadRoutes = require('../package/dpr/routes/download').default
 
 // Charts
-const mockBarChartData = require('./mockChartData/mockBarChartData')
-const mockPieChartData = require('./mockChartData/mockPieChartData')
-const mockLineChartData = require('./mockChartData/mockLineChartData')
-const mockMulitChartData = require('./mockChartData/mockMultiChartData')
-const mockScoreCards = require('./mockScoreCards/mockScorecards')
+const mockBarChartData = require('./mocks/mockChartData/mockBarChartData')
+const mockPieChartData = require('./mocks/mockChartData/mockPieChartData')
+const mockLineChartData = require('./mocks/mockChartData/mockLineChartData')
+const mockMulitChartData = require('./mocks/mockChartData/mockMultiChartData')
+const mockScoreCards = require('./mocks/mockScoreCards/mockScorecards')
 
 // Set up routes
 
@@ -414,7 +414,7 @@ app.get('/scorecards', (req, res) => {
   })
 })
 
-const setUpMockSyncApis = require('./mockSyncData/mockSyncApis')
+const setUpMockSyncApis = require('./mocks/mockSyncData/mockSyncApis')
 
 setUpMockSyncApis(app)
 

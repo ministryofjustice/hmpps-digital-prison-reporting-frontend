@@ -1,9 +1,8 @@
-const ReportingClient = require('../../package/dpr/data/reportingClient')
+const ReportingClient = require('../../../package/dpr/data/reportingClient')
 const definitions = require('./reportDefinition')
 const data = require('./data')
 
 const setUpMockSyncApis = (app) => {
-
   // Dynamic autocomplete endpoint
   app.get('/dynamic-values/field5', (req, res, next) => {
     // This delay is to simulate a real API request's delay, so we can see the message.

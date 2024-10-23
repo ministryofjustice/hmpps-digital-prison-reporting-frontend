@@ -104,7 +104,8 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
   if (data.summary) {
     filtersSummary = createSummaryHtml(data)
   }
-  const description = `${data.description}${filtersSummary}`
+  const description = `${data.description}. 
+  ${filtersSummary}`
 
   return [
     { html: `<p class="govuk-body-s govuk-!-margin-bottom-0">${reportName}</p>`, classes: 'dpr-req-cell' },
@@ -238,8 +239,7 @@ export default {
       ...(formatted.length && { href: `./async-reports/${type}` }),
       ...(!formatted.length && { emptyMessage: 'You have 0 requested reports' }),
     }
-
-    return {
+    const result = {
       head,
       tableData,
       total: getTotals(formatted, maxRows),
@@ -247,6 +247,8 @@ export default {
       csrfToken,
       maxRows,
     }
+
+    return result
   },
 
   getExpiredStatus: async ({

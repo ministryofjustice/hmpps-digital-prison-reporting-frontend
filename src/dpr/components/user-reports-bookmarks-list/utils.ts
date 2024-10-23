@@ -97,7 +97,8 @@ const mapBookmarkIdsToDefinition = async (
     bookmarks.map(async (bookmark) => {
       let definition
       try {
-        if (bookmark.reportType === ReportType.REPORT) {
+        // TODO: fix reportType to enable dashboard type
+        if (!bookmark.reportType || bookmark.reportType === ReportType.REPORT) {
           definition = await services.reportingService.getDefinition(
             token,
             bookmark.reportId,
@@ -153,6 +154,7 @@ export default {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
 
+    // TODO: update bookmark type to use id instead of variantID
     const bookmarks: { reportId: string; variantId: string }[] = await services.bookmarkService.getAllBookmarks(userId)
     const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, res, token, services)
 
@@ -170,11 +172,15 @@ export default {
       max: maxRows,
     }
 
-    return {
+    const result = {
       head,
       tableData,
       total,
       csrfToken,
     }
+
+    console.log(JSON.stringify(result, null, 2))
+
+    return result
   },
 }

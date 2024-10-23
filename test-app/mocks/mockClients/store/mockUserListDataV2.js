@@ -80,10 +80,33 @@ const expiredReport = {
 }
 delete expiredReport.variantId
 
+const abortedReport = {
+  ...mockUserListDataV1.mockRequestedReports[3],
+  type: 'report',
+  id: mockUserListDataV1.mockRequestedReports[3].variantId,
+  description: 'V2 requested variant',
+  url: {
+    origin: 'http://localhost:3010',
+    request: {
+      fullUrl:
+        'http://localhost:3010/async/report/test-report-1/variantId-5/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
+      pathname: '/async/report/test-report-1/variantId-5/request',
+      search:
+        '?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
+    },
+    polling: {
+      fullUrl: 'http://localhost:3010/async/report/test-report-1/variantId-5/request/exId_1721738244284',
+      pathname: '/async/report/test-report-1/variantId-5/request/exId_1721738244284',
+    },
+    report: {},
+  },
+}
+delete abortedReport.variantId
+
 const readyViewedReport = {
   type: 'report',
   id: mockUserListDataV1.mockViewedReports[0].variantId,
-  ...mockUserListDataV1.mockRequestedReports[0],
+  ...mockUserListDataV1.mockViewedReports[0],
   url: {
     origin: 'http://localhost:3010',
     request: {
@@ -100,7 +123,7 @@ delete readyViewedReport.variantId
 const expiredViewedReport = {
   type: 'report',
   id: mockUserListDataV1.mockViewedReports[1].variantId,
-  ...mockUserListDataV1.mockRequestedReports[1],
+  ...mockUserListDataV1.mockViewedReports[1],
   url: {
     origin: 'http://localhost:3010',
     request: {
@@ -114,7 +137,7 @@ const expiredViewedReport = {
 }
 delete expiredViewedReport.variantId
 
-const successfulDashboard = {
+const submittedDashboard = {
   reportId: 'test-report-1',
   id: 'test-dashboard-1',
   executionId: 'exId_1724943092098',
@@ -124,7 +147,7 @@ const successfulDashboard = {
   description: 'Requested Dashboard',
   template: 'list',
   type: 'dashboard',
-  status: 'FINISHED',
+  status: 'SUBMITTED',
   url: {
     origin: 'http://localhost:3010',
     request: {
@@ -211,8 +234,8 @@ const expiredDashboard = {
   dataProductDefinitionsPath: '',
 }
 
-const mockRequestedReports = [successfulReport, failedReport, expiredReport]
-const mockRequestedDashboards = [successfulDashboard, failedDashboard, expiredDashboard]
+const mockRequestedReports = [successfulReport, failedReport, expiredReport, abortedReport]
+const mockRequestedDashboards = [submittedDashboard, failedDashboard, expiredDashboard]
 const mockViewedReports = [readyViewedReport, expiredViewedReport]
 
 module.exports = { mockRequestedReports, mockViewedReports, mockRequestedDashboards }

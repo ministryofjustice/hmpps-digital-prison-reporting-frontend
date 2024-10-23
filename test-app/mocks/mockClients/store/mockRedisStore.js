@@ -9,6 +9,7 @@ const MockUserStoreService = class MockUserStoreService {
         mockDataV1.mockRequestedReports[1],
         mockDataV1.mockRequestedReports[2],
         mockDataV1.mockRequestedReports[3],
+        mockDataV1.mockRequestedReports[4],
         mockDataV2.mockRequestedReports[0],
         mockDataV2.mockRequestedReports[1],
         mockDataV2.mockRequestedReports[2],

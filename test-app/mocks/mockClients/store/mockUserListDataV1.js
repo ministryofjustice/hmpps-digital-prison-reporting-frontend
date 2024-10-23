@@ -472,6 +472,94 @@ const mockRequestedReports = [
     dataProductDefinitionsPath: '',
   },
   {
+    reportId: 'test-report-3',
+    variantId: 'variantId-5',
+    executionId: 'exId_1721738244290',
+    tableId: 'tblId_1721738244290',
+    name: 'Test Variant 5',
+    reportName: 'Test Report 3',
+    description: 'V1 requested variant',
+    template: 'list',
+    status: 'ABORTED',
+    filters: {
+      data: {
+        field1: 'value1.2',
+        field2: 'value2.1',
+        'field3.start': '2003-02-10',
+        'field3.end': '2006-05-24',
+        field7: '2005-02-01',
+      },
+      queryString: 'field1=value1.2&field2=value2.1&field3.start=2003-02-01&field3.end=2006-05-04&field7=2005-02-01',
+    },
+    sortBy: {
+      data: {
+        sortColumn: 'field1',
+        sortedAsc: 'true',
+      },
+      queryString: 'sortColumn=field1&sortedAsc=true',
+    },
+    url: {
+      origin: 'http://localhost:3010',
+      request: {
+        fullUrl:
+          'http://localhost:3010/async-reports/test-report-1/variantId-5/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
+        pathname: '/async-reports/test-report-1/variantId-5/request',
+        search:
+          '?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
+      },
+      polling: {
+        fullUrl: 'http://localhost:3010/async-reports/test-report-1/variantId-5/request/exId_1721738244284',
+        pathname: '/async-reports/test-report-1/variantId-5/request/exId_1721738244284',
+      },
+      report: {},
+    },
+    query: {
+      data: {
+        'filters.field1': 'value1.2',
+        'filters.field2': 'value2.1',
+        'filters.field3.start': '2003-02-10',
+        'filters.field3.end': '2006-05-24',
+        'filters.field7': '2005-02-01',
+        sortColumn: 'field1',
+        sortedAsc: 'true',
+      },
+      summary: [
+        {
+          name: 'Field 1',
+          value: 'value1.2',
+        },
+        {
+          name: 'Field 2',
+          value: 'value2.1',
+        },
+        {
+          name: 'Field 3 start',
+          value: '01-02-2003',
+        },
+        {
+          name: 'Field 3 end',
+          value: '04-05-2006',
+        },
+        {
+          name: 'Field 7',
+          value: '01-02-2005',
+        },
+        {
+          name: 'Sort Column',
+          value: 'Field 1',
+        },
+        {
+          name: 'Sort Direction',
+          value: 'Ascending',
+        },
+      ],
+    },
+    timestamp: {
+      aborted: new Date().toISOString(),
+    },
+    dataProductDefinitionsPath: '',
+  },
+  {
     reportId: 'test-report-1',
     variantId: 'variantId-1',
     executionId: 'exId_1721738244284',

@@ -15,7 +15,7 @@ const bodyParser = require('body-parser')
 const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
 const BookmarklistUtils = require('../package/dpr/components/user-reports-bookmarks-list/utils').default
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
-const AsyncReportListUtils = require('../package/dpr/components/user-reports-request-list/utils').default
+const RequestedReportsUtils = require('../package/dpr/components/user-reports-request-list/utils').default
 const RecentlyViewedCardGroupUtils = require('../package/dpr/components/user-reports-viewed-list/utils').default
 const UserReportsListUtils = require('../package/dpr/components/user-reports/utils').default
 
@@ -190,7 +190,7 @@ app.get('/async-reports', async (req, res) => {
   const requestedReports = await UserReportsListUtils.renderList({
     res,
     storeService: services.requestedReportService,
-    filterFunction: AsyncReportListUtils.filterReports,
+    filterFunction: RequestedReportsUtils.filterReports,
     maxRows: 10,
     type: 'requested',
   })

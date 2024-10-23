@@ -3,7 +3,8 @@ import BookmarkService from '../services/bookmarkService'
 import { BookmarkedReportData, BookmarkStoreData } from '../types/Bookmark'
 import { FormattedUserReportData, ReportType } from '../types/UserReports'
 import { Services } from '../types/Services'
-import { createShowMoreHtml, createTag } from './reportsListHelper'
+import TagUtils from '../components/tag/utils'
+import ShowMoreUtils from '../components/show-more/utils'
 import logger from './logger'
 
 export const formatBookmarks = async (
@@ -70,9 +71,9 @@ const formatTableData = async (
   return [
     { text: reportName, classes: 'dpr-req-cell' },
     { html: `<a href='${href}'>${name}</a>`, classes: 'dpr-req-cell' },
-    { html: createShowMoreHtml(description), classes: 'dpr-req-cell' },
+    { html: ShowMoreUtils.createShowMoreHtml(description), classes: 'dpr-req-cell' },
     {
-      html: createTag(type),
+      html: TagUtils.createTagHtml(type),
       classes: 'dpr-req-cell dpr-req-cell__type',
     },
     {

@@ -1,9 +1,10 @@
 import { Response } from 'express'
 import { components } from '../../types/api'
 import { Services } from '../../types/Services'
-import { createShowMoreHtml, createTag } from '../../utils/reportsListHelper'
 import { DashboardDefinition } from '../../types/Dashboards'
 import { ReportType } from '../../types/UserReports'
+import TagUtils from '../tag/utils'
+import ShowMoreUtils from '../show-more/utils'
 
 interface definitionData {
   reportName: string
@@ -114,8 +115,8 @@ export default {
         return [
           { text: reportName },
           { html: `<a href='/async/${type}/${reportId}/${id}/request${pathSuffix}'>${name}</a>` },
-          { html: createShowMoreHtml(desc) },
-          { html: createTag(type) },
+          { html: ShowMoreUtils.createShowMoreHtml(desc) },
+          { html: TagUtils.createTagHtml(type) },
           {
             ...bookmarkColumn,
           },

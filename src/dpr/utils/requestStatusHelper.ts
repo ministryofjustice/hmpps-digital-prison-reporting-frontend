@@ -54,7 +54,7 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
   let statusResponse
   try {
     ;({ status, statusResponse } = await getStatusByReportType(services, req, token))
-
+    // console.log({ status, statusResponse })
     if (
       shouldTimeoutRequest({ requestedAt, compareTime: new Date(), durationMins: 15 }) &&
       !timeoutExemptStatuses.includes(status)

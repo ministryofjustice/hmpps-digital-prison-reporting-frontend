@@ -108,7 +108,7 @@ export default {
             }
             break
           case ReportType.DASHBOARD:
-            if (!v.loadType || v.loadType !== 'async') {
+            if (!loadType || loadType !== 'async') {
               href = `/dashboards/${reportId}/load/${id}`
             }
             bookmarkColumn = {}

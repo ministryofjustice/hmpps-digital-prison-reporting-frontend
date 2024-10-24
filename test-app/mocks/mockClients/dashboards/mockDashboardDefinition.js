@@ -2,7 +2,7 @@ const mockDashboardDefinition1 = {
   id: 'test-dashboard-1',
   name: 'Test Dashboard 1',
   description: 'Will Succeed',
-  load: 'async',
+  loadType: 'async',
   metrics: [
     {
       id: 'test-metric-id-1',

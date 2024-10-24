@@ -108,7 +108,6 @@ export default {
             }
             break
           case ReportType.DASHBOARD:
-            console.log({ loadType })
             if (!loadType || loadType !== 'async') {
               href = `/dashboards/${reportId}/load/${id}`
             }

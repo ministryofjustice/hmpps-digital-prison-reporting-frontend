@@ -224,11 +224,10 @@ export default function routes({
    */
 
   // 1 - REQUEST
-
   router.get('/async/:type/:reportId/:id/request', renderRequestHandler, asyncErrorHandler)
   router.post('/requestReport/', asyncRequestHandler, asyncErrorHandler)
-  // 2 - POLLING
 
+  // 2 - POLLING
   router.get('/async/:type/:reportId/:id/request/:executionId', pollingHandler, asyncErrorHandler)
   router.post('/getStatus/', getStatusHandler)
   router.post('/cancelRequest/', cancelRequestHandler, asyncErrorHandler)

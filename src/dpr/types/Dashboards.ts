@@ -2,7 +2,7 @@ export interface DashboardDefinition {
   id: string
   name: string
   description: string
-  loadType: 'async' | 'sync'
+  loadType?: 'async' | 'sync'
   metrics: DashboardMetricDefinition[]
 }
 

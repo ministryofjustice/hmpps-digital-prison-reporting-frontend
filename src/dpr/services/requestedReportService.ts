@@ -37,10 +37,10 @@ export default class RequestedReportService extends UserStoreService {
     return userConfig.requestedReports
   }
 
-  async getAllReportsByVariantId(variantId: string, userId: string) {
+  async getAllReportsById(id: string, userId: string) {
     const userConfig = await this.getState(userId)
-    return userConfig.requestedReports.filter((report) => {
-      return report.variantId === variantId
+    return userConfig.requestedReports.filter((requested) => {
+      return (requested.id && requested.id === id) || (requested.variantId && requested.variantId === id)
     })
   }
 

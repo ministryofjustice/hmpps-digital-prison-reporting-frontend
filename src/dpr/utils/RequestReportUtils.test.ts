@@ -1,5 +1,4 @@
 import { Response, Request, NextFunction } from 'express'
-import DashboardService from '../services/dashboardService'
 import type ReportingService from '../services/reportingService'
 import RequestReportUtils from './RequestReportUtils'
 import { Services } from '../types/Services'
@@ -7,8 +6,9 @@ import { ReportType } from '../types/UserReports'
 import { components } from '../types/api'
 import variant1 from '../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
 import dashboardDefinitions from '../../../test-app/mocks/mockClients/dashboards/mockDashboardDefinition'
-import RequestedReportService from '../services/requestedReportService'
-import RecentlyViewedStoreService from '../services/recentlyViewedService'
+import type DashboardService from '../services/dashboardService'
+import type RequestedReportService from '../services/requestedReportService'
+import type RecentlyViewedStoreService from '../services/recentlyViewedService'
 
 describe('RequestReportUtils', () => {
   let services: Services
@@ -70,11 +70,11 @@ describe('RequestReportUtils', () => {
     } as unknown as DashboardService
 
     recentlyViewedService = {
-      getAllReportsByVariantId: jest.fn().mockResolvedValue([]),
+      getAllReportsById: jest.fn().mockResolvedValue([]),
     } as unknown as RecentlyViewedStoreService
 
     requestedReportService = {
-      getAllReportsByVariantId: jest.fn().mockResolvedValue([]),
+      getAllReportsById: jest.fn().mockResolvedValue([]),
       addReport: () => {
         //
       },
@@ -101,37 +101,6 @@ describe('RequestReportUtils', () => {
       req.params = {
         ...req.params,
         id: 'mockVariantId',
-        type: ReportType.REPORT,
-      }
-
-      const result = await RequestReportUtils.renderRequestData({
-        req,
-        res,
-        services,
-        next,
-      })
-
-      expect(result).toEqual({
-        fields: mockDefinition.variant.specification.fields,
-        reportData: {
-          reportName: 'reportName',
-          name: 'Successful Report',
-          description: 'this will succeed',
-          reportId: 'reportId',
-          id: 'mockVariantId',
-          definitionPath: undefined,
-          csrfToken: 'csrfToken',
-          template: undefined,
-          metrics: undefined,
-          type: 'report',
-        },
-      })
-    })
-
-    it('should render the request data for a report using variantId', async () => {
-      req.params = {
-        ...req.params,
-        variantId: 'mockVariantId',
         type: ReportType.REPORT,
       }
 

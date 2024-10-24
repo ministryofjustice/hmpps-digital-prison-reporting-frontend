@@ -37,11 +37,11 @@ export const updateStore = async ({
   queryData?: SetQueryFromFiltersResult
   executionData: ExecutionData
 }): Promise<string> => {
-  const { search, variantId, type } = req.body
+  const { search, id, type } = req.body
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
 
-  removeDuplicates({ storeService: services.requestedReportService, userId, variantId, search })
-  removeDuplicates({ storeService: services.recentlyViewedService, userId, variantId, search })
+  removeDuplicates({ storeService: services.requestedReportService, userId, id, search })
+  removeDuplicates({ storeService: services.recentlyViewedService, userId, id, search })
 
   const reportData: RequestFormData = req.body
 
@@ -285,7 +285,7 @@ export default {
       const token = res.locals.user?.token ? res.locals.user.token : 'token'
       const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
 
-      const { reportId, variantId, type, id } = req.params
+      const { reportId, type, id } = req.params
       const { dataProductDefinitionsPath: definitionPath } = req.query
 
       let name
@@ -299,13 +299,13 @@ export default {
       const renderArgs = {
         token,
         reportId,
-        id: variantId || id, // NOTE: variantId is in old route - need to check for this also
+        id,
         definitionPath: <string>definitionPath,
         services,
       }
 
       // NOTE: Old route will not have type, therefore a report. (See routes for more details)
-      if (!type || type === ReportType.REPORT) {
+      if (type === ReportType.REPORT) {
         ;({ name, reportName, description, definition } = await renderReportRequestData(renderArgs))
         fields = definition?.variant?.specification?.fields
       }
@@ -326,7 +326,7 @@ export default {
           csrfToken,
           template,
           metrics,
-          type: type ? (type as ReportType) : ReportType.REPORT,
+          type: type as ReportType,
         },
       }
     } catch (error) {

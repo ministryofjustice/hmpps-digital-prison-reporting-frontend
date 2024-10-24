@@ -96,9 +96,11 @@ const mapBookmarkIdsToDefinition = async (
   await Promise.all(
     bookmarks.map(async (bookmark) => {
       let definition
+
+      const reportType: ReportType = bookmark.reportType ? (bookmark.reportType as ReportType) : ReportType.REPORT
       try {
         // TODO: fix reportType to enable dashboard type
-        if (!bookmark.reportType || bookmark.reportType === ReportType.REPORT) {
+        if (reportType === ReportType.REPORT) {
           definition = await services.reportingService.getDefinition(
             token,
             bookmark.reportId,
@@ -107,7 +109,7 @@ const mapBookmarkIdsToDefinition = async (
           )
         }
 
-        if (bookmark.reportType === ReportType.DASHBOARD) {
+        if (reportType === ReportType.DASHBOARD) {
           definition = await services.dashboardService.getDefinition(
             token,
             bookmark.variantId,
@@ -123,8 +125,8 @@ const mapBookmarkIdsToDefinition = async (
             reportName: definition.name,
             name: definition.variant.name,
             description: definition.variant.description || definition.description,
-            type: bookmark.reportType ? (bookmark.reportType as ReportType) : ReportType.REPORT,
-            href: `/async/${bookmark.reportType}/${bookmark.reportId}/${bookmark.variantId}/request`,
+            type: reportType,
+            href: `/async/${reportType}/${bookmark.reportId}/${bookmark.variantId}/request`,
           })
         }
       } catch (error) {

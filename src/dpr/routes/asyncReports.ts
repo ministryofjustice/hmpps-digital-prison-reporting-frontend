@@ -215,25 +215,31 @@ export default function routes({
    */
 
   // 1 - REQUEST
-  const asyncRequestPaths = ['/async-reports/:reportId/:variantId/request', '/async/:type/:reportId/:id/request']
-  router.get(asyncRequestPaths, renderRequestHandler, asyncErrorHandler)
+  router.get('/async-reports/:reportId/:variantId/request', async (req, res, next) => {
+    const { reportId, variantId: id } = req.params
+    res.redirect(`/async/report/${reportId}/${id}/request`)
+  })
+
+  router.get('/async/:type/:reportId/:id/request', renderRequestHandler, asyncErrorHandler)
   router.post('/requestReport/', asyncRequestHandler, asyncErrorHandler)
 
   // 2 - POLLING
-  const asyncPollingPaths = [
-    '/async-reports/:reportId/:variantId/request/:executionId',
-    '/async/:type/:reportId/:id/request/:executionId',
-  ]
-  router.get(asyncPollingPaths, pollingHandler, asyncErrorHandler)
+  router.get('/async-reports/:reportId/:variantId/request/:executionId', async (req, res, next) => {
+    const { reportId, variantId: id, executionId } = req.params
+    res.redirect(`/async/report/${reportId}/${id}/request/${executionId}`)
+  })
+
+  router.get('/async/:type/:reportId/:id/request/:executionId', pollingHandler, asyncErrorHandler)
   router.post('/getStatus/', getStatusHandler)
   router.post('/cancelRequest/', cancelRequestHandler, asyncErrorHandler)
 
   // 3 - REPORT
-  const asyncReportPaths = [
-    '/async-reports/:reportId/:variantId/request/:tableId/report',
-    '/async/:type/:reportId/:id/request/:tableId/report',
-  ]
-  router.get(asyncReportPaths, getReportHandler, asyncErrorHandler)
+  router.get('/async-reports/:reportId/:variantId/request/:tableId/report', async (req, res, next) => {
+    const { reportId, variantId: id, tableId } = req.params
+    res.redirect(`/async/report/${reportId}/${id}/request/${tableId}/report`)
+  })
+
+  router.get('/async/:type/:reportId/:id/request/:tableId/report', getReportHandler, asyncErrorHandler)
 
   // Homepage widget routes
   router.post('/removeRequestedItem/', removeRequestedItemHandler, asyncErrorHandler)

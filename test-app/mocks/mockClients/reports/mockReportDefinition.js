@@ -19,7 +19,7 @@ const variant18 = require('./mockVariants/variant18')
 const variant19 = require('./mockVariants/variant19')
 const variant20 = require('./mockVariants/variant20')
 const variant21 = require('./mockVariants/variant21')
-const dashboardDefinition = require('../mockChartData/mockDashboardDefinition')
+const dashboardDefinition = require('../dashboards/mockDashboardDefinition')
 
 module.exports = {
   report: {

@@ -10,7 +10,11 @@ export default class DprPollingStatusClass extends DprClientClass {
   }
 
   getEndStatuses() {
-    return ['FINISHED', 'FAILED', 'EXPIRED']
+    return ['FINISHED', 'FAILED', 'EXPIRED', 'ABORTED']
+  }
+
+  getExpiredCheckStatuses() {
+    return ['FAILED', 'EXPIRED', 'ABORTED']
   }
 
   async getRequestStatus(metaData, csrfToken) {
@@ -19,6 +23,18 @@ export default class DprPollingStatusClass extends DprClientClass {
 
   async getExpiredStatus(endpoint, metaData, csrfToken) {
     return this.getStatus(endpoint, metaData, csrfToken)
+  }
+
+  shouldPollStatus(data) {
+    return JSON.parse(data).some((item) => {
+      return !this.END_STATUSES.includes(item.status)
+    })
+  }
+
+  shouldPollExpired(data) {
+    return JSON.parse(data).some((item) => {
+      return !this.EXPIRED_END_STATUSES.includes(item.status)
+    })
   }
 
   async getStatus(endpoint, body, csrfToken) {

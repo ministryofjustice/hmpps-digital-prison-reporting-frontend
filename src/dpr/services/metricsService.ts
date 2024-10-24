@@ -21,4 +21,8 @@ export default class MetricService {
   async getMetricData(token: string, metricId: string, dpdId: string): Promise<MetricsDataResponse> {
     return this.metricClient.getMetricData(token, metricId, dpdId)
   }
+
+  async getMetricDataAsync(token: string, metricId: string, dpdId: string): Promise<MetricsDataResponse> {
+    return this.metricClient.getMetricDataAsync(token, metricId, dpdId)
+  }
 }

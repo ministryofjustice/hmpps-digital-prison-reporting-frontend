@@ -6,10 +6,10 @@
 {% from "govuk/components/cookie-banner/macro.njk" import govukCookieBanner %}
 
 {% macro dprReportHeading(reportData) %}
-  {% set variantName = reportData.variantName %}
+  {% set name = reportData.name %}
   {% set reportName = reportData.reportName %}
   {% set reportId = reportData.reportId %}
-  {% set variantId = reportData.variantId %}
+  {% set id = reportData.id %}
   {% set csrfToken = reportData.csrfToken %}
   {% set bookmarked = reportData.bookmarked %}
   {% set actions = reportData.actions %}
@@ -19,9 +19,9 @@
       <div class="dpr-report-heading__title">
         <span class="govuk-caption-m">{{ reportName }}</span>
         <h1 class="govuk-heading-l govuk-!-margin-bottom-0">
-          {{ variantName }}
+          {{ name }}
         </h1>
-          {{ dprBookmarkToggle(reportId, variantId, csrfToken, bookmarked) }}
+          {{ dprBookmarkToggle(reportId, id, csrfToken, bookmarked) }}
       </div>
       <div class="dpr-report-heading__actions">
         {{ dprReportActions(actions) }}

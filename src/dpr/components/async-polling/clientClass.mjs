@@ -16,23 +16,31 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
     this.viewReportButton = document.getElementById('view-async-report-button')
 
     this.requestData = this.statusSection.getAttribute('data-request-data')
+    this.currentStatus = this.statusSection.getAttribute('data-current-status')
+    this.csrfToken = this.statusSection.getAttribute('data-csrf-token')
 
     this.initCancelRequestButton()
-    this.initPollingStatus()
+    this.initPollingInterval()
   }
 
-  initPollingStatus() {
-    const status = this.statusSection.getAttribute('data-current-status')
-    const csrfToken = this.statusSection.getAttribute('data-csrf-token')
-
-    if (this.POLLING_STATUSES.includes(status)) {
-      setInterval(async () => {
-        if (this.requestData) {
-          const meta = JSON.parse(this.requestData)
-          await this.getRequestStatus(meta, csrfToken)
-          window.location.reload()
-        }
+  async initPollingInterval() {
+    if (this.POLLING_STATUSES.includes(this.currentStatus)) {
+      this.pollingInterval = setInterval(async () => {
+        await this.pollStatus()
       }, this.POLLING_FREQUENCY)
+    }
+  }
+
+  async pollStatus() {
+    if (this.requestData) {
+      const meta = JSON.parse(this.requestData)
+      const response = await this.getRequestStatus(meta, this.csrfToken)
+
+      // Reload if new status is an end state
+      if (this.currentStatus !== response.status) {
+        clearInterval(this.pollingInterval)
+        window.location.reload()
+      }
     }
   }
 
@@ -40,7 +48,8 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
     if (this.cancelRequestButton) {
       const executionId = this.cancelRequestButton.getAttribute('data-execution-id')
       const reportId = this.cancelRequestButton.getAttribute('data-report-id')
-      const variantId = this.cancelRequestButton.getAttribute('data-variant-id')
+      const id = this.cancelRequestButton.getAttribute('data-id')
+      const type = this.cancelRequestButton.getAttribute('data-type')
       const csrfToken = this.cancelRequestButton.getAttribute('data-csrf-token')
 
       this.cancelRequestButton.addEventListener('click', async () => {
@@ -54,7 +63,8 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
           body: JSON.stringify({
             executionId,
             reportId,
-            variantId,
+            id,
+            type,
           }),
         })
           .then(() => {

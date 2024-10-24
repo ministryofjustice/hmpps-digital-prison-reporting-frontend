@@ -20,11 +20,11 @@ Then('the timestamp is displayed for each viewed report', () => {
 })
 
 Then('I click on a ready report', () => {
-  new AsyncHomePage().viewedReadyRow().find('td').contains('Test Variant 1').click()
+  new AsyncHomePage().viewedReadyRow().find('td').contains('Successful Report').click()
 })
 
 Then('I click on an expired viewed report', () => {
-  new AsyncHomePage().viewedExpiredRow().find('td').contains('Test Variant 2').click()
+  new AsyncHomePage().viewedExpiredRow().find('td').contains('Successful Report').click()
 })
 
 Then('I click on the remove button of the expired viewed report', () => {
@@ -42,13 +42,13 @@ Then('the expired report is removed from the viewed reports list', () => {
 Then('I am taken to the query page for the viewed report', () => {
   cy.url().should(
     'eq',
-    'http://localhost:3010/async-reports/test-report-2/variantId-2/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true#date-picker',
+    'http://localhost:3010/async/report/test-report-3/variantId-1/request?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-09-05&filters.field3.end=2007-05-01&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field4=Inigo+Montoya',
   )
 })
 
 Then('I am taken to the report page of the viewed report', () => {
   cy.url().should(
     'eq',
-    'http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1721738244284/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7',
+    'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729766362362/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7',
   )
 })

@@ -1,10 +1,11 @@
 import { Response, Request } from 'express'
-import BookmarkService from '../services/bookmarkService'
-import { BookmarkedReportData, BookmarkStoreData } from '../types/Bookmark'
-import { FormattedUserReportData, ReportType } from '../types/UserReports'
-import { Services } from '../types/Services'
-import { createShowMoreHtml, createTag } from './reportsListHelper'
-import logger from './logger'
+import BookmarkService from '../../services/bookmarkService'
+import { BookmarkedReportData, BookmarkStoreData } from '../../types/Bookmark'
+import { FormattedUserReportData, ReportType } from '../../types/UserReports'
+import { Services } from '../../types/Services'
+import TagUtils from '../tag/utils'
+import ShowMoreUtils from '../show-more/utils'
+import logger from '../../utils/logger'
 
 export const formatBookmarks = async (
   bookmarksData: BookmarkedReportData[],
@@ -21,15 +22,15 @@ export const formatBookmarks = async (
 
 export const formatBookmark = (bookmarkData: BookmarkedReportData): FormattedUserReportData => {
   const reportData: BookmarkedReportData = JSON.parse(JSON.stringify(bookmarkData))
-  const { variantId, name, description, href, reportName } = reportData
+  const { id, name, description, href, reportName, type } = reportData
 
   return {
-    id: variantId,
+    id,
     reportName,
     text: name,
     description,
     href,
-    type: ReportType.REPORT, // TODO
+    type: type as ReportType,
   }
 }
 
@@ -66,17 +67,17 @@ const formatTableData = async (
   csrfToken: string,
   userId: string,
 ) => {
-  const { description, reportName, reportId, variantId, href, name, type } = bookmarksData
+  const { description, reportName, reportId, id, href, name, type } = bookmarksData
   return [
     { text: reportName, classes: 'dpr-req-cell' },
     { html: `<a href='${href}'>${name}</a>`, classes: 'dpr-req-cell' },
-    { html: createShowMoreHtml(description), classes: 'dpr-req-cell' },
+    { html: ShowMoreUtils.createShowMoreHtml(description), classes: 'dpr-req-cell' },
     {
-      html: createTag(type),
+      html: TagUtils.createTagHtml(type),
       classes: 'dpr-req-cell dpr-req-cell__type',
     },
     {
-      html: await bookmarkService.createBookMarkToggleHtml(userId, reportId, variantId, csrfToken, 'bookmark-list'),
+      html: await bookmarkService.createBookMarkToggleHtml(userId, reportId, id, csrfToken, 'bookmark-list'),
       classes: 'dpr-req-cell dpr-vertical-align',
     },
   ]
@@ -95,10 +96,11 @@ const mapBookmarkIdsToDefinition = async (
   await Promise.all(
     bookmarks.map(async (bookmark) => {
       let definition
-      let hrefPrefix
+
+      const reportType: ReportType = bookmark.reportType ? (bookmark.reportType as ReportType) : ReportType.REPORT
       try {
-        if (bookmark.reportType === ReportType.REPORT) {
-          hrefPrefix = `async-reports`
+        // TODO: fix reportType to enable dashboard type
+        if (reportType === ReportType.REPORT) {
           definition = await services.reportingService.getDefinition(
             token,
             bookmark.reportId,
@@ -107,8 +109,7 @@ const mapBookmarkIdsToDefinition = async (
           )
         }
 
-        if (bookmark.reportType === ReportType.DASHBOARD) {
-          hrefPrefix = `async-dashboard`
+        if (reportType === ReportType.DASHBOARD) {
           definition = await services.dashboardService.getDefinition(
             token,
             bookmark.variantId,
@@ -120,12 +121,12 @@ const mapBookmarkIdsToDefinition = async (
         if (definition) {
           bookmarkData.push({
             reportId: bookmark.reportId,
-            variantId: bookmark.variantId,
+            id: bookmark.variantId,
             reportName: definition.name,
             name: definition.variant.name,
             description: definition.variant.description || definition.description,
-            type: bookmark.reportType,
-            href: `/${hrefPrefix}/${bookmark.reportId}/${bookmark.variantId}/request`,
+            type: reportType,
+            href: `/async/${reportType}/${bookmark.reportId}/${bookmark.variantId}/request`,
           })
         }
       } catch (error) {
@@ -155,6 +156,7 @@ export default {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
 
+    // TODO: update bookmark type to use id instead of variantID
     const bookmarks: { reportId: string; variantId: string }[] = await services.bookmarkService.getAllBookmarks(userId)
     const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, res, token, services)
 
@@ -172,11 +174,13 @@ export default {
       max: maxRows,
     }
 
-    return {
+    const result = {
       head,
       tableData,
       total,
       csrfToken,
     }
+
+    return result
   },
 }

@@ -1,9 +1,10 @@
 import { Response } from 'express'
 import { components } from '../../types/api'
 import { Services } from '../../types/Services'
-import { createShowMoreHtml, createTag } from '../../utils/reportsListHelper'
 import { DashboardDefinition } from '../../types/Dashboards'
 import { ReportType } from '../../types/UserReports'
+import TagUtils from '../tag/utils'
+import ShowMoreUtils from '../show-more/utils'
 
 interface definitionData {
   reportName: string
@@ -13,6 +14,7 @@ interface definitionData {
   description: string
   type: 'report' | 'dashboard'
   reportDescription: string
+  loadType?: 'async' | 'sync'
 }
 
 export default {
@@ -57,7 +59,7 @@ export default {
         let dashboardsArray: definitionData[] = []
         if (dashboards) {
           dashboardsArray = dashboards.map((dashboard: DashboardDefinition) => {
-            const { id, name, description } = dashboard
+            const { id, name, description, loadType } = dashboard
             return {
               reportName,
               reportId,
@@ -66,6 +68,7 @@ export default {
               description,
               type: ReportType.DASHBOARD,
               reportDescription,
+              loadType,
             }
           })
         }
@@ -84,15 +87,13 @@ export default {
 
     const rows = await Promise.all(
       sortedVariants.map(async (v: definitionData) => {
-        const { id, name, description, reportName, reportId, reportDescription, type } = v
+        const { id, name, description, reportName, reportId, reportDescription, type, loadType } = v
         const desc = description || reportDescription
 
-        let hrefHtml
         let bookmarkColumn
-        let listType
+        let href = `/async/${type}/${reportId}/${id}/request${pathSuffix}`
         switch (type) {
-          case 'report':
-            hrefHtml = `<a href='/async-reports/${reportId}/${id}/request${pathSuffix}'>${name}</a>`
+          case ReportType.REPORT:
             bookmarkColumn = {
               html: await services.bookmarkService.createBookMarkToggleHtml(
                 userId,
@@ -105,24 +106,23 @@ export default {
                 tabindex: 0,
               },
             }
-            listType = createTag(type)
             break
-          case 'dashboard':
-            hrefHtml = `<a href='/dashboards/${reportId}/load/${id}${pathSuffix}'>${name}</a>`
+          case ReportType.DASHBOARD:
+            if (!loadType || loadType !== 'async') {
+              href = `/dashboards/${reportId}/load/${id}`
+            }
             bookmarkColumn = {}
-            listType = createTag(type)
             break
           default:
-            hrefHtml = ''
             bookmarkColumn = {}
             break
         }
 
         return [
           { text: reportName },
-          { html: hrefHtml },
-          { html: createShowMoreHtml(desc) },
-          { html: listType },
+          { html: `<a href='${href}'>${name}</a>` },
+          { html: ShowMoreUtils.createShowMoreHtml(desc) },
+          { html: TagUtils.createTagHtml(type) },
           {
             ...bookmarkColumn,
           },

@@ -24,32 +24,32 @@ Then('the timestamp is displayed for each request', () => {
 Then('I click on a finished report', () => {
   cy.reload()
   cy.reload()
-  new AsyncHomePage().requestedReportFinishedRow().find('td').contains('Test Variant 1').click()
+  new AsyncHomePage().requestedReportFinishedRow().find('td').contains('Successful Report').click()
 })
 
 Then('I click on a failed report', () => {
-  new AsyncHomePage().requestedReportFailedRow().find('td').contains('Test Variant 2').click()
+  new AsyncHomePage().requestedReportFailedRow().find('td').contains('Failed report').click()
 })
 
 Then('I click on an expired report', () => {
-  new AsyncHomePage().requestedReportExpiredRow().find('td').contains('Test Variant 3').click()
+  new AsyncHomePage().requestedReportExpiredRow().find('td').contains('Expiring report').click()
 })
 
 Then('I am taken to the report page', () => {
   cy.url().should(
     'eq',
-    'http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1724943092549/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7',
+    'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729765628165/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7',
   )
 })
 
 Then('I am taken to the status page', () => {
-  cy.url().should('eq', 'http://localhost:3010/async-reports/test-report-2/variantId-2/request/exId_1721738244285')
+  cy.url().should('eq', 'http://localhost:3010/async/report/test-report-3/variantId-2/request/exId_1729765694790')
 })
 
 Then('I am taken to the query page', () => {
   cy.url().should(
     'eq',
-    'http://localhost:3010/async-reports/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
+    'http://localhost:3010/async/report/test-report-3/variantId-4/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1',
   )
 })
 

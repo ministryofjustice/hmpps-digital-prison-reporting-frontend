@@ -42,7 +42,7 @@ export interface RenderFiltersReturnValue {
   sortBy: FilterValue[]
 }
 
-export interface querySummaryResult {
+export interface SetQueryFromFiltersResult {
   query: Dict<string>
   filterData: Dict<string>
   querySummary: Array<Dict<string>>

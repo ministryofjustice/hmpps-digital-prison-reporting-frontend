@@ -13,10 +13,10 @@ export default class RecentlyViewedStoreService extends UserStoreService {
     return userConfig.recentlyViewedReports
   }
 
-  async getAllReportsByVariantId(variantId: string, userId: string) {
+  async getAllReportsById(id: string, userId: string) {
     const userConfig = await this.getState(userId)
-    return userConfig.recentlyViewedReports.filter((report) => {
-      return report.variantId === variantId
+    return userConfig.requestedReports.filter((requested) => {
+      return (requested.id && requested.id === id) || (requested.variantId && requested.variantId === id)
     })
   }
 
@@ -36,6 +36,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
     const {
       reportId,
       variantId,
+      id,
       executionId,
       tableId,
       reportName,
@@ -49,6 +50,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
     const recentlyViewedReportData: RecentlyViewedReport = {
       reportId,
       variantId,
+      id,
       executionId,
       tableId,
       reportName,

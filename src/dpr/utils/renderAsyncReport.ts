@@ -10,11 +10,18 @@ import CollatedSummaryBuilder from './CollatedSummaryBuilder/CollatedSummaryBuil
 import SectionedDataTableBuilder from './SectionedDataTableBuilder/SectionedDataTableBuilder'
 import ColumnUtils from '../components/columns/utils'
 
-export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) => {
-  const token = res.locals.user?.token ? res.locals.user.token : 'token'
-  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-  const { reportId, variantId: reportVariantId, tableId } = req.params
+export const initDataSources = ({
+  req,
+  res,
+  services,
+  token,
+  userId,
+}: AsyncReportUtilsParams & { token: string; userId: string }) => {
+  const { reportId, variantId, id, tableId } = req.params
   const dataProductDefinitionsPath = <string>req.query.dataProductDefinitionsPath
+
+  const reportVariantId = variantId || id
+
   const reportDefinitionPromise = services.reportingService.getDefinition(
     token,
     reportId,
@@ -55,15 +62,17 @@ export const initDataSources = ({ req, res, services }: AsyncReportUtilsParams) 
   )
 
   const reportDataCountPromise = services.reportingService.getAsyncCount(token, tableId)
-  const stateDataPromise = services.asyncReportsStore.getReportByTableId(tableId, userId)
+  const stateDataPromise = services.requestedReportService.getReportByTableId(tableId, userId)
 
   return [reportDefinitionPromise, reportDataPromise, reportDataCountPromise, stateDataPromise, summaryDataPromise]
 }
 
 export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
-  const dataPromises = initDataSources({ req, res, services })
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+  const token = res.locals.user?.token ? res.locals.user.token : 'token'
+
+  const dataPromises = initDataSources({ req, res, services, token, userId })
 
   let renderData = {}
   let reportStateData: RequestedReport
@@ -77,27 +86,18 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
       const { variant } = definition
       const { classification, printable, specification } = variant
       const { template } = specification
-      const {
-        reportName,
-        name: variantName,
-        description,
-        timestamp,
-        reportId,
-        tableId,
-        variantId,
-        executionId,
-        query,
-        url,
-      } = reportStateData
+      const { reportName, name, description, timestamp, reportId, tableId, variantId, id, executionId, query, url } =
+        reportStateData
       const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, resolvedData[4])
 
       const { columns: reqColumns } = req.query
       const columns = ColumnUtils.getColumns(specification, <string[]>reqColumns)
+      const ID = variantId || id
 
       renderData = {
         executionId,
-        variantName,
-        variantId,
+        name,
+        id: ID,
         reportName,
         reportId,
         description,
@@ -111,7 +111,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         csrfToken,
         requestUrl: url.request,
-        bookmarked: await services.bookmarkService.isBookmarked(variantId, userId),
+        bookmarked: await services.bookmarkService.isBookmarked(reportId, userId),
         reportSummaries: collatedSummaryBuilder.collatePageSummaries(),
       }
 
@@ -156,8 +156,8 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
   }
 
   if (Object.keys(renderData).length && Object.keys(reportStateData).length) {
-    await services.asyncReportsStore.updateLastViewed(reportStateData.executionId, userId)
-    await services.recentlyViewedStoreService.setRecentlyViewed(reportStateData, userId)
+    await services.requestedReportService.updateLastViewed(reportStateData.executionId, userId)
+    await services.recentlyViewedService.setRecentlyViewed(reportStateData, userId)
   }
 
   return { renderData }

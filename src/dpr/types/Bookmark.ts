@@ -1,11 +1,13 @@
+import { ReportType } from './UserReports'
+
 export interface BookmarkedReportData {
   reportId: string
-  variantId: string
+  id: string
   reportName: string
   name: string
   description: string
   href: string
-  type: string
+  type: ReportType
 }
 
 export interface BookmarkStoreData {

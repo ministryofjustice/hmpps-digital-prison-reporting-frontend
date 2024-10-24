@@ -6,8 +6,11 @@ import RequestedReportsUtils from '../user-reports-request-list/utils'
 import ViewedReportsUtils from '../user-reports-viewed-list/utils'
 import type RequestedReportService from '../../services/requestedReportService'
 import type RecentlyViewedStoreService from '../../services/recentlyViewedService'
-import mockStoreDataV1 from '../../../../test-app/mocks/mockClients/store/mockUserListDataV1'
-import mockStoreDataV2 from '../../../../test-app/mocks/mockClients/store/mockUserListDataV2'
+import mockDashboardData from '../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'
+import mockRequestedDataV1 from '../../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV1'
+import mockRequestedDataV2 from '../../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
+import mockViewedDataV1 from '../../../../test-app/mocks/mockClients/store/mockViewedUserListDataV1'
+import mockViewedDataV2 from '../../../../test-app/mocks/mockClients/store/mockViewedUserListDataV2'
 
 describe('AsyncRequestListUtils', () => {
   describe('setDataFromStatus', () => {
@@ -136,9 +139,17 @@ describe('AsyncRequestListUtils', () => {
           getAllReports: jest
             .fn()
             .mockResolvedValue([
-              ...mockStoreDataV1.mockRequestedReports,
-              ...mockStoreDataV2.mockRequestedReports,
-              ...mockStoreDataV2.mockRequestedDashboards,
+              mockRequestedDataV1.requestedReady,
+              mockRequestedDataV1.requestedFailed,
+              mockRequestedDataV1.requestedExpired,
+              mockRequestedDataV1.requestedAborted,
+              mockRequestedDataV2.requestedReady,
+              mockRequestedDataV2.requestedFailed,
+              mockRequestedDataV2.requestedExpired,
+              mockRequestedDataV2.requestedAborted,
+              mockDashboardData.submittedDashboard,
+              mockDashboardData.failedDashboard,
+              mockDashboardData.expiredDashboard,
             ]),
         } as unknown as RequestedReportService
 
@@ -160,13 +171,13 @@ describe('AsyncRequestListUtils', () => {
 
         const v1Ready = result.tableData.rows[0]
         expect(v1Ready[1].html).toContain(
-          'http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1724943092549/report',
+          'http://localhost:3010/async-reports/test-report-3/variantId-1/request/tblId_1729765628165/report',
         )
         expect(v1Ready[5].html).toContain('FINISHED')
 
         const v1Failed = result.tableData.rows[1]
         const v1FailedRetryUrl =
-          'http://localhost:3010/async-reports/test-report-2/variantId-2/request/exId_1721738244285'
+          'http://localhost:3010/async-reports/test-report-3/variantId-2/request/exId_1729765694790'
         expect(v1Failed[1].html).toContain(v1FailedRetryUrl)
         expect(v1Failed[5].html).toContain('FAILED')
         expect(v1Failed[5].html).toContain(v1FailedRetryUrl)
@@ -174,7 +185,7 @@ describe('AsyncRequestListUtils', () => {
 
         const v1Expired = result.tableData.rows[2]
         const v1ExpiredRetryUrl =
-          'http://localhost:3010/async-reports/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true'
+          'http://localhost:3010/async-reports/test-report-3/variantId-4/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1'
         expect(v1Expired[1].html).toContain(v1ExpiredRetryUrl)
         expect(v1Expired[5].html).toContain('EXPIRED')
         expect(v1Expired[5].html).toContain(v1ExpiredRetryUrl)
@@ -182,7 +193,7 @@ describe('AsyncRequestListUtils', () => {
 
         const v1Aborted = result.tableData.rows[3]
         const v1AbortedRetryUrl =
-          'localhost:3010/async-reports/test-report-1/variantId-5/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true'
+          'http://localhost:3010/async-reports/test-report-3/variantId-1/request?filters.field1=value1.1&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1'
         expect(v1Aborted[1].html).toContain(v1AbortedRetryUrl)
         expect(v1Aborted[5].html).toContain('ABORTED')
         expect(v1Aborted[5].html).toContain(v1AbortedRetryUrl)
@@ -190,13 +201,13 @@ describe('AsyncRequestListUtils', () => {
 
         const v2Ready = result.tableData.rows[4]
         expect(v2Ready[1].html).toContain(
-          'http://localhost:3010/async/report/test-report-1/variantId-1/request/tblId_1724943092549/report',
+          'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729765628165/report',
         )
         expect(v2Ready[5].html).toContain('FINISHED')
 
         const v2Failed = result.tableData.rows[5]
         const v2FailedRetryUrl =
-          'http://localhost:3010/async/report/test-report-2/variantId-2/request/exId_1721738244285'
+          'http://localhost:3010/async/report/test-report-3/variantId-2/request/exId_1729765694790'
         expect(v2Failed[1].html).toContain(v2FailedRetryUrl)
         expect(v2Failed[5].html).toContain('FAILED')
         expect(v2Failed[5].html).toContain(v2FailedRetryUrl)
@@ -204,7 +215,7 @@ describe('AsyncRequestListUtils', () => {
 
         const v2Expired = result.tableData.rows[6]
         const v2ExpiredRetryUrl =
-          'http://localhost:3010/async/report/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true'
+          'http://localhost:3010/async/report/test-report-3/variantId-4/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1'
         expect(v2Expired[1].html).toContain(v2ExpiredRetryUrl)
         expect(v2Expired[5].html).toContain('EXPIRED')
         expect(v2Expired[5].html).toContain(v2ExpiredRetryUrl)
@@ -212,7 +223,7 @@ describe('AsyncRequestListUtils', () => {
 
         const v2Aborted = result.tableData.rows[7]
         const v2AbortedRetryUrl =
-          'http://localhost:3010/async/report/test-report-1/variantId-5/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true'
+          'http://localhost:3010/async/report/test-report-3/variantId-1/request?filters.field1=value1.1&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1'
         expect(v2Aborted[1].html).toContain(v2AbortedRetryUrl)
         expect(v2Aborted[5].html).toContain('ABORTED')
         expect(v2Aborted[5].html).toContain(v2AbortedRetryUrl)
@@ -260,7 +271,12 @@ describe('AsyncRequestListUtils', () => {
         recentlyViewedStoreService = {
           getAllReports: jest
             .fn()
-            .mockResolvedValue([...mockStoreDataV1.mockViewedReports, ...mockStoreDataV2.mockViewedReports]),
+            .mockResolvedValue([
+              mockViewedDataV1.viewedReady,
+              mockViewedDataV1.viewedExpired,
+              mockViewedDataV2.viewedReady,
+              mockViewedDataV2.viewedExpired,
+            ]),
         } as unknown as RecentlyViewedStoreService
 
         storeService = recentlyViewedStoreService
@@ -275,33 +291,33 @@ describe('AsyncRequestListUtils', () => {
           type: 'viewed',
         })
 
-        expect(result.tableData.rows.length).toEqual(5)
+        expect(result.tableData.rows.length).toEqual(4)
         expect(result.tableData.head.length).toEqual(6)
-        expect(result.meta.length).toEqual(5)
+        expect(result.meta.length).toEqual(4)
 
         const v1Ready = result.tableData.rows[0]
         expect(v1Ready[1].html).toContain(
-          'http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1721738244284/report',
+          'http://localhost:3010/async-reports/test-report-3/variantId-1/request/tblId_1729766362362/report',
         )
         expect(v1Ready[5].html).toContain('READY')
 
         const v1Expired = result.tableData.rows[1]
         const v1ExpiredRetryUrl =
-          'http://localhost:3010/async-reports/test-report-2/variantId-2/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true'
+          'http://localhost:3010/async-reports/test-report-3/variantId-1/request?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-09-05&filters.field3.end=2007-05-01&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field4=Inigo+Montoya'
         expect(v1Expired[1].html).toContain(v1ExpiredRetryUrl)
         expect(v1Expired[5].html).toContain('EXPIRED')
         expect(v1Expired[5].html).toContain(v1ExpiredRetryUrl)
         expect(v1Expired[5].html).toContain('Remove')
 
-        const v2Ready = result.tableData.rows[3]
+        const v2Ready = result.tableData.rows[2]
         expect(v2Ready[1].html).toContain(
-          'http://localhost:3010/async/report/test-report-1/variantId-1/request/tblId_1721738244284/report',
+          'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729766362362/report',
         )
         expect(v1Ready[5].html).toContain('READY')
 
-        const v2Expired = result.tableData.rows[4]
+        const v2Expired = result.tableData.rows[3]
         const v2ExpiredRetryUrl =
-          'http://localhost:3010/async/report/test-report-2/variantId-2/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true'
+          'http://localhost:3010/async/report/test-report-3/variantId-1/request?filters.field2=value2.3&filters.field3.start=2003-09-05&filters.field3.end=2007-05-01&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field4=Inigo+Montoya'
         expect(v2Expired[1].html).toContain(v2ExpiredRetryUrl)
         expect(v2Expired[5].html).toContain('EXPIRED')
         expect(v2Expired[5].html).toContain(v2ExpiredRetryUrl)

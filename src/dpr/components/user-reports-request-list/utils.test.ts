@@ -2,7 +2,7 @@ import { Response, Request } from 'express'
 import UserReportRequestListUtils from './utils'
 import type RequestedReportService from '../../services/requestedReportService'
 import { Services } from '../../types/Services'
-import mockStoreDataV2 from '../../../../test-app/mocks/mockClients/store/mockUserListDataV2'
+import mockRequested from '../../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV1'
 import { ReportType, RequestStatus } from '../../types/UserReports'
 import ReportingService from '../../services/reportingService'
 
@@ -35,7 +35,7 @@ describe('UserReportRequestListUtils', () => {
 
       requestedReportService = {
         updateStatus: jest.fn(),
-        getReportByExecutionId: jest.fn().mockResolvedValue(mockStoreDataV2.mockRequestedReports[0]),
+        getReportByExecutionId: jest.fn().mockResolvedValue(mockRequested.requestedReady),
       } as unknown as RequestedReportService
 
       reportingService = {
@@ -57,7 +57,7 @@ describe('UserReportRequestListUtils', () => {
         services,
       })
 
-      expect(result).toEqual({ reportData: mockStoreDataV2.mockRequestedReports[0], status: RequestStatus.FINISHED })
+      expect(result).toEqual({ reportData: mockRequested.requestedReady, status: RequestStatus.FINISHED })
     })
   })
 })

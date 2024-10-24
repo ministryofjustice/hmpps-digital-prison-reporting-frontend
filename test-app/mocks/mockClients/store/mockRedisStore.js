@@ -1,15 +1,21 @@
-const mockDataV1 = require('./mockUserListDataV1')
+const mockRequestedV1 = require('./mockRequestedUserListDataV1')
+const mockViewedV1 = require('./mockViewedUserListDataV1')
+
+// TODO: integration tests with this mocked data also
+// const mockRequestedV2 = require('./mockRequestedUserListDataV2')
+// const mockViewedV2 = require('./mockViewedUserListDataV2')
+// const mockDashboards = require('./mockRequestedDashboardData')
 
 const MockUserStoreService = class MockUserStoreService {
   constructor() {
     this.userStore = JSON.stringify({
       requestedReports: [
-        mockDataV1.mockRequestedReports[0],
-        mockDataV1.mockRequestedReports[1],
-        mockDataV1.mockRequestedReports[2],
-        mockDataV1.mockRequestedReports[4],
+        mockRequestedV1.requestedReady,
+        mockRequestedV1.requestedFailed,
+        mockRequestedV1.requestedExpired,
+        mockViewedV1.viewedReady,
       ],
-      recentlyViewedReports: [mockDataV1.mockViewedReports[0], mockDataV1.mockViewedReports[1]],
+      recentlyViewedReports: [mockViewedV1.viewedReady, mockViewedV1.viewedExpired],
       bookmarks: [{ reportId: 'test-report-1', variantId: 'variantId-1' }],
     })
   }

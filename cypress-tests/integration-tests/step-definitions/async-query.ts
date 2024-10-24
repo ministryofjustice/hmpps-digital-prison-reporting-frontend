@@ -16,7 +16,7 @@ Then('the report details are displayed', () => {
 Then('the url is set to the default values', () => {
   cy.url().should(
     'eq',
-    'http://localhost:3010/async-reports/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
+    'http://localhost:3010/async/report/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
   )
 })
 
@@ -31,7 +31,7 @@ Then('I update the sort values', () => {
 Then('the URL is updated', () => {
   cy.url().should(
     'eq',
-    'http://localhost:3010/async-reports/test-report-1/variantId-1/request?filters.field1=value1.1&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field2&sortedAsc=true',
+    'http://localhost:3010/async/report/test-report-1/variantId-1/request?filters.field1=value1.1&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field2&sortedAsc=true',
   )
 })
 
@@ -44,5 +44,5 @@ Then('I click the submit button', () => {
 })
 
 Then('I am take to the polling page', () => {
-  cy.url().should('include', 'http://localhost:3010/async-reports/test-report-1/variantId-1/request/exId_')
+  cy.url().should('include', 'http://localhost:3010/async/report/test-report-1/variantId-1/request/exId_')
 })

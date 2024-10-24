@@ -14,6 +14,7 @@ interface definitionData {
   description: string
   type: 'report' | 'dashboard'
   reportDescription: string
+  loadType?: 'async' | 'sync'
 }
 
 export default {
@@ -58,7 +59,7 @@ export default {
         let dashboardsArray: definitionData[] = []
         if (dashboards) {
           dashboardsArray = dashboards.map((dashboard: DashboardDefinition) => {
-            const { id, name, description } = dashboard
+            const { id, name, description, loadType } = dashboard
             return {
               reportName,
               reportId,
@@ -67,6 +68,7 @@ export default {
               description,
               type: ReportType.DASHBOARD,
               reportDescription,
+              loadType,
             }
           })
         }
@@ -85,10 +87,11 @@ export default {
 
     const rows = await Promise.all(
       sortedVariants.map(async (v: definitionData) => {
-        const { id, name, description, reportName, reportId, reportDescription, type } = v
+        const { id, name, description, reportName, reportId, reportDescription, type, loadType } = v
         const desc = description || reportDescription
 
         let bookmarkColumn
+        let href = `/async/${type}/${reportId}/${id}/request${pathSuffix}`
         switch (type) {
           case ReportType.REPORT:
             bookmarkColumn = {
@@ -105,6 +108,9 @@ export default {
             }
             break
           case ReportType.DASHBOARD:
+            if (v.loadType !== 'async') {
+              href = `/dashboards/${reportId}/load/${id}`
+            }
             bookmarkColumn = {}
             break
           default:
@@ -114,7 +120,7 @@ export default {
 
         return [
           { text: reportName },
-          { html: `<a href='/async/${type}/${reportId}/${id}/request${pathSuffix}'>${name}</a>` },
+          { html: `<a href='${href}'>${name}</a>` },
           { html: ShowMoreUtils.createShowMoreHtml(desc) },
           { html: TagUtils.createTagHtml(type) },
           {

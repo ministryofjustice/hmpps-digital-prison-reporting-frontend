@@ -1,18 +1,21 @@
 import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
+import AsyncHomePage from '../pages/AsyncHomePage'
 import DasboardPage from '../pages/DashboardPage'
 
-When('I load a dashboard', () => {
-  cy.visit('http://localhost:3010/dashboards/test-report-1/load/test-dashboard-1')
+When('I click the dashboard link', () => {
+  const page = new AsyncHomePage()
+  page.dashboardLink().should('have.attr', 'href').and('eq', '/dashboards/test-report-1/load/test-dashboard-7')
+  page.dashboardLink().click()
 })
 
 Then('I am taken to the dashboard', () => {
-  cy.url().should('eq', 'http://localhost:3010/dashboards/test-report-1/dashboard/test-dashboard-1')
+  cy.url().should('eq', 'http://localhost:3010/dashboards/test-report-1/dashboard/test-dashboard-7')
 })
 
 Then('I see the dashboard data', () => {
   const page = new DasboardPage()
-  page.dashboardName().contains('Test Dashboard 1')
-  page.dashboardDescription().contains('Will Succeed')
+  page.dashboardName().contains('Test Dashboard 7')
+  page.dashboardDescription().contains('Synchronous loading')
 })
 
 Then('I see the metric data', () => {

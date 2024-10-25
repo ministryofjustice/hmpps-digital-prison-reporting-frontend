@@ -2,20 +2,21 @@ import Dict = NodeJS.Dict
 import { SummaryTemplate, Template } from './Templates'
 import { FieldDefinition } from '../utils/DataTableBuilder/types'
 
-interface StoredReportData {
+export interface StoredReportData {
   reportId: string
-  variantId: string
-  executionId: string
+  variantId?: string // NOTE variant ID exists fir V1 async routes
+  id: string
+  executionId?: string
   tableId?: string
   reportName: string
   variantName?: string
   name?: string
   description: string
   status?: RequestStatus
-  timestamp: AsyncReportsTimestamp
+  timestamp?: AsyncReportsTimestamp
   dataProductDefinitionsPath?: string
-  query: AsyncReportQueryData
-  url: AsyncReportUrlData
+  query?: AsyncReportQueryData
+  url?: AsyncReportUrlData
   type: ReportType
 }
 
@@ -27,7 +28,7 @@ export interface RequestedReport extends StoredReportData {
 }
 
 export type RecentlyViewedReport = StoredReportData
-export type UserReportData = RequestedReport | RecentlyViewedReport
+export type UserReportData = RequestedReport | RecentlyViewedReport | StoredReportData
 
 export interface AsyncReportUrlData {
   origin: string
@@ -103,9 +104,31 @@ export interface FormattedUserReportData {
 
 export interface meta {
   reportId: string
-  variantId: string
+  id: string
   executionId: string
   status?: string
+  type: ReportType
   requestedAt?: Date
   dataProductDefinitionsPath?: string
+}
+
+export interface RequestFormData extends RequestFormFilterData {
+  dataProductDefinitionsPath: string
+  _csrf: string
+  reportId: string
+  name: string
+  description: string
+  type: string
+  pathname: string
+  origin: string
+  href: string
+  search: string
+  id: string
+  variantId?: string
+  template?: string
+  metrics?: string
+}
+
+export interface RequestFormFilterData {
+  [index: string]: string
 }

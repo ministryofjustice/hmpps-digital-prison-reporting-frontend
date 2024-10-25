@@ -1,24 +1,24 @@
 import type RecentlyViewedStoreService from '../services/recentlyViewedService'
-import type AsyncReportStoreService from '../services/requestedReportsService'
+import type RequestedReportService from '../services/requestedReportService'
 import { UserReportData } from '../types/UserReports'
 
 export const removeDuplicates = async ({
   storeService,
   userId,
-  variantId,
+  id,
   search,
 }: {
-  storeService: AsyncReportStoreService | RecentlyViewedStoreService
+  storeService: RequestedReportService | RecentlyViewedStoreService
   userId: string
-  variantId: string
+  id: string
   search: string
 }) => {
-  const reports = await storeService.getAllReportsByVariantId(variantId, userId)
-  const ids = getDuplicateRequestIds(search, reports)
-  if (ids.length) {
+  const reports = await storeService.getAllReportsById(id, userId)
+  const duplicateIds = getDuplicateRequestIds(search, reports)
+  if (duplicateIds.length) {
     await Promise.all(
-      ids.map(async (id: string) => {
-        await await storeService.removeReport(id, userId)
+      duplicateIds.map(async (duplicateId: string) => {
+        await await storeService.removeReport(duplicateId, userId)
       }),
     )
   }

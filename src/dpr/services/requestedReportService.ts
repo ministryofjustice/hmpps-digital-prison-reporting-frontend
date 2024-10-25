@@ -1,147 +1,18 @@
 /* eslint-disable no-param-reassign */
-import { Request, Response } from 'express'
 import UserDataStore from '../data/userDataStore'
-import { ReportType, RequestedReport, RequestStatus } from '../types/UserReports'
+import { RequestedReport, RequestStatus } from '../types/UserReports'
 import UserStoreService from './userStoreService'
 import { getDpdPathSuffix } from '../utils/urlHelper'
-import { Template } from '../types/Templates'
-import Dict = NodeJS.Dict
-import { removeDuplicates } from '../utils/reportStoreHelper'
-import { Services } from '../types/Services'
-import { querySummaryResult } from '../components/async-filters/types'
 
-export default class AsyncReportStoreService extends UserStoreService {
+export default class RequestedReportService extends UserStoreService {
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
   }
 
-  /**
-   * Updates the store with the request details
-   *
-   * @param {Request} req
-   * @param {Response} res
-   * @param {Services} services
-   * @param {querySummaryResult} querySummaryData
-   * @param {string} executionId
-   * @param {string} tableId
-   * @return {*}  {Promise<string>}
-   */
-  async updateStore({
-    req,
-    res,
-    services,
-    querySummaryData,
-    executionId,
-    tableId,
-  }: {
-    req: Request
-    res: Response
-    services: Services
-    querySummaryData: querySummaryResult
-    executionId: string
-    tableId: string
-  }): Promise<string> {
-    const { search, variantId } = req.body
-    const { query, filterData, querySummary, sortData } = querySummaryData
-    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-
-    // 1. check for duplicate requests and remove them from the request list
-    removeDuplicates({ storeService: services.asyncReportsStore, userId, variantId, search })
-    removeDuplicates({ storeService: services.recentlyViewedStoreService, userId, variantId, search })
-
-    // 2. Add the new request data to the store
-    const reportData = await this.addReport(
-      {
-        ...req.body,
-        executionId,
-        tableId,
-      },
-      filterData,
-      sortData,
-      query,
-      querySummary,
-      userId,
-    )
-
-    return reportData.url.polling.pathname
-  }
-
-  async addReport(
-    reportData: Dict<string>,
-    filterData: Dict<string>,
-    sortData: Dict<string>,
-    query: Dict<string>,
-    querySummary: Array<Dict<string>>,
-    userId: string,
-  ) {
+  async addReport(userId: string, reportStateData: RequestedReport) {
     const userConfig = await this.getState(userId)
-
-    const {
-      reportId,
-      variantId,
-      executionId,
-      tableId,
-      href: fullUrl,
-      pathname,
-      search,
-      origin = '',
-      dataProductDefinitionsPath,
-      description,
-      template,
-      variantName,
-      reportName,
-      type,
-    } = reportData
-
-    const filtersQueryString = new URLSearchParams(filterData).toString()
-    const sortByQueryString = new URLSearchParams(sortData).toString()
-
-    let reportStateData: RequestedReport = {
-      reportId,
-      variantId,
-      executionId,
-      tableId,
-      name: variantName,
-      variantName,
-      reportName,
-      description,
-      type: type as ReportType,
-      template: template as Template,
-      status: RequestStatus.SUBMITTED,
-      filters: {
-        data: filterData,
-        queryString: filtersQueryString,
-      },
-      sortBy: {
-        data: sortData,
-        queryString: sortByQueryString,
-      },
-      url: {
-        origin,
-        request: {
-          fullUrl,
-          pathname,
-          search,
-        },
-        polling: {
-          fullUrl: `${origin}${pathname}/${executionId}${getDpdPathSuffix(dataProductDefinitionsPath)}`,
-          pathname: `${pathname}/${executionId}${getDpdPathSuffix(dataProductDefinitionsPath)}`,
-        },
-        report: {},
-      },
-      query: {
-        data: query,
-        summary: querySummary,
-      },
-      timestamp: {},
-      dataProductDefinitionsPath,
-    }
-
-    reportStateData = this.updateDataByStatus(reportStateData, RequestStatus.SUBMITTED)
     userConfig.requestedReports.unshift(reportStateData)
     await this.saveState(userId, userConfig)
-
-    return reportStateData
   }
 
   async removeReport(id: string, userId: string) {
@@ -166,10 +37,10 @@ export default class AsyncReportStoreService extends UserStoreService {
     return userConfig.requestedReports
   }
 
-  async getAllReportsByVariantId(variantId: string, userId: string) {
+  async getAllReportsById(id: string, userId: string) {
     const userConfig = await this.getState(userId)
-    return userConfig.requestedReports.filter((report) => {
-      return report.variantId === variantId
+    return userConfig.requestedReports.filter((requested) => {
+      return (requested.id && requested.id === id) || (requested.variantId && requested.variantId === id)
     })
   }
 

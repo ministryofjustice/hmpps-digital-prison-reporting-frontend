@@ -4,7 +4,7 @@
 
 {% macro dprErrorSummary(error, meta) %}
     {% set reportId = meta.reportId %}
-    {% set variantId = meta.variantId %}
+    {% set id = meta.id %}
     {% set executionId = meta.executionId %}
     {% set tableId = meta.tableId %}
 
@@ -20,10 +20,10 @@
       <div class="govuk-!-margin-top-3">
         <p class="govuk-body-s">Please take note of the following meta data and use in any correspondence with the support team to help speed up your request:</p>
         <ul class="govuk-list govuk-body-s">
-          {% if reportId %}<li><strong>Report ID: </strong>{{ reportId }}</li>{% endif %}
-          {% if variantId %}<li><strong>Variant ID: </strong>{{ variantId }}</li>{% endif %}
-          {% if executionId %}<li><strong>Execution ID: </strong>{{ executionId }}</li>{% endif %}
-          {% if tableId %}<li><strong>Table ID: </strong>{{ tableId }}</li>{% endif %}
+          {% if reportId %}<li><strong>Report ID: </strong> {{ reportId }}</li>{% endif %}
+          {% if id %}<li><strong>ID: </strong> {{ id }}</li>{% endif %}
+          {% if executionId %}<li><strong>Execution ID: </strong> {{ executionId }}</li>{% endif %}
+          {% if tableId %}<li><strong>Table ID: </strong> {{ tableId }}</li>{% endif %}
         </ul>
       </div>
     {% endset %}

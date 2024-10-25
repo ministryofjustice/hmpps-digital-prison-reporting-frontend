@@ -17,7 +17,7 @@ export default class DprQueryParamClass extends DprClientClass {
         const input = inputs[0]
         const { type } = input
         if (type === 'radio' || type === 'checkbox') {
-          this.setMultiSelectValue(input, value)
+          this.setMultiSelectValue(inputs, value)
         } else if (input.classList.contains('moj-js-datepicker-input')) {
           const formatted = dayjs(value, 'YYYY-MM-DD')
           input.value = formatted.format('DD/MM/YYYY')

@@ -1,8 +1,8 @@
-Feature: Dashboards
+Feature: Sync Dashboards
 
   Background:
     Given I navigate to the async-home page
-    When I enter a search value of dashboard
+    When I enter a search value of synchronous loading
     When I click the dashboard link
     Then I am taken to the dashboard
 

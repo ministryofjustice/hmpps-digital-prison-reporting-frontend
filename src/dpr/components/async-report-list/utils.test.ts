@@ -5,10 +5,9 @@ import ColumnUtils from '../columns/utils'
 import PaginationUtils from '../pagination/utils'
 import Dict = NodeJS.Dict
 
-import createMockData from '../../../../test-app/mockAsyncData/mockAsyncData'
-
-import definitions from '../../../../test-app/mockAsyncData/mockReportDefinition'
-import { mockReportListRenderData } from '../../../../test-app/mockAsyncData/mockReportListRenderData'
+import createMockData from '../../../../test-app/mocks/mockClients/reports/mockAsyncData'
+import definitions from '../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
+import { mockReportListRenderData } from '../../../../test-app/mocks/mockAsyncData/mockReportListRenderData'
 import { Columns } from '../columns/types'
 import { components } from '../../types/api'
 

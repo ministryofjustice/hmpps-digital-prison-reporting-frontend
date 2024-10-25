@@ -1,6 +1,7 @@
 import { DashboardDefinition } from '../types/Dashboards'
 import logger from '../utils/logger'
 import RestClient from './restClient'
+import Dict = NodeJS.Dict
 import { ApiConfig } from './types'
 
 export default class DashboardClient {
@@ -27,5 +28,53 @@ export default class DashboardClient {
         token,
       })
       .then((response) => <DashboardDefinition>response)
+  }
+
+  requestAsyncDashboard(
+    token: string,
+    reportId: string,
+    dashboardId: string,
+    query: Record<string, string | boolean | number>,
+  ): Promise<Dict<string>> {
+    logger.info(`Dashboard client: request ${reportId}:${dashboardId}`)
+
+    return this.restClient
+      .get({
+        path: `/async/dashboards/${reportId}/${dashboardId}`,
+        token,
+        query,
+      })
+      .then((response) => <Dict<string>>response)
+  }
+
+  getAsyncStatus(
+    token: string,
+    reportId: string,
+    dashboardId: string,
+    executionId: string,
+    dataProductDefinitionsPath?: string,
+  ): Promise<Dict<string>> {
+    logger.info(`Dashboard client: Get statementId: ${executionId} status`)
+
+    return this.restClient
+      .get({
+        path: `/reports/${reportId}/dashboards/${dashboardId}/statements/${executionId}/status`,
+        token,
+        query: {
+          dataProductDefinitionsPath,
+        },
+      })
+      .then((response) => <Dict<string>>response)
+  }
+
+  cancelAsyncRequest(token: string, reportId: string, dashboardId: string, executionId: string): Promise<Dict<string>> {
+    logger.info(`Dashboard client: request ${reportId} : ${dashboardId}`)
+
+    return this.restClient
+      .delete({
+        path: `/reports/${reportId}/dashboards/${dashboardId}/statements/${executionId}`,
+        token,
+      })
+      .then((response) => <Dict<string>>response)
   }
 }

@@ -1,8 +1,8 @@
 import MetricService from '../services/metricsService'
 
 export interface Services {
-  asyncReportsStore: AsyncReportStoreService
-  recentlyViewedStoreService: RecentlyViewedStoreService
+  requestedReportService: RequestedReportService
+  recentlyViewedService: RecentlyViewedStoreService
   bookmarkService: BookmarkService
   reportingService: ReportingService
   metricService: MetricService

@@ -21,7 +21,6 @@ export default {
         }),
       )
 
-      // Convert metrics data in to chart data
       const chartsData: ChartCardData[] = metricsData.map((metric) => {
         return ChartCardUtils.getChartData(metric)
       })

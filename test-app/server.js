@@ -13,9 +13,9 @@ const bodyParser = require('body-parser')
 
 // Local dependencies
 const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
-const BookmarklistUtils = require('../package/dpr/utils/bookmarkListUtils').default
+const BookmarklistUtils = require('../package/dpr/components/user-reports-bookmarks-list/utils').default
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
-const AsyncReportListUtils = require('../package/dpr/components/user-reports-request-list/utils').default
+const RequestedReportsUtils = require('../package/dpr/components/user-reports-request-list/utils').default
 const RecentlyViewedCardGroupUtils = require('../package/dpr/components/user-reports-viewed-list/utils').default
 const UserReportsListUtils = require('../package/dpr/components/user-reports/utils').default
 
@@ -75,27 +75,35 @@ app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './fav
 app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest.json')))
 app.use(bodyParser.json())
 
-const mockAsyncApis = require('./mockAsyncData/mockAsyncApis')
-const MockUserStoreService = require('./mockAsyncData/mockRedisStore')
-const AsyncReportStoreService = require('../package/dpr/services/requestedReportsService').default
+// Mock Clients & API responses
+const MockReportingClient = require('./mocks/mockClients/reports/mockReportingClient')
+const MockDashboardClient = require('./mocks/mockClients/dashboards/mockDashboardClient')
+const MockMetricClient = require('./mocks/mockClients/metrics/mockMetricClient')
+const MockUserStoreService = require('./mocks/mockClients/store/mockRedisStore')
+const mockDefinitions = require('./mocks/mockClients/reports/mockReportDefinition')
+const mockDashboardDefinitions = require('./mocks/mockClients/dashboards/mockDashboardDefinition')
+
+// Services
+const ReportingService = require('../package/dpr/services/reportingService').default
+const RequestedReportService = require('../package/dpr/services/requestedReportService').default
 const RecentlyViewedStoreService = require('../package/dpr/services/recentlyViewedService').default
 const BookmarkService = require('../package/dpr/services/bookmarkService').default
 const MetricsService = require('../package/dpr/services/metricsService').default
 const DashboardService = require('../package/dpr/services/dashboardService').default
-const MockDashboardClient = require('./mockChartData/mockDashboardClient')
-const MockMetricClient = require('./mockChartData/mockMetricClient')
+
+// Routes
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
 const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
 const dashboardRoutes = require('../package/dpr/routes/dashboard').default
 const addDownloadRoutes = require('../package/dpr/routes/download').default
-const definitions = require('./mockAsyncData/mockReportDefinition')
-const dashboardDefinitions = require('./mockChartData/mockDashboardDefinition')
-const mockBarChartData = require('./mockChartData/mockBarChartData')
-const mockPieChartData = require('./mockChartData/mockPieChartData')
-const mockLineChartData = require('./mockChartData/mockLineChartData')
-const mockMulitChartData = require('./mockChartData/mockMultiChartData')
-const mockScoreCards = require('./mockScoreCards/mockScorecards')
+
+// Charts
+const mockBarChartData = require('./mocks/mockChartData/mockBarChartData')
+const mockPieChartData = require('./mocks/mockChartData/mockPieChartData')
+const mockLineChartData = require('./mocks/mockChartData/mockLineChartData')
+const mockMulitChartData = require('./mocks/mockChartData/mockMultiChartData')
+const mockScoreCards = require('./mocks/mockScoreCards/mockScorecards')
 
 // Set up routes
 
@@ -133,17 +141,15 @@ app.get('/', (req, res) => {
 })
 
 const mockUserStore = new MockUserStoreService()
-
-const asyncReportsStore = new AsyncReportStoreService(mockUserStore)
-asyncReportsStore.init('userId')
-
-const recentlyViewedStoreService = new RecentlyViewedStoreService(mockUserStore)
-recentlyViewedStoreService.init('userId')
-
+const requestedReportService = new RequestedReportService(mockUserStore)
+const recentlyViewedService = new RecentlyViewedStoreService(mockUserStore)
 const bookmarkService = new BookmarkService(mockUserStore)
+requestedReportService.init('userId')
+recentlyViewedService.init('userId')
 bookmarkService.init('userId')
 
-const reportingService = mockAsyncApis
+const reportingClient = new MockReportingClient()
+const reportingService = new ReportingService(reportingClient)
 
 const metricClient = new MockMetricClient()
 const metricService = new MetricsService(metricClient)
@@ -153,8 +159,8 @@ const dashboardService = new DashboardService(dashboardClient)
 
 const services = {
   bookmarkService,
-  recentlyViewedStoreService,
-  asyncReportsStore,
+  recentlyViewedService,
+  requestedReportService,
   reportingService,
   metricService,
   dashboardService,
@@ -174,8 +180,8 @@ dashboardRoutes(routeImportParams)
 addDownloadRoutes(routeImportParams)
 
 app.get('/async-reports', async (req, res) => {
-  res.locals.definitions = definitions.reports
-  res.locals.dashboardDefinitions = dashboardDefinitions
+  res.locals.definitions = mockDefinitions.reports
+  res.locals.dashboardDefinitions = mockDashboardDefinitions
   res.locals.csrfToken = 'csrfToken'
   res.locals.pathSuffix = req.query.dataProductDefinitionsPath
     ? `?dataProductDefinitionsPath=${req.query.dataProductDefinitionsPath}`
@@ -183,32 +189,32 @@ app.get('/async-reports', async (req, res) => {
 
   const requestedReports = await UserReportsListUtils.renderList({
     res,
-    storeService: services.asyncReportsStore,
-    filterFunction: AsyncReportListUtils.filterReports,
-    maxRows: 6,
+    storeService: services.requestedReportService,
+    filterFunction: RequestedReportsUtils.filterReports,
+    maxRows: 10,
     type: 'requested',
   })
 
   const viewedReports = await UserReportsListUtils.renderList({
     res,
-    storeService: services.recentlyViewedStoreService,
+    storeService: services.recentlyViewedService,
     filterFunction: RecentlyViewedCardGroupUtils.filterReports,
     maxRows: 6,
     type: 'viewed',
+  })
+
+  const bookmarks = await BookmarklistUtils.renderBookmarkList({
+    res,
+    req,
+    services,
+    maxRows: 6,
   })
 
   res.render('async.njk', {
     title: 'Home',
     requestedReports,
     viewedReports,
-    bookmarks: {
-      ...(await BookmarklistUtils.renderBookmarkList({
-        res,
-        req,
-        services,
-        maxRows: 6,
-      })),
-    },
+    bookmarks,
     reports: {
       ...(await ReportslistUtils.mapReportsList(res, services)),
     },
@@ -408,7 +414,7 @@ app.get('/scorecards', (req, res) => {
   })
 })
 
-const setUpMockSyncApis = require('./mockSyncData/mockSyncApis')
+const setUpMockSyncApis = require('./mocks/mockSyncData/mockSyncApis')
 
 setUpMockSyncApis(app)
 

@@ -1,5 +1,5 @@
 import type { Router } from 'express'
-import BookmarklistUtils from '../utils/bookmarkListUtils'
+import BookmarklistUtils from '../components/user-reports-bookmarks-list/utils'
 import { Services } from '../types/Services'
 
 export default function routes({

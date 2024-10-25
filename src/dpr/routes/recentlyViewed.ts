@@ -20,7 +20,7 @@ export default function routes({
         req,
         res,
         services,
-        storeService: services.recentlyViewedStoreService,
+        storeService: services.recentlyViewedService,
       })
       res.send({ isExpired: response })
     } catch (error) {
@@ -30,7 +30,7 @@ export default function routes({
 
   const removeViewedItemHandler: RequestHandler = async (req, res, next) => {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-    await services.recentlyViewedStoreService.removeReport(req.body.executionId, userId)
+    await services.recentlyViewedService.removeReport(req.body.executionId, userId)
     res.end()
   }
 
@@ -39,7 +39,7 @@ export default function routes({
       title: 'Requested Reports',
       layoutPath,
       ...(await UserReportsListUtils.renderList({
-        storeService: services.recentlyViewedStoreService,
+        storeService: services.recentlyViewedService,
         filterFunction: RecentReportslistUtils.filterReports,
         res,
         type: 'requested',

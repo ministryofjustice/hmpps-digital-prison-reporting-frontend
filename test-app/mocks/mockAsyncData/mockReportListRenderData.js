@@ -1,7 +1,7 @@
 const mockGetReportListRenderData = {
   renderData: {
-    variantId: undefined,
-    variantName: 'variantName',
+    id: undefined,
+    name: 'variantName',
     reportId: undefined,
     reportName: 'reportName',
     reportSummaries: {},

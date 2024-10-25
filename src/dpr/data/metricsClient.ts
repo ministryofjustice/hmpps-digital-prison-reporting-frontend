@@ -1,6 +1,7 @@
 import logger from '../utils/logger'
 import RestClient from './restClient'
 import { ApiConfig } from './types'
+import Dict = NodeJS.Dict
 import { MetricsDataResponse, MetricsDefinition } from '../types/Metrics'
 
 export default class MetricsClient {
@@ -50,5 +51,40 @@ export default class MetricsClient {
         token,
       })
       .then((response) => <MetricsDataResponse>response)
+  }
+
+  getMetricDataAsync(
+    token: string,
+    reportId: string,
+    metricId: string,
+    query: Record<string, string | boolean | number>,
+  ): Promise<Dict<string>> {
+    logger.info(`Metrics client: request ${reportId} : ${metricId}`)
+
+    return this.restClient
+      .get({
+        path: `/async/reports/${reportId}/metrics/${metricId}`,
+        token,
+        query,
+      })
+      .then((response) => <Dict<string>>response)
+  }
+
+  getDashboardMetricDataAsync(
+    token: string,
+    reportId: string,
+    dashboardId: string,
+    metricId: string,
+    query: Record<string, string | boolean | number>,
+  ): Promise<Dict<string>> {
+    logger.info(`Metrics client: request ${reportId} : ${metricId}`)
+
+    return this.restClient
+      .get({
+        path: `/async/reports/${reportId}/dashboard/${dashboardId}/metrics/${metricId}`,
+        token,
+        query,
+      })
+      .then((response) => <Dict<string>>response)
   }
 }

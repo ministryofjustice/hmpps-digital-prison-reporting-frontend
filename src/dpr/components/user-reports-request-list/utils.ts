@@ -1,6 +1,6 @@
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { RequestedReport, RequestStatus } from '../../types/UserReports'
-import { getStatus } from '../../utils/reportStatusHelper'
+import { getStatus } from '../../utils/requestStatusHelper'
 
 export default {
   getRequestStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
@@ -9,13 +9,13 @@ export default {
     const response = await getStatus({ req, res, services })
 
     if (currentStatus !== response.status) {
-      await services.asyncReportsStore.updateStatus(
+      await services.requestedReportService.updateStatus(
         executionId,
         userId,
         response.status as RequestStatus,
         response.errorMessage,
       )
-      response.reportData = await services.asyncReportsStore.getReportByExecutionId(executionId, userId)
+      response.reportData = await services.requestedReportService.getReportByExecutionId(executionId, userId)
     }
 
     return response

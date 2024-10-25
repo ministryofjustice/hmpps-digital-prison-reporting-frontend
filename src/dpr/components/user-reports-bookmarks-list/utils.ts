@@ -98,13 +98,15 @@ const mapBookmarkIdsToDefinition = async (
       let definition
 
       const reportType: ReportType = bookmark.reportType ? (bookmark.reportType as ReportType) : ReportType.REPORT
+      const bookmarkId = bookmark.variantId || bookmark.id
+
       try {
         // TODO: fix reportType to enable dashboard type
         if (reportType === ReportType.REPORT) {
           definition = await services.reportingService.getDefinition(
             token,
             bookmark.reportId,
-            bookmark.variantId || bookmark.id,
+            bookmarkId,
             <string>definitionPath,
           )
         }
@@ -112,7 +114,7 @@ const mapBookmarkIdsToDefinition = async (
         if (reportType === ReportType.DASHBOARD) {
           definition = await services.dashboardService.getDefinition(
             token,
-            bookmark.variantId,
+            bookmarkId,
             bookmark.reportId,
             <string>definitionPath,
           )
@@ -121,19 +123,19 @@ const mapBookmarkIdsToDefinition = async (
         if (definition) {
           bookmarkData.push({
             reportId: bookmark.reportId,
-            id: bookmark.variantId || bookmark.id,
+            id: bookmarkId,
             reportName: definition.name,
             name: definition.variant.name,
             description: definition.variant.description || definition.description,
             type: reportType,
-            href: `/async/${reportType}/${bookmark.reportId}/${bookmark.variantId}/request`,
+            href: `/async/${reportType}/${bookmark.reportId}/${bookmarkId}/request`,
           })
         }
       } catch (error) {
         // DPD has been deleted so API throws error
-        logger.warn(`Failed to map bookmark for: Report ${bookmark.reportId}, variant ${bookmark.variantId}`)
+        logger.warn(`Failed to map bookmark for: Report ${bookmark.reportId}, variant ${bookmarkId}`)
         const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-        await services.bookmarkService.removeBookmark(userId, bookmark.variantId)
+        await services.bookmarkService.removeBookmark(userId, bookmarkId)
       }
     }),
   )

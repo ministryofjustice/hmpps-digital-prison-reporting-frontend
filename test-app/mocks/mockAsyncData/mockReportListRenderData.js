@@ -210,9 +210,9 @@ const mockGetReportListRenderData = {
       {
         id: 'dpr-button-downloadable',
         icon: 'download',
-        disabled: true,
+        disabled: false,
         tooltipText: 'Download',
-        ariaLabelText: 'Download report, disabled',
+        ariaLabelText: 'Download report',
       },
     ],
     querySummary: 'summary',

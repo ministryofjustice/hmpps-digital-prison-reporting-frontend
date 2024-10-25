@@ -30,7 +30,6 @@ describe('metricsClient', () => {
           name: 'testMetricId1',
           display: 'Prisoner Images by Status Percentage',
           description: 'Prisoner Images by Status Percentage',
-          visualisationType: [ChartType.BAR, ChartType.DONUT],
           specification: [
             {
               name: 'status',
@@ -58,7 +57,6 @@ describe('metricsClient', () => {
           name: 'testMetricId1',
           display: 'Prisoner Images by Status Percentage',
           description: 'Prisoner Images by Status Percentage',
-          visualisationType: [ChartType.BAR, ChartType.DONUT],
           specification: [
             {
               name: 'status',
@@ -89,7 +87,6 @@ describe('metricsClient', () => {
         name: 'testMetricId1',
         display: 'Prisoner Images by Status Percentage',
         description: 'Prisoner Images by Status Percentage',
-        visualisationType: [ChartType.BAR, ChartType.DONUT],
         specification: [
           {
             name: 'status',

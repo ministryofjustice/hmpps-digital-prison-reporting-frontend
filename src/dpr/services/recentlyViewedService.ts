@@ -1,6 +1,6 @@
 import UserStoreService from './userStoreService'
 import UserDataStore from '../data/userDataStore'
-import { RequestStatus, RequestedReport, RecentlyViewedReport } from '../types/UserReports'
+import { RequestStatus, RequestedReport, RecentlyViewedReport, ReportType } from '../types/UserReports'
 import { UserStoreConfig } from '../types/UserStore'
 
 export default class RecentlyViewedStoreService extends UserStoreService {
@@ -15,7 +15,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
 
   async getAllReportsById(id: string, userId: string) {
     const userConfig = await this.getState(userId)
-    return userConfig.requestedReports.filter((requested) => {
+    return userConfig.recentlyViewedReports.filter((requested) => {
       return (requested.id && requested.id === id) || (requested.variantId && requested.variantId === id)
     })
   }
@@ -33,28 +33,17 @@ export default class RecentlyViewedStoreService extends UserStoreService {
   }
 
   async addReport(reportData: RequestedReport, userId: string, userConfig: UserStoreConfig) {
-    const {
-      reportId,
-      variantId,
-      id,
-      executionId,
-      tableId,
-      reportName,
-      name: variantName,
-      description,
-      url,
-      query,
-      type,
-    } = reportData
+    const { reportId, executionId, tableId, reportName, name: variantName, description, url, query } = reportData
+
+    const id = reportData.variantId || reportData.id
+    const type = reportData.type || ReportType.REPORT
 
     const recentlyViewedReportData: RecentlyViewedReport = {
       reportId,
-      variantId,
       id,
       executionId,
       tableId,
       reportName,
-      variantName,
       name: variantName,
       description,
       type,

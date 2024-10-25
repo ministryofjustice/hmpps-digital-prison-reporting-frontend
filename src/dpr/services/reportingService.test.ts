@@ -52,4 +52,99 @@ describe('Reporting service', () => {
       expect(result).toEqual(expectedResponse)
     })
   })
+
+  describe('getDefinition', () => {
+    it('Retrieves a definition from the client', async () => {
+      const expectedResponse: components['schemas']['SingleVariantReportDefinition'] = {
+        id: 'test-report',
+        name: 'Test report',
+        variant: {
+          id: 'test-variant',
+          name: 'Test variant',
+          resourceName: 'reports/test/test',
+          classification: 'OFFICIAL',
+          printable: false,
+        } as unknown as components['schemas']['VariantDefinition'],
+      }
+
+      reportingClient.getDefinition.mockResolvedValue(expectedResponse)
+
+      const result = await reportingService.getDefinition(null, 'test-report', 'test-variant')
+
+      expect(result).toEqual(expectedResponse)
+    })
+  })
+
+  describe('requestAsyncReport', () => {
+    it('Retrieves a definition from the client', async () => {
+      reportingClient.requestAsyncReport.mockResolvedValue({ executionId: 'executionId', tableId: 'tableId' })
+
+      const result = await reportingService.requestAsyncReport(null, 'test-report', 'test-variant', {})
+
+      expect(result).toEqual({ executionId: 'executionId', tableId: 'tableId' })
+    })
+  })
+
+  describe('cancelAsyncRequest', () => {
+    it('cancels the async request', async () => {
+      reportingClient.cancelAsyncRequest.mockResolvedValue({ cancellationSucceeded: 'true' })
+
+      const result = await reportingService.cancelAsyncRequest(null, 'test-report', 'test-variant', 'execution-id')
+
+      expect(result).toEqual({ cancellationSucceeded: 'true' })
+    })
+  })
+
+  describe('getAsyncReportStatus', () => {
+    it('Retrieves the async status', async () => {
+      reportingClient.getAsyncReportStatus.mockResolvedValue({ status: 'SUBMITTED' })
+
+      const result = await reportingService.getAsyncReportStatus(
+        null,
+        'test-report',
+        'test-variant',
+        'execution-id',
+        '',
+      )
+
+      expect(result).toEqual({ status: 'SUBMITTED' })
+    })
+  })
+
+  describe('getAsyncCount', () => {
+    it('Retrieves a count', async () => {
+      reportingClient.getAsyncCount.mockResolvedValue(234234)
+
+      const result = await reportingService.getAsyncCount(null, 'table-id')
+
+      expect(result).toEqual(234234)
+    })
+  })
+
+  describe('getAsyncReport', () => {
+    it('Retrieves a count', async () => {
+      reportingClient.getAsyncReport.mockResolvedValue([{ test: 'test ' }])
+
+      const result = await reportingService.getAsyncReport(null, 'report-id', 'variant-id', 'table-id', {})
+
+      expect(result).toEqual([{ test: 'test ' }])
+    })
+  })
+
+  describe('getAsyncSummaryReport', () => {
+    it('Retrieves a count', async () => {
+      reportingClient.getAsyncSummaryReport.mockResolvedValue([{ test: 'test ' }])
+
+      const result = await reportingService.getAsyncSummaryReport(
+        null,
+        'report-id',
+        'variant-id',
+        'table-id',
+        'summary-id',
+        {},
+      )
+
+      expect(result).toEqual([{ test: 'test ' }])
+    })
+  })
 })

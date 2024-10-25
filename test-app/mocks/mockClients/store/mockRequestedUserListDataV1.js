@@ -97,6 +97,101 @@ const requestedReady = {
   status: 'FINISHED',
 }
 
+const requestedSubmitted = {
+  dataProductDefinitionsPath: '',
+  reportId: 'test-report-3',
+  reportName: 'Test Report',
+  description: 'this will succeed',
+  variantId: 'variantId-1',
+  name: 'Successful Report',
+  timestamp: {
+    requested: '2024-10-24T10:27:09.173Z',
+  },
+  executionId: 'exId_1729765628165',
+  tableId: 'tblId_1729765628165',
+  filters: {
+    data: {
+      field1: 'value1.3',
+      field2: 'value2.3',
+      'field3.start': '2003-02-01',
+      'field3.end': '2006-05-04',
+      field6: 'Value 6.1',
+      field7: '2005-02-01',
+    },
+    queryString:
+      'field1=value1.3&field2=value2.3&field3.start=2003-02-01&field3.end=2006-05-04&field6=Value+6.1&field7=2005-02-01',
+  },
+  sortBy: {
+    data: {
+      sortColumn: 'field1',
+      sortedAsc: 'true',
+    },
+    queryString: 'sortColumn=field1&sortedAsc=true',
+  },
+  url: {
+    origin: 'http://localhost:3010',
+    request: {
+      fullUrl:
+        'http://localhost:3010/async-reports/test-report-3/variantId-1/request?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
+      pathname: '/async-reports/test-report-3/variantId-1/request',
+      search:
+        '?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
+    },
+    polling: {
+      fullUrl: 'http://localhost:3010/async-reports/test-report-3/variantId-1/request/exId_1729765628165',
+      pathname: '/async-reports/test-report-3/variantId-1/request/exId_1729765628165',
+    },
+    report: {},
+  },
+  query: {
+    data: {
+      'filters.field1': 'value1.3',
+      'filters.field2': 'value2.3',
+      'filters.field3.start': '2003-02-01',
+      'filters.field3.end': '2006-05-04',
+      'filters.field6': 'Value 6.1',
+      'filters.field7': '2005-02-01',
+      sortColumn: 'field1',
+      sortedAsc: 'true',
+    },
+    summary: [
+      {
+        name: 'Field 1',
+        value: 'value1.3',
+      },
+      {
+        name: 'Field 2',
+        value: 'value2.3',
+      },
+      {
+        name: 'Field 3 start',
+        value: '01/02/2003',
+      },
+      {
+        name: 'Field 3 end',
+        value: '04/05/2006',
+      },
+      {
+        name: 'Field 6',
+        value: 'Value 6.1',
+      },
+      {
+        name: 'Field 7',
+        value: '01/02/2005',
+      },
+      {
+        name: 'Sort Column',
+        value: 'Field 1',
+      },
+      {
+        name: 'Sort Direction',
+        value: 'Ascending',
+      },
+    ],
+  },
+  status: 'SUBMITTED',
+}
+
 const requestedExpired = {
   dataProductDefinitionsPath: '',
   reportId: 'test-report-3',
@@ -378,4 +473,5 @@ module.exports = {
   requestedExpired,
   requestedFailed,
   requestedAborted,
+  requestedSubmitted,
 }

@@ -89,6 +89,36 @@ const submittedDashboard = {
   },
   timestamp: {
     requested: '2024-08-29T14:51:33.557Z',
+  },
+  dataProductDefinitionsPath: '',
+}
+
+const readyDashboard = {
+  reportId: 'test-report-1',
+  id: 'test-dashboard-1',
+  executionId: 'exId_1724943092098',
+  tableId: 'tblId_1724943092098',
+  name: 'Test Dashboard 1',
+  reportName: 'Test Report',
+  description: 'Requested Dashboard',
+  template: 'list',
+  type: 'dashboard',
+  status: 'FINISHED',
+  url: {
+    origin: 'http://localhost:3010',
+    request: {
+      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request?',
+      pathname: '/async/dashboard/test-report-1/test-dashboard-1/request',
+      search: '',
+    },
+    polling: {
+      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
+      pathname: '/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
+    },
+    report: {},
+  },
+  timestamp: {
+    requested: '2024-08-29T14:51:33.557Z',
     completed: '2024-08-29T14:51:41.807Z',
   },
   dataProductDefinitionsPath: '',
@@ -98,4 +128,5 @@ module.exports = {
   submittedDashboard,
   failedDashboard,
   expiredDashboard,
+  readyDashboard,
 }

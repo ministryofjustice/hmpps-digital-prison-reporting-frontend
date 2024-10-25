@@ -214,6 +214,36 @@ describe('reportingClient', () => {
     })
   })
 
+  describe('getAsyncSummaryReport', () => {
+    it('should return data from api', async () => {
+      const response = [{ test: 'true' }]
+      const expectedQuery: Record<string, string> = {
+        selectedPage: '1',
+        pageSize: '2',
+        dataProductDefinitionsPath: 'test-definition-path',
+      }
+      const reportId = 'report-id'
+      const variantId = 'variant-id'
+      const tableId = 'table-id'
+      const summaryId = 'summary-id'
+
+      fakeReportingApi
+        .get(`/reports/${reportId}/${variantId}/tables/${tableId}/result/summary/${summaryId}`)
+        .query(expectedQuery)
+        .reply(200, response)
+
+      const output = await reportingClient.getAsyncSummaryReport(
+        null,
+        reportId,
+        variantId,
+        tableId,
+        summaryId,
+        expectedQuery,
+      )
+      expect(output).toEqual(response)
+    })
+  })
+
   describe('getAsyncReportStatus', () => {
     it('should return the request status', async () => {
       const response = { status: 'STARTED' }
@@ -239,6 +269,45 @@ describe('reportingClient', () => {
 
       const output = await reportingClient.getAsyncCount(null, tableId)
       expect(output).toEqual(response.count)
+    })
+  })
+
+  describe('getFieldValues', () => {
+    it('should get the field values', async () => {
+      const variantName = 'variantName'
+      const fieldName = 'fieldName'
+      const definitionName = 'definitionName'
+      const definitionsPath = 'definitionsPath'
+      const prefix = 'prefix'
+
+      fakeReportingApi
+        .get(
+          `/reports/${definitionName}/${variantName}/${fieldName}?dataProductDefinitionsPath=${definitionsPath}&prefix=${prefix}`,
+        )
+        .reply(200, {})
+
+      const output = await reportingClient.getFieldValues({
+        token: 'null',
+        definitionName,
+        variantName,
+        fieldName,
+        definitionsPath,
+        prefix,
+      })
+      expect(output).toEqual({})
+    })
+  })
+
+  describe('cancelAsyncRequest', () => {
+    it('should cancel the request', async () => {
+      fakeReportingApi.delete(`/reports/dpd-id/test-variant-id/statements/exId`).reply(200, {
+        cancellationSucceeded: 'true',
+      })
+
+      const output = await reportingClient.cancelAsyncRequest(null, 'dpd-id', 'test-variant-id', 'exId')
+      expect(output).toEqual({
+        cancellationSucceeded: 'true',
+      })
     })
   })
 })

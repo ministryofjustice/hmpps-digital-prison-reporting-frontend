@@ -194,7 +194,7 @@
     "require-dir": "^1.2.0",
     "sass": "^1.66.1",
     "semantic-release": "^22.0.5",
-    "supertest": "^6.3.3",
+    "supertest": "^7.0.0",
     "ts-jest": "^29.1.1",
     "typescript": "^5.4",
     "wait-on": "^8.0.0"

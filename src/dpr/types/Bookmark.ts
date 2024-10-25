@@ -12,6 +12,7 @@ export interface BookmarkedReportData {
 
 export interface BookmarkStoreData {
   reportId: string
-  variantId: string
+  variantId?: string
+  id?: string
   reportType?: string
 }

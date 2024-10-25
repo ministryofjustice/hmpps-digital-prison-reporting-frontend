@@ -3,15 +3,14 @@ import nock from 'nock'
 import DashboardClient from './dashboardClient'
 import AgentConfig from './agentConfig'
 import { DashboardDefinition } from '../types/Dashboards'
-import { ChartType } from '../types/Charts'
 
 describe('dashboardClient', () => {
-  let fakeReportingApi: nock.Scope
+  let fakeDashboardApi: nock.Scope
   let dashboardClient: DashboardClient
 
   beforeEach(() => {
-    const url = 'http://localhost:3010/dashboards'
-    fakeReportingApi = nock(url)
+    const url = 'http://localhost:3010'
+    fakeDashboardApi = nock(url)
     dashboardClient = new DashboardClient({
       url,
       agent: new AgentConfig(),
@@ -31,12 +30,11 @@ describe('dashboardClient', () => {
         metrics: [
           {
             id: 'test-metric-id-1',
-            visualisationType: [ChartType.BAR, ChartType.DONUT],
           },
         ],
       }
 
-      fakeReportingApi.get(`/definitions/dpd-id/dashboards/test-dashboard`).reply(200, response)
+      fakeDashboardApi.get(`/definitions/dpd-id/dashboards/test-dashboard`).reply(200, response)
 
       const output = await dashboardClient.getDefinition(null, 'test-dashboard', 'dpd-id')
       expect(output).toEqual(response)
@@ -50,7 +48,6 @@ describe('dashboardClient', () => {
         metrics: [
           {
             id: 'test-metric-id-1',
-            visualisationType: [ChartType.BAR, ChartType.DONUT],
           },
         ],
       }
@@ -58,10 +55,51 @@ describe('dashboardClient', () => {
         dataProductDefinitionsPath: 'test-definition-path',
       }
 
-      fakeReportingApi.get(`/definitions/dpd-id/dashboards/test-dashboard`).query(query).reply(200, response)
+      fakeDashboardApi.get(`/definitions/dpd-id/dashboards/test-dashboard`).query(query).reply(200, response)
 
       const output = await dashboardClient.getDefinition(null, 'test-dashboard', 'dpd-id', 'test-definition-path')
       expect(output).toEqual(response)
+    })
+  })
+
+  describe('requestAsyncDashboard', () => {
+    it('should request an async dashboard', async () => {
+      fakeDashboardApi.get(`/async/dashboards/dpd-id/test-dashboard-id`).reply(200, {
+        executionId: 'exId',
+        tableId: 'tbId',
+      })
+
+      const output = await dashboardClient.requestAsyncDashboard(null, 'dpd-id', 'test-dashboard-id', {})
+      expect(output).toEqual({
+        executionId: 'exId',
+        tableId: 'tbId',
+      })
+    })
+  })
+
+  describe('getAsyncStatus', () => {
+    it('should request an async dashboard', async () => {
+      fakeDashboardApi.get(`/reports/dpd-id/dashboards/test-dashboard-id/statements/exId/status`).reply(200, {
+        status: 'SUBMITTED',
+      })
+
+      const output = await dashboardClient.getAsyncStatus(null, 'dpd-id', 'test-dashboard-id', 'exId')
+      expect(output).toEqual({
+        status: 'SUBMITTED',
+      })
+    })
+  })
+
+  describe('cancelAsyncRequest', () => {
+    it('should request an async dashboard', async () => {
+      fakeDashboardApi.delete(`/reports/dpd-id/dashboards/test-dashboard-id/statements/exId`).reply(200, {
+        cancellationSucceeded: 'true',
+      })
+
+      const output = await dashboardClient.cancelAsyncRequest(null, 'dpd-id', 'test-dashboard-id', 'exId')
+      expect(output).toEqual({
+        cancellationSucceeded: 'true',
+      })
     })
   })
 })

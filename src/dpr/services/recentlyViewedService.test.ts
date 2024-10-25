@@ -58,6 +58,7 @@ describe('RecentlyViewedStoreService', () => {
         ...MockRequestedListData.requestedReady,
         id: MockRequestedListData.requestedReady.variantId,
         type: ReportType.REPORT,
+        status: RequestStatus.READY,
         timestamp: {
           lastViewed: mockDate,
         },
@@ -84,6 +85,7 @@ describe('RecentlyViewedStoreService', () => {
 
       const savedRecord = {
         ...MockRequestedListData2.requestedReady,
+        status: RequestStatus.READY,
         timestamp: {
           lastViewed: mockDate,
         },

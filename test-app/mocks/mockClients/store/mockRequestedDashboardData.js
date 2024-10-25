@@ -63,7 +63,6 @@ const expiredDashboard = {
   },
   dataProductDefinitionsPath: '',
 }
-
 const submittedDashboard = {
   reportId: 'test-report-1',
   id: 'test-dashboard-1',

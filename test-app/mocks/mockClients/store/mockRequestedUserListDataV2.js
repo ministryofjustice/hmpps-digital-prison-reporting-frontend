@@ -377,9 +377,99 @@ const requestedFailed = {
   },
 }
 
+const requestedSubmitted = {
+  dataProductDefinitionsPath: '',
+  type: 'report',
+  reportId: 'test-report-3',
+  reportName: 'Test Report',
+  description: 'this will fail with returned Status: FAILED',
+  id: 'variantId-2',
+  name: 'Failed report',
+  timestamp: {
+    requested: '2024-10-24T10:28:15.792Z',
+  },
+  executionId: 'exId_1729765698654',
+  tableId: 'tblId_1729765698654',
+  filters: {
+    data: {
+      field1: 'value1.1',
+      field2: 'value2.1',
+      'field3.start': '2003-02-01',
+      'field3.end': '2006-05-04',
+      field4: 'Inigo Montoya',
+    },
+    queryString: 'field1=value1.1&field2=value2.1&field3.start=2003-02-01&field3.end=2006-05-04&field4=Inigo+Montoya',
+  },
+  sortBy: {
+    data: {
+      sortColumn: 'field1',
+      sortedAsc: 'true',
+    },
+    queryString: 'sortColumn=field1&sortedAsc=true',
+  },
+  url: {
+    origin: 'http://localhost:3010',
+    request: {
+      fullUrl:
+        'http://localhost:3010/async/report/test-report-3/variantId-2/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
+      pathname: '/async/report/test-report-3/variantId-2/request',
+      search:
+        '?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
+    },
+    polling: {
+      fullUrl: 'http://localhost:3010/async/report/test-report-3/variantId-2/request/exId_1729765698654',
+      pathname: '/async/report/test-report-3/variantId-2/request/exId_1729765698654',
+    },
+    report: {},
+  },
+  query: {
+    data: {
+      'filters.field1': 'value1.1',
+      'filters.field2': 'value2.1',
+      'filters.field3.start': '2003-02-01',
+      'filters.field3.end': '2006-05-04',
+      'filters.field4': 'Inigo Montoya',
+      sortColumn: 'field1',
+      sortedAsc: 'true',
+    },
+    summary: [
+      {
+        name: 'Field 1',
+        value: 'value1.1',
+      },
+      {
+        name: 'Field 2',
+        value: 'value2.1',
+      },
+      {
+        name: 'Field 3 start',
+        value: '01/02/2003',
+      },
+      {
+        name: 'Field 3 end',
+        value: '04/05/2006',
+      },
+      {
+        name: 'Field 4',
+        value: 'Inigo Montoya',
+      },
+      {
+        name: 'Sort Column',
+        value: 'Field 1',
+      },
+      {
+        name: 'Sort Direction',
+        value: 'Ascending',
+      },
+    ],
+  },
+  status: 'SUBMITTED',
+}
+
 module.exports = {
   requestedReady,
   requestedExpired,
   requestedFailed,
   requestedAborted,
+  requestedSubmitted,
 }

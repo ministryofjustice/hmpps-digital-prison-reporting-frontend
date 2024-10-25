@@ -1,139 +1,324 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import RequestedReportService from './requestedReportService'
-import UserDataStore from '../data/userDataStore'
-import { ReportType, RequestedReport, RequestStatus } from '../types/UserReports'
-
-const mockUserStore = {
-  setUserConfig: jest.fn(),
-  getUserConfig: jest.fn().mockImplementation(() => {
-    return Promise.resolve({
-      requestedReports: [],
-    })
-  }),
-  ensureConnected: jest.fn(),
-  init: jest.fn(),
-} as unknown as jest.Mocked<UserDataStore>
-
-const userId = 'userId'
+import type UserDataStore from '../data/userDataStore'
+import MockUserStoreService from '../../../test-app/mocks/mockClients/store/mockRedisStore'
+import { RequestedReport, RequestStatus } from '../types/UserReports'
+import { UserStoreConfig } from '../types/UserStore'
+import MockRequestedListData from '../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV1'
+import MockRequestedListData2 from '../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
 
 describe('RequestedReportService', () => {
-  let asyncReportsStore: RequestedReportService
+  const mockUserStore: UserDataStore = new MockUserStoreService() as unknown as UserDataStore
+  const requestedReportService: RequestedReportService = new RequestedReportService(mockUserStore)
+
+  let saveStateSpy: jest.SpyInstance<Promise<void>, [userId: string, userConfig: UserStoreConfig], any>
+  const mockDate = new Date(1466424490000)
+  jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
 
   beforeEach(() => {
-    asyncReportsStore = new RequestedReportService(mockUserStore)
-    asyncReportsStore.init(userId)
+    jest.spyOn(requestedReportService, 'getState').mockResolvedValue({
+      requestedReports: [MockRequestedListData.requestedReady, MockRequestedListData2.requestedReady],
+    } as unknown as UserStoreConfig)
+
+    saveStateSpy = jest.spyOn(requestedReportService, 'saveState')
+  })
+
+  describe('getAllReports', () => {
+    it('should return all the reports', async () => {
+      const res = await requestedReportService.getAllReports('userId')
+
+      expect(res.length).toEqual(2)
+      expect(res[0]).toEqual(MockRequestedListData.requestedReady)
+      expect(res[1]).toEqual(MockRequestedListData2.requestedReady)
+    })
+  })
+
+  describe('getAllReportsById', () => {
+    it('should return all the reports with a specific id', async () => {
+      const res = await requestedReportService.getAllReportsById(
+        MockRequestedListData.requestedReady.variantId,
+        'userId',
+      )
+
+      expect(res.length).toEqual(2)
+      expect(res[0]).toEqual(MockRequestedListData.requestedReady)
+      expect(res[1]).toEqual(MockRequestedListData2.requestedReady)
+    })
+
+    it('should return no reports when no ID in store', async () => {
+      const res = await requestedReportService.getAllReportsById('dsdfsdfsdf-2', 'userId')
+
+      expect(res.length).toEqual(0)
+    })
+  })
+
+  describe('getReportByTableId', () => {
+    it('should return all the reports with a tableId', async () => {
+      const res = await requestedReportService.getReportByTableId(
+        MockRequestedListData.requestedReady.tableId,
+        'userId',
+      )
+      expect(res).toEqual(MockRequestedListData.requestedReady)
+    })
+
+    it('should return no reports when no ID in store', async () => {
+      const res = await requestedReportService.getAllReportsById('dsdfsdfsdf-2', 'userId')
+
+      expect(res.length).toEqual(0)
+    })
+  })
+
+  describe('getReportByExecutionId', () => {
+    it('should return all the reports with a executionId', async () => {
+      const res = await requestedReportService.getReportByExecutionId(
+        MockRequestedListData.requestedReady.executionId,
+        'userId',
+      )
+      expect(res).toEqual(MockRequestedListData.requestedReady)
+    })
+
+    it('should return no reports when no ID in store', async () => {
+      const res = await requestedReportService.getAllReportsById('dsdfsdfsdf-2', 'userId')
+
+      expect(res.length).toEqual(0)
+    })
+  })
+
+  describe('removeReport', () => {
+    it('should remove a report from the list', async () => {
+      await requestedReportService.removeReport(MockRequestedListData.requestedReady.executionId, 'userId')
+
+      const userConfig = {
+        requestedReports: [MockRequestedListData2.requestedReady],
+      } as unknown as UserStoreConfig
+
+      expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
+    })
+  })
+
+  describe('updateLastViewed', () => {
+    it('should upadate a record with lastView timestamp', async () => {
+      await requestedReportService.updateLastViewed(MockRequestedListData.requestedReady.executionId, 'userId')
+
+      const lastViewedRecord = {
+        ...MockRequestedListData.requestedReady,
+        timestamp: {
+          ...MockRequestedListData.requestedReady.timestamp,
+          lastViewed: mockDate,
+        },
+      }
+
+      const userConfig = {
+        requestedReports: [lastViewedRecord, MockRequestedListData2.requestedReady],
+      } as unknown as UserStoreConfig
+
+      expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
+    })
+  })
+
+  describe('setToExpired', () => {
+    it('should set a record to expired', async () => {
+      await requestedReportService.setToExpired(MockRequestedListData.requestedReady.executionId, 'userId')
+
+      const expiredRecord = {
+        ...MockRequestedListData.requestedReady,
+        status: RequestStatus.EXPIRED,
+        timestamp: {
+          ...MockRequestedListData.requestedReady.timestamp,
+          expired: mockDate,
+        },
+      }
+
+      const userConfig = {
+        requestedReports: [expiredRecord, MockRequestedListData2.requestedReady],
+      } as unknown as UserStoreConfig
+
+      expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
+    })
+  })
+
+  describe('updateStatus', () => {
+    it('should updated the records status - PICKED', async () => {
+      await requestedReportService.updateStatus(
+        MockRequestedListData.requestedReady.executionId,
+        'userId',
+        RequestStatus.PICKED,
+      )
+
+      const pickedRecord = {
+        ...MockRequestedListData.requestedReady,
+        status: RequestStatus.PICKED,
+      }
+
+      const userConfig = {
+        requestedReports: [pickedRecord, MockRequestedListData2.requestedReady],
+      } as unknown as UserStoreConfig
+
+      expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
+    })
+
+    it('should updated the records status - FAILED', async () => {
+      await requestedReportService.updateStatus(
+        MockRequestedListData.requestedReady.executionId,
+        'userId',
+        RequestStatus.FAILED,
+        'errorMessage',
+      )
+
+      const failedRecord = {
+        ...MockRequestedListData.requestedReady,
+        status: RequestStatus.FAILED,
+        timestamp: {
+          ...MockRequestedListData.requestedReady.timestamp,
+          failed: mockDate,
+        },
+        errorMessage: 'errorMessage',
+      }
+
+      const userConfig = {
+        requestedReports: [failedRecord, MockRequestedListData2.requestedReady],
+      } as unknown as UserStoreConfig
+
+      expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
+    })
+
+    it('should updated the records status - EXPIRED', async () => {
+      await requestedReportService.updateStatus(
+        MockRequestedListData.requestedReady.executionId,
+        'userId',
+        RequestStatus.EXPIRED,
+      )
+
+      const expiredRecord = {
+        ...MockRequestedListData.requestedReady,
+        status: RequestStatus.EXPIRED,
+        timestamp: {
+          ...MockRequestedListData.requestedReady.timestamp,
+          expired: mockDate,
+        },
+      }
+
+      const userConfig = {
+        requestedReports: [expiredRecord, MockRequestedListData2.requestedReady],
+      } as unknown as UserStoreConfig
+
+      expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
+    })
+
+    it('should updated the records status - ABORTED', async () => {
+      await requestedReportService.updateStatus(
+        MockRequestedListData.requestedReady.executionId,
+        'userId',
+        RequestStatus.ABORTED,
+      )
+
+      const abortedRecord = {
+        ...MockRequestedListData.requestedReady,
+        status: RequestStatus.ABORTED,
+        timestamp: {
+          ...MockRequestedListData.requestedReady.timestamp,
+          aborted: mockDate,
+        },
+      }
+
+      const userConfig = {
+        requestedReports: [abortedRecord, MockRequestedListData2.requestedReady],
+      } as unknown as UserStoreConfig
+
+      expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
+    })
+
+    it('should updated the records status - SUBMITTED', async () => {
+      await requestedReportService.updateStatus(
+        MockRequestedListData.requestedReady.executionId,
+        'userId',
+        RequestStatus.SUBMITTED,
+      )
+
+      const submittedRecord = {
+        ...MockRequestedListData.requestedReady,
+        status: RequestStatus.SUBMITTED,
+        timestamp: {
+          ...MockRequestedListData.requestedReady.timestamp,
+          requested: mockDate,
+        },
+      }
+
+      const userConfig = {
+        requestedReports: [submittedRecord, MockRequestedListData2.requestedReady],
+      } as unknown as UserStoreConfig
+
+      expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
+    })
+
+    it('should updated the records status - FINISHED', async () => {
+      await requestedReportService.updateStatus(
+        MockRequestedListData.requestedReady.executionId,
+        'userId',
+        RequestStatus.FINISHED,
+      )
+
+      const { reportId, variantId, tableId } = MockRequestedListData.requestedReady
+
+      const finishedRecord = {
+        ...MockRequestedListData.requestedReady,
+        status: RequestStatus.FINISHED,
+        timestamp: {
+          ...MockRequestedListData.requestedReady.timestamp,
+          completed: mockDate,
+        },
+        url: {
+          ...MockRequestedListData.requestedReady.url,
+          report: {
+            fullUrl: `http://localhost:3010/async-reports/${reportId}/${variantId}/request/${tableId}/report`,
+            pathname: `/async-reports/${reportId}/${variantId}/request/${tableId}/report`,
+          },
+        },
+      }
+
+      const userConfig = {
+        requestedReports: [finishedRecord, MockRequestedListData2.requestedReady],
+      } as unknown as UserStoreConfig
+
+      expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
+    })
+
+    it('should updated the records timestamp if no status', async () => {
+      await requestedReportService.updateStatus(MockRequestedListData.requestedReady.executionId, 'userId')
+
+      const lastviewedTsRecord = {
+        ...MockRequestedListData.requestedReady,
+        status: RequestStatus.FINISHED,
+        timestamp: {
+          ...MockRequestedListData.requestedReady.timestamp,
+          lastViewed: mockDate,
+        },
+      }
+
+      const userConfig = {
+        requestedReports: [lastviewedTsRecord, MockRequestedListData2.requestedReady],
+      } as unknown as UserStoreConfig
+
+      expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
+    })
   })
 
   describe('addReport', () => {
-    it('should add a report to the store', async () => {
-      const getStateSpy = jest.spyOn(asyncReportsStore, 'getState')
-      const saveStateSpy = jest.spyOn(asyncReportsStore, 'saveState')
+    it('should return all the reports', async () => {
+      await requestedReportService.addReport(
+        'userId',
+        MockRequestedListData2.requestedSubmitted as unknown as RequestedReport,
+      )
 
-      const requestData: RequestedReport = {
-        reportId: 'reportId-1',
-        variantId: 'variantId-1',
-        executionId: 'ex1a2s3d4f5g6h7j8k',
-        tableId: 'dfsdf',
-        name: 'vName',
-        variantName: 'vName',
-        reportName: 'rName',
-        template: 'list',
-        type: ReportType.REPORT,
-        description: 'description',
-        status: RequestStatus.SUBMITTED,
-        dataProductDefinitionsPath: undefined,
-        filters: {
-          data: {
-            field1: 'value1.2',
-            'field3.start': '2003-02-01',
-            'field3.end': '2006-05-04',
-          },
-          queryString: 'field1=value1.2&field3.start=2003-02-01&field3.end=2006-05-04',
-        },
-        sortBy: {
-          data: {
-            sortColumn: 'field1',
-            sortedAsc: 'true',
-          },
-          queryString: 'sortColumn=field1&sortedAsc=true',
-        },
-        url: {
-          origin: 'origin',
-          request: {
-            fullUrl: undefined,
-            pathname: 'pathname',
-            search: 'search',
-          },
-          polling: {
-            fullUrl: 'originpathname/ex1a2s3d4f5g6h7j8k',
-            pathname: 'pathname/ex1a2s3d4f5g6h7j8k',
-          },
-          report: {},
-        },
-        query: {
-          data: {
-            'filters.field1': 'value1.2',
-            'filters.field3.start': '2003-02-01',
-            'filters.field3.end': '2006-05-04',
-            sortColumn: 'field1',
-            sortedAsc: 'true',
-          },
-          summary: [
-            {
-              name: 'field1',
-              value: 'value1.2',
-            },
-            {
-              name: 'field3.start',
-              value: '2003-02-01',
-            },
-            {
-              name: 'field3.end',
-              value: '2006-05-04',
-            },
-            {
-              name: 'sortColumn',
-              value: 'field1',
-            },
-            {
-              name: 'sortedAsc',
-              value: 'true',
-            },
-          ],
-        },
-        timestamp: {},
-      }
-      await asyncReportsStore.addReport(userId, requestData)
+      const userConfig = {
+        requestedReports: [
+          MockRequestedListData2.requestedSubmitted,
+          MockRequestedListData.requestedReady,
+          MockRequestedListData2.requestedReady,
+        ],
+      } as unknown as UserStoreConfig
 
-      expect(getStateSpy).toHaveBeenCalledTimes(1)
-      expect(saveStateSpy).toHaveBeenCalledTimes(1)
-    })
-  })
-
-  // TODO: Implement this test
-  describe('getReport', () => {
-    it('should get a report from the user store', () => {
-      expect(true)
-    })
-  })
-
-  // TODO: Implement this test
-  describe('getAllReports', () => {
-    it('should get all reports from the user store', () => {
-      expect(true)
-    })
-  })
-
-  // TODO: Implement this test
-  describe('updateStatus', () => {
-    it('should update a reports status', () => {
-      expect(true)
-    })
-  })
-
-  // TODO: Implement this test
-  describe('updateDataByStatus', () => {
-    it('should update a reports data based on its status', () => {
-      expect(true)
+      expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })
   })
 })

@@ -104,7 +104,7 @@ const mapBookmarkIdsToDefinition = async (
           definition = await services.reportingService.getDefinition(
             token,
             bookmark.reportId,
-            bookmark.variantId,
+            bookmark.variantId || bookmark.id,
             <string>definitionPath,
           )
         }
@@ -121,7 +121,7 @@ const mapBookmarkIdsToDefinition = async (
         if (definition) {
           bookmarkData.push({
             reportId: bookmark.reportId,
-            id: bookmark.variantId,
+            id: bookmark.variantId || bookmark.id,
             reportName: definition.name,
             name: definition.variant.name,
             description: definition.variant.description || definition.description,

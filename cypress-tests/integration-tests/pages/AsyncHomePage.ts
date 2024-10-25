@@ -46,7 +46,7 @@ export default class HomePage {
 
   bookmarksTab = (): PageElement => cy.get(`#tab_my-bookmarks-tab`)
 
-  bookmarkTable = (): PageElement => cy.xpath(`//*[@id="dpr-bookmarks-list"]/div/table`)
+  bookmarkTable = (): PageElement => cy.xpath(`//*[@id="dpr-bookmarks-list"]/div/table`) //* [@id="dpr-bookmarks-list"]/div/table
 
   bookmarkRow = (): PageElement => cy.xpath(`//*[@id="dpr-bookmarks-list"]/div/table/tbody/tr`)
 

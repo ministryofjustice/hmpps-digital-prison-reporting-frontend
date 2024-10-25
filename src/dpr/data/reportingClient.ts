@@ -102,7 +102,7 @@ export default class ReportingClient {
     }
     return this.restClient
       .get({
-        path: `/${definitionName}/${variantName}/${fieldName}`,
+        path: `/reports/${definitionName}/${variantName}/${fieldName}`,
         token,
         query,
       })

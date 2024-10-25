@@ -282,7 +282,7 @@ describe('reportingClient', () => {
 
       fakeReportingApi
         .get(
-          `/${definitionName}/${variantName}/${fieldName}?dataProductDefinitionsPath=${definitionsPath}&prefix=${prefix}`,
+          `/reports/${definitionName}/${variantName}/${fieldName}?dataProductDefinitionsPath=${definitionsPath}&prefix=${prefix}`,
         )
         .reply(200, {})
 

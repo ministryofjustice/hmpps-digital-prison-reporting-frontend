@@ -47,10 +47,4 @@ describe('DefinitionUtils tests', () => {
       expect(fieldDisplay).toEqual('field8')
     })
   })
-
-  describe('getField', () => {
-    it('should get the specific field by ID', () => {
-      //
-    })
-  })
 })

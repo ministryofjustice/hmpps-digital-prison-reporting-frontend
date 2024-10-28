@@ -28,6 +28,7 @@ export const initDataSources = ({
     reportVariantId,
     dataProductDefinitionsPath,
   )
+
   const reportDataPromise = reportDefinitionPromise.then(
     (definition: components['schemas']['SingleVariantReportDefinition']) => {
       const { variant } = definition
@@ -41,6 +42,7 @@ export const initDataSources = ({
       })
     },
   )
+
   const summaryDataPromise = reportDefinitionPromise.then(
     (definition: components['schemas']['SingleVariantReportDefinition']) => {
       if (!definition.variant.summaries) {

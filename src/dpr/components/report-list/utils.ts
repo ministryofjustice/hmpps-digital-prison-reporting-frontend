@@ -121,7 +121,6 @@ function renderList(
 
         const filterOptions: FilterOptions = FilterUtils.getFilterOptions(
           variantDefinition,
-          reportQuery.filters,
           reportQuery,
           createUrlForParameters,
           dynamicAutocompleteEndpoint,

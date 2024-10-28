@@ -267,4 +267,20 @@ describe('AsyncFiltersUtils', () => {
       expect(result).toEqual(expectedResult)
     })
   })
+
+  describe('getSortByFromDefinition', () => {
+    it('should return an empty array when no options are set', async () => {
+      const res = await AsyncFiltersUtils.getSortByFromDefinition([])
+
+      expect(res).toEqual([])
+    })
+  })
+
+  describe('calcDates', () => {
+    it('should return undefined values when no duration value is set', async () => {
+      const res = await AsyncFiltersUtils.calcDates('')
+
+      expect(res).toEqual({})
+    })
+  })
 })

@@ -70,14 +70,14 @@ export default class IconButtonList extends DprClientClass {
 
   initDownloadButtonEvent() {
     const hashFragment = 'download'
-    if (window.location.hash === `#${hashFragment}`) {
+    if (window.location.href.indexOf(hashFragment) > -1) {
       this.downloadButton.setAttribute('disabled', '')
     }
 
     this.downloadButton.addEventListener('click', () => {
-      if (window.location.hash !== `#${hashFragment}`) {
+      if (window.location.href.indexOf(hashFragment) === -1) {
         this.downloadButton.setAttribute('disabled', '')
-        this.setHashAndReload(hashFragment, true)
+        window.location = `${window.location.pathname}/download${window.location.search}`
       }
     })
   }
@@ -94,13 +94,6 @@ export default class IconButtonList extends DprClientClass {
           window.location = href
         }
       })
-    }
-  }
-
-  setHashAndReload(hashFragment, reload) {
-    window.location.hash = hashFragment
-    if (reload) {
-      window.location.reload()
     }
   }
 }

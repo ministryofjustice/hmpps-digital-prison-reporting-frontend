@@ -41,4 +41,14 @@ export default class DashboardService {
   ): Promise<Dict<string>> {
     return this.dashboardClient.getAsyncStatus(token, reportId, dashboardId, executionId, dataProductDefinitionsPath)
   }
+
+  async getAsyncDashboard(
+    token: string,
+    reportId: string,
+    dashboardId: string,
+    tableId: string,
+    query: Dict<string | number>,
+  ): Promise<Array<Dict<string>>> {
+    return this.dashboardClient.getAsyncDashboard(token, reportId, dashboardId, tableId, query)
+  }
 }

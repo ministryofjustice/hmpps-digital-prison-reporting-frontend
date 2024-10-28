@@ -3,63 +3,107 @@ import { ChartCardData } from '../../types/Charts'
 import ChartCardUtils from '../chart-card/utils'
 import MetricsUtils from '../../utils/metricsUtils'
 import { DashboardDefinition, DashboardMetricDefinition } from '../../types/Dashboards'
+import { MetricsDataResponse } from '../../types/Metrics'
 
 export default {
+  renderAsyncDashboard: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
+    const token = res.locals.user?.token ? res.locals.user.token : 'token'
+    const { reportId, id, tableId } = req.params
+    const { dataProductDefinitionsPath } = req.query
+
+    // Dashboard Definition,
+    const definition: DashboardDefinition = await services.dashboardService.getDefinition(
+      token,
+      id,
+      reportId,
+      dataProductDefinitionsPath,
+    )
+
+    // The metrics Data
+    const dashboardMetricsData: MetricsDataResponse[] = await services.dashboardService.getAsyncDashboard(
+      token,
+      reportId,
+      id,
+      tableId,
+      {
+        dataProductDefinitionsPath,
+      },
+    )
+
+    // Match metric data with its defintion
+    const dashboardMetricsDataWithDefinitions = await Promise.all(
+      dashboardMetricsData.map(async (metricData: MetricsDataResponse) => {
+        const metricDefinition = await services.metricService.getDefinition(
+          token,
+          metricData.id,
+          reportId,
+          <string>dataProductDefinitionsPath,
+        )
+
+        return {
+          definition: metricDefinition,
+          metric: metricData,
+        }
+      }),
+    )
+
+    // Create Visualisation data with metric data and definition
+    const metrics: ChartCardData[] = dashboardMetricsDataWithDefinitions.map((metric) => {
+      return ChartCardUtils.getChartData(metric)
+    })
+
+    return {
+      title: definition.name,
+      description: definition.description,
+      metrics,
+    }
+  },
+
   requestDashboardDataSync: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
-    try {
-      const metrics = JSON.parse(req.body.metrics)
-      const { title, description } = req.body
-      const metricsData = await Promise.all(
-        metrics.map(async (metric: DashboardMetricDefinition) => {
-          return MetricsUtils.getMetricData({
-            id: metric.id,
-            req,
-            res,
-            services,
-            next,
-          })
-        }),
-      )
+    const metrics = JSON.parse(req.body.metrics)
+    const { title, description } = req.body
+    const metricsData = await Promise.all(
+      metrics.map(async (metric: DashboardMetricDefinition) => {
+        return MetricsUtils.getMetricData({
+          id: metric.id,
+          req,
+          res,
+          services,
+          next,
+        })
+      }),
+    )
 
-      const chartsData: ChartCardData[] = metricsData.map((metric) => {
-        return ChartCardUtils.getChartData(metric)
-      })
+    const chartsData: ChartCardData[] = metricsData.map((metric) => {
+      return ChartCardUtils.getChartData(metric)
+    })
 
-      return {
-        title,
-        description,
-        metrics: chartsData,
-      }
-    } catch (error) {
-      next(error)
-      return {}
+    return {
+      title,
+      description,
+      metrics: chartsData,
     }
   },
 
   getDashboardDataSync: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
-    try {
-      const token = res.locals.user?.token ? res.locals.user.token : 'token'
-      const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
-      const { dashboardId: id, dpdId } = req.params
-      const { dataProductDefinitionsPath } = req.query
+    const token = res.locals.user?.token ? res.locals.user.token : 'token'
+    const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+    const { dashboardId: id, dpdId } = req.params
+    const { dataProductDefinitionsPath } = req.query
 
-      const definition: DashboardDefinition = await services.dashboardService.getDefinition(
-        token,
-        id,
-        dpdId,
-        dataProductDefinitionsPath,
-      )
+    const definition: DashboardDefinition = await services.dashboardService.getDefinition(
+      token,
+      id,
+      dpdId,
+      dataProductDefinitionsPath,
+    )
 
-      return {
-        definition,
-        id,
-        dpdId,
-        dataProductDefinitionsPath,
-        csrfToken,
-      }
-    } catch (error) {
-      next(error)
-      return {}
+    return {
+      definition,
+      id,
+      dpdId,
+      dataProductDefinitionsPath,
+      csrfToken,
     }
   },
 }

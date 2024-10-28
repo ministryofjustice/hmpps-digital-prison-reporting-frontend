@@ -84,6 +84,14 @@ const mockDashboardDefinition7 = {
   ],
 }
 
+const mockDashboardDefinition8 = {
+  id: 'test-dashboard-8',
+  name: 'Test Dashboard 8',
+  loadType: 'async',
+  description: 'Async Dashboard Testing',
+  metrics: [{ id: 'test-metric-id-1' }, { id: 'test-metric-id-2' }, { id: 'test-metric-id-3' }],
+}
+
 module.exports = [
   mockDashboardDefinition1,
   mockDashboardDefinition2,
@@ -92,4 +100,5 @@ module.exports = [
   mockDashboardDefinition5,
   mockDashboardDefinition6,
   mockDashboardDefinition7,
+  mockDashboardDefinition8,
 ]

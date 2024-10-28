@@ -76,12 +76,12 @@ const mockMetricDefinition3 = {
       group: true,
     },
     {
-      name: 'missing_ethnicity_percentage',
+      name: 'no_of_prisoners_without',
       display: 'Missing Ethnicity',
       chart: ['bar'],
     },
     {
-      name: 'present_ethnicity_percentage',
+      name: 'no_of_prisoners',
       display: 'With Ethnicity',
       chart: ['bar'],
     },

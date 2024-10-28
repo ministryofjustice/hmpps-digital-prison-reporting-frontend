@@ -47,6 +47,24 @@ export default class DashboardClient {
       .then((response) => <Dict<string>>response)
   }
 
+  getAsyncDashboard(
+    token: string,
+    reportId: string,
+    dashboardId: string,
+    tableId: string,
+    query: Dict<string | number>,
+  ): Promise<Array<Dict<string>>> {
+    logger.info(`Dashboard client: Get dashboardId:${dashboardId} data`)
+
+    return this.restClient
+      .get({
+        path: `/reports/${reportId}/dashboards/${dashboardId}/tables/${tableId}/result`,
+        token,
+        query,
+      })
+      .then((response) => <Array<Dict<string>>>response)
+  }
+
   getAsyncStatus(
     token: string,
     reportId: string,

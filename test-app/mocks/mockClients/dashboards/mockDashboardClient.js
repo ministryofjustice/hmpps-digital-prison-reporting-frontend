@@ -1,6 +1,7 @@
 /* eslint-disable class-methods-use-this */
 const dashboardDefinitions = require('./mockDashboardDefinition')
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
+const mockDashboardData = require('./mockDashboardData')
 
 class MockDashboardClient {
   constructor() {
@@ -40,6 +41,12 @@ class MockDashboardClient {
       resolve({
         cancellationSucceeded: true,
       })
+    })
+  }
+
+  async getAsyncDashboard() {
+    return new Promise((resolve) => {
+      resolve(mockDashboardData)
     })
   }
 

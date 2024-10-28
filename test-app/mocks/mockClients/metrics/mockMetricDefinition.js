@@ -41,8 +41,8 @@ const mockMetricDefinition1 = {
 const mockMetricDefinition2 = {
   id: 'test-metric-id-2',
   name: 'Missing Ethnicity By Establishment Metric',
-  display: 'Missing Ethnicity By Establishment Metric',
-  description: 'Missing Ethnicity By Establishment Metric',
+  display: 'Percentage Missing Ethnicity By Establishment Metric',
+  description: 'Percentage Missing Ethnicity By Establishment Metric',
   specification: [
     {
       name: 'establishment_id',
@@ -52,16 +52,40 @@ const mockMetricDefinition2 = {
     {
       name: 'missing_ethnicity_percentage',
       display: '% Missing Ethnicity',
-      chart: ['doughnut', 'bar'],
+      chart: ['doughnut'],
       unit: 'percentage',
     },
     {
       name: 'present_ethnicity_percentage',
       display: '% With Ethnicity',
       unit: 'percentage',
-      chart: ['doughnut', 'bar'],
+      chart: ['doughnut'],
     },
   ],
 }
 
-module.exports = [mockMetricDefinition1, mockMetricDefinition2]
+const mockMetricDefinition3 = {
+  id: 'test-metric-id-3',
+  name: 'Missing Ethnicity By Establishment',
+  display: 'Missing Ethnicity By Establishment',
+  description: 'Missing Ethnicity By Establishment',
+  specification: [
+    {
+      name: 'establishment_id',
+      display: 'Establishment ID',
+      group: true,
+    },
+    {
+      name: 'missing_ethnicity_percentage',
+      display: 'Missing Ethnicity',
+      chart: ['bar'],
+    },
+    {
+      name: 'present_ethnicity_percentage',
+      display: 'With Ethnicity',
+      chart: ['bar'],
+    },
+  ],
+}
+
+module.exports = [mockMetricDefinition1, mockMetricDefinition2, mockMetricDefinition3]

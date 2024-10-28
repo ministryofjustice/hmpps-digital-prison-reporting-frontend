@@ -1,11 +1,11 @@
-import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
-import { ChartCardData } from '../types/Charts'
-import ChartCardUtils from '../components/chart-card/utils'
-import MetricsUtils from './metricsUtils'
-import { DashboardDefinition, DashboardMetricDefinition } from '../types/Dashboards'
+import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
+import { ChartCardData } from '../../types/Charts'
+import ChartCardUtils from '../chart-card/utils'
+import MetricsUtils from '../../utils/metricsUtils'
+import { DashboardDefinition, DashboardMetricDefinition } from '../../types/Dashboards'
 
 export default {
-  requestDashboardData: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
+  requestDashboardDataSync: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
     try {
       const metrics = JSON.parse(req.body.metrics)
       const { title, description } = req.body
@@ -28,7 +28,7 @@ export default {
       return {
         title,
         description,
-        data: chartsData,
+        metrics: chartsData,
       }
     } catch (error) {
       next(error)
@@ -36,7 +36,7 @@ export default {
     }
   },
 
-  getDashboardData: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
+  getDashboardDataSync: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
     try {
       const token = res.locals.user?.token ? res.locals.user.token : 'token'
       const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'

@@ -1,9 +1,9 @@
 import { NextFunction, Response, Request } from 'express'
-import { ChartType, ChartUnit } from '../types/Charts'
-import { MetricsDataResponse, MetricsDefinition } from '../types/Metrics'
-import { Services } from '../types/Services'
-import DashboardUtils from './dashboardUtils'
-import { DashboardDefinition } from '../types/Dashboards'
+import { ChartType, ChartUnit } from '../../types/Charts'
+import { MetricsDataResponse, MetricsDefinition } from '../../types/Metrics'
+import { Services } from '../../types/Services'
+import DashboardUtils from './utils'
+import { DashboardDefinition } from '../../types/Dashboards'
 
 describe('DashboardUtils', () => {
   let mockServices: Services

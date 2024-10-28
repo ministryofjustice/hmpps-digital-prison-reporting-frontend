@@ -172,7 +172,27 @@ export default function routes({
     }
   }
 
-  const getReportHandler: RequestHandler = async (req, res, next) => {
+  const viewReportHandler: RequestHandler = async (req, res, next) => {
+    try {
+      const reportRenderData = await AsyncReportUtils.getReport({
+        req,
+        res,
+        services,
+        next,
+      })
+      res.render(`${templatePath}async-report`, {
+        layoutPath,
+        ...reportRenderData,
+      })
+    } catch (error) {
+      req.body.title = 'Failed to retrieve report'
+      req.body.errorDescription = 'We were unable to retrieve this report for the following reason:'
+      req.body.error = error
+      next()
+    }
+  }
+
+  const viewDashboardHandler: RequestHandler = async (req, res, next) => {
     try {
       const reportRenderData = await AsyncReportUtils.getReport({
         req,
@@ -232,12 +252,15 @@ export default function routes({
   router.post('/getStatus/', getStatusHandler)
   router.post('/cancelRequest/', cancelRequestHandler, asyncErrorHandler)
 
-  // 3 - REPORT
+  // 3 - VIEw REPORT
   const viewReportPaths = [
-    '/async/:type/:reportId/:id/request/:tableId/report',
-    '/async/:type/:reportId/:id/request/:tableId/report/download',
+    '/async/report/:reportId/:id/request/:tableId/report',
+    '/async/report/:reportId/:id/request/:tableId/report/download',
   ]
-  router.get(viewReportPaths, getReportHandler, asyncErrorHandler)
+  router.get(viewReportPaths, viewReportHandler, asyncErrorHandler)
+
+  // 3. VIEW DASHBOARD
+  router.get('/async/dashboard/:reportId/:id/request/:tableId/report', viewDashboardHandler, asyncErrorHandler)
 
   // Homepage widget routes
   router.post('/removeRequestedItem/', removeRequestedItemHandler, asyncErrorHandler)

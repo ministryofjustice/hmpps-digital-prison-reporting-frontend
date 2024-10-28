@@ -1,16 +1,12 @@
 {% from "../components/chart-card/view.njk" import dprChartCard %}
+{% from "../components/dashboard/view.njk" import dprDashboard %}
 
 {% extends layoutPath %}
 {% set mainClasses = "app-container govuk-body" %}
 {% block content %}
-  <h1>{{ title }}</h1>
-  <p class="govuk-body">{{ description }}</p>
-  
-  {% for chart in data %}
-    <div class="govuk-!-margin-bottom-6 govuk-!-padding-bottom-6">
-      {{ dprChartCard(chart) }}
-    </div>
-  {% endfor %}
-
-
+  {{ dprDashboard({
+    title: title,
+    description: description,
+    metrics: metrics
+  }) }}
 {% endblock %}

@@ -1,5 +1,5 @@
 import type { RequestHandler, Router } from 'express'
-import DashboardUtils from '../utils/dashboardUtils'
+import DashboardUtils from '../components/dashboard/utils'
 import { Services } from '../types/Services'
 
 export default function routes({
@@ -26,7 +26,7 @@ export default function routes({
   }
 
   const dashboardRequestHandler: RequestHandler = async (req, res, next) => {
-    const dashboardData = await DashboardUtils.requestDashboardData({ req, res, next, services })
+    const dashboardData = await DashboardUtils.requestDashboardDataSync({ req, res, next, services })
     req.params = {
       ...req.params,
       dashboardData: JSON.stringify(dashboardData),
@@ -36,7 +36,7 @@ export default function routes({
 
   const loadDashboardHandler: RequestHandler = async (req, res, next) => {
     try {
-      const dashboardDefinition = await DashboardUtils.getDashboardData({ req, res, next, services })
+      const dashboardDefinition = await DashboardUtils.getDashboardDataSync({ req, res, next, services })
 
       res.render(`${templatePath}dashboard-loading`, {
         ...dashboardDefinition,

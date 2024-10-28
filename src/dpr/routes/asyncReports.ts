@@ -233,7 +233,11 @@ export default function routes({
   router.post('/cancelRequest/', cancelRequestHandler, asyncErrorHandler)
 
   // 3 - REPORT
-  router.get('/async/:type/:reportId/:id/request/:tableId/report', getReportHandler, asyncErrorHandler)
+  const viewReportPaths = [
+    '/async/:type/:reportId/:id/request/:tableId/report',
+    '/async/:type/:reportId/:id/request/:tableId/report/download',
+  ]
+  router.get(viewReportPaths, getReportHandler, asyncErrorHandler)
 
   // Homepage widget routes
   router.post('/removeRequestedItem/', removeRequestedItemHandler, asyncErrorHandler)

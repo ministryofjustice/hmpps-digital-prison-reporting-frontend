@@ -6,7 +6,7 @@ import { UserStoreConfig } from '../types/UserStore'
 import { ReportType } from '../types/UserReports'
 import { BookmarkStoreData } from '../types/Bookmark'
 
-describe('RequestedReportService', () => {
+describe('BookmarkService', () => {
   const mockUserStore: UserDataStore = new MockUserStoreService() as unknown as UserDataStore
   const bookmarkService: BookmarkService = new BookmarkService(mockUserStore)
 
@@ -22,19 +22,19 @@ describe('RequestedReportService', () => {
     bm1 = {
       reportId: 'reportId',
       variantId: 'variantId',
-      reportType: ReportType.REPORT,
+      type: ReportType.REPORT,
     }
 
     bm2 = {
       reportId: 'reportId',
       id: 'just-id',
-      reportType: ReportType.REPORT,
+      type: ReportType.REPORT,
     }
 
     bm3 = {
       reportId: 'reportId',
       id: 'dashboard-id',
-      reportType: ReportType.DASHBOARD,
+      type: ReportType.DASHBOARD,
     }
 
     jest.spyOn(bookmarkService, 'getState').mockResolvedValue({
@@ -57,14 +57,14 @@ describe('RequestedReportService', () => {
 
   describe('addBookmark', () => {
     it('should add a bookmark', async () => {
-      await bookmarkService.addBookmark('userId', 'reportId', 'new-bm-id')
+      await bookmarkService.addBookmark('userId', 'reportId', 'new-bm-id', ReportType.REPORT)
 
       const userCongfig = {
         bookmarks: [
           {
             reportId: 'reportId',
             id: 'new-bm-id',
-            reportType: ReportType.REPORT,
+            type: ReportType.REPORT,
           },
           bm1,
           bm2,
@@ -83,7 +83,7 @@ describe('RequestedReportService', () => {
           {
             reportId: 'reportId',
             id: 'new-report-bm-id',
-            reportType: ReportType.REPORT,
+            type: ReportType.REPORT,
           },
           bm1,
           bm2,
@@ -102,7 +102,7 @@ describe('RequestedReportService', () => {
           {
             reportId: 'reportId',
             id: 'new-dashboard-bm-id',
-            reportType: ReportType.DASHBOARD,
+            type: ReportType.DASHBOARD,
           },
           bm1,
           bm2,
@@ -114,7 +114,7 @@ describe('RequestedReportService', () => {
     })
 
     it('should not add a bookmark if already bookmarked, with variantId', async () => {
-      await bookmarkService.addBookmark('userId', 'reportId', 'variantId')
+      await bookmarkService.addBookmark('userId', 'reportId', 'variantId', ReportType.REPORT)
 
       const userCongfig = {
         bookmarks: [bm1, bm2, bm3],
@@ -124,7 +124,7 @@ describe('RequestedReportService', () => {
     })
 
     it('should not add a bookmark if already bookmarked, with id', async () => {
-      await bookmarkService.addBookmark('userId', 'reportId', 'just-id')
+      await bookmarkService.addBookmark('userId', 'reportId', 'just-id', ReportType.DASHBOARD)
 
       const userCongfig = {
         bookmarks: [bm1, bm2, bm3],
@@ -170,17 +170,18 @@ describe('RequestedReportService', () => {
 
   describe('createBookMarkToggleHtml', () => {
     it('should return a bookmarkToggle Component', async () => {
-      const res = await bookmarkService.createBookMarkToggleHtml(
-        'userId',
-        'report-id',
-        'variant-id',
-        'csrfToken',
-        'unique-id',
-      )
+      const res = await bookmarkService.createBookMarkToggleHtml({
+        userId: 'userId',
+        reportId: 'report-id',
+        id: 'variant-id',
+        csrfToken: 'csrfToken',
+        ctxId: 'context-id',
+        reportType: ReportType.REPORT,
+      })
 
       expect(res).toEqual(`<div class='dpr-bookmark dpr-bookmark-table' data-dpr-module="bookmark-toggle">
-  <input class="bookmark-input" aria-label="bookmark toggle" type='checkbox' id='report-id-variant-id-unique-id' data-report-id='report-id' data-variant-id='variant-id' data-csrf-token='csrfToken' null />
-  <label id="variant-id-report-id-unique-id-bookmark-label" for='report-id-variant-id-unique-id'><span class="dpr-bookmark-label govuk-body-xs">Add Bookmark</span></label>
+  <input class="bookmark-input" aria-label="bookmark toggle" type='checkbox' id='report-id-variant-id-context-id' data-report-id='report-id' data-id='variant-id' data-report-type='report' data-csrf-token='csrfToken' null />
+  <label id="variant-id-report-id-context-id-bookmark-label" for='report-id-variant-id-context-id'><span class="dpr-bookmark-label govuk-body-xs">Add Bookmark</span></label>
 </div>`)
     })
   })

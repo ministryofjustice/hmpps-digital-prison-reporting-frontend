@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Response, Request } from 'express'
 import { ChartType, ChartUnit } from '../../types/Charts'
 import { MetricsDataResponse, MetricsDefinition } from '../../types/Metrics'
@@ -11,6 +12,10 @@ import DashboardClient from '../../data/dashboardClient'
 import MockDashboardClient from '../../../../test-app/mocks/mockClients/dashboards/mockDashboardClient'
 import MockMetricClient from '../../../../test-app/mocks/mockClients/metrics/mockMetricClient'
 import MetricsClient from '../../data/metricsClient'
+import RecentlyViewedStoreService from '../../services/recentlyViewedService'
+import RequestedReportService from '../../services/requestedReportService'
+import MockDashboardRequestData from '../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'
+import { RequestedReport } from '../../types/UserReports'
 
 describe('DashboardUtils', () => {
   let mockServices: Services
@@ -297,6 +302,10 @@ describe('DashboardUtils', () => {
     let dashboardService: DashboardService
     let metricService: MetricsService
     let services: Services
+    let recentlyViewedService: RecentlyViewedStoreService
+    let requestedReportService: RequestedReportService
+    let updateLastViewedSpy: jest.SpyInstance<Promise<void>, [id: string, userId: string], any>
+    let setRecentlyViewedSpy: jest.SpyInstance<Promise<void>, [reportData: RequestedReport, userId: string], any>
 
     beforeEach(() => {
       dashboardClient = new MockDashboardClient() as unknown as DashboardClient
@@ -304,6 +313,18 @@ describe('DashboardUtils', () => {
 
       metricsClient = new MockMetricClient() as unknown as MetricsClient
       metricService = new MetricsService(metricsClient)
+
+      recentlyViewedService = {
+        setRecentlyViewed: jest.fn(),
+      } as unknown as RecentlyViewedStoreService
+
+      requestedReportService = {
+        getReportByTableId: jest.fn().mockResolvedValue(MockDashboardRequestData.readyDashboard),
+        updateLastViewed: jest.fn(),
+      } as unknown as RequestedReportService
+
+      setRecentlyViewedSpy = jest.spyOn(recentlyViewedService, 'setRecentlyViewed')
+      updateLastViewedSpy = jest.spyOn(requestedReportService, 'updateLastViewed')
 
       req = {
         params: {
@@ -313,9 +334,20 @@ describe('DashboardUtils', () => {
         query: {},
       } as unknown as Request
 
+      res = {
+        locals: {
+          user: {
+            token: 'ToK3n',
+            uuid: 'Us3rId',
+          },
+        },
+      } as unknown as Response
+
       services = {
         dashboardService,
         metricService,
+        requestedReportService,
+        recentlyViewedService,
       } as unknown as Services
     })
 
@@ -343,6 +375,17 @@ describe('DashboardUtils', () => {
         expect(result.metrics[2].data.chart.length).toEqual(1)
         expect(result.metrics[2].data.table.head.length).toEqual(3)
         expect(result.metrics[2].title).toEqual('Missing Ethnicity By Establishment')
+      })
+
+      it('should mark the dashboard as recently viewed', async () => {
+        await DashboardUtils.renderAsyncDashboard({
+          req,
+          res,
+          services,
+        })
+
+        expect(updateLastViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard.executionId, 'Us3rId')
+        expect(setRecentlyViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard, 'Us3rId')
       })
     })
   })

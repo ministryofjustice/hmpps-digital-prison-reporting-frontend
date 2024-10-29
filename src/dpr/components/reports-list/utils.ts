@@ -98,13 +98,14 @@ export default {
           bookmarkColumn = {}
         } else {
           bookmarkColumn = {
-            html: await services.bookmarkService.createBookMarkToggleHtml(
+            html: await services.bookmarkService.createBookMarkToggleHtml({
               userId,
               reportId,
               id,
               csrfToken,
-              'reports-list',
-            ),
+              ctxId: 'reports-list',
+              reportType: type,
+            }),
           }
         }
 

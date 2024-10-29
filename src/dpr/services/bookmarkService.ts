@@ -13,26 +13,20 @@ export default class BookmarkService extends UserStoreService {
     return userConfig.bookmarks
   }
 
-  async addBookmark(userId: string, reportId: string, id: string, type?: ReportType) {
-    console.log('Bookmark Service: addBookmark', { userId, reportId, id, type })
+  async addBookmark(userId: string, reportId: string, id: string, type: ReportType) {
     const userConfig = await this.getState(userId)
-    const reportType = type || ReportType.REPORT
     if (!this.isBookmarkedCheck(userConfig, id)) {
-      console.log('Bookmark Service: addBookmark unshift')
-      userConfig.bookmarks.unshift({ reportId, id, reportType })
+      userConfig.bookmarks.unshift({ reportId, id, type })
     }
     await this.saveState(userId, userConfig)
   }
 
   async removeBookmark(userId: string, id: string) {
-    console.log('Bookmark Service: removeBookmark', { userId, id })
     const userConfig = await this.getState(userId)
     const index = userConfig.bookmarks.findIndex((bookmark) => {
       return bookmark.variantId === id || bookmark.id === id
     })
-    console.log('Bookmark Service: removeBookmark', { index })
     if (index >= 0) {
-      console.log('Bookmark Service: removeBookmark splice', { index })
       userConfig.bookmarks.splice(index, 1)
     }
     await this.saveState(userId, userConfig)

@@ -5,6 +5,7 @@ import MetricsUtils from '../../utils/metricsUtils'
 import { DashboardDefinition, DashboardMetricDefinition } from '../../types/Dashboards'
 import { MetricsDataResponse } from '../../types/Metrics'
 import { RequestedReport } from '../../types/UserReports'
+import { Services } from '../../types/Services'
 
 export default {
   renderAsyncDashboard: async ({ req, res, services, next }: AsyncReportUtilsParams) => {

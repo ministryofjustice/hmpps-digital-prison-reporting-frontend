@@ -23,53 +23,50 @@ export default class BookmarkToggle extends DprClientClass {
 
       bookmarkToggle.addEventListener('change', async () => {
         if (bookmarkToggle.checked) {
-          await this.addBookmark(bookmarkToggle, id, reportId, csrfToken)
+          await this.addBookmark(bookmarkToggle, id, reportId, reportType, csrfToken)
         } else {
-          await this.removeBookmark(bookmarkToggle, id, reportId, csrfToken)
+          await this.removeBookmark(bookmarkToggle, id, reportId, reportType, csrfToken)
         }
       })
 
       this.bookmarkColumn.addEventListener('keyup', async (e) => {
         if (e.key === 'Enter') {
-          await this.handleBookmarkChange(bookmarkToggle, id, reportId, csrfToken)
+          await this.handleBookmarkChange(bookmarkToggle, id, reportId, reportType, csrfToken)
         }
       })
     })
   }
 
-  async addBookmark(bookmarkToggle, id, reportId, csrfToken) {
+  async addBookmark(bookmarkToggle, id, reportId, reportType, csrfToken) {
     bookmarkToggle.setAttribute('checked', '')
     this.bookmarkWrapper.setAttribute('tooltip', 'Remove Bookmark')
     if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmarked'
-    await this.toggleBookmark('add', id, reportId, csrfToken)
+    await this.toggleBookmark('add', id, reportId, reportType, csrfToken)
   }
 
-  async removeBookmark(bookmarkToggle, id, reportId, csrfToken) {
+  async removeBookmark(bookmarkToggle, id, reportId, reportType, csrfToken) {
     bookmarkToggle.removeAttribute('checked')
     this.bookmarkWrapper.setAttribute('tooltip', 'Add Bookmark')
     if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmark removed'
-    await this.toggleBookmark('remove', id, reportId, csrfToken)
+    await this.toggleBookmark('remove', id, reportId, reportType, csrfToken)
   }
 
-  async handleBookmarkChange(bookmarkToggle, id, reportId, csrfToken) {
-    console.log('handleBookmarkChange', { bookmarkToggle, id, reportId, csrfToken })
+  async handleBookmarkChange(bookmarkToggle, id, reportId, reportType, csrfToken) {
     if (bookmarkToggle.checked) {
       bookmarkToggle.removeAttribute('checked')
       this.bookmarkWrapper.setAttribute('tooltip', 'Add Bookmark')
       if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmark removed'
-      await this.toggleBookmark('remove', id, reportId, csrfToken)
+      await this.toggleBookmark('remove', id, reportId, reportType, csrfToken)
     } else {
       bookmarkToggle.setAttribute('checked', '')
       this.bookmarkWrapper.setAttribute('tooltip', 'Bookmarked')
       if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmarked'
-      await this.toggleBookmark('add', id, reportId, csrfToken)
+      await this.toggleBookmark('add', id, reportId, reportType, csrfToken)
     }
   }
 
-  async toggleBookmark(type, id, reportId, csrfToken) {
+  async toggleBookmark(type, id, reportId, reportType, csrfToken) {
     const endpoint = type === 'add' ? '/addBookmark/' : '/removeBookmark/'
-
-    console.log('toggleBookmark', { type, id, reportId, csrfToken, endpoint })
     await fetch(endpoint, {
       method: 'post',
       headers: {
@@ -80,11 +77,12 @@ export default class BookmarkToggle extends DprClientClass {
       body: JSON.stringify({
         id,
         reportId,
+        reportType,
       }),
     })
       .then(() => {
         if (!window.location.href.includes('/report')) {
-          // window.location.reload()
+          window.location.reload()
         }
       })
       .catch((error) => console.error('Error:', error))

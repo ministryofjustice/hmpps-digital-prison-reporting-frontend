@@ -1,3 +1,4 @@
+import ReportingService from '../services/reportingService'
 import { components } from '../types/api'
 
 export default {
@@ -35,5 +36,15 @@ export default {
     return fields.find((field) => {
       return field.name === fieldId
     })
+  },
+
+  getReportSummary: async (
+    reportId: string,
+    reportingService: ReportingService,
+    token: string,
+    definitionPath: string,
+  ) => {
+    const definitions = await reportingService.getDefinitions(token, definitionPath)
+    return definitions.find((def) => def.id === reportId)
   },
 }

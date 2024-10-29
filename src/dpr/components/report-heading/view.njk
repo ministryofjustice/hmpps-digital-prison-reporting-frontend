@@ -3,7 +3,6 @@
 {% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
 {% from "../download-message/view.njk" import dprDownloadMessage %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
-{% from "govuk/components/cookie-banner/macro.njk" import govukCookieBanner %}
 
 {% macro dprReportHeading(reportData) %}
   {% set name = reportData.name %}
@@ -13,6 +12,7 @@
   {% set csrfToken = reportData.csrfToken %}
   {% set bookmarked = reportData.bookmarked %}
   {% set actions = reportData.actions %}
+  {% set type = reportData.type %}
 
   <div class="dpr-report-header">
     <div class="dpr-report-heading">
@@ -21,7 +21,7 @@
         <h1 class="govuk-heading-l govuk-!-margin-bottom-0">
           {{ name }}
         </h1>
-          {{ dprBookmarkToggle(reportId, id, csrfToken, bookmarked) }}
+          {{ dprBookmarkToggle(reportId, id, csrfToken, bookmarked, 'report', type) }}
       </div>
       <div class="dpr-report-heading__actions">
         {{ dprReportActions(actions) }}

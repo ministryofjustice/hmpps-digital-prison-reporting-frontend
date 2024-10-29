@@ -1,10 +1,10 @@
-{% macro dprBookmarkToggle(reportId, variantId, csrfToken, bookmarked, id) %}
-  {% set id = id %}
+{% macro dprBookmarkToggle(reportId, id, csrfToken, bookmarked, ctxId, type) %}
   {% set checked %}{{ 'checked' if bookmarked else '' }}{% endset %}
+  {% set type %}{{ type if type else 'report' }}{% endset %}
   {% set tooltip %}{{ 'Remove Bookmark' if bookmarked else 'Add Bookmark' }}{% endset %}
 
   <div class='dpr-bookmark dpr-bookmark-inline dpr-bookmark-component' data-dpr-module="bookmark-toggle">
-    <input class="bookmark-input" aria-label="bookmark toggle" type='checkbox' id='{{ reportId }}-{{ variantId }}-{{id}}' data-variant-id='{{ variantId }}' data-report-id='{{ reportId }}' data-csrf-token='{{ csrfToken }}' {{ checked }}/>
-    <label id="{{variantId}}-{{reportId}}-{{id}}-bookmark-label" tabindex="0" for='{{ reportId }}-{{ variantId }}-{{id}}' class=''><span class="govuk-link--no-visited-state dpr-bookmark-label dpr-bookmark-label--component govuk-body-xs">{{tooltip}}</span></label>
+    <input class="bookmark-input" aria-label="bookmark toggle" type='checkbox' id='{{ reportId }}-{{ id }}-{{ ctxId }}' data-id='{{ id }}' data-report-id='{{ reportId }}' data-report-type='{{ type }}' data-csrf-token='{{ csrfToken }}' {{ checked }}/>
+    <label id="{{id}}-{{reportId}}-{{ ctxId }}-bookmark-label" tabindex="0" for='{{ reportId }}-{{ id }}-{{ ctxId }}' class=''><span class="govuk-link--no-visited-state dpr-bookmark-label dpr-bookmark-label--component govuk-body-xs">{{tooltip}}</span></label>
   </div>
 {% endmacro %}

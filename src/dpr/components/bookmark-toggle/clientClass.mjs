@@ -23,8 +23,10 @@ export default class BookmarkToggle extends DprClientClass {
 
       bookmarkToggle.addEventListener('change', async () => {
         if (bookmarkToggle.checked) {
+          console.log('addBookmark', { bookmarkToggle, id, reportId, reportType, csrfToken })
           await this.addBookmark(bookmarkToggle, id, reportId, reportType, csrfToken)
         } else {
+          console.log('removeBookmark', { bookmarkToggle, id, reportId, reportType, csrfToken })
           await this.removeBookmark(bookmarkToggle, id, reportId, reportType, csrfToken)
         }
       })

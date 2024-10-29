@@ -113,7 +113,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         csrfToken,
         requestUrl: url.request,
-        bookmarked: await services.bookmarkService.isBookmarked(reportId, userId),
+        bookmarked: await services.bookmarkService.isBookmarked(ID, userId),
         reportSummaries: collatedSummaryBuilder.collatePageSummaries(),
       }
 

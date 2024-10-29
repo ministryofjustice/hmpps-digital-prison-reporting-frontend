@@ -2,14 +2,16 @@ import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { ChartCardData } from '../../types/Charts'
 import ChartCardUtils from '../chart-card/utils'
 import MetricsUtils from '../../utils/metricsUtils'
+import DefinitionUtils from '../../utils/definitionUtils'
 import { DashboardDefinition, DashboardMetricDefinition } from '../../types/Dashboards'
 import { MetricsDataResponse } from '../../types/Metrics'
-import { RequestedReport } from '../../types/UserReports'
+import { ReportType, RequestedReport } from '../../types/UserReports'
 
 export default {
   renderAsyncDashboard: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+    const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
 
     const { reportId, id, tableId } = req.params
     const { dataProductDefinitionsPath } = req.query
@@ -20,6 +22,13 @@ export default {
       id,
       reportId,
       dataProductDefinitionsPath,
+    )
+
+    const reportDefinition = await DefinitionUtils.getReportSummary(
+      reportId,
+      services.reportingService,
+      token,
+      <string>dataProductDefinitionsPath,
     )
 
     // The metrics Data
@@ -68,9 +77,18 @@ export default {
     }
 
     return {
-      title: definition.name,
-      description: definition.description,
-      metrics,
+      dashboardData: {
+        name: definition.name,
+        description: definition.description,
+        reportId,
+        reportName: reportDefinition.name,
+        bookmarked: await services.bookmarkService.isBookmarked(id, userId),
+        id,
+        tableId,
+        csrfToken,
+        metrics,
+        type: ReportType.DASHBOARD,
+      },
     }
   },
 

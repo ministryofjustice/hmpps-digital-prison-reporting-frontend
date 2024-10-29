@@ -28,15 +28,15 @@
       </div>
     </div>
     {{ dprDownloadMessage(reportData) }}
-    {% set reportDetailsHtml %}
-    {{ dprAsyncRequestDetails(reportData)}}
-    {% endset %}
 
+    {% set reportDetailsHtml %}
+      {{ dprAsyncRequestDetails(reportData)}}
+    {% endset %}
     {{ govukDetails({
-        summaryText: 'Report details',
-        html: reportDetailsHtml,
-        classes: 'dpr-meta-data-details'
-      }) }}
+      summaryText: 'Report details',
+      html: reportDetailsHtml,
+      classes: 'dpr-meta-data-details'
+    }) }}
 
     <div class="dpr-report-details-print">
       {{ dprAsyncRequestDetails(reportData)}}

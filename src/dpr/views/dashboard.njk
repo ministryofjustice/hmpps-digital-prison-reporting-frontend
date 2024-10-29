@@ -4,9 +4,5 @@
 {% extends layoutPath %}
 {% set mainClasses = "app-container govuk-body" %}
 {% block content %}
-  {{ dprDashboard({
-    title: title,
-    description: description,
-    metrics: metrics
-  }) }}
+  {{ dprDashboard(dashboardData) }}
 {% endblock %}

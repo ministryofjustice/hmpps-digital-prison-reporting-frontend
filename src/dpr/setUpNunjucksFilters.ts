@@ -5,6 +5,7 @@ import addRequiredAttributeToAll from './components/filter-input/filters'
 const setUpNunjucksFilters = (env: nunjucks.Environment) => {
   env.addFilter('addRequiredAttributeToAll', addRequiredAttributeToAll)
   env.addFilter('json', stringifyJson)
+  env.addFilter('capitaliseSentence', capitaliseSentence)
   nunjucksDate.setDefaultFormat('DD/MM/YYYY')
   nunjucksDate.install(env, 'date')
 }
@@ -12,6 +13,10 @@ const setUpNunjucksFilters = (env: nunjucks.Environment) => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const stringifyJson = (jsonObj: any) => {
   return JSON.stringify(jsonObj)
+}
+
+const capitaliseSentence = (text: string) => {
+  return text.charAt(0) + text.substring(1).toLowerCase()
 }
 
 export default setUpNunjucksFilters

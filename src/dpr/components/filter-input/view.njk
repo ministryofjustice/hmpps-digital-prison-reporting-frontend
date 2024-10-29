@@ -24,6 +24,8 @@
     }
   ].concat(options) %}
 
+  {% set labelText = text | capitaliseSentence %}
+
   <div class="dpr-filter-item {% if filterType === 'daterange'%} dpr-filter-item__span-2 {% endif %}">
     {%- if filterType === 'select' %}
 
@@ -33,11 +35,11 @@
         value: value,
         items: options if mandatory else optionsWithNone,
         label: {
-          text: text,
+          text: labelText,
           classes: "govuk-label govuk-!-font-weight-bold"
         },
         attributes: {
-          'display-name': text
+          'display-name': labelText
         }
       }) }}
 
@@ -49,7 +51,7 @@
         classes: "govuk-radios--small",
         fieldset: {
           legend: {
-            text: text,
+            text: labelText,
             classes: "govuk-label govuk-!-font-weight-bold"
           }
         },
@@ -60,9 +62,9 @@
         value: value,
         attributes: {
           required: true,
-          'display-name': text
+          'display-name': labelText
         } if mandatory else {
-          'display-name': text
+          'display-name': labelText
         }
       }) }}
 
@@ -86,7 +88,7 @@
         name: name,
         items: options,
         value: value,
-        labelText: text,
+        labelText: labelText,
         minimumLength: minimumLength,
         dynamicResourceEndpoint: dynamicResourceEndpoint,
         pattern: pattern,
@@ -100,7 +102,7 @@
         name: name,
         value: value,
         label: {
-          text: text,
+          text: labelText,
           classes: 'govuk-!-font-weight-bold'
         },
         classes: 'govuk-input--width-20',
@@ -110,10 +112,10 @@
         attributes: {
           pattern: pattern,
           required: true,
-          'display-name': text
+          'display-name': labelText
         } if mandatory else {
           pattern: pattern,
-          'display-name': text
+          'display-name': labelText
         },
         hint: {
           html: "(Optional)"

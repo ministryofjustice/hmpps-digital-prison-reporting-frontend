@@ -97,6 +97,20 @@
               {{ metrics.length }}
             </td>
           </tr>
+          <tr>
+            <td class="dpr-request-details__table-heading">
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Metrics: </p>
+            </td>
+            <td>
+              <ul>
+                {% for metric in metrics %}
+                  <li>
+                    {{ metric.name }}
+                  </li>
+                {% endfor %}
+              </ul>
+            </td>
+          </tr>
         {% endif %}
       </tbody>
     </table>

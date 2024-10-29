@@ -1,6 +1,6 @@
 const mockMetricDefinition1 = {
   id: 'test-metric-id-1',
-  name: 'Missing Ethnicity By Establishment Metric',
+  name: 'Missing Ethnicity By Establishment',
   display: 'Missing Ethnicity By Establishment Metric',
   description: 'Missing Ethnicity By Establishment Metric',
   specification: [
@@ -40,7 +40,7 @@ const mockMetricDefinition1 = {
 
 const mockMetricDefinition2 = {
   id: 'test-metric-id-2',
-  name: 'Missing Ethnicity By Establishment Metric',
+  name: 'Percentage Missing Ethnicity By Establishment',
   display: 'Percentage Missing Ethnicity By Establishment Metric',
   description: 'Percentage Missing Ethnicity By Establishment Metric',
   specification: [

@@ -58,14 +58,16 @@ export const updateStore = async ({
         .addTimestamp()
         .build()
       break
-    case ReportType.DASHBOARD:
+    case ReportType.DASHBOARD: {
       requestedReportData = new UserStoreItemBuilder(reportData)
         .addExecutionData(executionData)
         .addRequestUrls()
         .addStatus(RequestStatus.SUBMITTED)
         .addTimestamp()
+        .addMetrics(JSON.parse(req.body.metrics))
         .build()
       break
+    }
     default:
       break
   }
@@ -171,13 +173,19 @@ const renderDashboardRequestData = async ({
     reportId,
     <string>definitionPath,
   )
+
   const { name, description, metrics } = dashboardDefinition
+  const metricDefinitions = await Promise.all(
+    metrics.map(async (metric: DashboardMetricDefinition) => {
+      return services.metricService.getDefinition(token, metric.id, reportId, <string>definitionPath)
+    }),
+  )
 
   return {
     reportName,
     name,
     description,
-    metrics: metrics as DashboardMetricDefinition[],
+    metrics: metricDefinitions,
   }
 }
 

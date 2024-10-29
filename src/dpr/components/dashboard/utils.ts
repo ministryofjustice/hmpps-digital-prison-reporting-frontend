@@ -7,6 +7,35 @@ import { DashboardDefinition, DashboardMetricDefinition } from '../../types/Dash
 import { MetricsDataResponse } from '../../types/Metrics'
 import { ReportType, RequestedReport } from '../../types/UserReports'
 
+import ReportActionsUtils from '../report-actions/utils'
+import { components } from '../../types/api'
+
+const setDashboardActions = (
+  dashboardDefinition: DashboardDefinition,
+  reportDefinition: components['schemas']['ReportDefinitionSummary'],
+  requestData: RequestedReport,
+) => {
+  const reportName = reportDefinition.name
+  const { name } = dashboardDefinition
+  const actionsUrl = requestData.url.request.fullUrl
+  const { executionId } = requestData
+
+  return ReportActionsUtils.getActions({
+    share: {
+      reportName,
+      name,
+      url: actionsUrl,
+    },
+    refresh: {
+      url: actionsUrl,
+      executionId,
+    },
+    copy: {
+      url: actionsUrl,
+    },
+  })
+}
+
 export default {
   renderAsyncDashboard: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
@@ -24,6 +53,7 @@ export default {
       dataProductDefinitionsPath,
     )
 
+    // Report summary data
     const reportDefinition = await DefinitionUtils.getReportSummary(
       reportId,
       services.reportingService,
@@ -88,6 +118,7 @@ export default {
         csrfToken,
         metrics,
         type: ReportType.DASHBOARD,
+        actions: setDashboardActions(definition, reportDefinition, dashboardRequestData),
       },
     }
   },

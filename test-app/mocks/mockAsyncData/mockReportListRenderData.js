@@ -3,6 +3,7 @@ const mockGetReportListRenderData = {
     id: undefined,
     name: 'variantName',
     reportId: undefined,
+    type: 'report',
     reportName: 'reportName',
     reportSummaries: {},
     requestUrl: {

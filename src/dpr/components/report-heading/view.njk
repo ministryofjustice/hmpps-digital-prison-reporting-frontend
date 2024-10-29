@@ -32,8 +32,9 @@
     {% set reportDetailsHtml %}
       {{ dprAsyncRequestDetails(reportData)}}
     {% endset %}
+    {% set detailsLabel = type + ' details' %}
     {{ govukDetails({
-      summaryText: 'Report details',
+      summaryText: detailsLabel | capitaliseSentence,
       html: reportDetailsHtml,
       classes: 'dpr-meta-data-details'
     }) }}

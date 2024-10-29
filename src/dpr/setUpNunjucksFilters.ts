@@ -16,7 +16,7 @@ const stringifyJson = (jsonObj: any) => {
 }
 
 const capitaliseSentence = (text: string) => {
-  return text.charAt(0) + text.substring(1).toLowerCase()
+  return text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
 }
 
 export default setUpNunjucksFilters

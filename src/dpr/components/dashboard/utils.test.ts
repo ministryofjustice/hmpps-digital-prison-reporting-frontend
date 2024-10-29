@@ -16,6 +16,9 @@ import RecentlyViewedStoreService from '../../services/recentlyViewedService'
 import RequestedReportService from '../../services/requestedReportService'
 import MockDashboardRequestData from '../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'
 import { RequestedReport } from '../../types/UserReports'
+import ReportingService from '../../services/reportingService'
+import MockDefinitions from '../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
+import BookmarkService from '../../services/bookmarkService'
 
 describe('DashboardUtils', () => {
   let mockServices: Services
@@ -304,6 +307,8 @@ describe('DashboardUtils', () => {
     let services: Services
     let recentlyViewedService: RecentlyViewedStoreService
     let requestedReportService: RequestedReportService
+    let reportingService: ReportingService
+    let bookmarkService: BookmarkService
     let updateLastViewedSpy: jest.SpyInstance<Promise<void>, [id: string, userId: string], any>
     let setRecentlyViewedSpy: jest.SpyInstance<Promise<void>, [reportData: RequestedReport, userId: string], any>
 
@@ -323,12 +328,20 @@ describe('DashboardUtils', () => {
         updateLastViewed: jest.fn(),
       } as unknown as RequestedReportService
 
+      reportingService = {
+        getDefinitions: jest.fn().mockResolvedValue(MockDefinitions.reports),
+      } as unknown as ReportingService
+
+      bookmarkService = {
+        isBookmarked: jest.fn().mockResolvedValue(true),
+      } as unknown as BookmarkService
+
       setRecentlyViewedSpy = jest.spyOn(recentlyViewedService, 'setRecentlyViewed')
       updateLastViewedSpy = jest.spyOn(requestedReportService, 'updateLastViewed')
 
       req = {
         params: {
-          reportId: 'reportId',
+          reportId: 'test-report-3',
           id: 'test-dashboard-8',
         },
         query: {},
@@ -348,6 +361,8 @@ describe('DashboardUtils', () => {
         metricService,
         requestedReportService,
         recentlyViewedService,
+        reportingService,
+        bookmarkService,
       } as unknown as Services
     })
 
@@ -359,22 +374,22 @@ describe('DashboardUtils', () => {
           services,
         })
 
-        expect(result.title).toEqual('Test Dashboard 8')
-        expect(result.description).toEqual('Async Dashboard Testing')
-        expect(result.metrics.length).toEqual(3)
-        expect(result.metrics.length).toEqual(3)
+        expect(result.dashboardData.name).toEqual('Test Dashboard 8')
+        expect(result.dashboardData.description).toEqual('Async Dashboard Testing')
+        expect(result.dashboardData.metrics.length).toEqual(3)
+        expect(result.dashboardData.metrics.length).toEqual(3)
 
-        expect(result.metrics[0].data.chart.length).toEqual(2)
-        expect(result.metrics[0].data.table.head.length).toEqual(6)
-        expect(result.metrics[0].title).toEqual('Missing Ethnicity By Establishment Metric')
+        expect(result.dashboardData.metrics[0].data.chart.length).toEqual(2)
+        expect(result.dashboardData.metrics[0].data.table.head.length).toEqual(6)
+        expect(result.dashboardData.metrics[0].title).toEqual('Missing Ethnicity By Establishment Metric')
 
-        expect(result.metrics[1].data.chart.length).toEqual(1)
-        expect(result.metrics[1].data.table.head.length).toEqual(3)
-        expect(result.metrics[1].title).toEqual('Percentage Missing Ethnicity By Establishment Metric')
+        expect(result.dashboardData.metrics[1].data.chart.length).toEqual(1)
+        expect(result.dashboardData.metrics[1].data.table.head.length).toEqual(3)
+        expect(result.dashboardData.metrics[1].title).toEqual('Percentage Missing Ethnicity By Establishment Metric')
 
-        expect(result.metrics[2].data.chart.length).toEqual(1)
-        expect(result.metrics[2].data.table.head.length).toEqual(3)
-        expect(result.metrics[2].title).toEqual('Missing Ethnicity By Establishment')
+        expect(result.dashboardData.metrics[2].data.chart.length).toEqual(1)
+        expect(result.dashboardData.metrics[2].data.table.head.length).toEqual(3)
+        expect(result.dashboardData.metrics[2].title).toEqual('Missing Ethnicity By Establishment')
       })
 
       it('should mark the dashboard as recently viewed', async () => {

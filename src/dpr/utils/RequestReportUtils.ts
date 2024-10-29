@@ -40,8 +40,8 @@ export const updateStore = async ({
   const { search, id, type } = req.body
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
 
-  removeDuplicates({ storeService: services.requestedReportService, userId, id, search })
-  removeDuplicates({ storeService: services.recentlyViewedService, userId, id, search })
+  await removeDuplicates({ storeService: services.requestedReportService, userId, id, search })
+  await removeDuplicates({ storeService: services.recentlyViewedService, userId, id, search })
 
   const reportData: RequestFormData = req.body
 
@@ -248,6 +248,7 @@ export default {
         executionData,
       })
     }
+
     return redirect
   },
 

@@ -143,9 +143,13 @@ export default {
     })
 
     return {
-      title,
-      description,
-      metrics: chartsData,
+      dashboardData: {
+        name: title,
+        description,
+        type: ReportType.DASHBOARD,
+        metrics: chartsData,
+        removeBookmark: true,
+      },
     }
   },
 

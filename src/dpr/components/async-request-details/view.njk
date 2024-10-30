@@ -97,6 +97,7 @@
               {{ metrics.length }}
             </td>
           </tr>
+          {% if metrics[0].name %}
           <tr>
             <td class="dpr-request-details__table-heading">
               <p class="govuk-body-m dpr-request-details__table-heading_name">Metrics: </p>
@@ -111,6 +112,7 @@
               </ul>
             </td>
           </tr>
+        {% endif %}
         {% endif %}
       </tbody>
     </table>

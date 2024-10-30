@@ -23,10 +23,8 @@ export default class BookmarkToggle extends DprClientClass {
 
       bookmarkToggle.addEventListener('change', async () => {
         if (bookmarkToggle.checked) {
-          console.log('addBookmark', { bookmarkToggle, id, reportId, reportType, csrfToken })
           await this.addBookmark(bookmarkToggle, id, reportId, reportType, csrfToken)
         } else {
-          console.log('removeBookmark', { bookmarkToggle, id, reportId, reportType, csrfToken })
           await this.removeBookmark(bookmarkToggle, id, reportId, reportType, csrfToken)
         }
       })
@@ -41,14 +39,14 @@ export default class BookmarkToggle extends DprClientClass {
 
   async addBookmark(bookmarkToggle, id, reportId, reportType, csrfToken) {
     bookmarkToggle.setAttribute('checked', '')
-    this.bookmarkWrapper.setAttribute('tooltip', 'Remove Bookmark')
+    this.bookmarkWrapper.setAttribute('tooltip', 'Remove bookmark')
     if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmarked'
     await this.toggleBookmark('add', id, reportId, reportType, csrfToken)
   }
 
   async removeBookmark(bookmarkToggle, id, reportId, reportType, csrfToken) {
     bookmarkToggle.removeAttribute('checked')
-    this.bookmarkWrapper.setAttribute('tooltip', 'Add Bookmark')
+    this.bookmarkWrapper.setAttribute('tooltip', 'Add bookmark')
     if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmark removed'
     await this.toggleBookmark('remove', id, reportId, reportType, csrfToken)
   }
@@ -56,7 +54,7 @@ export default class BookmarkToggle extends DprClientClass {
   async handleBookmarkChange(bookmarkToggle, id, reportId, reportType, csrfToken) {
     if (bookmarkToggle.checked) {
       bookmarkToggle.removeAttribute('checked')
-      this.bookmarkWrapper.setAttribute('tooltip', 'Add Bookmark')
+      this.bookmarkWrapper.setAttribute('tooltip', 'Add bookmark')
       if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmark removed'
       await this.toggleBookmark('remove', id, reportId, reportType, csrfToken)
     } else {

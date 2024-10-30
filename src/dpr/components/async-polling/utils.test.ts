@@ -61,6 +61,7 @@ describe('PollingUtils', () => {
       })
 
       const expectedResult = {
+        title: 'Report request status',
         pollingRenderData: {
           csrfToken: 'csrfToken',
           definitionPath: 'dataProductDefinitionsPath',
@@ -113,6 +114,7 @@ describe('PollingUtils', () => {
       })
 
       const expectedResult = {
+        title: 'Report request status',
         pollingRenderData: {
           csrfToken: 'csrfToken',
           definitionPath: 'dataProductDefinitionsPath',
@@ -166,6 +168,7 @@ describe('PollingUtils', () => {
       })
 
       const expectedResult = {
+        title: 'Dashboard request status',
         pollingRenderData: {
           csrfToken: 'csrfToken',
           definitionPath: 'dataProductDefinitionsPath',

@@ -1,7 +1,15 @@
 .report-actions {
   float: right;
+  text-align: right;
+  position: relative;
+  z-index: 100;
+  
   .moj-button-menu {
     display: block;
+  }
+
+  @media(max-width: 1019px) {
+    width: 100%;
   }
 }
 

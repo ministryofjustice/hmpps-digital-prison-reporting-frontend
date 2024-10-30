@@ -160,38 +160,30 @@
 
 .dpr-bookmark-component {
   position: relative;
-  text-align: center;
+  text-align: right;
   height: 65px;
 
   .dpr-bookmark-label {
-    position: absolute;
-    left: 20px;
-    padding-left: 10px;
-    width: max-content;
-    text-align: left;
-    top: 7px;
-    text-decoration: underline;
-    text-decoration-thickness: max(1px, .0625rem);
-    text-underline-offset: .1578em;
+    margin-left: govuk-spacing(2);
+    margin-top: 3px;
   }
 
   [type="checkbox"]:not(:checked)+label,
   [type="checkbox"]:checked+label {
-    padding-left: 16px;
-    cursor: pointer;
-    position: absolute;
-    left: 0px;
-    height: 50px;
-    width: 150px;
+    margin-left: 10px;
+    display: inline-block;
+    position: relative;
   }
 
   [type="checkbox"]:not(:checked)+label:before,
   [type="checkbox"]:checked+label:before {
     font-size: 22px;
+    line-height: 22px !important;
   }
 
   [type="checkbox"]:not(:checked)+label:after,
   [type="checkbox"]:checked+label:after {
     font-size: 22px;
+    line-height: 22px !important;
   }
 }

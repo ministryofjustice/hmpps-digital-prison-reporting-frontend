@@ -64,6 +64,8 @@ export default class RecentlyViewedStoreService extends UserStoreService {
       query,
     }
 
+    console.log(JSON.stringify({ recentlyViewedReportData }, null, 2))
+
     userConfig.recentlyViewedReports.unshift(recentlyViewedReportData)
     await this.saveState(userId, userConfig)
   }

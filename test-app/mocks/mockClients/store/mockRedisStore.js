@@ -3,8 +3,7 @@ const mockViewedV1 = require('./mockViewedUserListDataV1')
 
 // TODO: integration tests with this mocked data also
 // const mockRequestedV2 = require('./mockRequestedUserListDataV2')
-// const mockViewedV2 = require('./mockViewedUserListDataV2')
-// const mockDashboards = require('./mockRequestedDashboardData')
+const mockViewedV2 = require('./mockViewedUserListDataV2')
 
 const MockUserStoreService = class MockUserStoreService {
   constructor() {
@@ -15,8 +14,11 @@ const MockUserStoreService = class MockUserStoreService {
         mockRequestedV1.requestedExpired,
         mockViewedV1.viewedReady,
       ],
-      recentlyViewedReports: [mockViewedV1.viewedReady, mockViewedV1.viewedExpired],
-      bookmarks: [{ reportId: 'test-report-3', variantId: 'variantId-1' }],
+      recentlyViewedReports: [mockViewedV1.viewedReady, mockViewedV1.viewedExpired, mockViewedV2.viewedDashboard],
+      bookmarks: [
+        { reportId: 'test-report-3', variantId: 'variantId-1' },
+        { reportId: 'test-report-1', id: 'test-dashboard-8', type: 'dashboard' },
+      ],
     })
   }
 

@@ -72,6 +72,32 @@ const viewedReady = {
   },
 }
 
+const viewedDashboard = {
+  reportId: 'test-report-1',
+  id: 'test-dashboard-8',
+  executionId: 'exId_1730302242487',
+  tableId: 'tblId_1730302242487',
+  reportName: 'A Test Report',
+  name: 'Test Dashboard 8',
+  description: 'Async Dashboard Testing',
+  type: 'dashboard',
+  status: 'READY',
+  url: {
+    origin: 'http://localhost:3010',
+    request: {
+      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request?',
+      search: '',
+    },
+    report: {
+      fullUrl:
+        'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730302242487/report',
+    },
+  },
+  timestamp: {
+    lastViewed: '2024-10-30T15:30:46.136Z',
+  },
+}
+
 const viewedExpired = {
   reportId: 'test-report-3',
   id: 'variantId-1',
@@ -145,4 +171,5 @@ const viewedExpired = {
 module.exports = {
   viewedReady,
   viewedExpired,
+  viewedDashboard,
 }

@@ -52,11 +52,20 @@ export default class HomePage {
 
   bookmarkButton = (): PageElement => cy.xpath(`//*[@id="variantId-1-test-report-3-bookmark-list-bookmark-label"]`)
 
+  bookmarkDashboardButton = (): PageElement =>
+    cy.xpath(`//*[@id="test-dashboard-8-test-report-1-bookmark-list-bookmark-label"]`)
+
   bookmarkLink = (): PageElement => cy.xpath(`//*[@id="dpr-bookmarks-list"]/div/table/tbody/tr/td[2]/a`)
 
   bookmarkButtonFromList = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div[2]/table/tbody/tr[1]/td[5]/div`)
 
+  bookmarkDashboardButtonFromList = (): PageElement =>
+    cy.xpath(`/html/body/div[1]/main/div/div[2]/table/tbody/tr[12]/td[5]/div/label`)
+
   bookmarkButtonFromReport = (): PageElement => cy.xpath(`//*[@id="variantId-1-test-report-3-report-bookmark-label"]`)
+
+  bookmarkDashboardButtonFromReport = (): PageElement =>
+    cy.xpath(`//*[@id="variantId-1-test-report-3-report-bookmark-label"]`)
 
   // Dashboards
   dashboardLink = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div[2]/table/tbody/tr[11]/td[2]/a`)

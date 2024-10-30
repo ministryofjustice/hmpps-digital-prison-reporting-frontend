@@ -1,0 +1,23 @@
+{%- from "moj/components/side-navigation/macro.njk" import mojSideNavigation -%}
+
+
+{% macro dprDashboardSidebar(metrics) %}
+    {% set items = [] %}
+
+    {% for metric in metrics %}
+      {% set items = (items.push({
+        text: metric.title,
+        href: '#' + metric.id + '-chart-card'
+      }), items) %}
+    {% endfor %}
+
+    {{ mojSideNavigation({
+      label: 'Side navigation',
+      sections: [{
+        heading: {
+          text: 'Metrics'
+        },
+        items: items
+      }]
+    }) }}
+{% endmacro %}

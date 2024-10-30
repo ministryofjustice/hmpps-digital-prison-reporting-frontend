@@ -1,5 +1,8 @@
 .report-actions {
   float: right;
+  .moj-button-menu {
+    display: block;
+  }
 }
 
 @media print {

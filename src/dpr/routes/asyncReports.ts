@@ -162,7 +162,6 @@ export default function routes({
         next,
       })
       res.render(`${templatePath}/async-polling`, {
-        title: 'Report request status',
         layoutPath,
         ...pollingRenderData,
       })

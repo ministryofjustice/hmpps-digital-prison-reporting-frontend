@@ -1,13 +1,23 @@
 .dpr-report-header {
+  padding-top: govuk-spacing(2);
   .dpr-report-heading {
-    column-gap: 15px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    position: relative;
-    row-gap: 15px;
+    display: flex;
+    flex-wrap: wrap;
 
-    @media(max-width: 1019px) {
-      grid-template-columns: 1fr;
+    .dpr-report-heading__title {
+      flex: 1;
+
+      @media(max-width: 1019px) {
+        order: 1;
+        flex: 1 0 100%;
+      }
+    }
+
+    .dpr-report-heading__actions {
+      @media(max-width: 1019px) {
+          order: 0;
+          flex: 1 0 100%;
+        }
     }
   }
 

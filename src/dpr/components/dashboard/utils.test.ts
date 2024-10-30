@@ -15,7 +15,7 @@ import MetricsClient from '../../data/metricsClient'
 import RecentlyViewedStoreService from '../../services/recentlyViewedService'
 import RequestedReportService from '../../services/requestedReportService'
 import MockDashboardRequestData from '../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'
-import { RequestedReport } from '../../types/UserReports'
+import { ReportType, RequestedReport } from '../../types/UserReports'
 import ReportingService from '../../services/reportingService'
 import MockDefinitions from '../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
 import BookmarkService from '../../services/bookmarkService'
@@ -178,120 +178,124 @@ describe('DashboardUtils', () => {
         })
 
         const expectedResult = {
-          title: 'Test Dashboard 1',
-          description: 'Test Dashboard 1 Description',
-          metrics: [
-            {
-              id: 'test-metric-id-1',
-              title: 'Missing Ethnicity By Establishment Metric',
-              description: 'Missing Ethnicity By Establishment Metric',
-              data: {
-                chart: [
-                  {
-                    type: 'bar',
-                    data: {
-                      labels: ['No. of Prisoners with ethnicity', 'No. of Prisoners without ethnicity'],
-                      datasets: [
-                        {
-                          label: 'KMI',
-                          data: [300, 100],
-                          total: 400,
-                        },
-                        {
-                          label: 'LEI',
-                          data: [100, 50],
-                          total: 150,
-                        },
-                      ],
-                    },
-                  },
-                  {
-                    type: 'doughnut',
-                    unit: 'percentage',
-                    data: {
-                      labels: ['% Missing Ethnicity', '% With Ethnicity'],
-                      datasets: [
-                        {
-                          label: 'KMI',
-                          data: [25.09, 75.91],
-                          total: 101,
-                        },
-                        {
-                          label: 'LEI',
-                          data: [47.09, 52.91],
-                          total: 100,
-                        },
-                      ],
-                    },
-                  },
-                ],
-                table: {
-                  head: [
+          dashboardData: {
+            name: 'Test Dashboard 1',
+            description: 'Test Dashboard 1 Description',
+            type: ReportType.DASHBOARD,
+            removeBookmark: true,
+            metrics: [
+              {
+                id: 'test-metric-id-1',
+                title: 'Missing Ethnicity By Establishment Metric',
+                description: 'Missing Ethnicity By Establishment Metric',
+                data: {
+                  chart: [
                     {
-                      text: 'Establishment ID',
+                      type: 'bar',
+                      data: {
+                        labels: ['No. of Prisoners with ethnicity', 'No. of Prisoners without ethnicity'],
+                        datasets: [
+                          {
+                            label: 'KMI',
+                            data: [300, 100],
+                            total: 400,
+                          },
+                          {
+                            label: 'LEI',
+                            data: [100, 50],
+                            total: 150,
+                          },
+                        ],
+                      },
                     },
                     {
-                      text: '% Missing Ethnicity',
-                    },
-                    {
-                      text: '% With Ethnicity',
-                    },
-                    {
-                      text: 'No. of Prisoners with ethnicity',
-                    },
-                    {
-                      text: 'No. of Prisoners without ethnicity',
-                    },
-                    {
-                      text: 'Random Data ',
+                      type: 'doughnut',
+                      unit: 'percentage',
+                      data: {
+                        labels: ['% Missing Ethnicity', '% With Ethnicity'],
+                        datasets: [
+                          {
+                            label: 'KMI',
+                            data: [25.09, 75.91],
+                            total: 101,
+                          },
+                          {
+                            label: 'LEI',
+                            data: [47.09, 52.91],
+                            total: 100,
+                          },
+                        ],
+                      },
                     },
                   ],
-                  rows: [
-                    [
+                  table: {
+                    head: [
                       {
-                        text: 'KMI',
+                        text: 'Establishment ID',
                       },
                       {
-                        text: '25.09%',
+                        text: '% Missing Ethnicity',
                       },
                       {
-                        text: '75.91%',
+                        text: '% With Ethnicity',
                       },
                       {
-                        text: '300',
+                        text: 'No. of Prisoners with ethnicity',
                       },
                       {
-                        text: '100',
+                        text: 'No. of Prisoners without ethnicity',
                       },
                       {
-                        text: '20',
-                      },
-                    ],
-                    [
-                      {
-                        text: 'LEI',
-                      },
-                      {
-                        text: '47.09%',
-                      },
-                      {
-                        text: '52.91%',
-                      },
-                      {
-                        text: '100',
-                      },
-                      {
-                        text: '50',
-                      },
-                      {
-                        text: '50',
+                        text: 'Random Data ',
                       },
                     ],
-                  ],
+                    rows: [
+                      [
+                        {
+                          text: 'KMI',
+                        },
+                        {
+                          text: '25.09%',
+                        },
+                        {
+                          text: '75.91%',
+                        },
+                        {
+                          text: '300',
+                        },
+                        {
+                          text: '100',
+                        },
+                        {
+                          text: '20',
+                        },
+                      ],
+                      [
+                        {
+                          text: 'LEI',
+                        },
+                        {
+                          text: '47.09%',
+                        },
+                        {
+                          text: '52.91%',
+                        },
+                        {
+                          text: '100',
+                        },
+                        {
+                          text: '50',
+                        },
+                        {
+                          text: '50',
+                        },
+                      ],
+                    ],
+                  },
                 },
               },
-            },
-          ],
+            ],
+          },
         }
 
         expect(result).toEqual(expectedResult)

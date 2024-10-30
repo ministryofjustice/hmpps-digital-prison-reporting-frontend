@@ -5,7 +5,7 @@ export default class DashboardPage {
 
   metricName = (): PageElement => cy.xpath(`//*[@id="test-metric-id-1-chart-card"]/h2`)
 
-  metricDescription = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[1]/p`)
+  metricDescription = (): PageElement => cy.xpath(`//*[@id="test-metric-id-1-chart-card"]/p`)
 
   metricDoughnutTab = (): PageElement => cy.xpath(`//*[@id="tab_test-metric-id-1_doughnut_tab"]`)
 

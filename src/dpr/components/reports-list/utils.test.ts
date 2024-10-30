@@ -25,11 +25,11 @@ describe('ReportListUtils', () => {
   })
 
   describe('mapReportsList', () => {
-    it('should map the error to the correct message', async () => {
+    it('should map the reports to the list', async () => {
       const reportsTableData = await ReportListUtils.mapReportsList(res, services)
 
       expect(reportsTableData.head.length).toEqual(5)
-      expect(reportsTableData.rows.length).toEqual(38)
+      expect(reportsTableData.rows.length).toEqual(40)
     })
   })
 })

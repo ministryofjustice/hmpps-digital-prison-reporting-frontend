@@ -11,7 +11,7 @@ export default {
 
     const requestReportData = await services.requestedReportService.getReportByExecutionId(executionId, userId)
 
-    const { reportName, name, variantName, description, status, query, timestamp, url, errorMessage } =
+    const { reportName, name, variantName, description, status, query, timestamp, url, errorMessage, metrics } =
       requestReportData
 
     return {
@@ -28,6 +28,7 @@ export default {
         ...(query && { querySummary: query.summary }),
         requestedAt: timestamp.requested,
         csrfToken,
+        ...(metrics && { metrics }),
         ...(url.report?.fullUrl && { reportUrl: url.report.fullUrl }),
         ...(url.request.fullUrl && { requestUrl: url.request.fullUrl }),
         ...(errorMessage && { errorMessage }),

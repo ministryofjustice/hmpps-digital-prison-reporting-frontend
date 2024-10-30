@@ -1,9 +1,7 @@
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default class DashboardPage {
-  dashboardName = (): PageElement => cy.xpath(`//*[@id="main-content"]/h1`)
-
-  dashboardDescription = (): PageElement => cy.xpath(`//*[@id="main-content"]/p`)
+  dashboardName = (): PageElement => cy.xpath(`//*[@id="main-content"]/div[1]/div[1]/div[1]/h1`)
 
   metricName = (): PageElement => cy.xpath(`//*[@id="test-metric-id-1-chart-card"]/h2`)
 

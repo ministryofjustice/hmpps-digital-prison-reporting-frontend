@@ -101,6 +101,81 @@ const initReportActions = ({
   return actions
 }
 
+const getActions = ({
+  refresh,
+  print,
+  share,
+  copy,
+  download,
+}: {
+  refresh?: {
+    url: string
+    executionId: string
+  }
+  print?: {
+    enabled: boolean
+  }
+  copy?: { url: string }
+  share?: {
+    reportName: string
+    name: string
+    url: string
+  }
+  download?: {
+    enabled: boolean
+  }
+}): ReportAction[] => {
+  const actions: ReportAction[] = []
+
+  // Refresh
+  if (refresh && refresh.url && refresh.executionId) {
+    actions.push({
+      ...BUTTON_TEMPLATES.refresh,
+      href: refresh.url,
+    })
+  }
+
+  // Print
+  if (print) {
+    actions.push({
+      ...BUTTON_TEMPLATES.printable,
+      disabled: !print.enabled,
+      href: '#',
+      ariaLabelText: !print.enabled
+        ? `${BUTTON_TEMPLATES.printable.ariaLabelText}, disabled`
+        : BUTTON_TEMPLATES.printable.ariaLabelText,
+    })
+  }
+
+  // Share
+  if (share) {
+    actions.push({
+      ...BUTTON_TEMPLATES.sharable,
+      href: `mailto:?subject=${share.reportName}-${share.name}&body=${encodeURIComponent(share.url)}`,
+    })
+  }
+
+  // Copy
+  if (copy) {
+    actions.push({
+      ...BUTTON_TEMPLATES.copy,
+      href: copy.url,
+    })
+  }
+
+  if (download) {
+    actions.push({
+      ...BUTTON_TEMPLATES.downloadable,
+      disabled: !download.enabled,
+      ariaLabelText: !download.enabled
+        ? `${BUTTON_TEMPLATES.downloadable.ariaLabelText}, disabled`
+        : BUTTON_TEMPLATES.downloadable.ariaLabelText,
+    })
+  }
+
+  return actions
+}
+
 export default {
   initAsyncReportActions: (variant: components['schemas']['VariantDefinition'], reportData: RequestedReport) => {
     return initReportActions({
@@ -113,6 +188,7 @@ export default {
   },
 
   initReportActions,
+  getActions,
 }
 
 interface ReportAction {

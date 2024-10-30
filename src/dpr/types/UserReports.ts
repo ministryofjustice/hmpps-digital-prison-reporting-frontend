@@ -27,8 +27,12 @@ export interface RequestedReport extends StoredReportData {
   sortBy: ParamsConfig
 }
 
+export interface RequestedDashboard extends StoredReportData {
+  metrics: { name: string }[]
+}
+
 export type RecentlyViewedReport = StoredReportData
-export type UserReportData = RequestedReport | RecentlyViewedReport | StoredReportData
+export type UserReportData = RequestedReport | RecentlyViewedReport | StoredReportData | RequestedDashboard
 
 export interface AsyncReportUrlData {
   origin: string

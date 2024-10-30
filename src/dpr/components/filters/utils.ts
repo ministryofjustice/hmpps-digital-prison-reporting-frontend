@@ -163,7 +163,6 @@ export default {
   getSelectedFilters,
   getFilterOptions: (
     variantDefinition: components['schemas']['VariantDefinition'],
-    filterValues: NodeJS.Dict<string>,
     reportQuery: ReportQuery,
     createUrlForParameters: (
       currentQueryParams: NodeJS.Dict<string | Array<string>>,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response, Request } from 'express'
 import { Url } from 'url'
 import * as AsyncReportUtils from './renderAsyncReport'
@@ -15,6 +16,8 @@ import definitions from '../../../test-app/mocks/mockClients/reports/mockReportD
 import BookmarkService from '../services/bookmarkService'
 import MetricService from '../services/metricsService'
 import DashboardService from '../services/dashboardService'
+import { components } from '../types/api'
+import { Services } from '../types/Services'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
@@ -39,21 +42,120 @@ const reportState = {
 
 const mockReportingClient = new MockReportingClient()
 
-jest.spyOn(AsyncReportUtils, 'initDataSources').mockImplementation(() => [
-  mockReportingClient.getDefinition('', '', 'variantId-2'),
-  mockReportingClient.getAsyncReport('', '', '', '', { pageSize: 10 }),
-  mockReportingClient.getAsyncCount(),
-  new Promise((resolve) => {
-    resolve(reportState)
-  }),
-])
-
 describe('AsyncReportUtils', () => {
-  jest.spyOn(PaginationUtils, 'getPaginationData')
-  const ReportActionsUtilsSpy = jest.spyOn(ReportActionsUtils, 'initAsyncReportActions')
-  jest.spyOn(ColumnUtils, 'getColumns')
+  describe('initDataSources', () => {
+    let req: Request
+    let res: Response
+    let mockSingleVariantDefinition: components['schemas']['SingleVariantReportDefinition']
+    let reportingService: ReportingService
+    let services: Services
+    let requestedReportService: RequestedReportService
+
+    beforeEach(() => {
+      jest.clearAllMocks()
+      req = {
+        params: {
+          reportId: 'reportId',
+          tableId: 'tableId',
+          variantId: 'variantId',
+          id: 'id',
+        },
+        query: {},
+      } as unknown as Request
+
+      res = {} as unknown as Response
+
+      mockSingleVariantDefinition = {
+        id: 'id',
+        name: 'report-name',
+        description: 'report-description',
+        variant: {
+          id: 'variant-id',
+          name: 'variant-name',
+          resourceName: 'resourceName',
+          description: 'description',
+          specification: {
+            template: 'list',
+            fields: [],
+          },
+          summaries: [
+            {
+              id: 'summary-Id',
+              template: 'table-header',
+              fields: [],
+            },
+          ],
+        },
+      } as unknown as components['schemas']['SingleVariantReportDefinition']
+
+      reportingService = {
+        getDefinition: jest.fn().mockImplementation(() => {
+          return new Promise((resolve) => {
+            resolve(mockSingleVariantDefinition)
+          })
+        }),
+        getAsyncReport: jest.fn().mockImplementation(() => {
+          return new Promise((resolve) => {
+            resolve({})
+          })
+        }),
+        getAsyncCount: jest.fn().mockImplementation(() => {
+          return new Promise((resolve) => {
+            resolve(100)
+          })
+        }),
+        getAsyncSummaryReport: jest.fn().mockImplementation(() => {
+          return new Promise((resolve) => {
+            resolve({})
+          })
+        }),
+      } as unknown as ReportingService
+
+      requestedReportService = {
+        getReportByTableId: jest.fn().mockImplementation(() => {
+          return new Promise((resolve) => {
+            resolve({})
+          })
+        }),
+      } as unknown as RequestedReportService
+
+      services = {
+        reportingService,
+        requestedReportService,
+      } as unknown as Services
+    })
+
+    it('should init data sources', () => {
+      const result = AsyncReportUtils.initDataSources({
+        req,
+        res,
+        services,
+        userId: 'userId',
+        token: 'ToKeN',
+      })
+
+      expect(result.length).toEqual(5)
+    })
+  })
 
   describe('getReport', () => {
+    let ReportActionsUtilsSpy: any
+
+    beforeEach(() => {
+      jest.clearAllMocks()
+      jest.spyOn(AsyncReportUtils, 'initDataSources').mockImplementation(() => [
+        mockReportingClient.getDefinition('', '', 'variantId-2'),
+        mockReportingClient.getAsyncReport('', '', '', '', { pageSize: 10 }),
+        mockReportingClient.getAsyncCount(),
+        new Promise((resolve) => {
+          resolve(reportState)
+        }),
+      ])
+      jest.spyOn(PaginationUtils, 'getPaginationData')
+      ReportActionsUtilsSpy = jest.spyOn(ReportActionsUtils, 'initAsyncReportActions')
+      jest.spyOn(ColumnUtils, 'getColumns')
+    })
+
     it('should return data to render the report list', async () => {
       const mockReq = { query: { columns: ['column'] } } as unknown as Request
       const mockRes = { locals: { user: { token: 'token' } } } as unknown as Response

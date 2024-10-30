@@ -5,6 +5,7 @@ import AsyncRequestListUtils from '../components/user-reports-request-list/utils
 import UserReportsListUtils from '../components/user-reports/utils'
 import ErrorSummaryUtils from '../components/error-summary/utils'
 import AysncRequestUtils from '../utils/RequestReportUtils'
+import DashboardUtils from '../components/dashboard/utils'
 
 import * as AsyncReportUtils from '../utils/renderAsyncReport'
 
@@ -12,6 +13,7 @@ import { Services } from '../types/Services'
 import logger from '../utils/logger'
 import { RenderFiltersReturnValue } from '../components/async-filters/types'
 import { RequestDataResult } from '../types/AsyncReportUtils'
+import { ReportType } from '../types/UserReports'
 
 export default function routes({
   router,
@@ -172,20 +174,28 @@ export default function routes({
     }
   }
 
-  const getReportHandler: RequestHandler = async (req, res, next) => {
+  const viewReportHandler: RequestHandler = async (req, res, next) => {
+    const { type } = req.params
     try {
-      const reportRenderData = await AsyncReportUtils.getReport({
-        req,
-        res,
-        services,
-        next,
-      })
-      res.render(`${templatePath}async-report`, {
+      let template
+      let renderData
+      const params = { req, res, services, next }
+
+      if (type === ReportType.REPORT) {
+        template = 'async-report'
+        renderData = await AsyncReportUtils.getReport(params)
+      }
+      if (type === ReportType.DASHBOARD) {
+        template = 'dashboard'
+        renderData = await DashboardUtils.renderAsyncDashboard(params)
+      }
+
+      res.render(`${templatePath}${template}`, {
         layoutPath,
-        ...reportRenderData,
+        ...renderData,
       })
     } catch (error) {
-      req.body.title = 'Failed to retrieve report'
+      req.body.title = `Failed to retrieve ${type}`
       req.body.errorDescription = 'We were unable to retrieve this report for the following reason:'
       req.body.error = error
       next()
@@ -232,12 +242,12 @@ export default function routes({
   router.post('/getStatus/', getStatusHandler)
   router.post('/cancelRequest/', cancelRequestHandler, asyncErrorHandler)
 
-  // 3 - REPORT
+  // 3 - VIEw REPORT
   const viewReportPaths = [
     '/async/:type/:reportId/:id/request/:tableId/report',
-    '/async/:type/:reportId/:id/request/:tableId/report/download',
+    '/async/report/:reportId/:id/request/:tableId/report/download',
   ]
-  router.get(viewReportPaths, getReportHandler, asyncErrorHandler)
+  router.get(viewReportPaths, viewReportHandler, asyncErrorHandler)
 
   // Homepage widget routes
   router.post('/removeRequestedItem/', removeRequestedItemHandler, asyncErrorHandler)

@@ -78,7 +78,7 @@ module.exports = {
       dashboards: dashboardDefinition,
     },
     {
-      id: 'test-report-4',
+      id: 'test-report-5',
       name: 'Query Validation',
       variants: [variant21],
       dashboards: dashboardDefinition,

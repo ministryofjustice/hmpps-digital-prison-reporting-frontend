@@ -1,7 +1,7 @@
 import { components } from '../types/api'
 import Dict = NodeJS.Dict
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
-import { RequestedReport } from '../types/UserReports'
+import { ReportType, RequestedReport } from '../types/UserReports'
 import AsyncReportListUtils from '../components/async-report-list/utils'
 import ReportActionsUtils from '../components/report-actions/utils'
 import { Template } from '../types/Templates'
@@ -28,6 +28,7 @@ export const initDataSources = ({
     reportVariantId,
     dataProductDefinitionsPath,
   )
+
   const reportDataPromise = reportDefinitionPromise.then(
     (definition: components['schemas']['SingleVariantReportDefinition']) => {
       const { variant } = definition
@@ -41,6 +42,7 @@ export const initDataSources = ({
       })
     },
   )
+
   const summaryDataPromise = reportDefinitionPromise.then(
     (definition: components['schemas']['SingleVariantReportDefinition']) => {
       if (!definition.variant.summaries) {
@@ -105,6 +107,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         classification,
         template,
         count,
+        type: ReportType.REPORT,
         actions: ReportActionsUtils.initAsyncReportActions(variant, reportStateData),
         printable,
         querySummary: query.summary,

@@ -14,7 +14,8 @@ export default class BookmarkToggle extends DprClientClass {
     element.querySelectorAll('.bookmark-input[type=checkbox]').forEach((bookmarkToggle) => {
       const csrfToken = bookmarkToggle.getAttribute('data-csrf-token')
       const reportId = bookmarkToggle.getAttribute('data-report-id')
-      const variantId = bookmarkToggle.getAttribute('data-variant-id')
+      const id = bookmarkToggle.getAttribute('data-id')
+      const reportType = bookmarkToggle.getAttribute('data-report-type')
 
       this.bookmarkWrapper = bookmarkToggle.parentNode
       this.bookmarkColumn = this.bookmarkWrapper.parentNode
@@ -22,41 +23,49 @@ export default class BookmarkToggle extends DprClientClass {
 
       bookmarkToggle.addEventListener('change', async () => {
         if (bookmarkToggle.checked) {
-          bookmarkToggle.setAttribute('checked', '')
-          this.bookmarkWrapper.setAttribute('tooltip', 'Remove Bookmark')
-          if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmarked'
-          await this.toggleBookmark('add', variantId, reportId, csrfToken)
+          await this.addBookmark(bookmarkToggle, id, reportId, reportType, csrfToken)
         } else {
-          bookmarkToggle.removeAttribute('checked')
-          this.bookmarkWrapper.setAttribute('tooltip', 'Add Bookmark')
-          if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmark removed'
-          await this.toggleBookmark('remove', variantId, reportId, csrfToken)
+          await this.removeBookmark(bookmarkToggle, id, reportId, reportType, csrfToken)
         }
       })
 
       this.bookmarkColumn.addEventListener('keyup', async (e) => {
         if (e.key === 'Enter') {
-          await this.handleBookmarkChange(bookmarkToggle, variantId, reportId, csrfToken)
+          await this.handleBookmarkChange(bookmarkToggle, id, reportId, reportType, csrfToken)
         }
       })
     })
   }
 
-  async handleBookmarkChange(bookmarkToggle, variantId, reportId, csrfToken) {
+  async addBookmark(bookmarkToggle, id, reportId, reportType, csrfToken) {
+    bookmarkToggle.setAttribute('checked', '')
+    this.bookmarkWrapper.setAttribute('tooltip', 'Remove bookmark')
+    if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmarked'
+    await this.toggleBookmark('add', id, reportId, reportType, csrfToken)
+  }
+
+  async removeBookmark(bookmarkToggle, id, reportId, reportType, csrfToken) {
+    bookmarkToggle.removeAttribute('checked')
+    this.bookmarkWrapper.setAttribute('tooltip', 'Add bookmark')
+    if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmark removed'
+    await this.toggleBookmark('remove', id, reportId, reportType, csrfToken)
+  }
+
+  async handleBookmarkChange(bookmarkToggle, id, reportId, reportType, csrfToken) {
     if (bookmarkToggle.checked) {
       bookmarkToggle.removeAttribute('checked')
-      this.bookmarkWrapper.setAttribute('tooltip', 'Add Bookmark')
+      this.bookmarkWrapper.setAttribute('tooltip', 'Add bookmark')
       if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmark removed'
-      await this.toggleBookmark('remove', variantId, reportId, csrfToken)
+      await this.toggleBookmark('remove', id, reportId, reportType, csrfToken)
     } else {
       bookmarkToggle.setAttribute('checked', '')
       this.bookmarkWrapper.setAttribute('tooltip', 'Bookmarked')
       if (this.bookmarkLabel) this.bookmarkLabel.innerText = 'Bookmarked'
-      await this.toggleBookmark('add', variantId, reportId, csrfToken)
+      await this.toggleBookmark('add', id, reportId, reportType, csrfToken)
     }
   }
 
-  async toggleBookmark(type, variantId, reportId, csrfToken) {
+  async toggleBookmark(type, id, reportId, reportType, csrfToken) {
     const endpoint = type === 'add' ? '/addBookmark/' : '/removeBookmark/'
     await fetch(endpoint, {
       method: 'post',
@@ -66,8 +75,9 @@ export default class BookmarkToggle extends DprClientClass {
         'CSRF-Token': csrfToken,
       },
       body: JSON.stringify({
-        variantId,
+        id,
         reportId,
+        reportType,
       }),
     })
       .then(() => {

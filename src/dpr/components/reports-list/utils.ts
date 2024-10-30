@@ -92,30 +92,21 @@ export default {
 
         let bookmarkColumn
         let href = `/async/${type}/${reportId}/${id}/request${pathSuffix}`
-        switch (type) {
-          case ReportType.REPORT:
-            bookmarkColumn = {
-              html: await services.bookmarkService.createBookMarkToggleHtml(
-                userId,
-                reportId,
-                id,
-                csrfToken,
-                'reports-list',
-              ),
-              attributes: {
-                tabindex: 0,
-              },
-            }
-            break
-          case ReportType.DASHBOARD:
-            if (!loadType || loadType !== 'async') {
-              href = `/dashboards/${reportId}/load/${id}`
-            }
-            bookmarkColumn = {}
-            break
-          default:
-            bookmarkColumn = {}
-            break
+
+        if (type === ReportType.DASHBOARD && (!loadType || loadType !== 'async')) {
+          href = `/dashboards/${reportId}/load/${id}`
+          bookmarkColumn = {}
+        } else {
+          bookmarkColumn = {
+            html: await services.bookmarkService.createBookMarkToggleHtml({
+              userId,
+              reportId,
+              id,
+              csrfToken,
+              ctxId: 'reports-list',
+              reportType: type,
+            }),
+          }
         }
 
         return [
@@ -125,6 +116,9 @@ export default {
           { html: TagUtils.createTagHtml(type) },
           {
             ...bookmarkColumn,
+            attributes: {
+              tabindex: 0,
+            },
           },
         ]
       }),

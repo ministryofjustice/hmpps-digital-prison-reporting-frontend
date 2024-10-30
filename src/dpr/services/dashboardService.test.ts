@@ -86,4 +86,14 @@ describe('DashboardService', () => {
       })
     })
   })
+
+  describe('getAsyncDashboard', () => {
+    it('Retrieves a count', async () => {
+      dashboardClient.getAsyncDashboard.mockResolvedValue([{ test: 'test ' }])
+
+      const result = await dashboardService.getAsyncDashboard(null, 'report-id', 'dashboard-id', 'table-id', {})
+
+      expect(result).toEqual([{ test: 'test ' }])
+    })
+  })
 })

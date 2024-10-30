@@ -33,7 +33,20 @@ const mockMetricData2 = {
   updated: 'string',
 }
 
+const mockMetricData3 = {
+  id: 'test-metric-id-3',
+  data: [
+    {
+      establishment_id: 'KMI',
+      no_of_prisoners: 300,
+      no_of_prisoners_without: 100,
+    },
+  ],
+  updated: 'string',
+}
+
 module.exports = {
   'test-metric-id-1': mockMetricData1,
   'test-metric-id-2': mockMetricData2,
+  'test-metric-id-3': mockMetricData3,
 }

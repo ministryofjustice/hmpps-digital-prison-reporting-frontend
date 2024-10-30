@@ -102,4 +102,24 @@ describe('dashboardClient', () => {
       })
     })
   })
+
+  describe('getAsyncDashboard', () => {
+    it('should return data from api', async () => {
+      const response = [{ test: 'true' }]
+      const expectedQuery: Record<string, string> = {
+        dataProductDefinitionsPath: 'test-definition-path',
+      }
+      const reportId = 'report-id'
+      const dashboardId = 'dashboard-id'
+      const tableId = 'table-id'
+
+      fakeDashboardApi
+        .get(`/reports/${reportId}/dashboards/${dashboardId}/tables/${tableId}/result`)
+        .query(expectedQuery)
+        .reply(200, response)
+
+      const output = await dashboardClient.getAsyncDashboard(null, reportId, dashboardId, tableId, expectedQuery)
+      expect(output).toEqual(response)
+    })
+  })
 })

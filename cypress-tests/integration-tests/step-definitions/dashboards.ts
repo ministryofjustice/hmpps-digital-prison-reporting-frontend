@@ -15,7 +15,6 @@ Then('I am taken to the dashboard', () => {
 Then('I see the dashboard data', () => {
   const page = new DasboardPage()
   page.dashboardName().contains('Test Dashboard 7')
-  page.dashboardDescription().contains('Synchronous loading')
 })
 
 Then('I see the metric data', () => {

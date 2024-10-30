@@ -1,0 +1,14 @@
+{% from "../chart-card/view.njk" import dprChartCard %}
+{% from "../report-heading/view.njk" import dprReportHeading %}
+
+{% macro dprDashboard(data) %}
+
+  {{ dprReportHeading(data) }}
+
+  {% for metric in data.metrics %}
+    <div class="govuk-!-margin-bottom-6 govuk-!-padding-bottom-6">
+      {{ dprChartCard(metric) }}
+    </div>
+  {% endfor %}
+
+{% endmacro %}

@@ -30,7 +30,7 @@ const initFiltersFromDefinition = (fields: components['schemas']['FieldDefinitio
  * @param {components['schemas']['VariantDefinition']} definition
  * @return {*}
  */
-const getSortByFromDefinition = (fields: components['schemas']['FieldDefinition'][]) => {
+export const getSortByFromDefinition = (fields: components['schemas']['FieldDefinition'][]) => {
   const sortBy = SortHelper.sortByTemplate()
   const options = fields
     .filter((f) => f.sortable)

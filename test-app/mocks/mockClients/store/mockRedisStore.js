@@ -16,7 +16,7 @@ const MockUserStoreService = class MockUserStoreService {
         mockViewedV1.viewedReady,
       ],
       recentlyViewedReports: [mockViewedV1.viewedReady, mockViewedV1.viewedExpired],
-      bookmarks: [{ reportId: 'test-report-1', variantId: 'variantId-1' }],
+      bookmarks: [{ reportId: 'test-report-3', variantId: 'variantId-1' }],
     })
   }
 

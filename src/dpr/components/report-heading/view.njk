@@ -3,7 +3,6 @@
 {% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
 {% from "../download-message/view.njk" import dprDownloadMessage %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
-{% from "govuk/components/cookie-banner/macro.njk" import govukCookieBanner %}
 
 {% macro dprReportHeading(reportData) %}
   {% set name = reportData.name %}
@@ -13,30 +12,35 @@
   {% set csrfToken = reportData.csrfToken %}
   {% set bookmarked = reportData.bookmarked %}
   {% set actions = reportData.actions %}
+  {% set type = reportData.type %}
 
-  <div class="dpr-report-header">
+  <div class="dpr-report-header govuk-!-margin-bottom-6">
     <div class="dpr-report-heading">
       <div class="dpr-report-heading__title">
         <span class="govuk-caption-m">{{ reportName }}</span>
         <h1 class="govuk-heading-l govuk-!-margin-bottom-0">
           {{ name }}
         </h1>
-          {{ dprBookmarkToggle(reportId, id, csrfToken, bookmarked) }}
+        {{ removeBookmark }}
+        {% if not reportData.removeBookmark %}
+          {{ dprBookmarkToggle(reportId, id, csrfToken, bookmarked, 'report', type) }}
+        {% endif %}
       </div>
       <div class="dpr-report-heading__actions">
         {{ dprReportActions(actions) }}
       </div>
     </div>
     {{ dprDownloadMessage(reportData) }}
-    {% set reportDetailsHtml %}
-    {{ dprAsyncRequestDetails(reportData)}}
-    {% endset %}
 
+    {% set reportDetailsHtml %}
+      {{ dprAsyncRequestDetails(reportData)}}
+    {% endset %}
+    {% set detailsLabel = type + ' details' %}
     {{ govukDetails({
-        summaryText: 'Report details',
-        html: reportDetailsHtml,
-        classes: 'dpr-meta-data-details'
-      }) }}
+      summaryText: detailsLabel | capitaliseSentence,
+      html: reportDetailsHtml,
+      classes: 'dpr-meta-data-details'
+    }) }}
 
     <div class="dpr-report-details-print">
       {{ dprAsyncRequestDetails(reportData)}}

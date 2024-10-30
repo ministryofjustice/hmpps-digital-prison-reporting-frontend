@@ -318,6 +318,47 @@ describe('Date filter Utils', () => {
   })
 })
 
+describe('getFilterOptions', () => {
+  it('should get the filter options', () => {
+    const filterValues: Dict<string> = {
+      'dateRangeField.start': '2001-02-03',
+      'dateRangeField.end': '2004-05-06',
+    }
+    const res = Utils.getFilterOptions(
+      wrapInVariant(selectFieldFormat),
+      mockReportQuery(filterValues),
+      createUrlForParameters,
+    )
+
+    expect(res).toEqual({
+      filters: [
+        {
+          dynamicResourceEndpoint: null,
+          mandatory: false,
+          minimumLength: null,
+          name: 'selectField',
+          options: [
+            {
+              text: 'One',
+              value: '1',
+            },
+            {
+              text: 'Two',
+              value: '2',
+            },
+          ],
+          pattern: undefined,
+          text: 'Select Field',
+          type: 'Select',
+          value: null,
+        },
+      ],
+      selectedFilters: [],
+      urlWithNoFilters: 'null',
+    })
+  })
+})
+
 const wrapInVariant = (
   fields: Array<components['schemas']['FieldDefinition']>,
 ): components['schemas']['VariantDefinition'] => {

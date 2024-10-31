@@ -181,7 +181,7 @@ describe('AsyncRequestListUtils', () => {
         expect(v1Failed[1].html).toContain(v1FailedRetryUrl)
         expect(v1Failed[5].html).toContain('FAILED')
         expect(v1Failed[5].html).toContain(v1FailedRetryUrl)
-        expect(v1Failed[5].html).toContain('Remove')
+        expect(v1Failed[5].html).toContain('remove')
 
         const v1Expired = result.tableData.rows[2]
         const v1ExpiredRetryUrl =
@@ -189,7 +189,7 @@ describe('AsyncRequestListUtils', () => {
         expect(v1Expired[1].html).toContain(v1ExpiredRetryUrl)
         expect(v1Expired[5].html).toContain('EXPIRED')
         expect(v1Expired[5].html).toContain(v1ExpiredRetryUrl)
-        expect(v1Expired[5].html).toContain('Remove')
+        expect(v1Expired[5].html).toContain('remove')
 
         const v1Aborted = result.tableData.rows[3]
         const v1AbortedRetryUrl =
@@ -197,7 +197,7 @@ describe('AsyncRequestListUtils', () => {
         expect(v1Aborted[1].html).toContain(v1AbortedRetryUrl)
         expect(v1Aborted[5].html).toContain('ABORTED')
         expect(v1Aborted[5].html).toContain(v1AbortedRetryUrl)
-        expect(v1Aborted[5].html).toContain('Remove')
+        expect(v1Aborted[5].html).toContain('remove')
 
         const v2Ready = result.tableData.rows[4]
         expect(v2Ready[1].html).toContain(
@@ -211,7 +211,7 @@ describe('AsyncRequestListUtils', () => {
         expect(v2Failed[1].html).toContain(v2FailedRetryUrl)
         expect(v2Failed[5].html).toContain('FAILED')
         expect(v2Failed[5].html).toContain(v2FailedRetryUrl)
-        expect(v2Failed[5].html).toContain('Remove')
+        expect(v2Failed[5].html).toContain('remove')
 
         const v2Expired = result.tableData.rows[6]
         const v2ExpiredRetryUrl =
@@ -219,7 +219,7 @@ describe('AsyncRequestListUtils', () => {
         expect(v2Expired[1].html).toContain(v2ExpiredRetryUrl)
         expect(v2Expired[5].html).toContain('EXPIRED')
         expect(v2Expired[5].html).toContain(v2ExpiredRetryUrl)
-        expect(v2Expired[5].html).toContain('Remove')
+        expect(v2Expired[5].html).toContain('remove')
 
         const v2Aborted = result.tableData.rows[7]
         const v2AbortedRetryUrl =
@@ -227,7 +227,7 @@ describe('AsyncRequestListUtils', () => {
         expect(v2Aborted[1].html).toContain(v2AbortedRetryUrl)
         expect(v2Aborted[5].html).toContain('ABORTED')
         expect(v2Aborted[5].html).toContain(v2AbortedRetryUrl)
-        expect(v2Aborted[5].html).toContain('Remove')
+        expect(v2Aborted[5].html).toContain('remove')
       })
 
       it('should return the render list with dashboards', async () => {
@@ -255,14 +255,14 @@ describe('AsyncRequestListUtils', () => {
         expect(dashboardFailed[1].html).toContain(dashboardFailedRetryUrl)
         expect(dashboardFailed[5].html).toContain('FAILED')
         expect(dashboardFailed[5].html).toContain(dashboardFailedRetryUrl)
-        expect(dashboardFailed[5].html).toContain('Remove')
+        expect(dashboardFailed[5].html).toContain('remove')
 
         const dashboardExpired = result.tableData.rows[10]
         const dashboardExpiredUrl = 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-3/request?'
         expect(dashboardExpired[1].html).toContain(dashboardExpiredUrl)
         expect(dashboardExpired[5].html).toContain('EXPIRED')
         expect(dashboardExpired[5].html).toContain(dashboardExpiredUrl)
-        expect(dashboardExpired[5].html).toContain('Remove')
+        expect(dashboardExpired[5].html).toContain('remove')
       })
     })
 
@@ -307,7 +307,7 @@ describe('AsyncRequestListUtils', () => {
         expect(v1Expired[1].html).toContain(v1ExpiredRetryUrl)
         expect(v1Expired[5].html).toContain('EXPIRED')
         expect(v1Expired[5].html).toContain(v1ExpiredRetryUrl)
-        expect(v1Expired[5].html).toContain('Remove')
+        expect(v1Expired[5].html).toContain('remove')
 
         const v2Ready = result.tableData.rows[2]
         expect(v2Ready[1].html).toContain(
@@ -321,7 +321,7 @@ describe('AsyncRequestListUtils', () => {
         expect(v2Expired[1].html).toContain(v2ExpiredRetryUrl)
         expect(v2Expired[5].html).toContain('EXPIRED')
         expect(v2Expired[5].html).toContain(v2ExpiredRetryUrl)
-        expect(v2Expired[5].html).toContain('Remove')
+        expect(v2Expired[5].html).toContain('remove')
       })
     })
   })

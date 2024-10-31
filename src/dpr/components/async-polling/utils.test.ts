@@ -68,7 +68,7 @@ describe('PollingUtils', () => {
           description: 'this will fail with returned Status: FAILED',
           executionId: 'executionId',
           id: 'id',
-          name: 'Failed report',
+          name: 'Submitted report v2',
           querySummary: [
             { name: 'Field 1', value: 'value1.1' },
             { name: 'Field 2', value: 'value2.1' },
@@ -121,7 +121,7 @@ describe('PollingUtils', () => {
           description: 'this will succeed',
           executionId: 'executionId',
           id: 'id',
-          name: 'Successful Report',
+          name: 'Submitted report v1',
           querySummary: [
             { name: 'Field 1', value: 'value1.3' },
             { name: 'Field 2', value: 'value2.3' },
@@ -172,10 +172,10 @@ describe('PollingUtils', () => {
         pollingRenderData: {
           csrfToken: 'csrfToken',
           definitionPath: 'dataProductDefinitionsPath',
-          description: 'Requested Dashboard',
+          description: 'This dashboard is pending',
           executionId: 'executionId',
           id: 'id',
-          name: 'Test Dashboard 1',
+          name: 'Requested dashboard',
           reportId: 'reportId',
           reportName: 'Test Report',
           requestUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request?',

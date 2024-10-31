@@ -6,7 +6,7 @@ Then('I click on the requested reports tab', () => {
 })
 
 Then('the requested reports are displayed correctly', () => {
-  new AsyncHomePage().requestedReportsList().find('tr').should('have.length', 6)
+  new AsyncHomePage().requestedReportsList().find('tr').should('have.length', 14)
 })
 
 Then('the status and timestamp is displayed for each request', () => {

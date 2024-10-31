@@ -191,7 +191,7 @@ app.get('/async-reports', async (req, res) => {
     res,
     storeService: services.requestedReportService,
     filterFunction: RequestedReportsUtils.filterReports,
-    maxRows: 10,
+    maxRows: 20,
     type: 'requested',
   })
 
@@ -199,7 +199,7 @@ app.get('/async-reports', async (req, res) => {
     res,
     storeService: services.recentlyViewedService,
     filterFunction: RecentlyViewedCardGroupUtils.filterReports,
-    maxRows: 6,
+    maxRows: 10,
     type: 'viewed',
   })
 
@@ -207,7 +207,7 @@ app.get('/async-reports', async (req, res) => {
     res,
     req,
     services,
-    maxRows: 6,
+    maxRows: 10,
   })
 
   res.render('async.njk', {

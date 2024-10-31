@@ -171,8 +171,8 @@ const viewedExpired = {
 const expiredDashboard = {
   reportId: 'test-report-1',
   id: 'test-dashboard-8',
-  executionId: 'exId_1730302242487',
-  tableId: 'tblId_1730302242487',
+  executionId: 'exId_1730302123456',
+  tableId: 'tblId_1730302123456',
   reportName: 'A Test Report',
   name: 'Expired viewed dashboard',
   description: 'Async Dashboard Testing',
@@ -186,7 +186,7 @@ const expiredDashboard = {
     },
     report: {
       fullUrl:
-        'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730302242487/report',
+        'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730302123456/report',
     },
   },
   timestamp: {

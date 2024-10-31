@@ -64,7 +64,7 @@ export default class BookmarkService extends UserStoreService {
 
     return `<div class='dpr-bookmark dpr-bookmark-table' data-dpr-module="bookmark-toggle">
   <input class="bookmark-input" aria-label="bookmark toggle" type='checkbox' id='${reportId}-${id}-${ctxId}' data-report-id='${reportId}' data-id='${id}' data-report-type='${reportType}' data-csrf-token='${csrfToken}' ${checked} />
-  <label id="${id}-${reportId}-${ctxId}-bookmark-label" for='${reportId}-${id}-${ctxId}'><span class="dpr-bookmark-label govuk-body-xs">${tooltip}</span></label>
+  <label id="${id}-${reportId}-${ctxId}-bookmark-label" for='${reportId}-${id}-${ctxId}'><span class="dpr-bookmark-label govuk-body-s">${tooltip}</span></label>
 </div>`
   }
 }

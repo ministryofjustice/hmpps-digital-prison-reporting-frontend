@@ -5,7 +5,7 @@ import { RenderTableListResponse } from './types'
 import { FormattedUserReportData, UserReportData, RequestStatus, ReportType } from '../../types/UserReports'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { getExpiredStatus } from '../../utils/requestStatusHelper'
-import TagUtils from '../tag/utils'
+import { itemActionsHtml, createListItemProduct } from '../../utils/reportListsHelper'
 import ShowMoreUtils from '../show-more/utils'
 
 const formatData = (reportData: UserReportData): FormattedUserReportData => {
@@ -65,11 +65,10 @@ const formatTable = (data: FormattedUserReportData[], type: 'requested' | 'viewe
     rows,
     head: [
       { text: 'Product', classes: 'dpr-req-product-head' },
-      { text: 'Name', classes: 'dpr-req-name-head' },
       { text: 'Description', classes: 'dpr-req-description-head' },
-      { text: 'Type', classes: 'dpr-req-type-head' },
-      { text: 'Date', classes: 'dpr-req-ts-head' },
+      { text: 'Filters', classes: 'dpr-req-filters-head' },
       { text: 'Status', classes: 'dpr-req-status-head' },
+      { text: 'Actions', classes: 'dpr-req-actions-head' },
     ],
   }
 }
@@ -94,6 +93,7 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
       break
     case RequestStatus.READY:
     case RequestStatus.FINISHED:
+      itemActions = `<a class='govuk-link govuk-link--no-visited-state' href="${href}">go to ${reportType}</a>`
       statusClass = 'govuk-tag--green'
       break
     default:
@@ -104,42 +104,22 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
   if (data.summary) {
     filtersSummary = createSummaryHtml(data)
   }
-  const description = `${data.description}. 
-  ${filtersSummary}`
 
   return [
-    { html: `<p class="govuk-body-s govuk-!-margin-bottom-0">${reportName}</p>`, classes: 'dpr-req-cell' },
     {
-      html: `<a href='${href}'><p class="govuk-body-s govuk-!-margin-bottom-0">${text}</p></a>`,
-      classes: 'dpr-req-cell',
+      html: createListItemProduct(reportName, text, reportType, timestamp),
     },
-    { html: ShowMoreUtils.createShowMoreHtml(description, 50), classes: 'dpr-req-cell' },
+    { html: ShowMoreUtils.createShowMoreHtml(data.description, 200) },
+    { html: filtersSummary },
     {
-      html: TagUtils.createTagHtml(reportType),
-      classes: 'dpr-req-cell dpr-req-cell__type',
-    },
-    {
-      html: `<p class="govuk-body-s govuk-!-margin-bottom-0">${timestamp}</p>`,
-      classes: 'dpr-req-cell',
+      html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${status}</strong>`,
+      classes: 'dpr-req-cell dpr-req-cell__status',
     },
     {
-      html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${status}</strong> ${itemActions}`,
+      html: `${itemActions}`,
       classes: 'dpr-req-cell dpr-req-cell__status',
     },
   ]
-}
-
-const itemActionsHtml = (
-  retryHref: string,
-  executionId: string,
-  type: 'requested' | 'viewed',
-  status: RequestStatus,
-) => {
-  const text = status === RequestStatus.EXPIRED ? 'refresh' : 'retry'
-  return `<div class="dpr-icon-wrapper__item-actions">
-      <a class='dpr-user-list-action govuk-link--no-visited-state' href="${retryHref}">${text}</a>
-      <a class="dpr-user-list-action govuk-link--no-visited-state dpr-remove-${type}-report-button"" href="#" data-execution-id='${executionId}'>remove</a>
-    </div>`
 }
 
 const getTotals = (formattedData: FormattedUserReportData[], maxRows: number) => {
@@ -152,7 +132,7 @@ const getTotals = (formattedData: FormattedUserReportData[], maxRows: number) =>
 
 const createSummaryHtml = (data: FormattedUserReportData) => {
   const summaryHtml = data.summary.map((item) => `<li class="govuk-body-s">${item.name}: ${item.value}</li>`).join('')
-  return `<ul class="dpr-card-group__item__filters-list govuk-!-margin-top-3">${summaryHtml}</ul>`
+  return `<ul class="dpr-card-group__item__filters-list govuk-!-margin-top-0 govuk-!-margin-bottom-0">${summaryHtml}</ul>`
 }
 
 const getMeta = (formattedData: FormattedUserReportData[]) => {

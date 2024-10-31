@@ -3,8 +3,8 @@ import { components } from '../../types/api'
 import { Services } from '../../types/Services'
 import { DashboardDefinition } from '../../types/Dashboards'
 import { ReportType } from '../../types/UserReports'
-import TagUtils from '../tag/utils'
 import ShowMoreUtils from '../show-more/utils'
+import { createListItemProductMin } from '../../utils/reportListsHelper'
 
 interface definitionData {
   reportName: string
@@ -90,35 +90,29 @@ export default {
         const { id, name, description, reportName, reportId, reportDescription, type, loadType } = v
         const desc = description || reportDescription
 
-        let bookmarkColumn
+        let bookmarkHtml = ''
         let href = `/async/${type}/${reportId}/${id}/request${pathSuffix}`
 
         if (type === ReportType.DASHBOARD && (!loadType || loadType !== 'async')) {
           href = `/dashboards/${reportId}/load/${id}`
-          bookmarkColumn = {}
         } else {
-          bookmarkColumn = {
-            html: await services.bookmarkService.createBookMarkToggleHtml({
-              userId,
-              reportId,
-              id,
-              csrfToken,
-              ctxId: 'reports-list',
-              reportType: type,
-            }),
-          }
+          bookmarkHtml = await services.bookmarkService.createBookMarkToggleHtml({
+            userId,
+            reportId,
+            id,
+            csrfToken,
+            ctxId: 'reports-list',
+            reportType: type,
+          })
         }
 
         return [
-          { text: reportName },
-          { html: `<a href='${href}'>${name}</a>` },
+          { html: `<p class="govuk-body-s">${reportName}</p>` },
+          { html: createListItemProductMin(name, <ReportType>type) },
           { html: ShowMoreUtils.createShowMoreHtml(desc) },
-          { html: TagUtils.createTagHtml(type) },
           {
-            ...bookmarkColumn,
-            attributes: {
-              tabindex: 0,
-            },
+            html: `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">Request ${type}</a>
+            ${bookmarkHtml}`,
           },
         ]
       }),
@@ -128,8 +122,8 @@ export default {
       { text: 'Product', classes: 'dpr-product-head' },
       { text: 'Name', classes: 'dpr-name-head' },
       { text: 'Description', classes: 'dpr-description-head' },
-      { text: 'Type', classes: 'dpr-type-head' },
-      { text: 'Bookmark', classes: 'dpr-bookmark-head' },
+      // { text: 'Type', classes: 'dpr-type-head' },
+      { text: 'Actions', classes: 'dpr-bookmark-head' },
     ]
 
     return {

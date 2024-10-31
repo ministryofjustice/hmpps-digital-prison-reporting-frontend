@@ -4,13 +4,19 @@
   }
 
   th.dpr-req-product-head, th.dpr-req-name-head {
-    width: 175px;
+    width: 240px;
   }
   th.dpr-req-description-head {
-    width: 275px;
+    width: 325px;
   }
   th.dpr-bm-description-head {
     width: 495px;
+  }
+  th.dpr-req-status-head {
+    width: 100px;
+  }
+  th.dpr-req-actions-head {
+    width: 120px;
   }
   td.govuk-table__cell {
     vertical-align: top;
@@ -37,6 +43,11 @@
       border: none
     }
   }
+
+  .govuk-table__cell:last-child {
+    padding-right: 0px !important;
+    text-align: right;
+  }
 }
 
 #requested-reports-tab, #recently-viewed-tab, #my-bookmarks-tab {
@@ -46,4 +57,8 @@
 
 .dpr-user-list-action {
   display: block;
+}
+
+.dpr-display-none {
+  display: none;
 }

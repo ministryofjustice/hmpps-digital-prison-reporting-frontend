@@ -4,8 +4,8 @@ const viewedReady = {
   executionId: 'exId_1729766362362',
   tableId: 'tblId_1729766362362',
   reportName: 'Test Report',
-  variantName: 'Successful Report',
-  name: 'Successful Report',
+  variantName: 'Viewed report v2',
+  name: 'Viewed report v2',
   description: 'this will succeed',
   type: 'report',
   status: 'READY',
@@ -78,7 +78,7 @@ const viewedDashboard = {
   executionId: 'exId_1730302242487',
   tableId: 'tblId_1730302242487',
   reportName: 'A Test Report',
-  name: 'Test Dashboard 8',
+  name: 'Viewed dashboard',
   description: 'Async Dashboard Testing',
   type: 'dashboard',
   status: 'READY',
@@ -104,8 +104,8 @@ const viewedExpired = {
   executionId: 'exId_1729766465228',
   tableId: 'tblId_1729766465228',
   reportName: 'Test Report',
-  variantName: 'Successful Report',
-  name: 'Successful Report',
+  variantName: 'Expired viewed report v2',
+  name: 'Expired viewed report v2',
   description: 'this will succeed',
   type: 'report',
   status: 'EXPIRED',
@@ -168,8 +168,36 @@ const viewedExpired = {
   },
 }
 
+const expiredDashboard = {
+  reportId: 'test-report-1',
+  id: 'test-dashboard-8',
+  executionId: 'exId_1730302242487',
+  tableId: 'tblId_1730302242487',
+  reportName: 'A Test Report',
+  name: 'Expired viewed dashboard',
+  description: 'Async Dashboard Testing',
+  type: 'dashboard',
+  status: 'EXPIRED',
+  url: {
+    origin: 'http://localhost:3010',
+    request: {
+      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request?',
+      search: '',
+    },
+    report: {
+      fullUrl:
+        'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730302242487/report',
+    },
+  },
+  timestamp: {
+    lastViewed: '2024-10-30T15:30:46.136Z',
+    expired: '2024-10-30T15:30:46.136Z',
+  },
+}
+
 module.exports = {
   viewedReady,
   viewedExpired,
   viewedDashboard,
+  expiredDashboard,
 }

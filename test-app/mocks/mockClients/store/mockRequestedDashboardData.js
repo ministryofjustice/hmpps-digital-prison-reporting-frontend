@@ -3,7 +3,7 @@ const failedDashboard = {
   id: 'test-dashboard-2',
   executionId: 'exId_1724943092123',
   tableId: 'tblId_1724943092123',
-  name: 'Test Dashboard 2',
+  name: 'Failing dashboard',
   reportName: 'Test Report',
   description: 'Requested Dashboard',
   template: 'list',
@@ -36,9 +36,9 @@ const expiredDashboard = {
   id: 'test-dashboard-3',
   executionId: 'exId_1724943092824',
   tableId: 'tblId_1724943092824',
-  name: 'Test Dashboard 3',
+  name: 'Expiring dashboard',
   reportName: 'Test Report',
-  description: 'Requested Dashboard',
+  description: 'requested dashboard',
   template: 'list',
   type: 'dashboard',
   status: 'EXPIRED',
@@ -63,14 +63,15 @@ const expiredDashboard = {
   },
   dataProductDefinitionsPath: '',
 }
+
 const submittedDashboard = {
   reportId: 'test-report-1',
   id: 'test-dashboard-1',
   executionId: 'exId_1724943092098',
   tableId: 'tblId_1724943092098',
-  name: 'Test Dashboard 1',
+  name: 'Requested dashboard',
   reportName: 'Test Report',
-  description: 'Requested Dashboard',
+  description: 'This dashboard is pending',
   template: 'list',
   type: 'dashboard',
   status: 'SUBMITTED',
@@ -93,14 +94,45 @@ const submittedDashboard = {
   dataProductDefinitionsPath: '',
 }
 
+const abortedDashboard = {
+  reportId: 'test-report-1',
+  id: 'test-dashboard-1',
+  executionId: 'exId_1724943092098',
+  tableId: 'tblId_1724943092098',
+  name: 'Cancelled dashboard',
+  reportName: 'Test Report',
+  description: 'Cancel dashboard',
+  template: 'list',
+  type: 'dashboard',
+  status: 'ABORTED',
+  url: {
+    origin: 'http://localhost:3010',
+    request: {
+      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request?',
+      pathname: '/async/dashboard/test-report-1/test-dashboard-1/request',
+      search: '',
+    },
+    polling: {
+      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
+      pathname: '/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
+    },
+    report: {},
+  },
+  timestamp: {
+    requested: '2024-08-29T14:51:33.557Z',
+    aborted: '2024-08-29T14:51:33.557Z',
+  },
+  dataProductDefinitionsPath: '',
+}
+
 const readyDashboard = {
   reportId: 'test-report-1',
   id: 'test-dashboard-1',
   executionId: 'exId_1724943092098',
   tableId: 'tblId_1724943092098',
-  name: 'Test Dashboard 1',
+  name: 'Successful dashboard',
   reportName: 'Test Report',
-  description: 'Requested Dashboard',
+  description: 'this dashboard has succeeded',
   template: 'list',
   type: 'dashboard',
   status: 'FINISHED',
@@ -129,4 +161,5 @@ module.exports = {
   failedDashboard,
   expiredDashboard,
   readyDashboard,
+  abortedDashboard,
 }

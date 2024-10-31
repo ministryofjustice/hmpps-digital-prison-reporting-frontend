@@ -10,8 +10,7 @@ Feature: Requested Reports
     When I navigate to the async-home page
     And I click on the requested reports tab
     Then the requested reports are displayed correctly
-    And the status is displayed for each request
-    And the timestamp is displayed for each request
+    And the status and timestamp is displayed for each request
 
   Scenario: Refresh an expired report
     When I navigate to the async-home page

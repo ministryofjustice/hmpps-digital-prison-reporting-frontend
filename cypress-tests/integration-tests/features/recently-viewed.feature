@@ -10,8 +10,7 @@ Feature: Recently viewed Reports
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
     Then the viewed reports are displayed correctly
-    And the status is displayed for each viewed report
-    And the timestamp is displayed for each viewed report
+    And the status and timestamp is displayed for each viewed report
 
   Scenario: Refresh an expired report
     When I navigate to the async-home page
@@ -35,7 +34,7 @@ Feature: Recently viewed Reports
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
     And I click on a ready report
-    Then I am taken to the report page of the viewed report
+    Then I am taken to the report
 
 
 

@@ -12,9 +12,10 @@ const MockUserStoreService = class MockUserStoreService {
         mockRequestedV1.requestedReady,
         mockRequestedV1.requestedFailed,
         mockRequestedV1.requestedExpired,
+        mockRequestedV1.requestedAborted,
         mockViewedV1.viewedReady,
       ],
-      recentlyViewedReports: [mockViewedV1.viewedReady, mockViewedV1.viewedExpired, mockViewedV2.viewedDashboard],
+      recentlyViewedReports: [mockViewedV2.viewedDashboard, mockViewedV1.viewedReady, mockViewedV1.viewedExpired],
       bookmarks: [
         { reportId: 'test-report-3', variantId: 'variantId-1' },
         { reportId: 'test-report-1', id: 'test-dashboard-8', type: 'dashboard' },

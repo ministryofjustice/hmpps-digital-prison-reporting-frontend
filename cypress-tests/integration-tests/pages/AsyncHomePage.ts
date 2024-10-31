@@ -11,46 +11,184 @@ export default class HomePage {
   requestedReportRow_Finished = (): PageElement =>
     cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Successful report v1')
 
+  requestedReportRow_Finished_Full = (): PageElement =>
+    cy
+      .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
+      .find('tr')
+      .contains('Successful report v1')
+      .parent()
+      .parent()
+      .contains('Ready at:')
+      .parent()
+      .parent()
+      .contains('FINISHED')
+
   requestedReportRow_Expired = (): PageElement =>
     cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Expiring report v1')
+
+  requestedReportRow_Expired_Full = (): PageElement =>
+    cy
+      .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
+      .find('tr')
+      .contains('Expiring report v1')
+      .parent()
+      .parent()
+      .contains('Expired at:')
+      .parent()
+      .parent()
+      .contains('EXPIRED')
 
   requestedReportRow_Failed = (): PageElement =>
     cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Failing report v1')
 
+  requestedReportRow_Failed_Full = (): PageElement =>
+    cy
+      .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
+      .find('tr')
+      .contains('Failing report v1')
+      .parent()
+      .parent()
+      .contains('Failed at:')
+      .parent()
+      .parent()
+      .contains('FAILED')
+
   requestedReportRow_Aborted = (): PageElement =>
     cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Cancelled Report v1')
+
+  requestedReportRow_Aborted_Full = (): PageElement =>
+    cy
+      .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
+      .find('tr')
+      .contains('Cancelled Report v1')
+      .parent()
+      .parent()
+      .contains('Aborted at:')
+      .parent()
+      .parent()
+      .contains('ABORTED')
 
   // V2
   requestedReportRow_FinishedV2 = (): PageElement =>
     cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Successful report v2')
 
+  requestedReportRow_FinishedV2_Full = (): PageElement =>
+    cy
+      .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
+      .find('tr')
+      .contains('Successful report v2')
+      .parent()
+      .parent()
+      .contains('Ready at:')
+      .parent()
+      .parent()
+      .contains('FINISHED')
+
   requestedReportRow_ExpiredV2 = (): PageElement =>
     cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Expiring report v2')
+
+  requestedReportRow_ExpiredV2_Full = (): PageElement =>
+    cy
+      .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
+      .find('tr')
+      .contains('Expiring report v2')
+      .parent()
+      .parent()
+      .contains('Expired at:')
+      .parent()
+      .parent()
+      .contains('EXPIRED')
 
   requestedReportRow_FailedV2 = (): PageElement =>
     cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Failing report v2')
 
+  requestedReportRow_FailedV2_Full = (): PageElement =>
+    cy
+      .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
+      .find('tr')
+      .contains('Failing report v2')
+      .parent()
+      .parent()
+      .contains('Failed at:')
+      .parent()
+      .parent()
+      .contains('FAILED')
+
   requestedReportRow_AbortedV2 = (): PageElement =>
     cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Cancelled report v2')
+
+  requestedReportRow_AbortedV2_Full = (): PageElement =>
+    cy
+      .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
+      .find('tr')
+      .contains('Cancelled report v2')
+      .parent()
+      .parent()
+      .contains('Aborted at:')
+      .parent()
+      .parent()
+      .contains('ABORTED')
 
   // Dashboards
   requestedDashboardRow_Finished = (): PageElement =>
     cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Successful dashboard')
 
+  requestedDashboardRow_Finished_Full = (): PageElement =>
+    cy
+      .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
+      .find('tr')
+      .contains('Successful dashboard')
+      .parent()
+      .parent()
+      .contains('Ready at:')
+      .parent()
+      .parent()
+      .contains('FINISHED')
+
   requestedDashboardRow_Expired = (): PageElement =>
     cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Expiring dashboard')
+
+  requestedDashboardRow_Expired_Full = (): PageElement =>
+    cy
+      .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
+      .find('tr')
+      .contains('Expiring dashboard')
+      .parent()
+      .parent()
+      .contains('Expired at:')
+      .parent()
+      .parent()
+      .contains('EXPIRED')
 
   requestedDashboardRow_Failed = (): PageElement =>
     cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Failing dashboard')
 
-  requestedDashboardRow_Aborted = (): PageElement =>
+  requestedDashboardRow_Failed_Full = (): PageElement =>
     cy
       .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
       .find('tr')
-      .contains('ABORTED')
+      .contains('Failing dashboard')
       .parent()
       .parent()
+      .contains('Failed at:')
+      .parent()
+      .parent()
+      .contains('FAILED')
+
+  requestedDashboardRow_Aborted = (): PageElement =>
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Cancelled dashboard')
+
+  requestedDashboardRow_Aborted_Full = (): PageElement =>
+    cy
+      .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
+      .find('tr')
       .contains('Cancelled dashboard')
+      .parent()
+      .parent()
+      .contains('Aborted at:')
+      .parent()
+      .parent()
+      .contains('ABORTED')
 
   // VIEWED REPORTS
   recentlyViewedTab = (): PageElement => cy.get(`#tab_recently-viewed-tab`)

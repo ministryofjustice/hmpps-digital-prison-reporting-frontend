@@ -6,13 +6,13 @@ Feature: Async Report
   Scenario: The page is accessible
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on a ready report
+    And I click on a ready viewed report
     Then the page is accessible
     
   Scenario: Apply Columns
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on a ready report
+    And I click on a ready viewed report
     Then I open the columns options
     And I select the columns
     Then the URL will show the correct columns
@@ -22,7 +22,7 @@ Feature: Async Report
   Scenario: Reset Columns
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on a ready report
+    And I click on a ready viewed report
     Then I open the columns options
     And I click reset columns
     Then the URL will show the default columns
@@ -31,7 +31,7 @@ Feature: Async Report
   Scenario: Changing the page size
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on a ready report
+    And I click on a ready viewed report
     And I change the page size to 10
     Then the page size is set in the URL
     And the totals should show the correct value
@@ -39,7 +39,7 @@ Feature: Async Report
   Scenario: Changing the page
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on a ready report
+    And I click on a ready viewed report
     And I click on page 5
     Then the page number is set in the URL
     And the totals should show the correct pagination value

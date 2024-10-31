@@ -49,7 +49,7 @@ Feature: Bookmarking
   Scenario: Adding a bookmark from the report
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on a ready report
+    And I click on a ready viewed report
     And I click the bookmark button on the report
     When I navigate to the async-home page
     And I click on the bookmarks tab

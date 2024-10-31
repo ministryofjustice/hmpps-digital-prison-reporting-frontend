@@ -80,20 +80,20 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
 
   const { href, id, reportName, text, timestamp, type: reportType, status } = data
   switch (status) {
-    case 'FAILED':
+    case RequestStatus.FAILED:
       statusClass = 'govuk-tag--red'
-      itemActions = itemActionsHtml(href, id, type)
+      itemActions = itemActionsHtml(href, id, type, status)
       break
-    case 'EXPIRED':
+    case RequestStatus.EXPIRED:
       statusClass = 'govuk-tag--grey'
-      itemActions = itemActionsHtml(href, id, type)
+      itemActions = itemActionsHtml(href, id, type, status)
       break
-    case 'ABORTED':
+    case RequestStatus.ABORTED:
       statusClass = 'govuk-tag--orange'
-      itemActions = itemActionsHtml(href, id, type)
+      itemActions = itemActionsHtml(href, id, type, status)
       break
-    case 'READY':
-    case 'FINISHED':
+    case RequestStatus.READY:
+    case RequestStatus.FINISHED:
       statusClass = 'govuk-tag--green'
       break
     default:
@@ -129,11 +129,16 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
   ]
 }
 
-const itemActionsHtml = (retryHref: string, executionId: string, type: 'requested' | 'viewed') => {
-  const text = type === 'requested' ? 'Retry' : 'Refresh'
+const itemActionsHtml = (
+  retryHref: string,
+  executionId: string,
+  type: 'requested' | 'viewed',
+  status: RequestStatus,
+) => {
+  const text = status === RequestStatus.EXPIRED ? 'refresh' : 'retry'
   return `<div class="dpr-icon-wrapper__item-actions">
       <a class='dpr-user-list-action govuk-link--no-visited-state' href="${retryHref}">${text}</a>
-      <a class="dpr-user-list-action govuk-link--no-visited-state dpr-remove-${type}-report-button"" href="#" data-execution-id='${executionId}'>Remove</a>
+      <a class="dpr-user-list-action govuk-link--no-visited-state dpr-remove-${type}-report-button"" href="#" data-execution-id='${executionId}'>remove</a>
     </div>`
 }
 

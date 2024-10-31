@@ -15,38 +15,110 @@ Feature: Requested Reports
   Scenario: Refresh an expired report
     When I navigate to the async-home page
     And I click on the requested reports tab
-    And I click on an expired report
-    Then I am taken to the query page
+    And I click on a expired report
+    Then I am taken to the report query page
+
+  Scenario: Refresh an expired reportV2
+    When I navigate to the async-home page
+    And I click on the requested reports tab
+    And I click on a expired reportV2
+    Then I am taken to the reportV2 query page
+
+  Scenario: Refresh an expired dashboard
+    When I navigate to the async-home page
+    And I click on the requested reports tab
+    And I click on a expired dashboard
+    Then I am taken to the dashboard query page
 
   Scenario: Refresh an expired report via action button
     When I navigate to the async-home page
     And I click on the requested reports tab
-    And I click on the refresh button on an expired report 
-    Then I am taken to the query page
+    And I click on the refresh button on a expired report 
+    Then I am taken to the report query page
+
+  Scenario: Refresh an expired reportV2 via action button
+    When I navigate to the async-home page
+    And I click on the requested reports tab
+    And I click on the refresh button on a expired reportV2 
+    Then I am taken to the reportV2 query page
+
+  Scenario: Refresh an expired dashboard via action button
+    When I navigate to the async-home page
+    And I click on the requested reports tab
+    And I click on the refresh button on a expired dashboard 
+    Then I am taken to the dashboard query page
 
   Scenario: Retry a failed report
     When I navigate to the async-home page
     And I click on the requested reports tab
     And I click on a failed report
-    Then I am taken to the status page
+    Then I am taken to the report status page
+
+  Scenario: Retry a failed reportV2
+    When I navigate to the async-home page
+    And I click on the requested reports tab
+    And I click on a failed reportV2
+    Then I am taken to the reportV2 status page
+
+  Scenario: Retry a failed dashboard
+    When I navigate to the async-home page
+    And I click on the requested reports tab
+    And I click on a failed dashboard
+    Then I am taken to the dashboard status page
 
   Scenario: Retry a failed report via action button
     When I navigate to the async-home page
     And I click on the requested reports tab
     And I click on the retry button on a failed report 
-    Then I am taken to the status page
+    Then I am taken to the report status page
+
+  Scenario: Retry a failed reportV2 via action button
+    When I navigate to the async-home page
+    And I click on the requested reports tab
+    And I click on the retry button on a failed reportV2 
+    Then I am taken to the reportV2 status page
+
+  Scenario: Retry a failed dashboard via action button
+    When I navigate to the async-home page
+    And I click on the requested reports tab
+    And I click on the retry button on a failed dashboard 
+    Then I am taken to the dashboard status page
 
   Scenario: Remove an expired report
     When I navigate to the async-home page
     And I click on the requested reports tab
-    And I click on the remove button of the expired report
+    And I click on the remove button on a expired report
     Then the expired report is removed from the list
+
+  Scenario: Remove an expired reportV2
+    When I navigate to the async-home page
+    And I click on the requested reports tab
+    And I click on the remove button on a expired reportV2
+    Then the expired reportV2 is removed from the list
+
+  Scenario: Remove an expired dashboard
+    When I navigate to the async-home page
+    And I click on the requested reports tab
+    And I click on the remove button on a expired dashboard
+    Then the expired dashboard is removed from the list
 
   Scenario: Remove failed report
     When I navigate to the async-home page
     And I click on the requested reports tab
-    And I click on the remove button of the failed report
+    And I click on the remove button on a failed report
     Then the failed report is removed from the list
+
+  Scenario: Remove failed reportV2
+    When I navigate to the async-home page
+    And I click on the requested reports tab
+    And I click on the remove button on a failed reportV2
+    Then the failed reportV2 is removed from the list
+
+  Scenario: Remove failed dashboard
+    When I navigate to the async-home page
+    And I click on the requested reports tab
+    And I click on the remove button on a failed dashboard
+    Then the failed dashboard is removed from the list
 
   Scenario: View a finished report
     When I navigate to the async-home page
@@ -55,4 +127,20 @@ Feature: Requested Reports
     Then I am taken to the report page
     When I navigate to the async-home page
     Then the finished report is removed from the list
+
+  Scenario: View a finished reportV2
+    When I navigate to the async-home page
+    And I click on the requested reports tab
+    And I click on a finished reportV2
+    Then I am taken to the reportV2 page
+    When I navigate to the async-home page
+    Then the finished reportV2 is removed from the list
+
+  Scenario: View a finished dashboard
+    When I navigate to the async-home page
+    And I click on the requested reports tab
+    And I click on a finished dashboard
+    Then I am taken to the dashboard page
+    When I navigate to the async-home page
+    Then the finished dashboard is removed from the list
 

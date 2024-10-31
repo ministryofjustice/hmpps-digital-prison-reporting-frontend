@@ -15,73 +15,73 @@ Feature: Recently viewed Reports
   Scenario: Refresh an expired report
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on an expired viewed report
+    And I click on a expired viewed report
     Then I am taken to the query page for the viewed report
 
-  Scenario: Refresh an expired report v2
+  Scenario: Refresh an expired reportV2
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on an expired viewed report v2
-    Then I am taken to the query page for the viewed report v2
+    And I click on a expired viewed reportV2
+    Then I am taken to the query page for the viewed reportV2
 
  Scenario: Refresh an expired dashboard 
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on an expired viewed dashboard
+    And I click on a expired viewed dashboard
     Then I am taken to the query page for the viewed dashboard
 
   Scenario: Refresh an expired report via action button
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on the refresh button on an expired viewed report 
+    And I click on the refresh button of an expired viewed report 
     Then I am taken to the query page for the viewed report
 
   Scenario: Refresh an expired report via action button v2
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on the refresh button on an expired viewed report v2
-    Then I am taken to the query page for the viewed report v2
+    And I click on the refresh button of an expired viewed reportV2
+    Then I am taken to the query page for the viewed reportV2
 
   Scenario: Refresh an expired dashboard via action button
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on the refresh button on an expired viewed dashboard 
+    And I click on the refresh button of an expired viewed dashboard 
     Then I am taken to the query page for the viewed dashboard
 
   Scenario: Remove an expired report
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on the remove button of the expired viewed report
+    And I click on the remove button of an expired viewed report
     Then the expired report is removed from the viewed reports list
 
-  Scenario: Remove an expired report v2
+  Scenario: Remove an expired reportV2
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on the remove button of the expired viewed report v2
-    Then the expired report v2 is removed from the viewed reports list
+    And I click on the remove button of an expired viewed reportV2
+    Then the expired reportV2 is removed from the viewed reports list
 
   Scenario: Remove an expired dashboard
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on the remove button of the expired viewed dashboard
+    And I click on the remove button of an expired viewed dashboard
     Then the expired dashboard is removed from the viewed reports list
 
   Scenario: View a report
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on a ready report
-    Then I am taken to the report
+    And I click on a ready viewed report
+    Then I am taken to the async report
 
-  Scenario: View a report v2
+  Scenario: View a reportV2
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on a ready report v2
-    Then I am taken to the report v2
+    And I click on a ready viewed reportV2
+    Then I am taken to the async reportV2
 
   Scenario: View a dashboard
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on a ready dashboard
+    And I click on a ready viewed dashboard
     Then I am taken to the async dashboard
 
 

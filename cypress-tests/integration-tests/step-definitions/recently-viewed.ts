@@ -71,101 +71,114 @@ Then('the status and timestamp is displayed for each viewed report', () => {
     .should('exist')
 })
 
-Then('I click on a ready report', () => {
-  new AsyncHomePage().viewedReportRow_Finished().click()
-})
+Then(
+  /^I click on a (ready|expired) viewed (report|reportV2|dashboard)$/,
+  function (this: Mocha.Context, status: string, reportType: string) {
+    if (reportType === 'report') {
+      if (status === 'ready') {
+        new AsyncHomePage().viewedReportRow_Finished().click()
+      }
+      if (status === 'expired') {
+        new AsyncHomePage().viewedReportRow_Expired().click()
+      }
+    }
 
-Then('I click on a ready report v2', () => {
-  new AsyncHomePage().viewedReportRow_FinishedV2().click()
-})
+    if (reportType === 'reportV2') {
+      if (status === 'ready') {
+        new AsyncHomePage().viewedReportRow_FinishedV2().click()
+      }
+      if (status === 'expired') {
+        new AsyncHomePage().viewedReportRow_ExpiredV2().click()
+      }
+    }
 
-Then('I click on a ready dashboard', () => {
-  new AsyncHomePage().viewedDashboardRow_Ready().click()
-})
+    if (reportType === 'dashboard') {
+      if (status === 'ready') {
+        new AsyncHomePage().viewedDashboardRow_Ready().click()
+      }
+      if (status === 'expired') {
+        new AsyncHomePage().viewedDashboardRow_Expired().click()
+      }
+    }
+  },
+)
 
-Then('I click on an expired viewed report', () => {
-  new AsyncHomePage().viewedReportRow_Expired().click()
-})
+Then(
+  /^I click on the (remove|refresh) button of an expired viewed (report|reportV2|dashboard)$/,
+  function (this: Mocha.Context, action: string, reportType: string) {
+    if (reportType === 'report') {
+      new AsyncHomePage().viewedReportRow_Expired().parent().parent().contains(action).click()
+    }
 
-Then('I click on an expired viewed report v2', () => {
-  new AsyncHomePage().viewedReportRow_ExpiredV2().click()
-})
+    if (reportType === 'reportV2') {
+      new AsyncHomePage().viewedReportRow_ExpiredV2().parent().parent().contains(action).click()
+    }
 
-Then('I click on an expired viewed dashboard', () => {
-  new AsyncHomePage().viewedDashboardRow_Expired().click()
-})
+    if (reportType === 'dashboard') {
+      new AsyncHomePage().viewedDashboardRow_Expired().parent().parent().contains(action).click()
+    }
+  },
+)
 
-Then('I click on the remove button of the expired viewed report', () => {
-  new AsyncHomePage().viewedReportRow_Expired().parent().parent().contains('Remove').click()
-})
+Then(
+  /^the expired (report|reportV2|dashboard) is removed from the viewed reports list$/,
+  function (this: Mocha.Context, reportType: string) {
+    if (reportType === 'report') {
+      new AsyncHomePage().viewedReportRow_Expired().should('not.exist')
+    }
 
-Then('I click on the remove button of the expired viewed report v2', () => {
-  new AsyncHomePage().viewedReportRow_ExpiredV2().parent().parent().contains('Remove').click()
-})
+    if (reportType === 'reportV2') {
+      new AsyncHomePage().viewedReportRow_ExpiredV2().should('not.exist')
+    }
 
-Then('I click on the refresh button on an expired viewed report', () => {
-  new AsyncHomePage().viewedReportRow_Expired().parent().parent().contains('Refresh').click()
-})
+    if (reportType === 'dashboard') {
+      new AsyncHomePage().viewedDashboardRow_Expired().should('not.exist')
+    }
+  },
+)
 
-Then('I click on the refresh button on an expired viewed report v2', () => {
-  new AsyncHomePage().viewedReportRow_ExpiredV2().parent().parent().contains('Refresh').click()
-})
+Then(
+  /^I am taken to the query page for the viewed (report|reportV2|dashboard)$/,
+  function (this: Mocha.Context, reportType: string) {
+    if (reportType === 'report') {
+      cy.url().should(
+        'eq',
+        'http://localhost:3010/async/report/test-report-3/variantId-1/request?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-09-05&filters.field3.end=2007-05-01&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field4=Inigo+Montoya',
+      )
+    }
 
-Then('I click on the remove button of the expired viewed dashboard', () => {
-  new AsyncHomePage().viewedDashboardRow_Expired().parent().parent().contains('Remove').click()
-})
+    if (reportType === 'reportV2') {
+      cy.url().should(
+        'eq',
+        'http://localhost:3010/async/report/test-report-3/variantId-1/request?filters.field2=value2.3&filters.field3.start=2003-09-05&filters.field3.end=2007-05-01&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field4=Inigo+Montoya&filters.field1=value1.2',
+      )
+    }
 
-Then('I click on the refresh button on an expired viewed dashboard', () => {
-  new AsyncHomePage().viewedDashboardRow_Expired().parent().parent().contains('Refresh').click()
-})
+    if (reportType === 'dashboard') {
+      cy.url().should('eq', 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request?')
+    }
+  },
+)
 
-Then('the expired report is removed from the viewed reports list', () => {
-  new AsyncHomePage().viewedReportRow_Expired().should('not.exist')
-})
+Then(/^I am taken to the async (report|reportV2|dashboard)$/, function (this: Mocha.Context, reportType: string) {
+  if (reportType === 'report') {
+    cy.url().should(
+      'eq',
+      'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729766362362/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7',
+    )
+  }
 
-Then('the expired report v2 is removed from the viewed reports list', () => {
-  new AsyncHomePage().viewedReportRow_ExpiredV2().should('not.exist')
-})
+  if (reportType === 'reportV2') {
+    cy.url().should(
+      'eq',
+      'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729766362362/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7',
+    )
+  }
 
-Then('the expired dashboard is removed from the viewed reports list', () => {
-  new AsyncHomePage().viewedDashboardRow_Expired().should('not.exist')
-})
-
-Then('I am taken to the query page for the viewed report', () => {
-  cy.url().should(
-    'eq',
-    'http://localhost:3010/async/report/test-report-3/variantId-1/request?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-09-05&filters.field3.end=2007-05-01&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field4=Inigo+Montoya',
-  )
-})
-
-Then('I am taken to the query page for the viewed report v2', () => {
-  cy.url().should(
-    'eq',
-    'http://localhost:3010/async/report/test-report-3/variantId-1/request?filters.field2=value2.3&filters.field3.start=2003-09-05&filters.field3.end=2007-05-01&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field4=Inigo+Montoya&filters.field1=value1.2',
-  )
-})
-
-Then('I am taken to the query page for the viewed dashboard', () => {
-  cy.url().should('eq', 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request?')
-})
-
-Then('I am taken to the async dashboard', () => {
-  cy.url().should(
-    'eq',
-    'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730302242487/report',
-  )
-})
-
-Then('I am taken to the report', () => {
-  cy.url().should(
-    'eq',
-    'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729766362362/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7',
-  )
-})
-
-Then('I am taken to the report v2', () => {
-  cy.url().should(
-    'eq',
-    'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729766362362/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7',
-  )
+  if (reportType === 'dashboard') {
+    cy.url().should(
+      'eq',
+      'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730302242487/report',
+    )
+  }
 })

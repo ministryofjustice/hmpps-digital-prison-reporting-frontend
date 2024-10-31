@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 import { Then } from '@badeball/cypress-cucumber-preprocessor'
 import AsyncHomePage from '../pages/AsyncHomePage'
 

@@ -96,6 +96,11 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
       itemActions = `<a class='govuk-link govuk-link--no-visited-state' href="${href}">go to ${reportType}</a>`
       statusClass = 'govuk-tag--green'
       break
+    case RequestStatus.PICKED:
+    case RequestStatus.SUBMITTED:
+    case RequestStatus.STARTED:
+      itemActions = `<a class='govuk-link govuk-link--no-visited-state' href="${href}">go to status</a>`
+      break
     default:
       break
   }

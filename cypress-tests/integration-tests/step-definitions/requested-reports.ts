@@ -33,7 +33,7 @@ When(/^I click on a finished (report|reportV2|dashboard)$/, function (this: Moch
       .parent()
       .parent()
       .parent()
-      .contains('go to report')
+      .contains('Go to report')
       .click()
   }
 
@@ -44,7 +44,7 @@ When(/^I click on a finished (report|reportV2|dashboard)$/, function (this: Moch
       .parent()
       .parent()
       .parent()
-      .contains('go to report')
+      .contains('Go to report')
       .click()
   }
 
@@ -55,7 +55,7 @@ When(/^I click on a finished (report|reportV2|dashboard)$/, function (this: Moch
       .parent()
       .parent()
       .parent()
-      .contains('go to dashboard')
+      .contains('Go to dashboard')
       .click()
   }
 })
@@ -121,7 +121,7 @@ When(/^I am taken to the (report|reportV2|dashboard) query page$/, function (thi
 })
 
 When(
-  /^I click on the (remove|retry|refresh) button on a (expired|failed|aborted) (report|reportV2|dashboard)$/,
+  /^I click on the (Remove|Retry|Refresh) button on a (expired|failed|aborted) (report|reportV2|dashboard)$/,
   function (this: Mocha.Context, action: string, status: string, reportType: string) {
     if (reportType === 'report') {
       if (status === 'expired') {

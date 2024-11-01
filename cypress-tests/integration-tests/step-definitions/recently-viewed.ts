@@ -35,7 +35,7 @@ Then('the status and timestamp is displayed for each viewed report', () => {
 
 Then(/^I click on a ready viewed (report|reportV2|dashboard)$/, function (this: Mocha.Context, reportType: string) {
   if (reportType === 'report') {
-    new AsyncHomePage().viewedReportRow_Finished().parent().parent().parent().parent().contains('go to report').click()
+    new AsyncHomePage().viewedReportRow_Finished().parent().parent().parent().parent().contains('Go to report').click()
   }
 
   if (reportType === 'reportV2') {
@@ -45,7 +45,7 @@ Then(/^I click on a ready viewed (report|reportV2|dashboard)$/, function (this: 
       .parent()
       .parent()
       .parent()
-      .contains('go to report')
+      .contains('Go to report')
       .click()
   }
 
@@ -56,13 +56,13 @@ Then(/^I click on a ready viewed (report|reportV2|dashboard)$/, function (this: 
       .parent()
       .parent()
       .parent()
-      .contains('go to dashboard')
+      .contains('Go to dashboard')
       .click()
   }
 })
 
 Then(
-  /^I click on the (remove|refresh) button of an expired viewed (report|reportV2|dashboard)$/,
+  /^I click on the (Remove|Refresh) button of an expired viewed (report|reportV2|dashboard)$/,
   function (this: Mocha.Context, action: string, reportType: string) {
     if (reportType === 'report') {
       new AsyncHomePage().viewedReportRow_Expired().parent().parent().parent().parent().contains(action).click()

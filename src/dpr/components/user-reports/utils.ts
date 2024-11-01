@@ -93,13 +93,13 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
       break
     case RequestStatus.READY:
     case RequestStatus.FINISHED:
-      itemActions = `<a class='govuk-link govuk-link--no-visited-state' href="${href}">go to ${reportType}</a>`
+      itemActions = `<a class='govuk-link govuk-link--no-visited-state' href="${href}">Go to ${reportType}</a>`
       statusClass = 'govuk-tag--green'
       break
     case RequestStatus.PICKED:
     case RequestStatus.SUBMITTED:
     case RequestStatus.STARTED:
-      itemActions = `<a class='govuk-link govuk-link--no-visited-state' href="${href}">go to status</a>`
+      itemActions = `<a class='govuk-link govuk-link--no-visited-state' href="${href}">Go to status</a>`
       break
     default:
       break

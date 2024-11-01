@@ -6,10 +6,10 @@ export const itemActionsHtml = (
   type: 'requested' | 'viewed',
   status: RequestStatus,
 ) => {
-  const text = status === RequestStatus.EXPIRED ? 'refresh' : 'retry'
+  const text = status === RequestStatus.EXPIRED ? 'Refresh' : 'Retry'
   return `<div class="dpr-icon-wrapper__item-actions">
       <a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${retryHref}">${text}</a>
-      <a class="dpr-user-list-action govuk-link--no-visited-state dpr-remove-${type}-report-button"" href="#" data-execution-id='${executionId}'>remove</a>
+      <a class="dpr-user-list-action govuk-link--no-visited-state dpr-remove-${type}-report-button"" href="#" data-execution-id='${executionId}'>Remove</a>
     </div>`
 }
 

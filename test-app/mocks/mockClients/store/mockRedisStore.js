@@ -44,6 +44,7 @@ const MockUserStoreService = class MockUserStoreService {
         { reportId: 'test-report-3', variantId: 'variantId-1' },
         { reportId: 'test-report-1', id: 'test-dashboard-8', type: 'dashboard' },
       ],
+      downloads: [],
     })
   }
 

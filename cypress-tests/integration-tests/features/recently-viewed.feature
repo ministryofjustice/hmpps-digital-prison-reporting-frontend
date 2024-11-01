@@ -15,34 +15,16 @@ Feature: Recently viewed Reports
   Scenario: Refresh an expired report
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
-    And I click on a expired viewed report
-    Then I am taken to the query page for the viewed report
-
-  Scenario: Refresh an expired reportV2
-    When I navigate to the async-home page
-    And I click on the recently viewed reports tab
-    And I click on a expired viewed reportV2
-    Then I am taken to the query page for the viewed reportV2
-
- Scenario: Refresh an expired dashboard 
-    When I navigate to the async-home page
-    And I click on the recently viewed reports tab
-    And I click on a expired viewed dashboard
-    Then I am taken to the query page for the viewed dashboard
-
-  Scenario: Refresh an expired report via action button
-    When I navigate to the async-home page
-    And I click on the recently viewed reports tab
     And I click on the refresh button of an expired viewed report 
     Then I am taken to the query page for the viewed report
 
-  Scenario: Refresh an expired report via action button v2
+  Scenario: Refresh an expired report v2
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
     And I click on the refresh button of an expired viewed reportV2
     Then I am taken to the query page for the viewed reportV2
 
-  Scenario: Refresh an expired dashboard via action button
+  Scenario: Refresh an expired dashboard
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
     And I click on the refresh button of an expired viewed dashboard 

@@ -18,7 +18,6 @@ export default class HomePage {
       .contains('Successful report v1')
       .parent()
       .parent()
-      .contains('Ready at:')
       .parent()
       .parent()
       .contains('FINISHED')
@@ -33,7 +32,6 @@ export default class HomePage {
       .contains('Expiring report v1')
       .parent()
       .parent()
-      .contains('Expired at:')
       .parent()
       .parent()
       .contains('EXPIRED')
@@ -48,7 +46,6 @@ export default class HomePage {
       .contains('Failing report v1')
       .parent()
       .parent()
-      .contains('Failed at:')
       .parent()
       .parent()
       .contains('FAILED')
@@ -63,7 +60,6 @@ export default class HomePage {
       .contains('Cancelled Report v1')
       .parent()
       .parent()
-      .contains('Aborted at:')
       .parent()
       .parent()
       .contains('ABORTED')
@@ -79,7 +75,6 @@ export default class HomePage {
       .contains('Successful report v2')
       .parent()
       .parent()
-      .contains('Ready at:')
       .parent()
       .parent()
       .contains('FINISHED')
@@ -94,7 +89,6 @@ export default class HomePage {
       .contains('Expiring report v2')
       .parent()
       .parent()
-      .contains('Expired at:')
       .parent()
       .parent()
       .contains('EXPIRED')
@@ -109,7 +103,6 @@ export default class HomePage {
       .contains('Failing report v2')
       .parent()
       .parent()
-      .contains('Failed at:')
       .parent()
       .parent()
       .contains('FAILED')
@@ -124,7 +117,6 @@ export default class HomePage {
       .contains('Cancelled report v2')
       .parent()
       .parent()
-      .contains('Aborted at:')
       .parent()
       .parent()
       .contains('ABORTED')
@@ -140,7 +132,6 @@ export default class HomePage {
       .contains('Successful dashboard')
       .parent()
       .parent()
-      .contains('Ready at:')
       .parent()
       .parent()
       .contains('FINISHED')
@@ -155,7 +146,6 @@ export default class HomePage {
       .contains('Expiring dashboard')
       .parent()
       .parent()
-      .contains('Expired at:')
       .parent()
       .parent()
       .contains('EXPIRED')
@@ -170,7 +160,6 @@ export default class HomePage {
       .contains('Failing dashboard')
       .parent()
       .parent()
-      .contains('Failed at:')
       .parent()
       .parent()
       .contains('FAILED')
@@ -185,7 +174,6 @@ export default class HomePage {
       .contains('Cancelled dashboard')
       .parent()
       .parent()
-      .contains('Aborted at:')
       .parent()
       .parent()
       .contains('ABORTED')
@@ -225,12 +213,13 @@ export default class HomePage {
   bookmarkDashboardButton = (): PageElement =>
     cy.xpath(`//*[@id="test-dashboard-8-test-report-1-bookmark-list-bookmark-label"]`)
 
-  bookmarkLink = (): PageElement => cy.xpath(`//*[@id="dpr-bookmarks-list"]/div/table/tbody/tr/td[2]/a`)
+  bookmarkLink = (): PageElement => cy.xpath(`//*[@id="dpr-bookmarks-list"]/div/table/tbody/tr/td[3]/a`)
 
-  bookmarkButtonFromList = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div[2]/table/tbody/tr[1]/td[5]/div`)
+  bookmarkButtonFromList = (): PageElement =>
+    cy.xpath(`//*[@id="variantId-16-test-report-1-reports-list-bookmark-label"]`)
 
   bookmarkDashboardButtonFromList = (): PageElement =>
-    cy.xpath(`/html/body/div[1]/main/div/div[2]/table/tbody/tr[12]/td[5]/div/label`)
+    cy.xpath(`//*[@id="test-dashboard-1-test-report-1-reports-list-bookmark-label"]`)
 
   bookmarkButtonFromReport = (): PageElement => cy.xpath(`//*[@id="variantId-1-test-report-3-report-bookmark-label"]`)
 
@@ -238,5 +227,5 @@ export default class HomePage {
     cy.xpath(`//*[@id="variantId-1-test-report-3-report-bookmark-label"]`)
 
   // Dashboards
-  dashboardLink = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div[2]/table/tbody/tr[11]/td[2]/a`)
+  dashboardLink = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div[2]/table/tbody/tr[11]/td[4]/a`)
 }

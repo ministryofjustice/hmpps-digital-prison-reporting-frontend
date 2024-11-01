@@ -11,112 +11,69 @@ Then('the viewed reports are displayed correctly', () => {
 })
 
 Then('the status and timestamp is displayed for each viewed report', () => {
-  new AsyncHomePage()
-    .viewedReportRow_Finished()
-    .parent()
-    .parent()
-    .contains('Last viewed:')
-    .parent()
-    .parent()
-    .contains('READY')
-    .should('exist')
-
-  new AsyncHomePage()
-    .viewedReportRow_Expired()
-    .parent()
-    .parent()
-    .contains('Expired at:')
-    .parent()
-    .parent()
-    .contains('EXPIRED')
-    .should('exist')
-
-  new AsyncHomePage()
-    .viewedReportRow_FinishedV2()
-    .parent()
-    .parent()
-    .contains('Last viewed:')
-    .parent()
-    .parent()
-    .contains('READY')
-    .should('exist')
-
+  new AsyncHomePage().viewedReportRow_Finished().parent().parent().parent().parent().contains('READY').should('exist')
+  new AsyncHomePage().viewedReportRow_Expired().parent().parent().parent().parent().contains('EXPIRED').should('exist')
+  new AsyncHomePage().viewedReportRow_FinishedV2().parent().parent().parent().parent().contains('READY').should('exist')
   new AsyncHomePage()
     .viewedReportRow_ExpiredV2()
     .parent()
     .parent()
-    .contains('Expired at:')
     .parent()
     .parent()
     .contains('EXPIRED')
     .should('exist')
-
-  new AsyncHomePage()
-    .viewedDashboardRow_Ready()
-    .parent()
-    .parent()
-    .contains('Last viewed:')
-    .parent()
-    .parent()
-    .contains('READY')
-    .should('exist')
-
+  new AsyncHomePage().viewedDashboardRow_Ready().parent().parent().parent().parent().contains('READY').should('exist')
   new AsyncHomePage()
     .viewedDashboardRow_Expired()
     .parent()
     .parent()
-    .contains('Expired at:')
     .parent()
     .parent()
     .contains('EXPIRED')
     .should('exist')
 })
 
-Then(
-  /^I click on a (ready|expired) viewed (report|reportV2|dashboard)$/,
-  function (this: Mocha.Context, status: string, reportType: string) {
-    if (reportType === 'report') {
-      if (status === 'ready') {
-        new AsyncHomePage().viewedReportRow_Finished().click()
-      }
-      if (status === 'expired') {
-        new AsyncHomePage().viewedReportRow_Expired().click()
-      }
-    }
+Then(/^I click on a ready viewed (report|reportV2|dashboard)$/, function (this: Mocha.Context, reportType: string) {
+  if (reportType === 'report') {
+    new AsyncHomePage().viewedReportRow_Finished().parent().parent().parent().parent().contains('go to report').click()
+  }
 
-    if (reportType === 'reportV2') {
-      if (status === 'ready') {
-        new AsyncHomePage().viewedReportRow_FinishedV2().click()
-      }
-      if (status === 'expired') {
-        new AsyncHomePage().viewedReportRow_ExpiredV2().click()
-      }
-    }
+  if (reportType === 'reportV2') {
+    new AsyncHomePage()
+      .viewedReportRow_FinishedV2()
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .contains('go to report')
+      .click()
+  }
 
-    if (reportType === 'dashboard') {
-      if (status === 'ready') {
-        new AsyncHomePage().viewedDashboardRow_Ready().click()
-      }
-      if (status === 'expired') {
-        new AsyncHomePage().viewedDashboardRow_Expired().click()
-      }
-    }
-  },
-)
+  if (reportType === 'dashboard') {
+    new AsyncHomePage()
+      .viewedDashboardRow_Ready()
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .contains('go to dashboard')
+      .click()
+  }
+})
 
 Then(
   /^I click on the (remove|refresh) button of an expired viewed (report|reportV2|dashboard)$/,
   function (this: Mocha.Context, action: string, reportType: string) {
     if (reportType === 'report') {
-      new AsyncHomePage().viewedReportRow_Expired().parent().parent().contains(action).click()
+      new AsyncHomePage().viewedReportRow_Expired().parent().parent().parent().parent().contains(action).click()
     }
 
     if (reportType === 'reportV2') {
-      new AsyncHomePage().viewedReportRow_ExpiredV2().parent().parent().contains(action).click()
+      new AsyncHomePage().viewedReportRow_ExpiredV2().parent().parent().parent().parent().contains(action).click()
     }
 
     if (reportType === 'dashboard') {
-      new AsyncHomePage().viewedDashboardRow_Expired().parent().parent().contains(action).click()
+      new AsyncHomePage().viewedDashboardRow_Expired().parent().parent().parent().parent().contains(action).click()
     }
   },
 )

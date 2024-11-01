@@ -25,55 +25,40 @@ Then('the status and timestamp is displayed for each request', () => {
   new AsyncHomePage().requestedDashboardRow_Aborted_Full().should('exist')
 })
 
-When(
-  /^I click on a (aborted|failed|finished|expired) (report|reportV2|dashboard)$/,
-  function (this: Mocha.Context, status: string, reportType: string) {
-    if (reportType === 'report') {
-      if (status === 'aborted') {
-        new AsyncHomePage().requestedReportRow_Aborted().click()
-      }
-      if (status === 'failed') {
-        new AsyncHomePage().requestedReportRow_Failed().click()
-      }
-      if (status === 'finished') {
-        new AsyncHomePage().requestedReportRow_Finished().click()
-      }
-      if (status === 'expired') {
-        new AsyncHomePage().requestedReportRow_Expired().click()
-      }
-    }
+When(/^I click on a finished (report|reportV2|dashboard)$/, function (this: Mocha.Context, reportType: string) {
+  if (reportType === 'report') {
+    new AsyncHomePage()
+      .requestedReportRow_Finished()
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .contains('go to report')
+      .click()
+  }
 
-    if (reportType === 'reportV2') {
-      if (status === 'aborted') {
-        new AsyncHomePage().requestedReportRow_AbortedV2().click()
-      }
-      if (status === 'failed') {
-        new AsyncHomePage().requestedReportRow_Failed().click()
-      }
-      if (status === 'finished') {
-        new AsyncHomePage().requestedReportRow_FinishedV2().click()
-      }
-      if (status === 'expired') {
-        new AsyncHomePage().requestedReportRow_ExpiredV2().click()
-      }
-    }
+  if (reportType === 'reportV2') {
+    new AsyncHomePage()
+      .requestedReportRow_FinishedV2()
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .contains('go to report')
+      .click()
+  }
 
-    if (reportType === 'dashboard') {
-      if (status === 'aborted') {
-        new AsyncHomePage().requestedDashboardRow_Aborted().click()
-      }
-      if (status === 'failed') {
-        new AsyncHomePage().requestedDashboardRow_Failed().click()
-      }
-      if (status === 'finished') {
-        new AsyncHomePage().requestedDashboardRow_Finished().click()
-      }
-      if (status === 'expired') {
-        new AsyncHomePage().requestedDashboardRow_Expired().click()
-      }
-    }
-  },
-)
+  if (reportType === 'dashboard') {
+    new AsyncHomePage()
+      .requestedDashboardRow_Finished()
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .contains('go to dashboard')
+      .click()
+  }
+})
 
 When(/^I am taken to the (report|reportV2|dashboard) page$/, function (this: Mocha.Context, reportType: string) {
   if (reportType === 'report') {
@@ -140,37 +125,37 @@ When(
   function (this: Mocha.Context, action: string, status: string, reportType: string) {
     if (reportType === 'report') {
       if (status === 'expired') {
-        new AsyncHomePage().requestedReportRow_Expired().parent().parent().contains(action).click()
+        new AsyncHomePage().requestedReportRow_Expired().parent().parent().parent().parent().contains(action).click()
       }
       if (status === 'failed') {
-        new AsyncHomePage().requestedReportRow_Failed().parent().parent().contains(action).click()
+        new AsyncHomePage().requestedReportRow_Failed().parent().parent().parent().parent().contains(action).click()
       }
       if (status === 'aborted') {
-        new AsyncHomePage().requestedReportRow_Aborted().parent().parent().contains(action).click()
+        new AsyncHomePage().requestedReportRow_Aborted().parent().parent().parent().parent().contains(action).click()
       }
     }
 
     if (reportType === 'reportV2') {
       if (status === 'expired') {
-        new AsyncHomePage().requestedReportRow_ExpiredV2().parent().parent().contains(action).click()
+        new AsyncHomePage().requestedReportRow_ExpiredV2().parent().parent().parent().parent().contains(action).click()
       }
       if (status === 'failed') {
-        new AsyncHomePage().requestedReportRow_FailedV2().parent().parent().contains(action).click()
+        new AsyncHomePage().requestedReportRow_FailedV2().parent().parent().parent().parent().contains(action).click()
       }
       if (status === 'aborted') {
-        new AsyncHomePage().requestedReportRow_AbortedV2().parent().parent().contains(action).click()
+        new AsyncHomePage().requestedReportRow_AbortedV2().parent().parent().parent().parent().contains(action).click()
       }
     }
 
     if (reportType === 'dashboard') {
       if (status === 'expired') {
-        new AsyncHomePage().requestedDashboardRow_Expired().parent().parent().contains(action).click()
+        new AsyncHomePage().requestedDashboardRow_Expired().parent().parent().parent().parent().contains(action).click()
       }
       if (status === 'failed') {
-        new AsyncHomePage().requestedDashboardRow_Failed().parent().parent().contains(action).click()
+        new AsyncHomePage().requestedDashboardRow_Failed().parent().parent().parent().parent().contains(action).click()
       }
       if (status === 'aborted') {
-        new AsyncHomePage().requestedDashboardRow_Aborted().parent().parent().contains(action).click()
+        new AsyncHomePage().requestedDashboardRow_Aborted().parent().parent().parent().parent().contains(action).click()
       }
     }
   },

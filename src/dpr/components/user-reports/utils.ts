@@ -114,7 +114,7 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
     {
       html: createListItemProduct(reportName, text, reportType, timestamp),
     },
-    { html: ShowMoreUtils.createShowMoreHtml(data.description, 200) },
+    { html: ShowMoreUtils.createShowMoreHtml(data.description, 175) },
     { html: filtersSummary },
     {
       html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${status}</strong>`,

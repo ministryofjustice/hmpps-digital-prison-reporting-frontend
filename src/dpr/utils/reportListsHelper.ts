@@ -13,18 +13,25 @@ export const itemActionsHtml = (
     </div>`
 }
 
+const getTypeTagColor = (type: ReportType) => {
+  return type === ReportType.DASHBOARD ? 'govuk-tag--purple' : ''
+}
+
 export const createListItemProduct = (productName: string, reportName: string, type: ReportType, ts?: string) => {
+  const tsClass = !ts ? 'dpr-display-none' : ''
+  const tagColor = getTypeTagColor(type)
   return `<div>
-  <p class="govuk-body-xs govuk-!-margin-bottom-1">${productName}</p>
+  <p class="govuk-body-s govuk-!-margin-bottom-1">${productName}</p>
   <p class="govuk-body govuk-!-margin-bottom-2"><strong>${reportName}</strong></p>
-  <strong class="govuk-tag dpr-request-status-tag dpr-request-status-tag--small govuk-!-margin-bottom-4'">${type}</strong>
-  <p class="govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-2">${ts}</p>
+  <strong class="govuk-tag ${tagColor} dpr-request-status-tag dpr-request-status-tag--small govuk-!-margin-bottom-4'">${type}</strong>
+  <p class="govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-2 ${tsClass}">${ts}</p>
 </div>`
 }
 
 export const createListItemProductMin = (reportName: string, type: ReportType) => {
+  const tagColor = getTypeTagColor(type)
   return `<div>
-  <p class="govuk-body govuk-!-margin-bottom-2"><strong>${reportName}</strong></p>
-  <strong class="govuk-tag dpr-request-status-tag dpr-request-status-tag--small">${type}</strong>
+  <p class="govuk-body-s govuk-!-margin-bottom-2"><strong>${reportName}</strong></p>
+  <strong class="govuk-tag ${tagColor} dpr-request-status-tag dpr-request-status-tag--small">${type}</strong>
 </div>`
 }

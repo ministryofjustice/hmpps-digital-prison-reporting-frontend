@@ -12,37 +12,20 @@ Feature: Requested Reports
     Then the requested reports are displayed correctly
     And the status and timestamp is displayed for each request
 
+
   Scenario: Refresh an expired report
-    When I navigate to the async-home page
-    And I click on the requested reports tab
-    And I click on a expired report
-    Then I am taken to the report query page
-
-  Scenario: Refresh an expired reportV2
-    When I navigate to the async-home page
-    And I click on the requested reports tab
-    And I click on a expired reportV2
-    Then I am taken to the reportV2 query page
-
-  Scenario: Refresh an expired dashboard
-    When I navigate to the async-home page
-    And I click on the requested reports tab
-    And I click on a expired dashboard
-    Then I am taken to the dashboard query page
-
-  Scenario: Refresh an expired report via action button
     When I navigate to the async-home page
     And I click on the requested reports tab
     And I click on the refresh button on a expired report 
     Then I am taken to the report query page
 
-  Scenario: Refresh an expired reportV2 via action button
+  Scenario: Refresh an expired reportV2
     When I navigate to the async-home page
     And I click on the requested reports tab
     And I click on the refresh button on a expired reportV2 
     Then I am taken to the reportV2 query page
 
-  Scenario: Refresh an expired dashboard via action button
+  Scenario: Refresh an expired dashboard
     When I navigate to the async-home page
     And I click on the requested reports tab
     And I click on the refresh button on a expired dashboard 
@@ -51,34 +34,16 @@ Feature: Requested Reports
   Scenario: Retry a failed report
     When I navigate to the async-home page
     And I click on the requested reports tab
-    And I click on a failed report
+    And I click on the retry button on a failed report 
     Then I am taken to the report status page
 
   Scenario: Retry a failed reportV2
     When I navigate to the async-home page
     And I click on the requested reports tab
-    And I click on a failed reportV2
-    Then I am taken to the reportV2 status page
-
-  Scenario: Retry a failed dashboard
-    When I navigate to the async-home page
-    And I click on the requested reports tab
-    And I click on a failed dashboard
-    Then I am taken to the dashboard status page
-
-  Scenario: Retry a failed report via action button
-    When I navigate to the async-home page
-    And I click on the requested reports tab
-    And I click on the retry button on a failed report 
-    Then I am taken to the report status page
-
-  Scenario: Retry a failed reportV2 via action button
-    When I navigate to the async-home page
-    And I click on the requested reports tab
     And I click on the retry button on a failed reportV2 
     Then I am taken to the reportV2 status page
 
-  Scenario: Retry a failed dashboard via action button
+  Scenario: Retry a failed dashboard
     When I navigate to the async-home page
     And I click on the requested reports tab
     And I click on the retry button on a failed dashboard 

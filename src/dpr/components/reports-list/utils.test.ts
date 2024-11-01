@@ -28,7 +28,7 @@ describe('ReportListUtils', () => {
     it('should map the reports to the list', async () => {
       const reportsTableData = await ReportListUtils.mapReportsList(res, services)
 
-      expect(reportsTableData.head.length).toEqual(5)
+      expect(reportsTableData.head.length).toEqual(4)
       expect(reportsTableData.rows.length).toEqual(40)
     })
   })

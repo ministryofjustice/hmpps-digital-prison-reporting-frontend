@@ -1,8 +1,18 @@
+.dpr-chart-card {
+  padding-top: govuk-spacing(6);
+  padding-bottom: govuk-spacing(6);
+}
+
 .chart-tabs-container {
   display: grid;
   grid-template-columns: 3fr 1fr;
   column-gap: 30px;
   row-gap: 20px;
+  padding-top: 18px;
+
+  @media(max-width: 1019px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .dpr-chart-tabs {
@@ -47,4 +57,10 @@
       margin-bottom: 0px;
     }
   }
+}
+
+.metric-break {
+  border: 0px;
+  border-bottom: 1px solid #b1b4b6;
+  margin-top: govuk-spacing(6);
 }

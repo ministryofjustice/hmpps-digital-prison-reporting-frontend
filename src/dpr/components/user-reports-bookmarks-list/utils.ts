@@ -3,10 +3,10 @@ import BookmarkService from '../../services/bookmarkService'
 import { BookmarkedReportData, BookmarkStoreData } from '../../types/Bookmark'
 import { FormattedUserReportData, ReportType } from '../../types/UserReports'
 import { Services } from '../../types/Services'
-import TagUtils from '../tag/utils'
 import ShowMoreUtils from '../show-more/utils'
 import logger from '../../utils/logger'
 import DefinitionUtils from '../../utils/definitionUtils'
+import { createListItemProduct } from '../../utils/reportListsHelper'
 
 export const formatBookmarks = async (
   bookmarksData: BookmarkedReportData[],
@@ -54,10 +54,8 @@ const formatTable = async (
     rows: maxRows ? rows.slice(0, maxRows) : rows,
     head: [
       { text: 'Product', classes: 'dpr-req-product-head' },
-      { text: 'Name', classes: 'dpr-req-name-head' },
       { text: 'Description', classes: 'dpr-bm-description-head' },
-      { text: 'Type', classes: 'dpr-req-type-head' },
-      { text: 'Bookmark', classes: 'dpr-bookmark-head' },
+      { text: 'Actions', classes: 'dpr-bm-actions-head' },
     ],
   }
 }
@@ -69,24 +67,22 @@ const formatTableData = async (
   userId: string,
 ) => {
   const { description, reportName, reportId, id, href, name, type } = bookmarksData
+  const bookmarkHtml = await bookmarkService.createBookMarkToggleHtml({
+    userId,
+    reportId,
+    id,
+    csrfToken,
+    ctxId: 'bookmark-list',
+    reportType: type,
+  })
   return [
-    { text: reportName, classes: 'dpr-req-cell' },
-    { html: `<a href='${href}'>${name}</a>`, classes: 'dpr-req-cell' },
+    {
+      html: createListItemProduct(reportName, name, type),
+    },
     { html: ShowMoreUtils.createShowMoreHtml(description), classes: 'dpr-req-cell' },
     {
-      html: TagUtils.createTagHtml(type),
-      classes: 'dpr-req-cell dpr-req-cell__type',
-    },
-    {
-      html: await bookmarkService.createBookMarkToggleHtml({
-        userId,
-        reportId,
-        id,
-        csrfToken,
-        ctxId: 'bookmark-list',
-        reportType: type,
-      }),
-      classes: 'dpr-req-cell dpr-vertical-align',
+      html: `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">Request ${type}</a> ${bookmarkHtml}`,
+      classes: 'dpr-req-cell dpr-req-cell__status',
     },
   ]
 }

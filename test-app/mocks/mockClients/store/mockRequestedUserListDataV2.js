@@ -5,7 +5,7 @@ const requestedReady = {
   reportName: 'Test Report',
   description: 'this will succeed',
   id: 'variantId-1',
-  name: 'Successful Report',
+  name: 'Successful report v2',
   timestamp: {
     requested: '2024-10-24T10:27:09.173Z',
     completed: '2024-10-24T10:27:15.448Z',
@@ -105,7 +105,7 @@ const requestedExpired = {
   reportName: 'Test Report',
   description: 'This will Expire after one minute',
   id: 'variantId-4',
-  name: 'Expiring report',
+  name: 'Expiring report v2',
   timestamp: {
     requested: '2024-10-24T10:31:12.861Z',
     completed: '2024-10-24T10:31:22.225Z',
@@ -193,7 +193,7 @@ const requestedAborted = {
   reportName: 'Test Report',
   description: 'this will succeed',
   id: 'variantId-1',
-  name: 'Successful Report',
+  name: 'Cancelled report v2',
   timestamp: {
     requested: '2024-10-24T10:33:34.078Z',
     aborted: '2024-10-24T10:33:35.430Z',
@@ -290,7 +290,7 @@ const requestedFailed = {
   reportName: 'Test Report',
   description: 'this will fail with returned Status: FAILED',
   id: 'variantId-2',
-  name: 'Failed report',
+  name: 'Failing report v2',
   timestamp: {
     requested: '2024-10-24T10:28:15.792Z',
     failed: '2024-10-24T10:28:22.013Z',
@@ -384,7 +384,7 @@ const requestedSubmitted = {
   reportName: 'Test Report',
   description: 'this will fail with returned Status: FAILED',
   id: 'variantId-2',
-  name: 'Failed report',
+  name: 'Submitted report v2',
   timestamp: {
     requested: '2024-10-24T10:28:15.792Z',
   },

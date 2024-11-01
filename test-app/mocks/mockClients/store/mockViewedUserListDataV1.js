@@ -4,8 +4,8 @@ const viewedReady = {
   executionId: 'exId_1729766362362',
   tableId: 'tblId_1729766362362',
   reportName: 'Test Report',
-  variantName: 'Successful Report',
-  name: 'Successful Report',
+  variantName: 'Viewed report v1',
+  name: 'Viewed report v1',
   description: 'this will succeed',
   status: 'READY',
   url: {
@@ -77,8 +77,8 @@ const viewedExpired = {
   executionId: 'exId_1729766465228',
   tableId: 'tblId_1729766465228',
   reportName: 'Test Report',
-  variantName: 'Successful Report',
-  name: 'Successful Report',
+  variantName: 'Expiring viewed report v1',
+  name: 'Expiring viewed report v1',
   description: 'this will succeed',
   status: 'EXPIRED',
   url: {

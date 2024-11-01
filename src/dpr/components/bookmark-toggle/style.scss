@@ -24,7 +24,7 @@
     font-feature-settings: "liga" 1;
     font-style: normal;
     text-transform: none;
-    line-height: 23px;
+    line-height: 16px;
     font-size: 16px;
     text-align: center;
     position: absolute;
@@ -42,7 +42,7 @@
     font-feature-settings: "liga" 1;
     font-style: normal;
     text-transform: none;
-    line-height: 23px;
+    line-height: 16px;
     font-size: 16px;
     text-align: center;
     position: absolute;
@@ -79,10 +79,6 @@
   text-align: center
 }
 
-.dpr-bookmark-table {
-  text-align: center
-}
-
 .dpr-bookmark-tooltip:hover:after {
   background: govuk-colour("dark-grey");
   content: attr(tooltip);
@@ -115,7 +111,8 @@
 }
 
 .dpr-bookmark-head {
-  width: 89px;
+  width: 160px;
+  text-align: right;
 }
 
 .dpr-bookmark-tooltip:hover:before{
@@ -134,10 +131,13 @@
 }
 
 .dpr-bookmark-label {
-  display: block;
+  display: inline-block;
   margin-top: govuk-spacing(1);
   margin-bottom: 0px;
-  color: govuk-colour("blue")
+  margin-left: govuk-spacing(1);
+  color: govuk-colour("blue");
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
 }
 
 .dpr-visually-hidden {
@@ -160,38 +160,30 @@
 
 .dpr-bookmark-component {
   position: relative;
-  text-align: center;
+  text-align: right;
   height: 65px;
 
   .dpr-bookmark-label {
-    position: absolute;
-    left: 20px;
-    padding-left: 10px;
-    width: max-content;
-    text-align: left;
-    top: 7px;
-    text-decoration: underline;
-    text-decoration-thickness: max(1px, .0625rem);
-    text-underline-offset: .1578em;
+    margin-left: govuk-spacing(2);
+    margin-top: 3px;
   }
 
   [type="checkbox"]:not(:checked)+label,
   [type="checkbox"]:checked+label {
-    padding-left: 16px;
-    cursor: pointer;
-    position: absolute;
-    left: 0px;
-    height: 50px;
-    width: 150px;
+    margin-left: 10px;
+    display: inline-block;
+    position: relative;
   }
 
   [type="checkbox"]:not(:checked)+label:before,
   [type="checkbox"]:checked+label:before {
     font-size: 22px;
+    line-height: 22px !important;
   }
 
   [type="checkbox"]:not(:checked)+label:after,
   [type="checkbox"]:checked+label:after {
     font-size: 22px;
+    line-height: 22px !important;
   }
 }

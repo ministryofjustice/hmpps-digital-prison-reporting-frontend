@@ -3,7 +3,7 @@ const failedDashboard = {
   id: 'test-dashboard-2',
   executionId: 'exId_1724943092123',
   tableId: 'tblId_1724943092123',
-  name: 'Test Dashboard 2',
+  name: 'Failing dashboard',
   reportName: 'Test Report',
   description: 'Requested Dashboard',
   template: 'list',
@@ -36,9 +36,9 @@ const expiredDashboard = {
   id: 'test-dashboard-3',
   executionId: 'exId_1724943092824',
   tableId: 'tblId_1724943092824',
-  name: 'Test Dashboard 3',
+  name: 'Expiring dashboard',
   reportName: 'Test Report',
-  description: 'Requested Dashboard',
+  description: 'requested dashboard',
   template: 'list',
   type: 'dashboard',
   status: 'EXPIRED',
@@ -63,14 +63,15 @@ const expiredDashboard = {
   },
   dataProductDefinitionsPath: '',
 }
+
 const submittedDashboard = {
   reportId: 'test-report-1',
   id: 'test-dashboard-1',
   executionId: 'exId_1724943092098',
   tableId: 'tblId_1724943092098',
-  name: 'Test Dashboard 1',
+  name: 'Requested dashboard',
   reportName: 'Test Report',
-  description: 'Requested Dashboard',
+  description: 'This dashboard is pending',
   template: 'list',
   type: 'dashboard',
   status: 'SUBMITTED',
@@ -93,17 +94,17 @@ const submittedDashboard = {
   dataProductDefinitionsPath: '',
 }
 
-const readyDashboard = {
+const abortedDashboard = {
   reportId: 'test-report-1',
   id: 'test-dashboard-1',
   executionId: 'exId_1724943092098',
   tableId: 'tblId_1724943092098',
-  name: 'Test Dashboard 1',
+  name: 'Cancelled dashboard',
   reportName: 'Test Report',
-  description: 'Requested Dashboard',
+  description: 'Cancel dashboard',
   template: 'list',
   type: 'dashboard',
-  status: 'FINISHED',
+  status: 'ABORTED',
   url: {
     origin: 'http://localhost:3010',
     request: {
@@ -119,9 +120,54 @@ const readyDashboard = {
   },
   timestamp: {
     requested: '2024-08-29T14:51:33.557Z',
-    completed: '2024-08-29T14:51:41.807Z',
+    aborted: '2024-08-29T14:51:33.557Z',
   },
   dataProductDefinitionsPath: '',
+}
+
+const readyDashboard = {
+  dataProductDefinitionsPath: '',
+  type: 'dashboard',
+  reportId: 'test-report-1',
+  reportName: 'A Test Report',
+  description: 'This dashboard has succeeded',
+  id: 'test-dashboard-8',
+  name: 'Successful dashboard',
+  timestamp: {
+    requested: '2024-10-31T13:45:25.707Z',
+    completed: '2024-10-31T13:45:26.794Z',
+  },
+  executionId: 'exId_1730382324700',
+  tableId: 'tblId_1730382324700',
+  url: {
+    origin: 'http://localhost:3010',
+    request: {
+      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request?',
+      pathname: '/async/dashboard/test-report-1/test-dashboard-8/request',
+      search: '',
+    },
+    polling: {
+      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request/exId_1730382324700',
+      pathname: '/async/dashboard/test-report-1/test-dashboard-8/request/exId_1730382324700',
+    },
+    report: {
+      pathname: '/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730382324700/report',
+      fullUrl:
+        'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730382324700/report',
+    },
+  },
+  status: 'FINISHED',
+  metrics: [
+    {
+      name: 'Missing Ethnicity By Establishment',
+    },
+    {
+      name: 'Percentage Missing Ethnicity By Establishment',
+    },
+    {
+      name: 'Missing Ethnicity By Establishment',
+    },
+  ],
 }
 
 module.exports = {
@@ -129,4 +175,5 @@ module.exports = {
   failedDashboard,
   expiredDashboard,
   readyDashboard,
+  abortedDashboard,
 }

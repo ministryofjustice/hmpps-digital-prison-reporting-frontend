@@ -1,16 +1,32 @@
 #dpr-recently-viewed-component, #dpr-async-request-component, #dpr-bookmarks-list {
   .govuk-table {
     margin-bottom: 0px;
+    width: 100%;
   }
 
   th.dpr-req-product-head, th.dpr-req-name-head {
-    width: 175px;
+    width: 25%;
   }
   th.dpr-req-description-head {
-    width: 275px;
+    width: 30%;
   }
   th.dpr-bm-description-head {
-    width: 495px;
+    width: 60%;
+  }
+  th.dpr-req-filters-head {
+    width: 25%;
+  }
+  th.dpr-req-status-head {
+    width: 100px;
+    width: 8%;
+  }
+  th.dpr-bm-actions-head {
+    width: 20%;
+    text-align: right;
+  }
+  th.dpr-req-actions-head {
+    width: 12%;
+    text-align: right;
   }
   td.govuk-table__cell {
     vertical-align: top;
@@ -37,6 +53,11 @@
       border: none
     }
   }
+
+  .govuk-table__cell:last-child {
+    padding-right: 0px !important;
+    text-align: right;
+  }
 }
 
 #requested-reports-tab, #recently-viewed-tab, #my-bookmarks-tab {
@@ -46,4 +67,8 @@
 
 .dpr-user-list-action {
   display: block;
+}
+
+.dpr-display-none {
+  display: none;
 }

@@ -16,7 +16,10 @@ export default class IconButtonList extends DprClientClass {
     this.initPrintButtonEvent()
     this.initShareButtonEvent()
     this.initCopyButtonEvent()
-    this.initDownloadButtonEvent()
+
+    if (this.downloadButton) {
+      this.initDownloadButtonEvent()
+    }
   }
 
   initPrintButtonEvent() {
@@ -69,13 +72,12 @@ export default class IconButtonList extends DprClientClass {
   }
 
   initDownloadButtonEvent() {
-    const hashFragment = 'download'
-    if (window.location.href.indexOf(hashFragment) > -1) {
+    if (window.location.href.indexOf('download') > -1) {
       this.downloadButton.setAttribute('disabled', '')
     }
 
     this.downloadButton.addEventListener('click', () => {
-      if (window.location.href.indexOf(hashFragment) === -1) {
+      if (window.location.href.indexOf('download') === -1) {
         this.downloadButton.setAttribute('disabled', '')
         window.location = `${window.location.pathname}/download${window.location.search}`
       }

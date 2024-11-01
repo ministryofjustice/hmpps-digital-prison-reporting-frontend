@@ -14,7 +14,10 @@ export default {
     const { reportName, name, variantName, description, status, query, timestamp, url, errorMessage, metrics } =
       requestReportData
 
+    const title = `${type.charAt(0).toUpperCase() + type.substring(1).toLowerCase()} request status`
+
     return {
+      title,
       pollingRenderData: {
         reportName,
         name: variantName || name,

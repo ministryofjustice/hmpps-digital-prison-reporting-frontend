@@ -244,7 +244,7 @@ export default function routes({
   // 3 - VIEw REPORT
   const viewReportPaths = [
     '/async/:type/:reportId/:id/request/:tableId/report',
-    '/async/report/:reportId/:id/request/:tableId/report/download',
+    '/async/:type/:reportId/:id/request/:tableId/report/download',
   ]
   router.get(viewReportPaths, viewReportHandler, asyncErrorHandler)
 

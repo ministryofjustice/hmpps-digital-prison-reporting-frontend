@@ -11,6 +11,8 @@ describe('DownloadPermissionService', () => {
   let saveStateSpy: jest.SpyInstance<Promise<void>, [userId: string, userConfig: UserStoreConfig], any>
   let getStateSpy: jest.SpyInstance<Promise<UserStoreConfig>, [userId: string], any>
   beforeEach(() => {
+    jest.clearAllMocks()
+
     getStateSpy = jest.spyOn(downloadPermissionService, 'getState').mockResolvedValue({
       downloadPermissions: [],
     } as unknown as UserStoreConfig)
@@ -34,6 +36,21 @@ describe('DownloadPermissionService', () => {
           },
         ],
       })
+    })
+
+    it('should not save the download data if already present', async () => {
+      getStateSpy.mockResolvedValue({
+        downloadPermissions: [
+          {
+            reportId: 'reportId-1',
+            id: '12345',
+          },
+        ],
+      } as unknown as UserStoreConfig)
+
+      await downloadPermissionService.saveDownloadPermissionData('userId', 'reportId-1', '12345')
+
+      expect(saveStateSpy).not.toHaveBeenCalled()
     })
 
     it('should in the config if no current download permissions', async () => {
@@ -92,7 +109,7 @@ describe('DownloadPermissionService', () => {
           },
         ],
       } as unknown as UserStoreConfig)
-      const res = await downloadPermissionService.canDownloadReport('userId', 'reportId-1', '12345')
+      const res = await downloadPermissionService.downloadEnabled('userId', 'reportId-1', '12345')
 
       expect(res).toBeTruthy()
     })
@@ -110,7 +127,7 @@ describe('DownloadPermissionService', () => {
           },
         ],
       } as unknown as UserStoreConfig)
-      const res = await downloadPermissionService.canDownloadReport('userId', 'reportId-3', '458723')
+      const res = await downloadPermissionService.downloadEnabled('userId', 'reportId-3', '458723')
 
       expect(res).toBeFalsy()
     })

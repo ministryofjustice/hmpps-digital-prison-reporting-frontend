@@ -5,6 +5,7 @@ import logger from '../utils/logger'
 export default function routes({
   router,
   layoutPath,
+  services,
   templatePath = 'dpr/views/',
 }: {
   router: Router
@@ -41,7 +42,11 @@ export default function routes({
   }
 
   const feedbackSuccessHandler: RequestHandler = async (req, res, next) => {
+    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const { reportId, variantId, tableId } = req.params
+
+    await services.downloadPermissionService.saveDownloadPermissionData(userId, reportId, variantId)
+
     res.render(`${templatePath}feedback-form-success`, {
       title: 'success',
       layoutPath,

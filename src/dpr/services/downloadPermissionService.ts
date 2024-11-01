@@ -1,6 +1,7 @@
 import UserDataStore from '../data/userDataStore'
 import { DownloadPermissionConfig } from '../types/Download'
 import UserStoreService from './userStoreService'
+import logger from '../utils/logger'
 
 export default class DownloadPermissionService extends UserStoreService {
   constructor(userDataStore: UserDataStore) {
@@ -9,11 +10,17 @@ export default class DownloadPermissionService extends UserStoreService {
 
   async saveDownloadPermissionData(userId: string, reportId: string, id: string) {
     const userConfig = await this.getState(userId)
+
+    // Init downloads if not present
     if (!userConfig.downloadPermissions) {
       userConfig.downloadPermissions = []
     }
-    userConfig.downloadPermissions.push({ reportId, id })
-    await this.saveState(userId, userConfig)
+    const permissionExists = await this.downloadEnabled(userId, reportId, id)
+    if (!permissionExists) {
+      userConfig.downloadPermissions.push({ reportId, id })
+      logger.info(`Download permission granted for ${userId}: ${reportId} - ${id}`)
+      await this.saveState(userId, userConfig)
+    }
   }
 
   async removeDownloadPermissionData(userId: string, reportId: string, id: string) {
@@ -27,7 +34,7 @@ export default class DownloadPermissionService extends UserStoreService {
     await this.saveState(userId, userConfig)
   }
 
-  async canDownloadReport(userId: string, reportId: string, id: string) {
+  async downloadEnabled(userId: string, reportId: string, id: string) {
     const userConfig = await this.getState(userId)
     const config = userConfig.downloadPermissions.find((downloadConfig: DownloadPermissionConfig) => {
       return downloadConfig.id === id && downloadConfig.reportId === reportId

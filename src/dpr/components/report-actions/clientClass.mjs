@@ -72,15 +72,35 @@ export default class IconButtonList extends DprClientClass {
   }
 
   initDownloadButtonEvent() {
-    if (window.location.href.indexOf('download') > -1) {
-      this.downloadButton.setAttribute('disabled', '')
-    }
+    const csrfToken = this.downloadButton.getAttribute('data-csrf-token')
+    const reportId = this.downloadButton.getAttribute('data-report-id')
+    const id = this.downloadButton.getAttribute('data-id')
+    const tableId = this.downloadButton.getAttribute('data-table-id')
+    const type = this.downloadButton.getAttribute('data-type')
 
-    this.downloadButton.addEventListener('click', () => {
-      if (window.location.href.indexOf('download') === -1) {
-        this.downloadButton.setAttribute('disabled', '')
-        window.location = `${window.location.pathname}/download${window.location.search}`
-      }
+    this.downloadButton.addEventListener('click', async () => {
+      await fetch('/downloadReport/', {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'CSRF-Token': csrfToken,
+        },
+        body: JSON.stringify({
+          csrfToken,
+          reportId,
+          tableId,
+          id,
+          type,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.redirect) {
+            window.location = res.redirect
+          }
+        })
+        .catch((error) => console.error('Error:', error))
     })
   }
 

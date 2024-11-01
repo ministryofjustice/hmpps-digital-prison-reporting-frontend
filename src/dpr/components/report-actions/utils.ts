@@ -1,4 +1,4 @@
-import { RequestedReport } from '../../types/UserReports'
+import { ReportType, RequestedReport } from '../../types/UserReports'
 import { components } from '../../types/api'
 
 const BUTTON_TEMPLATES = {
@@ -87,9 +87,6 @@ const initReportActions = ({
   })
 
   // Downloadable
-  // NOTE: Temporarily disabling for release 25
-  // eslint-disable-next-line no-param-reassign
-  // downloadable = false
   actions.push({
     ...BUTTON_TEMPLATES.downloadable,
     disabled: !downloadable,
@@ -123,6 +120,11 @@ const getActions = ({
   }
   download?: {
     enabled: boolean
+    csrfToken: string
+    reportId: string
+    id: string
+    tableId: string
+    type: ReportType
   }
 }): ReportAction[] => {
   const actions: ReportAction[] = []
@@ -167,6 +169,13 @@ const getActions = ({
     actions.push({
       ...BUTTON_TEMPLATES.downloadable,
       disabled: !download.enabled,
+      attributes: {
+        reportId: download.reportId,
+        csrfToken: download.csrfToken,
+        id: download.id,
+        tableId: download.tableId,
+        type: download.type,
+      },
       ariaLabelText: !download.enabled
         ? `${BUTTON_TEMPLATES.downloadable.ariaLabelText}, disabled`
         : BUTTON_TEMPLATES.downloadable.ariaLabelText,
@@ -198,4 +207,11 @@ interface ReportAction {
   tooltipText: string
   ariaLabelText: string
   href?: string
+  attributes?: {
+    reportId?: string
+    id?: string
+    csrfToken?: string
+    tableId?: string
+    type?: ReportType
+  }
 }

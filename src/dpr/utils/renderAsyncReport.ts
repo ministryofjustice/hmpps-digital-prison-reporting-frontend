@@ -96,6 +96,8 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
       const columns = ColumnUtils.getColumns(specification, <string[]>reqColumns)
       const ID = variantId || id
 
+      const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, ID)
+
       renderData = {
         executionId,
         name,
@@ -108,13 +110,14 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         template,
         count,
         type: ReportType.REPORT,
-        actions: ReportActionsUtils.initAsyncReportActions(variant, reportStateData),
+        actions: setActions(csrfToken, variant, reportStateData),
         printable,
         querySummary: query.summary,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         csrfToken,
         requestUrl: url.request,
         bookmarked: await services.bookmarkService.isBookmarked(ID, userId),
+        canDownload,
         reportSummaries: collatedSummaryBuilder.collatePageSummaries(),
       }
 
@@ -164,4 +167,42 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
   }
 
   return { renderData }
+}
+
+const setActions = (
+  csrfToken: string,
+  variant: components['schemas']['VariantDefinition'],
+  requestData: RequestedReport,
+) => {
+  const { reportName, name, id, variantId, reportId, executionId, tableId, type } = requestData
+  const url = requestData.url.request.fullUrl
+  const { printable } = variant
+
+  const ID = variantId || id
+
+  return ReportActionsUtils.getActions({
+    download: {
+      enabled: true,
+      csrfToken,
+      reportId,
+      id: ID,
+      tableId,
+      type: type || ReportType.REPORT,
+    },
+    print: {
+      enabled: printable,
+    },
+    share: {
+      reportName,
+      name,
+      url,
+    },
+    refresh: {
+      url,
+      executionId,
+    },
+    copy: {
+      url,
+    },
+  })
 }

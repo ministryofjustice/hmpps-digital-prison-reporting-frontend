@@ -36,6 +36,9 @@ export default class DownloadPermissionService extends UserStoreService {
 
   async downloadEnabled(userId: string, reportId: string, id: string) {
     const userConfig = await this.getState(userId)
+
+    if (!userConfig.downloadPermissions) return false
+
     const config = userConfig.downloadPermissions.find((downloadConfig: DownloadPermissionConfig) => {
       return downloadConfig.id === id && downloadConfig.reportId === reportId
     })

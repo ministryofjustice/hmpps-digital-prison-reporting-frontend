@@ -180,7 +180,6 @@ export default function routes({
       let renderData
       const params = { req, res, services, next }
 
-      console.log({ type })
       if (type === ReportType.REPORT) {
         template = 'async-report'
         renderData = await AsyncReportUtils.getReport(params)
@@ -245,7 +244,7 @@ export default function routes({
   // 3 - VIEw REPORT
   const viewReportPaths = [
     '/async/:type/:reportId/:id/request/:tableId/report',
-    '/async/:type/:reportId/:id/request/:tableId/report/download',
+    '/async/:type/:reportId/:id/request/:tableId/report/download-disabled',
   ]
   router.get(viewReportPaths, viewReportHandler, asyncErrorHandler)
 

@@ -58,7 +58,22 @@ export default function routes({
     })
   }
 
+  const downloadHandler: RequestHandler = async (req, res, next) => {
+    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+    const { reportId, id, type, tableId } = req.body
+
+    // Can download?
+    const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
+
+    if (canDownload) {
+      // Do the downloading
+    } else {
+      res.send({ redirect: `/async/${type}/${reportId}/${id}/request/${tableId}/report/download-disabled` })
+    }
+  }
+
   router.get('/download/:reportId/:variantId/:tableId/feedback', feedbackFormHandler)
   router.post('/submitFeedback/', feedbackSubmitHandler)
   router.get('/download/:reportId/:variantId/:tableId/feedback/submitted', feedbackSuccessHandler)
+  router.post('/downloadReport/', downloadHandler)
 }

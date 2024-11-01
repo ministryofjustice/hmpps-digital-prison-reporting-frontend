@@ -131,6 +131,13 @@ describe('DownloadPermissionService', () => {
 
       expect(res).toBeFalsy()
     })
+
+    it('should return false if no download permissions config exists', async () => {
+      getStateSpy.mockResolvedValue({} as unknown as UserStoreConfig)
+      const res = await downloadPermissionService.downloadEnabled('userId', 'reportId-3', '458723')
+
+      expect(res).toBeFalsy()
+    })
   })
 
   describe('getAllDownloadPermissions', () => {

@@ -16,11 +16,21 @@
           id: button.id,
           disabled: button.disabled,
           "data-href": button.href,
-          "aria-label": button.ariaLabelText
+          "aria-label": button.ariaLabelText,
+          "data-id": button.attributes.id, 
+          "data-report-id": button.attributes.reportId, 
+          "data-csrf-token": button.attributes.csrfToken,
+          "data-table-id": button.attributes.tableId,
+          "data-type": button.attributes.type
         } if button.disabled else {
           id: button.id,
           "data-href": button.href,
-          "aria-label": button.ariaLabelText
+          "aria-label": button.ariaLabelText,
+          "data-id": button.attributes.id, 
+          "data-report-id": button.attributes.reportId, 
+          "data-csrf-token": button.attributes.csrfToken,
+          "data-table-id": button.attributes.tableId,
+          "data-type": button.attributes.type
         },
         classes: '{{button.id}} govuk-button--secondary'
         }), items) %}

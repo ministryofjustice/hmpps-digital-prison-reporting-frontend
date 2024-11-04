@@ -5,11 +5,13 @@ export interface Header {
 }
 
 export interface Cell {
+  fieldName?: string
   text?: string
   html?: string
   format?: string
   classes?: string
   colspan?: number
+  rowspan?: number
 }
 
 export interface DataTable {
@@ -22,7 +24,10 @@ export interface DataTable {
 export interface FieldDefinition {
   name: string
   display: string
-  type: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time'
+  type?: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time'
   wordWrap?: 'none' | 'normal' | 'break-words'
-  calculated?: boolean
+  calculated?: boolean,
+  sortable?: boolean,
+  header?: boolean,
+  mergeRows?: boolean,
 }

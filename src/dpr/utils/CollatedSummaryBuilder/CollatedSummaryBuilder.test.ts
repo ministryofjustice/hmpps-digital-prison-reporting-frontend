@@ -63,6 +63,7 @@ const expectedAllActivitiesDataTable = {
     [
       {
         classes: '',
+        fieldName: 'activity',
         format: 'string',
         text: 'Cleaning',
       },
@@ -70,6 +71,7 @@ const expectedAllActivitiesDataTable = {
     [
       {
         classes: '',
+        fieldName: 'activity',
         format: 'string',
         text: 'Cooking',
       },
@@ -77,6 +79,7 @@ const expectedAllActivitiesDataTable = {
     [
       {
         classes: '',
+        fieldName: 'activity',
         format: 'string',
         text: 'Painting',
       },
@@ -84,6 +87,7 @@ const expectedAllActivitiesDataTable = {
     [
       {
         classes: '',
+        fieldName: 'activity',
         format: 'string',
         text: 'Painting',
       },

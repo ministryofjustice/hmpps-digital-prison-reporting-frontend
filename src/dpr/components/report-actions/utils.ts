@@ -126,6 +126,7 @@ const getActions = ({
     variantName: string
     id: string
     tableId: string
+    columns: string[]
     type: ReportType
   }
 }): ReportAction[] => {
@@ -177,6 +178,9 @@ const getActions = ({
         id: download.id,
         tableId: download.tableId,
         type: download.type,
+        reportName: download.reportName,
+        variantName: download.variantName,
+        columns: download.columns,
       },
       ariaLabelText: !download.enabled
         ? `${BUTTON_TEMPLATES.downloadable.ariaLabelText}, disabled`
@@ -215,5 +219,8 @@ interface ReportAction {
     csrfToken?: string
     tableId?: string
     type?: ReportType
+    reportName?: string
+    variantName?: string
+    columns: string[]
   }
 }

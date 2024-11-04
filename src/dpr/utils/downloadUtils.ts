@@ -13,13 +13,21 @@ const convertToCsv = (reportData: Dict<string>[]) => {
 const saveToFile = async (csvData: string, reportName: string, variantName: string) => {
   const filepath = `./download/${reportName}-${variantName}-${new Date().toISOString()}.csv`
   await fs.outputFile(filepath, csvData)
-
-  const data = await fs.readFile(filepath, 'utf8')
-  console.log(data)
-
   return {
     filepath,
   }
+}
+
+const applyColumnsAndSort = (data: Dict<string>[], columns: string[]) => {
+  return data.map((row) => {
+    return Object.keys(row)
+      .filter((key) => columns.includes(key))
+      .reduce((obj: Dict<string>, key) => {
+        // eslint-disable-next-line no-param-reassign
+        obj[key] = row[key]
+        return obj
+      }, {})
+  })
 }
 
 export default {
@@ -27,21 +35,29 @@ export default {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
 
-    const { reportId, id, tableId, dataProductDefinitionsPath, reportName, variantName } = req.body
+    const { reportId, id, tableId, dataProductDefinitionsPath, reportName, variantName, cols: columns } = req.body
 
     const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
     if (!canDownload) {
       res.redirect(`/async/report/${reportId}/${id}/request/${tableId}/report/download-disabled`)
     } else {
-      const reportData = await services.reportingService.getAsyncReport(token, reportId, id, tableId, {
+      let reportData = await services.reportingService.getAsyncReport(token, reportId, id, tableId, {
         dataProductDefinitionsPath,
       })
 
+      if (columns) {
+        reportData = applyColumnsAndSort(reportData, JSON.parse(columns))
+      }
       const csvData = convertToCsv(reportData)
       const fileData = await saveToFile(csvData, reportName, variantName)
 
       res.download(fileData.filepath, (err) => {
-        logger.error(err)
+        if (err) {
+          logger.error(err)
+        } else {
+          logger.info(`Download completed: ${userId}: ${reportName} - ${variantName}`)
+          fs.unlinkSync(fileData.filepath)
+        }
       })
     }
   },

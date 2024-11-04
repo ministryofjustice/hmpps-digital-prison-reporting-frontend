@@ -9,6 +9,7 @@ import ReportQuery from '../types/ReportQuery'
 import CollatedSummaryBuilder from './CollatedSummaryBuilder/CollatedSummaryBuilder'
 import SectionedDataTableBuilder from './SectionedDataTableBuilder/SectionedDataTableBuilder'
 import ColumnUtils from '../components/columns/utils'
+import { Columns } from '../components/columns/types'
 
 export const initDataSources = ({
   req,
@@ -110,7 +111,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         template,
         count,
         type: ReportType.REPORT,
-        actions: setActions(csrfToken, variant, reportStateData),
+        actions: setActions(csrfToken, variant, reportStateData, columns),
         printable,
         querySummary: query.summary,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
@@ -173,6 +174,7 @@ const setActions = (
   csrfToken: string,
   variant: components['schemas']['VariantDefinition'],
   requestData: RequestedReport,
+  columns: Columns,
 ) => {
   const { reportName, name, id, variantId, reportId, executionId, tableId, type, variantName } = requestData
   const url = requestData.url.request.fullUrl
@@ -190,6 +192,7 @@ const setActions = (
       id: ID,
       tableId,
       type: type || ReportType.REPORT,
+      columns: columns.value,
     },
     print: {
       enabled: printable,

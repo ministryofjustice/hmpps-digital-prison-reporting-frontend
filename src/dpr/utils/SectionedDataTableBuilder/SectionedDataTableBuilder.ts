@@ -7,8 +7,8 @@ import { distinct } from '../arrayUtils'
 import SummaryDataTableBuilder from '../SummaryDataTableBuilder/SummaryDataTableBuilder'
 
 export default class SectionedDataTableBuilder extends DataTableBuilder {
-
   private sections: Array<string>
+
   private template: Template
 
   constructor(specification: components['schemas']['Specification']) {

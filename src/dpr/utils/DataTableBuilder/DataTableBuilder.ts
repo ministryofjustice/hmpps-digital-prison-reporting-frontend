@@ -152,42 +152,40 @@ export default class DataTableBuilder {
   }
 
   private mergeCells(rows: Cell[][]): Cell[][] {
-    const mergeFieldNames = this.fields.filter(f => f.mergeRows).map(f => f.name)
+    const mergeFieldNames = this.fields.filter((f) => f.mergeRows).map((f) => f.name)
 
     if (mergeFieldNames.length === 0) {
       return rows
     }
 
     const occurrences: Dict<Dict<number>> = {}
-    mergeFieldNames.forEach(f => {
+    mergeFieldNames.forEach((f) => {
       occurrences[f] = rows.reduce((accumulator: Dict<number>, currentRow) => {
         const currentCell = this.getCellByFieldName(currentRow, f)
         const cellValue = currentCell.text ?? currentCell.html
 
         return {
           ...accumulator,
-          [cellValue]: (accumulator[cellValue] ?? 0) + 1
+          [cellValue]: (accumulator[cellValue] ?? 0) + 1,
         }
       }, {})
     })
 
     return rows.map((row) => {
-      let mergedRow = [
-        ...row
-      ]
+      let mergedRow = [...row]
 
-      mergeFieldNames.forEach(mergeFieldName => {
+      mergeFieldNames.forEach((mergeFieldName) => {
         const currentRowCell = this.getCellByFieldName(row, mergeFieldName)
         const cellValue = currentRowCell.text ?? currentRowCell.html
         const occurrencesOfValue = occurrences[mergeFieldName][cellValue]
 
         switch (occurrencesOfValue) {
           case -1:
-            mergedRow = mergedRow.filter(c => c.fieldName !== mergeFieldName)
-            break;
+            mergedRow = mergedRow.filter((c) => c.fieldName !== mergeFieldName)
+            break
 
           case 1:
-            break;
+            break
 
           default:
             currentRowCell.rowspan = occurrencesOfValue
@@ -200,7 +198,7 @@ export default class DataTableBuilder {
   }
 
   private getCellByFieldName(row: Cell[], fieldName: string) {
-    return row.find(c => c.fieldName === fieldName)
+    return row.find((c) => c.fieldName === fieldName)
   }
 
   private mapSummary(template: SummaryTemplate): Cell[][] {

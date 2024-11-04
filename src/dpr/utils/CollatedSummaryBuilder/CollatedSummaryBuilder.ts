@@ -61,8 +61,7 @@ export default class CollatedSummaryBuilder {
 
     Object.keys(summaries).forEach((summaryType) => {
       dataTables[summaryType] = summaries[summaryType].map((summary) => {
-        return new SummaryDataTableBuilder(summary, this.specification.sections)
-          .buildSummaryTable()
+        return new SummaryDataTableBuilder(summary, this.specification.sections).buildSummaryTable()
       })
     })
 

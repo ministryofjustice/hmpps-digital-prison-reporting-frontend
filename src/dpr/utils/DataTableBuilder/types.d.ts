@@ -26,8 +26,8 @@ export interface FieldDefinition {
   display: string
   type?: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time'
   wordWrap?: 'none' | 'normal' | 'break-words'
-  calculated?: boolean,
-  sortable?: boolean,
-  header?: boolean,
-  mergeRows?: boolean,
+  calculated?: boolean
+  sortable?: boolean
+  header?: boolean
+  mergeRows?: boolean
 }

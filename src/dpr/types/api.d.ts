@@ -155,7 +155,7 @@ export interface components {
       type: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time'
       mandatory: boolean
       visible: boolean
-      calculated: boolean,
+      calculated: boolean
       header?: boolean
     }
     FilterDefinition: {

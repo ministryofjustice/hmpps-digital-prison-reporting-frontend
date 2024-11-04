@@ -174,7 +174,7 @@ export default function routes({
   }
 
   const viewReportHandler: RequestHandler = async (req, res, next) => {
-    const { type } = req.params
+    const { type, download } = req.params
     try {
       let template
       let renderData
@@ -244,7 +244,7 @@ export default function routes({
   // 3 - VIEw REPORT
   const viewReportPaths = [
     '/async/:type/:reportId/:id/request/:tableId/report',
-    '/async/:type/:reportId/:id/request/:tableId/report/download-disabled',
+    '/async/:type/:reportId/:id/request/:tableId/report/:download',
   ]
   router.get(viewReportPaths, viewReportHandler, asyncErrorHandler)
 

@@ -3,43 +3,60 @@
 {% macro dprReportActions(buttonList) %}
 
   {% set items = [] %}
-
-    {% for button in buttonList %}
-      {% set items = (items.push({
+  {% for button in buttonList %}
+    {% if button.id === 'dpr-button-downloadable' %}
+      {% set item = {
         text: button.tooltipText,
         attributes: {
           id: button.id,
           disabled: button.disabled,
-          "data-href": button.href
+          form: "download-report-form"
+        } if button.disabled else {
+          id: button.id,
+          form: "download-report-form"
         },
+        classes: '{{ button.id }} govuk-button--secondary'
+      } %}
+
+    {% if not button.disabled %}
+      <form id="download-report-form" action="/downloadReport/" method="post">
+        <input type="hidden" name="dataProductDefinitionsPath" value="{{ button.attributes.definitionPath }}">
+        <input type="hidden" name="_csrf" value="{{ button.attributes.csrfToken }}">
+        <input type="hidden" name="reportId" value="{{ button.attributes.reportId }}">
+        <input type="hidden" name="id" value="{{ button.attributes.id }}">
+        <input type="hidden" name="type" value="{{ button.attributes.type }}">
+        <input type="hidden" name="tableId" value="{{ button.attributes.tableId }}">
+      </form>
+    {% endif %}
+
+    {% else %}
+      {% set item = {
+        text: button.tooltipText,
         attributes: {
           id: button.id,
-          disabled: button.disabled,
           "data-href": button.href,
           "aria-label": button.ariaLabelText,
-          "data-id": button.attributes.id, 
-          "data-report-id": button.attributes.reportId, 
-          "data-csrf-token": button.attributes.csrfToken,
-          "data-table-id": button.attributes.tableId,
-          "data-type": button.attributes.type
+          disabled: button.disabled
         } if button.disabled else {
           id: button.id,
           "data-href": button.href,
-          "aria-label": button.ariaLabelText,
-          "data-id": button.attributes.id, 
-          "data-report-id": button.attributes.reportId, 
-          "data-csrf-token": button.attributes.csrfToken,
-          "data-table-id": button.attributes.tableId,
-          "data-type": button.attributes.type
+          "aria-label": button.ariaLabelText
         },
-        classes: '{{button.id}} govuk-button--secondary'
-        }), items) %}
-    {% endfor %}
+        classes: '{{ button.id }} govuk-button--secondary'
+      } %}
+    {% endif %}
+
+    {% set items = (items.push(item), items) %}
+  {% endfor %}
 
   
   <div class="report-actions" data-dpr-module='report-actions'>
     {{ mojButtonMenu({
       items: items
     }) }}
+
+    <div class="dpr-display-none">
+      {{ downloadFormHtml }}
+    </div>
   </div>
 {% endmacro %}

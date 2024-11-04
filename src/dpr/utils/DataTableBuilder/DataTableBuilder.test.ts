@@ -35,9 +35,7 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = new DataTableBuilder([field])
-      .withNoHeaderOptions(['date'])
-      .buildTable([data])
+    const mapped = new DataTableBuilder([field]).withNoHeaderOptions(['date']).buildTable([data])
 
     expect(mapped).toEqual({
       colCount: 1,
@@ -70,9 +68,7 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = new DataTableBuilder([field])
-      .withNoHeaderOptions(['date'])
-      .buildTable([data])
+    const mapped = new DataTableBuilder([field]).withNoHeaderOptions(['date']).buildTable([data])
 
     expect(mapped).toEqual({
       colCount: 1,
@@ -105,9 +101,7 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = new DataTableBuilder([field])
-      .withNoHeaderOptions(['date'])
-      .buildTable([data])
+    const mapped = new DataTableBuilder([field]).withNoHeaderOptions(['date']).buildTable([data])
 
     expect(mapped.rows).toEqual([
       [
@@ -135,9 +129,7 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = new DataTableBuilder([field])
-      .withNoHeaderOptions(['number'])
-      .buildTable([data])
+    const mapped = new DataTableBuilder([field]).withNoHeaderOptions(['number']).buildTable([data])
 
     expect(mapped.rows).toEqual([
       [
@@ -165,9 +157,7 @@ describe('mapData', () => {
       visible: true,
       calculated: true,
     }
-    const mapped = new DataTableBuilder([field])
-      .withNoHeaderOptions(['date'])
-      .buildTable([data])
+    const mapped = new DataTableBuilder([field]).withNoHeaderOptions(['date']).buildTable([data])
 
     expect(mapped.rows).toEqual([
       [
@@ -195,9 +185,7 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = new DataTableBuilder([field])
-      .withNoHeaderOptions(['string'])
-      .buildTable([data])
+    const mapped = new DataTableBuilder([field]).withNoHeaderOptions(['string']).buildTable([data])
 
     expect(mapped.rows).toEqual([
       [
@@ -226,9 +214,7 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = new DataTableBuilder([field])
-      .withNoHeaderOptions(['string'])
-      .buildTable([data])
+    const mapped = new DataTableBuilder([field]).withNoHeaderOptions(['string']).buildTable([data])
 
     expect(mapped.rows).toEqual([
       [
@@ -255,9 +241,7 @@ describe('mapHeader', () => {
       ...defaultField,
       sortable: false,
     }
-    const mapped = new DataTableBuilder([field])
-      .withHeaderSortOptions(defaultListRequest)
-      .buildTable([])
+    const mapped = new DataTableBuilder([field]).withHeaderSortOptions(defaultListRequest).buildTable([])
 
     expect(mapped.head).toEqual([
       {

@@ -174,7 +174,7 @@ const setActions = (
   variant: components['schemas']['VariantDefinition'],
   requestData: RequestedReport,
 ) => {
-  const { reportName, name, id, variantId, reportId, executionId, tableId, type } = requestData
+  const { reportName, name, id, variantId, reportId, executionId, tableId, type, variantName } = requestData
   const url = requestData.url.request.fullUrl
   const { printable } = variant
 
@@ -183,6 +183,8 @@ const setActions = (
   return ReportActionsUtils.getActions({
     download: {
       enabled: true,
+      variantName,
+      reportName,
       csrfToken,
       reportId,
       id: ID,

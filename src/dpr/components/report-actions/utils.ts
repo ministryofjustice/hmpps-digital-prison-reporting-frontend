@@ -122,6 +122,8 @@ const getActions = ({
     enabled: boolean
     csrfToken: string
     reportId: string
+    reportName: string
+    variantName: string
     id: string
     tableId: string
     type: ReportType

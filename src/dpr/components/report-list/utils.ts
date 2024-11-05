@@ -128,7 +128,7 @@ function renderList(
 
         const actions = ReportActionsUtils.initReportActions({
           reportName,
-          variantName: variantDefinition.name,
+          name: variantDefinition.name,
           printable: variantDefinition.printable,
           url: `${request.protocol}://${request.get('host')}${request.originalUrl}`,
           downloadable: false,

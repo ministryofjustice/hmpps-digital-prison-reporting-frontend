@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response, Request } from 'express'
 import fs from 'fs-extra'
+import { DownloadOptions, Errback } from 'express-serve-static-core'
 import ReportingService from '../services/reportingService'
 import { Services } from '../types/Services'
 import DownloadUtils from './downloadUtils'
@@ -15,6 +16,11 @@ describe('DownloadUtils', () => {
     let reportingService: ReportingService
     let downloadPermissionService: DownloadPermissionService
     let redirectSpy: jest.SpyInstance<void, [url: string, status: number], any>
+    let downloadSpy: jest.SpyInstance<
+      void,
+      [path: string, filename: string, options: DownloadOptions, fn?: Errback],
+      any
+    >
     let fsOutputFileSpy: jest.SpyInstance<
       void,
       [file: string, data: string | NodeJS.ArrayBufferView, options: fs.WriteFileOptions, callback: fs.NoParamCallback],
@@ -25,7 +31,10 @@ describe('DownloadUtils', () => {
     jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
 
     beforeEach(() => {
-      fsOutputFileSpy = jest.spyOn(fs, 'outputFile')
+      fsOutputFileSpy = jest.spyOn(fs, 'outputFile').mockImplementation(() => {
+        // do nothing
+      })
+
       res = {
         userId: 'Us3r1D',
         token: 't0k3n',
@@ -40,6 +49,10 @@ describe('DownloadUtils', () => {
       } as unknown as Response
 
       redirectSpy = jest.spyOn(res, 'redirect')
+      redirectSpy = jest.spyOn(res, 'redirect')
+      downloadSpy = jest.spyOn(res, 'download').mockImplementation(() => {
+        // do nothing
+      })
 
       req = {
         body: {
@@ -89,6 +102,11 @@ Value 1,Value 2,2003-02-01T01:00`
       expect(fsOutputFileSpy).toHaveBeenCalledWith(
         './download/reportName-variantName-2016-06-20T12:08:10.000Z.csv',
         csv,
+      )
+
+      expect(downloadSpy).toHaveBeenCalledWith(
+        './download/reportName-variantName-2016-06-20T12:08:10.000Z.csv',
+        expect.any(Function),
       )
     })
 

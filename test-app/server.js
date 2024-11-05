@@ -90,6 +90,7 @@ const RecentlyViewedStoreService = require('../package/dpr/services/recentlyView
 const BookmarkService = require('../package/dpr/services/bookmarkService').default
 const MetricsService = require('../package/dpr/services/metricsService').default
 const DashboardService = require('../package/dpr/services/dashboardService').default
+const DownloadPermissionService = require('../package/dpr/services/downloadPermissionService').default
 
 // Routes
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
@@ -144,9 +145,12 @@ const mockUserStore = new MockUserStoreService()
 const requestedReportService = new RequestedReportService(mockUserStore)
 const recentlyViewedService = new RecentlyViewedStoreService(mockUserStore)
 const bookmarkService = new BookmarkService(mockUserStore)
+const downloadPermissionService = new DownloadPermissionService(mockUserStore)
+
 requestedReportService.init('userId')
 recentlyViewedService.init('userId')
 bookmarkService.init('userId')
+downloadPermissionService.init('userId')
 
 const reportingClient = new MockReportingClient()
 const reportingService = new ReportingService(reportingClient)
@@ -164,6 +168,7 @@ const services = {
   reportingService,
   metricService,
   dashboardService,
+  downloadPermissionService,
 }
 
 const routeImportParams = {

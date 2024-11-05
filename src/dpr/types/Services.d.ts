@@ -7,4 +7,5 @@ export interface Services {
   reportingService: ReportingService
   metricService: MetricService
   dashboardService: DashboardService
+  downloadPermissionService: DownloadPermissionService
 }

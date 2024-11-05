@@ -40,4 +40,5 @@ const baseplateStore: UserStoreConfig = {
   requestedReports: [],
   recentlyViewedReports: [],
   bookmarks: [],
+  downloadPermissions: [],
 }

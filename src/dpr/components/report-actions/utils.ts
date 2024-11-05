@@ -1,4 +1,4 @@
-import { RequestedReport } from '../../types/UserReports'
+import { ReportType, RequestedReport } from '../../types/UserReports'
 import { components } from '../../types/api'
 
 const BUTTON_TEMPLATES = {
@@ -41,14 +41,14 @@ const BUTTON_TEMPLATES = {
 
 const initReportActions = ({
   reportName,
-  variantName,
+  name,
   printable,
   url,
   executionId = null,
   downloadable = true,
 }: {
   reportName: string
-  variantName: string
+  name: string
   printable: boolean
   url: string
   executionId?: string
@@ -77,7 +77,7 @@ const initReportActions = ({
   // Share
   actions.push({
     ...BUTTON_TEMPLATES.sharable,
-    href: `mailto:?subject=${reportName}-${variantName}&body=${encodeURIComponent(url)}`,
+    href: `mailto:?subject=${reportName}-${name}&body=${encodeURIComponent(url)}`,
   })
 
   // Copy
@@ -87,9 +87,6 @@ const initReportActions = ({
   })
 
   // Downloadable
-  // NOTE: Temporarily disabling for release 25
-  // eslint-disable-next-line no-param-reassign
-  // downloadable = false
   actions.push({
     ...BUTTON_TEMPLATES.downloadable,
     disabled: !downloadable,
@@ -123,6 +120,14 @@ const getActions = ({
   }
   download?: {
     enabled: boolean
+    csrfToken: string
+    reportId: string
+    reportName: string
+    name: string
+    id: string
+    tableId: string
+    columns: string[]
+    type: ReportType
   }
 }): ReportAction[] => {
   const actions: ReportAction[] = []
@@ -167,6 +172,16 @@ const getActions = ({
     actions.push({
       ...BUTTON_TEMPLATES.downloadable,
       disabled: !download.enabled,
+      attributes: {
+        reportId: download.reportId,
+        csrfToken: download.csrfToken,
+        id: download.id,
+        tableId: download.tableId,
+        type: download.type,
+        reportName: download.reportName,
+        name: download.name,
+        columns: download.columns,
+      },
       ariaLabelText: !download.enabled
         ? `${BUTTON_TEMPLATES.downloadable.ariaLabelText}, disabled`
         : BUTTON_TEMPLATES.downloadable.ariaLabelText,
@@ -180,7 +195,7 @@ export default {
   initAsyncReportActions: (variant: components['schemas']['VariantDefinition'], reportData: RequestedReport) => {
     return initReportActions({
       reportName: reportData.reportName,
-      variantName: reportData.name,
+      name: reportData.name,
       printable: variant.printable,
       url: reportData.url.request.fullUrl,
       executionId: reportData.executionId,
@@ -198,4 +213,14 @@ interface ReportAction {
   tooltipText: string
   ariaLabelText: string
   href?: string
+  attributes?: {
+    reportId?: string
+    id?: string
+    csrfToken?: string
+    tableId?: string
+    type?: ReportType
+    reportName?: string
+    name?: string
+    columns: string[]
+  }
 }

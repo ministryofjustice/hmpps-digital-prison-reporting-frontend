@@ -19,6 +19,7 @@ const variant18 = require('./mockVariants/variant18')
 const variant19 = require('./mockVariants/variant19')
 const variant20 = require('./mockVariants/variant20')
 const variant21 = require('./mockVariants/variant21')
+const variant22 = require('./mockVariants/variant22')
 const dashboardDefinition = require('../dashboards/mockDashboardDefinition')
 
 module.exports = {
@@ -48,6 +49,7 @@ module.exports = {
       variant19,
       variant20,
       variant21,
+      variant22,
     ],
     dashboards: dashboardDefinition,
   },
@@ -68,7 +70,7 @@ module.exports = {
       id: 'test-report-2',
       name: 'B Test Report',
       description: 'Fallback Description',
-      variants: [variant8, variant9, variant10, variant11, variant17, variant18, variant19],
+      variants: [variant8, variant9, variant10, variant11, variant17, variant18, variant19, variant22],
       dashboards: [dashboardDefinition[2]],
     },
     {

@@ -35,9 +35,7 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [field] })
-      .withNoHeaderOptions(['date'])
-      .buildTable([data])
+    const mapped = new DataTableBuilder([field]).withNoHeaderOptions(['date']).buildTable([data])
 
     expect(mapped).toEqual({
       colCount: 1,
@@ -47,6 +45,7 @@ describe('mapData', () => {
         [
           {
             text: '02/01/00 03:04',
+            fieldName: 'date',
             format: 'string',
             classes: '',
           },
@@ -69,9 +68,7 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [field] })
-      .withNoHeaderOptions(['date'])
-      .buildTable([data])
+    const mapped = new DataTableBuilder([field]).withNoHeaderOptions(['date']).buildTable([data])
 
     expect(mapped).toEqual({
       colCount: 1,
@@ -81,6 +78,7 @@ describe('mapData', () => {
         [
           {
             text: '',
+            fieldName: 'date',
             format: 'string',
             classes: '',
           },
@@ -103,14 +101,13 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [field] })
-      .withNoHeaderOptions(['date'])
-      .buildTable([data])
+    const mapped = new DataTableBuilder([field]).withNoHeaderOptions(['date']).buildTable([data])
 
     expect(mapped.rows).toEqual([
       [
         {
           text: '12/11/10 13:14',
+          fieldName: 'date',
           format: 'string',
           classes: '',
         },
@@ -132,14 +129,13 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [field] })
-      .withNoHeaderOptions(['number'])
-      .buildTable([data])
+    const mapped = new DataTableBuilder([field]).withNoHeaderOptions(['number']).buildTable([data])
 
     expect(mapped.rows).toEqual([
       [
         {
           text: '1234.05',
+          fieldName: 'number',
           format: 'numeric',
           classes: '',
         },
@@ -161,14 +157,13 @@ describe('mapData', () => {
       visible: true,
       calculated: true,
     }
-    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [field] })
-      .withNoHeaderOptions(['date'])
-      .buildTable([data])
+    const mapped = new DataTableBuilder([field]).withNoHeaderOptions(['date']).buildTable([data])
 
     expect(mapped.rows).toEqual([
       [
         {
           text: '12/11/10',
+          fieldName: 'date',
           format: 'string',
           classes: '',
         },
@@ -180,7 +175,7 @@ describe('mapData', () => {
     const data: Dict<string> = {
       string: '1234.05',
     }
-    const fields: components['schemas']['FieldDefinition'] = {
+    const field: components['schemas']['FieldDefinition'] = {
       name: 'string',
       display: 'String',
       sortable: true,
@@ -190,14 +185,13 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [fields] })
-      .withNoHeaderOptions(['string'])
-      .buildTable([data])
+    const mapped = new DataTableBuilder([field]).withNoHeaderOptions(['string']).buildTable([data])
 
     expect(mapped.rows).toEqual([
       [
         {
           text: '1234.05',
+          fieldName: 'string',
           format: 'string',
           classes: '',
         },
@@ -209,7 +203,7 @@ describe('mapData', () => {
     const data: Dict<string> = {
       string: '1234.05',
     }
-    const fields: components['schemas']['FieldDefinition'] = {
+    const field: components['schemas']['FieldDefinition'] = {
       name: 'string',
       display: 'String',
       sortable: true,
@@ -220,14 +214,13 @@ describe('mapData', () => {
       visible: true,
       calculated: false,
     }
-    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [fields] })
-      .withNoHeaderOptions(['string'])
-      .buildTable([data])
+    const mapped = new DataTableBuilder([field]).withNoHeaderOptions(['string']).buildTable([data])
 
     expect(mapped.rows).toEqual([
       [
         {
           text: '1234.05',
+          fieldName: 'string',
           format: 'string',
           classes: 'data-table-cell-wrap-none',
         },
@@ -248,9 +241,7 @@ describe('mapHeader', () => {
       ...defaultField,
       sortable: false,
     }
-    const mapped = new DataTableBuilder({ ...defaultSpec, fields: [field] })
-      .withHeaderSortOptions(defaultListRequest)
-      .buildTable([])
+    const mapped = new DataTableBuilder([field]).withHeaderSortOptions(defaultListRequest).buildTable([])
 
     expect(mapped.head).toEqual([
       {
@@ -260,7 +251,7 @@ describe('mapHeader', () => {
   })
 
   it('Sortable unsorted field', () => {
-    const mapped = new DataTableBuilder(defaultSpec).withHeaderSortOptions(defaultListRequest).buildTable([])
+    const mapped = new DataTableBuilder([defaultField]).withHeaderSortOptions(defaultListRequest).buildTable([])
 
     expect(mapped).toEqual({
       colCount: 1,
@@ -290,7 +281,7 @@ describe('mapHeader', () => {
       defaultField.name,
       filterPrefix,
     )
-    const mapped = new DataTableBuilder(defaultSpec).withHeaderSortOptions(reportQuery).buildTable([])
+    const mapped = new DataTableBuilder([defaultField]).withHeaderSortOptions(reportQuery).buildTable([])
 
     expect(mapped).toEqual({
       colCount: 1,
@@ -321,7 +312,7 @@ describe('mapHeader', () => {
       defaultField.name,
       filterPrefix,
     )
-    const mapped = new DataTableBuilder(defaultSpec).withHeaderSortOptions(reportQuery).buildTable([])
+    const mapped = new DataTableBuilder([defaultField]).withHeaderSortOptions(reportQuery).buildTable([])
 
     expect(mapped).toEqual({
       colCount: 1,
@@ -353,10 +344,6 @@ describe('withSummary', () => {
     visible: true,
     calculated: false,
   }
-  const summarySpec: components['schemas']['Specification'] = {
-    ...defaultSpec,
-    fields: [field],
-  }
   const headerSummary: Dict<Array<AsyncSummary>> = {
     'table-header': [
       {
@@ -387,7 +374,7 @@ describe('withSummary', () => {
   }
 
   it('Valid header summary', () => {
-    const mapped = new DataTableBuilder(summarySpec)
+    const mapped = new DataTableBuilder([field])
       .withNoHeaderOptions([field.name])
       .withSummaries(headerSummary)
       .buildTable([{ mainField: 'Body' }])
@@ -396,18 +383,20 @@ describe('withSummary', () => {
 
     expect(mapped.rows[0][0]).toEqual({
       text: 'Header',
+      fieldName: 'mainField',
       format: 'string',
       classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
     })
     expect(mapped.rows[1][0]).toEqual({
       text: 'Body',
+      fieldName: 'mainField',
       format: 'string',
       classes: '',
     })
   })
 
   it('Valid footer summary', () => {
-    const mapped = new DataTableBuilder(summarySpec)
+    const mapped = new DataTableBuilder([field])
       .withNoHeaderOptions([field.name])
       .withSummaries(footerSummary)
       .buildTable([{ mainField: 'Body' }])
@@ -416,18 +405,20 @@ describe('withSummary', () => {
 
     expect(mapped.rows[0][0]).toEqual({
       text: 'Body',
+      fieldName: 'mainField',
       format: 'string',
       classes: '',
     })
     expect(mapped.rows[1][0]).toEqual({
       text: 'Footer',
+      fieldName: 'mainField',
       format: 'string',
       classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
     })
   })
 
   it('Valid header and footer summary', () => {
-    const mapped = new DataTableBuilder(summarySpec)
+    const mapped = new DataTableBuilder([field])
       .withNoHeaderOptions([field.name])
       .withSummaries({
         ...headerSummary,
@@ -439,16 +430,19 @@ describe('withSummary', () => {
 
     expect(mapped.rows[0][0]).toEqual({
       text: 'Header',
+      fieldName: 'mainField',
       format: 'string',
       classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
     })
     expect(mapped.rows[1][0]).toEqual({
       text: 'Body',
+      fieldName: 'mainField',
       format: 'string',
       classes: '',
     })
     expect(mapped.rows[2][0]).toEqual({
       text: 'Footer',
+      fieldName: 'mainField',
       format: 'string',
       classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
     })
@@ -502,7 +496,7 @@ describe('withSummary', () => {
       ],
     }
 
-    const mapped = new DataTableBuilder(summarySpec)
+    const mapped = new DataTableBuilder([field])
       .withNoHeaderOptions([field.name])
       .withSummaries(summaries)
       .buildTable([{ mainField: 'Body' }])
@@ -511,26 +505,31 @@ describe('withSummary', () => {
 
     expect(mapped.rows[0][0]).toEqual({
       text: 'Header 1',
+      fieldName: 'mainField',
       format: 'string',
       classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
     })
     expect(mapped.rows[1][0]).toEqual({
       text: 'Header 2',
+      fieldName: 'mainField',
       format: 'string',
       classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
     })
     expect(mapped.rows[2][0]).toEqual({
       text: 'Body',
+      fieldName: 'mainField',
       format: 'string',
       classes: '',
     })
     expect(mapped.rows[3][0]).toEqual({
       text: 'Footer 1',
+      fieldName: 'mainField',
       format: 'string',
       classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
     })
     expect(mapped.rows[4][0]).toEqual({
       text: 'Footer 2',
+      fieldName: 'mainField',
       format: 'string',
       classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
     })
@@ -552,7 +551,7 @@ describe('withSummary', () => {
       ],
     }
 
-    const mapped = new DataTableBuilder(summarySpec)
+    const mapped = new DataTableBuilder([field])
       .withNoHeaderOptions([field.name])
       .withSummaries(invalidHeaderSummary)
       .buildTable([{ mainField: 'Body' }])
@@ -560,11 +559,13 @@ describe('withSummary', () => {
     expect(mapped.rows.length).toEqual(2)
 
     expect(mapped.rows[0][0]).toEqual({
+      fieldName: 'mainField',
       format: 'string',
       classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
     })
     expect(mapped.rows[1][0]).toEqual({
       text: 'Body',
+      fieldName: 'mainField',
       format: 'string',
       classes: '',
     })

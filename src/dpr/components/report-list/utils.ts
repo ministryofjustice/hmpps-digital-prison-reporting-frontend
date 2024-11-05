@@ -101,7 +101,7 @@ function renderList(
           data = resolvedData[0]
         }
 
-        const dataTable: DataTable = new DataTableBuilder(specification)
+        const dataTable: DataTable = new DataTableBuilder(specification.fields)
           .withHeaderSortOptions(reportQuery)
           .buildTable(data)
 

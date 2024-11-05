@@ -90,11 +90,13 @@ const resultRows = [
   [
     {
       classes: '',
+      fieldName: 'oranges',
       format: 'numeric',
       text: '5',
     },
     {
       classes: '',
+      fieldName: 'lemons',
       format: 'string',
       text: 'Yes',
     },
@@ -102,11 +104,13 @@ const resultRows = [
   [
     {
       classes: '',
+      fieldName: 'oranges',
       format: 'numeric',
       text: '6',
     },
     {
       classes: '',
+      fieldName: 'lemons',
       format: 'string',
       text: 'No',
     },
@@ -114,11 +118,13 @@ const resultRows = [
   [
     {
       classes: '',
+      fieldName: 'oranges',
       format: 'numeric',
       text: '7',
     },
     {
       classes: '',
+      fieldName: 'lemons',
       format: 'string',
       text: 'Yeah',
     },
@@ -126,11 +132,13 @@ const resultRows = [
   [
     {
       classes: '',
+      fieldName: 'oranges',
       format: 'numeric',
       text: '8',
     },
     {
       classes: '',
+      fieldName: 'lemons',
       format: 'string',
       text: 'Nah',
     },
@@ -234,11 +242,13 @@ describe('buildTable', () => {
       [
         {
           classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
+          fieldName: 'oranges',
           format: 'numeric',
           text: 'Fruit',
         },
         {
           classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
+          fieldName: 'lemons',
           format: 'string',
           text: 'Not so much',
         },
@@ -247,11 +257,13 @@ describe('buildTable', () => {
       [
         {
           classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
+          fieldName: 'oranges',
           format: 'numeric',
           text: 'Strawberry',
         },
         {
           classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
+          fieldName: 'lemons',
           format: 'string',
           text: 'Lime',
         },
@@ -261,11 +273,13 @@ describe('buildTable', () => {
       [
         {
           classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
+          fieldName: 'oranges',
           format: 'numeric',
           text: 'Fruit',
         },
         {
           classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
+          fieldName: 'lemons',
           format: 'string',
           text: 'Lots',
         },
@@ -278,11 +292,13 @@ describe('buildTable', () => {
       [
         {
           classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
+          fieldName: 'oranges',
           format: 'numeric',
           text: 'Apples',
         },
         {
           classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
+          fieldName: 'lemons',
           format: 'string',
           text: 'Oh no',
         },

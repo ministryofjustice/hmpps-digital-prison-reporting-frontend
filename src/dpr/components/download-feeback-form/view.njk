@@ -11,14 +11,20 @@
   {% set activeCaseLoadId = user.activeCaseLoadId %}
   {% set reportId = report.reportId %}
   {% set variantId = report.variantId %}
+  {% set time = report.time %}
   {% set tableId = report.tableId %}
+  {% set reportName = report.reportName %}
+  {% set variantName = report.variantName %}
   {% set csrfToken = csrfToken %}
 
   <div class="dpr-download-feedback-form-wrapper" data-dpr-module="download-feedback-form">
 
     <form action="/submitFeedback/" method="post" id="download-feedback-form" class="download-feedback-form--hidden">
-      <p>Please take 5 minutes to fill out a feedback form and let us know why you would like to use the download feature</p>
-      <p>The more detail you provide, the better we can understand how to improve our service and offer features that meet your needs.</p>
+
+      <p>To enable downloads for this report (<strong>{{ reportName}} - {{ variantName }}</strong>), please take a few moments to fill out this request form.</p>
+
+      <h3>Help us improve our service</h3>
+      <p>We would like to understand more about your reasons for downloading this report. The more detail you provide, the better we can understand how to improve our service and offer features that meet your needs.</p>
       <div id="download-feedback-form-summary" class="query-error-summary query-error-summary--hidden">
         {{ govukErrorSummary({
           titleText: "There is a problem",
@@ -27,7 +33,10 @@
       </div>
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
       <input type="hidden" name="reportId" value="{{ reportId }}">
+      <input type="hidden" name="reportName" value="{{ reportName }}">
       <input type="hidden" name="variantId" value="{{ variantId }}">
+      <input type="hidden" name="variantName" value="{{ variantName }}">
+      <input type="hidden" name="time" value="{{ time }}">
       <input type="hidden" name="tableId" value="{{ tableId }}">
       <input type="hidden" name="staffId" value="{{ staffId }}">
       <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}">
@@ -132,11 +141,17 @@
         },
         hint: {
           text: "Please include details about how you will use this data once it's downloaded, e.g. I will upload the data into excel and create visualisations. I will combine this data with other data by..."
+        },
+        errorMessage: {
+          text: "Please provide information on how you will use this data"
+        },
+        attributes: {
+          required: true
         }
       }) }}
 
       {{ govukButton({
-        text: "Submit feedback",
+        text: "Submit request",
         classes: "govuk-button--primary govuk-!-margin-bottom-0",
         attributes: {
           id: 'download-feedback-form-submit',

@@ -11,6 +11,7 @@ export default class DprFormValidationClass extends DprQueryParamClass {
           formGroup.classList.remove('govuk-form-group--error')
           errorMessageEl.classList.add('govuk-error-message--hidden')
           field.classList.remove('govuk-input--error')
+          field.classList.remove('govuk-textarea--error')
         }
       }
     })

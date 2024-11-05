@@ -2,6 +2,7 @@ import type { RequestHandler, Router } from 'express'
 import { Services } from '../types/Services'
 import logger from '../utils/logger'
 import DownloadUtils from '../utils/downloadUtils'
+import { components } from '../types/api'
 
 /**
  * DOWNLOAD PROCESS
@@ -29,16 +30,25 @@ export default function routes({
   templatePath?: string
 }) {
   const feedbackFormHandler: RequestHandler = async (req, res, next) => {
+    const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
     const { reportId, variantId, tableId } = req.params
+    const { dataProductDefinitionsPath } = req.query
+
+    const variantData: components['schemas']['SingleVariantReportDefinition'] =
+      await services.reportingService.getDefinition(token, reportId, variantId, dataProductDefinitionsPath)
+
     try {
       res.render(`${templatePath}feedback-form`, {
-        title: 'Let us know why you download',
+        title: 'Download request form',
         user: res.locals.user,
         report: {
           reportId,
+          reportName: variantData.name,
           variantId,
+          variantName: variantData.variant.name,
           tableId,
+          time: new Date().toDateString(),
         },
         csrfToken,
         layoutPath,

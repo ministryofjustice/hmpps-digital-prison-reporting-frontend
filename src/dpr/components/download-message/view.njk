@@ -6,13 +6,10 @@
   {% set id = reportData.id %}
   {% set tableId = reportData.tableId %}
   {% set html %}
-    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Download coming soon</h2>
-    <p class="govuk-body">You cannot download reports from this service currently. This functionality will be available very soon. You can still download reports in NOMIS in the meantime.</p>
-    
-    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Help us improve our service</h2>
-    <p class="govuk-body">We would like to understand more about your reasons for downloading this report. Please take a moment to fill out a feedback form and help us improve our service to you, and provide features that will better suit your needs.</p>
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">You do not have permission to download this report</h2>
+    <p class="govuk-body">To gain access to download this report, please complete the download request form</p>
     <a href="/download/{{reportId}}/{{id}}/{{tableId}}/feedback" class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button">
-      Leave feedback
+      Go to form
     </a>
   {% endset %}
 

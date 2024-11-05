@@ -1,13 +1,21 @@
 import Dict = NodeJS.Dict
 import { components } from '../../types/api'
 import { Cell, DataTable } from '../DataTableBuilder/types'
-import type { SummaryTemplate } from '../../types/Templates'
+import type { SummaryTemplate, Template } from '../../types/Templates'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import { distinct } from '../arrayUtils'
+import SummaryDataTableBuilder from '../SummaryDataTableBuilder/SummaryDataTableBuilder'
 
 export default class SectionedDataTableBuilder extends DataTableBuilder {
+  private sections: Array<string>
+
+  private template: Template
+
   constructor(specification: components['schemas']['Specification']) {
-    super(specification)
+    const { fields, sections, template } = specification
+    super(fields)
+    this.sections = sections
+    this.template = template
   }
 
   private mapSectionedData(data: Array<Dict<string>>, header: Cell[]): Cell[][] {
@@ -17,7 +25,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
       classes: 'govuk-table__header',
     }))
 
-    const sectionFields = this.specification.sections.map((s) => this.specification.fields.find((f) => f.name === s))
+    const sectionFields = this.sections.map((s) => this.fields.find((f) => f.name === s))
 
     const sectionDescriptions = data
       .map((rowData) => ({
@@ -32,7 +40,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
       sectionedData[sectionDescription] = []
     })
 
-    if (this.specification.template !== 'summary-section') {
+    if (this.template !== 'summary-section') {
       sectionedData = data.reduce((previousValue, rowData) => {
         const sectionDescription: string = this.mapSectionDescription(rowData)
         const mappedData = this.mapRow(rowData)
@@ -107,7 +115,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
         const data = summary.data.filter((row) => this.mapSectionDescription(row) === sectionDescription)
 
         if (data.length > 0) {
-          const dataTable = DataTableBuilder.getForSummary(summary, this.specification.sections).buildTable(data)
+          const dataTable = new SummaryDataTableBuilder(summary, this.sections).buildTable(data)
 
           const headers = dataTable.head.map(
             (h) => `<th scope='col' class='govuk-table__header'>${h.html ?? h.text}</th>`,
@@ -148,11 +156,11 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
   }
 
   private mapSectionDescription(rowData: NodeJS.Dict<string>): string {
-    const { sections } = this.specification
+    const { sections } = this
 
     return sections
       .map((s) => {
-        const sectionField = this.specification.fields.find((f) => f.name === s)
+        const sectionField = this.fields.find((f) => f.name === s)
         return `${sectionField.display}: ${this.mapCellValue(sectionField, rowData[s])}`
       })
       .join(', ')

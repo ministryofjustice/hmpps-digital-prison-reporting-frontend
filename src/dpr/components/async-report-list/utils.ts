@@ -22,7 +22,7 @@ export default {
     const url = parseUrl(req)
     const pagination = PaginationUtils.getPaginationData(url, count)
 
-    const dataTable: DataTable = new DataTableBuilder(specification)
+    const dataTable: DataTable = new DataTableBuilder(specification.fields)
       .withSummaries(reportSummaries)
       .withNoHeaderOptions(columns.value)
       .buildTable(reportData)

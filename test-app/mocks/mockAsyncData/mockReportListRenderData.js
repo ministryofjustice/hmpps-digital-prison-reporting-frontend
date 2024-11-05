@@ -16,6 +16,7 @@ const mockGetReportListRenderData = {
       [
         {
           text: 'Value 2',
+          fieldName: 'field2',
           format: 'string',
           classes: '',
         },
@@ -23,6 +24,7 @@ const mockGetReportListRenderData = {
       [
         {
           text: 'Value 2',
+          fieldName: 'field2',
           format: 'string',
           classes: '',
         },
@@ -30,6 +32,7 @@ const mockGetReportListRenderData = {
       [
         {
           text: 'Value 2',
+          fieldName: 'field2',
           format: 'string',
           classes: '',
         },
@@ -37,6 +40,7 @@ const mockGetReportListRenderData = {
       [
         {
           text: 'Value 2',
+          fieldName: 'field2',
           format: 'string',
           classes: '',
         },
@@ -44,6 +48,7 @@ const mockGetReportListRenderData = {
       [
         {
           text: 'Value 2',
+          fieldName: 'field2',
           format: 'string',
           classes: '',
         },
@@ -51,6 +56,7 @@ const mockGetReportListRenderData = {
       [
         {
           text: 'Value 2',
+          fieldName: 'field2',
           format: 'string',
           classes: '',
         },
@@ -58,6 +64,7 @@ const mockGetReportListRenderData = {
       [
         {
           text: 'Value 2',
+          fieldName: 'field2',
           format: 'string',
           classes: '',
         },
@@ -65,6 +72,7 @@ const mockGetReportListRenderData = {
       [
         {
           text: 'Value 2',
+          fieldName: 'field2',
           format: 'string',
           classes: '',
         },
@@ -72,6 +80,7 @@ const mockGetReportListRenderData = {
       [
         {
           text: 'Value 2',
+          fieldName: 'field2',
           format: 'string',
           classes: '',
         },
@@ -79,6 +88,7 @@ const mockGetReportListRenderData = {
       [
         {
           text: 'Value 2',
+          fieldName: 'field2',
           format: 'string',
           classes: '',
         },
@@ -247,6 +257,7 @@ const mockReportListRenderData = {
     [
       {
         text: 'Value 2',
+        fieldName: 'field2',
         format: 'string',
         classes: '',
       },
@@ -254,6 +265,7 @@ const mockReportListRenderData = {
     [
       {
         text: 'Value 2',
+        fieldName: 'field2',
         format: 'string',
         classes: '',
       },
@@ -261,6 +273,7 @@ const mockReportListRenderData = {
     [
       {
         text: 'Value 2',
+        fieldName: 'field2',
         format: 'string',
         classes: '',
       },
@@ -268,6 +281,7 @@ const mockReportListRenderData = {
     [
       {
         text: 'Value 2',
+        fieldName: 'field2',
         format: 'string',
         classes: '',
       },
@@ -275,6 +289,7 @@ const mockReportListRenderData = {
     [
       {
         text: 'Value 2',
+        fieldName: 'field2',
         format: 'string',
         classes: '',
       },
@@ -282,6 +297,7 @@ const mockReportListRenderData = {
     [
       {
         text: 'Value 2',
+        fieldName: 'field2',
         format: 'string',
         classes: '',
       },
@@ -289,6 +305,7 @@ const mockReportListRenderData = {
     [
       {
         text: 'Value 2',
+        fieldName: 'field2',
         format: 'string',
         classes: '',
       },
@@ -296,6 +313,7 @@ const mockReportListRenderData = {
     [
       {
         text: 'Value 2',
+        fieldName: 'field2',
         format: 'string',
         classes: '',
       },
@@ -303,6 +321,7 @@ const mockReportListRenderData = {
     [
       {
         text: 'Value 2',
+        fieldName: 'field2',
         format: 'string',
         classes: '',
       },
@@ -310,6 +329,7 @@ const mockReportListRenderData = {
     [
       {
         text: 'Value 2',
+        fieldName: 'field2',
         format: 'string',
         classes: '',
       },

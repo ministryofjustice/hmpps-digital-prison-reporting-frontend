@@ -13,7 +13,6 @@ import { Columns } from '../components/columns/types'
 
 export const initDataSources = ({
   req,
-  res,
   services,
   token,
   userId,
@@ -140,7 +139,6 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
           break
 
         case 'list-tab':
-        case 'crosstab':
           // Add template-specific calls here
           break
 

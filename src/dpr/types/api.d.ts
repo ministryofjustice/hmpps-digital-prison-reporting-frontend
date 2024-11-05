@@ -156,6 +156,7 @@ export interface components {
       mandatory: boolean
       visible: boolean
       calculated: boolean
+      header?: boolean
     }
     FilterDefinition: {
       /** @enum {string} */
@@ -186,13 +187,17 @@ export interface components {
     }
     Specification: {
       /** @enum {string} */
-      template: 'list' | 'list-section' | 'list-aggregate' | 'list-tab' | 'crosstab' | 'summary' | 'summary-section'
+      template: 'list' | 'list-section' | 'list-tab' | 'summary' | 'summary-section'
       fields: components['schemas']['FieldDefinition'][]
       sections: string[]
     }
     SummaryField: {
       name: string
       display: string
+      type?: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time'
+      header?: boolean
+      mergeRows?: boolean
+      sortAsc?: boolean
     }
     VariantDefinition: {
       id: string

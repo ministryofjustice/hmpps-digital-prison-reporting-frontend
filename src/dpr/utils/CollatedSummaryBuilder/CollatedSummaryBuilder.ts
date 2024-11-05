@@ -2,8 +2,8 @@ import Dict = NodeJS.Dict
 import { AsyncSummary } from '../../types/UserReports'
 import { SummaryTemplate } from '../../types/Templates'
 import { components } from '../../types/api'
-import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../DataTableBuilder/types'
+import SummaryDataTableBuilder from '../SummaryDataTableBuilder/SummaryDataTableBuilder'
 
 export default class CollatedSummaryBuilder {
   private summaries: Array<AsyncSummary>
@@ -61,8 +61,7 @@ export default class CollatedSummaryBuilder {
 
     Object.keys(summaries).forEach((summaryType) => {
       dataTables[summaryType] = summaries[summaryType].map((summary) => {
-        const builder = DataTableBuilder.getForSummary(summary, this.specification.sections)
-        return builder.buildTable(summary.data)
+        return new SummaryDataTableBuilder(summary, this.specification.sections).buildSummaryTable()
       })
     })
 

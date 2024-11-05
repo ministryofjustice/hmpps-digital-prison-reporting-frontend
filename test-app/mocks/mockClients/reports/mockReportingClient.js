@@ -173,6 +173,69 @@ class MockReportingClient {
             field4: '7 Freds',
           },
         ])
+      case 'summary8':
+        return Promise.resolve([
+          {
+            activity: 'Cleaning',
+            measureType: '=',
+            monday: 1,
+            tuesday: 2,
+            wednesday: 3,
+            thursday: 4,
+            friday: 0,
+            total: 10,
+          },
+          {
+            activity: 'Cleaning',
+            measureType: '%',
+            monday: 10,
+            tuesday: 20,
+            wednesday: 30,
+            thursday: 40,
+            friday: 0,
+            total: 100,
+          },
+          {
+            activity: 'Cooking',
+            measureType: '=',
+            monday: 1,
+            tuesday: 2,
+            wednesday: 3,
+            thursday: 4,
+            friday: 0,
+            total: 10,
+          },
+          {
+            activity: 'Cooking',
+            measureType: '%',
+            monday: 10,
+            tuesday: 20,
+            wednesday: 30,
+            thursday: 40,
+            friday: 0,
+            total: 100,
+          },
+          {
+            activity: 'Painting',
+            measureType: '=',
+            monday: 1,
+            tuesday: 2,
+            wednesday: 3,
+            thursday: 4,
+            friday: 0,
+            total: 10,
+          },
+          {
+            activity: 'Painting',
+            measureType: '%',
+            monday: 10,
+            tuesday: 20,
+            wednesday: 30,
+            thursday: 40,
+            friday: 0,
+            total: 100,
+          },
+        ])
       default:
         return Promise.resolve([{ total: 52 }])
     }

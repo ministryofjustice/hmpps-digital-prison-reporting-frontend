@@ -30,9 +30,7 @@ describe('AsyncReportListUtils', () => {
         template: mockSpecification.template as
           | 'list'
           | 'list-section'
-          | 'list-aggregate'
           | 'list-tab'
-          | 'crosstab'
           | 'summary'
           | 'summary-section',
         fields: mockSpecification.fields as components['schemas']['FieldDefinition'][],

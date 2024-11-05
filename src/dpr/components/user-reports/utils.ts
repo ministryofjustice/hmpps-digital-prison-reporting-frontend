@@ -1,4 +1,4 @@
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import RecentlyViewedStoreService from '../../services/recentlyViewedService'
 import RequestedReportService from '../../services/requestedReportService'
 import { RenderTableListResponse } from './types'
@@ -7,6 +7,10 @@ import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { getExpiredStatus } from '../../utils/requestStatusHelper'
 import { itemActionsHtml, createListItemProduct } from '../../utils/reportListsHelper'
 import ShowMoreUtils from '../show-more/utils'
+import { Services } from '../../types/Services'
+import RequestedReportUtils from '../user-reports-request-list/utils'
+import RecentlyViewedCardGroupUtils from '../user-reports-viewed-list/utils'
+import BookmarklistUtils from '../user-reports-bookmarks-list/utils'
 
 const formatData = (reportData: UserReportData): FormattedUserReportData => {
   const reportDataCopy: UserReportData = JSON.parse(JSON.stringify(reportData))
@@ -201,45 +205,47 @@ export const setDataFromStatus = (status: RequestStatus, reportsData: UserReport
   }
 }
 
-export default {
-  renderList: async ({
-    res,
-    storeService,
+const renderList = async ({
+  res,
+  storeService,
+  maxRows,
+  filterFunction,
+  type,
+}: {
+  res: Response
+  maxRows?: number
+  storeService: RequestedReportService | RecentlyViewedStoreService
+  filterFunction: (report: UserReportData) => boolean
+  type: 'requested' | 'viewed'
+}): Promise<RenderTableListResponse> => {
+  const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+
+  const requestedReportsData: UserReportData[] = await storeService.getAllReports(userId)
+
+  let formatted = requestedReportsData.filter(filterFunction).map(formatData)
+  const tableData = formatTable(formatted, type)
+
+  if (maxRows) formatted = formatted.slice(0, maxRows)
+
+  const head = {
+    ...(formatted.length && { href: `./async-reports/${type}` }),
+    ...(!formatted.length && { emptyMessage: 'You have 0 requested reports' }),
+  }
+  const result = {
+    head,
+    tableData,
+    total: getTotals(formatted, maxRows),
+    meta: getMeta(formatted),
+    csrfToken,
     maxRows,
-    filterFunction,
-    type,
-  }: {
-    res: Response
-    maxRows?: number
-    storeService: RequestedReportService | RecentlyViewedStoreService
-    filterFunction: (report: UserReportData) => boolean
-    type: 'requested' | 'viewed'
-  }): Promise<RenderTableListResponse> => {
-    const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
-    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+  }
 
-    const requestedReportsData: UserReportData[] = await storeService.getAllReports(userId)
+  return result
+}
 
-    let formatted = requestedReportsData.filter(filterFunction).map(formatData)
-    const tableData = formatTable(formatted, type)
-
-    if (maxRows) formatted = formatted.slice(0, maxRows)
-
-    const head = {
-      ...(formatted.length && { href: `./async-reports/${type}` }),
-      ...(!formatted.length && { emptyMessage: 'You have 0 requested reports' }),
-    }
-    const result = {
-      head,
-      tableData,
-      total: getTotals(formatted, maxRows),
-      meta: getMeta(formatted),
-      csrfToken,
-      maxRows,
-    }
-
-    return result
-  },
+export default {
+  renderList,
 
   getExpiredStatus: async ({
     req,
@@ -254,5 +260,36 @@ export default {
       await storeService.setToExpired(report.executionId, userId)
     }
     return report ? report.isExpired : false
+  },
+
+  initLists: async ({ services, res, req }: { services: Services; res: Response; req: Request }) => {
+    const requestedReports = await renderList({
+      res,
+      storeService: services.requestedReportService,
+      filterFunction: RequestedReportUtils.filterReports,
+      maxRows: 20,
+      type: 'requested',
+    })
+
+    const viewedReports = await renderList({
+      res,
+      storeService: services.recentlyViewedService,
+      filterFunction: RecentlyViewedCardGroupUtils.filterReports,
+      maxRows: 10,
+      type: 'viewed',
+    })
+
+    const bookmarks = await BookmarklistUtils.renderBookmarkList({
+      res,
+      req,
+      services,
+      maxRows: 10,
+    })
+
+    return {
+      requestedReports,
+      viewedReports,
+      bookmarks,
+    }
   },
 }

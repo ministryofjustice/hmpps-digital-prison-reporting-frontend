@@ -174,7 +174,7 @@ export default function routes({
   }
 
   const viewReportHandler: RequestHandler = async (req, res, next) => {
-    const { type, download } = req.params
+    const { type } = req.params
     try {
       let template
       let renderData

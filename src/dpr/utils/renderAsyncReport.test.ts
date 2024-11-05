@@ -4,7 +4,6 @@ import { Url } from 'url'
 import * as AsyncReportUtils from './renderAsyncReport'
 import ColumnUtils from '../components/columns/utils'
 import PaginationUtils from '../components/pagination/utils'
-import ReportActionsUtils from '../components/report-actions/utils'
 
 import MockReportingClient from '../../../test-app/mocks/mockClients/reports/mockReportingClient'
 import { RequestedReport } from '../types/UserReports'
@@ -12,12 +11,12 @@ import RequestedReportService from '../services/requestedReportService'
 import ReportingService from '../services/reportingService'
 import { mockGetReportListRenderData } from '../../../test-app/mocks/mockAsyncData/mockReportListRenderData'
 import RecentlyViewedStoreService from '../services/recentlyViewedService'
-import definitions from '../../../test-app/mocks/mockClients/reports/mockReportDefinition'
 import BookmarkService from '../services/bookmarkService'
 import MetricService from '../services/metricsService'
 import DashboardService from '../services/dashboardService'
 import { components } from '../types/api'
 import { Services } from '../types/Services'
+import DownloadPermissionService from '../services/downloadPermissionService'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
@@ -25,8 +24,14 @@ jest.mock('parseurl', () => ({
 }))
 
 const reportState = {
+  id: 'id',
+  variantId: 'id',
+  reportId: 'reportId',
   reportName: 'reportName',
   name: 'variantName',
+  tableId: 'tableId',
+  type: 'report',
+  variantName: 'variantName',
   executionId: 'executionId',
   query: { summary: 'summary' },
   description: 'description',
@@ -139,8 +144,6 @@ describe('AsyncReportUtils', () => {
   })
 
   describe('getReport', () => {
-    let ReportActionsUtilsSpy: any
-
     beforeEach(() => {
       jest.clearAllMocks()
       jest.spyOn(AsyncReportUtils, 'initDataSources').mockImplementation(() => [
@@ -152,7 +155,6 @@ describe('AsyncReportUtils', () => {
         }),
       ])
       jest.spyOn(PaginationUtils, 'getPaginationData')
-      ReportActionsUtilsSpy = jest.spyOn(ReportActionsUtils, 'initAsyncReportActions')
       jest.spyOn(ColumnUtils, 'getColumns')
     })
 
@@ -171,6 +173,10 @@ describe('AsyncReportUtils', () => {
       const mockMetricService = {} as unknown as MetricService
       const mockDashboardService = {} as unknown as DashboardService
 
+      const downloadPermissionService = {
+        downloadEnabled: jest.fn().mockResolvedValue(true),
+      } as unknown as DownloadPermissionService
+
       const mockRecentlyViewedStoreService = {
         setRecentlyViewed: jest.fn(),
       } as unknown as RecentlyViewedStoreService
@@ -183,6 +189,7 @@ describe('AsyncReportUtils', () => {
         bookmarkService: mockBookmarkService,
         metricService: mockMetricService,
         dashboardService: mockDashboardService,
+        downloadPermissionService,
       }
 
       const result = await AsyncReportUtils.getReport({
@@ -190,8 +197,6 @@ describe('AsyncReportUtils', () => {
         res: mockRes,
         services,
       })
-
-      expect(ReportActionsUtilsSpy).toHaveBeenCalledWith(definitions.report.variants[1], reportState)
 
       expect(result).toEqual(mockGetReportListRenderData)
     })

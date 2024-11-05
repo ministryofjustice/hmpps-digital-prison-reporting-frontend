@@ -41,14 +41,14 @@ const BUTTON_TEMPLATES = {
 
 const initReportActions = ({
   reportName,
-  variantName,
+  name,
   printable,
   url,
   executionId = null,
   downloadable = true,
 }: {
   reportName: string
-  variantName: string
+  name: string
   printable: boolean
   url: string
   executionId?: string
@@ -77,7 +77,7 @@ const initReportActions = ({
   // Share
   actions.push({
     ...BUTTON_TEMPLATES.sharable,
-    href: `mailto:?subject=${reportName}-${variantName}&body=${encodeURIComponent(url)}`,
+    href: `mailto:?subject=${reportName}-${name}&body=${encodeURIComponent(url)}`,
   })
 
   // Copy
@@ -123,7 +123,7 @@ const getActions = ({
     csrfToken: string
     reportId: string
     reportName: string
-    variantName: string
+    name: string
     id: string
     tableId: string
     columns: string[]
@@ -179,7 +179,7 @@ const getActions = ({
         tableId: download.tableId,
         type: download.type,
         reportName: download.reportName,
-        variantName: download.variantName,
+        name: download.name,
         columns: download.columns,
       },
       ariaLabelText: !download.enabled
@@ -195,7 +195,7 @@ export default {
   initAsyncReportActions: (variant: components['schemas']['VariantDefinition'], reportData: RequestedReport) => {
     return initReportActions({
       reportName: reportData.reportName,
-      variantName: reportData.name,
+      name: reportData.name,
       printable: variant.printable,
       url: reportData.url.request.fullUrl,
       executionId: reportData.executionId,
@@ -220,7 +220,7 @@ interface ReportAction {
     tableId?: string
     type?: ReportType
     reportName?: string
-    variantName?: string
+    name?: string
     columns: string[]
   }
 }

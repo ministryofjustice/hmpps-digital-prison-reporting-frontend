@@ -27,12 +27,7 @@ describe('AsyncReportListUtils', () => {
       const mockReq = { query: { columns: fieldNames } } as unknown as Request
       const mockSpecification = definitions.report.variants[1].specification
       const specification: components['schemas']['Specification'] = {
-        template: mockSpecification.template as
-          | 'list'
-          | 'list-section'
-          | 'list-tab'
-          | 'summary'
-          | 'summary-section',
+        template: mockSpecification.template as 'list' | 'list-section' | 'list-tab' | 'summary' | 'summary-section',
         fields: mockSpecification.fields as components['schemas']['FieldDefinition'][],
         sections: [],
       }

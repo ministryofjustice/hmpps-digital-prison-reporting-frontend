@@ -14,8 +14,7 @@ import DownloadUtils from '../utils/downloadUtils'
  * 6. User navigates back to the report
  * 7. Clicks download - POST to download handler
  * 8. Check if user has permission - permission is present
- * 9. Redirected to download link/download handler
- * 10. Handler gets report data, converts to CSV, saves to file, download file
+ * 9. Handler gets report data, converts to CSV, saves to file, download the file and clears up
  */
 
 export default function routes({

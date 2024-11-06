@@ -3,7 +3,7 @@
 {% from "../components/loading-anim/view.njk" import dprLoadingAnim %}
 {% from "../components/report-heading/view.njk" import dprReportHeading %}
 {% from "../components/report-print-message/view.njk" import dprReportPrintMessage %}
-{% from "../components/async-report/view.njk" import dprAsyncReport %}
+{% from "../components/sync-report/view.njk" import dprSyncReport %}
 
 {% set template = renderData.template %}
 {% set pagination = renderData.pagination %}
@@ -26,7 +26,7 @@
         {{ dprReportHeading(renderData) }}
       </div>
 
-      {{ dprAsyncReport(renderData) }}
+      {{ dprSyncReport(renderData) }}
 
     </div>
   </div>

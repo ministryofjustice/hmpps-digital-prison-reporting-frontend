@@ -5,15 +5,15 @@
   {% if columns.options.length > 0 %}
   <div class="dpr-columns-section-wrapper">
     {% set columnsHtml %}
-    {{ dprColumns(columns) }}
+      {{ dprColumns(columns) }}
     {% endset %}
 
     {% set columnsTitle = "Columns (" + columns.value.length + " of " + columns.options.length +" shown)"  %}
     <div class="columns-section-button">
       {{ govukDetails({
-      summaryText: columnsTitle,
-      html: columnsHtml
-    }) }}
+        summaryText: columnsTitle,
+        html: columnsHtml
+      }) }}
     </div>
   </div>
   {% endif %}

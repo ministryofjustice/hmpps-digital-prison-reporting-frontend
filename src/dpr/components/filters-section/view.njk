@@ -1,0 +1,33 @@
+{% from "dpr/components/accordion/view.njk" import dprAccordion %}
+
+{% macro dprFiltersSection(filterOptions) %}
+  {% set filters = filterOptions.filters %}
+  {% if filters.length > 0 %}
+    
+    {% set selectedFilters = filterOptions.selectedFilters %}
+    {% set urlWithNoFilters = filterOptions.urlWithNoFilters %}
+
+    {% set filterHtml %}
+      <div class="data-table-filters">
+        {{ dprFilters( filters, urlWithNoFilters ) }}
+      </div>
+    {% endset %}
+
+    {% set filtersHeaderHtml %}
+      {%- for selectedFilter in selectedFilters %}
+        <div class="selected-accordion-button">
+          {{ govukButton(selectedFilter) }}
+        </div>
+      {%- endfor %}
+    {% endset %}
+    
+    {% set filtersAccordionItem = {
+      summaryText: 'Filters',
+      bodyHtml: filterHtml,
+      headerHtml: filtersHeaderHtml
+    } %}
+    {% set accordionItems = (accordionItems.push(filtersAccordionItem), accordionItems) %}
+  {% endif %}
+
+  
+{% endmacro %}

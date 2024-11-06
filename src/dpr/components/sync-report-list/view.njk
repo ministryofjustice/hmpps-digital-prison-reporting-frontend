@@ -1,0 +1,33 @@
+{% from "../data-table/view.njk" import dprDataTable %}
+{% from "../async-applied-filters/view.njk" import dprAsyncAppliedFiltersList %}
+{% from "../column-section/view.njk" import dprColumnSection %}
+{% from "../filters-section/view.njk" import dprFiltersSection %}
+{% from "../summary-table/view.njk" import dprReportSummary %}
+{% from "../report-totals/view.njk" import dprReportTotals %}
+
+{% macro dprSyncReportList(options) %}
+
+  {% set columns = options.columns %}
+  {% set filters = options.filters %}
+  {% set reportSummaries = options.reportSummaries %}
+
+  {% if filters %}
+    {{ dprFiltersSection(filters) }}
+  {% endif %}
+
+  {{ dprColumnSection(columns) }}
+  {{ dprReportSummary(reportSummaries, 'page-header') }}
+  
+  {{ dprReportTotals(options.totals) }}
+
+  <div class='dpr-table-container'>
+    {{ dprDataTable(options) }}
+  </div>
+  
+  <div class='govuk-!-margin-bottom-6'>
+    {{ dprReportTotals(options.totals) }}
+  </div>
+  
+  {{ dprReportSummary(reportSummaries, 'page-footer') }}
+
+{% endmacro %}

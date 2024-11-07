@@ -1,4 +1,4 @@
-import { ReportType, RequestedReport } from '../../types/UserReports'
+import { LoadType, ReportType, RequestedReport } from '../../types/UserReports'
 import { components } from '../../types/api'
 
 const BUTTON_TEMPLATES = {
@@ -125,9 +125,10 @@ const getActions = ({
     reportName: string
     name: string
     id: string
-    tableId: string
+    tableId?: string
     columns: string[]
     type: ReportType
+    loadType: LoadType
   }
 }): ReportAction[] => {
   const actions: ReportAction[] = []
@@ -176,11 +177,12 @@ const getActions = ({
         reportId: download.reportId,
         csrfToken: download.csrfToken,
         id: download.id,
-        tableId: download.tableId,
+        ...(download.tableId && { tableId: download.tableId }),
         type: download.type,
         reportName: download.reportName,
         name: download.name,
         columns: download.columns,
+        loadType: download.loadType,
       },
       ariaLabelText: !download.enabled
         ? `${BUTTON_TEMPLATES.downloadable.ariaLabelText}, disabled`
@@ -222,5 +224,6 @@ interface ReportAction {
     reportName?: string
     name?: string
     columns: string[]
+    loadType: LoadType
   }
 }

@@ -136,3 +136,8 @@ export interface RequestFormData extends RequestFormFilterData {
 export interface RequestFormFilterData {
   [index: string]: string
 }
+
+export enum LoadType {
+  SYNC = 'sync',
+  ASYNC = 'async',
+}

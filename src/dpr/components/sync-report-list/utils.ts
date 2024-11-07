@@ -7,29 +7,80 @@ import Dict = NodeJS.Dict
 import DataTableBuilder from '../../utils/DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../../utils/DataTableBuilder/types'
 import FilterUtils from '../filters/utils'
-import { Columns } from '../columns/types'
+import ColumnUtils from '../columns/utils'
 import ReportQuery from '../../types/ReportQuery'
 import { FilterOptions } from '../filters/types'
 import createUrlForParameters from '../../utils/urlHelper'
+import { ListWithWarnings } from '../../data/types'
+import { LoadType, ReportType } from '../../types/UserReports'
+import { Columns } from '../columns/types'
+import ReportActionsUtils from '../report-actions/utils'
+
+const setActions = (
+  csrfToken: string,
+  reportDefinition: components['schemas']['SingleVariantReportDefinition'],
+  columns: Columns,
+  url: string,
+) => {
+  const { name: reportName, variant, id: reportId } = reportDefinition
+  const { name, id, printable } = variant
+
+  return ReportActionsUtils.getActions({
+    download: {
+      enabled: true,
+      name,
+      reportName,
+      csrfToken,
+      reportId,
+      id,
+      type: ReportType.REPORT,
+      columns: columns.value,
+      loadType: LoadType.SYNC,
+    },
+    print: {
+      enabled: printable,
+    },
+    share: {
+      reportName,
+      name,
+      url,
+    },
+    copy: {
+      url,
+    },
+  })
+}
 
 export default {
-  getRenderData: (
-    req: Request,
-    variantDefinition: components['schemas']['VariantDefinition'],
-    reportQuery: ReportQuery,
-    reportData: Array<Dict<string>>,
-    count: number,
-    columns: Columns,
-    dynamicAutocompleteEndpoint?: string,
-    querySummary?: Array<Dict<string>>,
-  ) => {
-    const { specification } = variantDefinition
+  getRenderData: ({
+    req,
+    reportDefinition,
+    reportQuery,
+    reportData,
+    count,
+    dynamicAutocompleteEndpoint,
+    querySummary,
+    csrfToken,
+  }: {
+    req: Request
+    reportDefinition: components['schemas']['SingleVariantReportDefinition']
+    reportQuery: ReportQuery
+    reportData: ListWithWarnings
+    csrfToken: string
+    count: number
+    dynamicAutocompleteEndpoint?: string
+    querySummary?: Array<Dict<string>>
+  }) => {
+    const { name: reportName, description: reportDescription } = reportDefinition
+    const { specification, name, description, classification, printable } = reportDefinition.variant
+    const { data } = reportData
+
     const url = parseUrl(req)
     const pagination = PaginationUtils.getPaginationData(url, count)
 
     const dataTable: DataTable = new DataTableBuilder(specification.fields)
       .withHeaderSortOptions(reportQuery)
-      .buildTable(reportData)
+      .buildTable(data)
 
     const totals = TotalsUtils.getTotals(
       pagination.pageSize,
@@ -39,19 +90,37 @@ export default {
     )
 
     const filters: FilterOptions = FilterUtils.getFilterOptions(
-      variantDefinition,
+      reportDefinition.variant,
       reportQuery,
       createUrlForParameters,
       dynamicAutocompleteEndpoint,
     )
 
+    const columns = ColumnUtils.getColumns(specification, reportQuery.columns)
+
+    const actions = setActions(
+      csrfToken,
+      reportDefinition,
+      columns,
+      `${req.protocol}://${req.get('host')}${req.originalUrl}`,
+    )
+
     return {
+      reportName,
+      name,
+      description: description || reportDescription,
       ...dataTable,
+      count,
+      type: ReportType.REPORT,
       columns,
       filters,
       pagination,
       querySummary,
       totals,
+      classification,
+      printable,
+      actions,
+      warnings: reportData.warnings,
     }
   },
 }

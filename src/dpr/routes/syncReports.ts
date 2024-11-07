@@ -37,7 +37,6 @@ export default function routes({
   }
 
   const viewSyncReportHandler: RequestHandler = async (req, res, next) => {
-    const { type } = req.params
     try {
       const params = { req, res, services, next }
 
@@ -48,12 +47,13 @@ export default function routes({
         ...renderData,
       })
     } catch (error) {
-      req.body.title = `Failed to retrieve ${type}`
-      req.body.errorDescription = 'We were unable to retrieve this report for the following reason:'
+      req.body.title = `Report Failed`
+      req.body.errorDescription = 'We were unable to show this report for the following reason:'
       req.body.error = error
       next()
     }
   }
 
-  router.get('/sync/:type/:reportId/:id/', viewSyncReportHandler)
+  const viewReportPaths = ['/sync/:type/:reportId/:id/report', '/sync/:type/:reportId/:id/report/:download']
+  router.get(viewReportPaths, viewSyncReportHandler, asyncErrorHandler)
 }

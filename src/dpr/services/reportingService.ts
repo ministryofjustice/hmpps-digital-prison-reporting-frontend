@@ -2,6 +2,7 @@ import { components } from '../types/api'
 import type ReportingClient from '../data/reportingClient'
 import ReportQuery from '../types/ReportQuery'
 import Dict = NodeJS.Dict
+import { ListWithWarnings } from '../data/types'
 
 export default class ReportingService {
   constructor(private readonly reportingClient: ReportingClient) {}
@@ -12,6 +13,10 @@ export default class ReportingService {
 
   async getList(resourceName: string, token: string, listRequest: ReportQuery): Promise<Array<NodeJS.Dict<string>>> {
     return this.reportingClient.getList(resourceName, token, listRequest)
+  }
+
+  async getListWithWarnings(resourceName: string, token: string, listRequest: ReportQuery): Promise<ListWithWarnings> {
+    return this.reportingClient.getListWithWarnings(resourceName, token, listRequest)
   }
 
   async getDefinitions(

@@ -98,6 +98,7 @@ const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
 const dashboardRoutes = require('../package/dpr/routes/dashboard').default
 const addDownloadRoutes = require('../package/dpr/routes/download').default
+const addSyncRoutes = require('../package/dpr/routes/syncReports').default
 
 // Charts
 const mockBarChartData = require('./mocks/mockChartData/mockBarChartData')
@@ -183,6 +184,7 @@ addRecentlyViewedRoutes(routeImportParams)
 addAsyncReportingRoutes(routeImportParams)
 dashboardRoutes(routeImportParams)
 addDownloadRoutes(routeImportParams)
+addSyncRoutes(routeImportParams)
 
 app.get('/async-reports', async (req, res) => {
   res.locals.definitions = mockDefinitions.reports

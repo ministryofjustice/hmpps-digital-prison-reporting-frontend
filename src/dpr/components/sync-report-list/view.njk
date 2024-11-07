@@ -11,11 +11,13 @@
   {% set filters = options.filters %}
   {% set reportSummaries = options.reportSummaries %}
 
-  {% if filters %}
-    {{ dprFiltersSection(filters) }}
-  {% endif %}
+  <div class="dpr-sync-report-actions">
+    {% if filters %}
+      {{ dprFiltersSection(filters) }}
+    {% endif %}
+    {{ dprColumnSection(columns) }}
+  </div>
 
-  {{ dprColumnSection(columns) }}
   {{ dprReportSummary(reportSummaries, 'page-header') }}
   
   {{ dprReportTotals(options.totals) }}

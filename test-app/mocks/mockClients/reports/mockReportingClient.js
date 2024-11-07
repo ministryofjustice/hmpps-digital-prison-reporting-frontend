@@ -43,6 +43,26 @@ class MockReportingClient {
     return Promise.resolve(definitions.reports)
   }
 
+  async getList(resourceName, token, query) {
+    const report = createMockData(10)
+    return new Promise((resolve) => {
+      resolve(report)
+    })
+  }
+
+  async getCount(resourceName, token, query) {
+    return new Promise((resolve) => {
+      resolve(100)
+    })
+  }
+
+  async getListWithWarnings(resourceName, token, query) {
+    const report = createMockData(10)
+    return new Promise((resolve) => {
+      resolve({ data: report })
+    })
+  }
+
   async getAsyncReport(token, reportId, variantId, tableId, query) {
     const pageSize = +query.pageSize < this.RESULT_COUNT ? +query.pageSize : this.RESULT_COUNT
     const report = createMockData(pageSize)

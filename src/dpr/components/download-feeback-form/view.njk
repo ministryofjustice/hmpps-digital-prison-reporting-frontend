@@ -12,10 +12,11 @@
   {% set reportId = report.reportId %}
   {% set variantId = report.variantId %}
   {% set tableId = report.tableId %}
+  {% set loadType = report.loadType %}
   {% set csrfToken = csrfToken %}
 
   <div class="dpr-download-feedback-form-wrapper" data-dpr-module="download-feedback-form">
-
+    {{ loadType }}
     <form action="/submitFeedback/" method="post" id="download-feedback-form" class="download-feedback-form--hidden">
       <p>Please take 5 minutes to fill out a feedback form and let us know why you would like to use the download feature</p>
       <p>The more detail you provide, the better we can understand how to improve our service and offer features that meet your needs.</p>
@@ -28,7 +29,10 @@
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
       <input type="hidden" name="reportId" value="{{ reportId }}">
       <input type="hidden" name="variantId" value="{{ variantId }}">
-      <input type="hidden" name="tableId" value="{{ tableId }}">
+      <input type="hidden" name="loadType" value="{{ loadType }}">
+      {% if tableId %}
+        <input type="hidden" name="tableId" value="{{ tableId }}">
+      {% endif %}
       <input type="hidden" name="staffId" value="{{ staffId }}">
       <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}">
 

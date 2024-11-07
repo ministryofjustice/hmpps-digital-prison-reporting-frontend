@@ -1,7 +1,11 @@
-{% from "dpr/components/accordion/view.njk" import dprAccordion %}
+{% from "../accordion/view.njk" import dprAccordion %}
+{% from "../filters/view.njk" import dprFilters %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% macro dprFiltersSection(filterOptions) %}
   {% set filters = filterOptions.filters %}
+  {% set accordionItems = [] %}
+
   {% if filters.length > 0 %}
     
     {% set selectedFilters = filterOptions.selectedFilters %}
@@ -29,5 +33,6 @@
     {% set accordionItems = (accordionItems.push(filtersAccordionItem), accordionItems) %}
   {% endif %}
 
+  {{ dprAccordion(accordionItems) }}
   
 {% endmacro %}

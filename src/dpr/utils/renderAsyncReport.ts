@@ -1,7 +1,7 @@
 import { components } from '../types/api'
 import Dict = NodeJS.Dict
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
-import { ReportType, RequestedReport } from '../types/UserReports'
+import { LoadType, ReportType, RequestedReport } from '../types/UserReports'
 import AsyncReportListUtils from '../components/async-report-list/utils'
 import ReportActionsUtils from '../components/report-actions/utils'
 import { Template } from '../types/Templates'
@@ -109,6 +109,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         classification,
         template,
         count,
+        loadType: LoadType.ASYNC,
         type: ReportType.REPORT,
         actions: setActions(csrfToken, variant, reportStateData, columns),
         printable,
@@ -191,6 +192,7 @@ const setActions = (
       tableId,
       type: type || ReportType.REPORT,
       columns: columns.value,
+      loadType: LoadType.ASYNC,
     },
     print: {
       enabled: printable,

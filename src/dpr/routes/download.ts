@@ -64,9 +64,17 @@ export default function routes({
 
   const feedbackSubmitHandler: RequestHandler = async (req, res, next) => {
     const { body } = req
-    const { reportId, variantId, tableId } = body
+    const { reportId, variantId, tableId, loadType } = body
     logger.info('Download Feedback Submission:', `${JSON.stringify(body)}`)
-    res.redirect(`/download/${reportId}/${variantId}/${tableId}/feedback/submitted`)
+
+    let redirect
+    if (loadType === LoadType.ASYNC) {
+      redirect = `/download/${reportId}/${variantId}/${tableId}/feedback/submitted`
+    } else {
+      redirect = `/download/${reportId}/${variantId}/feedback/submitted`
+    }
+
+    res.redirect(redirect)
   }
 
   const feedbackSuccessHandler: RequestHandler = async (req, res, next) => {
@@ -111,6 +119,10 @@ export default function routes({
     feedbackFormHandler,
   )
   router.post('/submitFeedback/', feedbackSubmitHandler)
-  router.get('/download/:reportId/:variantId/:tableId/feedback/submitted', feedbackSuccessHandler)
+
+  router.get(
+    ['/download/:reportId/:variantId/:tableId/feedback/submitted', '/download/:reportId/:variantId/feedback/submitted'],
+    feedbackSuccessHandler,
+  )
   router.post('/downloadReport/', downloadRequestHandler)
 }

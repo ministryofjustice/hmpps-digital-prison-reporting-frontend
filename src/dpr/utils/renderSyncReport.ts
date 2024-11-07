@@ -47,6 +47,8 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
       csrfToken,
       canDownload,
       loadType: LoadType.SYNC,
+      reportId,
+      id,
       bookmarked: await services.bookmarkService.isBookmarked(id, userId),
     },
   }

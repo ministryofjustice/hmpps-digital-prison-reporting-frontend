@@ -18,6 +18,7 @@ const ReportslistUtils = require('../package/dpr/components/reports-list/utils')
 const RequestedReportsUtils = require('../package/dpr/components/user-reports-request-list/utils').default
 const RecentlyViewedCardGroupUtils = require('../package/dpr/components/user-reports-viewed-list/utils').default
 const UserReportsListUtils = require('../package/dpr/components/user-reports/utils').default
+const { createUserStoreServices, initUserStoreServices } = require('../package/dpr/utils/StoreServiceUtils')
 
 // Set up application
 const appViews = [
@@ -85,12 +86,8 @@ const mockDashboardDefinitions = require('./mocks/mockClients/dashboards/mockDas
 
 // Services
 const ReportingService = require('../package/dpr/services/reportingService').default
-const RequestedReportService = require('../package/dpr/services/requestedReportService').default
-const RecentlyViewedStoreService = require('../package/dpr/services/recentlyViewedService').default
-const BookmarkService = require('../package/dpr/services/bookmarkService').default
 const MetricsService = require('../package/dpr/services/metricsService').default
 const DashboardService = require('../package/dpr/services/dashboardService').default
-const DownloadPermissionService = require('../package/dpr/services/downloadPermissionService').default
 
 // Routes
 const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
@@ -142,17 +139,6 @@ app.get('/', (req, res) => {
   })
 })
 
-const mockUserStore = new MockUserStoreService()
-const requestedReportService = new RequestedReportService(mockUserStore)
-const recentlyViewedService = new RecentlyViewedStoreService(mockUserStore)
-const bookmarkService = new BookmarkService(mockUserStore)
-const downloadPermissionService = new DownloadPermissionService(mockUserStore)
-
-requestedReportService.init('userId')
-recentlyViewedService.init('userId')
-bookmarkService.init('userId')
-downloadPermissionService.init('userId')
-
 const reportingClient = new MockReportingClient()
 const reportingService = new ReportingService(reportingClient)
 
@@ -162,15 +148,17 @@ const metricService = new MetricsService(metricClient)
 const dashboardClient = new MockDashboardClient()
 const dashboardService = new DashboardService(dashboardClient)
 
+const mockUserStore = new MockUserStoreService()
+const userStoreServices = createUserStoreServices(mockUserStore)
+
 const services = {
-  bookmarkService,
-  recentlyViewedService,
-  requestedReportService,
+  ...userStoreServices,
   reportingService,
   metricService,
   dashboardService,
-  downloadPermissionService,
 }
+
+initUserStoreServices('userId', services)
 
 const routeImportParams = {
   router: app,
@@ -194,34 +182,9 @@ app.get('/async-reports', async (req, res) => {
     ? `?dataProductDefinitionsPath=${req.query.dataProductDefinitionsPath}`
     : ''
 
-  const requestedReports = await UserReportsListUtils.renderList({
-    res,
-    storeService: services.requestedReportService,
-    filterFunction: RequestedReportsUtils.filterReports,
-    maxRows: 20,
-    type: 'requested',
-  })
-
-  const viewedReports = await UserReportsListUtils.renderList({
-    res,
-    storeService: services.recentlyViewedService,
-    filterFunction: RecentlyViewedCardGroupUtils.filterReports,
-    maxRows: 10,
-    type: 'viewed',
-  })
-
-  const bookmarks = await BookmarklistUtils.renderBookmarkList({
-    res,
-    req,
-    services,
-    maxRows: 10,
-  })
-
   res.render('async.njk', {
     title: 'Home',
-    requestedReports,
-    viewedReports,
-    bookmarks,
+    ...(await UserReportsListUtils.initLists({ services, req, res })),
     reports: {
       ...(await ReportslistUtils.mapReportsList(res, services)),
     },

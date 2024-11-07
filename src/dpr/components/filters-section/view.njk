@@ -31,6 +31,7 @@
       headerHtml: filtersHeaderHtml
     } %}
     {% set accordionItems = (accordionItems.push(filtersAccordionItem), accordionItems) %}
+    
   {% endif %}
 
   {{ dprAccordion(accordionItems) }}

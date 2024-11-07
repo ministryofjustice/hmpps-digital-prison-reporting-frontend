@@ -16,6 +16,8 @@ import { LoadType, ReportType } from '../../types/UserReports'
 import { Columns } from '../columns/types'
 import ReportActionsUtils from '../report-actions/utils'
 import { SyncReportOptions } from '../../types/SyncReportUtils'
+import { RenderFiltersReturnValue } from '../async-filters/types'
+import AsyncFiltersUtils from '../async-filters/utils'
 
 const setActions = (
   csrfToken: string,
@@ -56,7 +58,7 @@ const setActions = (
 }
 
 export default {
-  getRenderData: ({
+  getRenderData: async ({
     req,
     reportDefinition,
     reportQuery,
@@ -95,11 +97,15 @@ export default {
       dataTable.rowCount,
     )
 
-    const filters: FilterOptions = FilterUtils.getFilterOptions(
-      reportDefinition.variant,
-      reportQuery,
-      createUrlForParameters,
-      dynamicAutocompleteEndpoint,
+    // const filters: FilterOptions = FilterUtils.getFilterOptions(
+    //   reportDefinition.variant,
+    //   reportQuery,
+    //   createUrlForParameters,
+    //   dynamicAutocompleteEndpoint,
+    // )
+
+    const filters = <RenderFiltersReturnValue>(
+      await AsyncFiltersUtils.renderFilters(reportDefinition.variant.specification.fields)
     )
 
     const columns = ColumnUtils.getColumns(specification, reportQuery.columns)

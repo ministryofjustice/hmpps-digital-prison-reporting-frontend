@@ -1,0 +1,9 @@
+{% from "dpr/components/filter-input/view.njk" import dprFilterInput %}
+
+{% macro dprSyncFilters(filters, prefix) %}
+  <div class="filter-container">
+    {%- for filter in filters.filters %}
+      {{ dprFilterInput(filter, prefix) }}
+    {%- endfor %}
+  </div>
+{% endmacro %}

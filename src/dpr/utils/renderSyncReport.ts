@@ -43,7 +43,7 @@ const getReport = async ({ req, res, services, options = {} }: SyncReportUtilsPa
     bookmarked = await services.bookmarkService.isBookmarked(id, userId)
   }
 
-  const renderData = SyncReportUtils.getRenderData({
+  const renderData = await SyncReportUtils.getRenderData({
     req,
     reportDefinition,
     reportQuery,
@@ -52,6 +52,8 @@ const getReport = async ({ req, res, services, options = {} }: SyncReportUtilsPa
     csrfToken,
     options,
   })
+
+  console.log({ renderData })
 
   return {
     renderData: {

@@ -4,9 +4,9 @@
 {% from "../filters-section/view.njk" import dprFiltersSection %}
 {% from "../summary-table/view.njk" import dprReportSummary %}
 {% from "../report-totals/view.njk" import dprReportTotals %}
+{% from "../sync-filters/view.njk" import dprSyncFilters %}
 
 {% macro dprSyncReportList(options) %}
-
   {% set columns = options.columns %}
   {% set filters = options.filters %}
   {% set reportSummaries = options.reportSummaries %}

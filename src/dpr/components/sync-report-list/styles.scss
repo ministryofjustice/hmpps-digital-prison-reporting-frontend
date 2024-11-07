@@ -1,6 +1,5 @@
-.drp-async-reports-heading-container {
+.dpr-reports-heading-container {
   position: relative;
-  margin-bottom: govuk-spacing(3);
 }
 
 .report-no-data-available {
@@ -18,7 +17,7 @@
     display: none;
   }
 
-  .drp-async-reports-heading-container {
+  .dpr-reports-heading-container {
     h1.govuk-heading-l {
       font-size: 20px;
     }

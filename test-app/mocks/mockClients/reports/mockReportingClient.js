@@ -43,8 +43,9 @@ class MockReportingClient {
     return Promise.resolve(definitions.reports)
   }
 
-  async getList(resourceName, token, query) {
+  async getList(resourceName, token, listRequest) {
     const report = createMockData(10)
+
     return new Promise((resolve) => {
       resolve(report)
     })
@@ -56,8 +57,9 @@ class MockReportingClient {
     })
   }
 
-  async getListWithWarnings(resourceName, token, query) {
+  async getListWithWarnings(resourceName, token, listRequest) {
     const report = createMockData(10)
+
     return new Promise((resolve) => {
       resolve({ data: report })
     })

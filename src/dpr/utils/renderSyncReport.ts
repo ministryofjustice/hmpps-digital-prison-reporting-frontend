@@ -53,8 +53,6 @@ const getReport = async ({ req, res, services, options = {} }: SyncReportUtilsPa
     options,
   })
 
-  console.log({ renderData })
-
   return {
     renderData: {
       ...renderData,

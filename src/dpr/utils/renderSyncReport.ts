@@ -1,10 +1,10 @@
-import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
+import { SyncReportUtilsParams } from '../types/SyncReportUtils'
 import ReportQuery from '../types/ReportQuery'
 import SyncReportUtils from '../components/sync-report-list/utils'
 import { ListWithWarnings } from '../data/types'
 import { LoadType } from '../types/UserReports'
 
-const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
+const getReport = async ({ req, res, services, options = {} }: SyncReportUtilsParams) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
@@ -30,7 +30,18 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
   )
 
   const count = await services.reportingService.getCount(resourceName, token, reportQuery)
-  const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
+
+  let canDownload
+  if (options.download) {
+    canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
+  }
+
+  let bookmarked
+  let removeBookmark = true
+  if (options.bookmark) {
+    removeBookmark = !options.bookmark
+    bookmarked = await services.bookmarkService.isBookmarked(id, userId)
+  }
 
   const renderData = SyncReportUtils.getRenderData({
     req,
@@ -39,17 +50,19 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
     reportData,
     count,
     csrfToken,
+    options,
   })
 
   return {
     renderData: {
       ...renderData,
       csrfToken,
-      canDownload,
       loadType: LoadType.SYNC,
       reportId,
       id,
-      bookmarked: await services.bookmarkService.isBookmarked(id, userId),
+      canDownload,
+      removeBookmark,
+      bookmarked,
     },
   }
 }

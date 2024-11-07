@@ -15,28 +15,32 @@ import { ListWithWarnings } from '../../data/types'
 import { LoadType, ReportType } from '../../types/UserReports'
 import { Columns } from '../columns/types'
 import ReportActionsUtils from '../report-actions/utils'
+import { SyncReportOptions } from '../../types/SyncReportUtils'
 
 const setActions = (
   csrfToken: string,
   reportDefinition: components['schemas']['SingleVariantReportDefinition'],
   columns: Columns,
   url: string,
+  options: SyncReportOptions = {},
 ) => {
   const { name: reportName, variant, id: reportId } = reportDefinition
   const { name, id, printable } = variant
 
   return ReportActionsUtils.getActions({
-    download: {
-      enabled: true,
-      name,
-      reportName,
-      csrfToken,
-      reportId,
-      id,
-      type: ReportType.REPORT,
-      columns: columns.value,
-      loadType: LoadType.SYNC,
-    },
+    ...(options.download && {
+      download: {
+        enabled: true,
+        name,
+        reportName,
+        csrfToken,
+        reportId,
+        id,
+        type: ReportType.REPORT,
+        columns: columns.value,
+        loadType: LoadType.SYNC,
+      },
+    }),
     print: {
       enabled: printable,
     },
@@ -61,6 +65,7 @@ export default {
     dynamicAutocompleteEndpoint,
     querySummary,
     csrfToken,
+    options,
   }: {
     req: Request
     reportDefinition: components['schemas']['SingleVariantReportDefinition']
@@ -70,6 +75,7 @@ export default {
     count: number
     dynamicAutocompleteEndpoint?: string
     querySummary?: Array<Dict<string>>
+    options: SyncReportOptions
   }) => {
     const { name: reportName, description: reportDescription } = reportDefinition
     const { specification, name, description, classification, printable } = reportDefinition.variant
@@ -103,6 +109,7 @@ export default {
       reportDefinition,
       columns,
       `${req.protocol}://${req.get('host')}${req.originalUrl}`,
+      options,
     )
 
     return {

@@ -11,6 +11,13 @@ export interface AsyncReportUtilsParams {
   services: Services
 }
 
+export interface SyncReportUtilsParams {
+  req?: Request
+  res: Response
+  next?: NextFunction
+  services: Services
+}
+
 export interface ExecutionData {
   executionId: string
   tableId: string

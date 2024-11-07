@@ -172,7 +172,15 @@ addRecentlyViewedRoutes(routeImportParams)
 addAsyncReportingRoutes(routeImportParams)
 dashboardRoutes(routeImportParams)
 addDownloadRoutes(routeImportParams)
-addSyncRoutes(routeImportParams)
+
+addSyncRoutes({
+  ...routeImportParams,
+  options: {
+    download: true,
+    bookmark: false,
+    recentlyViewed: false,
+  },
+})
 
 app.get('/async-reports', async (req, res) => {
   res.locals.definitions = mockDefinitions.reports

@@ -3,10 +3,12 @@
   display: flex;
   position: relative;
   row-gap: 15px;
+  flex-flow: column wrap;
 
   .dpr-summary-container {
     min-width: 200px;
     width: fit-content;
+    flex-shrink: 0;
 
     .govuk-table {
       border: solid 1px govuk-colour("mid-grey");

@@ -12,7 +12,8 @@ const getSelectedFilters = (filters: FilterValue[], req: Request, prefix: string
       let value = []
       let key: string[] = []
       let displayValue = f.value
-      if (f.type === 'daterange') {
+
+      if (f.type === FilterType.dateRange.toLowerCase()) {
         displayValue = `${(<DateRange>f.value).start} - ${(<DateRange>f.value).start}`
         value = [(<DateRange>f.value).start, (<DateRange>f.value).end]
       } else {
@@ -37,9 +38,9 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
 
   return filters.map((filter: FilterValue) => {
     let requestfilterValue
-    if (filter.type === FilterType.dateRange) {
+    if (filter.type === FilterType.dateRange.toLowerCase()) {
       requestfilterValue = handleDaterangeValue(filter, req, prefix)
-    } else if (filter.type === FilterType.date) {
+    } else if (filter.type === FilterType.date.toLowerCase()) {
       requestfilterValue = handleDateValue(filter, req, prefix)
     } else {
       requestfilterValue = <string>req.query[`${prefix}${filter.name}`]

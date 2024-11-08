@@ -3,6 +3,8 @@ import { FilterType } from '../filter-input/enum'
 export interface FilterOption {
   value: string
   text: string
+  disabled?: boolean
+  selected?: boolean
 }
 
 export type FilterValue = GenericFilterValue | DateFilterValue

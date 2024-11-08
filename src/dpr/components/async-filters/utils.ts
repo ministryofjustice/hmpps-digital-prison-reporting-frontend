@@ -17,9 +17,12 @@ import DateMapper from '../../utils/DateMapper/DateMapper'
  * @param {components['schemas']['VariantDefinition']} definition
  * @return {*}
  */
-const initFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][]) => {
+const initFiltersFromDefinition = (
+  fields: components['schemas']['FieldDefinition'][],
+  dynamicAutocompleteEndpoint?: string,
+) => {
   return {
-    filters: getFiltersFromDefinition(fields),
+    filters: getFiltersFromDefinition(fields, dynamicAutocompleteEndpoint),
     sortBy: getSortByFromDefinition(fields),
   }
 }
@@ -134,7 +137,10 @@ export const getRelativeDateOptions = (min: string, max: string) => {
  * @param {components['schemas']['VariantDefinition']} definition
  * @return {*}
  */
-const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][]) => {
+const getFiltersFromDefinition = (
+  fields: components['schemas']['FieldDefinition'][],
+  dynamicAutocompleteEndpoint?: string,
+) => {
   return fields
     .filter((f) => f.filter)
     .map((f) => {
@@ -151,6 +157,11 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
         })
       }
 
+      const dynamicResourceEndpoint =
+        (dynamicOptions && dynamicOptions.returnAsStaticOptions) || !dynamicAutocompleteEndpoint
+          ? null
+          : dynamicAutocompleteEndpoint.replace('{fieldName}', f.name)
+
       let filterData: FilterValue = {
         text,
         name,
@@ -158,10 +169,11 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
         options: options.length ? options : null,
         value: defaultValue || null,
         minimumLength: dynamicOptions ? dynamicOptions.minimumLength : null,
-        dynamicResourceEndpoint: null,
+        dynamicResourceEndpoint,
         mandatory,
         pattern,
       }
+
       if (type === FilterType.dateRange.toLowerCase()) {
         const dateRegEx = /^\d{1,4}-\d{1,2}-\d{2,2} - \d{1,4}-\d{1,2}-\d{1,2}$/
         const { min, max } = filter
@@ -249,9 +261,9 @@ export default {
    * @param {AsyncReportUtilsParams} { req, res, dataSources }
    * @return {*}
    */
-  renderFilters: async (fields: components['schemas']['FieldDefinition'][]) => {
+  renderFilters: async (fields: components['schemas']['FieldDefinition'][], dynamicAutocompleteEndpoint?: string) => {
     return {
-      ...initFiltersFromDefinition(fields),
+      ...initFiltersFromDefinition(fields, dynamicAutocompleteEndpoint),
     }
   },
 

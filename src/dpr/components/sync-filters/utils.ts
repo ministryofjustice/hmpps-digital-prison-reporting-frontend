@@ -85,8 +85,20 @@ const handleDateValue = (filter: FilterValue, req: Request, prefix: string) => {
 export default {
   getSelectedFilters,
   setFilterValuesFromRequest,
-  getFilters: async (fields: components['schemas']['FieldDefinition'][], req: Request, prefix = 'filters.') => {
-    const defaultFilterData = <RenderFiltersReturnValue>await AsyncFiltersUtils.renderFilters(fields)
+  getFilters: async ({
+    fields,
+    req,
+    prefix = 'filters.',
+    dynamicAutocompleteEndpoint,
+  }: {
+    fields: components['schemas']['FieldDefinition'][]
+    req: Request
+    prefix?: string
+    dynamicAutocompleteEndpoint?: string
+  }) => {
+    const defaultFilterData = <RenderFiltersReturnValue>(
+      await AsyncFiltersUtils.renderFilters(fields, dynamicAutocompleteEndpoint)
+    )
     const filtersData = setFilterValuesFromRequest(defaultFilterData.filters, req)
     return {
       filters: filtersData,

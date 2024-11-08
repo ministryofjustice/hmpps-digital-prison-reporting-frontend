@@ -93,7 +93,11 @@ export default {
       dataTable.rowCount,
     )
 
-    const filters = await SyncFiltersUtils.getFilters(specification.fields, req)
+    const filters = await SyncFiltersUtils.getFilters({
+      fields: specification.fields,
+      req,
+      dynamicAutocompleteEndpoint,
+    })
     const columns = ColumnUtils.getColumns(specification, reportQuery.columns)
 
     const actions = setActions(

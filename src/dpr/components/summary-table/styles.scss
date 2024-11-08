@@ -3,6 +3,7 @@
   display: flex;
   position: relative;
   row-gap: 15px;
+  flex-flow: column wrap;
 
   .dpr-summary-container {
     min-width: 200px;

@@ -19,7 +19,7 @@ export default function routes({
   templatePath?: string
   options?: SyncReportOptions
 }) {
-  const asyncErrorHandler: RequestHandler = async (req, res) => {
+  const errorHandler: RequestHandler = async (req, res) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
     let { error } = req.body
 
@@ -58,5 +58,5 @@ export default function routes({
   }
 
   const viewReportPaths = ['/sync/:type/:reportId/:id/report', '/sync/:type/:reportId/:id/report/:download']
-  router.get(viewReportPaths, viewSyncReportHandler, asyncErrorHandler)
+  router.get(viewReportPaths, viewSyncReportHandler, errorHandler)
 }

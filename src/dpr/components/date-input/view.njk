@@ -17,6 +17,9 @@
 
   {% set defaultMinDate = '1977-05-25' %}
   {% set defaultMaxDate = '9999-01-01'%}
+  {% if not value %}
+    {% set value = defaultMinDate %}
+  {% endif %}
   
   {% if not minDate %}
     {% set toggleMin = false %}

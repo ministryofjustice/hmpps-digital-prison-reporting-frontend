@@ -4,20 +4,20 @@
 
 {% macro dprFiltersSection(filterOptions) %}
   {% set filters = filterOptions.filters %}
+  {% set selectedFilters = filterOptions.selectedFilters %}
+
   {% set accordionItems = [] %}
 
   {% if filters.length > 0 %}
-    
-    {% set urlWithNoFilters = filterOptions.urlWithNoFilters %}
 
     {% set filterHtml %}
       <div class="data-table-filters">
-        {{ dprSyncFilters( filters, urlWithNoFilters ) }}
+        {{ dprSyncFilters(filters) }}
       </div>
     {% endset %}
 
     {% set filtersHeaderHtml %}
-      {%- for selectedFilter in filterOptions.selectedFilters %}
+      {%- for selectedFilter in selectedFilters %}
         <div class="selected-accordion-button">
           {{ govukButton({
             text: selectedFilter.text,

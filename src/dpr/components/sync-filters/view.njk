@@ -2,7 +2,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
-{% macro dprSyncFilters(filters, prefix) %}
+{% macro dprSyncFilters(filters, prefix = 'filters.') %}
   <div data-dpr-module="sync-filters" class="dpr-filters sync-filters-form--hidden">
     <form id="sync-filters-form">
 

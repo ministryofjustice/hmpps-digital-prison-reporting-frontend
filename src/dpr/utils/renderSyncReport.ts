@@ -1,8 +1,32 @@
-import { SyncReportUtilsParams } from '../types/SyncReportUtils'
+import { Request } from 'express'
+import { SyncReportOptions, SyncReportUtilsParams } from '../types/SyncReportUtils'
 import ReportQuery from '../types/ReportQuery'
 import SyncReportUtils from '../components/sync-report-list/utils'
-import { ListWithWarnings } from '../data/types'
 import { LoadType } from '../types/UserReports'
+import { Services } from '../types/Services'
+
+const initUserOptions = async (options: SyncReportOptions, services: Services, req: Request, userId: string) => {
+  const { reportId, id } = req.params
+
+  let canDownload
+  let bookmarked
+  let removeBookmark = true
+
+  if (options.download) {
+    canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
+  }
+
+  if (options.bookmark) {
+    removeBookmark = !options.bookmark
+    bookmarked = await services.bookmarkService.isBookmarked(id, userId)
+  }
+
+  return {
+    bookmarked,
+    removeBookmark,
+    canDownload,
+  }
+}
 
 const getReport = async ({ req, res, services, options = {} }: SyncReportUtilsParams) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
@@ -10,39 +34,16 @@ const getReport = async ({ req, res, services, options = {} }: SyncReportUtilsPa
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
 
   const { reportId, id } = req.params
-  const { dataProductDefinitionsPath } = req.query
+  const { dataProductDefinitionsPath: defPath } = req.query
 
-  const reportDefinition = await services.reportingService.getDefinition(
-    token,
-    reportId,
-    id,
-    dataProductDefinitionsPath,
-  )
-
+  const reportDefinition = await services.reportingService.getDefinition(token, reportId, id, defPath)
   const { variant } = reportDefinition
   const { resourceName, specification } = variant
-  const reportQuery = new ReportQuery(specification, req.query, <string>dataProductDefinitionsPath)
 
-  const reportData: ListWithWarnings = await services.reportingService.getListWithWarnings(
-    resourceName,
-    token,
-    reportQuery,
-  )
-
+  const reportQuery = new ReportQuery(specification, req.query, <string>defPath)
+  const reportData = await services.reportingService.getListWithWarnings(resourceName, token, reportQuery)
   const count = await services.reportingService.getCount(resourceName, token, reportQuery)
-
-  let canDownload
-  if (options.download) {
-    canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
-  }
-
-  let bookmarked
-  let removeBookmark = true
-  if (options.bookmark) {
-    removeBookmark = !options.bookmark
-    bookmarked = await services.bookmarkService.isBookmarked(id, userId)
-  }
-
+  const userOptions = await initUserOptions(options, services, req, userId)
   const renderData = await SyncReportUtils.getRenderData({
     req,
     reportDefinition,
@@ -56,13 +57,11 @@ const getReport = async ({ req, res, services, options = {} }: SyncReportUtilsPa
   return {
     renderData: {
       ...renderData,
+      ...userOptions,
       csrfToken,
       loadType: LoadType.SYNC,
       reportId,
       id,
-      canDownload,
-      removeBookmark,
-      bookmarked,
     },
   }
 }

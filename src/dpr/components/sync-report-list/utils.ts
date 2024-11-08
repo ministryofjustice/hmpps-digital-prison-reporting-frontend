@@ -8,16 +8,12 @@ import DataTableBuilder from '../../utils/DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../../utils/DataTableBuilder/types'
 import ColumnUtils from '../columns/utils'
 import ReportQuery from '../../types/ReportQuery'
-import { DateRange, FilterValue } from '../filters/types'
 import { ListWithWarnings } from '../../data/types'
 import { LoadType, ReportType } from '../../types/UserReports'
 import { Columns } from '../columns/types'
 import ReportActionsUtils from '../report-actions/utils'
 import { SyncReportOptions } from '../../types/SyncReportUtils'
-import { RenderFiltersReturnValue } from '../async-filters/types'
-import AsyncFiltersUtils from '../async-filters/utils'
-import { FilterType } from '../filter-input/enum'
-import { DateFilterValue } from '../filter-input/types'
+import SyncFiltersUtils from '../sync-filters/utils'
 
 const setActions = (
   csrfToken: string,
@@ -54,67 +50,6 @@ const setActions = (
     copy: {
       url,
     },
-  })
-}
-
-const getSelectedFilters = (filters: FilterValue[], req: Request, prefix: string) => {
-  return filters
-    .filter((f) => f.value)
-    .map((f) => {
-      let value = []
-      let key: string[] = []
-      let displayValue = f.value
-      if (f.type === 'daterange') {
-        displayValue = `${(<DateRange>f.value).start} - ${(<DateRange>f.value).start}`
-        value = [(<DateRange>f.value).start, (<DateRange>f.value).end]
-      } else {
-        key = [`${prefix}${f.name}`]
-        value = [displayValue]
-      }
-
-      return {
-        text: `${f.text}: ${displayValue}`,
-        key: JSON.stringify(key),
-        value: JSON.stringify(value),
-        classes: 'govuk-button--inverse accordion-summary-remove-button govuk-!-margin-0',
-        attributes: {
-          'aria-label': `Selected Filter: ${f.text}: ${value}. Click to clear this filter`,
-        },
-      }
-    })
-}
-
-const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix = 'filters.'): FilterValue[] => {
-  const { preventDefault } = req.query
-
-  return filters.map((filter) => {
-    let requestfilterValue
-    if (filter.type === FilterType.dateRange) {
-      const start = <string>req.query[`${prefix}${filter.name}.start`]
-      const end = <string>req.query[`${prefix}${filter.name}.end`]
-
-      if (start || end)
-        requestfilterValue = {
-          start: start || (<DateRange>filter.value).start,
-          end: end || (<DateRange>filter.value).end,
-        } as DateRange
-    } else {
-      requestfilterValue = <string>req.query[`${prefix}${filter.name}`]
-    }
-
-    let value: string | DateRange
-    if (requestfilterValue) {
-      value = requestfilterValue
-    } else if (preventDefault) {
-      value = null
-    } else {
-      value = filter.value
-    }
-
-    return {
-      ...filter,
-      value,
-    }
   })
 }
 
@@ -158,19 +93,7 @@ export default {
       dataTable.rowCount,
     )
 
-    const { fields } = specification
-    // Get filters data from definition
-    const defaultFilterData = <RenderFiltersReturnValue>await AsyncFiltersUtils.renderFilters(fields)
-
-    console.log(JSON.stringify(defaultFilterData, null, 2))
-    const filtersWithRequestedValues = setFilterValuesFromRequest(defaultFilterData.filters, req)
-    const selectedFilters = getSelectedFilters(filtersWithRequestedValues, req, 'filters.')
-
-    const filters = {
-      selectedFilters,
-      filters: filtersWithRequestedValues,
-    }
-
+    const filters = await SyncFiltersUtils.getFilters(specification.fields, req)
     const columns = ColumnUtils.getColumns(specification, reportQuery.columns)
 
     const actions = setActions(

@@ -17,6 +17,12 @@ const mockRenderFiltersData = {
       type: 'Select',
       options: [
         {
+          disabled: true,
+          selected: true,
+          text: 'Select your option',
+          value: 'no-filter',
+        },
+        {
           value: 'value2.1',
           text: 'Value 2.1',
         },

@@ -1,5 +1,3 @@
-import { ReportType } from '../../types/UserReports'
-
 export interface requestAsyncReportParams {
   apiTimeout: number
   apiUrl: string

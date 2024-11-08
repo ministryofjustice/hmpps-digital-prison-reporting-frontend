@@ -13,10 +13,7 @@ const bodyParser = require('body-parser')
 
 // Local dependencies
 const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
-const BookmarklistUtils = require('../package/dpr/components/user-reports-bookmarks-list/utils').default
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
-const RequestedReportsUtils = require('../package/dpr/components/user-reports-request-list/utils').default
-const RecentlyViewedCardGroupUtils = require('../package/dpr/components/user-reports-viewed-list/utils').default
 const UserReportsListUtils = require('../package/dpr/components/user-reports/utils').default
 const { createUserStoreServices, initUserStoreServices } = require('../package/dpr/utils/StoreServiceUtils')
 

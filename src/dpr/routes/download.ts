@@ -98,15 +98,16 @@ export default function routes({
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const { reportId, id, type, tableId, dataProductDefinitionsPath, loadType } = req.body
 
-    const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
-    if (canDownload) {
-      await DownloadUtils.downloadReport({ req, res, services })
-    } else {
-      let redirect = `/async/${type}/${reportId}/${id}/request/${tableId}/report/download-disabled`
-      if (loadType === LoadType.SYNC) {
-        redirect = `/sync/${type}/${reportId}/${id}/report/download-disabled`
-      }
+    let redirect = `/async/${type}/${reportId}/${id}/request/${tableId}/report/download-disabled`
+    if (loadType === LoadType.SYNC) {
+      redirect = `/sync/${type}/${reportId}/${id}/report/download-disabled`
+    }
 
+    const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
+
+    if (canDownload) {
+      await DownloadUtils.downloadReport({ req, res, services, redirect, loadType })
+    } else {
       redirect = dataProductDefinitionsPath
         ? `${redirect}?dataProductDefinitionsPath=${dataProductDefinitionsPath}`
         : redirect

@@ -28,12 +28,7 @@ const initUserOptions = async (options: SyncReportOptions, services: Services, r
   }
 }
 
-const getReport = async ({ req, res, services, options = {} }: SyncReportUtilsParams) => {
-  const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
-  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-  const token = res.locals.user?.token ? res.locals.user.token : 'token'
-
-  const { reportId, id } = req.params
+const getSyncReportData = async (services: Services, req: Request, token: string, reportId: string, id: string) => {
   const { dataProductDefinitionsPath: defPath } = req.query
 
   const reportDefinition = await services.reportingService.getDefinition(token, reportId, id, defPath)
@@ -41,8 +36,21 @@ const getReport = async ({ req, res, services, options = {} }: SyncReportUtilsPa
   const { resourceName, specification } = variant
 
   const reportQuery = new ReportQuery(specification, req.query, <string>defPath)
-  const reportData = await services.reportingService.getListWithWarnings(resourceName, token, reportQuery)
-  const count = await services.reportingService.getCount(resourceName, token, reportQuery)
+  return {
+    reportData: await services.reportingService.getListWithWarnings(resourceName, token, reportQuery),
+    reportDefinition,
+    reportQuery,
+  }
+}
+
+const getReport = async ({ req, res, services, options = {} }: SyncReportUtilsParams) => {
+  const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+  const token = res.locals.user?.token ? res.locals.user.token : 'token'
+  const { reportId, id } = req.params
+
+  const { reportData, reportDefinition, reportQuery } = await getSyncReportData(services, req, token, reportId, id)
+  const count = await services.reportingService.getCount(reportDefinition.variant.resourceName, token, reportQuery)
   const userOptions = await initUserOptions(options, services, req, userId)
   const renderData = await SyncReportUtils.getRenderData({
     req,
@@ -68,4 +76,5 @@ const getReport = async ({ req, res, services, options = {} }: SyncReportUtilsPa
 
 export default {
   getReport,
+  getSyncReportData,
 }

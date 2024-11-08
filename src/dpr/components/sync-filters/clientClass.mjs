@@ -14,10 +14,12 @@ export default class SyncFilters extends DprFormValidationClass {
     this.errorSummary = document.getElementById('query-error-summary')
     this.submitButton = document.getElementById('sync-apply-filters-button')
     this.resetButton = document.getElementById('sync-reset-filters-button')
+    this.selectedFiltersButtons = document.querySelectorAll('.accordion-summary-remove-button')
 
     this.initInputsFromQueryParams()
     this.initQueryParamsFromInputs(this.mainForm.elements)
     this.initInputEvents(this.mainForm.elements)
+    this.initSelectedFiltersButtons()
 
     this.initResetButton()
     this.initSubmitButton()
@@ -49,5 +51,20 @@ export default class SyncFilters extends DprFormValidationClass {
         window.location.reload()
       })
     }
+  }
+
+  initSelectedFiltersButtons() {
+    this.selectedFiltersButtons.forEach((button) => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault()
+        const keys = JSON.parse(e.target.getAttribute('data-query-param-key'))
+        const values = JSON.parse(e.target.getAttribute('data-query-param-value'))
+        keys.forEach((key, index) => {
+          this.updateQueryParam(key, values[index], 'delete')
+          this.updateQueryParam('preventDefault', true)
+        })
+        window.location.reload()
+      })
+    })
   }
 }

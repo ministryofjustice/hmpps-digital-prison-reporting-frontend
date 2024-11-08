@@ -8,12 +8,11 @@
 
 {% macro dprSyncReportList(options) %}
   {% set columns = options.columns %}
-  {% set filters = options.filters %}
   {% set reportSummaries = options.reportSummaries %}
 
   <div class="dpr-sync-report-actions">
-    {% if filters %}
-      {{ dprFiltersSection(filters) }}
+    {% if options.filters %}
+      {{ dprFiltersSection(options.filters, options.selectedFilters) }}
     {% endif %}
     {{ dprColumnSection(columns) }}
   </div>

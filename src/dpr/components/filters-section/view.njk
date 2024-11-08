@@ -8,7 +8,6 @@
 
   {% if filters.length > 0 %}
     
-    {% set selectedFilters = filterOptions.selectedFilters %}
     {% set urlWithNoFilters = filterOptions.urlWithNoFilters %}
 
     {% set filterHtml %}
@@ -18,9 +17,17 @@
     {% endset %}
 
     {% set filtersHeaderHtml %}
-      {%- for selectedFilter in selectedFilters %}
+      {%- for selectedFilter in filterOptions.selectedFilters %}
         <div class="selected-accordion-button">
-          {{ govukButton(selectedFilter) }}
+          {{ govukButton({
+            text: selectedFilter.text,
+            classes: selectedFilter.classes,
+            href: '#',
+            attributes: {
+              "data-query-param-key": selectedFilter.key,
+              "data-query-param-value": selectedFilter.value
+            }
+          }) }}
         </div>
       {%- endfor %}
     {% endset %}

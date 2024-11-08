@@ -27,17 +27,6 @@ export interface SortByDefaults {
 }
 
 export interface RenderFiltersReturnValue {
-  reportData: {
-    reportName: string
-    variantName: string
-    description: string
-    reportId: string
-    variantId: string
-    definitionPath: string | string[] | ParsedQs | ParsedQs[]
-    csrfToken: string
-    template: string
-    type: ReportType
-  }
   filters: FilterValue[]
   sortBy: FilterValue[]
 }

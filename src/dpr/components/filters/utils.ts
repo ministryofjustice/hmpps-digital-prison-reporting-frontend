@@ -80,7 +80,8 @@ const getSelectedFilters = (
     )
     .map((f) => {
       let filterValueText = getFilterValue(reportQuery.filters, f.name)
-
+      let value = [getFilterValue(reportQuery.filters, f.name)]
+      let key = [`${reportQuery.filtersPrefix}${f.name}`]
       if (f.filter.type === FilterType.dateRange.toLowerCase()) {
         const startValue = getFilterValue(reportQuery.filters, `${f.name}.start`)
         const endValue = getFilterValue(reportQuery.filters, `${f.name}.end`)
@@ -95,6 +96,8 @@ const getSelectedFilters = (
         } else {
           filterValueText = `Until ${localeEnd}`
         }
+        value = [startValue, endValue]
+        key = [`${reportQuery.filtersPrefix}${f.name}.start`, `${reportQuery.filtersPrefix}${f.name}.end`]
       } else if (f.filter.staticOptions) {
         filterValueText = f.filter.staticOptions.find((o) => o.name === filterValueText).display
       }
@@ -109,6 +112,8 @@ const getSelectedFilters = (
         attributes: {
           'aria-label': `Selected Filter: ${f.display}: ${filterValueText}. Click to clear this filter`,
         },
+        key: JSON.stringify(key),
+        value: JSON.stringify(value),
       }
     })
 

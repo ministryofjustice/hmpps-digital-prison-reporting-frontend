@@ -3,7 +3,6 @@ import { Request } from 'express'
 import PaginationUtils from '../pagination/utils'
 import TotalsUtils from '../report-totals/utils'
 import { components } from '../../types/api'
-import Dict = NodeJS.Dict
 import DataTableBuilder from '../../utils/DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../../utils/DataTableBuilder/types'
 import ColumnUtils from '../columns/utils'

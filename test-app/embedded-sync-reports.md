@@ -86,7 +86,7 @@ Additonal features can be added to the sync reports by adding additional service
 - Recently Viewed Reports list ❌ 
 - Bookmarks ❌
 
-## Prerequisites to adding features
+## Pre-requisites
 
 ### Redis Client
 

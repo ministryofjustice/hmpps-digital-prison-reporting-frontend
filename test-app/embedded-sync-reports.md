@@ -10,15 +10,15 @@ Implementing these instructions will add a sync report route with the following 
 
 ```js
 // Path defintions
-GET `/sync/report/${reportId}/${id}/report` 
+GET `/dpr/embedded/sync/report/${reportId}/${id}/report` 
 
-GET `/sync/report/${reportId}/${id}/report?dataProductDefinitionsPath=${dpdPath}` 
+GET `/dpr/embedded/sync/report/${reportId}/${id}/report?dataProductDefinitionsPath=${dpdPath}` 
 
 // Example usage:
-`sync/report/this-report-id-123/this-variant-id-123/report`
+`/dpr/embedded/sync/report/this-report-id-123/this-variant-id-123/report`
 
 // Example with DPD path
-`sync/report/this-report-id-123/this-variant-id-123/report?dataProductDefinitionsPath=/my/definitions/path`
+`/dpr/embedded/sync/report/this-report-id-123/this-variant-id-123/report?dataProductDefinitionsPath=/my/definitions/path`
 ```
 
 Accessing this route will load the report, and render the report.

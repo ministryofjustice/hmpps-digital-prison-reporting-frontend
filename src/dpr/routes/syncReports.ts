@@ -58,8 +58,8 @@ export default function routes({
   }
 
   const viewReportPaths = [
-    'dpr/embedded/:type/:reportId/:id/report',
-    'dpr/embedded/:type/:reportId/:id/report/:download',
+    '/dpr/embedded/sync/:type/:reportId/:id/report',
+    '/dpr/embedded/sync/:type/:reportId/:id/report/:download',
   ]
   router.get(viewReportPaths, viewSyncReportHandler, errorHandler)
 }

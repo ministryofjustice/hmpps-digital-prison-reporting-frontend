@@ -175,7 +175,8 @@ const setActions = (
   requestData: RequestedReport,
   columns: Columns,
 ) => {
-  const { reportName, name, id, variantId, reportId, executionId, tableId, type } = requestData
+  const { reportName, name, id, variantId, reportId, executionId, tableId, type, dataProductDefinitionsPath } =
+    requestData
   const url = requestData.url.request.fullUrl
   const { printable } = variant
 
@@ -193,6 +194,7 @@ const setActions = (
       type: type || ReportType.REPORT,
       columns: columns.value,
       loadType: LoadType.ASYNC,
+      definitionPath: dataProductDefinitionsPath,
     },
     print: {
       enabled: printable,

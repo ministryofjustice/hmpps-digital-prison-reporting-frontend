@@ -173,7 +173,7 @@ addDownloadRoutes(routeImportParams)
 addSyncRoutes({
   ...routeImportParams,
   options: {
-    dpdPath: '',
+    // dpdPath: 'my/definition/path',
   },
   features: {
     download: true,

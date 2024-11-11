@@ -100,7 +100,7 @@ export default function routes({
 
     let redirect = `/async/${type}/${reportId}/${id}/request/${tableId}/report/download-disabled`
     if (loadType === LoadType.SYNC) {
-      redirect = `/sync/${type}/${reportId}/${id}/report/download-disabled`
+      redirect = `dpr/embedded/${type}/${reportId}/${id}/report/download-disabled`
     }
 
     const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)

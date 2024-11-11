@@ -129,6 +129,7 @@ const getActions = ({
     columns: string[]
     type: ReportType
     loadType: LoadType
+    definitionPath: string
   }
 }): ReportAction[] => {
   const actions: ReportAction[] = []
@@ -183,6 +184,7 @@ const getActions = ({
         name: download.name,
         columns: download.columns,
         loadType: download.loadType,
+        definitionPath: download.definitionPath,
       },
       ariaLabelText: !download.enabled
         ? `${BUTTON_TEMPLATES.downloadable.ariaLabelText}, disabled`
@@ -225,5 +227,6 @@ interface ReportAction {
     name?: string
     columns: string[]
     loadType: LoadType
+    definitionPath: string
   }
 }

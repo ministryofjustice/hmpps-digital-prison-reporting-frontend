@@ -63,6 +63,9 @@ export default {
           token,
           reportId,
           id,
+          {
+            dpdPath: dataProductDefinitionsPath,
+          },
         )
         reportData = listWithWarnings.data
       } else {

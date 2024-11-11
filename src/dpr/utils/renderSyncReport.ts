@@ -59,6 +59,10 @@ const getReport = async ({ req, res, services, features = {}, options = {} }: Sy
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
   const { reportId, id } = req.params
+  const { dataProductDefinitionsPath } = req.query
+
+  // eslint-disable-next-line no-param-reassign
+  options.dpdPath = <string>dataProductDefinitionsPath || options.dpdPath
 
   const { reportData, reportDefinition, reportQuery } = await getSyncReportData(
     services,
@@ -78,6 +82,7 @@ const getReport = async ({ req, res, services, features = {}, options = {} }: Sy
     count,
     csrfToken,
     features,
+    options,
   })
 
   return {

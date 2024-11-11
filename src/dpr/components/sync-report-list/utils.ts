@@ -11,7 +11,7 @@ import { ListWithWarnings } from '../../data/types'
 import { LoadType, ReportType } from '../../types/UserReports'
 import { Columns } from '../columns/types'
 import ReportActionsUtils from '../report-actions/utils'
-import { SyncReportFeatures } from '../../types/SyncReportUtils'
+import { SyncReportFeatures, SyncReportOptions } from '../../types/SyncReportUtils'
 import SyncFiltersUtils from '../sync-filters/utils'
 
 const setActions = (
@@ -20,6 +20,7 @@ const setActions = (
   columns: Columns,
   url: string,
   features: SyncReportFeatures = {},
+  options: SyncReportOptions = {},
 ) => {
   const { name: reportName, variant, id: reportId } = reportDefinition
   const { name, id, printable } = variant
@@ -36,6 +37,7 @@ const setActions = (
         type: ReportType.REPORT,
         columns: columns.value,
         loadType: LoadType.SYNC,
+        definitionPath: options.dpdPath,
       },
     }),
     print: {
@@ -61,6 +63,7 @@ export default {
     count,
     csrfToken,
     features,
+    options,
   }: {
     req: Request
     reportDefinition: components['schemas']['SingleVariantReportDefinition']
@@ -69,6 +72,7 @@ export default {
     csrfToken: string
     count: number
     features: SyncReportFeatures
+    options: SyncReportOptions
   }) => {
     const { name: reportName, description: reportDescription } = reportDefinition
     const { specification, name, description, classification, printable } = reportDefinition.variant
@@ -101,6 +105,7 @@ export default {
       columns,
       `${req.protocol}://${req.get('host')}${req.originalUrl}`,
       features,
+      options,
     )
 
     return {

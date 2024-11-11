@@ -57,6 +57,9 @@ export default function routes({
     }
   }
 
-  const viewReportPaths = ['/sync/:type/:reportId/:id/report', '/sync/:type/:reportId/:id/report/:download']
+  const viewReportPaths = [
+    'dpr/embedded/:type/:reportId/:id/report',
+    'dpr/embedded/:type/:reportId/:id/report/:download',
+  ]
   router.get(viewReportPaths, viewSyncReportHandler, errorHandler)
 }

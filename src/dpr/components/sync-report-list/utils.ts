@@ -11,7 +11,7 @@ import { ListWithWarnings } from '../../data/types'
 import { LoadType, ReportType } from '../../types/UserReports'
 import { Columns } from '../columns/types'
 import ReportActionsUtils from '../report-actions/utils'
-import { SyncReportFeatures, SyncReportOptions } from '../../types/SyncReportUtils'
+import { SyncReportFeatures } from '../../types/SyncReportUtils'
 import SyncFiltersUtils from '../sync-filters/utils'
 
 const setActions = (

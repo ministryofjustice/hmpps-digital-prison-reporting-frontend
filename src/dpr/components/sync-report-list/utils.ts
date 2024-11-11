@@ -60,8 +60,6 @@ export default {
     reportQuery,
     reportData,
     count,
-    dynamicAutocompleteEndpoint,
-    querySummary,
     csrfToken,
     options,
   }: {
@@ -71,8 +69,6 @@ export default {
     reportData: ListWithWarnings
     csrfToken: string
     count: number
-    dynamicAutocompleteEndpoint?: string
-    querySummary?: Array<Dict<string>>
     options: SyncReportOptions
   }) => {
     const { name: reportName, description: reportDescription } = reportDefinition
@@ -93,11 +89,13 @@ export default {
       dataTable.rowCount,
     )
 
+    const { dynamicAutocompleteEndpoint } = options
     const filters = await SyncFiltersUtils.getFilters({
       fields: specification.fields,
       req,
       dynamicAutocompleteEndpoint,
     })
+
     const columns = ColumnUtils.getColumns(specification, reportQuery.columns)
 
     const actions = setActions(

@@ -13,4 +13,5 @@ export interface SyncReportOptions {
   download?: boolean
   bookmark?: boolean
   recentlyViewed?: boolean
+  dynamicAutocompleteEndpoint?: string
 }

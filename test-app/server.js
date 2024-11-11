@@ -176,6 +176,7 @@ addSyncRoutes({
     download: true,
     bookmark: false,
     recentlyViewed: false,
+    dynamicAutocompleteEndpoint: '',
   },
 })
 

@@ -11,7 +11,7 @@ import { ListWithWarnings } from '../../data/types'
 import { LoadType, ReportType } from '../../types/UserReports'
 import { Columns } from '../columns/types'
 import ReportActionsUtils from '../report-actions/utils'
-import { SyncReportOptions } from '../../types/SyncReportUtils'
+import { SyncReportFeatures, SyncReportOptions } from '../../types/SyncReportUtils'
 import SyncFiltersUtils from '../sync-filters/utils'
 
 const setActions = (
@@ -19,13 +19,13 @@ const setActions = (
   reportDefinition: components['schemas']['SingleVariantReportDefinition'],
   columns: Columns,
   url: string,
-  options: SyncReportOptions = {},
+  features: SyncReportFeatures = {},
 ) => {
   const { name: reportName, variant, id: reportId } = reportDefinition
   const { name, id, printable } = variant
 
   return ReportActionsUtils.getActions({
-    ...(options.download && {
+    ...(features.download && {
       download: {
         enabled: true,
         name,
@@ -60,6 +60,7 @@ export default {
     reportData,
     count,
     csrfToken,
+    features,
     options,
   }: {
     req: Request
@@ -68,6 +69,7 @@ export default {
     reportData: ListWithWarnings
     csrfToken: string
     count: number
+    features: SyncReportFeatures
     options: SyncReportOptions
   }) => {
     const { name: reportName, description: reportDescription } = reportDefinition
@@ -102,7 +104,7 @@ export default {
       reportDefinition,
       columns,
       `${req.protocol}://${req.get('host')}${req.originalUrl}`,
-      options,
+      features,
     )
 
     return {
@@ -115,7 +117,6 @@ export default {
       columns,
       filters,
       pagination,
-      querySummary,
       totals,
       classification,
       printable,

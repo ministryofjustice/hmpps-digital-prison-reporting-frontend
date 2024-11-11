@@ -1,23 +1,28 @@
 import { Request } from 'express'
-import { SyncReportOptions, SyncReportUtilsParams } from '../types/SyncReportUtils'
+import { SyncReportFeatures, SyncReportUtilsParams } from '../types/SyncReportUtils'
 import ReportQuery from '../types/ReportQuery'
 import SyncReportUtils from '../components/sync-report-list/utils'
 import { LoadType } from '../types/UserReports'
 import { Services } from '../types/Services'
 
-const initUserOptions = async (options: SyncReportOptions, services: Services, req: Request, userId: string) => {
+const initAdditionalFeatures = async (
+  features: SyncReportFeatures,
+  services: Services,
+  req: Request,
+  userId: string,
+) => {
   const { reportId, id } = req.params
 
   let canDownload
   let bookmarked
   let removeBookmark = true
 
-  if (options.download) {
+  if (features.download) {
     canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
   }
 
-  if (options.bookmark) {
-    removeBookmark = !options.bookmark
+  if (features.bookmark) {
+    removeBookmark = !features.bookmark
     bookmarked = await services.bookmarkService.isBookmarked(id, userId)
   }
 
@@ -43,7 +48,7 @@ const getSyncReportData = async (services: Services, req: Request, token: string
   }
 }
 
-const getReport = async ({ req, res, services, options = {} }: SyncReportUtilsParams) => {
+const getReport = async ({ req, res, services, options = {}, features = {} }: SyncReportUtilsParams) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
@@ -51,7 +56,7 @@ const getReport = async ({ req, res, services, options = {} }: SyncReportUtilsPa
 
   const { reportData, reportDefinition, reportQuery } = await getSyncReportData(services, req, token, reportId, id)
   const count = await services.reportingService.getCount(reportDefinition.variant.resourceName, token, reportQuery)
-  const userOptions = await initUserOptions(options, services, req, userId)
+  const userFeaturesConfig = await initAdditionalFeatures(features, services, req, userId)
   const renderData = await SyncReportUtils.getRenderData({
     req,
     reportDefinition,
@@ -60,12 +65,13 @@ const getReport = async ({ req, res, services, options = {} }: SyncReportUtilsPa
     count,
     csrfToken,
     options,
+    features,
   })
 
   return {
     renderData: {
       ...renderData,
-      ...userOptions,
+      ...userFeaturesConfig,
       csrfToken,
       loadType: LoadType.SYNC,
       reportId,

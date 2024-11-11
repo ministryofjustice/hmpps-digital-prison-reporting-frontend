@@ -173,10 +173,12 @@ addDownloadRoutes(routeImportParams)
 addSyncRoutes({
   ...routeImportParams,
   options: {
+    dynamicAutocompleteEndpoint: '',
+  },
+  features: {
     download: true,
     bookmark: false,
     recentlyViewed: false,
-    dynamicAutocompleteEndpoint: '',
   },
 })
 

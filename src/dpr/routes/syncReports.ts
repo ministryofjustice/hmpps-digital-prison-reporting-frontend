@@ -4,7 +4,7 @@ import { Services } from '../types/Services'
 import logger from '../utils/logger'
 
 import SyncReportUtils from '../utils/renderSyncReport'
-import { SyncReportOptions } from '../types/SyncReportUtils'
+import { SyncReportFeatures, SyncReportOptions } from '../types/SyncReportUtils'
 
 export default function routes({
   router,
@@ -12,12 +12,14 @@ export default function routes({
   layoutPath,
   templatePath = 'dpr/views/',
   options,
+  features,
 }: {
   router: Router
   services: Services
   layoutPath: string
   templatePath?: string
   options?: SyncReportOptions
+  features?: SyncReportFeatures
 }) {
   const errorHandler: RequestHandler = async (req, res) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
@@ -41,7 +43,7 @@ export default function routes({
 
   const viewSyncReportHandler: RequestHandler = async (req, res, next) => {
     try {
-      const params = { req, res, services, next, options }
+      const params = { req, res, services, next, options, features }
 
       const renderData = await SyncReportUtils.getReport(params)
 

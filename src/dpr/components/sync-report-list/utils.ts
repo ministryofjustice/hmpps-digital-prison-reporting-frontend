@@ -61,7 +61,6 @@ export default {
     count,
     csrfToken,
     features,
-    options,
   }: {
     req: Request
     reportDefinition: components['schemas']['SingleVariantReportDefinition']
@@ -70,7 +69,6 @@ export default {
     csrfToken: string
     count: number
     features: SyncReportFeatures
-    options: SyncReportOptions
   }) => {
     const { name: reportName, description: reportDescription } = reportDefinition
     const { specification, name, description, classification, printable } = reportDefinition.variant
@@ -90,11 +88,9 @@ export default {
       dataTable.rowCount,
     )
 
-    const { dynamicAutocompleteEndpoint } = options
     const filters = await SyncFiltersUtils.getFilters({
       fields: specification.fields,
       req,
-      dynamicAutocompleteEndpoint,
     })
 
     const columns = ColumnUtils.getColumns(specification, reportQuery.columns)

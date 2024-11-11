@@ -6,12 +6,7 @@ export interface SyncReportUtilsParams {
   res: Response
   next?: NextFunction
   services: Services
-  options: SyncReportOptions
   features: SyncReportFeatures
-}
-
-export interface SyncReportOptions {
-  dynamicAutocompleteEndpoint?: string
 }
 
 export interface SyncReportFeatures {

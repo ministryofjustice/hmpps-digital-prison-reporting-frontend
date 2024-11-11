@@ -1,5 +1,5 @@
 import { Request } from 'express'
-import { SyncReportFeatures, SyncReportUtilsParams } from '../types/SyncReportUtils'
+import { SyncReportFeatures, SyncReportOptions, SyncReportUtilsParams } from '../types/SyncReportUtils'
 import ReportQuery from '../types/ReportQuery'
 import SyncReportUtils from '../components/sync-report-list/utils'
 import { LoadType } from '../types/UserReports'
@@ -48,7 +48,7 @@ const getSyncReportData = async (services: Services, req: Request, token: string
   }
 }
 
-const getReport = async ({ req, res, services, options = {}, features = {} }: SyncReportUtilsParams) => {
+const getReport = async ({ req, res, services, features = {} }: SyncReportUtilsParams) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
@@ -64,7 +64,6 @@ const getReport = async ({ req, res, services, options = {}, features = {} }: Sy
     reportData,
     count,
     csrfToken,
-    options,
     features,
   })
 

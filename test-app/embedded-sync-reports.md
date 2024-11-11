@@ -9,11 +9,16 @@ Some details and implementations may be missing in order to fully fulfil the req
 Implementing these instructions will add a sync report route with the following structure:
 
 ```js
-// Path defintion
+// Path defintions
 GET `/sync/report/${reportId}/${id}/report` 
+
+GET `/sync/report/${reportId}/${id}/report?dataProductDefinitionsPath=${dpdPath}` 
 
 // Example usage:
 `sync/report/this-report-id-123/this-variant-id-123/report`
+
+// Example with DPD path
+`sync/report/this-report-id-123/this-variant-id-123/report?dataProductDefinitionsPath=/my/definitions/path`
 ```
 
 Accessing this route will load the report, and render the report.
@@ -64,20 +69,6 @@ const routeConfig = {
 addSyncRoutes(routeConfig)
 ```
 
-### Options
-
-`options` can be provided to the `routeConfig` to enhance and customise the report:
-
-```js
-const routeConfig = {
-  ...routeConfig,
-  options: {
-    // TODO: what is this doing?
-    dynamicAutocompleteEndpoint: `custom/dynamic/autocomplete/endpoint`
-  }
-}
-```
-
 # Additional Features
 
 Additonal features can be added to the sync reports by adding additional services, and updating config. The available features are as follows:
@@ -108,17 +99,19 @@ The user ID of the logged in user is required to initialise additional services.
 
 Config is stored on a per user basic to create a unique experience for each user. eg. creating a users bookmarked list, or showing their recently viewed reports.
 
-TODO: link to how to get the userID, is this part of the hmpps integration? 
-
 ## Download:
 
 ```js
 // Import the service
 import DownloadPermissionService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/downloadPermissionService'
 
+// Import the download routes
+import addDownloadRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/download'
+
 // Initialise with the UserDataStore, and userId
 const downloadPermissionService = new DownloadPermissionService(UserDataStore)
-downloadPermissionService.init('userId')
+const userId = myGetUserIdFunction()
+downloadPermissionService.init(userId)
 
 // Append to the services config
 services: Services = {
@@ -126,11 +119,20 @@ services: Services = {
   downloadPermissionService
 }
 
+const routeConfig = {
+  router: app,
+  services,
+  layoutPath: 'page.njk',
+  templatePath: 'dpr/views/',
+}
+
+// Initialise the download routes
+addDownloadRoutes(routeConfig)
+
 // Append to the features attrubute of the sync route config
 addSyncRoutes({ 
   ...routeConfig
   features: {
-    ...routeConfig.features
     download: true
   }
 })

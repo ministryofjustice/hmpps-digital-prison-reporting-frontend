@@ -69,6 +69,18 @@ const routeConfig = {
 addSyncRoutes(routeConfig)
 ```
 
+### Options
+
+```js
+addSyncRoutes({ 
+  ...routeConfig,
+  options: {
+    // set this option to use a definitions path without using query params
+    dpdPath: `/my/definitions/path`
+  }
+})
+```
+
 # Additional Features
 
 Additonal features can be added to the sync reports by adding additional services, and updating config. The available features are as follows:

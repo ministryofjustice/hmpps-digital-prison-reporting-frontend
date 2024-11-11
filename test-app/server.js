@@ -172,6 +172,9 @@ addDownloadRoutes(routeImportParams)
 
 addSyncRoutes({
   ...routeImportParams,
+  options: {
+    dpdPath: '',
+  },
   features: {
     download: true,
     bookmark: false, // NOTE: not avalable yet

@@ -1,5 +1,5 @@
 import { Request } from 'express'
-import { SyncReportFeatures, SyncReportUtilsParams } from '../types/SyncReportUtils'
+import { SyncReportFeatures, SyncReportOptions, SyncReportUtilsParams } from '../types/SyncReportUtils'
 import ReportQuery from '../types/ReportQuery'
 import SyncReportUtils from '../components/sync-report-list/utils'
 import { LoadType } from '../types/UserReports'
@@ -33,14 +33,20 @@ const initAdditionalFeatures = async (
   }
 }
 
-const getSyncReportData = async (services: Services, req: Request, token: string, reportId: string, id: string) => {
-  const { dataProductDefinitionsPath: defPath } = req.query
-
-  const reportDefinition = await services.reportingService.getDefinition(token, reportId, id, defPath)
+const getSyncReportData = async (
+  services: Services,
+  req: Request,
+  token: string,
+  reportId: string,
+  id: string,
+  options: SyncReportOptions,
+) => {
+  const { dpdPath } = options
+  const reportDefinition = await services.reportingService.getDefinition(token, reportId, id, dpdPath)
   const { variant } = reportDefinition
   const { resourceName, specification } = variant
 
-  const reportQuery = new ReportQuery(specification, req.query, <string>defPath)
+  const reportQuery = new ReportQuery(specification, req.query, <string>dpdPath)
   return {
     reportData: await services.reportingService.getListWithWarnings(resourceName, token, reportQuery),
     reportDefinition,
@@ -48,13 +54,20 @@ const getSyncReportData = async (services: Services, req: Request, token: string
   }
 }
 
-const getReport = async ({ req, res, services, features = {} }: SyncReportUtilsParams) => {
+const getReport = async ({ req, res, services, features = {}, options = {} }: SyncReportUtilsParams) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
   const { reportId, id } = req.params
 
-  const { reportData, reportDefinition, reportQuery } = await getSyncReportData(services, req, token, reportId, id)
+  const { reportData, reportDefinition, reportQuery } = await getSyncReportData(
+    services,
+    req,
+    token,
+    reportId,
+    id,
+    options,
+  )
   const count = await services.reportingService.getCount(reportDefinition.variant.resourceName, token, reportQuery)
   const userFeaturesConfig = await initAdditionalFeatures(features, services, req, userId)
   const renderData = await SyncReportUtils.getRenderData({

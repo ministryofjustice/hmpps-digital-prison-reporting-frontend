@@ -90,6 +90,7 @@ export default class UserStoreItemBuilder {
         },
       },
     }
+
     return this
   }
 

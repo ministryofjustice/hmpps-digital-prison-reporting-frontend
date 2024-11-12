@@ -64,9 +64,7 @@ export default {
         reportData = applyColumnsAndSort(reportData, JSON.parse(columns))
       }
       const keys: KeysList = getKeys(reportData, reportDefinition)
-      console.log({ keys })
       const csvData = convertToCsv(reportData, { keys })
-      console.log({ csvData })
 
       res.setHeader('Content-Type', 'application/json')
       res.setHeader('Content-disposition', `attachment; filename=${reportName}-${name}-${new Date().toISOString()}.csv`)

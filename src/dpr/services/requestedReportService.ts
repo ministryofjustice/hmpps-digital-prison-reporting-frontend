@@ -101,9 +101,7 @@ export default class RequestedReportService extends UserStoreService {
         report.url.report.pathname = `${report.url.request.pathname}/${tableId}/report${getDpdPathSuffix(
           report.dataProductDefinitionsPath,
         )}`
-        report.url.report.fullUrl = `${report.url.origin}${report.url.report.pathname}${getDpdPathSuffix(
-          report.dataProductDefinitionsPath,
-        )}`
+        report.url.report.fullUrl = `${report.url.origin}${report.url.report.pathname}`
         break
       case RequestStatus.SUBMITTED:
         report.timestamp.requested = ts
@@ -115,6 +113,7 @@ export default class RequestedReportService extends UserStoreService {
         report.timestamp.lastViewed = ts
         break
     }
+
     return report
   }
 }

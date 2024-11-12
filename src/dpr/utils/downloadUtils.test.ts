@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response, Request } from 'express'
-import fs from 'fs-extra'
-import { DownloadOptions, Errback } from 'express-serve-static-core'
 import ReportingService from '../services/reportingService'
 import { Services } from '../types/Services'
 import DownloadUtils from './downloadUtils'
 import DownloadPermissionService from '../services/downloadPermissionService'
 import createMockData from '../../../test-app/mocks/mockClients/reports/mockAsyncData'
+import { components } from '../types/api'
 
 describe('DownloadUtils', () => {
   describe('downloadReport', () => {
@@ -17,13 +16,8 @@ describe('DownloadUtils', () => {
     let downloadPermissionService: DownloadPermissionService
     let redirectSpy: jest.SpyInstance<void, [url: string, status: number], any>
     let downloadSpy: jest.SpyInstance<
-      void,
-      [path: string, filename: string, options: DownloadOptions, fn?: Errback],
-      any
-    >
-    let fsOutputFileSpy: jest.SpyInstance<
-      void,
-      [file: string, data: string | NodeJS.ArrayBufferView, options: fs.WriteFileOptions, callback: fs.NoParamCallback],
+      Response<any, Record<string, any>>,
+      [chunk: any, encoding: BufferEncoding, cb?: () => void],
       any
     >
 
@@ -31,10 +25,6 @@ describe('DownloadUtils', () => {
     jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
 
     beforeEach(() => {
-      fsOutputFileSpy = jest.spyOn(fs, 'outputFile').mockImplementation(() => {
-        // do nothing
-      })
-
       res = {
         userId: 'Us3r1D',
         token: 't0k3n',
@@ -46,13 +36,16 @@ describe('DownloadUtils', () => {
         download: jest.fn().mockImplementation(() => {
           // do nothing
         }),
+        end: jest.fn().mockImplementation(() => {
+          // do nothing
+        }),
+        setHeader: jest.fn().mockImplementation(() => {
+          // do nothing
+        }),
       } as unknown as Response
 
       redirectSpy = jest.spyOn(res, 'redirect')
-      redirectSpy = jest.spyOn(res, 'redirect')
-      downloadSpy = jest.spyOn(res, 'download').mockImplementation(() => {
-        // do nothing
-      })
+      downloadSpy = jest.spyOn(res, 'end')
 
       req = {
         body: {
@@ -68,6 +61,17 @@ describe('DownloadUtils', () => {
 
       reportingService = {
         getAsyncReport: jest.fn().mockResolvedValue(createMockData(10)),
+        getDefinition: jest.fn().mockResolvedValue({
+          variant: {
+            specification: {
+              fields: [
+                { name: 'field1', display: 'field 1 display' },
+                { name: 'field2', display: 'field 2 display' },
+                { name: 'field3', display: 'field 3 display' },
+              ],
+            },
+          },
+        } as unknown as components['schemas']['SingleVariantReportDefinition']),
       } as unknown as ReportingService
 
       downloadPermissionService = {
@@ -87,7 +91,7 @@ describe('DownloadUtils', () => {
         res,
       })
 
-      const csv = `field1,field2,field3
+      const csv = `field 1 display,field 2 display,field 3 display
 Value 1,Value 2,2003-02-01T01:00
 Value 1,Value 2,2003-02-01T01:00
 Value 1,Value 2,2003-02-01T01:00
@@ -99,15 +103,7 @@ Value 1,Value 2,2003-02-01T01:00
 Value 1,Value 2,2003-02-01T01:00
 Value 1,Value 2,2003-02-01T01:00`
 
-      expect(fsOutputFileSpy).toHaveBeenCalledWith(
-        './download/reportName-variantName-2016-06-20T12:08:10.000Z.csv',
-        csv,
-      )
-
-      expect(downloadSpy).toHaveBeenCalledWith(
-        './download/reportName-variantName-2016-06-20T12:08:10.000Z.csv',
-        expect.any(Function),
-      )
+      expect(downloadSpy).toHaveBeenCalledWith(csv)
     })
 
     it('should redirect when user does not have permission to download', async () => {

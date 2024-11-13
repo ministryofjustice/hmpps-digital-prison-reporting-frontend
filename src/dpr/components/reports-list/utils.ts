@@ -14,7 +14,6 @@ interface definitionData {
   description: string
   type: 'report' | 'dashboard'
   reportDescription: string
-  loadType?: 'async' | 'sync'
 }
 
 export default {
@@ -37,7 +36,6 @@ export default {
 
     // Sort by variant/dashboard name
     const sortedVariants = sortedDefinitions.flatMap(
-      // TODO: Fix type once API types properly generated
       (def: components['schemas']['ReportDefinitionSummary'] & { dashboards: DashboardDefinition[] }) => {
         const { id: reportId, name: reportName, description: reportDescription } = def
         const { variants } = def
@@ -59,7 +57,7 @@ export default {
         let dashboardsArray: definitionData[] = []
         if (dashboards) {
           dashboardsArray = dashboards.map((dashboard: DashboardDefinition) => {
-            const { id, name, description, loadType } = dashboard
+            const { id, name, description } = dashboard
             return {
               reportName,
               reportId,
@@ -68,7 +66,6 @@ export default {
               description,
               type: ReportType.DASHBOARD,
               reportDescription,
-              loadType,
             }
           })
         }
@@ -87,24 +84,18 @@ export default {
 
     const rows = await Promise.all(
       sortedVariants.map(async (v: definitionData) => {
-        const { id, name, description, reportName, reportId, reportDescription, type, loadType } = v
+        const { id, name, description, reportName, reportId, reportDescription, type } = v
         const desc = description || reportDescription
 
-        let bookmarkHtml = ''
-        let href = `/async/${type}/${reportId}/${id}/request${pathSuffix}`
-
-        if (type === ReportType.DASHBOARD && (!loadType || loadType !== 'async')) {
-          href = `/dashboards/${reportId}/load/${id}`
-        } else {
-          bookmarkHtml = await services.bookmarkService.createBookMarkToggleHtml({
-            userId,
-            reportId,
-            id,
-            csrfToken,
-            ctxId: 'reports-list',
-            reportType: type,
-          })
-        }
+        const href = `/async/${type}/${reportId}/${id}/request${pathSuffix}`
+        const bookmarkHtml = await services.bookmarkService.createBookMarkToggleHtml({
+          userId,
+          reportId,
+          id,
+          csrfToken,
+          ctxId: 'reports-list',
+          reportType: type,
+        })
 
         return [
           { html: `<p class="govuk-body-s">${reportName}</p>` },
@@ -122,7 +113,6 @@ export default {
       { text: 'Product', classes: 'dpr-product-head' },
       { text: 'Name', classes: 'dpr-name-head' },
       { text: 'Description', classes: 'dpr-description-head' },
-      // { text: 'Type', classes: 'dpr-type-head' },
       { text: 'Actions', classes: 'dpr-bookmark-head' },
     ]
 

@@ -58,12 +58,6 @@ describe('RequestReportUtils', () => {
       },
     ] as unknown as components['schemas']['ReportDefinitionSummary'][]
 
-    metricService = {
-      getDefinition: jest.fn().mockResolvedValue({
-        name: 'Mock metric name',
-      }),
-    } as unknown as MetricService
-
     reportingService = {
       getDefinitions: jest.fn().mockResolvedValue(mockDefinitions),
       getDefinition: jest.fn().mockResolvedValue(mockDefinition),
@@ -161,7 +155,7 @@ describe('RequestReportUtils', () => {
           definitionPath: undefined,
           csrfToken: 'csrfToken',
           template: undefined,
-          metrics: [{ name: 'Mock metric name' }, { name: 'Mock metric name' }],
+          metrics: dashboardDefinitions[0].metrics,
           type: 'dashboard',
         },
       })
@@ -229,7 +223,7 @@ describe('RequestReportUtils', () => {
           definitionPath: 'dataProductDefinitionsPath',
           csrfToken: 'csrfToken',
           template: undefined,
-          metrics: [{ name: 'Mock metric name' }, { name: 'Mock metric name' }],
+          metrics: dashboardDefinitions[0].metrics,
           type: 'dashboard',
         },
       })

@@ -4,24 +4,11 @@ export interface DashboardDefinition {
   id: string
   name: string
   description: string
-  loadType?: 'async' | 'sync'
   metrics: DashboardMetricDefinition[]
-}
-
-export interface DashboardMetricDefinition {
-  id: string
-}
-
-export interface DashboardDefinitionV2 {
-  id: string
-  name: string
-  description: string
-  loadType?: 'async' | 'sync'
-  metrics: DashboardMetricDefinitionV2[]
   dataset: DashboardDataSet
 }
 
-interface DashboardMetricDefinitionV2 {
+export interface DashboardMetricDefinition {
   id: string
   name: string
   display: string

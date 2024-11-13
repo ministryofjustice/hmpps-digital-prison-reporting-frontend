@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 const dashboardDefinitions = require('./mockDashboardDefinition')
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
-const mockMetricData = require('../metrics/mockMetricData')
+const mockDahsboardData = require('./mockDashboardData')
 
 class MockDashboardClient {
   constructor() {
@@ -47,11 +47,9 @@ class MockDashboardClient {
   async getAsyncDashboard(token, reportId, dashboardId, tableId, query) {
     const def = await this.getDefinition('token', dashboardId)
     if (def) {
-      const metrics = def.metrics.map((metric) => {
-        return mockMetricData[metric.id]
-      })
+      const data = mockDahsboardData[dashboardId]
       return new Promise((resolve) => {
-        resolve(metrics)
+        resolve(data)
       })
     }
     return new Promise((resolve) => {

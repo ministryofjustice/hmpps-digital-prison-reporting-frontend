@@ -17,7 +17,5 @@ export interface MetricsDefinitionSpecification {
 }
 
 export interface MetricsDataResponse {
-  id: string
-  data: { [key: string]: number | string }[]
-  updated: string
+  [key: string]: number | string
 }

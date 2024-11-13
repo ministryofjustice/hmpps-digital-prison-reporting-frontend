@@ -12,11 +12,7 @@ const mockDashboardDefinition1 = {
     id: 'a-dateset',
     dimension: { id: 'establishment' },
   },
-  metrics: [
-    mockDashboardMetricDefMissingEthnicity,
-    mockDashboardMetricDefMissingNationality,
-    mockDashboardMetricDefMissingReligion,
-  ],
+  metrics: [mockDashboardMetricDefMissingEthnicity],
 }
 
 const mockDashboardDefinition2 = {

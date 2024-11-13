@@ -1,7 +1,7 @@
 const missingEthnicityChartData = {
   id: 'missing-ethnicity-metric',
-  title: 'Missing Ethnicity',
-  description: 'Missing Ethnicity',
+  title: 'Missing ethnicity',
+  description: 'Number of prisoners with missing ethnicity data',
   data: {
     chart: [
       {

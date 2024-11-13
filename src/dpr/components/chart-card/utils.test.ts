@@ -15,17 +15,17 @@ describe('ChartCard Utils', () => {
       {
         establishment_id: 'KMI',
         has_ethnicity_percentage: 25.09,
-        has_no_ethnicity_percentage: 75.91,
+        ethnicity_is_missing_percentage: 75.91,
         has_ethnicity: 300,
-        has_no_ethnicity: 100,
+        ethnicity_is_missing: 100,
         random_data: 20,
       },
       {
         establishment_id: 'LEI',
         has_ethnicity_percentage: 47.09,
-        has_no_ethnicity_percentage: 52.91,
+        ethnicity_is_missing_percentage: 52.91,
         has_ethnicity: 100,
-        has_no_ethnicity: 50,
+        ethnicity_is_missing: 50,
         random_data: 50,
       },
     ]

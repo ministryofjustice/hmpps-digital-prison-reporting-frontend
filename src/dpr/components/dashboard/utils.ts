@@ -42,7 +42,7 @@ export default {
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
 
     const { reportId, id, tableId } = req.params
-    const { dataProductDefinitionsPath } = req.query
+    const { dataProductDefinitionsPath, establishmentId } = req.query
     const params = [token, id, reportId]
 
     // Dashboard Definition,
@@ -55,7 +55,7 @@ export default {
     const dashboardMetricsData: MetricsDataResponse[] = await services.dashboardService.getAsyncDashboard(
       ...params,
       tableId,
-      { dataProductDefinitionsPath },
+      { dataProductDefinitionsPath, establishmentId },
     )
 
     // Create the visualisation data

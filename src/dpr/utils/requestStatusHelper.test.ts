@@ -3,7 +3,6 @@ import ReportingService from '../services/reportingService'
 import { ReportType, RequestStatus } from '../types/UserReports'
 import { Services } from '../types/Services'
 import * as ReportStatusHelper from './requestStatusHelper'
-import MetricService from '../services/metricsService'
 import DashboardService from '../services/dashboardService'
 
 describe('ReportStatusHelper', () => {
@@ -13,7 +12,7 @@ describe('ReportStatusHelper', () => {
     bookmarkService: {},
     reportingService: {},
     dashboardService: {},
-    metricService: {} as unknown as MetricService,
+    downloadPermissionService: {},
   }
 
   let res: Response

@@ -1,8 +1,5 @@
-import MetricService from '../services/metricsService'
-
 export type Services = UserStoreServices & {
   reportingService: ReportingService
-  metricService: MetricService
   dashboardService: DashboardService
 }
 

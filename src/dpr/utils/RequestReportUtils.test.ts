@@ -9,7 +9,6 @@ import dashboardDefinitions from '../../../test-app/mocks/mockClients/dashboards
 import type DashboardService from '../services/dashboardService'
 import type RequestedReportService from '../services/requestedReportService'
 import type RecentlyViewedStoreService from '../services/recentlyViewedService'
-import MetricService from '../services/metricsService'
 
 describe('RequestReportUtils', () => {
   let services: Services
@@ -17,7 +16,6 @@ describe('RequestReportUtils', () => {
   let dashboardService: DashboardService
   let requestedReportService: RequestedReportService
   let recentlyViewedService: RecentlyViewedStoreService
-  let metricService: MetricService
   let res: Response
   let req: Request
   let next: NextFunction
@@ -87,7 +85,6 @@ describe('RequestReportUtils', () => {
       dashboardService,
       requestedReportService,
       recentlyViewedService,
-      metricService,
     } as unknown as Services
 
     next = ((error: Error) => {

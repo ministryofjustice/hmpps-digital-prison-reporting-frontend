@@ -47,7 +47,16 @@ class MockDashboardClient {
   async getAsyncDashboard(token, reportId, dashboardId, tableId, query) {
     const def = await this.getDefinition('token', dashboardId)
     if (def) {
-      const data = mockDahsboardData[dashboardId]
+      let data = mockDahsboardData[dashboardId]
+      if (query.establishmentId) {
+        data = data.filter((d) => {
+          let found = false
+          query.establishmentId.forEach((id) => {
+            if (id === d.establishment_id) found = true
+          })
+          return found
+        })
+      }
       return new Promise((resolve) => {
         resolve(data)
       })

@@ -76,14 +76,12 @@ app.use(bodyParser.json())
 // Mock Clients & API responses
 const MockReportingClient = require('./mocks/mockClients/reports/mockReportingClient')
 const MockDashboardClient = require('./mocks/mockClients/dashboards/mockDashboardClient')
-const MockMetricClient = require('./mocks/mockClients/metrics/mockMetricClient')
 const MockUserStoreService = require('./mocks/mockClients/store/mockRedisStore')
 const mockDefinitions = require('./mocks/mockClients/reports/mockReportDefinition')
 const mockDashboardDefinitions = require('./mocks/mockClients/dashboards/mockDashboardDefinition')
 
 // Services
 const ReportingService = require('../package/dpr/services/reportingService').default
-const MetricsService = require('../package/dpr/services/metricsService').default
 const DashboardService = require('../package/dpr/services/dashboardService').default
 
 // Routes
@@ -137,9 +135,6 @@ app.get('/', (req, res) => {
 const reportingClient = new MockReportingClient()
 const reportingService = new ReportingService(reportingClient)
 
-const metricClient = new MockMetricClient()
-const metricService = new MetricsService(metricClient)
-
 const dashboardClient = new MockDashboardClient()
 const dashboardService = new DashboardService(dashboardClient)
 
@@ -149,7 +144,6 @@ const userStoreServices = createUserStoreServices(mockUserStore)
 const services = {
   ...userStoreServices,
   reportingService,
-  metricService,
   dashboardService,
 }
 

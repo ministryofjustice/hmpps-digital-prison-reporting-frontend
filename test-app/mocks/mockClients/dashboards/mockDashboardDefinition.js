@@ -1,4 +1,8 @@
-const { mockDashboardMetricDefMissingEthnicity } = require('./mockDashboardMetricDefinitons')
+const {
+  mockDashboardMetricDefMissingEthnicity,
+  mockDashboardMetricDefMissingNationality,
+  mockDashboardMetricDefMissingReligion,
+} = require('./mockDashboardMetricDefinitons')
 
 const mockDashboardDefinition1 = {
   id: 'test-dashboard-1',
@@ -8,7 +12,11 @@ const mockDashboardDefinition1 = {
     id: 'a-dateset',
     dimension: { id: 'establishment' },
   },
-  metrics: [mockDashboardMetricDefMissingEthnicity],
+  metrics: [
+    mockDashboardMetricDefMissingEthnicity,
+    mockDashboardMetricDefMissingNationality,
+    mockDashboardMetricDefMissingReligion,
+  ],
 }
 
 const mockDashboardDefinition2 = {
@@ -19,7 +27,11 @@ const mockDashboardDefinition2 = {
     id: 'a-dateset',
     dimension: { id: 'establishment' },
   },
-  metrics: [mockDashboardMetricDefMissingEthnicity],
+  metrics: [
+    mockDashboardMetricDefMissingEthnicity,
+    mockDashboardMetricDefMissingNationality,
+    mockDashboardMetricDefMissingReligion,
+  ],
 }
 
 const mockDashboardDefinition3 = {
@@ -30,7 +42,11 @@ const mockDashboardDefinition3 = {
     id: 'a-dateset',
     dimension: { id: 'establishment' },
   },
-  metrics: [mockDashboardMetricDefMissingEthnicity],
+  metrics: [
+    mockDashboardMetricDefMissingEthnicity,
+    mockDashboardMetricDefMissingNationality,
+    mockDashboardMetricDefMissingReligion,
+  ],
 }
 
 const mockDashboardDefinition4 = {
@@ -41,7 +57,11 @@ const mockDashboardDefinition4 = {
     id: 'a-dateset',
     dimension: { id: 'establishment' },
   },
-  metrics: [mockDashboardMetricDefMissingEthnicity],
+  metrics: [
+    mockDashboardMetricDefMissingEthnicity,
+    mockDashboardMetricDefMissingNationality,
+    mockDashboardMetricDefMissingReligion,
+  ],
 }
 
 const mockDashboardDefinition5 = {
@@ -52,7 +72,11 @@ const mockDashboardDefinition5 = {
     id: 'a-dateset',
     dimension: { id: 'establishment' },
   },
-  metrics: [mockDashboardMetricDefMissingEthnicity],
+  metrics: [
+    mockDashboardMetricDefMissingEthnicity,
+    mockDashboardMetricDefMissingNationality,
+    mockDashboardMetricDefMissingReligion,
+  ],
 }
 
 const mockDashboardDefinition6 = {
@@ -63,7 +87,11 @@ const mockDashboardDefinition6 = {
     id: 'a-dateset',
     dimension: { id: 'establishment' },
   },
-  metrics: [mockDashboardMetricDefMissingEthnicity],
+  metrics: [
+    mockDashboardMetricDefMissingEthnicity,
+    mockDashboardMetricDefMissingNationality,
+    mockDashboardMetricDefMissingReligion,
+  ],
 }
 
 const mockDashboardDefinition7 = {
@@ -74,7 +102,11 @@ const mockDashboardDefinition7 = {
     id: 'a-dateset',
     dimension: { id: 'establishment' },
   },
-  metrics: [mockDashboardMetricDefMissingEthnicity],
+  metrics: [
+    mockDashboardMetricDefMissingEthnicity,
+    mockDashboardMetricDefMissingNationality,
+    mockDashboardMetricDefMissingReligion,
+  ],
 }
 
 const mockDashboardDefinition8 = {
@@ -85,7 +117,11 @@ const mockDashboardDefinition8 = {
     id: 'a-dateset',
     dimension: { id: 'establishment' },
   },
-  metrics: [mockDashboardMetricDefMissingEthnicity],
+  metrics: [
+    mockDashboardMetricDefMissingEthnicity,
+    mockDashboardMetricDefMissingNationality,
+    mockDashboardMetricDefMissingReligion,
+  ],
 }
 
 module.exports = [

@@ -8,8 +8,8 @@ Then('I see the dashboard data', () => {
 
 Then('I see the metric data', () => {
   const page = new DasboardPage()
-  page.metricName().contains('Missing Ethnicity')
-  page.metricDescription().contains('Missing Ethnicity')
+  page.metricName().contains('Missing ethnicity')
+  page.metricDescription().contains('Number of prisoners with missing ethnicity data')
 
   page.metricBarTab().should('exist')
   page.matricTableTab().should('exist')
@@ -22,9 +22,9 @@ When('I click the table tab', () => {
 
 Then('I see the metric data in a table', () => {
   const page = new DasboardPage()
-  page.metricTable_row1().contains('IWI')
-  page.metricTable_row1().contains('200')
+  page.metricTable_row1().contains('MDI')
+  page.metricTable_row1().contains('845')
 
   page.metricTable_row2().contains('LTI')
-  page.metricTable_row2().contains('300')
+  page.metricTable_row2().contains('1221')
 })

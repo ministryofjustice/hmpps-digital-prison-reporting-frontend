@@ -17,24 +17,6 @@ const mockDashboardData1 = [
     has_nationality: 80,
     has_no_nationality: 130,
   },
-  {
-    establishment_id: 'LEI',
-    has_ethnicity: 300,
-    has_no_ethnicity: 23,
-    has_ethnicity_percentage: 90,
-    has_no_ethnicity_percentage: 10,
-    has_nationality: 80,
-    has_no_nationality: 130,
-  },
-  {
-    establishment_id: 'KMI',
-    has_ethnicity: 300,
-    has_no_ethnicity: 23,
-    has_ethnicity_percentage: 90,
-    has_no_ethnicity_percentage: 10,
-    has_nationality: 80,
-    has_no_nationality: 130,
-  },
 ]
 
 module.exports = {

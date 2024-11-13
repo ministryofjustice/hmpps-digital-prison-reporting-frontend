@@ -197,7 +197,6 @@ export interface components {
       type?: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time'
       header?: boolean
       mergeRows?: boolean
-      sortAsc?: boolean
     }
     VariantDefinition: {
       id: string

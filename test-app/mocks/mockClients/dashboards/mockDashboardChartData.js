@@ -31,8 +31,8 @@ const missingEthnicityChartData = {
           datasets: [
             {
               label: 'KMI',
-              data: [25.09, 75.91],
-              total: 101,
+              data: [25.09, 74.91],
+              total: 100,
             },
             {
               label: 'LEI',
@@ -76,7 +76,7 @@ const missingEthnicityChartData = {
             text: 25.09,
           },
           {
-            text: 75.91,
+            text: 74.91,
           },
         ],
         [

@@ -1,7 +1,6 @@
 {% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
 {% from "../filter-input/view.njk" import dprFilterInput %}
 {% from "../filters-actions/view.njk" import dprFiltersActions %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
@@ -104,7 +103,7 @@
         resetId: 'async-request-reset-filters-button',
         showReset: filters.length > 0
       }) }}
-      
+
     </form>
   </div>
 {% endmacro %}

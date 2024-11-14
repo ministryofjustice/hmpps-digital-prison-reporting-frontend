@@ -118,7 +118,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         csrfToken,
         requestUrl: url.request,
         bookmarked: await services.bookmarkService.isBookmarked(ID, userId),
-        canDownload,
+        canDownload: count > 0 ? canDownload : false,
         reportSummaries: collatedSummaryBuilder.collatePageSummaries(),
       }
 

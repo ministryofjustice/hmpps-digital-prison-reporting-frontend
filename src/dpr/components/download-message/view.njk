@@ -15,9 +15,8 @@
 
   {% set html %}
     <h2 class="govuk-heading-m govuk-!-margin-bottom-2">You do not have permission to download this report</h2>
-    <p class="govuk-body">To gain access to download this report, please complete the download request form</p>
-    <a href="{{ feedbackFormHref }}" class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button">
-      Go to form
+    <a href="/download/{{reportId}}/{{id}}/{{tableId}}/feedback" class="govuk-link govuk-link--no-visited-state govuk-!-margin-bottom-1">
+      Complete request form to enable download
     </a>
   {% endset %}
 

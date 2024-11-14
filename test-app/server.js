@@ -76,7 +76,6 @@ app.use(bodyParser.json())
 // Mock Clients & API responses
 const MockReportingClient = require('./mocks/mockClients/reports/mockReportingClient')
 const MockDashboardClient = require('./mocks/mockClients/dashboards/mockDashboardClient')
-const MockMetricClient = require('./mocks/mockClients/metrics/mockMetricClient')
 const MockUserStoreService = require('./mocks/mockClients/store/mockRedisStore')
 const mockDefinitions = require('./mocks/mockClients/reports/mockReportDefinition')
 const mockDashboardDefinitions = require('./mocks/mockClients/dashboards/mockDashboardDefinition')

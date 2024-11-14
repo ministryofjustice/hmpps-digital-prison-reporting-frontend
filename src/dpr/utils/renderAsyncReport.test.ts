@@ -12,7 +12,6 @@ import ReportingService from '../services/reportingService'
 import { mockGetReportListRenderData } from '../../../test-app/mocks/mockAsyncData/mockReportListRenderData'
 import RecentlyViewedStoreService from '../services/recentlyViewedService'
 import BookmarkService from '../services/bookmarkService'
-import MetricService from '../services/metricsService'
 import DashboardService from '../services/dashboardService'
 import { components } from '../types/api'
 import { Services } from '../types/Services'
@@ -170,7 +169,6 @@ describe('AsyncReportUtils', () => {
         isBookmarked: jest.fn().mockReturnValue(false),
       } as unknown as BookmarkService
 
-      const mockMetricService = {} as unknown as MetricService
       const mockDashboardService = {} as unknown as DashboardService
 
       const downloadPermissionService = {
@@ -187,7 +185,6 @@ describe('AsyncReportUtils', () => {
         reportingService: mockDataSources,
         recentlyViewedService: mockRecentlyViewedStoreService,
         bookmarkService: mockBookmarkService,
-        metricService: mockMetricService,
         dashboardService: mockDashboardService,
         downloadPermissionService,
       }

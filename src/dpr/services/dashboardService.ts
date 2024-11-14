@@ -44,8 +44,8 @@ export default class DashboardService {
 
   async getAsyncDashboard(
     token: string,
-    reportId: string,
     dashboardId: string,
+    reportId: string,
     tableId: string,
     query: Dict<string | number>,
   ): Promise<Array<Dict<string>>> {

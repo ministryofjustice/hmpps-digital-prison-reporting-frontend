@@ -181,7 +181,7 @@ describe('BookmarkService', () => {
 
       expect(res).toEqual(`<div class='dpr-bookmark dpr-bookmark-table' data-dpr-module="bookmark-toggle">
   <input class="bookmark-input" aria-label="bookmark toggle" type='checkbox' id='report-id-variant-id-context-id' data-report-id='report-id' data-id='variant-id' data-report-type='report' data-csrf-token='csrfToken' null />
-  <label id="variant-id-report-id-context-id-bookmark-label" for='report-id-variant-id-context-id'><span class="dpr-bookmark-label govuk-body-s">Add Bookmark</span></label>
+  <label id="variant-id-report-id-context-id-bookmark-label" for='report-id-variant-id-context-id'><span class="dpr-bookmark-label govuk-body-s">Add bookmark</span></label>
 </div>`)
     })
   })

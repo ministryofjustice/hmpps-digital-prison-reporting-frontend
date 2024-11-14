@@ -22,7 +22,7 @@
 
     <form action="/submitFeedback/" method="post" id="download-feedback-form" class="download-feedback-form--hidden">
 
-      <p>To enable downloads for this report (<strong>{{ reportName}} - {{ variantName }}</strong>), please take a few moments to fill out this request form.</p>
+      <p>To enable downloads for this report (<strong>{{ reportName}} - {{ variantName }}</strong>), take a few moments to fill out this request form.</p>
 
       <h3>Help us improve our service</h3>
       <p>We would like to understand more about your reasons for downloading this report. The more detail you provide, the better we can understand how to improve our service and offer features that meet your needs.</p>
@@ -53,11 +53,11 @@
         name: 'Full name',
         value: name,
         label: {
-          text: 'What is your full name?'
+          text: 'What is your Full name?'
         },
         classes: "govuk-!-width-one-third",
         errorMessage: {
-          text: "Please enter your full name"
+          text: "Enter your Full name"
         },
         attributes: {
           required: true
@@ -70,11 +70,11 @@
         name: 'email',
         value: '',
         label: {
-          text: 'What is your email address?'
+          text: 'What is your Email address?'
         },
         classes: "govuk-!-width-one-third",
         errorMessage: {
-          text: "Please enter your email address"
+          text: "Enter your Email address"
         },
         attributes: {
           required: true
@@ -87,11 +87,11 @@
         name: 'role',
         value: '',
         label: {
-          text: 'What is your role?'
+          text: 'What is your Job title?'
         },
         classes: "govuk-!-width-one-third",
         errorMessage: {
-          text: "Please enter your role"
+          text: "Enter your Job title"
         },
         attributes: {
           required: true
@@ -108,28 +108,28 @@
           }
         },
         hint: {
-          text: "Select all that apply to you"
+          text: "Select all that apply to you."
         },
         items: [
           {
             value: "apply-specific-filters",
-            text: "To apply specific filters"
+            text: "To apply specific filters."
           },
           {
             value: "join-tables",
-            text: "Join different tables"
+            text: "Join different tables."
           },
           {
             value: "combine-info",
-            text: "Combine demographic information (eg. age, ethnicity) with other reports"
+            text: "Combine demographic information (e.g. age, ethnicity) with other reports."
           },
           {
             value: "produce-visualisations",
-            text: "Produce visualisations such as graphs, pie charts etc"
+            text: "Produce visualisations such as graphs or pie charts."
           },
           {
             value: "other",
-            text: "Other / unsure"
+            text: "Other"
           }
         ]
       }) }}
@@ -145,10 +145,10 @@
           isPageHeading: true
         },
         hint: {
-          text: "Please include details about how you will use this data once it's downloaded, e.g. I will upload the data into excel and create visualisations. I will combine this data with other data by..."
+          text: "In your own words describe how you will use this data once it's downloaded."
         },
         errorMessage: {
-          text: "Please provide information on how you will use this data"
+          text: "provide information on how you will use this data"
         },
         attributes: {
           required: true

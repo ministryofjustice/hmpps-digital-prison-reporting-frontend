@@ -2,7 +2,7 @@ import { ReportType, RequestedReport, RequestFormData, RequestStatus, UserReport
 import Dict = NodeJS.Dict
 import { getDpdPathSuffix } from './urlHelper'
 import { SetQueryFromFiltersResult } from '../components/async-filters/types'
-import { MetricsDefinition } from '../types/Metrics'
+import { DashboardMetricDefinition } from '../types/Dashboards'
 
 export default class UserStoreItemBuilder {
   userStoreItem: UserReportData
@@ -115,10 +115,10 @@ export default class UserStoreItemBuilder {
     return this
   }
 
-  addMetrics = (metrics: MetricsDefinition[]) => {
+  addMetrics = (metrics: DashboardMetricDefinition[]) => {
     this.userStoreItem = {
       ...this.userStoreItem,
-      metrics: metrics.map((metric: MetricsDefinition) => {
+      metrics: metrics.map((metric: DashboardMetricDefinition) => {
         return { name: metric.name }
       }),
     }

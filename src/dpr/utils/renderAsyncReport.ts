@@ -111,7 +111,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         count,
         loadType: LoadType.ASYNC,
         type: ReportType.REPORT,
-        actions: setActions(csrfToken, variant, reportStateData, columns),
+        actions: setActions(csrfToken, variant, reportStateData, columns, canDownload),
         printable,
         querySummary: query.summary,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
@@ -174,42 +174,44 @@ const setActions = (
   variant: components['schemas']['VariantDefinition'],
   requestData: RequestedReport,
   columns: Columns,
+  canDownload: boolean,
 ) => {
   const { reportName, name, id, variantId, reportId, executionId, tableId, type, dataProductDefinitionsPath } =
     requestData
   const url = requestData.url.request.fullUrl
   const { printable } = variant
-
   const ID = variantId || id
 
+  const downloadConfig = {
+    enabled: true,
+    name,
+    reportName,
+    csrfToken,
+    reportId,
+    id: ID,
+    tableId,
+    type: type || ReportType.REPORT,
+    columns: columns.value,
+    definitionPath: dataProductDefinitionsPath,
+    canDownload,
+  }
+
+  const shareConfig = {
+    reportName,
+    name,
+    url,
+  }
+
+  const refreshConfig = {
+    url,
+    executionId,
+  }
+
   return ReportActionsUtils.getActions({
-    download: {
-      enabled: true,
-      name,
-      reportName,
-      csrfToken,
-      reportId,
-      id: ID,
-      tableId,
-      type: type || ReportType.REPORT,
-      columns: columns.value,
-      loadType: LoadType.ASYNC,
-      definitionPath: dataProductDefinitionsPath,
-    },
-    print: {
-      enabled: printable,
-    },
-    share: {
-      reportName,
-      name,
-      url,
-    },
-    refresh: {
-      url,
-      executionId,
-    },
-    copy: {
-      url,
-    },
+    download: downloadConfig,
+    print: { enabled: printable },
+    share: shareConfig,
+    refresh: refreshConfig,
+    copy: { url },
   })
 }

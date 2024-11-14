@@ -7454,7 +7454,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(1) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -7694,7 +7694,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(2) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -7934,7 +7934,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(3) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -8174,7 +8174,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(4) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -8414,7 +8414,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(5) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -8654,7 +8654,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(6) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -8894,7 +8894,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(7) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -9134,7 +9134,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(8) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -9374,7 +9374,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(9) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -9614,7 +9614,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(10) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -9854,7 +9854,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(11) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -10094,7 +10094,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(12) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -10334,7 +10334,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(13) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -10574,7 +10574,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(14) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -10814,7 +10814,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(15) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -11054,7 +11054,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add Bookmark\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-tooltip dpr-bookmark-table\" tooltip=\"Add bookmark\">",
             "target": [
               "tr:nth-child(16) > .dpr-vertical-align > .dpr-bookmark.dpr-bookmark-tooltip.dpr-bookmark-table"
             ]
@@ -34211,7 +34211,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div class=\"dpr-bookmark dpr-bookmark-inline dpr-bookmark-tooltip\" tooltip=\"Add Bookmark\" data-dpr-module=\"bookmark-toggle\">",
+            "html": "<div class=\"dpr-bookmark dpr-bookmark-inline dpr-bookmark-tooltip\" tooltip=\"Add bookmark\" data-dpr-module=\"bookmark-toggle\">",
             "target": [
               ".dpr-bookmark"
             ]

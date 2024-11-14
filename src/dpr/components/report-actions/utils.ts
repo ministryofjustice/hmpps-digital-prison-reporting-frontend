@@ -128,7 +128,6 @@ const setCopyAction = (template: ActionTemplate, data: CopyActionParams) => {
 const setDownloadAction = (template: ActionTemplate, data: DownloadActionParams) => {
   const { canDownload, enabled } = data
   const { tooltipText, ariaLabelText } = template
-
   return {
     ...template,
     tooltipText: canDownload ? tooltipText : 'Enable download',

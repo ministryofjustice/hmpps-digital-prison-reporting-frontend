@@ -1,3 +1,5 @@
+import { LoadType } from '../../types/UserReports'
+
 export interface DownloadActionParams {
   enabled: boolean
   csrfToken: string
@@ -5,11 +7,12 @@ export interface DownloadActionParams {
   reportName: string
   name: string
   id: string
-  tableId: string
+  tableId?: string
   columns: string[]
   type: ReportType
   definitionPath: string
   canDownload: boolean
+  loadType: LoadType
 }
 
 export interface ShareActionParams {

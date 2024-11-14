@@ -193,6 +193,7 @@ const setActions = (
     type: type || ReportType.REPORT,
     columns: columns.value,
     definitionPath: dataProductDefinitionsPath,
+    loadType: LoadType.ASYNC,
     canDownload,
   }
 

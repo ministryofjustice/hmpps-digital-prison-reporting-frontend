@@ -13,6 +13,7 @@ import { Columns } from '../columns/types'
 import ReportActionsUtils from '../report-actions/utils'
 import { SyncReportFeatures, SyncReportOptions } from '../../types/SyncReportUtils'
 import SyncFiltersUtils from '../sync-filters/utils'
+import { DownloadActionParams } from '../report-actions/types'
 
 const setActions = (
   csrfToken: string,
@@ -25,20 +26,23 @@ const setActions = (
   const { name: reportName, variant, id: reportId } = reportDefinition
   const { name, id, printable } = variant
 
+  const downloadConfig: DownloadActionParams = {
+    enabled: true,
+    name,
+    reportName,
+    csrfToken,
+    reportId,
+    id,
+    type: ReportType.REPORT,
+    columns: columns.value,
+    loadType: LoadType.SYNC,
+    definitionPath: options.dpdPath,
+    canDownload: features.download,
+  }
+
   return ReportActionsUtils.getActions({
     ...(features.download && {
-      download: {
-        enabled: true,
-        name,
-        reportName,
-        csrfToken,
-        reportId,
-        id,
-        type: ReportType.REPORT,
-        columns: columns.value,
-        loadType: LoadType.SYNC,
-        definitionPath: options.dpdPath,
-      },
+      download: downloadConfig,
     }),
     print: {
       enabled: printable,

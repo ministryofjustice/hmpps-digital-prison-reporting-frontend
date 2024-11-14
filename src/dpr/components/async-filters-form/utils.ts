@@ -5,7 +5,7 @@ import isBetween from 'dayjs/plugin/isBetween'
 import Dict = NodeJS.Dict
 import { components } from '../../types/api'
 import FilterUtils from '../filters/utils'
-import { DateFilterValue, FilterValue } from '../filters/types'
+import { DateFilterValue, FilterValue, FilterOption } from '../filters/types'
 import { FilterType } from '../filter-input/enum'
 import SortHelper from './sortByTemplate'
 import DefinitionUtils from '../../utils/definitionUtils'
@@ -141,11 +141,21 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
       const { display: text, name, filter } = f
       const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern } = filter
 
+      const options: FilterOption[] = []
+      if (staticOptions) {
+        if (type === FilterType.select) {
+          options.push({ value: 'no-filter', text: 'Select your option', disabled: true, selected: true })
+        }
+        staticOptions.forEach((o) => {
+          options.push({ value: o.name, text: o.display })
+        })
+      }
+
       let filterData: FilterValue = {
         text,
         name,
         type: type as FilterType,
-        options: staticOptions ? staticOptions.map((o) => ({ value: o.name, text: o.display })) : null,
+        options: options.length ? options : null,
         value: defaultValue || null,
         minimumLength: dynamicOptions ? dynamicOptions.minimumLength : null,
         dynamicResourceEndpoint: null,

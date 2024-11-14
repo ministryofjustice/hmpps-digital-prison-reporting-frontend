@@ -80,7 +80,6 @@ const getSelectedFilters = (
     )
     .map((f) => {
       let filterValueText = getFilterValue(reportQuery.filters, f.name)
-
       if (f.filter.type === FilterType.dateRange.toLowerCase()) {
         const startValue = getFilterValue(reportQuery.filters, `${f.name}.start`)
         const endValue = getFilterValue(reportQuery.filters, `${f.name}.end`)

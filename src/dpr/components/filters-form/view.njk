@@ -1,0 +1,32 @@
+{% from "dpr/components/filter-input/view.njk" import dprFilterInput %}
+{% from "../filters-actions/view.njk" import dprFiltersActions %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% macro dprInlineFiltersForm(filters, prefix = 'filters.') %}
+    <form id="sync-filters-form">
+
+      <div id="query-error-summary" class="query-error-summary query-error-summary--hidden">
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: []
+        }) }}
+      </div>
+
+      <div class="filter-container">
+        {%- for filter in filters %}
+          {{ dprFilterInput(filter, 'filters.') }}
+        {%- endfor %}
+      </div>
+
+      <div class="filter-actions">
+        {{ dprFiltersActions({
+          submitText: "Apply Filters",
+          submitId: 'sync-apply-filters-button',
+          resetText: 'Reset filters',
+          resetId: 'sync-reset-filters-button',
+          showReset: true
+        }) }}
+      </div>
+      
+    </form>
+{% endmacro %}

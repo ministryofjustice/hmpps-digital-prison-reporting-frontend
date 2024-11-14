@@ -5,6 +5,7 @@ import { Services } from '../types/Services'
 import DownloadUtils from './downloadUtils'
 import DownloadPermissionService from '../services/downloadPermissionService'
 import createMockData from '../../../test-app/mocks/mockClients/reports/mockAsyncData'
+import { LoadType } from '../types/UserReports'
 import { components } from '../types/api'
 
 describe('DownloadUtils', () => {
@@ -89,6 +90,8 @@ describe('DownloadUtils', () => {
         req,
         services,
         res,
+        redirect: `/async/report/reportId/id/request/tableId/report/download-disabled`,
+        loadType: LoadType.ASYNC,
       })
 
       const csv = `field 1 display,field 2 display,field 3 display
@@ -120,6 +123,8 @@ Value 1,Value 2,2003-02-01T01:00`
         req,
         services,
         res,
+        redirect: `/async/report/reportId/id/request/tableId/report/download-disabled`,
+        loadType: LoadType.ASYNC,
       })
 
       expect(redirectSpy).toHaveBeenCalledWith(`/async/report/reportId/id/request/tableId/report/download-disabled`)

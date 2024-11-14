@@ -1,0 +1,13 @@
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% macro dprReportNoDataMessage(href) %}
+  <div class="report-no-data-available">
+    <div class="report-no-data-available">
+      <p class="govuk-body-l govuk-!-margin-bottom-3"><strong>No data to display</strong></p>
+      {% if href %}
+        <a href={{ renderData.requestUrl.fullUrl }} class='govuk-link govuk-link--no-visited-state' >Make a new request</a>
+      {% endif %}
+    </div>
+  </div>
+{% endmacro %}

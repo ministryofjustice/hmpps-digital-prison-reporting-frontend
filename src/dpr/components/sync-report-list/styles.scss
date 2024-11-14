@@ -1,10 +1,9 @@
 .dpr-reports-heading-container {
   position: relative;
-  margin-bottom: govuk-spacing(0);
 }
 
 .report-no-data-available {
-  text-align: left;
+  text-align: center;
 }
 
 .dpr-columns-section-wrapper {
@@ -35,5 +34,11 @@
     .screen-hide {
       display: none;
     }
+  }
+}
+
+.dpr-sync-report-actions {
+  a.govuk-button {
+    margin-top: -10px;
   }
 }

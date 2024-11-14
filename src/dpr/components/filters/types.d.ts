@@ -3,6 +3,8 @@ import { FilterType } from '../filter-input/enum'
 export interface FilterOption {
   value: string
   text: string
+  disabled?: boolean
+  selected?: boolean
 }
 
 export type FilterValue = GenericFilterValue | DateFilterValue
@@ -20,7 +22,7 @@ export interface GenericFilterValue {
 }
 
 export interface DateFilterValue extends GenericFilterValue {
-  type: FilterType.dateRange | FilterType.date
+  type: FilterType
   value?: DateRange | string
   min?: string
   max?: string

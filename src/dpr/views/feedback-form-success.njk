@@ -6,6 +6,11 @@
 {% from "../components/download-feeback-form/view.njk" import dprDownloadFeedbackForm %}
 
 {% set mainClasses = "app-container govuk-body" %}
+{% if report.tableId %}
+  {% set reportHref = '/async/report/' + report.reportId + '/' + report.variantId + '/request/' + report.tableId + '/report' %}
+{% else %}
+  {% set reportHref = '/sync/report/' + report.reportId + '/' + report.variantId + '/report' %}
+{% endif %}
 
 {% block content %}
   {{ govukPanel({

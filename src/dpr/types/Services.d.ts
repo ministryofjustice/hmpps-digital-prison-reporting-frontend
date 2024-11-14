@@ -4,8 +4,8 @@ export type Services = UserStoreServices & {
 }
 
 export interface UserStoreServices {
-  downloadPermissionService: DownloadPermissionService
-  requestedReportService: RequestedReportService
-  recentlyViewedService: RecentlyViewedStoreService
-  bookmarkService: BookmarkService
+  downloadPermissionService?: DownloadPermissionService
+  requestedReportService?: RequestedReportService
+  recentlyViewedService?: RecentlyViewedStoreService
+  bookmarkService?: BookmarkService
 }

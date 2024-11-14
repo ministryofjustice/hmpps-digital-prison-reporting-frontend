@@ -13,6 +13,7 @@
   {% set variantId = report.variantId %}
   {% set time = report.time %}
   {% set tableId = report.tableId %}
+  {% set loadType = report.loadType %}
   {% set reportName = report.reportName %}
   {% set variantName = report.variantName %}
   {% set csrfToken = csrfToken %}
@@ -35,6 +36,10 @@
       <input type="hidden" name="reportId" value="{{ reportId }}">
       <input type="hidden" name="reportName" value="{{ reportName }}">
       <input type="hidden" name="variantId" value="{{ variantId }}">
+      <input type="hidden" name="loadType" value="{{ loadType }}">
+      {% if tableId %}
+        <input type="hidden" name="tableId" value="{{ tableId }}">
+      {% endif %}
       <input type="hidden" name="variantName" value="{{ variantName }}">
       <input type="hidden" name="time" value="{{ time }}">
       <input type="hidden" name="tableId" value="{{ tableId }}">

@@ -2,6 +2,7 @@ import type { RequestHandler, Router } from 'express'
 import { Services } from '../types/Services'
 import logger from '../utils/logger'
 import DownloadUtils from '../utils/downloadUtils'
+import { LoadType } from '../types/UserReports'
 import { components } from '../types/api'
 
 /**
@@ -33,6 +34,7 @@ export default function routes({
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
     const { reportId, variantId, tableId } = req.params
+    const loadType = tableId ? LoadType.ASYNC : LoadType.SYNC
     const { dataProductDefinitionsPath } = req.query
 
     const variantData: components['schemas']['SingleVariantReportDefinition'] =
@@ -48,6 +50,7 @@ export default function routes({
           variantId,
           variantName: variantData.variant.name,
           tableId,
+          loadType,
           time: new Date().toDateString(),
         },
         csrfToken,
@@ -61,9 +64,17 @@ export default function routes({
 
   const feedbackSubmitHandler: RequestHandler = async (req, res, next) => {
     const { body } = req
-    const { reportId, variantId, tableId } = body
+    const { reportId, variantId, tableId, loadType } = body
     logger.info('Download Feedback Submission:', `${JSON.stringify(body)}`)
-    res.redirect(`/download/${reportId}/${variantId}/${tableId}/feedback/submitted`)
+
+    let redirect
+    if (loadType === LoadType.ASYNC) {
+      redirect = `/download/${reportId}/${variantId}/${tableId}/feedback/submitted`
+    } else {
+      redirect = `/download/${reportId}/${variantId}/feedback/submitted`
+    }
+
+    res.redirect(redirect)
   }
 
   const feedbackSuccessHandler: RequestHandler = async (req, res, next) => {
@@ -85,13 +96,18 @@ export default function routes({
 
   const downloadRequestHandler: RequestHandler = async (req, res, next) => {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-    const { reportId, id, type, tableId, dataProductDefinitionsPath } = req.body
+    const { reportId, id, type, tableId, dataProductDefinitionsPath, loadType } = req.body
+
+    let redirect = `/async/${type}/${reportId}/${id}/request/${tableId}/report/download-disabled`
+    if (loadType === LoadType.SYNC) {
+      redirect = `/dpr/embedded/sync/${type}/${reportId}/${id}/report/download-disabled`
+    }
 
     const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
+
     if (canDownload) {
-      await DownloadUtils.downloadReport({ req, res, services })
+      await DownloadUtils.downloadReport({ req, res, services, redirect, loadType })
     } else {
-      let redirect = `/async/${type}/${reportId}/${id}/request/${tableId}/report/download-disabled`
       redirect = dataProductDefinitionsPath
         ? `${redirect}?dataProductDefinitionsPath=${dataProductDefinitionsPath}`
         : redirect
@@ -99,8 +115,15 @@ export default function routes({
     }
   }
 
-  router.get('/download/:reportId/:variantId/:tableId/feedback', feedbackFormHandler)
+  router.get(
+    ['/download/:reportId/:variantId/:tableId/feedback', '/download/:reportId/:variantId/feedback'],
+    feedbackFormHandler,
+  )
   router.post('/submitFeedback/', feedbackSubmitHandler)
-  router.get('/download/:reportId/:variantId/:tableId/feedback/submitted', feedbackSuccessHandler)
+
+  router.get(
+    ['/download/:reportId/:variantId/:tableId/feedback/submitted', '/download/:reportId/:variantId/feedback/submitted'],
+    feedbackSuccessHandler,
+  )
   router.post('/downloadReport/', downloadRequestHandler)
 }

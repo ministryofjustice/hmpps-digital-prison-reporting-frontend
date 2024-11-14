@@ -6,7 +6,8 @@ import CardGroup from './components/card-group/clientClass.mjs'
 import Filters from './components/filters/clientClass.mjs'
 import Columns from './components/columns/clientClass.mjs'
 import ToggleButton from './components/toggle-button/clientClass.mjs'
-import AsyncFilters from './components/async-filters/clientClass.mjs'
+import AsyncFilters from './components/async-filters-form/clientClass.mjs'
+import SyncFilters from './components/sync-filters/clientClass.mjs'
 import Pagination from './components/pagination/clientClass.mjs'
 import ReportActions from './components/report-actions/clientClass.mjs'
 import DataTable from './components/data-table/clientClass.mjs'
@@ -43,6 +44,7 @@ export default function initAll() {
     Filters,
     ToggleButton,
     AsyncFilters,
+    SyncFilters,
     Pagination,
     DataTable,
     AsyncPolling,

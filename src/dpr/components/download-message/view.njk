@@ -4,7 +4,15 @@
 {% macro dprDownloadMessage(reportData) %}
   {% set reportId = reportData.reportId %}
   {% set id = reportData.id %}
-  {% set tableId = reportData.tableId %}
+  {% set loadType = reportData.loadType %}
+
+  {% if loadType === 'async' %}
+    {% set tableId = reportData.tableId %}
+    {% set feedbackFormHref = "/download/"+ reportId + "/" + id + "/" + tableId + "/feedback"  %}
+  {% else %}
+    {% set feedbackFormHref = "/download/"+ reportId + "/" + id + "/feedback"  %}
+  {% endif %}
+
   {% set html %}
     <h2 class="govuk-heading-m govuk-!-margin-bottom-2">You do not have permission to download this report</h2>
     <a href="/download/{{reportId}}/{{id}}/{{tableId}}/feedback" class="govuk-link govuk-link--no-visited-state govuk-!-margin-bottom-1">

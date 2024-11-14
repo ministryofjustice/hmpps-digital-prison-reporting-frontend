@@ -1,5 +1,5 @@
 {% extends layoutPath %}
-{% from "../components/async-filters/view.njk" import dprAsyncFilters %}
+{% from "../components/async-filters-form/view.njk" import dprAsyncFiltersForm %}
 
 {% set mainClasses = "app-container govuk-body" %}
 {% block content %}
@@ -9,7 +9,7 @@
     <p class="govuk-body">{{ filterDescription }}</p>
   {% endif %}
     
-  {{ dprAsyncFilters({ 
+  {{ dprAsyncFiltersForm({ 
     filters: filters, 
     sortBy: sortBy, 
     data: reportData, 

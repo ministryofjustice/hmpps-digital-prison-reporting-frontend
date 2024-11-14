@@ -3,6 +3,8 @@ import { json2csv, Json2CsvOptions } from 'json-2-csv'
 import { KeysList } from 'json-2-csv/lib/types'
 import { Services } from '../types/Services'
 import Dict = NodeJS.Dict
+import { LoadType } from '../types/UserReports'
+import SyncReportUtils from './renderSyncReport'
 import { components } from '../types/api'
 
 const convertToCsv = (reportData: Dict<string>[], options: Json2CsvOptions) => {
@@ -40,7 +42,19 @@ const applyColumnsAndSort = (data: Dict<string>[], columns: string[]) => {
 }
 
 export default {
-  async downloadReport({ req, services, res }: { req: Request; services: Services; res: Response }) {
+  async downloadReport({
+    req,
+    services,
+    res,
+    redirect,
+    loadType,
+  }: {
+    req: Request
+    services: Services
+    res: Response
+    redirect: string
+    loadType?: LoadType
+  }) {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
 
@@ -48,17 +62,33 @@ export default {
 
     const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
     if (!canDownload) {
-      res.redirect(`/async/report/${reportId}/${id}/request/${tableId}/report/download-disabled`)
+      res.redirect(redirect)
     } else {
-      let reportData = await services.reportingService.getAsyncReport(token, reportId, id, tableId, {
-        dataProductDefinitionsPath,
-      })
       const reportDefinition = await services.reportingService.getDefinition(
         token,
         reportId,
         id,
         dataProductDefinitionsPath,
       )
+
+      let reportData
+      if (loadType === LoadType.SYNC) {
+        const { reportData: listWithWarnings } = await SyncReportUtils.getSyncReportData(
+          services,
+          req,
+          token,
+          reportId,
+          id,
+          {
+            dpdPath: dataProductDefinitionsPath,
+          },
+        )
+        reportData = listWithWarnings.data
+      } else {
+        reportData = await services.reportingService.getAsyncReport(token, reportId, id, tableId, {
+          dataProductDefinitionsPath,
+        })
+      }
 
       if (columns) {
         reportData = applyColumnsAndSort(reportData, JSON.parse(columns))

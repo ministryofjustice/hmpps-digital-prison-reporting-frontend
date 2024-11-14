@@ -1,7 +1,7 @@
 {% macro dprBookmarkToggle(reportId, id, csrfToken, bookmarked, ctxId, type) %}
   {% set checked %}{{ 'checked' if bookmarked else '' }}{% endset %}
   {% set type %}{{ type if type else 'report' }}{% endset %}
-  {% set tooltip %}{{ 'Remove Bookmark' if bookmarked else 'Add Bookmark' }}{% endset %}
+  {% set tooltip %}{{ 'Remove bookmark' if bookmarked else 'Add bookmark' }}{% endset %}
 
   <div class='dpr-bookmark dpr-bookmark-inline dpr-bookmark-component' data-dpr-module="bookmark-toggle">
     <input class="bookmark-input" aria-label="bookmark toggle" type='checkbox' id='{{ reportId }}-{{ id }}-{{ ctxId }}' data-id='{{ id }}' data-report-id='{{ reportId }}' data-report-type='{{ type }}' data-csrf-token='{{ csrfToken }}' {{ checked }}/>

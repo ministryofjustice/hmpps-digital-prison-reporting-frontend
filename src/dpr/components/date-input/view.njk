@@ -30,7 +30,7 @@
 
   {% if label %}
     {% set labelText = {
-      text: label
+      text: label | capitaliseSentence
     } %}
   {% endif %}
 
@@ -57,7 +57,7 @@
       minDate: minDate | date,
       maxDate: maxDate | date,
       hint: {
-        text: "For example, 17/5/2024."
+        text: "For example 17/05/2024."
       },
       errorMessage: {
         text: ''

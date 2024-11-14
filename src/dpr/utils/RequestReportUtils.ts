@@ -6,7 +6,7 @@ import type ReportingService from '../services/reportingService'
 import { ReportType, RequestFormData, RequestStatus } from '../types/UserReports'
 import filtersHelper from '../components/async-filters/utils'
 import { components } from '../types/api'
-import { DashboardDefinition, DashboardMetricDefinition } from '../types/Dashboards'
+import { DashboardDefinition } from '../types/Dashboards'
 import { Services } from '../types/Services'
 import { SetQueryFromFiltersResult } from '../components/async-filters/types'
 import type DashboardService from '../services/dashboardService'
@@ -175,17 +175,12 @@ const renderDashboardRequestData = async ({
   )
 
   const { name, description, metrics } = dashboardDefinition
-  const metricDefinitions = await Promise.all(
-    metrics.map(async (metric: DashboardMetricDefinition) => {
-      return services.metricService.getDefinition(token, metric.id, reportId, <string>definitionPath)
-    }),
-  )
 
   return {
     reportName,
     name,
     description,
-    metrics: metricDefinitions,
+    metrics,
   }
 }
 
@@ -265,13 +260,11 @@ export default {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const { reportId, id, executionId, type } = req.body
 
-    let response
-    if (type === ReportType.REPORT) {
-      response = await services.reportingService.cancelAsyncRequest(token, reportId, id, executionId)
-    }
-    if (type === ReportType.DASHBOARD) {
-      response = await services.dashboardService.cancelAsyncRequest(token, reportId, id, executionId)
-    }
+    let service
+    if (type === ReportType.REPORT) service = services.reportingService
+    if (type === ReportType.DASHBOARD) service = services.dashboardService
+
+    const response = await service.cancelAsyncRequest(token, reportId, id, executionId)
 
     if (response && response.cancellationSucceeded) {
       await services.requestedReportService.updateStatus(executionId, userId, RequestStatus.ABORTED)

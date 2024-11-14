@@ -9,7 +9,6 @@ import dashboardDefinitions from '../../../test-app/mocks/mockClients/dashboards
 import type DashboardService from '../services/dashboardService'
 import type RequestedReportService from '../services/requestedReportService'
 import type RecentlyViewedStoreService from '../services/recentlyViewedService'
-import MetricService from '../services/metricsService'
 
 describe('RequestReportUtils', () => {
   let services: Services
@@ -17,7 +16,6 @@ describe('RequestReportUtils', () => {
   let dashboardService: DashboardService
   let requestedReportService: RequestedReportService
   let recentlyViewedService: RecentlyViewedStoreService
-  let metricService: MetricService
   let res: Response
   let req: Request
   let next: NextFunction
@@ -58,12 +56,6 @@ describe('RequestReportUtils', () => {
       },
     ] as unknown as components['schemas']['ReportDefinitionSummary'][]
 
-    metricService = {
-      getDefinition: jest.fn().mockResolvedValue({
-        name: 'Mock metric name',
-      }),
-    } as unknown as MetricService
-
     reportingService = {
       getDefinitions: jest.fn().mockResolvedValue(mockDefinitions),
       getDefinition: jest.fn().mockResolvedValue(mockDefinition),
@@ -93,7 +85,6 @@ describe('RequestReportUtils', () => {
       dashboardService,
       requestedReportService,
       recentlyViewedService,
-      metricService,
     } as unknown as Services
 
     next = ((error: Error) => {
@@ -161,7 +152,7 @@ describe('RequestReportUtils', () => {
           definitionPath: undefined,
           csrfToken: 'csrfToken',
           template: undefined,
-          metrics: [{ name: 'Mock metric name' }, { name: 'Mock metric name' }],
+          metrics: dashboardDefinitions[0].metrics,
           type: 'dashboard',
         },
       })
@@ -229,7 +220,7 @@ describe('RequestReportUtils', () => {
           definitionPath: 'dataProductDefinitionsPath',
           csrfToken: 'csrfToken',
           template: undefined,
-          metrics: [{ name: 'Mock metric name' }, { name: 'Mock metric name' }],
+          metrics: dashboardDefinitions[0].metrics,
           type: 'dashboard',
         },
       })

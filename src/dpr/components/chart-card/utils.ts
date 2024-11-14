@@ -1,161 +1,78 @@
-import {
-  ChartCardData,
-  ChartUnit,
-  MoJTableHead,
-  MoJTableRow,
-  ChartDataset,
-  ChartType,
-  ChartData,
-  ChartCardValue,
-  ChartsData,
-  ChartValue,
-  ChartGroup,
-} from '../../types/Charts'
-import { MetricsDataResponse, MetricsDefinition, MetricsDefinitionSpecification } from '../../types/Metrics'
+import { MoJTableHead, MoJTableRow, ChartData } from '../../types/Charts'
+import { DashboardDefinition, DashboardMetricDefinition } from '../../types/Dashboards'
+import { MetricsDataResponse } from '../../types/Metrics'
 
 export default {
   getChartData: ({
-    definition,
-    metric,
+    dashboardDefinition,
+    dashboardMetricsData,
   }: {
-    definition: MetricsDefinition
-    metric: MetricsDataResponse
-  }): ChartCardData => {
-    const { id, display: title, description, specification } = definition
-    const values = getValues(specification, metric)
-    const chartsValues = getChartsData(values)
-    const chartsData = chartsValues.map((value: ChartsData) => {
-      return createVisualisationData(value)
-    })
+    dashboardDefinition: DashboardDefinition
+    dashboardMetricsData: MetricsDataResponse[]
+  }) => {
+    return dashboardDefinition.metrics.flatMap((definition: DashboardMetricDefinition) => {
+      const { name: title, description, id: metricId } = definition
+      const chart: ChartData[] = createChartData(definition, dashboardMetricsData)
+      const table = createTable(definition, dashboardMetricsData)
 
-    return {
-      id,
-      title,
-      description,
-      data: {
-        chart: chartsData,
-        table: createTable(values),
-      },
-    }
+      return {
+        id: metricId,
+        title,
+        description,
+        data: {
+          chart,
+          table,
+        },
+      }
+    })
   },
 }
 
-const getChartsData = (values: ChartValue[]) => {
-  const availableChartTypes = [ChartType.BAR, ChartType.DONUT, ChartType.LINE]
+const createChartData = (definition: DashboardMetricDefinition, dashboardMetricsData: MetricsDataResponse[]) => {
+  return definition.charts.map((cd) => {
+    const labels = cd.columns.map((col) => col.display)
 
-  const chartsValues: ChartsData[] = []
-  availableChartTypes.forEach((chartType: ChartType) => {
-    const chartData = {
-      type: chartType,
-      datasets: [] as { data: ChartCardValue[]; group: ChartGroup }[],
-    }
+    const datasets = dashboardMetricsData.map((row) => {
+      const label = <string>row[cd.label.name as keyof MetricsDataResponse]
+      const data = cd.columns.map((c) => +row[c.name as keyof MetricsDataResponse])
+      const total = data.reduce((acc: number, val: number) => acc + val, 0)
 
-    values.forEach((value: ChartValue) => {
-      const chartValues = value.data.filter((valueData: ChartCardValue) => {
-        return valueData.chart?.includes(chartType)
-      })
-      if (chartValues.length) chartData.datasets.push({ data: chartValues, group: value.group })
-    })
-
-    if (chartData.datasets.length) chartsValues.push(chartData)
-  })
-
-  return chartsValues
-}
-
-const getValues = (specification: MetricsDefinitionSpecification[], metric: MetricsDataResponse): ChartValue[] => {
-  return metric.data.map((d) => {
-    const groupArray: ChartCardValue[] = []
-    let groupValue = ''
-    let groupName = ''
-
-    Object.entries(d).forEach((attr) => {
-      const specificationData = specification.find((spec: MetricsDefinitionSpecification) => {
-        return spec.name === attr[0]
-      })
-      if (specificationData.group) {
-        groupName = specificationData.display
-        groupValue = `${attr[1]}`
-      } else {
-        groupArray.push({
-          ...specificationData,
-          value: attr[1],
-        })
+      return {
+        label,
+        data,
+        total,
       }
     })
 
     return {
-      ...(groupName.length && { group: { name: groupName, value: groupValue } }),
-      data: groupArray,
+      type: cd.type,
+      unit: cd.unit,
+      data: {
+        labels,
+        datasets,
+      },
     }
   })
 }
 
-const createVisualisationData = (value: ChartsData): ChartData => {
-  const labels: string[] = value.datasets[0].data.map((d: ChartCardValue) => {
-    return d.display
+const createTable = (definition: DashboardMetricDefinition, dashboardMetricsData: MetricsDataResponse[]) => {
+  const allColumns = definition.charts.flatMap((chartDefinition) => {
+    return chartDefinition.columns.map((column) => column)
+  })
+  allColumns.unshift(definition.charts[0].label)
+
+  const head: MoJTableHead[] = allColumns.map((column) => {
+    return { text: column.display }
   })
 
-  let unit
-  const datasets: ChartDataset[] = value.datasets.map((d) => {
-    const data = d.data.map((v) => +v.value)
-    unit = d.data[0].unit
-    const label = d.group ? d.group.value : ''
-    return {
-      label,
-      data,
-      total: data.reduce((acc: number, val: number) => acc + val, 0),
-    }
-  })
-
-  const visData: ChartData = {
-    type: value.type,
-    unit,
-    data: {
-      labels,
-      datasets,
-    },
-  }
-
-  return visData
-}
-
-const createTable = (values: ChartValue[]) => {
-  const head: MoJTableHead[] = []
-  const rows: MoJTableRow[][] = []
-
-  // Head
-  if (values[0].group) {
-    head.push({ text: values[0].group.name })
-  }
-  values[0].data.forEach((v) => {
-    head.push({ text: v.display })
-  })
-
-  // Rows
-  values.forEach((v) => {
-    const row: MoJTableRow[] = []
-    if (v.group) {
-      row.push({ text: v.group.value })
-    }
-    v.data.forEach((d) => {
-      const suffix = setSuffix(d.unit)
-      row.push({ text: `${d.value}${suffix}` })
+  const rows: MoJTableRow[][] = dashboardMetricsData.map((row) => {
+    return allColumns.map((col) => {
+      return { text: <string>row[col.name as keyof MetricsDataResponse] }
     })
-    rows.push(row)
   })
 
   return {
     head,
     rows,
-  }
-}
-
-const setSuffix = (unit: ChartUnit) => {
-  switch (unit) {
-    case ChartUnit.PERCENTAGE:
-      return '%'
-    default:
-      return ''
   }
 }

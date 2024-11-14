@@ -42,7 +42,7 @@ describe('DashboardService', () => {
         tableId: 'executiotableIdId',
       })
 
-      const result = await dashboardService.requestAsyncDashboard('token', 'reportid', 'dashboard-1', {
+      const result = await dashboardService.requestAsyncDashboard('token', 'dashboard-1', 'reportid', {
         dataProductDefinitionsPath: 'dataProductDefinitionsPath',
       })
 
@@ -59,7 +59,7 @@ describe('DashboardService', () => {
         cancellationSucceeded: 'true',
       })
 
-      const result = await dashboardService.cancelAsyncRequest('token', 'reportid', 'dashboard-1', 'executionId')
+      const result = await dashboardService.cancelAsyncRequest('token', 'dashboard-1', 'reportid', 'executionId')
 
       expect(result).toEqual({
         cancellationSucceeded: 'true',
@@ -91,7 +91,7 @@ describe('DashboardService', () => {
     it('Retrieves a count', async () => {
       dashboardClient.getAsyncDashboard.mockResolvedValue([{ test: 'test ' }])
 
-      const result = await dashboardService.getAsyncDashboard(null, 'report-id', 'dashboard-id', 'table-id', {})
+      const result = await dashboardService.getAsyncDashboard(null, 'dashboard-id', 'report-id', 'table-id', {})
 
       expect(result).toEqual([{ test: 'test ' }])
     })

@@ -1,43 +1,16 @@
-import { ReportType, RequestedReport } from '../../types/UserReports'
+import { RequestedReport } from '../../types/UserReports'
 import { components } from '../../types/api'
-
-const BUTTON_TEMPLATES = {
-  refresh: {
-    id: 'dpr-button-refresh',
-    icon: 'refresh',
-    disabled: false,
-    tooltipText: 'refresh',
-    ariaLabelText: 'refresh report',
-  },
-  printable: {
-    id: 'dpr-button-printable',
-    icon: 'print',
-    disabled: false,
-    tooltipText: 'print',
-    ariaLabelText: 'print report',
-  },
-  sharable: {
-    id: 'dpr-button-sharable',
-    icon: 'share',
-    disabled: false,
-    tooltipText: 'share',
-    ariaLabelText: 'share report request via email',
-  },
-  copy: {
-    id: 'dpr-button-copy',
-    icon: 'copy',
-    disabled: false,
-    tooltipText: 'copy',
-    ariaLabelText: 'report request',
-  },
-  downloadable: {
-    id: 'dpr-button-downloadable',
-    icon: 'download',
-    disabled: false,
-    tooltipText: 'download',
-    ariaLabelText: 'download report',
-  },
-}
+import {
+  ActionTemplate,
+  CopyActionParams,
+  DownloadActionParams,
+  GetActionsParams,
+  PrintActionParams,
+  RefreshActionParams,
+  ReportAction,
+  ShareActionParams,
+} from './types'
+import { actionTemplates } from './actionsTemplate'
 
 const initReportActions = ({
   reportName,
@@ -59,138 +32,124 @@ const initReportActions = ({
   // Refresh
   if (executionId) {
     actions.push({
-      ...BUTTON_TEMPLATES.refresh,
+      ...actionTemplates.refresh,
       href: url,
     })
   }
 
   // Print
   actions.push({
-    ...BUTTON_TEMPLATES.printable,
+    ...actionTemplates.printable,
     disabled: !printable,
     href: '#',
     ariaLabelText: !printable
-      ? `${BUTTON_TEMPLATES.printable.ariaLabelText}, disabled`
-      : BUTTON_TEMPLATES.printable.ariaLabelText,
+      ? `${actionTemplates.printable.ariaLabelText}, disabled`
+      : actionTemplates.printable.ariaLabelText,
   })
 
   // Share
   actions.push({
-    ...BUTTON_TEMPLATES.sharable,
+    ...actionTemplates.sharable,
     href: `mailto:?subject=${reportName}-${name}&body=${encodeURIComponent(url)}`,
   })
 
   // Copy
   actions.push({
-    ...BUTTON_TEMPLATES.copy,
+    ...actionTemplates.copy,
     href: url,
   })
 
   // Downloadable
   actions.push({
-    ...BUTTON_TEMPLATES.downloadable,
+    ...actionTemplates.downloadable,
     disabled: !downloadable,
     ariaLabelText: !downloadable
-      ? `${BUTTON_TEMPLATES.downloadable.ariaLabelText}, disabled`
-      : BUTTON_TEMPLATES.downloadable.ariaLabelText,
+      ? `${actionTemplates.downloadable.ariaLabelText}, disabled`
+      : actionTemplates.downloadable.ariaLabelText,
   })
 
   return actions
 }
 
-const getActions = ({
-  refresh,
-  print,
-  share,
-  copy,
-  download,
-}: {
-  refresh?: {
-    url: string
-    executionId: string
-  }
-  print?: {
-    enabled: boolean
-  }
-  copy?: { url: string }
-  share?: {
-    reportName: string
-    name: string
-    url: string
-  }
-  download?: {
-    enabled: boolean
-    csrfToken: string
-    reportId: string
-    reportName: string
-    name: string
-    id: string
-    tableId: string
-    columns: string[]
-    type: ReportType
-    definitionPath: string
-  }
-}): ReportAction[] => {
+const getActions = ({ refresh, print, share, copy, download }: GetActionsParams): ReportAction[] => {
   const actions: ReportAction[] = []
 
-  // Refresh
   if (refresh && refresh.url && refresh.executionId) {
-    actions.push({
-      ...BUTTON_TEMPLATES.refresh,
-      href: refresh.url,
-    })
+    actions.push(setRefreshAction(actionTemplates.refresh, refresh))
   }
 
-  // Print
   if (print) {
-    actions.push({
-      ...BUTTON_TEMPLATES.printable,
-      disabled: !print.enabled,
-      href: '#',
-      ariaLabelText: !print.enabled
-        ? `${BUTTON_TEMPLATES.printable.ariaLabelText}, disabled`
-        : BUTTON_TEMPLATES.printable.ariaLabelText,
-    })
+    actions.push(setPrintAction(actionTemplates.printable, print))
   }
 
-  // Share
   if (share) {
-    actions.push({
-      ...BUTTON_TEMPLATES.sharable,
-      href: `mailto:?subject=${share.reportName}-${share.name}&body=${encodeURIComponent(share.url)}`,
-    })
+    actions.push(setShareAction(actionTemplates.sharable, share))
   }
 
-  // Copy
   if (copy) {
-    actions.push({
-      ...BUTTON_TEMPLATES.copy,
-      href: copy.url,
-    })
+    actions.push(setCopyAction(actionTemplates.copy, copy))
   }
 
   if (download) {
-    actions.push({
-      ...BUTTON_TEMPLATES.downloadable,
-      disabled: !download.enabled,
-      attributes: {
-        reportId: download.reportId,
-        csrfToken: download.csrfToken,
-        id: download.id,
-        tableId: download.tableId,
-        type: download.type,
-        reportName: download.reportName,
-        name: download.name,
-        columns: download.columns,
-        definitionPath: download.definitionPath,
-      },
-      ariaLabelText: !download.enabled
-        ? `${BUTTON_TEMPLATES.downloadable.ariaLabelText}, disabled`
-        : BUTTON_TEMPLATES.downloadable.ariaLabelText,
-    })
+    actions.push(setDownloadAction(actionTemplates.downloadable, download))
   }
 
   return actions
+}
+
+const setRefreshAction = (template: ActionTemplate, data: RefreshActionParams) => {
+  const { url: href } = data
+
+  return {
+    ...template,
+    href,
+  }
+}
+
+const setShareAction = (template: ActionTemplate, data: ShareActionParams) => {
+  const { reportName, name, url } = data
+  const href = `mailto:?subject=${reportName}-${name}&body=${encodeURIComponent(url)}`
+
+  return {
+    ...template,
+    href,
+  }
+}
+
+const setCopyAction = (template: ActionTemplate, data: CopyActionParams) => {
+  const { url: href } = data
+
+  return {
+    ...template,
+    href,
+  }
+}
+
+const setDownloadAction = (template: ActionTemplate, data: DownloadActionParams) => {
+  const { canDownload, enabled } = data
+  const { tooltipText, ariaLabelText } = template
+
+  return {
+    ...template,
+    tooltipText: canDownload ? tooltipText : 'Enable download',
+    disabled: !enabled,
+    attributes: {
+      ...data,
+    },
+    ariaLabelText: !enabled ? `${ariaLabelText}, disabled` : ariaLabelText,
+  }
+}
+
+const setPrintAction = (template: ActionTemplate, data: PrintActionParams) => {
+  const { enabled } = data
+  const { ariaLabelText } = template
+
+  return {
+    ...template,
+    disabled: !enabled,
+    href: '#',
+    ariaLabelText: !enabled ? `${ariaLabelText}, disabled` : ariaLabelText,
+  }
 }
 
 export default {
@@ -206,24 +165,4 @@ export default {
 
   initReportActions,
   getActions,
-}
-
-interface ReportAction {
-  id: string
-  icon: string
-  disabled: boolean
-  tooltipText: string
-  ariaLabelText: string
-  href?: string
-  attributes?: {
-    reportId?: string
-    id?: string
-    csrfToken?: string
-    tableId?: string
-    type?: ReportType
-    reportName?: string
-    name?: string
-    columns: string[]
-    definitionPath: string
-  }
 }

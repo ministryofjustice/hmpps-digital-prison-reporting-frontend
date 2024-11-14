@@ -20,18 +20,24 @@ const getTypeTagColor = (type: ReportType) => {
 export const createListItemProduct = (productName: string, reportName: string, type: ReportType, ts?: string) => {
   const tsClass = !ts ? 'dpr-display-none' : ''
   const tagColor = getTypeTagColor(type)
+  const reportType = toSentenceCase(type)
   return `<div>
   <p class="govuk-body-s govuk-!-margin-bottom-1">${productName}</p>
   <p class="govuk-body govuk-!-margin-bottom-2"><strong>${reportName}</strong></p>
-  <strong class="govuk-tag ${tagColor} dpr-request-status-tag dpr-request-status-tag--small govuk-!-margin-bottom-4'">${type}</strong>
+  <strong class="govuk-tag ${tagColor} dpr-request-status-tag dpr-request-status-tag--small govuk-!-margin-bottom-4'">${reportType}</strong>
   <p class="govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-2 ${tsClass}">${ts}</p>
 </div>`
 }
 
 export const createListItemProductMin = (reportName: string, type: ReportType) => {
   const tagColor = getTypeTagColor(type)
+  const reportType = toSentenceCase(type)
   return `<div>
   <p class="govuk-body-s govuk-!-margin-bottom-2"><strong>${reportName}</strong></p>
-  <strong class="govuk-tag ${tagColor} dpr-request-status-tag dpr-request-status-tag--small">${type}</strong>
+  <strong class="govuk-tag ${tagColor} dpr-request-status-tag dpr-request-status-tag--small">${reportType}</strong>
 </div>`
+}
+
+export const toSentenceCase = (text: string) => {
+  return text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
 }

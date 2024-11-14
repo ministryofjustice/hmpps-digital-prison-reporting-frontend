@@ -9,13 +9,10 @@
 
 {% block content %}
   {{ govukPanel({
-    titleText: "Your report is now available to download",
+    titleText: "Download is now enabled for this report",
     html: "Thank you for your feedback."
   }) }}
 
-  {{ govukButton({
-    text: "Return to report",
-    classes: "govuk-button--primary govuk-!-margin-bottom-0",
-    href: '/async-reports/' + report.reportId + '/' + report.variantId + '/request/' + report.tableId + '/report'
-  }) }}
+  {% set href = '/async-reports/' + report.reportId + '/' + report.variantId + '/request/' + report.tableId + '/report'%}
+  <a href="{{ href }}" class="govuk-link govuk-link--no-visited-state">Return to report to download</a>
 {% endblock %}

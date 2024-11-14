@@ -12,7 +12,7 @@
   {% if querySummary %}
     <ul>
       {% for query in querySummary %}
-        <li class="govuk-body govuk-!-margin-bottom-1">{{ query.name }}: {{ query.value }}</li>
+        <li class="govuk-body govuk-!-margin-bottom-1">{{ query.name | capitaliseSentence }}: {{ query.value }}</li>
       {% endfor %}
     </ul>
   {% endif %}

@@ -1,7 +1,7 @@
 import { ReportType, RequestedReport, RequestFormData, RequestStatus, UserReportData } from '../types/UserReports'
 import Dict = NodeJS.Dict
 import { getDpdPathSuffix } from './urlHelper'
-import { SetQueryFromFiltersResult } from '../components/async-filters/types'
+import { SetQueryFromFiltersResult } from '../components/async-filters-form/types'
 import { DashboardMetricDefinition } from '../types/Dashboards'
 
 export default class UserStoreItemBuilder {

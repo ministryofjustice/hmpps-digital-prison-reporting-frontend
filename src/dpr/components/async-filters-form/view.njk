@@ -1,10 +1,11 @@
-{% from "../async-filter-inputs/view.njk" import dprAsyncFilterInputs -%}
 {% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
+{% from "../filter-input/view.njk" import dprFilterInput %}
+{% from "../filters-actions/view.njk" import dprFiltersActions %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
-{% macro dprAsyncFilters(args) %}
+{% macro dprAsyncFiltersForm(args) %}
   {% set filters = args.filters %}
   {% set sortBy = args.sortBy %}
   {% set data = args.data %}
@@ -68,35 +69,42 @@
 
       {% if filters.length or sortBy.length > 0 %}
         <div class="dpr-filters-container">
+
+          {# MAIN FILTERS #}
           {% if filters.length %}
             <div class="dpr-async-request-filters__section">
               <h2 class="govuk-heading-m">Filter options</h2>
-              {{ dprAsyncFilterInputs(filters, 'filters.') }}
+              <div class="filter-container">
+                {%- for filter in filters %}
+                  {{ dprFilterInput(filter, 'filters.') }}
+                {%- endfor %}
+              </div>
             </div>
           {% endif %}
 
+          {# SORT OPTIONS #}
           {%  if sortBy.length > 0 %}
           <div class="dpr-async-request-filters__section">
             <h2 class="govuk-heading-m">Sort options</h2>
-            {{ dprAsyncFilterInputs(sortBy, '') }}
+            <div class="filter-container">
+              {%- for option in sortBy %}
+                {{ dprFilterInput(option, '') }}
+              {%- endfor %}
+            </div>
           </div>
           {% endif %}
+        
         </div>
       {% endif %}
 
-      <div class="govuk-button-group">
-        {{ govukButton({
-          text: "Request " + type,
-          classes: "govuk-button--primary",
-          attributes: {
-            'id': 'async-request-report-button'
-          }
-        }) }}
-
-        {% if filters.length > 0 %}
-        <a id="async-request-reset-filters-button" class="govuk-link govuk-link--no-visited-state" href="#">Reset filters</a>
-        {% endif %}
-      </div>
+      {{ dprFiltersActions({
+        submitText: "Request " + type,
+        submitId: 'async-request-report-button',
+        resetText: 'Reset filters',
+        resetId: 'async-request-reset-filters-button',
+        showReset: filters.length > 0
+      }) }}
+      
     </form>
   </div>
 {% endmacro %}

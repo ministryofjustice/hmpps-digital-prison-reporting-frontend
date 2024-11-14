@@ -1,0 +1,24 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% macro dprFiltersActions(args) %}
+    {% set submitText = args.submitText %}
+    {% set submitId = args.submitId %}
+    {% set resetText = args.resetText %}
+    {% set resetId = args.resetId %}
+    {% set showReset =  args.showReset %}
+
+    <div class="govuk-button-group">
+
+      {{ govukButton({
+        text: submitText,
+        classes: "govuk-button--primary",
+        attributes: {
+          id: submitId
+        }
+      }) }}
+
+      {% if showReset %}
+        <a id="{{ resetId }}" class="govuk-link govuk-link--no-visited-state dpr-reset-columns-button" href="#" >{{ resetText }}</a>
+      {% endif %}
+    </div>
+{% endmacro %}

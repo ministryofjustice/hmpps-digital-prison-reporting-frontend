@@ -5,7 +5,6 @@ export interface DashboardDefinition {
   name: string
   description: string
   metrics: DashboardMetricDefinition[]
-  dataset: DashboardDataSet
 }
 
 export interface DashboardMetricDefinition {
@@ -26,13 +25,4 @@ interface DashboardChartDefinition {
 interface ChartColumn {
   name: string
   display: string
-}
-interface DashboardDataSet {
-  id: string
-  dimension: DashboardDataSetDimension
-}
-
-interface DashboardDataSetDimension {
-  id: string
-  filter: string // TODO
 }

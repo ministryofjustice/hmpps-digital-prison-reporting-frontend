@@ -1,36 +1,5 @@
-
-{% from "../pagination/view.njk" import dprPagination %}
-{% from "../sync-report-list/view.njk" import dprSyncReportList %}
+{% from "../report-template/view.njk" import dprReportTemplate %}
 
 {% macro dprSyncReport(renderData) %}
-  
-  {% set printable = renderData.printable %}
-  {% set pagination = renderData.pagination %}
-  {% set template = renderData.template %}
-  {% set reportSummaries = renderData.reportSummaries %}
-
-  {% if count === 0 %}
-    {{ dprReportNoDataMessage() }}
-  {% else %}
-
-    <div class="report-template-container  {% if (printable == false) %}print-hide{% endif %}">
-      {% if template === 'list-tab' or template === 'crosstab' %}
-
-        {# Add template view here #}
-
-      {% elif template === 'list-section' or template === 'summary-section' %}
-
-        {# Add template view here #}
-
-      {% elif template === 'summary' %}
-
-      {% else %}
-
-        {{ dprSyncReportList(renderData) }}
-        {{ dprPagination(pagination) }}
-
-      {% endif %}
-    </div>
-
-  {% endif %}
+  {{ dprReportTemplate(renderData)}}
 {% endmacro %}

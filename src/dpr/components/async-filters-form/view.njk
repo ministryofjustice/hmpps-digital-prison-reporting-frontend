@@ -1,4 +1,4 @@
-{% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
+{% from "../request-details/view.njk" import dprRequestDetails %}
 {% from "../filter-input/view.njk" import dprFilterInput %}
 {% from "../filters-actions/view.njk" import dprFiltersActions %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
@@ -25,7 +25,7 @@
   {% set dashboardId = data.dashboardId %}
 
   {% set reportDetailsHtml %}
-  {{ dprAsyncRequestDetails(data)}}
+  {{ dprRequestDetails(data)}}
   {% endset %}
 
   {{ govukDetails({

@@ -1,16 +1,16 @@
 // import DprFormValidationClass from '../../DprFormValidationClass.mjs'
 import DprFiltersFormClass from '../../DprFiltersFormClass.mjs'
 
-export default class SyncFilters extends DprFiltersFormClass {
+export default class InteractiveFilters extends DprFiltersFormClass {
   static getModuleName() {
-    return 'sync-filters'
+    return 'interactive-filters'
   }
 
   initialise() {
     this.initFiltersForm({
-      formId: 'sync-filters-form',
-      submitButtonId: 'sync-apply-filters-button',
-      resetButtonId: 'sync-reset-filters-button',
+      formId: 'interactive-filters-form',
+      submitButtonId: 'interactive-apply-filters-button',
+      resetButtonId: 'interactive-reset-filters-button',
     })
 
     this.initSelectedFiltersButtons()

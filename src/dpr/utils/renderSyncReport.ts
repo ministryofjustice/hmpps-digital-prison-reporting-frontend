@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import { SyncReportFeatures, SyncReportOptions, SyncReportUtilsParams } from '../types/SyncReportUtils'
 import ReportQuery from '../types/ReportQuery'
-import SyncReportUtils from '../components/sync-report-list/utils'
+import SyncReportUtils from '../components/sync-report/utils'
 import { LoadType } from '../types/UserReports'
 import { Services } from '../types/Services'
 

@@ -6,6 +6,7 @@ import UserReportsListUtils from '../components/user-reports/utils'
 import ErrorSummaryUtils from '../components/error-summary/utils'
 import AysncRequestUtils from '../utils/RequestReportUtils'
 import DashboardUtils from '../components/dashboard/utils'
+import InteractiveUtils from '../components/interactive-filters/utils'
 
 import * as AsyncReportUtils from '../utils/renderAsyncReport'
 

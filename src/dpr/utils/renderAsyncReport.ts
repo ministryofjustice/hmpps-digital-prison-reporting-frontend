@@ -2,7 +2,7 @@ import { components } from '../types/api'
 import Dict = NodeJS.Dict
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 import { LoadType, ReportType, RequestedReport } from '../types/UserReports'
-import AsyncReportListUtils from '../components/async-report-list/utils'
+import AsyncReportListUtils from '../components/async-report/utils'
 import ReportActionsUtils from '../components/report-actions/utils'
 import { Template } from '../types/Templates'
 import ReportQuery from '../types/ReportQuery'

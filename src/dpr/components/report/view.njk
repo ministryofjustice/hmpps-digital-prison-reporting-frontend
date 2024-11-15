@@ -1,23 +1,24 @@
 {% from "../data-table/view.njk" import dprDataTable %}
 {% from "../async-applied-filters/view.njk" import dprAsyncAppliedFiltersList %}
 {% from "../column-section/view.njk" import dprColumnSection %}
-{% from "../filters-section/view.njk" import dprFiltersSection %}
 {% from "../summary-table/view.njk" import dprReportSummary %}
 {% from "../report-totals/view.njk" import dprReportTotals %}
-{% from "../sync-filters/view.njk" import dprSyncFilters %}
+{% from "../filters-section/view.njk" import dprFiltersSection %}
 
-{% macro dprSyncReportList(options) %}
+{% macro dprReport(options) %}
   {% set columns = options.columns %}
   {% set filters = options.filters %}
   {% set reportSummaries = options.reportSummaries %}
 
   <div class="dpr-sync-report-actions">
-    {{ dprFiltersSection(filters) }}
+    {% if filters %}
+      {{ dprFiltersSection(filters) }}
+    {% endif %}
+
     {{ dprColumnSection(columns) }}
   </div>
 
   {{ dprReportSummary(reportSummaries, 'page-header') }}
-  
   {{ dprReportTotals(options.totals) }}
 
   <div class='dpr-table-container'>

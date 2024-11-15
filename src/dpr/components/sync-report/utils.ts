@@ -12,7 +12,7 @@ import { LoadType, ReportType } from '../../types/UserReports'
 import { Columns } from '../columns/types'
 import ReportActionsUtils from '../report-actions/utils'
 import { SyncReportFeatures, SyncReportOptions } from '../../types/SyncReportUtils'
-import SyncFiltersUtils from '../sync-filters/utils'
+import SyncFiltersUtils from '../interactive-filters/utils'
 import { DownloadActionParams } from '../report-actions/types'
 
 const setActions = (

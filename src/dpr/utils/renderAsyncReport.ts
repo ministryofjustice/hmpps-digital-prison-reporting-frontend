@@ -111,7 +111,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         count,
         loadType: LoadType.ASYNC,
         type: ReportType.REPORT,
-        actions: setActions(csrfToken, variant, reportStateData, columns, canDownload),
+        actions: setActions(csrfToken, variant, reportStateData, columns, canDownload, count),
         printable,
         querySummary: query.summary,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
@@ -175,6 +175,7 @@ const setActions = (
   requestData: RequestedReport,
   columns: Columns,
   canDownload: boolean,
+  count: number,
 ) => {
   const { reportName, name, id, variantId, reportId, executionId, tableId, type, dataProductDefinitionsPath } =
     requestData
@@ -183,7 +184,7 @@ const setActions = (
   const ID = variantId || id
 
   const downloadConfig = {
-    enabled: true,
+    enabled: count > 0,
     name,
     reportName,
     csrfToken,

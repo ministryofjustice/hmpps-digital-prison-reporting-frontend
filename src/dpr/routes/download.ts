@@ -64,14 +64,15 @@ export default function routes({
 
   const feedbackSubmitHandler: RequestHandler = async (req, res, next) => {
     const { body } = req
-    const { reportId, variantId, tableId, loadType } = body
+    const { reportId, variantId, tableId, loadType, reportName, variantName } = body
     logger.info('Download Feedback Submission:', `${JSON.stringify(body)}`)
 
+    const queryParams = `?reportName=${reportName}&variantName=${variantName}`
     let redirect
     if (loadType === LoadType.ASYNC) {
-      redirect = `/download/${reportId}/${variantId}/${tableId}/feedback/submitted`
+      redirect = `/download/${reportId}/${variantId}/${tableId}/feedback/submitted${queryParams}`
     } else {
-      redirect = `/download/${reportId}/${variantId}/feedback/submitted`
+      redirect = `/download/${reportId}/${variantId}/feedback/submitted${queryParams}`
     }
 
     res.redirect(redirect)
@@ -80,6 +81,7 @@ export default function routes({
   const feedbackSuccessHandler: RequestHandler = async (req, res, next) => {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const { reportId, variantId, tableId } = req.params
+    const { reportName, variantName } = req.query
 
     await services.downloadPermissionService.saveDownloadPermissionData(userId, reportId, variantId)
 
@@ -90,6 +92,8 @@ export default function routes({
         reportId,
         variantId,
         tableId,
+        reportName,
+        variantName,
       },
     })
   }

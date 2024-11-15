@@ -14,10 +14,10 @@
   {% endif %}
 
   {% set html %}
-    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">You do not have permission to download this report</h2>
+    <h2 class="govuk-heading-m">You do not have permission to download this report</h2>
     <a href="/download/{{reportId}}/{{id}}/{{tableId}}/feedback" class="govuk-link govuk-link--no-visited-state govuk-!-margin-bottom-1">
-      Complete request form to enable download
-    </a>
+      Complete a request form to enable download
+    </a> (takes 1 minute)
   {% endset %}
 
   <div id="dpr-download-message" class="dpr-download-message--hidden govuk-!-margin-bottom-6" data-dpr-module='download-message'>

@@ -350,42 +350,6 @@ const mockReportListRenderData = {
     },
   ],
   colCount: 2,
-  //   name: 'columns',
-  //   options: [
-  //     {
-  //       text: 'Field 1',
-  //       value: 'field1',
-  //       disabled: false,
-  //     },
-  //     {
-  //       text: 'Field 2',
-  //       value: 'field2',
-  //       disabled: true,
-  //     },
-  //     {
-  //       text: 'Field 3',
-  //       value: 'field3',
-  //       disabled: false,
-  //     },
-  //     {
-  //       text: 'Field 4',
-  //       value: 'field4',
-  //       disabled: undefined,
-  //     },
-  //     {
-  //       text: 'Field 5',
-  //       value: 'field5',
-  //       disabled: false,
-  //     },
-  //     {
-  //       text: 'Field 6',
-  //       value: 'field6',
-  //       disabled: false,
-  //     },
-  //   ],
-  //   text: 'Select report columns',
-  //   value: ['field2', 'column'],
-  // },
   pagination: {
     prev: undefined,
     next: 'pathname?search=&selectedPage=2',

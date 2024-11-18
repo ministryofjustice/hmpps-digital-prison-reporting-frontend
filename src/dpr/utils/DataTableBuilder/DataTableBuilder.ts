@@ -290,7 +290,6 @@ export default class DataTableBuilder {
 
   withNoHeaderOptions(columns: string[]) {
     this.columns = columns
-    console.log(this.columns)
     return this
   }
 

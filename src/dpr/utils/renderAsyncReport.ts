@@ -117,7 +117,6 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         reportId,
         tableId,
-        variantId,
         id: variantId || id,
         executionId,
         querySummary: query.summary,

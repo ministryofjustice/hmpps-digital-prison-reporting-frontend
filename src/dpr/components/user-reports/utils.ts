@@ -2,7 +2,6 @@ import { Response, Request } from 'express'
 import RecentlyViewedStoreService from '../../services/recentlyViewedService'
 import RequestedReportService from '../../services/requestedReportService'
 import { RenderTableListResponse } from './types'
-import Dict = NodeJS.Dict
 import {
   FormattedUserReportData,
   UserReportData,

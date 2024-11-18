@@ -2,6 +2,7 @@
 {% from "../pagination/view.njk" import dprPagination %}
 {% from "../async-report-list/view.njk" import dprAsyncReportList %}
 {% from "../summary-table/view.njk" import dprReportSummary %}
+{% from "../report-no-data-message/view.njk" import dprReportNoDataMessage %}
 
 {% macro dprAsyncReport(renderData) %}
   
@@ -9,6 +10,7 @@
   {% set pagination = renderData.pagination %}
   {% set template = renderData.template %}
   {% set reportSummaries = renderData.reportSummaries %}
+  {% set count = renderData.count %}
 
   {% if count === 0 %}
     {{ dprReportNoDataMessage(renderData.requestUrl.fullUrl) }}

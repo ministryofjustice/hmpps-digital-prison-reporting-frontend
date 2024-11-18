@@ -2,6 +2,7 @@
 {% from "../report-heading/view.njk" import dprReportHeading %}
 {% from "../dashboard-sidebar/view.njk" import dprDashboardSidebar %}
 {%- from "moj/components/side-navigation/macro.njk" import mojSideNavigation -%}
+{% from "../filters-section/view.njk" import dprFiltersSection %}
 
 
 {% macro dprDashboard(data) %}
@@ -12,6 +13,10 @@
   <div class="dashboard-content">
     {{ dprReportHeading(data) }}
 
+    ...
+    {{ dprFiltersSection() }}
+    ...
+    
     {% for metric in data.metrics %}
       <hr class="metric-break">
       <div>

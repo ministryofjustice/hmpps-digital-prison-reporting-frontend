@@ -87,6 +87,8 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
       const { variant } = definition
       const { classification, printable, specification } = variant
       const { template } = specification
+      // TODO: fix this type once definition is known
+      const { interactive } = <components['schemas']['VariantDefinition'] & { interactive?: boolean }>variant
 
       // Data & Count
       const reportData = resolvedData[1] as Dict<string>[]
@@ -94,8 +96,20 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
 
       // Requested Report Data
       reportStateData = resolvedData[3] as RequestedReport
-      const { reportName, name, description, timestamp, reportId, tableId, variantId, id, executionId, query, url } =
-        reportStateData
+      const {
+        reportName,
+        name,
+        description,
+        timestamp,
+        reportId,
+        tableId,
+        variantId,
+        id,
+        executionId,
+        query,
+        url,
+        dataProductDefinitionsPath,
+      } = reportStateData
       const reportStataVars = {
         reportName,
         name,
@@ -112,13 +126,14 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
 
       const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, resolvedData[4])
       const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, reportStataVars.id)
+      const reportQuery = new ReportQuery(specification, req.query, <string>dataProductDefinitionsPath)
 
       // Columns & interactive filters
-      const columns = ColumnUtils.getColumns(specification, <string[]>req.query.colums)
+      const columns = ColumnUtils.getColumns(specification, <string[]>req.query.columns)
       const filters = await FiltersUtils.getFilters({
         fields: specification.fields,
         req,
-        interactive: false,
+        interactive: true,
       })
 
       renderData = {
@@ -145,16 +160,20 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
           break
 
         case 'summary-section':
-        case 'list-section':
+        case 'list-section': {
           renderData = {
             ...renderData,
             ...new SectionedDataTableBuilder(specification)
               .withSummaries(collatedSummaryBuilder.collateDataTableSummaries())
-              .withNoHeaderOptions(columns.value)
+              .withHeaderOptions({
+                columns: columns.value,
+                reportQuery,
+                interactive,
+              })
               .buildTable(reportData),
           }
           break
-
+        }
         case 'list-tab':
           // Add template-specific calls here
           break
@@ -170,6 +189,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
               query.summary,
               collatedSummaryBuilder.collateDataTableSummaries(),
               columns,
+              reportQuery,
             ),
           }
           break

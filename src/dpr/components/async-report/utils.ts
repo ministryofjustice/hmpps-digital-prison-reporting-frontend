@@ -8,6 +8,7 @@ import { AsyncSummary } from '../../types/UserReports'
 import DataTableBuilder from '../../utils/DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../../utils/DataTableBuilder/types'
 import { Columns } from '../columns/types'
+import ReportQuery from '../../types/ReportQuery'
 
 export default {
   getRenderData: (
@@ -18,13 +19,19 @@ export default {
     querySummary: Array<Dict<string>>,
     reportSummaries: Dict<Array<AsyncSummary>>,
     columns: Columns,
+    reportQuery: ReportQuery,
+    interactive = false,
   ) => {
     const url = parseUrl(req)
     const pagination = PaginationUtils.getPaginationData(url, count)
 
     const dataTable: DataTable = new DataTableBuilder(specification.fields)
       .withSummaries(reportSummaries)
-      .withNoHeaderOptions(columns.value)
+      .withHeaderOptions({
+        columns: columns.value,
+        reportQuery,
+        interactive,
+      })
       .buildTable(reportData)
 
     const totals = TotalsUtils.getTotals(

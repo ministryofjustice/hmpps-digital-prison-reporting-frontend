@@ -297,6 +297,7 @@ export default {
       let definition: components['schemas']['SingleVariantReportDefinition']
       let fields: components['schemas']['FieldDefinition'][]
       let metrics
+      let interactive
 
       const renderArgs = {
         token,
@@ -310,6 +311,9 @@ export default {
       if (type === ReportType.REPORT) {
         ;({ name, reportName, description, definition } = await renderReportRequestData(renderArgs))
         fields = definition?.variant?.specification?.fields
+        // TODO: fix type once interactive flag in place
+        interactive = (<components['schemas']['VariantDefinition'] & { interactive?: boolean }>definition?.variant)
+          ?.interactive
       }
 
       if (type === ReportType.DASHBOARD) {
@@ -318,6 +322,7 @@ export default {
 
       return {
         ...(fields && { fields }),
+        interactive,
         reportData: {
           reportName,
           name,

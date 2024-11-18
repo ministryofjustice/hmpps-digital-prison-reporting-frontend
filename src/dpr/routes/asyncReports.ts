@@ -55,11 +55,10 @@ export default function routes({
         next,
       })
 
+      const { fields, interactive } = requestRenderData
       let filtersRenderData = {}
       if (requestRenderData.fields) {
-        filtersRenderData = <RenderFiltersReturnValue>(
-          await AsyncFiltersUtils.renderFilters(requestRenderData.fields, true)
-        )
+        filtersRenderData = <RenderFiltersReturnValue>await AsyncFiltersUtils.renderFilters(fields, interactive)
       }
 
       res.render(`${templatePath}async-request`, {

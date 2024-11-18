@@ -25,6 +25,7 @@ export interface ExecutionData {
 
 export interface RequestDataResult {
   fields?: components['schemas']['FieldDefinition'][]
+  interactive?: boolean
   reportData: {
     reportName: string
     name: string

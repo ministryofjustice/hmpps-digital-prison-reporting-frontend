@@ -51,9 +51,11 @@ class MockDashboardClient {
       if (query.establishmentId) {
         data = data.filter((d) => {
           let found = false
-          query.establishmentId.forEach((id) => {
-            if (id === d.establishment_id) found = true
-          })
+          if (Array.isArray(query.establishmentId)) {
+            query.establishmentId.forEach((id) => {
+              if (id === d.establishment_id) found = true
+            })
+          } else if (query.establishmentId === d.establishment_id) found = true
           return found
         })
       }

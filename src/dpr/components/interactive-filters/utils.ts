@@ -88,13 +88,15 @@ export default {
   getFilters: async ({
     fields,
     req,
+    interactive = false,
     prefix = 'filters.',
   }: {
     fields: components['schemas']['FieldDefinition'][]
     req: Request
+    interactive?: boolean
     prefix?: string
   }) => {
-    const defaultFilterData = <RenderFiltersReturnValue>await AsyncFiltersUtils.renderFilters(fields)
+    const defaultFilterData = <RenderFiltersReturnValue>await AsyncFiltersUtils.renderFilters(fields, interactive)
     const filtersData = setFilterValuesFromRequest(defaultFilterData.filters, req)
     return {
       filters: filtersData,

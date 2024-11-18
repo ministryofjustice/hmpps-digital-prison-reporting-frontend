@@ -36,7 +36,6 @@ export default {
 
     return {
       ...dataTable,
-      columns,
       pagination,
       querySummary,
       totals,

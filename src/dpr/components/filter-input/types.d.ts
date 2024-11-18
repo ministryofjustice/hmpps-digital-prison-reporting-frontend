@@ -3,6 +3,8 @@ import { FilterType } from './enum'
 export interface FilterOption {
   value: string
   text: string
+  disabled?: boolean
+  selected?: boolean
 }
 
 export type FilterValue = GenericFilterValue | DateFilterValue
@@ -15,6 +17,7 @@ export interface GenericFilterValue {
   options?: Array<FilterOption>
   minimumLength?: number
   dynamicResourceEndpoint?: string
+  mandatory?: boolean
 }
 
 export interface DateFilterValue extends GenericFilterValue {

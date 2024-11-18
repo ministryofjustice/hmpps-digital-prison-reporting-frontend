@@ -2,7 +2,14 @@ import { Response, Request } from 'express'
 import RecentlyViewedStoreService from '../../services/recentlyViewedService'
 import RequestedReportService from '../../services/requestedReportService'
 import { RenderTableListResponse } from './types'
-import { FormattedUserReportData, UserReportData, RequestStatus, ReportType } from '../../types/UserReports'
+import Dict = NodeJS.Dict
+import {
+  FormattedUserReportData,
+  UserReportData,
+  RequestStatus,
+  ReportType,
+  RequestedReport,
+} from '../../types/UserReports'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { getExpiredStatus } from '../../utils/requestStatusHelper'
 import { itemActionsHtml, createListItemProduct } from '../../utils/reportListsHelper'
@@ -291,5 +298,18 @@ export default {
       viewedReports,
       bookmarks,
     }
+  },
+
+  updateLastViewed: async ({
+    services,
+    reportStateData,
+    userId,
+  }: {
+    services: Services
+    reportStateData: RequestedReport
+    userId: string
+  }) => {
+    await services.requestedReportService.updateLastViewed(reportStateData.executionId, userId)
+    await services.recentlyViewedService.setRecentlyViewed(reportStateData, userId)
   },
 }

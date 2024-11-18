@@ -13,9 +13,42 @@
   <div class="dashboard-content">
     {{ dprReportHeading(data) }}
 
-    ...
-    {{ dprFiltersSection() }}
-    ...
+    {% set mockFilters = [{
+      text:"Establishment ID",
+      name:"establishmentId",
+      type:"Select",
+      options:[
+        {
+          value:"no-filter",
+          text:"Select your option",
+          disabled:true, 
+          selected:true 
+        },
+        {
+          value:"MDI",
+          text:"MDI"
+        },
+        {
+          value:"SLI",
+          text:"SLI"
+        },
+        {
+          value:"LTI",
+          text:"LTI"
+        },
+        {
+          value:"DAI",
+          text:"DAI"
+        }],
+        value:null, 
+        minimumLength:null, 
+        dynamicResourceEndpoint:null, 
+        mandatory:true
+      }
+    ]%}
+
+    {{ dprFiltersSection({
+      filters: mockFilters}) }}
     
     {% for metric in data.metrics %}
       <hr class="metric-break">

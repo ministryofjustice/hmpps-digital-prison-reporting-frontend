@@ -20,16 +20,14 @@
       html: "Thank you for your feedback.",
       classes: "govuk-!-margin-bottom-6"
     }) }}
-    {% set href = '/async-reports/' + report.reportId + '/' + report.variantId + '/request/' + report.tableId + '/report'%}
-
     <h2 class="govuk-heading-m">What happens next</h2>
 
     <p class="govuk-body">You have been granted permission to download this report (<strong>{{ report.reportName }} - {{ report.variantName }}</strong>)</p>
 
     <p class="govuk-body">This permission is permanent and you will not need to complete this form again.</p>
 
-    <p class="govuk-body">The download button on the <a href="{{ href }}" class="govuk-link govuk-link--no-visited-state">report</a> is now enabled.</p>
+    <p class="govuk-body">The download button on the <a href="{{ reportHref }}" class="govuk-link govuk-link--no-visited-state">report</a> is now enabled.</p>
 
-    <a href="{{ href }}" class="govuk-link govuk-link--no-visited-state">Return to report to download</a>
+    <a href="{{ reportHref }}" class="govuk-link govuk-link--no-visited-state">Return to report to download</a>
   </div>
 {% endblock %}

@@ -1,5 +1,5 @@
 // import DprFormValidationClass from '../../DprFormValidationClass.mjs'
-import DprFiltersFormClass from '../../DprFiltersFormClass.mjs'
+import DprFiltersFormClass from '../../../DprFiltersFormClass.mjs'
 
 export default class InteractiveFilters extends DprFiltersFormClass {
   static getModuleName() {

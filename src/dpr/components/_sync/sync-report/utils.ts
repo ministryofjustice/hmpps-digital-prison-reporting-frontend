@@ -12,7 +12,7 @@ import { LoadType, ReportType } from '../../../types/UserReports'
 import { Columns } from '../../_reports/report-columns-form/types'
 import ReportActionsUtils from '../../_reports/report-actions/utils'
 import { SyncReportFeatures, SyncReportOptions, SyncReportUtilsParams } from '../../../types/SyncReportUtils'
-import SyncFiltersUtils from '../../_filters/filters-interactive/utils'
+import ReportFiltersUtils from '../../_reports/report-filters/utils'
 import { DownloadActionParams } from '../../_reports/report-actions/types'
 import { Services } from '../../../types/Services'
 
@@ -188,7 +188,7 @@ const getRenderData = async ({
     dataTable.rowCount,
   )
 
-  const filters = await SyncFiltersUtils.getFilters({
+  const filters = await ReportFiltersUtils.getFilters({
     fields: specification.fields,
     req,
   })

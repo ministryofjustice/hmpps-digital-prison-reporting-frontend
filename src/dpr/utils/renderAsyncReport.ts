@@ -4,7 +4,7 @@ import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 import { LoadType, ReportType, RequestedReport } from '../types/UserReports'
 import AsyncReportListUtils from '../components/_async/async-report/utils'
 import ReportActionsUtils from '../components/_reports/report-actions/utils'
-import FiltersUtils from '../components/_filters/filters-interactive/utils'
+import ReportFiltersUtils from '../components/_reports/report-filters/utils'
 import { Template } from '../types/Templates'
 import ReportQuery from '../types/ReportQuery'
 import CollatedSummaryBuilder from './CollatedSummaryBuilder/CollatedSummaryBuilder'
@@ -129,7 +129,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
 
       // Columns & interactive filters
       const columns = ColumnUtils.getColumns(specification, <string[]>req.query.columns)
-      const filters = await FiltersUtils.getFilters({
+      const filters = await ReportFiltersUtils.getFilters({
         fields: specification.fields,
         req,
         interactive: true,

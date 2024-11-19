@@ -92,7 +92,7 @@ describe('dashboardClient', () => {
 
   describe('cancelAsyncRequest', () => {
     it('should request an async dashboard', async () => {
-      fakeDashboardApi.delete(`/reports/dpd-id/dashboards/test-dashboard-id/statements/exId`).reply(200, {
+      fakeDashboardApi.delete(`/statements/exId`).reply(200, {
         cancellationSucceeded: 'true',
       })
 

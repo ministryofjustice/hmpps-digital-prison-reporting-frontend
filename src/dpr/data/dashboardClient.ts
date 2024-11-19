@@ -90,7 +90,7 @@ export default class DashboardClient {
 
     return this.restClient
       .delete({
-        path: `/reports/${reportId}/dashboards/${dashboardId}/statements/${executionId}`,
+        path: `/statements/${executionId}`,
         token,
       })
       .then((response) => <Dict<string>>response)

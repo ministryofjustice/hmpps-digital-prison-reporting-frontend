@@ -62,6 +62,7 @@ describe('DownloadUtils', () => {
 
       reportingService = {
         getAsyncReport: jest.fn().mockResolvedValue(createMockData(10)),
+        getAsyncCount: jest.fn().mockResolvedValue(10),
         getDefinition: jest.fn().mockResolvedValue({
           variant: {
             specification: {

@@ -85,8 +85,10 @@ export default {
         )
         reportData = listWithWarnings.data
       } else {
+        const pageSize = await services.reportingService.getAsyncCount(token, tableId)
         reportData = await services.reportingService.getAsyncReport(token, reportId, id, tableId, {
           dataProductDefinitionsPath,
+          pageSize,
         })
       }
 

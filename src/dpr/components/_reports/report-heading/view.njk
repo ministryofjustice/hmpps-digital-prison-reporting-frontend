@@ -1,0 +1,65 @@
+{% from "../report-actions/view.njk" import dprReportActions %}
+{% from "../report-download-message/view.njk" import dprDownloadMessage %}
+
+{% from "../../bookmark-toggle/view.njk" import dprBookmarkToggle %}
+{% from "../../_async/request-details/view.njk" import dprRequestDetails %}
+
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% macro dprReportHeading(reportData) %}
+  {% set name = reportData.name %}
+  {% set reportName = reportData.reportName %}
+  {% set reportId = reportData.reportId %}
+  {% set id = reportData.id %}
+  {% set csrfToken = reportData.csrfToken %}
+  {% set bookmarked = reportData.bookmarked %}
+  {% set actions = reportData.actions %}
+  {% set type = reportData.type %}
+
+  <div class="dpr-report-header">
+
+    <div class="dpr-report-heading">
+      
+      <div class="dpr-report-heading__title">
+        <span class="govuk-caption-l">{{ reportName }}</span>
+        <h1 class="govuk-heading-l">
+          {{ name }}
+        </h1>
+      </div>
+      
+      <div class="dpr-report-heading__actions">
+        {{ dprReportActions(actions) }}
+        {% if not reportData.removeBookmark %}
+          {{ dprBookmarkToggle(reportId, id, csrfToken, bookmarked, 'report', type) }}
+        {% endif %}
+      </div>
+    </div>
+    
+    {{ dprDownloadMessage(reportData) }}
+
+    {% if type === 'report' %}
+
+      {% set reportDetailsHtml %}
+        {{ dprRequestDetails(reportData)}}
+      {% endset %}
+
+      {{ govukDetails({
+        summaryText: 'Report details',
+        html: reportDetailsHtml,
+        classes: 'dpr-meta-data-details'
+      }) }}
+
+    {% endif %}
+
+    {% if type === 'dashboard' %}
+    
+      <p class="govuk-body" >{{ reportData.description }}</p>
+
+    {% endif %}
+
+
+    <div class="dpr-report-details-print">
+      {{ dprRequestDetails(reportData)}}
+    </div>
+  </div>
+{% endmacro %}

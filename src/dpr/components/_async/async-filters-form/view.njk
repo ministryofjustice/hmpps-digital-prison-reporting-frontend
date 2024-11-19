@@ -1,0 +1,111 @@
+{% from "../request-details/view.njk" import dprRequestDetails %}
+{% from "../../_filters/filter-input/view.njk" import dprFilterInput %}
+{% from "../../_filters/filters-actions/view.njk" import dprFiltersActions %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% macro dprAsyncFiltersForm(args) %}
+  {% set filters = args.filters %}
+  {% set sortBy = args.sortBy %}
+  {% set data = args.data %}
+  {% set endpoint = args.endpoint %}
+  {% set type = args.type %}
+  {% set interactive = args.interactive %}
+
+  {% set reportId = data.reportId %}
+  {% set id = data.id %}
+  {% set name = data.name %}
+  {% set description = data.description %}
+  {% set reportName = data.reportName %}
+  {% set definitionPath = data.definitionPath %}
+  {% set csrfToken = data.csrfToken %}
+  {% set template = data.template %}
+  {% set type = data.type %}
+  {% set metrics = data.metrics %}
+  {% set dashboardId = data.dashboardId %}
+  {% set interactive = data.interactive %}
+
+  {% set reportDetailsHtml %}
+  {{ dprRequestDetails(data)}}
+  {% endset %}
+
+  {{ govukDetails({
+    summaryText: 'Details for "' + reportName + ': ' + name + '"',
+    html: reportDetailsHtml,
+    classes: 'dpr-meta-data-details',
+    open: (filters.length == null or filters.length == 0)
+  }) }}
+  
+  <div class="dpr-async-request-filters dpr-filters govuk-!-margin-top-4" data-dpr-module="async-filters">
+    <form action="{{ endpoint }}" method="post" id="async-filters-form" class="async-filters-form--hidden">
+
+      <div id="query-error-summary" class="query-error-summary query-error-summary--hidden">
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: []
+        }) }}
+      </div>
+
+      <input type="hidden" name="dataProductDefinitionsPath" value="{{ definitionPath }}">
+      <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+      <input type="hidden" name="reportId" value="{{ reportId }}">
+      <input type="hidden" name="name" value="{{ name }}">
+      <input type="hidden" name="reportName" value="{{ reportName }}">
+      <input type="hidden" name="description" value="{{ description }}">
+      <input type="hidden" name="type" value="{{ type }}">
+      <input type="hidden" name="pathname" id="async-filters-form-pathname" value="">
+      <input type="hidden" name="origin" id="async-filters-form-origin" value="">
+      <input type="hidden" name="href" id="async-filters-form-href" value="">
+      <input type="hidden" name="search" id="async-filters-form-search" value="">
+      <input type="hidden" name="id" value="{{ id }}">
+      
+      {% if template %}
+        <input type="hidden" name="template" value="{{ template }}">
+      {% endif %}
+      
+      {% if metrics %}
+        <input type="hidden" name="metrics" value="{{ metrics | json }}">
+      {% endif %}
+
+      {% if filters.length or sortBy.length > 0 %}
+        <div class="dpr-filters-container">
+
+          {# MAIN FILTERS #}
+          {% if filters.length %}
+            <div class="dpr-async-request-filters__section">
+              <h2 class="govuk-heading-m">Filter options</h2>
+              <div class="filter-container">
+                {%- for filter in filters %}
+                  {{ dprFilterInput(filter, 'filters.') }}
+                {%- endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+          {# SORT OPTIONS #}
+          {%  if sortBy.length > 0 and not interactive %}
+          <div class="dpr-async-request-filters__section">
+            <h2 class="govuk-heading-m">Sort options</h2>
+            <div class="filter-container">
+              {%- for option in sortBy %}
+                {{ dprFilterInput(option, '') }}
+              {%- endfor %}
+            </div>
+          </div>
+          {% endif %}
+        
+        </div>
+      {% endif %}
+
+      {{ dprFiltersActions({
+        submitText: "Request " + type,
+        submitId: 'async-request-report-button',
+        resetText: 'Reset filters',
+        resetId: 'async-request-reset-filters-button',
+        showReset: filters.length > 0
+      }) }}
+      
+    </form>
+  </div>
+{% endmacro %}

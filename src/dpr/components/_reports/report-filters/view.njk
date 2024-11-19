@@ -1,0 +1,45 @@
+{% from "../../accordion/view.njk" import dprAccordion %}
+{% from "../../interactive-filters/view.njk" import dprInteractiveFilters %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% macro dprReportFilters(filterOptions) %}
+  {% set filters = filterOptions.filters %}
+  {% set selectedFilters = filterOptions.selectedFilters %}
+  {% set interactive = filterOptions.interactive %}
+
+  {% set accordionItems = [] %}
+
+  {% if filters.length > 0 %}
+    {% set filterHtml %}
+      <div class="data-table-filters">
+        {{ dprInteractiveFilters(filters, 'filters.') }}
+      </div>
+    {% endset %}
+
+    {% set filtersHeaderHtml %}
+      {%- for selectedFilter in selectedFilters %}
+        <div class="selected-accordion-button">
+          {{ govukButton({
+            text: selectedFilter.text,
+            classes: selectedFilter.classes,
+            href: '#',
+            attributes: {
+              "data-query-param-key": selectedFilter.key,
+              "data-query-param-value": selectedFilter.value
+            }
+          }) }}
+        </div>
+      {%- endfor %}
+    {% endset %}
+    
+    {% set filtersAccordionItem = {
+      summaryText: 'Filters',
+      bodyHtml: filterHtml,
+      headerHtml: filtersHeaderHtml
+    } %}
+    {% set accordionItems = (accordionItems.push(filtersAccordionItem), accordionItems) %}
+    
+  {% endif %}
+
+  {{ dprAccordion(accordionItems) }}
+{% endmacro %}

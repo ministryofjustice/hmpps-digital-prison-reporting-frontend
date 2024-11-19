@@ -1,8 +1,8 @@
 import { Request } from 'express'
 import { DateFilterValue, DateRange, FilterValue } from '../filters/types'
-import { FilterType } from '../filter-input/enum'
-import AsyncFiltersUtils from '../async-filters-form/utils'
-import { RenderFiltersReturnValue } from '../async-filters-form/types'
+import { FilterType } from '../_filters/filter-input/enum'
+import AsyncFiltersUtils from '../_async/async-filters-form/utils'
+import { RenderFiltersReturnValue } from '../_async/async-filters-form/types'
 import { components } from '../../types/api'
 
 const getSelectedFilters = (filters: FilterValue[], req: Request, prefix: string) => {

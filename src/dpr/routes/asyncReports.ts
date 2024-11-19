@@ -1,17 +1,17 @@
 import type { RequestHandler, Router, Request } from 'express'
-import AsyncFiltersUtils from '../components/async-filters-form/utils'
-import AsyncPollingUtils from '../components/async-polling/utils'
-import AsyncRequestListUtils from '../components/user-reports-request-list/utils'
+import AsyncFiltersUtils from '../components/_async/async-filters-form/utils'
+import AsyncPollingUtils from '../components/_async/async-polling/utils'
+import AsyncRequestListUtils from '../components/user-reports/requested/utils'
 import UserReportsListUtils from '../components/user-reports/utils'
 import ErrorSummaryUtils from '../components/error-summary/utils'
 import AysncRequestUtils from '../utils/RequestReportUtils'
-import DashboardUtils from '../components/dashboard/utils'
+import DashboardUtils from '../components/_dashboards/dashboard/utils'
 
 import * as AsyncReportUtils from '../utils/renderAsyncReport'
 
 import { Services } from '../types/Services'
 import logger from '../utils/logger'
-import { RenderFiltersReturnValue } from '../components/async-filters-form/types'
+import { RenderFiltersReturnValue } from '../components/_async/async-filters-form/types'
 import { RequestDataResult } from '../types/AsyncReportUtils'
 import { ReportType } from '../types/UserReports'
 

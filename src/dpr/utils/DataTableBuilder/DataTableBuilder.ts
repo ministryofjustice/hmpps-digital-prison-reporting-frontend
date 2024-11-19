@@ -265,6 +265,21 @@ export default class DataTableBuilder {
       .toLowerCase()
   }
 
+  withHeaderOptions({
+    reportQuery,
+    columns,
+    interactive,
+  }: {
+    reportQuery?: ReportQuery
+    columns: string[]
+    interactive: boolean
+  }) {
+    if (interactive) {
+      return this.withHeaderSortOptions(reportQuery)
+    }
+    return this.withNoHeaderOptions(columns)
+  }
+
   withHeaderSortOptions(reportQuery: ReportQuery) {
     this.reportQuery = reportQuery
     this.columns = reportQuery.columns
@@ -275,7 +290,6 @@ export default class DataTableBuilder {
 
   withNoHeaderOptions(columns: string[]) {
     this.columns = columns
-
     return this
   }
 

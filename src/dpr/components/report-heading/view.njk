@@ -1,6 +1,6 @@
 {% from "../bookmark-toggle/view.njk" import dprBookmarkToggle %}
 {% from "../report-actions/view.njk" import dprReportActions %}
-{% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
+{% from "../request-details/view.njk" import dprRequestDetails %}
 {% from "../download-message/view.njk" import dprDownloadMessage %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
@@ -38,8 +38,9 @@
     {% if type === 'report' %}
 
       {% set reportDetailsHtml %}
-        {{ dprAsyncRequestDetails(reportData)}}
+        {{ dprRequestDetails(reportData)}}
       {% endset %}
+
       {{ govukDetails({
         summaryText: 'Report details',
         html: reportDetailsHtml,
@@ -56,7 +57,7 @@
 
 
     <div class="dpr-report-details-print">
-      {{ dprAsyncRequestDetails(reportData)}}
+      {{ dprRequestDetails(reportData)}}
     </div>
   </div>
 {% endmacro %}

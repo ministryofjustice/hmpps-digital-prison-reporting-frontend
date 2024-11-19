@@ -2,7 +2,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "../request-status-tag/view.njk" import dprRequestStatusTag %}
-{% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
+{% from "../request-details/view.njk" import dprRequestDetails %}
 {% from "../error-summary/view.njk" import dprErrorSummary %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
@@ -54,7 +54,7 @@
 
       <p class="{{ descriptionClasses }}">We are generating your {{ type }}.</p>
 
-      {{ dprAsyncRequestDetails(data)}}
+      {{ dprRequestDetails(data)}}
 
       {{ govukInsetText({
         html: "<p>It can take up to 10 minutes to generate a " + type + ".</p> <p>You can close and revisit this page at anytime. Navigate to the homepage to check on its status or your  " + type + ".</p>"
@@ -79,7 +79,7 @@
 
       {{ dprErrorSummary(errorMessage, meta) }}
 
-      {{ dprAsyncRequestDetails(data)}}
+      {{ dprRequestDetails(data)}}
 
       {{ govukButton({
         id: "retry-async-request",
@@ -94,7 +94,7 @@
 
       <p class="{{ descriptionClasses }}">Your request has been cancelled</p>
 
-      {{ dprAsyncRequestDetails(data)}}
+      {{ dprRequestDetails(data)}}
 
       {{ govukButton({
         id: "retry-async-request",
@@ -109,7 +109,7 @@
 
       <p class="{{ descriptionClasses }}">Your {{ type }} has been generated</p>
 
-      {{ dprAsyncRequestDetails(data)}}
+      {{ dprRequestDetails(data)}}
 
       {{ govukButton({
         text: "View " + type,

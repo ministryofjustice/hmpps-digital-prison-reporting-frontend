@@ -1,4 +1,4 @@
-{% from "../async-request-details/view.njk" import dprAsyncRequestDetails %}
+{% from "../request-details/view.njk" import dprRequestDetails %}
 {% from "../filter-input/view.njk" import dprFilterInput %}
 {% from "../filters-actions/view.njk" import dprFiltersActions %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
@@ -11,6 +11,7 @@
   {% set data = args.data %}
   {% set endpoint = args.endpoint %}
   {% set type = args.type %}
+  {% set interactive = args.interactive %}
 
   {% set reportId = data.reportId %}
   {% set id = data.id %}
@@ -23,9 +24,10 @@
   {% set type = data.type %}
   {% set metrics = data.metrics %}
   {% set dashboardId = data.dashboardId %}
+  {% set interactive = data.interactive %}
 
   {% set reportDetailsHtml %}
-  {{ dprAsyncRequestDetails(data)}}
+  {{ dprRequestDetails(data)}}
   {% endset %}
 
   {{ govukDetails({
@@ -66,7 +68,6 @@
         <input type="hidden" name="metrics" value="{{ metrics | json }}">
       {% endif %}
 
-
       {% if filters.length or sortBy.length > 0 %}
         <div class="dpr-filters-container">
 
@@ -83,7 +84,7 @@
           {% endif %}
 
           {# SORT OPTIONS #}
-          {%  if sortBy.length > 0 %}
+          {%  if sortBy.length > 0 and not interactive %}
           <div class="dpr-async-request-filters__section">
             <h2 class="govuk-heading-m">Sort options</h2>
             <div class="filter-container">

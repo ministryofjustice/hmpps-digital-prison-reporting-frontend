@@ -5,9 +5,12 @@ import DefinitionUtils from '../../utils/definitionUtils'
 import { DashboardDefinition } from '../../types/Dashboards'
 import { MetricsDataResponse } from '../../types/Metrics'
 import { ReportType, RequestedReport } from '../../types/UserReports'
+import UserReportsUtils from '../user-reports/utils'
+import establishmentFilter from './mockDashboardFilters'
 
 import ReportActionsUtils from '../report-actions/utils'
 import { components } from '../../types/api'
+import { FilterOption } from '../filter-input/types'
 
 const setDashboardActions = (
   dashboardDefinition: DashboardDefinition,
@@ -42,7 +45,7 @@ export default {
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
 
     const { reportId, id, tableId } = req.params
-    const { dataProductDefinitionsPath, establishmentId } = req.query
+    const { dataProductDefinitionsPath } = req.query
     const params = [token, id, reportId]
 
     // Dashboard Definition,
@@ -51,11 +54,14 @@ export default {
       dataProductDefinitionsPath,
     )
 
+    // TODO: Interactive Filters: set query properly
+    const mockQuery = { dataProductDefinitionsPath, establishmentId: req.query['filters.establishmentId'] }
+
     // The metrics Data
     const dashboardMetricsData: MetricsDataResponse[] = await services.dashboardService.getAsyncDashboard(
       ...params,
       tableId,
-      { dataProductDefinitionsPath, establishmentId },
+      mockQuery,
     )
 
     // Create the visualisation data
@@ -67,6 +73,9 @@ export default {
       userId,
     )
 
+    // TODO: get filters from definition once the structure is known
+    const filters: FilterOption[] = establishmentFilter as FilterOption[]
+
     // Report summary data
     const reportDefinition = await DefinitionUtils.getReportSummary(
       reportId,
@@ -77,8 +86,7 @@ export default {
 
     // Add to recently viewed
     if (metrics && metrics.length && dashboardRequestData) {
-      await services.requestedReportService.updateLastViewed(dashboardRequestData.executionId, userId)
-      await services.recentlyViewedService.setRecentlyViewed(dashboardRequestData, userId)
+      UserReportsUtils.updateLastViewed({ services, reportStateData: dashboardRequestData, userId })
     }
 
     return {
@@ -90,6 +98,7 @@ export default {
         bookmarked: await services.bookmarkService.isBookmarked(id, userId),
         csrfToken,
         metrics,
+        filters,
         type: ReportType.DASHBOARD,
         actions: setDashboardActions(dashboardDefinition, reportDefinition, dashboardRequestData),
       },

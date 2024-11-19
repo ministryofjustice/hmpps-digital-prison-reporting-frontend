@@ -2,9 +2,14 @@
 {% from "../filters-actions/view.njk" import dprFiltersActions %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
-{% macro dprInlineFiltersForm(filters, prefix = 'filters.') %}
-    <form id="sync-filters-form">
+{% macro dprFiltersForm(args) %}
+    {% set filters = args.filters %}
+    {% set formId = args.formId %}
+    {% set submitId = args.submitId %}
+    {% set resetId = args.resetId %}
+    {% set prefix = args.prefix %}
 
+    <form id="{{ formId }}">
       <div id="query-error-summary" class="query-error-summary query-error-summary--hidden">
         {{ govukErrorSummary({
           titleText: "There is a problem",
@@ -14,16 +19,16 @@
 
       <div class="filter-container">
         {%- for filter in filters %}
-          {{ dprFilterInput(filter, 'filters.') }}
+          {{ dprFilterInput(filter, prefix) }}
         {%- endfor %}
       </div>
 
       <div class="filter-actions">
         {{ dprFiltersActions({
           submitText: "Apply Filters",
-          submitId: 'sync-apply-filters-button',
+          submitId: submitId,
           resetText: 'Reset filters',
-          resetId: 'sync-reset-filters-button',
+          resetId: resetId,
           showReset: true
         }) }}
       </div>

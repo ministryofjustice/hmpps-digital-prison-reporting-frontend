@@ -1,7 +1,7 @@
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default class QueryPage {
-  columnsDetails = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div[1]/details/summary`)
+  columnsDetails = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div/div/details/summary`)
 
   column4CheckBox = (): PageElement => cy.xpath(`//*[@id="columns-4"]`)
 
@@ -10,10 +10,10 @@ export default class QueryPage {
   column7CheckBox = (): PageElement => cy.xpath(`//*[@id="columns-7"]`)
 
   applyColumnsButton = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div/details/div/form/div[2]/button`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div/div/details/div/form/div[2]/button`)
 
   resetColumns = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div/details/div/form/div[2]/a`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div/div/details/div/form/div[2]/a`)
 
   pageSizeSelector = (): PageElement => cy.xpath(`//*[@id="page-size-select"]`)
 

@@ -1,42 +1,5 @@
-
-{% from "../pagination/view.njk" import dprPagination %}
-{% from "../async-report-list/view.njk" import dprAsyncReportList %}
-{% from "../summary-table/view.njk" import dprReportSummary %}
-{% from "../report-no-data-message/view.njk" import dprReportNoDataMessage %}
+{% from "../report-template/view.njk" import dprReportTemplate %}
 
 {% macro dprAsyncReport(renderData) %}
-  
-  {% set printable = renderData.printable %}
-  {% set pagination = renderData.pagination %}
-  {% set template = renderData.template %}
-  {% set reportSummaries = renderData.reportSummaries %}
-  {% set count = renderData.count %}
-
-  {% if count === 0 %}
-    {{ dprReportNoDataMessage(renderData.requestUrl.fullUrl) }}
-  {% else %}
-
-    <div class="report-template-container  {% if (printable == false) %}print-hide{% endif %}">
-      {% if template === 'list-tab' or template === 'crosstab' %}
-
-        {# Add template view here #}
-
-      {% elif template === 'list-section' or template === 'summary-section' %}
-
-        {{ dprAsyncReportList(renderData) }}
-
-      {% elif template === 'summary' %}
-
-        {{ dprReportSummary(reportSummaries, 'page-header') }}
-        {{ dprReportSummary(reportSummaries, 'page-footer') }}
-
-      {% else %}
-
-        {{ dprAsyncReportList(renderData) }}
-        {{ dprPagination(pagination) }}
-
-      {% endif %}
-    </div>
-
-  {% endif %}
+  {{ dprReportTemplate(renderData, renderData.requestUrl.fullUrl)}}
 {% endmacro %}

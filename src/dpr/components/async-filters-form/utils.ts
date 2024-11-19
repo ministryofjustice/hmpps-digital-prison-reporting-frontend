@@ -17,9 +17,9 @@ import DateMapper from '../../utils/DateMapper/DateMapper'
  * @param {components['schemas']['VariantDefinition']} definition
  * @return {*}
  */
-const initFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][]) => {
+const initFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
   return {
-    filters: getFiltersFromDefinition(fields),
+    filters: getFiltersFromDefinition(fields, interactive),
     sortBy: getSortByFromDefinition(fields),
   }
 }
@@ -134,9 +134,15 @@ export const getRelativeDateOptions = (min: string, max: string) => {
  * @param {components['schemas']['VariantDefinition']} definition
  * @return {*}
  */
-const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][]) => {
+const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][], interactive = false) => {
   return fields
     .filter((f) => f.filter)
+    .filter((f) => {
+      // TODO: fix types here once it has been defined.
+      return interactive
+        ? (<components['schemas']['FieldDefinition'] & { interactive?: boolean }>f.filter).interactive
+        : !(<components['schemas']['FieldDefinition'] & { interactive?: boolean }>f.filter).interactive
+    })
     .map((f) => {
       const { display: text, name, filter } = f
       const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern } = filter
@@ -250,9 +256,9 @@ export default {
    * @param {AsyncReportUtilsParams} { req, res, dataSources }
    * @return {*}
    */
-  renderFilters: async (fields: components['schemas']['FieldDefinition'][]) => {
+  renderFilters: async (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
     return {
-      ...initFiltersFromDefinition(fields),
+      ...initFiltersFromDefinition(fields, interactive),
     }
   },
 

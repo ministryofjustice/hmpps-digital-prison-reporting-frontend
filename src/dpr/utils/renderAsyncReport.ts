@@ -2,14 +2,16 @@ import { components } from '../types/api'
 import Dict = NodeJS.Dict
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 import { LoadType, ReportType, RequestedReport } from '../types/UserReports'
-import AsyncReportListUtils from '../components/async-report-list/utils'
+import AsyncReportListUtils from '../components/async-report/utils'
 import ReportActionsUtils from '../components/report-actions/utils'
+import FiltersUtils from '../components/interactive-filters/utils'
 import { Template } from '../types/Templates'
 import ReportQuery from '../types/ReportQuery'
 import CollatedSummaryBuilder from './CollatedSummaryBuilder/CollatedSummaryBuilder'
 import SectionedDataTableBuilder from './SectionedDataTableBuilder/SectionedDataTableBuilder'
 import ColumnUtils from '../components/columns/utils'
 import { Columns } from '../components/columns/types'
+import UserReportsUtils from '../components/user-reports/utils'
 
 export const initDataSources = ({
   req,
@@ -75,49 +77,78 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
 
   const dataPromises = initDataSources({ req, res, services, token, userId })
-
   let renderData = {}
   let reportStateData: RequestedReport
+
   if (dataPromises) {
     await Promise.all(dataPromises).then(async (resolvedData) => {
-      const definition = resolvedData[0] as unknown as components['schemas']['SingleVariantReportDefinition']
-      const reportData = <Array<Dict<string>>>resolvedData[1]
-      const count = <number>resolvedData[2]
-      reportStateData = <RequestedReport>resolvedData[3]
-
+      // Report Definiton
+      const definition = resolvedData[0] as components['schemas']['SingleVariantReportDefinition']
       const { variant } = definition
       const { classification, printable, specification } = variant
       const { template } = specification
-      const { reportName, name, description, timestamp, reportId, tableId, variantId, id, executionId, query, url } =
-        reportStateData
+      // TODO: fix this type once definition is known
+      const { interactive } = <components['schemas']['VariantDefinition'] & { interactive?: boolean }>variant
+
+      // Data & Count
+      const reportData = resolvedData[1] as Dict<string>[]
+      const count = resolvedData[2] as number
+
+      // Requested Report Data
+      reportStateData = resolvedData[3] as RequestedReport
+      const {
+        reportName,
+        name,
+        description,
+        timestamp,
+        reportId,
+        tableId,
+        variantId,
+        id,
+        executionId,
+        query,
+        url,
+        dataProductDefinitionsPath,
+      } = reportStateData
+      const reportStataVars = {
+        reportName,
+        name,
+        description,
+        requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
+        reportId,
+        tableId,
+        id: variantId || id,
+        executionId,
+        querySummary: query.summary,
+        requestUrl: url.request,
+      }
+
       const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, resolvedData[4])
+      const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, reportStataVars.id)
+      const reportQuery = new ReportQuery(specification, req.query, <string>dataProductDefinitionsPath)
 
-      const { columns: reqColumns } = req.query
-      const columns = ColumnUtils.getColumns(specification, <string[]>reqColumns)
-      const ID = variantId || id
-
-      const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, ID)
+      // Columns & interactive filters
+      const columns = ColumnUtils.getColumns(specification, <string[]>req.query.columns)
+      const filters = await FiltersUtils.getFilters({
+        fields: specification.fields,
+        req,
+        interactive: true,
+      })
 
       renderData = {
-        executionId,
-        name,
-        id: ID,
-        reportName,
-        reportId,
-        description,
-        tableId,
+        ...reportStataVars,
         classification,
         template,
         count,
+        filters,
+        columns,
         loadType: LoadType.ASYNC,
         type: ReportType.REPORT,
         actions: setActions(csrfToken, variant, reportStateData, columns, canDownload, count),
         printable,
-        querySummary: query.summary,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         csrfToken,
-        requestUrl: url.request,
-        bookmarked: await services.bookmarkService.isBookmarked(ID, userId),
+        bookmarked: await services.bookmarkService.isBookmarked(reportStataVars.id, userId),
         canDownload,
         reportSummaries: collatedSummaryBuilder.collatePageSummaries(),
       }
@@ -128,17 +159,20 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
           break
 
         case 'summary-section':
-        case 'list-section':
+        case 'list-section': {
           renderData = {
             ...renderData,
             ...new SectionedDataTableBuilder(specification)
               .withSummaries(collatedSummaryBuilder.collateDataTableSummaries())
-              .withNoHeaderOptions(columns.value)
+              .withHeaderOptions({
+                columns: columns.value,
+                reportQuery,
+                interactive,
+              })
               .buildTable(reportData),
-            columns,
           }
           break
-
+        }
         case 'list-tab':
           // Add template-specific calls here
           break
@@ -154,6 +188,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
               query.summary,
               collatedSummaryBuilder.collateDataTableSummaries(),
               columns,
+              reportQuery,
             ),
           }
           break
@@ -162,8 +197,11 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
   }
 
   if (Object.keys(renderData).length && Object.keys(reportStateData).length) {
-    await services.requestedReportService.updateLastViewed(reportStateData.executionId, userId)
-    await services.recentlyViewedService.setRecentlyViewed(reportStateData, userId)
+    UserReportsUtils.updateLastViewed({
+      services,
+      reportStateData,
+      userId,
+    })
   }
 
   return { renderData }

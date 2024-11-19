@@ -10,6 +10,7 @@ import definitions from '../../../../../test-app/mocks/mockClients/reports/mockR
 import { mockReportListRenderData } from '../../../../../test-app/mocks/mockAsyncData/mockReportListRenderData'
 import { Columns } from '../../_reports/report-columns-form/types'
 import { components } from '../../../types/api'
+import ReportQuery from '../../../types/ReportQuery'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
@@ -46,6 +47,8 @@ describe('AsyncReportListUtils', () => {
         querySummary,
         {},
         columns,
+        {} as ReportQuery,
+        false,
       )
 
       expect(PaginationUtilsSpy).toHaveBeenCalledWith({ pathname: 'pathname', search: 'search' }, 100)

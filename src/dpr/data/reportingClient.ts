@@ -181,11 +181,11 @@ export default class ReportingClient {
     executionId: string,
     dataProductDefinitionsPath?: string,
   ): Promise<Dict<string>> {
-    logger.info(`Reporting client: Get statementId:${executionId} status`)
+    logger.info(`Reporting client: ${reportId}/${variantId}: Get statementId:${executionId} status`)
 
     return this.restClient
       .get({
-        path: `/reports/${reportId}/${variantId}/statements/${executionId}/status`,
+        path: `/statements/${executionId}/status`,
         token,
         query: {
           dataProductDefinitionsPath,

@@ -250,7 +250,7 @@ describe('reportingClient', () => {
       const reportId = 'report-id'
       const variantId = 'variant-id'
       const executionId = 'execution-id'
-      const resource = `/statements/${executionId}/status`
+      const resource = `/reports/${reportId}/${variantId}/statements/${executionId}/status`
 
       fakeReportingApi.get(resource).reply(200, response)
 

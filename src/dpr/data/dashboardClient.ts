@@ -72,11 +72,11 @@ export default class DashboardClient {
     executionId: string,
     dataProductDefinitionsPath?: string,
   ): Promise<Dict<string>> {
-    logger.info(`Dashboard client: Get statementId: ${executionId} status`)
+    logger.info(`Dashboard client:${reportId}/${dashboardId}: Get statementId: ${executionId} status`)
 
     return this.restClient
       .get({
-        path: `/reports/${reportId}/dashboards/${dashboardId}/statements/${executionId}/status`,
+        path: `/statements/${executionId}/status`,
         token,
         query: {
           dataProductDefinitionsPath,

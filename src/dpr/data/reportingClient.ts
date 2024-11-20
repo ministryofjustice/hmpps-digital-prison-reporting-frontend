@@ -185,7 +185,7 @@ export default class ReportingClient {
 
     return this.restClient
       .get({
-        path: `/statements/${executionId}/status`,
+        path: `/reports/${reportId}/${variantId}/statements/${executionId}/status`,
         token,
         query: {
           dataProductDefinitionsPath,

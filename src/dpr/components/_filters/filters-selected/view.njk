@@ -1,0 +1,24 @@
+{% macro dprSelectedFilters(selectedFilters) %}    
+  <div class='dpr-selected-filters-container'>
+    <div class='dpr-selected-filters'>
+      {% if selectedFilters.length %}
+        <p class="govuk-body"><strong>Filters:</strong></p>
+      {% endif %}
+      
+      {% for selected in selectedFilters %}
+        {% set key = selected.key %}
+        {% set text = selected.text %}
+        {% set value = selected.value %}
+        {% set classes = selected.classes %}
+        
+        <a href="#" 
+          class="govuk-link {{ classes }}" 
+          data-query-param-key= {{ key }} 
+          data-query-param-value= {{ value }}
+        >
+          {{ text }}
+        </a>
+      {% endfor%}
+    </div>
+  </div>
+{% endmacro %}

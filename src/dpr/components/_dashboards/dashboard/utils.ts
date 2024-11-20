@@ -6,11 +6,10 @@ import { DashboardDefinition } from '../../../types/Dashboards'
 import { MetricsDataResponse } from '../../../types/Metrics'
 import { ReportType, RequestedReport } from '../../../types/UserReports'
 import UserReportsUtils from '../../user-reports/utils'
-import establishmentFilter from './mockDashboardFilters'
+import DashboardFilterUtils from '../dashboard-filters/utils'
 
 import ReportActionsUtils from '../../_reports/report-actions/utils'
 import { components } from '../../../types/api'
-import { FilterOption } from '../../_filters/filter-input/types'
 
 const setDashboardActions = (
   dashboardDefinition: DashboardDefinition,
@@ -74,7 +73,10 @@ export default {
     )
 
     // TODO: get filters from definition once the structure is known
-    const filters: FilterOption[] = establishmentFilter as FilterOption[]
+    const filters = await DashboardFilterUtils.getFilters({
+      fields: [],
+      req,
+    })
 
     // Report summary data
     const reportDefinition = await DefinitionUtils.getReportSummary(

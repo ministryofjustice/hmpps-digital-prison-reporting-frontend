@@ -1,0 +1,28 @@
+.dpr-selected-filters-container {
+  position: relative;
+
+  .dpr-selected-filters {
+    p {
+      display: inline-block;
+      margin-right: govuk-spacing(3);
+      margin-bottom: govuk-spacing(3);
+    }
+
+    a {
+      display: inline-block;
+      margin-right: govuk-spacing(3);
+      margin-bottom: govuk-spacing(3);
+    }
+
+    a:after {
+      background-image: url(#{$dpr-images-path}icon-tag-remove-cross.svg);
+      content: "";
+      display: inline-block;
+      font-weight: bold;
+      height: 10px;
+      margin-left: 5px;
+      vertical-align: middle;
+      width: 10px;
+    }
+  }
+}

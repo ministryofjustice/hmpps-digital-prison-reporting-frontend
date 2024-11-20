@@ -1,11 +1,9 @@
 import { Request } from 'express'
+import { components } from '../../../types/api'
 import FiltersUtils from '../../_filters/utils'
 import SelectedFiltersUtils from '../../_filters/filters-selected/utils'
-
-import AsyncFiltersUtils from '../../_async/async-filters-form/utils'
-import { RenderFiltersReturnValue } from '../../_async/async-filters-form/types'
-
-import { components } from '../../../types/api'
+import { FilterValue } from '../../filters/types'
+import establishmentFilter from './mockDashboardFilters'
 
 export default {
   getFilters: async ({
@@ -19,8 +17,8 @@ export default {
     interactive?: boolean
     prefix?: string
   }) => {
-    const defaultFilterData = <RenderFiltersReturnValue>await AsyncFiltersUtils.renderFilters(fields, interactive)
-    const filters = FiltersUtils.setFilterValuesFromRequest(defaultFilterData.filters, req)
+    const defaultFilterData = establishmentFilter as FilterValue[]
+    const filters = FiltersUtils.setFilterValuesFromRequest(defaultFilterData, req)
     const selectedFilters = SelectedFiltersUtils.getSelectedFilters(filters, prefix)
     return {
       filters,

@@ -2,7 +2,7 @@
 import DprFormValidationClass from './DprFormValidationClass.mjs'
 
 export default class DprFiltersFormClass extends DprFormValidationClass {
-  initFiltersForm({ formId, submitButtonId, resetButtonId }) {
+  initFiltersForm({ formId, submitButtonId, resetButtonId, removeSelectedButtonClass }) {
     this.errorMessages = []
 
     // Main form
@@ -14,7 +14,7 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
     // Buttons
     this.submitButton = document.getElementById(submitButtonId)
     this.resetButton = document.getElementById(resetButtonId)
-    this.selectedFiltersButtons = document.querySelectorAll('.accordion-summary-remove-button')
+    this.selectedFiltersButtons = document.querySelectorAll(`.${removeSelectedButtonClass}`)
 
     this.initValues()
     this.initSubmitButton()
@@ -65,17 +65,19 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
   }
 
   initSelectedFiltersButtons() {
-    this.selectedFiltersButtons.forEach((button) => {
-      button.addEventListener('click', (e) => {
-        e.preventDefault()
-        const keys = JSON.parse(e.target.getAttribute('data-query-param-key'))
-        const values = JSON.parse(e.target.getAttribute('data-query-param-value'))
-        keys.forEach((key, index) => {
-          this.updateQueryParam(key, values[index], 'delete')
-          this.updateQueryParam('preventDefault', true)
+    if (this.selectedFiltersButtons) {
+      this.selectedFiltersButtons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault()
+          const keys = JSON.parse(e.target.getAttribute('data-query-param-key'))
+          const values = JSON.parse(e.target.getAttribute('data-query-param-value'))
+          keys.forEach((key, index) => {
+            this.updateQueryParam(key, values[index], 'delete')
+            this.updateQueryParam('preventDefault', true)
+          })
+          window.location.reload()
         })
-        window.location.reload()
       })
-    })
+    }
   }
 }

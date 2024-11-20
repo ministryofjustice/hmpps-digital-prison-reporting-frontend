@@ -129,10 +129,10 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
 
       // Columns & interactive filters
       const columns = ColumnUtils.getColumns(specification, <string[]>req.query.columns)
-      const filters = await ReportFiltersUtils.getFilters({
+      const filterData = await ReportFiltersUtils.getFilters({
         fields: specification.fields,
         req,
-        interactive: true,
+        interactive: false,
       })
 
       renderData = {
@@ -140,7 +140,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         classification,
         template,
         count,
-        filters,
+        filterData,
         columns,
         loadType: LoadType.ASYNC,
         type: ReportType.REPORT,

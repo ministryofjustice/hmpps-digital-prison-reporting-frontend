@@ -1,6 +1,6 @@
 import Utils from './utils'
 import Dict = NodeJS.Dict
-import { FilterType } from '../filter-input/enum'
+import { FilterType } from '../_filters/filter-input/enum'
 import { DateRange } from './types'
 import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'

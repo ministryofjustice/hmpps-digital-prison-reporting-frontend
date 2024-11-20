@@ -2,8 +2,8 @@
 import { Response, Request } from 'express'
 import { Url } from 'url'
 import * as AsyncReportUtils from './renderAsyncReport'
-import ColumnUtils from '../components/columns/utils'
-import PaginationUtils from '../components/pagination/utils'
+import ColumnUtils from '../components/_reports/report-columns-form/utils'
+import PaginationUtils from '../components/_reports/report-pagination/utils'
 
 import MockReportingClient from '../../../test-app/mocks/mockClients/reports/mockReportingClient'
 import { RequestedReport } from '../types/UserReports'

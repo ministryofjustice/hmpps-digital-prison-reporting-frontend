@@ -1,0 +1,21 @@
+{% from "../report-columns-form/view.njk" import dprColumnsForm %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% macro dprReportColumns(columns) %}
+  {% if columns.options.length > 0 %}
+  <div class="dpr-columns-section-wrapper">
+    {% set columnsHtml %}
+      {{ dprColumnsForm(columns) }}
+    {% endset %}
+
+    {% set columnsTitle = "Columns (" + columns.value.length + " of " + columns.options.length +" shown)"  %}
+    <div class="columns-section-button">
+      {{ govukDetails({
+        summaryText: columnsTitle,
+        html: columnsHtml
+      }) }}
+    </div>
+  </div>
+  {% endif %}
+
+{% endmacro %}

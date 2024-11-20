@@ -14,9 +14,9 @@ import { getExpiredStatus } from '../../utils/requestStatusHelper'
 import { itemActionsHtml, createListItemProduct } from '../../utils/reportListsHelper'
 import ShowMoreUtils from '../show-more/utils'
 import { Services } from '../../types/Services'
-import RequestedReportUtils from '../user-reports-request-list/utils'
-import RecentlyViewedCardGroupUtils from '../user-reports-viewed-list/utils'
-import BookmarklistUtils from '../user-reports-bookmarks-list/utils'
+import RequestedReportUtils from './requested/utils'
+import RecentlyViewedCardGroupUtils from './viewed/utils'
+import BookmarklistUtils from './bookmarks/utils'
 
 const formatData = (reportData: UserReportData): FormattedUserReportData => {
   const reportDataCopy: UserReportData = JSON.parse(JSON.stringify(reportData))

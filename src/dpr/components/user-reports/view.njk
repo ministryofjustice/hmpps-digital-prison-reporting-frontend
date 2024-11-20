@@ -1,7 +1,6 @@
-{% from "../user-reports-list/view.njk" import dprUserReportsList %}
-{% from "../user-reports-request-list/view.njk" import dprAsyncRequestList %}
-{% from "../user-reports-viewed-list/view.njk" import dprRecentlyViewedList %}
-{% from "../user-reports-bookmarks-list/view.njk" import dprBookmarksList %}
+{% from "./requested/view.njk" import dprAsyncRequestList %}
+{% from "./viewed/view.njk" import dprRecentlyViewedList %}
+{% from "./bookmarks/view.njk" import dprBookmarksList %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 
 {% macro dprUserReports(args) %}

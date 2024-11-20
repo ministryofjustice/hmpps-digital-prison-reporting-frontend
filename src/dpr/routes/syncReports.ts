@@ -3,7 +3,7 @@ import ErrorSummaryUtils from '../components/error-summary/utils'
 import { Services } from '../types/Services'
 import logger from '../utils/logger'
 
-import SyncReportUtils from '../utils/renderSyncReport'
+import SyncReportUtils from '../components/_sync/sync-report/utils'
 import { SyncReportFeatures, SyncReportOptions } from '../types/SyncReportUtils'
 
 export default function routes({

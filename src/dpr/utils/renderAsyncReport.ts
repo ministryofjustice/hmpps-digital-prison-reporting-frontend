@@ -2,15 +2,15 @@ import { components } from '../types/api'
 import Dict = NodeJS.Dict
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 import { LoadType, ReportType, RequestedReport } from '../types/UserReports'
-import AsyncReportListUtils from '../components/async-report/utils'
-import ReportActionsUtils from '../components/report-actions/utils'
-import FiltersUtils from '../components/interactive-filters/utils'
+import AsyncReportListUtils from '../components/_async/async-report/utils'
+import ReportActionsUtils from '../components/_reports/report-actions/utils'
+import ReportFiltersUtils from '../components/_reports/report-filters/utils'
 import { Template } from '../types/Templates'
 import ReportQuery from '../types/ReportQuery'
 import CollatedSummaryBuilder from './CollatedSummaryBuilder/CollatedSummaryBuilder'
 import SectionedDataTableBuilder from './SectionedDataTableBuilder/SectionedDataTableBuilder'
-import ColumnUtils from '../components/columns/utils'
-import { Columns } from '../components/columns/types'
+import ColumnUtils from '../components/_reports/report-columns-form/utils'
+import { Columns } from '../components/_reports/report-columns-form/types'
 import UserReportsUtils from '../components/user-reports/utils'
 
 export const initDataSources = ({
@@ -129,7 +129,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
 
       // Columns & interactive filters
       const columns = ColumnUtils.getColumns(specification, <string[]>req.query.columns)
-      const filters = await FiltersUtils.getFilters({
+      const filters = await ReportFiltersUtils.getFilters({
         fields: specification.fields,
         req,
         interactive: true,

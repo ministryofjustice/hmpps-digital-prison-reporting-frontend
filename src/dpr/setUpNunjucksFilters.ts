@@ -1,6 +1,6 @@
 import nunjucks from 'nunjucks'
 import nunjucksDate from 'nunjucks-date'
-import addRequiredAttributeToAll from './components/filter-input/filters'
+import { FilterOption } from './components/_filters/filter-input/types'
 
 const setUpNunjucksFilters = (env: nunjucks.Environment) => {
   env.addFilter('addRequiredAttributeToAll', addRequiredAttributeToAll)
@@ -17,6 +17,15 @@ const stringifyJson = (jsonObj: any) => {
 
 const capitaliseSentence = (text: string) => {
   return text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+}
+
+const addRequiredAttributeToAll = (items: Array<FilterOption>) => {
+  return items.map((i) => ({
+    ...i,
+    attributes: {
+      required: true,
+    },
+  }))
 }
 
 export default setUpNunjucksFilters

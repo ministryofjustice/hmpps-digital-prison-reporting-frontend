@@ -1,32 +1,49 @@
 /* eslint-disable no-new */
 /* global dayjs */
 
-import Autocomplete from './components/autocomplete-text-input/clientClass.mjs'
+// Helper
+import DprLoadingHelper from './DprLoadingHelper.mjs'
+
+// General Components
 import CardGroup from './components/card-group/clientClass.mjs'
-import Filters from './components/filters/clientClass.mjs'
-import Columns from './components/columns/clientClass.mjs'
-import ToggleButton from './components/toggle-button/clientClass.mjs'
-import AsyncFilters from './components/async-filters-form/clientClass.mjs'
-import InteractiveFilters from './components/interactive-filters/clientClass.mjs'
-import Pagination from './components/pagination/clientClass.mjs'
-import ReportActions from './components/report-actions/clientClass.mjs'
-import DataTable from './components/data-table/clientClass.mjs'
-import AsyncPolling from './components/async-polling/clientClass.mjs'
 import Search from './components/search/clientClass.mjs'
 import BookmarkToggle from './components/bookmark-toggle/clientClass.mjs'
-import DprLoadingHelper from './DprLoadingHelper.mjs'
-import DateInput from './components/date-input/clientClass.mjs'
-import AsyncRequestList from './components/user-reports-request-list/clientClass.mjs'
-import RecentlyViewedList from './components/user-reports-viewed-list/clientClass.mjs'
-import DateRange from './components/date-range/clientClass.mjs'
 import ShowMore from './components/show-more/clientClass.mjs'
-import BarChartVisualisation from './components/chart/bar/clientClass.mjs'
-import DoughnutChartVisualisation from './components/chart/doughnut/clientClass.mjs'
-import LineChartVisualisation from './components/chart/line/clientClass.mjs'
 import DownloadFeedbackForm from './components/download-feeback-form/cientClass.mjs'
+
+// Reports
+import Pagination from './components/_reports/report-pagination/clientClass.mjs'
+import ReportActions from './components/_reports/report-actions/clientClass.mjs'
+import DataTable from './components/_reports/report-data-table/clientClass.mjs'
+import Columns from './components/_reports/report-columns-form/clientClass.mjs'
+import DownloadMessage from './components/_reports/report-download-message/clientClass.mjs'
+
+// Filters
+import InteractiveFilters from './components/_filters/filters-interactive/clientClass.mjs'
+import Filters from './components/filters/clientClass.mjs'
+
+// Async
+import AsyncPolling from './components/_async/async-polling/clientClass.mjs'
+import AsyncFilters from './components/_async/async-filters-form/clientClass.mjs'
+
+// Inputs
+import DateInput from './components/_inputs/date-input/clientClass.mjs'
+import DateRange from './components/_inputs/date-range/clientClass.mjs'
+import Autocomplete from './components/_inputs/autocomplete-text-input/clientClass.mjs'
+
+// User repoorts
+import RequestedReportsList from './components/user-reports/requested/clientClass.mjs'
+import RecentlyViewedList from './components/user-reports/viewed/clientClass.mjs'
+
+// Charts
+import BarChartVisualisation from './components/_charts/chart/bar/clientClass.mjs'
+import DoughnutChartVisualisation from './components/_charts/chart/doughnut/clientClass.mjs'
+import LineChartVisualisation from './components/_charts/chart/line/clientClass.mjs'
+
+// Dashboards
 import LoadDashboard from './DprLoadDashboard.mjs'
-import ScoreCard from './components/scorecard/clientClass.mjs'
-import DownloadMessage from './components/download-message/clientClass.mjs'
+import ScoreCard from './components/_dashboards/scorecard/clientClass.mjs'
+
 /**
  * Initialise all components
  *
@@ -42,7 +59,6 @@ export default function initAll() {
     CardGroup,
     Columns,
     Filters,
-    ToggleButton,
     AsyncFilters,
     InteractiveFilters,
     Pagination,
@@ -51,7 +67,7 @@ export default function initAll() {
     Search,
     BookmarkToggle,
     DateInput,
-    AsyncRequestList,
+    RequestedReportsList,
     RecentlyViewedList,
     DateRange,
     ShowMore,

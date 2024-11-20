@@ -1,7 +1,7 @@
 import { parse } from 'node-html-parser'
 import nunjucks from 'nunjucks'
 import path from 'path'
-import { FilterType } from '../filter-input/enum'
+import { FilterType } from '../_filters/filter-input/enum'
 import setUpNunjucksFilters from '../../setUpNunjucksFilters'
 
 const env = nunjucks.configure(

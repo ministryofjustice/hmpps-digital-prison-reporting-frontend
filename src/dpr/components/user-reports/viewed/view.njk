@@ -1,0 +1,7 @@
+{% from "../list/view.njk" import dprUserReportsList %}
+
+{% macro dprRecentlyViewedList(args) %}
+  <div id="dpr-recently-viewed-component" data-dpr-module="recently-viewed-list" data-request-data='{{ args.meta | dump | safe }}' data-csrf-token="{{ args.csrfToken }}">
+    {{ dprUserReportsList(args) }}
+  </div>
+{% endmacro %}

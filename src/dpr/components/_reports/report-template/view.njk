@@ -1,0 +1,40 @@
+
+{% from "../report-pagination/view.njk" import dprReportPagination %}
+{% from "../report/view.njk" import dprReport %}
+{% from "../report-summary-table/view.njk" import dprReportSummary %}
+
+{% macro dprReportTemplate(renderData, url) %}
+  
+  {% set printable = renderData.printable %}
+  {% set pagination = renderData.pagination %}
+  {% set template = renderData.template %}
+  {% set reportSummaries = renderData.reportSummaries %}
+
+  {% if count === 0 %}
+    {{ dprReportNoDataMessage(url) }}
+  {% else %}
+
+    <div class="report-template-container  {% if (printable == false) %}print-hide{% endif %}">
+      {% if template === 'list-tab' or template === 'crosstab' %}
+
+        {# Add template view here #}
+
+      {% elif template === 'list-section' or template === 'summary-section' %}
+
+        {{ dprReport(renderData) }}
+
+      {% elif template === 'summary' %}
+
+        {{ dprReportSummary(reportSummaries, 'page-header') }}
+        {{ dprReportSummary(reportSummaries, 'page-footer') }}
+
+      {% else %}
+
+        {{ dprReport(renderData) }}
+        {{ dprReportPagination(pagination) }}
+
+      {% endif %}
+    </div>
+
+  {% endif %}
+{% endmacro %}

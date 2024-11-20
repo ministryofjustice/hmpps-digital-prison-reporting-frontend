@@ -1,5 +1,5 @@
 import type { RequestHandler, Router } from 'express'
-import RecentReportslistUtils from '../components/user-reports-viewed-list/utils'
+import RecentReportslistUtils from '../components/user-reports/viewed/utils'
 import UserReportsListUtils from '../components/user-reports/utils'
 import { Services } from '../types/Services'
 

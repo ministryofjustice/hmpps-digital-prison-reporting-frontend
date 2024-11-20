@@ -1,16 +1,15 @@
 /* eslint-disable no-param-reassign */
 import { Request } from 'express'
-import dayjs from 'dayjs'
-import isBetween from 'dayjs/plugin/isBetween'
 import Dict = NodeJS.Dict
-import { components } from '../../../types/api'
-import FilterUtils from '../../filters/utils'
-import { DateFilterValue, FilterValue, FilterOption } from '../../filters/types'
-import { FilterType } from '../../_filters/filter-input/enum'
+import type { SetQueryFromFiltersResult } from './types'
+import type { components } from '../../../types/api'
+
 import SortHelper from './sortByTemplate'
 import DefinitionUtils from '../../../utils/definitionUtils'
-import { SetQueryFromFiltersResult } from './types'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
+import FiltersUtils from '../../_filters/utils'
+import DateRangeInputUtils from '../../_inputs/date-range/utils'
+
 /**
  * Initialises the filters & Sort from the definition data
  *
@@ -19,7 +18,7 @@ import DateMapper from '../../../utils/DateMapper/DateMapper'
  */
 const initFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
   return {
-    filters: getFiltersFromDefinition(fields, interactive),
+    filters: FiltersUtils.getFiltersFromDefinition(fields, interactive),
     sortBy: getSortByFromDefinition(fields),
   }
 }
@@ -52,167 +51,6 @@ export const getSortByFromDefinition = (fields: components['schemas']['FieldDefi
   return []
 }
 
-const dateIsInBounds = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs, min: string, max: string) => {
-  dayjs.extend(isBetween)
-
-  const minDate = dayjs(min)
-  const maxDate = dayjs(max)
-
-  const startDateIsBetweenMinAndMax = startDate.isBetween(minDate, maxDate, 'day', '[]')
-  const endDateIsBetweenMinAndMax = endDate.isBetween(minDate, maxDate, 'day', '[]')
-
-  return startDateIsBetweenMinAndMax && endDateIsBetweenMinAndMax
-}
-
-export const calcDates = (durationValue: string) => {
-  let endDate
-  let startDate
-
-  switch (durationValue) {
-    case 'yesterday':
-      endDate = dayjs()
-      startDate = endDate.subtract(1, 'day')
-      break
-    case 'tomorrow':
-      startDate = dayjs()
-      endDate = startDate.add(1, 'day')
-      break
-    case 'last-week':
-      endDate = dayjs()
-      startDate = endDate.subtract(1, 'week')
-      break
-    case 'next-week':
-      startDate = dayjs()
-      endDate = startDate.add(1, 'week')
-      break
-    case 'last-month':
-      endDate = dayjs()
-      startDate = endDate.subtract(1, 'month')
-      break
-    case 'next-month':
-      startDate = dayjs()
-      endDate = startDate.add(1, 'month')
-      break
-    default:
-      break
-  }
-
-  return {
-    endDate,
-    startDate,
-  }
-}
-
-export const getRelativeDateOptions = (min: string, max: string) => {
-  if (!min) min = '1977-05-25'
-  if (!max) max = '9999-01-01'
-  let options: { value: string; text: string; disabled?: boolean }[] = [
-    { value: 'yesterday', text: 'Yesterday' },
-    { value: 'tomorrow', text: 'Tomorrow' },
-    { value: 'last-week', text: 'Last week' },
-    { value: 'next-week', text: 'Next week' },
-    { value: 'last-month', text: 'Last month' },
-    { value: 'next-month', text: 'Next-month' },
-  ]
-
-  options.forEach((option: { value: string; text: string; disabled?: boolean }) => {
-    const { endDate, startDate } = calcDates(option.value)
-    if (!dateIsInBounds(startDate, endDate, min, max)) {
-      option.disabled = true
-    }
-  })
-
-  if (options.every((opt: { value: string; text: string; disabled?: boolean }) => opt.disabled)) {
-    options = []
-  }
-  return options
-}
-
-/**
- * Initialises the filters from the definition
- *
- * @param {components['schemas']['VariantDefinition']} definition
- * @return {*}
- */
-const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][], interactive = false) => {
-  return fields
-    .filter((f) => f.filter)
-    .filter((f) => {
-      // TODO: fix types here once it has been defined.
-      return interactive
-        ? (<components['schemas']['FieldDefinition'] & { interactive?: boolean }>f.filter).interactive
-        : !(<components['schemas']['FieldDefinition'] & { interactive?: boolean }>f.filter).interactive
-    })
-    .map((f) => {
-      const { display: text, name, filter } = f
-      const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern } = filter
-
-      const options: FilterOption[] = []
-      if (staticOptions) {
-        if (type === FilterType.select) {
-          options.push({ value: 'no-filter', text: 'Select your option', disabled: true, selected: true })
-        }
-        staticOptions.forEach((o) => {
-          options.push({ value: o.name, text: o.display })
-        })
-      }
-
-      let filterData: FilterValue = {
-        text,
-        name,
-        type: type as FilterType,
-        options: options.length ? options : null,
-        value: defaultValue || null,
-        minimumLength: dynamicOptions ? dynamicOptions.minimumLength : null,
-        dynamicResourceEndpoint: null,
-        mandatory,
-        pattern,
-      }
-
-      if (type === FilterType.dateRange.toLowerCase()) {
-        const dateRegEx = /^\d{1,4}-\d{1,2}-\d{2,2} - \d{1,4}-\d{1,2}-\d{1,2}$/
-        const { min, max } = filter
-        let startValue
-        let endValue
-
-        if (min) startValue = min
-        if (max) endValue = max
-
-        let value
-        if (defaultValue && defaultValue.match(dateRegEx)) {
-          ;[startValue, endValue] = defaultValue.split(' - ')
-          value = FilterUtils.setDateRangeValuesWithinMinMax(filter, startValue, endValue)
-        } else if (defaultValue) {
-          value = defaultValue
-        } else {
-          value = FilterUtils.setDateRangeValuesWithinMinMax(filter, startValue, endValue)
-        }
-
-        filterData = filterData as unknown as DateFilterValue
-        filterData = {
-          ...filterData,
-          min: filter.min,
-          max: filter.max,
-          value,
-        }
-
-        filterData.relativeOptions = getRelativeDateOptions(filterData.min, filterData.max)
-      }
-
-      if (type === FilterType.date.toLowerCase()) {
-        filterData = filterData as unknown as DateFilterValue
-        filterData = {
-          ...filterData,
-          value: FilterUtils.setDateValueWithinMinMax(filter),
-          min: filter.min,
-          max: filter.max,
-        }
-      }
-
-      return filterData
-    })
-}
-
 export const setDurationStartAndEnd = (
   name: string,
   value: string,
@@ -221,7 +59,7 @@ export const setDurationStartAndEnd = (
   querySummary: Array<Dict<string>>,
   fields: components['schemas']['FieldDefinition'][],
 ) => {
-  const { startDate, endDate } = calcDates(value)
+  const { startDate, endDate } = DateRangeInputUtils.calcDates(value)
   const startDateDisplayString = startDate.format('YYYY-MM-DD').toString()
   const endDateDisplayString = endDate.format('YYYY-MM-DD').toString()
 

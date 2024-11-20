@@ -1,15 +1,16 @@
-import { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
-import { ChartCardData } from '../../../types/Charts'
+import type { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
+import type { ChartCardData } from '../../../types/Charts'
+import type { DashboardDefinition } from '../../../types/Dashboards'
+import type { MetricsDataResponse } from '../../../types/Metrics'
+import type { RequestedReport } from '../../../types/UserReports'
+import { ReportType } from '../../../types/UserReports'
+import type { components } from '../../../types/api'
+
 import ChartCardUtils from '../../_charts/chart-card/utils'
 import DefinitionUtils from '../../../utils/definitionUtils'
-import { DashboardDefinition } from '../../../types/Dashboards'
-import { MetricsDataResponse } from '../../../types/Metrics'
-import { ReportType, RequestedReport } from '../../../types/UserReports'
 import UserReportsUtils from '../../user-reports/utils'
-import DashboardFilterUtils from '../dashboard-filters/utils'
-
+import FilterUtils from '../../_filters/utils'
 import ReportActionsUtils from '../../_reports/report-actions/utils'
-import { components } from '../../../types/api'
 
 const setDashboardActions = (
   dashboardDefinition: DashboardDefinition,
@@ -54,7 +55,7 @@ export default {
     )
 
     // TODO: Interactive Filters: set query properly
-    const mockQuery = { dataProductDefinitionsPath, establishmentId: req.query['filters.establishmentId'] }
+    const mockQuery = { dataProductDefinitionsPath, establishmentId: req.query['filters.establishment_id'] }
 
     // The metrics Data
     const dashboardMetricsData: MetricsDataResponse[] = await services.dashboardService.getAsyncDashboard(
@@ -72,10 +73,11 @@ export default {
       userId,
     )
 
-    // TODO: get filters from definition once the structure is known
-    const filters = await DashboardFilterUtils.getFilters({
-      fields: [],
+    // Filters
+    const filters = await FilterUtils.getFilters({
+      fields: dashboardDefinition.filterFields,
       req,
+      interactive: true,
     })
 
     // Report summary data

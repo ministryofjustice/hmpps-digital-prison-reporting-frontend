@@ -2,6 +2,11 @@ import { Request } from 'express'
 import { DateFilterValue, DateRange, FilterValue } from '../filters/types'
 import { FilterType } from './filter-input/enum'
 
+import SelectedFiltersUtils from './filters-selected/utils'
+import AsyncFiltersUtils from '../_async/async-filters-form/utils'
+import { RenderFiltersReturnValue } from '../_async/async-filters-form/types'
+import { components } from '../../types/api'
+
 const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix = 'filters.'): FilterValue[] => {
   const { preventDefault } = req.query
 
@@ -51,6 +56,27 @@ const handleDateValue = (filter: FilterValue, req: Request, prefix: string) => {
   return dateValue || min || max || '1977-05-25'
 }
 
+const getFilters = async ({
+  fields,
+  req,
+  interactive = false,
+  prefix = 'filters.',
+}: {
+  fields: components['schemas']['FieldDefinition'][]
+  req: Request
+  interactive?: boolean
+  prefix?: string
+}) => {
+  const defaultFilterData = <RenderFiltersReturnValue>await AsyncFiltersUtils.renderFilters(fields, interactive)
+  const filters = setFilterValuesFromRequest(defaultFilterData.filters, req)
+  const selectedFilters = SelectedFiltersUtils.getSelectedFilters(filters, prefix)
+  return {
+    filters,
+    selectedFilters,
+  }
+}
+
 export default {
   setFilterValuesFromRequest,
+  getFilters,
 }

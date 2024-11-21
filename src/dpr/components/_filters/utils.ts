@@ -13,9 +13,9 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
 
   return filters.map((filter: FilterValue) => {
     let requestfilterValue
-    if (filter.type === FilterType.dateRange.toLowerCase()) {
+    if (filter.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
       requestfilterValue = handleDaterangeValue(filter, req, prefix)
-    } else if (filter.type === FilterType.date.toLowerCase()) {
+    } else if (filter.type.toLowerCase() === FilterType.date.toLowerCase()) {
       requestfilterValue = handleDateValue(filter, req, prefix)
     } else {
       requestfilterValue = <string>req.query[`${prefix}${filter.name}`]
@@ -38,15 +38,14 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
 }
 
 const handleDaterangeValue = (filter: FilterValue, req: Request, prefix: string) => {
-  let value
   const start = <string>req.query[`${prefix}${filter.name}.start`]
   const end = <string>req.query[`${prefix}${filter.name}.end`]
-  if (start || end) {
-    value = {
-      start: start || (<DateRange>filter.value).start,
-      end: end || (<DateRange>filter.value).end,
-    } as DateRange
-  }
+
+  const value = {
+    start: start || (<DateRange>filter.value).start || (<DateFilterValue>filter).min,
+    end: end || (<DateRange>filter.value).end || (<DateFilterValue>filter).max,
+  } as DateRange
+
   return value
 }
 

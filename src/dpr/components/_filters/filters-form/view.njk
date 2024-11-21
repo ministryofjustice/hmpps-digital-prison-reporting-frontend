@@ -18,20 +18,22 @@
         }) }}
       </div>
 
-      <div class="filter-container">
-        {%- for filter in filters %}
-          {{ dprFilterInput(filter, prefix) }}
-        {%- endfor %}
-      </div>
+      <div class="filter-form-container">
+        <div class="filter-container">
+          {%- for filter in filters %}
+            {{ dprFilterInput(filter, prefix) }}
+          {%- endfor %}
+        </div>
 
-      <div class="filter-actions">
-        {{ dprFiltersActions({
-          submitText: "Apply Filters",
-          submitId: submitId,
-          resetText: 'Reset filters',
-          resetId: resetId,
-          showReset: true
-        }) }}
+        <div class="filter-actions">
+          {{ dprFiltersActions({
+            submitText: "Apply Filters",
+            submitId: submitId,
+            resetText: 'Reset filters',
+            resetId: resetId,
+            showReset: true
+          }) }}
+        </div>
       </div>
       
     </form>

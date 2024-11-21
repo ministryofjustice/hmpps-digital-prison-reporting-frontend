@@ -1,6 +1,6 @@
 {% from "../../_filters/filters-interactive/view.njk" import dprInteractiveFilters %}
 
-{% macro dprReportFilters(filterData, prefix = 'filters.') %}
+{% macro dprDashboardFilters(filterData, prefix = 'filters.') %}
     {% if filterData.filters.length %}
       {{ dprInteractiveFilters(filterData, prefix) }}
     {% endif %}

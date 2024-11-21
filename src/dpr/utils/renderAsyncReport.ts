@@ -1,17 +1,20 @@
-import { components } from '../types/api'
-import Dict = NodeJS.Dict
-import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
-import { LoadType, ReportType, RequestedReport } from '../types/UserReports'
 import AsyncReportListUtils from '../components/_async/async-report/utils'
 import ReportActionsUtils from '../components/_reports/report-actions/utils'
-import ReportFiltersUtils from '../components/_reports/report-filters/utils'
-import { Template } from '../types/Templates'
-import ReportQuery from '../types/ReportQuery'
+import ReportFiltersUtils from '../components/_filters/utils'
+import ColumnUtils from '../components/_reports/report-columns-form/utils'
+import UserReportsUtils from '../components/user-reports/utils'
+
 import CollatedSummaryBuilder from './CollatedSummaryBuilder/CollatedSummaryBuilder'
 import SectionedDataTableBuilder from './SectionedDataTableBuilder/SectionedDataTableBuilder'
-import ColumnUtils from '../components/_reports/report-columns-form/utils'
-import { Columns } from '../components/_reports/report-columns-form/types'
-import UserReportsUtils from '../components/user-reports/utils'
+
+// Types
+import type { components } from '../types/api'
+import type { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
+import type { Template } from '../types/Templates'
+import type { Columns } from '../components/_reports/report-columns-form/types'
+import { LoadType, ReportType, RequestedReport } from '../types/UserReports'
+import ReportQuery from '../types/ReportQuery'
+import Dict = NodeJS.Dict
 
 export const initDataSources = ({
   req,
@@ -129,7 +132,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
 
       // Columns & interactive filters
       const columns = ColumnUtils.getColumns(specification, <string[]>req.query.columns)
-      const filters = await ReportFiltersUtils.getFilters({
+      const filterData = await ReportFiltersUtils.getFilters({
         fields: specification.fields,
         req,
         interactive: true,
@@ -140,7 +143,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
         classification,
         template,
         count,
-        filters,
+        filterData,
         columns,
         loadType: LoadType.ASYNC,
         type: ReportType.REPORT,

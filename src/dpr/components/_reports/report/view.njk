@@ -4,16 +4,15 @@
 {% from "../report-totals/view.njk" import dprReportTotals %}
 {% from "../report-filters/view.njk" import dprReportFilters %}
 
+{% from "../../_filters/filters-interactive/view.njk" import dprInteractiveFilters %}
+
 {% macro dprReport(options) %}
   {% set columns = options.columns %}
-  {% set filters = options.filters %}
   {% set reportSummaries = options.reportSummaries %}
+  {% set filterData = options.filterData %}
 
   <div class="dpr-sync-report-actions">
-    {% if filters %}
-      {{ dprReportFilters(filters) }}
-    {% endif %}
-
+    {{ dprReportFilters(filterData) }}
     {{ dprReportColumns(columns) }}
   </div>
 

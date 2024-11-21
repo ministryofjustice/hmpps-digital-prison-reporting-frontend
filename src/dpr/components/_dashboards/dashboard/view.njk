@@ -1,26 +1,28 @@
+{% from "../dashboard-sidebar/view.njk" import dprDashboardSidebar %}
+{% from "../dashboard-filters/view.njk" import dprDashboardFilters %}
+
 {% from "../../_charts/chart-card/view.njk" import dprChartCard %}
 {% from "../../_reports/report-heading/view.njk" import dprReportHeading %}
-{% from "../../_reports/report-filters/view.njk" import dprReportFilters %}
-{% from "../dashboard-sidebar/view.njk" import dprDashboardSidebar %}
+
 {%- from "moj/components/side-navigation/macro.njk" import mojSideNavigation -%}
 
-
 {% macro dprDashboard(data) %}
-<div class="dashboard-wrapper">
-  <nav class="dashboard-sidebar">
-    {{ dprDashboardSidebar(data.metrics) }}
-  </nav> 
-  <div class="dashboard-content">
-    {{ dprReportHeading(data) }}
-
-    {{ dprReportFilters({ filters: data.filters }) }}
+  <div class="dashboard-wrapper">
     
-    {% for metric in data.metrics %}
-      <hr class="metric-break">
-      <div>
-        {{ dprChartCard(metric) }}
-      </div>
-    {% endfor %}
+    <nav class="dashboard-sidebar">
+      {{ dprDashboardSidebar(data.metrics) }}
+    </nav> 
+
+    <div class="dashboard-content">
+      {{ dprReportHeading(data) }}
+      {{ dprDashboardFilters(data.filters) }}
+      
+      {% for metric in data.metrics %}
+        <hr class="metric-break">
+        <div>
+          {{ dprChartCard(metric) }}
+        </div>
+      {% endfor %}
+    </div>
   </div>
-</div>
 {% endmacro %}

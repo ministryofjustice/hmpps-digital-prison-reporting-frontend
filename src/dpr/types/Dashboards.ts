@@ -1,3 +1,4 @@
+import { components } from './api'
 import { ChartUnit, ChartType } from './Charts'
 
 export interface DashboardDefinition {
@@ -5,6 +6,7 @@ export interface DashboardDefinition {
   name: string
   description: string
   metrics: DashboardMetricDefinition[]
+  filterFields: components['schemas']['FieldDefinition'][]
 }
 
 export interface DashboardMetricDefinition {

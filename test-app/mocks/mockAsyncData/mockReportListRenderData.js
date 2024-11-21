@@ -252,7 +252,7 @@ const mockGetReportListRenderData = {
     loadType: 'async',
     printable: true,
     executionId: 'executionId',
-    filters: {
+    filterData: {
       filters: [],
       selectedFilters: [],
     },

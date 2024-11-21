@@ -4,6 +4,8 @@ const {
   mockDashboardMetricDefMissingReligion,
 } = require('./mockDashboardMetricDefinitons')
 
+const { establishmentIdFilter } = require('./mockDashboardFilterDefinition')
+
 const mockDashboardDefinition1 = {
   id: 'test-dashboard-1',
   name: 'Test Dashboard 1',
@@ -86,6 +88,7 @@ const mockDashboardDefinition8 = {
     mockDashboardMetricDefMissingNationality,
     mockDashboardMetricDefMissingReligion,
   ],
+  filterFields: [establishmentIdFilter],
 }
 
 module.exports = [

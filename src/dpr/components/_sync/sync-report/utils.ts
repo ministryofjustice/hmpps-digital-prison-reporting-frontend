@@ -190,9 +190,10 @@ const getRenderData = async ({
     dataTable.rowCount,
   )
 
-  const filters = await FiltersUtils.getFilters({
+  const filterData = await FiltersUtils.getFilters({
     fields: specification.fields,
     req,
+    interactive: false,
   })
 
   const columns = ColumnUtils.getColumns(specification, reportQuery.columns)
@@ -214,7 +215,7 @@ const getRenderData = async ({
     count,
     type: ReportType.REPORT,
     columns,
-    filters,
+    filterData,
     pagination,
     totals,
     classification,

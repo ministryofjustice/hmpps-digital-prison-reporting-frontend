@@ -38,12 +38,17 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
 }
 
 export const handleDaterangeValue = (filter: FilterValue, req: Request, prefix: string) => {
+  const { preventDefault } = req.query
+
   const start = <string>req.query[`${prefix}${filter.name}.start`]
   const end = <string>req.query[`${prefix}${filter.name}.end`]
 
+  const defaultStart = preventDefault ? null : (<DateRange>filter.value)?.start
+  const defaultEnd = preventDefault ? null : (<DateRange>filter.value)?.end
+
   const value = {
-    start: start || (<DateRange>filter.value)?.start || (<DateFilterValue>filter).min,
-    end: end || (<DateRange>filter.value)?.end || (<DateFilterValue>filter).max,
+    start: start || defaultStart || (<DateFilterValue>filter).min,
+    end: end || defaultEnd || (<DateFilterValue>filter).max,
   } as DateRange
 
   return value

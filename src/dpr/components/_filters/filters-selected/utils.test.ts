@@ -39,6 +39,17 @@ describe('Selected filters utils', () => {
             end: '21/11/24',
           },
         },
+        {
+          text: 'Filter 5',
+          name: 'filter5',
+          type: FilterType.dateRange,
+          value: {
+            start: '01/02/20',
+            end: '01/02/22',
+          },
+          min: '01/02/20',
+          max: '01/02/22',
+        },
       ]
     })
 
@@ -50,6 +61,7 @@ describe('Selected filters utils', () => {
           key: '["filters.filter2"]',
           value: '["value 2"]',
           classes: 'interactive-remove-filter-button',
+          disabled: false,
           attributes: {
             'aria-label': `Selected Filter: Filter 2: value 2. Click to clear this filter`,
           },
@@ -59,6 +71,7 @@ describe('Selected filters utils', () => {
           key: '["filters.filter4"]',
           value: '["value 4"]',
           classes: 'interactive-remove-filter-button',
+          disabled: false,
           attributes: {
             'aria-label': `Selected Filter: Filter 4: value 4. Click to clear this filter`,
           },
@@ -68,8 +81,20 @@ describe('Selected filters utils', () => {
           key: '["filters.filter5.start","filters.filter5.end"]',
           value: '["12/12/23","21/11/24"]',
           classes: 'interactive-remove-filter-button',
+          disabled: false,
           attributes: {
             'aria-label': `Selected Filter: Filter 5: 12/12/23 - 21/11/24. Click to clear this filter`,
+          },
+        },
+        {
+          text: 'Filter 5: 01/02/20 - 01/02/22 (maximum range)',
+          key: '["filters.filter5.start","filters.filter5.end"]',
+          value: '["01/02/20","01/02/22"]',
+          classes: 'interactive-remove-filter-button interactive-remove-filter-button--disabled',
+          disabled: true,
+          attributes: {
+            'aria-label':
+              'Selected Filter: Filter 5: 01/02/20 - 01/02/22 (maximum range). This filter cant be removed. Update the filter input to change the value',
           },
         },
       ]

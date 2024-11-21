@@ -116,23 +116,29 @@ describe('Filters Utils tests', () => {
             key: '["filters.field1"]',
             value: '["value1.2"]',
             classes: 'interactive-remove-filter-button',
+            disabled: false,
             attributes: { 'aria-label': 'Selected Filter: Field 1: value1.2. Click to clear this filter' },
           },
           {
             text: 'Field 3: 2003-02-01 - 2006-05-04',
             key: '["filters.field3.start","filters.field3.end"]',
             value: '["2003-02-01","2006-05-04"]',
+            disabled: false,
             classes: 'interactive-remove-filter-button',
             attributes: {
               'aria-label': 'Selected Filter: Field 3: 2003-02-01 - 2006-05-04. Click to clear this filter',
             },
           },
           {
-            text: 'Field 7: 2003-02-01',
+            text: 'Field 7: 2003-02-01 (min date)',
             key: '["filters.field7"]',
             value: '["2003-02-01"]',
-            classes: 'interactive-remove-filter-button',
-            attributes: { 'aria-label': 'Selected Filter: Field 7: 2003-02-01. Click to clear this filter' },
+            disabled: true,
+            classes: 'interactive-remove-filter-button interactive-remove-filter-button--disabled',
+            attributes: {
+              'aria-label':
+                'Selected Filter: Field 7: 2003-02-01 (min date). This filter cant be removed. Update the filter input to change the value',
+            },
           },
         ],
       })

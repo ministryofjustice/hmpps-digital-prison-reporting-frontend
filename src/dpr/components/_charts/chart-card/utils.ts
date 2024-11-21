@@ -65,7 +65,7 @@ const createTable = (definition: DashboardMetricDefinition, dashboardMetricsData
 
   uniqueColumns.unshift(definition.charts[0].label)
 
-  const head: MoJTableHead[] = allColumns.map((column) => {
+  const head: MoJTableHead[] = uniqueColumns.map((column) => {
     return { text: column.display }
   })
 

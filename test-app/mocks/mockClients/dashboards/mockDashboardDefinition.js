@@ -1,5 +1,6 @@
 const {
   mockDashboardMetricDefMissingEthnicity,
+  mockDashboardMetricDefMissingEthnicityRaw,
   mockDashboardMetricDefMissingNationality,
   mockDashboardMetricDefMissingReligion,
 } = require('./mockDashboardMetricDefinitons')
@@ -88,6 +89,13 @@ const mockDashboardDefinition8 = {
   ],
 }
 
+const mockDashboardDefinition9 = {
+  id: 'test-dashboard-9',
+  name: 'Test Dashboard 9',
+  description: 'Async Dashboard Testing',
+  metrics: [mockDashboardMetricDefMissingEthnicityRaw],
+}
+
 module.exports = [
   mockDashboardDefinition1,
   mockDashboardDefinition2,
@@ -97,4 +105,5 @@ module.exports = [
   mockDashboardDefinition6,
   mockDashboardDefinition7,
   mockDashboardDefinition8,
+  mockDashboardDefinition9,
 ]

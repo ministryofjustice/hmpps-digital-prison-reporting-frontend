@@ -43,6 +43,51 @@ const mockDashboardMetricDefMissingEthnicity = {
   ],
 }
 
+const mockDashboardMetricDefMissingEthnicityRaw = {
+  id: 'missing-ethnicity-metric',
+  name: 'Missing ethnicity',
+  display: 'Missing ethnicity',
+  description: 'Number of prisoners with missing ethnicity data',
+  charts: [
+    {
+      type: 'bar',
+      label: {
+        name: 'establishment_id',
+        display: 'Establishment ID',
+      },
+      unit: 'number',
+      columns: [
+        {
+          name: 'has_ethnicity',
+          display: 'No. of Prisoners with ethnicity',
+        },
+        {
+          name: 'ethnicity_is_missing',
+          display: 'No. of Prisoners with no ethnicity',
+        },
+      ],
+    },
+    {
+      type: 'doughnut',
+      label: {
+        name: 'establishment_id',
+        display: 'Establishment ID',
+      },
+      unit: 'number',
+      columns: [
+        {
+          name: 'has_ethnicity',
+          display: 'No. of Prisoners with ethnicity',
+        },
+        {
+          name: 'ethnicity_is_missing',
+          display: 'No. of Prisoners with ethnicity',
+        },
+      ],
+    },
+  ],
+}
+
 const mockDashboardMetricDefMissingNationality = {
   id: 'missing-nationality-metric',
   name: 'Missing nationality',
@@ -135,6 +180,7 @@ const mockDashboardMetricDefMissingReligion = {
 
 module.exports = {
   mockDashboardMetricDefMissingEthnicity,
+  mockDashboardMetricDefMissingEthnicityRaw,
   mockDashboardMetricDefMissingNationality,
   mockDashboardMetricDefMissingReligion,
 }

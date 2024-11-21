@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import ChartVisualisation from '../clientClass.mjs'
 
 export default class BarChartVisualisation extends ChartVisualisation {
@@ -26,8 +27,8 @@ export default class BarChartVisualisation extends ChartVisualisation {
     const pallette = this.getColourPallette()
     return pallette.map((colour) => {
       return {
-        borderColor: colour,
-        backgroundColor: colour,
+        borderColor: colour.hex,
+        backgroundColor: colour.hex,
         datalabels: {
           align: 'center',
           anchor: 'center',

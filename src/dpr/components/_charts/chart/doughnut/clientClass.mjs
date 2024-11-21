@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import ChartVisualisation from '../clientClass.mjs'
 
 export default class DoughnutChartVisualisation extends ChartVisualisation {
@@ -27,7 +28,7 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
     const pallette = this.getColourPallette()
     return [
       {
-        backgroundColor: pallette,
+        backgroundColor: pallette.map((p) => p.hex),
         hoverOffset: 4,
         datalabels: {
           anchor: 'center',
@@ -100,6 +101,7 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
   }
 
   setLegend() {
+    const classContext = this
     const { legend, suffix } = this
     return {
       id: 'legend',
@@ -111,11 +113,12 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
         labels.forEach((label, i) => {
           const colourIndex = i % backgroundColor.length
           const colour = backgroundColor[colourIndex]
+          const colourName = classContext.mapHexColourToName(colour, classContext)
           const value = chart.data.datasets.length === 1 ? `${data[i]}${suffix}` : ''
 
           ul.innerHTML += `
               <li aria-label="${label} ${value}">
-                <span style="background-color: ${colour}">${value}</span>
+                <span class="chart-colour__${colourName}">${value}</span>
                 ${label}
               </li>
             `

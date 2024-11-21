@@ -25,8 +25,8 @@ export default class BarChartVisualisation extends ChartVisualisation {
     const pallette = this.getColourPallette()
     return pallette.map((colour) => {
       return {
-        borderColor: colour,
-        backgroundColor: colour,
+        borderColor: colour.hex,
+        backgroundColor: colour.hex,
         pointStyle: 'circle',
         pointRadius: 4,
         pointHoverRadius: 10,

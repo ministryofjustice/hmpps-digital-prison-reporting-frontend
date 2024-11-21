@@ -59,14 +59,18 @@ const createTable = (definition: DashboardMetricDefinition, dashboardMetricsData
   const allColumns = definition.charts.flatMap((chartDefinition) => {
     return chartDefinition.columns.map((column) => column)
   })
-  allColumns.unshift(definition.charts[0].label)
+  const uniqueColumns = allColumns.filter(
+    (value, index, self) => index === self.findIndex((t) => t.name === value.name),
+  )
 
-  const head: MoJTableHead[] = allColumns.map((column) => {
+  uniqueColumns.unshift(definition.charts[0].label)
+
+  const head: MoJTableHead[] = uniqueColumns.map((column) => {
     return { text: column.display }
   })
 
   const rows: MoJTableRow[][] = dashboardMetricsData.map((row) => {
-    return allColumns.map((col) => {
+    return uniqueColumns.map((col) => {
       return { text: <string>row[col.name as keyof MetricsDataResponse] }
     })
   })

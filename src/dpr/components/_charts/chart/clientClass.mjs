@@ -37,11 +37,31 @@ export default class ChartVisualisation extends DprClientClass {
   // Accessible colours from the MoJ Pattern Library
   getColourPallette() {
     return [
-      '#1d70b8', // brand blue
-      '#912b88', // purple
-      '#00703c', // green
-      '#003078', // dark blue
+      {
+        name: 'blue',
+        hex: '#1d70b8',
+      },
+      {
+        name: 'purple',
+        hex: '#912b88',
+      },
+      {
+        name: 'green',
+        hex: '#00703c',
+      },
+      {
+        name: 'dark_blue',
+        hex: '#003078',
+      },
     ]
+  }
+
+  mapHexColourToName(hex, ctx) {
+    const pallette = ctx.getColourPallette()
+    const colour = pallette.find((p) => {
+      return p.hex === hex
+    })
+    return colour ? colour.name : ''
   }
 
   createDatasets(datasets, styling) {

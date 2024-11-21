@@ -163,4 +163,5 @@ module.exports = {
     mockDataQualityValuesFull[2],
     mockDataQualityValuesFull[3],
   ]),
+  'test-dashboard-9': setPercentageColumns([mockDataQualityValuesFull[0]]),
 }

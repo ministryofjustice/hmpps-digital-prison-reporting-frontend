@@ -18,7 +18,7 @@ import ReportActionsUtils from '../_reports/report-actions/utils'
 import DataTableBuilder from '../../utils/DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../../utils/DataTableBuilder/types'
 import PaginationUtils from '../_reports/report-pagination/utils'
-import { FilterOptions } from '../filters/types'
+import { FilterOptions } from '../_filters/types'
 
 function isListWithWarnings(data: Dict<string>[] | ListWithWarnings): data is ListWithWarnings {
   return (data as ListWithWarnings).data !== undefined

@@ -1,8 +1,10 @@
 import { Response, Request } from 'express'
-import PollingUtils from './utils'
-import { Services } from '../../../types/Services'
 import { ReportType } from '../../../types/UserReports'
+import type { Services } from '../../../types/Services'
 import type RequestedReportService from '../../../services/requestedReportService'
+
+import PollingUtils from './utils'
+
 import MockRequestedListData2 from '../../../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
 import MockRequestedListData1 from '../../../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV1'
 import MockRequestedDashboardData from '../../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'

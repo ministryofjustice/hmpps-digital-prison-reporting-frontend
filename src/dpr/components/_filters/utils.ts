@@ -2,7 +2,7 @@ import { Request } from 'express'
 import { FilterType } from './filter-input/enum'
 import type { components } from '../../types/api'
 import type { FilterOption } from './filter-input/types'
-import type { DateFilterValue, DateRange, FilterValue } from '../filters/types'
+import type { DateFilterValue, DateRange, FilterValue } from './types'
 
 import SelectedFiltersUtils from './filters-selected/utils'
 import DateRangeInputUtils from '../_inputs/date-range/utils'

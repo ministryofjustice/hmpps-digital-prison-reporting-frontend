@@ -5,6 +5,8 @@ import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'
 import { clearFilterValue } from '../../utils/urlHelper'
 
+import DateRangeInputUtils from '../_inputs/date-range/utils'
+
 const LOCALE = 'en-GB'
 
 const toLocaleDate = (isoDate?: string) => (isoDate ? new Date(isoDate).toLocaleDateString(LOCALE) : null)
@@ -15,55 +17,6 @@ const filterHasValue = (value: string) => {
 
 const getFilterValue = (filterValues: Dict<string>, name: string) => {
   return filterHasValue(filterValues[name]) ? filterValues[name] : null
-}
-
-const setDateValueWithinMinMax = (filter: components['schemas']['FilterDefinition']) => {
-  const { defaultValue, min, max } = filter
-  let dateValue
-  if (defaultValue) {
-    dateValue = defaultValue
-    if (min) dateValue = compareMin(min, dateValue)
-    if (max) dateValue = compareMax(max, dateValue)
-  }
-  return dateValue
-}
-
-const compareMin = (min: string, dateValue: string) => {
-  const minDate = new Date(min)
-  const date = new Date(dateValue)
-  return date < minDate ? min : dateValue
-}
-
-const compareMax = (max: string, dateValue: string) => {
-  const maxDate = new Date(max)
-  const date = new Date(dateValue)
-  return date > maxDate ? max : dateValue
-}
-
-const setDateRangeValuesWithinMinMax = (
-  filter: components['schemas']['FilterDefinition'],
-  startValue?: string,
-  endValue?: string,
-) => {
-  const { min, max } = filter
-  let start
-  if (min) {
-    start = compareMin(min, startValue)
-  } else {
-    start = startValue
-  }
-
-  let end
-  if (max) {
-    end = compareMax(max, endValue)
-  } else {
-    end = endValue
-  }
-
-  return {
-    start,
-    end,
-  }
 }
 
 const getSelectedFilters = (
@@ -83,7 +36,7 @@ const getSelectedFilters = (
       if (f.filter.type === FilterType.dateRange.toLowerCase()) {
         const startValue = getFilterValue(reportQuery.filters, `${f.name}.start`)
         const endValue = getFilterValue(reportQuery.filters, `${f.name}.end`)
-        const { start, end } = setDateRangeValuesWithinMinMax(f.filter, startValue, endValue)
+        const { start, end } = DateRangeInputUtils.setDateRangeValuesWithinMinMax(f.filter, startValue, endValue)
         const localeStart = toLocaleDate(start)
         const localeEnd = toLocaleDate(end)
 
@@ -139,7 +92,7 @@ const getFilters = (
       if (f.filter.type === FilterType.dateRange.toLowerCase()) {
         const startValue = getFilterValue(filterValues, `${f.name}.start`)
         const endValue = getFilterValue(filterValues, `${f.name}.end`)
-        const { start, end } = setDateRangeValuesWithinMinMax(f.filter, startValue, endValue)
+        const { start, end } = DateRangeInputUtils.setDateRangeValuesWithinMinMax(f.filter, startValue, endValue)
 
         filter = filter as unknown as DateFilterValue
         filter = {
@@ -173,6 +126,4 @@ export default {
     selectedFilters: getSelectedFilters(variantDefinition.specification.fields, reportQuery, createUrlForParameters),
     urlWithNoFilters: createUrlForParameters(reportQuery.toRecordWithFilterPrefix(), null),
   }),
-  setDateRangeValuesWithinMinMax,
-  setDateValueWithinMinMax,
 }

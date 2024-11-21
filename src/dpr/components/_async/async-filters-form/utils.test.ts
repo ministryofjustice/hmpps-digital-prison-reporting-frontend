@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import MockDate from 'mockdate'
 import * as AsyncFiltersUtils from './utils'
 import MockDefinitions from '../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
@@ -33,98 +32,6 @@ describe('AsyncFiltersUtils', () => {
       )
       expect(filterRenderData.filters).toEqual(MockRenderFiltersData.filters)
       expect(filterRenderData.sortBy).toEqual(MockRenderFiltersData.sortBy)
-    })
-  })
-
-  describe('getRelativeDateOptions', () => {
-    it('should set the correct options for relative dates - all enabled', () => {
-      const min = dayjs().subtract(1, 'month').format('YYYY-MM-DD').toString()
-      const max = dayjs().add(1, 'month').format('YYYY-MM-DD').toString()
-      const options = AsyncFiltersUtils.getRelativeDateOptions(min, max)
-
-      const disabled = options.filter((opt) => {
-        return opt.disabled
-      })
-
-      expect(disabled.length).toEqual(0)
-    })
-
-    it('should set the correct options for relative dates - next month disabled', () => {
-      const min = dayjs().subtract(1, 'month').format('YYYY-MM-DD').toString()
-      const max = dayjs().add(1, 'week').format('YYYY-MM-DD').toString()
-      const options = AsyncFiltersUtils.getRelativeDateOptions(min, max)
-
-      const disabled = options.filter((opt) => {
-        return opt.disabled
-      })
-      expect(disabled.length).toEqual(1)
-      expect(options[5].disabled).toBeTruthy()
-    })
-
-    it('should set the correct options for relative dates - last month disabled', () => {
-      const min = dayjs().subtract(1, 'week').format('YYYY-MM-DD').toString()
-      const max = dayjs().add(1, 'month').format('YYYY-MM-DD').toString()
-      const options = AsyncFiltersUtils.getRelativeDateOptions(min, max)
-
-      const disabled = options.filter((opt) => {
-        return opt.disabled
-      })
-      expect(disabled.length).toEqual(1)
-      expect(options[4].disabled).toBeTruthy()
-    })
-
-    it('should set the correct options for relative dates - next week disabled', () => {
-      const min = dayjs().subtract(1, 'month').format('YYYY-MM-DD').toString()
-      const max = dayjs().add(6, 'day').format('YYYY-MM-DD').toString()
-      const options = AsyncFiltersUtils.getRelativeDateOptions(min, max)
-
-      const disabled = options.filter((opt) => {
-        return opt.disabled
-      })
-      expect(disabled.length).toEqual(2)
-      expect(options[3].disabled).toBeTruthy()
-      expect(options[5].disabled).toBeTruthy()
-    })
-
-    it('should set the correct options for relative dates - last week disabled', () => {
-      const min = dayjs().subtract(6, 'day').format('YYYY-MM-DD').toString()
-      const max = dayjs().add(1, 'month').format('YYYY-MM-DD').toString()
-      const options = AsyncFiltersUtils.getRelativeDateOptions(min, max)
-
-      const disabled = options.filter((opt) => {
-        return opt.disabled
-      })
-      expect(disabled.length).toEqual(2)
-      expect(options[2].disabled).toBeTruthy()
-      expect(options[4].disabled).toBeTruthy()
-    })
-
-    it('should set the correct options for relative dates - tomorrow disabled', () => {
-      const min = dayjs().subtract(1, 'month').format('YYYY-MM-DD').toString()
-      const max = dayjs().format('YYYY-MM-DD').toString()
-      const options = AsyncFiltersUtils.getRelativeDateOptions(min, max)
-
-      const disabled = options.filter((opt) => {
-        return opt.disabled
-      })
-      expect(disabled.length).toEqual(3)
-      expect(options[1].disabled).toBeTruthy()
-      expect(options[3].disabled).toBeTruthy()
-      expect(options[5].disabled).toBeTruthy()
-    })
-
-    it('should set the correct options for relative dates - yesterday disabled', () => {
-      const min = dayjs().format('YYYY-MM-DD').toString()
-      const max = dayjs().add(1, 'month').format('YYYY-MM-DD').toString()
-      const options = AsyncFiltersUtils.getRelativeDateOptions(min, max)
-
-      const disabled = options.filter((opt) => {
-        return opt.disabled
-      })
-      expect(disabled.length).toEqual(3)
-      expect(options[0].disabled).toBeTruthy()
-      expect(options[2].disabled).toBeTruthy()
-      expect(options[4].disabled).toBeTruthy()
     })
   })
 
@@ -273,14 +180,6 @@ describe('AsyncFiltersUtils', () => {
       const res = await AsyncFiltersUtils.getSortByFromDefinition([])
 
       expect(res).toEqual([])
-    })
-  })
-
-  describe('calcDates', () => {
-    it('should return undefined values when no duration value is set', async () => {
-      const res = await AsyncFiltersUtils.calcDates('')
-
-      expect(res).toEqual({})
     })
   })
 })

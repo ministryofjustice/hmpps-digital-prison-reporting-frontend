@@ -1,9 +1,9 @@
 {% extends layoutPath %}
 
 {% from "../components/loading-anim/view.njk" import dprLoadingAnim %}
-{% from "../components/report-heading/view.njk" import dprReportHeading %}
-{% from "../components/report-print-message/view.njk" import dprReportPrintMessage %}
-{% from "../components/sync-report/view.njk" import dprSyncReport %}
+{% from "../components/_reports/report-heading/view.njk" import dprReportHeading %}
+{% from "../components/_reports/report-print-message/view.njk" import dprReportPrintMessage %}
+{% from "../components/_sync/sync-report/view.njk" import dprSyncReport %}
 
 {% set template = renderData.template %}
 {% set pagination = renderData.pagination %}

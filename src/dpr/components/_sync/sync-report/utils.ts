@@ -1,20 +1,22 @@
 import parseUrl from 'parseurl'
-import { Request } from 'express'
+import type { Request } from 'express'
+import type { components } from '../../../types/api'
+import type { DataTable } from '../../../utils/DataTableBuilder/types'
+import type { ListWithWarnings } from '../../../data/types'
+import type { Columns } from '../../_reports/report-columns-form/types'
+import type { SyncReportFeatures, SyncReportOptions, SyncReportUtilsParams } from '../../../types/SyncReportUtils'
+import type { Services } from '../../../types/Services'
+import type { DownloadActionParams } from '../../_reports/report-actions/types'
+import { LoadType, ReportType } from '../../../types/UserReports'
+import ReportQuery from '../../../types/ReportQuery'
+
 import PaginationUtils from '../../_reports/report-pagination/utils'
 import TotalsUtils from '../../_reports/report-totals/utils'
-import { components } from '../../../types/api'
-import DataTableBuilder from '../../../utils/DataTableBuilder/DataTableBuilder'
-import { DataTable } from '../../../utils/DataTableBuilder/types'
 import ColumnUtils from '../../_reports/report-columns-form/utils'
-import ReportQuery from '../../../types/ReportQuery'
-import { ListWithWarnings } from '../../../data/types'
-import { LoadType, ReportType } from '../../../types/UserReports'
-import { Columns } from '../../_reports/report-columns-form/types'
 import ReportActionsUtils from '../../_reports/report-actions/utils'
-import { SyncReportFeatures, SyncReportOptions, SyncReportUtilsParams } from '../../../types/SyncReportUtils'
-import ReportFiltersUtils from '../../_reports/report-filters/utils'
-import { DownloadActionParams } from '../../_reports/report-actions/types'
-import { Services } from '../../../types/Services'
+import FiltersUtils from '../../_filters/utils'
+
+import DataTableBuilder from '../../../utils/DataTableBuilder/DataTableBuilder'
 
 const setActions = (
   csrfToken: string,
@@ -188,7 +190,7 @@ const getRenderData = async ({
     dataTable.rowCount,
   )
 
-  const filters = await ReportFiltersUtils.getFilters({
+  const filters = await FiltersUtils.getFilters({
     fields: specification.fields,
     req,
   })

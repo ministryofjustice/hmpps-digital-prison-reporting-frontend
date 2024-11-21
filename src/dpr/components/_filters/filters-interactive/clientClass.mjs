@@ -11,6 +11,7 @@ export default class InteractiveFilters extends DprFiltersFormClass {
       formId: 'interactive-filters-form',
       submitButtonId: 'interactive-apply-filters-button',
       resetButtonId: 'interactive-reset-filters-button',
+      removeSelectedButtonClass: 'interactive-remove-filter-button',
     })
 
     this.initSelectedFiltersButtons()

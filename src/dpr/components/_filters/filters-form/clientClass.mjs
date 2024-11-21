@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import DprFormValidationClass from './DprFormValidationClass.mjs'
+import DprFormValidationClass from '../../../DprFormValidationClass.mjs'
 
 export default class DprFiltersFormClass extends DprFormValidationClass {
   initFiltersForm({ formId, submitButtonId, resetButtonId, removeSelectedButtonClass }) {

@@ -135,7 +135,7 @@ export const getReport = async ({ req, res, services }: AsyncReportUtilsParams) 
       const filterData = await ReportFiltersUtils.getFilters({
         fields: specification.fields,
         req,
-        interactive: false,
+        interactive: true,
       })
 
       renderData = {

@@ -37,19 +37,19 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
   })
 }
 
-const handleDaterangeValue = (filter: FilterValue, req: Request, prefix: string) => {
+export const handleDaterangeValue = (filter: FilterValue, req: Request, prefix: string) => {
   const start = <string>req.query[`${prefix}${filter.name}.start`]
   const end = <string>req.query[`${prefix}${filter.name}.end`]
 
   const value = {
-    start: start || (<DateRange>filter.value).start || (<DateFilterValue>filter).min,
-    end: end || (<DateRange>filter.value).end || (<DateFilterValue>filter).max,
+    start: start || (<DateRange>filter.value)?.start || (<DateFilterValue>filter).min,
+    end: end || (<DateRange>filter.value)?.end || (<DateFilterValue>filter).max,
   } as DateRange
 
   return value
 }
 
-const handleDateValue = (filter: FilterValue, req: Request, prefix: string) => {
+export const handleDateValue = (filter: FilterValue, req: Request, prefix: string) => {
   const dateValue = <string>req.query[`${prefix}${filter.name}`]
   const { min } = <DateFilterValue>filter
   const { max } = <DateFilterValue>filter
@@ -155,6 +155,7 @@ const getFilters = async ({
   const defaultFilters = await getFiltersFromDefinition(fields, interactive)
   const filters = setFilterValuesFromRequest(defaultFilters, req)
   const selectedFilters = SelectedFiltersUtils.getSelectedFilters(filters, prefix)
+
   return {
     filters,
     selectedFilters,

@@ -47,11 +47,12 @@ export default {
 
     const { reportId, id, tableId } = req.params
     const { dataProductDefinitionsPath } = req.query
-    const params = [token, id, reportId]
 
     // Dashboard Definition,
     const dashboardDefinition: DashboardDefinition = await services.dashboardService.getDefinition(
-      ...params,
+      token,
+      id,
+      reportId,
       dataProductDefinitionsPath,
     )
 
@@ -63,7 +64,9 @@ export default {
 
     // The metrics Data
     const dashboardMetricsData: MetricsDataResponse[] = await services.dashboardService.getAsyncDashboard(
-      ...params,
+      token,
+      id,
+      reportId,
       tableId,
       reportQuery,
     )
@@ -99,7 +102,9 @@ export default {
 
     return {
       dashboardData: {
-        ...params,
+        token,
+        id,
+        reportId,
         name: dashboardDefinition.name,
         description: dashboardDefinition.description,
         reportName: reportDefinition.name,

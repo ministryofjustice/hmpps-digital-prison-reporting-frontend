@@ -185,6 +185,7 @@ export default function routes({
         template = 'async-report'
         renderData = await AsyncReportUtils.getReport(params)
       }
+
       if (type === ReportType.DASHBOARD) {
         template = 'dashboard'
         renderData = await DashboardUtils.renderAsyncDashboard(params)

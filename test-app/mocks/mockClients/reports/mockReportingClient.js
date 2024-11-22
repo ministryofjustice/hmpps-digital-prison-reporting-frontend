@@ -89,6 +89,10 @@ class MockReportingClient {
     return Promise.resolve(this.RESULT_COUNT)
   }
 
+  async getAsyncInteractiveCount() {
+    return Promise.resolve(this.RESULT_COUNT)
+  }
+
   async getAsyncSummaryReport(token, reportId, variantId, tableId, summaryId) {
     switch (summaryId) {
       case 'summary3':

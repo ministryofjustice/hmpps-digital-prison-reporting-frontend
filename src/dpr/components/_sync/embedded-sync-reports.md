@@ -37,8 +37,9 @@ import ReportingClient from '@ministryofjustice/hmpps-digital-prison-reporting-f
 import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
 
 // Initialise Reporting Client with API endpoint
+// NOTE: DPR can provide you the our API endpoint to use here.
 const clientArgs = {
-  url: `http://localhost:3010`,
+  url: `http://localhost:3010`, 
   agent: { timeout: 10000 }
 }
 const reportingClient = new ReportingClient(clientArgs)
@@ -86,8 +87,8 @@ addSyncRoutes({
 Additonal features can be added to the sync reports by adding additional services, and updating config. The available features are as follows:
 
 - [Report Download](#download) ✅
-- Recently Viewed Reports list ❌ 
-- Bookmarks ❌
+- Recently Viewed Reports list 🚧 (under construction)
+- Bookmarks 🚧 (under construction)
 
 ## Pre-requisites
 

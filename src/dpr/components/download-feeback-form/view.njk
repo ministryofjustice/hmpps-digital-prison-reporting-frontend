@@ -16,6 +16,7 @@
   {% set loadType = report.loadType %}
   {% set reportName = report.reportName %}
   {% set variantName = report.variantName %}
+  {% set dataProductDefinitionsPath = report.dataProductDefinitionsPath %}
   {% set csrfToken = csrfToken %}
 
   <div class="dpr-download-feedback-form-wrapper" data-dpr-module="download-feedback-form">
@@ -44,6 +45,7 @@
       <input type="hidden" name="time" value="{{ time }}">
       <input type="hidden" name="staffId" value="{{ staffId }}">
       <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}">
+      <input type="hidden" name="dataProductDefinitionsPath" value="{{ dataProductDefinitionsPath }}">
 
       <h2 class="govuk-fieldset__legend govuk-fieldset__legend--l">About you</h2>
       {# Name Input #}

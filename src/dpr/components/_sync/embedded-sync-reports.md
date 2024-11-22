@@ -122,7 +122,7 @@ import DownloadPermissionService from '@ministryofjustice/hmpps-digital-prison-r
 import addDownloadRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/download'
 
 // Initialise with the UserDataStore, and userId
-const downloadPermissionService = new DownloadPermissionService(UserDataStore)
+const downloadPermissionService = new DownloadPermissionService(userDataStore)
 const userId = myGetUserIdFunction()
 downloadPermissionService.init(userId)
 

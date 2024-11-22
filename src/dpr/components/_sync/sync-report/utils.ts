@@ -24,6 +24,8 @@ const setActions = (
   reportDefinition: components['schemas']['SingleVariantReportDefinition'],
   columns: Columns,
   url: string,
+  canDownload: boolean,
+  count: number,
   features: SyncReportFeatures = {},
   options: SyncReportOptions = {},
 ) => {
@@ -31,7 +33,7 @@ const setActions = (
   const { name, id, printable } = variant
 
   const downloadConfig: DownloadActionParams = {
-    enabled: true,
+    enabled: count > 0 && features.download,
     name,
     reportName,
     csrfToken,
@@ -41,7 +43,7 @@ const setActions = (
     columns: columns.value,
     loadType: LoadType.SYNC,
     definitionPath: options.dpdPath,
-    canDownload: features.download,
+    canDownload,
   }
 
   return ReportActionsUtils.getActions({
@@ -146,6 +148,7 @@ const getReport = async ({ req, res, services, features = {}, options = {} }: Sy
     csrfToken,
     features,
     options,
+    canDownload: userFeaturesConfig.canDownload,
   })
 
   return {
@@ -156,6 +159,7 @@ const getReport = async ({ req, res, services, features = {}, options = {} }: Sy
       loadType: LoadType.SYNC,
       reportId,
       id,
+      dataProductDefinitionsPath,
     },
   }
 }
@@ -169,6 +173,7 @@ const getRenderData = async ({
   csrfToken,
   features,
   options,
+  canDownload,
 }: {
   req: Request
   reportDefinition: components['schemas']['SingleVariantReportDefinition']
@@ -178,6 +183,7 @@ const getRenderData = async ({
   count: number
   features: SyncReportFeatures
   options: SyncReportOptions
+  canDownload: boolean
 }) => {
   const { name: reportName, description: reportDescription } = reportDefinition
   const { specification, name, description, classification, printable } = reportDefinition.variant
@@ -210,6 +216,8 @@ const getRenderData = async ({
     reportDefinition,
     columns,
     `${req.protocol}://${req.get('host')}${req.originalUrl}`,
+    canDownload,
+    count,
     features,
     options,
   )

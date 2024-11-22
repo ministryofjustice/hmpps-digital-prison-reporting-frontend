@@ -162,17 +162,25 @@ addRecentlyViewedRoutes(routeImportParams)
 addAsyncReportingRoutes(routeImportParams)
 addDownloadRoutes(routeImportParams)
 
-addSyncRoutes({
-  ...routeImportParams,
-  options: {
-    // dpdPath: 'my/definition/path',
-  },
-  features: {
-    download: true,
-    bookmark: false, // NOTE: not avalable yet
-    recentlyViewed: false, // NOTE: not available yet
-  },
-})
+// const syncReportingClient = new MockReportingClient()
+// const syncReportingService = new ReportingService(syncReportingClient)
+// const syncServices = {
+//   reportingService: syncReportingService,
+// }
+// addSyncRoutes({
+//   router: app,
+//   config: {
+//     userId: 'userId',
+//     redisClient: () => {},
+//   },
+//   services: syncServices,
+//   options: {
+//     testStore: mockUserStore,
+//   },
+//   features: {
+//     download: true,
+//   },
+// })
 
 app.get('/async-reports', async (req, res) => {
   res.locals.definitions = mockDefinitions.reports

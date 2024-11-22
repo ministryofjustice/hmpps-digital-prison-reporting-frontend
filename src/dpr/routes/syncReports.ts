@@ -1,26 +1,25 @@
-import type { RequestHandler, Router } from 'express'
+/* eslint-disable no-param-reassign */
+import type { RequestHandler } from 'express'
 import ErrorSummaryUtils from '../components/error-summary/utils'
 import { Services } from '../types/Services'
 import logger from '../utils/logger'
 
 import SyncReportUtils from '../components/_sync/sync-report/utils'
-import { SyncReportFeatures, SyncReportOptions } from '../types/SyncReportUtils'
+import { EmbeddedSyncParams } from '../components/_sync/sync-report/types'
 
-export default function routes({
-  router,
-  services,
-  layoutPath,
-  templatePath = 'dpr/views/',
-  options,
-  features,
-}: {
-  router: Router
-  services: Services
-  layoutPath: string
-  templatePath?: string
-  options?: SyncReportOptions
-  features?: SyncReportFeatures
-}) {
+// DATA STORE
+import UserDataStore from '../data/userDataStore'
+
+// FEATURE: Download
+import addDownloadRoutes from './download'
+import DownloadPermissionService from '../services/downloadPermissionService'
+
+export default function routes({ router, config, services, options, features }: EmbeddedSyncParams) {
+  const { templatePath = 'dpr/views/', layoutPath = 'page.njk' } = config
+
+  // Initialise the features
+  ;({ router, services } = initFeatures({ router, config, services, options, features }))
+
   const errorHandler: RequestHandler = async (req, res) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
     let { error } = req.body
@@ -62,4 +61,33 @@ export default function routes({
     '/dpr/embedded/sync/:type/:reportId/:id/report/:download',
   ]
   router.get(viewReportPaths, viewSyncReportHandler, errorHandler)
+}
+
+const initFeatures = ({ router, config, options, services, features }: EmbeddedSyncParams) => {
+  const { redisClient, userId, templatePath = 'dpr/views/', layoutPath = 'page.njk' } = config
+  const { testStore } = options
+
+  let updatedServices: Services = {
+    ...services,
+  }
+
+  if (redisClient && userId) {
+    const userDataStore: UserDataStore = testStore || new UserDataStore(redisClient)
+
+    if (features.download) {
+      const downloadPermissionService = new DownloadPermissionService(userDataStore)
+      downloadPermissionService.init(userId)
+      updatedServices = {
+        ...services,
+        downloadPermissionService,
+      }
+      addDownloadRoutes({ router, services: updatedServices, layoutPath, templatePath })
+    }
+  } else if (features.download) {
+    logger.info('Unable to init download feature. Missing redisClient or UserId')
+  }
+  return {
+    router,
+    services: updatedServices,
+  }
 }

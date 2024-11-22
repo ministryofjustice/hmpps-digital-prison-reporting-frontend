@@ -173,6 +173,7 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
         bookmarked: await services.bookmarkService.isBookmarked(reportStataVars.id, userId),
         canDownload,
         reportSummaries: collatedSummaryBuilder.collatePageSummaries(),
+        dataProductDefinitionsPath,
       }
 
       switch (template as Template) {

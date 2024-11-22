@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction, Router } from 'express'
-import { Services } from './Services'
-import { RedisClient } from '../data/userDataStore'
+import { Services } from '../../../types/Services'
+import { RedisClient } from '../../../data/userDataStore'
 
 export interface SyncReportUtilsParams {
   req?: Request
@@ -13,7 +13,7 @@ export interface SyncReportUtilsParams {
 
 export interface SyncReportOptions {
   dpdPath?: string
-  test?: boolean
+  testStore?: UserDataStore
 }
 
 export interface SyncReportFeatures {

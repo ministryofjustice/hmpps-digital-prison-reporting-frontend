@@ -5,6 +5,7 @@
   {% set reportId = reportData.reportId %}
   {% set id = reportData.id %}
   {% set loadType = reportData.loadType %}
+  {% set dataProductDefinitionsPath = reportData.dataProductDefinitionsPath %}
 
   {% if loadType === 'async' %}
     {% set tableId = reportData.tableId %}
@@ -13,9 +14,14 @@
     {% set feedbackFormHref = "/download/"+ reportId + "/" + id + "/feedback"  %}
   {% endif %}
 
+  {% if dataProductDefinitionsPath %}
+    {% set feedbackFormHref = feedbackFormHref + '?dataProductDefinitionsPath=' + dataProductDefinitionsPath  %}
+  {% endif %}
+
+
   {% set html %}
     <h2 class="govuk-heading-m">You do not have permission to download this report</h2>
-    <a href="/download/{{reportId}}/{{id}}/{{tableId}}/feedback" class="govuk-link govuk-link--no-visited-state govuk-!-margin-bottom-1">
+    <a href="{{ feedbackFormHref }}" class="govuk-link govuk-link--no-visited-state govuk-!-margin-bottom-1">
       Complete a request form to enable download
     </a> (takes 1 minute)
   {% endset %}

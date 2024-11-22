@@ -17,6 +17,7 @@ import ReportActionsUtils from '../../_reports/report-actions/utils'
 import FiltersUtils from '../../_filters/utils'
 
 import DataTableBuilder from '../../../utils/DataTableBuilder/DataTableBuilder'
+import { Template } from '../../../types/Templates'
 
 const setActions = (
   csrfToken: string,
@@ -102,7 +103,13 @@ const getSyncReportData = async (
   const { variant } = reportDefinition
   const { resourceName, specification } = variant
 
-  const reportQuery = new ReportQuery(specification, req.query, <string>dpdPath)
+  const reportQuery = new ReportQuery({
+    fields: specification.fields,
+    template: specification.template as Template,
+    queryParams: req.query,
+    definitionsPath: <string>req.query.dataProductDefinitionsPath,
+  })
+
   return {
     reportData: await services.reportingService.getListWithWarnings(resourceName, token, reportQuery),
     reportDefinition,

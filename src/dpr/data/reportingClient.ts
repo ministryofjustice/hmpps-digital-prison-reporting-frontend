@@ -207,4 +207,22 @@ export default class ReportingClient {
       })
       .then((response) => (<Count>response).count)
   }
+
+  getAsyncInteractiveCount(
+    token: string,
+    tableId: string,
+    reportId: string,
+    id: string,
+    filters: ReportQuery,
+  ): Promise<number> {
+    logger.info(`Reporting client: Get tableId:${tableId} count`)
+
+    return this.restClient
+      .get({
+        path: `/reports/${reportId}/${id}/tables/${tableId}/count`,
+        token,
+        query: filters.toRecordWithFilterPrefix(true),
+      })
+      .then((response) => (<Count>response).count)
+  }
 }

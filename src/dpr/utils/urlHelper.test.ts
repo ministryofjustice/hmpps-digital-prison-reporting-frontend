@@ -1,7 +1,9 @@
+import { Request } from 'express'
 import ReportQuery from '../types/ReportQuery'
 import Dict = NodeJS.Dict
 import createUrlForParameters from './urlHelper'
 import { components } from '../types/api'
+import { Template } from '../types/Templates'
 
 const defaultFields: Array<components['schemas']['FieldDefinition']> = [
   {
@@ -20,13 +22,15 @@ const defaultFields: Array<components['schemas']['FieldDefinition']> = [
   },
 ]
 
-const defaultQueryParams = {
-  selectedPage: '10',
-  pageSize: '20',
-  sortColumn: '30',
-  sortedAsc: 'false',
-  'f.direction': 'out',
-}
+const req = {
+  query: {
+    selectedPage: '10',
+    pageSize: '20',
+    sortColumn: '30',
+    sortedAsc: 'false',
+    'f.direction': 'out',
+  },
+} as unknown as Request
 
 const defaultSpec: components['schemas']['Specification'] = {
   fields: defaultFields,
@@ -34,7 +38,13 @@ const defaultSpec: components['schemas']['Specification'] = {
   sections: [],
 }
 
-const defaultReportQuery: ReportQuery = new ReportQuery(defaultSpec, defaultQueryParams, 'one', 'f.')
+const defaultReportQuery: ReportQuery = new ReportQuery({
+  fields: defaultSpec.fields,
+  template: defaultSpec.template as Template,
+  queryParams: req.query,
+  definitionsPath: 'one',
+  filtersPrefix: 'f.',
+})
 
 describe('Create URL', () => {
   it('Reset filters', () => {
@@ -46,15 +56,16 @@ describe('Create URL', () => {
   })
 
   it('Clear single filter', () => {
-    const currentQueryParams: ReportQuery = new ReportQuery(
-      defaultSpec,
-      {
-        ...defaultQueryParams,
+    const currentQueryParams: ReportQuery = new ReportQuery({
+      fields: defaultSpec.fields,
+      template: defaultSpec.template as Template,
+      queryParams: {
+        ...req.query,
         'f.type': 'jaunt',
       },
-      'one',
-      'f.',
-    )
+      definitionsPath: 'one',
+      filtersPrefix: 'f.',
+    })
     const updateQueryParams: Dict<string> = {
       'f.direction': '',
     }
@@ -88,7 +99,13 @@ describe('Create URL', () => {
       columns: 'direction',
     }
 
-    const reportQuery: ReportQuery = new ReportQuery(defaultSpec, queryParams, 'one', 'f.')
+    const reportQuery: ReportQuery = new ReportQuery({
+      fields: defaultSpec.fields,
+      template: defaultSpec.template as Template,
+      queryParams,
+      definitionsPath: 'one',
+      filtersPrefix: 'f.',
+    })
 
     const updateQueryParams: Dict<string> = {
       selectedPage: '11',

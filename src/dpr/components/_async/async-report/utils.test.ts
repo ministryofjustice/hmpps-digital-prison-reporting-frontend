@@ -191,7 +191,7 @@ describe('AsyncReportListUtils', () => {
         token: 'ToKeN',
       })
 
-      expect(result.length).toEqual(5)
+      expect(result.length).toEqual(4)
     })
   })
 
@@ -199,9 +199,8 @@ describe('AsyncReportListUtils', () => {
     beforeEach(() => {
       jest.clearAllMocks()
       jest.spyOn(AsyncReportListUtilsHelper, 'initDataSources').mockImplementation(() => [
-        mockReportingClient.getDefinition('', '', 'variantId-2'),
+        mockReportingClient.getDefinition('', 'test-report-3', 'variantId-2'),
         mockReportingClient.getAsyncReport('', '', '', '', { pageSize: 10 }),
-        mockReportingClient.getAsyncCount(),
         new Promise((resolve) => {
           resolve(reportState)
         }),
@@ -231,11 +230,23 @@ describe('AsyncReportListUtils', () => {
       const mockRecentlyViewedStoreService = {
         setRecentlyViewed: jest.fn(),
       } as unknown as RecentlyViewedStoreService
-      const mockDataSources = { locals: { user: { token: 'token' } } } as unknown as ReportingService
+
+      const mockReportingService = {
+        getAsyncCount: jest.fn().mockImplementation(() => {
+          return new Promise((resolve) => {
+            resolve(100)
+          })
+        }),
+        getAsyncInteractiveCount: jest.fn().mockImplementation(() => {
+          return new Promise((resolve) => {
+            resolve(100)
+          })
+        }),
+      } as unknown as ReportingService
 
       const services = {
         requestedReportService: mockAsyncReportsStore,
-        reportingService: mockDataSources,
+        reportingService: mockReportingService,
         recentlyViewedService: mockRecentlyViewedStoreService,
         bookmarkService: mockBookmarkService,
         dashboardService: mockDashboardService,

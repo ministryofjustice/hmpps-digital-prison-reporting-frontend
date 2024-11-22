@@ -29,7 +29,7 @@ describe('ReportListUtils', () => {
       const reportsTableData = await ReportListUtils.mapReportsList(res, services)
 
       expect(reportsTableData.head.length).toEqual(4)
-      expect(reportsTableData.rows.length).toEqual(43)
+      expect(reportsTableData.rows.length).toEqual(44)
     })
   })
 })

@@ -19,6 +19,7 @@ import DataTableBuilder from '../../utils/DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../../utils/DataTableBuilder/types'
 import PaginationUtils from '../_reports/report-pagination/utils'
 import { FilterOptions } from '../_filters/types'
+import { Template } from '../../types/Templates'
 
 function isListWithWarnings(data: Dict<string>[] | ListWithWarnings): data is ListWithWarnings {
   return (data as ListWithWarnings).data !== undefined
@@ -179,7 +180,12 @@ const renderListWithDefinition = ({
       const reportName: string = reportDefinition.name
       const variantDefinition = reportDefinition.variant
 
-      const reportQuery = new ReportQuery(variantDefinition.specification, request.query, definitionsPath)
+      const reportQuery = new ReportQuery({
+        fields: variantDefinition.specification.fields,
+        template: variantDefinition.specification.template as Template,
+        queryParams: request.query,
+        definitionsPath: <string>request.query.dataProductDefinitionsPath,
+      })
 
       const getListData: ListDataSources = {
         data: reportingClient.getListWithWarnings(variantDefinition.resourceName, token, reportQuery),
@@ -218,7 +224,12 @@ export default {
     dynamicAutocompleteEndpoint,
   }: RenderListWithDataInput) => {
     const { specification } = variantDefinition
-    const reportQuery = new ReportQuery(specification, request.query)
+    const reportQuery = new ReportQuery({
+      fields: specification.fields,
+      template: specification.template as Template,
+      queryParams: request.query,
+      definitionsPath: <string>request.query.dataProductDefinitionsPath,
+    })
     const listData = getListDataSources(reportQuery)
 
     renderList(

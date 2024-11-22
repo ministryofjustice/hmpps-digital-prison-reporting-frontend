@@ -43,7 +43,13 @@ export const initDataSources = ({
     (definition: components['schemas']['SingleVariantReportDefinition']) => {
       const { variant } = definition
       const { specification } = variant
-      const reportQuery = new ReportQuery(specification, req.query, dataProductDefinitionsPath)
+
+      const reportQuery = new ReportQuery({
+        fields: specification.fields,
+        template: specification.template as Template,
+        queryParams: req.query,
+        definitionsPath: dataProductDefinitionsPath,
+      })
 
       return services.reportingService.getAsyncReport(token, reportId, reportVariantId, tableId, {
         selectedPage: reportQuery.selectedPage,
@@ -72,11 +78,9 @@ export const initDataSources = ({
       )
     },
   )
-
-  const reportDataCountPromise = services.reportingService.getAsyncCount(token, tableId)
   const stateDataPromise = services.requestedReportService.getReportByTableId(tableId, userId)
 
-  return [reportDefinitionPromise, reportDataPromise, reportDataCountPromise, stateDataPromise, summaryDataPromise]
+  return [reportDefinitionPromise, reportDataPromise, stateDataPromise, summaryDataPromise]
 }
 
 const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
@@ -95,15 +99,12 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
       const { variant } = definition
       const { classification, printable, specification } = variant
       const { template } = specification
-      // TODO: fix this type once definition is known
       const { interactive } = <components['schemas']['VariantDefinition'] & { interactive?: boolean }>variant
 
-      // Data & Count
+      // Data
       const reportData = resolvedData[1] as Dict<string>[]
-      const count = resolvedData[2] as number
-
       // Requested Report Data
-      reportStateData = resolvedData[3] as RequestedReport
+      reportStateData = resolvedData[2] as RequestedReport
       const {
         reportName,
         name,
@@ -133,7 +134,20 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
 
       const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, resolvedData[4])
       const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, reportStataVars.id)
-      const reportQuery = new ReportQuery(specification, req.query, <string>dataProductDefinitionsPath)
+
+      const reportQuery = new ReportQuery({
+        fields: specification.fields,
+        template: specification.template as Template,
+        queryParams: req.query,
+        definitionsPath: dataProductDefinitionsPath,
+      })
+
+      let count
+      if (!interactive) {
+        count = await services.reportingService.getAsyncCount(token, tableId)
+      } else {
+        count = await services.reportingService.getAsyncInteractiveCount(token, tableId, reportId, id, reportQuery)
+      }
 
       // Columns & interactive filters
       const columns = ColumnUtils.getColumns(specification, <string[]>req.query.columns)
@@ -197,6 +211,7 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
               collatedSummaryBuilder.collateDataTableSummaries(),
               columns,
               reportQuery,
+              interactive,
             ),
           }
           break

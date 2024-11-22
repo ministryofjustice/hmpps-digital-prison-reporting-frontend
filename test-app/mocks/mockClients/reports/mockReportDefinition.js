@@ -20,6 +20,7 @@ const variant19 = require('./mockVariants/variant19')
 const variant20 = require('./mockVariants/variant20')
 const variant21 = require('./mockVariants/variant21')
 const variant22 = require('./mockVariants/variant22')
+const variant23 = require('./mockVariants/variant23-interactive')
 const dashboardDefinition = require('../dashboards/mockDashboardDefinition')
 
 module.exports = {
@@ -50,6 +51,7 @@ module.exports = {
       variant20,
       variant21,
       variant22,
+      variant23,
     ],
     dashboards: dashboardDefinition,
   },
@@ -89,6 +91,12 @@ module.exports = {
       id: 'test-report-20',
       name: 'ORS Prisoner and Visitors Details Report',
       variants: [variant20],
+      dashboards: [],
+    },
+    {
+      id: 'test-report-6',
+      name: 'Interactive reports',
+      variants: [variant23],
       dashboards: [],
     },
   ],

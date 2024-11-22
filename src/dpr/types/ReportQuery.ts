@@ -25,16 +25,22 @@ export default class ReportQuery implements FilteredListRequest {
 
   dataProductDefinitionsPath?: string
 
-  constructor(
-    specification: components['schemas']['Specification'],
-    queryParams: ParsedQs,
-    definitionsPath?: string,
-    filtersPrefix: string = DEFAULT_FILTERS_PREFIX,
-  ) {
-    const { fields, template } = specification
-
+  constructor({
+    fields,
+    template,
+    queryParams,
+    definitionsPath,
+    filtersPrefix = DEFAULT_FILTERS_PREFIX,
+  }: {
+    fields: components['schemas']['FieldDefinition'][]
+    template?: Template
+    queryParams: ParsedQs
+    definitionsPath?: string
+    filtersPrefix?: string
+  }) {
     this.selectedPage = queryParams.selectedPage ? Number(queryParams.selectedPage) : 1
-    this.pageSize = queryParams.pageSize ? Number(queryParams.pageSize) : this.getDefaultPageSize(template as Template)
+    this.pageSize =
+      queryParams.pageSize && template ? Number(queryParams.pageSize) : this.getDefaultPageSize(template as Template)
     this.sortColumn = queryParams.sortColumn ? queryParams.sortColumn.toString() : this.getDefaultSortColumn(fields)
     this.sortedAsc = queryParams.sortedAsc !== 'false'
     this.dataProductDefinitionsPath =

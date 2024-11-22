@@ -9,7 +9,7 @@
   {% set metrics = reportData.metrics %}
 
   {% set filtersHtml %}
-  {% if querySummary %}
+  {% if querySummary.length > 0 %}
     <ul>
       {% for query in querySummary %}
         <li class="govuk-body govuk-!-margin-bottom-1">{{ query.name | capitaliseSentence }}: {{ query.value }}</li>
@@ -61,7 +61,7 @@
               <p class="govuk-body-m dpr-request-details__table-heading_name">Classification:</p>
             </td>
             <td>
-              <p class="govuk-body-m">{{ classification }}</p>
+              <p class="govuk-body-m govuk-!-margin-bottom-1">{{ classification }}</p>
             </td>
           </tr>
         {% endif %}
@@ -77,7 +77,7 @@
           </tr>
         {% endif %}
 
-        {% if querySummary %}
+        {% if querySummary.length > 0 %}
           <tr>
             <td class="dpr-request-details__table-heading">
               <p class="govuk-body-m dpr-request-details__table-heading_name">Applied Filters:</p>

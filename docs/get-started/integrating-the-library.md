@@ -23,7 +23,7 @@ Ensure that you have the following dependencies in the expected range, to ensure
 
 ```javascript
 "govuk-frontend": "^5",
-"@ministryofjustice/frontend": "^2",
+"@ministryofjustice/frontend": "^3",
 ```
 
 {% header 3, "SASS" %}

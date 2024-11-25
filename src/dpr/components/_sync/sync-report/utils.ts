@@ -4,7 +4,12 @@ import type { components } from '../../../types/api'
 import type { DataTable } from '../../../utils/DataTableBuilder/types'
 import type { ListWithWarnings } from '../../../data/types'
 import type { Columns } from '../../_reports/report-columns-form/types'
-import type { SyncReportFeatures, SyncReportOptions, SyncReportUtilsParams } from '../../../types/SyncReportUtils'
+import {
+  SyncReportFeaturesList,
+  type SyncReportFeatures,
+  type SyncReportOptions,
+  type SyncReportUtilsParams,
+} from '../../../types/SyncReportUtils'
 import type { Services } from '../../../types/Services'
 import type { DownloadActionParams } from '../../_reports/report-actions/types'
 import { LoadType, ReportType } from '../../../types/UserReports'
@@ -26,14 +31,16 @@ const setActions = (
   url: string,
   canDownload: boolean,
   count: number,
-  features: SyncReportFeatures = {},
+  features: SyncReportFeatures,
   options: SyncReportOptions = {},
 ) => {
   const { name: reportName, variant, id: reportId } = reportDefinition
   const { name, id, printable } = variant
 
+  const downloadFeature = features.list.includes(SyncReportFeaturesList.download)
+
   const downloadConfig: DownloadActionParams = {
-    enabled: count > 0 && features.download,
+    enabled: count > 0 && downloadFeature,
     name,
     reportName,
     csrfToken,
@@ -47,7 +54,7 @@ const setActions = (
   }
 
   return ReportActionsUtils.getActions({
-    ...(features.download && {
+    ...(downloadFeature && {
       download: downloadConfig,
     }),
     print: {
@@ -76,12 +83,14 @@ const initAdditionalFeatures = async (
   let bookmarked
   let removeBookmark = true
 
-  if (features.download) {
+  const downloadFeatureEnabled = features.list.includes(SyncReportFeaturesList.download)
+  if (downloadFeatureEnabled) {
     canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
   }
 
-  if (features.bookmark) {
-    removeBookmark = !features.bookmark
+  const bookmarkFeatureEnabled = features.list.includes(SyncReportFeaturesList.bookmark)
+  if (bookmarkFeatureEnabled) {
+    removeBookmark = !bookmarkFeatureEnabled
     bookmarked = await services.bookmarkService.isBookmarked(id, userId)
   }
 
@@ -119,7 +128,7 @@ const getSyncReportData = async (
   }
 }
 
-const getReport = async ({ req, res, services, features = {}, options = {} }: SyncReportUtilsParams) => {
+const getReport = async ({ req, res, services, features, options = {} }: SyncReportUtilsParams) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
   const token = res.locals.user?.token ? res.locals.user.token : 'token'

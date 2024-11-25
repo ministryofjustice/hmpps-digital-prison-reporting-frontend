@@ -30,6 +30,8 @@ export default function routes({
   services: Services
   templatePath?: string
 }) {
+  logger.info('Download Feature: Initialiasing routes')
+
   const feedbackFormHandler: RequestHandler = async (req, res, next) => {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'

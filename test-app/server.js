@@ -133,54 +133,51 @@ app.get('/', (req, res) => {
   })
 })
 
-const reportingClient = new MockReportingClient()
-const reportingService = new ReportingService(reportingClient)
+// const reportingClient = new MockReportingClient()
+// const reportingService = new ReportingService(reportingClient)
 
-const dashboardClient = new MockDashboardClient()
-const dashboardService = new DashboardService(dashboardClient)
+// const dashboardClient = new MockDashboardClient()
+// const dashboardService = new DashboardService(dashboardClient)
 
 const mockUserStore = new MockUserStoreService()
-const userStoreServices = createUserStoreServices(mockUserStore)
+// const userStoreServices = createUserStoreServices(mockUserStore)
 
-const services = {
-  ...userStoreServices,
-  reportingService,
-  dashboardService,
-}
-
-initUserStoreServices('userId', services)
-
-const routeImportParams = {
-  router: app,
-  services,
-  layoutPath: 'page.njk',
-  templatePath: 'dpr/views/',
-}
-
-addBookmarkingRoutes(routeImportParams)
-addRecentlyViewedRoutes(routeImportParams)
-addAsyncReportingRoutes(routeImportParams)
-addDownloadRoutes(routeImportParams)
-
-// const syncReportingClient = new MockReportingClient()
-// const syncReportingService = new ReportingService(syncReportingClient)
-// const syncServices = {
-//   reportingService: syncReportingService,
+// const services = {
+//   ...userStoreServices,
+//   reportingService,
+//   dashboardService,
 // }
-// addSyncRoutes({
+
+// initUserStoreServices('userId', services)
+
+// const routeImportParams = {
 //   router: app,
-//   config: {
-//     userId: 'userId',
-//     redisClient: () => {},
-//   },
-//   services: syncServices,
-//   options: {
-//     testStore: mockUserStore,
-//   },
-//   features: {
-//     download: true,
-//   },
-// })
+//   services,
+//   layoutPath: 'page.njk',
+//   templatePath: 'dpr/views/',
+// }
+
+// addBookmarkingRoutes(routeImportParams)
+// addRecentlyViewedRoutes(routeImportParams)
+// addAsyncReportingRoutes(routeImportParams)
+// addDownloadRoutes(routeImportParams)
+
+const syncReportingClient = new MockReportingClient()
+const syncReportingService = new ReportingService(syncReportingClient)
+const syncServices = {
+  reportingService: syncReportingService,
+}
+
+addSyncRoutes({
+  router: app,
+  services: syncServices,
+  features: {
+    config: {
+      userDataStore: mockUserStore,
+    },
+    list: ['download'],
+  },
+})
 
 app.get('/async-reports', async (req, res) => {
   res.locals.definitions = mockDefinitions.reports

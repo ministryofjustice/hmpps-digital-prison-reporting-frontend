@@ -1,24 +1,34 @@
 /* eslint-disable no-param-reassign */
 import type { RequestHandler } from 'express'
 import ErrorSummaryUtils from '../components/error-summary/utils'
-import { Services } from '../types/Services'
 import logger from '../utils/logger'
 
 import SyncReportUtils from '../components/_sync/sync-report/utils'
-import { EmbeddedSyncParams } from '../components/_sync/sync-report/types'
+import { EmbeddedSyncParams, EmbeddedSyncParamsConfig } from '../types/SyncReportUtils'
 
-// DATA STORE
-import UserDataStore from '../data/userDataStore'
-
-// FEATURE: Download
-import addDownloadRoutes from './download'
-import DownloadPermissionService from '../services/downloadPermissionService'
+import SyncRouteUtils from '../utils/syncRouteUtils'
 
 export default function routes({ router, config, services, options, features }: EmbeddedSyncParams) {
-  const { templatePath = 'dpr/views/', layoutPath = 'page.njk' } = config
+  logger.info('Sync Reports: Initialiasing routes')
+
+  const routeConfig: EmbeddedSyncParamsConfig = {
+    templatePath: config?.templatePath || 'dpr/views/',
+    layoutPath: config?.layoutPath || 'page.njk',
+  }
+  const { templatePath, layoutPath } = routeConfig
 
   // Initialise the features
-  ;({ router, services } = initFeatures({ router, config, services, options, features }))
+  let initialisedFeatures
+  try {
+    ;({ router, services, initialisedFeatures } = SyncRouteUtils.initFeatures({
+      router,
+      services,
+      config: routeConfig,
+      features,
+    }))
+  } catch (error) {
+    logger.error(error, 'Init features error')
+  }
 
   const errorHandler: RequestHandler = async (req, res) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
@@ -56,38 +66,23 @@ export default function routes({ router, config, services, options, features }: 
     }
   }
 
-  const viewReportPaths = [
-    '/dpr/embedded/sync/:type/:reportId/:id/report',
-    '/dpr/embedded/sync/:type/:reportId/:id/report/:download',
-  ]
+  const viewReportPaths = ['/dpr/embedded/sync/:type/:reportId/:id/report']
+  if (initialisedFeatures.download) {
+    viewReportPaths.push('/dpr/embedded/sync/:type/:reportId/:id/report/:download')
+  }
   router.get(viewReportPaths, viewSyncReportHandler, errorHandler)
-}
 
-const initFeatures = ({ router, config, options, services, features }: EmbeddedSyncParams) => {
-  const { redisClient, userId, templatePath = 'dpr/views/', layoutPath = 'page.njk' } = config
-  const { testStore } = options
-
-  let updatedServices: Services = {
-    ...services,
+  if (Object.keys(initialisedFeatures).length) {
+    logger.info(`Sync Reports: Features Initialised:`)
+    Object.keys(initialisedFeatures).forEach((key) => {
+      logger.info(`Sync Reports: Feature: ${key}`)
+    })
   }
 
-  if (redisClient && userId) {
-    const userDataStore: UserDataStore = testStore || new UserDataStore(redisClient)
+  logger.info(`Sync Reports: Routes Initialised:`)
+  viewReportPaths.forEach((path) => {
+    logger.info(`Sync Reports: GET: ${path}`)
+  })
 
-    if (features.download) {
-      const downloadPermissionService = new DownloadPermissionService(userDataStore)
-      downloadPermissionService.init(userId)
-      updatedServices = {
-        ...services,
-        downloadPermissionService,
-      }
-      addDownloadRoutes({ router, services: updatedServices, layoutPath, templatePath })
-    }
-  } else if (features.download) {
-    logger.info('Unable to init download feature. Missing redisClient or UserId')
-  }
-  return {
-    router,
-    services: updatedServices,
-  }
+  logger.info(`Done! 🙂`)
 }

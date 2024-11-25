@@ -17,7 +17,8 @@ export default function routes({ router, config, services, options, features }: 
   }
   const { templatePath, layoutPath } = routeConfig
 
-  // Initialise the features
+  ;({ services } = SyncRouteUtils.initReportingService(config, services))
+
   let initialisedFeatures
   try {
     ;({ router, services, initialisedFeatures } = SyncRouteUtils.initFeatures({

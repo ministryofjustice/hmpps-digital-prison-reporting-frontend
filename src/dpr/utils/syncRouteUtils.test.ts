@@ -10,6 +10,9 @@ import MockUserStoreService from '../../../test-app/mocks/mockClients/store/mock
 import DownloadPermissionService from '../services/downloadPermissionService'
 import UserDataStore, { RedisClient } from '../data/userDataStore'
 import { SyncReportFeatures, SyncReportFeaturesList } from '../types/SyncReportUtils'
+import MockReportingClient from '../../../test-app/mocks/mockClients/reports/mockReportingClient'
+import ReportingService from '../services/reportingService'
+import ReportingClient from '../data/reportingClient'
 
 const mockDownloadPermissionService = {
   init: () => true,
@@ -20,6 +23,21 @@ jest.mock('../services/downloadPermissionService', () => {
   })
 })
 
+jest.mock('../services/reportingService.ts', () => {
+  return jest.fn().mockImplementation(() => {
+    return {}
+  })
+})
+
+jest.mock('../data/reportingClient.ts', () => {
+  return jest.fn().mockImplementation(() => {
+    return {}
+  })
+})
+
+const mockReportingClient = new MockReportingClient() as unknown as ReportingClient
+const mockReportingService = new ReportingService(mockReportingClient)
+
 describe('SyncRouteUtils', () => {
   let router: Router
   let services: Services
@@ -27,6 +45,7 @@ describe('SyncRouteUtils', () => {
   let mockUserDataStore: UserDataStore
 
   let loggerSpy: jest.SpyInstance<void, [format: any, ...params: any[]], any>
+  let loggerErrorSpy: jest.SpyInstance<void, [format: any, ...params: any[]], any>
 
   beforeEach(() => {
     router = {} as unknown as Router
@@ -34,6 +53,7 @@ describe('SyncRouteUtils', () => {
     redisClient = {} as unknown as RedisClient
     mockUserDataStore = new MockUserStoreService() as unknown as UserDataStore
     loggerSpy = jest.spyOn(logger, 'info')
+    loggerErrorSpy = jest.spyOn(logger, 'error')
   })
 
   afterEach(() => {
@@ -204,6 +224,56 @@ describe('SyncRouteUtils', () => {
 
       expect(loggerSpy).toHaveBeenNthCalledWith(2, 'Recently Viewed Feature: Not Available')
       expect(loggerSpy).toHaveBeenNthCalledWith(3, 'Bookmark Feature: Not Available')
+    })
+  })
+
+  describe('initReportingService', () => {
+    beforeEach(() => {
+      //
+    })
+
+    it('should initialise the repoprting service when config is provided', async () => {
+      const res = SyncRouteUtils.initReportingService(
+        {
+          reportingClientArgs: {
+            url: 'url',
+            agent: { timeout: 20 },
+          },
+        },
+        {} as unknown as Services,
+      )
+
+      expect(loggerSpy).toHaveBeenNthCalledWith(1, 'Sync Reports: Reporting config found')
+      expect(loggerSpy).toHaveBeenNthCalledWith(2, 'Sync Reports: Initialising Reporting Client and Service')
+
+      expect(Object.keys(res.services).length).toEqual(1)
+    })
+
+    it('should not initialise the repoprting service when a pre inititialised service is present', async () => {
+      const res = SyncRouteUtils.initReportingService(
+        {
+          reportingClientArgs: {
+            url: 'url',
+            agent: { timeout: 20 },
+          },
+        },
+        {
+          reportingService: mockReportingService,
+        } as unknown as Services,
+      )
+
+      expect(loggerSpy).toHaveBeenNthCalledWith(1, 'Sync Reports: Reporting config found')
+      expect(loggerSpy).toHaveBeenNthCalledWith(2, 'Sync Reports: Reporting Service Found. Using service provided')
+
+      expect(Object.keys(res.services).length).toEqual(1)
+    })
+
+    it('should complain when neither config or service is provided', async () => {
+      SyncRouteUtils.initReportingService({}, {} as unknown as Services)
+
+      expect(loggerErrorSpy).toHaveBeenCalledWith(
+        'Sync Reports: No Reporting service or Config Found. Please provide an initialiesed report service, or the correct config',
+      )
     })
   })
 })

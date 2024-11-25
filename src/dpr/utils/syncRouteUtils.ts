@@ -2,6 +2,7 @@ import { Services } from '../types/Services'
 import logger from './logger'
 import {
   EmbeddedSyncParams,
+  EmbeddedSyncParamsConfig,
   InitialisedFeatures,
   SyncReportFeatures,
   SyncReportFeaturesList,
@@ -12,6 +13,8 @@ import UserDataStore from '../data/userDataStore'
 // FEATURE: Download
 import addDownloadRoutes from '../routes/download'
 import DownloadPermissionService from '../services/downloadPermissionService'
+import ReportingClient from '../data/reportingClient'
+import ReportingService from '../services/reportingService'
 
 export const initUserDataStore = (features: SyncReportFeatures, services: Services) => {
   logger.info('Sync Reports: Setting up user data store.')
@@ -114,6 +117,41 @@ const initFeatures = ({ router, config, services, features }: EmbeddedSyncParams
   }
 }
 
+const initReportingService = (config: EmbeddedSyncParamsConfig, services: Services) => {
+  const { reportingClientArgs } = config
+
+  let updatedServices = {
+    ...services,
+  }
+  if (reportingClientArgs) {
+    logger.info('Sync Reports: Reporting config found')
+    if (services.reportingService) {
+      logger.info('Sync Reports: Reporting Service Found. Using service provided')
+    } else {
+      logger.info('Sync Reports: Initialising Reporting Client and Service')
+
+      const reportingClient = new ReportingClient(reportingClientArgs)
+      const reportingService = new ReportingService(reportingClient)
+
+      updatedServices = {
+        ...services,
+        reportingService,
+      }
+    }
+  } else if (services.reportingService) {
+    logger.info('Sync Reports: Reporting Service Found. Using service provided')
+  } else {
+    logger.error(
+      'Sync Reports: No Reporting service or Config Found. Please provide an initialiesed report service, or the correct config',
+    )
+  }
+
+  return {
+    services: updatedServices,
+  }
+}
+
 export default {
   initFeatures,
+  initReportingService,
 }

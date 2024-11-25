@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Router } from 'express'
 import SyncRouteUtils from './syncRouteUtils'
 import * as SyncRouteHelper from './syncRouteUtils'
@@ -8,12 +9,7 @@ import logger from './logger'
 import MockUserStoreService from '../../../test-app/mocks/mockClients/store/mockRedisStore'
 import DownloadPermissionService from '../services/downloadPermissionService'
 import UserDataStore, { RedisClient } from '../data/userDataStore'
-import {
-  EmbeddedSyncParams,
-  InitialisedFeatures,
-  SyncReportFeatures,
-  SyncReportFeaturesList,
-} from '../types/SyncReportUtils'
+import { SyncReportFeatures, SyncReportFeaturesList } from '../types/SyncReportUtils'
 
 const mockDownloadPermissionService = {
   init: () => true,
@@ -27,17 +23,21 @@ jest.mock('../services/downloadPermissionService', () => {
 describe('SyncRouteUtils', () => {
   let router: Router
   let services: Services
-  let userDataStore: UserDataStore
   let redisClient: RedisClient
   let mockUserDataStore: UserDataStore
 
-  const loggerSpy = jest.spyOn(logger, 'info')
+  let loggerSpy: jest.SpyInstance<void, [format: any, ...params: any[]], any>
 
   beforeEach(() => {
     router = {} as unknown as Router
     services = {} as unknown as Services
     redisClient = {} as unknown as RedisClient
     mockUserDataStore = new MockUserStoreService() as unknown as UserDataStore
+    loggerSpy = jest.spyOn(logger, 'info')
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
   })
 
   describe('initUserDataStore', () => {
@@ -130,6 +130,8 @@ describe('SyncRouteUtils', () => {
 
       const res = await SyncRouteUtils.initFeatures(params)
 
+      expect(loggerSpy).toHaveBeenNthCalledWith(4, 'Download Feature: Service initialised and added to services config')
+
       expect(addDownloadRoutesSpy).toHaveBeenCalledWith({
         router,
         services: {
@@ -176,6 +178,32 @@ describe('SyncRouteUtils', () => {
       expect(res.initialisedFeatures).toEqual({
         download: true,
       })
+
+      expect(loggerSpy).toHaveBeenNthCalledWith(3, 'Download Feature: DownloadPermissionService found')
+    })
+
+    it('should provide info about unavailable services', async () => {
+      const params = {
+        router,
+        config: {
+          templatePath: 'templatePath',
+          layoutPath: 'layoutPath',
+        },
+        services: {} as unknown as Services,
+        features: {
+          config: {
+            userDataStore: mockUserDataStore,
+          },
+          list: [SyncReportFeaturesList.recentlyViewed, SyncReportFeaturesList.bookmark],
+        },
+      }
+
+      SyncRouteUtils.initFeatures(params)
+
+      expect(addDownloadRoutesSpy).not.toHaveBeenCalled()
+
+      expect(loggerSpy).toHaveBeenNthCalledWith(2, 'Recently Viewed Feature: Not Available')
+      expect(loggerSpy).toHaveBeenNthCalledWith(3, 'Bookmark Feature: Not Available')
     })
   })
 })

@@ -84,11 +84,12 @@ const initFeatures = ({ router, config, services, features }: EmbeddedSyncParams
             ...services,
             downloadPermissionService,
           }
-
-          initialisedFeatures.download = true
-
           logger.info('Download Feature: Service initialised and added to services config')
+        } else {
+          logger.info('Download Feature: DownloadPermissionService found')
         }
+
+        initialisedFeatures.download = true
 
         addDownloadRoutes({ router, services: updatedServices, layoutPath, templatePath })
       } catch (error) {
@@ -98,11 +99,11 @@ const initFeatures = ({ router, config, services, features }: EmbeddedSyncParams
     }
 
     if (recentlyViewedFeatureEnabled) {
-      throw new Error('Recently Viewed Feature: Not Available')
+      logger.info('Recently Viewed Feature: Not Available')
     }
 
     if (bookmarkFeatureEnabled) {
-      throw new Error('Bookmark Feature: Not Available')
+      logger.info('Bookmark Feature: Not Available')
     }
   }
 

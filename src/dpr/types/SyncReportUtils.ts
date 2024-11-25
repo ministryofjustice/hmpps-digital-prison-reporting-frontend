@@ -7,7 +7,7 @@ export interface SyncReportUtilsParams {
   res: Response
   next?: NextFunction
   services: Services
-  options: SyncReportOptions
+  options?: SyncReportOptions
   features: SyncReportFeatures
 }
 

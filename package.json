@@ -52,7 +52,8 @@
     "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.ts",
-      "!src/**/*.d.ts"
+      "!src/**/*.d.ts",
+      "!src/dpr/routes/**/*.ts"
     ],
     "testMatch": [
       "<rootDir>/**/?(*.)(cy|test).{ts,js,jsx,mjs}"

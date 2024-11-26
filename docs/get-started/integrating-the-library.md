@@ -19,14 +19,11 @@ Add the library to your **package.json** within the **dependencies** section and
 "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^3",
 ```
 
-Ensure that you have the following dependency in the expected range, to ensure compatibility between the libraries:
+Ensure that you have the following dependencies in the expected range, to ensure compatibility between the libraries:
 
 ```javascript
-"govuk-frontend": "^5.3.0",
-"@ministryofjustice/frontend": "^2.1.3",
-"dayjs": "^1.11.12",
-"chart.js": "^4.4.4",
-"chartjs-plugin-datalabels": "^2.2.0",
+"govuk-frontend": "^5",
+"@ministryofjustice/frontend": "^2",
 ```
 
 {% header 3, "SASS" %}

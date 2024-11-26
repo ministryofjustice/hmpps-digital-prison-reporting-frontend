@@ -2,7 +2,12 @@
 
 This document is a work in progress to detail how to embed sync reports in to a UI using the routes import.
 
-Some details and implementations may be missing in order to fully fulfil the requirements. This document should help identify these areas that require improvement and discussion
+#### contents:
+
+- [What you will get](#what-you-will-get)
+- [Adding sync reports to the UI](#adding-sync-reports-to-the-ui)
+- [Options config](#options-config)
+- [Additional features](#additional-features)
 
 ## What you will get
 
@@ -25,94 +30,193 @@ Accessing this route will load the report, and render the report.
 
 
 
-## Adding Sync reports to the UI
+## Adding sync reports to the UI
+ 
+#### Dependecies:
+
+- `DprReportingService`
+- `DprReportingClient`
+
+#### Initialisation process:
+
+There are multiple ways to initialise the sync report in to your service.
+
+- [Sync route config](#sync-route-config) (simplest)
+- [Pre-initialise services](#pre-initialise-services)
 
 
-### Initialise services
+### Sync route config
 
-The first step is to initialise the reporting service and create the services config:
+This implementation initialises and loads the required services for you, and will give the the route to [view an render a report](#what-you-will-get)
 
 ```js
+// Import the sync routes
+import addSyncRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/recentlyViewed'
+
+// Create the reporting client config
+const reportingClientConfig: {
+  url: `http://localhost:3010`,  // NOTE: DPR can provide you the our API endpoint to use here.
+  agent: { timeout: 10000 }
+}
+
+// Create the route config
+const routeConfig = {
+  router: app,
+  config: {
+    reportingClient: reportingClientConfig
+  }
+}
+
+// add the routes
+addSyncRoutes(routeConfig)
+```
+
+### Pre-initialise services 
+
+This implementation requires that you pre-initialise the dependency services and adding them to the route config.
+
+```js
+// Import the sync routes
+import addSyncRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/recentlyViewed'
+
+// Import the Reporting dependecies
 import ReportingClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient'
 import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
 
 // Initialise Reporting Client with API endpoint
-// NOTE: DPR can provide you the our API endpoint to use here.
 const clientArgs = {
-  url: `http://localhost:3010`, 
+  url: `http://localhost:3010`, // NOTE: DPR can provide you the our API endpoint to use here.
   agent: { timeout: 10000 }
 }
-const reportingClient = new ReportingClient(clientArgs)
 
 // Initialise the reporting service with the reporting client
+const reportingClient = new ReportingClient(clientArgs)
 const reportingService = new ReportingService(reportingClient)
 
-// create the services config
-const services: Services = {
+// Create the services config
+const preInitialsedServices: Services = {
   reportingService
 }
-```
 
-### Import the sync routes
-
-In your routes file, import the sync reports route file and initialise the route:
-
-```js
-import addSyncReportsRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/recentlyViewed'
-
-const routeConfig = {
+// Initialise the route with the services in the config
+addSyncRoutes({
   router: app,
-  services,
-  layoutPath: 'page.njk',
-  templatePath: 'dpr/views/',
-}
-
-addSyncRoutes(routeConfig)
+  services: preInitialsedServices
+})
 ```
 
-### Options
+## Options config
+
+The route config accepts an options config. The full options config is as follows.
 
 ```js
 addSyncRoutes({ 
   ...routeConfig,
   options: {
-    // set this option to use a definitions path without using query params
+    // Set this option to use a definitions path without using query params
     dpdPath: `/my/definitions/path`
   }
 })
 ```
 
-# Additional Features
+# Additional features
 
-Additonal features can be added to the sync reports by adding additional services, and updating config. The available features are as follows:
+Additonal features can be added to the sync reports by adding/loading additional services, and updating config. 
+
+#### Feature availability:
 
 - [Report Download](#download) ✅
 - Recently Viewed Reports list 🚧 (under construction)
 - Bookmarks 🚧 (under construction)
 
+#### Dependencies:
+
+- An initialised Redis client
+- The logged in users `uuid`
+- DPR `UserDataStore`
+
 ## Pre-requisites
+
+- [Redis Client](#redis-client)
+- [The current userId](#the-current-user-id)
 
 ### Redis Client
 
-To begin to use additional features, your Redis client will first need to be initialised, and then provided to the DPR `UserDataStore`. 
+To begin to use additional features, your Redis client will first need to be initialised.
 
-The `UserDataStore` is a required dependency of the additional feature services.
+This is a required dependency of the DPR `UserDataStore`, which is required dependency for the additional features services.
 
-```js
-import UserDataStore from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/userDataStore'
-
-// Init your Redis Client and create the user data store
-const yourRedisClient = createYourRedisClient()
-const userDataStore = new UserDataStore(yourRedisClient),
-```
-
-### Get the current userId
+### The current userId
 
 The user ID of the logged in user is required to initialise additional services. 
 
 Config is stored on a per user basic to create a unique experience for each user. eg. creating a users bookmarked list, or showing their recently viewed reports.
 
+## Initialising Features
+
+There are two ways to initialise features and the DPR `UserDataStore`
+
+- [Initialising the user store via the config](#initialising-the-user-store-via-the-config) (simplest)
+- [Pre-initialised user store](#re-initialised-user-store)
+
+### Initialising the user store via the config (simplest)
+
+```ts
+// Init your Redis Client
+const yourRedisClient = createYourRedisClient()
+
+// Add the client features config
+addSyncRoutes({
+  ...
+  features: {
+    config: {
+      redisClient: yourRedisClient
+    }
+    list: []
+  },
+})
+```
+
+### Pre-initialised user store
+
+```ts
+// Import the dependency
+import UserDataStore from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/userDataStore'
+
+// Init your Redis Client and create the user data store
+const yourRedisClient = createYourRedisClient()
+const initialisedUserDataStore = new UserDataStore(yourRedisClient),
+
+// Add the service to the features config
+addSyncRoutes({
+  ...
+  features: {
+    config: {
+      userDataStore: initialisedUserDataStore
+    }
+    list: [],
+  },
+})
+```
+
 ## Download:
+
+### Init download via config (simple)
+
+```ts
+addSyncRoutes({
+  ...
+  features: {
+    config: {
+      ...
+      userId: 'userId',
+    }
+    list: ['download'],
+  },
+})
+```
+
+### Init download via service pre-initialisation
 
 ```js
 // Import the service
@@ -127,28 +231,29 @@ const userId = myGetUserIdFunction()
 downloadPermissionService.init(userId)
 
 // Append to the services config
-services: Services = {
+const preInitialsedServices: Services = {
   ...services,
   downloadPermissionService
 }
 
-const routeConfig = {
+// Initialise the download routes
+addDownloadRoutes({
   router: app,
   services,
   layoutPath: 'page.njk',
   templatePath: 'dpr/views/',
-}
-
-// Initialise the download routes
-addDownloadRoutes(routeConfig)
+})
 
 // Append to the features attrubute of the sync route config
-addSyncRoutes({ 
-  ...routeConfig
+addSyncRoutes({
+  ...
+  services: preInitialsedServices
   features: {
-    download: true
-  }
+    config: {
+      ...
+      userId: 'userId',
+    }
+    list: ['download'],
+  },
 })
 ```
-
-

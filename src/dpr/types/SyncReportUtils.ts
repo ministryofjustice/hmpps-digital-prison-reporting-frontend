@@ -27,7 +27,6 @@ export interface EmbeddedSyncParamsConfig {
 
 export interface SyncReportOptions {
   dpdPath?: string
-  testStore?: UserDataStore
 }
 
 export interface SyncReportFeatures {

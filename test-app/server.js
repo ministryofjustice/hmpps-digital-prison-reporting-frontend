@@ -89,7 +89,6 @@ const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').de
 const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
 const addDownloadRoutes = require('../package/dpr/routes/download').default
-const addSyncRoutes = require('../package/dpr/routes/syncReports').default
 
 // Charts
 const mockBarChartData = require('./mocks/mockChartData/mockBarChartData')

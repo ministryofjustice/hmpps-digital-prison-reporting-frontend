@@ -2,6 +2,7 @@
 {% from "../report-pagination/view.njk" import dprReportPagination %}
 {% from "../report/view.njk" import dprReport %}
 {% from "../report-summary-table/view.njk" import dprReportSummary %}
+{% from "../report-no-data-message/view.njk" import dprReportNoDataMessage %}
 
 {% macro dprReportTemplate(renderData, url) %}
   
@@ -9,8 +10,9 @@
   {% set pagination = renderData.pagination %}
   {% set template = renderData.template %}
   {% set reportSummaries = renderData.reportSummaries %}
+  {% set count = renderData.count %}
 
-  {% if count === 0 %}
+  {% if not count or count === 0 %}
     {{ dprReportNoDataMessage(url) }}
   {% else %}
 

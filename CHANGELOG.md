@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v3.32.8
+
+Consolidate package dependencies.
+
 ## v3.24.0
 
 - Section header and footer summary.

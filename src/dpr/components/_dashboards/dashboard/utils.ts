@@ -11,6 +11,7 @@ import DefinitionUtils from '../../../utils/definitionUtils'
 import UserReportsUtils from '../../user-reports/utils'
 import FilterUtils from '../../_filters/utils'
 import ReportActionsUtils from '../../_reports/report-actions/utils'
+import ReportQuery from '../../../types/ReportQuery'
 
 const setDashboardActions = (
   dashboardDefinition: DashboardDefinition,
@@ -46,22 +47,28 @@ export default {
 
     const { reportId, id, tableId } = req.params
     const { dataProductDefinitionsPath } = req.query
-    const params = [token, id, reportId]
 
     // Dashboard Definition,
     const dashboardDefinition: DashboardDefinition = await services.dashboardService.getDefinition(
-      ...params,
+      token,
+      id,
+      reportId,
       dataProductDefinitionsPath,
     )
 
-    // TODO: Interactive Filters: set query properly
-    const mockQuery = { dataProductDefinitionsPath, establishmentId: req.query['filters.establishment_id'] }
+    const reportQuery = new ReportQuery({
+      fields: dashboardDefinition.filterFields,
+      queryParams: req.query,
+      definitionsPath: <string>dataProductDefinitionsPath,
+    })
 
     // The metrics Data
     const dashboardMetricsData: MetricsDataResponse[] = await services.dashboardService.getAsyncDashboard(
-      ...params,
+      token,
+      id,
+      reportId,
       tableId,
-      mockQuery,
+      reportQuery,
     )
 
     // Create the visualisation data
@@ -95,7 +102,9 @@ export default {
 
     return {
       dashboardData: {
-        ...params,
+        token,
+        id,
+        reportId,
         name: dashboardDefinition.name,
         description: dashboardDefinition.description,
         reportName: reportDefinition.name,

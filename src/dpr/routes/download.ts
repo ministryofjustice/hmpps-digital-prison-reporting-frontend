@@ -30,6 +30,8 @@ export default function routes({
   services: Services
   templatePath?: string
 }) {
+  logger.info('Download Feature: Initialiasing routes')
+
   const feedbackFormHandler: RequestHandler = async (req, res, next) => {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
     const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
@@ -51,6 +53,7 @@ export default function routes({
           variantName: variantData.variant.name,
           tableId,
           loadType,
+          dataProductDefinitionsPath,
           time: new Date().toDateString(),
         },
         csrfToken,
@@ -64,10 +67,14 @@ export default function routes({
 
   const feedbackSubmitHandler: RequestHandler = async (req, res, next) => {
     const { body } = req
-    const { reportId, variantId, tableId, loadType, reportName, variantName } = body
+    const { reportId, variantId, tableId, loadType, reportName, variantName, dataProductDefinitionsPath } = body
     logger.info('Download Feedback Submission:', `${JSON.stringify(body)}`)
 
-    const queryParams = `?reportName=${reportName}&variantName=${variantName}`
+    let queryParams = `?reportName=${reportName}&variantName=${variantName}`
+    if (dataProductDefinitionsPath) {
+      queryParams = `${queryParams}&dataProductDefinitionsPath=${dataProductDefinitionsPath}`
+    }
+
     let redirect
     if (loadType === LoadType.ASYNC) {
       redirect = `/download/${reportId}/${variantId}/${tableId}/feedback/submitted${queryParams}`
@@ -81,7 +88,7 @@ export default function routes({
   const feedbackSuccessHandler: RequestHandler = async (req, res, next) => {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const { reportId, variantId, tableId } = req.params
-    const { reportName, variantName } = req.query
+    const { reportName, variantName, dataProductDefinitionsPath } = req.query
 
     await services.downloadPermissionService.saveDownloadPermissionData(userId, reportId, variantId)
 
@@ -94,6 +101,7 @@ export default function routes({
         tableId,
         reportName,
         variantName,
+        dataProductDefinitionsPath,
       },
     })
   }

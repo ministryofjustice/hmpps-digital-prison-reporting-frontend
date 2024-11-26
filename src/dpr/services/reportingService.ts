@@ -93,4 +93,14 @@ export default class ReportingService {
   async getAsyncCount(token: string, tableId: string, dataProductDefinitionsPath?: string): Promise<number> {
     return this.reportingClient.getAsyncCount(token, tableId, dataProductDefinitionsPath)
   }
+
+  async getAsyncInteractiveCount(
+    token: string,
+    tableId: string,
+    reportId: string,
+    id: string,
+    filters: ReportQuery,
+  ): Promise<number> {
+    return this.reportingClient.getAsyncInteractiveCount(token, reportId, id, tableId, filters)
+  }
 }

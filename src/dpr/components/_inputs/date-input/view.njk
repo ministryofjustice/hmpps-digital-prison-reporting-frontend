@@ -34,6 +34,10 @@
     } %}
   {% endif %}
 
+  {% if value %}
+    {% set value = value | date %} 
+  {% endif %}
+
   <div class="dpr-date" 
     data-dpr-module="date-input" 
     data-required="{{ mandatory }}" 
@@ -53,7 +57,7 @@
       id: id,
       name: id,
       label: labelText,
-      value: value | date,
+      value: value,
       minDate: minDate | date,
       maxDate: maxDate | date,
       hint: {

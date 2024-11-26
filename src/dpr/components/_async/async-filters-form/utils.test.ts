@@ -1,10 +1,12 @@
 import MockDate from 'mockdate'
-import * as AsyncFiltersUtils from './utils'
 import MockDefinitions from '../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
 import MockRenderFiltersData from '../../../../../test-app/mocks/mockAsyncData/mockRenderFiltersData'
+
+import * as AsyncFiltersUtils from './utils'
 import * as ReportSummaryHelper from '../../../utils/reportStoreHelper'
-import { components } from '../../../types/api'
-import { RenderFiltersReturnValue } from './types'
+
+import type { components } from '../../../types/api'
+import type { RenderFiltersReturnValue } from './types'
 
 describe('AsyncFiltersUtils', () => {
   let mockDefintionVariants: components['schemas']['VariantDefinition'][]

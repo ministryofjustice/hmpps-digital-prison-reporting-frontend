@@ -14,7 +14,7 @@
       margin-bottom: govuk-spacing(3);
     }
 
-    a:after {
+    a:not(.interactive-remove-filter-button--disabled):after {
       background-image: url(#{$dpr-images-path}icon-tag-remove-cross.svg);
       content: "";
       display: inline-block;

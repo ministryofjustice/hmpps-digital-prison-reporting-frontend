@@ -89,7 +89,6 @@ const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').de
 const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
 const addDownloadRoutes = require('../package/dpr/routes/download').default
-const addSyncRoutes = require('../package/dpr/routes/syncReports').default
 
 // Charts
 const mockBarChartData = require('./mocks/mockChartData/mockBarChartData')
@@ -162,17 +161,24 @@ addRecentlyViewedRoutes(routeImportParams)
 addAsyncReportingRoutes(routeImportParams)
 addDownloadRoutes(routeImportParams)
 
-addSyncRoutes({
-  ...routeImportParams,
-  options: {
-    // dpdPath: 'my/definition/path',
-  },
-  features: {
-    download: true,
-    bookmark: false, // NOTE: not avalable yet
-    recentlyViewed: false, // NOTE: not available yet
-  },
-})
+// SYNC ROUTES: Uncomment to test
+
+// const syncReportingClient = new MockReportingClient()
+// const syncReportingService = new ReportingService(syncReportingClient)
+// const syncServices = {
+//   reportingService: syncReportingService,
+// }
+
+// addSyncRoutes({
+//   router: app,
+//   services: syncServices,
+//   features: {
+//     config: {
+//       userDataStore: mockUserStore,
+//     },
+//     list: ['download'],
+//   },
+// })
 
 app.get('/async-reports', async (req, res) => {
   res.locals.definitions = mockDefinitions.reports

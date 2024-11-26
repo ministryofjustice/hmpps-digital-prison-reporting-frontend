@@ -2,7 +2,7 @@ import { Request } from 'express'
 import { FilterType } from './filter-input/enum'
 import type { components } from '../../types/api'
 import type { FilterOption } from './filter-input/types'
-import type { DateFilterValue, DateRange, FilterValue } from '../filters/types'
+import type { DateFilterValue, DateRange, FilterValue } from './types'
 
 import SelectedFiltersUtils from './filters-selected/utils'
 import DateRangeInputUtils from '../_inputs/date-range/utils'
@@ -13,9 +13,9 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
 
   return filters.map((filter: FilterValue) => {
     let requestfilterValue
-    if (filter.type === FilterType.dateRange.toLowerCase()) {
+    if (filter.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
       requestfilterValue = handleDaterangeValue(filter, req, prefix)
-    } else if (filter.type === FilterType.date.toLowerCase()) {
+    } else if (filter.type.toLowerCase() === FilterType.date.toLowerCase()) {
       requestfilterValue = handleDateValue(filter, req, prefix)
     } else {
       requestfilterValue = <string>req.query[`${prefix}${filter.name}`]
@@ -37,20 +37,24 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
   })
 }
 
-const handleDaterangeValue = (filter: FilterValue, req: Request, prefix: string) => {
-  let value
+export const handleDaterangeValue = (filter: FilterValue, req: Request, prefix: string) => {
+  const { preventDefault } = req.query
+
   const start = <string>req.query[`${prefix}${filter.name}.start`]
   const end = <string>req.query[`${prefix}${filter.name}.end`]
-  if (start || end) {
-    value = {
-      start: start || (<DateRange>filter.value).start,
-      end: end || (<DateRange>filter.value).end,
-    } as DateRange
-  }
+
+  const defaultStart = preventDefault ? null : (<DateRange>filter.value)?.start
+  const defaultEnd = preventDefault ? null : (<DateRange>filter.value)?.end
+
+  const value = {
+    start: start || defaultStart || (<DateFilterValue>filter).min,
+    end: end || defaultEnd || (<DateFilterValue>filter).max,
+  } as DateRange
+
   return value
 }
 
-const handleDateValue = (filter: FilterValue, req: Request, prefix: string) => {
+export const handleDateValue = (filter: FilterValue, req: Request, prefix: string) => {
   const dateValue = <string>req.query[`${prefix}${filter.name}`]
   const { min } = <DateFilterValue>filter
   const { max } = <DateFilterValue>filter
@@ -156,6 +160,7 @@ const getFilters = async ({
   const defaultFilters = await getFiltersFromDefinition(fields, interactive)
   const filters = setFilterValuesFromRequest(defaultFilters, req)
   const selectedFilters = SelectedFiltersUtils.getSelectedFilters(filters, prefix)
+
   return {
     filters,
     selectedFilters,

@@ -11,42 +11,31 @@ import FiltersUtils from '../../_filters/utils'
 import DateRangeInputUtils from '../../_inputs/date-range/utils'
 
 /**
- * Initialises the filters & Sort from the definition data
- *
- * @param {components['schemas']['VariantDefinition']} definition
- * @return {*}
- */
-const initFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
-  return {
-    filters: FiltersUtils.getFiltersFromDefinition(fields, interactive),
-    sortBy: getSortByFromDefinition(fields),
-  }
-}
-
-/**
  * Initialises the sortData from the definition
  *
  * @param {components['schemas']['VariantDefinition']} definition
  * @return {*}
  */
-export const getSortByFromDefinition = (fields: components['schemas']['FieldDefinition'][]) => {
-  const sortBy = SortHelper.sortByTemplate()
-  const options = fields
-    .filter((f) => f.sortable)
-    .map((f) => {
-      if (f.defaultsort) sortBy[0].value = f.name
-      return { value: f.name, text: f.display }
-    })
-
-  if (options.length) {
-    sortBy[0].options = fields
+export const getSortByFromDefinition = (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
+  if (!interactive) {
+    const sortBy = SortHelper.sortByTemplate()
+    const options = fields
       .filter((f) => f.sortable)
       .map((f) => {
         if (f.defaultsort) sortBy[0].value = f.name
         return { value: f.name, text: f.display }
       })
 
-    return sortBy
+    if (options.length) {
+      sortBy[0].options = fields
+        .filter((f) => f.sortable)
+        .map((f) => {
+          if (f.defaultsort) sortBy[0].value = f.name
+          return { value: f.name, text: f.display }
+        })
+
+      return sortBy
+    }
   }
   return []
 }
@@ -96,7 +85,8 @@ export default {
    */
   renderFilters: async (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
     return {
-      ...initFiltersFromDefinition(fields, interactive),
+      filters: FiltersUtils.getFiltersFromDefinition(fields, false),
+      sortBy: getSortByFromDefinition(fields, interactive),
     }
   },
 

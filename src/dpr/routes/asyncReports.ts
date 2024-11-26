@@ -7,7 +7,7 @@ import ErrorSummaryUtils from '../components/error-summary/utils'
 import AysncRequestUtils from '../utils/RequestReportUtils'
 import DashboardUtils from '../components/_dashboards/dashboard/utils'
 
-import * as AsyncReportUtils from '../utils/renderAsyncReport'
+import AsyncReportUtils from '../components/_async/async-report/utils'
 
 import { Services } from '../types/Services'
 import logger from '../utils/logger'
@@ -185,6 +185,7 @@ export default function routes({
         template = 'async-report'
         renderData = await AsyncReportUtils.getReport(params)
       }
+
       if (type === ReportType.DASHBOARD) {
         template = 'dashboard'
         renderData = await DashboardUtils.renderAsyncDashboard(params)

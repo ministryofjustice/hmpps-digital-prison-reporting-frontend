@@ -10,14 +10,19 @@
         {% set text = selected.text %}
         {% set value = selected.value %}
         {% set classes = selected.classes %}
+        {% set disabled = selected.disabled %}
         
-        <a href="#" 
-          class="govuk-link {{ classes }}" 
-          data-query-param-key= {{ key }} 
-          data-query-param-value= {{ value }}
-        >
+        {% if disabled %}
+          <p class="govuk-body {{ classes }}">{{ text }}</p>
+        {% else %}
+          <a href="#" 
+            class="govuk-link {{ classes }}" 
+            data-query-param-key= {{ key }} 
+            data-query-param-value= {{ value }}
+          >
           {{ text }}
-        </a>
+          </a>
+        {% endif %}
       {% endfor%}
     </div>
   </div>

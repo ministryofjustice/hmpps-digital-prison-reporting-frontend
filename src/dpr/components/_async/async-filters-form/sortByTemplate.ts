@@ -1,5 +1,5 @@
 import { FilterType } from '../../_filters/filter-input/enum'
-import { FilterValue } from '../../filters/types'
+import { FilterValue } from '../../_filters/types'
 
 export default {
   sortByTemplate: (): FilterValue[] => {

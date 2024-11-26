@@ -4,7 +4,12 @@ import type { components } from '../../../types/api'
 import type { DataTable } from '../../../utils/DataTableBuilder/types'
 import type { ListWithWarnings } from '../../../data/types'
 import type { Columns } from '../../_reports/report-columns-form/types'
-import type { SyncReportFeatures, SyncReportOptions, SyncReportUtilsParams } from '../../../types/SyncReportUtils'
+import {
+  SyncReportFeaturesList,
+  type SyncReportFeatures,
+  type SyncReportOptions,
+  type SyncReportUtilsParams,
+} from '../../../types/SyncReportUtils'
 import type { Services } from '../../../types/Services'
 import type { DownloadActionParams } from '../../_reports/report-actions/types'
 import { LoadType, ReportType } from '../../../types/UserReports'
@@ -17,20 +22,25 @@ import ReportActionsUtils from '../../_reports/report-actions/utils'
 import FiltersUtils from '../../_filters/utils'
 
 import DataTableBuilder from '../../../utils/DataTableBuilder/DataTableBuilder'
+import { Template } from '../../../types/Templates'
 
 const setActions = (
   csrfToken: string,
   reportDefinition: components['schemas']['SingleVariantReportDefinition'],
   columns: Columns,
   url: string,
-  features: SyncReportFeatures = {},
+  canDownload: boolean,
+  count: number,
+  features: SyncReportFeatures,
   options: SyncReportOptions = {},
 ) => {
   const { name: reportName, variant, id: reportId } = reportDefinition
   const { name, id, printable } = variant
 
+  const downloadFeature = features.list.includes(SyncReportFeaturesList.download)
+
   const downloadConfig: DownloadActionParams = {
-    enabled: true,
+    enabled: count > 0 && downloadFeature,
     name,
     reportName,
     csrfToken,
@@ -40,11 +50,11 @@ const setActions = (
     columns: columns.value,
     loadType: LoadType.SYNC,
     definitionPath: options.dpdPath,
-    canDownload: features.download,
+    canDownload,
   }
 
   return ReportActionsUtils.getActions({
-    ...(features.download && {
+    ...(downloadFeature && {
       download: downloadConfig,
     }),
     print: {
@@ -73,12 +83,14 @@ const initAdditionalFeatures = async (
   let bookmarked
   let removeBookmark = true
 
-  if (features.download) {
+  const downloadFeatureEnabled = features.list.includes(SyncReportFeaturesList.download)
+  if (downloadFeatureEnabled) {
     canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
   }
 
-  if (features.bookmark) {
-    removeBookmark = !features.bookmark
+  const bookmarkFeatureEnabled = features.list.includes(SyncReportFeaturesList.bookmark)
+  if (bookmarkFeatureEnabled) {
+    removeBookmark = !bookmarkFeatureEnabled
     bookmarked = await services.bookmarkService.isBookmarked(id, userId)
   }
 
@@ -102,7 +114,13 @@ const getSyncReportData = async (
   const { variant } = reportDefinition
   const { resourceName, specification } = variant
 
-  const reportQuery = new ReportQuery(specification, req.query, <string>dpdPath)
+  const reportQuery = new ReportQuery({
+    fields: specification.fields,
+    template: specification.template as Template,
+    queryParams: req.query,
+    definitionsPath: <string>req.query.dataProductDefinitionsPath,
+  })
+
   return {
     reportData: await services.reportingService.getListWithWarnings(resourceName, token, reportQuery),
     reportDefinition,
@@ -110,7 +128,7 @@ const getSyncReportData = async (
   }
 }
 
-const getReport = async ({ req, res, services, features = {}, options = {} }: SyncReportUtilsParams) => {
+const getReport = async ({ req, res, services, features, options = {} }: SyncReportUtilsParams) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
@@ -139,6 +157,7 @@ const getReport = async ({ req, res, services, features = {}, options = {} }: Sy
     csrfToken,
     features,
     options,
+    canDownload: userFeaturesConfig.canDownload,
   })
 
   return {
@@ -149,6 +168,7 @@ const getReport = async ({ req, res, services, features = {}, options = {} }: Sy
       loadType: LoadType.SYNC,
       reportId,
       id,
+      dataProductDefinitionsPath,
     },
   }
 }
@@ -162,6 +182,7 @@ const getRenderData = async ({
   csrfToken,
   features,
   options,
+  canDownload,
 }: {
   req: Request
   reportDefinition: components['schemas']['SingleVariantReportDefinition']
@@ -171,6 +192,7 @@ const getRenderData = async ({
   count: number
   features: SyncReportFeatures
   options: SyncReportOptions
+  canDownload: boolean
 }) => {
   const { name: reportName, description: reportDescription } = reportDefinition
   const { specification, name, description, classification, printable } = reportDefinition.variant
@@ -190,9 +212,10 @@ const getRenderData = async ({
     dataTable.rowCount,
   )
 
-  const filters = await FiltersUtils.getFilters({
+  const filterData = await FiltersUtils.getFilters({
     fields: specification.fields,
     req,
+    interactive: false,
   })
 
   const columns = ColumnUtils.getColumns(specification, reportQuery.columns)
@@ -202,6 +225,8 @@ const getRenderData = async ({
     reportDefinition,
     columns,
     `${req.protocol}://${req.get('host')}${req.originalUrl}`,
+    canDownload,
+    count,
     features,
     options,
   )
@@ -214,7 +239,7 @@ const getRenderData = async ({
     count,
     type: ReportType.REPORT,
     columns,
-    filters,
+    filterData,
     pagination,
     totals,
     classification,

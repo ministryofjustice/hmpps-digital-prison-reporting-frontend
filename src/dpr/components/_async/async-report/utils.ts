@@ -44,18 +44,14 @@ export const initDataSources = ({
       const { variant } = definition
       const { specification } = variant
 
-      const reportQuery = new ReportQuery({
+      const query = new ReportQuery({
         fields: specification.fields,
         template: specification.template as Template,
         queryParams: req.query,
         definitionsPath: dataProductDefinitionsPath,
-      })
+      }).toRecordWithFilterPrefix(true)
 
-      return services.reportingService.getAsyncReport(token, reportId, reportVariantId, tableId, {
-        selectedPage: reportQuery.selectedPage,
-        pageSize: reportQuery.pageSize,
-        dataProductDefinitionsPath,
-      })
+      return services.reportingService.getAsyncReport(token, reportId, reportVariantId, tableId, query)
     },
   )
 

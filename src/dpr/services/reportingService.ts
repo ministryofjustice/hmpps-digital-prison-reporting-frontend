@@ -101,6 +101,6 @@ export default class ReportingService {
     id: string,
     filters: ReportQuery,
   ): Promise<number> {
-    return this.reportingClient.getAsyncInteractiveCount(token, reportId, id, tableId, filters)
+    return this.reportingClient.getAsyncInteractiveCount(token, tableId, reportId, id, filters)
   }
 }

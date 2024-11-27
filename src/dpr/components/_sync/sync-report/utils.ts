@@ -37,7 +37,7 @@ const setActions = (
   const { name: reportName, variant, id: reportId } = reportDefinition
   const { name, id, printable } = variant
 
-  const downloadFeature = features.list.includes(SyncReportFeaturesList.download)
+  const downloadFeature = features?.list?.includes(SyncReportFeaturesList.download)
 
   const downloadConfig: DownloadActionParams = {
     enabled: count > 0 && downloadFeature,
@@ -83,12 +83,12 @@ const initAdditionalFeatures = async (
   let bookmarked
   let removeBookmark = true
 
-  const downloadFeatureEnabled = features.list.includes(SyncReportFeaturesList.download)
+  const downloadFeatureEnabled = features?.list?.includes(SyncReportFeaturesList.download)
   if (downloadFeatureEnabled) {
     canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
   }
 
-  const bookmarkFeatureEnabled = features.list.includes(SyncReportFeaturesList.bookmark)
+  const bookmarkFeatureEnabled = features?.list?.includes(SyncReportFeaturesList.bookmark)
   if (bookmarkFeatureEnabled) {
     removeBookmark = !bookmarkFeatureEnabled
     bookmarked = await services.bookmarkService.isBookmarked(id, userId)

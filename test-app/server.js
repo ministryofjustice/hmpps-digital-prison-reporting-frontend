@@ -163,22 +163,24 @@ addDownloadRoutes(routeImportParams)
 
 // SYNC ROUTES: Uncomment to test
 
-// const syncReportingClient = new MockReportingClient()
-// const syncReportingService = new ReportingService(syncReportingClient)
-// const syncServices = {
-//   reportingService: syncReportingService,
-// }
+const addSyncRoutes = require('../package/dpr/routes/syncReports').default
 
-// addSyncRoutes({
-//   router: app,
-//   services: syncServices,
-//   features: {
-//     config: {
-//       userDataStore: mockUserStore,
-//     },
-//     list: ['download'],
-//   },
-// })
+const syncReportingClient = new MockReportingClient()
+const syncReportingService = new ReportingService(syncReportingClient)
+const syncServices = {
+  reportingService: syncReportingService,
+}
+
+addSyncRoutes({
+  router: app,
+  services: syncServices,
+  // features: {
+  //   config: {
+  //     userDataStore: mockUserStore,
+  //   },
+  //   list: ['download'],
+  // },
+})
 
 app.get('/async-reports', async (req, res) => {
   res.locals.definitions = mockDefinitions.reports

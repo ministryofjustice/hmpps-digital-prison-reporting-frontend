@@ -56,11 +56,11 @@ export default {
       dataProductDefinitionsPath,
     )
 
-    const reportQuery = new ReportQuery({
+    const query = new ReportQuery({
       fields: dashboardDefinition.filterFields,
       queryParams: req.query,
       definitionsPath: <string>dataProductDefinitionsPath,
-    })
+    }).toRecordWithFilterPrefix(true)
 
     // The metrics Data
     const dashboardMetricsData: MetricsDataResponse[] = await services.dashboardService.getAsyncDashboard(
@@ -68,7 +68,7 @@ export default {
       id,
       reportId,
       tableId,
-      reportQuery,
+      query,
     )
 
     // Create the visualisation data

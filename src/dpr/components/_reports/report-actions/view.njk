@@ -1,4 +1,5 @@
 {% from "moj/components/button-menu/macro.njk" import mojButtonMenu %}
+{%- from "govuk/components/button/macro.njk" import govukButton %}
 
 {% macro dprReportActions(buttonList) %}
 
@@ -46,18 +47,44 @@
           "data-href": button.href,
           "aria-label": button.ariaLabelText
         },
-        classes: '{{ button.id }} govuk-button--secondary'
+        classes: '{{ button.id }}'
       } %}
     {% endif %}
 
     {% set items = (items.push(item), items) %}
   {% endfor %}
 
-  
+{#
+  Replaced with copy of MoJ button menu njk without the data-module attribute;
+  to stop it from being turned into an action menu.
+#}
+{#  {{ mojButtonMenu({#}
+{#    items: items#}
+{#  }) }}#}
+
   <div class="report-actions" data-dpr-module='report-actions'>
-    {{ mojButtonMenu({
-      items: items
-    }) }}
+    <div class="moj-button-menu">
+      {%- for item in items %}
+        {%- set itemClassNames = "moj-button-menu__item govuk-button--secondary" %}
+        {%- if item.classes %}
+          {% set itemClassNames = itemClassNames + " " + item.classes %}
+        {% endif %}
+
+        {{ govukButton({
+          element: item.element,
+          classes: itemClassNames,
+          text: item.text,
+          html: item.html,
+          name: item.name,
+          type: item.type,
+          value: item.value,
+          href: item.href,
+          disabled: item.disabled,
+          attributes: item.attributes,
+          preventDoubleClick: items.preventDoubleClick
+        }) }}
+      {% endfor -%}
+    </div>
 
     <div class="dpr-display-none">
       {{ downloadFormHtml }}

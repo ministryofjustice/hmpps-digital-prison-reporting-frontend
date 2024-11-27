@@ -103,6 +103,7 @@
     ]
   },
   "dependencies": {
+    "@ministryofjustice/frontend": "^3.0.3",
     "agentkeepalive": "^4.5.0",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
@@ -124,7 +125,6 @@
     "@axe-core/cli": "^4.10.0",
     "@badeball/cypress-cucumber-preprocessor": "^18.0.6",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
-    "@ministryofjustice/frontend": "^2.2.4",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^11.0.0",
     "@types/bunyan": "^1.8.8",

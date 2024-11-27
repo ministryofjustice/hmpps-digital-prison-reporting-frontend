@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v3.32.9
+
+Update to MoJ v3.
+
 ## v3.32.8
 
 Consolidate package dependencies.

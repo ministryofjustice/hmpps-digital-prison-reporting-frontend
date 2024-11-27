@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Router } from 'express'
-import SyncRouteUtils from './syncRouteUtils'
-import * as SyncRouteHelper from './syncRouteUtils'
+import SyncRouteUtils from './embeddedRouteUtils'
+import * as embeddedRouteHelper from './syncRouteUtils'
 import * as DownloadRoutes from '../routes/download'
 import { Services } from '../types/Services'
 import logger from './logger'
@@ -9,7 +9,7 @@ import logger from './logger'
 import MockUserStoreService from '../../../test-app/mocks/mockClients/store/mockRedisStore'
 import DownloadPermissionService from '../services/downloadPermissionService'
 import UserDataStore, { RedisClient } from '../data/userDataStore'
-import { SyncReportFeatures, SyncReportFeaturesList } from '../types/SyncReportUtils'
+import { EmbeddedReportFeatures, EmbeddedReportFeaturesList } from '../types/EmbeddedReportUtils'
 import MockReportingClient from '../../../test-app/mocks/mockClients/reports/mockReportingClient'
 import ReportingService from '../services/reportingService'
 import ReportingClient from '../data/reportingClient'
@@ -62,15 +62,15 @@ describe('SyncRouteUtils', () => {
 
   describe('initUserDataStore', () => {
     it('should initialise the store given a redis client ', async () => {
-      const features: SyncReportFeatures = {
+      const features: EmbeddedReportFeatures = {
         config: {
           redisClient,
         },
-        list: [SyncReportFeaturesList.download],
+        list: [EmbeddedReportFeaturesList.download],
       }
 
       try {
-        await SyncRouteHelper.initUserDataStore(features, services)
+        await embeddedRouteHelper.initUserDataStore(features, services)
       } catch (error) {
         //
       }
@@ -79,15 +79,15 @@ describe('SyncRouteUtils', () => {
     })
 
     it('should use a provided user data store', async () => {
-      const features: SyncReportFeatures = {
+      const features: EmbeddedReportFeatures = {
         config: {
           userDataStore: mockUserDataStore,
         },
-        list: [SyncReportFeaturesList.download],
+        list: [EmbeddedReportFeaturesList.download],
       }
 
       try {
-        await SyncRouteHelper.initUserDataStore(features, services)
+        await embeddedRouteHelper.initUserDataStore(features, services)
       } catch (error) {
         //
       }
@@ -98,14 +98,14 @@ describe('SyncRouteUtils', () => {
     })
 
     it('should throw error cant create UserData store no initialised service is provided', async () => {
-      const features: SyncReportFeatures = {
+      const features: EmbeddedReportFeatures = {
         config: {},
-        list: [SyncReportFeaturesList.download],
+        list: [EmbeddedReportFeaturesList.download],
       }
 
       let errorMessage
       try {
-        await SyncRouteHelper.initUserDataStore(features, services)
+        await embeddedRouteHelper.initUserDataStore(features, services)
       } catch (error) {
         errorMessage = error.message
       }
@@ -125,7 +125,7 @@ describe('SyncRouteUtils', () => {
     >
 
     beforeEach(() => {
-      jest.spyOn(SyncRouteHelper, 'initUserDataStore').mockReturnValue(mockUserDataStore)
+      jest.spyOn(embeddedRouteHelper, 'initUserDataStore').mockReturnValue(mockUserDataStore)
       addDownloadRoutesSpy = jest.spyOn(DownloadRoutes, 'default').mockImplementation(() => {
         // do nothing
       })
@@ -144,7 +144,7 @@ describe('SyncRouteUtils', () => {
             redisClient,
             userId: 'userId',
           },
-          list: [SyncReportFeaturesList.download],
+          list: [EmbeddedReportFeaturesList.download],
         },
       }
 
@@ -180,7 +180,7 @@ describe('SyncRouteUtils', () => {
           config: {
             userDataStore: mockUserDataStore,
           },
-          list: [SyncReportFeaturesList.download],
+          list: [EmbeddedReportFeaturesList.download],
         },
       }
 
@@ -214,7 +214,7 @@ describe('SyncRouteUtils', () => {
           config: {
             userDataStore: mockUserDataStore,
           },
-          list: [SyncReportFeaturesList.recentlyViewed, SyncReportFeaturesList.bookmark],
+          list: [EmbeddedReportFeaturesList.recentlyViewed, EmbeddedReportFeaturesList.bookmark],
         },
       }
 

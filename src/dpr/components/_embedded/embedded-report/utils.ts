@@ -1,9 +1,15 @@
 import parseUrl from 'parseurl'
-import type { Request, Response } from 'express'
+import type { Request } from 'express'
 import type { components } from '../../../types/api'
 import type { DataTable } from '../../../utils/DataTableBuilder/types'
 import type { ListWithWarnings } from '../../../data/types'
 import type { Columns } from '../../_reports/report-columns-form/types'
+import {
+  EmbeddedReportFeaturesList,
+  type EmbeddedReportFeatures,
+  type EmbeddedReportOptions,
+  type EmbeddedReportUtilsParams,
+} from '../../../types/EmbeddedReportUtils'
 import type { Services } from '../../../types/Services'
 import type { DownloadActionParams } from '../../_reports/report-actions/types'
 import { LoadType, ReportType } from '../../../types/UserReports'
@@ -25,13 +31,16 @@ const setActions = (
   url: string,
   canDownload: boolean,
   count: number,
-  dataProductDefinitionsPath: string,
+  features: EmbeddedReportFeatures,
+  options: EmbeddedReportOptions = {},
 ) => {
   const { name: reportName, variant, id: reportId } = reportDefinition
   const { name, id, printable } = variant
 
+  const downloadFeature = features?.list?.includes(EmbeddedReportFeaturesList.download)
+
   const downloadConfig: DownloadActionParams = {
-    enabled: count > 0,
+    enabled: count > 0 && downloadFeature,
     name,
     reportName,
     csrfToken,
@@ -39,13 +48,15 @@ const setActions = (
     id,
     type: ReportType.REPORT,
     columns: columns.value,
-    loadType: LoadType.SYNC,
-    definitionPath: dataProductDefinitionsPath,
+    loadType: LoadType.EMBEDDED,
+    definitionPath: options.dpdPath,
     canDownload,
   }
 
   return ReportActionsUtils.getActions({
-    download: downloadConfig,
+    ...(downloadFeature && {
+      download: downloadConfig,
+    }),
     print: {
       enabled: printable,
     },
@@ -60,14 +71,46 @@ const setActions = (
   })
 }
 
-const getSyncReportData = async (services: Services, req: Request, token: string, reportId: string, id: string) => {
-  const { dataProductDefinitionsPath } = req.query
-  const reportDefinition = await services.reportingService.getDefinition(
-    token,
-    reportId,
-    id,
-    dataProductDefinitionsPath,
-  )
+const initAdditionalFeatures = async (
+  features: EmbeddedReportFeatures,
+  services: Services,
+  req: Request,
+  userId: string,
+) => {
+  const { reportId, id } = req.params
+
+  let canDownload
+  let bookmarked
+  let removeBookmark = true
+
+  const downloadFeatureEnabled = features?.list?.includes(EmbeddedReportFeaturesList.download)
+  if (downloadFeatureEnabled) {
+    canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
+  }
+
+  const bookmarkFeatureEnabled = features?.list?.includes(EmbeddedReportFeaturesList.bookmark)
+  if (bookmarkFeatureEnabled) {
+    removeBookmark = !bookmarkFeatureEnabled
+    bookmarked = await services.bookmarkService.isBookmarked(id, userId)
+  }
+
+  return {
+    bookmarked,
+    removeBookmark,
+    canDownload,
+  }
+}
+
+const getSyncReportData = async (
+  services: Services,
+  req: Request,
+  token: string,
+  reportId: string,
+  id: string,
+  options: EmbeddedReportOptions,
+) => {
+  const { dpdPath } = options
+  const reportDefinition = await services.reportingService.getDefinition(token, reportId, id, dpdPath)
   const { variant } = reportDefinition
   const { resourceName, specification } = variant
 
@@ -75,7 +118,7 @@ const getSyncReportData = async (services: Services, req: Request, token: string
     fields: specification.fields,
     template: specification.template as Template,
     queryParams: req.query,
-    definitionsPath: <string>dataProductDefinitionsPath,
+    definitionsPath: <string>req.query.dataProductDefinitionsPath,
   })
 
   return {
@@ -85,17 +128,26 @@ const getSyncReportData = async (services: Services, req: Request, token: string
   }
 }
 
-const getReport = async ({ req, res, services }: { req: Request; res: Response; services: Services }) => {
+const getReport = async ({ req, res, services, features, options = {} }: EmbeddedReportUtilsParams) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
   const { reportId, id } = req.params
   const { dataProductDefinitionsPath } = req.query
 
-  const { reportData, reportDefinition, reportQuery } = await getSyncReportData(services, req, token, reportId, id)
-  const count = await services.reportingService.getCount(reportDefinition.variant.resourceName, token, reportQuery)
-  const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
+  // eslint-disable-next-line no-param-reassign
+  options.dpdPath = <string>dataProductDefinitionsPath || options.dpdPath
 
+  const { reportData, reportDefinition, reportQuery } = await getSyncReportData(
+    services,
+    req,
+    token,
+    reportId,
+    id,
+    options,
+  )
+  const count = await services.reportingService.getCount(reportDefinition.variant.resourceName, token, reportQuery)
+  const userFeaturesConfig = await initAdditionalFeatures(features, services, req, userId)
   const renderData = await getRenderData({
     req,
     reportDefinition,
@@ -103,12 +155,15 @@ const getReport = async ({ req, res, services }: { req: Request; res: Response; 
     reportData,
     count,
     csrfToken,
-    canDownload,
+    features,
+    options,
+    canDownload: userFeaturesConfig.canDownload,
   })
 
   return {
     renderData: {
       ...renderData,
+      ...userFeaturesConfig,
       csrfToken,
       loadType: LoadType.SYNC,
       reportId,
@@ -125,6 +180,8 @@ const getRenderData = async ({
   reportData,
   count,
   csrfToken,
+  features,
+  options,
   canDownload,
 }: {
   req: Request
@@ -133,9 +190,10 @@ const getRenderData = async ({
   reportData: ListWithWarnings
   csrfToken: string
   count: number
+  features: EmbeddedReportFeatures
+  options: EmbeddedReportOptions
   canDownload: boolean
 }) => {
-  const { dataProductDefinitionsPath } = req.query
   const { name: reportName, description: reportDescription } = reportDefinition
   const { specification, name, description, classification, printable } = reportDefinition.variant
   const { data } = reportData
@@ -169,7 +227,8 @@ const getRenderData = async ({
     `${req.protocol}://${req.get('host')}${req.originalUrl}`,
     canDownload,
     count,
-    <string>dataProductDefinitionsPath,
+    features,
+    options,
   )
 
   return {

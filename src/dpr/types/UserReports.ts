@@ -140,4 +140,5 @@ export interface RequestFormFilterData {
 export enum LoadType {
   SYNC = 'sync',
   ASYNC = 'async',
+  EMBEDDED = 'embedded',
 }

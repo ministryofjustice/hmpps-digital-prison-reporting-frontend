@@ -51,7 +51,7 @@ This implementation initialises and loads the required services for you, and wil
 
 ```js
 // Import the sync routes
-import addSyncRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/recentlyViewed'
+import addEmbeddedReportsRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/embeddedReports'
 
 // Create the reporting client config
 const reportingClientConfig: {
@@ -68,7 +68,7 @@ const routeConfig = {
 }
 
 // add the routes
-addSyncRoutes(routeConfig)
+addEmbeddedReportsRoutes(routeConfig)
 ```
 
 ### Pre-initialise services 
@@ -77,7 +77,7 @@ This implementation requires that you pre-initialise the dependency services and
 
 ```js
 // Import the sync routes
-import addSyncRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/recentlyViewed'
+import addEmbeddedReportsRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/embeddedReports'
 
 // Import the Reporting dependecies
 import ReportingClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient'
@@ -99,7 +99,7 @@ const preInitialsedServices: Services = {
 }
 
 // Initialise the route with the services in the config
-addSyncRoutes({
+addEmbeddedReportsRoutes({
   router: app,
   services: preInitialsedServices
 })
@@ -110,7 +110,7 @@ addSyncRoutes({
 The route config accepts an options config. The full options config is as follows.
 
 ```js
-addSyncRoutes({ 
+addEmbeddedReportsRoutes({ 
   ...routeConfig,
   options: {
     // Set this option to use a definitions path without using query params
@@ -166,7 +166,7 @@ There are two ways to initialise features and the DPR `UserDataStore`
 const yourRedisClient = createYourRedisClient()
 
 // Add the client features config
-addSyncRoutes({
+addEmbeddedReportsRoutes({
   ...
   features: {
     config: {
@@ -188,7 +188,7 @@ const yourRedisClient = createYourRedisClient()
 const initialisedUserDataStore = new UserDataStore(yourRedisClient),
 
 // Add the service to the features config
-addSyncRoutes({
+addEmbeddedReportsRoutes({
   ...
   features: {
     config: {
@@ -204,7 +204,7 @@ addSyncRoutes({
 ### Init download via config (simple)
 
 ```ts
-addSyncRoutes({
+addEmbeddedReportsRoutes({
   ...
   features: {
     config: {
@@ -245,7 +245,7 @@ addDownloadRoutes({
 })
 
 // Append to the features attrubute of the sync route config
-addSyncRoutes({
+addEmbeddedReportsRoutes({
   ...
   services: preInitialsedServices
   features: {

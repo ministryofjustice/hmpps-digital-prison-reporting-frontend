@@ -163,17 +163,17 @@ addDownloadRoutes(routeImportParams)
 
 // SYNC ROUTES: Uncomment to test
 
-const addSyncRoutes = require('../package/dpr/routes/syncReports').default
+const addEmbeddedReportsRoutes = require('../package/dpr/routes/embeddedReports').default
 
-const syncReportingClient = new MockReportingClient()
-const syncReportingService = new ReportingService(syncReportingClient)
-const syncServices = {
-  reportingService: syncReportingService,
+const embeddedReportingClient = new MockReportingClient()
+const embeddedReportingService = new ReportingService(embeddedReportingClient)
+const embeddedReportsServices = {
+  reportingService: embeddedReportingService,
 }
 
-addSyncRoutes({
+addEmbeddedReportsRoutes({
   router: app,
-  services: syncServices,
+  services: embeddedReportsServices,
   // features: {
   //   config: {
   //     userDataStore: mockUserStore,

@@ -1,0 +1,6 @@
+{% from "../../_reports/report-template/view.njk" import dprReportTemplate %}
+{% from "../../_sync/sync-report/view.njk" import dprSyncReport %}
+
+{% macro dprEmbeddedReport(renderData) %}
+  {{ dprSyncReport(renderData)}}
+{% endmacro %}

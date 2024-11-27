@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express'
 import { Url } from 'url'
 import { Services } from '../../../types/Services'
-import { EmbeddedReportFeatures, EmbeddedReportFeaturesList } from '../../../types/SyncReportUtils'
+import { EmbeddedReportFeatures, EmbeddedReportFeaturesList } from '../../../types/EmbeddedReportUtils'
 import SyncReportUtils from './utils'
 import ReportingService from '../../../services/reportingService'
 

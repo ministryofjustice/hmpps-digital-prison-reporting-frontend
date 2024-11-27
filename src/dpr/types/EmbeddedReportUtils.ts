@@ -2,21 +2,21 @@ import { Response, Request, NextFunction, Router } from 'express'
 import { Services } from './Services'
 import UserDataStore, { RedisClient } from '../data/userDataStore'
 
-export interface SyncReportUtilsParams {
+export interface EmbeddedReportUtilsParams {
   req?: Request
   res: Response
   next?: NextFunction
   services: Services
-  options?: SyncReportOptions
-  features: SyncReportFeatures
+  options?: EmbeddedReportOptions
+  features: EmbeddedReportFeatures
 }
 
 export interface EmbeddedSyncParams {
   router: Router
   config?: EmbeddedSyncParamsConfig
   services?: Services
-  options?: SyncReportOptions
-  features?: SyncReportFeatures
+  options?: EmbeddedReportOptions
+  features?: EmbeddedReportFeatures
 }
 
 export interface EmbeddedSyncParamsConfig {
@@ -25,16 +25,16 @@ export interface EmbeddedSyncParamsConfig {
   reportingClientArgs?: ReportingClientArgs
 }
 
-export interface SyncReportOptions {
+export interface EmbeddedReportOptions {
   dpdPath?: string
 }
 
-export interface SyncReportFeatures {
-  config: SyncReportFeaturesConfig
-  list: SyncReportFeaturesList[]
+export interface EmbeddedReportFeatures {
+  config: EmbeddedReportFeaturesConfig
+  list: EmbeddedReportFeaturesList[]
 }
 
-export interface SyncReportFeaturesConfig {
+export interface EmbeddedReportFeaturesConfig {
   userId?: string
   redisClient?: RedisClient
   userDataStore?: UserDataStore
@@ -45,7 +45,7 @@ interface ReportingClientArgs {
   agent: { timeout: number }
 }
 
-export enum SyncReportFeaturesList {
+export enum EmbeddedReportFeaturesList {
   download = 'download',
   bookmark = 'bookmark',
   recentlyViewed = 'recentlyViewed',

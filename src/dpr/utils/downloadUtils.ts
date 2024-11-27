@@ -5,6 +5,7 @@ import { Services } from '../types/Services'
 import Dict = NodeJS.Dict
 import { LoadType } from '../types/UserReports'
 import SyncReportUtils from '../components/_sync/sync-report/utils'
+import EmbeddedReportUtils from '../components/_embedded/embedded-report/utils'
 import { components } from '../types/api'
 
 const convertToCsv = (reportData: Dict<string>[], options: Json2CsvOptions) => {
@@ -74,6 +75,15 @@ export default {
       let reportData
       if (loadType === LoadType.SYNC) {
         const { reportData: listWithWarnings } = await SyncReportUtils.getSyncReportData(
+          services,
+          req,
+          token,
+          reportId,
+          id,
+        )
+        reportData = listWithWarnings.data
+      } else if (loadType === LoadType.EMBEDDED) {
+        const { reportData: listWithWarnings } = await EmbeddedReportUtils.getSyncReportData(
           services,
           req,
           token,

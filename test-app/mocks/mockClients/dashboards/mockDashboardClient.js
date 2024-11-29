@@ -48,7 +48,8 @@ class MockDashboardClient {
     const def = await this.getDefinition('token', dashboardId)
     if (def) {
       let data = mockDahsboardData[dashboardId]
-      if (query.filters.establishment_id) {
+      console.log({ query })
+      if (query.filters?.establishment_id) {
         data = data.filter((d) => {
           let found = false
           if (Array.isArray(query.establishmentId)) {

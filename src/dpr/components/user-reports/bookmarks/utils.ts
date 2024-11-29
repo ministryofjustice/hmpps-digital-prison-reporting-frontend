@@ -7,6 +7,7 @@ import ShowMoreUtils from '../../show-more/utils'
 import logger from '../../../utils/logger'
 import DefinitionUtils from '../../../utils/definitionUtils'
 import { createListItemProduct } from '../../../utils/reportListsHelper'
+import LocalsHelper from '../../../utils/localsHelper'
 
 export const formatBookmarks = async (
   bookmarksData: BookmarkedReportData[],
@@ -172,9 +173,7 @@ export default {
     res: Response
     req: Request
   }) => {
-    const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-    const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+    const { token, csrfToken, userId } = LocalsHelper.getValues(res)
 
     // TODO: update bookmark type to use id instead of variantID
     const bookmarks: { reportId: string; variantId: string }[] = await services.bookmarkService.getAllBookmarks(userId)

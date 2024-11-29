@@ -4,6 +4,7 @@ import logger from '../utils/logger'
 import DownloadUtils from '../utils/downloadUtils'
 import { LoadType } from '../types/UserReports'
 import { components } from '../types/api'
+import LocalsHelper from '../utils/localsHelper'
 
 /**
  * DOWNLOAD PROCESS
@@ -33,11 +34,14 @@ export default function routes({
   logger.info('Download Feature: Initialiasing routes')
 
   const feedbackFormHandler: RequestHandler = async (req, res, next) => {
-    const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+    const { token, csrfToken } = LocalsHelper.getValues(res)
     const { reportId, variantId, tableId } = req.params
     const loadType = tableId ? LoadType.ASYNC : LoadType.SYNC
-    const { dataProductDefinitionsPath } = req.query
+
+    const { reportSearch, reportUrl } = req.query
+    const queryString = decodeURIComponent(<string>reportSearch)
+    const params = new URLSearchParams(queryString)
+    const dataProductDefinitionsPath = params.get('dataProductDefinitionsPath')
 
     const variantData: components['schemas']['SingleVariantReportDefinition'] =
       await services.reportingService.getDefinition(token, reportId, variantId, dataProductDefinitionsPath)
@@ -53,7 +57,8 @@ export default function routes({
           variantName: variantData.variant.name,
           tableId,
           loadType,
-          dataProductDefinitionsPath,
+          reportUrl,
+          reportSearch,
           time: new Date().toDateString(),
         },
         csrfToken,
@@ -67,28 +72,22 @@ export default function routes({
 
   const feedbackSubmitHandler: RequestHandler = async (req, res, next) => {
     const { body } = req
-    const { reportId, variantId, tableId, loadType, reportName, variantName, dataProductDefinitionsPath } = body
+    const { reportId, variantId, reportName, variantName, reportUrl, reportSearch } = body
     logger.info('Download Feedback Submission:', `${JSON.stringify(body)}`)
 
-    let queryParams = `?reportName=${reportName}&variantName=${variantName}`
-    if (dataProductDefinitionsPath) {
-      queryParams = `${queryParams}&dataProductDefinitionsPath=${dataProductDefinitionsPath}`
-    }
-
-    let redirect
-    if (loadType === LoadType.ASYNC) {
-      redirect = `/download/${reportId}/${variantId}/${tableId}/feedback/submitted${queryParams}`
-    } else {
-      redirect = `/download/${reportId}/${variantId}/feedback/submitted${queryParams}`
-    }
+    const queryParams = `?reportName=${reportName}&variantName=${variantName}&reportUrl=${reportUrl}&reportSearch=${encodeURIComponent(
+      reportSearch,
+    )}`
+    const redirect = `/download/${reportId}/${variantId}/feedback/submitted${queryParams}`
 
     res.redirect(redirect)
   }
 
   const feedbackSuccessHandler: RequestHandler = async (req, res, next) => {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-    const { reportId, variantId, tableId } = req.params
-    const { reportName, variantName, dataProductDefinitionsPath } = req.query
+    const { reportId, variantId } = req.params
+    const { reportName, variantName, reportUrl, reportSearch } = req.query
+    const reportHref = reportSearch ? `${reportUrl}${decodeURIComponent(<string>reportSearch)}` : `${reportUrl}`
 
     await services.downloadPermissionService.saveDownloadPermissionData(userId, reportId, variantId)
 
@@ -96,33 +95,25 @@ export default function routes({
       title: 'success',
       layoutPath,
       report: {
-        reportId,
-        variantId,
-        tableId,
         reportName,
         variantName,
-        dataProductDefinitionsPath,
+        reportHref,
       },
     })
   }
 
   const downloadRequestHandler: RequestHandler = async (req, res, next) => {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-    const { reportId, id, type, tableId, dataProductDefinitionsPath, loadType } = req.body
+    const { reportId, id, loadType, currentUrl, currentQueryParams } = req.body
 
-    let redirect = `/async/${type}/${reportId}/${id}/request/${tableId}/report/download-disabled`
-    if (loadType === LoadType.SYNC) {
-      redirect = `/dpr/embedded/sync/${type}/${reportId}/${id}/report/download-disabled`
-    }
+    let redirect = `${currentUrl}/download-disabled`
+    redirect = currentQueryParams ? `${redirect}${currentQueryParams}` : redirect
 
     const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
 
     if (canDownload) {
       await DownloadUtils.downloadReport({ req, res, services, redirect, loadType })
     } else {
-      redirect = dataProductDefinitionsPath
-        ? `${redirect}?dataProductDefinitionsPath=${dataProductDefinitionsPath}`
-        : redirect
       res.redirect(redirect)
     }
   }

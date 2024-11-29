@@ -20,6 +20,8 @@ import ReportFiltersUtils from '../../_filters/utils'
 import ColumnUtils from '../../_reports/report-columns-form/utils'
 import ReportActionsUtils from '../../_reports/report-actions/utils'
 import UserReportsUtils from '../../user-reports/utils'
+import LocalsHelper from '../../../utils/localsHelper'
+import { DownloadActionParams } from '../../_reports/report-actions/types'
 
 export const initDataSources = ({
   req,
@@ -80,9 +82,7 @@ export const initDataSources = ({
 }
 
 const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
-  const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
-  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-  const token = res.locals.user?.token ? res.locals.user.token : 'token'
+  const { token, csrfToken, userId } = LocalsHelper.getValues(res)
 
   const dataPromises = initDataSources({ req, res, services, token, userId })
   let renderData = {}
@@ -112,10 +112,10 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
         id,
         executionId,
         query,
-        url,
+        url: stateUrl,
         dataProductDefinitionsPath,
       } = reportStateData
-      const reportStataVars = {
+      const reportStateVars = {
         reportName,
         name,
         description,
@@ -125,11 +125,12 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
         id: variantId || id,
         executionId,
         querySummary: query.summary,
-        requestUrl: url.request,
+        requestUrl: stateUrl.request,
       }
+      // Report summaries
+      const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, resolvedData[3])
 
-      const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, resolvedData[4])
-      const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, reportStataVars.id)
+      const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, reportStateVars.id)
 
       const reportQuery = new ReportQuery({
         fields: specification.fields,
@@ -153,8 +154,10 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
         interactive: true,
       })
 
+      const url = parseUrl(req)
+
       renderData = {
-        ...reportStataVars,
+        ...reportStateVars,
         classification,
         template,
         count,
@@ -162,14 +165,17 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
         columns,
         loadType: LoadType.ASYNC,
         type: ReportType.REPORT,
-        actions: setActions(csrfToken, variant, reportStateData, columns, canDownload, count),
+        actions: setActions(csrfToken, variant, reportStateData, columns, canDownload, count, url.pathname, url.search),
         printable,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         csrfToken,
-        bookmarked: await services.bookmarkService.isBookmarked(reportStataVars.id, userId),
+        bookmarked: await services.bookmarkService.isBookmarked(reportStateVars.id, userId),
         canDownload,
         reportSummaries: collatedSummaryBuilder.collatePageSummaries(),
         dataProductDefinitionsPath,
+        reportUrl: url.pathname.replace('/download-disabled', '').replace('/download-disabled?', ''),
+        reportSearch: url.search,
+        encodedSearch: encodeURIComponent(url.search),
       }
 
       switch (template as Template) {
@@ -179,16 +185,18 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
 
         case 'summary-section':
         case 'list-section': {
+          const dataTable = new SectionedDataTableBuilder(specification)
+            .withSummaries(collatedSummaryBuilder.collateDataTableSummaries())
+            .withHeaderOptions({
+              columns: columns.value,
+              reportQuery,
+              interactive,
+            })
+            .buildTable(reportData)
+
           renderData = {
             ...renderData,
-            ...new SectionedDataTableBuilder(specification)
-              .withSummaries(collatedSummaryBuilder.collateDataTableSummaries())
-              .withHeaderOptions({
-                columns: columns.value,
-                reportQuery,
-                interactive,
-              })
-              .buildTable(reportData),
+            dataTable,
           }
           break
         }
@@ -234,36 +242,37 @@ const setActions = (
   columns: Columns,
   canDownload: boolean,
   count: number,
+  currentUrl: string,
+  currentQueryParams: string,
 ) => {
-  const { reportName, name, id, variantId, reportId, executionId, tableId, type, dataProductDefinitionsPath } =
-    requestData
-  const url = requestData.url.request.fullUrl
+  const { reportName, name, id, variantId, reportId, executionId, dataProductDefinitionsPath, url } = requestData
+  const requestUrl = url.request.fullUrl
   const { printable } = variant
   const ID = variantId || id
 
-  const downloadConfig = {
+  const downloadConfig: DownloadActionParams = {
     enabled: count > 0,
     name,
     reportName,
     csrfToken,
     reportId,
     id: ID,
-    tableId,
-    type: type || ReportType.REPORT,
     columns: columns.value,
     definitionPath: dataProductDefinitionsPath,
     loadType: LoadType.ASYNC,
     canDownload,
+    currentUrl,
+    currentQueryParams,
   }
 
   const shareConfig = {
     reportName,
     name,
-    url,
+    url: requestUrl,
   }
 
   const refreshConfig = {
-    url,
+    url: requestUrl,
     executionId,
   }
 
@@ -272,7 +281,7 @@ const setActions = (
     print: { enabled: printable },
     share: shareConfig,
     refresh: refreshConfig,
-    copy: { url },
+    copy: { url: requestUrl },
   })
 }
 
@@ -307,7 +316,7 @@ export const getRenderData = (
   )
 
   return {
-    ...dataTable,
+    dataTable,
     pagination,
     querySummary,
     totals,

@@ -89,6 +89,7 @@ const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').de
 const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
 const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
 const addDownloadRoutes = require('../package/dpr/routes/download').default
+const addSyncRoutes = require('../package/dpr/routes/syncReports').default
 
 // Charts
 const mockBarChartData = require('./mocks/mockChartData/mockBarChartData')
@@ -160,27 +161,28 @@ addBookmarkingRoutes(routeImportParams)
 addRecentlyViewedRoutes(routeImportParams)
 addAsyncReportingRoutes(routeImportParams)
 addDownloadRoutes(routeImportParams)
+addSyncRoutes(routeImportParams)
 
-// SYNC ROUTES: Uncomment to test
+// EMBEDDED ROUTES: Uncomment to test
 
-const addEmbeddedReportsRoutes = require('../package/dpr/routes/embeddedReports').default
+// const addEmbeddedReportsRoutes = require('../package/dpr/routes/embeddedReports').default
 
-const embeddedReportingClient = new MockReportingClient()
-const embeddedReportingService = new ReportingService(embeddedReportingClient)
-const embeddedReportsServices = {
-  reportingService: embeddedReportingService,
-}
+// const embeddedReportingClient = new MockReportingClient()
+// const embeddedReportingService = new ReportingService(embeddedReportingClient)
+// const embeddedReportsServices = {
+//   reportingService: embeddedReportingService,
+// }
 
-addEmbeddedReportsRoutes({
-  router: app,
-  services: embeddedReportsServices,
-  // features: {
-  //   config: {
-  //     userDataStore: mockUserStore,
-  //   },
-  //   list: ['download'],
-  // },
-})
+// addEmbeddedReportsRoutes({
+//   router: app,
+//   services: embeddedReportsServices,
+//   // features: {
+//   //   config: {
+//   //     userDataStore: mockUserStore,
+//   //   },
+//   //   list: ['download'],
+//   // },
+// })
 
 app.get('/async-reports', async (req, res) => {
   res.locals.definitions = mockDefinitions.reports

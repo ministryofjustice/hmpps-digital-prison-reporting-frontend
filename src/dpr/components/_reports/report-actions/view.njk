@@ -31,6 +31,8 @@
         <input type="hidden" name="name" value="{{ button.attributes.name }}">
         <input type="hidden" name="cols" value="{{ button.attributes.columns | json }}">
         <input type="hidden" name="loadType" value="{{ button.attributes.loadType }}">
+        <input type="hidden" name="currentUrl" value="{{ button.attributes.currentUrl }}">
+        <input type="hidden" name="currentQueryParams" value="{{ button.attributes.currentQueryParams }}">
       </form>
     {% endif %}
 

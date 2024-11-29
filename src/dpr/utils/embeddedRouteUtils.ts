@@ -17,18 +17,18 @@ import ReportingClient from '../data/reportingClient'
 import ReportingService from '../services/reportingService'
 
 export const initUserDataStore = (features: EmbeddedReportFeatures, services: Services) => {
-  logger.info('Sync Reports: Setting up user data store.')
+  logger.info('Embedded Reports: Setting up user data store.')
 
   const { config: featuresConfig, list } = features
   const { redisClient, userDataStore } = featuresConfig
   let initialisedUserDataStore: UserDataStore
 
   if (redisClient) {
-    logger.info('Sync Reports: Redis Client found. Initialising User Data store.')
+    logger.info('Embedded Reports: Redis Client found. Initialising User Data store.')
     return new UserDataStore(redisClient)
   }
   if (userDataStore) {
-    logger.info('Sync Reports: User data store found. Using the provided user data store')
+    logger.info('Embedded Reports: User data store found. Using the provided user data store')
     return userDataStore
   }
 
@@ -62,7 +62,7 @@ const initFeatures = ({ router, config, services, features }: EmbeddedSyncParams
   const initialisedFeatures: InitialisedFeatures = {}
 
   if (features !== undefined) {
-    logger.info(`Sync Reports: Features config found. Initialising features: ${features.list}`)
+    logger.info(`Embedded Reports: Features config found. Initialising features: ${features.list}`)
 
     const { config: featuresConfig, list } = features
     const { userId } = featuresConfig
@@ -122,11 +122,11 @@ const initReportingService = (config: EmbeddedSyncParamsConfig, services: Servic
     ...services,
   }
   if (config?.reportingClientArgs) {
-    logger.info('Sync Reports: Reporting config found')
+    logger.info('Embedded Reports: Reporting config found')
     if (services.reportingService) {
-      logger.info('Sync Reports: Reporting Service Found. Using service provided')
+      logger.info('Embedded Reports: Reporting Service Found. Using service provided')
     } else {
-      logger.info('Sync Reports: Initialising Reporting Client and Service')
+      logger.info('Embedded Reports: Initialising Reporting Client and Service')
 
       const reportingClient = new ReportingClient(config.reportingClientArgs)
       const reportingService = new ReportingService(reportingClient)
@@ -137,10 +137,10 @@ const initReportingService = (config: EmbeddedSyncParamsConfig, services: Servic
       }
     }
   } else if (services.reportingService) {
-    logger.info('Sync Reports: Reporting Service Found. Using service provided')
+    logger.info('Embedded Reports: Reporting Service Found. Using service provided')
   } else {
     logger.error(
-      'Sync Reports: No Reporting service or Config Found. Please provide an initialiesed report service, or the correct config',
+      'Embedded Reports: No Reporting service or Config Found. Please provide an initialiesed report service, or the correct config',
     )
   }
 

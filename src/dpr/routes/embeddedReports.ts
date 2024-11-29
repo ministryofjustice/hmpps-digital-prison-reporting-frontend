@@ -9,7 +9,7 @@ import { EmbeddedSyncParams, EmbeddedSyncParamsConfig } from '../types/EmbeddedR
 import EmbeddedRouteUtils from '../utils/embeddedRouteUtils'
 
 export default function routes({ router, config, services, options, features }: EmbeddedSyncParams) {
-  logger.info('Sync Reports: Initialiasing routes')
+  logger.info('Embedded Reports: Initialiasing routes')
 
   const routeConfig: EmbeddedSyncParamsConfig = {
     templatePath: config?.templatePath || 'dpr/views/',
@@ -74,15 +74,15 @@ export default function routes({ router, config, services, options, features }: 
   router.get(viewReportPaths, viewSyncReportHandler, errorHandler)
 
   if (Object.keys(initialisedFeatures).length) {
-    logger.info(`Sync Reports: Features Initialised:`)
+    logger.info(`Embedded Reports: Features Initialised:`)
     Object.keys(initialisedFeatures).forEach((key) => {
-      logger.info(`Sync Reports: Feature: ${key}`)
+      logger.info(`Embedded Reports: Feature: ${key}`)
     })
   }
 
-  logger.info(`Sync Reports: Routes Initialised:`)
+  logger.info(`Embedded Reports: Routes Initialised:`)
   viewReportPaths.forEach((path) => {
-    logger.info(`Sync Reports: GET: ${path}`)
+    logger.info(`Embedded Reports: GET: ${path}`)
   })
 
   logger.info(`Done! 🙂`)

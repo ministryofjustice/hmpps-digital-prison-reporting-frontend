@@ -75,7 +75,7 @@ describe('SyncRouteUtils', () => {
         //
       }
 
-      expect(loggerSpy).toHaveBeenLastCalledWith('Sync Reports: Redis Client found. Initialising User Data store.')
+      expect(loggerSpy).toHaveBeenLastCalledWith('Embedded Reports: Redis Client found. Initialising User Data store.')
     })
 
     it('should use a provided user data store', async () => {
@@ -93,7 +93,7 @@ describe('SyncRouteUtils', () => {
       }
 
       expect(loggerSpy).toHaveBeenLastCalledWith(
-        'Sync Reports: User data store found. Using the provided user data store',
+        'Embedded Reports: User data store found. Using the provided user data store',
       )
     })
 
@@ -243,8 +243,8 @@ describe('SyncRouteUtils', () => {
         {} as unknown as Services,
       )
 
-      expect(loggerSpy).toHaveBeenNthCalledWith(1, 'Sync Reports: Reporting config found')
-      expect(loggerSpy).toHaveBeenNthCalledWith(2, 'Sync Reports: Initialising Reporting Client and Service')
+      expect(loggerSpy).toHaveBeenNthCalledWith(1, 'Embedded Reports: Reporting config found')
+      expect(loggerSpy).toHaveBeenNthCalledWith(2, 'Embedded Reports: Initialising Reporting Client and Service')
 
       expect(Object.keys(res.services).length).toEqual(1)
     })
@@ -262,8 +262,8 @@ describe('SyncRouteUtils', () => {
         } as unknown as Services,
       )
 
-      expect(loggerSpy).toHaveBeenNthCalledWith(1, 'Sync Reports: Reporting config found')
-      expect(loggerSpy).toHaveBeenNthCalledWith(2, 'Sync Reports: Reporting Service Found. Using service provided')
+      expect(loggerSpy).toHaveBeenNthCalledWith(1, 'Embedded Reports: Reporting config found')
+      expect(loggerSpy).toHaveBeenNthCalledWith(2, 'Embedded Reports: Reporting Service Found. Using service provided')
 
       expect(Object.keys(res.services).length).toEqual(1)
     })
@@ -272,7 +272,7 @@ describe('SyncRouteUtils', () => {
       SyncRouteUtils.initReportingService({}, {} as unknown as Services)
 
       expect(loggerErrorSpy).toHaveBeenCalledWith(
-        'Sync Reports: No Reporting service or Config Found. Please provide an initialiesed report service, or the correct config',
+        'Embedded Reports: No Reporting service or Config Found. Please provide an initialiesed report service, or the correct config',
       )
     })
   })

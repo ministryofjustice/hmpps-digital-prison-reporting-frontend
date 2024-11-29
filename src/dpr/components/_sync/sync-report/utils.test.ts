@@ -1,7 +1,6 @@
 import type { Request, Response } from 'express'
 import { Url } from 'url'
 import { Services } from '../../../types/Services'
-import { EmbeddedReportFeatures, EmbeddedReportFeaturesList } from '../../../types/SyncReportUtils'
 import SyncReportUtils from './utils'
 import ReportingService from '../../../services/reportingService'
 
@@ -22,7 +21,6 @@ describe('SyncReportUtils', () => {
   let req: Request
   let res: Response
   let services: Services
-  let features: EmbeddedReportFeatures
   let reportingService: ReportingService
   let downloadPermissionService: DownloadPermissionService
   let bookmarkService: BookmarkService
@@ -78,15 +76,11 @@ describe('SyncReportUtils', () => {
       downloadPermissionService,
       bookmarkService,
     } as unknown as Services
-
-    features = {
-      list: [EmbeddedReportFeaturesList.download],
-    } as unknown as EmbeddedReportFeatures
   })
 
   describe('getReport', () => {
     it('should get the report', async () => {
-      const result = await SyncReportUtils.getReport({ req, res, services, features })
+      const result = await SyncReportUtils.getReport({ req, res, services })
 
       expect(result).toEqual(mockSyncListData)
     })

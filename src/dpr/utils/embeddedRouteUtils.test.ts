@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Router } from 'express'
 import SyncRouteUtils from './embeddedRouteUtils'
-import * as embeddedRouteHelper from './syncRouteUtils'
+import * as embeddedRouteHelper from './embeddedRouteUtils'
 import * as DownloadRoutes from '../routes/download'
 import { Services } from '../types/Services'
 import logger from './logger'

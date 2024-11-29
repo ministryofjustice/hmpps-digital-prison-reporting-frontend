@@ -124,7 +124,7 @@ const getReport = async ({ req, res, services, features, options = {} }: Embedde
     canDownload: userFeaturesConfig.canDownload,
   })
 
-  return {
+  const result = {
     renderData: {
       ...renderData,
       ...userFeaturesConfig,
@@ -135,6 +135,8 @@ const getReport = async ({ req, res, services, features, options = {} }: Embedde
       dataProductDefinitionsPath,
     },
   }
+
+  return result
 }
 
 const getRenderData = async ({

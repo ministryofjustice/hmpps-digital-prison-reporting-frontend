@@ -1,16 +1,269 @@
 const mockGetReportListRenderData = {
   renderData: {
-    id: 'id',
-    name: 'variantName',
-    reportId: 'reportId',
-    type: 'report',
     reportName: 'reportName',
-    reportSummaries: {},
+    name: 'variantName',
+    description: 'description',
+    requestedTimestamp: 'Invalid Date',
+    reportId: 'reportId',
+    tableId: 'tableId',
+    id: 'id',
+    executionId: 'executionId',
+    querySummary: 'summary',
     requestUrl: {
       fullUrl: 'fullUrl',
     },
-    requestedTimestamp: 'Invalid Date',
-    description: 'description',
+    classification: 'OFFICIAL',
+    template: 'list',
+    count: 100,
+    filterData: {
+      filters: [],
+      selectedFilters: [],
+    },
+    columns: {
+      name: 'columns',
+      options: [
+        {
+          text: 'Field 1',
+          value: 'field1',
+          disabled: false,
+        },
+        {
+          text: 'Field 2',
+          value: 'field2',
+          disabled: true,
+        },
+        {
+          text: 'Field 3',
+          value: 'field3',
+          disabled: false,
+        },
+        {
+          text: 'Field 4',
+          value: 'field4',
+        },
+        {
+          text: 'Field 5',
+          value: 'field5',
+          disabled: false,
+        },
+        {
+          text: 'Field 6',
+          value: 'field6',
+          disabled: false,
+        },
+      ],
+      text: 'Select report columns',
+      value: ['field2', 'column'],
+    },
+    loadType: 'async',
+    type: 'report',
+    actions: [
+      {
+        id: 'dpr-button-refresh',
+        icon: 'refresh',
+        disabled: false,
+        tooltipText: 'Refresh',
+        ariaLabelText: 'refresh report',
+        href: 'fullUrl',
+      },
+      {
+        id: 'dpr-button-printable',
+        icon: 'print',
+        disabled: false,
+        tooltipText: 'Print',
+        ariaLabelText: 'print report',
+        href: '#',
+      },
+      {
+        id: 'dpr-button-sharable',
+        icon: 'share',
+        disabled: false,
+        tooltipText: 'Share',
+        ariaLabelText: 'share report request via email',
+        href: 'mailto:?subject=reportName-variantName&body=fullUrl',
+      },
+      {
+        id: 'dpr-button-copy',
+        icon: 'copy',
+        disabled: false,
+        tooltipText: 'Copy',
+        ariaLabelText: 'report request',
+        href: 'fullUrl',
+      },
+      {
+        id: 'dpr-button-downloadable',
+        icon: 'download',
+        disabled: false,
+        tooltipText: 'Download',
+        ariaLabelText: 'download report',
+        attributes: {
+          enabled: true,
+          name: 'variantName',
+          reportName: 'reportName',
+          csrfToken: 'csrfToken',
+          reportId: 'reportId',
+          id: 'id',
+          columns: ['field2', 'column'],
+          loadType: 'async',
+          canDownload: true,
+          currentUrl: 'pathname',
+          currentQueryParams: 'search',
+        },
+      },
+    ],
+    printable: true,
+    csrfToken: 'csrfToken',
+    bookmarked: false,
+    canDownload: true,
+    reportSummaries: {},
+    reportUrl: 'pathname',
+    reportSearch: 'search',
+    encodedSearch: 'search',
+    dataTable: {
+      head: [
+        {
+          text: 'Field 2',
+        },
+      ],
+      rows: [
+        [
+          {
+            fieldName: 'field2',
+            text: 'Value 2',
+            format: 'string',
+            classes: '',
+          },
+        ],
+        [
+          {
+            fieldName: 'field2',
+            text: 'Value 2',
+            format: 'string',
+            classes: '',
+          },
+        ],
+        [
+          {
+            fieldName: 'field2',
+            text: 'Value 2',
+            format: 'string',
+            classes: '',
+          },
+        ],
+        [
+          {
+            fieldName: 'field2',
+            text: 'Value 2',
+            format: 'string',
+            classes: '',
+          },
+        ],
+        [
+          {
+            fieldName: 'field2',
+            text: 'Value 2',
+            format: 'string',
+            classes: '',
+          },
+        ],
+        [
+          {
+            fieldName: 'field2',
+            text: 'Value 2',
+            format: 'string',
+            classes: '',
+          },
+        ],
+        [
+          {
+            fieldName: 'field2',
+            text: 'Value 2',
+            format: 'string',
+            classes: '',
+          },
+        ],
+        [
+          {
+            fieldName: 'field2',
+            text: 'Value 2',
+            format: 'string',
+            classes: '',
+          },
+        ],
+        [
+          {
+            fieldName: 'field2',
+            text: 'Value 2',
+            format: 'string',
+            classes: '',
+          },
+        ],
+        [
+          {
+            fieldName: 'field2',
+            text: 'Value 2',
+            format: 'string',
+            classes: '',
+          },
+        ],
+      ],
+      rowCount: 10,
+      colCount: 2,
+    },
+    pagination: {
+      next: 'pathname?search=&selectedPage=2',
+      pages: [
+        {
+          number: 1,
+          href: 'pathname?search=&selectedPage=1',
+          current: true,
+        },
+        {
+          number: 2,
+          href: 'pathname?search=&selectedPage=2',
+          current: false,
+        },
+        {
+          ellipsis: true,
+        },
+        {
+          number: 5,
+          href: 'pathname?search=&selectedPage=5',
+          current: false,
+        },
+      ],
+      pageSize: 20,
+      currentPage: 1,
+      totalRows: 100,
+      sizes: [
+        {
+          value: 10,
+          text: '10',
+        },
+        {
+          value: 20,
+          text: '20',
+        },
+        {
+          value: 100,
+          text: '100',
+        },
+        {
+          value: 200,
+          text: '200',
+        },
+        {
+          value: 100,
+          text: 'All',
+        },
+      ],
+    },
+    totals: '1-10 of 100',
+  },
+}
+
+const mockReportListRenderData = {
+  dataTable: {
     rowCount: 10,
     rows: [
       [
@@ -99,257 +352,9 @@ const mockGetReportListRenderData = {
         text: 'Field 2',
       },
     ],
-    columns: {
-      name: 'columns',
-      options: [
-        {
-          text: 'Field 1',
-          value: 'field1',
-          disabled: false,
-        },
-        {
-          text: 'Field 2',
-          value: 'field2',
-          disabled: true,
-        },
-        {
-          text: 'Field 3',
-          value: 'field3',
-          disabled: false,
-        },
-        {
-          text: 'Field 4',
-          value: 'field4',
-          disabled: undefined,
-        },
-        {
-          text: 'Field 5',
-          value: 'field5',
-          disabled: false,
-        },
-        {
-          text: 'Field 6',
-          value: 'field6',
-          disabled: false,
-        },
-      ],
-      text: 'Select report columns',
-      value: ['field2', 'column'],
-    },
-    pagination: {
-      next: 'pathname?search=&selectedPage=2',
-      pages: [
-        {
-          number: 1,
-          href: 'pathname?search=&selectedPage=1',
-          current: true,
-        },
-        {
-          number: 2,
-          href: 'pathname?search=&selectedPage=2',
-          current: false,
-        },
-        {
-          ellipsis: true,
-        },
-        {
-          number: 5,
-          href: 'pathname?search=&selectedPage=5',
-          current: false,
-        },
-      ],
-      pageSize: 20,
-      currentPage: 1,
-      totalRows: 100,
-      prev: undefined,
-      sizes: [
-        {
-          value: 10,
-          text: '10',
-        },
-        {
-          value: 20,
-          text: '20',
-        },
-        {
-          value: 100,
-          text: '100',
-        },
-        {
-          value: 200,
-          text: '200',
-        },
-        {
-          value: 100,
-          text: 'All',
-        },
-      ],
-    },
-    actions: [
-      {
-        id: 'dpr-button-refresh',
-        icon: 'refresh',
-        disabled: false,
-        tooltipText: 'Refresh',
-        ariaLabelText: 'refresh report',
-        href: 'fullUrl',
-      },
-      {
-        id: 'dpr-button-printable',
-        icon: 'print',
-        disabled: false,
-        href: '#',
-        tooltipText: 'Print',
-        ariaLabelText: 'print report',
-      },
-      {
-        id: 'dpr-button-sharable',
-        icon: 'share',
-        disabled: false,
-        tooltipText: 'Share',
-        ariaLabelText: 'share report request via email',
-        href: 'mailto:?subject=reportName-variantName&body=fullUrl',
-      },
-      {
-        id: 'dpr-button-copy',
-        icon: 'copy',
-        disabled: false,
-        tooltipText: 'Copy',
-        ariaLabelText: 'report request',
-        href: 'fullUrl',
-      },
-      {
-        id: 'dpr-button-downloadable',
-        icon: 'download',
-        disabled: false,
-        tooltipText: 'Download',
-        ariaLabelText: 'download report',
-        attributes: {
-          id: 'id',
-          reportId: 'reportId',
-          reportName: 'reportName',
-          tableId: 'tableId',
-          type: 'report',
-          name: 'variantName',
-          loadType: 'async',
-          csrfToken: 'csrfToken',
-          columns: ['field2', 'column'],
-          canDownload: true,
-          enabled: true,
-        },
-      },
-    ],
-    querySummary: 'summary',
-    bookmarked: false,
-    canDownload: true,
-    classification: 'OFFICIAL',
     colCount: 2,
-    template: 'list',
-    tableId: 'tableId',
-    totals: '1-10 of 100',
-    count: 100,
-    csrfToken: 'csrfToken',
-    loadType: 'async',
-    printable: true,
-    executionId: 'executionId',
-    filterData: {
-      filters: [],
-      selectedFilters: [],
-    },
   },
-}
-
-const mockReportListRenderData = {
-  rowCount: 10,
-  rows: [
-    [
-      {
-        text: 'Value 2',
-        fieldName: 'field2',
-        format: 'string',
-        classes: '',
-      },
-    ],
-    [
-      {
-        text: 'Value 2',
-        fieldName: 'field2',
-        format: 'string',
-        classes: '',
-      },
-    ],
-    [
-      {
-        text: 'Value 2',
-        fieldName: 'field2',
-        format: 'string',
-        classes: '',
-      },
-    ],
-    [
-      {
-        text: 'Value 2',
-        fieldName: 'field2',
-        format: 'string',
-        classes: '',
-      },
-    ],
-    [
-      {
-        text: 'Value 2',
-        fieldName: 'field2',
-        format: 'string',
-        classes: '',
-      },
-    ],
-    [
-      {
-        text: 'Value 2',
-        fieldName: 'field2',
-        format: 'string',
-        classes: '',
-      },
-    ],
-    [
-      {
-        text: 'Value 2',
-        fieldName: 'field2',
-        format: 'string',
-        classes: '',
-      },
-    ],
-    [
-      {
-        text: 'Value 2',
-        fieldName: 'field2',
-        format: 'string',
-        classes: '',
-      },
-    ],
-    [
-      {
-        text: 'Value 2',
-        fieldName: 'field2',
-        format: 'string',
-        classes: '',
-      },
-    ],
-    [
-      {
-        text: 'Value 2',
-        fieldName: 'field2',
-        format: 'string',
-        classes: '',
-      },
-    ],
-  ],
   totals: '1-10 of 100',
-  head: [
-    {
-      text: 'Field 2',
-    },
-  ],
-  colCount: 2,
   pagination: {
     prev: undefined,
     next: 'pathname?search=&selectedPage=2',

@@ -368,6 +368,8 @@ const mockSyncData = {
         },
       },
     ],
+    removeBookmark: true,
+    canDownload: false,
     csrfToken: 'csrfToken',
     loadType: 'sync',
     reportId: 'reportId',

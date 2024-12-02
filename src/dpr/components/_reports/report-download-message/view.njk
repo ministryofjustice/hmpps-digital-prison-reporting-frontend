@@ -22,9 +22,8 @@
 
   {% set html %}
     <h2 class="govuk-heading-m">You do not have permission to download this report</h2>
-    <a href="{{ feedbackFormHref }}" class="govuk-link govuk-link--no-visited-state govuk-!-margin-bottom-1">
-      Complete a request form to enable download
-    </a> (takes 1 minute)
+    <p><a href="{{ feedbackFormHref }}" class="govuk-link govuk-link--no-visited-state">Fill out a form</a>, which will take about 1 minute to complete.</p> 
+    <p>You can then download the report whenever you need it.</p>
   {% endset %}
 
   <div id="dpr-download-message" class="dpr-download-message--hidden govuk-!-margin-bottom-6" data-dpr-module='download-message'>

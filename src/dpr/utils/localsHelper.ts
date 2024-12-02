@@ -20,7 +20,7 @@ const setDdpPathToReqQuery = (req: Request, value: string) => {
     }
   }
 
-  return req.query
+  return req
 }
 
 export default {

@@ -61,7 +61,7 @@ When(/I navigate to the (method|handler|validation) page/, (page: string) => {
 })
 
 When(/I navigate to the async-home page/, () => {
-  cy.visit('/async-reports')
+  cy.visit('/dpr-service')
 })
 
 When(/I navigate to the async-query page/, () => {

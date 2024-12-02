@@ -36,11 +36,11 @@ When(/I navigate to the main page/, () => {
 })
 
 When(/I navigate to the reports page/, () => {
-  cy.visit('/test-reports')
+  cy.visit('/embedded-reports/route-config')
 })
 
 When(/I navigate to the fail page/, () => {
-  cy.visit('/test-reports/fail', {
+  cy.visit('/embedded-reports/route-config/fail', {
     failOnStatusCode: false,
   })
 })
@@ -51,7 +51,7 @@ When(/I navigate to the search page/, () => {
 
 When(/I navigate to the (method|handler|validation) page/, (page: string) => {
   const type = page.toLowerCase()
-  let path = '/test-reports/'
+  let path = '/embedded-reports/route-config/'
   if (type === 'method') {
     path += `${type}?dataProductDefinitionsPath=test-location`
   } else {

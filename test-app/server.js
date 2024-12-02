@@ -170,31 +170,31 @@ const embeddedImportRouteMenuCards = [
   },
 ]
 
-const embeddededDataTableConfigMenuCards = [
+const embeddededRouteConfigMenuCards = [
   {
     text: 'Method',
     description: 'A test page rendered using the renderListWithData method.',
-    href: '/test-reports/method?dataProductDefinitionsPath=test-location',
+    href: '/embedded-reports/route-config/method?dataProductDefinitionsPath=test-location',
   },
   {
     text: 'Handler',
     description: 'A test page rendered using the createReportListRequestHandler method to create a request handler.',
-    href: '/test-reports/handler',
+    href: '/embedded-reports/route-config/handler',
   },
   {
     text: 'Validation',
     description: 'A test page for field validation.',
-    href: '/test-reports/validation',
+    href: '/embedded-reports/route-config/validation',
   },
   {
     text: 'Sections',
     description: 'A sectioned report.',
-    href: '/test-reports/sections',
+    href: '/embedded-reports/route-config/sections',
   },
   {
     text: 'Failing page',
     description: 'This page will fail to retrieve the definition and fail gracefully.',
-    href: '/test-reports/fail',
+    href: '/embedded-reports/route-config/fail',
   },
 ]
 
@@ -227,7 +227,7 @@ app.get('/embedded-reports/import-route', (req, res) => {
 app.get('/embedded-reports/route-config', (req, res) => {
   res.render('menu.njk', {
     title: 'Route config',
-    cards: embeddededDataTableConfigMenuCards,
+    cards: embeddededRouteConfigMenuCards,
     breadCrumbList: [
       { text: 'Home', href: '/' },
       { text: 'Embedded reports', href: '/embedded-reports' },
@@ -328,7 +328,7 @@ app.get('/dpr-service', async (req, res) => {
   })
 })
 
-app.get('/test-reports/method', (req, res, next) => {
+app.get('/embedded-reports/route-config/method', (req, res, next) => {
   reportListUtils.renderListWithDefinition({
     title: 'Method',
     definitionName: 'test-report',
@@ -350,7 +350,7 @@ app.get('/test-reports/method', (req, res, next) => {
 })
 
 app.get(
-  '/test-reports/handler',
+  '/embedded-reports/route-config/handler',
   reportListUtils.createReportListRequestHandler({
     title: 'Handler',
     definitionName: 'test-report',
@@ -370,7 +370,7 @@ app.get(
 )
 
 app.get(
-  '/test-reports/validation',
+  '/embedded-reports/route-config/validation',
   reportListUtils.createReportListRequestHandler({
     title: 'Handler',
     definitionName: 'test-report',
@@ -390,7 +390,7 @@ app.get(
 )
 
 app.get(
-  '/test-reports/sections',
+  '/embedded-reports/route-config/sections',
   reportListUtils.createReportListRequestHandler({
     title: 'Handler',
     definitionName: 'test-report',
@@ -409,7 +409,7 @@ app.get(
   }),
 )
 
-app.get('/test-reports/fail', (req, res, next) => {
+app.get('/embedded-reports/route-config/fail', (req, res, next) => {
   reportListUtils.renderListWithDefinition({
     title: 'Fail',
     definitionName: 'failing-report',

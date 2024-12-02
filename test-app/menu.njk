@@ -9,11 +9,6 @@
     {% if (breadCrumbList.length > 0) %}
       {% set rows = rows.concat(breadCrumbList) %}
     {% endif %}
-    {% set rows = rows.concat([
-      {
-        text: title
-      }
-    ]) %}
 
     {% if title !== 'Home' %}
       <div class="govuk-!-margin-bottom-4">

@@ -3,6 +3,7 @@ import { Url } from 'url'
 import { Services } from '../../../types/Services'
 import SyncReportUtils from './utils'
 import ReportingService from '../../../services/reportingService'
+import RecentlyViewedService from '../../../services/recentlyViewedService'
 
 // mocks
 import mockReportVariant from '../../../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
@@ -23,6 +24,7 @@ describe('SyncReportUtils', () => {
   let services: Services
   let reportingService: ReportingService
   let downloadPermissionService: DownloadPermissionService
+  let recentlyViewedService: RecentlyViewedService
   let bookmarkService: BookmarkService
   let mockDefinition: components['schemas']['SingleVariantReportDefinition']
 
@@ -67,6 +69,10 @@ describe('SyncReportUtils', () => {
       downloadEnabled: jest.fn().mockResolvedValue(false),
     } as unknown as DownloadPermissionService
 
+    recentlyViewedService = {
+      setRecentlyViewed: jest.fn().mockResolvedValue({}),
+    } as unknown as RecentlyViewedService
+
     bookmarkService = {
       isBookmarked: jest.fn().mockResolvedValue(false),
     } as unknown as BookmarkService
@@ -75,6 +81,7 @@ describe('SyncReportUtils', () => {
       reportingService,
       downloadPermissionService,
       bookmarkService,
+      recentlyViewedService,
     } as unknown as Services
   })
 

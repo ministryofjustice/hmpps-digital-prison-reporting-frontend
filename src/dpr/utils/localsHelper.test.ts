@@ -32,6 +32,7 @@ describe('LocalsHelper', () => {
         csrfToken: 'csrfTokenValue',
         userId: 'userIdValue',
         token: 'token',
+        pathSuffix: '',
       }
       expect(values).toEqual(expected)
     })

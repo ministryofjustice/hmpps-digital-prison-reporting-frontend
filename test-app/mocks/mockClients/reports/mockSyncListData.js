@@ -312,6 +312,7 @@ const mockSyncData = {
       ],
     },
     reportUrl: 'pathname',
+    bookmarked: false,
     reportSearch: 'search',
     encodedSearch: 'search',
     reportName: 'reportName',

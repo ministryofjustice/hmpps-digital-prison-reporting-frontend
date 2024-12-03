@@ -1,4 +1,4 @@
-import { DefinitionData, LoadType, ReportType, RequestStatus } from '../types/UserReports'
+import { LoadType, ReportType, RequestStatus } from '../types/UserReports'
 
 export const itemActionsHtml = (
   retryHref: string,

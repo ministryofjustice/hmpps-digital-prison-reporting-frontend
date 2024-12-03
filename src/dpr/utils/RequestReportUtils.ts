@@ -12,6 +12,7 @@ import { SetQueryFromFiltersResult } from '../components/_async/async-filters-fo
 import type DashboardService from '../services/dashboardService'
 import { removeDuplicates } from './reportStoreHelper'
 import UserStoreItemBuilder from './UserStoreItemBuilder'
+import LocalsHelper from './localsHelper'
 
 /**
  * Updates the store with the request details
@@ -284,8 +285,7 @@ export default {
     next,
   }: AsyncReportUtilsParams): Promise<RequestDataResult | boolean> => {
     try {
-      const token = res.locals.user?.token ? res.locals.user.token : 'token'
-      const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+      const { token, csrfToken } = LocalsHelper.getValues(res)
 
       const { reportId, type, id } = req.params
       const { dataProductDefinitionsPath: definitionPath } = req.query

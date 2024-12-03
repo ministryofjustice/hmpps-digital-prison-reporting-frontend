@@ -11,7 +11,7 @@ export interface AsyncReportUtilsParams {
   services: Services
 }
 
-export interface SyncReportUtilsParams {
+export interface EmbeddedReportUtilsParams {
   req?: Request
   res: Response
   next?: NextFunction

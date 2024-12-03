@@ -6,6 +6,7 @@ import Dict = NodeJS.Dict
 import { LoadType } from '../types/UserReports'
 import SyncReportUtils from '../components/_sync/sync-report/utils'
 import { components } from '../types/api'
+import LocalsHelper from './localsHelper'
 
 const convertToCsv = (reportData: Dict<string>[], options: Json2CsvOptions) => {
   const csvData = json2csv(reportData, options)
@@ -55,10 +56,11 @@ export default {
     redirect: string
     loadType?: LoadType
   }) {
-    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-    const token = res.locals.user?.token ? res.locals.user.token : 'token'
+    const { userId, token } = LocalsHelper.getValues(res)
 
     const { reportId, id, tableId, dataProductDefinitionsPath, reportName, name, cols: columns } = req.body
+
+    req.query = LocalsHelper.setDdpPathToReqQuery(req, dataProductDefinitionsPath)
 
     const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
     if (!canDownload) {
@@ -73,16 +75,13 @@ export default {
 
       let reportData
       if (loadType === LoadType.SYNC) {
-        const { reportData: listWithWarnings } = await SyncReportUtils.getSyncReportData(
+        const { reportData: listWithWarnings } = await SyncReportUtils.getReportData({
           services,
           req,
           token,
           reportId,
           id,
-          {
-            dpdPath: dataProductDefinitionsPath,
-          },
-        )
+        })
         reportData = listWithWarnings.data
       } else {
         const pageSize = await services.reportingService.getAsyncCount(token, tableId)

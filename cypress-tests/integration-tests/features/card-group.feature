@@ -13,8 +13,8 @@ Feature: Card Group
 
     Examples:
       | name          | description                                                                                       | link                                                           |
-      | Method        | A test page rendered using the renderListWithData method.                                         | /test-reports/method?dataProductDefinitionsPath=test-location  |
-      | Handler       | A test page rendered using the createReportListRequestHandler method to create a request handler. | /test-reports/handler                                          |
-      | Validation    | A test page for field validation.                                                                 | /test-reports/validation                                       |
-      | Sections      | A sectioned report.                                                                               | /test-reports/sections                                         |
-      | Failing page  | This page will fail to retrieve the definition and fail gracefully.                               | /test-reports/fail                                             |
+      | Method        | A test page rendered using the renderListWithData method.                                         | /embedded-reports/route-config/method?dataProductDefinitionsPath=test-location  |
+      | Handler       | A test page rendered using the createReportListRequestHandler method to create a request handler. | /embedded-reports/route-config/handler                                          |
+      | Validation    | A test page for field validation.                                                                 | /embedded-reports/route-config/validation                                       |
+      | Sections      | A sectioned report.                                                                               | /embedded-reports/route-config/sections                                         |
+      | Failing page  | This page will fail to retrieve the definition and fail gracefully.                               | /embedded-reports/route-config/fail                                             |

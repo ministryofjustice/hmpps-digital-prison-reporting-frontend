@@ -4,9 +4,9 @@ import {
   EmbeddedSyncParams,
   EmbeddedSyncParamsConfig,
   InitialisedFeatures,
-  SyncReportFeatures,
-  SyncReportFeaturesList,
-} from '../types/SyncReportUtils'
+  EmbeddedReportFeatures,
+  EmbeddedReportFeaturesList,
+} from '../types/EmbeddedReportUtils'
 // DATA STORE
 import UserDataStore from '../data/userDataStore'
 
@@ -16,34 +16,34 @@ import DownloadPermissionService from '../services/downloadPermissionService'
 import ReportingClient from '../data/reportingClient'
 import ReportingService from '../services/reportingService'
 
-export const initUserDataStore = (features: SyncReportFeatures, services: Services) => {
-  logger.info('Sync Reports: Setting up user data store.')
+export const initUserDataStore = (features: EmbeddedReportFeatures, services: Services) => {
+  logger.info('Embedded Reports: Setting up user data store.')
 
   const { config: featuresConfig, list } = features
   const { redisClient, userDataStore } = featuresConfig
   let initialisedUserDataStore: UserDataStore
 
   if (redisClient) {
-    logger.info('Sync Reports: Redis Client found. Initialising User Data store.')
+    logger.info('Embedded Reports: Redis Client found. Initialising User Data store.')
     return new UserDataStore(redisClient)
   }
   if (userDataStore) {
-    logger.info('Sync Reports: User data store found. Using the provided user data store')
+    logger.info('Embedded Reports: User data store found. Using the provided user data store')
     return userDataStore
   }
 
   logger.info('No user data store config provided. Assuming pre-initialisation of feature services')
 
   const errorMessages: string[] = []
-  if (!services.downloadPermissionService && list.includes(SyncReportFeaturesList.download)) {
+  if (!services.downloadPermissionService && list.includes(EmbeddedReportFeaturesList.download)) {
     errorMessages.push('Missing downloadPermissionService in services config: Cant enable download feature')
   }
 
-  if (!services.bookmarkService && list.includes(SyncReportFeaturesList.bookmark)) {
+  if (!services.bookmarkService && list.includes(EmbeddedReportFeaturesList.bookmark)) {
     errorMessages.push('Missing bookmarkService in services config: Cant enable bookmark feature')
   }
 
-  if (!services.recentlyViewedService && list.includes(SyncReportFeaturesList.recentlyViewed)) {
+  if (!services.recentlyViewedService && list.includes(EmbeddedReportFeaturesList.recentlyViewed)) {
     errorMessages.push('Missing recentlyViewedService in services config: Cant enable recently feature')
   }
 
@@ -55,10 +55,6 @@ export const initUserDataStore = (features: SyncReportFeatures, services: Servic
 }
 
 const initFeatures = ({ router, config, services, features }: EmbeddedSyncParams) => {
-  const { config: featuresConfig, list } = features
-  const { userId } = featuresConfig
-  const { templatePath, layoutPath } = config
-
   let updatedServices: Services = {
     ...services,
   }
@@ -66,11 +62,15 @@ const initFeatures = ({ router, config, services, features }: EmbeddedSyncParams
   const initialisedFeatures: InitialisedFeatures = {}
 
   if (features !== undefined) {
-    logger.info(`Sync Reports: Features config found. Initialising features: ${features.list}`)
+    logger.info(`Embedded Reports: Features config found. Initialising features: ${features.list}`)
 
-    const downloadFeatureEnabled = list.includes(SyncReportFeaturesList.download)
-    const bookmarkFeatureEnabled = list.includes(SyncReportFeaturesList.bookmark)
-    const recentlyViewedFeatureEnabled = list.includes(SyncReportFeaturesList.recentlyViewed)
+    const { config: featuresConfig, list } = features
+    const { userId } = featuresConfig
+    const { templatePath, layoutPath } = config
+
+    const downloadFeatureEnabled = list.includes(EmbeddedReportFeaturesList.download)
+    const bookmarkFeatureEnabled = list.includes(EmbeddedReportFeaturesList.bookmark)
+    const recentlyViewedFeatureEnabled = list.includes(EmbeddedReportFeaturesList.recentlyViewed)
 
     const initialisedUserDataStore: UserDataStore = initUserDataStore(features, services)
 
@@ -118,19 +118,17 @@ const initFeatures = ({ router, config, services, features }: EmbeddedSyncParams
 }
 
 const initReportingService = (config: EmbeddedSyncParamsConfig, services: Services) => {
-  const { reportingClientArgs } = config
-
   let updatedServices = {
     ...services,
   }
-  if (reportingClientArgs) {
-    logger.info('Sync Reports: Reporting config found')
+  if (config?.reportingClientArgs) {
+    logger.info('Embedded Reports: Reporting config found')
     if (services.reportingService) {
-      logger.info('Sync Reports: Reporting Service Found. Using service provided')
+      logger.info('Embedded Reports: Reporting Service Found. Using service provided')
     } else {
-      logger.info('Sync Reports: Initialising Reporting Client and Service')
+      logger.info('Embedded Reports: Initialising Reporting Client and Service')
 
-      const reportingClient = new ReportingClient(reportingClientArgs)
+      const reportingClient = new ReportingClient(config.reportingClientArgs)
       const reportingService = new ReportingService(reportingClient)
 
       updatedServices = {
@@ -139,10 +137,10 @@ const initReportingService = (config: EmbeddedSyncParamsConfig, services: Servic
       }
     }
   } else if (services.reportingService) {
-    logger.info('Sync Reports: Reporting Service Found. Using service provided')
+    logger.info('Embedded Reports: Reporting Service Found. Using service provided')
   } else {
     logger.error(
-      'Sync Reports: No Reporting service or Config Found. Please provide an initialiesed report service, or the correct config',
+      'Embedded Reports: No Reporting service or Config Found. Please provide an initialiesed report service, or the correct config',
     )
   }
 

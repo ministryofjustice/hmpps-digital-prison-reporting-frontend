@@ -1,36 +1,22 @@
 /* eslint-disable no-param-reassign */
-import type { RequestHandler } from 'express'
+import type { RequestHandler, Router } from 'express'
 import ErrorSummaryUtils from '../components/error-summary/utils'
 import logger from '../utils/logger'
 
 import SyncReportUtils from '../components/_sync/sync-report/utils'
-import { EmbeddedSyncParams, EmbeddedSyncParamsConfig } from '../types/SyncReportUtils'
+import { Services } from '../types/Services'
 
-import SyncRouteUtils from '../utils/syncRouteUtils'
-
-export default function routes({ router, config, services, options, features }: EmbeddedSyncParams) {
-  logger.info('Sync Reports: Initialiasing routes')
-
-  const routeConfig: EmbeddedSyncParamsConfig = {
-    templatePath: config?.templatePath || 'dpr/views/',
-    layoutPath: config?.layoutPath || 'page.njk',
-  }
-  const { templatePath, layoutPath } = routeConfig
-
-  ;({ services } = SyncRouteUtils.initReportingService(config, services))
-
-  let initialisedFeatures
-  try {
-    ;({ router, services, initialisedFeatures } = SyncRouteUtils.initFeatures({
-      router,
-      services,
-      config: routeConfig,
-      features,
-    }))
-  } catch (error) {
-    logger.error(error, 'Init features error')
-  }
-
+export default function routes({
+  router,
+  services,
+  layoutPath,
+  templatePath = 'dpr/views/',
+}: {
+  router: Router
+  services: Services
+  layoutPath: string
+  templatePath?: string
+}) {
   const errorHandler: RequestHandler = async (req, res) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
     let { error } = req.body
@@ -53,7 +39,7 @@ export default function routes({ router, config, services, options, features }: 
 
   const viewSyncReportHandler: RequestHandler = async (req, res, next) => {
     try {
-      const renderData = await SyncReportUtils.getReport({ req, res, services, next, features, options })
+      const renderData = await SyncReportUtils.getReport({ req, res, services })
 
       res.render(`${templatePath}sync-report`, {
         layoutPath,
@@ -67,23 +53,7 @@ export default function routes({ router, config, services, options, features }: 
     }
   }
 
-  const viewReportPaths = ['/dpr/embedded/sync/:type/:reportId/:id/report']
-  if (initialisedFeatures.download) {
-    viewReportPaths.push('/dpr/embedded/sync/:type/:reportId/:id/report/:download')
-  }
+  const viewReportPaths = ['/sync/:type/:reportId/:id/report', '/sync/:type/:reportId/:id/report/:download']
+
   router.get(viewReportPaths, viewSyncReportHandler, errorHandler)
-
-  if (Object.keys(initialisedFeatures).length) {
-    logger.info(`Sync Reports: Features Initialised:`)
-    Object.keys(initialisedFeatures).forEach((key) => {
-      logger.info(`Sync Reports: Feature: ${key}`)
-    })
-  }
-
-  logger.info(`Sync Reports: Routes Initialised:`)
-  viewReportPaths.forEach((path) => {
-    logger.info(`Sync Reports: GET: ${path}`)
-  })
-
-  logger.info(`Done! 🙂`)
 }

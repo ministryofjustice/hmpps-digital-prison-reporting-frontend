@@ -2,11 +2,13 @@
 
 {% macro dprDataTable(options) %}
 
-  {% set rows = options.rows %}
-  {% set head = options.head %}
+  {% set dataTable = options.dataTable %}
+  {% set rows = dataTable.rows %}
+  {% set head = dataTable.head %}
+  {% set rowCount = dataTable.rowCount %}
+  {% set colCount = dataTable.colCount %}
+  
   {% set classification = options.classification %}
-  {% set rowCount = options.rowCount %}
-  {% set colCount = options.colCount %}
   {% set pagination = options.pagination %}
   {% set pageSize = pagination.pageSize %}
   {% set totalRows = pagination.totalRows %}

@@ -12,6 +12,7 @@ import UserReportsUtils from '../../user-reports/utils'
 import FilterUtils from '../../_filters/utils'
 import ReportActionsUtils from '../../_reports/report-actions/utils'
 import ReportQuery from '../../../types/ReportQuery'
+import LocalsHelper from '../../../utils/localsHelper'
 
 const setDashboardActions = (
   dashboardDefinition: DashboardDefinition,
@@ -41,9 +42,7 @@ const setDashboardActions = (
 
 export default {
   renderAsyncDashboard: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
-    const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-    const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+    const { token, csrfToken, userId } = LocalsHelper.getValues(res)
 
     const { reportId, id, tableId } = req.params
     const { dataProductDefinitionsPath } = req.query

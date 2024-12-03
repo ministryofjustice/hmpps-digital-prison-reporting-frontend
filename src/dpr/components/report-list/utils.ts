@@ -108,7 +108,7 @@ function renderList(
 
         const pagination = PaginationUtils.getPaginationData(url, count)
         const dataTableOptions: DataTableOptions = {
-          ...dataTable,
+          dataTable,
           classification,
           printable,
           pagination,

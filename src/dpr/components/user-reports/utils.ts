@@ -17,6 +17,7 @@ import { Services } from '../../types/Services'
 import RequestedReportUtils from './requested/utils'
 import RecentlyViewedCardGroupUtils from './viewed/utils'
 import BookmarklistUtils from './bookmarks/utils'
+import LocalsHelper from '../../utils/localsHelper'
 
 const formatData = (reportData: UserReportData): FormattedUserReportData => {
   const reportDataCopy: UserReportData = JSON.parse(JSON.stringify(reportData))
@@ -224,8 +225,7 @@ const renderList = async ({
   filterFunction: (report: UserReportData) => boolean
   type: 'requested' | 'viewed'
 }): Promise<RenderTableListResponse> => {
-  const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
-  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+  const { csrfToken, userId } = LocalsHelper.getValues(res)
 
   const requestedReportsData: UserReportData[] = await storeService.getAllReports(userId)
 

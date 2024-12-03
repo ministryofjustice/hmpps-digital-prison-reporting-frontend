@@ -1,7 +1,8 @@
 import type { Request, Response } from 'express'
 import { Url } from 'url'
 import { Services } from '../../../types/Services'
-import SyncReportUtils from './utils'
+import { EmbeddedReportFeatures, EmbeddedReportFeaturesList } from '../../../types/EmbeddedReportUtils'
+import EmbeddedReportUtils from './utils'
 import ReportingService from '../../../services/reportingService'
 
 // mocks
@@ -10,17 +11,18 @@ import { components } from '../../../types/api'
 import DownloadPermissionService from '../../../services/downloadPermissionService'
 import BookmarkService from '../../../services/bookmarkService'
 import createMockData from '../../../../../test-app/mocks/mockClients/reports/mockAsyncData'
-import mockSyncListData from '../../../../../test-app/mocks/mockClients/reports/mockSyncListData'
+import mockEmbeddedListData from '../../../../../test-app/mocks/mockClients/reports/mockEmbeddedListData'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
   default: jest.fn().mockImplementation(() => ({ pathname: 'pathname', search: 'search' } as Url)),
 }))
 
-describe('SyncReportUtils', () => {
+describe('EmbeddedReportUtils', () => {
   let req: Request
   let res: Response
   let services: Services
+  let features: EmbeddedReportFeatures
   let reportingService: ReportingService
   let downloadPermissionService: DownloadPermissionService
   let bookmarkService: BookmarkService
@@ -76,13 +78,17 @@ describe('SyncReportUtils', () => {
       downloadPermissionService,
       bookmarkService,
     } as unknown as Services
+
+    features = {
+      list: [EmbeddedReportFeaturesList.download],
+    } as unknown as EmbeddedReportFeatures
   })
 
   describe('getReport', () => {
     it('should get the report', async () => {
-      const result = await SyncReportUtils.getReport({ req, res, services })
+      const result = await EmbeddedReportUtils.getReport({ req, res, services, features })
 
-      expect(result).toEqual(mockSyncListData)
+      expect(result).toEqual(mockEmbeddedListData)
     })
   })
 })

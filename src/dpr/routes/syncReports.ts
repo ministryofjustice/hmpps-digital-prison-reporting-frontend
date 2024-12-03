@@ -63,7 +63,6 @@ export default function routes({
       const { dataProductDefinitionsPath } = req.query
 
       const definition = await services.reportingService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
-
       const { name: reportName, variant, description: reportDescription } = definition
       const { classification, description, name } = variant
 
@@ -84,7 +83,6 @@ export default function routes({
     }
   }
 
-  // Direct route
   const viewReportPaths = ['/sync/:type/:reportId/:id/report', '/sync/:type/:reportId/:id/report/:download']
   router.get(viewReportPaths, viewSyncReportHandler, errorHandler)
   router.get('/sync/:type/:reportId/:id/load-report', syncReportLoadingHandler)

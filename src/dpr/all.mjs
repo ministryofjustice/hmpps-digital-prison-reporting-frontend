@@ -26,6 +26,9 @@ import Filters from './components/filters/clientClass.mjs'
 import AsyncPolling from './components/_async/async-polling/clientClass.mjs'
 import AsyncFilters from './components/_async/async-filters-form/clientClass.mjs'
 
+// Sync
+import SyncLoading from './DprSyncLoading.mjs'
+
 // Inputs
 import DateInput from './components/_inputs/date-input/clientClass.mjs'
 import DateRange from './components/_inputs/date-range/clientClass.mjs'
@@ -41,7 +44,6 @@ import DoughnutChartVisualisation from './components/_charts/chart/doughnut/clie
 import LineChartVisualisation from './components/_charts/chart/line/clientClass.mjs'
 
 // Dashboards
-import LoadDashboard from './DprLoadDashboard.mjs'
 import ScoreCard from './components/_dashboards/scorecard/clientClass.mjs'
 
 /**
@@ -74,11 +76,11 @@ export default function initAll() {
     BarChartVisualisation,
     DoughnutChartVisualisation,
     LineChartVisualisation,
-    LoadDashboard,
     DownloadFeedbackForm,
     ScoreCard,
     ReportActions,
     DownloadMessage,
+    SyncLoading,
   ]
 
   const customParseFormat = window.dayjs_plugin_customParseFormat

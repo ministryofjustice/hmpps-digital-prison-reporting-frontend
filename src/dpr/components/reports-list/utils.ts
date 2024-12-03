@@ -2,11 +2,11 @@ import { Response } from 'express'
 import { components } from '../../types/api'
 import { Services } from '../../types/Services'
 import { DashboardDefinition } from '../../types/Dashboards'
-import { ReportType } from '../../types/UserReports'
+import { LoadType, ReportType } from '../../types/UserReports'
 import ShowMoreUtils from '../show-more/utils'
-import { createListItemProductMin } from '../../utils/reportListsHelper'
+import { createListItemProductMin, createListActions } from '../../utils/reportListsHelper'
 
-interface definitionData {
+interface DefinitionData {
   reportName: string
   reportId: string
   id: string
@@ -14,6 +14,19 @@ interface definitionData {
   description: string
   type: 'report' | 'dashboard'
   reportDescription: string
+  loadType?: LoadType
+}
+
+const setInitialHref = (loadType: LoadType, definitionData: DefinitionData, pathSuffix: string) => {
+  const { type, reportId, id } = definitionData
+  let href = `/async/${type}/${reportId}/${id}/request${pathSuffix}`
+
+  // NOTE: this is possibly the same for SCHEDULED reports too?
+  if (loadType && loadType === LoadType.SYNC) {
+    href = `/sync/${type}/${reportId}/${id}/load-report${pathSuffix}`
+  }
+
+  return href
 }
 
 export default {
@@ -41,8 +54,12 @@ export default {
         const { variants } = def
         const { dashboards } = def
 
-        const variantsArray = variants.map((variant) => {
+        const variantsArray = variants.map((variant: components['schemas']['VariantDefinitionSummary']) => {
           const { id, name, description } = variant
+
+          // NOTE: possible solution to add loadType to VariantDefinitionSummary to dictate the load/request journey.
+          const { loadType } = <components['schemas']['VariantDefinitionSummary'] & { loadType: LoadType }>variant
+
           return {
             reportName,
             reportId,
@@ -50,11 +67,12 @@ export default {
             name,
             description,
             type: ReportType.REPORT,
+            loadType,
             ...(reportDescription && reportDescription.length && { reportDescription }),
           }
         })
 
-        let dashboardsArray: definitionData[] = []
+        let dashboardsArray: DefinitionData[] = []
         if (dashboards) {
           dashboardsArray = dashboards.map((dashboard: DashboardDefinition) => {
             const { id, name, description } = dashboard
@@ -72,7 +90,7 @@ export default {
 
         const mergedArray = [...dashboardsArray, ...variantsArray]
 
-        mergedArray.sort((a: definitionData, b: definitionData) => {
+        mergedArray.sort((a: DefinitionData, b: DefinitionData) => {
           if (a.name < b.name) return -1
           if (a.name > b.name) return 1
           return 0
@@ -83,11 +101,11 @@ export default {
     )
 
     const rows = await Promise.all(
-      sortedVariants.map(async (v: definitionData) => {
-        const { id, name, description, reportName, reportId, reportDescription, type } = v
+      sortedVariants.map(async (v: DefinitionData) => {
+        const { id, name, description, reportName, reportId, reportDescription, type, loadType } = v
         const desc = description || reportDescription
 
-        const href = `/async/${type}/${reportId}/${id}/request${pathSuffix}`
+        const href = setInitialHref(loadType, v, pathSuffix)
         const bookmarkHtml = await services.bookmarkService.createBookMarkToggleHtml({
           userId,
           reportId,
@@ -101,10 +119,7 @@ export default {
           { html: `<p class="govuk-body-s">${reportName}</p>` },
           { html: createListItemProductMin(name, <ReportType>type) },
           { html: ShowMoreUtils.createShowMoreHtml(desc) },
-          {
-            html: `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">Request ${type}</a>
-            ${bookmarkHtml}`,
-          },
+          { html: createListActions(href, type, loadType, bookmarkHtml) },
         ]
       }),
     )

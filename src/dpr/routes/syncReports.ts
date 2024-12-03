@@ -2,9 +2,12 @@
 import type { RequestHandler, Router } from 'express'
 import ErrorSummaryUtils from '../components/error-summary/utils'
 import logger from '../utils/logger'
+import LocalsHelper from '../utils/localsHelper'
 
 import SyncReportUtils from '../components/_sync/sync-report/utils'
+
 import { Services } from '../types/Services'
+import { ReportType } from '../types/UserReports'
 
 export default function routes({
   router,
@@ -53,7 +56,36 @@ export default function routes({
     }
   }
 
-  const viewReportPaths = ['/sync/:type/:reportId/:id/report', '/sync/:type/:reportId/:id/report/:download']
+  const syncReportLoadingHandler: RequestHandler = async (req, res, next) => {
+    try {
+      const { token } = LocalsHelper.getValues(res)
+      const { reportId, id } = req.params
+      const { dataProductDefinitionsPath } = req.query
 
+      const definition = await services.reportingService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
+
+      const { name: reportName, variant, description: reportDescription } = definition
+      const { classification, description, name } = variant
+
+      res.render(`${templatePath}sync-load`, {
+        renderData: {
+          reportId,
+          id,
+          type: ReportType.REPORT,
+          reportName,
+          name,
+          classification,
+          description: description || reportDescription,
+        },
+        layoutPath,
+      })
+    } catch (error) {
+      next()
+    }
+  }
+
+  // Direct route
+  const viewReportPaths = ['/sync/:type/:reportId/:id/report', '/sync/:type/:reportId/:id/report/:download']
   router.get(viewReportPaths, viewSyncReportHandler, errorHandler)
+  router.get('/sync/:type/:reportId/:id/load-report', syncReportLoadingHandler)
 }

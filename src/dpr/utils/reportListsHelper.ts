@@ -1,4 +1,4 @@
-import { ReportType, RequestStatus } from '../types/UserReports'
+import { LoadType, ReportType, RequestStatus } from '../types/UserReports'
 
 export const itemActionsHtml = (
   retryHref: string,
@@ -36,6 +36,20 @@ export const createListItemProductMin = (reportName: string, type: ReportType) =
   <p class="govuk-body-s govuk-!-margin-bottom-2"><strong>${reportName}</strong></p>
   <strong class="govuk-tag ${tagColor} dpr-request-status-tag dpr-request-status-tag--small">${reportType}</strong>
 </div>`
+}
+
+export const createListActions = (href: string, type: string, loadType?: LoadType, bookmarkHtml?: string) => {
+  let actionText = `Request ${type}`
+  if (loadType && loadType === LoadType.SYNC) {
+    actionText = `Load ${type}`
+  }
+  let requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">${actionText}</a>`
+
+  if (bookmarkHtml) {
+    requestAction = `${requestAction}${bookmarkHtml}`
+  }
+
+  return requestAction
 }
 
 export const toSentenceCase = (text: string) => {

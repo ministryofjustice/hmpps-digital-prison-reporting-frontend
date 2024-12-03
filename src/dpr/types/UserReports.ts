@@ -18,6 +18,7 @@ export interface StoredReportData {
   query?: AsyncReportQueryData
   url?: AsyncReportUrlData
   type: ReportType
+  loadType?: LoadType
 }
 
 export interface RequestedReport extends StoredReportData {
@@ -36,7 +37,7 @@ export type UserReportData = RequestedReport | RecentlyViewedReport | StoredRepo
 
 export interface AsyncReportUrlData {
   origin: string
-  request: AsyncReportUrlItemData
+  request?: AsyncReportUrlItemData
   report?: AsyncReportUrlItemData
   polling?: AsyncReportUrlItemData
 }

@@ -1,4 +1,12 @@
-import { ReportType, RequestedReport, RequestFormData, RequestStatus, UserReportData } from '../types/UserReports'
+import type { Request } from 'express'
+import {
+  LoadType,
+  ReportType,
+  RequestedReport,
+  RequestFormData,
+  RequestStatus,
+  UserReportData,
+} from '../types/UserReports'
 import Dict = NodeJS.Dict
 import { getDpdPathSuffix } from './urlHelper'
 import { SetQueryFromFiltersResult } from '../components/_async/async-filters-form/types'
@@ -9,9 +17,11 @@ export default class UserStoreItemBuilder {
 
   requestFormData: RequestFormData
 
-  constructor(reportData: RequestFormData) {
+  constructor(reportData?: RequestFormData) {
     this.requestFormData = reportData
-    this.initialiseItem()
+    if (this.requestFormData) {
+      this.initialiseItem()
+    }
   }
 
   build = () => {
@@ -19,7 +29,7 @@ export default class UserStoreItemBuilder {
   }
 
   initialiseItem = () => {
-    this.userStoreItem = {
+    return this.addReportData({
       dataProductDefinitionsPath: this.requestFormData.dataProductDefinitionsPath,
       type: this.requestFormData.type as ReportType,
       reportId: this.requestFormData.reportId,
@@ -27,6 +37,34 @@ export default class UserStoreItemBuilder {
       description: this.requestFormData.description,
       id: this.requestFormData.id,
       name: this.requestFormData.name,
+    })
+  }
+
+  addReportData = ({
+    dataProductDefinitionsPath,
+    type,
+    reportId,
+    reportName,
+    description,
+    id,
+    name,
+  }: {
+    dataProductDefinitionsPath?: string
+    type: ReportType
+    reportId: string
+    reportName: string
+    description: string
+    id: string
+    name: string
+  }) => {
+    this.userStoreItem = {
+      dataProductDefinitionsPath,
+      type: type as ReportType,
+      reportId,
+      reportName,
+      description,
+      id,
+      name,
       timestamp: {},
     }
     return this
@@ -89,6 +127,36 @@ export default class UserStoreItemBuilder {
           report: {},
         },
       },
+    }
+
+    return this
+  }
+
+  addReportUrls = (req: Request) => {
+    const origin = req.get('host')
+    const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
+
+    this.userStoreItem = {
+      ...this.userStoreItem,
+      ...{
+        url: {
+          origin: origin || this.userStoreItem.url.origin,
+          ...(this.userStoreItem.url?.request && { request: this.userStoreItem.url.request }),
+          ...(this.userStoreItem.url?.polling && { polling: this.userStoreItem.url.polling }),
+          report: {
+            fullUrl,
+          },
+        },
+      },
+    }
+
+    return this
+  }
+
+  addLoadType = (loadType: LoadType) => {
+    this.userStoreItem = {
+      ...this.userStoreItem,
+      loadType,
     }
 
     return this

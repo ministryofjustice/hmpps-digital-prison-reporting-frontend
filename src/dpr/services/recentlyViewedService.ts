@@ -37,6 +37,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
 
     const id = reportData.variantId || reportData.id
     const type = reportData.type || ReportType.REPORT
+    const { request, report } = url
 
     const recentlyViewedReportData: RecentlyViewedReport = {
       reportId,
@@ -50,13 +51,8 @@ export default class RecentlyViewedStoreService extends UserStoreService {
       status: RequestStatus.READY,
       url: {
         origin: url.origin,
-        request: {
-          fullUrl: url.request.fullUrl,
-          search: url.request.search,
-        },
-        report: {
-          fullUrl: url.report.fullUrl,
-        },
+        ...(request && { request }),
+        ...(report && { report }),
       },
       timestamp: {
         lastViewed: new Date(),

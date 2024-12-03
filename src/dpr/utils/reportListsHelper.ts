@@ -64,11 +64,8 @@ export const setInitialHref = (
   pathSuffix: string,
 ) => {
   let href = `/async/${type}/${reportId}/${id}/request${pathSuffix}`
-
-  // NOTE: this is possibly the same for SCHEDULED reports too?
   if (loadType && loadType === LoadType.SYNC) {
     href = `/sync/${type}/${reportId}/${id}/load-report${pathSuffix}`
   }
-
   return href
 }

@@ -34,7 +34,7 @@ export default {
         const variantsArray = variants.map((variant: components['schemas']['VariantDefinitionSummary']) => {
           const { id, name, description } = variant
 
-          // NOTE: possible solution to add loadType to VariantDefinitionSummary to dictate the load/request journey.
+          // NOTE: loadType added to VariantDefinitionSummary mocked data to dictate the load/request journey. Not present in API response. To discuss
           const { loadType } = <components['schemas']['VariantDefinitionSummary'] & { loadType: LoadType }>variant
 
           return {

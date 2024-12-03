@@ -110,6 +110,7 @@ const getReport = async ({ req, res, services }: { req: Request; res: Response; 
   const { reportData, reportDefinition, reportQuery } = await getReportData({ services, req, token, reportId, id })
   const count = await services.reportingService.getCount(reportDefinition.variant.resourceName, token, reportQuery)
   const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
+  const bookmarked = await services.bookmarkService.isBookmarked(id, userId)
 
   const renderData = await getRenderData({
     req,
@@ -128,6 +129,7 @@ const getReport = async ({ req, res, services }: { req: Request; res: Response; 
       loadType: LoadType.SYNC,
       reportId,
       id,
+      bookmarked,
       dataProductDefinitionsPath,
     },
   }

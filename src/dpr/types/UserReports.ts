@@ -142,3 +142,14 @@ export enum LoadType {
   ASYNC = 'async',
   SCHEDULED = 'scheduled',
 }
+
+export interface DefinitionData {
+  reportName: string
+  reportId: string
+  id: string
+  name: string
+  description: string
+  type: ReportType
+  reportDescription: string
+  loadType?: LoadType
+}

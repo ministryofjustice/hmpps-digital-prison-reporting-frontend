@@ -1,4 +1,4 @@
-import { LoadType, ReportType, RequestStatus } from '../types/UserReports'
+import { DefinitionData, LoadType, ReportType, RequestStatus } from '../types/UserReports'
 
 export const itemActionsHtml = (
   retryHref: string,
@@ -54,4 +54,21 @@ export const createListActions = (href: string, type: string, loadType?: LoadTyp
 
 export const toSentenceCase = (text: string) => {
   return text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+}
+
+export const setInitialHref = (
+  loadType: LoadType,
+  type: ReportType,
+  reportId: string,
+  id: string,
+  pathSuffix: string,
+) => {
+  let href = `/async/${type}/${reportId}/${id}/request${pathSuffix}`
+
+  // NOTE: this is possibly the same for SCHEDULED reports too?
+  if (loadType && loadType === LoadType.SYNC) {
+    href = `/sync/${type}/${reportId}/${id}/load-report${pathSuffix}`
+  }
+
+  return href
 }

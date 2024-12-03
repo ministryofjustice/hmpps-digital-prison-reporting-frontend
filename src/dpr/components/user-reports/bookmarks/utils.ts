@@ -1,12 +1,12 @@
 import { Response, Request } from 'express'
 import BookmarkService from '../../../services/bookmarkService'
 import { BookmarkedReportData, BookmarkStoreData } from '../../../types/Bookmark'
-import { FormattedUserReportData, ReportType } from '../../../types/UserReports'
+import { FormattedUserReportData, LoadType, ReportType } from '../../../types/UserReports'
 import { Services } from '../../../types/Services'
 import ShowMoreUtils from '../../show-more/utils'
 import logger from '../../../utils/logger'
 import DefinitionUtils from '../../../utils/definitionUtils'
-import { createListItemProduct } from '../../../utils/reportListsHelper'
+import { createListItemProduct, createListActions, setInitialHref } from '../../../utils/reportListsHelper'
 import LocalsHelper from '../../../utils/localsHelper'
 
 export const formatBookmarks = async (
@@ -67,7 +67,7 @@ const formatTableData = async (
   csrfToken: string,
   userId: string,
 ) => {
-  const { description, reportName, reportId, id, href, name, type } = bookmarksData
+  const { description, reportName, reportId, id, href, name, type, loadType } = bookmarksData
   const bookmarkHtml = await bookmarkService.createBookMarkToggleHtml({
     userId,
     reportId,
@@ -82,7 +82,7 @@ const formatTableData = async (
     },
     { html: ShowMoreUtils.createShowMoreHtml(description), classes: 'dpr-req-cell' },
     {
-      html: `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">Request ${type}</a> ${bookmarkHtml}`,
+      html: createListActions(href, type, loadType, bookmarkHtml),
       classes: 'dpr-req-cell dpr-req-cell__status',
     },
   ]
@@ -97,6 +97,7 @@ const mapBookmarkIdsToDefinition = async (
 ): Promise<BookmarkedReportData[]> => {
   const bookmarkData: BookmarkedReportData[] = []
   const { dataProductDefinitionsPath: definitionPath } = req.query
+  const { pathSuffix } = LocalsHelper.getValues(res)
 
   await Promise.all(
     bookmarks.map(async (bookmark) => {
@@ -108,6 +109,8 @@ const mapBookmarkIdsToDefinition = async (
         let name
         let description
         let reportName
+        let loadType = LoadType.ASYNC
+        let href = `/async/${reportType}/${bookmark.reportId}/${bookmarkId}/request`
 
         if (reportType === ReportType.REPORT) {
           definition = await services.reportingService.getDefinition(
@@ -119,6 +122,8 @@ const mapBookmarkIdsToDefinition = async (
           reportName = definition.name
           name = definition.variant.name
           description = definition.variant.description || definition.description
+          loadType = definition.variant.loadType || loadType
+          href = setInitialHref(loadType, reportType, bookmark.reportId, bookmarkId, pathSuffix)
         }
 
         if (reportType === ReportType.DASHBOARD) {
@@ -147,7 +152,8 @@ const mapBookmarkIdsToDefinition = async (
             name,
             description,
             type: reportType,
-            href: `/async/${reportType}/${bookmark.reportId}/${bookmarkId}/request`,
+            href,
+            loadType,
           })
         }
       } catch (error) {

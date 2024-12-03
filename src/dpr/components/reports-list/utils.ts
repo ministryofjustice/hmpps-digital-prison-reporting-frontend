@@ -2,32 +2,9 @@ import { Response } from 'express'
 import { components } from '../../types/api'
 import { Services } from '../../types/Services'
 import { DashboardDefinition } from '../../types/Dashboards'
-import { LoadType, ReportType } from '../../types/UserReports'
+import { DefinitionData, LoadType, ReportType } from '../../types/UserReports'
 import ShowMoreUtils from '../show-more/utils'
-import { createListItemProductMin, createListActions } from '../../utils/reportListsHelper'
-
-interface DefinitionData {
-  reportName: string
-  reportId: string
-  id: string
-  name: string
-  description: string
-  type: 'report' | 'dashboard'
-  reportDescription: string
-  loadType?: LoadType
-}
-
-const setInitialHref = (loadType: LoadType, definitionData: DefinitionData, pathSuffix: string) => {
-  const { type, reportId, id } = definitionData
-  let href = `/async/${type}/${reportId}/${id}/request${pathSuffix}`
-
-  // NOTE: this is possibly the same for SCHEDULED reports too?
-  if (loadType && loadType === LoadType.SYNC) {
-    href = `/sync/${type}/${reportId}/${id}/load-report${pathSuffix}`
-  }
-
-  return href
-}
+import { createListItemProductMin, createListActions, setInitialHref } from '../../utils/reportListsHelper'
 
 export default {
   mapReportsList: async (
@@ -105,7 +82,7 @@ export default {
         const { id, name, description, reportName, reportId, reportDescription, type, loadType } = v
         const desc = description || reportDescription
 
-        const href = setInitialHref(loadType, v, pathSuffix)
+        const href = setInitialHref(loadType, type, reportId, id, pathSuffix)
         const bookmarkHtml = await services.bookmarkService.createBookMarkToggleHtml({
           userId,
           reportId,

@@ -1,4 +1,4 @@
-import { ReportType, RequestStatus } from '../types/UserReports'
+import { LoadType, ReportType, RequestStatus } from '../types/UserReports'
 
 export const itemActionsHtml = (
   retryHref: string,
@@ -38,6 +38,34 @@ export const createListItemProductMin = (reportName: string, type: ReportType) =
 </div>`
 }
 
+export const createListActions = (href: string, type: string, loadType?: LoadType, bookmarkHtml?: string) => {
+  let actionText = `Request ${type}`
+  if (loadType && loadType === LoadType.SYNC) {
+    actionText = `Load ${type}`
+  }
+  let requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">${actionText}</a>`
+
+  if (bookmarkHtml) {
+    requestAction = `${requestAction}${bookmarkHtml}`
+  }
+
+  return requestAction
+}
+
 export const toSentenceCase = (text: string) => {
   return text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+}
+
+export const setInitialHref = (
+  loadType: LoadType,
+  type: ReportType,
+  reportId: string,
+  id: string,
+  pathSuffix: string,
+) => {
+  let href = `/async/${type}/${reportId}/${id}/request${pathSuffix}`
+  if (loadType && loadType === LoadType.SYNC) {
+    href = `/sync/${type}/${reportId}/${id}/load-report${pathSuffix}`
+  }
+  return href
 }

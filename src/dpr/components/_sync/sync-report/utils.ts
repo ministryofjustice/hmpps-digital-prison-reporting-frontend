@@ -7,7 +7,7 @@ import type { ListWithWarnings } from '../../../data/types'
 import type { Columns } from '../../_reports/report-columns-form/types'
 import type { Services } from '../../../types/Services'
 import type { DownloadActionParams } from '../../_reports/report-actions/types'
-import { LoadType, ReportType } from '../../../types/UserReports'
+import { LoadType, ReportType, RequestStatus } from '../../../types/UserReports'
 import ReportQuery from '../../../types/ReportQuery'
 
 import PaginationUtils from '../../_reports/report-pagination/utils'
@@ -16,6 +16,7 @@ import ColumnUtils from '../../_reports/report-columns-form/utils'
 import ReportActionsUtils from '../../_reports/report-actions/utils'
 import FiltersUtils from '../../_filters/utils'
 import LocalsHelper from '../../../utils/localsHelper'
+import UserStoreItemBuilder from '../../../utils/UserStoreItemBuilder'
 
 import DataTableBuilder from '../../../utils/DataTableBuilder/DataTableBuilder'
 import { Template } from '../../../types/Templates'
@@ -65,6 +66,34 @@ const setActions = (
   })
 }
 
+const setAsRecentlyViewed = async (
+  req: Request,
+  services: Services,
+  reportName: string,
+  name: string,
+  description: string,
+  reportId: string,
+  id: string,
+  userId: string,
+) => {
+  const stateData = {
+    type: ReportType.REPORT,
+    reportId,
+    id,
+    reportName,
+    description,
+    name,
+  }
+  const recentlyViewedData = new UserStoreItemBuilder()
+    .addReportData(stateData)
+    .addStatus(RequestStatus.READY)
+    .addTimestamp()
+    .addReportUrls(req)
+    .build()
+
+  await services.recentlyViewedService.setRecentlyViewed(recentlyViewedData, userId)
+}
+
 const getReportData = async ({
   services,
   req,
@@ -110,6 +139,7 @@ const getReport = async ({ req, res, services }: { req: Request; res: Response; 
   const { reportData, reportDefinition, reportQuery } = await getReportData({ services, req, token, reportId, id })
   const count = await services.reportingService.getCount(reportDefinition.variant.resourceName, token, reportQuery)
   const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
+  const bookmarked = await services.bookmarkService.isBookmarked(id, userId)
 
   const renderData = await getRenderData({
     req,
@@ -121,6 +151,19 @@ const getReport = async ({ req, res, services }: { req: Request; res: Response; 
     canDownload,
   })
 
+  if (Object.keys(renderData).length) {
+    setAsRecentlyViewed(
+      req,
+      services,
+      reportId,
+      id,
+      renderData.reportName,
+      renderData.name,
+      renderData.description,
+      userId,
+    )
+  }
+
   return {
     renderData: {
       ...renderData,
@@ -128,6 +171,7 @@ const getReport = async ({ req, res, services }: { req: Request; res: Response; 
       loadType: LoadType.SYNC,
       reportId,
       id,
+      bookmarked,
       dataProductDefinitionsPath,
     },
   }

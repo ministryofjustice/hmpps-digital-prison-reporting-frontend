@@ -1,0 +1,22 @@
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "../../_async/request-details/view.njk" import dprRequestDetails %}
+
+{% macro dprSyncLoad(renderData) %}
+  {% set type = renderData.type %}
+  {% set reportId = renderData.reportId %}
+  {% set id = renderData.id %}
+
+  <h1>Loading {{type}}</h1>
+
+  <div class="govuk-!-margin-bottom-6 govuk-!-padding-bottom-6" data-dpr-module="sync-loading">
+
+    {{ dprRequestDetails(renderData) }}
+
+    {{ govukInsetText({
+      html: "<p><strong>Do not close this window or you will lose your progress</strong></p> <p>It can take up to 5 mins to generate a " + type + ".</p>"
+    }) }}
+
+    <form id="dpr-sync-loading-form" action="/sync/{{ type }}/{{ reportId }}/{{ id }}/report" method="get"></form>
+  </div>
+
+{% endmacro %}

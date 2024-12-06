@@ -7,6 +7,7 @@ export interface DownloadActionParams {
   reportName: string
   name: string
   id: string
+  tableId?: string
   columns: string[]
   definitionPath: string
   canDownload: boolean

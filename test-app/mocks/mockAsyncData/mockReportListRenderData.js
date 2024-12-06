@@ -108,6 +108,7 @@ const mockGetReportListRenderData = {
           canDownload: true,
           currentUrl: 'pathname',
           currentQueryParams: 'search',
+          tableId: 'tableId',
         },
       },
     ],

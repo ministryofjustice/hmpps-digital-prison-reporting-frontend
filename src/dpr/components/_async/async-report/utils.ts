@@ -245,7 +245,8 @@ const setActions = (
   currentUrl: string,
   currentQueryParams: string,
 ) => {
-  const { reportName, name, id, variantId, reportId, executionId, dataProductDefinitionsPath, url } = requestData
+  const { reportName, name, id, variantId, reportId, tableId, executionId, dataProductDefinitionsPath, url } =
+    requestData
   const requestUrl = url.request.fullUrl
   const { printable } = variant
   const ID = variantId || id
@@ -257,6 +258,7 @@ const setActions = (
     csrfToken,
     reportId,
     id: ID,
+    tableId,
     columns: columns.value,
     definitionPath: dataProductDefinitionsPath,
     loadType: LoadType.ASYNC,

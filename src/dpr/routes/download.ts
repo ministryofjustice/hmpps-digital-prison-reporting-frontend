@@ -87,7 +87,7 @@ export default function routes({
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const { reportId, variantId } = req.params
     const { reportName, variantName, reportUrl, reportSearch } = req.query
-    const reportHref = reportSearch ? `${reportUrl}${decodeURIComponent(<string>reportSearch)}` : `${reportUrl}`
+    const reportHref = reportSearch ? `${reportUrl}?reportSearch=${decodeURIComponent(<string>reportSearch)}` : `${reportUrl}`
 
     await services.downloadPermissionService.saveDownloadPermissionData(userId, reportId, variantId)
 

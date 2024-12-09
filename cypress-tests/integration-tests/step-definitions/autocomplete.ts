@@ -4,7 +4,9 @@ import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
 import ReportPage from '../pages/ReportPage'
 
 const shortMatchingText = 'Pr'
+const shortMatchingTextNonPrefix = 'in'
 const longMatchingText = 'Pri'
+const longMatchingTextNonPrefix = 'inc'
 const staticFieldName = 'field4'
 const dynamicFieldName = 'field5'
 
@@ -14,6 +16,18 @@ When(
   /^I enter text (longer|shorter) than the minimum data length into the (static|dynamic) Autocomplete box$/,
   function (this: Mocha.Context, length: string, type: string) {
     const text = length === 'longer' ? longMatchingText : shortMatchingText
+    const fieldName = getFieldNameFromType(type)
+
+    this.selectedFieldName = fieldName
+
+    new ReportPage().filter(fieldName).type(text)
+  },
+)
+
+When(
+  /^I enter text (longer|shorter) than the minimum data length into the (static|dynamic) Autocomplete box which matches some of the options without being a prefix$/,
+  function (this: Mocha.Context, length: string, type: string) {
+    const text = length === 'longer' ? longMatchingTextNonPrefix : shortMatchingTextNonPrefix
     const fieldName = getFieldNameFromType(type)
 
     this.selectedFieldName = fieldName

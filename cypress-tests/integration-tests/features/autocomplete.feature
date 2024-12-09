@@ -15,6 +15,14 @@ Feature: Autocomplete
     When I enter text shorter than the minimum data length into the static Autocomplete box
     Then a list of options is not displayed
 
+  Scenario: Static autocomplete options show when the matching input text is not the prefix
+    When I enter text longer than the minimum data length into the static Autocomplete box which matches some of the options without being a prefix
+    Then a list of matching options is displayed
+
+  Scenario: Static autocomplete options are not displayed if the matching non prefix text is too short
+    When I enter text shorter than the minimum data length into the static Autocomplete box which matches some of the options without being a prefix
+    Then a list of options is not displayed
+
   Scenario: Static autocomplete options are selectable
     Given I enter text longer than the minimum data length into the static Autocomplete box
     When I select an autocomplete option

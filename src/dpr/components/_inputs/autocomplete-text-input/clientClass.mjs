@@ -51,7 +51,7 @@ export default class Autocomplete extends DprClientClass {
       this.getElement()
         .querySelectorAll(this.listItemsSelector)
         .forEach((item) => {
-          if (searchValue.length >= minLength && item.innerText.trim().toLowerCase().startsWith(searchValue)) {
+          if (searchValue.length >= minLength && item.innerText.trim().toLowerCase().includes(searchValue)) {
             item.classList.remove('autocomplete-text-input-item-hide')
           } else {
             item.classList.add('autocomplete-text-input-item-hide')

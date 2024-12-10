@@ -12,8 +12,8 @@ import LocalsHelper from '../utils/localsHelper'
  * 1. User clicks download button on the report for the first time.
  * 2. The users download permissions are checked.
  * 3. No permission is found - redirect to report with disabled message - leave feedback to download
- * 4. Fill feeedback form and submit - POST to submission handler
- * 5. Log Feedback, add download permission for report to user config
+ * 4. Fill feedback form and submit - POST to submission handler
+ * 5. Log feedback, add download permission for report to user config
  * 6. User navigates back to the report
  * 7. Clicks download - POST to download handler
  * 8. Check if user has permission - permission is present
@@ -75,9 +75,14 @@ export default function routes({
     const { reportId, variantId, reportName, variantName, reportUrl, reportSearch } = body
     logger.info('Download Feedback Submission:', `${JSON.stringify(body)}`)
 
-    const queryParams = `?reportName=${reportName}&variantName=${variantName}&reportUrl=${reportUrl}&reportSearch=${encodeURIComponent(
-      reportSearch,
-    )}`
+    let queryParams
+    queryParams = `?reportName=${reportName}&variantName=${variantName}&reportUrl=${reportUrl}`
+
+    if (reportSearch) {
+      const encodedSearch = encodeURIComponent(reportSearch)
+      queryParams = ` ${queryParams}&reportSearch=${encodedSearch}`
+    }
+
     const redirect = `/download/${reportId}/${variantId}/feedback/submitted${queryParams}`
 
     res.redirect(redirect)
@@ -87,9 +92,13 @@ export default function routes({
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const { reportId, variantId } = req.params
     const { reportName, variantName, reportUrl, reportSearch } = req.query
-    const reportHref = reportSearch
-      ? `${reportUrl}?reportSearch=${decodeURIComponent(<string>reportSearch)}`
-      : `${reportUrl}`
+
+    let decodedReportSearch
+    if (reportSearch) {
+      decodedReportSearch = decodeURIComponent(<string>reportSearch)
+    }
+
+    const reportHref = reportSearch ? `${reportUrl}?${decodedReportSearch}` : `${reportUrl}`
 
     await services.downloadPermissionService.saveDownloadPermissionData(userId, reportId, variantId)
 

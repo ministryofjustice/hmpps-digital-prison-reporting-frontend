@@ -39,7 +39,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.FAILED, reportData)
       const expectedResult = {
         href: 'pollingUrl',
-        timestamp: 'Failed at: Invalid Date',
+        timestamp: 'Failed at: null',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -48,7 +48,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.FAILED, reportData)
       const expectedResult = {
         href: 'pollingUrl',
-        timestamp: 'Failed at: Invalid Date',
+        timestamp: 'Failed at: null',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -57,7 +57,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.ABORTED, reportData)
       const expectedResult = {
         href: 'requestUrl',
-        timestamp: 'Aborted at: Invalid Date',
+        timestamp: 'Aborted at: null',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -66,7 +66,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.FINISHED, reportData)
       const expectedResult = {
         href: 'reportUrl',
-        timestamp: 'Ready at: Invalid Date',
+        timestamp: 'Ready at: null',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -75,7 +75,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.EXPIRED, reportData)
       const expectedResult = {
         href: 'requestUrl',
-        timestamp: 'Expired at: Invalid Date',
+        timestamp: 'Expired at: null',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -84,7 +84,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.SUBMITTED, reportData)
       const expectedResult = {
         href: 'pollingUrl',
-        timestamp: 'Requested at: Invalid Date',
+        timestamp: 'Requested at: null',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -93,7 +93,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.STARTED, reportData)
       const expectedResult = {
         href: 'pollingUrl',
-        timestamp: 'Requested at: Invalid Date',
+        timestamp: 'Requested at: null',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -102,7 +102,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.PICKED, reportData)
       const expectedResult = {
         href: 'pollingUrl',
-        timestamp: 'Requested at: Invalid Date',
+        timestamp: 'Requested at: null',
       }
       expect(result).toEqual(expectedResult)
     })

@@ -47,7 +47,9 @@
       <input type="hidden" name="staffId" value="{{ staffId }}">
       <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}">
       <input type="hidden" name="reportUrl" value="{{ reportUrl }}">
-      <input type="hidden" name="reportSearch" value="{{ reportSearch }}">
+      {% if reportSearch %}
+        <input type="hidden" name="reportSearch" value="{{ reportSearch }}">
+      {% endif %}
 
       <h2 class="govuk-fieldset__legend govuk-fieldset__legend--l">About you</h2>
       {# Name Input #}

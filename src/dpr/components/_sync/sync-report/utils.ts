@@ -214,7 +214,7 @@ const getReportRenderData = async (
     pagination,
     reportUrl: url.pathname.replace('/download-disabled', '').replace('/download-disabled?', ''),
     reportSearch: url.search,
-    encodedSearch: encodeURIComponent(url.search),
+    encodedSearch: url.search ? encodeURIComponent(url.search) : undefined,
   }
 }
 

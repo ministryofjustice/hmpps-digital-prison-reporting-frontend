@@ -1,4 +1,5 @@
 import { Response, Request } from 'express'
+import dayjs from 'dayjs'
 import RecentlyViewedStoreService from '../../services/recentlyViewedService'
 import RequestedReportService from '../../services/requestedReportService'
 import { RenderTableListResponse } from './types'
@@ -18,6 +19,7 @@ import RequestedReportUtils from './requested/utils'
 import RecentlyViewedCardGroupUtils from './viewed/utils'
 import BookmarklistUtils from './bookmarks/utils'
 import LocalsHelper from '../../utils/localsHelper'
+import DateMapper from '../../utils/DateMapper/DateMapper'
 
 const formatData = (reportData: UserReportData): FormattedUserReportData => {
   const reportDataCopy: UserReportData = JSON.parse(JSON.stringify(reportData))
@@ -168,41 +170,51 @@ const getMeta = (formattedData: FormattedUserReportData[]) => {
 export const setDataFromStatus = (status: RequestStatus, reportsData: UserReportData) => {
   let timestamp
   let href
+  let formattedDate
   const { url, timestamp: time } = reportsData
+  const dateMapper = new DateMapper()
   switch (status) {
     case RequestStatus.FAILED: {
-      const failedTime = time.failed ? new Date(time.failed).toLocaleString() : new Date().toLocaleString()
+      formattedDate = time.failed
+        ? dateMapper.toDateString(<string>(<unknown>time.failed), 'local-date')
+        : dayjs().format('DD/MM/YYYY')
       href = `${url.polling.fullUrl}`
-      timestamp = `Failed at: ${failedTime}`
+      timestamp = `Failed at: ${formattedDate}`
       break
     }
     case RequestStatus.ABORTED: {
       href = `${url.request.fullUrl}`
-      timestamp = `Aborted at: ${new Date(time.aborted).toLocaleString()}`
+      formattedDate = dateMapper.toDateString(<string>(<unknown>time.aborted), 'local-date')
+      timestamp = `Aborted at: ${formattedDate}`
       break
     }
     case RequestStatus.FINISHED:
       href = url.report.fullUrl
-      timestamp = `Ready at: ${new Date(time.completed).toLocaleString()}`
+      formattedDate = dateMapper.toDateString(<string>(<unknown>time.completed), 'local-date')
+      timestamp = `Ready at: ${formattedDate}`
       break
     case RequestStatus.EXPIRED: {
       href = `${url.request.fullUrl}`
-      timestamp = `Expired at: ${new Date(time.expired).toLocaleString()}`
+      formattedDate = dateMapper.toDateString(<string>(<unknown>time.expired), 'local-date')
+      timestamp = `Expired at: ${formattedDate}`
       break
     }
     case RequestStatus.READY: {
       href = `${url.report.fullUrl}`
-      timestamp = `Last viewed: ${new Date(time.lastViewed).toLocaleString()}`
+      formattedDate = dateMapper.toDateString(<string>(<unknown>time.lastViewed), 'local-date')
+      timestamp = `Last viewed: ${formattedDate}`
       break
     }
     case RequestStatus.SUBMITTED:
     case RequestStatus.STARTED:
     case RequestStatus.PICKED:
       href = url.polling.fullUrl
-      timestamp = `Requested at: ${new Date(time.requested).toLocaleString()}`
+      formattedDate = dateMapper.toDateString(<string>(<unknown>time.requested), 'local-date')
+      timestamp = `Requested at: ${formattedDate}`
       break
     default:
-      timestamp = `Last viewed: ${new Date(time.lastViewed).toLocaleString()}`
+      formattedDate = dateMapper.toDateString(<string>(<unknown>time.lastViewed), 'local-date')
+      timestamp = `Last viewed: ${formattedDate}`
       break
   }
 

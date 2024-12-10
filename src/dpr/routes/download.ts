@@ -39,9 +39,13 @@ export default function routes({
     const loadType = tableId ? LoadType.ASYNC : LoadType.SYNC
 
     const { reportSearch, reportUrl } = req.query
-    const queryString = decodeURIComponent(<string>reportSearch)
-    const params = new URLSearchParams(queryString)
-    const dataProductDefinitionsPath = params.get('dataProductDefinitionsPath')
+    let queryString
+    let dataProductDefinitionsPath
+    if (reportSearch) {
+      queryString = decodeURIComponent(<string>reportSearch)
+      const params = new URLSearchParams(queryString)
+      dataProductDefinitionsPath = params.get('dataProductDefinitionsPath')
+    }
 
     const variantData: components['schemas']['SingleVariantReportDefinition'] =
       await services.reportingService.getDefinition(token, reportId, variantId, dataProductDefinitionsPath)
@@ -58,7 +62,7 @@ export default function routes({
           tableId,
           loadType,
           reportUrl,
-          reportSearch,
+          reportSearch: reportSearch || undefined,
           time: new Date().toDateString(),
         },
         csrfToken,
@@ -80,7 +84,7 @@ export default function routes({
 
     if (reportSearch) {
       const encodedSearch = encodeURIComponent(reportSearch)
-      queryParams = ` ${queryParams}&reportSearch=${encodedSearch}`
+      queryParams = `${queryParams}&reportSearch=${encodedSearch}`
     }
 
     const redirect = `/download/${reportId}/${variantId}/feedback/submitted${queryParams}`
@@ -98,7 +102,7 @@ export default function routes({
       decodedReportSearch = decodeURIComponent(<string>reportSearch)
     }
 
-    const reportHref = reportSearch ? `${reportUrl}?${decodedReportSearch}` : `${reportUrl}`
+    const reportHref = reportSearch ? `${reportUrl}${decodedReportSearch}` : `${reportUrl}`
 
     await services.downloadPermissionService.saveDownloadPermissionData(userId, reportId, variantId)
 

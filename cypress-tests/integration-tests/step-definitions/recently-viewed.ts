@@ -7,7 +7,7 @@ Then('I click on the recently viewed reports tab', () => {
 })
 
 Then('the viewed reports are displayed correctly', () => {
-  new AsyncHomePage().viewedReportsList().find('tr').should('have.length', 7)
+  new AsyncHomePage().viewedReportsList().find('tr').should('have.length', 8)
 })
 
 Then('the status and timestamp is displayed for each viewed report', () => {
@@ -33,33 +33,54 @@ Then('the status and timestamp is displayed for each viewed report', () => {
     .should('exist')
 })
 
-Then(/^I click on a ready viewed (report|reportV2|dashboard)$/, function (this: Mocha.Context, reportType: string) {
-  if (reportType === 'report') {
-    new AsyncHomePage().viewedReportRow_Finished().parent().parent().parent().parent().contains('Go to report').click()
-  }
+Then(
+  /^I click on a ready viewed (report|reportV2|dashboard|interactive report)$/,
+  function (this: Mocha.Context, reportType: string) {
+    if (reportType === 'report') {
+      new AsyncHomePage()
+        .viewedReportRow_Finished()
+        .parent()
+        .parent()
+        .parent()
+        .parent()
+        .contains('Go to report')
+        .click()
+    }
 
-  if (reportType === 'reportV2') {
-    new AsyncHomePage()
-      .viewedReportRow_FinishedV2()
-      .parent()
-      .parent()
-      .parent()
-      .parent()
-      .contains('Go to report')
-      .click()
-  }
+    if (reportType === 'reportV2') {
+      new AsyncHomePage()
+        .viewedReportRow_FinishedV2()
+        .parent()
+        .parent()
+        .parent()
+        .parent()
+        .contains('Go to report')
+        .click()
+    }
 
-  if (reportType === 'dashboard') {
-    new AsyncHomePage()
-      .viewedDashboardRow_Ready()
-      .parent()
-      .parent()
-      .parent()
-      .parent()
-      .contains('Go to dashboard')
-      .click()
-  }
-})
+    if (reportType === 'dashboard') {
+      new AsyncHomePage()
+        .viewedDashboardRow_Ready()
+        .parent()
+        .parent()
+        .parent()
+        .parent()
+        .contains('Go to dashboard')
+        .click()
+    }
+
+    if (reportType === 'interactive report') {
+      new AsyncHomePage()
+        .viewedInteractiveRow_Ready()
+        .parent()
+        .parent()
+        .parent()
+        .parent()
+        .contains('Go to report')
+        .click()
+    }
+  },
+)
 
 Then(
   /^I click on the (Remove|Refresh) button of an expired viewed (report|reportV2|dashboard)$/,

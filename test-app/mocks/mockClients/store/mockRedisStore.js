@@ -31,11 +31,13 @@ const MockUserStoreService = class MockUserStoreService {
         mockViewedV1.viewedReady,
         mockViewedV2.viewedReady,
         mockViewedV2.viewedDashboard,
+        mockViewedV2.viewedInteractive,
       ],
       recentlyViewedReports: [
         mockViewedV2.viewedDashboard,
         mockViewedV1.viewedReady,
         mockViewedV2.viewedReady,
+        mockViewedV2.viewedInteractive,
         mockViewedV1.viewedExpired,
         mockViewedV2.viewedExpired,
         mockViewedV2.expiredDashboard,

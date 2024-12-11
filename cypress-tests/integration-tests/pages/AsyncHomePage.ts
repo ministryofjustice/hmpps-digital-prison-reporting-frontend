@@ -198,6 +198,9 @@ export default class HomePage {
   viewedDashboardRow_Ready = (): PageElement =>
     cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table`).find('tr').contains('Viewed dashboard')
 
+  viewedInteractiveRow_Ready = (): PageElement =>
+    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table`).find('tr').contains('Interactive Report')
+
   viewedDashboardRow_Expired = (): PageElement =>
     cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table`).find('tr').contains('Expired viewed dashboard')
 

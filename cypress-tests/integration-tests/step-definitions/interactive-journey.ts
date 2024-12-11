@@ -1,13 +1,13 @@
 import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
 import InteractiveReportPage from '../pages/InteractiveReportPage'
 
-Then('the Update filters button is displayed', function (this: Mocha.Context) {
+Then('the Update filters button is displayed', () => {
   const page = new InteractiveReportPage()
 
   page.updateFiltersAccordion().should('exist')
 })
 
-Then(/^the Update filters panel is (open|closed)$/, function (panelStatus) {
+Then(/^the Update filters panel is (open|closed)$/, (panelStatus) => {
   const panel = new InteractiveReportPage().updateFiltersDetails()
 
   if (panelStatus === 'open') {
@@ -17,7 +17,7 @@ Then(/^the Update filters panel is (open|closed)$/, function (panelStatus) {
   }
 })
 
-When(/^I click the Update filters button$/, function () {
+When(/^I click the Update filters button$/, () => {
   const page = new InteractiveReportPage()
   page.updateFiltersAccordion().click()
 })

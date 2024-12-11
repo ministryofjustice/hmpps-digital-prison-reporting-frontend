@@ -88,6 +88,7 @@ export default class Autocomplete extends DprClientClass {
     event.preventDefault()
     // eslint-disable-next-line no-param-reassign
     textInput.value = event.target.innerText.trim()
+    textInput.staticOptionValue = event.target.dataset.staticOptionValue
     textInput.focus()
     const changeEvent = new Event('change')
     textInput.dispatchEvent(changeEvent)

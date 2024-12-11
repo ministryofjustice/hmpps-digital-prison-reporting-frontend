@@ -140,7 +140,7 @@ const mockSyncData = {
               text: 'Inigo Montoya',
             },
             {
-              value: 'Prince Humperdink',
+              value: 'PrHu',
               text: 'Prince Humperdink',
             },
             {

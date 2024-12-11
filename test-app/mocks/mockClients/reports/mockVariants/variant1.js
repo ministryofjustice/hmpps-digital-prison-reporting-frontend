@@ -74,7 +74,7 @@ const variant1 = {
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
             { name: 'Inigo Montoya', display: 'Inigo Montoya' },
-            { name: 'Prince Humperdink', display: 'Prince Humperdink' },
+            { name: 'PrHu', display: 'Prince Humperdink' },
             { name: 'Princess Buttercup', display: 'Princess Buttercup' },
             { name: 'Westley', display: 'Westley' },
           ],

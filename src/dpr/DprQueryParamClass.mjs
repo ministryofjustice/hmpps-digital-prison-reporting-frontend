@@ -68,12 +68,14 @@ export default class DprQueryParamClass extends DprClientClass {
       } else {
         const { name } = input
         let { value } = input
-        if (input.classList.contains('moj-js-datepicker-input')) {
+        let { staticOptionValue } = input
+        let isDateInput = input.classList.contains('moj-js-datepicker-input')
+        if (isDateInput) {
           const formatted = dayjs(value, 'D/M/YYYY').format('YYYY-MM-DD')
           value = formatted !== 'Invalid Date' ? formatted : ''
         }
-
-        if (name) this.updateQueryParam(name, value)
+        let valueToUpdate = !isDateInput && staticOptionValue ? staticOptionValue : value
+        if (name) this.updateQueryParam(name, valueToUpdate)
       }
     }
   }

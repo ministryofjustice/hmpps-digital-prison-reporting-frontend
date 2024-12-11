@@ -70,7 +70,7 @@ describe('Filters Utils tests', () => {
             options: [
               { value: 'Fezzick', text: 'Fezzick' },
               { value: 'Inigo Montoya', text: 'Inigo Montoya' },
-              { value: 'Prince Humperdink', text: 'Prince Humperdink' },
+              { value: 'PrHu', text: 'Prince Humperdink' },
               { value: 'Princess Buttercup', text: 'Princess Buttercup' },
               { value: 'Westley', text: 'Westley' },
             ],

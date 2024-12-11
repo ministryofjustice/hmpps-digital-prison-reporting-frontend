@@ -99,8 +99,6 @@ export default {
       UserReportsUtils.updateLastViewed({ services, reportStateData: dashboardRequestData, userId })
     }
 
-    console.log(JSON.stringify({ metrics }, null, 2))
-
     return {
       dashboardData: {
         token,

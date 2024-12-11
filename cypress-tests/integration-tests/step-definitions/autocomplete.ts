@@ -81,7 +81,7 @@ Then('the selected option is displayed in the URL', function (this: Mocha.Contex
   })
 })
 
-Then('the selected option name value is displayed in the URL', function (this: Mocha.Context) {
+Then('the name value of the selected option is displayed in the URL', function (this: Mocha.Context) {
   cy.location().should((location) => {
     expect(location.search).to.contain(`filters.${this.selectedFieldName}=PrBu`)
   })

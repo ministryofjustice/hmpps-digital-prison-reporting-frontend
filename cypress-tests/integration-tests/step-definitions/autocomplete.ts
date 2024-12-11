@@ -75,6 +75,10 @@ Then(/^the select option is displayed in the Selected Filters section$/, () => {
   new ReportPage().selectedFilterButton().contains(`Prince Humperdink`)
 })
 
+Then(/^the display value of the selected option is displayed in the Selected Filters section$/, () => {
+  new ReportPage().selectedFilterButton().contains('Princess Buttercup')
+})
+
 Then('the selected option is displayed in the URL', function (this: Mocha.Context) {
   cy.location().should((location) => {
     expect(location.search).to.contain(`filters.${this.selectedFieldName}=Prince%20Humperdink`)

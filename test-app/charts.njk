@@ -1,8 +1,9 @@
 {% extends "page.njk" %}
 
-{% from "components/chart-card/view.njk" import dprChartCard %}
-{% from "components/chart-tabs/view.njk" import dprChartTabs %}
-{% from "components/chart/view.njk" import dprChart %}
+{% from "components/_charts/chart-card/view.njk" import dprChartCard %}
+{% from "components/_charts/chart-tabs/view.njk" import dprChartTabs %}
+{% from "components/_charts/chart/view.njk" import dprChart %}
+
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 
 {% block content %}
@@ -25,10 +26,10 @@
         {{ dprChartCard(bar) }}
 
         <h2 class="govuk-heading-m dpr-dotted-unterline govuk-!-margin-bottom-6 govuk-!-margin-top-6">dprChartTabs component</h2>
-        {{ dprChartTabs(bar.id + "_", bar.type, bar.data) }}
+        {{ dprChartTabs(bar.id + "_", bar.data) }}
         
         <h2 class="govuk-heading-m dpr-dotted-unterline govuk-!-margin-bottom-6 govuk-!-margin-top-6">dprChart component</h2>
-        {{ dprChart(bar.id, bar.type[0], bar.data.chart)}}
+        {{ dprChart(bar.id, bar.data.chart[0].type, bar.data.chart[0].data, bar.data.chart[0].unit)}}
       </div>
     {% endfor %}
     {% endif %}
@@ -42,10 +43,10 @@
         {{ dprChartCard(pie) }}
 
         <h2 class="govuk-heading-m dpr-dotted-unterline govuk-!-margin-bottom-6 govuk-!-margin-top-6">dprChartTabs component</h2>
-        {{ dprChartTabs(pie.id + "_", pie.type, pie.data) }}
+        {{ dprChartTabs(pie.id + "_", pie.data) }}
 
         <h2 class="govuk-heading-m dpr-dotted-unterline govuk-!-margin-bottom-6 govuk-!-margin-top-6">dprChart component</h2>
-        {{ dprChart(pie.id, pie.type[0], pie.data.chart)}}
+        {{ dprChart(pie.id, pie.data.chart[0].type, pie.data.chart[0].data, pie.data.chart[0].unit)}}
       </div>
     {% endfor %}
     {% endif %}
@@ -59,10 +60,10 @@
         {{ dprChartCard(multi) }}
 
         <h2 class="govuk-heading-m dpr-dotted-unterline govuk-!-margin-bottom-6 govuk-!-margin-top-6">dprChartTabs component</h2>
-        {{ dprChartTabs(multi.id + "_", multi.type, multi.data) }}
+        {{ dprChartTabs(multi.id + "_", multi.data) }}
 
         <h2 class="govuk-heading-m dpr-dotted-unterline govuk-!-margin-bottom-6 govuk-!-margin-top-6">dprChart component</h2>
-        {{ dprChart(multi.id, multi.type[0], multi.data.chart)}}
+        {{ dprChart(multi.id, multi.data.chart[0].type, multi.data.chart[0].data, multi.data.chart[0].unit)}}
       </div>
     {% endfor %}
     {% endif %}
@@ -75,10 +76,10 @@
         {{ dprChartCard(line) }}
 
         <h2 class="govuk-heading-m dpr-dotted-unterline govuk-!-margin-bottom-6 govuk-!-margin-top-6">dprChartTabs component</h2>
-        {{ dprChartTabs(line.id + "_", line.type, line.data) }}
+        {{ dprChartTabs(line.id + "_", line.data) }}
 
         <h2 class="govuk-heading-m dpr-dotted-unterline govuk-!-margin-bottom-6 govuk-!-margin-top-6">dprChart component</h2>
-        {{ dprChart(line.id, line.type[0], line.data.chart)}}
+        {{ dprChart(line.id, line.data.chart[0].type, line.data.chart[0].data, line.data.chart[0].unit)}}
       </div>
     {% endfor %}
     {% endif %}

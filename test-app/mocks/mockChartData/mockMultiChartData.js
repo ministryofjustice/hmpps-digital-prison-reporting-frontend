@@ -18,16 +18,36 @@ const mockBarChartData = [
       ],
     },
     data: {
-      chart: {
-        labels: ['Drugs', 'Phones', 'Weapons', 'Alcohol'],
-        datasets: [
-          {
-            label: 'No. of finds',
-            data: [12, 19, 3, 5],
-            total: [12, 19, 3, 5].reduce((acc, val) => acc + val, 0),
+      chart: [
+        {
+          type: 'bar',
+          unit: 'number',
+          data: {
+            labels: ['Drugs', 'Phones', 'Weapons', 'Alcohol'],
+            datasets: [
+              {
+                label: 'No. of finds',
+                data: [12, 19, 3, 5],
+                total: [12, 19, 3, 5].reduce((acc, val) => acc + val, 0),
+              },
+            ],
           },
-        ],
-      },
+        },
+        {
+          type: 'doughnut',
+          unit: 'number',
+          data: {
+            labels: ['Drugs', 'Phones', 'Weapons', 'Alcohol'],
+            datasets: [
+              {
+                label: 'No. of finds',
+                data: [12, 19, 3, 5],
+                total: [12, 19, 3, 5].reduce((acc, val) => acc + val, 0),
+              },
+            ],
+          },
+        },
+      ],
       table: {
         head: [{ text: 'Colours' }, { text: 'No. of finds' }],
         rows: [
@@ -64,16 +84,36 @@ const mockBarChartData = [
       ],
     },
     data: {
-      chart: {
-        labels: ['Drugs', 'Phones', 'Weapons', 'Alcohol'],
-        datasets: [
-          {
-            label: 'No. of finds',
-            data: [12, 19, 3, 5],
-            total: [12, 19, 3, 5].reduce((acc, val) => acc + val, 0),
+      chart: [
+        {
+          type: 'bar',
+          unit: 'number',
+          data: {
+            labels: ['Drugs', 'Phones', 'Weapons', 'Alcohol'],
+            datasets: [
+              {
+                label: 'No. of finds',
+                data: [12, 19, 3, 5],
+                total: [12, 19, 3, 5].reduce((acc, val) => acc + val, 0),
+              },
+            ],
           },
-        ],
-      },
+        },
+        {
+          type: 'doughnut',
+          unit: 'number',
+          data: {
+            labels: ['Drugs', 'Phones', 'Weapons', 'Alcohol'],
+            datasets: [
+              {
+                label: 'No. of finds',
+                data: [12, 19, 3, 5],
+                total: [12, 19, 3, 5].reduce((acc, val) => acc + val, 0),
+              },
+            ],
+          },
+        },
+      ],
       table: {
         head: [{ text: 'Colours' }, { text: 'No. of finds' }],
         rows: [
@@ -113,21 +153,46 @@ const mockBarChartData = [
       ],
     },
     data: {
-      chart: {
-        labels: ['General', 'Serious'],
-        datasets: [
-          {
-            label: 'On Staff',
-            data: [60, 70],
-            total: [60, 70].reduce((acc, val) => acc + val, 0),
+      chart: [
+        {
+          type: 'bar',
+          unit: 'number',
+          data: {
+            labels: ['General', 'Serious'],
+            datasets: [
+              {
+                label: 'On Staff',
+                data: [60, 70],
+                total: [60, 70].reduce((acc, val) => acc + val, 0),
+              },
+              {
+                label: 'On Prisoner',
+                data: [18, 50],
+                total: [18, 50].reduce((acc, val) => acc + val, 0),
+              },
+            ],
           },
-          {
-            label: 'On Prisoner',
-            data: [18, 50],
-            total: [18, 50].reduce((acc, val) => acc + val, 0),
+        },
+        {
+          type: 'doughnut',
+          unit: 'number',
+          data: {
+            labels: ['General', 'Serious'],
+            datasets: [
+              {
+                label: 'On Staff',
+                data: [60, 70],
+                total: [60, 70].reduce((acc, val) => acc + val, 0),
+              },
+              {
+                label: 'On Prisoner',
+                data: [18, 50],
+                total: [18, 50].reduce((acc, val) => acc + val, 0),
+              },
+            ],
           },
-        ],
-      },
+        },
+      ],
       table: {
         head: [{ text: 'Colours' }, { text: 'On Staff' }, { text: 'On Prisoner' }],
         rows: [

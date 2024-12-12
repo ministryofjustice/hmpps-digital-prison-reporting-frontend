@@ -44,14 +44,21 @@ export default class Filters extends DprClientClass {
 
       const formData = new FormData(filtersForm)
       let serializedFormData = ''
-      formData.forEach((n, v) => {
+      document.querySelectorAll('.autocomplete-text-input-box').forEach((input) => {
+        if(input.staticOptionValue) {
+          formData.set(input.name, input.staticOptionValue)
+        }
+      })
+      formData.forEach((v, n) => {
         const dateRegEx = /^\d{1,2}\/\d{1,2}\/\d{2,4}$/
 
-        if (n.match(dateRegEx)) {
+        if (v.match(dateRegEx)) {
           // eslint-disable-next-line no-param-reassign
-          n = dayjs(n, 'DD/MM/YYYY').format('YYYY-MM-DD')
+          v = dayjs(v, 'DD/MM/YYYY').format('YYYY-MM-DD')
         }
-        serializedFormData += `&${v}=${n}`
+
+        serializedFormData += `&${n}=${v}`
+
       })
 
       url += serializedFormData

@@ -35,6 +35,13 @@ Feature: Autocomplete
     Then the selected option is displayed in the URL
     And the select option is displayed in the Selected Filters section
 
+  Scenario: Static autocomplete filter option name values are submitted
+    Given I enter text into the static Autocomplete box which matches an option which has different name and display values
+    And I select an autocomplete option
+    When I apply the filters
+    Then the name value of the selected option is displayed in the URL
+    And the display value of the selected option is displayed in the Selected Filters section
+
   Scenario: Dynamic autocomplete filter is displayed
     Then the dynamic Autocomplete box is shown
 

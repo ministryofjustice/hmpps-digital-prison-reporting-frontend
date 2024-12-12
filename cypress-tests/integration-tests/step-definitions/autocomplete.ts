@@ -36,6 +36,18 @@ When(
   },
 )
 
+When(
+  /^I enter text into the static Autocomplete box which matches an option which has different name and display values$/,
+  function (this: Mocha.Context) {
+    const text = 'but'
+    const fieldName = getFieldNameFromType('static')
+
+    this.selectedFieldName = fieldName
+
+    new ReportPage().filter(fieldName).type(text)
+  },
+)
+
 When(/^I select an autocomplete option$/, function (this: Mocha.Context) {
   new ReportPage().visibleAutocompleteOptions(this.selectedFieldName).first().click()
 })
@@ -63,8 +75,18 @@ Then(/^the select option is displayed in the Selected Filters section$/, () => {
   new ReportPage().selectedFilterButton().contains(`Prince Humperdink`)
 })
 
+Then(/^the display value of the selected option is displayed in the Selected Filters section$/, () => {
+  new ReportPage().selectedFilterButton().contains('Princess Buttercup')
+})
+
 Then('the selected option is displayed in the URL', function (this: Mocha.Context) {
   cy.location().should((location) => {
     expect(location.search).to.contain(`filters.${this.selectedFieldName}=Prince%20Humperdink`)
+  })
+})
+
+Then('the name value of the selected option is displayed in the URL', function (this: Mocha.Context) {
+  cy.location().should((location) => {
+    expect(location.search).to.contain(`filters.${this.selectedFieldName}=PrBu`)
   })
 })

@@ -38,7 +38,17 @@ export const createListItemProductMin = (reportName: string, type: ReportType) =
 </div>`
 }
 
-export const createListActions = (href: string, type: string, loadType?: LoadType, bookmarkHtml?: string) => {
+export const createListActions = (
+  href: string,
+  type: string,
+  loadType?: LoadType,
+  bookmarkHtml?: string,
+  authorised = true,
+) => {
+  if (!authorised) {
+    return `<strong class="govuk-tag govuk-tag--red dpr-request-status-tag dpr-request-status-tag--small dpr-unauthorised-report" aria-label="You are unauthorised to view this report">Unauthorised</strong>`
+  }
+
   let actionText = `Request ${type}`
   if (loadType && loadType === LoadType.SYNC) {
     actionText = `Load ${type}`

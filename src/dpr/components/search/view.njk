@@ -1,23 +1,43 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 
 {% macro dprSearch(id, tableHtml) %}
 
   <div class="dpr-search" data-dpr-module="search">
+  
+  <h3 class="govuk-heading-s govuk-!-margin-bottom-1"> Filter reports</h3>
+  <div class="dpr-search-inputs">
     {{ govukInput({
       id: id,
       name: 'search',
       autocomplete: "off",
-      label: {
-        text: 'Filter reports',
-        classes: 'govuk-!-font-weight-bold dpr-inline-label'
-      },
-      classes: "dpr-search-box govuk-!-width-two-thirds govuk-!-margin-bottom-4",
+      classes: "dpr-search-box govuk-!-margin-bottom-0",
       attributes: {
         placeholder: "Type to filter reports"
       }
     }) }}
 
+    {{ govukCheckboxes({
+        name: 'Show unauthorised reports',
+        classes: "dpr-show-unauthorised-checkbox govuk-checkboxes--small",
+        formGroup: {
+          classes: "govuk-!-margin-bottom-3"
+        },
+        fieldset: {
+          legend: {
+            text: text,
+            classes: "govuk-label govuk-!-font-weight-bold"
+          },
+          attributes: {
+            "aria-label": name + ' checkboxes'
+          }
+        },
+        items: [{text:"Show unauthorised reports", value:"show-unauthorised", id: "show-unauthorised" }],
+        values: []
+      }) }}
+
+  </div>
     {{ tableHtml | safe }}
   </div>
 

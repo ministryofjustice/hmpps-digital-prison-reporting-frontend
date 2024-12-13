@@ -153,4 +153,5 @@ export interface DefinitionData {
   type: ReportType
   reportDescription: string
   loadType?: LoadType
+  authorised: boolean
 }

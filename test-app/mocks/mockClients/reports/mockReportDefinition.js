@@ -63,7 +63,6 @@ module.exports = {
       name: 'C Test Report',
       variants: [variant1, variant2, variant3, variant4, variant24],
       dashboards: [dashboardDefinition[0]],
-      authorised: false,
     },
     {
       id: 'test-report-4',
@@ -101,6 +100,13 @@ module.exports = {
       name: 'Interactive reports',
       variants: [variant23],
       dashboards: [],
+    },
+    {
+      id: 'test-report-6',
+      name: 'Unauthorised reports',
+      variants: [variant2, variant3, variant4],
+      dashboards: [],
+      authorised: false,
     },
   ],
 

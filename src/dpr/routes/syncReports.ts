@@ -99,7 +99,7 @@ export default function routes({
     }
 
     req.body.definition = definition
-    if (definition.authorised !== undefined && !definition.authorised) {
+    if (definition?.authorised !== undefined && !definition.authorised) {
       await unauthorisedReportHandler(req, res, next)
     } else {
       next()

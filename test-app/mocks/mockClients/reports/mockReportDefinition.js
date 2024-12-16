@@ -102,7 +102,7 @@ module.exports = {
       dashboards: [],
     },
     {
-      id: 'test-report-6',
+      id: 'test-report-7',
       name: 'Unauthorised reports',
       variants: [variant2, variant3, variant4],
       dashboards: [],

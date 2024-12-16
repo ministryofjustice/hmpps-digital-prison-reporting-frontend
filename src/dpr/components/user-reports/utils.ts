@@ -140,10 +140,10 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
   ]
 }
 
-const getTotals = (formattedData: FormattedUserReportData[], maxRows: number) => {
+const getTotals = (reportData: UserReportData[], maxRows: number) => {
   return {
-    amount: formattedData.length,
-    shown: formattedData.length > maxRows ? maxRows : formattedData.length,
+    amount: reportData.length,
+    shown: reportData.length > maxRows ? maxRows : reportData.length,
     max: maxRows,
   }
 }
@@ -239,12 +239,11 @@ const renderList = async ({
 }): Promise<RenderTableListResponse> => {
   const { csrfToken, userId } = LocalsHelper.getValues(res)
 
-  const requestedReportsData: UserReportData[] = await storeService.getAllReports(userId)
+  const reportsData: UserReportData[] = await storeService.getAllReports(userId)
 
-  let formatted = requestedReportsData.filter(filterFunction).map(formatData)
-  const tableData = formatTable(formatted, type)
-
+  let formatted = reportsData.filter(filterFunction).map(formatData)
   if (maxRows) formatted = formatted.slice(0, maxRows)
+  const tableData = formatTable(formatted, type)
 
   const head = {
     ...(formatted.length && { href: `./async-reports/${type}` }),
@@ -253,7 +252,7 @@ const renderList = async ({
   const result = {
     head,
     tableData,
-    total: getTotals(formatted, maxRows),
+    total: getTotals(reportsData, maxRows),
     meta: getMeta(formatted),
     csrfToken,
     maxRows,
@@ -280,12 +279,22 @@ export default {
     return report ? report.isExpired : false
   },
 
-  initLists: async ({ services, res, req }: { services: Services; res: Response; req: Request }) => {
+  initLists: async ({
+    services,
+    res,
+    req,
+    maxRows = 6,
+  }: {
+    services: Services
+    res: Response
+    req: Request
+    maxRows?: number
+  }) => {
     const requestedReports = await renderList({
       res,
       storeService: services.requestedReportService,
       filterFunction: RequestedReportUtils.filterReports,
-      maxRows: 20,
+      maxRows,
       type: 'requested',
     })
 
@@ -293,7 +302,7 @@ export default {
       res,
       storeService: services.recentlyViewedService,
       filterFunction: RecentlyViewedCardGroupUtils.filterReports,
-      maxRows: 10,
+      maxRows,
       type: 'viewed',
     })
 
@@ -301,7 +310,7 @@ export default {
       res,
       req,
       services,
-      maxRows: 10,
+      maxRows,
     })
 
     return {

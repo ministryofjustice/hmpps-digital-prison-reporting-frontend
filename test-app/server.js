@@ -321,7 +321,7 @@ app.get('/dpr-service', async (req, res) => {
 
   res.render('async.njk', {
     title: 'Home',
-    ...(await UserReportsListUtils.initLists({ services, req, res })),
+    ...(await UserReportsListUtils.initLists({ services, req, res, maxRows: 20 })),
     reports: {
       ...(await ReportslistUtils.mapReportsList(res, services)),
     },

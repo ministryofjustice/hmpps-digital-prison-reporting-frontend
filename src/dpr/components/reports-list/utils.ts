@@ -26,10 +26,16 @@ export default {
 
     // Sort by variant/dashboard name
     const sortedVariants = sortedDefinitions.flatMap(
-      (def: components['schemas']['ReportDefinitionSummary'] & { dashboards: DashboardDefinition[] }) => {
+      (
+        def: components['schemas']['ReportDefinitionSummary'] & {
+          dashboards: DashboardDefinition[]
+          authorised: boolean
+        },
+      ) => {
         const { id: reportId, name: reportName, description: reportDescription } = def
         const { variants } = def
         const { dashboards } = def
+        const { authorised } = def
 
         const variantsArray = variants.map((variant: components['schemas']['VariantDefinitionSummary']) => {
           const { id, name, description } = variant
@@ -45,6 +51,7 @@ export default {
             description,
             type: ReportType.REPORT,
             loadType,
+            authorised,
             ...(reportDescription && reportDescription.length && { reportDescription }),
           }
         })
@@ -61,6 +68,7 @@ export default {
               description,
               type: ReportType.DASHBOARD,
               reportDescription,
+              authorised,
             }
           })
         }
@@ -79,7 +87,7 @@ export default {
 
     const rows = await Promise.all(
       sortedVariants.map(async (v: DefinitionData) => {
-        const { id, name, description, reportName, reportId, reportDescription, type, loadType } = v
+        const { id, name, description, reportName, reportId, reportDescription, type, loadType, authorised } = v
         const desc = description || reportDescription
 
         const href = setInitialHref(loadType, type, reportId, id, pathSuffix)
@@ -96,7 +104,7 @@ export default {
           { html: `<p class="govuk-body-s">${reportName}</p>` },
           { html: createListItemProductMin(name, <ReportType>type) },
           { html: ShowMoreUtils.createShowMoreHtml(desc) },
-          { html: createListActions(href, type, loadType, bookmarkHtml) },
+          { html: createListActions(href, type, loadType, bookmarkHtml, authorised) },
         ]
       }),
     )

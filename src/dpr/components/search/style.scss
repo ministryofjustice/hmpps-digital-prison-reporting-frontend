@@ -1,3 +1,11 @@
 .search-option-hide {
   display: none;
 }
+
+.dpr-search-inputs {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  column-gap: govuk-spacing(3);
+  row-gap: govuk-spacing(3);
+}

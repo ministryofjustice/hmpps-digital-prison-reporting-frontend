@@ -45,6 +45,8 @@ export default class Search extends DprClientClass {
 
       this.updateTableRows(this.searchBox.value)
     })
+
+    this.updateTableRows(this.searchBox.value)
   }
 
   updateTableRows(searchValue) {

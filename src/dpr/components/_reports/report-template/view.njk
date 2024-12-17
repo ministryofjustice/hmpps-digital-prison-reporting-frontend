@@ -12,10 +12,6 @@
   {% set reportSummaries = renderData.reportSummaries %}
   {% set count = renderData.count %}
 
-  {% if not count or count === 0 %}
-    {{ dprReportNoDataMessage(url) }}
-  {% else %}
-
     <div class="report-template-container  {% if (printable == false) %}print-hide{% endif %}">
       {% if template === 'list-tab' or template === 'crosstab' %}
 
@@ -23,20 +19,28 @@
 
       {% elif template === 'list-section' or template === 'summary-section' %}
 
-        {{ dprReport(renderData) }}
+        {{ dprReport(renderData, count) }}
 
       {% elif template === 'summary' %}
 
-        {{ dprReportSummary(reportSummaries, 'page-header') }}
-        {{ dprReportSummary(reportSummaries, 'page-footer') }}
+        {% if not count or count === 0 %}
+          {{ dprReportNoDataMessage(url) }}
+        {% else %}
+
+          {{ dprReportSummary(reportSummaries, 'page-header') }}
+          {{ dprReportSummary(reportSummaries, 'page-footer') }}
+
+        {% endif %}
 
       {% else %}
 
-        {{ dprReport(renderData) }}
-        {{ dprReportPagination(pagination) }}
+        {{ dprReport(renderData, count) }}
+
+        {% if count and count === 0 %}
+          {{ dprReportPagination(pagination) }}
+        {% endif %}
 
       {% endif %}
     </div>
 
-  {% endif %}
 {% endmacro %}

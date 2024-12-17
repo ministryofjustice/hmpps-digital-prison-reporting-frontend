@@ -3,30 +3,39 @@
 {% from "../report-summary-table/view.njk" import dprReportSummary %}
 {% from "../report-totals/view.njk" import dprReportTotals %}
 {% from "../report-filters/view.njk" import dprReportFilters %}
+{% from "../report-no-data-message/view.njk" import dprReportNoDataMessage %}
 
 {% from "../../_filters/filters-interactive/view.njk" import dprInteractiveFilters %}
 
-{% macro dprReport(options) %}
+{% macro dprReport(options, count) %}
   {% set columns = options.columns %}
   {% set reportSummaries = options.reportSummaries %}
   {% set filterData = options.filterData %}
 
   <div class="dpr-sync-report-actions">
     {{ dprReportFilters(filterData) }}
-    {{ dprReportColumns(columns) }}
+    {% if count and count > 0 %}
+      {{ dprReportColumns(columns) }}
+    {% endif %}
   </div>
 
-  {{ dprReportSummary(reportSummaries, 'page-header') }}
-  {{ dprReportTotals(options.totals) }}
+  {% if not count or count === 0 %}
+    {{ dprReportNoDataMessage(url) }}
+  {% else %}
 
-  <div class='dpr-table-container'>
-    {{ dprDataTable(options) }}
-  </div>
-  
-  <div class='govuk-!-margin-bottom-6'>
+    {{ dprReportSummary(reportSummaries, 'page-header') }}
     {{ dprReportTotals(options.totals) }}
-  </div>
-  
-  {{ dprReportSummary(reportSummaries, 'page-footer') }}
+
+    <div class='dpr-table-container'>
+      {{ dprDataTable(options) }}
+    </div>
+    
+    <div class='govuk-!-margin-bottom-6'>
+      {{ dprReportTotals(options.totals) }}
+    </div>
+    
+    {{ dprReportSummary(reportSummaries, 'page-footer') }}
+
+  {% endif %}
 
 {% endmacro %}

@@ -99,7 +99,7 @@ export default {
     let querySummary: Array<Dict<string>> = []
     const sortData: Dict<string> = {}
     const dateMapper = new DateMapper()
-
+    const urlParams = new URLSearchParams(req.body.search)
     Object.keys(req.body)
       .filter((name) => name !== '_csrf' && req.body[name] !== '')
       .forEach((name) => {
@@ -118,8 +118,8 @@ export default {
         }
 
         if (name.startsWith('filters.') && value !== '' && !query[name]) {
-          query[name as keyof Dict<string>] = value
-          filterData[shortName as keyof Dict<string>] = value
+          query[name as keyof Dict<string>] = urlParams.get(name) || value
+          filterData[shortName as keyof Dict<string>] = urlParams.get(name) || value
 
           let dateDisplayValue
 
@@ -134,7 +134,7 @@ export default {
           const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
           querySummary.push({
             name: fieldDisplayName || shortName,
-            value: dateDisplayValue || value,
+            value: dateDisplayValue || urlParams.get(name) || value,
           })
         } else if (name.startsWith('sort')) {
           query[name as keyof Dict<string>] = value

@@ -4,7 +4,17 @@ import { FilterValue, DateRange, DateFilterValue } from '../types'
 
 const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
   return filters
-    .filter((f) => f.value)
+    .filter((f) => {
+      return (
+        (f.value &&
+          Object.prototype.hasOwnProperty.call(f.value, 'start') &&
+          (<DateRange>f.value).start !== undefined) ||
+        (f.value && Object.prototype.hasOwnProperty.call(f.value, 'end') && (<DateRange>f.value).end !== undefined) ||
+        (f.value &&
+          !Object.prototype.hasOwnProperty.call(f.value, 'start') &&
+          !Object.prototype.hasOwnProperty.call(f.value, 'end'))
+      )
+    })
     .map((f) => {
       let value: (string | DateRange)[] = []
       let key: string[] = []

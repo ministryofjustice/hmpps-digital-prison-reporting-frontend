@@ -185,21 +185,7 @@ const renderDashboardRequestData = async ({
   }
 }
 
-const renderReportRequestData = async ({
-  token,
-  reportId,
-  id,
-  definitionPath,
-  services,
-}: {
-  token: string
-  reportId: string
-  id: string
-  definitionPath: string
-  services: Services
-}) => {
-  const definition = await services.reportingService.getDefinition(token, reportId, id, <string>definitionPath)
-
+const renderReportRequestData = async (definition: components['schemas']['SingleVariantReportDefinition']) => {
   return {
     definition,
     reportName: definition.name,
@@ -289,27 +275,18 @@ export default {
 
       const { reportId, type, id } = req.params
       const { dataProductDefinitionsPath: definitionPath } = req.query
+      const { definition } = req.body
 
       let name
       let reportName
       let description
       let template
-      let definition: components['schemas']['SingleVariantReportDefinition']
       let fields: components['schemas']['FieldDefinition'][]
       let metrics
       let interactive
 
-      const renderArgs = {
-        token,
-        reportId,
-        id,
-        definitionPath: <string>definitionPath,
-        services,
-      }
-
-      // NOTE: Old route will not have type, therefore a report. (See routes for more details)
       if (type === ReportType.REPORT) {
-        ;({ name, reportName, description, definition } = await renderReportRequestData(renderArgs))
+        ;({ name, reportName, description } = await renderReportRequestData(definition))
         fields = definition?.variant?.specification?.fields
         // TODO: fix type once interactive flag in place
         interactive = (<components['schemas']['VariantDefinition'] & { interactive?: boolean }>definition?.variant)
@@ -317,7 +294,13 @@ export default {
       }
 
       if (type === ReportType.DASHBOARD) {
-        ;({ name, reportName, description, metrics } = await renderDashboardRequestData(renderArgs))
+        ;({ name, reportName, description, metrics } = await renderDashboardRequestData({
+          token,
+          reportId,
+          id,
+          definitionPath: <string>definitionPath,
+          services,
+        }))
       }
 
       return {
@@ -328,7 +311,7 @@ export default {
           name,
           description,
           reportId,
-          id: renderArgs.id,
+          id,
           definitionPath: definitionPath as string,
           csrfToken,
           template,

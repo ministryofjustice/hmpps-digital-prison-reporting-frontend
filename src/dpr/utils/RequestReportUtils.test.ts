@@ -23,6 +23,13 @@ describe('RequestReportUtils', () => {
   let mockDefinitions: components['schemas']['ReportDefinitionSummary'][]
 
   beforeEach(() => {
+    mockDefinition = {
+      id: 'reportId',
+      name: 'reportName',
+      description: 'description',
+      variant: variant1 as components['schemas']['VariantDefinition'],
+    }
+
     res = {
       locals: {
         user: {
@@ -37,15 +44,10 @@ describe('RequestReportUtils', () => {
         reportId: 'reportId',
       },
       query: {},
+      body: {
+        definition: mockDefinition,
+      },
     } as unknown as Request
-
-    mockDefinition = {
-      id: 'reportId',
-      name: 'reportName',
-      description: 'description',
-      variant: variant1 as components['schemas']['VariantDefinition'],
-    }
-
     mockDefinitions = [
       {
         id: 'reportId',

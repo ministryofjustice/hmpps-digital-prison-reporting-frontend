@@ -36,7 +36,7 @@
 
         {{ dprReport(renderData, count) }}
 
-        {% if count and count === 0 %}
+        {% if count and count > 0 %}
           {{ dprReportPagination(pagination) }}
         {% endif %}
 

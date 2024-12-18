@@ -83,7 +83,37 @@ export default function routes({
     }
   }
 
+  const isAuthorisedToViewReport: RequestHandler = async (req, res, next) => {
+    const { token } = LocalsHelper.getValues(res)
+    const { reportId, id, variantId, type } = req.params
+    const { dataProductDefinitionsPath } = req.query
+
+    let definition
+    if (type === ReportType.REPORT) {
+      definition = await services.reportingService.getDefinition(
+        token,
+        reportId,
+        variantId || id,
+        dataProductDefinitionsPath,
+      )
+    }
+
+    req.body.definition = definition
+    if (definition?.authorised !== undefined && !definition.authorised) {
+      await unauthorisedReportHandler(req, res, next)
+    } else {
+      next()
+    }
+  }
+
+  const unauthorisedReportHandler: RequestHandler = async (req, res) => {
+    res.render(`${templatePath}/unauthorised-report`, {
+      layoutPath,
+      ...req.body,
+    })
+  }
+
   const viewReportPaths = ['/sync/:type/:reportId/:id/report', '/sync/:type/:reportId/:id/report/:download']
-  router.get(viewReportPaths, viewSyncReportHandler, errorHandler)
-  router.get('/sync/:type/:reportId/:id/load-report', syncReportLoadingHandler)
+  router.get(viewReportPaths, isAuthorisedToViewReport, viewSyncReportHandler, errorHandler)
+  router.get('/sync/:type/:reportId/:id/load-report', isAuthorisedToViewReport, syncReportLoadingHandler)
 }

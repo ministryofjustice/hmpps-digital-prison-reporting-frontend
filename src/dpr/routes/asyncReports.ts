@@ -7,6 +7,8 @@ import ErrorSummaryUtils from '../components/error-summary/utils'
 import AysncRequestUtils from '../utils/RequestReportUtils'
 import DashboardUtils from '../components/_dashboards/dashboard/utils'
 
+import LocalsHelper from '../utils/localsHelper'
+
 import AsyncReportUtils from '../components/_async/async-report/utils'
 
 import { Services } from '../types/Services'
@@ -43,6 +45,13 @@ export default function routes({
       ...req.body,
       error,
       ...req.params,
+    })
+  }
+
+  const unauthorisedReportHandler: RequestHandler = async (req, res) => {
+    res.render(`${templatePath}/unauthorised-report`, {
+      layoutPath,
+      ...req.body,
     })
   }
 
@@ -224,6 +233,29 @@ export default function routes({
     return url
   }
 
+  const isAuthorisedToViewReport: RequestHandler = async (req, res, next) => {
+    const { token } = LocalsHelper.getValues(res)
+    const { reportId, id, variantId, type } = req.params
+    const { dataProductDefinitionsPath } = req.query
+
+    let definition
+    if (type === ReportType.REPORT) {
+      definition = await services.reportingService.getDefinition(
+        token,
+        reportId,
+        variantId || id,
+        dataProductDefinitionsPath,
+      )
+    }
+
+    req.body.definition = definition
+    if (definition?.authorised !== undefined && !definition.authorised) {
+      await unauthorisedReportHandler(req, res, next)
+    } else {
+      next()
+    }
+  }
+
   /**
    * NOTE:
    * - The async route paths have been made more generic with the introduction of `type`, to allow other report types (e.g dashboard) to follow the async path
@@ -235,7 +267,7 @@ export default function routes({
    */
 
   // 1 - REQUEST
-  router.get('/async/:type/:reportId/:id/request', renderRequestHandler, asyncErrorHandler)
+  router.get('/async/:type/:reportId/:id/request', isAuthorisedToViewReport, renderRequestHandler, asyncErrorHandler)
   router.post('/requestReport/', asyncRequestHandler, asyncErrorHandler)
 
   // 2 - POLLING
@@ -248,7 +280,7 @@ export default function routes({
     '/async/:type/:reportId/:id/request/:tableId/report',
     '/async/:type/:reportId/:id/request/:tableId/report/:download',
   ]
-  router.get(viewReportPaths, viewReportHandler, asyncErrorHandler)
+  router.get(viewReportPaths, isAuthorisedToViewReport, viewReportHandler, asyncErrorHandler)
 
   // Homepage widget routes
   router.post('/removeRequestedItem/', removeRequestedItemHandler, asyncErrorHandler)

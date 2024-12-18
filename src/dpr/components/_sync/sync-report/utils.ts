@@ -201,7 +201,6 @@ const getReportRenderData = async (
   const filterData = await FiltersUtils.getFilters({
     fields: specification.fields,
     req,
-    interactive: false,
   })
 
   const columns = ColumnUtils.getColumns(specification, reportQuery.columns)

@@ -5,8 +5,8 @@
   "main": "dpr/assets/js/all.mjs",
   "sass": "dpr/all.scss",
   "engines": {
-    "node": "^20",
-    "npm": "^10"
+    "node": "^22",
+    "npm": "^11"
   },
   "repository": {
     "type": "git",

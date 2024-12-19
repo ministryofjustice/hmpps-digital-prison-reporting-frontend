@@ -67,14 +67,17 @@ export const handleDateValue = (filter: FilterValue, req: Request, prefix: strin
  * @param {components['schemas']['VariantDefinition']} definition
  * @return {*}
  */
-const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][], interactive = false) => {
+const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
   return fields
     .filter((f) => f.filter)
     .filter((f) => {
       // TODO: fix types here once it has been defined.
-      return interactive
-        ? (<components['schemas']['FieldDefinition'] & { interactive?: boolean }>f.filter).interactive
-        : !(<components['schemas']['FieldDefinition'] & { interactive?: boolean }>f.filter).interactive
+      if (interactive !== undefined) {
+        return interactive
+          ? (<components['schemas']['FieldDefinition'] & { interactive?: boolean }>f.filter).interactive
+          : !(<components['schemas']['FieldDefinition'] & { interactive?: boolean }>f.filter).interactive
+      }
+      return true
     })
     .map((f) => {
       const { display: text, name, filter } = f

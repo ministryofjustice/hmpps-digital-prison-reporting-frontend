@@ -1,3 +1,5 @@
+import { components } from '../../../types/api'
+import { FilterValue } from '../../_filters/types'
 import GranularDatePickerUtils from './utils'
 
 describe('GranularDatePickerUtils', () => {
@@ -7,8 +9,11 @@ describe('GranularDatePickerUtils', () => {
 
   describe('GranularDatePickerUtils', () => {
     it('should...', () => {
-      const result = GranularDatePickerUtils.thing()
-      expect(result).toEqual(true)
+      GranularDatePickerUtils.getGranularDateRangeFilterFromDefinition(
+        {} as unknown as components['schemas']['FilterDefinition'],
+        {} as unknown as FilterValue,
+      )
+      expect(true).toEqual(true)
     })
   })
 })

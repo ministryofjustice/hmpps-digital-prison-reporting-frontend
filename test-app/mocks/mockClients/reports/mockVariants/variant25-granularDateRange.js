@@ -16,7 +16,7 @@ const variant25 = {
         type: 'date',
         mandatory: false,
         filter: {
-          type: 'granular-daterange',
+          type: 'granulardaterange',
           defaultValue: '2024-12-19 - 2024-11-19',
           mandatory: true,
           defaultGranularity: 'monthly',

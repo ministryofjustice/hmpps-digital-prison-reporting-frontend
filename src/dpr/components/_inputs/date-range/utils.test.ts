@@ -1,8 +1,14 @@
 import dayjs from 'dayjs'
+import { Request } from 'express'
 import DateRangeInputUtils from './utils'
-import { components } from '../../../types/api'
+import { DateFilterValue } from '../../_filters/types'
+import { FilterType } from '../../_filters/filter-input/enum'
 
 describe('DateRangeInputUtils', () => {
+  let req: Request = {
+    query: {},
+  } as unknown as Request
+
   describe('getRelativeDateOptions', () => {
     it('should set the correct options for relative dates - all enabled', () => {
       const min = dayjs().subtract(1, 'month').format('YYYY-MM-DD').toString()
@@ -103,52 +109,83 @@ describe('DateRangeInputUtils', () => {
     })
   })
 
-  describe('setDateRangeValuesWithinMinMax', () => {
-    it('should set the default value to the min value', () => {
-      const dateRangeFilterFormat: components['schemas']['FilterDefinition'] = {
-        type: 'daterange' as components['schemas']['FilterDefinition']['type'],
-        mandatory: false,
-        defaultValue: '2002-02-01 - 2005-02-01',
+  describe('setDateRangeValueFromRequest', () => {
+    let dateFilter: DateFilterValue
+
+    beforeEach(() => {
+      dateFilter = {
+        text: 'Field 3',
+        name: 'field3',
+        type: FilterType.dateRange,
+        options: null,
+        value: { start: '2005-01-01', end: '2005-07-08' },
+        minimumLength: null,
+        dynamicResourceEndpoint: null,
+        mandatory: true,
         min: '2003-02-01',
         max: '2007-05-04',
+        relativeOptions: [],
       }
+    })
 
-      const res = DateRangeInputUtils.setDateRangeValuesWithinMinMax(dateRangeFilterFormat, '2002-02-01', '2005-02-01')
-      expect(res).toEqual({
-        start: '2003-02-01',
-        end: '2005-02-01',
+    it('should set the start and end date to the query param values', () => {
+      req = {
+        query: {
+          'filters.field3.start': '2004-02-01',
+          'filters.field3.end': '2006-01-01',
+        },
+      } as unknown as Request
+
+      const result = DateRangeInputUtils.setDateRangeValueFromRequest(dateFilter, req, 'filters.')
+
+      expect(result).toEqual({
+        start: '2004-02-01',
+        end: '2006-01-01',
       })
     })
 
-    it('should set the default value to the max value', () => {
-      const dateRangeFilterFormat: components['schemas']['FilterDefinition'] = {
-        type: 'daterange' as components['schemas']['FilterDefinition']['type'],
-        mandatory: false,
-        defaultValue: '2005-02-01 - 2009-05-04',
-        min: '2003-02-01',
-        max: '2007-05-04',
-      }
+    it('should set the start and end date to initial default values', () => {
+      req = {
+        query: {},
+      } as unknown as Request
 
-      const res = DateRangeInputUtils.setDateRangeValuesWithinMinMax(dateRangeFilterFormat, '2005-02-01', '2009-05-04')
-      expect(res).toEqual({
-        start: '2005-02-01',
+      const result = DateRangeInputUtils.setDateRangeValueFromRequest(dateFilter, req, 'filters.')
+
+      expect(result).toEqual({
+        start: '2005-01-01',
+        end: '2005-07-08',
+      })
+    })
+
+    it('should set the start and end date to min and max values', () => {
+      req = {
+        query: {},
+      } as unknown as Request
+
+      dateFilter.value = null
+
+      const result = DateRangeInputUtils.setDateRangeValueFromRequest(dateFilter, req, 'filters.')
+
+      expect(result).toEqual({
+        start: '2003-02-01',
         end: '2007-05-04',
       })
     })
 
-    it('should set the default values', () => {
-      const dateRangeFilterFormat: components['schemas']['FilterDefinition'] = {
-        type: 'daterange' as components['schemas']['FilterDefinition']['type'],
-        mandatory: false,
-        defaultValue: '2005-02-01 - 2006-05-04',
-        min: '2003-02-01',
-        max: '2007-05-04',
-      }
+    it('should set the start and end date to blank values', () => {
+      req = {
+        query: {},
+      } as unknown as Request
 
-      const res = DateRangeInputUtils.setDateRangeValuesWithinMinMax(dateRangeFilterFormat, '2005-02-01', '2006-05-04')
-      expect(res).toEqual({
-        start: '2005-02-01',
-        end: '2006-05-04',
+      dateFilter.value = null
+      delete dateFilter.min
+      delete dateFilter.max
+
+      const result = DateRangeInputUtils.setDateRangeValueFromRequest(dateFilter, req, 'filters.')
+
+      expect(result).toEqual({
+        start: undefined,
+        end: undefined,
       })
     })
   })

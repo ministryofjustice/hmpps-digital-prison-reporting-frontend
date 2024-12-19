@@ -2,7 +2,7 @@ import { Request } from 'express'
 import { FilterType } from './filter-input/enum'
 import type { components } from '../../types/api'
 import type { FilterOption } from './filter-input/types'
-import type { DateFilterValue, DateRange, FilterValue } from './types'
+import type { DateRange, FilterValue } from './types'
 
 import SelectedFiltersUtils from './filters-selected/utils'
 import DateRangeInputUtils from '../_inputs/date-range/utils'
@@ -14,9 +14,9 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
   return filters.map((filter: FilterValue) => {
     let requestfilterValue
     if (filter.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
-      requestfilterValue = handleDaterangeValue(filter, req, prefix)
+      requestfilterValue = DateRangeInputUtils.setDateRangeValueFromRequest(filter, req, prefix)
     } else if (filter.type.toLowerCase() === FilterType.date.toLowerCase()) {
-      requestfilterValue = handleDateValue(filter, req, prefix)
+      requestfilterValue = DateInputUtils.setDateValueFromRequest(filter, req, prefix)
     } else {
       requestfilterValue = <string>req.query[`${prefix}${filter.name}`]
     }
@@ -35,30 +35,6 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
       value,
     }
   })
-}
-
-export const handleDaterangeValue = (filter: FilterValue, req: Request, prefix: string) => {
-  const { preventDefault } = req.query
-
-  const start = <string>req.query[`${prefix}${filter.name}.start`]
-  const end = <string>req.query[`${prefix}${filter.name}.end`]
-
-  const defaultStart = preventDefault ? null : (<DateRange>filter.value)?.start
-  const defaultEnd = preventDefault ? null : (<DateRange>filter.value)?.end
-
-  const value = {
-    start: start || defaultStart || (<DateFilterValue>filter).min,
-    end: end || defaultEnd || (<DateFilterValue>filter).max,
-  } as DateRange
-
-  return value
-}
-
-export const handleDateValue = (filter: FilterValue, req: Request, prefix: string) => {
-  const dateValue = <string>req.query[`${prefix}${filter.name}`]
-  const { min } = <DateFilterValue>filter
-  const { max } = <DateFilterValue>filter
-  return dateValue || min || max || '1977-05-25'
 }
 
 /**
@@ -106,43 +82,15 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
       }
 
       if (type === FilterType.dateRange.toLowerCase()) {
-        const dateRegEx = /^\d{1,4}-\d{1,2}-\d{2,2} - \d{1,4}-\d{1,2}-\d{1,2}$/
-        const { min, max } = filter
-        let startValue
-        let endValue
+        filterData = DateRangeInputUtils.getDateRangeFilterFromDefinition(filter, filterData)
+      }
 
-        if (min) startValue = min
-        if (max) endValue = max
-
-        let value
-        if (defaultValue && defaultValue.match(dateRegEx)) {
-          ;[startValue, endValue] = defaultValue.split(' - ')
-          value = DateRangeInputUtils.setDateRangeValuesWithinMinMax(filter, startValue, endValue)
-        } else if (defaultValue) {
-          value = defaultValue
-        } else {
-          value = DateRangeInputUtils.setDateRangeValuesWithinMinMax(filter, startValue, endValue)
-        }
-
-        filterData = filterData as unknown as DateFilterValue
-        filterData = {
-          ...filterData,
-          min: filter.min,
-          max: filter.max,
-          value,
-        }
-
-        filterData.relativeOptions = DateRangeInputUtils.getRelativeDateOptions(filterData.min, filterData.max)
+      if (type === FilterType.granularDateRange.toLocaleLowerCase()) {
+        //
       }
 
       if (type === FilterType.date.toLowerCase()) {
-        filterData = filterData as unknown as DateFilterValue
-        filterData = {
-          ...filterData,
-          value: DateInputUtils.setDateValueWithinMinMax(filter),
-          min: filter.min,
-          max: filter.max,
-        }
+        filterData = DateInputUtils.getDateFilterFromDefinition(filter, filterData)
       }
 
       return filterData

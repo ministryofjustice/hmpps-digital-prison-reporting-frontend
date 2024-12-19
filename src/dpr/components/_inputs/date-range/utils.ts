@@ -1,7 +1,10 @@
 /* eslint-disable no-param-reassign */
 import dayjs from 'dayjs'
+import { Request } from 'express'
 import isBetween from 'dayjs/plugin/isBetween'
 import { components } from '../../../types/api'
+import { DateFilterValue, DateRange, FilterValue } from '../../_filters/types'
+import StartEndDateUtils from '../start-end-date/utils'
 
 const dateIsInBounds = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs, min: string, max: string) => {
   dayjs.extend(isBetween)
@@ -54,6 +57,23 @@ const calcDates = (durationValue: string) => {
   }
 }
 
+const setDateRangeValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
+  const { preventDefault } = req.query
+
+  const start = <string>req.query[`${prefix}${filter.name}.start`]
+  const end = <string>req.query[`${prefix}${filter.name}.end`]
+
+  const defaultStart = preventDefault ? null : (<DateRange>filter.value)?.start
+  const defaultEnd = preventDefault ? null : (<DateRange>filter.value)?.end
+
+  const value = {
+    start: start || defaultStart || (<DateFilterValue>filter).min,
+    end: end || defaultEnd || (<DateFilterValue>filter).max,
+  } as DateRange
+
+  return value
+}
+
 const getRelativeDateOptions = (min: string, max: string) => {
   if (!min) min = '1977-05-25'
   if (!max) max = '9999-01-01'
@@ -79,48 +99,25 @@ const getRelativeDateOptions = (min: string, max: string) => {
   return options
 }
 
-const setDateRangeValuesWithinMinMax = (
+const getDateRangeFilterFromDefinition = (
   filter: components['schemas']['FilterDefinition'],
-  startValue?: string,
-  endValue?: string,
+  filterData: FilterValue,
 ) => {
-  const { min, max } = filter
-  let start
-  if (min) {
-    start = compareMin(min, startValue)
-  } else {
-    start = startValue
-  }
-
-  let end
-  if (max) {
-    end = compareMax(max, endValue)
-  } else {
-    end = endValue
-  }
+  const value = StartEndDateUtils.getStartAndEndValueFromDefinition(filter)
+  const relativeOptions = getRelativeDateOptions(filter.min, filter.max)
 
   return {
-    start,
-    end,
+    ...filterData,
+    min: filter.min,
+    max: filter.max,
+    relativeOptions,
+    value,
   }
-}
-
-const compareMin = (min: string, dateValue: string) => {
-  const minDate = new Date(min)
-  const date = new Date(dateValue)
-  return date < minDate ? min : dateValue
-}
-
-const compareMax = (max: string, dateValue: string) => {
-  const maxDate = new Date(max)
-  const date = new Date(dateValue)
-  return date > maxDate ? max : dateValue
 }
 
 export default {
-  compareMax,
-  compareMin,
   calcDates,
-  setDateRangeValuesWithinMinMax,
   getRelativeDateOptions,
+  getDateRangeFilterFromDefinition,
+  setDateRangeValueFromRequest,
 }

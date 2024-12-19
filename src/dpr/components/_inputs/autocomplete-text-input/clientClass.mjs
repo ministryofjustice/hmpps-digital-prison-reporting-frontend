@@ -52,7 +52,7 @@ export default class Autocomplete extends DprClientClass {
         .querySelectorAll(this.listItemsSelector)
         .forEach((item) => {
           if (searchValue.length >= minLength &&
-            this.isMatchingStaticOptionValueOrTextInputPrefix(this.getInputListButton(item), searchValue, item)) {
+            this.isMatchingStaticOptionNameOrDisplayPrefix(this.getInputListButton(item), searchValue, item)) {
             item.classList.remove('autocomplete-text-input-item-hide')
           } else {
             item.classList.add('autocomplete-text-input-item-hide')
@@ -70,13 +70,13 @@ export default class Autocomplete extends DprClientClass {
     return item.querySelector('.autocomplete-text-input-list-button')
   }
 
-  isMatchingStaticOptionValueOrTextInputPrefix(inputListButton, searchValue, item) {
-    return this.isStaticOptionsValuePrefix(inputListButton.dataset.staticOptionValue, searchValue)
+  isMatchingStaticOptionNameOrDisplayPrefix(inputListButton, searchValue, item) {
+    return this.isStaticOptionsNamePrefix(inputListButton.dataset.staticOptionNameValue, searchValue)
       || item.innerText.trim().toLowerCase().startsWith(searchValue)
   }
 
-  isStaticOptionsValuePrefix(staticOptionValue, searchValue) {
-    return staticOptionValue && staticOptionValue.trim().toLowerCase().startsWith(searchValue)
+  isStaticOptionsNamePrefix(staticOptionNameValue, searchValue) {
+    return staticOptionNameValue && staticOptionNameValue.trim().toLowerCase().startsWith(searchValue)
   }
 
   async populateOptionsDynamically(resourceEndpoint, searchValue, textInput, templateProvider) {
@@ -102,7 +102,7 @@ export default class Autocomplete extends DprClientClass {
     event.preventDefault()
     // eslint-disable-next-line no-param-reassign
     textInput.value = event.target.innerText.trim()
-    textInput.staticOptionValue = event.target.dataset.staticOptionValue
+    textInput.staticOptionNameValue = event.target.dataset.staticOptionNameValue
     textInput.focus()
     const changeEvent = new Event('change')
     textInput.dispatchEvent(changeEvent)

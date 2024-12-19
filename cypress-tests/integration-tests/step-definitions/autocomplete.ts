@@ -1,12 +1,10 @@
 /* eslint-disable func-names */
 
-import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
+import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor'
 import ReportPage from '../pages/ReportPage'
 
 const shortMatchingText = 'Pr'
-const shortMatchingTextNonPrefix = 'in'
 const longMatchingText = 'Pri'
-const longMatchingTextNonPrefix = 'inc'
 const staticFieldName = 'field4'
 const dynamicFieldName = 'field5'
 
@@ -24,27 +22,14 @@ When(
   },
 )
 
-When(
-  /^I enter text (longer|shorter) than the minimum data length into the (static|dynamic) Autocomplete box which matches some of the options without being a prefix$/,
-  function (this: Mocha.Context, length: string, type: string) {
-    const text = length === 'longer' ? longMatchingTextNonPrefix : shortMatchingTextNonPrefix
-    const fieldName = getFieldNameFromType(type)
-
-    this.selectedFieldName = fieldName
-
-    new ReportPage().filter(fieldName).type(text)
-  },
-)
-
-When(
-  /^I enter text into the static Autocomplete box which matches an option which has different name and display values$/,
-  function (this: Mocha.Context) {
-    const text = 'but'
+Given(
+  'I enter {string} into the static Autocomplete box which matches an option which has different name and display values',
+  function (this: Mocha.Context, string: string) {
     const fieldName = getFieldNameFromType('static')
 
-    this.selectedFieldName = fieldName
+    // this.selectedFieldName = fieldName
 
-    new ReportPage().filter(fieldName).type(text)
+    new ReportPage().filter(fieldName).type(string)
   },
 )
 

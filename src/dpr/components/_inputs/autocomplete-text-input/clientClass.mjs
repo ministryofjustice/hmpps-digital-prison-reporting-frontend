@@ -51,7 +51,8 @@ export default class Autocomplete extends DprClientClass {
       this.getElement()
         .querySelectorAll(this.listItemsSelector)
         .forEach((item) => {
-          if (searchValue.length >= minLength && item.innerText.trim().toLowerCase().includes(searchValue)) {
+          if (searchValue.length >= minLength &&
+            this.isMatchingStaticOptionValueOrTextInputPrefix(this.getInputListButton(item), searchValue, item)) {
             item.classList.remove('autocomplete-text-input-item-hide')
           } else {
             item.classList.add('autocomplete-text-input-item-hide')
@@ -63,6 +64,19 @@ export default class Autocomplete extends DprClientClass {
       const changeEvent = new Event('change')
       textInput.dispatchEvent(changeEvent)
     }
+  }
+
+  getInputListButton(item) {
+    return item.querySelector('.autocomplete-text-input-list-button')
+  }
+
+  isMatchingStaticOptionValueOrTextInputPrefix(inputListButton, searchValue, item) {
+    return this.isStaticOptionsValuePrefix(inputListButton.dataset.staticOptionValue, searchValue)
+      || item.innerText.trim().toLowerCase().startsWith(searchValue)
+  }
+
+  isStaticOptionsValuePrefix(staticOptionValue, searchValue) {
+    return staticOptionValue && staticOptionValue.trim().toLowerCase().startsWith(searchValue)
   }
 
   async populateOptionsDynamically(resourceEndpoint, searchValue, textInput, templateProvider) {

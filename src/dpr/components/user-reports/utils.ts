@@ -140,10 +140,10 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
   ]
 }
 
-const getTotals = (reportData: UserReportData[], maxRows: number) => {
+const getTotals = (formattedCount: number, maxRows: number) => {
   return {
-    amount: reportData.length,
-    shown: reportData.length > maxRows ? maxRows : reportData.length,
+    amount: formattedCount,
+    shown: formattedCount > maxRows ? maxRows : formattedCount,
     max: maxRows,
   }
 }
@@ -242,6 +242,7 @@ const renderList = async ({
   const reportsData: UserReportData[] = await storeService.getAllReports(userId)
 
   let formatted = reportsData.filter(filterFunction).map(formatData)
+  const formattedCount = formatted.length
   if (maxRows) formatted = formatted.slice(0, maxRows)
   const tableData = formatTable(formatted, type)
 
@@ -252,7 +253,7 @@ const renderList = async ({
   const result = {
     head,
     tableData,
-    total: getTotals(reportsData, maxRows),
+    total: getTotals(formattedCount, maxRows),
     meta: getMeta(formatted),
     csrfToken,
     maxRows,

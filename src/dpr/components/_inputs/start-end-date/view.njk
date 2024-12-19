@@ -1,0 +1,38 @@
+{% from "../date-input/view.njk" import dprDate %}
+
+{% macro dprStartEndDate(name, displayName, value, min, max, mandatory) %}
+  {# START #}
+  <div class="dpr-daterange__start-date">
+    {{ dprDate(
+      {
+        name: name,
+        value: value.start,
+        min: min,
+        max: max,
+        mandatory: mandatory,
+        displayName: displayName + ' start date'
+      },
+      'Start',
+      '.start',
+      true,
+      false
+    )}}
+  </div>
+
+  {# END #}
+  <div class="dpr-daterange__end-date">
+    {{ dprDate(
+      {
+        name: name,
+        value: value.end,
+        min: min,
+        max: max,
+        mandatory: mandatory,
+        displayName: displayName + ' end date'
+      },
+      'End',
+      '.end',
+      false
+    )}}
+  </div>
+{% endmacro %}

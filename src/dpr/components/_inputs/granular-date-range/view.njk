@@ -34,36 +34,38 @@
     </legend>
 
     {# GRANULARITY #}
-    {{ govukSelect({
-      id: granularityId,
-      name: granularityId,
-      value: defaultGranularityValue,
-      items: granularityOptions,
-      label: {
-        text: granularityLabelText,
-        classes: "govuk-label govuk-!-font-weight-bold"
-      },
-      attributes: {
-        'display-name': granularityLabelText
-      }
-    }) }}
+    <div class="dpr-granular-date-range__inputs_wrapper"> 
+      {{ govukSelect({
+        id: granularityId,
+        name: granularityId,
+        value: defaultGranularityValue,
+        items: granularityOptions,
+        label: {
+          text: granularityLabelText,
+          classes: "govuk-label govuk-!-font-weight-bold"
+        },
+        attributes: {
+          'display-name': granularityLabelText
+        }
+      }) }}
+
+      {# QUICK FILTERS #}
+      {{ govukSelect({
+        id: quickFilterId,
+        name: quickFilterId,
+        value: defaultQuickFilterValue,
+        items: quickFilterOptions,
+        label: {
+          text: quickFilterLabelText,
+          classes: "govuk-label govuk-!-font-weight-bold"
+        },
+        attributes: {
+          'display-name': quickFilterLabelText
+        }
+      }) }}
+    </div>
 
     {# DATEPICKER #}
     {{ dprStartEndDate(data.name, data.text, data.value, min, max, mandatory) }}
-
-    {# QUICK FILTERS #}
-    {{ govukSelect({
-      id: quickFilterId,
-      name: quickFilterId,
-      value: defaultGranularityValue,
-      items: granularityOptions,
-      label: {
-        text: quickFilterLabelText,
-        classes: "govuk-label govuk-!-font-weight-bold"
-      },
-      attributes: {
-        'display-name': quickFilterLabelText
-      }
-    }) }}
   </div>
 {% endmacro %}

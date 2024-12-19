@@ -1,0 +1,10 @@
+.dpr-granular-date-range {
+  .dpr-daterange__start-end-date-wrapper, .dpr-granular-date-range__inputs_wrapper {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: govuk-spacing(2);
+    row-gap: govuk-spacing(2);
+  }
+}
+ 

@@ -3,10 +3,6 @@ import { FilterValue, GranularDateRange } from '../../_filters/types'
 
 import StartEndDateUtils from '../start-end-date/utils'
 
-const getGranularityDefaultValue = (filter: components['schemas']['FilterDefinition']) => {
-  return 'monthly'
-}
-
 const getQuickFilterOptions = () => {
   const options: { value: string; text: string; disabled?: boolean }[] = [
     { value: 'today', text: 'today' },
@@ -36,11 +32,14 @@ const getGranularityOptions = () => {
   return options
 }
 
-const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition'], filterData: FilterValue) => {
+const getFilterFromDefinition = (
+  filter: components['schemas']['FilterDefinition'] & { defaultGranularity: string },
+  filterData: FilterValue,
+) => {
   let value = <GranularDateRange>StartEndDateUtils.getStartAndEndValueFromDefinition(filter)
   value = {
     ...value,
-    granularity: getGranularityDefaultValue(filter),
+    granularity: filter.defaultGranularity || 'days',
     ...(!StartEndDateUtils.isDateRange(value) && { quickFilter: value }),
   }
 

@@ -87,7 +87,11 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
       }
 
       if (type === FilterType.granularDateRange.toLocaleLowerCase()) {
-        filterData = GranularDateRangeInputUtils.getFilterFromDefinition(filter, filterData)
+        // TODO: align this with the BE - defaultGranularity
+        const granularDateRangeFilter = filter as components['schemas']['FilterDefinition'] & {
+          defaultGranularity: string
+        }
+        filterData = GranularDateRangeInputUtils.getFilterFromDefinition(granularDateRangeFilter, filterData)
       }
 
       if (type === FilterType.date.toLowerCase()) {

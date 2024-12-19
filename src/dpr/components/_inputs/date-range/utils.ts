@@ -99,10 +99,7 @@ const getRelativeDateOptions = (min: string, max: string) => {
   return options
 }
 
-const getDateRangeFilterFromDefinition = (
-  filter: components['schemas']['FilterDefinition'],
-  filterData: FilterValue,
-) => {
+const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition'], filterData: FilterValue) => {
   const value = StartEndDateUtils.getStartAndEndValueFromDefinition(filter)
   const relativeOptions = getRelativeDateOptions(filter.min, filter.max)
 
@@ -118,6 +115,6 @@ const getDateRangeFilterFromDefinition = (
 export default {
   calcDates,
   getRelativeDateOptions,
-  getDateRangeFilterFromDefinition,
+  getFilterFromDefinition,
   setDateRangeValueFromRequest,
 }

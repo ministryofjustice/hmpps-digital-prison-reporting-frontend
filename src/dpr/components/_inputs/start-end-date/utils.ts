@@ -1,4 +1,5 @@
 import { components } from '../../../types/api'
+import { DateRange } from '../../_filters/types'
 
 const setDateRangeValuesWithinMinMax = (
   filter: components['schemas']['FilterDefinition'],
@@ -60,9 +61,14 @@ const getStartAndEndValueFromDefinition = (filter: components['schemas']['Filter
   return value
 }
 
+function isDateRange(value: DateRange | string): value is DateRange {
+  return (<DateRange>value).start !== undefined || (<DateRange>value).end !== undefined
+}
+
 export default {
   compareMax,
   compareMin,
+  isDateRange,
   setDateRangeValuesWithinMinMax,
   getStartAndEndValueFromDefinition,
 }

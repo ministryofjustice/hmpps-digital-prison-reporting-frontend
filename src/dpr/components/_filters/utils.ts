@@ -7,6 +7,7 @@ import type { DateRange, FilterValue } from './types'
 import SelectedFiltersUtils from './filters-selected/utils'
 import DateRangeInputUtils from '../_inputs/date-range/utils'
 import DateInputUtils from '../_inputs/date-input/utils'
+import GranularDateRangeInputUtils from '../_inputs/granular-date-range/utils'
 
 const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix = 'filters.'): FilterValue[] => {
   const { preventDefault } = req.query
@@ -82,15 +83,15 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
       }
 
       if (type === FilterType.dateRange.toLowerCase()) {
-        filterData = DateRangeInputUtils.getDateRangeFilterFromDefinition(filter, filterData)
+        filterData = DateRangeInputUtils.getFilterFromDefinition(filter, filterData)
       }
 
       if (type === FilterType.granularDateRange.toLocaleLowerCase()) {
-        //
+        filterData = GranularDateRangeInputUtils.getFilterFromDefinition(filter, filterData)
       }
 
       if (type === FilterType.date.toLowerCase()) {
-        filterData = DateInputUtils.getDateFilterFromDefinition(filter, filterData)
+        filterData = DateInputUtils.getFilterFromDefinition(filter, filterData)
       }
 
       return filterData

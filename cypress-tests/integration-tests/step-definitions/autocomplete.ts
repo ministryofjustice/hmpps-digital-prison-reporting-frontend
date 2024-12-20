@@ -26,9 +26,7 @@ Given(
   'I enter {string} into the static Autocomplete box which matches an option which has different name and display values',
   function (this: Mocha.Context, string: string) {
     const fieldName = getFieldNameFromType('static')
-
-    // this.selectedFieldName = fieldName
-
+    this.selectedFieldName = fieldName
     new ReportPage().filter(fieldName).type(string)
   },
 )

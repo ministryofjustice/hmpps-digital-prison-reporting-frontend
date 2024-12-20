@@ -10,13 +10,13 @@
   {% set fieldName = data.name %}
 
   {# Granularity vars #}
-  {% set defaultGranularityValue = data.value.granularity %}
+  {% set defaultGranularityValue = data.value.granularity.value %}
   {% set granularityOptions = data.granularityOptions %}
   {% set granularityId = parameterPrefix + fieldName + '.granularity' %}
   {% set granularityLabelText = 'Granularity'%}
 
   {# Quick filters vars #}
-  {% set defaultQuickFilterValue = data.value.quickFilter %}
+  {% set defaultQuickFilterValue = data.value.quickFilter.value %}
   {% set quickFilterOptions = data.quickFilterOptions %}
   {% set quickFilterId = parameterPrefix + fieldName + '.quick-filter' %}
   {% set quickFilterLabelText = 'Quick filters'%}

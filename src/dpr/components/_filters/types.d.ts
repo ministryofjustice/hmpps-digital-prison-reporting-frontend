@@ -27,6 +27,8 @@ export interface DateFilterValue extends GenericFilterValue {
   min?: string
   max?: string
   relativeOptions?: { value: string; text: string }[]
+  quickFilterOptions?: { value: string; text: string }[]
+  granularityOptions?: { value: string; text: string }[]
 }
 
 export interface SelectedFilter {
@@ -41,8 +43,14 @@ export interface DateRange {
 }
 
 export interface GranularDateRange extends DateRange {
-  granularity: string
-  quickFilter?: string
+  granularity: {
+    value: string
+    display: string
+  }
+  quickFilter?: {
+    value: string
+    display: string
+  }
 }
 
 export interface FilterOptions {

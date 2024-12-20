@@ -15,9 +15,11 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
   return filters.map((filter: FilterValue) => {
     let requestfilterValue
     if (filter.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
-      requestfilterValue = DateRangeInputUtils.setDateRangeValueFromRequest(filter, req, prefix)
+      requestfilterValue = DateRangeInputUtils.setValueFromRequest(filter, req, prefix)
+    } else if (filter.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
+      requestfilterValue = GranularDateRangeInputUtils.setValueFromRequest(filter, req, prefix)
     } else if (filter.type.toLowerCase() === FilterType.date.toLowerCase()) {
-      requestfilterValue = DateInputUtils.setDateValueFromRequest(filter, req, prefix)
+      requestfilterValue = DateInputUtils.setValueFromRequest(filter, req, prefix)
     } else {
       requestfilterValue = <string>req.query[`${prefix}${filter.name}`]
     }

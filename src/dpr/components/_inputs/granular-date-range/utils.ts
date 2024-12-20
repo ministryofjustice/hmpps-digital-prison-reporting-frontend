@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
+import { Request } from 'express'
 import { components } from '../../../types/api'
-import { FilterValue, GranularDateRange } from '../../_filters/types'
+import { DateFilterValue, FilterValue, GranularDateRange } from '../../_filters/types'
 
 import StartEndDateUtils from '../start-end-date/utils'
 
@@ -102,21 +103,83 @@ const setDateRangeFromQuickFilterValue = (value: string) => {
   }
 }
 
+const getOptionDisplayValue = (value: string, options: { text: string; value: string }[]) => {
+  const item = options.find((opt) => {
+    return opt.value === value
+  })
+
+  return item.text || value
+}
+
+const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
+  const { preventDefault } = req.query
+
+  const start = <string>req.query[`${prefix}${filter.name}.start`]
+  const end = <string>req.query[`${prefix}${filter.name}.end`]
+  const granularity = <string>req.query[`${prefix}${filter.name}.granularity`]
+  const quickFilter = <string>req.query[`${prefix}${filter.name}.quick-filter`]
+
+  const defaultStart = preventDefault ? null : (<GranularDateRange>filter.value)?.start
+  const defaultEnd = preventDefault ? null : (<GranularDateRange>filter.value)?.end
+  const defaultGranularity = preventDefault ? 'daily' : (<GranularDateRange>filter.value)?.granularity.value
+
+  const granularityOptions = getGranularityOptions()
+  const quickFilterOptions = getQuickFilterOptions()
+
+  const value = {
+    start: start || defaultStart || (<DateFilterValue>filter).min,
+    end: end || defaultEnd || (<DateFilterValue>filter).max,
+    granularity: {
+      value: granularity || defaultGranularity,
+      display: getOptionDisplayValue(granularity || defaultGranularity, granularityOptions),
+    },
+    quickFilter: {
+      value: quickFilter,
+      display: getOptionDisplayValue(quickFilter, quickFilterOptions),
+    },
+  } as GranularDateRange
+
+  return value
+}
+
 const getFilterFromDefinition = (
   filter: components['schemas']['FilterDefinition'] & { defaultGranularity: string },
   filterData: FilterValue,
 ) => {
   let value = <GranularDateRange>StartEndDateUtils.getStartAndEndValueFromDefinition(filter)
   let quickFilterValue
+  const granularityOptions = getGranularityOptions()
+  const quickFilterOptions = getQuickFilterOptions()
+
   if (!StartEndDateUtils.isDateRange(value)) {
     quickFilterValue = value
-    value = setDateRangeFromQuickFilterValue(quickFilterValue)
-  }
+    const { start, end, granularity } = setDateRangeFromQuickFilterValue(quickFilterValue)
+    value = {
+      start,
+      end,
+      granularity: {
+        value: granularity,
+        display: getOptionDisplayValue(granularity, granularityOptions),
+      },
+      quickFilter: {
+        value: quickFilterValue,
+        display: getOptionDisplayValue(quickFilterValue, quickFilterOptions),
+      },
+    }
+  } else {
+    const granularityValue = value.granularity ? value.granularity.value : filter.defaultGranularity || 'days'
 
-  value = {
-    ...value,
-    granularity: value.granularity || filter.defaultGranularity || 'days',
-    ...(!!quickFilterValue && { quickFilter: quickFilterValue }),
+    value = {
+      ...value,
+      granularity: {
+        value: granularityValue,
+        display: getOptionDisplayValue(granularityValue, granularityOptions),
+      },
+      quickFilter: {
+        value: 'none',
+        display: 'None',
+      },
+    }
   }
 
   return {
@@ -131,4 +194,5 @@ const getFilterFromDefinition = (
 
 export default {
   getFilterFromDefinition,
+  setValueFromRequest,
 }

@@ -57,7 +57,7 @@ const calcDates = (durationValue: string) => {
   }
 }
 
-const setDateRangeValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
+const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
   const { preventDefault } = req.query
 
   const start = <string>req.query[`${prefix}${filter.name}.start`]
@@ -116,5 +116,5 @@ export default {
   calcDates,
   getRelativeDateOptions,
   getFilterFromDefinition,
-  setDateRangeValueFromRequest,
+  setValueFromRequest,
 }

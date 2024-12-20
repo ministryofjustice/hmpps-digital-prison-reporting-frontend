@@ -14,7 +14,7 @@ const setDateValueWithinMinMax = (filter: components['schemas']['FilterDefinitio
   return dateValue
 }
 
-const setDateValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
+const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
   const dateValue = <string>req.query[`${prefix}${filter.name}`]
   const { min } = <DateFilterValue>filter
   const { max } = <DateFilterValue>filter
@@ -33,5 +33,5 @@ const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition
 export default {
   setDateValueWithinMinMax,
   getFilterFromDefinition,
-  setDateValueFromRequest,
+  setValueFromRequest,
 }

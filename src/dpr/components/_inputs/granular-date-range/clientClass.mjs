@@ -123,5 +123,11 @@ export default class GranularDateRangeInput extends DprClientClass {
     this.setStartValue(startDate.format('DD/MM/YYYY').toString())
     this.setEndValue(endDate.format('DD/MM/YYYY').toString())
     this.setGranularityValue(granularity)
+
+    const queryParams = new URLSearchParams(window.location.search)
+    queryParams.set(this.granularityInput.id, granularity)
+    queryParams.set(this.startInput.id, startDate.format('YYYY/MM/DD').toString())
+    queryParams.set(this.endInput.id, endDate.format('YYYY/MM/DD').toString())
+    window.history.replaceState(null, null, `?${queryParams.toString()}`)
   }
 }

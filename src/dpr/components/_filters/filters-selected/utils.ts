@@ -69,9 +69,7 @@ const setSelectedDateRange = (f: FilterValue, prefix: string) => {
 }
 
 const setSelectedGranularDateRange = (f: FilterValue, prefix: string) => {
-  console.log(JSON.stringify({ f }, null, 2))
-
-  const quickFilterValue = (<GranularDateRange>f.value).quickFilter
+  const quickFilterValue = (<GranularDateRange>f.value).quickFilter?.value
   const key = [`${prefix}${f.name}.start`, `${prefix}${f.name}.end`, `${prefix}${f.name}.granularity`]
   const value = [
     (<GranularDateRange>f.value).start,
@@ -81,7 +79,7 @@ const setSelectedGranularDateRange = (f: FilterValue, prefix: string) => {
 
   let displayValue
   const granularityDisplay = (<GranularDateRange>f.value).granularity.display
-  if (quickFilterValue) {
+  if (quickFilterValue && quickFilterValue !== 'none') {
     key.push(`${prefix}${f.name}.quick-filter`)
     value.push((<GranularDateRange>f.value).quickFilter.value)
     displayValue = `${(<GranularDateRange>f.value).quickFilter.display}: ${granularityDisplay}`

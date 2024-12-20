@@ -36,8 +36,8 @@ const establishmentIdFilter = {
 }
 
 const granularDateRangeFilter = {
-  name: 'granular-daterange',
-  display: 'Date range',
+  name: 'date',
+  display: 'Date',
   sortable: false,
   visible: true,
   type: 'date',

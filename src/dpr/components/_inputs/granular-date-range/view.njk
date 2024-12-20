@@ -12,13 +12,13 @@
   {# Granularity vars #}
   {% set defaultGranularityValue = data.value.granularity %}
   {% set granularityOptions = data.granularityOptions %}
-  {% set granularityId = filterId + '_granularity-input'%}
+  {% set granularityId = parameterPrefix + fieldName + '.granularity' %}
   {% set granularityLabelText = 'Granularity'%}
 
   {# Quick filters vars #}
   {% set defaultQuickFilterValue = data.value.quickFilter %}
   {% set quickFilterOptions = data.quickFilterOptions %}
-  {% set quickFilterId = filterId + '_quick-filter-input'%}
+  {% set quickFilterId = parameterPrefix + fieldName + '.quick-filter' %}
   {% set quickFilterLabelText = 'Quick filters'%}
 
   {# Datepicker #}

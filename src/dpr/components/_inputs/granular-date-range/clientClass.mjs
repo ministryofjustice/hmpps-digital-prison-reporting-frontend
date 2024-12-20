@@ -10,13 +10,11 @@ export default class GranularDateRangeInput extends DprClientClass {
 
   initialise() {
     this.filter = this.getElement()
-
     this.fieldName = this.filter.getAttribute('data-field-name')
-
-    this.quickFiltersInput = this.filter.querySelector('#dpr-granular-date-range_quick-filter-input')
-    this.granularityInput = this.filter.querySelector('#dpr-granular-date-range_granularity-input')
-
     const idPrefix = `filters.${this.fieldName}`
+
+    this.quickFiltersInput = this.filter.querySelector(`select[name='${idPrefix}.quick-filter']`)
+    this.granularityInput = this.filter.querySelector(`select[name='${idPrefix}.granularity']`)
     this.startInput = this.filter.querySelector(`input[name='${idPrefix}.start']`)
     this.endInput = this.filter.querySelector(`input[name='${idPrefix}.end']`)
 

@@ -9,12 +9,13 @@ const getQuickFilterOptions = () => {
     { value: 'today', text: 'Today' },
     { value: 'last-seven-days', text: 'Last 7 days' },
     { value: 'last-thirty-days', text: 'Last 30 days' },
-    { value: 'last-90-days', text: 'Last 90 days' },
-    { value: 'last-3-months', text: 'Last 3 month' },
-    { value: 'last-week', text: 'Last week' },
     { value: 'last-month', text: 'Last month' },
-    { value: 'last-quarter', text: 'Last quarter' },
+    { value: 'last-full-month', text: 'Last full month' },
+    { value: 'last-90-days', text: 'Last 90 days' },
+    { value: 'last-3-months', text: 'Last 3 months' },
+    { value: 'last-full-3-months', text: 'Last full 3 months' },
     { value: 'last-year', text: 'Last year' },
+    { value: 'last-full-year', text: 'Last full year' },
   ]
 
   return options

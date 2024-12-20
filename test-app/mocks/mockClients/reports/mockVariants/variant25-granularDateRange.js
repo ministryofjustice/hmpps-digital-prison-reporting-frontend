@@ -17,11 +17,9 @@ const variant25 = {
         mandatory: false,
         filter: {
           type: 'granulardaterange',
-          defaultValue: '2024-12-19 - 2024-11-19',
+          defaultValue: 'today',
           mandatory: true,
-          defaultGranularity: 'monthly',
-          min: '2003-02-01',
-          max: '2007-05-04',
+          defaultGranularity: 'daily',
         },
       },
     ],

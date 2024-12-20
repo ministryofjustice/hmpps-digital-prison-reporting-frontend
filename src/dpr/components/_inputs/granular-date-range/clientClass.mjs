@@ -25,31 +25,23 @@ export default class GranularDateRangeInput extends DprClientClass {
 
   initGranularityChangeEvent() {
     this.granularityInput.addEventListener('change', (e) => {
-      console.log(`granularity ${e.target.value} changed`)
       this.resetQuickFilters()
     })
   }
 
   initQuickFilterChangeEvent() {
     this.quickFiltersInput.addEventListener('change', (e) => {
-      console.log(`quickFiltersInput ${e.target.value} changed`)
       this.updateStartEndValues(e.target.value)
     })
   }
 
   initStartEndInputChangetEvent() {
     this.startInput.addEventListener('change', (e) => {
-      this.startEndInputChangeEvent(e)
       this.resetQuickFilters()
     })
     this.endInput.addEventListener('change', (e) => {
-      this.startEndInputChangeEvent(e)
       this.resetQuickFilters()
     })
-  }
-
-  startEndInputChangeEvent(e) {
-    console.log(`${e.target.value} changed`)
   }
 
   setGranularityValue(value) {

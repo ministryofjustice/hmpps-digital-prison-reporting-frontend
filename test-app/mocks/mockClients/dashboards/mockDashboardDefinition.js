@@ -5,7 +5,7 @@ const {
   mockDashboardMetricDefMissingReligion,
 } = require('./mockDashboardMetricDefinitons')
 
-const { establishmentIdFilter } = require('./mockDashboardFilterDefinition')
+const { establishmentIdFilter, granularDateRangeFilter } = require('./mockDashboardFilterDefinition')
 
 const mockDashboardDefinition1 = {
   id: 'test-dashboard-1',
@@ -89,7 +89,7 @@ const mockDashboardDefinition8 = {
     mockDashboardMetricDefMissingNationality,
     mockDashboardMetricDefMissingReligion,
   ],
-  filterFields: [establishmentIdFilter],
+  filterFields: [establishmentIdFilter, granularDateRangeFilter],
 }
 
 const mockDashboardDefinition9 = {

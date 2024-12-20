@@ -17,7 +17,7 @@ const variant25 = {
         mandatory: false,
         filter: {
           type: 'granulardaterange',
-          defaultValue: 'today',
+          defaultValue: 'last-90-days',
           mandatory: true,
           defaultGranularity: 'daily',
         },

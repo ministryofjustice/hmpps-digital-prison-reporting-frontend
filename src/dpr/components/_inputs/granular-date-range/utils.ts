@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { components } from '../../../types/api'
 import { FilterValue, GranularDateRange } from '../../_filters/types'
 
@@ -34,15 +35,88 @@ const getGranularityOptions = () => {
   return options
 }
 
+const setDateRangeFromQuickFilterValue = (value: string) => {
+  let startDate
+  let endDate
+  let granularity
+
+  switch (value) {
+    case 'today':
+      endDate = dayjs()
+      startDate = endDate.subtract(1, 'day')
+      granularity = 'daily'
+      break
+    case 'last-seven-days':
+      endDate = dayjs()
+      startDate = endDate.subtract(1, 'week')
+      granularity = 'daily'
+      break
+    case 'last-thirty-days':
+      endDate = dayjs()
+      startDate = endDate.subtract(1, 'month')
+      granularity = 'daily'
+      break
+    case 'last-month':
+      endDate = dayjs()
+      startDate = endDate.subtract(1, 'month')
+      granularity = 'monthly'
+      break
+    case 'last-full-month':
+      endDate = dayjs().subtract(1, 'month').endOf('month')
+      startDate = endDate.subtract(1, 'month')
+      granularity = 'monthly'
+      break
+    case 'last-90-days':
+      endDate = dayjs()
+      startDate = endDate.subtract(3, 'month')
+      granularity = 'daily'
+      break
+    case 'last-3-months':
+      endDate = dayjs()
+      startDate = endDate.subtract(3, 'month')
+      granularity = 'monthly'
+      break
+    case 'last-full-3-months':
+      endDate = dayjs().subtract(1, 'month').endOf('month')
+      startDate = endDate.subtract(3, 'month')
+      granularity = 'monthly'
+      break
+    case 'last-year':
+      endDate = dayjs()
+      startDate = endDate.subtract(1, 'year')
+      granularity = 'annually'
+      break
+    case 'last-full-year':
+      endDate = dayjs().subtract(1, 'year').endOf('year')
+      startDate = endDate.subtract(1, 'year')
+      granularity = 'annually'
+      break
+    default:
+      break
+  }
+
+  return {
+    start: startDate.format('YYYY-MM-DD').toString(),
+    end: endDate.format('YYYY-MM-DD').toString(),
+    granularity,
+  }
+}
+
 const getFilterFromDefinition = (
   filter: components['schemas']['FilterDefinition'] & { defaultGranularity: string },
   filterData: FilterValue,
 ) => {
   let value = <GranularDateRange>StartEndDateUtils.getStartAndEndValueFromDefinition(filter)
+  let quickFilterValue
+  if (!StartEndDateUtils.isDateRange(value)) {
+    quickFilterValue = value
+    value = setDateRangeFromQuickFilterValue(quickFilterValue)
+  }
+
   value = {
     ...value,
-    granularity: filter.defaultGranularity || 'days',
-    ...(!StartEndDateUtils.isDateRange(value) && { quickFilter: value }),
+    granularity: value.granularity || filter.defaultGranularity || 'days',
+    ...(!!quickFilterValue && { quickFilter: quickFilterValue }),
   }
 
   return {

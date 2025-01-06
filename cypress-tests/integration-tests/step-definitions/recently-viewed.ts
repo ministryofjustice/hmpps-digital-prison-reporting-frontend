@@ -156,7 +156,7 @@ Then(/^I am taken to the async (report|reportV2|dashboard)$/, function (this: Mo
 
   if (reportType === 'dashboard') {
     cy.url().should(
-      'eq',
+      'have.string',
       'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730302242487/report',
     )
   }

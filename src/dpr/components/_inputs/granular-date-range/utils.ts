@@ -192,3 +192,8 @@ const getFilterFromDefinition = (
     granularityOptions: getGranularityOptions(),
   }
 }
+
+export default {
+  getFilterFromDefinition,
+  setValueFromRequest,
+}

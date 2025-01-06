@@ -192,5 +192,3 @@ const getFilterFromDefinition = (
     granularityOptions: getGranularityOptions(),
   }
 }
-
-

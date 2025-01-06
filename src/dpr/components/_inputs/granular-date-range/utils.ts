@@ -147,7 +147,6 @@ const getFilterFromDefinition = (
   filter: components['schemas']['FilterDefinition'] & { defaultGranularity: string },
   filterData: FilterValue,
 ) => {
-  // console.log({ filter })
   let value = <GranularDateRange>StartEndDateUtils.getStartAndEndValueFromDefinition(filter)
   let quickFilterValue
   const granularityOptions = getGranularityOptions()
@@ -155,7 +154,6 @@ const getFilterFromDefinition = (
 
   if (!StartEndDateUtils.isDateRange(value)) {
     quickFilterValue = value
-    // console.log({ quickFilterValue })
     const { start, end, granularity } = setDateRangeFromQuickFilterValue(value)
     value = {
       start,
@@ -185,7 +183,7 @@ const getFilterFromDefinition = (
     }
   }
 
-  const result = {
+  return {
     ...filterData,
     min: filter.min,
     max: filter.max,
@@ -193,13 +191,6 @@ const getFilterFromDefinition = (
     quickFilterOptions: getQuickFilterOptions(),
     granularityOptions: getGranularityOptions(),
   }
-
-  console.log(JSON.stringify(result, null, 2))
-
-  return result
 }
 
-export default {
-  getFilterFromDefinition,
-  setValueFromRequest,
-}
+

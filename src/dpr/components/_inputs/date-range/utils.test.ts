@@ -136,7 +136,7 @@ describe('DateRangeInputUtils', () => {
         },
       } as unknown as Request
 
-      const result = DateRangeInputUtils.setDateRangeValueFromRequest(dateFilter, req, 'filters.')
+      const result = DateRangeInputUtils.setValueFromRequest(dateFilter, req, 'filters.')
 
       expect(result).toEqual({
         start: '2004-02-01',
@@ -149,7 +149,7 @@ describe('DateRangeInputUtils', () => {
         query: {},
       } as unknown as Request
 
-      const result = DateRangeInputUtils.setDateRangeValueFromRequest(dateFilter, req, 'filters.')
+      const result = DateRangeInputUtils.setValueFromRequest(dateFilter, req, 'filters.')
 
       expect(result).toEqual({
         start: '2005-01-01',
@@ -164,7 +164,7 @@ describe('DateRangeInputUtils', () => {
 
       dateFilter.value = null
 
-      const result = DateRangeInputUtils.setDateRangeValueFromRequest(dateFilter, req, 'filters.')
+      const result = DateRangeInputUtils.setValueFromRequest(dateFilter, req, 'filters.')
 
       expect(result).toEqual({
         start: '2003-02-01',
@@ -181,7 +181,7 @@ describe('DateRangeInputUtils', () => {
       delete dateFilter.min
       delete dateFilter.max
 
-      const result = DateRangeInputUtils.setDateRangeValueFromRequest(dateFilter, req, 'filters.')
+      const result = DateRangeInputUtils.setValueFromRequest(dateFilter, req, 'filters.')
 
       expect(result).toEqual({
         start: undefined,

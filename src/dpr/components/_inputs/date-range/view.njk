@@ -19,10 +19,10 @@
 
       {% set datepickerHtml %}
       <div id='dpr-date-range' data-field-name='{{ data.name }}'>
-        {{ dprStartEndDate(data.name, data.text, data.value, min, max, mandatory) }}
+        {{ dprStartEndDate(data.name, data.value, min, max, mandatory) }}
       </div>
       {% endset %}
-
+      
       {% set relativeRangeHtml %}
       {{ govukRadios({
         classes: 'govuk-radios--small',

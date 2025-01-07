@@ -1,13 +1,10 @@
 import { Request } from 'express'
 import FiltersUtils from './utils'
-import * as FiltersUtilsHelper from './utils'
 import mockVariant from '../../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
 import { components } from '../../types/api'
-import { DateFilterValue } from './types'
-import { FilterType } from './filter-input/enum'
 
 describe('Filters Utils tests', () => {
-  let req: Request = {
+  const req: Request = {
     query: {},
   } as unknown as Request
 
@@ -141,87 +138,6 @@ describe('Filters Utils tests', () => {
             },
           },
         ],
-      })
-    })
-  })
-
-  describe('handleDaterangeValue', () => {
-    let dateFilter: DateFilterValue
-
-    beforeEach(() => {
-      dateFilter = {
-        text: 'Field 3',
-        name: 'field3',
-        type: FilterType.dateRange,
-        options: null,
-        value: { start: '2005-01-01', end: '2005-07-08' },
-        minimumLength: null,
-        dynamicResourceEndpoint: null,
-        mandatory: true,
-        min: '2003-02-01',
-        max: '2007-05-04',
-        relativeOptions: [],
-      }
-    })
-
-    it('should set the start and end date to the query param values', () => {
-      req = {
-        query: {
-          'filters.field3.start': '2004-02-01',
-          'filters.field3.end': '2006-01-01',
-        },
-      } as unknown as Request
-
-      const result = FiltersUtilsHelper.handleDaterangeValue(dateFilter, req, 'filters.')
-
-      expect(result).toEqual({
-        start: '2004-02-01',
-        end: '2006-01-01',
-      })
-    })
-
-    it('should set the start and end date to initial default values', () => {
-      req = {
-        query: {},
-      } as unknown as Request
-
-      const result = FiltersUtilsHelper.handleDaterangeValue(dateFilter, req, 'filters.')
-
-      expect(result).toEqual({
-        start: '2005-01-01',
-        end: '2005-07-08',
-      })
-    })
-
-    it('should set the start and end date to min and max values', () => {
-      req = {
-        query: {},
-      } as unknown as Request
-
-      dateFilter.value = null
-
-      const result = FiltersUtilsHelper.handleDaterangeValue(dateFilter, req, 'filters.')
-
-      expect(result).toEqual({
-        start: '2003-02-01',
-        end: '2007-05-04',
-      })
-    })
-
-    it('should set the start and end date to blank values', () => {
-      req = {
-        query: {},
-      } as unknown as Request
-
-      dateFilter.value = null
-      delete dateFilter.min
-      delete dateFilter.max
-
-      const result = FiltersUtilsHelper.handleDaterangeValue(dateFilter, req, 'filters.')
-
-      expect(result).toEqual({
-        start: undefined,
-        end: undefined,
       })
     })
   })

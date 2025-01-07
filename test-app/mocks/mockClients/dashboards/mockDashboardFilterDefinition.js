@@ -35,6 +35,23 @@ const establishmentIdFilter = {
   calculated: false,
 }
 
+const granularDateRangeFilter = {
+  name: 'date',
+  display: 'Date',
+  sortable: false,
+  visible: true,
+  type: 'date',
+  mandatory: false,
+  filter: {
+    type: 'granulardaterange',
+    defaultValue: 'last-90-days',
+    mandatory: true,
+    defaultGranularity: 'daily',
+    interactive: true,
+  },
+}
+
 module.exports = {
   establishmentIdFilter,
+  granularDateRangeFilter,
 }

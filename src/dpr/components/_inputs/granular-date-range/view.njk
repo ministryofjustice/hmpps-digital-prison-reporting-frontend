@@ -1,0 +1,73 @@
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "../date-input/view.njk" import dprDate %}
+{% from "../start-end-date/view.njk" import dprStartEndDate %}
+
+{% macro dprGranularDateRange(data, parameterPrefix = "filters.", mandatory = false) %}
+  {% set filterId = 'dpr-granular-date-range' %}
+  {% set filterName = data.text %}
+  {% set fieldName = data.name %}
+
+  {# Granularity vars #}
+  {% set defaultGranularityValue = data.value.granularity.value %}
+  {% set granularityOptions = data.granularityOptions %}
+  {% set granularityId = parameterPrefix + fieldName + '.granularity' %}
+  {% set granularityLabelText = 'Granularity'%}
+
+  {# Quick filters vars #}
+  {% set defaultQuickFilterValue = data.value.quickFilter.value %}
+  {% set quickFilterOptions = data.quickFilterOptions %}
+  {% set quickFilterId = parameterPrefix + fieldName + '.quick-filter' %}
+  {% set quickFilterLabelText = 'Quick filters'%}
+
+  {# Datepicker #}
+  {% set startId = parameterPrefix + fieldName + '.start' %}
+  {% set endId = parameterPrefix + fieldName + '.end' %}
+  {% set min = data.min %}
+  {% set max = data.max %}
+  {% set defaultStartValue = data.value.start %}
+  {% set defaultEndValue = data.value.end %}
+
+  <div class="dpr-granular-date-range" data-dpr-module="granular-date-range-input" data-field-name='{{ fieldName }}'>
+    <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
+      {{ filterName }}
+    </legend>
+
+    {# GRANULARITY #}
+    <div class="dpr-granular-date-range__inputs_wrapper"> 
+      {# QUICK FILTERS #}
+      {{ govukSelect({
+        id: quickFilterId,
+        name: quickFilterId,
+        value: defaultQuickFilterValue,
+        items: quickFilterOptions,
+        label: {
+          text: quickFilterLabelText,
+          classes: "govuk-label"
+        },
+        attributes: {
+          'display-name': quickFilterLabelText
+        }
+      }) }}
+
+      {# GRANULARITY #}
+      {{ govukSelect({
+        id: granularityId,
+        name: granularityId,
+        value: defaultGranularityValue,
+        items: granularityOptions,
+        label: {
+          text: granularityLabelText,
+          classes: "govuk-label"
+        },
+        attributes: {
+          'display-name': granularityLabelText
+        }
+      }) }}
+    </div>
+
+    {# DATEPICKER #}
+    {{ dprStartEndDate(data.name, data.value, min, max, mandatory) }}
+  </div>
+{% endmacro %}

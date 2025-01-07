@@ -23,10 +23,12 @@ export interface GenericFilterValue {
 
 export interface DateFilterValue extends GenericFilterValue {
   type: FilterType
-  value?: DateRange | string
+  value?: DateRange | string | GranularDateRange
   min?: string
   max?: string
   relativeOptions?: { value: string; text: string }[]
+  quickFilterOptions?: { value: string; text: string }[]
+  granularityOptions?: { value: string; text: string }[]
 }
 
 export interface SelectedFilter {
@@ -38,6 +40,17 @@ export interface SelectedFilter {
 export interface DateRange {
   start: string
   end: string
+}
+
+export interface GranularDateRange extends DateRange {
+  granularity: {
+    value: string
+    display: string
+  }
+  quickFilter?: {
+    value: string
+    display: string
+  }
 }
 
 export interface FilterOptions {

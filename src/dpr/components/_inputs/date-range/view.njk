@@ -1,7 +1,8 @@
-{% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "../date-input/view.njk" import dprDate %}
+
+{% from "../start-end-date/view.njk" import dprStartEndDate %}
 
 {% macro dprDateRange(data, parameterPrefix = "filters.", mandatory = false) %}
   {% set min = data.min %}
@@ -18,41 +19,10 @@
 
       {% set datepickerHtml %}
       <div id='dpr-date-range' data-field-name='{{ data.name }}'>
-        {# START #}
-        {{ dprDate(
-          {
-            name: data.name,
-            value: data.value.start,
-            min: min,
-            max: max,
-            mandatory: mandatory,
-            displayName: data.text + ' start date'
-          },
-          'Start',
-          '.start',
-          true,
-          false
-        )}}
-
-      {# END #}
-        <div class="govuk-!-margin-top-3">
-        {{ dprDate(
-          {
-            name: data.name,
-            value: data.value.end,
-            min: min,
-            max: max,
-            mandatory: mandatory,
-            displayName: data.text + ' start date'
-          },
-          'End',
-          '.end',
-          false
-        )}}
-        </div>
+        {{ dprStartEndDate(data.name, data.value, min, max, mandatory) }}
       </div>
       {% endset %}
-
+      
       {% set relativeRangeHtml %}
       {{ govukRadios({
         classes: 'govuk-radios--small',

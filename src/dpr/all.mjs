@@ -33,6 +33,7 @@ import SyncLoading from './DprSyncLoading.mjs'
 import DateInput from './components/_inputs/date-input/clientClass.mjs'
 import DateRange from './components/_inputs/date-range/clientClass.mjs'
 import Autocomplete from './components/_inputs/autocomplete-text-input/clientClass.mjs'
+import GranularDateRange from './components/_inputs/granular-date-range/clientClass.mjs'
 
 // User repoorts
 import RequestedReportsList from './components/user-reports/requested/clientClass.mjs'
@@ -81,6 +82,7 @@ export default function initAll() {
     ReportActions,
     DownloadMessage,
     SyncLoading,
+    GranularDateRange,
   ]
 
   const customParseFormat = window.dayjs_plugin_customParseFormat

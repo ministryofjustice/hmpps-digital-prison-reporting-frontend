@@ -4,6 +4,7 @@
 
 {% from "../../_inputs/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
 {% from "../../_inputs/date-range/view.njk" import dprDateRange -%}
+{% from "../../_inputs/granular-date-range/view.njk" import dprGranularDateRange -%}
 {% from "../../_inputs/date-input/view.njk" import dprDate %}
 
 {% macro dprFilterInput(filter, parameterPrefix) %}
@@ -78,6 +79,12 @@
 
       <div class="govuk-form-group">
         {{ dprDateRange(filter, parameterPrefix, mandatory) }}
+      </div>
+
+    {% elif filterType === 'granulardaterange' %}
+
+      <div class="govuk-form-group">
+        {{ dprGranularDateRange(filter, parameterPrefix, mandatory) }}
       </div>
 
     {% elif filterType === 'autocomplete' %}

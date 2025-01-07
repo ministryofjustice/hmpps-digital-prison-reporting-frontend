@@ -5,7 +5,7 @@ import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'
 import { clearFilterValue } from '../../utils/urlHelper'
 
-import DateRangeInputUtils from '../_inputs/date-range/utils'
+import StartEndDateUtils from '../_inputs/start-end-date/utils'
 
 const LOCALE = 'en-GB'
 
@@ -36,7 +36,7 @@ const getSelectedFilters = (
       if (f.filter.type === FilterType.dateRange.toLowerCase()) {
         const startValue = getFilterValue(reportQuery.filters, `${f.name}.start`)
         const endValue = getFilterValue(reportQuery.filters, `${f.name}.end`)
-        const { start, end } = DateRangeInputUtils.setDateRangeValuesWithinMinMax(f.filter, startValue, endValue)
+        const { start, end } = StartEndDateUtils.setDateRangeValuesWithinMinMax(f.filter, startValue, endValue)
         const localeStart = toLocaleDate(start)
         const localeEnd = toLocaleDate(end)
 
@@ -92,7 +92,7 @@ const getFilters = (
       if (f.filter.type === FilterType.dateRange.toLowerCase()) {
         const startValue = getFilterValue(filterValues, `${f.name}.start`)
         const endValue = getFilterValue(filterValues, `${f.name}.end`)
-        const { start, end } = DateRangeInputUtils.setDateRangeValuesWithinMinMax(f.filter, startValue, endValue)
+        const { start, end } = StartEndDateUtils.setDateRangeValuesWithinMinMax(f.filter, startValue, endValue)
 
         filter = filter as unknown as DateFilterValue
         filter = {

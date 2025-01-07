@@ -16,9 +16,9 @@ export default class ReportPage {
 
   filter = (id): PageElement => cy.get(`#filters\\.${id}`)
 
-  dateStartLabel = (): PageElement => cy.xpath('//*[@id="dpr-date-range"]/div[1]/div/div/label')
+  dateStartLabel = (): PageElement => cy.xpath('//*[@id="dpr-date-range"]/div/div[1]/div/div/div/label')
 
-  dateEndLabel = (): PageElement => cy.xpath('//*[@id="dpr-date-range"]/div[2]/div/div/div/label')
+  dateEndLabel = (): PageElement => cy.xpath('//*[@id="dpr-date-range"]/div/div[2]/div/div/div/label')
 
   filterOption = (id, index = 1): PageElement => cy.get(`#filters\\.${id}-${index}`)
 

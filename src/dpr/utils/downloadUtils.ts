@@ -42,6 +42,30 @@ const applyColumnsAndSort = (data: Dict<string>[], columns: string[]) => {
   })
 }
 
+const removeHtmlTags = (
+  reportData: Dict<string>[],
+  reportDefinition: components['schemas']['SingleVariantReportDefinition'],
+) => {
+  // Find HMTL field + name
+  const { fields } = reportDefinition.variant.specification
+  const htmlField = fields.find((field) => {
+    return field.type === 'HTML'
+  })
+
+  if (htmlField) {
+    // remove wrapping HTML tags from value
+    const { name } = htmlField
+    reportData.map((d) => {
+      const innerText = /target="_blank">(.*?)<\/a>/g.exec(d[name])
+      // eslint-disable-next-line prefer-destructuring, no-param-reassign
+      d[name] = innerText[1]
+      return d
+    })
+  }
+
+  return reportData
+}
+
 export default {
   async downloadReport({
     req,
@@ -94,6 +118,7 @@ export default {
       if (columns) {
         reportData = applyColumnsAndSort(reportData, JSON.parse(columns))
       }
+      reportData = removeHtmlTags(reportData, reportDefinition)
       const keys: KeysList = getKeys(reportData, reportDefinition)
       const csvData = convertToCsv(reportData, { keys })
 

@@ -9,6 +9,8 @@ const getQuickFilterOptions = () => {
   const options: { value: string; text: string; disabled?: boolean }[] = [
     { value: 'none', text: 'None' },
     { value: 'today', text: 'Today' },
+    { value: 'past', text: 'Past:', disabled: true },
+    { value: 'yesterday', text: 'Yesterday' },
     { value: 'last-seven-days', text: 'Last 7 days' },
     { value: 'last-thirty-days', text: 'Last 30 days' },
     { value: 'last-month', text: 'Last month' },
@@ -18,6 +20,17 @@ const getQuickFilterOptions = () => {
     { value: 'last-full-3-months', text: 'Last full 3 months' },
     { value: 'last-year', text: 'Last year' },
     { value: 'last-full-year', text: 'Last full year' },
+    { value: 'future', text: 'Future:', disabled: true },
+    { value: 'tomorrow', text: 'Tomorrow' },
+    { value: 'next-seven-days', text: 'Next 7 days' },
+    { value: 'next-thirty-days', text: 'Next 30 days' },
+    { value: 'next-month', text: 'Next month' },
+    { value: 'next-full-month', text: 'Next full month' },
+    { value: 'next-90-days', text: 'Next 90 days' },
+    { value: 'next-3-months', text: 'Next 3 months' },
+    { value: 'next-full-3-months', text: 'Next full 3 months' },
+    { value: 'next-year', text: 'Next year' },
+    { value: 'next-full-year', text: 'Next full year' },
   ]
 
   return options
@@ -44,17 +57,22 @@ const setDateRangeFromQuickFilterValue = (value: string) => {
   switch (value) {
     case 'today':
       endDate = dayjs()
-      startDate = endDate.subtract(1, 'day')
+      startDate = dayjs()
+      granularity = 'daily'
+      break
+    case 'yesterday':
+      endDate = dayjs().subtract(1, 'day')
+      startDate = dayjs().subtract(1, 'day')
       granularity = 'daily'
       break
     case 'last-seven-days':
       endDate = dayjs()
-      startDate = endDate.subtract(1, 'week')
+      startDate = endDate.subtract(1, 'week').add(1, 'day')
       granularity = 'daily'
       break
     case 'last-thirty-days':
       endDate = dayjs()
-      startDate = endDate.subtract(1, 'month')
+      startDate = endDate.subtract(30, 'days')
       granularity = 'daily'
       break
     case 'last-month':
@@ -89,6 +107,43 @@ const setDateRangeFromQuickFilterValue = (value: string) => {
       break
     case 'last-full-year':
       endDate = dayjs().subtract(1, 'year').endOf('year')
+      startDate = endDate.subtract(1, 'year')
+      granularity = 'annually'
+      break
+    case 'tomorrow':
+      endDate = dayjs().add(1, 'day')
+      startDate = dayjs().add(1, 'day')
+      granularity = 'daily'
+      break
+    case 'next-seven-days':
+      startDate = dayjs()
+      endDate = dayjs().add(7, 'day')
+      granularity = 'daily'
+      break
+    case 'next-thirty-days':
+      startDate = dayjs()
+      endDate = dayjs().add(30, 'day')
+      granularity = 'daily'
+      break
+    case 'next-month':
+      startDate = dayjs()
+      endDate = dayjs().add(30, 'day')
+      granularity = 'monthly'
+      break
+    case 'next-90-days':
+      startDate = dayjs()
+      endDate = dayjs().add(90, 'day')
+      granularity = 'daily'
+      break
+    case 'next-3-months':
+      startDate = dayjs()
+      endDate = dayjs().add(3, 'month')
+      startDate = endDate.subtract(3, 'month')
+      granularity = 'monthly'
+      break
+    case 'next-year':
+      startDate = dayjs()
+      endDate = dayjs().add(1, 'year')
       startDate = endDate.subtract(1, 'year')
       granularity = 'annually'
       break

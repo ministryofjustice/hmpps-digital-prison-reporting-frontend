@@ -40,6 +40,8 @@ const setDashboardActions = (
   })
 }
 
+const getMetricsData = () => {}
+
 export default {
   renderAsyncDashboard: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
     const { token, csrfToken, userId } = LocalsHelper.getValues(res)

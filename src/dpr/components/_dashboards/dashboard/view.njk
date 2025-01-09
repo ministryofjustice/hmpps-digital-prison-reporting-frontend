@@ -3,21 +3,31 @@
 
 {% from "../../_charts/chart-card/view.njk" import dprChartCard %}
 {% from "../../_reports/report-heading/view.njk" import dprReportHeading %}
+{% from "../../_dashboards/scorecard-tabs/view.njk" import dprScorecardTabs %}
 
 {%- from "moj/components/side-navigation/macro.njk" import mojSideNavigation -%}
 
 {% macro dprDashboard(data) %}
+  {% set metrics = data.metrics %}
+  {% set scorecards = data.scorecards %}
+
   <div class="dashboard-wrapper">
     
+    {% if data.metrics.length %}
     <nav class="dashboard-sidebar">
-      {{ dprDashboardSidebar(data.metrics) }}
-    </nav> 
+      {{ dprDashboardSidebar(metrics) }}
+    </nav>
+    {% endif %}
 
     <div class="dashboard-content">
       {{ dprReportHeading(data) }}
       {{ dprDashboardFilters(data.filters) }}
-      
-      {% for metric in data.metrics %}
+
+      {% if scorecards %}
+        {{ dprScorecardTabs(scorecards) }}
+      {% endif %}
+
+      {% for metric in metrics %}
         <hr class="metric-break">
         <div>
           {{ dprChartCard(metric) }}

@@ -1,0 +1,37 @@
+{% from "../scorecard-group/view.njk" import dprScoreCardGroup %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+{% macro dprScorecardTabs(data) %}
+  {% set scorecards = data.scorecards %}
+  {% set tableData = data.table %}
+
+  {% set scorecardsHtml %}
+    {{ dprScoreCardGroup(scorecards)}}
+  {% endset %}
+
+  {% set tableHtml %}
+  <div class="dpr-chart-tab-table">
+    {{ govukTable(tableData)}}
+  </div>
+  {% endset %}
+
+  {% set tabItems = [
+    {
+      label: "Scorecards",
+      id: "scorecards_tab",
+      panel: {
+        html: scorecardsHtml
+      }
+    },
+    {
+      label: "Table",
+      id: "table_tab",
+      panel: {
+        html: tableHtml
+      }
+    }
+  ] %}
+    
+  {{ govukTabs({ items: tabItems, classes: 'dpr-chart-tabs' }) }}
+{% endmacro %}

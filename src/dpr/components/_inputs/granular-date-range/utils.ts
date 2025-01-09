@@ -72,42 +72,42 @@ const setDateRangeFromQuickFilterValue = (value: string) => {
       break
     case 'last-thirty-days':
       endDate = dayjs()
-      startDate = endDate.subtract(30, 'days')
+      startDate = endDate.subtract(1, 'month').add(1, 'day')
       granularity = 'daily'
       break
     case 'last-month':
       endDate = dayjs()
-      startDate = endDate.subtract(1, 'month')
+      startDate = endDate.subtract(1, 'month').add(1, 'day')
       granularity = 'monthly'
       break
     case 'last-full-month':
       endDate = dayjs().subtract(1, 'month').endOf('month')
-      startDate = endDate.subtract(1, 'month')
+      startDate = endDate.startOf('month')
       granularity = 'monthly'
       break
     case 'last-90-days':
       endDate = dayjs()
-      startDate = endDate.subtract(3, 'month')
+      startDate = endDate.subtract(3, 'month').add(1, 'day')
       granularity = 'daily'
       break
     case 'last-3-months':
       endDate = dayjs()
-      startDate = endDate.subtract(3, 'month')
+      startDate = endDate.subtract(3, 'month').add(1, 'day')
       granularity = 'monthly'
       break
     case 'last-full-3-months':
       endDate = dayjs().subtract(1, 'month').endOf('month')
-      startDate = endDate.subtract(3, 'month')
+      startDate = endDate.subtract(2, 'month').startOf('month')
       granularity = 'monthly'
       break
     case 'last-year':
       endDate = dayjs()
-      startDate = endDate.subtract(1, 'year')
+      startDate = endDate.subtract(1, 'year').add(1, 'day')
       granularity = 'annually'
       break
     case 'last-full-year':
       endDate = dayjs().subtract(1, 'year').endOf('year')
-      startDate = endDate.subtract(1, 'year')
+      startDate = endDate.startOf('year')
       granularity = 'annually'
       break
     case 'tomorrow':
@@ -117,34 +117,47 @@ const setDateRangeFromQuickFilterValue = (value: string) => {
       break
     case 'next-seven-days':
       startDate = dayjs()
-      endDate = dayjs().add(7, 'day')
+      endDate = dayjs().add(7, 'day').subtract(1, 'day')
       granularity = 'daily'
       break
     case 'next-thirty-days':
       startDate = dayjs()
-      endDate = dayjs().add(30, 'day')
+      endDate = dayjs().add(1, 'month').subtract(1, 'day')
       granularity = 'daily'
       break
     case 'next-month':
       startDate = dayjs()
-      endDate = dayjs().add(30, 'day')
+      endDate = dayjs().add(1, 'month').subtract(1, 'day')
+      granularity = 'monthly'
+      break
+    case 'next-full-month':
+      startDate = dayjs().add(1, 'month').startOf('month')
+      endDate = startDate.endOf('month')
       granularity = 'monthly'
       break
     case 'next-90-days':
       startDate = dayjs()
-      endDate = dayjs().add(90, 'day')
+      endDate = dayjs().add(3, 'month').subtract(1, 'day')
       granularity = 'daily'
       break
     case 'next-3-months':
       startDate = dayjs()
-      endDate = dayjs().add(3, 'month')
-      startDate = endDate.subtract(3, 'month')
+      endDate = dayjs().add(3, 'month').subtract(1, 'day')
+      granularity = 'monthly'
+      break
+    case 'next-full-3-months':
+      startDate = dayjs().add(1, 'month').startOf('month')
+      endDate = startDate.add(2, 'month').endOf('month')
       granularity = 'monthly'
       break
     case 'next-year':
       startDate = dayjs()
-      endDate = dayjs().add(1, 'year')
-      startDate = endDate.subtract(1, 'year')
+      endDate = dayjs().add(1, 'year').subtract(1, 'day')
+      granularity = 'annually'
+      break
+    case 'next-full-year':
+      startDate = dayjs().add(1, 'year').startOf('year')
+      endDate = startDate.endOf('year')
       granularity = 'annually'
       break
     default:
@@ -169,10 +182,17 @@ const getOptionDisplayValue = (value: string, options: { text: string; value: st
 const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
   const { preventDefault } = req.query
 
-  const start = <string>req.query[`${prefix}${filter.name}.start`]
-  const end = <string>req.query[`${prefix}${filter.name}.end`]
-  const granularity = <string>req.query[`${prefix}${filter.name}.granularity`]
   const quickFilter = <string>req.query[`${prefix}${filter.name}.quick-filter`]
+  let granularity
+  let start
+  let end
+  if (quickFilter && quickFilter !== 'none') {
+    ;({ granularity, start, end } = setDateRangeFromQuickFilterValue(quickFilter))
+  } else {
+    granularity = <string>req.query[`${prefix}${filter.name}.granularity`]
+    start = <string>req.query[`${prefix}${filter.name}.start`]
+    end = <string>req.query[`${prefix}${filter.name}.end`]
+  }
 
   const defaultStart = preventDefault ? null : (<GranularDateRange>filter.value)?.start
   const defaultEnd = preventDefault ? null : (<GranularDateRange>filter.value)?.end

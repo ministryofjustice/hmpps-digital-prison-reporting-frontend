@@ -8,6 +8,7 @@ import SelectedFiltersUtils from './filters-selected/utils'
 import DateRangeInputUtils from '../_inputs/date-range/utils'
 import DateInputUtils from '../_inputs/date-input/utils'
 import GranularDateRangeInputUtils from '../_inputs/granular-date-range/utils'
+import { Granularity } from '../_inputs/granular-date-range/types'
 
 const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix = 'filters.'): FilterValue[] => {
   const { preventDefault } = req.query
@@ -91,7 +92,7 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
       if (type === FilterType.granularDateRange.toLocaleLowerCase()) {
         // TODO: align this with the BE - defaultGranularity
         const granularDateRangeFilter = filter as components['schemas']['FilterDefinition'] & {
-          defaultGranularity: string
+          defaultGranularity: Granularity
         }
         filterData = GranularDateRangeInputUtils.getFilterFromDefinition(granularDateRangeFilter, filterData)
       }

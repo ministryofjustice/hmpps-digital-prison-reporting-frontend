@@ -58,6 +58,9 @@ export default class GranularDateRangeInput extends DprClientClass {
 
   resetQuickFilters() {
     this.quickFiltersInput.value = 'none'
+    const queryParams = new URLSearchParams(window.location.search)
+    queryParams.set(this.quickFiltersInput.id, 'none')
+    window.history.replaceState(null, null, `?${queryParams.toString()}`)
   }
 
   updateStartEndValues(quickFilterValue) {

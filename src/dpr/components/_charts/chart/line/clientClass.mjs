@@ -21,6 +21,10 @@ export default class BarChartVisualisation extends ChartVisualisation {
     }
   }
 
+  isPartialData(ctx) {
+    console.log(ctx)
+  }
+
   setDatasetStyling() {
     const pallette = this.getColourPallette()
     return pallette.map((colour) => {
@@ -32,6 +36,9 @@ export default class BarChartVisualisation extends ChartVisualisation {
         pointHoverRadius: 10,
         datalabels: {
           display: false,
+        },
+        segment: {
+          borderDash: [6, 6],
         },
       }
     })

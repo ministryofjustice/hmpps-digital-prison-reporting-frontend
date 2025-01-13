@@ -268,7 +268,7 @@ describe('RequestReportUtils', () => {
         type: 'dashboard',
         pathname: '/async/dashboard/test-report-1/test-dashboard-1/request',
         origin: 'http://localhost:3010',
-        href: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request?',
+        href: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request',
         search: '',
         id: 'test-dashboard-1',
         metrics: '[{"id":"test-metric-id-1"},{"id":"test-metric-id-2"}]',
@@ -421,7 +421,7 @@ describe('RequestReportUtils', () => {
           url: {
             origin: 'http://localhost:3010',
             request: {
-              fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request?',
+              fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request',
               pathname: '/async/dashboard/test-report-1/test-dashboard-1/request',
               search: '',
             },

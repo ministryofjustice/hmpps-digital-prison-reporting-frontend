@@ -5,6 +5,8 @@ const {
   mockDashboardMetricDefMissingReligion,
 } = require('./mockDashboardMetricDefinitons')
 
+const { mockDashboardScorecard } = require('./mockDashboardScorecardDefinitions')
+
 const { establishmentIdFilter, granularDateRangeFilter } = require('./mockDashboardFilterDefinition')
 
 const mockDashboardDefinition1 = {
@@ -12,6 +14,7 @@ const mockDashboardDefinition1 = {
   name: 'Test Dashboard 1',
   description: 'Will Succeed',
   metrics: [mockDashboardMetricDefMissingEthnicity],
+  filterFields: [],
 }
 
 const mockDashboardDefinition2 = {
@@ -23,6 +26,7 @@ const mockDashboardDefinition2 = {
     mockDashboardMetricDefMissingNationality,
     mockDashboardMetricDefMissingReligion,
   ],
+  filterFields: [],
 }
 
 const mockDashboardDefinition3 = {
@@ -34,6 +38,7 @@ const mockDashboardDefinition3 = {
     mockDashboardMetricDefMissingNationality,
     mockDashboardMetricDefMissingReligion,
   ],
+  filterFields: [],
 }
 
 const mockDashboardDefinition4 = {
@@ -45,6 +50,7 @@ const mockDashboardDefinition4 = {
     mockDashboardMetricDefMissingNationality,
     mockDashboardMetricDefMissingReligion,
   ],
+  filterFields: [],
 }
 
 const mockDashboardDefinition5 = {
@@ -56,6 +62,7 @@ const mockDashboardDefinition5 = {
     mockDashboardMetricDefMissingNationality,
     mockDashboardMetricDefMissingReligion,
   ],
+  filterFields: [],
 }
 
 const mockDashboardDefinition6 = {
@@ -67,6 +74,7 @@ const mockDashboardDefinition6 = {
     mockDashboardMetricDefMissingNationality,
     mockDashboardMetricDefMissingReligion,
   ],
+  filterFields: [],
 }
 
 const mockDashboardDefinition7 = {
@@ -78,6 +86,7 @@ const mockDashboardDefinition7 = {
     mockDashboardMetricDefMissingNationality,
     mockDashboardMetricDefMissingReligion,
   ],
+  filterFields: [],
 }
 
 const mockDashboardDefinition8 = {
@@ -97,6 +106,16 @@ const mockDashboardDefinition9 = {
   name: 'Test Dashboard 9',
   description: 'Async Dashboard Testing',
   metrics: [mockDashboardMetricDefMissingEthnicityRaw],
+  filterFields: [],
+}
+
+const mockDashboardDefinition10 = {
+  id: 'test-dashboard-10',
+  name: 'Test Dashboard 10',
+  description: 'Scorecards',
+  metrics: [mockDashboardMetricDefMissingEthnicity],
+  scorecards: [],
+  filterFields: [],
 }
 
 module.exports = [
@@ -109,4 +128,5 @@ module.exports = [
   mockDashboardDefinition7,
   mockDashboardDefinition8,
   mockDashboardDefinition9,
+  mockDashboardDefinition10,
 ]

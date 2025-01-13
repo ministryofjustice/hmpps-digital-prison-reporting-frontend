@@ -56,7 +56,7 @@ export default {
     )
 
     const query = new ReportQuery({
-      fields: dashboardDefinition.filterFields,
+      fields: dashboardDefinition.filterFields || [],
       queryParams: req.query,
       definitionsPath: <string>dataProductDefinitionsPath,
     }).toRecordWithFilterPrefix(true)

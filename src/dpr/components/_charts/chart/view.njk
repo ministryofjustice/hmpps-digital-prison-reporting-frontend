@@ -1,12 +1,11 @@
-{% macro dprChart(id, type, chartData, unit) %}
+{% macro dprChart(id, type, chartData, unit, timeseries) %}
   <div id="{{ id }}-chart-wrapper" 
     class="dpr-chart dpr-{{ type }}-chart" 
     data-dpr-module="{{ type }}-chart" 
     data-dpr-chart-data="{{ chartData | json }}" 
     data-dpr-chart-type="{{ type }}"
     data-dpr-chart-unit="{{ unit }}"
-    data-dpr-partial-start="{{ partialStart }}"
-    data-dpr-partial-end="{{ partialEnd }}"
+    data-dpr-chart-timeseries="{{ timeseries }}"
   >
     <div><canvas id="{{ id }}" class="chart-canvas"></canvas></div>
     <div id="js-legend-{{ id }}" class="dpr-chart-legend"></div>

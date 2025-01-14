@@ -212,6 +212,43 @@ const mockBarChartData = [
       },
     },
   },
+  {
+    id: 'bar-chart-5',
+    title: 'Prisoners and Staff and pets favourite colours',
+    description: 'Prisoners and Staff and pets favourite colours',
+    details: {
+      headlines: [],
+      meta: [
+        {
+          label: 'Data for Period',
+          value: '6th Aug 2024 - 6th Sept 2024',
+        },
+        {
+          label: 'Source data refreshed',
+          value: 'Friday, 6 September 2024',
+        },
+      ],
+    },
+    data: {
+      chart: [
+        {
+          type: 'bar',
+          unit: 'number',
+          timeseries: true,
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [
+              {
+                label: 'Assaults',
+                data: [100, 130, 80, 60, 99, 50, 65, 100, 130, 80, 60, 99],
+                total: [100, 130, 80, 60, 99, 50, 65, 100, 130, 80, 60, 99].reduce((a, c) => a + c, 0),
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
 ]
 
 module.exports = mockBarChartData

@@ -21,6 +21,7 @@ interface DashboardChartDefinition {
   type: ChartType
   unit: ChartUnit
   label: ChartColumn
+  timeseries?: boolean
   columns: ChartColumn[]
 }
 

@@ -461,12 +461,6 @@ app.get('/charts/bar', (req, res) => {
   })
 })
 
-app.get('/charts/bar', (req, res) => {
-  res.render('charts.njk', {
-    title: 'Charts',
-  })
-})
-
 app.get('/charts/donut', (req, res) => {
   res.render('charts.njk', {
     title: 'Charts',

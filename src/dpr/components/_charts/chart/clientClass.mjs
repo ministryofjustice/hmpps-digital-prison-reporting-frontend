@@ -34,9 +34,8 @@ export default class ChartVisualisation extends DprClientClass {
           this.partialEnd = input.getAttribute('data-partial-end') === 'true'
         })
       } else {
-        // For testing
-        this.partialStart = true
-        this.partialEnd = true
+        this.partialStart = false
+        this.partialEnd = false
       }
     }
   }

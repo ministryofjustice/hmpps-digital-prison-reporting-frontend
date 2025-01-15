@@ -199,6 +199,9 @@ const setDateRangeFromQuickFilterValue = (value: string) => {
       granularity = Granularity.ANNUALLY
       break
     default:
+      endDate = dayjs()
+      startDate = dayjs()
+      granularity = Granularity.DAILY
       break
   }
 

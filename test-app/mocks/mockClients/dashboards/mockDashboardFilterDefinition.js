@@ -44,7 +44,7 @@ const granularDateRangeFilter = {
   mandatory: false,
   filter: {
     type: 'granulardaterange',
-    defaultValue: 'last-90-days',
+    defaultValue: 'last-ninety-days',
     mandatory: true,
     defaultGranularity: 'daily',
     interactive: true,

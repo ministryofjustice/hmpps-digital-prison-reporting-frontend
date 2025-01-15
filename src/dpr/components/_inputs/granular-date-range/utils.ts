@@ -53,9 +53,9 @@ const getQuickFilterOptions = () => {
     { value: QuickFilters.LAST_THIRTY_DAYS, text: 'Last 30 days' },
     { value: QuickFilters.LAST_MONTH, text: 'Last month' },
     { value: QuickFilters.LAST_FULL_MONTH, text: 'Last full month' },
-    { value: QuickFilters.LAST_90_DAYS, text: 'Last 90 days' },
-    { value: QuickFilters.LAST_3_MONTHS, text: 'Last 3 months' },
-    { value: QuickFilters.LAST_FULL_3_MONTHS, text: 'Last full 3 months' },
+    { value: QuickFilters.LAST_NINETY_DAYS, text: 'Last 90 days' },
+    { value: QuickFilters.LAST_THREE_MONTHS, text: 'Last 3 months' },
+    { value: QuickFilters.LAST_FULL_THREE_MONTHS, text: 'Last full 3 months' },
     { value: QuickFilters.LAST_YEAR, text: 'Last year' },
     { value: QuickFilters.LAST_FULL_YEAR, text: 'Last full year' },
     { value: QuickFilters.FUTURE, text: 'Future:', disabled: true },
@@ -64,9 +64,9 @@ const getQuickFilterOptions = () => {
     { value: QuickFilters.NEXT_THIRTY_DAYS, text: 'Next 30 days' },
     { value: QuickFilters.NEXT_MONTH, text: 'Next month' },
     { value: QuickFilters.NEXT_FULL_MONTH, text: 'Next full month' },
-    { value: QuickFilters.NEXT_90_DAYS, text: 'Next 90 days' },
-    { value: QuickFilters.NEXT_3_MONTHS, text: 'Next 3 months' },
-    { value: QuickFilters.NEXT_FULL_3_MONTHS, text: 'Next full 3 months' },
+    { value: QuickFilters.NEXT_NINETY_DAYS, text: 'Next 90 days' },
+    { value: QuickFilters.NEXT_THREE_MONTHS, text: 'Next 3 months' },
+    { value: QuickFilters.NEXT_FULL_THREE_MONTHS, text: 'Next full 3 months' },
     { value: QuickFilters.NEXT_YEAR, text: 'Next year' },
     { value: QuickFilters.NEXT_FULL_YEAR, text: 'Next full year' },
   ]
@@ -123,17 +123,17 @@ const setDateRangeFromQuickFilterValue = (value: string) => {
       startDate = endDate.startOf('month')
       granularity = Granularity.MONTHLY
       break
-    case QuickFilters.LAST_90_DAYS:
+    case QuickFilters.LAST_NINETY_DAYS:
       endDate = dayjs()
       startDate = endDate.subtract(3, 'month').add(1, 'day')
       granularity = Granularity.DAILY
       break
-    case QuickFilters.LAST_3_MONTHS:
+    case QuickFilters.LAST_THREE_MONTHS:
       endDate = dayjs()
       startDate = endDate.subtract(3, 'month').add(1, 'day')
       granularity = Granularity.MONTHLY
       break
-    case QuickFilters.LAST_FULL_3_MONTHS:
+    case QuickFilters.LAST_FULL_THREE_MONTHS:
       endDate = dayjs().subtract(1, 'month').endOf('month')
       startDate = endDate.subtract(2, 'month').startOf('month')
       granularity = Granularity.MONTHLY
@@ -173,17 +173,17 @@ const setDateRangeFromQuickFilterValue = (value: string) => {
       endDate = startDate.endOf('month')
       granularity = Granularity.MONTHLY
       break
-    case QuickFilters.NEXT_90_DAYS:
+    case QuickFilters.NEXT_NINETY_DAYS:
       startDate = dayjs()
       endDate = dayjs().add(3, 'month').subtract(1, 'day')
       granularity = Granularity.DAILY
       break
-    case QuickFilters.NEXT_3_MONTHS:
+    case QuickFilters.NEXT_THREE_MONTHS:
       startDate = dayjs()
       endDate = dayjs().add(3, 'month').subtract(1, 'day')
       granularity = Granularity.MONTHLY
       break
-    case QuickFilters.NEXT_FULL_3_MONTHS:
+    case QuickFilters.NEXT_FULL_THREE_MONTHS:
       startDate = dayjs().add(1, 'month').startOf('month')
       endDate = startDate.add(2, 'month').endOf('month')
       granularity = Granularity.MONTHLY

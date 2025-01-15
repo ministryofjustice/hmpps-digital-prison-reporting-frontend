@@ -21,6 +21,8 @@ export enum QuickFilters {
   LAST_FULL_THREE_MONTHS = 'last-full-three-months',
   LAST_YEAR = 'last-year',
   LAST_FULL_YEAR = 'last-full-year',
+  FUTURE = 'future',
+  TOMORROW = 'tomorrow',
   NEXT_SEVEN_DAYS = 'next-seven-days',
   NEXT_THIRTY_DAYS = 'next-thirty-days',
   NEXT_MONTH = 'next-month',

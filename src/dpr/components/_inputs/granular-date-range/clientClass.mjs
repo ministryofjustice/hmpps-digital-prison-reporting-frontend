@@ -99,17 +99,17 @@ export default class GranularDateRangeInput extends DprClientClass {
         startDate = endDate.startOf('month')
         granularity = 'monthly'
         break
-      case 'last-90-days':
+      case 'last-ninety-days':
         endDate = dayjs()
         startDate = endDate.subtract(3, 'month').add(1, 'day')
         granularity = 'daily'
         break
-      case 'last-3-months':
+      case 'last-three-months':
         endDate = dayjs()
         startDate = endDate.subtract(3, 'month').add(1, 'day')
         granularity = 'monthly'
         break
-      case 'last-full-3-months':
+      case 'last-full-three-months':
         endDate = dayjs().subtract(1, 'month').endOf('month')
         startDate = endDate.subtract(2, 'month').startOf('month')
         granularity = 'monthly'
@@ -149,17 +149,17 @@ export default class GranularDateRangeInput extends DprClientClass {
         endDate = startDate.endOf('month')
         granularity = 'monthly'
         break
-      case 'next-90-days':
+      case 'next-ninety-days':
         startDate = dayjs()
         endDate = dayjs().add(3, 'month').subtract(1, 'day')
         granularity = 'daily'
         break
-      case 'next-3-months':
+      case 'next-three-months':
         startDate = dayjs()
         endDate = dayjs().add(3, 'month').subtract(1, 'day')
         granularity = 'monthly'
         break
-      case 'next-full-3-months':
+      case 'next-full-three-months':
         startDate = dayjs().add(1, 'month').startOf('month')
         endDate = startDate.add(2, 'month').endOf('month')
         granularity = 'monthly'

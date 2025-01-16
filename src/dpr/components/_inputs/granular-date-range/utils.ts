@@ -219,7 +219,7 @@ const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) 
 }
 
 const getFilterFromDefinition = (
-  filter: components['schemas']['FilterDefinition'] & { defaultGranularity: string },
+  filter: components['schemas']['FilterDefinition'] & { defaultGranularity: string; defaultQuickFilterValue: string },
   filterData: FilterValue,
 ) => {
   let value = <GranularDateRange>StartEndDateUtils.getStartAndEndValueFromDefinition(filter)

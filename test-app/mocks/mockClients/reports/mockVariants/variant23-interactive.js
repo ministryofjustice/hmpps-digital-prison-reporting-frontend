@@ -26,7 +26,7 @@ const variant23Interactive = {
           ],
           defaultValue: 'value1.2',
           mandatory: false,
-          interactive: true,
+          interactive: false,
         },
       },
       {
@@ -44,7 +44,7 @@ const variant23Interactive = {
             { name: 'value2.3', display: 'Value 2.3' },
           ],
           mandatory: true,
-          interactive: true,
+          interactive: false,
         },
       },
       {
@@ -60,7 +60,7 @@ const variant23Interactive = {
           min: '2003-02-01',
           max: '2007-05-04',
           mandatory: true,
-          interactive: true,
+          interactive: false,
         },
       },
       {
@@ -83,7 +83,7 @@ const variant23Interactive = {
             { name: 'Westley', display: 'Westley' },
           ],
           mandatory: false,
-          interactive: true,
+          interactive: false,
         },
       },
       {
@@ -118,7 +118,7 @@ const variant23Interactive = {
           defaultValue: '2005-02-01',
           min: '2003-02-01',
           max: '2007-05-04',
-          interactive: true,
+          interactive: false,
         },
       },
     ],

@@ -2,7 +2,7 @@ import MockDate from 'mockdate'
 import { components } from '../../../types/api'
 import { FilterValue } from '../../_filters/types'
 import GranularDatePickerUtils from './utils'
-import { Granularity } from './types'
+import { Granularity, QuickFilters } from './types'
 
 describe('GranularDatePickerUtils', () => {
   beforeEach(() => {
@@ -17,8 +17,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - today', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'today',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'today',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -43,8 +46,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - last-seven-days', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'last-seven-days',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'last-seven-days',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -69,8 +75,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - last-thirty-days', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'last-thirty-days',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'last-thirty-days',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -95,8 +104,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - last-month', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'last-month',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'last-month',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -121,8 +133,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - last-full-month', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'last-full-month',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'last-full-month',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -147,8 +162,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - last-ninety-days', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'last-ninety-days',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'last-ninety-days',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -173,8 +191,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - last-three-months', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'last-three-months',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'last-three-months',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -199,8 +220,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - last-full-three-months', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'last-full-three-months',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'last-full-three-months',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -225,8 +249,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - last-year', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'last-year',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'last-year',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -251,8 +278,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - last-full-year', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'last-full-year',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'last-full-year',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -277,8 +307,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - tomorrow', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'tomorrow',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'tomorrow',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -303,8 +336,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - next-seven-days', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'next-seven-days',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'next-seven-days',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -329,8 +365,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - next-thirty-days', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'next-thirty-days',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'next-thirty-days',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -355,8 +394,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - next-month', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'next-month',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'next-month',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -381,8 +423,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - next-full-month', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'next-full-month',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'next-full-month',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -407,8 +452,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - next-ninety-days', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'next-ninety-days',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'next-ninety-days',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -433,8 +481,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - next-three-months', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'next-three-months',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'next-three-months',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -459,8 +510,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - next-full-three-months', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'next-full-three-months',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'next-full-three-months',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -485,8 +539,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - next-year', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'next-year',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'next-year',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
@@ -511,8 +568,11 @@ describe('GranularDatePickerUtils', () => {
     it('should get the filter from the definition and set the value - next-full-year', () => {
       const filter = {
         type: 'granulardaterange',
-        defaultValue: 'next-full-year',
-      } as unknown as components['schemas']['FilterDefinition'] & { defaultGranularity: Granularity }
+        defaultQuickFilterValue: 'next-full-year',
+      } as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
 
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 

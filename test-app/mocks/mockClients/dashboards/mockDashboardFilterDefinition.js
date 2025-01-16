@@ -44,7 +44,8 @@ const granularDateRangeFilter = {
   mandatory: false,
   filter: {
     type: 'granulardaterange',
-    defaultValue: 'last-ninety-days',
+    defaultQuickFilterValue: 'last-ninety-days',
+    defaultValue: '2003-02-01 - 2006-05-04',
     mandatory: true,
     defaultGranularity: 'daily',
     interactive: true,

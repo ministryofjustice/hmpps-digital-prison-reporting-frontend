@@ -1,3 +1,4 @@
+import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
 import { FilterType } from './filter-input/enum'
 
 export interface FilterOption {
@@ -44,12 +45,16 @@ export interface DateRange {
 
 export interface GranularDateRange extends DateRange {
   granularity: {
-    value: string
+    value: Granularity
     display: string
   }
   quickFilter?: {
-    value: string
+    value: QuickFilters
     display: string
+  }
+  partialDate: {
+    start: boolean
+    end: boolean
   }
 }
 

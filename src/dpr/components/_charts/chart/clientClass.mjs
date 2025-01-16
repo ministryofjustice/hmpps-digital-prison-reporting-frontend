@@ -23,6 +23,21 @@ export default class ChartVisualisation extends DprClientClass {
     this.labelElement = document.getElementById(`dpr-${this.id}-label`)
     this.valueElement = document.getElementById(`dpr-${this.id}-value`)
     this.legendElement = document.getElementById(`dpr-${this.id}-legend`)
+    this.legendElement = document.getElementById(`dpr-${this.id}-legend`)
+
+    this.timeseries = this.getElement().getAttribute('data-dpr-chart-timeseries')
+    if (this.timeseries || this.type === 'line') {
+      this.daterangeInputs = document.querySelectorAll('.dpr-granular-date-range')
+      if (this.daterangeInputs && this.daterangeInputs.length) {
+        this.daterangeInputs.forEach((input) => {
+          this.partialStart = input.getAttribute('data-partial-start') === 'true'
+          this.partialEnd = input.getAttribute('data-partial-end') === 'true'
+        })
+      } else {
+        this.partialStart = false
+        this.partialEnd = false
+      }
+    }
   }
 
   initChart() {

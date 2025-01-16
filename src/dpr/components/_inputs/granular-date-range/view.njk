@@ -8,28 +8,38 @@
   {% set filterId = 'dpr-granular-date-range' %}
   {% set filterName = data.text %}
   {% set fieldName = data.name %}
+  {% set value = data.value %}
 
   {# Granularity vars #}
-  {% set defaultGranularityValue = data.value.granularity.value %}
+  {% set defaultGranularityValue = value.granularity.value %}
   {% set granularityOptions = data.granularityOptions %}
   {% set granularityId = parameterPrefix + fieldName + '.granularity' %}
   {% set granularityLabelText = 'Granularity'%}
 
   {# Quick filters vars #}
-  {% set defaultQuickFilterValue = data.value.quickFilter.value %}
+  {% set defaultQuickFilterValue = value.quickFilter.value %}
   {% set quickFilterOptions = data.quickFilterOptions %}
   {% set quickFilterId = parameterPrefix + fieldName + '.quick-filter' %}
   {% set quickFilterLabelText = 'Quick filters'%}
+
+  {# Partial markers #}
+  {% set partialStart = value.partialDate.start %}
+  {% set partialEnd = value.partialDate.end %}
 
   {# Datepicker #}
   {% set startId = parameterPrefix + fieldName + '.start' %}
   {% set endId = parameterPrefix + fieldName + '.end' %}
   {% set min = data.min %}
   {% set max = data.max %}
-  {% set defaultStartValue = data.value.start %}
-  {% set defaultEndValue = data.value.end %}
+  {% set defaultStartValue = value.start %}
+  {% set defaultEndValue = value.end %}
 
-  <div class="dpr-granular-date-range" data-dpr-module="granular-date-range-input" data-field-name='{{ fieldName }}'>
+  <div class="dpr-granular-date-range" 
+    data-dpr-module="granular-date-range-input" 
+    data-field-name='{{ fieldName }}'
+    data-partial-start='{{ partialStart }}'
+    data-partial-end='{{ partialEnd }}'
+    >
     <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">
       {{ filterName }}
     </legend>

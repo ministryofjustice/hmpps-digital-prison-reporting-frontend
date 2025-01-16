@@ -17,8 +17,8 @@ export default class BarChartVisualisation extends ChartVisualisation {
     return {
       options: this.setOptions(),
       pluginsOptions: this.setPluginsOptions(),
-      datalabels: this.setDataLabels(),
       toolTipOptions: this.setToolTipOptions(),
+      datalabels: this.setDataLabels(),
       styling: this.setDatasetStyling(),
     }
   }
@@ -28,13 +28,38 @@ export default class BarChartVisualisation extends ChartVisualisation {
     return pallette.map((colour) => {
       return {
         borderColor: colour.hex,
-        backgroundColor: colour.hex,
+        ...this.setBackgroundColour(colour.hex),
         datalabels: {
           align: 'center',
           anchor: 'center',
         },
       }
     })
+  }
+
+  setBackgroundColour(colour) {
+    const lastIndex = this.chartParams.labels.length - 1
+    const backgroundColors = []
+    const borderWidths = []
+    const borderColors = []
+
+    this.chartParams.labels.forEach((label, i) => {
+      if ((this.partialEnd && i === lastIndex) || (this.partialStart && i === 0)) {
+        backgroundColors.push('#b1b4b6')
+        borderWidths.push(3)
+        borderColors.push('#5694ca')
+      } else {
+        backgroundColors.push(colour)
+        borderWidths.push(0)
+        borderColors.push(colour)
+      }
+    })
+
+    return {
+      backgroundColor: backgroundColors,
+      borderWidth: borderWidths,
+      borderColor: borderColors,
+    }
   }
 
   setPluginsOptions() {

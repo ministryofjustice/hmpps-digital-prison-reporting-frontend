@@ -12,9 +12,10 @@
     {% set type = chart.type %}
     {% set data = chart.data %}
     {% set unit = chart.unit %}
+    {% set timeseries = chart.timeseries %}
 
     {% set chartHtml %}
-      {{ dprChart(id, type, data, unit) }}
+      {{ dprChart(id, type, data, unit, timeseries) }}
     {% endset -%}
     
     {% set tabContent = {

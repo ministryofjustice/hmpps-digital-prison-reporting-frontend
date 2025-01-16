@@ -97,6 +97,7 @@ const mockDashboardDefinition9 = {
   name: 'Test Dashboard 9',
   description: 'Async Dashboard Testing',
   metrics: [mockDashboardMetricDefMissingEthnicityRaw],
+  filterFields: [],
 }
 
 module.exports = [

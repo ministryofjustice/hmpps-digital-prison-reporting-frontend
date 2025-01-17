@@ -12,17 +12,16 @@
 
   <p>Status: {{ dprRequestStatusTag(error.status) }}</p>
 
-  {{ params | json }}
-
   {% if error.status === 'EXPIRED' %}
-    {{ error.userMessage }}
+    <p>{{ error.userMessage }}</p>
+    <a href={{refreshLink}}>Refresh this {{ params.type }}</a>
   {% else %}
-  {{ dprErrorSummary(error, { 
-    reportId:reportId, 
-    variantId:variantId,
-    executionId:executionId, 
-    tableId:tableId 
-  }) }}
+    {{ dprErrorSummary(error, { 
+      reportId:reportId, 
+      variantId:variantId,
+      executionId:executionId, 
+      tableId:tableId 
+    }) }}
   {% endif %}
 
   {% set filtersHtml %}

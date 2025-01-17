@@ -203,12 +203,14 @@ export default function routes({
       })
     } catch (error) {
       const dprError = ErrorSummaryUtils.handleError(error, req.params.type)
+      let refreshLink
       if (dprError.status === 'EXPIRED') {
-        services.recentlyViewedService.setToExpired()
-        // set to expired
+        const { userId } = LocalsHelper.getValues(res)
+        refreshLink = await services.recentlyViewedService.asyncSetToExpiredByTableId(req.params.tableId, userId)
       }
       req.body.title = `Failed to retrieve ${type}`
       req.body.error = dprError
+      req.body.refreshLink = refreshLink
       next()
     }
   }

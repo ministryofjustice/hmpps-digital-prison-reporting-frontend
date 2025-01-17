@@ -72,8 +72,9 @@ export default class RecentlyViewedStoreService extends UserStoreService {
 
   async asyncSetToExpiredByTableId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
-    const index = this.findIndexByExecutionId(id, userConfig.recentlyViewedReports)
+    const index = this.findIndexByTableId(id, userConfig.recentlyViewedReports)
     await this.saveExpiredState(userConfig, index, userId)
+    return userConfig.recentlyViewedReports[index].url.request.fullUrl
   }
 
   async saveExpiredState(userConfig: UserStoreConfig, index: number, userId: string) {

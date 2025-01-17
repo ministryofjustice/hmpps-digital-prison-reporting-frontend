@@ -15,7 +15,7 @@ const mapError = (error: DprError | DprErrorData | Error, reportType?: string): 
     message = 'There is an issue in the client. This has been reported to admin staff'
   }
 
-  if (dprError.userMessage.includes('TypeError:')) {
+  if (dprError.userMessage.includes('The stored report or dashboard was not found.')) {
     status = 'EXPIRED'
     message = `This ${reportType} has expired`
   }
@@ -44,11 +44,11 @@ const formatError = (error: DprError | DprErrorData | Error) => {
   return error as DprError
 }
 
-interface DprErrorData {
+export interface DprErrorData {
   data: DprError
 }
 
-interface DprError {
+export interface DprError {
   status: number | string
   errorCode?: number
   userMessage: string

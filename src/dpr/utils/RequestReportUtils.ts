@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { Request, Response } from 'express'
-import Dict = NodeJS.Dict
 import { AsyncReportUtilsParams, ExecutionData, RequestDataResult } from '../types/AsyncReportUtils'
 import type ReportingService from '../services/reportingService'
 import { ReportType, RequestFormData, RequestStatus } from '../types/UserReports'

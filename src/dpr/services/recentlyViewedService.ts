@@ -67,6 +67,16 @@ export default class RecentlyViewedStoreService extends UserStoreService {
   async setToExpired(id: string, userId: string) {
     const userConfig = await this.getState(userId)
     const index = this.findIndexByExecutionId(id, userConfig.recentlyViewedReports)
+    await this.saveExpiredState(userConfig, index, userId)
+  }
+
+  async asyncSetToExpiredByTableId(id: string, userId: string) {
+    const userConfig = await this.getState(userId)
+    const index = this.findIndexByExecutionId(id, userConfig.recentlyViewedReports)
+    await this.saveExpiredState(userConfig, index, userId)
+  }
+
+  async saveExpiredState(userConfig: UserStoreConfig, index: number, userId: string) {
     let report: RecentlyViewedReport = userConfig.recentlyViewedReports[index]
     if (report) {
       report = {
@@ -78,6 +88,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
         },
       }
     }
+    // eslint-disable-next-line no-param-reassign
     userConfig.recentlyViewedReports[index] = report
     await this.saveState(userId, userConfig)
   }

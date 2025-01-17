@@ -27,4 +27,8 @@ export default class UserStoreService {
   findIndexByExecutionId(id: string, array: UserReportData[]) {
     return array.findIndex((report) => report.executionId === id)
   }
+
+  findIndexByTableId(id: string, array: UserReportData[]) {
+    return array.findIndex((report) => report.tableId === id)
+  }
 }

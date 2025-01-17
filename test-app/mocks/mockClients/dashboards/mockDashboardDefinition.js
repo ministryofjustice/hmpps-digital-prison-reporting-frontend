@@ -89,7 +89,7 @@ const mockDashboardDefinition8 = {
     mockDashboardMetricDefMissingNationality,
     mockDashboardMetricDefMissingReligion,
   ],
-  filterFields: [establishmentIdFilter, granularDateRangeFilter],
+  // filterFields: [establishmentIdFilter, granularDateRangeFilter],
 }
 
 const mockDashboardDefinition9 = {

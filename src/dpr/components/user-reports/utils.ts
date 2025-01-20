@@ -26,6 +26,7 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
 
   const {
     executionId,
+    tableId,
     variantName,
     name,
     reportId,
@@ -62,6 +63,7 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
       reportId,
       id: variantId || id,
       executionId,
+      tableId,
       status,
       type,
       dataProductDefinitionsPath,
@@ -159,6 +161,7 @@ const getMeta = (formattedData: FormattedUserReportData[]) => {
       reportId: d.meta.reportId,
       id: d.meta.id,
       executionId: d.meta.executionId,
+      tableId: d.meta.tableId,
       status: d.meta.status,
       requestedAt: d.meta.requestedAt,
       type: d.meta.type,

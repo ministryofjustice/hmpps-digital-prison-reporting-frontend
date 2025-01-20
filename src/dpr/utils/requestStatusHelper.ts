@@ -12,7 +12,7 @@ interface GetStatusUtilsResponse {
 }
 
 const getStatusByReportType = async (services: Services, req: Request, token: string) => {
-  const { type, reportId, executionId, dataProductDefinitionsPath, id } = req.body
+  const { type, reportId, executionId, dataProductDefinitionsPath, id, tableId } = req.body
   let statusResponse
   let status
 
@@ -23,6 +23,7 @@ const getStatusByReportType = async (services: Services, req: Request, token: st
       id,
       executionId,
       dataProductDefinitionsPath,
+      tableId,
     )
     status = statusResponse.status as RequestStatus
   }

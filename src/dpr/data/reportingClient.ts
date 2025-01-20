@@ -180,6 +180,7 @@ export default class ReportingClient {
     variantId: string,
     executionId: string,
     dataProductDefinitionsPath?: string,
+    tableId?: string,
   ): Promise<Dict<string>> {
     logger.info(`Reporting client: ${reportId}/${variantId}: Get statementId:${executionId} status`)
 
@@ -189,6 +190,7 @@ export default class ReportingClient {
         token,
         query: {
           dataProductDefinitionsPath,
+          tableId,
         },
       })
       .then((response) => <Dict<string>>response)

@@ -71,6 +71,7 @@ export default class DashboardClient {
     dashboardId: string,
     executionId: string,
     dataProductDefinitionsPath?: string,
+    tableId?: string,
   ): Promise<Dict<string>> {
     logger.info(`Dashboard client:${reportId}/${dashboardId}: Get statementId: ${executionId} status`)
 
@@ -80,6 +81,7 @@ export default class DashboardClient {
         token,
         query: {
           dataProductDefinitionsPath,
+          tableId,
         },
       })
       .then((response) => <Dict<string>>response)

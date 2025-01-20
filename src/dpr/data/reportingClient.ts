@@ -183,7 +183,6 @@ export default class ReportingClient {
     tableId?: string,
   ): Promise<Dict<string>> {
     logger.info(`Reporting client: ${reportId}/${variantId}: Get statementId:${executionId} status`)
-
     return this.restClient
       .get({
         path: `/reports/${reportId}/${variantId}/statements/${executionId}/status`,

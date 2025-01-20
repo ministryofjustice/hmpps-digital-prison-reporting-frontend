@@ -35,6 +35,7 @@ const getStatusByReportType = async (services: Services, req: Request, token: st
       id,
       executionId,
       dataProductDefinitionsPath,
+      tableId,
     )
     status = statusResponse.status as RequestStatus
   }

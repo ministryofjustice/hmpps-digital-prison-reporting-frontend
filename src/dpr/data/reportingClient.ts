@@ -180,15 +180,16 @@ export default class ReportingClient {
     variantId: string,
     executionId: string,
     dataProductDefinitionsPath?: string,
+    tableId?: string,
   ): Promise<Dict<string>> {
     logger.info(`Reporting client: ${reportId}/${variantId}: Get statementId:${executionId} status`)
-
     return this.restClient
       .get({
         path: `/reports/${reportId}/${variantId}/statements/${executionId}/status`,
         token,
         query: {
           dataProductDefinitionsPath,
+          tableId,
         },
       })
       .then((response) => <Dict<string>>response)

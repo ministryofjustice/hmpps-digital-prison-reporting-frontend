@@ -111,6 +111,7 @@ export interface meta {
   reportId: string
   id: string
   executionId: string
+  tableId: string
   status?: string
   type: ReportType
   requestedAt?: Date

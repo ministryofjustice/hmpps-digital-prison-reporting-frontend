@@ -71,15 +71,16 @@ export default class DashboardClient {
     dashboardId: string,
     executionId: string,
     dataProductDefinitionsPath?: string,
+    tableId?: string,
   ): Promise<Dict<string>> {
     logger.info(`Dashboard client:${reportId}/${dashboardId}: Get statementId: ${executionId} status`)
-
     return this.restClient
       .get({
         path: `/statements/${executionId}/status`,
         token,
         query: {
           dataProductDefinitionsPath,
+          tableId,
         },
       })
       .then((response) => <Dict<string>>response)

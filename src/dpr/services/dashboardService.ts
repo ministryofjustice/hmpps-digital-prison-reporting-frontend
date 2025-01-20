@@ -38,8 +38,16 @@ export default class DashboardService {
     dashboardId: string,
     executionId: string,
     dataProductDefinitionsPath: string,
+    tableId: string,
   ): Promise<Dict<string>> {
-    return this.dashboardClient.getAsyncStatus(token, reportId, dashboardId, executionId, dataProductDefinitionsPath)
+    return this.dashboardClient.getAsyncStatus(
+      token,
+      reportId,
+      dashboardId,
+      executionId,
+      dataProductDefinitionsPath,
+      tableId,
+    )
   }
 
   async getAsyncDashboard(

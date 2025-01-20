@@ -80,6 +80,7 @@ export default class ReportingService {
     variantId: string,
     executionId: string,
     dataProductDefinitionsPath: string,
+    tableId: string,
   ): Promise<Dict<string>> {
     return this.reportingClient.getAsyncReportStatus(
       token,
@@ -87,6 +88,7 @@ export default class ReportingService {
       variantId,
       executionId,
       dataProductDefinitionsPath,
+      tableId,
     )
   }
 

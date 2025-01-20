@@ -22,21 +22,12 @@ export default function routes({
 }) {
   const errorHandler: RequestHandler = async (req, res) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
-    let { error } = req.body
-
-    if (error && error.data) {
-      error = error.data
-    } else if (error && error.message) {
-      error = { userMessage: `${error.name}: ${error.message}`, status: 'FAILED', stack: error.stack }
-    }
-
-    error.userMessage = ErrorSummaryUtils.mapError(error.userMessage)
-
     res.render(`${templatePath}/async-error`, {
       layoutPath,
       ...req.body,
-      error,
       ...req.params,
+      error: req.body.error,
+      params: req.params,
     })
   }
 
@@ -51,7 +42,7 @@ export default function routes({
     } catch (error) {
       req.body.title = `Report Failed`
       req.body.errorDescription = 'We were unable to show this report for the following reason:'
-      req.body.error = error
+      req.body.error = ErrorSummaryUtils.handleError(error)
       next()
     }
   }

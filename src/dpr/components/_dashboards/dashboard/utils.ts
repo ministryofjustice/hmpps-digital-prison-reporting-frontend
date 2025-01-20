@@ -81,7 +81,7 @@ export default {
 
     // Filters
     const filters = await FilterUtils.getFilters({
-      fields: dashboardDefinition.filterFields,
+      fields: dashboardDefinition.filterFields || [],
       req,
       interactive: true,
     })

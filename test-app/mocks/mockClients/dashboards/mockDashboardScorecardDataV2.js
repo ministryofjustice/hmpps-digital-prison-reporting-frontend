@@ -14,33 +14,37 @@ const current = [
  *
  * Query:
  * - period: last two months
- * - end: 2025-01-20
- * - start: 2024-12-20
+ * - end: 2025-01-31
+ * - start: 2024-12-01
  * - granularity: months
  *
  * Data:
- * - timeseries[x][0] = data for 2024-12
- * - timeseries[x][1] = data for 2025-1
+ * - timeseries[0][0] = data for 2024-11 -> 2024-12
+ * - timeseries[0][1] = data for 2024-12 -> 2025-1
  * - currentValue = timeseries[x][2]
  */
 
 const timeseries = [
   [
     {
+      timestamp: '2024-11',
       establishment_id: 'MDI',
       has_ethnicity: 845,
     },
     {
+      timestamp: '2024-11',
       establishment_id: 'LTI',
       has_ethnicity: 1221,
     },
   ],
   [
     {
+      timestamp: '2024-12',
       establishment_id: 'MDI',
       has_ethnicity: 845,
     },
     {
+      timestamp: '2024-12',
       establishment_id: 'LTI',
       has_ethnicity: 1221,
     },
@@ -65,6 +69,7 @@ const timeseries = [
 const timeseriesWithRag = [
   [
     {
+      timestamp: 'sdfsdfsdf',
       establishment_id: {
         raw: 'MDI',
       },
@@ -74,6 +79,7 @@ const timeseriesWithRag = [
       },
     },
     {
+      timestamp: 'sdfsdfsdf',
       establishment_id: {
         raw: 'LTI',
       },

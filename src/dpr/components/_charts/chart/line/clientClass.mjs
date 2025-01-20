@@ -10,6 +10,7 @@ export default class BarChartVisualisation extends ChartVisualisation {
     this.setupCanvas()
     this.settings = this.initSettings()
     this.chartData = this.generateChartData(this.settings)
+    this.lastIndex = this.chartData.data.labels.length - 1
     this.initChart(this.chartData)
   }
 
@@ -19,6 +20,14 @@ export default class BarChartVisualisation extends ChartVisualisation {
       toolTipOptions: this.setToolTipOptions(),
       styling: this.setDatasetStyling(),
     }
+  }
+
+  setPartialStyle(ctx) {
+    let style
+    if ((this.partialEnd && ctx.p1DataIndex === this.lastIndex) || (this.partialStart && ctx.p1DataIndex === 1)) {
+      style = [6, 6]
+    }
+    return style
   }
 
   setDatasetStyling() {
@@ -32,6 +41,9 @@ export default class BarChartVisualisation extends ChartVisualisation {
         pointHoverRadius: 10,
         datalabels: {
           display: false,
+        },
+        segment: {
+          borderDash: (ctx) => this.setPartialStyle(ctx),
         },
       }
     })

@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { Request, Response } from 'express'
-import Dict = NodeJS.Dict
 import { AsyncReportUtilsParams, ExecutionData, RequestDataResult } from '../types/AsyncReportUtils'
 import type ReportingService from '../services/reportingService'
 import { ReportType, RequestFormData, RequestStatus } from '../types/UserReports'
@@ -325,20 +324,13 @@ export default {
     }
   },
 
-  handleError: (error: Dict<string>, req: Request) => {
-    const { type } = req.body
+  getFiltersFromReqBody: (req: Request) => {
     const filters = Object.keys(req.body)
       .filter((attr) => attr.includes('filters.'))
       .filter((attr) => !!req.body[attr])
       .map((attr) => {
         return { name: attr, value: req.body[attr] }
       })
-    return {
-      title: 'Request Failed',
-      errorDescription: `Your ${type} has failed to generate.`,
-      retry: true,
-      error: error.data ? error.data : error,
-      filters,
-    }
+    return filters
   },
 }

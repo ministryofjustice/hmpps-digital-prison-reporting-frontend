@@ -30,21 +30,12 @@ export default function routes({
 }) {
   const asyncErrorHandler: RequestHandler = async (req, res) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
-    let { error } = req.body
-
-    if (error && error.data) {
-      error = error.data
-    } else if (error && error.message) {
-      error = { userMessage: `${error.name}: ${error.message}`, status: 'FAILED', stack: error.stack }
-    }
-
-    error.userMessage = ErrorSummaryUtils.mapError(error.userMessage)
-
     res.render(`${templatePath}/async-error`, {
       layoutPath,
       ...req.body,
-      error,
       ...req.params,
+      error: req.body.error,
+      params: req.params,
     })
   }
 
@@ -81,9 +72,9 @@ export default function routes({
         ...filtersRenderData,
       })
     } catch (error) {
-      req.body.title = 'Report failed'
-      req.body.errorDescription = 'Your report has failed to generate'
-      req.body.error = error
+      req.body.title = 'Request failed'
+      req.body.errorDescription = `Your ${req.params.type} has failed to generate.`
+      req.body.error = ErrorSummaryUtils.handleError(error, req.params.type)
       next()
     }
   }
@@ -102,9 +93,15 @@ export default function routes({
         res.end()
       }
     } catch (error) {
+      const dprError = ErrorSummaryUtils.handleError(error, req.params.type)
+      const filters = AysncRequestUtils.getFiltersFromReqBody(req)
       req.body = {
+        title: 'Request Failed',
+        errorDescription: `Your ${req.params.type} has failed to generate.`,
+        error: dprError,
+        retry: true,
+        filters,
         ...req.body,
-        ...AysncRequestUtils.handleError(error, req),
       }
       next()
     }
@@ -121,7 +118,7 @@ export default function routes({
     } catch (error) {
       req.body.title = 'Failed to abort request'
       req.body.errorDescription = 'We were unable to abort the report request for the following reason:'
-      req.body.error = error
+      req.body.error = ErrorSummaryUtils.handleError(error)
       next()
     }
   }
@@ -135,7 +132,7 @@ export default function routes({
     } catch (error) {
       req.body.title = 'Failed to abort request'
       req.body.errorDescription = 'We were unable to abort the report request for the following reason:'
-      req.body.error = error
+      req.body.error = ErrorSummaryUtils.handleError(error)
       next()
     }
   }
@@ -178,7 +175,7 @@ export default function routes({
     } catch (error) {
       req.body.title = 'Failed to retrieve report status'
       req.body.errorDescription = 'We were unable to retrieve the report status:'
-      req.body.error = error
+      req.body.error = ErrorSummaryUtils.handleError(error)
       next()
     }
   }
@@ -205,9 +202,15 @@ export default function routes({
         ...renderData,
       })
     } catch (error) {
+      const dprError = ErrorSummaryUtils.handleError(error, req.params.type)
+      let refreshLink
+      if (dprError.status === 'EXPIRED') {
+        const { userId } = LocalsHelper.getValues(res)
+        refreshLink = await services.recentlyViewedService.asyncSetToExpiredByTableId(req.params.tableId, userId)
+      }
       req.body.title = `Failed to retrieve ${type}`
-      req.body.errorDescription = 'We were unable to retrieve this report for the following reason:'
-      req.body.error = error
+      req.body.error = dprError
+      req.body.refreshLink = refreshLink
       next()
     }
   }

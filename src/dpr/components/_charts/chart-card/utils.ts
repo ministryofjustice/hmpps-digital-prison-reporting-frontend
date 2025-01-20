@@ -47,6 +47,7 @@ const createChartData = (definition: DashboardMetricDefinition, dashboardMetrics
     return {
       type: cd.type,
       unit: cd.unit,
+      ...(cd.timeseries && { timeseries: cd.timeseries }),
       data: {
         labels,
         datasets,

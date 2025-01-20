@@ -18,6 +18,7 @@
   {% set requestUrl = data.requestUrl %}
   {% set errorMessage = data.errorMessage %}
   {% set executionId = data.executionId %}
+  {% set tableId = data.tableId %}
   {% set csrfToken = data.csrfToken %}
   {% set requestedAt = data.requestedAt %}
   {% set definitionPath = data.definitionPath %}
@@ -38,6 +39,8 @@
     data-request-data='{{ meta | dump | safe }}'
     data-csrf-token="{{ csrfToken }}"
     data-dpr-module="async-polling-content">
+
+    --{{ tableId }}--
 
     {% set filtersHtml %}
     {% if querySummary %}

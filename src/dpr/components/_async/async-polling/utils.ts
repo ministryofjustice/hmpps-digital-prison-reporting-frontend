@@ -11,8 +11,19 @@ export default {
 
     const requestReportData = await services.requestedReportService.getReportByExecutionId(executionId, userId)
 
-    const { reportName, name, variantName, description, status, query, timestamp, url, errorMessage, metrics } =
-      requestReportData
+    const {
+      reportName,
+      name,
+      variantName,
+      description,
+      status,
+      query,
+      timestamp,
+      url,
+      errorMessage,
+      metrics,
+      tableId,
+    } = requestReportData
 
     const title = `${type.charAt(0).toUpperCase() + type.substring(1).toLowerCase()} request status`
 
@@ -22,6 +33,7 @@ export default {
         reportName,
         name: variantName || name,
         executionId,
+        tableId,
         id: variantId || id,
         description,
         type: type || ReportType.REPORT,

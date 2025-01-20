@@ -96,6 +96,6 @@ jobs:
           npx wait-on http://localhost:3010
       - name: Run the Axe tests        
         run: axe --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver $HOME_URL, $REQUEST_URL, $POLLING_URL, $REPORT_URL --load-delay=1500 --exit
-      # - name: Run the Pa11y tests        
-      #   run: npm run pa11y_tests
+      - name: Run the Pa11y tests        
+        run: npm run pa11y_tests
 

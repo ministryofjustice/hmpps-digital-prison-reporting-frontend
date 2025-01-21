@@ -62,7 +62,7 @@ export default {
     }).toRecordWithFilterPrefix(true)
 
     // The metrics Data
-    const dashboardMetricsData: MetricsDataResponse[] = await services.dashboardService.getAsyncDashboard(
+    const dashboardMetricsData: MetricsDataResponse[][] = await services.dashboardService.getAsyncDashboard(
       token,
       id,
       reportId,

@@ -91,14 +91,16 @@ const getData = (def, dashboardId, query) => {
 
 const filterByEstablishmentId = (query, data) => {
   if (query['filters.establishment_id']) {
-    data = data.filter((d) => {
-      let found = false
-      if (Array.isArray(query['filters.establishment_id'])) {
-        query['filters.establishment_id'].forEach((id) => {
-          if (id === d.establishment_id) found = true
-        })
-      } else if (query['filters.establishment_id'] === d.establishment_id) found = true
-      return found
+    data = data.map((ts) => {
+      return ts.filter((d) => {
+        let found = false
+        if (Array.isArray(query['filters.establishment_id'])) {
+          query['filters.establishment_id'].forEach((id) => {
+            if (id === d.establishment_id.raw) found = true
+          })
+        } else if (query['filters.establishment_id'] === d.establishment_id.raw) found = true
+        return found
+      })
     })
   }
 

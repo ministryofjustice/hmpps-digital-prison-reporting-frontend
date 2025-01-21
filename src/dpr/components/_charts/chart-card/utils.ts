@@ -5,7 +5,7 @@ import { MetricsDataResponse } from '../../../types/Metrics'
 const getSnapshotCharts = (responseData: MetricsDataResponse[][], def: DashboardMetricDefinition) => {
   const data = responseData[responseData.length - 1]
   const chart = createSnapshotChartData(def, data)
-  const table = createTable(def, data)
+  const table = createSnapshotTable(def, data)
 
   return {
     chart,
@@ -14,7 +14,8 @@ const getSnapshotCharts = (responseData: MetricsDataResponse[][], def: Dashboard
 }
 
 const getTimeseriesChart = (responseData: MetricsDataResponse[][], def: DashboardMetricDefinition) => {
-  const chart: ChartData[] = []
+  const chart: ChartData[] = createTimeseriesChartData(def, responseData)
+
   return {
     chart,
     table: {
@@ -57,10 +58,28 @@ export default {
   },
 }
 
+const createTimeseriesChartData = (
+  definition: DashboardMetricDefinition,
+  dashboardMetricsData: MetricsDataResponse[][],
+) => {
+  return definition.charts.map((cd: DashboardChartDefinition) => {
+    const labels = cd.columns.map((col) => col.display)
+
+    return {
+      type: cd.type,
+      unit: cd.unit,
+      data: {
+        labels,
+        datasets: [],
+      },
+    }
+  })
+}
+
 const createSnapshotChartData = (
   definition: DashboardMetricDefinition,
   dashboardMetricsData: MetricsDataResponse[],
-) => {
+): ChartData[] => {
   return definition.charts.map((cd: DashboardChartDefinition) => {
     const labels = cd.columns.map((col) => col.display)
 
@@ -87,7 +106,10 @@ const createSnapshotChartData = (
   })
 }
 
-const createTable = (definition: DashboardMetricDefinition, dashboardMetricsData: MetricsDataResponse[]): MoJTable => {
+const createSnapshotTable = (
+  definition: DashboardMetricDefinition,
+  dashboardMetricsData: MetricsDataResponse[],
+): MoJTable => {
   const allColumns = definition.charts.flatMap((chartDefinition) => {
     return chartDefinition.columns.map((column) => column)
   })

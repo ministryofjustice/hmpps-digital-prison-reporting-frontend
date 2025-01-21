@@ -13,15 +13,15 @@ export interface DashboardMetricDefinition {
   id: string
   name: string
   display: string
+  timeseries?: boolean
   description: string
   charts: DashboardChartDefinition[]
 }
 
-interface DashboardChartDefinition {
+export interface DashboardChartDefinition {
   type: ChartType
   unit: ChartUnit
   label: ChartColumn
-  timeseries?: boolean
   columns: ChartColumn[]
 }
 

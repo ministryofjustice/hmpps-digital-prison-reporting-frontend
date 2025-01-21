@@ -120,48 +120,57 @@ const calcPercentage = (total, value) => {
 }
 
 module.exports = {
-  'test-dashboard-1': setPercentageColumns([mockDataQualityValuesFull[0]]),
-  'test-dashboard-2': setPercentageColumns([mockDataQualityValuesFull[0], mockDataQualityValuesFull[1]]),
-  'test-dashboard-3': setPercentageColumns([
-    mockDataQualityValuesFull[0],
-    mockDataQualityValuesFull[1],
-    mockDataQualityValuesFull[2],
-  ]),
-  'test-dashboard-4': setPercentageColumns([
-    mockDataQualityValuesFull[0],
-    mockDataQualityValuesFull[1],
-    mockDataQualityValuesFull[2],
-    mockDataQualityValuesFull[3],
-  ]),
-  'test-dashboard-5': setPercentageColumns([
-    mockDataQualityValuesFull[0],
-    mockDataQualityValuesFull[1],
-    mockDataQualityValuesFull[2],
-    mockDataQualityValuesFull[3],
-    mockDataQualityValuesFull[4],
-  ]),
-  'test-dashboard-6': setPercentageColumns([
-    mockDataQualityValuesFull[0],
-    mockDataQualityValuesFull[1],
-    mockDataQualityValuesFull[2],
-    mockDataQualityValuesFull[3],
-    mockDataQualityValuesFull[4],
-    mockDataQualityValuesFull[5],
-  ]),
-  'test-dashboard-7': setPercentageColumns([
-    mockDataQualityValuesFull[0],
-    mockDataQualityValuesFull[1],
-    mockDataQualityValuesFull[2],
-    mockDataQualityValuesFull[3],
-    mockDataQualityValuesFull[4],
-    mockDataQualityValuesFull[5],
-    mockDataQualityValuesFull[6],
-  ]),
-  'test-dashboard-8': setPercentageColumns([
-    mockDataQualityValuesFull[0],
-    mockDataQualityValuesFull[1],
-    mockDataQualityValuesFull[2],
-    mockDataQualityValuesFull[3],
-  ]),
-  'test-dashboard-9': setPercentageColumns([mockDataQualityValuesFull[0]]),
+  'test-dashboard-1': [setPercentageColumns([mockDataQualityValuesFull[0]])],
+  'test-dashboard-2': [setPercentageColumns([mockDataQualityValuesFull[0], mockDataQualityValuesFull[1]])],
+  'test-dashboard-3': [
+    setPercentageColumns([mockDataQualityValuesFull[0], mockDataQualityValuesFull[1], mockDataQualityValuesFull[2]]),
+  ],
+  'test-dashboard-4': [
+    setPercentageColumns([
+      mockDataQualityValuesFull[0],
+      mockDataQualityValuesFull[1],
+      mockDataQualityValuesFull[2],
+      mockDataQualityValuesFull[3],
+    ]),
+  ],
+  'test-dashboard-5': [
+    setPercentageColumns([
+      mockDataQualityValuesFull[0],
+      mockDataQualityValuesFull[1],
+      mockDataQualityValuesFull[2],
+      mockDataQualityValuesFull[3],
+      mockDataQualityValuesFull[4],
+    ]),
+  ],
+  'test-dashboard-6': [
+    setPercentageColumns([
+      mockDataQualityValuesFull[0],
+      mockDataQualityValuesFull[1],
+      mockDataQualityValuesFull[2],
+      mockDataQualityValuesFull[3],
+      mockDataQualityValuesFull[4],
+      mockDataQualityValuesFull[5],
+    ]),
+  ],
+  'test-dashboard-7': [
+    setPercentageColumns([
+      mockDataQualityValuesFull[0],
+      mockDataQualityValuesFull[1],
+      mockDataQualityValuesFull[2],
+      mockDataQualityValuesFull[3],
+      mockDataQualityValuesFull[4],
+      mockDataQualityValuesFull[5],
+      mockDataQualityValuesFull[6],
+    ]),
+  ],
+  'test-dashboard-8': [
+    setPercentageColumns([
+      mockDataQualityValuesFull[0],
+      mockDataQualityValuesFull[1],
+      mockDataQualityValuesFull[2],
+      mockDataQualityValuesFull[3],
+    ]),
+  ],
+  'test-dashboard-9': [setPercentageColumns([mockDataQualityValuesFull[0]])],
+  'test-dashboard-10': [setPercentageColumns([mockDataQualityValuesFull[0]])],
 }

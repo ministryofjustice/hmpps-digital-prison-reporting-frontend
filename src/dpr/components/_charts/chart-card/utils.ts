@@ -1,5 +1,5 @@
 import { MoJTableHead, MoJTableRow, ChartData } from '../../../types/Charts'
-import { DashboardDefinition, DashboardMetricDefinition } from '../../../types/Dashboards'
+import { DashboardChartDefinition, DashboardDefinition, DashboardMetricDefinition } from '../../../types/Dashboards'
 import { MetricsDataResponse } from '../../../types/Metrics'
 
 export default {
@@ -8,12 +8,21 @@ export default {
     dashboardMetricsData,
   }: {
     dashboardDefinition: DashboardDefinition
-    dashboardMetricsData: MetricsDataResponse[]
+    dashboardMetricsData: MetricsDataResponse[][]
   }) => {
     return dashboardDefinition.metrics.flatMap((definition: DashboardMetricDefinition) => {
-      const { name: title, description, id: metricId } = definition
-      const chart: ChartData[] = createChartData(definition, dashboardMetricsData)
-      const table = createTable(definition, dashboardMetricsData)
+      const { name: title, description, id: metricId, timeseries } = definition
+
+      let chart: ChartData[] = []
+      let table
+
+      if (!timeseries) {
+        const data = dashboardMetricsData[dashboardMetricsData.length - 1]
+        chart = createSnapshotChartData(definition, data)
+        table = createTable(definition, dashboardMetricsData)
+      } else {
+        //
+      }
 
       return {
         id: metricId,
@@ -28,8 +37,11 @@ export default {
   },
 }
 
-const createChartData = (definition: DashboardMetricDefinition, dashboardMetricsData: MetricsDataResponse[]) => {
-  return definition.charts.map((cd) => {
+const createSnapshotChartData = (
+  definition: DashboardMetricDefinition,
+  dashboardMetricsData: MetricsDataResponse[],
+) => {
+  return definition.charts.map((cd: DashboardChartDefinition) => {
     const labels = cd.columns.map((col) => col.display)
 
     const datasets = dashboardMetricsData.map((row) => {
@@ -47,7 +59,6 @@ const createChartData = (definition: DashboardMetricDefinition, dashboardMetrics
     return {
       type: cd.type,
       unit: cd.unit,
-      ...(cd.timeseries && { timeseries: cd.timeseries }),
       data: {
         labels,
         datasets,
@@ -56,7 +67,7 @@ const createChartData = (definition: DashboardMetricDefinition, dashboardMetrics
   })
 }
 
-const createTable = (definition: DashboardMetricDefinition, dashboardMetricsData: MetricsDataResponse[]) => {
+const createTable = (definition: DashboardMetricDefinition, dashboardMetricsData: MetricsDataResponse[][]) => {
   const allColumns = definition.charts.flatMap((chartDefinition) => {
     return chartDefinition.columns.map((column) => column)
   })

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
 const dashboardDefinitions = require('./mockDashboardDefinition')
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
@@ -47,18 +48,7 @@ class MockDashboardClient {
   async getAsyncDashboard(token, reportId, dashboardId, tableId, query) {
     const def = await this.getDefinition('token', dashboardId)
     if (def) {
-      let data = mockDahsboardData[dashboardId]
-      if (query['filters.establishment_id']) {
-        data = data.filter((d) => {
-          let found = false
-          if (Array.isArray(query['filters.establishment_id'])) {
-            query['filters.establishment_id'].forEach((id) => {
-              if (id === d.establishment_id) found = true
-            })
-          } else if (query['filters.establishment_id'] === d.establishment_id) found = true
-          return found
-        })
-      }
+      const data = filterByEstablishmentId(query, mockDahsboardData[dashboardId])
       return new Promise((resolve) => {
         resolve(data)
       })
@@ -83,6 +73,22 @@ class MockDashboardClient {
         return this.statusResponses.happyStatuses
     }
   }
+}
+
+const filterByEstablishmentId = (query, data) => {
+  if (query['filters.establishment_id']) {
+    data = data.filter((d) => {
+      let found = false
+      if (Array.isArray(query['filters.establishment_id'])) {
+        query['filters.establishment_id'].forEach((id) => {
+          if (id === d.establishment_id) found = true
+        })
+      } else if (query['filters.establishment_id'] === d.establishment_id) found = true
+      return found
+    })
+  }
+
+  return data
 }
 
 module.exports = MockDashboardClient

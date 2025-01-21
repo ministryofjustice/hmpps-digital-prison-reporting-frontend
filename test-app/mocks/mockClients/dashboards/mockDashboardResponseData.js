@@ -28,7 +28,8 @@ const createTimeSeriesData = (start, end, granularity) => {
 const createTimestamps = (start, end, granularity) => {
   const g = mapGranularityValue(granularity)
   const startDate = dayjs(start)
-  const diff = Math.abs(startDate.diff(end, g, true))
+  const endDate = end || dayjs(start).subtract(1, g)
+  const diff = Math.abs(startDate.diff(endDate, g, true))
   const roundedCount = Math.ceil(diff)
   const dateFormat = setFormat(g)
 
@@ -38,6 +39,7 @@ const createTimestamps = (start, end, granularity) => {
         g,
         start,
         end,
+        endDate,
         startDate,
         diff,
         roundedCount,

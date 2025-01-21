@@ -3,6 +3,7 @@
 const dashboardDefinitions = require('./mockDashboardDefinition')
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 const mockDahsboardData = require('./mockDashboardData')
+const mockDahsboardDataHelper = require('./mockDashboardResponseData')
 
 class MockDashboardClient {
   constructor() {
@@ -48,9 +49,10 @@ class MockDashboardClient {
   async getAsyncDashboard(token, reportId, dashboardId, tableId, query) {
     const def = await this.getDefinition('token', dashboardId)
     if (def) {
-      const data = filterByEstablishmentId(query, mockDahsboardData[dashboardId])
+      const data = getData(def, dashboardId, query)
+      const filteredData = filterByEstablishmentId(query, data)
       return new Promise((resolve) => {
-        resolve(data)
+        resolve(filteredData)
       })
     }
     return new Promise((resolve) => {
@@ -73,6 +75,18 @@ class MockDashboardClient {
         return this.statusResponses.happyStatuses
     }
   }
+}
+
+const getData = (def, dashboardId, query) => {
+  if (['test-dashboard-10'].includes(dashboardId)) {
+    const start = query['filters.date.start']
+    const end = query['filters.date.end']
+    const granularity = query['filters.date.granularity']
+    const data = mockDahsboardDataHelper.createTimeSeriesData(start, end, granularity)
+    console.log({ data })
+    return data
+  }
+  return mockDahsboardData[dashboardId]
 }
 
 const filterByEstablishmentId = (query, data) => {

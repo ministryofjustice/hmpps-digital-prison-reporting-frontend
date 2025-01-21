@@ -105,8 +105,8 @@ const mockDashboardDefinition10 = {
   id: 'test-dashboard-10',
   name: 'Time series test',
   description: 'Testing a dashboard with timeseries chart & snapshot chart',
-  metrics: [mockDashboardMetricDefMissingEthnicityRaw, mockDashboardMetricDefMissingEthnicityTimeseries],
-  filterFields: [],
+  metrics: [mockDashboardMetricDefMissingEthnicity],
+  filterFields: [establishmentIdFilter, granularDateRangeFilter],
 }
 
 module.exports = [

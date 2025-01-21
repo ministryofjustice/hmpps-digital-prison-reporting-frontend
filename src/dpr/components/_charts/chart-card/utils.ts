@@ -84,8 +84,8 @@ const createSnapshotChartData = (
     const labels = cd.columns.map((col) => col.display)
 
     const datasets = dashboardMetricsData.map((row) => {
-      const label = <string>row[cd.label.name as keyof MetricsDataResponse]
-      const data = cd.columns.map((c) => +row[c.name as keyof MetricsDataResponse])
+      const label = <string>row[cd.label.name as keyof MetricsDataResponse].raw
+      const data = cd.columns.map((c) => +row[c.name as keyof MetricsDataResponse].raw)
       const total = data.reduce((acc: number, val: number) => acc + val, 0)
 
       return {
@@ -125,7 +125,7 @@ const createSnapshotTable = (
 
   const rows: MoJTableRow[][] = dashboardMetricsData.map((row) => {
     return uniqueColumns.map((col) => {
-      return { text: <string>row[col.name as keyof MetricsDataResponse] }
+      return { text: <string>row[col.name as keyof MetricsDataResponse].raw }
     })
   })
 

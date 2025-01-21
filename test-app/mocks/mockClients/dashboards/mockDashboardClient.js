@@ -83,7 +83,7 @@ const getData = (def, dashboardId, query) => {
     const end = query['filters.date.end']
     const granularity = query['filters.date.granularity']
     const data = mockDahsboardDataHelper.createTimeSeriesData(start, end, granularity)
-    console.log({ data })
+    // console.log(JSON.stringify({ data }, null, 2))
     return data
   }
   return mockDahsboardData[dashboardId]

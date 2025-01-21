@@ -1,3 +1,6 @@
 export interface MetricsDataResponse {
-  [key: string]: number | string
+  [key: string]: {
+    raw: number | string
+    rag?: number
+  }
 }

@@ -104,7 +104,14 @@ const mockDataQualityValuesFull = [
 const setPercentageColumns = (data) => {
   return data.map((d) => {
     return {
-      ...d,
+      establishment_id: { raw: d.establishment_id },
+      count: { raw: d.count },
+      has_ethnicity: { raw: d.has_ethnicity },
+      ethnicity_is_missing: { raw: d.ethnicity_is_missing },
+      has_nationality: { raw: d.has_nationality },
+      nationality_is_missing: { raw: d.nationality_is_missing },
+      has_religion: { raw: d.has_religion },
+      religion_is_missing: { raw: d.religion_is_missing },
       has_ethnicity_percentage: calcPercentage(d.count, d.has_ethnicity),
       ethnicity_is_missing_percentage: calcPercentage(d.count, d.ethnicity_is_missing),
       has_nationality_percentage: calcPercentage(d.count, d.has_nationality),
@@ -116,7 +123,9 @@ const setPercentageColumns = (data) => {
 }
 
 const calcPercentage = (total, value) => {
-  return Math.round((100 * value) / total)
+  return {
+    raw: Math.round((100 * value) / total),
+  }
 }
 
 module.exports = {

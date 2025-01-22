@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import ChartVisualisation from '../clientClass.mjs'
 
-export default class BarChartVisualisation extends ChartVisualisation {
+export default class LineChartVisualisation extends ChartVisualisation {
   static getModuleName() {
     return 'line-chart'
   }
@@ -16,6 +16,7 @@ export default class BarChartVisualisation extends ChartVisualisation {
 
   initSettings() {
     return {
+      options: this.setOptions(),
       pluginsOptions: this.setPluginsOptions(),
       toolTipOptions: this.setToolTipOptions(),
       styling: this.setDatasetStyling(),
@@ -50,14 +51,32 @@ export default class BarChartVisualisation extends ChartVisualisation {
   }
 
   setToolTipOptions() {
-    const chartCtx = this
+    const ctx = this
     return {
       callbacks: {
         label(context) {
           const { label } = context
           const { data, label: legend } = context.dataset
           const value = data[context.dataIndex]
-          chartCtx.setHoverValue(label, value, legend, chartCtx)
+          ctx.setHoverValue({ label, value, legend, ctx })
+        },
+      },
+    }
+  }
+
+  setOptions() {
+    return {
+      scales: {
+        y: {
+          min: 0,
+          ticks: {
+            fontSize: 12,
+          },
+        },
+        x: {
+          ticks: {
+            fontSize: 12,
+          },
         },
       },
     }

@@ -81,12 +81,12 @@ export default class GranularDateRangeInput extends DprClientClass {
         break
       case 'last-seven-days':
         endDate = dayjs()
-        startDate = endDate.subtract(1, 'week').add(1, 'day')
+        startDate = endDate.subtract(7, 'day').add(1, 'day')
         granularity = 'daily'
         break
       case 'last-thirty-days':
         endDate = dayjs()
-        startDate = endDate.subtract(1, 'month').add(1, 'day')
+        startDate = endDate.subtract(30, 'day').add(1, 'day')
         granularity = 'daily'
         break
       case 'last-month':
@@ -101,7 +101,7 @@ export default class GranularDateRangeInput extends DprClientClass {
         break
       case 'last-ninety-days':
         endDate = dayjs()
-        startDate = endDate.subtract(3, 'month').add(1, 'day')
+        startDate = endDate.subtract(90, 'day').add(1, 'day')
         granularity = 'daily'
         break
       case 'last-three-months':
@@ -112,6 +112,16 @@ export default class GranularDateRangeInput extends DprClientClass {
       case 'last-full-three-months':
         endDate = dayjs().subtract(1, 'month').endOf('month')
         startDate = endDate.subtract(2, 'month').startOf('month')
+        granularity = 'monthly'
+        break
+      case 'last-six-months':
+        endDate = dayjs()
+        startDate = endDate.subtract(6, 'month').add(1, 'day')
+        granularity = 'monthly'
+        break
+      case 'last-full-six-months':
+        endDate = dayjs().subtract(1, 'month').endOf('month')
+        startDate = endDate.subtract(6, 'month').startOf('month')
         granularity = 'monthly'
         break
       case 'last-year':
@@ -136,7 +146,7 @@ export default class GranularDateRangeInput extends DprClientClass {
         break
       case 'next-thirty-days':
         startDate = dayjs()
-        endDate = dayjs().add(1, 'month').subtract(1, 'day')
+        endDate = dayjs().add(30, 'day').subtract(1, 'day')
         granularity = 'daily'
         break
       case 'next-month':
@@ -151,7 +161,7 @@ export default class GranularDateRangeInput extends DprClientClass {
         break
       case 'next-ninety-days':
         startDate = dayjs()
-        endDate = dayjs().add(3, 'month').subtract(1, 'day')
+        endDate = dayjs().add(90, 'day').subtract(1, 'day')
         granularity = 'daily'
         break
       case 'next-three-months':

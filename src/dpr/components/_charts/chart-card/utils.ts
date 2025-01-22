@@ -1,4 +1,4 @@
-import { MoJTableHead, MoJTableRow, ChartData, MoJTable } from '../../../types/Charts'
+import { MoJTableHead, MoJTableRow, ChartData, MoJTable, ChartDataset } from '../../../types/Charts'
 import { DashboardChartDefinition, DashboardDefinition, DashboardMetricDefinition } from '../../../types/Dashboards'
 import { MetricsDataResponse } from '../../../types/Metrics'
 
@@ -15,7 +15,7 @@ const getSnapshotCharts = (responseData: MetricsDataResponse[][], def: Dashboard
 
 const getTimeseriesChart = (responseData: MetricsDataResponse[][], def: DashboardMetricDefinition) => {
   const chart: ChartData[] = createTimeseriesChartData(def, responseData)
-
+  // console.log(JSON.stringify(chart, null, 2))
   return {
     chart,
     table: {
@@ -61,19 +61,38 @@ export default {
 const createTimeseriesChartData = (
   definition: DashboardMetricDefinition,
   dashboardMetricsData: MetricsDataResponse[][],
-) => {
-  return definition.charts.map((cd: DashboardChartDefinition) => {
-    const labels = cd.columns.map((col) => col.display)
+): ChartData[] => {
+  const chartData: ChartData[] = definition.charts.map((cd: DashboardChartDefinition) => {
+    // get the timestamps as labels
+    const labels = dashboardMetricsData.map((d: MetricsDataResponse[]) => d[0].timestamp as unknown as string)
+    const datasetCount = dashboardMetricsData[0].length
+
+    const datasets: ChartDataset[] = []
+    for (let index = 0; index < datasetCount; index += 1) {
+      const data = dashboardMetricsData.map((timeperiod) => {
+        return +timeperiod[index][cd.columns[0].name].raw
+      })
+      const total = data.reduce((a, c) => a + c, 0)
+      const label = dashboardMetricsData[0][index][cd.label.name].raw as string
+
+      datasets.push({
+        data,
+        label,
+        total,
+      })
+    }
 
     return {
       type: cd.type,
       unit: cd.unit,
       data: {
         labels,
-        datasets: [],
+        datasets,
       },
     }
   })
+
+  return chartData
 }
 
 const createSnapshotChartData = (

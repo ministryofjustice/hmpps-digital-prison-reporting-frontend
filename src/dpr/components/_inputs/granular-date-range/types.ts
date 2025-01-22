@@ -19,6 +19,8 @@ export enum QuickFilters {
   LAST_NINETY_DAYS = 'last-ninety-days',
   LAST_THREE_MONTHS = 'last-three-months',
   LAST_FULL_THREE_MONTHS = 'last-full-three-months',
+  LAST_SIX_MONTHS = 'last-six-months',
+  LAST_FULL_SIX_MONTHS = 'last-full-six-months',
   LAST_YEAR = 'last-year',
   LAST_FULL_YEAR = 'last-full-year',
   FUTURE = 'future',
@@ -30,6 +32,8 @@ export enum QuickFilters {
   NEXT_NINETY_DAYS = 'next-ninety-days',
   NEXT_THREE_MONTHS = 'next-three-months',
   NEXT_FULL_THREE_MONTHS = 'next-full-three-months',
+  NEXT_SIX_MONTHS = 'next-six-months',
+  NEXT_FULL_SIX_MONTHS = 'next-full-six-months',
   NEXT_YEAR = 'next-year',
   NEXT_FULL_YEAR = 'next-full-year',
 }

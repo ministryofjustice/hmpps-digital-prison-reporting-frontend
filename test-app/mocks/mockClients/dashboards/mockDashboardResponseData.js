@@ -1,7 +1,9 @@
 const dayjs = require('dayjs')
 
-const createTimeSeriesData = (start, end, granularity) => {
-  const timeseriesArr = createTimestamps(start, end, granularity)
+const establishmentIds = ['MDI', 'KMI', 'DAI']
+
+const createTimeSeriesData = (start, end, granularity, sets) => {
+  const timeseriesArr = createTimestamps(start, end, granularity, sets)
   return timeseriesArr.map((item) => {
     return item.map((entry) => {
       const hasEthnicity = generateRawValue()
@@ -9,9 +11,6 @@ const createTimeSeriesData = (start, end, granularity) => {
 
       return {
         ...entry,
-        establishment_id: {
-          raw: 'MDI',
-        },
         has_ethnicity: {
           raw: hasEthnicity,
           rag: generateRag(hasEthnicity),
@@ -25,40 +24,45 @@ const createTimeSeriesData = (start, end, granularity) => {
   })
 }
 
-const createTimestamps = (start, end, granularity) => {
+const createTimestamps = (start, end, granularity, sets) => {
   const g = mapGranularityValue(granularity)
   const startDate = dayjs(start)
   const endDate = dayjs(end)
   const endVal = end || endDate.add(1, g)
   const diff = Math.abs(startDate.diff(endVal, g, true))
-  const roundedCount = Math.ceil(diff)
+  const roundedCount = g === 'day' ? Math.ceil(diff + 1) : Math.ceil(diff)
   const dateFormat = setFormat(g)
 
-  console.log(
-    JSON.stringify(
-      {
-        g,
-        start,
-        end,
-        endDate,
-        startDate,
-        diff,
-        roundedCount,
-        dateFormat,
-      },
-      null,
-      2,
-    ),
-  )
+  // console.log(
+  //   JSON.stringify(
+  //     {
+  //       g,
+  //       start,
+  //       end,
+  //       endDate,
+  //       startDate,
+  //       diff,
+  //       roundedCount,
+  //       dateFormat,
+  //     },
+  //     null,
+  //     2,
+  //   ),
+  // )
 
   const timestamps = []
   for (let i = 0; i < roundedCount; i += 1) {
     const date = endDate.subtract(i, g).format(dateFormat)
-    timestamps.unshift([
-      {
+    const ts = []
+    for (let index = 0; index < sets; index += 1) {
+      ts.push({
         timestamp: date,
-      },
-    ])
+        establishment_id: {
+          raw: establishmentIds[index],
+        },
+      })
+    }
+    timestamps.unshift(ts)
   }
 
   return timestamps
@@ -97,15 +101,15 @@ const setFormat = (granularity) => {
 }
 
 const generateRawValue = () => {
-  return Math.round(Math.random() * (500 - 50) + 50)
+  return Math.round(Math.random() * (800 - 400) + 400)
 }
 
 const generateRag = (value) => {
   let ragValue
 
-  if (value < 500) ragValue = 2
-  if (value < 250) ragValue = 1
-  if (value < 100) ragValue = 0
+  if (value < 800) ragValue = 2
+  if (value < 600) ragValue = 1
+  if (value < 500) ragValue = 0
 
   return ragValue
 }

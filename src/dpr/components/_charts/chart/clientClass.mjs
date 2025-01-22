@@ -25,6 +25,7 @@ export default class ChartVisualisation extends DprClientClass {
     this.legendElement = document.getElementById(`dpr-${this.id}-legend`)
     this.legendElement = document.getElementById(`dpr-${this.id}-legend`)
 
+    // Time series
     this.timeseries = this.getElement().getAttribute('data-dpr-chart-timeseries')
     if (this.timeseries || this.type === 'line') {
       this.daterangeInputs = document.querySelectorAll('.dpr-granular-date-range')
@@ -43,7 +44,7 @@ export default class ChartVisualisation extends DprClientClass {
   initChart() {
     Chart.defaults.font.family = 'GDS Transport'
     Chart.register(ChartDataLabels)
-    Chart.defaults.font.size = 16
+    Chart.defaults.font.size = 12
 
     this.chart = new Chart(this.chartContext, this.chartData)
     this.initChartEvents()
@@ -103,7 +104,7 @@ export default class ChartVisualisation extends DprClientClass {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         animation: {
           duration: 0,
         },

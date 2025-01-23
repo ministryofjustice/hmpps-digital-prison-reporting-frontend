@@ -39,6 +39,9 @@ export default class ChartVisualisation extends DprClientClass {
         this.partialEnd = false
       }
     }
+
+    // flags
+    this.singleDataset = this.chartParams.datasets.length === 1
   }
 
   initChart() {
@@ -95,7 +98,6 @@ export default class ChartVisualisation extends DprClientClass {
   generateChartData(settings) {
     const { datasets, labels } = this.chartParams
     const { options, styling, datalabels, plugins, pluginsOptions, toolTipOptions, hoverEvent } = settings
-
     return {
       type: this.type,
       data: {
@@ -108,9 +110,16 @@ export default class ChartVisualisation extends DprClientClass {
         animation: {
           duration: 0,
         },
+        hover: {
+          animationDuration: 0,
+        },
         ...(options && options),
         ...(hoverEvent && hoverEvent),
         plugins: {
+          legend: {
+            display: !this.singleDataset,
+            position: 'bottom',
+          },
           ...(pluginsOptions && pluginsOptions),
           ...(datalabels && { datalabels }),
           tooltip: {
@@ -142,13 +151,16 @@ export default class ChartVisualisation extends DprClientClass {
       footerFont: {
         weight: 'bold',
       },
+      animation: {
+        duration: 0,
+      },
     }
   }
 
   setHoverValue({ label, value, legend, ctx }) {
     if (ctx.tooltipDetailsEl) {
       ctx.tooltipDetailsEl.style.display = 'block'
-      ctx.labelElement.innerHTML = `${legend}: ${label}`
+      ctx.labelElement.innerHTML = ctx.singleDataset ? `${label}` : `${legend}: ${label}`
       ctx.valueElement.innerHTML = `${value}`
     }
     if (ctx.headlineValuesEl) {

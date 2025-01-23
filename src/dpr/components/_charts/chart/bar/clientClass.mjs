@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 import ChartVisualisation from '../clientClass.mjs'
 
@@ -16,7 +17,6 @@ export default class BarChartVisualisation extends ChartVisualisation {
   initSettings() {
     return {
       options: this.setOptions(),
-      pluginsOptions: this.setPluginsOptions(),
       toolTipOptions: this.setToolTipOptions(),
       datalabels: this.setDataLabels(),
       styling: this.setDatasetStyling(),
@@ -45,9 +45,9 @@ export default class BarChartVisualisation extends ChartVisualisation {
 
     this.chartParams.labels.forEach((label, i) => {
       if ((this.partialEnd && i === lastIndex) || (this.partialStart && i === 0)) {
-        backgroundColors.push('#b1b4b6')
+        backgroundColors.push(colour)
         borderWidths.push(3)
-        borderColors.push('#5694ca')
+        borderColors.push('#b1b4b6')
       } else {
         backgroundColors.push(colour)
         borderWidths.push(0)
@@ -62,15 +62,6 @@ export default class BarChartVisualisation extends ChartVisualisation {
     }
   }
 
-  setPluginsOptions() {
-    return {
-      legend: {
-        display: true,
-        position: 'bottom',
-      },
-    }
-  }
-
   setToolTipOptions() {
     const ctx = this
     return {
@@ -78,7 +69,8 @@ export default class BarChartVisualisation extends ChartVisualisation {
         title(context) {
           const { label, dataset } = context[0]
           const { label: establishmentId } = dataset
-          return `${establishmentId}: ${label}`
+          const title = ctx.singleDataset ? `${label}` : `${establishmentId}: ${label}`
+          return title
         },
         label(context) {
           const { label } = context
@@ -111,6 +103,9 @@ export default class BarChartVisualisation extends ChartVisualisation {
   setDataLabels() {
     return {
       color: '#FFF',
+      display: () => {
+        return !this.timeseries
+      },
       formatter: (value) => {
         return `${value}${this.suffix}`
       },

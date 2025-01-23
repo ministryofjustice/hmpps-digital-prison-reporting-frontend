@@ -4,8 +4,8 @@ import { MetricsDataResponse } from '../../../types/Metrics'
 
 const getSnapshotCharts = (responseData: MetricsDataResponse[][], def: DashboardMetricDefinition) => {
   const data = responseData[responseData.length - 1]
-  const chart = createSnapshotChartData(def, data)
-  const table = createSnapshotTable(def, data)
+  const chart: ChartData[] = createSnapshotChartData(def, data)
+  const table: MoJTable = createSnapshotTable(def, data)
 
   return {
     chart,
@@ -15,13 +15,11 @@ const getSnapshotCharts = (responseData: MetricsDataResponse[][], def: Dashboard
 
 const getTimeseriesChart = (responseData: MetricsDataResponse[][], def: DashboardMetricDefinition) => {
   const chart: ChartData[] = createTimeseriesChartData(def, responseData)
-  // console.log(JSON.stringify(chart, null, 2))
+  const table: MoJTable = createTimeseriesTable(def, responseData)
+  // console.log(JSON.stringify(table, null, 2))
   return {
     chart,
-    table: {
-      head: [],
-      rows: [],
-    } as MoJTable,
+    table,
   }
 }
 
@@ -85,6 +83,7 @@ const createTimeseriesChartData = (
     return {
       type: cd.type,
       unit: cd.unit,
+      timeseries: true,
       data: {
         labels,
         datasets,
@@ -123,6 +122,59 @@ const createSnapshotChartData = (
       },
     }
   })
+}
+
+const createTimeseriesTable = (
+  definition: DashboardMetricDefinition,
+  dashboardMetricsData: MetricsDataResponse[][],
+): MoJTable => {
+  const allColumns = definition.charts.flatMap((chartDefinition) => {
+    return chartDefinition.columns.map((column) => column)
+  })
+
+  // Unique columns for timeseries should always only be length of 1
+  const uniqueColumns = allColumns.filter(
+    (value, index, self) => index === self.findIndex((t) => t.name === value.name),
+  )
+
+  const head: MoJTableHead[] = []
+  head.push({
+    text: 'Date',
+  })
+
+  // if there is more than one row
+  if (dashboardMetricsData[0].length > 1) {
+    // display the row group value as the column header
+    dashboardMetricsData[0].forEach((row) => {
+      head.push({
+        text: <string>row[definition.charts[0].label.name].raw,
+      })
+    })
+  } else {
+    uniqueColumns.forEach((col) => {
+      head.push({
+        text: col.display,
+      })
+    })
+  }
+
+  const tsData = dashboardMetricsData.map((timeperiodDataArr) => {
+    return [
+      {
+        text: timeperiodDataArr[0].timestamp as unknown as string,
+      },
+      ...uniqueColumns.flatMap((col) => {
+        return timeperiodDataArr.map((periodData) => {
+          return { text: periodData[col.name as keyof MetricsDataResponse].raw }
+        })
+      }),
+    ]
+  })
+
+  return {
+    head,
+    rows: tsData,
+  } as MoJTable
 }
 
 const createSnapshotTable = (

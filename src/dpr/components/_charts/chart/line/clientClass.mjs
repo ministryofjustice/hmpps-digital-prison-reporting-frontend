@@ -17,7 +17,6 @@ export default class LineChartVisualisation extends ChartVisualisation {
   initSettings() {
     return {
       options: this.setOptions(),
-      pluginsOptions: this.setPluginsOptions(),
       toolTipOptions: this.setToolTipOptions(),
       styling: this.setDatasetStyling(),
     }
@@ -40,6 +39,7 @@ export default class LineChartVisualisation extends ChartVisualisation {
         pointStyle: 'circle',
         pointRadius: 4,
         pointHoverRadius: 10,
+        pointHitRadius: 20,
         datalabels: {
           display: false,
         },
@@ -54,11 +54,18 @@ export default class LineChartVisualisation extends ChartVisualisation {
     const ctx = this
     return {
       callbacks: {
+        title(context) {
+          const { label, dataset } = context[0]
+          const { label: establishmentId } = dataset
+          const title = ctx.singleDataset ? `${label}` : `${establishmentId}: ${label}`
+          return title
+        },
         label(context) {
           const { label } = context
           const { data, label: legend } = context.dataset
           const value = data[context.dataIndex]
           ctx.setHoverValue({ label, value, legend, ctx })
+          return value
         },
       },
     }
@@ -78,15 +85,6 @@ export default class LineChartVisualisation extends ChartVisualisation {
             fontSize: 12,
           },
         },
-      },
-    }
-  }
-
-  setPluginsOptions() {
-    return {
-      legend: {
-        display: true,
-        position: 'bottom',
       },
     }
   }

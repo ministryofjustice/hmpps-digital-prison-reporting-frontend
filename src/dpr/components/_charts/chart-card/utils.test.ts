@@ -12,22 +12,24 @@ describe('ChartCard Utils', () => {
   beforeEach(() => {
     dashboardDefinition = dashboardDefinitions[0] as unknown as DashboardDefinition
     dashboardMetricsData = [
-      {
-        establishment_id: 'KMI',
-        has_ethnicity_percentage: 25.09,
-        ethnicity_is_missing_percentage: 74.91,
-        has_ethnicity: 300,
-        ethnicity_is_missing: 100,
-        random_data: 20,
-      },
-      {
-        establishment_id: 'LEI',
-        has_ethnicity_percentage: 47.09,
-        ethnicity_is_missing_percentage: 52.91,
-        has_ethnicity: 100,
-        ethnicity_is_missing: 50,
-        random_data: 50,
-      },
+      [
+        {
+          establishment_id: { raw: 'KMI' },
+          has_ethnicity_percentage: { raw: 25.09 },
+          ethnicity_is_missing_percentage: { raw: 74.91 },
+          has_ethnicity: { raw: 300 },
+          ethnicity_is_missing: { raw: 100 },
+          random_data: { raw: 20 },
+        },
+        {
+          establishment_id: { raw: 'LEI' },
+          has_ethnicity_percentage: { raw: 47.09 },
+          ethnicity_is_missing_percentage: { raw: 52.91 },
+          has_ethnicity: { raw: 100 },
+          ethnicity_is_missing: { raw: 50 },
+          random_data: { raw: 50 },
+        },
+      ],
     ]
   })
 

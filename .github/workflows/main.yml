@@ -64,11 +64,11 @@ jobs:
         with:
           name: test_results
           path: test_results
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: videos
           path: cypress-tests/integration-tests/videos
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: screenshots
           path: cypress-tests/integration-tests/screenshots

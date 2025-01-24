@@ -3,6 +3,7 @@ import { FilterType } from './filter-input/enum'
 import type { components } from '../../types/api'
 import type { FilterOption } from './filter-input/types'
 import type { DateRange, FilterValue } from './types'
+import { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 
 import SelectedFiltersUtils from './filters-selected/utils'
 import DateRangeInputUtils from '../_inputs/date-range/utils'
@@ -39,6 +40,47 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
       value,
     }
   })
+}
+
+const setFilterQueryFromFilterDefinition = (
+  fields: components['schemas']['FieldDefinition'][],
+  interactive: boolean,
+) => {
+  let filterFields = fields.filter((f) => f.filter)
+  if (interactive) {
+    filterFields = filterFields.filter(
+      (f) => (<components['schemas']['FilterDefinition'] & { interactive?: boolean }>f.filter).interactive,
+    )
+  }
+
+  const queryArray = filterFields.map((field) => {
+    const { filter } = field
+
+    if (filter.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
+      return DateRangeInputUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
+    }
+
+    if (filter.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
+      const startEndParams = DateRangeInputUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
+      return GranularDateRangeInputUtils.getQueryFromDefinition(
+        filter as unknown as components['schemas']['FilterDefinition'] & {
+          defaultGranularity: Granularity
+          defaultQuickFilterValue: QuickFilters
+        },
+        field.name,
+        DEFAULT_FILTERS_PREFIX,
+        startEndParams,
+      )
+    }
+
+    if (filter.defaultValue) {
+      return `${DEFAULT_FILTERS_PREFIX}${field.name}=${filter.defaultValue}`
+    }
+
+    return ''
+  })
+
+  return queryArray.filter((p) => p.length).join('&')
 }
 
 /**
@@ -131,4 +173,5 @@ export default {
   getFiltersFromDefinition,
   setFilterValuesFromRequest,
   getFilters,
+  setFilterQueryFromFilterDefinition,
 }

@@ -58,7 +58,7 @@ export default class ChartVisualisation extends DprClientClass {
     return [
       {
         name: 'blue',
-        hex: '#1d70b8',
+        hex: '#5694ca',
       },
       {
         name: 'purple',

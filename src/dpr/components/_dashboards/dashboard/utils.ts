@@ -1,3 +1,4 @@
+import parseUrl from 'parseurl'
 import type { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
 import type { ChartCardData } from '../../../types/Charts'
 import type { DashboardDefinition } from '../../../types/Dashboards'
@@ -43,9 +44,9 @@ const setDashboardActions = (
 export default {
   renderAsyncDashboard: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
     const { token, csrfToken, userId } = LocalsHelper.getValues(res)
-
     const { reportId, id, tableId } = req.params
     const { dataProductDefinitionsPath } = req.query
+    const url = parseUrl(req)
 
     // Dashboard Definition,
     const dashboardDefinition: DashboardDefinition = await services.dashboardService.getDefinition(
@@ -96,7 +97,13 @@ export default {
 
     // Add to recently viewed
     if (metrics && metrics.length && dashboardRequestData) {
-      UserReportsUtils.updateLastViewed({ services, reportStateData: dashboardRequestData, userId })
+      UserReportsUtils.updateLastViewed({
+        services,
+        reportStateData: dashboardRequestData,
+        userId,
+        search: url.search,
+        href: url.href,
+      })
     }
 
     return {

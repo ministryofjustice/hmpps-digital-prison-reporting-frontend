@@ -112,9 +112,26 @@ const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition
   }
 }
 
+const getQueryFromDefinition = (
+  filter: components['schemas']['FilterDefinition'],
+  name: string,
+  filterPrefix: string,
+) => {
+  const dates = filter.defaultValue.split(' - ')
+  let param
+  if (dates.length >= 1) {
+    param = `${filterPrefix}${name}.start=${dates[0]}`
+    if (dates.length >= 2) {
+      param = `${param}&${filterPrefix}${name}.end=${dates[1]}`
+    }
+  }
+  return param
+}
+
 export default {
   calcDates,
   getRelativeDateOptions,
   getFilterFromDefinition,
   setValueFromRequest,
+  getQueryFromDefinition,
 }

@@ -1,6 +1,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response, Request } from 'express'
+import { Url } from 'url'
 import { Services } from '../../../types/Services'
 import DashboardUtils from './utils'
 import DashboardService from '../../../services/dashboardService'
@@ -14,6 +15,11 @@ import ReportingService from '../../../services/reportingService'
 import MockDefinitions from '../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
 import BookmarkService from '../../../services/bookmarkService'
 import { RequestedReport } from '../../../types/UserReports'
+
+jest.mock('parseurl', () => ({
+  __esModule: true,
+  default: jest.fn().mockImplementation(() => ({ pathname: 'pathname', search: 'search' } as Url)),
+}))
 
 describe('DashboardUtils', () => {
   let req: Request
@@ -107,7 +113,7 @@ describe('DashboardUtils', () => {
         })
 
         expect(updateLastViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard.executionId, 'Us3rId')
-        expect(setRecentlyViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard, 'Us3rId')
+        expect(setRecentlyViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard, 'Us3rId', 'search')
       })
     })
   })

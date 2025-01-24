@@ -96,13 +96,17 @@ export default class RequestedReportService extends UserStoreService {
       case RequestStatus.ABORTED:
         report.timestamp.aborted = ts
         break
-      case RequestStatus.FINISHED:
+      case RequestStatus.FINISHED: {
         report.timestamp.completed = ts
-        report.url.report.pathname = `${report.url.request.pathname}/${tableId}/report${getDpdPathSuffix(
-          report.dataProductDefinitionsPath,
-        )}`
+        const search = report.url.report?.search ? report.url.report.search : ''
+        report.url.report.pathname = report.dataProductDefinitionsPath.length
+          ? `${report.url.request.pathname}/${tableId}/report${getDpdPathSuffix(
+              report.dataProductDefinitionsPath,
+            )}${search}`
+          : `${report.url.request.pathname}/${tableId}/report${search}`
         report.url.report.fullUrl = `${report.url.origin}${report.url.report.pathname}`
         break
+      }
       case RequestStatus.SUBMITTED:
         report.timestamp.requested = ts
         break

@@ -328,12 +328,24 @@ export default {
     services,
     reportStateData,
     userId,
+    search,
+    href,
   }: {
     services: Services
     reportStateData: RequestedReport
     userId: string
+    search: string
+    href: string
   }) => {
-    await services.requestedReportService.updateLastViewed(reportStateData.executionId, userId)
-    await services.recentlyViewedService.setRecentlyViewed(reportStateData, userId)
+    const data = reportStateData
+    if (search) {
+      data.url.report = {
+        fullUrl: href,
+        search,
+      }
+    }
+
+    await services.requestedReportService.updateLastViewed(data.executionId, userId)
+    await services.recentlyViewedService.setRecentlyViewed(data, userId, search)
   },
 }

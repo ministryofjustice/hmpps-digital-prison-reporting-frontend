@@ -87,6 +87,8 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const dataPromises = initDataSources({ req, res, services, token, userId })
   let renderData = {}
   let reportStateData: RequestedReport
+  const url = parseUrl(req)
+  const { search, pathname } = url
 
   if (dataPromises) {
     await Promise.all(dataPromises).then(async (resolvedData) => {
@@ -154,8 +156,6 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
         interactive: true,
       })
 
-      const url = parseUrl(req)
-
       renderData = {
         ...reportStateVars,
         classification,
@@ -165,7 +165,7 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
         columns,
         loadType: LoadType.ASYNC,
         type: ReportType.REPORT,
-        actions: setActions(csrfToken, variant, reportStateData, columns, canDownload, count, url.pathname, url.search),
+        actions: setActions(csrfToken, variant, reportStateData, columns, canDownload, count, pathname, search),
         printable,
         requestedTimestamp: new Date(timestamp.requested).toLocaleString(),
         csrfToken,
@@ -173,9 +173,9 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
         canDownload,
         reportSummaries: collatedSummaryBuilder.collatePageSummaries(),
         dataProductDefinitionsPath,
-        reportUrl: url.pathname.replace('/download-disabled', '').replace('/download-disabled?', ''),
-        reportSearch: url.search,
-        encodedSearch: url.search ? encodeURIComponent(url.search) : undefined,
+        reportUrl: pathname.replace('/download-disabled', '').replace('/download-disabled?', ''),
+        reportSearch: search,
+        encodedSearch: search ? encodeURIComponent(search) : undefined,
       }
 
       switch (template as Template) {
@@ -229,6 +229,8 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
       services,
       reportStateData,
       userId,
+      search,
+      href: pathname,
     })
   }
 

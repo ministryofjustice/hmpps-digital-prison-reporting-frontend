@@ -251,6 +251,15 @@ export default function routes({
       )
     }
 
+    if (type === ReportType.DASHBOARD) {
+      definition = await services.dashboardService.getDefinition(
+        token,
+        variantId || id,
+        reportId,
+        dataProductDefinitionsPath,
+      )
+    }
+
     req.body.definition = definition
     if (definition?.authorised !== undefined && !definition.authorised) {
       await unauthorisedReportHandler(req, res, next)

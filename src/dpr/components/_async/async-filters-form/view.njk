@@ -19,6 +19,7 @@
   {% set description = data.description %}
   {% set reportName = data.reportName %}
   {% set definitionPath = data.definitionPath %}
+  {% set defaultInteractiveQueryString = data.defaultInteractiveQueryString %}
   {% set csrfToken = data.csrfToken %}
   {% set template = data.template %}
   {% set type = data.type %}
@@ -59,6 +60,7 @@
       <input type="hidden" name="href" id="async-filters-form-href" value="">
       <input type="hidden" name="search" id="async-filters-form-search" value="">
       <input type="hidden" name="id" value="{{ id }}">
+      <input type="hidden" name="defaultInteractiveQueryString" value="{{ defaultInteractiveQueryString }}">
       
       {% if template %}
         <input type="hidden" name="template" value="{{ template }}">

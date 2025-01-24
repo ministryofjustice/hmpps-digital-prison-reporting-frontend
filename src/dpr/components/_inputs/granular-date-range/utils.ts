@@ -342,7 +342,33 @@ const getFilterFromDefinition = (
   }
 }
 
+const getQueryFromDefinition = (
+  filter: components['schemas']['FilterDefinition'] & {
+    defaultGranularity: Granularity
+    defaultQuickFilterValue: QuickFilters
+  },
+  name: string,
+  filterPrefix: string,
+  startEndParams: string,
+) => {
+  const params = []
+  if (filter.defaultQuickFilterValue) {
+    const { start, end, granularity } = setDateRangeFromQuickFilterValue(filter.defaultQuickFilterValue)
+    params.push(`${filterPrefix}${name}.quick-filter=${filter.defaultQuickFilterValue}`)
+    params.push(`${filterPrefix}${name}.granularity=${granularity}`)
+    params.push(`${filterPrefix}${name}.start=${start}`)
+    params.push(`${filterPrefix}${name}.end=${end}`)
+  } else if (filter.defaultGranularity && startEndParams) {
+    params.push(`${filterPrefix}${name}.granularity=${filter.defaultGranularity}`)
+    params.push(`${startEndParams}`)
+  } else if (filter.defaultGranularity) {
+    params.push(`${filterPrefix}${name}.granularity=${filter.defaultGranularity}`)
+  }
+  return params.join('&')
+}
+
 export default {
   getFilterFromDefinition,
   setValueFromRequest,
+  getQueryFromDefinition,
 }

@@ -45,6 +45,68 @@ const setDashboardActions = (
   })
 }
 
+const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsParams) => {
+  const { token } = LocalsHelper.getValues(res)
+  const { reportId, id } = req.params
+  const { dataProductDefinitionsPath } = req.query
+
+  // Dashboard Definition,
+  const dashboardDefinition: DashboardDefinition = await services.dashboardService.getDefinition(
+    token,
+    id,
+    reportId,
+    dataProductDefinitionsPath,
+  )
+
+  // Report summary data
+  const reportDefinition = await DefinitionUtils.getReportSummary(
+    reportId,
+    services.reportingService,
+    token,
+    <string>dataProductDefinitionsPath,
+  )
+
+  // Get the filters
+  const filters = await FilterUtils.getFilters({
+    fields: dashboardDefinition.filterFields || [],
+    req,
+    interactive: true,
+  })
+
+  // Create the query
+  const query = new ReportQuery({
+    fields: dashboardDefinition.filterFields || [],
+    queryParams: req.query,
+    definitionsPath: <string>dataProductDefinitionsPath,
+  }).toRecordWithFilterPrefix(true)
+
+  return {
+    query,
+    filters,
+    dashboardDefinition,
+    reportDefinition,
+  }
+}
+
+const getParts = (dashboardDefinition: DashboardDefinition, dashboardData: MetricsDataResponse[][]) => {
+  // Scorecards
+  const scorecards: ScorecardGroup[] = ScorecardsUtils.createScorecards(
+    dashboardDefinition.scorecards || [],
+    dashboardData,
+  )
+
+  // Charts
+  const charts: ChartCardData[] = ChartCardUtils.getChartData({
+    dashboardDefinition,
+    dashboardMetricsData: dashboardData,
+  })
+
+  return {
+    scorecards,
+    charts,
+  }
+}
+
 const updateStore = async (services: Services, tableId: string, userId: string, charts: ChartCardData[], url: Url) => {
   const dashboardRequestData: RequestedReport = await services.requestedReportService.getReportByTableId(
     tableId,
@@ -69,40 +131,16 @@ export default {
   renderAsyncDashboard: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
     const { token, csrfToken, userId } = LocalsHelper.getValues(res)
     const { reportId, id, tableId } = req.params
-    const { dataProductDefinitionsPath } = req.query
     const url = parseUrl(req)
 
-    // Dashboard Definition,
-    const dashboardDefinition: DashboardDefinition = await services.dashboardService.getDefinition(
-      token,
-      id,
-      reportId,
-      dataProductDefinitionsPath,
-    )
-
-    // Report summary data
-    const reportDefinition = await DefinitionUtils.getReportSummary(
-      reportId,
-      services.reportingService,
-      token,
-      <string>dataProductDefinitionsPath,
-    )
-
-    // Get the filters
-    const filters = await FilterUtils.getFilters({
-      fields: dashboardDefinition.filterFields || [],
+    // Get the definition Data
+    const { query, filters, reportDefinition, dashboardDefinition } = await getDefinitionData({
       req,
-      interactive: true,
+      res,
+      services,
     })
 
-    // Create the query
-    const query = new ReportQuery({
-      fields: dashboardDefinition.filterFields || [],
-      queryParams: req.query,
-      definitionsPath: <string>dataProductDefinitionsPath,
-    }).toRecordWithFilterPrefix(true)
-
-    // Get the metrics Data
+    // Get the results data
     const dashboardData: MetricsDataResponse[][] = await services.dashboardService.getAsyncDashboard(
       token,
       id,
@@ -111,18 +149,10 @@ export default {
       query,
     )
 
-    // Scorecards
-    const scorecards: ScorecardGroup[] = ScorecardsUtils.createScorecards(
-      dashboardDefinition.scorecards || [],
-      dashboardData,
-    )
+    // Get the dashboard parts
+    const { scorecards, charts } = getParts(dashboardDefinition, dashboardData)
 
-    // Create the visualisation data
-    const charts: ChartCardData[] = ChartCardUtils.getChartData({
-      dashboardDefinition,
-      dashboardMetricsData: dashboardData,
-    })
-
+    // Update the store
     const dashboardRequestData = await updateStore(services, tableId, userId, charts, url)
 
     return {

@@ -22,6 +22,7 @@ const establishmentIdFilter = {
         display: 'DAI',
       },
     ],
+    defaultValue: 'MDI',
     dynamicOptions: {
       minimumLength: null,
     },

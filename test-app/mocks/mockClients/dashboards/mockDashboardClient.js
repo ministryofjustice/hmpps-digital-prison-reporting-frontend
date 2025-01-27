@@ -1,7 +1,9 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
 const dashboardDefinitions = require('./mockDashboardDefinition')
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 const mockDahsboardData = require('./mockDashboardData')
+const mockDahsboardDataHelper = require('./mockDashboardResponseData')
 
 class MockDashboardClient {
   constructor() {
@@ -47,20 +49,10 @@ class MockDashboardClient {
   async getAsyncDashboard(token, reportId, dashboardId, tableId, query) {
     const def = await this.getDefinition('token', dashboardId)
     if (def) {
-      let data = mockDahsboardData[dashboardId]
-      if (query['filters.establishment_id']) {
-        data = data.filter((d) => {
-          let found = false
-          if (Array.isArray(query['filters.establishment_id'])) {
-            query['filters.establishment_id'].forEach((id) => {
-              if (id === d.establishment_id) found = true
-            })
-          } else if (query['filters.establishment_id'] === d.establishment_id) found = true
-          return found
-        })
-      }
+      const data = getData(def, dashboardId, query)
+      const filteredData = filterByEstablishmentId(query, data)
       return new Promise((resolve) => {
-        resolve(data)
+        resolve(filteredData)
       })
     }
     return new Promise((resolve) => {
@@ -83,6 +75,36 @@ class MockDashboardClient {
         return this.statusResponses.happyStatuses
     }
   }
+}
+
+const getData = (def, dashboardId, query) => {
+  if (['test-dashboard-10'].includes(dashboardId)) {
+    const start = query['filters.date.start']
+    const end = query['filters.date.end']
+    const granularity = query['filters.date.granularity']
+    const data = mockDahsboardDataHelper.createTimeSeriesData(start, end, granularity, 3)
+    // console.log(JSON.stringify({ data }, null, 2))
+    return data
+  }
+  return mockDahsboardData[dashboardId]
+}
+
+const filterByEstablishmentId = (query, data) => {
+  if (query['filters.establishment_id']) {
+    data = data.map((ts) => {
+      return ts.filter((d) => {
+        let found = false
+        if (Array.isArray(query['filters.establishment_id'])) {
+          query['filters.establishment_id'].forEach((id) => {
+            if (id === d.establishment_id.raw) found = true
+          })
+        } else if (query['filters.establishment_id'] === d.establishment_id.raw) found = true
+        return found
+      })
+    })
+  }
+
+  return data
 }
 
 module.exports = MockDashboardClient

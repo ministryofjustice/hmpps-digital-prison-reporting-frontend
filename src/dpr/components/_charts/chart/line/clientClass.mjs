@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import ChartVisualisation from '../clientClass.mjs'
 
-export default class BarChartVisualisation extends ChartVisualisation {
+export default class LineChartVisualisation extends ChartVisualisation {
   static getModuleName() {
     return 'line-chart'
   }
@@ -16,7 +16,7 @@ export default class BarChartVisualisation extends ChartVisualisation {
 
   initSettings() {
     return {
-      pluginsOptions: this.setPluginsOptions(),
+      options: this.setOptions(),
       toolTipOptions: this.setToolTipOptions(),
       styling: this.setDatasetStyling(),
     }
@@ -39,6 +39,7 @@ export default class BarChartVisualisation extends ChartVisualisation {
         pointStyle: 'circle',
         pointRadius: 4,
         pointHoverRadius: 10,
+        pointHitRadius: 20,
         datalabels: {
           display: false,
         },
@@ -50,24 +51,40 @@ export default class BarChartVisualisation extends ChartVisualisation {
   }
 
   setToolTipOptions() {
-    const chartCtx = this
+    const ctx = this
     return {
       callbacks: {
+        title(context) {
+          const { label, dataset } = context[0]
+          const { label: establishmentId } = dataset
+          const title = ctx.singleDataset ? `${label}` : `${establishmentId}: ${label}`
+          return title
+        },
         label(context) {
           const { label } = context
           const { data, label: legend } = context.dataset
           const value = data[context.dataIndex]
-          chartCtx.setHoverValue(label, value, legend, chartCtx)
+          ctx.setHoverValue({ label, value, legend, ctx })
+          return value
         },
       },
     }
   }
 
-  setPluginsOptions() {
+  setOptions() {
     return {
-      legend: {
-        display: true,
-        position: 'bottom',
+      scales: {
+        y: {
+          min: 0,
+          ticks: {
+            fontSize: 12,
+          },
+        },
+        x: {
+          ticks: {
+            fontSize: 12,
+          },
+        },
       },
     }
   }

@@ -107,8 +107,9 @@ export default class UserStoreItemBuilder {
   }
 
   addRequestUrls = () => {
-    const { origin, pathname, search, href } = this.requestFormData
+    const { origin, pathname, search, href, defaultInteractiveQueryString } = this.requestFormData
     const { executionId, dataProductDefinitionsPath } = this.userStoreItem
+    const dpdPath = `${getDpdPathSuffix(dataProductDefinitionsPath)}`
 
     this.userStoreItem = {
       ...this.userStoreItem,
@@ -121,14 +122,19 @@ export default class UserStoreItemBuilder {
             search,
           },
           polling: {
-            fullUrl: `${origin}${pathname}/${executionId}${getDpdPathSuffix(dataProductDefinitionsPath)}`,
-            pathname: `${pathname}/${executionId}${getDpdPathSuffix(dataProductDefinitionsPath)}`,
+            fullUrl: `${origin}${pathname}/${executionId}${dpdPath}`,
+            pathname: `${pathname}/${executionId}${dpdPath}`,
           },
-          report: {},
+          report: {
+            ...(defaultInteractiveQueryString?.length && {
+              search: dpdPath.length
+                ? `${dpdPath}&${defaultInteractiveQueryString}`
+                : `?${defaultInteractiveQueryString}`,
+            }),
+          },
         },
       },
     }
-
     return this
   }
 
@@ -144,6 +150,7 @@ export default class UserStoreItemBuilder {
           ...(this.userStoreItem.url?.request && { request: this.userStoreItem.url.request }),
           ...(this.userStoreItem.url?.polling && { polling: this.userStoreItem.url.polling }),
           report: {
+            ...(this.userStoreItem.url?.report && this.userStoreItem.url.report),
             fullUrl,
           },
         },

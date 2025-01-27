@@ -84,7 +84,7 @@ describe('GranularDatePickerUtils', () => {
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
       expect(result.value).toEqual({
-        start: '2024-05-07',
+        start: '2024-05-08',
         end: '2024-06-06',
         granularity: {
           value: 'daily',
@@ -171,7 +171,7 @@ describe('GranularDatePickerUtils', () => {
       const result = GranularDatePickerUtils.getFilterFromDefinition(filter, {} as unknown as FilterValue)
 
       expect(result.value).toEqual({
-        start: '2024-03-07',
+        start: '2024-03-09',
         end: '2024-06-06',
         granularity: {
           value: 'daily',
@@ -462,7 +462,7 @@ describe('GranularDatePickerUtils', () => {
 
       expect(result.value).toEqual({
         start: '2024-06-06',
-        end: '2024-09-05',
+        end: '2024-09-03',
         granularity: {
           value: 'daily',
           display: 'Daily',

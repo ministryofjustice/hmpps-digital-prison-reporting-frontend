@@ -48,13 +48,14 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
   setPluginsOptions() {
     return {
       legend: {
-        display: false,
+        display: true,
+        position: 'bottom',
       },
     }
   }
 
   setPlugins() {
-    const plugins = [this.setLegend()]
+    const plugins = []
     if (this.chartParams.datasets.length === 1 && !this.isPercentage) {
       plugins.push(this.setCentralText())
     }
@@ -136,7 +137,8 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
         title(context) {
           const { label, dataset } = context[0]
           const { label: establishmentId } = dataset
-          return `${establishmentId}: ${label}`
+          const title = ctx.singleDataset ? `${label}` : `${establishmentId}: ${label}`
+          return title
         },
         label(context) {
           const { label, parsed: value, dataset } = context
@@ -148,7 +150,9 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
           if (!ctx.isPercentage) {
             const val = dataArr.reduce((sum, d) => sum + Number(d), 0)
             const percentage = `${((value * 100) / val).toFixed(2)}%`
-            toolipValue = `${legend}: ${toolipValue} (${percentage})`
+            toolipValue = ctx.singleDataset
+              ? `${toolipValue} (${percentage})`
+              : `${legend}: ${toolipValue} (${percentage})`
             ctx.setHoverValue({ label, value: toolipValue, legend, ctx })
           } else {
             toolipValue = `${toolipValue}`
@@ -175,7 +179,9 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
       },
       formatter: (value, context) => {
         const { dataset } = context
-        const label = `${value}${this.suffix}
+        const label = ctx.singleDataset
+          ? `${value}${this.suffix}`
+          : `${value}${this.suffix}
 ${dataset.label}`
 
         return label

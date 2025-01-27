@@ -12,6 +12,7 @@ import type DashboardService from '../services/dashboardService'
 import { removeDuplicates } from './reportStoreHelper'
 import UserStoreItemBuilder from './UserStoreItemBuilder'
 import LocalsHelper from './localsHelper'
+import FiltersUtils from '../components/_filters/utils'
 
 /**
  * Updates the store with the request details
@@ -283,11 +284,14 @@ export default {
       let fields: components['schemas']['FieldDefinition'][]
       let metrics
       let interactive
+      let defaultInteractiveQueryString
 
       if (type === ReportType.REPORT) {
         ;({ name, reportName, description } = await renderReportRequestData(definition))
         fields = definition?.variant?.specification?.fields
-        // TODO: fix type once interactive flag in place
+        defaultInteractiveQueryString = fields
+          ? FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
+          : undefined
         interactive = (<components['schemas']['VariantDefinition'] & { interactive?: boolean }>definition?.variant)
           ?.interactive
       }
@@ -300,6 +304,10 @@ export default {
           definitionPath: <string>definitionPath,
           services,
         }))
+
+        defaultInteractiveQueryString = definition.filterFields
+          ? FiltersUtils.setFilterQueryFromFilterDefinition(definition.filterFields, true)
+          : undefined
       }
 
       return {
@@ -312,6 +320,7 @@ export default {
           reportId,
           id,
           definitionPath: definitionPath as string,
+          ...(defaultInteractiveQueryString?.length && { defaultInteractiveQueryString }),
           csrfToken,
           template,
           metrics,

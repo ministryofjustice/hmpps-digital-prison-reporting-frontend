@@ -44,10 +44,10 @@ const granularDateRangeFilter = {
   mandatory: false,
   filter: {
     type: 'granulardaterange',
-    defaultQuickFilterValue: 'last-ninety-days',
+    defaultQuickFilterValue: 'last-six-months',
     defaultValue: '2003-02-01 - 2006-05-04',
     mandatory: true,
-    defaultGranularity: 'daily',
+    defaultGranularity: 'months',
     interactive: true,
   },
 }

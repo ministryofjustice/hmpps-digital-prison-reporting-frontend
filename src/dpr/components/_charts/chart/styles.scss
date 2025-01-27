@@ -1,7 +1,6 @@
 .chart-canvas {
   height: 100% !important;
   width: 100% !important;
-  max-height: 350px;
 }
 
 .chart-colour__blue {
@@ -21,4 +20,12 @@
 }
 .chart-colour__dark_blue {
   background-color: govuk-colour("dark-blue")
+}
+
+.dpr-chart {
+  height: 400px;
+}
+
+.dpr-canvas-wrapper {
+  height: 100%;
 }

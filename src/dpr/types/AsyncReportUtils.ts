@@ -27,6 +27,7 @@ export interface RequestDataResult {
   fields?: components['schemas']['FieldDefinition'][]
   interactive?: boolean
   reportData: {
+    interactiveFilters?: components['schemas']['FilterDefinition'][]
     reportName: string
     name: string
     description: string
@@ -37,5 +38,6 @@ export interface RequestDataResult {
     template?: string
     metrics?: DashboardMetricDefinition[]
     type: ReportType
+    defaultInteractiveQueryString?: string
   }
 }

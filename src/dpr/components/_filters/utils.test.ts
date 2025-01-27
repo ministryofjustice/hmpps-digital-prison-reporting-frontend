@@ -2,6 +2,9 @@ import { Request } from 'express'
 import FiltersUtils from './utils'
 import mockVariant from '../../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
 import { components } from '../../types/api'
+import DateRangeUtils from '../_inputs/date-range/utils'
+import GranularDaterangeUtils from '../_inputs/granular-date-range/utils'
+import { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 
 describe('Filters Utils tests', () => {
   const req: Request = {
@@ -139,6 +142,97 @@ describe('Filters Utils tests', () => {
           },
         ],
       })
+    })
+  })
+
+  // TODO:
+  describe('setFilterQueryFromFilterDefinition', () => {
+    let granularDateRangeSpy
+    let dateRangeSpy
+
+    it('should set the filter query from the filter definition', () => {
+      granularDateRangeSpy = jest.spyOn(GranularDaterangeUtils, 'getQueryFromDefinition')
+      dateRangeSpy = jest.spyOn(DateRangeUtils, 'getQueryFromDefinition')
+
+      const granularDateRangeFilter = {
+        type: 'granulardaterange',
+        defaultQuickFilterValue: 'last-six-months',
+        defaultValue: '2003-02-01 - 2006-05-04',
+        mandatory: true,
+        defaultGranularity: 'months',
+        interactive: true,
+      } as unknown as components['schemas']['FilterDefinition']
+
+      const dateRangeFilter: components['schemas']['FilterDefinition'] = {
+        type: 'daterange',
+        defaultValue: '2003-02-01 - 2006-05-04',
+        min: '2003-02-01',
+        max: '2007-05-04',
+        mandatory: true,
+      }
+
+      const dateFilter: components['schemas']['FilterDefinition'] = {
+        type: 'date',
+        defaultValue: '2005-02-01',
+        min: '2003-02-01',
+        max: '2007-05-04',
+        mandatory: true,
+      }
+
+      const fieldParams = {
+        mandatory: false,
+        defaultsort: false,
+        calculated: false,
+        sortable: false,
+        visible: true,
+      }
+
+      const fields: components['schemas']['FieldDefinition'][] = [
+        {
+          name: 'field1',
+          display: 'Field 1',
+          type: 'date',
+          ...fieldParams,
+          filter: dateRangeFilter,
+        },
+        {
+          name: 'field2',
+          display: 'Field 2',
+          type: 'date',
+          ...fieldParams,
+          filter: dateFilter,
+        },
+        {
+          name: 'field3',
+          display: 'Field 3',
+          type: 'string',
+          ...fieldParams,
+          filter: {
+            type: 'text',
+            mandatory: true,
+          },
+        },
+        {
+          name: 'field4',
+          display: 'Field 4',
+          type: 'date',
+          ...fieldParams,
+          filter: granularDateRangeFilter,
+        },
+      ]
+
+      const result = FiltersUtils.setFilterQueryFromFilterDefinition(fields)
+      const expectedResult =
+        'filters.field1.start=2003-02-01&filters.field1.end=2006-05-04&filters.field2=2005-02-01&filters.field4.quick-filter=last-six-months&filters.field4.granularity=monthly&filters.field4.start=2024-07-28&filters.field4.end=2025-01-27'
+
+      expect(granularDateRangeSpy).toHaveBeenCalledWith(
+        granularDateRangeFilter,
+        'field4',
+        DEFAULT_FILTERS_PREFIX,
+        'filters.field4.start=2003-02-01&filters.field4.end=2006-05-04',
+      )
+      expect(dateRangeSpy).toHaveBeenCalledWith(dateRangeFilter, 'field1', DEFAULT_FILTERS_PREFIX)
+      expect(result).toEqual(expectedResult)
     })
   })
 })

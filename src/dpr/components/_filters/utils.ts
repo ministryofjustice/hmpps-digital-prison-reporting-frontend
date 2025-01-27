@@ -44,7 +44,7 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
 
 const setFilterQueryFromFilterDefinition = (
   fields: components['schemas']['FieldDefinition'][],
-  interactive: boolean,
+  interactive?: boolean,
 ) => {
   let filterFields = fields.filter((f) => f.filter)
   if (interactive) {
@@ -80,7 +80,9 @@ const setFilterQueryFromFilterDefinition = (
     return ''
   })
 
-  return queryArray.filter((p) => p.length).join('&')
+  const queryString = queryArray.filter((p) => p.length).join('&')
+
+  return queryString
 }
 
 /**

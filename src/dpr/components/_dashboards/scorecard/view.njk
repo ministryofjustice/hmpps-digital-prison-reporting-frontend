@@ -5,15 +5,19 @@
   {% set value = args.value %}
   {% set rag = args.rag %}
   {% set link = args.link %}
+  {% set trend = args.trend %}
   {% set valueFor = args.valueFor %}
 
   {% set trend = args.trend %}
-  {% if trend.direction === 'Up' %}
+  {% if trend.direction === 1 %}
     {% set directionIcon = '▲' %}
-  {% elif trend.direction === 'Down' %}
+    {% set directionDisplay = 'Up' %}
+  {% elif trend.direction === -1 %}
     {% set directionIcon = '▼' %}
+    {% set directionDisplay = 'Down' %}
   {% else %}
     {% set directionIcon = '◼' %}
+    {% set directionDisplay = '' %}
   {% endif %}
 
   <div class="dpr-scorecard" data-dpr-module="scorecard">
@@ -21,12 +25,16 @@
       {{ title }}
     </h4>
 
-    <p class="govuk-body dpr-scorecard__value govuk-tag--{{ rag }}">{{ value }}</p>
-    <p class="govuk-body dpr-scorecard__value-description">Status: {{ rag }}</p>
+    <p class="govuk-body dpr-scorecard__value {% if rag %}govuk-tag--{{ rag.color }}{% endif %}">{{ value }}</p>
+    {% if rag %}
+    <p class="govuk-body dpr-scorecard__value-description">Status: {{ rag.score }}</p>
+    {% endif %}
 
+    {% if trend %}
     <p class="govuk-body-s govuk-!-margin-bottom-2">
-      {{ directionIcon }} {{ trend.direction }} {{ trend.value }} from {{ trend.from }}
+      {{ directionIcon }} {{ directionDisplay }} {{ trend.value }} from {{ trend.from }}
     </p>
+    {% endif %}
 
     {% if link.href %}
       <div class="govuk-!-margin-bottom-3">
@@ -34,6 +42,8 @@
       </div>
     {% endif %}
 
-    <p class="dpr-scorecard__value-from govuk-body-s">Value for {{ valueFor }}</p>
+    {% if valueFor %}
+      <p class="dpr-scorecard__value-from govuk-body-s">Value for {{ valueFor }}</p>
+    {% endif %}
   </div>
 {% endmacro %}

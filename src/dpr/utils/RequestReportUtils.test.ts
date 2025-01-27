@@ -99,36 +99,36 @@ describe('RequestReportUtils', () => {
   })
 
   describe('renderRequestData', () => {
-    // it('should render the request data for a report', async () => {
-    //   req.params = {
-    //     ...req.params,
-    //     id: 'mockVariantId',
-    //     type: ReportType.REPORT,
-    //   }
+    it('should render the request data for a report', async () => {
+      req.params = {
+        ...req.params,
+        id: 'mockVariantId',
+        type: ReportType.REPORT,
+      }
 
-    //   const result = await RequestReportUtils.renderRequestData({
-    //     req,
-    //     res,
-    //     services,
-    //     next,
-    //   })
+      const result = await RequestReportUtils.renderRequestData({
+        req,
+        res,
+        services,
+        next,
+      })
 
-    //   expect(result).toEqual({
-    //     fields: mockDefinition.variant.specification.fields,
-    //     reportData: {
-    //       reportName: 'reportName',
-    //       name: 'Successful Report',
-    //       description: 'this will succeed',
-    //       reportId: 'reportId',
-    //       id: 'mockVariantId',
-    //       definitionPath: undefined,
-    //       csrfToken: 'csrfToken',
-    //       template: undefined,
-    //       metrics: undefined,
-    //       type: 'report',
-    //     },
-    //   })
-    // })
+      expect(result).toEqual({
+        fields: mockDefinition.variant.specification.fields,
+        reportData: {
+          reportName: 'reportName',
+          name: 'Successful Report',
+          description: 'this will succeed',
+          reportId: 'reportId',
+          id: 'mockVariantId',
+          definitionPath: undefined,
+          csrfToken: 'csrfToken',
+          template: undefined,
+          metrics: undefined,
+          type: 'report',
+        },
+      })
+    })
 
     it('should render the request data for a dashboard', async () => {
       req.params = {

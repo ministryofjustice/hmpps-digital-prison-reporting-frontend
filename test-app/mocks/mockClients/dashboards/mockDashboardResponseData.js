@@ -1,6 +1,6 @@
 const dayjs = require('dayjs')
 
-const establishmentIds = ['MDI', 'KMI', 'DAI']
+const establishmentIds = ['MDI', 'SLI', 'DAI', 'LTI']
 
 const createTimeSeriesData = (start, end, granularity, sets) => {
   const timeseriesArr = createTimestamps(start, end, granularity, sets)
@@ -8,6 +8,10 @@ const createTimeSeriesData = (start, end, granularity, sets) => {
     return item.map((entry) => {
       const hasEthnicity = generateRawValue()
       const ethnicityIsMissing = generateRawValue()
+      const hasNationality = generateRawValue()
+      const nationalityIsMissing = generateRawValue()
+      const hasReligion = generateRawValue()
+      const religionIsMissing = generateRawValue()
 
       return {
         ...entry,
@@ -18,6 +22,22 @@ const createTimeSeriesData = (start, end, granularity, sets) => {
         ethnicity_is_missing: {
           raw: ethnicityIsMissing,
           rag: generateRag(ethnicityIsMissing),
+        },
+        has_nationality: {
+          raw: hasNationality,
+          rag: generateRag(hasNationality),
+        },
+        nationality_is_missing: {
+          raw: nationalityIsMissing,
+          rag: generateRag(nationalityIsMissing),
+        },
+        has_religion: {
+          raw: hasReligion,
+          rag: generateRag(hasReligion),
+        },
+        religion_is_missing: {
+          raw: religionIsMissing,
+          rag: generateRag(religionIsMissing),
         },
       }
     })

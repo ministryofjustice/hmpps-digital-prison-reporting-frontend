@@ -6,13 +6,13 @@ const createScoreCard = (scorecardDefinition: DashboardScorecard, rawData: Metri
   // Get last in timeseries data
   const data = rawData[rawData.length - 1][0]
   const { column, label: title } = scorecardDefinition
-
+  const valueFor = data.timestamp as unknown as string
   return {
     title,
     value: +data[column].raw,
     rag: getRag(+data[column].rag),
     valueFor: data.timestamp as unknown as string,
-    trend: createTrend(rawData, column),
+    trend: createTrend(rawData, column, valueFor),
   }
 }
 
@@ -32,6 +32,8 @@ const createScorecards = (
     }
   })
 
+  // console.log(JSON.stringify(scorecardGroups, null, 2))
+
   return scorecardGroups
 }
 
@@ -43,7 +45,12 @@ const getRag = (ragScore: number) => {
   }
 }
 
-const createTrend = (rawData: MetricsDataResponse[][], column: string): ScorecardTrend => {
+const createTrend = (
+  rawData: MetricsDataResponse[][],
+  column: string,
+  valueFor: string,
+): ScorecardTrend | undefined => {
+  let trendData
   const currentData = rawData[rawData.length - 1][0]
   const startData = rawData[0][0]
 
@@ -53,12 +60,17 @@ const createTrend = (rawData: MetricsDataResponse[][], column: string): Scorecar
   const value = currentValue - startValue
 
   const direction = Math.sign(value)
+  const fromData = startData.timestamp as unknown as string
 
-  return {
-    direction,
-    value: Math.abs(value),
-    from: startData.timestamp as unknown as string,
+  if (fromData !== valueFor) {
+    trendData = {
+      direction,
+      value: Math.abs(value),
+      from: startData.timestamp as unknown as string,
+    }
   }
+
+  return trendData
 }
 
 export default {

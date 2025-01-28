@@ -1,4 +1,5 @@
 import { Request } from 'express'
+import MockDate from 'mockdate'
 import FiltersUtils from './utils'
 import mockVariant from '../../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
 import { components } from '../../types/api'
@@ -145,10 +146,17 @@ describe('Filters Utils tests', () => {
     })
   })
 
-  // TODO:
   describe('setFilterQueryFromFilterDefinition', () => {
     let granularDateRangeSpy
     let dateRangeSpy
+
+    beforeEach(() => {
+      MockDate.set('2024-06-06')
+    })
+
+    afterEach(() => {
+      MockDate.reset()
+    })
 
     it('should set the filter query from the filter definition', () => {
       granularDateRangeSpy = jest.spyOn(GranularDaterangeUtils, 'getQueryFromDefinition')
@@ -223,7 +231,7 @@ describe('Filters Utils tests', () => {
 
       const result = FiltersUtils.setFilterQueryFromFilterDefinition(fields)
       const expectedResult =
-        'filters.field1.start=2003-02-01&filters.field1.end=2006-05-04&filters.field2=2005-02-01&filters.field4.quick-filter=last-six-months&filters.field4.granularity=monthly&filters.field4.start=2024-07-28&filters.field4.end=2025-01-27'
+        'filters.field1.start=2003-02-01&filters.field1.end=2006-05-04&filters.field2=2005-02-01&filters.field4.quick-filter=last-six-months&filters.field4.granularity=monthly&filters.field4.start=2023-12-07&filters.field4.end=2024-06-06'
 
       expect(granularDateRangeSpy).toHaveBeenCalledWith(
         granularDateRangeFilter,

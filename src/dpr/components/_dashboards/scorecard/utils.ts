@@ -20,7 +20,7 @@ const createScorecards = (
   scorecardsDefinition: DashboardScorecardsGroup[],
   data: MetricsDataResponse[][],
 ): ScorecardGroup[] => {
-  const scorecardGroups = scorecardsDefinition.map((group: DashboardScorecardsGroup) => {
+  return scorecardsDefinition.map((group: DashboardScorecardsGroup) => {
     const { display: title, description, scorecards } = group
 
     return {
@@ -31,10 +31,6 @@ const createScorecards = (
       }),
     }
   })
-
-  // console.log(JSON.stringify(scorecardGroups, null, 2))
-
-  return scorecardGroups
 }
 
 const getRag = (ragScore: number) => {
@@ -53,12 +49,9 @@ const createTrend = (
   let trendData
   const currentData = rawData[rawData.length - 1][0]
   const startData = rawData[0][0]
-
   const currentValue = +currentData[column].raw
   const startValue = +startData[column].raw
-
   const value = currentValue - startValue
-
   const direction = Math.sign(value)
   const fromData = startData.timestamp as unknown as string
 

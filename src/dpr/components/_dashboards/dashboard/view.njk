@@ -17,15 +17,13 @@
     <div class="dashboard-content">
       {{ dprReportHeading(data) }}
       {{ dprDashboardFilters(data.filters) }}
-      <br>
-      {{ dprScoreCardGroup(data.scorecards) }}
-      
       {% for metric in data.metrics %}
         <hr class="metric-break">
         <div>
           {{ dprChartCard(metric) }}
         </div>
       {% endfor %}
+      {{ dprScoreCardGroup(data.scorecards) }}
     </div>
   </div>
 {% endmacro %}

@@ -7,7 +7,7 @@ interface Chart {
 
 export interface ChartData {
   type: ChartType
-  unit: ChartUnit
+  unit?: ChartUnit
   data: ChartDataValues
 }
 

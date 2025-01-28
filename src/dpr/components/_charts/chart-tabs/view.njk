@@ -28,10 +28,12 @@
 
     {% set tabItems = (tabItems.push(tabContent), tabItems) %}
   {% endfor -%}
+  {% set chartsLength = tabItems | length %}
+  {{ hasCharts }}
 
   {% if tableData %}
   {% set tableHtml %}
-  <div class="dpr-chart-tab-table">
+  <div class="{% if chartsLength > 0 %}dpr-chart-tab-table{% endif %}">
     {{ govukTable(tableData)}}
   </div>
   {% endset %}
@@ -44,6 +46,10 @@
       }
     }), tabItems) %}
   {% endif %}
-    
-  {{ govukTabs({ items: tabItems, classes: 'dpr-chart-tabs' }) }}
+  
+  {% if chartsLength === 0 %} 
+    {{ tableHtml | safe }}
+  {% else %}
+    {{ govukTabs({ items: tabItems, classes: 'dpr-chart-tabs' }) }}
+  {% endif %}
 {% endmacro %}

@@ -1,11 +1,12 @@
 import { components } from './api'
 import { ChartUnit, ChartType } from './Charts'
+import { MetricDefinition } from './Metrics'
 
 export interface DashboardDefinition {
   id: string
   name: string
   description: string
-  metrics: DashboardMetricDefinition[]
+  metrics: MetricDefinition[]
   scorecards: DashboardScorecardsGroup[]
   filterFields: components['schemas']['FieldDefinition'][]
 }

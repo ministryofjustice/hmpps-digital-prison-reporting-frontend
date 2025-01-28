@@ -97,8 +97,8 @@ const getParts = (dashboardDefinition: DashboardDefinition, dashboardData: Metri
 
   // Charts
   const charts: ChartCardData[] = ChartCardUtils.getChartData({
-    dashboardDefinition,
-    dashboardMetricsData: dashboardData,
+    metricsDefinition: dashboardDefinition.metrics,
+    dashboardData,
   })
 
   return {

@@ -7,6 +7,7 @@ const {
 } = require('./mockDashboardMetricDefinitons')
 
 const { establishmentIdFilter, granularDateRangeFilter } = require('./mockDashboardFilterDefinition')
+const { mockDashboardDataAnalticsScoreCardGroup } = require('./mockDashboardScoreCardDefinitions')
 
 const mockDashboardDefinition1 = {
   id: 'test-dashboard-1',
@@ -105,7 +106,8 @@ const mockDashboardDefinition10 = {
   id: 'test-dashboard-10',
   name: 'Time series test',
   description: 'Testing a dashboard with timeseries chart & snapshot chart',
-  metrics: [mockDashboardMetricDefMissingEthnicityRaw, mockDashboardMetricDefMissingEthnicityTimeseries],
+  metrics: [mockDashboardMetricDefMissingEthnicityTimeseries, mockDashboardMetricDefMissingEthnicityRaw],
+  scorecards: [mockDashboardDataAnalticsScoreCardGroup],
   filterFields: [establishmentIdFilter, granularDateRangeFilter],
 }
 

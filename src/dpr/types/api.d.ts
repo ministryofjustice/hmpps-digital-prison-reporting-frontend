@@ -187,7 +187,7 @@ export interface components {
     }
     Specification: {
       /** @enum {string} */
-      template: 'list' | 'list-section' | 'list-tab' | 'summary' | 'summary-section'
+      template: 'list' | 'list-section' | 'list-tab' | 'summary' | 'summary-section' | 'parent-child'
       fields: components['schemas']['FieldDefinition'][]
       sections: string[]
     }
@@ -207,6 +207,14 @@ export interface components {
       classification?: string
       printable?: boolean
       summaries?: components['schemas']['ReportSummary'][]
+      childVariants: components['schemas']['ChildVariantDefinition'][]
+    }
+    ChildVariantDefinition: {
+      id: string
+      name: string
+      resourceName: string
+      specification?: components['schemas']['Specification']
+      joinFields: string[]
     }
     StatementExecutionResponse: {
       tableId: string

@@ -1,4 +1,3 @@
-import Dict = NodeJS.Dict
 import { AsyncSummary } from '../../types/UserReports'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../DataTableBuilder/types'
@@ -20,18 +19,13 @@ export default class SummaryDataTableBuilder extends DataTableBuilder {
       visible: true,
     }))
 
-    super(fields)
+    super(fields, true)
 
     this.summary = summary
     this.columns = columns
   }
 
-  buildTable(data: Array<Dict<string>>): DataTable {
-    const sortedData = this.sort(data)
-    return super.buildTable(sortedData)
-  }
-
   buildSummaryTable(): DataTable {
-    return this.buildTable(this.summary.data)
+    return super.buildTable(this.summary.data)
   }
 }

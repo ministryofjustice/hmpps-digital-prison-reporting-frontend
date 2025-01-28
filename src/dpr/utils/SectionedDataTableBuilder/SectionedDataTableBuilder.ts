@@ -5,6 +5,7 @@ import type { SummaryTemplate, Template } from '../../types/Templates'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import { distinct } from '../arrayUtils'
 import SummaryDataTableBuilder from '../SummaryDataTableBuilder/SummaryDataTableBuilder'
+import { SectionSortKey } from './types'
 
 export default class SectionedDataTableBuilder extends DataTableBuilder {
   private sections: Array<string>
@@ -20,15 +21,11 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
 
   private mapSectionedData(data: Array<Dict<string>>, header: Cell[]): Cell[][] {
     let sectionedData: Dict<Cell[][]> = {}
-    const headerRow = header.map((h) => ({
-      ...h,
-      classes: 'govuk-table__header',
-    }))
 
-    const sectionFields = this.sections.map((s) => this.fields.find((f) => f.name === s))
+    const sectionFields = this.mapNamesToFields(this.sections)
 
     const sectionDescriptions = data
-      .map((rowData) => ({
+      .map((rowData): SectionSortKey => ({
         description: this.mapSectionDescription(rowData),
         sortKey: this.getSortKey(rowData, sectionFields),
       }))
@@ -70,7 +67,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
       )
 
       const tableContent = mappedSectionHeaderSummary
-        .concat(mappedTableData.length > 0 ? [headerRow] : [])
+        .concat(mappedTableData.length > 0 ? [header] : [])
         .concat(mappedHeaderSummary)
         .concat(mappedTableData)
         .concat(mappedFooterSummary)
@@ -117,25 +114,9 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
         if (data.length > 0) {
           const dataTable = new SummaryDataTableBuilder(summary, this.sections).buildTable(data)
 
-          const headers = dataTable.head.map(
-            (h) => `<th scope='col' class='govuk-table__header'>${h.html ?? h.text}</th>`,
-          )
-          const rows = dataTable.rows.map(
-            (r) =>
-              `<tr class='govuk-table__row'>${r
-                .map(
-                  (c) =>
-                    `<td class='govuk-table__cell govuk-table__cell--${c.format} ${c.classes}'>${
-                      c.html ?? c.text
-                    }</td>`,
-                )
-                .join('')}</tr>`,
-          )
+          const htmlTable = this.convertDataTableToHtml(dataTable)
 
-          return `<div class='dpr-summary-container'><table class='govuk-table'>
-                  <thead class='govuk-table__head'>${headers.join('')}</thead>
-                  <tbody class='govuk-table__body'>${rows.join('')}</tbody>
-                </table></div>`
+          return `<div class='dpr-summary-container'>${htmlTable}</div>`
         }
         return ''
       })
@@ -158,18 +139,15 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
   private mapSectionDescription(rowData: NodeJS.Dict<string>): string {
     const { sections } = this
 
-    return sections
-      .map((s) => {
-        const sectionField = this.fields.find((f) => f.name === s)
-        return `${sectionField.display}: ${this.mapCellValue(sectionField, rowData[s])}`
-      })
+    return this.mapNamesToFields(sections)
+      .map(s => (`${s.display}: ${this.mapCellValue(s, rowData[s.name])}`))
       .join(', ')
   }
 
   buildTable(data: Array<Dict<string>>): DataTable {
     return {
       head: null,
-      rows: this.mapSectionedData(data, this.mapHeader(true)),
+      rows: this.mapSectionedData(data, this.mapHeader(true, 'govuk-table__header')),
       rowCount: data.length,
       colCount: this.columns.length,
     }

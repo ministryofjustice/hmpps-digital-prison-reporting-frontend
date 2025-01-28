@@ -22,6 +22,7 @@ import ReportActionsUtils from '../../_reports/report-actions/utils'
 import UserReportsUtils from '../../user-reports/utils'
 import LocalsHelper from '../../../utils/localsHelper'
 import { DownloadActionParams } from '../../_reports/report-actions/types'
+import ParentChildDataTableBuilder from '../../../utils/ParentChildDataTableBuilder/ParentChildDataTableBuilder'
 
 export const initDataSources = ({
   req,
@@ -78,7 +79,33 @@ export const initDataSources = ({
   )
   const stateDataPromise = services.requestedReportService.getReportByTableId(tableId, userId)
 
-  return [reportDefinitionPromise, reportDataPromise, stateDataPromise, summaryDataPromise]
+  const childDataPromise = reportDefinitionPromise.then(
+    (definition: components['schemas']['SingleVariantReportDefinition']) => {
+      if (!definition.variant.childVariants) {
+        return Promise.resolve([])
+      }
+      return Promise.all(
+        definition.variant.childVariants.map((childVariant) => {
+          const specification = childVariant.specification
+
+          const query = new ReportQuery({
+            fields: specification.fields,
+            template: specification.template as Template,
+            queryParams: req.query,
+            definitionsPath: dataProductDefinitionsPath,
+          }).toRecordWithFilterPrefix(true)
+
+          return services.reportingService.getAsyncReport(token, reportId, reportVariantId, tableId, query)
+            .then((data: Array<Dict<string>>) => ({
+              id: childVariant.id,
+              data,
+            }))
+        }),
+      )
+    },
+  )
+
+  return [reportDefinitionPromise, reportDataPromise, stateDataPromise, summaryDataPromise, childDataPromise]
 }
 
 const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
@@ -202,6 +229,18 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
         }
         case 'list-tab':
           // Add template-specific calls here
+          break
+
+        case 'parent-child':
+          const dataTable = new ParentChildDataTableBuilder(variant)
+            .withNoHeaderOptions(columns.value)
+            .withChildData({})
+            .buildTable(reportData)
+
+            renderData = {
+              ...renderData,
+              dataTable,
+            }
           break
 
         default:

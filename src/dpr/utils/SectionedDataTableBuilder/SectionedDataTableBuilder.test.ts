@@ -384,7 +384,7 @@ describe('buildTable', () => {
       [
         {
           colspan: 2,
-          html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-header'><div class='dpr-summary-container'><table class='govuk-table'>\n                  <thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Squishy?</th></thead>\n                  <tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>No</td></tr></tbody>\n                </table></div></div>",
+          html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-header'><div class='dpr-summary-container'><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Squishy?</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>No</td></tr></tbody></table></div></div>",
         },
       ],
       headerResultRow,
@@ -392,14 +392,14 @@ describe('buildTable', () => {
       [
         {
           colspan: 2,
-          html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-footer'><div class='dpr-summary-container'><table class='govuk-table'>\n                  <thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Preference</th><th scope='col' class='govuk-table__header'>Eaten</th></thead>\n                  <tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Oranges</td><td class='govuk-table__cell govuk-table__cell--numeric '>2005</td></tr></tbody>\n                </table></div></div>",
+          html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-footer'><div class='dpr-summary-container'><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Preference</th><th scope='col' class='govuk-table__header'>Eaten</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Oranges</td><td class='govuk-table__cell govuk-table__cell--numeric '>2005</td></tr></tbody></table></div></div>",
         },
       ],
       sectionHeaders[0],
       [
         {
           colspan: 2,
-          html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-header'><div class='dpr-summary-container'><table class='govuk-table'>\n                  <thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Squishy?</th></thead>\n                  <tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Yes</td></tr></tbody>\n                </table></div></div>",
+          html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-header'><div class='dpr-summary-container'><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Squishy?</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Yes</td></tr></tbody></table></div></div>",
         },
       ],
       headerResultRow,
@@ -411,7 +411,7 @@ describe('buildTable', () => {
       [
         {
           colspan: 2,
-          html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-footer'><div class='dpr-summary-container'><table class='govuk-table'>\n                  <thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Preference</th><th scope='col' class='govuk-table__header'>Eaten</th></thead>\n                  <tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>No, really</td><td class='govuk-table__cell govuk-table__cell--numeric '>0</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>NO</td><td class='govuk-table__cell govuk-table__cell--numeric '>0</td></tr></tbody>\n                </table></div></div>",
+          html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-footer'><div class='dpr-summary-container'><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Preference</th><th scope='col' class='govuk-table__header'>Eaten</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>No, really</td><td class='govuk-table__cell govuk-table__cell--numeric '>0</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>NO</td><td class='govuk-table__cell govuk-table__cell--numeric '>0</td></tr></tbody></table></div></div>",
         },
       ],
     ])

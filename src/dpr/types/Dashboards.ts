@@ -6,6 +6,7 @@ export interface DashboardDefinition {
   name: string
   description: string
   metrics: DashboardMetricDefinition[]
+  scorecards: DashboardScorecardsGroup[]
   filterFields: components['schemas']['FieldDefinition'][]
 }
 
@@ -18,6 +19,19 @@ export interface DashboardMetricDefinition {
   charts: DashboardChartDefinition[]
 }
 
+export interface DashboardScorecardsGroup {
+  id: string
+  name: string
+  display: string
+  description: string
+  scorecards: DashboardScorecard[]
+}
+
+export interface DashboardScorecard {
+  label: string
+  unit: string
+  column: string
+}
 export interface DashboardChartDefinition {
   type: ChartType
   unit: ChartUnit

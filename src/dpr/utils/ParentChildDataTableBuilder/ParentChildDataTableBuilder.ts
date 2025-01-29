@@ -121,9 +121,6 @@ export default class ParentChildDataTableBuilder extends DataTableBuilder {
       const childFields = this.mapNamesToFields(childVariant.joinFields)
       const matchingChildData = this.childData.find(d => d.id === childVariant.id)
       const data = matchingChildData ? matchingChildData.data : []
-      console.log('childFields: ' + JSON.stringify(childFields))
-      console.log('matchingChildData: ' + JSON.stringify(matchingChildData))
-      console.log('data: ' + JSON.stringify(data))
 
       data.forEach(rowData => {
         const sortKey = this.getSortKey(rowData, childFields)

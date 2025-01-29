@@ -24,6 +24,10 @@ export interface ExecutionData {
   tableId: string
 }
 
+export interface ChildReportExecutionData extends ExecutionData{
+  variantId: string
+}
+
 export interface RequestDataResult {
   fields?: components['schemas']['FieldDefinition'][]
   interactive?: boolean

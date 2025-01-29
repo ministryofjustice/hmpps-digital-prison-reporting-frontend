@@ -207,6 +207,7 @@ export interface components {
       classification?: string
       printable?: boolean
       summaries?: components['schemas']['ReportSummary'][]
+      interactive?: boolean
       childVariants: components['schemas']['ChildVariantDefinition'][]
     }
     ChildVariantDefinition: {

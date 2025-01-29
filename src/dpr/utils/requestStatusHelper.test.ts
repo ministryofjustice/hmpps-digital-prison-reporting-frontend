@@ -7,7 +7,9 @@ import DashboardService from '../services/dashboardService'
 
 describe('ReportStatusHelper', () => {
   const services: Services = {
-    requestedReportService: {},
+    requestedReportService: {
+      getReportByExecutionId: jest.fn().mockResolvedValue({})
+    },
     recentlyViewedService: {},
     bookmarkService: {},
     reportingService: {},
@@ -231,6 +233,7 @@ describe('ReportStatusHelper', () => {
           executionId: 'executionId',
           status: RequestStatus.FINISHED,
           requestedAt: new Date(),
+          type: ReportType.REPORT,
         },
       } as unknown as Request
 
@@ -250,6 +253,7 @@ describe('ReportStatusHelper', () => {
           executionId: 'executionId',
           status: RequestStatus.FINISHED,
           requestedAt: new Date(),
+          type: ReportType.DASHBOARD,
         },
       } as unknown as Request
 

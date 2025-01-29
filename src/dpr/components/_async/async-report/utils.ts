@@ -79,8 +79,11 @@ export const initDataSources = ({
   )
   const stateDataPromise = services.requestedReportService.getReportByTableId(tableId, userId)
 
-  const childDataPromise = reportDefinitionPromise.then(
-    (definition: components['schemas']['SingleVariantReportDefinition']) => {
+  const childDataPromise = Promise.all([reportDefinitionPromise, stateDataPromise]).then(
+    (preReqResponses) => {
+      const definition: components['schemas']['SingleVariantReportDefinition'] = preReqResponses[0]
+      const requestedReport: RequestedReport = preReqResponses[1]
+
       if (!definition.variant.childVariants) {
         return Promise.resolve([])
       }
@@ -95,7 +98,10 @@ export const initDataSources = ({
             definitionsPath: dataProductDefinitionsPath,
           }).toRecordWithFilterPrefix(true)
 
-          return services.reportingService.getAsyncReport(token, reportId, reportVariantId, tableId, query)
+          const { tableId: childTableId } = requestedReport.childExecutionData
+            .find(e => e.variantId === childVariant.id)
+
+          return services.reportingService.getAsyncReport(token, reportId, reportVariantId, childTableId, query)
             .then((data: Array<Dict<string>>) => ({
               id: childVariant.id,
               data,

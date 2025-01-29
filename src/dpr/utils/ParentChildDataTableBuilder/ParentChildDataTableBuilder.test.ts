@@ -277,39 +277,45 @@ const childResultTables = [
     {
       colspan: 4,
       format: 'string',
-      html: "<h3>Child</h3>" +
+      html: "<div class='dpr-child-report'>" +
+        "<h3>Child</h3>" +
         "<table class='govuk-table'>" +
         "<thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead>" +
         "<tbody class='govuk-table__body'>" +
         "<tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Cheddar</td></tr>" +
         "</tbody>" +
-        "</table>"
+        "</table>" +
+        "</div>"
     }
   ],
   [
     {
       "colspan": 4,
       "format": "string",
-      "html": "<h3>Child</h3>" +
+      "html": "<div class='dpr-child-report'>" +
+        "<h3>Child</h3>" +
         "<table class='govuk-table'>" +
         "<thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead>" +
         "<tbody class='govuk-table__body'>" +
         "<tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>No</td></tr>" +
         "<tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Wendsleydale</td></tr>" +
         "</tbody>" +
-        "</table>"
+        "</table>" +
+        "</div>"
     }
   ],
   [
     {
       "colspan": 4,
       "format": "string",
-      "html": "<h3>Child</h3>" +
+      "html": "<div class='dpr-child-report'>" +
+        "<h3>Child</h3>" +
         "<table class='govuk-table'>" +
         "<thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead>" +
         "<tbody class='govuk-table__body'>" +
         "<tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Gouda</td></tr>" +
-        "</tbody></table>"
+        "</tbody></table>" +
+        "</div>"
     }
   ]
 ]

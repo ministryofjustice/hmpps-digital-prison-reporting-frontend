@@ -124,6 +124,7 @@ const mockGetReportListRenderData = {
       head: [
         {
           text: 'Field 2',
+          classes: null
         },
       ],
       rows: [
@@ -351,6 +352,7 @@ const mockReportListRenderData = {
     head: [
       {
         text: 'Field 2',
+        classes: null,
       },
     ],
     colCount: 2,

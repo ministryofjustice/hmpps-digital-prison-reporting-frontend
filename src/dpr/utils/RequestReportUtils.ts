@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { Request, Response } from 'express'
-import { AsyncReportUtilsParams, ExecutionData, RequestDataResult } from '../types/AsyncReportUtils'
+import { AsyncReportUtilsParams, RequestDataResult } from '../types/AsyncReportUtils'
+import { ExecutionData, ChildReportExecutionData } from '../types/ExecutionData'
 import type ReportingService from '../services/reportingService'
 import { ReportType, RequestFormData, RequestStatus } from '../types/UserReports'
 import filtersHelper from '../components/_async/async-filters-form/utils'
@@ -21,8 +22,7 @@ import FiltersUtils from '../components/_filters/utils'
  * @param {Response} res
  * @param {Services} services
  * @param {SetQueryFromFiltersResult} querySummaryData
- * @param {string} executionId
- * @param {string} tableId
+ * @param {string} executionData
  * @return {*}  {Promise<string>}
  */
 export const updateStore = async ({
@@ -31,12 +31,14 @@ export const updateStore = async ({
   services,
   queryData,
   executionData,
+  childExecutionData,
 }: {
   req: Request
   res: Response
   services: Services
   queryData?: SetQueryFromFiltersResult
   executionData: ExecutionData
+  childExecutionData: Array<ExecutionData>
 }): Promise<string> => {
   const { search, id, type } = req.body
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
@@ -51,6 +53,7 @@ export const updateStore = async ({
     case ReportType.REPORT:
       requestedReportData = new UserStoreItemBuilder(reportData)
         .addExecutionData(executionData)
+        .addChildExecutionData(childExecutionData)
         .addFilters(queryData.filterData)
         .addSortData(queryData.sortData)
         .addRequestUrls()
@@ -62,6 +65,7 @@ export const updateStore = async ({
     case ReportType.DASHBOARD: {
       requestedReportData = new UserStoreItemBuilder(reportData)
         .addExecutionData(executionData)
+        .addChildExecutionData(childExecutionData)
         .addRequestUrls()
         .addStatus(RequestStatus.SUBMITTED)
         .addTimestamp()
@@ -76,6 +80,29 @@ export const updateStore = async ({
   await services.requestedReportService.addReport(userId, requestedReportData)
 
   return requestedReportData.url.polling.pathname
+}
+
+async function requestChildReports(
+  childVariants: Array<components['schemas']['ChildVariantDefinition']>,
+  reportingService: ReportingService,
+  token: string,
+  reportId: string,
+  queryData: SetQueryFromFiltersResult,
+  dataProductDefinitionsPath: string,
+): Promise<Array<ChildReportExecutionData>> {
+  return Promise.all(
+    childVariants.map((childVariant) =>
+      reportingService
+        .requestAsyncReport(token, reportId, childVariant.id, {
+          ...queryData.query,
+          dataProductDefinitionsPath,
+        })
+        .then((response) => {
+          const { executionId, tableId } = response
+          return { executionId, tableId, variantId: childVariant.id }
+        }),
+    ),
+  )
 }
 
 /**
@@ -100,7 +127,11 @@ const requestReport = async ({
   req: Request
   token: string
   reportingService: ReportingService
-}): Promise<{ executionData: ExecutionData; queryData: SetQueryFromFiltersResult }> => {
+}): Promise<{
+  executionData: ExecutionData
+  childExecutionData: Array<ExecutionData>
+  queryData: SetQueryFromFiltersResult
+}> => {
   const { reportId, id, dataProductDefinitionsPath } = req.body
 
   const definition = await reportingService.getDefinition(token, reportId, id, <string>dataProductDefinitionsPath)
@@ -112,8 +143,18 @@ const requestReport = async ({
     dataProductDefinitionsPath,
   })
 
+  const childExecutionData = await requestChildReports(
+    definition.variant.childVariants ?? [],
+    reportingService,
+    token,
+    reportId,
+    queryData,
+    dataProductDefinitionsPath,
+  )
+
   return {
     executionData: { executionId, tableId },
+    childExecutionData,
     queryData,
   }
 }
@@ -136,17 +177,29 @@ const requestDashboard = async ({
   req,
   token,
   dashboardService,
+  reportingService,
 }: {
   req: Request
   token: string
   dashboardService: DashboardService
-}) => {
+  reportingService: ReportingService
+}): Promise<{ executionData: ExecutionData; childExecutionData: Array<ExecutionData> }> => {
   const { reportId, id, dataProductDefinitionsPath } = req.body
   const { executionId, tableId } = await dashboardService.requestAsyncDashboard(token, reportId, id, {
     dataProductDefinitionsPath,
   })
 
-  return { executionData: { executionId, tableId } }
+  // TODO: Plumb in child lists as and when relevant
+  const childExecutionData = await requestChildReports(
+    [],
+    reportingService,
+    token,
+    reportId,
+    null,
+    dataProductDefinitionsPath,
+  )
+
+  return { executionData: { executionId, tableId }, childExecutionData }
 }
 
 const renderDashboardRequestData = async ({
@@ -207,6 +260,7 @@ export default {
     const { type } = req.body
 
     let executionData: ExecutionData
+    let childExecutionData: Array<ExecutionData>
     let queryData: SetQueryFromFiltersResult
 
     const requestArgs = {
@@ -215,16 +269,17 @@ export default {
     }
 
     if (type === ReportType.REPORT) {
-      ;({ executionData, queryData } = await requestReport({
+      ;({ executionData, queryData, childExecutionData } = await requestReport({
         ...requestArgs,
         reportingService: services.reportingService,
       }))
     }
 
     if (type === ReportType.DASHBOARD) {
-      ;({ executionData } = await requestDashboard({
+      ;({ executionData, childExecutionData } = await requestDashboard({
         ...requestArgs,
         dashboardService: services.dashboardService,
+        reportingService: services.reportingService,
       }))
     }
 
@@ -236,6 +291,7 @@ export default {
         services,
         queryData,
         executionData,
+        childExecutionData,
       })
     }
 
@@ -292,8 +348,7 @@ export default {
         defaultInteractiveQueryString = fields
           ? FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
           : undefined
-        interactive = (<components['schemas']['VariantDefinition'] & { interactive?: boolean }>definition?.variant)
-          ?.interactive
+        interactive = definition?.variant?.interactive
       }
 
       if (type === ReportType.DASHBOARD) {
@@ -334,12 +389,11 @@ export default {
   },
 
   getFiltersFromReqBody: (req: Request) => {
-    const filters = Object.keys(req.body)
+    return Object.keys(req.body)
       .filter((attr) => attr.includes('filters.'))
       .filter((attr) => !!req.body[attr])
       .map((attr) => {
         return { name: attr, value: req.body[attr] }
       })
-    return filters
   },
 }

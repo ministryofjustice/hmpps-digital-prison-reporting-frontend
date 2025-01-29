@@ -40,7 +40,12 @@ describe('mapData', () => {
 
     expect(mapped).toEqual({
       colCount: 1,
-      head: [{ text: 'Date' }],
+      head: [
+        {
+          text: 'Date',
+          classes: null,
+        },
+      ],
       rowCount: 1,
       rows: [
         [
@@ -73,7 +78,12 @@ describe('mapData', () => {
 
     expect(mapped).toEqual({
       colCount: 1,
-      head: [{ text: 'Date' }],
+      head: [
+        {
+          text: 'Date',
+          classes: null,
+        },
+      ],
       rowCount: 1,
       rows: [
         [
@@ -254,6 +264,7 @@ describe('mapHeader', () => {
     expect(mapped.head).toEqual([
       {
         text: 'Date',
+        classes: null,
       },
     ])
   })
@@ -272,6 +283,7 @@ describe('mapHeader', () => {
             'href="?selectedPage=1&pageSize=20&sortColumn=date&sortedAsc=false&columns=date&dataProductDefinitionsPath=one">' +
             'Date' +
             '</a>',
+          classes: null,
         },
       ],
       rowCount: 0,
@@ -303,6 +315,7 @@ describe('mapHeader', () => {
             'href="?selectedPage=1&pageSize=20&sortColumn=date&sortedAsc=false&columns=date&dataProductDefinitionsPath=date">' +
             'Date' +
             '</a>',
+          classes: null,
         },
       ],
       rowCount: 0,
@@ -335,6 +348,7 @@ describe('mapHeader', () => {
             'href="?selectedPage=1&pageSize=20&sortColumn=date&sortedAsc=true&columns=date&dataProductDefinitionsPath=date">' +
             'Date' +
             '</a>',
+          classes: null,
         },
       ],
       rowCount: 0,

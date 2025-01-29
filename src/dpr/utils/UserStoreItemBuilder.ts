@@ -11,6 +11,7 @@ import Dict = NodeJS.Dict
 import { getDpdPathSuffix } from './urlHelper'
 import { SetQueryFromFiltersResult } from '../components/_async/async-filters-form/types'
 import { DashboardMetricDefinition } from '../types/Dashboards'
+import { ExecutionData } from '../types/ExecutionData'
 
 export default class UserStoreItemBuilder {
   userStoreItem: UserReportData
@@ -70,10 +71,18 @@ export default class UserStoreItemBuilder {
     return this
   }
 
-  addExecutionData = (executionData: { executionId: string; tableId: string }) => {
+  addExecutionData = (executionData: ExecutionData) => {
     this.userStoreItem = {
       ...this.userStoreItem,
       ...executionData,
+    }
+    return this
+  }
+
+  addChildExecutionData = (childExecutionData: Array<ExecutionData>) => {
+    this.userStoreItem = {
+      ...this.userStoreItem,
+      childExecutionData,
     }
     return this
   }

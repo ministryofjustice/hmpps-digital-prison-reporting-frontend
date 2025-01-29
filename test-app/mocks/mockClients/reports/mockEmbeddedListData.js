@@ -4,18 +4,23 @@ const mockSyncData = {
       head: [
         {
           html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&columns=field7&dataProductDefinitionsPath=this/that/other">Field 1</a>',
+          classes: null
         },
         {
           html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&columns=field7&dataProductDefinitionsPath=this/that/other">Field 2</a>',
+          classes: null
         },
         {
           text: 'Field 3',
+          classes: null
         },
         {
           text: 'Field 6',
+          classes: null
         },
         {
           text: 'Field 7',
+          classes: null
         },
       ],
       rows: [

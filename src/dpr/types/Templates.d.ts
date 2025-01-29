@@ -1,4 +1,4 @@
-export type Template = 'list' | 'list-section' | 'list-tab' | 'summary' | 'summary-section'
+export type Template = 'list' | 'list-section' | 'list-tab' | 'summary' | 'summary-section' | 'parent-child'
 
 export type SummaryTemplate =
   | 'table-header'

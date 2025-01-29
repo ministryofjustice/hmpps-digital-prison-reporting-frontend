@@ -19,11 +19,6 @@ export interface EmbeddedReportUtilsParams {
   services: Services
 }
 
-export interface ExecutionData {
-  executionId: string
-  tableId: string
-}
-
 export interface RequestDataResult {
   fields?: components['schemas']['FieldDefinition'][]
   interactive?: boolean

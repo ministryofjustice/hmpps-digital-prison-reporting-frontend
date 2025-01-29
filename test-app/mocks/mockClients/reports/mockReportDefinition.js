@@ -23,6 +23,7 @@ const variant22 = require('./mockVariants/variant22')
 const variant23 = require('./mockVariants/variant23-interactive')
 const variant24 = require('./mockVariants/variant24-sync')
 const variant25 = require('./mockVariants/variant25-granularDateRange')
+const variant26 = require('./mockVariants/variant26-parent-child')
 const dashboardDefinition = require('../dashboards/mockDashboardDefinition')
 
 module.exports = {
@@ -56,6 +57,7 @@ module.exports = {
       variant23,
       variant24,
       variant25,
+      variant26,
     ],
     dashboards: dashboardDefinition,
   },
@@ -82,7 +84,7 @@ module.exports = {
     {
       id: 'test-report-1',
       name: 'A Test Report',
-      variants: [variant12, variant13, variant14, variant15, variant16, variant25],
+      variants: [variant12, variant13, variant14, variant15, variant16, variant25, variant26],
       dashboards: dashboardDefinition,
     },
     {

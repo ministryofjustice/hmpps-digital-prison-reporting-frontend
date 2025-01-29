@@ -1,7 +1,6 @@
 import { Response, Request, NextFunction } from 'express'
 import { Services } from './Services'
 import { components } from './api'
-import { DashboardMetricDefinition } from './Dashboards'
 import { ReportType } from './UserReports'
 import { ScorecardGroup } from '../components/_dashboards/scorecard/types'
 import { MetricDefinition } from './Metrics'

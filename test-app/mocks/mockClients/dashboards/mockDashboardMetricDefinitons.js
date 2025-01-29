@@ -73,8 +73,8 @@ const missingEthnicityChartsPercentage = [
 
 const missingEthnicityMetricsMixed = {
   id: 'missing-ethnicity-metric-mixed',
-  name: 'Missing ethnicity raw and percentage',
-  display: 'Missing ethnicity percentage',
+  name: 'Missing ethnicity',
+  display: 'Missing ethnicity',
   description: 'Percentage of prisoners with missing ethnicity data',
   columns: [
     {

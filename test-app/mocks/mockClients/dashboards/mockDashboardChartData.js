@@ -1,12 +1,11 @@
 const missingEthnicityChartData = {
-  id: 'missing-ethnicity-metric',
+  id: 'missing-ethnicity-metric-mixed',
   title: 'Missing ethnicity',
-  description: 'Number of prisoners with missing ethnicity data',
+  description: 'Percentage of prisoners with missing ethnicity data',
   data: {
     chart: [
       {
         type: 'bar',
-        unit: 'number',
         data: {
           labels: ['No. of Prisoners with ethnicity', 'No. of Prisoners with no ethnicity'],
           datasets: [

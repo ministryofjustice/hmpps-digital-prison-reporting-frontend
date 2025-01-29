@@ -4,6 +4,7 @@ import { components } from './api'
 import { DashboardMetricDefinition } from './Dashboards'
 import { ReportType } from './UserReports'
 import { ScorecardGroup } from '../components/_dashboards/scorecard/types'
+import { MetricDefinition } from './Metrics'
 
 export interface AsyncReportUtilsParams {
   req?: Request
@@ -37,7 +38,7 @@ export interface RequestDataResult {
     definitionPath: string
     csrfToken: string
     template?: string
-    metrics?: DashboardMetricDefinition[]
+    metrics?: MetricDefinition[]
     scorecards?: ScorecardGroup[]
     type: ReportType
     defaultInteractiveQueryString?: string

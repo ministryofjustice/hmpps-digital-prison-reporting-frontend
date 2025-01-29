@@ -2,7 +2,6 @@
 /* eslint-disable class-methods-use-this */
 const dashboardDefinitions = require('./mockDashboardDefinition')
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
-const mockDahsboardData = require('./mockDashboardData')
 const mockDahsboardDataHelper = require('./mockDashboardResponseData')
 
 class MockDashboardClient {
@@ -77,15 +76,55 @@ class MockDashboardClient {
   }
 }
 
-const getData = (def, dashboardId, query) => {
-  if (['test-dashboard-10'].includes(dashboardId)) {
-    const start = query['filters.date.start']
-    const end = query['filters.date.end']
-    const granularity = query['filters.date.granularity']
-    const data = mockDahsboardDataHelper.createTimeSeriesData(start, end, granularity, 3)
-    return data
+const customiseDataset = (id) => {
+  let sets = 1
+  switch (id) {
+    case 'test-dashboard-1':
+      sets = 1
+      break
+    case 'test-dashboard-2':
+      sets = 2
+      break
+    case 'test-dashboard-3':
+      sets = 3
+      break
+    case 'test-dashboard-4':
+      sets = 4
+      break
+    case 'test-dashboard-5':
+      sets = 5
+      break
+    case 'test-dashboard-6':
+      sets = 6
+      break
+    case 'test-dashboard-7':
+      sets = 7
+      break
+    case 'test-dashboard-8':
+      sets = 4
+      break
+    case 'test-dashboard-9':
+      sets = 1
+      break
+    case 'test-dashboard-10':
+      sets = 4
+      break
+    case 'test-dashboard-11':
+      sets = 4
+      break
+    default:
+      break
   }
-  return mockDahsboardData[dashboardId]
+  return { sets }
+}
+
+const getData = (def, dashboardId, query) => {
+  const start = query['filters.date.start']
+  const end = query['filters.date.end']
+  const granularity = query['filters.date.granularity']
+  const { sets } = customiseDataset(dashboardId)
+  const data = mockDahsboardDataHelper.createTimeSeriesData(start, end, granularity, sets)
+  return data
 }
 
 const filterByEstablishmentId = (query, data) => {

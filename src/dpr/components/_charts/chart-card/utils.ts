@@ -147,9 +147,11 @@ const createTimeseriesTable = (
   const allColumns = definition.columns
 
   // Unique columns for timeseries should always only be length of 1
-  const uniqueColumns = allColumns.filter(
-    (value, index, self) => index === self.findIndex((t) => t.name === value.name),
-  )
+  const uniqueColumns = allColumns
+    .filter((value, index, self) => index === self.findIndex((t) => t.name === value.name))
+    .filter((value) => {
+      return value.name !== definition.charts[0].label
+    })
 
   const head: MoJTableHead[] = []
   head.push({

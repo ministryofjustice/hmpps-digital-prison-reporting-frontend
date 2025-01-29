@@ -7,7 +7,7 @@ import { DashboardDefinition } from '../../../types/Dashboards'
 
 describe('ChartCard Utils', () => {
   let dashboardDefinition: DashboardDefinition
-  let dashboardMetricsData: MetricsDataResponse[]
+  let dashboardMetricsData: MetricsDataResponse[][]
 
   beforeEach(() => {
     dashboardDefinition = dashboardDefinitions[0] as unknown as DashboardDefinition
@@ -37,8 +37,8 @@ describe('ChartCard Utils', () => {
     it('should get the chart data', async () => {
       const expectedResult = [missingEthnicityChartData]
       const result = ChartCardUtils.getChartData({
-        dashboardDefinition,
-        dashboardMetricsData,
+        metricsDefinition: dashboardDefinition.metrics,
+        dashboardData: dashboardMetricsData,
       })
       expect(result).toEqual(expectedResult)
     })

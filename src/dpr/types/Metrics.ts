@@ -21,6 +21,7 @@ export interface MetricColumn {
   name: string
   display: string
   unit?: ChartUnit
+  aggregate?: 'sum' | 'average'
 }
 
 export interface MetricChart {

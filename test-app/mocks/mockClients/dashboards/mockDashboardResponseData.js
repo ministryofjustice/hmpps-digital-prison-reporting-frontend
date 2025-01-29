@@ -1,17 +1,18 @@
 const dayjs = require('dayjs')
 
-const establishmentIds = ['MDI', 'SLI', 'DAI', 'LTI']
+const establishmentIds = ['MDI', 'SLI', 'DAI', 'LTI', 'ASI', 'IWI', 'LYI', 'BRI', 'MSI', 'FNI']
 
 const createTimeSeriesData = (start, end, granularity, sets) => {
   const timeseriesArr = createTimestamps(start, end, granularity, sets)
   return timeseriesArr.map((item) => {
     return item.map((entry) => {
-      const hasEthnicity = generateRawValue()
-      const ethnicityIsMissing = generateRawValue()
-      const hasNationality = generateRawValue()
-      const nationalityIsMissing = generateRawValue()
-      const hasReligion = generateRawValue()
-      const religionIsMissing = generateRawValue()
+      const { raw: count } = entry.count
+      const hasEthnicity = generateRawValue(count)
+      const ethnicityIsMissing = generateRawValue(count, hasEthnicity)
+      const hasNationality = generateRawValue(count)
+      const nationalityIsMissing = generateRawValue(count, hasNationality)
+      const hasReligion = generateRawValue(count)
+      const religionIsMissing = generateRawValue(count, hasReligion)
 
       return {
         ...entry,
@@ -19,32 +20,50 @@ const createTimeSeriesData = (start, end, granularity, sets) => {
           raw: hasEthnicity,
           rag: generateRag(hasEthnicity),
         },
+        has_ethnicity_percentage: {
+          raw: generatePercentageValue(hasEthnicity, count),
+        },
         ethnicity_is_missing: {
           raw: ethnicityIsMissing,
           rag: generateRag(ethnicityIsMissing),
+        },
+        ethnicity_is_missing_percentage: {
+          raw: generatePercentageValue(ethnicityIsMissing, count),
         },
         has_nationality: {
           raw: hasNationality,
           rag: generateRag(hasNationality),
         },
+        has_nationality_percentage: {
+          raw: generatePercentageValue(hasNationality, count),
+        },
         nationality_is_missing: {
           raw: nationalityIsMissing,
           rag: generateRag(nationalityIsMissing),
+        },
+        nationality_is_missingy_percentage: {
+          raw: generatePercentageValue(nationalityIsMissing, count),
         },
         has_religion: {
           raw: hasReligion,
           rag: generateRag(hasReligion),
         },
+        has_religion_percentage: {
+          raw: generatePercentageValue(hasReligion, count),
+        },
         religion_is_missing: {
           raw: religionIsMissing,
           rag: generateRag(religionIsMissing),
+        },
+        religion_is_missing_percentage: {
+          raw: generatePercentageValue(religionIsMissing, count),
         },
       }
     })
   })
 }
 
-const createTimestamps = (start, end, granularity, sets) => {
+const createTimestamps = (start, end, granularity, sets = 1) => {
   const g = mapGranularityValue(granularity)
   const startDate = dayjs(start)
   const endDate = dayjs(end)
@@ -52,23 +71,6 @@ const createTimestamps = (start, end, granularity, sets) => {
   const diff = Math.abs(startDate.diff(endVal, g, true))
   const roundedCount = g === 'day' ? Math.ceil(diff + 1) : Math.ceil(diff)
   const dateFormat = setFormat(g)
-
-  // console.log(
-  //   JSON.stringify(
-  //     {
-  //       g,
-  //       start,
-  //       end,
-  //       endDate,
-  //       startDate,
-  //       diff,
-  //       roundedCount,
-  //       dateFormat,
-  //     },
-  //     null,
-  //     2,
-  //   ),
-  // )
 
   const timestamps = []
   for (let i = 0; i < roundedCount; i += 1) {
@@ -79,6 +81,9 @@ const createTimestamps = (start, end, granularity, sets) => {
         timestamp: date,
         establishment_id: {
           raw: establishmentIds[index],
+        },
+        count: {
+          raw: generateRawValue(),
         },
       })
     }
@@ -120,8 +125,15 @@ const setFormat = (granularity) => {
   }
 }
 
-const generateRawValue = () => {
-  return Math.round(Math.random() * (800 - 400) + 400)
+const generateRawValue = (count = 800, relatedValue) => {
+  if (relatedValue) {
+    return count - relatedValue
+  }
+  return Math.round(Math.random() * (count - 400) + 400)
+}
+
+const generatePercentageValue = (rawValue, count) => {
+  return Math.round((100 * rawValue) / count)
 }
 
 const generateRag = (value) => {

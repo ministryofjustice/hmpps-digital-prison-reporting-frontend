@@ -1,8 +1,81 @@
-const mockDashboardMetricDefMissingEthnicity = {
+const missingEthnicityMetric = {
   id: 'missing-ethnicity-metric',
   name: 'Missing ethnicity',
   display: 'Missing ethnicity',
   description: 'Number of prisoners with missing ethnicity data',
+  columns: [
+    {
+      name: 'establishment_id',
+      display: 'Establishment ID',
+    },
+    {
+      name: 'has_ethnicity',
+      display: 'No. of Prisoners with ethnicity',
+    },
+    {
+      name: 'ethnicity_is_missing',
+      display: 'No. of Prisoners with no ethnicity',
+    },
+  ],
+  charts: [],
+}
+
+const missingEthnicityCharts = [
+  {
+    type: 'bar',
+    label: 'establishment_id',
+    columns: ['has_ethnicity', 'ethnicity_is_missing'],
+  },
+  {
+    type: 'doughnut',
+    label: 'establishment_id',
+    columns: ['has_ethnicity', 'ethnicity_is_missing'],
+  },
+]
+
+const missingEthnicityMetricPercentage = {
+  id: 'missing-ethnicity-metric-percentage',
+  name: 'Missing ethnicity percentage',
+  display: 'Missing ethnicity percentage',
+  description: 'Percentage of prisoners with missing ethnicity data',
+  columns: [
+    {
+      name: 'establishment_id',
+      display: 'Establishment ID',
+    },
+    {
+      name: 'has_ethnicity_percentage',
+      display: 'Percentage of Prisoners with ethnicity',
+      unit: 'percentage',
+    },
+    {
+      name: 'ethnicity_is_missing_percentage',
+      display: 'Percentage of Prisoners with no ethnicity',
+      unit: 'percentage',
+    },
+  ],
+  charts: [],
+}
+
+const missingEthnicityChartsPercentage = [
+  {
+    type: 'bar',
+    label: 'establishment_id',
+    columns: ['has_ethnicity_percentage', 'ethnicity_is_missing_percentage'],
+  },
+  {
+    type: 'doughnut',
+    label: 'establishment_id',
+    unit: 'percentage',
+    columns: ['has_ethnicity_percentage', 'ethnicity_is_missing_percentage'],
+  },
+]
+
+const missingEthnicityMetricsMixed = {
+  id: 'missing-ethnicity-metric-mixed',
+  name: 'Missing ethnicity raw and percentage',
+  display: 'Missing ethnicity percentage',
+  description: 'Percentage of prisoners with missing ethnicity data',
   columns: [
     {
       name: 'establishment_id',
@@ -27,64 +100,24 @@ const mockDashboardMetricDefMissingEthnicity = {
       unit: 'percentage',
     },
   ],
-  charts: [
-    {
-      type: 'bar',
-      label: 'establishment_id',
-      columns: ['has_ethnicity', 'ethnicity_is_missing'],
-    },
-    {
-      type: 'doughnut',
-      label: 'establishment_id',
-      unit: 'percentage',
-      columns: ['has_ethnicity_percentage', 'ethnicity_is_missing_percentage'],
-    },
-  ],
+  charts: [],
 }
 
-const mockDashboardMetricDefMissingEthnicityRaw = {
-  id: 'missing-ethnicity-metric',
-  name: 'Missing ethnicity',
-  display: 'Missing ethnicity',
-  description: 'Number of prisoners with missing ethnicity data',
-  columns: [
-    {
-      name: 'establishment_id',
-      display: 'Establishment ID',
-    },
-    {
-      name: 'has_ethnicity',
-      display: 'No. of Prisoners with ethnicity',
-    },
-    {
-      name: 'ethnicity_is_missing',
-      display: 'No. of Prisoners with no ethnicity',
-    },
-    {
-      name: 'has_ethnicity',
-      display: 'No. of Prisoners with ethnicity',
-    },
-    {
-      name: 'ethnicity_is_missing',
-      display: 'No. of Prisoners with ethnicity',
-    },
-  ],
-  charts: [
-    // {
-    //   type: 'bar',
-    //   label: 'establishment_id',
-    //   columns: ['has_ethnicity', 'ethnicity_is_missing'],
-    // },
-    // {
-    //   type: 'doughnut',
-    //   label: 'establishment_id',
-    //   unit: 'number',
-    //   columns: ['has_ethnicity', 'ethnicity_is_missing'],
-    // },
-  ],
-}
+const missingEthnicityChartsMixed = [
+  {
+    type: 'bar',
+    label: 'establishment_id',
+    columns: ['has_ethnicity', 'ethnicity_is_missing'],
+  },
+  {
+    type: 'doughnut',
+    label: 'establishment_id',
+    unit: 'percentage',
+    columns: ['has_ethnicity_percentage', 'ethnicity_is_missing_percentage'],
+  },
+]
 
-const mockDashboardMetricDefMissingNationality = {
+const missingNationalityMetric = {
   id: 'missing-nationality-metric',
   name: 'Missing nationality',
   display: 'Missing nationality',
@@ -102,32 +135,24 @@ const mockDashboardMetricDefMissingNationality = {
       name: 'nationality_is_missing',
       display: 'No. of Prisoners with no nationality',
     },
-    {
-      name: 'has_nationality_percentage',
-      display: 'Percentage of Prisoners with nationality',
-      unit: 'percentage',
-    },
-    {
-      name: 'nationality_is_missing_percentage',
-      display: 'Percentage of Prisoners with no nationality',
-      unit: 'percentage',
-    },
   ],
-  charts: [
-    {
-      type: 'bar',
-      label: 'establishment_id',
-      columns: ['has_nationality', 'nationality_is_missing'],
-    },
-    {
-      type: 'doughnut',
-      label: 'establishment_id',
-      columns: ['has_nationality_percentage', 'nationality_is_missing_percentage'],
-    },
-  ],
+  charts: [],
 }
 
-const mockDashboardMetricDefMissingReligion = {
+const missingNationalityCharts = [
+  {
+    type: 'bar',
+    label: 'establishment_id',
+    columns: ['has_nationality', 'nationality_is_missing'],
+  },
+  {
+    type: 'doughnut',
+    label: 'establishment_id',
+    columns: ['has_nationality', 'nationality_is_missing'],
+  },
+]
+
+const missingReligionMetric = {
   id: 'missing-religion-metric',
   name: 'Missing religion',
   display: 'Missing religion',
@@ -145,30 +170,22 @@ const mockDashboardMetricDefMissingReligion = {
       name: 'religion_is_missing',
       display: 'No. of Prisoners with no religion',
     },
-    {
-      name: 'has_religion_percentage',
-      display: 'Percentage of Prisoners with religion',
-      unit: 'percentage',
-    },
-    {
-      name: 'religion_is_missing_percentage',
-      display: 'Percentage of Prisoners with no religion',
-      unit: 'percentage',
-    },
   ],
-  charts: [
-    {
-      type: 'bar',
-      label: 'establishment_id',
-      columns: ['has_religion', 'religion_is_missing'],
-    },
-    {
-      type: 'doughnut',
-      label: 'establishment_id',
-      columns: ['has_religion_percentage', 'religion_is_missing_percentage'],
-    },
-  ],
+  charts: [],
 }
+
+const missingReligionCharts = [
+  {
+    type: 'bar',
+    label: 'establishment_id',
+    columns: ['has_religion', 'religion_is_missing'],
+  },
+  {
+    type: 'doughnut',
+    label: 'establishment_id',
+    columns: ['has_religion', 'religion_is_missing'],
+  },
+]
 
 const mockDashboardMetricDefMissingEthnicityTimeseries = {
   id: 'missing-ethnicity-metric-timeseries',
@@ -201,9 +218,21 @@ const mockDashboardMetricDefMissingEthnicityTimeseries = {
 }
 
 module.exports = {
-  mockDashboardMetricDefMissingEthnicity,
-  mockDashboardMetricDefMissingEthnicityRaw,
-  mockDashboardMetricDefMissingNationality,
-  mockDashboardMetricDefMissingReligion,
   mockDashboardMetricDefMissingEthnicityTimeseries,
+  missingEthnicityMetric,
+  missingEthnicityMetricCharts: { ...missingEthnicityMetric, charts: missingEthnicityCharts },
+  missingEthnicityMetricPercentage,
+  missingEthnicityMetricChartsPercentage: {
+    ...missingEthnicityMetricPercentage,
+    charts: missingEthnicityChartsPercentage,
+  },
+  missingEthnicityMetricsMixed,
+  missingEthnicityMetricsChartsMixed: {
+    ...missingEthnicityMetricsMixed,
+    charts: missingEthnicityChartsMixed,
+  },
+  missingReligionMetric,
+  missingReligionMetricCharts: { ...missingReligionMetric, charts: missingReligionCharts },
+  missingNationalityMetric,
+  missingNationalityMetricCharts: { ...missingNationalityMetric, charts: missingNationalityCharts },
 }

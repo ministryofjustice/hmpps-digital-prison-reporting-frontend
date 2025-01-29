@@ -3,12 +3,12 @@ import { components } from '../../types/api'
 import { Cell, DataTable, FieldDefinition } from '../DataTableBuilder/types'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import { distinct } from '../arrayUtils'
-import { ParentChildSortKey } from './types'
+import { ChildData, ParentChildSortKey } from './types'
 
 export default class ParentChildDataTableBuilder extends DataTableBuilder {
 
   private variant: components['schemas']['VariantDefinition']
-  private childData: Dict<Array<Dict<string>>> = {}
+  private childData: Array<ChildData> = []
 
   constructor(variant: components['schemas']['VariantDefinition']) {
     super(variant.specification.fields)
@@ -34,7 +34,7 @@ export default class ParentChildDataTableBuilder extends DataTableBuilder {
 
     sectionedData = this.splitParentDataIntoSections(sectionedData, parentData, joinFields)
 
-    this.splitChildDataIntoSections(this.childData, sectionKeys, sectionedData)
+    this.splitChildDataIntoSections(sectionKeys, sectionedData)
     const childDataTableBuilders = this.createChildDataTableBuilders()
 
     return sectionKeys.flatMap((key) => {
@@ -53,7 +53,7 @@ export default class ParentChildDataTableBuilder extends DataTableBuilder {
               return [
                 {
                   format: 'string',
-                  html: `<h4>${childVariant.name}</h4>\n${this.convertDataTableToHtml(dataTable)}`,
+                  html: `<div class='dpr-child-report'><h3>${childVariant.name}</h3>${this.convertDataTableToHtml(dataTable)}</div>`,
                   colspan: this.columns.length
                 }
               ]
@@ -116,11 +116,16 @@ export default class ParentChildDataTableBuilder extends DataTableBuilder {
     }, sectionedData)
   }
 
-  private splitChildDataIntoSections(childData: NodeJS.Dict<Array<NodeJS.Dict<string>>>, parentKeys: ParentChildSortKey[], sectionedData: NodeJS.Dict<NodeJS.Dict<Array<NodeJS.Dict<string>>>>) {
+  private splitChildDataIntoSections(parentKeys: ParentChildSortKey[], sectionedData: Dict<Dict<Array<Dict<string>>>>) {
     this.variant.childVariants.forEach(childVariant => {
       const childFields = this.mapNamesToFields(childVariant.joinFields)
+      const matchingChildData = this.childData.find(d => d.id === childVariant.id)
+      const data = matchingChildData ? matchingChildData.data : []
+      console.log('childFields: ' + JSON.stringify(childFields))
+      console.log('matchingChildData: ' + JSON.stringify(matchingChildData))
+      console.log('data: ' + JSON.stringify(data))
 
-      childData[childVariant.id].forEach(rowData => {
+      data.forEach(rowData => {
         const sortKey = this.getSortKey(rowData, childFields)
         const parentSortKey = parentKeys.find(p => p.childSortKeys[childVariant.id] === sortKey).sortKey
         const existingChildData = sectionedData[parentSortKey][childVariant.id] ?? []
@@ -130,7 +135,7 @@ export default class ParentChildDataTableBuilder extends DataTableBuilder {
     })
   }
 
-  withChildData(childData: Dict<Array<Dict<string>>>) {
+  withChildData(childData: Array<ChildData>) {
     this.childData = childData
     return this
   }

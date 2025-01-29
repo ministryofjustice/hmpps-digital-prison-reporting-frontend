@@ -234,7 +234,7 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
         case 'parent-child':
           const dataTable = new ParentChildDataTableBuilder(variant)
             .withNoHeaderOptions(columns.value)
-            .withChildData({})
+            .withChildData(resolvedData[4])
             .buildTable(reportData)
 
             renderData = {

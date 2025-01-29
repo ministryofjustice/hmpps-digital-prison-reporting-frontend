@@ -277,7 +277,7 @@ const childResultTables = [
     {
       colspan: 4,
       format: 'string',
-      html: "<h4>Child</h4>\n" +
+      html: "<h3>Child</h3>" +
         "<table class='govuk-table'>" +
         "<thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead>" +
         "<tbody class='govuk-table__body'>" +
@@ -290,7 +290,7 @@ const childResultTables = [
     {
       "colspan": 4,
       "format": "string",
-      "html": "<h4>Child</h4>\n" +
+      "html": "<h3>Child</h3>" +
         "<table class='govuk-table'>" +
         "<thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead>" +
         "<tbody class='govuk-table__body'>" +
@@ -304,7 +304,7 @@ const childResultTables = [
     {
       "colspan": 4,
       "format": "string",
-      "html": "<h4>Child</h4>\n" +
+      "html": "<h3>Child</h3>" +
         "<table class='govuk-table'>" +
         "<thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead>" +
         "<tbody class='govuk-table__body'>" +
@@ -317,9 +317,10 @@ describe('buildTable', () => {
   it('Sections added correctly', () => {
     const mapped = new ParentChildDataTableBuilder(parentVariant)
       .withNoHeaderOptions(['sectionOne','sectionTwo','oranges', 'lemons'])
-      .withChildData({
-        childId: childData
-      })
+      .withChildData([{
+        id: 'childId',
+        data: childData,
+      }])
       .buildTable(data)
 
     expect(mapped.rows).toEqual([

@@ -22,7 +22,7 @@ export default class DataTableBuilder {
 
   private dateMapper = new DateMapper()
 
-  constructor(fields: Array<FieldDefinition>, sortData: boolean = false) {
+  constructor(fields: Array<FieldDefinition>, sortData = false) {
     this.fields = fields
     this.sortData = sortData
   }
@@ -213,7 +213,7 @@ export default class DataTableBuilder {
     return this.appendSortKeyToData(data)
       .sort(this.sortKeyComparison())
       .map((d: SortKey) => ({
-        ...d
+        ...d,
       }))
   }
 
@@ -271,25 +271,22 @@ export default class DataTableBuilder {
   }
 
   protected convertDataTableToHtml(dataTable: DataTable): string {
-    const headers = dataTable.head.map(
-      (h) => `<th scope='col' class='govuk-table__header'>${h.html ?? h.text}</th>`,
-    )
+    const headers = dataTable.head.map((h) => `<th scope='col' class='govuk-table__header'>${h.html ?? h.text}</th>`)
     const rows = dataTable.rows.map(
       (r) =>
         `<tr class='govuk-table__row'>${r
           .map(
-            (c) =>
-              `<td class='govuk-table__cell govuk-table__cell--${c.format} ${c.classes}'>${
-                c.html ?? c.text
-              }</td>`,
+            (c) => `<td class='govuk-table__cell govuk-table__cell--${c.format} ${c.classes}'>${c.html ?? c.text}</td>`,
           )
           .join('')}</tr>`,
     )
 
-    return "<table class='govuk-table'>" +
+    return (
+      "<table class='govuk-table'>" +
       `<thead class='govuk-table__head'>${headers.join('')}</thead>` +
       `<tbody class='govuk-table__body'>${rows.join('')}</tbody>` +
-      "</table>"
+      '</table>'
+    )
   }
 
   withHeaderOptions({
@@ -336,7 +333,7 @@ export default class DataTableBuilder {
     return this
   }
 
-  withSortedData(sortData: boolean = true) {
+  withSortedData(sortData = true) {
     this.sortData = sortData
     return this
   }

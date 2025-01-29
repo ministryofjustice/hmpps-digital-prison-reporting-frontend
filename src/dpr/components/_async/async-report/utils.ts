@@ -79,37 +79,37 @@ export const initDataSources = ({
   )
   const stateDataPromise = services.requestedReportService.getReportByTableId(tableId, userId)
 
-  const childDataPromise = Promise.all([reportDefinitionPromise, stateDataPromise]).then(
-    (preReqResponses) => {
-      const definition: components['schemas']['SingleVariantReportDefinition'] = preReqResponses[0]
-      const requestedReport: RequestedReport = preReqResponses[1]
+  const childDataPromise = Promise.all([reportDefinitionPromise, stateDataPromise]).then((preReqResponses) => {
+    const definition: components['schemas']['SingleVariantReportDefinition'] = preReqResponses[0]
+    const requestedReport: RequestedReport = preReqResponses[1]
 
-      if (!definition.variant.childVariants) {
-        return Promise.resolve([])
-      }
-      return Promise.all(
-        definition.variant.childVariants.map((childVariant) => {
-          const specification = childVariant.specification
+    if (!definition.variant.childVariants) {
+      return Promise.resolve([])
+    }
+    return Promise.all(
+      definition.variant.childVariants.map((childVariant) => {
+        const { specification } = childVariant
 
-          const query = new ReportQuery({
-            fields: specification.fields,
-            template: specification.template as Template,
-            queryParams: req.query,
-            definitionsPath: dataProductDefinitionsPath,
-          }).toRecordWithFilterPrefix(true)
+        const query = new ReportQuery({
+          fields: specification.fields,
+          template: specification.template as Template,
+          queryParams: req.query,
+          definitionsPath: dataProductDefinitionsPath,
+        }).toRecordWithFilterPrefix(true)
 
-          const { tableId: childTableId } = requestedReport.childExecutionData
-            .find(e => e.variantId === childVariant.id)
+        const { tableId: childTableId } = requestedReport.childExecutionData.find(
+          (e) => e.variantId === childVariant.id,
+        )
 
-          return services.reportingService.getAsyncReport(token, reportId, reportVariantId, childTableId, query)
-            .then((data: Array<Dict<string>>) => ({
-              id: childVariant.id,
-              data,
-            }))
-        }),
-      )
-    },
-  )
+        return services.reportingService
+          .getAsyncReport(token, reportId, reportVariantId, childTableId, query)
+          .then((data: Array<Dict<string>>) => ({
+            id: childVariant.id,
+            data,
+          }))
+      }),
+    )
+  })
 
   return [reportDefinitionPromise, reportDataPromise, stateDataPromise, summaryDataPromise, childDataPromise]
 }
@@ -238,15 +238,13 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
           break
 
         case 'parent-child':
-          const dataTable = new ParentChildDataTableBuilder(variant)
-            .withNoHeaderOptions(columns.value)
-            .withChildData(resolvedData[4])
-            .buildTable(reportData)
-
-            renderData = {
-              ...renderData,
-              dataTable,
-            }
+          renderData = {
+            ...renderData,
+            dataTable: new ParentChildDataTableBuilder(variant)
+              .withNoHeaderOptions(columns.value)
+              .withChildData(resolvedData[4])
+              .buildTable(reportData),
+          }
           break
 
         default:

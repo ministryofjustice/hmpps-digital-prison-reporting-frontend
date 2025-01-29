@@ -8,7 +8,7 @@ import DashboardService from '../services/dashboardService'
 describe('ReportStatusHelper', () => {
   const services: Services = {
     requestedReportService: {
-      getReportByExecutionId: jest.fn().mockResolvedValue({})
+      getReportByExecutionId: jest.fn().mockResolvedValue({}),
     },
     recentlyViewedService: {},
     bookmarkService: {},

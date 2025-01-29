@@ -25,10 +25,12 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
     const sectionFields = this.mapNamesToFields(this.sections)
 
     const sectionDescriptions = data
-      .map((rowData): SectionSortKey => ({
-        description: this.mapSectionDescription(rowData),
-        sortKey: this.getSortKey(rowData, sectionFields),
-      }))
+      .map(
+        (rowData): SectionSortKey => ({
+          description: this.mapSectionDescription(rowData),
+          sortKey: this.getSortKey(rowData, sectionFields),
+        }),
+      )
       .sort(this.sortKeyComparison())
       .map((s) => s.description)
       .reduce(distinct, [])
@@ -140,7 +142,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
     const { sections } = this
 
     return this.mapNamesToFields(sections)
-      .map(s => (`${s.display}: ${this.mapCellValue(s, rowData[s.name])}`))
+      .map((s) => `${s.display}: ${this.mapCellValue(s, rowData[s.name])}`)
       .join(', ')
   }
 

@@ -139,13 +139,15 @@ const parentVariant: components['schemas']['VariantDefinition'] = {
   name: 'Parent',
   resourceName: '/parent',
   specification: parentSpecification,
-  childVariants: [{
-    id: 'childId',
-    name: 'Child',
-    resourceName: '/child',
-    joinFields: ['sectionOne', 'sectionTwo'],
-    specification: childSpecification
-  }]
+  childVariants: [
+    {
+      id: 'childId',
+      name: 'Child',
+      resourceName: '/child',
+      joinFields: ['sectionOne', 'sectionTwo'],
+      specification: childSpecification,
+    },
+  ],
 }
 
 const headerResultRow = [
@@ -172,13 +174,13 @@ const resultRows = [
       classes: '',
       fieldName: 'sectionOne',
       format: 'string',
-      text: 'A'
+      text: 'A',
     },
     {
       classes: '',
       fieldName: 'sectionTwo',
       format: 'string',
-      text: '01/02/03'
+      text: '01/02/03',
     },
     {
       classes: '',
@@ -198,13 +200,13 @@ const resultRows = [
       classes: '',
       fieldName: 'sectionOne',
       format: 'string',
-      text: 'A'
+      text: 'A',
     },
     {
       classes: '',
       fieldName: 'sectionTwo',
       format: 'string',
-      text: '01/02/03'
+      text: '01/02/03',
     },
     {
       classes: '',
@@ -224,13 +226,13 @@ const resultRows = [
       classes: '',
       fieldName: 'sectionOne',
       format: 'string',
-      text: 'A'
+      text: 'A',
     },
     {
       classes: '',
       fieldName: 'sectionTwo',
       format: 'string',
-      text: '02/01/03'
+      text: '02/01/03',
     },
     {
       classes: '',
@@ -250,13 +252,13 @@ const resultRows = [
       classes: '',
       fieldName: 'sectionOne',
       format: 'string',
-      text: 'B'
+      text: 'B',
     },
     {
       classes: '',
       fieldName: 'sectionTwo',
       format: 'string',
-      text: '02/01/03'
+      text: '02/01/03',
     },
     {
       classes: '',
@@ -277,56 +279,61 @@ const childResultTables = [
     {
       colspan: 4,
       format: 'string',
-      html: "<div class='dpr-child-report'>" +
-        "<h3>Child</h3>" +
+      html:
+        "<div class='dpr-child-report'>" +
+        '<h3>Child</h3>' +
         "<table class='govuk-table'>" +
         "<thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead>" +
         "<tbody class='govuk-table__body'>" +
         "<tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Cheddar</td></tr>" +
-        "</tbody>" +
-        "</table>" +
-        "</div>"
-    }
+        '</tbody>' +
+        '</table>' +
+        '</div>',
+    },
   ],
   [
     {
-      "colspan": 4,
-      "format": "string",
-      "html": "<div class='dpr-child-report'>" +
-        "<h3>Child</h3>" +
+      colspan: 4,
+      format: 'string',
+      html:
+        "<div class='dpr-child-report'>" +
+        '<h3>Child</h3>' +
         "<table class='govuk-table'>" +
         "<thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead>" +
         "<tbody class='govuk-table__body'>" +
         "<tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>No</td></tr>" +
         "<tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Wendsleydale</td></tr>" +
-        "</tbody>" +
-        "</table>" +
-        "</div>"
-    }
+        '</tbody>' +
+        '</table>' +
+        '</div>',
+    },
   ],
   [
     {
-      "colspan": 4,
-      "format": "string",
-      "html": "<div class='dpr-child-report'>" +
-        "<h3>Child</h3>" +
+      colspan: 4,
+      format: 'string',
+      html:
+        "<div class='dpr-child-report'>" +
+        '<h3>Child</h3>' +
         "<table class='govuk-table'>" +
         "<thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead>" +
         "<tbody class='govuk-table__body'>" +
         "<tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Gouda</td></tr>" +
-        "</tbody></table>" +
-        "</div>"
-    }
-  ]
+        '</tbody></table>' +
+        '</div>',
+    },
+  ],
 ]
 describe('buildTable', () => {
   it('Sections added correctly', () => {
     const mapped = new ParentChildDataTableBuilder(parentVariant)
-      .withNoHeaderOptions(['sectionOne','sectionTwo','oranges', 'lemons'])
-      .withChildData([{
-        id: 'childId',
-        data: childData,
-      }])
+      .withNoHeaderOptions(['sectionOne', 'sectionTwo', 'oranges', 'lemons'])
+      .withChildData([
+        {
+          id: 'childId',
+          data: childData,
+        },
+      ])
       .buildTable(data)
 
     expect(mapped.rows).toEqual([

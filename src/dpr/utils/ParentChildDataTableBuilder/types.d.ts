@@ -5,6 +5,6 @@ export interface ParentChildSortKey extends SortKey {
 }
 
 export interface ChildData {
-  id: string,
+  id: string
   data: Array<Dict<string>>
 }

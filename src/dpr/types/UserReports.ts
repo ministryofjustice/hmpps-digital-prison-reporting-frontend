@@ -1,7 +1,7 @@
 import Dict = NodeJS.Dict
 import { SummaryTemplate, Template } from './Templates'
 import { FieldDefinition } from '../utils/DataTableBuilder/types'
-import { ChildReportExecutionData } from './AsyncReportUtils'
+import { ChildReportExecutionData } from './ExecutionData'
 
 export interface StoredReportData {
   reportId: string

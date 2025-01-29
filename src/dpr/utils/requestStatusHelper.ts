@@ -1,7 +1,8 @@
 import dayjs from 'dayjs'
 import { Request } from 'express'
 import { ReportType, RequestedReport, RequestStatus } from '../types/UserReports'
-import { AsyncReportUtilsParams, ChildReportExecutionData } from '../types/AsyncReportUtils'
+import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
+import { ChildReportExecutionData } from '../types/ExecutionData'
 import logger from './logger'
 import { Services } from '../types/Services'
 
@@ -21,11 +22,7 @@ interface StatusResponse {
   error: StatusResponseError
 }
 
-const BAD_REQUEST_STATUSES: Array<RequestStatus> = [
-  RequestStatus.ABORTED,
-  RequestStatus.FAILED,
-  RequestStatus.EXPIRED,
-]
+const BAD_REQUEST_STATUSES: Array<RequestStatus> = [RequestStatus.ABORTED, RequestStatus.FAILED, RequestStatus.EXPIRED]
 
 const IN_PROGRESS_REQUEST_STATUSES: Array<RequestStatus> = [
   RequestStatus.SUBMITTED,
@@ -34,25 +31,26 @@ const IN_PROGRESS_REQUEST_STATUSES: Array<RequestStatus> = [
 ]
 
 function findWorstStatusResponse(statusRequests: Array<Promise<StatusResponse>>): Promise<StatusResponse> {
-  return Promise.all(statusRequests)
-    .then(statusResponses => {
-      const badStatus = statusResponses
-        .find((response) => typeof response.status === 'number'
-          || BAD_REQUEST_STATUSES.includes(response.status as RequestStatus))
+  return Promise.all(statusRequests).then((statusResponses) => {
+    const badStatus = statusResponses.find(
+      (response) =>
+        typeof response.status === 'number' || BAD_REQUEST_STATUSES.includes(response.status as RequestStatus),
+    )
 
-      if (badStatus) {
-        return badStatus
-      }
+    if (badStatus) {
+      return badStatus
+    }
 
-      const inProgressStatus = statusResponses
-        .find((response) => IN_PROGRESS_REQUEST_STATUSES.includes(response.status as RequestStatus))
+    const inProgressStatus = statusResponses.find((response) =>
+      IN_PROGRESS_REQUEST_STATUSES.includes(response.status as RequestStatus),
+    )
 
-      if (inProgressStatus) {
-        return inProgressStatus
-      }
+    if (inProgressStatus) {
+      return inProgressStatus
+    }
 
-      return statusResponses[0]
-    })
+    return statusResponses[0]
+  })
 }
 
 const getStatusByReportType = async (services: Services, req: Request, token: string, userId: string) => {
@@ -66,24 +64,21 @@ const getStatusByReportType = async (services: Services, req: Request, token: st
     reports.push({ executionId, tableId, variantId: id })
   }
 
-  const statusRequests = reports.map((executionData: ChildReportExecutionData) => services.reportingService.getAsyncReportStatus(
-    token,
-    reportId,
-    executionData.variantId,
-    executionData.executionId,
-    dataProductDefinitionsPath,
-    executionData.tableId,
-  ))
-
-  if (type === ReportType.DASHBOARD) {
-    statusRequests.push(services.dashboardService.getAsyncStatus(
+  const statusRequests = reports.map((executionData: ChildReportExecutionData) =>
+    services.reportingService.getAsyncReportStatus(
       token,
       reportId,
-      id,
-      executionId,
+      executionData.variantId,
+      executionData.executionId,
       dataProductDefinitionsPath,
-      tableId,
-    ))
+      executionData.tableId,
+    ),
+  )
+
+  if (type === ReportType.DASHBOARD) {
+    statusRequests.push(
+      services.dashboardService.getAsyncStatus(token, reportId, id, executionId, dataProductDefinitionsPath, tableId),
+    )
   }
 
   const statusResponse = await findWorstStatusResponse(statusRequests)

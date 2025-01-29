@@ -27,11 +27,11 @@ describe('mapData', () => {
       head: [
         {
           text: '',
-          classes: null
+          classes: null,
         },
         {
           text: 'Quantity',
-          classes: null
+          classes: null,
         },
       ],
       rowCount: 6,

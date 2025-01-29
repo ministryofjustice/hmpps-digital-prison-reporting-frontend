@@ -1,11 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { Request, Response } from 'express'
-import {
-  AsyncReportUtilsParams,
-  ChildReportExecutionData,
-  ExecutionData,
-  RequestDataResult,
-} from '../types/AsyncReportUtils'
+import { AsyncReportUtilsParams, RequestDataResult } from '../types/AsyncReportUtils'
+import { ExecutionData, ChildReportExecutionData } from '../types/ExecutionData'
 import type ReportingService from '../services/reportingService'
 import { ReportType, RequestFormData, RequestStatus } from '../types/UserReports'
 import filtersHelper from '../components/_async/async-filters-form/utils'
@@ -92,18 +88,19 @@ async function requestChildReports(
   token: string,
   reportId: string,
   queryData: SetQueryFromFiltersResult,
-  dataProductDefinitionsPath: string
+  dataProductDefinitionsPath: string,
 ): Promise<Array<ChildReportExecutionData>> {
-  return await Promise.all(
-    childVariants.map(childVariant => (
-        reportingService.requestAsyncReport(token, reportId, childVariant.id, {
+  return Promise.all(
+    childVariants.map((childVariant) =>
+      reportingService
+        .requestAsyncReport(token, reportId, childVariant.id, {
           ...queryData.query,
           dataProductDefinitionsPath,
         })
-      ).then(response => {
-        const { executionId, tableId } = response
-        return { executionId, tableId, variantId: childVariant.id }
-      }),
+        .then((response) => {
+          const { executionId, tableId } = response
+          return { executionId, tableId, variantId: childVariant.id }
+        }),
     ),
   )
 }
@@ -130,7 +127,11 @@ const requestReport = async ({
   req: Request
   token: string
   reportingService: ReportingService
-}): Promise<{ executionData: ExecutionData; childExecutionData: Array<ExecutionData>; queryData: SetQueryFromFiltersResult }> => {
+}): Promise<{
+  executionData: ExecutionData
+  childExecutionData: Array<ExecutionData>
+  queryData: SetQueryFromFiltersResult
+}> => {
   const { reportId, id, dataProductDefinitionsPath } = req.body
 
   const definition = await reportingService.getDefinition(token, reportId, id, <string>dataProductDefinitionsPath)
@@ -143,8 +144,12 @@ const requestReport = async ({
   })
 
   const childExecutionData = await requestChildReports(
-    (definition.variant.childVariants ?? []),
-    reportingService, token, reportId, queryData, dataProductDefinitionsPath
+    definition.variant.childVariants ?? [],
+    reportingService,
+    token,
+    reportId,
+    queryData,
+    dataProductDefinitionsPath,
   )
 
   return {
@@ -187,7 +192,11 @@ const requestDashboard = async ({
   // TODO: Plumb in child lists as and when relevant
   const childExecutionData = await requestChildReports(
     [],
-    reportingService, token, reportId, null, dataProductDefinitionsPath
+    reportingService,
+    token,
+    reportId,
+    null,
+    dataProductDefinitionsPath,
   )
 
   return { executionData: { executionId, tableId }, childExecutionData }

@@ -38,7 +38,7 @@ export const updateStore = async ({
   services: Services
   queryData?: SetQueryFromFiltersResult
   executionData: ExecutionData
-  childExecutionData: Array<ExecutionData>
+  childExecutionData: Array<ChildReportExecutionData>
 }): Promise<string> => {
   const { search, id, type } = req.body
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
@@ -129,7 +129,7 @@ const requestReport = async ({
   reportingService: ReportingService
 }): Promise<{
   executionData: ExecutionData
-  childExecutionData: Array<ExecutionData>
+  childExecutionData: Array<ChildReportExecutionData>
   queryData: SetQueryFromFiltersResult
 }> => {
   const { reportId, id, dataProductDefinitionsPath } = req.body
@@ -183,7 +183,7 @@ const requestDashboard = async ({
   token: string
   dashboardService: DashboardService
   reportingService: ReportingService
-}): Promise<{ executionData: ExecutionData; childExecutionData: Array<ExecutionData> }> => {
+}): Promise<{ executionData: ExecutionData; childExecutionData: Array<ChildReportExecutionData> }> => {
   const { reportId, id, dataProductDefinitionsPath } = req.body
   const { executionId, tableId } = await dashboardService.requestAsyncDashboard(token, reportId, id, {
     dataProductDefinitionsPath,
@@ -260,7 +260,7 @@ export default {
     const { type } = req.body
 
     let executionData: ExecutionData
-    let childExecutionData: Array<ExecutionData>
+    let childExecutionData: Array<ChildReportExecutionData>
     let queryData: SetQueryFromFiltersResult
 
     const requestArgs = {

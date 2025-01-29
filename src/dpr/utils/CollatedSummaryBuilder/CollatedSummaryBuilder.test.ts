@@ -1,6 +1,7 @@
 import { components } from '../../types/api'
 import CollatedSummaryBuilder from './CollatedSummaryBuilder'
 import { AsyncSummary } from '../../types/UserReports'
+import { DataTable } from '../DataTableBuilder/types'
 
 const activityField: components['schemas']['FieldDefinition'] = {
   name: 'activity',
@@ -51,11 +52,12 @@ const defaultData = [
   },
 ]
 
-const expectedAllActivitiesDataTable = {
+const expectedAllActivitiesDataTable: DataTable = {
   colCount: 1,
   head: [
     {
       text: 'Activity',
+      classes: null,
     },
   ],
   rowCount: 4,

@@ -22,6 +22,7 @@ import ReportActionsUtils from '../../_reports/report-actions/utils'
 import UserReportsUtils from '../../user-reports/utils'
 import LocalsHelper from '../../../utils/localsHelper'
 import { DownloadActionParams } from '../../_reports/report-actions/types'
+import ParentChildDataTableBuilder from '../../../utils/ParentChildDataTableBuilder/ParentChildDataTableBuilder'
 
 export const initDataSources = ({
   req,
@@ -78,7 +79,39 @@ export const initDataSources = ({
   )
   const stateDataPromise = services.requestedReportService.getReportByTableId(tableId, userId)
 
-  return [reportDefinitionPromise, reportDataPromise, stateDataPromise, summaryDataPromise]
+  const childDataPromise = Promise.all([reportDefinitionPromise, stateDataPromise]).then((preReqResponses) => {
+    const definition: components['schemas']['SingleVariantReportDefinition'] = preReqResponses[0]
+    const requestedReport: RequestedReport = preReqResponses[1]
+
+    if (!definition.variant.childVariants) {
+      return Promise.resolve([])
+    }
+    return Promise.all(
+      definition.variant.childVariants.map((childVariant) => {
+        const { specification } = childVariant
+
+        const query = new ReportQuery({
+          fields: specification.fields,
+          template: specification.template as Template,
+          queryParams: req.query,
+          definitionsPath: dataProductDefinitionsPath,
+        }).toRecordWithFilterPrefix(true)
+
+        const { tableId: childTableId } = requestedReport.childExecutionData.find(
+          (e) => e.variantId === childVariant.id,
+        )
+
+        return services.reportingService
+          .getAsyncReport(token, reportId, reportVariantId, childTableId, query)
+          .then((data: Array<Dict<string>>) => ({
+            id: childVariant.id,
+            data,
+          }))
+      }),
+    )
+  })
+
+  return [reportDefinitionPromise, reportDataPromise, stateDataPromise, summaryDataPromise, childDataPromise]
 }
 
 const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
@@ -202,6 +235,16 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
         }
         case 'list-tab':
           // Add template-specific calls here
+          break
+
+        case 'parent-child':
+          renderData = {
+            ...renderData,
+            dataTable: new ParentChildDataTableBuilder(variant)
+              .withNoHeaderOptions(columns.value)
+              .withChildData(resolvedData[4])
+              .buildTable(reportData),
+          }
           break
 
         default:

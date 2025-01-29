@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import { Request } from 'express'
 import { ReportType, RequestedReport, RequestStatus } from '../types/UserReports'
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
+import { ChildReportExecutionData } from '../types/ExecutionData'
 import logger from './logger'
 import { Services } from '../types/Services'
 
@@ -11,43 +12,86 @@ interface GetStatusUtilsResponse {
   reportData?: RequestedReport | undefined
 }
 
-const getStatusByReportType = async (services: Services, req: Request, token: string) => {
+interface StatusResponseError {
+  userMessage: string
+  developerMessage: string
+}
+
+interface StatusResponse {
+  status: RequestStatus
+  error: StatusResponseError
+}
+
+const BAD_REQUEST_STATUSES: Array<RequestStatus> = [RequestStatus.ABORTED, RequestStatus.FAILED, RequestStatus.EXPIRED]
+
+const IN_PROGRESS_REQUEST_STATUSES: Array<RequestStatus> = [
+  RequestStatus.SUBMITTED,
+  RequestStatus.STARTED,
+  RequestStatus.PICKED,
+]
+
+function findWorstStatusResponse(statusRequests: Array<Promise<StatusResponse>>): Promise<StatusResponse> {
+  return Promise.all(statusRequests).then((statusResponses) => {
+    const badStatus = statusResponses.find(
+      (response) =>
+        typeof response.status === 'number' || BAD_REQUEST_STATUSES.includes(response.status as RequestStatus),
+    )
+
+    if (badStatus) {
+      return badStatus
+    }
+
+    const inProgressStatus = statusResponses.find((response) =>
+      IN_PROGRESS_REQUEST_STATUSES.includes(response.status as RequestStatus),
+    )
+
+    if (inProgressStatus) {
+      return inProgressStatus
+    }
+
+    return statusResponses[0]
+  })
+}
+
+const getStatusByReportType = async (services: Services, req: Request, token: string, userId: string) => {
   const { type, reportId, executionId, dataProductDefinitionsPath, id, tableId } = req.body
-  let statusResponse
-  let status
+
+  const requestedReport = await services.requestedReportService.getReportByExecutionId(executionId, userId)
+
+  const reports = requestedReport.childExecutionData ?? []
 
   if (type === ReportType.REPORT) {
-    statusResponse = await services.reportingService.getAsyncReportStatus(
+    reports.push({ executionId, tableId, variantId: id })
+  }
+
+  const statusRequests = reports.map((executionData: ChildReportExecutionData) =>
+    services.reportingService.getAsyncReportStatus(
       token,
       reportId,
-      id,
-      executionId,
+      executionData.variantId,
+      executionData.executionId,
       dataProductDefinitionsPath,
-      tableId,
-    )
-    status = statusResponse.status as RequestStatus
-  }
+      executionData.tableId,
+    ),
+  )
 
   if (type === ReportType.DASHBOARD) {
-    statusResponse = await services.dashboardService.getAsyncStatus(
-      token,
-      reportId,
-      id,
-      executionId,
-      dataProductDefinitionsPath,
-      tableId,
+    statusRequests.push(
+      services.dashboardService.getAsyncStatus(token, reportId, id, executionId, dataProductDefinitionsPath, tableId),
     )
-    status = statusResponse.status as RequestStatus
   }
 
+  const statusResponse = await findWorstStatusResponse(statusRequests)
+
   return {
-    status,
+    status: statusResponse.status,
     statusResponse,
   }
 }
 
 export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams): Promise<GetStatusUtilsResponse> => {
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
+  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
   const { status: currentStatus, requestedAt } = req.body
   const timeoutExemptStatuses = [RequestStatus.READY, RequestStatus.EXPIRED, RequestStatus.FAILED]
 
@@ -55,7 +99,7 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
   let errorMessage
   let statusResponse
   try {
-    ;({ status, statusResponse } = await getStatusByReportType(services, req, token))
+    ;({ status, statusResponse } = await getStatusByReportType(services, req, token, userId))
     if (
       shouldTimeoutRequest({ requestedAt, compareTime: new Date(), durationMins: 15 }) &&
       !timeoutExemptStatuses.includes(status)
@@ -85,12 +129,10 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
     status = RequestStatus.FAILED
   }
 
-  const result: GetStatusUtilsResponse = {
+  return {
     status,
     ...(errorMessage && { errorMessage }),
   }
-
-  return result
 }
 
 /**
@@ -104,12 +146,13 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
  */
 export const getExpiredStatus = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
+  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
   const { executionId, status: currentStatus } = req.body
 
   let errorMessage
   let status
   try {
-    ;({ status } = await getStatusByReportType(services, req, token))
+    ;({ status } = await getStatusByReportType(services, req, token, userId))
   } catch (error) {
     const { data } = error
     errorMessage = (data ?? {}).userMessage

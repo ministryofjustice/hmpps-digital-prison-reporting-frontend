@@ -13,11 +13,11 @@
   {% set count = renderData.count %}
 
     <div class="report-template-container  {% if (printable == false) %}print-hide{% endif %}">
-      {% if template === 'list-tab' or template === 'crosstab' %}
+      {% if template === 'list-tab' %}
 
         {# Add template view here #}
 
-      {% elif template === 'list-section' or template === 'summary-section' %}
+      {% elif template === 'list-section' or template === 'summary-section' or template === 'parent-child' %}
 
         {{ dprReport(renderData, count) }}
 

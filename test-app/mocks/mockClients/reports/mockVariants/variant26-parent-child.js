@@ -1,0 +1,72 @@
+const variant26 = {
+  id: 'variantId-26',
+  name: 'Parent Child Template',
+  description: 'A report with parent and child datasets',
+  resourceName: 'reports/list',
+  classification: 'OFFICIAL',
+  printable: true,
+  specification: {
+    template: 'parent-child',
+    fields: [
+      {
+        name: 'section1',
+        display: 'First',
+        sortable: false,
+        defaultsort: false,
+        type: 'string',
+        mandatory: false,
+        visible: true,
+      },
+      {
+        name: 'field1',
+        display: 'Second',
+        sortable: false,
+        defaultsort: false,
+        type: 'string',
+        mandatory: false,
+        visible: true,
+      },
+    ],
+  },
+  childVariants: [{
+    id: 'variantId-26-child',
+    name: 'Child Report',
+    resourceName: 'reports/list',
+    joinFields: ['section1'],
+    specification: {
+      template: 'parent-child',
+      fields: [
+        {
+          name: 'section1',
+          display: 'First',
+          sortable: false,
+          defaultsort: false,
+          type: 'string',
+          mandatory: false,
+          visible: false,
+        },
+        {
+          name: 'field2',
+          display: 'Field2',
+          sortable: false,
+          defaultsort: false,
+          type: 'string',
+          mandatory: false,
+          visible: true,
+        },
+        {
+          name: 'field3',
+          display: 'Field3',
+          sortable: false,
+          defaultsort: false,
+          type: 'string',
+          mandatory: false,
+          visible: true,
+        },
+      ],
+    }
+  }
+  ]
+}
+
+module.exports = variant26

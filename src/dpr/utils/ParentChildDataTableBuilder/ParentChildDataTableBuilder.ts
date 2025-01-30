@@ -90,7 +90,6 @@ export default class ParentChildDataTableBuilder extends DataTableBuilder {
           }, {}),
         }),
       )
-      .sort(this.sortKeyComparison())
       .reduce((previousValue: ParentChildSortKey[], sortKey: ParentChildSortKey) => {
         if (previousValue.find((v) => v.sortKey === sortKey.sortKey)) {
           return previousValue

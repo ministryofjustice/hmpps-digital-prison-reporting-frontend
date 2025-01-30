@@ -338,12 +338,12 @@ describe('buildTable', () => {
 
     expect(mapped.rows).toEqual([
       headerResultRow,
-      resultRows[2],
-      childResultTables[0],
-      headerResultRow,
       resultRows[0],
       resultRows[1],
       childResultTables[1],
+      headerResultRow,
+      resultRows[2],
+      childResultTables[0],
       headerResultRow,
       resultRows[3],
       childResultTables[2],

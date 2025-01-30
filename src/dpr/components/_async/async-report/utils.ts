@@ -102,7 +102,7 @@ export const initDataSources = ({
         )
 
         return services.reportingService
-          .getAsyncReport(token, reportId, reportVariantId, childTableId, query)
+          .getAsyncReport(token, reportId, childVariant.id, childTableId, query)
           .then((data: Array<Dict<string>>) => ({
             id: childVariant.id,
             data,

@@ -130,4 +130,8 @@ describe('toDateString', () => {
   it('Non-date value', () => {
     expect(dateMapper.toDateString('Not a date', 'iso')).toBeNull()
   })
+
+  it('Invalid type', () => {
+    expect(dateMapper.toDateString('2001-02-03T04:05:06Z', 'none')).toBeNull()
+  })
 })

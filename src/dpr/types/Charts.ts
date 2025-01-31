@@ -16,20 +16,9 @@ export enum ChartUnit {
   PERCENTAGE = 'percentage',
 }
 
-interface ChartTabs extends Omit<Chart, 'type'> {
-  data: {
-    chart: ChartData[]
-    table?: MoJTable
-  }
-}
-
-export interface ChartCardData extends ChartTabs {
-  title: string
-  description: string
-  details?: {
-    headlines: ChartCardDetailsItem[]
-    meta: ChartCardDetailsItem[]
-  }
+export interface ChartCardData {
+  chart: ChartData[]
+  table?: MoJTable
 }
 
 interface ChartCardDetailsItem {

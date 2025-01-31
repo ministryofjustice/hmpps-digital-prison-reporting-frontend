@@ -4,6 +4,7 @@ const dashboardDefinitions = require('./mockDashboardDefinition')
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 const mockDahsboardData = require('./mockDashboardData')
 const mockDahsboardDataHelper = require('./mockDashboardResponseData')
+const { mockDashboardListData } = require('./mockDashboardListData')
 
 class MockDashboardClient {
   constructor() {
@@ -84,6 +85,9 @@ const getData = (def, dashboardId, query) => {
     const granularity = query['filters.date.granularity']
     const data = mockDahsboardDataHelper.createTimeSeriesData(start, end, granularity, 3)
     return data
+  }
+  if (['test-dashboard-11'].includes(dashboardId)) {
+    return mockDashboardListData
   }
   return mockDahsboardData[dashboardId]
 }

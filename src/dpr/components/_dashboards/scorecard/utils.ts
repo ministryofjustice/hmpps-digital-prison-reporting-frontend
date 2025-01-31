@@ -16,20 +16,10 @@ const createScoreCard = (scorecardDefinition: DashboardScorecard, rawData: Metri
   }
 }
 
-const createScorecards = (
-  scorecardsDefinition: DashboardScorecardsGroup[],
-  data: MetricsDataResponse[][],
-): ScorecardGroup[] => {
-  return scorecardsDefinition.map((group: DashboardScorecardsGroup) => {
-    const { display: title, description, scorecards } = group
-
-    return {
-      title,
-      description,
-      scorecards: scorecards.map((scorecardDefinition: DashboardScorecard) => {
-        return createScoreCard(scorecardDefinition, data)
-      }),
-    }
+const createScorecards = (scorecardsGroup: DashboardScorecardsGroup, data: MetricsDataResponse[][]) => {
+  const { scorecards } = scorecardsGroup
+  return scorecards.map((scorecardDefinition: DashboardScorecard) => {
+    return createScoreCard(scorecardDefinition, data)
   })
 }
 

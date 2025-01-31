@@ -1,13 +1,24 @@
+import { DashboardList } from '../components/_dashboards/dashboard-list/types'
+import { Scorecard } from '../components/_dashboards/scorecard/types'
 import { components } from './api'
-import { ChartUnit, ChartType } from './Charts'
+import { ChartUnit, ChartType, ChartCardData } from './Charts'
 
 export interface DashboardDefinition {
   id: string
   name: string
   description: string
+  lists: DashboardList[]
   metrics: DashboardMetricDefinition[]
   scorecards: DashboardScorecardsGroup[]
   filterFields: components['schemas']['FieldDefinition'][]
+}
+
+export interface DashboardSection {
+  type: 'scorecard' | 'chart' | 'list'
+  id: string
+  title: string
+  description: string
+  data: Scorecard[] | ChartCardData | any
 }
 
 export interface DashboardMetricDefinition {

@@ -6,6 +6,10 @@ const {
   mockDashboardMetricDefMissingEthnicityTimeseries,
 } = require('./mockDashboardMetricDefinitons')
 
+const { metricDefDefault } = require('./mockMetricDefinitions')
+
+const { mockListDefinitionAgeRange1, mockListDefinitionAgeRange2 } = require('./mockDashboardListDefinition')
+
 const { establishmentIdFilter, granularDateRangeFilter } = require('./mockDashboardFilterDefinition')
 const { mockDashboardDataAnalticsScoreCardGroup } = require('./mockDashboardScoreCardDefinitions')
 
@@ -111,6 +115,16 @@ const mockDashboardDefinition10 = {
   filterFields: [establishmentIdFilter, granularDateRangeFilter],
 }
 
+const mockDashboardDefinition11 = {
+  id: 'test-dashboard-11',
+  name: 'Dashboard with Lists',
+  description: 'Dashboard with Lists',
+  lists: [mockListDefinitionAgeRange1, mockListDefinitionAgeRange2],
+  metrics: [],
+  scorecards: [],
+  filterFields: [establishmentIdFilter, granularDateRangeFilter],
+}
+
 module.exports = [
   mockDashboardDefinition1,
   mockDashboardDefinition2,
@@ -122,4 +136,5 @@ module.exports = [
   mockDashboardDefinition8,
   mockDashboardDefinition9,
   mockDashboardDefinition10,
+  mockDashboardDefinition11,
 ]

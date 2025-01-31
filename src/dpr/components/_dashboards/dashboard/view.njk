@@ -1,5 +1,6 @@
 {% from "../dashboard-sidebar/view.njk" import dprDashboardSidebar %}
 {% from "../dashboard-filters/view.njk" import dprDashboardFilters %}
+{% from "../dashboard-section/view.njk" import dprDashboardSection %}
 
 {% from "../../_charts/chart-card/view.njk" import dprChartCard %}
 {% from "../../_reports/report-heading/view.njk" import dprReportHeading %}
@@ -17,12 +18,11 @@
     <div class="dashboard-content">
       {{ dprReportHeading(data) }}
       {{ dprDashboardFilters(data.filters) }}
-      {% for metric in data.metrics %}
-        <hr class="metric-break">
-        <div>
-          {{ dprChartCard(metric) }}
-        </div>
+
+      {% for section in data.sections %}
+        {{ dprDashboardSection(section) }}
       {% endfor %}
+
       {{ dprScoreCardGroup(data.scorecards) }}
     </div>
   </div>

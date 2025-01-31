@@ -39,7 +39,7 @@ export default class ParentChildDataTableBuilder extends DataTableBuilder {
       const sectionData = sectionedData[key.sortKey]
       const parentSectionData = sectionData.parent
 
-      return ([header]).concat(parentSectionData.map((r) => this.mapRow(r))).concat(
+      return [header].concat(parentSectionData.map((r) => this.mapRow(r))).concat(
         this.variant.childVariants
           .filter((childVariant) => sectionData[childVariant.id])
           .map((childVariant) => {

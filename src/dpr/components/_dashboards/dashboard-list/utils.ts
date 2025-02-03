@@ -31,7 +31,7 @@ const sumColumns = (rowsData: MoJTableRow[][], columns: DashboardListsColumn[]) 
   if (sumColumnIndexes.length) {
     const sumRow: MoJTableRow[] = [{ html: `<strong>Total<strong>` }]
     for (let index = 1; index < columns.length; index += 1) {
-      sumRow[index] = { text: '0' }
+      sumRow[index] = { text: '' }
     }
 
     rowsData.push(sumRow)

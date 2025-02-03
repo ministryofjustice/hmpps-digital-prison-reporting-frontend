@@ -114,7 +114,6 @@ const getSections = (dashboardDefinition: DashboardDefinition, dashboardData: Me
   lists?.forEach((list: DashboardList) => {
     const { display: title, description, id } = list
     const listData = DashboardListUtils.createList(list, dashboardData)
-
     sections.push({
       type: 'list',
       id,

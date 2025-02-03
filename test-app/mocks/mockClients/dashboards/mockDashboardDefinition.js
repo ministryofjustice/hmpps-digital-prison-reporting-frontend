@@ -11,6 +11,12 @@ const {
   mockListDefinitionAgeRange2,
   mockListDefinitionTotalPrisonersByWing,
   mockListDefinitionTotalPrisoners,
+  mockListDefinitionReligion,
+  mockListDefinitionEthnicity,
+  mockListDefinitionAgeRange1Wing,
+  mockListDefinitionAgeRange2Wing,
+  mockListDefinitionCell,
+  mockListDefinitionNationality,
 } = require('./mockDashboardListDefinition')
 
 const { establishmentIdFilter, granularDateRangeFilter } = require('./mockDashboardFilterDefinition')
@@ -127,6 +133,12 @@ const mockDashboardDefinition11 = {
     mockListDefinitionAgeRange2,
     mockListDefinitionTotalPrisonersByWing,
     mockListDefinitionTotalPrisoners,
+    mockListDefinitionReligion,
+    mockListDefinitionEthnicity,
+    mockListDefinitionCell,
+    mockListDefinitionAgeRange1Wing,
+    mockListDefinitionAgeRange2Wing,
+    mockListDefinitionNationality,
   ],
   metrics: [],
   scorecards: [],

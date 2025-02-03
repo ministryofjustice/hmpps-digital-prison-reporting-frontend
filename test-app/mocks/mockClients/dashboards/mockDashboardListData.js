@@ -591,20 +591,6 @@ const mockNationalityTableData = [
     cell: { raw: '' },
     total_prisoners: { raw: '28' },
   },
-  {
-    establishment_id: { raw: 'MDI' },
-    wing: { raw: 'I' },
-    age_range_1: { raw: '' },
-    age_range_2: { raw: '' },
-    religion_code: { raw: '' },
-    religion_description: { raw: '' },
-    ethnic_code: { raw: 'W2' },
-    ethnic_description: { raw: 'W1-White: Eng./Welsh/Scot./N.Irish/British' },
-    nationality_code: { raw: '' },
-    nationality_description: { raw: '' },
-    cell: { raw: '' },
-    total_prisoners: { raw: '24' },
-  },
 ]
 
 const mockDashboardListData = [

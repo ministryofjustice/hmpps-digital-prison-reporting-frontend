@@ -198,6 +198,16 @@ const embeddededRouteConfigMenuCards = [
   },
 ]
 
+const addMockUserData  = (req, res, next) => {
+  res.locals.user = {
+    displayName: 'Test User',
+    email: 'test@user.com'
+  }
+  next()
+}
+
+app.use(addMockUserData)
+
 app.get('/', (req, res) => {
   res.render('menu.njk', {
     title: 'DPR test site',

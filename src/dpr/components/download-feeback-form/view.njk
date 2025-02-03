@@ -9,6 +9,7 @@
   {% set name = user.displayName %}
   {% set staffId = user.staffId %}
   {% set activeCaseLoadId = user.activeCaseLoadId %}
+  {% set email = user.email %}
   {% set reportId = report.reportId %}
   {% set variantId = report.variantId %}
   {% set time = report.time %}
@@ -73,7 +74,7 @@
       {{ govukInput({
         id: 'email',
         name: 'email',
-        value: '',
+        value: email,
         label: {
           text: 'What is your Email address?'
         },

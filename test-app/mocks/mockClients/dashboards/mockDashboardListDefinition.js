@@ -1,8 +1,8 @@
 const mockListDefinitionAgeRange1 = {
   id: 'age-range-1',
-  name: 'Age Range 1',
-  display: 'Age Range 1',
-  description: 'Age Range 1',
+  name: 'Total prisoners by age range 1',
+  display: 'Total prisoners by age range 1',
+  description: 'Total prisoners by age range 1',
   columns: {
     keys: [
       {
@@ -30,9 +30,9 @@ const mockListDefinitionAgeRange1 = {
 
 const mockListDefinitionAgeRange2 = {
   id: 'age-range-2',
-  name: 'Age Range 2',
-  display: 'Age Range 2',
-  description: 'Age Range 2',
+  name: 'Total prisoners by age range 2',
+  display: 'Total prisoners by age range 2',
+  description: 'Total prisoners by age range 2',
   columns: {
     keys: [
       {
@@ -93,9 +93,9 @@ const mockListDefinitionTotalPrisonersByWing = {
 
 const mockListDefinitionTotalPrisoners = {
   id: 'total-prisoners',
-  name: 'Total prisoners',
-  display: 'Total prisoners',
-  description: 'Total prisoners',
+  name: 'Total prisoners by establishment',
+  display: 'Total prisoners by establishment',
+  description: 'Total prisoners by establishment',
   columns: {
     keys: [
       {
@@ -118,9 +118,9 @@ const mockListDefinitionTotalPrisoners = {
 
 const mockListDefinitionReligion = {
   id: 'religion',
-  name: 'Religion',
-  display: 'Religion',
-  description: 'Religion',
+  name: 'Religion totals',
+  display: 'Religion totals',
+  description: 'Religion totals',
   columns: {
     keys: [
       {
@@ -152,9 +152,9 @@ const mockListDefinitionReligion = {
 
 const mockListDefinitionEthnicity = {
   id: 'ethnicity',
-  name: 'Ethnicity',
-  display: 'Ethnicity',
-  description: 'Ethnicity',
+  name: 'Ethnicity totals',
+  display: 'Ethnicity totals',
+  description: 'Ethnicity totals',
   columns: {
     keys: [
       {
@@ -186,9 +186,9 @@ const mockListDefinitionEthnicity = {
 
 const mockListDefinitionCell = {
   id: 'cell-total',
-  name: 'Cell total',
-  display: 'Cell total',
-  description: 'Cell total',
+  name: 'Cell totals',
+  display: 'Cell totals',
+  description: 'Cell totals',
   columns: {
     keys: [
       {
@@ -215,9 +215,9 @@ const mockListDefinitionCell = {
 
 const mockListDefinitionAgeRange1Wing = {
   id: 'age-range-1-wint',
-  name: 'Age Range 1 by wing',
-  display: 'Age Range 1 by wing',
-  description: 'Age Range 1 by wing',
+  name: 'Age range 1 by wing totals',
+  display: 'Age range 1 by wing totals',
+  description: 'Age range 1 by wing totals',
   columns: {
     keys: [
       {
@@ -249,9 +249,9 @@ const mockListDefinitionAgeRange1Wing = {
 
 const mockListDefinitionAgeRange2Wing = {
   id: 'age-range-2',
-  name: 'Age Range 2 by wing',
-  display: 'Age Range 2 by wing',
-  description: 'Age Range 2 by wing',
+  name: 'Age range 2 by wing totals',
+  display: 'Age range by wing totals',
+  description: 'Age range by wing totals',
   columns: {
     keys: [
       {
@@ -282,10 +282,10 @@ const mockListDefinitionAgeRange2Wing = {
 }
 
 const mockListDefinitionNationality = {
-  id: 'age-range-2',
-  name: 'Age Range 2 by wing',
-  display: 'Age Range 2 by wing',
-  description: 'Age Range 2 by wing',
+  id: 'nationality',
+  name: 'Nationality totals',
+  display: 'Nationality totals',
+  description: 'Nationality totals',
   columns: {
     keys: [
       {

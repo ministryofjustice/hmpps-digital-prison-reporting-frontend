@@ -7,6 +7,7 @@
   {% set classification = reportData.classification %}
   {% set requestedTimestamp = reportData.requestedTimestamp %}
   {% set metrics = reportData.metrics %}
+  {% set lists = reportData.lists %}
 
   {% set filtersHtml %}
   {% if querySummary.length > 0 %}
@@ -88,7 +89,7 @@
           </tr>
         {% endif %}
 
-        {% if metrics %}
+        {% if metrics.length %}
           <tr>
             <td class="dpr-request-details__table-heading">
               <p class="govuk-body-m dpr-request-details__table-heading_name">No of metrics:</p>
@@ -97,6 +98,7 @@
               {{ metrics.length }}
             </td>
           </tr>
+
           {% if metrics[0].name %}
           <tr>
             <td class="dpr-request-details__table-heading">
@@ -112,7 +114,37 @@
               </ul>
             </td>
           </tr>
+          {% endif %}
+
         {% endif %}
+
+        {% if lists.length %}
+          <tr>
+            <td class="dpr-request-details__table-heading">
+              <p class="govuk-body-m dpr-request-details__table-heading_name">No of lists:</p>
+            </td>
+            <td>
+              {{ lists.length }}
+            </td>
+          </tr>
+          
+          {% if lists[0].name %}
+          <tr>
+            <td class="dpr-request-details__table-heading">
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Lists: </p>
+            </td>
+            <td>
+              <ul class="govuk-list govuk-list--bullet">
+                {% for list in lists %}
+                  <li>
+                    {{ list.name }}
+                  </li>
+                {% endfor %}
+              </ul>
+            </td>
+          </tr>
+          {% endif %}
+
         {% endif %}
       </tbody>
     </table>

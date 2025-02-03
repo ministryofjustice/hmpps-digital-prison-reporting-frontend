@@ -228,13 +228,14 @@ const renderDashboardRequestData = async ({
     <string>definitionPath,
   )
 
-  const { name, description, metrics } = dashboardDefinition
+  const { name, description, metrics, lists } = dashboardDefinition
 
   return {
     reportName,
     name,
     description,
     metrics,
+    lists,
   }
 }
 
@@ -339,6 +340,7 @@ export default {
       let template
       let fields: components['schemas']['FieldDefinition'][]
       let metrics
+      let lists
       let interactive
       let defaultInteractiveQueryString
 
@@ -352,7 +354,7 @@ export default {
       }
 
       if (type === ReportType.DASHBOARD) {
-        ;({ name, reportName, description, metrics } = await renderDashboardRequestData({
+        ;({ name, reportName, description, metrics, lists } = await renderDashboardRequestData({
           token,
           reportId,
           id,
@@ -379,6 +381,7 @@ export default {
           csrfToken,
           template,
           metrics,
+          lists,
           type: type as ReportType,
         },
       }

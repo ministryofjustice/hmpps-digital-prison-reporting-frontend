@@ -1,13 +1,13 @@
 {%- from "moj/components/side-navigation/macro.njk" import mojSideNavigation -%}
 
 
-{% macro dprDashboardSidebar(metrics) %}
+{% macro dprDashboardSidebar(sections) %}
     {% set items = [] %}
 
-    {% for metric in metrics %}
+    {% for metric in sections %}
       {% set items = (items.push({
         text: metric.title,
-        href: '#' + metric.id + '-chart-card'
+        href: '#' + metric.id + '-dashboard-section'
       }), items) %}
     {% endfor %}
 

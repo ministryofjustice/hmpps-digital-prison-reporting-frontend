@@ -70,6 +70,20 @@ const mockDashboardListData = [
       age_range_2: { raw: '50-59' },
       total_prisoners: { raw: '3' },
     },
+    {
+      establishment_id: { raw: 'MDI' },
+      wing: { raw: 'I' },
+      age_range_1: { raw: '' },
+      age_range_2: { raw: '' },
+      total_prisoners: { raw: '28' },
+    },
+    {
+      establishment_id: { raw: 'MDI' },
+      wing: { raw: '' },
+      age_range_1: { raw: '' },
+      age_range_2: { raw: '' },
+      total_prisoners: { raw: '200' },
+    },
   ],
 ]
 

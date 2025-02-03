@@ -9,7 +9,6 @@ export interface DashboardList {
 export interface DashboardListColumns {
   keys: DashboardListsColumn[]
   dimensions: DashboardListsColumn[]
-  values: DashboardListsColumn[]
 }
 
 export interface DashboardListsColumn {

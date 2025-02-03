@@ -6,7 +6,7 @@ import { DashboardList, DashboardListsColumn } from './types'
 const createList = (listDefinition: DashboardList, dashboardData: MetricsDataResponse[][]): MoJTable => {
   const dataSnapshot = dashboardData[dashboardData.length - 1]
   const columns: DashboardListsColumn[] = [...listDefinition.columns.dimensions]
-  let rowsData = filterDataset(listDefinition, dataSnapshot)
+  let rowsData = createTableRows(listDefinition, dataSnapshot)
   rowsData = sumColumns(rowsData, columns)
   return createTable(columns, rowsData)
 }
@@ -47,7 +47,7 @@ const sumColumns = (rowsData: MoJTableRow[][], columns: DashboardListsColumn[]) 
   return rowsData
 }
 
-const filterDataset = (listDefinition: DashboardList, dashboardData: MetricsDataResponse[]) => {
+const createTableRows = (listDefinition: DashboardList, dashboardData: MetricsDataResponse[]) => {
   const { keys, dimensions } = listDefinition.columns
   const displayColumnsIds = dimensions.map((col) => col.id)
   const keyColumnsIds = keys.map((col) => col.id)

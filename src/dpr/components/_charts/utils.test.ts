@@ -35,7 +35,7 @@ describe('ChartCard Utils', () => {
 
   describe('getChartData', () => {
     it('should get the chart data', async () => {
-      const expectedResult = [missingEthnicityChartData]
+      const expectedResult = missingEthnicityChartData.data
       const result = ChartCardUtils.getChartData({
         chartDefinitions: dashboardDefinition.metrics[0].charts,
         dashboardMetricsData,

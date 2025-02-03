@@ -1,4 +1,4 @@
-import { DashboardScorecard, DashboardScorecardsGroup } from '../../../types/Dashboards'
+import { DashboardScorecard } from '../../../types/Dashboards'
 import { MetricsDataResponse } from '../../../types/Metrics'
 import { Scorecard, ScorecardTrend } from './types'
 
@@ -16,8 +16,7 @@ const createScoreCard = (scorecardDefinition: DashboardScorecard, rawData: Metri
   }
 }
 
-const createScorecards = (scorecardsGroup: DashboardScorecardsGroup, data: MetricsDataResponse[][]) => {
-  const { scorecards } = scorecardsGroup
+const createScorecards = (scorecards: DashboardScorecard[], data: MetricsDataResponse[][]) => {
   return scorecards.map((scorecardDefinition: DashboardScorecard) => {
     return createScoreCard(scorecardDefinition, data)
   })

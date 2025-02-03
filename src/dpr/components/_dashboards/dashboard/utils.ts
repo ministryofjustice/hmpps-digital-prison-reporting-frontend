@@ -100,7 +100,7 @@ const getSections = (dashboardDefinition: DashboardDefinition, dashboardData: Me
 
   scorecards?.forEach((group: DashboardScorecardsGroup) => {
     const { display: title, description, id } = group
-    const scorecardGroup = ScorecardsUtils.createScorecards(group, dashboardData)
+    const scorecardGroup = ScorecardsUtils.createScorecards(group.scorecards, dashboardData)
 
     sections.push({
       type: 'scorecard',

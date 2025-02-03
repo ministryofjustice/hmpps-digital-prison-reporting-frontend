@@ -1,6 +1,6 @@
 import { DashboardScorecard, DashboardScorecardsGroup } from '../../../types/Dashboards'
 import { MetricsDataResponse } from '../../../types/Metrics'
-import { Scorecard, ScorecardGroup, ScorecardTrend } from './types'
+import { Scorecard, ScorecardTrend } from './types'
 
 const createScoreCard = (scorecardDefinition: DashboardScorecard, rawData: MetricsDataResponse[][]): Scorecard => {
   // Get last in timeseries data

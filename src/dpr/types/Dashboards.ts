@@ -1,7 +1,7 @@
 import { DashboardList } from '../components/_dashboards/dashboard-list/types'
 import { Scorecard } from '../components/_dashboards/scorecard/types'
 import { components } from './api'
-import { ChartUnit, ChartType, ChartCardData } from './Charts'
+import { ChartUnit, ChartType, ChartCardData, MoJTable } from './Charts'
 
 export interface DashboardDefinition {
   id: string
@@ -18,7 +18,7 @@ export interface DashboardSection {
   id: string
   title: string
   description: string
-  data: Scorecard[] | ChartCardData | any
+  data: Scorecard[] | ChartCardData | MoJTable
 }
 
 export interface DashboardMetricDefinition {

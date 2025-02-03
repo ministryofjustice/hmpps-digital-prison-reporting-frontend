@@ -2,9 +2,9 @@
 import { MetricsDataResponse } from '../../types/Metrics'
 import ChartCardUtils from './utils'
 import dashboardDefinitions from '../../../../test-app/mocks/mockClients/dashboards/mockDashboardDefinition'
-import { 
+import {
   missingEthnicityChartData,
-  missingEthnicityTimeseriesChartData 
+  missingEthnicityTimeseriesChartData,
 } from '../../../../test-app/mocks/mockClients/dashboards/mockDashboardChartData'
 import { DashboardDefinition } from '../../types/Dashboards'
 import { mockTimeSeriesDataLastSixMonths } from '../../../../test-app/mocks/mockClients/dashboards/mockDashboardResponseData'
@@ -56,7 +56,7 @@ describe('ChartCard Utils', () => {
       const result = ChartCardUtils.getChartData({
         chartDefinitions: dashboardDefinitionTimeseries.metrics[0].charts,
         dashboardMetricsData: dashboardMetricsDataTimeseries,
-        timeseries: true
+        timeseries: true,
       })
 
       expect(result).toEqual(missingEthnicityTimeseriesChartData)

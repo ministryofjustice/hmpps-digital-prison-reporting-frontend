@@ -1,13 +1,13 @@
 /* eslint-disable prefer-destructuring */
-import { MetricsDataResponse } from '../../../types/Metrics'
+import { MetricsDataResponse } from '../../types/Metrics'
 import ChartCardUtils from './utils'
-import dashboardDefinitions from '../../../../../test-app/mocks/mockClients/dashboards/mockDashboardDefinition'
-import { missingEthnicityChartData } from '../../../../../test-app/mocks/mockClients/dashboards/mockDashboardChartData'
-import { DashboardDefinition } from '../../../types/Dashboards'
+import dashboardDefinitions from '../../../../test-app/mocks/mockClients/dashboards/mockDashboardDefinition'
+import { missingEthnicityChartData } from '../../../../test-app/mocks/mockClients/dashboards/mockDashboardChartData'
+import { DashboardDefinition } from '../../types/Dashboards'
 
 describe('ChartCard Utils', () => {
   let dashboardDefinition: DashboardDefinition
-  let dashboardMetricsData: MetricsDataResponse[]
+  let dashboardMetricsData: MetricsDataResponse[][]
 
   beforeEach(() => {
     dashboardDefinition = dashboardDefinitions[0] as unknown as DashboardDefinition
@@ -37,7 +37,7 @@ describe('ChartCard Utils', () => {
     it('should get the chart data', async () => {
       const expectedResult = [missingEthnicityChartData]
       const result = ChartCardUtils.getChartData({
-        dashboardDefinition,
+        chartDefinitions: dashboardDefinition.metrics[0].charts,
         dashboardMetricsData,
       })
       expect(result).toEqual(expectedResult)

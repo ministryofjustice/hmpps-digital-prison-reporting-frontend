@@ -1,0 +1,38 @@
+{% from "../../_charts/chart-card/view.njk" import dprChartCard %}
+{% from "../scorecard-group/view.njk" import dprScoreCardGroup %}
+{% from "../dashboard-list/view.njk" import dprDashboardList %}
+
+{% macro dprDashboardSection(section) %}
+  {% set id = section.id %}
+  {% set title = section.title %}
+  {% set description = section.description %}
+  {% set type = section.type %}
+  {% set data = section.data %}
+
+  <hr class="dashboard-section-break">
+  <div class="dpr-dashboard-section" id="{{ id }}-dashboard-section">
+    <h2 class="govuk-heading-m">{{ title }}</h2>
+
+    {% if description %}
+      <p class="govuk-body">{{ description }}</p> 
+    {% endif %}
+
+    <div class="dashboard-section-container">
+      
+      {% if type === 'chart' %}
+
+        {{ dprChartCard(id, data) }}
+
+      {% elif type === 'scorecard' %}
+
+        {{ dprScoreCardGroup(id, data) }}
+
+      {% elif type === 'list' %}
+
+        {{ dprDashboardList(id, data) }}
+
+      {% endif %}
+
+    </div>
+  </div>
+{% endmacro %}

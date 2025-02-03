@@ -1,6 +1,6 @@
-import { DashboardScorecard, DashboardScorecardsGroup } from '../../../types/Dashboards'
+import { DashboardScorecard } from '../../../types/Dashboards'
 import { MetricsDataResponse } from '../../../types/Metrics'
-import { Scorecard, ScorecardGroup, ScorecardTrend } from './types'
+import { Scorecard, ScorecardTrend } from './types'
 
 const createScoreCard = (scorecardDefinition: DashboardScorecard, rawData: MetricsDataResponse[][]): Scorecard => {
   // Get last in timeseries data
@@ -16,20 +16,9 @@ const createScoreCard = (scorecardDefinition: DashboardScorecard, rawData: Metri
   }
 }
 
-const createScorecards = (
-  scorecardsDefinition: DashboardScorecardsGroup[],
-  data: MetricsDataResponse[][],
-): ScorecardGroup[] => {
-  return scorecardsDefinition.map((group: DashboardScorecardsGroup) => {
-    const { display: title, description, scorecards } = group
-
-    return {
-      title,
-      description,
-      scorecards: scorecards.map((scorecardDefinition: DashboardScorecard) => {
-        return createScoreCard(scorecardDefinition, data)
-      }),
-    }
+const createScorecards = (scorecards: DashboardScorecard[], data: MetricsDataResponse[][]) => {
+  return scorecards.map((scorecardDefinition: DashboardScorecard) => {
+    return createScoreCard(scorecardDefinition, data)
   })
 }
 

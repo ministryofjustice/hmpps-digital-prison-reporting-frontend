@@ -11,6 +11,7 @@ export interface Scorecard {
 }
 
 export interface ScorecardGroup {
+  id: string
   title: string
   description: string
   scorecards: Scorecard[]

@@ -1,10 +1,13 @@
-{% from "./chart-card-sidebar/view.njk" import dprChartCardSidebar %}
-{% from "./chart-card-no-sidebar/view.njk" import dprChartCardNoSidebar %}
+{% from "../chart-tabs/view.njk" import dprChartTabs %}
+{% from "../chart-details/view.njk" import dprChartDetails %}
 
-{% macro dprChartCard(chart) %}
-  {% if chart.data.chart[0].timeseries %}
-    {{ dprChartCardNoSidebar(chart) }}
-  {% else %}
-    {{ dprChartCardSidebar(chart) }}
-  {% endif %}
+{% macro dprChartCard(id, data) %}
+  {% set details = data.details %}
+
+  <div class="dpr-chart-card">
+    <div class="chart-tabs-container">
+      {{ dprChartTabs(id, data) }}
+      {{ dprChartDetails(id, details )}}
+    </div>
+  </div>
 {% endmacro %}

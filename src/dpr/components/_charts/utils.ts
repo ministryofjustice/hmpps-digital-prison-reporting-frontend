@@ -1,8 +1,8 @@
-import { MoJTableHead, MoJTableRow, ChartData, MoJTable, ChartDataset } from '../../../types/Charts'
-import { DashboardChartDefinition, DashboardDefinition, DashboardMetricDefinition } from '../../../types/Dashboards'
-import { MetricsDataResponse } from '../../../types/Metrics'
+import { MoJTableHead, MoJTableRow, ChartData, MoJTable, ChartDataset } from '../../types/Charts'
+import { DashboardChartDefinition } from '../../types/Dashboards'
+import { MetricsDataResponse } from '../../types/Metrics'
 
-const getSnapshotCharts = (responseData: MetricsDataResponse[][], def: DashboardMetricDefinition) => {
+const getSnapshotCharts = (responseData: MetricsDataResponse[][], def: DashboardChartDefinition[]) => {
   const data = responseData[responseData.length - 1]
   const chart: ChartData[] = createSnapshotChartData(def, data)
   const table: MoJTable = createSnapshotTable(def, data)
@@ -13,7 +13,7 @@ const getSnapshotCharts = (responseData: MetricsDataResponse[][], def: Dashboard
   }
 }
 
-const getTimeseriesChart = (responseData: MetricsDataResponse[][], def: DashboardMetricDefinition) => {
+const getTimeseriesChart = (responseData: MetricsDataResponse[][], def: DashboardChartDefinition[]) => {
   const chart: ChartData[] = createTimeseriesChartData(def, responseData)
   const table: MoJTable = createTimeseriesTable(def, responseData)
   // console.log(JSON.stringify(table, null, 2))
@@ -25,42 +25,35 @@ const getTimeseriesChart = (responseData: MetricsDataResponse[][], def: Dashboar
 
 export default {
   getChartData: ({
-    dashboardDefinition,
+    chartDefinitions,
     dashboardMetricsData,
+    timeseries,
   }: {
-    dashboardDefinition: DashboardDefinition
+    chartDefinitions: DashboardChartDefinition[]
     dashboardMetricsData: MetricsDataResponse[][]
+    timeseries?: boolean
   }) => {
-    return dashboardDefinition.metrics.flatMap((definition: DashboardMetricDefinition) => {
-      const { name: title, description, id: metricId, timeseries } = definition
+    let chart: ChartData[] = []
+    let table
 
-      let chart: ChartData[] = []
-      let table
+    if (!timeseries) {
+      ;({ chart, table } = getSnapshotCharts(dashboardMetricsData, chartDefinitions))
+    } else {
+      ;({ chart, table } = getTimeseriesChart(dashboardMetricsData, chartDefinitions))
+    }
 
-      if (!timeseries) {
-        ;({ chart, table } = getSnapshotCharts(dashboardMetricsData, definition))
-      } else {
-        ;({ chart, table } = getTimeseriesChart(dashboardMetricsData, definition))
-      }
-
-      return {
-        id: metricId,
-        title,
-        description,
-        data: {
-          chart,
-          table,
-        },
-      }
-    })
+    return {
+      chart,
+      table,
+    }
   },
 }
 
 const createTimeseriesChartData = (
-  definition: DashboardMetricDefinition,
+  charts: DashboardChartDefinition[],
   dashboardMetricsData: MetricsDataResponse[][],
 ): ChartData[] => {
-  const chartData: ChartData[] = definition.charts.map((cd: DashboardChartDefinition) => {
+  const chartData: ChartData[] = charts.map((cd: DashboardChartDefinition) => {
     // get the timestamps as labels
     const labels = dashboardMetricsData.map((d: MetricsDataResponse[]) => d[0].timestamp as unknown as string)
     const datasetCount = dashboardMetricsData[0].length
@@ -95,10 +88,10 @@ const createTimeseriesChartData = (
 }
 
 const createSnapshotChartData = (
-  definition: DashboardMetricDefinition,
+  charts: DashboardChartDefinition[],
   dashboardMetricsData: MetricsDataResponse[],
 ): ChartData[] => {
-  return definition.charts.map((cd: DashboardChartDefinition) => {
+  return charts.map((cd: DashboardChartDefinition) => {
     const labels = cd.columns.map((col) => col.display)
 
     const datasets = dashboardMetricsData.map((row) => {
@@ -125,10 +118,10 @@ const createSnapshotChartData = (
 }
 
 const createTimeseriesTable = (
-  definition: DashboardMetricDefinition,
+  charts: DashboardChartDefinition[],
   dashboardMetricsData: MetricsDataResponse[][],
 ): MoJTable => {
-  const allColumns = definition.charts.flatMap((chartDefinition) => {
+  const allColumns = charts.flatMap((chartDefinition) => {
     return chartDefinition.columns.map((column) => column)
   })
 
@@ -147,7 +140,7 @@ const createTimeseriesTable = (
     // display the row group value as the column header
     dashboardMetricsData[0].forEach((row) => {
       head.push({
-        text: <string>row[definition.charts[0].label.name].raw,
+        text: <string>row[charts[0].label.name].raw,
       })
     })
   } else {
@@ -178,17 +171,17 @@ const createTimeseriesTable = (
 }
 
 const createSnapshotTable = (
-  definition: DashboardMetricDefinition,
+  charts: DashboardChartDefinition[],
   dashboardMetricsData: MetricsDataResponse[],
 ): MoJTable => {
-  const allColumns = definition.charts.flatMap((chartDefinition) => {
+  const allColumns = charts.flatMap((chartDefinition) => {
     return chartDefinition.columns.map((column) => column)
   })
   const uniqueColumns = allColumns.filter(
     (value, index, self) => index === self.findIndex((t) => t.name === value.name),
   )
 
-  uniqueColumns.unshift(definition.charts[0].label)
+  uniqueColumns.unshift(charts[0].label)
 
   const head: MoJTableHead[] = uniqueColumns.map((column) => {
     return { text: column.display }

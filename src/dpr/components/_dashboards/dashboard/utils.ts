@@ -2,22 +2,28 @@ import parseUrl from 'parseurl'
 import { Url } from 'url'
 import type { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
 import type { ChartCardData } from '../../../types/Charts'
-import type { DashboardDefinition } from '../../../types/Dashboards'
+import type {
+  DashboardDefinition,
+  DashboardMetricDefinition,
+  DashboardScorecardsGroup,
+  DashboardSection,
+} from '../../../types/Dashboards'
 import type { MetricsDataResponse } from '../../../types/Metrics'
 import type { RequestedReport } from '../../../types/UserReports'
 import { ReportType } from '../../../types/UserReports'
 import type { components } from '../../../types/api'
 
-import ChartCardUtils from '../../_charts/chart-card/utils'
+import ChartUtils from '../../_charts/utils'
 import DefinitionUtils from '../../../utils/definitionUtils'
 import UserReportsUtils from '../../user-reports/utils'
+import DashboardListUtils from '../dashboard-list/utils'
 import FilterUtils from '../../_filters/utils'
 import ScorecardsUtils from '../scorecard/utils'
 import ReportActionsUtils from '../../_reports/report-actions/utils'
 import ReportQuery from '../../../types/ReportQuery'
 import LocalsHelper from '../../../utils/localsHelper'
 import { Services } from '../../../types/Services'
-import { ScorecardGroup } from '../scorecard/types'
+import { DashboardList } from '../dashboard-list/types'
 
 const setDashboardActions = (
   dashboardDefinition: DashboardDefinition,
@@ -88,33 +94,72 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
   }
 }
 
-const getParts = (dashboardDefinition: DashboardDefinition, dashboardData: MetricsDataResponse[][]) => {
-  // Scorecards
-  const scorecards: ScorecardGroup[] = ScorecardsUtils.createScorecards(
-    dashboardDefinition.scorecards || [],
-    dashboardData,
-  )
+const getSections = (dashboardDefinition: DashboardDefinition, dashboardData: MetricsDataResponse[][]) => {
+  const sections: DashboardSection[] = []
+  const { scorecards, metrics, lists } = dashboardDefinition
 
-  // Charts
-  const charts: ChartCardData[] = ChartCardUtils.getChartData({
-    dashboardDefinition,
-    dashboardMetricsData: dashboardData,
+  scorecards?.forEach((group: DashboardScorecardsGroup) => {
+    const { display: title, description, id } = group
+    const scorecardGroup = ScorecardsUtils.createScorecards(group.scorecards, dashboardData)
+
+    sections.push({
+      type: 'scorecard',
+      id,
+      title,
+      description,
+      data: scorecardGroup,
+    })
   })
 
-  return {
-    scorecards,
-    charts,
-  }
+  lists?.forEach((list: DashboardList) => {
+    const { display: title, description, id } = list
+    const listData = DashboardListUtils.createList(list, dashboardData)
+    sections.push({
+      type: 'list',
+      id,
+      title,
+      description,
+      data: listData,
+    })
+  })
+
+  metrics?.forEach((definition: DashboardMetricDefinition) => {
+    const { id, display: title, description, charts } = definition
+
+    if (charts.length) {
+      const chartData: ChartCardData = ChartUtils.getChartData({
+        chartDefinitions: charts,
+        dashboardMetricsData: dashboardData,
+        timeseries: definition.timeseries,
+      })
+
+      sections.push({
+        type: 'chart',
+        id,
+        title,
+        description,
+        data: chartData,
+      })
+    }
+  })
+
+  return sections
 }
 
-const updateStore = async (services: Services, tableId: string, userId: string, charts: ChartCardData[], url: Url) => {
+const updateStore = async (
+  services: Services,
+  tableId: string,
+  userId: string,
+  sections: DashboardSection[],
+  url: Url,
+) => {
   const dashboardRequestData: RequestedReport = await services.requestedReportService.getReportByTableId(
     tableId,
     userId,
   )
 
   // Add to recently viewed
-  if (charts && charts.length && dashboardRequestData) {
+  if (sections && sections.length && dashboardRequestData) {
     UserReportsUtils.updateLastViewed({
       services,
       reportStateData: dashboardRequestData,
@@ -150,10 +195,10 @@ export default {
     )
 
     // Get the dashboard parts
-    const { scorecards, charts } = getParts(dashboardDefinition, dashboardData)
+    const sections = getSections(dashboardDefinition, dashboardData)
 
     // Update the store
-    const dashboardRequestData = await updateStore(services, tableId, userId, charts, url)
+    const dashboardRequestData = await updateStore(services, tableId, userId, sections, url)
 
     return {
       dashboardData: {
@@ -165,9 +210,8 @@ export default {
         reportName: reportDefinition.name,
         bookmarked: await services.bookmarkService.isBookmarked(id, userId),
         csrfToken,
-        metrics: charts,
+        sections,
         filters,
-        scorecards,
         type: ReportType.DASHBOARD,
         actions: setDashboardActions(dashboardDefinition, reportDefinition, dashboardRequestData),
       },

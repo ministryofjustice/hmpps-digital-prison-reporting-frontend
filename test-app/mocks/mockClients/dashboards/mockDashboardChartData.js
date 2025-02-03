@@ -101,6 +101,164 @@ const missingEthnicityChartData = {
   },
 }
 
+const missingEthnicityTimeseriesChartData = {
+  chart: [
+    {
+      type: 'line',
+      unit: 'number',
+      timeseries: true,
+      data: {
+        labels: ['Aug 24', 'Sep 24', 'Oct 24', 'Nov 24', 'Dec 24', 'Jan 25'],
+        datasets: [
+          {
+            data: [781, 514, 598, 522, 431, 614],
+            label: 'MDI',
+            total: 3460,
+          },
+          {
+            data: [610, 518, 676, 790, 536, 713],
+            label: 'SLI',
+            total: 3843,
+          },
+          {
+            data: [499, 521, 687, 713, 590, 682],
+            label: 'DAI',
+            total: 3692,
+          },
+        ],
+      },
+    },
+    {
+      type: 'bar',
+      unit: 'number',
+      timeseries: true,
+      data: {
+        labels: ['Aug 24', 'Sep 24', 'Oct 24', 'Nov 24', 'Dec 24', 'Jan 25'],
+        datasets: [
+          {
+            data: [781, 514, 598, 522, 431, 614],
+            label: 'MDI',
+            total: 3460,
+          },
+          {
+            data: [610, 518, 676, 790, 536, 713],
+            label: 'SLI',
+            total: 3843,
+          },
+          {
+            data: [499, 521, 687, 713, 590, 682],
+            label: 'DAI',
+            total: 3692,
+          },
+        ],
+      },
+    },
+  ],
+  table: {
+    head: [
+      {
+        text: 'Date',
+      },
+      {
+        text: 'MDI',
+      },
+      {
+        text: 'SLI',
+      },
+      {
+        text: 'DAI',
+      },
+    ],
+    rows: [
+      [
+        {
+          text: 'Aug 24',
+        },
+        {
+          text: 781,
+        },
+        {
+          text: 610,
+        },
+        {
+          text: 499,
+        },
+      ],
+      [
+        {
+          text: 'Sep 24',
+        },
+        {
+          text: 514,
+        },
+        {
+          text: 518,
+        },
+        {
+          text: 521,
+        },
+      ],
+      [
+        {
+          text: 'Oct 24',
+        },
+        {
+          text: 598,
+        },
+        {
+          text: 676,
+        },
+        {
+          text: 687,
+        },
+      ],
+      [
+        {
+          text: 'Nov 24',
+        },
+        {
+          text: 522,
+        },
+        {
+          text: 790,
+        },
+        {
+          text: 713,
+        },
+      ],
+      [
+        {
+          text: 'Dec 24',
+        },
+        {
+          text: 431,
+        },
+        {
+          text: 536,
+        },
+        {
+          text: 590,
+        },
+      ],
+      [
+        {
+          text: 'Jan 25',
+        },
+        {
+          text: 614,
+        },
+        {
+          text: 713,
+        },
+        {
+          text: 682,
+        },
+      ],
+    ],
+  },
+}
+
 module.exports = {
   missingEthnicityChartData,
+  missingEthnicityTimeseriesChartData,
 }

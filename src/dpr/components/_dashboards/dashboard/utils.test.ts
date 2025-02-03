@@ -15,6 +15,7 @@ import ReportingService from '../../../services/reportingService'
 import MockDefinitions from '../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
 import BookmarkService from '../../../services/bookmarkService'
 import { RequestedReport } from '../../../types/UserReports'
+import { ChartCardData } from '../../../types/Charts'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
@@ -96,13 +97,14 @@ describe('DashboardUtils', () => {
 
         expect(result.dashboardData.name).toEqual('Test Dashboard 8')
         expect(result.dashboardData.description).toEqual('Async Dashboard Testing')
-        expect(result.dashboardData.metrics.length).toEqual(3)
+        expect(result.dashboardData.sections.length).toEqual(3)
 
-        expect(result.dashboardData.metrics[0].data.chart.length).toEqual(2)
-        expect(result.dashboardData.metrics[0].data.table.head.length).toEqual(5)
-        expect(result.dashboardData.metrics[0].title).toEqual('Missing ethnicity')
-        expect(result.dashboardData.metrics[1].title).toEqual('Missing nationality')
-        expect(result.dashboardData.metrics[2].title).toEqual('Missing religion')
+        const chartData = result.dashboardData.sections[0].data as ChartCardData
+        expect(chartData.chart.length).toEqual(2)
+        expect(chartData.table.head.length).toEqual(5)
+        expect(result.dashboardData.sections[0].title).toEqual('Missing ethnicity')
+        expect(result.dashboardData.sections[1].title).toEqual('Missing nationality')
+        expect(result.dashboardData.sections[2].title).toEqual('Missing religion')
       })
 
       it('should mark the dashboard as recently viewed', async () => {

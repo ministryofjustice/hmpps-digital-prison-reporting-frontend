@@ -338,15 +338,35 @@ describe('buildTable', () => {
 
     expect(mapped.rows).toEqual([
       headerResultRow,
-      resultRows[2],
-      childResultTables[0],
-      headerResultRow,
       resultRows[0],
       resultRows[1],
       childResultTables[1],
       headerResultRow,
+      resultRows[2],
+      childResultTables[0],
+      headerResultRow,
       resultRows[3],
       childResultTables[2],
+    ])
+    expect(mapped.head).toBeNull()
+    expect(mapped.colCount).toEqual(4)
+    expect(mapped.rowCount).toEqual(4)
+  })
+
+  it('Missing child data doesnt fail', () => {
+    const mapped = new ParentChildDataTableBuilder(parentVariant)
+      .withNoHeaderOptions(['sectionOne', 'sectionTwo', 'oranges', 'lemons'])
+      .withChildData([])
+      .buildTable(data)
+
+    expect(mapped.rows).toEqual([
+      headerResultRow,
+      resultRows[0],
+      resultRows[1],
+      headerResultRow,
+      resultRows[2],
+      headerResultRow,
+      resultRows[3],
     ])
     expect(mapped.head).toBeNull()
     expect(mapped.colCount).toEqual(4)

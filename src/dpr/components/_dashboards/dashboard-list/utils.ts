@@ -78,7 +78,8 @@ const createTableRows = (listDefinition: DashboardList, dashboardData: MetricsDa
     })
     .map((dataRow) => {
       return Object.keys(dataRow).map((key) => {
-        return { text: dataRow[key].raw } as MoJTableRow
+        const text = dataRow[key].raw
+        return { text } as MoJTableRow
       })
     })
 

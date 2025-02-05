@@ -47,6 +47,13 @@ jobs:
         token: ${{ secrets.NPM_AUTH_TOKEN }}
         package: package/package.json
 
+    - run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        PR_MESSAGE=$(git log -1 --pretty=format:"%s")
+        git tag -a "${{ steps.bump-version.outputs.next-version }}" -m "${{ inputs.versionType }}-level version bump: $PR_MESSAGE"
+        git push origin "${{ steps.bump-version.outputs.next-version }}"
+
   publish-pages:
     runs-on: ubuntu-latest
 

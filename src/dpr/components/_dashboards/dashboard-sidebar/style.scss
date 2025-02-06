@@ -5,15 +5,31 @@
     top: 4px;
     flex: 0 0 auto;
     align-self: flex-start;
-    width: 210px;
-    padding-right: govuk-spacing(8);
+    width: 250px;
+    padding-right: govuk-spacing(6);
 
     .moj-side-navigation {
       padding-top: 0px;
+
+      .moj-side-navigation__item:has(.dashboard-sidebar-nav-item) {
+        padding-top: govuk-spacing(1);
+        border-top: solid 1px govuk-colour("light-grey");
+        margin-top: govuk-spacing(3);
+      }
+
+      .dashboard-sidebar-nav-item {
+        font-weight: 700;
+      }
+
+      .moj-side-navigation__item:has(.dashboard-sidebar-sub-nav-item) {
+        border-left: solid 3px govuk-colour("blue");
+        margin-left: govuk-spacing(3);
+      }
     }
 
     @media(max-width: 768px) {
       display: none;
     }
+
   }
 }

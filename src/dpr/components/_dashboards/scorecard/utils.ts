@@ -1,25 +1,69 @@
-import { DashboardScorecard } from '../../../types/Dashboards'
 import { MetricsDataResponse } from '../../../types/Metrics'
-import { Scorecard, ScorecardTrend } from './types'
+import { DashboardVisualisation } from '../dashboard/types'
+import { ScorecardTrend } from './types'
+import DashboardSectionUtils from '../dashboard-section/utils'
 
-const createScoreCard = (scorecardDefinition: DashboardScorecard, rawData: MetricsDataResponse[][]): Scorecard => {
-  // Get last in timeseries data
-  const data = rawData[rawData.length - 1][0]
-  const { column, label: title } = scorecardDefinition
-  const valueFor = data.timestamp as unknown as string
+const getDataset = (scorecardDefinition: DashboardVisualisation, rawData: MetricsDataResponse[][]) => {
+  const latestData = rawData[rawData.length - 1]
+  const latestDataSetRows = DashboardSectionUtils.getDatasetRows(scorecardDefinition, latestData)
+  const latestFiltered = DashboardSectionUtils.filterByMeasures(scorecardDefinition, latestDataSetRows)
+
+  const earliestData = rawData[0]
+  const earliestDataSetRows = DashboardSectionUtils.getDatasetRows(scorecardDefinition, earliestData)
+  const earliestfiltered = DashboardSectionUtils.filterByMeasures(scorecardDefinition, earliestDataSetRows)
+
   return {
-    title,
-    value: +data[column].raw,
-    rag: getRag(+data[column].rag),
-    valueFor: data.timestamp as unknown as string,
-    trend: createTrend(rawData, column, valueFor),
+    earliest: earliestfiltered,
+    latest: latestFiltered,
   }
 }
 
-const createScorecards = (scorecards: DashboardScorecard[], data: MetricsDataResponse[][]) => {
-  return scorecards.map((scorecardDefinition: DashboardScorecard) => {
-    return createScoreCard(scorecardDefinition, data)
+const getScorecardData = (
+  scorecardDefinition: DashboardVisualisation,
+  rawData: MetricsDataResponse[][],
+  titleDisplay: string,
+  valueColumnId: string,
+  displayColumnId?: string,
+) => {
+  const { earliest, latest } = getDataset(scorecardDefinition, rawData)
+
+  return latest.map((datasetRow: MetricsDataResponse, index: number) => {
+    const title = displayColumnId ? `${titleDisplay} ${datasetRow[displayColumnId].raw}` : titleDisplay
+    const { rag, raw: value } = datasetRow[valueColumnId]
+    const prevVal = earliest[index][valueColumnId].raw
+    const valueFor = `${datasetRow.timestamp?.raw}`
+    const valueFrom = `${earliest[index].timestamp?.raw}`
+
+    return {
+      title,
+      value,
+      ...(rag && { rag: getRag(rag) }),
+      valueFor,
+      trend: createTrend(valueFor, valueFrom, value, prevVal),
+    }
   })
+}
+
+const createScorecard = (scorecardDefinition: DashboardVisualisation, rawData: MetricsDataResponse[][]) => {
+  const { columns } = scorecardDefinition
+  const { measures } = columns
+  const displayColumn = measures[0]
+  const { id: valueColumnId, display } = displayColumn
+
+  const scorecardData = getScorecardData(scorecardDefinition, rawData, display, valueColumnId)
+
+  return scorecardData.length ? scorecardData[0] : undefined
+}
+
+const createScorecards = (scorecardDefinition: DashboardVisualisation, rawData: MetricsDataResponse[][]) => {
+  const { columns } = scorecardDefinition
+  const { measures } = columns
+
+  const displayColumn = measures.find((col) => col.display)
+  const { id: displayColumnId, display } = displayColumn
+  const valueColumnId = measures.find((col) => col.displayValue).id
+
+  return getScorecardData(scorecardDefinition, rawData, display, valueColumnId, displayColumnId)
 }
 
 const getRag = (ragScore: number) => {
@@ -31,24 +75,20 @@ const getRag = (ragScore: number) => {
 }
 
 const createTrend = (
-  rawData: MetricsDataResponse[][],
-  column: string,
   valueFor: string,
+  valueFrom: string,
+  latestValue: string | number,
+  earliestValue: string | number,
 ): ScorecardTrend | undefined => {
   let trendData
-  const currentData = rawData[rawData.length - 1][0]
-  const startData = rawData[0][0]
-  const currentValue = +currentData[column].raw
-  const startValue = +startData[column].raw
-  const value = currentValue - startValue
+  const value = +latestValue - +earliestValue
   const direction = Math.sign(value)
-  const fromData = startData.timestamp as unknown as string
 
-  if (fromData !== valueFor) {
+  if (valueFrom !== valueFor) {
     trendData = {
       direction,
       value: Math.abs(value),
-      from: startData.timestamp as unknown as string,
+      from: valueFrom,
     }
   }
 
@@ -56,5 +96,6 @@ const createTrend = (
 }
 
 export default {
+  createScorecard,
   createScorecards,
 }

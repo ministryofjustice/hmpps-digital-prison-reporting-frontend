@@ -1,12 +1,12 @@
-{% macro dprScoreCard(args) %}
-  {% set classes = args.classes %}
+{% macro dprScoreCard(scorecard) %}
+  {% set classes = scorecard.classes %}
 
-  {% set title = args.title %}
-  {% set value = args.value %}
-  {% set rag = args.rag %}
-  {% set link = args.link %}
-  {% set trend = args.trend %}
-  {% set valueFor = args.valueFor %}
+  {% set title = scorecard.title %}
+  {% set value = scorecard.value %}
+  {% set rag = scorecard.rag %}
+  {% set link = scorecard.link %}
+  {% set trend = scorecard.trend %}
+  {% set valueFor = scorecard.valueFor %}
 
   {% set trend = args.trend %}
   {% if trend.direction === 1 %}
@@ -27,7 +27,7 @@
 
     <p class="govuk-body dpr-scorecard__value {% if rag %}govuk-tag--{{ rag.color }}{% endif %}">{{ value }}</p>
     {% if rag %}
-    <p class="govuk-body dpr-scorecard__value-description">Status: {{ rag.score }}</p>
+      <p class="govuk-body dpr-scorecard__value-description">Status: {{ rag.score }}</p>
     {% endif %}
 
     {% if trend %}
@@ -42,7 +42,7 @@
       </div>
     {% endif %}
 
-    {% if valueFor %}
+    {% if valueFor and valueFor !== 'undefined' %}
       <p class="dpr-scorecard__value-from govuk-body-s">Value for {{ valueFor }}</p>
     {% endif %}
   </div>

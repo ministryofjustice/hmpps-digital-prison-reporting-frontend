@@ -4,11 +4,29 @@
 {% macro dprDashboardSidebar(sections) %}
     {% set items = [] %}
 
-    {% for metric in sections %}
+    {% for section in sections %}
+
+      {% set title = section.title %} 
+      {% set id = section.id %}
+      
       {% set items = (items.push({
-        text: metric.title,
-        href: '#' + metric.id + '-dashboard-section'
+        html: '<span class="dashboard-sidebar-nav-item">' + title + '</span>',
+        href: '#' + id + '-dashboard-section'
       }), items) %}
+
+      {% for vis in section.visualisations %}
+
+        {% set visTitle = vis.title %} 
+        {% set visId = vis.id %} 
+      
+        {% if visTitle %}
+          {% set items = (items.push({
+            html: '<span class="dashboard-sidebar-sub-nav-item">' + visTitle + '</span>',
+            href: '#' + visId + '-dash-section-visualisation'
+          }), items) %}
+        {% endif %}
+      
+      {% endfor %}
     {% endfor %}
 
     {{ mojSideNavigation({

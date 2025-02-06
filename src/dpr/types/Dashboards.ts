@@ -1,7 +1,8 @@
 import { DashboardList } from '../components/_dashboards/dashboard-list/types'
+import { DashboardVisualisationType, UnitType } from '../components/_dashboards/dashboard/types'
 import { Scorecard } from '../components/_dashboards/scorecard/types'
 import { components } from './api'
-import { ChartUnit, ChartType, ChartCardData, MoJTable } from './Charts'
+import { ChartCardData, MoJTable } from './Charts'
 
 export interface DashboardDefinition {
   id: string
@@ -44,8 +45,8 @@ export interface DashboardScorecard {
   column: string
 }
 export interface DashboardChartDefinition {
-  type: ChartType
-  unit: ChartUnit
+  type: DashboardVisualisationType
+  unit: UnitType
   label: ChartColumn
   columns: ChartColumn[]
 }

@@ -23,7 +23,7 @@
   {% set csrfToken = data.csrfToken %}
   {% set template = data.template %}
   {% set type = data.type %}
-  {% set metrics = data.metrics %}
+  {% set sections = data.sections %}
   {% set dashboardId = data.dashboardId %}
   {% set interactive = data.interactive %}
 
@@ -66,8 +66,8 @@
         <input type="hidden" name="template" value="{{ template }}">
       {% endif %}
       
-      {% if metrics %}
-        <input type="hidden" name="metrics" value="{{ metrics | json }}">
+      {% if sections %}
+        <input type="hidden" name="sections" value="{{ sections | json }}">
       {% endif %}
 
       {% if filters.length or sortBy.length > 0 %}

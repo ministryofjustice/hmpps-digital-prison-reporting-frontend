@@ -7,27 +7,25 @@
   {% set tableData = data.table %}
 
   {% set tabItems = [] %}
-  {% for chart in chartData %}
 
-    {% set type = chart.type %}
-    {% set data = chart.data %}
-    {% set unit = chart.unit %}
-    {% set timeseries = chart.timeseries %}
+  {% set type = chartData.type %}
+  {% set data = chartData.data %}
+  {% set unit = chartData.unit %}
+  {% set timeseries = chartData.timeseries %}
 
-    {% set chartHtml %}
-      {{ dprChart(id, type, data, unit, timeseries) }}
-    {% endset -%}
-    
-    {% set tabContent = {
-      label: type | capitalize,
-      id: id + "_" + type + "_tab",
-      panel: {
-        html: chartHtml
-      }
-    } %}
+  {% set chartHtml %}
+    {{ dprChart(id, type, data, unit, timeseries) }}
+  {% endset -%}
+  
+  {% set tabContent = {
+    label: type | capitalize,
+    id: id + "_" + type + "_tab",
+    panel: {
+      html: chartHtml
+    }
+  } %}
 
-    {% set tabItems = (tabItems.push(tabContent), tabItems) %}
-  {% endfor -%}
+  {% set tabItems = (tabItems.push(tabContent), tabItems) %}
 
   {% if tableData %}
   {% set tableHtml %}

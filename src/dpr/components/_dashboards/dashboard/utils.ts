@@ -1,13 +1,15 @@
 import parseUrl from 'parseurl'
 import { Url } from 'url'
 import type { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
-import type { ChartCardData } from '../../../types/Charts'
-import type {
-  DashboardDefinition,
-  DashboardMetricDefinition,
-  DashboardScorecardsGroup,
-  DashboardSection,
-} from '../../../types/Dashboards'
+
+import {
+  DashboardUIVisualisation,
+  DashboardVisualisationType,
+  type DashboardDefinition,
+  type DashboardSection,
+  type DashboardUISection,
+  type DashboardVisualisation,
+} from './types'
 import type { MetricsDataResponse } from '../../../types/Metrics'
 import type { RequestedReport } from '../../../types/UserReports'
 import { ReportType } from '../../../types/UserReports'
@@ -23,7 +25,6 @@ import ReportActionsUtils from '../../_reports/report-actions/utils'
 import ReportQuery from '../../../types/ReportQuery'
 import LocalsHelper from '../../../utils/localsHelper'
 import { Services } from '../../../types/Services'
-import { DashboardList } from '../dashboard-list/types'
 
 const setDashboardActions = (
   dashboardDefinition: DashboardDefinition,
@@ -94,63 +95,96 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
   }
 }
 
-const getSections = (dashboardDefinition: DashboardDefinition, dashboardData: MetricsDataResponse[][]) => {
-  const sections: DashboardSection[] = []
-  const { scorecards, metrics, lists } = dashboardDefinition
+const getSections = (
+  dashboardDefinition: DashboardDefinition,
+  dashboardData: MetricsDataResponse[][],
+): DashboardUISection[] => {
+  return dashboardDefinition.sections.map((section: DashboardSection) => {
+    const { id, display: title, description } = section
 
-  scorecards?.forEach((group: DashboardScorecardsGroup) => {
-    const { display: title, description, id } = group
-    const scorecardGroup = ScorecardsUtils.createScorecards(group.scorecards, dashboardData)
+    const visualisations = section.visualisations.map((visDefinition: DashboardVisualisation) => {
+      const { type, display, description: visDescription, id: visId } = visDefinition
 
-    sections.push({
-      type: 'scorecard',
-      id,
-      title,
-      description,
+      let data: DashboardUIVisualisation['data']
+
+      switch (type) {
+        case DashboardVisualisationType.LIST:
+          data = DashboardListUtils.createList(visDefinition, dashboardData)
+          break
+
+        case DashboardVisualisationType.SCORECARD:
+          data = ScorecardsUtils.createScorecard(visDefinition, dashboardData)
+          break
+
+        case DashboardVisualisationType.SCORECARD_GROUP:
+          data = ScorecardsUtils.createScorecards(visDefinition, dashboardData)
+          break
+
+        case DashboardVisualisationType.BAR:
+        case DashboardVisualisationType.LINE:
+        case DashboardVisualisationType.BAR_TIMESERIES:
+        case DashboardVisualisationType.DONUT: {
+          data = ChartUtils.createChart(visDefinition, dashboardData)
+          break
+        }
+        default:
+          break
+      }
+
+      return {
+        id: visId,
+        title: display,
+        description: visDescription,
+        type,
+        data,
+      }
+    })
+
+    mergeScorecards(visualisations)
+
+    return { id, title, description, visualisations }
+  })
+}
+
+const mergeScorecards = (visualisations: DashboardUIVisualisation[]) => {
+  const scoreCardGroups = visualisations
+    // get scorecard indexes
+    .reduce((acc: number[], vis: DashboardUIVisualisation, i: number) => {
+      if (vis.type === DashboardVisualisationType.SCORECARD) acc.push(i)
+      return acc
+    }, [])
+    // group adjacent indexes
+    .reduce((r, n) => {
+      const lastSubArray = r[r.length - 1]
+      if (!lastSubArray || lastSubArray[lastSubArray.length - 1] !== n - 1) r.push([])
+      r[r.length - 1].push(n)
+      return r
+    }, [])
+
+  scoreCardGroups.reverse().forEach((group) => {
+    const spliceAtIndex = group[0]
+    const groupId = group[0].id
+    const scorecardGroup = group.map((scIndex: number) => {
+      return visualisations[scIndex].data
+    })
+
+    while (group.length) {
+      visualisations.splice(group.pop(), 1)
+    }
+
+    visualisations.splice(spliceAtIndex, 0, {
+      id: groupId,
+      type: DashboardVisualisationType.SCORECARD_GROUP,
       data: scorecardGroup,
     })
   })
-
-  lists?.forEach((list: DashboardList) => {
-    const { display: title, description, id } = list
-    const listData = DashboardListUtils.createList(list, dashboardData)
-    sections.push({
-      type: 'list',
-      id,
-      title,
-      description,
-      data: listData,
-    })
-  })
-
-  metrics?.forEach((definition: DashboardMetricDefinition) => {
-    const { id, display: title, description, charts } = definition
-
-    if (charts.length) {
-      const chartData: ChartCardData = ChartUtils.getChartData({
-        chartDefinitions: charts,
-        dashboardMetricsData: dashboardData,
-        timeseries: definition.timeseries,
-      })
-
-      sections.push({
-        type: 'chart',
-        id,
-        title,
-        description,
-        data: chartData,
-      })
-    }
-  })
-
-  return sections
 }
 
 const updateStore = async (
   services: Services,
   tableId: string,
   userId: string,
-  sections: DashboardSection[],
+  sections: DashboardUISection[],
   url: Url,
 ) => {
   const dashboardRequestData: RequestedReport = await services.requestedReportService.getReportByTableId(
@@ -195,7 +229,7 @@ export default {
     )
 
     // Get the dashboard parts
-    const sections = getSections(dashboardDefinition, dashboardData)
+    const sections: DashboardUISection[] = getSections(dashboardDefinition, dashboardData)
 
     // Update the store
     const dashboardRequestData = await updateStore(services, tableId, userId, sections, url)

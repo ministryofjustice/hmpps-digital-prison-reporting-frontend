@@ -112,12 +112,12 @@ const setPercentageColumns = (data) => {
       nationality_is_missing: { raw: d.nationality_is_missing },
       has_religion: { raw: d.has_religion },
       religion_is_missing: { raw: d.religion_is_missing },
-      has_ethnicity_percentage: calcPercentage(d.count, d.has_ethnicity),
-      ethnicity_is_missing_percentage: calcPercentage(d.count, d.ethnicity_is_missing),
-      has_nationality_percentage: calcPercentage(d.count, d.has_nationality),
-      nationality_is_missing_percentage: calcPercentage(d.count, d.nationality_is_missing),
-      has_religion_percentage: calcPercentage(d.count, d.has_religion),
-      religion_is_missing_percentage: calcPercentage(d.count, d.religion_is_missing),
+      // has_ethnicity_percentage: calcPercentage(d.count, d.has_ethnicity),
+      // ethnicity_is_missing_percentage: calcPercentage(d.count, d.ethnicity_is_missing),
+      // has_nationality_percentage: calcPercentage(d.count, d.has_nationality),
+      // nationality_is_missing_percentage: calcPercentage(d.count, d.nationality_is_missing),
+      // has_religion_percentage: calcPercentage(d.count, d.has_religion),
+      // religion_is_missing_percentage: calcPercentage(d.count, d.religion_is_missing),
     }
   })
 }
@@ -182,4 +182,7 @@ module.exports = {
   ],
   'test-dashboard-9': [setPercentageColumns([mockDataQualityValuesFull[0]])],
   'test-dashboard-10': [[mockDataQualityValuesFull[0]]],
+  'test-dashboard-100': [
+    setPercentageColumns([mockDataQualityValuesFull[0], mockDataQualityValuesFull[1], mockDataQualityValuesFull[2]]),
+  ],
 }

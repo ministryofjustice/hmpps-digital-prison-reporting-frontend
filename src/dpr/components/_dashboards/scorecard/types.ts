@@ -1,6 +1,6 @@
 export interface Scorecard {
   title: string
-  value: number
+  value: number | string
   trend?: ScorecardTrend
   link?: {
     href: '#'
@@ -12,8 +12,8 @@ export interface Scorecard {
 
 export interface ScorecardGroup {
   id: string
-  title: string
-  description: string
+  title?: string
+  description?: string
   scorecards: Scorecard[]
 }
 

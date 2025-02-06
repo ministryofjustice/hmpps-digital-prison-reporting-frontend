@@ -1,5 +1,5 @@
 import { components } from '../../../types/api'
-import { ChartCardData, MoJTable } from '../../../types/Charts'
+import { ChartCardData, MoJTable, UnitType } from '../../../types/Charts'
 import { Scorecard } from '../scorecard/types'
 
 export interface DashboardDefinition {
@@ -76,9 +76,4 @@ export interface ScorecardVisualisationColumn extends DashboardVisualisationColu
 export enum AggregateType {
   SUM = 'sum',
   AVG = 'avergage',
-}
-
-export enum UnitType {
-  NUMBER = 'number',
-  PERCENTAGE = 'percentage',
 }

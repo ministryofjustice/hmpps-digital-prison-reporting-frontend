@@ -1,5 +1,5 @@
 import { MetricsDataResponse } from '../../../types/Metrics'
-import { DashboardVisualisation } from '../dashboard/types'
+import { DashboardVisualisation, ScorecardVisualisationColumn } from '../dashboard/types'
 import { ScorecardTrend } from './types'
 import DashboardSectionUtils from '../dashboard-section/utils'
 
@@ -61,7 +61,7 @@ const createScorecards = (scorecardDefinition: DashboardVisualisation, rawData: 
 
   const displayColumn = measures.find((col) => col.display)
   const { id: displayColumnId, display } = displayColumn
-  const valueColumnId = measures.find((col) => col.displayValue).id
+  const valueColumnId = (<ScorecardVisualisationColumn[]>measures).find((col) => col.displayValue).id
 
   return getScorecardData(scorecardDefinition, rawData, display, valueColumnId, displayColumnId)
 }

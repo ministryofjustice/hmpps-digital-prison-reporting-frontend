@@ -1,10 +1,20 @@
-import { DashboardVisualisationType, UnitType } from '../components/_dashboards/dashboard/types'
-
 export interface ChartData {
-  type: DashboardVisualisationType
+  type: ChartType
   unit?: UnitType
   data: ChartDataValues
   timeseries?: boolean
+}
+
+export enum UnitType {
+  NUMBER = 'number',
+  PERCENTAGE = 'percentage',
+}
+
+export enum ChartType {
+  DONUT = 'doughnut',
+  BAR = 'bar',
+  BAR_TIMESERIES = 'bar-timeseries',
+  LINE = 'line',
 }
 
 export interface ChartCardData {
@@ -44,7 +54,7 @@ export interface ChartCardValue {
   name: string
   display: string
   unit?: UnitType
-  chart?: DashboardVisualisationType[]
+  chart?: ChartType[]
 }
 
 export interface ChartValue {
@@ -58,6 +68,6 @@ export interface ChartGroup {
 }
 
 export interface ChartsData {
-  type: DashboardVisualisationType
+  type: ChartType
   datasets: { data: ChartCardValue[]; group: ChartGroup }[]
 }

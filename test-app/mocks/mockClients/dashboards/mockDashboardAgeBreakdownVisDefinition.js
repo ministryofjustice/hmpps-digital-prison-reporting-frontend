@@ -511,6 +511,39 @@ const mockScoreCardGroupReligion = {
   },
 }
 
+const mockBarChartReligion = {
+  type: 'bar',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishmnent ID',
+      },
+      {
+        id: 'wing',
+        display: 'Wing',
+      },
+    ],
+    measures: [
+      {
+        id: 'religion_description',
+        display: 'Religion Description',
+        axis: 'x',
+      },
+      {
+        id: 'total_prisoners',
+        display: 'No of prisoners',
+        axis: 'y',
+      },
+    ],
+    ignore: [
+      {
+        id: 'religion_code',
+      },
+    ],
+  },
+}
+
 module.exports = {
   mockListDefinitionAgeRange1,
   mockListDefinitionAgeRange2,
@@ -528,4 +561,5 @@ module.exports = {
   mockScorecardDefinitionEthnicWhite,
   mockScorecardDefinitionEthnicAsian,
   mockScoreCardGroupReligion,
+  mockBarChartReligion,
 }

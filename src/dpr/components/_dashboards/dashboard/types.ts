@@ -63,6 +63,13 @@ export interface DashboardVisualisationColumn {
   aggregate?: AggregateType
   unit?: UnitType
   equals: string | number
+}
+
+export interface BarChartVisualisationColumn extends DashboardVisualisationColumn {
+  axis?: 'x' | 'y'
+}
+
+export interface ScorecardVisualisationColumn extends DashboardVisualisationColumn {
   displayValue: boolean
 }
 

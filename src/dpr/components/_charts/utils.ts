@@ -1,6 +1,11 @@
-import { ChartData, MoJTable, ChartCardData } from '../../types/Charts'
+import { ChartData, MoJTable, ChartCardData, ChartDataset } from '../../types/Charts'
 import { MetricsDataResponse } from '../../types/Metrics'
-import { DashboardVisualisation, DashboardVisualisationType } from '../_dashboards/dashboard/types'
+import {
+  BarChartVisualisationColumn,
+  DashboardVisualisation,
+  DashboardVisualisationColumns,
+  DashboardVisualisationType,
+} from '../_dashboards/dashboard/types'
 import DashboardSectionUtils from '../_dashboards/dashboard-section/utils'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 
@@ -37,22 +42,20 @@ const createSnapshotChart = (
   dataSetRows: MetricsDataResponse[],
 ): ChartData => {
   const { type, columns } = chartDefinition
-  const { keys, measures } = columns
+  const { measures } = columns
 
-  const labels = measures.map((col) => col.display)
-  const labelId = keys[0].id as keyof MetricsDataResponse
-  const unit = measures[0].unit ? measures[0].unit : undefined
-
+  const isListChart = !!(<BarChartVisualisationColumn[]>measures).find((col) => col.axis)
   const filteredData = DashboardSectionUtils.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
-  const datasets = filteredData.map((row) => {
-    const label = <string>row[labelId]?.raw
-    const data = measures.map((c) => {
-      const rowId = c.id as keyof MetricsDataResponse
-      return row[rowId] ? +row[rowId].raw : 0
-    })
-    const total = data.reduce((acc: number, val: number) => acc + val, 0)
-    return { label, data, total }
-  })
+
+  let labels: string[]
+  let unit
+  let datasets: ChartDataset[]
+
+  if (!isListChart) {
+    ;({ labels, unit, datasets } = buildChart(columns, filteredData))
+  } else {
+    ;({ labels, unit, datasets } = buildChartFromListData(measures, filteredData))
+  }
 
   return {
     type,
@@ -64,13 +67,62 @@ const createSnapshotChart = (
   }
 }
 
+const buildChart = (columns: DashboardVisualisationColumns, rawData: MetricsDataResponse[]) => {
+  const { keys, measures } = columns
+  const labels = measures.map((col) => col.display)
+  const labelId = keys[0].id as keyof MetricsDataResponse
+  const unit = measures[0].unit ? measures[0].unit : undefined
+
+  const datasets = rawData.map((row) => {
+    const label = <string>row[labelId]?.raw
+    const data = measures.map((c) => {
+      const rowId = c.id as keyof MetricsDataResponse
+      return row[rowId] ? +row[rowId].raw : 0
+    })
+    const total = data.reduce((acc: number, val: number) => acc + val, 0)
+    return { label, data, total } as ChartDataset
+  })
+
+  return {
+    labels,
+    unit,
+    datasets,
+  }
+}
+
+const buildChartFromListData = (measures: BarChartVisualisationColumn[], rawData: MetricsDataResponse[]) => {
+  const xAxisColumn = measures.find((col) => col.axis === 'x')
+  const yAxisColumn = measures.find((col) => col.axis === 'y')
+
+  const labels = rawData.map((row) => {
+    return `${row[xAxisColumn.id].raw}`
+  })
+  const unit = yAxisColumn.unit || undefined
+  const data = rawData.map((row) => +row[yAxisColumn.id].raw)
+  const datasets = [
+    {
+      label: yAxisColumn.display,
+      data,
+      total: data.reduce((acc: number, val: number) => acc + val, 0),
+    },
+  ]
+
+  return {
+    labels,
+    unit,
+    datasets,
+  }
+}
+
 const createSnapshotTable = (chartDefinition: DashboardVisualisation, data: MetricsDataResponse[]): MoJTable => {
   const { columns } = chartDefinition
   const { keys, measures } = columns
 
+  const isListChart = !!(<BarChartVisualisationColumn[]>measures).find((col) => col.axis)
+
   let headerColumns = [...measures]
   let includeKeys = false
-  if (data.length > 1) {
+  if (data.length > 1 && !isListChart) {
     headerColumns = [...keys, ...measures]
     includeKeys = true
   }

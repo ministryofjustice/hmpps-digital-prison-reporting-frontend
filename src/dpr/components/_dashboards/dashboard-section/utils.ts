@@ -9,35 +9,35 @@ const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: M
   const ignoreIds = ignore?.map((col) => col.id) || []
   const valueIds = values?.map((col) => col.id) || []
 
-  console.log({ displayColumnsIds, keyColumnsIds, ignoreIds, valueIds })
+  // console.log({ displayColumnsIds, keyColumnsIds, ignoreIds, valueIds })
 
   return dashboardData.filter((datasetRow: MetricsDataResponse) => {
     const validRow: boolean[] = []
     Object.keys(datasetRow).forEach((datasetField) => {
-      console.log({ datasetField })
+      // console.log({ datasetField })
 
       const value = datasetRow[datasetField].raw
       let valid = false
       if (displayColumnsIds.includes(datasetField) || keyColumnsIds.includes(datasetField)) {
-        console.log('isKeyOdDisplay', { value })
+        // console.log('isKeyOdDisplay', { value })
         valid = value !== '' && value !== undefined && value !== null
       } else if (ignoreIds.includes(datasetField)) {
-        console.log('isIgnored', { value })
+        // console.log('isIgnored', { value })
         valid = true
       } else if (valueIds.includes(datasetField)) {
-        console.log('isValue', { value })
+        // console.log('isValue', { value })
         const valueColumn = values.find((col) => col.id === datasetField)
         valid = value === valueColumn.equals
       } else {
-        console.log('else', { value })
+        // console.log('else', { value })
         valid = value === '' || value === undefined || value === null
       }
 
-      console.log({ valid })
+      // console.log({ valid })
       validRow.push(valid)
     })
 
-    console.log({ validRow })
+    // console.log({ validRow })
 
     return validRow.every((val) => val)
   })

@@ -21,6 +21,7 @@ const {
   mockScorecardDefinitionEthnicWhite,
   mockScorecardDefinitionEthnicAsian,
   mockScoreCardGroupReligion,
+  mockBarChartReligion,
 } = require('./mockDashboardAgeBreakdownVisDefinition')
 
 const { establishmentIdFilter, granularDateRangeFilter } = require('./mockDashboardFilterDefinition')
@@ -151,7 +152,7 @@ const mockDashboardDefinition11 = {
       id: 'total-prisoners-by-religion',
       display: 'Total Prisoners by religion',
       description: 'These tables show the total prisoners by religion',
-      visualisations: [mockListDefinitionReligion, mockScoreCardGroupReligion],
+      visualisations: [mockListDefinitionReligion, mockScoreCardGroupReligion, mockBarChartReligion],
     },
     {
       id: 'total-prisoners-by-ethnicity',

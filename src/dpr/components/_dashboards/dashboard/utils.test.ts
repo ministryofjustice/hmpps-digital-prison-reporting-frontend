@@ -7,7 +7,7 @@ import DashboardUtils from './utils'
 import DashboardService from '../../../services/dashboardService'
 import DashboardClient from '../../../data/dashboardClient'
 
-import MockDashboardClient from '../../../../../test-app/mocks/mockClients/dashboards/mockDashboardClient'
+import MockDashboardClient from '../../../../../test-app/mocks/mockClients/dashboards/mock-client'
 import RecentlyViewedStoreService from '../../../services/recentlyViewedService'
 import RequestedReportService from '../../../services/requestedReportService'
 import MockDashboardRequestData from '../../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'

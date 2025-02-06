@@ -1,8 +1,8 @@
 import { DashboardList } from '../components/_dashboards/dashboard-list/types'
-import { DashboardVisualisationType, UnitType } from '../components/_dashboards/dashboard/types'
+import { DashboardVisualisationType } from '../components/_dashboards/dashboard/types'
 import { Scorecard } from '../components/_dashboards/scorecard/types'
 import { components } from './api'
-import { ChartCardData, MoJTable } from './Charts'
+import { ChartCardData, MoJTable, UnitType } from './Charts'
 
 export interface DashboardDefinition {
   id: string

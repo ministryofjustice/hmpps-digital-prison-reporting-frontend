@@ -6,7 +6,7 @@ import type ReportingService from '../../../services/reportingService'
 import DashboardService from '../../../services/dashboardService'
 import { components } from '../../../types/api'
 import variant1 from '../../../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
-import dashboardDefinitions from '../../../../../test-app/mocks/mockClients/dashboards/mockDashboardDefinition'
+import dashboardDefinitions from '../../../../../test-app/mocks/mockClients/dashboards/dashboard-definitions'
 
 describe('BookmarkUtils', () => {
   let services: Services

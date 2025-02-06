@@ -1,10 +1,9 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
-const dashboardDefinitions = require('./mockDashboardDefinition')
+const dashboardDefinitions = require('./dashboard-definitions')
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
-const mockDahsboardData = require('./mockDashboardData')
-const mockDahsboardDataHelper = require('./mockDashboardResponseData')
-const { mockDashboardListData } = require('./mockDashboardAgeBreakdownData')
+const { mockAgeBreakdownData } = require('./definitions/age-breakdown/data')
+const { createTimeSeriesData, mockTimeSeriesDataLastSixMonths } = require('./definitions/data-quality/data')
 
 class MockDashboardClient {
   constructor() {
@@ -79,24 +78,17 @@ class MockDashboardClient {
 }
 
 const getData = (def, dashboardId, query) => {
-  if (['test-dashboard-10'].includes(dashboardId)) {
-    const start = query['filters.date.start']
-    const end = query['filters.date.end']
-    const granularity = query['filters.date.granularity']
-    const data = mockDahsboardDataHelper.createTimeSeriesData(start, end, granularity, 3)
-    return data
-  }
-
   // Age Breakdown report
-  if (['test-dashboard-11'].includes(dashboardId)) {
-    return mockDashboardListData
+  if (['age-breakdown-dashboard-1'].includes(dashboardId)) {
+    return mockAgeBreakdownData
   }
 
-  // if (['test-dashboard-100'].includes(dashboardId)) {
-  //   return mockDashboardListData
-  // }
+  const start = query['filters.date.start'] || '2024-01-01'
+  const end = query['filters.date.end'] || '2025-01-31'
+  const granularity = query['filters.date.granularity'] || 'monthly'
+  const data = createTimeSeriesData(start, end, granularity, 3)
 
-  return mockDahsboardData[dashboardId]
+  return data
 }
 
 const filterByEstablishmentId = (query, data) => {

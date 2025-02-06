@@ -798,7 +798,7 @@ const mockNationalityTableData = [
   },
 ]
 
-const mockDashboardListData = [
+const mockAgeBreakdownData = [
   [
     ...mockAgeRange1TableData,
     ...mockAgeRange2TableData,
@@ -811,5 +811,5 @@ const mockDashboardListData = [
 ]
 
 module.exports = {
-  mockDashboardListData,
+  mockAgeBreakdownData,
 }

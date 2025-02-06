@@ -1,6 +1,6 @@
 import DashboardListUtils from './utils'
-import { mockListDefinitionAgeRange1 } from '../../../../../test-app/mocks/mockClients/dashboards/mockDashboardAgeBreakdownVisDefinition'
-import { mockDashboardListData } from '../../../../../test-app/mocks/mockClients/dashboards/mockDashboardAgeBreakdownData'
+import { mockListDefinitionAgeRange1 } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/age-breakdown/vis-definitions'
+import { mockDashboardListData } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/age-breakdown/data'
 import { DashboardList } from './types'
 
 describe('DashboardListUtils', () => {

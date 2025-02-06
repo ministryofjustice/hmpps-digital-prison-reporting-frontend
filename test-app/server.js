@@ -75,10 +75,10 @@ app.use(bodyParser.json())
 
 // Mock Clients & API responses
 const MockReportingClient = require('./mocks/mockClients/reports/mockReportingClient')
-const MockDashboardClient = require('./mocks/mockClients/dashboards/mockDashboardClient')
+const MockDashboardClient = require('./mocks/mockClients/dashboards/mock-client')
 const MockUserStoreService = require('./mocks/mockClients/store/mockRedisStore')
 const mockDefinitions = require('./mocks/mockClients/reports/mockReportDefinition')
-const mockDashboardDefinitions = require('./mocks/mockClients/dashboards/mockDashboardDefinition')
+const mockDashboardDefinitions = require('./mocks/mockClients/dashboards/dashboard-definitions')
 
 // Services
 const ReportingService = require('../package/dpr/services/reportingService').default
@@ -198,10 +198,10 @@ const embeddededRouteConfigMenuCards = [
   },
 ]
 
-const addMockUserData  = (req, res, next) => {
+const addMockUserData = (req, res, next) => {
   res.locals.user = {
     displayName: 'Test User',
-    email: 'test@user.com'
+    email: 'test@user.com',
   }
   next()
 }

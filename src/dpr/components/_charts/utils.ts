@@ -1,4 +1,4 @@
-import { ChartData, MoJTable, ChartCardData, ChartDataset } from '../../types/Charts'
+import { ChartData, MoJTable, ChartCardData, ChartDataset, ChartType } from '../../types/Charts'
 import { MetricsDataResponse } from '../../types/Metrics'
 import {
   BarChartVisualisationColumn,
@@ -58,7 +58,7 @@ const createSnapshotChart = (
   }
 
   return {
-    type,
+    type: type as unknown as ChartType,
     unit,
     data: {
       labels,

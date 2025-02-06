@@ -24,7 +24,7 @@ const variant23 = require('./mockVariants/variant23-interactive')
 const variant24 = require('./mockVariants/variant24-sync')
 const variant25 = require('./mockVariants/variant25-granularDateRange')
 const variant26 = require('./mockVariants/variant26-parent-child')
-const dashboardDefinition = require('../dashboards/mockDashboardDefinition')
+const dashboardDefinition = require('../dashboards/dashboard-definitions')
 
 module.exports = {
   report: {

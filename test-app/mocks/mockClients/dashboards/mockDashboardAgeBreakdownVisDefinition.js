@@ -512,7 +512,42 @@ const mockScoreCardGroupReligion = {
 }
 
 const mockBarChartReligion = {
+  id: 'religion-bar',
   type: 'bar',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishmnent ID',
+      },
+      {
+        id: 'wing',
+        display: 'Wing',
+      },
+    ],
+    measures: [
+      {
+        id: 'religion_description',
+        display: 'Religion Description',
+        axis: 'x',
+      },
+      {
+        id: 'total_prisoners',
+        display: 'No of prisoners',
+        axis: 'y',
+      },
+    ],
+    ignore: [
+      {
+        id: 'religion_code',
+      },
+    ],
+  },
+}
+
+const mockPieChartReligion = {
+  id: 'religion-doughhut',
+  type: 'doughnut',
   columns: {
     keys: [
       {
@@ -562,4 +597,5 @@ module.exports = {
   mockScorecardDefinitionEthnicAsian,
   mockScoreCardGroupReligion,
   mockBarChartReligion,
+  mockPieChartReligion,
 }

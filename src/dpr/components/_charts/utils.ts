@@ -126,6 +126,7 @@ const createSnapshotTable = (chartDefinition: DashboardVisualisation, data: Metr
     headerColumns = [...keys, ...measures]
     includeKeys = true
   }
+
   const filteredRowData = DashboardSectionUtils.filterRowsByDisplayColumns(chartDefinition, data, includeKeys)
   const head = headerColumns.map((column) => {
     return { text: column.display }

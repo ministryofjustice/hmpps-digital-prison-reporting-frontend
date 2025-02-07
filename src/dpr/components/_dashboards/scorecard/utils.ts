@@ -106,7 +106,7 @@ const createTrend = (
 }
 
 const mergeScorecards = (visualisations: DashboardUIVisualisation[]) => {
-  const groupedScorecardIds: number[][] = visualisations
+  const groupedScorecardIndexes: number[][] = visualisations
     // get scorecard indexes
     .reduce((acc: number[], vis: DashboardUIVisualisation, i: number) => {
       if (vis.type === DashboardVisualisationType.SCORECARD) acc.push(i)
@@ -120,7 +120,7 @@ const mergeScorecards = (visualisations: DashboardUIVisualisation[]) => {
       return r
     }, [])
 
-  groupedScorecardIds.reverse().forEach((group) => {
+  groupedScorecardIndexes.reverse().forEach((group) => {
     const spliceAtIndex = group[0]
     const scorecardGroup: Scorecard[] = group
       .map((scIndex: number) => {
@@ -140,6 +140,8 @@ const mergeScorecards = (visualisations: DashboardUIVisualisation[]) => {
       })
     }
   })
+
+  return visualisations
 }
 
 export default {

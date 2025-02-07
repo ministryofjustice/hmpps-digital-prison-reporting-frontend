@@ -29,7 +29,7 @@ export interface DashboardUIVisualisation {
   type: DashboardVisualisationType
   title?: string
   description?: string
-  data: Scorecard | Scorecard[] | ChartCardData | MoJTable
+  data: Scorecard | Scorecard[] | ChartCardData | { table: MoJTable; ts: string }
 }
 
 export interface DashboardVisualisation {

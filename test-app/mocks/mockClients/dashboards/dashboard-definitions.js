@@ -12,6 +12,7 @@ const {
   mockScorecardGroupNationalityByEstablishment,
   mockScorecardGroupEthnicityByEstablishment,
   mockTargetScorecardDefinitionReligion,
+  mockEthnicityBarChartList,
 } = require('./definitions/data-quality/vis-definitions')
 
 const { establishmentIdFilter, granularDateRangeFilter } = require('./filter-definitions')
@@ -76,7 +77,7 @@ const unitTesting = {
     {
       id: 'test-section-1',
       display: 'Missing ethnicity Charts',
-      visualisations: [mockEthnicityBarChart, mockEthnicityPieChart],
+      visualisations: [mockEthnicityBarChart, mockEthnicityPieChart, mockEthnicityBarChartList],
     },
     {
       id: 'test-section-2',

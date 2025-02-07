@@ -97,7 +97,7 @@ const buildChartFromListData = (measures: BarChartVisualisationColumn[], rawData
   const labels = rawData.map((row) => {
     return `${row[xAxisColumn.id].raw}`
   })
-  const unit = yAxisColumn.unit || undefined
+  const unit = yAxisColumn?.unit || undefined
   const data = rawData.map((row) => +row[yAxisColumn.id].raw)
   const datasets = [
     {

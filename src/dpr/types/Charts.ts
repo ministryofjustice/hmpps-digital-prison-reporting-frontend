@@ -20,6 +20,7 @@ export enum ChartType {
 export interface ChartCardData {
   chart: ChartData
   table?: MoJTable
+  ts?: string
 }
 
 export interface ChartDataValues {

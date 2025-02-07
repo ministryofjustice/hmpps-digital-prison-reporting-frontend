@@ -24,6 +24,33 @@ const mockEthnicityBarChart = {
   },
 }
 
+const mockEthnicityBarChartList = {
+  id: 'mockEthnicityBarChart',
+  type: 'bar',
+  display: 'Missing Ethnicity Bar Chart',
+  description: 'Prisoner totals for missing ethnicity',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+        axis: 'x',
+      },
+      {
+        id: 'ethnicity_is_missing',
+        display: 'Has no ethnicity',
+        axis: 'y',
+      },
+    ],
+  },
+}
+
 const mockEthnicityPieChart = {
   ...mockEthnicityBarChart,
   id: 'mockEthnicityPieChart',
@@ -257,4 +284,5 @@ module.exports = {
   mockScorecardGroupNationalityByEstablishment,
   mockScorecardGroupEthnicityByEstablishment,
   mockTargetScorecardDefinitionReligion,
+  mockEthnicityBarChartList,
 }

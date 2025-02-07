@@ -514,7 +514,6 @@ const mockBarChartReligion = {
         axis: 'y',
       },
     ],
-    ignoreRemainingColumns: true,
   },
 }
 

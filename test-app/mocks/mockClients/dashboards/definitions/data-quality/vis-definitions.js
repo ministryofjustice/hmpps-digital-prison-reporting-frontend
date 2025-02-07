@@ -25,10 +25,10 @@ const mockEthnicityBarChart = {
 }
 
 const mockEthnicityBarChartList = {
-  id: 'mockEthnicityBarChart',
+  id: 'mockEthnicityBarChartFromList',
   type: 'bar',
-  display: 'Missing Ethnicity Bar Chart',
-  description: 'Prisoner totals for missing ethnicity',
+  display: 'Missing Ethnicity Bar Chart from list',
+  description: 'Prisoner totals for missing ethnicity by establishment',
   columns: {
     keys: [
       {

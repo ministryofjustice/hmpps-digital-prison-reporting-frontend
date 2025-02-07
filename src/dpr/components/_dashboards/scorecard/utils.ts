@@ -11,15 +11,19 @@ import DashboardSectionUtils from '../dashboard-section/utils'
 const getDataset = (scorecardDefinition: DashboardVisualisation, rawData: MetricsDataResponse[][]) => {
   const latestData = rawData[rawData.length - 1]
   const latestDataSetRows = DashboardSectionUtils.getDatasetRows(scorecardDefinition, latestData)
+  const latestTs = latestDataSetRows[0]?.timestamp?.raw
   const latestFiltered = DashboardSectionUtils.filterByMeasures(scorecardDefinition, latestDataSetRows)
 
   const earliestData = rawData[0]
   const earliestDataSetRows = DashboardSectionUtils.getDatasetRows(scorecardDefinition, earliestData)
+  const earliestTs = earliestDataSetRows[0]?.timestamp?.raw
   const earliestfiltered = DashboardSectionUtils.filterByMeasures(scorecardDefinition, earliestDataSetRows)
 
   return {
     earliest: earliestfiltered,
+    earliestTs,
     latest: latestFiltered,
+    latestTs,
   }
 }
 
@@ -30,14 +34,14 @@ const getScorecardData = (
   valueColumnId: string,
   displayColumnId?: string,
 ) => {
-  const { earliest, latest } = getDataset(scorecardDefinition, rawData)
+  const { earliest, latest, earliestTs, latestTs } = getDataset(scorecardDefinition, rawData)
 
   return latest.map((datasetRow: MetricsDataResponse, index: number) => {
     const title = displayColumnId ? `${titleDisplay} ${datasetRow[displayColumnId].raw}` : titleDisplay
     const { rag, raw: value } = datasetRow[valueColumnId]
     const prevVal = earliest[index][valueColumnId].raw
-    const valueFor = `${datasetRow.timestamp?.raw}`
-    const valueFrom = `${earliest[index].timestamp?.raw}`
+    const valueFor = `${latestTs}`
+    const valueFrom = `${earliestTs}`
 
     return {
       title,
@@ -87,10 +91,10 @@ const createTrend = (
   earliestValue: string | number,
 ): ScorecardTrend | undefined => {
   let trendData
-  const value = +latestValue - +earliestValue
-  const direction = Math.sign(value)
 
   if (valueFrom !== valueFor) {
+    const value = +latestValue - +earliestValue
+    const direction = Math.sign(value)
     trendData = {
       direction,
       value: Math.abs(value),

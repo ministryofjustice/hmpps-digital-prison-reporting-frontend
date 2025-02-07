@@ -1,6 +1,6 @@
 // import { mockDashboardDataAnalticsScoreCardGroup } from '../../../../../test-app/mocks/mockClients/dashboards/mockDashboardScoreCardDefinitions'
 import { mockTimeSeriesDataLastSixMonths } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/data-quality/data'
-import { mockAgeBreakdownData } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/age-breakdown/data'
+// import { mockAgeBreakdownData } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/age-breakdown/data'
 import { MetricsDataResponse } from '../../../types/Metrics'
 import ScorecardUtils from './utils'
 import { Scorecard } from './types'
@@ -13,11 +13,11 @@ import { DashboardVisualisation } from '../dashboard/types'
 
 describe('ScorecardUtils', () => {
   let mockDataQualityData: MetricsDataResponse[][]
-  let mockAgeBreakdownRawData: MetricsDataResponse[][]
+  // let mockAgeBreakdownRawData: MetricsDataResponse[][]
 
   beforeEach(() => {
     mockDataQualityData = mockTimeSeriesDataLastSixMonths as unknown as MetricsDataResponse[][]
-    mockAgeBreakdownRawData = mockAgeBreakdownData as unknown as MetricsDataResponse[][]
+    // mockAgeBreakdownRawData = mockAgeBreakdownData as unknown as MetricsDataResponse[][]
   })
 
   describe('createScorecard', () => {

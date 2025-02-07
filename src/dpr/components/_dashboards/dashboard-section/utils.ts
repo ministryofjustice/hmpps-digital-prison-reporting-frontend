@@ -10,7 +10,7 @@ const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: M
   const valueIds = values?.map((col) => col.id) || []
   const expectAllNoneDefinedColsToBeNull = ignore && ignore.length === 0
 
-  // console.log({ displayColumnsIds, keyColumnsIds, ignoreIds, valueIds })
+  if (dashboardData.length && dashboardData[0].timestamp) keyColumnsIds.push('timestamp')
 
   return dashboardData.filter((datasetRow: MetricsDataResponse) => {
     const validRow: boolean[] = []

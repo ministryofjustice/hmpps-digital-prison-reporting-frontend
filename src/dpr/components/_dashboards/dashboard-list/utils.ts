@@ -5,19 +5,27 @@ import { DashboardVisualisation } from '../dashboard/types'
 import { DashboardListsColumn } from './types'
 import DashboardSectionUtils from '../dashboard-section/utils'
 
-const createList = (listDefinition: DashboardVisualisation, dashboardData: MetricsDataResponse[][]): MoJTable => {
+const createList = (
+  listDefinition: DashboardVisualisation,
+  dashboardData: MetricsDataResponse[][],
+): { table: MoJTable; ts: string } => {
   const dataSnapshot = dashboardData[dashboardData.length - 1]
   const head = listDefinition.columns.measures.map((column) => {
     return { text: column.display }
   })
   const dataSetRows = DashboardSectionUtils.getDatasetRows(listDefinition, dataSnapshot)
+  const ts = `${dataSetRows[0]?.timestamp?.raw}`
   const filtered = DashboardSectionUtils.filterByMeasures(listDefinition, dataSetRows)
+
   let rows = createTableRows(filtered)
   rows = sumColumns(rows, listDefinition.columns.measures)
 
   return {
-    head,
-    rows,
+    table: {
+      head,
+      rows,
+    },
+    ts,
   }
 }
 

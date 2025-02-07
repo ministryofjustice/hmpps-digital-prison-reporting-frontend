@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
+const dayjs = require('dayjs')
 const dashboardDefinitions = require('./dashboard-definitions')
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 const { mockAgeBreakdownData } = require('./definitions/age-breakdown/data')
@@ -83,9 +84,9 @@ const getData = (def, dashboardId, query) => {
     return mockAgeBreakdownData
   }
 
-  const start = query['filters.date.start'] || '2024-01-01'
-  const end = query['filters.date.end'] || '2025-01-31'
-  const granularity = query['filters.date.granularity'] || 'monthly'
+  const start = query['filters.date.start'] || dayjs().format('YYYY-MM-DD')
+  const end = query['filters.date.end'] || dayjs().format('YYYY-MM-DD')
+  const granularity = query['filters.date.granularity'] || 'daily'
   const data = createTimeSeriesData(start, end, granularity, 3)
 
   return data

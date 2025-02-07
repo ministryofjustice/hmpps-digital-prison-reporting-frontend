@@ -1,6 +1,11 @@
 import { MetricsDataResponse } from '../../../types/Metrics'
-import { DashboardVisualisation, ScorecardVisualisationColumn } from '../dashboard/types'
-import { ScorecardTrend } from './types'
+import {
+  DashboardUIVisualisation,
+  DashboardVisualisation,
+  DashboardVisualisationType,
+  ScorecardVisualisationColumn,
+} from '../dashboard/types'
+import { Scorecard, ScorecardTrend } from './types'
 import DashboardSectionUtils from '../dashboard-section/utils'
 
 const getDataset = (scorecardDefinition: DashboardVisualisation, rawData: MetricsDataResponse[][]) => {
@@ -50,9 +55,10 @@ const createScorecard = (scorecardDefinition: DashboardVisualisation, rawData: M
   const displayColumn = measures[0]
   const { id: valueColumnId, display } = displayColumn
 
-  const scorecardData = getScorecardData(scorecardDefinition, rawData, display, valueColumnId)
+  const scorecardDataArray = getScorecardData(scorecardDefinition, rawData, display, valueColumnId)
+  const scorecardData = scorecardDataArray.length ? scorecardDataArray[0] : undefined
 
-  return scorecardData.length ? scorecardData[0] : undefined
+  return scorecardData
 }
 
 const createScorecards = (scorecardDefinition: DashboardVisualisation, rawData: MetricsDataResponse[][]) => {
@@ -95,7 +101,45 @@ const createTrend = (
   return trendData
 }
 
+const mergeScorecards = (visualisations: DashboardUIVisualisation[]) => {
+  const groupedScorecardIds: number[][] = visualisations
+    // get scorecard indexes
+    .reduce((acc: number[], vis: DashboardUIVisualisation, i: number) => {
+      if (vis.type === DashboardVisualisationType.SCORECARD) acc.push(i)
+      return acc
+    }, [])
+    // group adjacent indexes
+    .reduce((r, n) => {
+      const lastSubArray = r[r.length - 1]
+      if (!lastSubArray || lastSubArray[lastSubArray.length - 1] !== n - 1) r.push([])
+      r[r.length - 1].push(n)
+      return r
+    }, [])
+
+  groupedScorecardIds.reverse().forEach((group) => {
+    const spliceAtIndex = group[0]
+    const scorecardGroup: Scorecard[] = group
+      .map((scIndex: number) => {
+        return visualisations[scIndex].data as Scorecard
+      })
+      .filter((scorecard: Scorecard) => !!scorecard)
+
+    while (group.length) {
+      visualisations.splice(group.pop(), 1)
+    }
+
+    if (scorecardGroup.length) {
+      visualisations.splice(spliceAtIndex, 0, {
+        id: `${spliceAtIndex}`,
+        type: DashboardVisualisationType.SCORECARD_GROUP,
+        data: scorecardGroup,
+      })
+    }
+  })
+}
+
 export default {
   createScorecard,
   createScorecards,
+  mergeScorecards,
 }

@@ -102,6 +102,7 @@ const getSections = (
   return dashboardDefinition.sections.map((section: DashboardSection) => {
     const { id, display: title, description } = section
 
+    let hasScorecard = false
     const visualisations = section.visualisations.map((visDefinition: DashboardVisualisation) => {
       const { type, display, description: visDescription, id: visId } = visDefinition
 
@@ -113,6 +114,7 @@ const getSections = (
           break
 
         case DashboardVisualisationType.SCORECARD:
+          hasScorecard = true
           data = ScorecardsUtils.createScorecard(visDefinition, dashboardData)
           break
 
@@ -140,43 +142,9 @@ const getSections = (
       }
     })
 
-    mergeScorecards(visualisations)
+    if (hasScorecard) ScorecardsUtils.mergeScorecards(visualisations)
 
     return { id, title, description, visualisations }
-  })
-}
-
-const mergeScorecards = (visualisations: DashboardUIVisualisation[]) => {
-  const scoreCardGroups = visualisations
-    // get scorecard indexes
-    .reduce((acc: number[], vis: DashboardUIVisualisation, i: number) => {
-      if (vis.type === DashboardVisualisationType.SCORECARD) acc.push(i)
-      return acc
-    }, [])
-    // group adjacent indexes
-    .reduce((r, n) => {
-      const lastSubArray = r[r.length - 1]
-      if (!lastSubArray || lastSubArray[lastSubArray.length - 1] !== n - 1) r.push([])
-      r[r.length - 1].push(n)
-      return r
-    }, [])
-
-  scoreCardGroups.reverse().forEach((group) => {
-    const spliceAtIndex = group[0]
-    const groupId = group[0].id
-    const scorecardGroup = group.map((scIndex: number) => {
-      return visualisations[scIndex].data
-    })
-
-    while (group.length) {
-      visualisations.splice(group.pop(), 1)
-    }
-
-    visualisations.splice(spliceAtIndex, 0, {
-      id: groupId,
-      type: DashboardVisualisationType.SCORECARD_GROUP,
-      data: scorecardGroup,
-    })
   })
 }
 

@@ -95,16 +95,17 @@ describe('DashboardUtils', () => {
           services,
         })
 
-        expect(result.dashboardData.name).toEqual('Test Dashboard 8')
-        expect(result.dashboardData.description).toEqual('Async Dashboard Testing')
-        expect(result.dashboardData.sections.length).toEqual(3)
+        expect(result.dashboardData.name).toEqual('Test Dashboard')
+        expect(result.dashboardData.description).toEqual('Dashboard used for testing testing')
+        expect(result.dashboardData.sections.length).toEqual(6)
 
-        const chartData = result.dashboardData.sections[0].data as ChartCardData
-        expect(chartData.chart.length).toEqual(2)
-        expect(chartData.table.head.length).toEqual(5)
-        expect(result.dashboardData.sections[0].title).toEqual('Missing ethnicity')
-        expect(result.dashboardData.sections[1].title).toEqual('Missing nationality')
-        expect(result.dashboardData.sections[2].title).toEqual('Missing religion')
+        expect(result.dashboardData.sections[0].title).toEqual('Missing ethnicity Charts')
+        expect(result.dashboardData.sections[1].title).toEqual('Missing nationality Charts')
+        expect(result.dashboardData.sections[2].title).toEqual('Missing religion Charts')
+
+        const chartData = result.dashboardData.sections[0].visualisations[0].data as ChartCardData
+        expect(chartData.chart.type).toEqual('bar')
+        expect(chartData.table.head.length).toEqual(3)
       })
 
       it('should mark the dashboard as recently viewed', async () => {

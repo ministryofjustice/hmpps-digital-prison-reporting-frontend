@@ -5,6 +5,13 @@ const {
   mockNationalityPieChart,
   mockReligionBarChart,
   mockReligionPieChart,
+  mockScorecardDefinitionNationality,
+  mockScorecardDefinitionNoNationality,
+  mockScorecardDefinitionReligion,
+  mockScorecardGroupReligionByEstablishment,
+  mockScorecardGroupNationalityByEstablishment,
+  mockScorecardGroupEthnicityByEstablishment,
+  mockTargetScorecardDefinitionReligion,
 } = require('./definitions/data-quality/vis-definitions')
 
 const { establishmentIdFilter, granularDateRangeFilter } = require('./filter-definitions')
@@ -63,19 +70,48 @@ const failedRequest = {
 
 const unitTesting = {
   id: 'test-dashboard-8',
-  name: 'Test Dashboard 8',
-  description: 'Async Dashboard Testing',
+  name: 'Test Dashboard',
+  description: 'Dashboard used for testing testing',
   sections: [
     {
-      id: 'test-section',
-      display: 'Charts Test Section',
+      id: 'test-section-1',
+      display: 'Missing ethnicity Charts',
+      visualisations: [mockEthnicityBarChart, mockEthnicityPieChart],
+    },
+    {
+      id: 'test-section-2',
+      display: 'Missing nationality Charts',
+      visualisations: [mockNationalityBarChart, mockNationalityPieChart],
+    },
+    {
+      id: 'test-section-3',
+      display: 'Missing religion Charts',
+      visualisations: [mockReligionBarChart, mockReligionPieChart],
+    },
+    {
+      id: 'test-section-4',
+      display: 'Individual Scorecards',
+      description: 'Testing individually defined scorecards',
       visualisations: [
-        mockEthnicityBarChart,
-        mockEthnicityPieChart,
-        mockNationalityBarChart,
-        mockNationalityPieChart,
-        mockReligionBarChart,
-        mockReligionPieChart,
+        mockScorecardDefinitionNationality,
+        mockScorecardDefinitionNoNationality,
+        mockScorecardDefinitionReligion,
+      ],
+    },
+    {
+      id: 'test-section-5',
+      display: 'Individual Scorecards targeting values',
+      description: 'Testing individually defined scorecards that target specfic column value',
+      visualisations: [mockTargetScorecardDefinitionReligion],
+    },
+    {
+      id: 'test-section-6',
+      display: 'Scorecard Group',
+      description: 'Testing scorecard groups created from list data',
+      visualisations: [
+        mockScorecardGroupReligionByEstablishment,
+        mockScorecardGroupNationalityByEstablishment,
+        mockScorecardGroupEthnicityByEstablishment,
       ],
     },
   ],

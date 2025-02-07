@@ -76,7 +76,7 @@ const createTimestamps = (start, end, granularity, sets) => {
     const ts = []
     for (let index = 0; index < sets; index += 1) {
       ts.push({
-        timestamp: date,
+        timestamp: { raw: date },
         establishment_id: {
           raw: establishmentIds[index],
         },
@@ -137,7 +137,7 @@ const generateRag = (value) => {
 const mockTimeSeriesDataLastSixMonths = [
   [
     {
-      timestamp: 'Aug 24',
+      timestamp: { raw: 'Aug 24' },
       establishment_id: {
         raw: 'MDI',
       },
@@ -167,7 +167,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: 'Aug 24',
+      timestamp: { raw: 'Aug 24' },
       establishment_id: {
         raw: 'SLI',
       },
@@ -197,7 +197,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: 'Aug 24',
+      timestamp: { raw: 'Aug 24' },
       establishment_id: {
         raw: 'DAI',
       },
@@ -229,7 +229,7 @@ const mockTimeSeriesDataLastSixMonths = [
   ],
   [
     {
-      timestamp: 'Sep 24',
+      timestamp: { raw: 'Sep 24' },
       establishment_id: {
         raw: 'MDI',
       },
@@ -259,7 +259,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: 'Sep 24',
+      timestamp: { raw: 'Sep 24' },
       establishment_id: {
         raw: 'SLI',
       },
@@ -289,7 +289,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: 'Sep 24',
+      timestamp: { raw: 'Sep 24' },
       establishment_id: {
         raw: 'DAI',
       },
@@ -321,7 +321,7 @@ const mockTimeSeriesDataLastSixMonths = [
   ],
   [
     {
-      timestamp: 'Oct 24',
+      timestamp: { raw: 'Oct 24' },
       establishment_id: {
         raw: 'MDI',
       },
@@ -351,7 +351,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: 'Oct 24',
+      timestamp: { raw: 'Oct 24' },
       establishment_id: {
         raw: 'SLI',
       },
@@ -381,7 +381,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: 'Oct 24',
+      timestamp: { raw: 'Oct 24' },
       establishment_id: {
         raw: 'DAI',
       },
@@ -413,7 +413,7 @@ const mockTimeSeriesDataLastSixMonths = [
   ],
   [
     {
-      timestamp: 'Nov 24',
+      timestamp: { raw: 'Nov 24' },
       establishment_id: {
         raw: 'MDI',
       },
@@ -443,7 +443,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: 'Nov 24',
+      timestamp: { raw: 'Nov 24' },
       establishment_id: {
         raw: 'SLI',
       },
@@ -473,7 +473,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: 'Nov 24',
+      timestamp: { raw: 'Nov 24' },
       establishment_id: {
         raw: 'DAI',
       },
@@ -505,7 +505,7 @@ const mockTimeSeriesDataLastSixMonths = [
   ],
   [
     {
-      timestamp: 'Dec 24',
+      timestamp: { raw: 'Dec 24' },
       establishment_id: {
         raw: 'MDI',
       },
@@ -535,7 +535,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: 'Dec 24',
+      timestamp: { raw: 'Dec 24' },
       establishment_id: {
         raw: 'SLI',
       },
@@ -565,7 +565,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: 'Dec 24',
+      timestamp: { raw: 'Dec 24' },
       establishment_id: {
         raw: 'DAI',
       },
@@ -597,7 +597,7 @@ const mockTimeSeriesDataLastSixMonths = [
   ],
   [
     {
-      timestamp: 'Jan 25',
+      timestamp: { raw: 'Jan 25' },
       establishment_id: {
         raw: 'MDI',
       },
@@ -627,7 +627,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: 'Jan 25',
+      timestamp: { raw: 'Jan 25' },
       establishment_id: {
         raw: 'SLI',
       },
@@ -657,7 +657,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: 'Jan 25',
+      timestamp: { raw: 'Jan 25' },
       establishment_id: {
         raw: 'DAI',
       },

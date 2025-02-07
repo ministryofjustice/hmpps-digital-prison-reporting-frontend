@@ -8,6 +8,7 @@ const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: M
   const keyColumnsIds = keys.map((col) => col.id)
   const ignoreIds = ignore?.map((col) => col.id) || []
   const valueIds = values?.map((col) => col.id) || []
+  const expectAllNoneDefinedColsToBeNull = ignore && ignore.length === 0
 
   // console.log({ displayColumnsIds, keyColumnsIds, ignoreIds, valueIds })
 
@@ -17,27 +18,30 @@ const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: M
       // console.log({ datasetField })
 
       const value = datasetRow[datasetField].raw
-      let valid = false
-      if (displayColumnsIds.includes(datasetField) || keyColumnsIds.includes(datasetField)) {
-        // console.log('isKeyOdDisplay', { value })
-        valid = value !== '' && value !== undefined && value !== null
-      } else if (ignoreIds.includes(datasetField)) {
-        // console.log('isIgnored', { value })
-        valid = true
-      } else if (valueIds.includes(datasetField)) {
-        // console.log('isValue', { value })
+
+      // All rows are valid until proven otherwise
+      let valid = true
+
+      // 2. check if the column value is equal to a defined column value
+      if (valueIds.includes(datasetField)) {
         const valueColumn = values.find((col) => col.id === datasetField)
         valid = value === valueColumn.equals
-      } else {
-        // console.log('else', { value })
+
+        // 1. check values exist in the defined columns
+      } else if (displayColumnsIds.includes(datasetField) || keyColumnsIds.includes(datasetField)) {
+        valid = value !== '' && value !== undefined && value !== null
+
+        // 3. check for values in the other columns in the row
+      } else if (ignoreIds.includes(datasetField)) {
+        valid = true
+
+        // 4. check that all remaining columns are null.
+      } else if (expectAllNoneDefinedColsToBeNull) {
         valid = value === '' || value === undefined || value === null
       }
 
-      // console.log({ valid })
       validRow.push(valid)
     })
-
-    // console.log({ validRow })
 
     return validRow.every((val) => val)
   })

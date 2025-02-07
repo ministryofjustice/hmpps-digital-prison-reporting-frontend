@@ -175,13 +175,7 @@ const mockListDefinitionEthnicity = {
         aggregate: 'sum',
       },
     ],
-    ignore: [
-      { id: 'age_range_1_18_25' },
-      { id: 'age_range_1_26_34' },
-      { id: 'age_range_1_35_44' },
-      { id: 'age_range_1_45_54' },
-      { id: 'age_range_1_55_64' },
-    ],
+    ignoreRemainingColumns: true,
   },
 }
 
@@ -236,11 +230,7 @@ const mockListDefinitionEthnicityAgeRange = {
         aggregate: 'sum',
       },
     ],
-    ignore: [
-      {
-        id: 'ethnic_code',
-      },
-    ],
+    ignoreRemainingColumns: true,
   },
 }
 
@@ -389,6 +379,7 @@ const mockScorecardDefinitionTotalInWing = {
         display: 'Total prisoners in wing',
       },
     ],
+    ignore: [], // Empty ignore array flags that all other columns should be null
   },
 }
 
@@ -407,6 +398,7 @@ const mockScorecardDefinitionTotalInEst = {
         display: 'Total prisoners',
       },
     ],
+    ignore: [], // Empty ignore array flags that all other columns should be null
   },
 }
 
@@ -434,14 +426,6 @@ const mockScorecardDefinitionEthnicWhite = {
         id: 'ethnic_code',
         equals: 'W2',
       },
-    ],
-    ignore: [
-      { id: 'ethnic_description' },
-      { id: 'age_range_1_18_25' },
-      { id: 'age_range_1_26_34' },
-      { id: 'age_range_1_35_44' },
-      { id: 'age_range_1_45_54' },
-      { id: 'age_range_1_55_64' },
     ],
   },
 }
@@ -471,14 +455,7 @@ const mockScorecardDefinitionEthnicAsian = {
         equals: 'A2',
       },
     ],
-    ignore: [
-      { id: 'ethnic_description' },
-      { id: 'age_range_1_18_25' },
-      { id: 'age_range_1_26_34' },
-      { id: 'age_range_1_35_44' },
-      { id: 'age_range_1_45_54' },
-      { id: 'age_range_1_55_64' },
-    ],
+    ignoreRemainingColumns: true,
   },
 }
 
@@ -537,11 +514,7 @@ const mockBarChartReligion = {
         axis: 'y',
       },
     ],
-    ignore: [
-      {
-        id: 'religion_code',
-      },
-    ],
+    ignoreRemainingColumns: true,
   },
 }
 
@@ -571,11 +544,7 @@ const mockPieChartReligion = {
         axis: 'y',
       },
     ],
-    ignore: [
-      {
-        id: 'religion_code',
-      },
-    ],
+    ignoreRemainingColumns: true,
   },
 }
 

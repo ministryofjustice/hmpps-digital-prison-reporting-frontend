@@ -5,6 +5,17 @@ export interface ChartData {
   timeseries?: boolean
 }
 
+export interface ChartDetails {
+  meta?: ChartMetaData[]
+  headlines?: ChartMetaData[]
+}
+
+export interface ChartMetaData {
+  label: string
+  value: string | number
+  legend?: string
+}
+
 export enum UnitType {
   NUMBER = 'number',
   PERCENTAGE = 'percentage',
@@ -20,7 +31,7 @@ export enum ChartType {
 export interface ChartCardData {
   chart: ChartData
   table?: MoJTable
-  ts?: string
+  details?: ChartDetails
 }
 
 export interface ChartDataValues {

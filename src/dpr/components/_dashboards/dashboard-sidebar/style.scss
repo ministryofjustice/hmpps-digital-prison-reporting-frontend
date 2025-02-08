@@ -2,6 +2,8 @@
   .dashboard-sidebar {
     position: -webkit-sticky;
     position: sticky;
+    overflow-y: scroll;
+    max-height: 100vh;
     top: 4px;
     flex: 0 0 auto;
     align-self: flex-start;

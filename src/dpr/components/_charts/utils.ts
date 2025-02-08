@@ -1,4 +1,12 @@
-import { ChartData, MoJTable, ChartCardData, ChartDataset, ChartType } from '../../types/Charts'
+import {
+  ChartData,
+  MoJTable,
+  ChartCardData,
+  ChartDataset,
+  ChartType,
+  ChartDetails,
+  ChartMetaData,
+} from '../../types/Charts'
 import { MetricsDataResponse } from '../../types/Metrics'
 import {
   BarChartVisualisationColumn,
@@ -15,19 +23,29 @@ const createChart = (chartDefinition: DashboardVisualisation, rawData: MetricsDa
 
   let table: MoJTable
   let chart: ChartData
+  let details: ChartDetails
 
   if (timeseriesChartTypes.includes(type)) {
-    // chart = createTimeseriesChart(chartDefinition, rawData)
+    const timeseriesData = rawData.map((timesetData: MetricsDataResponse[]) => {
+      const dataSetRows = DashboardSectionUtils.getDatasetRows(chartDefinition, timesetData)
+      return DashboardSectionUtils.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
+    })
+
+    chart = createTimeseriesChart(chartDefinition, timeseriesData)
     // table = createTimeseriesTable(chartDefinition, rawData)
+    details = getChartDetails(timeseriesData[timeseriesData.length - 1])
   } else {
     const data = rawData[rawData.length - 1]
     const dataSetRows = DashboardSectionUtils.getDatasetRows(chartDefinition, data)
+    const snapshotData = DashboardSectionUtils.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
 
-    chart = createSnapshotChart(chartDefinition, dataSetRows)
-    table = createSnapshotTable(chartDefinition, dataSetRows)
+    chart = createSnapshotChart(chartDefinition, snapshotData)
+    table = createSnapshotTable(chartDefinition, snapshotData)
+    details = getChartDetails(dataSetRows)
   }
 
   return {
+    details,
     table,
     chart,
   }
@@ -37,24 +55,48 @@ export default {
   createChart,
 }
 
+const getChartDetails = (data: MetricsDataResponse[]): ChartDetails => {
+  const meta: ChartMetaData[] = []
+  const headlines: ChartMetaData[] = []
+
+  if (data[0]?.timestamp) {
+    meta.push({
+      label: 'Values for:',
+      value: data[0]?.timestamp.raw,
+    })
+  }
+
+  headlines.push({
+    label: 'Headline 1',
+    value: 300,
+  })
+  headlines.push({
+    label: 'Headline 2',
+    value: 600,
+  })
+
+  return {
+    meta,
+    headlines,
+  }
+}
+
 const createSnapshotChart = (
   chartDefinition: DashboardVisualisation,
-  dataSetRows: MetricsDataResponse[],
+  snapshotData: MetricsDataResponse[],
 ): ChartData => {
   const { type, columns } = chartDefinition
   const { measures } = columns
-
   const isListChart = !!(<BarChartVisualisationColumn[]>measures).find((col) => col.axis)
-  const filteredData = DashboardSectionUtils.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
 
   let labels: string[]
   let unit
   let datasets: ChartDataset[]
 
   if (!isListChart) {
-    ;({ labels, unit, datasets } = buildChart(columns, filteredData))
+    ;({ labels, unit, datasets } = buildChart(columns, snapshotData))
   } else {
-    ;({ labels, unit, datasets } = buildChartFromListData(measures, filteredData))
+    ;({ labels, unit, datasets } = buildChartFromListData(measures, snapshotData))
   }
 
   return {
@@ -139,44 +181,44 @@ const createSnapshotTable = (chartDefinition: DashboardVisualisation, data: Metr
   }
 }
 
-// const createTimeseriesChart = (
-//   chartDefinition: DashboardVisualisation,
-//   dashboardMetricsData: MetricsDataResponse[][],
-// ): ChartData => {
-//   const { type, columns } = chartDefinition
-//   const { keys, measures } = columns
-//   const labelId = keys[0].id as keyof MetricsDataResponse
-//   const unit = measures[0].unit ? measures[0].unit : undefined
+const createTimeseriesChart = (
+  chartDefinition: DashboardVisualisation,
+  timeseriesData: MetricsDataResponse[][],
+): ChartData => {
+  const { type, columns } = chartDefinition
+  const { keys, measures } = columns
+  const labelId = keys[0].id as keyof MetricsDataResponse
+  const unit = measures[0].unit ? measures[0].unit : undefined
 
-//   // get the timestamps as labels
-//   const labels = dashboardMetricsData.map((d: MetricsDataResponse[]) => d[0].timestamp as unknown as string)
-//   const datasetCount = dashboardMetricsData[0].length
+  // get the timestamps as labels
+  const labels = timeseriesData.map((d: MetricsDataResponse[]) => d[0].timestamp.raw as unknown as string)
+  const datasetCount = timeseriesData[0].length
 
-//   const datasets: ChartDataset[] = []
-//   for (let index = 0; index < datasetCount; index += 1) {
-//     const data = dashboardMetricsData.map((timeperiod) => {
-//       return +timeperiod[index][measures[0].id].raw
-//     })
-//     const total = data.reduce((a, c) => a + c, 0)
-//     const label = dashboardMetricsData[0][index][labelId].raw as string
+  const datasets: ChartDataset[] = []
+  for (let index = 0; index < datasetCount; index += 1) {
+    const data = timeseriesData.map((timeperiod) => {
+      return +timeperiod[index][measures[1].id].raw
+    })
+    const total = data.reduce((a, c) => a + c, 0)
+    const label = timeseriesData[0][index][labelId].raw as string
 
-//     datasets.push({
-//       data,
-//       label,
-//       total,
-//     })
-//   }
+    datasets.push({
+      data,
+      label,
+      total,
+    })
+  }
 
-//   return {
-//     type,
-//     unit,
-//     timeseries: true,
-//     data: {
-//       labels,
-//       datasets,
-//     },
-//   }
-// }
+  return {
+    type: type as unknown as ChartType,
+    unit,
+    timeseries: true,
+    data: {
+      labels,
+      datasets,
+    },
+  }
+}
 
 // const createTimeseriesTable = (
 //   charts: DashboardChartDefinition[],

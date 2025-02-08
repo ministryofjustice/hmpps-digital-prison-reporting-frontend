@@ -12,12 +12,12 @@ const getDataset = (scorecardDefinition: DashboardVisualisation, rawData: Metric
   const latestData = rawData[rawData.length - 1]
   const latestDataSetRows = DashboardSectionUtils.getDatasetRows(scorecardDefinition, latestData)
   const latestTs = latestDataSetRows[0]?.timestamp?.raw
-  const latestFiltered = DashboardSectionUtils.filterByMeasures(scorecardDefinition, latestDataSetRows)
+  const latestFiltered = DashboardSectionUtils.filterRowsByDisplayColumns(scorecardDefinition, latestDataSetRows)
 
   const earliestData = rawData[0]
   const earliestDataSetRows = DashboardSectionUtils.getDatasetRows(scorecardDefinition, earliestData)
   const earliestTs = earliestDataSetRows[0]?.timestamp?.raw
-  const earliestfiltered = DashboardSectionUtils.filterByMeasures(scorecardDefinition, earliestDataSetRows)
+  const earliestfiltered = DashboardSectionUtils.filterRowsByDisplayColumns(scorecardDefinition, earliestDataSetRows)
 
   return {
     earliest: earliestfiltered,

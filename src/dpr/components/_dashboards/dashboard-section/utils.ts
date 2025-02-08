@@ -47,20 +47,6 @@ const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: M
   })
 }
 
-const filterByMeasures = (listDefinition: DashboardVisualisation, dashboardData: MetricsDataResponse[]) => {
-  const { measures } = listDefinition.columns
-  const displayColumnsIds = measures.map((col) => col.id)
-
-  return dashboardData.map((datasetRow: MetricsDataResponse) => {
-    return Object.keys(datasetRow)
-      .filter((key) => displayColumnsIds.includes(key))
-      .reduce((acc, key) => {
-        acc[key] = datasetRow[key]
-        return acc
-      }, {} as unknown as MetricsDataResponse)
-  })
-}
-
 const filterRowsByDisplayColumns = (
   listDefinition: DashboardVisualisation,
   dashboardData: MetricsDataResponse[],
@@ -85,6 +71,5 @@ const filterRowsByDisplayColumns = (
 
 export default {
   getDatasetRows,
-  filterByMeasures,
   filterRowsByDisplayColumns,
 }

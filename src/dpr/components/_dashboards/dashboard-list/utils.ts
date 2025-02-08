@@ -15,7 +15,7 @@ const createList = (
   })
   const dataSetRows = DashboardSectionUtils.getDatasetRows(listDefinition, dataSnapshot)
   const ts = `${dataSetRows[0]?.timestamp?.raw}`
-  const filtered = DashboardSectionUtils.filterByMeasures(listDefinition, dataSetRows)
+  const filtered = DashboardSectionUtils.filterRowsByDisplayColumns(listDefinition, dataSetRows)
 
   let rows = createTableRows(filtered)
   rows = sumColumns(rows, listDefinition.columns.measures)

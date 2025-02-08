@@ -13,6 +13,7 @@ const {
   mockScorecardGroupEthnicityByEstablishment,
   mockTargetScorecardDefinitionReligion,
   mockEthnicityBarChartList,
+  mockEthnicityLineChartTimeseries,
 } = require('./definitions/data-quality/vis-definitions')
 
 const { establishmentIdFilter, granularDateRangeFilter } = require('./filter-definitions')
@@ -115,9 +116,17 @@ const unitTesting = {
         mockScorecardGroupEthnicityByEstablishment,
       ],
     },
+    {
+      id: 'test-section-7',
+      display: 'Timeseries charts',
+      description: 'Testing timeseries charts',
+      visualisations: [mockEthnicityLineChartTimeseries],
+    },
   ],
   filterFields: [establishmentIdFilter, granularDateRangeFilter],
 }
+
+// mockEthnicityLineChartTimeseries
 
 module.exports = [
   successfulExecution,

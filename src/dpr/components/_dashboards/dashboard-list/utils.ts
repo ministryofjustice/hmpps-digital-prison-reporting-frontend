@@ -18,8 +18,6 @@ const createList = (
   const ts = timestamp ? `${timestamp}` : ''
   const filtered = DashboardSectionUtils.filterRowsByDisplayColumns(listDefinition, dataSetRows)
 
-  console.log(JSON.stringify(dataSetRows, null, 2))
-
   let rows = createTableRows(filtered)
   if (rows.length) rows = sumColumns(rows, listDefinition.columns.measures)
 

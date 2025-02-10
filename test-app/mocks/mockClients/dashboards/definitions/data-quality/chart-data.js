@@ -6,13 +6,27 @@ const barChartDataHasEthnicity = {
         { data: [484, 713], label: 'SLI', total: 1197 },
         { data: [406, 682], label: 'DAI', total: 1088 },
       ],
-      labels: ['Has Ethnicity', 'Has No Ethnicity'],
+      labels: ['Has ethnicity', 'Has no ethnicity'],
     },
     type: 'bar',
     unit: undefined,
   },
+  details: {
+    headlines: [
+      {
+        label: 'Total has ethnicity',
+        value: 1423,
+      },
+    ],
+    meta: [
+      {
+        label: 'Values for:',
+        value: 'Jan 25',
+      },
+    ],
+  },
   table: {
-    head: [{ text: 'Establishment ID' }, { text: 'Has Ethnicity' }, { text: 'Has No Ethnicity' }],
+    head: [{ text: 'Establishment ID' }, { text: 'Has ethnicity' }, { text: 'Has no ethnicity' }],
     rows: [
       [{ text: 'MDI' }, { text: 533 }, { text: 614 }],
       [{ text: 'SLI' }, { text: 484 }, { text: 713 }],
@@ -29,13 +43,27 @@ const barChartFromListDataHasEthnicity = {
         { data: [484, 713], label: 'SLI', total: 1197 },
         { data: [406, 682], label: 'DAI', total: 1088 },
       ],
-      labels: ['Has Ethnicity', 'Has No Ethnicity'],
+      labels: ['Has ethnicity', 'Has no ethnicity'],
     },
     type: 'bar',
     unit: undefined,
   },
+  details: {
+    headlines: [
+      {
+        label: 'Total has ethnicity',
+        value: 1423,
+      },
+    ],
+    meta: [
+      {
+        label: 'Values for:',
+        value: 'Jan 25',
+      },
+    ],
+  },
   table: {
-    head: [{ text: 'Establishment ID' }, { text: 'Has Ethnicity' }, { text: 'Has No Ethnicity' }],
+    head: [{ text: 'Establishment ID' }, { text: 'Has ethnicity' }, { text: 'Has no ethnicity' }],
     rows: [
       [{ text: 'MDI' }, { text: 533 }, { text: 614 }],
       [{ text: 'SLI' }, { text: 484 }, { text: 713 }],

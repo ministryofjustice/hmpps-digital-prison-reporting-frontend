@@ -97,7 +97,7 @@ describe('DashboardUtils', () => {
 
         expect(result.dashboardData.name).toEqual('Test Dashboard')
         expect(result.dashboardData.description).toEqual('Dashboard used for testing testing')
-        expect(result.dashboardData.sections.length).toEqual(6)
+        expect(result.dashboardData.sections.length).toEqual(7)
 
         expect(result.dashboardData.sections[0].title).toEqual('Missing ethnicity Charts')
         expect(result.dashboardData.sections[1].title).toEqual('Missing nationality Charts')

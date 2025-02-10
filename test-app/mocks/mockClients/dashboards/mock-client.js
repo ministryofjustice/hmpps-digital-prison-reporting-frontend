@@ -98,7 +98,6 @@ const getData = (def, dashboardId, query) => {
       random_metric_2: 'number',
     }
     const mockData = MockDataHelper.createTimeSeriesData(start, end, granularity, data, 3, true)
-    // console.log(JSON.stringify(mockData, null, 2))
 
     return mockData
   }

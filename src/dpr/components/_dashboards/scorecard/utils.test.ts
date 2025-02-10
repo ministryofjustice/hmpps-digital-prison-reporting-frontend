@@ -81,21 +81,21 @@ describe('ScorecardUtils', () => {
       expect(scorecard).toEqual([
         {
           rag: { color: 'red', score: 2 },
-          title: 'With Religion in Establishment:  MDI',
+          title: 'With religion in Establishment:  MDI',
           trend: { direction: 1, from: 'Aug 24', value: 104 },
           value: 680,
           valueFor: 'Jan 25',
         },
         {
           rag: { color: 'red', score: 2 },
-          title: 'With Religion in Establishment:  SLI',
+          title: 'With religion in Establishment:  SLI',
           trend: { direction: 1, from: 'Aug 24', value: 13 },
           value: 771,
           valueFor: 'Jan 25',
         },
         {
           rag: { color: 'red', score: 2 },
-          title: 'With Religion in Establishment:  DAI',
+          title: 'With religion in Establishment:  DAI',
           trend: { direction: -1, from: 'Aug 24', value: 86 },
           value: 648,
           valueFor: 'Jan 25',

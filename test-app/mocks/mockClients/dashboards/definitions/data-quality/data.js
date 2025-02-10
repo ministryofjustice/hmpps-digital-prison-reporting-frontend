@@ -53,23 +53,6 @@ const createTimestamps = (start, end, granularity, sets) => {
   const roundedCount = g === 'day' ? Math.ceil(diff + 1) : Math.ceil(diff)
   const dateFormat = setFormat(g)
 
-  // console.log(
-  //   JSON.stringify(
-  //     {
-  //       g,
-  //       start,
-  //       end,
-  //       endDate,
-  //       startDate,
-  //       diff,
-  //       roundedCount,
-  //       dateFormat,
-  //     },
-  //     null,
-  //     2,
-  //   ),
-  // )
-
   const timestamps = []
   for (let i = 0; i < roundedCount; i += 1) {
     const date = endDate.subtract(i, g).format(dateFormat)

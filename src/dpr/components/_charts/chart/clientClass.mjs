@@ -72,6 +72,14 @@ export default class ChartVisualisation extends DprClientClass {
         name: 'dark_blue',
         hex: '#003078',
       },
+      {
+        name: 'orange',
+        hex: '#f47738',
+      },
+      {
+        name: 'orange',
+        hex: '#28a197',
+      },
     ]
   }
 
@@ -86,7 +94,7 @@ export default class ChartVisualisation extends DprClientClass {
   createDatasets(datasets, styling) {
     return datasets.map((d, i) => {
       const { label, data } = d
-      const s = styling[i] ? styling[i] : styling[0]
+      const s = styling[i % 6] ? styling[i % 6] : styling[0]
       return {
         label,
         data,

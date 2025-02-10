@@ -5,6 +5,7 @@ const dashboardDefinitions = require('./dashboard-definitions')
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 const { mockAgeBreakdownData } = require('./definitions/age-breakdown/data')
 const { createTimeSeriesData, mockTimeSeriesDataLastSixMonths } = require('./definitions/data-quality/data')
+const MockDataHelper = require('./mockDataHelper')
 
 class MockDashboardClient {
   constructor() {
@@ -87,6 +88,21 @@ const getData = (def, dashboardId, query) => {
   const start = query['filters.date.start'] || dayjs().format('YYYY-MM-DD')
   const end = query['filters.date.end'] || dayjs().format('YYYY-MM-DD')
   const granularity = query['filters.date.granularity'] || 'daily'
+
+  if (['mock-data-dashboard-1'].includes(dashboardId)) {
+    const data = {
+      total_prisoners: 'number',
+      empty_column_1: 'null',
+      empty_column_2: 'null',
+      random_metric: 'number',
+      random_metric_2: 'number',
+    }
+    const mockData = MockDataHelper.createTimeSeriesData(start, end, granularity, data, 3, true)
+    // console.log(JSON.stringify(mockData, null, 2))
+
+    return mockData
+  }
+
   const data = createTimeSeriesData(start, end, granularity, 3)
 
   return data

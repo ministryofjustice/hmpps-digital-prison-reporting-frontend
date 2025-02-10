@@ -14,7 +14,7 @@ export interface DashboardSection {
   id: string
   display?: string
   description?: string
-  visualisations: []
+  visualisations: DashboardVisualisation[]
 }
 
 export interface DashboardUISection {
@@ -51,7 +51,7 @@ export enum DashboardVisualisationType {
 }
 
 export interface DashboardVisualisationColumns {
-  keys: DashboardVisualisationColumn[]
+  keys?: DashboardVisualisationColumn[]
   measures: DashboardVisualisationColumn[]
   values?: DashboardVisualisationColumn[]
   ignore?: DashboardVisualisationColumn[]

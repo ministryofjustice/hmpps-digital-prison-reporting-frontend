@@ -14,11 +14,14 @@ const createList = (
     return { text: column.display }
   })
   const dataSetRows = DashboardSectionUtils.getDatasetRows(listDefinition, dataSnapshot)
-  const ts = `${dataSetRows[0]?.timestamp?.raw}`
+  const timestamp = dataSetRows[0]?.timestamp?.raw
+  const ts = timestamp ? `${timestamp}` : ''
   const filtered = DashboardSectionUtils.filterRowsByDisplayColumns(listDefinition, dataSetRows)
 
+  console.log(JSON.stringify(dataSetRows, null, 2))
+
   let rows = createTableRows(filtered)
-  rows = sumColumns(rows, listDefinition.columns.measures)
+  if (rows.length) rows = sumColumns(rows, listDefinition.columns.measures)
 
   return {
     table: {

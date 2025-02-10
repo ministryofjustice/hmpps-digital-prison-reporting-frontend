@@ -21,6 +21,7 @@ const { establishmentIdFilter, granularDateRangeFilter } = require('./filter-def
 const { mockDashboardNewDefinition } = require('./mockDashboardDefinitionV2')
 const { ageBreakdownReport1 } = require('./definitions/age-breakdown/dashboard-definition')
 const { dataQualityDashboard1 } = require('./definitions/data-quality/dashboard-definition')
+const { mockDataDashboard1 } = require('./definitions/prison-totals/dashboard-definition')
 
 const successfulExecution = {
   id: 'test-dashboard-1',
@@ -139,4 +140,5 @@ module.exports = [
   dataQualityDashboard1,
   ageBreakdownReport1,
   mockDashboardNewDefinition,
+  mockDataDashboard1,
 ]

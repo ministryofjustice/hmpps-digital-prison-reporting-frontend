@@ -26,9 +26,10 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
 
   setDatasetStyling() {
     const pallette = this.getColourPallette()
+    const backgroundColor = pallette.map((p) => p.hex)
     return [
       {
-        backgroundColor: pallette.map((p) => p.hex),
+        backgroundColor: [...backgroundColor, ...backgroundColor],
         hoverOffset: 4,
         datalabels: {
           anchor: 'center',

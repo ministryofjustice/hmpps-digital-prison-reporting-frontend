@@ -3,10 +3,14 @@
 {% macro dprDashboardList(id, listData) %}
   {% set ts = listData.ts %}
   {% set table = listData.table %}
+  {% set rows = table.rows %}
 
   <div class="dpr-dashboard-list-container">
-    {{ govukTable(table)}}
-
-    <p class="govuk-body-s dpr-value-for">Value for: {{ ts }}</p>
+    {% if rows.length %}
+      {{ govukTable(table)}}
+      <p class="govuk-body-s dpr-value-for">Value for: {{ ts }}</p>
+    {% else %} 
+      <p class="govuk-body">No data</p>
+    {% endif %} 
   </div>
 {% endmacro %}

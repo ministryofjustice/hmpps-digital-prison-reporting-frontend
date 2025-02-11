@@ -99,9 +99,9 @@ describe('DashboardUtils', () => {
         expect(result.dashboardData.description).toEqual('Dashboard used for testing testing')
         expect(result.dashboardData.sections.length).toEqual(7)
 
-        expect(result.dashboardData.sections[0].title).toEqual('Missing ethnicity Charts')
-        expect(result.dashboardData.sections[1].title).toEqual('Missing nationality Charts')
-        expect(result.dashboardData.sections[2].title).toEqual('Missing religion Charts')
+        expect(result.dashboardData.sections[0].title).toEqual('Section 1 - Ethnicity charts')
+        expect(result.dashboardData.sections[1].title).toEqual('Section 2 - Nationality charts')
+        expect(result.dashboardData.sections[2].title).toEqual('Section 3 - Religion charts')
 
         const chartData = result.dashboardData.sections[0].visualisations[0].data as ChartCardData
         expect(chartData.chart.type).toEqual('bar')

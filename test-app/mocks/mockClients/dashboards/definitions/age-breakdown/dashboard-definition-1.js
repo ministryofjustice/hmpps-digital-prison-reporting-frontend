@@ -8,13 +8,8 @@ const {
   mockListDefinitionCell,
   mockListDefinitionNationality,
   mockListDefinitionEthnicityAgeRange,
-  mockScorecardDefinitionTotalInWing,
-  mockScorecardDefinitionTotalInEst,
-  mockScorecardDefinitionEthnicWhite,
-  mockScorecardDefinitionEthnicAsian,
-  mockScoreCardGroupReligion,
-  mockBarChartReligion,
-  mockPieChartReligion,
+  mockListDefinitionTotalPrisonersByWing,
+  mockListDefinitionTotalPrisoners,
 } = require('./vis-definitions')
 
 const ageBreakdownReport1 = {
@@ -26,7 +21,7 @@ const ageBreakdownReport1 = {
     {
       id: 'totals-breakdown',
       display: 'Totals breakdown',
-      visualisations: [mockScorecardDefinitionTotalInWing, mockScorecardDefinitionTotalInEst],
+      visualisations: [mockListDefinitionTotalPrisonersByWing, mockListDefinitionTotalPrisoners],
     },
     {
       id: 'total-prisoners-by-date-range',
@@ -38,23 +33,13 @@ const ageBreakdownReport1 = {
       id: 'total-prisoners-by-religion',
       display: 'Total Prisoners by religion',
       description: 'These tables show the total prisoners by religion',
-      visualisations: [
-        mockListDefinitionReligion,
-        mockScoreCardGroupReligion,
-        mockBarChartReligion,
-        mockPieChartReligion,
-      ],
+      visualisations: [mockListDefinitionReligion],
     },
     {
       id: 'total-prisoners-by-ethnicity',
       display: 'Total Prisoners by ethnicity',
       description: 'These tables show the total prisoners by ethnicity',
-      visualisations: [
-        mockScorecardDefinitionEthnicWhite,
-        mockScorecardDefinitionEthnicAsian,
-        mockListDefinitionEthnicity,
-        mockListDefinitionEthnicityAgeRange,
-      ],
+      visualisations: [mockListDefinitionEthnicity, mockListDefinitionEthnicityAgeRange],
     },
     {
       id: 'total-prisoners-cell',

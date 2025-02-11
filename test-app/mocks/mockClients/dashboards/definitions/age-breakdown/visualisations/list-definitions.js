@@ -65,6 +65,7 @@ const mockListDefinitionTotalPrisonersByWing = {
         display: 'Total prisoners',
       },
     ],
+    ignore: [],
   },
 }
 
@@ -83,6 +84,7 @@ const mockListDefinitionTotalPrisoners = {
         display: 'Total prisoners',
       },
     ],
+    ignore: [],
   },
 }
 

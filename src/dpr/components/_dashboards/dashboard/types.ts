@@ -53,8 +53,8 @@ export enum DashboardVisualisationType {
 export interface DashboardVisualisationColumns {
   keys?: DashboardVisualisationColumn[]
   measures: DashboardVisualisationColumn[]
-  values?: DashboardVisualisationColumn[]
-  ignore?: DashboardVisualisationColumn[]
+  filters?: ValueVisualisationColumn[]
+  expectNulls: boolean
 }
 
 export interface DashboardVisualisationColumn {
@@ -62,6 +62,10 @@ export interface DashboardVisualisationColumn {
   display: string
   aggregate?: AggregateType
   unit?: UnitType
+}
+
+export interface ValueVisualisationColumn {
+  id: string
   equals: string | number
 }
 

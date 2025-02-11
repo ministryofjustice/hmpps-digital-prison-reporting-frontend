@@ -46,7 +46,7 @@ const createTimestamps = (start, end, granularity, establishmentCount, includeWi
       if (includeWings) {
         wingIds[index].forEach((wingId) => {
           ts.push({
-            timestamp: { raw: date },
+            ts: { raw: date },
             establishment_id: {
               raw: establishmentIds[index],
             },
@@ -57,7 +57,7 @@ const createTimestamps = (start, end, granularity, establishmentCount, includeWi
         })
       } else {
         ts.push({
-          timestamp: { raw: date },
+          ts: { raw: date },
           establishment_id: {
             raw: establishmentIds[index],
           },

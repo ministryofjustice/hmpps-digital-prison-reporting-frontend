@@ -63,7 +63,7 @@ const mockTargetScorecardDefinitionReligion = {
         display: 'No of prisoners with religion in SLI',
       },
     ],
-    values: [
+    filters: [
       {
         id: 'establishment_id',
         equals: 'SLI',

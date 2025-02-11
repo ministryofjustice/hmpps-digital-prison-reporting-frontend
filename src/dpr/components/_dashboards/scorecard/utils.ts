@@ -11,12 +11,12 @@ import DashboardSectionUtils from '../dashboard-section/utils'
 const getDataset = (scorecardDefinition: DashboardVisualisation, rawData: MetricsDataResponse[][]) => {
   const latestData = rawData[rawData.length - 1]
   const latestDataSetRows = DashboardSectionUtils.getDatasetRows(scorecardDefinition, latestData)
-  const latestTs = latestDataSetRows[0]?.timestamp?.raw
+  const latestTs = latestDataSetRows[0]?.ts?.raw
   const latestFiltered = DashboardSectionUtils.filterRowsByDisplayColumns(scorecardDefinition, latestDataSetRows)
 
   const earliestData = rawData[0]
   const earliestDataSetRows = DashboardSectionUtils.getDatasetRows(scorecardDefinition, earliestData)
-  const earliestTs = earliestDataSetRows[0]?.timestamp?.raw
+  const earliestTs = earliestDataSetRows[0]?.ts?.raw
   const earliestfiltered = DashboardSectionUtils.filterRowsByDisplayColumns(scorecardDefinition, earliestDataSetRows)
 
   return {

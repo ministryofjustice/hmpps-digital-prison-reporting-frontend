@@ -63,10 +63,10 @@ const getChartDetails = (
   const meta: ChartMetaData[] = []
   const headlines: ChartMetaData[] = createHeadlines(chartDefinition, data, timeseries)
 
-  if (data[0]?.timestamp) {
+  if (data[0]?.ts) {
     meta.push({
       label: 'Values for:',
-      value: data[0]?.timestamp.raw,
+      value: data[0]?.ts.raw,
     })
   }
 
@@ -91,9 +91,9 @@ const createHeadlines = (chartDefinition: DashboardVisualisation, data: MetricsD
   let label: string
 
   if (timeseries) {
-    headlineColumn = <BarChartVisualisationColumn>measures.find((col) => col.id !== 'timestamp')
+    headlineColumn = <BarChartVisualisationColumn>measures.find((col) => col.id !== 'ts')
     if (headlineColumn) {
-      label = `${data[0].timestamp.raw}`
+      label = `${data[0].ts.raw}`
       value = +data[0][headlineColumn.id].raw
 
       headline = {
@@ -232,7 +232,7 @@ const createTimeseriesChart = (
   const labelId = keys[keys.length - 1].id as keyof MetricsDataResponse
   const unit = measures[0].unit ? measures[0].unit : undefined
 
-  const labels = timeseriesData.map((d: MetricsDataResponse[]) => d[0].timestamp.raw as unknown as string)
+  const labels = timeseriesData.map((d: MetricsDataResponse[]) => d[0].ts.raw as unknown as string)
   const datasetCount = timeseriesData[0].length
 
   const datasets: ChartDataset[] = []
@@ -272,7 +272,7 @@ const createTimeseriesTable = (
   let headerColumns = [...measures]
 
   if (hasMultipleRowsPerTimePeriod) {
-    const timestampIndex = headerColumns.findIndex((m) => m.id === 'timestamp')
+    const timestampIndex = headerColumns.findIndex((m) => m.id === 'ts')
     const timestampCol = headerColumns[timestampIndex]
 
     headerColumns.splice(timestampIndex, 1)

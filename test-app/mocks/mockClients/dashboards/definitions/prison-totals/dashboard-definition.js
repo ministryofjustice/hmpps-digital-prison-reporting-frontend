@@ -31,7 +31,7 @@ const listDef = {
         display: 'random_metric_2',
       },
     ],
-    ignore: [],
+    expectNulls: true,
   },
 }
 

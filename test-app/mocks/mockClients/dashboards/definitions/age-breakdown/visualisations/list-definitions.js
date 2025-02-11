@@ -65,7 +65,7 @@ const mockListDefinitionTotalPrisonersByWing = {
         display: 'Total prisoners',
       },
     ],
-    ignore: [],
+    expectNulls: true,
   },
 }
 
@@ -84,7 +84,7 @@ const mockListDefinitionTotalPrisoners = {
         display: 'Total prisoners',
       },
     ],
-    ignore: [],
+    expectNulls: true,
   },
 }
 
@@ -131,7 +131,6 @@ const mockListDefinitionEthnicity = {
         aggregate: 'sum',
       },
     ],
-    ignoreRemainingColumns: true,
   },
 }
 
@@ -176,7 +175,6 @@ const mockListDefinitionEthnicityAgeRange = {
         aggregate: 'sum',
       },
     ],
-    ignoreRemainingColumns: true,
   },
 }
 

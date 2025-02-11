@@ -17,7 +17,7 @@ const mockScorecardDefinitionTotalInWing = {
         display: 'Total prisoners in wing',
       },
     ],
-    ignore: [], // Empty ignore array flags that all other columns should be null
+    expectNulls: true,
   },
 }
 
@@ -36,7 +36,7 @@ const mockScorecardDefinitionTotalInEst = {
         display: 'Total prisoners',
       },
     ],
-    ignore: [], // Empty ignore array flags that all other columns should be null
+    expectNulls: true,
   },
 }
 
@@ -49,7 +49,7 @@ const mockScorecardDefinitionEthnicWhite = {
         display: 'Total prisoners whose ethnic description is White: Eng./Welsh/Scot./N.Irish/British',
       },
     ],
-    values: [
+    filters: [
       {
         id: 'ethnic_code',
         equals: 'W2',
@@ -67,7 +67,7 @@ const mockScorecardDefinitionEthnicAsian = {
         display: 'Total prisoners whose ethnic description is Asian/Asian British: Pakistani',
       },
     ],
-    values: [
+    filters: [
       {
         id: 'ethnic_code',
         equals: 'A2',

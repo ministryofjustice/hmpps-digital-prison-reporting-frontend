@@ -2,15 +2,13 @@ import { MetricsDataResponse } from '../../../types/Metrics'
 import { DashboardVisualisation } from '../dashboard/types'
 
 const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: MetricsDataResponse[]) => {
-  const { keys, measures, ignore, values } = listDefinition.columns
+  const { keys, measures, filters, expectNulls } = listDefinition.columns
 
   const displayColumnsIds = measures.map((col) => col.id)
   const keyColumnsIds = keys?.map((col) => col.id) || []
-  const ignoreIds = ignore?.map((col) => col.id) || []
-  const valueIds = values?.map((col) => col.id) || []
-  const expectAllNoneDefinedColsToBeNull = ignore && ignore.length === 0
+  const filterColIds = filters?.map((col) => col.id) || []
 
-  if (dashboardData.length && dashboardData[0].timestamp) keyColumnsIds.push('timestamp')
+  if (dashboardData.length && dashboardData[0].ts) keyColumnsIds.push('ts')
 
   return dashboardData.filter((datasetRow: MetricsDataResponse) => {
     const validRow: boolean[] = []
@@ -20,20 +18,16 @@ const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: M
       let valid = true
 
       // 1. check if the column value is equal to a defined column value
-      if (valueIds.includes(datasetField)) {
-        const valueColumn = values.find((col) => col.id === datasetField)
-        valid = value === valueColumn.equals
+      if (filterColIds.includes(datasetField)) {
+        const filterColumn = filters.find((col) => col.id === datasetField)
+        valid = value === filterColumn.equals
 
         // 2. check values exist in the defined columns
       } else if (displayColumnsIds.includes(datasetField) || keyColumnsIds.includes(datasetField)) {
         valid = value !== '' && value !== undefined && value !== null
 
-        // 3. check for values in the other columns in the row
-      } else if (ignoreIds.includes(datasetField)) {
-        valid = true
-
-        // 4. check that all remaining columns are null.
-      } else if (expectAllNoneDefinedColsToBeNull) {
+        // 3. check that all remaining columns are null.
+      } else if (expectNulls) {
         valid = value === '' || value === undefined || value === null
       }
 

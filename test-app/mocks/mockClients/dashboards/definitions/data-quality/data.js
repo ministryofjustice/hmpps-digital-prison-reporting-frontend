@@ -59,7 +59,7 @@ const createTimestamps = (start, end, granularity, sets) => {
     const ts = []
     for (let index = 0; index < sets; index += 1) {
       ts.push({
-        timestamp: { raw: date },
+        ts: { raw: date },
         establishment_id: {
           raw: establishmentIds[index],
         },
@@ -120,7 +120,7 @@ const generateRag = (value) => {
 const mockTimeSeriesDataLastSixMonths = [
   [
     {
-      timestamp: { raw: 'Aug 24' },
+      ts: { raw: 'Aug 24' },
       establishment_id: {
         raw: 'MDI',
       },
@@ -150,7 +150,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: { raw: 'Aug 24' },
+      ts: { raw: 'Aug 24' },
       establishment_id: {
         raw: 'SLI',
       },
@@ -180,7 +180,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: { raw: 'Aug 24' },
+      ts: { raw: 'Aug 24' },
       establishment_id: {
         raw: 'DAI',
       },
@@ -212,7 +212,7 @@ const mockTimeSeriesDataLastSixMonths = [
   ],
   [
     {
-      timestamp: { raw: 'Sep 24' },
+      ts: { raw: 'Sep 24' },
       establishment_id: {
         raw: 'MDI',
       },
@@ -242,7 +242,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: { raw: 'Sep 24' },
+      ts: { raw: 'Sep 24' },
       establishment_id: {
         raw: 'SLI',
       },
@@ -272,7 +272,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: { raw: 'Sep 24' },
+      ts: { raw: 'Sep 24' },
       establishment_id: {
         raw: 'DAI',
       },
@@ -304,7 +304,7 @@ const mockTimeSeriesDataLastSixMonths = [
   ],
   [
     {
-      timestamp: { raw: 'Oct 24' },
+      ts: { raw: 'Oct 24' },
       establishment_id: {
         raw: 'MDI',
       },
@@ -334,7 +334,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: { raw: 'Oct 24' },
+      ts: { raw: 'Oct 24' },
       establishment_id: {
         raw: 'SLI',
       },
@@ -364,7 +364,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: { raw: 'Oct 24' },
+      ts: { raw: 'Oct 24' },
       establishment_id: {
         raw: 'DAI',
       },
@@ -396,7 +396,7 @@ const mockTimeSeriesDataLastSixMonths = [
   ],
   [
     {
-      timestamp: { raw: 'Nov 24' },
+      ts: { raw: 'Nov 24' },
       establishment_id: {
         raw: 'MDI',
       },
@@ -426,7 +426,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: { raw: 'Nov 24' },
+      ts: { raw: 'Nov 24' },
       establishment_id: {
         raw: 'SLI',
       },
@@ -456,7 +456,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: { raw: 'Nov 24' },
+      ts: { raw: 'Nov 24' },
       establishment_id: {
         raw: 'DAI',
       },
@@ -488,7 +488,7 @@ const mockTimeSeriesDataLastSixMonths = [
   ],
   [
     {
-      timestamp: { raw: 'Dec 24' },
+      ts: { raw: 'Dec 24' },
       establishment_id: {
         raw: 'MDI',
       },
@@ -518,7 +518,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: { raw: 'Dec 24' },
+      ts: { raw: 'Dec 24' },
       establishment_id: {
         raw: 'SLI',
       },
@@ -548,7 +548,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: { raw: 'Dec 24' },
+      ts: { raw: 'Dec 24' },
       establishment_id: {
         raw: 'DAI',
       },
@@ -580,7 +580,7 @@ const mockTimeSeriesDataLastSixMonths = [
   ],
   [
     {
-      timestamp: { raw: 'Jan 25' },
+      ts: { raw: 'Jan 25' },
       establishment_id: {
         raw: 'MDI',
       },
@@ -610,7 +610,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: { raw: 'Jan 25' },
+      ts: { raw: 'Jan 25' },
       establishment_id: {
         raw: 'SLI',
       },
@@ -640,7 +640,7 @@ const mockTimeSeriesDataLastSixMonths = [
       },
     },
     {
-      timestamp: { raw: 'Jan 25' },
+      ts: { raw: 'Jan 25' },
       establishment_id: {
         raw: 'DAI',
       },

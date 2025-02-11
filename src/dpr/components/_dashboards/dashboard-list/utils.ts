@@ -14,7 +14,7 @@ const createList = (
     return { text: column.display }
   })
   const dataSetRows = DashboardSectionUtils.getDatasetRows(listDefinition, dataSnapshot)
-  const timestamp = dataSetRows[0]?.timestamp?.raw
+  const timestamp = dataSetRows[0]?.ts?.raw
   const ts = timestamp ? `${timestamp}` : ''
   const filtered = DashboardSectionUtils.filterRowsByDisplayColumns(listDefinition, dataSetRows)
 

@@ -1,6 +1,6 @@
 const mockAgeRange1TableData = [
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '18-25' },
@@ -20,7 +20,7 @@ const mockAgeRange1TableData = [
     total_prisoners: { raw: '6' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '26-34' },
@@ -40,7 +40,7 @@ const mockAgeRange1TableData = [
     total_prisoners: { raw: '12' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '35-44' },
@@ -60,7 +60,7 @@ const mockAgeRange1TableData = [
     total_prisoners: { raw: '6' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '45-54' },
@@ -80,7 +80,7 @@ const mockAgeRange1TableData = [
     total_prisoners: { raw: '2' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '56-54' },
@@ -103,7 +103,7 @@ const mockAgeRange1TableData = [
 
 const mockAgeRange2TableData = [
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -123,7 +123,7 @@ const mockAgeRange2TableData = [
     total_prisoners: { raw: '2' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -143,7 +143,7 @@ const mockAgeRange2TableData = [
     total_prisoners: { raw: '10' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -163,7 +163,7 @@ const mockAgeRange2TableData = [
     total_prisoners: { raw: '8' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -183,7 +183,7 @@ const mockAgeRange2TableData = [
     total_prisoners: { raw: '5' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -206,7 +206,7 @@ const mockAgeRange2TableData = [
 
 const mockTotalTableData = [
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: '' },
     age_range_1: { raw: '' },
@@ -229,7 +229,7 @@ const mockTotalTableData = [
 
 const mockTotalByWingTableData = [
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -252,7 +252,7 @@ const mockTotalByWingTableData = [
 
 const mockReligionTableData = [
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -272,7 +272,7 @@ const mockReligionTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -292,7 +292,7 @@ const mockReligionTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -312,7 +312,7 @@ const mockReligionTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -332,7 +332,7 @@ const mockReligionTableData = [
     total_prisoners: { raw: '8' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -352,7 +352,7 @@ const mockReligionTableData = [
     total_prisoners: { raw: '4' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -372,7 +372,7 @@ const mockReligionTableData = [
     total_prisoners: { raw: '6' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -395,7 +395,7 @@ const mockReligionTableData = [
 
 const mockEthnicTableData = [
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -415,7 +415,7 @@ const mockEthnicTableData = [
     total_prisoners: { raw: '4' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -438,7 +438,7 @@ const mockEthnicTableData = [
 
 const mockCellTableData = [
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -458,7 +458,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -478,7 +478,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -498,7 +498,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -518,7 +518,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -538,7 +538,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -558,7 +558,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -578,7 +578,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -598,7 +598,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -618,7 +618,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -638,7 +638,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -658,7 +658,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -678,7 +678,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -698,7 +698,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -718,7 +718,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -738,7 +738,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -758,7 +758,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -778,7 +778,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '2' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -798,7 +798,7 @@ const mockCellTableData = [
     total_prisoners: { raw: '1' },
   },
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },
@@ -821,7 +821,7 @@ const mockCellTableData = [
 
 const mockNationalityTableData = [
   {
-    timestamp: { raw: '2025/01/07' },
+    ts: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
     wing: { raw: 'I' },
     age_range_1: { raw: '' },

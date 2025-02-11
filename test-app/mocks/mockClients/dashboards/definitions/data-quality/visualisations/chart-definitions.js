@@ -64,7 +64,7 @@ const mockEthnicityLineChartTimeseries = {
     ],
     measures: [
       {
-        id: 'timestamp',
+        id: 'ts',
         display: 'Date',
       },
       {

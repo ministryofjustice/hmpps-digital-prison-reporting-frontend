@@ -13,7 +13,6 @@ import { ChartCardData } from '../../../types/Charts'
 
 describe('ScorecardUtils', () => {
   let mockDataQualityData: MetricsDataResponse[][]
-  // let mockAgeBreakdownRawData: MetricsDataResponse[][]
 
   let scorecardData1: Scorecard
   let scorecardData2: Scorecard

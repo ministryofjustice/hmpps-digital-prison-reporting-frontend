@@ -7,10 +7,6 @@ const mockBarChartReligion = {
         id: 'establishment_id',
         display: 'Establishmnent ID',
       },
-      {
-        id: 'wing',
-        display: 'Wing',
-      },
     ],
     measures: [
       {
@@ -35,10 +31,6 @@ const mockPieChartReligion = {
       {
         id: 'establishment_id',
         display: 'Establishmnent ID',
-      },
-      {
-        id: 'wing',
-        display: 'Wing',
       },
     ],
     measures: [

@@ -204,27 +204,7 @@ const mockAgeRange2TableData = [
   },
 ]
 
-const mockTotalTablesData = [
-  {
-    timestamp: { raw: '2025/01/07' },
-    establishment_id: { raw: 'MDI' },
-    wing: { raw: 'I' },
-    age_range_1: { raw: '' },
-    age_range_2: { raw: '' },
-    religion_code: { raw: '' },
-    religion_description: { raw: '' },
-    ethnic_code: { raw: '' },
-    ethnic_description: { raw: '' },
-    nationality_code: { raw: '' },
-    nationality_description: { raw: '' },
-    cell: { raw: '' },
-    age_range_1_18_25: { raw: '' },
-    age_range_1_26_34: { raw: '' },
-    age_range_1_35_44: { raw: '' },
-    age_range_1_45_54: { raw: '' },
-    age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '28' },
-  },
+const mockTotalTableData = [
   {
     timestamp: { raw: '2025/01/07' },
     establishment_id: { raw: 'MDI' },
@@ -244,6 +224,29 @@ const mockTotalTablesData = [
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
     total_prisoners: { raw: '200' },
+  },
+]
+
+const mockTotalByWingTableData = [
+  {
+    timestamp: { raw: '2025/01/07' },
+    establishment_id: { raw: 'MDI' },
+    wing: { raw: 'I' },
+    age_range_1: { raw: '' },
+    age_range_2: { raw: '' },
+    religion_code: { raw: '' },
+    religion_description: { raw: '' },
+    ethnic_code: { raw: '' },
+    ethnic_description: { raw: '' },
+    nationality_code: { raw: '' },
+    nationality_description: { raw: '' },
+    cell: { raw: '' },
+    age_range_1_18_25: { raw: '' },
+    age_range_1_26_34: { raw: '' },
+    age_range_1_35_44: { raw: '' },
+    age_range_1_45_54: { raw: '' },
+    age_range_1_55_64: { raw: '' },
+    total_prisoners: { raw: '28' },
   },
 ]
 
@@ -845,12 +848,62 @@ const mockAgeBreakdownData = [
     ...mockAgeRange2TableData,
     ...mockReligionTableData,
     ...mockEthnicTableData,
-    ...mockTotalTablesData,
+    ...mockTotalTableData,
+    ...mockTotalByWingTableData,
     ...mockCellTableData,
     ...mockNationalityTableData,
   ],
 ]
 
+const generateAgeBreakdownData = (establishment, wing) => {
+  let data = [
+    ...mockTotalTableData,
+    ...mockAgeRange1TableData,
+    ...mockAgeRange2TableData,
+    ...mockReligionTableData,
+    ...mockEthnicTableData,
+    ...mockNationalityTableData,
+  ]
+
+  if (establishment) {
+    data = data.map((d) => {
+      return {
+        ...d,
+        establishment_id: { raw: establishment },
+      }
+    })
+  } else {
+    data = data.map((d) => {
+      return {
+        ...d,
+        establishment_id: { raw: 'All' },
+      }
+    })
+  }
+
+  if (wing) {
+    data = [...data, ...mockTotalByWingTableData, ...mockCellTableData]
+    data = data.map((d) => {
+      if (d.wing.raw === '') {
+        return d
+      }
+      return {
+        ...d,
+        wing: { raw: wing },
+      }
+    })
+  } else {
+    data = data.map((d) => {
+      return {
+        ...d,
+        wing: { raw: '' },
+      }
+    })
+  }
+  return [data]
+}
+
 module.exports = {
   mockAgeBreakdownData,
+  generateAgeBreakdownData,
 }

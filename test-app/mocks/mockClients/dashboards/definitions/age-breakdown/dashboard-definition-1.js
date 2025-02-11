@@ -12,6 +12,8 @@ const {
   mockListDefinitionTotalPrisoners,
 } = require('./vis-definitions')
 
+const { establishmentIdFilter, wingFilter } = require('../../filter-definitions')
+
 const ageBreakdownReport1 = {
   id: 'age-breakdown-dashboard-1',
   name: 'Age Breakdown Dashboard',
@@ -60,7 +62,7 @@ const ageBreakdownReport1 = {
       visualisations: [mockListDefinitionNationality],
     },
   ],
-  filterFields: [],
+  filterFields: [establishmentIdFilter, wingFilter],
 }
 
 module.exports = {

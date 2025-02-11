@@ -17,6 +17,8 @@ const {
   mockPieChartReligion,
 } = require('./vis-definitions')
 
+const { establishmentIdFilter, wingFilter } = require('../../filter-definitions')
+
 const ageBreakdownReport2 = {
   id: 'age-breakdown-dashboard-2',
   name: 'Age Breakdown Dashboard, with extras',
@@ -75,7 +77,7 @@ const ageBreakdownReport2 = {
       visualisations: [mockListDefinitionNationality],
     },
   ],
-  filterFields: [],
+  filterFields: [establishmentIdFilter, wingFilter],
 }
 
 module.exports = {

@@ -162,7 +162,7 @@ describe('DashboardSectionUtils', () => {
                 display: 'Total Prisoners',
               },
             ],
-            ignore: [],
+            expectNulls: true,
           },
         } as unknown as DashboardVisualisation
 
@@ -266,7 +266,7 @@ describe('DashboardSectionUtils', () => {
                 display: 'Total Prisoners',
               },
             ],
-            values: [
+            filters: [
               {
                 id: 'nationality_code',
                 equals: 'BRIT',

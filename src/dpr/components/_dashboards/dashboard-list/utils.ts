@@ -1,8 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { MoJTable, MoJTableRow } from '../../../types/Charts'
 import { MetricsDataResponse } from '../../../types/Metrics'
-import { DashboardVisualisation } from '../dashboard/types'
-import { DashboardListsColumn } from './types'
+import { DashboardVisualisation, DashboardVisualisationColumn } from '../dashboard/types'
 import DashboardSectionUtils from '../dashboard-section/utils'
 
 const createList = (
@@ -30,7 +29,7 @@ const createList = (
   }
 }
 
-const sumColumns = (rowsData: MoJTableRow[][], columns: DashboardListsColumn[]) => {
+const sumColumns = (rowsData: MoJTableRow[][], columns: DashboardVisualisationColumn[]) => {
   const sumColumnIndexes: number[] = columns
     .map((col, index) => (col.aggregate ? index : undefined))
     .filter((index) => index)
@@ -47,7 +46,9 @@ const sumColumns = (rowsData: MoJTableRow[][], columns: DashboardListsColumn[]) 
         acc += +row[index].text
         return acc
       }, 0)
-      rowsData[rowsData.length - 1][index] = { html: `<strong>${total}<strong>` }
+      rowsData[rowsData.length - 1][index] = {
+        html: `<strong>${total}<strong>`,
+      }
     })
   }
 

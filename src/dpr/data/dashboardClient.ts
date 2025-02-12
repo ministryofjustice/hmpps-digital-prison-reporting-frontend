@@ -1,4 +1,4 @@
-import { DashboardDefinition } from '../types/Dashboards'
+import { DashboardDefinition } from '../components/_dashboards/dashboard/types'
 import logger from '../utils/logger'
 import RestClient from './restClient'
 import Dict = NodeJS.Dict

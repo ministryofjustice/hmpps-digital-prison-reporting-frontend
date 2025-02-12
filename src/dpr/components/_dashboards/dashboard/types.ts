@@ -79,5 +79,5 @@ export interface ScorecardVisualisationColumn extends DashboardVisualisationColu
 
 export enum AggregateType {
   SUM = 'sum',
-  AVG = 'avergage',
+  AVG = 'average',
 }

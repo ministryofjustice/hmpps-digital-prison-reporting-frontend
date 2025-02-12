@@ -339,7 +339,6 @@ export default {
       let template
       let fields: components['schemas']['FieldDefinition'][]
       let sections
-      let lists
       let interactive
       let defaultInteractiveQueryString
 
@@ -380,7 +379,6 @@ export default {
           csrfToken,
           template,
           sections,
-          lists,
           type: type as ReportType,
         },
       }

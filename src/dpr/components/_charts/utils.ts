@@ -79,7 +79,11 @@ const getChartDetails = (
 // TODO: Implement headlines for charts:
 // - If timeseries chart: use latest value
 // - If snapshot chart: use first value
-const createHeadlines = (chartDefinition: DashboardVisualisation, data: DashboardDataResponse[], timeseries = false) => {
+const createHeadlines = (
+  chartDefinition: DashboardVisualisation,
+  data: DashboardDataResponse[],
+  timeseries = false,
+) => {
   const headlines: ChartMetaData[] = []
   const { columns } = chartDefinition
   const { measures } = columns

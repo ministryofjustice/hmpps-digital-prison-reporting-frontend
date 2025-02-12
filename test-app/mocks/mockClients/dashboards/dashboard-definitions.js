@@ -3,6 +3,7 @@ const { ageBreakdownReport1 } = require('./definitions/age-breakdown/dashboard-d
 const { dataQualityDashboard1 } = require('./definitions/data-quality/dashboard-definition')
 const { mockDataDashboard1 } = require('./definitions/prison-totals/dashboard-definition')
 const { testingDashboard } = require('./definitions/test-dashboard/dashboard-definiton')
+const { scoreCardsExample1 } = require('./definitions/score-cards-examples/dashboard-definition-1')
 
 const successfulExecution = {
   id: 'test-dashboard-1',
@@ -64,4 +65,5 @@ module.exports = [
   ageBreakdownReport1,
   ageBreakdownReport2,
   mockDataDashboard1,
+  scoreCardsExample1,
 ]

@@ -44,23 +44,23 @@ const wingFilter = {
     mandatory: false,
     staticOptions: [
       {
-        name: 'I',
-        display: 'I',
+        name: 'east',
+        display: 'East',
       },
       {
-        name: 'J',
-        display: 'J',
+        name: 'west',
+        display: 'West',
       },
       {
-        name: 'K',
-        display: 'K',
+        name: 'north',
+        display: 'North',
       },
       {
-        name: 'L',
-        display: 'L',
+        name: 'south',
+        display: 'South',
       },
     ],
-    defaultValue: 'I',
+    defaultValue: 'north',
     dynamicOptions: {
       minimumLength: null,
     },

@@ -9,16 +9,37 @@ const createList = (
   dashboardData: DashboardDataResponse[][],
 ): { table: MoJTable; ts: string } => {
   const dataSnapshot = dashboardData[dashboardData.length - 1]
-  const head = listDefinition.columns.measures.map((column) => {
-    return { text: column.display }
-  })
-  const dataSetRows = DatasetHelper.getDatasetRows(listDefinition, dataSnapshot)
-  const timestamp = dataSetRows[0]?.ts?.raw
-  const ts = timestamp ? `${timestamp}` : ''
-  const filtered = DatasetHelper.filterRowsByDisplayColumns(listDefinition, dataSetRows)
+  const { columns } = listDefinition
+  const { measures, keys } = columns
 
-  let rows = createTableRows(filtered)
-  if (rows.length) rows = sumColumns(rows, listDefinition.columns.measures)
+  let visData: DashboardDataResponse[]
+  let head
+  let rows
+  let timestampData
+  let ts
+
+  // If none specified, return all data
+  if (!measures && !keys) {
+    const timeseriesVisData = [...dashboardData]
+    head = Object.keys(timeseriesVisData[0][0]).map((key) => {
+      return { text: key }
+    })
+    rows = timeseriesVisData.flatMap((periodData) => {
+      return createTableRows(periodData)
+    })
+    timestampData = timeseriesVisData[0][0]?.ts?.raw
+    ts = timestampData ? `${timestampData}` : ''
+  } else {
+    head = measures.map((column) => {
+      return { text: column.display }
+    })
+    const dataSetRows = DatasetHelper.getDatasetRows(listDefinition, dataSnapshot)
+    timestampData = dataSetRows[0]?.ts?.raw
+    ts = timestampData ? `${timestampData}` : ''
+    visData = DatasetHelper.filterRowsByDisplayColumns(listDefinition, dataSetRows)
+    rows = createTableRows(visData)
+    if (rows.length && measures) rows = sumColumns(rows, measures)
+  }
 
   return {
     table: {

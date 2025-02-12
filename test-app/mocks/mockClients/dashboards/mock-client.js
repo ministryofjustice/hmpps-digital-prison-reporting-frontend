@@ -5,6 +5,7 @@ const dashboardDefinitions = require('./dashboard-definitions')
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 const { generateAgeBreakdownData } = require('./definitions/age-breakdown/data')
 const { createTimeSeriesData } = require('./definitions/data-quality/data')
+const { data: mockPrisonerData, generateData } = require('./definitions/score-cards-examples/data')
 const MockDataHelper = require('./mockDataHelper')
 
 class MockDashboardClient {
@@ -80,28 +81,19 @@ class MockDashboardClient {
 }
 
 const getData = (def, dashboardId, query) => {
-  // Age Breakdown report
-  if (['age-breakdown-dashboard-1', 'age-breakdown-dashboard-2'].includes(dashboardId)) {
-    const establishmentId = query['filters.establishment_id']
-    const wing = query['filters.wing']
-    return generateAgeBreakdownData(establishmentId, wing)
-  }
-
   const start = query['filters.date.start'] || dayjs().format('YYYY-MM-DD')
   const end = query['filters.date.end'] || dayjs().format('YYYY-MM-DD')
   const granularity = query['filters.date.granularity'] || 'daily'
+  const establishmentId = query['filters.establishment_id']
+  const wing = query['filters.wing']
 
-  if (['mock-data-dashboard-1'].includes(dashboardId)) {
-    const data = {
-      total_prisoners: 'number',
-      empty_column_1: 'null',
-      empty_column_2: 'null',
-      random_metric: 'number',
-      random_metric_2: 'number',
-    }
-    const mockData = MockDataHelper.createTimeSeriesData(start, end, granularity, data, 3, true)
-    const filteredData = filterByEstablishmentId(query, mockData)
-    return filteredData
+  // Age Breakdown report
+  if (['age-breakdown-dashboard-1', 'age-breakdown-dashboard-2'].includes(dashboardId)) {
+    return generateAgeBreakdownData(establishmentId, wing)
+  }
+
+  if (['scorecards-examples-1'].includes(dashboardId)) {
+    return generateData(query)
   }
 
   const data = createTimeSeriesData(start, end, granularity, 3)

@@ -1,5 +1,5 @@
 import { mockTimeSeriesDataLastSixMonths } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/data-quality/data'
-import { MetricsDataResponse } from '../../../types/Metrics'
+import { DashboardDataResponse } from '../../../types/Metrics'
 import ScorecardUtils from './utils'
 import { Scorecard } from './types'
 
@@ -12,13 +12,13 @@ import { DashboardUIVisualisation, DashboardVisualisation, DashboardVisualisatio
 import { ChartCardData } from '../../../types/Charts'
 
 describe('ScorecardUtils', () => {
-  let mockDataQualityData: MetricsDataResponse[][]
+  let mockDataQualityData: DashboardDataResponse[][]
 
   let scorecardData1: Scorecard
   let scorecardData2: Scorecard
 
   beforeEach(() => {
-    mockDataQualityData = mockTimeSeriesDataLastSixMonths as unknown as MetricsDataResponse[][]
+    mockDataQualityData = mockTimeSeriesDataLastSixMonths as unknown as DashboardDataResponse[][]
     scorecardData1 = {
       rag: {
         color: 'red',

@@ -1,4 +1,4 @@
-import { MetricsDataResponse } from '../../../types/Metrics'
+import { DashboardDataResponse } from '../../../types/Metrics'
 import {
   DashboardUIVisualisation,
   DashboardVisualisation,
@@ -8,7 +8,7 @@ import {
 import { Scorecard, ScorecardTrend } from './types'
 import DashboardSectionUtils from '../dashboard-section/utils'
 
-const getDataset = (scorecardDefinition: DashboardVisualisation, rawData: MetricsDataResponse[][]) => {
+const getDataset = (scorecardDefinition: DashboardVisualisation, rawData: DashboardDataResponse[][]) => {
   const latestData = rawData[rawData.length - 1]
   const latestDataSetRows = DashboardSectionUtils.getDatasetRows(scorecardDefinition, latestData)
   const latestTs = latestDataSetRows[0]?.ts?.raw
@@ -29,14 +29,14 @@ const getDataset = (scorecardDefinition: DashboardVisualisation, rawData: Metric
 
 const getScorecardData = (
   scorecardDefinition: DashboardVisualisation,
-  rawData: MetricsDataResponse[][],
+  rawData: DashboardDataResponse[][],
   titleDisplay: string,
   valueColumnId: string,
   displayColumnId?: string,
 ) => {
   const { earliest, latest, earliestTs, latestTs } = getDataset(scorecardDefinition, rawData)
 
-  return latest.map((datasetRow: MetricsDataResponse, index: number) => {
+  return latest.map((datasetRow: DashboardDataResponse, index: number) => {
     const title = displayColumnId ? `${titleDisplay} ${datasetRow[displayColumnId].raw}` : titleDisplay
     const { rag, raw: value } = datasetRow[valueColumnId]
     const prevVal = earliest[index][valueColumnId].raw
@@ -53,7 +53,7 @@ const getScorecardData = (
   })
 }
 
-const createScorecard = (scorecardDefinition: DashboardVisualisation, rawData: MetricsDataResponse[][]) => {
+const createScorecard = (scorecardDefinition: DashboardVisualisation, rawData: DashboardDataResponse[][]) => {
   const { columns } = scorecardDefinition
   const { measures } = columns
   const displayColumn = measures[0]
@@ -65,7 +65,7 @@ const createScorecard = (scorecardDefinition: DashboardVisualisation, rawData: M
   return scorecardData
 }
 
-const createScorecards = (scorecardDefinition: DashboardVisualisation, rawData: MetricsDataResponse[][]) => {
+const createScorecards = (scorecardDefinition: DashboardVisualisation, rawData: DashboardDataResponse[][]) => {
   const { columns } = scorecardDefinition
   const { measures } = columns
 

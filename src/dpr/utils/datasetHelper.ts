@@ -1,5 +1,5 @@
-import { DashboardDataResponse } from '../../../types/Metrics'
-import { DashboardVisualisation } from '../dashboard/types'
+import { DashboardDataResponse } from '../types/Metrics'
+import { DashboardVisualisation } from '../components/_dashboards/dashboard/types'
 
 const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: DashboardDataResponse[]) => {
   const { keys, measures, filters, expectNulls } = listDefinition.columns

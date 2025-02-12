@@ -1,6 +1,6 @@
 import DashboardService from './dashboardService'
 import DashboardClient from '../data/dashboardClient'
-import { DashboardDefinition } from '../types/Dashboards'
+import { DashboardDefinition, DashboardSection } from '../components/_dashboards/dashboard/types'
 import { RequestStatus } from '../types/UserReports'
 
 jest.mock('../data/dashboardClient')
@@ -20,11 +20,12 @@ describe('DashboardService', () => {
         id: 'test-dashboard-1',
         name: 'Test Dashboard 1',
         description: 'Test Dashboard 1 Description',
-        metrics: [
+        sections: [
           {
             id: 'test-metric-id-1',
-          },
+          } as unknown as DashboardSection,
         ],
+        filterFields: [],
       }
 
       dashboardClient.getDefinition.mockResolvedValue(expectedResponse)
@@ -79,6 +80,7 @@ describe('DashboardService', () => {
         'dashboard-1',
         'executionId',
         'dataProductDefinitionsPath',
+        'tableId',
       )
 
       expect(result).toEqual({

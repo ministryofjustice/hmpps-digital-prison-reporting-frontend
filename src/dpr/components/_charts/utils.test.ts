@@ -1,5 +1,5 @@
 /* eslint-disable prefer-destructuring */
-import { MetricsDataResponse } from '../../types/Metrics'
+import { DashboardDataResponse } from '../../types/Metrics'
 import ChartCardUtils from './utils'
 import { mockTimeSeriesDataLastSixMonths } from '../../../../test-app/mocks/mockClients/dashboards/definitions/data-quality/data'
 import {
@@ -10,7 +10,7 @@ import { mockEthnicityBarChart } from '../../../../test-app/mocks/mockClients/da
 import { DashboardVisualisation } from '../_dashboards/dashboard/types'
 
 describe('ChartCard Utils', () => {
-  let dashboardMetricsData: MetricsDataResponse[][]
+  let dashboardMetricsData: DashboardDataResponse[][]
   let visualisationDefinition: DashboardVisualisation
 
   beforeEach(() => {

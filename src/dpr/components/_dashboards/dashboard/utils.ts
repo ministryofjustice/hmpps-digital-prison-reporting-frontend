@@ -10,7 +10,7 @@ import {
   type DashboardUISection,
   type DashboardVisualisation,
 } from './types'
-import type { MetricsDataResponse } from '../../../types/Metrics'
+import type { DashboardDataResponse } from '../../../types/Metrics'
 import type { RequestedReport } from '../../../types/UserReports'
 import { ReportType } from '../../../types/UserReports'
 import type { components } from '../../../types/api'
@@ -97,7 +97,7 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
 
 const getSections = (
   dashboardDefinition: DashboardDefinition,
-  dashboardData: MetricsDataResponse[][],
+  dashboardData: DashboardDataResponse[][],
 ): DashboardUISection[] => {
   return dashboardDefinition.sections.map((section: DashboardSection) => {
     const { id, display: title, description } = section
@@ -188,7 +188,7 @@ export default {
     })
 
     // Get the results data
-    const dashboardData: MetricsDataResponse[][] = await services.dashboardService.getAsyncDashboard(
+    const dashboardData: DashboardDataResponse[][] = await services.dashboardService.getAsyncDashboard(
       token,
       id,
       reportId,

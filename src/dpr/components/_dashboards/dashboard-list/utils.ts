@@ -1,12 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { MoJTable, MoJTableRow } from '../../../types/Charts'
-import { MetricsDataResponse } from '../../../types/Metrics'
+import { DashboardDataResponse } from '../../../types/Metrics'
 import { DashboardVisualisation, DashboardVisualisationColumn } from '../dashboard/types'
 import DashboardSectionUtils from '../dashboard-section/utils'
 
 const createList = (
   listDefinition: DashboardVisualisation,
-  dashboardData: MetricsDataResponse[][],
+  dashboardData: DashboardDataResponse[][],
 ): { table: MoJTable; ts: string } => {
   const dataSnapshot = dashboardData[dashboardData.length - 1]
   const head = listDefinition.columns.measures.map((column) => {
@@ -55,7 +55,7 @@ const sumColumns = (rowsData: MoJTableRow[][], columns: DashboardVisualisationCo
   return rowsData
 }
 
-const createTableRows = (data: MetricsDataResponse[]): MoJTableRow[][] => {
+const createTableRows = (data: DashboardDataResponse[]): MoJTableRow[][] => {
   return data.map((dataRow) => {
     return Object.keys(dataRow).map((key) => {
       const text = dataRow[key].raw

@@ -2,7 +2,7 @@
 import { MoJTable, MoJTableRow } from '../../../types/Charts'
 import { DashboardDataResponse } from '../../../types/Metrics'
 import { DashboardVisualisation, DashboardVisualisationColumn } from '../dashboard/types'
-import DashboardSectionUtils from '../dashboard-section/utils'
+import DatasetHelper from '../../../utils/datasetHelper'
 
 const createList = (
   listDefinition: DashboardVisualisation,
@@ -12,10 +12,10 @@ const createList = (
   const head = listDefinition.columns.measures.map((column) => {
     return { text: column.display }
   })
-  const dataSetRows = DashboardSectionUtils.getDatasetRows(listDefinition, dataSnapshot)
+  const dataSetRows = DatasetHelper.getDatasetRows(listDefinition, dataSnapshot)
   const timestamp = dataSetRows[0]?.ts?.raw
   const ts = timestamp ? `${timestamp}` : ''
-  const filtered = DashboardSectionUtils.filterRowsByDisplayColumns(listDefinition, dataSetRows)
+  const filtered = DatasetHelper.filterRowsByDisplayColumns(listDefinition, dataSetRows)
 
   let rows = createTableRows(filtered)
   if (rows.length) rows = sumColumns(rows, listDefinition.columns.measures)

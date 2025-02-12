@@ -1,7 +1,7 @@
-import { DashboardVisualisation } from '../dashboard/types'
-import DashboardSectionUtils from './utils'
+import { DashboardVisualisation } from '../components/_dashboards/dashboard/types'
+import DatasetHelper from './datasetHelper'
 
-describe('DashboardSectionUtils', () => {
+describe('DatasetHelper', () => {
   describe('getDatasetRows', () => {
     describe('get the data set rows', () => {
       it('target rows with some null values', () => {
@@ -58,7 +58,7 @@ describe('DashboardSectionUtils', () => {
           },
         } as unknown as DashboardVisualisation
 
-        const result = DashboardSectionUtils.getDatasetRows(definition, dataset)
+        const result = DatasetHelper.getDatasetRows(definition, dataset)
         expect(result).toEqual(expectedResult)
       })
 
@@ -122,7 +122,7 @@ describe('DashboardSectionUtils', () => {
           },
         } as unknown as DashboardVisualisation
 
-        const result = DashboardSectionUtils.getDatasetRows(definition, dataset)
+        const result = DatasetHelper.getDatasetRows(definition, dataset)
         expect(result).toEqual(expectedResult)
       })
 
@@ -166,7 +166,7 @@ describe('DashboardSectionUtils', () => {
           },
         } as unknown as DashboardVisualisation
 
-        const result = DashboardSectionUtils.getDatasetRows(definition, dataset)
+        const result = DatasetHelper.getDatasetRows(definition, dataset)
         expect(result).toEqual(expectedResult)
       })
 
@@ -275,7 +275,7 @@ describe('DashboardSectionUtils', () => {
           },
         } as unknown as DashboardVisualisation
 
-        const result = DashboardSectionUtils.getDatasetRows(definition, dataset)
+        const result = DatasetHelper.getDatasetRows(definition, dataset)
         expect(result).toEqual(expectedResult)
       })
     })
@@ -324,7 +324,7 @@ describe('DashboardSectionUtils', () => {
           total_prisoners: { raw: '6' },
         },
       ]
-      const result = DashboardSectionUtils.filterRowsByDisplayColumns(definition, data)
+      const result = DatasetHelper.filterRowsByDisplayColumns(definition, data)
       expect(result).toEqual(expectedResult)
     })
 
@@ -372,7 +372,7 @@ describe('DashboardSectionUtils', () => {
           wing: { raw: 'I' },
         },
       ]
-      const result = DashboardSectionUtils.filterRowsByDisplayColumns(definition, data, true)
+      const result = DatasetHelper.filterRowsByDisplayColumns(definition, data, true)
       expect(result).toEqual(expectedResult)
     })
   })

@@ -14,7 +14,7 @@ import {
   DashboardVisualisationColumns,
   DashboardVisualisationType,
 } from '../_dashboards/dashboard/types'
-import DashboardSectionUtils from '../_dashboards/dashboard-section/utils'
+import DatasetHelper from '../../utils/datasetHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 
 const createChart = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[][]): ChartCardData => {
@@ -27,8 +27,8 @@ const createChart = (chartDefinition: DashboardVisualisation, rawData: Dashboard
 
   if (timeseriesChartTypes.includes(type)) {
     const timeseriesData = rawData.map((timesetData: DashboardDataResponse[]) => {
-      const dataSetRows = DashboardSectionUtils.getDatasetRows(chartDefinition, timesetData)
-      return DashboardSectionUtils.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
+      const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, timesetData)
+      return DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
     })
 
     chart = createTimeseriesChart(chartDefinition, timeseriesData)
@@ -36,8 +36,8 @@ const createChart = (chartDefinition: DashboardVisualisation, rawData: Dashboard
     details = getChartDetails(chartDefinition, timeseriesData[timeseriesData.length - 1], true)
   } else {
     const data = rawData[rawData.length - 1]
-    const dataSetRows = DashboardSectionUtils.getDatasetRows(chartDefinition, data)
-    const snapshotData = DashboardSectionUtils.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
+    const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, data)
+    const snapshotData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
 
     chart = createSnapshotChart(chartDefinition, snapshotData)
     table = createSnapshotTable(chartDefinition, dataSetRows)
@@ -79,7 +79,11 @@ const getChartDetails = (
 // TODO: Implement headlines for charts:
 // - If timeseries chart: use latest value
 // - If snapshot chart: use first value
-const createHeadlines = (chartDefinition: DashboardVisualisation, data: DashboardDataResponse[], timeseries = false) => {
+const createHeadlines = (
+  chartDefinition: DashboardVisualisation,
+  data: DashboardDataResponse[],
+  timeseries = false,
+) => {
   const headlines: ChartMetaData[] = []
   const { columns } = chartDefinition
   const { measures } = columns
@@ -210,7 +214,7 @@ const createSnapshotTable = (chartDefinition: DashboardVisualisation, data: Dash
     includeKeys = true
   }
 
-  const filteredRowData = DashboardSectionUtils.filterRowsByDisplayColumns(chartDefinition, data, includeKeys)
+  const filteredRowData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, data, includeKeys)
   const head = headerColumns.map((column) => {
     return { text: column.display }
   })
@@ -279,7 +283,7 @@ const createTimeseriesTable = (
     headerColumns = [...keys, ...headerColumns]
     headerColumns.unshift(timestampCol)
   } else {
-    flatTimeseriesData = DashboardSectionUtils.filterRowsByDisplayColumns(chartDefinition, flatTimeseriesData)
+    flatTimeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, flatTimeseriesData)
   }
 
   const head = headerColumns.map((column) => {

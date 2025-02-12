@@ -6,18 +6,18 @@ import {
   ScorecardVisualisationColumn,
 } from '../dashboard/types'
 import { Scorecard, ScorecardTrend } from './types'
-import DashboardSectionUtils from '../dashboard-section/utils'
+import DatasetHelper from '../../../utils/datasetHelper'
 
 const getDataset = (scorecardDefinition: DashboardVisualisation, rawData: DashboardDataResponse[][]) => {
   const latestData = rawData[rawData.length - 1]
-  const latestDataSetRows = DashboardSectionUtils.getDatasetRows(scorecardDefinition, latestData)
+  const latestDataSetRows = DatasetHelper.getDatasetRows(scorecardDefinition, latestData)
   const latestTs = latestDataSetRows[0]?.ts?.raw
-  const latestFiltered = DashboardSectionUtils.filterRowsByDisplayColumns(scorecardDefinition, latestDataSetRows)
+  const latestFiltered = DatasetHelper.filterRowsByDisplayColumns(scorecardDefinition, latestDataSetRows)
 
   const earliestData = rawData[0]
-  const earliestDataSetRows = DashboardSectionUtils.getDatasetRows(scorecardDefinition, earliestData)
+  const earliestDataSetRows = DatasetHelper.getDatasetRows(scorecardDefinition, earliestData)
   const earliestTs = earliestDataSetRows[0]?.ts?.raw
-  const earliestfiltered = DashboardSectionUtils.filterRowsByDisplayColumns(scorecardDefinition, earliestDataSetRows)
+  const earliestfiltered = DatasetHelper.filterRowsByDisplayColumns(scorecardDefinition, earliestDataSetRows)
 
   return {
     earliest: earliestfiltered,

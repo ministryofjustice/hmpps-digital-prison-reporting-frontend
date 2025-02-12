@@ -1,10 +1,11 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
-const dashboardDefinitions = require('./mockDashboardDefinition')
+const dayjs = require('dayjs')
+const dashboardDefinitions = require('./dashboard-definitions')
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
-const mockDahsboardData = require('./mockDashboardData')
-const mockDahsboardDataHelper = require('./mockDashboardResponseData')
-const { mockDashboardListData } = require('./mockDashboardListData')
+const { generateAgeBreakdownData } = require('./definitions/age-breakdown/data')
+const { createTimeSeriesData } = require('./definitions/data-quality/data')
+const MockDataHelper = require('./mockDataHelper')
 
 class MockDashboardClient {
   constructor() {
@@ -51,9 +52,9 @@ class MockDashboardClient {
     const def = await this.getDefinition('token', dashboardId)
     if (def) {
       const data = getData(def, dashboardId, query)
-      const filteredData = filterByEstablishmentId(query, data)
+      // console.log(JSON.stringify({ data }, null, 2))
       return new Promise((resolve) => {
-        resolve(filteredData)
+        resolve(data)
       })
     }
     return new Promise((resolve) => {
@@ -79,17 +80,34 @@ class MockDashboardClient {
 }
 
 const getData = (def, dashboardId, query) => {
-  if (['test-dashboard-10'].includes(dashboardId)) {
-    const start = query['filters.date.start']
-    const end = query['filters.date.end']
-    const granularity = query['filters.date.granularity']
-    const data = mockDahsboardDataHelper.createTimeSeriesData(start, end, granularity, 3)
-    return data
+  // Age Breakdown report
+  if (['age-breakdown-dashboard-1', 'age-breakdown-dashboard-2'].includes(dashboardId)) {
+    const establishmentId = query['filters.establishment_id']
+    const wing = query['filters.wing']
+    return generateAgeBreakdownData(establishmentId, wing)
   }
-  if (['test-dashboard-11'].includes(dashboardId)) {
-    return mockDashboardListData
+
+  const start = query['filters.date.start'] || dayjs().format('YYYY-MM-DD')
+  const end = query['filters.date.end'] || dayjs().format('YYYY-MM-DD')
+  const granularity = query['filters.date.granularity'] || 'daily'
+
+  if (['mock-data-dashboard-1'].includes(dashboardId)) {
+    const data = {
+      total_prisoners: 'number',
+      empty_column_1: 'null',
+      empty_column_2: 'null',
+      random_metric: 'number',
+      random_metric_2: 'number',
+    }
+    const mockData = MockDataHelper.createTimeSeriesData(start, end, granularity, data, 3, true)
+    const filteredData = filterByEstablishmentId(query, mockData)
+    return filteredData
   }
-  return mockDahsboardData[dashboardId]
+
+  const data = createTimeSeriesData(start, end, granularity, 3)
+  const filteredData = filterByEstablishmentId(query, data)
+
+  return filteredData
 }
 
 const filterByEstablishmentId = (query, data) => {

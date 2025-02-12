@@ -5,7 +5,7 @@ import { Services } from '../types/Services'
 import { ReportType } from '../types/UserReports'
 import { components } from '../types/api'
 import variant1 from '../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
-import dashboardDefinitions from '../../../test-app/mocks/mockClients/dashboards/mockDashboardDefinition'
+import dashboardDefinitions from '../../../test-app/mocks/mockClients/dashboards/dashboard-definitions'
 import type DashboardService from '../services/dashboardService'
 import type RequestedReportService from '../services/requestedReportService'
 import type RecentlyViewedStoreService from '../services/recentlyViewedService'
@@ -154,7 +154,7 @@ describe('RequestReportUtils', () => {
           definitionPath: undefined,
           csrfToken: 'csrfToken',
           template: undefined,
-          metrics: dashboardDefinitions[0].metrics,
+          sections: dashboardDefinitions[0].sections,
           type: 'dashboard',
         },
       })
@@ -222,7 +222,7 @@ describe('RequestReportUtils', () => {
           definitionPath: 'dataProductDefinitionsPath',
           csrfToken: 'csrfToken',
           template: undefined,
-          metrics: dashboardDefinitions[0].metrics,
+          sections: dashboardDefinitions[0].sections,
           type: 'dashboard',
         },
       })
@@ -271,7 +271,7 @@ describe('RequestReportUtils', () => {
         href: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request',
         search: '',
         id: 'test-dashboard-1',
-        metrics: '[{"id":"test-metric-id-1"},{"id":"test-metric-id-2"}]',
+        sections: '[{"id":"test-section-id-1"},{"id":"test-section-id-2"}]',
       }
     })
 

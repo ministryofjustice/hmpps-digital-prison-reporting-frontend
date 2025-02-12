@@ -1,0 +1,36 @@
+{% from "../../_charts/chart-card/view.njk" import dprChartCard %}
+{% from "../scorecard-group/view.njk" import dprScoreCardGroup %}
+{% from "../dashboard-list/view.njk" import dprDashboardList %}
+
+{% macro dprDashboardVisualisation(visualisation, index = 1) %}
+  {% set type = visualisation.type %}
+  {% set id = visualisation.id %}
+  {% set title = visualisation.title %}
+  {% set description = visualisation.description %}
+  {% set data = visualisation.data %}
+
+  <div class="dashboard-visualisation-container" id="{{ id }}-dash-section-visualisation">
+    {% if title %}
+      <h3 class="govuk-heading-s">{{ title }}</h3>
+    {% endif %}
+
+    {% if description %}
+      <p class="govuk-body">{{ description }}</p>
+    {% endif %}
+
+    {% if type === 'bar' or type === 'line' or type === 'doughnut' %}
+
+      {{ dprChartCard(id, data) }}
+
+    {% elif type === 'scorecard-group' %}
+
+      {{ dprScoreCardGroup(id, data) }}
+
+    {% elif type === 'list' %}  
+
+      {{ dprDashboardList(id, data) }}
+
+    {% endif %}
+
+  </div>
+{% endmacro %}

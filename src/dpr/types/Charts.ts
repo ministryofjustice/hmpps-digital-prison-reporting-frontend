@@ -1,17 +1,37 @@
 export interface ChartData {
   type: ChartType
-  unit: ChartUnit
+  unit?: UnitType
   data: ChartDataValues
+  timeseries?: boolean
 }
 
-export enum ChartUnit {
+export interface ChartDetails {
+  meta?: ChartMetaData[]
+  headlines?: ChartMetaData[]
+}
+
+export interface ChartMetaData {
+  label: string
+  value: string | number
+  legend?: string
+}
+
+export enum UnitType {
   NUMBER = 'number',
   PERCENTAGE = 'percentage',
 }
 
+export enum ChartType {
+  DONUT = 'doughnut',
+  BAR = 'bar',
+  BAR_TIMESERIES = 'bar-timeseries',
+  LINE = 'line',
+}
+
 export interface ChartCardData {
-  chart: ChartData[]
+  chart: ChartData
   table?: MoJTable
+  details?: ChartDetails
 }
 
 export interface ChartDataValues {
@@ -24,12 +44,6 @@ export interface ChartDataset {
   label: string
   data: number[]
   total: number
-}
-
-export enum ChartType {
-  DONUT = 'doughnut',
-  BAR = 'bar',
-  LINE = 'line',
 }
 
 export interface MoJTable {
@@ -51,7 +65,7 @@ export interface ChartCardValue {
   value: string | number
   name: string
   display: string
-  unit?: ChartUnit
+  unit?: UnitType
   chart?: ChartType[]
 }
 

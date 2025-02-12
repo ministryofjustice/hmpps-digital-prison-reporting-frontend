@@ -1,4 +1,4 @@
-import { DashboardDefinition } from '../types/Dashboards'
+import { DashboardDefinition } from '../components/_dashboards/dashboard/types'
 import Dict = NodeJS.Dict
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

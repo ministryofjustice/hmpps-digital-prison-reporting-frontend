@@ -1,29 +1,35 @@
 /* eslint-disable no-param-reassign */
-import { MoJTable, MoJTableHead, MoJTableRow } from '../../../types/Charts'
-import { MetricsDataResponse } from '../../../types/Metrics'
-import { DashboardList, DashboardListsColumn } from './types'
+import { MoJTable, MoJTableRow } from '../../../types/Charts'
+import { DashboardDataResponse } from '../../../types/Metrics'
+import { DashboardVisualisation, DashboardVisualisationColumn } from '../dashboard/types'
+import DatasetHelper from '../../../utils/datasetHelper'
 
-const createList = (listDefinition: DashboardList, dashboardData: MetricsDataResponse[][]): MoJTable => {
+const createList = (
+  listDefinition: DashboardVisualisation,
+  dashboardData: DashboardDataResponse[][],
+): { table: MoJTable; ts: string } => {
   const dataSnapshot = dashboardData[dashboardData.length - 1]
-  const columns: DashboardListsColumn[] = [...listDefinition.columns.dimensions]
-  let rowsData = createTableRows(listDefinition, dataSnapshot)
-  rowsData = sumColumns(rowsData, columns)
-  return createTable(columns, rowsData)
-}
-
-const createTable = (columns: DashboardListsColumn[], filterFields: MoJTableRow[][]) => {
-  const rows: MoJTableRow[][] = filterFields
-  const head: MoJTableHead[] = columns.map((column) => {
+  const head = listDefinition.columns.measures.map((column) => {
     return { text: column.display }
   })
+  const dataSetRows = DatasetHelper.getDatasetRows(listDefinition, dataSnapshot)
+  const timestamp = dataSetRows[0]?.ts?.raw
+  const ts = timestamp ? `${timestamp}` : ''
+  const filtered = DatasetHelper.filterRowsByDisplayColumns(listDefinition, dataSetRows)
+
+  let rows = createTableRows(filtered)
+  if (rows.length) rows = sumColumns(rows, listDefinition.columns.measures)
 
   return {
-    rows,
-    head,
+    table: {
+      head,
+      rows,
+    },
+    ts,
   }
 }
 
-const sumColumns = (rowsData: MoJTableRow[][], columns: DashboardListsColumn[]) => {
+const sumColumns = (rowsData: MoJTableRow[][], columns: DashboardVisualisationColumn[]) => {
   const sumColumnIndexes: number[] = columns
     .map((col, index) => (col.aggregate ? index : undefined))
     .filter((index) => index)
@@ -40,51 +46,25 @@ const sumColumns = (rowsData: MoJTableRow[][], columns: DashboardListsColumn[]) 
         acc += +row[index].text
         return acc
       }, 0)
-      rowsData[rowsData.length - 1][index] = { html: `<strong>${total}<strong>` }
+      rowsData[rowsData.length - 1][index] = {
+        html: `<strong>${total}<strong>`,
+      }
     })
   }
 
   return rowsData
 }
 
-const createTableRows = (listDefinition: DashboardList, dashboardData: MetricsDataResponse[]) => {
-  const { keys, dimensions } = listDefinition.columns
-  const displayColumnsIds = dimensions.map((col) => col.id)
-  const keyColumnsIds = keys.map((col) => col.id)
-
-  const filtered: MoJTableRow[][] = dashboardData
-    .filter((datasetRow: MetricsDataResponse) => {
-      const validRow: boolean[] = []
-      Object.keys(datasetRow).forEach((datasetField) => {
-        const value = datasetRow[datasetField].raw
-        let valid = false
-        if (displayColumnsIds.includes(datasetField) || keyColumnsIds.includes(datasetField)) {
-          valid = value !== '' && value !== undefined && value !== null
-        } else {
-          valid = value === '' || value === undefined || value === null
-        }
-        validRow.push(valid)
-      })
-
-      return validRow.every((val) => val)
+const createTableRows = (data: DashboardDataResponse[]): MoJTableRow[][] => {
+  return data.map((dataRow) => {
+    return Object.keys(dataRow).map((key) => {
+      const text = dataRow[key].raw
+      return { text } as MoJTableRow
     })
-    .map((datasetRow: MetricsDataResponse) => {
-      return Object.keys(datasetRow)
-        .filter((key) => displayColumnsIds.includes(key))
-        .reduce((acc, key) => {
-          acc[key] = datasetRow[key]
-          return acc
-        }, {} as unknown as MetricsDataResponse)
-    })
-    .map((dataRow) => {
-      return Object.keys(dataRow).map((key) => {
-        return { text: dataRow[key].raw } as MoJTableRow
-      })
-    })
-
-  return filtered
+  })
 }
 
 export default {
   createList,
+  createTableRows,
 }

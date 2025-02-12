@@ -1,10 +1,8 @@
 import { Response, Request, NextFunction } from 'express'
 import { Services } from './Services'
 import { components } from './api'
-import { DashboardMetricDefinition } from './Dashboards'
 import { ReportType } from './UserReports'
-import { ScorecardGroup } from '../components/_dashboards/scorecard/types'
-import { DashboardList } from '../components/_dashboards/dashboard-list/types'
+import { DashboardSection } from '../components/_dashboards/dashboard/types'
 
 export interface AsyncReportUtilsParams {
   req?: Request
@@ -33,9 +31,7 @@ export interface RequestDataResult {
     definitionPath: string
     csrfToken: string
     template?: string
-    metrics?: DashboardMetricDefinition[]
-    lists?: DashboardList[]
-    scorecards?: ScorecardGroup[]
+    sections: DashboardSection[]
     type: ReportType
     defaultInteractiveQueryString?: string
   }

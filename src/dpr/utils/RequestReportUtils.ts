@@ -6,7 +6,7 @@ import type ReportingService from '../services/reportingService'
 import { ReportType, RequestFormData, RequestStatus } from '../types/UserReports'
 import filtersHelper from '../components/_async/async-filters-form/utils'
 import { components } from '../types/api'
-import { DashboardDefinition } from '../types/Dashboards'
+import { DashboardDefinition } from '../components/_dashboards/dashboard/types'
 import { Services } from '../types/Services'
 import { SetQueryFromFiltersResult } from '../components/_async/async-filters-form/types'
 import type DashboardService from '../services/dashboardService'
@@ -69,7 +69,7 @@ export const updateStore = async ({
         .addRequestUrls()
         .addStatus(RequestStatus.SUBMITTED)
         .addTimestamp()
-        .addMetrics(JSON.parse(req.body.metrics))
+        .addMetrics(JSON.parse(req.body.sections))
         .build()
       break
     }
@@ -228,14 +228,13 @@ const renderDashboardRequestData = async ({
     <string>definitionPath,
   )
 
-  const { name, description, metrics, lists } = dashboardDefinition
+  const { name, description, sections } = dashboardDefinition
 
   return {
     reportName,
     name,
     description,
-    metrics,
-    lists,
+    sections,
   }
 }
 
@@ -339,8 +338,7 @@ export default {
       let description
       let template
       let fields: components['schemas']['FieldDefinition'][]
-      let metrics
-      let lists
+      let sections
       let interactive
       let defaultInteractiveQueryString
 
@@ -354,7 +352,7 @@ export default {
       }
 
       if (type === ReportType.DASHBOARD) {
-        ;({ name, reportName, description, metrics, lists } = await renderDashboardRequestData({
+        ;({ name, reportName, description, sections } = await renderDashboardRequestData({
           token,
           reportId,
           id,
@@ -380,8 +378,7 @@ export default {
           ...(defaultInteractiveQueryString?.length && { defaultInteractiveQueryString }),
           csrfToken,
           template,
-          metrics,
-          lists,
+          sections,
           type: type as ReportType,
         },
       }

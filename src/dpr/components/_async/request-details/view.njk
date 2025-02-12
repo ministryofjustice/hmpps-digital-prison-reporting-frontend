@@ -8,6 +8,7 @@
   {% set requestedTimestamp = reportData.requestedTimestamp %}
   {% set metrics = reportData.metrics %}
   {% set lists = reportData.lists %}
+  {% set sections = reportData.sections %}
 
   {% set filtersHtml %}
   {% if querySummary.length > 0 %}
@@ -92,7 +93,7 @@
         {% if metrics.length %}
           <tr>
             <td class="dpr-request-details__table-heading">
-              <p class="govuk-body-m dpr-request-details__table-heading_name">No of metrics:</p>
+              <p class="govuk-body-m dpr-request-details__table-heading_name">No of sections:</p>
             </td>
             <td>
               {{ metrics.length }}
@@ -102,7 +103,7 @@
           {% if metrics[0].name %}
           <tr>
             <td class="dpr-request-details__table-heading">
-              <p class="govuk-body-m dpr-request-details__table-heading_name">Metrics: </p>
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Sections: </p>
             </td>
             <td>
               <ul class="govuk-list govuk-list--bullet">
@@ -118,26 +119,26 @@
 
         {% endif %}
 
-        {% if lists.length %}
+        {% if sections.length %}
           <tr>
             <td class="dpr-request-details__table-heading">
-              <p class="govuk-body-m dpr-request-details__table-heading_name">No of lists:</p>
+              <p class="govuk-body-m dpr-request-details__table-heading_name">No of sections:</p>
             </td>
             <td>
-              {{ lists.length }}
+              {{ sections.length }}
             </td>
           </tr>
           
-          {% if lists[0].name %}
+          {% if sections[0].display %}
           <tr>
             <td class="dpr-request-details__table-heading">
-              <p class="govuk-body-m dpr-request-details__table-heading_name">Lists: </p>
+              <p class="govuk-body-m dpr-request-details__table-heading_name">Sections: </p>
             </td>
             <td>
               <ul class="govuk-list govuk-list--bullet">
-                {% for list in lists %}
+                {% for section in sections %}
                   <li>
-                    {{ list.name }}
+                    {{ section.display }}
                   </li>
                 {% endfor %}
               </ul>

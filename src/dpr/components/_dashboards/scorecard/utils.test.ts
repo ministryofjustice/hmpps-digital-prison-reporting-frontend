@@ -1,107 +1,182 @@
-import { mockDashboardDataAnalticsScoreCardGroup } from '../../../../../test-app/mocks/mockClients/dashboards/mockDashboardScoreCardDefinitions'
-import { mockTimeSeriesDataLastSixMonths } from '../../../../../test-app/mocks/mockClients/dashboards/mockDashboardResponseData'
-import { MetricsDataResponse } from '../../../types/Metrics'
+import { mockTimeSeriesDataLastSixMonths } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/data-quality/data'
+import { DashboardDataResponse } from '../../../types/Metrics'
 import ScorecardUtils from './utils'
+import { Scorecard } from './types'
 
-describe('Score cards Utils', () => {
-  let rawData: MetricsDataResponse[][]
+import {
+  mockScorecardDefinitionNationality,
+  mockTargetScorecardDefinitionReligion,
+  mockScorecardGroupReligionByEstablishment,
+} from '../../../../../test-app/mocks/mockClients/dashboards/definitions/data-quality/vis-definitions'
+import { DashboardUIVisualisation, DashboardVisualisation, DashboardVisualisationType } from '../dashboard/types'
+import { ChartCardData } from '../../../types/Charts'
+
+describe('ScorecardUtils', () => {
+  let mockDataQualityData: DashboardDataResponse[][]
+
+  let scorecardData1: Scorecard
+  let scorecardData2: Scorecard
 
   beforeEach(() => {
-    rawData = mockTimeSeriesDataLastSixMonths as unknown as MetricsDataResponse[][]
+    mockDataQualityData = mockTimeSeriesDataLastSixMonths as unknown as DashboardDataResponse[][]
+    scorecardData1 = {
+      rag: {
+        color: 'red',
+        score: 2,
+      },
+      title: 'No of prisoners with nationality',
+      trend: {
+        direction: 1,
+        from: 'Aug 24',
+        value: 225,
+      },
+      value: 684,
+      valueFor: 'Jan 25',
+    }
+
+    scorecardData2 = {
+      rag: {
+        color: 'red',
+        score: 2,
+      },
+      title: 'No of prisoners with religion in SLI',
+      trend: {
+        direction: 1,
+        from: 'Aug 24',
+        value: 13,
+      },
+      value: 771,
+      valueFor: 'Jan 25',
+    }
+  })
+
+  describe('createScorecard', () => {
+    it('should create single scorecard', () => {
+      const scorecard: Scorecard = ScorecardUtils.createScorecard(
+        mockScorecardDefinitionNationality as DashboardVisualisation,
+        mockDataQualityData,
+      )
+
+      expect(scorecard).toEqual(scorecardData1)
+    })
+
+    it('should create single scorecard targeting a value', () => {
+      const scorecard: Scorecard = ScorecardUtils.createScorecard(
+        mockTargetScorecardDefinitionReligion as DashboardVisualisation,
+        mockDataQualityData,
+      )
+
+      expect(scorecard).toEqual(scorecardData2)
+    })
   })
 
   describe('createScorecards', () => {
-    it('should create the scorecards', () => {
-      const result = ScorecardUtils.createScorecards(mockDashboardDataAnalticsScoreCardGroup.scorecards, rawData)
+    it('should create a scorecard group', () => {
+      const scorecard: Scorecard[] = ScorecardUtils.createScorecards(
+        mockScorecardGroupReligionByEstablishment as DashboardVisualisation,
+        mockDataQualityData,
+      )
 
-      const expectedScorcardGroup = [
+      expect(scorecard).toEqual([
         {
-          title: 'No. of Prisoners with ethnicity',
-          value: 533,
-          rag: {
-            score: 1,
-            color: 'yellow',
-          },
-          valueFor: 'Jan 25',
-          trend: {
-            direction: 1,
-            value: 109,
-            from: 'Aug 24',
-          },
-        },
-        {
-          title: 'No. of Prisoners with no ethnicity',
-          value: 614,
-          rag: {
-            score: 2,
-            color: 'red',
-          },
-          valueFor: 'Jan 25',
-          trend: {
-            direction: -1,
-            value: 167,
-            from: 'Aug 24',
-          },
-        },
-        {
-          title: 'No. of Prisoners with nationality',
-          value: 684,
-          rag: {
-            score: 2,
-            color: 'red',
-          },
-          valueFor: 'Jan 25',
-          trend: {
-            direction: 1,
-            value: 225,
-            from: 'Aug 24',
-          },
-        },
-        {
-          title: 'No. of Prisoners with no nationality',
-          value: 665,
-          rag: {
-            score: 2,
-            color: 'red',
-          },
-          valueFor: 'Jan 25',
-          trend: {
-            direction: 1,
-            value: 137,
-            from: 'Aug 24',
-          },
-        },
-        {
-          title: 'No. of Prisoners with religion',
+          rag: { color: 'red', score: 2 },
+          title: 'With religion in Establishment:  MDI',
+          trend: { direction: 1, from: 'Aug 24', value: 104 },
           value: 680,
-          rag: {
-            score: 2,
-            color: 'red',
-          },
           valueFor: 'Jan 25',
-          trend: {
-            direction: 1,
-            value: 104,
-            from: 'Aug 24',
-          },
         },
         {
-          title: 'No. of Prisoners with no religion',
-          value: 799,
-          rag: {
-            score: 2,
-            color: 'red',
-          },
+          rag: { color: 'red', score: 2 },
+          title: 'With religion in Establishment:  SLI',
+          trend: { direction: 1, from: 'Aug 24', value: 13 },
+          value: 771,
           valueFor: 'Jan 25',
-          trend: {
-            direction: 1,
-            value: 352,
-            from: 'Aug 24',
-          },
+        },
+        {
+          rag: { color: 'red', score: 2 },
+          title: 'With religion in Establishment:  DAI',
+          trend: { direction: -1, from: 'Aug 24', value: 86 },
+          value: 648,
+          valueFor: 'Jan 25',
+        },
+      ])
+    })
+  })
+
+  describe('mergeScorecards', () => {
+    it('should merge individual scorecards into a scorecard group', () => {
+      const visualistationData: DashboardUIVisualisation[] = [
+        {
+          id: '1',
+          type: DashboardVisualisationType.SCORECARD,
+          data: scorecardData1,
+        },
+        {
+          id: '2',
+          type: DashboardVisualisationType.SCORECARD,
+          data: scorecardData2,
+        },
+        {
+          id: '3',
+          type: DashboardVisualisationType.BAR,
+          data: {} as unknown as ChartCardData,
+        },
+        {
+          id: '4',
+          type: DashboardVisualisationType.SCORECARD,
+          data: scorecardData1,
+        },
+        {
+          id: '5',
+          type: DashboardVisualisationType.SCORECARD,
+          data: scorecardData2,
         },
       ]
 
-      expect(result).toEqual(expectedScorcardGroup)
+      const dashboardVis = ScorecardUtils.mergeScorecards(visualistationData)
+      expect(dashboardVis).toEqual([
+        {
+          data: [
+            {
+              rag: { color: 'red', score: 2 },
+              title: 'No of prisoners with nationality',
+              trend: { direction: 1, from: 'Aug 24', value: 225 },
+              value: 684,
+              valueFor: 'Jan 25',
+            },
+            {
+              rag: { color: 'red', score: 2 },
+              title: 'No of prisoners with religion in SLI',
+              trend: { direction: 1, from: 'Aug 24', value: 13 },
+              value: 771,
+              valueFor: 'Jan 25',
+            },
+          ],
+          id: '0',
+          type: 'scorecard-group',
+        },
+        { data: {}, id: '3', type: 'bar' },
+        {
+          data: [
+            {
+              rag: { color: 'red', score: 2 },
+              title: 'No of prisoners with nationality',
+              trend: { direction: 1, from: 'Aug 24', value: 225 },
+              value: 684,
+              valueFor: 'Jan 25',
+            },
+            {
+              rag: { color: 'red', score: 2 },
+              title: 'No of prisoners with religion in SLI',
+              trend: { direction: 1, from: 'Aug 24', value: 13 },
+              value: 771,
+              valueFor: 'Jan 25',
+            },
+          ],
+          id: '3',
+          type: 'scorecard-group',
+        },
+      ])
     })
   })
 })

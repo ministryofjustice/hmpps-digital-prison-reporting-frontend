@@ -13,10 +13,10 @@ Feature: Async Dashboard
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
     And I click on a ready viewed dashboard
-    Then I see the dashboard data
-    Then I see the metric data
+    Then I see the dashboard sections
+    Then I see the dashboard chart visualisations
     When I click the table tab
-    Then I see the metric data in a table
+    Then I see the data in a table
 
 
 

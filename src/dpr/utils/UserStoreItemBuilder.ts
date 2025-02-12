@@ -10,8 +10,8 @@ import {
 import Dict = NodeJS.Dict
 import { getDpdPathSuffix } from './urlHelper'
 import { SetQueryFromFiltersResult } from '../components/_async/async-filters-form/types'
-import { DashboardMetricDefinition } from '../types/Dashboards'
 import { ChildReportExecutionData, ExecutionData } from '../types/ExecutionData'
+import { DashboardSection } from '../components/_dashboards/dashboard/types'
 
 export default class UserStoreItemBuilder {
   userStoreItem: UserReportData
@@ -199,11 +199,11 @@ export default class UserStoreItemBuilder {
     return this
   }
 
-  addMetrics = (metrics: DashboardMetricDefinition[]) => {
+  addMetrics = (metrics: DashboardSection[]) => {
     this.userStoreItem = {
       ...this.userStoreItem,
-      metrics: metrics.map((metric: DashboardMetricDefinition) => {
-        return { name: metric.name }
+      metrics: metrics.map((metric: DashboardSection) => {
+        return { name: metric.display }
       }),
     }
     return this

@@ -1,13 +1,13 @@
-import { mockTimeSeriesDataLastSixMonths } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/data-quality/data'
+import { mockTimeSeriesDataLastSixMonths } from '../../../../../test-app/mocks/mockClients/dashboards/data/data-quality-metrics/data'
 import { DashboardDataResponse } from '../../../types/Metrics'
 import ScorecardUtils from './utils'
-import { Scorecard } from './types'
+import { Scorecard, ScorecardSubGroup } from './types'
 
 import {
   mockScorecardDefinitionNationality,
   mockTargetScorecardDefinitionReligion,
   mockScorecardGroupReligionByEstablishment,
-} from '../../../../../test-app/mocks/mockClients/dashboards/definitions/data-quality/vis-definitions'
+} from '../../../../../test-app/mocks/mockClients/dashboards/definitions/data-quality/visualisations'
 import { DashboardUIVisualisation, DashboardVisualisation, DashboardVisualisationType } from '../dashboard/types'
 import { ChartCardData } from '../../../types/Charts'
 
@@ -54,7 +54,7 @@ describe('ScorecardUtils', () => {
     it('should create single scorecard', () => {
       const scorecard: Scorecard = ScorecardUtils.createScorecard(
         mockScorecardDefinitionNationality as DashboardVisualisation,
-        mockDataQualityData,
+        mockDataQualityData.flat(),
       )
 
       expect(scorecard).toEqual(scorecardData1)
@@ -63,7 +63,7 @@ describe('ScorecardUtils', () => {
     it('should create single scorecard targeting a value', () => {
       const scorecard: Scorecard = ScorecardUtils.createScorecard(
         mockTargetScorecardDefinitionReligion as DashboardVisualisation,
-        mockDataQualityData,
+        mockDataQualityData.flat(),
       )
 
       expect(scorecard).toEqual(scorecardData2)
@@ -72,9 +72,9 @@ describe('ScorecardUtils', () => {
 
   describe('createScorecards', () => {
     it('should create a scorecard group', () => {
-      const scorecard: Scorecard[] = ScorecardUtils.createScorecards(
+      const scorecard: Scorecard[] | ScorecardSubGroup[] = ScorecardUtils.createScorecards(
         mockScorecardGroupReligionByEstablishment as DashboardVisualisation,
-        mockDataQualityData,
+        mockDataQualityData.flat(),
       )
 
       expect(scorecard).toEqual([

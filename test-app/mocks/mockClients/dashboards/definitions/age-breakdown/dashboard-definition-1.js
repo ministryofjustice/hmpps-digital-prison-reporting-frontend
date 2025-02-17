@@ -10,15 +10,15 @@ const {
   mockListDefinitionEthnicityAgeRange,
   mockListDefinitionTotalPrisonersByWing,
   mockListDefinitionTotalPrisoners,
-} = require('./vis-definitions')
+} = require('./visualisations/list-definitions-1')
 
 const { establishmentIdFilter, wingFilter } = require('../../filter-definitions')
 
 const ageBreakdownReport1 = {
   id: 'age-breakdown-dashboard-1',
-  name: 'Age Breakdown Dashboard',
+  name: 'Mocked Age Breakdown Dashboard',
   description:
-    'Description of the age breakdown report - This is a mocked data version of the age breakdown report, in order to test and demo dashboards with lists',
+    'This is a mocked data version of the age breakdown report, in order to test and demo dashboards with lists',
   sections: [
     {
       id: 'totals-breakdown',
@@ -60,6 +60,17 @@ const ageBreakdownReport1 = {
       display: 'Total Prisoners by Nationality',
       description: 'This table shows the total prisoners by nationality',
       visualisations: [mockListDefinitionNationality],
+    },
+    {
+      id: 'the-full-dataset',
+      display: 'The full dataset',
+      visualisations: [
+        {
+          id: 'allData',
+          type: 'list',
+          columns: {},
+        },
+      ],
     },
   ],
   filterFields: [establishmentIdFilter, wingFilter],

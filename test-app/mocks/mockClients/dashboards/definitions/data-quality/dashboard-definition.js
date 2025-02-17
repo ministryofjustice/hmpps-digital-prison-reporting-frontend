@@ -5,7 +5,7 @@ const {
   mockNationalityPieChart,
   mockReligionBarChart,
   mockReligionPieChart,
-} = require('./vis-definitions')
+} = require('./visualisations')
 
 const { establishmentIdFilter, granularDateRangeFilter } = require('../../filter-definitions')
 

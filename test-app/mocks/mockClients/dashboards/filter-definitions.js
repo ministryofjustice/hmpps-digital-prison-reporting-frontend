@@ -36,7 +36,7 @@ const establishmentIdFilter = {
   calculated: false,
 }
 
-const wingFilter = {
+const wingFilterCompass = {
   name: 'wing',
   display: 'Wing',
   filter: {
@@ -74,6 +74,44 @@ const wingFilter = {
   calculated: false,
 }
 
+const wingFilter = {
+  name: 'wing',
+  display: 'Wing',
+  filter: {
+    type: 'Select',
+    mandatory: false,
+    staticOptions: [
+      {
+        name: 'I',
+        display: 'I',
+      },
+      {
+        name: 'J',
+        display: 'J',
+      },
+      {
+        name: 'K',
+        display: 'K',
+      },
+      {
+        name: 'L',
+        display: 'L',
+      },
+    ],
+    defaultValue: 'I',
+    dynamicOptions: {
+      minimumLength: null,
+    },
+    interactive: true,
+  },
+  sortable: false,
+  defaultsort: false,
+  type: 'string',
+  mandatory: false,
+  visible: true,
+  calculated: false,
+}
+
 const granularDateRangeFilter = {
   name: 'date',
   display: 'Date',
@@ -94,5 +132,6 @@ const granularDateRangeFilter = {
 module.exports = {
   establishmentIdFilter,
   granularDateRangeFilter,
+  wingFilterCompass,
   wingFilter,
 }

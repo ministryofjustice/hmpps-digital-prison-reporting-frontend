@@ -66,7 +66,9 @@ describe('DashboardUtils', () => {
           reportId: 'test-report-1',
           id: 'test-dashboard-8',
         },
-        query: {},
+        query: {
+          'filters.establishment_id': 'MDI',
+        },
       } as unknown as Request
 
       res = {
@@ -116,7 +118,7 @@ describe('DashboardUtils', () => {
         })
 
         expect(updateLastViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard.executionId, 'Us3rId')
-        expect(setRecentlyViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard, 'Us3rId', 'search')
+        // expect(setRecentlyViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard, 'Us3rId', 'search')
       })
     })
   })

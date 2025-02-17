@@ -7,6 +7,7 @@
   {% set link = scorecard.link %}
   {% set trend = scorecard.trend %}
   {% set valueFor = scorecard.valueFor %}
+  {% set group = scorecard.group %}
 
   {% set trend = scorecard.trend %}
   {% if trend.direction === 1 %}
@@ -19,7 +20,6 @@
     {% set directionIcon = '◼' %}
     {% set directionDisplay = '' %}
   {% endif %}
-
   <div class="dpr-scorecard" data-dpr-module="scorecard">
     <p class="govuk-heading-s govuk-!-margin-bottom-1">
       {{ title }}

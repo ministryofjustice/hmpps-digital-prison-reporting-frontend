@@ -1,5 +1,6 @@
 export interface Scorecard {
   title: string
+  group?: string
   value: number | string
   trend?: ScorecardTrend
   link?: {
@@ -8,6 +9,11 @@ export interface Scorecard {
   }
   valueFor?: string
   rag?: ScorecardRag
+}
+
+export interface ScorecardSubGroup {
+  name: string
+  scorecards: Scorecard[]
 }
 
 export interface ScorecardGroup {

@@ -14,7 +14,7 @@ const {
   mockTargetScorecardDefinitionReligion,
   mockEthnicityBarChartList,
   mockEthnicityLineChartTimeseries,
-} = require('../data-quality/vis-definitions')
+} = require('../data-quality/visualisations')
 
 const { establishmentIdFilter, granularDateRangeFilter } = require('../../filter-definitions')
 

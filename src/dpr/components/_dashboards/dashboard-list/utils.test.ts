@@ -1,13 +1,13 @@
 import DashboardListUtils from './utils'
-import { mockListDefinitionAgeRange1 } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/age-breakdown/vis-definitions'
-import { mockAgeBreakdownData } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/age-breakdown/data'
+import { mockListDefinitionAgeRange1 } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/age-breakdown/visualisations'
+import { mockAgeBreakdownData } from '../../../../../test-app/mocks/mockClients/dashboards/data/age-breakdown/data'
 import { DashboardVisualisation } from '../dashboard/types'
 
 describe('DashboardListUtils', () => {
   describe('createList', () => {
     it('should create the list data', () => {
       const data = mockListDefinitionAgeRange1 as unknown as DashboardVisualisation
-      const result = DashboardListUtils.createList(data, mockAgeBreakdownData)
+      const result = DashboardListUtils.createList(data, mockAgeBreakdownData.flat())
 
       expect(result).toEqual({
         table: {

@@ -17,7 +17,7 @@ const mockAgeRange1TableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '6' },
+    count: { raw: '6' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -37,7 +37,7 @@ const mockAgeRange1TableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '12' },
+    count: { raw: '12' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -57,7 +57,7 @@ const mockAgeRange1TableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '6' },
+    count: { raw: '6' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -77,7 +77,7 @@ const mockAgeRange1TableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '2' },
+    count: { raw: '2' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -97,7 +97,7 @@ const mockAgeRange1TableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '2' },
+    count: { raw: '2' },
   },
 ]
 
@@ -120,7 +120,7 @@ const mockAgeRange2TableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '2' },
+    count: { raw: '2' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -140,7 +140,7 @@ const mockAgeRange2TableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '10' },
+    count: { raw: '10' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -160,7 +160,7 @@ const mockAgeRange2TableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '8' },
+    count: { raw: '8' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -180,7 +180,7 @@ const mockAgeRange2TableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '5' },
+    count: { raw: '5' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -200,7 +200,7 @@ const mockAgeRange2TableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '3' },
+    count: { raw: '3' },
   },
 ]
 
@@ -223,7 +223,7 @@ const mockTotalTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '200' },
+    count: { raw: '200' },
   },
 ]
 
@@ -246,7 +246,7 @@ const mockTotalByWingTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '28' },
+    count: { raw: '28' },
   },
 ]
 
@@ -269,7 +269,7 @@ const mockReligionTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -289,7 +289,7 @@ const mockReligionTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -309,7 +309,7 @@ const mockReligionTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -329,7 +329,7 @@ const mockReligionTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '8' },
+    count: { raw: '8' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -349,7 +349,7 @@ const mockReligionTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '4' },
+    count: { raw: '4' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -369,7 +369,7 @@ const mockReligionTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '6' },
+    count: { raw: '6' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -389,7 +389,7 @@ const mockReligionTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '7' },
+    count: { raw: '7' },
   },
 ]
 
@@ -412,7 +412,7 @@ const mockEthnicTableData = [
     age_range_1_35_44: { raw: '0' },
     age_range_1_45_54: { raw: '0' },
     age_range_1_55_64: { raw: '0' },
-    total_prisoners: { raw: '4' },
+    count: { raw: '4' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -432,7 +432,7 @@ const mockEthnicTableData = [
     age_range_1_35_44: { raw: '6' },
     age_range_1_45_54: { raw: '2' },
     age_range_1_55_64: { raw: '2' },
-    total_prisoners: { raw: '24' },
+    count: { raw: '24' },
   },
 ]
 
@@ -455,7 +455,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -475,7 +475,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -495,7 +495,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -515,7 +515,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -535,7 +535,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -555,7 +555,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -575,7 +575,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -595,7 +595,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -615,7 +615,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -635,7 +635,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -655,7 +655,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -675,7 +675,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -695,7 +695,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -715,7 +715,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -735,7 +735,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -755,7 +755,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -775,7 +775,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '2' },
+    count: { raw: '2' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -795,7 +795,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
   {
     ts: { raw: '2025/01/07' },
@@ -815,7 +815,7 @@ const mockCellTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '1' },
+    count: { raw: '1' },
   },
 ]
 
@@ -838,7 +838,7 @@ const mockNationalityTableData = [
     age_range_1_35_44: { raw: '' },
     age_range_1_45_54: { raw: '' },
     age_range_1_55_64: { raw: '' },
-    total_prisoners: { raw: '28' },
+    count: { raw: '28' },
   },
 ]
 
@@ -900,7 +900,7 @@ const generateAgeBreakdownData = (establishment, wing) => {
       }
     })
   }
-  return [data]
+  return data
 }
 
 module.exports = {

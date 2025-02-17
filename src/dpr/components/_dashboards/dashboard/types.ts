@@ -1,6 +1,6 @@
 import { components } from '../../../types/api'
 import { ChartCardData, MoJTable, UnitType } from '../../../types/Charts'
-import { Scorecard } from '../scorecard/types'
+import { Scorecard, ScorecardSubGroup } from '../scorecard/types'
 
 export interface DashboardDefinition {
   id: string
@@ -29,7 +29,7 @@ export interface DashboardUIVisualisation {
   type: DashboardVisualisationType
   title?: string
   description?: string
-  data: Scorecard | Scorecard[] | ChartCardData | { table: MoJTable; ts: string }
+  data: Scorecard | Scorecard[] | ScorecardSubGroup[] | ChartCardData | { table: MoJTable; ts: string }
 }
 
 export interface DashboardVisualisation {
@@ -38,6 +38,7 @@ export interface DashboardVisualisation {
   display?: string
   description?: string
   columns: DashboardVisualisationColumns
+  showLatest?: boolean
 }
 
 export enum DashboardVisualisationType {
@@ -62,6 +63,7 @@ export interface DashboardVisualisationColumn {
   display: string
   aggregate?: AggregateType
   unit?: UnitType
+  optional?: boolean
 }
 
 export interface ValueVisualisationColumn {

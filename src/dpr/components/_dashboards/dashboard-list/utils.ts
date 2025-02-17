@@ -6,38 +6,24 @@ import DatasetHelper from '../../../utils/datasetHelper'
 
 const createList = (
   listDefinition: DashboardVisualisation,
-  dashboardData: DashboardDataResponse[][],
+  dashboardData: DashboardDataResponse[],
 ): { table: MoJTable; ts: string } => {
-  const dataSnapshot = dashboardData[dashboardData.length - 1]
-  const { columns } = listDefinition
+  const { columns, showLatest = true, id } = listDefinition
   const { measures, keys } = columns
 
-  let visData: DashboardDataResponse[]
+  let datasetData: DashboardDataResponse[] = [...dashboardData]
+  if (showLatest) {
+    datasetData = DatasetHelper.getLastestDataset(datasetData)
+  }
+
   let head
   let rows
-  let timestampData
   let ts
 
-  // If none specified, return all data
   if (!measures && !keys) {
-    const timeseriesVisData = [...dashboardData]
-    head = Object.keys(timeseriesVisData[0][0]).map((key) => {
-      return { text: key }
-    })
-    rows = timeseriesVisData.flatMap((periodData) => {
-      return createTableRows(periodData)
-    })
-    timestampData = timeseriesVisData[0][0]?.ts?.raw
-    ts = timestampData ? `${timestampData}` : ''
+    ;({ head, rows, ts } = showAllData(datasetData))
   } else {
-    head = measures.map((column) => {
-      return { text: column.display }
-    })
-    const dataSetRows = DatasetHelper.getDatasetRows(listDefinition, dataSnapshot)
-    timestampData = dataSetRows[0]?.ts?.raw
-    ts = timestampData ? `${timestampData}` : ''
-    visData = DatasetHelper.filterRowsByDisplayColumns(listDefinition, dataSetRows)
-    rows = createTableRows(visData)
+    ;({ head, rows, ts } = getHeadAndRows(listDefinition, datasetData))
     if (rows.length && measures) rows = sumColumns(rows, measures)
   }
 
@@ -46,6 +32,54 @@ const createList = (
       head,
       rows,
     },
+    ts,
+  }
+}
+
+const createTableRows = (data: DashboardDataResponse[]): MoJTableRow[][] => {
+  return data.map((dataRow) => {
+    return Object.keys(dataRow).map((key) => {
+      const text = dataRow[key].raw
+      return { text } as MoJTableRow
+    })
+  })
+}
+
+const getHeadAndRows = (listDefinition: DashboardVisualisation, dashboardData: DashboardDataResponse[]) => {
+  const { measures } = listDefinition.columns
+  // const latestData = DatasetHelper.getLastestDataset(dashboardData)
+
+  const head = measures.map((column) => {
+    return { text: column.display }
+  })
+
+  const dataSetRows = DatasetHelper.getDatasetRows(listDefinition, dashboardData)
+  const displayRows = DatasetHelper.filterRowsByDisplayColumns(listDefinition, dataSetRows)
+  const rows = createTableRows(displayRows)
+
+  const timestampData = dataSetRows[0]?.ts?.raw
+  const ts = timestampData ? `${timestampData}` : ''
+
+  return {
+    head,
+    rows,
+    ts,
+  }
+}
+
+const showAllData = (dashboardData: DashboardDataResponse[]) => {
+  const head = Object.keys(dashboardData[0]).map((key) => {
+    return { text: key }
+  })
+  const rows = createTableRows(dashboardData)
+
+  const latestData = DatasetHelper.getLastestDataset(dashboardData)
+  const timestampData = latestData[0]?.ts?.raw
+  const ts = timestampData ? `${timestampData}` : ''
+
+  return {
+    head,
+    rows,
     ts,
   }
 }
@@ -74,15 +108,6 @@ const sumColumns = (rowsData: MoJTableRow[][], columns: DashboardVisualisationCo
   }
 
   return rowsData
-}
-
-const createTableRows = (data: DashboardDataResponse[]): MoJTableRow[][] => {
-  return data.map((dataRow) => {
-    return Object.keys(dataRow).map((key) => {
-      const text = dataRow[key].raw
-      return { text } as MoJTableRow
-    })
-  })
 }
 
 export default {

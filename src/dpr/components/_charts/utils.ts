@@ -17,7 +17,7 @@ import {
 import DatasetHelper from '../../utils/datasetHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 
-const createChart = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[][]): ChartCardData => {
+const createChart = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]): ChartCardData => {
   const timeseriesChartTypes = [DashboardVisualisationType.BAR_TIMESERIES, DashboardVisualisationType.LINE]
   const { type } = chartDefinition
 
@@ -26,16 +26,15 @@ const createChart = (chartDefinition: DashboardVisualisation, rawData: Dashboard
   let details: ChartDetails
 
   if (timeseriesChartTypes.includes(type)) {
-    const timeseriesData = rawData.map((timesetData: DashboardDataResponse[]) => {
-      const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, timesetData)
-      return DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
-    })
+    const latestData = DatasetHelper.getLastestDataset(rawData)
+    const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, rawData)
+    const timeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
 
     chart = createTimeseriesChart(chartDefinition, timeseriesData)
-    table = createTimeseriesTable(chartDefinition, timeseriesData)
-    details = getChartDetails(chartDefinition, timeseriesData[timeseriesData.length - 1], true)
+    // table = createTimeseriesTable(chartDefinition, timeseriesData)
+    details = getChartDetails(chartDefinition, latestData, true)
   } else {
-    const data = rawData[rawData.length - 1]
+    const data = DatasetHelper.getLastestDataset(rawData)
     const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, data)
     const snapshotData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
 
@@ -228,24 +227,26 @@ const createSnapshotTable = (chartDefinition: DashboardVisualisation, data: Dash
 
 const createTimeseriesChart = (
   chartDefinition: DashboardVisualisation,
-  timeseriesData: DashboardDataResponse[][],
+  timeseriesData: DashboardDataResponse[],
 ): ChartData => {
+  const timeBlockData = DatasetHelper.groupRowsByTimestamp(timeseriesData)
+
   const { type, columns } = chartDefinition
   const { keys, measures } = columns
 
   const labelId = keys[keys.length - 1].id as keyof DashboardDataResponse
   const unit = measures[0].unit ? measures[0].unit : undefined
 
-  const labels = timeseriesData.map((d: DashboardDataResponse[]) => d[0].ts.raw as unknown as string)
-  const datasetCount = timeseriesData[0].length
+  const labels = timeBlockData.map((d: DashboardDataResponse[]) => d[0].ts.raw as unknown as string)
+  const datasetCount = timeBlockData[0].length
 
   const datasets: ChartDataset[] = []
   for (let index = 0; index < datasetCount; index += 1) {
-    const data = timeseriesData.map((timeperiod) => {
+    const data = timeBlockData.map((timeperiod) => {
       return +timeperiod[index][measures[1].id].raw
     })
     const total = data.reduce((a, c) => a + c, 0)
-    const label = timeseriesData[0][index][labelId].raw as string
+    const label = timeBlockData[0][index][labelId].raw as string
 
     datasets.push({
       data,

@@ -97,7 +97,7 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
 
 const getSections = (
   dashboardDefinition: DashboardDefinition,
-  dashboardData: DashboardDataResponse[][],
+  dashboardData: DashboardDataResponse[],
 ): DashboardUISection[] => {
   return dashboardDefinition.sections.map((section: DashboardSection) => {
     const { id, display: title, description } = section
@@ -196,8 +196,10 @@ export default {
       query,
     )
 
+    const flattenedData: DashboardDataResponse[] = dashboardData.flat()
+
     // Get the dashboard parts
-    const sections: DashboardUISection[] = getSections(dashboardDefinition, dashboardData)
+    const sections: DashboardUISection[] = getSections(dashboardDefinition, flattenedData)
 
     // Update the store
     const dashboardRequestData = await updateStore(services, tableId, userId, sections, url)

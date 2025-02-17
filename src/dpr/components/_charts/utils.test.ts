@@ -1,12 +1,12 @@
 /* eslint-disable prefer-destructuring */
 import { DashboardDataResponse } from '../../types/Metrics'
 import ChartCardUtils from './utils'
-import { mockTimeSeriesDataLastSixMonths } from '../../../../test-app/mocks/mockClients/dashboards/definitions/data-quality/data'
+import { mockTimeSeriesDataLastSixMonths } from '../../../../test-app/mocks/mockClients/dashboards/data/data-quality-metrics/data'
 import {
   barChartDataHasEthnicity,
   barChartFromListDataHasEthnicity,
 } from '../../../../test-app/mocks/mockClients/dashboards/definitions/data-quality/chart-data'
-import { mockEthnicityBarChart } from '../../../../test-app/mocks/mockClients/dashboards/definitions/data-quality/vis-definitions'
+import { mockEthnicityBarChart } from '../../../../test-app/mocks/mockClients/dashboards/definitions/data-quality/visualisations'
 import { DashboardVisualisation } from '../_dashboards/dashboard/types'
 
 describe('ChartCard Utils', () => {
@@ -21,13 +21,13 @@ describe('ChartCard Utils', () => {
   describe('getChartData', () => {
     it('should get the snapshot chart data', async () => {
       const expectedResult = barChartDataHasEthnicity
-      const result = ChartCardUtils.createChart(visualisationDefinition, dashboardMetricsData)
+      const result = ChartCardUtils.createChart(visualisationDefinition, dashboardMetricsData.flat())
       expect(result).toEqual(expectedResult)
     })
 
     it('should create the snapshot chart data from a list', () => {
       const expectedResult = barChartFromListDataHasEthnicity
-      const result = ChartCardUtils.createChart(visualisationDefinition, dashboardMetricsData)
+      const result = ChartCardUtils.createChart(visualisationDefinition, dashboardMetricsData.flat())
       expect(result).toEqual(expectedResult)
     })
   })

@@ -15,7 +15,7 @@ const mockBarChartReligion = {
         axis: 'x',
       },
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'No of prisoners',
         axis: 'y',
       },
@@ -40,7 +40,7 @@ const mockPieChartReligion = {
         axis: 'x',
       },
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'No of prisoners',
         axis: 'y',
       },

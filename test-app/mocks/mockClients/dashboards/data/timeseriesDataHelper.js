@@ -110,7 +110,7 @@ const initBaseData = (baseData, ts) => {
 const initEstablishments = (baseData, establishmentId, timestamp) => {
   let establishmentData = []
   const total = +baseData.count.raw
-  const totals = splitIntoRandomValues(total, 3)
+  const totals = splitIntoRandomValues(total, 4)
   const ts = timestamp ? { raw: timestamp } : { raw: 'Feb 25' }
 
   const base = {
@@ -136,6 +136,12 @@ const initEstablishments = (baseData, establishmentId, timestamp) => {
     count: { raw: totals[2] },
   }
 
+  const ltiData = {
+    ...base,
+    establishment_id: { raw: 'LTI' },
+    count: { raw: totals[2] },
+  }
+
   switch (establishmentId) {
     case 'MDI':
       establishmentData.push(mdiData)
@@ -145,6 +151,12 @@ const initEstablishments = (baseData, establishmentId, timestamp) => {
       break
     case 'DAI':
       establishmentData.push(daiData)
+      break
+    case 'LTI':
+      establishmentData.push(daiData)
+      break
+    case 'ALL':
+      establishmentData = [mdiData, sliData, daiData, ltiData]
       break
     default:
       establishmentData = []

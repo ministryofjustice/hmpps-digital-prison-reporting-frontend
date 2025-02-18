@@ -36,18 +36,21 @@ const createList = (
   }
 }
 
-const createTableRows = (data: DashboardDataResponse[]): MoJTableRow[][] => {
+const createTableRows = (data: DashboardDataResponse[], measures?: DashboardVisualisationColumn[]): MoJTableRow[][] => {
   return data.map((dataRow) => {
-    return Object.keys(dataRow).map((key) => {
+    const row: MoJTableRow[] = measures?.length ? Array(measures.length) : Array(Object.keys(data[0]).length)
+    Object.keys(dataRow).forEach((key, index) => {
+      const headIndex = measures?.length ? measures.findIndex((m) => m.id === key) : index
       const text = dataRow[key].raw
-      return { text } as MoJTableRow
+      row.splice(headIndex, 1, { text } as MoJTableRow)
     })
+
+    return row
   })
 }
 
 const getHeadAndRows = (listDefinition: DashboardVisualisation, dashboardData: DashboardDataResponse[]) => {
   const { measures } = listDefinition.columns
-  // const latestData = DatasetHelper.getLastestDataset(dashboardData)
 
   const head = measures.map((column) => {
     return { text: column.display }
@@ -55,7 +58,7 @@ const getHeadAndRows = (listDefinition: DashboardVisualisation, dashboardData: D
 
   const dataSetRows = DatasetHelper.getDatasetRows(listDefinition, dashboardData)
   const displayRows = DatasetHelper.filterRowsByDisplayColumns(listDefinition, dataSetRows)
-  const rows = createTableRows(displayRows)
+  const rows = createTableRows(displayRows, measures)
 
   const timestampData = dataSetRows[0]?.ts?.raw
   const ts = timestampData ? `${timestampData}` : ''

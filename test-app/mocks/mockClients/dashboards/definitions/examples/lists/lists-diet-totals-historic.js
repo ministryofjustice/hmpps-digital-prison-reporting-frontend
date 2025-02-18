@@ -2,8 +2,8 @@ const { establishmentIdFilter, wingFilterCompass, granularDateRangeFilter } = re
 const { lists } = require('../visualisations')
 
 const historicDietTotals = {
-  id: 'charts-examples-historic-diet-totals',
-  name: 'Charts Examples - Historic Diet Totals',
+  id: 'list-examples-diet-totals-historic',
+  name: 'List Examples - Diet Totals - Historic',
   description: 'List examples',
   sections: [
     {

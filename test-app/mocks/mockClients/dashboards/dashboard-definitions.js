@@ -70,6 +70,12 @@ module.exports = [
   listExamples.fallBackKeysDashboard,
   listExamples.dietTotals,
   listExamples.historicDietTotals,
+  listExamples.dataQuality,
+  listExamples.dataQualityHistoric,
   scorecardExamples.dietTotalsScoreCards,
   chartExamples.historicDietTotals,
+  chartExamples.dietTotals,
+  chartExamples.flexibleDietTotals,
+  chartExamples.dataQuality,
+  chartExamples.dataQualityHistoric,
 ]

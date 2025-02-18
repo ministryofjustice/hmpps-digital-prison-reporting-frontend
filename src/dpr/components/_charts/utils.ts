@@ -11,6 +11,7 @@ import { DashboardDataResponse } from '../../types/Metrics'
 import {
   BarChartVisualisationColumn,
   DashboardVisualisation,
+  DashboardVisualisationColumn,
   DashboardVisualisationColumns,
   DashboardVisualisationType,
 } from '../_dashboards/dashboard/types'
@@ -38,10 +39,14 @@ const createChart = (chartDefinition: DashboardVisualisation, rawData: Dashboard
     const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, data)
     const snapshotData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
 
-    chart = createSnapshotChart(chartDefinition, snapshotData)
-    table = createSnapshotTable(chartDefinition, dataSetRows)
-    details = getChartDetails(chartDefinition, dataSetRows)
+    if (dataSetRows.length) {
+      chart = createSnapshotChart(chartDefinition, snapshotData)
+      table = createSnapshotTable(chartDefinition, dataSetRows)
+      details = getChartDetails(chartDefinition, dataSetRows)
+    }
   }
+
+  console.log(JSON.stringify(chart, null, 2))
 
   return {
     details,
@@ -50,8 +55,24 @@ const createChart = (chartDefinition: DashboardVisualisation, rawData: Dashboard
   }
 }
 
+const getChartGroupKey = (keys: DashboardVisualisationColumn[], rawData: DashboardDataResponse[]) => {
+  const data = rawData[0]
+  let index = keys.length - 1
+  let keyFound = false
+  while (!keyFound) {
+    const k = `${keys[index]?.id}`
+    if (k && index !== -1 && (!data[k] || !data[k].raw || data[k].raw === '' || data[k].raw === null)) {
+      index -= 1
+    } else {
+      keyFound = true
+    }
+  }
+  return index !== -1 ? keys[index] : undefined
+}
+
 export default {
   createChart,
+  getChartGroupKey,
 }
 
 const getChartDetails = (
@@ -75,9 +96,6 @@ const getChartDetails = (
   }
 }
 
-// TODO: Implement headlines for charts:
-// - If timeseries chart: use latest value
-// - If snapshot chart: use first value
 const createHeadlines = (
   chartDefinition: DashboardVisualisation,
   data: DashboardDataResponse[],
@@ -140,7 +158,7 @@ const createSnapshotChart = (
   if (!isListChart) {
     ;({ labels, unit, datasets } = buildChart(columns, snapshotData))
   } else {
-    ;({ labels, unit, datasets } = buildChartFromListData(measures, snapshotData))
+    ;({ labels, unit, datasets } = buildChartFromListData(columns, snapshotData))
   }
 
   return {
@@ -156,11 +174,11 @@ const createSnapshotChart = (
 const buildChart = (columns: DashboardVisualisationColumns, rawData: DashboardDataResponse[]) => {
   const { keys, measures } = columns
   const labels = measures.map((col) => col.display)
-  const labelId = keys[keys.length - 1].id as keyof DashboardDataResponse
+  const labelId = keys[keys.length - 1]?.id as keyof DashboardDataResponse
   const unit = measures[0].unit ? measures[0].unit : undefined
 
   const datasets = rawData.map((row) => {
-    const label = `${row[labelId].raw}`
+    const label = row[labelId] ? `${row[labelId].raw}` : 'All'
     const data = measures.map((c) => {
       const rowId = c.id as keyof DashboardDataResponse
       return row[rowId] ? +row[rowId].raw : 0
@@ -176,22 +194,26 @@ const buildChart = (columns: DashboardVisualisationColumns, rawData: DashboardDa
   }
 }
 
-const buildChartFromListData = (measures: BarChartVisualisationColumn[], rawData: DashboardDataResponse[]) => {
-  const xAxisColumn = measures.find((col) => col.axis === 'x')
-  const yAxisColumn = measures.find((col) => col.axis === 'y')
+const buildChartFromListData = (columns: DashboardVisualisationColumns, rawData: DashboardDataResponse[]) => {
+  const { measures, keys } = columns
+  const xAxisColumn = (<BarChartVisualisationColumn[]>measures).find((col) => col.axis === 'x')
+  const yAxisColumn = (<BarChartVisualisationColumn[]>measures).find((col) => col.axis === 'y')
+  const unit = yAxisColumn?.unit || undefined
+  const groupKey = keys.length ? getChartGroupKey(keys, rawData) : undefined
 
-  const labels = rawData.map((row) => {
+  const groupsData = groupKey ? DatasetHelper.groupRowsByKey(rawData, groupKey.id) : [rawData]
+  const labels = groupsData[0]?.map((row) => {
     return `${row[xAxisColumn.id].raw}`
   })
-  const unit = yAxisColumn?.unit || undefined
-  const data = rawData.map((row) => +row[yAxisColumn.id].raw)
-  const datasets = [
-    {
-      label: yAxisColumn.display,
+
+  const datasets: ChartDataset[] = groupsData.map((groupData) => {
+    const data = groupData.map((row) => +row[yAxisColumn.id].raw)
+    return {
+      label: groupKey ? `${groupData[0][groupKey.id].raw}` : yAxisColumn.display,
       data,
       total: data.reduce((acc: number, val: number) => acc + val, 0),
-    },
-  ]
+    }
+  })
 
   return {
     labels,
@@ -203,17 +225,8 @@ const buildChartFromListData = (measures: BarChartVisualisationColumn[], rawData
 const createSnapshotTable = (chartDefinition: DashboardVisualisation, data: DashboardDataResponse[]): MoJTable => {
   const { columns } = chartDefinition
   const { keys, measures } = columns
-
-  const isListChart = !!(<BarChartVisualisationColumn[]>measures).find((col) => col.axis)
-
-  let headerColumns = [...measures]
-  let includeKeys = false
-  if (data.length > 1 && !isListChart) {
-    headerColumns = [...keys, ...measures]
-    includeKeys = true
-  }
-
-  const filteredRowData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, data, includeKeys)
+  const headerColumns = [...keys, ...measures]
+  const filteredRowData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, data, true)
   const head = headerColumns.map((column) => {
     return { text: column.display }
   })
@@ -230,9 +243,9 @@ const createTimeseriesChart = (
   timeseriesData: DashboardDataResponse[],
 ): ChartData => {
   const timeBlockData = DatasetHelper.groupRowsByTimestamp(timeseriesData)
-
-  const { type, columns } = chartDefinition
+  const { columns } = chartDefinition
   const { keys, measures } = columns
+  const type = chartDefinition.type === DashboardVisualisationType.BAR_TIMESERIES ? 'bar' : chartDefinition.type
 
   const labelId = keys[keys.length - 1].id as keyof DashboardDataResponse
   const unit = measures[0].unit ? measures[0].unit : undefined

@@ -3,9 +3,11 @@ const {
   generateRawValue,
   generateRag,
   initEstablishments,
+  initBaseData,
 } = require('../timeseriesDataHelper')
 
 const baseData = {
+  ts: { raw: '' },
   establishment_id: { raw: '' },
   has_ethnicity: { raw: '' },
   ethnicity_is_missing: { raw: '' },
@@ -18,9 +20,11 @@ const baseData = {
 
 const generateData = (query) => {
   const { establishmentId, timestamps } = extractQueryAndCreateTimestamps(query)
+  const estId = establishmentId || 'ALL'
 
   const data = timestamps.map((ts) => {
-    const allEstablishments = initEstablishments(baseData, establishmentId, ts)
+    const allTotals = initBaseData(baseData, ts)
+    const allEstablishments = initEstablishments(allTotals[0], estId, ts)
 
     return allEstablishments.map((estData) => {
       const hasEthnicity = generateRawValue()

@@ -160,33 +160,6 @@ const dietTotalsByEstablishmentByWingByCell = {
   },
 }
 
-const dietTotalsByEstablishmentByWing = {
-  id: 'diet-totals-by-establishment-by-wing-by-cell-loop',
-  type: 'scorecard-group',
-  display: 'Diet totals by cell loop',
-  description: '',
-  columns: {
-    keys: [
-      {
-        id: 'establishment_id',
-      },
-      {
-        id: 'wing',
-      },
-    ],
-    measures: [
-      {
-        id: 'diet',
-        display: '',
-      },
-      {
-        id: 'count',
-        displayValue: true,
-      },
-    ],
-  },
-}
-
 const dietTotalsByEstablishmentByWingByCellLoop = {
   id: 'diet-totals-by-establishment-by-wing-by-cell-loop',
   type: 'scorecard-group',

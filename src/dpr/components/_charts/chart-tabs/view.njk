@@ -1,6 +1,7 @@
 {% from "../chart/view.njk" import dprChart %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "../../_dashboards/dashboard-visualisation-no-data-message/view.njk" import dprDashboardVisNoData %}
 
 {% macro dprChartTabs(id, data) %}
   {% set chartData = data.chart %}
@@ -13,6 +14,7 @@
   {% set unit = chartData.unit %}
   {% set timeseries = chartData.timeseries %}
 
+  {% if chartData %}
   {% set chartHtml %}
     {{ dprChart(id, type, data, unit, timeseries) }}
   {% endset -%}
@@ -26,6 +28,7 @@
   } %}
 
   {% set tabItems = (tabItems.push(tabContent), tabItems) %}
+  {% endif %}
 
   {% if tableData %}
   {% set tableHtml %}
@@ -42,6 +45,10 @@
       }
     }), tabItems) %}
   {% endif %}
-    
-  {{ govukTabs({ items: tabItems, classes: 'dpr-chart-tabs' }) }}
+  
+  {% if tabItems.length %}
+    {{ govukTabs({ items: tabItems, classes: 'dpr-chart-tabs' }) }}
+  {% else %}
+    {{ dprDashboardVisNoData() }}
+  {% endif %}
 {% endmacro %}

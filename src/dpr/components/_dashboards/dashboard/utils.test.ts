@@ -107,7 +107,7 @@ describe('DashboardUtils', () => {
 
         const chartData = result.dashboardData.sections[0].visualisations[0].data as ChartCardData
         expect(chartData.chart.type).toEqual('bar')
-        expect(chartData.table.head.length).toEqual(3)
+        expect(chartData.table.head.length).toEqual(2)
       })
 
       it('should mark the dashboard as recently viewed', async () => {

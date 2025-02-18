@@ -94,13 +94,27 @@ const getData = (def, dashboardId, query) => {
   if (
     [
       'list-examples-fallback-keys',
-      'list-examples-historic-diet-totals',
+      'list-examples-diet-totals-historic',
       'list-examples-diet-totals',
+      'chart-examples-diet-totals-historic',
+      'chart-examples-diet-totals',
+      'chart-examples-diet-totals-flexible',
       'scorecard-examples-diet-totals',
-      'chart-examples-historic-diet-totals',
     ].includes(dashboardId)
   ) {
     return TestDataHelper.generateData(query)
+  }
+
+  if (
+    [
+      'list-examples-data-quality',
+      'list-examples-data-quality-historic',
+      'list-examples-data-quality-flexible',
+      'chart-examples-data-quality',
+      'chart-examples-data-quality-historic',
+    ].includes(dashboardId)
+  ) {
+    return DataQualityMetricsHelper.generateData(query)
   }
 
   const data = DataQualityMetricsHelper.generateData(query)

@@ -1,4 +1,5 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "../dashboard-visualisation-no-data-message/view.njk" import dprDashboardVisNoData %}
 
 {% macro dprDashboardList(id, listData) %}
   {% set ts = listData.ts %}
@@ -10,7 +11,7 @@
       {{ govukTable(table)}}
       <p class="govuk-body-s dpr-value-for">Value for: {{ ts }}</p>
     {% else %} 
-      <p class="govuk-body">No data</p>
+      {{ dprDashboardVisNoData() }}
     {% endif %} 
   </div>
 {% endmacro %}

@@ -151,12 +151,20 @@ const groupRowsByTimestamp = (dashboardData: DashboardDataResponse[]): Dashboard
   })
 }
 
+const groupRowsByKey = (dashboardData: DashboardDataResponse[], key: string): DashboardDataResponse[][] => {
+  const uniqueKeyValues = [...new Set(dashboardData.map((item) => item[key].raw))]
+  return uniqueKeyValues.map((keyValue) => {
+    return dashboardData.filter((d) => d[key].raw === keyValue)
+  })
+}
+
 const filterRowsByDisplayColumns = (
   listDefinition: DashboardVisualisation,
   dashboardData: DashboardDataResponse[],
   includeKeys = false,
 ) => {
-  const { keys, measures } = listDefinition.columns
+  const { keys: keyCols, measures } = listDefinition.columns
+  const keys = keyCols || []
   let displayColumns = [...measures]
   if (includeKeys) {
     displayColumns = [...keys, ...measures]
@@ -179,4 +187,5 @@ export default {
   getEarliestDataset,
   filterRowsByDisplayColumns,
   groupRowsByTimestamp,
+  groupRowsByKey,
 }

@@ -125,7 +125,6 @@ export default class ChartVisualisation extends DprClientClass {
         ...(hoverEvent && hoverEvent),
         plugins: {
           legend: {
-            display: !this.singleDataset,
             position: 'bottom',
           },
           ...(pluginsOptions && pluginsOptions),

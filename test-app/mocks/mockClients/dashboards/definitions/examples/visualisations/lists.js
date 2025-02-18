@@ -697,6 +697,183 @@ const fullDatasetOverTime = {
   showLatest: false,
 }
 
+const dataQualityEthnicity = {
+  id: 'list-data-quality-has-ethnicity',
+  type: 'list',
+  display: 'Ethnicity Values',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+      {
+        id: 'has_ethnicity',
+        display: 'Has ethnicity',
+      },
+      {
+        id: 'ethnicity_is_missing',
+        display: 'No Ethnicity',
+      },
+    ],
+  },
+}
+
+const dataQualityReligion = {
+  id: 'list-data-quality-has-religion',
+  type: 'list',
+  display: 'Religion Values',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+      {
+        id: 'has_religion',
+        display: 'Has religion',
+      },
+      {
+        id: 'religion_is_missing',
+        display: 'No religion',
+      },
+    ],
+  },
+}
+
+const dataQualityNationality = {
+  id: 'list-data-quality-has-nationality',
+  type: 'list',
+  display: 'nationality Values',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+      {
+        id: 'has_nationality',
+        display: 'Has nationality',
+      },
+      {
+        id: 'nationality_is_missing',
+        display: 'No nationality',
+      },
+    ],
+  },
+}
+
+const dataQualityEthnicityHistoric = {
+  id: 'list-data-quality-has-ethnicity-historic',
+  type: 'list',
+  display: 'Ethnicity Values',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+      {
+        id: 'has_ethnicity',
+        display: 'Has ethnicity',
+      },
+      {
+        id: 'ethnicity_is_missing',
+        display: 'No Ethnicity',
+      },
+    ],
+  },
+  showLatest: false,
+}
+
+const dataQualityReligionHistoric = {
+  id: 'list-data-quality-has-religion-historic',
+  type: 'list',
+  display: 'Religion Values',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+      {
+        id: 'has_religion',
+        display: 'Has religion',
+      },
+      {
+        id: 'religion_is_missing',
+        display: 'No religion',
+      },
+    ],
+  },
+  showLatest: false,
+}
+
+const dataQualityNationalityHistoric = {
+  id: 'list-data-quality-has-nationality-historic',
+  type: 'list',
+  display: 'Nationality Values',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+      {
+        id: 'has_nationality',
+        display: 'Has nationality',
+      },
+      {
+        id: 'nationality_is_missing',
+        display: 'No nationality',
+      },
+    ],
+  },
+  showLatest: false,
+}
+
 const lists = {
   explicitKeys,
   optionalKey,
@@ -720,6 +897,12 @@ const lists = {
   dietTotalsVegetarianOvertimeByEstByWingOptional,
   fullDataset,
   fullDatasetOverTime,
+  dataQualityEthnicity,
+  dataQualityReligion,
+  dataQualityNationality,
+  dataQualityEthnicityHistoric,
+  dataQualityReligionHistoric,
+  dataQualityNationalityHistoric,
 }
 
 module.exports = lists

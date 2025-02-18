@@ -45,7 +45,7 @@ export default class Filters extends DprClientClass {
       const formData = new FormData(filtersForm)
       let serializedFormData = ''
       document.querySelectorAll('.autocomplete-text-input-box').forEach((input) => {
-        if(input.staticOptionNameValue) {
+        if (input.staticOptionNameValue) {
           formData.set(input.name, input.staticOptionNameValue)
         }
       })
@@ -58,7 +58,6 @@ export default class Filters extends DprClientClass {
         }
 
         serializedFormData += `&${n}=${v}`
-
       })
 
       url += serializedFormData

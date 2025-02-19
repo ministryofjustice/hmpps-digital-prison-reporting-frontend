@@ -4,23 +4,23 @@ const mockSyncData = {
       head: [
         {
           html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&columns=field7&dataProductDefinitionsPath=this/that/other">Field 1</a>',
-          classes: null
+          classes: null,
         },
         {
           html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&columns=field7&dataProductDefinitionsPath=this/that/other">Field 2</a>',
-          classes: null
+          classes: null,
         },
         {
           text: 'Field 3',
-          classes: null
+          classes: null,
         },
         {
           text: 'Field 6',
-          classes: null
+          classes: null,
         },
         {
           text: 'Field 7',
-          classes: null
+          classes: null,
         },
       ],
       rows: [
@@ -119,7 +119,6 @@ const mockSyncData = {
           text: 'Field 3',
           name: 'field3',
           type: 'daterange',
-          options: null,
           value: {
             start: '2003-02-01',
             end: '2006-05-04',
@@ -166,7 +165,7 @@ const mockSyncData = {
           text: 'Field 5',
           name: 'field5',
           type: 'autocomplete',
-          options: null,
+          options: [],
           value: null,
           minimumLength: 3,
           dynamicResourceEndpoint: null,
@@ -176,7 +175,6 @@ const mockSyncData = {
           text: 'Field 6',
           name: 'field6',
           type: 'text',
-          options: null,
           value: null,
           minimumLength: null,
           dynamicResourceEndpoint: null,
@@ -185,12 +183,40 @@ const mockSyncData = {
           text: 'Field 7',
           name: 'field7',
           type: 'date',
-          options: null,
           value: '2003-02-01',
           minimumLength: null,
           dynamicResourceEndpoint: null,
           min: '2003-02-01',
           max: '2007-05-04',
+        },
+        {
+          dynamicResourceEndpoint: null,
+          mandatory: undefined,
+          minimumLength: null,
+          name: 'field8',
+          options: [
+            {
+              text: 'Value 8.1',
+              value: 'value8.1',
+            },
+            {
+              text: 'Value 8.2',
+              value: 'value8.2',
+            },
+            {
+              text: 'Value 8.3',
+              value: 'value8.3',
+            },
+            {
+              text: 'Value 8.4',
+              value: 'value8.4',
+            },
+          ],
+          pattern: undefined,
+          text: 'Field 8',
+          type: 'multiselect',
+          value: 'value8.2,value8.3',
+          values: ['value8.2,value8.3'],
         },
       ],
       selectedFilters: [
@@ -224,6 +250,16 @@ const mockSyncData = {
             'aria-label':
               'Selected Filter: Field 7: 2003-02-01 (min date). This filter cant be removed. Update the filter input to change the value',
           },
+        },
+        {
+          attributes: {
+            'aria-label': 'Selected Filter: Field 8: value8.2,value8.3. Click to clear this filter',
+          },
+          classes: 'interactive-remove-filter-button',
+          disabled: false,
+          key: '["filters.field8"]',
+          text: 'Field 8: value8.2,value8.3',
+          value: '["value8.2","value8.3"]',
         },
       ],
     },
@@ -263,6 +299,11 @@ const mockSyncData = {
           text: 'Field 7',
           value: 'field7',
           disabled: false,
+        },
+        {
+          disabled: false,
+          text: 'Field 8',
+          value: 'field8',
         },
       ],
       text: 'Select report columns',

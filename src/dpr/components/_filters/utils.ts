@@ -73,6 +73,19 @@ const setFilterQueryFromFilterDefinition = (
       )
     }
 
+    if (filter.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
+      const values = filter.defaultValue.split(',')
+      return values.reduce((q: string, value, index) => {
+        // eslint-disable-next-line no-param-reassign
+        q += `${DEFAULT_FILTERS_PREFIX}${field.name}=${value}`
+        if (index !== values.length - 1) {
+          // eslint-disable-next-line no-param-reassign
+          q += '&'
+        }
+        return q
+      }, '')
+    }
+
     if (filter.defaultValue) {
       return `${DEFAULT_FILTERS_PREFIX}${field.name}=${filter.defaultValue}`
     }
@@ -85,12 +98,6 @@ const setFilterQueryFromFilterDefinition = (
   return queryString
 }
 
-/**
- * Initialises the filters from the definition
- *
- * @param {components['schemas']['VariantDefinition']} definition
- * @return {*}
- */
 const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
   return fields
     .filter((f) => f.filter)
@@ -107,21 +114,16 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
       const { display: text, name, filter } = f
       const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern } = filter
 
-      const options: FilterOption[] = []
-      if (staticOptions) {
-        if (type === FilterType.select) {
-          options.push({ value: 'no-filter', text: 'Select your option', disabled: true, selected: true })
-        }
-        staticOptions.forEach((o) => {
-          options.push({ value: o.name, text: o.display })
-        })
-      }
+      const options: FilterOption[] = staticOptions
+        ? staticOptions.map((opt) => {
+            return { value: opt.name, text: opt.display }
+          })
+        : []
 
       let filterData: FilterValue = {
         text,
         name,
         type: type as FilterType,
-        options: options.length ? options : null,
         value: defaultValue || null,
         minimumLength: dynamicOptions ? dynamicOptions.minimumLength : null,
         dynamicResourceEndpoint: null,
@@ -129,21 +131,56 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
         pattern,
       }
 
-      if (type === FilterType.dateRange.toLowerCase()) {
-        filterData = DateRangeInputUtils.getFilterFromDefinition(filter, filterData)
-      }
+      switch (type) {
+        case FilterType.autocomplete.toLowerCase():
+        case FilterType.radio:
+          filterData = {
+            ...filterData,
+            options,
+          }
+          break
 
-      if (type === FilterType.granularDateRange.toLocaleLowerCase()) {
-        // TODO: align this with the BE - defaultGranularity
-        const granularDateRangeFilter = filter as components['schemas']['FilterDefinition'] & {
-          defaultGranularity: Granularity
-          defaultQuickFilterValue: QuickFilters
+        case FilterType.select: {
+          options.unshift({
+            value: 'no-filter',
+            text: 'Select your option',
+            disabled: true,
+            selected: true,
+          })
+          filterData = {
+            ...filterData,
+            options,
+          }
+          break
         }
-        filterData = GranularDateRangeInputUtils.getFilterFromDefinition(granularDateRangeFilter, filterData)
-      }
 
-      if (type === FilterType.date.toLowerCase()) {
-        filterData = DateInputUtils.getFilterFromDefinition(filter, filterData)
+        case FilterType.multiselect.toLowerCase():
+          filterData = {
+            ...filterData,
+            options,
+            values: defaultValue.split(', '),
+          }
+          break
+
+        case FilterType.dateRange.toLowerCase():
+          filterData = DateRangeInputUtils.getFilterFromDefinition(filter, filterData)
+          break
+
+        case FilterType.date.toLowerCase():
+          filterData = DateInputUtils.getFilterFromDefinition(filter, filterData)
+          break
+
+        case FilterType.granularDateRange.toLocaleLowerCase(): {
+          const granularDateRangeFilter = filter as components['schemas']['FilterDefinition'] & {
+            defaultGranularity: Granularity
+            defaultQuickFilterValue: QuickFilters
+          }
+          filterData = GranularDateRangeInputUtils.getFilterFromDefinition(granularDateRangeFilter, filterData)
+          break
+        }
+
+        default:
+          break
       }
 
       return filterData

@@ -28,6 +28,9 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
         ;({ key, value, disabled, cantRemoveClass, displayValue } = setSelectedGranularDateRange(f, prefix))
       } else if (f.type.toLowerCase() === FilterType.date.toLowerCase()) {
         ;({ key, value, disabled, cantRemoveClass, displayValue } = getSelectedDate(f, prefix))
+      } else if (f.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
+        key = [`${prefix}${f.name}`]
+        value = displayValue.split(',')
       } else {
         key = [`${prefix}${f.name}`]
         value = [displayValue]

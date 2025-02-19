@@ -132,6 +132,7 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
       }
 
       switch (type) {
+        case FilterType.autocomplete.toLowerCase():
         case FilterType.radio:
           filterData = {
             ...filterData,

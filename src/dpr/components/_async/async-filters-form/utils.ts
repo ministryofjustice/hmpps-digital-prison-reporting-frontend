@@ -120,7 +120,7 @@ export default {
 
         if (name.startsWith('filters.') && value !== '' && !query[name]) {
           let urlParamValue: string | string[] = urlParams.getAll(name)
-          urlParamValue = !urlParamValue ? value : urlParamValue
+          urlParamValue = !urlParamValue || urlParamValue.length === 0 ? value : urlParamValue
           urlParamValue = urlParamValue.length === 1 ? `${urlParamValue[0]}` : `${urlParamValue}`
 
           query[name as keyof Dict<string>] = urlParamValue

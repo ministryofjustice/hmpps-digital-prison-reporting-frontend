@@ -121,6 +121,25 @@ const variant23Interactive = {
           interactive: true,
         },
       },
+      {
+        name: 'field8',
+        display: 'Field 8',
+        sortable: false,
+        visible: false,
+        type: 'date',
+        mandatory: false,
+        filter: {
+          type: 'multiselect',
+          staticOptions: [
+            { name: 'value8.1', display: 'Value 8.1' },
+            { name: 'value8.2', display: 'Value 8.2' },
+            { name: 'value8.3', display: 'Value 8.3' },
+            { name: 'value8.4', display: 'Value 8.4' },
+          ],
+          defaultValue: 'value8.2,value8.3',
+          interactive: true,
+        },
+      },
     ],
   },
 }

@@ -1,5 +1,6 @@
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
 {% from "../../_inputs/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
@@ -12,6 +13,7 @@
   {% set id = parameterPrefix + filter.name %}
   {% set name = parameterPrefix + filter.name %}
   {% set value = filter.value %}
+  {% set values = filter.values %}
   {% set text = filter.text %}
   {% set options = filter.options %}
   {% set pattern = filter.pattern if filter.pattern else 
@@ -45,6 +47,28 @@
           'display-name': labelText
         }
       }) }}
+
+    {%- elif filterType === 'multiselect' %}
+
+      {{ govukCheckboxes({
+          id: name,
+          name: name,
+          classes: "govuk-checkboxes--small",
+          formGroup: {
+            classes: "govuk-!-margin-bottom-3"
+          },
+          fieldset: {
+            legend: {
+              text: text,
+              classes: "govuk-label govuk-!-font-weight-bold"
+            },
+            attributes: {
+              "aria-label": name + ' checkboxes'
+            }
+          },
+          items: options,
+          values: values
+        }) }}
 
     {% elif filterType === 'radio' %}
 

@@ -52,7 +52,6 @@ class MockDashboardClient {
     const def = await this.getDefinition('token', dashboardId)
     if (def) {
       const data = getData(def, dashboardId, query)
-      // console.log(JSON.stringify({ data }, null, 2))
       return new Promise((resolve) => {
         resolve(data)
       })

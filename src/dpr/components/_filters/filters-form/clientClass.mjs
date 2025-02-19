@@ -71,11 +71,14 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
           e.preventDefault()
           const keys = JSON.parse(e.target.getAttribute('data-query-param-key'))
           const values = JSON.parse(e.target.getAttribute('data-query-param-value'))
-          keys.forEach((key, index) => {
-            this.updateQueryParam(key, values[index], 'delete')
+
+          keys.forEach((key) => {
+            values.forEach((value) => {
+              this.updateQueryParam(key, value, 'delete')
+            })
             this.updateQueryParam('preventDefault', true)
+            window.location.reload()
           })
-          window.location.reload()
         })
       })
     }

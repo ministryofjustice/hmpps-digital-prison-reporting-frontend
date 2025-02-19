@@ -257,7 +257,7 @@ export default {
    */
   request: async ({ req, res, services }: AsyncReportUtilsParams) => {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const { type } = req.body
+    const { type, defaultInteractiveQueryString } = req.body
 
     let executionData: ExecutionData
     let childExecutionData: Array<ChildReportExecutionData>

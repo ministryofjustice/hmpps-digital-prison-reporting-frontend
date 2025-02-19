@@ -3,7 +3,7 @@ const { charts, lists } = require('../visualisations')
 
 const flexibleDietTotals = {
   id: 'chart-examples-diet-totals-flexible',
-  name: 'Chart Examples - Flexible Bar Charts',
+  name: 'Chart Examples - Diet Totals - Flexible',
   description: 'Demonstrates flexible charts',
   sections: [
     {

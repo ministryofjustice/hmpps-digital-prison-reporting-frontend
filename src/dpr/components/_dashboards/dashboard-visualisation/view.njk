@@ -18,7 +18,7 @@
       <p class="govuk-body">{{ description }}</p>
     {% endif %}
 
-    {% if type === 'bar' or type === 'line' or type === 'doughnut' %}
+    {% if type === 'bar' or type === 'line' or type === 'doughnut' or type === 'bar-timeseries' %}
 
       {{ dprChartCard(id, data) }}
 

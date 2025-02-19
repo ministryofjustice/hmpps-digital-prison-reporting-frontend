@@ -190,6 +190,152 @@ const dietTotalsByEstablishmentByWingByCellLoop = {
   },
 }
 
+// Data Quality
+
+const dataQualityAllEstablishmentsEthnicity = {
+  id: 'data-quality-ethnicity',
+  type: 'scorecard-group',
+  display: 'Ethnicity score',
+  description: '',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'establishment_id',
+        display: '',
+      },
+      {
+        id: 'has_ethnicity',
+        displayValue: true,
+      },
+    ],
+  },
+}
+
+const dataQualityAllEstablishmentsNoEthnicity = {
+  id: 'data-quality-no-ethnicity',
+  type: 'scorecard-group',
+  display: 'Missing ethnicity score',
+  description: '',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'establishment_id',
+        display: '',
+      },
+      {
+        id: 'ethnicity_is_missing',
+        displayValue: true,
+      },
+    ],
+  },
+}
+
+const dataQualityAllEstablishmentsReligion = {
+  id: 'data-quality-religion',
+  type: 'scorecard-group',
+  display: 'Religion score',
+  description: '',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'establishment_id',
+        display: '',
+      },
+      {
+        id: 'has_religion',
+        displayValue: true,
+      },
+    ],
+  },
+}
+
+const dataQualityAllEstablishmentsNoReligion = {
+  id: 'data-quality-no-religion',
+  type: 'scorecard-group',
+  display: 'Missing religion score',
+  description: '',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'establishment_id',
+        display: '',
+      },
+      {
+        id: 'religion_is_missing',
+        displayValue: true,
+      },
+    ],
+  },
+}
+
+const dataQualityAllEstablishmentsNationality = {
+  id: 'data-quality-nationality',
+  type: 'scorecard-group',
+  display: 'Nationality score',
+  description: '',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'establishment_id',
+        display: '',
+      },
+      {
+        id: 'has_nationality',
+        displayValue: true,
+      },
+    ],
+  },
+}
+
+const dataQualityAllEstablishmentsNoNationality = {
+  id: 'data-quality-no-nationality',
+  type: 'scorecard-group',
+  display: 'Missing nationality score',
+  description: '',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'establishment_id',
+        display: '',
+      },
+      {
+        id: 'nationality_is_missing',
+        displayValue: true,
+      },
+    ],
+  },
+}
+
 const scorecards = {
   dietTotals,
   dietTotalsByEstablishment,
@@ -198,6 +344,12 @@ const scorecards = {
   dietTotalsByEstablishmentByWingOptional,
   dietTotalsByEstablishmentByWingByCell,
   dietTotalsByEstablishmentByWingByCellLoop,
+  dataQualityAllEstablishmentsEthnicity,
+  dataQualityAllEstablishmentsNoEthnicity,
+  dataQualityAllEstablishmentsReligion,
+  dataQualityAllEstablishmentsNoReligion,
+  dataQualityAllEstablishmentsNationality,
+  dataQualityAllEstablishmentsNoNationality,
 }
 
 module.exports = scorecards

@@ -1,5 +1,5 @@
 const { establishmentIdFilter, wingFilterCompass, granularDateRangeFilter } = require('../../../filter-definitions')
-const { lists } = require('../visualisations')
+const { lists, charts } = require('../visualisations')
 
 const historicDietTotals = {
   id: 'chart-examples-diet-totals-historic',
@@ -12,35 +12,33 @@ const historicDietTotals = {
       description: '',
       visualisations: [
         lists.dietTotalsOverTime,
+        charts.dietTotalsOverTime,
         lists.dietTotalsByEstablishmentOverTime,
+        charts.dietTotalsByEstablishmentOverTime,
         lists.dietTotalsByEstablishmentByWingOverTime,
+        charts.dietTotalsByEstablishmentByWingOverTime,
       ],
     },
     {
-      id: 'section-3',
-      display: 'Historic Diet Totals - optional keys',
-      description: '',
-      visualisations: [lists.dietTotalsByEstablishmentByWingOverTimeOptional],
-    },
-    {
-      id: 'section-4',
+      id: 'section-2',
       display: 'Historic Diet Totals',
       description: '',
       visualisations: [
         lists.dietTotalsVegetarianOvertime,
+        charts.dietTotalsVegetarianOvertime,
         lists.dietTotalsVeganOvertime,
-        lists.dietTotalsAllDietOvertime,
+        charts.dietTotalsVeganOvertime,
       ],
     },
     {
-      id: 'section-5',
+      id: 'section-3',
       display: 'Historic Diet By Key Totals',
       description: '',
       visualisations: [
         lists.dietTotalsVegetarianOvertimeByEst,
+        charts.dietTotalsVegetarianOvertimeByEstLine,
         lists.dietTotalsVegetarianOvertimeByEstByWing,
-        lists.dietTotalsVegetarianOvertimeByEstByWingOptional,
-        lists.dietTotalsAllDietOvertimeByEst,
+        charts.dietTotalsVegetarianOvertimeByEstByWingLine,
       ],
     },
     {

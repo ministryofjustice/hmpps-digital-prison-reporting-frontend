@@ -290,7 +290,7 @@ const dietTotalsByEstablishmentByWingOptional = {
 const dietTotalsOverTime = {
   id: 'diet-totals-over-time',
   type: 'list',
-  display: 'Diet totals over time',
+  display: 'Prisoner totals over time',
   description: '',
   showLatest: false,
   columns: {
@@ -312,7 +312,7 @@ const dietTotalsOverTime = {
 const dietTotalsByEstablishmentOverTime = {
   id: 'diet-totals-by-est-over-time',
   type: 'list',
-  display: 'Diet totals by Establishment over time',
+  display: 'Prsioner totals by establishment over time',
   description: '',
   showLatest: false,
   columns: {
@@ -342,7 +342,7 @@ const dietTotalsByEstablishmentOverTime = {
 const dietTotalsByEstablishmentByWingOverTime = {
   id: 'diet-totals-by-est-by-wing-over-time',
   type: 'list',
-  display: 'Diet totals by Establishment, by wing, over time',
+  display: 'Prisoner totals by establishment, by wing, over time',
   description: '',
   showLatest: false,
   columns: {

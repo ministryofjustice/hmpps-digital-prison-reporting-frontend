@@ -6,24 +6,24 @@ const dataQualityHistoric = {
   name: 'Chart Examples - Data Quality - Historic',
   description: 'chart examples',
   sections: [
-    // {
-    //   id: 'section-1',
-    //   display: 'Data Quality Historic Line',
-    //   description: '',
-    //   visualisations: [
-    //     charts.dataQualityEthnicityHistoricLine,
-    //     charts.dataQualityNationalityHistoricLine,
-    //     charts.dataQualityReligionHistoricLine,
-    //   ],
-    // },
+    {
+      id: 'section-1',
+      display: 'Time series line charts',
+      description: '',
+      visualisations: [
+        charts.dataQualityEthnicityHistoricLine,
+        charts.dataQualityNationalityHistoricLine,
+        charts.dataQualityReligionHistoricLine,
+      ],
+    },
     {
       id: 'section-2',
-      display: 'Data Quality Historic bar',
+      display: 'Time series bar charts',
       description: '',
       visualisations: [
         charts.dataQualityEthnicityHistoricBar,
-        // charts.dataQualityNationalityHistoricBar,
-        // charts.dataQualityReligionHistoricBar,
+        charts.dataQualityNationalityHistoricBar,
+        charts.dataQualityReligionHistoricBar,
       ],
     },
     {

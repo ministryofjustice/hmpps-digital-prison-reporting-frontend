@@ -52,7 +52,6 @@ class MockDashboardClient {
     const def = await this.getDefinition('token', dashboardId)
     if (def) {
       const data = getData(def, dashboardId, query)
-      // console.log(JSON.stringify({ data }, null, 2))
       return new Promise((resolve) => {
         resolve(data)
       })
@@ -95,6 +94,7 @@ const getData = (def, dashboardId, query) => {
     [
       'list-examples-fallback-keys',
       'list-examples-diet-totals-historic',
+      'chart-examples-diet-totals-historic-flexible',
       'list-examples-diet-totals',
       'chart-examples-diet-totals-historic',
       'chart-examples-diet-totals',
@@ -112,6 +112,7 @@ const getData = (def, dashboardId, query) => {
       'list-examples-data-quality-flexible',
       'chart-examples-data-quality',
       'chart-examples-data-quality-historic',
+      'scorecard-examples-data-quality',
     ].includes(dashboardId)
   ) {
     return DataQualityMetricsHelper.generateData(query)

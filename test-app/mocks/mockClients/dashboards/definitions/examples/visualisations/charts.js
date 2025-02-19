@@ -258,6 +258,283 @@ const dietTotalsByEstablishmentByWingByCellPieOptional = {
   },
 }
 
+const dietTotalsOverTime = {
+  id: 'chart-diet-totals-over-time',
+  type: 'line',
+  display: 'Prisoner totals over time',
+  description: '',
+  showLatest: false,
+  columns: {
+    keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
+const dietTotalsByEstablishmentOverTime = {
+  id: 'chart-diet-totals-by-est-over-time',
+  type: 'line',
+  display: 'Prisoner totals by establishment over time',
+  description: '',
+  showLatest: false,
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
+const dietTotalsByEstablishmentByWingOverTime = {
+  id: 'line-diet-totals-by-est-by-wing-over-time',
+  type: 'line',
+  display: 'Prisoner totals by establishment, by wing, over time',
+  description: '',
+  showLatest: false,
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+      {
+        id: 'wing',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
+const dietTotalsVegetarianOvertime = {
+  id: 'diet-totals-vegetarian-overtime',
+  type: 'line',
+  display: 'Vegetarian totals over time line chart',
+  description: '',
+  showLatest: false,
+  columns: {
+    keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    filters: [
+      {
+        id: 'diet',
+        equals: 'Vegetarian',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
+const dietTotalsVeganOvertime = {
+  id: 'diet-totals-vegetarian-overtime',
+  type: 'line',
+  display: 'Vegan totals over time line chart',
+  description: '',
+  showLatest: false,
+  columns: {
+    keys: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    filters: [
+      {
+        id: 'diet',
+        equals: 'Vegan',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
+const dietTotalsVegetarianOvertimeByEstLine = {
+  id: 'line-diet-totals-vegetarian-overtime-by-est',
+  type: 'line',
+  display: 'Vegetarian totals over time line',
+  description: '',
+  showLatest: false,
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    filters: [
+      {
+        id: 'diet',
+        equals: 'Vegetarian',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
+const dietTotalsVegetarianOvertimeByEstByWingLine = {
+  id: 'line-diet-totals-vegetarian-overtime-by-est-by-wing',
+  type: 'line',
+  display: 'Vegetarian totals over time by wing line',
+  description: '',
+  showLatest: false,
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+      {
+        id: 'wing',
+        display: 'Wing',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    filters: [
+      {
+        id: 'diet',
+        equals: 'Vegetarian',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
+const dietTotalsAllDietOvertimeByEstLine = {
+  id: 'line-diet-totals-all-diet-overtime-by-est',
+  type: 'line',
+  display: 'All Diet totals over time',
+  description: '',
+  showLatest: false,
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+        optional: true,
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
+const dietTotalsByEstablishmentByWingOverTimeOptionalLine = {
+  id: 'line-diet-totals-by-est-by-wing-over-time-optional',
+  type: 'line',
+  display: 'Diet totals by Establishment, by wing, over time',
+  description: '',
+  showLatest: false,
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        optional: true,
+      },
+      {
+        id: 'wing',
+        optional: true,
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
 // DATA QUALITY
 
 const dataQualityEthnicityBar = {
@@ -566,6 +843,15 @@ const charts = {
   dietTotalsByEstablishmentByWingByCellBar,
   dietTotalsByEstablishmentByWingByCellBarOptional,
   dietTotalsByEstablishmentByWingByCellPieOptional,
+  dietTotalsOverTime,
+  dietTotalsByEstablishmentOverTime,
+  dietTotalsByEstablishmentByWingOverTime,
+  dietTotalsVegetarianOvertime,
+  dietTotalsVeganOvertime,
+  dietTotalsAllDietOvertimeByEstLine,
+  dietTotalsVegetarianOvertimeByEstLine,
+  dietTotalsVegetarianOvertimeByEstByWingLine,
+  dietTotalsByEstablishmentByWingOverTimeOptionalLine,
   dataQualityEthnicityBar,
   dataQualityReligionBar,
   dataQualityNationalityBar,

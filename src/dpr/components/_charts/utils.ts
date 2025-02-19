@@ -31,9 +31,11 @@ const createChart = (chartDefinition: DashboardVisualisation, rawData: Dashboard
     const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, rawData)
     const timeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
 
-    chart = createTimeseriesChart(chartDefinition, timeseriesData)
-    // table = createTimeseriesTable(chartDefinition, timeseriesData)
-    details = getChartDetails(chartDefinition, latestData, true)
+    if (dataSetRows.length) {
+      chart = createTimeseriesChart(chartDefinition, timeseriesData)
+      // table = createTimeseriesTable(chartDefinition, timeseriesData)
+      details = getChartDetails(chartDefinition, latestData, true)
+    }
   } else {
     const data = DatasetHelper.getLastestDataset(rawData)
     const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, data)
@@ -45,8 +47,6 @@ const createChart = (chartDefinition: DashboardVisualisation, rawData: Dashboard
       details = getChartDetails(chartDefinition, dataSetRows)
     }
   }
-
-  console.log(JSON.stringify(chart, null, 2))
 
   return {
     details,

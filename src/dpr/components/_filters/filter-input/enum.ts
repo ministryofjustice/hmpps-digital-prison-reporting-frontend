@@ -7,4 +7,5 @@ export enum FilterType {
   select = 'Select',
   autocomplete = 'Autocomplete',
   text = 'Text',
+  multiselect = 'Multiselect',
 }

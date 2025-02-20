@@ -55,7 +55,6 @@ describe('Filters Utils tests', () => {
             text: 'Field 3',
             name: 'field3',
             type: 'daterange',
-            options: null,
             value: { start: '2003-02-01', end: '2006-05-04' },
             minimumLength: null,
             dynamicResourceEndpoint: null,
@@ -84,7 +83,7 @@ describe('Filters Utils tests', () => {
             text: 'Field 5',
             name: 'field5',
             type: 'autocomplete',
-            options: null,
+            options: [],
             value: null,
             minimumLength: 3,
             dynamicResourceEndpoint: null,
@@ -94,7 +93,6 @@ describe('Filters Utils tests', () => {
             text: 'Field 6',
             name: 'field6',
             type: 'text',
-            options: null,
             value: null,
             minimumLength: null,
             dynamicResourceEndpoint: null,
@@ -103,12 +101,40 @@ describe('Filters Utils tests', () => {
             text: 'Field 7',
             name: 'field7',
             type: 'date',
-            options: null,
             value: '2003-02-01',
             minimumLength: null,
             dynamicResourceEndpoint: null,
             min: '2003-02-01',
             max: '2007-05-04',
+          },
+          {
+            dynamicResourceEndpoint: null,
+            mandatory: undefined,
+            minimumLength: null,
+            name: 'field8',
+            options: [
+              {
+                text: 'Value 8.1',
+                value: 'value8.1',
+              },
+              {
+                text: 'Value 8.2',
+                value: 'value8.2',
+              },
+              {
+                text: 'Value 8.3',
+                value: 'value8.3',
+              },
+              {
+                text: 'Value 8.4',
+                value: 'value8.4',
+              },
+            ],
+            pattern: undefined,
+            text: 'Field 8',
+            type: 'multiselect',
+            value: 'value8.2,value8.3',
+            values: ['value8.2,value8.3'],
           },
         ],
         selectedFilters: [
@@ -140,6 +166,16 @@ describe('Filters Utils tests', () => {
               'aria-label':
                 'Selected Filter: Field 7: 2003-02-01 (min date). This filter cant be removed. Update the filter input to change the value',
             },
+          },
+          {
+            attributes: {
+              'aria-label': 'Selected Filter: Field 8: value8.2,value8.3. Click to clear this filter',
+            },
+            classes: 'interactive-remove-filter-button',
+            disabled: false,
+            key: '["filters.field8"]',
+            text: 'Field 8: value8.2,value8.3',
+            value: '["value8.2","value8.3"]',
           },
         ],
       })

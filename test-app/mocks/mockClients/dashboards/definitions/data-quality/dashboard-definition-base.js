@@ -1,4 +1,4 @@
-const { establishmentIdFilter, granularDateRangeFilter } = require('../../filter-definitions')
+const { establishmentIdFilter } = require('../../filter-definitions')
 const {
   mockEthnicityBarChart,
   mockEthnicityPieChart,

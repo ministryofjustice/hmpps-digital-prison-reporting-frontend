@@ -29,12 +29,7 @@ const mockEthnicityBarChartList = {
   display: 'Missing Ethnicity Bar Chart from list',
   description: 'Prisoner totals for missing ethnicity by establishment',
   columns: {
-    keys: [
-      {
-        id: 'establishment_id',
-        display: 'Establishment ID',
-      },
-    ],
+    keys: [],
     measures: [
       {
         id: 'establishment_id',

@@ -4,7 +4,7 @@ const { lists } = require('../visualisations')
 const dataQualityFullDataset = {
   id: 'list-examples-data-quality-dataset',
   name: 'Data quality data set',
-  description: 'list examples',
+  description: 'Data quality full dataset',
   sections: [
     {
       id: 'totals-breakdown',

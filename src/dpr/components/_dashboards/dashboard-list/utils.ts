@@ -8,7 +8,7 @@ const createList = (
   listDefinition: DashboardVisualisation,
   dashboardData: DashboardDataResponse[],
 ): { table: MoJTable; ts: string } => {
-  const { columns, showLatest = true, id } = listDefinition
+  const { columns, showLatest = true } = listDefinition
   const { measures, keys } = columns
 
   let datasetData: DashboardDataResponse[] = [...dashboardData]

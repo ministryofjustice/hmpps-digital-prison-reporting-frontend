@@ -11,6 +11,7 @@ const flexibleDietTotals = {
       display: 'Flexible Diet Totals charts',
       description: '',
       visualisations: [
+        charts.dietTotalsByEstablishmentByWingBarOptional,
         charts.dietTotalsByEstablishmentByWingByCellBarOptional,
         charts.dietTotalsByEstablishmentByWingByCellPieOptional,
       ],

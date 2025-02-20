@@ -190,10 +190,42 @@ const dietTotalsByEstablishmentByWingByCellBar = {
   },
 }
 
+const dietTotalsByEstablishmentByWingBarOptional = {
+  id: 'diet-totals-by-establishment-by-wing-by-bar-optional',
+  type: 'bar',
+  display: '',
+  description: '',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        optional: true,
+      },
+      {
+        id: 'wing',
+        optional: true,
+      },
+    ],
+    measures: [
+      {
+        id: 'diet',
+        display: 'Diet',
+        axis: 'x',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+        axis: 'y',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
 const dietTotalsByEstablishmentByWingByCellBarOptional = {
   id: 'diet-totals-by-establishment-by-wing-by-cell-bar-optional',
   type: 'bar',
-  display: 'Flexible Diet totals Bar chart',
+  display: '',
   description: '',
   columns: {
     keys: [
@@ -842,6 +874,7 @@ const charts = {
   dietTotalsByEstablishmentByWingOptionalDoughnut,
   dietTotalsByEstablishmentByWingByCellBar,
   dietTotalsByEstablishmentByWingByCellBarOptional,
+  dietTotalsByEstablishmentByWingBarOptional,
   dietTotalsByEstablishmentByWingByCellPieOptional,
   dietTotalsOverTime,
   dietTotalsByEstablishmentOverTime,

@@ -1,15 +1,14 @@
 import DashboardListUtils from './utils'
-import { mockListDefinitionAgeRange1 } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/age-breakdown/visualisations'
+import { mockListDefinitionAgeRange1 } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/age-breakdown/visualisations/list-definitions-1'
 import { mockAgeBreakdownData } from '../../../../../test-app/mocks/mockClients/dashboards/data/age-breakdown/data'
 import { DashboardVisualisation } from '../dashboard/types'
 
 describe('DashboardListUtils', () => {
   describe('createList', () => {
     it('should create the list data', () => {
-      const data = mockListDefinitionAgeRange1 as unknown as DashboardVisualisation
-      const result = DashboardListUtils.createList(data, mockAgeBreakdownData.flat())
-
-      expect(result).toEqual({
+      const visDefinition = mockListDefinitionAgeRange1 as unknown as DashboardVisualisation
+      const result = DashboardListUtils.createList(visDefinition, mockAgeBreakdownData.flat())
+      const expectedResult = {
         table: {
           head: [{ text: 'Age range 1' }, { text: 'Total prisoners' }],
           rows: [
@@ -22,7 +21,9 @@ describe('DashboardListUtils', () => {
           ],
         },
         ts: '2025/01/07',
-      })
+      }
+
+      expect(result).toEqual(expectedResult)
     })
   })
 })

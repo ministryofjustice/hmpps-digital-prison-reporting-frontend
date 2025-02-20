@@ -107,7 +107,7 @@ describe('DashboardUtils', () => {
 
         const chartData = result.dashboardData.sections[0].visualisations[0].data as ChartCardData
         expect(chartData.chart.type).toEqual('bar')
-        expect(chartData.table.head.length).toEqual(2)
+        expect(chartData.table.head.length).toEqual(3)
       })
 
       it('should mark the dashboard as recently viewed', async () => {
@@ -118,7 +118,7 @@ describe('DashboardUtils', () => {
         })
 
         expect(updateLastViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard.executionId, 'Us3rId')
-        // expect(setRecentlyViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard, 'Us3rId', 'search')
+        expect(setRecentlyViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard, 'Us3rId', 'search')
       })
     })
   })

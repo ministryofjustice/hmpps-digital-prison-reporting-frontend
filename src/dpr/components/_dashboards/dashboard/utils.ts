@@ -142,7 +142,7 @@ const getSections = (
       }
     })
 
-    if (hasScorecard) ScorecardsUtils.mergeScorecards(visualisations)
+    if (hasScorecard) ScorecardsUtils.mergeScorecardsIntoGroup(visualisations)
 
     return { id, title, description, visualisations }
   })

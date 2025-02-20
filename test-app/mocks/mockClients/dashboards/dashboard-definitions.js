@@ -2,6 +2,7 @@ const { ageBreakdownReport2 } = require('./definitions/age-breakdown/dashboard-d
 const { ageBreakdownReport1 } = require('./definitions/age-breakdown/dashboard-definition-1')
 const { ageBreakdownReport3 } = require('./definitions/age-breakdown/dashboard-definition-3')
 const { dataQualityDashboard1 } = require('./definitions/data-quality/dashboard-definition')
+const { dataQualityDashboardBase } = require('./definitions/data-quality/dashboard-definition-base')
 const listExamples = require('./definitions/examples/lists')
 const scorecardExamples = require('./definitions/examples/scorecards')
 const chartExamples = require('./definitions/examples/charts')
@@ -72,6 +73,8 @@ module.exports = [
   listExamples.historicDietTotals,
   listExamples.dataQuality,
   listExamples.dataQualityHistoric,
+  listExamples.dietTotalsFullDataset,
+  listExamples.dataQualityFullDataset,
   scorecardExamples.dietTotalsScoreCards,
   scorecardExamples.dataQualityScoreCards,
   chartExamples.historicDietTotals,
@@ -80,4 +83,5 @@ module.exports = [
   chartExamples.flexibleDietTotals,
   chartExamples.dataQuality,
   chartExamples.dataQualityHistoric,
+  dataQualityDashboardBase,
 ]

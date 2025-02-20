@@ -3,6 +3,8 @@ const { dietTotals } = require('./lists-diet-totals')
 const { historicDietTotals } = require('./lists-diet-totals-historic')
 const { dataQuality } = require('./lists-data-quality')
 const { dataQualityHistoric } = require('./lists-data-quality-historic')
+const { dataQualityFullDataset } = require('./lists-data-quality-full')
+const { dietTotalsFullDataset } = require('./lists-diet-totals-full')
 
 module.exports = {
   fallBackKeysDashboard,
@@ -10,4 +12,6 @@ module.exports = {
   historicDietTotals,
   dataQuality,
   dataQualityHistoric,
+  dietTotalsFullDataset,
+  dataQualityFullDataset,
 }

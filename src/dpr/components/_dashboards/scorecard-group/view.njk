@@ -1,21 +1,17 @@
 {% from "../scorecard/view.njk" import dprScoreCard %}
 
-{% macro dprScoreCardGroup(id, scorecards) %}
+{% macro dprScoreCardGroup(id, scorecardGroup) %}
 
-  {% if scorecards[0].name %}
-    {% for group in scorecards %}
-      <p class="govuk-heading-s"><strong>{{ group.name }}</strong></p>
-      <div class="dpr-scorecard-group">
-        {% for scorecard in group.scorecards %}
-          {{ dprScoreCard(scorecard) }}
-        {% endfor %}
-      </div> 
-    {% endfor %}
-  {% else %}
+  {% for group in scorecardGroup %}
+    {% set title = group.title %}
+    {% set scorecards = group.scorecards %}
+    {# {% if scorecardGroup.length > 1 %} #}
+    <p class="govuk-heading-s"><strong>{{ title }}</strong></p>
+    {# {% endif %} #}
     <div class="dpr-scorecard-group">
       {% for scorecard in scorecards %}
         {{ dprScoreCard(scorecard) }}
       {% endfor %}
     </div> 
-  {% endif %}
+  {% endfor %}
 {% endmacro %}

@@ -158,6 +158,21 @@ const groupRowsByKey = (dashboardData: DashboardDataResponse[], key: string): Da
   })
 }
 
+const getGroupKey = (keys: DashboardVisualisationColumn[], rawData: DashboardDataResponse[]) => {
+  const data = rawData[0]
+  let index = keys.length - 1
+  let keyFound = false
+  while (!keyFound) {
+    const k = `${keys[index]?.id}`
+    if (k && index !== -1 && (!data[k] || !data[k].raw || data[k].raw === '' || data[k].raw === null)) {
+      index -= 1
+    } else {
+      keyFound = true
+    }
+  }
+  return index !== -1 ? keys[index] : undefined
+}
+
 const filterRowsByDisplayColumns = (
   listDefinition: DashboardVisualisation,
   dashboardData: DashboardDataResponse[],
@@ -188,4 +203,5 @@ export default {
   filterRowsByDisplayColumns,
   groupRowsByTimestamp,
   groupRowsByKey,
+  getGroupKey,
 }

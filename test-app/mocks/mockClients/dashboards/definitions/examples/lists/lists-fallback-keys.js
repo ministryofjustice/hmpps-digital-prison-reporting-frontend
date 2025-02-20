@@ -3,12 +3,12 @@ const { lists } = require('../visualisations')
 
 const fallBackKeysDashboard = {
   id: 'list-examples-fallback-keys',
-  name: 'List Examples - Fallback Keys',
+  name: 'List Examples - Flexible Keys',
   description: 'List examples',
   sections: [
     {
       id: 'fall-back-keys',
-      display: 'Fallback keys',
+      display: 'Flexible Lists',
       description:
         'Examples of lists where keys are optional. Row filtering depends on the presence of values in the key columns. If a key is optional, and no rows have a value for the key, it will fallback to the next key',
       visualisations: [lists.explicitKeys, lists.optionalKey, lists.allOptional],

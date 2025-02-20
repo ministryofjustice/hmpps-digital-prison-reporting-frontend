@@ -27,6 +27,7 @@ const dietTotalsByEstablishment = {
     keys: [
       {
         id: 'establishment_id',
+        display: 'Establishment ID',
       },
     ],
     measures: [
@@ -52,9 +53,11 @@ const dietTotalsByEstablishmentByWing = {
     keys: [
       {
         id: 'establishment_id',
+        display: 'Establishment ID',
       },
       {
         id: 'wing',
+        display: 'Wing',
       },
     ],
     measures: [
@@ -71,19 +74,21 @@ const dietTotalsByEstablishmentByWing = {
   },
 }
 
-const dietTotalsByEstablishmentByWingOptional = {
+const dietTotalsFlexible = {
   id: 'sc-diet-totals-by-establishment-by-wing-optional',
   type: 'scorecard-group',
-  display: 'Diet totals, by est, by wing - optional keys',
+  display: 'Diet totals',
   description: '',
   columns: {
     keys: [
       {
         id: 'establishment_id',
+        display: 'Establishment ID',
         optional: true,
       },
       {
         id: 'wing',
+        display: 'Wing',
         optional: true,
       },
     ],
@@ -104,12 +109,13 @@ const dietTotalsByEstablishmentByWingOptional = {
 const dietTotalsByEstablishmentOptional = {
   id: 'sc-diet-totals-by-establishment-optional',
   type: 'scorecard-group',
-  display: 'Diet totals by establishment',
+  display: 'Diet totals for establishment',
   description: '',
   columns: {
     keys: [
       {
         id: 'establishment_id',
+        display: 'Establishment ID',
         optional: true,
       },
     ],
@@ -136,9 +142,11 @@ const dietTotalsByEstablishmentByWingByCell = {
     keys: [
       {
         id: 'establishment_id',
+        display: 'Establishment ID',
       },
       {
         id: 'wing',
+        display: 'Wing',
       },
     ],
     measures: [
@@ -169,15 +177,18 @@ const dietTotalsByEstablishmentByWingByCellLoop = {
     keys: [
       {
         id: 'establishment_id',
+        display: 'Establishment ID',
       },
       {
         id: 'wing',
+        display: 'wing',
+      },
+      {
+        id: 'cell',
+        display: 'Cell',
       },
     ],
     measures: [
-      {
-        id: 'cell',
-      },
       {
         id: 'diet',
         display: '',
@@ -201,6 +212,7 @@ const dataQualityAllEstablishmentsEthnicity = {
     keys: [
       {
         id: 'establishment_id',
+        display: 'Establishment ID',
       },
     ],
     measures: [
@@ -225,6 +237,7 @@ const dataQualityAllEstablishmentsNoEthnicity = {
     keys: [
       {
         id: 'establishment_id',
+        display: 'Establishment ID',
       },
     ],
     measures: [
@@ -249,6 +262,7 @@ const dataQualityAllEstablishmentsReligion = {
     keys: [
       {
         id: 'establishment_id',
+        display: 'Establishment ID',
       },
     ],
     measures: [
@@ -273,6 +287,7 @@ const dataQualityAllEstablishmentsNoReligion = {
     keys: [
       {
         id: 'establishment_id',
+        display: 'Establishment ID',
       },
     ],
     measures: [
@@ -297,6 +312,7 @@ const dataQualityAllEstablishmentsNationality = {
     keys: [
       {
         id: 'establishment_id',
+        display: 'Establishment ID',
       },
     ],
     measures: [
@@ -321,6 +337,7 @@ const dataQualityAllEstablishmentsNoNationality = {
     keys: [
       {
         id: 'establishment_id',
+        display: 'Establishment ID',
       },
     ],
     measures: [
@@ -336,12 +353,95 @@ const dataQualityAllEstablishmentsNoNationality = {
   },
 }
 
+const dataQualityAllCols = {
+  id: 'data-quality-no-nationality',
+  type: 'scorecard-group',
+  display: 'Missing nationality score',
+  description: '',
+  cols: true,
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_nationality',
+        display: 'Has nationality',
+      },
+      {
+        id: 'nationality_is_missing',
+        display: 'Nationality is missing',
+      },
+      {
+        id: 'religion_is_missing',
+        display: 'Religion is missing',
+      },
+      {
+        id: 'has_religion',
+        display: 'Has religion',
+      },
+      {
+        id: 'ethnicity_is_missing',
+        display: 'Ethnicity is missing',
+      },
+      {
+        id: 'has_ethnicity',
+        display: 'Has ethnicity',
+      },
+    ],
+  },
+}
+
+const dataQualityAllColsList = {
+  id: 'data-quality-no-nationality',
+  type: 'list',
+  display: 'Missing nationality score',
+  description: '',
+  cols: true,
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_nationality',
+        display: 'has_nationality',
+      },
+      {
+        id: 'nationality_is_missing',
+        display: 'nationality_is_missing',
+      },
+      {
+        id: 'religion_is_missing',
+        display: 'religion_is_missing',
+      },
+      {
+        id: 'has_religion',
+        display: 'has_religion',
+      },
+      {
+        id: 'ethnicity_is_missing',
+        display: 'ethnicity_is_missing',
+      },
+      {
+        id: 'has_ethnicity',
+        display: 'has_ethnicity',
+      },
+    ],
+  },
+}
+
 const scorecards = {
   dietTotals,
   dietTotalsByEstablishment,
   dietTotalsByEstablishmentByWing,
   dietTotalsByEstablishmentOptional,
-  dietTotalsByEstablishmentByWingOptional,
+  dietTotalsFlexible,
   dietTotalsByEstablishmentByWingByCell,
   dietTotalsByEstablishmentByWingByCellLoop,
   dataQualityAllEstablishmentsEthnicity,
@@ -350,6 +450,8 @@ const scorecards = {
   dataQualityAllEstablishmentsNoReligion,
   dataQualityAllEstablishmentsNationality,
   dataQualityAllEstablishmentsNoNationality,
+  dataQualityAllCols,
+  dataQualityAllColsList,
 }
 
 module.exports = scorecards

@@ -33,16 +33,6 @@ const dietTotals = {
       ],
     },
     {
-      id: 'section-3',
-      display: 'Diet Totals with flexible keys',
-      description: '',
-      visualisations: [
-        lists.dietTotalsByEstablishmentByWingOptional,
-        charts.dietTotalsByEstablishmentByWingOptionalBar,
-        charts.dietTotalsByEstablishmentByWingOptionalDoughnut,
-      ],
-    },
-    {
       id: 'section-4',
       display: 'Diet Totals by cell',
       description: '',

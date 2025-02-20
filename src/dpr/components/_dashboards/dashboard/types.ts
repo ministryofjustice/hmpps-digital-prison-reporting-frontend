@@ -1,6 +1,6 @@
 import { components } from '../../../types/api'
 import { ChartCardData, MoJTable, UnitType } from '../../../types/Charts'
-import { Scorecard, ScorecardSubGroup } from '../scorecard/types'
+import { Scorecard, ScorecardGroup, ScorecardSubGroup } from '../scorecard/types'
 
 export interface DashboardDefinition {
   id: string
@@ -29,7 +29,7 @@ export interface DashboardUIVisualisation {
   type: DashboardVisualisationType
   title?: string
   description?: string
-  data: Scorecard | Scorecard[] | ScorecardSubGroup[] | ChartCardData | { table: MoJTable; ts: string }
+  data: Scorecard | Scorecard[] | ScorecardGroup[] | ChartCardData | { table: MoJTable; ts: string }
 }
 
 export interface DashboardVisualisation {

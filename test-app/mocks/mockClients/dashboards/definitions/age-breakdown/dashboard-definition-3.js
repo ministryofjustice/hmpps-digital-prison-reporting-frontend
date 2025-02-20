@@ -19,7 +19,7 @@ const { establishmentIdFilter, wingFilter } = require('../../filter-definitions'
 
 const ageBreakdownReport3 = {
   id: 'age-breakdown-dashboard-3',
-  name: 'Age Breakdown Dashboard data generator',
+  name: 'Age Breakdown - Mocked data generator',
   description:
     'Description of the age breakdown report - This is a mocked data version of the age breakdown report, in order to test and demo dashboards with lists',
   sections: [

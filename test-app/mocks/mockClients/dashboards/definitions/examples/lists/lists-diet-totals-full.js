@@ -1,4 +1,4 @@
-const { establishmentIdFilter, wingFilterCompass } = require('../../../filter-definitions')
+const { establishmentIdFilter, wingFilterCompass, granularDateRangeFilter } = require('../../../filter-definitions')
 const { lists } = require('../visualisations')
 
 const dietTotalsFullDataset = {
@@ -9,10 +9,10 @@ const dietTotalsFullDataset = {
     {
       id: 'full-set',
       display: 'Full data set',
-      visualisations: [lists.fullDataset],
+      visualisations: [lists.fullDatasetOverTime],
     },
   ],
-  filterFields: [establishmentIdFilter, wingFilterCompass],
+  filterFields: [establishmentIdFilter, wingFilterCompass, granularDateRangeFilter],
 }
 
 module.exports = {

@@ -1,5 +1,5 @@
 import { DashboardDataResponse } from '../types/Metrics'
-import { DashboardVisualisation, DashboardVisualisationColumn } from '../components/_dashboards/dashboard/types'
+import { DashboardVisualisation, DashboardVisualisationColumnKey } from '../components/_dashboards/dashboard/types'
 
 const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: DashboardDataResponse[]) => {
   const { keys, measures, filters, expectNulls } = listDefinition.columns
@@ -54,7 +54,7 @@ const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: D
   return filtered
 }
 
-const getKeyVariations = (dashboardData: DashboardDataResponse[], keys: DashboardVisualisationColumn[]) => {
+const getKeyVariations = (dashboardData: DashboardDataResponse[], keys: DashboardVisualisationColumnKey[]) => {
   const colIdVariations: string[][] = []
   const keyColumnsIds = keys.map((col) => col.id)
   const allOptional = keys.every((key) => key.optional)
@@ -105,7 +105,7 @@ const getKeyIds = (dashboardData: DashboardDataResponse[], colIdVariations: stri
   return validHeadIds
 }
 
-const filterKeys = (dashboardData: DashboardDataResponse[], keys: DashboardVisualisationColumn[]) => {
+const filterKeys = (dashboardData: DashboardDataResponse[], keys: DashboardVisualisationColumnKey[]) => {
   const colIdVariations = getKeyVariations(dashboardData, keys)
   const validHeadIds = getKeyIds(dashboardData, colIdVariations)
 
@@ -154,7 +154,7 @@ const groupRowsByKey = (dashboardData: DashboardDataResponse[], key: string): Da
   })
 }
 
-const getGroupKey = (keys: DashboardVisualisationColumn[], rawData: DashboardDataResponse[]) => {
+const getGroupKey = (keys: DashboardVisualisationColumnKey[], rawData: DashboardDataResponse[]) => {
   if (!keys || !keys.length) {
     return undefined
   }

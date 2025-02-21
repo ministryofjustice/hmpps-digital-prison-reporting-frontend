@@ -1,7 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { MoJTable, MoJTableRow } from '../../../types/Charts'
 import { DashboardDataResponse } from '../../../types/Metrics'
-import { DashboardVisualisation, DashboardVisualisationColumn, ListVisualisation } from '../dashboard/types'
+import {
+  DashboardVisualisationColumn,
+  DashboardVisualisationColumnMeasure,
+  ListVisualisation,
+} from '../dashboard/types'
 import DatasetHelper from '../../../utils/datasetHelper'
 
 const createList = (
@@ -125,14 +129,14 @@ const createFullList = (dashboardData: DashboardDataResponse[]) => {
   }
 }
 
-const sumColumns = (rowsData: MoJTableRow[][], columns: DashboardVisualisationColumn[]) => {
-  const sumColumnIndexes: number[] = columns
+const sumColumns = (rowsData: MoJTableRow[][], measures: DashboardVisualisationColumnMeasure[]) => {
+  const sumColumnIndexes: number[] = measures
     .map((col, index) => (col.aggregate ? index : undefined))
     .filter((index) => index)
 
   if (sumColumnIndexes.length) {
     const sumRow: MoJTableRow[] = [{ html: `<strong>Total<strong>` }]
-    for (let index = 1; index < columns.length; index += 1) {
+    for (let index = 1; index < measures.length; index += 1) {
       sumRow[index] = { text: '' }
     }
 

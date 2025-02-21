@@ -1,6 +1,6 @@
 import { components } from '../../../types/api'
 import { ChartCardData, MoJTable, UnitType } from '../../../types/Charts'
-import { Scorecard } from '../scorecard/types'
+import { Scorecard, ScorecardGroup } from '../scorecard/types'
 
 export interface DashboardDefinition {
   id: string
@@ -29,7 +29,7 @@ export interface DashboardUIVisualisation {
   type: DashboardVisualisationType
   title?: string
   description?: string
-  data: Scorecard | Scorecard[] | ChartCardData | { table: MoJTable; ts: string }
+  data: Scorecard | Scorecard[] | ScorecardGroup[] | ChartCardData | { table: MoJTable; ts: string }
 }
 
 export interface DashboardVisualisation {
@@ -38,6 +38,12 @@ export interface DashboardVisualisation {
   display?: string
   description?: string
   columns: DashboardVisualisationColumns
+  showLatest?: boolean
+}
+
+export interface ListVisualisation extends DashboardVisualisation {
+  type: DashboardVisualisationType.LIST
+  columnsAsList: boolean
 }
 
 export enum DashboardVisualisationType {
@@ -51,25 +57,32 @@ export enum DashboardVisualisationType {
 }
 
 export interface DashboardVisualisationColumns {
-  keys?: DashboardVisualisationColumn[]
-  measures: DashboardVisualisationColumn[]
-  filters?: ValueVisualisationColumn[]
+  keys?: DashboardVisualisationColumnKey[]
+  measures: DashboardVisualisationColumnMeasure[]
+  filters?: DashboardVisualisationColumnFilter[]
   expectNulls: boolean
 }
 
 export interface DashboardVisualisationColumn {
   id: string
-  display: string
+  display?: string
+}
+
+export interface DashboardVisualisationColumnKey extends DashboardVisualisationColumn {
+  optional?: boolean
+}
+
+export interface DashboardVisualisationColumnMeasure extends DashboardVisualisationColumn {
   aggregate?: AggregateType
   unit?: UnitType
 }
 
-export interface ValueVisualisationColumn {
+export interface DashboardVisualisationColumnFilter {
   id: string
   equals: string | number
 }
 
-export interface BarChartVisualisationColumn extends DashboardVisualisationColumn {
+export interface BarChartVisualisationColumn extends DashboardVisualisationColumnMeasure {
   axis?: 'x' | 'y'
 }
 

@@ -14,7 +14,8 @@ const {
   mockTargetScorecardDefinitionReligion,
   mockEthnicityBarChartList,
   mockEthnicityLineChartTimeseries,
-} = require('../data-quality/vis-definitions')
+} = require('../data-quality/visualisations')
+const { lists } = require('../examples/visualisations')
 
 const { establishmentIdFilter, granularDateRangeFilter } = require('../../filter-definitions')
 
@@ -67,11 +68,17 @@ const testingDashboard = {
         mockScorecardGroupEthnicityByEstablishment,
       ],
     },
+    // {
+    //   id: 'test-section-7',
+    //   display: 'Section 7 - Timeseries charts',
+    //   description: 'Section 7 description - Testing timeseries charts',
+    //   visualisations: [mockEthnicityLineChartTimeseries],
+    // },
     {
-      id: 'test-section-7',
-      display: 'Section 7 - Timeseries charts',
-      description: 'Section 7 description - Testing timeseries charts',
-      visualisations: [mockEthnicityLineChartTimeseries],
+      id: 'all-data',
+      display: 'All Data',
+      description: '',
+      visualisations: [lists.fullDataset],
     },
   ],
   filterFields: [establishmentIdFilter, granularDateRangeFilter],

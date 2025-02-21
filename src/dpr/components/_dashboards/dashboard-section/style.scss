@@ -7,10 +7,12 @@
 
 .dpr-dashboard-section {
   margin-top: govuk-spacing(6);
-  scroll-margin-top: 120px;
+  scroll-margin-top: 150px;
+  max-width: 100%;
 }
 
 .dashboard-visualisation-container {
   margin-top: govuk-spacing(6);
   margin-bottom: govuk-spacing(6);
+  overflow-x: scroll;
 }

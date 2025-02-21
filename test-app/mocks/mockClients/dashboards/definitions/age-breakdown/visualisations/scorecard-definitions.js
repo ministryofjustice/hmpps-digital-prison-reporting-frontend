@@ -13,7 +13,7 @@ const mockScorecardDefinitionTotalInWing = {
     ],
     measures: [
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'Total prisoners in wing',
       },
     ],
@@ -32,7 +32,7 @@ const mockScorecardDefinitionTotalInEst = {
     ],
     measures: [
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'Total prisoners',
       },
     ],
@@ -45,7 +45,7 @@ const mockScorecardDefinitionEthnicWhite = {
   columns: {
     measures: [
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'Total prisoners whose ethnic description is White: Eng./Welsh/Scot./N.Irish/British',
       },
     ],
@@ -63,7 +63,7 @@ const mockScorecardDefinitionEthnicAsian = {
   columns: {
     measures: [
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'Total prisoners whose ethnic description is Asian/Asian British: Pakistani',
       },
     ],
@@ -88,7 +88,7 @@ const mockScoreCardGroupReligion = {
         display: 'Total prisoners whose religion description is',
       },
       {
-        id: 'total_prisoners',
+        id: 'count',
         displayValue: true,
       },
     ],

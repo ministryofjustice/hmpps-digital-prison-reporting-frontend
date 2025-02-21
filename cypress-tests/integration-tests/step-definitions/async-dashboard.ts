@@ -27,9 +27,6 @@ Then('I see the dashboard sections', () => {
 
   page.section6Name().contains('Section 6 - Scorecard Group')
   page.section6Description().contains('Section 6 description - Testing scorecard groups created from list data')
-
-  page.section7Name().contains('Section 7 - Timeseries charts')
-  page.section7Description().contains('Section 7 description - Testing timeseries charts')
 })
 
 Then('I see the dashboard chart visualisations', () => {

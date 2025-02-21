@@ -9,7 +9,7 @@
   {% set description = visualisation.description %}
   {% set data = visualisation.data %}
 
-  <div class="dashboard-visualisation-container" id="{{ id }}-dash-section-visualisation">
+  <div class="dashboard-visualisation-container" id="{{ id }}-dash-section-visualisation" tabindex="0">
     {% if title %}
       <h3 class="govuk-heading-s">{{ title }}</h3>
     {% endif %}
@@ -18,7 +18,7 @@
       <p class="govuk-body">{{ description }}</p>
     {% endif %}
 
-    {% if type === 'bar' or type === 'line' or type === 'doughnut' %}
+    {% if type === 'bar' or type === 'line' or type === 'doughnut' or type === 'bar-timeseries' %}
 
       {{ dprChartCard(id, data) }}
 

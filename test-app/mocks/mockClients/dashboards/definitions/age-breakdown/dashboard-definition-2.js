@@ -1,4 +1,14 @@
 const {
+  mockScorecardDefinitionTotalInWing,
+  mockScorecardDefinitionTotalInEst,
+  mockScorecardDefinitionEthnicWhite,
+  mockScorecardDefinitionEthnicAsian,
+  mockScoreCardGroupReligion,
+  mockBarChartReligion,
+  mockPieChartReligion,
+} = require('./visualisations')
+
+const {
   mockListDefinitionAgeRange1,
   mockListDefinitionAgeRange2,
   mockListDefinitionReligion,
@@ -8,20 +18,13 @@ const {
   mockListDefinitionCell,
   mockListDefinitionNationality,
   mockListDefinitionEthnicityAgeRange,
-  mockScorecardDefinitionTotalInWing,
-  mockScorecardDefinitionTotalInEst,
-  mockScorecardDefinitionEthnicWhite,
-  mockScorecardDefinitionEthnicAsian,
-  mockScoreCardGroupReligion,
-  mockBarChartReligion,
-  mockPieChartReligion,
-} = require('./vis-definitions')
+} = require('./visualisations/list-definitions-1')
 
 const { establishmentIdFilter, wingFilter } = require('../../filter-definitions')
 
 const ageBreakdownReport2 = {
   id: 'age-breakdown-dashboard-2',
-  name: 'Age Breakdown Dashboard, with extras',
+  name: 'Age Breakdown - Augmented',
   description:
     'Description of the age breakdown report - This is a mocked data version of the age breakdown report, in order to test and demo dashboards with lists',
   sections: [

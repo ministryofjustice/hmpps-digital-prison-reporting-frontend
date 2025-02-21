@@ -3,17 +3,24 @@ const mockListDefinitionAgeRange1 = {
   type: 'list',
   display: 'Total prisoners by age range 1',
   columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishmnent ID',
+      },
+    ],
     measures: [
       {
         id: 'age_range_1',
         display: 'Age range 1',
       },
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'Total prisoners',
         aggregate: 'sum',
       },
     ],
+    expectNulls: true,
   },
 }
 
@@ -22,17 +29,24 @@ const mockListDefinitionAgeRange2 = {
   type: 'list',
   display: 'Total prisoners by age range 2',
   columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishmnent ID',
+      },
+    ],
     measures: [
       {
         id: 'age_range_2',
         display: 'Age range 2',
       },
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'Total prisoners',
         aggregate: 'sum',
       },
     ],
+    expectNulls: true,
   },
 }
 
@@ -61,7 +75,7 @@ const mockListDefinitionTotalPrisonersByWing = {
         display: 'Wing',
       },
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'Total prisoners',
       },
     ],
@@ -80,7 +94,7 @@ const mockListDefinitionTotalPrisoners = {
         display: 'Establishmnent ID',
       },
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'Total prisoners',
       },
     ],
@@ -91,8 +105,51 @@ const mockListDefinitionTotalPrisoners = {
 const mockListDefinitionReligion = {
   id: 'religion',
   type: 'list',
+  display: 'Religion totals by wing',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishmnent ID',
+      },
+      {
+        id: 'wing',
+        display: 'Wing',
+      },
+    ],
+    measures: [
+      {
+        id: 'wing',
+        display: 'Wing',
+      },
+      {
+        id: 'religion_code',
+        display: 'Religion Code',
+      },
+      {
+        id: 'religion_description',
+        display: 'Religion description',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+        aggregate: 'sum',
+      },
+    ],
+  },
+}
+
+const mockListDefinitionReligionByEst = {
+  id: 'religionEst',
+  type: 'list',
   display: 'Religion totals',
   columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishmnent ID',
+      },
+    ],
     measures: [
       {
         id: 'religion_code',
@@ -103,7 +160,45 @@ const mockListDefinitionReligion = {
         display: 'Religion description',
       },
       {
-        id: 'total_prisoners',
+        id: 'count',
+        display: 'Total prisoners',
+        aggregate: 'sum',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
+const mockListDefinitionEthnicity = {
+  id: 'ethnicity',
+  type: 'list',
+  display: 'Ethnicity totals by wing',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishmnent ID',
+      },
+      {
+        id: 'wing',
+        display: 'Wing',
+      },
+    ],
+    measures: [
+      {
+        id: 'wing',
+        display: 'Wing',
+      },
+      {
+        id: 'ethnic_code',
+        display: 'Ethnic Code',
+      },
+      {
+        id: 'ethnic_description',
+        display: 'Ethnic description',
+      },
+      {
+        id: 'count',
         display: 'Total prisoners',
         aggregate: 'sum',
       },
@@ -111,11 +206,17 @@ const mockListDefinitionReligion = {
   },
 }
 
-const mockListDefinitionEthnicity = {
-  id: 'ethnicity',
+const mockListDefinitionEthnicityByEst = {
+  id: 'ethnicityEst',
   type: 'list',
-  display: 'Ethnicity totals',
+  display: 'Ethnicity totals by establishment',
   columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishmnent ID',
+      },
+    ],
     measures: [
       {
         id: 'ethnic_code',
@@ -126,11 +227,12 @@ const mockListDefinitionEthnicity = {
         display: 'Ethnic description',
       },
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'Total prisoners',
         aggregate: 'sum',
       },
     ],
+    expectNulls: true,
   },
 }
 
@@ -139,7 +241,21 @@ const mockListDefinitionEthnicityAgeRange = {
   type: 'list',
   display: 'Ethnicity totals by age range',
   columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishmnent ID',
+      },
+      {
+        id: 'wing',
+        display: 'Wing',
+      },
+    ],
     measures: [
+      {
+        id: 'wing',
+        display: 'Wing',
+      },
       {
         id: 'ethnic_description',
         display: 'Ethnic description',
@@ -170,7 +286,7 @@ const mockListDefinitionEthnicityAgeRange = {
         aggregate: 'sum',
       },
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'Sum',
         aggregate: 'sum',
       },
@@ -195,8 +311,9 @@ const mockListDefinitionCell = {
         display: 'Cell',
       },
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'Total prisoners',
+        aggregate: 'sum',
       },
     ],
   },
@@ -223,7 +340,7 @@ const mockListDefinitionAgeRange1Wing = {
         display: 'Age range 1',
       },
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'Total prisoners',
         aggregate: 'sum',
       },
@@ -252,9 +369,45 @@ const mockListDefinitionAgeRange2Wing = {
         display: 'Age range 2',
       },
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'Total prisoners',
         aggregate: 'sum',
+      },
+    ],
+  },
+}
+
+const mockListDefinitionNationalityByWing = {
+  id: 'nationalityByWng',
+  type: 'list',
+  display: 'Nationality totals by wing',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishmnent ID',
+      },
+      {
+        id: 'wing',
+        display: 'Wing',
+      },
+    ],
+    measures: [
+      {
+        id: 'wing',
+        display: 'Wing',
+      },
+      {
+        id: 'nationality_code',
+        display: 'Nationality Code',
+      },
+      {
+        id: 'nationality_description',
+        display: 'Nationality Description',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
       },
     ],
   },
@@ -265,6 +418,12 @@ const mockListDefinitionNationality = {
   type: 'list',
   display: 'Nationality totals',
   columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishmnent ID',
+      },
+    ],
     measures: [
       {
         id: 'nationality_code',
@@ -275,10 +434,11 @@ const mockListDefinitionNationality = {
         display: 'Nationality Description',
       },
       {
-        id: 'total_prisoners',
+        id: 'count',
         display: 'Total prisoners',
       },
     ],
+    expectNulls: true,
   },
 }
 
@@ -287,11 +447,14 @@ module.exports = {
   mockListDefinitionAgeRange2,
   mockListDefinitionTotalPrisoners,
   mockListDefinitionTotalPrisonersByWing,
+  mockListDefinitionReligionByEst,
   mockListDefinitionReligion,
   mockListDefinitionEthnicity,
+  mockListDefinitionEthnicityByEst,
   mockListDefinitionEthnicityAgeRange,
   mockListDefinitionCell,
   mockListDefinitionAgeRange1Wing,
   mockListDefinitionAgeRange2Wing,
   mockListDefinitionNationality,
+  mockListDefinitionNationalityByWing,
 }

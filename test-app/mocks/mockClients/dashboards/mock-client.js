@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
-const dayjs = require('dayjs')
 const dashboardDefinitions = require('./dashboard-definitions')
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
-const { generateAgeBreakdownData } = require('./definitions/age-breakdown/data')
-const { createTimeSeriesData } = require('./definitions/data-quality/data')
-const MockDataHelper = require('./mockDataHelper')
+const { generateAgeBreakdownData } = require('./data/age-breakdown/data')
+const AgeBreakdownDataHelper = require('./data/age-breakdown/dataGenerator')
+const TestDataHelper = require('./data/test-data/dataGenerator')
+const DataQualityMetricsHelper = require('./data/data-quality-metrics/dataGenerator')
 
 class MockDashboardClient {
   constructor() {
@@ -79,51 +79,49 @@ class MockDashboardClient {
 }
 
 const getData = (def, dashboardId, query) => {
-  // Age Breakdown report
+  const establishmentId = query['filters.establishment_id']
+  const wing = query['filters.wing']
+
   if (['age-breakdown-dashboard-1', 'age-breakdown-dashboard-2'].includes(dashboardId)) {
-    const establishmentId = query['filters.establishment_id']
-    const wing = query['filters.wing']
     return generateAgeBreakdownData(establishmentId, wing)
   }
 
-  const start = query['filters.date.start'] || dayjs().format('YYYY-MM-DD')
-  const end = query['filters.date.end'] || dayjs().format('YYYY-MM-DD')
-  const granularity = query['filters.date.granularity'] || 'daily'
-
-  if (['mock-data-dashboard-1'].includes(dashboardId)) {
-    const data = {
-      total_prisoners: 'number',
-      empty_column_1: 'null',
-      empty_column_2: 'null',
-      random_metric: 'number',
-      random_metric_2: 'number',
-    }
-    const mockData = MockDataHelper.createTimeSeriesData(start, end, granularity, data, 3, true)
-    const filteredData = filterByEstablishmentId(query, mockData)
-    return filteredData
+  if (['age-breakdown-dashboard-3', 'lists-example-dashboard'].includes(dashboardId)) {
+    return AgeBreakdownDataHelper.generateData(query)
   }
 
-  const data = createTimeSeriesData(start, end, granularity, 3)
-  const filteredData = filterByEstablishmentId(query, data)
-
-  return filteredData
-}
-
-const filterByEstablishmentId = (query, data) => {
-  if (query['filters.establishment_id']) {
-    data = data.map((ts) => {
-      return ts.filter((d) => {
-        let found = false
-        if (Array.isArray(query['filters.establishment_id'])) {
-          query['filters.establishment_id'].forEach((id) => {
-            if (id === d.establishment_id.raw) found = true
-          })
-        } else if (query['filters.establishment_id'] === d.establishment_id.raw) found = true
-        return found
-      })
-    })
+  if (
+    [
+      'list-examples-diet-totals',
+      'list-examples-fallback-keys',
+      'list-examples-diet-totals-historic',
+      'list-examples-diet-totals-full-set',
+      'chart-examples-diet-totals',
+      'chart-examples-diet-totals-flexible',
+      'chart-examples-diet-totals-historic',
+      'chart-examples-diet-totals-historic-flexible',
+      'scorecard-examples-diet-totals',
+    ].includes(dashboardId)
+  ) {
+    return TestDataHelper.generateData(query)
   }
 
+  if (
+    [
+      'list-examples-data-quality',
+      'list-examples-data-quality-historic',
+      'list-examples-data-quality-flexible',
+      'list-examples-data-quality-dataset',
+      'chart-examples-data-quality',
+      'chart-examples-data-quality-historic',
+      'scorecard-examples-data-quality',
+      'data-quality-dashboard-base',
+    ].includes(dashboardId)
+  ) {
+    return DataQualityMetricsHelper.generateData(query)
+  }
+
+  const data = DataQualityMetricsHelper.generateData(query)
   return data
 }
 

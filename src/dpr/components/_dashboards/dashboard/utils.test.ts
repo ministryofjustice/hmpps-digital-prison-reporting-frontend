@@ -66,7 +66,9 @@ describe('DashboardUtils', () => {
           reportId: 'test-report-1',
           id: 'test-dashboard-8',
         },
-        query: {},
+        query: {
+          'filters.establishment_id': 'MDI',
+        },
       } as unknown as Request
 
       res = {

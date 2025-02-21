@@ -36,6 +36,44 @@ const establishmentIdFilter = {
   calculated: false,
 }
 
+const wingFilterCompass = {
+  name: 'wing',
+  display: 'Wing',
+  filter: {
+    type: 'Select',
+    mandatory: false,
+    staticOptions: [
+      {
+        name: 'east',
+        display: 'East',
+      },
+      {
+        name: 'west',
+        display: 'West',
+      },
+      {
+        name: 'north',
+        display: 'North',
+      },
+      {
+        name: 'south',
+        display: 'South',
+      },
+    ],
+    defaultValue: 'north',
+    dynamicOptions: {
+      minimumLength: null,
+    },
+    interactive: true,
+  },
+  sortable: false,
+  defaultsort: false,
+  type: 'string',
+  mandatory: false,
+  visible: true,
+  calculated: false,
+}
+
 const wingFilter = {
   name: 'wing',
   display: 'Wing',
@@ -94,5 +132,6 @@ const granularDateRangeFilter = {
 module.exports = {
   establishmentIdFilter,
   granularDateRangeFilter,
+  wingFilterCompass,
   wingFilter,
 }

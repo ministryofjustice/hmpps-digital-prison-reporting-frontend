@@ -1,9 +1,16 @@
 {% from "../scorecard/view.njk" import dprScoreCard %}
 
-{% macro dprScoreCardGroup(id, scorecards) %}
-  <div class="dpr-scorecard-group">
-    {% for scorecard in scorecards %}
-      {{ dprScoreCard(scorecard) }}
-    {% endfor %}
-  </div> 
+{% macro dprScoreCardGroup(id, scorecardGroup) %}
+
+  {% for group in scorecardGroup %}
+    {% set title = group.title %}
+    {% set scorecards = group.scorecards %}
+
+    <p class="govuk-heading-s"><strong>{{ title }}</strong></p>
+    <div class="dpr-scorecard-group">
+      {% for scorecard in scorecards %}
+        {{ dprScoreCard(scorecard) }}
+      {% endfor %}
+    </div> 
+  {% endfor %}
 {% endmacro %}

@@ -5,6 +5,7 @@ import type { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
 import {
   DashboardUIVisualisation,
   DashboardVisualisationType,
+  ListVisualisation,
   type DashboardDefinition,
   type DashboardSection,
   type DashboardUISection,
@@ -97,7 +98,7 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
 
 const getSections = (
   dashboardDefinition: DashboardDefinition,
-  dashboardData: DashboardDataResponse[][],
+  dashboardData: DashboardDataResponse[],
 ): DashboardUISection[] => {
   return dashboardDefinition.sections.map((section: DashboardSection) => {
     const { id, display: title, description } = section
@@ -110,7 +111,7 @@ const getSections = (
 
       switch (type) {
         case DashboardVisualisationType.LIST:
-          data = DashboardListUtils.createList(visDefinition, dashboardData)
+          data = DashboardListUtils.createList(visDefinition as ListVisualisation, dashboardData)
           break
 
         case DashboardVisualisationType.SCORECARD:
@@ -142,7 +143,7 @@ const getSections = (
       }
     })
 
-    if (hasScorecard) ScorecardsUtils.mergeScorecards(visualisations)
+    if (hasScorecard) ScorecardsUtils.mergeScorecardsIntoGroup(visualisations)
 
     return { id, title, description, visualisations }
   })
@@ -196,8 +197,10 @@ export default {
       query,
     )
 
+    const flattenedData: DashboardDataResponse[] = dashboardData.flat()
+
     // Get the dashboard parts
-    const sections: DashboardUISection[] = getSections(dashboardDefinition, dashboardData)
+    const sections: DashboardUISection[] = getSections(dashboardDefinition, flattenedData)
 
     // Update the store
     const dashboardRequestData = await updateStore(services, tableId, userId, sections, url)

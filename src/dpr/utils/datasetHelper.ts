@@ -48,19 +48,18 @@ const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: D
   })
 
   if (hasOptionalKeys) {
-    return filterKeys(filtered, keyColumnsIds, keys)
+    return filterKeys(filtered, keys)
   }
 
   return filtered
 }
 
-const getKeyVariations = (
-  dashboardData: DashboardDataResponse[],
-  keyColumnsIds: string[],
-  keys: DashboardVisualisationColumn[],
-) => {
+const getKeyVariations = (dashboardData: DashboardDataResponse[], keys: DashboardVisualisationColumn[]) => {
   const colIdVariations: string[][] = []
+  const keyColumnsIds = keys.map((col) => col.id)
+  const allOptional = keys.every((key) => key.optional)
   const colIdCopy = [...keyColumnsIds]
+
   keyColumnsIds.reverse().forEach((id) => {
     const key = keys.find((k) => k.id === id)
     colIdVariations.push([...colIdCopy])
@@ -69,6 +68,7 @@ const getKeyVariations = (
     }
   })
 
+  if (allOptional) colIdVariations.push([])
   return colIdVariations
 }
 
@@ -105,12 +105,8 @@ const getKeyIds = (dashboardData: DashboardDataResponse[], colIdVariations: stri
   return validHeadIds
 }
 
-const filterKeys = (
-  dashboardData: DashboardDataResponse[],
-  keyColumnsIds: string[],
-  keys: DashboardVisualisationColumn[],
-) => {
-  const colIdVariations = getKeyVariations(dashboardData, keyColumnsIds, keys)
+const filterKeys = (dashboardData: DashboardDataResponse[], keys: DashboardVisualisationColumn[]) => {
+  const colIdVariations = getKeyVariations(dashboardData, keys)
   const validHeadIds = getKeyIds(dashboardData, colIdVariations)
 
   return dashboardData.filter((datasetRow: DashboardDataResponse) => {
@@ -159,6 +155,10 @@ const groupRowsByKey = (dashboardData: DashboardDataResponse[], key: string): Da
 }
 
 const getGroupKey = (keys: DashboardVisualisationColumn[], rawData: DashboardDataResponse[]) => {
+  if (!keys || !keys.length) {
+    return undefined
+  }
+
   const data = rawData[0]
   let index = keys.length - 1
   let keyFound = false
@@ -170,6 +170,7 @@ const getGroupKey = (keys: DashboardVisualisationColumn[], rawData: DashboardDat
       keyFound = true
     }
   }
+
   return index !== -1 ? keys[index] : undefined
 }
 
@@ -204,4 +205,7 @@ export default {
   groupRowsByTimestamp,
   groupRowsByKey,
   getGroupKey,
+  getKeyVariations,
+  getKeyIds,
+  filterKeys,
 }

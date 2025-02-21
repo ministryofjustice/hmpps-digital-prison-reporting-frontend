@@ -2,6 +2,7 @@ import { DashboardDataResponse } from '../../../types/Metrics'
 import {
   DashboardUIVisualisation,
   DashboardVisualisation,
+  DashboardVisualisationColumn,
   DashboardVisualisationColumns,
   DashboardVisualisationType,
   ScorecardVisualisationColumn,
@@ -19,15 +20,15 @@ const createScorecards = (
   const { earliest, latest, earliestTs, latestTs } = dataset
 
   const scorecardFromListValueColumn = (<ScorecardVisualisationColumn[]>measures).find((col) => col.displayValue)
-  const groupKey = keys?.length ? DatasetHelper.getGroupKey(keys, latest) : undefined
+  const groupKey = DatasetHelper.getGroupKey(keys, latest)
 
   let scorecardGroup: ScorecardGroup[]
   if (!scorecardFromListValueColumn) {
-    scorecardGroup = createScorecardGroupFromColumns(columns, earliest, earliestTs, latest, latestTs)
+    scorecardGroup = createScorecardGroupFromColumns(columns, earliest, earliestTs, latest, latestTs, groupKey)
   } else if (groupKey) {
-    scorecardGroup = createScorecardGroupWithSubGroupsFromList(columns, earliest, earliestTs, latest, latestTs)
+    scorecardGroup = createScorecardGroupWithGroupsFromList(columns, earliest, earliestTs, latest, latestTs, groupKey)
   } else {
-    scorecardGroup = createScorecardFromList(columns, earliest, earliestTs, latest, latestTs)
+    scorecardGroup = createScorecardGroupFromList(columns, earliest, earliestTs, latest, latestTs)
   }
   return scorecardGroup
 }
@@ -109,7 +110,7 @@ const createScorecard = (scorecardDefinition: DashboardVisualisation, rawData: D
   return scorecordArr[0]
 }
 
-const createScorecardFromList = (
+const createScorecardGroupFromList = (
   columns: DashboardVisualisationColumns,
   earliest: DashboardDataResponse[],
   earliestTs: string | number,
@@ -152,11 +153,13 @@ const createScorecardGroupFromColumns = (
   earliestTs: string | number,
   latest: DashboardDataResponse[],
   latestTs: string | number,
+  groupKey: DashboardVisualisationColumn,
 ) => {
-  const { keys, measures } = columns
+  const { measures } = columns
+
   return latest.map((row, rowIndex) => {
-    const groupKey = keys.length ? DatasetHelper.getGroupKey(keys, latest) : undefined
     const groupTitle = `${row[groupKey?.id]?.raw}` || ''
+
     return {
       title: groupKey.display ? `${groupKey.display}: ${groupTitle}` : groupTitle,
       scorecards: Object.keys(row)
@@ -184,51 +187,48 @@ const createScorecardGroupFromColumns = (
   })
 }
 
-const createScorecardGroupWithSubGroupsFromList = (
+const createScorecardGroupWithGroupsFromList = (
   columns: DashboardVisualisationColumns,
   earliest: DashboardDataResponse[],
   earliestTs: string | number,
   latest: DashboardDataResponse[],
   latestTs: string | number,
+  groupKey: DashboardVisualisationColumn,
 ) => {
-  const { keys, measures } = columns
-  const groupKey = keys.length ? DatasetHelper.getGroupKey(keys, latest) : undefined
-  let scorecardGroup
+  const { measures } = columns
 
-  if (groupKey) {
-    const latestGroupedByKey = DatasetHelper.groupRowsByKey(latest, groupKey.id)
-    const earliestGroupedByKey = DatasetHelper.groupRowsByKey(earliest, groupKey.id)
-    const valueColumn = (<ScorecardVisualisationColumn[]>measures).find((col) => col.displayValue)
-    const displayColumn = measures.find((col) => {
-      return col.display || col.display === ''
-    })
+  const latestGroupedByKey = DatasetHelper.groupRowsByKey(latest, groupKey.id)
+  const earliestGroupedByKey = DatasetHelper.groupRowsByKey(earliest, groupKey.id)
+  const valueColumn = (<ScorecardVisualisationColumn[]>measures).find((col) => col.displayValue)
+  const displayColumn = measures.find((col) => {
+    return col.display || col.display === ''
+  })
 
-    scorecardGroup = latestGroupedByKey.map((group, groupIndex) => {
-      const groupTitle = `${group[0][groupKey?.id]?.raw}` || ''
-      return {
-        title: groupKey.display ? `${groupKey.display}: ${groupTitle}` : groupTitle,
-        scorecards: group.map((row, rowIndex) => {
-          const title = displayColumn ? `${displayColumn.display} ${row[displayColumn.id].raw}` : displayColumn.display
-          const value = +row[valueColumn.id].raw
-          const rag = +row[valueColumn.id].rag
-          const valueFor = `${latestTs}`
-          const valueFrom = `${earliestTs}`
+  const scorecardGroup = latestGroupedByKey.map((group, groupIndex) => {
+    const groupTitle = `${group[0][groupKey?.id]?.raw}` || ''
+    return {
+      title: groupKey.display ? `${groupKey.display}: ${groupTitle}` : groupTitle,
+      scorecards: group.map((row, rowIndex) => {
+        const title = displayColumn ? `${displayColumn.display} ${row[displayColumn.id].raw}` : displayColumn.display
+        const value = +row[valueColumn.id].raw
+        const rag = +row[valueColumn.id].rag
+        const valueFor = `${latestTs}`
+        const valueFrom = `${earliestTs}`
 
-          const comparisonRow = earliestGroupedByKey[groupIndex][rowIndex]
-          const prevVal = comparisonRow[valueColumn.id]?.raw
+        const comparisonRow = earliestGroupedByKey[groupIndex][rowIndex]
+        const prevVal = comparisonRow[valueColumn.id]?.raw
 
-          return createScorecardData({
-            title,
-            value,
-            rag,
-            prevVal,
-            valueFor,
-            valueFrom,
-          })
-        }),
-      }
-    })
-  }
+        return createScorecardData({
+          title,
+          value,
+          rag,
+          prevVal,
+          valueFor,
+          valueFrom,
+        })
+      }),
+    }
+  })
 
   return scorecardGroup
 }

@@ -60,7 +60,7 @@ export interface DashboardVisualisationColumns {
 
 export interface DashboardVisualisationColumn {
   id: string
-  display: string
+  display?: string
   aggregate?: AggregateType
   unit?: UnitType
   optional?: boolean

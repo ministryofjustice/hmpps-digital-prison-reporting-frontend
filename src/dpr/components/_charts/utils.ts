@@ -11,7 +11,6 @@ import { DashboardDataResponse } from '../../types/Metrics'
 import {
   BarChartVisualisationColumn,
   DashboardVisualisation,
-  // DashboardVisualisationColumn,
   DashboardVisualisationColumns,
   DashboardVisualisationType,
 } from '../_dashboards/dashboard/types'
@@ -27,20 +26,14 @@ const createChart = (chartDefinition: DashboardVisualisation, rawData: Dashboard
   let details: ChartDetails
 
   if (timeseriesChartTypes.includes(type)) {
-    const latestData = DatasetHelper.getLastestDataset(rawData)
-    const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, rawData)
-    const timeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
-
+    const { latestData, dataSetRows, timeseriesData } = getDataForTimeseriesCharts(chartDefinition, rawData)
     if (dataSetRows.length) {
       chart = createTimeseriesChart(chartDefinition, timeseriesData)
-      // table = createTimeseriesTable(chartDefinition, timeseriesData)
+      table = createTimeseriesTable(chartDefinition, timeseriesData)
       details = getChartDetails(chartDefinition, latestData, true)
     }
   } else {
-    const data = DatasetHelper.getLastestDataset(rawData)
-    const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, data)
-    const snapshotData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
-
+    const { dataSetRows, snapshotData } = getDataForSnapshotCharts(chartDefinition, rawData)
     if (dataSetRows.length) {
       chart = createSnapshotChart(chartDefinition, snapshotData)
       table = createSnapshotTable(chartDefinition, dataSetRows)
@@ -57,6 +50,29 @@ const createChart = (chartDefinition: DashboardVisualisation, rawData: Dashboard
 
 export default {
   createChart,
+}
+
+const getDataForSnapshotCharts = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]) => {
+  const data = DatasetHelper.getLastestDataset(rawData)
+  const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, data)
+  const snapshotData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
+
+  return {
+    dataSetRows,
+    snapshotData,
+  }
+}
+
+const getDataForTimeseriesCharts = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]) => {
+  const latestData = DatasetHelper.getLastestDataset(rawData)
+  const dataSetRows = DatasetHelper.getDatasetRows(chartDefinition, rawData)
+  const timeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, dataSetRows, true)
+
+  return {
+    latestData,
+    dataSetRows,
+    timeseriesData,
+  }
 }
 
 const getChartDetails = (
@@ -180,12 +196,14 @@ const buildChart = (columns: DashboardVisualisationColumns, rawData: DashboardDa
 
 const buildChartFromListData = (columns: DashboardVisualisationColumns, rawData: DashboardDataResponse[]) => {
   const { measures, keys } = columns
+
   const xAxisColumn = (<BarChartVisualisationColumn[]>measures).find((col) => col.axis === 'x')
   const yAxisColumn = (<BarChartVisualisationColumn[]>measures).find((col) => col.axis === 'y')
-  const unit = yAxisColumn?.unit || undefined
-  const groupKey = keys?.length ? DatasetHelper.getGroupKey(keys, rawData) : undefined
 
+  const unit = yAxisColumn?.unit || undefined
+  const groupKey = DatasetHelper.getGroupKey(keys, rawData)
   const groupsData = groupKey ? DatasetHelper.groupRowsByKey(rawData, groupKey.id) : [rawData]
+
   const labels = groupsData[0]?.map((row) => {
     return `${row[xAxisColumn.id].raw}`
   })
@@ -209,11 +227,13 @@ const buildChartFromListData = (columns: DashboardVisualisationColumns, rawData:
 const createSnapshotTable = (chartDefinition: DashboardVisualisation, data: DashboardDataResponse[]): MoJTable => {
   const { columns } = chartDefinition
   const { keys, measures } = columns
+
   const headerColumns = [...keys, ...measures]
-  const filteredRowData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, data, true)
   const head = headerColumns.map((column) => {
     return { text: column.display }
   })
+
+  const filteredRowData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, data, true)
   const rows = DashboardListUtils.createTableRows(filteredRowData)
 
   return {
@@ -226,14 +246,16 @@ const createTimeseriesChart = (
   chartDefinition: DashboardVisualisation,
   timeseriesData: DashboardDataResponse[],
 ): ChartData => {
-  const timeBlockData = DatasetHelper.groupRowsByTimestamp(timeseriesData)
   const { columns } = chartDefinition
   const { keys, measures } = columns
+
+  const unit = measures[0].unit ? measures[0].unit : undefined
   const type = chartDefinition.type === DashboardVisualisationType.BAR_TIMESERIES ? 'bar' : chartDefinition.type
 
-  const labelId = keys[keys.length - 1].id as keyof DashboardDataResponse
-  const unit = measures[0].unit ? measures[0].unit : undefined
+  const groupKey = DatasetHelper.getGroupKey(keys, timeseriesData)
+  const labelId = groupKey.id as keyof DashboardDataResponse
 
+  const timeBlockData = DatasetHelper.groupRowsByTimestamp(timeseriesData)
   const labels = timeBlockData.map((d: DashboardDataResponse[]) => d[0].ts.raw as unknown as string)
   const datasetCount = timeBlockData[0].length
 
@@ -263,35 +285,36 @@ const createTimeseriesChart = (
   }
 }
 
-// const createTimeseriesTable = (
-//   chartDefinition: DashboardVisualisation,
-//   timeseriesData: DashboardDataResponse[][],
-// ): MoJTable => {
-//   const { columns } = chartDefinition
-//   const { keys, measures } = columns
-//   let flatTimeseriesData = timeseriesData.flat()
-//   const hasMultipleRowsPerTimePeriod = timeseriesData[0].length > 1
-//   let headerColumns = [...measures]
+const createTimeseriesTable = (
+  chartDefinition: DashboardVisualisation,
+  timeseriesData: DashboardDataResponse[],
+): MoJTable => {
+  const { columns } = chartDefinition
+  const { keys, measures } = columns
 
-//   if (hasMultipleRowsPerTimePeriod) {
-//     const timestampIndex = headerColumns.findIndex((m) => m.id === 'ts')
-//     const timestampCol = headerColumns[timestampIndex]
+  let flatTimeseriesData = timeseriesData.flat()
+  const hasMultipleRowsPerTimePeriod = timeseriesData.length > 1
+  let headerColumns = [...measures]
 
-//     headerColumns.splice(timestampIndex, 1)
-//     headerColumns = [...keys, ...headerColumns]
-//     headerColumns.unshift(timestampCol)
-//   } else {
-//     flatTimeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, flatTimeseriesData)
-//   }
+  if (hasMultipleRowsPerTimePeriod) {
+    const timestampIndex = headerColumns.findIndex((m) => m.id === 'ts')
+    const timestampCol = headerColumns[timestampIndex]
 
-//   const head = headerColumns.map((column) => {
-//     return { text: column.display }
-//   })
+    headerColumns.splice(timestampIndex, 1)
+    headerColumns = [...keys, ...headerColumns]
+    headerColumns.unshift(timestampCol)
+  } else {
+    flatTimeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, flatTimeseriesData)
+  }
 
-//   const rows = DashboardListUtils.createTableRows(flatTimeseriesData)
+  const head = headerColumns.map((column) => {
+    return { text: column.display }
+  })
 
-//   return {
-//     head,
-//     rows,
-//   } as MoJTable
-// }
+  const rows = DashboardListUtils.createTableRows(flatTimeseriesData)
+
+  return {
+    head,
+    rows,
+  } as MoJTable
+}

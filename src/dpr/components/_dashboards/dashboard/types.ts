@@ -41,6 +41,10 @@ export interface DashboardVisualisation {
   showLatest?: boolean
 }
 
+export interface ListVisualisation extends DashboardVisualisation {
+  columnsAsList: boolean
+}
+
 export enum DashboardVisualisationType {
   LIST = 'list',
   DONUT = 'doughnut',

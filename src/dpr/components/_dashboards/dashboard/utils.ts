@@ -5,6 +5,7 @@ import type { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
 import {
   DashboardUIVisualisation,
   DashboardVisualisationType,
+  ListVisualisation,
   type DashboardDefinition,
   type DashboardSection,
   type DashboardUISection,
@@ -110,7 +111,7 @@ const getSections = (
 
       switch (type) {
         case DashboardVisualisationType.LIST:
-          data = DashboardListUtils.createList(visDefinition, dashboardData)
+          data = DashboardListUtils.createList(visDefinition as ListVisualisation, dashboardData)
           break
 
         case DashboardVisualisationType.SCORECARD:

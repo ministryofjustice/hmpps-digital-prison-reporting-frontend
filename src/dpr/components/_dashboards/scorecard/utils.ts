@@ -26,7 +26,7 @@ const createScorecards = (
   if (!scorecardFromListValueColumn) {
     scorecardGroup = createScorecardGroupFromColumns(columns, earliest, earliestTs, latest, latestTs, groupKey)
   } else if (groupKey) {
-    scorecardGroup = createScorecardGroupWithGroupsFromList(columns, earliest, earliestTs, latest, latestTs, groupKey)
+    scorecardGroup = createScorecardGroupFromListWithGroups(columns, earliest, earliestTs, latest, latestTs, groupKey)
   } else {
     scorecardGroup = createScorecardGroupFromList(columns, earliest, earliestTs, latest, latestTs)
   }
@@ -187,7 +187,7 @@ const createScorecardGroupFromColumns = (
   })
 }
 
-const createScorecardGroupWithGroupsFromList = (
+const createScorecardGroupFromListWithGroups = (
   columns: DashboardVisualisationColumns,
   earliest: DashboardDataResponse[],
   earliestTs: string | number,

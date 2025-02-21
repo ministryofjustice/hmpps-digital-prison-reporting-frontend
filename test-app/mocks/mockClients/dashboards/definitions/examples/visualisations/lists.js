@@ -724,6 +724,46 @@ const dataQualityEthnicity = {
   },
 }
 
+const dataQualityColsToList = {
+  id: 'list-data-quality-has-ethnicity',
+  type: 'list',
+  display: 'Ethnicity Values',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_ethnicity',
+        display: 'Has ethnicity',
+      },
+      {
+        id: 'ethnicity_is_missing',
+        display: 'No ethnicity',
+      },
+      {
+        id: 'has_religion',
+        display: 'Has religion',
+      },
+      {
+        id: 'religion_is_missing',
+        display: 'No religion',
+      },
+      {
+        id: 'has_nationality',
+        display: 'Has nationality',
+      },
+      {
+        id: 'nationality_is_missing',
+        display: 'No nationality',
+      },
+    ],
+  },
+  columnsAsList: true,
+}
+
 const dataQualityReligion = {
   id: 'list-data-quality-has-religion',
   type: 'list',
@@ -903,6 +943,7 @@ const lists = {
   dataQualityEthnicityHistoric,
   dataQualityReligionHistoric,
   dataQualityNationalityHistoric,
+  dataQualityColsToList,
 }
 
 module.exports = lists

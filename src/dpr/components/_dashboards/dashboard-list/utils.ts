@@ -1,15 +1,16 @@
 /* eslint-disable no-param-reassign */
 import { MoJTable, MoJTableRow } from '../../../types/Charts'
 import { DashboardDataResponse } from '../../../types/Metrics'
-import { DashboardVisualisation, DashboardVisualisationColumn } from '../dashboard/types'
+import { DashboardVisualisation, DashboardVisualisationColumn, ListVisualisation } from '../dashboard/types'
 import DatasetHelper from '../../../utils/datasetHelper'
 
 const createList = (
-  listDefinition: DashboardVisualisation,
+  listDefinition: ListVisualisation,
   dashboardData: DashboardDataResponse[],
 ): { table: MoJTable; ts: string } => {
-  const { columns, showLatest = true } = listDefinition
+  const { columns, showLatest = true, columnsAsList } = listDefinition
   const { measures, keys } = columns
+  const showAllData = !measures && !keys
 
   let datasetData: DashboardDataResponse[] = [...dashboardData]
   if (showLatest) {
@@ -20,18 +21,55 @@ const createList = (
   let rows
   let ts
 
-  if (!measures && !keys) {
-    ;({ head, rows, ts } = showAllData(datasetData))
+  if (showAllData) {
+    ;({ head, rows, ts } = createFullList(datasetData))
+  } else if (columnsAsList) {
+    ;({ head, rows, ts } = createListFromColumns(listDefinition, datasetData))
   } else {
-    ;({ head, rows, ts } = getHeadAndRows(listDefinition, datasetData))
-    if (rows.length && measures) rows = sumColumns(rows, measures)
+    ;({ head, rows, ts } = creatListFromRows(listDefinition, datasetData))
   }
+
+  if (rows.length && measures) rows = sumColumns(rows, measures)
 
   return {
     table: {
       head,
       rows,
     },
+    ts,
+  }
+}
+
+const createListFromColumns = (listDefinition: ListVisualisation, dashboardData: DashboardDataResponse[]) => {
+  const { columns } = listDefinition
+  const { keys, measures } = columns
+  const groupKey = DatasetHelper.getGroupKey(keys, dashboardData)
+
+  const timestampData = dashboardData[0]?.ts?.raw
+  const ts = timestampData ? `${timestampData}` : ''
+
+  const head = []
+  head.push({ text: '' })
+  dashboardData.forEach((row) => {
+    head.push({
+      text: groupKey ? row[groupKey.id].raw : '',
+    })
+  })
+
+  const rows: MoJTableRow[][] = []
+  measures.forEach((measure) => {
+    rows.push([{ text: measure.display }] as MoJTableRow[])
+  })
+
+  measures.forEach((measure, index) => {
+    dashboardData.forEach((row) => {
+      rows[index].push({ text: `${row[measure.id].raw}` })
+    })
+  })
+
+  return {
+    rows,
+    head,
     ts,
   }
 }
@@ -49,7 +87,7 @@ const createTableRows = (data: DashboardDataResponse[], measures?: DashboardVisu
   })
 }
 
-const getHeadAndRows = (listDefinition: DashboardVisualisation, dashboardData: DashboardDataResponse[]) => {
+const creatListFromRows = (listDefinition: ListVisualisation, dashboardData: DashboardDataResponse[]) => {
   const { measures } = listDefinition.columns
 
   const head = measures.map((column) => {
@@ -70,7 +108,7 @@ const getHeadAndRows = (listDefinition: DashboardVisualisation, dashboardData: D
   }
 }
 
-const showAllData = (dashboardData: DashboardDataResponse[]) => {
+const createFullList = (dashboardData: DashboardDataResponse[]) => {
   const head = Object.keys(dashboardData[0]).map((key) => {
     return { text: key }
   })

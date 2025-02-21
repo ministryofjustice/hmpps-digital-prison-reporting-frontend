@@ -1,6 +1,6 @@
 import { components } from '../../../types/api'
 import { ChartCardData, MoJTable, UnitType } from '../../../types/Charts'
-import { Scorecard, ScorecardGroup, ScorecardSubGroup } from '../scorecard/types'
+import { Scorecard, ScorecardGroup } from '../scorecard/types'
 
 export interface DashboardDefinition {
   id: string

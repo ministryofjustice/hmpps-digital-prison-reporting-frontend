@@ -103,15 +103,6 @@ const defaultVariant = {
           type: 'text',
         },
       },
-      {
-        name: 'field7',
-        display: 'Field 7',
-        type: 'datetime',
-        filter: {
-          type: 'daterange',
-          defaultValue: '2025-01-17 - 2025-02-17',
-        },
-      },
     ],
   },
 }

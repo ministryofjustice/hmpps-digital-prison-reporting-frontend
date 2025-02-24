@@ -7,6 +7,8 @@ const {
   mockReligionPieChart,
 } = require('./visualisations')
 
+const { lists, charts, scorecards } = require('../examples/visualisations')
+
 const { establishmentIdFilter, granularDateRangeFilter } = require('../../filter-definitions')
 
 const dataQualityDashboard1 = {
@@ -15,26 +17,40 @@ const dataQualityDashboard1 = {
   description: 'Testing a dashboard with timeseries chart & snapshot chart',
   sections: [
     {
-      id: 'charts-section',
-      display: 'Charts Test Section',
+      id: 'charts-section-ethnicity-breakdown',
+      display: 'Totals',
+      description: 'Overall data quality values',
+      visualisations: [lists.dataQualityColsToList],
+    },
+    {
+      id: 'charts-section-ethnicity',
+      display: 'Ethnicity totals',
+      description: 'Overall data quality values',
+      visualisations: [mockEthnicityBarChart, mockEthnicityPieChart, lists.dataQualityEthnicity],
+    },
+    {
+      id: 'charts-section-religion',
+      display: 'Religion totals',
+      visualisations: [mockReligionBarChart, mockReligionPieChart, lists.dataQualityReligion],
+    },
+    {
+      id: 'charts-section-nationality',
+      display: 'Nationality totals',
+      visualisations: [mockNationalityBarChart, mockNationalityPieChart, lists.dataQualityNationality],
+    },
+    {
+      id: 'scorecards-section',
+      display: 'Scorecards',
+      visualisations: [scorecards.dataQualityAllCols],
+    },
+    {
+      id: 'historic',
+      display: 'Data quality over time',
       visualisations: [
-        mockEthnicityBarChart,
-        mockEthnicityPieChart,
-        mockNationalityBarChart,
-        mockNationalityPieChart,
-        mockReligionBarChart,
-        mockReligionPieChart,
+        charts.dataQualityEthnicityHistoricLine,
+        charts.dataQualityNationalityHistoricLine,
+        charts.dataQualityReligionHistoricLine,
       ],
-    },
-    {
-      id: 'scorecards-section',
-      display: 'Scorecards Test Section',
-      visualisations: [],
-    },
-    {
-      id: 'scorecards-section',
-      display: 'Timeseries Test Section',
-      visualisations: [],
     },
   ],
   filterFields: [establishmentIdFilter, granularDateRangeFilter],

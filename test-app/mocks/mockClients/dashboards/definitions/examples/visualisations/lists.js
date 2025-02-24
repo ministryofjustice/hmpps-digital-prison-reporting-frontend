@@ -727,7 +727,6 @@ const dataQualityEthnicity = {
 const dataQualityColsToList = {
   id: 'list-data-quality-has-ethnicity',
   type: 'list',
-  display: 'Ethnicity Values',
   columns: {
     keys: [
       {

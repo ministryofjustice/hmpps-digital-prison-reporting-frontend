@@ -5,8 +5,11 @@
   {% for group in scorecardGroup %}
     {% set title = group.title %}
     {% set scorecards = group.scorecards %}
+    
+    {% if scorecardGroup.length !== 1 %}
+      <p class="govuk-heading-s"><strong>{{ title }}</strong></p>
+    {% endif %}
 
-    <p class="govuk-heading-s"><strong>{{ title }}</strong></p>
     <div class="dpr-scorecard-group">
       {% for scorecard in scorecards %}
         {{ dprScoreCard(scorecard) }}

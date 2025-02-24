@@ -356,7 +356,7 @@ const dataQualityAllEstablishmentsNoNationality = {
 const dataQualityAllCols = {
   id: 'data-quality-no-nationality',
   type: 'scorecard-group',
-  display: 'Missing nationality score',
+  display: 'Data quality scores',
   description: '',
   cols: true,
   columns: {

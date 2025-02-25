@@ -1,5 +1,14 @@
 Below you can find the changes included in each release.
 
+## v4.0.1
+
+- Updated nunjucks filter name 
+
+## v4.0.0 
+
+- Updated dashboard definition
+- Updated dashboard visualisation defininition
+
 ## v3.32.9
 
 Update to MoJ v3.

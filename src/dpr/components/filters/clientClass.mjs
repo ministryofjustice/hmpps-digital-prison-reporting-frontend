@@ -54,7 +54,7 @@ export default class Filters extends DprClientClass {
 
         if (v.match(dateRegEx)) {
           // eslint-disable-next-line no-param-reassign
-          v = dayjs(v, 'DD/MM/YYYY').format('YYYY-MM-DD')
+          v = dayjs(v, 'D/M/YYYY').format('YYYY-MM-DD')
         }
 
         serializedFormData += `&${n}=${v}`

@@ -114,4 +114,4 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.addPlugin(EleventyHtmlBasePlugin);
-};
+}

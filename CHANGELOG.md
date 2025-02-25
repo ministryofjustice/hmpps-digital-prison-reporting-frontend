@@ -1,6 +1,6 @@
 Below you can find the changes included in each release.
 
-## v4.0.1
+## v4.0.2
 
 - bigfix: Embedded reports datepicker date formatting 
 

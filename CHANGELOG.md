@@ -2,6 +2,10 @@ Below you can find the changes included in each release.
 
 ## v4.0.1
 
+- bigfix: Embedded reports datepicker date formatting 
+
+## v4.0.1
+
 - Updated nunjucks filter name 
 
 ## v4.0.0 

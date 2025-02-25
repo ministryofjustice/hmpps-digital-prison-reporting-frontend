@@ -127,7 +127,6 @@ function renderList(
           createUrlForParameters,
           dynamicAutocompleteEndpoint,
         )
-        logger.info(JSON.stringify({ filterOptions }, null, 2))
 
         const reportUrl = `${request.protocol}://${request.get('host')}${request.originalUrl}`
         const actions = ReportActionsUtils.getActions({

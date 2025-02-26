@@ -12,8 +12,6 @@ const LOCALE = 'en-GB'
 
 const toLocaleDate = (isoDate?: string) => {
   const date = new Date(isoDate)
-  const dateString = isoDate ? date.toLocaleDateString(LOCALE) : null
-  logger.info('toLocaleDate:', isoDate, date, dateString)
   return isoDate ? date.toLocaleDateString(LOCALE) : null
 }
 
@@ -45,12 +43,6 @@ const getSelectedFilters = (
         const { start, end } = StartEndDateUtils.setDateRangeValuesWithinMinMax(f.filter, startValue, endValue)
         const localeStart = toLocaleDate(start)
         const localeEnd = toLocaleDate(end)
-        logger.info('Selected daterange filters:', {
-          start,
-          end,
-          localeStart,
-          localeEnd,
-        })
 
         if (localeStart && localeEnd) {
           filterValueText = `${localeStart} - ${localeEnd}`

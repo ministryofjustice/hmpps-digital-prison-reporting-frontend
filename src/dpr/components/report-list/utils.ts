@@ -20,7 +20,6 @@ import { DataTable } from '../../utils/DataTableBuilder/types'
 import PaginationUtils from '../_reports/report-pagination/utils'
 import { FilterOptions } from '../_filters/types'
 import { Template } from '../../types/Templates'
-import logger from '../../utils/logger'
 
 function isListWithWarnings(data: Dict<string>[] | ListWithWarnings): data is ListWithWarnings {
   return (data as ListWithWarnings).data !== undefined
@@ -127,7 +126,6 @@ function renderList(
           createUrlForParameters,
           dynamicAutocompleteEndpoint,
         )
-        logger.info(JSON.stringify({ filterOptions }, null, 2))
 
         const reportUrl = `${request.protocol}://${request.get('host')}${request.originalUrl}`
         const actions = ReportActionsUtils.getActions({

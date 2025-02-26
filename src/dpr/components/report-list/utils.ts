@@ -20,7 +20,6 @@ import { DataTable } from '../../utils/DataTableBuilder/types'
 import PaginationUtils from '../_reports/report-pagination/utils'
 import { FilterOptions } from '../_filters/types'
 import { Template } from '../../types/Templates'
-import logger from '../../utils/logger'
 
 function isListWithWarnings(data: Dict<string>[] | ListWithWarnings): data is ListWithWarnings {
   return (data as ListWithWarnings).data !== undefined

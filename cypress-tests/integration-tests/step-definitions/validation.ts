@@ -11,11 +11,11 @@ const fieldNames = {
 }
 
 When(/^I type an invalid string into the (.+) box$/, (filterType: string) => {
-  new ReportPage().filter(fieldNames[filterType]).type('Invalid')
+  new ReportPage().filter(`filters.${fieldNames[filterType]}`).type('Invalid')
 })
 
 Then(/^the text box is shown$/, () => {
-  new ReportPage().filter(fieldNames.text).should('exist')
+  new ReportPage().filter(`filters.${fieldNames.text}`).should('exist')
 })
 
 Then(/^there is (an|no) empty (radio|select) option$/, (present, filterType) => {
@@ -24,11 +24,11 @@ Then(/^there is (an|no) empty (radio|select) option$/, (present, filterType) => 
 
   switch (filterType) {
     case 'radio':
-      option = page.filter(fieldNames[filterType]).parent().find('label')
+      option = page.filter(`filters.${fieldNames[filterType]}`).parent().find('label')
       break
 
     case 'select':
-      option = page.filter(fieldNames[filterType]).find('option')
+      option = page.filter(`filters.${fieldNames[filterType]}`).find('option')
       break
 
     default:
@@ -45,7 +45,7 @@ Then(/^there is (an|no) empty (radio|select) option$/, (present, filterType) => 
 })
 
 Then(/^the (.+) box fails pattern validation$/, (filterType: string) => {
-  new ReportPage().filter(fieldNames[filterType]).then((t) => {
+  new ReportPage().filter(`filters.${fieldNames[filterType]}`).then((t) => {
     expect(t[0].validationMessage)
       .to // Different browsers have different word order.
       .contain('Please match the')
@@ -55,7 +55,7 @@ Then(/^the (.+) box fails pattern validation$/, (filterType: string) => {
 })
 
 Then(/^all the filters are not valid$/, function () {
-  cy.get('input:invalid').should('have.length', 6)
+  cy.get('input:invalid').should('have.length', 5)
 })
 
 Then(/^the filter form is not valid$/, function () {

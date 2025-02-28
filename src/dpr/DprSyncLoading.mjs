@@ -14,7 +14,6 @@ export default class DprSyncLoading extends DprClientClass {
   }
 
   async load() {
-    console.log('DprSyncLoading submit')
     this.form.submit()
   }
 }

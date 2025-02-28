@@ -13,7 +13,7 @@ Feature: Async Query
 
   Scenario: Filter values updated correctly
     When I navigate to the async-query page
-    Then the url is set to the default values
+    Then the url is initialised to the default values
     When I update the filters values
     And I update the sort values
     Then the URL is updated

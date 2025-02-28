@@ -28,9 +28,14 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
         ;({ key, value, disabled, cantRemoveClass, displayValue } = setSelectedGranularDateRange(f, prefix))
       } else if (f.type.toLowerCase() === FilterType.date.toLowerCase()) {
         ;({ key, value, disabled, cantRemoveClass, displayValue } = getSelectedDate(f, prefix))
+      } else if (
+        f.type.toLowerCase() === FilterType.autocomplete.toLowerCase() ||
+        f.type.toLowerCase() === FilterType.radio.toLowerCase() ||
+        f.type.toLowerCase() === FilterType.select.toLowerCase()
+      ) {
+        ;({ key, value, displayValue } = getOptionsValue(f, prefix))
       } else if (f.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
-        key = [`${prefix}${f.name}`]
-        value = displayValue.split(',')
+        ;({ key, value, displayValue } = getMultiselectValues(f, prefix))
       } else {
         key = [`${prefix}${f.name}`]
         value = [displayValue]
@@ -46,7 +51,7 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
       return {
         text: `${f.text}: ${displayValue}`,
         key: JSON.stringify(key),
-        value: JSON.stringify(value),
+        value,
         disabled,
         classes: `interactive-remove-filter-button${cantRemoveClass}`,
         attributes: {
@@ -58,7 +63,7 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
 
 const setSelectedDateRange = (f: FilterValue, prefix: string) => {
   const key = [`${prefix}${f.name}.start`, `${prefix}${f.name}.end`]
-  const value = [(<DateRange>f.value).start, (<DateRange>f.value).end]
+  const value = [`"${(<DateRange>f.value).start}"`, `"${(<DateRange>f.value).end}"`]
   const displayValue = `${(<DateRange>f.value).start} - ${(<DateRange>f.value).end}`
   const { disabled, cantRemoveClass, displayValue: disabledDisplayValue } = disabledDateRange(f, value, displayValue)
 
@@ -71,13 +76,42 @@ const setSelectedDateRange = (f: FilterValue, prefix: string) => {
   }
 }
 
+const getOptionsValue = (f: FilterValue, prefix: string) => {
+  const displayOption = f.options.find((opt) => opt.value === f.value)
+  const displayValue = displayOption.text
+  const key = [`${prefix}${f.name}`]
+  const value = [`"${f.value}"`]
+
+  return {
+    key,
+    value,
+    displayValue,
+  }
+}
+
+const getMultiselectValues = (f: FilterValue, prefix: string) => {
+  const splitValues = (<string>f.value).split(',')
+  const displayValue = splitValues.map((v) => {
+    const displayOption = f.options.find((opt) => opt.value === v)
+    return displayOption.text
+  })
+  const value = splitValues.map((v) => `"${v}"`)
+  const key = [`${prefix}${f.name}`]
+
+  return {
+    key,
+    value,
+    displayValue: displayValue.join(', '),
+  }
+}
+
 const setSelectedGranularDateRange = (f: FilterValue, prefix: string) => {
   const quickFilterValue = (<GranularDateRange>f.value).quickFilter?.value
   const key = [`${prefix}${f.name}.start`, `${prefix}${f.name}.end`, `${prefix}${f.name}.granularity`]
   const value = [
-    (<GranularDateRange>f.value).start,
-    (<GranularDateRange>f.value).end,
-    (<GranularDateRange>f.value).granularity.value,
+    `"${(<GranularDateRange>f.value).start}"`,
+    `"${(<GranularDateRange>f.value).end}"`,
+    `"${(<GranularDateRange>f.value).granularity.value}"`,
   ]
 
   let displayValue
@@ -104,7 +138,7 @@ const setSelectedGranularDateRange = (f: FilterValue, prefix: string) => {
 const getSelectedDate = (f: FilterValue, prefix: string) => {
   const key = [`${prefix}${f.name}`]
   const displayValue = `${f.value}`
-  const value = [displayValue]
+  const value = [`"${displayValue}"`]
   const { disabled, cantRemoveClass, displayValue: disabledDisplayValue } = disabledDate(f, value, displayValue)
   return {
     key,
@@ -117,7 +151,7 @@ const getSelectedDate = (f: FilterValue, prefix: string) => {
 
 const disabledDateRange = (f: DateFilterValue, value: (string | DateRange)[], displayValue: string) => {
   const { min, max } = <DateFilterValue>f
-  if (value[0] === min && value[1] === max) {
+  if (value[0] === `"${min}"` && value[1] === `"${max}"`) {
     return {
       disabled: true,
       cantRemoveClass: ' interactive-remove-filter-button--disabled',

@@ -49,8 +49,7 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
     if (this.resetButton) {
       this.resetButton.addEventListener('click', (e) => {
         e.preventDefault()
-        this.clearQueryParams()
-
+        this.clearQueryParams('filters')
         this.resetAction()
       })
     }

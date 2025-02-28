@@ -70,7 +70,7 @@ const defaultVariant = {
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
-            { name: 'Inigo Montoya', display: 'Inigo Montoya' },
+            { name: 'inigo-montoya', display: 'Inigo Montoya' },
             { name: 'Prince Humperdink', display: 'Prince Humperdink' },
             { name: 'PrBu', display: 'Princess Buttercup' },
             { name: 'Westley', display: 'Westley' },
@@ -101,6 +101,24 @@ const defaultVariant = {
         visible: true,
         filter: {
           type: 'text',
+        },
+      },
+      {
+        name: 'field7',
+        display: 'Field 7',
+        sortable: false,
+        visible: false,
+        type: 'string',
+        mandatory: false,
+        filter: {
+          type: 'multiselect',
+          staticOptions: [
+            { name: 'value8.1', display: 'Value 8.1' },
+            { name: 'value8.2', display: 'Value 8.2' },
+            { name: 'value8.3', display: 'Value 8.3' },
+            { name: 'value8.4', display: 'Value 8.4' },
+          ],
+          defaultValue: 'value8.2,value8.3',
         },
       },
     ],

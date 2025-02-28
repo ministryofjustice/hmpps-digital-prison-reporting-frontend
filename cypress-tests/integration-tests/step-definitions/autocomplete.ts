@@ -5,8 +5,8 @@ import ReportPage from '../pages/ReportPage'
 
 const shortMatchingText = 'Pr'
 const longMatchingText = 'Pri'
-const staticFieldName = 'field4'
-const dynamicFieldName = 'field5'
+const staticFieldName = 'filters.field4'
+const dynamicFieldName = 'filters.field5'
 
 const getFieldNameFromType = (type) => (type === 'static' ? staticFieldName : dynamicFieldName)
 
@@ -64,12 +64,12 @@ Then(/^the display value of the selected option is displayed in the Selected Fil
 
 Then('the selected option is displayed in the URL', function (this: Mocha.Context) {
   cy.location().should((location) => {
-    expect(location.search).to.contain(`filters.${this.selectedFieldName}=Prince%20Humperdink`)
+    expect(location.search).to.contain(`${this.selectedFieldName}=Prince+Humperdink`)
   })
 })
 
 Then('the name value of the selected option is displayed in the URL', function (this: Mocha.Context) {
   cy.location().should((location) => {
-    expect(location.search).to.contain(`filters.${this.selectedFieldName}=PrBu`)
+    expect(location.search).to.contain(`${this.selectedFieldName}=PrBu`)
   })
 })

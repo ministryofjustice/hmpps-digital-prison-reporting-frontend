@@ -20,7 +20,6 @@ import DownloadMessage from './components/_reports/report-download-message/clien
 
 // Filters
 import InteractiveFilters from './components/_filters/filters-interactive/clientClass.mjs'
-import Filters from './components/filters/clientClass.mjs'
 
 // Async
 import AsyncPolling from './components/_async/async-polling/clientClass.mjs'
@@ -61,7 +60,6 @@ export default function initAll() {
     Autocomplete,
     CardGroup,
     Columns,
-    Filters,
     AsyncFilters,
     InteractiveFilters,
     Pagination,

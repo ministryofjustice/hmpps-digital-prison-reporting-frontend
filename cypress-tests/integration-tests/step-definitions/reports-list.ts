@@ -8,7 +8,7 @@ import { components } from '../../../src/dpr/types/api'
 
 When(/^I click the Show Filter button$/, function () {
   const page = new ReportPage()
-  page.showFilterButton().click(10, 30)
+  page.showFilterButton().click()
 })
 
 When('I select a filter', function (this: Mocha.Context) {
@@ -45,10 +45,22 @@ When('I apply the filters', function () {
   page.applyFiltersButton().click()
 })
 
-When('I click the selected filter', function () {
+When(/^I click the selected filter for field (\d+)$/, function (this: Mocha.Context, field: number) {
   const page = new ReportPage()
 
-  page.selectedFilterButton().first().click()
+  switch (field) {
+    case 1:
+      page.selectedFilterButtonField1().first().click()
+      break
+    case 3:
+      page.selectedFilterButtonField3().first().click()
+      break
+    case 7:
+      page.selectedFilterButtonField3().first().click()
+      break
+    default:
+      break
+  }
 })
 
 When('I click a the Reset filter button', function () {
@@ -104,7 +116,7 @@ Then('the Show Filter button is displayed', function (this: Mocha.Context) {
 })
 
 Then(/^the Filter panel is (open|closed)$/, function (panelStatus) {
-  const panel = new ReportPage().showFilterButton()
+  const panel = new ReportPage().filterButtonPanel()
 
   if (panelStatus === 'open') {
     panel.should('have.attr', 'open')
@@ -125,20 +137,24 @@ Then('filters are displayed for filterable fields', function (this: Mocha.Contex
           break
 
         case 'Radio':
-          page.filter(field.name).parentsUntil('.govuk-form-group').contains(field.display)
+          page.filter(`filters.${field.name}`).parentsUntil('.govuk-form-group').contains(field.display)
           field.filter.staticOptions.forEach((option) => {
-            page.filter(field.name).parentsUntil('.govuk-form-group').contains(option.display)
+            page.filter(`filters.${field.name}`).parentsUntil('.govuk-form-group').contains(option.display)
             page
-              .filter(field.name)
+              .filter(`filters.${field.name}`)
               .parentsUntil('.govuk-fieldset')
               .find(`input[value='${option.name}']`)
               .should('exist')
           })
           break
 
+        case 'multiselect':
+          page.filter(`filters.${field.name}`).parent().parent().parent().contains(field.display)
+          break
+
         case 'Select':
         default:
-          page.filter(field.name).parentsUntil('.govuk-fieldset').contains(field.display)
+          page.filter(`filters.${field.name}`).parentsUntil('.govuk-fieldset').contains(field.display)
       }
     })
 })
@@ -221,13 +237,13 @@ Then('the selected filter value is displayed', function (this: Mocha.Context) {
 Then('no filters are selected', function (this: Mocha.Context) {
   const page = new ReportPage()
 
-  page.selectedFilterButton().should('not.exist')
+  page.selectedFilterButton().should('have.length', 0)
 })
 
 Then('only the default filter is selected', function (this: Mocha.Context) {
   const page = new ReportPage()
 
-  page.selectedFilterButton().should('have.length', 2)
+  page.selectedFilterButton().should('have.length', 3)
 })
 
 Then('the selected filter value is shown in the URL', function (this: Mocha.Context) {
@@ -361,7 +377,7 @@ Then('the selected columns values are shown in the URL', function (this: Mocha.C
 
 When(/^I click the Reset Columns button$/, function () {
   const page = new ReportPage()
-  page.resetColumnsButton().click()
+  page.resetColumnsButton().click({ force: true })
 })
 
 Then('the default columns are selected', function (this: Mocha.Context) {

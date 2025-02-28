@@ -5,11 +5,14 @@ import mockVariant from '../../../../test-app/mocks/mockClients/reports/mockVari
 import { components } from '../../types/api'
 import DateRangeUtils from '../_inputs/date-range/utils'
 import GranularDaterangeUtils from '../_inputs/granular-date-range/utils'
-import { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 
 describe('Filters Utils tests', () => {
   const req: Request = {
-    query: {},
+    baseUrl: 'baseUrl',
+    path: 'path',
+    query: {
+      dataProductDefinitionsPath: '',
+    },
   } as unknown as Request
 
   describe('getFilters', () => {
@@ -223,6 +226,18 @@ describe('Filters Utils tests', () => {
         mandatory: true,
       }
 
+      const multiselectFilter: components['schemas']['FilterDefinition'] = {
+        type: 'multiselect',
+        staticOptions: [
+          { name: 'value8.1', display: 'Value 8.1' },
+          { name: 'value8.2', display: 'Value 8.2' },
+          { name: 'value8.3', display: 'Value 8.3' },
+          { name: 'value8.4', display: 'Value 8.4' },
+        ],
+        defaultValue: 'value8.2,value8.3',
+        mandatory: true,
+      }
+
       const fieldParams = {
         mandatory: false,
         defaultsort: false,
@@ -263,11 +278,18 @@ describe('Filters Utils tests', () => {
           ...fieldParams,
           filter: granularDateRangeFilter,
         },
+        {
+          name: 'field5',
+          display: 'Field 5',
+          type: 'string',
+          ...fieldParams,
+          filter: multiselectFilter,
+        },
       ]
 
       const result = FiltersUtils.setFilterQueryFromFilterDefinition(fields)
       const expectedResult =
-        'filters.field1.start=2003-02-01&filters.field1.end=2006-05-04&filters.field2=2005-02-01&filters.field4.quick-filter=last-six-months&filters.field4.granularity=monthly&filters.field4.start=2023-12-07&filters.field4.end=2024-06-06'
+        'filters.field1.start=2003-02-01&filters.field1.end=2006-05-04&filters.field2=2005-02-01&filters.field4.quick-filter=last-six-months&filters.field4.granularity=monthly&filters.field4.start=2023-12-07&filters.field4.end=2024-06-06&filters.field5=value8.2&filters.field5=value8.3'
 
       expect(granularDateRangeSpy).toHaveBeenCalledWith(
         granularDateRangeFilter,

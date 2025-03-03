@@ -109,6 +109,7 @@ const dietTotals = {
   display: 'Diet totals',
   description: '',
   columns: {
+    keys: [],
     measures: [
       {
         id: 'diet',

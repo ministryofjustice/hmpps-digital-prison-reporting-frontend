@@ -1,0 +1,379 @@
+# Dashboard Visualisation Definition
+
+These docs describe hows to define and use the dashboard visualisation definition to target data within a dataset
+
+contents:
+- [The Visualisation definition](#the-visualisation-definition)
+- [Targeting data in a dataset](#targeting-data-in-adataset)
+
+## The Visualisation definition
+
+The visualisation definition is responsible for:
+
+- specifying the type of visualisation
+- retriveing the data needed for the visualisation from a single dataset
+- defining the presentation information required to render the visualisation correctly
+
+All visualisation types share the same common definition attributes:
+
+| Name          | Type    | Required | Description                                              |
+| --------------| ------- | -------- | -------------------------------------------------------- |
+| `id`          | string  | Yes      | The visualisation ID                                    |
+| `type`        | enum    | Yes      | The visualisation type See [Visualisation types](#visualisation-types)  |
+| `display`     | string  | no       | The visualisation title                                 |
+| `description` | string  | no       | The visualisation desciption                            |
+| `columns`     | object  | yes      | The dataset colums definition. See [Columns](#details)  |
+| `showLatest`  | boolean | no       | default value: `true`. Determines whether to include historic data in visualisation   |
+
+### Columns Definition
+
+The `columns` definition is responsible for targeting the required visualisation data from a dataset. See [Targeting data in a dataset](#targeting-data-in-a-dataset) for usage.
+
+| Name        | Type    | Required | Description                                              |
+| ------------| ------- | -------- | -------------------------------------------------------- |
+| `keys`      | array   | Yes      |  The array of key column data. See [Key](#key)     |
+| `measures`  | array   | Yes      |  The array of measure column data. See [Measure](#measure) |
+| `filters`   | array   | no       |  The array of filter column data. See [Filter](#filter)  |
+| `expectNulls` | boolean   | no   |  See [expectNulls](#expectNulls)  |
+
+### Key 
+
+| Name        | Type    | Required | Description                                              |
+| ------------| ------- | -------- | -------------------------------------------------------- |
+| `id`        | string  | Yes      |  The id/column name of the column within the dataset     |
+| `display`   | string  | no       |  The display name of the column                          |
+| `optional`  | boolean  | no      |  Defines whether the key is optional                     |
+
+### Measure 
+
+| Name        | Type    | Required | Description                                              |
+| ------------| ------- | -------- | -------------------------------------------------------- |
+| `id`        | string  | Yes      |  The id/column name of the column within the dataset     |
+| `display`   | string  | no       |  The display name of the column                          |
+| `aggregate` | enum    | no       |  `sum`                                                   |
+| `unit`      | enum    | no       |  `number` | `percentage`                                 |
+| `axis`      | `x` | `y` | no     |  specific to `bar` visualisation types                   |
+
+
+### Filter 
+
+| Name        | Type    | Required | Description                                              |
+| ------------| ------- | -------- | -------------------------------------------------------- |
+| `id`        | string  | Yes      |  The id/column name of the column within the dataset     |
+| `equals`    | string  | Yes      |  The value the column should match                       |
+
+See [Filtering a dataset by column value](#filtering-a-dataset-by-column-value) for usage
+
+### Visualisation types
+
+A visualisation definition can be one of the following types:
+
+- `list`
+- `bar`
+- `doughnut`
+- `line`
+- `scorecard`
+- `scorecard-group`
+
+## Targeting data in a dataset:
+
+You can target specfic rows within a dataset using the following fields of the visualisation definition:
+
+- `keys`: the key columns expected to be present in a specific row
+- `measures`: the columns you want to see/use in your visualisation.
+
+By defining these two data arrays, the definition will filter the dataset to match the definition criteria: 
+
+- Filters out all rows where the `keys` and `measures` are not defined or dont have values.
+- Accepts all unspecified columns as valid rows, if null or not.
+
+## Examples 
+
+### Example Dataset
+
+For the following examples we will use this mocked dataset representing diet totals. 
+
+| ts         |  est_id  | wing  | cell  | diet        | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 |          |       |       |             | 5000  |
+| 2025/02/25 | MDI      |       |       |             | 1109  |
+| 2025/02/25 | MDI      | north |       |             | 140   |
+| 2025/02/25 | MDI      | north | cell1 |             | 30    |
+| 2025/02/25 | MDI      | north | cell2 |             | 29    |
+| 2025/02/25 | MDI      | north | cell3 |             | 13    |
+| 2025/02/25 | MDI      | north | cell4 |             | 26    |
+| 2025/02/25 | MDI      | north | cell5 |             | 42    |
+| 2025/02/25 |          |       |       | vegatarian  | 1507  |
+| 2025/02/25 |          |       |       | Pescatarian | 1130  |
+| 2025/02/25 |          |       |       | Vegan       | 1354  |
+| 2025/02/25 |          |       |       | Omnivore    | 1009  |
+| 2025/02/25 | MDI      |       |       | vegatarian  | 169   |
+| 2025/02/25 | MDI      |       |       | Pescatarian | 463   |
+| 2025/02/25 | MDI      |       |       | Vegan       | 397   |
+| 2025/02/25 | MDI      |       |       | Omnivore    | 80    |
+
+### Targeting specific rows
+
+This example shows a visualisation definiton of type `list`, where the keys are `est_id` and `wing`, with a measure of `count`: 
+
+```js
+{
+  id: 'total-prisoners',
+  type: 'list',
+  display: 'Prisoner totals by wing',
+  columns: {
+    keys: [
+      {
+        id: 'est_id',
+        display: 'Establishment ID',
+      },
+      {
+        id: 'wing',
+        display: 'Wing',
+      },
+    ],
+    measures: [
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+  },
+}
+```
+
+This definition will return the following dataset:
+
+| ts         |  est_id  | wing  | cell  | diet        | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 | MDI      | north |       |             | 140   |
+| 2025/02/25 | MDI      | north | cell1 |             | 30    |
+| 2025/02/25 | MDI      | north | cell2 |             | 29    |
+| 2025/02/25 | MDI      | north | cell3 |             | 13    |
+| 2025/02/25 | MDI      | north | cell4 |             | 26    |
+| 2025/02/25 | MDI      | north | cell5 |             | 42    |
+
+Note that rows with `cell` values were also returned here also, as the defintion returns all rows where the `keys` and `measures` are defined.
+
+To filter out the rows with `cell` values, and therefore specifically target the row for wing totals, we can specify `expectNulls` as `true`
+
+This defines that all other columns that are not specified in the definition should contain null values. 
+
+eg: 
+```js
+{
+  id: 'total-prisoners',
+  type: 'list',
+  display: 'Prisoner totals by wing',
+  columns: {
+    keys: [
+      {
+        id: 'est_id',
+      },
+      {
+        id: 'wing',
+      },
+    ],
+    measures: [
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+```
+
+will return the following dataset:
+
+| ts         |  est_id  | wing  | cell  | diet        | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 | MDI      | north |       |             | 140   |
+
+which will produce the following list.
+
+| Total prisoners | 
+|-----------------|
+| 140             |
+
+
+### Targeting Prisoner Totals
+
+```js
+{
+  id: 'total-prisoners',
+  type: 'list',
+  display: 'Prisoner totals',
+  columns: {
+    keys: [],
+    measures: [
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+```
+Dataset returned: 
+
+| ts         |  est_id  | wing  | cell  | diet        | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 |          |       |       |             | 5000  |
+
+List visualisation:
+
+| Total prisoners | 
+|-------|
+| 5000  |
+
+### Targeting diet Totals
+
+```js
+{
+  id: 'diet-totals',
+  type: 'list',
+  display: 'Diet totals',
+  description: '',
+  columns: {
+    keys: [],
+    measures: [
+      {
+        id: 'diet',
+        display: 'Diet',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+```
+Dataset returned: 
+
+| ts         |  est_id  | wing  | cell  | diet        | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 |          |       |       | vegatarian  | 1507  |
+| 2025/02/25 |          |       |       | Pescatarian | 1130  |
+| 2025/02/25 |          |       |       | Vegan       | 1354  |
+| 2025/02/25 |          |       |       | Omnivore    | 1009  |
+
+List visualisation:
+
+| Diet        | Total prisoners | 
+|-------------|-------|
+| vegatarian  | 1507  |
+| Pescatarian | 1130  |
+| Vegan       | 1354  |
+| Omnivore    | 1009  |
+
+### Targeting diet totals by establishment, with a sum total row
+
+```js
+{
+  id: 'diet-totals-by-establishment',
+  type: 'list',
+  display: 'Diet totals by establishment',
+  description: '',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+    ],
+    measures: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+      {
+        id: 'diet',
+        display: 'Diet',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+        aggregate: 'sum' 
+      },
+    ],
+    expectNulls: true,
+  },
+}
+```
+Dataset returned: 
+
+| ts         |  est_id  | wing  | cell  | diet        | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 | MDI      |       |       | vegatarian  | 169   |
+| 2025/02/25 | MDI      |       |       | Pescatarian | 463   |
+| 2025/02/25 | MDI      |       |       | Vegan       | 397   |
+| 2025/02/25 | MDI      |       |       | Omnivore    | 80    |
+
+
+List visualisation:
+ 
+|  Establishment ID  | Diet        | Total prisoners | 
+|--------------------|-------------|-----------------|
+| MDI                | vegatarian  | 169             |
+| MDI                | Pescatarian | 463             |
+| MDI                | Vegan       | 397             |
+| MDI                | Omnivore    | 80              |
+| Total              |             | 1109            |
+
+
+### Targeting cell totals, with sum total row
+```js
+{
+  id: 'diet-totals-by-establishment',
+  type: 'list',
+  display: 'Cell totals by establishment',
+  description: '',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+      {
+        id: 'wing',
+      },
+    ],
+    measures: [
+      {
+        id: 'cell',
+        display: 'Cell',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+        aggregate: 'sum'
+      },
+    ],
+    expectNulls: false, // or undefined
+  },
+}
+```
+Dataset returned: 
+
+| ts         |  est_id  | wing  | cell  | diet        | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 | MDI      | north | cell1 |             | 30    |
+| 2025/02/25 | MDI      | north | cell2 |             | 29    |
+| 2025/02/25 | MDI      | north | cell3 |             | 13    |
+| 2025/02/25 | MDI      | north | cell4 |             | 26    |
+| 2025/02/25 | MDI      | north | cell5 |             | 42    |
+
+
+List visualisation:
+ 
+| Cell  | Total prisoners | 
+|-------|-----------------|
+| cell1 | 30              |
+| cell2 | 29              |
+| cell3 | 13              |
+| cell4 | 26              |
+| cell5 | 42              |
+| Total | 140             |

@@ -147,7 +147,7 @@ describe('Filters Utils tests', () => {
             value: '["value1.2"]',
             classes: 'interactive-remove-filter-button',
             disabled: false,
-            attributes: { 'aria-label': 'Selected Filter: Field 1: value1.2. Click to clear this filter' },
+            attributes: { 'aria-label': 'Selected Filter: Field 1: Value 1.2. Click to clear this filter' },
           },
           {
             text: 'Field 3: 2003-02-01 - 2006-05-04',
@@ -172,7 +172,7 @@ describe('Filters Utils tests', () => {
           },
           {
             attributes: {
-              'aria-label': 'Selected Filter: Field 8: value8.2,value8.3. Click to clear this filter',
+              'aria-label': 'Selected Filter: Field 8: Value 8.2, Value 8.3. Click to clear this filter',
             },
             classes: 'interactive-remove-filter-button',
             disabled: false,

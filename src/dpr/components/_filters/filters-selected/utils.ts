@@ -151,6 +151,7 @@ const getSelectedDate = (f: FilterValue, prefix: string) => {
 
 const disabledDateRange = (f: DateFilterValue, value: (string | DateRange)[], displayValue: string) => {
   const { min, max } = <DateFilterValue>f
+
   if (value[0] === `"${min}"` && value[1] === `"${max}"`) {
     return {
       disabled: true,

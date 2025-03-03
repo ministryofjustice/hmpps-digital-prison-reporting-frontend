@@ -4,7 +4,7 @@ These docs describe hows to define and use the dashboard visualisation definitio
 
 contents:
 - [The Visualisation definition](#the-visualisation-definition)
-- [Targeting data in a dataset](#targeting-data-in-adataset)
+- [Targeting data in a dataset](#targeting-data-in-a-dataset)
 
 ## The Visualisation definition
 
@@ -87,12 +87,15 @@ By defining these two data arrays, the definition will filter the dataset to mat
 - Filters out all rows where the `keys` and `measures` are not defined or dont have values.
 - Accepts all unspecified columns as valid rows, if null or not.
 
-## Examples 
+### Examples 
 
-### Example Dataset
+The following examples will demonstrate the targeting of specific rows, using the `list` visualisation type.
 
-For the following examples we will use this mocked dataset representing diet totals. 
+#### Example Dataset
 
+For these examples we will use a mocked dataset representing diet totals. 
+
+```
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 5000  |
@@ -103,16 +106,17 @@ For the following examples we will use this mocked dataset representing diet tot
 | 2025/02/25 | MDI      | north | cell3 |             | 13    |
 | 2025/02/25 | MDI      | north | cell4 |             | 26    |
 | 2025/02/25 | MDI      | north | cell5 |             | 42    |
-| 2025/02/25 |          |       |       | vegatarian  | 1507  |
+| 2025/02/25 |          |       |       | vegetarian  | 1507  |
 | 2025/02/25 |          |       |       | Pescatarian | 1130  |
 | 2025/02/25 |          |       |       | Vegan       | 1354  |
 | 2025/02/25 |          |       |       | Omnivore    | 1009  |
-| 2025/02/25 | MDI      |       |       | vegatarian  | 169   |
+| 2025/02/25 | MDI      |       |       | vegetarian  | 169   |
 | 2025/02/25 | MDI      |       |       | Pescatarian | 463   |
 | 2025/02/25 | MDI      |       |       | Vegan       | 397   |
 | 2025/02/25 | MDI      |       |       | Omnivore    | 80    |
+```
 
-### Targeting specific rows
+#### Targeting specific rows
 
 This example shows a visualisation definiton of type `list`, where the keys are `est_id` and `wing`, with a measure of `count`: 
 
@@ -125,11 +129,9 @@ This example shows a visualisation definiton of type `list`, where the keys are 
     keys: [
       {
         id: 'est_id',
-        display: 'Establishment ID',
       },
       {
         id: 'wing',
-        display: 'Wing',
       },
     ],
     measures: [
@@ -143,7 +145,7 @@ This example shows a visualisation definiton of type `list`, where the keys are 
 ```
 
 This definition will return the following dataset:
-
+```
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 | MDI      | north |       |             | 140   |
@@ -152,14 +154,15 @@ This definition will return the following dataset:
 | 2025/02/25 | MDI      | north | cell3 |             | 13    |
 | 2025/02/25 | MDI      | north | cell4 |             | 26    |
 | 2025/02/25 | MDI      | north | cell5 |             | 42    |
+```
 
 Note that rows with `cell` values were also returned here also, as the defintion returns all rows where the `keys` and `measures` are defined.
 
 To filter out the rows with `cell` values, and therefore specifically target the row for wing totals, we can specify `expectNulls` as `true`
 
-This defines that all other columns that are not specified in the definition should contain null values. 
+This defines that all remaining columns that are NOT specified in the definition, MUST contain null values to be a valid row. 
 
-eg: 
+e.g.
 ```js
 {
   id: 'total-prisoners',
@@ -180,25 +183,28 @@ eg:
         display: 'Total prisoners',
       },
     ],
-    expectNulls: true,
+    expectNulls: true,      // <----- all remaining cols other than est_id, wing, and count, must be null.
   },
 }
 ```
 
 will return the following dataset:
 
+```
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 | MDI      | north |       |             | 140   |
+```
 
-which will produce the following list.
+which will produce the following `list` visualisation.
 
+```
 | Total prisoners | 
 |-----------------|
 | 140             |
+```
 
-
-### Targeting Prisoner Totals
+#### Targeting Prisoner Totals
 
 ```js
 {
@@ -219,15 +225,19 @@ which will produce the following list.
 ```
 Dataset returned: 
 
+```
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 5000  |
+```
 
 List visualisation:
 
+```
 | Total prisoners | 
-|-------|
-| 5000  |
+|-----------------|
+| 5000            |
+```
 
 ### Targeting diet Totals
 
@@ -254,22 +264,25 @@ List visualisation:
 }
 ```
 Dataset returned: 
-
+```
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       | vegatarian  | 1507  |
 | 2025/02/25 |          |       |       | Pescatarian | 1130  |
 | 2025/02/25 |          |       |       | Vegan       | 1354  |
 | 2025/02/25 |          |       |       | Omnivore    | 1009  |
+```
 
 List visualisation:
 
+```
 | Diet        | Total prisoners | 
 |-------------|-------|
 | vegatarian  | 1507  |
 | Pescatarian | 1130  |
 | Vegan       | 1354  |
 | Omnivore    | 1009  |
+```
 
 ### Targeting diet totals by establishment, with a sum total row
 
@@ -306,16 +319,18 @@ List visualisation:
 ```
 Dataset returned: 
 
+```
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 | MDI      |       |       | vegatarian  | 169   |
 | 2025/02/25 | MDI      |       |       | Pescatarian | 463   |
 | 2025/02/25 | MDI      |       |       | Vegan       | 397   |
 | 2025/02/25 | MDI      |       |       | Omnivore    | 80    |
-
+```
 
 List visualisation:
  
+```
 |  Establishment ID  | Diet        | Total prisoners | 
 |--------------------|-------------|-----------------|
 | MDI                | vegatarian  | 169             |
@@ -323,7 +338,7 @@ List visualisation:
 | MDI                | Vegan       | 397             |
 | MDI                | Omnivore    | 80              |
 | Total              |             | 1109            |
-
+```
 
 ### Targeting cell totals, with sum total row
 ```js
@@ -358,6 +373,7 @@ List visualisation:
 ```
 Dataset returned: 
 
+```
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 | MDI      | north | cell1 |             | 30    |
@@ -365,10 +381,11 @@ Dataset returned:
 | 2025/02/25 | MDI      | north | cell3 |             | 13    |
 | 2025/02/25 | MDI      | north | cell4 |             | 26    |
 | 2025/02/25 | MDI      | north | cell5 |             | 42    |
-
+```
 
 List visualisation:
- 
+
+```
 | Cell  | Total prisoners | 
 |-------|-----------------|
 | cell1 | 30              |
@@ -377,3 +394,4 @@ List visualisation:
 | cell4 | 26              |
 | cell5 | 42              |
 | Total | 140             |
+```

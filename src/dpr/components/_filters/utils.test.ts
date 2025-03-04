@@ -24,8 +24,6 @@ describe('Filters Utils tests', () => {
         req,
       })
 
-      // console.log(JSON.stringify(result, null, 2))
-
       expect(result).toEqual({
         filters: [
           {

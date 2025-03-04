@@ -27,22 +27,22 @@ The visualisation definition is responsible for:
 
 All visualisation types share the same common definition attributes:
 
-| Name          | Type    | Required | Description                                              |
-| --------------| ------- | -------- | -------------------------------------------------------- |
-| `id`          | string  | Yes      | The visualisation ID                                    |
+| Name          | Type    | Required | Description                                                             |
+| --------------| ------- | -------- | ------------------------------------------------------------------------|
+| `id`          | string  | Yes      | The visualisation ID                                                    |
 | `type`        | enum    | Yes      | The visualisation type See [Visualisation types](#visualisation-types)  |
-| `display`     | string  | no       | The visualisation title                                 |
-| `description` | string  | no       | The visualisation desciption                            |
-| `columns`     | object  | yes      | The dataset colums definition. See [Columns](#details)  |
-| `showLatest`  | boolean | no       | default value: `true`. Determines whether to include historic data in visualisation   |
+| `display`     | string  | no       | The visualisation title                                                 |
+| `description` | string  | no       | The visualisation desciption                                            |
+| `columns`     | object  | yes      | The dataset colums definition. See [Columns](#details)                  |
+| `showLatest`  | boolean | no       | default value: `true`. Determines whether to include historic data      |
 
 ### Columns Definition
 
 The `columns` definition is responsible for targeting the required visualisation data from a dataset. See [Targeting data in a dataset](#targeting-data-in-a-dataset) for usage.
 
-| Name        | Type    | Required | Description                                              |
-| ------------| ------- | -------- | -------------------------------------------------------- |
-| `keys`      | array   | Yes      |  The array of key column data. See [Key](#key)     |
+| Name        | Type    | Required | Description                                                |
+| ------------| ------- | -------- | -----------------------------------------------------------|
+| `keys`      | array   | Yes      |  The array of key column data. See [Key](#key)             |
 | `measures`  | array   | Yes      |  The array of measure column data. See [Measure](#measure) |
 | `filters`   | array   | no       |  The array of filter column data. See [Filter](#filter)  |
 | `expectNulls` | boolean   | no   |  See [expectNulls](#expectNulls)  |

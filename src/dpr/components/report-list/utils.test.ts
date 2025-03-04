@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
 import * as ReportListUtils from './utils'
-import * as FilterUtils from '../_filters/utils'
 import { ListDataSources, RenderListWithDataInput, RenderListWithDefinitionInput } from './types'
 import ReportDefinition from '../../../../test-app/mocks/mockSyncData/reportDefinition'
 import {
@@ -24,8 +23,6 @@ jest.mock('../../data/reportingClient.ts', () => {
     }
   })
 })
-
-jest.spyOn(FilterUtils.default, 'redirectWithDefaultFilters').mockReturnValue(false)
 
 describe('EmbeddedReportListUtils', () => {
   let request: Request

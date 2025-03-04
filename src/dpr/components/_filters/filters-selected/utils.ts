@@ -152,7 +152,22 @@ const getSelectedDate = (f: FilterValue, prefix: string) => {
 const disabledDateRange = (f: DateFilterValue, value: (string | DateRange)[], displayValue: string) => {
   const { min, max } = <DateFilterValue>f
 
-  if (value[0] === `"${min}"` && value[1] === `"${max}"`) {
+  console.log(
+    JSON.stringify(
+      {
+        start: value[0],
+        min,
+        res1: (<string>value[0]).includes(min),
+        end: value[1],
+        max,
+        res2: (<string>value[1]).includes(max),
+      },
+      null,
+      2,
+    ),
+  )
+
+  if ((<string>value[0]).includes(min) && (<string>value[1]).includes(max)) {
     return {
       disabled: true,
       cantRemoveClass: ' interactive-remove-filter-button--disabled',
@@ -168,10 +183,10 @@ const disabledDateRange = (f: DateFilterValue, value: (string | DateRange)[], di
 
 const disabledDate = (f: DateFilterValue, value: (string | DateRange)[], displayValue: string) => {
   const { min, max } = <DateFilterValue>f
-  if (value[0] === min || value[0] === max) {
+  if ((<string>value[0]).includes(min) || (<string>value[1]).includes(max)) {
     let valueType
-    if (value[0] === min) valueType = 'min'
-    if (value[0] === max) valueType = 'max'
+    if ((<string>value[0]).includes(min)) valueType = 'min'
+    if ((<string>value[0]).includes(max)) valueType = 'max'
 
     return {
       disabled: true,

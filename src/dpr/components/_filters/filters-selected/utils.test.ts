@@ -59,7 +59,7 @@ describe('Selected filters utils', () => {
         {
           text: `Filter 2: value 2`,
           key: '["filters.filter2"]',
-          value: '["value 2"]',
+          value: ['value 2'],
           classes: 'interactive-remove-filter-button',
           disabled: false,
           attributes: {
@@ -69,7 +69,7 @@ describe('Selected filters utils', () => {
         {
           text: `Filter 4: value 4`,
           key: '["filters.filter4"]',
-          value: '["value 4"]',
+          value: ['value 4'],
           classes: 'interactive-remove-filter-button',
           disabled: false,
           attributes: {
@@ -79,7 +79,7 @@ describe('Selected filters utils', () => {
         {
           text: `Filter 5: 12/12/23 - 21/11/24`,
           key: '["filters.filter5.start","filters.filter5.end"]',
-          value: '["12/12/23","21/11/24"]',
+          value: ['"12/12/23"', '"21/11/24"'],
           classes: 'interactive-remove-filter-button',
           disabled: false,
           attributes: {
@@ -89,7 +89,7 @@ describe('Selected filters utils', () => {
         {
           text: 'Filter 5: 01/02/20 - 01/02/22 (maximum range)',
           key: '["filters.filter5.start","filters.filter5.end"]',
-          value: '["01/02/20","01/02/22"]',
+          value: ['"01/02/20"', '"01/02/22"'],
           classes: 'interactive-remove-filter-button interactive-remove-filter-button--disabled',
           disabled: true,
           attributes: {

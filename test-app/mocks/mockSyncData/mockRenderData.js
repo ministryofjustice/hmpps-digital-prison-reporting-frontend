@@ -127,7 +127,7 @@ const mockRenderDataFromDefinition = {
               text: 'Fezzick',
             },
             {
-              value: 'Inigo Montoya',
+              value: 'inigo-montoya',
               text: 'Inigo Montoya',
             },
             {
@@ -161,27 +161,66 @@ const mockRenderDataFromDefinition = {
           minimumLength: null,
           dynamicResourceEndpoint: null,
         },
+        {
+          dynamicResourceEndpoint: null,
+          mandatory: undefined,
+          minimumLength: null,
+          name: 'field7',
+          options: [
+            {
+              text: 'Value 8.1',
+              value: 'value8.1',
+            },
+            {
+              text: 'Value 8.2',
+              value: 'value8.2',
+            },
+            {
+              text: 'Value 8.3',
+              value: 'value8.3',
+            },
+            {
+              text: 'Value 8.4',
+              value: 'value8.4',
+            },
+          ],
+          pattern: undefined,
+          text: 'Field 7',
+          type: 'multiselect',
+          value: 'value8.2,value8.3',
+          values: ['value8.2', 'value8.3'],
+        },
       ],
       selectedFilters: [
         {
-          text: 'Field 1: value1.1',
+          text: 'Field 1: Value 1.1',
           key: '["filters.field1"]',
-          value: '["value1.1"]',
+          value: ['"value1.1"'],
           disabled: false,
           classes: 'interactive-remove-filter-button',
           attributes: {
-            'aria-label': 'Selected Filter: Field 1: value1.1. Click to clear this filter',
+            'aria-label': 'Selected Filter: Field 1: Value 1.1. Click to clear this filter',
           },
         },
         {
           text: 'Field 3: 2003-02-01 - 2006-05-04',
           key: '["filters.field3.start","filters.field3.end"]',
-          value: '["2003-02-01","2006-05-04"]',
+          value: ['"2003-02-01"', '"2006-05-04"'],
           disabled: false,
           classes: 'interactive-remove-filter-button',
           attributes: {
             'aria-label': 'Selected Filter: Field 3: 2003-02-01 - 2006-05-04. Click to clear this filter',
           },
+        },
+        {
+          attributes: {
+            'aria-label': 'Selected Filter: Field 7: Value 8.2, Value 8.3. Click to clear this filter',
+          },
+          classes: 'interactive-remove-filter-button',
+          disabled: false,
+          key: '["filters.field7"]',
+          text: 'Field 7: Value 8.2, Value 8.3',
+          value: ['"value8.2"', '"value8.3"'],
         },
       ],
     },
@@ -216,6 +255,11 @@ const mockRenderDataFromDefinition = {
           text: 'Field 6',
           value: 'field6',
           disabled: false,
+        },
+        {
+          disabled: false,
+          text: 'Field 7',
+          value: 'field7',
         },
       ],
       text: 'Select report columns',
@@ -397,7 +441,7 @@ const mockRenderDataFromData = {
               text: 'Fezzick',
             },
             {
-              value: 'Inigo Montoya',
+              value: 'inigo-montoya',
               text: 'Inigo Montoya',
             },
             {
@@ -431,27 +475,66 @@ const mockRenderDataFromData = {
           minimumLength: null,
           dynamicResourceEndpoint: null,
         },
+        {
+          dynamicResourceEndpoint: null,
+          mandatory: undefined,
+          minimumLength: null,
+          name: 'field7',
+          options: [
+            {
+              text: 'Value 8.1',
+              value: 'value8.1',
+            },
+            {
+              text: 'Value 8.2',
+              value: 'value8.2',
+            },
+            {
+              text: 'Value 8.3',
+              value: 'value8.3',
+            },
+            {
+              text: 'Value 8.4',
+              value: 'value8.4',
+            },
+          ],
+          pattern: undefined,
+          text: 'Field 7',
+          type: 'multiselect',
+          value: 'value8.2,value8.3',
+          values: ['value8.2', 'value8.3'],
+        },
       ],
       selectedFilters: [
         {
-          text: 'Field 1: value1.1',
+          text: 'Field 1: Value 1.1',
           key: '["filters.field1"]',
-          value: '["value1.1"]',
+          value: ['"value1.1"'],
           disabled: false,
           classes: 'interactive-remove-filter-button',
           attributes: {
-            'aria-label': 'Selected Filter: Field 1: value1.1. Click to clear this filter',
+            'aria-label': 'Selected Filter: Field 1: Value 1.1. Click to clear this filter',
           },
         },
         {
           text: 'Field 3: 2003-02-01 - 2006-05-04',
           key: '["filters.field3.start","filters.field3.end"]',
-          value: '["2003-02-01","2006-05-04"]',
+          value: ['"2003-02-01"', '"2006-05-04"'],
           disabled: false,
           classes: 'interactive-remove-filter-button',
           attributes: {
             'aria-label': 'Selected Filter: Field 3: 2003-02-01 - 2006-05-04. Click to clear this filter',
           },
+        },
+        {
+          attributes: {
+            'aria-label': 'Selected Filter: Field 7: Value 8.2, Value 8.3. Click to clear this filter',
+          },
+          classes: 'interactive-remove-filter-button',
+          disabled: false,
+          key: '["filters.field7"]',
+          text: 'Field 7: Value 8.2, Value 8.3',
+          value: ['"value8.2"', '"value8.3"'],
         },
       ],
     },
@@ -486,6 +569,11 @@ const mockRenderDataFromData = {
           text: 'Field 6',
           value: 'field6',
           disabled: false,
+        },
+        {
+          disabled: false,
+          text: 'Field 7',
+          value: 'field7',
         },
       ],
       text: 'Select report columns',

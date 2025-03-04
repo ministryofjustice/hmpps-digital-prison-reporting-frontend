@@ -216,24 +216,24 @@ const mockSyncData = {
           text: 'Field 8',
           type: 'multiselect',
           value: 'value8.2,value8.3',
-          values: ['value8.2,value8.3'],
+          values: ['value8.2', 'value8.3'],
         },
       ],
       selectedFilters: [
         {
-          text: 'Field 1: value1.2',
+          text: 'Field 1: Value 1.2',
           key: '["filters.field1"]',
-          value: '["value1.2"]',
+          value: ['"value1.2"'],
           disabled: false,
           classes: 'interactive-remove-filter-button',
           attributes: {
-            'aria-label': 'Selected Filter: Field 1: value1.2. Click to clear this filter',
+            'aria-label': 'Selected Filter: Field 1: Value 1.2. Click to clear this filter',
           },
         },
         {
           text: 'Field 3: 2003-02-01 - 2006-05-04',
           key: '["filters.field3.start","filters.field3.end"]',
-          value: '["2003-02-01","2006-05-04"]',
+          value: ['"2003-02-01"', '"2006-05-04"'],
           disabled: false,
           classes: 'interactive-remove-filter-button',
           attributes: {
@@ -243,7 +243,7 @@ const mockSyncData = {
         {
           text: 'Field 7: 2003-02-01 (min date)',
           key: '["filters.field7"]',
-          value: '["2003-02-01"]',
+          value: ['"2003-02-01"'],
           disabled: true,
           classes: 'interactive-remove-filter-button interactive-remove-filter-button--disabled',
           attributes: {
@@ -253,13 +253,13 @@ const mockSyncData = {
         },
         {
           attributes: {
-            'aria-label': 'Selected Filter: Field 8: value8.2,value8.3. Click to clear this filter',
+            'aria-label': 'Selected Filter: Field 8: Value 8.2, Value 8.3. Click to clear this filter',
           },
           classes: 'interactive-remove-filter-button',
           disabled: false,
           key: '["filters.field8"]',
-          text: 'Field 8: value8.2,value8.3',
-          value: '["value8.2","value8.3"]',
+          text: 'Field 8: Value 8.2, Value 8.3',
+          value: ['"value8.2"', '"value8.3"'],
         },
       ],
     },

@@ -21,31 +21,27 @@
   {% set mandatory = filter.mandatory if filter.mandatory else 
     false %}
 
-  {% set optionsWithNone = [
-    {
-      value: "",
-      text: "( No filter )",
-      disabled: true
-    }
-  ].concat(options) %}
-
   {% set labelText = text | capitaliseSentence %}
 
   <div class="dpr-filter-item {% if filterType === 'daterange'%} dpr-filter-item__span-2 {% endif %}">
+
     {%- if filterType === 'select' %}
 
       {{ govukSelect({
         id: id,
         name: name,
         value: value,
-        items: options if mandatory else optionsWithNone,
+        items: options,
         label: {
           text: labelText,
           classes: "govuk-label govuk-!-font-weight-bold"
         },
         attributes: {
           'display-name': labelText
-        }
+        },
+        hint: {
+          html: "(Optional)"
+        } if not mandatory
       }) }}
 
     {%- elif filterType === 'multiselect' %}
@@ -82,7 +78,7 @@
             classes: "govuk-label govuk-!-font-weight-bold"
           }
         },
-        items: (options | addRequiredAttributeToAll) if mandatory else optionsWithNone,
+        items: (options | addRequiredAttributeToAll) if mandatory else options,
         errorMessage: {
           text: ""
         },
@@ -92,7 +88,10 @@
           'display-name': labelText
         } if mandatory else {
           'display-name': labelText
-        }
+        },
+        hint: {
+          html: "(Optional)"
+        } if not mandatory
       }) }}
 
     {% elif filterType === 'date' %}

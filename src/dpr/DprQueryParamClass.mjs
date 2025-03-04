@@ -62,7 +62,7 @@ export default class DprQueryParamClass extends DprClientClass {
    */
   setQueryParamFromInput(input, toggleCheckbox = false) {
     const { type } = input
-    if (input.value !== 'no-filter') {
+    if (input.value !== 'select-your-option') {
       if (type === 'checkbox' || type === 'radio') {
         this.setMultiSelectQueryParam(input, toggleCheckbox)
       } else {
@@ -194,5 +194,14 @@ export default class DprQueryParamClass extends DprClientClass {
   setCheckBoxValues(inputs, value) {
     const input = Array.from(inputs).find((i) => i.getAttribute('value') === value)
     if (input) input.checked = true
+  }
+
+  removeNoFilterValues() {
+    this.queryParams = new URLSearchParams(window.location.search)
+    const params = Array.from(this.queryParams)
+    params.forEach((p) => {
+      if (p[1].includes('no-filter')) this.queryParams.delete(p[0], p[1])
+    })
+    window.history.replaceState(null, null, `?${this.queryParams.toString()}`)
   }
 }

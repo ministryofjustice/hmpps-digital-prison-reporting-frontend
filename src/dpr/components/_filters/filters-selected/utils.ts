@@ -152,21 +152,6 @@ const getSelectedDate = (f: FilterValue, prefix: string) => {
 const disabledDateRange = (f: DateFilterValue, value: (string | DateRange)[], displayValue: string) => {
   const { min, max } = <DateFilterValue>f
 
-  console.log(
-    JSON.stringify(
-      {
-        start: value[0],
-        min,
-        res1: (<string>value[0]).includes(min),
-        end: value[1],
-        max,
-        res2: (<string>value[1]).includes(max),
-      },
-      null,
-      2,
-    ),
-  )
-
   if ((<string>value[0]).includes(min) && (<string>value[1]).includes(max)) {
     return {
       disabled: true,

@@ -132,13 +132,26 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
         value: defaultValue || null,
         minimumLength: dynamicOptions ? dynamicOptions.minimumLength : null,
         dynamicResourceEndpoint: null,
-        mandatory,
+        mandatory: mandatory || false,
         pattern,
+      }
+
+      const noFilterOption = {
+        value: 'no-filter',
+        text: 'None',
+        disabled: false,
       }
 
       switch (type) {
         case FilterType.autocomplete.toLowerCase():
+          filterData = {
+            ...filterData,
+            options,
+          }
+          break
+
         case FilterType.radio:
+          if (!mandatory) options.unshift(noFilterOption)
           filterData = {
             ...filterData,
             options,
@@ -146,12 +159,14 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
           break
 
         case FilterType.select: {
+          if (!mandatory) options.unshift(noFilterOption)
           options.unshift({
-            value: 'no-filter',
+            value: 'select-your-option',
             text: 'Select your option',
             disabled: true,
             selected: true,
           })
+
           filterData = {
             ...filterData,
             options,

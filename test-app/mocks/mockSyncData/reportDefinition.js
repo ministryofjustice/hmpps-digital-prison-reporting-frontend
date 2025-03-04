@@ -23,7 +23,8 @@ const defaultVariant = {
             { name: 'value1.2', display: 'Value 1.2' },
             { name: 'value1.3', display: 'Value 1.3' },
           ],
-          defaultValue: 'value1.1',
+          defaultValue: '',
+          mandatory: false,
         },
       },
       {
@@ -40,6 +41,7 @@ const defaultVariant = {
             { name: 'value2.2', display: 'Value 2.2' },
             { name: 'value2.3', display: 'Value 2.3' },
           ],
+          mandatory: false,
         },
       },
       {

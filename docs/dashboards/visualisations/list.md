@@ -2,6 +2,12 @@
 
 The list visualisation type represents data as a simple list visualisation.
 
+## When to use
+
+Use this visualisation type when you need to display data in a list. 
+
+## Definition Structure
+
 To define a list visualisation:
 
 ```js
@@ -15,7 +21,8 @@ To define a list visualisation:
   }
 }
 ```
-To learn more about defining the data for the visualisation using the `columns` field see [here]()
+
+To learn more about defining the data for the visualisation using the `columns` field see [here](./visualisation-definition.md#targeting-data-in-a-dataset)
 
 ## List representations
 
@@ -24,7 +31,7 @@ There are two ways to represent data from a dataset as a list:
 - [Using dataset rows as list rows](#using-dataset-rows-as-list-rows)
 - [Using dataset columns as list rows](#using-dataset-columns-as-list-rows)
 
-### Examples
+## Examples
 
 For these examples we will use this mocked dataset:
 

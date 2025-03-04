@@ -21,6 +21,9 @@ Use this visualisation type when you need to display data as a bar chart.
   }
 }
 ```
+
+To learn more about defining the data for the visualisation using the `columns` field see [here](./visualisation-definition.md#targeting-data-in-a-dataset)
+
 ## Examples
 
 ### Define dataset columns as bar labels

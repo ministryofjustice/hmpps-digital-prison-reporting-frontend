@@ -43,7 +43,7 @@ For these examples we will use this mocked dataset:
 | LTI    | 150      | 208      | 220      | 214      |
 ```
 
-#### Using dataset rows as list rows:
+### Using dataset rows as list rows:
 
 List visualisation:
 
@@ -91,7 +91,7 @@ The definition:
 }
 ```
 
-#### Using dataset columns as list rows:
+### Using dataset columns as list rows:
 
 List visualisation
 ```

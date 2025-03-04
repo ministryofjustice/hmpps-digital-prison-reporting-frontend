@@ -11,7 +11,7 @@ contents:
 
 ## Introduction
 
-A dashboard a collection of things. The role of the dashboard is present data in easy to digest slices, and it does through the use of various [visualisation](../visualisations/visualisation-definition.md) types.
+A dashboard a collection of things. The role of the dashboard is present data in easy to digest slices, through the use of various [visualisation](../visualisations/visualisation-definition.md) types.
 
 A dashboard is defined by a dashboard definition and backed is always backed by a single dataset. 
 

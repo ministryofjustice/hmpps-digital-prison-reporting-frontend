@@ -43,7 +43,7 @@ const variant23Interactive = {
             { name: 'value2.2', display: 'Value 2.2' },
             { name: 'value2.3', display: 'Value 2.3' },
           ],
-          mandatory: true,
+          mandatory: false,
           interactive: true,
         },
       },

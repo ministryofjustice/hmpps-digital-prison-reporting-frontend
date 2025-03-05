@@ -102,6 +102,7 @@ const mockSyncData = {
               disabled: true,
               selected: true,
             },
+            { value: 'no-filter', text: 'None', disabled: false },
             {
               value: 'value2.1',
               text: 'Value 2.1',
@@ -118,7 +119,7 @@ const mockSyncData = {
           value: null,
           minimumLength: null,
           dynamicResourceEndpoint: null,
-          mandatory: true,
+          mandatory: false,
         },
         {
           text: 'Field 3',

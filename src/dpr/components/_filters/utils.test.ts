@@ -52,6 +52,7 @@ describe('Filters Utils tests', () => {
                 disabled: true,
                 selected: true,
               },
+              { value: 'no-filter', text: 'None', disabled: false },
               { value: 'value2.1', text: 'Value 2.1' },
               { value: 'value2.2', text: 'Value 2.2' },
               { value: 'value2.3', text: 'Value 2.3' },
@@ -59,7 +60,7 @@ describe('Filters Utils tests', () => {
             value: null,
             minimumLength: null,
             dynamicResourceEndpoint: null,
-            mandatory: true,
+            mandatory: false,
           },
           {
             text: 'Field 3',

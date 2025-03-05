@@ -37,9 +37,9 @@ Then(/^there is (an|no) empty (radio|select) option$/, (present, filterType) => 
 
   option.should((o) => {
     if (present === 'no') {
-      expect(o.text()).to.not.contain('( No filter )')
+      expect(o.text()).to.not.contain('None')
     } else {
-      expect(o.text()).to.contain('( No filter )')
+      expect(o.text()).to.contain('None')
     }
   })
 })

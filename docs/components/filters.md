@@ -7,8 +7,6 @@ This component is an extension of the [MoJ filter component](https://design-patt
 
 Clicking "Apply filter" appends the selected options to the page URL. Parameters are appended with the provided parameter prefix. 
 
-{% example "filters", 700 %}
-
 {% header 2, "When to use" %}
 
 If you have simple filtering requirements (Radio, Select, Date range), then this component is a good way to reduce code complexity.

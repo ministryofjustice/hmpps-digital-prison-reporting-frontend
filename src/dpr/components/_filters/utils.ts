@@ -9,6 +9,7 @@ import SelectedFiltersUtils from './filters-selected/utils'
 import DateRangeInputUtils from '../_inputs/date-range/utils'
 import DateInputUtils from '../_inputs/date-input/utils'
 import GranularDateRangeInputUtils from '../_inputs/granular-date-range/utils'
+import MultiSelectUtils from '../_inputs/mulitselect/utils'
 import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
 
 const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix = 'filters.'): FilterValue[] => {
@@ -16,12 +17,15 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
 
   return filters.map((filter: FilterValue) => {
     let requestfilterValue
+    let requestfilterValues: string[]
     if (filter.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
       requestfilterValue = DateRangeInputUtils.setValueFromRequest(filter, req, prefix)
     } else if (filter.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
       requestfilterValue = GranularDateRangeInputUtils.setValueFromRequest(filter, req, prefix)
     } else if (filter.type.toLowerCase() === FilterType.date.toLowerCase()) {
       requestfilterValue = DateInputUtils.setValueFromRequest(filter, req, prefix)
+    } else if (filter.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
+      ;({ requestfilterValue, requestfilterValues } = MultiSelectUtils.setValueFromRequest(filter, req, prefix))
     } else {
       requestfilterValue = <string>req.query[`${prefix}${filter.name}`]
     }
@@ -38,6 +42,7 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
     return {
       ...filter,
       value,
+      ...(requestfilterValues && { values: requestfilterValues }),
     }
   })
 }
@@ -127,13 +132,26 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
         value: defaultValue || null,
         minimumLength: dynamicOptions ? dynamicOptions.minimumLength : null,
         dynamicResourceEndpoint: null,
-        mandatory,
+        mandatory: mandatory || false,
         pattern,
+      }
+
+      const noFilterOption = {
+        value: 'no-filter',
+        text: 'None',
+        disabled: false,
       }
 
       switch (type) {
         case FilterType.autocomplete.toLowerCase():
+          filterData = {
+            ...filterData,
+            options,
+          }
+          break
+
         case FilterType.radio:
+          if (!mandatory) options.unshift(noFilterOption)
           filterData = {
             ...filterData,
             options,
@@ -141,12 +159,14 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
           break
 
         case FilterType.select: {
+          if (!mandatory) options.unshift(noFilterOption)
           options.unshift({
-            value: 'no-filter',
+            value: '',
             text: 'Select your option',
             disabled: true,
             selected: true,
           })
+
           filterData = {
             ...filterData,
             options,
@@ -158,7 +178,7 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
           filterData = {
             ...filterData,
             options,
-            values: defaultValue.split(', '),
+            values: defaultValue ? defaultValue.split(',') : [],
           }
           break
 

@@ -9,7 +9,11 @@ import { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 
 describe('Filters Utils tests', () => {
   const req: Request = {
-    query: {},
+    baseUrl: 'baseUrl',
+    path: 'path',
+    query: {
+      dataProductDefinitionsPath: '',
+    },
   } as unknown as Request
 
   describe('getFilters', () => {
@@ -27,6 +31,7 @@ describe('Filters Utils tests', () => {
             name: 'field1',
             type: 'Radio',
             options: [
+              { value: 'no-filter', text: 'None', disabled: false },
               { value: 'value1.1', text: 'Value 1.1' },
               { value: 'value1.2', text: 'Value 1.2' },
               { value: 'value1.3', text: 'Value 1.3' },
@@ -41,7 +46,13 @@ describe('Filters Utils tests', () => {
             name: 'field2',
             type: 'Select',
             options: [
-              { value: 'no-filter', text: 'Select your option', disabled: true, selected: true },
+              {
+                value: '',
+                text: 'Select your option',
+                disabled: true,
+                selected: true,
+              },
+              { value: 'no-filter', text: 'None', disabled: false },
               { value: 'value2.1', text: 'Value 2.1' },
               { value: 'value2.2', text: 'Value 2.2' },
               { value: 'value2.3', text: 'Value 2.3' },
@@ -49,7 +60,7 @@ describe('Filters Utils tests', () => {
             value: null,
             minimumLength: null,
             dynamicResourceEndpoint: null,
-            mandatory: true,
+            mandatory: false,
           },
           {
             text: 'Field 3',
@@ -96,6 +107,7 @@ describe('Filters Utils tests', () => {
             value: null,
             minimumLength: null,
             dynamicResourceEndpoint: null,
+            mandatory: false,
           },
           {
             text: 'Field 7',
@@ -106,10 +118,11 @@ describe('Filters Utils tests', () => {
             dynamicResourceEndpoint: null,
             min: '2003-02-01',
             max: '2007-05-04',
+            mandatory: false,
           },
           {
             dynamicResourceEndpoint: null,
-            mandatory: undefined,
+            mandatory: false,
             minimumLength: null,
             name: 'field8',
             options: [
@@ -134,22 +147,24 @@ describe('Filters Utils tests', () => {
             text: 'Field 8',
             type: 'multiselect',
             value: 'value8.2,value8.3',
-            values: ['value8.2,value8.3'],
+            values: ['value8.2', 'value8.3'],
           },
         ],
         selectedFilters: [
           {
-            text: 'Field 1: value1.2',
+            text: 'Field 1: Value 1.2',
             key: '["filters.field1"]',
-            value: '["value1.2"]',
+            value: ['"value1.2"'],
             classes: 'interactive-remove-filter-button',
             disabled: false,
-            attributes: { 'aria-label': 'Selected Filter: Field 1: value1.2. Click to clear this filter' },
+            attributes: {
+              'aria-label': 'Selected Filter: Field 1: Value 1.2. Click to clear this filter',
+            },
           },
           {
             text: 'Field 3: 2003-02-01 - 2006-05-04',
             key: '["filters.field3.start","filters.field3.end"]',
-            value: '["2003-02-01","2006-05-04"]',
+            value: ['"2003-02-01"', '"2006-05-04"'],
             disabled: false,
             classes: 'interactive-remove-filter-button',
             attributes: {
@@ -159,7 +174,7 @@ describe('Filters Utils tests', () => {
           {
             text: 'Field 7: 2003-02-01 (min date)',
             key: '["filters.field7"]',
-            value: '["2003-02-01"]',
+            value: ['"2003-02-01"'],
             disabled: true,
             classes: 'interactive-remove-filter-button interactive-remove-filter-button--disabled',
             attributes: {
@@ -169,13 +184,13 @@ describe('Filters Utils tests', () => {
           },
           {
             attributes: {
-              'aria-label': 'Selected Filter: Field 8: value8.2,value8.3. Click to clear this filter',
+              'aria-label': 'Selected Filter: Field 8: Value 8.2, Value 8.3. Click to clear this filter',
             },
             classes: 'interactive-remove-filter-button',
             disabled: false,
             key: '["filters.field8"]',
-            text: 'Field 8: value8.2,value8.3',
-            value: '["value8.2","value8.3"]',
+            text: 'Field 8: Value 8.2, Value 8.3',
+            value: ['"value8.2"', '"value8.3"'],
           },
         ],
       })
@@ -223,6 +238,18 @@ describe('Filters Utils tests', () => {
         mandatory: true,
       }
 
+      const multiselectFilter: components['schemas']['FilterDefinition'] = {
+        type: 'multiselect',
+        staticOptions: [
+          { name: 'value8.1', display: 'Value 8.1' },
+          { name: 'value8.2', display: 'Value 8.2' },
+          { name: 'value8.3', display: 'Value 8.3' },
+          { name: 'value8.4', display: 'Value 8.4' },
+        ],
+        defaultValue: 'value8.2,value8.3',
+        mandatory: true,
+      }
+
       const fieldParams = {
         mandatory: false,
         defaultsort: false,
@@ -263,11 +290,18 @@ describe('Filters Utils tests', () => {
           ...fieldParams,
           filter: granularDateRangeFilter,
         },
+        {
+          name: 'field5',
+          display: 'Field 5',
+          type: 'string',
+          ...fieldParams,
+          filter: multiselectFilter,
+        },
       ]
 
       const result = FiltersUtils.setFilterQueryFromFilterDefinition(fields)
       const expectedResult =
-        'filters.field1.start=2003-02-01&filters.field1.end=2006-05-04&filters.field2=2005-02-01&filters.field4.quick-filter=last-six-months&filters.field4.granularity=monthly&filters.field4.start=2023-12-07&filters.field4.end=2024-06-06'
+        'filters.field1.start=2003-02-01&filters.field1.end=2006-05-04&filters.field2=2005-02-01&filters.field4.quick-filter=last-six-months&filters.field4.granularity=monthly&filters.field4.start=2023-12-07&filters.field4.end=2024-06-06&filters.field5=value8.2&filters.field5=value8.3'
 
       expect(granularDateRangeSpy).toHaveBeenCalledWith(
         granularDateRangeFilter,

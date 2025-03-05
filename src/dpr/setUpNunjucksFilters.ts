@@ -12,7 +12,7 @@ const setUpNunjucksFilters = (env: nunjucks.Environment) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const stringifyJson = (jsonObj: any) => {
-  return JSON.stringify(jsonObj)
+  return JSON.stringify(jsonObj, null, 2)
 }
 
 const capitaliseSentence = (text: string) => {

@@ -12,6 +12,7 @@ export default class DprFormValidationClass extends DprQueryParamClass {
           errorMessageEl.classList.add('govuk-error-message--hidden')
           field.classList.remove('govuk-input--error')
           field.classList.remove('govuk-textarea--error')
+          field.classList.remove('govuk-select--error')
         }
       }
     })
@@ -22,13 +23,12 @@ export default class DprFormValidationClass extends DprQueryParamClass {
     let prevfieldName = ''
     this.formFields.forEach((field) => {
       const currentFieldName = field.getAttribute('name')
-
       if (currentFieldName !== prevfieldName && field.tagName !== 'BUTTON') {
         const formGroupEl = field.closest('div.govuk-form-group')
 
         if (formGroupEl) {
           const errorMessageEl = formGroupEl.querySelector('p.govuk-error-message')
-          if (!field.checkValidity()) {
+          if (!this.fieldIsValid(field)) {
             this.showFieldError(field, formGroupEl, errorMessageEl)
           } else if (errorMessageEl && formGroupEl) {
             this.hideFieldError(field, formGroupEl, errorMessageEl)
@@ -44,6 +44,25 @@ export default class DprFormValidationClass extends DprQueryParamClass {
     } else {
       this.errorSummary.classList.add('query-error-summary--hidden')
     }
+  }
+
+  fieldIsValid(field) {
+    const { type } = field
+    switch (type) {
+      case 'checkbox':
+        return this.validateCheckbox(field)
+      default:
+        return field.checkValidity()
+    }
+  }
+
+  validateCheckbox(field) {
+    const checkboxWrapper = field.closest('div.govuk-checkboxes')
+    if (checkboxWrapper.hasAttribute('required')) {
+      const checkboxes = checkboxWrapper.querySelectorAll('input[type="checkbox"]')
+      return Array.from(checkboxes).some((x) => x.checked)
+    }
+    return true
   }
 
   showFieldError(field, formGroupEl, errorMessageEl) {
@@ -79,6 +98,8 @@ export default class DprFormValidationClass extends DprQueryParamClass {
         return field.getAttribute('display-name')
       case 'radio':
         return field.closest('div.govuk-radios').getAttribute('display-name')
+      case 'checkbox':
+        return field.closest('div.govuk-checkboxes').getAttribute('display-name')
       default:
         return field.getAttribute('display-name')
     }
@@ -90,7 +111,7 @@ export default class DprFormValidationClass extends DprQueryParamClass {
     const displayName = this.getDisplayName(field)
     let message
 
-    if (validityState.valueMissing) {
+    if (validityState.valueMissing || field.type === 'checkbox') {
       message = existingErrorMessage.length ? existingErrorMessage : `${displayName} is required`
       this.errorMessages.push({
         text: message,

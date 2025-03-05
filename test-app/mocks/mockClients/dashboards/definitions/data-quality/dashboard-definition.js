@@ -23,6 +23,11 @@ const dataQualityDashboard1 = {
       visualisations: [lists.dataQualityColsToList],
     },
     {
+      id: 'charts-section-ethnicity-breakdown',
+      display: 'Totals overtime',
+      visualisations: [lists.dataQualityEthnicityHistoric],
+    },
+    {
       id: 'charts-section-ethnicity',
       display: 'Ethnicity totals',
       description: 'Overall data quality values',
@@ -39,11 +44,6 @@ const dataQualityDashboard1 = {
       visualisations: [mockNationalityBarChart, mockNationalityPieChart, lists.dataQualityNationality],
     },
     {
-      id: 'scorecards-section',
-      display: 'Scorecards',
-      visualisations: [scorecards.dataQualityAllCols],
-    },
-    {
       id: 'historic',
       display: 'Data quality over time',
       visualisations: [
@@ -51,6 +51,11 @@ const dataQualityDashboard1 = {
         charts.dataQualityNationalityHistoricLine,
         charts.dataQualityReligionHistoricLine,
       ],
+    },
+    {
+      id: 'scorecards-section',
+      display: 'Scorecards',
+      visualisations: [scorecards.dataQualityAllCols],
     },
   ],
   filterFields: [establishmentIdFilter, granularDateRangeFilter],

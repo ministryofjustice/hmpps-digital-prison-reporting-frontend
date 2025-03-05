@@ -15,6 +15,9 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
           !Object.prototype.hasOwnProperty.call(f.value, 'end'))
       )
     })
+    .filter((f) => {
+      return f.value && f.value !== 'no-filter'
+    })
     .map((f) => {
       let value: (string | DateRange)[] = []
       let key: string[] = []

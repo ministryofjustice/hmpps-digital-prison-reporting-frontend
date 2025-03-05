@@ -60,7 +60,7 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
   }
 
   submitAction() {
-    this.removeNoFilterValues()
+    // this.removeNoFilterValues()
     window.location.reload()
   }
 

@@ -77,7 +77,9 @@ export default class ReportQuery implements FilteredListRequest {
         if (filter.includes('.end') && max) {
           if (new Date(value) > new Date(max)) value = max
         }
-        this.filters[filter] = value
+        if (value !== 'no-filter') {
+          this.filters[filter] = value
+        }
       })
   }
 

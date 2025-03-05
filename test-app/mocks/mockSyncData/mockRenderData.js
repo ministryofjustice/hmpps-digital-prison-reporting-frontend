@@ -55,9 +55,15 @@ const mockRenderDataFromDefinition = {
           name: 'field1',
           type: 'Radio',
           value: 'value1.1',
+          mandatory: false,
           minimumLength: null,
           dynamicResourceEndpoint: null,
           options: [
+            {
+              disabled: false,
+              text: 'None',
+              value: 'no-filter',
+            },
             {
               value: 'value1.1',
               text: 'Value 1.1',
@@ -78,13 +84,19 @@ const mockRenderDataFromDefinition = {
           type: 'Select',
           value: null,
           minimumLength: null,
+          mandatory: false,
           dynamicResourceEndpoint: null,
           options: [
             {
-              value: 'no-filter',
+              value: 'select-your-option',
               text: 'Select your option',
               disabled: true,
               selected: true,
+            },
+            {
+              disabled: false,
+              text: 'None',
+              value: 'no-filter',
             },
             {
               value: 'value2.1',
@@ -109,6 +121,7 @@ const mockRenderDataFromDefinition = {
             end: '2006-05-04',
           },
           minimumLength: null,
+          mandatory: false,
           dynamicResourceEndpoint: null,
           min: '2003-02-01',
           max: '2007-05-04',
@@ -119,6 +132,7 @@ const mockRenderDataFromDefinition = {
           name: 'field4',
           type: 'autocomplete',
           value: null,
+          mandatory: false,
           minimumLength: 3,
           dynamicResourceEndpoint: null,
           options: [
@@ -149,6 +163,7 @@ const mockRenderDataFromDefinition = {
           name: 'field5',
           type: 'autocomplete',
           value: null,
+          mandatory: false,
           minimumLength: 3,
           dynamicResourceEndpoint: null,
           options: [],
@@ -158,12 +173,13 @@ const mockRenderDataFromDefinition = {
           name: 'field6',
           type: 'text',
           value: null,
+          mandatory: false,
           minimumLength: null,
           dynamicResourceEndpoint: null,
         },
         {
           dynamicResourceEndpoint: null,
-          mandatory: undefined,
+          mandatory: false,
           minimumLength: null,
           name: 'field7',
           options: [
@@ -369,9 +385,15 @@ const mockRenderDataFromData = {
           name: 'field1',
           type: 'Radio',
           value: 'value1.1',
+          mandatory: false,
           minimumLength: null,
           dynamicResourceEndpoint: null,
           options: [
+            {
+              disabled: false,
+              text: 'None',
+              value: 'no-filter',
+            },
             {
               value: 'value1.1',
               text: 'Value 1.1',
@@ -391,14 +413,20 @@ const mockRenderDataFromData = {
           name: 'field2',
           type: 'Select',
           value: null,
+          mandatory: false,
           minimumLength: null,
           dynamicResourceEndpoint: null,
           options: [
             {
-              value: 'no-filter',
+              value: 'select-your-option',
               text: 'Select your option',
               disabled: true,
               selected: true,
+            },
+            {
+              disabled: false,
+              text: 'None',
+              value: 'no-filter',
             },
             {
               value: 'value2.1',
@@ -422,6 +450,7 @@ const mockRenderDataFromData = {
             start: '2003-02-01',
             end: '2006-05-04',
           },
+          mandatory: false,
           minimumLength: null,
           dynamicResourceEndpoint: null,
           min: '2003-02-01',
@@ -433,6 +462,7 @@ const mockRenderDataFromData = {
           name: 'field4',
           type: 'autocomplete',
           value: null,
+          mandatory: false,
           minimumLength: 3,
           dynamicResourceEndpoint: null,
           options: [
@@ -463,6 +493,7 @@ const mockRenderDataFromData = {
           name: 'field5',
           type: 'autocomplete',
           value: null,
+          mandatory: false,
           minimumLength: 3,
           dynamicResourceEndpoint: null,
           options: [],
@@ -472,12 +503,13 @@ const mockRenderDataFromData = {
           name: 'field6',
           type: 'text',
           value: null,
+          mandatory: false,
           minimumLength: null,
           dynamicResourceEndpoint: null,
         },
         {
           dynamicResourceEndpoint: null,
-          mandatory: undefined,
+          mandatory: false,
           minimumLength: null,
           name: 'field7',
           options: [

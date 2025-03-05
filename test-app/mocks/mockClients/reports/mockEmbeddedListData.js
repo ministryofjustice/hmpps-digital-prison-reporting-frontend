@@ -69,6 +69,11 @@ const mockSyncData = {
           type: 'Radio',
           options: [
             {
+              disabled: false,
+              text: 'None',
+              value: 'no-filter',
+            },
+            {
               value: 'value1.1',
               text: 'Value 1.1',
             },
@@ -92,7 +97,7 @@ const mockSyncData = {
           type: 'Select',
           options: [
             {
-              value: 'no-filter',
+              value: 'select-your-option',
               text: 'Select your option',
               disabled: true,
               selected: true,
@@ -178,6 +183,7 @@ const mockSyncData = {
           value: null,
           minimumLength: null,
           dynamicResourceEndpoint: null,
+          mandatory: false,
         },
         {
           text: 'Field 7',
@@ -188,10 +194,11 @@ const mockSyncData = {
           dynamicResourceEndpoint: null,
           min: '2003-02-01',
           max: '2007-05-04',
+          mandatory: false,
         },
         {
           dynamicResourceEndpoint: null,
-          mandatory: undefined,
+          mandatory: false,
           minimumLength: null,
           name: 'field8',
           options: [

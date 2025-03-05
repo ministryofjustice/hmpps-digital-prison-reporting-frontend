@@ -31,6 +31,7 @@ describe('Filters Utils tests', () => {
             name: 'field1',
             type: 'Radio',
             options: [
+              { value: 'no-filter', text: 'None', disabled: false },
               { value: 'value1.1', text: 'Value 1.1' },
               { value: 'value1.2', text: 'Value 1.2' },
               { value: 'value1.3', text: 'Value 1.3' },
@@ -45,7 +46,12 @@ describe('Filters Utils tests', () => {
             name: 'field2',
             type: 'Select',
             options: [
-              { value: 'no-filter', text: 'Select your option', disabled: true, selected: true },
+              {
+                value: 'select-your-option',
+                text: 'Select your option',
+                disabled: true,
+                selected: true,
+              },
               { value: 'value2.1', text: 'Value 2.1' },
               { value: 'value2.2', text: 'Value 2.2' },
               { value: 'value2.3', text: 'Value 2.3' },
@@ -100,6 +106,7 @@ describe('Filters Utils tests', () => {
             value: null,
             minimumLength: null,
             dynamicResourceEndpoint: null,
+            mandatory: false,
           },
           {
             text: 'Field 7',
@@ -110,10 +117,11 @@ describe('Filters Utils tests', () => {
             dynamicResourceEndpoint: null,
             min: '2003-02-01',
             max: '2007-05-04',
+            mandatory: false,
           },
           {
             dynamicResourceEndpoint: null,
-            mandatory: undefined,
+            mandatory: false,
             minimumLength: null,
             name: 'field8',
             options: [
@@ -148,7 +156,9 @@ describe('Filters Utils tests', () => {
             value: ['"value1.2"'],
             classes: 'interactive-remove-filter-button',
             disabled: false,
-            attributes: { 'aria-label': 'Selected Filter: Field 1: Value 1.2. Click to clear this filter' },
+            attributes: {
+              'aria-label': 'Selected Filter: Field 1: Value 1.2. Click to clear this filter',
+            },
           },
           {
             text: 'Field 3: 2003-02-01 - 2006-05-04',

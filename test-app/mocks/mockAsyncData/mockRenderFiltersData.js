@@ -20,7 +20,7 @@ const mockRenderFiltersData = {
           disabled: true,
           selected: true,
           text: 'Select your option',
-          value: 'no-filter',
+          value: 'select-your-option',
         },
         {
           value: 'value2.1',
@@ -93,6 +93,7 @@ const mockRenderFiltersData = {
       value: null,
       minimumLength: null,
       dynamicResourceEndpoint: null,
+      mandatory: false,
     },
   ],
   sortBy: [

@@ -20,7 +20,7 @@ const mockRenderFiltersData = {
           disabled: true,
           selected: true,
           text: 'Select your option',
-          value: 'select-your-option',
+          value: '',
         },
         {
           value: 'value2.1',

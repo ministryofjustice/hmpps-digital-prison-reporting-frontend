@@ -47,7 +47,7 @@ describe('Filters Utils tests', () => {
             type: 'Select',
             options: [
               {
-                value: 'select-your-option',
+                value: '',
                 text: 'Select your option',
                 disabled: true,
                 selected: true,

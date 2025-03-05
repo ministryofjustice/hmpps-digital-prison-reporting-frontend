@@ -161,7 +161,7 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
         case FilterType.select: {
           if (!mandatory) options.unshift(noFilterOption)
           options.unshift({
-            value: 'select-your-option',
+            value: '',
             text: 'Select your option',
             disabled: true,
             selected: true,

@@ -62,21 +62,19 @@ export default class DprQueryParamClass extends DprClientClass {
    */
   setQueryParamFromInput(input, toggleCheckbox = false) {
     const { type } = input
-    if (input.value !== 'select-your-option') {
-      if (type === 'checkbox' || type === 'radio') {
-        this.setMultiSelectQueryParam(input, toggleCheckbox)
-      } else {
-        const { name } = input
-        let { value } = input
-        const { staticOptionNameValue } = input
-        const isDateInput = input.classList.contains('moj-js-datepicker-input')
-        if (isDateInput) {
-          const formatted = dayjs(value, 'D/M/YYYY').format('YYYY-MM-DD')
-          value = formatted !== 'Invalid Date' ? formatted : ''
-        }
-        const valueToUpdate = !isDateInput && staticOptionNameValue ? staticOptionNameValue : value
-        if (name) this.updateQueryParam(name, valueToUpdate)
+    if (type === 'checkbox' || type === 'radio') {
+      this.setMultiSelectQueryParam(input, toggleCheckbox)
+    } else {
+      const { name } = input
+      let { value } = input
+      const { staticOptionNameValue } = input
+      const isDateInput = input.classList.contains('moj-js-datepicker-input')
+      if (isDateInput) {
+        const formatted = dayjs(value, 'D/M/YYYY').format('YYYY-MM-DD')
+        value = formatted !== 'Invalid Date' ? formatted : ''
       }
+      const valueToUpdate = !isDateInput && staticOptionNameValue ? staticOptionNameValue : value
+      if (name) this.updateQueryParam(name, valueToUpdate)
     }
   }
 

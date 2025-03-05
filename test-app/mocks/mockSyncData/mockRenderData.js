@@ -88,7 +88,7 @@ const mockRenderDataFromDefinition = {
           dynamicResourceEndpoint: null,
           options: [
             {
-              value: 'select-your-option',
+              value: '',
               text: 'Select your option',
               disabled: true,
               selected: true,
@@ -418,7 +418,7 @@ const mockRenderDataFromData = {
           dynamicResourceEndpoint: null,
           options: [
             {
-              value: 'select-your-option',
+              value: '',
               text: 'Select your option',
               disabled: true,
               selected: true,

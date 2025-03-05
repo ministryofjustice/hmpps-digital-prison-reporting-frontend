@@ -121,6 +121,7 @@ const defaultVariant = {
             { name: 'value8.4', display: 'Value 8.4' },
           ],
           defaultValue: 'value8.2,value8.3',
+          mandatory: false,
         },
       },
     ],

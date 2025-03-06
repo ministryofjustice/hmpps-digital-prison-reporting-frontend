@@ -10,7 +10,7 @@ class MockReportingClient {
   constructor() {
     this.mockRequests = [{ executionId: `exId_1721738244284`, tableId: `tblId_1721738244284` }]
     this.statusResponses = mockStatusSequence
-    this.RESULT_COUNT = 10
+    this.RESULT_COUNT = 100
   }
 
   async requestAsyncReport(token, reportId, variantId) {

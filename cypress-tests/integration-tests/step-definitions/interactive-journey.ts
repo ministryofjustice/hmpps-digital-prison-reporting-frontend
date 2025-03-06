@@ -42,7 +42,7 @@ When('I click the Apply filters button', () => {
 Then('the selected filter values are displayed', () => {
   const page = new InteractiveReportPage()
 
-  page.selectedFilterOne().contains('Field 1: value1.1')
+  page.selectedFilterOne().contains('Field 1: Value 1.1')
   page.selectedFilterThree().contains('Field 6: Value 6.1')
 })
 

@@ -24,8 +24,9 @@ Feature: List report
     And the definition path is shown in the URL
 
   Scenario: Clicking a selected filter removes it
-    When I click the selected filter
-    When I click the selected filter
+    When I click the selected filter for field 7
+    When I click the selected filter for field 3
+    When I click the selected filter for field 1
     Then no filters are selected
 
   Scenario: Clicking 'Reset filter' resets all filters

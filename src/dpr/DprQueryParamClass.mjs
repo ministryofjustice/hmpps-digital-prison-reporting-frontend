@@ -62,21 +62,19 @@ export default class DprQueryParamClass extends DprClientClass {
    */
   setQueryParamFromInput(input, toggleCheckbox = false) {
     const { type } = input
-    if (input.value !== 'no-filter') {
-      if (type === 'checkbox' || type === 'radio') {
-        this.setMultiSelectQueryParam(input, toggleCheckbox)
-      } else {
-        const { name } = input
-        let { value } = input
-        const { staticOptionNameValue } = input
-        const isDateInput = input.classList.contains('moj-js-datepicker-input')
-        if (isDateInput) {
-          const formatted = dayjs(value, 'D/M/YYYY').format('YYYY-MM-DD')
-          value = formatted !== 'Invalid Date' ? formatted : ''
-        }
-        const valueToUpdate = !isDateInput && staticOptionNameValue ? staticOptionNameValue : value
-        if (name) this.updateQueryParam(name, valueToUpdate)
+    if (type === 'checkbox' || type === 'radio') {
+      this.setMultiSelectQueryParam(input, toggleCheckbox)
+    } else {
+      const { name } = input
+      let { value } = input
+      const { staticOptionNameValue } = input
+      const isDateInput = input.classList.contains('moj-js-datepicker-input')
+      if (isDateInput) {
+        const formatted = dayjs(value, 'D/M/YYYY').format('YYYY-MM-DD')
+        value = formatted !== 'Invalid Date' ? formatted : ''
       }
+      const valueToUpdate = !isDateInput && staticOptionNameValue ? staticOptionNameValue : value
+      if (name) this.updateQueryParam(name, valueToUpdate)
     }
   }
 
@@ -124,6 +122,7 @@ export default class DprQueryParamClass extends DprClientClass {
           break
       }
     }
+
     window.history.replaceState(null, null, `?${this.queryParams.toString()}`)
   }
 
@@ -132,13 +131,19 @@ export default class DprQueryParamClass extends DprClientClass {
    *
    * @memberof DprQueryParamClass
    */
-  clearQueryParams() {
+  clearQueryParams(type) {
     const sacredParams = ['dataProductDefinitionsPath']
     this.queryParams = new URLSearchParams(window.location.search)
     const params = Array.from(this.queryParams)
+
     params.forEach((p) => {
       if (!sacredParams.includes(p[0])) {
-        this.queryParams.delete(p[0], p[1])
+        if (type && p[0].includes(type)) {
+          this.queryParams.delete(p[0], p[1])
+        }
+        if (type === 'filters') {
+          this.queryParams.delete('preventDefault')
+        }
       }
     })
     window.history.replaceState(null, null, `?${this.queryParams.toString()}`)
@@ -187,5 +192,14 @@ export default class DprQueryParamClass extends DprClientClass {
   setCheckBoxValues(inputs, value) {
     const input = Array.from(inputs).find((i) => i.getAttribute('value') === value)
     if (input) input.checked = true
+  }
+
+  removeNoFilterValues() {
+    this.queryParams = new URLSearchParams(window.location.search)
+    const params = Array.from(this.queryParams)
+    params.forEach((p) => {
+      if (p[1].includes('no-filter')) this.queryParams.delete(p[0], p[1])
+    })
+    window.history.replaceState(null, null, `?${this.queryParams.toString()}`)
   }
 }

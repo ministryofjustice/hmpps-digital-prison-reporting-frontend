@@ -52,7 +52,9 @@
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/**/*.d.ts",
-      "!src/dpr/routes/**/*.ts"
+      "!src/dpr/routes/**/*.ts",
+      "!src/dpr/components/report-list/defaultTokenProvider.ts",
+      "!src/dpr/setUpNunjucksFilters.ts"
     ],
     "testMatch": [
       "<rootDir>/**/?(*.)(cy|test).{ts,js,jsx,mjs}"

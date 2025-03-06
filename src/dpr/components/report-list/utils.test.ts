@@ -7,7 +7,6 @@ import {
   mockRenderDataFromData,
 } from '../../../../test-app/mocks/mockSyncData/mockRenderData'
 import { components } from '../../types/api'
-import ReportQuery from '../../types/ReportQuery'
 
 jest.mock('parseurl', () => ({
   __esModule: true,

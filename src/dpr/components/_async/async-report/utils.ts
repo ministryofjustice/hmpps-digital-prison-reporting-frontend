@@ -86,6 +86,7 @@ export const initDataSources = ({
     if (!definition.variant.childVariants) {
       return Promise.resolve([])
     }
+
     return Promise.all(
       definition.variant.childVariants.map((childVariant) => {
         const { specification } = childVariant
@@ -134,6 +135,7 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
 
       // Data
       const reportData = resolvedData[1] as Dict<string>[]
+
       // Requested Report Data
       reportStateData = resolvedData[2] as RequestedReport
       const {

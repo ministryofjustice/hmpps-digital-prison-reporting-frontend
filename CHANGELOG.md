@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v4.1.1
+
+- Bugfix: error multi-select value is undefined in the definition.
+
 ## v4.1.0
 
 - Embedded Report filters component has been replaced with DPR app component & processes

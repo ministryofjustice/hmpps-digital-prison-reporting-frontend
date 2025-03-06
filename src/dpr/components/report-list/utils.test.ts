@@ -77,7 +77,7 @@ describe('EmbeddedReportListUtils', () => {
         request,
         response,
         next,
-        getListDataSources: (reportQuery: ReportQuery) => {
+        getListDataSources: () => {
           return {
             data: [],
             count: 0,

@@ -7,7 +7,9 @@ const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) 
   const valueArr = <string[]>req.query[`${prefix}${filter.name}`]
   const valueString = valueArr ? valueArr.join(',') : ''
   const defaultValue = preventDefault ? null : filter.value
-  const defaultValues = preventDefault ? [] : (<string>filter.value).split(',')
+
+  let defaultValues = filter.value ? (<string>filter.value).split(',') : []
+  defaultValues = preventDefault ? [] : defaultValues
 
   return {
     requestfilterValue: valueString || defaultValue,

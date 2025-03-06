@@ -171,7 +171,7 @@ const disabledDateRange = (f: DateFilterValue, value: (string | DateRange)[], di
 
 const disabledDate = (f: DateFilterValue, value: (string | DateRange)[], displayValue: string) => {
   const { min, max } = <DateFilterValue>f
-  if ((<string>value[0]).includes(min) || (<string>value[1]).includes(max)) {
+  if ((<string>value[0]).includes(min) || (<string>value[0]).includes(max)) {
     let valueType
     if ((<string>value[0]).includes(min)) valueType = 'min'
     if ((<string>value[0]).includes(max)) valueType = 'max'

@@ -36,7 +36,7 @@ export default class DprQueryParamClass extends DprClientClass {
   initInputEvents(elements) {
     Array.from(elements).forEach((input) => {
       input.addEventListener('change', () => {
-        this.setQueryParamFromInput(input, true)
+        this.setQueryParamFromInput(input, true, false)
       })
     })
   }
@@ -49,7 +49,7 @@ export default class DprQueryParamClass extends DprClientClass {
    */
   initQueryParamsFromInputs(elements) {
     Array.from(elements).forEach((input) => {
-      if (input.type !== 'hidden') this.setQueryParamFromInput(input)
+      if (input.type !== 'hidden') this.setQueryParamFromInput(input, false, true)
     })
   }
 
@@ -60,10 +60,10 @@ export default class DprQueryParamClass extends DprClientClass {
    * @param {*} toggleCheckbox
    * @memberof DprQueryParamClass
    */
-  setQueryParamFromInput(input, toggleCheckbox = false) {
+  setQueryParamFromInput(input, toggleCheckbox = false, init = false) {
     const { type } = input
     if (type === 'checkbox' || type === 'radio') {
-      this.setMultiSelectQueryParam(input, toggleCheckbox)
+      this.setMultiSelectQueryParam(input, toggleCheckbox, init)
     } else {
       const { name } = input
       let { value } = input
@@ -85,12 +85,15 @@ export default class DprQueryParamClass extends DprClientClass {
    * @param {*} toggle - adds the delete step on toggle
    * @memberof DprQueryParamClass
    */
-  setMultiSelectQueryParam(input, toggle) {
+  setMultiSelectQueryParam(input, toggle, init) {
     this.queryParams = new URLSearchParams(window.location.search)
     const { name, value, checked, type } = input
     if (checked && !this.queryParams.has(name, value)) {
       let updateType
-      if (type === 'checkbox') updateType = 'append'
+      if (type === 'checkbox') {
+        updateType = 'append'
+        if (!init && name !== 'columns') this.updateQueryParam('preventDefault', true)
+      }
       this.updateQueryParam(name, value, updateType)
     } else if (!checked && this.queryParams.has(name, value) && toggle) {
       this.updateQueryParam(name, value, 'delete')

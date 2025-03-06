@@ -90,7 +90,10 @@ export default class DprQueryParamClass extends DprClientClass {
     const { name, value, checked, type } = input
     if (checked && !this.queryParams.has(name, value)) {
       let updateType
-      if (type === 'checkbox') updateType = 'append'
+      if (type === 'checkbox') {
+        updateType = 'append'
+        this.updateQueryParam('preventDefault', true)
+      }
       this.updateQueryParam(name, value, updateType)
     } else if (!checked && this.queryParams.has(name, value) && toggle) {
       this.updateQueryParam(name, value, 'delete')

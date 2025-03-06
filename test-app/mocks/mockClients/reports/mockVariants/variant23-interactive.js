@@ -136,7 +136,7 @@ const variant23Interactive = {
             { name: 'value8.3', display: 'Value 8.3' },
             { name: 'value8.4', display: 'Value 8.4' },
           ],
-          defaultValue: 'value8.2',
+          defaultValue: 'value8.2,value8.3',
           interactive: true,
         },
       },

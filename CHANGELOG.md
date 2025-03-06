@@ -2,7 +2,7 @@ Below you can find the changes included in each release.
 
 ## v4.1.1
 
-- Bugfix: error multi-select value is undefined in the definition.
+- Bugfix: multi-select filter throws error when initial value is undefined in the definition.
 
 ## v4.1.0
 

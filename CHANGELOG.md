@@ -1,8 +1,15 @@
 Below you can find the changes included in each release.
 
+## v4.1.0
+
+- Embedded Report filters component has been replaced with DPR app component & processes
+- Filter inputs update: Improved validation for checkboxes, radio and select inputs
+- Filter inputs update: Radio and select options include 'None' when input is not mandatory/required
+- Bugfix: multiselect query parameters work properly
+
 ## v4.0.2
 
-- bigfix: Embedded reports datepicker date formatting 
+- bugfix: Embedded reports datepicker date formatting 
 
 ## v4.0.1
 

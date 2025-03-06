@@ -21,7 +21,7 @@
     "docs": "gulp build:docs && eleventy --input=./docs --output=package/dpr --pathprefix hmpps-digital-prison-reporting-frontend",
     "docs:local": "gulp build:docs-local && eleventy --input=./docs --output=package/dpr --pathprefix hmpps-digital-prison-reporting-frontend/package/dpr",
     "test": "npm-run-all --parallel test:*",
-    "test:jest": "jest -t 'setValueFromRequest' --verbose --silent=false",
+    "test:jest": "jest --verbose --silent=false",
     "test:docs": "npm run docs",
     "test:packaging": "npm run package",
     "start-test-app": "npm run package && node $NODE_OPTIONS test-app/start-server.js",

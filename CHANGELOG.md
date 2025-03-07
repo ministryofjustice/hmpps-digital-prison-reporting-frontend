@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v4.1.4
+
+- Bugfix: Embedded report list: use `dataProductDefinitionsPath` if provided, otherwise use `definitionsPath` 
+
 ## v4.1.3
 
 - Bugfix: multi-select filter: fix `join(',') error when query param is a string

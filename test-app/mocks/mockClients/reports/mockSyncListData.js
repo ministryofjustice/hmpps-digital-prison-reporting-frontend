@@ -190,7 +190,7 @@ const mockSyncData = {
           text: 'Field 7',
           name: 'field7',
           type: 'date',
-          value: '2003-02-01',
+          value: '2005-02-01',
           minimumLength: null,
           dynamicResourceEndpoint: null,
           min: '2003-02-01',
@@ -249,14 +249,13 @@ const mockSyncData = {
           },
         },
         {
-          text: 'Field 7: 2003-02-01 (min date)',
+          text: 'Field 7: 2005-02-01',
           key: '["filters.field7"]',
-          value: ['"2003-02-01"'],
-          disabled: true,
-          classes: 'interactive-remove-filter-button interactive-remove-filter-button--disabled',
+          value: ['"2005-02-01"'],
+          disabled: false,
+          classes: 'interactive-remove-filter-button',
           attributes: {
-            'aria-label':
-              'Selected Filter: Field 7: 2003-02-01 (min date). This filter cant be removed. Update the filter input to change the value',
+            'aria-label': 'Selected Filter: Field 7: 2005-02-01. Click to clear this filter',
           },
         },
         {

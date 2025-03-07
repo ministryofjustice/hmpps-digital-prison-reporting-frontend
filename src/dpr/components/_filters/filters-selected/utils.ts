@@ -3,13 +3,17 @@ import { FilterType } from '../filter-input/enum'
 import { FilterValue, DateRange, DateFilterValue, GranularDateRange } from '../types'
 
 const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
+  const emptyValues: string[] = [undefined, null, '']
+
   return filters
     .filter((f) => {
       return (
         (f.value &&
           Object.prototype.hasOwnProperty.call(f.value, 'start') &&
-          (<DateRange>f.value).start !== undefined) ||
-        (f.value && Object.prototype.hasOwnProperty.call(f.value, 'end') && (<DateRange>f.value).end !== undefined) ||
+          !emptyValues.includes((<DateRange>f.value).start)) ||
+        (f.value &&
+          Object.prototype.hasOwnProperty.call(f.value, 'end') &&
+          !emptyValues.includes((<DateRange>f.value).end)) ||
         (f.value &&
           !Object.prototype.hasOwnProperty.call(f.value, 'start') &&
           !Object.prototype.hasOwnProperty.call(f.value, 'end'))
@@ -142,6 +146,7 @@ const getSelectedDate = (f: FilterValue, prefix: string) => {
   const key = [`${prefix}${f.name}`]
   const displayValue = `${f.value}`
   const value = [`"${displayValue}"`]
+
   const { disabled, cantRemoveClass, displayValue: disabledDisplayValue } = disabledDate(f, value, displayValue)
   return {
     key,
@@ -155,7 +160,7 @@ const getSelectedDate = (f: FilterValue, prefix: string) => {
 const disabledDateRange = (f: DateFilterValue, value: (string | DateRange)[], displayValue: string) => {
   const { min, max } = <DateFilterValue>f
 
-  if ((<string>value[0]).includes(min) && (<string>value[1]).includes(max)) {
+  if (min && (<string>value[0]).includes(min) && max && (<string>value[1]).includes(max)) {
     return {
       disabled: true,
       cantRemoveClass: ' interactive-remove-filter-button--disabled',
@@ -171,7 +176,8 @@ const disabledDateRange = (f: DateFilterValue, value: (string | DateRange)[], di
 
 const disabledDate = (f: DateFilterValue, value: (string | DateRange)[], displayValue: string) => {
   const { min, max } = <DateFilterValue>f
-  if ((<string>value[0]).includes(min) || (<string>value[0]).includes(max)) {
+
+  if ((min && (<string>value[0]).includes(min)) || (max && (<string>value[0]).includes(max))) {
     let valueType
     if ((<string>value[0]).includes(min)) valueType = 'min'
     if ((<string>value[0]).includes(max)) valueType = 'max'

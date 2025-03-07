@@ -1,9 +1,9 @@
-import { Request } from 'express'
+import { Request, Response } from 'express'
 import { FilterType } from './filter-input/enum'
 import type { components } from '../../types/api'
 import type { FilterOption } from './filter-input/types'
 import type { DateRange, FilterValue } from './types'
-import { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
+import ReportQuery, { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 
 import SelectedFiltersUtils from './filters-selected/utils'
 import DateRangeInputUtils from '../_inputs/date-range/utils'
@@ -11,6 +11,7 @@ import DateInputUtils from '../_inputs/date-input/utils'
 import GranularDateRangeInputUtils from '../_inputs/granular-date-range/utils'
 import MultiSelectUtils from '../_inputs/mulitselect/utils'
 import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
+import createUrlForParameters from '../../utils/urlHelper'
 
 const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix = 'filters.'): FilterValue[] => {
   const { preventDefault } = req.query
@@ -207,6 +208,52 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
     })
 }
 
+function redirectWithDefaultFilters(
+  reportQuery: ReportQuery,
+  variantDefinition: {
+    id: string
+    name: string
+    resourceName: string
+    description?: string
+    specification?: components['schemas']['Specification']
+  },
+  response: Response,
+  request: Request,
+) {
+  const defaultFilters: Record<string, string> = {}
+  const { fields } = variantDefinition.specification
+
+  if (Object.keys(reportQuery.filters).length === 0) {
+    fields
+      .filter((f) => f.filter && f.filter.defaultValue)
+      .forEach((f) => {
+        if (f.filter.type.toLowerCase() === FilterType.dateRange) {
+          const dates = f.filter.defaultValue.split(' - ')
+
+          if (dates.length >= 1) {
+            // eslint-disable-next-line prefer-destructuring
+            defaultFilters[`${DEFAULT_FILTERS_PREFIX}${f.name}.start`] = dates[0]
+
+            if (dates.length >= 2) {
+              // eslint-disable-next-line prefer-destructuring
+              defaultFilters[`${DEFAULT_FILTERS_PREFIX}${f.name}.end`] = dates[1]
+            }
+          }
+        } else {
+          defaultFilters[`${DEFAULT_FILTERS_PREFIX}${f.name}`] = f.filter.defaultValue
+        }
+      })
+  }
+
+  if (Object.keys(defaultFilters).length > 0) {
+    const querystring = createUrlForParameters(reportQuery.toRecordWithFilterPrefix(), defaultFilters, fields)
+    response.redirect(`${request.baseUrl}${request.path}${querystring}`)
+    return true
+  }
+
+  return false
+}
+
 const getFilters = async ({
   fields,
   req,
@@ -233,4 +280,5 @@ export default {
   setFilterValuesFromRequest,
   getFilters,
   setFilterQueryFromFilterDefinition,
+  redirectWithDefaultFilters,
 }

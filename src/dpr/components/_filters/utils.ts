@@ -245,8 +245,6 @@ function redirectWithDefaultFilters(
       })
   }
 
-  console.log({ defaultFilters })
-
   if (Object.keys(defaultFilters).length > 0) {
     const querystring = createUrlForParameters(reportQuery.toRecordWithFilterPrefix(), defaultFilters, fields)
     response.redirect(`${request.baseUrl}${request.path}${querystring}`)

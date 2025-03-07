@@ -7,6 +7,7 @@ import {
   mockRenderDataFromData,
 } from '../../../../test-app/mocks/mockSyncData/mockRenderData'
 import { components } from '../../types/api'
+import FilterUtils from '../_filters/utils'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
@@ -36,10 +37,15 @@ describe('EmbeddedReportListUtils', () => {
       query: {
         dataProductDefinitionsPath: 'dataProductDefinitionsPath',
       },
+      baseUrl: 'baseUrl',
+      path: 'path',
     } as unknown as Request
 
     response = {
       render: jest.fn().mockImplementation(() => {
+        //  do nothing
+      }),
+      redirect: jest.fn().mockImplementation(() => {
         //  do nothing
       }),
     } as unknown as Response
@@ -50,7 +56,28 @@ describe('EmbeddedReportListUtils', () => {
   })
 
   describe('renderListWithDefinition', () => {
+    it('should should redirect with default values', async () => {
+      const args: RenderListWithDefinitionInput = {
+        title: 'Test Report Name',
+        definitionName: 'test-definition-name',
+        variantName: 'Test Variant Name',
+        request,
+        response,
+        next,
+        layoutTemplate: '',
+        token: 'Token',
+        apiUrl: 'apiUrl',
+        apiTimeout: 8000,
+      }
+
+      await ReportListUtils.renderListWithDefinition(args)
+      expect(response.redirect).toHaveBeenCalledWith(
+        'baseUrlpath?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3=2003-02-01%20-%202006-05-04&filters.field7=value8.2&filters.field7=value8.3',
+      )
+    })
+
     it('should render the list', async () => {
+      jest.spyOn(FilterUtils, 'redirectWithDefaultFilters').mockReturnValue(false)
       const args: RenderListWithDefinitionInput = {
         title: 'Test Report Name',
         definitionName: 'test-definition-name',
@@ -70,6 +97,7 @@ describe('EmbeddedReportListUtils', () => {
     })
 
     it('should render the list with DPD report name', async () => {
+      jest.spyOn(FilterUtils, 'redirectWithDefaultFilters').mockReturnValue(false)
       const args: RenderListWithDefinitionInput = {
         definitionName: 'test-definition-name',
         variantName: 'Test Variant Name',
@@ -91,6 +119,7 @@ describe('EmbeddedReportListUtils', () => {
     })
 
     it('should use the provided definition path', async () => {
+      jest.spyOn(FilterUtils, 'redirectWithDefaultFilters').mockReturnValue(false)
       request = {
         query: {},
       } as unknown as Request
@@ -121,10 +150,11 @@ describe('EmbeddedReportListUtils', () => {
         sortedAsc: true,
       })
 
-      expect(getDefinition).toHaveBeenNthCalledWith(3, 'Token', 'incident-report', 'summary', 'path/from/handler')
+      expect(getDefinition).toHaveBeenNthCalledWith(4, 'Token', 'incident-report', 'summary', 'path/from/handler')
     })
 
     it('should use the provided query definition path', async () => {
+      jest.spyOn(FilterUtils, 'redirectWithDefaultFilters').mockReturnValue(false)
       request = {
         query: {},
       } as unknown as Request
@@ -156,7 +186,7 @@ describe('EmbeddedReportListUtils', () => {
       })
 
       expect(getDefinition).toHaveBeenNthCalledWith(
-        4,
+        5,
         'Token',
         'incident-report',
         'summary',
@@ -167,6 +197,7 @@ describe('EmbeddedReportListUtils', () => {
 
   describe('renderListWithData', () => {
     it('should render the list', async () => {
+      jest.spyOn(FilterUtils, 'redirectWithDefaultFilters').mockReturnValue(false)
       const args: RenderListWithDataInput = {
         title: 'Test variant title',
         reportName: 'Test report name',

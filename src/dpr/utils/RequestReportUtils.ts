@@ -77,8 +77,6 @@ export const updateStore = async ({
       break
   }
 
-  console.log(JSON.stringify({ requestedReportData }, null, 2))
-
   await services.requestedReportService.addReport(userId, requestedReportData)
 
   return requestedReportData.url.polling.pathname

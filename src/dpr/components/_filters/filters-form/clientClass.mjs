@@ -59,7 +59,6 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
   resetAction() {
     if (this.defaultQuery) {
       const filters = this.defaultQuery.substring(1)
-      console.log(filters)
       const href = `${window.location.href}&${filters}`
       window.location.href = href
     } else {

@@ -119,8 +119,11 @@ export const renderListWithDefinition = async ({
     },
   })
 
+  const { dataProductDefinitionsPath } = request.query
+  const defPath = <string>dataProductDefinitionsPath || definitionsPath
+
   try {
-    const reportDefinition = await reportingClient.getDefinition(token, definitionName, variantName, definitionsPath)
+    const reportDefinition = await reportingClient.getDefinition(token, definitionName, variantName, defPath)
     const reportName: string = reportDefinition.name
     const variantDefinition = reportDefinition.variant
 
@@ -128,7 +131,7 @@ export const renderListWithDefinition = async ({
       fields: variantDefinition.specification.fields,
       template: variantDefinition.specification.template as Template,
       queryParams: request.query,
-      definitionsPath: <string>request.query.dataProductDefinitionsPath,
+      definitionsPath: defPath,
     })
 
     const getListData: ListDataSources = {

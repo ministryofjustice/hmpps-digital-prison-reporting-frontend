@@ -1,5 +1,10 @@
 Below you can find the changes included in each release.
 
+## v4.1.3
+
+- Bugfix: multi-select filter: fix `join(',') error when query param is a string
+- Bugfix: multi-select filter: removing all checkboxes and applying sets the values to default. Fixed
+
 ## v4.1.1
 
 - Bugfix: multi-select filter throws error when initial value is undefined in the definition.

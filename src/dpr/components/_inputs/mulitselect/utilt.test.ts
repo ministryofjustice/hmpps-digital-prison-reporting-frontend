@@ -51,7 +51,7 @@ describe('MultiSelectUtils', () => {
       const result = MultiSelectUtils.setValueFromRequest(filter, req, prefix)
 
       expect(result).toEqual({
-        requestfilterValue: undefined,
+        requestfilterValue: null,
         requestfilterValues: [],
       })
     })
@@ -73,6 +73,48 @@ describe('MultiSelectUtils', () => {
       expect(result).toEqual({
         requestfilterValue: null,
         requestfilterValues: [],
+      })
+    })
+
+    it('should init the values from a single query param', () => {
+      filter = {
+        text: 'string',
+        name: 'field1',
+        type: FilterType.multiselect,
+        value: 'value1',
+      }
+      req = {
+        query: {
+          preventDefault: true,
+          'filters.field1': 'value1',
+        },
+      } as unknown as Request
+      const result = MultiSelectUtils.setValueFromRequest(filter, req, prefix)
+
+      expect(result).toEqual({
+        requestfilterValue: 'value1',
+        requestfilterValues: ['value1'],
+      })
+    })
+
+    it('should init the values from multiple query params', () => {
+      filter = {
+        text: 'string',
+        name: 'field1',
+        type: FilterType.multiselect,
+        value: 'value1',
+      }
+      req = {
+        query: {
+          preventDefault: true,
+          'filters.field1': ['value1', 'value2'],
+        },
+      } as unknown as Request
+      const result = MultiSelectUtils.setValueFromRequest(filter, req, prefix)
+
+      expect(result).toEqual({
+        requestfilterValue: 'value1,value2',
+        requestfilterValues: ['value1', 'value2'],
       })
     })
   })

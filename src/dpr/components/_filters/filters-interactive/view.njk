@@ -2,7 +2,7 @@
 {% from "dpr/components/_filters/filters-selected/view.njk" import dprSelectedFilters %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
-{% macro dprInteractiveFilters(data, prefix) %}
+{% macro dprInteractiveFilters(data, prefix, defaultQuery) %}
 
   {% set filters = data.filters %}
   {% set selectedFilters = data.selectedFilters %}
@@ -20,12 +20,14 @@
     {% set filtersHtml %}
       <div class='dpr-interactive-filters'>
         <div data-dpr-module="interactive-filters" class="dpr-filters sync-filters-form--hidden">
+
           {{ dprFiltersForm({
             filters: filters, 
             prefix: prefix,
             formId: 'interactive-filters-form',
             submitId: 'interactive-apply-filters-button',
-            resetId: 'interactive-reset-filters-button'
+            resetId: 'interactive-reset-filters-button',
+            defaultQuery: defaultQuery
           }) }}
         </div>
       </div>

@@ -10,9 +10,10 @@
   {% set columns = options.columns %}
   {% set reportSummaries = options.reportSummaries %}
   {% set filterData = options.filterData %}
+  {% set defaultQuery = options.defaultQuery %}
 
   <div class="dpr-sync-report-actions">
-    {{ dprReportFilters(filterData) }}
+    {{ dprReportFilters(filterData, defaultQuery) }}
     {% if count and count > 0 %}
       {{ dprReportColumns(columns) }}
     {% endif %}

@@ -55,6 +55,9 @@ const reportState = {
     request: {
       fullUrl: 'fullUrl',
     },
+    report: {
+      default: 'defaultQuery',
+    },
   },
   timestamp: {
     requested: 'ts',

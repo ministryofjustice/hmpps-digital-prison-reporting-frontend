@@ -48,6 +48,7 @@ export interface AsyncReportUrlItemData {
   pathname?: string
   fullUrl?: string
   search?: string
+  default?: string
 }
 
 export interface AsyncReportQueryData {

@@ -4,7 +4,7 @@
 {% from "../report-summary-table/view.njk" import dprReportSummary %}
 {% from "../report-no-data-message/view.njk" import dprReportNoDataMessage %}
 
-{% macro dprReportTemplate(renderData, url) %}
+{% macro dprReportTemplate(renderData) %}
   
   {% set printable = renderData.printable %}
   {% set pagination = renderData.pagination %}
@@ -24,7 +24,7 @@
       {% elif template === 'summary' %}
 
         {% if not count or count === 0 %}
-          {{ dprReportNoDataMessage(url) }}
+          {{ dprReportNoDataMessage(renderData.requestUrl.fullUrl) }}
         {% else %}
 
           {{ dprReportSummary(reportSummaries, 'page-header') }}

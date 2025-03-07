@@ -47,6 +47,7 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
 
   initResetButton() {
     if (this.resetButton) {
+      this.defaultQuery = this.resetButton.getAttribute('defaultQuery')
       this.resetButton.addEventListener('click', (e) => {
         e.preventDefault()
         this.clearQueryParams('filters')
@@ -56,7 +57,14 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
   }
 
   resetAction() {
-    window.location.reload()
+    if (this.defaultQuery) {
+      const filters = this.defaultQuery.substring(1)
+      console.log(filters)
+      const href = `${window.location.href}&${filters}`
+      window.location.href = href
+    } else {
+      window.location.reload()
+    }
   }
 
   submitAction() {

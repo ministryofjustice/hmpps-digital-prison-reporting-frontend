@@ -1,8 +1,12 @@
+import { FilterType } from '../components/_filters/filter-input/enum'
+import { components } from '../types/api'
+
 export const clearFilterValue = '~clear~'
 
 const createUrlForParameters = (
   currentQueryParams: NodeJS.Dict<string | Array<string>>,
   updateQueryParams: NodeJS.Dict<string>,
+  fields?: components['schemas']['FieldDefinition'][],
 ) => {
   let queryParams: NodeJS.Dict<string | Array<string>>
 
@@ -41,17 +45,29 @@ const createUrlForParameters = (
       nonEmptyQueryParams[key] = queryParams[key]
     })
 
-  return createQuerystringFromObject(nonEmptyQueryParams)
+  return createQuerystringFromObject(nonEmptyQueryParams, fields)
 }
 
-export const createQuerystringFromObject = (source: NodeJS.Dict<string | Array<string>>) => {
+export const createQuerystringFromObject = (
+  source: NodeJS.Dict<string | Array<string>>,
+  fields?: components['schemas']['FieldDefinition'][],
+) => {
   const querystring = Object.keys(source)
     .flatMap((key: string) => {
+      const fieldDef = fields?.find((f) => `filters.${f.name}` === key)
       const value = source[key]
 
       if (Array.isArray(value)) {
         return value.map((v) => `${encodeURI(key)}=${encodeURI(v)}`)
       }
+
+      if (fieldDef && fieldDef.filter.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
+        const values = value.split(',')
+        return values.map((v) => {
+          return `${encodeURI(key)}=${encodeURI(v)}`
+        })
+      }
+
       return [`${encodeURI(key)}=${encodeURI(value)}`]
     })
     .join('&')

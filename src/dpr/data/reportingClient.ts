@@ -32,6 +32,8 @@ export default class ReportingClient {
   getListWithWarnings(resourceName: string, token: string, listRequest: ReportQuery): Promise<ListWithWarnings> {
     logger.info(`Reporting client: Get ${resourceName} list`)
 
+    console.log(JSON.stringify({ listRequest, query: listRequest.toRecordWithFilterPrefix(true) }, null, 2))
+
     return this.restClient
       .getWithHeaders<Array<Dict<string>>>({
         path: `/${resourceName}`,

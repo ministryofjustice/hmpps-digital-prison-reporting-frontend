@@ -9,6 +9,13 @@
       </p>
     {% endif %}
 
+    {# name: {{ name }}
+    value: {{ value }}
+    min: {{ min }}
+    max: {{ max }}
+    mandatory: {{ mandatory }}
+    label: {{ label }} #}
+
     <div class="dpr-daterange__start-date">
       {{ dprDate(
         {
@@ -17,7 +24,7 @@
           min: min,
           max: max,
           mandatory: mandatory,
-          displayName: displayName + ' start date'
+          displayName: 'Start date'
         },
         'Start',
         '.start',
@@ -35,7 +42,7 @@
           min: min,
           max: max,
           mandatory: mandatory,
-          displayName: displayName + ' end date'
+          displayName: 'End date'
         },
         'End',
         '.end',

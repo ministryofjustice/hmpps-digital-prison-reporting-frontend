@@ -227,7 +227,7 @@ function redirectWithDefaultFilters(
     fields
       .filter((f) => f.filter && f.filter.defaultValue)
       .forEach((f) => {
-        if (f.filter.type.toLowerCase() === FilterType.dateRange) {
+        if (f.filter.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
           const dates = f.filter.defaultValue.split(' - ')
 
           if (dates.length >= 1) {

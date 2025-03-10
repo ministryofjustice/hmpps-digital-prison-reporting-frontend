@@ -32,7 +32,6 @@ export default class DateInput extends DprClientClass {
     if (this.min) this.dateInput.setAttribute('min', this.min)
     if (this.max) this.dateInput.setAttribute('max', this.max)
 
-    console.log('dis', this.displayName)
     this.dateInput.setAttribute('display-name', this.displayName)
     this.dateInput.setAttribute('pattern', this.pattern)
     this.dateInput.setAttribute('pattern-hint', this.patternHint)

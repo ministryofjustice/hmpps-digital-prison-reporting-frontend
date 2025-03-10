@@ -118,4 +118,9 @@ describe('MultiSelectUtils', () => {
       })
     })
   })
+
+  describe('getQueryFromDefinition', () => {
+    // TODO:
+    expect(true)
+  })
 })

@@ -66,34 +66,17 @@ const setFilterQueryFromFilterDefinition = (
       return DateRangeInputUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
     }
 
+    if (filter.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
+      return MultiSelectUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
+    }
+
     if (filter.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
       const startEndParams = DateRangeInputUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
-      return GranularDateRangeInputUtils.getQueryFromDefinition(
-        filter as unknown as components['schemas']['FilterDefinition'] & {
-          defaultGranularity: Granularity
-          defaultQuickFilterValue: QuickFilters
-        },
-        field.name,
-        DEFAULT_FILTERS_PREFIX,
-        startEndParams,
-      )
-    }
-
-    if (filter.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
-      const values = filter.defaultValue.split(',')
-      return values.reduce((q: string, value, index) => {
-        // eslint-disable-next-line no-param-reassign
-        q += `${DEFAULT_FILTERS_PREFIX}${field.name}=${value}`
-        if (index !== values.length - 1) {
-          // eslint-disable-next-line no-param-reassign
-          q += '&'
-        }
-        return q
-      }, '')
-    }
-
-    if (filter.defaultValue) {
-      return `${DEFAULT_FILTERS_PREFIX}${field.name}=${filter.defaultValue}`
+      const f = filter as unknown as components['schemas']['FilterDefinition'] & {
+        defaultGranularity: Granularity
+        defaultQuickFilterValue: QuickFilters
+      }
+      return GranularDateRangeInputUtils.getQueryFromDefinition(f, field.name, DEFAULT_FILTERS_PREFIX, startEndParams)
     }
 
     return ''

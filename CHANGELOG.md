@@ -1,5 +1,10 @@
 Below you can find the changes included in each release.
 
+## v4.1.7
+
+- Bugfix: filters default to initial values if all filters are removed. fixed
+- Bugfix: Error when no default value provided in multiselect filter.
+
 ## v4.1.6
 
 - Bugfix:  daterange query param issue on initial load

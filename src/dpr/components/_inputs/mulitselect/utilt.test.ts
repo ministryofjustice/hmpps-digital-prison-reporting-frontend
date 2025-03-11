@@ -117,5 +117,26 @@ describe('MultiSelectUtils', () => {
         requestfilterValues: ['value1', 'value2'],
       })
     })
+
+    it('should init the values from multiple query params', () => {
+      filter = {
+        text: 'string',
+        name: 'field1',
+        type: FilterType.multiselect,
+        value: 'value1',
+      }
+      req = {
+        query: {
+          preventDefault: true,
+          'filters.field1': ['value1', 'value2'],
+        },
+      } as unknown as Request
+      const result = MultiSelectUtils.setValueFromRequest(filter, req, prefix)
+
+      expect(result).toEqual({
+        requestfilterValue: 'value1,value2',
+        requestfilterValues: ['value1', 'value2'],
+      })
+    })
   })
 })

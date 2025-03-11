@@ -133,6 +133,8 @@ export const renderListWithDefinition = async ({
       definitionsPath: reportDef,
     })
 
+    const { preventDefault } = request.query
+
     if (!FiltersUtils.redirectWithDefaultFilters(reportQuery, variantDefinition, response, request)) {
       const getListData: ListDataSources = {
         data: reportingClient.getListWithWarnings(variantDefinition.resourceName, token, reportQuery),

@@ -96,6 +96,9 @@ export default class DprQueryParamClass extends DprClientClass {
       }
       this.updateQueryParam(name, value, updateType)
     } else if (!checked && this.queryParams.has(name, value) && toggle) {
+      if (type === 'checkbox') {
+        if (!init && name !== 'columns') this.updateQueryParam('preventDefault', true)
+      }
       this.updateQueryParam(name, value, 'delete')
     }
   }

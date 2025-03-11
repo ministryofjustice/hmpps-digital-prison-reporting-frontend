@@ -1,5 +1,16 @@
 Below you can find the changes included in each release.
 
+## v4.1.6
+
+- Bugfix:  daterange query param issue on initial load
+- Bugfix:  daterange required bug - input was always mandatory.
+- Bugfix:  daterange validation message
+
+## v4.1.5
+
+- Bugfix: Run correct query on initial report load 
+
+
 ## v4.1.4
 
 - Bugfix: Embedded report list: use `dataProductDefinitionsPath` if provided, otherwise use `definitionsPath` 

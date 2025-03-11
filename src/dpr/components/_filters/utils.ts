@@ -80,7 +80,7 @@ const setFilterQueryFromFilterDefinition = (
     }
 
     if (filter.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
-      const values = filter.defaultValue.split(',')
+      const values = filter.defaultValue ? filter.defaultValue.split(',') : []
       return values.reduce((q: string, value, index) => {
         // eslint-disable-next-line no-param-reassign
         q += `${DEFAULT_FILTERS_PREFIX}${field.name}=${value}`
@@ -222,8 +222,9 @@ function redirectWithDefaultFilters(
 ) {
   const defaultFilters: Record<string, string> = {}
   const { fields } = variantDefinition.specification
+  const { preventDefault } = request.query
 
-  if (Object.keys(reportQuery.filters).length === 0) {
+  if (Object.keys(reportQuery.filters).length === 0 && !preventDefault) {
     fields
       .filter((f) => f.filter && f.filter.defaultValue)
       .forEach((f) => {

@@ -60,6 +60,7 @@ export default class ReportingService {
     tableId: string,
     query: Dict<string | number>,
   ): Promise<Array<Dict<string>>> {
+    console.log(JSON.stringify({ query }, null, 2))
     return this.reportingClient.getAsyncReport(token, reportId, variantId, tableId, query)
   }
 

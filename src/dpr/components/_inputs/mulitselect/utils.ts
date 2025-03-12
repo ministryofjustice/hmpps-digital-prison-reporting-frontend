@@ -27,16 +27,12 @@ const getQueryFromDefinition = (
   name: string,
   filterPrefix: string,
 ) => {
-  const values = filter.defaultValue.split(',')
-  return values.reduce((q: string, value, index) => {
-    // eslint-disable-next-line no-param-reassign
-    q += `${filterPrefix}${name}=${value}`
-    if (index !== values.length - 1) {
-      // eslint-disable-next-line no-param-reassign
-      q += '&'
-    }
-    return q
-  }, '')
+  const values = filter.defaultValue ? filter.defaultValue.split(',') : []
+  return values
+    .map((val: string) => {
+      return `${filterPrefix}${name}=${val}`
+    })
+    .join('&')
 }
 
 export default {

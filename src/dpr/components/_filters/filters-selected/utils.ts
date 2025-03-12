@@ -28,13 +28,17 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
       let displayValue = `${f.value}`
       let cantRemoveClass = ''
       let disabled = false
+      let constraints: { key: string; value: string }[] | undefined
 
       if (f.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
-        ;({ key, value, disabled, cantRemoveClass, displayValue } = setSelectedDateRange(f, prefix))
+        ;({ key, value, disabled, cantRemoveClass, displayValue, constraints } = setSelectedDateRange(f, prefix))
       } else if (f.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
-        ;({ key, value, disabled, cantRemoveClass, displayValue } = setSelectedGranularDateRange(f, prefix))
+        ;({ key, value, disabled, cantRemoveClass, displayValue, constraints } = setSelectedGranularDateRange(
+          f,
+          prefix,
+        ))
       } else if (f.type.toLowerCase() === FilterType.date.toLowerCase()) {
-        ;({ key, value, disabled, cantRemoveClass, displayValue } = getSelectedDate(f, prefix))
+        ;({ key, value, disabled, cantRemoveClass, displayValue, constraints } = getSelectedDate(f, prefix))
       } else if (
         f.type.toLowerCase() === FilterType.autocomplete.toLowerCase() ||
         f.type.toLowerCase() === FilterType.radio.toLowerCase() ||
@@ -60,6 +64,7 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
         key: JSON.stringify(key),
         value,
         disabled,
+        constraints,
         classes: `interactive-remove-filter-button${cantRemoveClass}`,
         attributes: {
           'aria-label': ariaLabel,
@@ -72,6 +77,7 @@ const setSelectedDateRange = (f: FilterValue, prefix: string) => {
   const key = [`${prefix}${f.name}.start`, `${prefix}${f.name}.end`]
   const value = [`"${(<DateRange>f.value).start}"`, `"${(<DateRange>f.value).end}"`]
   const displayValue = `${(<DateRange>f.value).start} - ${(<DateRange>f.value).end}`
+  const constraints = setMinMaxContraints(f, key)
   const { disabled, cantRemoveClass, displayValue: disabledDisplayValue } = disabledDateRange(f, value, displayValue)
 
   return {
@@ -80,7 +86,26 @@ const setSelectedDateRange = (f: FilterValue, prefix: string) => {
     displayValue: disabledDisplayValue || displayValue,
     disabled,
     cantRemoveClass,
+    constraints,
   }
+}
+
+const setMinMaxContraints = (f: DateFilterValue, key: string[], singleDate = false) => {
+  const constraints: { key: string; value: string }[] = []
+  const { min, max } = f
+  if (min) {
+    constraints.push({
+      key: key[0],
+      value: min,
+    })
+  }
+  if (max && !singleDate) {
+    constraints.push({
+      key: key[1],
+      value: max,
+    })
+  }
+  return constraints.length ? constraints : undefined
 }
 
 const getOptionsValue = (f: FilterValue, prefix: string) => {
@@ -120,6 +145,7 @@ const setSelectedGranularDateRange = (f: FilterValue, prefix: string) => {
     `"${(<GranularDateRange>f.value).end}"`,
     `"${(<GranularDateRange>f.value).granularity.value}"`,
   ]
+  const constraints = setMinMaxContraints(f, key)
 
   let displayValue
   const granularityDisplay = (<GranularDateRange>f.value).granularity.display
@@ -138,6 +164,7 @@ const setSelectedGranularDateRange = (f: FilterValue, prefix: string) => {
     value,
     displayValue: disabledDisplayValue || displayValue,
     disabled,
+    constraints,
     cantRemoveClass,
   }
 }
@@ -146,6 +173,7 @@ const getSelectedDate = (f: FilterValue, prefix: string) => {
   const key = [`${prefix}${f.name}`]
   const displayValue = `${f.value}`
   const value = [`"${displayValue}"`]
+  const constraints = setMinMaxContraints(f, key, true)
 
   const { disabled, cantRemoveClass, displayValue: disabledDisplayValue } = disabledDate(f, value, displayValue)
   return {
@@ -153,13 +181,13 @@ const getSelectedDate = (f: FilterValue, prefix: string) => {
     value,
     displayValue: disabledDisplayValue || displayValue,
     disabled,
+    constraints,
     cantRemoveClass,
   }
 }
 
 const disabledDateRange = (f: DateFilterValue, value: (string | DateRange)[], displayValue: string) => {
   const { min, max } = <DateFilterValue>f
-
   if (min && (<string>value[0]).includes(min) && max && (<string>value[1]).includes(max)) {
     return {
       disabled: true,

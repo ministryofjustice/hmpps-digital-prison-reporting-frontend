@@ -105,46 +105,55 @@ async function requestChildReports(
   )
 }
 
-/**
- * Sends the request for the async report
- *
- * @param {{
- *   req: Request
- *   token: string
- *   reportingService: ReportingService
- * }} {
- *   req,
- *   token,
- *   reportingService,
- * }
- * @return {*}
- */
-const requestReport = async ({
+const requestProduct = async ({
   req,
   token,
+  dashboardService,
   reportingService,
 }: {
   req: Request
   token: string
+  dashboardService: DashboardService
   reportingService: ReportingService
 }): Promise<{
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
   queryData: SetQueryFromFiltersResult
 }> => {
-  const { reportId, id, dataProductDefinitionsPath } = req.body
+  const { reportId, id, dataProductDefinitionsPath, type } = req.body
 
-  const definition = await reportingService.getDefinition(token, reportId, id, <string>dataProductDefinitionsPath)
-  const fields = definition ? definition.variant.specification.fields : []
-  const queryData = filtersHelper.setQueryFromFilters(req, fields)
+  let fields
+  let queryData
+  let executionId
+  let tableId
+  let definition
+  let childVariants: components['schemas']['ChildVariantDefinition'][] = []
 
-  const { executionId, tableId } = await reportingService.requestAsyncReport(token, reportId, id, {
-    ...queryData.query,
-    dataProductDefinitionsPath,
-  })
+  if (type === ReportType.REPORT) {
+    definition = await reportingService.getDefinition(token, reportId, id, <string>dataProductDefinitionsPath)
+
+    fields = definition ? definition.variant.specification.fields : []
+    queryData = filtersHelper.setQueryFromFilters(req, fields)
+    ;({ executionId, tableId } = await reportingService.requestAsyncReport(token, reportId, id, {
+      ...queryData.query,
+      dataProductDefinitionsPath,
+    }))
+    childVariants = definition.variant.childVariants ?? []
+  }
+
+  if (type === ReportType.DASHBOARD) {
+    definition = await dashboardService.getDefinition(token, id, reportId, <string>dataProductDefinitionsPath)
+
+    fields = definition ? definition.filterFields : []
+    queryData = filtersHelper.setQueryFromFilters(req, fields)
+    ;({ executionId, tableId } = await dashboardService.requestAsyncDashboard(token, reportId, id, {
+      ...queryData.query,
+      dataProductDefinitionsPath,
+    }))
+  }
 
   const childExecutionData = await requestChildReports(
-    definition.variant.childVariants ?? [],
+    childVariants,
     reportingService,
     token,
     reportId,
@@ -157,49 +166,6 @@ const requestReport = async ({
     childExecutionData,
     queryData,
   }
-}
-
-/**
- * Sends the request for the async dasboard
- *
- * @param {{
- *   req: Request
- *   token: string
- *   dashboardService: DashboardService
- * }} {
- *   req,
- *   token,
- *   dashboardService,
- * }
- * @return {*}
- */
-const requestDashboard = async ({
-  req,
-  token,
-  dashboardService,
-  reportingService,
-}: {
-  req: Request
-  token: string
-  dashboardService: DashboardService
-  reportingService: ReportingService
-}): Promise<{ executionData: ExecutionData; childExecutionData: Array<ChildReportExecutionData> }> => {
-  const { reportId, id, dataProductDefinitionsPath } = req.body
-  const { executionId, tableId } = await dashboardService.requestAsyncDashboard(token, reportId, id, {
-    dataProductDefinitionsPath,
-  })
-
-  // TODO: Plumb in child lists as and when relevant
-  const childExecutionData = await requestChildReports(
-    [],
-    reportingService,
-    token,
-    reportId,
-    null,
-    dataProductDefinitionsPath,
-  )
-
-  return { executionData: { executionId, tableId }, childExecutionData }
 }
 
 const renderDashboardRequestData = async ({
@@ -257,31 +223,12 @@ export default {
    */
   request: async ({ req, res, services }: AsyncReportUtilsParams) => {
     const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const { type } = req.body
-
-    let executionData: ExecutionData
-    let childExecutionData: Array<ChildReportExecutionData>
-    let queryData: SetQueryFromFiltersResult
-
-    const requestArgs = {
-      req,
-      token,
-    }
-
-    if (type === ReportType.REPORT) {
-      ;({ executionData, queryData, childExecutionData } = await requestReport({
-        ...requestArgs,
-        reportingService: services.reportingService,
-      }))
-    }
-
-    if (type === ReportType.DASHBOARD) {
-      ;({ executionData, childExecutionData } = await requestDashboard({
-        ...requestArgs,
-        dashboardService: services.dashboardService,
-        reportingService: services.reportingService,
-      }))
-    }
+    const requestArgs = { req, token }
+    const { executionData, queryData, childExecutionData } = await requestProduct({
+      ...requestArgs,
+      dashboardService: services.dashboardService,
+      reportingService: services.reportingService,
+    })
 
     let redirect = ''
     if (executionData) {
@@ -359,7 +306,7 @@ export default {
           definitionPath: <string>definitionPath,
           services,
         }))
-
+        fields = definition.filterFields
         defaultInteractiveQueryString = definition.filterFields
           ? FiltersUtils.setFilterQueryFromFilterDefinition(definition.filterFields, true)
           : undefined

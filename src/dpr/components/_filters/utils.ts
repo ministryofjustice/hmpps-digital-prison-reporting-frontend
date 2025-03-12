@@ -116,9 +116,9 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
         >f.filter).interactive
 
         // NOTE: Uncomment if filters are meant to be both interactive and non interactive.
-        // if (interactiveFilterValue === undefined) {
-        //   return true
-        // }
+        if (interactiveFilterValue === undefined) {
+          return !interactive
+        }
 
         return interactive === interactiveFilterValue
       }

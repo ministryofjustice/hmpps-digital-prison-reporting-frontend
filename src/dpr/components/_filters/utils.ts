@@ -108,11 +108,18 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
   return fields
     .filter((f) => f.filter)
     .filter((f) => {
-      // TODO: fix types here once it has been defined.
       if (interactive !== undefined) {
-        return interactive
-          ? (<components['schemas']['FieldDefinition'] & { interactive?: boolean }>f.filter).interactive
-          : !(<components['schemas']['FieldDefinition'] & { interactive?: boolean }>f.filter).interactive
+        const interactiveFilterValue = (<
+          components['schemas']['FieldDefinition'] & {
+            interactive?: boolean
+          }
+        >f.filter).interactive
+
+        if (interactiveFilterValue === undefined) {
+          return true
+        }
+
+        return interactive === interactiveFilterValue
       }
       return true
     })

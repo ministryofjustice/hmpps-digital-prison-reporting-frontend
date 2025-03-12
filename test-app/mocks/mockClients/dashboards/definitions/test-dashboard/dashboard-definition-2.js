@@ -63,7 +63,7 @@ const testingDashboard2 = {
             display: 'WEALSTUN (HMP)',
           },
         ],
-        interactive: false,
+        interactive: true,
       },
       sortable: false,
       defaultsort: false,

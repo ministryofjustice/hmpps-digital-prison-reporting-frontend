@@ -81,7 +81,7 @@ describe('dashboardClient', () => {
 
   describe('getAsyncStatus', () => {
     it('should request an async dashboard', async () => {
-      fakeDashboardApi.get(`/statements/exId/status`).reply(200, {
+      fakeDashboardApi.get(`/reports/dpd-id/dashboards/test-dashboard-id/statements/exId/status`).reply(200, {
         status: 'SUBMITTED',
       })
 

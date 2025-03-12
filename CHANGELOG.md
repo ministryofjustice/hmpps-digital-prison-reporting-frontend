@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v4.1.10
+
+- Change to call a difference execution cancellation endpoint for dashboards to support dashboards running on other data sources apart from Redshift.
+
 ## v4.1.9
 
 - Dashbaord request filters

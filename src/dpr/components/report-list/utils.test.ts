@@ -72,7 +72,7 @@ describe('EmbeddedReportListUtils', () => {
 
       await ReportListUtils.renderListWithDefinition(args)
       expect(response.redirect).toHaveBeenCalledWith(
-        'baseUrlpath?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3=2003-02-01%20-%202006-05-04&filters.field7=value8.2&filters.field7=value8.3',
+        'baseUrlpath?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2&filters.field7=value8.3',
       )
     })
 

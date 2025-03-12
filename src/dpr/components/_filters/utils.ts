@@ -72,11 +72,32 @@ const setFilterQueryFromFilterDefinition = (
 
     if (filter.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
       const startEndParams = DateRangeInputUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
-      const f = filter as unknown as components['schemas']['FilterDefinition'] & {
-        defaultGranularity: Granularity
-        defaultQuickFilterValue: QuickFilters
-      }
-      return GranularDateRangeInputUtils.getQueryFromDefinition(f, field.name, DEFAULT_FILTERS_PREFIX, startEndParams)
+      return GranularDateRangeInputUtils.getQueryFromDefinition(
+        filter as unknown as components['schemas']['FilterDefinition'] & {
+          defaultGranularity: Granularity
+          defaultQuickFilterValue: QuickFilters
+        },
+        field.name,
+        DEFAULT_FILTERS_PREFIX,
+        startEndParams,
+      )
+    }
+
+    if (filter.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
+      const values = filter.defaultValue ? filter.defaultValue.split(',') : []
+      return values.reduce((q: string, value, index) => {
+        // eslint-disable-next-line no-param-reassign
+        q += `${DEFAULT_FILTERS_PREFIX}${field.name}=${value}`
+        if (index !== values.length - 1) {
+          // eslint-disable-next-line no-param-reassign
+          q += '&'
+        }
+        return q
+      }, '')
+    }
+
+    if (filter.defaultValue) {
+      return `${DEFAULT_FILTERS_PREFIX}${field.name}=${filter.defaultValue}`
     }
 
     return ''
@@ -205,12 +226,13 @@ function redirectWithDefaultFilters(
 ) {
   const defaultFilters: Record<string, string> = {}
   const { fields } = variantDefinition.specification
+  const { preventDefault } = request.query
 
-  if (Object.keys(reportQuery.filters).length === 0) {
+  if (Object.keys(reportQuery.filters).length === 0 && !preventDefault) {
     fields
       .filter((f) => f.filter && f.filter.defaultValue)
       .forEach((f) => {
-        if (f.filter.type.toLowerCase() === FilterType.dateRange) {
+        if (f.filter.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
           const dates = f.filter.defaultValue.split(' - ')
 
           if (dates.length >= 1) {

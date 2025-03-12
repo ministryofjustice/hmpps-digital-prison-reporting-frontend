@@ -26,9 +26,12 @@ export default class DateInput extends DprClientClass {
   }
 
   setValidationOnInputEl() {
-    this.dateInput.setAttribute('required', this.required)
+    if (this.required && this.required === 'true') {
+      this.dateInput.setAttribute('required', true)
+    }
     if (this.min) this.dateInput.setAttribute('min', this.min)
     if (this.max) this.dateInput.setAttribute('max', this.max)
+
     this.dateInput.setAttribute('display-name', this.displayName)
     this.dateInput.setAttribute('pattern', this.pattern)
     this.dateInput.setAttribute('pattern-hint', this.patternHint)

@@ -1,5 +1,25 @@
 Below you can find the changes included in each release.
 
+## v4.1.8
+
+- Change to call a different status endpoint for dashboards in order to support dashboards running on other data sources apart from Redshift.
+
+## v4.1.7
+
+- Bugfix: filters default to initial values if all filters are removed. fixed
+- Bugfix: Error when no default value provided in multiselect filter.
+
+## v4.1.6
+
+- Bugfix:  daterange query param issue on initial load
+- Bugfix:  daterange required bug - input was always mandatory.
+- Bugfix:  daterange validation message
+
+## v4.1.5
+
+- Bugfix: Run correct query on initial report load 
+
+
 ## v4.1.4
 
 - Bugfix: Embedded report list: use `dataProductDefinitionsPath` if provided, otherwise use `definitionsPath` 

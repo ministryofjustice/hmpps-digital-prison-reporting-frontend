@@ -76,7 +76,7 @@ export default class DashboardClient {
     logger.info(`Dashboard client:${reportId}/${dashboardId}: Get statementId: ${executionId} status`)
     return this.restClient
       .get({
-        path: `/statements/${executionId}/status`,
+        path: `/reports/${reportId}/dashboards/${dashboardId}/statements/${executionId}/status`,
         token,
         query: {
           dataProductDefinitionsPath,

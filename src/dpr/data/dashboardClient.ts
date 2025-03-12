@@ -37,7 +37,6 @@ export default class DashboardClient {
     query: Record<string, string | boolean | number>,
   ): Promise<Dict<string>> {
     logger.info(`Dashboard client: request ${reportId}:${dashboardId}`)
-
     return this.restClient
       .get({
         path: `/async/dashboards/${reportId}/${dashboardId}`,

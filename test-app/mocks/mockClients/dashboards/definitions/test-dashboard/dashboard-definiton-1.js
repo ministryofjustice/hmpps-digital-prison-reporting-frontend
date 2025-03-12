@@ -13,13 +13,12 @@ const {
   mockScorecardGroupEthnicityByEstablishment,
   mockTargetScorecardDefinitionReligion,
   mockEthnicityBarChartList,
-  mockEthnicityLineChartTimeseries,
 } = require('../data-quality/visualisations')
 const { lists } = require('../examples/visualisations')
 
 const { establishmentIdFilter, granularDateRangeFilter } = require('../../filter-definitions')
 
-const testingDashboard = {
+const testingDashboard1 = {
   id: 'test-dashboard-8',
   name: 'Test Dashboard',
   description: 'Dashboard used for testing testing',
@@ -84,6 +83,4 @@ const testingDashboard = {
   filterFields: [establishmentIdFilter, granularDateRangeFilter],
 }
 
-module.exports = {
-  testingDashboard,
-}
+module.exports = testingDashboard1

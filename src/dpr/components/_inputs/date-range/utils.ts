@@ -58,17 +58,12 @@ const calcDates = (durationValue: string) => {
 }
 
 const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
-  const { preventDefault } = req.query
-
   const start = <string>req.query[`${prefix}${filter.name}.start`]
   const end = <string>req.query[`${prefix}${filter.name}.end`]
 
-  const defaultStart = preventDefault ? null : (<DateRange>filter.value)?.start
-  const defaultEnd = preventDefault ? null : (<DateRange>filter.value)?.end
-
   const value = {
-    start: start || defaultStart || (<DateFilterValue>filter).min,
-    end: end || defaultEnd || (<DateFilterValue>filter).max,
+    start: start || (<DateFilterValue>filter).min,
+    end: end || (<DateFilterValue>filter).max,
   } as DateRange
 
   return value

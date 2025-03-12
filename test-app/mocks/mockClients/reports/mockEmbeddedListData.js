@@ -243,6 +243,16 @@ const mockSyncData = {
           key: '["filters.field3.start","filters.field3.end"]',
           value: ['"2003-02-01"', '"2006-05-04"'],
           disabled: false,
+          constraints: [
+            {
+              key: 'filters.field3.start',
+              value: '2003-02-01',
+            },
+            {
+              key: 'filters.field3.end',
+              value: '2007-05-04',
+            },
+          ],
           classes: 'interactive-remove-filter-button',
           attributes: {
             'aria-label': 'Selected Filter: Field 3: 2003-02-01 - 2006-05-04. Click to clear this filter',
@@ -254,6 +264,12 @@ const mockSyncData = {
           value: ['"2005-02-01"'],
           disabled: false,
           classes: 'interactive-remove-filter-button',
+          constraints: [
+            {
+              key: 'filters.field7',
+              value: '2003-02-01',
+            },
+          ],
           attributes: {
             'aria-label': 'Selected Filter: Field 7: 2005-02-01. Click to clear this filter',
           },

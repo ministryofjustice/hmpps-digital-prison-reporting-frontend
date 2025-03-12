@@ -15,14 +15,11 @@ const setDateValueWithinMinMax = (filter: components['schemas']['FilterDefinitio
 }
 
 const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
-  const { preventDefault } = req.query
-  const defaultValue = preventDefault ? null : filter.value
-
   const dateValue = <string>req.query[`${prefix}${filter.name}`]
   const { min } = <DateFilterValue>filter
   const { max } = <DateFilterValue>filter
 
-  return dateValue || defaultValue || min || max || '1977-05-25'
+  return dateValue || min || max || '1977-05-25'
 }
 
 const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition'], filterData: FilterValue) => {

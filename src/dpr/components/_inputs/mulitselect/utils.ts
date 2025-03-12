@@ -3,7 +3,6 @@ import { FilterValue } from '../../_filters/types'
 import { components } from '../../../types/api'
 
 const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
-  const { preventDefault } = req.query
   const queryValue = <string[] | string | undefined>req.query[`${prefix}${filter.name}`]
 
   let valueArr: string[]
@@ -12,13 +11,10 @@ const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) 
     valueArr = Array.isArray(queryValue) ? queryValue : [queryValue]
     valueString = valueArr.join(',')
   }
-  const defaultValue = preventDefault ? null : filter.value
-  let defaultValues = filter.value ? (<string>filter.value).split(',') : []
-  defaultValues = preventDefault ? [] : defaultValues
 
   return {
-    requestfilterValue: valueString || defaultValue || null,
-    requestfilterValues: valueArr || defaultValues || [],
+    requestfilterValue: valueString || null,
+    requestfilterValues: valueArr || [],
   }
 }
 

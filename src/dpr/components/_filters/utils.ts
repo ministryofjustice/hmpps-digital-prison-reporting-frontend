@@ -16,6 +16,10 @@ import createUrlForParameters from '../../utils/urlHelper'
 const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix = 'filters.'): FilterValue[] => {
   const { preventDefault } = req.query
 
+  if (Object.keys(req.query).every((key) => !key.includes(prefix))) {
+    return filters
+  }
+
   return filters.map((filter: FilterValue) => {
     let requestfilterValue
     let requestfilterValues: string[]
@@ -31,13 +35,11 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
       requestfilterValue = <string>req.query[`${prefix}${filter.name}`]
     }
 
-    let value: string | DateRange
+    let value: string | DateRange = null
     if (requestfilterValue) {
       value = requestfilterValue
     } else if (preventDefault) {
       value = null
-    } else {
-      value = filter.value
     }
 
     return {

@@ -9,38 +9,6 @@ describe('MultiSelectUtils', () => {
     let req: Request
     const prefix = 'filters.'
 
-    it('should set the values to a single default value', () => {
-      filter = {
-        text: 'string',
-        name: 'string',
-        value: 'value1',
-        type: FilterType.multiselect,
-      }
-      req = { query: {} } as unknown as Request
-      const result = MultiSelectUtils.setValueFromRequest(filter, req, prefix)
-
-      expect(result).toEqual({
-        requestfilterValue: 'value1',
-        requestfilterValues: ['value1'],
-      })
-    })
-
-    it('should set the values to multiple default values', () => {
-      filter = {
-        text: 'string',
-        name: 'string',
-        value: 'value1,value2',
-        type: FilterType.multiselect,
-      }
-      req = { query: {} } as unknown as Request
-      const result = MultiSelectUtils.setValueFromRequest(filter, req, prefix)
-
-      expect(result).toEqual({
-        requestfilterValue: 'value1,value2',
-        requestfilterValues: ['value1', 'value2'],
-      })
-    })
-
     it('should init values to an empty array when filter value is empty', () => {
       filter = {
         text: 'string',

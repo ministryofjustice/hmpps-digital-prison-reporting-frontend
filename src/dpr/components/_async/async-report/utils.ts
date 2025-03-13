@@ -138,6 +138,7 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
 
       // Requested Report Data
       reportStateData = resolvedData[2] as RequestedReport
+
       const {
         reportName,
         name,
@@ -152,6 +153,7 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
         url: stateUrl,
         dataProductDefinitionsPath,
       } = reportStateData
+
       const reportStateVars = {
         reportName,
         name,
@@ -163,7 +165,9 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
         executionId,
         querySummary: query.summary,
         requestUrl: stateUrl.request,
+        defaultQuery: stateUrl.report.default,
       }
+
       // Report summaries
       const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, resolvedData[3])
 

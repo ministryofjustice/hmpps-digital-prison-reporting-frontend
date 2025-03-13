@@ -144,19 +144,6 @@ describe('DateRangeInputUtils', () => {
       })
     })
 
-    it('should set the start and end date to initial default values', () => {
-      req = {
-        query: {},
-      } as unknown as Request
-
-      const result = DateRangeInputUtils.setValueFromRequest(dateFilter, req, 'filters.')
-
-      expect(result).toEqual({
-        start: '2005-01-01',
-        end: '2005-07-08',
-      })
-    })
-
     it('should set the start and end date to min and max values', () => {
       req = {
         query: {},

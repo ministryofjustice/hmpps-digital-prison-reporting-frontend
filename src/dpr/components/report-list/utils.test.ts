@@ -77,6 +77,18 @@ describe('EmbeddedReportListUtils', () => {
     })
 
     it('should render the list', async () => {
+      request = {
+        query: {
+          dataProductDefinitionsPath: 'dataProductDefinitionsPath',
+          'filters.field1': 'value1.1',
+          'filters.field3.start': '2003-02-01',
+          'filters.field3.end': '2006-05-04',
+          'filters.field7': ['value8.2', 'value8.3'],
+        },
+        baseUrl: 'baseUrl',
+        path: 'path',
+      } as unknown as Request
+
       jest.spyOn(FilterUtils, 'redirectWithDefaultFilters').mockReturnValue(false)
       const args: RenderListWithDefinitionInput = {
         title: 'Test Report Name',
@@ -97,6 +109,18 @@ describe('EmbeddedReportListUtils', () => {
     })
 
     it('should render the list with DPD report name', async () => {
+      request = {
+        query: {
+          dataProductDefinitionsPath: 'dataProductDefinitionsPath',
+          'filters.field1': 'value1.1',
+          'filters.field3.start': '2003-02-01',
+          'filters.field3.end': '2006-05-04',
+          'filters.field7': ['value8.2', 'value8.3'],
+        },
+        baseUrl: 'baseUrl',
+        path: 'path',
+      } as unknown as Request
+
       jest.spyOn(FilterUtils, 'redirectWithDefaultFilters').mockReturnValue(false)
       const args: RenderListWithDefinitionInput = {
         definitionName: 'test-definition-name',
@@ -198,6 +222,19 @@ describe('EmbeddedReportListUtils', () => {
   describe('renderListWithData', () => {
     it('should render the list', async () => {
       jest.spyOn(FilterUtils, 'redirectWithDefaultFilters').mockReturnValue(false)
+
+      request = {
+        query: {
+          dataProductDefinitionsPath: 'dataProductDefinitionsPath',
+          'filters.field1': 'value1.1',
+          'filters.field3.start': '2003-02-01',
+          'filters.field3.end': '2006-05-04',
+          'filters.field7': ['value8.2', 'value8.3'],
+        },
+        baseUrl: 'baseUrl',
+        path: 'path',
+      } as unknown as Request
+
       const args: RenderListWithDataInput = {
         title: 'Test variant title',
         reportName: 'Test report name',

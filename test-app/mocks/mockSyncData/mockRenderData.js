@@ -3,11 +3,11 @@ const mockRenderDataFromDefinition = {
     dataTable: {
       head: [
         {
-          html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath">Field 1</a>',
+          html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 1</a>',
           classes: null,
         },
         {
-          html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath">Field 2</a>',
+          html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 2</a>',
           classes: null,
         },
         {
@@ -224,6 +224,16 @@ const mockRenderDataFromDefinition = {
           value: ['"2003-02-01"', '"2006-05-04"'],
           disabled: false,
           classes: 'interactive-remove-filter-button',
+          constraints: [
+            {
+              key: 'filters.field3.start',
+              value: '2003-02-01',
+            },
+            {
+              key: 'filters.field3.end',
+              value: '2007-05-04',
+            },
+          ],
           attributes: {
             'aria-label': 'Selected Filter: Field 3: 2003-02-01 - 2006-05-04. Click to clear this filter',
           },
@@ -357,11 +367,11 @@ const mockRenderDataFromData = {
     dataTable: {
       head: [
         {
-          html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath">Field 1</a>',
+          html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 1</a>',
           classes: null,
         },
         {
-          html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath">Field 2</a>',
+          html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 2</a>',
           classes: null,
         },
         {
@@ -553,6 +563,16 @@ const mockRenderDataFromData = {
           key: '["filters.field3.start","filters.field3.end"]',
           value: ['"2003-02-01"', '"2006-05-04"'],
           disabled: false,
+          constraints: [
+            {
+              key: 'filters.field3.start',
+              value: '2003-02-01',
+            },
+            {
+              key: 'filters.field3.end',
+              value: '2007-05-04',
+            },
+          ],
           classes: 'interactive-remove-filter-button',
           attributes: {
             'aria-label': 'Selected Filter: Field 3: 2003-02-01 - 2006-05-04. Click to clear this filter',

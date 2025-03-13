@@ -16,6 +16,10 @@ import createUrlForParameters from '../../utils/urlHelper'
 const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix = 'filters.'): FilterValue[] => {
   const { preventDefault } = req.query
 
+  if (Object.keys(req.query).every((key) => !key.includes(prefix)) && !preventDefault) {
+    return filters
+  }
+
   return filters.map((filter: FilterValue) => {
     let requestfilterValue
     let requestfilterValues: string[]
@@ -31,13 +35,11 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
       requestfilterValue = <string>req.query[`${prefix}${filter.name}`]
     }
 
-    let value: string | DateRange
+    let value: string | DateRange = null
     if (requestfilterValue) {
       value = requestfilterValue
     } else if (preventDefault) {
       value = null
-    } else {
-      value = filter.value
     }
 
     return {
@@ -59,49 +61,35 @@ const setFilterQueryFromFilterDefinition = (
     )
   }
 
-  const queryArray = filterFields.map((field) => {
-    const { filter } = field
+  return filterFields
+    .filter((field) => field.filter && field.filter.defaultValue)
+    .map((field) => {
+      const { filter } = field
 
-    if (filter.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
-      return DateRangeInputUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
-    }
+      if (filter.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
+        return DateRangeInputUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
+      }
 
-    if (filter.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
-      const startEndParams = DateRangeInputUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
-      return GranularDateRangeInputUtils.getQueryFromDefinition(
-        filter as unknown as components['schemas']['FilterDefinition'] & {
-          defaultGranularity: Granularity
-          defaultQuickFilterValue: QuickFilters
-        },
-        field.name,
-        DEFAULT_FILTERS_PREFIX,
-        startEndParams,
-      )
-    }
+      if (filter.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
+        return MultiSelectUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
+      }
 
-    if (filter.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
-      const values = filter.defaultValue ? filter.defaultValue.split(',') : []
-      return values.reduce((q: string, value, index) => {
-        // eslint-disable-next-line no-param-reassign
-        q += `${DEFAULT_FILTERS_PREFIX}${field.name}=${value}`
-        if (index !== values.length - 1) {
-          // eslint-disable-next-line no-param-reassign
-          q += '&'
-        }
-        return q
-      }, '')
-    }
+      if (filter.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
+        const startEndParams = DateRangeInputUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
+        return GranularDateRangeInputUtils.getQueryFromDefinition(
+          filter as unknown as components['schemas']['FilterDefinition'] & {
+            defaultGranularity: Granularity
+            defaultQuickFilterValue: QuickFilters
+          },
+          field.name,
+          DEFAULT_FILTERS_PREFIX,
+          startEndParams,
+        )
+      }
 
-    if (filter.defaultValue) {
       return `${DEFAULT_FILTERS_PREFIX}${field.name}=${filter.defaultValue}`
-    }
-
-    return ''
-  })
-
-  const queryString = queryArray.filter((p) => p.length).join('&')
-
-  return queryString
+    })
+    .join('&')
 }
 
 const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
@@ -216,7 +204,7 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
     })
 }
 
-function redirectWithDefaultFilters(
+const redirectWithDefaultFilters = (
   reportQuery: ReportQuery,
   variantDefinition: {
     id: string
@@ -227,12 +215,12 @@ function redirectWithDefaultFilters(
   },
   response: Response,
   request: Request,
-) {
+) => {
   const defaultFilters: Record<string, string> = {}
   const { fields } = variantDefinition.specification
   const { preventDefault } = request.query
-
-  if (Object.keys(reportQuery.filters).length === 0 && !preventDefault) {
+  const hasNoQueryFilters = Object.keys(reportQuery.filters).length === 0 && !preventDefault
+  if (hasNoQueryFilters) {
     fields
       .filter((f) => f.filter && f.filter.defaultValue)
       .forEach((f) => {

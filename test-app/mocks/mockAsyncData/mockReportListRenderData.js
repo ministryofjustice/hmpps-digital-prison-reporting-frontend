@@ -12,6 +12,7 @@ const mockGetReportListRenderData = {
     requestUrl: {
       fullUrl: 'fullUrl',
     },
+    defaultQuery: 'defaultQuery',
     classification: 'OFFICIAL',
     template: 'list',
     count: 100,
@@ -124,7 +125,7 @@ const mockGetReportListRenderData = {
       head: [
         {
           text: 'Field 2',
-          classes: null
+          classes: null,
         },
       ],
       rows: [

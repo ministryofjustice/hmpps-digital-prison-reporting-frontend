@@ -16,7 +16,7 @@ import createUrlForParameters from '../../utils/urlHelper'
 const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix = 'filters.'): FilterValue[] => {
   const { preventDefault } = req.query
 
-  if (Object.keys(req.query).every((key) => !key.includes(prefix))) {
+  if (Object.keys(req.query).every((key) => !key.includes(prefix)) && !preventDefault) {
     return filters
   }
 
@@ -219,8 +219,8 @@ const redirectWithDefaultFilters = (
   const defaultFilters: Record<string, string> = {}
   const { fields } = variantDefinition.specification
   const { preventDefault } = request.query
-
-  if (Object.keys(reportQuery.filters).length === 0 && !preventDefault) {
+  const hasNoQueryFilters = Object.keys(reportQuery.filters).length === 0 && !preventDefault
+  if (hasNoQueryFilters) {
     fields
       .filter((f) => f.filter && f.filter.defaultValue)
       .forEach((f) => {

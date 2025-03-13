@@ -49,7 +49,7 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
         ;({ key, value, displayValue } = getMultiselectValues(f, prefix))
       } else {
         key = [`${prefix}${f.name}`]
-        value = [displayValue]
+        value = [`"${displayValue}"`]
       }
 
       let ariaLabel

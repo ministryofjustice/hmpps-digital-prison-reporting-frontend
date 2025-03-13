@@ -53,13 +53,13 @@ describe('Selected filters utils', () => {
       ]
     })
 
-    it('getSelectedFilters', () => {
+    it('should get the selected filters', () => {
       const result = SelectedFiltersUtils.getSelectedFilters(filters, 'filters.')
       const expectedResult = [
         {
           text: `Filter 2: value 2`,
           key: '["filters.filter2"]',
-          value: ['value 2'],
+          value: ['"value 2"'],
           classes: 'interactive-remove-filter-button',
           disabled: false,
           attributes: {
@@ -69,7 +69,7 @@ describe('Selected filters utils', () => {
         {
           text: `Filter 4: value 4`,
           key: '["filters.filter4"]',
-          value: ['value 4'],
+          value: ['"value 4"'],
           classes: 'interactive-remove-filter-button',
           disabled: false,
           attributes: {

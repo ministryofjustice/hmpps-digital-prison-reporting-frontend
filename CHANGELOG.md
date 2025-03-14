@@ -1,5 +1,16 @@
 Below you can find the changes included in each release.
 
+## v4.1.10
+
+Embedded reports
+- Bugfix: variant name instead of variant ID in report heading
+- Bugfix: Print feature - filters removed, urls in links removed
+
+Interactive async reports
+- bugfix: initial report load uses correct query
+- bugfix: min and max constraints applied to api request when filter is removed
+- bugfix: reset button
+
 ## v4.1.9
 
 - Dashbaord request filters

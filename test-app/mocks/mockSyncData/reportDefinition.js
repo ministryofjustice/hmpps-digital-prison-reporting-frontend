@@ -16,16 +16,16 @@ const defaultVariant = {
         type: 'string',
         mandatory: false,
         visible: true,
-        filter: {
-          type: 'Radio',
-          staticOptions: [
-            { name: 'value1.1', display: 'Value 1.1' },
-            { name: 'value1.2', display: 'Value 1.2' },
-            { name: 'value1.3', display: 'Value 1.3' },
-          ],
-          defaultValue: 'value1.1',
-          mandatory: false,
-        },
+        // filter: {
+        //   type: 'Radio',
+        //   staticOptions: [
+        //     { name: 'value1.1', display: 'Value 1.1' },
+        //     { name: 'value1.2', display: 'Value 1.2' },
+        //     { name: 'value1.3', display: 'Value 1.3' },
+        //   ],
+        //   defaultValue: 'value1.1',
+        //   mandatory: false,
+        // },
       },
       {
         name: 'field2',
@@ -34,15 +34,15 @@ const defaultVariant = {
         type: 'string',
         mandatory: true,
         visible: true,
-        filter: {
-          type: 'Select',
-          staticOptions: [
-            { name: 'value2.1', display: 'Value 2.1' },
-            { name: 'value2.2', display: 'Value 2.2' },
-            { name: 'value2.3', display: 'Value 2.3' },
-          ],
-          mandatory: false,
-        },
+        // filter: {
+        //   type: 'Select',
+        //   staticOptions: [
+        //     { name: 'value2.1', display: 'Value 2.1' },
+        //     { name: 'value2.2', display: 'Value 2.2' },
+        //     { name: 'value2.3', display: 'Value 2.3' },
+        //   ],
+        //   mandatory: false,
+        // },
       },
       {
         name: 'field3',
@@ -51,12 +51,12 @@ const defaultVariant = {
         visible: true,
         type: 'date',
         mandatory: false,
-        filter: {
-          type: 'daterange',
-          defaultValue: '2003-02-01 - 2006-05-04',
-          min: '2003-02-01',
-          max: '2007-05-04',
-        },
+        // filter: {
+        //   type: 'daterange',
+        //   defaultValue: '2003-02-01 - 2006-05-04',
+        //   min: '2003-02-01',
+        //   max: '2007-05-04',
+        // },
       },
       {
         name: 'field4',
@@ -64,20 +64,20 @@ const defaultVariant = {
         visible: false,
         sortable: false,
         type: 'string',
-        filter: {
-          type: 'autocomplete',
-          dynamicOptions: {
-            minimumLength: 3,
-            returnAsStaticOptions: true,
-          },
-          staticOptions: [
-            { name: 'Fezzick', display: 'Fezzick' },
-            { name: 'inigo-montoya', display: 'Inigo Montoya' },
-            { name: 'Prince Humperdink', display: 'Prince Humperdink' },
-            { name: 'PrBu', display: 'Princess Buttercup' },
-            { name: 'Westley', display: 'Westley' },
-          ],
-        },
+        // filter: {
+        //   type: 'autocomplete',
+        //   dynamicOptions: {
+        //     minimumLength: 3,
+        //     returnAsStaticOptions: true,
+        //   },
+        //   staticOptions: [
+        //     { name: 'Fezzick', display: 'Fezzick' },
+        //     { name: 'inigo-montoya', display: 'Inigo Montoya' },
+        //     { name: 'Prince Humperdink', display: 'Prince Humperdink' },
+        //     { name: 'PrBu', display: 'Princess Buttercup' },
+        //     { name: 'Westley', display: 'Westley' },
+        //   ],
+        // },
       },
       {
         name: 'field5',
@@ -86,13 +86,13 @@ const defaultVariant = {
         type: 'string',
         mandatory: false,
         visible: false,
-        filter: {
-          type: 'autocomplete',
-          dynamicOptions: {
-            minimumLength: 3,
-            returnAsStaticOptions: false,
-          },
-        },
+        // filter: {
+        //   type: 'autocomplete',
+        //   dynamicOptions: {
+        //     minimumLength: 3,
+        //     returnAsStaticOptions: false,
+        //   },
+        // },
       },
       {
         name: 'field6',
@@ -101,9 +101,9 @@ const defaultVariant = {
         type: 'HTML',
         mandatory: false,
         visible: true,
-        filter: {
-          type: 'text',
-        },
+        // filter: {
+        //   type: 'text',
+        // },
       },
       {
         name: 'field7',
@@ -119,18 +119,18 @@ const defaultVariant = {
             { name: 'value8.2', display: 'Value 8.2' },
             { name: 'value8.3', display: 'Value 8.3' },
             { name: 'value8.4', display: 'Value 8.4' },
-            { name: 'value8.5', display: 'Value 8.5' },
-            { name: 'value8.6', display: 'Value 8.6' },
-            { name: 'value8.7', display: 'Value 8.7' },
-            { name: 'value8.8', display: 'Value 8.8' },
-            { name: 'value8.9', display: 'Value 8.9' },
-            { name: 'value8.10', display: 'Value 8.10' },
-            { name: 'value8.11', display: 'Value 8.11' },
-            { name: 'value8.12', display: 'Value 8.12' },
-            { name: 'value8.13', display: 'Value 8.13' },
-            { name: 'value8.14', display: 'Value 8.14' },
-            { name: 'value8.15', display: 'Value 8.15' },
-            { name: 'value8.16', display: 'Value 8.16' },
+            // { name: 'value8.5', display: 'Value 8.5' },
+            // { name: 'value8.6', display: 'Value 8.6' },
+            // { name: 'value8.7', display: 'Value 8.7' },
+            // { name: 'value8.8', display: 'Value 8.8' },
+            // { name: 'value8.9', display: 'Value 8.9' },
+            // { name: 'value8.10', display: 'Value 8.10' },
+            // { name: 'value8.11', display: 'Value 8.11' },
+            // { name: 'value8.12', display: 'Value 8.12' },
+            // { name: 'value8.13', display: 'Value 8.13' },
+            // { name: 'value8.14', display: 'Value 8.14' },
+            // { name: 'value8.15', display: 'Value 8.15' },
+            // { name: 'value8.16', display: 'Value 8.16' },
           ],
           defaultValue: 'value8.2,value8.3',
           mandatory: false,

@@ -60,7 +60,7 @@ describe('EmbeddedReportListUtils', () => {
       const args: RenderListWithDefinitionInput = {
         title: 'Test Report Name',
         definitionName: 'test-definition-name',
-        variantName: 'Test Variant Name',
+        variantName: 'Test Variant',
         request,
         response,
         next,
@@ -93,7 +93,7 @@ describe('EmbeddedReportListUtils', () => {
       const args: RenderListWithDefinitionInput = {
         title: 'Test Report Name',
         definitionName: 'test-definition-name',
-        variantName: 'Test Variant Name',
+        variantName: 'Test Variant',
         request,
         response,
         next,
@@ -124,7 +124,7 @@ describe('EmbeddedReportListUtils', () => {
       jest.spyOn(FilterUtils, 'redirectWithDefaultFilters').mockReturnValue(false)
       const args: RenderListWithDefinitionInput = {
         definitionName: 'test-definition-name',
-        variantName: 'Test Variant Name',
+        variantName: 'Test Variant',
         request,
         response,
         next,

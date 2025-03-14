@@ -7,6 +7,7 @@
 {% from "../../_inputs/date-range/view.njk" import dprDateRange -%}
 {% from "../../_inputs/granular-date-range/view.njk" import dprGranularDateRange -%}
 {% from "../../_inputs/date-input/view.njk" import dprDate %}
+{% from "../../_inputs/multi-select/view.njk" import dprMultiSelect %}
 
 {% macro dprFilterInput(filter, parameterPrefix) %}
   {% set filterType = filter.type | lower %}
@@ -52,34 +53,7 @@
 
     {%- elif filterType === 'multiselect' %}
 
-      {{ govukCheckboxes({
-        id: name,
-        name: name,
-        classes: "govuk-checkboxes--small",
-        formGroup: {
-          classes: "govuk-!-margin-bottom-3"
-        },
-        errorMessage: {
-          text: ""
-        } if mandatory,
-        fieldset: {
-          legend: {
-            text: text,
-            classes: "govuk-label govuk-!-font-weight-bold"
-          },
-          attributes: {
-            "aria-label": name + ' checkboxes'
-          }
-        },
-        attributes: {
-          required: true,
-          'display-name': labelText
-        } if mandatory else {
-          'display-name': labelText
-        },
-        items: options,
-        values: values
-      }) }}
+      {{ dprMultiSelect(filter, parameterPrefix, mandatory)}}
 
     {% elif filterType === 'radio' %}
 

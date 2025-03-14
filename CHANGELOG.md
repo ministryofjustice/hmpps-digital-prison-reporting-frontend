@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v4.1.11
+
+- Multiselect updates: Selected filter for multiselect shortened. Scrollbar when many select options
+
 ## v4.1.10
 
 Embedded reports

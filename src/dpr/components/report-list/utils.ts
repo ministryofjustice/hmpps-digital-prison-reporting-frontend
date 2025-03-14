@@ -146,7 +146,7 @@ export const renderListWithDefinition = async ({
         request,
         response,
         next,
-        variantName || `${variantDefinition.name}`,
+        `${variantDefinition.name}`,
         layoutTemplate,
         otherOptions,
         title || `${reportName}`,

@@ -68,3 +68,11 @@
     }
   }
 }
+
+@media print {
+  .dpr-interactive-filters-section {
+    .govuk-details {
+      display: none;
+    }
+  }
+}

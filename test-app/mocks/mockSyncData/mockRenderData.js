@@ -323,7 +323,7 @@ const mockRenderDataFromDefinition = {
     reportSearch: 'search',
     encodedSearch: 'search',
     reportName: 'Test Report Name',
-    name: 'Test Variant Name',
+    name: 'Test Variant',
     description: 'Test Variant Description',
     count: '',
     classification: 'OFFICIAL',

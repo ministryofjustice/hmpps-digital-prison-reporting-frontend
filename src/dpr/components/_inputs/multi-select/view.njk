@@ -1,0 +1,42 @@
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+{% macro dprMultiSelect(filter, parameterPrefix = "filters.", mandatory = false) %}
+  {% set name = parameterPrefix + filter.name %}
+  {% set text = filter.text %}
+  {% set labelText = text | capitaliseSentence %}
+  {% set options = filter.options %}
+  {% set values = filter.values %}
+  {% set classes = "govuk-checkboxes--small dpr-multi-select" %}
+  {% if options.length > 5 %}
+    {% set classes = classes + " dpr-multi-select-scroll" %}
+  {% endif %}
+
+  {{ govukCheckboxes({
+    id: name,
+    name: name,
+    classes: classes,
+    formGroup: {
+      classes: "govuk-!-margin-bottom-3"
+    },
+    errorMessage: {
+      text: ""
+    } if mandatory,
+    fieldset: {
+      legend: {
+        text: text,
+        classes: 'govuk-label govuk-!-font-weight-bold'
+      },
+      attributes: {
+        "aria-label": name + ' checkboxes'
+      }
+    },
+    attributes: {
+      required: true,
+      'display-name': labelText
+    } if mandatory else {
+      'display-name': labelText
+    },
+    items: options,
+    values: values
+  }) }}
+{% endmacro %}

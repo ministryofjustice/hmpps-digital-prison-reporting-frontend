@@ -10,6 +10,7 @@ export default class DateRangeInput extends DprClientClass {
 
   initialise() {
     this.dateRangeInputs = document.getElementById('dpr-date-range')
+    this.filtersAccordion = document.getElementById('dpr-interactive-filters-details')
     this.fieldName = this.dateRangeInputs.getAttribute('data-field-name')
 
     this.startInputID = `filters.${this.fieldName}.start`
@@ -35,11 +36,8 @@ export default class DateRangeInput extends DprClientClass {
   }
 
   initTabs() {
-    let hashFragment = 'date-picker'
     this.queryParams = new URLSearchParams(window.location.search)
-
     if (this.queryParams.has(this.durationInputID)) {
-      hashFragment = 'relative-range'
       this.relativeRangeRadioButtons.forEach((durationRadioButton) => {
         this.updateCheckedDuration(durationRadioButton)
       })
@@ -48,7 +46,6 @@ export default class DateRangeInput extends DprClientClass {
         this.removeSearchParam(this.durationInputID)
       }
     }
-    window.location.hash = hashFragment
   }
 
   initDatePickerTabClick() {

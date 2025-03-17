@@ -41,10 +41,6 @@ export default class DateRangeInput extends DprClientClass {
       this.relativeRangeRadioButtons.forEach((durationRadioButton) => {
         this.updateCheckedDuration(durationRadioButton)
       })
-    } else if (this.queryParams.has(this.startInputID) || this.queryParams.has(this.endInput)) {
-      if (this.queryParams.has(this.durationInputID)) {
-        this.removeSearchParam(this.durationInputID)
-      }
     }
   }
 
@@ -92,7 +88,7 @@ export default class DateRangeInput extends DprClientClass {
     if (durationRadioButton.checked) {
       const durationValue = durationRadioButton.value
       this.updateInputs(durationValue)
-      this.removeRequiredFromDatePickers()
+      // this.removeRequiredFromDatePickers()
 
       const changeEvent = new Event('change')
       durationRadioButton.dispatchEvent(changeEvent)

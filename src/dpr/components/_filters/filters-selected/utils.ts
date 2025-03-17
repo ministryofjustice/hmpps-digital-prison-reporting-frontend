@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { FilterType } from '../filter-input/enum'
 import { FilterValue, DateRange, DateFilterValue, GranularDateRange } from '../types'
+import DateRangeFilterUtils from '../../_inputs/date-range/utils'
 
 const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
   const emptyValues: string[] = [undefined, null, '']
@@ -76,7 +77,14 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
 const setSelectedDateRange = (f: FilterValue, prefix: string) => {
   const key = [`${prefix}${f.name}.start`, `${prefix}${f.name}.end`]
   const value = [`"${(<DateRange>f.value).start}"`, `"${(<DateRange>f.value).end}"`]
-  const displayValue = `${(<DateRange>f.value).start} - ${(<DateRange>f.value).end}`
+
+  let displayValue = `${(<DateRange>f.value).start} - ${(<DateRange>f.value).end}`
+  if ((<DateRange>f.value).relative) {
+    key.push(`${prefix}${f.name}.relative-duration`)
+    value.push(`"${(<DateRange>f.value).relative}"`)
+    displayValue = DateRangeFilterUtils.mapRelativeValue((<DateRange>f.value).relative)
+  }
+
   const constraints = setMinMaxContraints(f, key)
   const { disabled, cantRemoveClass, displayValue: disabledDisplayValue } = disabledDateRange(f, value, displayValue)
 

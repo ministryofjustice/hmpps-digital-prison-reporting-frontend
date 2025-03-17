@@ -1,5 +1,6 @@
 import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
 import { FilterType } from './filter-input/enum'
+import RelativeDateRange from '../_inputs/date-range/types'
 
 export interface FilterOption {
   value: string
@@ -42,6 +43,7 @@ export interface SelectedFilter {
 export interface DateRange {
   start: string
   end: string
+  relative?: RelativeDateRange
 }
 
 export interface GranularDateRange extends DateRange {

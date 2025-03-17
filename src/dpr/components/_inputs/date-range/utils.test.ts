@@ -64,7 +64,6 @@ describe('DateRangeInputUtils', () => {
       const min = dayjs().subtract(6, 'day').format('YYYY-MM-DD').toString()
       const max = dayjs().add(1, 'month').format('YYYY-MM-DD').toString()
       const options = DateRangeInputUtils.getRelativeDateOptions(min, max)
-      console.log(options)
 
       const disabled = options.filter((opt) => {
         return opt.disabled

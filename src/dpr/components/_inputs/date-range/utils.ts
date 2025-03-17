@@ -85,9 +85,14 @@ const getRelativeDateOptions = (min: string, max: string) => {
     }
   })
 
-  if (options.every((opt: { value: string; text: string; disabled?: boolean }) => opt.disabled)) {
+  if (
+    options.every((opt: { value: string; text: string; disabled?: boolean }) => {
+      return opt.value === null || opt.disabled
+    })
+  ) {
     options = []
   }
+
   return options
 }
 

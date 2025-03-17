@@ -1,0 +1,18 @@
+.dpr-multi-select {
+  &.dpr-multi-select-scroll {
+    height: 250px;
+    overflow-y: scroll;
+    padding-left: 10px;
+    background:
+    linear-gradient(#fafaf9 33%, rgba(250, 250, 249, 0)),
+      linear-gradient(rgba(250, 250, 249, 0), #fafaf9 66%) 0 100%,
+      radial-gradient(farthest-side at 50% 0, rgba(34, 34, 34, 0.5), rgba(0, 0, 0, 0)),
+      radial-gradient(farthest-side at 50% 100%, rgba(34, 34, 34, 0.5), rgba(0, 0, 0, 0)) 0 100%;
+      background-repeat: no-repeat;
+      background-color: rgb(250, 250, 249);
+      background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+    
+      /* Opera doesn’t support this in the shorthand */
+      background-attachment: local, local, scroll, scroll;
+  }
+}

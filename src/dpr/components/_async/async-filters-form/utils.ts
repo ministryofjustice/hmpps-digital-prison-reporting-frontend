@@ -160,19 +160,6 @@ export default {
         }
       })
 
-    console.log(
-      JSON.stringify(
-        {
-          query,
-          filterData,
-          querySummary,
-          sortData,
-        },
-        null,
-        2,
-      ),
-    )
-
     return {
       query,
       filterData,

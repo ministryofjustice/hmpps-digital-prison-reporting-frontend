@@ -10,6 +10,7 @@
   {% set relativeOptions = data.relativeOptions %}
   {% set startId = parameterPrefix + data.name + '.start' %}
   {% set endId = parameterPrefix + data.name + '.end' %}
+  {% set durationInputId = parameterPrefix + data.name + '.relative-duration' %}
 
   <div class="dpr-date-range" data-dpr-module="date-range-input">
     <fieldset class="govuk-fieldset">
@@ -26,8 +27,8 @@
       {% set relativeRangeHtml %}
       {{ govukRadios({
         classes: 'govuk-radios--small',
-        id: data.name + '.relative-duration',
-        name: data.name + '.relative-duration',
+        id: durationInputId,
+        name: durationInputId,
         formGroup: {
           classes: "govuk-!-margin-bottom-3 dpr-relative-range-radio"
         },

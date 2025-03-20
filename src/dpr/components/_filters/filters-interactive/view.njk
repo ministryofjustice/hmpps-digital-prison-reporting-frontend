@@ -36,7 +36,10 @@
     {{ govukDetails({
       summaryText: detailsLabel,
       html: filtersHtml,
-      open: false
+      open: false,
+      attributes: {
+        id: 'dpr-interactive-filters-details'
+      }
     }) }}
   </div>
 {% endmacro %}

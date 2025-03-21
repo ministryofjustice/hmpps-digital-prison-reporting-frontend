@@ -1,10 +1,13 @@
 Below you can find the changes included in each release.
 
+## v4.1.13
+
+- Bugfix: Dashboard description is optional
+
 ## v4.1.12
 
 - Bugfix: Relative daterange updating filters correctly
 - Bugfix: Print feature displaying all columns for large reports
-- Bugfix: Dashboard description is optional
 
 ## v4.1.11
 

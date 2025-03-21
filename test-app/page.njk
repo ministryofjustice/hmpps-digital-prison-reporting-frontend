@@ -9,9 +9,9 @@
 {% block pageTitle %}Test App{% endblock %}
 
 {% block bodyEnd %}  
-  <script type="module" src="/assets/govuk/all.js"></script>
+  <script type="module" src="/assets/govuk/govuk-frontend.min.js"></script>
   <script type="module">
-    import {initAll} from '/assets/govuk/all.js'
+    import {initAll} from '/assets/govuk/govuk-frontend.min.js'
     initAll()
   </script>
 
@@ -20,9 +20,9 @@
     window.MOJFrontend.initAll()
   </script>
 
-  <script type="module" src="/assets/dpr/all.js"></script>
+  <script type="module" src="/assets/dpr/js/all.js"></script>
   <script type="module">
-    import initAll from '/assets/dpr/all.js'
+    import initAll from '/assets/dpr/js/all.js'
     initAll()
   </script>
 {% endblock %}

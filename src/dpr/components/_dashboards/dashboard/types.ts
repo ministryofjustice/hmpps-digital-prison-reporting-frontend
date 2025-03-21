@@ -5,7 +5,7 @@ import { Scorecard, ScorecardGroup } from '../scorecard/types'
 export interface DashboardDefinition {
   id: string
   name: string
-  description: string
+  description?: string
   sections: DashboardSection[]
   filterFields: components['schemas']['FieldDefinition'][]
 }

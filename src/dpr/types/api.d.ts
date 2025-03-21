@@ -160,7 +160,7 @@ export interface components {
     }
     FilterDefinition: {
       /** @enum {string} */
-      type: 'Radio' | 'Select' | 'daterange' | 'autocomplete' | 'text' | 'date'
+      type: 'Radio' | 'Select' | 'daterange' | 'autocomplete' | 'text' | 'date' | 'multiselect'
       mandatory: boolean
       pattern?: string
       staticOptions?: components['schemas']['FilterOption'][]

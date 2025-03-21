@@ -58,9 +58,12 @@ export default class ReportQuery implements FilteredListRequest {
 
     let min: string
     let max: string
-    const dateField: components['schemas']['FieldDefinition'] = fields.find(
-      (f) => f.type === 'date' && f.filter && f.filter.type === 'daterange',
-    )
+    const dateField: components['schemas']['FieldDefinition'] = fields.find((f) => {
+      return (
+        (f.type === 'date' && f.filter && f.filter.type === 'daterange') ||
+        (f.type === 'date' && f.filter && f.filter.type === 'date')
+      )
+    })
     if (dateField) ({ min, max } = dateField.filter)
 
     this.filters = {}
@@ -77,8 +80,38 @@ export default class ReportQuery implements FilteredListRequest {
         if (filter.includes('.end') && max) {
           if (new Date(value) > new Date(max)) value = max
         }
-        this.filters[filter] = value
+        if (value !== 'no-filter') {
+          this.filters[filter] = value
+        }
       })
+
+    if (dateField && dateField.filter.type === 'daterange') {
+      if (
+        min &&
+        Object.keys(queryParams).some((key) => key.includes(this.filtersPrefix)) &&
+        Object.keys(queryParams).every((key) => !key.includes('.start'))
+      ) {
+        this.filters[`${dateField.name}.start`] = min
+      }
+
+      if (
+        max &&
+        Object.keys(queryParams).some((key) => key.includes(this.filtersPrefix)) &&
+        Object.keys(queryParams).every((key) => !key.includes('.end'))
+      ) {
+        this.filters[`${dateField.name}.end`] = max
+      }
+    }
+
+    if (dateField && dateField.filter.type === 'date') {
+      if (
+        min &&
+        Object.keys(queryParams).some((key) => key.includes(this.filtersPrefix)) &&
+        Object.keys(queryParams).every((key) => !key.includes(dateField.name))
+      ) {
+        this.filters[`${dateField.name}.start`] = min
+      }
+    }
   }
 
   private getDefaultSortColumn(fields: components['schemas']['FieldDefinition'][]) {

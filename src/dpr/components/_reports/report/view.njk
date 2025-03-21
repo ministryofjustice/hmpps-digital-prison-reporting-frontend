@@ -4,16 +4,16 @@
 {% from "../report-totals/view.njk" import dprReportTotals %}
 {% from "../report-filters/view.njk" import dprReportFilters %}
 {% from "../report-no-data-message/view.njk" import dprReportNoDataMessage %}
-
-{% from "../../_filters/filters-interactive/view.njk" import dprInteractiveFilters %}
+{% from "../../code-block/view.njk" import dprCodeBlock %}
 
 {% macro dprReport(options, count) %}
   {% set columns = options.columns %}
   {% set reportSummaries = options.reportSummaries %}
   {% set filterData = options.filterData %}
+  {% set defaultQuery = options.defaultQuery %}
 
   <div class="dpr-sync-report-actions">
-    {{ dprReportFilters(filterData) }}
+    {{ dprReportFilters(filterData, defaultQuery) }}
     {% if count and count > 0 %}
       {{ dprReportColumns(columns) }}
     {% endif %}

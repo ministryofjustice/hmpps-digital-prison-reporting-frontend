@@ -2,13 +2,5 @@
 {% from "./view.njk" import dprReportList %}
 
 {% block content %}
-  {{ dprReportList({
-    title: title,
-    dataTableOptions: dataTableOptions,
-    columns: columns,
-    filterOptions: filterOptions,
-    warnings: warnings,
-    actions: actions,
-    template: template
-  }) }}
+  {{ dprReportList(renderData) }}
 {% endblock %}

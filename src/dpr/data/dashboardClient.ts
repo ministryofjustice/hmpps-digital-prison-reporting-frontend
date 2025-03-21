@@ -37,7 +37,6 @@ export default class DashboardClient {
     query: Record<string, string | boolean | number>,
   ): Promise<Dict<string>> {
     logger.info(`Dashboard client: request ${reportId}:${dashboardId}`)
-
     return this.restClient
       .get({
         path: `/async/dashboards/${reportId}/${dashboardId}`,
@@ -76,7 +75,7 @@ export default class DashboardClient {
     logger.info(`Dashboard client:${reportId}/${dashboardId}: Get statementId: ${executionId} status`)
     return this.restClient
       .get({
-        path: `/statements/${executionId}/status`,
+        path: `/reports/${reportId}/dashboards/${dashboardId}/statements/${executionId}/status`,
         token,
         query: {
           dataProductDefinitionsPath,
@@ -91,7 +90,7 @@ export default class DashboardClient {
 
     return this.restClient
       .delete({
-        path: `/statements/${executionId}`,
+        path: `/reports/${reportId}/dashboards/${dashboardId}/statements/${executionId}`,
         token,
       })
       .then((response) => <Dict<string>>response)

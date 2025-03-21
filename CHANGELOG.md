@@ -1,5 +1,84 @@
 Below you can find the changes included in each release.
 
+## v4.1.12
+
+- Bugfix: Relative daterange updating filters correctly
+- Bugfix: Print feature displaying all columns for large reports
+- Bugfix: Dashboard description is optional
+
+## v4.1.11
+
+- Multiselect updates: Selected filter for multiselect shortened. Scrollbar when many select options
+
+## v4.1.10
+
+Embedded reports
+- Bugfix: variant name instead of variant ID in report heading
+- Bugfix: Print feature - filters removed, urls in links removed
+
+Interactive async reports
+- bugfix: initial report load uses correct query
+- bugfix: min and max constraints applied to api request when filter is removed
+- bugfix: reset button
+
+## v4.1.9
+
+- Dashbaord request filters
+- Change to call a difference execution cancellation endpoint for dashboards to support dashboards running on other data sources apart from Redshift.
+
+## v4.1.8
+
+- Change to call a different status endpoint for dashboards in order to support dashboards running on other data sources apart from Redshift.
+
+## v4.1.7
+
+- Bugfix: filters default to initial values if all filters are removed. fixed
+- Bugfix: Error when no default value provided in multiselect filter.
+
+## v4.1.6
+
+- Bugfix:  daterange query param issue on initial load
+- Bugfix:  daterange required bug - input was always mandatory.
+- Bugfix:  daterange validation message
+
+## v4.1.5
+
+- Bugfix: Run correct query on initial report load 
+
+
+## v4.1.4
+
+- Bugfix: Embedded report list: use `dataProductDefinitionsPath` if provided, otherwise use `definitionsPath` 
+
+## v4.1.3
+
+- Bugfix: multi-select filter: fix `join(',') error when query param is a string
+- Bugfix: multi-select filter: removing all checkboxes and applying sets the values to default. Fixed
+
+## v4.1.1
+
+- Bugfix: multi-select filter throws error when initial value is undefined in the definition.
+
+## v4.1.0
+
+- Embedded Report filters component has been replaced with DPR app component & processes
+- Filter inputs update: Improved validation for checkboxes, radio and select inputs
+- Filter inputs update: Radio and select options include 'None' when input is not mandatory/required
+- Bugfix: multiselect query parameters work properly
+
+## v4.0.2
+
+- bugfix: Embedded reports datepicker date formatting 
+
+## v4.0.1
+
+- Updated nunjucks filter name 
+
+## v4.0.0 
+
+- Updated dashboard definition
+- Updated dashboard visualisation defininition
+
 ## v3.32.9
 
 Update to MoJ v3.

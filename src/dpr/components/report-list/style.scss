@@ -72,5 +72,9 @@
       text-decoration: none;
       color: black;
     }
+
+    a[href]:after {
+      content: none;
+    }
   }
 }

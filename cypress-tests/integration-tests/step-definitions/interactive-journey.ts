@@ -42,7 +42,7 @@ When('I click the Apply filters button', () => {
 Then('the selected filter values are displayed', () => {
   const page = new InteractiveReportPage()
 
-  page.selectedFilterOne().contains('Field 1: value1.1')
+  page.selectedFilterOne().contains('Field 1: Value 1.1')
   page.selectedFilterThree().contains('Field 6: Value 6.1')
 })
 
@@ -76,7 +76,7 @@ Then('the filters are reset', () => {
     expect(location.search).not.to.contain(`filters.field1=value1.1`)
     expect(location.search).not.to.contain(`filters.field6=Value+6.1`)
     expect(location.search).to.contain(
-      `filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2003-02-01`,
+      `filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01`,
     )
   })
 })

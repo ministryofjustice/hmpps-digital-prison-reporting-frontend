@@ -86,6 +86,7 @@ export const initDataSources = ({
     if (!definition.variant.childVariants) {
       return Promise.resolve([])
     }
+
     return Promise.all(
       definition.variant.childVariants.map((childVariant) => {
         const { specification } = childVariant
@@ -134,8 +135,10 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
 
       // Data
       const reportData = resolvedData[1] as Dict<string>[]
+
       // Requested Report Data
       reportStateData = resolvedData[2] as RequestedReport
+
       const {
         reportName,
         name,
@@ -150,6 +153,7 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
         url: stateUrl,
         dataProductDefinitionsPath,
       } = reportStateData
+
       const reportStateVars = {
         reportName,
         name,
@@ -161,7 +165,9 @@ const getReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
         executionId,
         querySummary: query.summary,
         requestUrl: stateUrl.request,
+        defaultQuery: stateUrl.report.default,
       }
+
       // Report summaries
       const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, resolvedData[3])
 

@@ -4,6 +4,7 @@ import { Cell, DataTable, FieldDefinition } from '../DataTableBuilder/types'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import { distinct } from '../arrayUtils'
 import { ChildData, ParentChildSortKey } from './types'
+import logger from '../logger'
 
 export default class ParentChildDataTableBuilder extends DataTableBuilder {
   private variant: components['schemas']['VariantDefinition']
@@ -22,7 +23,11 @@ export default class ParentChildDataTableBuilder extends DataTableBuilder {
       this.variant.childVariants.flatMap((c) => c.joinFields).reduce(distinct, []),
     )
 
+    logger.info('DPR-Parent-child-template-debugging', JSON.stringify({ joinFields }))
+
     const sectionKeys = this.calculateSectionKeys(parentData, joinFields)
+
+    logger.info(JSON.stringify({ sectionKeys }, null, 2))
 
     sectionKeys.forEach((parentKey) => {
       sectionedData[parentKey.sortKey] = {
@@ -30,8 +35,15 @@ export default class ParentChildDataTableBuilder extends DataTableBuilder {
       }
     })
 
+    logger.info('DPR-Parent-child-template-debugging', JSON.stringify({ sectionedData }, null, 2))
+
     sectionedData = this.splitParentDataIntoSections(sectionedData, parentData, joinFields)
+
+    logger.info('DPR-Parent-child-template-debugging', JSON.stringify({ sectionedData }, null, 2))
+
     sectionedData = this.splitChildDataIntoSections(sectionKeys, sectionedData)
+
+    logger.info('DPR-Parent-child-template-debugging', JSON.stringify({ sectionedData }, null, 2))
 
     const childDataTableBuilders = this.createChildDataTableBuilders()
 
@@ -126,6 +138,14 @@ export default class ParentChildDataTableBuilder extends DataTableBuilder {
 
     this.variant.childVariants.forEach((childVariant) => {
       const childFields = this.mapNamesToFields(childVariant.joinFields)
+      logger.info(
+        'DPR-Parent-child-template-debugging splitChildDataIntoSections',
+        JSON.stringify({
+          childFields,
+          parentKeys,
+        }),
+      )
+
       const matchingChildData = this.childData.find((d) => d.id === childVariant.id)
       const data = matchingChildData ? matchingChildData.data : []
 

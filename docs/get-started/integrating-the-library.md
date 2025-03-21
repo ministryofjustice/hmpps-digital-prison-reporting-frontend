@@ -33,6 +33,24 @@ Add the library's SASS to your application's SASS file:
 @import "node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/all";
 ```
 
+{% header 3, "JS" %}
+
+Add the libraries to your `setUpStaticResources` middleware, and assign them to the assets folder. 
+```js
+Array.of(
+  ...
+  '/node_modules/govuk-frontend/dist/govuk/assets',
+  '/node_modules/govuk-frontend/dist',
+  '/node_modules/@ministryofjustice/frontend/moj/assets',
+  '/node_modules/@ministryofjustice/frontend',
+  '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/assets',
+  '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend',
+).forEach((dir) => {
+  app.use('/assets', express.static(path.join(process.cwd(), dir)))
+})
+```
+
+
 Add the DPR client-side JavaScript initialisation to a new JS file (in this example named `dprInit.mjs`) in your `assets` folder:
 ```javascript
 import initAll from "/assets/dpr/js/all.js";

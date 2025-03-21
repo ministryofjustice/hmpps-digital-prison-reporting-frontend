@@ -62,7 +62,10 @@ Array.of(
 })
 
 app.use(setDPRResources({ maxAge: '1h' }))
+
+// Local overrides
 app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr/assets')))
+app.use('/assets/dpr/all.js', express.static(path.join(__dirname, '../package/dpr/assets/js/all.js')))
 
 app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
 app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest.json')))

@@ -16,7 +16,6 @@ const { default: reportListUtils } = require('../package/dpr/components/report-l
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
 const UserReportsListUtils = require('../package/dpr/components/user-reports/utils').default
 const { createUserStoreServices, initUserStoreServices } = require('../package/dpr/utils/StoreServiceUtils')
-const setDPRResources = require('../package/dpr/middleware/setupDprResources').default
 
 // Set up application
 const appViews = [
@@ -57,11 +56,11 @@ Array.of(
   '/node_modules/govuk-frontend/dist',
   '/node_modules/@ministryofjustice/frontend/moj/assets',
   '/node_modules/@ministryofjustice/frontend',
+  '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/assets',
+  '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend',
 ).forEach((dir) => {
   app.use('/assets', express.static(path.join(process.cwd(), dir)))
 })
-
-app.use(setDPRResources({ maxAge: '1h' }))
 
 // Local overrides
 app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr/assets')))

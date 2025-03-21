@@ -16,6 +16,7 @@ const { default: reportListUtils } = require('../package/dpr/components/report-l
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
 const UserReportsListUtils = require('../package/dpr/components/user-reports/utils').default
 const { createUserStoreServices, initUserStoreServices } = require('../package/dpr/utils/StoreServiceUtils')
+const setDPRResources = require('../package/dpr/middleware/setupDprResources').default
 
 // Set up application
 const appViews = [
@@ -48,27 +49,22 @@ setUpNunjucksFilters(nunjucksEnvironment)
 app.set('view engine', 'njk')
 
 // Middleware to serve static assets
-app.use('/assets/ext/chart.js', express.static(path.join(__dirname, '../node_modules/chart.js/dist/chart.umd.js')))
-app.use(
-  '/assets/ext/chartjs-datalabels.js',
-  express.static(
-    path.join(__dirname, '../node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js'),
-  ),
-)
-app.use('/assets/ext/jquery.min.js', express.static(path.join(__dirname, '../node_modules/jquery/dist/jquery.min.js')))
-app.use('/assets/ext/day.js', express.static(path.join(__dirname, '../node_modules/dayjs/dayjs.min.js')))
-app.use(
-  '/assets/ext/dayjs/plugin/customParseFormat.js',
-  express.static(path.join(__dirname, '../node_modules/dayjs/plugin/customParseFormat.js')),
-)
-app.use('/assets/govuk', express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/assets')))
-app.use('/assets/moj', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/assets')))
+
+Array.of(
+  '/assets',
+  '/assets/stylesheets',
+  '/assets/js',
+  '/node_modules/govuk-frontend/dist/govuk/assets',
+  '/node_modules/govuk-frontend/dist',
+  '/node_modules/@ministryofjustice/frontend/moj/assets',
+  '/node_modules/@ministryofjustice/frontend',
+).forEach((dir) => {
+  app.use('/assets', express.static(path.join(process.cwd(), dir)))
+})
+
+app.use(setDPRResources({ maxAge: '1h' }))
 app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr/assets')))
-app.use(
-  '/govuk/all.js',
-  express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js')),
-)
-app.use('/moj/all.js', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/all.js')))
+
 app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
 app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest.json')))
 app.use(bodyParser.json())

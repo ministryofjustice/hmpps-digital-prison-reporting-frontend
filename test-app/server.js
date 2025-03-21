@@ -16,7 +16,6 @@ const { default: reportListUtils } = require('../package/dpr/components/report-l
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
 const UserReportsListUtils = require('../package/dpr/components/user-reports/utils').default
 const { createUserStoreServices, initUserStoreServices } = require('../package/dpr/utils/StoreServiceUtils')
-const setDPRResources = require('../package/dpr/middleware/setupDprResources').default
 
 // Set up application
 const appViews = [

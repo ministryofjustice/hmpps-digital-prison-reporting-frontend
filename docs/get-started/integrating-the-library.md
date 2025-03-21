@@ -33,31 +33,21 @@ Add the library's SASS to your application's SASS file:
 @import "node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/all";
 ```
 
-{% header 2, "Node configuration" %}
-{% header 3, "Assets" %}
-Add the library's assets to your application's static resources:
-
+Add the DPR client-side JavaScript initialisation to a new JS file (in this example named `dprInit.mjs`) in your `assets` folder:
 ```javascript
-const setDPRResources = require('../package/dpr/middleware/setupDprResources').default
-
-app.use(setDPRResources(config))
-```
-
-Add the DPR client-side JavaScript initialisation to a new JS file (in this example named `dprInit.mjs`) in your 'assets' folder:
-```javascript
-import initAll from "/assets/dpr/js/all.mjs";
+import initAll from "/assets/dpr/js/all.js";
 
 initAll();
 ```
 
-Add the GOV client-side JavaScript initialisation to a new JS file (in this example named `govukInit.mjs`) in your 'assets' folder:
+Add the GOV client-side JavaScript initialisation to a new JS file (in this example named `govukInit.mjs`) in your `assets` folder:
 ```javascript
-import { initAll } from '/assets/govuk/all.js'
+import { initAll } from '/assets/govuk/govuk-frontend.min.js'
 
 initAll()
 ```
 
-Add the Moj client-side JavaScript initialisation to a new JS file (in this example named `mojInit.mjs`) in your 'assets' folder:
+Add the Moj client-side JavaScript initialisation to a new JS file (in this example named `mojInit.mjs`) in your `assets` folder:
 ```javascript
 window.MOJFrontend.initAll()
 ```
@@ -66,7 +56,7 @@ Add the client-side JavaScript to the nunjucks layout:
 ```html
 {% block bodyEnd %}
 // Govuk Lib
-<script type="module" src="/assets/govuk/all.js"></script>
+<script type="module" src="/assets/govuk/govuk-frontend.min.js"></script>
 <script type="module" src="/assets/govukInit.js"></script>
 
 // MoJ lib

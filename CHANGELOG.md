@@ -1,5 +1,10 @@
 Below you can find the changes included in each release.
 
+## v4.1.12
+
+- Bugfix: Relative daterange updating filters correctly
+- Bugfix: Print feature displaying all columns for large reports
+
 ## v4.1.11
 
 - Multiselect updates: Selected filter for multiselect shortened. Scrollbar when many select options

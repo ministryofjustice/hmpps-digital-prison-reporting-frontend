@@ -38,36 +38,9 @@ Add the library's SASS to your application's SASS file:
 Add the library's assets to your application's static resources:
 
 ```javascript
-router.use(
-  "/assets/dpr",
-  express.static(
-    path.join(
-      process.cwd(),
-      "/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/assets"
-    )
-  )
-);
+const setDPRResources = require('../package/dpr/middleware/setupDprResources').default
 
-// Chart js
-router.use(
-  '/assets/ext/chart.js',
-  express.static(path.join(process.cwd(), '/node_modules/chart.js/dist/chart.umd.js')),
-)
-
-router.use(
-  '/assets/ext/chartjs-datalabels.js',
-  express.static(
-    path.join(process.cwd(), '/node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js'),
-  ),
-)
-
-// Dayjs
-router.use('/assets/ext/day.js', express.static(path.join(process.cwd(), '/node_modules/dayjs/dayjs.min.js')))
-
-router.use(
-  '/assets/ext/dayjs/plugin/customParseFormat.js',
-  express.static(path.join(process.cwd(), '/node_modules/dayjs/plugin/customParseFormat.js')),
-)
+app.use(setDPRResources(config))
 ```
 
 Add the DPR client-side JavaScript initialisation to a new JS file (in this example named `dprInit.mjs`) in your 'assets' folder:
@@ -92,12 +65,6 @@ window.MOJFrontend.initAll()
 Add the client-side JavaScript to the nunjucks layout:
 ```html
 {% block bodyEnd %}
-...
-<script type="module" src="/assets/ext/day.js"></script>
-<script type="module" src="/assets/ext/dayjs/plugin/customParseFormat.js"></script>
-<script type="module" src="/assets/ext/chart.js"></script>
-<script type="module" src="/assets/ext/chartjs-datalabels.js"></script>  
-
 // Govuk Lib
 <script type="module" src="/assets/govuk/all.js"></script>
 <script type="module" src="/assets/govukInit.js"></script>

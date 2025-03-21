@@ -33,9 +33,11 @@ Add the library's SASS to your application's SASS file:
 @import "node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/all";
 ```
 
-{% header 3, "JS" %}
+{% header 2, "Node configuration" %}
+{% header 3, "Assets" %}
 
-Add the libraries to your `setUpStaticResources` middleware, and assign them to the assets folder. 
+Add the library's assets to your application's static resources:
+
 ```js
 Array.of(
   ...

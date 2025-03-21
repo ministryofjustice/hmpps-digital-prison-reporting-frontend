@@ -49,7 +49,6 @@ setUpNunjucksFilters(nunjucksEnvironment)
 app.set('view engine', 'njk')
 
 // Middleware to serve static assets
-
 Array.of(
   '/assets',
   '/assets/stylesheets',

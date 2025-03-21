@@ -23,6 +23,10 @@ export default function setDPRResources(config: Dict<string>): Router {
       location: '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/assets',
     },
     {
+      path: '/assets/dpr/all.js',
+      location: '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/assets/js/all.js',
+    },
+    {
       path: '/assets/govuk/all.js',
       location: '/node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js',
     },

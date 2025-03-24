@@ -235,6 +235,14 @@ describe('AsyncFiltersUtils', () => {
             mandatory: false,
           },
         },
+        {
+          name: 'field4',
+          display: 'Field 4 Display',
+          filter: {
+            type: 'radio',
+            mandatory: false,
+          },
+        },
       ] as unknown as components['schemas']['FieldDefinition'][],
     }
 
@@ -248,6 +256,74 @@ describe('AsyncFiltersUtils', () => {
         'filters.field2': 'Prince Humperdink',
         'filters.field3.start': '01-02-2003',
         'filters.field3.end': '04-05-2006',
+        sortColumn: 'field1',
+        sortedAsc: 'true',
+      }
+      const mockReq = { body: mockReqBody } as unknown as Request
+      const result = AsyncFiltersUtils.default.setQueryFromFilters(mockReq, params.fields)
+
+      const expectedResult = {
+        filterData: {
+          field1: 'Fez',
+          field2: 'Prince Humperdink',
+          'field3.end': '2006-05-04',
+          'field3.start': '2003-02-01',
+        },
+        query: {
+          'filters.field1': 'Fez',
+          'filters.field2': 'Prince Humperdink',
+          'filters.field3.end': '2006-05-04',
+          'filters.field3.start': '2003-02-01',
+          sortColumn: 'field1',
+          sortedAsc: 'true',
+        },
+        querySummary: [
+          {
+            name: 'Field 1 Display',
+            value: 'Fez',
+          },
+          {
+            name: 'Field 2 Display',
+            value: 'Prince Humperdink',
+          },
+          {
+            name: 'Field 3 Display start',
+            value: '01/02/2003',
+          },
+          {
+            name: 'Field 3 Display end',
+            value: '04/05/2006',
+          },
+          {
+            name: 'Sort Column',
+            value: 'Field 1 Display',
+          },
+          {
+            name: 'Sort Direction',
+            value: 'Ascending',
+          },
+        ],
+        sortData: {
+          sortColumn: 'field1',
+          sortedAsc: 'true',
+        },
+      }
+
+      expect(result).toEqual(expectedResult)
+    })
+
+    it('should remove `no-filter` from the querydata', () => {
+      const mockReqBody = {
+        dataProductDefinitionsPath: '',
+        _csrf: 'csrfToken',
+        type: 'report',
+        search:
+          '?filters.field1=Fez&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field4=no-filter',
+        'filters.field1': 'Fezzick',
+        'filters.field2': 'Prince Humperdink',
+        'filters.field3.start': '01-02-2003',
+        'filters.field3.end': '04-05-2006',
+        'filters.field4': 'no-filter',
         sortColumn: 'field1',
         sortedAsc: 'true',
       }

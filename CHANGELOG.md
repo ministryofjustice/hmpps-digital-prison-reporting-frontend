@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v4.1.16
+
+- Embedded reports integration: Moved all.js to root of lib folder: `dpr/all.js`
+
 ## v4.1.15
 
 - Async reports: Bugfix: Fix request when Select/radio input value is None.

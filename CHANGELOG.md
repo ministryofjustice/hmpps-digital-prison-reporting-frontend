@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v4.1.15
+
+- Async reports: Bugfix: Fix request when Select/radio input value is None.
+
 ## v4.1.14
 
 - Embedded reports: Streamlined integration process. Removed need to add individual dpr dependencies to project. Follows same init pattern as moj and govuk libs.

@@ -107,7 +107,7 @@ export default {
         const shortName = name.replace('filters.', '')
         const value = req.body[name]
 
-        if (name.startsWith('filters.') && value !== '' && !query[name]) {
+        if (name.startsWith('filters.') && value !== '' && !query[name] && value !== 'no-filter') {
           if (name.includes('relative-duration')) {
             ;({ query, filterData, querySummary } = setDurationStartAndEnd(
               name,

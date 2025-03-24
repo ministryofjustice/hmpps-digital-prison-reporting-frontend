@@ -55,7 +55,7 @@ Array.of(
 
 Add the DPR client-side JavaScript initialisation to a new JS file (in this example named `dprInit.mjs`) in your `assets` folder:
 ```javascript
-import initAll from "/assets/dpr/js/all.js";
+import initAll from "/assets/dpr/all.js";
 
 initAll();
 ```
@@ -84,7 +84,7 @@ Add the client-side JavaScript to the nunjucks layout:
 <script type="module" src="/assets/mojInit.js"></script>
 
 // DPR Lib
-<script type="module" src="/assets/dpr/js/all.mjs"></script>
+<script type="module" src="/assets/dpr/all.js"></script>
 <script type="module" src="/assets/js/dprInit.mjs"></script>
 {% endblock %}
 ```

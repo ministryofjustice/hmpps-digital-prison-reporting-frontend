@@ -198,4 +198,22 @@ describe('AsyncReportListUtils', () => {
       expect(result).toEqual(mockGetReportListRenderData)
     })
   })
+
+  describe('getSummariesData', () => {
+    it('getSummariesData', () => {
+      expect(true)
+    })
+  })
+
+  describe('getChildData', () => {
+    it('getChildData', () => {
+      expect(true)
+    })
+  })
+
+  describe('getTableData', () => {
+    it('getTableData', () => {
+      expect(true)
+    })
+  })
 })

@@ -117,8 +117,9 @@ const mockGetReportListRenderData = {
     csrfToken: 'csrfToken',
     bookmarked: false,
     canDownload: true,
-    reportSummaries: {},
     reportUrl: 'pathname',
+    search: 'search',
+    pathname: 'pathname',
     reportSearch: 'search',
     encodedSearch: 'search',
     dataTable: {

@@ -6,7 +6,7 @@ import { DashboardSection } from '../components/_dashboards/dashboard/types'
 
 export interface AsyncReportUtilsParams {
   req?: Request
-  res: Response
+  res?: Response
   next?: NextFunction
   services: Services
 }

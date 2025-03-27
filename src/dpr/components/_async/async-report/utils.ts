@@ -97,7 +97,7 @@ const getReportData = async (
   }
 }
 
-const getSummariesData = async (
+export const getSummariesData = async (
   reportDefinition: components['schemas']['SingleVariantReportDefinition'],
   services: Services,
   token: string,
@@ -128,7 +128,7 @@ const getSummariesData = async (
   )
 }
 
-const getChildData = async (
+export const getChildData = async (
   reportDefinition: components['schemas']['SingleVariantReportDefinition'],
   services: Services,
   token: string,
@@ -211,7 +211,7 @@ const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
   return { renderData }
 }
 
-const getTableData = (
+export const getTableData = (
   definition: components['schemas']['SingleVariantReportDefinition'],
   columns: Columns,
   reportData: Dict<string>[],
@@ -223,14 +223,6 @@ const getTableData = (
   const { template } = definition.variant.specification
 
   switch (template as Template) {
-    case 'summary':
-      // No further data required
-      break
-
-    case 'list-tab':
-      // Add template-specific calls here
-      break
-
     case 'summary-section':
     case 'list-section':
       dataTable = DataTableUtils.buildSummarySectionTable(definition, columns, reportData, summariesData, reportQuery)

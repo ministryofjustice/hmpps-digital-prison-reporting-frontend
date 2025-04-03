@@ -2,7 +2,7 @@ $govuk-global-styles: true;
 
 $dpr-images-path: "/assets/dpr/assets/images/";
 $govuk-assets-path: "/assets/";
-@import 'govuk/all';
+@import "node_modules/govuk-frontend/dist/govuk/index";
 
 // Configure MoJ Frontend
 $moj-assets-path: '/assets/';

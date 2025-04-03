@@ -11,6 +11,6 @@ gulp.task('package:client-javascript-libs', () => {
       'node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js',
       'package/dpr/assets/js/all.mjs',
     ])
-    .pipe(concat('all.js'))
+    .pipe(concat('all.mjs'))
     .pipe(gulp.dest('package/dpr'))
 })

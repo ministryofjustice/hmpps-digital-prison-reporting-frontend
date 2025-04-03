@@ -5,8 +5,8 @@ $govuk-assets-path: "/assets/";
 @import 'govuk/all';
 
 // Configure MoJ Frontend
-$moj-assets-path: 'node_modules/@ministryofjustice/frontend/moj/assets/';
-$moj-images-path: 'node_modules/@ministryofjustice/frontend/moj/assets/images/';
+$moj-assets-path: '/assets/';
+$moj-images-path: '/assets/images/';
 @import "node_modules/@ministryofjustice/frontend/moj/all";
 
 .govuk-width-container {

@@ -68,7 +68,7 @@ class MockReportingClient {
 
   async getAsyncReport(token, reportId, variantId, tableId, query) {
     const pageSize = +query.pageSize < this.RESULT_COUNT ? +query.pageSize : this.RESULT_COUNT
-    const report = createMockData(3)
+    const report = createMockData(pageSize)
     return new Promise((resolve, reject) => {
       if (variantId === 'variantId-6') {
         reject(mockStatusApiError)

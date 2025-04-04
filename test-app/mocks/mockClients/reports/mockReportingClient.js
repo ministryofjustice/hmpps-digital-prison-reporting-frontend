@@ -33,7 +33,7 @@ class MockReportingClient {
   async getDefinition(token, reportId, variantId) {
     const report = definitions.reports.find((r) => r.id === reportId)
     const variant = report.variants.filter((v) => v.id === variantId)
-    // eslint-disable-next-line prefer-destructuring
+
     const reportClone = JSON.parse(JSON.stringify(report))
     reportClone.variant = variant[0]
     delete reportClone.variants

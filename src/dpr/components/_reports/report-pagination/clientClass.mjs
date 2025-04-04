@@ -1,3 +1,6 @@
+/* global window */
+/* global document */
+
 import DprQueryParamClass from '../../../DprQueryParamClass.mjs'
 
 export default class Pagination extends DprQueryParamClass {

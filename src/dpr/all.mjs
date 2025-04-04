@@ -1,4 +1,5 @@
-/* eslint-disable no-new */
+/* global window */
+/* global document */
 /* global dayjs */
 
 // Helper
@@ -92,6 +93,7 @@ export default function initAll() {
       try {
         new Component($element, loadingHelper).initialise()
       } catch (error) {
+        /* eslint-disable no-console */
         console.log(error)
       }
     })

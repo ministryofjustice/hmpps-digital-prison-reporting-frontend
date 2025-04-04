@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import { DprClientClass } from './DprClientClass.mjs'
 
 export default class DprSyncLoading extends DprClientClass {

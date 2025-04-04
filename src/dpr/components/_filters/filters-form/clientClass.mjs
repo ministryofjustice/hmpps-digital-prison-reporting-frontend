@@ -1,4 +1,7 @@
 /* eslint-disable class-methods-use-this */
+/* global window */
+/* global document */
+
 import DprFormValidationClass from '../../../DprFormValidationClass.mjs'
 
 export default class DprFiltersFormClass extends DprFormValidationClass {

@@ -1,4 +1,5 @@
 /* global dayjs */
+/* global document */
 
 import { DprClientClass } from '../../../DprClientClass.mjs'
 

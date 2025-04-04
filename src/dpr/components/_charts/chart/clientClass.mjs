@@ -1,6 +1,7 @@
 /* eslint-disable class-methods-use-this */
 /* global Chart */
 /* global ChartDataLabels */
+/* global document */
 
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
@@ -188,7 +189,7 @@ export default class ChartVisualisation extends DprClientClass {
   }
 
   initChartEvents() {
-    this.chart.canvas.addEventListener('mouseout', (e) => {
+    this.chart.canvas.addEventListener('mouseout', () => {
       if (this.tooltipDetailsEl) this.tooltipDetailsEl.style.display = 'none'
       if (this.headlineValuesEl) this.headlineValuesEl.style.display = 'block'
     })

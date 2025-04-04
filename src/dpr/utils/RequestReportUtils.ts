@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { Request, Response } from 'express'
 import { AsyncReportUtilsParams, RequestDataResult } from '../types/AsyncReportUtils'
 import { ExecutionData, ChildReportExecutionData } from '../types/ExecutionData'

@@ -25,7 +25,7 @@ const variant22 = {
           display: '',
           header: true,
           mergeRows: true,
-          sortAsc: false
+          sortAsc: false,
         },
         {
           name: 'measureType',

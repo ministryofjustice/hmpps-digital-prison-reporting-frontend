@@ -1,4 +1,6 @@
 /* eslint-disable class-methods-use-this */
+/* global window */
+
 import { DprClientClass } from '../../DprClientClass.mjs'
 
 export default class BookmarkToggle extends DprClientClass {
@@ -86,6 +88,7 @@ export default class BookmarkToggle extends DprClientClass {
           window.location.reload()
         }
       })
+      // eslint-disable-next-line no-console
       .catch((error) => console.error('Error:', error))
   }
 }

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import type { RequestHandler, Router } from 'express'
 import ErrorSummaryUtils from '../components/error-summary/utils'
 import logger from '../utils/logger'
@@ -70,7 +69,7 @@ export default function routes({
         layoutPath,
       })
     } catch (error) {
-      next()
+      next(error)
     }
   }
 

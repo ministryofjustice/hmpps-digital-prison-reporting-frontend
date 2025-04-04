@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { FilterType } from '../filter-input/enum'
 import { FilterValue, DateRange, DateFilterValue, GranularDateRange } from '../types'
 import DateRangeFilterUtils from '../../_inputs/date-range/utils'

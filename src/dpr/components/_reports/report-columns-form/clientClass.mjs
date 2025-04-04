@@ -1,3 +1,5 @@
+/* global window */
+
 import DprQueryParamClass from '../../../DprQueryParamClass.mjs'
 
 export default class Columns extends DprQueryParamClass {

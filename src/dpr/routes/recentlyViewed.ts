@@ -23,6 +23,7 @@ export default function routes({
         storeService: services.recentlyViewedService,
       })
       res.send({ isExpired: response })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       res.send({ status: 'FAILED' })
     }

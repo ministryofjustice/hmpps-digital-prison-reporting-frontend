@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response } from 'express'
 import { RequestedReport, RequestStatus } from '../../types/UserReports'
 import UserReportUtils, { setDataFromStatus } from './utils'

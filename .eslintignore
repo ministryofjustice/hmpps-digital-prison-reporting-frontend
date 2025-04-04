@@ -1,8 +1,0 @@
-node_modules/
-package/
-assets/
-docs/
-**/init.js
-gulpfile.js
-gulp/
-test-app/

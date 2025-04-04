@@ -51,6 +51,6 @@ app.get(
     apiTimeout: 10000,
     layoutTemplate: 'page.njk',
     tokenProvider: (req, res, next) => res.locals.user.token,
-    definitionsPath: 'definitions/prisons/test'
+    definitionsPath: 'definitions/prisons/test',
   }),
 )

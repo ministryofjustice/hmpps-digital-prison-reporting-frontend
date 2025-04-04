@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable new-cap */
 // Core dependencies
 
 const fs = require('fs')

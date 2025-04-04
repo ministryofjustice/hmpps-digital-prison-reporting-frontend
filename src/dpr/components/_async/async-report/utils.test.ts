@@ -39,7 +39,7 @@ import variant10 = require('../../../../../test-app/mocks/mockClients/reports/mo
 
 jest.mock('parseurl', () => ({
   __esModule: true,
-  default: jest.fn().mockImplementation(() => ({ pathname: 'pathname', search: 'search' } as Url)),
+  default: jest.fn().mockImplementation(() => ({ pathname: 'pathname', search: 'search' }) as Url),
 }))
 
 const mockReportData = createMockData(10)

@@ -139,8 +139,13 @@ export default function routes({
 
   const getStatusHandler: RequestHandler = async (req, res, next) => {
     try {
-      const response = await AsyncRequestListUtils.getRequestStatus({ req, res, services })
+      const response = await AsyncRequestListUtils.getRequestStatus({
+        req,
+        res,
+        services,
+      })
       res.send({ status: response.status })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       res.send({ status: 'FAILED' })
     }
@@ -155,6 +160,7 @@ export default function routes({
         storeService: services.requestedReportService,
       })
       res.send({ isExpired: response })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       res.send({ status: 'FAILED' })
     }

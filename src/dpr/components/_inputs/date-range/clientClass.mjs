@@ -1,5 +1,7 @@
 /* eslint-disable class-methods-use-this */
 /* global dayjs */
+/* global window */
+/* global document */
 
 import { DprClientClass } from '../../../DprClientClass.mjs'
 

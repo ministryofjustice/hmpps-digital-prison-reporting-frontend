@@ -70,7 +70,7 @@ export default function routes({
         postEndpoint: '/submitFeedback/',
       })
     } catch (error) {
-      next()
+      next(error)
     }
   }
 

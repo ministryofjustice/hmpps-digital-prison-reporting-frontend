@@ -1,12 +1,14 @@
-export class DprClientClass {
+/* eslint-disable class-methods-use-this */
+/* eslint-disable import/prefer-default-export */
 
+export class DprClientClass {
   constructor(element, loadingHelper) {
     this.element = element
     this.loadingHelper = loadingHelper
   }
 
   static getModuleName() {
-    throw new Error("Module name not set")
+    throw new Error('Module name not set')
   }
 
   getElement() {
@@ -14,6 +16,6 @@ export class DprClientClass {
   }
 
   initialise() {
-    throw new Error("Initialisation not configured")
+    throw new Error('Initialisation not configured')
   }
 }

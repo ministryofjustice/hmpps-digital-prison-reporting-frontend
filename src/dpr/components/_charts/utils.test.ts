@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import { DashboardDataResponse } from '../../types/Metrics'
 import ChartCardUtils from './utils'
 import { mockTimeSeriesDataLastSixMonths } from '../../../../test-app/mocks/mockClients/dashboards/data/data-quality-metrics/data'

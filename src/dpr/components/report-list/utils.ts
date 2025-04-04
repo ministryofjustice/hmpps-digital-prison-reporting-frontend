@@ -43,7 +43,6 @@ export async function renderList(
       const count = resolvedData[1]
 
       if (isListWithWarnings(resolvedData[0])) {
-        // eslint-disable-next-line prefer-destructuring
         data = resolvedData[0].data
         warnings = resolvedData[0].warnings
       } else {

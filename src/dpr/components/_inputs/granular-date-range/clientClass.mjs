@@ -1,5 +1,5 @@
-/* eslint-disable class-methods-use-this */
 /* global dayjs */
+/* global window */
 
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
@@ -24,7 +24,7 @@ export default class GranularDateRangeInput extends DprClientClass {
   }
 
   initGranularityChangeEvent() {
-    this.granularityInput.addEventListener('change', (e) => {
+    this.granularityInput.addEventListener('change', () => {
       this.resetQuickFilters()
     })
   }
@@ -36,10 +36,10 @@ export default class GranularDateRangeInput extends DprClientClass {
   }
 
   initStartEndInputChangetEvent() {
-    this.startInput.addEventListener('change', (e) => {
+    this.startInput.addEventListener('change', () => {
       this.resetQuickFilters()
     })
-    this.endInput.addEventListener('change', (e) => {
+    this.endInput.addEventListener('change', () => {
       this.resetQuickFilters()
     })
   }

@@ -1,3 +1,5 @@
+/* global window */
+
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
 export default class DownloadMessage extends DprClientClass {

@@ -1,3 +1,6 @@
+/* global window */
+/* global document */
+
 import DprFiltersFormClass from '../../_filters/filters-form/clientClass.mjs'
 
 export default class AsyncFilters extends DprFiltersFormClass {

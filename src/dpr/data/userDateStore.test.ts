@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { createClient } from 'redis'
 import UserDataStore from './userDataStore'
 import { UserStoreConfig } from '../types/UserStore'

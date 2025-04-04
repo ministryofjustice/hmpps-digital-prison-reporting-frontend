@@ -1,10 +1,11 @@
+/* global window */
+
 import { DprClientClass } from '../../DprClientClass.mjs'
 
 export default class CardGroup extends DprClientClass {
   static getModuleName() {
     return 'card-group'
   }
-
 
   initialise() {
     const cards = this.getElement().querySelectorAll('[data-click-navigate-to]')

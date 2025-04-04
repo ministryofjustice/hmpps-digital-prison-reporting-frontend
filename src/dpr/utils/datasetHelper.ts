@@ -190,10 +190,13 @@ const filterRowsByDisplayColumns = (
   return dashboardData.map((datasetRow: DashboardDataResponse) => {
     return Object.keys(datasetRow)
       .filter((key) => displayColumnsIds.includes(key))
-      .reduce((acc, key) => {
-        acc[key] = datasetRow[key]
-        return acc
-      }, {} as unknown as DashboardDataResponse)
+      .reduce(
+        (acc, key) => {
+          acc[key] = datasetRow[key]
+          return acc
+        },
+        {} as unknown as DashboardDataResponse,
+      )
   })
 }
 

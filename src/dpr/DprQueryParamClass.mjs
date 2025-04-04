@@ -1,6 +1,8 @@
 /* global dayjs */
-
+/* global window */
+/* global document */
 /* eslint-disable class-methods-use-this */
+
 import { DprClientClass } from './DprClientClass.mjs'
 
 export default class DprQueryParamClass extends DprClientClass {

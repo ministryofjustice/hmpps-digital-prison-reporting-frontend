@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response, Request } from 'express'
 import { Url } from 'url'
@@ -19,7 +18,7 @@ import { ChartCardData } from '../../../types/Charts'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
-  default: jest.fn().mockImplementation(() => ({ pathname: 'pathname', search: 'search' } as Url)),
+  default: jest.fn().mockImplementation(() => ({ pathname: 'pathname', search: 'search' }) as Url),
 }))
 
 describe('DashboardUtils', () => {

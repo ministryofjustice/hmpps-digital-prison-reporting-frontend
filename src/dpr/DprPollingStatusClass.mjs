@@ -1,3 +1,5 @@
+/* eslint-disable class-methods-use-this */
+
 import { DprClientClass } from './DprClientClass.mjs'
 
 export default class DprPollingStatusClass extends DprClientClass {
@@ -54,6 +56,7 @@ export default class DprPollingStatusClass extends DprClientClass {
       .then((res) => {
         response = res
       })
+      /* eslint-disable no-console */
       .catch((error) => console.error('Error:', error))
 
     return response

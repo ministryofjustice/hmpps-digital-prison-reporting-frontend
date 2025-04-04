@@ -1,3 +1,5 @@
+/* global document */
+
 import DprFormValidationClass from '../../DprFormValidationClass.mjs'
 
 export default class AsyncFilters extends DprFormValidationClass {

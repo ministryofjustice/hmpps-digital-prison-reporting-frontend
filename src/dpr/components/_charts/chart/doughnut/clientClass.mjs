@@ -1,4 +1,6 @@
 /* eslint-disable class-methods-use-this */
+/* global document */
+
 import ChartVisualisation from '../clientClass.mjs'
 
 export default class DoughnutChartVisualisation extends ChartVisualisation {

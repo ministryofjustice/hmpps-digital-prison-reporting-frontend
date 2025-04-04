@@ -1,3 +1,6 @@
+/* global window */
+/* global document */
+
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
 export default class DataTable extends DprClientClass {

@@ -1,3 +1,6 @@
+/* global document */
+/* eslint-disable class-methods-use-this */
+
 export default class DprLoadingHelper {
   showLoadingAnimation(wrapperClass) {
     const loadingPanelClass = '.dpr-loading-panel'

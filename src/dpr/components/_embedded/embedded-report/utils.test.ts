@@ -15,7 +15,7 @@ import mockEmbeddedListData from '../../../../../test-app/mocks/mockClients/repo
 
 jest.mock('parseurl', () => ({
   __esModule: true,
-  default: jest.fn().mockImplementation(() => ({ pathname: 'pathname', search: 'search' } as Url)),
+  default: jest.fn().mockImplementation(() => ({ pathname: 'pathname', search: 'search' }) as Url),
 }))
 
 describe('EmbeddedReportUtils', () => {

@@ -1,4 +1,6 @@
-/* eslint-disable class-methods-use-this */
+/* global window */
+/* global document */
+
 import DprPollingStatusClass from '../../../DprPollingStatusClass.mjs'
 
 export default class DprAsyncPolling extends DprPollingStatusClass {
@@ -70,6 +72,7 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
           .then(() => {
             window.location.reload()
           })
+          /* eslint-disable no-console */
           .catch((error) => console.error('Error:', error))
       })
     }

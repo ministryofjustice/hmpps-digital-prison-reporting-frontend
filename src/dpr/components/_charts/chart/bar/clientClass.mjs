@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable class-methods-use-this */
 import ChartVisualisation from '../clientClass.mjs'
 
 export default class BarChartVisualisation extends ChartVisualisation {

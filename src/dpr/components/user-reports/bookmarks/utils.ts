@@ -158,7 +158,7 @@ const mapBookmarkIdsToDefinition = async (
         }
       } catch (error) {
         // DPD has been deleted so API throws error
-        logger.warn(`Failed to map bookmark for: Report ${bookmark.reportId}, variant ${bookmarkId}`)
+        logger.warn(`Failed to map bookmark for: Report ${bookmark.reportId}, variant ${bookmarkId}`, error)
         const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
         await services.bookmarkService.removeBookmark(userId, bookmarkId)
       }

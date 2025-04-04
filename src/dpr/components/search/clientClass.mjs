@@ -1,5 +1,7 @@
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-param-reassign */
+/* global window */
+/* global document */
+
 import { DprClientClass } from '../../DprClientClass.mjs'
 
 export default class Search extends DprClientClass {

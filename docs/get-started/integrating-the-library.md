@@ -112,6 +112,7 @@ Add the client-side JavaScript to the nunjucks layout, and initialise them using
   <script type="module" src="/assets/dpr/all.mjs"></script>
   <script type="module">
     import { initAll } from '/assets/dpr/all.mjs'
+    initAll()
   </script>
 {% endblock %}
 ```

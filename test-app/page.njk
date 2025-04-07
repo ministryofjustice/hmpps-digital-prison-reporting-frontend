@@ -20,9 +20,8 @@
     window.MOJFrontend.initAll()
   </script>
 
-  <script type="module" src="/assets/dpr/js/all.mjs"></script>
+  <script type="module" src="/assets/dpr/all.mjs"></script>
   <script type="module">
-    import * as dprFrontend from '/assets/dpr/js/all.mjs'
-    dprFrontend.initAll()
+    import { initAll } from '/assets/dpr/all.mjs'
   </script>
 {% endblock %}

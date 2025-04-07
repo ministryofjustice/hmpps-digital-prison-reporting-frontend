@@ -12,5 +12,5 @@ gulp.task('package:client-javascript-libs', () => {
       'package/dpr/assets/js/all.mjs',
     ])
     .pipe(concat('all.mjs'))
-    .pipe(gulp.dest('package/dpr'))
+    .pipe(gulp.dest('package/dpr/assets/js'))
 })

@@ -53,7 +53,7 @@ import ScoreCard from './components/_dashboards/scorecard/clientClass.mjs'
  * components provided as part of DPR Frontend.
  *
  */
-export default function initAll() {
+function initAll() {
   const loadingHelper = new DprLoadingHelper()
 
   const components = [
@@ -96,4 +96,8 @@ export default function initAll() {
       }
     })
   })
+}
+
+export {
+  initAll
 }

@@ -16,7 +16,7 @@ These steps assume your project is already using the Gov.uk and MoJ libraries, a
 Add the library to your **package.json** within the **dependencies** section and run **npm install**:
 
 ```javascript
-"@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^3",
+"@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^4.1.21",
 ```
 
 Ensure that you have the following dependencies in the expected range, to ensure compatibility between the libraries:
@@ -33,12 +33,14 @@ Add the library's SASS to your application's SASS file:
 @import "node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/all";
 ```
 
-{% header 2, "Node configuration" %}
-{% header 3, "Assets" %}
+## Node configuration
+### Assets
 
 Add the library's assets to your application's static resources:
 
 ```js
+// middleware/setupStaticResources.ts
+
 Array.of(
   ...
   '/node_modules/govuk-frontend/dist/govuk/assets',
@@ -52,40 +54,66 @@ Array.of(
 })
 ```
 
+### Modules
 
-Add the DPR client-side JavaScript initialisation to a new JS file (in this example named `dprInit.mjs`) in your `assets` folder:
-```javascript
-import initAll from "/assets/dpr/all.js";
+Depending on your app setup, you can initialise the dpr modules in the following ways:
 
-initAll();
+- [Import JavaScript using a bundler](#import-JavaScript-using-a-bundler)
+- [Add the JavaScript files to your HTML](#add-the-JavaScript-files-to-your-html)
+
+
+## Import JavaScript using a bundler
+
+If you decide to import using a bundler (such as Esbuild, or Rollup), use `import` to import all of DPR's  components, then run the `initAll` functions to initialise them:
+
+```js
+// assets/js/index.js
+
+import * as govukFrontend from 'govuk-frontend'
+import * as mojFrontend from '@ministryofjustice/frontend'
+import * as dprFrontend from '@ministryofjustice/hmpps-digital-prison-reporting-frontend'
+
+govukFrontend.initAll()
+mojFrontend.initAll()
+dprFrontend.initAll()
 ```
 
-Add the GOV client-side JavaScript initialisation to a new JS file (in this example named `govukInit.mjs`) in your `assets` folder:
-```javascript
-import { initAll } from '/assets/govuk/govuk-frontend.min.js'
+Include the bundled javascript file as a `module` within the layout. 
 
-initAll()
-```
-
-Add the Moj client-side JavaScript initialisation to a new JS file (in this example named `mojInit.mjs`) in your `assets` folder:
-```javascript
-window.MOJFrontend.initAll()
-```
-
-Add the client-side JavaScript to the nunjucks layout:
 ```html
+<!-- server/views/patials/layout.njk -->
+
 {% block bodyEnd %}
-// Govuk Lib
-<script type="module" src="/assets/govuk/govuk-frontend.min.js"></script>
-<script type="module" src="/assets/govukInit.js"></script>
+  <script type="module" src="/assets/application.min.js"></script>
+{% endblock %}
+```
 
-// MoJ lib
-<script src="/assets/moj/all.js"></script>
-<script type="module" src="/assets/mojInit.js"></script>
+## Add the JavaScript files to your HTML
 
-// DPR Lib
-<script type="module" src="/assets/dpr/all.js"></script>
-<script type="module" src="/assets/js/dprInit.mjs"></script>
+Add the client-side JavaScript to the nunjucks layout, and initialise them using `initAll`:
+```html
+<!-- server/views/patials/layout.njk -->
+
+{% block bodyEnd %}
+  <!-- Govuk Lib -->
+  <script type="module" src="/assets/govuk/govuk-frontend.min.js"></script>
+  <script type="module">
+    import {initAll} from '/assets/govuk/govuk-frontend.min.js'
+    initAll()
+  </script>
+
+  <!-- MoJ lib -->
+  <script src="/assets/moj/all.js"></script>
+  <script type="text/javascript">
+    window.MOJFrontend.initAll()
+  </script>
+
+  <!-- DPR Lib -->
+  <script type="module" src="/assets/dpr/all.mjs"></script>
+  <script type="module">
+    import { initAll } from '/assets/dpr/all.mjs'
+    initAll()
+  </script>
 {% endblock %}
 ```
 

@@ -7,7 +7,7 @@ gulp.task('package:client-javascript-libs', () => {
       'node_modules/jquery/dist/jquery.min.js',
       'node_modules/dayjs/dayjs.min.js',
       'node_modules/dayjs/plugin/customParseFormat.js',
-      'node_modules/chart.js/dist/chart.umd.js',
+      'node_modules/chart.js/dist/chart.min.js',
       'node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js',
       'package/dpr/assets/js/all.mjs',
     ])

@@ -18,7 +18,7 @@ import DatasetHelper from '../../utils/datasetHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 
 const createChart = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]): ChartCardData => {
-  const timeseriesChartTypes = [DashboardVisualisationType.BAR_TIMESERIES, DashboardVisualisationType.LINE]
+  const timeseriesChartTypes = [DashboardVisualisationType.BAR_TIMESERIES, DashboardVisualisationType.LINE_TIMESERIES]
   const { type } = chartDefinition
 
   let table: MoJTable
@@ -250,7 +250,8 @@ const createTimeseriesChart = (
   const { keys, measures } = columns
 
   const unit = measures[0].unit ? measures[0].unit : undefined
-  const type = chartDefinition.type === DashboardVisualisationType.BAR_TIMESERIES ? 'bar' : chartDefinition.type
+  
+  const type = chartDefinition.type === DashboardVisualisationType.BAR_TIMESERIES ? 'bar' : 'line'
 
   const groupKey = DatasetHelper.getGroupKey(keys, timeseriesData)
   const labelId = groupKey.id as keyof DashboardDataResponse

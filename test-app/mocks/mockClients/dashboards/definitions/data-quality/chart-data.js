@@ -111,7 +111,7 @@ const dataQualityTimeseriesLine = {
     ],
   },
   chart: {
-    type: 'line',
+    type: 'line-timeseries',
     timeseries: true,
     data: {
       labels: ['Aug 24', 'Sep 24', 'Oct 24', 'Nov 24', 'Dec 24', 'Jan 25'],

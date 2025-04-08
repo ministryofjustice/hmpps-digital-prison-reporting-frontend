@@ -47,7 +47,7 @@ const mockEthnicityBarChartList = {
 
 const mockEthnicityLineChartTimeseries = {
   id: 'mockEthnicityLineChartTimeseries',
-  type: 'line',
+  type: 'line-timeseries',
   display: 'Missing ethnicity timeseries chart',
   description: 'Prisoner totals for missing ethnicity by establishment',
   columns: {

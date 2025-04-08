@@ -250,7 +250,7 @@ const createTimeseriesChart = (
   const { keys, measures } = columns
 
   const unit = measures[0].unit ? measures[0].unit : undefined
-  
+
   const type = chartDefinition.type === DashboardVisualisationType.BAR_TIMESERIES ? 'bar' : 'line'
 
   const groupKey = DatasetHelper.getGroupKey(keys, timeseriesData)

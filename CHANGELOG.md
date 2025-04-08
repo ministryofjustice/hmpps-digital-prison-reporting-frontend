@@ -7,6 +7,10 @@ Below you can find the changes included in each release.
   - Fixed lib dependecy issues.
   - Updated integration docs to outline process for services using bundlers
 
+
+- Embedded reports actions: 
+  - Fixed copy button to inlcude full url
+
 - Dashboard visualisations: Support for line chart visualisation type
 
 ## v4.1.16

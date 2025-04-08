@@ -184,7 +184,7 @@ const getReportRenderData = async (
   reportQuery: ReportQuery,
   data: Dict<string>[],
 ) => {
-  const url = parseUrl(req) 
+  const url = parseUrl(req)
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
   const pagination = PaginationUtils.getPaginationData(url, count)
 

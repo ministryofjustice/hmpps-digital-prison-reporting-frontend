@@ -50,8 +50,9 @@ export enum DashboardVisualisationType {
   LIST = 'list',
   DONUT = 'doughnut',
   BAR = 'bar',
-  BAR_TIMESERIES = 'bar-timeseries',
   LINE = 'line',
+  BAR_TIMESERIES = 'bar-timeseries',
+  LINE_TIMESERIES = 'line-timeseries',
   SCORECARD = 'scorecard',
   SCORECARD_GROUP = 'scorecard-group',
 }

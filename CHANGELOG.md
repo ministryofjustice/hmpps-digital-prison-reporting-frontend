@@ -1,5 +1,14 @@
 Below you can find the changes included in each release.
 
+## v4.1.23
+
+- Embedded reports integration:  
+  - Fixed path issues with moj and dpr sass imports
+  - Fixed lib dependecy issues.
+  - Updated integration docs to outline process for services using bundlers
+
+- Dashboard visualisations: Support for line chart visualisation type
+
 ## v4.1.16
 
 - Embedded reports integration: Moved all.js to root of lib folder: `dpr/all.js`

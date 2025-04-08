@@ -381,6 +381,7 @@ const mockSyncData = {
       ],
     },
     reportUrl: 'pathname',
+    fullUrl: "protocol://hostoriginalUrl",
     bookmarked: false,
     reportSearch: 'search',
     encodedSearch: 'search',

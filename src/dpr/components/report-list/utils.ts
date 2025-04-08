@@ -66,10 +66,10 @@ export async function renderList(
         share: {
           reportName,
           name: variantDefinition.name,
-          url: reportRenderData.reportUrl,
+          url: reportRenderData.fullUrl,
         },
         copy: {
-          url: reportRenderData.reportUrl,
+          url: reportRenderData.fullUrl,
         },
       })
 

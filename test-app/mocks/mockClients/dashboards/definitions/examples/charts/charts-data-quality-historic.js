@@ -16,21 +16,21 @@ const dataQualityHistoric = {
         charts.dataQualityReligionHistoricLine,
       ],
     },
-    // {
-    //   id: 'section-2',
-    //   display: 'Time series bar charts',
-    //   description: '',
-    //   visualisations: [
-    //     charts.dataQualityEthnicityHistoricBar,
-    //     charts.dataQualityNationalityHistoricBar,
-    //     charts.dataQualityReligionHistoricBar,
-    //   ],
-    // },
-    // {
-    //   id: 'totals-breakdown',
-    //   display: 'Totals breakdown',
-    //   visualisations: [lists.fullDatasetOverTime],
-    // },
+    {
+      id: 'section-2',
+      display: 'Time series bar charts',
+      description: '',
+      visualisations: [
+        charts.dataQualityEthnicityHistoricBar,
+        charts.dataQualityNationalityHistoricBar,
+        charts.dataQualityReligionHistoricBar,
+      ],
+    },
+    {
+      id: 'totals-breakdown',
+      display: 'Totals breakdown',
+      visualisations: [lists.fullDatasetOverTime],
+    },
   ],
   filterFields: [establishmentIdFilter, granularDateRangeFilter],
 }

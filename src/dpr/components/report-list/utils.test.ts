@@ -142,7 +142,8 @@ describe('EmbeddedReportListUtils', () => {
 
       const expectedParams = mockRenderDataFromDefinition
       expectedParams.renderData.reportName = 'Test Report'
-      expectedParams.renderData.actions[1].href = 'mailto:?subject=Test Report-Test Variant&body=protocol%3A%2F%2FhostoriginalUrl'
+      expectedParams.renderData.actions[1].href =
+        'mailto:?subject=Test Report-Test Variant&body=protocol%3A%2F%2FhostoriginalUrl'
 
       await ReportListUtils.renderListWithDefinition(args)
       expect(response.render).toHaveBeenCalledWith('dpr/components/report-list/list', expectedParams)

@@ -87,6 +87,9 @@ describe('EmbeddedReportListUtils', () => {
         },
         baseUrl: 'baseUrl',
         path: 'path',
+        get: jest.fn().mockReturnValue('host'),
+        originalUrl: 'originalUrl',
+        protocol: 'protocol',
       } as unknown as Request
 
       jest.spyOn(FilterUtils, 'redirectWithDefaultFilters').mockReturnValue(false)
@@ -119,6 +122,9 @@ describe('EmbeddedReportListUtils', () => {
         },
         baseUrl: 'baseUrl',
         path: 'path',
+        get: jest.fn().mockReturnValue('host'),
+        originalUrl: 'originalUrl',
+        protocol: 'protocol',
       } as unknown as Request
 
       jest.spyOn(FilterUtils, 'redirectWithDefaultFilters').mockReturnValue(false)
@@ -136,7 +142,7 @@ describe('EmbeddedReportListUtils', () => {
 
       const expectedParams = mockRenderDataFromDefinition
       expectedParams.renderData.reportName = 'Test Report'
-      expectedParams.renderData.actions[1].href = 'mailto:?subject=Test Report-Test Variant&body=pathname'
+      expectedParams.renderData.actions[1].href = 'mailto:?subject=Test Report-Test Variant&body=protocol%3A%2F%2FhostoriginalUrl'
 
       await ReportListUtils.renderListWithDefinition(args)
       expect(response.render).toHaveBeenCalledWith('dpr/components/report-list/list', expectedParams)
@@ -233,6 +239,9 @@ describe('EmbeddedReportListUtils', () => {
         },
         baseUrl: 'baseUrl',
         path: 'path',
+        get: jest.fn().mockReturnValue('host'),
+        originalUrl: 'originalUrl',
+        protocol: 'protocol',
       } as unknown as Request
 
       const args: RenderListWithDataInput = {

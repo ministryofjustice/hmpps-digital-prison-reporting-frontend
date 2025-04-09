@@ -5,9 +5,36 @@ $moj-page-width: 1170px;
 @import 'govuk/all';
 @import 'moj/all';
 
-.app-header__logo {
-  margin-left: 30px;
-  width: auto;
+.govuk-header__container {
+  padding-top: 25px;
+  
+  .dpr-docs-header {
+    width: 1170px;
+    margin: auto;
+    display: flex;
+    font-size: 24px;
+    text-decoration: none;
+    color: white !important;
+
+    .dpr-service-heading-with-logo {
+      display: flex;
+      font-weight: 700;
+      margin-right: 10px;
+
+      .moj-header__logotype-crest {
+        top: -2 !important;
+      }
+    }
+
+    .govuk-header__logotype-text {
+      font-weight: 700;
+      font-size: 24px;
+    }
+
+    .govuk-header__product-name {
+      font-size: 24px;
+    }
+  }
 }
 
 div.govuk-width-container {

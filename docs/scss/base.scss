@@ -17,3 +17,22 @@ div.govuk-width-container {
 th {
   text-align: left;
 }
+
+code {
+  font-size: 14px;
+  background-color: govuk-colour("light-grey");
+  padding: 4px 6px;
+}
+
+.language-javascript, .language-scss, .language-html {
+  padding: 18px;
+  display: block;
+  overflow: scroll;
+  line-height: 1.6;
+
+  .language-javascript,
+    .language-scss,
+    .language-html {
+      padding: 0px;
+    }
+}

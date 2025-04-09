@@ -7,11 +7,11 @@ This component library can be added to a UI project by following the steps below
 
 These steps assume your project is already using the Gov.uk and MoJ libraries, and is based on Node Express.
 
-{% header 1, "Installing the library" %}
+# Installing the library 
 
-{% header 2, "Build configuration" %}
+## Build configuration
 
-{% header 3, "NPM dependency (and prerequisites)" %}
+### NPM dependency (and prerequisites)
 
 Add the library to your **package.json** within the **dependencies** section and run **npm install**:
 

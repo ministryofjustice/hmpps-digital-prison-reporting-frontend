@@ -25,6 +25,7 @@ gulp.task(
     'docs:scss',
     'package:copy-views',
     'package:client-javascript',
+    'package:client-javascript-libs',
     'docs:copy-external-javascript',
     'package:images',
     'docs:assets',

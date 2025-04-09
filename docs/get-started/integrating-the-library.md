@@ -16,7 +16,7 @@ These steps assume your project is already using the Gov.uk and MoJ libraries, a
 Add the library to your **package.json** within the **dependencies** section and run **npm install**:
 
 ```javascript
-"@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^4.1.21",
+"@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^4.1.23",
 ```
 
 Ensure that you have the following dependencies in the expected range, to ensure compatibility between the libraries:
@@ -61,6 +61,36 @@ Depending on your app setup, you can initialise the dpr modules in the following
 - [Import JavaScript using a bundler](#import-JavaScript-using-a-bundler)
 - [Add the JavaScript files to your HTML](#add-the-JavaScript-files-to-your-html)
 
+### Nunjucks 
+
+Add the library's nunjucks templates to your nunjucks configuration:
+
+```javascript
+const nunjucksEnv = nunjucks.configure([
+  ...// Existing entries
+  "node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/",
+  "node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/",
+]);
+```
+
+Add the library's filters to the nunjucks configuration:
+
+```javascript
+import setUpNunjucksFilters from "@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/setUpNunjucksFilters";
+
+setUpNunjucksFilters(nunjucksEnv);
+```
+
+### Fonts
+
+The DPR library uses Google fonts for some of its components. To allow these to be used without security warnings, you will need to allow the Google URLs in your web security configuration. 
+
+If you have already integrated the DPS header and footer, then you can simply update the following two lines in `setUpWebSecurity.ts`:
+
+```javascript
+const styleSrc = ["'self'", (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`, 'fonts.googleapis.com']
+const fontSrc = ["'self'", 'fonts.gstatic.com']
+```
 
 ## Import JavaScript using a bundler
 
@@ -83,9 +113,7 @@ Include the bundled javascript file as a `module` within the layout.
 ```html
 <!-- server/views/patials/layout.njk -->
 
-{% block bodyEnd %}
-  <script type="module" src="/assets/application.min.js"></script>
-{% endblock %}
+<script type="module" src="/assets/application.min.js"></script>
 ```
 
 ## Add the JavaScript files to your HTML
@@ -94,58 +122,25 @@ Add the client-side JavaScript to the nunjucks layout, and initialise them using
 ```html
 <!-- server/views/patials/layout.njk -->
 
-{% block bodyEnd %}
-  <!-- Govuk Lib -->
-  <script type="module" src="/assets/govuk/govuk-frontend.min.js"></script>
-  <script type="module">
-    import {initAll} from '/assets/govuk/govuk-frontend.min.js'
-    initAll()
-  </script>
+<!-- Govuk Lib -->
+<script type="module" src="/assets/govuk/govuk-frontend.min.js"></script>
+<script type="module">
+  import {initAll} from '/assets/govuk/govuk-frontend.min.js'
+  initAll()
+</script>
 
-  <!-- MoJ lib -->
-  <script src="/assets/moj/all.js"></script>
-  <script type="text/javascript">
-    window.MOJFrontend.initAll()
-  </script>
+<!-- MoJ lib -->
+<script src="/assets/moj/all.js"></script>
+<script type="text/javascript">
+  window.MOJFrontend.initAll()
+</script>
 
-  <!-- DPR Lib -->
-  <script type="module" src="/assets/dpr/all.mjs"></script>
-  <script type="module">
-    import { initAll } from '/assets/dpr/all.mjs'
-    initAll()
-  </script>
-{% endblock %}
-```
-
-
-{% header 3, "Nunjucks" %}
-Add the library's nunjucks templates to your nunjucks configuration:
-
-```javascript
-const nunjucksEnv = nunjucks.configure([
-  ...// Existing entries
-  "node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/",
-  "node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/",
-]);
-```
-
-Add the library's filters to the nunjucks configuration:
-
-```javascript
-import setUpNunjucksFilters from "@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/setUpNunjucksFilters";
-
-setUpNunjucksFilters(nunjucksEnv);
-```
-
-{% header 3, "Fonts" %}
-
-The DPR library uses Google fonts for some of its components. To allow these to be used without security warnings, you will need to allow the Google URLs in your web security configuration. 
-
-If you have already integrated the DPS header and footer, then you can simply update the following two lines in `setUpWebSecurity.ts`:
-
-```javascript
-const styleSrc = ["'self'", (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`, 'fonts.googleapis.com']
-const fontSrc = ["'self'", 'fonts.gstatic.com']
+<!-- DPR Lib -->
+<script type="module" src="/assets/dpr/all.mjs"></script>
+<script type="module">
+  import { initAll } from '/assets/dpr/all.mjs'
+  initAll()
+</script>
 ```
 
 {% header 2, "API Library" %}

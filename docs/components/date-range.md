@@ -3,7 +3,7 @@ layout: layouts/component.njk
 title: Daterange
 ---
 
-{% example "daterange", 300 %}
+{% example "daterange", 450 %}
 
 {% header 1, "When to use" %}
 

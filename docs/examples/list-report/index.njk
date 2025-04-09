@@ -3,7 +3,6 @@ layout: layouts/example.njk
 title: List Report (example)
 jsArguments: list-report
 ---
-
 {%- from "dpr/components/report-list/view.njk" import dprReportList -%}
 
 {% set pagination = {
@@ -27,7 +26,7 @@ jsArguments: list-report
       }
     ]
   }
-}%}
+} %}
 
 {% set filterData = {
   selectedFilters: [
@@ -129,7 +128,6 @@ jsArguments: list-report
     }
   ]
 %}
-
 
 {{ dprReportList({
   reportName: 'Example Report',

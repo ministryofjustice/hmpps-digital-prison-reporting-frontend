@@ -22,12 +22,13 @@
         Nunjucks macro options
       </span>
       </summary>
-      <div class="govuk-details__text">
+      <div class="govuk-details__text dpr-component-args">
         {% include "./arguments/" + arguments + ".md" %}
       </div>
     </details>
   {% endif %}
-```jinja
+
+```js
 {{ nunjucksCode | safe }}
 ```
 {% endset -%}
@@ -62,12 +63,12 @@
             Javascript arguments
           </span>
         </summary>
-        <div class="govuk-details__text">
-
+        <div class="govuk-details__text dpr-component-args">
           {% include "./arguments/" + jsArguments + ".md" %}
         </div>
       </details>
     {% endif %}
+
 ```js
 {{ jsCode | safe }}
 ```

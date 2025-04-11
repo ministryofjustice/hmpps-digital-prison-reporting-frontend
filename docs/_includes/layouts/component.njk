@@ -14,16 +14,46 @@
             },
             items: [
               {
-                text: 'Filters',
-                href: '/components/filters'
+                text: 'Card group',
+                href: '/components/card-group',
+                active: page.filePathStem.indexOf('/components/card-group') === 0
+              }
+            ]
+          },
+          {
+            heading: {
+              text: 'Report'
+            },
+            items: [
+              {
+                text: 'Heading',
+                href: '/components/reports/heading',
+                active: page.filePathStem.indexOf('/components/reports/heading') === 0
               },
               {
-                text: 'Card group',
-                href: '/components/card-group'
+                text: 'Actions 🚧',
+                href: '/components/reports/actions',
+                active: page.filePathStem.indexOf('/components/reports/actions') === 0
+              },
+              {
+                text: 'Filters 🚧',
+                href: '/components/reports/filters',
+                active: page.filePathStem.indexOf('/components/reports/filters') === 0
+              },
+              {
+                text: 'Columns 🚧',
+                href: '/components/reports/columns',
+                active: page.filePathStem.indexOf('/components/reports/columns') === 0
               },
               {
                 text: 'Data table',
-                href: '/components/data-table'
+                href: '/components/reports/data-table',
+                active: page.filePathStem.indexOf('/components/reports/data-table') === 0
+              },
+              {
+                text: 'Pagination 🚧',
+                href: '/components/reports/pagination',
+                active: page.filePathStem.indexOf('/components/reports/pagination') === 0
               }
             ]
           },
@@ -34,11 +64,23 @@
             items: [
               {
                 text: 'Autocomplete',
-                href: '/components/autocomplete-text-input'
+                href: '/components/inputs/autocomplete-text-input',
+                active: page.filePathStem.indexOf('/components/inputs/autocomplete-text-input') === 0
               },
               {
                 text: 'Date range',
-                href: '/components/date-range'
+                href: '/components/inputs/date-range',
+                active: page.filePathStem.indexOf('/components/inputs/date-range') === 0
+              },
+              {
+                text: 'Granular Date range 🚧',
+                href: '/components/inputs/granular-date-range',
+                active: page.filePathStem.indexOf('/components/inputs/granular-date-range') === 0
+              },
+              {
+                text: 'Multiselect',
+                href: '/components/inputs/multi-select',
+                active: page.filePathStem.indexOf('/components/inputs/multi-select') === 0
               }
             ]
           },
@@ -49,7 +91,8 @@
             items: [
               {
                 text: 'List report',
-                href: '/components/list-report'
+                href: '/components/list-report',
+                active: page.filePathStem.indexOf('/components/card-group') === 0
               }
             ]
           }
@@ -61,7 +104,8 @@
       <main id="main-content" class="govuk-main-wrapper app-prose-scope" role="main">
         <h1 class="govuk-heading-xl">
           {% if not isIndex %}
-            <span class="govuk-caption-xl">Components</span>{% endif %}
+            {% if subsection %}<span class="govuk-caption-xl">{{ subsection }}</span>{% endif %}
+          {% endif %}
           {{ title }}
         </h1>
         {{ content | safe }}

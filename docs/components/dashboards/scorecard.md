@@ -5,7 +5,7 @@ title: Scorecard
 
 The scorecard component is used to visualise a metric value in digestable format, showing the overall value, description and trends
 
-{% example "scorecard", 500 %}
+{% example "dashboard/scorecard", 500 %}
 
 {% header 2, "When to use" %}
 

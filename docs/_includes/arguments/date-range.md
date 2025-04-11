@@ -1,7 +1,8 @@
-| Name            | Type   | Required | Description                                                  |
-| --------------- | ------ | -------- | ------------------------------------------------------------ |
-| data            | `object` | Yes      | Data object. See [filter](#Filter).                          |
-| parameterPrefix | `string` | no       | The prefix to apply to the filter parameters in the page URL |
+| Name            | Type     | Required | Description                                                    |
+| --------------- | -------- | -------- | -------------------------------------------------------------- |
+| data            | `object` | Yes      | Data object. See [filter](#Filter).                            |
+| parameterPrefix | `string` | no       | The prefix to apply to the filter parameters in the page URL   |
+| mandatory       | `boolean`| no       | default: false   |
 
 ### Filter
 

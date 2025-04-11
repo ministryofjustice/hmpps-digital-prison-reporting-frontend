@@ -107,3 +107,9 @@ code {
     flex: 0 0 auto;
     align-self: flex-start;
 }
+
+.dpr-request-details__table {
+  td {
+    border-bottom: 0px !important;
+  }
+} 

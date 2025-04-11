@@ -45,7 +45,7 @@ module.exports = function (eleventyConfig) {
       })
   );
 
-  eleventyConfig.addShortcode("example", function (exampleName, height) {
+  eleventyConfig.addShortcode("example", function (exampleName, height, id) {
     const { data, content: nunjucksCode } = matter(
       fs
         .readFileSync(
@@ -76,7 +76,7 @@ module.exports = function (eleventyConfig) {
 
     const renderedExample = nunjucksEnv.render("example.njk", {
       href: "/examples/" + exampleName,
-      id: exampleName,
+      id: id || exampleName,
       arguments: data.arguments,
       jsArguments: data.jsArguments,
       title: data.title,

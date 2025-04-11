@@ -7,7 +7,7 @@ The chart card component displays chart visualisations that can be switched betw
 
 The component uses `Chart.js` to generate the visualisations
 
-{% example "chart-tabs", 500 %}
+{% example "dashboard/chart-tabs", 500 %}
 
 {% header 2, "When to use" %}
 

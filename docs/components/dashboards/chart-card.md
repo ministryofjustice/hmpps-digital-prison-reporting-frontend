@@ -7,7 +7,7 @@ The chart card component displays chart visualisations, including details and me
 
 The component uses `Chart.js` to generate the visualisations
 
-{% example "chart-card", 500 %}
+{% example "dashboard/chart-card", 500 %}
 
 {% header 2, "When to use" %}
 

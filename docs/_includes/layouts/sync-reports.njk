@@ -4,37 +4,38 @@
 
 {% block content %}
   <div class="govuk-width-container govuk-grid-row app-flex-container">
-    <div class="govuk-grid-column-one-quarter">
+    <div class="govuk-grid-column-one-quarter dpr-docs-sidebar">
       {{ mojSideNavigation({
         classes: 'govuk-!-padding-top-6',
         sections: [
           {
             heading: {
-              text: "How to guides"
+              text: "Integration guide"
             },
-            items: [
+            items: [ 
               {
-                text: 'Integrating the library',
-                href: ('/get-started/integrating-the-library')
+                text: 'Integrate using a handler',
+                href: '#integrate-using-a-handler'
+              },
+              {
+                text: 'Integrate using a method',
+                href: '#integrate-using-a-method'
+              },
+              {
+                text: 'Integrate with data',
+                href: '#integrate-with-data'
               }
             ]
           },
           {
             heading: {
-              text: "Sections"
+              text: "Example Reports"
             },
-            items: [
+            items: [ 
               {
-                text: 'Components',
-                href: ('/components')
-              },
-              {
-                text: 'Embedded Reports',
-                href: ('/reports')
-              },
-              {
-                text: 'Dashboards',
-                href: ('/dashboards')
+                text: 'List report',
+                href: '/reports/example-list-report',
+                active: page.filePathStem.indexOf('/reports/example-list-report') === 0
               }
             ]
           }

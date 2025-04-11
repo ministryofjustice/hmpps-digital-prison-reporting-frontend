@@ -40,14 +40,14 @@
   },
   {
     label: "HTML",
-    id: "html",
+    id: "html" + id,
     panel: {
       html: htmlTab
     }
   },
   {
     label: "Nunjucks",
-    id: "nunjucks",
+    id: "nunjucks" + id,
     panel: {
       html: nunjucksTab
     }
@@ -77,7 +77,7 @@
   {% set tabItems = tabItems.concat([
     {
       label: "JavaScript",
-      id: "javascript",
+      id: "javascript" + id,
       panel: {
         html: jsTab
       }

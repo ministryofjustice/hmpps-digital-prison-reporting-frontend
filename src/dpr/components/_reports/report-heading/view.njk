@@ -10,12 +10,10 @@
   {% set name = reportData.name %}
   {% set reportName = reportData.reportName %}
   {% set reportId = reportData.reportId %}
-  {% set id = reportData.id %}
-  {% set csrfToken = reportData.csrfToken %}
-  {% set bookmarked = reportData.bookmarked %}
-  {% set actions = reportData.actions %}
   {% set type = reportData.type %}
-  
+  {% set actions = reportData.actions %}
+  {% set detailsOpen = reportData.detailsOpen %}
+
   <div class="dpr-report-header">
     <div class="dpr-report-heading">
       
@@ -26,17 +24,29 @@
         </h1>
       </div>
       
+      {% if actions or bookmarked is defined %}
       <div class="dpr-report-heading__actions">
-        {{ dprReportActions(actions) }}
-        {% if not reportData.removeBookmark %}
+        {% if actions %}
+          {{ dprReportActions(actions) }}
+        {% endif %}
+
+        {% if bookmarked is defined %}
+          {% set id = reportData.id %}
+          {% set csrfToken = reportData.csrfToken %}
+          {% set bookmarked = reportData.bookmarked %}
+          {% set actions = reportData.actions %}
+          
           {{ dprBookmarkToggle(reportId, id, csrfToken, bookmarked, 'report', type) }}
         {% endif %}
       </div>
+       {% endif %}
     </div>
     
-    {{ dprDownloadMessage(reportData) }}
+    {% if reportData.canDownload is defined %}
+      {{ dprDownloadMessage(reportData) }}
+    {% endif %}
 
-    {% if type === 'report' %}
+    {% if type === 'report' or type is not defined %}
 
       {% set reportDetailsHtml %}
         {{ dprRequestDetails(reportData)}}
@@ -45,7 +55,8 @@
       {{ govukDetails({
         summaryText: 'Report details',
         html: reportDetailsHtml,
-        classes: 'dpr-meta-data-details'
+        classes: 'dpr-meta-data-details',
+        open: detailsOpen
       }) }}
 
     {% endif %}

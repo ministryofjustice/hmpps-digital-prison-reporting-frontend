@@ -1,0 +1,14 @@
+---
+layout: layouts/example.njk
+title: Report Heading (example)
+arguments: report/heading
+---
+
+{% from "dpr/components/_reports/report-heading/view.njk" import dprReportHeading %}
+
+{{ dprReportHeading({
+  name: 'Variant Name',
+  reportName: 'Product Name',
+  description: 'Report Description',
+  detailsOpen: true
+}) }}

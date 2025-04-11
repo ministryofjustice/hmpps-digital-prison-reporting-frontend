@@ -1,0 +1,37 @@
+---
+layout: layouts/example.njk
+title: Report Heading with actions (example)
+---
+{% from "dpr/components/_reports/report-heading/view.njk" import dprReportHeading %}
+
+{% set actions = [
+  {
+    id: "dpr-button-printable",
+    disabled: false,
+    tooltipText: "Print",
+    ariaLabelText: "print report",
+    href: "#"
+  },
+  {
+    id: "dpr-button-sharable",
+    disabled: false,
+    tooltipText: "Share",
+    ariaLabelText: "share report request via email",
+    href: "mailto:?subject=Product Name - Variant Name&body=link/to/report"
+  },
+  {
+    id: "dpr-button-copy",
+    disabled: false,
+    tooltipText: "Copy",
+    ariaLabelText: "report request",
+    href: "url/of/report"
+  }
+] %}
+
+{{ dprReportHeading({
+  name: 'Variant Name',
+  reportName: 'Product Name',
+  description: 'Report Description',
+  actions: actions,
+  detailsOpen: true
+}) }}

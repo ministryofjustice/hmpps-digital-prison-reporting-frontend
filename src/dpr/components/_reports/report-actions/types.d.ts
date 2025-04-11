@@ -45,7 +45,6 @@ export interface GetActionsParams {
 
 export interface ActionTemplate {
   id: string
-  icon: string
   disabled: boolean
   tooltipText: string
   ariaLabelText: string
@@ -61,7 +60,6 @@ export interface ActionTemplates {
 
 export interface ReportAction {
   id: string
-  icon: string
   disabled: boolean
   tooltipText: string
   ariaLabelText: string

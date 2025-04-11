@@ -1,0 +1,24 @@
+---
+layout: layouts/example.njk
+title: Card group (example)
+arguments: card-group
+---
+{%- from "dpr/components/card-group/view.njk" import dprCardGroup -%}
+
+{{ dprCardGroup([
+  {
+    text: 'First card',
+    href: '#one',
+    description: 'The first card in the card group.'
+  },
+  {
+    text: 'Second card',
+    href: '#two',
+    description: 'The second card in the card group.'
+  },
+  {
+    text: 'Third card',
+    href: '#three',
+    description: 'The third card in the card group.'
+  }
+]) }}

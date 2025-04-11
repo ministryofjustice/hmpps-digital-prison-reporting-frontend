@@ -1,0 +1,19 @@
+---
+layout: layouts/example.njk
+title: Chart (example)
+arguments: chart
+---
+{%- from "dpr/components/_charts/chart/view.njk" import dprChart -%}
+
+{{ dprChart('the-chart-id', 'bar',
+  {
+    labels: ['Drugs', 'Phones', 'Weapons', 'Alcohol'],
+    datasets: [
+      {
+        label: 'No. of finds',
+        data: [12, 19, 3, 5],
+        total: 39
+      }
+    ]
+  }) 
+}}

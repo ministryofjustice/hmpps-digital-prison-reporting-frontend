@@ -1,0 +1,22 @@
+---
+layout: layouts/example.njk
+title: Autocomplete (example)
+arguments: autocomplete-text-input
+---
+{%- from "dpr/components/_inputs/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
+
+{{ dprAutocompleteTextInput({
+  id: 'people',
+  name: 'people',
+  items: [
+    { text: 'Magnar Azure' },
+    { text: 'Quinctus Zainabu' },
+    { text: 'Paraskevi Munroe' },
+    { text: 'Gundega Johanneke' },
+    { text: 'Konjit Taina' },
+    { text: 'Lennie Alma' },
+    { text: 'Murad Ali' }
+  ],
+  labelText: 'People',
+  minimumlength: 1
+}) }}

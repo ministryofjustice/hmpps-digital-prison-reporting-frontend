@@ -1,0 +1,19 @@
+---
+layout: layouts/example.njk
+title: Multi-select (example)
+---
+{% from "dpr/components/_inputs/multi-select/view.njk" import dprMultiSelect %}
+
+{{ dprMultiSelect({ 
+  text: "Multi-select", 
+  name: "multiselect", 
+  type: "multiselect", 
+  value: "value2,value3", 
+  options: [ 
+    { value: "value1", text: "Value 1" }, 
+    { value: "value2", text: "Value 2" }, 
+    { value: "value3", text: "Value 3" }, 
+    { value: "value4", text: "Value 4" } 
+  ], 
+  values: [ "value2", "value3" ] 
+}) }}

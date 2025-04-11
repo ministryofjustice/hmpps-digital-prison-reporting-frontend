@@ -26,6 +26,7 @@ export default class DateRangeInput extends DprClientClass {
 
     this.datePickerTab = document.getElementById('tab_date-picker')
     this.relativeDurationTab = document.getElementById('tab_relative-range')
+    this.durationValue = undefined
 
     if (this.datePickerTab && this.relativeDurationTab) {
       this.initDatePickerTabClick()
@@ -66,10 +67,11 @@ export default class DateRangeInput extends DprClientClass {
     })
   }
 
-  initDurationRadionButtonClick() {
+  initDurationRadionButtonClick () {
     this.relativeRangeRadioButtons.forEach((durationRadioButton) => {
       durationRadioButton.addEventListener('click', (e) => {
         const durationValue = e.target.value
+        this.durationValue = durationValue
         this.updateInputs(durationValue)
         this.removeRequiredFromDatePickers()
       })
@@ -85,11 +87,10 @@ export default class DateRangeInput extends DprClientClass {
   }
 
   updateCheckedDuration(durationRadioButton) {
+    console.log('updateCheckedDuration')
     if (durationRadioButton.checked) {
       const durationValue = durationRadioButton.value
       this.updateInputs(durationValue)
-      // this.removeRequiredFromDatePickers()
-
       const changeEvent = new Event('change')
       durationRadioButton.dispatchEvent(changeEvent)
     }
@@ -102,12 +103,13 @@ export default class DateRangeInput extends DprClientClass {
     this.endInput.value = ''
   }
 
-  updateInputs(durationValue) {
+  updateInputs (durationValue) {
     this.startInput.required = this.startRequired
     this.endInput.required = this.endRequired
 
-    if (durationValue) {
-      const { startDate, endDate } = this.calculateDateForDatepicker(durationValue)
+    if (durationValue || this.durationValue) {
+      const d = durationValue || this.durationValue
+      const { startDate, endDate } = this.calculateDateForDatepicker(d)
       this.startInput.value = startDate
       this.endInput.value = endDate
     }

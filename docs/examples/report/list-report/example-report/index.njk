@@ -1,0 +1,245 @@
+---
+layout: layouts/example.njk
+title: List Report (example)
+jsArguments: list-report
+---
+{%- from "dpr/components/report-list/view.njk" import dprReportList -%}
+
+{% set pagination = {
+  totalRows: 100,
+  currentPage: 2,
+  next: "#",
+  prev: "#",
+  pages: [
+    {
+      number: 1,
+      href: '#',
+      current: false
+    },
+    {
+      number: 2,
+      href: '#',
+      current: true
+    },
+    {
+      ellipsis: true
+    },
+    {
+      number: 5,
+      href: '#',
+      current: false
+    }
+  ],
+  pageSize: 10,
+  sizes: [
+    {
+      value: 10,
+      text: '10'
+    },
+    {
+      value: 20,
+      text: '20'
+    },
+    {
+      value: '',
+      text: 'All'
+    }
+  ]
+} %}
+
+{% set filterData = {
+  selectedFilters: [
+    {
+      text: "Radio filter: Two",
+      key: '["radio"]',
+      value: '["Two"]',
+      disabled: false,
+      classes: 'interactive-remove-filter-button',
+      attributes: {
+        'aria-label': 'Selected Filter: Radio filter: Two. Click to clear this filter'
+      }
+    }
+  ],
+  filters: [
+    {
+      text: "Radio filter",
+      name: 'field1',
+      id: "radio",
+      type: "Radio",
+      options: [
+        { value: "one", text: "One" },
+        { value: "two", text: "Two" }
+      ],
+      value: "two"
+    },
+    {
+      text: 'Select filter',
+      name: 'select',
+      type: 'Select',
+      mandatory: false,
+      options: [
+        { value: '', text: 'Select your option', disabled: true, selected: true },
+        { disabled: false, text: 'None', value: 'no-filter'},
+        {value: 'value2.1', text: 'Value 2.1' },
+        { value: 'value2.2',text: 'Value 2.2' },
+        { value: 'value2.3', text: 'Value 2.3' }
+      ]
+    },
+    {
+      text: 'Autocomplete',
+      name: 'autocomplete',
+      type: 'autocomplete',
+      mandatory: false,
+      minimumLength: 3,
+      options: [
+        { value: 'Fezzick', text: 'Fezzick' },
+        { value: 'inigo-montoya', text: 'Inigo Montoya' },
+        { value: 'Prince Humperdink', text: 'Prince Humperdink' },
+        { value: 'PrBu', text: 'Princess Buttercup' },
+        { value: 'Westley', text: 'Westley' }
+      ]
+    },
+    {
+      mandatory: false,
+      name: 'field7',
+      options: [
+        { text: 'Value 8.1', value: 'value8.1' },
+        { text: 'Value 8.2', value: 'value8.2' },
+        { text: 'Value 8.3', value: 'value8.3' },
+        { text: 'Value 8.4',value: 'value8.4' }
+      ],
+      text: 'Multiselect',
+      type: 'multiselect',
+      value: 'value8.2,value8.3',
+      values: ['value8.2', 'value8.3']
+    },
+    {
+      text: 'Daterange',
+      name: 'daterange',
+      type: 'daterange',
+      value: {
+        start: '2003-02-01',
+        end: '2006-05-04'
+      },
+      min: '2003-02-01',
+      max: '2007-05-04'
+    },
+    {
+      text: 'Text',
+      name: 'text',
+      type: 'text',
+      value: null,
+      mandatory: true
+    }
+  ]
+} %}
+
+{% set columns = {
+  name: "columns",
+  options: [
+    {
+      text: "Name",
+      value: "name"
+    }, {
+      text: "Location",
+      value: "location",
+      disabled: true
+    }, {
+      text: "Total",
+      value: "total"
+    }
+  ],
+  text: 'Select report columns',
+  value: ["name", "location", "total"]
+} %}
+
+{% set dataTable = {
+  head: [
+    { text: "Name" }, 
+    { text: "Location" }, 
+    { text: "Total", format: "numeric" }
+  ],
+  rows: [
+    [
+      { text: "Aardvark"}, 
+      { text: "London" }, 
+      { text: "2", format: "numeric" }
+    ],
+    [
+      { text: "Badger" }, 
+      { text: "Arctic" }, 
+      { text: "0", format: "numeric" }
+    ],
+    [
+      { text: "Cat" }, 
+      { text: "Cheshire" }, 
+      { text: "2312", format: "numeric" }
+    ],
+    [
+      { text: "Dingo"}, 
+      { text: "Australia" }, 
+      { text: "2", format: "numeric" }
+    ],
+    [
+      { text: "Elephant" }, 
+      { text: "India" }, 
+      { text: "534", format: "numeric" }
+    ],
+    [
+      { text: "Frog" }, 
+      { text: "China" }, 
+      { text: "284", format: "numeric" }
+    ]
+  ],
+  rowCount: 3,
+  colCount: 3
+} %}
+
+{% set actionsOptions = [
+    {
+      id: 'dpr-button-printable',
+      icon: 'print',
+      disabled: false,
+      tooltipText: 'Print',
+      ariaLabelText: 'print report',
+      href: '#'
+    },
+    {
+      id: 'dpr-button-sharable',
+      icon: 'share',
+      disabled: false,
+      tooltipText: 'Share',
+      ariaLabelText: 'share report request via email',
+      href: 'mailto:?subject=Test Report-Test Variant&body=pathname'
+    },
+    {
+      id: 'dpr-button-copy',
+      icon: 'copy',
+      disabled: false,
+      tooltipText: 'Copy',
+      ariaLabelText: 'report request',
+      href: 'pathname'
+    }
+  ]
+%}
+
+{{ dprReportList({
+  reportName: 'Example Report',
+  name: 'Example Variant',
+  description: 'Example Variant Description',
+  dataTable: dataTable,
+  filterData: filterData,
+  columns: columns,
+  actions: actionsOptions,
+  pagination: pagination,
+  template: 'list',
+  type: 'report',
+  totals: '0-3 of 100',
+  reportUrl: 'pathname',
+  reportSearch: 'search',
+  encodedSearch: 'search',
+  count: '100',
+  printable: false,
+  classification: 'OFFICIAL',
+  removeBookmark: true
+}) }}

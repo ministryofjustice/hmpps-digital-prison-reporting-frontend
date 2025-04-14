@@ -1,36 +1,45 @@
-import type { RequestHandler, Router, Request } from 'express'
-import AsyncFiltersUtils from '../components/_async/async-filters-form/utils'
 import AsyncPollingUtils from '../components/_async/async-polling/utils'
 import AsyncRequestListUtils from '../components/user-reports/requested/utils'
 import UserReportsListUtils from '../components/user-reports/utils'
 import ErrorSummaryUtils from '../components/error-summary/utils'
-import AysncRequestUtils from '../utils/RequestReportUtils'
+import AysncRequestUtils from '../components/_async/async-request/utils'
 import DashboardUtils from '../components/_dashboards/dashboard/utils'
-
 import LocalsHelper from '../utils/localsHelper'
-
 import AsyncReportUtils from '../components/_async/async-report/utils'
-
-import { Services } from '../types/Services'
 import logger from '../utils/logger'
-import { RenderFiltersReturnValue } from '../components/_async/async-filters-form/types'
-import { RequestDataResult } from '../types/AsyncReportUtils'
+
+// Types
+import type { RequestHandler, Router, Request } from 'express'
+import { Services } from '../types/Services'
 import { ReportType } from '../types/UserReports'
+import { RequestDataResult } from '../types/AsyncReportUtils'
 
 export default function routes({
   router,
   services,
   layoutPath,
-  templatePath = 'dpr/views/',
 }: {
   router: Router
   services: Services
   layoutPath: string
-  templatePath?: string
 }) {
+
+  /**   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
+   *                                                            *
+   *                    ERROR & AUTH ROUTES                     *
+   *                                                            *
+   **   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */
+
+  /**
+   * Error Handler
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   */
   const asyncErrorHandler: RequestHandler = async (req, res) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
-    res.render(`${templatePath}/async-error`, {
+    res.render(`dpr/views/async-error`, {
       layoutPath,
       ...req.body,
       ...req.params,
@@ -39,37 +48,66 @@ export default function routes({
     })
   }
 
+  /**
+   * Authorisation middleware handler
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   */
+  const isAuthorisedToViewReport: RequestHandler = async (req, res, next) => {
+    const definition = await AysncRequestUtils.getDefintionByType(req, res, next, services)
+    req.body.definition = definition
+    if (definition?.authorised !== undefined && !definition.authorised) {
+      await unauthorisedReportHandler(req, res, next)
+    } else {
+      next()
+    }
+  }
+
+  /**
+   * Unauthorised route handler
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   */
   const unauthorisedReportHandler: RequestHandler = async (req, res) => {
-    res.render(`${templatePath}/unauthorised-report`, {
+    res.render(`dpr/views/unauthorised-report`, {
       layoutPath,
       ...req.body,
     })
   }
 
+
+
+  /**   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
+   *                                                            *
+   *                  STAGE 1: REQUEST ROUTES                   *
+   *                                                            *
+   **   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */ 
+
+
+  /**
+   * REQUEST: Render request handler
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   */
   const renderRequestHandler: RequestHandler = async (req, res, next) => {
     try {
-      const requestRenderData = <RequestDataResult>await AysncRequestUtils.renderRequestData({
+      const requestRenderData = <RequestDataResult>await AysncRequestUtils.renderRequest({
         req,
         res,
         services,
         next,
       })
 
-      const { fields, interactive } = requestRenderData
-      let filtersRenderData = {}
-      if (requestRenderData.fields) {
-        filtersRenderData = <RenderFiltersReturnValue>await AsyncFiltersUtils.renderFilters(fields, interactive)
-      }
-
-      res.render(`${templatePath}async-request`, {
-        title: `Request ${requestRenderData.reportData.type}`,
-        filtersDescription: `Customise your ${requestRenderData.reportData.type} using the filters below and submit your request.`,
+      res.render(`dpr/views/async-request`, {
         layoutPath,
         postEndpoint: '/requestReport/',
-        reportData: {
-          ...requestRenderData.reportData,
-        },
-        ...filtersRenderData,
+        ...requestRenderData,
       })
     } catch (error) {
       req.body.title = 'Request failed'
@@ -79,6 +117,13 @@ export default function routes({
     }
   }
 
+  /**
+   * REQUEST: Make request
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   */
   const asyncRequestHandler: RequestHandler = async (req, res, next) => {
     try {
       const redirectToPollingPage = await AysncRequestUtils.request({
@@ -87,6 +132,7 @@ export default function routes({
         services,
         next,
       })
+
       if (redirectToPollingPage) {
         res.redirect(redirectToPollingPage)
       } else {
@@ -95,6 +141,7 @@ export default function routes({
     } catch (error) {
       const dprError = ErrorSummaryUtils.handleError(error, req.params.type)
       const filters = AysncRequestUtils.getFiltersFromReqBody(req)
+  
       req.body = {
         title: 'Request Failed',
         errorDescription: `Your ${req.params.type} has failed to generate.`,
@@ -107,6 +154,13 @@ export default function routes({
     }
   }
 
+  /**
+   * REQUEST: Cancel request
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   */
   const cancelRequestHandler: RequestHandler = async (req, res, next) => {
     try {
       await AysncRequestUtils.cancelRequest({
@@ -123,9 +177,15 @@ export default function routes({
     }
   }
 
+  /**
+   * REQUEST: Remove request
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   */
   const removeRequestedItemHandler: RequestHandler = async (req, res, next) => {
-    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-
+    const { userId } = LocalsHelper.getValues(res)
     try {
       await services.requestedReportService.removeReport(req.body.executionId, userId)
       res.end()
@@ -137,6 +197,46 @@ export default function routes({
     }
   }
 
+  /**   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
+   *                                                            *
+   *                  STAGE 2: POLLING ROUTES                   *
+   *                                                            *
+   **   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */
+  
+  /**
+   * POLLING: Render Polling
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   */
+  const pollingHandler: RequestHandler = async (req, res, next) => {
+    try {
+      const pollingRenderData = await AsyncPollingUtils.renderPolling({
+        req,
+        res,
+        services,
+        next,
+      })
+      res.render(`dpr/views/async-polling`, {
+        layoutPath,
+        ...pollingRenderData,
+      })
+    } catch (error) {
+      req.body.title = 'Failed to retrieve report status'
+      req.body.errorDescription = 'We were unable to retrieve the report status:'
+      req.body.error = ErrorSummaryUtils.handleError(error)
+      next()
+    }
+  }
+
+  /**
+   * POLLING: Get Status
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   */
   const getStatusHandler: RequestHandler = async (req, res, next) => {
     try {
       const response = await AsyncRequestListUtils.getRequestStatus({ req, res, services })
@@ -146,6 +246,13 @@ export default function routes({
     }
   }
 
+  /**
+   * POLLING: Get Expired Status
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   */
   const getExpiredStatus: RequestHandler = async (req, res, next) => {
     try {
       const response = await UserReportsListUtils.getExpiredStatus({
@@ -160,26 +267,21 @@ export default function routes({
     }
   }
 
-  const pollingHandler: RequestHandler = async (req, res, next) => {
-    try {
-      const pollingRenderData = await AsyncPollingUtils.renderPolling({
-        req,
-        res,
-        services,
-        next,
-      })
-      res.render(`${templatePath}/async-polling`, {
-        layoutPath,
-        ...pollingRenderData,
-      })
-    } catch (error) {
-      req.body.title = 'Failed to retrieve report status'
-      req.body.errorDescription = 'We were unable to retrieve the report status:'
-      req.body.error = ErrorSummaryUtils.handleError(error)
-      next()
-    }
-  }
+  
+  /**   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
+   *                                                            *
+   *                  STAGE 3: VIEW REPORT ROUTES               *
+   *                                                            *
+   **   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */
 
+
+  /**
+   * VIEW REPORT: Render report
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   */
   const viewReportHandler: RequestHandler = async (req, res, next) => {
     const { type } = req.params
     try {
@@ -197,7 +299,7 @@ export default function routes({
         renderData = await DashboardUtils.renderAsyncDashboard(params)
       }
 
-      res.render(`${templatePath}${template}`, {
+      res.render(`dpr/views/${template}`, {
         layoutPath,
         ...renderData,
       })
@@ -216,7 +318,7 @@ export default function routes({
   }
 
   const listingHandler: RequestHandler = async (req, res, next) => {
-    res.render(`${templatePath}/async-reports`, {
+    res.render(`dpr/views/async-reports`, {
       title: 'Requested reports',
       layoutPath,
       ...(await UserReportsListUtils.renderList({
@@ -226,46 +328,6 @@ export default function routes({
         type: 'requested',
       })),
     })
-  }
-
-  const setQueryParams = (req: Request, url: string) => {
-    const queryString = new URLSearchParams(req.query as unknown as URLSearchParams).toString()
-    if (queryString.length) {
-      return `${url}?${queryString}`
-    }
-    return url
-  }
-
-  const isAuthorisedToViewReport: RequestHandler = async (req, res, next) => {
-    const { token } = LocalsHelper.getValues(res)
-    const { reportId, id, variantId, type } = req.params
-    const { dataProductDefinitionsPath } = req.query
-
-    let definition
-    if (type === ReportType.REPORT) {
-      definition = await services.reportingService.getDefinition(
-        token,
-        reportId,
-        variantId || id,
-        dataProductDefinitionsPath,
-      )
-    }
-
-    if (type === ReportType.DASHBOARD) {
-      definition = await services.dashboardService.getDefinition(
-        token,
-        variantId || id,
-        reportId,
-        dataProductDefinitionsPath,
-      )
-    }
-
-    req.body.definition = definition
-    if (definition?.authorised !== undefined && !definition.authorised) {
-      await unauthorisedReportHandler(req, res, next)
-    } else {
-      next()
-    }
   }
 
   /**
@@ -300,6 +362,15 @@ export default function routes({
   router.get('/async-reports/requested', listingHandler)
 
   // REDIRECTS
+  
+  const setQueryParams = (req: Request, url: string) => {
+    const queryString = new URLSearchParams(req.query as unknown as URLSearchParams).toString()
+    if (queryString.length) {
+      return `${url}?${queryString}`
+    }
+    return url
+  }
+  
   // Request
   router.get('/async-reports/:reportId/:variantId/request', async (req, res, next) => {
     const { reportId, variantId: id } = req.params

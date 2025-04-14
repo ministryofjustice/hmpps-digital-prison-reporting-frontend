@@ -1,19 +1,24 @@
 /* eslint-disable no-param-reassign */
-import { Request, Response } from 'express'
-import { AsyncReportUtilsParams, RequestDataResult } from '../types/AsyncReportUtils'
-import { ExecutionData, ChildReportExecutionData } from '../types/ExecutionData'
-import type ReportingService from '../services/reportingService'
-import { ReportType, RequestFormData, RequestStatus } from '../types/UserReports'
-import filtersHelper from '../components/_async/async-filters-form/utils'
-import { components } from '../types/api'
-import { DashboardDefinition } from '../components/_dashboards/dashboard/types'
-import { Services } from '../types/Services'
-import { SetQueryFromFiltersResult } from '../components/_async/async-filters-form/types'
-import type DashboardService from '../services/dashboardService'
-import { removeDuplicates } from './reportStoreHelper'
-import UserStoreItemBuilder from './UserStoreItemBuilder'
-import LocalsHelper from './localsHelper'
-import FiltersUtils from '../components/_filters/utils'
+import { Request, Response, NextFunction } from 'express'
+
+// Utils
+import FiltersFormUtils from '../async-filters-form/utils'
+import LocalsHelper from '../../../utils/localsHelper'
+import FiltersUtils from '../../../components/_filters/utils'
+import { removeDuplicates } from '../../../utils/reportStoreHelper'
+import UserStoreItemBuilder from '../../../utils/UserStoreItemBuilder'
+
+// Types
+import type ReportingService from '../../../services/reportingService'
+import { ReportType, RequestFormData, RequestStatus } from '../../../types/UserReports'
+import type { ExecutionData, ChildReportExecutionData } from '../../../types/ExecutionData'
+import type { AsyncReportUtilsParams, RequestDataResult, RequestReportData } from '../../../types/AsyncReportUtils'
+import type { RenderFiltersReturnValue, SetQueryFromFiltersResult } from '../async-filters-form/types'
+import type { components } from '../../../types/api'
+import type { DashboardDefinition } from '../../../components/_dashboards/dashboard/types'
+import type { Services } from '../../../types/Services'
+import type DashboardService from '../../../services/dashboardService'
+
 
 /**
  * Updates the store with the request details
@@ -135,7 +140,7 @@ const requestProduct = async ({
     definition = await reportingService.getDefinition(token, reportId, id, <string>dataProductDefinitionsPath)
 
     fields = definition ? definition.variant.specification.fields : []
-    queryData = filtersHelper.setQueryFromFilters(req, fields)
+    queryData = FiltersFormUtils.setQueryFromFilters(req, fields)
     ;({ executionId, tableId } = await reportingService.requestAsyncReport(token, reportId, id, {
       ...queryData.query,
       dataProductDefinitionsPath,
@@ -147,7 +152,7 @@ const requestProduct = async ({
     definition = await dashboardService.getDefinition(token, id, reportId, <string>dataProductDefinitionsPath)
 
     fields = definition ? definition.filterFields : []
-    queryData = filtersHelper.setQueryFromFilters(req, fields)
+    queryData = FiltersFormUtils.setQueryFromFilters(req, fields)
     ;({ executionId, tableId } = await dashboardService.requestAsyncDashboard(token, reportId, id, {
       ...queryData.query,
       dataProductDefinitionsPath,
@@ -173,36 +178,29 @@ const requestProduct = async ({
 const renderDashboardRequestData = async ({
   token,
   reportId,
-  id,
   definitionPath,
   services,
+  definition
 }: {
   token: string
   reportId: string
-  id: string
   definitionPath: string
   services: Services
+  definition: DashboardDefinition
 }) => {
   const productDefinitions = await services.reportingService.getDefinitions(token, <string>definitionPath)
   const productDefinition = productDefinitions.find(
     (def: components['schemas']['ReportDefinitionSummary']) => def.id === reportId,
   )
   const reportName = productDefinition.name
-
-  const dashboardDefinition: DashboardDefinition = await services.dashboardService.getDefinition(
-    token,
-    id,
-    reportId,
-    <string>definitionPath,
-  )
-
-  const { name, description, sections } = dashboardDefinition
+  const { name, description, sections, filterFields: fields } = definition
 
   return {
     reportName,
     name,
     description,
     sections,
+    fields
   }
 }
 
@@ -213,7 +211,36 @@ const renderReportRequestData = async (definition: components['schemas']['Single
     name: definition.variant.name,
     description: definition.variant.description || definition.description,
     template: definition.variant.specification,
+    fields: definition?.variant?.specification?.fields,
+    interactive: definition?.variant?.interactive
   }
+}
+
+const getDefintionByType = async (req: Request, res: Response, next: NextFunction, services: Services) => {
+  const { token } = LocalsHelper.getValues(res)
+  const { reportId, id, variantId, type } = req.params
+  const { dataProductDefinitionsPath } = req.query
+
+  let definition
+  if (type === ReportType.REPORT) {
+    definition = await services.reportingService.getDefinition(
+      token,
+      reportId,
+      variantId || id,
+      dataProductDefinitionsPath,
+    )
+  }
+
+  if (type === ReportType.DASHBOARD) {
+    definition = await services.dashboardService.getDefinition(
+      token,
+      variantId || id,
+      reportId,
+      dataProductDefinitionsPath,
+    )
+  }
+
+  return definition
 }
 
 export default {
@@ -269,7 +296,7 @@ export default {
    * @param {AsyncReportUtilsParams} { req, res, dataSources }
    * @return {*}
    */
-  renderRequestData: async ({
+  renderRequest: async ({
     req,
     res,
     services,
@@ -281,6 +308,7 @@ export default {
       const { reportId, type, id } = req.params
       const { dataProductDefinitionsPath: definitionPath } = req.query
       const { definition } = req.body
+      const definitionApiArgs = { token, reportId, definitionPath: <string>definitionPath, services }
 
       let name
       let reportName
@@ -290,34 +318,22 @@ export default {
       let sections
       let interactive
       let defaultInteractiveQueryString
+      let filtersData
 
       if (type === ReportType.REPORT) {
-        ;({ name, reportName, description } = await renderReportRequestData(definition))
-        fields = definition?.variant?.specification?.fields
-        defaultInteractiveQueryString = fields
-          ? FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
-          : undefined
-        interactive = definition?.variant?.interactive
+        ;({ name, reportName, description, fields, interactive } = await renderReportRequestData(definition))
       }
 
       if (type === ReportType.DASHBOARD) {
-        ;({ name, reportName, description, sections } = await renderDashboardRequestData({
-          token,
-          reportId,
-          id,
-          definitionPath: <string>definitionPath,
-          services,
-        }))
-        fields = definition.filterFields
-        defaultInteractiveQueryString = definition.filterFields
-          ? FiltersUtils.setFilterQueryFromFilterDefinition(definition.filterFields, true)
-          : undefined
+        ;({ name, reportName, description, sections, fields } = await renderDashboardRequestData({...definitionApiArgs, definition }))
       }
 
-      return {
-        ...(fields && { fields }),
-        interactive,
-        reportData: {
+      if (fields) {
+        filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
+        defaultInteractiveQueryString = FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
+      }
+
+      const reportData: RequestReportData = {
           reportName,
           name,
           description,
@@ -328,8 +344,14 @@ export default {
           csrfToken,
           template,
           sections,
-          type: type as ReportType,
-        },
+          type: type as ReportType
+      }
+
+      return {
+        title: `Request ${type}`,
+        filtersDescription: `Customise your ${type} using the filters below and submit your request.`,
+        filtersData,
+        reportData,
       }
     } catch (error) {
       next(error)
@@ -345,4 +367,6 @@ export default {
         return { name: attr, value: req.body[attr] }
       })
   },
+
+  getDefintionByType,
 }

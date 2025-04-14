@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v4.1.24
+
+- Improvements to the documentation app.
+
 ## v4.1.23
 
 - Embedded reports integration:  

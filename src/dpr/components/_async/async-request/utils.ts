@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express'
 // Utils
 import FiltersFormUtils from '../async-filters-form/utils'
 import LocalsHelper from '../../../utils/localsHelper'
-import FiltersUtils from '../../../components/_filters/utils'
+import FiltersUtils from '../../_filters/utils'
 import { removeDuplicates } from '../../../utils/reportStoreHelper'
 import UserStoreItemBuilder from '../../../utils/UserStoreItemBuilder'
 
@@ -15,10 +15,9 @@ import type { ExecutionData, ChildReportExecutionData } from '../../../types/Exe
 import type { AsyncReportUtilsParams, RequestDataResult, RequestReportData } from '../../../types/AsyncReportUtils'
 import type { RenderFiltersReturnValue, SetQueryFromFiltersResult } from '../async-filters-form/types'
 import type { components } from '../../../types/api'
-import type { DashboardDefinition } from '../../../components/_dashboards/dashboard/types'
+import type { DashboardDefinition } from '../../_dashboards/dashboard/types'
 import type { Services } from '../../../types/Services'
 import type DashboardService from '../../../services/dashboardService'
-
 
 /**
  * Updates the store with the request details
@@ -180,7 +179,7 @@ const renderDashboardRequestData = async ({
   reportId,
   definitionPath,
   services,
-  definition
+  definition,
 }: {
   token: string
   reportId: string
@@ -200,7 +199,7 @@ const renderDashboardRequestData = async ({
     name,
     description,
     sections,
-    fields
+    fields,
   }
 }
 
@@ -212,7 +211,7 @@ const renderReportRequestData = async (definition: components['schemas']['Single
     description: definition.variant.description || definition.description,
     template: definition.variant.specification,
     fields: definition?.variant?.specification?.fields,
-    interactive: definition?.variant?.interactive
+    interactive: definition?.variant?.interactive,
   }
 }
 
@@ -296,12 +295,7 @@ export default {
    * @param {AsyncReportUtilsParams} { req, res, dataSources }
    * @return {*}
    */
-  renderRequest: async ({
-    req,
-    res,
-    services,
-    next,
-  }: AsyncReportUtilsParams): Promise<RequestDataResult | boolean> => {
+  renderRequest: async ({ req, res, services, next }: AsyncReportUtilsParams): Promise<RequestDataResult | boolean> => {
     try {
       const { token, csrfToken } = LocalsHelper.getValues(res)
 
@@ -325,7 +319,10 @@ export default {
       }
 
       if (type === ReportType.DASHBOARD) {
-        ;({ name, reportName, description, sections, fields } = await renderDashboardRequestData({...definitionApiArgs, definition }))
+        ;({ name, reportName, description, sections, fields } = await renderDashboardRequestData({
+          ...definitionApiArgs,
+          definition,
+        }))
       }
 
       if (fields) {
@@ -334,17 +331,17 @@ export default {
       }
 
       const reportData: RequestReportData = {
-          reportName,
-          name,
-          description,
-          reportId,
-          id,
-          definitionPath: definitionPath as string,
-          ...(defaultInteractiveQueryString?.length && { defaultInteractiveQueryString }),
-          csrfToken,
-          template,
-          sections,
-          type: type as ReportType
+        reportName,
+        name,
+        description,
+        reportId,
+        id,
+        definitionPath: definitionPath as string,
+        ...(defaultInteractiveQueryString?.length && { defaultInteractiveQueryString }),
+        csrfToken,
+        template,
+        sections,
+        type: type as ReportType,
       }
 
       return {

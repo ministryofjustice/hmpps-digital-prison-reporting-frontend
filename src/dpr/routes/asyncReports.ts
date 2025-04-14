@@ -1,3 +1,4 @@
+import type { RequestHandler, Router, Request } from 'express'
 import AsyncPollingUtils from '../components/_async/async-polling/utils'
 import AsyncRequestListUtils from '../components/user-reports/requested/utils'
 import UserReportsListUtils from '../components/user-reports/utils'
@@ -9,7 +10,6 @@ import AsyncReportUtils from '../components/_async/async-report/utils'
 import logger from '../utils/logger'
 
 // Types
-import type { RequestHandler, Router, Request } from 'express'
 import { Services } from '../types/Services'
 import { ReportType } from '../types/UserReports'
 import { RequestDataResult } from '../types/AsyncReportUtils'
@@ -23,7 +23,6 @@ export default function routes({
   services: Services
   layoutPath: string
 }) {
-
   /**   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
    *                                                            *
    *                    ERROR & AUTH ROUTES                     *
@@ -79,14 +78,11 @@ export default function routes({
     })
   }
 
-
-
   /**   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
    *                                                            *
    *                  STAGE 1: REQUEST ROUTES                   *
    *                                                            *
-   **   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */ 
-
+   **   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */
 
   /**
    * REQUEST: Render request handler
@@ -141,7 +137,7 @@ export default function routes({
     } catch (error) {
       const dprError = ErrorSummaryUtils.handleError(error, req.params.type)
       const filters = AysncRequestUtils.getFiltersFromReqBody(req)
-  
+
       req.body = {
         title: 'Request Failed',
         errorDescription: `Your ${req.params.type} has failed to generate.`,
@@ -202,7 +198,7 @@ export default function routes({
    *                  STAGE 2: POLLING ROUTES                   *
    *                                                            *
    **   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */
-  
+
   /**
    * POLLING: Render Polling
    *
@@ -267,13 +263,11 @@ export default function routes({
     }
   }
 
-  
   /**   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
    *                                                            *
    *                  STAGE 3: VIEW REPORT ROUTES               *
    *                                                            *
    **   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */
-
 
   /**
    * VIEW REPORT: Render report
@@ -362,7 +356,7 @@ export default function routes({
   router.get('/async-reports/requested', listingHandler)
 
   // REDIRECTS
-  
+
   const setQueryParams = (req: Request, url: string) => {
     const queryString = new URLSearchParams(req.query as unknown as URLSearchParams).toString()
     if (queryString.length) {
@@ -370,7 +364,7 @@ export default function routes({
     }
     return url
   }
-  
+
   // Request
   router.get('/async-reports/:reportId/:variantId/request', async (req, res, next) => {
     const { reportId, variantId: id } = req.params

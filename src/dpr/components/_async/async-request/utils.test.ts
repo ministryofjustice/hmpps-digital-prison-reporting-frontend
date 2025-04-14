@@ -3,6 +3,7 @@ import RequestReportUtils from './utils'
 
 // Mocks
 import variant1 from '../../../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
+import mockFiltersData from '../../../../../test-app/mocks/mockClients/reports/mockAsyncRequestFilters'
 import dashboardDefinitions from '../../../../../test-app/mocks/mockClients/dashboards/dashboard-definitions'
 
 // Types
@@ -13,6 +14,7 @@ import { components } from '../../../types/api'
 import type DashboardService from '../../../services/dashboardService'
 import type RequestedReportService from '../../../services/requestedReportService'
 import type RecentlyViewedStoreService from '../../../services/recentlyViewedService'
+import { RequestDataResult } from '../../../types/AsyncReportUtils'
 
 describe('RequestReportUtils', () => {
   let services: Services
@@ -55,7 +57,7 @@ describe('RequestReportUtils', () => {
     mockDefinitions = [
       {
         id: 'reportId',
-        name: 'reportName',
+        name: 'DashboardReportName',
         description: 'description',
         variants: [variant1] as components['schemas']['VariantDefinition'][],
         dashboards: [dashboardDefinitions[0]],
@@ -97,12 +99,12 @@ describe('RequestReportUtils', () => {
       //
     }) as unknown as NextFunction
 
-    jest.mock('./reportStoreHelper', () => ({
+    jest.mock('../../../utils/reportStoreHelper', () => ({
       removeDuplicates: jest.fn(),
     }))
   })
 
-  describe('renderRequestData', () => {
+  describe('renderRequest', () => {
     it('should render the request data for a report', async () => {
       req.params = {
         ...req.params,
@@ -110,7 +112,7 @@ describe('RequestReportUtils', () => {
         type: ReportType.REPORT,
       }
 
-      const result = await RequestReportUtils.renderRequestData({
+      const result = await RequestReportUtils.renderRequest({
         req,
         res,
         services,
@@ -118,7 +120,8 @@ describe('RequestReportUtils', () => {
       })
 
       expect(result).toEqual({
-        fields: mockDefinition.variant.specification.fields,
+        title: "Request report",
+        filtersDescription: "Customise your report using the filters below and submit your request.",
         reportData: {
           reportName: 'reportName',
           name: 'Successful Report',
@@ -128,9 +131,9 @@ describe('RequestReportUtils', () => {
           definitionPath: undefined,
           csrfToken: 'csrfToken',
           template: undefined,
-          metrics: undefined,
           type: 'report',
         },
+        filtersData: mockFiltersData,
       })
     })
 
@@ -141,7 +144,7 @@ describe('RequestReportUtils', () => {
         type: ReportType.DASHBOARD,
       }
 
-      const result = await RequestReportUtils.renderRequestData({
+      const result = await RequestReportUtils.renderRequest({
         req,
         res,
         services,
@@ -149,10 +152,12 @@ describe('RequestReportUtils', () => {
       })
 
       expect(result).toEqual({
+        title: "Request dashboard",
+        filtersDescription: "Customise your dashboard using the filters below and submit your request.",
         reportData: {
-          reportName: 'reportName',
-          name: 'Test Dashboard 1',
-          description: 'Will Succeed',
+          reportName: 'DashboardReportName',
+          name: 'reportName',
+          description: 'description',
           reportId: 'reportId',
           id: 'mockDashboardId',
           definitionPath: undefined,
@@ -174,7 +179,7 @@ describe('RequestReportUtils', () => {
         dataProductDefinitionsPath: 'dataProductDefinitionsPath',
       }
 
-      const result = await RequestReportUtils.renderRequestData({
+      const result = await RequestReportUtils.renderRequest({
         req,
         res,
         services,
@@ -182,7 +187,8 @@ describe('RequestReportUtils', () => {
       })
 
       expect(result).toEqual({
-        fields: mockDefinition.variant.specification.fields,
+        title: "Request report",
+        filtersDescription: "Customise your report using the filters below and submit your request.",
         reportData: {
           reportName: 'reportName',
           name: 'Successful Report',
@@ -192,9 +198,9 @@ describe('RequestReportUtils', () => {
           definitionPath: 'dataProductDefinitionsPath',
           csrfToken: 'csrfToken',
           template: undefined,
-          metrics: undefined,
           type: 'report',
         },
+        filtersData: mockFiltersData,
       })
     })
 
@@ -209,7 +215,7 @@ describe('RequestReportUtils', () => {
         dataProductDefinitionsPath: 'dataProductDefinitionsPath',
       }
 
-      const result = await RequestReportUtils.renderRequestData({
+      const result = await RequestReportUtils.renderRequest({
         req,
         res,
         services,
@@ -217,10 +223,12 @@ describe('RequestReportUtils', () => {
       })
 
       expect(result).toEqual({
+        title: "Request dashboard",
+        filtersDescription: "Customise your dashboard using the filters below and submit your request.",
         reportData: {
-          reportName: 'reportName',
-          name: 'Test Dashboard 1',
-          description: 'Will Succeed',
+          reportName: 'DashboardReportName',
+          name: 'reportName',
+          description: 'description',
           reportId: 'reportId',
           id: 'mockDashboardId',
           definitionPath: 'dataProductDefinitionsPath',

@@ -198,7 +198,7 @@ const renderDashboardRequestData = async ({
     reportName,
     name,
     description,
-    sections,
+    sections: sections || [],
     fields,
   }
 }
@@ -323,6 +323,8 @@ export default {
           ...definitionApiArgs,
           definition,
         }))
+
+        console.log({ name, reportName, description, sections, fields })
       }
 
       if (fields) {

@@ -1,8 +1,30 @@
 ---
 layout: layouts/sync-reports.njk
-title: Integrate sync reports into your service
+title: Sync reports integration guide
 ---
-## Integrate using a handler
+Perform the following integration steps in your `routes` file.
+
+## Prerequisites
+
+- Install the DPR library ([see here for integration guide](/get-started/integrating-the-library))
+
+## Import the Utility helper
+
+```js
+import ReportListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/report-list/utils'
+```
+
+## Integration types:
+
+There are three ways to integrate sync reports into your service:
+
+- [Integrate using a handler](#integrate-using-a-handler) (**_Recommended_**)
+- [Integrate using a method](#integrate-using-a-method)
+- [Integrate with data](#integrate-with-data)
+
+### Integrate using a handler
+
+**Recommended**
 
 ```js
 app.get(
@@ -20,7 +42,7 @@ app.get(
 )
 ```
 
-## Integrate using a method
+### Integrate using a method
 
 ```js
 app.get('/method', (req, res, next) => {
@@ -41,7 +63,7 @@ app.get('/method', (req, res, next) => {
 })
 ```
 
-## Integrate with data
+### Integrate with data
 
 ```js
 app.get('/data', (req, res, next) => {

@@ -1,6 +1,6 @@
 ---
-layout: layouts/sync-reports.njk
-title: Sync Report
+layout: layouts/reporting.njk
+title: List report
 subsection: Example Reports
 ---
 

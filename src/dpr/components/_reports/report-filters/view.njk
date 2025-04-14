@@ -2,6 +2,6 @@
 
 {% macro dprReportFilters(filterData, defaultQuery = '', prefix = 'filters.') %}
     {% if filterData.filters.length %}
-      {{ dprInteractiveFilters(filterData, prefix, defaultQuery) }}
+      {{ dprInteractiveFilters(filterData, defaultQuery, prefix) }}
     {% endif %}
 {% endmacro %}

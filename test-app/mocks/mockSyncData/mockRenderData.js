@@ -332,15 +332,13 @@ const mockRenderDataFromDefinition = {
     actions: [
       {
         id: 'dpr-button-printable',
-        icon: 'print',
         disabled: false,
-        tooltipText: 'Print',
+        tooltipText: 'Print screen',
         ariaLabelText: 'print report',
         href: '#',
       },
       {
         id: 'dpr-button-sharable',
-        icon: 'share',
         disabled: false,
         tooltipText: 'Share',
         ariaLabelText: 'share report request via email',
@@ -348,7 +346,6 @@ const mockRenderDataFromDefinition = {
       },
       {
         id: 'dpr-button-copy',
-        icon: 'copy',
         disabled: false,
         tooltipText: 'Copy',
         ariaLabelText: 'report request',
@@ -358,7 +355,6 @@ const mockRenderDataFromDefinition = {
     template: 'list',
     warnings: {},
     type: 'report',
-    removeBookmark: true,
   },
   layoutTemplate: '',
 }
@@ -673,15 +669,13 @@ const mockRenderDataFromData = {
     actions: [
       {
         id: 'dpr-button-printable',
-        icon: 'print',
         disabled: false,
-        tooltipText: 'Print',
+        tooltipText: 'Print screen',
         ariaLabelText: 'print report',
         href: '#',
       },
       {
         id: 'dpr-button-sharable',
-        icon: 'share',
         disabled: false,
         tooltipText: 'Share',
         ariaLabelText: 'share report request via email',
@@ -689,7 +683,6 @@ const mockRenderDataFromData = {
       },
       {
         id: 'dpr-button-copy',
-        icon: 'copy',
         disabled: false,
         tooltipText: 'Copy',
         ariaLabelText: 'report request',
@@ -698,8 +691,7 @@ const mockRenderDataFromData = {
     ],
     template: 'list',
     warnings: {},
-    type: 'report',
-    removeBookmark: true,
+    type: 'report'
   },
   layoutTemplate: 'layoutTemplate',
 }

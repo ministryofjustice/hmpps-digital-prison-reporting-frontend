@@ -2,7 +2,7 @@
 {% from "dpr/components/_filters/filters-selected/view.njk" import dprSelectedFilters %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
-{% macro dprInteractiveFilters(data, prefix, defaultQuery) %}
+{% macro dprInteractiveFilters(data, defaultQuery = '', prefix = 'filters.', detailsOpen = false) %}
 
   {% set filters = data.filters %}
   {% set selectedFilters = data.selectedFilters %}
@@ -36,7 +36,7 @@
     {{ govukDetails({
       summaryText: detailsLabel,
       html: filtersHtml,
-      open: false,
+      open: detailsOpen,
       attributes: {
         id: 'dpr-interactive-filters-details'
       }

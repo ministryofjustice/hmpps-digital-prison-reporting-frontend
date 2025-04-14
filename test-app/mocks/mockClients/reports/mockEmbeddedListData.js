@@ -394,15 +394,13 @@ const mockSyncData = {
     actions: [
       {
         id: 'dpr-button-printable',
-        icon: 'print',
         disabled: true,
-        tooltipText: 'Print',
+        tooltipText: 'Print screen',
         ariaLabelText: 'print report, disabled',
         href: '#',
       },
       {
         id: 'dpr-button-sharable',
-        icon: 'share',
         disabled: false,
         tooltipText: 'Share',
         ariaLabelText: 'share report request via email',
@@ -410,7 +408,6 @@ const mockSyncData = {
       },
       {
         id: 'dpr-button-copy',
-        icon: 'copy',
         disabled: false,
         tooltipText: 'Copy',
         ariaLabelText: 'report request',
@@ -418,7 +415,6 @@ const mockSyncData = {
       },
       {
         id: 'dpr-button-downloadable',
-        icon: 'download',
         disabled: false,
         tooltipText: 'Enable download',
         ariaLabelText: 'download report',

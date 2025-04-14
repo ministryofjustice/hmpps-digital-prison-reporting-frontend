@@ -1,0 +1,56 @@
+{% extends "./base.njk" %}
+
+{%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
+
+{% block content %}
+  <div class="govuk-width-container govuk-grid-row app-flex-container">
+    <div class="govuk-grid-column-one-quarter dpr-docs-sidebar">
+      {{ mojSideNavigation({
+        classes: 'govuk-!-padding-top-6',
+        sections: [
+          {
+            heading: {
+              text: "Integration guide"
+            },
+            items: [ 
+              {
+                text: 'Integrate using a handler',
+                href: '#integrate-using-a-handler'
+              },
+              {
+                text: 'Integrate using a method',
+                href: '#integrate-using-a-method'
+              },
+              {
+                text: 'Integrate with data',
+                href: '#integrate-with-data'
+              }
+            ]
+          },
+          {
+            heading: {
+              text: "Example Reports"
+            },
+            items: [ 
+              {
+                text: 'List report',
+                href: '/reports/example-list-report',
+                active: page.filePathStem.indexOf('/reports/example-list-report') === 0
+              }
+            ]
+          }
+        ]
+      }) }}
+    </div>
+
+    <div class="govuk-grid-column-three-quarters">
+      <main id="main-content" class="govuk-main-wrapper app-prose-scope" role="main">
+        <h1 class="govuk-heading-xl">
+          {% if subsection %}<span class="govuk-caption-xl">{{ subsection }}</span>{% endif %}
+          {{ title }}
+        </h1>
+        {{ content | safe }}
+      </main>
+    </div>
+  </div>
+{% endblock %}

@@ -12,7 +12,7 @@ const nunjucks = require('nunjucks')
 const bodyParser = require('body-parser')
 
 // Local dependencies
-const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
+const ReportListUtils = require('../package/dpr/components/report-list/utils').default
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
 const UserReportsListUtils = require('../package/dpr/components/user-reports/utils').default
 const { createUserStoreServices, initUserStoreServices } = require('../package/dpr/utils/StoreServiceUtils')
@@ -336,7 +336,7 @@ app.get('/dpr-service', async (req, res) => {
 })
 
 app.get('/embedded-reports/route-config/method', (req, res, next) => {
-  reportListUtils.renderListWithDefinition({
+  ReportListUtils.renderListWithDefinition({
     title: 'Method',
     definitionName: 'test-report',
     variantName: 'test-variant',
@@ -358,7 +358,7 @@ app.get('/embedded-reports/route-config/method', (req, res, next) => {
 
 app.get(
   '/embedded-reports/route-config/handler',
-  reportListUtils.createReportListRequestHandler({
+  ReportListUtils.createReportListRequestHandler({
     title: 'Handler',
     definitionName: 'test-report',
     variantName: 'test-variant',
@@ -378,7 +378,7 @@ app.get(
 
 app.get(
   '/embedded-reports/route-config/validation',
-  reportListUtils.createReportListRequestHandler({
+  ReportListUtils.createReportListRequestHandler({
     title: 'Handler',
     definitionName: 'test-report',
     variantName: 'test-validation-variant',
@@ -398,7 +398,7 @@ app.get(
 
 app.get(
   '/embedded-reports/route-config/sections',
-  reportListUtils.createReportListRequestHandler({
+  ReportListUtils.createReportListRequestHandler({
     title: 'Handler',
     definitionName: 'test-report',
     variantName: 'test-section-variant',
@@ -417,7 +417,7 @@ app.get(
 )
 
 app.get('/embedded-reports/route-config/fail', (req, res, next) => {
-  reportListUtils.renderListWithDefinition({
+  ReportListUtils.renderListWithDefinition({
     title: 'Fail',
     definitionName: 'failing-report',
     variantName: 'failing-variant',

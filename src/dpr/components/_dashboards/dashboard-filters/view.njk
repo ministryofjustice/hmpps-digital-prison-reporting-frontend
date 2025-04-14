@@ -2,6 +2,6 @@
 
 {% macro dprDashboardFilters(filterData, prefix = 'filters.') %}
     {% if filterData.filters.length %}
-      {{ dprInteractiveFilters(filterData, prefix) }}
+      {{ dprInteractiveFilters(filterData, '', prefix) }}
     {% endif %}
 {% endmacro %}

@@ -7,7 +7,7 @@ The List Report is a combination of the MoJ Design Pattern Library's Paging, Fil
 
 Its purpose is to present lists of data in a consistent and accessible way.
 
-{% example "list-report", 500 %}
+{% example "report/list-report/example-report", 500 %}
 
 {% header 2, "Notes" %}
 

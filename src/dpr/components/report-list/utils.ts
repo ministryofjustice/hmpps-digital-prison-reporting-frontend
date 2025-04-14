@@ -87,7 +87,6 @@ export async function renderList(
           warnings,
           type: ReportType.REPORT,
           ...otherOptions,
-          removeBookmark: true,
         },
         layoutTemplate,
       }

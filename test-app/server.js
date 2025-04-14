@@ -336,7 +336,7 @@ app.get('/dpr-service', async (req, res) => {
 })
 
 app.get('/embedded-reports/route-config/method', (req, res, next) => {
-  reportListUtils.renderListWithDefinition({
+  ReportListUtils.renderListWithDefinition({
     title: 'Method',
     definitionName: 'test-report',
     variantName: 'test-variant',

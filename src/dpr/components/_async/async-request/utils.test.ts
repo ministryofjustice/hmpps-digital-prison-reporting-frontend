@@ -120,8 +120,8 @@ describe('RequestReportUtils', () => {
       })
 
       expect(result).toEqual({
-        title: "Request report",
-        filtersDescription: "Customise your report using the filters below and submit your request.",
+        title: 'Request report',
+        filtersDescription: 'Customise your report using the filters below and submit your request.',
         reportData: {
           reportName: 'reportName',
           name: 'Successful Report',
@@ -152,8 +152,8 @@ describe('RequestReportUtils', () => {
       })
 
       expect(result).toEqual({
-        title: "Request dashboard",
-        filtersDescription: "Customise your dashboard using the filters below and submit your request.",
+        title: 'Request dashboard',
+        filtersDescription: 'Customise your dashboard using the filters below and submit your request.',
         reportData: {
           reportName: 'DashboardReportName',
           name: 'reportName',
@@ -187,8 +187,8 @@ describe('RequestReportUtils', () => {
       })
 
       expect(result).toEqual({
-        title: "Request report",
-        filtersDescription: "Customise your report using the filters below and submit your request.",
+        title: 'Request report',
+        filtersDescription: 'Customise your report using the filters below and submit your request.',
         reportData: {
           reportName: 'reportName',
           name: 'Successful Report',
@@ -223,8 +223,8 @@ describe('RequestReportUtils', () => {
       })
 
       expect(result).toEqual({
-        title: "Request dashboard",
-        filtersDescription: "Customise your dashboard using the filters below and submit your request.",
+        title: 'Request dashboard',
+        filtersDescription: 'Customise your dashboard using the filters below and submit your request.',
         reportData: {
           reportName: 'DashboardReportName',
           name: 'reportName',

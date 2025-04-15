@@ -1,0 +1,21 @@
+---
+layout: layouts/example.njk
+title: Date Range with Min and Max (example)
+arguments: date-range
+---
+{%- from "dpr/components/_inputs/date-range/view.njk" import dprDateRange %}
+
+{{ dprDateRange(
+  {
+    text: "Field 3",
+    name: "field3",
+    value:{
+      start: "2003-02-01",
+      end: "2007-05-04"
+    },
+    min: "2003-02-01",
+    max: "2007-05-04"  
+  },
+  'filterPrefix',
+  false
+) }}

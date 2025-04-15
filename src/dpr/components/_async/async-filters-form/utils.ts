@@ -52,7 +52,7 @@ export const setDurationStartAndEnd = (
   const startDateDisplayString = startDate.format('YYYY-MM-DD').toString()
   const endDateDisplayString = endDate.format('YYYY-MM-DD').toString()
 
-  const fieldId = name.split('.')[0]
+  const fieldId = name.split('.')[1]
   const field = fields.find((f) => {
     return f.name === fieldId
   })
@@ -107,39 +107,39 @@ export default {
         const shortName = name.replace('filters.', '')
         const value = req.body[name]
 
-        if (name.includes('relative-duration')) {
-          ;({ query, filterData, querySummary } = setDurationStartAndEnd(
-            name,
-            value,
-            query,
-            filterData,
-            querySummary,
-            fields,
-          ))
-        }
+        if (name.startsWith('filters.') && value !== '' && !query[name] && value !== 'no-filter') {
+          if (name.includes('relative-duration')) {
+            ;({ query, filterData, querySummary } = setDurationStartAndEnd(
+              name,
+              value,
+              query,
+              filterData,
+              querySummary,
+              fields,
+            ))
+          } else {
+            let urlParamValue: string | string[] = urlParams.getAll(name)
+            urlParamValue = !urlParamValue || urlParamValue.length === 0 ? value : urlParamValue
+            urlParamValue = urlParamValue.length === 1 ? `${urlParamValue[0]}` : `${urlParamValue}`
 
-        if (name.startsWith('filters.') && value !== '' && !query[name]) {
-          let urlParamValue: string | string[] = urlParams.getAll(name)
-          urlParamValue = !urlParamValue || urlParamValue.length === 0 ? value : urlParamValue
-          urlParamValue = urlParamValue.length === 1 ? `${urlParamValue[0]}` : `${urlParamValue}`
+            query[name as keyof Dict<string>] = urlParamValue
+            filterData[shortName as keyof Dict<string>] = urlParamValue
 
-          query[name as keyof Dict<string>] = urlParamValue
-          filterData[shortName as keyof Dict<string>] = urlParamValue
+            let dateDisplayValue
+            if (dateMapper.isDate(value)) {
+              dateDisplayValue = dateMapper.toDateString(value, 'local-date')
 
-          let dateDisplayValue
-          if (dateMapper.isDate(value)) {
-            dateDisplayValue = dateMapper.toDateString(value, 'local-date')
+              const isoFormatDate = dateMapper.toDateString(value, 'iso')
+              query[name as keyof Dict<string>] = isoFormatDate
+              filterData[shortName as keyof Dict<string>] = isoFormatDate
+            }
 
-            const isoFormatDate = dateMapper.toDateString(value, 'iso')
-            query[name as keyof Dict<string>] = isoFormatDate
-            filterData[shortName as keyof Dict<string>] = isoFormatDate
+            const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
+            querySummary.push({
+              name: fieldDisplayName || shortName,
+              value: dateDisplayValue || urlParamValue,
+            })
           }
-
-          const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
-          querySummary.push({
-            name: fieldDisplayName || shortName,
-            value: dateDisplayValue || urlParamValue,
-          })
         } else if (name.startsWith('sort')) {
           query[name as keyof Dict<string>] = value
           sortData[name as keyof Dict<string>] = value

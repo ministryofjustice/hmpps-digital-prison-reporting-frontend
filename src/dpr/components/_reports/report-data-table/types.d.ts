@@ -7,4 +7,5 @@ export interface DataTableOptions {
   printable?: boolean
   pagination: Pagination
   totals: string
+  count?: number
 }

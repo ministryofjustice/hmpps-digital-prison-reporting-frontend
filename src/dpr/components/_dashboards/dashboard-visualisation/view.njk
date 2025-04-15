@@ -18,11 +18,7 @@
       <p class="govuk-body">{{ description }}</p>
     {% endif %}
 
-    {% if type === 'bar' or type === 'line' or type === 'doughnut' or type === 'bar-timeseries' %}
-
-      {{ dprChartCard(id, data) }}
-
-    {% elif type === 'scorecard-group' %}
+    {% if type === 'scorecard-group' %}
 
       {{ dprScoreCardGroup(id, data) }}
 
@@ -30,6 +26,10 @@
 
       {{ dprDashboardList(id, data) }}
 
+    {% else %}
+
+      {{ dprChartCard(id, data) }}
+    
     {% endif %}
 
   </div>

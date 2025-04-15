@@ -126,6 +126,7 @@ const getSections = (
         case DashboardVisualisationType.BAR:
         case DashboardVisualisationType.LINE:
         case DashboardVisualisationType.BAR_TIMESERIES:
+        case DashboardVisualisationType.LINE_TIMESERIES:
         case DashboardVisualisationType.DONUT: {
           data = ChartUtils.createChart(visDefinition, dashboardData)
           break

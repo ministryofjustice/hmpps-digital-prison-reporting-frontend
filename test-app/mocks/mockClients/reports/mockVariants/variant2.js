@@ -1,3 +1,5 @@
+const { interactive } = require('./variant23-interactive')
+
 const variant2 = {
   id: 'variantId-2',
   name: 'Failed report',
@@ -24,6 +26,7 @@ const variant2 = {
             { name: 'value1.3', display: 'Value 1.3' },
           ],
           defaultValue: 'value1.2',
+          interactive: false,
         },
       },
       {
@@ -40,6 +43,7 @@ const variant2 = {
             { name: 'value2.2', display: 'Value 2.2' },
             { name: 'value2.3', display: 'Value 2.3' },
           ],
+          interactive: false,
         },
       },
       {
@@ -52,6 +56,7 @@ const variant2 = {
         filter: {
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
+          interactive: false,
         },
       },
       {
@@ -73,6 +78,7 @@ const variant2 = {
             { name: 'Princess Buttercup', display: 'Princess Buttercup' },
             { name: 'Westley', display: 'Westley' },
           ],
+          interactive: false,
         },
       },
       {
@@ -88,6 +94,7 @@ const variant2 = {
             minimumLength: 3,
             returnAsStaticOptions: false,
           },
+          interactive: false,
         },
       },
       {

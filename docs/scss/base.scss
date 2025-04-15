@@ -5,9 +5,36 @@ $moj-page-width: 1170px;
 @import 'govuk/all';
 @import 'moj/all';
 
-.app-header__logo {
-  margin-left: 30px;
-  width: auto;
+.govuk-header__container {
+  padding-top: 25px;
+
+  .dpr-docs-header {
+    width: 1170px;
+    margin: auto;
+    display: flex;
+    font-size: 24px;
+    text-decoration: none;
+    color: white !important;
+
+    .dpr-service-heading-with-logo {
+      display: flex;
+      font-weight: 700;
+      margin-right: 10px;
+
+      .moj-header__logotype-crest {
+        top: -2 !important;
+      }
+    }
+
+    .govuk-header__logotype-text {
+      font-weight: 700;
+      font-size: 24px;
+    }
+
+    .govuk-header__product-name {
+      font-size: 24px;
+    }
+  }
 }
 
 div.govuk-width-container {
@@ -16,4 +43,78 @@ div.govuk-width-container {
 
 th {
   text-align: left;
+}
+
+code {
+  font-size: 16px;
+  background-color: govuk-colour("light-grey");
+  padding: 4px 6px;
+}
+
+.language-javascript, .language-js, .language-scss, .language-html, .language-jinja {
+  padding: 18px;
+  display: block;
+  overflow: scroll;
+  line-height: 1.7;
+
+  .language-javascript,
+    .language-scss,
+    .language-html {
+      padding: 0px;
+    }
+}
+
+.dpr-component-args {
+  table {
+    width: 100%;
+    margin-bottom: 40px;
+
+    tr {
+      padding-top: 10px;
+    }
+
+    td {
+      padding: 14px 0px;
+    }
+
+    td:first-child {
+      width: 200px;
+      font-weight: 700;
+    }
+
+    td:nth-child(2) {
+        width: 100px;
+    }
+
+    td:nth-child(3) {
+      width: 120px;
+    }
+
+    th {
+      padding-left: 0px;
+    }
+  }
+}
+
+// Sidebar 
+
+.dpr-docs-sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    overflow-y: scroll;
+    max-height: 100vh;
+    top: 4px;
+    flex: 0 0 auto;
+    align-self: flex-start;
+}
+
+.dpr-request-details__table {
+  td {
+    border-bottom: 0px !important;
+  }
+} 
+
+table {
+  width: 100%;
+  padding: 5px;
 }

@@ -12,7 +12,7 @@ const nunjucks = require('nunjucks')
 const bodyParser = require('body-parser')
 
 // Local dependencies
-const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
+const ReportListUtils = require('../package/dpr/components/report-list/utils').default
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
 const UserReportsListUtils = require('../package/dpr/components/user-reports/utils').default
 const { createUserStoreServices, initUserStoreServices } = require('../package/dpr/utils/StoreServiceUtils')
@@ -48,27 +48,24 @@ setUpNunjucksFilters(nunjucksEnvironment)
 app.set('view engine', 'njk')
 
 // Middleware to serve static assets
-app.use('/assets/ext/chart.js', express.static(path.join(__dirname, '../node_modules/chart.js/dist/chart.umd.js')))
-app.use(
-  '/assets/ext/chartjs-datalabels.js',
-  express.static(
-    path.join(__dirname, '../node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js'),
-  ),
-)
-app.use('/assets/ext/jquery.min.js', express.static(path.join(__dirname, '../node_modules/jquery/dist/jquery.min.js')))
-app.use('/assets/ext/day.js', express.static(path.join(__dirname, '../node_modules/dayjs/dayjs.min.js')))
-app.use(
-  '/assets/ext/dayjs/plugin/customParseFormat.js',
-  express.static(path.join(__dirname, '../node_modules/dayjs/plugin/customParseFormat.js')),
-)
-app.use('/assets/govuk', express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/assets')))
-app.use('/assets/moj', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/assets')))
+Array.of(
+  '/assets',
+  '/assets/stylesheets',
+  '/assets/js',
+  '/node_modules/govuk-frontend/dist/govuk/assets',
+  '/node_modules/govuk-frontend/dist',
+  '/node_modules/@ministryofjustice/frontend/moj/assets',
+  '/node_modules/@ministryofjustice/frontend',
+  '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/assets',
+  '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend',
+).forEach((dir) => {
+  app.use('/assets', express.static(path.join(process.cwd(), dir)))
+})
+
+// Local overrides
 app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr/assets')))
-app.use(
-  '/govuk/all.js',
-  express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js')),
-)
-app.use('/moj/all.js', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/all.js')))
+app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr')))
+
 app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
 app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest.json')))
 app.use(bodyParser.json())
@@ -339,7 +336,7 @@ app.get('/dpr-service', async (req, res) => {
 })
 
 app.get('/embedded-reports/route-config/method', (req, res, next) => {
-  reportListUtils.renderListWithDefinition({
+  ReportListUtils.renderListWithDefinition({
     title: 'Method',
     definitionName: 'test-report',
     variantName: 'test-variant',
@@ -361,7 +358,7 @@ app.get('/embedded-reports/route-config/method', (req, res, next) => {
 
 app.get(
   '/embedded-reports/route-config/handler',
-  reportListUtils.createReportListRequestHandler({
+  ReportListUtils.createReportListRequestHandler({
     title: 'Handler',
     definitionName: 'test-report',
     variantName: 'test-variant',
@@ -381,7 +378,7 @@ app.get(
 
 app.get(
   '/embedded-reports/route-config/validation',
-  reportListUtils.createReportListRequestHandler({
+  ReportListUtils.createReportListRequestHandler({
     title: 'Handler',
     definitionName: 'test-report',
     variantName: 'test-validation-variant',
@@ -401,7 +398,7 @@ app.get(
 
 app.get(
   '/embedded-reports/route-config/sections',
-  reportListUtils.createReportListRequestHandler({
+  ReportListUtils.createReportListRequestHandler({
     title: 'Handler',
     definitionName: 'test-report',
     variantName: 'test-section-variant',
@@ -420,7 +417,7 @@ app.get(
 )
 
 app.get('/embedded-reports/route-config/fail', (req, res, next) => {
-  reportListUtils.renderListWithDefinition({
+  ReportListUtils.renderListWithDefinition({
     title: 'Fail',
     definitionName: 'failing-report',
     variantName: 'failing-variant',

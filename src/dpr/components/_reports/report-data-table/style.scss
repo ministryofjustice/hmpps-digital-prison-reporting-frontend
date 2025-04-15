@@ -166,3 +166,18 @@
   text-align: center;
   position: relative;
 }
+
+@media print {
+  .dpr-table-container {
+    .dpr-table-wrapper {
+      overflow: visible;
+    }
+    .dpr-overflow-gradient {
+      display: none;
+      width: 0px;
+    }
+  }
+  .govuk-width-container {
+    max-width: 100% !important;
+  }
+}

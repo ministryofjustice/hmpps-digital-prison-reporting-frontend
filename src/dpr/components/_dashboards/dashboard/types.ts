@@ -5,7 +5,7 @@ import { Scorecard, ScorecardGroup } from '../scorecard/types'
 export interface DashboardDefinition {
   id: string
   name: string
-  description: string
+  description?: string
   sections: DashboardSection[]
   filterFields: components['schemas']['FieldDefinition'][]
 }
@@ -50,8 +50,9 @@ export enum DashboardVisualisationType {
   LIST = 'list',
   DONUT = 'doughnut',
   BAR = 'bar',
-  BAR_TIMESERIES = 'bar-timeseries',
   LINE = 'line',
+  BAR_TIMESERIES = 'bar-timeseries',
+  LINE_TIMESERIES = 'line-timeseries',
   SCORECARD = 'scorecard',
   SCORECARD_GROUP = 'scorecard-group',
 }

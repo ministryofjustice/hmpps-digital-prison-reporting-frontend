@@ -139,6 +139,9 @@ export default class UserStoreItemBuilder {
               search: dpdPath.length
                 ? `${dpdPath}&${defaultInteractiveQueryString}`
                 : `?${defaultInteractiveQueryString}`,
+              default: dpdPath.length
+                ? `${dpdPath}&${defaultInteractiveQueryString}`
+                : `?${defaultInteractiveQueryString}`,
             }),
           },
         },

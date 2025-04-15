@@ -11,14 +11,16 @@
         {% set value = selected.value %}
         {% set classes = selected.classes %}
         {% set disabled = selected.disabled %}
+        {% set constraints = selected.constraints %}
         
         {% if disabled %}
           <p class="govuk-body {{ classes }}">{{ text }}</p>
         {% else %}
           <a href="#" 
-            class="govuk-link {{ classes }}" 
+            class="govuk-link govuk-body {{ classes }}" 
             data-query-param-key= {{ key }} 
-            data-query-param-value= {{ value }}
+            data-query-param-value= '[{{ value }}]'
+            data-query-constraint-values= '{{ constraints | json }}'
           >
           {{ text }}
           </a>

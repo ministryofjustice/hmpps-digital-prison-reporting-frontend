@@ -1,5 +1,5 @@
 {% from "../../_reports/report-template/view.njk" import dprReportTemplate %}
 
 {% macro dprAsyncReport(renderData) %}
-  {{ dprReportTemplate(renderData, renderData.requestUrl.fullUrl)}}
+  {{ dprReportTemplate(renderData)}}
 {% endmacro %}

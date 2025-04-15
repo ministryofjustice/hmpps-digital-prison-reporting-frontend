@@ -36,7 +36,7 @@ export default class DprQueryParamClass extends DprClientClass {
   initInputEvents(elements) {
     Array.from(elements).forEach((input) => {
       input.addEventListener('change', () => {
-        this.setQueryParamFromInput(input, true)
+        this.setQueryParamFromInput(input, true, false)
       })
     })
   }
@@ -49,7 +49,7 @@ export default class DprQueryParamClass extends DprClientClass {
    */
   initQueryParamsFromInputs(elements) {
     Array.from(elements).forEach((input) => {
-      if (input.type !== 'hidden') this.setQueryParamFromInput(input)
+      if (input.type !== 'hidden') this.setQueryParamFromInput(input, false, true)
     })
   }
 
@@ -60,23 +60,21 @@ export default class DprQueryParamClass extends DprClientClass {
    * @param {*} toggleCheckbox
    * @memberof DprQueryParamClass
    */
-  setQueryParamFromInput(input, toggleCheckbox = false) {
+  setQueryParamFromInput(input, toggleCheckbox = false, init = false) {
     const { type } = input
-    if (input.value !== 'no-filter') {
-      if (type === 'checkbox' || type === 'radio') {
-        this.setMultiSelectQueryParam(input, toggleCheckbox)
-      } else {
-        const { name } = input
-        let { value } = input
-        const { staticOptionNameValue } = input
-        const isDateInput = input.classList.contains('moj-js-datepicker-input')
-        if (isDateInput) {
-          const formatted = dayjs(value, 'D/M/YYYY').format('YYYY-MM-DD')
-          value = formatted !== 'Invalid Date' ? formatted : ''
-        }
-        const valueToUpdate = !isDateInput && staticOptionNameValue ? staticOptionNameValue : value
-        if (name) this.updateQueryParam(name, valueToUpdate)
+    if (type === 'checkbox' || type === 'radio') {
+      this.setMultiSelectQueryParam(input, toggleCheckbox, init)
+    } else {
+      const { name } = input
+      let { value } = input
+      const { staticOptionNameValue } = input
+      const isDateInput = input.classList.contains('moj-js-datepicker-input')
+      if (isDateInput) {
+        const formatted = dayjs(value, 'D/M/YYYY').format('YYYY-MM-DD')
+        value = formatted !== 'Invalid Date' ? formatted : ''
       }
+      const valueToUpdate = !isDateInput && staticOptionNameValue ? staticOptionNameValue : value
+      if (name) this.updateQueryParam(name, valueToUpdate)
     }
   }
 
@@ -87,14 +85,20 @@ export default class DprQueryParamClass extends DprClientClass {
    * @param {*} toggle - adds the delete step on toggle
    * @memberof DprQueryParamClass
    */
-  setMultiSelectQueryParam(input, toggle) {
+  setMultiSelectQueryParam(input, toggle, init) {
     this.queryParams = new URLSearchParams(window.location.search)
     const { name, value, checked, type } = input
     if (checked && !this.queryParams.has(name, value)) {
       let updateType
-      if (type === 'checkbox') updateType = 'append'
+      if (type === 'checkbox') {
+        updateType = 'append'
+        if (!init && name !== 'columns') this.updateQueryParam('preventDefault', true)
+      }
       this.updateQueryParam(name, value, updateType)
     } else if (!checked && this.queryParams.has(name, value) && toggle) {
+      if (type === 'checkbox') {
+        if (!init && name !== 'columns') this.updateQueryParam('preventDefault', true)
+      }
       this.updateQueryParam(name, value, 'delete')
     }
   }
@@ -124,6 +128,7 @@ export default class DprQueryParamClass extends DprClientClass {
           break
       }
     }
+
     window.history.replaceState(null, null, `?${this.queryParams.toString()}`)
   }
 
@@ -132,13 +137,19 @@ export default class DprQueryParamClass extends DprClientClass {
    *
    * @memberof DprQueryParamClass
    */
-  clearQueryParams() {
+  clearQueryParams(type) {
     const sacredParams = ['dataProductDefinitionsPath']
     this.queryParams = new URLSearchParams(window.location.search)
     const params = Array.from(this.queryParams)
+
     params.forEach((p) => {
       if (!sacredParams.includes(p[0])) {
-        this.queryParams.delete(p[0], p[1])
+        if (type && p[0].includes(type)) {
+          this.queryParams.delete(p[0], p[1])
+        }
+        if (type === 'filters') {
+          this.queryParams.delete('preventDefault')
+        }
       }
     })
     window.history.replaceState(null, null, `?${this.queryParams.toString()}`)
@@ -187,5 +198,14 @@ export default class DprQueryParamClass extends DprClientClass {
   setCheckBoxValues(inputs, value) {
     const input = Array.from(inputs).find((i) => i.getAttribute('value') === value)
     if (input) input.checked = true
+  }
+
+  removeNoFilterValues() {
+    this.queryParams = new URLSearchParams(window.location.search)
+    const params = Array.from(this.queryParams)
+    params.forEach((p) => {
+      if (p[1].includes('no-filter')) this.queryParams.delete(p[0], p[1])
+    })
+    window.history.replaceState(null, null, `?${this.queryParams.toString()}`)
   }
 }

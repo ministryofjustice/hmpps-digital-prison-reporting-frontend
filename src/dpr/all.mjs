@@ -20,7 +20,6 @@ import DownloadMessage from './components/_reports/report-download-message/clien
 
 // Filters
 import InteractiveFilters from './components/_filters/filters-interactive/clientClass.mjs'
-import Filters from './components/filters/clientClass.mjs'
 
 // Async
 import AsyncPolling from './components/_async/async-polling/clientClass.mjs'
@@ -54,14 +53,13 @@ import ScoreCard from './components/_dashboards/scorecard/clientClass.mjs'
  * components provided as part of DPR Frontend.
  *
  */
-export default function initAll() {
+function initAll() {
   const loadingHelper = new DprLoadingHelper()
 
   const components = [
     Autocomplete,
     CardGroup,
     Columns,
-    Filters,
     AsyncFilters,
     InteractiveFilters,
     Pagination,
@@ -98,4 +96,8 @@ export default function initAll() {
       }
     })
   })
+}
+
+export {
+  initAll
 }

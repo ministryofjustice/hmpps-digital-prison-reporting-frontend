@@ -1,10 +1,10 @@
 ---
 layout: layouts/dashboards.njk
-title: List chart definition
+title: List chart
 subsection: Visualisation definition
 ---
 
-The list visualisation type represents data as a simple list visualisation.
+The `list` visualisation type represents data as a simple list visualisation.
 
 ## When to use
 
@@ -26,13 +26,13 @@ To define a list visualisation:
 }
 ```
 
-To learn more about defining the data for the visualisation using the `columns` field see [here](./visualisation-definition.md#targeting-data-in-a-dataset)
+To learn more about defining the data for the visualisation using the `columns` field see [here](/dashboards/visualisations/targeting-data)
 
 ## List representations
 
 There are two ways to represent data from a dataset as a list:
 
-- [Using dataset rows as list rows](#using-dataset-rows-as-list-rows)
+- [Using dataset rows as list rows](#using-dataset-rows-as-list-rows) using-dataset-rows-as-list-rows
 - [Using dataset columns as list rows](#using-dataset-columns-as-list-rows)
 
 # Examples
@@ -47,7 +47,7 @@ For these examples we will use this mocked dataset:
 | LTI    | 150      | 208      | 220      | 214      |
 ```
 
-## Using dataset rows as list rows:
+## Using dataset rows as list rows
 
 List visualisation:
 
@@ -95,7 +95,7 @@ The definition:
 }
 ```
 
-## Using dataset columns as list rows:
+## Using dataset columns as list rows
 
 List visualisation
 

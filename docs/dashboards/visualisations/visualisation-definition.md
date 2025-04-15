@@ -1,27 +1,7 @@
 ---
 layout: layouts/dashboards.njk
-title: Dashboard Visualisation Definition
+title: Visualisation Definition
 ---
-
-These docs describe hows to define and use the dashboard visualisation definition
-
-contents:
-- [The Visualisation definition](#the-visualisation-definition)
-- [Targeting data in a dataset](#targeting-data-in-a-dataset)
-
-## Visualisation types
-
-A visualisation definition can be one of the following types:
-
-- [`list`](./line.md)
-- [`bar`](./bar.md)
-- [`doughnut`](./dougnhut.md)
-- [`line`](./line.md)
-- [`scorecard`](./scorecard.md)
-- [`scorecard-group`](./scorcard-group.md)
-
-## The Visualisation definition
-
 The visualisation definition is responsible for:
 
 - specifying the type of visualisation
@@ -36,10 +16,10 @@ All visualisation types share the same common definition attributes:
 | `type`        | enum    | Yes      | The visualisation type See [Visualisation types](#visualisation-types)  |
 | `display`     | string  | no       | The visualisation title                                                 |
 | `description` | string  | no       | The visualisation desciption                                            |
-| `columns`     | object  | yes      | The dataset colums definition. See [Columns](#details)                  |
+| `columns`     | object  | yes      | The dataset colums definition. See [Columns](#columns)                  |
 | `showLatest`  | boolean | no       | default value: `true`. Determines whether to include historic data      |
 
-### Columns Definition
+### Columns
 
 The `columns` definition is responsible for targeting the required visualisation data from a dataset. See [Targeting data in a dataset](#targeting-data-in-a-dataset) for usage.
 
@@ -75,4 +55,3 @@ The `columns` definition is responsible for targeting the required visualisation
 | `id`        | string  | Yes      |  The id/column name of the column within the dataset     |
 | `equals`    | string  | Yes      |  The value the column should match                       |
 
-See [Filtering a dataset by column value](#filtering-a-dataset-by-column-value) for usage

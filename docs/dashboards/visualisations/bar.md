@@ -1,6 +1,6 @@
 ---
 layout: layouts/dashboards.njk
-title: Bar chart definition
+title: Bar chart
 subsection: Visualisation definition
 ---
 
@@ -26,7 +26,7 @@ Use this visualisation type when you need to display data as a bar chart.
 }
 ```
 
-To learn more about defining the data for the visualisation using the `columns` field see [here](./visualisation-definition.md#targeting-data-in-a-dataset)
+To learn more about defining the data for the visualisation using the `columns` field see [here](/dashboards/visualisations/targeting-data)
 
 # Examples
 
@@ -78,7 +78,7 @@ and a definition as follows:
 }
 ```
 
-This definition will return the following dataset (see [here](./visualisation-definition.md#targeting-data-in-a-dataset) for more info on targeting data):
+This definition will return the following dataset (see [here](/dashboards/visualisations/targeting-data) for more info on targeting data):
 
 ```js
 | est_id | has_ethnicity | ethnicity_is_missing |
@@ -91,7 +91,7 @@ This definition will return the following dataset (see [here](./visualisation-de
 
 And produce this bar chart visualisation:
 
-<img src="../../assets/images//barExample2.png" alt="isolated" width="500"/>
+<img src="/assets/images//barExample2.png" alt="bar chart example" width="850"/>
 
 
 ## Dataset values as labels 
@@ -144,7 +144,7 @@ and this definition:
 }
 ```
 
-This definition will return the following dataset (see [here](./visualisation-definition.md#targeting-data-in-a-dataset) for more info on targeting data).
+This definition will return the following dataset (see [here](/dashboards/visualisations/targeting-data) for more info on targeting data).
 
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
@@ -157,6 +157,6 @@ This definition will return the following dataset (see [here](./visualisation-de
 
 to produce this bar chart. 
 
-<img src="../../assets/images//barExample1.png" alt="isolated" width="500"/>
+<img src="/assets/images/barExample1.png" alt="bar chart example" width="850"/>
 
 ```

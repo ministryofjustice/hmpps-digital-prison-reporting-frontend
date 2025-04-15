@@ -2,7 +2,7 @@
 layout: layouts/dashboards.njk
 title: Targeting data in a dataset
 ---
-These docs describe hows to define a visualisation definition to target data within a dataset
+These docs describe how to define a visualisation definition to target specific data within a dataset.
 
 ## How to target data
 
@@ -86,9 +86,9 @@ This definition will return the following dataset:
 | 2025/02/25 | MDI      | north | cell5 |             | 42    |
 ```
 
-### expectNulls field
-
 Note that rows with `cell` values were also returned here also, as the defintion returns all rows where the `keys` and `measures` are defined.
+
+### expectNulls field
 
 To filter out the rows with `cell` values, and therefore specifically target the row for wing totals, we can specify `expectNulls` as `true`
 

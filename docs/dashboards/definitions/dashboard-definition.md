@@ -1,22 +1,7 @@
-# Dashboards
-
-This document describes hows to define a dashboard, using the dashboard definition.
-
-contents:
-
-- [Introduction](#introduction)
-- [Definition](#definition)
-- [Examples](#examples)
-
-
-## Introduction
-
-A dashboard a collection of things. The role of the dashboard is present data in easy to digest slices, through the use of various [visualisation](../visualisations/visualisation-definition.md) types.
-
-A dashboard is defined by a dashboard definition and is always backed by a single dataset. 
-
-## Definition
-
+---
+layout: layouts/dashboards.njk
+title: Dashboard Definition
+---
 The dashboard definition is responsible for defining the structure and IA of a dashboard:
 
 - a title and a description
@@ -24,7 +9,9 @@ The dashboard definition is responsible for defining the structure and IA of a d
 - zero or many sections
 - zero or many visualisations within a section
 
-### Fields
+## Fields
+
+### Dashboard definition
 
 | Name          | Type    | Required | Description                                                             |
 | --------------| ------- | -------- | ------------------------------------------------------------------------|

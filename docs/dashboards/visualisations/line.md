@@ -1,4 +1,8 @@
-# Line Chart Visualisation Type
+---
+layout: layouts/dashboards.njk
+title: Line chart definition
+subsection: Visualisation definition
+---
 
 The `line` chart visualisation type represents data as a line chart visualisation.
 
@@ -8,7 +12,7 @@ Charts are accompanied by a table/list representation of the underlying chart da
 
 Use this visualisation type when you need to display data in as a line chart. 
 
-## Visualisation Definition Structure
+## Definition
 
 ```js
 {
@@ -24,4 +28,4 @@ Use this visualisation type when you need to display data in as a line chart.
 
 To learn more about defining the data for the visualisation using the `columns` field see [here](./visualisation-definition.md#targeting-data-in-a-dataset)
 
-## Examples
+# Examples

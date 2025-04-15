@@ -1,0 +1,114 @@
+{% extends "./base.njk" %}
+
+{%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
+
+{% block content %}
+  <div class="govuk-width-container govuk-grid-row app-flex-container">
+    <div class="govuk-grid-column-one-quarter dpr-docs-sidebar">
+      {{ mojSideNavigation({
+        classes: 'govuk-!-padding-top-6',
+        sections: [
+          {
+            heading: {
+              text: "Contents"
+            },
+            items: [
+              {
+                text: 'Dashboard Definition',
+                href: '/dashboards/definitions/dashboard-definition',
+                active: page.filePathStem.indexOf('/dashboards/definitions/dashboard-definition') === 0
+              },
+              {
+                text: 'Dashboard Visualisation Definition',
+                href: '/dashboards/visualisations/visualisation-definition',
+                active: page.filePathStem.indexOf('/dashboards/visualisations/visualisation-definition') === 0
+              }
+            ]
+          },
+          {
+            heading: {
+              text: "Visualisation definitions"
+            },
+            items: [
+              {
+                text: 'Targeting Data',
+                href: '/dashboards/visualisations/targeting-data',
+                active: page.filePathStem.indexOf('/dashboards/visualisations/targeting-data') === 0
+              },
+              {
+                text: 'Bar chart definition',
+                href: '/dashboards/visualisations/bar',
+                active: page.filePathStem.indexOf('/dashboards/visualisations/bar') === 0
+              },
+              {
+                text: 'Line chart definition',
+                href: '/dashboards/visualisations/line',
+                active: page.filePathStem.indexOf('/dashboards/visualisations/line') === 0
+              },
+              {
+                text: 'Doughnut chart definition',
+                href: '/dashboards/visualisations/doughnut',
+                active: page.filePathStem.indexOf('/dashboards/visualisations/doughnut') === 0
+              },
+              {
+                text: 'List definition',
+                href: '/dashboards/visualisations/list',
+                active: page.filePathStem.indexOf('/dashboards/visualisations/list') === 0
+              },
+              {
+                text: 'Scorecard definition',
+                href: '/dashboards/visualisations/scorecard',
+                active: page.filePathStem.indexOf('/dashboards/visualisations/scorecard') === 0
+              },
+              {
+                text: 'Scorecard group definition',
+                href: '/dashboards/visualisations/scorecard-group',
+                active: page.filePathStem.indexOf('/dashboards/visualisations/scorecard-group') === 0
+              }
+            ]
+          },
+          {
+            heading: {
+              text: "Components"
+            },
+            items: [
+              {
+                text: 'Chart card',
+                href: '/components/dashboards/chart-card',
+                active: page.filePathStem.indexOf('/components/dashboards/chart-card') === 0
+              },
+              {
+                text: 'Chart tabs',
+                href: '/components/dashboards/chart-tabs',
+                active: page.filePathStem.indexOf('/components/dashboards/chart-tabs') === 0
+              },
+              {
+                text: 'Chart',
+                href: '/components/dashboards/chart-container',
+                active: page.filePathStem.indexOf('/components/dashboards/chart-container') === 0
+              },
+              {
+                text: 'Scorecard',
+                href: '/components/dashboards/scorecard',
+                active: page.filePathStem.indexOf('/components/dashboards/scorecard') === 0
+              }
+            ]
+          }
+        ]
+      }) }}
+    </div>
+
+    <div class="govuk-grid-column-three-quarters">
+      <main id="main-content" class="govuk-main-wrapper app-prose-scope" role="main">
+        <h1 class="govuk-heading-xl">
+          {% if not isIndex %}
+            {% if subsection %}<span class="govuk-caption-xl">{{ subsection }}</span>{% endif %}
+          {% endif %}
+          {{ title }}
+        </h1>
+        {{ content | safe }}
+        {% block exampleContent %}{% endblock %}
+      </main>
+    </div>
+  </div>
+{% endblock %}

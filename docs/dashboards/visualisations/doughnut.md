@@ -1,4 +1,8 @@
-# Doughnut Chart Visualisation Type
+---
+layout: layouts/dashboards.njk
+title: Doughnut chart definition
+subsection: Visualisation definition
+---
 
 The `doughnut` chart visualisation type represents data as a doughnut chart visualisation.
 
@@ -8,7 +12,7 @@ Charts are accompanied by a table/list representation of the underlying chart da
 
 Use this visualisation type when you need to display data in as a doughnut chart. 
 
-## Visualisation Definition Structure
+## Definition
 
 ```js
 {
@@ -24,6 +28,6 @@ Use this visualisation type when you need to display data in as a doughnut chart
 
 To learn more about defining the data for the visualisation using the `columns` field see [here](./visualisation-definition.md#targeting-data-in-a-dataset)
 
-## Examples
+# Examples
 
 TODO: examples

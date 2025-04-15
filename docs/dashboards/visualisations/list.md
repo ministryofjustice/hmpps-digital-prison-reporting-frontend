@@ -1,4 +1,8 @@
-# List Visualisation Type
+---
+layout: layouts/dashboards.njk
+title: List chart definition
+subsection: Visualisation definition
+---
 
 The list visualisation type represents data as a simple list visualisation.
 
@@ -6,7 +10,7 @@ The list visualisation type represents data as a simple list visualisation.
 
 Use this visualisation type when you need to display data in a list. 
 
-## Definition Structure
+## Definition
 
 To define a list visualisation:
 
@@ -31,11 +35,11 @@ There are two ways to represent data from a dataset as a list:
 - [Using dataset rows as list rows](#using-dataset-rows-as-list-rows)
 - [Using dataset columns as list rows](#using-dataset-columns-as-list-rows)
 
-## Examples
+# Examples
 
 For these examples we will use this mocked dataset:
 
-```
+```js
 | est_id | metric_1 | metric_2 | metric_3 | metric_4 |
 |--------|----------|----------|----------|----------|
 | MDI    | 100      | 231      | 300      | 500      |
@@ -43,11 +47,11 @@ For these examples we will use this mocked dataset:
 | LTI    | 150      | 208      | 220      | 214      |
 ```
 
-### Using dataset rows as list rows:
+## Using dataset rows as list rows:
 
 List visualisation:
 
-```
+```js
 | Establishment ID | Metric 1 | Metric 2 title | Random name |
 |------------------|----------|----------------|-------------|
 | MDI              | 100      | 231            | 300         |
@@ -91,10 +95,11 @@ The definition:
 }
 ```
 
-### Using dataset columns as list rows:
+## Using dataset columns as list rows:
 
 List visualisation
-```
+
+```js
                  | MDI      | SLI      | LTI      |
 |----------------|----------|----------|----------|
 | Metric 1       | 100      | 200      | 150      |

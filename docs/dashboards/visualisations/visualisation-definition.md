@@ -1,4 +1,7 @@
-# Dashboard Visualisation Definition
+---
+layout: layouts/dashboards.njk
+title: Dashboard Visualisation Definition
+---
 
 These docs describe hows to define and use the dashboard visualisation definition
 

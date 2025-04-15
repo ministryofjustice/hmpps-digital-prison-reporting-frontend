@@ -35,7 +35,10 @@ export default class ParentChildDataTableBuilder extends DataTableBuilder {
       }
     })
 
-    logger.info('DPR-Parent-child-template-debugging - ParentChildDataTableBuilder', JSON.stringify({ sectionedData }, null, 2))
+    logger.info(
+      'DPR-Parent-child-template-debugging - ParentChildDataTableBuilder',
+      JSON.stringify({ sectionedData }, null, 2),
+    )
 
     sectionedData = this.splitParentDataIntoSections(sectionedData, parentData, joinFields)
 
@@ -43,7 +46,10 @@ export default class ParentChildDataTableBuilder extends DataTableBuilder {
 
     sectionedData = this.splitChildDataIntoSections(sectionKeys, sectionedData)
 
-    logger.info('DPR-Parent-child-template-debugging - ParentChildDataTableBuilder', JSON.stringify({ sectionedData }, null, 2))
+    logger.info(
+      'DPR-Parent-child-template-debugging - ParentChildDataTableBuilder',
+      JSON.stringify({ sectionedData }, null, 2),
+    )
 
     const childDataTableBuilders = this.createChildDataTableBuilders()
 

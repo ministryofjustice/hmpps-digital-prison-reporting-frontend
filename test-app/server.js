@@ -82,11 +82,7 @@ const ReportingService = require('../package/dpr/services/reportingService').def
 const DashboardService = require('../package/dpr/services/dashboardService').default
 
 // Routes
-const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
-const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
-const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
-const addDownloadRoutes = require('../package/dpr/routes/download').default
-const addSyncRoutes = require('../package/dpr/routes/syncReports').default
+const DprEmbeddedAsyncReports = require('../package/dpr/routes/DprEmbeddedReports').default
 
 // Charts
 const mockBarChartData = require('./mocks/mockChartData/mockBarChartData')
@@ -278,15 +274,10 @@ initUserStoreServices('userId', services)
 const routeImportParams = {
   router: app,
   services,
-  layoutPath: 'page.njk',
-  templatePath: 'dpr/views/',
+  layoutPath: 'page.njk'
 }
 
-addBookmarkingRoutes(routeImportParams)
-addRecentlyViewedRoutes(routeImportParams)
-addAsyncReportingRoutes(routeImportParams)
-addDownloadRoutes(routeImportParams)
-addSyncRoutes(routeImportParams)
+DprEmbeddedAsyncReports(routeImportParams)
 
 /**
  * EMBEDDED REPORTS: Route import config

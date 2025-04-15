@@ -2,7 +2,7 @@ Below you can find the changes included in each release.
 
 ## v4.1.24
 
-- Improvements to the documentation app.
+- Improvements to the documentation application.
 
 ## v4.1.23
 

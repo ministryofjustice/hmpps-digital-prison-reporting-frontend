@@ -323,8 +323,6 @@ export default {
           ...definitionApiArgs,
           definition,
         }))
-
-        console.log({ name, reportName, description, sections, fields })
       }
 
       if (fields) {

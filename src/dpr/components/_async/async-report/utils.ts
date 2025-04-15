@@ -25,6 +25,7 @@ import LocalsHelper from '../../../utils/localsHelper'
 import { DownloadActionParams } from '../../_reports/report-actions/types'
 import { Services } from '../../../types/Services'
 import { ChildData } from '../../../utils/ParentChildDataTableBuilder/types'
+import logger from '../../../utils/logger'
 
 export const getData = async ({
   req,
@@ -241,6 +242,9 @@ export const getTableData = (
       dataTable = DataTableUtils.buildListTable(definition, columns, reportData, summariesData, reportQuery)
       break
   }
+
+  logger.info('DPR-Parent-child-template-debugging', JSON.stringify({ dataTable }))
+
   return dataTable
 }
 

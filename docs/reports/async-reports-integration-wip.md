@@ -48,7 +48,7 @@ export const services = (): Services => {
 
 ```
 
-### Initialise Async Routes
+### Initialise routes
 
 ```js
 // server/routes/index.ts
@@ -57,9 +57,9 @@ import DprEmbeddedAsyncReports from '@ministryofjustice/hmpps-digital-prison-rep
 
 
 export default function routes(services: Services): Router {
-
-  ...
   
+  ...
+
   DprEmbeddedAsyncReports({
     router,
     services,
@@ -68,3 +68,49 @@ export default function routes(services: Services): Router {
 }
 ```
 
+## Requested Reports list
+
+### Initialise data
+
+```js
+// server/routes/index.ts
+
+import UserReportsListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/utils'
+
+
+export default function routes(services: Services): Router {
+
+  ...
+
+  router.get('/path/to/requested/reports/list/', (req, res) => {
+
+    const {
+      requestedReports,
+      viewedReports,
+      bookmarks,
+    } = await UserReportsListUtils.initLists({ res, req, services })
+
+    res.render('requested-reports.njk', {
+      title: 'DPR test site',
+      requestedReports,
+      viewedReports,
+      bookmarks
+    })
+  })
+}
+
+```
+
+### Add component to template
+
+```jinja
+<!-- views/requested-reports.njk -->
+
+{% from "dpr/components/user-reports/view.njk" import dprUserReports %}
+
+{{ dprUserReports({
+  requestedReports: requestedReports,
+  viewedReports: viewedReports,
+  bookmarks: bookmarks
+}) }}
+```

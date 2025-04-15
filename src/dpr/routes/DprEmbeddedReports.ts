@@ -7,10 +7,22 @@ import addSyncRoutes from './syncReports'
 
 import type { Services } from '../types/Services'
 
-export default function routes(routeImportParams: { router: Router; services: Services; layoutPath: string }) {
+interface Features {
+  bookmarking: boolean,
+  download: boolean
+}
+
+export default function routes(routeImportParams: { router: Router; services: Services; layoutPath: string, features?: Features }) {
+
   addAsyncReportingRoutes(routeImportParams)
-  addBookmarkingRoutes(routeImportParams)
-  addDownloadRoutes(routeImportParams)
   addRecentlyViewedRoutes(routeImportParams)
   addSyncRoutes(routeImportParams)
+
+  const { features } = routeImportParams
+  if( features?.bookmarking === undefined  || features.bookmarking ) {
+    addBookmarkingRoutes(routeImportParams)
+  }
+  if( features?.download === undefined || features.download ) {
+    addDownloadRoutes(routeImportParams)
+  }
 }

@@ -1,5 +1,5 @@
 ---
-layout: layouts/component.njk
+layout: layouts/dashboards.njk
 title: Chart Card
 ---
 

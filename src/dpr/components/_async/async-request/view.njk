@@ -1,0 +1,25 @@
+{% from "../async-filters-form/view.njk" import dprAsyncFiltersForm %}  
+
+{% macro dprAsyncRequest(args) %}
+  {% set title = args.title %}
+  {% set filters = args.filters %}
+  {% set filterDescription = args.filterDescription %}
+  {% set sortBy = args.sortBy %}
+  {% set reportData = args.reportData %}
+  {% set endpoint = args.endpoint %}
+  {% set type = args.type %}
+
+  <h1>{{ title }}</h1>
+
+  {% if filters %}
+    <p class="govuk-body">{{ filterDescription }}</p>
+  {% endif %}
+    
+  {{ dprAsyncFiltersForm({ 
+    filters: filters, 
+    sortBy: sortBy, 
+    data: reportData, 
+    endpoint: endpoint,
+    type: type
+  }) }}
+{% endmacro %}

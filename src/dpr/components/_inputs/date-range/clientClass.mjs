@@ -87,7 +87,6 @@ export default class DateRangeInput extends DprClientClass {
   }
 
   updateCheckedDuration(durationRadioButton) {
-    console.log('updateCheckedDuration')
     if (durationRadioButton.checked) {
       const durationValue = durationRadioButton.value
       this.updateInputs(durationValue)

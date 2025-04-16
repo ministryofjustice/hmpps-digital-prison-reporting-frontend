@@ -145,7 +145,7 @@ export const getChildData = async (
 
       const query = new ReportQuery({
         fields: specification.fields,
-        template: specification.template as Template,
+        template: 'parent-child',
         queryParams: req.query,
         definitionsPath: dataProductDefinitionsPath,
       }).toRecordWithFilterPrefix(true)

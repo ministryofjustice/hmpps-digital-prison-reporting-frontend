@@ -243,8 +243,6 @@ export const getTableData = (
       break
   }
 
-  logger.info('DPR-Parent-child-template-debugging', JSON.stringify({ dataTable }))
-
   return dataTable
 }
 

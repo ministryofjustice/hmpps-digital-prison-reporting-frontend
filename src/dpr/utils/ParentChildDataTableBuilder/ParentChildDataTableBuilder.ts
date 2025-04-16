@@ -23,11 +23,7 @@ export default class ParentChildDataTableBuilder extends DataTableBuilder {
       this.variant.childVariants.flatMap((c) => c.joinFields).reduce(distinct, []),
     )
 
-    logger.info('DPR-Parent-child-template-debugging - ParentChildDataTableBuilder', JSON.stringify({ joinFields }))
-
     const sectionKeys = this.calculateSectionKeys(parentData, joinFields)
-
-    logger.info(JSON.stringify({ sectionKeys }, null, 2))
 
     sectionKeys.forEach((parentKey) => {
       sectionedData[parentKey.sortKey] = {
@@ -35,21 +31,8 @@ export default class ParentChildDataTableBuilder extends DataTableBuilder {
       }
     })
 
-    logger.info(
-      'DPR-Parent-child-template-debugging - ParentChildDataTableBuilder',
-      JSON.stringify({ sectionedData }, null, 2),
-    )
-
     sectionedData = this.splitParentDataIntoSections(sectionedData, parentData, joinFields)
-
-    logger.info('DPR-Parent-child-template-debugging - ', JSON.stringify({ sectionedData }, null, 2))
-
     sectionedData = this.splitChildDataIntoSections(sectionKeys, sectionedData)
-
-    logger.info(
-      'DPR-Parent-child-template-debugging - ParentChildDataTableBuilder',
-      JSON.stringify({ sectionedData }, null, 2),
-    )
 
     const childDataTableBuilders = this.createChildDataTableBuilders()
 

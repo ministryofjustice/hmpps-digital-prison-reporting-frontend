@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v4.1.26
+
+- BugFix: Parent child template fixed.
+
 ## v4.1.24
 
 - Improvements to the documentation application.

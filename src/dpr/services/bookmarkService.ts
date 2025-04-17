@@ -1,11 +1,11 @@
-import UserStoreService from './userStoreService'
-import UserDataStore from '../data/userDataStore'
+import ReportStoreService from './reportStoreService'
+import ReportDataStore from '../data/reportDataStore'
 import { ReportType } from '../types/UserReports'
-import { UserStoreConfig } from '../types/UserStore'
+import { ReportStoreConfig } from '../types/ReportStore'
 
-export default class BookmarkService extends UserStoreService {
-  constructor(userDataStore: UserDataStore) {
-    super(userDataStore)
+export default class BookmarkService extends ReportStoreService {
+  constructor(reportDataStore: ReportDataStore) {
+    super(reportDataStore)
   }
 
   async getAllBookmarks(userId: string) {
@@ -37,7 +37,7 @@ export default class BookmarkService extends UserStoreService {
     return this.isBookmarkedCheck(userConfig, id)
   }
 
-  isBookmarkedCheck = (userConfig: UserStoreConfig, id: string) => {
+  isBookmarkedCheck = (userConfig: ReportStoreConfig, id: string) => {
     return userConfig.bookmarks.some((bookmark) => {
       return bookmark.variantId === id || bookmark.id === id
     })

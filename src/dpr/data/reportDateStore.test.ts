@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createClient } from 'redis'
-import UserDataStore from './userDataStore'
-import { UserStoreConfig } from '../types/UserStore'
+import UserDataStore from './reportDataStore'
+import { ReportStoreConfig } from '../types/ReportStore'
 
 type RedisClient = ReturnType<typeof createClient>
 
@@ -26,7 +26,7 @@ describe('userDataStore', () => {
 
   describe('get user config', () => {
     it('Can retrieve user config', async () => {
-      const mockStoreData: UserStoreConfig = {
+      const mockStoreData: ReportStoreConfig = {
         requestedReports: [],
         recentlyViewedReports: [],
         bookmarks: [],
@@ -49,7 +49,7 @@ describe('userDataStore', () => {
 
   describe('set user config', () => {
     it('Can set user config', async () => {
-      const mockStoreData: UserStoreConfig = {
+      const mockStoreData: ReportStoreConfig = {
         requestedReports: [],
         recentlyViewedReports: [],
         bookmarks: [],
@@ -60,7 +60,7 @@ describe('userDataStore', () => {
     })
 
     it('Connects when no connection calling setUserConfig', async () => {
-      const mockStoreData: UserStoreConfig = {
+      const mockStoreData: ReportStoreConfig = {
         requestedReports: [],
         recentlyViewedReports: [],
         bookmarks: [],

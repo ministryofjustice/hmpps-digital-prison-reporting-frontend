@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
-import UserDataStore from '../data/userDataStore'
+import UserDataStore from '../data/reportDataStore'
 import { RequestedReport, RequestStatus } from '../types/UserReports'
-import UserStoreService from './userStoreService'
+import ReportStoreService from './reportStoreService'
 import { getDpdPathSuffix } from '../utils/urlHelper'
 
-export default class RequestedReportService extends UserStoreService {
+export default class RequestedReportService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
   }

@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import DownloadPermissionService from './downloadPermissionService'
 import MockUserStoreService from '../../../test-app/mocks/mockClients/store/mockRedisStore'
-import UserDataStore from '../data/userDataStore'
-import { UserStoreConfig } from '../types/UserStore'
+import ReportDataStore from '../data/reportDataStore'
+import { ReportStoreConfig } from '../types/ReportStore'
 
 describe('DownloadPermissionService', () => {
-  const mockUserStore: UserDataStore = new MockUserStoreService() as unknown as UserDataStore
+  const mockUserStore: ReportDataStore = new MockUserStoreService() as unknown as ReportDataStore
   const downloadPermissionService: DownloadPermissionService = new DownloadPermissionService(mockUserStore)
 
-  let saveStateSpy: jest.SpyInstance<Promise<void>, [userId: string, userConfig: UserStoreConfig], any>
-  let getStateSpy: jest.SpyInstance<Promise<UserStoreConfig>, [userId: string], any>
+  let saveStateSpy: jest.SpyInstance<Promise<void>, [userId: string, userConfig: ReportStoreConfig], any>
+  let getStateSpy: jest.SpyInstance<Promise<ReportStoreConfig>, [userId: string], any>
   beforeEach(() => {
     jest.clearAllMocks()
 
     getStateSpy = jest.spyOn(downloadPermissionService, 'getState').mockResolvedValue({
       downloadPermissions: [],
-    } as unknown as UserStoreConfig)
+    } as unknown as ReportStoreConfig)
 
     saveStateSpy = jest.spyOn(downloadPermissionService, 'saveState')
   })
@@ -24,7 +24,7 @@ describe('DownloadPermissionService', () => {
     it('should save the download data', async () => {
       getStateSpy.mockResolvedValue({
         downloadPermissions: [],
-      } as unknown as UserStoreConfig)
+      } as unknown as ReportStoreConfig)
 
       await downloadPermissionService.saveDownloadPermissionData('userId', 'reportId-1', '12345')
 
@@ -46,7 +46,7 @@ describe('DownloadPermissionService', () => {
             id: '12345',
           },
         ],
-      } as unknown as UserStoreConfig)
+      } as unknown as ReportStoreConfig)
 
       await downloadPermissionService.saveDownloadPermissionData('userId', 'reportId-1', '12345')
 
@@ -54,7 +54,7 @@ describe('DownloadPermissionService', () => {
     })
 
     it('should in the config if no current download permissions', async () => {
-      getStateSpy.mockResolvedValue({} as unknown as UserStoreConfig)
+      getStateSpy.mockResolvedValue({} as unknown as ReportStoreConfig)
       await downloadPermissionService.saveDownloadPermissionData('userId', 'reportId-1', '12345')
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', {
@@ -81,7 +81,7 @@ describe('DownloadPermissionService', () => {
             id: '67890',
           },
         ],
-      } as unknown as UserStoreConfig)
+      } as unknown as ReportStoreConfig)
       await downloadPermissionService.removeDownloadPermissionData('userId', 'reportId-1', '12345')
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', {
@@ -108,7 +108,7 @@ describe('DownloadPermissionService', () => {
             id: '67890',
           },
         ],
-      } as unknown as UserStoreConfig)
+      } as unknown as ReportStoreConfig)
       const res = await downloadPermissionService.downloadEnabled('userId', 'reportId-1', '12345')
 
       expect(res).toBeTruthy()
@@ -126,14 +126,14 @@ describe('DownloadPermissionService', () => {
             id: '67890',
           },
         ],
-      } as unknown as UserStoreConfig)
+      } as unknown as ReportStoreConfig)
       const res = await downloadPermissionService.downloadEnabled('userId', 'reportId-3', '458723')
 
       expect(res).toBeFalsy()
     })
 
     it('should return false if no download permissions config exists', async () => {
-      getStateSpy.mockResolvedValue({} as unknown as UserStoreConfig)
+      getStateSpy.mockResolvedValue({} as unknown as ReportStoreConfig)
       const res = await downloadPermissionService.downloadEnabled('userId', 'reportId-3', '458723')
 
       expect(res).toBeFalsy()
@@ -154,7 +154,7 @@ describe('DownloadPermissionService', () => {
       ]
       getStateSpy.mockResolvedValue({
         downloadPermissions: permissions,
-      } as unknown as UserStoreConfig)
+      } as unknown as ReportStoreConfig)
 
       const res = await downloadPermissionService.getAllDownloadPermissions('userId')
 

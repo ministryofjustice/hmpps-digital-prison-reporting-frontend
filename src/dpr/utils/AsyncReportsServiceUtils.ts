@@ -2,7 +2,7 @@ import RequestedReportService from '../services/requestedReportService'
 import RecentlyViewedStoreService from '../services/recentlyViewedService'
 import BookmarkService from '../services/bookmarkService'
 import DownloadPermissionService from '../services/downloadPermissionService'
-import UserDataStore from '../data/userDataStore'
+import UserDataStore from '../data/reportDataStore'
 import { Services } from '../types/Services'
 
 export const createAsyncReportStoreServices = (userDataStore: UserDataStore) => {

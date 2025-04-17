@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import RecentlyViewedStoreService from './recentlyViewedService'
 import MockUserStoreService from '../../../test-app/mocks/mockClients/store/mockRedisStore'
-import type UserDataStore from '../data/userDataStore'
-import { UserStoreConfig } from '../types/UserStore'
+import type ReportDataStore from '../data/reportDataStore'
+import { ReportStoreConfig } from '../types/ReportStore'
 import MockViewedListData from '../../../test-app/mocks/mockClients/store/mockViewedUserListDataV1'
 import MockRequestedListData from '../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV1'
 import MockRequestedListData2 from '../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
 import { ReportType, RequestedReport, RequestStatus } from '../types/UserReports'
 
 describe('RecentlyViewedStoreService', () => {
-  const mockUserStore: UserDataStore = new MockUserStoreService() as unknown as UserDataStore
+  const mockUserStore: ReportDataStore = new MockUserStoreService() as unknown as ReportDataStore
   const recentlyViewedService: RecentlyViewedStoreService = new RecentlyViewedStoreService(mockUserStore)
 
-  let saveStateSpy: jest.SpyInstance<Promise<void>, [userId: string, userConfig: UserStoreConfig], any>
+  let saveStateSpy: jest.SpyInstance<Promise<void>, [userId: string, userConfig: ReportStoreConfig], any>
   const mockDate = new Date(1466424490000)
   jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
 
   beforeEach(() => {
     jest.spyOn(recentlyViewedService, 'getState').mockResolvedValue({
       recentlyViewedReports: [MockViewedListData.viewedReady],
-    } as unknown as UserStoreConfig)
+    } as unknown as ReportStoreConfig)
 
     saveStateSpy = jest.spyOn(recentlyViewedService, 'saveState')
   })
@@ -114,7 +114,7 @@ describe('RecentlyViewedStoreService', () => {
 
       const userConfig = {
         recentlyViewedReports: [],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
       expect(addReportSpy).toHaveBeenCalledWith(existingViewed, 'userId', userConfig)
@@ -136,7 +136,7 @@ describe('RecentlyViewedStoreService', () => {
 
       const userConfig = {
         recentlyViewedReports: [expiredRecord],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })
@@ -148,7 +148,7 @@ describe('RecentlyViewedStoreService', () => {
 
       const userConfig = {
         recentlyViewedReports: [],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })

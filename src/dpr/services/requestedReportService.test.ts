@@ -1,24 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import RequestedReportService from './requestedReportService'
-import type UserDataStore from '../data/userDataStore'
+import type ReportDataStore from '../data/reportDataStore'
 import MockUserStoreService from '../../../test-app/mocks/mockClients/store/mockRedisStore'
 import { RequestedReport, RequestStatus } from '../types/UserReports'
-import { UserStoreConfig } from '../types/UserStore'
+import { ReportStoreConfig } from '../types/ReportStore'
 import MockRequestedListData from '../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV1'
 import MockRequestedListData2 from '../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
 
 describe('RequestedReportService', () => {
-  const mockUserStore: UserDataStore = new MockUserStoreService() as unknown as UserDataStore
+  const mockUserStore: ReportDataStore = new MockUserStoreService() as unknown as ReportDataStore
   const requestedReportService: RequestedReportService = new RequestedReportService(mockUserStore)
 
-  let saveStateSpy: jest.SpyInstance<Promise<void>, [userId: string, userConfig: UserStoreConfig], any>
+  let saveStateSpy: jest.SpyInstance<Promise<void>, [userId: string, userConfig: ReportStoreConfig], any>
   const mockDate = new Date(1466424490000)
   jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
 
   beforeEach(() => {
     jest.spyOn(requestedReportService, 'getState').mockResolvedValue({
       requestedReports: [MockRequestedListData.requestedReady, MockRequestedListData2.requestedReady],
-    } as unknown as UserStoreConfig)
+    } as unknown as ReportStoreConfig)
 
     saveStateSpy = jest.spyOn(requestedReportService, 'saveState')
   })
@@ -90,7 +90,7 @@ describe('RequestedReportService', () => {
 
       const userConfig = {
         requestedReports: [MockRequestedListData2.requestedReady],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })
@@ -110,7 +110,7 @@ describe('RequestedReportService', () => {
 
       const userConfig = {
         requestedReports: [lastViewedRecord, MockRequestedListData2.requestedReady],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })
@@ -131,7 +131,7 @@ describe('RequestedReportService', () => {
 
       const userConfig = {
         requestedReports: [expiredRecord, MockRequestedListData2.requestedReady],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })
@@ -152,7 +152,7 @@ describe('RequestedReportService', () => {
 
       const userConfig = {
         requestedReports: [pickedRecord, MockRequestedListData2.requestedReady],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })
@@ -177,7 +177,7 @@ describe('RequestedReportService', () => {
 
       const userConfig = {
         requestedReports: [failedRecord, MockRequestedListData2.requestedReady],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })
@@ -200,7 +200,7 @@ describe('RequestedReportService', () => {
 
       const userConfig = {
         requestedReports: [expiredRecord, MockRequestedListData2.requestedReady],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })
@@ -223,7 +223,7 @@ describe('RequestedReportService', () => {
 
       const userConfig = {
         requestedReports: [abortedRecord, MockRequestedListData2.requestedReady],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })
@@ -246,7 +246,7 @@ describe('RequestedReportService', () => {
 
       const userConfig = {
         requestedReports: [submittedRecord, MockRequestedListData2.requestedReady],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })
@@ -278,7 +278,7 @@ describe('RequestedReportService', () => {
 
       const userConfig = {
         requestedReports: [finishedRecord, MockRequestedListData2.requestedReady],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })
@@ -297,7 +297,7 @@ describe('RequestedReportService', () => {
 
       const userConfig = {
         requestedReports: [lastviewedTsRecord, MockRequestedListData2.requestedReady],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })
@@ -316,7 +316,7 @@ describe('RequestedReportService', () => {
           MockRequestedListData.requestedReady,
           MockRequestedListData2.requestedReady,
         ],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })

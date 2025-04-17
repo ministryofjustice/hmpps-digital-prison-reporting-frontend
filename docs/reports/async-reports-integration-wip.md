@@ -2,65 +2,88 @@
 layout: layouts/reporting.njk
 title: Aync reports integration guide - WIP
 ---
-
-
 ### Initialise data clients
 
 ```js
 // server/data/index.ts
 
-import ReportingClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient'
-import UserDataStore from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/userDataStore'
+import { initDprReportingClients } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/dprReportingClient'
 import { createRedisClient } from './redisClient'
 
-...
+reportingApiConfig = {
+  url: `http://localhost:3010`,
+  agent: { timeout: 10000 }
+}
+
+const { 
+  reportingClient, 
+  dashboardClient, 
+  reportDataStore 
+} = initDprReportingClients(config.apis.reporting, createRedisClient())
 
 export const dataAccess = () => ({
-  reportingClient: new ReportingClient(config.apis.reporting),
-  userDataStore: new UserDataStore(createRedisClient()),
   ...
+  reportingClient, 
+  dashboardClient, 
+  reportDataStore
 })
 
 ```
 
-### Initialise services
+### create services
 
 ```js
 // server/services/index.ts
 
-import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
-import { createUserStoreServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/StoreServiceUtils'
+import { initDprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/ReportStoreServiceUtils'
 
 
 export const services = (): Services => {
-  const { reportingClient, userDataStore, ... } = dataAccess()
+  const { reportingClient, dashboardClient, reportDataStore, ... } = dataAccess()
 
   ...
-  const reportingService = new ReportingService(reportingClient)
-  const userStoreServices = createUserStoreServices(userDataStore)
+  const dprServices = createDprServices({ reportingClient, dashboardClient, reportDataStore })
 
   return {
-    ...
-    reportingService,
-    ...userStoreServices,
+    ...,
+    ...dprServices
   }
 }
 
 ```
+
+### Initialise report store services
+
+Report store data is stored on a per user basis to create a unique experience for each user. eg. creating a users bookmarked list, or showing their recently viewed reports.
+
+Therefore the user ID of the currently logged in user is required to initialise report store services.
+
+
+```js
+// server/app.tss
+
+import setUpReportStore from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/setUpReportStore'
+
+...
+app.use(setUpReportStore(services))
+
+```
+
+
 
 ### Initialise routes
 
 ```js
 // server/routes/index.ts
 
-import DprEmbeddedAsyncReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/asyncReports'
+import DprAsyncReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/asyncReports'
 
 
 export default function routes(services: Services): Router {
   
   ...
 
-  DprEmbeddedAsyncReports({
+  DprAsyncReports({
     router,
     services,
     layoutPath: 'path/to/layout.njk',

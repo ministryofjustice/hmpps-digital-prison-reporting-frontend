@@ -6,7 +6,7 @@ import logger from '../utils/logger'
 export default class DownloadPermissionService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
-    logger.info('Download Feature: Initialising Download permission service')
+    logger.info('Service created: DownloadPermissionService')
   }
 
   async saveDownloadPermissionData(userId: string, reportId: string, id: string) {

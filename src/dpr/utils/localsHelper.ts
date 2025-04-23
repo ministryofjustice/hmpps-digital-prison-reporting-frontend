@@ -1,16 +1,30 @@
 import type { Response, Request } from 'express'
+import { StoredReportData } from '../types/UserReports'
+import { BookmarkStoreData } from '../types/Bookmark'
+import { components } from '../types/api'
 
 const getValues = (res: Response) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
   const pathSuffix = res.locals.pathSuffix || ''
+  const definitions: components['schemas']['ReportDefinitionSummary'][] = res.locals.definitions || []
+  const requestedReports: StoredReportData[] = res.locals.requestedReports || []
+  const recentlyViewedReports: StoredReportData[] = res.locals.recentlyViewedReports || []
+  const bookmarks: BookmarkStoreData[] = res.locals.bookmarks || []
+  const { bookmarkingEnabled, downloadingEnabled } = res.locals
 
   return {
     csrfToken,
     userId,
     token,
     pathSuffix,
+    definitions,
+    requestedReports,
+    recentlyViewedReports,
+    bookmarks,
+    bookmarkingEnabled,
+    downloadingEnabled,
   }
 }
 

@@ -9,7 +9,10 @@ export default function setUpReportStore(services: Services): RequestHandler {
       await initReportStoreServices(res.locals.user.uuid, services)
       return next()
     } catch (error) {
-      logger.error(error, `Failed to initialise report store services for : ${res.locals.user && res.locals.user.username}`)
+      logger.error(
+        error,
+        `Failed to initialise report store services for : ${res.locals.user && res.locals.user.username}`,
+      )
       return next(error)
     }
   }

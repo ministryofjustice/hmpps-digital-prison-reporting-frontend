@@ -3,10 +3,12 @@ import UserDataStore from '../data/reportDataStore'
 import { RequestedReport, RequestStatus } from '../types/UserReports'
 import ReportStoreService from './reportStoreService'
 import { getDpdPathSuffix } from '../utils/urlHelper'
+import logger from '../utils/logger'
 
 export default class RequestedReportService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
+    logger.info('Service created: RequestedReportService')
   }
 
   async addReport(userId: string, reportStateData: RequestedReport) {

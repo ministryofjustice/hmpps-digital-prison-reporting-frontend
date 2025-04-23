@@ -7,6 +7,15 @@ export default (services: Services): RequestHandler => {
       const { uuid: userId } = res.locals.user
       res.locals.requestedReports = await services.requestedReportService.getAllReports(userId)
       res.locals.recentlyViewedReports = await services.recentlyViewedService.getAllReports(userId)
+
+      if (services.bookmarkService) {
+        res.locals.bookmarkingEnabled = true
+        res.locals.bookmarks = await services.bookmarkService.getAllBookmarks(userId)
+      }
+
+      if (services.downloadPermissionService) {
+        res.locals.downloadingEnabled = true
+      }
     }
     return next()
   }

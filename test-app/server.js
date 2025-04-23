@@ -15,7 +15,7 @@ const bodyParser = require('body-parser')
 const ReportListUtils = require('../package/dpr/components/report-list/utils').default
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
 const UserReportsListUtils = require('../package/dpr/components/user-reports/utils').default
-const { createUserStoreServices, initUserStoreServices } = require('../package/dpr/utils/StoreServiceUtils')
+const { createDprServices, initReportStoreServices } = require('../package/dpr/utils/ReportStoreServiceUtils')
 
 // Set up application
 const appViews = [
@@ -25,6 +25,10 @@ const appViews = [
   path.join(__dirname, '../src/'),
   path.join(__dirname, '.'),
 ]
+
+// Middleware
+const populateRequestedReports = require('../package/dpr/middleware/populateRequestedReports').default
+const setUpReportStore = require('../package/dpr/middleware/setUpReportStore').default
 
 // Application
 const app = express()
@@ -79,7 +83,6 @@ const mockDashboardDefinitions = require('./mocks/mockClients/dashboards/dashboa
 
 // Services
 const ReportingService = require('../package/dpr/services/reportingService').default
-const DashboardService = require('../package/dpr/services/dashboardService').default
 
 // Routes
 const DprEmbeddedAsyncReports = require('../package/dpr/routes/DprEmbeddedReports').default
@@ -195,6 +198,7 @@ const addMockUserData = (req, res, next) => {
   res.locals.user = {
     displayName: 'Test User',
     email: 'test@user.com',
+    uuid: 'userId',
   }
   next()
 }
@@ -254,58 +258,59 @@ app.get('/sync-reports', (req, res) => {
   })
 })
 
+/**
+ * ASYNC REPORTS
+ * */
+
+// 1. Init Data clients
 const reportingClient = new MockReportingClient()
-const reportingService = new ReportingService(reportingClient)
-
 const dashboardClient = new MockDashboardClient()
-const dashboardService = new DashboardService(dashboardClient)
+const reportDataStore = new MockUserStoreService()
 
-const mockUserStore = new MockUserStoreService()
-const userStoreServices = createUserStoreServices(mockUserStore)
-
+// 2. Create services
+const dprServices = createDprServices({ reportingClient, dashboardClient, reportDataStore })
 const services = {
-  ...userStoreServices,
-  reportingService,
-  dashboardService,
+  ...dprServices,
 }
 
-initUserStoreServices('userId', services)
+// 3. Add middleware
+app.use(setUpReportStore(services))
+app.use(populateRequestedReports(services))
 
-const routeImportParams = {
+// 4. Initialise routes
+DprEmbeddedAsyncReports({
   router: app,
   services,
-  layoutPath: 'page.njk'
-}
-
-DprEmbeddedAsyncReports(routeImportParams)
+  layoutPath: 'page.njk',
+})
 
 /**
  * EMBEDDED REPORTS: Route import config
  * See `_embedded/docs` to learn how to use this configuration
  * */
 
-const addEmbeddedReportsRoutes = require('../package/dpr/routes/embeddedReports').default
+// const addEmbeddedReportsRoutes = require('../package/dpr/routes/embeddedReports').default
 
-// Reporting client
-const embeddedReportingClient = new MockReportingClient()
-const embeddedReportingService = new ReportingService(embeddedReportingClient)
-const embeddedReportsServices = {
-  reportingService: embeddedReportingService,
-}
+// // Reporting client
+// const embeddedReportingClient = new MockReportingClient()
+// const embeddedReportingService = new ReportingService(embeddedReportingClient)
+// const embeddedReportsServices = {
+//   reportingService: embeddedReportingService,
+// }
 
-// UserStore
-const embeddedMockUserStore = new MockUserStoreService()
+// // UserStore
+// const embeddedMockUserStore = new MockUserStoreService()
 
-addEmbeddedReportsRoutes({
-  router: app,
-  services: embeddedReportsServices,
-  features: {
-    config: {
-      userDataStore: embeddedMockUserStore,
-    },
-    list: ['download'],
-  },
-})
+// addEmbeddedReportsRoutes({
+//   router: app,
+//   services: embeddedReportsServices,
+//   features: {
+//     config: {
+//       userDataStore: embeddedMockUserStore,
+//     },
+//     list: ['download'],
+//   },
+// })
 
 // EMBEDDED REPORTS END
 

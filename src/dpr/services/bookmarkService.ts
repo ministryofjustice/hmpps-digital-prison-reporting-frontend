@@ -2,10 +2,12 @@ import ReportStoreService from './reportStoreService'
 import ReportDataStore from '../data/reportDataStore'
 import { ReportType } from '../types/UserReports'
 import { ReportStoreConfig } from '../types/ReportStore'
+import logger from '../utils/logger'
 
 export default class BookmarkService extends ReportStoreService {
   constructor(reportDataStore: ReportDataStore) {
     super(reportDataStore)
+    logger.info('Service created: BookmarkService')
   }
 
   async getAllBookmarks(userId: string) {

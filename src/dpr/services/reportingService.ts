@@ -3,9 +3,13 @@ import type ReportingClient from '../data/reportingClient'
 import ReportQuery from '../types/ReportQuery'
 import Dict = NodeJS.Dict
 import { ListWithWarnings } from '../data/types'
+import logger from '../utils/logger'
 
 export default class ReportingService {
-  constructor(private readonly reportingClient: ReportingClient) {}
+  constructor(private readonly reportingClient: ReportingClient) {
+    this.reportingClient = reportingClient
+    logger.info('Service created: ReportingService')
+  }
 
   async getCount(resourceName: string, token: string, listRequest: ReportQuery): Promise<number> {
     return this.reportingClient.getCount(resourceName, token, listRequest)

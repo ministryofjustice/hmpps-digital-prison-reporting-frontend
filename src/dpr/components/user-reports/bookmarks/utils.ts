@@ -179,12 +179,9 @@ export default {
     res: Response
     req: Request
   }) => {
-    const { token, csrfToken, userId } = LocalsHelper.getValues(res)
+    const { token, csrfToken, userId, bookmarks } = LocalsHelper.getValues(res)
 
-    // TODO: update bookmark type to use id instead of variantID
-    const bookmarks: { reportId: string; variantId: string }[] = await services.bookmarkService.getAllBookmarks(userId)
     const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, res, token, services)
-
     const formatted = await formatBookmarks(bookmarksData, maxRows)
     const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, userId, maxRows)
 
@@ -204,6 +201,7 @@ export default {
       tableData,
       total,
       csrfToken,
+      type: 'bookmark',
     }
 
     return result

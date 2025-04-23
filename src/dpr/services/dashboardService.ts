@@ -1,9 +1,13 @@
 import { DashboardDefinition } from '../components/_dashboards/dashboard/types'
 import Dict = NodeJS.Dict
+import logger from '../utils/logger'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export default class DashboardService {
-  constructor(private readonly dashboardClient: any) {}
+  constructor(private readonly dashboardClient: any) {
+    this.dashboardClient = dashboardClient
+    logger.info('Service created: DashboardService')
+  }
 
   async getDefinition(
     token: string,

@@ -23,6 +23,8 @@ export default function routes({
   services: Services
   layoutPath: string
 }) {
+  logger.info('Initialiasing routes: Async reports')
+
   /**   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
    *                                                            *
    *                    ERROR & AUTH ROUTES                     *
@@ -312,11 +314,12 @@ export default function routes({
   }
 
   const listingHandler: RequestHandler = async (req, res, next) => {
+    const { requestedReports } = LocalsHelper.getValues(res)
     res.render(`dpr/views/async-reports`, {
       title: 'Requested reports',
       layoutPath,
       ...(await UserReportsListUtils.renderList({
-        storeService: services.requestedReportService,
+        reportsData: requestedReports,
         filterFunction: AsyncRequestListUtils.filterReports,
         res,
         type: 'requested',

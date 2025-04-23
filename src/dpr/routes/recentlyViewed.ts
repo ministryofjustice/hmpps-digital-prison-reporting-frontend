@@ -1,7 +1,9 @@
 import type { RequestHandler, Router } from 'express'
 import RecentReportslistUtils from '../components/user-reports/viewed/utils'
 import UserReportsListUtils from '../components/user-reports/utils'
+import LocalsHelper from '../utils/localsHelper'
 import { Services } from '../types/Services'
+import logger from '../utils/logger'
 
 export default function routes({
   router,
@@ -14,6 +16,8 @@ export default function routes({
   layoutPath: string
   templatePath?: string
 }) {
+  logger.info('Initialiasing routes: Recently Viewed')
+
   const getExpiredStatus: RequestHandler = async (req, res, next) => {
     try {
       const response = await UserReportsListUtils.getExpiredStatus({
@@ -35,11 +39,12 @@ export default function routes({
   }
 
   router.get('/async-reports/recently-viewed', async (req, res) => {
+    const { recentlyViewedReports } = LocalsHelper.getValues(res)
     res.render(`${templatePath}/async-reports`, {
       title: 'Requested Reports',
       layoutPath,
       ...(await UserReportsListUtils.renderList({
-        storeService: services.recentlyViewedService,
+        reportsData: recentlyViewedReports,
         filterFunction: RecentReportslistUtils.filterReports,
         res,
         type: 'requested',

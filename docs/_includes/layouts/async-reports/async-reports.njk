@@ -1,4 +1,4 @@
-{% extends "./base.njk" %}
+{% extends "./../base.njk" %}
 
 {%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
 
@@ -14,30 +14,27 @@
             },
             items: [ 
               {
-                text: 'Synchronous reports',
-                href: ('/reports/sync-reporting')
+                text: 'Asychronous reports',
+                href: ('/reports/async-reporting'),
+                active: page.filePathStem.indexOf('/reports/async-reporting') === 0
               },
               {
-                text: 'Asychronous reports 🚧',
-                href: ('/reports/async-reporting')
-              }
-            ]
-          },
-          {
-            heading: {
-              text: "Integration guides"
-            },
-            items: [ 
-              {
-                text: 'Sync reports integration guide',
-                href: ('/reports/sync-reports-integration')
+                text: 'User journey',
+                href: ('/reports/async-reports-user-journey'),
+                active: page.filePathStem.indexOf('/reports/async-reports-user-journey') === 0
               },
               {
-                text: 'Async reports integration guide 🚧',
-                href: ('/reports/async-reports-integration-wip')
+                text: 'Integration guide',
+                href: ('/reports/async-reports-integration-wip'),
+                active: page.filePathStem.indexOf('/reports/async-reports-integration-wip') === 0
+              },
+              {
+                text: 'Routes',
+                href: ('/reports/async-routes'),
+                active: page.filePathStem.indexOf('/reports/async-routes') === 0
               }
             ]
-          },
+          },         
           {
             heading: {
               text: "Example Reports"

@@ -44,7 +44,7 @@ In the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/b
 - [Add DPR API configuration](#add-dpr-api-configuration)
 - [Initialise data clients](#initialise-data-clients)
 - [Create services](#create-services)
-- [Initialise report Store](#initialise-report-store)
+- [Initialise DPR middleware](#initialise-dpr-middleware)
 - [Initialise routes](#initialise-routes)
 - [Implement request route](#implement-request-route)
 
@@ -191,8 +191,6 @@ For information about the request path [see here](/reports/async-routes/#request
 # Extras
 ## Reports list Component
 
-**NOTE: Not required for the async process to work**
-
 The report list component is used to:
 
 - List requested reports
@@ -236,7 +234,15 @@ export default function routes(services: Services): Router {
 
 ### Add the component to your HTML
 
-[see "Reports List" component](/components/reports-list)
+```js
+dprUserReports({
+  requestedReports: requestedReports,
+  viewedReports: viewedReports,
+  bookmarks: bookmarks
+})
+```
+
+[see "Reports List" component for usage](/components/reports-list)
 
 
 ## Integration overview example

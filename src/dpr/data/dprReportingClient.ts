@@ -12,5 +12,5 @@ const initDprReportingClients = (reportingApiConfig: ApiConfig, redisClient: Red
 }
 
 export default {
-  initDprReportingClients
+  initDprReportingClients,
 }

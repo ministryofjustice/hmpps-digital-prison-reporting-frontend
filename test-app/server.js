@@ -15,7 +15,7 @@ const bodyParser = require('body-parser')
 const ReportListUtils = require('../package/dpr/components/report-list/utils').default
 const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
 const UserReportsListUtils = require('../package/dpr/components/user-reports/utils').default
-const { createDprServices, initReportStoreServices } = require('../package/dpr/utils/ReportStoreServiceUtils')
+const createDprServices = require('../package/dpr/utils/ReportStoreServiceUtils').default
 
 // Set up application
 const appViews = [
@@ -28,7 +28,7 @@ const appViews = [
 
 // Middleware
 const populateRequestedReports = require('../package/dpr/middleware/populateRequestedReports').default
-const setUpReportStore = require('../package/dpr/middleware/setUpReportStore').default
+const updateBookmarksByCaseload = require('../package/dpr/middleware/updateBookmarksByCaseload').default
 
 // Application
 const app = express()
@@ -80,9 +80,6 @@ const MockDashboardClient = require('./mocks/mockClients/dashboards/mock-client'
 const MockUserStoreService = require('./mocks/mockClients/store/mockRedisStore')
 const mockDefinitions = require('./mocks/mockClients/reports/mockReportDefinition')
 const mockDashboardDefinitions = require('./mocks/mockClients/dashboards/dashboard-definitions')
-
-// Services
-const ReportingService = require('../package/dpr/services/reportingService').default
 
 // Routes
 const DprEmbeddedAsyncReports = require('../package/dpr/routes/DprEmbeddedReports').default
@@ -199,6 +196,7 @@ const addMockUserData = (req, res, next) => {
     displayName: 'Test User',
     email: 'test@user.com',
     uuid: 'userId',
+    activeCaseLoadId: 'random-id',
   }
   next()
 }
@@ -268,13 +266,13 @@ const dashboardClient = new MockDashboardClient()
 const reportDataStore = new MockUserStoreService()
 
 // 2. Create services
-const dprServices = createDprServices({ reportingClient, dashboardClient, reportDataStore })
 const services = {
-  ...dprServices,
+  ...createDprServices({ reportingClient, dashboardClient, reportDataStore }),
 }
 
 // 3. Add middleware
-app.use(setUpReportStore(services))
+// app.use(setUpReportStore(services))
+// app.use(updateBookmarksByCaseload(services))
 app.use(populateRequestedReports(services))
 
 // 4. Initialise routes

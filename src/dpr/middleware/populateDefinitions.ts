@@ -1,17 +1,16 @@
 import { RequestHandler } from 'express'
 import type { ParsedQs } from 'qs'
 import ReportingService from '../services/reportingService'
-// import config from '../config'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
 
 const deriveDefinitionsPath = (query: ParsedQs): string | null => {
   const definitionsPath = getDefinitionsPath(query)
-  // if (definitionsPath && config.definitionPathsEnabled) {
-  return definitionsPath
-  // }
-  // return null
+  if (definitionsPath) {
+    return definitionsPath
+  }
+  return null
 }
 
 export default (service: ReportingService): RequestHandler => {

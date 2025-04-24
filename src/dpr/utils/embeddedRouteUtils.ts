@@ -81,7 +81,6 @@ const initFeatures = ({ router, config, services, features }: EmbeddedSyncParams
           logger.info('Download Feature: DownloadPermissionService not provided. Initialising new service')
 
           const downloadPermissionService = new DownloadPermissionService(initialisedUserDataStore)
-          downloadPermissionService.init(userId)
 
           updatedServices = {
             ...services,

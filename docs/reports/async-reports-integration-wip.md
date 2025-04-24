@@ -9,7 +9,7 @@ subsection: Async reports
 
 This integration quide describes the steps required to use DPR's Asynchronous reporting process.
 
-# What you will get
+## What you will get
 
 By following this integration process and embedding the process into your service, you will get:
 
@@ -28,7 +28,12 @@ An initialised Redis client is a dependency of DPR's report store which is a req
 
 ### Get the current User ID
 
-The user ID of the currently logged in user is required to initialise report store services. 
+The user ID of the currently logged in user is used as the primary key in the report store, to retrieve and store report information against a specific user.
+
+A users report data will be stored using this key structure: 
+```js
+`dprReportStoreUser:${ uuid }`
+```
 
 The integration assumes that users `uuid` is located in the `res` object at `res.locals.user.uuid`. 
 
@@ -42,7 +47,10 @@ In the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/b
 - [Initialise report Store](#initialise-report-store)
 - [Initialise routes](#initialise-routes)
 - [Implement request route](#implement-request-route)
-- [Reports list component](#reports-list-component) (extra)
+
+### Extras
+- [Reports list component](#reports-list-component)
+- [Integration overview example](#integration-overview-example)
 
 ## Add DPR API configuration
 
@@ -65,7 +73,7 @@ export default {
   ...
 }
 ```
-See <a href="/get-started/environments" target="_blank">DPR Environments</a> for API baseurl information
+See <a href="/get-started/environments" target="_blank">DPR Environments</a> for API base urls
 
 ## Initialise data clients
 
@@ -74,7 +82,7 @@ Initialise DPR data clients within your app setup to point to DPR's API endpoint
 This setup is commonly done in the `server/data/index.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/data/index.ts" target="_blank">HMPPS template</a>
 
 ```js
-import { initDprReportingClients } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/dprReportingClient'
+import initDprReportingClients from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/dprReportingClient'
 import { createRedisClient } from './redisClient'
 import config from '../config'
 
@@ -100,7 +108,7 @@ Create the services for the async process.
 This setup is commonly done in the `server/services/index.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/services/index.ts" target="_blank">HMPPS template</a>
 
 ```js
-import { initDprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/ReportStoreServiceUtils'
+import createDprServices from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/ReportStoreServiceUtils'
 
 export const services = (): Services => {
   const { reportingClient, dashboardClient, reportDataStore, ... } = dataAccess()
@@ -116,18 +124,29 @@ export const services = (): Services => {
 
 ```
 
-## Initialise Report Store
+### Enable/disable features
 
-You can initialise the DPR store as middleware. 
+You can disable certain features by adding extra config to the `createDprServices` method:
+
+```js
+const featureConfig = {
+  bookmarking: false    // Disables bookmarking feature 
+  download: false       // Disables download feature
+}
+
+const dprServices = createDprServices({ reportingClient, dashboardClient, reportDataStore }, featureConfig)
+```
+
+## Initialise DPR middleware
 
 This setup is commonly done in the `server/app.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/app.ts" target="_blank">HMPPS template</a>
 
 ```js
-import setUpReportStore from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/setUpReportStore'
+import dprPopulateRequestedReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/populateRequestedReports'
 
 ...
-app.use(setUpReportStore(services))
 
+app.use(dprPopulateRequestedReports(services))
 ```
 
 
@@ -139,14 +158,14 @@ Import the async routes in to your `routes` file which will give you access to t
 This setup is commonly done in the `server/routes/index.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/routes/index.ts" target="_blank">HMPPS template</a>
 
 ```js
-import DprAsyncReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/asyncReports'
+import DprEmbeddedAsyncReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/DprEmbeddedReports'
 
 
 export default function routes(services: Services): Router {
   
   ...
 
-  DprAsyncReports({
+  DprEmbeddedAsyncReports({
     router,
     services,
     layoutPath: 'path/to/layout.njk',
@@ -168,7 +187,9 @@ Use the async report process by linking your report definitions to the async jou
 
 For information about the request path [see here](/reports/async-routes/#request-page)
 
-# Reports list Component
+
+# Extras
+## Reports list Component
 
 **NOTE: Not required for the async process to work**
 
@@ -181,7 +202,7 @@ The report list component is used to:
 
 It is a useful component used to keep track of all you async requests so you can quickly navigate around the async journey. 
 
-## Initialise data
+### Initialise the lists render data 
 
 Render your stored async request data to the frontend using `UserReportsListUtils`
 
@@ -213,6 +234,44 @@ export default function routes(services: Services): Router {
 }
 ```
 
-## Add the component to your HTML
+### Add the component to your HTML
 
 [see "Reports List" component](/components/reports-list)
+
+
+## Integration overview example
+
+This example is designed to give a simple view of the steps required for integration process and should not be used in production. Please follow [these integration steps](#integration-steps) to integrate using best practices of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/routes/index.ts" target="_blank">HMPPS template</a>  
+
+```js
+// Import DPR helpers and deps
+
+// Clients
+import initDprReportingClients from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/dprReportingClient'
+// services
+import createDprServices from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/ReportStoreServiceUtils'
+// middleware
+import dprPopulateRequestedReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/populateRequestedReports'
+// Routes
+import DprAsyncReportsRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/asyncReports'
+
+import { createRedisClient } from './redisClient'
+import config from '../config'
+
+// 1. Init Data clients
+const clients = initDprReportingClients(config.apis.dpr, createRedisClient())
+
+// 2. Create services
+const services = {
+  ...createDprServices(clients),
+}
+
+// 3. Add middleware
+app.use(populateRequestedReports(services))
+
+// 4. Initialise routes
+DprAsyncReportsRoutes({
+  router: app,
+  services,
+  layoutPath: 'page.njk',
+})

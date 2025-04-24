@@ -8,7 +8,7 @@ title: Asynchronous reports
 
 Embed reports where data is loaded asynchronously.
 
-# What is Async Reporting?
+# What are asynchronous reports?
 
 Asynchronous reports are reports where the execution and the loading of data is done asynchronously. 
 

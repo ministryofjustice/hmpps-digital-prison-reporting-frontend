@@ -6,22 +6,19 @@ import { ReportStoreConfig } from '../types/ReportStore'
 export type RedisClient = ReturnType<typeof createClient>
 
 export default class ReportDataStore {
-  private readonly prefix = 'userConfig:'
+  prefix: string
 
-  constructor(private readonly redisClient: RedisClient) {
+  constructor(private readonly redisClient: RedisClient, prefix = 'dprReportStoreUser:') {
     redisClient.on('error', (error) => {
       logger.error(error, `Redis error`)
     })
+    this.prefix = prefix
   }
 
   private async ensureConnected() {
     if (!this.redisClient.isOpen) {
       await this.redisClient.connect()
     }
-  }
-
-  public async initUser(userId: string) {
-    await this.setUserConfig(userId, { ...baseplateStore })
   }
 
   public async setUserConfig(userId: string, config: ReportStoreConfig): Promise<void> {
@@ -32,7 +29,12 @@ export default class ReportDataStore {
   public async getUserConfig(userId: string): Promise<ReportStoreConfig> {
     await this.ensureConnected()
     const userConfig = await this.redisClient.get(`${this.prefix}${userId}`)
-    return userConfig ? JSON.parse(userConfig) : baseplateStore
+    return userConfig ? JSON.parse(userConfig) : this.setBaseplate()
+  }
+
+  private setBaseplate() {
+    logger.info('Initialising new dprReportStoreUser')
+    return { ...baseplateStore }
   }
 }
 

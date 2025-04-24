@@ -4,35 +4,13 @@ import RecentlyViewedStoreService from '../services/recentlyViewedService'
 import BookmarkService from '../services/bookmarkService'
 import DownloadPermissionService from '../services/downloadPermissionService'
 import ReportDataStore from '../data/reportDataStore'
-import { Services } from '../types/Services'
 
 import ReportingService from '../services/reportingService'
 import DashboardService from '../services/dashboardService'
 import ReportingClient from '../data/reportingClient'
 import DashboardClient from '../data/dashboardClient'
 import logger from './logger'
-
-export const initReportStoreServices = async (userId: string, services: Services) => {
-  if (!services.requestedReportService.isInitialised()) {
-    logger.info('Initialising service: requestedReportService')
-    await services.requestedReportService.init(userId)
-  }
-
-  if (!services.recentlyViewedService.isInitialised()) {
-    logger.info('Initialising service: recentlyViewedService')
-    await services.recentlyViewedService.init(userId)
-  }
-
-  if (!services.bookmarkService.isInitialised()) {
-    logger.info('Initialising service: bookmarkService')
-    await services.bookmarkService.init(userId)
-  }
-
-  if (!services.downloadPermissionService.isInitialised()) {
-    logger.info('Initialising service: downloadPermissionService')
-    await services.downloadPermissionService.init(userId)
-  }
-}
+import { Services } from '../types/Services'
 
 interface InitDPRServicesArgs {
   reportingClient: ReportingClient
@@ -49,10 +27,9 @@ interface dprServices {
   downloadPermissionService?: DownloadPermissionService
 }
 
-export const createDprServices = (
-  clients: InitDPRServicesArgs,
-  reportStoreConfig: ReportStoreConfig = {},
-): dprServices => {
+const createDprServices = (clients: InitDPRServicesArgs, reportStoreConfig: ReportStoreConfig = {}): Services => {
+  logger.info('Creating DPR services...')
+
   const { reportingClient, dashboardClient, reportDataStore } = clients
   let services: dprServices = {}
 
@@ -68,7 +45,7 @@ export const createDprServices = (
     services = createReportStoreServices(reportDataStore, services, reportStoreConfig)
   }
 
-  return services
+  return services as Services
 }
 
 const createReportingService = (services: dprServices, client: ReportingClient) => {
@@ -107,10 +84,14 @@ const createReportStoreServices = (
 
   if (config.bookmarking === undefined || config.bookmarking) {
     services = createBookmarkService(services, reportDataStore)
+  } else {
+    logger.info('Service Disabled: BookmarkService')
   }
 
   if (config.download === undefined || config.download) {
     services = createDownloadService(services, reportDataStore)
+  } else {
+    logger.info('Service Disabled: DownloadPermissionService')
   }
 
   return services
@@ -133,3 +114,5 @@ const createBookmarkService = (services: dprServices, reportDataStore: ReportDat
 
   return services
 }
+
+export default createDprServices

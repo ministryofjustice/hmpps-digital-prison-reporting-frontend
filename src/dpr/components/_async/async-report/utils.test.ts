@@ -132,7 +132,7 @@ describe('AsyncReportListUtils', () => {
         },
       } as unknown as Request
       const mockRes = {
-        locals: { user: { token: 'token' }, bookmarkingEnabled: true },
+        locals: { user: { token: 'token' }, bookmarkingEnabled: true, downloadingEnabled: true },
       } as unknown as Response
 
       const mockAsyncReportsStore = {

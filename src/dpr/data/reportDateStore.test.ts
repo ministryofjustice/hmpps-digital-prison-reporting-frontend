@@ -35,7 +35,7 @@ describe('userDataStore', () => {
 
       await expect(userDataStore.getUserConfig('user-1')).resolves.toEqual(mockStoreData)
 
-      expect(redisClient.get).toHaveBeenCalledWith('userConfig:user-1')
+      expect(redisClient.get).toHaveBeenCalledWith('dprReportStoreUser:user-1')
     })
 
     it('Connects when no connection calling getUserConfig', async () => {
@@ -56,7 +56,7 @@ describe('userDataStore', () => {
       }
       await userDataStore.setUserConfig('user-1', mockStoreData)
 
-      expect(redisClient.set).toHaveBeenCalledWith('userConfig:user-1', JSON.stringify(mockStoreData))
+      expect(redisClient.set).toHaveBeenCalledWith('dprReportStoreUser:user-1', JSON.stringify(mockStoreData))
     })
 
     it('Connects when no connection calling setUserConfig', async () => {

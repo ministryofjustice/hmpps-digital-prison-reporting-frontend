@@ -1,6 +1,7 @@
 import type { Router } from 'express'
 import BookmarklistUtils from '../components/user-reports/bookmarks/utils'
 import { Services } from '../types/Services'
+import logger from '../utils/logger'
 
 export default function routes({
   router,
@@ -13,6 +14,8 @@ export default function routes({
   layoutPath: string
   templatePath?: string
 }) {
+  logger.info('Initialiasing routes: Bookmarks')
+
   router.post('/addBookmark/', async (req, res) => {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const { reportId, id, reportType } = req.body

@@ -121,6 +121,25 @@ describe('AsyncRequestListUtils', () => {
             uuid: 'UuId',
           },
           csfrToken: 'CsRfToKeN',
+          requestedReports: [
+            mockRequestedDataV1.requestedReady,
+            mockRequestedDataV1.requestedFailed,
+            mockRequestedDataV1.requestedExpired,
+            mockRequestedDataV1.requestedAborted,
+            mockRequestedDataV2.requestedReady,
+            mockRequestedDataV2.requestedFailed,
+            mockRequestedDataV2.requestedExpired,
+            mockRequestedDataV2.requestedAborted,
+            mockDashboardData.submittedDashboard,
+            mockDashboardData.failedDashboard,
+            mockDashboardData.expiredDashboard,
+          ],
+          recentlyViewedReports: [
+            mockViewedDataV1.viewedReady,
+            mockViewedDataV1.viewedExpired,
+            mockViewedDataV2.viewedReady,
+            mockViewedDataV2.viewedExpired,
+          ],
         },
       } as unknown as Response
 
@@ -161,7 +180,7 @@ describe('AsyncRequestListUtils', () => {
           res,
           maxRows: 11,
           filterFunction: RequestedReportsUtils.filterReports,
-          storeService,
+          reportsData: res.locals.requestedReports,
           type: 'requested',
         })
 
@@ -229,7 +248,7 @@ describe('AsyncRequestListUtils', () => {
           res,
           maxRows: 11,
           filterFunction: RequestedReportsUtils.filterReports,
-          storeService,
+          reportsData: res.locals.requestedReports,
           type: 'requested',
         })
 
@@ -280,7 +299,7 @@ describe('AsyncRequestListUtils', () => {
           res,
           maxRows: 11,
           filterFunction: ViewedReportsUtils.filterReports,
-          storeService,
+          reportsData: res.locals.recentlyViewedReports,
           type: 'viewed',
         })
 

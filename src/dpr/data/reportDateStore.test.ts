@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createClient } from 'redis'
-import UserDataStore from './userDataStore'
-import { UserStoreConfig } from '../types/UserStore'
+import UserDataStore from './reportDataStore'
+import { ReportStoreConfig } from '../types/ReportStore'
 
 type RedisClient = ReturnType<typeof createClient>
 
@@ -26,7 +26,7 @@ describe('userDataStore', () => {
 
   describe('get user config', () => {
     it('Can retrieve user config', async () => {
-      const mockStoreData: UserStoreConfig = {
+      const mockStoreData: ReportStoreConfig = {
         requestedReports: [],
         recentlyViewedReports: [],
         bookmarks: [],
@@ -35,7 +35,7 @@ describe('userDataStore', () => {
 
       await expect(userDataStore.getUserConfig('user-1')).resolves.toEqual(mockStoreData)
 
-      expect(redisClient.get).toHaveBeenCalledWith('userConfig:user-1')
+      expect(redisClient.get).toHaveBeenCalledWith('dprReportStoreUser:user-1')
     })
 
     it('Connects when no connection calling getUserConfig', async () => {
@@ -49,18 +49,18 @@ describe('userDataStore', () => {
 
   describe('set user config', () => {
     it('Can set user config', async () => {
-      const mockStoreData: UserStoreConfig = {
+      const mockStoreData: ReportStoreConfig = {
         requestedReports: [],
         recentlyViewedReports: [],
         bookmarks: [],
       }
       await userDataStore.setUserConfig('user-1', mockStoreData)
 
-      expect(redisClient.set).toHaveBeenCalledWith('userConfig:user-1', JSON.stringify(mockStoreData))
+      expect(redisClient.set).toHaveBeenCalledWith('dprReportStoreUser:user-1', JSON.stringify(mockStoreData))
     })
 
     it('Connects when no connection calling setUserConfig', async () => {
-      const mockStoreData: UserStoreConfig = {
+      const mockStoreData: ReportStoreConfig = {
         requestedReports: [],
         recentlyViewedReports: [],
         bookmarks: [],

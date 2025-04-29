@@ -11,7 +11,7 @@ export default {
     res: Response,
     services: Services,
   ): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[] }> => {
-    const { definitions, csrfToken } = res.locals
+    const { definitions, csrfToken, bookmarkingEnabled } = res.locals
     const pathSuffix = res.locals.pathSuffix || ''
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
 
@@ -91,14 +91,18 @@ export default {
         const desc = description || reportDescription
 
         const href = setInitialHref(loadType, type, reportId, id, pathSuffix)
-        const bookmarkHtml = await services.bookmarkService.createBookMarkToggleHtml({
-          userId,
-          reportId,
-          id,
-          csrfToken,
-          ctxId: 'reports-list',
-          reportType: type,
-        })
+
+        let bookmarkHtml
+        if (bookmarkingEnabled) {
+          bookmarkHtml = await services.bookmarkService.createBookMarkToggleHtml({
+            userId,
+            reportId,
+            id,
+            csrfToken,
+            ctxId: 'reports-list',
+            reportType: type,
+          })
+        }
 
         return [
           { html: `<p class="govuk-body-s">${reportName}</p>` },

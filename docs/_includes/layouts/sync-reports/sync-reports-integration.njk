@@ -1,4 +1,4 @@
-{% extends "./base.njk" %}
+{% extends "./../base.njk" %}
 
 {%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
 
@@ -10,20 +10,44 @@
         sections: [
           {
             heading: {
-              text: "Integration guide"
+              text: "Contents"
             },
             items: [ 
               {
-                text: 'Integrate using a handler',
+                text: 'Synchronous reports',
+                href: ('/reports/sync-reporting')
+              },
+              {
+                text: 'Asychronous reports 🚧',
+                href: ('/reports/async-reporting')
+              }
+            ]
+          },
+          {
+            heading: {
+              text: "Integration guide"
+            },
+            items: [
+              {
+                text: 'Sync reports integration guide',
+                href: ('/reports/sync-reports-integration'),
+                active: page.filePathStem.indexOf('/reports/sync-reports-integration') === 0
+              }, 
+              {
+                text: '➤ Integrate using a handler',
                 href: '#integrate-using-a-handler'
               },
               {
-                text: 'Integrate using a method',
+                text: '➤ Integrate using a method',
                 href: '#integrate-using-a-method'
               },
               {
-                text: 'Integrate with data',
+                text: '➤ Integrate with data',
                 href: '#integrate-with-data'
+              },
+              {
+                text: 'Aync reports integration guide 🚧',
+                href: ('/reports/async-reports-integration')
               }
             ]
           },

@@ -20,6 +20,8 @@ export default function routes({
   layoutPath: string
   templatePath?: string
 }) {
+  logger.info('Initialiasing routes: Sync reports')
+
   const errorHandler: RequestHandler = async (req, res) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
     res.render(`${templatePath}/async-error`, {

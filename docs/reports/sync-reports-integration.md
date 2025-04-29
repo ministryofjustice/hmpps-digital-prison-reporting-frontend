@@ -1,6 +1,7 @@
 ---
-layout: layouts/sync-reports.njk
-title: Sync reports integration guide
+layout: layouts/sync-reports/sync-reports-integration.njk
+title: Integration guide
+subsection: Synchronous reports
 ---
 Perform the following integration steps in your `routes` file.
 

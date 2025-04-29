@@ -1,5 +1,8 @@
 import { Response, Request } from 'express'
 import LocalsHelper from './localsHelper'
+import { StoredReportData } from '../types/UserReports'
+import { BookmarkStoreData } from '../types/Bookmark'
+import { components } from '../types/api'
 
 describe('LocalsHelper', () => {
   let res: Response
@@ -33,6 +36,10 @@ describe('LocalsHelper', () => {
         userId: 'userIdValue',
         token: 'token',
         pathSuffix: '',
+        recentlyViewedReports: [] as StoredReportData[],
+        requestedReports: [] as StoredReportData[],
+        bookmarks: [] as BookmarkStoreData[],
+        definitions: [] as components['schemas']['ReportDefinitionSummary'][],
       }
       expect(values).toEqual(expected)
     })

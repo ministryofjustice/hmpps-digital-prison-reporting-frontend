@@ -8,7 +8,7 @@ import {
   EmbeddedReportFeaturesList,
 } from '../types/EmbeddedReportUtils'
 // DATA STORE
-import UserDataStore from '../data/userDataStore'
+import ReportDataStore from '../data/reportDataStore'
 
 // FEATURE: Download
 import addDownloadRoutes from '../routes/download'
@@ -21,11 +21,11 @@ export const initUserDataStore = (features: EmbeddedReportFeatures, services: Se
 
   const { config: featuresConfig, list } = features
   const { redisClient, userDataStore } = featuresConfig
-  let initialisedUserDataStore: UserDataStore
+  let initialisedUserDataStore: ReportDataStore
 
   if (redisClient) {
     logger.info('Embedded Reports: Redis Client found. Initialising User Data store.')
-    return new UserDataStore(redisClient)
+    return new ReportDataStore(redisClient)
   }
   if (userDataStore) {
     logger.info('Embedded Reports: User data store found. Using the provided user data store')
@@ -72,7 +72,7 @@ const initFeatures = ({ router, config, services, features }: EmbeddedSyncParams
     const bookmarkFeatureEnabled = list.includes(EmbeddedReportFeaturesList.bookmark)
     const recentlyViewedFeatureEnabled = list.includes(EmbeddedReportFeaturesList.recentlyViewed)
 
-    const initialisedUserDataStore: UserDataStore = initUserDataStore(features, services)
+    const initialisedUserDataStore: ReportDataStore = initUserDataStore(features, services)
 
     if (downloadFeatureEnabled) {
       logger.info(`Download Feature: Setup`)
@@ -81,7 +81,6 @@ const initFeatures = ({ router, config, services, features }: EmbeddedSyncParams
           logger.info('Download Feature: DownloadPermissionService not provided. Initialising new service')
 
           const downloadPermissionService = new DownloadPermissionService(initialisedUserDataStore)
-          downloadPermissionService.init(userId)
 
           updatedServices = {
             ...services,

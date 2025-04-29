@@ -25,7 +25,6 @@ import LocalsHelper from '../../../utils/localsHelper'
 import { DownloadActionParams } from '../../_reports/report-actions/types'
 import { Services } from '../../../types/Services'
 import { ChildData } from '../../../utils/ParentChildDataTableBuilder/types'
-import logger from '../../../utils/logger'
 
 export const getData = async ({
   req,
@@ -339,13 +338,21 @@ const setFeatures = async (
   count: number,
   urls: Dict<string>,
 ) => {
-  const { csrfToken, userId } = LocalsHelper.getValues(res)
+  const { csrfToken, userId, bookmarkingEnabled, downloadingEnabled } = LocalsHelper.getValues(res)
   const { reportId } = requestData
   const id = requestData.variantId || requestData.id
   const { variant } = definition
 
-  const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
-  const bookmarked = await services.bookmarkService.isBookmarked(id, userId)
+  let canDownload
+  if (downloadingEnabled) {
+    canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
+  }
+
+  let bookmarked
+  if (bookmarkingEnabled) {
+    bookmarked = await services.bookmarkService.isBookmarked(id, userId)
+  }
+
   const actions = setActions(csrfToken, variant, requestData, columns, canDownload, count, urls.pathname, urls.search)
   const { printable } = variant
 
@@ -424,7 +431,7 @@ const setActions = (
   const ID = variantId || id
 
   const downloadConfig: DownloadActionParams = {
-    enabled: count > 0,
+    enabled: count > 0 && canDownload !== undefined,
     name,
     reportName,
     csrfToken,

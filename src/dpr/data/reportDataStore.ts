@@ -1,17 +1,18 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createClient } from 'redis'
 import logger from '../utils/logger'
-import { UserStoreConfig } from '../types/UserStore'
+import { ReportStoreConfig } from '../types/ReportStore'
 
 export type RedisClient = ReturnType<typeof createClient>
 
-export default class UserDataStore {
-  private readonly prefix = 'userConfig:'
+export default class ReportDataStore {
+  prefix: string
 
-  constructor(private readonly redisClient: RedisClient) {
+  constructor(private readonly redisClient: RedisClient, prefix = 'dprReportStoreUser:') {
     redisClient.on('error', (error) => {
       logger.error(error, `Redis error`)
     })
+    this.prefix = prefix
   }
 
   private async ensureConnected() {
@@ -20,23 +21,24 @@ export default class UserDataStore {
     }
   }
 
-  public async initUser(userId: string) {
-    await this.setUserConfig(userId, { ...baseplateStore })
-  }
-
-  public async setUserConfig(userId: string, config: UserStoreConfig): Promise<void> {
+  public async setUserConfig(userId: string, config: ReportStoreConfig): Promise<void> {
     await this.ensureConnected()
     await this.redisClient.set(`${this.prefix}${userId}`, JSON.stringify(config))
   }
 
-  public async getUserConfig(userId: string): Promise<UserStoreConfig> {
+  public async getUserConfig(userId: string): Promise<ReportStoreConfig> {
     await this.ensureConnected()
     const userConfig = await this.redisClient.get(`${this.prefix}${userId}`)
-    return userConfig ? JSON.parse(userConfig) : baseplateStore
+    return userConfig ? JSON.parse(userConfig) : this.setBaseplate()
+  }
+
+  private setBaseplate() {
+    logger.info('Initialising new dprReportStoreUser')
+    return { ...baseplateStore }
   }
 }
 
-const baseplateStore: UserStoreConfig = {
+const baseplateStore: ReportStoreConfig = {
   requestedReports: [],
   recentlyViewedReports: [],
   bookmarks: [],

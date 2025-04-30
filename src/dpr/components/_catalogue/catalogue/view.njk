@@ -1,0 +1,20 @@
+{% from "../catalogue-list/view.njk" import dprCatalogueList %}
+{% from "../catalogue-how-to-use/view.njk" import dprCatalogueHowToUse %}
+
+{% macro dprCatalogue(title, data, features) %}
+  {% set head = data.head %}
+  {% set rows = data.rows %}
+  {% set id = data.id %}
+
+  <div id="reports-catalogue" class="dpr-reports-wrapper">
+    <div class="govuk-width-container">
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-4">{{ title }}</h2>
+
+      {% if features.howToUseEnabled %}
+        {{ dprCatalogueHowToUse(features) }}
+      {% endif %}
+
+      {{ dprCatalogueList(head, rows, features, id) }}
+    </div>
+  <div>
+{% endmacro %}

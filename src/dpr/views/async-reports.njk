@@ -1,12 +1,12 @@
 {% extends layoutPath %}
 
-{% from "../components/reports-list/view.njk" import dprReportsList %}
+{% from "..components/_catalogue/catalogue-list/view.njk" import dprCatalogueList %}
 
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
   <div class="govuk-width-container">
     <h1>{{ title }}</h1>
-    {{ dprReportsList(tableData.head, tableData.rows, true) }}
+    {{ dprCatalogueList(tableData.head, tableData.rows, { unauthorisedToggleEnabled: false }) }}
   </div>
 {% endblock %}

@@ -29,11 +29,13 @@ export default class ReportDataStore {
   public async getUserConfig(userId: string): Promise<ReportStoreConfig> {
     await this.ensureConnected()
     const userConfig = await this.redisClient.get(`${this.prefix}${userId}`)
-    return userConfig ? JSON.parse(userConfig) : this.setBaseplate()
+    return userConfig ? JSON.parse(userConfig) : this.setBaseplate(userId)
   }
 
-  private setBaseplate() {
-    logger.info('Initialising new dprReportStoreUser')
+  private async setBaseplate(userId: string) {
+    logger.info(`Initialising new DPR user config in store. prefix: ${this.prefix}`)
+    const userConfig = { ...baseplateStore }
+    await this.setUserConfig(userId, userConfig)
     return { ...baseplateStore }
   }
 }

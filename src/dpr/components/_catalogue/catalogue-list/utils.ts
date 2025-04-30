@@ -1,13 +1,13 @@
 import { Response } from 'express'
-import { components } from '../../types/api'
-import { Services } from '../../types/Services'
-import { DashboardDefinition } from '../_dashboards/dashboard/types'
-import { DefinitionData, LoadType, ReportType } from '../../types/UserReports'
-import ShowMoreUtils from '../show-more/utils'
-import { createListItemProductMin, createListActions, setInitialHref } from '../../utils/reportListsHelper'
+import { components } from '../../../types/api'
+import { Services } from '../../../types/Services'
+import { DashboardDefinition } from '../../_dashboards/dashboard/types'
+import { DefinitionData, LoadType, ReportType } from '../../../types/UserReports'
+import ShowMoreUtils from '../../show-more/utils'
+import { createListItemProductMin, createListActions, setInitialHref } from '../../../utils/reportListsHelper'
 
 export default {
-  mapReportsList: async (
+  getReportsList: async (
     res: Response,
     services: Services,
   ): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[] }> => {

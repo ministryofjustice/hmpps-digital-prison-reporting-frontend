@@ -1,10 +1,10 @@
 import { Response } from 'express'
-import ReportListUtils from './utils'
-import { Services } from '../../types/Services'
-import BookmarkService from '../../services/bookmarkService'
-import ListDefinitions from '../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
+import CatalogueUtils from './utils'
+import { Services } from '../../../types/Services'
+import BookmarkService from '../../../services/bookmarkService'
+import ListDefinitions from '../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
 
-describe('ReportListUtils', () => {
+describe('CatalogueUtils', () => {
   let services: Services
   let res: Response
 
@@ -24,9 +24,9 @@ describe('ReportListUtils', () => {
     } as unknown as Services
   })
 
-  describe('mapReportsList', () => {
+  describe('getReportsList', () => {
     it('should map the reports to the list', async () => {
-      const reportsTableData = await ReportListUtils.mapReportsList(res, services)
+      const reportsTableData = await CatalogueUtils.getReportsList(res, services)
 
       expect(reportsTableData.head.length).toEqual(4)
       expect(reportsTableData.rows.length).toEqual(88)

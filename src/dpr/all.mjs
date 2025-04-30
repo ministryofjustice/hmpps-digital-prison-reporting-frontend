@@ -6,7 +6,7 @@ import DprLoadingHelper from './DprLoadingHelper.mjs'
 
 // General Components
 import CardGroup from './components/card-group/clientClass.mjs'
-import Search from './components/search/clientClass.mjs'
+import Search from './components/_catalogue/catalogue-search/clientClass.mjs'
 import BookmarkToggle from './components/bookmark-toggle/clientClass.mjs'
 import ShowMore from './components/show-more/clientClass.mjs'
 import DownloadFeedbackForm from './components/download-feeback-form/cientClass.mjs'
@@ -98,6 +98,4 @@ function initAll() {
   })
 }
 
-export {
-  initAll
-}
+export { initAll }

@@ -13,7 +13,7 @@ const bodyParser = require('body-parser')
 
 // Local dependencies
 const ReportListUtils = require('../package/dpr/components/report-list/utils').default
-const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
+const CatalogueUtils = require('../package/dpr/components/_catalogue/catalogue/utils').default
 const UserReportsListUtils = require('../package/dpr/components/user-reports/utils').default
 const createDprServices = require('../package/dpr/utils/ReportStoreServiceUtils').default
 
@@ -28,7 +28,6 @@ const appViews = [
 
 // Middleware
 const populateRequestedReports = require('../package/dpr/middleware/populateRequestedReports').default
-const updateBookmarksByCaseload = require('../package/dpr/middleware/updateBookmarksByCaseload').default
 
 // Application
 const app = express()
@@ -320,12 +319,18 @@ app.get('/dpr-service', async (req, res) => {
     ? `?dataProductDefinitionsPath=${req.query.dataProductDefinitionsPath}`
     : ''
 
+  const catalogue = await CatalogueUtils.init({
+    title: 'My lovely reports',
+    res,
+    services,
+  })
+
+  const userReportsLists = await UserReportsListUtils.init({ services, req, res, maxRows: 20 })
+
   res.render('async.njk', {
     title: 'Home',
-    ...(await UserReportsListUtils.initLists({ services, req, res, maxRows: 20 })),
-    reports: {
-      ...(await ReportslistUtils.mapReportsList(res, services)),
-    },
+    userReportsLists,
+    catalogue,
   })
 })
 

@@ -2,12 +2,7 @@ import { Response } from 'express'
 import CatalogueListUtils from '../catalogue-list/utils'
 import { Services } from '../../../types/Services'
 import LocalsHelper from '../../../utils/localsHelper'
-
-interface CatalogueFeatures {
-  filteringEnabled?: boolean
-  unauthorisedToggleEnabled?: boolean
-  howToUseEnabled?: boolean
-}
+import { CatalogueFeatures } from './types'
 
 const init = async ({
   title,
@@ -20,7 +15,7 @@ const init = async ({
   res: Response
   services: Services
 }) => {
-  const data = await CatalogueListUtils.getReportsList(res, services)
+  const data = await CatalogueListUtils.getReportsList(res, services, features)
 
   return {
     title,
@@ -36,7 +31,7 @@ const setFeatures = (res: Response, features?: CatalogueFeatures) => {
     filteringEnabled: features?.filteringEnabled === undefined || features.filteringEnabled,
     unauthorisedToggleEnabled: features?.unauthorisedToggleEnabled === undefined || features.unauthorisedToggleEnabled,
     howToUseEnabled: features?.howToUseEnabled === undefined || features.howToUseEnabled,
-    bookmarkingEnabled,
+    bookmarkingEnabled: features?.bookmarkingEnabled !== undefined ? features.bookmarkingEnabled : bookmarkingEnabled,
   }
 }
 

@@ -3,8 +3,6 @@ layout: layouts/component.njk
 title: Reports list
 subsection: Async Report components
 ---
-## 🚧 👷🏻‍♀️ Documentation under construction 👷🏾 🚧
-
 {% example "reports-list/default", 800, 'default' %}
 
 ## Overview

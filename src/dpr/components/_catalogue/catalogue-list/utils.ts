@@ -5,11 +5,13 @@ import { DashboardDefinition } from '../../_dashboards/dashboard/types'
 import { DefinitionData, LoadType, ReportType } from '../../../types/UserReports'
 import ShowMoreUtils from '../../show-more/utils'
 import { createListItemProductMin, createListActions, setInitialHref } from '../../../utils/reportListsHelper'
+import { CatalogueFeatures } from '../catalogue/types'
 
 export default {
   getReportsList: async (
     res: Response,
     services: Services,
+    features: CatalogueFeatures,
   ): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[] }> => {
     const { definitions, csrfToken, bookmarkingEnabled } = res.locals
     const pathSuffix = res.locals.pathSuffix || ''
@@ -93,7 +95,10 @@ export default {
         const href = setInitialHref(loadType, type, reportId, id, pathSuffix)
 
         let bookmarkHtml
-        if (bookmarkingEnabled) {
+        const showBookMarkToggle =
+          features?.bookmarkingEnabled !== undefined ? features?.bookmarkingEnabled : bookmarkingEnabled
+
+        if (showBookMarkToggle) {
           bookmarkHtml = await services.bookmarkService.createBookMarkToggleHtml({
             userId,
             reportId,

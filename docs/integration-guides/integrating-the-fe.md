@@ -4,7 +4,8 @@ title: Integrating the FE
 subsection: Integration Guides
 ---
 
-This integration quide describes the integration process to add FE components and processes to the FE to make use of the platform. 
+This guide describes the integration process to add FE components and processes into your service. 
+
 
 ## Pre-requisites
 
@@ -13,23 +14,11 @@ This integration quide describes the integration process to add FE components an
 
 ## Contents
 
-- [Implement request route directly](#implement-request-route-directly)
 - [Report Catalogue component](#report-catalogue-component)
+- [Implement request route directly](#implement-request-route-directly)
 - [User reports list component](#user-reports-list-component)
+- [Render report as list](#render-report-as-list)
 
-# Implement request route directly
-
-If you prefer to create your own report listing page, and not use DPR's [Catalogue component](#report-catalogue-component), you can link your reports to the request path directly.
-
-```html
-<h1>My reports list</h1>
-
-<a href="/async/report/report-id-1/variant-id-1-1/request">Async report 1</a>
-<a href="/async/report/report-id-1/variant-id-1-2/request">Async report 2</a>
-<a href="/async/report/report-id-2/variant-id-2-1/request">Async report 3</a>
-```
-
-For information about the request path [see here](/reports/async-routes/#request-page)
 
 # Report Catalogue component
 
@@ -138,3 +127,102 @@ export default function routes(services: Services): Router {
 
 See [Reports List](/components/reports-list) component for usage and examples.
 
+# Implement request route directly
+
+If you prefer to create your own report listings, and not use DPR's [Catalogue component](#report-catalogue-component), you can link your reports to the request path directly to start the process.
+
+```html
+<h1>My reports list</h1>
+
+<a href="/async/report/report-id-1/variant-id-1-1/request">Async report 1</a>
+<a href="/async/report/report-id-1/variant-id-1-2/request">Async report 2</a>
+<a href="/async/report/report-id-2/variant-id-2-1/request">Async report 3</a>
+```
+
+For information about the request path [see here](/reports/async-routes/#request-page)
+
+# Render report as list
+
+As an alternative to requesting a report, reports can be loaded syncronously and rendered as a list. 
+
+There are three ways to render a report as a list that loads synchronously into your service:
+
+- [Render using a handler](#render-using-a-handler) (**_Recommended_**)
+- [Render using a method](#render-using-a-method)
+- [Render with data](#render-with-data)
+
+### Render using a handler
+
+**Recommended**
+
+```js
+import ReportListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/report-list/utils'
+
+app.get(
+  '/handler',
+  ReportListUtils.createReportListRequestHandler({
+    title: 'Test app',
+    definitionName: 'test-report',
+    variantName: 'test-variant',
+    apiUrl: `http://localhost:3010`,
+    apiTimeout: 10000,
+    layoutTemplate: 'page.njk',
+    tokenProvider: (req, res, next) => res.locals.user.token,
+    definitionsPath: 'definitions/prisons/test'
+  }),
+)
+```
+
+### Render using a method
+
+```js
+import ReportListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/report-list/utils'
+
+app.get('/method', (req, res, next) => {
+  const args = {
+    title: 'Method',
+    definitionName: 'test-report',
+    variantName: 'test-variant',
+    apiUrl: 'http://localhost:3010',
+    layoutTemplate: 'page.njk',
+  }
+
+  ReportListUtils.renderListWithDefinition({
+    ...args,
+    request: req,
+    response: res,
+    next,
+  })
+})
+```
+
+### Render with data
+
+```js
+import ReportListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/report-list/utils'
+
+app.get('/data', (req, res, next) => {
+  const MyVariantDefinition = Promise.resolve(reportName, variantName)
+  const args = {
+    title: 'Test app',
+    reportName: 'ReportName',
+    variantDefinition: MyVariantDefinition,
+    getListDataSources: () => ({
+      data: Promise.resolve(data),
+      count: Promise.resolve(data.length),
+    }),
+    otherOptions: {
+      exampleOption: true,
+    },
+    layoutTemplate: 'page.njk',
+  }
+
+  ReportListUtils.renderListWithData({
+    ...args,
+    request: req,
+    response: res,
+    next,
+  })
+})
+
+```

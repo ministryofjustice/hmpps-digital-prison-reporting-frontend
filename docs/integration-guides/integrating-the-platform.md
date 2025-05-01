@@ -12,7 +12,7 @@ This integration quide describes the steps required to use DPR's Platform into y
 
 # Integration steps
 
-- [Add DPR API configuration](#add-dpr-api-configuration)
+- [Add DPR configuration](#add-dpr-configuration)
 - [Initialise Redis client](#initialise-redis-client)
 - [Initialise data clients](#initialise-data-clients)
 - [Create services](#create-services)
@@ -20,8 +20,9 @@ This integration quide describes the steps required to use DPR's Platform into y
 - [Initialise middleware](#initialise-middleware)
 - [Initialise routes](#initialise-routes)
 
-## Add DPR API configuration
+## Add DPR configuration
 
+### API config
 Add DPR API configuration to your `config.ts` file. 
 
 ```js
@@ -41,7 +42,29 @@ export default {
   ...
 }
 ```
+
 See <a href="/get-started/environments" target="_blank">DPR Environments</a> for API base urls
+
+### DPD path config
+
+Add your DPD path to the `config.ts` file
+
+This is location on in the definitions repo where your DPDs are stored. The path commonly follows this pattern: 
+
+```
+definitions/prisons/dps/${yourServiceName}
+```
+
+```js
+export default {
+  ...
+  apis: {
+    ...
+  }
+  dprDataProductDefinitionPath: 'definitions/prisons/dps/yourServiceName'
+  ...
+}
+```
 
 ## Initialise Redis Client
 

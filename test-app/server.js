@@ -320,7 +320,6 @@ app.get('/dpr-service', async (req, res) => {
     : ''
 
   const catalogue = await CatalogueUtils.init({
-    title: 'My lovely reports',
     res,
     services,
     features: { bookmarkingEnabled: true },

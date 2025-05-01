@@ -5,8 +5,6 @@ title: Catalogue with feature config (example)
 
 {%- from "dpr/components/_catalogue/catalogue/view.njk" import dprCatalogue -%}
 
-{% set title = 'My Reports' %}
-
 {% set data = {
   head: [
     { text: "Product", classes: "dpr-product-head" },
@@ -49,4 +47,4 @@ title: Catalogue with feature config (example)
 } %}
 
 
-{{ dprCatalogue(title, data, features) }}
+{{ dprCatalogue(data, features) }}

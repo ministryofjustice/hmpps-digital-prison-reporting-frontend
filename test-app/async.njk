@@ -30,6 +30,8 @@
 
     {{ dprUserReports(userReportsLists)}}
 
-    {{ dprCatalogue(catalogue.title, catalogue.data, catalogue.features) }}
+    <h2 class="govuk-heading-l govuk-!-margin-bottom-4">{{ catalogue.title }}</h2>
+
+    {{ dprCatalogue(catalogue.data, catalogue.features) }}
   </div>
 {% endblock %}

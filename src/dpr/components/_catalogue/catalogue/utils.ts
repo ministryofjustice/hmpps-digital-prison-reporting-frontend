@@ -5,12 +5,10 @@ import LocalsHelper from '../../../utils/localsHelper'
 import { CatalogueFeatures } from './types'
 
 const init = async ({
-  title,
   features,
   res,
   services,
 }: {
-  title: string
   features?: CatalogueFeatures
   res: Response
   services: Services
@@ -18,7 +16,6 @@ const init = async ({
   const data = await CatalogueListUtils.getReportsList(res, services, features)
 
   return {
-    title,
     data,
     features: setFeatures(res, features),
   }

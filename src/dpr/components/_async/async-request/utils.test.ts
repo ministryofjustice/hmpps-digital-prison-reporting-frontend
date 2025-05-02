@@ -106,139 +106,139 @@ describe('RequestReportUtils', () => {
     }))
   })
 
-  // describe('renderRequest', () => {
-  //   it('should render the request data for a report', async () => {
-  //     req.params = {
-  //       ...req.params,
-  //       id: 'mockVariantId',
-  //       type: ReportType.REPORT,
-  //     }
+  describe('renderRequest', () => {
+    it('should render the request data for a report', async () => {
+      req.params = {
+        ...req.params,
+        id: 'mockVariantId',
+        type: ReportType.REPORT,
+      }
 
-  //     const result = await RequestReportUtils.renderRequest({
-  //       req,
-  //       res,
-  //       services,
-  //       next,
-  //     })
+      const result = await RequestReportUtils.renderRequest({
+        req,
+        res,
+        services,
+        next,
+      })
 
-  //     expect(result).toEqual({
-  //       title: 'Request report',
-  //       filtersDescription: 'Customise your report using the filters below and submit your request.',
-  //       reportData: {
-  //         reportName: 'reportName',
-  //         name: 'Successful Report',
-  //         description: 'this will succeed',
-  //         reportId: 'reportId',
-  //         id: 'mockVariantId',
-  //         definitionPath: 'dataProductDefinitionsPath',
-  //         csrfToken: 'csrfToken',
-  //         template: undefined,
-  //         type: 'report',
-  //       },
-  //       filtersData: mockFiltersData,
-  //     })
-  //   })
+      expect(result).toEqual({
+        title: 'Request report',
+        filtersDescription: 'Customise your report using the filters below and submit your request.',
+        reportData: {
+          reportName: 'reportName',
+          name: 'Successful Report',
+          description: 'this will succeed',
+          reportId: 'reportId',
+          id: 'mockVariantId',
+          definitionPath: 'dataProductDefinitionsPath',
+          csrfToken: 'csrfToken',
+          template: undefined,
+          type: 'report',
+        },
+        filtersData: mockFiltersData,
+      })
+    })
 
-  //   it('should render the request data for a dashboard', async () => {
-  //     req.params = {
-  //       ...req.params,
-  //       id: 'mockDashboardId',
-  //       type: ReportType.DASHBOARD,
-  //     }
+    it('should render the request data for a dashboard', async () => {
+      req.params = {
+        ...req.params,
+        id: 'mockDashboardId',
+        type: ReportType.DASHBOARD,
+      }
 
-  //     const result = await RequestReportUtils.renderRequest({
-  //       req,
-  //       res,
-  //       services,
-  //       next,
-  //     })
+      const result = await RequestReportUtils.renderRequest({
+        req,
+        res,
+        services,
+        next,
+      })
 
-  //     expect(result).toEqual({
-  //       title: 'Request dashboard',
-  //       filtersDescription: 'Customise your dashboard using the filters below and submit your request.',
-  //       reportData: {
-  //         reportName: 'DashboardReportName',
-  //         name: 'reportName',
-  //         description: 'description',
-  //         reportId: 'reportId',
-  //         id: 'mockDashboardId',
-  //         definitionPath: 'dataProductDefinitionsPath',
-  //         csrfToken: 'csrfToken',
-  //         template: undefined,
-  //         sections: dashboardDefinitions[0].sections,
-  //         type: 'dashboard',
-  //       },
-  //     })
-  //   })
+      expect(result).toEqual({
+        title: 'Request dashboard',
+        filtersDescription: 'Customise your dashboard using the filters below and submit your request.',
+        reportData: {
+          reportName: 'DashboardReportName',
+          name: 'reportName',
+          description: 'description',
+          reportId: 'reportId',
+          id: 'mockDashboardId',
+          definitionPath: 'dataProductDefinitionsPath',
+          csrfToken: 'csrfToken',
+          template: undefined,
+          sections: dashboardDefinitions[0].sections,
+          type: 'dashboard',
+        },
+      })
+    })
 
-  //   it('should render the request data for a report with a definition path', async () => {
-  //     req.params = {
-  //       ...req.params,
-  //       id: 'mockVariantId',
-  //       type: ReportType.REPORT,
-  //     }
+    it('should render the request data for a report with a definition path', async () => {
+      req.params = {
+        ...req.params,
+        id: 'mockVariantId',
+        type: ReportType.REPORT,
+      }
 
-  //     req.query = {
-  //       dataProductDefinitionsPath: 'dataProductDefinitionsPath',
-  //     }
+      req.query = {
+        dataProductDefinitionsPath: 'dataProductDefinitionsPath',
+      }
 
-  //     const result = await RequestReportUtils.renderRequest({
-  //       req,
-  //       res,
-  //       services,
-  //       next,
-  //     })
+      const result = await RequestReportUtils.renderRequest({
+        req,
+        res,
+        services,
+        next,
+      })
 
-  //     expect(result).toEqual({
-  //       title: 'Request report',
-  //       filtersDescription: 'Customise your report using the filters below and submit your request.',
-  //       reportData: {
-  //         reportName: 'reportName',
-  //         name: 'Successful Report',
-  //         description: 'this will succeed',
-  //         reportId: 'reportId',
-  //         id: 'mockVariantId',
-  //         definitionPath: 'dataProductDefinitionsPath',
-  //         csrfToken: 'csrfToken',
-  //         template: undefined,
-  //         type: 'report',
-  //       },
-  //       filtersData: mockFiltersData,
-  //     })
-  //   })
+      expect(result).toEqual({
+        title: 'Request report',
+        filtersDescription: 'Customise your report using the filters below and submit your request.',
+        reportData: {
+          reportName: 'reportName',
+          name: 'Successful Report',
+          description: 'this will succeed',
+          reportId: 'reportId',
+          id: 'mockVariantId',
+          definitionPath: 'dataProductDefinitionsPath',
+          csrfToken: 'csrfToken',
+          template: undefined,
+          type: 'report',
+        },
+        filtersData: mockFiltersData,
+      })
+    })
 
-  //   it('should render the request data for a dashboard with a definition path', async () => {
-  //     req.params = {
-  //       ...req.params,
-  //       id: 'mockDashboardId',
-  //       type: ReportType.DASHBOARD,
-  //     }
+    it('should render the request data for a dashboard with a definition path', async () => {
+      req.params = {
+        ...req.params,
+        id: 'mockDashboardId',
+        type: ReportType.DASHBOARD,
+      }
 
-  //     const result = await RequestReportUtils.renderRequest({
-  //       req,
-  //       res,
-  //       services,
-  //       next,
-  //     })
+      const result = await RequestReportUtils.renderRequest({
+        req,
+        res,
+        services,
+        next,
+      })
 
-  //     expect(result).toEqual({
-  //       title: 'Request dashboard',
-  //       filtersDescription: 'Customise your dashboard using the filters below and submit your request.',
-  //       reportData: {
-  //         reportName: 'DashboardReportName',
-  //         name: 'reportName',
-  //         description: 'description',
-  //         reportId: 'reportId',
-  //         id: 'mockDashboardId',
-  //         definitionPath: 'dataProductDefinitionsPath',
-  //         csrfToken: 'csrfToken',
-  //         template: undefined,
-  //         sections: dashboardDefinitions[0].sections,
-  //         type: 'dashboard',
-  //       },
-  //     })
-  //   })
-  // })
+      expect(result).toEqual({
+        title: 'Request dashboard',
+        filtersDescription: 'Customise your dashboard using the filters below and submit your request.',
+        reportData: {
+          reportName: 'DashboardReportName',
+          name: 'reportName',
+          description: 'description',
+          reportId: 'reportId',
+          id: 'mockDashboardId',
+          definitionPath: 'dataProductDefinitionsPath',
+          csrfToken: 'csrfToken',
+          template: undefined,
+          sections: dashboardDefinitions[0].sections,
+          type: 'dashboard',
+        },
+      })
+    })
+  })
 
   describe('request', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -466,39 +466,39 @@ describe('RequestReportUtils', () => {
       )
     })
 
-    // it('should request a report with a definition path', async () => {
-    //   const addReportSpy = jest.spyOn(services.requestedReportService, 'addReport')
-    //   req.body = {
-    //     ...body,
-    //     dataProductDefinitionsPath: 'dataProductDefinitionsPath',
-    //   }
+    it('should request a report with a definition path', async () => {
+      const addReportSpy = jest.spyOn(services.requestedReportService, 'addReport')
+      req.body = {
+        ...body,
+        dataProductDefinitionsPath: 'dataProductDefinitionsPath',
+      }
 
-    //   await RequestReportUtils.request({ req, res, services })
+      await RequestReportUtils.request({ req, res, services })
 
-    //   expect(addReportSpy).toHaveBeenCalledWith(
-    //     'userId',
-    //     expect.objectContaining({
-    //       dataProductDefinitionsPath: 'dataProductDefinitionsPath',
-    //     }),
-    //   )
-    // })
+      expect(addReportSpy).toHaveBeenCalledWith(
+        'userId',
+        expect.objectContaining({
+          dataProductDefinitionsPath: 'dataProductDefinitionsPath',
+        }),
+      )
+    })
 
-    // it('should request a dashboard with a definition path', async () => {
-    //   const addReportSpy = jest.spyOn(services.requestedReportService, 'addReport')
-    //   req.body = {
-    //     ...dashboardBody,
-    //     dataProductDefinitionsPath: 'dataProductDefinitionsPath',
-    //   }
+    it('should request a dashboard with a definition path', async () => {
+      const addReportSpy = jest.spyOn(services.requestedReportService, 'addReport')
+      req.body = {
+        ...dashboardBody,
+        dataProductDefinitionsPath: 'dataProductDefinitionsPath',
+      }
 
-    //   await RequestReportUtils.request({ req, res, services })
+      await RequestReportUtils.request({ req, res, services })
 
-    //   expect(addReportSpy).toHaveBeenCalledWith(
-    //     'userId',
-    //     expect.objectContaining({
-    //       dataProductDefinitionsPath: 'dataProductDefinitionsPath',
-    //     }),
-    //   )
-    // })
+      expect(addReportSpy).toHaveBeenCalledWith(
+        'userId',
+        expect.objectContaining({
+          dataProductDefinitionsPath: 'dataProductDefinitionsPath',
+        }),
+      )
+    })
   })
 
   describe('cancelRequest', () => {

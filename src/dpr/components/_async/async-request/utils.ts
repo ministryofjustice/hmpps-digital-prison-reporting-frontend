@@ -45,7 +45,7 @@ export const updateStore = async ({
   childExecutionData: Array<ChildReportExecutionData>
 }): Promise<string> => {
   const { search, id, type } = req.body
-  const { userId } = LocalsHelper.getValues(res)
+  const { userId, definitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
 
   await removeDuplicates({ storeService: services.requestedReportService, userId, id, search })
   await removeDuplicates({ storeService: services.recentlyViewedService, userId, id, search })
@@ -60,6 +60,7 @@ export const updateStore = async ({
         .addChildExecutionData(childExecutionData)
         .addFilters(queryData.filterData)
         .addSortData(queryData.sortData)
+        .addDefinitionsPath(definitionsPath, dpdPathFromQuery)
         .addRequestUrls()
         .addQuery(queryData)
         .addStatus(RequestStatus.SUBMITTED)
@@ -71,6 +72,7 @@ export const updateStore = async ({
         .addExecutionData(executionData)
         .addChildExecutionData(childExecutionData)
         .addFilters(queryData.filterData)
+        .addDefinitionsPath(definitionsPath, dpdPathFromQuery)
         .addRequestUrls()
         .addQuery(queryData)
         .addStatus(RequestStatus.SUBMITTED)

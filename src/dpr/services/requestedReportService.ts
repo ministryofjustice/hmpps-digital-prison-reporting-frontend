@@ -100,11 +100,7 @@ export default class RequestedReportService extends ReportStoreService {
       case RequestStatus.FINISHED: {
         report.timestamp.completed = ts
         const search = report.url.report?.search ? report.url.report.search : ''
-        report.url.report.pathname = report.dataProductDefinitionsPath?.length
-          ? `${report.url.request.pathname}/${tableId}/report${getDpdPathSuffix(
-              report.dataProductDefinitionsPath,
-            )}${search}`
-          : `${report.url.request.pathname}/${tableId}/report${search}`
+        report.url.report.pathname = `${report.url.request.pathname}/${tableId}/report${search}`
         report.url.report.fullUrl = `${report.url.origin}${report.url.report.pathname}`
         break
       }

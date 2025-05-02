@@ -27,13 +27,13 @@ class MockReportingClient {
     })
   }
 
-  async getAsyncReportStatus(token, reportId, variantId, executionId, dataProductDefinitionsPath, tableId) {
+  async getAsyncReportStatus(token, reportId, variantId, executionId, definitionsPath, tableId) {
     this.logInfo('getAsyncReportStatus', {
       token,
       reportId,
       variantId,
       executionId,
-      dataProductDefinitionsPath,
+      definitionsPath,
       tableId,
     })
 
@@ -94,7 +94,9 @@ class MockReportingClient {
     })
   }
 
-  async cancelAsyncRequest() {
+  async cancelAsyncRequest(token, reportId, variantId, executionId, definitionsPath) {
+    this.logInfo('cancelAsyncRequest', { token, reportId, variantId, executionId, definitionsPath })
+
     return new Promise((resolve) => {
       resolve({
         cancellationSucceeded: true,
@@ -102,8 +104,9 @@ class MockReportingClient {
     })
   }
 
-  async getAsyncCount(token, tableId, dataProductDefinitionsPath) {
-    this.logInfo('getAsyncCount', { token, tableId, dataProductDefinitionsPath })
+  async getAsyncCount(token, tableId, definitionsPath) {
+    this.logInfo('getAsyncCount', { token, tableId, definitionsPath })
+
     return Promise.resolve(this.RESULT_COUNT)
   }
 

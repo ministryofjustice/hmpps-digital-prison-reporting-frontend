@@ -37,14 +37,16 @@ class MockDashboardClient {
     })
   }
 
-  async getAsyncStatus(token, reportId, id, executionId, dataProductDefinitionsPath, tableId) {
-    logInfo('getAsyncStatus', { token, reportId, id, executionId, dataProductDefinitionsPath, tableId })
+  async getAsyncStatus(token, reportId, id, executionId, definitionsPath, tableId) {
+    logInfo('getAsyncStatus', { token, reportId, id, executionId, definitionsPath, tableId })
 
     const statuses = this.getStatusResponses(id)
     return mockStatusHelper(this.requests, statuses, executionId)
   }
 
-  async cancelAsyncRequest() {
+  async cancelAsyncRequest(token, reportId, variantId, executionId, definitionsPath) {
+    this.logInfo('cancelAsyncRequest', { token, reportId, variantId, executionId, definitionsPath })
+
     return new Promise((resolve) => {
       resolve({
         cancellationSucceeded: true,

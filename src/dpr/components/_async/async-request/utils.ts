@@ -128,7 +128,8 @@ const requestProduct = async ({
   childExecutionData: Array<ChildReportExecutionData>
   queryData: SetQueryFromFiltersResult
 }> => {
-  const { reportId, id, dataProductDefinitionsPath, type } = req.body
+  const { definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
+  const { reportId, id, type } = req.body
 
   let fields
   let queryData
@@ -138,7 +139,7 @@ const requestProduct = async ({
   let childVariants: components['schemas']['ChildVariantDefinition'][] = []
 
   if (type === ReportType.REPORT) {
-    definition = await reportingService.getDefinition(token, reportId, id, <string>dataProductDefinitionsPath)
+    definition = await reportingService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
 
     fields = definition ? definition.variant.specification.fields : []
     queryData = FiltersFormUtils.setQueryFromFilters(req, fields)
@@ -150,7 +151,7 @@ const requestProduct = async ({
   }
 
   if (type === ReportType.DASHBOARD) {
-    definition = await dashboardService.getDefinition(token, id, reportId, <string>dataProductDefinitionsPath)
+    definition = await dashboardService.getDefinition(token, id, reportId, dataProductDefinitionsPath)
 
     fields = definition ? definition.filterFields : []
     queryData = FiltersFormUtils.setQueryFromFilters(req, fields)
@@ -218,27 +219,16 @@ const renderReportRequestData = async (definition: components['schemas']['Single
 }
 
 const getDefintionByType = async (req: Request, res: Response, next: NextFunction, services: Services) => {
-  const { token } = LocalsHelper.getValues(res)
+  const { token, definitionsPath } = LocalsHelper.getValues(res)
   const { reportId, id, variantId, type } = req.params
-  const { dataProductDefinitionsPath } = req.query
 
   let definition
   if (type === ReportType.REPORT) {
-    definition = await services.reportingService.getDefinition(
-      token,
-      reportId,
-      variantId || id,
-      dataProductDefinitionsPath,
-    )
+    definition = await services.reportingService.getDefinition(token, reportId, variantId || id, definitionsPath)
   }
 
   if (type === ReportType.DASHBOARD) {
-    definition = await services.dashboardService.getDefinition(
-      token,
-      variantId || id,
-      reportId,
-      dataProductDefinitionsPath,
-    )
+    definition = await services.dashboardService.getDefinition(token, variantId || id, reportId, definitionsPath)
   }
 
   return definition

@@ -6,6 +6,7 @@ import { DefinitionData, LoadType, ReportType } from '../../../types/UserReports
 import ShowMoreUtils from '../../show-more/utils'
 import { createListItemProductMin, createListActions, setInitialHref } from '../../../utils/reportListsHelper'
 import { CatalogueFeatures } from '../catalogue/types'
+import LocalsHelper from '../../../utils/localsHelper'
 
 export default {
   getReportsList: async (
@@ -13,9 +14,7 @@ export default {
     services: Services,
     features: CatalogueFeatures,
   ): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[] }> => {
-    const { definitions, csrfToken, bookmarkingEnabled } = res.locals
-    const pathSuffix = res.locals.pathSuffix || ''
-    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+    const { definitions, csrfToken, bookmarkingEnabled, userId } = LocalsHelper.getValues(res)
 
     // Sort report Definitions by product name
     const sortedDefinitions = definitions.sort(
@@ -92,7 +91,7 @@ export default {
         const { id, name, description, reportName, reportId, reportDescription, type, loadType, authorised } = v
         const desc = description || reportDescription
 
-        const href = setInitialHref(loadType, type, reportId, id, pathSuffix)
+        const href = setInitialHref(loadType, type, reportId, id, res)
 
         let bookmarkHtml
         const showBookMarkToggle =

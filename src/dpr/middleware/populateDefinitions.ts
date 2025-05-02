@@ -16,7 +16,7 @@ const deriveDefinitionsPath = (query: ParsedQs): string | null => {
   return null
 }
 
-const dprExcludeRoutes = ['/getExpiredStatus/', '/getRequestedExpiredStatus/', '/requestReport/', '/getStatus/']
+const dprExcludeRoutes = ['/getExpiredStatus/', '/getRequestedExpiredStatus/', '/getStatus/']
 
 export default (services: Services, config: Dict<string>): RequestHandler => {
   return async (req, res, next) => {
@@ -26,7 +26,10 @@ export default (services: Services, config: Dict<string>): RequestHandler => {
       }
 
       // Get the DPD path from the query
-      const definitionsPathFromQuery = deriveDefinitionsPath(req.query)
+      const dpdPathFromQuery = deriveDefinitionsPath(req.query)
+      const dpdPathFromBody = req.body.dataProductDefinitionsPath
+      const definitionsPathFromQuery = dpdPathFromQuery || dpdPathFromBody
+
       if (definitionsPathFromQuery) {
         res.locals.dpdPathFromQuery = true
       }
@@ -39,7 +42,7 @@ export default (services: Services, config: Dict<string>): RequestHandler => {
 
       // query takes presedence over config
       if (definitionsPathFromQuery) {
-        logger.info(`DPD from config: ${definitionsPathFromQuery}`)
+        logger.info(`DPD from query: ${definitionsPathFromQuery}`)
         res.locals.definitionsPath = definitionsPathFromQuery
       } else if (dpdPathFromConfig) {
         logger.info(`DPD from config: ${dpdPathFromConfig}`)

@@ -12,19 +12,22 @@ const getValues = (res: Response) => {
   const requestedReports: StoredReportData[] = res.locals.requestedReports || []
   const recentlyViewedReports: StoredReportData[] = res.locals.recentlyViewedReports || []
   const bookmarks: BookmarkStoreData[] = res.locals.bookmarks || []
-  const { bookmarkingEnabled, downloadingEnabled } = res.locals
+  const { bookmarkingEnabled, downloadingEnabled, definitionsPath, dpdPathFromQuery, dpdPathFromConfig } = res.locals
 
   return {
     csrfToken,
     userId,
     token,
-    pathSuffix,
     definitions,
     requestedReports,
     recentlyViewedReports,
     bookmarks,
     bookmarkingEnabled,
     downloadingEnabled,
+    dpdPathFromQuery,
+    dpdPathFromConfig,
+    definitionsPath,
+    pathSuffix,
   }
 }
 

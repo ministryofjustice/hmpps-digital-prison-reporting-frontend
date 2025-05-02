@@ -34,17 +34,18 @@ export default function routes({
   logger.info('Initialiasing routes: Download')
 
   const feedbackFormHandler: RequestHandler = async (req, res, next) => {
-    const { token, csrfToken } = LocalsHelper.getValues(res)
+    const { token, csrfToken, definitionsPath } = LocalsHelper.getValues(res)
     const { reportId, variantId, tableId } = req.params
     const loadType = tableId ? LoadType.ASYNC : LoadType.SYNC
 
     const { reportSearch, reportUrl } = req.query
     let queryString
     let dataProductDefinitionsPath
+
     if (reportSearch) {
       queryString = decodeURIComponent(<string>reportSearch)
       const params = new URLSearchParams(queryString)
-      dataProductDefinitionsPath = params.get('dataProductDefinitionsPath')
+      dataProductDefinitionsPath = params.get('dataProductDefinitionsPath') || definitionsPath
     }
 
     const variantData: components['schemas']['SingleVariantReportDefinition'] =

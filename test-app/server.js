@@ -28,6 +28,7 @@ const appViews = [
 
 // Middleware
 const populateRequestedReports = require('../package/dpr/middleware/populateRequestedReports').default
+const populateDefinitions = require('../package/dpr/middleware/populateDefinitions').default
 
 // Application
 const app = express()
@@ -273,6 +274,7 @@ const services = {
 // app.use(setUpReportStore(services))
 // app.use(updateBookmarksByCaseload(services))
 app.use(populateRequestedReports(services))
+app.use(populateDefinitions(services, { dprDataProductDefinitionPath: 'my/path/thing' }))
 
 // 4. Initialise routes
 DprEmbeddedAsyncReports({

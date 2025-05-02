@@ -238,6 +238,7 @@ export default function routes({
   const getStatusHandler: RequestHandler = async (req, res, next) => {
     try {
       const response = await AsyncRequestListUtils.getRequestStatus({ req, res, services })
+      console.log({ response })
       res.send({ status: response.status })
     } catch (error) {
       res.send({ status: 'FAILED' })

@@ -2,32 +2,56 @@ import { RequestHandler } from 'express'
 import type { ParsedQs } from 'qs'
 import ReportingService from '../services/reportingService'
 import Dict = NodeJS.Dict
+import logger from '../utils/logger'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
 
-const deriveDefinitionsPath = (query: ParsedQs, config: Dict<string>): string | null => {
+const deriveDefinitionsPath = (query: ParsedQs): string | null => {
   const definitionsPath = getDefinitionsPath(query)
   if (definitionsPath) {
     return definitionsPath
   }
 
-  const { dprDataProductDefinitionPath } = config
-  if (dprDataProductDefinitionPath) {
-    return dprDataProductDefinitionPath
-  }
-
   return null
 }
+
+const dprExcludeRoutes = ['/getExpiredStatus/', '/getRequestedExpiredStatus/', '/requestReport/', '/getStatus/']
 
 export default (service: ReportingService, config: Dict<string>): RequestHandler => {
   return async (req, res, next) => {
     try {
-      const definitionsPath = deriveDefinitionsPath(req.query, config)
-      res.locals.pathSuffix = definitionsPath ? `?dataProductDefinitionsPath=${definitionsPath}` : ''
-      if (res.locals.user.token && service) {
-        res.locals.definitions = await service.getDefinitions(res.locals.user.token, definitionsPath)
+      if (dprExcludeRoutes.includes(req.originalUrl)) {
+        return next()
       }
+
+      // Get the DPD path from the query
+      const definitionsPathFromQuery = deriveDefinitionsPath(req.query)
+      if (definitionsPathFromQuery) {
+        res.locals.dpdPathFromQuery = true
+      }
+
+      // Get the DPD path from the config
+      const { dprDataProductDefinitionPath: dpdPathFromConfig } = config
+      if (dpdPathFromConfig) {
+        res.locals.dpdPathFromConfig = true
+      }
+
+      // query takes presedence over config
+      if (definitionsPathFromQuery) {
+        logger.info(`DPD from config: ${definitionsPathFromQuery}`)
+        res.locals.definitionsPath = definitionsPathFromQuery
+      } else if (dpdPathFromConfig) {
+        logger.info(`DPD from config: ${dpdPathFromConfig}`)
+        res.locals.definitionsPath = dpdPathFromConfig
+      }
+
+      res.locals.pathSuffix = `?dataProductDefinitionsPath=${res.locals.definitionsPath}`
+
+      if (res.locals.user.token && service) {
+        res.locals.definitions = await service.getDefinitions(res.locals.user.token, res.locals.definitionsPath)
+      }
+
       return next()
     } catch (error) {
       return next(error)

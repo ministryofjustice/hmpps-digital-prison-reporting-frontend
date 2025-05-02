@@ -45,7 +45,7 @@ export const updateStore = async ({
   childExecutionData: Array<ChildReportExecutionData>
 }): Promise<string> => {
   const { search, id, type } = req.body
-  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+  const { userId } = LocalsHelper.getValues(res)
 
   await removeDuplicates({ storeService: services.requestedReportService, userId, id, search })
   await removeDuplicates({ storeService: services.recentlyViewedService, userId, id, search })
@@ -113,11 +113,13 @@ async function requestChildReports(
 
 const requestProduct = async ({
   req,
+  res,
   token,
   dashboardService,
   reportingService,
 }: {
   req: Request
+  res: Response
   token: string
   dashboardService: DashboardService
   reportingService: ReportingService
@@ -187,7 +189,7 @@ const renderDashboardRequestData = async ({
   services: Services
   definition: DashboardDefinition
 }) => {
-  const productDefinitions = await services.reportingService.getDefinitions(token, <string>definitionPath)
+  const productDefinitions = await services.reportingService.getDefinitions(token, definitionPath)
   const productDefinition = productDefinitions.find(
     (def: components['schemas']['ReportDefinitionSummary']) => def.id === reportId,
   )
@@ -250,8 +252,9 @@ export default {
    * @return {*}
    */
   request: async ({ req, res, services }: AsyncReportUtilsParams) => {
-    const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const requestArgs = { req, token }
+    const { token } = LocalsHelper.getValues(res)
+    const requestArgs = { req, res, token }
+
     const { executionData, queryData, childExecutionData } = await requestProduct({
       ...requestArgs,
       dashboardService: services.dashboardService,
@@ -297,12 +300,10 @@ export default {
    */
   renderRequest: async ({ req, res, services, next }: AsyncReportUtilsParams): Promise<RequestDataResult | boolean> => {
     try {
-      const { token, csrfToken } = LocalsHelper.getValues(res)
-
+      const { token, csrfToken, definitionsPath: definitionPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
       const { reportId, type, id } = req.params
-      const { dataProductDefinitionsPath: definitionPath } = req.query
       const { definition } = req.body
-      const definitionApiArgs = { token, reportId, definitionPath: <string>definitionPath, services }
+      const definitionApiArgs = { token, reportId, definitionPath, services }
 
       let name
       let reportName
@@ -336,7 +337,7 @@ export default {
         description,
         reportId,
         id,
-        definitionPath: definitionPath as string,
+        ...(dpdPathFromQuery && { definitionPath }),
         ...(defaultInteractiveQueryString?.length && { defaultInteractiveQueryString }),
         csrfToken,
         template,

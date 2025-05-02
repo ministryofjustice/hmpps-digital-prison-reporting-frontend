@@ -57,7 +57,6 @@ export default class RequestedReportService extends ReportStoreService {
 
   async updateStatus(id: string, userId: string, status?: RequestStatus, errorMessage?: string) {
     const userConfig = await this.getState(userId)
-
     const index = this.findIndexByExecutionId(id, userConfig.requestedReports)
     let report: RequestedReport = userConfig.requestedReports[index]
     if (report) report = this.updateDataByStatus(report, status, errorMessage)
@@ -101,7 +100,7 @@ export default class RequestedReportService extends ReportStoreService {
       case RequestStatus.FINISHED: {
         report.timestamp.completed = ts
         const search = report.url.report?.search ? report.url.report.search : ''
-        report.url.report.pathname = report.dataProductDefinitionsPath.length
+        report.url.report.pathname = report.dataProductDefinitionsPath?.length
           ? `${report.url.request.pathname}/${tableId}/report${getDpdPathSuffix(
               report.dataProductDefinitionsPath,
             )}${search}`

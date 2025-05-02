@@ -5,6 +5,7 @@ import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 import { ChildReportExecutionData } from '../types/ExecutionData'
 import logger from './logger'
 import { Services } from '../types/Services'
+import localsHelper from './localsHelper'
 
 interface GetStatusUtilsResponse {
   status: RequestStatus
@@ -90,8 +91,7 @@ const getStatusByReportType = async (services: Services, req: Request, token: st
 }
 
 export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams): Promise<GetStatusUtilsResponse> => {
-  const token = res.locals.user?.token ? res.locals.user.token : 'token'
-  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+  const { token, userId } = localsHelper.getValues(res)
   const { status: currentStatus, requestedAt } = req.body
   const timeoutExemptStatuses = [RequestStatus.READY, RequestStatus.EXPIRED, RequestStatus.FAILED]
 
@@ -145,8 +145,7 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
  * @return {*}
  */
 export const getExpiredStatus = async ({ req, res, services }: AsyncReportUtilsParams) => {
-  const token = res.locals.user?.token ? res.locals.user.token : 'token'
-  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+  const { token, userId } = localsHelper.getValues(res)
   const { executionId, status: currentStatus } = req.body
 
   let errorMessage

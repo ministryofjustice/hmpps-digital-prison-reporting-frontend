@@ -275,7 +275,7 @@ export default {
     services,
     storeService,
   }: AsyncReportUtilsParams & { storeService: RequestedReportService | RecentlyViewedStoreService }) => {
-    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+    const { userId } = LocalsHelper.getValues(res)
     const report = await getExpiredStatus({ req, res, services })
 
     if (report && report.isExpired) {
@@ -345,7 +345,7 @@ export default {
     const data = reportStateData
     if (search) {
       data.url.report = {
-        fullUrl: href,
+        fullUrl: `${href}${search}`,
         search,
       }
     }

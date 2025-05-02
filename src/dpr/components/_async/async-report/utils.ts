@@ -25,7 +25,6 @@ import LocalsHelper from '../../../utils/localsHelper'
 import { DownloadActionParams } from '../../_reports/report-actions/types'
 import { Services } from '../../../types/Services'
 import { ChildData } from '../../../utils/ParentChildDataTableBuilder/types'
-import definitionUtils from '../../../utils/definitionUtils'
 
 export const getData = async ({
   res,

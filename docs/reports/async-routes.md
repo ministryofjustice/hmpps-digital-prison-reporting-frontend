@@ -1,9 +1,9 @@
 ---
-layout: layouts/async-reports/async-reports.njk
+layout: layouts/get-started.njk
 title: Routes
-subsection: Asynchronous reports
+subsection: Platform
 ---
-Integrating Async reporting will give you access to the following page routes:
+Integrating the platform will give you access to the following page routes:
 
 - [Request Page](#request-page)
 - [Polling Page](#polling-page)
@@ -11,7 +11,7 @@ Integrating Async reporting will give you access to the following page routes:
 
 # Request page
 
-This is the entry point to the async process.
+This is the entry point to the reporting process.
 
 The request page is where users will:
 

@@ -1,4 +1,4 @@
-{% extends "./base.njk" %}
+{% extends "./../base.njk" %}
 
 {%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
 
@@ -23,7 +23,24 @@
               },
               {
                 text: 'Integrating the FE',
-                href: ('/integration-guides/integrating-the-fe')
+                href: ('/integration-guides/integrating-the-fe'),
+                active: true
+              },
+              {
+                text: '➤ Report Catalogue component',
+                href: ('/integration-guides/integrating-the-fe#report-catalogue-component')
+              },
+              {
+                text: '➤ User reports list component',
+                href: ('/integration-guides/integrating-the-feuser-reports-list-component')
+              },
+              {
+                text: '➤ Implement request route directly',
+                href: ('/integration-guides/integrating-the-fe#implement-request-route-directly')
+              },
+              {
+                text: 'Environments',
+                href: ('/get-started/environments')
               }
             ]
           },

@@ -1,6 +1,7 @@
 ---
 layout: layouts/get-started.njk
 title: Environments
+subsection: Platform
 ---
 
 ## Dev

@@ -1,5 +1,5 @@
 ---
-layout: layouts/reporting.njk
+layout: layouts/get-started.njk
 title: List report
 subsection: Example Reports
 ---

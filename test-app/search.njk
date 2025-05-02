@@ -1,11 +1,11 @@
 {% extends "page.njk" %}
 
-{% from "components/reports-list/view.njk" import dprReportsList %}
+{% from "components/_catalogue/catalogue-list/view.njk" import dprCatalogueList %}
 
 {% block content %}
   <h1 class="govuk-heading-l">Search</h1>
 
   <div class="govuk-width-container">
-    {{ dprReportsList(head, rows) }}
+    {{ dprCatalogueList(head, rows, { filteringEnabled: true}) }}
   </div>
 {% endblock %}

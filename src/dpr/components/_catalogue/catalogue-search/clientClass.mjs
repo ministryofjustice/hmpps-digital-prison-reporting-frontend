@@ -1,10 +1,10 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-param-reassign */
-import { DprClientClass } from '../../DprClientClass.mjs'
+import { DprClientClass } from '../../../DprClientClass.mjs'
 
-export default class Search extends DprClientClass {
+export default class DprCatalogueSearch extends DprClientClass {
   static getModuleName() {
-    return 'search'
+    return 'dpr-catalogue-search'
   }
 
   initialise() {

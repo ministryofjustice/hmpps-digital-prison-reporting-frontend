@@ -284,7 +284,7 @@ export default {
     return report ? report.isExpired : false
   },
 
-  initLists: async ({
+  init: async ({
     services,
     res,
     req,

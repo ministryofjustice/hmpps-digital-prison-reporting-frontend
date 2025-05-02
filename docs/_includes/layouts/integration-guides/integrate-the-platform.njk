@@ -1,4 +1,4 @@
-{% extends "./base.njk" %}
+{% extends "./../base.njk" %}
 
 {%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
 
@@ -19,15 +19,48 @@
               },
               {
                 text: 'Integrating the platform',
-                href: ('/integration-guides/integrating-the-platform')
+                href: ('/integration-guides/integrating-the-platform'),
+                active: true
+              },
+              {
+                text: '➤ Add DPR configuration',
+                href: '#add-dpr-configuration'
+              },
+              {
+                text: '➤ Initialise Redis client',
+                href: '#initialise-redis-client'
+              },
+              {
+                text: '➤ Initialise data clients',
+                href: '#initialise-data-clients'
+              },
+              {
+                text: '➤ Get the current User ID',
+                href: '#current-the-current-user-id'
+              },
+              {
+                text: '➤ Create services',
+                href: '#create-services'
+              },
+              {
+                text: '➤ Initialise middleware',
+                href: '#initialise-middleware'
+              },
+              {
+                text: '➤ Initialise routes',
+                href: '#initialise-routes'
               },
               {
                 text: 'Integrating the FE',
                 href: ('/integration-guides/integrating-the-fe')
+              },
+              {
+                text: 'Environments',
+                href: ('/get-started/environments')
               }
             ]
           },
-          {
+                    {
             heading: {
               text: "Platform"
             },

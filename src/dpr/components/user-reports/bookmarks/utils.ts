@@ -96,8 +96,7 @@ const mapBookmarkIdsToDefinition = async (
   services: Services,
 ): Promise<BookmarkedReportData[]> => {
   const bookmarkData: BookmarkedReportData[] = []
-  const { dataProductDefinitionsPath: definitionPath } = req.query
-  const { pathSuffix } = LocalsHelper.getValues(res)
+  const { pathSuffix, definitionsPath } = LocalsHelper.getValues(res)
 
   await Promise.all(
     bookmarks.map(async (bookmark) => {
@@ -117,13 +116,13 @@ const mapBookmarkIdsToDefinition = async (
             token,
             bookmark.reportId,
             bookmarkId,
-            <string>definitionPath,
+            definitionsPath,
           )
           reportName = definition.name
           name = definition.variant.name
           description = definition.variant.description || definition.description
           loadType = definition.variant.loadType || loadType
-          href = setInitialHref(loadType, reportType, bookmark.reportId, bookmarkId, pathSuffix)
+          href = setInitialHref(loadType, reportType, bookmark.reportId, bookmarkId, res)
         }
 
         if (reportType === ReportType.DASHBOARD) {
@@ -131,13 +130,14 @@ const mapBookmarkIdsToDefinition = async (
             bookmark.reportId,
             services.reportingService,
             token,
-            <string>definitionPath,
+            definitionsPath,
           )
+
           definition = await services.dashboardService.getDefinition(
             token,
             bookmarkId,
             bookmark.reportId,
-            <string>definitionPath,
+            definitionsPath,
           )
           name = definition.name
           reportName = reportDefinition.name
@@ -180,6 +180,8 @@ export default {
     req: Request
   }) => {
     const { token, csrfToken, userId, bookmarks } = LocalsHelper.getValues(res)
+
+    console.log({ bookmarks })
 
     const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, res, token, services)
     const formatted = await formatBookmarks(bookmarksData, maxRows)

@@ -207,6 +207,7 @@ describe('AsyncReportListUtils', () => {
 
   describe('getData', () => {
     let req: Request
+    let res: Response
     let token: string
     let userId: string
     let services: Services
@@ -225,6 +226,10 @@ describe('AsyncReportListUtils', () => {
           tableId: 'tableId',
         },
       } as unknown as Request
+
+      res = {
+        locals: {},
+      } as unknown as Response
 
       token = 'token'
       userId = 'userId'
@@ -277,7 +282,7 @@ describe('AsyncReportListUtils', () => {
         reportingService: mockReportingService,
       } as unknown as Services
 
-      await AsyncReportListUtilsHelper.getData({ req, services, token, userId })
+      await AsyncReportListUtilsHelper.getData({ res, req, services, token, userId })
 
       expect(services.requestedReportService.getReportByTableId).toHaveBeenCalled()
       expect(services.reportingService.getAsyncReport).toHaveBeenCalledTimes(1)
@@ -304,6 +309,7 @@ describe('AsyncReportListUtils', () => {
       } as unknown as Services
 
       await AsyncReportListUtilsHelper.getData({
+        res,
         req,
         services,
         token,
@@ -335,6 +341,7 @@ describe('AsyncReportListUtils', () => {
       } as unknown as Services
 
       await AsyncReportListUtilsHelper.getData({
+        res,
         req,
         services,
         token,

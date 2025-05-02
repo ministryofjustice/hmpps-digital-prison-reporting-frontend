@@ -22,6 +22,7 @@ describe('PollingUtils', () => {
           uuid: 'UsErId',
         },
         csfrToken: 'CsRfToKeN',
+        definitionsPath: 'dataProductDefinitionsPath',
       },
     } as unknown as Response
 

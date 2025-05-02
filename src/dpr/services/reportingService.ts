@@ -53,8 +53,9 @@ export default class ReportingService {
     reportId: string,
     variantId: string,
     executionId: string,
+    dataProductDefinitionsPath?: string,
   ): Promise<Dict<string>> {
-    return this.reportingClient.cancelAsyncRequest(token, reportId, variantId, executionId)
+    return this.reportingClient.cancelAsyncRequest(token, reportId, variantId, executionId, dataProductDefinitionsPath)
   }
 
   async getAsyncReport(

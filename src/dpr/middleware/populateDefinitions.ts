@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express'
 import type { ParsedQs } from 'qs'
-import ReportingService from '../services/reportingService'
 import Dict = NodeJS.Dict
 import logger from '../utils/logger'
+import { Services } from '../types/Services'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -18,7 +18,7 @@ const deriveDefinitionsPath = (query: ParsedQs): string | null => {
 
 const dprExcludeRoutes = ['/getExpiredStatus/', '/getRequestedExpiredStatus/', '/requestReport/', '/getStatus/']
 
-export default (service: ReportingService, config: Dict<string>): RequestHandler => {
+export default (services: Services, config: Dict<string>): RequestHandler => {
   return async (req, res, next) => {
     try {
       if (dprExcludeRoutes.includes(req.originalUrl)) {
@@ -48,8 +48,11 @@ export default (service: ReportingService, config: Dict<string>): RequestHandler
 
       res.locals.pathSuffix = `?dataProductDefinitionsPath=${res.locals.definitionsPath}`
 
-      if (res.locals.user.token && service) {
-        res.locals.definitions = await service.getDefinitions(res.locals.user.token, res.locals.definitionsPath)
+      if (res.locals.user.token && services.reportingService) {
+        res.locals.definitions = await services.reportingService.getDefinitions(
+          res.locals.user.token,
+          res.locals.definitionsPath,
+        )
       }
 
       return next()

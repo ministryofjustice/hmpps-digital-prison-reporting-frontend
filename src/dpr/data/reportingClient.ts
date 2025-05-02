@@ -128,13 +128,22 @@ export default class ReportingClient {
       .then((response) => <Dict<string>>response)
   }
 
-  cancelAsyncRequest(token: string, reportId: string, variantId: string, executionId: string): Promise<Dict<string>> {
+  cancelAsyncRequest(
+    token: string,
+    reportId: string,
+    variantId: string,
+    executionId: string,
+    dataProductDefinitionsPath?: string,
+  ): Promise<Dict<string>> {
     logger.info(`Reporting client: Cancel Request. { reportId: ${reportId}, variantId: ${variantId} }`)
 
     return this.restClient
       .delete({
         path: `/reports/${reportId}/${variantId}/statements/${executionId}`,
         token,
+        query: {
+          dataProductDefinitionsPath,
+        },
       })
       .then((response) => <Dict<string>>response)
   }

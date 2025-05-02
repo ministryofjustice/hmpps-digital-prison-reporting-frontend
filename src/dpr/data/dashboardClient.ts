@@ -85,13 +85,22 @@ export default class DashboardClient {
       .then((response) => <Dict<string>>response)
   }
 
-  cancelAsyncRequest(token: string, reportId: string, dashboardId: string, executionId: string): Promise<Dict<string>> {
+  cancelAsyncRequest(
+    token: string,
+    reportId: string,
+    dashboardId: string,
+    executionId: string,
+    dataProductDefinitionsPath: string,
+  ): Promise<Dict<string>> {
     logger.info(`Dashboard client: request ${reportId} : ${dashboardId}`)
 
     return this.restClient
       .delete({
         path: `/reports/${reportId}/dashboards/${dashboardId}/statements/${executionId}`,
         token,
+        query: {
+          dataProductDefinitionsPath,
+        },
       })
       .then((response) => <Dict<string>>response)
   }

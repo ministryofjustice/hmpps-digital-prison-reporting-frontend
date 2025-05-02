@@ -197,6 +197,7 @@ const addMockUserData = (req, res, next) => {
     email: 'test@user.com',
     uuid: 'userId',
     activeCaseLoadId: 'random-id',
+    token: 'token',
   }
   next()
 }
@@ -314,12 +315,7 @@ DprEmbeddedAsyncReports({
 // EMBEDDED REPORTS END
 
 app.get('/dpr-service', async (req, res) => {
-  res.locals.definitions = mockDefinitions.reports
-  res.locals.dashboardDefinitions = mockDashboardDefinitions
   res.locals.csrfToken = 'csrfToken'
-  res.locals.pathSuffix = req.query.dataProductDefinitionsPath
-    ? `?dataProductDefinitionsPath=${req.query.dataProductDefinitionsPath}`
-    : ''
 
   const catalogue = await CatalogueUtils.init({
     res,

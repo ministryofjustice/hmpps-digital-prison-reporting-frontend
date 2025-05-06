@@ -14,7 +14,6 @@ const init = async ({
   services: Services
 }) => {
   const data = await CatalogueListUtils.getReportsList(res, services, features)
-
   return {
     data,
     features: setFeatures(res, features),

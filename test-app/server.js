@@ -78,8 +78,6 @@ app.use(bodyParser.json())
 const MockReportingClient = require('./mocks/mockClients/reports/mockReportingClient')
 const MockDashboardClient = require('./mocks/mockClients/dashboards/mock-client')
 const MockUserStoreService = require('./mocks/mockClients/store/mockRedisStore')
-const mockDefinitions = require('./mocks/mockClients/reports/mockReportDefinition')
-const mockDashboardDefinitions = require('./mocks/mockClients/dashboards/dashboard-definitions')
 
 // Routes
 const DprEmbeddedAsyncReports = require('../package/dpr/routes/DprEmbeddedReports').default

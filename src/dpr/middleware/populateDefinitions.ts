@@ -1,7 +1,6 @@
-import { RequestHandler } from 'express'
+import { NextFunction, RequestHandler, Response, Request } from 'express'
 import type { ParsedQs } from 'qs'
 import Dict = NodeJS.Dict
-import logger from '../utils/logger'
 import { Services } from '../types/Services'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
@@ -20,36 +19,46 @@ const deriveDefinitionsPath = (query: ParsedQs): string | null => {
 
 export default (services: Services, config: Dict<string>): RequestHandler => {
   return async (req, res, next) => {
-    try {
-      // Get the DPD path from the query
-      const dpdPathFromQuery = deriveDefinitionsPath(req.query)
-      const dpdPathFromBody = req.body.dataProductDefinitionsPath
-      const definitionsPathFromQuery = dpdPathFromQuery || dpdPathFromBody
+    return populateDefinitions(services, config, req, res, next)
+  }
+}
 
-      if (definitionsPathFromQuery) {
-        res.locals.dpdPathFromQuery = true
-      }
+export const populateDefinitions = async (
+  services: Services,
+  config: Dict<string>,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    // Get the DPD path from the query
+    const dpdPathFromQuery = deriveDefinitionsPath(req.query)
+    const dpdPathFromBody = req.body.dataProductDefinitionsPath
+    const definitionsPathFromQuery = dpdPathFromQuery || dpdPathFromBody
 
-      // Get the DPD path from the config
-      const { dprDataProductDefinitionPath: dpdPathFromConfig } = config
-      if (dpdPathFromConfig) {
-        res.locals.dpdPathFromConfig = true
-      }
-
-      // query takes presedence over config
-      res.locals.definitionsPath = definitionsPathFromQuery || dpdPathFromConfig
-      res.locals.pathSuffix = `?dataProductDefinitionsPath=${res.locals.definitionsPath}`
-
-      if (res.locals.user.token && services.reportingService) {
-        res.locals.definitions = await services.reportingService.getDefinitions(
-          res.locals.user.token,
-          res.locals.definitionsPath,
-        )
-      }
-
-      return next()
-    } catch (error) {
-      return next(error)
+    if (definitionsPathFromQuery) {
+      res.locals.dpdPathFromQuery = true
     }
+
+    // Get the DPD path from the config
+    const { dprDataProductDefinitionPath: dpdPathFromConfig } = config
+    if (dpdPathFromConfig) {
+      res.locals.dpdPathFromConfig = true
+    }
+
+    // query takes presedence over config
+    res.locals.definitionsPath = definitionsPathFromQuery || dpdPathFromConfig
+    res.locals.pathSuffix = `?dataProductDefinitionsPath=${res.locals.definitionsPath}`
+
+    if (res.locals.user.token && services.reportingService) {
+      res.locals.definitions = await services.reportingService.getDefinitions(
+        res.locals.user.token,
+        res.locals.definitionsPath,
+      )
+    }
+
+    return next()
+  } catch (error) {
+    return next(error)
   }
 }

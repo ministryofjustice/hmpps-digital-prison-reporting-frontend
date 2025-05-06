@@ -294,8 +294,6 @@ export default {
   renderRequest: async ({ req, res, services, next }: AsyncReportUtilsParams): Promise<RequestDataResult | boolean> => {
     try {
       const { token, csrfToken, definitionsPath: definitionPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
-      console.log({ definitionPath })
-
       const { reportId, type, id } = req.params
       const { definition } = req.body
       const definitionApiArgs = { token, reportId, definitionPath, services }

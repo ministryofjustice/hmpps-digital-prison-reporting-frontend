@@ -28,6 +28,7 @@ const appViews = [
 
 // Middleware
 const populateRequestedReports = require('../package/dpr/middleware/populateRequestedReports').default
+const populateDefinitions = require('../package/dpr/middleware/populateDefinitions').default
 
 // Application
 const app = express()
@@ -77,8 +78,6 @@ app.use(bodyParser.json())
 const MockReportingClient = require('./mocks/mockClients/reports/mockReportingClient')
 const MockDashboardClient = require('./mocks/mockClients/dashboards/mock-client')
 const MockUserStoreService = require('./mocks/mockClients/store/mockRedisStore')
-const mockDefinitions = require('./mocks/mockClients/reports/mockReportDefinition')
-const mockDashboardDefinitions = require('./mocks/mockClients/dashboards/dashboard-definitions')
 
 // Routes
 const DprEmbeddedAsyncReports = require('../package/dpr/routes/DprEmbeddedReports').default
@@ -196,6 +195,7 @@ const addMockUserData = (req, res, next) => {
     email: 'test@user.com',
     uuid: 'userId',
     activeCaseLoadId: 'random-id',
+    token: 'token',
   }
   next()
 }
@@ -273,6 +273,7 @@ const services = {
 // app.use(setUpReportStore(services))
 // app.use(updateBookmarksByCaseload(services))
 app.use(populateRequestedReports(services))
+app.use(populateDefinitions(services, { dprDataProductDefinitionPath: 'my/path/thing' }))
 
 // 4. Initialise routes
 DprEmbeddedAsyncReports({
@@ -312,12 +313,7 @@ DprEmbeddedAsyncReports({
 // EMBEDDED REPORTS END
 
 app.get('/dpr-service', async (req, res) => {
-  res.locals.definitions = mockDefinitions.reports
-  res.locals.dashboardDefinitions = mockDashboardDefinitions
   res.locals.csrfToken = 'csrfToken'
-  res.locals.pathSuffix = req.query.dataProductDefinitionsPath
-    ? `?dataProductDefinitionsPath=${req.query.dataProductDefinitionsPath}`
-    : ''
 
   const catalogue = await CatalogueUtils.init({
     res,

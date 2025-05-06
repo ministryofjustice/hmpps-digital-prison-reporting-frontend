@@ -1,36 +1,64 @@
-import { RequestHandler } from 'express'
+import { NextFunction, RequestHandler, Response, Request } from 'express'
 import type { ParsedQs } from 'qs'
-import ReportingService from '../services/reportingService'
 import Dict = NodeJS.Dict
+import { Services } from '../types/Services'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
 
-const deriveDefinitionsPath = (query: ParsedQs, config: Dict<string>): string | null => {
+const deriveDefinitionsPath = (query: ParsedQs): string | null => {
   const definitionsPath = getDefinitionsPath(query)
   if (definitionsPath) {
     return definitionsPath
   }
 
-  const { dprDataProductDefinitionPath } = config
-  if (dprDataProductDefinitionPath) {
-    return dprDataProductDefinitionPath
-  }
-
   return null
 }
 
-export default (service: ReportingService, config: Dict<string>): RequestHandler => {
+// const dprExcludeRoutes = ['/getExpiredStatus/', '/getRequestedExpiredStatus/', '/getStatus/']
+
+export default (services: Services, config: Dict<string>): RequestHandler => {
   return async (req, res, next) => {
-    try {
-      const definitionsPath = deriveDefinitionsPath(req.query, config)
-      res.locals.pathSuffix = definitionsPath ? `?dataProductDefinitionsPath=${definitionsPath}` : ''
-      if (res.locals.user.token && service) {
-        res.locals.definitions = await service.getDefinitions(res.locals.user.token, definitionsPath)
-      }
-      return next()
-    } catch (error) {
-      return next(error)
+    return populateDefinitions(services, config, req, res, next)
+  }
+}
+
+export const populateDefinitions = async (
+  services: Services,
+  config: Dict<string>,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    // Get the DPD path from the query
+    const dpdPathFromQuery = deriveDefinitionsPath(req.query)
+    const dpdPathFromBody = req.body.dataProductDefinitionsPath
+    const definitionsPathFromQuery = dpdPathFromQuery || dpdPathFromBody
+
+    if (definitionsPathFromQuery) {
+      res.locals.dpdPathFromQuery = true
     }
+
+    // Get the DPD path from the config
+    const { dprDataProductDefinitionPath: dpdPathFromConfig } = config
+    if (dpdPathFromConfig) {
+      res.locals.dpdPathFromConfig = true
+    }
+
+    // query takes presedence over config
+    res.locals.definitionsPath = definitionsPathFromQuery || dpdPathFromConfig
+    res.locals.pathSuffix = `?dataProductDefinitionsPath=${res.locals.definitionsPath}`
+
+    if (res.locals.user.token && services.reportingService) {
+      res.locals.definitions = await services.reportingService.getDefinitions(
+        res.locals.user.token,
+        res.locals.definitionsPath,
+      )
+    }
+
+    return next()
+  } catch (error) {
+    return next(error)
   }
 }

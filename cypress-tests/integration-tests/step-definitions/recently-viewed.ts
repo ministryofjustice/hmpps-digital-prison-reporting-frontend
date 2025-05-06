@@ -143,7 +143,7 @@ Then(/^I am taken to the async (report|reportV2|dashboard)$/, function (this: Mo
   if (reportType === 'report') {
     cy.url().should(
       'eq',
-      'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729766362362/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7',
+      'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729766362362/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7&pageSize=10&selectedPage=10',
     )
   }
 

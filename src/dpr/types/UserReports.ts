@@ -16,6 +16,7 @@ export interface StoredReportData {
   status?: RequestStatus
   timestamp?: AsyncReportsTimestamp
   dataProductDefinitionsPath?: string
+  dpdPathFromQuery?: boolean
   query?: AsyncReportQueryData
   url?: AsyncReportUrlData
   type: ReportType

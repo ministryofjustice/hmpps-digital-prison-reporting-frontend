@@ -32,8 +32,15 @@ export default class DashboardService {
     reportId: string,
     dashboardId: string,
     executionId: string,
+    dataProductDefinitionsPath?: string,
   ): Promise<Dict<string>> {
-    return this.dashboardClient.cancelAsyncRequest(token, reportId, dashboardId, executionId)
+    return this.dashboardClient.cancelAsyncRequest(
+      token,
+      reportId,
+      dashboardId,
+      executionId,
+      dataProductDefinitionsPath,
+    )
   }
 
   async getAsyncStatus(
@@ -41,16 +48,16 @@ export default class DashboardService {
     reportId: string,
     dashboardId: string,
     executionId: string,
-    dataProductDefinitionsPath: string,
-    tableId: string,
+    dataProductDefinitionsPath?: string,
+    tableId?: string,
   ): Promise<Dict<string>> {
     return this.dashboardClient.getAsyncStatus(
       token,
       reportId,
       dashboardId,
       executionId,
-      dataProductDefinitionsPath,
       tableId,
+      dataProductDefinitionsPath,
     )
   }
 

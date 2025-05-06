@@ -27,32 +27,35 @@ import { Services } from '../../../types/Services'
 import { ChildData } from '../../../utils/ParentChildDataTableBuilder/types'
 
 export const getData = async ({
+  res,
   req,
   services,
   token,
   userId,
 }: AsyncReportUtilsParams & { token: string; userId: string }) => {
+  const { definitionsPath: definitionPath } = LocalsHelper.getValues(res)
   const { reportId, variantId, id, tableId } = req.params
-  const dataProductDefinitionsPath = <string>req.query.dataProductDefinitionsPath
   const reportVariantId = variantId || id
 
   // Get the definition
   const definition: components['schemas']['SingleVariantReportDefinition'] =
-    await services.reportingService.getDefinition(token, reportId, reportVariantId, dataProductDefinitionsPath)
+    await services.reportingService.getDefinition(token, reportId, reportVariantId, definitionPath)
 
   // Get the request data
   const requestData: RequestedReport = await services.requestedReportService.getReportByTableId(tableId, userId)
 
   // Get the reportData
-  const { reportData, reportQuery } = await getReportData(definition, services, token, req)
+  const { reportData, reportQuery } = await getReportData(definition, services, token, req, res)
 
   // Get the summary data, if applicable
-  const summariesData = !definition.variant.summaries ? [] : await getSummariesData(definition, services, token, req)
+  const summariesData = !definition.variant.summaries
+    ? []
+    : await getSummariesData(definition, services, token, req, res)
 
   // Get the child data, if applicable
   const childData: ChildData[] = !definition.variant.childVariants
     ? []
-    : await getChildData(definition, services, token, req, requestData)
+    : await getChildData(definition, services, token, req, res, requestData)
 
   return {
     definition,
@@ -69,9 +72,10 @@ const getReportData = async (
   services: Services,
   token: string,
   req: Request,
+  res: Response,
 ) => {
+  const { definitionsPath } = LocalsHelper.getValues(res)
   const { reportId, variantId, id, tableId } = req.params
-  const dataProductDefinitionsPath = <string>req.query.dataProductDefinitionsPath
   const reportVariantId = variantId || id
   const { variant } = reportDefinition
   const { specification } = variant
@@ -80,7 +84,7 @@ const getReportData = async (
     fields: specification.fields,
     template: specification.template as Template,
     queryParams: req.query,
-    definitionsPath: dataProductDefinitionsPath,
+    definitionsPath,
   })
 
   const reportData = await services.reportingService.getAsyncReport(
@@ -102,9 +106,10 @@ export const getSummariesData = async (
   services: Services,
   token: string,
   req: Request,
+  res: Response,
 ): Promise<AsyncSummary[]> => {
   const { reportId, variantId, id, tableId } = req.params
-  const dataProductDefinitionsPath = <string>req.query.dataProductDefinitionsPath
+  const { definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
   const reportVariantId = variantId || id
 
   return Promise.all(
@@ -133,9 +138,10 @@ export const getChildData = async (
   services: Services,
   token: string,
   req: Request,
+  res: Response,
   requestData: RequestedReport,
 ): Promise<ChildData[]> => {
-  const dataProductDefinitionsPath = <string>req.query.dataProductDefinitionsPath
+  const { definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
   const { reportId } = req.params
 
   return Promise.all(

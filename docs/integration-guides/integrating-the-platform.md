@@ -151,9 +151,12 @@ This setup is commonly done in the `server/app.ts` file of the <a href="https://
 
 ```js
 import dprPopulateRequestedReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/populateRequestedReports'
+import dprPopulateDefinitions from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/populateDefinitions'
+import config from './config'
 
 ...
 
+app.use(dprPopulateDefinitions(services, config))
 app.use(dprPopulateRequestedReports(services))
 ```
 
@@ -209,7 +212,8 @@ const services = {
 }
 
 // 3. Add middleware
-app.use(populateRequestedReports(services))
+app.use(dprPopulateDefinitions(services, config))
+app.use(dprPopulateRequestedReports(services))
 
 // 4. Initialise routes
 DprAsyncReportsRoutes({

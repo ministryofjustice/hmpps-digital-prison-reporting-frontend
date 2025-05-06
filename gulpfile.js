@@ -10,7 +10,6 @@ gulp.task(
     'package:scss',
     'package:copy-views',
     'package:copy-routes',
-    'package:copy-middleware',
     'package:server-javascript',
     'package:client-javascript',
     'package:client-javascript-libs',

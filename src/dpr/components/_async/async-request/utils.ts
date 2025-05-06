@@ -45,7 +45,7 @@ export const updateStore = async ({
   childExecutionData: Array<ChildReportExecutionData>
 }): Promise<string> => {
   const { search, id, type } = req.body
-  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+  const { userId, definitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
 
   await removeDuplicates({ storeService: services.requestedReportService, userId, id, search })
   await removeDuplicates({ storeService: services.recentlyViewedService, userId, id, search })
@@ -60,6 +60,7 @@ export const updateStore = async ({
         .addChildExecutionData(childExecutionData)
         .addFilters(queryData.filterData)
         .addSortData(queryData.sortData)
+        .addDefinitionsPath(definitionsPath, dpdPathFromQuery)
         .addRequestUrls()
         .addQuery(queryData)
         .addStatus(RequestStatus.SUBMITTED)
@@ -71,6 +72,7 @@ export const updateStore = async ({
         .addExecutionData(executionData)
         .addChildExecutionData(childExecutionData)
         .addFilters(queryData.filterData)
+        .addDefinitionsPath(definitionsPath, dpdPathFromQuery)
         .addRequestUrls()
         .addQuery(queryData)
         .addStatus(RequestStatus.SUBMITTED)
@@ -82,6 +84,8 @@ export const updateStore = async ({
     default:
       break
   }
+
+  console.log(JSON.stringify(requestedReportData, null, 2))
 
   await services.requestedReportService.addReport(userId, requestedReportData)
 
@@ -113,11 +117,13 @@ async function requestChildReports(
 
 const requestProduct = async ({
   req,
+  res,
   token,
   dashboardService,
   reportingService,
 }: {
   req: Request
+  res: Response
   token: string
   dashboardService: DashboardService
   reportingService: ReportingService
@@ -126,7 +132,8 @@ const requestProduct = async ({
   childExecutionData: Array<ChildReportExecutionData>
   queryData: SetQueryFromFiltersResult
 }> => {
-  const { reportId, id, dataProductDefinitionsPath, type } = req.body
+  const { definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
+  const { reportId, id, type } = req.body
 
   let fields
   let queryData
@@ -136,7 +143,7 @@ const requestProduct = async ({
   let childVariants: components['schemas']['ChildVariantDefinition'][] = []
 
   if (type === ReportType.REPORT) {
-    definition = await reportingService.getDefinition(token, reportId, id, <string>dataProductDefinitionsPath)
+    definition = await reportingService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
 
     fields = definition ? definition.variant.specification.fields : []
     queryData = FiltersFormUtils.setQueryFromFilters(req, fields)
@@ -148,7 +155,7 @@ const requestProduct = async ({
   }
 
   if (type === ReportType.DASHBOARD) {
-    definition = await dashboardService.getDefinition(token, id, reportId, <string>dataProductDefinitionsPath)
+    definition = await dashboardService.getDefinition(token, id, reportId, dataProductDefinitionsPath)
 
     fields = definition ? definition.filterFields : []
     queryData = FiltersFormUtils.setQueryFromFilters(req, fields)
@@ -187,7 +194,7 @@ const renderDashboardRequestData = async ({
   services: Services
   definition: DashboardDefinition
 }) => {
-  const productDefinitions = await services.reportingService.getDefinitions(token, <string>definitionPath)
+  const productDefinitions = await services.reportingService.getDefinitions(token, definitionPath)
   const productDefinition = productDefinitions.find(
     (def: components['schemas']['ReportDefinitionSummary']) => def.id === reportId,
   )
@@ -216,27 +223,16 @@ const renderReportRequestData = async (definition: components['schemas']['Single
 }
 
 const getDefintionByType = async (req: Request, res: Response, next: NextFunction, services: Services) => {
-  const { token } = LocalsHelper.getValues(res)
+  const { token, definitionsPath } = LocalsHelper.getValues(res)
   const { reportId, id, variantId, type } = req.params
-  const { dataProductDefinitionsPath } = req.query
 
   let definition
   if (type === ReportType.REPORT) {
-    definition = await services.reportingService.getDefinition(
-      token,
-      reportId,
-      variantId || id,
-      dataProductDefinitionsPath,
-    )
+    definition = await services.reportingService.getDefinition(token, reportId, variantId || id, definitionsPath)
   }
 
   if (type === ReportType.DASHBOARD) {
-    definition = await services.dashboardService.getDefinition(
-      token,
-      variantId || id,
-      reportId,
-      dataProductDefinitionsPath,
-    )
+    definition = await services.dashboardService.getDefinition(token, variantId || id, reportId, definitionsPath)
   }
 
   return definition
@@ -250,8 +246,9 @@ export default {
    * @return {*}
    */
   request: async ({ req, res, services }: AsyncReportUtilsParams) => {
-    const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const requestArgs = { req, token }
+    const { token } = LocalsHelper.getValues(res)
+    const requestArgs = { req, res, token }
+
     const { executionData, queryData, childExecutionData } = await requestProduct({
       ...requestArgs,
       dashboardService: services.dashboardService,
@@ -274,15 +271,14 @@ export default {
   },
 
   cancelRequest: async ({ req, res, services }: AsyncReportUtilsParams) => {
-    const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+    const { token, userId, definitionsPath } = LocalsHelper.getValues(res)
     const { reportId, id, executionId, type } = req.body
 
     let service
     if (type === ReportType.REPORT) service = services.reportingService
     if (type === ReportType.DASHBOARD) service = services.dashboardService
 
-    const response = await service.cancelAsyncRequest(token, reportId, id, executionId)
+    const response = await service.cancelAsyncRequest(token, reportId, id, executionId, definitionsPath)
 
     if (response && response.cancellationSucceeded) {
       await services.requestedReportService.updateStatus(executionId, userId, RequestStatus.ABORTED)
@@ -297,12 +293,10 @@ export default {
    */
   renderRequest: async ({ req, res, services, next }: AsyncReportUtilsParams): Promise<RequestDataResult | boolean> => {
     try {
-      const { token, csrfToken } = LocalsHelper.getValues(res)
-
+      const { token, csrfToken, definitionsPath: definitionPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
       const { reportId, type, id } = req.params
-      const { dataProductDefinitionsPath: definitionPath } = req.query
       const { definition } = req.body
-      const definitionApiArgs = { token, reportId, definitionPath: <string>definitionPath, services }
+      const definitionApiArgs = { token, reportId, definitionPath, services }
 
       let name
       let reportName
@@ -336,7 +330,7 @@ export default {
         description,
         reportId,
         id,
-        definitionPath: definitionPath as string,
+        ...(dpdPathFromQuery && { definitionPath }),
         ...(defaultInteractiveQueryString?.length && { defaultInteractiveQueryString }),
         csrfToken,
         template,

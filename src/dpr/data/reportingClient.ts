@@ -50,7 +50,7 @@ export default class ReportingClient {
     token: string,
     definitionsPath?: string,
   ): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
-    logger.info(`Reporting client: Get definitions. { definitionsPath: ${definitionsPath} }`)
+    this.logInfo('Get definitions:', {}, { definitionsPath })
 
     const params: operations['definitions_1']['parameters'] = {
       query: {
@@ -74,9 +74,7 @@ export default class ReportingClient {
     variantId: string,
     definitionsPath?: string,
   ): Promise<components['schemas']['SingleVariantReportDefinition']> {
-    logger.info(
-      `Reporting client: Get single variant definition. { reportId: ${reportId}, variantId: ${variantId}, definitionsPath: ${definitionsPath} }`,
-    )
+    this.logInfo('Get single variant definition:', { reportId, variantId }, { definitionsPath })
 
     const query = {
       dataProductDefinitionsPath: definitionsPath,
@@ -102,6 +100,8 @@ export default class ReportingClient {
       dataProductDefinitionsPath: definitionsPath,
       prefix,
     }
+    this.logInfo('Get field values:', { definitionName, variantName, fieldName }, query)
+
     return this.restClient
       .get({
         path: `/reports/${definitionName}/${variantName}/${fieldName}`,
@@ -117,7 +117,7 @@ export default class ReportingClient {
     variantId: string,
     query: Record<string, string | boolean | number>,
   ): Promise<Dict<string>> {
-    logger.info(`Reporting client: Request report. { reportId: ${reportId}, variantId: ${variantId} }`)
+    this.logInfo('Request report:', { reportId, variantId }, query)
 
     return this.restClient
       .get({
@@ -128,13 +128,22 @@ export default class ReportingClient {
       .then((response) => <Dict<string>>response)
   }
 
-  cancelAsyncRequest(token: string, reportId: string, variantId: string, executionId: string): Promise<Dict<string>> {
-    logger.info(`Reporting client: Cancel Request. { reportId: ${reportId}, variantId: ${variantId} }`)
+  cancelAsyncRequest(
+    token: string,
+    reportId: string,
+    variantId: string,
+    executionId: string,
+    dataProductDefinitionsPath?: string,
+  ): Promise<Dict<string>> {
+    this.logInfo('Cancel request:', { reportId, variantId, executionId }, { dataProductDefinitionsPath })
 
     return this.restClient
       .delete({
         path: `/reports/${reportId}/${variantId}/statements/${executionId}`,
         token,
+        query: {
+          dataProductDefinitionsPath,
+        },
       })
       .then((response) => <Dict<string>>response)
   }
@@ -146,7 +155,7 @@ export default class ReportingClient {
     tableId: string,
     query: Dict<string | number>,
   ): Promise<Array<Dict<string>>> {
-    logger.info(`Reporting client: Get Data. { variantId: ${variantId} }`)
+    this.logInfo('Get Data:', { reportId, variantId, tableId }, query)
 
     return this.restClient
       .get({
@@ -165,7 +174,7 @@ export default class ReportingClient {
     summaryId: string,
     query: Dict<string | number>,
   ): Promise<Array<Dict<string>>> {
-    logger.info(`Reporting client: Get Data. { variantId: ${variantId} summaryId: ${summaryId} }`)
+    this.logInfo('Get summary report data:', { reportId, variantId, summaryId, tableId }, query)
 
     return this.restClient
       .get({
@@ -184,7 +193,7 @@ export default class ReportingClient {
     dataProductDefinitionsPath?: string,
     tableId?: string,
   ): Promise<Dict<string>> {
-    logger.info(`Reporting client: Get status: ${reportId}/${variantId}. { statementId: ${executionId} }`)
+    this.logInfo('Get status:', { reportId, variantId, executionId, tableId }, { dataProductDefinitionsPath })
     return this.restClient
       .get({
         path: `/reports/${reportId}/${variantId}/statements/${executionId}/status`,
@@ -198,7 +207,7 @@ export default class ReportingClient {
   }
 
   getAsyncCount(token: string, tableId: string, dataProductDefinitionsPath?: string): Promise<number> {
-    logger.info(`Reporting client: Get count. { tableId: ${tableId} }`)
+    this.logInfo('Get count:', { tableId })
 
     return this.restClient
       .get({
@@ -218,7 +227,7 @@ export default class ReportingClient {
     id: string,
     filters: ReportQuery,
   ): Promise<number> {
-    logger.info(`Reporting client: Get interactive count. { tableId: ${tableId} }`)
+    this.logInfo('Get interactive count', { tableId })
 
     return this.restClient
       .get({
@@ -227,5 +236,14 @@ export default class ReportingClient {
         query: filters.toRecordWithFilterPrefix(true),
       })
       .then((response) => (<Count>response).count)
+  }
+
+  logInfo(title: string, args?: Dict<string>, query?: Dict<string | number | boolean>) {
+    logger.info(`
+Reporting client: ${title}:`)
+    logger.info(JSON.stringify(args, null, 2))
+    if (query) {
+      logger.info(JSON.stringify(query, null, 2))
+    }
   }
 }

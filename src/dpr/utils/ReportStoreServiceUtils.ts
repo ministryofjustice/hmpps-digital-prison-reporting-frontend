@@ -12,7 +12,7 @@ import DashboardClient from '../data/dashboardClient'
 import logger from './logger'
 import { Services } from '../types/Services'
 
-interface InitDPRServicesArgs {
+export interface InitDPRServicesArgs {
   reportingClient: ReportingClient
   dashboardClient: DashboardClient
   reportDataStore: ReportDataStore

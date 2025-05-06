@@ -17,7 +17,7 @@ export default class QueryPage {
 
   pageSizeSelector = (): PageElement => cy.xpath(`//*[@id="page-size-select"]`)
 
-  pagination_page5 = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[5]/div[1]/nav/ul/li[4]/a`)
+  pagination_page10 = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[5]/div[1]/nav/ul/li[4]/a`)
 
   totals = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[4]/div/p`)
 

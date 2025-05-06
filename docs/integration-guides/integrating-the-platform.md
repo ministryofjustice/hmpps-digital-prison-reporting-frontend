@@ -212,7 +212,8 @@ const services = {
 }
 
 // 3. Add middleware
-app.use(populateRequestedReports(services))
+app.use(dprPopulateDefinitions(services, config))
+app.use(dprPopulateRequestedReports(services))
 
 // 4. Initialise routes
 DprAsyncReportsRoutes({

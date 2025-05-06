@@ -180,9 +180,6 @@ export default {
     req: Request
   }) => {
     const { token, csrfToken, userId, bookmarks } = LocalsHelper.getValues(res)
-
-    console.log({ bookmarks })
-
     const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, res, token, services)
     const formatted = await formatBookmarks(bookmarksData, maxRows)
     const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, userId, maxRows)

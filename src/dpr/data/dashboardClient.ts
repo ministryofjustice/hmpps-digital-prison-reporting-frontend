@@ -17,7 +17,7 @@ export default class DashboardClient {
     dpdId: string,
     definitionsPath?: string,
   ): Promise<DashboardDefinition> {
-    this.logInfo('Get definition:', { dpdId, dashboardId }, { definitionsPath })
+    this.logInfo('Get definition:', { dpdId, dashboardId })
     const query = {
       dataProductDefinitionsPath: definitionsPath,
     }
@@ -36,7 +36,7 @@ export default class DashboardClient {
     dashboardId: string,
     query: Record<string, string | boolean | number>,
   ): Promise<Dict<string>> {
-    this.logInfo('Request dashboard:', { reportId, dashboardId }, query)
+    this.logInfo('Request dashboard:', { reportId, dashboardId })
 
     return this.restClient
       .get({
@@ -54,7 +54,7 @@ export default class DashboardClient {
     tableId: string,
     query: Dict<string | number>,
   ): Promise<Array<Dict<string>>> {
-    this.logInfo('Get dashboard:', { reportId, dashboardId, tableId }, query)
+    this.logInfo('Get dashboard:', { reportId, dashboardId, tableId })
 
     return this.restClient
       .get({
@@ -73,7 +73,7 @@ export default class DashboardClient {
     dataProductDefinitionsPath?: string,
     tableId?: string,
   ): Promise<Dict<string>> {
-    this.logInfo('Get status:', { reportId, dashboardId, executionId, tableId }, { dataProductDefinitionsPath })
+    this.logInfo('Get status:', { reportId, dashboardId, executionId, tableId })
 
     return this.restClient
       .get({
@@ -94,7 +94,7 @@ export default class DashboardClient {
     executionId: string,
     dataProductDefinitionsPath: string,
   ): Promise<Dict<string>> {
-    this.logInfo('Cancel request:', { reportId, dashboardId, executionId }, { dataProductDefinitionsPath })
+    this.logInfo('Cancel request:', { reportId, dashboardId, executionId })
 
     return this.restClient
       .delete({
@@ -107,12 +107,8 @@ export default class DashboardClient {
       .then((response) => <Dict<string>>response)
   }
 
-  logInfo(title: string, args?: Dict<string>, query?: Dict<string | number | boolean>) {
-    logger.info(`
-Dashboard client: ${title}:`)
-    logger.info(JSON.stringify(args, null, 2))
-    if (query) {
-      logger.info(JSON.stringify(query, null, 2))
-    }
+  logInfo(title: string, args?: Dict<string>) {
+    logger.info(`Dashboard client: ${title}:`)
+    if (args && Object.keys(args).length) logger.info(JSON.stringify(args, null, 2))
   }
 }

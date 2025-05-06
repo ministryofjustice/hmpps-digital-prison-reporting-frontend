@@ -47,12 +47,7 @@ export default function routes(services: Services): Router {
   ...
 
   router.get('/path/to/catalogue', (req, res) => {
-    const catalogue = await CatalogueUtils.init({
-      title: 'My reports',
-      res,
-      services,
-    })
-
+    const catalogue = await CatalogueUtils.init({ res, services })
     res.render('reports-catalogue.njk', {
       catalogue
     })
@@ -97,17 +92,11 @@ export default function routes(services: Services): Router {
 
   router.get('/path/to/requested/reports/list/', (req, res) => {
 
-    const {
-      requestedReports,
-      viewedReports,
-      bookmarks,
-    } = await UserReportsListUtils.initLists({ res, req, services })
+    const userReportsLists = await UserReportsListUtils.init({ res, req, services })
 
     res.render('requested-reports.njk', {
       title: 'DPR test site',
-      requestedReports,
-      viewedReports,
-      bookmarks
+      userReportsLists
     })
   })
 }

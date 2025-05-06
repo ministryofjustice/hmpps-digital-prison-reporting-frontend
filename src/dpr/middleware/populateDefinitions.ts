@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, RequestHandler, Response, Request } from 'express'
 import type { ParsedQs } from 'qs'
 import Dict = NodeJS.Dict
@@ -17,7 +18,7 @@ const deriveDefinitionsPath = (query: ParsedQs): string | null => {
 
 // const dprExcludeRoutes = ['/getExpiredStatus/', '/getRequestedExpiredStatus/', '/getStatus/']
 
-export default (services: Services, config: Dict<string>): RequestHandler => {
+export default (services: Services, config: any): RequestHandler => {
   return async (req, res, next) => {
     return populateDefinitions(services, config, req, res, next)
   }
@@ -25,7 +26,7 @@ export default (services: Services, config: Dict<string>): RequestHandler => {
 
 export const populateDefinitions = async (
   services: Services,
-  config: Dict<string>,
+  config: any,
   req: Request,
   res: Response,
   next: NextFunction,

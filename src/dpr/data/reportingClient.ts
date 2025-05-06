@@ -50,7 +50,7 @@ export default class ReportingClient {
     token: string,
     definitionsPath?: string,
   ): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
-    this.logInfo('Get definitions:', {}, { definitionsPath })
+    this.logInfo('Get definitions', { definitionsPath })
 
     const params: operations['definitions_1']['parameters'] = {
       query: {
@@ -74,11 +74,11 @@ export default class ReportingClient {
     variantId: string,
     definitionsPath?: string,
   ): Promise<components['schemas']['SingleVariantReportDefinition']> {
-    this.logInfo('Get single variant definition:', { reportId, variantId }, { definitionsPath })
-
     const query = {
       dataProductDefinitionsPath: definitionsPath,
     }
+    this.logInfo('Get definition', { reportId, variantId })
+
     return this.restClient
       .get({
         path: `/definitions/${reportId}/${variantId}`,
@@ -100,7 +100,7 @@ export default class ReportingClient {
       dataProductDefinitionsPath: definitionsPath,
       prefix,
     }
-    this.logInfo('Get field values:', { definitionName, variantName, fieldName }, query)
+    this.logInfo('Get field values', { definitionName, variantName, fieldName, prefix })
 
     return this.restClient
       .get({
@@ -117,7 +117,7 @@ export default class ReportingClient {
     variantId: string,
     query: Record<string, string | boolean | number>,
   ): Promise<Dict<string>> {
-    this.logInfo('Request report:', { reportId, variantId }, query)
+    this.logInfo('Request report', { reportId, variantId })
 
     return this.restClient
       .get({
@@ -135,7 +135,7 @@ export default class ReportingClient {
     executionId: string,
     dataProductDefinitionsPath?: string,
   ): Promise<Dict<string>> {
-    this.logInfo('Cancel request:', { reportId, variantId, executionId }, { dataProductDefinitionsPath })
+    this.logInfo('Cancel Request', { reportId, variantId, executionId })
 
     return this.restClient
       .delete({
@@ -155,7 +155,7 @@ export default class ReportingClient {
     tableId: string,
     query: Dict<string | number>,
   ): Promise<Array<Dict<string>>> {
-    this.logInfo('Get Data:', { reportId, variantId, tableId }, query)
+    this.logInfo('Get Data', { reportId, variantId, tableId })
 
     return this.restClient
       .get({
@@ -174,7 +174,7 @@ export default class ReportingClient {
     summaryId: string,
     query: Dict<string | number>,
   ): Promise<Array<Dict<string>>> {
-    this.logInfo('Get summary report data:', { reportId, variantId, summaryId, tableId }, query)
+    this.logInfo('Get summary data', { reportId, variantId, tableId, summaryId })
 
     return this.restClient
       .get({
@@ -193,7 +193,8 @@ export default class ReportingClient {
     dataProductDefinitionsPath?: string,
     tableId?: string,
   ): Promise<Dict<string>> {
-    this.logInfo('Get status:', { reportId, variantId, executionId, tableId }, { dataProductDefinitionsPath })
+    this.logInfo('Get status', { reportId, variantId, tableId, executionId })
+
     return this.restClient
       .get({
         path: `/reports/${reportId}/${variantId}/statements/${executionId}/status`,
@@ -207,7 +208,7 @@ export default class ReportingClient {
   }
 
   getAsyncCount(token: string, tableId: string, dataProductDefinitionsPath?: string): Promise<number> {
-    this.logInfo('Get count:', { tableId })
+    this.logInfo('Get count', { tableId })
 
     return this.restClient
       .get({
@@ -227,7 +228,7 @@ export default class ReportingClient {
     id: string,
     filters: ReportQuery,
   ): Promise<number> {
-    this.logInfo('Get interactive count', { tableId })
+    this.logInfo('Get interactive count', { tableId, reportId, id })
 
     return this.restClient
       .get({
@@ -238,12 +239,8 @@ export default class ReportingClient {
       .then((response) => (<Count>response).count)
   }
 
-  logInfo(title: string, args?: Dict<string>, query?: Dict<string | number | boolean>) {
-    logger.info(`
-Reporting client: ${title}:`)
-    logger.info(JSON.stringify(args, null, 2))
-    if (query) {
-      logger.info(JSON.stringify(query, null, 2))
-    }
+  logInfo(title: string, args?: Dict<string>) {
+    logger.info(`Reporting Client: ${title}:`)
+    if (args && Object.keys(args).length) logger.info(JSON.stringify(args, null, 2))
   }
 }

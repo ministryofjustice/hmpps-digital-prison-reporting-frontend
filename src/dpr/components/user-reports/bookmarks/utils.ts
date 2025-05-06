@@ -96,7 +96,7 @@ const mapBookmarkIdsToDefinition = async (
   services: Services,
 ): Promise<BookmarkedReportData[]> => {
   const bookmarkData: BookmarkedReportData[] = []
-  const { pathSuffix, definitionsPath } = LocalsHelper.getValues(res)
+  const { definitionsPath } = LocalsHelper.getValues(res)
 
   await Promise.all(
     bookmarks.map(async (bookmark) => {

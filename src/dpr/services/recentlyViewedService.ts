@@ -1,6 +1,12 @@
 import ReportStoreService from './reportStoreService'
 import UserDataStore from '../data/reportDataStore'
-import { RequestStatus, RequestedReport, RecentlyViewedReport, ReportType } from '../types/UserReports'
+import {
+  RequestStatus,
+  RequestedReport,
+  RecentlyViewedReport,
+  ReportType,
+  StoredReportData,
+} from '../types/UserReports'
 import { ReportStoreConfig } from '../types/ReportStore'
 import logger from '../utils/logger'
 
@@ -10,7 +16,7 @@ export default class RecentlyViewedStoreService extends ReportStoreService {
     logger.info('Service created: RecentlyViewedStoreService')
   }
 
-  async getAllReports(userId: string) {
+  async getAllReports(userId: string): Promise<StoredReportData[]> {
     const userConfig = await this.getState(userId)
     return userConfig.recentlyViewedReports
   }

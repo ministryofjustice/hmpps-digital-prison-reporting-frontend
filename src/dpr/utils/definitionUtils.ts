@@ -1,7 +1,5 @@
-import { Request, Response } from 'express'
 import ReportingService from '../services/reportingService'
 import { components } from '../types/api'
-import localsHelper from './localsHelper'
 
 export default {
   getCurrentVariantDefinition: (

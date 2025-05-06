@@ -17,7 +17,7 @@ export default class DashboardClient {
     dpdId: string,
     definitionsPath?: string,
   ): Promise<DashboardDefinition> {
-    logger.info(`Dashboard client: Get definition: ${dpdId}/${dashboardId}`)
+    this.logInfo('Get definition:', { dpdId, dashboardId }, { definitionsPath })
     const query = {
       dataProductDefinitionsPath: definitionsPath,
     }
@@ -36,7 +36,8 @@ export default class DashboardClient {
     dashboardId: string,
     query: Record<string, string | boolean | number>,
   ): Promise<Dict<string>> {
-    logger.info(`Dashboard client: request ${reportId}:${dashboardId}`)
+    this.logInfo('Request dashboard:', { reportId, dashboardId }, query)
+
     return this.restClient
       .get({
         path: `/async/dashboards/${reportId}/${dashboardId}`,
@@ -53,7 +54,7 @@ export default class DashboardClient {
     tableId: string,
     query: Dict<string | number>,
   ): Promise<Array<Dict<string>>> {
-    logger.info(`Dashboard client: Get dashboardId:${dashboardId} data`)
+    this.logInfo('Get dashboard:', { reportId, dashboardId, tableId }, query)
 
     return this.restClient
       .get({
@@ -72,7 +73,8 @@ export default class DashboardClient {
     dataProductDefinitionsPath?: string,
     tableId?: string,
   ): Promise<Dict<string>> {
-    logger.info(`Dashboard client:${reportId}/${dashboardId}: Get statementId: ${executionId} status`)
+    this.logInfo('Get status:', { reportId, dashboardId, executionId, tableId }, { dataProductDefinitionsPath })
+
     return this.restClient
       .get({
         path: `/reports/${reportId}/dashboards/${dashboardId}/statements/${executionId}/status`,
@@ -92,7 +94,7 @@ export default class DashboardClient {
     executionId: string,
     dataProductDefinitionsPath: string,
   ): Promise<Dict<string>> {
-    logger.info(`Dashboard client: request ${reportId} : ${dashboardId}`)
+    this.logInfo('Cancel request:', { reportId, dashboardId, executionId }, { dataProductDefinitionsPath })
 
     return this.restClient
       .delete({
@@ -103,5 +105,14 @@ export default class DashboardClient {
         },
       })
       .then((response) => <Dict<string>>response)
+  }
+
+  logInfo(title: string, args?: Dict<string>, query?: Dict<string | number | boolean>) {
+    logger.info(`
+Dashboard client: ${title}:`)
+    logger.info(JSON.stringify(args, null, 2))
+    if (query) {
+      logger.info(JSON.stringify(query, null, 2))
+    }
   }
 }

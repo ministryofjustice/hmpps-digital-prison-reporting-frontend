@@ -11,8 +11,6 @@
     {% set prefix = args.prefix %}
     {% set defaultQuery = args.defaultQuery %}
 
-    {{ defaultQuery }}
-
     <form id="{{ formId }}">
       <div id="query-error-summary" class="query-error-summary query-error-summary--hidden">
         {{ govukErrorSummary({

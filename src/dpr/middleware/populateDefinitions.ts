@@ -18,18 +18,18 @@ const deriveDefinitionsPath = (query: ParsedQs): string | null => {
 
 // const dprExcludeRoutes = ['/getExpiredStatus/', '/getRequestedExpiredStatus/', '/getStatus/']
 
-export default (services: Services, config: any): RequestHandler => {
+export default (services: Services, config?: any): RequestHandler => {
   return async (req, res, next) => {
-    return populateDefinitions(services, config, req, res, next)
+    return populateDefinitions(services, req, res, next, config)
   }
 }
 
 export const populateDefinitions = async (
   services: Services,
-  config: any,
   req: Request,
   res: Response,
   next: NextFunction,
+  config?: any,
 ) => {
   try {
     // Get the DPD path from the query
@@ -42,7 +42,7 @@ export const populateDefinitions = async (
     }
 
     // Get the DPD path from the config
-    const { dprDataProductDefinitionPath: dpdPathFromConfig } = config
+    const dpdPathFromConfig = config?.dprDataProductDefinitionPath
     if (dpdPathFromConfig) {
       res.locals.dpdPathFromConfig = true
     }

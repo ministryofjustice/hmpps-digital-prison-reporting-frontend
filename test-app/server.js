@@ -270,10 +270,8 @@ const services = {
 }
 
 // 3. Add middleware
-// app.use(setUpReportStore(services))
-// app.use(updateBookmarksByCaseload(services))
+app.use(populateDefinitions(services))
 app.use(populateRequestedReports(services))
-app.use(populateDefinitions(services, { dprDataProductDefinitionPath: 'my/path/thing' }))
 
 // 4. Initialise routes
 DprEmbeddedAsyncReports({

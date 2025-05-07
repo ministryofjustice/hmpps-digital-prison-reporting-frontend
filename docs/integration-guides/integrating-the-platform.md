@@ -147,6 +147,12 @@ In the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/b
 
 ## Initialise middleware
 
+Add the DPR middleware:
+- `dprPopulateDefinitions`: populates the report definitions to `res.locals.definitions`
+- `dprPopulateRequestedReports`: populates the requested, viewed and bookmarked reports data from redis to `res.locals`
+
+Order is important here as `dprPopulateRequestedReports` requires the definitions to be loaded. 
+
 This setup is commonly done in the `server/app.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/app.ts" target="_blank">HMPPS template</a>
 
 ```js

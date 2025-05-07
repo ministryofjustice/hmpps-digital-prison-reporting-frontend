@@ -1,6 +1,6 @@
 ---
 layout: layouts/component.njk
-title: Report Catalogue
+title: Catalogue
 subsection: DPR Platform components
 ---
 {% example "catalogue/default", 800, 'default' %}
@@ -46,12 +46,7 @@ export default function routes(services: Services): Router {
   ...
 
   router.get('/path/to/catalogue', (req, res) => {
-    const catalogue = await CatalogueUtils.init({
-      title: 'My reports',
-      res,
-      services,
-    })
-
+    const catalogue = await CatalogueUtils.init({ res, services })
     res.render('reports-catalogue.njk', {
       catalogue
     })
@@ -62,7 +57,7 @@ export default function routes(services: Services): Router {
 This will give you the arguments to simply apply as components arguments in the HTML:
 
 ```js
-dprCatalogue(catalogue.title, catalogue.data, catalogue.features)
+{ dprCatalogue(catalogue) }
 ```
 
 ## Configure features

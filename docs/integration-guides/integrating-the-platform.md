@@ -6,11 +6,11 @@ subsection: Integration Guides
 
 This integration quide describes the steps required to use DPR's Platform into your service, using the <a href="https://github.com/ministryofjustice/hmpps-template-typescript" target="_blank">HMPPS TS template</a>
 
-# Pre-requisites
+## Pre-requisites
 
 - [Integrate the DPR FE Library](/integration-guides/integrating-the-library)
 
-# Integration steps
+## Integration steps
 
 - [Add DPR configuration](#add-dpr-configuration)
 - [Initialise Redis client](#initialise-redis-client)
@@ -20,7 +20,9 @@ This integration quide describes the steps required to use DPR's Platform into y
 - [Initialise middleware](#initialise-middleware)
 - [Initialise routes](#initialise-routes)
 
-## Add DPR configuration
+<hr class='dpr-docs-hr'>
+
+# Add DPR configuration
 
 ### API config
 Add DPR API configuration to your `config.ts` file. 
@@ -66,13 +68,17 @@ export default {
 }
 ```
 
-## Initialise Redis Client
+<hr class='dpr-docs-hr'>
+
+# Initialise Redis Client
 
 An initialised Redis client is a dependency DPR's reporting platform. Redis is used to store report request config to keep track of the state of a requested report, and enable features such as bookmarking and downloading. 
 
 See [next section (Initialise data clients)](#initialise-data-clients) for details on how the redis client is used. 
 
-## Initialise data clients
+<hr class='dpr-docs-hr'>
+
+# Initialise data clients
 
 Initialise DPR data clients within your app setup to point to DPR's API endpoint. 
 
@@ -98,7 +104,9 @@ export const dataAccess = () => ({
 
 ```
 
-## Create services 
+<hr class='dpr-docs-hr'>
+
+# Create services 
 
 This setup is commonly done in the `server/services/index.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/services/index.ts" target="_blank">HMPPS template</a>
 
@@ -132,7 +140,9 @@ const featureConfig = {
 const dprServices = createDprServices({ reportingClient, dashboardClient, reportDataStore }, featureConfig)
 ```
 
-## Get the current User ID
+<hr class='dpr-docs-hr'>
+
+# Get the current User ID
 
 The user ID of the currently logged in user is the primary key used in the report config store, to retrieve and store report information against a specific user.
 
@@ -145,7 +155,15 @@ The integration assumes that users `uuid` is located in the `res` object at `res
 
 In the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/middleware/setUpCurrentUser.ts" target="_blank">HMPPS template</a> this is set in at `server/middleware/setUpCurrentUser.ts` 
 
-## Initialise middleware
+<hr class='dpr-docs-hr'>
+
+# Initialise middleware
+
+Add the DPR middleware:
+- `dprPopulateDefinitions`: populates the report definitions to `res.locals.definitions`
+- `dprPopulateRequestedReports`: populates the requested, viewed and bookmarked reports data from redis to `res.locals`
+
+Order is important here as `dprPopulateRequestedReports` requires the definitions to be loaded. 
 
 This setup is commonly done in the `server/app.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/app.ts" target="_blank">HMPPS template</a>
 
@@ -160,9 +178,9 @@ app.use(dprPopulateDefinitions(services, config))
 app.use(dprPopulateRequestedReports(services))
 ```
 
+<hr class='dpr-docs-hr'>
 
-
-## Initialise routes
+# Initialise routes
 
 Import the async routes in to your `routes` file which will give you access to the [async reporting paths](/reports/async-routes). 
 
@@ -185,6 +203,8 @@ export default function routes(services: Services): Router {
 ```
 
 This step will enable the page routes documented [here](/reports/async-routes)
+
+<hr class='dpr-docs-hr'>
 
 # Summary
 

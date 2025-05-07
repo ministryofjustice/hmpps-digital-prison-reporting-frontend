@@ -38,19 +38,15 @@ describe('populateDefinitions middleware', () => {
   })
 
   it('should get the definitions with no DPD path', async () => {
-    await Middleware.populateDefinitions(services, {}, req, res, next)
+    await Middleware.populateDefinitions(services, req, res, next)
 
     expect(services.reportingService.getDefinitions).toHaveBeenCalledWith('T0k3n', undefined)
   })
 
   it('should get the definitions with a DPD path from the config', async () => {
-    await Middleware.populateDefinitions(
-      services,
-      { dprDataProductDefinitionPath: 'dpd/path/from/config' },
-      req,
-      res,
-      next,
-    )
+    await Middleware.populateDefinitions(services, req, res, next, {
+      dprDataProductDefinitionPath: 'dpd/path/from/config',
+    })
     expect(res.locals.dpdPathFromConfig).toBeTruthy()
     expect(res.locals.dpdPathFromQuery).toBeFalsy()
     expect(res.locals.definitionsPath).toEqual('dpd/path/from/config')
@@ -61,13 +57,9 @@ describe('populateDefinitions middleware', () => {
   it('should get the definitions and override the config DPD path with DPD path from query', async () => {
     req.query.dataProductDefinitionsPath = 'dpd/path/from/query'
 
-    await Middleware.populateDefinitions(
-      services,
-      { dprDataProductDefinitionPath: 'dpd/path/from/config' },
-      req,
-      res,
-      next,
-    )
+    await Middleware.populateDefinitions(services, req, res, next, {
+      dprDataProductDefinitionPath: 'dpd/path/from/config',
+    })
     expect(res.locals.dpdPathFromConfig).toBeTruthy()
     expect(res.locals.dpdPathFromQuery).toBeTruthy()
     expect(res.locals.definitionsPath).toEqual('dpd/path/from/query')

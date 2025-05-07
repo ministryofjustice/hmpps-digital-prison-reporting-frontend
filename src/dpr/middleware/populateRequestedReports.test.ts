@@ -65,7 +65,7 @@ describe('populateRequestedReports middleware', () => {
     expect(res.locals.downloadingEnabled).toBeUndefined()
   })
 
-  it('should get the boomarks', async () => {
+  it('should get the bookmarks', async () => {
     services = {
       ...services,
       bookmarkService,

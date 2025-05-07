@@ -126,3 +126,11 @@ table {
     padding-bottom: 10px;
   }
 }
+
+.dpr-docs-hr {
+  margin-top: govuk-spacing(7);
+  margin-bottom: govuk-spacing(7);
+  background-color: govuk-colour('mid-grey');
+  height: 1px;
+  border: 0
+}

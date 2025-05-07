@@ -34,7 +34,7 @@ export default class RequestedReportService extends ReportStoreService {
     return userConfig.requestedReports.find((report) => report.tableId === id)
   }
 
-  async getAllReports(userId: string) {
+  async getAllReports(userId: string): Promise<RequestedReport[]> {
     const userConfig = await this.getState(userId)
     return userConfig.requestedReports
   }

@@ -1,7 +1,6 @@
-import { Request, Response } from 'express'
 import ReportingService from '../services/reportingService'
 import { components } from '../types/api'
-import localsHelper from './localsHelper'
+import logger from './logger'
 
 export default {
   getCurrentVariantDefinition: (
@@ -9,6 +8,11 @@ export default {
     reportId: string,
     variantId: string,
   ): components['schemas']['VariantDefinition'] | undefined => {
+    if (!definitions) {
+      logger.info('No definitions')
+      return undefined
+    }
+
     let variantDef: components['schemas']['VariantDefinition']
     const reportDef = definitions.find(
       (report: components['schemas']['ReportDefinitionSummary']) => report.id === reportId,

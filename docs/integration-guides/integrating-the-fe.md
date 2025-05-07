@@ -19,6 +19,7 @@ This guide describes the integration process to add FE components and processes 
 - [User reports list component](#user-reports-list-component)
 - [Render report as list](#render-report-as-list)
 
+<hr class='dpr-docs-hr'>
 
 # Report Catalogue component
 
@@ -47,12 +48,7 @@ export default function routes(services: Services): Router {
   ...
 
   router.get('/path/to/catalogue', (req, res) => {
-    const catalogue = await CatalogueUtils.init({
-      title: 'My reports',
-      res,
-      services,
-    })
-
+    const catalogue = await CatalogueUtils.init({ res, services })
     res.render('reports-catalogue.njk', {
       catalogue
     })
@@ -69,6 +65,8 @@ export default function routes(services: Services): Router {
 ```
 
 See [Catalogue](/components/catalogue) component for usage and examples.
+
+<hr class='dpr-docs-hr'>
 
 # User reports list Component
 
@@ -97,17 +95,11 @@ export default function routes(services: Services): Router {
 
   router.get('/path/to/requested/reports/list/', (req, res) => {
 
-    const {
-      requestedReports,
-      viewedReports,
-      bookmarks,
-    } = await UserReportsListUtils.initLists({ res, req, services })
+    const userReportsLists = await UserReportsListUtils.init({ res, req, services })
 
     res.render('requested-reports.njk', {
       title: 'DPR test site',
-      requestedReports,
-      viewedReports,
-      bookmarks
+      userReportsLists
     })
   })
 }
@@ -118,14 +110,12 @@ export default function routes(services: Services): Router {
 ```js
 { from "@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/view.njk" import dprUserReports }
 
-{ dprUserReports({
-  requestedReports: requestedReports,
-  viewedReports: viewedReports,
-  bookmarks: bookmarks
-}) }
+{ dprUserReports(userReportsLists) }
 ```
 
 See [Reports List](/components/reports-list) component for usage and examples.
+
+<hr class='dpr-docs-hr'>
 
 # Implement request route directly
 
@@ -140,6 +130,8 @@ If you prefer to create your own report listings, and not use DPR's [Catalogue c
 ```
 
 For information about the request path [see here](/reports/async-routes/#request-page)
+
+<hr class='dpr-docs-hr'>
 
 # Render report as list
 

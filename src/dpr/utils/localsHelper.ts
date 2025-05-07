@@ -7,6 +7,7 @@ const getValues = (res: Response) => {
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
   const pathSuffix = res.locals.pathSuffix || ''
+  const routePrefix = res.locals.routePrefix || ''
   const definitions = res.locals.definitions || []
   const requestedReports: StoredReportData[] = res.locals.requestedReports || []
   const recentlyViewedReports: StoredReportData[] = res.locals.recentlyViewedReports || []
@@ -27,6 +28,7 @@ const getValues = (res: Response) => {
     dpdPathFromConfig,
     definitionsPath,
     pathSuffix,
+    routePrefix,
   }
 }
 

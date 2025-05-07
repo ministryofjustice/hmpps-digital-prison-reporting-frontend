@@ -49,13 +49,13 @@ See <a href="/get-started/environments" target="_blank">DPR Environments</a> for
 
 ### DPD path config
 
-Add your DPD path to the `config.ts` file
-
-This is location on in the definitions repo where your DPDs are stored. The path commonly follows this pattern: 
+The DPD path is location in the definitions repo where your DPDs are stored. The path commonly follows this pattern: 
 
 ```
 definitions/prisons/dps/${yourServiceName}
 ```
+
+Add your DPD path to the `config.ts` file: 
 
 ```js
 export default {
@@ -63,9 +63,40 @@ export default {
   apis: {
     ...
   }
-  dprDataProductDefinitionPath: 'definitions/prisons/dps/yourServiceName'
+  ...
+  dpr {
+    dataProductDefinitionPath: 'definitions/prisons/dps/yourServiceName'
+  }
   ...
 }
+```
+
+### Route prefix config
+
+DPR routes are prefixed with `/dpr` by default. e.g.
+```
+/dpr/async/:type/:reportId/:id/request
+```
+
+This should adequate for your integration, however you can replace this prefix by adding your own to the `config.ts` file: 
+
+```js
+export default {
+  ...
+  apis: {
+    ...
+  }
+  dpr: {
+    ...
+    routePrefix: '/my-prefix'
+  }
+  ...
+}
+```
+
+This will adjust the routes accordingly. e.g.
+```
+/my-prefix/async/:type/:reportId/:id/request
 ```
 
 <hr class='dpr-docs-hr'>
@@ -159,23 +190,16 @@ In the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/b
 
 # Initialise middleware
 
-Add the DPR middleware:
-- `dprPopulateDefinitions`: populates the report definitions to `res.locals.definitions`
-- `dprPopulateRequestedReports`: populates the requested, viewed and bookmarked reports data from redis to `res.locals`
-
-Order is important here as `dprPopulateRequestedReports` requires the definitions to be loaded. 
-
 This setup is commonly done in the `server/app.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/app.ts" target="_blank">HMPPS template</a>
 
 ```js
 import dprPopulateRequestedReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/populateRequestedReports'
-import dprPopulateDefinitions from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/populateDefinitions'
+import setUpDprResources from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/setUpDprResources'
 import config from './config'
 
 ...
 
-app.use(dprPopulateDefinitions(services, config))
-app.use(dprPopulateRequestedReports(services))
+app.use(setUpDprResources(services, config.dpr))
 ```
 
 <hr class='dpr-docs-hr'>
@@ -232,7 +256,7 @@ const services = {
 }
 
 // 3. Add middleware
-app.use(dprPopulateDefinitions(services, config))
+app.use(dprPopulateDefinitions(services, config.dpr))
 app.use(dprPopulateRequestedReports(services))
 
 // 4. Initialise routes

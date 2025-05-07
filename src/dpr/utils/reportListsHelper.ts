@@ -69,12 +69,12 @@ export const toSentenceCase = (text: string) => {
 }
 
 export const setInitialHref = (loadType: LoadType, type: ReportType, reportId: string, id: string, res: Response) => {
-  const { pathSuffix, dpdPathFromQuery } = localsHelper.getValues(res)
+  const { pathSuffix, dpdPathFromQuery, routePrefix } = localsHelper.getValues(res)
   const dpdPathQueryParam = dpdPathFromQuery ? pathSuffix : ''
 
-  let href = `/async/${type}/${reportId}/${id}/request${dpdPathQueryParam}`
+  let href = `${routePrefix}/async/${type}/${reportId}/${id}/request${dpdPathQueryParam}`
   if (loadType && loadType === LoadType.SYNC) {
-    href = `/sync/${type}/${reportId}/${id}/load-report${dpdPathQueryParam}`
+    href = `${routePrefix}/sync/${type}/${reportId}/${id}/load-report${dpdPathQueryParam}`
   }
   return href
 }

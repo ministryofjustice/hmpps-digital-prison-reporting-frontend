@@ -13,18 +13,18 @@ export default function routes({
   router,
   services,
   layoutPath,
-  templatePath = 'dpr/views/',
+  prefix,
 }: {
   router: Router
   services: Services
   layoutPath: string
-  templatePath?: string
+  prefix?: string
 }) {
   logger.info('Initialiasing routes: Sync reports')
 
   const errorHandler: RequestHandler = async (req, res) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
-    res.render(`${templatePath}/async-error`, {
+    res.render(`dpr/views/async-error`, {
       layoutPath,
       ...req.body,
       ...req.params,
@@ -37,7 +37,7 @@ export default function routes({
     try {
       const renderData = await SyncReportUtils.getReport({ req, res, services })
 
-      res.render(`${templatePath}sync-report`, {
+      res.render(`dpr/views/sync-report`, {
         layoutPath,
         ...renderData,
       })
@@ -59,7 +59,7 @@ export default function routes({
       const { name: reportName, variant, description: reportDescription } = definition
       const { classification, description, name } = variant
 
-      res.render(`${templatePath}sync-load`, {
+      res.render(`dpr/views/sync-load`, {
         renderData: {
           reportId,
           id,
@@ -100,13 +100,16 @@ export default function routes({
   }
 
   const unauthorisedReportHandler: RequestHandler = async (req, res) => {
-    res.render(`${templatePath}/unauthorised-report`, {
+    res.render(`dpr/views/unauthorised-report`, {
       layoutPath,
       ...req.body,
     })
   }
 
-  const viewReportPaths = ['/sync/:type/:reportId/:id/report', '/sync/:type/:reportId/:id/report/:download']
+  const viewReportPaths = [
+    `${prefix}/sync/:type/:reportId/:id/report`,
+    `${prefix}/sync/:type/:reportId/:id/report/:download`,
+  ]
   router.get(viewReportPaths, isAuthorisedToViewReport, viewSyncReportHandler, errorHandler)
-  router.get('/sync/:type/:reportId/:id/load-report', isAuthorisedToViewReport, syncReportLoadingHandler)
+  router.get(`${prefix}/sync/:type/:reportId/:id/load-report`, isAuthorisedToViewReport, syncReportLoadingHandler)
 }

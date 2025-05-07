@@ -1,4 +1,4 @@
 export interface DprConfig {
-  routePrefix: string
-  dataProductDefinitionPath: string
+  routePrefix?: string
+  dataProductDefinitionPath?: string
 }

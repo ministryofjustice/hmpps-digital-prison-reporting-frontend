@@ -36,6 +36,7 @@ describe('LocalsHelper', () => {
         userId: 'userIdValue',
         token: 'token',
         pathSuffix: '',
+        routePrefix: '',
         recentlyViewedReports: [] as StoredReportData[],
         requestedReports: [] as StoredReportData[],
         bookmarks: [] as BookmarkStoreData[],

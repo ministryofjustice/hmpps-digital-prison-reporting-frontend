@@ -156,7 +156,7 @@ describe('setUpDprResources', () => {
     })
 
     it('should set the route suffix to blank', async () => {
-      await Middleware.setRoutePrefix(res, { dprRoutePrefix: 'dpr' })
+      await Middleware.setRoutePrefix(res, { routePrefix: 'dpr' })
 
       expect(res.locals.routePrefix).toEqual('')
     })
@@ -174,7 +174,7 @@ describe('setUpDprResources', () => {
     })
 
     it('should set the route suffix to /my-path-prefix when config provided', async () => {
-      await Middleware.setRoutePrefix(res, { dprRoutePrefix: '/my-path-prefix' })
+      await Middleware.setRoutePrefix(res, { routePrefix: '/my-path-prefix' })
 
       expect(res.locals.routePrefix).toEqual('/my-path-prefix')
     })

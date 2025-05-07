@@ -271,7 +271,7 @@ const services = {
 // 3. Add middleware
 app.use(
   setUpDprResources(services, {
-    routePrefix: '/my-prefix',
+    routePrefix: 'dpr',
   }),
 )
 
@@ -281,7 +281,7 @@ DprEmbeddedAsyncReports({
   services,
   layoutPath: 'page.njk',
   config: {
-    routePrefix: '/my-prefix',
+    routePrefix: 'dpr',
   },
 })
 

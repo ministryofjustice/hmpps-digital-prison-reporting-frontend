@@ -19,6 +19,7 @@ This guide describes the integration process to add FE components and processes 
 - [User reports list component](#user-reports-list-component)
 - [Render report as list](#render-report-as-list)
 
+<hr class='dpr-docs-hr'>
 
 # Report Catalogue component
 
@@ -65,6 +66,8 @@ export default function routes(services: Services): Router {
 
 See [Catalogue](/components/catalogue) component for usage and examples.
 
+<hr class='dpr-docs-hr'>
+
 # User reports list Component
 
 This component is used to visualise and enable users to keep track of all requests, bookmarks and recently viewed reports so you can quickly navigate around the embedded DPR platform.
@@ -107,14 +110,12 @@ export default function routes(services: Services): Router {
 ```js
 { from "@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/view.njk" import dprUserReports }
 
-{ dprUserReports({
-  requestedReports: requestedReports,
-  viewedReports: viewedReports,
-  bookmarks: bookmarks
-}) }
+{ dprUserReports(userReportsLists) }
 ```
 
 See [Reports List](/components/reports-list) component for usage and examples.
+
+<hr class='dpr-docs-hr'>
 
 # Implement request route directly
 
@@ -129,6 +130,8 @@ If you prefer to create your own report listings, and not use DPR's [Catalogue c
 ```
 
 For information about the request path [see here](/reports/async-routes/#request-page)
+
+<hr class='dpr-docs-hr'>
 
 # Render report as list
 

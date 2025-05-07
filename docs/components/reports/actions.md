@@ -3,8 +3,6 @@ layout: layouts/component.njk
 title: Actions
 subsection: Report components
 ---
-## 🚧 👷🏻‍♀️ Documentation under construction 👷🏾 🚧
-
 {% example "report/actions", 170, 'default' %}
 
 ## Overview
@@ -24,8 +22,8 @@ Use the Actions component when report users need to:
 - [Print screen](#print-screen)
 - [Copy](#copy)
 - [Share](#share)
-- [Refresh](#refresh) (async reports only)
-- [Download](#download) (async reports only)
+- [Refresh](#refresh) (requires platform integration)
+- [Download](#download) (requires platform integration)
 
 ## How to use
 
@@ -63,8 +61,8 @@ The Share action open up your email client and populate it with a relevant subje
 
 ### Refresh
 
-**Async reports only**. The refresh action navigates the user back to the request page in order to update their request parameters, and re-request their report. 
+The refresh action navigates the user back to the request page in order to update their request parameters, and re-request their report. Requires  [platform integration](/integration-guides/integrating-the-platform)
 
 ### Download
 
-**Async reports only**. The download action enables users to download the full dataset as a CSV.  
+The download action enables users to download the full dataset as a CSV. Requires  [platform integration](/integration-guides/integrating-the-platform)

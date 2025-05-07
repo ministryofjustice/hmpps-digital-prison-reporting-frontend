@@ -64,8 +64,7 @@ const initFeatures = ({ router, config, services, features }: EmbeddedSyncParams
   if (features !== undefined) {
     logger.info(`Embedded Reports: Features config found. Initialising features: ${features.list}`)
 
-    const { config: featuresConfig, list } = features
-    const { userId } = featuresConfig
+    const { list } = features
     const { templatePath, layoutPath } = config
 
     const downloadFeatureEnabled = list.includes(EmbeddedReportFeaturesList.download)

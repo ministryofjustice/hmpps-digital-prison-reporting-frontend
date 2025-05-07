@@ -1,6 +1,6 @@
 ---
 layout: layouts/component.njk
-title: Report Catalogue
+title: Catalogue
 subsection: DPR Platform components
 ---
 {% example "catalogue/default", 800, 'default' %}

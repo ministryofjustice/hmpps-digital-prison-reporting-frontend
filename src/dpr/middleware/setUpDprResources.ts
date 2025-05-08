@@ -37,7 +37,7 @@ export const setRoutePrefix = async (res: Response, config?: DprConfig) => {
   res.locals.routePrefix = getRoutePrefix(config)
 }
 
-export const populateDefinitions = async (services: Services, req: Request, res: Response, config?: any) => {
+export const populateDefinitions = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
   // Get the DPD path from the query
   const dpdPathFromQuery = deriveDefinitionsPath(req.query)
   const dpdPathFromBody = req.body.dataProductDefinitionsPath
@@ -48,7 +48,7 @@ export const populateDefinitions = async (services: Services, req: Request, res:
   }
 
   // Get the DPD path from the config
-  const dpdPathFromConfig = config?.dprDataProductDefinitionPath
+  const dpdPathFromConfig = config?.dataProductDefinitionsPath
   if (dpdPathFromConfig) {
     res.locals.dpdPathFromConfig = true
   }

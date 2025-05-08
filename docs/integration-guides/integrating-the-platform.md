@@ -65,7 +65,7 @@ export default {
   }
   ...
   dpr {
-    dataProductDefinitionPath: 'definitions/prisons/dps/yourServiceName'
+    dataProductDefinitionsPath: 'definitions/prisons/dps/yourServiceName'
   }
   ...
 }
@@ -193,7 +193,6 @@ In the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/b
 This setup is commonly done in the `server/app.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/app.ts" target="_blank">HMPPS template</a>
 
 ```js
-import dprPopulateRequestedReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/populateRequestedReports'
 import setUpDprResources from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/setUpDprResources'
 import config from './config'
 
@@ -212,7 +211,7 @@ This setup is commonly done in the `server/routes/index.ts` file of the <a href=
 
 ```js
 import DprEmbeddedAsyncReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/DprEmbeddedReports'
-
+import config from '../config'
 
 export default function routes(services: Services): Router {
   
@@ -222,6 +221,7 @@ export default function routes(services: Services): Router {
     router,
     services,
     layoutPath: 'path/to/layout.njk',
+    config: config.dpr
   })
 }
 ```
@@ -240,7 +240,7 @@ import initDprReportingClients from '@ministryofjustice/hmpps-digital-prison-rep
 // services
 import createDprServices from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/ReportStoreServiceUtils'
 // middleware
-import dprPopulateRequestedReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/populateRequestedReports'
+import setUpDprResources from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/setUpDprResources'
 // Routes
 import DprAsyncReportsRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/asyncReports'
 
@@ -256,12 +256,12 @@ const services = {
 }
 
 // 3. Add middleware
-app.use(dprPopulateDefinitions(services, config.dpr))
-app.use(dprPopulateRequestedReports(services))
+app.use(setUpDprResources(services, config.dpr))
 
 // 4. Initialise routes
 DprAsyncReportsRoutes({
   router: app,
   services,
-  layoutPath: 'page.njk',
+  layoutPath: 'path/to/layout.njk',
+  config: config.dpr
 })

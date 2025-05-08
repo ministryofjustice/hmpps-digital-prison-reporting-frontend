@@ -3,9 +3,8 @@ import RecentlyViewedStoreService from './recentlyViewedService'
 import MockUserStoreService from '../../../test-app/mocks/mockClients/store/mockRedisStore'
 import type ReportDataStore from '../data/reportDataStore'
 import { ReportStoreConfig } from '../types/ReportStore'
-import MockViewedListData from '../../../test-app/mocks/mockClients/store/mockViewedUserListDataV1'
-import MockRequestedListData from '../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV1'
-import MockRequestedListData2 from '../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
+import MockViewedListData from '../../../test-app/mocks/mockClients/store/mockViewedUserListDataV2'
+import MockRequestedListData from '../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
 import { ReportType, RequestedReport, RequestStatus } from '../types/UserReports'
 
 describe('RecentlyViewedStoreService', () => {
@@ -48,7 +47,7 @@ describe('RecentlyViewedStoreService', () => {
   })
 
   describe('setRecentlyViewed', () => {
-    it('should set recently viewed with variantId', async () => {
+    it('should set recently viewed with an id', async () => {
       await recentlyViewedService.setRecentlyViewed(
         MockRequestedListData.requestedReady as unknown as RequestedReport,
         'userId',
@@ -56,35 +55,6 @@ describe('RecentlyViewedStoreService', () => {
 
       const savedRecord = {
         ...MockRequestedListData.requestedReady,
-        id: MockRequestedListData.requestedReady.variantId,
-        type: ReportType.REPORT,
-        status: RequestStatus.READY,
-        timestamp: {
-          lastViewed: mockDate,
-        },
-      }
-
-      delete savedRecord.url.polling
-      delete savedRecord.url.request.pathname
-      delete savedRecord.url.report.pathname
-      delete savedRecord.filters
-      delete savedRecord.sortBy
-      delete savedRecord.variantId
-      delete savedRecord.dataProductDefinitionsPath
-
-      expect(saveStateSpy).toHaveBeenCalledWith('userId', {
-        recentlyViewedReports: [savedRecord, MockViewedListData.viewedReady],
-      })
-    })
-
-    it('should set recently viewed with an id', async () => {
-      await recentlyViewedService.setRecentlyViewed(
-        MockRequestedListData2.requestedReady as unknown as RequestedReport,
-        'userId',
-      )
-
-      const savedRecord = {
-        ...MockRequestedListData2.requestedReady,
         status: RequestStatus.READY,
         timestamp: {
           lastViewed: mockDate,

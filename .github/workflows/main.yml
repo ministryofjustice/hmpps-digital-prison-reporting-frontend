@@ -8,9 +8,9 @@ on:
 
 env:
   HOME_URL: 'http://localhost:3010/dpr-service'
-  REQUEST_URL: 'http://localhost:3010/async-reports/test-report-3/variantId-1/request'
-  POLLING_URL: 'http://localhost:3010/async-reports/test-report-3/variantId-1/request/exId_1729765628165'
-  REPORT_URL: 'http://localhost:3010/async-reports/test-report-3/variantId-1/request/tblId_1729765628165/report'
+  REQUEST_URL: 'http://localhost:3010/async/test-report-3/variantId-1/request'
+  POLLING_URL: 'http://localhost:3010/async/test-report-3/variantId-1/request/exId_1729765628165'
+  REPORT_URL: 'http://localhost:3010/async/test-report-3/variantId-1/request/tblId_1729765628165/report'
 
 jobs:
   build:

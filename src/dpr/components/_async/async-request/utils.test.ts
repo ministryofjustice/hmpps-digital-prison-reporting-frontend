@@ -380,43 +380,6 @@ describe('RequestReportUtils', () => {
       )
     })
 
-    it('should request a report using old path', async () => {
-      const addReportSpy = jest.spyOn(services.requestedReportService, 'addReport')
-      req.body = {
-        ...body,
-        pathname: '/async-reports/test-report-1/variantId-1/request',
-        origin: 'http://localhost:3010',
-        href: 'http://localhost:3010/async-reports/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
-        search:
-          '?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
-      }
-
-      await RequestReportUtils.request({ req, res, services })
-
-      expect(addReportSpy).toHaveBeenCalledWith(
-        'userId',
-        expect.objectContaining({
-          url: {
-            origin: 'http://localhost:3010',
-            request: {
-              fullUrl:
-                'http://localhost:3010/async-reports/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
-              pathname: '/async-reports/test-report-1/variantId-1/request',
-              search:
-                '?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
-            },
-            polling: {
-              fullUrl:
-                'http://localhost:3010/async-reports/test-report-1/variantId-1/request/executionId?dataProductDefinitionsPath=dataProductDefinitionsPath',
-              pathname:
-                '/async-reports/test-report-1/variantId-1/request/executionId?dataProductDefinitionsPath=dataProductDefinitionsPath',
-            },
-            report: {},
-          },
-        }),
-      )
-    })
-
     it('should request a dashboard ', async () => {
       const addReportSpy = jest.spyOn(services.requestedReportService, 'addReport')
       req.body = dashboardBody

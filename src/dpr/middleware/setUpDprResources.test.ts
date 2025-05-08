@@ -123,7 +123,7 @@ describe('setUpDprResources', () => {
 
     it('should get the definitions with a DPD path from the config', async () => {
       await Middleware.populateDefinitions(services, req, res, {
-        dprDataProductDefinitionPath: 'dpd/path/from/config',
+        dataProductDefinitionsPath: 'dpd/path/from/config',
       })
       expect(res.locals.dpdPathFromConfig).toBeTruthy()
       expect(res.locals.dpdPathFromQuery).toBeFalsy()
@@ -136,7 +136,7 @@ describe('setUpDprResources', () => {
       req.query.dataProductDefinitionsPath = 'dpd/path/from/query'
 
       await Middleware.populateDefinitions(services, req, res, {
-        dprDataProductDefinitionPath: 'dpd/path/from/config',
+        dataProductDefinitionsPath: 'dpd/path/from/config',
       })
       expect(res.locals.dpdPathFromConfig).toBeTruthy()
       expect(res.locals.dpdPathFromQuery).toBeTruthy()

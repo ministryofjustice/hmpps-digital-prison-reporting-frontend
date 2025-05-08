@@ -27,8 +27,7 @@ const appViews = [
 ]
 
 // Middleware
-const populateRequestedReports = require('../package/dpr/middleware/populateRequestedReports').default
-const populateDefinitions = require('../package/dpr/middleware/populateDefinitions').default
+const setUpDprResources = require('../package/dpr/middleware/setUpDprResources').default
 
 // Application
 const app = express()
@@ -270,14 +269,20 @@ const services = {
 }
 
 // 3. Add middleware
-app.use(populateDefinitions(services))
-app.use(populateRequestedReports(services))
+app.use(
+  setUpDprResources(services, {
+    routePrefix: 'dpr',
+  }),
+)
 
 // 4. Initialise routes
 DprEmbeddedAsyncReports({
   router: app,
   services,
   layoutPath: 'page.njk',
+  config: {
+    routePrefix: 'dpr',
+  },
 })
 
 /**

@@ -10,9 +10,9 @@
   "private": false,
   "config": {
     "home_url": "http://localhost:3010/async-reports",
-    "request_url": "http://localhost:3010/async-reports/test-report-3/variantId-1/request",
-    "polling_url": "http://localhost:3010/async-reports/test-report-3/variantId-1/request/exId_1721738244284",
-    "report_url": "http://localhost:3010/async-reports/test-report-3/variantId-1/request/tblId_1721738244284/report"
+    "request_url": "http://localhost:3010/async/test-report-3/variantId-1/request",
+    "polling_url": "http://localhost:3010/async/test-report-3/variantId-1/request/exId_1721738244284",
+    "report_url": "http://localhost:3010/async/test-report-3/variantId-1/request/tblId_1721738244284/report"
   },
   "scripts": {
     "package": "gulp build:package",

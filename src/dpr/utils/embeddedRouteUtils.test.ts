@@ -157,7 +157,7 @@ describe('SyncRouteUtils', () => {
         services: {
           downloadPermissionService: mockDownloadPermissionService,
         },
-        templatePath: params.config.templatePath,
+        prefix: '',
         layoutPath: params.config.layoutPath,
       })
 
@@ -191,7 +191,7 @@ describe('SyncRouteUtils', () => {
         services: {
           downloadPermissionService: mockDownloadPermissionService,
         },
-        templatePath: params.config.templatePath,
+        prefix: '',
         layoutPath: params.config.layoutPath,
       })
 

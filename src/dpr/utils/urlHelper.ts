@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FilterType } from '../components/_filters/filter-input/enum'
 import { components } from '../types/api'
+import { DprConfig } from '../types/DprConfig'
 
 export const clearFilterValue = '~clear~'
 
@@ -81,6 +83,17 @@ export const getDpdPathSuffix = (dpdsPath: string) => {
   }
 
   return ''
+}
+
+export const getRoutePrefix = (config?: DprConfig) => {
+  let prefix = config?.routePrefix
+  if (!prefix) {
+    prefix = '/dpr'
+  }
+  if (prefix === 'dpr') {
+    prefix = ''
+  }
+  return prefix
 }
 
 export default createUrlForParameters

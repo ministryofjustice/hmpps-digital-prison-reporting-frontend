@@ -9,12 +9,12 @@ export default function routes({
   router,
   services,
   layoutPath,
-  templatePath = 'dpr/views/',
+  prefix,
 }: {
   router: Router
   services: Services
   layoutPath: string
-  templatePath?: string
+  prefix?: string
 }) {
   logger.info('Initialiasing routes: Recently Viewed')
 
@@ -38,9 +38,9 @@ export default function routes({
     res.end()
   }
 
-  router.get('/async-reports/recently-viewed', async (req, res) => {
+  router.get(`${prefix}/async-reports/recently-viewed`, async (req, res) => {
     const { recentlyViewedReports } = LocalsHelper.getValues(res)
-    res.render(`${templatePath}/async-reports`, {
+    res.render(`dpr/views/async-reports`, {
       title: 'Requested Reports',
       layoutPath,
       ...(await UserReportsListUtils.renderList({
@@ -52,6 +52,6 @@ export default function routes({
     })
   })
 
-  router.post('/getExpiredStatus/', getExpiredStatus)
-  router.post('/removeViewedItem/', removeViewedItemHandler)
+  router.post('/dpr/getExpiredStatus/', getExpiredStatus)
+  router.post('/dpr/removeViewedItem/', removeViewedItemHandler)
 }

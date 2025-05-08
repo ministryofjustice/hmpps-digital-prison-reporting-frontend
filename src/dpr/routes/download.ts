@@ -24,12 +24,12 @@ export default function routes({
   router,
   layoutPath,
   services,
-  templatePath = 'dpr/views/',
+  prefix,
 }: {
   router: Router
   layoutPath: string
   services: Services
-  templatePath?: string
+  prefix: string
 }) {
   logger.info('Initialiasing routes: Download')
 
@@ -52,7 +52,7 @@ export default function routes({
       await services.reportingService.getDefinition(token, reportId, variantId, dataProductDefinitionsPath)
 
     try {
-      res.render(`${templatePath}feedback-form`, {
+      res.render(`dpr/views/feedback-form`, {
         title: 'Download request form',
         user: res.locals.user,
         report: {
@@ -68,7 +68,7 @@ export default function routes({
         },
         csrfToken,
         layoutPath,
-        postEndpoint: '/submitFeedback/',
+        postEndpoint: '/dpr/submitFeedback/',
       })
     } catch (error) {
       next()
@@ -107,7 +107,7 @@ export default function routes({
 
     await services.downloadPermissionService.saveDownloadPermissionData(userId, reportId, variantId)
 
-    res.render(`${templatePath}feedback-form-success`, {
+    res.render(`dpr/views/feedback-form-success`, {
       title: 'success',
       layoutPath,
       report: {
@@ -135,14 +135,17 @@ export default function routes({
   }
 
   router.get(
-    ['/download/:reportId/:variantId/:tableId/feedback', '/download/:reportId/:variantId/feedback'],
+    [`${prefix}/download/:reportId/:variantId/:tableId/feedback`, `${prefix}/download/:reportId/:variantId/feedback`],
     feedbackFormHandler,
   )
-  router.post('/submitFeedback/', feedbackSubmitHandler)
+  router.post('/dpr/submitFeedback/', feedbackSubmitHandler)
 
   router.get(
-    ['/download/:reportId/:variantId/:tableId/feedback/submitted', '/download/:reportId/:variantId/feedback/submitted'],
+    [
+      `${prefix}/download/:reportId/:variantId/:tableId/feedback/submitted`,
+      `${prefix}/download/:reportId/:variantId/feedback/submitted`,
+    ],
     feedbackSuccessHandler,
   )
-  router.post('/downloadReport/', downloadRequestHandler)
+  router.post('/dpr/downloadReport/', downloadRequestHandler)
 }

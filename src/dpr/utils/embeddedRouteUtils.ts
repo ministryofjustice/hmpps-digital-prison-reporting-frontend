@@ -92,7 +92,7 @@ const initFeatures = ({ router, config, services, features }: EmbeddedSyncParams
 
         initialisedFeatures.download = true
 
-        addDownloadRoutes({ router, services: updatedServices, layoutPath, templatePath })
+        addDownloadRoutes({ router, services: updatedServices, layoutPath, prefix: '' })
       } catch (error) {
         logger.info('Download Feature: Unable to init feature.')
         throw error

@@ -1,4 +1,5 @@
-import type { RequestHandler, Router, Request } from 'express'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { RequestHandler, Router } from 'express'
 import AsyncPollingUtils from '../components/_async/async-polling/utils'
 import AsyncRequestListUtils from '../components/user-reports/requested/utils'
 import UserReportsListUtils from '../components/user-reports/utils'
@@ -18,10 +19,12 @@ export default function routes({
   router,
   services,
   layoutPath,
+  prefix,
 }: {
   router: Router
   services: Services
   layoutPath: string
+  prefix: string
 }) {
   logger.info('Initialiasing routes: Async reports')
 
@@ -104,7 +107,7 @@ export default function routes({
 
       res.render(`dpr/views/async-request`, {
         layoutPath,
-        postEndpoint: '/requestReport/',
+        postEndpoint: '/dpr/requestReport/',
         ...requestRenderData,
       })
     } catch (error) {
@@ -327,68 +330,29 @@ export default function routes({
     })
   }
 
-  /**
-   * NOTE:
-   * - The async route paths have been made more generic with the introduction of `type`, to allow other report types (e.g dashboard) to follow the async path
-   * - All requests will be made to the this new route.
-   *
-   * - Previously stored requested and viewed reports in Redis will have the old route path. Which is redirected to the new path.
-   * - As requests expire after 24hrs, eventually the old route will dissapear from the requested and viewed store and only include the new route.
-   * - At this point we can consider removing this route all together
-   */
-
   // 1 - REQUEST
-  router.get('/async/:type/:reportId/:id/request', isAuthorisedToViewReport, renderRequestHandler, asyncErrorHandler)
-  router.post('/requestReport/', asyncRequestHandler, asyncErrorHandler)
+  router.get(
+    `${prefix}/async/:type/:reportId/:id/request`,
+    isAuthorisedToViewReport,
+    renderRequestHandler,
+    asyncErrorHandler,
+  )
+  router.post('/dpr/requestReport/', asyncRequestHandler, asyncErrorHandler)
 
   // 2 - POLLING
-  router.get('/async/:type/:reportId/:id/request/:executionId', pollingHandler, asyncErrorHandler)
-  router.post('/getStatus/', getStatusHandler)
-  router.post('/cancelRequest/', cancelRequestHandler, asyncErrorHandler)
+  router.get(`${prefix}/async/:type/:reportId/:id/request/:executionId`, pollingHandler, asyncErrorHandler)
+  router.post('/dpr/getStatus/', getStatusHandler)
+  router.post('/dpr/cancelRequest/', cancelRequestHandler, asyncErrorHandler)
 
   // 3 - VIEw REPORT
   const viewReportPaths = [
-    '/async/:type/:reportId/:id/request/:tableId/report',
-    '/async/:type/:reportId/:id/request/:tableId/report/:download',
+    `${prefix}/async/:type/:reportId/:id/request/:tableId/report`,
+    `${prefix}/async/:type/:reportId/:id/request/:tableId/report/:download`,
   ]
   router.get(viewReportPaths, isAuthorisedToViewReport, viewReportHandler, asyncErrorHandler)
 
   // Homepage widget routes
-  router.post('/removeRequestedItem/', removeRequestedItemHandler, asyncErrorHandler)
-  router.post('/getRequestedExpiredStatus/', getExpiredStatus)
-  router.get('/async-reports/requested', listingHandler)
-
-  // REDIRECTS
-
-  const setQueryParams = (req: Request, url: string) => {
-    const queryString = new URLSearchParams(req.query as unknown as URLSearchParams).toString()
-    if (queryString.length) {
-      return `${url}?${queryString}`
-    }
-    return url
-  }
-
-  // Request
-  router.get('/async-reports/:reportId/:variantId/request', async (req, res, next) => {
-    const { reportId, variantId: id } = req.params
-    let url = `/async/report/${reportId}/${id}/request`
-    url = setQueryParams(req, url)
-    res.redirect(url)
-  })
-
-  // POLLING
-  router.get('/async-reports/:reportId/:variantId/request/:executionId', async (req, res, next) => {
-    const { reportId, variantId: id, executionId } = req.params
-    let url = `/async/report/${reportId}/${id}/request/${executionId}`
-    url = setQueryParams(req, url)
-    res.redirect(url)
-  })
-
-  // REPORT
-  router.get('/async-reports/:reportId/:variantId/request/:tableId/report', async (req, res, next) => {
-    const { reportId, variantId: id, tableId } = req.params
-    let url = `/async/report/${reportId}/${id}/request/${tableId}/report`
-    url = setQueryParams(req, url)
-    res.redirect(url)
-  })
+  router.post('/dpr/removeRequestedItem/', removeRequestedItemHandler, asyncErrorHandler)
+  router.post('/dpr/getRequestedExpiredStatus/', getExpiredStatus)
+  router.get(`${prefix}/async-reports/requested`, listingHandler)
 }

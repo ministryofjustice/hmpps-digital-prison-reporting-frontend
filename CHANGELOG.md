@@ -1,5 +1,18 @@
 Below you can find the changes included in each release.
 
+## v4.2.5
+
+### DPR Platform integration process
+- Integration process for embedding the DPR platform into DPS's
+- Configurable platform features
+- Configurable definitions path
+- Integration process docs
+
+### Documentation Updates: 
+  - new/updated component docs
+  - Updated Lib integration docs
+  - Improved IA and styling.
+
 ## v4.1.26
 
 - BugFix: Parent child template fixed.

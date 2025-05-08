@@ -50,7 +50,7 @@ export default class ReportingClient {
     token: string,
     definitionsPath?: string,
   ): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
-    this.logInfo('Get definitions', { definitionsPath })
+    this.logInfo('Get definitions')
 
     const params: operations['definitions_1']['parameters'] = {
       query: {

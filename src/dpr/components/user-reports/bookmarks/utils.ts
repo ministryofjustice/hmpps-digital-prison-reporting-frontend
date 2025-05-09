@@ -9,17 +9,12 @@ import DefinitionUtils from '../../../utils/definitionUtils'
 import { createListItemProduct, createListActions, setInitialHref } from '../../../utils/reportListsHelper'
 import LocalsHelper from '../../../utils/localsHelper'
 
-export const formatBookmarks = async (
-  bookmarksData: BookmarkedReportData[],
-  maxRows?: number,
-): Promise<FormattedUserReportData[]> => {
-  const cards = bookmarksData
+export const formatBookmarks = async (bookmarksData: BookmarkedReportData[]): Promise<FormattedUserReportData[]> => {
+  return bookmarksData
     .map((report: BookmarkedReportData) => {
       return formatBookmark(report)
     })
     .sort((a, b) => a.text.localeCompare(b.text))
-
-  return maxRows ? cards.slice(0, maxRows) : cards
 }
 
 export const formatBookmark = (bookmarkData: BookmarkedReportData): FormattedUserReportData => {
@@ -181,7 +176,11 @@ export default {
   }) => {
     const { token, csrfToken, userId, bookmarks } = LocalsHelper.getValues(res)
     const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, res, token, services)
-    const formatted = await formatBookmarks(bookmarksData, maxRows)
+
+    let formatted = await formatBookmarks(bookmarksData)
+    const formattedCount = formatted.length
+
+    if (maxRows) formatted = formatted.slice(0, maxRows)
     const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, userId, maxRows)
 
     const head = {
@@ -190,8 +189,8 @@ export default {
     }
 
     const total = {
-      amount: formatted.length,
-      shown: formatted.length > maxRows ? maxRows : formatted.length,
+      amount: formattedCount,
+      shown: formattedCount > maxRows ? maxRows : formattedCount,
       max: maxRows,
     }
 

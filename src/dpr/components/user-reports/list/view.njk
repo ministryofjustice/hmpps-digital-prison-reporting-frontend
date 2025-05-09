@@ -15,7 +15,7 @@
   <div>
     <div class="dpr-slide__header">
       {% if not emptyMessage.length and total %}
-        <p class="govuk-body-s dpr-slide__sub-text">Showing {{ total.shown }} of {{ total.amount }} {% if total.amount > total.max %} <a class="govuk-body-s" href='{{ href }}'>Show all</a>{% endif %}</p>
+        <p class="govuk-body-s dpr-slide__sub-text">Showing {{ total.shown }} of {{ total.amount }}{% if total.amount > total.max %}. <a class="govuk-body-s" href='{{ href }}'>Show all</a>{% endif %}</p>
       {% endif %}
     </div>
     {% if emptyMessage.length %}

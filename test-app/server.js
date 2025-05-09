@@ -324,7 +324,7 @@ app.get('/dpr-service', async (req, res) => {
     features: { bookmarkingEnabled: true },
   })
 
-  const userReportsLists = await UserReportsListUtils.init({ services, req, res, maxRows: 20 })
+  const userReportsLists = await UserReportsListUtils.init({ services, req, res, maxRows: 3 })
 
   res.render('async.njk', {
     title: 'Home',

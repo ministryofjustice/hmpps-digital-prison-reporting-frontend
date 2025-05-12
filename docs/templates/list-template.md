@@ -4,4 +4,4 @@ title: List report
 subsection: Example Reports
 ---
 
-{% example "report/list-report/example-report", 1000 %}
+{% example "templates/list-template", 1000 %}

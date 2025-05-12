@@ -1,0 +1,510 @@
+---
+layout: layouts/example.njk
+title: List-section Report (example)
+---
+
+{%- from "dpr/components/_reports/report-wrapper/view.njk" import dprReportWrapper -%}
+
+{% set data = {
+  "columns": {
+    "name": "columns",
+    "options": [
+      {
+        "text": "Field 1",
+        "value": "field1",
+        "disabled": false
+      },
+      {
+        "text": "Field 2",
+        "value": "field2",
+        "disabled": false
+      },
+      {
+        "text": "Field 3",
+        "value": "field3",
+        "disabled": false
+      },
+      {
+        "text": "Field 4",
+        "value": "field4"
+      },
+      {
+        "text": "Field 6",
+        "value": "field6",
+        "disabled": false
+      }
+    ],
+    "text": "Select report columns",
+    "value": [
+      "field1",
+      "field2",
+      "field3",
+      "field4"
+    ]
+  },
+  "filterData": {
+    "filters": [],
+    "selectedFilters": []
+  },
+  "count": 100,
+  "csrfToken": "csrfToken",
+  "classification": "OFFICIAL",
+  "template": "list-section",
+  "loadType": "async",
+  "type": "report",
+  "actions": [],
+  "canDownload": false,
+  "printable": true,
+  "reportName": "Example report",
+  "name": "List Section template",
+  "description": "A sectioned report using the list-section template",
+  "requestedTimestamp": "12/05/2025, 10:39:38",
+  "reportId": "test-report-2",
+  "tableId": "tblId_1747042777184",
+  "id": "variantId-8",
+  "executionId": "exId_1747042777184",
+  "querySummary": [
+    {
+      "name": "Field 3 start",
+      "value": "01/02/2003"
+    },
+    {
+      "name": "Field 3 end",
+      "value": "04/05/2007"
+    },
+    {
+      "name": "Sort Column",
+      "value": "Field 1"
+    },
+    {
+      "name": "Sort Direction",
+      "value": "Ascending"
+    }
+  ],
+  "requestUrl": {
+    "fullUrl": "http://localhost:3010/async/report/test-report-2/variantId-8/request?filters.field3.start=2003-02-01&filters.field3.end=2007-05-04&sortColumn=field1&sortedAsc=true",
+    "pathname": "/async/report/test-report-2/variantId-8/request",
+    "search": "?filters.field3.start=2003-02-01&filters.field3.end=2007-05-04&sortColumn=field1&sortedAsc=true"
+  },
+  "reportUrl": "/async/report/test-report-2/variantId-8/request/tblId_1747042777184/report",
+  "reportSearch": null,
+  "search": null,
+  "pathname": "/async/report/test-report-2/variantId-8/request/tblId_1747042777184/report",
+  "dataTable": {
+    "head": null,
+    "rows": [
+      [
+        {
+          "colspan": 4,
+          "html": "<h2>First: Section 1, Second: Section 1.1 <span class='govuk-caption-m'>3 results</span></h2>"
+        }
+      ],
+      [
+        {
+          "text": "Field 1",
+          "classes": "govuk-table__header"
+        },
+        {
+          "text": "Field 2",
+          "classes": "govuk-table__header"
+        },
+        {
+          "text": "Field 3",
+          "classes": "govuk-table__header"
+        },
+        {
+          "text": "Field 4",
+          "classes": "govuk-table__header"
+        }
+      ],
+      [
+        {
+          "fieldName": "field1",
+          "text": "Value 1",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field2",
+          "text": "Value 2",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field3",
+          "text": "01/02/03 01:00",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field4",
+          "text": "Value 4",
+          "format": "string",
+          "classes": ""
+        }
+      ],
+      [
+        {
+          "fieldName": "field1",
+          "text": "Value 1",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field2",
+          "text": "Value 2",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field3",
+          "text": "01/02/03 01:00",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field4",
+          "text": "Value 4",
+          "format": "string",
+          "classes": ""
+        }
+      ],
+      [
+        {
+          "fieldName": "field1",
+          "text": "Value 1",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field2",
+          "text": "Value 2",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field3",
+          "text": "01/02/03 01:00",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field4",
+          "text": "Value 4",
+          "format": "string",
+          "classes": ""
+        }
+      ],
+      [
+        {
+          "colspan": 4,
+          "html": "<h2>First: Section 1, Second: Section 1.2 <span class='govuk-caption-m'>4 results</span></h2>"
+        }
+      ],
+      [
+        {
+          "text": "Field 1",
+          "classes": "govuk-table__header"
+        },
+        {
+          "text": "Field 2",
+          "classes": "govuk-table__header"
+        },
+        {
+          "text": "Field 3",
+          "classes": "govuk-table__header"
+        },
+        {
+          "text": "Field 4",
+          "classes": "govuk-table__header"
+        }
+      ],
+      [
+        {
+          "fieldName": "field1",
+          "text": "Value 1",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field2",
+          "text": "Value 2",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field3",
+          "text": "01/02/03 01:00",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field4",
+          "text": "Value 4",
+          "format": "string",
+          "classes": ""
+        }
+      ],
+      [
+        {
+          "fieldName": "field1",
+          "text": "Value 1",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field2",
+          "text": "Value 2",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field3",
+          "text": "01/02/03 01:00",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field4",
+          "text": "Value 4",
+          "format": "string",
+          "classes": ""
+        }
+      ],
+      [
+        {
+          "fieldName": "field1",
+          "text": "Value 1",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field2",
+          "text": "Value 2",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field3",
+          "text": "01/02/03 01:00",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field4",
+          "text": "Value 4",
+          "format": "string",
+          "classes": ""
+        }
+      ],
+      [
+        {
+          "fieldName": "field1",
+          "text": "Value 1",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field2",
+          "text": "Value 2",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field3",
+          "text": "01/02/03 01:00",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field4",
+          "text": "Value 4",
+          "format": "string",
+          "classes": ""
+        }
+      ],
+      [
+        {
+          "colspan": 4,
+          "html": "<h2>First: Section 2, Second: Section 2.1 <span class='govuk-caption-m'>2 results</span></h2>"
+        }
+      ],
+      [
+        {
+          "text": "Field 1",
+          "classes": "govuk-table__header"
+        },
+        {
+          "text": "Field 2",
+          "classes": "govuk-table__header"
+        },
+        {
+          "text": "Field 3",
+          "classes": "govuk-table__header"
+        },
+        {
+          "text": "Field 4",
+          "classes": "govuk-table__header"
+        }
+      ],
+      [
+        {
+          "fieldName": "field1",
+          "text": "Value 1",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field2",
+          "text": "Value 2",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field3",
+          "text": "01/02/03 01:00",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field4",
+          "text": "Value 4",
+          "format": "string",
+          "classes": ""
+        }
+      ],
+      [
+        {
+          "fieldName": "field1",
+          "text": "Value 1",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field2",
+          "text": "Value 2",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field3",
+          "text": "01/02/03 01:00",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field4",
+          "text": "Value 4",
+          "format": "string",
+          "classes": ""
+        }
+      ],
+      [
+        {
+          "colspan": 4,
+          "html": "<h2>First: Section 2, Second: Section 2.2 <span class='govuk-caption-m'>3 results</span></h2>"
+        }
+      ],
+      [
+        {
+          "text": "Field 1",
+          "classes": "govuk-table__header"
+        },
+        {
+          "text": "Field 2",
+          "classes": "govuk-table__header"
+        },
+        {
+          "text": "Field 3",
+          "classes": "govuk-table__header"
+        },
+        {
+          "text": "Field 4",
+          "classes": "govuk-table__header"
+        }
+      ],
+      [
+        {
+          "fieldName": "field1",
+          "text": "Value 1",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field2",
+          "text": "Value 2",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field3",
+          "text": "01/02/03 01:00",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field4",
+          "text": "Value 4",
+          "format": "string",
+          "classes": ""
+        }
+      ],
+      [
+        {
+          "fieldName": "field1",
+          "text": "Value 1",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field2",
+          "text": "Value 2",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field3",
+          "text": "01/02/03 01:00",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field4",
+          "text": "Value 4",
+          "format": "string",
+          "classes": ""
+        }
+      ],
+      [
+        {
+          "fieldName": "field1",
+          "text": "Value 1",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field2",
+          "text": "Value 2",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field3",
+          "text": "01/02/03 01:00",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field4",
+          "text": "Value 4",
+          "format": "string",
+          "classes": ""
+        }
+      ]
+    ],
+    "rowCount": 12,
+    "colCount": 4
+  }
+} %}
+
+{{ dprReportWrapper(data) }}

@@ -98,12 +98,9 @@ class MockReportingClient {
         // Parent child template - child
         data = mockParentChild.childData()
         break
-<<<<<<< HEAD
       case 'variantId-8':
         data = mockListSection.listSectionData()
         break
-=======
->>>>>>> main
       default:
         data = createMockData(pageSize)
         break

@@ -8,9 +8,9 @@ import SummaryDataTableBuilder from '../SummaryDataTableBuilder/SummaryDataTable
 import { SectionSortKey } from './types'
 
 export default class SectionedDataTableBuilder extends DataTableBuilder {
-  private sections: Array<string>
+  sections: Array<string>
 
-  private template: Template
+  template: Template
 
   constructor(specification: components['schemas']['Specification']) {
     const { fields, sections, template } = specification

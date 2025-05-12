@@ -5,26 +5,35 @@ import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import { distinct } from '../arrayUtils'
 import { ChildData, ParentChildSortKey } from './types'
 import logger from '../logger'
+import SectionedDataTableBuilder from '../SectionedDataTableBuilder/SectionedDataTableBuilder'
 
-export default class ParentChildDataTableBuilder extends DataTableBuilder {
+export default class ParentChildDataTableBuilder extends SectionedDataTableBuilder {
   private variant: components['schemas']['VariantDefinition']
 
   private childData: Array<ChildData> = []
 
   constructor(variant: components['schemas']['VariantDefinition']) {
-    super(variant.specification.fields)
+    const { specification } = variant
+    const { sections, template } = specification
+    super(specification)
+
+    this.sections = sections
+    this.template = template
     this.variant = variant
   }
 
   private mapParentChildData(parentData: Array<Dict<string>>, header: Cell[]): Cell[][] {
     let sectionedData: Dict<Dict<Array<Dict<string>>>> = {}
 
+    // Get the section definition data
+    const sectionFields = this.mapNamesToFields(this.sections)
+
+    // Get the parent-child joins definition data
     const joinFields = this.mapNamesToFields(
       this.variant.childVariants.flatMap((c) => c.joinFields).reduce(distinct, []),
     )
 
     const sectionKeys = this.calculateSectionKeys(parentData, joinFields)
-
     sectionKeys.forEach((parentKey) => {
       sectionedData[parentKey.sortKey] = {
         parent: [],

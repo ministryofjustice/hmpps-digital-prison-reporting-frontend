@@ -4,6 +4,7 @@ const mockStatusApiError = require('./mockStatusResponseError')
 const mockBadQueryRequest = require('./mockBadQueryRequest')
 const createMockData = require('./mockAsyncData')
 const mockParentChild = require('./mockVariants/data/parent-child')
+const mockListSection = require('./mockVariants/data/list-section')
 
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 
@@ -96,6 +97,9 @@ class MockReportingClient {
       case 'variantId-26-child':
         // Parent child template - child
         data = mockParentChild.childData()
+        break
+      case 'variantId-8':
+        data = mockListSection.listSectionData()
         break
       default:
         data = createMockData(pageSize)

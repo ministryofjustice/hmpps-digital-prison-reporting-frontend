@@ -221,16 +221,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
       .join(', ')
   }
 
-  /**
-   * Creates the table rows.
-   *
-   * @private
-   * @param {Array<Dict<string>>} data
-   * @param {Cell[]} header
-   * @return {*}  {Cell[][]}
-   * @memberof SectionedDataTableBuilder
-   */
-  private mapSectionedData(data: Array<Dict<string>>, header: Cell[]): Cell[][] {
+  mapSections(data: Array<Dict<string>>) {
     // Get the section definition data
     const sectionFields = this.mapNamesToFields(this.sections)
     // create the sectionHeadings
@@ -241,6 +232,24 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
     if (this.template !== 'summary-section') {
       sectionedData = this.mapRowsToSection(data, sectionedData)
     }
+
+    return {
+      sectionDescriptions,
+      sectionedData,
+    }
+  }
+
+  /**
+   * Creates the table rows.
+   *
+   * @private
+   * @param {Array<Dict<string>>} data
+   * @param {Cell[]} header
+   * @return {*}  {Cell[][]}
+   * @memberof SectionedDataTableBuilder
+   */
+  private mapSectionedData(data: Array<Dict<string>>, header: Cell[]): Cell[][] {
+    const { sectionDescriptions, sectionedData } = this.mapSections(data)
     // Create the table
     const tableContent = this.createTableContent(sectionDescriptions, sectionedData, header)
 

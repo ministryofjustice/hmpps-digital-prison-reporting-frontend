@@ -38,16 +38,16 @@ export default function routes({
     res.end()
   }
 
-  router.get(`${prefix}/async-reports/recently-viewed`, async (req, res) => {
+  router.get(`${prefix}/async-reports/viewed`, async (req, res) => {
     const { recentlyViewedReports } = LocalsHelper.getValues(res)
     res.render(`dpr/views/async-reports`, {
-      title: 'Requested Reports',
+      title: 'Recently viewed reports',
       layoutPath,
       ...(await UserReportsListUtils.renderList({
         reportsData: recentlyViewedReports,
         filterFunction: RecentReportslistUtils.filterReports,
         res,
-        type: 'requested',
+        type: 'viewed',
       })),
     })
   })

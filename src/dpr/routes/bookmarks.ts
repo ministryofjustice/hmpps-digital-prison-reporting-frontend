@@ -31,8 +31,9 @@ export default function routes({
 
   router.get(`${prefix}/async-reports/bookmarks`, async (req, res) => {
     res.render(`dpr/views/async-reports`, {
-      title: 'Requested Reports',
+      title: 'Bookmarks',
       layoutPath,
+      catId: 'dpr-bookmarks-list',
       ...(await BookmarklistUtils.renderBookmarkList({ services, res, req })),
     })
   })

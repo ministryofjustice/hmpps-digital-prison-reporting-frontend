@@ -1,5 +1,12 @@
 Below you can find the changes included in each release.
 
+## v4.2.6
+
+### Bugfixes
+
+- User reports listing page components not found
+- Bookmarks capped at 6
+
 ## v4.2.5
 
 ### DPR Platform integration process

@@ -13,7 +13,7 @@ import { LoadType, ReportType } from '../../../types/UserReports'
 import ReportQuery from '../../../types/ReportQuery'
 
 import ReportActionsUtils from '../../_reports/report-actions/utils'
-import SyncReportUtils from '../../_sync/sync-report/utils'
+import SyncReportUtils from '../../../utils/report/syncReportUtils'
 import LocalsHelper from '../../../utils/localsHelper'
 
 const setActions = (

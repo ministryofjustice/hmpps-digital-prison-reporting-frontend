@@ -7,7 +7,7 @@ import ErrorSummaryUtils from '../components/error-summary/utils'
 import AysncRequestUtils from '../components/_async/async-request/utils'
 import DashboardUtils from '../components/_dashboards/dashboard/utils'
 import LocalsHelper from '../utils/localsHelper'
-import AsyncReportUtils from '../components/_async/async-report/utils'
+import AsyncReportUtils from '../utils/report/asyncReportUtils'
 import logger from '../utils/logger'
 
 // Types
@@ -289,7 +289,7 @@ export default function routes({
       const params = { req, res, services, next }
 
       if (type === ReportType.REPORT) {
-        template = 'async-report'
+        template = 'report'
         renderData = await AsyncReportUtils.renderReport(params)
       }
 

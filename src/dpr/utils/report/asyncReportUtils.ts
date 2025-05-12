@@ -2,29 +2,29 @@ import parseUrl from 'parseurl'
 import { Url } from 'url'
 import { Request, Response } from 'express'
 import Dict = NodeJS.Dict
-import type { Columns } from '../../_reports/report-columns-form/types'
-import type { Template } from '../../../types/Templates'
-import type { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
-import type { DataTable } from '../../../utils/DataTableBuilder/types'
-import type { components } from '../../../types/api'
-import type { AsyncSummary, RequestedReport } from '../../../types/UserReports'
-import { LoadType, ReportType } from '../../../types/UserReports'
-import ReportQuery from '../../../types/ReportQuery'
+import type { Columns } from '../../components/_reports/report-columns-form/types'
+import type { Template } from '../../types/Templates'
+import type { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
+import type { DataTable } from '../DataTableBuilder/types'
+import type { components } from '../../types/api'
+import type { AsyncSummary, RequestedReport } from '../../types/UserReports'
+import { LoadType, ReportType } from '../../types/UserReports'
+import ReportQuery from '../../types/ReportQuery'
 
-import DataTableBuilder from '../../../utils/DataTableBuilder/DataTableBuilder'
-import CollatedSummaryBuilder from '../../../utils/CollatedSummaryBuilder/CollatedSummaryBuilder'
+import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
+import CollatedSummaryBuilder from '../CollatedSummaryBuilder/CollatedSummaryBuilder'
 
-import PaginationUtils from '../../_reports/report-pagination/utils'
-import TotalsUtils from '../../_reports/report-totals/utils'
-import ReportFiltersUtils from '../../_filters/utils'
-import ColumnUtils from '../../_reports/report-columns-form/utils'
-import ReportActionsUtils from '../../_reports/report-actions/utils'
-import DataTableUtils from '../../_reports/report-data-table/utils'
-import UserReportsUtils from '../../user-reports/utils'
-import LocalsHelper from '../../../utils/localsHelper'
-import { DownloadActionParams } from '../../_reports/report-actions/types'
-import { Services } from '../../../types/Services'
-import { ChildData } from '../../../utils/ParentChildDataTableBuilder/types'
+import PaginationUtils from '../../components/_reports/report-pagination/utils'
+import TotalsUtils from '../../components/_reports/report-totals/utils'
+import ReportFiltersUtils from '../../components/_filters/utils'
+import ColumnUtils from '../../components/_reports/report-columns-form/utils'
+import ReportActionsUtils from '../../components/_reports/report-actions/utils'
+import UserReportsUtils from '../../components/user-reports/utils'
+import LocalsHelper from '../localsHelper'
+import { DownloadActionParams } from '../../components/_reports/report-actions/types'
+import { Services } from '../../types/Services'
+import { ChildData } from '../ParentChildDataTableBuilder/types'
+import DataTableUtils from '../../components/_reports/report-data-table/utils'
 
 export const getData = async ({
   res,
@@ -186,7 +186,14 @@ const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
 
   const { specification } = definition.variant
   const columns = ColumnUtils.getColumns(specification, <string[]>req.query.columns)
-  const dataTable = getTableData(definition, columns, reportData, childData, summariesData, reportQuery)
+  const dataTable = DataTableUtils.createDataTable(
+    definition,
+    columns,
+    reportData,
+    childData,
+    summariesData,
+    reportQuery,
+  )
   const templateData = await getTemplateData(
     req,
     res,
@@ -215,40 +222,6 @@ const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
   }
 
   return { renderData }
-}
-
-export const getTableData = (
-  definition: components['schemas']['SingleVariantReportDefinition'],
-  columns: Columns,
-  reportData: Dict<string>[],
-  childData: ChildData[],
-  summariesData: AsyncSummary[],
-  reportQuery: ReportQuery,
-): DataTable => {
-  let dataTable: DataTable
-  const { template } = definition.variant.specification
-
-  switch (template as Template) {
-    case 'summary-section':
-    case 'list-section':
-      dataTable = DataTableUtils.buildSummarySectionTable(definition, columns, reportData, summariesData, reportQuery)
-      break
-
-    case 'parent-child':
-      dataTable = DataTableUtils.buildParentChildTable(definition, columns, reportData, childData)
-      break
-
-    case 'list': {
-      dataTable = DataTableUtils.buildListTable(definition, columns, reportData, summariesData, reportQuery)
-      break
-    }
-
-    default:
-      dataTable = DataTableUtils.buildListTable(definition, columns, reportData, summariesData, reportQuery)
-      break
-  }
-
-  return dataTable
 }
 
 const getTemplateData = async (

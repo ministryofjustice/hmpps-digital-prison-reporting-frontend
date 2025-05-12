@@ -87,8 +87,13 @@
             items: [ 
               {
                 text: 'List report',
-                href: '/reports/example-list-report',
-                active: page.filePathStem.indexOf('/reports/example-list-report') === 0
+                href: '/templates/list',
+                active: page.filePathStem.indexOf('/templates/list') === 0
+              },
+              {
+                text: 'Parent-child report',
+                href: '/templates/parent-child',
+                active: page.filePathStem.indexOf('/templates/parent-child') === 0
               }
             ]
           }

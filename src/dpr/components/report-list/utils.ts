@@ -14,7 +14,7 @@ import { components } from '../../types/api'
 import Dict = NodeJS.Dict
 import ReportActionsUtils from '../_reports/report-actions/utils'
 import { Template } from '../../types/Templates'
-import SyncReportUtils from '../_sync/sync-report/utils'
+import SyncReportUtils from '../../utils/report/syncReportUtils'
 import FiltersUtils from '../_filters/utils'
 import { ReportType } from '../../types/UserReports'
 

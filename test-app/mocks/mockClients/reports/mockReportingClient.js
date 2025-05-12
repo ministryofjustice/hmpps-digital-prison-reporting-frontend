@@ -3,6 +3,7 @@ const definitions = require('./mockReportDefinition')
 const mockStatusApiError = require('./mockStatusResponseError')
 const mockBadQueryRequest = require('./mockBadQueryRequest')
 const createMockData = require('./mockAsyncData')
+const mockParentChild = require('./mockVariants/data/parent-child')
 
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 
@@ -85,12 +86,27 @@ class MockReportingClient {
     this.logInfo('getAsyncReport', { token, reportId, variantId, tableId }, query)
 
     const pageSize = +query.pageSize < this.RESULT_COUNT ? +query.pageSize : this.RESULT_COUNT
-    const report = createMockData(pageSize)
+
+    let data = []
+    switch (variantId) {
+      case 'variantId-26':
+        // Parent child template - parent
+        data = mockParentChild.parentData()
+        break
+      case 'variantId-26-child':
+        // Parent child template - child
+        data = mockParentChild.childData()
+        break
+      default:
+        data = createMockData(pageSize)
+        break
+    }
+
     return new Promise((resolve, reject) => {
       if (variantId === 'variantId-6') {
         reject(mockStatusApiError)
       }
-      resolve(report)
+      resolve(data)
     })
   }
 

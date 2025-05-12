@@ -1,5 +1,5 @@
-{% from "dpr/components/_embedded/embedded-report-page/view.njk" import dprEmbeddedReportPage %}
+{% from "dpr/components/_reports/report-wrapper/view.njk" import dprReportWrapper %}
 
 {% macro dprReportList(renderData) %}
-  {{ dprEmbeddedReportPage(renderData)}}
+  {{ dprReportWrapper(renderData)}}
 {% endmacro %}

@@ -3,39 +3,39 @@ import { Url } from 'url'
 import Dict = NodeJS.Dict
 
 // types
-import ReportQuery from '../../../types/ReportQuery'
-import type { components } from '../../../types/api'
-import type { AsyncSummary, RequestedReport } from '../../../types/UserReports'
-import type { Columns } from '../../_reports/report-columns-form/types'
-import type { Template } from '../../../types/Templates'
+import ReportQuery from '../../types/ReportQuery'
+import type { components } from '../../types/api'
+import type { AsyncSummary, RequestedReport } from '../../types/UserReports'
+import type { Columns } from '../../components/_reports/report-columns-form/types'
+import type { Template } from '../../types/Templates'
 
 // Utils
-import AsyncReportUtils from './utils'
-import * as AsyncReportListUtilsHelper from './utils'
-import ColumnUtils from '../../_reports/report-columns-form/utils'
-import PaginationUtils from '../../_reports/report-pagination/utils'
+import AsyncReportUtils from './asyncReportUtils'
+import * as AsyncReportListUtilsHelper from './asyncReportUtils'
+import ColumnUtils from '../../components/_reports/report-columns-form/utils'
+import PaginationUtils from '../../components/_reports/report-pagination/utils'
 
 // Mocked
-import createMockData from '../../../../../test-app/mocks/mockClients/reports/mockAsyncData'
-import definitions from '../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
+import createMockData from '../../../../test-app/mocks/mockClients/reports/mockAsyncData'
+import definitions from '../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
 import {
   mockReportListRenderData,
   mockGetReportListRenderData,
-} from '../../../../../test-app/mocks/mockAsyncData/mockReportListRenderData'
+} from '../../../../test-app/mocks/mockAsyncData/mockReportListRenderData'
 
 // Services
-import ReportingService from '../../../services/reportingService'
-import RequestedReportService from '../../../services/requestedReportService'
-import BookmarkService from '../../../services/bookmarkService'
-import DashboardService from '../../../services/dashboardService'
-import DownloadPermissionService from '../../../services/downloadPermissionService'
-import RecentlyViewedStoreService from '../../../services/recentlyViewedService'
-import variant2 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/variant2')
-import { Services } from '../../../types/Services'
-import variant9 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/variant9')
-import variant26 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/variant26-parent-child')
-import { ChildData } from '../../../utils/ParentChildDataTableBuilder/types'
-import variant10 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/variant10')
+import ReportingService from '../../services/reportingService'
+import RequestedReportService from '../../services/requestedReportService'
+import BookmarkService from '../../services/bookmarkService'
+import DashboardService from '../../services/dashboardService'
+import DownloadPermissionService from '../../services/downloadPermissionService'
+import RecentlyViewedStoreService from '../../services/recentlyViewedService'
+import variant2 = require('../../../../test-app/mocks/mockClients/reports/mockVariants/variant2')
+import { Services } from '../../types/Services'
+import variant9 = require('../../../../test-app/mocks/mockClients/reports/mockVariants/variant9')
+import variant26 = require('../../../../test-app/mocks/mockClients/reports/mockVariants/variant26-parent-child')
+import { ChildData } from '../ParentChildDataTableBuilder/types'
+import variant10 = require('../../../../test-app/mocks/mockClients/reports/mockVariants/variant10')
 
 jest.mock('parseurl', () => ({
   __esModule: true,

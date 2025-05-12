@@ -195,34 +195,6 @@ jsArguments: list-report
   colCount: 3
 } %}
 
-{% set actionsOptions = [
-    {
-      id: 'dpr-button-printable',
-      icon: 'print',
-      disabled: false,
-      tooltipText: 'Print',
-      ariaLabelText: 'print report',
-      href: '#'
-    },
-    {
-      id: 'dpr-button-sharable',
-      icon: 'share',
-      disabled: false,
-      tooltipText: 'Share',
-      ariaLabelText: 'share report request via email',
-      href: 'mailto:?subject=Test Report-Test Variant&body=pathname'
-    },
-    {
-      id: 'dpr-button-copy',
-      icon: 'copy',
-      disabled: false,
-      tooltipText: 'Copy',
-      ariaLabelText: 'report request',
-      href: 'pathname'
-    }
-  ]
-%}
-
 {{ dprReportList({
   reportName: 'Example Report',
   name: 'Example Variant',
@@ -230,7 +202,7 @@ jsArguments: list-report
   dataTable: dataTable,
   filterData: filterData,
   columns: columns,
-  actions: actionsOptions,
+  actions: [],
   pagination: pagination,
   template: 'list',
   type: 'report',

@@ -4,7 +4,7 @@ import ErrorSummaryUtils from '../components/error-summary/utils'
 import logger from '../utils/logger'
 import LocalsHelper from '../utils/localsHelper'
 
-import SyncReportUtils from '../components/_sync/sync-report/utils'
+import SyncReportUtils from '../utils/report/syncReportUtils'
 
 import { Services } from '../types/Services'
 import { ReportType } from '../types/UserReports'
@@ -37,7 +37,7 @@ export default function routes({
     try {
       const renderData = await SyncReportUtils.getReport({ req, res, services })
 
-      res.render(`dpr/views/sync-report`, {
+      res.render(`dpr/views/report`, {
         layoutPath,
         ...renderData,
       })

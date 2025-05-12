@@ -9,6 +9,7 @@ import { ChildData } from '../../../utils/ParentChildDataTableBuilder/types'
 import ParentChildDataTableBuilder from '../../../utils/ParentChildDataTableBuilder/ParentChildDataTableBuilder'
 import SectionedDataTableBuilder from '../../../utils/SectionedDataTableBuilder/SectionedDataTableBuilder'
 import { DataTable } from '../../../utils/DataTableBuilder/types'
+import type { Template } from '../../../types/Templates'
 
 const buildListTable = (
   definition: components['schemas']['SingleVariantReportDefinition'],
@@ -64,8 +65,41 @@ const buildSummarySectionTable = (
     .buildTable(reportData)
 }
 
+const createDataTable = (
+  definition: components['schemas']['SingleVariantReportDefinition'],
+  columns: Columns,
+  reportData: Dict<string>[],
+  childData: ChildData[],
+  summariesData: AsyncSummary[],
+  reportQuery: ReportQuery,
+): DataTable => {
+  let dataTable: DataTable
+  const { template } = definition.variant.specification
+
+  switch (template as Template) {
+    case 'summary-section':
+    case 'list-section':
+      dataTable = buildSummarySectionTable(definition, columns, reportData, summariesData, reportQuery)
+      break
+
+    case 'parent-child':
+    case 'parent-child-section':
+      dataTable = buildParentChildTable(definition, columns, reportData, childData)
+      break
+
+    case 'list': {
+      dataTable = buildListTable(definition, columns, reportData, summariesData, reportQuery)
+      break
+    }
+
+    default:
+      dataTable = buildListTable(definition, columns, reportData, summariesData, reportQuery)
+      break
+  }
+
+  return dataTable
+}
+
 export default {
-  buildListTable,
-  buildParentChildTable,
-  buildSummarySectionTable,
+  createDataTable,
 }

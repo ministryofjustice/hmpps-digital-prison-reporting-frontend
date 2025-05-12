@@ -1,7 +1,7 @@
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default class QueryPage {
-  columnsDetails = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div/div/details/summary`)
+  columnsDetails = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[2]/div[1]/div/div/details/summary`)
 
   column4CheckBox = (): PageElement => cy.xpath(`//*[@id="columns-4"]`)
 
@@ -10,16 +10,16 @@ export default class QueryPage {
   column7CheckBox = (): PageElement => cy.xpath(`//*[@id="columns-7"]`)
 
   applyColumnsButton = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div/div/details/div/form/div[2]/button`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[2]/div[1]/div/div/details/div/form/div[2]/button`)
 
   resetColumns = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div/div/details/div/form/div[2]/a`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[2]/div[1]/div/div/details/div/form/div[2]/a`)
 
   pageSizeSelector = (): PageElement => cy.xpath(`//*[@id="page-size-select"]`)
 
-  pagination_page10 = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[5]/div[1]/nav/ul/li[4]/a`)
+  pagination_page10 = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[2]/div[5]/div[1]/nav/ul/li[4]/a`)
 
-  totals = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[4]/div/p`)
+  totals = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[2]/div[4]/div/p`)
 
   refreshActionButton = (): PageElement => cy.xpath(`//*[@id="dpr-button-refresh"]`)
 

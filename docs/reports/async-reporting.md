@@ -1,9 +1,7 @@
 ---
-layout: layouts/async-reports/async-reports.njk
+layout: layouts/get-started.njk
 title: Asynchronous reports
 ---
-## 🚧 COMING SOON 🚧
-
 **Asynchronous reports is currently unavailable. The process and documentation is in development and will be available soon.**
 
 Embed reports where data is loaded asynchronously.

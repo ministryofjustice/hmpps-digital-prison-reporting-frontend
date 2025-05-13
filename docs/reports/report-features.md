@@ -1,5 +1,5 @@
 ---
-layout: layouts/reporting.njk
+layout: layouts/get-started.njk
 title: Features
 subsection: Reports
 ---

@@ -1,0 +1,29 @@
+{%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
+
+{{ mojSideNavigation({
+  classes: 'govuk-!-padding-top-0',
+  sections: [
+    {
+      heading: {
+        text: 'Filter inputs'
+      },
+      items: [
+        {
+          text: 'Autocomplete',
+          href: '/components/inputs/autocomplete-text-input',
+          active: page.filePathStem.indexOf('/components/inputs/autocomplete-text-input') === 0
+        },
+        {
+          text: 'Date range',
+          href: '/components/inputs/date-range',
+          active: page.filePathStem.indexOf('/components/inputs/date-range') === 0
+        },
+        {
+          text: 'Multiselect',
+          href: '/components/inputs/multi-select',
+          active: page.filePathStem.indexOf('/components/inputs/multi-select') === 0
+        }
+      ]
+    }
+  ]
+}) }}

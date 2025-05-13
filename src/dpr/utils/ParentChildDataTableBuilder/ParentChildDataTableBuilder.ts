@@ -39,16 +39,11 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
     })
 
     sectionedParentChildData = this.splitParentDataIntoSections(sectionedParentChildData, parentData, joinFields)
-
-    console.log(JSON.stringify({ sectionedParentChildData }, null, 2))
-
     sectionedParentChildData = this.splitChildDataIntoSections(parentChildKeys, sectionedParentChildData)
-
-    console.log(JSON.stringify({ sectionedParentChildData }, null, 2))
 
     const childDataTableBuilders = this.createChildDataTableBuilders()
 
-    return parentChildKeys.flatMap((key) => {
+    const parentChildTable = parentChildKeys.flatMap((key) => {
       const sectionData = sectionedParentChildData[key.sortKey]
       const parentSectionData = sectionData.parent
 
@@ -70,14 +65,50 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
           }),
       )
     })
+
+    return parentChildTable
+  }
+
+  private createParentChildSectionRows(parentData: Array<Dict<string>>, header: Cell[]) {
+    const sectionsDetails = this.mapSections(parentData)
+    const sectionedData = sectionsDetails.sectionedData as Dict<Array<Dict<string>>>
+    const sectionedParentChildSectionedRows: {
+      sectionDescription: string
+      rows: Cell[][]
+      count: number
+      countDescription: string
+    }[] = []
+
+    Object.keys(sectionedData).forEach((sectionDescription) => {
+      const data = sectionedData[sectionDescription] as Array<Dict<string>>
+      sectionedParentChildSectionedRows.push({
+        sectionDescription,
+        ...this.getSectionCount(sectionedData, sectionDescription),
+        rows: this.createParentChildTable(data, header),
+      })
+    })
+
+    const rows = sectionedParentChildSectionedRows.flatMap((section) => {
+      return [
+        [
+          {
+            colspan: this.columns.length,
+            html: `<h2>${section.sectionDescription}${
+              section.count > 0 ? ` <span class='govuk-caption-m'>${section.countDescription}</span>` : ''
+            }</h2>`,
+          },
+        ],
+        ...section.rows,
+      ]
+    })
+
+    return rows
   }
 
   private mapParentChildData(parentData: Array<Dict<string>>, header: Cell[]): Cell[][] {
     if (this.sections) {
-      const { sectionDescriptions, sectionedData } = this.mapSections(parentData)
-      return this.createParentChildTable(parentData, header)
+      return this.createParentChildSectionRows(parentData, header)
     }
-
     return this.createParentChildTable(parentData, header)
   }
 
@@ -159,13 +190,18 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
       const matchingChildData = this.childData.find((d) => d.id === childVariant.id)
       const data = matchingChildData ? matchingChildData.data : []
 
-      data.forEach((rowData) => {
-        const sortKey = this.getSortKey(rowData, childFields)
-        const parentSortKey = parentKeys.find((p) => p.childSortKeys[childVariant.id] === sortKey).sortKey
-        const existingChildData = sectionedParentChildDataWithChildren[parentSortKey][childVariant.id] ?? []
+      data
+        .filter((rowData) => {
+          const sortKey = this.getSortKey(rowData, childFields)
+          return parentKeys.find((p) => p.childSortKeys[childVariant.id] === sortKey)
+        })
+        .forEach((rowData) => {
+          const sortKey = this.getSortKey(rowData, childFields)
+          const parentSortKey = parentKeys.find((p) => p.childSortKeys[childVariant.id] === sortKey).sortKey
+          const existingChildData = sectionedParentChildDataWithChildren[parentSortKey][childVariant.id] ?? []
 
-        sectionedParentChildDataWithChildren[parentSortKey][childVariant.id] = existingChildData.concat(rowData)
-      })
+          sectionedParentChildDataWithChildren[parentSortKey][childVariant.id] = existingChildData.concat(rowData)
+        })
     })
 
     return sectionedParentChildDataWithChildren

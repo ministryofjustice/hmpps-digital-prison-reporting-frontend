@@ -48,7 +48,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
    * @memberof SectionedDataTableBuilder
    */
   private initSectionData(sectionDescriptions: string[]) {
-    const sectionedData: Dict<Cell[][]> = {}
+    const sectionedData: Dict<Cell[][]> | Dict<Array<Dict<string>>> = {}
     sectionDescriptions.forEach((sectionDescription) => {
       sectionedData[sectionDescription] = []
     })
@@ -77,15 +77,34 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
   }
 
   /**
-   * Gets the counts for rows in section
+   * Maps the rows to the correct section
    *
    * @private
+   * @param {Array<Dict<string>>} data
+   * @param {Dict<Cell[][]>} sectionedData
+   * @return {*}
+   * @memberof SectionedDataTableBuilder
+   */
+  private mapDataToSection(data: Array<Dict<string>>, sectionedData: Dict<Array<Dict<string>>>) {
+    return data.reduce((previousValue, rowData) => {
+      const sectionDescription: string = this.mapSectionDescription(rowData)
+      const section = {
+        ...previousValue,
+        [sectionDescription]: previousValue[sectionDescription].concat([rowData]),
+      }
+      return section
+    }, sectionedData)
+  }
+
+  /**
+   * Gets the counts for rows in section
+   *
    * @param {Dict<Cell[][]>} sectionedData
    * @param {string} sectionDescription
    * @return {*}
    * @memberof SectionedDataTableBuilder
    */
-  private getSectionCount(sectionedData: Dict<Cell[][]>, sectionDescription: string) {
+  getSectionCount(sectionedData: Dict<Cell[][]> | Dict<Dict<string>[]>, sectionDescription: string) {
     const count = sectionedData[sectionDescription].length
     const countDescription = `${count} result${count === 1 ? '' : 's'}`
 
@@ -228,9 +247,14 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
     const sectionDescriptions = this.createSectionHeadings(data, sectionFields)
     // init empty sections
     let sectionedData = this.initSectionData(sectionDescriptions)
+
     // Maps data to sections
     if (this.template !== 'summary-section') {
-      sectionedData = this.mapRowsToSection(data, sectionedData)
+      if (this.template === 'parent-child-section') {
+        sectionedData = this.mapDataToSection(data, sectionedData as Dict<Dict<string>[]>)
+      } else {
+        sectionedData = this.mapRowsToSection(data, sectionedData as Dict<Cell[][]>)
+      }
     }
 
     return {
@@ -251,7 +275,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
   private mapSectionedData(data: Array<Dict<string>>, header: Cell[]): Cell[][] {
     const { sectionDescriptions, sectionedData } = this.mapSections(data)
     // Create the table
-    const tableContent = this.createTableContent(sectionDescriptions, sectionedData, header)
+    const tableContent = this.createTableContent(sectionDescriptions, sectionedData as Dict<Cell[][]>, header)
 
     return tableContent
   }

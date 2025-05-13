@@ -106,7 +106,7 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
   }
 
   private mapParentChildData(parentData: Array<Dict<string>>, header: Cell[]): Cell[][] {
-    if (this.sections) {
+    if (this.sections?.length) {
       return this.createParentChildSectionRows(parentData, header)
     }
     return this.createParentChildTable(parentData, header)

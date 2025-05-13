@@ -324,7 +324,7 @@ const childResultTables = [
     },
   ],
 ]
-describe('buildTable', () => {
+describe('ParentChildDataTableBuilder', () => {
   it('Sections added correctly', () => {
     const mapped = new ParentChildDataTableBuilder(parentVariant)
       .withNoHeaderOptions(['sectionOne', 'sectionTwo', 'oranges', 'lemons'])

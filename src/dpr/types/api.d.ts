@@ -187,7 +187,14 @@ export interface components {
     }
     Specification: {
       /** @enum {string} */
-      template: 'list' | 'list-section' | 'list-tab' | 'summary' | 'summary-section' | 'parent-child'
+      template:
+        | 'list'
+        | 'list-section'
+        | 'list-tab'
+        | 'summary'
+        | 'summary-section'
+        | 'parent-child'
+        | 'parent-child-section'
       fields: components['schemas']['FieldDefinition'][]
       sections: string[]
     }

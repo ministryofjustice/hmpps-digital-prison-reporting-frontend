@@ -25,13 +25,14 @@ describe('DateRangeInputUtils', () => {
     it('should set the correct options for relative dates - next month disabled', () => {
       const min = dayjs().subtract(1, 'month').format('YYYY-MM-DD').toString()
       const max = dayjs().add(1, 'week').format('YYYY-MM-DD').toString()
+
       const options = DateRangeInputUtils.getRelativeDateOptions(min, max)
 
       const disabled = options.filter((opt) => {
         return opt.disabled
       })
       expect(disabled.length).toEqual(1)
-      expect(options[5].disabled).toBeTruthy()
+      expect(options[6].disabled).toBeTruthy()
     })
 
     it('should set the correct options for relative dates - last month disabled', () => {
@@ -43,7 +44,7 @@ describe('DateRangeInputUtils', () => {
         return opt.disabled
       })
       expect(disabled.length).toEqual(1)
-      expect(options[4].disabled).toBeTruthy()
+      expect(options[5].disabled).toBeTruthy()
     })
 
     it('should set the correct options for relative dates - next week disabled', () => {
@@ -55,8 +56,8 @@ describe('DateRangeInputUtils', () => {
         return opt.disabled
       })
       expect(disabled.length).toEqual(2)
-      expect(options[3].disabled).toBeTruthy()
-      expect(options[5].disabled).toBeTruthy()
+      expect(options[4].disabled).toBeTruthy()
+      expect(options[6].disabled).toBeTruthy()
     })
 
     it('should set the correct options for relative dates - last week disabled', () => {
@@ -68,8 +69,8 @@ describe('DateRangeInputUtils', () => {
         return opt.disabled
       })
       expect(disabled.length).toEqual(2)
-      expect(options[2].disabled).toBeTruthy()
-      expect(options[4].disabled).toBeTruthy()
+      expect(options[3].disabled).toBeTruthy()
+      expect(options[5].disabled).toBeTruthy()
     })
 
     it('should set the correct options for relative dates - tomorrow disabled', () => {
@@ -81,9 +82,9 @@ describe('DateRangeInputUtils', () => {
         return opt.disabled
       })
       expect(disabled.length).toEqual(3)
-      expect(options[1].disabled).toBeTruthy()
-      expect(options[3].disabled).toBeTruthy()
-      expect(options[5].disabled).toBeTruthy()
+      expect(options[2].disabled).toBeTruthy()
+      expect(options[4].disabled).toBeTruthy()
+      expect(options[6].disabled).toBeTruthy()
     })
 
     it('should set the correct options for relative dates - yesterday disabled', () => {
@@ -95,9 +96,9 @@ describe('DateRangeInputUtils', () => {
         return opt.disabled
       })
       expect(disabled.length).toEqual(3)
-      expect(options[0].disabled).toBeTruthy()
-      expect(options[2].disabled).toBeTruthy()
-      expect(options[4].disabled).toBeTruthy()
+      expect(options[1].disabled).toBeTruthy()
+      expect(options[3].disabled).toBeTruthy()
+      expect(options[5].disabled).toBeTruthy()
     })
   })
 
@@ -141,19 +142,6 @@ describe('DateRangeInputUtils', () => {
       expect(result).toEqual({
         start: '2004-02-01',
         end: '2006-01-01',
-      })
-    })
-
-    it('should set the start and end date to initial default values', () => {
-      req = {
-        query: {},
-      } as unknown as Request
-
-      const result = DateRangeInputUtils.setValueFromRequest(dateFilter, req, 'filters.')
-
-      expect(result).toEqual({
-        start: '2005-01-01',
-        end: '2005-07-08',
       })
     })
 

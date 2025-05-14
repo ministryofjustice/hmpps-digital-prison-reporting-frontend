@@ -164,7 +164,7 @@ const sectionHeaders = [
     },
   ],
 ]
-describe('buildTable', () => {
+describe('SectionedDataTableBuilder', () => {
   it('Sections added correctly', () => {
     const mapped = new SectionedDataTableBuilder(specification)
       .withNoHeaderOptions(['oranges', 'lemons'])

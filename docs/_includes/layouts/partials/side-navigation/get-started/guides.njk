@@ -1,0 +1,26 @@
+{%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
+
+{{ mojSideNavigation({
+  classes: 'govuk-!-padding-top-6',
+  sections: [
+    {
+      heading: {
+        text: "How to guides"
+      },
+      items: [
+        {
+          text: 'Integrating the library',
+          href: ('/integration-guides/integrating-the-library')
+        },
+        {
+          text: 'Integrating the platform',
+          href: ('/integration-guides/integrating-the-platform')
+        },
+        {
+          text: 'Integrating the FE',
+          href: ('/integration-guides/integrating-the-fe')
+        }
+      ]
+    }
+  ]
+}) }}

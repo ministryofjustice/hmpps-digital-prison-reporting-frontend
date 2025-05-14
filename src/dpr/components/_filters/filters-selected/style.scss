@@ -26,3 +26,17 @@
     }
   }
 }
+
+@media print {
+  .dpr-selected-filters-container {
+    .dpr-selected-filters { 
+      a, p {
+        font-size: 16px;
+        text-decoration: none;
+        margin-right: govuk-spacing(1);
+        margin-bottom: govuk-spacing(1);
+        color: govuk-colour("black");
+      }
+    }
+  }
+}

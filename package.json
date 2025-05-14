@@ -10,16 +10,17 @@
   "private": false,
   "config": {
     "home_url": "http://localhost:3010/async-reports",
-    "request_url": "http://localhost:3010/async-reports/test-report-3/variantId-1/request",
-    "polling_url": "http://localhost:3010/async-reports/test-report-3/variantId-1/request/exId_1721738244284",
-    "report_url": "http://localhost:3010/async-reports/test-report-3/variantId-1/request/tblId_1721738244284/report"
+    "request_url": "http://localhost:3010/async/test-report-3/variantId-1/request",
+    "polling_url": "http://localhost:3010/async/test-report-3/variantId-1/request/exId_1721738244284",
+    "report_url": "http://localhost:3010/async/test-report-3/variantId-1/request/tblId_1721738244284/report"
   },
   "scripts": {
     "package": "gulp build:package",
     "ci:release": "HUSKY=0 CI=true semantic-release --debug",
     "ci:dryrun": "HUSKY=0 CI=true semantic-release --dry-run",
     "docs": "gulp build:docs && eleventy --input=./docs --output=package/dpr --pathprefix hmpps-digital-prison-reporting-frontend",
-    "docs:local": "gulp build:docs-local && eleventy --input=./docs --output=package/dpr --pathprefix hmpps-digital-prison-reporting-frontend/package/dpr",
+    "docs:local": "gulp build:docs-local && eleventy --input=./docs --output=package/dpr",
+    "docs:serve": "npm run docs:local && npx live-server package/dpr",
     "test": "npm-run-all --parallel test:*",
     "test:jest": "jest --verbose --silent=false",
     "test:docs": "npm run docs",
@@ -54,7 +55,9 @@
       "!src/**/*.d.ts",
       "!src/dpr/routes/**/*.ts",
       "!src/dpr/components/report-list/defaultTokenProvider.ts",
-      "!src/dpr/setUpNunjucksFilters.ts"
+      "!src/dpr/setUpNunjucksFilters.ts",
+      "!src/dpr/data/dprReportingClient.ts",
+      "!src/dpr/middleware/updateBookmarksByCaseload.ts"
     ],
     "testMatch": [
       "<rootDir>/**/?(*.)(cy|test).{ts,js,jsx,mjs}"
@@ -108,7 +111,7 @@
     "agentkeepalive": "^4.5.0",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
-    "chart.js": "^4.4.4",
+    "chart.js": "^3.9.1",
     "chartjs-plugin-datalabels": "^2.2.0",
     "dayjs": "^1.11.12",
     "express": "^4.18.2",

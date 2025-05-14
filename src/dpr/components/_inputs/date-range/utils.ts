@@ -5,6 +5,7 @@ import isBetween from 'dayjs/plugin/isBetween'
 import { components } from '../../../types/api'
 import { DateFilterValue, DateRange, FilterValue } from '../../_filters/types'
 import StartEndDateUtils from '../start-end-date/utils'
+import RelativeDateRange from './types'
 
 const dateIsInBounds = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs, min: string, max: string) => {
   dayjs.extend(isBetween)
@@ -58,17 +59,14 @@ const calcDates = (durationValue: string) => {
 }
 
 const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
-  const { preventDefault } = req.query
-
   const start = <string>req.query[`${prefix}${filter.name}.start`]
   const end = <string>req.query[`${prefix}${filter.name}.end`]
-
-  const defaultStart = preventDefault ? null : (<DateRange>filter.value)?.start
-  const defaultEnd = preventDefault ? null : (<DateRange>filter.value)?.end
+  const relative = <string>req.query[`${prefix}${filter.name}.relative-duration`]
 
   const value = {
-    start: start || defaultStart || (<DateFilterValue>filter).min,
-    end: end || defaultEnd || (<DateFilterValue>filter).max,
+    start: start || (<DateFilterValue>filter).min,
+    end: end || (<DateFilterValue>filter).max,
+    ...(relative && { relative }),
   } as DateRange
 
   return value
@@ -77,7 +75,40 @@ const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) 
 const getRelativeDateOptions = (min: string, max: string) => {
   if (!min) min = '1977-05-25'
   if (!max) max = '9999-01-01'
-  let options: { value: string; text: string; disabled?: boolean }[] = [
+  let options: { value: string; text: string; disabled?: boolean }[] = getRelativeValues()
+  options.forEach((option: { value: string; text: string; disabled?: boolean }) => {
+    if (option.value) {
+      const { endDate, startDate } = calcDates(option.value)
+      if (!dateIsInBounds(startDate, endDate, min, max)) {
+        option.disabled = true
+      }
+    }
+  })
+
+  if (
+    options.every((opt: { value: string; text: string; disabled?: boolean }) => {
+      return opt.value === null || opt.disabled
+    })
+  ) {
+    options = []
+  }
+
+  return options
+}
+
+const mapRelativeValue = (value: RelativeDateRange) => {
+  const values = getRelativeValues()
+  const opt = values.find((v) => v.value === value)
+  return opt ? opt.text : ''
+}
+
+const getRelativeValues = (): {
+  value: string
+  text: string
+  disabled?: boolean
+}[] => {
+  return [
+    { value: null, text: 'None' },
     { value: 'yesterday', text: 'Yesterday' },
     { value: 'tomorrow', text: 'Tomorrow' },
     { value: 'last-week', text: 'Last week' },
@@ -85,18 +116,6 @@ const getRelativeDateOptions = (min: string, max: string) => {
     { value: 'last-month', text: 'Last month' },
     { value: 'next-month', text: 'Next-month' },
   ]
-
-  options.forEach((option: { value: string; text: string; disabled?: boolean }) => {
-    const { endDate, startDate } = calcDates(option.value)
-    if (!dateIsInBounds(startDate, endDate, min, max)) {
-      option.disabled = true
-    }
-  })
-
-  if (options.every((opt: { value: string; text: string; disabled?: boolean }) => opt.disabled)) {
-    options = []
-  }
-  return options
 }
 
 const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition'], filterData: FilterValue) => {
@@ -134,4 +153,5 @@ export default {
   getFilterFromDefinition,
   setValueFromRequest,
   getQueryFromDefinition,
+  mapRelativeValue,
 }

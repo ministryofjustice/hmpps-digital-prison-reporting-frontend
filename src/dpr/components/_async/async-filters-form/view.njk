@@ -48,7 +48,6 @@
         }) }}
       </div>
 
-      <input type="hidden" name="dataProductDefinitionsPath" value="{{ definitionPath }}">
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
       <input type="hidden" name="reportId" value="{{ reportId }}">
       <input type="hidden" name="name" value="{{ name }}">
@@ -62,6 +61,10 @@
       <input type="hidden" name="id" value="{{ id }}">
       <input type="hidden" name="defaultInteractiveQueryString" value="{{ defaultInteractiveQueryString }}">
       
+      {% if definitionPath %}
+        <input type="hidden" name="dataProductDefinitionsPath" value="{{ definitionPath }}">
+      {% endif %}
+
       {% if template %}
         <input type="hidden" name="template" value="{{ template }}">
       {% endif %}

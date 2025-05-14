@@ -4,9 +4,7 @@ import LocalsHelper from '../../../utils/localsHelper'
 
 export default {
   renderPolling: async ({ req, res, services }: AsyncReportUtilsParams) => {
-    const { csrfToken, userId } = LocalsHelper.getValues(res)
-
-    const { dataProductDefinitionsPath: definitionPath } = req.query
+    const { csrfToken, userId, definitionsPath: definitionPath } = LocalsHelper.getValues(res)
     const { reportId, variantId, executionId, id, type } = req.params
 
     const requestReportData = await services.requestedReportService.getReportByExecutionId(executionId, userId)

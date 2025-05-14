@@ -1,0 +1,54 @@
+{%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
+
+{{ mojSideNavigation({
+  classes: 'govuk-!-padding-top-6',
+  sections: [
+    {
+      heading: {
+        text: "How to guides"
+      },
+      items: [
+        {
+          text: 'Integrating the library',
+          href: ('/integration-guides/integrating-the-library')
+        },
+        {
+          text: 'Integrating the platform',
+          href: ('/integration-guides/integrating-the-platform')
+        },
+        {
+          text: '➤ Add DPR configuration',
+          href: '#add-dpr-configuration'
+        },
+        {
+          text: '➤ Initialise Redis client',
+          href: '#initialise-redis-client'
+        },
+        {
+          text: '➤ Initialise data clients',
+          href: '#initialise-data-clients'
+        },
+        {
+          text: '➤ Get the current User ID',
+          href: '#current-the-current-user-id'
+        },
+        {
+          text: '➤ Create services',
+          href: '#create-services'
+        },
+        {
+          text: '➤ Initialise middleware',
+          href: '#initialise-middleware'
+        },
+        {
+          text: '➤ Initialise routes',
+          href: '#initialise-routes'
+        },
+        {
+          text: 'Integrating the FE',
+          href: ('/integration-guides/integrating-the-fe')
+        }
+      ]
+    }
+  ]
+}) }}

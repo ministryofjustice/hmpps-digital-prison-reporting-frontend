@@ -1,12 +1,14 @@
 /* eslint-disable no-param-reassign */
-import UserDataStore from '../data/userDataStore'
+import UserDataStore from '../data/reportDataStore'
 import { RequestedReport, RequestStatus } from '../types/UserReports'
-import UserStoreService from './userStoreService'
+import ReportStoreService from './reportStoreService'
 import { getDpdPathSuffix } from '../utils/urlHelper'
+import logger from '../utils/logger'
 
-export default class RequestedReportService extends UserStoreService {
+export default class RequestedReportService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
+    logger.info('Service created: RequestedReportService')
   }
 
   async addReport(userId: string, reportStateData: RequestedReport) {
@@ -32,7 +34,7 @@ export default class RequestedReportService extends UserStoreService {
     return userConfig.requestedReports.find((report) => report.tableId === id)
   }
 
-  async getAllReports(userId: string) {
+  async getAllReports(userId: string): Promise<RequestedReport[]> {
     const userConfig = await this.getState(userId)
     return userConfig.requestedReports
   }
@@ -55,7 +57,6 @@ export default class RequestedReportService extends UserStoreService {
 
   async updateStatus(id: string, userId: string, status?: RequestStatus, errorMessage?: string) {
     const userConfig = await this.getState(userId)
-
     const index = this.findIndexByExecutionId(id, userConfig.requestedReports)
     let report: RequestedReport = userConfig.requestedReports[index]
     if (report) report = this.updateDataByStatus(report, status, errorMessage)
@@ -82,6 +83,8 @@ export default class RequestedReportService extends UserStoreService {
   }
 
   updateDataByStatus(report: RequestedReport, status?: RequestStatus | undefined, errorMessage?: string) {
+    const { dataProductDefinitionsPath, dpdPathFromQuery } = report
+
     const ts = new Date()
     const { tableId } = report
     if (status) report.status = status
@@ -99,11 +102,12 @@ export default class RequestedReportService extends UserStoreService {
       case RequestStatus.FINISHED: {
         report.timestamp.completed = ts
         const search = report.url.report?.search ? report.url.report.search : ''
-        report.url.report.pathname = report.dataProductDefinitionsPath.length
-          ? `${report.url.request.pathname}/${tableId}/report${getDpdPathSuffix(
-              report.dataProductDefinitionsPath,
-            )}${search}`
-          : `${report.url.request.pathname}/${tableId}/report${search}`
+        const dpdPath = dpdPathFromQuery ? `${getDpdPathSuffix(dataProductDefinitionsPath)}` : ''
+
+        report.url.report.pathname = search
+          ? `${report.url.request.pathname}/${tableId}/report${search}`
+          : `${report.url.request.pathname}/${tableId}/report${dpdPath}`
+
         report.url.report.fullUrl = `${report.url.origin}${report.url.report.pathname}`
         break
       }

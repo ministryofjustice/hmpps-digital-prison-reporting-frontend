@@ -12,6 +12,7 @@ const mockGetReportListRenderData = {
     requestUrl: {
       fullUrl: 'fullUrl',
     },
+    defaultQuery: 'defaultQuery',
     classification: 'OFFICIAL',
     template: 'list',
     count: 100,
@@ -60,7 +61,6 @@ const mockGetReportListRenderData = {
     actions: [
       {
         id: 'dpr-button-refresh',
-        icon: 'refresh',
         disabled: false,
         tooltipText: 'Refresh',
         ariaLabelText: 'refresh report',
@@ -68,15 +68,13 @@ const mockGetReportListRenderData = {
       },
       {
         id: 'dpr-button-printable',
-        icon: 'print',
         disabled: false,
-        tooltipText: 'Print',
+        tooltipText: 'Print screen',
         ariaLabelText: 'print report',
         href: '#',
       },
       {
         id: 'dpr-button-sharable',
-        icon: 'share',
         disabled: false,
         tooltipText: 'Share',
         ariaLabelText: 'share report request via email',
@@ -84,7 +82,6 @@ const mockGetReportListRenderData = {
       },
       {
         id: 'dpr-button-copy',
-        icon: 'copy',
         disabled: false,
         tooltipText: 'Copy',
         ariaLabelText: 'report request',
@@ -92,7 +89,6 @@ const mockGetReportListRenderData = {
       },
       {
         id: 'dpr-button-downloadable',
-        icon: 'download',
         disabled: false,
         tooltipText: 'Download',
         ariaLabelText: 'download report',
@@ -116,15 +112,16 @@ const mockGetReportListRenderData = {
     csrfToken: 'csrfToken',
     bookmarked: false,
     canDownload: true,
-    reportSummaries: {},
     reportUrl: 'pathname',
+    search: 'search',
+    pathname: 'pathname',
     reportSearch: 'search',
     encodedSearch: 'search',
     dataTable: {
       head: [
         {
           text: 'Field 2',
-          classes: null
+          classes: null,
         },
       ],
       rows: [

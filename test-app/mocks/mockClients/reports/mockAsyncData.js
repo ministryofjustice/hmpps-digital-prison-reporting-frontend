@@ -4,6 +4,9 @@ const createMockData = (amount) => {
     .map((_, index) => {
       return {
         ...mockDataItem,
+        // field1: index % 2 ? 'Value 1.2' : 'Value 1.1',
+        // field2: index % 2 ? 'Value 2.2' : 'Value 2.1',
+        // field3: index % 2 ? '2003-02-01T01:00' : '2005-02-01T01:00',
         section1: index % 2 ? 'Two' : 'One',
         section2: index % 3 ? 'B' : 'A',
       }

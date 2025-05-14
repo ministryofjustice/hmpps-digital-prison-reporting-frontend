@@ -8,7 +8,7 @@ import logger from './logger'
 
 import MockUserStoreService from '../../../test-app/mocks/mockClients/store/mockRedisStore'
 import DownloadPermissionService from '../services/downloadPermissionService'
-import UserDataStore, { RedisClient } from '../data/userDataStore'
+import UserDataStore, { RedisClient } from '../data/reportDataStore'
 import { EmbeddedReportFeatures, EmbeddedReportFeaturesList } from '../types/EmbeddedReportUtils'
 import MockReportingClient from '../../../test-app/mocks/mockClients/reports/mockReportingClient'
 import ReportingService from '../services/reportingService'
@@ -157,7 +157,7 @@ describe('SyncRouteUtils', () => {
         services: {
           downloadPermissionService: mockDownloadPermissionService,
         },
-        templatePath: params.config.templatePath,
+        prefix: '',
         layoutPath: params.config.layoutPath,
       })
 
@@ -191,7 +191,7 @@ describe('SyncRouteUtils', () => {
         services: {
           downloadPermissionService: mockDownloadPermissionService,
         },
-        templatePath: params.config.templatePath,
+        prefix: '',
         layoutPath: params.config.layoutPath,
       })
 

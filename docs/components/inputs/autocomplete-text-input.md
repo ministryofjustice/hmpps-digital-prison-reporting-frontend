@@ -3,7 +3,7 @@ layout: layouts/component.njk
 title: Autocomplete
 subsection: Inputs
 ---
-{% example "inputs/autocomplete-text-input", 300 %}
+{% example "inputs/autocomplete-text-input", 300 "default" %}
 
 ## Overview
 

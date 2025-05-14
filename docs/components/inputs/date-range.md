@@ -3,7 +3,7 @@ layout: layouts/component.njk
 title: Date Range
 subsection: Inputs
 ---
-{% example "inputs/daterange/default", 400 %}
+{% example "inputs/daterange/default", 400, "default" %}
 
 ## Overview
 
@@ -25,12 +25,12 @@ Do not use this component when you need a single date.
 
 ### Basic Date Range
 
-{% example "inputs/daterange/default", 400 %}
+{% example "inputs/daterange/default", 400, "default1" %}
 
 ### Min and Max dates
 
-{% example "inputs/daterange/min-max", 430 %}
+{% example "inputs/daterange/min-max", 430, "min-max" %}
 
 ### Relative Date Range
 
-{% example "inputs/daterange/relative-range", 550 %}
+{% example "inputs/daterange/relative-range", 550 "relative-range" %}

@@ -5,7 +5,7 @@ import type ReportDataStore from '../data/reportDataStore'
 import { ReportStoreConfig } from '../types/ReportStore'
 import MockViewedListData from '../../../test-app/mocks/mockClients/store/mockViewedUserListDataV2'
 import MockRequestedListData from '../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
-import { ReportType, RequestedReport, RequestStatus } from '../types/UserReports'
+import { RequestedReport, RequestStatus } from '../types/UserReports'
 
 describe('RecentlyViewedStoreService', () => {
   const mockUserStore: ReportDataStore = new MockUserStoreService() as unknown as ReportDataStore

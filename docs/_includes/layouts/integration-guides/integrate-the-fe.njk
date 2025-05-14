@@ -5,84 +5,9 @@
 {% block content %}
   <div class="govuk-width-container govuk-grid-row app-flex-container">
     <div class="govuk-grid-column-one-quarter">
-      {{ mojSideNavigation({
-        classes: 'govuk-!-padding-top-6',
-        sections: [
-          {
-            heading: {
-              text: "How to guides"
-            },
-            items: [
-              {
-                text: 'Integrating the library',
-                href: ('/integration-guides/integrating-the-library')
-              },
-              {
-                text: 'Integrating the platform',
-                href: ('/integration-guides/integrating-the-platform')
-              },
-              {
-                text: 'Integrating the FE',
-                href: ('/integration-guides/integrating-the-fe'),
-                active: true
-              },
-              {
-                text: '➤ Report Catalogue component',
-                href: ('/integration-guides/integrating-the-fe#report-catalogue-component')
-              },
-              {
-                text: '➤ User reports list component',
-                href: ('/integration-guides/integrating-the-feuser-reports-list-component')
-              },
-              {
-                text: '➤ Implement request route directly',
-                href: ('/integration-guides/integrating-the-fe#implement-request-route-directly')
-              },
-              {
-                text: 'Environments',
-                href: ('/get-started/environments')
-              }
-            ]
-          },
-          {
-            heading: {
-              text: "Platform"
-            },
-            items: [
-              {
-                text: 'Components',
-                href: ('/components')
-              },
-              {
-                text: 'Environments',
-                href: ('/get-started/environments')
-              },
-              {
-                text: 'Routes',
-                href: ('/reports/async-routes'),
-                active: page.filePathStem.indexOf('/reports/async-routes') === 0
-              }
-            ]
-          },
-          {
-            heading: {
-              text: "Example Reports"
-            },
-            items: [ 
-              {
-                text: 'List report',
-                href: '/templates/list',
-                active: page.filePathStem.indexOf('/templates/list') === 0
-              },
-              {
-                text: 'Parent-child report',
-                href: '/templates/parent-child',
-                active: page.filePathStem.indexOf('/templates/parent-child') === 0
-              }
-            ]
-          }
-        ]
-      }) }}
+      {% include "../partials/side-navigation/get-started/guides-fe-integration.njk" %}
+      {% include "../partials/side-navigation/get-started/platform.njk" %}
+      {% include "../partials/side-navigation/get-started/example-reports.njk" %}
     </div>
 
     <div class="govuk-grid-column-three-quarters">

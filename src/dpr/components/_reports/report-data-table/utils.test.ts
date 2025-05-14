@@ -4,7 +4,7 @@ import Dict = NodeJS.Dict
 // types
 import ReportQuery from '../../../types/ReportQuery'
 import type { components } from '../../../types/api'
-import type { AsyncSummary, RequestedReport } from '../../../types/UserReports'
+import type { AsyncSummary } from '../../../types/UserReports'
 import type { Columns } from '../report-columns-form/types'
 import type { Template } from '../../../types/Templates'
 

@@ -12,7 +12,7 @@ export default {
   getReportsList: async (
     res: Response,
     services: Services,
-    features: CatalogueFeatures,
+    features?: CatalogueFeatures,
   ): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[] }> => {
     const { definitions, csrfToken, bookmarkingEnabled, userId } = LocalsHelper.getValues(res)
 

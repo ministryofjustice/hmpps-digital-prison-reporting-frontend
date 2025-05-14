@@ -5,6 +5,7 @@ const mockBadQueryRequest = require('./mockBadQueryRequest')
 const createMockData = require('./mockAsyncData')
 const mockParentChild = require('./mockVariants/data/parent-child')
 const mockListSection = require('./mockVariants/data/list-section')
+const mockParentChildSection = require('./mockVariants/data/parent-child-section')
 
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 
@@ -99,7 +100,16 @@ class MockReportingClient {
         data = mockParentChild.childData()
         break
       case 'variantId-8':
+        // List section
         data = mockListSection.listSectionData()
+        break
+      case 'variantId-27':
+        // Parent-child-section - parent
+        data = mockParentChildSection.parentData()
+        break
+      case 'variantId-27-child':
+        // List section
+        data = mockParentChildSection.childData()
         break
       default:
         data = createMockData(pageSize)

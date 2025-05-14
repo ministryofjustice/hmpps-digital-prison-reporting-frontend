@@ -5,94 +5,9 @@
 {% block content %}
   <div class="govuk-width-container govuk-grid-row app-flex-container">
     <div class="govuk-grid-column-one-quarter dpr-docs-sidebar">
-      {{ mojSideNavigation({
-        classes: 'govuk-!-padding-top-6',
-        sections: [
-          {
-            heading: {
-              text: 'Components'
-            },
-            items: [
-              {
-                text: 'Catalogue',
-                href: '/components/catalogue',
-                active: page.filePathStem.indexOf('/components/catalogue') === 0
-              },
-              {
-                text: 'User Reports list',
-                href: '/components/reports-list',
-                active: page.filePathStem.indexOf('/components/reports-list') === 0
-              },
-              {
-                text: 'Card group',
-                href: '/components/card-group',
-                active: page.filePathStem.indexOf('/components/card-group') === 0
-              }
-            ]
-          },
-          {
-            heading: {
-              text: 'Report'
-            },
-            items: [
-              {
-                text: 'Heading',
-                href: '/components/reports/heading',
-                active: page.filePathStem.indexOf('/components/reports/heading') === 0
-              },
-              {
-                text: 'Actions',
-                href: '/components/reports/actions',
-                active: page.filePathStem.indexOf('/components/reports/actions') === 0
-              },
-              {
-                text: 'Interactive filters',
-                href: '/components/reports/filters',
-                active: page.filePathStem.indexOf('/components/reports/filters') === 0
-              },
-              {
-                text: 'Data table',
-                href: '/components/reports/data-table',
-                active: page.filePathStem.indexOf('/components/reports/data-table') === 0
-              }
-            ]
-          },
-          {
-            heading: {
-              text: 'Filter inputs'
-            },
-            items: [
-              {
-                text: 'Autocomplete',
-                href: '/components/inputs/autocomplete-text-input',
-                active: page.filePathStem.indexOf('/components/inputs/autocomplete-text-input') === 0
-              },
-              {
-                text: 'Date range',
-                href: '/components/inputs/date-range',
-                active: page.filePathStem.indexOf('/components/inputs/date-range') === 0
-              },
-              {
-                text: 'Multiselect',
-                href: '/components/inputs/multi-select',
-                active: page.filePathStem.indexOf('/components/inputs/multi-select') === 0
-              }
-            ]
-          },
-          {
-            heading: {
-              text: 'Pre-built reports'
-            },
-            items: [
-              {
-                text: 'List report',
-                href: '/components/list-report',
-                active: page.filePathStem.indexOf('/components/list-report') === 0
-              }
-            ]
-          }
-        ]
-      }) }}
+      {% include "./partials/side-navigation/components/platform.njk" %}
+      {% include "./partials/side-navigation/components/report.njk" %}
+      {% include "./partials/side-navigation/components/filters.njk" %}
     </div>
 
     <div class="govuk-grid-column-three-quarters">

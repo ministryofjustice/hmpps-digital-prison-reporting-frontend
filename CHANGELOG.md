@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v4.3.0
+
+- `parent-child-section` report template.
+
 ## v4.2.6
 
 ### Bugfixes

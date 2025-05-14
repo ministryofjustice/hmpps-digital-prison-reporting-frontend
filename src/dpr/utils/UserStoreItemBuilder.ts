@@ -31,7 +31,6 @@ export default class UserStoreItemBuilder {
 
   initialiseItem = () => {
     return this.addReportData({
-      dataProductDefinitionsPath: this.requestFormData.dataProductDefinitionsPath,
       type: this.requestFormData.type as ReportType,
       reportId: this.requestFormData.reportId,
       reportName: this.requestFormData.reportName,
@@ -42,7 +41,6 @@ export default class UserStoreItemBuilder {
   }
 
   addReportData = ({
-    dataProductDefinitionsPath,
     type,
     reportId,
     reportName,
@@ -50,7 +48,6 @@ export default class UserStoreItemBuilder {
     id,
     name,
   }: {
-    dataProductDefinitionsPath?: string
     type: ReportType
     reportId: string
     reportName: string
@@ -59,7 +56,6 @@ export default class UserStoreItemBuilder {
     name: string
   }) => {
     this.userStoreItem = {
-      dataProductDefinitionsPath,
       type: type as ReportType,
       reportId,
       reportName,
@@ -117,8 +113,8 @@ export default class UserStoreItemBuilder {
 
   addRequestUrls = () => {
     const { origin, pathname, search, href, defaultInteractiveQueryString } = this.requestFormData
-    const { executionId, dataProductDefinitionsPath } = this.userStoreItem
-    const dpdPath = `${getDpdPathSuffix(dataProductDefinitionsPath)}`
+    const { executionId, dataProductDefinitionsPath, dpdPathFromQuery } = this.userStoreItem
+    const dpdPath = dpdPathFromQuery ? `${getDpdPathSuffix(dataProductDefinitionsPath)}` : ''
 
     this.userStoreItem = {
       ...this.userStoreItem,
@@ -139,11 +135,13 @@ export default class UserStoreItemBuilder {
               search: dpdPath.length
                 ? `${dpdPath}&${defaultInteractiveQueryString}`
                 : `?${defaultInteractiveQueryString}`,
+              default: `?${defaultInteractiveQueryString}`,
             }),
           },
         },
       },
     }
+
     return this
   }
 
@@ -234,6 +232,17 @@ export default class UserStoreItemBuilder {
       default:
         this.userStoreItem.timestamp.lastViewed = ts
         break
+    }
+    return this
+  }
+
+  addDefinitionsPath = (definitionsPath: string, dpdPathFromQuery: boolean) => {
+    if (definitionsPath) {
+      this.userStoreItem = {
+        ...this.userStoreItem,
+        dataProductDefinitionsPath: definitionsPath,
+        dpdPathFromQuery,
+      }
     }
     return this
   }

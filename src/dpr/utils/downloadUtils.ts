@@ -4,7 +4,7 @@ import { KeysList } from 'json-2-csv/lib/types'
 import { Services } from '../types/Services'
 import Dict = NodeJS.Dict
 import { LoadType } from '../types/UserReports'
-import SyncReportUtils from '../components/_sync/sync-report/utils'
+import SyncReportUtils from './report/syncReportUtils'
 import { components } from '../types/api'
 import LocalsHelper from './localsHelper'
 

@@ -26,6 +26,7 @@ describe('BookmarkUtils', () => {
             token: 'tOkEn',
           },
           csfrToken: 'CsRfToKeN',
+          bookmarks: [{ reportId: 'test-report-1', variantId: 'test-variant-1' }],
         },
       } as unknown as Response
 

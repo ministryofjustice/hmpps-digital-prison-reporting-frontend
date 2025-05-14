@@ -10,6 +10,24 @@
     {% set viewedReports = args.viewedReports %}
     {% set bookmarks = args.bookmarks %}
 
+    {% if bookmarks %}
+      {% set bookmarksHtml %}
+        {{ dprBookmarksList({
+          head: bookmarks.head,
+          tableData: bookmarks.tableData,
+          total: bookmarks.total
+        }) }}
+      {% endset -%}
+      
+      {% set items = (items.push({
+        label: "Bookmarks (" + bookmarks.total.amount + ")",
+        id: "my-bookmarks-tab",
+        panel: {
+          html: bookmarksHtml
+        }
+      }), items) %}
+    {% endif %}
+
     {% if requestedReports %}
       {% set requestedReportsHtml %}
         {{ dprAsyncRequestList({
@@ -46,24 +64,6 @@
         id: "recently-viewed-tab",
         panel: {
           html: recentlyViewedHtml
-        }
-      }), items) %}
-    {% endif %}
-
-    {% if bookmarks %}
-      {% set bookmarksHtml %}
-        {{ dprBookmarksList({
-          head: bookmarks.head,
-          tableData: bookmarks.tableData,
-          total: bookmarks.total
-        }) }}
-      {% endset -%}
-      
-      {% set items = (items.push({
-        label: "Bookmarks (" + bookmarks.total.amount + ")",
-        id: "my-bookmarks-tab",
-        panel: {
-          html: bookmarksHtml
         }
       }), items) %}
     {% endif %}

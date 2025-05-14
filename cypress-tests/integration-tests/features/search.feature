@@ -1,4 +1,4 @@
-Feature: List report
+Feature: Search
   Background:
     Given I navigate to the search page
 

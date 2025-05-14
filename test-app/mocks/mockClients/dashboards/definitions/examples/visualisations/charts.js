@@ -292,7 +292,7 @@ const dietTotalsByEstablishmentByWingByCellPieOptional = {
 
 const dietTotalsOverTime = {
   id: 'chart-diet-totals-over-time',
-  type: 'line',
+  type: 'line-timeseries',
   display: 'Prisoner totals over time',
   description: '',
   showLatest: false,
@@ -319,7 +319,7 @@ const dietTotalsOverTime = {
 
 const dietTotalsByEstablishmentOverTime = {
   id: 'chart-diet-totals-by-est-over-time',
-  type: 'line',
+  type: 'line-timeseries',
   display: 'Prisoner totals by establishment over time',
   description: '',
   showLatest: false,
@@ -345,7 +345,7 @@ const dietTotalsByEstablishmentOverTime = {
 
 const dietTotalsByEstablishmentByWingOverTime = {
   id: 'line-diet-totals-by-est-by-wing-over-time',
-  type: 'line',
+  type: 'line-timeseries',
   display: 'Prisoner totals by establishment, by wing, over time',
   description: '',
   showLatest: false,
@@ -374,7 +374,7 @@ const dietTotalsByEstablishmentByWingOverTime = {
 
 const dietTotalsVegetarianOvertime = {
   id: 'diet-totals-vegetarian-overtime',
-  type: 'line',
+  type: 'line-timeseries',
   display: 'Vegetarian totals over time line chart',
   description: '',
   showLatest: false,
@@ -407,7 +407,7 @@ const dietTotalsVegetarianOvertime = {
 
 const dietTotalsVeganOvertime = {
   id: 'diet-totals-vegetarian-overtime',
-  type: 'line',
+  type: 'line-timeseries',
   display: 'Vegan totals over time line chart',
   description: '',
   showLatest: false,
@@ -440,7 +440,7 @@ const dietTotalsVeganOvertime = {
 
 const dietTotalsVegetarianOvertimeByEstLine = {
   id: 'line-diet-totals-vegetarian-overtime-by-est',
-  type: 'line',
+  type: 'line-timeseries',
   display: 'Vegetarian totals over time line',
   description: '',
   showLatest: false,
@@ -473,7 +473,7 @@ const dietTotalsVegetarianOvertimeByEstLine = {
 
 const dietTotalsVegetarianOvertimeByEstByWingLine = {
   id: 'line-diet-totals-vegetarian-overtime-by-est-by-wing',
-  type: 'line',
+  type: 'line-timeseries',
   display: 'Vegetarian totals over time by wing line',
   description: '',
   showLatest: false,
@@ -510,7 +510,7 @@ const dietTotalsVegetarianOvertimeByEstByWingLine = {
 
 const dietTotalsAllDietOvertimeByEstLine = {
   id: 'line-diet-totals-all-diet-overtime-by-est',
-  type: 'line',
+  type: 'line-timeseries',
   display: 'All Diet totals over time',
   description: '',
   showLatest: false,
@@ -538,7 +538,7 @@ const dietTotalsAllDietOvertimeByEstLine = {
 
 const dietTotalsByEstablishmentByWingOverTimeOptionalLine = {
   id: 'line-diet-totals-by-est-by-wing-over-time-optional',
-  type: 'line',
+  type: 'line-timeseries',
   display: 'Diet totals by Establishment, by wing, over time',
   description: '',
   showLatest: false,
@@ -568,6 +568,8 @@ const dietTotalsByEstablishmentByWingOverTimeOptionalLine = {
 }
 
 // DATA QUALITY
+
+// BAR
 
 const dataQualityEthnicityBar = {
   id: 'bar-data-quality-has-ethnicity',
@@ -641,6 +643,8 @@ const dataQualityNationalityBar = {
   },
 }
 
+// DOUGHNUT
+
 const dataQualityEthnicityDoughnut = {
   id: 'doughnut-data-quality-has-ethnicity',
   type: 'doughnut',
@@ -713,9 +717,85 @@ const dataQualityNationalityDoughnut = {
   },
 }
 
+// BAR
+
+const dataQualityEthnicityLine = {
+  id: 'line-data-quality-has-ethnicity',
+  type: 'line',
+  display: 'Ethnicity values',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_ethnicity',
+        display: 'Has ethnicity',
+      },
+      {
+        id: 'ethnicity_is_missing',
+        display: 'No Ethnicity',
+      },
+    ],
+  },
+}
+
+const dataQualityReligionLine = {
+  id: 'line-data-quality-has-religion',
+  type: 'line',
+  display: 'Religion values',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_religion',
+        display: 'Has religion',
+      },
+      {
+        id: 'religion_is_missing',
+        display: 'No religion',
+      },
+    ],
+  },
+}
+
+const dataQualityNationalityLine = {
+  id: 'line-data-quality-has-nationality',
+  type: 'line',
+  display: 'nationality values',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+        display: 'Establishment ID',
+      },
+    ],
+    measures: [
+      {
+        id: 'has_nationality',
+        display: 'Has nationality',
+      },
+      {
+        id: 'nationality_is_missing',
+        display: 'No nationality',
+      },
+    ],
+  },
+}
+
+// HISTORIC LINE
+
 const dataQualityEthnicityHistoricLine = {
   id: 'line-data-quality-has-ethnicity-historic',
-  type: 'line',
+  type: 'line-timeseries',
   display: 'Ethnicity values',
   columns: {
     keys: [
@@ -740,7 +820,7 @@ const dataQualityEthnicityHistoricLine = {
 
 const dataQualityReligionHistoricLine = {
   id: 'line-data-quality-has-religion-historic',
-  type: 'line',
+  type: 'line-timeseries',
   display: 'Religion values',
   columns: {
     keys: [
@@ -765,7 +845,7 @@ const dataQualityReligionHistoricLine = {
 
 const dataQualityNationalityHistoricLine = {
   id: 'line-data-quality-has-nationality-historic',
-  type: 'line',
+  type: 'line-timeseries',
   display: 'Nationality values',
   columns: {
     keys: [
@@ -891,6 +971,9 @@ const charts = {
   dataQualityEthnicityDoughnut,
   dataQualityReligionDoughnut,
   dataQualityNationalityDoughnut,
+  dataQualityEthnicityLine,
+  dataQualityReligionLine,
+  dataQualityNationalityLine,
   dataQualityEthnicityHistoricLine,
   dataQualityReligionHistoricLine,
   dataQualityNationalityHistoricLine,

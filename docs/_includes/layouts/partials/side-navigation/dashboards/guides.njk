@@ -1,0 +1,29 @@
+{%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
+
+{{ mojSideNavigation({
+  classes: 'govuk-!-padding-top-6',
+  sections: [
+    {
+      heading: {
+        text: "Guides"
+      },
+      items: [
+        {
+          text: 'Dashboard Definition',
+          href: '/dashboards/definitions/dashboard-definition',
+          active: page.filePathStem.indexOf('/dashboards/definitions/dashboard-definition') === 0
+        },
+        {
+          text: 'Visualisation Definition',
+          href: '/dashboards/visualisations/visualisation-definition',
+          active: page.filePathStem.indexOf('/dashboards/visualisations/visualisation-definition') === 0
+        },
+        {
+          text: 'Targeting Data',
+          href: '/dashboards/visualisations/targeting-data',
+          active: page.filePathStem.indexOf('/dashboards/visualisations/targeting-data') === 0
+        }
+      ]
+    }
+  ]
+}) }}

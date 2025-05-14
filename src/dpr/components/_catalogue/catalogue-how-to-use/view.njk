@@ -1,0 +1,35 @@
+{% from "govuk/components/details/macro.njk" import govukDetails %} 
+
+{% macro dprCatalogueHowToUse(features) %} 
+  {% set filteringEnabled = features.filteringEnabled %}
+  {% set bookmarkingEnabled = features.bookmarkingEnabled %}
+  {% set unauthorisedToggleEnabled = features.unauthorisedToggleEnabled %}
+
+  {% set howToUseHtml %}
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Viewing a report</h3>
+    <p class="govuk-body">Select the name of the report to start a request to view a report.</p>
+
+    {% if filteringEnabled %}
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Filtering the catalogue</h3>
+      <p class="govuk-body">Filter the report catalogue by typing in the filter input box below. The catalogue will show listings that match your filter by name, description, type and product.</p>
+    {% endif %}
+
+    {% if bookmarkingEnabled %}
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Bookmarking search criteria</h3>
+      <p class="govuk-body">If you regularly search for specific criteria, you can bookmark this search for quick access. Selecting the bookmark icon will add this search to your bookmarks. All your bookmarks will appear in the <a href="#homepage-widget" class="govuk-link govuk-link--no-visited-state">Bookmarks</a> section on the homepage.</p>
+    {% endif %}
+
+    {% if unauthorisedToggleEnabled %}
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Show unauthorised reports in catalogue</h3>
+      <p class="govuk-body">Retricted reports are removed from the catalogue by default. Toggle the "Show unauthorised reports" checkbox to show, or hide these reports from the catalogue</p>
+    {% endif %}
+  
+  {% endset %}
+
+  {{ govukDetails({
+    summaryText: "How to use",
+    html: howToUseHtml
+  }) }}
+
+{% endmacro %}
+

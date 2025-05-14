@@ -24,34 +24,35 @@ export default function routes({
   router,
   layoutPath,
   services,
-  templatePath = 'dpr/views/',
+  prefix,
 }: {
   router: Router
   layoutPath: string
   services: Services
-  templatePath?: string
+  prefix: string
 }) {
-  logger.info('Download Feature: Initialiasing routes')
+  logger.info('Initialiasing routes: Download')
 
   const feedbackFormHandler: RequestHandler = async (req, res, next) => {
-    const { token, csrfToken } = LocalsHelper.getValues(res)
+    const { token, csrfToken, definitionsPath } = LocalsHelper.getValues(res)
     const { reportId, variantId, tableId } = req.params
     const loadType = tableId ? LoadType.ASYNC : LoadType.SYNC
 
     const { reportSearch, reportUrl } = req.query
     let queryString
     let dataProductDefinitionsPath
+
     if (reportSearch) {
       queryString = decodeURIComponent(<string>reportSearch)
       const params = new URLSearchParams(queryString)
-      dataProductDefinitionsPath = params.get('dataProductDefinitionsPath')
+      dataProductDefinitionsPath = params.get('dataProductDefinitionsPath') || definitionsPath
     }
 
     const variantData: components['schemas']['SingleVariantReportDefinition'] =
       await services.reportingService.getDefinition(token, reportId, variantId, dataProductDefinitionsPath)
 
     try {
-      res.render(`${templatePath}feedback-form`, {
+      res.render(`dpr/views/feedback-form`, {
         title: 'Download request form',
         user: res.locals.user,
         report: {
@@ -67,7 +68,7 @@ export default function routes({
         },
         csrfToken,
         layoutPath,
-        postEndpoint: '/submitFeedback/',
+        postEndpoint: '/dpr/submitFeedback/',
       })
     } catch (error) {
       next()
@@ -106,7 +107,7 @@ export default function routes({
 
     await services.downloadPermissionService.saveDownloadPermissionData(userId, reportId, variantId)
 
-    res.render(`${templatePath}feedback-form-success`, {
+    res.render(`dpr/views/feedback-form-success`, {
       title: 'success',
       layoutPath,
       report: {
@@ -134,14 +135,17 @@ export default function routes({
   }
 
   router.get(
-    ['/download/:reportId/:variantId/:tableId/feedback', '/download/:reportId/:variantId/feedback'],
+    [`${prefix}/download/:reportId/:variantId/:tableId/feedback`, `${prefix}/download/:reportId/:variantId/feedback`],
     feedbackFormHandler,
   )
-  router.post('/submitFeedback/', feedbackSubmitHandler)
+  router.post('/dpr/submitFeedback/', feedbackSubmitHandler)
 
   router.get(
-    ['/download/:reportId/:variantId/:tableId/feedback/submitted', '/download/:reportId/:variantId/feedback/submitted'],
+    [
+      `${prefix}/download/:reportId/:variantId/:tableId/feedback/submitted`,
+      `${prefix}/download/:reportId/:variantId/feedback/submitted`,
+    ],
     feedbackSuccessHandler,
   )
-  router.post('/downloadReport/', downloadRequestHandler)
+  router.post('/dpr/downloadReport/', downloadRequestHandler)
 }

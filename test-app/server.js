@@ -12,10 +12,10 @@ const nunjucks = require('nunjucks')
 const bodyParser = require('body-parser')
 
 // Local dependencies
-const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
-const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
+const ReportListUtils = require('../package/dpr/components/report-list/utils').default
+const CatalogueUtils = require('../package/dpr/components/_catalogue/catalogue/utils').default
 const UserReportsListUtils = require('../package/dpr/components/user-reports/utils').default
-const { createUserStoreServices, initUserStoreServices } = require('../package/dpr/utils/StoreServiceUtils')
+const createDprServices = require('../package/dpr/utils/ReportStoreServiceUtils').default
 
 // Set up application
 const appViews = [
@@ -25,6 +25,9 @@ const appViews = [
   path.join(__dirname, '../src/'),
   path.join(__dirname, '.'),
 ]
+
+// Middleware
+const setUpDprResources = require('../package/dpr/middleware/setUpDprResources').default
 
 // Application
 const app = express()
@@ -48,27 +51,24 @@ setUpNunjucksFilters(nunjucksEnvironment)
 app.set('view engine', 'njk')
 
 // Middleware to serve static assets
-app.use('/assets/ext/chart.js', express.static(path.join(__dirname, '../node_modules/chart.js/dist/chart.umd.js')))
-app.use(
-  '/assets/ext/chartjs-datalabels.js',
-  express.static(
-    path.join(__dirname, '../node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js'),
-  ),
-)
-app.use('/assets/ext/jquery.min.js', express.static(path.join(__dirname, '../node_modules/jquery/dist/jquery.min.js')))
-app.use('/assets/ext/day.js', express.static(path.join(__dirname, '../node_modules/dayjs/dayjs.min.js')))
-app.use(
-  '/assets/ext/dayjs/plugin/customParseFormat.js',
-  express.static(path.join(__dirname, '../node_modules/dayjs/plugin/customParseFormat.js')),
-)
-app.use('/assets/govuk', express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/assets')))
-app.use('/assets/moj', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/assets')))
+Array.of(
+  '/assets',
+  '/assets/stylesheets',
+  '/assets/js',
+  '/node_modules/govuk-frontend/dist/govuk/assets',
+  '/node_modules/govuk-frontend/dist',
+  '/node_modules/@ministryofjustice/frontend/moj/assets',
+  '/node_modules/@ministryofjustice/frontend',
+  '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/assets',
+  '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend',
+).forEach((dir) => {
+  app.use('/assets', express.static(path.join(process.cwd(), dir)))
+})
+
+// Local overrides
 app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr/assets')))
-app.use(
-  '/govuk/all.js',
-  express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js')),
-)
-app.use('/moj/all.js', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/all.js')))
+app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr')))
+
 app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
 app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest.json')))
 app.use(bodyParser.json())
@@ -77,19 +77,9 @@ app.use(bodyParser.json())
 const MockReportingClient = require('./mocks/mockClients/reports/mockReportingClient')
 const MockDashboardClient = require('./mocks/mockClients/dashboards/mock-client')
 const MockUserStoreService = require('./mocks/mockClients/store/mockRedisStore')
-const mockDefinitions = require('./mocks/mockClients/reports/mockReportDefinition')
-const mockDashboardDefinitions = require('./mocks/mockClients/dashboards/dashboard-definitions')
-
-// Services
-const ReportingService = require('../package/dpr/services/reportingService').default
-const DashboardService = require('../package/dpr/services/dashboardService').default
 
 // Routes
-const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
-const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
-const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
-const addDownloadRoutes = require('../package/dpr/routes/download').default
-const addSyncRoutes = require('../package/dpr/routes/syncReports').default
+const DprEmbeddedAsyncReports = require('../package/dpr/routes/DprEmbeddedReports').default
 
 // Charts
 const mockBarChartData = require('./mocks/mockChartData/mockBarChartData')
@@ -202,6 +192,9 @@ const addMockUserData = (req, res, next) => {
   res.locals.user = {
     displayName: 'Test User',
     email: 'test@user.com',
+    uuid: 'userId',
+    activeCaseLoadId: 'random-id',
+    token: 'token',
   }
   next()
 }
@@ -261,85 +254,87 @@ app.get('/sync-reports', (req, res) => {
   })
 })
 
+/**
+ * ASYNC REPORTS
+ * */
+
+// 1. Init Data clients
 const reportingClient = new MockReportingClient()
-const reportingService = new ReportingService(reportingClient)
-
 const dashboardClient = new MockDashboardClient()
-const dashboardService = new DashboardService(dashboardClient)
+const reportDataStore = new MockUserStoreService()
 
-const mockUserStore = new MockUserStoreService()
-const userStoreServices = createUserStoreServices(mockUserStore)
-
+// 2. Create services
 const services = {
-  ...userStoreServices,
-  reportingService,
-  dashboardService,
+  ...createDprServices({ reportingClient, dashboardClient, reportDataStore }),
 }
 
-initUserStoreServices('userId', services)
+// 3. Add middleware
+app.use(
+  setUpDprResources(services, {
+    routePrefix: 'dpr',
+  }),
+)
 
-const routeImportParams = {
+// 4. Initialise routes
+DprEmbeddedAsyncReports({
   router: app,
   services,
   layoutPath: 'page.njk',
-  templatePath: 'dpr/views/',
-}
-
-addBookmarkingRoutes(routeImportParams)
-addRecentlyViewedRoutes(routeImportParams)
-addAsyncReportingRoutes(routeImportParams)
-addDownloadRoutes(routeImportParams)
-addSyncRoutes(routeImportParams)
+  config: {
+    routePrefix: 'dpr',
+  },
+})
 
 /**
  * EMBEDDED REPORTS: Route import config
  * See `_embedded/docs` to learn how to use this configuration
  * */
 
-const addEmbeddedReportsRoutes = require('../package/dpr/routes/embeddedReports').default
+// const addEmbeddedReportsRoutes = require('../package/dpr/routes/embeddedReports').default
 
-// Reporting client
-const embeddedReportingClient = new MockReportingClient()
-const embeddedReportingService = new ReportingService(embeddedReportingClient)
-const embeddedReportsServices = {
-  reportingService: embeddedReportingService,
-}
+// // Reporting client
+// const embeddedReportingClient = new MockReportingClient()
+// const embeddedReportingService = new ReportingService(embeddedReportingClient)
+// const embeddedReportsServices = {
+//   reportingService: embeddedReportingService,
+// }
 
-// UserStore
-const embeddedMockUserStore = new MockUserStoreService()
+// // UserStore
+// const embeddedMockUserStore = new MockUserStoreService()
 
-addEmbeddedReportsRoutes({
-  router: app,
-  services: embeddedReportsServices,
-  features: {
-    config: {
-      userDataStore: embeddedMockUserStore,
-    },
-    list: ['download'],
-  },
-})
+// addEmbeddedReportsRoutes({
+//   router: app,
+//   services: embeddedReportsServices,
+//   features: {
+//     config: {
+//       userDataStore: embeddedMockUserStore,
+//     },
+//     list: ['download'],
+//   },
+// })
 
 // EMBEDDED REPORTS END
 
 app.get('/dpr-service', async (req, res) => {
-  res.locals.definitions = mockDefinitions.reports
-  res.locals.dashboardDefinitions = mockDashboardDefinitions
   res.locals.csrfToken = 'csrfToken'
-  res.locals.pathSuffix = req.query.dataProductDefinitionsPath
-    ? `?dataProductDefinitionsPath=${req.query.dataProductDefinitionsPath}`
-    : ''
+
+  const catalogue = await CatalogueUtils.init({
+    res,
+    services,
+    features: { bookmarkingEnabled: true },
+  })
+
+  const userReportsLists = await UserReportsListUtils.init({ services, req, res, maxRows: 20 })
 
   res.render('async.njk', {
     title: 'Home',
-    ...(await UserReportsListUtils.initLists({ services, req, res, maxRows: 20 })),
-    reports: {
-      ...(await ReportslistUtils.mapReportsList(res, services)),
-    },
+    userReportsLists,
+    catalogue,
   })
 })
 
 app.get('/embedded-reports/route-config/method', (req, res, next) => {
-  reportListUtils.renderListWithDefinition({
+  ReportListUtils.renderListWithDefinition({
     title: 'Method',
     definitionName: 'test-report',
     variantName: 'test-variant',
@@ -361,7 +356,7 @@ app.get('/embedded-reports/route-config/method', (req, res, next) => {
 
 app.get(
   '/embedded-reports/route-config/handler',
-  reportListUtils.createReportListRequestHandler({
+  ReportListUtils.createReportListRequestHandler({
     title: 'Handler',
     definitionName: 'test-report',
     variantName: 'test-variant',
@@ -381,7 +376,7 @@ app.get(
 
 app.get(
   '/embedded-reports/route-config/validation',
-  reportListUtils.createReportListRequestHandler({
+  ReportListUtils.createReportListRequestHandler({
     title: 'Handler',
     definitionName: 'test-report',
     variantName: 'test-validation-variant',
@@ -401,7 +396,7 @@ app.get(
 
 app.get(
   '/embedded-reports/route-config/sections',
-  reportListUtils.createReportListRequestHandler({
+  ReportListUtils.createReportListRequestHandler({
     title: 'Handler',
     definitionName: 'test-report',
     variantName: 'test-section-variant',
@@ -420,7 +415,7 @@ app.get(
 )
 
 app.get('/embedded-reports/route-config/fail', (req, res, next) => {
-  reportListUtils.renderListWithDefinition({
+  ReportListUtils.renderListWithDefinition({
     title: 'Fail',
     definitionName: 'failing-report',
     variantName: 'failing-variant',

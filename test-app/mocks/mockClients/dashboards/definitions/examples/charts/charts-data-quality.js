@@ -23,6 +23,16 @@ const dataQuality = {
       ],
     },
     {
+      id: 'section-3',
+      display: 'Line charts',
+      description: '',
+      visualisations: [
+        charts.dataQualityEthnicityLine, 
+        charts.dataQualityNationalityLine, 
+        charts.dataQualityReligionLine
+      ],
+    },
+    {
       id: 'totals-breakdown',
       display: 'Totals breakdown',
       visualisations: [lists.fullDataset],

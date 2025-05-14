@@ -1,0 +1,163 @@
+---
+layout: layouts/example.njk
+title: Parent-child Report (example)
+---
+
+{%- from "dpr/components/_reports/report-wrapper/view.njk" import dprReportWrapper -%}
+
+{% set data = {
+  "columns": {
+    "name": "columns",
+    "options": [
+      {
+        "text": "First",
+        "value": "section1",
+        "disabled": false
+      },
+      {
+        "text": "Second",
+        "value": "field1",
+        "disabled": false
+      }
+    ],
+    "text": "Select report columns",
+    "value": [
+      "section1",
+      "field1"
+    ]
+  },
+  "filterData": {
+    "filters": [],
+    "selectedFilters": []
+  },
+  "count": 100,
+  "csrfToken": "csrfToken",
+  "classification": "OFFICIAL",
+  "template": "parent-child",
+  "loadType": "async",
+  "type": "report",
+  "actions": [],
+  "canDownload": false,
+  "printable": true,
+  "reportName": "Example report",
+  "name": "Parent Child template",
+  "description": "A report with parent and child datasets using the parent-child template",
+  "requestedTimestamp": "09/05/2025, 14:57:23",
+  "reportId": "test-report-1",
+  "tableId": "tblId_1746799041171",
+  "id": "variantId-26",
+  "executionId": "exId_1746799041171",
+  "querySummary": [],
+  "requestUrl": {
+    "fullUrl": "http://localhost:3010/async/report/test-report-1/variantId-26/request",
+    "pathname": "/async/report/test-report-1/variantId-26/request",
+    "search": ""
+  },
+  "reportUrl": "/async/report/test-report-1/variantId-26/request/tblId_1746799041171/report",
+  "reportSearch": "?columns=section1&columns=field1",
+  "encodedSearch": "%3Fcolumns%3Dsection1%26columns%3Dfield1",
+  "search": "?columns=section1&columns=field1",
+  "pathname": "/async/report/test-report-1/variantId-26/request/tblId_1746799041171/report",
+  "dataTable": {
+    "head": null,
+    "rows": [
+      [
+        {
+          "text": "First",
+          "classes": "govuk-table__header"
+        },
+        {
+          "text": "Second",
+          "classes": "govuk-table__header"
+        }
+      ],
+      [
+        {
+          "fieldName": "section1",
+          "text": "one",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field1",
+          "text": "Parent row 1",
+          "format": "string",
+          "classes": ""
+        }
+      ],
+      [
+        {
+          "format": "string",
+          "html": "<div class='dpr-child-report'><h3>Child Report</h3><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Field2</th><th scope='col' class='govuk-table__header'>Field3</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child one - parent 1</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child three - parent 1</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child two - parent 1</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr></tbody></table></div>",
+          "colspan": 2
+        }
+      ],
+      [
+        {
+          "text": "First",
+          "classes": "govuk-table__header"
+        },
+        {
+          "text": "Second",
+          "classes": "govuk-table__header"
+        }
+      ],
+      [
+        {
+          "fieldName": "section1",
+          "text": "two",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field1",
+          "text": "Parent row 2",
+          "format": "string",
+          "classes": ""
+        }
+      ],
+      [
+        {
+          "format": "string",
+          "html": "<div class='dpr-child-report'><h3>Child Report</h3><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Field2</th><th scope='col' class='govuk-table__header'>Field3</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child one - parent 2</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child three - parent 2</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child two - parent 2</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr></tbody></table></div>",
+          "colspan": 2
+        }
+      ],
+      [
+        {
+          "text": "First",
+          "classes": "govuk-table__header"
+        },
+        {
+          "text": "Second",
+          "classes": "govuk-table__header"
+        }
+      ],
+      [
+        {
+          "fieldName": "section1",
+          "text": "three",
+          "format": "string",
+          "classes": ""
+        },
+        {
+          "fieldName": "field1",
+          "text": "Parent row 3",
+          "format": "string",
+          "classes": ""
+        }
+      ],
+      [
+        {
+          "format": "string",
+          "html": "<div class='dpr-child-report'><h3>Child Report</h3><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Field2</th><th scope='col' class='govuk-table__header'>Field3</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child one - parent 3</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child three - parent 3</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child two - parent 3</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr></tbody></table></div>",
+          "colspan": 2
+        }
+      ]
+    ],
+    "rowCount": 3,
+    "colCount": 2
+  }
+} %}
+
+{{ dprReportWrapper(data) }}

@@ -17,7 +17,7 @@ export default class DashboardClient {
     dpdId: string,
     definitionsPath?: string,
   ): Promise<DashboardDefinition> {
-    logger.info(`Dashboard client: Get definition: ${dpdId}/${dashboardId}`)
+    this.logInfo('Get definition:', { dpdId, dashboardId })
     const query = {
       dataProductDefinitionsPath: definitionsPath,
     }
@@ -36,7 +36,7 @@ export default class DashboardClient {
     dashboardId: string,
     query: Record<string, string | boolean | number>,
   ): Promise<Dict<string>> {
-    logger.info(`Dashboard client: request ${reportId}:${dashboardId}`)
+    this.logInfo('Request dashboard:', { reportId, dashboardId })
 
     return this.restClient
       .get({
@@ -54,7 +54,7 @@ export default class DashboardClient {
     tableId: string,
     query: Dict<string | number>,
   ): Promise<Array<Dict<string>>> {
-    logger.info(`Dashboard client: Get dashboardId:${dashboardId} data`)
+    this.logInfo('Get dashboard:', { reportId, dashboardId, tableId })
 
     return this.restClient
       .get({
@@ -73,10 +73,11 @@ export default class DashboardClient {
     dataProductDefinitionsPath?: string,
     tableId?: string,
   ): Promise<Dict<string>> {
-    logger.info(`Dashboard client:${reportId}/${dashboardId}: Get statementId: ${executionId} status`)
+    this.logInfo('Get status:', { reportId, dashboardId, executionId, tableId })
+
     return this.restClient
       .get({
-        path: `/statements/${executionId}/status`,
+        path: `/reports/${reportId}/dashboards/${dashboardId}/statements/${executionId}/status`,
         token,
         query: {
           dataProductDefinitionsPath,
@@ -86,14 +87,28 @@ export default class DashboardClient {
       .then((response) => <Dict<string>>response)
   }
 
-  cancelAsyncRequest(token: string, reportId: string, dashboardId: string, executionId: string): Promise<Dict<string>> {
-    logger.info(`Dashboard client: request ${reportId} : ${dashboardId}`)
+  cancelAsyncRequest(
+    token: string,
+    reportId: string,
+    dashboardId: string,
+    executionId: string,
+    dataProductDefinitionsPath: string,
+  ): Promise<Dict<string>> {
+    this.logInfo('Cancel request:', { reportId, dashboardId, executionId })
 
     return this.restClient
       .delete({
-        path: `/statements/${executionId}`,
+        path: `/reports/${reportId}/dashboards/${dashboardId}/statements/${executionId}`,
         token,
+        query: {
+          dataProductDefinitionsPath,
+        },
       })
       .then((response) => <Dict<string>>response)
+  }
+
+  logInfo(title: string, args?: Dict<string>) {
+    logger.info(`Dashboard client: ${title}:`)
+    if (args && Object.keys(args).length) logger.info(JSON.stringify(args, null, 2))
   }
 }

@@ -9,6 +9,7 @@
     {% set submitId = args.submitId %}
     {% set resetId = args.resetId %}
     {% set prefix = args.prefix %}
+    {% set defaultQuery = args.defaultQuery %}
 
     <form id="{{ formId }}">
       <div id="query-error-summary" class="query-error-summary query-error-summary--hidden">
@@ -31,7 +32,8 @@
             submitId: submitId,
             resetText: 'Reset filters',
             resetId: resetId,
-            showReset: true
+            showReset: true,
+            defaultQuery: defaultQuery
           }) }}
         </div>
       </div>

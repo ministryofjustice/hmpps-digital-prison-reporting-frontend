@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction, Router } from 'express'
 import { Services } from './Services'
-import UserDataStore, { RedisClient } from '../data/userDataStore'
+import UserDataStore, { RedisClient } from '../data/reportDataStore'
 
 export interface EmbeddedReportUtilsParams {
   req?: Request

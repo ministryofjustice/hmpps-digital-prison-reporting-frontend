@@ -1,18 +1,15 @@
 {% extends layoutPath %}
-{% from "../components/_async/async-filters-form/view.njk" import dprAsyncFiltersForm %}
+{% from "../components/_async/async-request/view.njk" import dprAsyncRequest %}
 
 {% set mainClasses = "app-container govuk-body" %}
-{% block content %}
-  <h1>{{ title }}</h1>
 
-  {% if filters %}
-    <p class="govuk-body">{{ filterDescription }}</p>
-  {% endif %}
-    
-  {{ dprAsyncFiltersForm({ 
-    filters: filters, 
-    sortBy: sortBy, 
-    data: reportData, 
+{% block content %}
+  {{ dprAsyncRequest({
+    title: title,
+    filterDescription: filterDescription,
+    filters: filtersData.filters, 
+    sortBy: filtersData.sortBy, 
+    reportData: reportData, 
     endpoint: postEndpoint,
     type: type
   }) }}

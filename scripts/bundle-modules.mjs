@@ -1,14 +1,14 @@
 import * as esbuild from 'esbuild'
-import { glob } from 'glob'
 
 esbuild
   .build({
     entryPoints: ['./src/dpr/all.mjs'],
     bundle: true,
-    sourcemap: true,
+    sourcemap: false,
     minify: true,
     target: 'es6',
-    outfile: 'web/js/bundle.mjs',
+    outfile: './src/dpr/all.min.mjs',
+    format: 'esm',
   })
   .then(() => console.log('⚡ Javascript build complete! ⚡'))
   .catch(() => process.exit(1))

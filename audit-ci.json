@@ -4,7 +4,6 @@
   "registry": "https://registry.npmjs.org",
   "allowlist": [
     "GHSA-c76h-2ccp-4975",     // undici -> cheerio -> pa11y-ci : Using latest version.
-    "GHSA-gcx4-mw62-g8wm",     // gulp-rollup
     "GHSA-3xgq-45jj-v275"      // cross-spawn
   ]
 }

@@ -15,7 +15,8 @@
     "report_url": "http://localhost:3010/async/test-report-3/variantId-1/request/tblId_1721738244284/report"
   },
   "scripts": {
-    "package": "gulp build:package",
+    "package": "npm run bundle-modules && gulp build:package",
+    "bundle-modules": "node ./scripts/bundle-modules.mjs",
     "ci:release": "HUSKY=0 CI=true semantic-release --debug",
     "ci:dryrun": "HUSKY=0 CI=true semantic-release --dry-run",
     "docs": "gulp build:docs && eleventy --input=./docs --output=package/dpr --pathprefix hmpps-digital-prison-reporting-frontend",
@@ -174,7 +175,6 @@
     "gulp-filter": "^7",
     "gulp-flatten": "^0.4.0",
     "gulp-postcss": "^9.0.1",
-    "gulp-rollup": "^2.17.0",
     "gulp-sass": "^5.1.0",
     "gulp-typescript": "^6.0.0-alpha.1",
     "gulp-zip": "^5.1.0",

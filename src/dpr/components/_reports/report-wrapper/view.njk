@@ -1,0 +1,19 @@
+{% from "../report-heading/view.njk" import dprReportHeading %}
+{% from "../report-print-message/view.njk" import dprReportPrintMessage %}
+{% from "../report-print-message/view.njk" import dprReportPrintMessage %}
+{% from "../report-template/view.njk" import dprReportTemplate %}
+
+{% macro dprReportWrapper(renderData) %}
+  {% set printable = renderData.printable %}
+  <div class="govuk-width-container">
+    <div class="govuk-width-container report-list-container">
+      {% if (printable == false) %}
+        {{ dprReportPrintMessage() }}
+      {% endif %}
+      <div class="dpr-reports-heading-container govuk-!-margin-top-5">
+        {{ dprReportHeading(renderData) }}
+      </div>
+      {{ dprReportTemplate(renderData)}}
+    </div>
+  </div>
+{% endmacro %}

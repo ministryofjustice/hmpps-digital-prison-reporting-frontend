@@ -16,6 +16,7 @@ export interface StoredReportData {
   status?: RequestStatus
   timestamp?: AsyncReportsTimestamp
   dataProductDefinitionsPath?: string
+  dpdPathFromQuery?: boolean
   query?: AsyncReportQueryData
   url?: AsyncReportUrlData
   type: ReportType
@@ -48,6 +49,7 @@ export interface AsyncReportUrlItemData {
   pathname?: string
   fullUrl?: string
   search?: string
+  default?: string
 }
 
 export interface AsyncReportQueryData {

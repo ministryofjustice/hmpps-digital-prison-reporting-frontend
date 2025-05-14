@@ -23,7 +23,9 @@ class MockDashboardClient {
     Promise.resolve(this.dashboards)
   }
 
-  async requestAsyncDashboard(token, reportId, id) {
+  async requestAsyncDashboard(token, reportId, id, query) {
+    logInfo('requestAsyncDashboard', { token, reportId, id }, query)
+
     const unix = Date.now()
     return new Promise((resolve, reject) => {
       if (id !== 'test-dashboard-6') {
@@ -35,12 +37,16 @@ class MockDashboardClient {
     })
   }
 
-  async getAsyncStatus(token, reportId, id, executionId) {
+  async getAsyncStatus(token, reportId, id, executionId, definitionsPath, tableId) {
+    logInfo('getAsyncStatus', { token, reportId, id, executionId, definitionsPath, tableId })
+
     const statuses = this.getStatusResponses(id)
     return mockStatusHelper(this.requests, statuses, executionId)
   }
 
-  async cancelAsyncRequest() {
+  async cancelAsyncRequest(token, reportId, variantId, executionId, definitionsPath) {
+    this.logInfo('cancelAsyncRequest', { token, reportId, variantId, executionId, definitionsPath })
+
     return new Promise((resolve) => {
       resolve({
         cancellationSucceeded: true,
@@ -49,6 +55,8 @@ class MockDashboardClient {
   }
 
   async getAsyncDashboard(token, reportId, dashboardId, tableId, query) {
+    logInfo('getAsyncDashboard', { token, reportId, dashboardId, tableId }, query)
+
     const def = await this.getDefinition('token', dashboardId)
     if (def) {
       const data = getData(def, dashboardId, query)
@@ -75,6 +83,15 @@ class MockDashboardClient {
       default:
         return this.statusResponses.happyStatuses
     }
+  }
+}
+
+const logInfo = (functionName, args, query) => {
+  console.log(`
+MockDashboardClient: ${functionName}`)
+  console.log(JSON.stringify(args, null, 2))
+  if (query) {
+    console.log(JSON.stringify(query, null, 2))
   }
 }
 

@@ -190,7 +190,7 @@ const mockSyncData = {
           text: 'Field 7',
           name: 'field7',
           type: 'date',
-          value: '2003-02-01',
+          value: '2005-02-01',
           minimumLength: null,
           dynamicResourceEndpoint: null,
           min: '2003-02-01',
@@ -243,20 +243,35 @@ const mockSyncData = {
           key: '["filters.field3.start","filters.field3.end"]',
           value: ['"2003-02-01"', '"2006-05-04"'],
           disabled: false,
+          constraints: [
+            {
+              key: 'filters.field3.start',
+              value: '2003-02-01',
+            },
+            {
+              key: 'filters.field3.end',
+              value: '2007-05-04',
+            },
+          ],
           classes: 'interactive-remove-filter-button',
           attributes: {
             'aria-label': 'Selected Filter: Field 3: 2003-02-01 - 2006-05-04. Click to clear this filter',
           },
         },
         {
-          text: 'Field 7: 2003-02-01 (min date)',
+          text: 'Field 7: 2005-02-01',
           key: '["filters.field7"]',
-          value: ['"2003-02-01"'],
-          disabled: true,
-          classes: 'interactive-remove-filter-button interactive-remove-filter-button--disabled',
+          value: ['"2005-02-01"'],
+          disabled: false,
+          classes: 'interactive-remove-filter-button',
+          constraints: [
+            {
+              key: 'filters.field7',
+              value: '2003-02-01',
+            },
+          ],
           attributes: {
-            'aria-label':
-              'Selected Filter: Field 7: 2003-02-01 (min date). This filter cant be removed. Update the filter input to change the value',
+            'aria-label': 'Selected Filter: Field 7: 2005-02-01. Click to clear this filter',
           },
         },
         {
@@ -366,6 +381,7 @@ const mockSyncData = {
       ],
     },
     reportUrl: 'pathname',
+    fullUrl: "protocol://hostoriginalUrl",
     bookmarked: false,
     reportSearch: 'search',
     encodedSearch: 'search',
@@ -379,15 +395,13 @@ const mockSyncData = {
     actions: [
       {
         id: 'dpr-button-printable',
-        icon: 'print',
         disabled: true,
-        tooltipText: 'Print',
+        tooltipText: 'Print screen',
         ariaLabelText: 'print report, disabled',
         href: '#',
       },
       {
         id: 'dpr-button-sharable',
-        icon: 'share',
         disabled: false,
         tooltipText: 'Share',
         ariaLabelText: 'share report request via email',
@@ -395,7 +409,6 @@ const mockSyncData = {
       },
       {
         id: 'dpr-button-copy',
-        icon: 'copy',
         disabled: false,
         tooltipText: 'Copy',
         ariaLabelText: 'report request',
@@ -403,7 +416,6 @@ const mockSyncData = {
       },
       {
         id: 'dpr-button-downloadable',
-        icon: 'download',
         disabled: false,
         tooltipText: 'Enable download',
         ariaLabelText: 'download report',

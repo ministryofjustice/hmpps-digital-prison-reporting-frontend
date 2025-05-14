@@ -2,7 +2,7 @@
   "name": "@ministryofjustice/hmpps-digital-prison-reporting-frontend",
   "description": "The Digital Prison Reporting Frontend contains templates and code to help display data effectively in UI applications.",
   "version": "Version set by script",
-  "main": "dpr/assets/js/all.mjs",
+  "main": "dpr/all.mjs",
   "sass": "dpr/all.scss",
   "engines": {
     "node": "^22",
@@ -24,7 +24,7 @@
     "agentkeepalive": "^4.5.0",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
-    "chart.js": "^4.4.4",
+    "chart.js": "^3.9.1",
     "chartjs-plugin-datalabels": "^2.2.0",
     "dayjs": "^1.11.12",
     "express": "^4.18.2",

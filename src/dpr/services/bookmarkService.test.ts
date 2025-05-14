@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import BookmarkService from './bookmarkService'
-import type UserDataStore from '../data/userDataStore'
+import type ReportDataStore from '../data/reportDataStore'
 import MockUserStoreService from '../../../test-app/mocks/mockClients/store/mockRedisStore'
-import { UserStoreConfig } from '../types/UserStore'
+import { ReportStoreConfig } from '../types/ReportStore'
 import { ReportType } from '../types/UserReports'
 import { BookmarkStoreData } from '../types/Bookmark'
 
 describe('BookmarkService', () => {
-  const mockUserStore: UserDataStore = new MockUserStoreService() as unknown as UserDataStore
+  const mockUserStore: ReportDataStore = new MockUserStoreService() as unknown as ReportDataStore
   const bookmarkService: BookmarkService = new BookmarkService(mockUserStore)
 
-  let saveStateSpy: jest.SpyInstance<Promise<void>, [userId: string, userConfig: UserStoreConfig], any>
+  let saveStateSpy: jest.SpyInstance<Promise<void>, [userId: string, userConfig: ReportStoreConfig], any>
   const mockDate = new Date(1466424490000)
   jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
 
@@ -39,7 +39,7 @@ describe('BookmarkService', () => {
 
     jest.spyOn(bookmarkService, 'getState').mockResolvedValue({
       bookmarks: [bm1, bm2, bm3],
-    } as unknown as UserStoreConfig)
+    } as unknown as ReportStoreConfig)
 
     saveStateSpy = jest.spyOn(bookmarkService, 'saveState')
   })
@@ -70,7 +70,7 @@ describe('BookmarkService', () => {
           bm2,
           bm3,
         ],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userCongfig)
     })
@@ -89,7 +89,7 @@ describe('BookmarkService', () => {
           bm2,
           bm3,
         ],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userCongfig)
     })
@@ -108,7 +108,7 @@ describe('BookmarkService', () => {
           bm2,
           bm3,
         ],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userCongfig)
     })
@@ -118,7 +118,7 @@ describe('BookmarkService', () => {
 
       const userCongfig = {
         bookmarks: [bm1, bm2, bm3],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userCongfig)
     })
@@ -128,7 +128,7 @@ describe('BookmarkService', () => {
 
       const userCongfig = {
         bookmarks: [bm1, bm2, bm3],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userCongfig)
     })
@@ -140,7 +140,7 @@ describe('BookmarkService', () => {
 
       const userCongfig = {
         bookmarks: [bm2, bm3],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userCongfig)
     })
@@ -150,7 +150,7 @@ describe('BookmarkService', () => {
 
       const userCongfig = {
         bookmarks: [bm1, bm3],
-      } as unknown as UserStoreConfig
+      } as unknown as ReportStoreConfig
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userCongfig)
     })

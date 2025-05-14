@@ -9,17 +9,12 @@ import DefinitionUtils from '../../../utils/definitionUtils'
 import { createListItemProduct, createListActions, setInitialHref } from '../../../utils/reportListsHelper'
 import LocalsHelper from '../../../utils/localsHelper'
 
-export const formatBookmarks = async (
-  bookmarksData: BookmarkedReportData[],
-  maxRows?: number,
-): Promise<FormattedUserReportData[]> => {
-  const cards = bookmarksData
+export const formatBookmarks = async (bookmarksData: BookmarkedReportData[]): Promise<FormattedUserReportData[]> => {
+  return bookmarksData
     .map((report: BookmarkedReportData) => {
       return formatBookmark(report)
     })
     .sort((a, b) => a.text.localeCompare(b.text))
-
-  return maxRows ? cards.slice(0, maxRows) : cards
 }
 
 export const formatBookmark = (bookmarkData: BookmarkedReportData): FormattedUserReportData => {
@@ -96,8 +91,7 @@ const mapBookmarkIdsToDefinition = async (
   services: Services,
 ): Promise<BookmarkedReportData[]> => {
   const bookmarkData: BookmarkedReportData[] = []
-  const { dataProductDefinitionsPath: definitionPath } = req.query
-  const { pathSuffix } = LocalsHelper.getValues(res)
+  const { definitionsPath } = LocalsHelper.getValues(res)
 
   await Promise.all(
     bookmarks.map(async (bookmark) => {
@@ -117,13 +111,13 @@ const mapBookmarkIdsToDefinition = async (
             token,
             bookmark.reportId,
             bookmarkId,
-            <string>definitionPath,
+            definitionsPath,
           )
           reportName = definition.name
           name = definition.variant.name
           description = definition.variant.description || definition.description
           loadType = definition.variant.loadType || loadType
-          href = setInitialHref(loadType, reportType, bookmark.reportId, bookmarkId, pathSuffix)
+          href = setInitialHref(loadType, reportType, bookmark.reportId, bookmarkId, res)
         }
 
         if (reportType === ReportType.DASHBOARD) {
@@ -131,13 +125,14 @@ const mapBookmarkIdsToDefinition = async (
             bookmark.reportId,
             services.reportingService,
             token,
-            <string>definitionPath,
+            definitionsPath,
           )
+
           definition = await services.dashboardService.getDefinition(
             token,
             bookmarkId,
             bookmark.reportId,
-            <string>definitionPath,
+            definitionsPath,
           )
           name = definition.name
           reportName = reportDefinition.name
@@ -179,13 +174,13 @@ export default {
     res: Response
     req: Request
   }) => {
-    const { token, csrfToken, userId } = LocalsHelper.getValues(res)
-
-    // TODO: update bookmark type to use id instead of variantID
-    const bookmarks: { reportId: string; variantId: string }[] = await services.bookmarkService.getAllBookmarks(userId)
+    const { token, csrfToken, userId, bookmarks } = LocalsHelper.getValues(res)
     const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, res, token, services)
 
-    const formatted = await formatBookmarks(bookmarksData, maxRows)
+    let formatted = await formatBookmarks(bookmarksData)
+    const formattedCount = formatted.length
+
+    if (maxRows) formatted = formatted.slice(0, maxRows)
     const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, userId, maxRows)
 
     const head = {
@@ -194,8 +189,8 @@ export default {
     }
 
     const total = {
-      amount: formatted.length,
-      shown: formatted.length > maxRows ? maxRows : formatted.length,
+      amount: formattedCount,
+      shown: formattedCount > maxRows ? maxRows : formattedCount,
       max: maxRows,
     }
 
@@ -204,6 +199,7 @@ export default {
       tableData,
       total,
       csrfToken,
+      type: 'bookmark',
     }
 
     return result

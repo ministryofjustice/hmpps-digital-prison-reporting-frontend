@@ -1,18 +1,11 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 
-{% macro dprDataTable(options) %}
+{% macro dprDataTable(dataTable, classification) %}
 
-  {% set dataTable = options.dataTable %}
   {% set rows = dataTable.rows %}
   {% set head = dataTable.head %}
-  {% set rowCount = dataTable.rowCount %}
   {% set colCount = dataTable.colCount %}
-  
   {% set classification = options.classification %}
-  {% set pagination = options.pagination %}
-  {% set pageSize = pagination.pageSize %}
-  {% set totalRows = pagination.totalRows %}
-  {% set currentPage = pagination.currentPage %}
 
   <div id="table-container" class='dpr-table-container' data-dpr-module="data-table">
     <div class="dpr-overflow-gradient" id="dpr-overflow-gradient"></div>
@@ -23,11 +16,7 @@
         attributes: { 
           'id': 'dpr-data-table',
           'data-classification': classification,
-          'data-col-length': colCount,
-          'data-row-length': rowCount,
-          'data-page-size': pageSize,
-          'data-selected-page': currentPage,
-          'data-total-results': totalRows
+          'data-col-length': colCount
         }
       }) }}
     </div>

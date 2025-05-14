@@ -3,6 +3,9 @@ const definitions = require('./mockReportDefinition')
 const mockStatusApiError = require('./mockStatusResponseError')
 const mockBadQueryRequest = require('./mockBadQueryRequest')
 const createMockData = require('./mockAsyncData')
+const mockParentChild = require('./mockVariants/data/parent-child')
+const mockListSection = require('./mockVariants/data/list-section')
+const mockParentChildSection = require('./mockVariants/data/parent-child-section')
 
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 
@@ -13,7 +16,9 @@ class MockReportingClient {
     this.RESULT_COUNT = 100
   }
 
-  async requestAsyncReport(token, reportId, variantId) {
+  async requestAsyncReport(token, reportId, variantId, query) {
+    this.logInfo('requestAsyncReport', { token, reportId, variantId }, query)
+
     const unix = Date.now()
     return new Promise((resolve, reject) => {
       if (variantId !== 'variantId-5') {
@@ -25,12 +30,23 @@ class MockReportingClient {
     })
   }
 
-  async getAsyncReportStatus(token, reportId, variantId, executionId) {
+  async getAsyncReportStatus(token, reportId, variantId, executionId, definitionsPath, tableId) {
+    this.logInfo('getAsyncReportStatus', {
+      token,
+      reportId,
+      variantId,
+      executionId,
+      definitionsPath,
+      tableId,
+    })
+
     const statuses = this.getStatusResponses(variantId)
     return mockStatusHelper(this.mockRequests, statuses, executionId)
   }
 
-  async getDefinition(token, reportId, variantId) {
+  async getDefinition(token, reportId, variantId, definitionsPath) {
+    this.logInfo('getDefinition', { token, reportId, variantId, definitionsPath })
+
     const report = definitions.reports.find((r) => r.id === reportId)
     const variant = report.variants.filter((v) => v.id === variantId)
     // eslint-disable-next-line prefer-destructuring
@@ -40,7 +56,9 @@ class MockReportingClient {
     return Promise.resolve(reportClone)
   }
 
-  async getDefinitions() {
+  async getDefinitions(token, definitionsPath) {
+    this.logInfo('getDefinitions', { token, definitionsPath })
+
     return Promise.resolve(definitions.reports)
   }
 
@@ -67,17 +85,48 @@ class MockReportingClient {
   }
 
   async getAsyncReport(token, reportId, variantId, tableId, query) {
+    this.logInfo('getAsyncReport', { token, reportId, variantId, tableId }, query)
+
     const pageSize = +query.pageSize < this.RESULT_COUNT ? +query.pageSize : this.RESULT_COUNT
-    const report = createMockData(pageSize)
+
+    let data = []
+    switch (variantId) {
+      case 'variantId-26':
+        // Parent child template - parent
+        data = mockParentChild.parentData()
+        break
+      case 'variantId-26-child':
+        // Parent child template - child
+        data = mockParentChild.childData()
+        break
+      case 'variantId-8':
+        // List section
+        data = mockListSection.listSectionData()
+        break
+      case 'variantId-27':
+        // Parent-child-section - parent
+        data = mockParentChildSection.parentData()
+        break
+      case 'variantId-27-child':
+        // List section
+        data = mockParentChildSection.childData()
+        break
+      default:
+        data = createMockData(pageSize)
+        break
+    }
+
     return new Promise((resolve, reject) => {
       if (variantId === 'variantId-6') {
         reject(mockStatusApiError)
       }
-      resolve(report)
+      resolve(data)
     })
   }
 
-  async cancelAsyncRequest() {
+  async cancelAsyncRequest(token, reportId, variantId, executionId, definitionsPath) {
+    this.logInfo('cancelAsyncRequest', { token, reportId, variantId, executionId, definitionsPath })
+
     return new Promise((resolve) => {
       resolve({
         cancellationSucceeded: true,
@@ -85,7 +134,9 @@ class MockReportingClient {
     })
   }
 
-  async getAsyncCount() {
+  async getAsyncCount(token, tableId, definitionsPath) {
+    this.logInfo('getAsyncCount', { token, tableId, definitionsPath })
+
     return Promise.resolve(this.RESULT_COUNT)
   }
 
@@ -93,7 +144,9 @@ class MockReportingClient {
     return Promise.resolve(this.RESULT_COUNT)
   }
 
-  async getAsyncSummaryReport(token, reportId, variantId, tableId, summaryId) {
+  async getAsyncSummaryReport(token, reportId, variantId, tableId, summaryId, query) {
+    this.logInfo('getAsyncSummaryReport', { token, reportId, variantId, tableId, summaryId }, query)
+
     switch (summaryId) {
       case 'summary3':
         return Promise.resolve([
@@ -281,6 +334,15 @@ class MockReportingClient {
         return this.statusResponses.timedOutStatuses
       default:
         return this.statusResponses.happyStatuses
+    }
+  }
+
+  logInfo(functionName, args, query) {
+    console.log(`
+MockReportingClient: ${functionName}`)
+    console.log(JSON.stringify(args, null, 2))
+    if (query) {
+      console.log(JSON.stringify(query, null, 2))
     }
   }
 }

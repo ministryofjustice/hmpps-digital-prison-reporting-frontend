@@ -1,14 +1,22 @@
-import UserStoreService from './userStoreService'
-import UserDataStore from '../data/userDataStore'
-import { RequestStatus, RequestedReport, RecentlyViewedReport, ReportType } from '../types/UserReports'
-import { UserStoreConfig } from '../types/UserStore'
+import ReportStoreService from './reportStoreService'
+import UserDataStore from '../data/reportDataStore'
+import {
+  RequestStatus,
+  RequestedReport,
+  RecentlyViewedReport,
+  ReportType,
+  StoredReportData,
+} from '../types/UserReports'
+import { ReportStoreConfig } from '../types/ReportStore'
+import logger from '../utils/logger'
 
-export default class RecentlyViewedStoreService extends UserStoreService {
+export default class RecentlyViewedStoreService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
+    logger.info('Service created: RecentlyViewedStoreService')
   }
 
-  async getAllReports(userId: string) {
+  async getAllReports(userId: string): Promise<StoredReportData[]> {
     const userConfig = await this.getState(userId)
     return userConfig.recentlyViewedReports
   }
@@ -32,7 +40,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
     await this.addReport(reportData, userId, userConfig)
   }
 
-  async addReport(reportData: RequestedReport, userId: string, userConfig: UserStoreConfig) {
+  async addReport(reportData: RequestedReport, userId: string, userConfig: ReportStoreConfig) {
     const { reportId, executionId, tableId, reportName, name: variantName, description, url, query } = reportData
 
     const id = reportData.variantId || reportData.id
@@ -77,7 +85,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
     return userConfig.recentlyViewedReports[index].url.request.fullUrl
   }
 
-  async saveExpiredState(userConfig: UserStoreConfig, index: number, userId: string) {
+  async saveExpiredState(userConfig: ReportStoreConfig, index: number, userId: string) {
     let report: RecentlyViewedReport = userConfig.recentlyViewedReports[index]
     if (report) {
       report = {

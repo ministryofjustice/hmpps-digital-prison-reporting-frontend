@@ -47,6 +47,7 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
 
   initResetButton() {
     if (this.resetButton) {
+      this.defaultQuery = this.resetButton.getAttribute('defaultQuery')
       this.resetButton.addEventListener('click', (e) => {
         e.preventDefault()
         this.clearQueryParams('filters')
@@ -56,7 +57,13 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
   }
 
   resetAction() {
-    window.location.reload()
+    if (this.defaultQuery) {
+      const filters = this.defaultQuery.substring(1)
+      const href = `${window.location.href}&${filters}`
+      window.location.href = href
+    } else {
+      window.location.reload()
+    }
   }
 
   submitAction() {
@@ -70,14 +77,23 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
           e.preventDefault()
           const keys = JSON.parse(e.target.getAttribute('data-query-param-key'))
           const values = JSON.parse(e.target.getAttribute('data-query-param-value'))
+          let constraints = e.target.getAttribute('data-query-constraint-values')
+          constraints = constraints ? JSON.parse(e.target.getAttribute('data-query-constraint-values')) : undefined
 
           keys.forEach((key) => {
             values.forEach((value) => {
               this.updateQueryParam(key, value, 'delete')
             })
-            this.updateQueryParam('preventDefault', true)
-            window.location.reload()
+            if (constraints) {
+              const constraint = constraints.find((con) => con.key === key)
+              if (constraint) {
+                this.updateQueryParam(key, constraint.value)
+              }
+            }
           })
+
+          this.updateQueryParam('preventDefault', true)
+          window.location.reload()
         })
       })
     }

@@ -10,7 +10,35 @@ const dietTotals = {
       id: 'section-1',
       display: 'Diet Totals',
       description: '',
-      visualisations: [lists.dietTotals, lists.dietTotalsByEstablishment, lists.dietTotalsByEstablishmentByWing],
+      visualisations: [
+        {
+          id: 'total-prisoners',
+          type: 'list',
+          display: 'Prisoner totals by wing',
+          columns: {
+            keys: [
+              {
+                id: 'establishment_id',
+                display: 'Establishment ID',
+              },
+              {
+                id: 'wing',
+                display: 'Wing',
+              },
+            ],
+            measures: [
+              {
+                id: 'count',
+                display: 'Total prisoners',
+              },
+            ],
+            expectNulls: true,
+          },
+        },
+        lists.dietTotals,
+        lists.dietTotalsByEstablishment,
+        lists.dietTotalsByEstablishmentByWing,
+      ],
     },
     {
       id: 'section-2',

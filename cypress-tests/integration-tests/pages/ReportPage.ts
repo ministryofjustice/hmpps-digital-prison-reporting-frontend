@@ -1,17 +1,17 @@
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default class ReportPage {
-  showFilterButton = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div[1]/details/summary`)
+  showFilterButton = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[2]/div[1]/div[1]/details/summary`)
 
-  filterButtonPanel = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div[1]/details`)
+  filterButtonPanel = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[2]/div[1]/div[1]/details`)
 
   showColumnsButton = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div[2]/div/details/summary`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[2]/div[1]/div[2]/div/details/summary`)
 
   resetFilterButton = (): PageElement => cy.xpath(`//*[@id="interactive-reset-filters-button"]`)
 
   resetColumnsButton = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div[2]/div/details/div/form/div[2]/a`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[2]/div[1]/div[2]/div/details/div/form/div[2]/a`)
 
   pagingLink = (): PageElement => cy.get('.govuk-pagination__link').first()
 
@@ -46,18 +46,18 @@ export default class ReportPage {
 
   applyFiltersButton = (): PageElement => cy.xpath(`//*[@id="interactive-apply-filters-button"]`)
 
-  applyColumnsButton = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div[1]/div/div`)
+  applyColumnsButton = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[2]/div[1]/div[1]/div/div`)
 
   selectedFilterButton = (): PageElement => cy.get(`a.govuk-link.govuk-body.interactive-remove-filter-button`)
 
   selectedFilterButtonField1 = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div[1]/div/div/a[1]`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[2]/div[1]/div[1]/div/div/a[1]`)
 
   selectedFilterButtonField7 = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div[1]/div/div/a[3]`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[2]/div[1]/div[1]/div/div/a[3]`)
 
   selectedFilterButtonField3 = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[3]/div[1]/div[1]/div/div/a[2]`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[2]/div[1]/div[1]/div/div/a[2]`)
 
   unsortedSortColumnLink = (): PageElement => this.dataTable().find(`.data-table-header-button-sort-none`).first()
 

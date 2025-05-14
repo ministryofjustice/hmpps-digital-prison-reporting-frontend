@@ -4,62 +4,18 @@
 
 {% block content %}
   <div class="govuk-width-container govuk-grid-row app-flex-container">
-    <div class="govuk-grid-column-one-quarter">
-      {{ mojSideNavigation({
-        classes: 'govuk-!-padding-top-6',
-        sections: [
-          {
-            heading: {
-              text: 'Components'
-            },
-            items: [
-            {
-              text: 'Accordion',
-              href: '/components/accordion'
-            },
-            {
-              text: 'Autocomplete',
-              href: '/components/autocomplete-text-input'
-            },
-            {
-              text: 'Card group',
-              href: '/components/card-group'
-            },
-            {
-              text: 'Data table',
-              href: '/components/data-table'
-            },
-            {
-              text: 'Filters',
-              href: '/components/filters'
-            },
-            {
-              text: 'Date range',
-              href: '/components/date-range'
-            }
-            ]
-          },
-          {
-            heading: {
-              text: 'Pre-built reports'
-            },
-            items: [
-            {
-              text: 'List report',
-              href: '/components/list-report'
-            }
-            ]
-          }
-      ]
-
-        }) }}
+    <div class="govuk-grid-column-one-quarter dpr-docs-sidebar">
+      {% include "./partials/side-navigation/components/platform.njk" %}
+      {% include "./partials/side-navigation/components/report.njk" %}
+      {% include "./partials/side-navigation/components/filters.njk" %}
     </div>
 
     <div class="govuk-grid-column-three-quarters">
       <main id="main-content" class="govuk-main-wrapper app-prose-scope" role="main">
         <h1 class="govuk-heading-xl">
           {% if not isIndex %}
-            <span class="govuk-caption-xl">Components</span>{% endif %}
+            {% if subsection %}<span class="govuk-caption-xl">{{ subsection }}</span>{% endif %}
+          {% endif %}
           {{ title }}
         </h1>
         {{ content | safe }}

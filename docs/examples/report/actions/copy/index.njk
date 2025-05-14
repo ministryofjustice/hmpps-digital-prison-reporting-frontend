@@ -1,0 +1,19 @@
+---
+layout: layouts/example.njk
+title: Disable actions (example)
+arguments: report/actions
+---
+{% from "dpr/components/_reports/report-actions/view.njk" import dprReportActions %}
+
+{% set actions = [
+  {
+    id: "dpr-button-copy",
+    disabled: false,
+    tooltipText: "Copy",
+    ariaLabelText: "report request",
+    href: "url/of/report"
+  }
+] %}
+
+{{ dprReportActions(actions) }}
+

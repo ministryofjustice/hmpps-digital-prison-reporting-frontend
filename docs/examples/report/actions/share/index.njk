@@ -1,0 +1,19 @@
+---
+layout: layouts/example.njk
+title: Disable actions (example)
+arguments: report/actions
+---
+{% from "dpr/components/_reports/report-actions/view.njk" import dprReportActions %}
+
+{% set actions = [
+  {
+    id: "dpr-button-sharable",
+    disabled: false,
+    tooltipText: "Share",
+    ariaLabelText: "share report request via email",
+    href: "mailto:?subject=Product Name - Variant Name&body=link/to/report"
+  }
+] %}
+
+{{ dprReportActions(actions) }}
+

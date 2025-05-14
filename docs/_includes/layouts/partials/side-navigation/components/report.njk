@@ -1,0 +1,34 @@
+{%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
+
+{{ mojSideNavigation({
+  classes: 'govuk-!-padding-top-0',
+  sections: [
+    {
+      heading: {
+        text: 'Report'
+      },
+      items: [
+        {
+          text: 'Heading',
+          href: '/components/reports/heading',
+          active: page.filePathStem.indexOf('/components/reports/heading') === 0
+        },
+        {
+          text: 'Actions',
+          href: '/components/reports/actions',
+          active: page.filePathStem.indexOf('/components/reports/actions') === 0
+        },
+        {
+          text: 'Interactive filters',
+          href: '/components/reports/filters',
+          active: page.filePathStem.indexOf('/components/reports/filters') === 0
+        },
+        {
+          text: 'Data table',
+          href: '/components/reports/data-table',
+          active: page.filePathStem.indexOf('/components/reports/data-table') === 0
+        }
+      ]
+    }
+  ]
+}) }}

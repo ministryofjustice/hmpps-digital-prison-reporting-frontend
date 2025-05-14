@@ -17,7 +17,6 @@ export default {
       )
       response.reportData = await services.requestedReportService.getReportByExecutionId(executionId, userId)
     }
-
     return response
   },
 

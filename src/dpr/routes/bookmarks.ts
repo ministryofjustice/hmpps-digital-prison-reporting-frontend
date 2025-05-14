@@ -1,35 +1,39 @@
 import type { Router } from 'express'
 import BookmarklistUtils from '../components/user-reports/bookmarks/utils'
 import { Services } from '../types/Services'
+import logger from '../utils/logger'
 
 export default function routes({
   router,
   services,
   layoutPath,
-  templatePath = 'dpr/views/',
+  prefix,
 }: {
   router: Router
   services: Services
   layoutPath: string
-  templatePath?: string
+  prefix: string
 }) {
-  router.post('/addBookmark/', async (req, res) => {
+  logger.info('Initialiasing routes: Bookmarks')
+
+  router.post('/dpr/addBookmark/', async (req, res) => {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     const { reportId, id, reportType } = req.body
     await services.bookmarkService.addBookmark(userId, reportId, id, reportType)
     res.end()
   })
 
-  router.post('/removeBookmark/', async (req, res) => {
+  router.post('/dpr/removeBookmark/', async (req, res) => {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
     await services.bookmarkService.removeBookmark(userId, req.body.id)
     res.end()
   })
 
-  router.get('/async-reports/bookmarks', async (req, res) => {
-    res.render(`${templatePath}/async-reports`, {
-      title: 'Requested Reports',
+  router.get(`${prefix}/async-reports/bookmarks`, async (req, res) => {
+    res.render(`dpr/views/async-reports`, {
+      title: 'Bookmarks',
       layoutPath,
+      catId: 'dpr-bookmarks-list',
       ...(await BookmarklistUtils.renderBookmarkList({ services, res, req })),
     })
   })

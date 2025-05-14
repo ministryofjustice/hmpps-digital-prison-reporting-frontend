@@ -1,0 +1,58 @@
+{%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
+
+{{ mojSideNavigation({
+  classes: 'govuk-!-padding-top-6',
+  sections: [
+    {
+      heading: {
+        text: "How to guides"
+      },
+      items: [
+        {
+          text: 'Integrating the library',
+          href: ('/integration-guides/integrating-the-library')
+        },
+        {
+          text: '➤ Install library using NPM',
+          href: ('/integration-guides/integrating-the-library#install-library-using-npm')
+        },
+        {
+          text: '➤ Import SASS',
+          href: ('/integration-guides/integrating-the-library#import-sass')
+        },
+        {
+          text: '➤ Import sssets',
+          href: ('/integration-guides/integrating-the-library#import-assets')
+        },
+        {
+          text: '➤ Import Javascript',
+          href: ('/integration-guides/integrating-the-library#import-javascript')
+        },
+        {
+          text: '➤ Add the JS files to your HTML',
+          href: ('/integration-guides/integrating-the-library#add-the-javaScript-files-to-your-html')
+        },
+        {
+          text: '➤ Import JS using a bundler',
+          href: ('/integration-guides/integrating-the-library#import-javaScript-using-a-bundler')
+        },
+        {
+          text: '➤ Nunjucks setup',
+          href: ('/integration-guides/integrating-the-library#nunjucks-setup')
+        },
+        {
+          text: '➤ Import Fonts',
+          href: ('/integration-guides/integrating-the-library#import-fonts')
+        },
+        {
+          text: 'Integrating the platform',
+          href: ('/integration-guides/integrating-the-platform')
+        },
+        {
+          text: 'Integrating the FE',
+          href: ('/integration-guides/integrating-the-fe')
+        }
+      ]
+    }
+  ]
+}) }}

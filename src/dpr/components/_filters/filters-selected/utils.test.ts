@@ -40,8 +40,8 @@ describe('Selected filters utils', () => {
           },
         },
         {
-          text: 'Filter 5',
-          name: 'filter5',
+          text: 'Filter 6',
+          name: 'filter6',
           type: FilterType.dateRange,
           value: {
             start: '01/02/20',
@@ -53,13 +53,13 @@ describe('Selected filters utils', () => {
       ]
     })
 
-    it('getSelectedFilters', () => {
+    it('should get the selected filters', () => {
       const result = SelectedFiltersUtils.getSelectedFilters(filters, 'filters.')
       const expectedResult = [
         {
           text: `Filter 2: value 2`,
           key: '["filters.filter2"]',
-          value: ['value 2'],
+          value: ['"value 2"'],
           classes: 'interactive-remove-filter-button',
           disabled: false,
           attributes: {
@@ -69,7 +69,7 @@ describe('Selected filters utils', () => {
         {
           text: `Filter 4: value 4`,
           key: '["filters.filter4"]',
-          value: ['value 4'],
+          value: ['"value 4"'],
           classes: 'interactive-remove-filter-button',
           disabled: false,
           attributes: {
@@ -87,14 +87,24 @@ describe('Selected filters utils', () => {
           },
         },
         {
-          text: 'Filter 5: 01/02/20 - 01/02/22 (maximum range)',
-          key: '["filters.filter5.start","filters.filter5.end"]',
+          text: 'Filter 6: 01/02/20 - 01/02/22 (maximum range)',
+          key: '["filters.filter6.start","filters.filter6.end"]',
           value: ['"01/02/20"', '"01/02/22"'],
           classes: 'interactive-remove-filter-button interactive-remove-filter-button--disabled',
           disabled: true,
+          constraints: [
+            {
+              key: 'filters.filter6.start',
+              value: '01/02/20',
+            },
+            {
+              key: 'filters.filter6.end',
+              value: '01/02/22',
+            },
+          ],
           attributes: {
             'aria-label':
-              'Selected Filter: Filter 5: 01/02/20 - 01/02/22 (maximum range). This filter cant be removed. Update the filter input to change the value',
+              'Selected Filter: Filter 6: 01/02/20 - 01/02/22 (maximum range). This filter cant be removed. Update the filter input to change the value',
           },
         },
       ]

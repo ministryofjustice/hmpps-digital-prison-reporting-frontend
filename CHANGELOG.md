@@ -1,8 +1,133 @@
 Below you can find the changes included in each release.
 
+## v4.3.0
+
+- `parent-child-section` report template.
+
+## v4.2.6
+
+### Bugfixes
+
+- User reports listing page components not found
+- Bookmarks capped at 6
+
+## v4.2.5
+
+### DPR Platform integration process
+- Integration process for embedding the DPR platform into DPS's
+- Configurable platform features
+- Configurable definitions path
+- Integration process docs
+
+### Documentation Updates: 
+  - new/updated component docs
+  - Updated Lib integration docs
+  - Improved IA and styling.
+
+## v4.1.26
+
+- BugFix: Parent child template fixed.
+
+## v4.1.24
+
+- Improvements to the documentation application.
+
+## v4.1.23
+
+- Embedded reports integration:  
+  - Fixed path issues with moj and dpr sass imports
+  - Fixed lib dependecy issues.
+  - Updated integration docs to outline process for services using bundlers
+
+- Embedded reports actions: 
+  - Fixed copy button to include full url
+
+- Dashboard visualisations: Support for line chart visualisation type
+
+## v4.1.16
+
+- Embedded reports integration: Moved all.js to root of lib folder: `dpr/all.js`
+
+## v4.1.15
+
+- Async reports: Bugfix: Fix request when Select/radio input value is None.
+
+## v4.1.14
+
+- Embedded reports: Streamlined integration process. Removed need to add individual dpr dependencies to project. Follows same init pattern as moj and govuk libs.
+
+## v4.1.13
+
+- Bugfix: Dashboard description is optional
+
+## v4.1.12
+
+- Bugfix: Relative daterange updating filters correctly
+- Bugfix: Print feature displaying all columns for large reports
+
+## v4.1.11
+
+- Multiselect updates: Selected filter for multiselect shortened. Scrollbar when many select options
+
+## v4.1.10
+
+Embedded reports
+- Bugfix: variant name instead of variant ID in report heading
+- Bugfix: Print feature - filters removed, urls in links removed
+
+Interactive async reports
+- bugfix: initial report load uses correct query
+- bugfix: min and max constraints applied to api request when filter is removed
+- bugfix: reset button
+
+## v4.1.9
+
+- Dashbaord request filters
+- Change to call a difference execution cancellation endpoint for dashboards to support dashboards running on other data sources apart from Redshift.
+
+## v4.1.8
+
+- Change to call a different status endpoint for dashboards in order to support dashboards running on other data sources apart from Redshift.
+
+## v4.1.7
+
+- Bugfix: filters default to initial values if all filters are removed. fixed
+- Bugfix: Error when no default value provided in multiselect filter.
+
+## v4.1.6
+
+- Bugfix:  daterange query param issue on initial load
+- Bugfix:  daterange required bug - input was always mandatory.
+- Bugfix:  daterange validation message
+
+## v4.1.5
+
+- Bugfix: Run correct query on initial report load 
+
+
+## v4.1.4
+
+- Bugfix: Embedded report list: use `dataProductDefinitionsPath` if provided, otherwise use `definitionsPath` 
+
+## v4.1.3
+
+- Bugfix: multi-select filter: fix `join(',') error when query param is a string
+- Bugfix: multi-select filter: removing all checkboxes and applying sets the values to default. Fixed
+
+## v4.1.1
+
+- Bugfix: multi-select filter throws error when initial value is undefined in the definition.
+
+## v4.1.0
+
+- Embedded Report filters component has been replaced with DPR app component & processes
+- Filter inputs update: Improved validation for checkboxes, radio and select inputs
+- Filter inputs update: Radio and select options include 'None' when input is not mandatory/required
+- Bugfix: multiselect query parameters work properly
+
 ## v4.0.2
 
-- bigfix: Embedded reports datepicker date formatting 
+- bugfix: Embedded reports datepicker date formatting 
 
 ## v4.0.1
 

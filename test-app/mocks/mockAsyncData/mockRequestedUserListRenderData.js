@@ -10,7 +10,7 @@ const requestedUserListData = {
           classes: 'dpr-req-cell',
         },
         {
-          html: '<a href=\'http://localhost:3010/async-reports/test-report-1/variantId-1/request/tblId_1724943092549/report\'><p class="govuk-body-s govuk-!-margin-bottom-0">Test Variant 1</p></a>',
+          html: '<a href=\'http://localhost:3010/async/test-report-1/variantId-1/request/tblId_1724943092549/report\'><p class="govuk-body-s govuk-!-margin-bottom-0">Test Variant 1</p></a>',
           classes: 'dpr-req-cell',
         },
         {
@@ -36,7 +36,7 @@ const requestedUserListData = {
           classes: 'dpr-req-cell',
         },
         {
-          html: '<a href=\'http://localhost:3010/async-reports/test-report-2/variantId-2/request/exId_1721738244285\'><p class="govuk-body-s govuk-!-margin-bottom-0">Test Variant 2</p></a>',
+          html: '<a href=\'http://localhost:3010/async/test-report-2/variantId-2/request/exId_1721738244285\'><p class="govuk-body-s govuk-!-margin-bottom-0">Test Variant 2</p></a>',
           classes: 'dpr-req-cell',
         },
         {
@@ -52,7 +52,7 @@ const requestedUserListData = {
           classes: 'dpr-req-cell',
         },
         {
-          html: '<strong class="govuk-tag dpr-request-status-tag govuk-tag--red">FAILED</strong> <div class="dpr-icon-wrapper__item-actions">\n      <a class=\'dpr-user-list-action govuk-link--no-visited-state\' href="http://localhost:3010/async-reports/test-report-2/variantId-2/request/exId_1721738244285">Retry</a>\n      <a class="dpr-user-list-action govuk-link--no-visited-state dpr-remove-requested-report-button"" href="#" data-execution-id=\'exId_1721738244285\'>Remove</a>\n    </div>',
+          html: '<strong class="govuk-tag dpr-request-status-tag govuk-tag--red">FAILED</strong> <div class="dpr-icon-wrapper__item-actions">\n      <a class=\'dpr-user-list-action govuk-link--no-visited-state\' href="http://localhost:3010/async/test-report-2/variantId-2/request/exId_1721738244285">Retry</a>\n      <a class="dpr-user-list-action govuk-link--no-visited-state dpr-remove-requested-report-button"" href="#" data-execution-id=\'exId_1721738244285\'>Remove</a>\n    </div>',
           classes: 'dpr-req-cell dpr-req-cell__status',
         },
       ],
@@ -62,7 +62,7 @@ const requestedUserListData = {
           classes: 'dpr-req-cell',
         },
         {
-          html: '<a href=\'http://localhost:3010/async-reports/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true\'><p class="govuk-body-s govuk-!-margin-bottom-0">Test Variant 3</p></a>',
+          html: '<a href=\'http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true\'><p class="govuk-body-s govuk-!-margin-bottom-0">Test Variant 3</p></a>',
           classes: 'dpr-req-cell',
         },
         {
@@ -78,7 +78,7 @@ const requestedUserListData = {
           classes: 'dpr-req-cell',
         },
         {
-          html: '<strong class="govuk-tag dpr-request-status-tag govuk-tag--grey">EXPIRED</strong> <div class="dpr-icon-wrapper__item-actions">\n      <a class=\'dpr-user-list-action govuk-link--no-visited-state\' href="http://localhost:3010/async-reports/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true">Retry</a>\n      <a class="dpr-user-list-action govuk-link--no-visited-state dpr-remove-requested-report-button"" href="#" data-execution-id=\'exId_1721738244290\'>Remove</a>\n    </div>',
+          html: '<strong class="govuk-tag dpr-request-status-tag govuk-tag--grey">EXPIRED</strong> <div class="dpr-icon-wrapper__item-actions">\n      <a class=\'dpr-user-list-action govuk-link--no-visited-state\' href="http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true">Retry</a>\n      <a class="dpr-user-list-action govuk-link--no-visited-state dpr-remove-requested-report-button"" href="#" data-execution-id=\'exId_1721738244290\'>Remove</a>\n    </div>',
           classes: 'dpr-req-cell dpr-req-cell__status',
         },
       ],

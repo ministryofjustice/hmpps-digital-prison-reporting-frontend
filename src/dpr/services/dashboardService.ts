@@ -1,9 +1,13 @@
 import { DashboardDefinition } from '../components/_dashboards/dashboard/types'
 import Dict = NodeJS.Dict
+import logger from '../utils/logger'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export default class DashboardService {
-  constructor(private readonly dashboardClient: any) {}
+  constructor(private readonly dashboardClient: any) {
+    this.dashboardClient = dashboardClient
+    logger.info('Service created: DashboardService')
+  }
 
   async getDefinition(
     token: string,
@@ -28,8 +32,15 @@ export default class DashboardService {
     reportId: string,
     dashboardId: string,
     executionId: string,
+    dataProductDefinitionsPath?: string,
   ): Promise<Dict<string>> {
-    return this.dashboardClient.cancelAsyncRequest(token, reportId, dashboardId, executionId)
+    return this.dashboardClient.cancelAsyncRequest(
+      token,
+      reportId,
+      dashboardId,
+      executionId,
+      dataProductDefinitionsPath,
+    )
   }
 
   async getAsyncStatus(
@@ -37,16 +48,16 @@ export default class DashboardService {
     reportId: string,
     dashboardId: string,
     executionId: string,
-    dataProductDefinitionsPath: string,
-    tableId: string,
+    dataProductDefinitionsPath?: string,
+    tableId?: string,
   ): Promise<Dict<string>> {
     return this.dashboardClient.getAsyncStatus(
       token,
       reportId,
       dashboardId,
       executionId,
-      dataProductDefinitionsPath,
       tableId,
+      dataProductDefinitionsPath,
     )
   }
 

@@ -1,4 +1,6 @@
+import { Response } from 'express'
 import { LoadType, ReportType, RequestStatus } from '../types/UserReports'
+import localsHelper from './localsHelper'
 
 export const itemActionsHtml = (
   retryHref: string,
@@ -66,16 +68,13 @@ export const toSentenceCase = (text: string) => {
   return text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
 }
 
-export const setInitialHref = (
-  loadType: LoadType,
-  type: ReportType,
-  reportId: string,
-  id: string,
-  pathSuffix: string,
-) => {
-  let href = `/async/${type}/${reportId}/${id}/request${pathSuffix}`
+export const setInitialHref = (loadType: LoadType, type: ReportType, reportId: string, id: string, res: Response) => {
+  const { pathSuffix, dpdPathFromQuery, routePrefix } = localsHelper.getValues(res)
+  const dpdPathQueryParam = dpdPathFromQuery ? pathSuffix : ''
+
+  let href = `${routePrefix}/async/${type}/${reportId}/${id}/request${dpdPathQueryParam}`
   if (loadType && loadType === LoadType.SYNC) {
-    href = `/sync/${type}/${reportId}/${id}/load-report${pathSuffix}`
+    href = `${routePrefix}/sync/${type}/${reportId}/${id}/load-report${dpdPathQueryParam}`
   }
   return href
 }

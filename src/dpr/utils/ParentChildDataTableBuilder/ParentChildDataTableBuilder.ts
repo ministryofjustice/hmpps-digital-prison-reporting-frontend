@@ -47,7 +47,7 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
       const sectionData = sectionedParentChildData[key.sortKey]
       const parentSectionData = sectionData.parent
 
-      return [header].concat(parentSectionData.map((r) => this.mapRow(r))).concat(
+      return [header].concat(parentSectionData.map((r) => this.mapRow(r, 'dpr-parent-cell'))).concat(
         this.variant.childVariants
           .filter((childVariant) => sectionData[childVariant.id])
           .map((childVariant) => {
@@ -55,10 +55,11 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
 
             return [
               {
+                classes: 'dpr-child-report-cell',
                 format: 'string',
-                html: `<div class='dpr-child-report'><h3>${childVariant.name}</h3>${this.convertDataTableToHtml(
-                  dataTable,
-                )}</div>`,
+                html: `<div class='dpr-child-report'><h3 class="govuk-heading-s">${
+                  childVariant.name
+                }</h3><div class="dpr-child-report_table">${this.convertDataTableToHtml(dataTable)}</div></div>`,
                 colspan: this.columns.length,
               },
             ]
@@ -89,17 +90,12 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
     })
 
     const rows = sectionedParentChildSectionedRows.flatMap((section) => {
-      return [
-        [
-          {
-            colspan: this.columns.length,
-            html: `<h2>${section.sectionDescription}${
-              section.count > 0 ? ` <span class='govuk-caption-m'>${section.countDescription}</span>` : ''
-            }</h2>`,
-          },
-        ],
-        ...section.rows,
-      ]
+      const sectionHeader = this.createSectionHeader(
+        section.sectionDescription,
+        section.count,
+        section.countDescription,
+      )
+      return [...sectionHeader, ...section.rows]
     })
 
     return rows

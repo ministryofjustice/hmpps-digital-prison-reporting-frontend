@@ -7,7 +7,7 @@
 
   .dpr-summary-container {
     min-width: 200px;
-    width: fit-content;
+    width: 100%;
 
     .govuk-table {
       border: solid 1px govuk-colour("mid-grey");
@@ -16,12 +16,16 @@
       th, td {
         padding: 10px;
       }
+      th {
+        background-color: govuk-colour("light-grey");
+      }
     }
   }
 }
 
 .dpr-summary-container-group-page-header {
   margin-top: 30px;
+
 }
 
 .dpr-summary-container-group-page-footer {

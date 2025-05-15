@@ -170,18 +170,38 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
         tableContent = tableContent.concat(mappedTableData.length > 0 ? [header] : []).concat(mappedTableData)
       }
 
-      return [
-        [
-          {
-            colspan: this.columns.length,
-            html: `<h2>${sectionDescription}${
-              count > 0 ? ` <span class='govuk-caption-m'>${countDescription}</span>` : ''
-            }</h2>`,
-          },
-        ],
-        ...tableContent,
-      ]
+      const sectionHeader = this.createSectionHeader(sectionDescription, count, countDescription)
+
+      return [...sectionHeader, ...tableContent]
     })
+  }
+
+  createSectionHeader(sectionDescription: string, count?: number, countDescription?: string) {
+    return [
+      [
+        {
+          classes: 'dpr-section-header-spacer',
+          colspan: this.columns.length,
+          text: '',
+        },
+      ],
+      [
+        {
+          classes: 'dpr-section-header',
+          colspan: this.columns.length,
+          html: `<h2 class="govuk-heading-m">${sectionDescription}${
+            count > 0 ? ` <span class='govuk-caption-m'>${countDescription}</span>` : ''
+          }</h2>`,
+        },
+      ],
+      [
+        {
+          classes: 'dpr-section-header-spacer-bottom',
+          colspan: this.columns.length,
+          text: '',
+        },
+      ],
+    ]
   }
 
   private mapSectionSummaryRows(template: SummaryTemplate, sectionDescription: string): Cell[][] {

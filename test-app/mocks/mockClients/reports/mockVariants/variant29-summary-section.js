@@ -1,6 +1,6 @@
 const variant29 = {
   id: 'variantId-29',
-  name: 'Sectioned Summaries (no list)',
+  name: 'Sectioned Summaries template',
   description: 'A report with summaries in sections, but no list.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
@@ -17,17 +17,17 @@ const variant29 = {
         },
         {
           name: 'field2',
-          display: 'Field 1',
+          display: 'Field 2',
           type: 'string',
         },
         {
           name: 'field3',
-          display: 'Field 1',
+          display: 'Field 3',
           type: 'string',
         },
         {
           name: 'field4',
-          display: 'Field 1',
+          display: 'Field 4',
           type: 'string',
         },
       ],
@@ -43,17 +43,17 @@ const variant29 = {
         },
         {
           name: 'field2',
-          display: 'Field 1',
+          display: 'Field 2',
           type: 'string',
         },
         {
           name: 'field3',
-          display: 'Field 1',
+          display: 'Field 3',
           type: 'string',
         },
         {
           name: 'field4',
-          display: 'Field 1',
+          display: 'Field 4',
           type: 'string',
         },
       ],

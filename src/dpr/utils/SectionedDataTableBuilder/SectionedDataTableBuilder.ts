@@ -242,6 +242,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
         return [
           [
             {
+              classes: 'dpr-summary-cell',
               colspan: columnsLength,
               html: `<div class='dpr-summary-container-group dpr-summary-container-group-${summaryTemplate}'>${summaryContent}</div>`,
             },

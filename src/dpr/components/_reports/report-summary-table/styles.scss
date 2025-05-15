@@ -7,7 +7,7 @@
 
   .dpr-summary-container {
     min-width: 200px;
-    width: 100%;
+    width: fit-content;
 
     .govuk-table {
       border: solid 1px govuk-colour("mid-grey");
@@ -21,6 +21,10 @@
       }
     }
   }
+}
+
+.dpr-summary-container-group:has(td.govuk-table__cell) {
+  border-bottom: 0px;
 }
 
 .dpr-summary-container-group-page-header {

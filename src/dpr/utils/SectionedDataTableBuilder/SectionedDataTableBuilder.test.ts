@@ -146,22 +146,73 @@ const resultRows = [
 ]
 const sectionHeaders = [
   [
-    {
-      colspan: 2,
-      html: "<h2>Section One: A, Section Two: 01/02/03 <span class='govuk-caption-m'>2 results</span></h2>",
-    },
+    [
+      {
+        classes: 'dpr-section-header-spacer',
+        colspan: 2,
+        text: '',
+      },
+    ],
+    [
+      {
+        classes: 'dpr-section-header',
+        colspan: 2,
+        html: '<h2 class="govuk-heading-m">Section One: A, Section Two: 01/02/03 <span class=\'govuk-caption-m\'>2 results</span></h2>',
+      },
+    ],
+    [
+      {
+        classes: 'dpr-section-header-spacer-bottom',
+        colspan: 2,
+        text: '',
+      },
+    ],
   ],
   [
-    {
-      colspan: 2,
-      html: "<h2>Section One: A, Section Two: 02/01/03 <span class='govuk-caption-m'>1 result</span></h2>",
-    },
+    [
+      {
+        classes: 'dpr-section-header-spacer',
+        colspan: 2,
+        text: '',
+      },
+    ],
+    [
+      {
+        classes: 'dpr-section-header',
+        colspan: 2,
+        html: '<h2 class="govuk-heading-m">Section One: A, Section Two: 02/01/03 <span class=\'govuk-caption-m\'>1 result</span></h2>',
+      },
+    ],
+    [
+      {
+        classes: 'dpr-section-header-spacer-bottom',
+        colspan: 2,
+        text: '',
+      },
+    ],
   ],
   [
-    {
-      colspan: 2,
-      html: "<h2>Section One: B, Section Two: 02/01/03 <span class='govuk-caption-m'>1 result</span></h2>",
-    },
+    [
+      {
+        classes: 'dpr-section-header-spacer',
+        colspan: 2,
+        text: '',
+      },
+    ],
+    [
+      {
+        classes: 'dpr-section-header',
+        colspan: 2,
+        html: '<h2 class="govuk-heading-m">Section One: B, Section Two: 02/01/03 <span class=\'govuk-caption-m\'>1 result</span></h2>',
+      },
+    ],
+    [
+      {
+        classes: 'dpr-section-header-spacer-bottom',
+        colspan: 2,
+        text: '',
+      },
+    ],
   ],
 ]
 describe('SectionedDataTableBuilder', () => {
@@ -171,14 +222,14 @@ describe('SectionedDataTableBuilder', () => {
       .buildTable(data)
 
     expect(mapped.rows).toEqual([
-      sectionHeaders[1],
+      ...sectionHeaders[1],
       headerResultRow,
       resultRows[2],
-      sectionHeaders[0],
+      ...sectionHeaders[0],
       headerResultRow,
       resultRows[0],
       resultRows[1],
-      sectionHeaders[2],
+      ...sectionHeaders[2],
       headerResultRow,
       resultRows[3],
     ])
@@ -237,7 +288,7 @@ describe('SectionedDataTableBuilder', () => {
       .buildTable(data)
 
     expect(mapped.rows).toEqual([
-      sectionHeaders[1],
+      ...sectionHeaders[1],
       headerResultRow,
       [
         {
@@ -268,7 +319,7 @@ describe('SectionedDataTableBuilder', () => {
           text: 'Lime',
         },
       ],
-      sectionHeaders[0],
+      ...sectionHeaders[0],
       headerResultRow,
       [
         {
@@ -286,7 +337,7 @@ describe('SectionedDataTableBuilder', () => {
       ],
       resultRows[0],
       resultRows[1],
-      sectionHeaders[2],
+      ...sectionHeaders[2],
       headerResultRow,
       resultRows[3],
       [
@@ -380,9 +431,10 @@ describe('SectionedDataTableBuilder', () => {
       .buildTable(data)
 
     expect(mapped.rows).toEqual([
-      sectionHeaders[1],
+      ...sectionHeaders[1],
       [
         {
+          classes: 'dpr-summary-cell',
           colspan: 2,
           html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-header'><div class='dpr-summary-container'><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Squishy?</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>No</td></tr></tbody></table></div></div>",
         },
@@ -391,13 +443,15 @@ describe('SectionedDataTableBuilder', () => {
       resultRows[2],
       [
         {
+          classes: 'dpr-summary-cell',
           colspan: 2,
           html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-footer'><div class='dpr-summary-container'><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Preference</th><th scope='col' class='govuk-table__header'>Eaten</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Oranges</td><td class='govuk-table__cell govuk-table__cell--numeric '>2005</td></tr></tbody></table></div></div>",
         },
       ],
-      sectionHeaders[0],
+      ...sectionHeaders[0],
       [
         {
+          classes: 'dpr-summary-cell',
           colspan: 2,
           html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-header'><div class='dpr-summary-container'><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Squishy?</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Yes</td></tr></tbody></table></div></div>",
         },
@@ -405,11 +459,12 @@ describe('SectionedDataTableBuilder', () => {
       headerResultRow,
       resultRows[0],
       resultRows[1],
-      sectionHeaders[2],
+      ...sectionHeaders[2],
       headerResultRow,
       resultRows[3],
       [
         {
+          classes: 'dpr-summary-cell',
           colspan: 2,
           html: "<div class='dpr-summary-container-group dpr-summary-container-group-section-footer'><div class='dpr-summary-container'><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Preference</th><th scope='col' class='govuk-table__header'>Eaten</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>No, really</td><td class='govuk-table__cell govuk-table__cell--numeric '>0</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>NO</td><td class='govuk-table__cell govuk-table__cell--numeric '>0</td></tr></tbody></table></div></div>",
         },
@@ -434,6 +489,6 @@ describe('SectionedDataTableBuilder', () => {
     expect(mapped.head).toBeNull()
     expect(mapped.colCount).toEqual(2)
     expect(mapped.rowCount).toEqual(40000)
-    expect(mapped.rows.length).toEqual(40006)
+    expect(mapped.rows.length).toEqual(40012)
   })
 })

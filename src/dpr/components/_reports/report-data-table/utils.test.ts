@@ -267,8 +267,23 @@ describe('AsyncReportListUtils', () => {
         rows: [
           [
             {
+              classes: 'dpr-section-header-spacer',
               colspan: 1,
-              html: "<h2>First: One, Second: A <span class='govuk-caption-m'>1 result</span></h2>",
+              text: '',
+            },
+          ],
+          [
+            {
+              classes: 'dpr-section-header',
+              colspan: 1,
+              html: '<h2 class="govuk-heading-m">First: One, Second: A <span class=\'govuk-caption-m\'>1 result</span></h2>',
+            },
+          ],
+          [
+            {
+              classes: 'dpr-section-header-spacer-bottom',
+              colspan: 1,
+              text: '',
             },
           ],
           [
@@ -303,8 +318,23 @@ describe('AsyncReportListUtils', () => {
           ],
           [
             {
+              classes: 'dpr-section-header-spacer',
               colspan: 1,
-              html: "<h2>First: One, Second: B <span class='govuk-caption-m'>2 results</span></h2>",
+              text: '',
+            },
+          ],
+          [
+            {
+              classes: 'dpr-section-header',
+              colspan: 1,
+              html: '<h2 class="govuk-heading-m">First: One, Second: B <span class=\'govuk-caption-m\'>2 results</span></h2>',
+            },
+          ],
+          [
+            {
+              classes: 'dpr-section-header-spacer-bottom',
+              colspan: 1,
+              text: '',
             },
           ],
           [
@@ -339,8 +369,23 @@ describe('AsyncReportListUtils', () => {
           ],
           [
             {
+              classes: 'dpr-section-header-spacer',
               colspan: 1,
-              html: "<h2>First: Two, Second: A <span class='govuk-caption-m'>1 result</span></h2>",
+              text: '',
+            },
+          ],
+          [
+            {
+              classes: 'dpr-section-header',
+              colspan: 1,
+              html: '<h2 class="govuk-heading-m">First: Two, Second: A <span class=\'govuk-caption-m\'>1 result</span></h2>',
+            },
+          ],
+          [
+            {
+              classes: 'dpr-section-header-spacer-bottom',
+              colspan: 1,
+              text: '',
             },
           ],
           [
@@ -367,8 +412,23 @@ describe('AsyncReportListUtils', () => {
           ],
           [
             {
+              classes: 'dpr-section-header-spacer',
               colspan: 1,
-              html: "<h2>First: Two, Second: B <span class='govuk-caption-m'>1 result</span></h2>",
+              text: '',
+            },
+          ],
+          [
+            {
+              classes: 'dpr-section-header',
+              colspan: 1,
+              html: '<h2 class="govuk-heading-m">First: Two, Second: B <span class=\'govuk-caption-m\'>1 result</span></h2>',
+            },
+          ],
+          [
+            {
+              classes: 'dpr-section-header-spacer-bottom',
+              colspan: 1,
+              text: '',
             },
           ],
           [
@@ -465,7 +525,7 @@ describe('AsyncReportListUtils', () => {
           [{ classes: 'govuk-table__header', text: 'Second' }],
           [
             {
-              classes: '',
+              classes: 'dpr-parent-cell',
               fieldName: 'field1',
               format: 'string',
               text: 'Value 1',
@@ -473,7 +533,7 @@ describe('AsyncReportListUtils', () => {
           ],
           [
             {
-              classes: '',
+              classes: 'dpr-parent-cell',
               fieldName: 'field1',
               format: 'string',
               text: 'Value 1',
@@ -481,7 +541,7 @@ describe('AsyncReportListUtils', () => {
           ],
           [
             {
-              classes: '',
+              classes: 'dpr-parent-cell',
               fieldName: 'field1',
               format: 'string',
               text: 'Value 1',
@@ -489,15 +549,16 @@ describe('AsyncReportListUtils', () => {
           ],
           [
             {
+              classes: 'dpr-child-report-cell',
               colspan: 1,
               format: 'string',
-              html: "<div class='dpr-child-report'><h3>Child Report</h3><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Field2</th><th scope='col' class='govuk-table__header'>Field3</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Value 2</td><td class='govuk-table__cell govuk-table__cell--string '>2003-02-01T01:00</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Value 2</td><td class='govuk-table__cell govuk-table__cell--string '>2003-02-01T01:00</td></tr></tbody></table></div>",
+              html: "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child Report</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Field2</th><th scope='col' class='govuk-table__header'>Field3</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Value 2</td><td class='govuk-table__cell govuk-table__cell--string '>2003-02-01T01:00</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Value 2</td><td class='govuk-table__cell govuk-table__cell--string '>2003-02-01T01:00</td></tr></tbody></table></div></div>",
             },
           ],
           [{ classes: 'govuk-table__header', text: 'Second' }],
           [
             {
-              classes: '',
+              classes: 'dpr-parent-cell',
               fieldName: 'field1',
               format: 'string',
               text: 'Value 1',
@@ -505,7 +566,7 @@ describe('AsyncReportListUtils', () => {
           ],
           [
             {
-              classes: '',
+              classes: 'dpr-parent-cell',
               fieldName: 'field1',
               format: 'string',
               text: 'Value 1',
@@ -513,9 +574,10 @@ describe('AsyncReportListUtils', () => {
           ],
           [
             {
+              classes: 'dpr-child-report-cell',
               colspan: 1,
               format: 'string',
-              html: "<div class='dpr-child-report'><h3>Child Report</h3><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Field2</th><th scope='col' class='govuk-table__header'>Field3</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Value 2</td><td class='govuk-table__cell govuk-table__cell--string '>2003-02-01T01:00</td></tr></tbody></table></div>",
+              html: "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child Report</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Field2</th><th scope='col' class='govuk-table__header'>Field3</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Value 2</td><td class='govuk-table__cell govuk-table__cell--string '>2003-02-01T01:00</td></tr></tbody></table></div></div>",
             },
           ],
         ],

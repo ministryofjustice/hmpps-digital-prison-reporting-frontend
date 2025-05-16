@@ -1,6 +1,8 @@
 .dpr-reports-heading-container {
   position: relative;
-  margin-bottom: govuk-spacing(0);
+  margin-bottom: govuk-spacing(6);
+  padding-bottom: govuk-spacing(4);
+  border-bottom: solid 1px govuk-colour('mid-grey');
 }
 
 .dpr-columns-section-wrapper {
@@ -38,5 +40,4 @@
   a.govuk-button {
     margin-top: -10px;
   }
-  margin-bottom: govuk-spacing(6);
 }

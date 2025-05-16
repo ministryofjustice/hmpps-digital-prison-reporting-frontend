@@ -33,13 +33,16 @@
       </div>
     {% endset %}
 
-    {{ govukDetails({
-      summaryText: detailsLabel,
-      html: filtersHtml,
-      open: detailsOpen,
-      attributes: {
-        id: 'dpr-interactive-filters-details'
-      }
-    }) }}
+
+    <div class="dpr-interactive-filters-accordion"> 
+      {{ govukDetails({
+        summaryText: detailsLabel,
+        html: filtersHtml,
+        open: detailsOpen,
+        attributes: {
+          id: 'dpr-interactive-filters-details'
+        }
+      }) }}
+    </div>
   </div>
 {% endmacro %}

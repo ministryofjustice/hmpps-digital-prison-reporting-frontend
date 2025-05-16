@@ -4,16 +4,23 @@
 {% macro dprReportColumns(columns) %}
   {% if columns.options.length > 0 %}
   <div class="dpr-columns-section-wrapper">
+    <div class="dpr-columns-section-heading">
+      <p class="govuk-body"><strong>Columns</strong></p>
+    </div>
+
+
     {% set columnsHtml %}
       {{ dprColumnsForm(columns) }}
     {% endset %}
 
-    {% set columnsTitle = "Columns (" + columns.value.length + " of " + columns.options.length +" shown)"  %}
-    <div class="columns-section-button">
-      {{ govukDetails({
-        summaryText: columnsTitle,
-        html: columnsHtml
-      }) }}
+    <div class="dpr-interactive-filters-accordion"> 
+      {% set columnsTitle = "Update columns (" + columns.value.length + " of " + columns.options.length +" shown)"  %}
+      <div class="columns-section-button">
+        {{ govukDetails({
+          summaryText: columnsTitle,
+          html: columnsHtml
+        }) }}
+      </div>
     </div>
   </div>
   {% endif %}

@@ -1,0 +1,9 @@
+{
+  "low": true,
+  "package-manager": "auto",
+  "registry": "https://registry.npmjs.org",
+  "allowlist": [
+    "GHSA-c76h-2ccp-4975",     // undici -> cheerio -> pa11y-ci : Using latest version.
+    "GHSA-3xgq-45jj-v275"      // cross-spawn
+  ]
+}

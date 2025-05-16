@@ -192,25 +192,25 @@ const headerResultRow = [
 const resultRows = [
   [
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'sectionOne',
       format: 'string',
       text: 'A',
     },
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'sectionTwo',
       format: 'string',
       text: '01/02/03',
     },
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'oranges',
       format: 'numeric',
       text: '5',
     },
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'lemons',
       format: 'string',
       text: 'Yes',
@@ -218,25 +218,25 @@ const resultRows = [
   ],
   [
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'sectionOne',
       format: 'string',
       text: 'A',
     },
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'sectionTwo',
       format: 'string',
       text: '01/02/03',
     },
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'oranges',
       format: 'numeric',
       text: '6',
     },
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'lemons',
       format: 'string',
       text: 'No',
@@ -244,25 +244,25 @@ const resultRows = [
   ],
   [
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'sectionOne',
       format: 'string',
       text: 'A',
     },
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'sectionTwo',
       format: 'string',
       text: '02/01/03',
     },
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'oranges',
       format: 'numeric',
       text: '7',
     },
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'lemons',
       format: 'string',
       text: 'Yeah',
@@ -270,25 +270,25 @@ const resultRows = [
   ],
   [
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'sectionOne',
       format: 'string',
       text: 'B',
     },
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'sectionTwo',
       format: 'string',
       text: '02/01/03',
     },
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'oranges',
       format: 'numeric',
       text: '8',
     },
     {
-      classes: '',
+      classes: 'dpr-parent-cell',
       fieldName: 'lemons',
       format: 'string',
       text: 'Nah',
@@ -299,50 +299,26 @@ const resultRows = [
 const childResultTables = [
   [
     {
+      classes: 'dpr-child-report-cell',
       colspan: 4,
       format: 'string',
-      html:
-        "<div class='dpr-child-report'>" +
-        '<h3>Child</h3>' +
-        "<table class='govuk-table'>" +
-        "<thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead>" +
-        "<tbody class='govuk-table__body'>" +
-        "<tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Cheddar</td></tr>" +
-        '</tbody>' +
-        '</table>' +
-        '</div>',
+      html: "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Cheddar</td></tr></tbody></table></div></div>",
     },
   ],
   [
     {
+      classes: 'dpr-child-report-cell',
       colspan: 4,
       format: 'string',
-      html:
-        "<div class='dpr-child-report'>" +
-        '<h3>Child</h3>' +
-        "<table class='govuk-table'>" +
-        "<thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead>" +
-        "<tbody class='govuk-table__body'>" +
-        "<tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>No</td></tr>" +
-        "<tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Wendsleydale</td></tr>" +
-        '</tbody>' +
-        '</table>' +
-        '</div>',
+      html: "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>No</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Wendsleydale</td></tr></tbody></table></div></div>",
     },
   ],
   [
     {
+      classes: 'dpr-child-report-cell',
       colspan: 4,
       format: 'string',
-      html:
-        "<div class='dpr-child-report'>" +
-        '<h3>Child</h3>' +
-        "<table class='govuk-table'>" +
-        "<thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead>" +
-        "<tbody class='govuk-table__body'>" +
-        "<tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Gouda</td></tr>" +
-        '</tbody></table>' +
-        '</div>',
+      html: "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Gouda</td></tr></tbody></table></div></div>",
     },
   ],
 ]
@@ -412,8 +388,23 @@ describe('ParentChildDataTableBuilder', () => {
     expect(mapped.rows).toEqual([
       [
         {
+          classes: 'dpr-section-header-spacer',
           colspan: 4,
-          html: "<h2>Section: one <span class='govuk-caption-m'>2 results</span></h2>",
+          text: '',
+        },
+      ],
+      [
+        {
+          classes: 'dpr-section-header',
+          colspan: 4,
+          html: '<h2 class="govuk-heading-m">Section: one <span class=\'govuk-caption-m\'>2 results</span></h2>',
+        },
+      ],
+      [
+        {
+          classes: 'dpr-section-header-spacer-bottom',
+          colspan: 4,
+          text: '',
         },
       ],
       [
@@ -423,28 +414,44 @@ describe('ParentChildDataTableBuilder', () => {
         { text: 'Lemons?!', classes: 'govuk-table__header' },
       ],
       [
-        { fieldName: 'sectionOne', text: 'A', format: 'string', classes: '' },
-        { fieldName: 'sectionTwo', text: '01/02/03', format: 'string', classes: '' },
-        { fieldName: 'oranges', text: '5', format: 'numeric', classes: '' },
-        { fieldName: 'lemons', text: 'Yes', format: 'string', classes: '' },
+        { fieldName: 'sectionOne', text: 'A', format: 'string', classes: 'dpr-parent-cell' },
+        { fieldName: 'sectionTwo', text: '01/02/03', format: 'string', classes: 'dpr-parent-cell' },
+        { fieldName: 'oranges', text: '5', format: 'numeric', classes: 'dpr-parent-cell' },
+        { fieldName: 'lemons', text: 'Yes', format: 'string', classes: 'dpr-parent-cell' },
       ],
       [
-        { fieldName: 'sectionOne', text: 'A', format: 'string', classes: '' },
-        { fieldName: 'sectionTwo', text: '01/02/03', format: 'string', classes: '' },
-        { fieldName: 'oranges', text: '6', format: 'numeric', classes: '' },
-        { fieldName: 'lemons', text: 'No', format: 'string', classes: '' },
+        { fieldName: 'sectionOne', text: 'A', format: 'string', classes: 'dpr-parent-cell' },
+        { fieldName: 'sectionTwo', text: '01/02/03', format: 'string', classes: 'dpr-parent-cell' },
+        { fieldName: 'oranges', text: '6', format: 'numeric', classes: 'dpr-parent-cell' },
+        { fieldName: 'lemons', text: 'No', format: 'string', classes: 'dpr-parent-cell' },
       ],
       [
         {
+          classes: 'dpr-child-report-cell',
           format: 'string',
-          html: "<div class='dpr-child-report'><h3>Child</h3><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>No</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Wendsleydale</td></tr></tbody></table></div>",
+          html: "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>No</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Wendsleydale</td></tr></tbody></table></div></div>",
           colspan: 4,
         },
       ],
       [
         {
+          classes: 'dpr-section-header-spacer',
           colspan: 4,
-          html: "<h2>Section: two <span class='govuk-caption-m'>2 results</span></h2>",
+          text: '',
+        },
+      ],
+      [
+        {
+          classes: 'dpr-section-header',
+          colspan: 4,
+          html: '<h2 class="govuk-heading-m">Section: two <span class=\'govuk-caption-m\'>2 results</span></h2>',
+        },
+      ],
+      [
+        {
+          classes: 'dpr-section-header-spacer-bottom',
+          colspan: 4,
+          text: '',
         },
       ],
       [
@@ -454,15 +461,16 @@ describe('ParentChildDataTableBuilder', () => {
         { text: 'Lemons?!', classes: 'govuk-table__header' },
       ],
       [
-        { fieldName: 'sectionOne', text: 'A', format: 'string', classes: '' },
-        { fieldName: 'sectionTwo', text: '02/01/03', format: 'string', classes: '' },
-        { fieldName: 'oranges', text: '7', format: 'numeric', classes: '' },
-        { fieldName: 'lemons', text: 'Yeah', format: 'string', classes: '' },
+        { fieldName: 'sectionOne', text: 'A', format: 'string', classes: 'dpr-parent-cell' },
+        { fieldName: 'sectionTwo', text: '02/01/03', format: 'string', classes: 'dpr-parent-cell' },
+        { fieldName: 'oranges', text: '7', format: 'numeric', classes: 'dpr-parent-cell' },
+        { fieldName: 'lemons', text: 'Yeah', format: 'string', classes: 'dpr-parent-cell' },
       ],
       [
         {
+          classes: 'dpr-child-report-cell',
           format: 'string',
-          html: "<div class='dpr-child-report'><h3>Child</h3><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Cheddar</td></tr></tbody></table></div>",
+          html: "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Cheddar</td></tr></tbody></table></div></div>",
           colspan: 4,
         },
       ],
@@ -473,15 +481,16 @@ describe('ParentChildDataTableBuilder', () => {
         { text: 'Lemons?!', classes: 'govuk-table__header' },
       ],
       [
-        { fieldName: 'sectionOne', text: 'B', format: 'string', classes: '' },
-        { fieldName: 'sectionTwo', text: '02/01/03', format: 'string', classes: '' },
-        { fieldName: 'oranges', text: '8', format: 'numeric', classes: '' },
-        { fieldName: 'lemons', text: 'Nah', format: 'string', classes: '' },
+        { fieldName: 'sectionOne', text: 'B', format: 'string', classes: 'dpr-parent-cell' },
+        { fieldName: 'sectionTwo', text: '02/01/03', format: 'string', classes: 'dpr-parent-cell' },
+        { fieldName: 'oranges', text: '8', format: 'numeric', classes: 'dpr-parent-cell' },
+        { fieldName: 'lemons', text: 'Nah', format: 'string', classes: 'dpr-parent-cell' },
       ],
       [
         {
+          classes: 'dpr-child-report-cell',
           format: 'string',
-          html: "<div class='dpr-child-report'><h3>Child</h3><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Gouda</td></tr></tbody></table></div>",
+          html: "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Cheese</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--numeric '>Gouda</td></tr></tbody></table></div></div>",
           colspan: 4,
         },
       ],

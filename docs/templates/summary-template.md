@@ -1,7 +1,7 @@
 ---
 layout: layouts/get-started.njk
-title: List report
+title: Summary report
 subsection: Example Reports
 ---
 
-{% example "templates/list-template", 1000 %}
+{% example "templates/summary", 1000 %}

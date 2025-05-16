@@ -14,12 +14,13 @@
   {% set dataTable = options.dataTable %}
   {% set pagination = options.pagination %}
   {% set classification = options.classification %}
+  {% set template = options.template %}
 
-  <div class="dpr-sync-report-actions">
-    {{ dprReportFilters(filterData, defaultQuery) }}
+  <div class="dpr-report-interactive-actions">
     {% if count and count > 0 %}
       {{ dprReportColumns(columns) }}
     {% endif %}
+    {{ dprReportFilters(filterData, defaultQuery) }}
   </div>
 
   {% if not count or count === 0 %}
@@ -29,7 +30,7 @@
     {{ dprReportSummary(reportSummaries, 'page-header') }}
     {{ dprReportTotals(options.totals) }}
 
-    <div class='dpr-table-container'>
+    <div class='dpr-table-container dpr-table-container--{{ template }}'>
       {{ dprDataTable(dataTable, classification) }}
     </div>
     

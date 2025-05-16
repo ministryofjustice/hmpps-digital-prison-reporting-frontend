@@ -16,12 +16,20 @@
       th, td {
         padding: 10px;
       }
+      th {
+        background-color: govuk-colour("light-grey");
+      }
     }
   }
 }
 
+.dpr-summary-container-group:has(td.govuk-table__cell) {
+  border-bottom: 0px;
+}
+
 .dpr-summary-container-group-page-header {
   margin-top: 30px;
+
 }
 
 .dpr-summary-container-group-page-footer {

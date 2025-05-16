@@ -1,31 +1,37 @@
 {% macro dprSelectedFilters(selectedFilters) %}    
   <div class='dpr-selected-filters-container'>
     <div class='dpr-selected-filters'>
-      {% if selectedFilters.length %}
-        <p class="govuk-body"><strong>Filters:</strong></p>
+      <div>
+        <p class="govuk-body govuk-!-margin-bottom-1"><strong>Selected filters</strong></p>
+
+      </div>
+      {% if selectedFilters.length %}      
+        {% for selected in selectedFilters %}
+          {% set key = selected.key %}
+          {% set text = selected.text %}
+          {% set value = selected.value %}
+          {% set classes = selected.classes %}
+          {% set disabled = selected.disabled %}
+          {% set constraints = selected.constraints %}
+          
+          
+          {% if disabled %}
+            <p class="govuk-body {{ classes }}">{{ text }}</p>
+          {% else %}
+            <a href="#" 
+              class="govuk-link govuk-body {{ classes }}" 
+              data-query-param-key= {{ key }} 
+              data-query-param-value= '[{{ value }}]'
+              data-query-constraint-values= '{{ constraints | json }}'
+            >
+            {{ text }}
+            </a>
+          {% endif %}
+
+        {% endfor%}
+      {% else %}
+        <p class="govuk-body-s govuk-!-margin-top-2">No filters selected</p>
       {% endif %}
-      
-      {% for selected in selectedFilters %}
-        {% set key = selected.key %}
-        {% set text = selected.text %}
-        {% set value = selected.value %}
-        {% set classes = selected.classes %}
-        {% set disabled = selected.disabled %}
-        {% set constraints = selected.constraints %}
-        
-        {% if disabled %}
-          <p class="govuk-body {{ classes }}">{{ text }}</p>
-        {% else %}
-          <a href="#" 
-            class="govuk-link govuk-body {{ classes }}" 
-            data-query-param-key= {{ key }} 
-            data-query-param-value= '[{{ value }}]'
-            data-query-constraint-values= '{{ constraints | json }}'
-          >
-          {{ text }}
-          </a>
-        {% endif %}
-      {% endfor%}
     </div>
   </div>
 {% endmacro %}

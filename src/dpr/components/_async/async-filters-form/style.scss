@@ -15,14 +15,42 @@
     }
 
     .dpr-async-request-filters__section {
-      background-color: lighten(govuk-colour("light-grey"), 3%);
-      padding: govuk-spacing(4);
+      border: solid 1px govuk-colour('mid-grey');
       margin-bottom: govuk-spacing(6);
-    }
+
+      .dpr-async-request-filters__section--heading {
+        background-color: govuk-colour('light-grey');
+        padding: govuk-spacing(2);
+        padding-left: govuk-spacing(4);
+        padding-right: govuk-spacing(4);
+        border-bottom: solid 1px govuk-colour('mid-grey');
     
+        p {
+          margin-bottom: 0px;
+        }
+      }
+      
+      .dpr-async-request-filters__section--actions {
+        padding: govuk-spacing(4);
+        border-bottom: solid 1px govuk-colour('mid-grey');
+
+        .govuk-button-group {
+          margin-bottom: 0px;
+
+          button, .dpr-reset-columns-button {
+            margin-bottom: 0px;
+          }
+        }
+      }
+
+
       .filter-container {
+        padding-left: govuk-spacing(4);
+        padding-right: govuk-spacing(4);
         display: block;
       }
+    }
+    
 
       .dpr-filter-item {
         background-color: none;

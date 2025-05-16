@@ -1,27 +1,15 @@
 {% from "../report-data-table/view.njk" import dprDataTable %}
-{% from "../report-columns/view.njk" import dprReportColumns %}
 {% from "../report-summary-table/view.njk" import dprReportSummary %}
 {% from "../report-totals/view.njk" import dprReportTotals %}
-{% from "../report-filters/view.njk" import dprReportFilters %}
 {% from "../report-no-data-message/view.njk" import dprReportNoDataMessage %}
 {% from "../../code-block/view.njk" import dprCodeBlock %}
 
 {% macro dprReport(options, count) %}
-  {% set columns = options.columns %}
   {% set reportSummaries = options.reportSummaries %}
-  {% set filterData = options.filterData %}
-  {% set defaultQuery = options.defaultQuery %}
   {% set dataTable = options.dataTable %}
   {% set pagination = options.pagination %}
   {% set classification = options.classification %}
   {% set template = options.template %}
-
-  <div class="dpr-report-interactive-actions">
-    {% if count and count > 0 %}
-      {{ dprReportColumns(columns) }}
-    {% endif %}
-    {{ dprReportFilters(filterData, defaultQuery) }}
-  </div>
 
   {% if not count or count === 0 %}
     {{ dprReportNoDataMessage(url) }}

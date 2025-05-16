@@ -2,16 +2,43 @@
   position: relative;
 
   .dpr-selected-filters {
+    background-color: govuk-colour('light-grey');
+    border-bottom: solid 1px govuk-colour('mid-grey');
+    padding: govuk-spacing(4);
+    padding-bottom: govuk-spacing(2);
+
+    .interactive-remove-filter-button {
+      background-color: #fff;
+      border: 1px solid #0b0c0c;
+      color: #0b0c0c;
+      display: inline-block;
+      font-family: GDS Transport, arial, sans-serif;
+      margin-top: 5px;
+      padding: 5px;
+      text-decoration: none;
+      font-size: 16px;
+      margin-bottom: govuk-spacing(2);
+    }
+
+    .interactive-remove-filter-button:hover {
+      background-color: #0b0c0c;
+      color: #fff;
+    }
+
+    .interactive-remove-filter-button--disabled:hover {
+      background-color: #fff;
+      color: #0b0c0c;
+    }
+
     p {
       display: inline-block;
-      margin-right: govuk-spacing(3);
+      margin-right: govuk-spacing(2);
       margin-bottom: govuk-spacing(3);
     }
 
     a {
       display: inline-block;
-      margin-right: govuk-spacing(3);
-      margin-bottom: govuk-spacing(3);
+      margin-right: govuk-spacing(1);
     }
 
     a:not(.interactive-remove-filter-button--disabled):after {
@@ -23,6 +50,10 @@
       margin-left: 5px;
       vertical-align: middle;
       width: 10px;
+    }
+
+    a:not(.interactive-remove-filter-button--disabled):hover:after {
+      background-image: url(#{$dpr-images-path}icon-tag-remove-cross-white.svg);
     }
   }
 }

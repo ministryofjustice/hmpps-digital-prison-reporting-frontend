@@ -8,7 +8,12 @@ export default {
     if (currentRangeStart === 0 && totalRows === currentRangeEnd) {
       totals = totalRows === 1 ? `${totalRows} total result` : `${totalRows} total results`
     } else {
-      totals = totalRows > 0 ? `${currentRangeStart + 1}-${currentRangeEnd} of ${totalRows}` : `0-0 of 0`
+      totals =
+        totalRows > 0
+          ? `Showing <strong>${
+              currentRangeStart + 1
+            }</strong> to <strong>${currentRangeEnd}</strong> of <strong>${totalRows}</strong> results`
+          : `0-0 of 0`
     }
 
     return totals

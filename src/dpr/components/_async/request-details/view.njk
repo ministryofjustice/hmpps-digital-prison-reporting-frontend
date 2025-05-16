@@ -14,7 +14,7 @@
   {% if querySummary.length > 0 %}
     <ul>
       {% for query in querySummary %}
-        <li class="govuk-body govuk-!-margin-bottom-1">{{ query.name | capitaliseSentence }}: {{ query.value }}</li>
+        <li class="govuk-body govuk-!-margin-bottom-0">{{ query.name | capitaliseSentence }}: {{ query.value }}</li>
       {% endfor %}
     </ul>
   {% endif %}
@@ -30,7 +30,7 @@
               <p class="govuk-body-m dpr-request-details__table-heading_name">Name:</p>
             </td>
             <td>
-              <h1 class="govuk-heading-s govuk-!-margin-bottom-1">{{ name }}</h1>
+              <h1 class="govuk-heading-s govuk-!-margin-bottom-0">{{ name }}</h1>
             </td>
           </tr>
         {% endif %}
@@ -41,7 +41,7 @@
               <p class="govuk-body-m dpr-request-details__table-heading_name">Product:</p>
             </td>
             <td>
-              <h1 class="govuk-heading-s govuk-!-margin-bottom-1">{{ reportName }}</h1>
+              <h1 class="govuk-heading-s govuk-!-margin-bottom-0">{{ reportName }}</h1>
             </td>
           </tr>
         {% endif %}
@@ -52,7 +52,7 @@
               <p class="govuk-body-m dpr-request-details__table-heading_name">Description:</p>
             </td>
             <td>
-              <p class="govuk-body-m govuk-!-margin-bottom-1">{{ description | safe }}</p>
+              <p class="govuk-body-m govuk-!-margin-bottom-0">{{ description | safe }}</p>
             </td>
           </tr>
         {% endif %}
@@ -63,7 +63,7 @@
               <p class="govuk-body-m dpr-request-details__table-heading_name">Classification:</p>
             </td>
             <td>
-              <p class="govuk-body-m govuk-!-margin-bottom-1">{{ classification }}</p>
+              <p class="govuk-body-m govuk-!-margin-bottom-0">{{ classification }}</p>
             </td>
           </tr>
         {% endif %}
@@ -74,7 +74,7 @@
               <p class="govuk-body-m dpr-request-details__table-heading_name">Requested at:</p>
             </td>
             <td>
-              <p class="govuk-body-m govuk-!-margin-bottom-2">{{ requestedTimestamp }}</p>
+              <p class="govuk-body-m govuk-!-margin-bottom-0">{{ requestedTimestamp }}</p>
             </td>
           </tr>
         {% endif %}

@@ -74,16 +74,41 @@
       {% endif %}
 
       {% if filters.length or sortBy.length > 0 %}
+
+        {{ dprFiltersActions({
+          submitText: "Request " + type,
+          submitId: 'async-request-report-button',
+          showReset: false
+        }) }}
+
         <div class="dpr-filters-container">
 
           {# MAIN FILTERS #}
           {% if filters.length %}
             <div class="dpr-async-request-filters__section">
-              <h2 class="govuk-heading-m">Filter options</h2>
+              <div class="dpr-async-request-filters__section--heading">
+                <p class="govuk-body govuk-!-margin-bottom-0"><strong>Filters</p>
+              </div>
+              <div class="dpr-async-request-filters__section--actions">
+                {{ dprFiltersActions({
+                  resetText: 'Reset filters',
+                  resetId: 'async-request-reset-filters-button',
+                  showReset: filters.length > 0
+                }) }}
+              </div>
+
               <div class="filter-container">
                 {%- for filter in filters %}
                   {{ dprFilterInput(filter, 'filters.') }}
                 {%- endfor %}
+              </div>
+
+              <div class="dpr-async-request-filters__section--actions">
+                {{ dprFiltersActions({
+                  resetText: 'Reset filters',
+                  resetId: 'async-request-reset-filters-button',
+                  showReset: filters.length > 0
+                }) }}
               </div>
             </div>
           {% endif %}
@@ -91,7 +116,9 @@
           {# SORT OPTIONS #}
           {%  if sortBy.length > 0 and not interactive %}
           <div class="dpr-async-request-filters__section">
-            <h2 class="govuk-heading-m">Sort options</h2>
+            <div class="dpr-async-request-filters__section--heading">
+              <p class="govuk-body govuk-!-margin-bottom-0"><strong>Sort</p>
+            </div>
             <div class="filter-container">
               {%- for option in sortBy %}
                 {{ dprFilterInput(option, '') }}
@@ -103,13 +130,13 @@
         </div>
       {% endif %}
 
-      {{ dprFiltersActions({
-        submitText: "Request " + type,
-        submitId: 'async-request-report-button',
-        resetText: 'Reset filters',
-        resetId: 'async-request-reset-filters-button',
-        showReset: filters.length > 0
-      }) }}
+      {% if filters.length > 0 %}
+        {{ dprFiltersActions({
+          submitText: "Request " + type,
+          submitId: 'async-request-report-button',
+          showReset: false
+        }) }}
+      {% endif %}
       
     </form>
   </div>

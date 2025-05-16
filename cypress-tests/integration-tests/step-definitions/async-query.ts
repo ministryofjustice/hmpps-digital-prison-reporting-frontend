@@ -43,11 +43,11 @@ Then('the URL is updated', () => {
 })
 
 Then('I click the reset filters button', () => {
-  new AsyncQueryPage().resetFiltersButton().click()
+  new AsyncQueryPage().resetFiltersButton().first().click()
 })
 
 Then('I click the submit button', () => {
-  new AsyncQueryPage().submitFiltersButton().click().wait(500)
+  new AsyncQueryPage().submitFiltersButton().first().click().wait(500)
 })
 
 Then('I am take to the polling page', () => {

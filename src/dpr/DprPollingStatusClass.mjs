@@ -2,7 +2,7 @@ import { DprClientClass } from './DprClientClass.mjs'
 
 export default class DprPollingStatusClass extends DprClientClass {
   getPollingFrquency() {
-    return '20' // 2 seconds
+    return '2000' // 2 seconds
   }
 
   getPollingStatuses() {
@@ -18,7 +18,7 @@ export default class DprPollingStatusClass extends DprClientClass {
   }
 
   async getRequestStatus(metaData, csrfToken) {
-    return this.getStatus('/dpr/getStatus/', metaData, csrfToken)
+    return this.getStatus('/getStatus/', metaData, csrfToken)
   }
 
   async getExpiredStatus(endpoint, metaData, csrfToken) {

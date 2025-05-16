@@ -64,11 +64,11 @@ Then('the page size is set in the URL', () => {
 })
 
 Then('the totals should show the correct value', () => {
-  new AysncReportPage().totals().should('have.text', '1-10 of 100')
+  new AysncReportPage().totals().should('have.text', 'Showing 1 to 10 of 100 results')
 })
 
 Then('the totals should show the correct pagination value', () => {
-  new AysncReportPage().totals().should('have.text', '91-100 of 100')
+  new AysncReportPage().totals().should('have.text', 'Showing 91 to 100 of 100 results')
 })
 
 Then('I click on page 5', () => {

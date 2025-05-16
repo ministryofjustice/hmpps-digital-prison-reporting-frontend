@@ -60,7 +60,7 @@ const mockSyncData = {
       rowCount: 1,
       colCount: 5,
     },
-    totals: '1-1 of 100',
+    totals: 'Showing <strong>1</strong> to <strong>1</strong> of <strong>100</strong> results',
     filterData: {
       filters: [
         {

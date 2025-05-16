@@ -257,7 +257,7 @@ const mockGetReportListRenderData = {
         },
       ],
     },
-    totals: '1-10 of 100',
+    totals: 'Showing <strong>1</strong> to <strong>10</strong> of <strong>100</strong> results',
   },
 }
 
@@ -354,7 +354,7 @@ const mockReportListRenderData = {
     ],
     colCount: 2,
   },
-  totals: '1-10 of 100',
+  totals: 'Showing <strong>1</strong> to <strong>10</strong> of <strong>100</strong> results',
   pagination: {
     prev: undefined,
     next: 'pathname?search=&selectedPage=2',

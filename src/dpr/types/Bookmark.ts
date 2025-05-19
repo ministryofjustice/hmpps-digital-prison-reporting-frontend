@@ -16,4 +16,7 @@ export interface BookmarkStoreData {
   variantId?: string
   id?: string
   type?: ReportType
+  automatic?: boolean
+  softRemoved?: boolean // manually remove an automatic bookmark
+  autoRemoved?: boolean // auto remove an automatic bookmark
 }

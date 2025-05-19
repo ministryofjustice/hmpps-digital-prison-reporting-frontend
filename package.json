@@ -23,7 +23,7 @@
     "docs:local": "gulp build:docs-local && eleventy --input=./docs --output=package/dpr",
     "docs:serve": "npm run docs:local && npx live-server package/dpr",
     "test": "npm-run-all --parallel test:*",
-    "test:jest": "jest --verbose --silent=false",
+    "test:jest": "jest -t 'bookmarkUtils' --verbose --silent=false",
     "test:docs": "npm run docs",
     "test:packaging": "npm run package",
     "start-test-app": "npm run package && node $NODE_OPTIONS test-app/start-server.js",

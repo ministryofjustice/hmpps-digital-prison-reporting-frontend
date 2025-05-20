@@ -2,7 +2,7 @@ import nock from 'nock'
 
 import DashboardClient from './dashboardClient'
 import AgentConfig from './agentConfig'
-import { DashboardDefinition } from '../types/Dashboards'
+import { DashboardDefinition, DashboardSection } from '../components/_dashboards/dashboard/types'
 
 describe('dashboardClient', () => {
   let fakeDashboardApi: nock.Scope
@@ -27,11 +27,12 @@ describe('dashboardClient', () => {
         id: 'test-dashboard-1',
         name: 'Test Dashboard 1',
         description: 'Test Dashboard 1 Description',
-        metrics: [
+        sections: [
           {
             id: 'test-metric-id-1',
-          },
+          } as unknown as DashboardSection,
         ],
+        filterFields: [],
       }
 
       fakeDashboardApi.get(`/definitions/dpd-id/dashboards/test-dashboard`).reply(200, response)
@@ -45,11 +46,12 @@ describe('dashboardClient', () => {
         id: 'test-dashboard-1',
         name: 'Test Dashboard 1',
         description: 'Test Dashboard 1 Description',
-        metrics: [
+        sections: [
           {
             id: 'test-metric-id-1',
-          },
+          } as unknown as DashboardSection,
         ],
+        filterFields: [],
       }
       const query = {
         dataProductDefinitionsPath: 'test-definition-path',
@@ -92,7 +94,7 @@ describe('dashboardClient', () => {
 
   describe('cancelAsyncRequest', () => {
     it('should request an async dashboard', async () => {
-      fakeDashboardApi.delete(`/statements/exId`).reply(200, {
+      fakeDashboardApi.delete(`/reports/dpd-id/dashboards/test-dashboard-id/statements/exId`).reply(200, {
         cancellationSucceeded: 'true',
       })
 

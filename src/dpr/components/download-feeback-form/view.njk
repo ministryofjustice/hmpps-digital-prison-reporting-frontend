@@ -9,6 +9,7 @@
   {% set name = user.displayName %}
   {% set staffId = user.staffId %}
   {% set activeCaseLoadId = user.activeCaseLoadId %}
+  {% set email = user.email %}
   {% set reportId = report.reportId %}
   {% set variantId = report.variantId %}
   {% set time = report.time %}
@@ -16,11 +17,13 @@
   {% set loadType = report.loadType %}
   {% set reportName = report.reportName %}
   {% set variantName = report.variantName %}
+  {% set reportUrl = report.reportUrl %}
+  {% set reportSearch = report.reportSearch %}
   {% set csrfToken = csrfToken %}
 
   <div class="dpr-download-feedback-form-wrapper" data-dpr-module="download-feedback-form">
 
-    <form action="/submitFeedback/" method="post" id="download-feedback-form" class="download-feedback-form--hidden">
+    <form action="/dpr/submitFeedback/" method="post" id="download-feedback-form" class="download-feedback-form--hidden">
 
       <p>To enable downloads for this report (<strong>{{ reportName}} - {{ variantName }}</strong>), take a few moments to fill out this request form.</p><p>Once you have submitted the form you the download button will be enabled immediately.</p>
 
@@ -44,6 +47,10 @@
       <input type="hidden" name="time" value="{{ time }}">
       <input type="hidden" name="staffId" value="{{ staffId }}">
       <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}">
+      <input type="hidden" name="reportUrl" value="{{ reportUrl }}">
+      {% if reportSearch %}
+        <input type="hidden" name="reportSearch" value="{{ reportSearch }}">
+      {% endif %}
 
       <h2 class="govuk-fieldset__legend govuk-fieldset__legend--l">About you</h2>
       {# Name Input #}
@@ -67,7 +74,7 @@
       {{ govukInput({
         id: 'email',
         name: 'email',
-        value: '',
+        value: email,
         label: {
           text: 'What is your Email address?'
         },

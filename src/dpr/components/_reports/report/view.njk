@@ -1,33 +1,33 @@
 {% from "../report-data-table/view.njk" import dprDataTable %}
-{% from "../report-columns/view.njk" import dprReportColumns %}
 {% from "../report-summary-table/view.njk" import dprReportSummary %}
 {% from "../report-totals/view.njk" import dprReportTotals %}
-{% from "../report-filters/view.njk" import dprReportFilters %}
+{% from "../report-no-data-message/view.njk" import dprReportNoDataMessage %}
+{% from "../../code-block/view.njk" import dprCodeBlock %}
 
-{% macro dprReport(options) %}
-  {% set columns = options.columns %}
-  {% set filters = options.filters %}
+{% macro dprReport(options, count) %}
   {% set reportSummaries = options.reportSummaries %}
+  {% set dataTable = options.dataTable %}
+  {% set pagination = options.pagination %}
+  {% set classification = options.classification %}
+  {% set template = options.template %}
 
-  <div class="dpr-sync-report-actions">
-    {% if filters %}
-      {{ dprReportFilters(filters) }}
-    {% endif %}
+  {% if not count or count === 0 %}
+    {{ dprReportNoDataMessage(url) }}
+  {% else %}
 
-    {{ dprReportColumns(columns) }}
-  </div>
-
-  {{ dprReportSummary(reportSummaries, 'page-header') }}
-  {{ dprReportTotals(options.totals) }}
-
-  <div class='dpr-table-container'>
-    {{ dprDataTable(options) }}
-  </div>
-  
-  <div class='govuk-!-margin-bottom-6'>
+    {{ dprReportSummary(reportSummaries, 'page-header') }}
     {{ dprReportTotals(options.totals) }}
-  </div>
-  
-  {{ dprReportSummary(reportSummaries, 'page-footer') }}
+
+    <div class='dpr-table-container dpr-table-container--{{ template }}'>
+      {{ dprDataTable(dataTable, classification) }}
+    </div>
+    
+    <div class='govuk-!-margin-bottom-6'>
+      {{ dprReportTotals(options.totals) }}
+    </div>
+    
+    {{ dprReportSummary(reportSummaries, 'page-footer') }}
+
+  {% endif %}
 
 {% endmacro %}

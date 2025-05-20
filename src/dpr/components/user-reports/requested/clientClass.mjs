@@ -42,7 +42,7 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
     await Promise.all(
       JSON.parse(this.requestData).map(async (metaData) => {
         if (!this.EXPIRED_END_STATUSES.includes(metaData.status)) {
-          const response = await this.getExpiredStatus('/getRequestedExpiredStatus/', metaData, this.csrfToken)
+          const response = await this.getExpiredStatus('/dpr/getRequestedExpiredStatus/', metaData, this.csrfToken)
 
           if (response && response.isExpired) {
             clearInterval(this.expiredInterval)
@@ -82,7 +82,7 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
 
   async removeItemFromList(executionId) {
     let response
-    await fetch('/removeRequestedItem/', {
+    await fetch('/dpr/removeRequestedItem/', {
       method: 'post',
       headers: {
         Accept: 'application/json',

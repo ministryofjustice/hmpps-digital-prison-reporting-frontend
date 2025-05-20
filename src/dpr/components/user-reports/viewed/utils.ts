@@ -1,7 +1,9 @@
-import { RecentlyViewedReport } from '../../../types/UserReports'
+import { RecentlyViewedReport, RequestStatus } from '../../../types/UserReports'
 
 export default {
   filterReports: (report: RecentlyViewedReport) => {
-    return report.executionId.length !== 0
+    return (
+      report.status === RequestStatus.READY || (report.executionId?.length && report.status === RequestStatus.EXPIRED)
+    )
   },
 }

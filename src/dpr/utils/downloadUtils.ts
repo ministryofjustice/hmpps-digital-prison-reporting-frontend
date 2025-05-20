@@ -4,8 +4,9 @@ import { KeysList } from 'json-2-csv/lib/types'
 import { Services } from '../types/Services'
 import Dict = NodeJS.Dict
 import { LoadType } from '../types/UserReports'
-import SyncReportUtils from '../components/_sync/sync-report/utils'
+import SyncReportUtils from './report/syncReportUtils'
 import { components } from '../types/api'
+import LocalsHelper from './localsHelper'
 
 const convertToCsv = (reportData: Dict<string>[], options: Json2CsvOptions) => {
   const csvData = json2csv(reportData, options)
@@ -41,6 +42,30 @@ const applyColumnsAndSort = (data: Dict<string>[], columns: string[]) => {
   })
 }
 
+const removeHtmlTags = (
+  reportData: Dict<string>[],
+  reportDefinition: components['schemas']['SingleVariantReportDefinition'],
+) => {
+  // Find HMTL field + name
+  const { fields } = reportDefinition.variant.specification
+  const htmlField = fields.find((field) => {
+    return field.type === 'HTML'
+  })
+
+  if (htmlField) {
+    // remove wrapping HTML tags from value
+    const { name } = htmlField
+    reportData.map((d) => {
+      const innerText = /target="_blank">(.*?)<\/a>/g.exec(d[name])
+      // eslint-disable-next-line prefer-destructuring, no-param-reassign
+      d[name] = innerText[1]
+      return d
+    })
+  }
+
+  return reportData
+}
+
 export default {
   async downloadReport({
     req,
@@ -55,10 +80,11 @@ export default {
     redirect: string
     loadType?: LoadType
   }) {
-    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-    const token = res.locals.user?.token ? res.locals.user.token : 'token'
+    const { userId, token } = LocalsHelper.getValues(res)
 
     const { reportId, id, tableId, dataProductDefinitionsPath, reportName, name, cols: columns } = req.body
+
+    req.query = LocalsHelper.setDdpPathToReqQuery(req, dataProductDefinitionsPath)
 
     const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
     if (!canDownload) {
@@ -73,16 +99,13 @@ export default {
 
       let reportData
       if (loadType === LoadType.SYNC) {
-        const { reportData: listWithWarnings } = await SyncReportUtils.getSyncReportData(
+        const { reportData: listWithWarnings } = await SyncReportUtils.getReportData({
           services,
           req,
           token,
           reportId,
           id,
-          {
-            dpdPath: dataProductDefinitionsPath,
-          },
-        )
+        })
         reportData = listWithWarnings.data
       } else {
         const pageSize = await services.reportingService.getAsyncCount(token, tableId)
@@ -95,6 +118,7 @@ export default {
       if (columns) {
         reportData = applyColumnsAndSort(reportData, JSON.parse(columns))
       }
+      reportData = removeHtmlTags(reportData, reportDefinition)
       const keys: KeysList = getKeys(reportData, reportDefinition)
       const csvData = convertToCsv(reportData, { keys })
 

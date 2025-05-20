@@ -1,45 +1,53 @@
 import nock from 'nock'
 
+import { Request } from 'express'
 import ReportQuery from '../types/ReportQuery'
 import ReportingClient from './reportingClient'
 import { components } from '../types/api'
 import AgentConfig from './agentConfig'
+import { Template } from '../types/Templates'
 
 describe('reportingClient', () => {
   let fakeReportingApi: nock.Scope
   let reportingClient: ReportingClient
-
-  const listRequest: ReportQuery = new ReportQuery(
-    {
-      template: 'list',
-      sections: [],
-      fields: [
-        {
-          name: 'original.filter',
-          display: 'Original',
-          sortable: true,
-          defaultsort: false,
-          filter: {
-            type: 'Radio',
-            mandatory: false,
-          },
-          type: 'string',
+  const specification = {
+    template: 'list',
+    sections: [],
+    fields: [
+      {
+        name: 'original.filter',
+        display: 'Original',
+        sortable: true,
+        defaultsort: false,
+        filter: {
+          type: 'Radio',
           mandatory: false,
-          visible: true,
-          calculated: false,
         },
-      ],
-    },
-    {
+        type: 'string',
+        mandatory: false,
+        visible: true,
+        calculated: false,
+      },
+    ],
+  } as components['schemas']['Specification']
+
+  const req = {
+    query: {
       selectedPage: '1',
       pageSize: '2',
       sortColumn: 'three',
       sortedAsc: 'true',
       'f.original.filter': 'true',
     },
-    'test-definition-path',
-    'f.',
-  )
+  } as unknown as Request
+
+  const listRequest: ReportQuery = new ReportQuery({
+    fields: specification.fields,
+    template: specification.template as Template,
+    queryParams: req.query,
+    definitionsPath: 'test-definition-path',
+    filtersPrefix: 'f.',
+  })
 
   beforeEach(() => {
     const url = 'http://localhost:3010/reports'
@@ -250,7 +258,7 @@ describe('reportingClient', () => {
       const reportId = 'report-id'
       const variantId = 'variant-id'
       const executionId = 'execution-id'
-      const resource = `/statements/${executionId}/status`
+      const resource = `/reports/${reportId}/${variantId}/statements/${executionId}/status`
 
       fakeReportingApi.get(resource).reply(200, response)
 

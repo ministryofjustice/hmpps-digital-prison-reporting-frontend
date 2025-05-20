@@ -6,7 +6,7 @@ import type ReportingService from '../../../services/reportingService'
 import DashboardService from '../../../services/dashboardService'
 import { components } from '../../../types/api'
 import variant1 from '../../../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
-import dashboardDefinitions from '../../../../../test-app/mocks/mockClients/dashboards/mockDashboardDefinition'
+import dashboardDefinitions from '../../../../../test-app/mocks/mockClients/dashboards/dashboard-definitions'
 
 describe('BookmarkUtils', () => {
   let services: Services
@@ -26,6 +26,7 @@ describe('BookmarkUtils', () => {
             token: 'tOkEn',
           },
           csfrToken: 'CsRfToKeN',
+          bookmarks: [{ reportId: 'test-report-1', variantId: 'test-variant-1' }],
         },
       } as unknown as Response
 

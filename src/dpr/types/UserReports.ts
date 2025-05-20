@@ -1,6 +1,7 @@
 import Dict = NodeJS.Dict
 import { SummaryTemplate, Template } from './Templates'
 import { FieldDefinition } from '../utils/DataTableBuilder/types'
+import { ChildReportExecutionData } from './ExecutionData'
 
 export interface StoredReportData {
   reportId: string
@@ -15,9 +16,12 @@ export interface StoredReportData {
   status?: RequestStatus
   timestamp?: AsyncReportsTimestamp
   dataProductDefinitionsPath?: string
+  dpdPathFromQuery?: boolean
   query?: AsyncReportQueryData
   url?: AsyncReportUrlData
   type: ReportType
+  loadType?: LoadType
+  childExecutionData?: Array<ChildReportExecutionData>
 }
 
 export interface RequestedReport extends StoredReportData {
@@ -36,7 +40,7 @@ export type UserReportData = RequestedReport | RecentlyViewedReport | StoredRepo
 
 export interface AsyncReportUrlData {
   origin: string
-  request: AsyncReportUrlItemData
+  request?: AsyncReportUrlItemData
   report?: AsyncReportUrlItemData
   polling?: AsyncReportUrlItemData
 }
@@ -45,6 +49,7 @@ export interface AsyncReportUrlItemData {
   pathname?: string
   fullUrl?: string
   search?: string
+  default?: string
 }
 
 export interface AsyncReportQueryData {
@@ -110,6 +115,7 @@ export interface meta {
   reportId: string
   id: string
   executionId: string
+  tableId: string
   status?: string
   type: ReportType
   requestedAt?: Date
@@ -140,4 +146,17 @@ export interface RequestFormFilterData {
 export enum LoadType {
   SYNC = 'sync',
   ASYNC = 'async',
+  SCHEDULED = 'scheduled',
+}
+
+export interface DefinitionData {
+  reportName: string
+  reportId: string
+  id: string
+  name: string
+  description: string
+  type: ReportType
+  reportDescription: string
+  loadType?: LoadType
+  authorised: boolean
 }

@@ -1,16 +1,20 @@
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
 {% from "../../_inputs/autocomplete-text-input/view.njk" import dprAutocompleteTextInput -%}
 {% from "../../_inputs/date-range/view.njk" import dprDateRange -%}
+{% from "../../_inputs/granular-date-range/view.njk" import dprGranularDateRange -%}
 {% from "../../_inputs/date-input/view.njk" import dprDate %}
+{% from "../../_inputs/multi-select/view.njk" import dprMultiSelect %}
 
 {% macro dprFilterInput(filter, parameterPrefix) %}
   {% set filterType = filter.type | lower %}
   {% set id = parameterPrefix + filter.name %}
   {% set name = parameterPrefix + filter.name %}
   {% set value = filter.value %}
+  {% set values = filter.values %}
   {% set text = filter.text %}
   {% set options = filter.options %}
   {% set pattern = filter.pattern if filter.pattern else 
@@ -18,32 +22,38 @@
   {% set mandatory = filter.mandatory if filter.mandatory else 
     false %}
 
-  {% set optionsWithNone = [
-    {
-      value: "",
-      text: "( No filter )",
-      disabled: true
-    }
-  ].concat(options) %}
-
   {% set labelText = text | capitaliseSentence %}
 
   <div class="dpr-filter-item {% if filterType === 'daterange'%} dpr-filter-item__span-2 {% endif %}">
+
     {%- if filterType === 'select' %}
 
       {{ govukSelect({
         id: id,
         name: name,
         value: value,
-        items: options if mandatory else optionsWithNone,
+        items: options,
         label: {
           text: labelText,
           classes: "govuk-label govuk-!-font-weight-bold"
         },
+        errorMessage: {
+          text: ""
+        } if mandatory,
         attributes: {
+          required: true,
           'display-name': labelText
-        }
+        } if mandatory else {
+          'display-name': labelText
+        },
+        hint: {
+          html: "(Optional)"
+        } if not mandatory
       }) }}
+
+    {%- elif filterType === 'multiselect' %}
+
+      {{ dprMultiSelect(filter, parameterPrefix, mandatory)}}
 
     {% elif filterType === 'radio' %}
 
@@ -57,17 +67,20 @@
             classes: "govuk-label govuk-!-font-weight-bold"
           }
         },
-        items: (options | addRequiredAttributeToAll) if mandatory else optionsWithNone,
+        items: (options | addRequiredAttributeToAll) if mandatory else options,
         errorMessage: {
           text: ""
-        },
+        } if mandatory,
         value: value,
         attributes: {
           required: true,
           'display-name': labelText
         } if mandatory else {
           'display-name': labelText
-        }
+        },
+        hint: {
+          html: "(Optional)"
+        } if not mandatory
       }) }}
 
     {% elif filterType === 'date' %}
@@ -78,6 +91,12 @@
 
       <div class="govuk-form-group">
         {{ dprDateRange(filter, parameterPrefix, mandatory) }}
+      </div>
+
+    {% elif filterType === 'granulardaterange' %}
+
+      <div class="govuk-form-group">
+        {{ dprGranularDateRange(filter, parameterPrefix, mandatory) }}
       </div>
 
     {% elif filterType === 'autocomplete' %}

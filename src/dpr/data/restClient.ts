@@ -38,7 +38,11 @@ export default class RestClient {
     raw = false,
     token,
   }: GetRequest): Promise<ResultWithHeaders<T>> {
-    logger.info(`Get using user credentials: calling ${this.name}: ${this.config.url}${path} ${JSON.stringify(query)}`)
+    const loggerData = {
+      path: `${this.config.url}${path}`,
+      query,
+    }
+    logger.info(`${this.name}: ${JSON.stringify(loggerData, null, 2)}`)
     try {
       const result = await superagent
         .get(`${this.apiUrl()}${path}`)
@@ -72,7 +76,11 @@ export default class RestClient {
     raw = false,
     token,
   }: GetRequest): Promise<ResultWithHeaders<T>> {
-    logger.info(`Get using user credentials: calling ${this.name}: ${this.config.url}${path} ${JSON.stringify(query)}`)
+    const loggerData = {
+      path: `${this.config.url}${path}`,
+      query,
+    }
+    logger.info(`${this.name}: ${JSON.stringify(loggerData, null, 2)}`)
     try {
       const result = await superagent
         .delete(`${this.apiUrl()}${path}`)

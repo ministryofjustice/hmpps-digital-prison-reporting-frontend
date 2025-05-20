@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import ChartVisualisation from '../clientClass.mjs'
 
 export default class DoughnutChartVisualisation extends ChartVisualisation {
@@ -25,9 +26,10 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
 
   setDatasetStyling() {
     const pallette = this.getColourPallette()
+    const backgroundColor = pallette.map((p) => p.hex)
     return [
       {
-        backgroundColor: pallette,
+        backgroundColor: [...backgroundColor, ...backgroundColor],
         hoverOffset: 4,
         datalabels: {
           anchor: 'center',
@@ -47,13 +49,14 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
   setPluginsOptions() {
     return {
       legend: {
-        display: false,
+        display: true,
+        position: 'bottom',
       },
     }
   }
 
   setPlugins() {
-    const plugins = [this.setLegend()]
+    const plugins = []
     if (this.chartParams.datasets.length === 1 && !this.isPercentage) {
       plugins.push(this.setCentralText())
     }
@@ -100,6 +103,7 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
   }
 
   setLegend() {
+    const classContext = this
     const { legend, suffix } = this
     return {
       id: 'legend',
@@ -111,11 +115,12 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
         labels.forEach((label, i) => {
           const colourIndex = i % backgroundColor.length
           const colour = backgroundColor[colourIndex]
+          const colourName = classContext.mapHexColourToName(colour, classContext)
           const value = chart.data.datasets.length === 1 ? `${data[i]}${suffix}` : ''
 
           ul.innerHTML += `
               <li aria-label="${label} ${value}">
-                <span style="background-color: ${colour}">${value}</span>
+                <span class="chart-colour__${colourName}">${value}</span>
                 ${label}
               </li>
             `
@@ -133,7 +138,8 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
         title(context) {
           const { label, dataset } = context[0]
           const { label: establishmentId } = dataset
-          return `${establishmentId}: ${label}`
+          const title = ctx.singleDataset ? `${label}` : `${establishmentId}: ${label}`
+          return title
         },
         label(context) {
           const { label, parsed: value, dataset } = context
@@ -145,7 +151,9 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
           if (!ctx.isPercentage) {
             const val = dataArr.reduce((sum, d) => sum + Number(d), 0)
             const percentage = `${((value * 100) / val).toFixed(2)}%`
-            toolipValue = `${legend}: ${toolipValue} (${percentage})`
+            toolipValue = ctx.singleDataset
+              ? `${toolipValue} (${percentage})`
+              : `${legend}: ${toolipValue} (${percentage})`
             ctx.setHoverValue({ label, value: toolipValue, legend, ctx })
           } else {
             toolipValue = `${toolipValue}`
@@ -172,7 +180,9 @@ export default class DoughnutChartVisualisation extends ChartVisualisation {
       },
       formatter: (value, context) => {
         const { dataset } = context
-        const label = `${value}${this.suffix}
+        const label = ctx.singleDataset
+          ? `${value}${this.suffix}`
+          : `${value}${this.suffix}
 ${dataset.label}`
 
         return label

@@ -98,6 +98,37 @@ const viewedDashboard = {
   },
 }
 
+const viewedInteractive = {
+  reportId: 'test-report-6',
+  id: 'variantId-23',
+  executionId: 'exId_1733925499607',
+  tableId: 'tblId_1733925499607',
+  reportName: 'Interactive reports',
+  name: 'Interactive Report',
+  description: 'this is an interactive report',
+  type: 'report',
+  status: 'READY',
+  url: {
+    origin: 'http://localhost:3010',
+    request: {
+      fullUrl: 'http://localhost:3010/async/report/test-report-6/variantId-23/request?',
+      pathname: '/async/report/test-report-6/variantId-23/request',
+      search: '',
+    },
+    report: {
+      pathname: '/async/report/test-report-6/variantId-23/request/tblId_1733925499607/report',
+      fullUrl: 'http://localhost:3010/async/report/test-report-6/variantId-23/request/tblId_1733925499607/report',
+    },
+  },
+  timestamp: {
+    lastViewed: '2024-12-11T13:58:30.841Z',
+  },
+  query: {
+    data: {},
+    summary: [],
+  },
+}
+
 const viewedExpired = {
   reportId: 'test-report-3',
   id: 'variantId-1',
@@ -200,4 +231,5 @@ module.exports = {
   viewedExpired,
   viewedDashboard,
   expiredDashboard,
+  viewedInteractive,
 }

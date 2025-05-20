@@ -1,0 +1,31 @@
+{% from "../../_charts/chart-card/view.njk" import dprChartCard %}
+{% from "../scorecard-group/view.njk" import dprScoreCardGroup %}
+{% from "../dashboard-list/view.njk" import dprDashboardList %}
+{% from "../dashboard-visualisation/view.njk" import dprDashboardVisualisation %}
+
+{% macro dprDashboardSection(section) %}
+  {% set id = section.id %}
+  {% set title = section.title %}
+  {% set description = section.description %}
+  {% set visualisations = section.visualisations %}
+
+  <hr class="dashboard-section-break">
+  <div class="dpr-dashboard-section" id="{{ id }}-dashboard-section">
+  
+    {% if title %}
+      <h2 class="govuk-heading-m">{{ title }}</h2>
+    {% endif %}
+
+    {% if description %}
+      <p class="govuk-body">{{ description }}</p> 
+    {% endif %}
+
+    <div class="dashboard-section-container">
+
+      {% for visualisation in visualisations %}
+        {{ dprDashboardVisualisation(visualisation) }}
+      {% endfor %}
+
+    </div>
+  </div>
+{% endmacro %}

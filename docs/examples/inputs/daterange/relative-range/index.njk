@@ -1,0 +1,28 @@
+---
+layout: layouts/example.njk
+title: Relative Daterange (example)
+arguments: date-range
+---
+{%- from "dpr/components/_inputs/date-range/view.njk" import dprDateRange %}
+
+{{ dprDateRange(
+  {
+    text: "Relative Date range picker",
+    name: "relative-date-range-picker",
+    value:{
+      start: "2003-02-01",
+      end: "2007-05-04"
+    },
+    relativeOptions: [
+      { value: null, text: 'None' },
+      { value: 'yesterday', text: 'Yesterday' },
+      { value: 'tomorrow', text: 'Tomorrow' },
+      { value: 'last-week', text: 'Last week' },
+      { value: 'next-week', text: 'Next week' },
+      { value: 'last-month', text: 'Last month' },
+      { value: 'next-month', text: 'Next-month' }
+    ]
+  },
+  'filters.',
+  false
+) }}

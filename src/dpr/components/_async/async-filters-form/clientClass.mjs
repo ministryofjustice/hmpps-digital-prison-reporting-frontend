@@ -1,4 +1,4 @@
-import DprFiltersFormClass from '../../../DprFiltersFormClass.mjs'
+import DprFiltersFormClass from '../../_filters/filters-form/clientClass.mjs'
 
 export default class AsyncFilters extends DprFiltersFormClass {
   static getModuleName() {
@@ -20,7 +20,8 @@ export default class AsyncFilters extends DprFiltersFormClass {
     document.getElementById('async-filters-form-search').value = search
 
     const params = new URLSearchParams(search)
-    document.getElementById('async-filters-form-href').value = `${origin}${pathname}?${params.toString()}`
+    const paramsString = params.size > 0 ? `?${params.toString()}` : ''
+    document.getElementById('async-filters-form-href').value = `${origin}${pathname}${paramsString}`
     this.initFormValidation(this.formFields)
     this.mainForm.classList.remove('async-filters-form--hidden')
   }

@@ -1,10 +1,11 @@
 import { Response, Request } from 'express'
-import PollingUtils from './utils'
-import { Services } from '../../../types/Services'
 import { ReportType } from '../../../types/UserReports'
+import type { Services } from '../../../types/Services'
 import type RequestedReportService from '../../../services/requestedReportService'
+
+import PollingUtils from './utils'
+
 import MockRequestedListData2 from '../../../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
-import MockRequestedListData1 from '../../../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV1'
 import MockRequestedDashboardData from '../../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'
 
 describe('PollingUtils', () => {
@@ -20,6 +21,7 @@ describe('PollingUtils', () => {
           uuid: 'UsErId',
         },
         csfrToken: 'CsRfToKeN',
+        definitionsPath: 'dataProductDefinitionsPath',
       },
     } as unknown as Response
 
@@ -84,6 +86,7 @@ describe('PollingUtils', () => {
             'http://localhost:3010/async/report/test-report-3/variantId-2/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
           requestedAt: '2024-10-24T10:28:15.792Z',
           status: 'SUBMITTED',
+          tableId: 'tblId_1729765698654',
           type: 'report',
         },
       }
@@ -100,7 +103,7 @@ describe('PollingUtils', () => {
       }
 
       requestedReportService = {
-        getReportByExecutionId: jest.fn().mockResolvedValue(MockRequestedListData1.requestedSubmitted),
+        getReportByExecutionId: jest.fn().mockResolvedValue(MockRequestedListData2.requestedSubmitted),
       } as unknown as RequestedReportService
 
       services = {
@@ -118,26 +121,26 @@ describe('PollingUtils', () => {
         pollingRenderData: {
           csrfToken: 'csrfToken',
           definitionPath: 'dataProductDefinitionsPath',
-          description: 'this will succeed',
+          description: 'this will fail with returned Status: FAILED',
           executionId: 'executionId',
           id: 'id',
-          name: 'Submitted report v1',
+          name: 'Submitted report v2',
           querySummary: [
-            { name: 'Field 1', value: 'value1.3' },
-            { name: 'Field 2', value: 'value2.3' },
+            { name: 'Field 1', value: 'value1.1' },
+            { name: 'Field 2', value: 'value2.1' },
             { name: 'Field 3 start', value: '01/02/2003' },
             { name: 'Field 3 end', value: '04/05/2006' },
-            { name: 'Field 6', value: 'Value 6.1' },
-            { name: 'Field 7', value: '01/02/2005' },
+            { name: 'Field 4', value: 'Inigo Montoya' },
             { name: 'Sort Column', value: 'Field 1' },
             { name: 'Sort Direction', value: 'Ascending' },
           ],
           reportId: 'reportId',
           reportName: 'Test Report',
           requestUrl:
-            'http://localhost:3010/async-reports/test-report-3/variantId-1/request?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
-          requestedAt: '2024-10-24T10:27:09.173Z',
+            'http://localhost:3010/async/report/test-report-3/variantId-2/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
+          requestedAt: '2024-10-24T10:28:15.792Z',
           status: 'SUBMITTED',
+          tableId: 'tblId_1729765698654',
           type: 'report',
         },
       }
@@ -181,6 +184,7 @@ describe('PollingUtils', () => {
           requestUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request?',
           requestedAt: '2024-08-29T14:51:33.557Z',
           status: 'SUBMITTED',
+          tableId: 'tblId_1724943092098',
           type: 'dashboard',
         },
       }

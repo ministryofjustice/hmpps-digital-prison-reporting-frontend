@@ -1,7 +1,7 @@
 
 {% from "govuk/components/table/macro.njk" import govukTable %}
 
-{% macro dprUserReportsList(args) %}
+{% macro dprUserReportsList(args, type) %}
   {% set tableData = args.tableData %}
   {% set total = args.total %}
   {% set meta = args.meta %}
@@ -15,11 +15,21 @@
   <div>
     <div class="dpr-slide__header">
       {% if not emptyMessage.length and total %}
-        <p class="govuk-body-s dpr-slide__sub-text">Showing {{ total.shown }} of {{ total.amount }} {% if total.amount > maxRows %} <a class="govuk-body-s" href='{{ href }}'>Show all</a>{% endif %}</p>
+        <p class="govuk-body-s dpr-slide__sub-text">Showing {{ total.shown }} of {{ total.amount }}{% if total.amount > total.max %}. <a class="govuk-body-s" href='{{ href }}'>Show all</a>{% endif %}</p>
       {% endif %}
     </div>
     {% if emptyMessage.length %}
-      <p>{{emptyMessage}}</p>
+      <p><strong>{{emptyMessage}}</strong></p>
+
+      {% if type === 'bookmark' %}
+        <p>Bookmarking allows you curate a shortlist of your most used reports for easy access.</p>
+        <p>Add bookmarks by clicking the "<strong>Add bookmark</strong>" link next to a report in the catalogue, or in the report view.</p>
+      {% endif %}
+
+      {% if type === 'requested' %}
+        <p>To request a report click the "<strong>Request report</strong>" link next to a report in the catalogue</p>
+      {% endif %}
+
     {% else %}
       {{ govukTable(tableData) }}
     {% endif %}

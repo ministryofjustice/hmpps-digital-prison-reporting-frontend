@@ -1,7 +1,8 @@
-{% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "../date-input/view.njk" import dprDate %}
+
+{% from "../start-end-date/view.njk" import dprStartEndDate %}
 
 {% macro dprDateRange(data, parameterPrefix = "filters.", mandatory = false) %}
   {% set min = data.min %}
@@ -9,6 +10,7 @@
   {% set relativeOptions = data.relativeOptions %}
   {% set startId = parameterPrefix + data.name + '.start' %}
   {% set endId = parameterPrefix + data.name + '.end' %}
+  {% set durationInputId = parameterPrefix + data.name + '.relative-duration' %}
 
   <div class="dpr-date-range" data-dpr-module="date-range-input">
     <fieldset class="govuk-fieldset">
@@ -17,47 +19,16 @@
       </legend>
 
       {% set datepickerHtml %}
-      <div id='dpr-date-range' data-field-name='{{ data.name }}' data-initialised-value='{{ data.value }}' >
-      {# START #}
-        {{ dprDate(
-          {
-            name: data.name,
-            value: data.value.start,
-            min: min,
-            max: max,
-            mandatory: mandatory,
-            displayName: data.text + ' start date'
-          },
-          'Start',
-          '.start',
-          true,
-          false
-        )}}
-
-      {# END #}
-        <div class="govuk-!-margin-top-3">
-        {{ dprDate(
-          {
-            name: data.name,
-            value: data.value.end,
-            min: min,
-            max: max,
-            mandatory: mandatory,
-            displayName: data.text + ' start date'
-          },
-          'End',
-          '.end',
-          false
-        )}}
-        </div>
+      <div id='dpr-date-range' data-field-name='{{ data.name }}'>
+        {{ dprStartEndDate(data.name, data.value, min, max, mandatory) }}
       </div>
       {% endset %}
-
+      
       {% set relativeRangeHtml %}
       {{ govukRadios({
         classes: 'govuk-radios--small',
-        id: data.name + '.relative-duration',
-        name: data.name + '.relative-duration',
+        id: durationInputId,
+        name: durationInputId,
         formGroup: {
           classes: "govuk-!-margin-bottom-3 dpr-relative-range-radio"
         },

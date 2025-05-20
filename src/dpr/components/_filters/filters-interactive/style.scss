@@ -1,0 +1,98 @@
+.dpr-interactive-filters-section, .dpr-columns-section-wrapper {
+  border: solid 1px govuk-colour('mid-grey');
+  margin-bottom: govuk-spacing(4);
+
+  .dpr-interactive-filters-heading {
+    // background-color: govuk-colour('mid-grey');
+    padding: govuk-spacing(2);
+    padding-left: govuk-spacing(4);
+    padding-right: govuk-spacing(4);
+    border-bottom: solid 1px govuk-colour('mid-grey');
+
+    p {
+      margin-bottom: 0px;
+    }
+  }
+
+  .dpr-interactive-filters-accordion {
+    padding: govuk-spacing(2);
+    padding-left: govuk-spacing(4);
+    padding-right: govuk-spacing(4);
+  }
+
+  .dpr-interactive-filters {
+    .filter-form-container {
+      
+      .filter-container {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: govuk-spacing(3);
+        row-gap: govuk-spacing(3);
+
+        @media(min-width: 769px) and (max-width: 1019px) {
+            grid-template-columns: 1fr 1fr;
+          }
+        
+        @media(max-width: 768px) {
+          grid-template-columns: 1fr;
+        }
+
+        .dpr-filter-item {
+          border-bottom: none;
+          padding-right: govuk-spacing(3);
+
+          .govuk-form-group {
+            margin-bottom: govuk-spacing(2);
+          }
+
+          &:last-child {
+            border-bottom: none
+          }
+        }
+      }
+
+      .filter-actions {
+        margin-top: govuk-spacing(6);
+        margin-bottom: govuk-spacing(0);
+        margin-left: govuk-spacing(0);
+        height: 40px;
+
+        button {
+          margin-bottom: 0px;
+        }
+
+        @media(max-width: 768px) {
+          height: 80px;
+        }
+
+        .govuk-button-group {
+          @media(max-width: 768px) {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  .govuk-button-group {
+    margin: 0px;
+  }
+
+  .govuk-details {
+    margin-bottom: 0px;
+
+    .govuk-details__text {
+      padding-left: 0px;
+      border-left: none;
+    }
+  }
+}
+
+@media print {
+  .dpr-interactive-filters-section {
+    .govuk-details {
+      display: none;
+    }
+  }
+}

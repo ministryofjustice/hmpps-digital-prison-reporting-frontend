@@ -1,0 +1,25 @@
+{% from "../embedded-report/view.njk" import dprEmbeddedReport %}
+{% from "../../_reports/report-heading/view.njk" import dprReportHeading %}
+{% from "../../_reports/report-print-message/view.njk" import dprReportPrintMessage %}
+{% from "../../_sync/sync-report/view.njk" import dprSyncReport %}
+{% from "../../loading-anim/view.njk" import dprLoadingAnim %}
+
+{% macro dprEmbeddedReportPage(renderData) %}
+
+  <div class="govuk-width-container">
+    <div class="govuk-width-container report-list-container">
+      {{ dprLoadingAnim() }}
+
+      {% if (printable == false) %}
+        {{ dprReportPrintMessage() }}
+      {% endif %}
+
+      <div class="dpr-reports-heading-container govuk-!-margin-top-5">
+        {{ dprReportHeading(renderData) }}
+      </div>
+
+      {{ dprEmbeddedReport(renderData) }}
+
+    </div>
+  </div>
+{% endmacro %}

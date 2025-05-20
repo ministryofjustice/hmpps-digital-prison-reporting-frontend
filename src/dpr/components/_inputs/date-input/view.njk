@@ -34,6 +34,10 @@
     } %}
   {% endif %}
 
+  {% if value %}
+    {% set value = value | dprDate %} 
+  {% endif %}
+
   <div class="dpr-date" 
     data-dpr-module="date-input" 
     data-required="{{ mandatory }}" 
@@ -53,36 +57,36 @@
       id: id,
       name: id,
       label: labelText,
-      value: value | date,
-      minDate: minDate | date,
-      maxDate: maxDate | date,
+      value: value,
+      minDate: minDate | dprDate,
+      maxDate: maxDate | dprDate,
       hint: {
         text: "For example 17/05/2024."
       },
       errorMessage: {
         text: ''
-      }
+      } if mandatory
     }) }}
 
     {% if toggleMin and minDate %}
     <a class="govuk-body-s daterange-set-to-minmax" 
       data-set-to-input='{{ id }}' 
-      data-set-min-max-value={{ minDate | date }} 
+      data-set-min-max-value={{ minDate | dprDate }} 
       data-set-min-max-trigger='true'
       href="#"
     > 
-      set to min ({{ minDate | date }})
+      set to min ({{ minDate | dprDate }})
     </a>
     {% endif %}
 
     {% if toggleMax and maxDate %}
     <a class="govuk-body-s daterange-set-to-minmax" 
       data-set-to-input='{{ id }}' 
-      data-set-min-max-value={{ maxDate | date }} 
+      data-set-min-max-value={{ maxDate | dprDate }} 
       data-set-min-max-trigger='true'
       href="#"
     >
-      set to max ({{ maxDate | date }})
+      set to max ({{ maxDate | dprDate }})
     </a>
     {% endif %}
   </div>

@@ -1,0 +1,161 @@
+---
+layout: layouts/example.njk
+title: List-section Report (example)
+---
+
+{%- from "dpr/components/_reports/report-wrapper/view.njk" import dprReportWrapper -%}
+
+{% set data = {
+  "columns": {
+    "name": "columns",
+    "options": [],
+    "text": "Select report columns",
+    "value": []
+  },
+  "filterData": {
+    "filters": [],
+    "selectedFilters": []
+  },
+  "count": 100,
+  "csrfToken": "csrfToken",
+  "classification": "OFFICIAL",
+  "template": "summary-section",
+  "loadType": "async",
+  "type": "report",
+  "actions": [],
+  "canDownload": false,
+  "printable": true,
+  "reportName": "C Test Report",
+  "name": "Sectioned Summaries template",
+  "description": "A report with summaries in sections, but no list.",
+  "requestedTimestamp": "15/05/2025, 14:09:35",
+  "reportId": "test-report-3",
+  "tableId": "tblId_1747314574674",
+  "id": "variantId-29",
+  "executionId": "exId_1747314574674",
+  "querySummary": [],
+  "requestUrl": {
+    "fullUrl": "http://localhost:3010/async/report/test-report-3/variantId-29/request",
+    "pathname": "/async/report/test-report-3/variantId-29/request",
+    "search": ""
+  },
+  "reportUrl": "/async/report/test-report-3/variantId-29/request/tblId_1747314574674/report",
+  "reportSearch": null,
+  "search": null,
+  "pathname": "/async/report/test-report-3/variantId-29/request/tblId_1747314574674/report",
+  "reportSummaries": {},
+  "dataTable": {
+    "head": null,
+    "rows": [
+      [
+        {
+          "classes": "dpr-section-header-spacer",
+          "colspan": 0,
+          "text": ""
+        }
+      ],
+      [
+        {
+          "classes": "dpr-section-header",
+          "colspan": 0,
+          "html": "<h2 class=\"govuk-heading-m\">First: One, Second: A</h2>"
+        }
+      ],
+      [
+        {
+          "classes": "dpr-section-header-spacer-bottom",
+          "colspan": 0,
+          "text": ""
+        }
+      ],
+      [
+        {
+          "classes": "dpr-summary-cell",
+          "colspan": 0,
+          "html": "<div class='dpr-summary-container-group dpr-summary-container-group-section-footer'><div class='dpr-summary-container'><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Field 1</th><th scope='col' class='govuk-table__header'>Field 2</th><th scope='col' class='govuk-table__header'>Field 3</th><th scope='col' class='govuk-table__header'>Field 4</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Section One A Header</td><td class='govuk-table__cell govuk-table__cell--string '>1</td><td class='govuk-table__cell govuk-table__cell--string '>12219380923</td><td class='govuk-table__cell govuk-table__cell--string '>4 Freds</td></tr></tbody></table></div><div class='dpr-summary-container'><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Field 1</th><th scope='col' class='govuk-table__header'>Field 2</th><th scope='col' class='govuk-table__header'>Field 3</th><th scope='col' class='govuk-table__header'>Field 4</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Section One A Footer</td><td class='govuk-table__cell govuk-table__cell--string '>1</td><td class='govuk-table__cell govuk-table__cell--string '>12219380923</td><td class='govuk-table__cell govuk-table__cell--string '>6 Freds</td></tr></tbody></table></div></div>"
+        }
+      ],
+      [
+        {
+          "classes": "dpr-section-header-spacer",
+          "colspan": 0,
+          "text": ""
+        }
+      ],
+      [
+        {
+          "classes": "dpr-section-header",
+          "colspan": 0,
+          "html": "<h2 class=\"govuk-heading-m\">First: One, Second: B</h2>"
+        }
+      ],
+      [
+        {
+          "classes": "dpr-section-header-spacer-bottom",
+          "colspan": 0,
+          "text": ""
+        }
+      ],
+      [
+        {
+          "classes": "dpr-summary-cell",
+          "colspan": 0,
+          "html": "<div class='dpr-summary-container-group dpr-summary-container-group-section-footer'><div class='dpr-summary-container'><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Field 1</th><th scope='col' class='govuk-table__header'>Field 2</th><th scope='col' class='govuk-table__header'>Field 3</th><th scope='col' class='govuk-table__header'>Field 4</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Section One B Footer</td><td class='govuk-table__cell govuk-table__cell--string '>1</td><td class='govuk-table__cell govuk-table__cell--string '>12219380923</td><td class='govuk-table__cell govuk-table__cell--string '>7 Freds</td></tr></tbody></table></div></div>"
+        }
+      ],
+      [
+        {
+          "classes": "dpr-section-header-spacer",
+          "colspan": 0,
+          "text": ""
+        }
+      ],
+      [
+        {
+          "classes": "dpr-section-header",
+          "colspan": 0,
+          "html": "<h2 class=\"govuk-heading-m\">First: Two, Second: A</h2>"
+        }
+      ],
+      [
+        {
+          "classes": "dpr-section-header-spacer-bottom",
+          "colspan": 0,
+          "text": ""
+        }
+      ],
+      [
+        {
+          "classes": "dpr-summary-cell",
+          "colspan": 0,
+          "html": "<div class='dpr-summary-container-group dpr-summary-container-group-section-footer'><div class='dpr-summary-container'><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Field 1</th><th scope='col' class='govuk-table__header'>Field 2</th><th scope='col' class='govuk-table__header'>Field 3</th><th scope='col' class='govuk-table__header'>Field 4</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Section Two A Header</td><td class='govuk-table__cell govuk-table__cell--string '>1</td><td class='govuk-table__cell govuk-table__cell--string '>12219380923</td><td class='govuk-table__cell govuk-table__cell--string '>5 Freds</td></tr></tbody></table></div></div>"
+        }
+      ],
+      [
+        {
+          "classes": "dpr-section-header-spacer",
+          "colspan": 0,
+          "text": ""
+        }
+      ],
+      [
+        {
+          "classes": "dpr-section-header",
+          "colspan": 0,
+          "html": "<h2 class=\"govuk-heading-m\">First: Two, Second: B</h2>"
+        }
+      ],
+      [
+        {
+          "classes": "dpr-section-header-spacer-bottom",
+          "colspan": 0,
+          "text": ""
+        }
+      ]
+    ],
+    "rowCount": 100,
+    "colCount": 0
+  }
+} %}
+
+{{ dprReportWrapper(data) }}

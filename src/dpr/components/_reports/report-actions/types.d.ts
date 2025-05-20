@@ -9,10 +9,11 @@ export interface DownloadActionParams {
   id: string
   tableId?: string
   columns: string[]
-  type: ReportType
   definitionPath: string
   canDownload: boolean
   loadType: LoadType
+  currentUrl: string
+  currentQueryParams: string
 }
 
 export interface ShareActionParams {
@@ -44,7 +45,6 @@ export interface GetActionsParams {
 
 export interface ActionTemplate {
   id: string
-  icon: string
   disabled: boolean
   tooltipText: string
   ariaLabelText: string
@@ -60,7 +60,6 @@ export interface ActionTemplates {
 
 export interface ReportAction {
   id: string
-  icon: string
   disabled: boolean
   tooltipText: string
   ariaLabelText: string

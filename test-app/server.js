@@ -12,10 +12,10 @@ const nunjucks = require('nunjucks')
 const bodyParser = require('body-parser')
 
 // Local dependencies
-const { default: reportListUtils } = require('../package/dpr/components/report-list/utils')
-const ReportslistUtils = require('../package/dpr/components/reports-list/utils').default
+const ReportListUtils = require('../package/dpr/components/report-list/utils').default
+const CatalogueUtils = require('../package/dpr/components/_catalogue/catalogue/utils').default
 const UserReportsListUtils = require('../package/dpr/components/user-reports/utils').default
-const { createUserStoreServices, initUserStoreServices } = require('../package/dpr/utils/StoreServiceUtils')
+const createDprServices = require('../package/dpr/utils/ReportStoreServiceUtils').default
 
 // Set up application
 const appViews = [
@@ -25,6 +25,9 @@ const appViews = [
   path.join(__dirname, '../src/'),
   path.join(__dirname, '.'),
 ]
+
+// Middleware
+const setUpDprResources = require('../package/dpr/middleware/setUpDprResources').default
 
 // Application
 const app = express()
@@ -48,48 +51,35 @@ setUpNunjucksFilters(nunjucksEnvironment)
 app.set('view engine', 'njk')
 
 // Middleware to serve static assets
-app.use('/assets/ext/chart.js', express.static(path.join(__dirname, '../node_modules/chart.js/dist/chart.umd.js')))
-app.use(
-  '/assets/ext/chartjs-datalabels.js',
-  express.static(
-    path.join(__dirname, '../node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js'),
-  ),
-)
-app.use('/assets/ext/jquery.min.js', express.static(path.join(__dirname, '../node_modules/jquery/dist/jquery.min.js')))
-app.use('/assets/ext/day.js', express.static(path.join(__dirname, '../node_modules/dayjs/dayjs.min.js')))
-app.use(
-  '/assets/ext/dayjs/plugin/customParseFormat.js',
-  express.static(path.join(__dirname, '../node_modules/dayjs/plugin/customParseFormat.js')),
-)
-app.use('/assets/govuk', express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/assets')))
-app.use('/assets/moj', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/assets')))
+Array.of(
+  '/assets',
+  '/assets/stylesheets',
+  '/assets/js',
+  '/node_modules/govuk-frontend/dist/govuk/assets',
+  '/node_modules/govuk-frontend/dist',
+  '/node_modules/@ministryofjustice/frontend/moj/assets',
+  '/node_modules/@ministryofjustice/frontend',
+  '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/assets',
+  '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend',
+).forEach((dir) => {
+  app.use('/assets', express.static(path.join(process.cwd(), dir)))
+})
+
+// Local overrides
 app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr/assets')))
-app.use(
-  '/govuk/all.js',
-  express.static(path.join(__dirname, '../node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js')),
-)
-app.use('/moj/all.js', express.static(path.join(__dirname, '../node_modules/@ministryofjustice/frontend/moj/all.js')))
+app.use('/assets/dpr', express.static(path.join(__dirname, '../package/dpr')))
+
 app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
 app.use('/assets/manifest.json', express.static(path.join(__dirname, './manifest.json')))
 app.use(bodyParser.json())
 
 // Mock Clients & API responses
 const MockReportingClient = require('./mocks/mockClients/reports/mockReportingClient')
-const MockDashboardClient = require('./mocks/mockClients/dashboards/mockDashboardClient')
+const MockDashboardClient = require('./mocks/mockClients/dashboards/mock-client')
 const MockUserStoreService = require('./mocks/mockClients/store/mockRedisStore')
-const mockDefinitions = require('./mocks/mockClients/reports/mockReportDefinition')
-const mockDashboardDefinitions = require('./mocks/mockClients/dashboards/mockDashboardDefinition')
-
-// Services
-const ReportingService = require('../package/dpr/services/reportingService').default
-const DashboardService = require('../package/dpr/services/dashboardService').default
 
 // Routes
-const addAsyncReportingRoutes = require('../package/dpr/routes/asyncReports').default
-const addBookmarkingRoutes = require('../package/dpr/routes/bookmarks').default
-const addRecentlyViewedRoutes = require('../package/dpr/routes/recentlyViewed').default
-const addDownloadRoutes = require('../package/dpr/routes/download').default
-const addSyncRoutes = require('../package/dpr/routes/syncReports').default
+const DprEmbeddedAsyncReports = require('../package/dpr/routes/DprEmbeddedReports').default
 
 // Charts
 const mockBarChartData = require('./mocks/mockChartData/mockBarChartData')
@@ -99,136 +89,252 @@ const mockMulitChartData = require('./mocks/mockChartData/mockMultiChartData')
 const mockScoreCards = require('./mocks/mockScoreCards/mockScorecards')
 
 // Set up routes
+const homepageMenuCards = [
+  {
+    text: 'DPR Service',
+    description: 'Reports that are requested and displayed separately.',
+    href: '/dpr-service',
+  },
+  {
+    text: 'DPR Sync reports',
+    description: 'DPR service reports that return immediately.',
+    href: '/sync-reports',
+  },
+  {
+    text: 'Embedded reports',
+    description: 'Embedded reports solutions',
+    href: '/embedded-reports',
+  },
+  {
+    text: 'Components',
+    description: 'Component testing',
+    href: '/components',
+  },
+]
+
+const syncReportsMenuCards = [
+  {
+    text: 'Test report',
+    description: 'Test sync report',
+    href: '/sync/report/test-report-3/variantId-1/report',
+  },
+]
+
+const componentsMenuCards = [
+  {
+    text: 'Search',
+    description: 'Search component.',
+    href: '/search',
+  },
+  {
+    text: 'Charts',
+    description: 'Chart Visualisations',
+    href: '/charts',
+  },
+  {
+    text: 'Scorecards',
+    description: 'Metric scorecards',
+    href: '/scorecards',
+  },
+]
+
+const embeddedReportsMenuCards = [
+  {
+    text: 'Route config options',
+    description: 'Embedded reports via route config. Sync reports only',
+    href: '/embedded-reports/route-config',
+  },
+  {
+    text: 'Route import',
+    description: 'Embedded reports via importing a route. Hybrid solution, allows for extra features to be added',
+    href: '/embedded-reports/import-route',
+  },
+]
+
+const embeddedImportRouteMenuCards = [
+  {
+    text: 'Test Report',
+    description:
+      'Embedded reports via import routes test report. Uncomment code in server to test. See _embedded/docs to learn about the config options',
+    href: '/dpr/embedded/sync/report/test-report-3/variantId-1/report',
+  },
+]
+
+const embeddededRouteConfigMenuCards = [
+  {
+    text: 'Method',
+    description: 'A test page rendered using the renderListWithData method.',
+    href: '/embedded-reports/route-config/method?dataProductDefinitionsPath=test-location',
+  },
+  {
+    text: 'Handler',
+    description: 'A test page rendered using the createReportListRequestHandler method to create a request handler.',
+    href: '/embedded-reports/route-config/handler',
+  },
+  {
+    text: 'Validation',
+    description: 'A test page for field validation.',
+    href: '/embedded-reports/route-config/validation',
+  },
+  {
+    text: 'Sections',
+    description: 'A sectioned report.',
+    href: '/embedded-reports/route-config/sections',
+  },
+  {
+    text: 'Failing page',
+    description: 'This page will fail to retrieve the definition and fail gracefully.',
+    href: '/embedded-reports/route-config/fail',
+  },
+]
+
+const addMockUserData = (req, res, next) => {
+  res.locals.user = {
+    displayName: 'Test User',
+    email: 'test@user.com',
+    uuid: 'userId',
+    activeCaseLoadId: 'random-id',
+    token: 'token',
+  }
+  next()
+}
+
+app.use(addMockUserData)
 
 app.get('/', (req, res) => {
   res.render('menu.njk', {
-    title: 'Home',
-    cards: [
-      {
-        text: 'Synchronous Reports',
-        description: 'Reports that return immediately.',
-        href: '/test-reports',
-      },
-      {
-        text: 'Asynchronous Reports',
-        description: 'Reports that are requested and displayed separately.',
-        href: '/async-reports',
-      },
-      {
-        text: 'Search',
-        description: 'Search component.',
-        href: '/search',
-      },
-      {
-        text: 'Charts',
-        description: 'Chart Visualisations',
-        href: '/charts',
-      },
-      {
-        text: 'Scorecards',
-        description: 'Metric scorecards',
-        href: '/scorecards',
-      },
-    ],
+    title: 'DPR test site',
+    cards: homepageMenuCards,
   })
 })
 
-const reportingClient = new MockReportingClient()
-const reportingService = new ReportingService(reportingClient)
-
-const dashboardClient = new MockDashboardClient()
-const dashboardService = new DashboardService(dashboardClient)
-
-const mockUserStore = new MockUserStoreService()
-const userStoreServices = createUserStoreServices(mockUserStore)
-
-const services = {
-  ...userStoreServices,
-  reportingService,
-  dashboardService,
-}
-
-initUserStoreServices('userId', services)
-
-const routeImportParams = {
-  router: app,
-  services,
-  layoutPath: 'page.njk',
-  templatePath: 'dpr/views/',
-}
-
-addBookmarkingRoutes(routeImportParams)
-addRecentlyViewedRoutes(routeImportParams)
-addAsyncReportingRoutes(routeImportParams)
-addDownloadRoutes(routeImportParams)
-
-addSyncRoutes({
-  ...routeImportParams,
-  options: {
-    // dpdPath: 'my/definition/path',
-  },
-  features: {
-    download: true,
-    bookmark: false, // NOTE: not avalable yet
-    recentlyViewed: false, // NOTE: not available yet
-  },
-})
-
-app.get('/async-reports', async (req, res) => {
-  res.locals.definitions = mockDefinitions.reports
-  res.locals.dashboardDefinitions = mockDashboardDefinitions
-  res.locals.csrfToken = 'csrfToken'
-  res.locals.pathSuffix = req.query.dataProductDefinitionsPath
-    ? `?dataProductDefinitionsPath=${req.query.dataProductDefinitionsPath}`
-    : ''
-
-  res.render('async.njk', {
-    title: 'Home',
-    ...(await UserReportsListUtils.initLists({ services, req, res })),
-    reports: {
-      ...(await ReportslistUtils.mapReportsList(res, services)),
-    },
-  })
-})
-
-app.get('/test-reports', (req, res) => {
+app.get('/embedded-reports', (req, res) => {
   res.render('menu.njk', {
-    title: 'Test Reports',
-    cards: [
-      {
-        text: 'Method',
-        description: 'A test page rendered using the renderListWithData method.',
-        href: '/test-reports/method?dataProductDefinitionsPath=test-location',
-      },
-      {
-        text: 'Handler',
-        description:
-          'A test page rendered using the createReportListRequestHandler method to create a request handler.',
-        href: '/test-reports/handler',
-      },
-      {
-        text: 'Validation',
-        description: 'A test page for field validation.',
-        href: '/test-reports/validation',
-      },
-      {
-        text: 'Sections',
-        description: 'A sectioned report.',
-        href: '/test-reports/sections',
-      },
-      {
-        text: 'Failing page',
-        description: 'This page will fail to retrieve the definition and fail gracefully.',
-        href: '/test-reports/fail',
-      },
-    ],
-
+    title: 'Embedded reports',
+    cards: embeddedReportsMenuCards,
     breadCrumbList: [{ text: 'Home', href: '/' }],
   })
 })
 
-app.get('/test-reports/method', (req, res, next) => {
-  reportListUtils.renderListWithDefinition({
+app.get('/embedded-reports/import-route', (req, res) => {
+  res.render('menu.njk', {
+    title: 'Route import',
+    cards: embeddedImportRouteMenuCards,
+    breadCrumbList: [
+      { text: 'Home', href: '/' },
+      { text: 'Embedded reports', href: '/embedded-reports' },
+    ],
+  })
+})
+
+app.get('/embedded-reports/route-config', (req, res) => {
+  res.render('menu.njk', {
+    title: 'Route config',
+    cards: embeddededRouteConfigMenuCards,
+    breadCrumbList: [
+      { text: 'Home', href: '/' },
+      { text: 'Embedded reports', href: '/embedded-reports' },
+    ],
+  })
+})
+
+app.get('/components', (req, res) => {
+  res.render('menu.njk', {
+    title: 'Components',
+    cards: componentsMenuCards,
+    breadCrumbList: [{ text: 'Home', href: '/' }],
+  })
+})
+
+app.get('/sync-reports', (req, res) => {
+  res.render('menu.njk', {
+    title: 'DPR Sync reports',
+    cards: syncReportsMenuCards,
+    breadCrumbList: [{ text: 'Home', href: '/' }],
+  })
+})
+
+/**
+ * ASYNC REPORTS
+ * */
+
+// 1. Init Data clients
+const reportingClient = new MockReportingClient()
+const dashboardClient = new MockDashboardClient()
+const reportDataStore = new MockUserStoreService()
+
+// 2. Create services
+const services = {
+  ...createDprServices({ reportingClient, dashboardClient, reportDataStore }),
+}
+
+// 3. Add middleware
+app.use(
+  setUpDprResources(services, {
+    routePrefix: 'dpr',
+  }),
+)
+
+// 4. Initialise routes
+DprEmbeddedAsyncReports({
+  router: app,
+  services,
+  layoutPath: 'page.njk',
+  config: {
+    routePrefix: 'dpr',
+  },
+})
+
+/**
+ * EMBEDDED REPORTS: Route import config
+ * See `_embedded/docs` to learn how to use this configuration
+ * */
+
+// const addEmbeddedReportsRoutes = require('../package/dpr/routes/embeddedReports').default
+
+// // Reporting client
+// const embeddedReportingClient = new MockReportingClient()
+// const embeddedReportingService = new ReportingService(embeddedReportingClient)
+// const embeddedReportsServices = {
+//   reportingService: embeddedReportingService,
+// }
+
+// // UserStore
+// const embeddedMockUserStore = new MockUserStoreService()
+
+// addEmbeddedReportsRoutes({
+//   router: app,
+//   services: embeddedReportsServices,
+//   features: {
+//     config: {
+//       userDataStore: embeddedMockUserStore,
+//     },
+//     list: ['download'],
+//   },
+// })
+
+// EMBEDDED REPORTS END
+
+app.get('/dpr-service', async (req, res) => {
+  res.locals.csrfToken = 'csrfToken'
+
+  const catalogue = await CatalogueUtils.init({
+    res,
+    services,
+    features: { bookmarkingEnabled: true },
+  })
+
+  const userReportsLists = await UserReportsListUtils.init({ services, req, res, maxRows: 20 })
+
+  res.render('async.njk', {
+    title: 'Home',
+    userReportsLists,
+    catalogue,
+  })
+})
+
+app.get('/embedded-reports/route-config/method', (req, res, next) => {
+  ReportListUtils.renderListWithDefinition({
     title: 'Method',
     definitionName: 'test-report',
     variantName: 'test-variant',
@@ -238,7 +344,8 @@ app.get('/test-reports/method', (req, res, next) => {
     otherOptions: {
       breadCrumbList: [
         { text: 'Home', href: '/' },
-        { text: 'Test Reports', href: '/test-reports' },
+        { text: 'Embedded reports', href: '/embedded-reports' },
+        { text: 'Route config', href: '/embedded-reports/route-config' },
       ],
     },
     request: req,
@@ -248,8 +355,8 @@ app.get('/test-reports/method', (req, res, next) => {
 })
 
 app.get(
-  '/test-reports/handler',
-  reportListUtils.createReportListRequestHandler({
+  '/embedded-reports/route-config/handler',
+  ReportListUtils.createReportListRequestHandler({
     title: 'Handler',
     definitionName: 'test-report',
     variantName: 'test-variant',
@@ -260,15 +367,16 @@ app.get(
     otherOptions: {
       breadCrumbList: [
         { text: 'Home', href: '/' },
-        { text: 'Test Reports', href: '/test-reports' },
+        { text: 'Embedded reports', href: '/embedded-reports' },
+        { text: 'Route config', href: '/embedded-reports/route-config' },
       ],
     },
   }),
 )
 
 app.get(
-  '/test-reports/validation',
-  reportListUtils.createReportListRequestHandler({
+  '/embedded-reports/route-config/validation',
+  ReportListUtils.createReportListRequestHandler({
     title: 'Handler',
     definitionName: 'test-report',
     variantName: 'test-validation-variant',
@@ -279,15 +387,16 @@ app.get(
     otherOptions: {
       breadCrumbList: [
         { text: 'Home', href: '/' },
-        { text: 'Test Reports', href: '/test-reports' },
+        { text: 'Embedded reports', href: '/embedded-reports' },
+        { text: 'Route config', href: '/embedded-reports/route-config' },
       ],
     },
   }),
 )
 
 app.get(
-  '/test-reports/sections',
-  reportListUtils.createReportListRequestHandler({
+  '/embedded-reports/route-config/sections',
+  ReportListUtils.createReportListRequestHandler({
     title: 'Handler',
     definitionName: 'test-report',
     variantName: 'test-section-variant',
@@ -298,14 +407,15 @@ app.get(
     otherOptions: {
       breadCrumbList: [
         { text: 'Home', href: '/' },
-        { text: 'Test Reports', href: '/test-reports' },
+        { text: 'Embedded reports', href: '/embedded-reports' },
+        { text: 'Route config', href: '/embedded-reports/route-config' },
       ],
     },
   }),
 )
 
-app.get('/test-reports/fail', (req, res, next) => {
-  reportListUtils.renderListWithDefinition({
+app.get('/embedded-reports/route-config/fail', (req, res, next) => {
+  ReportListUtils.renderListWithDefinition({
     title: 'Fail',
     definitionName: 'failing-report',
     variantName: 'failing-variant',
@@ -317,8 +427,8 @@ app.get('/test-reports/fail', (req, res, next) => {
     otherOptions: {
       breadCrumbList: [
         { text: 'Home', href: '/' },
-        { text: 'Reports', href: '/reports' },
-        { text: 'Test Reports', href: '/reports/test-reports' },
+        { text: 'Embedded reports', href: '/embedded-reports' },
+        { text: 'Route config', href: '/embedded-reports/route-config' },
       ],
     },
   })

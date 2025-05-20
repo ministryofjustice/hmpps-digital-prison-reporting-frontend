@@ -7,12 +7,12 @@ const setUpNunjucksFilters = (env: nunjucks.Environment) => {
   env.addFilter('json', stringifyJson)
   env.addFilter('capitaliseSentence', capitaliseSentence)
   nunjucksDate.setDefaultFormat('DD/MM/YYYY')
-  nunjucksDate.install(env, 'date')
+  nunjucksDate.install(env, 'dprDate')
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const stringifyJson = (jsonObj: any) => {
-  return JSON.stringify(jsonObj)
+  return JSON.stringify(jsonObj, null, 2)
 }
 
 const capitaliseSentence = (text: string) => {

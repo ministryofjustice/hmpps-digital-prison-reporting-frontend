@@ -1,4 +1,5 @@
 import { Response, Request } from 'express'
+import dayjs from 'dayjs'
 import RecentlyViewedStoreService from '../../services/recentlyViewedService'
 import RequestedReportService from '../../services/requestedReportService'
 import { RenderTableListResponse } from './types'
@@ -8,6 +9,7 @@ import {
   RequestStatus,
   ReportType,
   RequestedReport,
+  StoredReportData,
 } from '../../types/UserReports'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { getExpiredStatus } from '../../utils/requestStatusHelper'
@@ -17,12 +19,15 @@ import { Services } from '../../types/Services'
 import RequestedReportUtils from './requested/utils'
 import RecentlyViewedCardGroupUtils from './viewed/utils'
 import BookmarklistUtils from './bookmarks/utils'
+import LocalsHelper from '../../utils/localsHelper'
+import DateMapper from '../../utils/DateMapper/DateMapper'
 
 const formatData = (reportData: UserReportData): FormattedUserReportData => {
   const reportDataCopy: UserReportData = JSON.parse(JSON.stringify(reportData))
 
   const {
     executionId,
+    tableId,
     variantName,
     name,
     reportId,
@@ -59,6 +64,7 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
       reportId,
       id: variantId || id,
       executionId,
+      tableId,
       status,
       type,
       dataProductDefinitionsPath,
@@ -137,10 +143,10 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
   ]
 }
 
-const getTotals = (formattedData: FormattedUserReportData[], maxRows: number) => {
+const getTotals = (formattedCount: number, maxRows: number) => {
   return {
-    amount: formattedData.length,
-    shown: formattedData.length > maxRows ? maxRows : formattedData.length,
+    amount: formattedCount,
+    shown: formattedCount > maxRows ? maxRows : formattedCount,
     max: maxRows,
   }
 }
@@ -156,6 +162,7 @@ const getMeta = (formattedData: FormattedUserReportData[]) => {
       reportId: d.meta.reportId,
       id: d.meta.id,
       executionId: d.meta.executionId,
+      tableId: d.meta.tableId,
       status: d.meta.status,
       requestedAt: d.meta.requestedAt,
       type: d.meta.type,
@@ -167,41 +174,51 @@ const getMeta = (formattedData: FormattedUserReportData[]) => {
 export const setDataFromStatus = (status: RequestStatus, reportsData: UserReportData) => {
   let timestamp
   let href
+  let formattedDate
   const { url, timestamp: time } = reportsData
+  const dateMapper = new DateMapper()
   switch (status) {
     case RequestStatus.FAILED: {
-      const failedTime = time.failed ? new Date(time.failed).toLocaleString() : new Date().toLocaleString()
+      formattedDate = time.failed
+        ? dateMapper.toDateString(<string>(<unknown>time.failed), 'local-date')
+        : dayjs().format('DD/MM/YYYY')
       href = `${url.polling.fullUrl}`
-      timestamp = `Failed at: ${failedTime}`
+      timestamp = `Failed at: ${formattedDate}`
       break
     }
     case RequestStatus.ABORTED: {
       href = `${url.request.fullUrl}`
-      timestamp = `Aborted at: ${new Date(time.aborted).toLocaleString()}`
+      formattedDate = dateMapper.toDateString(<string>(<unknown>time.aborted), 'local-date')
+      timestamp = `Aborted at: ${formattedDate}`
       break
     }
     case RequestStatus.FINISHED:
       href = url.report.fullUrl
-      timestamp = `Ready at: ${new Date(time.completed).toLocaleString()}`
+      formattedDate = dateMapper.toDateString(<string>(<unknown>time.completed), 'local-date')
+      timestamp = `Ready at: ${formattedDate}`
       break
     case RequestStatus.EXPIRED: {
       href = `${url.request.fullUrl}`
-      timestamp = `Expired at: ${new Date(time.expired).toLocaleString()}`
+      formattedDate = dateMapper.toDateString(<string>(<unknown>time.expired), 'local-date')
+      timestamp = `Expired at: ${formattedDate}`
       break
     }
     case RequestStatus.READY: {
       href = `${url.report.fullUrl}`
-      timestamp = `Last viewed: ${new Date(time.lastViewed).toLocaleString()}`
+      formattedDate = dateMapper.toDateString(<string>(<unknown>time.lastViewed), 'local-date')
+      timestamp = `Last viewed: ${formattedDate}`
       break
     }
     case RequestStatus.SUBMITTED:
     case RequestStatus.STARTED:
     case RequestStatus.PICKED:
       href = url.polling.fullUrl
-      timestamp = `Requested at: ${new Date(time.requested).toLocaleString()}`
+      formattedDate = dateMapper.toDateString(<string>(<unknown>time.requested), 'local-date')
+      timestamp = `Requested at: ${formattedDate}`
       break
     default:
-      timestamp = `Last viewed: ${new Date(time.lastViewed).toLocaleString()}`
+      formattedDate = dateMapper.toDateString(<string>(<unknown>time.lastViewed), 'local-date')
+      timestamp = `Last viewed: ${formattedDate}`
       break
   }
 
@@ -213,35 +230,34 @@ export const setDataFromStatus = (status: RequestStatus, reportsData: UserReport
 
 const renderList = async ({
   res,
-  storeService,
+  reportsData,
   maxRows,
   filterFunction,
   type,
 }: {
   res: Response
+  reportsData: StoredReportData[]
   maxRows?: number
-  storeService: RequestedReportService | RecentlyViewedStoreService
   filterFunction: (report: UserReportData) => boolean
   type: 'requested' | 'viewed'
 }): Promise<RenderTableListResponse> => {
-  const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
-  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+  const { csrfToken } = LocalsHelper.getValues(res)
 
-  const requestedReportsData: UserReportData[] = await storeService.getAllReports(userId)
-
-  let formatted = requestedReportsData.filter(filterFunction).map(formatData)
-  const tableData = formatTable(formatted, type)
+  let formatted = reportsData.filter(filterFunction).map(formatData)
+  const formattedCount = formatted.length
 
   if (maxRows) formatted = formatted.slice(0, maxRows)
+  const tableData = formatTable(formatted, type)
 
   const head = {
     ...(formatted.length && { href: `./async-reports/${type}` }),
-    ...(!formatted.length && { emptyMessage: 'You have 0 requested reports' }),
+    ...(!formatted.length && { emptyMessage: `You have 0 ${type} reports` }),
   }
+
   const result = {
     head,
     tableData,
-    total: getTotals(formatted, maxRows),
+    total: getTotals(formattedCount, maxRows),
     meta: getMeta(formatted),
     csrfToken,
     maxRows,
@@ -259,7 +275,7 @@ export default {
     services,
     storeService,
   }: AsyncReportUtilsParams & { storeService: RequestedReportService | RecentlyViewedStoreService }) => {
-    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+    const { userId } = LocalsHelper.getValues(res)
     const report = await getExpiredStatus({ req, res, services })
 
     if (report && report.isExpired) {
@@ -268,33 +284,47 @@ export default {
     return report ? report.isExpired : false
   },
 
-  initLists: async ({ services, res, req }: { services: Services; res: Response; req: Request }) => {
-    const requestedReports = await renderList({
+  init: async ({
+    services,
+    res,
+    req,
+    maxRows = 6,
+  }: {
+    services: Services
+    res: Response
+    req: Request
+    maxRows?: number
+  }) => {
+    const { requestedReports, recentlyViewedReports, bookmarkingEnabled } = LocalsHelper.getValues(res)
+    const requestedReportsList = await renderList({
       res,
-      storeService: services.requestedReportService,
+      reportsData: requestedReports,
       filterFunction: RequestedReportUtils.filterReports,
-      maxRows: 20,
+      maxRows,
       type: 'requested',
     })
 
-    const viewedReports = await renderList({
+    const viewedReportsList = await renderList({
       res,
-      storeService: services.recentlyViewedService,
+      reportsData: recentlyViewedReports,
       filterFunction: RecentlyViewedCardGroupUtils.filterReports,
-      maxRows: 10,
+      maxRows,
       type: 'viewed',
     })
 
-    const bookmarks = await BookmarklistUtils.renderBookmarkList({
-      res,
-      req,
-      services,
-      maxRows: 10,
-    })
+    let bookmarks
+    if (bookmarkingEnabled) {
+      bookmarks = await BookmarklistUtils.renderBookmarkList({
+        res,
+        req,
+        services,
+        maxRows,
+      })
+    }
 
     return {
-      requestedReports,
-      viewedReports,
+      requestedReports: requestedReportsList,
+      viewedReports: viewedReportsList,
       bookmarks,
     }
   },
@@ -303,12 +333,24 @@ export default {
     services,
     reportStateData,
     userId,
+    search,
+    href,
   }: {
     services: Services
     reportStateData: RequestedReport
     userId: string
+    search: string
+    href: string
   }) => {
-    await services.requestedReportService.updateLastViewed(reportStateData.executionId, userId)
-    await services.recentlyViewedService.setRecentlyViewed(reportStateData, userId)
+    const data = reportStateData
+    if (search) {
+      data.url.report = {
+        fullUrl: `${href}${search}`,
+        search,
+      }
+    }
+
+    await services.requestedReportService.updateLastViewed(data.executionId, userId)
+    await services.recentlyViewedService.setRecentlyViewed(data, userId, search)
   },
 }

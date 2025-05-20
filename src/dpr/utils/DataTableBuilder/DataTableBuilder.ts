@@ -1,6 +1,6 @@
 import Dict = NodeJS.Dict
 import ReportQuery from '../../types/ReportQuery'
-import { Cell, DataTable, FieldDefinition, Header } from './types'
+import { Cell, CellFormat, DataTable, FieldDefinition, SortKey } from './types'
 import createUrlForParameters from '../urlHelper'
 import type { SummaryTemplate } from '../../types/Templates'
 import { AsyncSummary } from '../../types/UserReports'
@@ -8,6 +8,8 @@ import DateMapper from '../DateMapper/DateMapper'
 
 export default class DataTableBuilder {
   protected fields: Array<FieldDefinition>
+
+  private sortData: boolean
 
   protected columns: Array<string> = []
 
@@ -18,10 +20,11 @@ export default class DataTableBuilder {
 
   private currentQueryParams: Record<string, string | Array<string>> = null
 
-  protected dateMapper = new DateMapper()
+  private dateMapper = new DateMapper()
 
-  constructor(fields: Array<FieldDefinition>) {
+  constructor(fields: Array<FieldDefinition>, sortData = false) {
     this.fields = fields
+    this.sortData = sortData
   }
 
   private mapDate(isoDate: string) {
@@ -51,7 +54,7 @@ export default class DataTableBuilder {
 
   private mapCell(field: FieldDefinition, rowData: NodeJS.Dict<string>, extraClasses = '') {
     const text: string = this.mapCellValue(field, rowData[field.name])
-    let fieldFormat = 'string'
+    let fieldFormat: CellFormat = 'string'
 
     let classes = extraClasses
 
@@ -96,13 +99,11 @@ export default class DataTableBuilder {
     }
   }
 
-  protected mapHeader(disableSort = false): Cell[] {
+  protected mapHeader(disableSort = false, extraClasses: string = null): Cell[] {
     return this.fields
       .filter((field) => this.columns.includes(field.name))
       .map((f) => {
         if (this.reportQuery && !disableSort) {
-          let header: Header
-
           if (f.sortable) {
             let sortDirection = 'none'
             let url = createUrlForParameters(this.currentQueryParams, {
@@ -121,24 +122,20 @@ export default class DataTableBuilder {
               }
             }
 
-            header = {
+            return {
               html:
                 `<a ` +
                 `data-column="${f.name}" ` +
                 `class="data-table-header-button data-table-header-button-sort-${sortDirection}" ` +
                 `href="${url}"` +
                 `>${f.display}</a>`,
-            }
-          } else {
-            header = {
-              text: f.display,
+              classes: extraClasses,
             }
           }
-
-          return header
         }
         return {
           text: f.display,
+          classes: extraClasses,
         }
       })
   }
@@ -212,12 +209,16 @@ export default class DataTableBuilder {
     return []
   }
 
-  protected sort(data: Dict<string>[]) {
-    return this.appendSortKeyToData(data).sort(this.sortKeyComparison())
+  protected sort(data: Dict<string>[]): Dict<string>[] {
+    return this.appendSortKeyToData(data)
+      .sort(this.sortKeyComparison())
+      .map((d: SortKey) => ({
+        ...d,
+      }))
   }
 
   protected sortKeyComparison() {
-    return (a: Dict<string>, b: Dict<string>) => {
+    return (a: SortKey, b: SortKey) => {
       const aValue = a.sortKey
       const bValue = b.sortKey
 
@@ -233,7 +234,7 @@ export default class DataTableBuilder {
     }
   }
 
-  private appendSortKeyToData(data: Dict<string>[], fields: FieldDefinition[] = null): Dict<string>[] {
+  private appendSortKeyToData(data: Dict<string>[], fields: FieldDefinition[] = null): SortKey[] {
     const sortFields = fields || this.fields
 
     return data.map((rowData) => {
@@ -244,6 +245,10 @@ export default class DataTableBuilder {
         sortKey,
       }
     })
+  }
+
+  protected mapNamesToFields(names: string[]): FieldDefinition[] {
+    return names.map((s) => this.fields.find((f) => f.name === s))
   }
 
   protected getSortKey(rowData: NodeJS.Dict<string>, sortFields: FieldDefinition[]) {
@@ -263,6 +268,25 @@ export default class DataTableBuilder {
       })
       .join('-')
       .toLowerCase()
+  }
+
+  protected convertDataTableToHtml(dataTable: DataTable): string {
+    const headers = dataTable.head.map((h) => `<th scope='col' class='govuk-table__header'>${h.html ?? h.text}</th>`)
+    const rows = dataTable.rows.map(
+      (r) =>
+        `<tr class='govuk-table__row'>${r
+          .map(
+            (c) => `<td class='govuk-table__cell govuk-table__cell--${c.format} ${c.classes}'>${c.html ?? c.text}</td>`,
+          )
+          .join('')}</tr>`,
+    )
+
+    return (
+      "<table class='govuk-table'>" +
+      `<thead class='govuk-table__head'>${headers.join('')}</thead>` +
+      `<tbody class='govuk-table__body'>${rows.join('')}</tbody>` +
+      '</table>'
+    )
   }
 
   withHeaderOptions({
@@ -294,9 +318,11 @@ export default class DataTableBuilder {
   }
 
   buildTable(data: Array<Dict<string>>): DataTable {
+    const mappedData = this.mapData(this.sortData ? this.sort(data) : data)
+
     return {
       head: this.mapHeader(),
-      rows: this.mapData(data),
+      rows: mappedData,
       rowCount: data.length,
       colCount: this.columns.length,
     }
@@ -304,6 +330,11 @@ export default class DataTableBuilder {
 
   withSummaries(reportSummaries: Dict<Array<AsyncSummary>>) {
     this.reportSummaries = reportSummaries
+    return this
+  }
+
+  withSortedData(sortData = true) {
+    this.sortData = sortData
     return this
   }
 }

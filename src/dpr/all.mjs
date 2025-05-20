@@ -6,7 +6,7 @@ import DprLoadingHelper from './DprLoadingHelper.mjs'
 
 // General Components
 import CardGroup from './components/card-group/clientClass.mjs'
-import Search from './components/search/clientClass.mjs'
+import Search from './components/_catalogue/catalogue-search/clientClass.mjs'
 import BookmarkToggle from './components/bookmark-toggle/clientClass.mjs'
 import ShowMore from './components/show-more/clientClass.mjs'
 import DownloadFeedbackForm from './components/download-feeback-form/cientClass.mjs'
@@ -20,16 +20,19 @@ import DownloadMessage from './components/_reports/report-download-message/clien
 
 // Filters
 import InteractiveFilters from './components/_filters/filters-interactive/clientClass.mjs'
-import Filters from './components/filters/clientClass.mjs'
 
 // Async
 import AsyncPolling from './components/_async/async-polling/clientClass.mjs'
 import AsyncFilters from './components/_async/async-filters-form/clientClass.mjs'
 
+// Sync
+import SyncLoading from './DprSyncLoading.mjs'
+
 // Inputs
 import DateInput from './components/_inputs/date-input/clientClass.mjs'
 import DateRange from './components/_inputs/date-range/clientClass.mjs'
 import Autocomplete from './components/_inputs/autocomplete-text-input/clientClass.mjs'
+import GranularDateRange from './components/_inputs/granular-date-range/clientClass.mjs'
 
 // User repoorts
 import RequestedReportsList from './components/user-reports/requested/clientClass.mjs'
@@ -41,7 +44,6 @@ import DoughnutChartVisualisation from './components/_charts/chart/doughnut/clie
 import LineChartVisualisation from './components/_charts/chart/line/clientClass.mjs'
 
 // Dashboards
-import LoadDashboard from './DprLoadDashboard.mjs'
 import ScoreCard from './components/_dashboards/scorecard/clientClass.mjs'
 
 /**
@@ -51,14 +53,13 @@ import ScoreCard from './components/_dashboards/scorecard/clientClass.mjs'
  * components provided as part of DPR Frontend.
  *
  */
-export default function initAll() {
+function initAll() {
   const loadingHelper = new DprLoadingHelper()
 
   const components = [
     Autocomplete,
     CardGroup,
     Columns,
-    Filters,
     AsyncFilters,
     InteractiveFilters,
     Pagination,
@@ -74,11 +75,12 @@ export default function initAll() {
     BarChartVisualisation,
     DoughnutChartVisualisation,
     LineChartVisualisation,
-    LoadDashboard,
     DownloadFeedbackForm,
     ScoreCard,
     ReportActions,
     DownloadMessage,
+    SyncLoading,
+    GranularDateRange,
   ]
 
   const customParseFormat = window.dayjs_plugin_customParseFormat
@@ -95,3 +97,5 @@ export default function initAll() {
     })
   })
 }
+
+export { initAll }

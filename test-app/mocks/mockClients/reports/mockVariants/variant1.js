@@ -41,7 +41,7 @@ const variant1 = {
             { name: 'value2.2', display: 'Value 2.2' },
             { name: 'value2.3', display: 'Value 2.3' },
           ],
-          mandatory: true,
+          mandatory: false,
         },
       },
       {
@@ -74,7 +74,7 @@ const variant1 = {
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
             { name: 'Inigo Montoya', display: 'Inigo Montoya' },
-            { name: 'Prince Humperdink', display: 'Prince Humperdink' },
+            { name: 'PrHu', display: 'Prince Humperdink' },
             { name: 'Princess Buttercup', display: 'Princess Buttercup' },
             { name: 'Westley', display: 'Westley' },
           ],
@@ -120,6 +120,24 @@ const variant1 = {
           defaultValue: '2005-02-01',
           min: '2003-02-01',
           max: '2007-05-04',
+        },
+      },
+      {
+        name: 'field8',
+        display: 'Field 8',
+        sortable: false,
+        visible: false,
+        type: 'date',
+        mandatory: false,
+        filter: {
+          type: 'multiselect',
+          staticOptions: [
+            { name: 'value8.1', display: 'Value 8.1' },
+            { name: 'value8.2', display: 'Value 8.2' },
+            { name: 'value8.3', display: 'Value 8.3' },
+            { name: 'value8.4', display: 'Value 8.4' },
+          ],
+          defaultValue: 'value8.2,value8.3',
         },
       },
     ],

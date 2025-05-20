@@ -5,19 +5,25 @@
   {% set reportId = reportData.reportId %}
   {% set id = reportData.id %}
   {% set loadType = reportData.loadType %}
+  {% set dataProductDefinitionsPath = reportData.dataProductDefinitionsPath %}
+  {% set reportUrl = reportData.reportUrl %}
+  {% set encodedSearch = reportData.encodedSearch %}
 
   {% if loadType === 'async' %}
     {% set tableId = reportData.tableId %}
-    {% set feedbackFormHref = "/download/"+ reportId + "/" + id + "/" + tableId + "/feedback"  %}
+    {% set feedbackFormHref = "/download/"+ reportId + "/" + id + "/" + tableId + "/feedback?reportUrl=" + reportUrl   %}
   {% else %}
-    {% set feedbackFormHref = "/download/"+ reportId + "/" + id + "/feedback"  %}
+    {% set feedbackFormHref = "/download/"+ reportId + "/" + id + "/feedback?reportUrl=" + reportUrl  %}
+  {% endif %}
+
+  {% if encodedSearch %}
+    {% set feedbackFormHref = feedbackFormHref + '&reportSearch=' + encodedSearch  %}
   {% endif %}
 
   {% set html %}
-    <h2 class="govuk-heading-m">You do not have permission to download this report</h2>
-    <a href="/download/{{reportId}}/{{id}}/{{tableId}}/feedback" class="govuk-link govuk-link--no-visited-state govuk-!-margin-bottom-1">
-      Complete a request form to enable download
-    </a> (takes 1 minute)
+    <h2 class="govuk-heading-m">To download this report</h2>
+    <p><a href="{{ feedbackFormHref }}" class="govuk-link govuk-link--no-visited-state">Fill out a form</a>, which will take about 1 minute to complete.</p> 
+    <p>You can then download the report whenever you need it.</p>
   {% endset %}
 
   <div id="dpr-download-message" class="dpr-download-message--hidden govuk-!-margin-bottom-6" data-dpr-module='download-message'>

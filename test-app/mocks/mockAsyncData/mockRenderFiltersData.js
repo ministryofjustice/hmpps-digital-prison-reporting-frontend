@@ -20,7 +20,7 @@ const mockRenderFiltersData = {
           disabled: true,
           selected: true,
           text: 'Select your option',
-          value: 'no-filter',
+          value: '',
         },
         {
           value: 'value2.1',
@@ -44,7 +44,6 @@ const mockRenderFiltersData = {
       text: 'Field 3',
       name: 'field3',
       type: 'daterange',
-      options: null,
       value: {
         start: '2003-02-01',
         end: '2006-05-04',
@@ -91,10 +90,10 @@ const mockRenderFiltersData = {
       text: 'Field 6',
       name: 'field6',
       type: 'text',
-      options: null,
       value: null,
       minimumLength: null,
       dynamicResourceEndpoint: null,
+      mandatory: false,
     },
   ],
   sortBy: [

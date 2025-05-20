@@ -1,4 +1,5 @@
 {% from "moj/components/button-menu/macro.njk" import mojButtonMenu %}
+{%- from "govuk/components/button/macro.njk" import govukButton %}
 
 {% macro dprReportActions(buttonList) %}
 
@@ -19,7 +20,7 @@
       } %}
 
     {% if not button.disabled %}
-      <form id="download-report-form" action="/downloadReport/" method="post">
+      <form id="download-report-form" action="/dpr/downloadReport/" method="post">
         <input type="hidden" name="dataProductDefinitionsPath" value="{{ button.attributes.definitionPath }}">
         <input type="hidden" name="_csrf" value="{{ button.attributes.csrfToken }}">
         <input type="hidden" name="reportId" value="{{ button.attributes.reportId }}">
@@ -30,6 +31,8 @@
         <input type="hidden" name="name" value="{{ button.attributes.name }}">
         <input type="hidden" name="cols" value="{{ button.attributes.columns | json }}">
         <input type="hidden" name="loadType" value="{{ button.attributes.loadType }}">
+        <input type="hidden" name="currentUrl" value="{{ button.attributes.currentUrl }}">
+        <input type="hidden" name="currentQueryParams" value="{{ button.attributes.currentQueryParams }}">
       </form>
     {% endif %}
 
@@ -46,18 +49,44 @@
           "data-href": button.href,
           "aria-label": button.ariaLabelText
         },
-        classes: '{{ button.id }} govuk-button--secondary'
+        classes: '{{ button.id }}'
       } %}
     {% endif %}
 
     {% set items = (items.push(item), items) %}
   {% endfor %}
 
-  
+{#
+  Replaced with copy of MoJ button menu njk without the data-module attribute;
+  to stop it from being turned into an action menu.
+#}
+{#  {{ mojButtonMenu({#}
+{#    items: items#}
+{#  }) }}#}
+
   <div class="report-actions" data-dpr-module='report-actions'>
-    {{ mojButtonMenu({
-      items: items
-    }) }}
+    <div class="moj-button-menu">
+      {%- for item in items %}
+        {%- set itemClassNames = "moj-button-menu__item govuk-button--secondary" %}
+        {%- if item.classes %}
+          {% set itemClassNames = itemClassNames + " " + item.classes %}
+        {% endif %}
+
+        {{ govukButton({
+          element: item.element,
+          classes: itemClassNames,
+          text: item.text,
+          html: item.html,
+          name: item.name,
+          type: item.type,
+          value: item.value,
+          href: item.href,
+          disabled: item.disabled,
+          attributes: item.attributes,
+          preventDoubleClick: items.preventDoubleClick
+        }) }}
+      {% endfor -%}
+    </div>
 
     <div class="dpr-display-none">
       {{ downloadFormHtml }}

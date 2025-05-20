@@ -1,41 +1,42 @@
 import { Response, Request, NextFunction } from 'express'
 import { Services } from './Services'
 import { components } from './api'
-import { DashboardMetricDefinition } from './Dashboards'
 import { ReportType } from './UserReports'
+import { DashboardSection } from '../components/_dashboards/dashboard/types'
+import { RenderFiltersReturnValue } from '../components/_async/async-filters-form/types'
 
 export interface AsyncReportUtilsParams {
   req?: Request
-  res: Response
+  res?: Response
   next?: NextFunction
   services: Services
 }
 
-export interface SyncReportUtilsParams {
+export interface EmbeddedReportUtilsParams {
   req?: Request
   res: Response
   next?: NextFunction
   services: Services
 }
 
-export interface ExecutionData {
-  executionId: string
-  tableId: string
+export interface RequestReportData {
+  interactiveFilters?: components['schemas']['FilterDefinition'][]
+  reportName: string
+  name: string
+  description: string
+  reportId: string
+  id: string
+  definitionPath: string
+  csrfToken: string
+  template?: string
+  sections: DashboardSection[]
+  type: ReportType
+  defaultInteractiveQueryString?: string
 }
 
 export interface RequestDataResult {
-  fields?: components['schemas']['FieldDefinition'][]
-  interactive?: boolean
-  reportData: {
-    reportName: string
-    name: string
-    description: string
-    reportId: string
-    id: string
-    definitionPath: string
-    csrfToken: string
-    template?: string
-    metrics?: DashboardMetricDefinition[]
-    type: ReportType
-  }
+  title: string
+  filtersDescription: string
+  filtersData: RenderFiltersReturnValue
+  reportData: RequestReportData
 }

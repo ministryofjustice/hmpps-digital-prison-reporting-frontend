@@ -1,30 +1,37 @@
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default class ReportPage {
-  showFilterButton = (): PageElement => cy.get(`#Filters-accordion-button`)
+  showFilterButton = (): PageElement => cy.xpath(`//*[@id="dpr-interactive-filters-details"]/summary`)
 
-  showColumnsButton = (): PageElement => cy.get(`.columns-section-button .govuk-details__summary`)
+  filterButtonPanel = (): PageElement => cy.xpath(`//*[@id="dpr-interactive-filters-details"]`)
 
-  resetFilterButton = (): PageElement => cy.xpath(`//*[@id="user-selected-filters-form"]/div[2]/div/a`)
+  showColumnsButton = (): PageElement =>
+    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[3]/div[1]/div[2]/div/details/summary`)
+
+  resetFilterButton = (): PageElement => cy.xpath(`//*[@id="interactive-reset-filters-button"]`)
 
   resetColumnsButton = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[4]/div/div[1]/div[2]/div/details/div/form/div[2]/a`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[3]/div[1]/div[2]/div/details/div/form/div[2]/a`)
 
   pagingLink = (): PageElement => cy.get('.govuk-pagination__link').first()
 
   pageSizeSelector = (): PageElement => cy.get('#page-size-select')
 
-  filter = (id): PageElement => cy.get(`#filters\\.${id}`)
+  filter = (id): PageElement => cy.xpath(`//*[@id="${id}"]`)
 
-  dateStartLabel = (): PageElement => cy.xpath('//*[@id="dpr-date-range"]/div[1]/div/div/label')
+  dateStartLabel = (): PageElement => cy.xpath('//*[@id="dpr-date-range"]/div/div[1]/div/div/div/label')
 
-  dateEndLabel = (): PageElement => cy.xpath('//*[@id="dpr-date-range"]/div[2]/div/div/div/label')
+  dateEndLabel = (): PageElement => cy.xpath('//*[@id="dpr-date-range"]/div/div[2]/div/div/div/label')
 
   filterOption = (id, index = 1): PageElement => cy.get(`#filters\\.${id}-${index}`)
 
-  dateStartFilter = (): PageElement => cy.get(`#filters\\.field3\\.start`)
+  dateStartFilterLabel = (): PageElement => cy.xpath(`//*[@id="dpr-date-range"]/div/div[1]/div/div/div/label`)
 
-  dateEndFilter = (): PageElement => cy.get(`#filters\\.field3\\.end`)
+  dateStartFilter = (): PageElement => cy.xpath(`//*[@id="filters.field3.start"]`)
+
+  dateEndFilterLabel = (): PageElement => cy.xpath(`//*[@id="dpr-date-range"]/div/div[2]/div/div/div/label`)
+
+  dateEndFilter = (): PageElement => cy.xpath(`//*[@id="filters.field3.end"]`)
 
   columnCheckBox = (): PageElement => cy.get(`.dpr-columns-form input`).first()
 
@@ -37,11 +44,21 @@ export default class ReportPage {
 
   dataTable = (): PageElement => cy.xpath('//*[@id="dpr-data-table"]')
 
-  applyFiltersButton = (): PageElement => cy.get(`[data-apply-form-to-querystring='true']`)
+  applyFiltersButton = (): PageElement => cy.xpath(`//*[@id="interactive-apply-filters-button"]`)
 
-  applyColumnsButton = (): PageElement => cy.get(`.dpr-apply-columns-button`)
+  applyColumnsButton = (): PageElement =>
+    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[3]/div[1]/div[2]/div/details/div/form/div[2]/button`)
 
-  selectedFilterButton = (): PageElement => cy.get(`.selected-accordion-button .accordion-summary-remove-button`)
+  selectedFilterButton = (): PageElement => cy.get(`a.govuk-link.govuk-body.interactive-remove-filter-button`)
+
+  selectedFilterButtonField1 = (): PageElement =>
+    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[3]/div[2]/div[1]/div/a[1]`)
+
+  selectedFilterButtonField3 = (): PageElement =>
+    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[3]/div[2]/div[1]/div/a[2]`)
+
+  selectedFilterButtonField7 = (): PageElement =>
+    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[4]/div[2]/div[1]/div/a[3]`)
 
   unsortedSortColumnLink = (): PageElement => this.dataTable().find(`.data-table-header-button-sort-none`).first()
 
@@ -59,5 +76,5 @@ export default class ReportPage {
 
   copyUrlButton = (): PageElement => cy.get('#dpr-button-copy')
 
-  filterForm = (): PageElement => cy.get('#user-selected-filters-form')
+  filterForm = (): PageElement => cy.xpath('//*[@id="interactive-filters-form"]')
 }

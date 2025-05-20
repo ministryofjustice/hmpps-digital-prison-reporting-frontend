@@ -18,12 +18,6 @@ Feature: Recently viewed Reports
     And I click on the Refresh button of an expired viewed report 
     Then I am taken to the query page for the viewed report
 
-  Scenario: Refresh an expired report v2
-    When I navigate to the async-home page
-    And I click on the recently viewed reports tab
-    And I click on the Refresh button of an expired viewed reportV2
-    Then I am taken to the query page for the viewed reportV2
-
   Scenario: Refresh an expired dashboard
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
@@ -36,12 +30,6 @@ Feature: Recently viewed Reports
     And I click on the Remove button of an expired viewed report
     Then the expired report is removed from the viewed reports list
 
-  Scenario: Remove an expired reportV2
-    When I navigate to the async-home page
-    And I click on the recently viewed reports tab
-    And I click on the Remove button of an expired viewed reportV2
-    Then the expired reportV2 is removed from the viewed reports list
-
   Scenario: Remove an expired dashboard
     When I navigate to the async-home page
     And I click on the recently viewed reports tab
@@ -53,12 +41,6 @@ Feature: Recently viewed Reports
     And I click on the recently viewed reports tab
     And I click on a ready viewed report
     Then I am taken to the async report
-
-  Scenario: View a reportV2
-    When I navigate to the async-home page
-    And I click on the recently viewed reports tab
-    And I click on a ready viewed reportV2
-    Then I am taken to the async reportV2
 
   Scenario: View a dashboard
     When I navigate to the async-home page

@@ -1,11 +1,12 @@
-import UserDataStore from '../data/userDataStore'
+import UserDataStore from '../data/reportDataStore'
 import { DownloadPermissionConfig } from '../types/Download'
-import UserStoreService from './userStoreService'
+import ReportStoreService from './reportStoreService'
 import logger from '../utils/logger'
 
-export default class DownloadPermissionService extends UserStoreService {
+export default class DownloadPermissionService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
+    logger.info('Service created: DownloadPermissionService')
   }
 
   async saveDownloadPermissionData(userId: string, reportId: string, id: string) {

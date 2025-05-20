@@ -1,24 +1,20 @@
 import { Response, Request } from 'express'
 import BookmarkService from '../../../services/bookmarkService'
 import { BookmarkedReportData, BookmarkStoreData } from '../../../types/Bookmark'
-import { FormattedUserReportData, ReportType } from '../../../types/UserReports'
+import { FormattedUserReportData, LoadType, ReportType } from '../../../types/UserReports'
 import { Services } from '../../../types/Services'
 import ShowMoreUtils from '../../show-more/utils'
 import logger from '../../../utils/logger'
 import DefinitionUtils from '../../../utils/definitionUtils'
-import { createListItemProduct } from '../../../utils/reportListsHelper'
+import { createListItemProduct, createListActions, setInitialHref } from '../../../utils/reportListsHelper'
+import LocalsHelper from '../../../utils/localsHelper'
 
-export const formatBookmarks = async (
-  bookmarksData: BookmarkedReportData[],
-  maxRows?: number,
-): Promise<FormattedUserReportData[]> => {
-  const cards = bookmarksData
+export const formatBookmarks = async (bookmarksData: BookmarkedReportData[]): Promise<FormattedUserReportData[]> => {
+  return bookmarksData
     .map((report: BookmarkedReportData) => {
       return formatBookmark(report)
     })
     .sort((a, b) => a.text.localeCompare(b.text))
-
-  return maxRows ? cards.slice(0, maxRows) : cards
 }
 
 export const formatBookmark = (bookmarkData: BookmarkedReportData): FormattedUserReportData => {
@@ -66,7 +62,7 @@ const formatTableData = async (
   csrfToken: string,
   userId: string,
 ) => {
-  const { description, reportName, reportId, id, href, name, type } = bookmarksData
+  const { description, reportName, reportId, id, href, name, type, loadType } = bookmarksData
   const bookmarkHtml = await bookmarkService.createBookMarkToggleHtml({
     userId,
     reportId,
@@ -81,7 +77,7 @@ const formatTableData = async (
     },
     { html: ShowMoreUtils.createShowMoreHtml(description), classes: 'dpr-req-cell' },
     {
-      html: `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">Request ${type}</a> ${bookmarkHtml}`,
+      html: createListActions(href, type, loadType, bookmarkHtml),
       classes: 'dpr-req-cell dpr-req-cell__status',
     },
   ]
@@ -95,7 +91,7 @@ const mapBookmarkIdsToDefinition = async (
   services: Services,
 ): Promise<BookmarkedReportData[]> => {
   const bookmarkData: BookmarkedReportData[] = []
-  const { dataProductDefinitionsPath: definitionPath } = req.query
+  const { definitionsPath } = LocalsHelper.getValues(res)
 
   await Promise.all(
     bookmarks.map(async (bookmark) => {
@@ -107,17 +103,21 @@ const mapBookmarkIdsToDefinition = async (
         let name
         let description
         let reportName
+        let loadType = LoadType.ASYNC
+        let href = `/async/${reportType}/${bookmark.reportId}/${bookmarkId}/request`
 
         if (reportType === ReportType.REPORT) {
           definition = await services.reportingService.getDefinition(
             token,
             bookmark.reportId,
             bookmarkId,
-            <string>definitionPath,
+            definitionsPath,
           )
           reportName = definition.name
           name = definition.variant.name
           description = definition.variant.description || definition.description
+          loadType = definition.variant.loadType || loadType
+          href = setInitialHref(loadType, reportType, bookmark.reportId, bookmarkId, res)
         }
 
         if (reportType === ReportType.DASHBOARD) {
@@ -125,13 +125,14 @@ const mapBookmarkIdsToDefinition = async (
             bookmark.reportId,
             services.reportingService,
             token,
-            <string>definitionPath,
+            definitionsPath,
           )
+
           definition = await services.dashboardService.getDefinition(
             token,
             bookmarkId,
             bookmark.reportId,
-            <string>definitionPath,
+            definitionsPath,
           )
           name = definition.name
           reportName = reportDefinition.name
@@ -146,7 +147,8 @@ const mapBookmarkIdsToDefinition = async (
             name,
             description,
             type: reportType,
-            href: `/async/${reportType}/${bookmark.reportId}/${bookmarkId}/request`,
+            href,
+            loadType,
           })
         }
       } catch (error) {
@@ -172,15 +174,13 @@ export default {
     res: Response
     req: Request
   }) => {
-    const token = res.locals.user?.token ? res.locals.user.token : 'token'
-    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-    const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
-
-    // TODO: update bookmark type to use id instead of variantID
-    const bookmarks: { reportId: string; variantId: string }[] = await services.bookmarkService.getAllBookmarks(userId)
+    const { token, csrfToken, userId, bookmarks } = LocalsHelper.getValues(res)
     const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, res, token, services)
 
-    const formatted = await formatBookmarks(bookmarksData, maxRows)
+    let formatted = await formatBookmarks(bookmarksData)
+    const formattedCount = formatted.length
+
+    if (maxRows) formatted = formatted.slice(0, maxRows)
     const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, userId, maxRows)
 
     const head = {
@@ -189,8 +189,8 @@ export default {
     }
 
     const total = {
-      amount: formatted.length,
-      shown: formatted.length > maxRows ? maxRows : formatted.length,
+      amount: formattedCount,
+      shown: formattedCount > maxRows ? maxRows : formattedCount,
       max: maxRows,
     }
 
@@ -199,6 +199,7 @@ export default {
       tableData,
       total,
       csrfToken,
+      type: 'bookmark',
     }
 
     return result

@@ -6,18 +6,21 @@
     {% set resetText = args.resetText %}
     {% set resetId = args.resetId %}
     {% set showReset =  args.showReset %}
+    {% set defaultQuery =  args.defaultQuery %}
 
     <div class="govuk-button-group">
-      {{ govukButton({
-        text: submitText,
-        classes: "govuk-button--primary",
-        attributes: {
-          id: submitId
-        }
-      }) }}
+      {% if submitId %}
+        {{ govukButton({
+          text: submitText,
+          classes: "govuk-button--primary",
+          attributes: {
+            id: submitId
+          }
+        }) }}
+      {% endif %}
 
       {% if showReset %}
-        <a id="{{ resetId }}" class="govuk-link govuk-link--no-visited-state dpr-reset-columns-button" href="#" >{{ resetText }}</a>
+        <a id="{{ resetId }}" class="govuk-link govuk-link--no-visited-state dpr-reset-columns-button" href="#" defaultQuery="{{ defaultQuery }}" >{{ resetText }}</a>
       {% endif %}
     </div>
 {% endmacro %}

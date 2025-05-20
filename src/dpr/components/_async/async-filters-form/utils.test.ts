@@ -1,11 +1,13 @@
-import dayjs from 'dayjs'
 import MockDate from 'mockdate'
-import * as AsyncFiltersUtils from './utils'
+import { Request } from 'express'
 import MockDefinitions from '../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
 import MockRenderFiltersData from '../../../../../test-app/mocks/mockAsyncData/mockRenderFiltersData'
+
+import * as AsyncFiltersUtils from './utils'
 import * as ReportSummaryHelper from '../../../utils/reportStoreHelper'
-import { components } from '../../../types/api'
-import { RenderFiltersReturnValue } from './types'
+
+import type { components } from '../../../types/api'
+import type { RenderFiltersReturnValue } from './types'
 
 describe('AsyncFiltersUtils', () => {
   let mockDefintionVariants: components['schemas']['VariantDefinition'][]
@@ -36,101 +38,9 @@ describe('AsyncFiltersUtils', () => {
     })
   })
 
-  describe('getRelativeDateOptions', () => {
-    it('should set the correct options for relative dates - all enabled', () => {
-      const min = dayjs().subtract(1, 'month').format('YYYY-MM-DD').toString()
-      const max = dayjs().add(1, 'month').format('YYYY-MM-DD').toString()
-      const options = AsyncFiltersUtils.getRelativeDateOptions(min, max)
-
-      const disabled = options.filter((opt) => {
-        return opt.disabled
-      })
-
-      expect(disabled.length).toEqual(0)
-    })
-
-    it('should set the correct options for relative dates - next month disabled', () => {
-      const min = dayjs().subtract(1, 'month').format('YYYY-MM-DD').toString()
-      const max = dayjs().add(1, 'week').format('YYYY-MM-DD').toString()
-      const options = AsyncFiltersUtils.getRelativeDateOptions(min, max)
-
-      const disabled = options.filter((opt) => {
-        return opt.disabled
-      })
-      expect(disabled.length).toEqual(1)
-      expect(options[5].disabled).toBeTruthy()
-    })
-
-    it('should set the correct options for relative dates - last month disabled', () => {
-      const min = dayjs().subtract(1, 'week').format('YYYY-MM-DD').toString()
-      const max = dayjs().add(1, 'month').format('YYYY-MM-DD').toString()
-      const options = AsyncFiltersUtils.getRelativeDateOptions(min, max)
-
-      const disabled = options.filter((opt) => {
-        return opt.disabled
-      })
-      expect(disabled.length).toEqual(1)
-      expect(options[4].disabled).toBeTruthy()
-    })
-
-    it('should set the correct options for relative dates - next week disabled', () => {
-      const min = dayjs().subtract(1, 'month').format('YYYY-MM-DD').toString()
-      const max = dayjs().add(6, 'day').format('YYYY-MM-DD').toString()
-      const options = AsyncFiltersUtils.getRelativeDateOptions(min, max)
-
-      const disabled = options.filter((opt) => {
-        return opt.disabled
-      })
-      expect(disabled.length).toEqual(2)
-      expect(options[3].disabled).toBeTruthy()
-      expect(options[5].disabled).toBeTruthy()
-    })
-
-    it('should set the correct options for relative dates - last week disabled', () => {
-      const min = dayjs().subtract(6, 'day').format('YYYY-MM-DD').toString()
-      const max = dayjs().add(1, 'month').format('YYYY-MM-DD').toString()
-      const options = AsyncFiltersUtils.getRelativeDateOptions(min, max)
-
-      const disabled = options.filter((opt) => {
-        return opt.disabled
-      })
-      expect(disabled.length).toEqual(2)
-      expect(options[2].disabled).toBeTruthy()
-      expect(options[4].disabled).toBeTruthy()
-    })
-
-    it('should set the correct options for relative dates - tomorrow disabled', () => {
-      const min = dayjs().subtract(1, 'month').format('YYYY-MM-DD').toString()
-      const max = dayjs().format('YYYY-MM-DD').toString()
-      const options = AsyncFiltersUtils.getRelativeDateOptions(min, max)
-
-      const disabled = options.filter((opt) => {
-        return opt.disabled
-      })
-      expect(disabled.length).toEqual(3)
-      expect(options[1].disabled).toBeTruthy()
-      expect(options[3].disabled).toBeTruthy()
-      expect(options[5].disabled).toBeTruthy()
-    })
-
-    it('should set the correct options for relative dates - yesterday disabled', () => {
-      const min = dayjs().format('YYYY-MM-DD').toString()
-      const max = dayjs().add(1, 'month').format('YYYY-MM-DD').toString()
-      const options = AsyncFiltersUtils.getRelativeDateOptions(min, max)
-
-      const disabled = options.filter((opt) => {
-        return opt.disabled
-      })
-      expect(disabled.length).toEqual(3)
-      expect(options[0].disabled).toBeTruthy()
-      expect(options[2].disabled).toBeTruthy()
-      expect(options[4].disabled).toBeTruthy()
-    })
-  })
-
   describe('setDurationStartAndEnd', () => {
     const params = {
-      name: 'DurationFieldName.relative-duration',
+      name: 'filters.DurationFieldName.relative-duration',
       fields: [
         {
           name: 'DurationFieldName',
@@ -157,7 +67,9 @@ describe('AsyncFiltersUtils', () => {
             value: 'Next week (2024-06-06 - 2024-06-13)',
           },
         ],
-        filterData: { 'DurationFieldName.relative-duration': 'next-week' },
+        filterData: {
+          'filters.DurationFieldName.relative-duration': 'next-week',
+        },
         query: {
           'filters.DurationFieldName.end': '2024-06-13',
           'filters.DurationFieldName.start': '2024-06-06',
@@ -177,7 +89,7 @@ describe('AsyncFiltersUtils', () => {
             value: 'Last week (2024-05-30 - 2024-06-06)',
           },
         ],
-        filterData: { 'DurationFieldName.relative-duration': 'last-week' },
+        filterData: { 'filters.DurationFieldName.relative-duration': 'last-week' },
         query: {
           'filters.DurationFieldName.end': '2024-06-06',
           'filters.DurationFieldName.start': '2024-05-30',
@@ -197,7 +109,9 @@ describe('AsyncFiltersUtils', () => {
             value: 'Last month (2024-05-06 - 2024-06-06)',
           },
         ],
-        filterData: { 'DurationFieldName.relative-duration': 'last-month' },
+        filterData: {
+          'filters.DurationFieldName.relative-duration': 'last-month',
+        },
         query: {
           'filters.DurationFieldName.end': '2024-06-06',
           'filters.DurationFieldName.start': '2024-05-06',
@@ -217,7 +131,9 @@ describe('AsyncFiltersUtils', () => {
             value: 'Next month (2024-06-06 - 2024-07-06)',
           },
         ],
-        filterData: { 'DurationFieldName.relative-duration': 'next-month' },
+        filterData: {
+          'filters.DurationFieldName.relative-duration': 'next-month',
+        },
         query: {
           'filters.DurationFieldName.end': '2024-07-06',
           'filters.DurationFieldName.start': '2024-06-06',
@@ -237,7 +153,9 @@ describe('AsyncFiltersUtils', () => {
             value: 'Yesterday (2024-06-05 - 2024-06-06)',
           },
         ],
-        filterData: { 'DurationFieldName.relative-duration': 'yesterday' },
+        filterData: {
+          'filters.DurationFieldName.relative-duration': 'yesterday',
+        },
         query: {
           'filters.DurationFieldName.end': '2024-06-06',
           'filters.DurationFieldName.start': '2024-06-05',
@@ -257,7 +175,9 @@ describe('AsyncFiltersUtils', () => {
             value: 'Tomorrow (2024-06-06 - 2024-06-07)',
           },
         ],
-        filterData: { 'DurationFieldName.relative-duration': 'tomorrow' },
+        filterData: {
+          'filters.DurationFieldName.relative-duration': 'tomorrow',
+        },
         query: {
           'filters.DurationFieldName.end': '2024-06-07',
           'filters.DurationFieldName.start': '2024-06-06',
@@ -276,11 +196,188 @@ describe('AsyncFiltersUtils', () => {
     })
   })
 
-  describe('calcDates', () => {
-    it('should return undefined values when no duration value is set', async () => {
-      const res = await AsyncFiltersUtils.calcDates('')
+  describe('setQueryFromFilters', () => {
+    const params = {
+      fields: [
+        {
+          name: 'field1',
+          display: 'Field 1 Display',
+          filter: {
+            type: 'autocomplete',
+            mandatory: false,
+            staticOptions: [
+              {
+                name: 'Fez',
+                display: 'Fezzick',
+              },
+            ],
+          },
+        },
+        {
+          name: 'field2',
+          display: 'Field 2 Display',
+          filter: {
+            type: 'autocomplete',
+            mandatory: false,
+            staticOptions: [
+              {
+                name: 'PrHum',
+                display: 'Prince Humperdink',
+              },
+            ],
+          },
+        },
+        {
+          name: 'field3',
+          display: 'Field 3 Display',
+          filter: {
+            type: 'daterange',
+            mandatory: false,
+          },
+        },
+        {
+          name: 'field4',
+          display: 'Field 4 Display',
+          filter: {
+            type: 'radio',
+            mandatory: false,
+          },
+        },
+      ] as unknown as components['schemas']['FieldDefinition'][],
+    }
 
-      expect(res).toEqual({})
+    it('should set the query to the value the query parameters of the request have if they exist and overwrite the form data values', () => {
+      const mockReqBody = {
+        dataProductDefinitionsPath: '',
+        _csrf: 'csrfToken',
+        type: 'report',
+        search: '?filters.field1=Fez&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04',
+        'filters.field1': 'Fezzick',
+        'filters.field2': 'Prince Humperdink',
+        'filters.field3.start': '01-02-2003',
+        'filters.field3.end': '04-05-2006',
+        sortColumn: 'field1',
+        sortedAsc: 'true',
+      }
+      const mockReq = { body: mockReqBody } as unknown as Request
+      const result = AsyncFiltersUtils.default.setQueryFromFilters(mockReq, params.fields)
+
+      const expectedResult = {
+        filterData: {
+          field1: 'Fez',
+          field2: 'Prince Humperdink',
+          'field3.end': '2006-05-04',
+          'field3.start': '2003-02-01',
+        },
+        query: {
+          'filters.field1': 'Fez',
+          'filters.field2': 'Prince Humperdink',
+          'filters.field3.end': '2006-05-04',
+          'filters.field3.start': '2003-02-01',
+          sortColumn: 'field1',
+          sortedAsc: 'true',
+        },
+        querySummary: [
+          {
+            name: 'Field 1 Display',
+            value: 'Fez',
+          },
+          {
+            name: 'Field 2 Display',
+            value: 'Prince Humperdink',
+          },
+          {
+            name: 'Field 3 Display start',
+            value: '01/02/2003',
+          },
+          {
+            name: 'Field 3 Display end',
+            value: '04/05/2006',
+          },
+          {
+            name: 'Sort Column',
+            value: 'Field 1 Display',
+          },
+          {
+            name: 'Sort Direction',
+            value: 'Ascending',
+          },
+        ],
+        sortData: {
+          sortColumn: 'field1',
+          sortedAsc: 'true',
+        },
+      }
+
+      expect(result).toEqual(expectedResult)
+    })
+
+    it('should remove `no-filter` from the querydata', () => {
+      const mockReqBody = {
+        dataProductDefinitionsPath: '',
+        _csrf: 'csrfToken',
+        type: 'report',
+        search:
+          '?filters.field1=Fez&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field4=no-filter',
+        'filters.field1': 'Fezzick',
+        'filters.field2': 'Prince Humperdink',
+        'filters.field3.start': '01-02-2003',
+        'filters.field3.end': '04-05-2006',
+        'filters.field4': 'no-filter',
+        sortColumn: 'field1',
+        sortedAsc: 'true',
+      }
+      const mockReq = { body: mockReqBody } as unknown as Request
+      const result = AsyncFiltersUtils.default.setQueryFromFilters(mockReq, params.fields)
+
+      const expectedResult = {
+        filterData: {
+          field1: 'Fez',
+          field2: 'Prince Humperdink',
+          'field3.end': '2006-05-04',
+          'field3.start': '2003-02-01',
+        },
+        query: {
+          'filters.field1': 'Fez',
+          'filters.field2': 'Prince Humperdink',
+          'filters.field3.end': '2006-05-04',
+          'filters.field3.start': '2003-02-01',
+          sortColumn: 'field1',
+          sortedAsc: 'true',
+        },
+        querySummary: [
+          {
+            name: 'Field 1 Display',
+            value: 'Fez',
+          },
+          {
+            name: 'Field 2 Display',
+            value: 'Prince Humperdink',
+          },
+          {
+            name: 'Field 3 Display start',
+            value: '01/02/2003',
+          },
+          {
+            name: 'Field 3 Display end',
+            value: '04/05/2006',
+          },
+          {
+            name: 'Sort Column',
+            value: 'Field 1 Display',
+          },
+          {
+            name: 'Sort Direction',
+            value: 'Ascending',
+          },
+        ],
+        sortData: {
+          sortColumn: 'field1',
+          sortedAsc: 'true',
+        },
+      }
+
+      expect(result).toEqual(expectedResult)
     })
   })
 })

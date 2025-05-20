@@ -51,7 +51,8 @@ export default class Autocomplete extends DprClientClass {
       this.getElement()
         .querySelectorAll(this.listItemsSelector)
         .forEach((item) => {
-          if (searchValue.length >= minLength && item.innerText.trim().toLowerCase().startsWith(searchValue)) {
+          if (searchValue.length >= minLength &&
+            this.isMatchingStaticOptionNameOrDisplayPrefix(this.getInputListButton(item), searchValue, item)) {
             item.classList.remove('autocomplete-text-input-item-hide')
           } else {
             item.classList.add('autocomplete-text-input-item-hide')
@@ -63,6 +64,19 @@ export default class Autocomplete extends DprClientClass {
       const changeEvent = new Event('change')
       textInput.dispatchEvent(changeEvent)
     }
+  }
+
+  getInputListButton(item) {
+    return item.querySelector('.autocomplete-text-input-list-button')
+  }
+
+  isMatchingStaticOptionNameOrDisplayPrefix(inputListButton, searchValue, item) {
+    return this.isStaticOptionsNamePrefix(inputListButton.dataset.staticOptionNameValue, searchValue)
+      || item.innerText.trim().toLowerCase().startsWith(searchValue)
+  }
+
+  isStaticOptionsNamePrefix(staticOptionNameValue, searchValue) {
+    return staticOptionNameValue && staticOptionNameValue.trim().toLowerCase().startsWith(searchValue)
   }
 
   async populateOptionsDynamically(resourceEndpoint, searchValue, textInput, templateProvider) {
@@ -88,6 +102,7 @@ export default class Autocomplete extends DprClientClass {
     event.preventDefault()
     // eslint-disable-next-line no-param-reassign
     textInput.value = event.target.innerText.trim()
+    textInput.staticOptionNameValue = event.target.dataset.staticOptionNameValue
     textInput.focus()
     const changeEvent = new Event('change')
     textInput.dispatchEvent(changeEvent)

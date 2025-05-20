@@ -1,12 +1,13 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response, Request } from 'express'
+import { Url } from 'url'
 import { Services } from '../../../types/Services'
 import DashboardUtils from './utils'
 import DashboardService from '../../../services/dashboardService'
 import DashboardClient from '../../../data/dashboardClient'
 
-import MockDashboardClient from '../../../../../test-app/mocks/mockClients/dashboards/mockDashboardClient'
+import MockDashboardClient from '../../../../../test-app/mocks/mockClients/dashboards/mock-client'
 import RecentlyViewedStoreService from '../../../services/recentlyViewedService'
 import RequestedReportService from '../../../services/requestedReportService'
 import MockDashboardRequestData from '../../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'
@@ -14,6 +15,12 @@ import ReportingService from '../../../services/reportingService'
 import MockDefinitions from '../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
 import BookmarkService from '../../../services/bookmarkService'
 import { RequestedReport } from '../../../types/UserReports'
+import { ChartCardData } from '../../../types/Charts'
+
+jest.mock('parseurl', () => ({
+  __esModule: true,
+  default: jest.fn().mockImplementation(() => ({ pathname: 'pathname', search: 'search' } as Url)),
+}))
 
 describe('DashboardUtils', () => {
   let req: Request
@@ -59,7 +66,9 @@ describe('DashboardUtils', () => {
           reportId: 'test-report-1',
           id: 'test-dashboard-8',
         },
-        query: {},
+        query: {
+          'filters.establishment_id': 'MDI',
+        },
       } as unknown as Request
 
       res = {
@@ -88,15 +97,17 @@ describe('DashboardUtils', () => {
           services,
         })
 
-        expect(result.dashboardData.name).toEqual('Test Dashboard 8')
-        expect(result.dashboardData.description).toEqual('Async Dashboard Testing')
-        expect(result.dashboardData.metrics.length).toEqual(3)
+        expect(result.dashboardData.name).toEqual('Test Dashboard')
+        expect(result.dashboardData.description).toEqual('Dashboard used for testing testing')
+        expect(result.dashboardData.sections.length).toEqual(7)
 
-        expect(result.dashboardData.metrics[0].data.chart.length).toEqual(2)
-        expect(result.dashboardData.metrics[0].data.table.head.length).toEqual(5)
-        expect(result.dashboardData.metrics[0].title).toEqual('Missing ethnicity')
-        expect(result.dashboardData.metrics[1].title).toEqual('Missing nationality')
-        expect(result.dashboardData.metrics[2].title).toEqual('Missing religion')
+        expect(result.dashboardData.sections[0].title).toEqual('Section 1 - Ethnicity charts')
+        expect(result.dashboardData.sections[1].title).toEqual('Section 2 - Nationality charts')
+        expect(result.dashboardData.sections[2].title).toEqual('Section 3 - Religion charts')
+
+        const chartData = result.dashboardData.sections[0].visualisations[0].data as ChartCardData
+        expect(chartData.chart.type).toEqual('bar')
+        expect(chartData.table.head.length).toEqual(3)
       })
 
       it('should mark the dashboard as recently viewed', async () => {
@@ -107,7 +118,7 @@ describe('DashboardUtils', () => {
         })
 
         expect(updateLastViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard.executionId, 'Us3rId')
-        expect(setRecentlyViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard, 'Us3rId')
+        expect(setRecentlyViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard, 'Us3rId', 'search')
       })
     })
   })

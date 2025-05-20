@@ -1,15 +1,16 @@
 import Dict = NodeJS.Dict
 import { components } from '../../types/api'
-import { Cell, DataTable } from '../DataTableBuilder/types'
+import { Cell, DataTable, FieldDefinition } from '../DataTableBuilder/types'
 import type { SummaryTemplate, Template } from '../../types/Templates'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import { distinct } from '../arrayUtils'
 import SummaryDataTableBuilder from '../SummaryDataTableBuilder/SummaryDataTableBuilder'
+import { SectionSortKey } from './types'
 
 export default class SectionedDataTableBuilder extends DataTableBuilder {
-  private sections: Array<string>
+  sections: Array<string>
 
-  private template: Template
+  template: Template
 
   constructor(specification: components['schemas']['Specification']) {
     const { fields, sections, template } = specification
@@ -18,76 +19,189 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
     this.template = template
   }
 
-  private mapSectionedData(data: Array<Dict<string>>, header: Cell[]): Cell[][] {
-    let sectionedData: Dict<Cell[][]> = {}
-    const headerRow = header.map((h) => ({
-      ...h,
-      classes: 'govuk-table__header',
-    }))
-
-    const sectionFields = this.sections.map((s) => this.fields.find((f) => f.name === s))
-
-    const sectionDescriptions = data
-      .map((rowData) => ({
-        description: this.mapSectionDescription(rowData),
-        sortKey: this.getSortKey(rowData, sectionFields),
-      }))
+  /**
+   * Creates the section heading strings
+   *
+   * @param {Dict<string>[]} data
+   * @param {FieldDefinition[]} sectionFields
+   * @return {*}  {string[]} array of section headings
+   */
+  private createSectionHeadings(data: Dict<string>[], sectionFields: FieldDefinition[]): string[] {
+    return data
+      .map(
+        (rowData): SectionSortKey => ({
+          description: this.mapSectionDescription(rowData),
+          sortKey: this.getSortKey(rowData, sectionFields),
+        }),
+      )
       .sort(this.sortKeyComparison())
       .map((s) => s.description)
       .reduce(distinct, [])
+  }
 
+  /**
+   * Initialise section heading arrays
+   *
+   * @private
+   * @param {string[]} sectionDescriptions
+   * @return {*}
+   * @memberof SectionedDataTableBuilder
+   */
+  private initSectionData(sectionDescriptions: string[]) {
+    const sectionedData: Dict<Cell[][]> | Dict<Array<Dict<string>>> = {}
     sectionDescriptions.forEach((sectionDescription) => {
       sectionedData[sectionDescription] = []
     })
+    return sectionedData
+  }
 
-    if (this.template !== 'summary-section') {
-      sectionedData = data.reduce((previousValue, rowData) => {
-        const sectionDescription: string = this.mapSectionDescription(rowData)
-        const mappedData = this.mapRow(rowData)
+  /**
+   * Maps the rows to the correct section
+   *
+   * @private
+   * @param {Array<Dict<string>>} data
+   * @param {Dict<Cell[][]>} sectionedData
+   * @return {*}
+   * @memberof SectionedDataTableBuilder
+   */
+  private mapRowsToSection(data: Array<Dict<string>>, sectionedData: Dict<Cell[][]>) {
+    return data.reduce((previousValue, rowData) => {
+      const sectionDescription: string = this.mapSectionDescription(rowData)
+      const mappedData = this.mapRow(rowData)
 
-        return {
-          ...previousValue,
-          [sectionDescription]: previousValue[sectionDescription].concat([mappedData]),
-        }
-      }, sectionedData)
+      return {
+        ...previousValue,
+        [sectionDescription]: previousValue[sectionDescription].concat([mappedData]),
+      }
+    }, sectionedData)
+  }
+
+  /**
+   * Maps the rows to the correct section
+   *
+   * @private
+   * @param {Array<Dict<string>>} data
+   * @param {Dict<Cell[][]>} sectionedData
+   * @return {*}
+   * @memberof SectionedDataTableBuilder
+   */
+  private mapDataToSection(data: Array<Dict<string>>, sectionedData: Dict<Array<Dict<string>>>) {
+    return data.reduce((previousValue, rowData) => {
+      const sectionDescription: string = this.mapSectionDescription(rowData)
+      const section = {
+        ...previousValue,
+        [sectionDescription]: previousValue[sectionDescription].concat([rowData]),
+      }
+      return section
+    }, sectionedData)
+  }
+
+  /**
+   * Gets the counts for rows in section
+   *
+   * @param {Dict<Cell[][]>} sectionedData
+   * @param {string} sectionDescription
+   * @return {*}
+   * @memberof SectionedDataTableBuilder
+   */
+  getSectionCount(sectionedData: Dict<Cell[][]> | Dict<Dict<string>[]>, sectionDescription: string) {
+    const count = sectionedData[sectionDescription].length
+    const countDescription = `${count} result${count === 1 ? '' : 's'}`
+
+    return {
+      count,
+      countDescription,
     }
+  }
 
+  /**
+   * Creates the summaries and builds the table with summaries
+   *
+   * @private
+   * @param {string} sectionDescription
+   * @param {Cell[][]} mappedTableData
+   * @param {Cell[]} header
+   * @return {*}
+   * @memberof SectionedDataTableBuilder
+   */
+  private mapSummariesAndCreateTable(sectionDescription: string, mappedTableData: Cell[][], header: Cell[]) {
+    let tableContent: Cell[][] = []
+
+    let mappedSectionHeaderSummary: Cell[][] = []
+    let mappedHeaderSummary: Cell[][] = []
+    let mappedFooterSummary: Cell[][] = []
+    let mappedSectionFooterSummary: Cell[][] = []
+
+    mappedSectionHeaderSummary = this.mapSectionSummaryTables(sectionDescription, 'section-header', this.columns.length)
+    mappedHeaderSummary = this.mapSectionSummaryRows('table-header', sectionDescription)
+    mappedFooterSummary = this.mapSectionSummaryRows('table-footer', sectionDescription)
+    mappedSectionFooterSummary = this.mapSectionSummaryTables(sectionDescription, 'section-footer', this.columns.length)
+
+    tableContent = mappedSectionHeaderSummary
+      .concat(mappedTableData.length > 0 ? [header] : [])
+      .concat(mappedHeaderSummary)
+      .concat(mappedTableData)
+      .concat(mappedFooterSummary)
+      .concat(mappedSectionFooterSummary)
+
+    return tableContent
+  }
+
+  /**
+   * Creates the table data
+   * - if summaries are present, includes the summaries data
+   *
+   * @private
+   * @param {string[]} sectionDescriptions
+   * @param {Dict<Cell[][]>} sectionedData
+   * @param {Cell[]} header
+   * @return {*}
+   * @memberof SectionedDataTableBuilder
+   */
+  private createTableContent(sectionDescriptions: string[], sectionedData: Dict<Cell[][]>, header: Cell[]) {
     return sectionDescriptions.flatMap((sectionDescription) => {
-      const count = sectionedData[sectionDescription].length
-      const countDescription = `${count} result${count === 1 ? '' : 's'}`
-      const mappedSectionHeaderSummary = this.mapSectionSummaryTables(
-        sectionDescription,
-        'section-header',
-        this.columns.length,
-      )
-      const mappedHeaderSummary = this.mapSectionSummaryRows('table-header', sectionDescription)
+      const { count, countDescription } = this.getSectionCount(sectionedData, sectionDescription)
       const mappedTableData = sectionedData[sectionDescription]
-      const mappedFooterSummary = this.mapSectionSummaryRows('table-footer', sectionDescription)
-      const mappedSectionFooterSummary = this.mapSectionSummaryTables(
-        sectionDescription,
-        'section-footer',
-        this.columns.length,
-      )
 
-      const tableContent = mappedSectionHeaderSummary
-        .concat(mappedTableData.length > 0 ? [headerRow] : [])
-        .concat(mappedHeaderSummary)
-        .concat(mappedTableData)
-        .concat(mappedFooterSummary)
-        .concat(mappedSectionFooterSummary)
+      let tableContent: Cell[][] = []
+      if (Object.keys(this.reportSummaries).length) {
+        tableContent = this.mapSummariesAndCreateTable(sectionDescription, mappedTableData, header)
+      } else {
+        tableContent = tableContent.concat(mappedTableData.length > 0 ? [header] : []).concat(mappedTableData)
+      }
 
-      return [
-        [
-          {
-            colspan: this.columns.length,
-            html: `<h2>${sectionDescription}${
-              count > 0 ? ` <span class='govuk-caption-m'>${countDescription}</span>` : ''
-            }</h2>`,
-          },
-        ],
-        ...tableContent,
-      ]
+      const sectionHeader = this.createSectionHeader(sectionDescription, count, countDescription)
+
+      return [...sectionHeader, ...tableContent]
     })
+  }
+
+  createSectionHeader(sectionDescription: string, count?: number, countDescription?: string) {
+    return [
+      [
+        {
+          classes: 'dpr-section-header-spacer',
+          colspan: this.columns.length,
+          text: '',
+        },
+      ],
+      [
+        {
+          classes: 'dpr-section-header',
+          colspan: this.columns.length,
+          html: `<h2 class="govuk-heading-m">${sectionDescription}${
+            count > 0 ? ` <span class='govuk-caption-m'>${countDescription}</span>` : ''
+          }</h2>`,
+        },
+      ],
+      [
+        {
+          classes: 'dpr-section-header-spacer-bottom',
+          colspan: this.columns.length,
+          text: '',
+        },
+      ],
+    ]
   }
 
   private mapSectionSummaryRows(template: SummaryTemplate, sectionDescription: string): Cell[][] {
@@ -109,7 +223,6 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
     columnsLength: number,
   ): Cell[][] {
     const summaries = this.reportSummaries[summaryTemplate]
-
     if (summaries) {
       const htmlTables = summaries.map((summary) => {
         const data = summary.data.filter((row) => this.mapSectionDescription(row) === sectionDescription)
@@ -117,25 +230,9 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
         if (data.length > 0) {
           const dataTable = new SummaryDataTableBuilder(summary, this.sections).buildTable(data)
 
-          const headers = dataTable.head.map(
-            (h) => `<th scope='col' class='govuk-table__header'>${h.html ?? h.text}</th>`,
-          )
-          const rows = dataTable.rows.map(
-            (r) =>
-              `<tr class='govuk-table__row'>${r
-                .map(
-                  (c) =>
-                    `<td class='govuk-table__cell govuk-table__cell--${c.format} ${c.classes}'>${
-                      c.html ?? c.text
-                    }</td>`,
-                )
-                .join('')}</tr>`,
-          )
+          const htmlTable = this.convertDataTableToHtml(dataTable)
 
-          return `<div class='dpr-summary-container'><table class='govuk-table'>
-                  <thead class='govuk-table__head'>${headers.join('')}</thead>
-                  <tbody class='govuk-table__body'>${rows.join('')}</tbody>
-                </table></div>`
+          return `<div class='dpr-summary-container'>${htmlTable}</div>`
         }
         return ''
       })
@@ -145,6 +242,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
         return [
           [
             {
+              classes: 'dpr-summary-cell',
               colspan: columnsLength,
               html: `<div class='dpr-summary-container-group dpr-summary-container-group-${summaryTemplate}'>${summaryContent}</div>`,
             },
@@ -158,18 +256,55 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
   private mapSectionDescription(rowData: NodeJS.Dict<string>): string {
     const { sections } = this
 
-    return sections
-      .map((s) => {
-        const sectionField = this.fields.find((f) => f.name === s)
-        return `${sectionField.display}: ${this.mapCellValue(sectionField, rowData[s])}`
-      })
+    return this.mapNamesToFields(sections)
+      .map((s) => `${s.display}: ${this.mapCellValue(s, rowData[s.name])}`)
       .join(', ')
+  }
+
+  mapSections(data: Array<Dict<string>>) {
+    // Get the section definition data
+    const sectionFields = this.mapNamesToFields(this.sections)
+    // create the sectionHeadings
+    const sectionDescriptions = this.createSectionHeadings(data, sectionFields)
+    // init empty sections
+    let sectionedData = this.initSectionData(sectionDescriptions)
+
+    // Maps data to sections
+    if (this.template !== 'summary-section') {
+      if (this.template === 'parent-child-section') {
+        sectionedData = this.mapDataToSection(data, sectionedData as Dict<Dict<string>[]>)
+      } else {
+        sectionedData = this.mapRowsToSection(data, sectionedData as Dict<Cell[][]>)
+      }
+    }
+
+    return {
+      sectionDescriptions,
+      sectionedData,
+    }
+  }
+
+  /**
+   * Creates the table rows.
+   *
+   * @private
+   * @param {Array<Dict<string>>} data
+   * @param {Cell[]} header
+   * @return {*}  {Cell[][]}
+   * @memberof SectionedDataTableBuilder
+   */
+  private mapSectionedData(data: Array<Dict<string>>, header: Cell[]): Cell[][] {
+    const { sectionDescriptions, sectionedData } = this.mapSections(data)
+    // Create the table
+    const tableContent = this.createTableContent(sectionDescriptions, sectionedData as Dict<Cell[][]>, header)
+
+    return tableContent
   }
 
   buildTable(data: Array<Dict<string>>): DataTable {
     return {
       head: null,
-      rows: this.mapSectionedData(data, this.mapHeader(true)),
+      rows: this.mapSectionedData(data, this.mapHeader(true, 'govuk-table__header')),
       rowCount: data.length,
       colCount: this.columns.length,
     }

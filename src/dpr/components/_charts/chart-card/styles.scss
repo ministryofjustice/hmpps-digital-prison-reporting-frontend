@@ -1,14 +1,13 @@
 .dpr-chart-card {
-  padding-top: govuk-spacing(6);
+  padding-top: govuk-spacing(0);
   padding-bottom: govuk-spacing(6);
 }
 
 .chart-tabs-container {
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 4fr 1fr;
   column-gap: 30px;
   row-gap: 20px;
-  padding-top: 18px;
 
   @media(max-width: 1019px) {
     grid-template-columns: 1fr;

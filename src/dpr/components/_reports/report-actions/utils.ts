@@ -1,5 +1,3 @@
-import { RequestedReport } from '../../../types/UserReports'
-import { components } from '../../../types/api'
 import {
   ActionTemplate,
   CopyActionParams,
@@ -11,65 +9,6 @@ import {
   ShareActionParams,
 } from './types'
 import { actionTemplates } from './actionsTemplate'
-
-const initReportActions = ({
-  reportName,
-  name,
-  printable,
-  url,
-  executionId = null,
-  downloadable = true,
-}: {
-  reportName: string
-  name: string
-  printable: boolean
-  url: string
-  executionId?: string
-  downloadable?: boolean
-}): ReportAction[] => {
-  const actions: ReportAction[] = []
-
-  // Refresh
-  if (executionId) {
-    actions.push({
-      ...actionTemplates.refresh,
-      href: url,
-    })
-  }
-
-  // Print
-  actions.push({
-    ...actionTemplates.printable,
-    disabled: !printable,
-    href: '#',
-    ariaLabelText: !printable
-      ? `${actionTemplates.printable.ariaLabelText}, disabled`
-      : actionTemplates.printable.ariaLabelText,
-  })
-
-  // Share
-  actions.push({
-    ...actionTemplates.sharable,
-    href: `mailto:?subject=${reportName}-${name}&body=${encodeURIComponent(url)}`,
-  })
-
-  // Copy
-  actions.push({
-    ...actionTemplates.copy,
-    href: url,
-  })
-
-  // Downloadable
-  actions.push({
-    ...actionTemplates.downloadable,
-    disabled: !downloadable,
-    ariaLabelText: !downloadable
-      ? `${actionTemplates.downloadable.ariaLabelText}, disabled`
-      : actionTemplates.downloadable.ariaLabelText,
-  })
-
-  return actions
-}
 
 const getActions = ({ refresh, print, share, copy, download }: GetActionsParams): ReportAction[] => {
   const actions: ReportAction[] = []
@@ -153,16 +92,5 @@ const setPrintAction = (template: ActionTemplate, data: PrintActionParams) => {
 }
 
 export default {
-  initAsyncReportActions: (variant: components['schemas']['VariantDefinition'], reportData: RequestedReport) => {
-    return initReportActions({
-      reportName: reportData.reportName,
-      name: reportData.name,
-      printable: variant.printable,
-      url: reportData.url.request.fullUrl,
-      executionId: reportData.executionId,
-    })
-  },
-
-  initReportActions,
   getActions,
 }

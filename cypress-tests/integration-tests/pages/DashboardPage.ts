@@ -3,25 +3,44 @@ export type PageElement = Cypress.Chainable<JQuery>
 export default class DashboardPage {
   dashboardName = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div[1]/div[1]/h1`)
 
-  metricName = (): PageElement => cy.xpath(`//*[@id="missing-ethnicity-metric-chart-card"]/h2`)
+  // Sections
+  section1Name = (): PageElement => cy.xpath(`//*[@id="test-section-1-dashboard-section"]/h2`)
 
-  metricDescription = (): PageElement => cy.xpath(`//*[@id="missing-ethnicity-metric-chart-card"]/p`)
+  section1Description = (): PageElement => cy.xpath(`//*[@id="test-section-1-dashboard-section"]/p`)
 
-  metricDoughnutTab = (): PageElement => cy.xpath(`//*[@id="tab_missing-ethnicity-metric_doughnut_tab"]`)
+  section2Name = (): PageElement => cy.xpath(`//*[@id="test-section-2-dashboard-section"]/h2`)
 
-  metricBarTab = (): PageElement => cy.xpath(`//*[@id="tab_missing-ethnicity-metric_bar_tab"]`)
+  section2Description = (): PageElement => cy.xpath(`//*[@id="test-section-2-dashboard-section"]/p`)
 
-  matricTableTab = (): PageElement => cy.xpath(`//*[@id="tab_missing-ethnicity-metric_table_tab"]`)
+  section3Name = (): PageElement => cy.xpath(`//*[@id="test-section-3-dashboard-section"]/h2`)
 
-  metricTable = (): PageElement => cy.xpath(`//*[@id="tab_missing-ethnicity-metric_table_tab"]/div/table`)
+  section3Description = (): PageElement => cy.xpath(`//*[@id="test-section-3-dashboard-section"]/p`)
 
-  metricTable_row1 = (): PageElement => cy.xpath(`//*[@id="missing-ethnicity-metric_table_tab"]/div/table/tbody/tr[1]`)
+  section4Name = (): PageElement => cy.xpath(`//*[@id="test-section-4-dashboard-section"]/h2`)
 
-  metricTable_row2 = (): PageElement => cy.xpath(`//*[@id="missing-ethnicity-metric_table_tab"]/div/table/tbody/tr[2]`)
+  section4Description = (): PageElement => cy.xpath(`//*[@id="test-section-4-dashboard-section"]/p`)
 
-  metricTable_row3 = (): PageElement => cy.xpath(`//*[@id="missing-ethnicity-metric_table_tab"]/div/table/tbody/tr[3]`)
+  section5Name = (): PageElement => cy.xpath(`//*[@id="test-section-5-dashboard-section"]/h2`)
 
-  metricDetailValue = (): PageElement => cy.xpath(`//*[@id="dpr-missing-ethnicity-metric-tooltip-details"]`)
+  section5Description = (): PageElement => cy.xpath(`//*[@id="test-section-5-dashboard-section"]/p`)
 
-  canvasWrapper = (): PageElement => cy.xpath(`//*[@id="missing-ethnicity-metric-chart-wrapper"]`)
+  section6Name = (): PageElement => cy.xpath(`//*[@id="test-section-6-dashboard-section"]/h2`)
+
+  section6Description = (): PageElement => cy.xpath(`//*[@id="test-section-6-dashboard-section"]/p`)
+
+  section7Name = (): PageElement => cy.xpath(`//*[@id="test-section-7-dashboard-section"]/h2`)
+
+  section7Description = (): PageElement => cy.xpath(`//*[@id="test-section-7-dashboard-section"]/p`)
+
+  // Visualisations
+
+  visBarTitle = (): PageElement => cy.xpath(`//*[@id="mockEthnicityBarChart-dash-section-visualisation"]/h3`)
+
+  visBarDescription = (): PageElement => cy.xpath(`//*[@id="mockEthnicityBarChart-dash-section-visualisation"]/p`)
+
+  visBarTab = (): PageElement => cy.xpath(`//*[@id="tab_mockEthnicityBarChart_bar_tab"]`)
+
+  visBarTableTab = (): PageElement => cy.xpath(`//*[@id="tab_mockEthnicityBarChart_table_tab"]`)
+
+  visBarTable_head = (): PageElement => cy.xpath(`//*[@id="mockEthnicityBarChart_table_tab"]/div/table/thead/tr`)
 }

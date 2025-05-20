@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import ChartVisualisation from '../clientClass.mjs'
 
-export default class BarChartVisualisation extends ChartVisualisation {
+export default class LineChartVisualisation extends ChartVisualisation {
   static getModuleName() {
     return 'line-chart'
   }
@@ -10,52 +10,81 @@ export default class BarChartVisualisation extends ChartVisualisation {
     this.setupCanvas()
     this.settings = this.initSettings()
     this.chartData = this.generateChartData(this.settings)
+    this.lastIndex = this.chartData.data.labels.length - 1
     this.initChart(this.chartData)
   }
 
   initSettings() {
     return {
-      pluginsOptions: this.setPluginsOptions(),
+      options: this.setOptions(),
       toolTipOptions: this.setToolTipOptions(),
       styling: this.setDatasetStyling(),
     }
+  }
+
+  setPartialStyle(ctx) {
+    let style
+    if ((this.partialEnd && ctx.p1DataIndex === this.lastIndex) || (this.partialStart && ctx.p1DataIndex === 1)) {
+      style = [6, 6]
+    }
+    return style
   }
 
   setDatasetStyling() {
     const pallette = this.getColourPallette()
     return pallette.map((colour) => {
       return {
-        borderColor: colour,
-        backgroundColor: colour,
+        borderColor: colour.hex,
+        backgroundColor: colour.hex,
         pointStyle: 'circle',
         pointRadius: 4,
         pointHoverRadius: 10,
+        pointHitRadius: 20,
         datalabels: {
           display: false,
+        },
+        segment: {
+          borderDash: (ctx) => this.setPartialStyle(ctx),
         },
       }
     })
   }
 
   setToolTipOptions() {
-    const chartCtx = this
+    const ctx = this
     return {
       callbacks: {
+        title(context) {
+          const { label, dataset } = context[0]
+          const { label: establishmentId } = dataset
+          const title = ctx.singleDataset ? `${label}` : `${establishmentId}: ${label}`
+          return title
+        },
         label(context) {
           const { label } = context
           const { data, label: legend } = context.dataset
           const value = data[context.dataIndex]
-          chartCtx.setHoverValue(label, value, legend, chartCtx)
+          ctx.setHoverValue({ label, value, legend, ctx })
+          return value
         },
       },
     }
   }
 
-  setPluginsOptions() {
+  setOptions() {
     return {
-      legend: {
-        display: true,
-        position: 'bottom',
+      scales: {
+        y: {
+          min: 0,
+          ticks: {
+            fontSize: 12,
+          },
+        },
+        x: {
+          ticks: {
+            fontSize: 12,
+          },
+        },
       },
     }
   }

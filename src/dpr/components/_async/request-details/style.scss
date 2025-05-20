@@ -1,22 +1,24 @@
 .dpr-request-details {
-  padding: govuk-spacing(4);
-  border: solid 1px govuk-colour("mid-grey");
+  // padding: govuk-spacing(4);
+  // border: solid 1px govuk-colour("mid-grey");
   margin-bottom: govuk-spacing(6);
 
   .dpr-request-details__table-heading_name {
     margin-bottom: 0px;
-    color: govuk-colour("dark-grey");
+    font-weight: 800;
   }
 
   .dpr-request-details__table {
+    border-spacing: 0px;
+    width: 100%;
+
     tbody {
       vertical-align: top;
     }
 
     .dpr-request-details__table-heading {
       width: 14%;
-      text-align: right;
-      padding-right: 26px;
+      // text-align: right;
     }
 
     ul {
@@ -24,11 +26,15 @@
       margin-bottom: 0px;
       padding-inline-start: 20px;
     }
+
+    td {
+      padding: govuk-spacing(1);
+    }
   }
 }
 
 .dpr-meta-data-details {
-  margin-bottom: 5px;
+  margin-bottom: govuk-spacing(2);
 
   .govuk-details__text {
     padding-left: 0px;

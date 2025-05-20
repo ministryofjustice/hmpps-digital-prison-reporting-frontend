@@ -1,17 +1,28 @@
-import { ReportType, RequestedReport, RequestFormData, RequestStatus, UserReportData } from '../types/UserReports'
+import type { Request } from 'express'
+import {
+  LoadType,
+  ReportType,
+  RequestedReport,
+  RequestFormData,
+  RequestStatus,
+  UserReportData,
+} from '../types/UserReports'
 import Dict = NodeJS.Dict
 import { getDpdPathSuffix } from './urlHelper'
 import { SetQueryFromFiltersResult } from '../components/_async/async-filters-form/types'
-import { DashboardMetricDefinition } from '../types/Dashboards'
+import { ChildReportExecutionData, ExecutionData } from '../types/ExecutionData'
+import { DashboardSection } from '../components/_dashboards/dashboard/types'
 
 export default class UserStoreItemBuilder {
   userStoreItem: UserReportData
 
   requestFormData: RequestFormData
 
-  constructor(reportData: RequestFormData) {
+  constructor(reportData?: RequestFormData) {
     this.requestFormData = reportData
-    this.initialiseItem()
+    if (this.requestFormData) {
+      this.initialiseItem()
+    }
   }
 
   build = () => {
@@ -19,23 +30,55 @@ export default class UserStoreItemBuilder {
   }
 
   initialiseItem = () => {
-    this.userStoreItem = {
-      dataProductDefinitionsPath: this.requestFormData.dataProductDefinitionsPath,
+    return this.addReportData({
       type: this.requestFormData.type as ReportType,
       reportId: this.requestFormData.reportId,
       reportName: this.requestFormData.reportName,
       description: this.requestFormData.description,
       id: this.requestFormData.id,
       name: this.requestFormData.name,
+    })
+  }
+
+  addReportData = ({
+    type,
+    reportId,
+    reportName,
+    description,
+    id,
+    name,
+  }: {
+    type: ReportType
+    reportId: string
+    reportName: string
+    description: string
+    id: string
+    name: string
+  }) => {
+    this.userStoreItem = {
+      type: type as ReportType,
+      reportId,
+      reportName,
+      description,
+      id,
+      name,
       timestamp: {},
     }
     return this
   }
 
-  addExecutionData = (executionData: { executionId: string; tableId: string }) => {
+  addExecutionData = (executionData: ExecutionData) => {
     this.userStoreItem = {
       ...this.userStoreItem,
       ...executionData,
+    }
+    return this
+  }
+
+  addChildExecutionData = (childExecutionData: Array<ChildReportExecutionData>) => {
+    this.userStoreItem = {
+      ...this.userStoreItem,
+      childExecutionData,
     }
     return this
   }
@@ -69,8 +112,9 @@ export default class UserStoreItemBuilder {
   }
 
   addRequestUrls = () => {
-    const { origin, pathname, search, href } = this.requestFormData
-    const { executionId, dataProductDefinitionsPath } = this.userStoreItem
+    const { origin, pathname, search, href, defaultInteractiveQueryString } = this.requestFormData
+    const { executionId, dataProductDefinitionsPath, dpdPathFromQuery } = this.userStoreItem
+    const dpdPath = dpdPathFromQuery ? `${getDpdPathSuffix(dataProductDefinitionsPath)}` : ''
 
     this.userStoreItem = {
       ...this.userStoreItem,
@@ -83,12 +127,50 @@ export default class UserStoreItemBuilder {
             search,
           },
           polling: {
-            fullUrl: `${origin}${pathname}/${executionId}${getDpdPathSuffix(dataProductDefinitionsPath)}`,
-            pathname: `${pathname}/${executionId}${getDpdPathSuffix(dataProductDefinitionsPath)}`,
+            fullUrl: `${origin}${pathname}/${executionId}${dpdPath}`,
+            pathname: `${pathname}/${executionId}${dpdPath}`,
           },
-          report: {},
+          report: {
+            ...(defaultInteractiveQueryString?.length && {
+              search: dpdPath.length
+                ? `${dpdPath}&${defaultInteractiveQueryString}`
+                : `?${defaultInteractiveQueryString}`,
+              default: `?${defaultInteractiveQueryString}`,
+            }),
+          },
         },
       },
+    }
+
+    return this
+  }
+
+  addReportUrls = (req: Request) => {
+    const origin = req.get('host')
+    const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
+
+    this.userStoreItem = {
+      ...this.userStoreItem,
+      ...{
+        url: {
+          origin: origin || this.userStoreItem.url.origin,
+          ...(this.userStoreItem.url?.request && { request: this.userStoreItem.url.request }),
+          ...(this.userStoreItem.url?.polling && { polling: this.userStoreItem.url.polling }),
+          report: {
+            ...(this.userStoreItem.url?.report && this.userStoreItem.url.report),
+            fullUrl,
+          },
+        },
+      },
+    }
+
+    return this
+  }
+
+  addLoadType = (loadType: LoadType) => {
+    this.userStoreItem = {
+      ...this.userStoreItem,
+      loadType,
     }
 
     return this
@@ -115,11 +197,11 @@ export default class UserStoreItemBuilder {
     return this
   }
 
-  addMetrics = (metrics: DashboardMetricDefinition[]) => {
+  addMetrics = (metrics: DashboardSection[]) => {
     this.userStoreItem = {
       ...this.userStoreItem,
-      metrics: metrics.map((metric: DashboardMetricDefinition) => {
-        return { name: metric.name }
+      metrics: metrics.map((metric: DashboardSection) => {
+        return { name: metric.display }
       }),
     }
     return this
@@ -150,6 +232,17 @@ export default class UserStoreItemBuilder {
       default:
         this.userStoreItem.timestamp.lastViewed = ts
         break
+    }
+    return this
+  }
+
+  addDefinitionsPath = (definitionsPath: string, dpdPathFromQuery: boolean) => {
+    if (definitionsPath) {
+      this.userStoreItem = {
+        ...this.userStoreItem,
+        dataProductDefinitionsPath: definitionsPath,
+        dpdPathFromQuery,
+      }
     }
     return this
   }

@@ -1,11 +1,17 @@
 .dpr-report-header {
   padding-top: govuk-spacing(2);
+  margin-bottom: govuk-spacing(2);
+
   .dpr-report-heading {
     display: flex;
     flex-wrap: wrap;
 
     .dpr-report-heading__title {
       flex: 1;
+
+      .govuk-heading-l {
+        margin-bottom: govuk-spacing(4);
+      }
 
       @media(max-width: 1019px) {
         order: 1;
@@ -38,7 +44,7 @@
 
       .dpr-request-details {
         p, ul, li, h1 {
-          font-size: 12px;
+          font-size: 16px;
           margin-top: 0px;
           margin-bottom: 10px;
           padding-top: 0px;

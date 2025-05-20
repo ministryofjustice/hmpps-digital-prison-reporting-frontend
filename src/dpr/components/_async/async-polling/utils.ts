@@ -1,18 +1,27 @@
 import { ReportType } from '../../../types/UserReports'
 import { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
+import LocalsHelper from '../../../utils/localsHelper'
 
 export default {
   renderPolling: async ({ req, res, services }: AsyncReportUtilsParams) => {
-    const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
-    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-
-    const { dataProductDefinitionsPath: definitionPath } = req.query
+    const { csrfToken, userId, definitionsPath: definitionPath } = LocalsHelper.getValues(res)
     const { reportId, variantId, executionId, id, type } = req.params
 
     const requestReportData = await services.requestedReportService.getReportByExecutionId(executionId, userId)
 
-    const { reportName, name, variantName, description, status, query, timestamp, url, errorMessage, metrics } =
-      requestReportData
+    const {
+      reportName,
+      name,
+      variantName,
+      description,
+      status,
+      query,
+      timestamp,
+      url,
+      errorMessage,
+      metrics,
+      tableId,
+    } = requestReportData
 
     const title = `${type.charAt(0).toUpperCase() + type.substring(1).toLowerCase()} request status`
 
@@ -26,6 +35,7 @@ export default {
         description,
         type: type || ReportType.REPORT,
         reportId,
+        tableId,
         status,
         definitionPath,
         ...(query && { querySummary: query.summary }),

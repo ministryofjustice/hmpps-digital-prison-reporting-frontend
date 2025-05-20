@@ -23,12 +23,31 @@ export default class ChartVisualisation extends DprClientClass {
     this.labelElement = document.getElementById(`dpr-${this.id}-label`)
     this.valueElement = document.getElementById(`dpr-${this.id}-value`)
     this.legendElement = document.getElementById(`dpr-${this.id}-legend`)
+    this.legendElement = document.getElementById(`dpr-${this.id}-legend`)
+
+    // Time series
+    this.timeseries = this.getElement().getAttribute('data-dpr-chart-timeseries')
+    if (this.timeseries || this.type === 'line') {
+      this.daterangeInputs = document.querySelectorAll('.dpr-granular-date-range')
+      if (this.daterangeInputs && this.daterangeInputs.length) {
+        this.daterangeInputs.forEach((input) => {
+          this.partialStart = input.getAttribute('data-partial-start') === 'true'
+          this.partialEnd = input.getAttribute('data-partial-end') === 'true'
+        })
+      } else {
+        this.partialStart = false
+        this.partialEnd = false
+      }
+    }
+
+    // flags
+    this.singleDataset = this.chartParams.datasets.length === 1
   }
 
   initChart() {
     Chart.defaults.font.family = 'GDS Transport'
     Chart.register(ChartDataLabels)
-    Chart.defaults.font.size = 16
+    Chart.defaults.font.size = 12
 
     this.chart = new Chart(this.chartContext, this.chartData)
     this.initChartEvents()
@@ -37,17 +56,45 @@ export default class ChartVisualisation extends DprClientClass {
   // Accessible colours from the MoJ Pattern Library
   getColourPallette() {
     return [
-      '#1d70b8', // brand blue
-      '#912b88', // purple
-      '#00703c', // green
-      '#003078', // dark blue
+      {
+        name: 'blue',
+        hex: '#5694ca',
+      },
+      {
+        name: 'purple',
+        hex: '#912b88',
+      },
+      {
+        name: 'green',
+        hex: '#00703c',
+      },
+      {
+        name: 'dark_blue',
+        hex: '#003078',
+      },
+      {
+        name: 'orange',
+        hex: '#f47738',
+      },
+      {
+        name: 'orange',
+        hex: '#28a197',
+      },
     ]
+  }
+
+  mapHexColourToName(hex, ctx) {
+    const pallette = ctx.getColourPallette()
+    const colour = pallette.find((p) => {
+      return p.hex === hex
+    })
+    return colour ? colour.name : ''
   }
 
   createDatasets(datasets, styling) {
     return datasets.map((d, i) => {
       const { label, data } = d
-      const s = styling[i] ? styling[i] : styling[0]
+      const s = styling[i % 6] ? styling[i % 6] : styling[0]
       return {
         label,
         data,
@@ -59,7 +106,6 @@ export default class ChartVisualisation extends DprClientClass {
   generateChartData(settings) {
     const { datasets, labels } = this.chartParams
     const { options, styling, datalabels, plugins, pluginsOptions, toolTipOptions, hoverEvent } = settings
-
     return {
       type: this.type,
       data: {
@@ -68,13 +114,19 @@ export default class ChartVisualisation extends DprClientClass {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         animation: {
           duration: 0,
+        },
+        hover: {
+          animationDuration: 0,
         },
         ...(options && options),
         ...(hoverEvent && hoverEvent),
         plugins: {
+          legend: {
+            position: 'bottom',
+          },
           ...(pluginsOptions && pluginsOptions),
           ...(datalabels && { datalabels }),
           tooltip: {
@@ -106,13 +158,16 @@ export default class ChartVisualisation extends DprClientClass {
       footerFont: {
         weight: 'bold',
       },
+      animation: {
+        duration: 0,
+      },
     }
   }
 
   setHoverValue({ label, value, legend, ctx }) {
     if (ctx.tooltipDetailsEl) {
       ctx.tooltipDetailsEl.style.display = 'block'
-      ctx.labelElement.innerHTML = `${legend}: ${label}`
+      ctx.labelElement.innerHTML = ctx.singleDataset ? `${label}` : `${legend}: ${label}`
       ctx.valueElement.innerHTML = `${value}`
     }
     if (ctx.headlineValuesEl) {

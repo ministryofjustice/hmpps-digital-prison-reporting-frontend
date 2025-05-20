@@ -1,13 +1,48 @@
 {% from "dpr/components/_filters/filters-form/view.njk" import dprFiltersForm %}
+{% from "dpr/components/_filters/filters-selected/view.njk" import dprSelectedFilters %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 
-{% macro dprInteractiveFilters(filters, prefix) %}
-  <div data-dpr-module="interactive-filters" class="dpr-filters sync-filters-form--hidden">
-    {{ dprFiltersForm({
-      filters: filters, 
-      prefix: prefix,
-      formId: 'interactive-filters-form',
-      submitId: 'interactive-apply-filters-button',
-      resetId: 'interactive-reset-filters-button'
-    }) }}
+{% macro dprInteractiveFilters(data, defaultQuery = '', prefix = 'filters.', detailsOpen = false) %}
+
+  {% set filters = data.filters %}
+  {% set selectedFilters = data.selectedFilters %}
+
+  {% if selectedFilters.length %}
+    {% set detailsLabel = 'Update filters' %}
+  {% else %}
+    {% set detailsLabel = 'Apply filters' %}
+  {% endif %}
+
+
+  <div class='dpr-interactive-filters-section'>
+    {{dprSelectedFilters(data.selectedFilters)}}
+
+    {% set filtersHtml %}
+      <div class='dpr-interactive-filters'>
+        <div data-dpr-module="interactive-filters" class="dpr-filters sync-filters-form--hidden">
+
+          {{ dprFiltersForm({
+            filters: filters, 
+            prefix: prefix,
+            formId: 'interactive-filters-form',
+            submitId: 'interactive-apply-filters-button',
+            resetId: 'interactive-reset-filters-button',
+            defaultQuery: defaultQuery
+          }) }}
+        </div>
+      </div>
+    {% endset %}
+
+
+    <div class="dpr-interactive-filters-accordion"> 
+      {{ govukDetails({
+        summaryText: detailsLabel,
+        html: filtersHtml,
+        open: detailsOpen,
+        attributes: {
+          id: 'dpr-interactive-filters-details'
+        }
+      }) }}
+    </div>
   </div>
 {% endmacro %}

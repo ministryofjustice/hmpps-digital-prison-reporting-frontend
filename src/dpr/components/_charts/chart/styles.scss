@@ -1,6 +1,31 @@
 .chart-canvas {
   height: 100% !important;
   width: 100% !important;
-  max-height: 350px;
 }
 
+.chart-colour__blue {
+  background-color: govuk-colour("blue")
+}
+
+.chart-colour__purple {
+  background-color: govuk-colour("bright-purple")
+}
+
+.chart-colour__purple {
+  background-color: govuk-colour("bright-purple")
+}
+
+.chart-colour__green {
+  background-color: govuk-colour("green")
+}
+.chart-colour__dark_blue {
+  background-color: govuk-colour("dark-blue")
+}
+
+.dpr-chart {
+  height: 400px;
+}
+
+.dpr-canvas-wrapper {
+  height: 100%;
+}

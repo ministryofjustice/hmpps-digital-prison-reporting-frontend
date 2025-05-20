@@ -3,6 +3,7 @@ import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'
 import DataTableBuilder from './DataTableBuilder'
 import { AsyncSummary } from '../../types/UserReports'
+import { Template } from '../../types/Templates'
 
 const defaultField: components['schemas']['FieldDefinition'] = {
   name: 'date',
@@ -39,7 +40,12 @@ describe('mapData', () => {
 
     expect(mapped).toEqual({
       colCount: 1,
-      head: [{ text: 'Date' }],
+      head: [
+        {
+          text: 'Date',
+          classes: null,
+        },
+      ],
       rowCount: 1,
       rows: [
         [
@@ -72,7 +78,12 @@ describe('mapData', () => {
 
     expect(mapped).toEqual({
       colCount: 1,
-      head: [{ text: 'Date' }],
+      head: [
+        {
+          text: 'Date',
+          classes: null,
+        },
+      ],
       rowCount: 1,
       rows: [
         [
@@ -233,8 +244,15 @@ describe('mapHeader', () => {
   const defaultQueryParams = {
     columns: 'date',
   }
-  const filterPrefix = 'f.'
-  const defaultListRequest: ReportQuery = new ReportQuery(defaultSpec, defaultQueryParams, null, filterPrefix)
+  const filtersPrefix = 'f.'
+  const reqArgs = {
+    fields: defaultSpec.fields,
+    template: defaultSpec.template as Template,
+    queryParams: defaultQueryParams,
+    definitionsPath: 'one',
+    filtersPrefix,
+  }
+  const defaultListRequest: ReportQuery = new ReportQuery(reqArgs)
 
   it('Unsortable field', () => {
     const field = {
@@ -246,6 +264,7 @@ describe('mapHeader', () => {
     expect(mapped.head).toEqual([
       {
         text: 'Date',
+        classes: null,
       },
     ])
   })
@@ -261,9 +280,10 @@ describe('mapHeader', () => {
             '<a ' +
             'data-column="date" ' +
             'class="data-table-header-button data-table-header-button-sort-ascending" ' +
-            'href="?selectedPage=1&pageSize=20&sortColumn=date&sortedAsc=false&columns=date">' +
+            'href="?selectedPage=1&pageSize=20&sortColumn=date&sortedAsc=false&columns=date&dataProductDefinitionsPath=one">' +
             'Date' +
             '</a>',
+          classes: null,
         },
       ],
       rowCount: 0,
@@ -272,15 +292,16 @@ describe('mapHeader', () => {
   })
 
   it('Sortable field sorted ascending', () => {
-    const reportQuery: ReportQuery = new ReportQuery(
-      defaultSpec,
-      {
+    const reportQuery: ReportQuery = new ReportQuery({
+      fields: defaultSpec.fields,
+      template: defaultSpec.template as Template,
+      queryParams: {
         ...defaultQueryParams,
         sortColumn: 'date',
       },
-      defaultField.name,
-      filterPrefix,
-    )
+      definitionsPath: defaultField.name,
+      filtersPrefix,
+    })
     const mapped = new DataTableBuilder([defaultField]).withHeaderSortOptions(reportQuery).buildTable([])
 
     expect(mapped).toEqual({
@@ -294,6 +315,7 @@ describe('mapHeader', () => {
             'href="?selectedPage=1&pageSize=20&sortColumn=date&sortedAsc=false&columns=date&dataProductDefinitionsPath=date">' +
             'Date' +
             '</a>',
+          classes: null,
         },
       ],
       rowCount: 0,
@@ -302,16 +324,17 @@ describe('mapHeader', () => {
   })
 
   it('Sortable field sorted descending', () => {
-    const reportQuery: ReportQuery = new ReportQuery(
-      defaultSpec,
-      {
+    const reportQuery: ReportQuery = new ReportQuery({
+      fields: defaultSpec.fields,
+      template: defaultSpec.template as Template,
+      queryParams: {
         ...defaultQueryParams,
         sortColumn: 'date',
         sortedAsc: 'false',
       },
-      defaultField.name,
-      filterPrefix,
-    )
+      definitionsPath: defaultField.name,
+      filtersPrefix,
+    })
     const mapped = new DataTableBuilder([defaultField]).withHeaderSortOptions(reportQuery).buildTable([])
 
     expect(mapped).toEqual({
@@ -325,6 +348,7 @@ describe('mapHeader', () => {
             'href="?selectedPage=1&pageSize=20&sortColumn=date&sortedAsc=true&columns=date&dataProductDefinitionsPath=date">' +
             'Date' +
             '</a>',
+          classes: null,
         },
       ],
       rowCount: 0,

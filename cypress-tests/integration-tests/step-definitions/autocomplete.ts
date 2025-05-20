@@ -1,12 +1,12 @@
 /* eslint-disable func-names */
 
-import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
+import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor'
 import ReportPage from '../pages/ReportPage'
 
 const shortMatchingText = 'Pr'
 const longMatchingText = 'Pri'
-const staticFieldName = 'field4'
-const dynamicFieldName = 'field5'
+const staticFieldName = 'filters.field4'
+const dynamicFieldName = 'filters.field5'
 
 const getFieldNameFromType = (type) => (type === 'static' ? staticFieldName : dynamicFieldName)
 
@@ -19,6 +19,15 @@ When(
     this.selectedFieldName = fieldName
 
     new ReportPage().filter(fieldName).type(text)
+  },
+)
+
+Given(
+  'I enter {string} into the static Autocomplete box which matches an option which has different name and display values',
+  function (this: Mocha.Context, string: string) {
+    const fieldName = getFieldNameFromType('static')
+    this.selectedFieldName = fieldName
+    new ReportPage().filter(fieldName).type(string)
   },
 )
 
@@ -49,8 +58,18 @@ Then(/^the select option is displayed in the Selected Filters section$/, () => {
   new ReportPage().selectedFilterButton().contains(`Prince Humperdink`)
 })
 
+Then(/^the display value of the selected option is displayed in the Selected Filters section$/, () => {
+  new ReportPage().selectedFilterButton().contains('Princess Buttercup')
+})
+
 Then('the selected option is displayed in the URL', function (this: Mocha.Context) {
   cy.location().should((location) => {
-    expect(location.search).to.contain(`filters.${this.selectedFieldName}=Prince%20Humperdink`)
+    expect(location.search).to.contain(`${this.selectedFieldName}=Prince+Humperdink`)
+  })
+})
+
+Then('the name value of the selected option is displayed in the URL', function (this: Mocha.Context) {
+  cy.location().should((location) => {
+    expect(location.search).to.contain(`${this.selectedFieldName}=PrBu`)
   })
 })

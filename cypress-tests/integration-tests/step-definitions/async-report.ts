@@ -64,17 +64,17 @@ Then('the page size is set in the URL', () => {
 })
 
 Then('the totals should show the correct value', () => {
-  new AysncReportPage().totals().should('have.text', '1-10 of 100')
+  new AysncReportPage().totals().should('have.text', 'Showing 1 to 10 of 100 results')
 })
 
 Then('the totals should show the correct pagination value', () => {
-  new AysncReportPage().totals().should('have.text', '81-100 of 100')
+  new AysncReportPage().totals().should('have.text', 'Showing 91 to 100 of 100 results')
 })
 
 Then('I click on page 5', () => {
-  new AysncReportPage().pagination_page5().click()
+  new AysncReportPage().pagination_page10().click()
 })
 
 Then('the page number is set in the URL', () => {
-  cy.url().should('include', 'selectedPage=5')
+  cy.url().should('include', 'selectedPage=10')
 })

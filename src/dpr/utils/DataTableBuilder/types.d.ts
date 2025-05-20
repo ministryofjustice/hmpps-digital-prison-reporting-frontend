@@ -1,14 +1,10 @@
-export interface Header {
-  html?: string
-  text?: string
-  format?: string
-}
+export type CellFormat = 'numeric' | 'string'
 
 export interface Cell {
   fieldName?: string
   text?: string
   html?: string
-  format?: string
+  format?: CellFormat
   classes?: string
   colspan?: number
   rowspan?: number
@@ -30,4 +26,8 @@ export interface FieldDefinition {
   sortable?: boolean
   header?: boolean
   mergeRows?: boolean
+}
+
+export interface SortKey extends Dict<string> {
+  sortKey: string
 }

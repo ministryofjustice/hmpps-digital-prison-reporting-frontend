@@ -20,7 +20,14 @@ const variant19 = require('./mockVariants/variant19')
 const variant20 = require('./mockVariants/variant20')
 const variant21 = require('./mockVariants/variant21')
 const variant22 = require('./mockVariants/variant22')
-const dashboardDefinition = require('../dashboards/mockDashboardDefinition')
+const variant23 = require('./mockVariants/variant23-interactive')
+const variant24 = require('./mockVariants/variant24-sync')
+const variant25 = require('./mockVariants/variant25-granularDateRange')
+const variant26 = require('./mockVariants/variant26-parent-child')
+const variant27 = require('./mockVariants/variant27-parent-child-section')
+const variant28 = require('./mockVariants/variant28-summary')
+const variant29 = require('./mockVariants/variant29-summary-section')
+const dashboardDefinition = require('../dashboards/dashboard-definitions')
 
 module.exports = {
   report: {
@@ -50,6 +57,13 @@ module.exports = {
       variant20,
       variant21,
       variant22,
+      variant23,
+      variant24,
+      variant25,
+      variant26,
+      variant27,
+      variant28,
+      variant29,
     ],
     dashboards: dashboardDefinition,
   },
@@ -57,13 +71,13 @@ module.exports = {
     {
       id: 'test-report-3',
       name: 'C Test Report',
-      variants: [variant1, variant2, variant3, variant4],
+      variants: [variant1, variant2, variant3, variant4, variant24, variant28, variant29],
       dashboards: [dashboardDefinition[0]],
     },
     {
       id: 'test-report-4',
       name: 'D Test Report',
-      variants: [variant5, variant6, variant7],
+      variants: [variant5, variant6, variant7, variant27],
       dashboards: [dashboardDefinition[1]],
     },
     {
@@ -76,7 +90,7 @@ module.exports = {
     {
       id: 'test-report-1',
       name: 'A Test Report',
-      variants: [variant12, variant13, variant14, variant15, variant16],
+      variants: [variant12, variant13, variant14, variant15, variant16, variant25, variant26],
       dashboards: dashboardDefinition,
     },
     {
@@ -90,6 +104,19 @@ module.exports = {
       name: 'ORS Prisoner and Visitors Details Report',
       variants: [variant20],
       dashboards: [],
+    },
+    {
+      id: 'test-report-6',
+      name: 'Interactive reports',
+      variants: [variant23],
+      dashboards: [],
+    },
+    {
+      id: 'test-report-7',
+      name: 'Unauthorised reports',
+      variants: [variant2, variant3, variant4],
+      dashboards: [],
+      authorised: false,
     },
   ],
 

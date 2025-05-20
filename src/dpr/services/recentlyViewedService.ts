@@ -1,14 +1,22 @@
-import UserStoreService from './userStoreService'
-import UserDataStore from '../data/userDataStore'
-import { RequestStatus, RequestedReport, RecentlyViewedReport, ReportType } from '../types/UserReports'
-import { UserStoreConfig } from '../types/UserStore'
+import ReportStoreService from './reportStoreService'
+import UserDataStore from '../data/reportDataStore'
+import {
+  RequestStatus,
+  RequestedReport,
+  RecentlyViewedReport,
+  ReportType,
+  StoredReportData,
+} from '../types/UserReports'
+import { ReportStoreConfig } from '../types/ReportStore'
+import logger from '../utils/logger'
 
-export default class RecentlyViewedStoreService extends UserStoreService {
+export default class RecentlyViewedStoreService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
+    logger.info('Service created: RecentlyViewedStoreService')
   }
 
-  async getAllReports(userId: string) {
+  async getAllReports(userId: string): Promise<StoredReportData[]> {
     const userConfig = await this.getState(userId)
     return userConfig.recentlyViewedReports
   }
@@ -32,11 +40,12 @@ export default class RecentlyViewedStoreService extends UserStoreService {
     await this.addReport(reportData, userId, userConfig)
   }
 
-  async addReport(reportData: RequestedReport, userId: string, userConfig: UserStoreConfig) {
+  async addReport(reportData: RequestedReport, userId: string, userConfig: ReportStoreConfig) {
     const { reportId, executionId, tableId, reportName, name: variantName, description, url, query } = reportData
 
     const id = reportData.variantId || reportData.id
     const type = reportData.type || ReportType.REPORT
+    const { request, report } = url
 
     const recentlyViewedReportData: RecentlyViewedReport = {
       reportId,
@@ -50,13 +59,8 @@ export default class RecentlyViewedStoreService extends UserStoreService {
       status: RequestStatus.READY,
       url: {
         origin: url.origin,
-        request: {
-          fullUrl: url.request.fullUrl,
-          search: url.request.search,
-        },
-        report: {
-          fullUrl: url.report.fullUrl,
-        },
+        ...(request && { request }),
+        ...(report && { report }),
       },
       timestamp: {
         lastViewed: new Date(),
@@ -71,6 +75,17 @@ export default class RecentlyViewedStoreService extends UserStoreService {
   async setToExpired(id: string, userId: string) {
     const userConfig = await this.getState(userId)
     const index = this.findIndexByExecutionId(id, userConfig.recentlyViewedReports)
+    await this.saveExpiredState(userConfig, index, userId)
+  }
+
+  async asyncSetToExpiredByTableId(id: string, userId: string) {
+    const userConfig = await this.getState(userId)
+    const index = this.findIndexByTableId(id, userConfig.recentlyViewedReports)
+    await this.saveExpiredState(userConfig, index, userId)
+    return userConfig.recentlyViewedReports[index].url.request.fullUrl
+  }
+
+  async saveExpiredState(userConfig: ReportStoreConfig, index: number, userId: string) {
     let report: RecentlyViewedReport = userConfig.recentlyViewedReports[index]
     if (report) {
       report = {
@@ -82,6 +97,7 @@ export default class RecentlyViewedStoreService extends UserStoreService {
         },
       }
     }
+    // eslint-disable-next-line no-param-reassign
     userConfig.recentlyViewedReports[index] = report
     await this.saveState(userId, userConfig)
   }

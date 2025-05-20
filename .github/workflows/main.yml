@@ -7,23 +7,23 @@ on:
     branches: [ main ]
 
 env:
-  HOME_URL: 'http://localhost:3010/async-reports'
-  REQUEST_URL: 'http://localhost:3010/async-reports/test-report-3/variantId-1/request'
-  POLLING_URL: 'http://localhost:3010/async-reports/test-report-3/variantId-1/request/exId_1729765628165'
-  REPORT_URL: 'http://localhost:3010/async-reports/test-report-3/variantId-1/request/tblId_1729765628165/report'
+  HOME_URL: 'http://localhost:3010/dpr-service'
+  REQUEST_URL: 'http://localhost:3010/async/report/test-report-3/variantId-1/request'
+  POLLING_URL: 'http://localhost:3010/async/report/test-report-3/variantId-1/request/exId_1729765628165'
+  REPORT_URL: 'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729765628165/report'
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
     - run: npm ci
     - run: npm run package
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: dpr-package
         path: package
@@ -33,12 +33,12 @@ jobs:
     needs: build
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
       - run: npm ci
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: dpr-package
           path: package
@@ -49,8 +49,8 @@ jobs:
     needs: build
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
       - run: npm ci
@@ -60,15 +60,15 @@ jobs:
           npm run start-test-app &
           sleep 5
           npm run int-test
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: test_results
           path: test_results
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: videos
           path: cypress-tests/integration-tests/videos
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: screenshots
           path: cypress-tests/integration-tests/screenshots
@@ -78,8 +78,8 @@ jobs:
     needs: build
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
       - run: npm ci
@@ -88,7 +88,7 @@ jobs:
       - run: npm install -g pa11y
       - name: Install chromedriver
         run: |
-          npm install -g chromedriver@131
+          npm install -g chromedriver@135
           echo "chromedriver version: $(chromedriver --version)"
       - name: Run the node app       
         run: |

@@ -2,39 +2,45 @@
 {% from "../report-pagination/view.njk" import dprReportPagination %}
 {% from "../report/view.njk" import dprReport %}
 {% from "../report-summary-table/view.njk" import dprReportSummary %}
+{% from "../report-no-data-message/view.njk" import dprReportNoDataMessage %}
 
-{% macro dprReportTemplate(renderData, url) %}
+{% macro dprReportTemplate(renderData) %}
   
   {% set printable = renderData.printable %}
   {% set pagination = renderData.pagination %}
   {% set template = renderData.template %}
   {% set reportSummaries = renderData.reportSummaries %}
-
-  {% if count === 0 %}
-    {{ dprReportNoDataMessage(url) }}
-  {% else %}
+  {% set count = renderData.count %}
 
     <div class="report-template-container  {% if (printable == false) %}print-hide{% endif %}">
-      {% if template === 'list-tab' or template === 'crosstab' %}
+      {% if template === 'list-tab' %}
 
         {# Add template view here #}
 
-      {% elif template === 'list-section' or template === 'summary-section' %}
+      {% elif template === 'list-section' or template === 'summary-section' or template === 'parent-child' or template === 'parent-child-section' %}
 
-        {{ dprReport(renderData) }}
+        {{ dprReport(renderData, count) }}
 
       {% elif template === 'summary' %}
 
-        {{ dprReportSummary(reportSummaries, 'page-header') }}
-        {{ dprReportSummary(reportSummaries, 'page-footer') }}
+        {% if not count or count === 0 %}
+          {{ dprReportNoDataMessage(renderData.requestUrl.fullUrl) }}
+        {% else %}
+
+          {{ dprReportSummary(reportSummaries, 'page-header') }}
+          {{ dprReportSummary(reportSummaries, 'page-footer') }}
+
+        {% endif %}
 
       {% else %}
 
-        {{ dprReport(renderData) }}
-        {{ dprReportPagination(pagination) }}
+        {{ dprReport(renderData, count) }}
+
+        {% if count and count > 0 %}
+          {{ dprReportPagination(pagination) }}
+        {% endif %}
 
       {% endif %}
     </div>
 
-  {% endif %}
 {% endmacro %}

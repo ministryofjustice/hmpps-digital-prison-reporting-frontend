@@ -1,0 +1,18 @@
+.dashboard-section-break {
+    border: 0px;
+    border-bottom: 1px solid lighten(govuk-colour("mid-grey"), 15%);
+    margin-top: govuk-spacing(6);
+    margin-bottom: govuk-spacing(6);
+  }
+
+.dpr-dashboard-section {
+  margin-top: govuk-spacing(6);
+  scroll-margin-top: 170px;
+  max-width: 100%;
+}
+
+.dashboard-visualisation-container {
+  margin-top: govuk-spacing(6);
+  margin-bottom: govuk-spacing(6);
+  scroll-margin-top: 170px;
+}

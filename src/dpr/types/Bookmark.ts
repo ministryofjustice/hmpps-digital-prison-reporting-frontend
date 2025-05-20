@@ -1,4 +1,4 @@
-import { ReportType } from './UserReports'
+import { LoadType, ReportType } from './UserReports'
 
 export interface BookmarkedReportData {
   reportId: string
@@ -8,6 +8,7 @@ export interface BookmarkedReportData {
   description: string
   href: string
   type: ReportType
+  loadType: LoadType
 }
 
 export interface BookmarkStoreData {

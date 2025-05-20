@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import { DprClientClass } from '../../DprClientClass.mjs'
 
 export default class BookmarkToggle extends DprClientClass {
@@ -66,7 +67,7 @@ export default class BookmarkToggle extends DprClientClass {
   }
 
   async toggleBookmark(type, id, reportId, reportType, csrfToken) {
-    const endpoint = type === 'add' ? '/addBookmark/' : '/removeBookmark/'
+    const endpoint = type === 'add' ? '/dpr/addBookmark/' : '/dpr/removeBookmark/'
     await fetch(endpoint, {
       method: 'post',
       headers: {

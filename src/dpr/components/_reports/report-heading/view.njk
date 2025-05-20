@@ -1,5 +1,7 @@
 {% from "../report-actions/view.njk" import dprReportActions %}
 {% from "../report-download-message/view.njk" import dprDownloadMessage %}
+{% from "../report-columns/view.njk" import dprReportColumns %}
+{% from "../report-filters/view.njk" import dprReportFilters %}
 
 {% from "../../bookmark-toggle/view.njk" import dprBookmarkToggle %}
 {% from "../../_async/request-details/view.njk" import dprRequestDetails %}
@@ -10,14 +12,16 @@
   {% set name = reportData.name %}
   {% set reportName = reportData.reportName %}
   {% set reportId = reportData.reportId %}
-  {% set id = reportData.id %}
-  {% set csrfToken = reportData.csrfToken %}
-  {% set bookmarked = reportData.bookmarked %}
-  {% set actions = reportData.actions %}
   {% set type = reportData.type %}
+  {% set actions = reportData.actions %}
+  {% set detailsOpen = reportData.detailsOpen %}
+  {% set bookmarked = reportData.bookmarked %}
+  {% set columns = reportData.columns %}
+  {% set defaultQuery = reportData.defaultQuery %}
+  {% set filterData = reportData.filterData %}
+  {% set count = reportData.count %}
 
   <div class="dpr-report-header">
-
     <div class="dpr-report-heading">
       
       <div class="dpr-report-heading__title">
@@ -27,17 +31,29 @@
         </h1>
       </div>
       
+      {% if actions or bookmarked is defined %}
       <div class="dpr-report-heading__actions">
-        {{ dprReportActions(actions) }}
-        {% if not reportData.removeBookmark %}
+        {% if actions %}
+          {{ dprReportActions(actions) }}
+        {% endif %}
+
+        {% if bookmarked is defined %}
+          {% set id = reportData.id %}
+          {% set csrfToken = reportData.csrfToken %}
+          {% set bookmarked = reportData.bookmarked %}
+          {% set actions = reportData.actions %}
+          
           {{ dprBookmarkToggle(reportId, id, csrfToken, bookmarked, 'report', type) }}
         {% endif %}
       </div>
+       {% endif %}
     </div>
     
-    {{ dprDownloadMessage(reportData) }}
+    {% if reportData.canDownload is defined %}
+      {{ dprDownloadMessage(reportData) }}
+    {% endif %}
 
-    {% if type === 'report' %}
+    {% if type === 'report' or type is not defined %}
 
       {% set reportDetailsHtml %}
         {{ dprRequestDetails(reportData)}}
@@ -46,20 +62,29 @@
       {{ govukDetails({
         summaryText: 'Report details',
         html: reportDetailsHtml,
-        classes: 'dpr-meta-data-details'
+        classes: 'dpr-meta-data-details',
+        open: detailsOpen
       }) }}
 
     {% endif %}
 
     {% if type === 'dashboard' %}
-    
-      <p class="govuk-body" >{{ reportData.description }}</p>
+
+      <p class="govuk-body govuk-!-margin-top-2" >{{ reportData.description }}</p>
 
     {% endif %}
 
 
     <div class="dpr-report-details-print">
       {{ dprRequestDetails(reportData)}}
+    </div>
+
+    <div class="dpr-report-interactive-actions">
+      {% if count and count > 0 %}
+        {{ dprReportColumns(columns) }}
+      {% endif %}
+
+      {{ dprReportFilters(filterData, defaultQuery) }}
     </div>
   </div>
 {% endmacro %}

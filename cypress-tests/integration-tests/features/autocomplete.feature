@@ -27,27 +27,13 @@ Feature: Autocomplete
     Then the selected option is displayed in the URL
     And the select option is displayed in the Selected Filters section
 
-  Scenario: Dynamic autocomplete filter is displayed
-    Then the dynamic Autocomplete box is shown
-
-  Scenario: Dynamic autocomplete options are displayed
-    When I enter text longer than the minimum data length into the dynamic Autocomplete box
-    Then a list of matching options is displayed
-
-  Scenario: Dynamic autocomplete options are not displayed if the text is too short
-    When I enter text shorter than the minimum data length into the dynamic Autocomplete box
-    Then a list of options is not displayed
-
-  Scenario: Dynamic autocomplete options are selectable
-    Given I enter text longer than the minimum data length into the dynamic Autocomplete box
-    And a list of matching options is displayed
-    When I select an autocomplete option
-    Then that value is displayed in the autocomplete box
-
-  Scenario: Dynamic autocomplete options are submitted
-    Given I enter text longer than the minimum data length into the dynamic Autocomplete box
-    And a list of matching options is displayed
+  Scenario Outline: Static autocomplete filter option name values are submitted
+    Given I enter "<text>" into the static Autocomplete box which matches an option which has different name and display values
     And I select an autocomplete option
     When I apply the filters
-    Then the selected option is displayed in the URL
-    And the select option is displayed in the Selected Filters section
+    Then the name value of the selected option is displayed in the URL
+    And the display value of the selected option is displayed in the Selected Filters section
+    Examples:
+        |text    |
+        |prb     |
+        |princes |

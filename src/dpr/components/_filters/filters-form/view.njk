@@ -9,6 +9,7 @@
     {% set submitId = args.submitId %}
     {% set resetId = args.resetId %}
     {% set prefix = args.prefix %}
+    {% set defaultQuery = args.defaultQuery %}
 
     <form id="{{ formId }}">
       <div id="query-error-summary" class="query-error-summary query-error-summary--hidden">
@@ -18,20 +19,23 @@
         }) }}
       </div>
 
-      <div class="filter-container">
-        {%- for filter in filters %}
-          {{ dprFilterInput(filter, prefix) }}
-        {%- endfor %}
-      </div>
+      <div class="filter-form-container">
+        <div class="filter-container">
+          {%- for filter in filters %}
+            {{ dprFilterInput(filter, prefix) }}
+          {%- endfor %}
+        </div>
 
-      <div class="filter-actions">
-        {{ dprFiltersActions({
-          submitText: "Apply Filters",
-          submitId: submitId,
-          resetText: 'Reset filters',
-          resetId: resetId,
-          showReset: true
-        }) }}
+        <div class="filter-actions">
+          {{ dprFiltersActions({
+            submitText: "Apply Filters",
+            submitId: submitId,
+            resetText: 'Reset filters',
+            resetId: resetId,
+            showReset: true,
+            defaultQuery: defaultQuery
+          }) }}
+        </div>
       </div>
       
     </form>

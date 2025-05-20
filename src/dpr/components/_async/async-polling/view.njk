@@ -18,6 +18,7 @@
   {% set requestUrl = data.requestUrl %}
   {% set errorMessage = data.errorMessage %}
   {% set executionId = data.executionId %}
+  {% set tableId = data.tableId %}
   {% set csrfToken = data.csrfToken %}
   {% set requestedAt = data.requestedAt %}
   {% set definitionPath = data.definitionPath %}
@@ -27,6 +28,7 @@
     reportId: reportId, 
     id: id,
     executionId: executionId, 
+    tableId: tableId,
     type: type,
     status: status,
     requestedAt: requestedAt,
@@ -58,7 +60,7 @@
       {{ dprRequestDetails(data)}}
 
       {{ govukInsetText({
-        html: "<p>It can take up to 10 minutes to generate a " + type + ".</p> <p>You can close and revisit this page at anytime. Navigate to the homepage to check on its status or your  " + type + ".</p>"
+        html: "<p>It can take up to 10 minutes to generate a " + type + ".</p> <p>You can close and revisit this page at anytime. Navigate to the homepage to check on the status of your  " + type + ".</p>"
       }) }}
 
       {{ govukButton({

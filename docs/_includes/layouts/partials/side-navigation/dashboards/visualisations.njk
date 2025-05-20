@@ -1,0 +1,44 @@
+{%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
+
+{{ mojSideNavigation({
+  classes: 'govuk-!-padding-top-0',
+  sections: [
+      {
+      heading: {
+        text: "Visualisation definitions"
+      },
+      items: [
+        {
+          text: 'Bar chart',
+          href: '/dashboards/visualisations/bar',
+          active: page.filePathStem.indexOf('/dashboards/visualisations/bar') === 0
+        },
+        {
+          text: 'Line chart',
+          href: '/dashboards/visualisations/line',
+          active: page.filePathStem.indexOf('/dashboards/visualisations/line') === 0
+        },
+        {
+          text: 'Doughnut chart',
+          href: '/dashboards/visualisations/doughnut',
+          active: page.filePathStem.indexOf('/dashboards/visualisations/doughnut') === 0
+        },
+        {
+          text: 'List',
+          href: '/dashboards/visualisations/list',
+          active: page.filePathStem.indexOf('/dashboards/visualisations/list') === 0
+        },
+        {
+          text: 'Scorecard',
+          href: '/dashboards/visualisations/scorecard',
+          active: page.filePathStem.indexOf('/dashboards/visualisations/scorecard') === 0
+        },
+        {
+          text: 'Scorecard group',
+          href: '/dashboards/visualisations/scorecard-group',
+          active: page.filePathStem.indexOf('/dashboards/visualisations/scorecard-group') === 0
+        }
+      ]
+    }
+  ]
+}) }}

@@ -1,11 +1,13 @@
 const CatalogueUtils = require('../../package/dpr/components/_catalogue/catalogue/utils').default
 const UserReportsListUtils = require('../../package/dpr/components/user-reports/utils').default
 const createDprServices = require('../../package/dpr/utils/ReportStoreServiceUtils').default
+const bookmarkUtils = require('../../package/dpr/utils/bookmarkUtils').default
 
 // Mock Clients & API responses
 const MockReportingClient = require('../mocks/mockClients/reports/mockReportingClient')
 const MockDashboardClient = require('../mocks/mockClients/dashboards/mock-client')
 const MockUserStoreService = require('../mocks/mockClients/store/mockRedisStore')
+const mockAutomaticBookmarks = require('../mocks/mockClients/store/mockAutomaticBookmarks')
 
 // Middleware
 const setUpDprResources = require('../../package/dpr/middleware/setUpDprResources').default
@@ -34,6 +36,14 @@ const platformRoutes = (app) => {
       routePrefix: 'dpr',
     }),
   )
+
+  // Mock middleware
+  const addMockUserData = async (req, res, next) => {
+    const { uuid, activeCaseLoadId } = res.locals.user
+    await bookmarkUtils.preBookmarkReportsByRoleId(uuid, activeCaseLoadId, services, mockAutomaticBookmarks)
+    next()
+  }
+  app.use(addMockUserData)
 
   // 4. Initialise routes
   DprEmbeddedAsyncReports({

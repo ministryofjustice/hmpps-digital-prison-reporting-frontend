@@ -17,7 +17,7 @@ const preBookmarkReportsByRoleId = async (
   for (let index = 0; index < bookmarks.length; index += 1) {
     const { reportId, variantId: id } = bookmarks[index]
     // eslint-disable-next-line no-await-in-loop
-    await services.bookmarkService.addBookmark(userId, reportId, id, 'report')
+    await services.bookmarkService.addBookmark(userId, reportId, id, 'report', true)
   }
 
   return bookmarks

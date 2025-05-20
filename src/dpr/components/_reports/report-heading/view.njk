@@ -40,7 +40,6 @@
         {% if bookmarked is defined %}
           {% set id = reportData.id %}
           {% set csrfToken = reportData.csrfToken %}
-          {% set bookmarked = reportData.bookmarked %}
           {% set actions = reportData.actions %}
           
           {{ dprBookmarkToggle(reportId, id, csrfToken, bookmarked, 'report', type) }}

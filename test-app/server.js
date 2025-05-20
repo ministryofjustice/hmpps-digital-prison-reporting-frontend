@@ -65,11 +65,14 @@ app.use(bodyParser.json())
 
 // Mock middleware
 const addMockUserData = (req, res, next) => {
+  const uuid = 'userId'
+  const activeCaseLoadId = 'random-caseload-id-1'
+
   res.locals.user = {
     displayName: 'Test User',
     email: 'test@user.com',
-    uuid: 'userId',
-    activeCaseLoadId: 'random-id',
+    uuid,
+    activeCaseLoadId,
     token: 'token',
   }
   next()

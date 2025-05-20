@@ -1,5 +1,22 @@
 Below you can find the changes included in each release.
 
+## v4.4.0
+
+### Security review
+
+- Updated npm packages. Fixed vulnerabilities 
+
+### UI Styling updates
+
+- UI styling more inline with existing styles and patterns:
+  - Updated filters sections to better align with existing filters component
+  - Updated report totals to better align with existing totals component
+  - Moved reset filters button on async filters to be next to filters
+
+### Docs
+
+- More examples of template types. 
+
 ## v4.3.0
 
 - `parent-child-section` report template.

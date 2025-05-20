@@ -149,6 +149,7 @@ const mapBookmarkIdsToDefinition = async (
             type: reportType,
             href,
             loadType,
+            automatic: bookmark.automatic,
           })
         }
       } catch (error) {

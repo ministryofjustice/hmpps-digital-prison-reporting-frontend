@@ -81,7 +81,7 @@ const formatTable = (data: FormattedUserReportData[], type: 'requested' | 'viewe
     rows,
     head: [
       { text: 'Product', classes: 'dpr-req-product-head' },
-      { text: 'Description', classes: 'dpr-req-description-head' },
+      // { text: 'Description', classes: 'dpr-req-description-head' },
       { text: 'Filters', classes: 'dpr-req-filters-head' },
       { text: 'Status', classes: 'dpr-req-status-head' },
       { text: 'Actions', classes: 'dpr-req-actions-head' },
@@ -130,7 +130,7 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
     {
       html: createListItemProduct(reportName, text, reportType, timestamp),
     },
-    { html: ShowMoreUtils.createShowMoreHtml(data.description, 175) },
+    // { html: ShowMoreUtils.createShowMoreHtml(data.description, 175) },
     { html: filtersSummary },
     {
       html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${status}</strong>`,
@@ -152,7 +152,9 @@ const getTotals = (formattedCount: number, maxRows: number) => {
 }
 
 const createSummaryHtml = (data: FormattedUserReportData) => {
-  const summaryHtml = data.summary.map((item) => `<li class="govuk-body-s">${item.name}: ${item.value}</li>`).join('')
+  const summaryHtml = data.summary
+    .map((item) => `<li class="govuk-body-s"><strong>${item.name}</strong>: ${item.value}</li>`)
+    .join('')
   return `<ul class="dpr-card-group__item__filters-list govuk-!-margin-top-0 govuk-!-margin-bottom-0">${summaryHtml}</ul>`
 }
 

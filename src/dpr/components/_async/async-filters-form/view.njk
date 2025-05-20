@@ -73,14 +73,15 @@
         <input type="hidden" name="sections" value="{{ sections | json }}">
       {% endif %}
 
-      {% if filters.length or sortBy.length > 0 %}
-
+      {% if filters.length > 3 %}
         {{ dprFiltersActions({
           submitText: "Request " + type,
           submitId: 'async-request-report-button',
           showReset: false
         }) }}
+      {% endif %}
 
+      {% if filters.length or sortBy.length > 0 %}
         <div class="dpr-filters-container">
 
           {# MAIN FILTERS #}
@@ -130,14 +131,12 @@
         </div>
       {% endif %}
 
-      {% if filters.length > 0 %}
-        {{ dprFiltersActions({
-          submitText: "Request " + type,
-          submitId: 'async-request-report-button',
-          showReset: false
-        }) }}
-      {% endif %}
-      
+      {{ dprFiltersActions({
+        submitText: "Request " + type,
+        submitId: 'async-request-report-button',
+        showReset: false
+      }) }}
+    
     </form>
   </div>
 {% endmacro %}

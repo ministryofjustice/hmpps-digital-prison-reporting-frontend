@@ -17,10 +17,10 @@ export default class BookmarkService extends ReportStoreService {
     return userConfig.bookmarks
   }
 
-  async addBookmark(userId: string, reportId: string, id: string, type: ReportType) {
+  async addBookmark(userId: string, reportId: string, id: string, type: ReportType, automatic?: boolean) {
     const userConfig = await this.getState(userId)
     if (!this.isBookmarkedCheck(userConfig, id)) {
-      userConfig.bookmarks.unshift({ reportId, id, type })
+      userConfig.bookmarks.unshift({ reportId, id, type, automatic })
     }
     await this.saveState(userId, userConfig)
   }
@@ -38,13 +38,30 @@ export default class BookmarkService extends ReportStoreService {
 
   isBookmarked = async (id: string, userId: string) => {
     const userConfig = await this.getState(userId)
-    return this.isBookmarkedCheck(userConfig, id)
+    const isBookmarked = this.isBookmarkedCheck(userConfig, id)
+    let bookmark
+    if (isBookmarked) {
+      bookmark = this.getBookmark(userConfig, id)
+    }
+    return bookmark?.automatic ? undefined : isBookmarked
   }
 
   isBookmarkedCheck = (userConfig: ReportStoreConfig, id: string) => {
     return userConfig.bookmarks.some((bookmark) => {
       return bookmark.variantId === id || bookmark.id === id
     })
+  }
+
+  getBookmark = (userConfig: ReportStoreConfig, id: string) => {
+    return userConfig.bookmarks.find((b) => {
+      return b.variantId === id || b.id === id
+    })
+  }
+
+  isAutomatic = async (userId: string, id: string) => {
+    const userConfig = await this.getState(userId)
+    const bookmark = this.getBookmark(userConfig, id)
+    return bookmark?.automatic
   }
 
   async createBookMarkToggleHtml({
@@ -64,9 +81,18 @@ export default class BookmarkService extends ReportStoreService {
   }) {
     const userConfig = await this.getState(userId)
     const checked = this.isBookmarkedCheck(userConfig, id) ? 'checked' : null
-    const tooltip = !checked ? 'Add bookmark' : 'Remove bookmark'
 
-    return `<div class='dpr-bookmark dpr-bookmark-table' data-dpr-module="bookmark-toggle">
+    let tooltip = 'Add bookmark'
+    let automatic = false
+    if (checked) {
+      tooltip = 'Remove bookmark'
+      const bookmark = this.getBookmark(userConfig, id)
+      automatic = bookmark.automatic
+    }
+
+    return automatic
+      ? ''
+      : `<div class='dpr-bookmark dpr-bookmark-table' data-dpr-module="bookmark-toggle">
   <input class="bookmark-input" aria-label="bookmark toggle" type='checkbox' id='${reportId}-${id}-${ctxId}' data-report-id='${reportId}' data-id='${id}' data-report-type='${reportType}' data-csrf-token='${csrfToken}' ${checked} />
   <label id="${id}-${reportId}-${ctxId}-bookmark-label" for='${reportId}-${id}-${ctxId}'><span class="dpr-bookmark-label govuk-body-s">${tooltip}</span></label>
 </div>`

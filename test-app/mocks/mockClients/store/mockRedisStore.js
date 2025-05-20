@@ -27,8 +27,8 @@ const startData = {
     mockViewedV2.expiredDashboard,
   ],
   bookmarks: [
-    // { reportId: 'test-report-3', variantId: 'variantId-1' },
-    // { reportId: 'test-report-1', id: 'test-dashboard-8', type: 'dashboard' },
+    { reportId: 'test-report-3', variantId: 'variantId-1' },
+    { reportId: 'test-report-1', id: 'test-dashboard-8', type: 'dashboard' },
   ],
   downloads: [],
 }

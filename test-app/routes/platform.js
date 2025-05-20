@@ -38,12 +38,12 @@ const platformRoutes = (app) => {
   )
 
   // Mock middleware
-  const addMockUserData = async (req, res, next) => {
-    const { uuid, activeCaseLoadId } = res.locals.user
-    await bookmarkUtils.preBookmarkReportsByRoleId(uuid, activeCaseLoadId, services, mockAutomaticBookmarks)
-    next()
-  }
-  app.use(addMockUserData)
+  // const addBookmarksByCaseload = async (req, res, next) => {
+  //   const { uuid, activeCaseLoadId } = res.locals.user
+  //   await bookmarkUtils.preBookmarkReportsByRoleId(uuid, activeCaseLoadId, services, mockAutomaticBookmarks)
+  //   next()
+  // }
+  // app.use(addBookmarksByCaseload)
 
   // 4. Initialise routes
   DprEmbeddedAsyncReports({

@@ -14,7 +14,16 @@ ul.dpr-card-group__item__filters-list {
   margin-top: 0px;
 
   li {
+    float: left;
     margin-bottom: 0;
+    padding: govuk-spacing(1);
+    margin-bottom: govuk-spacing(1);
+    margin-right: govuk-spacing(1);
+    background-color: govuk-colour('light-grey');
+  }
+
+  li:last-child {
+    margin-bottom: govuk-spacing(0);    
   }
 }
  

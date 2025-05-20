@@ -9,6 +9,7 @@ export interface BookmarkedReportData {
   href: string
   type: ReportType
   loadType: LoadType
+  automatic?: boolean
 }
 
 export interface BookmarkStoreData {
@@ -16,4 +17,5 @@ export interface BookmarkStoreData {
   variantId?: string
   id?: string
   type?: ReportType
+  automatic?: boolean
 }

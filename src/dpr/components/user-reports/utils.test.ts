@@ -170,7 +170,7 @@ describe('AsyncRequestListUtils', () => {
         })
 
         expect(result.tableData.rows.length).toEqual(7)
-        expect(result.tableData.head.length).toEqual(5)
+        expect(result.tableData.head.length).toEqual(4)
         expect(result.meta.length).toEqual(7)
 
         const v1Ready = result.tableData.rows[0]
@@ -211,7 +211,7 @@ describe('AsyncRequestListUtils', () => {
         })
 
         expect(result.tableData.rows.length).toEqual(7)
-        expect(result.tableData.head.length).toEqual(5)
+        expect(result.tableData.head.length).toEqual(4)
         expect(result.meta.length).toEqual(7)
 
         const v2Ready = result.tableData.rows[4]
@@ -254,7 +254,7 @@ describe('AsyncRequestListUtils', () => {
         })
 
         expect(result.tableData.rows.length).toEqual(2)
-        expect(result.tableData.head.length).toEqual(5)
+        expect(result.tableData.head.length).toEqual(4)
         expect(result.meta.length).toEqual(2)
 
         const v1Ready = result.tableData.rows[0]

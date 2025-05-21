@@ -210,14 +210,14 @@ Import the async routes in to your `routes` file which will give you access to t
 This setup is commonly done in the `server/routes/index.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/routes/index.ts" target="_blank">HMPPS template</a>
 
 ```js
-import DprEmbeddedAsyncReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/DprEmbeddedReports'
+import DprReportRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/DprEmbeddedReports'
 import config from '../config'
 
 export default function routes(services: Services): Router {
   
   ...
 
-  DprEmbeddedAsyncReports({
+  DprReportRoutes({
     router,
     services,
     layoutPath: 'path/to/layout.njk',
@@ -242,7 +242,7 @@ import createDprServices from '@ministryofjustice/hmpps-digital-prison-reporting
 // middleware
 import setUpDprResources from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/setUpDprResources'
 // Routes
-import DprAsyncReportsRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/asyncReports'
+import DprReportRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/DprEmbeddedReports'
 
 import { createRedisClient } from './redisClient'
 import config from '../config'
@@ -259,7 +259,7 @@ const services = {
 app.use(setUpDprResources(services, config.dpr))
 
 // 4. Initialise routes
-DprAsyncReportsRoutes({
+DprReportRoutes({
   router: app,
   services,
   layoutPath: 'path/to/layout.njk',

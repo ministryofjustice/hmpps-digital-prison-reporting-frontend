@@ -9,9 +9,9 @@ const preBookmarkReportsByRoleId = async (
   userId: string,
   activeCaseLoadId: string,
   services: Services,
-  bookmarksByCaseload: BookmarksByCaseload,
+  bookmarksByCaseload: BookmarksByCaseload = {},
 ) => {
-  const bookmarks: BookmarkStoreData[] = bookmarksByCaseload[activeCaseLoadId]
+  const bookmarks: BookmarkStoreData[] = bookmarksByCaseload[activeCaseLoadId] || []
 
   // Add new automatic bookmarks
   for (let index = 0; index < bookmarks.length; index += 1) {

@@ -121,5 +121,12 @@ describe('bookmarkUtils', () => {
       expect(bms[1].reportId).toEqual('reportId 8')
       expect(bms[2].reportId).toEqual('reportId 9')
     })
+
+    it('should not run when no config is provided', async () => {
+      const bms = await BookmarkUtils.preBookmarkReportsByRoleId('userId', 'activeCaseLoadId-four', services)
+
+      expect(services.bookmarkService.addBookmark).toHaveBeenCalledTimes(0)
+      expect(bms).toHaveLength(0)
+    })
   })
 })

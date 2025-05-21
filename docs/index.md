@@ -12,7 +12,7 @@ It uses and extends the following libraries:
 
 ## Using the Component Library 
 
-For a guide on how to integrate the component library into your project, see the [How to guide](/get-started/integrating-the-library)
+For a guide on how to integrate the component library into your project, see the [How to guide](/integration-guides/integrating-the-library)
 
 ## Contributing to the Pattern Library
 

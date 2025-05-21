@@ -22,8 +22,10 @@ When the installation finishes, the DPR package will be in your node_modules fol
 Alternatively you can add the library to your `package.json` within the `dependencies` section and run `npm install`:
 
 ```javascript
-"@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^4.1.23",
+"@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^4.4.1",
 ```
+
+see the libraries [npm listing](https://www.npmjs.com/package/@ministryofjustice/hmpps-digital-prison-reporting-frontend?activeTab=versions) and [changelog](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend/blob/main/CHANGELOG.md) for the latest version updates. 
 
 ### Required dependecies
 

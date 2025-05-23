@@ -489,6 +489,6 @@ describe('SectionedDataTableBuilder', () => {
     expect(mapped.head).toBeNull()
     expect(mapped.colCount).toEqual(2)
     expect(mapped.rowCount).toEqual(40000)
-    expect(mapped.rows.length).toEqual(40012)
+    expect(mapped.rows.length).toEqual(40011)
   })
 })

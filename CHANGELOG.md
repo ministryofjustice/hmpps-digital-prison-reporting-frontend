@@ -2,6 +2,11 @@ Below you can find the changes included in each release.
 
 ## v4.4.1
 
+- Design tweaks
+- Catalogue listing totals
+
+## v4.4.1
+
 - bugfix: automatic bookmarking doesn't fall over when no config is provided
 
 ## v4.4.0

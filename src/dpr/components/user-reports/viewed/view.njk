@@ -2,6 +2,6 @@
 
 {% macro dprRecentlyViewedList(args) %}
   <div id="dpr-recently-viewed-component" data-dpr-module="recently-viewed-list" data-request-data='{{ args.meta | dump | safe }}' data-csrf-token="{{ args.csrfToken }}">
-    {{ dprUserReportsList(args, 'viewed') }}
+    {{ dprUserReportsList(args, 'viewed', 'Recently viewed reports') }}
   </div>
 {% endmacro %}

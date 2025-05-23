@@ -89,9 +89,10 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
       })
     })
 
-    const rows = sectionedParentChildSectionedRows.flatMap((section) => {
+    const rows = sectionedParentChildSectionedRows.flatMap((section, index) => {
       const sectionHeader = this.createSectionHeader(
         section.sectionDescription,
+        index,
         section.count,
         section.countDescription,
       )

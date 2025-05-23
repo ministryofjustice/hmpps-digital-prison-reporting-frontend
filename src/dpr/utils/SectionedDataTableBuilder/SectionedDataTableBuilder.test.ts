@@ -171,13 +171,6 @@ const sectionHeaders = [
   [
     [
       {
-        classes: 'dpr-section-header-spacer',
-        colspan: 2,
-        text: '',
-      },
-    ],
-    [
-      {
         classes: 'dpr-section-header',
         colspan: 2,
         html: '<h2 class="govuk-heading-m">Section One: A, Section Two: 02/01/03 <span class=\'govuk-caption-m\'>1 result</span></h2>',
@@ -489,6 +482,6 @@ describe('SectionedDataTableBuilder', () => {
     expect(mapped.head).toBeNull()
     expect(mapped.colCount).toEqual(2)
     expect(mapped.rowCount).toEqual(40000)
-    expect(mapped.rows.length).toEqual(40012)
+    expect(mapped.rows.length).toEqual(40011)
   })
 })

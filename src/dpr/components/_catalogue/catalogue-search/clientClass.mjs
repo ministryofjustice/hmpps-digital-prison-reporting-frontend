@@ -10,6 +10,11 @@ export default class DprCatalogueSearch extends DprClientClass {
   initialise() {
     this.searchBox = this.getElement().querySelector('.dpr-search-box')
     this.shwoUnauthorisedCheckbox = this.getElement().querySelector('#show-unauthorised')
+    this.totalShown = this.getElement().querySelector('#total-shown')
+    this.totalAmount = this.getElement().querySelector('#total-amount')
+    this.table = this.getElement().querySelector('table').querySelector('tbody')
+    this.totalRows = Array.from(this.table.rows).length
+    this.shownRows = this.totalRows
 
     if (this.searchBox) {
       this.initSeachBoxEvents()
@@ -57,6 +62,12 @@ export default class DprCatalogueSearch extends DprClientClass {
 
     this.updateSearchListing(rows, searchValue)
     this.toggleUnauthorisedRows(rows)
+    this.updateTotals(rows)
+  }
+
+  updateTotals() {
+    this.totalShown.innerText = this.shownRows
+    this.totalAmount.innerText = this.totalRows
   }
 
   toggleUnauthorisedRows(rows) {
@@ -77,6 +88,7 @@ export default class DprCatalogueSearch extends DprClientClass {
   }
 
   updateSearchListing(rows, value) {
+    let shown = 0
     rows
       .filter((row) => {
         return (
@@ -90,7 +102,10 @@ export default class DprCatalogueSearch extends DprClientClass {
       })
       .forEach((row) => {
         row.classList.remove('search-option-hide')
+        shown += 1
       })
+
+    this.shownRows = shown
   }
 
   // eslint-disable-next-line

@@ -267,13 +267,6 @@ describe('AsyncReportListUtils', () => {
         rows: [
           [
             {
-              classes: 'dpr-section-header-spacer',
-              colspan: 1,
-              text: '',
-            },
-          ],
-          [
-            {
               classes: 'dpr-section-header',
               colspan: 1,
               html: '<h2 class="govuk-heading-m">First: One, Second: A <span class=\'govuk-caption-m\'>1 result</span></h2>',

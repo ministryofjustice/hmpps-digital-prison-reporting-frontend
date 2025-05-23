@@ -159,7 +159,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
    * @memberof SectionedDataTableBuilder
    */
   private createTableContent(sectionDescriptions: string[], sectionedData: Dict<Cell[][]>, header: Cell[]) {
-    return sectionDescriptions.flatMap((sectionDescription) => {
+    return sectionDescriptions.flatMap((sectionDescription, index) => {
       const { count, countDescription } = this.getSectionCount(sectionedData, sectionDescription)
       const mappedTableData = sectionedData[sectionDescription]
 
@@ -170,38 +170,40 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
         tableContent = tableContent.concat(mappedTableData.length > 0 ? [header] : []).concat(mappedTableData)
       }
 
-      const sectionHeader = this.createSectionHeader(sectionDescription, count, countDescription)
+      const sectionHeader = this.createSectionHeader(sectionDescription, index, count, countDescription)
 
       return [...sectionHeader, ...tableContent]
     })
   }
 
-  createSectionHeader(sectionDescription: string, count?: number, countDescription?: string) {
-    return [
-      [
+  createSectionHeader(sectionDescription: string, index: number, count?: number, countDescription?: string) {
+    const header = []
+    if (index !== 0) {
+      header.push([
         {
           classes: 'dpr-section-header-spacer',
           colspan: this.columns.length,
           text: '',
         },
-      ],
-      [
-        {
-          classes: 'dpr-section-header',
-          colspan: this.columns.length,
-          html: `<h2 class="govuk-heading-m">${sectionDescription}${
-            count > 0 ? ` <span class='govuk-caption-m'>${countDescription}</span>` : ''
-          }</h2>`,
-        },
-      ],
-      [
-        {
-          classes: 'dpr-section-header-spacer-bottom',
-          colspan: this.columns.length,
-          text: '',
-        },
-      ],
-    ]
+      ])
+    }
+    header.push([
+      {
+        classes: 'dpr-section-header',
+        colspan: this.columns.length,
+        html: `<h2 class="govuk-heading-m">${sectionDescription}${
+          count > 0 ? ` <span class='govuk-caption-m'>${countDescription}</span>` : ''
+        }</h2>`,
+      },
+    ])
+    header.push([
+      {
+        classes: 'dpr-section-header-spacer-bottom',
+        colspan: this.columns.length,
+        text: '',
+      },
+    ])
+    return header
   }
 
   private mapSectionSummaryRows(template: SummaryTemplate, sectionDescription: string): Cell[][] {

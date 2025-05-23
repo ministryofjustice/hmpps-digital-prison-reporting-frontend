@@ -8,6 +8,7 @@ import { Columns } from '../report-columns-form/types'
 import { ChildData } from '../../../utils/ParentChildDataTableBuilder/types'
 import ParentChildDataTableBuilder from '../../../utils/ParentChildDataTableBuilder/ParentChildDataTableBuilder'
 import SectionedDataTableBuilder from '../../../utils/SectionedDataTableBuilder/SectionedDataTableBuilder'
+import SectionedFieldsDataTableBuilder from '../../../utils/SectionedFieldsTableBuilder/SectionedFieldsTableBuilder'
 import { DataTable } from '../../../utils/DataTableBuilder/types'
 import type { Template } from '../../../types/Templates'
 
@@ -65,6 +66,15 @@ const buildSummarySectionTable = (
     .buildTable(reportData)
 }
 
+const buildRowSectionedTable = (
+  definition: components['schemas']['SingleVariantReportDefinition'],
+  reportData: Dict<string>[],
+): DataTable => {
+  const { variant } = definition
+  const { specification } = variant
+  return new SectionedFieldsDataTableBuilder(specification).buildTable(reportData)
+}
+
 const createDataTable = (
   definition: components['schemas']['SingleVariantReportDefinition'],
   columns: Columns,
@@ -89,6 +99,11 @@ const createDataTable = (
 
     case 'list': {
       dataTable = buildListTable(definition, columns, reportData, summariesData, reportQuery)
+      break
+    }
+
+    case 'row-section': {
+      dataTable = buildRowSectionedTable(definition, reportData)
       break
     }
 

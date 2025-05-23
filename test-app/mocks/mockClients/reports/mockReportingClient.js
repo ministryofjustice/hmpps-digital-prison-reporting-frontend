@@ -6,7 +6,7 @@ const createMockData = require('./mockAsyncData')
 const mockParentChild = require('./mockVariants/data/parent-child')
 const mockListSection = require('./mockVariants/data/list-section')
 const mockParentChildSection = require('./mockVariants/data/parent-child-section')
-const mockSingleRow = require('./mockVariants/data/single-row')
+const mockSingleRow = require('./mockVariants/data/row-section')
 
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 
@@ -112,7 +112,7 @@ class MockReportingClient {
         // List section
         data = mockParentChildSection.childData()
         break
-      case 'variantId-30-single-row':
+      case 'variantId-30-row-section':
         // Single row template
         data = mockSingleRow
         break

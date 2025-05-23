@@ -262,12 +262,8 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
   }
 
   mapSections(data: Array<Dict<string>>) {
-    // Get the section definition data
-    const sectionFields = this.mapNamesToFields(this.sections)
-    // create the sectionHeadings
-    const sectionDescriptions = this.createSectionHeadings(data, sectionFields)
-    // init empty sections
-    let sectionedData = this.initSectionData(sectionDescriptions)
+    const sectionHeadings = this.initSectionedHeadings(data)
+    let { sectionedData } = sectionHeadings
 
     // Maps data to sections
     if (this.template !== 'summary-section') {
@@ -277,6 +273,20 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
         sectionedData = this.mapRowsToSection(data, sectionedData as Dict<Cell[][]>)
       }
     }
+
+    return {
+      sectionDescriptions: sectionHeadings.sectionDescriptions,
+      sectionedData,
+    }
+  }
+
+  initSectionedHeadings(data: Array<Dict<string>>) {
+    // Get the section definition data
+    const sectionFields = this.mapNamesToFields(this.sections)
+    // create the sectionHeadings
+    const sectionDescriptions = this.createSectionHeadings(data, sectionFields)
+    // init empty sections
+    const sectionedData = this.initSectionData(sectionDescriptions)
 
     return {
       sectionDescriptions,

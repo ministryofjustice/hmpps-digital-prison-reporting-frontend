@@ -6,8 +6,8 @@ const variant29 = {
   classification: 'OFFICIAL',
   printable: true,
   specification: {
-    template: 'single-row',
-    sectionedFields: [
+    template: 'row-section',
+    sections: [
       {
         name: 'section1',
         fields: ['field1', 'field2'],

@@ -388,13 +388,6 @@ describe('ParentChildDataTableBuilder', () => {
     expect(mapped.rows).toEqual([
       [
         {
-          classes: 'dpr-section-header-spacer',
-          colspan: 4,
-          text: '',
-        },
-      ],
-      [
-        {
           classes: 'dpr-section-header',
           colspan: 4,
           html: '<h2 class="govuk-heading-m">Section: one <span class=\'govuk-caption-m\'>2 results</span></h2>',

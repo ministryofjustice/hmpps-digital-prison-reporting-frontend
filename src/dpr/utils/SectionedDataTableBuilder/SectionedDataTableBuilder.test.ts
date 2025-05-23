@@ -171,13 +171,6 @@ const sectionHeaders = [
   [
     [
       {
-        classes: 'dpr-section-header-spacer',
-        colspan: 2,
-        text: '',
-      },
-    ],
-    [
-      {
         classes: 'dpr-section-header',
         colspan: 2,
         html: '<h2 class="govuk-heading-m">Section One: A, Section Two: 02/01/03 <span class=\'govuk-caption-m\'>1 result</span></h2>',

@@ -1,6 +1,6 @@
 Below you can find the changes included in each release.
 
-## v4.4.1
+## v4.4.2
 
 - Design tweaks
 - Catalogue listing totals

@@ -1,6 +1,6 @@
 import Dict = NodeJS.Dict
 import { components } from '../../types/api'
-import { Cell, DataTable, FieldDefinition } from '../DataTableBuilder/types'
+import { Cell, DataTable } from '../DataTableBuilder/types'
 import type { Template } from '../../types/Templates'
 import SectionedDataTableBuilder from '../SectionedDataTableBuilder/SectionedDataTableBuilder'
 

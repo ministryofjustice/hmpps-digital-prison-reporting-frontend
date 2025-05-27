@@ -2,7 +2,7 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% macro dprReportColumns(columns) %}
-  {% if columns.options.length > 0 %}
+  {% if columns and columns.options.length > 0 %}
   <div class="dpr-columns-section-wrapper">
     <div class="dpr-columns-section-heading">
       <p class="govuk-body"><strong>Columns</strong></p>

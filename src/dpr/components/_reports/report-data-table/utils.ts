@@ -8,6 +8,7 @@ import { Columns } from '../report-columns-form/types'
 import { ChildData } from '../../../utils/ParentChildDataTableBuilder/types'
 import ParentChildDataTableBuilder from '../../../utils/ParentChildDataTableBuilder/ParentChildDataTableBuilder'
 import SectionedDataTableBuilder from '../../../utils/SectionedDataTableBuilder/SectionedDataTableBuilder'
+import SectionedFieldsDataTableBuilder from '../../../utils/SectionedFieldsTableBuilder/SectionedFieldsTableBuilder'
 import { DataTable } from '../../../utils/DataTableBuilder/types'
 import type { Template } from '../../../types/Templates'
 
@@ -65,6 +66,23 @@ const buildSummarySectionTable = (
     .buildTable(reportData)
 }
 
+const buildRowSectionedTable = (
+  definition: components['schemas']['SingleVariantReportDefinition'],
+  reportData: Dict<string>[],
+): DataTable[] => {
+  const { variant } = definition
+  const { specification, interactive } = variant
+
+  return reportData.map((rowData) => {
+    return new SectionedFieldsDataTableBuilder(specification)
+      .withHeaderOptions({
+        columns: new Array(2),
+        interactive,
+      })
+      .buildTable([rowData])
+  })
+}
+
 const createDataTable = (
   definition: components['schemas']['SingleVariantReportDefinition'],
   columns: Columns,
@@ -89,6 +107,13 @@ const createDataTable = (
 
     case 'list': {
       dataTable = buildListTable(definition, columns, reportData, summariesData, reportQuery)
+      break
+    }
+
+    case 'row-section': {
+      const dataTables = buildRowSectionedTable(definition, reportData)
+      // eslint-disable-next-line prefer-destructuring
+      dataTable = dataTables[0]
       break
     }
 

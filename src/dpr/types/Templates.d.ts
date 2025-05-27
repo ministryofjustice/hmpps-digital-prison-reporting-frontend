@@ -6,6 +6,7 @@ export type Template =
   | 'summary-section'
   | 'parent-child'
   | 'parent-child-section'
+  | 'row-section'
 
 export type SummaryTemplate =
   | 'table-header'

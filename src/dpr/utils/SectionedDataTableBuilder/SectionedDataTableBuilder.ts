@@ -47,7 +47,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
    * @return {*}
    * @memberof SectionedDataTableBuilder
    */
-  private initSectionData(sectionDescriptions: string[]) {
+  initSectionData(sectionDescriptions: string[]) {
     const sectionedData: Dict<Cell[][]> | Dict<Array<Dict<string>>> = {}
     sectionDescriptions.forEach((sectionDescription) => {
       sectionedData[sectionDescription] = []
@@ -255,7 +255,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
     return []
   }
 
-  private mapSectionDescription(rowData: NodeJS.Dict<string>): string {
+  mapSectionDescription(rowData: NodeJS.Dict<string>): string {
     const { sections } = this
 
     return this.mapNamesToFields(sections)

@@ -265,7 +265,7 @@ const getTemplateData = async (
   }
 
   return {
-    columns,
+    ...(showColums(specification) && { columns }),
     filterData,
     count,
     ...meta,
@@ -276,6 +276,12 @@ const getTemplateData = async (
     ...(totals && { totals }),
     ...(reportSummaries && { reportSummaries }),
   }
+}
+
+const showColums = (specification: components['schemas']['Specification']) => {
+  const { template } = specification
+
+  return !['row-section'].includes(template)
 }
 
 const setMetaData = (definition: components['schemas']['SingleVariantReportDefinition'], res: Response) => {

@@ -69,10 +69,18 @@ const buildSummarySectionTable = (
 const buildRowSectionedTable = (
   definition: components['schemas']['SingleVariantReportDefinition'],
   reportData: Dict<string>[],
-): DataTable => {
+): DataTable[] => {
   const { variant } = definition
-  const { specification } = variant
-  return new SectionedFieldsDataTableBuilder(specification).buildTable(reportData)
+  const { specification, interactive } = variant
+
+  return reportData.map((rowData) => {
+    return new SectionedFieldsDataTableBuilder(specification)
+      .withHeaderOptions({
+        columns: new Array(2),
+        interactive,
+      })
+      .buildTable([rowData])
+  })
 }
 
 const createDataTable = (
@@ -103,7 +111,9 @@ const createDataTable = (
     }
 
     case 'row-section': {
-      dataTable = buildRowSectionedTable(definition, reportData)
+      const dataTables = buildRowSectionedTable(definition, reportData)
+      // eslint-disable-next-line prefer-destructuring
+      dataTable = dataTables[0]
       break
     }
 

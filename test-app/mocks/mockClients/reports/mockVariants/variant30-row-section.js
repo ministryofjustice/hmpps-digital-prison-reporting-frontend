@@ -1,13 +1,13 @@
-const variant29 = {
-  id: 'variantId-29',
-  name: 'Sectioned Summaries template',
-  description: 'A report with summaries in sections, but no list.',
+const variant30 = {
+  id: 'variantId-30-row-section',
+  name: 'Sectioned Rows template',
+  description: 'A report with sectioned rows',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
   specification: {
     template: 'row-section',
-    sections: [
+    sectionedFields: [
       {
         name: 'section1',
         fields: ['field1', 'field2'],
@@ -105,6 +105,46 @@ const variant29 = {
       },
     ],
   },
+  childVariants: [
+    {
+      id: 'variantId-30-row-section-child',
+      name: 'Child Report',
+      resourceName: 'reports/list',
+      joinFields: ['section1'],
+      specification: {
+        template: 'row-section',
+        fields: [
+          {
+            name: 'section1',
+            display: 'First',
+            sortable: false,
+            defaultsort: false,
+            type: 'string',
+            mandatory: false,
+            visible: false,
+          },
+          {
+            name: 'field2',
+            display: 'Field2',
+            sortable: false,
+            defaultsort: false,
+            type: 'string',
+            mandatory: false,
+            visible: true,
+          },
+          {
+            name: 'field3',
+            display: 'Field3',
+            sortable: false,
+            defaultsort: false,
+            type: 'string',
+            mandatory: false,
+            visible: true,
+          },
+        ],
+      },
+    },
+  ],
 }
 
-module.exports = variant29
+module.exports = variant30

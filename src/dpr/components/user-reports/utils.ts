@@ -14,7 +14,6 @@ import {
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { getExpiredStatus } from '../../utils/requestStatusHelper'
 import { itemActionsHtml, createListItemProduct } from '../../utils/reportListsHelper'
-import ShowMoreUtils from '../show-more/utils'
 import { Services } from '../../types/Services'
 import RequestedReportUtils from './requested/utils'
 import RecentlyViewedCardGroupUtils from './viewed/utils'

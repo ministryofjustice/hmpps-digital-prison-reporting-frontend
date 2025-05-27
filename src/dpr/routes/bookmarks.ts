@@ -25,7 +25,8 @@ export default function routes({
 
   router.post('/dpr/removeBookmark/', async (req, res) => {
     const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-    await services.bookmarkService.removeBookmark(userId, req.body.id)
+    const { id, reportId } = req.body
+    await services.bookmarkService.removeBookmark(userId, id, reportId)
     res.end()
   })
 

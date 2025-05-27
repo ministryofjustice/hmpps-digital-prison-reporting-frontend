@@ -335,7 +335,7 @@ const setFeatures = async (
 
   let bookmarked
   if (bookmarkingEnabled) {
-    bookmarked = await services.bookmarkService.isBookmarked(id, userId)
+    bookmarked = await services.bookmarkService.isBookmarked(id, reportId, userId)
   }
 
   const actions = setActions(csrfToken, variant, requestData, columns, canDownload, count, urls.pathname, urls.search)

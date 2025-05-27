@@ -96,44 +96,35 @@ const mapBookmarkIdsToDefinition = async (
   await Promise.all(
     bookmarks.map(async (bookmark) => {
       let definition
-      const reportType: ReportType = bookmark.type ? (bookmark.type as ReportType) : ReportType.REPORT
-      const bookmarkId = bookmark.variantId || bookmark.id
+      const { reportId, variantId, id, automatic, type } = bookmark
+      const bookmarkId = variantId || id
+      const reportType: ReportType = type ? (type as ReportType) : ReportType.REPORT
 
       try {
         let name
         let description
         let reportName
         let loadType = LoadType.ASYNC
-        let href = `/async/${reportType}/${bookmark.reportId}/${bookmarkId}/request`
+        let href = `/async/${reportType}/${reportId}/${bookmarkId}/request`
 
         if (reportType === ReportType.REPORT) {
-          definition = await services.reportingService.getDefinition(
-            token,
-            bookmark.reportId,
-            bookmarkId,
-            definitionsPath,
-          )
+          definition = await services.reportingService.getDefinition(token, reportId, bookmarkId, definitionsPath)
           reportName = definition.name
           name = definition.variant.name
           description = definition.variant.description || definition.description
           loadType = definition.variant.loadType || loadType
-          href = setInitialHref(loadType, reportType, bookmark.reportId, bookmarkId, res)
+          href = setInitialHref(loadType, reportType, reportId, bookmarkId, res)
         }
 
         if (reportType === ReportType.DASHBOARD) {
           const reportDefinition = await DefinitionUtils.getReportSummary(
-            bookmark.reportId,
+            reportId,
             services.reportingService,
             token,
             definitionsPath,
           )
 
-          definition = await services.dashboardService.getDefinition(
-            token,
-            bookmarkId,
-            bookmark.reportId,
-            definitionsPath,
-          )
+          definition = await services.dashboardService.getDefinition(token, bookmarkId, reportId, definitionsPath)
           name = definition.name
           reportName = reportDefinition.name
           description = definition.description
@@ -141,7 +132,7 @@ const mapBookmarkIdsToDefinition = async (
 
         if (definition) {
           bookmarkData.push({
-            reportId: bookmark.reportId,
+            reportId,
             id: bookmarkId,
             reportName,
             name,
@@ -149,14 +140,14 @@ const mapBookmarkIdsToDefinition = async (
             type: reportType,
             href,
             loadType,
-            automatic: bookmark.automatic,
+            automatic,
           })
         }
       } catch (error) {
         // DPD has been deleted so API throws error
-        logger.warn(`Failed to map bookmark for: Report ${bookmark.reportId}, variant ${bookmarkId}`)
+        logger.warn(`Failed to map bookmark for: Report ${reportId}, variant ${bookmarkId}`)
         const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-        await services.bookmarkService.removeBookmark(userId, bookmarkId)
+        await services.bookmarkService.removeBookmark(userId, bookmarkId, reportId)
       }
     }),
   )

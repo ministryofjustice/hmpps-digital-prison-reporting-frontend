@@ -25,6 +25,7 @@ export default class DprCatalogueSearch extends DprClientClass {
     }
 
     this.initInputFromQueryParams()
+    this.updateTotals()
   }
 
   initSeachBoxEvents() {
@@ -62,7 +63,7 @@ export default class DprCatalogueSearch extends DprClientClass {
 
     this.updateSearchListing(rows, searchValue)
     this.toggleUnauthorisedRows(rows)
-    this.updateTotals(rows)
+    this.updateTotals()
   }
 
   updateTotals() {

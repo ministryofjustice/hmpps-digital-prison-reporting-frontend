@@ -136,7 +136,7 @@ describe('BookmarkService', () => {
 
   describe('removeBookmark', () => {
     it('should remove a bookamrk with variantId', async () => {
-      await bookmarkService.removeBookmark('userId', 'variantId')
+      await bookmarkService.removeBookmark('userId', 'variantId', 'reportId')
 
       const userCongfig = {
         bookmarks: [bm2, bm3],
@@ -146,7 +146,7 @@ describe('BookmarkService', () => {
     })
 
     it('should remove a bookmark with id', async () => {
-      await bookmarkService.removeBookmark('userId', 'just-id')
+      await bookmarkService.removeBookmark('userId', 'just-id', 'reportId')
 
       const userCongfig = {
         bookmarks: [bm1, bm3],
@@ -158,12 +158,12 @@ describe('BookmarkService', () => {
 
   describe('isBookmarked', () => {
     it('should confirm an id is bookmarked', async () => {
-      const res = await bookmarkService.isBookmarked('just-id', 'userId')
+      const res = await bookmarkService.isBookmarked('just-id', 'reportId', 'userId')
       expect(res).toBeTruthy()
     })
 
     it('should confirm an id is not bookmarked', async () => {
-      const res = await bookmarkService.isBookmarked('new-id', 'userId')
+      const res = await bookmarkService.isBookmarked('new-id', 'reportId', 'userId')
       expect(res).toBeFalsy()
     })
   })

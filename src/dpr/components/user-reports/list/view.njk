@@ -17,11 +17,11 @@
       <h2 class="govuk-!-margin-top-0 govuk-!-margin-bottom-2">{{ title }}</h2>
 
       {% if not emptyMessage.length and total %}
-        <p class="govuk-body dpr-slide__sub-text govuk-!-margin-bottom-5">Showing <strong>{{ total.shown }}</strong> of <strong>{{ total.amount }}</strong> reports. {% if total.amount > total.max %}. <a class="govuk-body-s" href='{{ href }}'>Show all</a>{% endif %}</p>
+        <p class="govuk-body dpr-slide__sub-text govuk-!-margin-bottom-5">Showing <strong>{{ total.shown }}</strong> of <strong>{{ total.amount }}</strong> reports. {% if total.amount > total.max %} <a class="govuk-body" href='{{ href }}'>Show all</a>{% endif %}</p>
       {% endif %}
     </div>
     {% if emptyMessage.length %}
-      <p><strong>{{emptyMessage}}</strong></p>
+      <p class="govuk-!-margin-top-6"><strong>{{ emptyMessage }}</strong></p>
 
       {% if type === 'bookmark' %}
         <p>Bookmarking allows you curate a shortlist of your most used reports for easy access.</p>

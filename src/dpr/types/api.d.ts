@@ -195,8 +195,14 @@ export interface components {
         | 'summary-section'
         | 'parent-child'
         | 'parent-child-section'
+        | 'row-section'
       fields: components['schemas']['FieldDefinition'][]
       sections: string[]
+      sectionedFields: components['schemas']['SectionedField'][]
+    }
+    SectionedField: {
+      name: string
+      fields: string[]
     }
     SummaryField: {
       name: string

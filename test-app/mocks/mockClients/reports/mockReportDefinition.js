@@ -27,6 +27,7 @@ const variant26 = require('./mockVariants/variant26-parent-child')
 const variant27 = require('./mockVariants/variant27-parent-child-section')
 const variant28 = require('./mockVariants/variant28-summary')
 const variant29 = require('./mockVariants/variant29-summary-section')
+const variant30 = require('./mockVariants/variant30-row-section')
 const dashboardDefinition = require('../dashboards/dashboard-definitions')
 
 module.exports = {
@@ -64,6 +65,7 @@ module.exports = {
       variant27,
       variant28,
       variant29,
+      variant30,
     ],
     dashboards: dashboardDefinition,
   },
@@ -71,7 +73,7 @@ module.exports = {
     {
       id: 'test-report-3',
       name: 'C Test Report',
-      variants: [variant1, variant2, variant3, variant4, variant24, variant28, variant29],
+      variants: [variant1, variant2, variant3, variant4, variant24, variant28, variant29, variant30],
       dashboards: [dashboardDefinition[0]],
     },
     {

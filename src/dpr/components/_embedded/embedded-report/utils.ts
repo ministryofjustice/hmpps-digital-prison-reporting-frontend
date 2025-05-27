@@ -86,7 +86,7 @@ const initAdditionalFeatures = async (
   const bookmarkFeatureEnabled = features?.list?.includes(EmbeddedReportFeaturesList.bookmark)
   if (bookmarkFeatureEnabled) {
     removeBookmark = !bookmarkFeatureEnabled
-    bookmarked = await services.bookmarkService.isBookmarked(id, userId)
+    bookmarked = await services.bookmarkService.isBookmarked(id, reportId, userId)
   }
 
   return {

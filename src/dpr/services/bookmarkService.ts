@@ -19,16 +19,17 @@ export default class BookmarkService extends ReportStoreService {
 
   async addBookmark(userId: string, reportId: string, id: string, type: ReportType, automatic?: boolean) {
     const userConfig = await this.getState(userId)
-    if (!this.isBookmarkedCheck(userConfig, id)) {
+    if (!this.isBookmarkedCheck(userConfig, id, reportId)) {
       userConfig.bookmarks.unshift({ reportId, id, type, automatic })
     }
     await this.saveState(userId, userConfig)
   }
 
-  async removeBookmark(userId: string, id: string) {
+  async removeBookmark(userId: string, id: string, reportId: string) {
     const userConfig = await this.getState(userId)
     const index = userConfig.bookmarks.findIndex((bookmark) => {
-      return bookmark.variantId === id || bookmark.id === id
+      const bmVarId = bookmark.variantId || bookmark.id
+      return bmVarId === id && bookmark.reportId === reportId
     })
     if (index >= 0) {
       userConfig.bookmarks.splice(index, 1)
@@ -36,31 +37,33 @@ export default class BookmarkService extends ReportStoreService {
     await this.saveState(userId, userConfig)
   }
 
-  isBookmarked = async (id: string, userId: string) => {
+  isBookmarked = async (id: string, reportId: string, userId: string) => {
     const userConfig = await this.getState(userId)
-    const isBookmarked = this.isBookmarkedCheck(userConfig, id)
+    const isBookmarked = this.isBookmarkedCheck(userConfig, id, reportId)
     let bookmark
     if (isBookmarked) {
-      bookmark = this.getBookmark(userConfig, id)
+      bookmark = this.getBookmark(userConfig, id, reportId)
     }
     return bookmark?.automatic ? undefined : isBookmarked
   }
 
-  isBookmarkedCheck = (userConfig: ReportStoreConfig, id: string) => {
+  isBookmarkedCheck = (userConfig: ReportStoreConfig, id: string, reportId: string) => {
     return userConfig.bookmarks.some((bookmark) => {
-      return bookmark.variantId === id || bookmark.id === id
+      const bmVarId = bookmark.variantId || bookmark.id
+      return bmVarId === id && bookmark.reportId === reportId
     })
   }
 
-  getBookmark = (userConfig: ReportStoreConfig, id: string) => {
-    return userConfig.bookmarks.find((b) => {
-      return b.variantId === id || b.id === id
+  getBookmark = (userConfig: ReportStoreConfig, id: string, reportId: string) => {
+    return userConfig.bookmarks.find((bookmark) => {
+      const bmVarId = bookmark.variantId || bookmark.id
+      return bmVarId === id && bookmark.reportId === reportId
     })
   }
 
-  isAutomatic = async (userId: string, id: string) => {
+  isAutomatic = async (userId: string, id: string, reportId: string) => {
     const userConfig = await this.getState(userId)
-    const bookmark = this.getBookmark(userConfig, id)
+    const bookmark = this.getBookmark(userConfig, id, reportId)
     return bookmark?.automatic
   }
 
@@ -80,13 +83,13 @@ export default class BookmarkService extends ReportStoreService {
     reportType: ReportType
   }) {
     const userConfig = await this.getState(userId)
-    const checked = this.isBookmarkedCheck(userConfig, id) ? 'checked' : null
+    const checked = this.isBookmarkedCheck(userConfig, id, reportId) ? 'checked' : null
 
     let tooltip = 'Add bookmark'
     let automatic = false
     if (checked) {
       tooltip = 'Remove bookmark'
-      const bookmark = this.getBookmark(userConfig, id)
+      const bookmark = this.getBookmark(userConfig, id, reportId)
       automatic = bookmark.automatic
     }
 

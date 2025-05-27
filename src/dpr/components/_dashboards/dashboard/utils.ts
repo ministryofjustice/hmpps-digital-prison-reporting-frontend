@@ -214,7 +214,7 @@ export default {
         name: dashboardDefinition.name,
         description: dashboardDefinition.description,
         reportName: reportDefinition.name,
-        bookmarked: await services.bookmarkService.isBookmarked(id, userId),
+        bookmarked: await services.bookmarkService.isBookmarked(id, reportId, userId),
         csrfToken,
         sections,
         filters,

@@ -265,7 +265,7 @@ const getTemplateData = async (
   }
 
   return {
-    ...(showColums(specification) && { columns }),
+    ...(showColumns(specification) && { columns }),
     filterData,
     count,
     ...meta,
@@ -278,7 +278,7 @@ const getTemplateData = async (
   }
 }
 
-const showColums = (specification: components['schemas']['Specification']) => {
+const showColumns = (specification: components['schemas']['Specification']) => {
   const { template } = specification
 
   return !['row-section'].includes(template)

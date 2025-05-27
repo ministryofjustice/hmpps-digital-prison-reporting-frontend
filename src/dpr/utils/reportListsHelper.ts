@@ -24,8 +24,8 @@ export const createListItemProduct = (productName: string, reportName: string, t
   const tagColor = getTypeTagColor(type)
   const reportType = toSentenceCase(type)
   return `<div>
-  <p class="govuk-body-s govuk-!-margin-bottom-1">${productName}</p>
-  <p class="govuk-body govuk-!-margin-bottom-2"><strong>${reportName}</strong></p>
+  <p class="govuk-body govuk-!-margin-bottom-1"><strong>${reportName}</strong></p>
+  <p class="govuk-body-s govuk-!-margin-bottom-3">${productName}</p>
   <strong class="govuk-tag ${tagColor} dpr-request-status-tag--small govuk-!-margin-bottom-4'">${reportType}</strong>
   <p class="govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-3 ${tsClass}">${ts}</p>
 </div>`

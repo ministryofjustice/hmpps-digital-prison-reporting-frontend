@@ -1,5 +1,10 @@
 Below you can find the changes included in each release.
 
+## v4.4.5
+
+- Bookmarking bugfix: Use variant ID + report ID to create unique bookmark key
+- Various style updates.
+
 ## v4.4.2
 
 - Design tweaks

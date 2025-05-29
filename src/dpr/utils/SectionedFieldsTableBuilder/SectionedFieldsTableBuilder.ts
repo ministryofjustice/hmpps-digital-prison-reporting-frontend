@@ -2,16 +2,16 @@ import Dict = NodeJS.Dict
 import { components } from '../../types/api'
 import { Cell, DataTable } from '../DataTableBuilder/types'
 import type { Template } from '../../types/Templates'
-import SectionedDataTableBuilder from '../SectionedDataTableBuilder/SectionedDataTableBuilder'
+import ParentChildDataTableBuilder from '../ParentChildDataTableBuilder/ParentChildDataTableBuilder'
 
-export default class SectionedFieldsDataTableBuilder extends SectionedDataTableBuilder {
+export default class SectionedFieldsDataTableBuilder extends ParentChildDataTableBuilder {
   sectionedFields: components['schemas']['SectionedField'][]
 
   template: Template
 
-  constructor(specification: components['schemas']['Specification']) {
-    const { sectionedFields, template } = specification
-    super(specification)
+  constructor(variant: components['schemas']['VariantDefinition']) {
+    const { sectionedFields, template } = variant.specification
+    super(variant)
 
     this.sectionedFields = sectionedFields
     this.sections = this.sectionedFields.map((f) => f.name)

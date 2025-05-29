@@ -149,6 +149,7 @@ export default class ReportQuery implements FilteredListRequest {
     switch (template) {
       case 'list-section':
       case 'summary-section':
+      case 'row-section-child':
       case 'parent-child':
         return maxResultsSize
 

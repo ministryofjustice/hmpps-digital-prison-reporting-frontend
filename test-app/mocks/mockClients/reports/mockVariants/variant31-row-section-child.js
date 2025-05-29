@@ -1,7 +1,7 @@
 const variant31 = {
   id: 'variantId-31',
-  name: 'Sectioned Rows template',
-  description: 'A report with sectioned rows',
+  name: 'Sectioned Rows + child template',
+  description: 'A report with sectioned rows and child report',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

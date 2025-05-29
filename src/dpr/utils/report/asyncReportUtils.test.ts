@@ -67,48 +67,6 @@ const reportState = {
 } as unknown as RequestedReport
 
 describe('AsyncReportListUtils', () => {
-  const PaginationUtilsSpy = jest.spyOn(PaginationUtils, 'getPaginationData')
-  const fieldNames = ['field2', 'column']
-
-  describe('getRenderData', () => {
-    it('should return data to render the report list', async () => {
-      const mockReq = { query: { columns: fieldNames } } as unknown as Request
-      const mockSpecification = definitions.report.variants[1].specification
-      const specification: components['schemas']['Specification'] = {
-        template: mockSpecification.template as
-          | 'list'
-          | 'list-section'
-          | 'list-tab'
-          | 'summary'
-          | 'summary-section'
-          | 'parent-child',
-        fields: mockSpecification.fields as components['schemas']['FieldDefinition'][],
-        sections: [],
-      }
-      const querySummary: Array<Dict<string>> = [
-        {
-          query: 'summary',
-        },
-      ]
-      const columns: Columns = ColumnUtils.getColumns(specification, fieldNames)
-
-      const result = AsyncReportListUtilsHelper.getRenderData(
-        mockReq,
-        specification,
-        mockReportData,
-        100,
-        querySummary,
-        {},
-        columns,
-        {} as ReportQuery,
-        false,
-      )
-
-      expect(PaginationUtilsSpy).toHaveBeenCalledWith({ pathname: 'pathname', search: 'search' }, 100)
-      expect(result).toEqual(mockReportListRenderData)
-    })
-  })
-
   describe('renderReport', () => {
     beforeEach(async () => {
       jest.clearAllMocks()

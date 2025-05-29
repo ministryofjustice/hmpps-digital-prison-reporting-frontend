@@ -12,17 +12,14 @@ const childData = () => {
     {
       childField1: 'Value 1.1',
       childField2: 'Value 1.2',
-      joinField: 'joinField',
     },
     {
       childField1: 'Value 2.1',
       childField2: 'Value 2.2',
-      joinField: 'joinField',
     },
     {
       childField1: 'Value 3.1',
       childField2: 'Value 3.2',
-      joinField: 'joinField',
     },
   ]
 }

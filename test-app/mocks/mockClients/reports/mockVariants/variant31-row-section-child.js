@@ -14,7 +14,7 @@ const variant31 = {
       },
       {
         name: 'section2',
-        child: 'variantId-31-row-section-child',
+        child: 'variantId-31-child',
       },
     ],
     fields: [
@@ -35,15 +35,6 @@ const variant31 = {
         type: 'string',
         mandatory: false,
         visible: true,
-      },
-      {
-        name: 'joinField',
-        display: '',
-        sortable: false,
-        defaultsort: false,
-        type: 'string',
-        mandatory: false,
-        visible: false,
       },
       {
         name: 'section1',
@@ -70,7 +61,6 @@ const variant31 = {
       id: 'variantId-31-child',
       name: 'Child Report',
       resourceName: 'reports/list',
-      joinFields: ['section1'],
       specification: {
         template: 'row-section-child',
         fields: [
@@ -91,15 +81,6 @@ const variant31 = {
             type: 'string',
             mandatory: false,
             visible: true,
-          },
-          {
-            name: 'joinField',
-            display: '',
-            sortable: false,
-            defaultsort: false,
-            type: 'string',
-            mandatory: false,
-            visible: false,
           },
         ],
       },

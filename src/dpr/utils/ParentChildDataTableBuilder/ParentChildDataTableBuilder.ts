@@ -8,9 +8,9 @@ import logger from '../logger'
 import SectionedDataTableBuilder from '../SectionedDataTableBuilder/SectionedDataTableBuilder'
 
 export default class ParentChildDataTableBuilder extends SectionedDataTableBuilder {
-  private variant: components['schemas']['VariantDefinition']
+  variant: components['schemas']['VariantDefinition']
 
-  private childData: Array<ChildData> = []
+  childData: Array<ChildData> = []
 
   constructor(variant: components['schemas']['VariantDefinition']) {
     const { specification } = variant
@@ -206,6 +206,7 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
 
   withChildData(childData: Array<ChildData>) {
     this.childData = childData
+    console.log(JSON.stringify({ childData: this.childData }, null, 2))
     return this
   }
 

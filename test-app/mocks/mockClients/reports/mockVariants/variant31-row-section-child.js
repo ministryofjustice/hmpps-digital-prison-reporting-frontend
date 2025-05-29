@@ -1,12 +1,12 @@
-const variant30 = {
-  id: 'variantId-30-row-section',
+const variant31 = {
+  id: 'variantId-31',
   name: 'Sectioned Rows template',
   description: 'A report with sectioned rows',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
   specification: {
-    template: 'row-section',
+    template: 'row-section-child',
     sectionedFields: [
       {
         name: 'section1',
@@ -14,11 +14,7 @@ const variant30 = {
       },
       {
         name: 'section2',
-        fields: ['field3', 'field4'],
-      },
-      {
-        name: 'section3',
-        fields: ['field5', 'field6'],
+        child: 'variantId-31-row-section-child',
       },
     ],
     fields: [
@@ -41,40 +37,13 @@ const variant30 = {
         visible: true,
       },
       {
-        name: 'field3',
-        display: 'Field Three',
+        name: 'joinField',
+        display: '',
         sortable: false,
         defaultsort: false,
         type: 'string',
         mandatory: false,
-        visible: true,
-      },
-      {
-        name: 'field4',
-        display: 'Field Four',
-        sortable: false,
-        defaultsort: false,
-        type: 'string',
-        mandatory: false,
-        visible: true,
-      },
-      {
-        name: 'field5',
-        display: 'Field Five',
-        sortable: false,
-        defaultsort: false,
-        type: 'string',
-        mandatory: false,
-        visible: true,
-      },
-      {
-        name: 'field6',
-        display: 'Field Six',
-        sortable: false,
-        defaultsort: false,
-        type: 'string',
-        mandatory: false,
-        visible: true,
+        visible: false,
       },
       {
         name: 'section1',
@@ -94,17 +63,48 @@ const variant30 = {
         mandatory: false,
         visible: true,
       },
-      {
-        name: 'section3',
-        display: 'Section 3 title',
-        sortable: false,
-        defaultsort: false,
-        type: 'string',
-        mandatory: false,
-        visible: true,
-      },
     ],
   },
+  childVariants: [
+    {
+      id: 'variantId-31-child',
+      name: 'Child Report',
+      resourceName: 'reports/list',
+      joinFields: ['section1'],
+      specification: {
+        template: 'row-section-child',
+        fields: [
+          {
+            name: 'childField1',
+            display: 'First',
+            sortable: false,
+            defaultsort: false,
+            type: 'string',
+            mandatory: false,
+            visible: true,
+          },
+          {
+            name: 'childField2',
+            display: 'Field2',
+            sortable: false,
+            defaultsort: false,
+            type: 'string',
+            mandatory: false,
+            visible: true,
+          },
+          {
+            name: 'joinField',
+            display: '',
+            sortable: false,
+            defaultsort: false,
+            type: 'string',
+            mandatory: false,
+            visible: false,
+          },
+        ],
+      },
+    },
+  ],
 }
 
-module.exports = variant30
+module.exports = variant31

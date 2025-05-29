@@ -32,12 +32,14 @@ export default class SectionedFieldsDataTableBuilder extends ParentChildDataTabl
         .map((section) => {
           return {
             header: section.header.display,
-            fields: section.fields.map((f) => {
-              return {
-                heading: f.display,
-                data: row[f.name],
-              }
-            }),
+            fields: section.fields
+              .filter((f) => f.visible)
+              .map((f) => {
+                return {
+                  heading: f.display,
+                  data: row[f.name],
+                }
+              }),
           }
         })
     })

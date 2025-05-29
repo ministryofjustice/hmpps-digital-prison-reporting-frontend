@@ -26,6 +26,7 @@ export interface FieldDefinition {
   sortable?: boolean
   header?: boolean
   mergeRows?: boolean
+  visible?: boolean
 }
 
 export interface SortKey extends Dict<string> {

@@ -18,6 +18,7 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
     this.requestData = this.statusSection.getAttribute('data-request-data')
     this.currentStatus = this.statusSection.getAttribute('data-current-status')
     this.csrfToken = this.statusSection.getAttribute('data-csrf-token')
+    this.reportUrl = this.statusSection.getAttribute('data-report-url')
 
     this.initCancelRequestButton()
     this.initPollingInterval()
@@ -28,6 +29,8 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
       this.pollingInterval = setInterval(async () => {
         await this.pollStatus()
       }, this.POLLING_FREQUENCY)
+    } else if (this.currentStatus === 'FINISHED') {
+      window.location.href = this.reportUrl
     }
   }
 
@@ -35,10 +38,10 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
     if (this.requestData) {
       const meta = JSON.parse(this.requestData)
       const response = await this.getRequestStatus(meta, this.csrfToken)
-
       // Reload if new status is an end state
       if (this.currentStatus !== response.status) {
         clearInterval(this.pollingInterval)
+
         window.location.reload()
       }
     }

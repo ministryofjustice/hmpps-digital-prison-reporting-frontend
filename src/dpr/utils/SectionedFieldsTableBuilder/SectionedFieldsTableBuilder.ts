@@ -48,7 +48,9 @@ export default class SectionedFieldsDataTableBuilder extends ParentChildDataTabl
   createRows(data: Array<Dict<string>>): Cell[][] {
     const sectionedData = this.initSectionedData(data)
 
-    return sectionedData.flatMap((section, index) => {
+    console.log(JSON.stringify({ sectionedData }, null, 2))
+
+    const rows = sectionedData.flatMap((section, index) => {
       const sectionHeaderRow = this.createSectionHeader(section.header, index)
       const sectionRows = section.fields.map((field) => {
         return [
@@ -64,6 +66,10 @@ export default class SectionedFieldsDataTableBuilder extends ParentChildDataTabl
       })
       return [...sectionHeaderRow, ...sectionRows]
     })
+
+    console.log(JSON.stringify({ rows }, null, 2))
+
+    return rows
   }
 
   buildTable(data: Array<Dict<string>>): DataTable {

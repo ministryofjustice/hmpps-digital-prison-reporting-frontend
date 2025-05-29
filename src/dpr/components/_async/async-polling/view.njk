@@ -39,6 +39,7 @@
     data-current-status='{{ status }}'
     data-request-data='{{ meta | dump | safe }}'
     data-csrf-token="{{ csrfToken }}"
+    data-report-url="{{ reportUrl }}"
     data-dpr-module="async-polling-content">
 
     {% set filtersHtml %}
@@ -121,6 +122,5 @@
       }) }}
 
     {% endif %}
-
   </div>
 {% endmacro %}

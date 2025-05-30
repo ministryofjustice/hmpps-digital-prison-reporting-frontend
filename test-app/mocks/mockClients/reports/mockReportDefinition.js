@@ -30,6 +30,7 @@ const variant29 = require('./mockVariants/variant29-summary-section')
 const variant30 = require('./mockVariants/variant30-row-section')
 const variant31 = require('./mockVariants/variant31-row-section-child')
 const variant32 = require('./mockVariants/variant32-row-section_multiple-rows')
+const variant33 = require('./mockVariants/variant33-row-section-child-multiple')
 const dashboardDefinition = require('../dashboards/dashboard-definitions')
 
 module.exports = {
@@ -70,6 +71,7 @@ module.exports = {
       variant30,
       variant31,
       variant32,
+      variant33,
     ],
     dashboards: dashboardDefinition,
   },
@@ -88,6 +90,7 @@ module.exports = {
         variant30,
         variant31,
         variant32,
+        variant33,
       ],
       dashboards: [dashboardDefinition[0]],
     },

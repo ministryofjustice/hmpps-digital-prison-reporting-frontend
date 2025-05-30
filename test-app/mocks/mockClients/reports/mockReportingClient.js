@@ -122,8 +122,10 @@ class MockReportingClient {
         data = mockRowSectionChild.parentData()
         break
       case 'variantId-31-child':
-        // List section
         data = mockRowSectionChild.childData()
+        break
+      case 'variantId-31-child-2':
+        data = mockRowSectionChild.childData2()
         break
       default:
         data = createMockData(pageSize)

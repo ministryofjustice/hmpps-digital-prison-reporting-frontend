@@ -23,6 +23,10 @@ export default class SectionedFieldsDataTableBuilder extends ParentChildDataTabl
     return childVariant ? childVariant.specification.fields : []
   }
 
+  getJoinKey() {
+    return this.variant.childVariants[0].joinFields[0]
+  }
+
   initSectionedData(data: Array<Dict<string>>) {
     return data.flatMap((row) => {
       const initialisedSectionsWithFields = this.sectionedFields.map((section) => {
@@ -48,15 +52,18 @@ export default class SectionedFieldsDataTableBuilder extends ParentChildDataTabl
         if (section.child) {
           const childData = this.getChildData(section.child)
           const displayFields = section.fields.filter((f) => f.visible)
+          const joinKey = this.getJoinKey()
 
           return {
             header: section.header.display,
-            fields: childData.data.map((cd) => {
-              return {
-                heading: cd[displayFields[0]?.name] || 'Not found',
-                data: cd[displayFields[1]?.name] || 'Not found',
-              }
-            }),
+            fields: childData.data
+              .filter((cd) => cd[joinKey] === row[joinKey])
+              .map((cd) => {
+                return {
+                  heading: cd[displayFields[0]?.name] || 'Not found',
+                  data: cd[displayFields[1]?.name] || 'Not found',
+                }
+              }),
           }
         }
         return {

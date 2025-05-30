@@ -1,0 +1,27 @@
+{% from "../report-data-table/view.njk" import dprDataTable %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+{% macro dprDataTableWrapper(dataTables, classification) %}
+
+  {% if dataTables.length > 1 %}
+      {% set tabItems = [] %}
+      {% for dataTable in dataTables %}
+        
+        {% set dataTableHtml %}
+          {{ dprDataTable(dataTable, classification) }}
+        {% endset -%}
+
+        {% set tabItems = (tabItems.push({
+          label: "Report " + loop.index,
+          id: "report_" + loop.index,
+          panel: {
+            html: dataTableHtml
+          }
+        }), tabItems) %}
+      {% endfor %}
+
+      {{ govukTabs({ items: tabItems}) }}
+  {% else %}
+    {{ dprDataTable(dataTables[0], classification) }}
+  {% endif %}
+{% endmacro %}

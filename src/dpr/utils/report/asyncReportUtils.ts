@@ -195,7 +195,7 @@ const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const columns = ColumnUtils.getColumns(definition.variant.specification, <string[]>req.query.columns)
 
   // Get the data table
-  const dataTable = DataTableUtils.createDataTable(
+  const dataTable: DataTable[] = DataTableUtils.createDataTable(
     definition,
     columns,
     reportData,
@@ -242,7 +242,7 @@ const getTemplateData = async (
   definition: components['schemas']['SingleVariantReportDefinition'],
   requestData: RequestedReport,
   summariesData: AsyncSummary[],
-  dataTable: DataTable,
+  dataTable: DataTable[],
   columns: Columns,
   reportQuery: ReportQuery,
 ) => {
@@ -272,7 +272,7 @@ const getTemplateData = async (
   if (meta.template === 'list') {
     pagination = PaginationUtils.getPaginationData(url, count)
     const { pageSize, currentPage, totalRows } = pagination
-    totals = TotalsUtils.getTotals(pageSize, currentPage, totalRows, dataTable.rowCount)
+    totals = TotalsUtils.getTotals(pageSize, currentPage, totalRows, dataTable[0].rowCount)
   }
 
   return {

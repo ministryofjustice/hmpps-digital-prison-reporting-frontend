@@ -1,4 +1,4 @@
-{% from "../report-data-table/view.njk" import dprDataTable %}
+{% from "../report-data-table-wrapper/view.njk" import dprDataTableWrapper %}
 {% from "../report-summary-table/view.njk" import dprReportSummary %}
 {% from "../report-totals/view.njk" import dprReportTotals %}
 {% from "../report-no-data-message/view.njk" import dprReportNoDataMessage %}
@@ -19,7 +19,7 @@
     {{ dprReportTotals(options.totals) }}
 
     <div class='dpr-table-container dpr-table-container--{{ template }}'>
-      {{ dprDataTable(dataTable, classification) }}
+      {{ dprDataTableWrapper(dataTable, classification) }}
     </div>
     
     <div class='govuk-!-margin-bottom-6'>

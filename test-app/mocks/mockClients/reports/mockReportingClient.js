@@ -10,6 +10,7 @@ const mockRowSectionChild = require('./mockVariants/data/row-section-child')
 const mockRowSectionData = require('./mockVariants/data/row-section')
 const mockRowSectionDataMultiple = require('./mockVariants/data/row-section_multiple_rows')
 const mockRowSectionChildDataMultiple = require('./mockVariants/data/row-section-child_multiple-rows')
+const mockRowSectionIncidentReport = require('./mockVariants/data/row-section_incident_report')
 
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 
@@ -141,6 +142,19 @@ class MockReportingClient {
         break
       case 'variantId-33-child-2':
         data = mockRowSectionChildDataMultiple.childData2()
+        break
+      case 'variantId-34':
+        // row-section-child - parent
+        data = mockRowSectionIncidentReport.parentData()
+        break
+      case 'variantId-34-prisoners-involved':
+        data = mockRowSectionIncidentReport.section2Data()
+        break
+      case 'variantId-34-staff-involved':
+        data = mockRowSectionIncidentReport.section3Data()
+        break
+      case 'variantId-34-incident-details':
+        data = mockRowSectionIncidentReport.section4Data()
         break
       default:
         data = createMockData(pageSize)

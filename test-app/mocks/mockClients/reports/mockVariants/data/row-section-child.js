@@ -1,7 +1,7 @@
 const parentData = () => {
   return [
     {
-      field1: '',
+      field1: 'Value 1',
       field2: 'Value 2',
       joinField: 'joinFieldValue1',
     },

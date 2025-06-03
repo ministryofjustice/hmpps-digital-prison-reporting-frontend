@@ -83,7 +83,7 @@ const variant32 = {
         defaultsort: false,
         type: 'string',
         mandatory: false,
-        visible: true,
+        visible: false,
       },
       {
         name: 'section2',
@@ -92,7 +92,7 @@ const variant32 = {
         defaultsort: false,
         type: 'string',
         mandatory: false,
-        visible: true,
+        visible: false,
       },
       {
         name: 'section3',
@@ -101,7 +101,7 @@ const variant32 = {
         defaultsort: false,
         type: 'string',
         mandatory: false,
-        visible: true,
+        visible: false,
       },
     ],
   },

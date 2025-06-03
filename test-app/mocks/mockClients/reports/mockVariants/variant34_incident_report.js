@@ -1,7 +1,7 @@
-const variant31 = {
-  id: 'variantId-33',
-  name: 'Sectioned Rows + child template (multiple rows)',
-  description: 'A report with sectioned rows and child report, with multiple dataset rows',
+const variant34 = {
+  id: 'variantId-34',
+  name: 'Sectioned row - Incident report',
+  description: 'An example of an incident report using a row section template',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
@@ -10,21 +10,25 @@ const variant31 = {
     sectionedFields: [
       {
         name: 'section1',
-        fields: ['field1', 'field2'],
+        fields: ['type', 'date', 'reportedBy', 'status', 'description'],
       },
       {
         name: 'section2',
-        child: 'variantId-33-child',
+        child: 'variantId-34-prisoners-involved',
       },
       {
         name: 'section3',
-        child: 'variantId-33-child-2',
+        child: 'variantId-34-staff-involved',
+      },
+      {
+        name: 'section4',
+        child: 'variantId-34-incident-details',
       },
     ],
     fields: [
       {
-        name: 'field1',
-        display: 'Field One',
+        name: 'type',
+        display: 'Type',
         sortable: false,
         defaultsort: false,
         type: 'string',
@@ -32,8 +36,35 @@ const variant31 = {
         visible: true,
       },
       {
-        name: 'field2',
-        display: 'Field Two',
+        name: 'date',
+        display: 'Date and time of incident',
+        sortable: false,
+        defaultsort: false,
+        type: 'string',
+        mandatory: false,
+        visible: true,
+      },
+      {
+        name: 'status',
+        display: 'Status',
+        sortable: false,
+        defaultsort: false,
+        type: 'string',
+        mandatory: false,
+        visible: true,
+      },
+      {
+        name: 'reportedBy',
+        display: 'Reported by',
+        sortable: false,
+        defaultsort: false,
+        type: 'string',
+        mandatory: false,
+        visible: true,
+      },
+      {
+        name: 'description',
+        display: 'Description',
         sortable: false,
         defaultsort: false,
         type: 'string',
@@ -51,7 +82,7 @@ const variant31 = {
       },
       {
         name: 'section1',
-        display: 'Data columns as rows',
+        display: 'Incident Summary',
         sortable: false,
         defaultsort: false,
         type: 'string',
@@ -60,7 +91,7 @@ const variant31 = {
       },
       {
         name: 'section2',
-        display: 'Child report',
+        display: 'Prisoners involved',
         sortable: false,
         defaultsort: false,
         type: 'string',
@@ -69,7 +100,16 @@ const variant31 = {
       },
       {
         name: 'section3',
-        display: 'Child report 2',
+        display: 'Staff involved',
+        sortable: false,
+        defaultsort: false,
+        type: 'string',
+        mandatory: false,
+        visible: false,
+      },
+      {
+        name: 'section4',
+        display: 'About the incident',
         sortable: false,
         defaultsort: false,
         type: 'string',
@@ -80,15 +120,15 @@ const variant31 = {
   },
   childVariants: [
     {
-      id: 'variantId-33-child',
+      id: 'variantId-34-prisoners-involved',
       name: 'Child Report',
       resourceName: 'reports/list',
-      joinFields: ['joinField'],
+      joinFields: ['incidentId'],
       specification: {
         template: 'row-section-child',
         fields: [
           {
-            name: 'childField1',
+            name: 'prisonerName',
             display: 'Child field 1',
             sortable: false,
             defaultsort: false,
@@ -97,7 +137,7 @@ const variant31 = {
             visible: true,
           },
           {
-            name: 'childField2',
+            name: 'prisonerDetails',
             display: 'Child field 2',
             sortable: false,
             defaultsort: false,
@@ -106,7 +146,7 @@ const variant31 = {
             visible: true,
           },
           {
-            name: 'joinField',
+            name: 'incidentId',
             display: 'Join Field',
             sortable: false,
             defaultsort: false,
@@ -118,15 +158,15 @@ const variant31 = {
       },
     },
     {
-      id: 'variantId-33-child-2',
+      id: 'variantId-34-staff-involved',
       name: 'Child Report',
       resourceName: 'reports/list',
-      joinFields: ['joinField'],
+      joinFields: ['incidentId'],
       specification: {
         template: 'row-section-child',
         fields: [
           {
-            name: 'childField1',
+            name: 'staffName',
             display: 'Child field 1',
             sortable: false,
             defaultsort: false,
@@ -135,7 +175,7 @@ const variant31 = {
             visible: true,
           },
           {
-            name: 'childField2',
+            name: 'staffDetails',
             display: 'Child field 2',
             sortable: false,
             defaultsort: false,
@@ -144,7 +184,45 @@ const variant31 = {
             visible: true,
           },
           {
-            name: 'joinField',
+            name: 'incidentId',
+            display: 'Join Field',
+            sortable: false,
+            defaultsort: false,
+            type: 'string',
+            mandatory: false,
+            visible: false,
+          },
+        ],
+      },
+    },
+    {
+      id: 'variantId-34-incident-details',
+      name: 'Child Report',
+      resourceName: 'reports/list',
+      joinFields: ['incidentId'],
+      specification: {
+        template: 'row-section-child',
+        fields: [
+          {
+            name: 'incidentQuestion',
+            display: 'Incident Question',
+            sortable: false,
+            defaultsort: false,
+            type: 'string',
+            mandatory: false,
+            visible: true,
+          },
+          {
+            name: 'incidentResponse',
+            display: 'Incident Response',
+            sortable: false,
+            defaultsort: false,
+            type: 'string',
+            mandatory: false,
+            visible: true,
+          },
+          {
+            name: 'incidentId',
             display: 'Join Field',
             sortable: false,
             defaultsort: false,
@@ -158,4 +236,4 @@ const variant31 = {
   ],
 }
 
-module.exports = variant31
+module.exports = variant34

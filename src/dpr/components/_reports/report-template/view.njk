@@ -17,7 +17,7 @@
 
         {# Add template view here #}
 
-      {% elif template === 'list-section' or template === 'summary-section' or template === 'parent-child' or template === 'parent-child-section'or template === 'row-section' %}
+      {% elif template === 'list-section' or template === 'summary-section' or template === 'parent-child' or template === 'parent-child-section' or template === 'row-section' or template === 'row-section-child' %}
 
         {{ dprReport(renderData, count) }}
 
@@ -26,16 +26,14 @@
         {% if not count or count === 0 %}
           {{ dprReportNoDataMessage(renderData.requestUrl.fullUrl) }}
         {% else %}
-
           {{ dprReportSummary(reportSummaries, 'page-header') }}
           {{ dprReportSummary(reportSummaries, 'page-footer') }}
-
         {% endif %}
 
       {% else %}
 
         {{ dprReport(renderData, count) }}
-
+        
         {% if count and count > 0 %}
           {{ dprReportPagination(pagination) }}
         {% endif %}

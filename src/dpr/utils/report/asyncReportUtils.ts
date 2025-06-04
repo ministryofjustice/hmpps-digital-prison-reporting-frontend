@@ -150,7 +150,7 @@ export const getChildData = async (
 
       const query = new ReportQuery({
         fields: specification.fields,
-        template: 'parent-child',
+        template: reportDefinition.variant.specification.template,
         queryParams: req.query,
         definitionsPath: dataProductDefinitionsPath,
       }).toRecordWithFilterPrefix(true)
@@ -173,9 +173,16 @@ export const getChildData = async (
   )
 }
 
+/**
+ * Entry point function to render the report
+ *
+ * @param {AsyncReportUtilsParams} { req, res, services }
+ * @return {*}
+ */
 const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { token, userId } = LocalsHelper.getValues(res)
 
+  // Get the report data
   const { definition, requestData, reportData, childData, summariesData, reportQuery } = await getData({
     req,
     res,
@@ -184,9 +191,11 @@ const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
     userId,
   })
 
-  const { specification } = definition.variant
-  const columns = ColumnUtils.getColumns(specification, <string[]>req.query.columns)
-  const dataTable = DataTableUtils.createDataTable(
+  // Get the columns
+  const columns = ColumnUtils.getColumns(definition.variant.specification, <string[]>req.query.columns)
+
+  // Get the data table
+  const dataTable: DataTable[] = DataTableUtils.createDataTable(
     definition,
     columns,
     reportData,
@@ -194,6 +203,8 @@ const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
     summariesData,
     reportQuery,
   )
+
+  // Get the template data
   const templateData = await getTemplateData(
     req,
     res,
@@ -231,7 +242,7 @@ const getTemplateData = async (
   definition: components['schemas']['SingleVariantReportDefinition'],
   requestData: RequestedReport,
   summariesData: AsyncSummary[],
-  dataTable: DataTable,
+  dataTable: DataTable[],
   columns: Columns,
   reportQuery: ReportQuery,
 ) => {
@@ -261,7 +272,7 @@ const getTemplateData = async (
   if (meta.template === 'list') {
     pagination = PaginationUtils.getPaginationData(url, count)
     const { pageSize, currentPage, totalRows } = pagination
-    totals = TotalsUtils.getTotals(pageSize, currentPage, totalRows, dataTable.rowCount)
+    totals = TotalsUtils.getTotals(pageSize, currentPage, totalRows, dataTable[0].rowCount)
   }
 
   return {
@@ -281,7 +292,7 @@ const getTemplateData = async (
 const showColumns = (specification: components['schemas']['Specification']) => {
   const { template } = specification
 
-  return !['row-section'].includes(template)
+  return !['row-section', 'row-section-child'].includes(template)
 }
 
 const setMetaData = (definition: components['schemas']['SingleVariantReportDefinition'], res: Response) => {
@@ -449,44 +460,6 @@ const setActions = (
     refresh: refreshConfig,
     copy: { url: requestUrl },
   })
-}
-
-export const getRenderData = (
-  req: Request,
-  specification: components['schemas']['Specification'],
-  reportData: Array<Dict<string>>,
-  count: number,
-  querySummary: Array<Dict<string>>,
-  reportSummaries: Dict<Array<AsyncSummary>>,
-  columns: Columns,
-  reportQuery: ReportQuery,
-  interactive = false,
-) => {
-  const url = parseUrl(req)
-  const pagination = PaginationUtils.getPaginationData(url, count)
-
-  const dataTable: DataTable = new DataTableBuilder(specification.fields)
-    .withSummaries(reportSummaries)
-    .withHeaderOptions({
-      columns: columns.value,
-      reportQuery,
-      interactive,
-    })
-    .buildTable(reportData)
-
-  const totals = TotalsUtils.getTotals(
-    pagination.pageSize,
-    pagination.currentPage,
-    pagination.totalRows,
-    dataTable.rowCount,
-  )
-
-  return {
-    dataTable,
-    pagination,
-    querySummary,
-    totals,
-  }
 }
 
 export default {

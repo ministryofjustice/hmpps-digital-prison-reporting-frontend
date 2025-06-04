@@ -202,7 +202,8 @@ export interface components {
     }
     SectionedField: {
       name: string
-      fields: string[]
+      fields?: string[]
+      child?: string
     }
     SummaryField: {
       name: string

@@ -1,52 +1,54 @@
 const mockRenderDataFromDefinition = {
   renderData: {
-    dataTable: {
-      head: [
-        {
-          html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 1</a>',
-          classes: null,
-        },
-        {
-          html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 2</a>',
-          classes: null,
-        },
-        {
-          text: 'Field 3',
-          classes: null,
-        },
-        {
-          text: 'Field 6',
-          classes: null,
-        },
-      ],
-      rows: [
-        [
+    dataTable: [
+      {
+        head: [
           {
-            fieldName: 'field1',
-            format: 'string',
-            classes: '',
+            html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 1</a>',
+            classes: null,
           },
           {
-            fieldName: 'field2',
-            format: 'string',
-            classes: '',
+            html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 2</a>',
+            classes: null,
           },
           {
-            fieldName: 'field3',
-            text: '',
-            format: 'string',
-            classes: '',
+            text: 'Field 3',
+            classes: null,
           },
           {
-            fieldName: 'field6',
-            format: 'string',
-            classes: '',
+            text: 'Field 6',
+            classes: null,
           },
         ],
-      ],
-      rowCount: 1,
-      colCount: 4,
-    },
+        rows: [
+          [
+            {
+              fieldName: 'field1',
+              format: 'string',
+              classes: '',
+            },
+            {
+              fieldName: 'field2',
+              format: 'string',
+              classes: '',
+            },
+            {
+              fieldName: 'field3',
+              text: '',
+              format: 'string',
+              classes: '',
+            },
+            {
+              fieldName: 'field6',
+              format: 'string',
+              classes: '',
+            },
+          ],
+        ],
+        rowCount: 1,
+        colCount: 4,
+      },
+    ],
     totals: '0-0 of 0',
     filterData: {
       filters: [
@@ -320,7 +322,7 @@ const mockRenderDataFromDefinition = {
       ],
     },
     reportUrl: 'pathname',
-    fullUrl: "protocol://hostoriginalUrl",
+    fullUrl: 'protocol://hostoriginalUrl',
     reportSearch: 'search',
     encodedSearch: 'search',
     reportName: 'Test Report Name',
@@ -342,7 +344,7 @@ const mockRenderDataFromDefinition = {
         disabled: false,
         tooltipText: 'Share',
         ariaLabelText: 'share report request via email',
-        href: "mailto:?subject=Test Report Name-Test Variant&body=protocol%3A%2F%2FhostoriginalUrl",
+        href: 'mailto:?subject=Test Report Name-Test Variant&body=protocol%3A%2F%2FhostoriginalUrl',
       },
       {
         id: 'dpr-button-copy',
@@ -361,29 +363,31 @@ const mockRenderDataFromDefinition = {
 
 const mockRenderDataFromData = {
   renderData: {
-    dataTable: {
-      head: [
-        {
-          html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 1</a>',
-          classes: null,
-        },
-        {
-          html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 2</a>',
-          classes: null,
-        },
-        {
-          text: 'Field 3',
-          classes: null,
-        },
-        {
-          text: 'Field 6',
-          classes: null,
-        },
-      ],
-      rows: [],
-      rowCount: 0,
-      colCount: 4,
-    },
+    dataTable: [
+      {
+        head: [
+          {
+            html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 1</a>',
+            classes: null,
+          },
+          {
+            html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 2</a>',
+            classes: null,
+          },
+          {
+            text: 'Field 3',
+            classes: null,
+          },
+          {
+            text: 'Field 6',
+            classes: null,
+          },
+        ],
+        rows: [],
+        rowCount: 0,
+        colCount: 4,
+      },
+    ],
     totals: '0 total results',
     filterData: {
       filters: [
@@ -659,7 +663,7 @@ const mockRenderDataFromData = {
     reportUrl: 'pathname',
     reportSearch: 'search',
     encodedSearch: 'search',
-    fullUrl: "protocol://hostoriginalUrl",
+    fullUrl: 'protocol://hostoriginalUrl',
     reportName: 'Test report name',
     name: 'Test variant title',
     description: 'Test Variant Description',
@@ -679,19 +683,19 @@ const mockRenderDataFromData = {
         disabled: false,
         tooltipText: 'Share',
         ariaLabelText: 'share report request via email',
-        href: "mailto:?subject=Test report name-Test Variant&body=protocol%3A%2F%2FhostoriginalUrl"
+        href: 'mailto:?subject=Test report name-Test Variant&body=protocol%3A%2F%2FhostoriginalUrl',
       },
       {
         id: 'dpr-button-copy',
         disabled: false,
         tooltipText: 'Copy',
         ariaLabelText: 'report request',
-        href: "protocol://hostoriginalUrl",
+        href: 'protocol://hostoriginalUrl',
       },
     ],
     template: 'list',
     warnings: {},
-    type: 'report'
+    type: 'report',
   },
   layoutTemplate: 'layoutTemplate',
 }

@@ -1,65 +1,67 @@
 const mockSyncData = {
   renderData: {
-    dataTable: {
-      head: [
-        {
-          html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&columns=field7&dataProductDefinitionsPath=this/that/other">Field 1</a>',
-          classes: null,
-        },
-        {
-          html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&columns=field7&dataProductDefinitionsPath=this/that/other">Field 2</a>',
-          classes: null,
-        },
-        {
-          text: 'Field 3',
-          classes: null,
-        },
-        {
-          text: 'Field 6',
-          classes: null,
-        },
-        {
-          text: 'Field 7',
-          classes: null,
-        },
-      ],
-      rows: [
-        [
+    dataTable: [
+      {
+        head: [
           {
-            fieldName: 'field1',
-            text: 'Value 1',
-            format: 'string',
-            classes: '',
+            html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&columns=field7&dataProductDefinitionsPath=this/that/other">Field 1</a>',
+            classes: null,
           },
           {
-            fieldName: 'field2',
-            text: 'Value 2',
-            format: 'string',
-            classes: '',
+            html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&columns=field7&dataProductDefinitionsPath=this/that/other">Field 2</a>',
+            classes: null,
           },
           {
-            fieldName: 'field3',
-            text: '01/02/03 01:00',
-            format: 'string',
-            classes: '',
+            text: 'Field 3',
+            classes: null,
           },
           {
-            fieldName: 'field6',
-            html: '<a href="#" target="_blank">Value 6</a>',
-            format: 'string',
-            classes: '',
+            text: 'Field 6',
+            classes: null,
           },
           {
-            fieldName: 'field7',
-            text: '01/02/03 01:00',
-            format: 'string',
-            classes: '',
+            text: 'Field 7',
+            classes: null,
           },
         ],
-      ],
-      rowCount: 1,
-      colCount: 5,
-    },
+        rows: [
+          [
+            {
+              fieldName: 'field1',
+              text: 'Value 1',
+              format: 'string',
+              classes: '',
+            },
+            {
+              fieldName: 'field2',
+              text: 'Value 2',
+              format: 'string',
+              classes: '',
+            },
+            {
+              fieldName: 'field3',
+              text: '01/02/03 01:00',
+              format: 'string',
+              classes: '',
+            },
+            {
+              fieldName: 'field6',
+              html: '<a href="#" target="_blank">Value 6</a>',
+              format: 'string',
+              classes: '',
+            },
+            {
+              fieldName: 'field7',
+              text: '01/02/03 01:00',
+              format: 'string',
+              classes: '',
+            },
+          ],
+        ],
+        rowCount: 1,
+        colCount: 5,
+      },
+    ],
     totals: 'Showing <strong>1</strong> to <strong>1</strong> of <strong>100</strong> results',
     filterData: {
       filters: [

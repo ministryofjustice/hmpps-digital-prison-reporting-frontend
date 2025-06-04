@@ -65,53 +65,55 @@ describe('AsyncReportListUtils', () => {
         definitionsPath: 'dataProductDefinitionsPath',
       })
 
-      const expectedTable = {
-        colCount: 1,
-        head: [{ classes: null, text: 'Field 1' }],
-        rowCount: 5,
-        rows: [
-          [
-            {
-              classes: '',
-              fieldName: 'field1',
-              format: 'string',
-              text: 'Value 1',
-            },
+      const expectedTable = [
+        {
+          colCount: 1,
+          head: [{ classes: null, text: 'Field 1' }],
+          rowCount: 5,
+          rows: [
+            [
+              {
+                classes: '',
+                fieldName: 'field1',
+                format: 'string',
+                text: 'Value 1',
+              },
+            ],
+            [
+              {
+                classes: '',
+                fieldName: 'field1',
+                format: 'string',
+                text: 'Value 1',
+              },
+            ],
+            [
+              {
+                classes: '',
+                fieldName: 'field1',
+                format: 'string',
+                text: 'Value 1',
+              },
+            ],
+            [
+              {
+                classes: '',
+                fieldName: 'field1',
+                format: 'string',
+                text: 'Value 1',
+              },
+            ],
+            [
+              {
+                classes: '',
+                fieldName: 'field1',
+                format: 'string',
+                text: 'Value 1',
+              },
+            ],
           ],
-          [
-            {
-              classes: '',
-              fieldName: 'field1',
-              format: 'string',
-              text: 'Value 1',
-            },
-          ],
-          [
-            {
-              classes: '',
-              fieldName: 'field1',
-              format: 'string',
-              text: 'Value 1',
-            },
-          ],
-          [
-            {
-              classes: '',
-              fieldName: 'field1',
-              format: 'string',
-              text: 'Value 1',
-            },
-          ],
-          [
-            {
-              classes: '',
-              fieldName: 'field1',
-              format: 'string',
-              text: 'Value 1',
-            },
-          ],
-        ],
-      }
+        },
+      ]
 
       const dataTable = ReportDataTableUtils.createDataTable(definition, columns, reportData, [], [], reportQuery)
       expect(dataTable).toEqual(expectedTable)
@@ -262,186 +264,188 @@ describe('AsyncReportListUtils', () => {
         },
       ]
 
-      const expectedTable = {
-        head: null,
-        rows: [
-          [
-            {
-              classes: 'dpr-section-header',
-              colspan: 1,
-              html: '<h2 class="govuk-heading-m">First: One, Second: A <span class=\'govuk-caption-m\'>1 result</span></h2>',
-            },
+      const expectedTable = [
+        {
+          head: null,
+          rows: [
+            [
+              {
+                classes: 'dpr-section-header',
+                colspan: 1,
+                html: '<h2 class="govuk-heading-m">First: One, Second: A <span class=\'govuk-caption-m\'>1 result</span></h2>',
+              },
+            ],
+            [
+              {
+                classes: 'dpr-section-header-spacer-bottom',
+                colspan: 1,
+                text: '',
+              },
+            ],
+            [
+              {
+                text: 'Field 1',
+                classes: 'govuk-table__header',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Section One A Header',
+                format: 'string',
+                classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Section One A Footer',
+                format: 'string',
+                classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
+              },
+            ],
+            [
+              {
+                classes: 'dpr-section-header-spacer',
+                colspan: 1,
+                text: '',
+              },
+            ],
+            [
+              {
+                classes: 'dpr-section-header',
+                colspan: 1,
+                html: '<h2 class="govuk-heading-m">First: One, Second: B <span class=\'govuk-caption-m\'>2 results</span></h2>',
+              },
+            ],
+            [
+              {
+                classes: 'dpr-section-header-spacer-bottom',
+                colspan: 1,
+                text: '',
+              },
+            ],
+            [
+              {
+                text: 'Field 1',
+                classes: 'govuk-table__header',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Section One B Footer',
+                format: 'string',
+                classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
+              },
+            ],
+            [
+              {
+                classes: 'dpr-section-header-spacer',
+                colspan: 1,
+                text: '',
+              },
+            ],
+            [
+              {
+                classes: 'dpr-section-header',
+                colspan: 1,
+                html: '<h2 class="govuk-heading-m">First: Two, Second: A <span class=\'govuk-caption-m\'>1 result</span></h2>',
+              },
+            ],
+            [
+              {
+                classes: 'dpr-section-header-spacer-bottom',
+                colspan: 1,
+                text: '',
+              },
+            ],
+            [
+              {
+                text: 'Field 1',
+                classes: 'govuk-table__header',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Section Two A Header',
+                format: 'string',
+                classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                classes: 'dpr-section-header-spacer',
+                colspan: 1,
+                text: '',
+              },
+            ],
+            [
+              {
+                classes: 'dpr-section-header',
+                colspan: 1,
+                html: '<h2 class="govuk-heading-m">First: Two, Second: B <span class=\'govuk-caption-m\'>1 result</span></h2>',
+              },
+            ],
+            [
+              {
+                classes: 'dpr-section-header-spacer-bottom',
+                colspan: 1,
+                text: '',
+              },
+            ],
+            [
+              {
+                text: 'Field 1',
+                classes: 'govuk-table__header',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+            ],
           ],
-          [
-            {
-              classes: 'dpr-section-header-spacer-bottom',
-              colspan: 1,
-              text: '',
-            },
-          ],
-          [
-            {
-              text: 'Field 1',
-              classes: 'govuk-table__header',
-            },
-          ],
-          [
-            {
-              fieldName: 'field1',
-              text: 'Section One A Header',
-              format: 'string',
-              classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
-            },
-          ],
-          [
-            {
-              fieldName: 'field1',
-              text: 'Value 1',
-              format: 'string',
-              classes: '',
-            },
-          ],
-          [
-            {
-              fieldName: 'field1',
-              text: 'Section One A Footer',
-              format: 'string',
-              classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
-            },
-          ],
-          [
-            {
-              classes: 'dpr-section-header-spacer',
-              colspan: 1,
-              text: '',
-            },
-          ],
-          [
-            {
-              classes: 'dpr-section-header',
-              colspan: 1,
-              html: '<h2 class="govuk-heading-m">First: One, Second: B <span class=\'govuk-caption-m\'>2 results</span></h2>',
-            },
-          ],
-          [
-            {
-              classes: 'dpr-section-header-spacer-bottom',
-              colspan: 1,
-              text: '',
-            },
-          ],
-          [
-            {
-              text: 'Field 1',
-              classes: 'govuk-table__header',
-            },
-          ],
-          [
-            {
-              fieldName: 'field1',
-              text: 'Value 1',
-              format: 'string',
-              classes: '',
-            },
-          ],
-          [
-            {
-              fieldName: 'field1',
-              text: 'Value 1',
-              format: 'string',
-              classes: '',
-            },
-          ],
-          [
-            {
-              fieldName: 'field1',
-              text: 'Section One B Footer',
-              format: 'string',
-              classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-footer',
-            },
-          ],
-          [
-            {
-              classes: 'dpr-section-header-spacer',
-              colspan: 1,
-              text: '',
-            },
-          ],
-          [
-            {
-              classes: 'dpr-section-header',
-              colspan: 1,
-              html: '<h2 class="govuk-heading-m">First: Two, Second: A <span class=\'govuk-caption-m\'>1 result</span></h2>',
-            },
-          ],
-          [
-            {
-              classes: 'dpr-section-header-spacer-bottom',
-              colspan: 1,
-              text: '',
-            },
-          ],
-          [
-            {
-              text: 'Field 1',
-              classes: 'govuk-table__header',
-            },
-          ],
-          [
-            {
-              fieldName: 'field1',
-              text: 'Section Two A Header',
-              format: 'string',
-              classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
-            },
-          ],
-          [
-            {
-              fieldName: 'field1',
-              text: 'Value 1',
-              format: 'string',
-              classes: '',
-            },
-          ],
-          [
-            {
-              classes: 'dpr-section-header-spacer',
-              colspan: 1,
-              text: '',
-            },
-          ],
-          [
-            {
-              classes: 'dpr-section-header',
-              colspan: 1,
-              html: '<h2 class="govuk-heading-m">First: Two, Second: B <span class=\'govuk-caption-m\'>1 result</span></h2>',
-            },
-          ],
-          [
-            {
-              classes: 'dpr-section-header-spacer-bottom',
-              colspan: 1,
-              text: '',
-            },
-          ],
-          [
-            {
-              text: 'Field 1',
-              classes: 'govuk-table__header',
-            },
-          ],
-          [
-            {
-              fieldName: 'field1',
-              text: 'Value 1',
-              format: 'string',
-              classes: '',
-            },
-          ],
-        ],
-        rowCount: 5,
-        colCount: 1,
-      }
+          rowCount: 5,
+          colCount: 1,
+        },
+      ]
 
       const dataTable = ReportDataTableUtils.createDataTable(
         definition,
@@ -510,71 +514,73 @@ describe('AsyncReportListUtils', () => {
         },
       ]
 
-      const expectedTable = {
-        colCount: 1,
-        head: null,
-        rowCount: 5,
-        rows: [
-          [{ classes: 'govuk-table__header', text: 'Second' }],
-          [
-            {
-              classes: 'dpr-parent-cell',
-              fieldName: 'field1',
-              format: 'string',
-              text: 'Value 1',
-            },
+      const expectedTable = [
+        {
+          colCount: 1,
+          head: null,
+          rowCount: 5,
+          rows: [
+            [{ classes: 'govuk-table__header', text: 'Second' }],
+            [
+              {
+                classes: 'dpr-parent-cell',
+                fieldName: 'field1',
+                format: 'string',
+                text: 'Value 1',
+              },
+            ],
+            [
+              {
+                classes: 'dpr-parent-cell',
+                fieldName: 'field1',
+                format: 'string',
+                text: 'Value 1',
+              },
+            ],
+            [
+              {
+                classes: 'dpr-parent-cell',
+                fieldName: 'field1',
+                format: 'string',
+                text: 'Value 1',
+              },
+            ],
+            [
+              {
+                classes: 'dpr-child-report-cell',
+                colspan: 1,
+                format: 'string',
+                html: "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child Report</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Field2</th><th scope='col' class='govuk-table__header'>Field3</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Value 2</td><td class='govuk-table__cell govuk-table__cell--string '>2003-02-01T01:00</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Value 2</td><td class='govuk-table__cell govuk-table__cell--string '>2003-02-01T01:00</td></tr></tbody></table></div></div>",
+              },
+            ],
+            [{ classes: 'govuk-table__header', text: 'Second' }],
+            [
+              {
+                classes: 'dpr-parent-cell',
+                fieldName: 'field1',
+                format: 'string',
+                text: 'Value 1',
+              },
+            ],
+            [
+              {
+                classes: 'dpr-parent-cell',
+                fieldName: 'field1',
+                format: 'string',
+                text: 'Value 1',
+              },
+            ],
+            [
+              {
+                classes: 'dpr-child-report-cell',
+                colspan: 1,
+                format: 'string',
+                html: "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child Report</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Field2</th><th scope='col' class='govuk-table__header'>Field3</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Value 2</td><td class='govuk-table__cell govuk-table__cell--string '>2003-02-01T01:00</td></tr></tbody></table></div></div>",
+              },
+            ],
           ],
-          [
-            {
-              classes: 'dpr-parent-cell',
-              fieldName: 'field1',
-              format: 'string',
-              text: 'Value 1',
-            },
-          ],
-          [
-            {
-              classes: 'dpr-parent-cell',
-              fieldName: 'field1',
-              format: 'string',
-              text: 'Value 1',
-            },
-          ],
-          [
-            {
-              classes: 'dpr-child-report-cell',
-              colspan: 1,
-              format: 'string',
-              html: "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child Report</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Field2</th><th scope='col' class='govuk-table__header'>Field3</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Value 2</td><td class='govuk-table__cell govuk-table__cell--string '>2003-02-01T01:00</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Value 2</td><td class='govuk-table__cell govuk-table__cell--string '>2003-02-01T01:00</td></tr></tbody></table></div></div>",
-            },
-          ],
-          [{ classes: 'govuk-table__header', text: 'Second' }],
-          [
-            {
-              classes: 'dpr-parent-cell',
-              fieldName: 'field1',
-              format: 'string',
-              text: 'Value 1',
-            },
-          ],
-          [
-            {
-              classes: 'dpr-parent-cell',
-              fieldName: 'field1',
-              format: 'string',
-              text: 'Value 1',
-            },
-          ],
-          [
-            {
-              classes: 'dpr-child-report-cell',
-              colspan: 1,
-              format: 'string',
-              html: "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child Report</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Field2</th><th scope='col' class='govuk-table__header'>Field3</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Value 2</td><td class='govuk-table__cell govuk-table__cell--string '>2003-02-01T01:00</td></tr></tbody></table></div></div>",
-            },
-          ],
-        ],
-      }
+        },
+      ]
 
       const dataTable = ReportDataTableUtils.createDataTable(
         definition,

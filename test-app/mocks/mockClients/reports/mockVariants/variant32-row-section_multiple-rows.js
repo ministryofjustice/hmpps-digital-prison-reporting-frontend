@@ -1,6 +1,6 @@
-const variant30 = {
-  id: 'variantId-30-row-section',
-  name: 'Sectioned Rows template',
+const variant32 = {
+  id: 'variantId-32-row-section-multiple',
+  name: 'Sectioned Rows template (muliple rows)',
   description: 'A report with sectioned rows',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
@@ -107,4 +107,4 @@ const variant30 = {
   },
 }
 
-module.exports = variant30
+module.exports = variant32

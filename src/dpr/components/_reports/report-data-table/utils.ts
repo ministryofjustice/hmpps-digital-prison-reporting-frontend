@@ -69,16 +69,18 @@ const buildSummarySectionTable = (
 const buildRowSectionedTable = (
   definition: components['schemas']['SingleVariantReportDefinition'],
   reportData: Dict<string>[],
+  childData: ChildData[],
 ): DataTable[] => {
   const { variant } = definition
-  const { specification, interactive } = variant
+  const { interactive } = variant
 
   return reportData.map((rowData) => {
-    return new SectionedFieldsDataTableBuilder(specification)
+    return new SectionedFieldsDataTableBuilder(variant)
       .withHeaderOptions({
         columns: new Array(2),
         interactive,
       })
+      .withChildData(childData)
       .buildTable([rowData])
   })
 }
@@ -90,39 +92,45 @@ const createDataTable = (
   childData: ChildData[],
   summariesData: AsyncSummary[],
   reportQuery: ReportQuery,
-): DataTable => {
-  let dataTable: DataTable
+): DataTable[] => {
+  let dataTables: DataTable[] = []
   const { template } = definition.variant.specification
 
   switch (template as Template) {
     case 'summary-section':
-    case 'list-section':
-      dataTable = buildSummarySectionTable(definition, columns, reportData, summariesData, reportQuery)
+    case 'list-section': {
+      const dataTable = buildSummarySectionTable(definition, columns, reportData, summariesData, reportQuery)
+      dataTables.push(dataTable)
       break
+    }
 
     case 'parent-child':
-    case 'parent-child-section':
-      dataTable = buildParentChildTable(definition, columns, reportData, childData)
+    case 'parent-child-section': {
+      const dataTable = buildParentChildTable(definition, columns, reportData, childData)
+      dataTables.push(dataTable)
       break
+    }
 
     case 'list': {
-      dataTable = buildListTable(definition, columns, reportData, summariesData, reportQuery)
+      const dataTable = buildListTable(definition, columns, reportData, summariesData, reportQuery)
+      dataTables.push(dataTable)
       break
     }
 
+    case 'row-section-child':
     case 'row-section': {
-      const dataTables = buildRowSectionedTable(definition, reportData)
-      // eslint-disable-next-line prefer-destructuring
-      dataTable = dataTables[0]
+      dataTables = buildRowSectionedTable(definition, reportData, childData)
       break
     }
 
-    default:
-      dataTable = buildListTable(definition, columns, reportData, summariesData, reportQuery)
+    default: {
+      const dataTable = buildListTable(definition, columns, reportData, summariesData, reportQuery)
+      dataTables.push(dataTable)
       break
+    }
   }
 
-  return dataTable
+  return dataTables
 }
 
 export default {

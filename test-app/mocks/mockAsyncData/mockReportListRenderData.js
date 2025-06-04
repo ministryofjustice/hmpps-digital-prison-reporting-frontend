@@ -117,98 +117,100 @@ const mockGetReportListRenderData = {
     pathname: 'pathname',
     reportSearch: 'search',
     encodedSearch: 'search',
-    dataTable: {
-      head: [
-        {
-          text: 'Field 2',
-          classes: null,
-        },
-      ],
-      rows: [
-        [
+    dataTable: [
+      {
+        head: [
           {
-            fieldName: 'field2',
-            text: 'Value 2',
-            format: 'string',
-            classes: '',
+            text: 'Field 2',
+            classes: null,
           },
         ],
-        [
-          {
-            fieldName: 'field2',
-            text: 'Value 2',
-            format: 'string',
-            classes: '',
-          },
+        rows: [
+          [
+            {
+              fieldName: 'field2',
+              text: 'Value 2',
+              format: 'string',
+              classes: '',
+            },
+          ],
+          [
+            {
+              fieldName: 'field2',
+              text: 'Value 2',
+              format: 'string',
+              classes: '',
+            },
+          ],
+          [
+            {
+              fieldName: 'field2',
+              text: 'Value 2',
+              format: 'string',
+              classes: '',
+            },
+          ],
+          [
+            {
+              fieldName: 'field2',
+              text: 'Value 2',
+              format: 'string',
+              classes: '',
+            },
+          ],
+          [
+            {
+              fieldName: 'field2',
+              text: 'Value 2',
+              format: 'string',
+              classes: '',
+            },
+          ],
+          [
+            {
+              fieldName: 'field2',
+              text: 'Value 2',
+              format: 'string',
+              classes: '',
+            },
+          ],
+          [
+            {
+              fieldName: 'field2',
+              text: 'Value 2',
+              format: 'string',
+              classes: '',
+            },
+          ],
+          [
+            {
+              fieldName: 'field2',
+              text: 'Value 2',
+              format: 'string',
+              classes: '',
+            },
+          ],
+          [
+            {
+              fieldName: 'field2',
+              text: 'Value 2',
+              format: 'string',
+              classes: '',
+            },
+          ],
+          [
+            {
+              fieldName: 'field2',
+              text: 'Value 2',
+              format: 'string',
+              classes: '',
+            },
+          ],
         ],
-        [
-          {
-            fieldName: 'field2',
-            text: 'Value 2',
-            format: 'string',
-            classes: '',
-          },
-        ],
-        [
-          {
-            fieldName: 'field2',
-            text: 'Value 2',
-            format: 'string',
-            classes: '',
-          },
-        ],
-        [
-          {
-            fieldName: 'field2',
-            text: 'Value 2',
-            format: 'string',
-            classes: '',
-          },
-        ],
-        [
-          {
-            fieldName: 'field2',
-            text: 'Value 2',
-            format: 'string',
-            classes: '',
-          },
-        ],
-        [
-          {
-            fieldName: 'field2',
-            text: 'Value 2',
-            format: 'string',
-            classes: '',
-          },
-        ],
-        [
-          {
-            fieldName: 'field2',
-            text: 'Value 2',
-            format: 'string',
-            classes: '',
-          },
-        ],
-        [
-          {
-            fieldName: 'field2',
-            text: 'Value 2',
-            format: 'string',
-            classes: '',
-          },
-        ],
-        [
-          {
-            fieldName: 'field2',
-            text: 'Value 2',
-            format: 'string',
-            classes: '',
-          },
-        ],
-      ],
-      rowCount: 10,
-      colCount: 2,
-    },
+        rowCount: 10,
+        colCount: 2,
+      },
+    ],
     pagination: {
       next: 'pathname?search=&selectedPage=2',
       pages: [

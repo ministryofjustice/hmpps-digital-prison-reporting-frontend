@@ -207,7 +207,7 @@ const getReportRenderData = async (
   const columns = ColumnUtils.getColumns(specification, reportQuery.columns)
 
   return {
-    dataTable,
+    dataTable: [dataTable],
     totals,
     filterData,
     columns,

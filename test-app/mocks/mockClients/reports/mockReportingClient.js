@@ -6,7 +6,11 @@ const createMockData = require('./mockAsyncData')
 const mockParentChild = require('./mockVariants/data/parent-child')
 const mockListSection = require('./mockVariants/data/list-section')
 const mockParentChildSection = require('./mockVariants/data/parent-child-section')
-const mockSingleRow = require('./mockVariants/data/row-section')
+const mockRowSectionChild = require('./mockVariants/data/row-section-child')
+const mockRowSectionData = require('./mockVariants/data/row-section')
+const mockRowSectionDataMultiple = require('./mockVariants/data/row-section_multiple_rows')
+const mockRowSectionChildDataMultiple = require('./mockVariants/data/row-section-child_multiple-rows')
+const mockRowSectionIncidentReport = require('./mockVariants/data/row-section_incident_report')
 
 const { mockStatusSequence, mockStatusHelper } = require('../mockStatusHelper')
 
@@ -114,7 +118,43 @@ class MockReportingClient {
         break
       case 'variantId-30-row-section':
         // Single row template
-        data = mockSingleRow
+        data = mockRowSectionData
+        break
+      case 'variantId-31':
+        // row-section-child - parent
+        data = mockRowSectionChild.parentData()
+        break
+      case 'variantId-31-child':
+        data = mockRowSectionChild.childData()
+        break
+      case 'variantId-31-child-2':
+        data = mockRowSectionChild.childData2()
+        break
+      case 'variantId-32-row-section-multiple':
+        data = mockRowSectionDataMultiple
+        break
+      case 'variantId-33':
+        // row-section-child - parent
+        data = mockRowSectionChildDataMultiple.parentData()
+        break
+      case 'variantId-33-child':
+        data = mockRowSectionChildDataMultiple.childData()
+        break
+      case 'variantId-33-child-2':
+        data = mockRowSectionChildDataMultiple.childData2()
+        break
+      case 'variantId-34':
+        // row-section-child - parent
+        data = mockRowSectionIncidentReport.parentData()
+        break
+      case 'variantId-34-prisoners-involved':
+        data = mockRowSectionIncidentReport.section2Data()
+        break
+      case 'variantId-34-staff-involved':
+        data = mockRowSectionIncidentReport.section3Data()
+        break
+      case 'variantId-34-incident-details':
+        data = mockRowSectionIncidentReport.section4Data()
         break
       default:
         data = createMockData(pageSize)

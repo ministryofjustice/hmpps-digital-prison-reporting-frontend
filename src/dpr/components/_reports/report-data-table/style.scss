@@ -240,6 +240,14 @@
   }
 }
 
+.dpr-table-container--list {
+  .govuk-table {
+    td {
+        padding-left: govuk-spacing(0);
+      }
+  }
+}
+
 .dpr-table-container--list-section {
   .govuk-table {
     // td:first-child {
@@ -252,7 +260,7 @@
   }
 }
 
-.dpr-table-container--row-section {
+.dpr-table-container--row-section, .dpr-table-container--row-section-child {
   th {
     border-bottom: 0px;
   }
@@ -264,14 +272,14 @@
   }
 
   .dpr-section-header {
-    // background-color: govuk-colour('light-grey');
-    // border: 1px solid govuk-colour("mid-grey"); 
+    background-color: govuk-colour('light-grey');
+    border-top: 1px solid govuk-colour("mid-grey"); 
     border-bottom: none;
-    // padding: govuk-spacing(3);
+    padding: govuk-spacing(3);
+  }
 
-    h2 {
-      // font-size: 19px;
-    }
+  .dpr-section-header-spacer {
+    padding: govuk-spacing(6);
   }
 
   .dpr-section-header-spacer-bottom {

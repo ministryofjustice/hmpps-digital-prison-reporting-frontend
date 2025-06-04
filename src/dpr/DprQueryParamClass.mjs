@@ -74,7 +74,7 @@ export default class DprQueryParamClass extends DprClientClass {
         value = formatted !== 'Invalid Date' ? formatted : ''
       }
       const valueToUpdate = !isDateInput && staticOptionNameValue ? staticOptionNameValue : value
-      if (name) this.updateQueryParam(name, valueToUpdate)
+      if (name) this.updateQueryParam(name, valueToUpdate.trim())
     }
   }
 

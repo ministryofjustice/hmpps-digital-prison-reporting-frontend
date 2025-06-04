@@ -134,3 +134,16 @@ table {
   height: 1px;
   border: 0
 }
+
+.moj-side-navigation__title, .dpr-docs-sidebar, .govuk-grid-column-one-quarter {
+  padding-left: 0px;
+}
+
+.moj-side-navigation__item:has(div) {
+  margin-left: 12px;
+  border-left: solid 4px #f3f2f1;
+}
+
+.dpr-docs-sub-nav__bullet {
+  margin-right: 10px;
+}

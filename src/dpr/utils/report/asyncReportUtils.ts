@@ -292,7 +292,7 @@ const getTemplateData = async (
 const showColumns = (specification: components['schemas']['Specification']) => {
   const { template } = specification
 
-  return !['row-section', 'row-section-child'].includes(template)
+  return !['row-section', 'row-section-child', 'summary', 'summary-section'].includes(template)
 }
 
 const setMetaData = (definition: components['schemas']['SingleVariantReportDefinition'], res: Response) => {

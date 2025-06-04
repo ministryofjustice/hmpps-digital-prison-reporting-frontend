@@ -4,4 +4,7 @@ title: List-section report
 subsection: Report Examples
 ---
 
-{% example "templates/list-section", 1000 %}
+
+This is an example report using the `list-section` template
+
+{% example "templates/list-section", 1000, 'default' %}

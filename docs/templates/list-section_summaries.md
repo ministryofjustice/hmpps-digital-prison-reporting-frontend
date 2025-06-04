@@ -4,4 +4,6 @@ title: List-section report with summaries
 subsection: Report Examples
 ---
 
-{% example "templates/list-section_summaries", 1000 %}
+This is an example report using the `list-section` template, with summaries
+
+{% example "templates/list-section_summaries", 1000, 'default' %}

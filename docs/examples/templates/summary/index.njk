@@ -6,23 +6,6 @@ title: List-section Report (example)
 {%- from "dpr/components/_reports/report-wrapper/view.njk" import dprReportWrapper -%}
 
 {% set data = {
-  "columns": {
-    "name": "columns",
-    "options": [
-      {
-        "text": "First",
-        "value": "section1",
-        "disabled": false
-      },
-      {
-        "text": "Second",
-        "value": "section2",
-        "disabled": false
-      }
-    ],
-    "text": "Select report columns",
-    "value": []
-  },
   "filterData": {
     "filters": [],
     "selectedFilters": []
@@ -35,7 +18,6 @@ title: List-section Report (example)
   "type": "report",
   "actions": [],
   "canDownload": false,
-  "bookmarked": false,
   "printable": true,
   "reportName": "C Test Report",
   "name": "Summaries template",
@@ -119,12 +101,12 @@ title: List-section Report (example)
       }
     ]
   },
-  "dataTable": {
+  "dataTable": [{
     "head": [],
     "rows": [],
     "rowCount": 20,
     "colCount": 0
-  }
+  }]
 } %}
 
 {{ dprReportWrapper(data) }}

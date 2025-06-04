@@ -4,4 +4,6 @@ title: Parent-child report
 subsection: Report Examples
 ---
 
-{% example "templates/parent-child", 1000 %}
+This is an example report using the `parent-child` template
+
+{% example "templates/parent-child", 1000, 'default' %}

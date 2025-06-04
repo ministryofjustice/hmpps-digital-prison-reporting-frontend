@@ -73,14 +73,6 @@
         <input type="hidden" name="sections" value="{{ sections | json }}">
       {% endif %}
 
-      {# {% if filters.length > 3 %}
-        {{ dprFiltersActions({
-          submitText: "Request " + type,
-          submitId: 'async-request-report-button',
-          showReset: false
-        }) }}
-      {% endif %} #}
-
       {% if filters.length or sortBy.length > 0 %}
         <div class="dpr-filters-container">
 

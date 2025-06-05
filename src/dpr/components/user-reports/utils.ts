@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 import RecentlyViewedStoreService from '../../services/recentlyViewedService'
 import RequestedReportService from '../../services/requestedReportService'
 import { RenderTableListResponse } from './types'
+import Dict = NodeJS.Dict
 import {
   FormattedUserReportData,
   UserReportData,
@@ -13,6 +14,7 @@ import {
 } from '../../types/UserReports'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { getExpiredStatus } from '../../utils/requestStatusHelper'
+import SelectedFiltersUtils from '../_filters/filters-selected/utils'
 import { itemActionsHtml, createListItemProduct } from '../../utils/reportListsHelper'
 import { Services } from '../../types/Services'
 import RequestedReportUtils from './requested/utils'
@@ -20,9 +22,13 @@ import RecentlyViewedCardGroupUtils from './viewed/utils'
 import BookmarklistUtils from './bookmarks/utils'
 import LocalsHelper from '../../utils/localsHelper'
 import DateMapper from '../../utils/DateMapper/DateMapper'
+import UserStoreItemBuilder from '../../utils/UserStoreItemBuilder'
+import { FilterValue } from '../_filters/types'
 
 const formatData = (reportData: UserReportData): FormattedUserReportData => {
   const reportDataCopy: UserReportData = JSON.parse(JSON.stringify(reportData))
+
+  console.log({ reportDataCopy })
 
   const {
     executionId,
@@ -34,6 +40,7 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
     id,
     description,
     query,
+    interactiveQuery,
     status,
     timestamp,
     reportName,
@@ -41,9 +48,15 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
     type: reportType,
   } = reportDataCopy
 
-  let summary
+  console.log({ interactiveQuery })
+
+  let summary: { name: string; value: string }[] = []
   if (query) {
     summary = query.summary as { name: string; value: string }[]
+  }
+  let interactiveSummary: { name: string; value: string }[] = []
+  if (interactiveQuery) {
+    interactiveSummary = interactiveQuery.summary as { name: string; value: string }[]
   }
 
   const type = reportType || ReportType.REPORT
@@ -55,6 +68,7 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
     description,
     tag: 'MIS',
     summary,
+    interactiveSummary,
     timestamp,
     status,
     type,
@@ -80,7 +94,6 @@ const formatTable = (data: FormattedUserReportData[], type: 'requested' | 'viewe
     rows,
     head: [
       { text: 'Product', classes: 'dpr-req-product-head' },
-      // { text: 'Description', classes: 'dpr-req-description-head' },
       { text: 'Filters', classes: 'dpr-req-filters-head' },
       { text: 'Status', classes: 'dpr-req-status-head' },
       { text: 'Actions', classes: 'dpr-req-actions-head' },
@@ -121,7 +134,7 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
   }
 
   let filtersSummary = ''
-  if (data.summary) {
+  if (data.summary || data.interactiveSummary) {
     filtersSummary = createSummaryHtml(data)
   }
 
@@ -129,7 +142,6 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
     {
       html: createListItemProduct(reportName, text, reportType, timestamp),
     },
-    // { html: ShowMoreUtils.createShowMoreHtml(data.description, 175) },
     { html: filtersSummary },
     {
       html: `<strong class="govuk-tag dpr-request-status-tag ${statusClass}">${status}</strong>`,
@@ -152,9 +164,17 @@ const getTotals = (formattedCount: number, maxRows: number) => {
 
 const createSummaryHtml = (data: FormattedUserReportData) => {
   const summaryHtml = data.summary
-    .map((item) => `<li class="govuk-body-s"><strong>${item.name}</strong>: ${item.value}</li>`)
+    .map((item) => `<li class="govuk-body-s dpr-query-summary"><strong>${item.name}</strong>: ${item.value}</li>`)
     .join('')
-  return `<ul class="dpr-card-group__item__filters-list govuk-!-margin-top-0 govuk-!-margin-bottom-0">${summaryHtml}</ul>`
+
+  const interactiveSummaryHtml = data.interactiveSummary
+    .map(
+      (item) =>
+        `<li class="govuk-body-s dpr-interactive-query-summary"><strong>${item.name}</strong>: ${item.value}</li>`,
+    )
+    .join('')
+
+  return `<ul class="dpr-card-group__item__filters-list govuk-!-margin-top-0 govuk-!-margin-bottom-0">${summaryHtml}${interactiveSummaryHtml}</ul>`
 }
 
 const getMeta = (formattedData: FormattedUserReportData[]) => {
@@ -331,27 +351,42 @@ export default {
   },
 
   updateLastViewed: async ({
+    req,
     services,
     reportStateData,
     userId,
-    search,
-    href,
+    filters,
   }: {
+    req: Request
     services: Services
     reportStateData: RequestedReport
     userId: string
     search: string
     href: string
+    filters: FilterValue[]
   }) => {
-    const data = reportStateData
-    if (search) {
-      data.url.report = {
-        fullUrl: `${href}${search}`,
-        search,
-      }
+    const { type, reportId, reportName, description, id, name, executionId, tableId, query, url } = reportStateData
+    const reportData = { type, reportId, reportName, description, id, name }
+    const executionData = { executionId, tableId }
+    const queryData = { query: query.data, querySummary: query.summary }
+
+    const interactiveQueryData: { query: Dict<string>; querySummary: Array<Dict<string>> } = {
+      query: <Dict<string>>req.query,
+      querySummary: SelectedFiltersUtils.getQuerySummary(req, filters),
     }
 
-    await services.requestedReportService.updateLastViewed(data.executionId, userId)
-    await services.recentlyViewedService.setRecentlyViewed(data, userId, search)
+    const recentlyViewedData = new UserStoreItemBuilder()
+      .addReportData(reportData)
+      .addExecutionData(executionData)
+      .addQuery(queryData)
+      .addInteractiveQuery(interactiveQueryData)
+      .addStatus(RequestStatus.READY)
+      .addTimestamp()
+      .addAsyncUrls(url)
+      .addReportUrls(req)
+      .build()
+
+    await services.requestedReportService.updateLastViewed(reportStateData.executionId, userId)
+    await services.recentlyViewedService.setRecentlyViewed(recentlyViewedData, userId)
   },
 }

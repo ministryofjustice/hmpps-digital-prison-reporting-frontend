@@ -17,13 +17,13 @@ export const actionTemplates: ActionTemplates = {
   sharable: {
     id: 'dpr-button-sharable',
     disabled: false,
-    tooltipText: 'Share',
+    tooltipText: 'Email report link',
     ariaLabelText: 'share report request via email',
   },
   copy: {
     id: 'dpr-button-copy',
     disabled: false,
-    tooltipText: 'Copy',
+    tooltipText: 'Copy report link',
     ariaLabelText: 'report request',
   },
   downloadable: {

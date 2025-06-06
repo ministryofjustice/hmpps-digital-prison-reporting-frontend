@@ -132,8 +132,8 @@ Then('filters are displayed for filterable fields', function (this: Mocha.Contex
     .forEach((field) => {
       switch (field.filter.type) {
         case 'daterange':
-          page.dateStartLabel().contains('Start')
-          page.dateEndLabel().contains('End')
+          page.dateStartLabel().contains('From')
+          page.dateEndLabel().contains('To')
           break
 
         case 'Radio':

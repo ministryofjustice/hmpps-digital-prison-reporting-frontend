@@ -6,12 +6,12 @@ export default class ReportPage {
   filterButtonPanel = (): PageElement => cy.xpath(`//*[@id="dpr-interactive-filters-details"]`)
 
   showColumnsButton = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[3]/div[1]/div[2]/div/details/summary`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[4]/div[1]/div[2]/div/details/summary`)
 
   resetFilterButton = (): PageElement => cy.xpath(`//*[@id="interactive-reset-filters-button"]`)
 
   resetColumnsButton = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[3]/div[1]/div[2]/div/details/div/form/div[2]/a`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[4]/div[1]/div[2]/div/details/div/form/div[2]/a`)
 
   pagingLink = (): PageElement => cy.get('.govuk-pagination__link').first()
 
@@ -47,15 +47,15 @@ export default class ReportPage {
   applyFiltersButton = (): PageElement => cy.xpath(`//*[@id="interactive-apply-filters-button"]`)
 
   applyColumnsButton = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[3]/div[1]/div[2]/div/details/div/form/div[2]/button`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[4]/div[1]/div[2]/div/details/div/form/div[2]/button`)
 
   selectedFilterButton = (): PageElement => cy.get(`a.govuk-link.govuk-body.interactive-remove-filter-button`)
 
   selectedFilterButtonField1 = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[3]/div[2]/div[1]/div/a[1]`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[4]/div[2]/div[1]/div/a[1]`)
 
   selectedFilterButtonField3 = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[3]/div[2]/div[1]/div/a[2]`)
+    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[4]/div[2]/div[1]/div/a[2]`)
 
   selectedFilterButtonField7 = (): PageElement =>
     cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[4]/div[2]/div[1]/div/a[3]`)

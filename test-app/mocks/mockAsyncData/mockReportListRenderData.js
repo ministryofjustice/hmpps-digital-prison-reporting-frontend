@@ -76,14 +76,14 @@ const mockGetReportListRenderData = {
       {
         id: 'dpr-button-sharable',
         disabled: false,
-        tooltipText: 'Share',
+        tooltipText: 'Email report link',
         ariaLabelText: 'share report request via email',
         href: 'mailto:?subject=reportName-variantName&body=fullUrl',
       },
       {
         id: 'dpr-button-copy',
         disabled: false,
-        tooltipText: 'Copy',
+        tooltipText: 'Copy report link',
         ariaLabelText: 'report request',
         href: 'fullUrl',
       },

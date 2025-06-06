@@ -342,14 +342,14 @@ const mockRenderDataFromDefinition = {
       {
         id: 'dpr-button-sharable',
         disabled: false,
-        tooltipText: 'Share',
+        tooltipText: 'Email report link',
         ariaLabelText: 'share report request via email',
         href: 'mailto:?subject=Test Report Name-Test Variant&body=protocol%3A%2F%2FhostoriginalUrl',
       },
       {
         id: 'dpr-button-copy',
         disabled: false,
-        tooltipText: 'Copy',
+        tooltipText: 'Copy report link',
         ariaLabelText: 'report request',
         href: 'protocol://hostoriginalUrl',
       },
@@ -681,14 +681,14 @@ const mockRenderDataFromData = {
       {
         id: 'dpr-button-sharable',
         disabled: false,
-        tooltipText: 'Share',
+        tooltipText: 'Email report link',
         ariaLabelText: 'share report request via email',
         href: 'mailto:?subject=Test report name-Test Variant&body=protocol%3A%2F%2FhostoriginalUrl',
       },
       {
         id: 'dpr-button-copy',
         disabled: false,
-        tooltipText: 'Copy',
+        tooltipText: 'Copy report link',
         ariaLabelText: 'report request',
         href: 'protocol://hostoriginalUrl',
       },

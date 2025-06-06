@@ -368,7 +368,7 @@ export default {
     const { type, reportId, reportName, description, id, name, executionId, tableId, query, url } = reportStateData
     const reportData = { type, reportId, reportName, description, id, name }
     const executionData = { executionId, tableId }
-    const queryData = { query: query.data, querySummary: query.summary }
+    const queryData = query ? { query: query.data, querySummary: query.summary } : { query: {}, querySummary: [] }
 
     const interactiveQueryData: { query: Dict<string>; querySummary: Array<Dict<string>> } = {
       query: <Dict<string>>req.query,

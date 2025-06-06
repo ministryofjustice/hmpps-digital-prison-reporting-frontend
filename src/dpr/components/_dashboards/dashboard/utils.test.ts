@@ -3,17 +3,25 @@
 import { Response, Request } from 'express'
 import { Url } from 'url'
 import { Services } from '../../../types/Services'
-import DashboardUtils from './utils'
-import DashboardService from '../../../services/dashboardService'
+
+// Clients
+import MockDashboardClient from '../../../../../test-app/mocks/mockClients/dashboards/mock-client'
 import DashboardClient from '../../../data/dashboardClient'
 
-import MockDashboardClient from '../../../../../test-app/mocks/mockClients/dashboards/mock-client'
+// Utils
+import DashboardUtils from './utils'
+import UserReportsUtils from '../../user-reports/utils'
+
+// Services
+import DashboardService from '../../../services/dashboardService'
 import RecentlyViewedStoreService from '../../../services/recentlyViewedService'
 import RequestedReportService from '../../../services/requestedReportService'
-import MockDashboardRequestData from '../../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'
 import ReportingService from '../../../services/reportingService'
-import MockDefinitions from '../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
 import BookmarkService from '../../../services/bookmarkService'
+
+// Mocks
+import MockDashboardRequestData from '../../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'
+import MockDefinitions from '../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
 import { RequestedReport } from '../../../types/UserReports'
 import { ChartCardData } from '../../../types/Charts'
 
@@ -38,6 +46,8 @@ describe('DashboardUtils', () => {
     let setRecentlyViewedSpy: jest.SpyInstance<Promise<void>, [reportData: RequestedReport, userId: string], any>
 
     beforeEach(() => {
+      jest.spyOn(UserReportsUtils, 'updateLastViewed').mockResolvedValue(null)
+
       dashboardClient = new MockDashboardClient() as unknown as DashboardClient
       dashboardService = new DashboardService(dashboardClient)
 

@@ -1,5 +1,6 @@
 import parseUrl from 'parseurl'
 import { Url } from 'url'
+import { Request } from 'express'
 import type { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
 
 import {
@@ -26,6 +27,7 @@ import ReportActionsUtils from '../../_reports/report-actions/utils'
 import ReportQuery from '../../../types/ReportQuery'
 import LocalsHelper from '../../../utils/localsHelper'
 import { Services } from '../../../types/Services'
+import { FilterValue } from '../../_filters/types'
 
 const setDashboardActions = (
   dashboardDefinition: DashboardDefinition,
@@ -156,6 +158,8 @@ const updateStore = async (
   userId: string,
   sections: DashboardUISection[],
   url: Url,
+  req: Request,
+  filters: FilterValue[],
 ) => {
   const dashboardRequestData: RequestedReport = await services.requestedReportService.getReportByTableId(
     tableId,
@@ -170,6 +174,8 @@ const updateStore = async (
       userId,
       search: url.search,
       href: url.href,
+      req,
+      filters,
     })
   }
 
@@ -204,7 +210,7 @@ export default {
     const sections: DashboardUISection[] = getSections(dashboardDefinition, flattenedData)
 
     // Update the store
-    const dashboardRequestData = await updateStore(services, tableId, userId, sections, url)
+    const dashboardRequestData = await updateStore(services, tableId, userId, sections, url, req, filters.filters)
 
     return {
       dashboardData: {

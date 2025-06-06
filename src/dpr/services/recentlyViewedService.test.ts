@@ -48,28 +48,24 @@ describe('RecentlyViewedStoreService', () => {
 
   describe('setRecentlyViewed', () => {
     it('should set recently viewed with an id', async () => {
-      await recentlyViewedService.setRecentlyViewed(
-        MockRequestedListData.requestedReady as unknown as RequestedReport,
-        'userId',
-      )
-
-      const savedRecord = {
+      const viewedReport = {
         ...MockRequestedListData.requestedReady,
         status: RequestStatus.READY,
         timestamp: {
+          ...MockRequestedListData.requestedReady.timestamp,
           lastViewed: mockDate,
         },
       }
 
-      delete savedRecord.url.polling
-      delete savedRecord.url.request.pathname
-      delete savedRecord.url.report.pathname
-      delete savedRecord.filters
-      delete savedRecord.sortBy
-      delete savedRecord.dataProductDefinitionsPath
+      delete viewedReport.url.polling
+      delete viewedReport.url.request.pathname
+      delete viewedReport.url.report.pathname
+      delete viewedReport.dataProductDefinitionsPath
+
+      await recentlyViewedService.setRecentlyViewed(viewedReport as unknown as RequestedReport, 'userId')
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', {
-        recentlyViewedReports: [savedRecord, MockViewedListData.viewedReady],
+        recentlyViewedReports: [viewedReport, MockViewedListData.viewedReady],
       })
     })
 

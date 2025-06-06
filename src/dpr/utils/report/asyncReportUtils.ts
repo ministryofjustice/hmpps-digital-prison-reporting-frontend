@@ -11,7 +11,6 @@ import type { AsyncSummary, RequestedReport } from '../../types/UserReports'
 import { LoadType, ReportType } from '../../types/UserReports'
 import ReportQuery from '../../types/ReportQuery'
 
-import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import CollatedSummaryBuilder from '../CollatedSummaryBuilder/CollatedSummaryBuilder'
 
 import PaginationUtils from '../../components/_reports/report-pagination/utils'
@@ -224,11 +223,13 @@ const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
 
   if (Object.keys(requestData).length) {
     UserReportsUtils.updateLastViewed({
+      req,
       services,
       reportStateData: requestData,
       userId,
       search: renderData.search,
       href: renderData.pathname,
+      filters: templateData.filterData.filters,
     })
   }
 

@@ -40,35 +40,8 @@ export default class RecentlyViewedStoreService extends ReportStoreService {
     await this.addReport(reportData, userId, userConfig)
   }
 
-  async addReport(reportData: RequestedReport, userId: string, userConfig: ReportStoreConfig) {
-    const { reportId, executionId, tableId, reportName, name: variantName, description, url, query } = reportData
-
-    const id = reportData.variantId || reportData.id
-    const type = reportData.type || ReportType.REPORT
-    const { request, report } = url
-
-    const recentlyViewedReportData: RecentlyViewedReport = {
-      reportId,
-      id,
-      executionId,
-      tableId,
-      reportName,
-      name: variantName,
-      description,
-      type,
-      status: RequestStatus.READY,
-      url: {
-        origin: url.origin,
-        ...(request && { request }),
-        ...(report && { report }),
-      },
-      timestamp: {
-        lastViewed: new Date(),
-      },
-      query,
-    }
-
-    userConfig.recentlyViewedReports.unshift(recentlyViewedReportData)
+  async addReport(reportData: RecentlyViewedReport, userId: string, userConfig: ReportStoreConfig) {
+    userConfig.recentlyViewedReports.unshift(reportData)
     await this.saveState(userId, userConfig)
   }
 

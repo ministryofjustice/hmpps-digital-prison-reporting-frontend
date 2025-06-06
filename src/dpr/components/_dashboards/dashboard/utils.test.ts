@@ -3,19 +3,28 @@
 import { Response, Request } from 'express'
 import { Url } from 'url'
 import { Services } from '../../../types/Services'
-import DashboardUtils from './utils'
-import DashboardService from '../../../services/dashboardService'
+
+// Clients
+import MockDashboardClient from '../../../../../test-app/mocks/mockClients/dashboards/mock-client'
 import DashboardClient from '../../../data/dashboardClient'
 
-import MockDashboardClient from '../../../../../test-app/mocks/mockClients/dashboards/mock-client'
+// Utils
+import DashboardUtils from './utils'
+import UserReportsUtils from '../../user-reports/utils'
+
+// Services
+import DashboardService from '../../../services/dashboardService'
 import RecentlyViewedStoreService from '../../../services/recentlyViewedService'
 import RequestedReportService from '../../../services/requestedReportService'
-import MockDashboardRequestData from '../../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'
 import ReportingService from '../../../services/reportingService'
-import MockDefinitions from '../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
 import BookmarkService from '../../../services/bookmarkService'
+
+// Mocks
+import MockDashboardRequestData from '../../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'
+import MockDefinitions from '../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
 import { RequestedReport } from '../../../types/UserReports'
 import { ChartCardData } from '../../../types/Charts'
+import { FilterValue } from '../../_filters/types'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
@@ -26,7 +35,7 @@ describe('DashboardUtils', () => {
   let req: Request
   let res: Response
 
-  describe('Async', () => {
+  describe('renderAsyncDashboard', () => {
     let dashboardClient: DashboardClient
     let dashboardService: DashboardService
     let services: Services
@@ -34,10 +43,27 @@ describe('DashboardUtils', () => {
     let requestedReportService: RequestedReportService
     let reportingService: ReportingService
     let bookmarkService: BookmarkService
-    let updateLastViewedSpy: jest.SpyInstance<Promise<void>, [id: string, userId: string], any>
+    let updateLastViewedSpy: jest.SpyInstance<
+      Promise<void>,
+      [
+        {
+          req: Request
+          services: Services
+          reportStateData: RequestedReport
+          userId: string
+          search: string
+          href: string
+          filters: FilterValue[]
+        },
+      ],
+      any
+    >
     let setRecentlyViewedSpy: jest.SpyInstance<Promise<void>, [reportData: RequestedReport, userId: string], any>
 
     beforeEach(() => {
+      jest.clearAllMocks()
+      jest.spyOn(UserReportsUtils, 'updateLastViewed').mockResolvedValue(null)
+
       dashboardClient = new MockDashboardClient() as unknown as DashboardClient
       dashboardService = new DashboardService(dashboardClient)
 
@@ -58,8 +84,7 @@ describe('DashboardUtils', () => {
         isBookmarked: jest.fn().mockResolvedValue(true),
       } as unknown as BookmarkService
 
-      setRecentlyViewedSpy = jest.spyOn(recentlyViewedService, 'setRecentlyViewed')
-      updateLastViewedSpy = jest.spyOn(requestedReportService, 'updateLastViewed')
+      updateLastViewedSpy = jest.spyOn(UserReportsUtils, 'updateLastViewed').mockResolvedValue(null)
 
       req = {
         params: {
@@ -89,37 +114,34 @@ describe('DashboardUtils', () => {
       } as unknown as Services
     })
 
-    describe('renderAsyncDashboard', () => {
-      it('should return the data to render a dashboard', async () => {
-        const result = await DashboardUtils.renderAsyncDashboard({
-          req,
-          res,
-          services,
-        })
-
-        expect(result.dashboardData.name).toEqual('Test Dashboard')
-        expect(result.dashboardData.description).toEqual('Dashboard used for testing testing')
-        expect(result.dashboardData.sections.length).toEqual(7)
-
-        expect(result.dashboardData.sections[0].title).toEqual('Section 1 - Ethnicity charts')
-        expect(result.dashboardData.sections[1].title).toEqual('Section 2 - Nationality charts')
-        expect(result.dashboardData.sections[2].title).toEqual('Section 3 - Religion charts')
-
-        const chartData = result.dashboardData.sections[0].visualisations[0].data as ChartCardData
-        expect(chartData.chart.type).toEqual('bar')
-        expect(chartData.table.head.length).toEqual(3)
+    it('should return the data to render a dashboard', async () => {
+      const result = await DashboardUtils.renderAsyncDashboard({
+        req,
+        res,
+        services,
       })
 
-      it('should mark the dashboard as recently viewed', async () => {
-        await DashboardUtils.renderAsyncDashboard({
-          req,
-          res,
-          services,
-        })
+      expect(result.dashboardData.name).toEqual('Test Dashboard')
+      expect(result.dashboardData.description).toEqual('Dashboard used for testing testing')
+      expect(result.dashboardData.sections.length).toEqual(7)
 
-        expect(updateLastViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard.executionId, 'Us3rId')
-        expect(setRecentlyViewedSpy).toHaveBeenCalledWith(MockDashboardRequestData.readyDashboard, 'Us3rId', 'search')
+      expect(result.dashboardData.sections[0].title).toEqual('Section 1 - Ethnicity charts')
+      expect(result.dashboardData.sections[1].title).toEqual('Section 2 - Nationality charts')
+      expect(result.dashboardData.sections[2].title).toEqual('Section 3 - Religion charts')
+
+      const chartData = result.dashboardData.sections[0].visualisations[0].data as ChartCardData
+      expect(chartData.chart.type).toEqual('bar')
+      expect(chartData.table.head.length).toEqual(3)
+    })
+
+    it('should mark the dashboard as recently viewed', async () => {
+      await DashboardUtils.renderAsyncDashboard({
+        req,
+        res,
+        services,
       })
+
+      expect(updateLastViewedSpy).toHaveBeenCalledTimes(1)
     })
   })
 })

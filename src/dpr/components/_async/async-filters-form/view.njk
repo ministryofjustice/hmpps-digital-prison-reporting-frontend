@@ -82,6 +82,7 @@
               <div class="dpr-async-request-filters__section--heading">
                 <p class="govuk-body govuk-!-margin-bottom-0"><strong>Filters</p>
               </div>
+        
               <div class="dpr-async-request-filters__section--actions">
                 {{ dprFiltersActions({
                   resetText: 'Reset filters',
@@ -94,14 +95,6 @@
                 {%- for filter in filters %}
                   {{ dprFilterInput(filter, 'filters.') }}
                 {%- endfor %}
-              </div>
-
-              <div class="dpr-async-request-filters__section--actions">
-                {{ dprFiltersActions({
-                  resetText: 'Reset filters',
-                  resetId: 'async-request-reset-filters-button',
-                  showReset: filters.length > 0
-                }) }}
               </div>
             </div>
           {% endif %}

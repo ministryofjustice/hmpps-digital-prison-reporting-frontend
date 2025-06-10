@@ -22,30 +22,28 @@
   {% set count = reportData.count %}
 
   <div class="dpr-report-header">
+    {% if actions or bookmarked is defined %}
+    <div class="dpr-report-heading__actions">
+      {% if actions %}
+        {{ dprReportActions(actions) }}
+      {% endif %}
+
+      {% if bookmarked is defined %}
+        {% set id = reportData.id %}
+        {% set csrfToken = reportData.csrfToken %}
+        {% set actions = reportData.actions %}
+        
+        {{ dprBookmarkToggle(reportId, id, csrfToken, bookmarked, 'report', type) }}
+      {% endif %}
+    </div>
+    {% endif %}
     <div class="dpr-report-heading">
-      
       <div class="dpr-report-heading__title">
         <span class="govuk-caption-l">{{ reportName }}</span>
         <h1 class="govuk-heading-l">
           {{ name }}
         </h1>
       </div>
-      
-      {% if actions or bookmarked is defined %}
-      <div class="dpr-report-heading__actions">
-        {% if actions %}
-          {{ dprReportActions(actions) }}
-        {% endif %}
-
-        {% if bookmarked is defined %}
-          {% set id = reportData.id %}
-          {% set csrfToken = reportData.csrfToken %}
-          {% set actions = reportData.actions %}
-          
-          {{ dprBookmarkToggle(reportId, id, csrfToken, bookmarked, 'report', type) }}
-        {% endif %}
-      </div>
-       {% endif %}
     </div>
     
     {% if reportData.canDownload is defined %}

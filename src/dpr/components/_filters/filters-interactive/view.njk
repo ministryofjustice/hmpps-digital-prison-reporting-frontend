@@ -6,12 +6,7 @@
 
   {% set filters = data.filters %}
   {% set selectedFilters = data.selectedFilters %}
-
-  {% if selectedFilters.length %}
-    {% set detailsLabel = 'Update filters' %}
-  {% else %}
-    {% set detailsLabel = 'Apply filters' %}
-  {% endif %}
+  {% set detailsLabel = 'Show filters' %}
 
 
   <div class='dpr-interactive-filters-section'>

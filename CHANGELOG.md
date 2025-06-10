@@ -1,5 +1,13 @@
 Below you can find the changes included in each release.
 
+## v4.5.1
+
+### Bug fixes and UI styling/content updates
+
+- Removed secondary reset button
+- More descriptive report action buttons
+- Consistant labeking of filters and columns
+
 ## v4.5.0
 
 - New template builder: `row-section`.

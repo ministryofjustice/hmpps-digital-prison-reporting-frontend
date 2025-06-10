@@ -252,6 +252,8 @@ const disabledDate = (f: DateFilterValue, value: (string | DateRange)[], display
 }
 
 const getQuerySummary = (req: Request, filters: FilterValue[]) => {
+  // console.log(JSON.stringify(filters, null, 2))
+
   const { query } = req
   const prefix = 'filters.'
 

@@ -18,6 +18,7 @@ const startData = {
     mockViewedV2.viewedReady,
     mockViewedV2.viewedDashboard,
     mockViewedV2.viewedInteractive,
+    mockViewedV2.viewedInteractiveAsync,
   ],
   recentlyViewedReports: [
     mockViewedV2.viewedDashboard,
@@ -25,6 +26,7 @@ const startData = {
     mockViewedV2.viewedInteractive,
     mockViewedV2.viewedExpired,
     mockViewedV2.expiredDashboard,
+    mockViewedV2.viewedInteractiveAsync,
   ],
   bookmarks: [
     { reportId: 'test-report-3', variantId: 'variantId-1' },

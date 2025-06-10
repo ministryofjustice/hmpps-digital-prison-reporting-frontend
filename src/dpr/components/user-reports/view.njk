@@ -49,7 +49,8 @@
     {% endif %}
 
     {% if viewedReports %}
-      {% set recentlyViewedHtml %}
+
+      {% set recentlyViewedHtml %} 
         {{ dprRecentlyViewedList({
           head: viewedReports.head,
           tableData: viewedReports.tableData,

@@ -28,8 +28,6 @@ import { FilterValue } from '../_filters/types'
 const formatData = (reportData: UserReportData): FormattedUserReportData => {
   const reportDataCopy: UserReportData = JSON.parse(JSON.stringify(reportData))
 
-  console.log({ reportDataCopy })
-
   const {
     executionId,
     tableId,
@@ -47,8 +45,6 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
     dataProductDefinitionsPath,
     type: reportType,
   } = reportDataCopy
-
-  console.log({ interactiveQuery })
 
   let summary: { name: string; value: string }[] = []
   if (query) {

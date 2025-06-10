@@ -1,5 +1,7 @@
 import type { Request } from 'express'
+import parseUrl from 'parseurl'
 import {
+  AsyncReportUrlData,
   LoadType,
   ReportType,
   RequestedReport,
@@ -9,7 +11,6 @@ import {
 } from '../types/UserReports'
 import Dict = NodeJS.Dict
 import { getDpdPathSuffix } from './urlHelper'
-import { SetQueryFromFiltersResult } from '../components/_async/async-filters-form/types'
 import { ChildReportExecutionData, ExecutionData } from '../types/ExecutionData'
 import { DashboardSection } from '../components/_dashboards/dashboard/types'
 
@@ -145,9 +146,21 @@ export default class UserStoreItemBuilder {
     return this
   }
 
+  addAsyncUrls = (url: AsyncReportUrlData) => {
+    this.userStoreItem = {
+      ...this.userStoreItem,
+      ...{
+        url,
+      },
+    }
+
+    return this
+  }
+
   addReportUrls = (req: Request) => {
     const origin = req.get('host')
     const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
+    const urlData = parseUrl(req)
 
     this.userStoreItem = {
       ...this.userStoreItem,
@@ -159,6 +172,7 @@ export default class UserStoreItemBuilder {
           report: {
             ...(this.userStoreItem.url?.report && this.userStoreItem.url.report),
             fullUrl,
+            ...(urlData.search && { search: urlData.search }),
           },
         },
       },
@@ -176,7 +190,7 @@ export default class UserStoreItemBuilder {
     return this
   }
 
-  addQuery = (queryData: SetQueryFromFiltersResult) => {
+  addQuery = (queryData: { query: Dict<string>; querySummary: Array<Dict<string>> }) => {
     this.userStoreItem = {
       ...this.userStoreItem,
       ...{
@@ -185,6 +199,21 @@ export default class UserStoreItemBuilder {
           summary: queryData.querySummary,
         },
       },
+    }
+    return this
+  }
+
+  addInteractiveQuery = (queryData?: { query: Dict<string>; querySummary: Array<Dict<string>> }) => {
+    if (queryData) {
+      this.userStoreItem = {
+        ...this.userStoreItem,
+        ...{
+          interactiveQuery: {
+            data: queryData.query,
+            summary: queryData.querySummary,
+          },
+        },
+      }
     }
     return this
   }

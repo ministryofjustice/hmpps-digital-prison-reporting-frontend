@@ -35,7 +35,7 @@ export default class DprRecentlyViewedList extends DprPollingStatusClass {
         if (metaData.status !== 'EXPIRED') {
           const response = await this.getExpiredStatus('/dpr/getExpiredStatus/', metaData, this.csrfToken)
           if (response && response.isExpired) {
-            window.location.reload()
+            // window.location.reload()
             clearInterval(this.expiredViewedInterval)
           }
         }

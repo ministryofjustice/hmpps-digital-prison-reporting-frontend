@@ -18,6 +18,7 @@ export interface StoredReportData {
   dataProductDefinitionsPath?: string
   dpdPathFromQuery?: boolean
   query?: AsyncReportQueryData
+  interactiveQuery?: AsyncReportQueryData
   url?: AsyncReportUrlData
   type: ReportType
   loadType?: LoadType
@@ -108,6 +109,7 @@ export interface FormattedUserReportData {
   status?: string
   type: ReportType
   summary?: { name: string; value: string }[]
+  interactiveSummary?: { name: string; value: string }[]
   meta?: meta
 }
 

@@ -1,3 +1,5 @@
+const { interactive } = require('../reports/mockVariants/variant23-interactive')
+
 const viewedReady = {
   reportId: 'test-report-3',
   id: 'variantId-1',
@@ -117,7 +119,8 @@ const viewedInteractive = {
     },
     report: {
       pathname: '/async/report/test-report-6/variantId-23/request/tblId_1733925499607/report',
-      fullUrl: 'http://localhost:3010/async/report/test-report-6/variantId-23/request/tblId_1733925499607/report',
+      fullUrl:
+        'http://localhost:3010/async/report/test-report-6/variantId-23/request/tblId_1733925499607/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7&filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3',
     },
   },
   timestamp: {
@@ -126,6 +129,38 @@ const viewedInteractive = {
   query: {
     data: {},
     summary: [],
+  },
+  interactiveQuery: {
+    data: {
+      columns: ['field1', 'field2', 'field3', 'field6', 'field7'],
+      'filters.field1': 'value1.2',
+      'filters.field3.start': '2003-02-01',
+      'filters.field3.end': '2006-05-04',
+      'filters.field7': '2005-02-01',
+      'filters.field8': ['value8.2', 'value8.3'],
+    },
+    summary: [
+      {
+        id: 'field1',
+        name: 'Field 1',
+        value: 'Value 1.2',
+      },
+      {
+        id: 'field3',
+        name: 'Field 3',
+        value: '2003-02-01 - 2006-05-04',
+      },
+      {
+        id: 'field7',
+        name: 'Field 7',
+        value: '2005-02-01',
+      },
+      {
+        id: 'field8',
+        name: 'Field 8',
+        value: 'Value 8.2, Value 8.3',
+      },
+    ],
   },
 }
 
@@ -226,10 +261,84 @@ const expiredDashboard = {
   },
 }
 
+const viewedInteractiveAsync = {
+  type: 'report',
+  reportId: 'test-report-3',
+  reportName: 'C Test Report',
+  description: 'this is an interactive report',
+  id: 'variantId-35',
+  name: 'Interactive Report with async filters',
+  timestamp: {
+    lastViewed: '2025-06-10T10:37:02.786Z',
+  },
+  executionId: 'exId_1749551815281',
+  tableId: 'tblId_1749551815281',
+  query: {
+    data: {
+      'filters.field1': 'value1.2',
+      'filters.field7': '2005-02-01',
+    },
+    summary: [
+      {
+        name: 'Field 1',
+        value: 'value1.2',
+      },
+      {
+        name: 'Field 7',
+        value: '01/02/2005',
+      },
+    ],
+  },
+  interactiveQuery: {
+    data: {
+      'filters.field3.start': '2003-02-01',
+      'filters.field3.end': '2006-05-04',
+      'filters.field8': ['value8.2', 'value8.3'],
+    },
+    summary: [
+      {
+        id: 'field3',
+        name: 'Field 3',
+        value: '2003-02-01 - 2006-05-04',
+      },
+      {
+        id: 'field8',
+        name: 'Field 8',
+        value: 'Value 8.2, Value 8.3',
+      },
+    ],
+  },
+  status: 'READY',
+  url: {
+    origin: 'localhost:3010',
+    request: {
+      fullUrl:
+        'http://localhost:3010/async/report/test-report-3/variantId-35/request?filters.field1=value1.2&filters.field7=2005-02-01',
+      pathname: '/async/report/test-report-3/variantId-35/request',
+      search: '?filters.field1=value1.2&filters.field7=2005-02-01',
+    },
+    polling: {
+      fullUrl: 'http://localhost:3010/async/report/test-report-3/variantId-35/request/exId_1749551815281',
+      pathname: '/async/report/test-report-3/variantId-35/request/exId_1749551815281',
+    },
+    report: {
+      search:
+        '?filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field8=value8.2&filters.field8=value8.3',
+      default:
+        '?filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field8=value8.2&filters.field8=value8.3',
+      pathname:
+        '/async/report/test-report-3/variantId-35/request/tblId_1749551815281/report?filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field8=value8.2&filters.field8=value8.3',
+      fullUrl:
+        'http://localhost:3010/async/report/test-report-3/variantId-35/request/tblId_1749551815281/report?filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field8=value8.2&filters.field8=value8.3',
+    },
+  },
+}
+
 module.exports = {
   viewedReady,
   viewedExpired,
   viewedDashboard,
   expiredDashboard,
   viewedInteractive,
+  viewedInteractiveAsync,
 }

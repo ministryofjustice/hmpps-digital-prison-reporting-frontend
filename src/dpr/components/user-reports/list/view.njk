@@ -1,5 +1,8 @@
 
 {% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% from "../help/view.njk" import dprUserReportsListHelp %}
 
 {% macro dprUserReportsList(args, type, title) %}
   {% set tableData = args.tableData %}
@@ -15,11 +18,12 @@
   <div>
     <div class="dpr-slide__header">
       <h2 class="govuk-!-margin-top-0 govuk-!-margin-bottom-2">{{ title }}</h2>
-
+      {{ dprUserReportsListHelp(type) }}
       {% if not emptyMessage.length and total %}
-        <p class="govuk-body dpr-slide__sub-text govuk-!-margin-bottom-5">Showing <strong>{{ total.shown }}</strong> of <strong>{{ total.amount }}</strong> reports. {% if total.amount > total.max %} <a class="govuk-body" href='{{ href }}'>Show all</a>{% endif %}</p>
+        <p class="govuk-body dpr-slide__sub-text govuk-!-margin-bottom-2">Showing <strong>{{ total.shown }}</strong> of <strong>{{ total.amount }}</strong> reports. {% if total.amount > total.max %} <a class="govuk-body" href='{{ href }}'>Show all</a>{% endif %}</p>
       {% endif %}
     </div>
+    
     {% if emptyMessage.length %}
       <p class="govuk-!-margin-top-6"><strong>{{ emptyMessage }}</strong></p>
 
@@ -31,7 +35,6 @@
       {% if type === 'requested' %}
         <p>To request a report click the "<strong>Request report</strong>" link next to a report in the catalogue</p>
       {% endif %}
-
     {% else %}
       {{ govukTable(tableData) }}
     {% endif %}

@@ -7,7 +7,7 @@ Then('I click on the recently viewed reports tab', () => {
 })
 
 Then('the viewed reports are displayed correctly', () => {
-  new AsyncHomePage().viewedReportsList().find('tr').should('have.length', 6)
+  new AsyncHomePage().viewedReportsList().find('tr').should('have.length', 7)
 })
 
 Then('the status and timestamp is displayed for each viewed report', () => {

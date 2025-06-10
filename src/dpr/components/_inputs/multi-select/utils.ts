@@ -31,7 +31,34 @@ const getQueryFromDefinition = (
     .join('&')
 }
 
+const getMultiselectValues = (f: FilterValue, prefix: string) => {
+  const MAX_VALUES = 3
+  const splitValues = (<string>f.value).split(',')
+  let displayValue = splitValues
+    .map((v) => {
+      const displayOption = f.options.find((opt) => opt.value === v)
+      return displayOption.text
+    })
+    .filter((v, i) => {
+      return i < MAX_VALUES
+    })
+    .join(', ')
+
+  displayValue =
+    splitValues.length > MAX_VALUES ? `${displayValue} + ${splitValues.length - MAX_VALUES} more` : displayValue
+
+  const value = splitValues.map((v) => `"${v}"`)
+  const key = [`${prefix}${f.name}`]
+
+  return {
+    key,
+    value,
+    displayValue,
+  }
+}
+
 export default {
   getQueryFromDefinition,
   setValueFromRequest,
+  getMultiselectValues,
 }

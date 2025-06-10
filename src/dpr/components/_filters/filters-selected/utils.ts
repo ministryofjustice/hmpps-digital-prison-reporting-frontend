@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import { Request } from 'express'
 import { FilterType } from '../filter-input/enum'
 import { FilterValue, DateRange, DateFilterValue, GranularDateRange } from '../types'
 import DateRangeFilterUtils from '../../_inputs/date-range/utils'
@@ -24,33 +25,38 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
       return f.value && f.value !== 'no-filter'
     })
     .map((f) => {
-      let value: (string | DateRange)[] = []
-      let key: string[] = []
       let displayValue = `${f.value}`
+      let value: (string | DateRange)[] = [`"${displayValue}"`]
+      let key: string[] = [`${prefix}${f.name}`]
       let cantRemoveClass = ''
       let disabled = false
       let constraints: { key: string; value: string }[] | undefined
 
       if (f.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
         ;({ key, value, disabled, cantRemoveClass, displayValue, constraints } = setSelectedDateRange(f, prefix))
-      } else if (f.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
+      }
+
+      if (f.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
         ;({ key, value, disabled, cantRemoveClass, displayValue, constraints } = setSelectedGranularDateRange(
           f,
           prefix,
         ))
-      } else if (f.type.toLowerCase() === FilterType.date.toLowerCase()) {
+      }
+
+      if (f.type.toLowerCase() === FilterType.date.toLowerCase()) {
         ;({ key, value, disabled, cantRemoveClass, displayValue, constraints } = getSelectedDate(f, prefix))
-      } else if (
+      }
+
+      if (
         f.type.toLowerCase() === FilterType.autocomplete.toLowerCase() ||
         f.type.toLowerCase() === FilterType.radio.toLowerCase() ||
         f.type.toLowerCase() === FilterType.select.toLowerCase()
       ) {
         ;({ key, value, displayValue } = getOptionsValue(f, prefix))
-      } else if (f.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
+      }
+
+      if (f.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
         ;({ key, value, displayValue } = getMultiselectValues(f, prefix))
-      } else {
-        key = [`${prefix}${f.name}`]
-        value = [`"${displayValue}"`]
       }
 
       let ariaLabel
@@ -75,12 +81,16 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
 }
 
 const setSelectedDateRange = (f: FilterValue, prefix: string) => {
-  const key = [`${prefix}${f.name}.start`, `${prefix}${f.name}.end`]
-  const value = [`"${(<DateRange>f.value).start}"`, `"${(<DateRange>f.value).end}"`]
+  const startValue = (<DateRange>f.value).start || 'Open start'
+  const endValue = (<DateRange>f.value).end || 'Open end'
+  const name = `${prefix}${f.name}`
 
-  let displayValue = `${(<DateRange>f.value).start} - ${(<DateRange>f.value).end}`
+  const key = [`${name}.start`, `${name}.end`]
+  const value = [`"${startValue}"`, `"${endValue}"`]
+
+  let displayValue = `${startValue} - ${endValue}`
   if ((<DateRange>f.value).relative) {
-    key.push(`${prefix}${f.name}.relative-duration`)
+    key.push(`${name}.relative-duration`)
     value.push(`"${(<DateRange>f.value).relative}"`)
     displayValue = DateRangeFilterUtils.mapRelativeValue((<DateRange>f.value).relative)
   }
@@ -156,23 +166,23 @@ const getMultiselectValues = (f: FilterValue, prefix: string) => {
 }
 
 const setSelectedGranularDateRange = (f: FilterValue, prefix: string) => {
+  const startValue = (<GranularDateRange>f.value).start || 'Open start'
+  const endValue = (<GranularDateRange>f.value).end || 'Open end'
   const quickFilterValue = (<GranularDateRange>f.value).quickFilter?.value
-  const key = [`${prefix}${f.name}.start`, `${prefix}${f.name}.end`, `${prefix}${f.name}.granularity`]
-  const value = [
-    `"${(<GranularDateRange>f.value).start}"`,
-    `"${(<GranularDateRange>f.value).end}"`,
-    `"${(<GranularDateRange>f.value).granularity.value}"`,
-  ]
+  const name = `${prefix}${f.name}`
+
+  const key = [`${name}.start`, `${name}.end`, `${name}.granularity`]
+  const value = [`"${startValue}"`, `"${endValue}"`, `"${(<GranularDateRange>f.value).granularity.value}"`]
   const constraints = setMinMaxContraints(f, key)
 
   let displayValue
   const granularityDisplay = (<GranularDateRange>f.value).granularity.display
   if (quickFilterValue && quickFilterValue !== 'none') {
-    key.push(`${prefix}${f.name}.quick-filter`)
+    key.push(`${name}.quick-filter`)
     value.push((<GranularDateRange>f.value).quickFilter.value)
     displayValue = `${(<GranularDateRange>f.value).quickFilter.display}: ${granularityDisplay}`
   } else {
-    displayValue = `${(<GranularDateRange>f.value).start} - ${(<GranularDateRange>f.value).end}: ${granularityDisplay}`
+    displayValue = `${startValue} - ${endValue}: ${granularityDisplay}`
   }
 
   const { disabled, cantRemoveClass, displayValue: disabledDisplayValue } = disabledDateRange(f, value, displayValue)
@@ -241,6 +251,44 @@ const disabledDate = (f: DateFilterValue, value: (string | DateRange)[], display
   }
 }
 
+const getQuerySummary = (req: Request, filters: FilterValue[]) => {
+  const { query } = req
+  const prefix = 'filters.'
+
+  return filters
+    .filter((f) => query[`filters.${f.name}`] || query[`filters.${f.name}.start`] || query[`filters.${f.name}.end`])
+    .map((f) => {
+      let { value } = f
+
+      if (f.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
+        value = <string>getMultiselectValues(f, 'filters').displayValue
+      }
+
+      if (
+        f.type.toLowerCase() === FilterType.autocomplete.toLowerCase() ||
+        f.type.toLowerCase() === FilterType.radio.toLowerCase() ||
+        f.type.toLowerCase() === FilterType.select.toLowerCase()
+      ) {
+        value = <string>getOptionsValue(f, prefix).displayValue
+      }
+
+      if (f.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
+        value = setSelectedDateRange(f, prefix).displayValue
+      }
+
+      if (f.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
+        value = setSelectedGranularDateRange(f, prefix).displayValue
+      }
+
+      return {
+        id: f.name,
+        name: f.text,
+        value: <string>value,
+      }
+    })
+}
+
 export default {
   getSelectedFilters,
+  getQuerySummary,
 }

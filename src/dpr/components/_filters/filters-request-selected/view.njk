@@ -1,0 +1,7 @@
+{% from "../filters-selected/view.njk" import dprSelectedFilters %}
+
+{% macro dprRequestSelectedFilters(selectedFilters) %}    
+  <div class='dpr-request-selected-filters-container'>
+    {{ dprSelectedFilters(selectedFilters) }}
+  </div>
+{% endmacro %}

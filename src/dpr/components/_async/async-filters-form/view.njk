@@ -1,12 +1,14 @@
 {% from "../request-details/view.njk" import dprRequestDetails %}
 {% from "../../_filters/filter-input/view.njk" import dprFilterInput %}
 {% from "../../_filters/filters-actions/view.njk" import dprFiltersActions %}
+{% from "../../_filters/filters-request-selected/view.njk" import dprRequestSelectedFilters %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% macro dprAsyncFiltersForm(args) %}
   {% set filters = args.filters %}
+  {% set selectedFilters = args.selectedFilters %}
   {% set sortBy = args.sortBy %}
   {% set data = args.data %}
   {% set endpoint = args.endpoint %}
@@ -82,6 +84,8 @@
               <div class="dpr-async-request-filters__section--heading">
                 <p class="govuk-body govuk-!-margin-bottom-0"><strong>Filters</p>
               </div>
+
+              {{ dprRequestSelectedFilters(selectedFilters) }}
         
               <div class="dpr-async-request-filters__section--actions">
                 {{ dprFiltersActions({

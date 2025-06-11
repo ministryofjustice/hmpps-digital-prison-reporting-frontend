@@ -5,6 +5,7 @@ import { Request, Response, NextFunction } from 'express'
 import FiltersFormUtils from '../async-filters-form/utils'
 import LocalsHelper from '../../../utils/localsHelper'
 import FiltersUtils from '../../_filters/utils'
+import SelectedFiltersUtils from '../../_filters/filters-selected/utils'
 import { removeDuplicates } from '../../../utils/reportStoreHelper'
 import UserStoreItemBuilder from '../../../utils/UserStoreItemBuilder'
 
@@ -18,6 +19,7 @@ import type { components } from '../../../types/api'
 import type { DashboardDefinition } from '../../_dashboards/dashboard/types'
 import type { Services } from '../../../types/Services'
 import type DashboardService from '../../../services/dashboardService'
+import ReportQuery from '../../../types/ReportQuery'
 
 /**
  * Updates the store with the request details
@@ -305,6 +307,7 @@ export default {
       let interactive
       let defaultInteractiveQueryString
       let filtersData
+      let selectedFilters
 
       if (type === ReportType.REPORT) {
         ;({ name, reportName, description, fields, interactive } = await renderReportRequestData(definition))
@@ -319,6 +322,7 @@ export default {
 
       if (fields) {
         filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
+        selectedFilters = SelectedFiltersUtils.getSelectedFilters(filtersData.filters, 'filters.')
         defaultInteractiveQueryString = FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
       }
 
@@ -340,6 +344,7 @@ export default {
         title: `Request ${type}`,
         filtersDescription: `Customise your ${type} using the filters below and submit your request.`,
         filtersData,
+        selectedFilters,
         reportData,
       }
     } catch (error) {

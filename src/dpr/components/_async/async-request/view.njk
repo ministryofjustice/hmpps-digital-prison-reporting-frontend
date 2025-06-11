@@ -3,6 +3,7 @@
 {% macro dprAsyncRequest(args) %}
   {% set title = args.title %}
   {% set filters = args.filters %}
+  {% set selectedFilters = args.selectedFilters %}
   {% set filterDescription = args.filterDescription %}
   {% set sortBy = args.sortBy %}
   {% set reportData = args.reportData %}
@@ -16,7 +17,8 @@
   {% endif %}
     
   {{ dprAsyncFiltersForm({ 
-    filters: filters, 
+    filters: filters,
+    selectedFilters: selectedFilters, 
     sortBy: sortBy, 
     data: reportData, 
     endpoint: endpoint,

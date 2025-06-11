@@ -2,7 +2,7 @@
 import DprFormValidationClass from '../../../DprFormValidationClass.mjs'
 
 export default class DprFiltersFormClass extends DprFormValidationClass {
-  initFiltersForm({ formId, submitButtonId, resetButtonId, removeSelectedButtonClass }) {
+  initFiltersForm({ formId, submitButtonId, resetButtonId, selectedFiltersId, removeSelectedButtonClass }) {
     this.errorMessages = []
 
     // Main form
@@ -14,6 +14,7 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
     // Buttons
     this.submitButton = document.getElementById(submitButtonId)
     this.resetButton = document.getElementById(resetButtonId)
+    this.selectedFiltersWrapper = document.getElementById(selectedFiltersId)
     this.selectedFiltersButtons = document.querySelectorAll(`.${removeSelectedButtonClass}`)
 
     this.initValues()

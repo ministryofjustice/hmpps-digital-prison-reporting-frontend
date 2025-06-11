@@ -67,7 +67,8 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
       }
 
       return {
-        text: `${f.text}: ${displayValue}`,
+        text: f.text,
+        displayValue,
         key: JSON.stringify(key),
         value,
         disabled,

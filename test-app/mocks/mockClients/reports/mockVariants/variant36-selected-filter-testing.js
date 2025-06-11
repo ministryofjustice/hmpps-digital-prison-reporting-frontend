@@ -8,33 +8,50 @@ const variant36 = {
   specification: {
     template: 'list',
     fields: [
+      // {
+      //   name: 'radio1',
+      //   display: 'Radio 1',
+      //   sortable: false,
+      //   type: 'string',
+      //   mandatory: false,
+      //   visible: true,
+      //   filter: {
+      //     type: 'Radio',
+      //     staticOptions: [
+      //       { name: 'value1.1', display: 'Value 1.1' },
+      //       { name: 'value1.2', display: 'Value 1.2' },
+      //       { name: 'value1.3', display: 'Value 1.3' },
+      //     ],
+      //     defaultValue: 'value1.2',
+      //     mandatory: false,
+      //   },
+      // },
+      // {
+      //   name: 'radio2',
+      //   display: 'Radio 2',
+      //   sortable: false,
+      //   type: 'string',
+      //   mandatory: false,
+      //   visible: true,
+      //   filter: {
+      //     type: 'Radio',
+      //     staticOptions: [
+      //       { name: 'value2.1', display: 'Value 2.1' },
+      //       { name: 'value2.2', display: 'Value 2.2' },
+      //       { name: 'value2.3', display: 'Value 2.3' },
+      //     ],
+      //     mandatory: false,
+      //   },
+      // },
       {
-        name: 'radio1',
-        display: 'Radio 1',
+        name: 'Select1',
+        display: 'Select 1',
         sortable: false,
         type: 'string',
-        mandatory: false,
+        mandatory: true,
         visible: true,
         filter: {
-          type: 'Radio',
-          staticOptions: [
-            { name: 'value1.1', display: 'Value 1.1' },
-            { name: 'value1.2', display: 'Value 1.2' },
-            { name: 'value1.3', display: 'Value 1.3' },
-          ],
-          defaultValue: 'value1.2',
-          mandatory: false,
-        },
-      },
-      {
-        name: 'radio2',
-        display: 'Radio 2',
-        sortable: false,
-        type: 'string',
-        mandatory: false,
-        visible: true,
-        filter: {
-          type: 'Radio',
+          type: 'Select',
           staticOptions: [
             { name: 'value2.1', display: 'Value 2.1' },
             { name: 'value2.2', display: 'Value 2.2' },
@@ -43,23 +60,23 @@ const variant36 = {
           mandatory: false,
         },
       },
-      //   {
-      //     name: 'field2',
-      //     display: 'Field 2',
-      //     sortable: true,
-      //     type: 'string',
-      //     mandatory: true,
-      //     visible: true,
-      //     filter: {
-      //       type: 'Select',
-      //       staticOptions: [
-      //         { name: 'value2.1', display: 'Value 2.1' },
-      //         { name: 'value2.2', display: 'Value 2.2' },
-      //         { name: 'value2.3', display: 'Value 2.3' },
-      //       ],
-      //       mandatory: false,
-      //     },
-      //   },
+      {
+        name: 'Select2',
+        display: 'Select 2',
+        sortable: false,
+        type: 'string',
+        mandatory: true,
+        visible: true,
+        filter: {
+          type: 'Select',
+          staticOptions: [
+            { name: 'value2.1', display: 'Value 2.1' },
+            { name: 'value2.2', display: 'Value 2.2' },
+            { name: 'value2.3', display: 'Value 2.3' },
+          ],
+          mandatory: false,
+        },
+      },
       //   {
       //     name: 'field3',
       //     display: 'Field 3',

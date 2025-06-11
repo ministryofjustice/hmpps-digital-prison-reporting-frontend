@@ -78,16 +78,25 @@ export default class AsyncFilters extends DprFiltersFormClass {
   getInputDisplayValue(inputs) {
     let displayValue
 
+    console.log(inputs[0].type)
+
     switch (inputs[0].type) {
       case 'text':
         displayValue = inputs[0].value
         break
+
       case 'radio': {
         const checkedInput = Array.from(inputs).find((i) => i.checked)
         displayValue = checkedInput.labels[0].innerText
         break
       }
+
+      case 'select-one':
+        displayValue = inputs[0].options[inputs[0].selectedIndex].text
+        break
+
       default:
+        displayValue = inputs[0].value
         break
     }
 
@@ -103,9 +112,10 @@ export default class AsyncFilters extends DprFiltersFormClass {
         if (inputs.length) {
           switch (inputs[0].type) {
             case 'text':
-              // eslint-disable-next-line no-param-reassign
+            case 'select':
               inputs[0].value = ''
               break
+
             case 'radio':
               inputs.forEach((i) => {
                 // eslint-disable-next-line no-param-reassign
@@ -116,6 +126,7 @@ export default class AsyncFilters extends DprFiltersFormClass {
               break
 
             default:
+              inputs[0].value = ''
               break
           }
 

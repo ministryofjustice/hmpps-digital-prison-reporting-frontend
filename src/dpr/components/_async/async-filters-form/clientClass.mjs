@@ -61,41 +61,37 @@ export default class AsyncFilters extends DprFiltersFormClass {
           let displayName = key
           let displayValue = value
 
-          Array.from(elements).forEach((i) => {
-            if (i.name === key) {
-              ;({ displayName, displayValue } = this.setDisplayNameAndValues(i, key, value))
-            }
-          })
+          const inputs = document.getElementsByName(key)
+          if (inputs.length) {
+            displayName = this.getDisplayName(inputs[0])
+            displayValue = this.getInputDisplayValue(inputs)
 
-          const selectedItem = this.createSelectedItem(displayName, displayValue, key, value)
-          this.selectedFiltersWrapper.appendChild(selectedItem)
-          this.initSelectedButtonEvent()
+            const selectedItem = this.createSelectedItem(displayName, displayValue, key, value)
+            this.selectedFiltersWrapper.appendChild(selectedItem)
+            this.initSelectedButtonEvent()
+          }
         })
       })
     })
   }
 
-  setDisplayNameAndValues(input, key, value) {
-    const { type } = input
-    let displayName = key
-    let displayValue = value
+  getInputDisplayValue(inputs) {
+    let displayValue
 
-    console.log({ type })
-
-    switch (type) {
+    switch (inputs[0].type) {
       case 'text':
-        displayName = input.labels[0].innerText
-        displayValue = value
+        displayValue = inputs[0].value
         break
-
+      case 'radio': {
+        const checkedInput = Array.from(inputs).find((i) => i.checked)
+        displayValue = checkedInput.labels[0].innerText
+        break
+      }
       default:
         break
     }
 
-    return {
-      displayName,
-      displayValue,
-    }
+    return displayValue
   }
 
   initSelectedButtonEvent() {
@@ -103,39 +99,29 @@ export default class AsyncFilters extends DprFiltersFormClass {
       button.addEventListener('click', (e) => {
         e.preventDefault()
 
-        Array.from(this.mainForm.elements).forEach((input) => {
-          if (input.name === button.dataset.dataQueryParamKey) {
-            // eslint-disable-next-line no-param-reassign
-            input.value = ''
-            const changeEvent = new Event('change')
-            input.dispatchEvent(changeEvent)
+        const inputs = document.getElementsByName(button.dataset.dataQueryParamKey)
+        if (inputs.length) {
+          switch (inputs[0].type) {
+            case 'text':
+              // eslint-disable-next-line no-param-reassign
+              inputs[0].value = ''
+              break
+            case 'radio':
+              inputs.forEach((i) => {
+                // eslint-disable-next-line no-param-reassign
+                i.checked = false
+                const changeEvent = new Event('change')
+                i.dispatchEvent(changeEvent)
+              })
+              break
+
+            default:
+              break
           }
-        })
-      })
-    })
-  }
 
-  initInputSelectedEventsw(elements) {
-    Array.from(elements).forEach((input) => {
-      input.addEventListener('change', () => {
-        const { type, name, value, staticOptionNameValue } = input
-        console.log({ type, name, value, staticOptionNameValue })
-
-        let displayValue = value
-        if (type === 'radio') {
-          displayValue = input.labels[0].innerText
-        }
-
-        const selectedFilterButton = Array.from(this.selectedFiltersButtons).find((button) => {
-          const key = JSON.parse(button.dataset.queryParamKey)[0]
-          return key === name
-        })
-
-        if (selectedFilterButton) {
-          selectedFilterButton.children[1].innerText = displayValue
-        } else if (type !== 'fieldset') {
-          const selectedItem = this.createSelectedItem('name', displayValue, name, value)
-          this.selectedFiltersWrapper.appendChild(selectedItem)
+          const changeEvent = new Event('change')
+          inputs[0].dispatchEvent(changeEvent)
+          this.initSelectedButtonEvent()
         }
       })
     })

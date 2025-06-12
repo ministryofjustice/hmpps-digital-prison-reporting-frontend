@@ -67,6 +67,7 @@ export default class DprQueryParamClass extends DprClientClass {
     } else {
       const { name } = input
       let { value } = input
+
       const { staticOptionNameValue } = input
       const isDateInput = input.classList.contains('moj-js-datepicker-input')
       if (isDateInput) {

@@ -39,5 +39,4 @@ export interface RequestDataResult {
   filtersDescription: string
   filtersData: RenderFiltersReturnValue
   reportData: RequestReportData
-  selectedFilters: any[]
 }

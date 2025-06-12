@@ -307,7 +307,6 @@ export default {
       let interactive
       let defaultInteractiveQueryString
       let filtersData
-      let selectedFilters
 
       if (type === ReportType.REPORT) {
         ;({ name, reportName, description, fields, interactive } = await renderReportRequestData(definition))
@@ -322,7 +321,6 @@ export default {
 
       if (fields) {
         filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
-        selectedFilters = SelectedFiltersUtils.getSelectedFilters(filtersData.filters, 'filters.')
         defaultInteractiveQueryString = FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
       }
 
@@ -344,7 +342,6 @@ export default {
         title: `Request ${type}`,
         filtersDescription: `Customise your ${type} using the filters below and submit your request.`,
         filtersData,
-        selectedFilters,
         reportData,
       }
     } catch (error) {

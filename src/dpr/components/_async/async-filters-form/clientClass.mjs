@@ -36,11 +36,42 @@ export default class AsyncFilters extends DprFiltersFormClass {
   }
 
   initSelectedFiltersButtons() {
-    if (this.selectedFiltersButtons) {
-      this.selectedFiltersButtons.forEach((button) => {
-        console.log(JSON.parse(button.dataset.queryParamKey)[0])
-      })
-    }
+    this.queryParams = new URLSearchParams(window.location.search)
+    this.selectedFiltersWrapper.innerHTML = ''
+
+    const selectedFilters = []
+    this.queryParams.forEach((value, key) => {
+      let displayName = key
+      let displayValue = value
+
+      if (key.includes('filters.')) {
+        const inputs = document.getElementsByName(key)
+
+        if (inputs.length) {
+          displayName = this.getDisplayName(inputs[0])
+          displayValue = this.getInputDisplayValue(inputs)
+
+          const index = selectedFilters.findIndex((s) => s.key === key)
+          if (index === -1) {
+            selectedFilters.push({
+              displayName,
+              displayValue,
+              key,
+              value: [value],
+              type: inputs[0],
+            })
+          } else {
+            selectedFilters[index] = {
+              ...selectedFilters[index],
+              displayValue: selectedFilters[index].displayValue,
+              value: selectedFilters[index].value,
+            }
+          }
+        }
+      }
+    })
+
+    this.createSelectedFilters(selectedFilters)
   }
 
   initValues() {
@@ -54,42 +85,7 @@ export default class AsyncFilters extends DprFiltersFormClass {
   initInputSelectedEvents(elements) {
     Array.from(elements).forEach((input) => {
       input.addEventListener('change', () => {
-        this.queryParams = new URLSearchParams(window.location.search)
-        this.selectedFiltersWrapper.innerHTML = ''
-
-        const selectedFilters = []
-        this.queryParams.forEach((value, key) => {
-          let displayName = key
-          let displayValue = value
-
-          if (key.includes('filters.')) {
-            const inputs = document.getElementsByName(key)
-
-            if (inputs.length) {
-              displayName = this.getDisplayName(inputs[0])
-              displayValue = this.getInputDisplayValue(inputs, input)
-
-              const index = selectedFilters.findIndex((s) => s.key === key)
-              if (index === -1) {
-                selectedFilters.push({
-                  displayName,
-                  displayValue,
-                  key,
-                  value: [value],
-                  type: inputs[0],
-                })
-              } else {
-                selectedFilters[index] = {
-                  ...selectedFilters[index],
-                  displayValue: selectedFilters[index].displayValue,
-                  value: selectedFilters[index].value,
-                }
-              }
-            }
-          }
-        })
-
-        this.createSelectedFilters(selectedFilters)
+        this.initSelectedFiltersButtons()
       })
     })
   }
@@ -162,6 +158,11 @@ export default class AsyncFilters extends DprFiltersFormClass {
               })
               break
 
+            case 'search':
+              inputs[0].value = ''
+              inputs[0].staticOptionNameValue = ''
+              break
+
             default:
               inputs[0].value = ''
               break
@@ -169,7 +170,6 @@ export default class AsyncFilters extends DprFiltersFormClass {
 
           const changeEvent = new Event('change')
           inputs[0].dispatchEvent(changeEvent)
-          this.initSelectedButtonEvent()
         }
       })
     })

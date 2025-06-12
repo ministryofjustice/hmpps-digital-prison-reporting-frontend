@@ -8,7 +8,6 @@
 
 {% macro dprAsyncFiltersForm(args) %}
   {% set filters = args.filters %}
-  {% set selectedFilters = args.selectedFilters %}
   {% set sortBy = args.sortBy %}
   {% set data = args.data %}
   {% set endpoint = args.endpoint %}
@@ -80,34 +79,34 @@
 
           {# MAIN FILTERS #}
           {% if filters.length %}
-            <div class="dpr-async-request-filters__section">
-              <div class="dpr-async-request-filters__section--heading">
-                <p class="govuk-body govuk-!-margin-bottom-0"><strong>Filters</p>
-              </div>
-
-              {{ dprRequestSelectedFilters(selectedFilters) }}
-        
-              <div class="dpr-async-request-filters__section--actions">
-                {{ dprFiltersActions({
-                  resetText: 'Reset filters',
-                  resetId: 'async-request-reset-filters-button',
-                  showReset: filters.length > 0
-                }) }}
-              </div>
-
-              <div class="filter-container">
-                {%- for filter in filters %}
-                  {{ dprFilterInput(filter, 'filters.') }}
-                {%- endfor %}
-              </div>
+          <div class="dpr-async-request-filters__section">
+            <div class="dpr-async-request-filters__section--heading">
+              <p class="govuk-body govuk-!-margin-bottom-0"><strong>Filters</strong></p>
             </div>
+
+            {{ dprRequestSelectedFilters() }}
+
+            <div class="dpr-async-request-filters__section--actions">
+              {{ dprFiltersActions({
+                resetText: 'Reset filters',
+                resetId: 'async-request-reset-filters-button',
+                showReset: filters.length > 0
+              }) }}
+            </div>
+
+            <div class="filter-container">
+              {%- for filter in filters %}
+                {{ dprFilterInput(filter, 'filters.') }}
+              {%- endfor %}
+            </div>
+          </div>
           {% endif %}
 
           {# SORT OPTIONS #}
           {%  if sortBy.length > 0 and not interactive %}
           <div class="dpr-async-request-filters__section">
             <div class="dpr-async-request-filters__section--heading">
-              <p class="govuk-body govuk-!-margin-bottom-0"><strong>Sort</p>
+              <p class="govuk-body govuk-!-margin-bottom-0"><strong>Sort</strong></p>
             </div>
             <div class="filter-container">
               {%- for option in sortBy %}

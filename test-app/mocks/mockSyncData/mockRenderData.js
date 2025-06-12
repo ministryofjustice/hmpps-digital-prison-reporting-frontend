@@ -211,7 +211,8 @@ const mockRenderDataFromDefinition = {
       ],
       selectedFilters: [
         {
-          text: 'Field 1: Value 1.1',
+          text: 'Field 1',
+          displayValue: 'Value 1.1',
           key: '["filters.field1"]',
           value: ['"value1.1"'],
           disabled: false,
@@ -221,7 +222,8 @@ const mockRenderDataFromDefinition = {
           },
         },
         {
-          text: 'Field 3: 2003-02-01 - 2006-05-04',
+          text: 'Field 3',
+          displayValue: '2003-02-01 - 2006-05-04',
           key: '["filters.field3.start","filters.field3.end"]',
           value: ['"2003-02-01"', '"2006-05-04"'],
           disabled: false,
@@ -247,7 +249,8 @@ const mockRenderDataFromDefinition = {
           classes: 'interactive-remove-filter-button',
           disabled: false,
           key: '["filters.field7"]',
-          text: 'Field 7: Value 8.2, Value 8.3',
+          text: 'Field 7',
+          displayValue: 'Value 8.2, Value 8.3',
           value: ['"value8.2"', '"value8.3"'],
         },
       ],
@@ -550,7 +553,8 @@ const mockRenderDataFromData = {
       ],
       selectedFilters: [
         {
-          text: 'Field 1: Value 1.1',
+          text: 'Field 1',
+          displayValue: 'Value 1.1',
           key: '["filters.field1"]',
           value: ['"value1.1"'],
           disabled: false,
@@ -560,7 +564,8 @@ const mockRenderDataFromData = {
           },
         },
         {
-          text: 'Field 3: 2003-02-01 - 2006-05-04',
+          text: 'Field 3',
+          displayValue: '2003-02-01 - 2006-05-04',
           key: '["filters.field3.start","filters.field3.end"]',
           value: ['"2003-02-01"', '"2006-05-04"'],
           disabled: false,
@@ -586,7 +591,8 @@ const mockRenderDataFromData = {
           classes: 'interactive-remove-filter-button',
           disabled: false,
           key: '["filters.field7"]',
-          text: 'Field 7: Value 8.2, Value 8.3',
+          text: 'Field 7',
+          displayValue: 'Value 8.2, Value 8.3',
           value: ['"value8.2"', '"value8.3"'],
         },
       ],

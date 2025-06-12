@@ -51,14 +51,11 @@ export default class ReportPage {
 
   selectedFilterButton = (): PageElement => cy.get(`a.govuk-link.govuk-body.interactive-remove-filter-button`)
 
-  selectedFilterButtonField1 = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[4]/div[2]/div[1]/div/a[1]`)
+  selectedFilterButtonField1 = (): PageElement => cy.xpath(`//*[@id="dpr-selected-filters"]/a[1]`)
 
-  selectedFilterButtonField3 = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[4]/div[2]/div[1]/div/a[2]`)
+  selectedFilterButtonField3 = (): PageElement => cy.xpath(`//*[@id="dpr-selected-filters"]/a[2]`)
 
-  selectedFilterButtonField7 = (): PageElement =>
-    cy.xpath(`//*[@id="main-content"]/div/div/div[1]/div/div[4]/div[2]/div[1]/div/a[3]`)
+  selectedFilterButtonField7 = (): PageElement => cy.xpath(`//*[@id="dpr-selected-filters"]/a[3]`)
 
   unsortedSortColumnLink = (): PageElement => this.dataTable().find(`.data-table-header-button-sort-none`).first()
 

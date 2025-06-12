@@ -15,7 +15,7 @@
             {% set disabled = selected.disabled %}
             {% set constraints = selected.constraints %}
             {% if disabled %}
-              <p class="govuk-body {{ classes }}"><span class='dpr-selected-filter__field'><strong>{{ text }}</strong></span>: <span class='dpr-selected-filter__value'>{{ displayValue }}</span></p>
+              <p class="govuk-body {{ classes }}">{{ text }}: {{ displayValue }}</p>
             {% else %}
               <a href="#" 
                 class="govuk-link govuk-body {{ classes }}" 
@@ -23,7 +23,7 @@
                 data-query-param-value= '[{{ value }}]'
                 data-query-constraint-values= '{{ constraints | json }}'
               >
-              <span class='dpr-selected-filter__field'><strong>{{ text }}</strong></span>: <span class='dpr-selected-filter__value'>{{ displayValue }}</span>
+              {{ text }}: {{ displayValue }}
               </a>
             {% endif %}
           {% endfor%}

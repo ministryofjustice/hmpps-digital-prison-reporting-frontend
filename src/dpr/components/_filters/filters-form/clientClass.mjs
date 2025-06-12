@@ -76,8 +76,8 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
       this.selectedFiltersButtons.forEach((button) => {
         button.addEventListener('click', (e) => {
           e.preventDefault()
-          const keys = JSON.parse(e.target.getAttribute('data-query-param-key'))
-          const values = JSON.parse(e.target.getAttribute('data-query-param-value'))
+          const keys = JSON.parse(e.target.getAttribute('data-query-param-key')) || []
+          const values = JSON.parse(e.target.getAttribute('data-query-param-value')) || []
           let constraints = e.target.getAttribute('data-query-constraint-values')
           constraints = constraints ? JSON.parse(e.target.getAttribute('data-query-constraint-values')) : undefined
 

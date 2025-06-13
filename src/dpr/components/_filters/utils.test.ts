@@ -152,7 +152,8 @@ describe('Filters Utils tests', () => {
         ],
         selectedFilters: [
           {
-            text: 'Field 1: Value 1.2',
+            text: 'Field 1',
+            displayValue: 'Value 1.2',
             key: '["filters.field1"]',
             value: ['"value1.2"'],
             classes: 'interactive-remove-filter-button',
@@ -162,7 +163,8 @@ describe('Filters Utils tests', () => {
             },
           },
           {
-            text: 'Field 3: 2003-02-01 - 2006-05-04',
+            text: 'Field 3',
+            displayValue: '2003-02-01 - 2006-05-04',
             key: '["filters.field3.start","filters.field3.end"]',
             value: ['"2003-02-01"', '"2006-05-04"'],
             constraints: [
@@ -182,7 +184,8 @@ describe('Filters Utils tests', () => {
             },
           },
           {
-            text: 'Field 7: 2005-02-01',
+            text: 'Field 7',
+            displayValue: '2005-02-01',
             key: '["filters.field7"]',
             value: ['"2005-02-01"'],
             disabled: false,
@@ -204,7 +207,8 @@ describe('Filters Utils tests', () => {
             classes: 'interactive-remove-filter-button',
             disabled: false,
             key: '["filters.field8"]',
-            text: 'Field 8: Value 8.2, Value 8.3',
+            text: 'Field 8',
+            displayValue: 'Value 8.2, Value 8.3',
             value: ['"value8.2"', '"value8.3"'],
           },
         ],
@@ -399,7 +403,8 @@ describe('Filters Utils tests', () => {
         ],
         selectedFilters: [
           {
-            text: 'Field 1: Value 1.1',
+            text: 'Field 1',
+            displayValue: 'Value 1.1',
             key: '["filters.field1"]',
             value: ['"value1.1"'],
             disabled: false,
@@ -409,7 +414,8 @@ describe('Filters Utils tests', () => {
             },
           },
           {
-            text: 'Field 2: Value 2.2',
+            text: 'Field 2',
+            displayValue: 'Value 2.2',
             key: '["filters.field2"]',
             value: ['"value2.2"'],
             disabled: false,
@@ -419,7 +425,8 @@ describe('Filters Utils tests', () => {
             },
           },
           {
-            text: 'Field 3: 2003-02-01 - 2006-05-04',
+            text: 'Field 3',
+            displayValue: '2003-02-01 - 2006-05-04',
             key: '["filters.field3.start","filters.field3.end"]',
             value: ['"2003-02-01"', '"2006-05-04"'],
             disabled: false,
@@ -439,7 +446,8 @@ describe('Filters Utils tests', () => {
             },
           },
           {
-            text: 'Field 7: 2003-02-01 (min date)',
+            text: 'Field 7',
+            displayValue: '2003-02-01 (min date)',
             key: '["filters.field7"]',
             value: ['"2003-02-01"'],
             disabled: true,
@@ -456,7 +464,8 @@ describe('Filters Utils tests', () => {
             },
           },
           {
-            text: 'Field 8: Value 8.2, Value 8.4',
+            text: 'Field 8',
+            displayValue: 'Value 8.2, Value 8.4',
             key: '["filters.field8"]',
             value: ['"value8.2"', '"value8.4"'],
             disabled: false,

@@ -1,7 +1,6 @@
-// import DprFormValidationClass from '../../DprFormValidationClass.mjs'
-import DprFiltersFormClass from '../filters-form/clientClass.mjs'
+import DprSelectedFiltersClass from '../filters-selected/clientClass.mjs'
 
-export default class InteractiveFilters extends DprFiltersFormClass {
+export default class InteractiveFilters extends DprSelectedFiltersClass {
   static getModuleName() {
     return 'interactive-filters'
   }
@@ -14,6 +13,6 @@ export default class InteractiveFilters extends DprFiltersFormClass {
       removeSelectedButtonClass: 'interactive-remove-filter-button',
     })
 
-    this.initSelectedFiltersButtons()
+    this.initInteractiveSelectedFilterButtonsEvents()
   }
 }

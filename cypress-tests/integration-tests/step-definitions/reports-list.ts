@@ -50,13 +50,13 @@ When(/^I click the selected filter for field (\d+)$/, function (this: Mocha.Cont
 
   switch (field) {
     case 1:
-      page.selectedFilterButtonField1().first().click()
+      page.selectedFilterButtonField1().click()
       break
     case 3:
-      page.selectedFilterButtonField3().first().click()
+      page.selectedFilterButtonField3().click()
       break
     case 7:
-      page.selectedFilterButtonField3().first().click()
+      page.selectedFilterButtonField3().click()
       break
     default:
       break

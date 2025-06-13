@@ -2,7 +2,7 @@
 import DprFormValidationClass from '../../../DprFormValidationClass.mjs'
 
 export default class DprFiltersFormClass extends DprFormValidationClass {
-  initFiltersForm({ formId, submitButtonId, resetButtonId, removeSelectedButtonClass }) {
+  initFiltersForm({ formId, submitButtonId, resetButtonId, selectedFiltersId, removeSelectedButtonClass }) {
     this.errorMessages = []
 
     // Main form
@@ -14,6 +14,7 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
     // Buttons
     this.submitButton = document.getElementById(submitButtonId)
     this.resetButton = document.getElementById(resetButtonId)
+    this.selectedFiltersWrapper = document.getElementById(selectedFiltersId)
     this.selectedFiltersButtons = document.querySelectorAll(`.${removeSelectedButtonClass}`)
 
     this.initValues()
@@ -68,34 +69,5 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
 
   submitAction() {
     window.location.reload()
-  }
-
-  initSelectedFiltersButtons() {
-    if (this.selectedFiltersButtons) {
-      this.selectedFiltersButtons.forEach((button) => {
-        button.addEventListener('click', (e) => {
-          e.preventDefault()
-          const keys = JSON.parse(e.target.getAttribute('data-query-param-key'))
-          const values = JSON.parse(e.target.getAttribute('data-query-param-value'))
-          let constraints = e.target.getAttribute('data-query-constraint-values')
-          constraints = constraints ? JSON.parse(e.target.getAttribute('data-query-constraint-values')) : undefined
-
-          keys.forEach((key) => {
-            values.forEach((value) => {
-              this.updateQueryParam(key, value, 'delete')
-            })
-            if (constraints) {
-              const constraint = constraints.find((con) => con.key === key)
-              if (constraint) {
-                this.updateQueryParam(key, constraint.value)
-              }
-            }
-          })
-
-          this.updateQueryParam('preventDefault', true)
-          window.location.reload()
-        })
-      })
-    }
   }
 }

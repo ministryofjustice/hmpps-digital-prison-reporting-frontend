@@ -58,7 +58,6 @@ describe('DashboardUtils', () => {
       ],
       any
     >
-    let setRecentlyViewedSpy: jest.SpyInstance<Promise<void>, [reportData: RequestedReport, userId: string], any>
 
     beforeEach(() => {
       jest.clearAllMocks()

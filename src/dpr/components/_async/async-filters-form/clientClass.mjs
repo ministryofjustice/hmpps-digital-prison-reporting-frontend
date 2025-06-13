@@ -1,6 +1,7 @@
-import DprFiltersFormClass from '../../_filters/filters-form/clientClass.mjs'
+/* eslint-disable class-methods-use-this */
+import DprSelectedFiltersClass from '../../_filters/filters-selected/clientClass.mjs'
 
-export default class AsyncFilters extends DprFiltersFormClass {
+export default class AsyncFilters extends DprSelectedFiltersClass {
   static getModuleName() {
     return 'async-filters'
   }
@@ -10,7 +11,11 @@ export default class AsyncFilters extends DprFiltersFormClass {
       formId: 'async-filters-form',
       submitButtonId: 'async-request-report-button',
       resetButtonId: 'async-request-reset-filters-button',
+      selectedFiltersId: 'dpr-selected-filters',
+      removeSelectedButtonClass: 'interactive-remove-filter-button',
     })
+
+    this.initSelectedFiltersButtons()
   }
 
   initFormData() {
@@ -28,5 +33,15 @@ export default class AsyncFilters extends DprFiltersFormClass {
 
   submitAction() {
     this.mainForm.requestSubmit()
+  }
+
+  initValues() {
+    this.initInputsFromQueryParams()
+    this.initQueryParamsFromInputs(this.mainForm.elements)
+    this.initInputEvents(this.mainForm.elements)
+
+    // Selected filters
+    this.initSelectedButtonEvent()
+    this.initInputEventsForSelectedFilters(this.mainForm.elements)
   }
 }

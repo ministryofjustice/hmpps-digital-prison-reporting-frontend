@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { Request, Response } from 'express'
 import { FilterType } from './filter-input/enum'
 import type { components } from '../../types/api'
@@ -13,6 +14,14 @@ import MultiSelectUtils from '../_inputs/multi-select/utils'
 import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
 import createUrlForParameters from '../../utils/urlHelper'
 
+/**
+ * Given a FilterValue[], will update the values to match the req.query values if present
+ *
+ * @param {FilterValue[]} filters
+ * @param {Request} req
+ * @param {string} [prefix='filters.']
+ * @return {*}  {FilterValue[]}
+ */
 const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix = 'filters.'): FilterValue[] => {
   const { preventDefault } = req.query
 

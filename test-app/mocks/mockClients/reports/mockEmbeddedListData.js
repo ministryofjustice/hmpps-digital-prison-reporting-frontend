@@ -231,7 +231,8 @@ const mockSyncData = {
       ],
       selectedFilters: [
         {
-          text: 'Field 1: Value 1.2',
+          text: 'Field 1',
+          displayValue: 'Value 1.2',
           key: '["filters.field1"]',
           value: ['"value1.2"'],
           disabled: false,
@@ -241,7 +242,8 @@ const mockSyncData = {
           },
         },
         {
-          text: 'Field 3: 2003-02-01 - 2006-05-04',
+          text: 'Field 3',
+          displayValue: '2003-02-01 - 2006-05-04',
           key: '["filters.field3.start","filters.field3.end"]',
           value: ['"2003-02-01"', '"2006-05-04"'],
           disabled: false,
@@ -261,7 +263,8 @@ const mockSyncData = {
           },
         },
         {
-          text: 'Field 7: 2005-02-01',
+          text: 'Field 7',
+          displayValue: '2005-02-01',
           key: '["filters.field7"]',
           value: ['"2005-02-01"'],
           disabled: false,
@@ -283,7 +286,8 @@ const mockSyncData = {
           classes: 'interactive-remove-filter-button',
           disabled: false,
           key: '["filters.field8"]',
-          text: 'Field 8: Value 8.2, Value 8.3',
+          text: 'Field 8',
+          displayValue: 'Value 8.2, Value 8.3',
           value: ['"value8.2"', '"value8.3"'],
         },
       ],

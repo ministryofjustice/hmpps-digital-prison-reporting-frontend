@@ -1,6 +1,7 @@
 {% from "../request-details/view.njk" import dprRequestDetails %}
 {% from "../../_filters/filter-input/view.njk" import dprFilterInput %}
 {% from "../../_filters/filters-actions/view.njk" import dprFiltersActions %}
+{% from "../../_filters/filters-selected/view.njk" import dprSelectedFilters %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
@@ -74,36 +75,40 @@
       {% endif %}
 
       {% if filters.length or sortBy.length > 0 %}
-        <div class="dpr-filters-container">
+        <div class="dpr-filters-container govuk-!-margin-top-6">
 
           {# MAIN FILTERS #}
           {% if filters.length %}
-            <div class="dpr-async-request-filters__section">
-              <div class="dpr-async-request-filters__section--heading">
-                <p class="govuk-body govuk-!-margin-bottom-0"><strong>Filters</p>
-              </div>
-        
-              <div class="dpr-async-request-filters__section--actions">
-                {{ dprFiltersActions({
-                  resetText: 'Reset filters',
-                  resetId: 'async-request-reset-filters-button',
-                  showReset: filters.length > 0
-                }) }}
-              </div>
-
-              <div class="filter-container">
-                {%- for filter in filters %}
-                  {{ dprFilterInput(filter, 'filters.') }}
-                {%- endfor %}
-              </div>
+          <div class="dpr-async-request-filters__section">
+            <div class="dpr-async-request-filters__section--heading">
+              <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Filters</strong></h2>
             </div>
+
+            <div class='dpr-request-selected-filters-container'>
+              {{ dprSelectedFilters() }}
+            </div>
+
+            <div class="dpr-async-request-filters__section--actions">
+              {{ dprFiltersActions({
+                resetText: 'Reset filters',
+                resetId: 'async-request-reset-filters-button',
+                showReset: filters.length > 0
+              }) }}
+            </div>
+
+            <div class="filter-container">
+              {%- for filter in filters %}
+                {{ dprFilterInput(filter, 'filters.') }}
+              {%- endfor %}
+            </div>
+          </div>
           {% endif %}
 
           {# SORT OPTIONS #}
           {%  if sortBy.length > 0 and not interactive %}
           <div class="dpr-async-request-filters__section">
             <div class="dpr-async-request-filters__section--heading">
-              <p class="govuk-body govuk-!-margin-bottom-0"><strong>Sort</p>
+              <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Sort</strong></h2>
             </div>
             <div class="filter-container">
               {%- for option in sortBy %}

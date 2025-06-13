@@ -134,7 +134,8 @@ describe('SelectedFiltersUtils', () => {
       const result = SelectedFiltersUtils.getSelectedFilters(filters, 'filters.')
       const expectedResult = [
         {
-          text: `Filter 2: value 2`,
+          text: `Filter 2`,
+          displayValue: 'value 2',
           key: '["filters.filter2"]',
           value: ['"value 2"'],
           classes: 'interactive-remove-filter-button',
@@ -144,7 +145,8 @@ describe('SelectedFiltersUtils', () => {
           },
         },
         {
-          text: `Filter 4: value 4`,
+          text: `Filter 4`,
+          displayValue: 'value 4',
           key: '["filters.filter4"]',
           value: ['"value 4"'],
           classes: 'interactive-remove-filter-button',
@@ -154,7 +156,8 @@ describe('SelectedFiltersUtils', () => {
           },
         },
         {
-          text: `Filter 5: 12/12/23 - 21/11/24`,
+          text: `Filter 5`,
+          displayValue: '12/12/23 - 21/11/24',
           key: '["filters.filter5.start","filters.filter5.end"]',
           value: ['"12/12/23"', '"21/11/24"'],
           classes: 'interactive-remove-filter-button',
@@ -164,7 +167,8 @@ describe('SelectedFiltersUtils', () => {
           },
         },
         {
-          text: 'Filter 6: 01/02/20 - 01/02/22 (maximum range)',
+          text: 'Filter 6',
+          displayValue: '01/02/20 - 01/02/22 (maximum range)',
           key: '["filters.filter6.start","filters.filter6.end"]',
           value: ['"01/02/20"', '"01/02/22"'],
           classes: 'interactive-remove-filter-button interactive-remove-filter-button--disabled',
@@ -192,7 +196,8 @@ describe('SelectedFiltersUtils', () => {
           constraints: undefined,
           disabled: false,
           key: '["filters.filter7"]',
-          text: 'Field 7: Value 7.2, Value 7.3',
+          text: 'Field 7',
+          displayValue: 'Value 7.2, Value 7.3',
           value: ['"value7.2"', '"value7.3"'],
         },
         {
@@ -203,7 +208,8 @@ describe('SelectedFiltersUtils', () => {
           constraints: undefined,
           disabled: false,
           key: '["filters.filter8"]',
-          text: 'Field 8: Value 8.1',
+          text: 'Field 8',
+          displayValue: 'Value 8.1',
           value: ['"value8.1"'],
         },
       ]

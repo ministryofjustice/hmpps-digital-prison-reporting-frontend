@@ -2,36 +2,35 @@
   <div class='dpr-selected-filters-container'>
     <div class='dpr-selected-filters'>
       <div>
-        <p class="govuk-body govuk-!-margin-bottom-1"><strong>Selected filters</strong></p>
-
+        <p class="govuk-body govuk-!-margin-bottom-2"><strong>Selected filters</strong></p>
       </div>
-      {% if selectedFilters.length %}      
-        {% for selected in selectedFilters %}
-          {% set key = selected.key %}
-          {% set text = selected.text %}
-          {% set value = selected.value %}
-          {% set classes = selected.classes %}
-          {% set disabled = selected.disabled %}
-          {% set constraints = selected.constraints %}
-          
-          
-          {% if disabled %}
-            <p class="govuk-body {{ classes }}">{{ text }}</p>
-          {% else %}
-            <a href="#" 
-              class="govuk-link govuk-body {{ classes }}" 
-              data-query-param-key= {{ key }} 
-              data-query-param-value= '[{{ value }}]'
-              data-query-constraint-values= '{{ constraints | json }}'
-            >
-            {{ text }}
-            </a>
-          {% endif %}
-
-        {% endfor%}
+      <div id="dpr-selected-filters">
+        {% if selectedFilters.length %}      
+          {% for selected in selectedFilters %}
+            {% set key = selected.key %}
+            {% set displayValue = selected.displayValue %}
+            {% set text = selected.text %}
+            {% set value = selected.value %}
+            {% set classes = selected.classes %}
+            {% set disabled = selected.disabled %}
+            {% set constraints = selected.constraints %}
+            {% if disabled %}
+              <p class="govuk-body {{ classes }}">{{ text }}: {{ displayValue }}</p>
+            {% else %}
+              <a href="#" 
+                class="govuk-link govuk-body {{ classes }}" 
+                data-query-param-key= {{ key }} 
+                data-query-param-value= '[{{ value }}]'
+                data-query-constraint-values= '{{ constraints | json }}'
+              >
+              {{ text }}: {{ displayValue }}
+              </a>
+            {% endif %}
+          {% endfor%}
       {% else %}
         <p class="govuk-body-s govuk-!-margin-top-2">No filters selected</p>
       {% endif %}
+      </div>
     </div>
   </div>
 {% endmacro %}

@@ -319,6 +319,7 @@ export default {
 
       if (fields) {
         filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
+        filtersData.filters = FiltersUtils.setFilterValuesFromRequest(filtersData.filters, req)
         defaultInteractiveQueryString = FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
       }
 

@@ -13,6 +13,6 @@ export default class InteractiveFilters extends DprSelectedFiltersClass {
       removeSelectedButtonClass: 'interactive-remove-filter-button',
     })
 
-    this.initInteractiveFilterButtons()
+    this.initInteractiveSelectedFilterButtonsEvents()
   }
 }

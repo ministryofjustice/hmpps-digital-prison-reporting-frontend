@@ -6,7 +6,16 @@ export default class SelectedFilters extends DprFiltersFormClass {
     return 'selected-filters'
   }
 
-  initInteractiveFilterButtons() {
+  /**
+   * Initialises the Interactive selected filter button events
+   *
+   * - Updates the query parameter in the url
+   * - Reloads the page to create the selected filter data server side
+   * - selected filter data is passed to the render function
+   *
+   * @memberof SelectedFilters
+   */
+  initInteractiveSelectedFilterButtonsEvents() {
     if (this.selectedFiltersButtons) {
       this.selectedFiltersButtons.forEach((button) => {
         button.addEventListener('click', (e) => {
@@ -37,6 +46,11 @@ export default class SelectedFilters extends DprFiltersFormClass {
     }
   }
 
+  /**
+   * Creates the selected filter data and buttons
+   *
+   * @memberof SelectedFilters
+   */
   initSelectedFiltersButtons() {
     this.queryParams = new URLSearchParams(window.location.search)
     this.selectedFiltersWrapper.innerHTML = ''
@@ -76,7 +90,13 @@ export default class SelectedFilters extends DprFiltersFormClass {
     this.createSelectedFilters(selectedFilters)
   }
 
-  initInputSelectedEvents(elements) {
+  /**
+   * Initialises the input change event
+   *
+   * @param {NodeList} elements
+   * @memberof SelectedFilters
+   */
+  initInputEventsForSelectedFilters(elements) {
     Array.from(elements).forEach((input) => {
       input.addEventListener('change', () => {
         this.initSelectedFiltersButtons()
@@ -84,6 +104,12 @@ export default class SelectedFilters extends DprFiltersFormClass {
     })
   }
 
+  /**
+   * Creates the selected filters
+   *
+   * @param {NodeList} selectedFilters
+   * @memberof SelectedFilters
+   */
   createSelectedFilters(selectedFilters) {
     selectedFilters.forEach((selected) => {
       const { displayName, displayValue, key, value } = selected
@@ -96,10 +122,18 @@ export default class SelectedFilters extends DprFiltersFormClass {
       }
       const selectedItem = this.createSelectedItem(displayName, parsedDisplayValue, key, value)
       this.selectedFiltersWrapper.appendChild(selectedItem)
+
       this.initSelectedButtonEvent()
     })
   }
 
+  /**
+   * Gets the display value for a selected input
+   *
+   * @param {*} inputs
+   * @return {string} the input diap
+   * @memberof SelectedFilters
+   */
   getInputDisplayValue(inputs) {
     let displayValue
 
@@ -134,6 +168,14 @@ export default class SelectedFilters extends DprFiltersFormClass {
     return displayValue
   }
 
+  /**
+   * Initialises the request selected filter button events
+   *
+   * - Updates the corresponding input value to null
+   * - Dispatches an input change event to update to update the corresponding url search param
+   *
+   * @memberof SelectedFilters
+   */
   initSelectedButtonEvent() {
     Array.from(this.selectedFiltersWrapper.children).forEach((button) => {
       button.addEventListener('click', (e) => {
@@ -169,6 +211,16 @@ export default class SelectedFilters extends DprFiltersFormClass {
     })
   }
 
+  /**
+   * Creates the selected input element
+   *
+   * @param {string} displayName
+   * @param {string} displayValue
+   * @param {string} key
+   * @param {string} value
+   * @return {element}
+   * @memberof SelectedFilters
+   */
   createSelectedItem(displayName, displayValue, key, value) {
     // tag
     const selectedItem = document.createElement('a')

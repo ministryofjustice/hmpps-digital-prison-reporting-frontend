@@ -75,13 +75,13 @@
       {% endif %}
 
       {% if filters.length or sortBy.length > 0 %}
-        <div class="dpr-filters-container">
+        <div class="dpr-filters-container govuk-!-margin-top-6">
 
           {# MAIN FILTERS #}
           {% if filters.length %}
           <div class="dpr-async-request-filters__section">
             <div class="dpr-async-request-filters__section--heading">
-              <p class="govuk-body govuk-!-margin-bottom-0"><strong>Filters</strong></p>
+              <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Filters</strong></h2>
             </div>
 
             <div class='dpr-request-selected-filters-container'>
@@ -108,7 +108,7 @@
           {%  if sortBy.length > 0 and not interactive %}
           <div class="dpr-async-request-filters__section">
             <div class="dpr-async-request-filters__section--heading">
-              <p class="govuk-body govuk-!-margin-bottom-0"><strong>Sort</strong></p>
+              <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Sort</strong></h2>
             </div>
             <div class="filter-container">
               {%- for option in sortBy %}

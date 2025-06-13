@@ -4,7 +4,7 @@
 
 .dpr-filters {
   .dpr-filters-container {
-    column-gap: 15px;
+    column-gap: govuk-spacing(6);
     display: grid;
     grid-template-columns: 1fr 1fr;
     position: relative;

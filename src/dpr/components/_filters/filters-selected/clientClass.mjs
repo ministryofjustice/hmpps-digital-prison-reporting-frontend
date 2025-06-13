@@ -6,6 +6,37 @@ export default class SelectedFilters extends DprFiltersFormClass {
     return 'selected-filters'
   }
 
+  initInteractiveFilterButtons() {
+    if (this.selectedFiltersButtons) {
+      this.selectedFiltersButtons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault()
+
+          const keys = JSON.parse(e.target.getAttribute('data-query-param-key')) || []
+          const values = JSON.parse(e.target.getAttribute('data-query-param-value')) || []
+
+          let constraints = e.target.getAttribute('data-query-constraint-values')
+          constraints = constraints ? JSON.parse(e.target.getAttribute('data-query-constraint-values')) : undefined
+
+          keys.forEach((key) => {
+            values.forEach((value) => {
+              this.updateQueryParam(key, value, 'delete')
+            })
+            if (constraints) {
+              const constraint = constraints.find((con) => con.key === key)
+              if (constraint) {
+                this.updateQueryParam(key, constraint.value)
+              }
+            }
+          })
+
+          this.updateQueryParam('preventDefault', true)
+          window.location.reload()
+        })
+      })
+    }
+  }
+
   initSelectedFiltersButtons() {
     this.queryParams = new URLSearchParams(window.location.search)
     this.selectedFiltersWrapper.innerHTML = ''

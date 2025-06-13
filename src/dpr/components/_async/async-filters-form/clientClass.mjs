@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import DprSelectedFiltersClass from '../../_filters/filters-request-selected/clientClass.mjs'
+import DprSelectedFiltersClass from '../../_filters/filters-selected/clientClass.mjs'
 
 export default class AsyncFilters extends DprSelectedFiltersClass {
   static getModuleName() {

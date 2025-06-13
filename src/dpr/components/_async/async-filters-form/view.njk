@@ -1,7 +1,7 @@
 {% from "../request-details/view.njk" import dprRequestDetails %}
 {% from "../../_filters/filter-input/view.njk" import dprFilterInput %}
 {% from "../../_filters/filters-actions/view.njk" import dprFiltersActions %}
-{% from "../../_filters/filters-request-selected/view.njk" import dprRequestSelectedFilters %}
+{% from "../../_filters/filters-selected/view.njk" import dprSelectedFilters %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
@@ -84,7 +84,9 @@
               <p class="govuk-body govuk-!-margin-bottom-0"><strong>Filters</strong></p>
             </div>
 
-            {{ dprRequestSelectedFilters() }}
+            <div class='dpr-request-selected-filters-container'>
+              {{ dprSelectedFilters() }}
+            </div>
 
             <div class="dpr-async-request-filters__section--actions">
               {{ dprFiltersActions({

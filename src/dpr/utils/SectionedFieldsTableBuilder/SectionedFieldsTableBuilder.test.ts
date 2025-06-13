@@ -1,4 +1,3 @@
-import Dict = NodeJS.Dict
 import { components } from '../../types/api'
 import SectionedFieldsTableBuilder from './SectionedFieldsTableBuilder'
 

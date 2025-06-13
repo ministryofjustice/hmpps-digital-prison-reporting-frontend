@@ -5,7 +5,6 @@ import { Request, Response, NextFunction } from 'express'
 import FiltersFormUtils from '../async-filters-form/utils'
 import LocalsHelper from '../../../utils/localsHelper'
 import FiltersUtils from '../../_filters/utils'
-import SelectedFiltersUtils from '../../_filters/filters-selected/utils'
 import { removeDuplicates } from '../../../utils/reportStoreHelper'
 import UserStoreItemBuilder from '../../../utils/UserStoreItemBuilder'
 
@@ -19,7 +18,6 @@ import type { components } from '../../../types/api'
 import type { DashboardDefinition } from '../../_dashboards/dashboard/types'
 import type { Services } from '../../../types/Services'
 import type DashboardService from '../../../services/dashboardService'
-import ReportQuery from '../../../types/ReportQuery'
 
 /**
  * Updates the store with the request details

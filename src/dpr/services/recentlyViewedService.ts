@@ -1,12 +1,6 @@
 import ReportStoreService from './reportStoreService'
 import UserDataStore from '../data/reportDataStore'
-import {
-  RequestStatus,
-  RequestedReport,
-  RecentlyViewedReport,
-  ReportType,
-  StoredReportData,
-} from '../types/UserReports'
+import { RequestStatus, RequestedReport, RecentlyViewedReport, StoredReportData } from '../types/UserReports'
 import { ReportStoreConfig } from '../types/ReportStore'
 import logger from '../utils/logger'
 

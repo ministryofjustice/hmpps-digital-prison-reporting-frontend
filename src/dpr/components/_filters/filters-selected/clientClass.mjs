@@ -125,12 +125,16 @@ export default class SelectedFilters extends DprFiltersFormClass {
    * @memberof SelectedFilters
    */
   createSelectedFilterElements(selectedFilters) {
-    selectedFilters.forEach((selected) => {
-      const { displayName, displayValue, key, value } = selected
-      const selectedElement = this.createSelectedFilterElement(displayName, displayValue, key, value)
-      this.selectedFiltersWrapper.appendChild(selectedElement)
-      this.initSelectedButtonEvent()
-    })
+    if (selectedFilters.length) {
+      selectedFilters.forEach((selected) => {
+        const { displayName, displayValue, key, value } = selected
+        const selectedElement = this.createSelectedFilterElement(displayName, displayValue, key, value)
+        this.selectedFiltersWrapper.appendChild(selectedElement)
+        this.initSelectedButtonEvent()
+      })
+    } else {
+      this.createNoFiltersSelectedMessageEl()
+    }
   }
 
   /**
@@ -243,6 +247,14 @@ export default class SelectedFilters extends DprFiltersFormClass {
     selectedItem.appendChild(content)
 
     return selectedItem
+  }
+
+  createNoFiltersSelectedMessageEl() {
+    const noneSelectedMessage = document.createElement('p')
+    noneSelectedMessage.classList = 'govuk-body-s govuk-!-margin-top-2 govuk-!-margin-bottom-0'
+    const content = document.createTextNode('No filters selected')
+    noneSelectedMessage.appendChild(content)
+    this.selectedFiltersWrapper.appendChild(noneSelectedMessage)
   }
 
   // Specfic input type edge cases 👇🏽

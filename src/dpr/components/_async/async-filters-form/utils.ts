@@ -9,6 +9,7 @@ import DefinitionUtils from '../../../utils/definitionUtils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
 import FiltersUtils from '../../_filters/utils'
 import DateRangeInputUtils from '../../_inputs/date-range/utils'
+import { Dayjs } from 'dayjs'
 
 /**
  * Initialises the sortData from the definition
@@ -49,8 +50,8 @@ export const setDurationStartAndEnd = (
   fields: components['schemas']['FieldDefinition'][],
 ) => {
   const { startDate, endDate } = DateRangeInputUtils.calcDates(value)
-  const startDateDisplayString = startDate.format('YYYY-MM-DD').toString()
-  const endDateDisplayString = endDate.format('YYYY-MM-DD').toString()
+  const startDateDisplayString = startDate ? (<Dayjs>startDate).format('YYYY-MM-DD').toString() : ''
+  const endDateDisplayString = endDate ? (<Dayjs>endDate).format('YYYY-MM-DD').toString() : ''
 
   const fieldId = name.split('.')[1]
   const field = fields.find((f) => {

@@ -29,11 +29,20 @@
         classes: 'govuk-radios--small',
         id: durationInputId,
         name: durationInputId,
+        fieldset: {
+          legend: {
+            text: 'Preset date range',
+            classes: "govuk-label govuk-!-font-weight-bold"
+          }
+        },
         formGroup: {
           classes: "govuk-!-margin-bottom-3 dpr-relative-range-radio"
         },
         items: relativeOptions,
-        value: data.value
+        value: data.value,
+        attributes: {
+          'display-name': 'Preset date range'
+        }
       }) }}
       {% endset -%}
 

@@ -46,48 +46,16 @@ export default class SelectedFilters extends DprFiltersFormClass {
     }
   }
 
-  /**
-   * Creates the selected filter data and buttons
-   *
-   * @memberof SelectedFilters
-   */
   initSelectedFiltersButtons() {
-    this.queryParams = new URLSearchParams(window.location.search)
-    this.selectedFiltersWrapper.innerHTML = ''
+    // init data from query params
+    let selectedFilterData = this.getSelectedFilterData()
 
-    const selectedFilters = []
-    this.queryParams.forEach((value, key) => {
-      let displayName = key
-      let displayValue = value
+    // handle edgecases with specific input types
+    selectedFilterData = this.setPresetDateRangeSelectedFilter(selectedFilterData)
+    selectedFilterData = this.setMultiselectSelectedFilterValue(selectedFilterData)
 
-      if (key.includes('filters.')) {
-        const inputs = document.getElementsByName(key)
-
-        if (inputs.length) {
-          displayName = this.getDisplayName(inputs[0])
-          displayValue = this.getInputDisplayValue(inputs)
-
-          const index = selectedFilters.findIndex((s) => s.key === key)
-          if (index === -1) {
-            selectedFilters.push({
-              displayName,
-              displayValue,
-              key,
-              value: [value],
-              type: inputs[0],
-            })
-          } else {
-            selectedFilters[index] = {
-              ...selectedFilters[index],
-              displayValue: selectedFilters[index].displayValue,
-              value: selectedFilters[index].value,
-            }
-          }
-        }
-      }
-    })
-
-    this.createSelectedFilters(selectedFilters)
+    // builds the elements and render
+    this.createSelectedFilterElements(selectedFilterData)
   }
 
   /**
@@ -105,24 +73,62 @@ export default class SelectedFilters extends DprFiltersFormClass {
   }
 
   /**
+   * Creates the selected filter data and buttons
+   *
+   * @memberof SelectedFilters
+   */
+  getSelectedFilterData() {
+    this.queryParams = new URLSearchParams(window.location.search)
+    this.selectedFiltersWrapper.innerHTML = ''
+
+    const selectedFilterData = []
+    this.queryParams.forEach((value, key) => {
+      let displayName = key
+      let displayValue = value
+
+      if (key.includes('filters.')) {
+        const inputs = document.getElementsByName(key)
+
+        if (inputs.length) {
+          displayName = this.getDisplayName(inputs[0])
+          displayValue = this.getInputDisplayValue(inputs)
+
+          const index = selectedFilterData.findIndex((s) => s.key === key)
+          if (index === -1) {
+            if (displayValue) {
+              selectedFilterData.push({
+                displayName,
+                displayValue,
+                key,
+                value: [value],
+                type: inputs[0],
+              })
+            }
+          } else {
+            selectedFilterData[index] = {
+              ...selectedFilterData[index],
+              displayValue: selectedFilterData[index].displayValue,
+              value: selectedFilterData[index].value,
+            }
+          }
+        }
+      }
+    })
+
+    return selectedFilterData
+  }
+
+  /**
    * Creates the selected filters
    *
    * @param {NodeList} selectedFilters
    * @memberof SelectedFilters
    */
-  createSelectedFilters(selectedFilters) {
+  createSelectedFilterElements(selectedFilters) {
     selectedFilters.forEach((selected) => {
       const { displayName, displayValue, key, value } = selected
-
-      let parsedDisplayValue = displayValue
-      if (Array.isArray(displayValue) && displayValue.length > 3) {
-        parsedDisplayValue = `${displayValue[0]}, ${displayValue[1]}, ${displayValue[2]} + ${
-          displayValue.length - 3
-        } more`
-      }
-      const selectedItem = this.createSelectedItem(displayName, parsedDisplayValue, key, value)
-      this.selectedFiltersWrapper.appendChild(selectedItem)
-
+      const selectedElement = this.createSelectedFilterElement(displayName, displayValue, key, value)
+      this.selectedFiltersWrapper.appendChild(selectedElement)
       this.initSelectedButtonEvent()
     })
   }
@@ -221,7 +227,7 @@ export default class SelectedFilters extends DprFiltersFormClass {
    * @return {element}
    * @memberof SelectedFilters
    */
-  createSelectedItem(displayName, displayValue, key, value) {
+  createSelectedFilterElement(displayName, displayValue, key, value) {
     // tag
     const selectedItem = document.createElement('a')
     selectedItem.classList = 'govuk-link govuk-body interactive-remove-filter-button'
@@ -237,5 +243,51 @@ export default class SelectedFilters extends DprFiltersFormClass {
     selectedItem.appendChild(content)
 
     return selectedItem
+  }
+
+  // Specfic input type edge cases 👇🏽
+
+  /**
+   * Daterange
+   * Filters the selected filters buttons to include valid preset date range buttons
+   *
+   * @param {*} selectedFilters
+   * @return {*}
+   * @memberof SelectedFilters
+   */
+  setPresetDateRangeSelectedFilter(selectedFilters) {
+    let updatedSelectedFilters = selectedFilters
+    const presetRangeFilter = selectedFilters.find((sf) => sf.displayName === 'Preset date range')
+    if (presetRangeFilter) {
+      updatedSelectedFilters = selectedFilters.filter((sf) => {
+        const key = sf.key.split('.')
+        return !sf.key.includes(`${key[0]}.${key[1]}`) || sf.key === presetRangeFilter.key
+      })
+    }
+    return updatedSelectedFilters
+  }
+
+  /**
+   * Multiselect
+   *
+   * @param {*} selectedFilters
+   * @return {*}
+   * @memberof SelectedFilters
+   */
+  setMultiselectSelectedFilterValue(selectedFilters) {
+    let updatedSelectedFilters = selectedFilters
+    updatedSelectedFilters = selectedFilters.map((sf) => {
+      if (Array.isArray(sf.displayValue) && sf.displayValue.length > 3) {
+        const dv = `${sf.displayValue[0]}, ${sf.displayValue[1]}, ${sf.displayValue[2]} + ${
+          sf.displayValue.length - 3
+        } more`
+        return {
+          ...sf,
+          displayValue: dv,
+        }
+      }
+      return sf
+    })
+    return updatedSelectedFilters
   }
 }

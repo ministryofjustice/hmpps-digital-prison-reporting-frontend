@@ -7,14 +7,16 @@ import { DateFilterValue, DateRange, FilterValue } from '../../_filters/types'
 import StartEndDateUtils from '../start-end-date/utils'
 import RelativeDateRange from './types'
 
-const dateIsInBounds = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs, min: string, max: string) => {
+const dateIsInBounds = (startDate: dayjs.Dayjs | string, endDate: dayjs.Dayjs | string, min: string, max: string) => {
   dayjs.extend(isBetween)
 
   const minDate = dayjs(min)
   const maxDate = dayjs(max)
 
-  const startDateIsBetweenMinAndMax = startDate.isBetween(minDate, maxDate, 'day', '[]')
-  const endDateIsBetweenMinAndMax = endDate.isBetween(minDate, maxDate, 'day', '[]')
+  const startDateIsBetweenMinAndMax = startDate
+    ? (<dayjs.Dayjs>startDate).isBetween(minDate, maxDate, 'day', '[]')
+    : true
+  const endDateIsBetweenMinAndMax = endDate ? (<dayjs.Dayjs>endDate).isBetween(minDate, maxDate, 'day', '[]') : true
 
   return startDateIsBetweenMinAndMax && endDateIsBetweenMinAndMax
 }
@@ -24,6 +26,10 @@ const calcDates = (durationValue: string) => {
   let startDate
 
   switch (durationValue) {
+    case 'none':
+      endDate = ''
+      startDate = ''
+      break
     case 'yesterday':
       endDate = dayjs()
       startDate = endDate.subtract(1, 'day')
@@ -108,13 +114,13 @@ const getRelativeValues = (): {
   disabled?: boolean
 }[] => {
   return [
-    { value: null, text: 'None' },
+    { value: 'none', text: 'None' },
     { value: 'yesterday', text: 'Yesterday' },
     { value: 'tomorrow', text: 'Tomorrow' },
     { value: 'last-week', text: 'Last week' },
     { value: 'next-week', text: 'Next week' },
     { value: 'last-month', text: 'Last month' },
-    { value: 'next-month', text: 'Next-month' },
+    { value: 'next-month', text: 'Next month' },
   ]
 }
 

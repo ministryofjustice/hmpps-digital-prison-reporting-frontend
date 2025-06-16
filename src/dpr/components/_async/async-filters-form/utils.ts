@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Request } from 'express'
+import { Dayjs } from 'dayjs'
 import Dict = NodeJS.Dict
 import type { SetQueryFromFiltersResult } from './types'
 import type { components } from '../../../types/api'
@@ -9,7 +10,6 @@ import DefinitionUtils from '../../../utils/definitionUtils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
 import FiltersUtils from '../../_filters/utils'
 import DateRangeInputUtils from '../../_inputs/date-range/utils'
-import { Dayjs } from 'dayjs'
 
 /**
  * Initialises the sortData from the definition

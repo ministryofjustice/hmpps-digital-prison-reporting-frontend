@@ -69,25 +69,27 @@
     }) }}
 
     {% if toggleMin and minDate %}
-    <a class="govuk-body-s daterange-set-to-minmax" 
-      data-set-to-input='{{ id }}' 
-      data-set-min-max-value={{ minDate | dprDate }} 
-      data-set-min-max-trigger='true'
-      href="#"
-    > 
-      set to min ({{ minDate | dprDate }})
-    </a>
-    {% endif %}
+    <div class="daterange-set-to-minmax__container">
+      <a class="govuk-body-s daterange-set-to-minmax" 
+        data-set-to-input='{{ id }}' 
+        data-set-min-max-value={{ minDate | dprDate }} 
+        data-set-min-max-trigger='true'
+        href="#"
+      > 
+        Set value to minimum date: {{ minDate | dprDate }}
+      </a>
+      {% endif %}
 
-    {% if toggleMax and maxDate %}
-    <a class="govuk-body-s daterange-set-to-minmax" 
-      data-set-to-input='{{ id }}' 
-      data-set-min-max-value={{ maxDate | dprDate }} 
-      data-set-min-max-trigger='true'
-      href="#"
-    >
-      set to max ({{ maxDate | dprDate }})
-    </a>
+      {% if toggleMax and maxDate %}
+      <a class="govuk-body-s daterange-set-to-minmax" 
+        data-set-to-input='{{ id }}' 
+        data-set-min-max-value={{ maxDate | dprDate }} 
+        data-set-min-max-trigger='true'
+        href="#"
+      >
+        Set value to maximum date: {{ maxDate | dprDate }}
+      </a>
+    </div>
     {% endif %}
   </div>
 {% endmacro %}

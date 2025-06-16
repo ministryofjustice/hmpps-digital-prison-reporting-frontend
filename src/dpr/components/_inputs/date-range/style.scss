@@ -3,12 +3,17 @@
     margin-bottom: 0;
   }
 
+  .daterange-set-to-minmax__container {
+    margin-bottom: govuk-spacing(6);
+    margin-top: govuk-spacing(3);
+  }
+
   .daterange-set-to-minmax {
-    display: inline-block;
+    display: block;
     cursor: pointer;
     text-align: left;
-    margin-bottom: govuk-spacing(0);
-    margin-top: govuk-spacing(1);
+    margin-bottom: govuk-spacing(1);
+    margin-top: govuk-spacing(0);
     color: govuk-colour("blue");
 
     &:hover {

@@ -7,4 +7,10 @@ enum RelativeDateRange {
   NEXT_MONTH = 'next-month',
 }
 
+export interface RelativeOption {
+  value: string
+  text: string
+  disabled?: boolean
+}
+
 export default RelativeDateRange

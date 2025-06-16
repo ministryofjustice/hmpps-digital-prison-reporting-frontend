@@ -67,13 +67,22 @@ export default class DateRangeInput extends DprClientClass {
     })
   }
 
-  initDurationRadionButtonClick () {
+  initDurationRadionButtonClick() {
     this.relativeRangeRadioButtons.forEach((durationRadioButton) => {
       durationRadioButton.addEventListener('click', (e) => {
         const durationValue = e.target.value
         this.durationValue = durationValue
         this.updateInputs(durationValue)
         this.removeRequiredFromDatePickers()
+      })
+    })
+
+    this.relativeRangeRadioButtons.forEach((durationRadioButton) => {
+      durationRadioButton.addEventListener('change', () => {
+        if (Array.from(this.relativeRangeRadioButtons).every((input) => !input.checked)) {
+          this.durationValue = null
+          this.updateInputs(this.durationValue)
+        }
       })
     })
   }
@@ -102,15 +111,23 @@ export default class DateRangeInput extends DprClientClass {
     this.endInput.value = ''
   }
 
-  updateInputs (durationValue) {
+  updateInputs(durationValue) {
     this.startInput.required = this.startRequired
     this.endInput.required = this.endRequired
+
+    console.log({
+      durationValue,
+      durationValue2: this.durationValue,
+    })
 
     if (durationValue || this.durationValue) {
       const d = durationValue || this.durationValue
       const { startDate, endDate } = this.calculateDateForDatepicker(d)
       this.startInput.value = startDate
       this.endInput.value = endDate
+    } else {
+      this.startInput.value = null
+      this.endInput.value = null
     }
     const changeEvent = new Event('change')
     this.startInput.dispatchEvent(changeEvent)
@@ -122,6 +139,10 @@ export default class DateRangeInput extends DprClientClass {
     let endDate
 
     switch (duration) {
+      case 'none':
+        startDate = ''
+        endDate = ''
+        break
       case 'yesterday':
         endDate = dayjs()
         startDate = endDate.subtract(1, 'day')
@@ -147,12 +168,14 @@ export default class DateRangeInput extends DprClientClass {
         endDate = startDate.add(1, 'month')
         break
       default:
+        startDate = ''
+        endDate = ''
         break
     }
 
     return {
-      startDate: startDate.format('DD/MM/YYYY').toString(),
-      endDate: endDate.format('DD/MM/YYYY').toString(),
+      startDate: startDate ? startDate.format('DD/MM/YYYY').toString() : '',
+      endDate: endDate ? endDate.format('DD/MM/YYYY').toString() : '',
     }
   }
 }

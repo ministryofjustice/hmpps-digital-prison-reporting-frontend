@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Request } from 'express'
+import { Dayjs } from 'dayjs'
 import Dict = NodeJS.Dict
 import type { SetQueryFromFiltersResult } from './types'
 import type { components } from '../../../types/api'
@@ -49,8 +50,8 @@ export const setDurationStartAndEnd = (
   fields: components['schemas']['FieldDefinition'][],
 ) => {
   const { startDate, endDate } = DateRangeInputUtils.calcDates(value)
-  const startDateDisplayString = startDate.format('YYYY-MM-DD').toString()
-  const endDateDisplayString = endDate.format('YYYY-MM-DD').toString()
+  const startDateDisplayString = startDate ? (<Dayjs>startDate).format('YYYY-MM-DD').toString() : ''
+  const endDateDisplayString = endDate ? (<Dayjs>endDate).format('YYYY-MM-DD').toString() : ''
 
   const fieldId = name.split('.')[1]
   const field = fields.find((f) => {

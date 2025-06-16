@@ -1,5 +1,10 @@
 Below you can find the changes included in each release.
 
+## v4.6.1
+
+- Selected filters are shown on the request filter page
+- Interactive filter values are shown in the users viewed report list
+
 ## v4.5.1
 
 ### Bug fixes and UI styling/content updates

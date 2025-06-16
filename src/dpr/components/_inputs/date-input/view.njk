@@ -68,8 +68,9 @@
       } if mandatory
     }) }}
 
-    {% if toggleMin and minDate %}
+    {% if toggleMin and minDate or toggleMax and maxDate %}
     <div class="daterange-set-to-minmax__container">
+    {% if toggleMin and minDate %}
       <a class="govuk-body-s daterange-set-to-minmax" 
         data-set-to-input='{{ id }}' 
         data-set-min-max-value={{ minDate | dprDate }} 
@@ -89,6 +90,7 @@
       >
         Set value to maximum date: {{ maxDate | dprDate }}
       </a>
+    {% endif %}
     </div>
     {% endif %}
   </div>

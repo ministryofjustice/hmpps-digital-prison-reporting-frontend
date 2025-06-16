@@ -5,7 +5,7 @@ import isBetween from 'dayjs/plugin/isBetween'
 import { components } from '../../../types/api'
 import { DateFilterValue, DateRange, FilterValue } from '../../_filters/types'
 import StartEndDateUtils from '../start-end-date/utils'
-import RelativeDateRange from './types'
+import RelativeDateRange, { RelativeOption } from './types'
 
 const dateIsInBounds = (startDate: dayjs.Dayjs | string, endDate: dayjs.Dayjs | string, min: string, max: string) => {
   dayjs.extend(isBetween)
@@ -81,8 +81,8 @@ const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) 
 const getRelativeDateOptions = (min: string, max: string) => {
   if (!min) min = '1977-05-25'
   if (!max) max = '9999-01-01'
-  let options: { value: string; text: string; disabled?: boolean }[] = getRelativeValues()
-  options.forEach((option: { value: string; text: string; disabled?: boolean }) => {
+  let options: RelativeOption[] = getRelativeValues()
+  options.forEach((option: RelativeOption) => {
     if (option.value) {
       const { endDate, startDate } = calcDates(option.value)
       if (!dateIsInBounds(startDate, endDate, min, max)) {
@@ -92,9 +92,11 @@ const getRelativeDateOptions = (min: string, max: string) => {
   })
 
   if (
-    options.every((opt: { value: string; text: string; disabled?: boolean }) => {
-      return opt.value === null || opt.disabled
-    })
+    options
+      .filter((opt: RelativeOption) => opt.value !== 'none')
+      .every((opt: RelativeOption) => {
+        return opt.value === null || opt.disabled
+      })
   ) {
     options = []
   }

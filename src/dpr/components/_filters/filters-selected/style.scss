@@ -3,7 +3,7 @@
 
   .dpr-selected-filters {
     background-color: govuk-colour('light-grey');
-    padding: govuk-spacing(4);
+    padding: govuk-spacing(4); 
 
     .interactive-remove-filter-button {
       cursor: pointer;
@@ -47,7 +47,7 @@
       margin-right: govuk-spacing(1);
     }
 
-    a:not(.interactive-remove-filter-button--disabled):after {
+    a:not(.interactive-remove-filter-button--disabled, .dpr-reset-filters-button):after {
       background-image: url(#{$dpr-images-path}icon-tag-remove-cross.svg);
       content: "";
       display: inline-block;

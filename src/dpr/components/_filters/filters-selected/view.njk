@@ -28,7 +28,7 @@
                 data-query-param-value= '[{{ value }}]'
                 data-query-constraint-values= '{{ constraints | json }}'
               >
-              {{ text }}: {{ displayValue }}
+              {{ text }}: <span class="dpr-selected-filter__value">{{ displayValue }}<span>
               </a>
             {% endif %}
           {% endfor%}

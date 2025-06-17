@@ -240,7 +240,7 @@ export default class SelectedFilters extends DprFiltersFormClass {
     selectedItem.dataset.dataQueryParamKey = key
     selectedItem.dataset.dataQueryParamValue = `[ "${value}" ]`
 
-    const contentField = document.createTextNode(`${displayName}: ${displayValue}`)
+    const contentField = document.createTextNode(`${displayName}: `)
     selectedItem.appendChild(contentField)
 
     const selectedItemValue = document.createElement('span')

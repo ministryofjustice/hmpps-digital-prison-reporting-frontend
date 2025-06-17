@@ -85,17 +85,7 @@
             </div>
 
             <div class='dpr-request-selected-filters-container'>
-              {{ dprSelectedFilters([], { 
-                resetId: 'async-request-reset-filters-button', 
-              }) }}
-            </div>
-
-            <div class="dpr-async-request-filters__section--actions">
-              {{ dprFiltersActions({
-                resetText: 'Reset filters',
-                resetId: 'async-request-reset-filters-button',
-                showReset: filters.length > 0
-              }) }}
+              {{ dprSelectedFilters() }}
             </div>
 
             <div class="filter-container">

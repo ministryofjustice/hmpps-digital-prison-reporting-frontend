@@ -62,22 +62,16 @@ export default function routes({
   }
 
   const submittedHandler: RequestHandler = async (req, res, next) => {
-    const { token, definitionsPath } = LocalsHelper.getValues(res)
-    const { reportId, variantId } = req.query
+    const { reportId, variantId, reportName, variantName } = req.query
 
-    const reportDefinition: components['schemas']['SingleVariantReportDefinition'] =
-      await services.reportingService.getDefinition(token, reportId, variantId, definitionsPath)
-
-    const { variant, name } = reportDefinition
     try {
       res.render(`dpr/views/forms/request-missing-report/submitted`, {
         title: 'Request submitted',
         report: {
           reportId,
           variantId,
-          reportName: name,
-          name: variant.name,
-          description: variant.description || reportDefinition.description,
+          reportName,
+          variantName,
         },
         layoutPath,
       })

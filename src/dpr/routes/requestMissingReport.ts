@@ -24,7 +24,7 @@ export default function routes({
     const { variant, name } = reportDefinition
 
     try {
-      res.render(`dpr/views/request-missing-report`, {
+      res.render(`dpr/views/forms/request-missing-report/form`, {
         title: 'Request a missing report',
         report: {
           reportId,
@@ -52,9 +52,11 @@ export default function routes({
     // const { token } = LocalsHelper.getValues(res)
     // const doTheThing = await services.reportingService.addToLogs(token, body) // Or something like that
 
-    // Redirect to submitted page
+    // If succesful redirect to submitted page
     const queryParams = `reportName=${reportName}&variantName=${variantName}&reportId=${reportId}&variantId=${variantId}`
     const redirect = `/dpr/request-missing-report/submitted?${queryParams}`
+
+    // TODO: Redirect to failed page
 
     res.redirect(redirect)
   }
@@ -68,7 +70,7 @@ export default function routes({
 
     const { variant, name } = reportDefinition
     try {
-      res.render(`dpr/views/request-missing-report-submitted`, {
+      res.render(`dpr/views/forms/request-missing-report/submitted`, {
         title: 'Request submitted',
         report: {
           reportId,

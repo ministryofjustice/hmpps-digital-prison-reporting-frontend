@@ -9,7 +9,6 @@ import CardGroup from './components/card-group/clientClass.mjs'
 import Search from './components/_catalogue/catalogue-search/clientClass.mjs'
 import BookmarkToggle from './components/bookmark-toggle/clientClass.mjs'
 import ShowMore from './components/show-more/clientClass.mjs'
-import DownloadFeedbackForm from './components/download-feeback-form/cientClass.mjs'
 
 // Reports
 import Pagination from './components/_reports/report-pagination/clientClass.mjs'
@@ -78,7 +77,6 @@ function initAll() {
     BarChartVisualisation,
     DoughnutChartVisualisation,
     LineChartVisualisation,
-    DownloadFeedbackForm,
     ScoreCard,
     ReportActions,
     DownloadMessage,

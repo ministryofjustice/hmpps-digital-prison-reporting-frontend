@@ -1,10 +1,10 @@
 {% extends layoutPath %}
 
-{% from "../components/download-feeback-form/view.njk" import dprDownloadFeedbackForm %}
+{% from "../components/forms/download-request/view.njk" import dprDownloadRequestForm %}
 
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
   <h1>{{ title }}</h1>
-  {{ dprDownloadFeedbackForm(user, report, csrfToken) }}
+  {{ dprDownloadRequestForm(user, report, csrfToken) }}
 {% endblock %}

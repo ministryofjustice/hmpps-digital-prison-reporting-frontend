@@ -46,6 +46,9 @@ import LineChartVisualisation from './components/_charts/chart/line/clientClass.
 // Dashboards
 import ScoreCard from './components/_dashboards/scorecard/clientClass.mjs'
 
+// Forms
+import GenericForm from './components/forms/clientClass.mjs'
+
 /**
  * Initialise all components
  *
@@ -81,6 +84,7 @@ function initAll() {
     DownloadMessage,
     SyncLoading,
     GranularDateRange,
+    GenericForm,
   ]
 
   const customParseFormat = window.dayjs_plugin_customParseFormat

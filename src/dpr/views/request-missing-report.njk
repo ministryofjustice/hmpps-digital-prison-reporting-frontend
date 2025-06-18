@@ -1,0 +1,17 @@
+{% extends layoutPath %}
+
+{% from "../components/forms/request-missing-report/view.njk" import dprRequestMissingReportForm %}
+{% from "../components/_async/request-details/view.njk" import dprRequestDetails %}
+
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+  <h1 class="govuk-heading-xl">{{ title }}</h1>
+
+  <p class="govuk-body">Fill out and submit this form to request the addition of a report to the reporting catalogue</p>
+
+  <h2 class="govuk-heading">Report details</h2>
+  {{ dprRequestDetails(report) }}
+
+  {{ dprRequestMissingReportForm(user, report, csrfToken, postEndpoint) }}
+{% endblock %}

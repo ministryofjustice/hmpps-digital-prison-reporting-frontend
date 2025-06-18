@@ -50,15 +50,17 @@ export default class SelectedFilters extends DprFiltersFormClass {
   }
 
   initSelectedFiltersButtons() {
-    // init data from query params
-    let selectedFilterData = this.getSelectedFilterData()
+    if (this.selectedFiltersWrapper) {
+      // init data from query params
+      let selectedFilterData = this.getSelectedFilterData()
 
-    // handle edgecases with specific input types
-    selectedFilterData = this.setPresetDateRangeSelectedFilter(selectedFilterData)
-    selectedFilterData = this.setMultiselectSelectedFilterValue(selectedFilterData)
+      // handle edgecases with specific input types
+      selectedFilterData = this.setPresetDateRangeSelectedFilter(selectedFilterData)
+      selectedFilterData = this.setMultiselectSelectedFilterValue(selectedFilterData)
 
-    // builds the elements and render
-    this.createSelectedFilterElements(selectedFilterData)
+      // builds the elements and render
+      this.createSelectedFilterElements(selectedFilterData)
+    }
   }
 
   /**
@@ -189,38 +191,40 @@ export default class SelectedFilters extends DprFiltersFormClass {
    * @memberof SelectedFilters
    */
   initSelectedButtonEvent() {
-    Array.from(this.selectedFiltersWrapper.children).forEach((button) => {
-      button.addEventListener('click', (e) => {
-        e.preventDefault()
+    if (this.selectedFiltersWrapper) {
+      Array.from(this.selectedFiltersWrapper.children).forEach((button) => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault()
 
-        const inputs = document.getElementsByName(button.dataset.dataQueryParamKey)
-        if (inputs.length) {
-          switch (inputs[0].type) {
-            case 'checkbox':
-            case 'radio':
-              inputs.forEach((i) => {
-                // eslint-disable-next-line no-param-reassign
-                i.checked = false
-                const changeEvent = new Event('change')
-                i.dispatchEvent(changeEvent)
-              })
-              break
+          const inputs = document.getElementsByName(button.dataset.dataQueryParamKey)
+          if (inputs.length) {
+            switch (inputs[0].type) {
+              case 'checkbox':
+              case 'radio':
+                inputs.forEach((i) => {
+                  // eslint-disable-next-line no-param-reassign
+                  i.checked = false
+                  const changeEvent = new Event('change')
+                  i.dispatchEvent(changeEvent)
+                })
+                break
 
-            case 'search':
-              inputs[0].value = ''
-              inputs[0].staticOptionNameValue = ''
-              break
+              case 'search':
+                inputs[0].value = ''
+                inputs[0].staticOptionNameValue = ''
+                break
 
-            default:
-              inputs[0].value = ''
-              break
+              default:
+                inputs[0].value = ''
+                break
+            }
+
+            const changeEvent = new Event('change')
+            inputs[0].dispatchEvent(changeEvent)
           }
-
-          const changeEvent = new Event('change')
-          inputs[0].dispatchEvent(changeEvent)
-        }
+        })
       })
-    })
+    }
   }
 
   /**

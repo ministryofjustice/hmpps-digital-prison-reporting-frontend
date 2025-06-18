@@ -20,12 +20,15 @@ export default class SelectedFilters extends DprFiltersFormClass {
       this.selectedFiltersButtons.forEach((button) => {
         button.addEventListener('click', (e) => {
           e.preventDefault()
+          const target = e.target.matches('.interactive-remove-filter-button')
+            ? e.target
+            : e.target.closest('.interactive-remove-filter-button')
 
-          const keys = JSON.parse(e.target.getAttribute('data-query-param-key')) || []
-          const values = JSON.parse(e.target.getAttribute('data-query-param-value')) || []
+          const keys = JSON.parse(target.getAttribute('data-query-param-key')) || []
+          const values = JSON.parse(target.getAttribute('data-query-param-value')) || []
 
-          let constraints = e.target.getAttribute('data-query-constraint-values')
-          constraints = constraints ? JSON.parse(e.target.getAttribute('data-query-constraint-values')) : undefined
+          let constraints = target.getAttribute('data-query-constraint-values')
+          constraints = constraints ? JSON.parse(target.getAttribute('data-query-constraint-values')) : undefined
 
           keys.forEach((key) => {
             values.forEach((value) => {
@@ -47,15 +50,17 @@ export default class SelectedFilters extends DprFiltersFormClass {
   }
 
   initSelectedFiltersButtons() {
-    // init data from query params
-    let selectedFilterData = this.getSelectedFilterData()
+    if (this.selectedFiltersWrapper) {
+      // init data from query params
+      let selectedFilterData = this.getSelectedFilterData()
 
-    // handle edgecases with specific input types
-    selectedFilterData = this.setPresetDateRangeSelectedFilter(selectedFilterData)
-    selectedFilterData = this.setMultiselectSelectedFilterValue(selectedFilterData)
+      // handle edgecases with specific input types
+      selectedFilterData = this.setPresetDateRangeSelectedFilter(selectedFilterData)
+      selectedFilterData = this.setMultiselectSelectedFilterValue(selectedFilterData)
 
-    // builds the elements and render
-    this.createSelectedFilterElements(selectedFilterData)
+      // builds the elements and render
+      this.createSelectedFilterElements(selectedFilterData)
+    }
   }
 
   /**
@@ -126,15 +131,14 @@ export default class SelectedFilters extends DprFiltersFormClass {
    */
   createSelectedFilterElements(selectedFilters) {
     if (selectedFilters.length) {
-      selectedFilters.forEach((selected) => {
-        const { displayName, displayValue, key, value } = selected
-        const selectedElement = this.createSelectedFilterElement(displayName, displayValue, key, value)
-        this.selectedFiltersWrapper.appendChild(selectedElement)
+      selectedFilters.forEach((selectedFilterData) => {
+        this.createSelectedFilterElement(selectedFilterData)
         this.initSelectedButtonEvent()
       })
     } else {
       this.createNoFiltersSelectedMessageEl()
     }
+    this.createResetButtonEl()
   }
 
   /**
@@ -187,38 +191,40 @@ export default class SelectedFilters extends DprFiltersFormClass {
    * @memberof SelectedFilters
    */
   initSelectedButtonEvent() {
-    Array.from(this.selectedFiltersWrapper.children).forEach((button) => {
-      button.addEventListener('click', (e) => {
-        e.preventDefault()
+    if (this.selectedFiltersWrapper) {
+      Array.from(this.selectedFiltersWrapper.children).forEach((button) => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault()
 
-        const inputs = document.getElementsByName(button.dataset.dataQueryParamKey)
-        if (inputs.length) {
-          switch (inputs[0].type) {
-            case 'checkbox':
-            case 'radio':
-              inputs.forEach((i) => {
-                // eslint-disable-next-line no-param-reassign
-                i.checked = false
-                const changeEvent = new Event('change')
-                i.dispatchEvent(changeEvent)
-              })
-              break
+          const inputs = document.getElementsByName(button.dataset.dataQueryParamKey)
+          if (inputs.length) {
+            switch (inputs[0].type) {
+              case 'checkbox':
+              case 'radio':
+                inputs.forEach((i) => {
+                  // eslint-disable-next-line no-param-reassign
+                  i.checked = false
+                  const changeEvent = new Event('change')
+                  i.dispatchEvent(changeEvent)
+                })
+                break
 
-            case 'search':
-              inputs[0].value = ''
-              inputs[0].staticOptionNameValue = ''
-              break
+              case 'search':
+                inputs[0].value = ''
+                inputs[0].staticOptionNameValue = ''
+                break
 
-            default:
-              inputs[0].value = ''
-              break
+              default:
+                inputs[0].value = ''
+                break
+            }
+
+            const changeEvent = new Event('change')
+            inputs[0].dispatchEvent(changeEvent)
           }
-
-          const changeEvent = new Event('change')
-          inputs[0].dispatchEvent(changeEvent)
-        }
+        })
       })
-    })
+    }
   }
 
   /**
@@ -231,22 +237,23 @@ export default class SelectedFilters extends DprFiltersFormClass {
    * @return {element}
    * @memberof SelectedFilters
    */
-  createSelectedFilterElement(displayName, displayValue, key, value) {
-    // tag
+  createSelectedFilterElement(selectedData) {
+    const { displayName, displayValue, key, value } = selectedData
     const selectedItem = document.createElement('a')
     selectedItem.classList = 'govuk-link govuk-body interactive-remove-filter-button'
-
-    // data
     selectedItem.dataset.dataQueryParamKey = key
     selectedItem.dataset.dataQueryParamValue = `[ "${value}" ]`
 
-    // content
-    const content = document.createTextNode(`${displayName}: ${displayValue}`)
+    const contentField = document.createTextNode(`${displayName}: `)
+    selectedItem.appendChild(contentField)
 
-    // merge
-    selectedItem.appendChild(content)
+    const selectedItemValue = document.createElement('span')
+    selectedItemValue.classList = 'dpr-selected-filter__value'
+    const contentValue = document.createTextNode(displayValue)
+    selectedItemValue.appendChild(contentValue)
+    selectedItem.appendChild(selectedItemValue)
 
-    return selectedItem
+    this.selectedFiltersWrapper.appendChild(selectedItem)
   }
 
   createNoFiltersSelectedMessageEl() {
@@ -255,6 +262,18 @@ export default class SelectedFilters extends DprFiltersFormClass {
     const content = document.createTextNode('No filters selected')
     noneSelectedMessage.appendChild(content)
     this.selectedFiltersWrapper.appendChild(noneSelectedMessage)
+  }
+
+  createResetButtonEl() {
+    const resetLink = document.createElement('a')
+    resetLink.classList =
+      'govuk-body-s govuk-link govuk-link--no-visited-state dpr-reset-filters-button govuk-!-margin-bottom-0'
+    const content = document.createTextNode('Reset filters')
+    resetLink.appendChild(content)
+    resetLink.setAttribute('href', '#')
+    resetLink.setAttribute('id', 'async-request-reset-filters-button')
+    this.selectedFiltersWrapper.appendChild(resetLink)
+    this.initResetButton('async-request-reset-filters-button')
   }
 
   // Specfic input type edge cases 👇🏽

@@ -13,13 +13,12 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
 
     // Buttons
     this.submitButton = document.getElementById(submitButtonId)
-    this.resetButton = document.getElementById(resetButtonId)
     this.selectedFiltersWrapper = document.getElementById(selectedFiltersId)
     this.selectedFiltersButtons = document.querySelectorAll(`.${removeSelectedButtonClass}`)
 
     this.initValues()
     this.initSubmitButton()
-    this.initResetButton()
+    this.initResetButton(resetButtonId)
     this.initFormData()
   }
 
@@ -46,7 +45,8 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
     })
   }
 
-  initResetButton() {
+  initResetButton(resetButtonId) {
+    this.resetButton = document.getElementById(resetButtonId)
     if (this.resetButton) {
       this.defaultQuery = this.resetButton.getAttribute('defaultQuery')
       this.resetButton.addEventListener('click', (e) => {

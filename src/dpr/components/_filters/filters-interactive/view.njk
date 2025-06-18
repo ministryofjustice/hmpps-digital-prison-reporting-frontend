@@ -10,18 +10,19 @@
 
 
   <div class='dpr-interactive-filters-section'>
-    {{dprSelectedFilters(data.selectedFilters)}}
+    {{ dprSelectedFilters(data.selectedFilters, { 
+      resetId: 'interactive-reset-filters-button',
+      defaultQuery: defaultQuery 
+    }) }}
 
     {% set filtersHtml %}
       <div class='dpr-interactive-filters'>
         <div data-dpr-module="interactive-filters" class="dpr-filters sync-filters-form--hidden">
-
           {{ dprFiltersForm({
             filters: filters, 
             prefix: prefix,
             formId: 'interactive-filters-form',
             submitId: 'interactive-apply-filters-button',
-            resetId: 'interactive-reset-filters-button',
             defaultQuery: defaultQuery
           }) }}
         </div>

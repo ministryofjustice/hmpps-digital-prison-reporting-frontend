@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v4.6.2
+
+- Reset filters button re-positioned
+
 ## v4.6.1
 
 - Selected filters are shown on the request filter page

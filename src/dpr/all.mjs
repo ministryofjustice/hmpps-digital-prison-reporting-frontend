@@ -9,7 +9,6 @@ import CardGroup from './components/card-group/clientClass.mjs'
 import Search from './components/_catalogue/catalogue-search/clientClass.mjs'
 import BookmarkToggle from './components/bookmark-toggle/clientClass.mjs'
 import ShowMore from './components/show-more/clientClass.mjs'
-import DownloadFeedbackForm from './components/download-feeback-form/cientClass.mjs'
 
 // Reports
 import Pagination from './components/_reports/report-pagination/clientClass.mjs'
@@ -46,6 +45,9 @@ import LineChartVisualisation from './components/_charts/chart/line/clientClass.
 // Dashboards
 import ScoreCard from './components/_dashboards/scorecard/clientClass.mjs'
 
+// Forms
+import GenericForm from './components/forms/clientClass.mjs'
+
 /**
  * Initialise all components
  *
@@ -75,12 +77,12 @@ function initAll() {
     BarChartVisualisation,
     DoughnutChartVisualisation,
     LineChartVisualisation,
-    DownloadFeedbackForm,
     ScoreCard,
     ReportActions,
     DownloadMessage,
     SyncLoading,
     GranularDateRange,
+    GenericForm,
   ]
 
   const customParseFormat = window.dayjs_plugin_customParseFormat

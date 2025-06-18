@@ -1,0 +1,23 @@
+{% extends layoutPath %}
+
+{% from "../../../components/_async/request-details/view.njk" import dprRequestDetails %}
+
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+  <h1 class="govuk-heading-xl">{{ title }}</h1>
+
+  <p class="govuk-body">Your request has been submitted to inlcude the following report in the report catalogue:</p>
+  {{ dprRequestDetails(report) }}
+
+  <h2 class="govuk-heading">What happens next?</h2>
+
+  <ul class="govuk-list govuk-list--bullet">
+    <li>The report details have been added to a list for possible future inclusion to the service.</li>
+    <li>A member of our team will review your request and it will be prioritised.</li>
+    <li>When a new report is added to the reporting catalogue, you will be notified through the "DPR Rollout Support" Teams channel</li>  
+  </ul>
+
+  <a href="/">Return to Report catalogue</a>
+
+{% endblock %}

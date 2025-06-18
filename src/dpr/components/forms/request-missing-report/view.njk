@@ -1,0 +1,74 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+
+{% macro dprRequestMissingReportForm(user, report, csrfToken, postEndpoint) %}
+
+  {# User details #}
+  {% set name = user.displayName %}
+  {% set staffId = user.staffId %}
+  {% set activeCaseLoadId = user.activeCaseLoadId %}
+  {% set email = user.email %}
+
+  {# Report details #}
+  {% set variantId = report.variantId %}
+  {% set reportId = report.reportId %}
+  {% set reportName = report.reportName %}
+  {% set variantName = report.variantName %}
+  {% set csrfToken = csrfToken %}
+  {% set time = report.time %}
+
+  <div class="dpr-form--request-missing-report" data-dpr-module="dpr-generic-form">
+    <form action="{{ postEndpoint }}" method="post" id="dpr-form" class="dpr-form--hidden">
+      <div id="dpr-form-summary--error-summary" class="query-error-summary query-error-summary--hidden">
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: []
+        }) }}
+      </div>
+
+      <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+      
+      {# Report details #}
+      <input type="hidden" name="reportId" value="{{ reportId }}">
+      <input type="hidden" name="reportName" value="{{ reportName }}">
+      <input type="hidden" name="variantId" value="{{ variantId }}">
+      <input type="hidden" name="variantName" value="{{ variantName }}">
+      <input type="hidden" name="time" value="{{ time }}">
+
+      {# User details #}
+      <input type="hidden" name="staffId" value="{{ staffId }}">
+      <input type="hidden" name="name" value="{{ name }}">
+      <input type="hidden" name="email" value="{{ email }}">
+      <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}">
+      
+      {{ govukTextarea({
+        name: "request-details",
+        id: "more-detail",
+        rows: "8",
+        classes: "govuk-!-width-three-quarters",
+        label: {
+          text: "Briefly explain why you wish to access this report",
+          classes: "govuk-label--m",
+          isPageHeading: true
+        },
+        hint: {
+          html: "In your own words describe how why you need this report. This will help us to prioritise the addition of missing reports in to the service"
+        }
+      }) }}
+
+      {{ govukButton({
+        text: "Submit request",
+        classes: "govuk-button--primary govuk-!-margin-bottom-0",
+        attributes: {
+          id: 'dpr-form-summary--form-submit',
+          'data-submit-feedback': 'true'
+        }
+      }) }}
+    
+    </form>
+  </div>
+{% endmacro %}

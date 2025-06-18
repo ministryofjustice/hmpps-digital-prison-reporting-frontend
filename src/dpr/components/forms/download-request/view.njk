@@ -5,7 +5,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
-{% macro dprDownloadFeedbackForm(user, report, csrfToken) %}
+{% macro dprDownloadRequestForm(user, report, csrfToken) %}
   {% set name = user.displayName %}
   {% set staffId = user.staffId %}
   {% set activeCaseLoadId = user.activeCaseLoadId %}
@@ -21,20 +21,22 @@
   {% set reportSearch = report.reportSearch %}
   {% set csrfToken = csrfToken %}
 
-  <div class="dpr-download-feedback-form-wrapper" data-dpr-module="download-feedback-form">
+  <div class="dpr-download-feedback-form-wrapper" data-dpr-module="dpr-generic-form">
 
-    <form action="/dpr/submitFeedback/" method="post" id="download-feedback-form" class="download-feedback-form--hidden">
+    <form action="/dpr/submitFeedback/" method="post" id="dpr-form" class="dpr-form--hidden">
 
       <p>To enable downloads for this report (<strong>{{ reportName}} - {{ variantName }}</strong>), take a few moments to fill out this request form.</p><p>Once you have submitted the form you the download button will be enabled immediately.</p>
 
       <h3>Help us improve our service</h3>
       <p>We would like to understand more about your reasons for downloading this report. The more detail you provide, the better we can understand how to improve our service and offer features that meet your needs.</p>
-      <div id="download-feedback-form-summary" class="query-error-summary query-error-summary--hidden">
+
+      <div id="dpr-form-summary--error-summary" class="query-error-summary query-error-summary--hidden">
         {{ govukErrorSummary({
           titleText: "There is a problem",
           errorList: []
         }) }}
       </div>
+
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
       <input type="hidden" name="reportId" value="{{ reportId }}">
       <input type="hidden" name="reportName" value="{{ reportName }}">
@@ -165,7 +167,7 @@
         text: "Submit request",
         classes: "govuk-button--primary govuk-!-margin-bottom-0",
         attributes: {
-          id: 'download-feedback-form-submit',
+          id: 'dpr-form-summary--form-submit',
           'data-submit-feedback': 'true'
         }
       }) }}

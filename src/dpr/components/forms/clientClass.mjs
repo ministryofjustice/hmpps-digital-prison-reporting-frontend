@@ -1,23 +1,22 @@
 import DprFormValidationClass from '../../DprFormValidationClass.mjs'
 
-export default class AsyncFilters extends DprFormValidationClass {
+export default class DprGenericForm extends DprFormValidationClass {
   static getModuleName() {
-    return 'download-feedback-form'
+    return 'dpr-generic-form'
   }
 
   initialise() {
     this.errorMessages = []
-    this.mainForm = document.getElementById('download-feedback-form')
+    this.mainForm = document.getElementById('dpr-form')
     this.mainForm.noValidate = true
     this.formFields = Array.from(this.mainForm.elements)
 
-    this.errorSummary = document.getElementById('download-feedback-form-summary')
-    this.submitButton = document.getElementById('download-feedback-form-submit')
-    this.success = document.getElementById('download-feedback-form-success')
+    this.errorSummary = document.getElementById('dpr-form-summary--error-summary')
+    this.submitButton = document.getElementById('dpr-form-summary--form-submit')
 
     this.initSubmitButton()
     this.initFormValidation(this.formFields)
-    this.mainForm.classList.remove('download-feedback-form--hidden')
+    this.mainForm.classList.remove('dpr-form--hidden')
   }
 
   initSubmitButton() {

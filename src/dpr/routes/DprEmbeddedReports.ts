@@ -4,6 +4,7 @@ import addBookmarkingRoutes from './bookmarks'
 import addDownloadRoutes from './download'
 import addRecentlyViewedRoutes from './recentlyViewed'
 import addSyncRoutes from './syncReports'
+import addRequestMissingReportRoutes from './requestMissingReport'
 
 import type { Services } from '../types/Services'
 import logger from '../utils/logger'
@@ -26,6 +27,7 @@ export default function routes(routeImportParams: {
   addAsyncReportingRoutes(params)
   addRecentlyViewedRoutes(params)
   addSyncRoutes(params)
+  addRequestMissingReportRoutes(params)
 
   const { bookmarkService, downloadPermissionService } = routeImportParams.services
 

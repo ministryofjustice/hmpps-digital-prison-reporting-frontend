@@ -52,7 +52,7 @@ export default function routes({
       await services.reportingService.getDefinition(token, reportId, variantId, dataProductDefinitionsPath)
 
     try {
-      res.render(`dpr/views/feedback-form`, {
+      res.render(`dpr/views/forms/download-feedback/form`, {
         title: 'Download request form',
         user: res.locals.user,
         report: {
@@ -107,7 +107,7 @@ export default function routes({
 
     await services.downloadPermissionService.saveDownloadPermissionData(userId, reportId, variantId)
 
-    res.render(`dpr/views/feedback-form-success`, {
+    res.render(`dpr/views/forms/download-feedback/submitted`, {
       title: 'success',
       layoutPath,
       report: {

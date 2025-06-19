@@ -40,7 +40,7 @@ export const setRoutePrefix = async (res: Response, config?: DprConfig) => {
 export const populateDefinitions = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
   // Get the DPD path from the query
   const dpdPathFromQuery = deriveDefinitionsPath(req.query)
-  const dpdPathFromBody = req.body.dataProductDefinitionsPath
+  const dpdPathFromBody = req.body?.dataProductDefinitionsPath
   const definitionsPathFromQuery = dpdPathFromQuery || dpdPathFromBody
 
   if (definitionsPathFromQuery) {

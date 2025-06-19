@@ -1,7 +1,6 @@
-{% extends "page.njk" %}
+{% extends "views/page.njk" %}
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
-{% from "components/user-reports/view.njk" import dprUserReports %}
-{% from "components/_catalogue/catalogue/view.njk" import dprCatalogue %}
+{% from "components/card-group/view.njk" import dprCardGroup %}
 
 {% block content %}
   <div class="govuk-width-container">
@@ -10,11 +9,6 @@
     {% if (breadCrumbList.length > 0) %}
       {% set rows = rows.concat(breadCrumbList) %}
     {% endif %}
-    {% set rows = rows.concat([
-      {
-        text: title
-      }
-    ]) %}
 
     {% if title !== 'Home' %}
       <div class="govuk-!-margin-bottom-4">
@@ -28,10 +22,6 @@
 
     <h1 class="govuk-heading-l">{{ title }}</h1>
 
-    {{ dprUserReports(userReportsLists)}}
-
-    <h2 class="govuk-heading-l govuk-!-margin-bottom-4">Reports catalogue</h2>
-
-    {{ dprCatalogue(catalogue) }}
+    {{ dprCardGroup(cards, 2) }}
   </div>
 {% endblock %}

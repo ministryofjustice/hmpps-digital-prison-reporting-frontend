@@ -1,5 +1,10 @@
 Below you can find the changes included in each release.
 
+## v4.6.3
+
+- Update express to 5.1.0
+- Update docs for dashboards
+
 ## v4.6.2
 
 - Reset filters button re-positioned

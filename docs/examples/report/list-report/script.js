@@ -13,7 +13,7 @@ app.get('/data', (req, res, next) => {
     otherOptions: {
       exampleOption: true,
     },
-    layoutTemplate: 'page.njk',
+    layoutTemplate: 'views/page.njk',
   }
 
   ReportListUtils.renderListWithData({
@@ -30,7 +30,7 @@ app.get('/method', (req, res, next) => {
     definitionName: 'test-report',
     variantName: 'test-variant',
     apiUrl: 'http://localhost:3010',
-    layoutTemplate: 'page.njk',
+    layoutTemplate: 'views/page.njk',
   }
 
   ReportListUtils.renderListWithDefinition({
@@ -49,8 +49,8 @@ app.get(
     variantName: 'test-variant',
     apiUrl: `http://localhost:3010`,
     apiTimeout: 10000,
-    layoutTemplate: 'page.njk',
+    layoutTemplate: 'views/page.njk',
     tokenProvider: (req, res, next) => res.locals.user.token,
-    definitionsPath: 'definitions/prisons/test'
+    definitionsPath: 'definitions/prisons/test',
   }),
 )

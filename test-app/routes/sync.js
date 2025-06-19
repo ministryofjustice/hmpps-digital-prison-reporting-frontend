@@ -8,7 +8,7 @@ const syncReportsMenuCards = [
 
 const syncRoutes = (app) => {
   app.get('/sync-reports', (req, res) => {
-    res.render('menu.njk', {
+    res.render('views/pages/menu.njk', {
       title: 'DPR Sync reports',
       cards: syncReportsMenuCards,
       breadCrumbList: [{ text: 'Home', href: '/' }],

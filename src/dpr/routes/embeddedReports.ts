@@ -13,7 +13,7 @@ export default function routes({ router, config, services, options, features }: 
 
   const routeConfig: EmbeddedSyncParamsConfig = {
     templatePath: config?.templatePath || 'dpr/views/',
-    layoutPath: config?.layoutPath || 'page.njk',
+    layoutPath: config?.layoutPath || 'views/page.njk',
   }
   const { templatePath, layoutPath } = routeConfig
 

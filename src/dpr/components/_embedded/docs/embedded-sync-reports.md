@@ -240,7 +240,7 @@ const preInitialsedServices: Services = {
 addDownloadRoutes({
   router: app,
   services,
-  layoutPath: 'page.njk',
+  layoutPath: 'views/page.njk',
   templatePath: 'dpr/views/',
 })
 

@@ -124,6 +124,65 @@ const dietTotals = {
   },
 }
 
+const dietTotalsWithFilters = {
+  id: 'diet-totals-with-filters',
+  type: 'list',
+  display: 'Diet totals filter on vegetarian',
+  description: '',
+  columns: {
+    keys: [],
+    measures: [
+      {
+        id: 'diet',
+        display: 'Diet',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    filters: [
+      {
+        id: 'diet',
+        equals: 'Vegetarian',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
+const dietTotalsWithFiltersSingleColumn = {
+  id: 'diet-totals-single-column',
+  type: 'list',
+  display: 'Diet totals single column',
+  description: '',
+  columns: {
+    keys: [
+      {
+        id: 'diet',
+        display: 'Diet',
+      },
+    ],
+    measures: [
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    filters: [
+      {
+        id: 'diet',
+        equals: 'Vegetarian',
+      },
+      {
+        id: 'diet',
+        equals: 'Pescatarian',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
 const dietTotalsByEstablishment = {
   id: 'diet-totals-by-establishment',
   type: 'list',
@@ -245,6 +304,55 @@ const dietTotalsByEstablishmentByWingByCell = {
       {
         id: 'count',
         display: 'Total prisoners',
+      },
+    ],
+  },
+}
+
+const dietTotalsByEstablishmentByWingByCellFilters = {
+  id: 'diet-totals-by-establishment-by-wing-by-cell-filters',
+  type: 'list',
+  display: 'Diet totals by cell',
+  description: '',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+      {
+        id: 'wing',
+      },
+    ],
+    measures: [
+      {
+        id: 'cell',
+        display: 'Cell',
+      },
+      {
+        id: 'diet',
+        display: 'Diet',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    filters: [
+      {
+        id: 'cell',
+        display: 'Cell-1',
+      },
+      {
+        id: 'cell',
+        display: 'Cell-2',
+      },
+      {
+        id: 'diet',
+        display: 'Vegetarian',
+      },
+      {
+        id: 'diet',
+        display: 'Omnivore',
       },
     ],
   },
@@ -919,6 +1027,8 @@ const lists = {
   optionalKey,
   allOptional,
   dietTotals,
+  dietTotalsWithFilters,
+  dietTotalsWithFiltersSingleColumn,
   dietTotalsByEstablishment,
   dietTotalsByEstablishmentByWing,
   dietTotalsByEstablishmentByWingByCell,

@@ -18,7 +18,7 @@ const componentsMenuCards = [
 
 const componenentsRoutes = (app) => {
   app.get('/components', (req, res) => {
-    res.render('menu.njk', {
+    res.render('views/pages/menu.njk', {
       title: 'Components',
       cards: componentsMenuCards,
       breadCrumbList: [{ text: 'Home', href: '/' }],

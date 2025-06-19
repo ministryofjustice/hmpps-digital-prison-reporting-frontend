@@ -61,7 +61,10 @@ export default function routes({
    */
   const isAuthorisedToViewReport: RequestHandler = async (req, res, next) => {
     const definition = await AysncRequestUtils.getDefintionByType(req, res, next, services)
-    req.body.definition = definition
+    req.body = {
+      ...(req.body && { body: req.body }),
+      definition,
+    }
     if (definition?.authorised !== undefined && !definition.authorised) {
       await unauthorisedReportHandler(req, res, next)
     } else {

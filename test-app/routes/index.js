@@ -24,7 +24,7 @@ const homepageMenuCards = [
 
 const homepageRoutes = (app) => {
   app.get('/', (req, res) => {
-    res.render('menu.njk', {
+    res.render('views/pages/menu.njk', {
       title: 'DPR test site',
       cards: homepageMenuCards,
     })

@@ -6,7 +6,6 @@ const { dataQualityDashboardBase } = require('./definitions/data-quality/dashboa
 const listExamples = require('./definitions/examples/lists')
 const scorecardExamples = require('./definitions/examples/scorecards')
 const chartExamples = require('./definitions/examples/charts')
-const { testingDashboard } = require('./definitions/test-dashboard/dashboard-definiton-1')
 const testingDashboards = require('./definitions/test-dashboard')
 
 const successfulExecution = {

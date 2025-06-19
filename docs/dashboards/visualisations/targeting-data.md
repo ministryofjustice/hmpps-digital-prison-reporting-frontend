@@ -6,15 +6,22 @@ These docs describe how to define a visualisation definition to target specific 
 
 ## How to target data
 
-You can target specfic rows within a dataset using the following fields of the visualisation definition:
+Data can be targeted to create a data subset specific to your visualisation by defining the following fields:
 
-- `keys`: the key columns expected to be present in a specific row
-- `measures`: the columns you want to see/use in your visualisation.
+#### `keys` 
+- Specifies the columns whose values are expected to be present for a specific row
+- The column values are checked for the presence. 
+- If a row contains values that are undefined the row is removed
 
-By defining these two data arrays, the definition will filter the dataset to match the definition criteria: 
+#### `measures`
+- Specifies the columns you want to include/visualise in your visualisation
+- Does not affect the data sub-set
+- Column values will be used/shown in your visualisation.
 
-- Filters out all rows where the `keys` and `measures` are not defined or dont have values.
-- Accepts all unspecified columns as valid rows, if null or not.
+#### `filters`
+- Specifies the column and value you want to filter the data set by
+- The specified column is checked to contain a specified value
+- If not equal, the row is removed
 
 # Examples 
 
@@ -134,6 +141,72 @@ which will produce the following `list` visualisation.
 | Total prisoners | 
 |-----------------|
 | 140             |
+```
+
+## Filtering by column value
+
+```js
+{
+  id: 'diet-totals-by-establishment',
+  type: 'list',
+  display: 'Cell totals by establishment',
+  description: '',
+  columns: {
+    keys: [
+      {
+        id: 'establishment_id',
+      },
+      {
+        id: 'wing',
+      },
+    ],
+    measures: [
+      {
+        id: 'cell',
+        display: 'Cell',
+      },
+      {
+        id: 'count',
+        display: 'Total prisoners',
+        aggregate: 'sum'
+      },
+    ],
+    filters: [
+      {
+        id: 'cell'
+        equals: 'cell5'; 
+      },
+      {
+        id: 'cell'
+        equals: 'cell4'; 
+      }
+      {
+        id: 'wing'
+        equals: 'north'; 
+      }
+    ]
+    expectNulls: false, // or undefined
+  },
+}
+```
+
+Dataset returned: 
+
+```js
+| ts         |  est_id  | wing  | cell  | diet        | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 | MDI      | north | cell4 |             | 26    |
+| 2025/02/25 | MDI      | north | cell5 |             | 42    |
+```
+
+List visualisation:
+
+```js
+| Cell  | Total prisoners | 
+|-------|-----------------|
+| cell4 | 26              |
+| cell5 | 42              |
+| Total | 140             |
 ```
 
 ## Targeting Prisoner Totals

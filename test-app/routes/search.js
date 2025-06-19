@@ -1,6 +1,6 @@
 const searchRoutes = (app) => {
   app.get('/search', (req, res) => {
-    res.render('search.njk', {
+    res.render('views/pages/search.njk', {
       title: 'Search',
       head: [{ text: 'Product' }, { text: 'Name' }],
       rows: [

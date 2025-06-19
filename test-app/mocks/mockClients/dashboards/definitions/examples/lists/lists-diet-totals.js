@@ -36,6 +36,8 @@ const dietTotals = {
           },
         },
         lists.dietTotals,
+        lists.dietTotalsWithFilters,
+        lists.dietTotalsWithFiltersSingleColumn,
         lists.dietTotalsByEstablishment,
         lists.dietTotalsByEstablishmentByWing,
       ],

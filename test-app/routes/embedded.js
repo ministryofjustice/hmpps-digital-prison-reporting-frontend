@@ -53,7 +53,7 @@ const embeddededRouteConfigMenuCards = [
 
 const embeddedRoutes = (app) => {
   app.get('/embedded-reports', (req, res) => {
-    res.render('menu.njk', {
+    res.render('views/pages/menu.njk', {
       title: 'Embedded reports',
       cards: embeddedReportsMenuCards,
       breadCrumbList: [{ text: 'Home', href: '/' }],
@@ -61,7 +61,7 @@ const embeddedRoutes = (app) => {
   })
 
   app.get('/embedded-reports/import-route', (req, res) => {
-    res.render('menu.njk', {
+    res.render('views/pages/menu.njk', {
       title: 'Route import',
       cards: embeddedImportRouteMenuCards,
       breadCrumbList: [
@@ -72,7 +72,7 @@ const embeddedRoutes = (app) => {
   })
 
   app.get('/embedded-reports/route-config', (req, res) => {
-    res.render('menu.njk', {
+    res.render('views/pages/menu.njk', {
       title: 'Route config',
       cards: embeddededRouteConfigMenuCards,
       breadCrumbList: [
@@ -88,7 +88,7 @@ const embeddedRoutes = (app) => {
       definitionName: 'test-report',
       variantName: 'test-variant',
       apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
-      layoutTemplate: 'page.njk',
+      layoutTemplate: 'views/page.njk',
       dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}',
       otherOptions: {
         breadCrumbList: [
@@ -110,7 +110,7 @@ const embeddedRoutes = (app) => {
       definitionName: 'test-report',
       variantName: 'test-variant',
       apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
-      layoutTemplate: 'page.njk',
+      layoutTemplate: 'views/page.njk',
       tokenProvider: () => 'token',
       dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}',
       otherOptions: {
@@ -130,7 +130,7 @@ const embeddedRoutes = (app) => {
       definitionName: 'test-report',
       variantName: 'test-validation-variant',
       apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
-      layoutTemplate: 'page.njk',
+      layoutTemplate: 'views/page.njk',
       tokenProvider: () => 'token',
       dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}',
       otherOptions: {
@@ -150,7 +150,7 @@ const embeddedRoutes = (app) => {
       definitionName: 'test-report',
       variantName: 'test-section-variant',
       apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
-      layoutTemplate: 'page.njk',
+      layoutTemplate: 'views/page.njk',
       tokenProvider: () => 'token',
       dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}',
       otherOptions: {
@@ -172,7 +172,7 @@ const embeddedRoutes = (app) => {
       response: res,
       next,
       apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
-      layoutTemplate: 'page.njk',
+      layoutTemplate: 'views/page.njk',
       otherOptions: {
         breadCrumbList: [
           { text: 'Home', href: '/' },

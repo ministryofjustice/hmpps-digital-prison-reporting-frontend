@@ -21,8 +21,8 @@ const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: D
 
       // 1. check if the column value is equal to a defined column value
       if (filterColIds.includes(datasetField)) {
-        const filterColumn = filters.find((col) => col.id === datasetField)
-        valid = value === filterColumn.equals
+        const filterValues = filters.filter((f) => f.id === datasetField).map((f) => f.equals)
+        valid = filterValues.includes(value)
 
         // 3. check keys exist in the defined columns
       } else if (keyColumnsIds.includes(datasetField) && hasOptionalKeys) {

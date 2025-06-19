@@ -6,7 +6,7 @@ const mockScoreCards = require('../mocks/mockScoreCards/mockScorecards')
 
 const chartsRoutes = (app) => {
   app.get('/charts', (req, res) => {
-    res.render('charts.njk', {
+    res.render('views/pages/charts.njk', {
       title: 'Charts',
       barCharts: mockBarChartData,
       pieCharts: mockPieChartData,
@@ -16,35 +16,35 @@ const chartsRoutes = (app) => {
   })
 
   app.get('/charts/bar', (req, res) => {
-    res.render('charts.njk', {
+    res.render('views/pages/charts.njk', {
       title: 'Charts',
       barCharts: mockBarChartData,
     })
   })
 
   app.get('/charts/donut', (req, res) => {
-    res.render('charts.njk', {
+    res.render('views/pages/charts.njk', {
       title: 'Charts',
       pieCharts: mockPieChartData,
     })
   })
 
   app.get('/charts/line', (req, res) => {
-    res.render('charts.njk', {
+    res.render('views/pages/charts.njk', {
       title: 'Charts',
       lineCharts: mockLineChartData,
     })
   })
 
   app.get('/charts/multi', (req, res) => {
-    res.render('charts.njk', {
+    res.render('views/pages/charts.njk', {
       title: 'Charts',
       multiCharts: mockMulitChartData,
     })
   })
 
   app.get('/scorecards', (req, res) => {
-    res.render('scorecards.njk', {
+    res.render('views/pages/scorecards.njk', {
       title: 'Score Cards',
       scorecards: mockScoreCards,
     })

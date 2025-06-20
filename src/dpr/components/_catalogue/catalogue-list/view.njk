@@ -1,17 +1,18 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 {% from "../catalogue-search/view.njk" import dprCatalogueSearch %}
 
-{% macro dprCatalogueList(head, rows, features, id = 'reports-search') %}
+{% macro dprCatalogueList(head, rows, features, id) %}
 
-  {% set tableHtml %}
-    {{ govukTable({
-      captionClasses: "govuk-table__caption--m",
-      head: head,
-      rows: rows,
-      classes: "dpr-search-table"
-    }) }}
-  {% endset %}
+  <p class="dpr-catalogue-totals govuk-body govuk-!-margin-bottom-5">Showing <strong><span id="total-shown"></span></strong> of <strong><span id="total-amount"></span></strong> reports</p>
 
-  {{ dprCatalogueSearch(id, tableHtml, features) }}
+  {{ govukTable({
+    captionClasses: "govuk-table__caption--m",
+    head: head,
+    rows: rows,
+    classes: "dpr-search-table",
+    attributes: {
+      id: id
+    }
+  }) }}
 
 {% endmacro %}

@@ -16,7 +16,19 @@ export const itemActionsHtml = (
 }
 
 const getTypeTagColor = (type: ReportType) => {
-  return type === ReportType.DASHBOARD ? 'govuk-tag--purple' : ''
+  let tagColourClass = ''
+  switch (type) {
+    case ReportType.DASHBOARD:
+      tagColourClass = 'govuk-tag--purple'
+      break
+    case ReportType.UNAVAILABLE:
+      tagColourClass = 'govuk-tag--grey'
+      break
+    default:
+      tagColourClass = ''
+      break
+  }
+  return tagColourClass
 }
 
 export const createListItemProduct = (productName: string, reportName: string, type: ReportType, ts?: string) => {
@@ -42,7 +54,7 @@ export const createListItemProductMin = (reportName: string, type: ReportType) =
 
 export const createListActions = (
   href: string,
-  type: string,
+  type: ReportType,
   loadType?: LoadType,
   bookmarkHtml?: string,
   authorised = true,
@@ -51,16 +63,22 @@ export const createListActions = (
     return `<strong class="govuk-tag govuk-tag--red dpr-request-status-tag dpr-request-status-tag--small dpr-unauthorised-report" aria-label="You are unauthorised to view this report">Unauthorised</strong>`
   }
 
-  let actionText = `Request ${type}`
-  if (loadType && loadType === LoadType.SYNC) {
-    actionText = `Load ${type}`
-  }
-  let requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">${actionText}</a>`
+  let requestAction
+  let actionText
+  if (type === ReportType.UNAVAILABLE) {
+    actionText = `Request missing report`
+    requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">${actionText}</a>`
+  } else {
+    actionText = `Request ${type}`
+    if (loadType && loadType === LoadType.SYNC) {
+      actionText = `Load ${type}`
+    }
+    requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">${actionText}</a>`
 
-  if (bookmarkHtml) {
-    requestAction = `${requestAction}${bookmarkHtml}`
+    if (bookmarkHtml) {
+      requestAction = `${requestAction}${bookmarkHtml}`
+    }
   }
-
   return requestAction
 }
 
@@ -69,12 +87,16 @@ export const toSentenceCase = (text: string) => {
 }
 
 export const setInitialHref = (loadType: LoadType, type: ReportType, reportId: string, id: string, res: Response) => {
-  const { pathSuffix, dpdPathFromQuery, routePrefix } = localsHelper.getValues(res)
-  const dpdPathQueryParam = dpdPathFromQuery ? pathSuffix : ''
-
-  let href = `${routePrefix}/async/${type}/${reportId}/${id}/request${dpdPathQueryParam}`
-  if (loadType && loadType === LoadType.SYNC) {
-    href = `${routePrefix}/sync/${type}/${reportId}/${id}/load-report${dpdPathQueryParam}`
+  let href = ''
+  if (type === ReportType.UNAVAILABLE) {
+    href = `dpr/request-missing-report/${reportId}/${id}/form`
+  } else {
+    const { pathSuffix, dpdPathFromQuery, routePrefix } = localsHelper.getValues(res)
+    const dpdPathQueryParam = dpdPathFromQuery ? pathSuffix : ''
+    href = `${routePrefix}/async/${type}/${reportId}/${id}/request${dpdPathQueryParam}`
+    if (loadType && loadType === LoadType.SYNC) {
+      href = `${routePrefix}/sync/${type}/${reportId}/${id}/load-report${dpdPathQueryParam}`
+    }
   }
   return href
 }

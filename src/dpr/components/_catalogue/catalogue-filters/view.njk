@@ -1,0 +1,24 @@
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "../catalogue-search/view.njk" import dprCatalogueSearch %}
+
+{% macro dprCatalogueFilters(id, features) %}
+  {% set filteringEnabled = features.filteringEnabled %}
+  {% set unauthorisedToggleEnabled = features.unauthorisedToggleEnabled %}
+
+  <div class='dpr-catalogue-filters' data-dpr-module='dpr-catalogue-filters'>
+    <h2 class='govuk-heading-m'>Filters</h2>
+    {% set catalogueFiltersHtml %}
+      <div class="dpr-catalogue-filters__search">
+        {{ dprCatalogueSearch(id, tableId) }}
+      </div> 
+    {% endset %}
+
+    <div class="dpr-interactive-filters-accordion"> 
+      {{ govukDetails({
+        summaryText: 'Show filters',
+        html: catalogueFiltersHtml,
+        open: true
+      }) }}
+    </div>
+  </div>
+{% endmacro %}

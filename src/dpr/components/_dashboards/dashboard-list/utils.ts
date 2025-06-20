@@ -14,7 +14,7 @@ const createList = (
 ): { table: MoJTable; ts: string } => {
   const { columns, showLatest = true, columnsAsList } = listDefinition
   const { measures, keys } = columns
-  const showAllData = !measures && !keys
+  const showAllData = (!measures && !keys) || (!measures.length && !keys)
 
   let datasetData: DashboardDataResponse[] = [...dashboardData]
   if (showLatest) {

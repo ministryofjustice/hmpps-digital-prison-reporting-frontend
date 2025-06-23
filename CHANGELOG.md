@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v4.6.4
+
+- Bugfix: show all dataset as list fixed
+
 ## v4.6.3
 
 - Update express to 5.1.0

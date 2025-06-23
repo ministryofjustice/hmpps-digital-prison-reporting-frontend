@@ -795,7 +795,10 @@ const fullDataset = {
   id: 'allData',
   type: 'list',
   display: 'All Data in dataset',
-  columns: {},
+  columns: {
+    measures: [],
+    expectNulls: false,
+  },
 }
 
 const fullDatasetOverTime = {

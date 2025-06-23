@@ -1,4 +1,5 @@
 {% from "../catalogue-list/view.njk" import dprCatalogueList %}
+{% from "../catalogue-filters/view.njk" import dprCatalogueFilters %}
 {% from "../catalogue-how-to-use/view.njk" import dprCatalogueHowToUse %}
 
 {% macro dprCatalogue(args) %}
@@ -13,6 +14,8 @@
     {% if features.howToUseEnabled %}
       {{ dprCatalogueHowToUse(features) }}
     {% endif %}
+
+    {{ dprCatalogueFilters(id, features) }}
     {{ dprCatalogueList(head, rows, features, id) }}
   <div>
 {% endmacro %}

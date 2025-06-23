@@ -53,7 +53,7 @@ export default function routes({
     // const doTheThing = await services.reportingService.addToLogs(token, body) // Or something like that
 
     // If succesful redirect to submitted page
-    const queryParams = `reportName=${reportName}&variantName=${variantName}&reportId=${reportId}&variantId=${variantId}`
+    const queryParams = `reportName=${reportName}&name=${variantName}&reportId=${reportId}&variantId=${variantId}`
     const redirect = `/dpr/request-missing-report/submitted?${queryParams}`
 
     // TODO: Redirect to failed page
@@ -62,7 +62,7 @@ export default function routes({
   }
 
   const submittedHandler: RequestHandler = async (req, res, next) => {
-    const { reportId, variantId, reportName, variantName } = req.query
+    const { reportId, variantId, reportName, name } = req.query
 
     try {
       res.render(`dpr/views/forms/request-missing-report/submitted`, {
@@ -71,7 +71,7 @@ export default function routes({
           reportId,
           variantId,
           reportName,
-          variantName,
+          name,
         },
         layoutPath,
       })

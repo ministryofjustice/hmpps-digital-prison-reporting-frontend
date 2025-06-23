@@ -78,6 +78,7 @@ export enum RequestStatus {
 export enum ReportType {
   REPORT = 'report',
   DASHBOARD = 'dashboard',
+  UNAVAILABLE = 'unavailable',
 }
 
 export interface AsyncReportsTimestamp {

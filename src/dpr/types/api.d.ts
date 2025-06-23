@@ -132,6 +132,7 @@ export interface components {
       id: string
       name: string
       description?: string
+      isMissing?: boolean
     }
     DynamicFilterOption: {
       /** Format: int32 */

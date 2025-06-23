@@ -13,7 +13,7 @@ export default {
     res: Response,
     services: Services,
     features?: CatalogueFeatures,
-  ): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[] }> => {
+  ): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[]; id: string }> => {
     const { definitions, csrfToken, bookmarkingEnabled, userId } = LocalsHelper.getValues(res)
 
     // Sort report Definitions by product name
@@ -39,7 +39,7 @@ export default {
         const { authorised } = def
 
         const variantsArray = variants.map((variant: components['schemas']['VariantDefinitionSummary']) => {
-          const { id, name, description } = variant
+          const { id, name, description, isMissing } = variant
 
           // NOTE: loadType added to VariantDefinitionSummary mocked data to dictate the load/request journey. Not present in API response. To discuss
           const { loadType } = <components['schemas']['VariantDefinitionSummary'] & { loadType: LoadType }>variant
@@ -50,9 +50,10 @@ export default {
             id,
             name,
             description,
-            type: ReportType.REPORT,
+            type: !isMissing ? ReportType.REPORT : ReportType.UNAVAILABLE,
             loadType,
             authorised,
+            isMissing,
             ...(reportDescription && reportDescription.length && { reportDescription }),
           }
         })
@@ -60,14 +61,14 @@ export default {
         let dashboardsArray: DefinitionData[] = []
         if (dashboards) {
           dashboardsArray = dashboards.map((dashboard: DashboardDefinition) => {
-            const { id, name, description } = dashboard
+            const { id, name, description, isMissing } = dashboard
             return {
               reportName,
               reportId,
               id,
               name,
               description,
-              type: ReportType.DASHBOARD,
+              type: !isMissing ? ReportType.DASHBOARD : ReportType.UNAVAILABLE,
               reportDescription,
               authorised,
             }
@@ -127,6 +128,7 @@ export default {
     return {
       head,
       rows,
+      id: 'dpr-reports-catalogue',
     }
   },
 }

@@ -7,6 +7,7 @@ export interface DashboardDefinition {
   name: string
   description?: string
   sections: DashboardSection[]
+  isMissing?: boolean
   filterFields: components['schemas']['FieldDefinition'][]
 }
 

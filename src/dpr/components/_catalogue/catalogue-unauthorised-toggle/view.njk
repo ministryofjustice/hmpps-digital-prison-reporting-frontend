@@ -1,22 +1,32 @@
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 
-{% macro dprUnauthorisedToggle(name, text) %}
-  {{ govukCheckboxes({
-    name: 'Show unauthorised reports',
-    classes: "dpr-show-unauthorised-checkbox govuk-checkboxes--small",
-    formGroup: {
-      classes: "govuk-!-margin-bottom-3"
-    },
-    fieldset: {
-      legend: {
-        text: text,
-        classes: "govuk-label govuk-!-font-weight-bold"
+{% macro dprUnauthorisedToggle(tableId) %}
+  <div class="dpr-unauthorised-toggle" data-dpr-module="dpr-catalogue-show-unauthorised">
+    {% set name = 'Show unauthorised reports' %}
+
+    {{ govukCheckboxes({
+      name: name,
+      classes: "dpr-show-unauthorised-checkbox govuk-checkboxes--small",
+      formGroup: {
+        classes: ""
+      },
+      fieldset: {
+        legend: {
+          text: 'Show/hide listings',
+          classes: "govuk-label govuk-!-font-weight-bold"
+        }
       },
       attributes: {
-        "aria-label": name + ' checkboxes'
-      }
-    },
-    items: [{text:"Show unauthorised reports", value:"show-unauthorised", id: "show-unauthorised" }],
-    values: []
-  }) }}
+        "id": 'dpr-toggle-filters',
+        "aria-label": name + ' checkboxes',
+        "data-table-id": tableId
+      },
+      items: [
+        {text:"Show unauthorised reports", value:"show-unauthorised", id: "show-unauthorised" },
+        {text:"Show missing reports", value:"show-missing", id: "show-missing" },
+        {text:"Hide live reports", value:"hide-live", id: "hide-live" }
+      ],
+      values: []
+    }) }}
+  </div>
 {% endmacro %}

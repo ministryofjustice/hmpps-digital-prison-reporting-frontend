@@ -8,11 +8,11 @@
       name: name,
       classes: "dpr-show-unauthorised-checkbox govuk-checkboxes--small",
       formGroup: {
-        classes: "govuk-!-margin-bottom-3"
+        classes: ""
       },
       fieldset: {
         legend: {
-          text: '',
+          text: 'Show/hide listings',
           classes: "govuk-label govuk-!-font-weight-bold"
         }
       },
@@ -21,7 +21,11 @@
         "aria-label": name + ' checkboxes',
         "data-table-id": tableId
       },
-      items: [{text:"Show unauthorised reports", value:"show-unauthorised", id: "show-unauthorised" }],
+      items: [
+        {text:"Show unauthorised reports", value:"show-unauthorised", id: "show-unauthorised" },
+        {text:"Show missing reports", value:"show-missing", id: "show-missing" },
+        {text:"Hide live reports", value:"hide-live", id: "hide-live" }
+      ],
       values: []
     }) }}
   </div>

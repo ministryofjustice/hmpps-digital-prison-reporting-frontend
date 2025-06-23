@@ -67,13 +67,13 @@ export const createListActions = (
   let actionText
   if (type === ReportType.UNAVAILABLE) {
     actionText = `Request missing report`
-    requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">${actionText}</a>`
+    requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1 dpr-missing-report' href="${href}">${actionText}</a>`
   } else {
     actionText = `Request ${type}`
     if (loadType && loadType === LoadType.SYNC) {
       actionText = `Load ${type}`
     }
-    requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">${actionText}</a>`
+    requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1 dpr-live-report' href="${href}">${actionText}</a>`
 
     if (bookmarkHtml) {
       requestAction = `${requestAction}${bookmarkHtml}`

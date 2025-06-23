@@ -9,11 +9,14 @@ export default class DprCatalogueSearch extends DprCatalogueFilters {
 
   initialise() {
     this.searchBox = this.getElement().querySelector('.dpr-search-box')
+    this.hideClass = 'dpr-search-option-hide'
+
     if (this.searchBox) {
       this.tableId = this.searchBox.dataset.tableId
       this.initTable()
       this.initSeachBoxEvents()
       this.initSearchInputFromQueryParams()
+      this.updateTableRows()
     }
   }
 
@@ -37,12 +40,11 @@ export default class DprCatalogueSearch extends DprCatalogueFilters {
   initSearchRows(value) {
     const rows = Array.from(this.table.rows)
     if (value) {
-      rows.forEach((row) => row.classList.add('dpr-search-option-hide'))
+      rows.forEach((row) => row.classList.add(this.hideClass))
     }
   }
 
   updateSearchListing(value) {
-    let shown = 0
     Array.from(this.table.rows)
       .filter((row) => {
         return (
@@ -55,11 +57,8 @@ export default class DprCatalogueSearch extends DprCatalogueFilters {
         )
       })
       .forEach((row) => {
-        row.classList.remove('dpr-search-option-hide')
-        shown += 1
+        row.classList.remove(this.hideClass)
       })
-
-    this.shownRows = shown
   }
 
   initSearchInputFromQueryParams() {

@@ -8,6 +8,10 @@
   grid-template-columns: 2fr 1fr;
   column-gap: govuk-spacing(3);
   row-gap: govuk-spacing(3);
+
+  .govuk-form-group {
+    margin-bottom: govuk-spacing(3);
+  }
 }
 
 .dpr-catalogue-totals {

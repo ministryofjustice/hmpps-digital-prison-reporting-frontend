@@ -1,0 +1,26 @@
+.dpr-catalogue-filters {
+  border: Solid 1px govuk-colour('mid-grey');
+  margin-bottom: govuk-spacing(6);;
+
+  .dpr-catalogue-filters--heading {
+    padding: govuk-spacing(4);
+    background-color: govuk-colour('light-grey');
+
+    h2 {
+      margin: 0px;
+    }
+  }
+  .dpr-catalogue-filters--content {
+    padding: govuk-spacing(4);
+
+    .govuk-details {
+      margin-bottom: 0px;
+
+      .govuk-details__text {
+        border-left: none;
+        padding-bottom: 0px;
+      }
+    }
+  }
+}
+ 

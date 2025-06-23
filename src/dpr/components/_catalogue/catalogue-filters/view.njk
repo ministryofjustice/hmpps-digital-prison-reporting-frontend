@@ -7,23 +7,29 @@
   {% set unauthorisedToggleEnabled = features.unauthorisedToggleEnabled %}
 
   <div class='dpr-catalogue-filters' data-dpr-module='dpr-catalogue-filters'>
-    <h2 class='govuk-heading-m'>Filters</h2>
-    {% set catalogueFiltersHtml %}
-      <div class="dpr-catalogue-filters__search">
-        {{ dprCatalogueSearch(id) }}
-      </div> 
+    <div class='dpr-catalogue-filters--heading'>
+              <div class="dpr-catalogue-filters__search">
+          {{ dprCatalogueSearch(id) }}
+        </div> 
+    </div>
+    <div class='dpr-catalogue-filters--content'>
+      {% set catalogueFiltersHtml %}
+        {# <div class="dpr-catalogue-filters__search">
+          {{ dprCatalogueSearch(id) }}
+        </div>  #}
 
-      <div class="dpr-catalogue-filters__unauth-toggle">
-        {{ dprUnauthorisedToggle(id) }}
-      </div> 
-    {% endset %}
+        <div class="dpr-catalogue-filters__unauth-toggle">
+          {{ dprUnauthorisedToggle(id) }}
+        </div> 
+      {% endset %}
 
-    <div class="dpr-interactive-filters-accordion"> 
-      {{ govukDetails({
-        summaryText: 'Show filters',
-        html: catalogueFiltersHtml,
-        open: true
-      }) }}
+      <div class="dpr-interactive-filters-accordion"> 
+        {{ govukDetails({
+          summaryText: 'Show more filters',
+          html: catalogueFiltersHtml,
+          open: false
+        }) }}
+      </div>
     </div>
   </div>
 {% endmacro %}

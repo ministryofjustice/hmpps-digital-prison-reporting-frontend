@@ -6,9 +6,12 @@ import DprLoadingHelper from './DprLoadingHelper.mjs'
 
 // General Components
 import CardGroup from './components/card-group/clientClass.mjs'
-import Search from './components/_catalogue/catalogue-search/clientClass.mjs'
 import BookmarkToggle from './components/bookmark-toggle/clientClass.mjs'
 import ShowMore from './components/show-more/clientClass.mjs'
+
+// Catalogue
+import Search from './components/_catalogue/catalogue-search/clientClass.mjs'
+import UnauthorisedReportsFilter from './components/_catalogue/catalogue-unauthorised-toggle/clientClass.mjs'
 
 // Reports
 import Pagination from './components/_reports/report-pagination/clientClass.mjs'
@@ -68,6 +71,7 @@ function initAll() {
     DataTable,
     AsyncPolling,
     Search,
+    UnauthorisedReportsFilter,
     BookmarkToggle,
     DateInput,
     RequestedReportsList,

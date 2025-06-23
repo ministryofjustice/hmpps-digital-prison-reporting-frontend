@@ -1,5 +1,6 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "../catalogue-search/view.njk" import dprCatalogueSearch %}
+{% from "../catalogue-unauthorised-toggle/view.njk" import dprUnauthorisedToggle %}
 
 {% macro dprCatalogueFilters(id, features) %}
   {% set filteringEnabled = features.filteringEnabled %}
@@ -9,7 +10,11 @@
     <h2 class='govuk-heading-m'>Filters</h2>
     {% set catalogueFiltersHtml %}
       <div class="dpr-catalogue-filters__search">
-        {{ dprCatalogueSearch(id, tableId) }}
+        {{ dprCatalogueSearch(id) }}
+      </div> 
+
+      <div class="dpr-catalogue-filters__unauth-toggle">
+        {{ dprUnauthorisedToggle(id) }}
       </div> 
     {% endset %}
 

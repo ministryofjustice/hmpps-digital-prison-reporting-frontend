@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-param-reassign */
-import { DprCatalogueFilters } from '../catalogue-filters/clientClass.mjs'
+import DprCatalogueFilters from '../catalogue-filters/clientClass.mjs'
 
 export default class DprCatalogueSearch extends DprCatalogueFilters {
   static getModuleName() {
@@ -10,6 +10,7 @@ export default class DprCatalogueSearch extends DprCatalogueFilters {
   initialise() {
     this.searchBox = this.getElement().querySelector('.dpr-search-box')
     if (this.searchBox) {
+      this.tableId = this.searchBox.dataset.tableId
       this.initTable()
       this.initSeachBoxEvents()
       this.initSearchInputFromQueryParams()
@@ -27,6 +28,19 @@ export default class DprCatalogueSearch extends DprCatalogueFilters {
     })
   }
 
+  updateTableRows(value) {
+    this.initSearchRows(value)
+    this.updateSearchListing(value)
+    this.updateTotals()
+  }
+
+  initSearchRows(value) {
+    const rows = Array.from(this.table.rows)
+    if (value) {
+      rows.forEach((row) => row.classList.add('dpr-search-option-hide'))
+    }
+  }
+
   updateSearchListing(value) {
     let shown = 0
     Array.from(this.table.rows)
@@ -41,7 +55,7 @@ export default class DprCatalogueSearch extends DprCatalogueFilters {
         )
       })
       .forEach((row) => {
-        row.classList.remove('search-option-hide')
+        row.classList.remove('dpr-search-option-hide')
         shown += 1
       })
 

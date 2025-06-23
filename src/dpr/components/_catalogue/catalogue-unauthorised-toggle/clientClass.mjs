@@ -1,30 +1,30 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-param-reassign */
-import { DprClientClass } from '../../../DprClientClass.mjs'
+import DprCatalogueFilters from '../catalogue-filters/clientClass.mjs'
 
-export default class DprCatalogueSearch extends DprClientClass {
+export default class DprCatalogueUnauthorisedFilter extends DprCatalogueFilters {
   static getModuleName() {
     return 'dpr-catalogue-show-unauthorised'
   }
 
   initialise() {
+    this.toggleFilters = this.getElement().querySelector('#dpr-toggle-filters')
     this.shwoUnauthorisedCheckbox = this.getElement().querySelector('#show-unauthorised')
 
-    if (this.shwoUnauthorisedCheckbox) {
-      this.initShowUnauthorisedEvents()
-      this.initUnauthorisedInputFromQueryParams()
+    if (this.toggleFilters) {
+      this.tableId = this.toggleFilters.dataset.tableId
+      this.initTable()
+
+      if (this.shwoUnauthorisedCheckbox) {
+        this.initShowUnauthorisedEvents()
+        this.initUnauthorisedInputFromQueryParams()
+      }
     }
   }
 
-  initSeachBoxEvents() {
-    this.searchBox.addEventListener('keyup', (e) => {
-      this.updateTableRows(e.target.value)
-
-      // Update Query Params
-      const queryParams = new URLSearchParams(window.location.search)
-      queryParams.set(this.searchBox.id, e.target.value)
-      window.history.replaceState(null, null, `?${queryParams.toString()}`)
-    })
+  updateTableRows() {
+    this.updateUnauthorisedRows()
+    this.updateTotals()
   }
 
   initShowUnauthorisedEvents() {
@@ -37,16 +37,16 @@ export default class DprCatalogueSearch extends DprClientClass {
       }
       window.history.replaceState(null, null, `?${queryParams.toString()}`)
 
-      this.updateTableRows(this.searchBox.value)
+      this.updateTableRows()
     })
 
-    this.updateTableRows(this.searchBox.value)
+    this.updateTableRows()
   }
 
   updateUnauthorisedRows() {
     const queryParams = new URLSearchParams(window.location.search)
     const value = queryParams.get('show-unauthorised')
-
+    const hideClassName = 'dpr-unauthorised-report-hide'
     Array.from(this.table.rows)
       .filter((row) => {
         return Array.from(row.cells).find((cell) => {
@@ -55,8 +55,10 @@ export default class DprCatalogueSearch extends DprClientClass {
       })
       .forEach((row) => {
         if (value) {
-          row.classList.remove('search-option-hide')
-        } else if (!row.classList.contains('search-option-hide')) row.classList.add('search-option-hide')
+          row.classList.remove(hideClassName)
+        } else if (!row.classList.contains(hideClassName)) {
+          row.classList.add(hideClassName)
+        }
       })
   }
 

@@ -12,11 +12,6 @@ export default class DprCatalogueFilters extends DprClientClass {
     this.updateTotals()
   }
 
-  initTableRows() {
-    const rows = Array.from(this.table.rows)
-    rows.forEach((row) => row.classList.add('search-option-hide'))
-  }
-
   updateTotals() {
     if (this.totalShown) {
       this.totalShown.innerText = this.shownRows

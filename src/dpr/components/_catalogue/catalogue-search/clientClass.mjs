@@ -1,8 +1,8 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-param-reassign */
-import { DprClientClass } from '../../../DprClientClass.mjs'
+import { DprCatalogueFilters } from '../catalogue-filters/clientClass.mjs'
 
-export default class DprCatalogueSearch extends DprClientClass {
+export default class DprCatalogueSearch extends DprCatalogueFilters {
   static getModuleName() {
     return 'dpr-catalogue-search'
   }
@@ -10,6 +10,7 @@ export default class DprCatalogueSearch extends DprClientClass {
   initialise() {
     this.searchBox = this.getElement().querySelector('.dpr-search-box')
     if (this.searchBox) {
+      this.initTable()
       this.initSeachBoxEvents()
       this.initSearchInputFromQueryParams()
     }

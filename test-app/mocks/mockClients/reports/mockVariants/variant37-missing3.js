@@ -1,6 +1,6 @@
 const variant37 = {
-  id: 'variantId-37',
-  name: 'Missing Report about beans',
+  id: 'variantId-37-3',
+  name: 'Missing Report about cheese',
   description: 'this report is missing',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',

@@ -34,8 +34,11 @@ const variant33 = require('./mockVariants/variant33-row-section-child-multiple')
 const variant34 = require('./mockVariants/variant34_incident_report')
 const variant35 = require('./mockVariants/variant35-interactive-async')
 const variant36 = require('./mockVariants/variant36-selected-filter-testing')
-const variant37 = require('./mockVariants/variant37-missing')
+const variant37a = require('./mockVariants/variant37-missing')
+const variant37b = require('./mockVariants/variant37-missing2')
+const variant37c = require('./mockVariants/variant37-missing3')
 const dashboardDefinition = require('../dashboards/dashboard-definitions')
+const variant37 = require('./mockVariants/variant37-missing3')
 
 module.exports = {
   report: {
@@ -79,7 +82,9 @@ module.exports = {
       variant34,
       variant35,
       variant36,
-      variant37,
+      variant37a,
+      variant37b,
+      variant37c,
     ],
     dashboards: dashboardDefinition,
   },
@@ -101,7 +106,9 @@ module.exports = {
         variant33,
         variant34,
         variant35,
-        variant37,
+        variant37a,
+        variant37b,
+        variant37c,
       ],
       dashboards: [dashboardDefinition[0]],
     },

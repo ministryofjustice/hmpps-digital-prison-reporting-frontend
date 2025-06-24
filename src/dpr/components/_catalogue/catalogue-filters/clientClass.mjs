@@ -10,6 +10,7 @@ export default class DprCatalogueFilters extends DprClientClass {
       'dpr-unauthorised-report-hide',
       'dpr-live-report-hide',
       'dpr-missing-report-hide',
+      'dpr-report-type-hide',
     ]
     this.totalShown = document.getElementById('total-shown')
     this.totalAmount = document.getElementById('total-amount')

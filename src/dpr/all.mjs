@@ -12,6 +12,7 @@ import ShowMore from './components/show-more/clientClass.mjs'
 // Catalogue
 import Search from './components/_catalogue/catalogue-search/clientClass.mjs'
 import UnauthorisedReportsFilter from './components/_catalogue/catalogue-unauthorised-toggle/clientClass.mjs'
+import ReportTypeFilter from './components/_catalogue/catalogue-filter-by-type/clientClass.mjs'
 
 // Reports
 import Pagination from './components/_reports/report-pagination/clientClass.mjs'
@@ -72,6 +73,7 @@ function initAll() {
     AsyncPolling,
     Search,
     UnauthorisedReportsFilter,
+    ReportTypeFilter,
     BookmarkToggle,
     DateInput,
     RequestedReportsList,

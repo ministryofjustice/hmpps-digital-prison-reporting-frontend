@@ -1,4 +1,5 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "../catalogue-filter-by-type/view.njk" import dprCatalogueFilterByType %}
 {% from "../catalogue-search/view.njk" import dprCatalogueSearch %}
 {% from "../catalogue-unauthorised-toggle/view.njk" import dprUnauthorisedToggle %}
 
@@ -13,10 +14,17 @@
       </div> 
     </div>
     <div class='dpr-catalogue-filters--content'>
+      
       {% set catalogueFiltersHtml %}
+      <div class='dpr-catalogue-filters--content-filters'>
         <div class="dpr-catalogue-filters__unauth-toggle">
           {{ dprUnauthorisedToggle(id) }}
         </div> 
+
+        <div class="dpr-catalogue-filters__type-filter">
+          {{ dprCatalogueFilterByType(id) }}
+        </div> 
+      </div> 
       {% endset %}
 
       <div class="dpr-interactive-filters-accordion"> 
@@ -26,6 +34,7 @@
           open: false
         }) }}
       </div>
+
     </div>
   </div>
 {% endmacro %}

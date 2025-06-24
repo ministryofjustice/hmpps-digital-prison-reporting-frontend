@@ -1,0 +1,37 @@
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% macro dprCatalogueFilterByType(tableId) %}
+  <div class="dpr-unauthorised-toggle" data-dpr-module="dpr-catalogue-type-filter">
+    {% set name = 'Filter by report type' %}
+    
+    {{ govukRadios({
+      name: "report-type",
+      classes: "govuk-radios--small",
+      fieldset: {
+        legend: {
+          text: "Report type",
+          classes: "govuk-label govuk-!-font-weight-bold"
+        }
+      },
+      attributes: {
+        "id": 'dpr-report-type-filters',
+        "aria-label": name + ' radio button',
+        "data-table-id": tableId
+      },
+      items: [
+        {
+          value: "all",
+          text: "All"
+        },
+        {
+          value: "report",
+          text: "Report"
+        },
+        {
+          value: "dashboard",
+          text: "Dashboard"
+        }
+      ]
+    }) }}
+  </div>
+{% endmacro %}

@@ -12,6 +12,14 @@
   }
   .dpr-catalogue-filters--content {
     padding: govuk-spacing(4);
+    
+    .dpr-catalogue-filters--content-filters {
+      column-gap: govuk-spacing(6);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      row-gap: 15px;
+    }
 
     .govuk-details {
       margin-bottom: 0px;

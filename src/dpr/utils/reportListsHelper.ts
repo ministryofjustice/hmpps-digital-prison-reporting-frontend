@@ -73,7 +73,7 @@ export const createListActions = (
     if (loadType && loadType === LoadType.SYNC) {
       actionText = `Load ${type}`
     }
-    requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1 dpr-live-report' href="${href}">${actionText}</a>`
+    requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1 dpr-live-report dpr-type__${type}' href="${href}">${actionText}</a>`
 
     if (bookmarkHtml) {
       requestAction = `${requestAction}${bookmarkHtml}`

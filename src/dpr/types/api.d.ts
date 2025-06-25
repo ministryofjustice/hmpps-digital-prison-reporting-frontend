@@ -152,6 +152,7 @@ export interface components {
       filter?: components['schemas']['FilterDefinition']
       sortable: boolean
       defaultsort: boolean
+      sortDirection?: 'ASC' | 'DESC'
       /** @enum {string} */
       type: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time'
       mandatory: boolean

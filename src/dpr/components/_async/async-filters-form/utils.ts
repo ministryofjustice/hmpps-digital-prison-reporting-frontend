@@ -10,31 +10,28 @@ import DefinitionUtils from '../../../utils/definitionUtils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
 import FiltersUtils from '../../_filters/utils'
 import DateRangeInputUtils from '../../_inputs/date-range/utils'
+import { FilterOption, FilterValue } from '../../_filters/types'
 
 /**
  * Initialises the sortData from the definition
- *
- * @param {components['schemas']['VariantDefinition']} definition
- * @return {*}
  */
-export const getSortByFromDefinition = (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
+export const getSortByFromDefinition = (fields: components['schemas']['FieldDefinition'][], interactive?: boolean): FilterValue[] => {
   if (!interactive) {
     const sortBy = SortHelper.sortByTemplate()
     const options = fields
       .filter((f) => f.sortable)
       .map((f) => {
         if (f.defaultsort) sortBy[0].value = f.name
-        return { value: f.name, text: f.display }
+        const field: FilterOption = { value: f.name, text: f.display }
+        if (f.sortDirection) {
+          sortBy[1].options[0].value = String(f.sortDirection === 'ASC')
+          sortBy[1].options[1].value = String(f.sortDirection !== 'ASC')
+        }
+        return field
       })
 
     if (options.length) {
-      sortBy[0].options = fields
-        .filter((f) => f.sortable)
-        .map((f) => {
-          if (f.defaultsort) sortBy[0].value = f.name
-          return { value: f.name, text: f.display }
-        })
-
+      sortBy[0].options = options
       return sortBy
     }
   }

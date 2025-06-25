@@ -125,11 +125,11 @@ const mockRenderFiltersData = {
       type: 'Radio',
       options: [
         {
-          value: 'true',
+          value: 'false',
           text: 'Ascending',
         },
         {
-          value: 'false',
+          value: 'true',
           text: 'Descending',
         },
       ],

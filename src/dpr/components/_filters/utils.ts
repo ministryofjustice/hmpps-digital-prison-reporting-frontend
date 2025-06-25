@@ -36,6 +36,7 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
       requestfilterValue = DateRangeInputUtils.setValueFromRequest(filter, req, prefix)
     } else if (filter.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
       requestfilterValue = GranularDateRangeInputUtils.setValueFromRequest(filter, req, prefix)
+      console.log(JSON.stringify({ requestfilterValue }, null, 2))
     } else if (filter.type.toLowerCase() === FilterType.date.toLowerCase()) {
       requestfilterValue = DateInputUtils.setValueFromRequest(filter, req, prefix)
     } else if (filter.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {

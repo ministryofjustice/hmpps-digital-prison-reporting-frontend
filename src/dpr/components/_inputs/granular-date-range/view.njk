@@ -34,9 +34,10 @@
   {% set defaultStartValue = value.start %}
   {% set defaultEndValue = value.end %}
 
-  <div class="dpr-granular-date-range" 
+  <div class="dpr-granular-date-range" id="dpr-granular-date-range_{{fieldName}}"
     data-dpr-module="granular-date-range-input" 
     data-field-name='{{ fieldName }}'
+    data-field-display-name='{{ filterName }}'
     data-partial-start='{{ partialStart }}'
     data-partial-end='{{ partialEnd }}'
     >

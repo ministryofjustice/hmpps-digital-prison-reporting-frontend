@@ -91,10 +91,26 @@ const getGranularityOptions = () => {
   return options
 }
 
+const setGranularityValue = (quickFilterValue: string, granularityValue: Granularity) => {
+  let granularity = granularityValue
+
+  const invalidDailyValues = ['annually', 'monthly']
+  const invalidMonthlyValues = ['annually']
+  if (quickFilterValue.includes('month') && invalidMonthlyValues.includes(quickFilterValue)) {
+    granularity = Granularity.MONTHLY
+  }
+
+  if (quickFilterValue.includes('day') && invalidDailyValues.includes(quickFilterValue)) {
+    granularity = Granularity.DAILY
+  }
+
+  return granularity
+}
+
 const setDateRangeFromQuickFilterValue = (value: string) => {
   let startDate
   let endDate
-  let granularity
+  let granularity: Granularity
 
   switch (value) {
     case QuickFilters.TODAY:
@@ -238,11 +254,12 @@ const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) 
   const { preventDefault } = req.query
 
   const quickFilter = <string>req.query[`${prefix}${filter.name}.quick-filter`]
-  let granularity: Granularity
+  let granularity: Granularity = (<string>req.query[`${prefix}${filter.name}.granularity`]) as Granularity
   let start
   let end
   if (quickFilter && quickFilter !== QuickFilters.NONE) {
-    ;({ granularity, start, end } = setDateRangeFromQuickFilterValue(quickFilter))
+    ;({ start, end } = setDateRangeFromQuickFilterValue(quickFilter))
+    granularity = setGranularityValue(quickFilter, granularity)
   } else {
     granularity = (<string>req.query[`${prefix}${filter.name}.granularity`]) as Granularity
     start = <string>req.query[`${prefix}${filter.name}.start`]

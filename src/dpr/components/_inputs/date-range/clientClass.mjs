@@ -115,11 +115,6 @@ export default class DateRangeInput extends DprClientClass {
     this.startInput.required = this.startRequired
     this.endInput.required = this.endRequired
 
-    console.log({
-      durationValue,
-      durationValue2: this.durationValue,
-    })
-
     if (durationValue || this.durationValue) {
       const d = durationValue || this.durationValue
       const { startDate, endDate } = this.calculateDateForDatepicker(d)

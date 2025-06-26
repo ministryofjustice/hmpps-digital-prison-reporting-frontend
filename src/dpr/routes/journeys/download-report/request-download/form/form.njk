@@ -23,7 +23,7 @@
 
   <div class="dpr-download-feedback-form-wrapper" data-dpr-module="dpr-generic-form">
 
-    <form action="/dpr/submitFeedback/" method="post" id="dpr-form" class="dpr-form--hidden">
+    <form action="./form/submit" method="post" id="dpr-form" class="dpr-form--hidden">
 
       <p>To enable downloads for this report (<strong>{{ reportName}} - {{ variantName }}</strong>), take a few moments to fill out this request form.</p><p>Once you have submitted the form you the download button will be enabled immediately.</p>
 
@@ -42,9 +42,7 @@
       <input type="hidden" name="reportName" value="{{ reportName }}">
       <input type="hidden" name="variantId" value="{{ variantId }}">
       <input type="hidden" name="loadType" value="{{ loadType }}">
-      {% if tableId %}
-        <input type="hidden" name="tableId" value="{{ tableId }}">
-      {% endif %}
+      <input type="hidden" name="tableId" value="{{ tableId }}">
       <input type="hidden" name="variantName" value="{{ variantName }}">
       <input type="hidden" name="time" value="{{ time }}">
       <input type="hidden" name="staffId" value="{{ staffId }}">

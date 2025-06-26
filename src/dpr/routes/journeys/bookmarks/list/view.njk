@@ -1,0 +1,16 @@
+{% extends layoutPath %}
+
+{% from "../../../../components/_catalogue/catalogue-list/view.njk" import dprCatalogueList %}
+{% from "../../../../components/_catalogue/catalogue-filters/view.njk" import dprCatalogueFilters %}
+
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    <h1>{{ title }}</h1>
+    <div id="{{ catId }}">
+      {{ dprCatalogueFilters(catId, features, 'bookmarks') }}
+      {{ dprCatalogueList(tableData.head, tableData.rows, catId) }}
+    </div>
+  </div>
+{% endblock %}

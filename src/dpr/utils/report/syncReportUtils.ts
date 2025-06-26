@@ -100,14 +100,15 @@ const getReportData = async ({
   token,
   reportId,
   id,
+  dataProductDefinitionsPath,
 }: {
   services: Services
   req: Request
   token: string
   reportId: string
   id: string
+  dataProductDefinitionsPath?: string
 }) => {
-  const { dataProductDefinitionsPath } = req.query
   const reportDefinition = await services.reportingService.getDefinition(
     token,
     reportId,
@@ -134,9 +135,16 @@ const getReportData = async ({
 const getReport = async ({ req, res, services }: { req: Request; res: Response; services: Services }) => {
   const { token, csrfToken, userId } = LocalsHelper.getValues(res)
   const { reportId, id } = req.params
-  const { dataProductDefinitionsPath } = req.query
+  const dataProductDefinitionsPath = <string>req.query.dataProductDefinitionsPath
 
-  const { reportData, reportDefinition, reportQuery } = await getReportData({ services, req, token, reportId, id })
+  const { reportData, reportDefinition, reportQuery } = await getReportData({
+    services,
+    req,
+    token,
+    reportId,
+    id,
+    dataProductDefinitionsPath,
+  })
   const count = await services.reportingService.getCount(reportDefinition.variant.resourceName, token, reportQuery)
   const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
   const bookmarked = await services.bookmarkService.isBookmarked(id, reportId, userId)
@@ -266,6 +274,7 @@ const getRenderData = async ({
     printable,
     actions,
     warnings: reportData.warnings,
+    canDownload,
   }
 }
 

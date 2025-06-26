@@ -1,11 +1,11 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
-{% macro dprCatalogueSearch(id) %}
+{% macro dprCatalogueSearch(id, type = 'catalogue') %}
   <div class="dpr-search" data-dpr-module="dpr-catalogue-search">
     <div class="dpr-search-inputs">
         {{ govukInput({
           label: {
-            text: "Filter catalogue by key word",
+            text: "Filter " + type + " by key word",
             classes: "govuk-!-font-weight-bold govuk-!-margin-bottom-2"
           },
           id: id + '_search_input',

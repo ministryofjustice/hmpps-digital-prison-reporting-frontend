@@ -1,4 +1,4 @@
-import DprFormValidationClass from '../../DprFormValidationClass.mjs'
+import DprFormValidationClass from './DprFormValidationClass.mjs'
 
 export default class DprGenericForm extends DprFormValidationClass {
   static getModuleName() {

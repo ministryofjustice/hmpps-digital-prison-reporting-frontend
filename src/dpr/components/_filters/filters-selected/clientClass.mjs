@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
 import DprFiltersFormClass from '../filters-form/clientClass.mjs'
 
@@ -57,6 +58,7 @@ export default class SelectedFilters extends DprFiltersFormClass {
       // handle edgecases with specific input types
       selectedFilterData = this.setPresetDateRangeSelectedFilter(selectedFilterData)
       selectedFilterData = this.setMultiselectSelectedFilterValue(selectedFilterData)
+      selectedFilterData = this.setGranularDateRangeSelectedFilter(selectedFilterData)
 
       // builds the elements and render
       this.createSelectedFilterElements(selectedFilterData)
@@ -105,6 +107,7 @@ export default class SelectedFilters extends DprFiltersFormClass {
                 displayName,
                 displayValue,
                 key,
+                name: key.split('.')[1],
                 value: [value],
                 type: inputs[0],
               })
@@ -196,31 +199,41 @@ export default class SelectedFilters extends DprFiltersFormClass {
         button.addEventListener('click', (e) => {
           e.preventDefault()
 
-          const inputs = document.getElementsByName(button.dataset.dataQueryParamKey)
+          const dataQueryParamKeyString = e.target.dataset.dataQueryParamKey
+          const dataQueryParamKeyArray = JSON.parse(dataQueryParamKeyString)
+
+          let inputs
+          if (dataQueryParamKeyArray.length > 1) {
+            inputs = dataQueryParamKeyArray.map((inputName) => {
+              return document.getElementsByName(inputName)[0]
+            })
+          } else {
+            inputs = document.getElementsByName(dataQueryParamKeyArray[0])
+          }
+
           if (inputs.length) {
-            switch (inputs[0].type) {
-              case 'checkbox':
-              case 'radio':
-                inputs.forEach((i) => {
-                  // eslint-disable-next-line no-param-reassign
-                  i.checked = false
+            inputs.forEach((input) => {
+              switch (input.type) {
+                case 'checkbox':
+                case 'radio': {
+                  input.checked = false
                   const changeEvent = new Event('change')
-                  i.dispatchEvent(changeEvent)
-                })
-                break
+                  input.dispatchEvent(changeEvent)
+                  break
+                }
+                case 'search':
+                  input.value = ''
+                  input.staticOptionNameValue = ''
+                  break
 
-              case 'search':
-                inputs[0].value = ''
-                inputs[0].staticOptionNameValue = ''
-                break
+                default:
+                  input.value = ''
+                  break
+              }
 
-              default:
-                inputs[0].value = ''
-                break
-            }
-
-            const changeEvent = new Event('change')
-            inputs[0].dispatchEvent(changeEvent)
+              const changeEvent = new Event('change')
+              input.dispatchEvent(changeEvent)
+            })
           }
         })
       })
@@ -241,8 +254,9 @@ export default class SelectedFilters extends DprFiltersFormClass {
     const { displayName, displayValue, key, value } = selectedData
     const selectedItem = document.createElement('a')
     selectedItem.classList = 'govuk-link govuk-body interactive-remove-filter-button'
-    selectedItem.dataset.dataQueryParamKey = key
-    selectedItem.dataset.dataQueryParamValue = `[ "${value}" ]`
+
+    selectedItem.dataset.dataQueryParamKey = Array.isArray(key) ? JSON.stringify(key) : `[ "${key}" ]`
+    selectedItem.dataset.dataQueryParamValue = Array.isArray(value) ? JSON.stringify(value) : `[ "${value}" ]`
 
     const contentField = document.createTextNode(`${displayName}: `)
     selectedItem.appendChild(contentField)
@@ -319,6 +333,89 @@ export default class SelectedFilters extends DprFiltersFormClass {
       }
       return sf
     })
+    return updatedSelectedFilters
+  }
+
+  /**
+   * Daterange
+   * Filters the selected filters buttons to include valid preset date range buttons
+   *
+   * @param {*} selectedFilters
+   * @return {*}
+   * @memberof SelectedFilters
+   */
+  setGranularDateRangeSelectedFilter(selectedFilters) {
+    this.queryParams = new URLSearchParams(window.location.search)
+    let updatedSelectedFilters = selectedFilters
+
+    const quickFilterIndex = selectedFilters.findIndex((sf) => sf.key.includes('quick-filter'))
+    const granularityIndex = selectedFilters.findIndex((sf) => sf.key.includes('granularity'))
+
+    // Get the granular filter field name
+    // If granularity, or quick-filter are set then its a granular filter
+    let granularFilterName
+    let displayName
+    if (quickFilterIndex !== -1 || granularityIndex !== -1) {
+      granularFilterName =
+        updatedSelectedFilters[quickFilterIndex]?.name || updatedSelectedFilters[granularityIndex]?.name
+      displayName = document.getElementById(`dpr-granular-date-range_${granularFilterName}`).dataset.fieldDisplayName
+    }
+
+    if (granularFilterName) {
+      const keys = []
+      const values = []
+      let displayValue = ''
+      let granularityValue
+      let quickFilterValue
+      let startValue
+      let endValue
+
+      this.queryParams.forEach((value, key) => {
+        if (key.includes(granularFilterName)) {
+          keys.push(key)
+          values.push(value)
+        
+          const selected = updatedSelectedFilters.find((s) => s.key === key)
+          if (key.includes('granularity')) {
+            granularityValue = selected.displayValue
+          }
+          if (key.includes('quick-filter')) {
+            quickFilterValue = selected.displayValue
+          }
+          if (key.includes('start')) {
+            startValue = selected.displayValue
+          }
+          if (key.includes('end')) {
+            endValue = selected.displayValue
+          }
+        }
+      })
+
+      // Set the display valiue
+      if (quickFilterValue && quickFilterValue !== 'None') {
+        displayValue = `${quickFilterValue} : ${granularityValue}`
+      } else if (startValue && endValue) {
+        displayValue = `${startValue} - ${endValue} : ${granularityValue}`
+      }
+      
+      // Remove seperate selected filters buttons 
+      updatedSelectedFilters = updatedSelectedFilters.filter(sf => !sf.key.includes(granularFilterName) )
+
+      if (displayValue) {
+        // create consolidated button
+        const granularSelected = {
+          displayName,
+          displayValue,
+          key: keys,
+          name: granularFilterName,
+          value: values,
+          type: 'granular-date-picker',
+        }
+
+        updatedSelectedFilters.push(granularSelected)
+      }
+    }
+
     return updatedSelectedFilters
   }
 }

@@ -180,7 +180,7 @@ const setSelectedGranularDateRange = (f: FilterValue, prefix: string) => {
   const granularityDisplay = (<GranularDateRange>f.value).granularity.display
   if (quickFilterValue && quickFilterValue !== 'none') {
     key.push(`${name}.quick-filter`)
-    value.push((<GranularDateRange>f.value).quickFilter.value)
+    value.push(`"${(<GranularDateRange>f.value).quickFilter.value}"`)
     displayValue = `${(<GranularDateRange>f.value).quickFilter.display}: ${granularityDisplay}`
   } else {
     displayValue = `${startValue} - ${endValue}: ${granularityDisplay}`

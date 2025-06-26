@@ -9,6 +9,20 @@ const variant36 = {
     template: 'list',
     fields: [
       {
+        name: 'field123',
+        display: 'Field 123',
+        sortable: false,
+        visible: true,
+        type: 'date',
+        mandatory: false,
+        filter: {
+          type: 'granulardaterange',
+          defaultValue: 'last-90-days',
+          mandatory: true,
+          defaultGranularity: 'daily',
+        },
+      },
+      {
         name: 'radio1',
         display: 'Radio 1',
         sortable: true,

@@ -11,12 +11,13 @@ export default class GranularDateRangeInput extends DprClientClass {
   initialise() {
     this.filter = this.getElement()
     this.fieldName = this.filter.getAttribute('data-field-name')
-    const idPrefix = `filters.${this.fieldName}`
+    this.idPrefix = `filters.${this.fieldName}`
 
-    this.quickFiltersInput = this.filter.querySelector(`select[name='${idPrefix}.quick-filter']`)
-    this.granularityInput = this.filter.querySelector(`select[name='${idPrefix}.granularity']`)
-    this.startInput = this.filter.querySelector(`input[name='${idPrefix}.start']`)
-    this.endInput = this.filter.querySelector(`input[name='${idPrefix}.end']`)
+    this.quickFiltersInput = this.filter.querySelector(`select[name='${this.idPrefix}.quick-filter']`)
+    this.granularityInput = this.filter.querySelector(`select[name='${this.idPrefix}.granularity']`)
+    this.startInput = this.filter.querySelector(`input[name='${this.idPrefix}.start']`)
+    this.endInput = this.filter.querySelector(`input[name='${this.idPrefix}.end']`)
+    this.currentQuickFilterValue = this.quickFiltersInput.value
 
     this.initStartEndInputChangetEvent()
     this.initGranularityChangeEvent()
@@ -25,7 +26,17 @@ export default class GranularDateRangeInput extends DprClientClass {
 
   initGranularityChangeEvent() {
     this.granularityInput.addEventListener('change', (e) => {
-      this.resetQuickFilters()
+      const { value } = e.target
+      const invalidDailyValues = ['annually', 'monthly']
+      const invalidMonthlyValues = ['annually']
+
+      if (this.currentQuickFilterValue.includes('month') && invalidMonthlyValues.includes(value)) {
+        this.resetQuickFilters()
+      }
+
+      if (this.currentQuickFilterValue.includes('day') && invalidDailyValues.includes(value)) {
+        this.resetQuickFilters()
+      }
     })
   }
 
@@ -46,21 +57,33 @@ export default class GranularDateRangeInput extends DprClientClass {
 
   setGranularityValue(value) {
     this.granularityInput.value = value
+    const changeEvent = new Event('change')
+    this.granularityInput.dispatchEvent(changeEvent)
   }
 
   setStartValue(value) {
     this.startInput.value = value
+    const changeEvent = new Event('change')
+    this.startInput.dispatchEvent(changeEvent)
   }
 
   setEndValue(value) {
     this.endInput.value = value
+    const changeEvent = new Event('change')
+    this.endInput.dispatchEvent(changeEvent)
   }
 
   resetQuickFilters() {
-    this.quickFiltersInput.value = 'none'
-    const queryParams = new URLSearchParams(window.location.search)
-    queryParams.set(this.quickFiltersInput.id, 'none')
-    window.history.replaceState(null, null, `?${queryParams.toString()}`)
+    const quickFilterState = this.filter.querySelector(`select[name='${this.idPrefix}.quick-filter']`)
+    if (this.currentQuickFilterValue === quickFilterState.value) {
+      this.quickFiltersInput.value = 'none'
+      const queryParams = new URLSearchParams(window.location.search)
+      queryParams.set(this.quickFiltersInput.id, 'none')
+      window.history.replaceState(null, null, `?${queryParams.toString()}`)
+
+      const changeEvent = new Event('change')
+      quickFilterState.dispatchEvent(changeEvent)
+    }
   }
 
   updateStartEndValues(quickFilterValue) {
@@ -197,5 +220,7 @@ export default class GranularDateRangeInput extends DprClientClass {
     queryParams.set(this.startInput.id, startDate.format('YYYY/MM/DD').toString())
     queryParams.set(this.endInput.id, endDate.format('YYYY/MM/DD').toString())
     window.history.replaceState(null, null, `?${queryParams.toString()}`)
+
+    this.currentQuickFilterValue = quickFilterValue
   }
 }

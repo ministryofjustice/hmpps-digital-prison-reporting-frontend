@@ -1,7 +1,7 @@
 {% extends layoutPath %}
 
-{% from "../../../components/forms/request-missing-report/view.njk" import dprRequestMissingReportForm %}
-{% from "../../../components/_async/request-details/view.njk" import dprRequestDetails %}
+{% from "./form.njk" import dprRequestMissingReportForm %}
+{% from "../../../../components/_async/request-details/view.njk" import dprRequestDetails %}
 
 {% set mainClasses = "app-container govuk-body" %}
 

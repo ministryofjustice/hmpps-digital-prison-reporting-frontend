@@ -150,3 +150,12 @@ package/package.zip
 
 # axe
 axe_results.json
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+dist
+# This is a generated file 
+assets/all-imports-bundle.scss

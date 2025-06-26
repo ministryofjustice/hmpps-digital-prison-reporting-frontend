@@ -16,6 +16,6 @@
     "experimentalDecorators": true,
     "ignoreDeprecations": "5.0"
   },
-  "exclude": ["node_modules", "dist", "package", "cypress-tests"],
+  "exclude": ["node_modules", "dist", "package", "cypress-tests", "playwright.config.ts", "esbuild"],
   "include": ["**/*.ts"]
 }

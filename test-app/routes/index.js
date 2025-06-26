@@ -20,6 +20,11 @@ const homepageMenuCards = [
     description: 'Component testing',
     href: '/components',
   },
+  {
+    text: 'Integration test components and pages',
+    description: 'Integration test components and pages',
+    href: '/integration-test-links'
+  }
 ]
 
 const homepageRoutes = (app) => {

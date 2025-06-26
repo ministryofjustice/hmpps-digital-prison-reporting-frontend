@@ -2,7 +2,7 @@
 {% from "components/card-group/view.njk" import dprCardGroup %}
 
 {% block head %}
-  <link href="/assets/dpr/css/all.css" rel="stylesheet">
+  <link href="/assets/css/app.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% endblock %}
 
@@ -20,9 +20,5 @@
     window.MOJFrontend.initAll()
   </script>
 
-  <script type="module" src="/assets/dpr/all.mjs"></script>
-  <script type="module">
-    import { initAll } from '/assets/dpr/all.mjs'
-    initAll()
-  </script>
+  <script type="module" src="/assets/js/app.js"></script>
 {% endblock %}

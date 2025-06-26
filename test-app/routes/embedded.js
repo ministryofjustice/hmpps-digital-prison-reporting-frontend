@@ -1,5 +1,5 @@
 // Local dependencies
-const ReportListUtils = require('../../package/dpr/components/report-list/utils').default
+const ReportListUtils = require('../../src/dpr/components/report-list/utils').default
 
 const embeddedReportsMenuCards = [
   {

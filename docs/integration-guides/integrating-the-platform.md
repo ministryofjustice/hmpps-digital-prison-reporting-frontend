@@ -71,34 +71,6 @@ export default {
 }
 ```
 
-### Route prefix config
-
-DPR routes are prefixed with `/dpr` by default. e.g.
-```
-/dpr/async/:type/:reportId/:id/request
-```
-
-This should adequate for your integration, however you can replace this prefix by adding your own to the `config.ts` file: 
-
-```js
-export default {
-  ...
-  apis: {
-    ...
-  }
-  dpr: {
-    ...
-    routePrefix: '/my-prefix'
-  }
-  ...
-}
-```
-
-This will adjust the routes accordingly. e.g.
-```
-/my-prefix/async/:type/:reportId/:id/request
-```
-
 <hr class='dpr-docs-hr'>
 
 # Initialise Redis Client

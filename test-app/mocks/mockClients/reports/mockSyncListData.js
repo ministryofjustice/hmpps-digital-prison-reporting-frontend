@@ -339,16 +339,16 @@ const mockSyncData = {
       value: ['field2', 'field6', 'field1', 'field3', 'field7'],
     },
     pagination: {
-      next: 'pathname?search=&selectedPage=2',
+      next: 'originalUrl?search=&selectedPage=2',
       pages: [
         {
           number: 1,
-          href: 'pathname?search=&selectedPage=1',
+          href: 'originalUrl?search=&selectedPage=1',
           current: true,
         },
         {
           number: 2,
-          href: 'pathname?search=&selectedPage=2',
+          href: 'originalUrl?search=&selectedPage=2',
           current: false,
         },
         {
@@ -356,7 +356,7 @@ const mockSyncData = {
         },
         {
           number: 5,
-          href: 'pathname?search=&selectedPage=5',
+          href: 'originalUrl?search=&selectedPage=5',
           current: false,
         },
       ],
@@ -386,9 +386,10 @@ const mockSyncData = {
         },
       ],
     },
-    reportUrl: 'pathname',
+    reportUrl: 'baseUrlpathname',
     fullUrl: 'protocol://hostoriginalUrl',
     bookmarked: false,
+    canDownload: false,
     reportSearch: 'search',
     encodedSearch: 'search',
     reportName: 'reportName',
@@ -436,7 +437,7 @@ const mockSyncData = {
           loadType: 'sync',
           definitionPath: 'this/that/other',
           canDownload: false,
-          currentUrl: 'pathname',
+          currentUrl: 'baseUrlpathname',
           currentQueryParams: 'search',
         },
       },

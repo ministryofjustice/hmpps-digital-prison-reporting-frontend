@@ -62,7 +62,7 @@ const platformRoutes = (app) => {
       features: { bookmarkingEnabled: true },
     })
 
-    const userReportsLists = await UserReportsListUtils.init({ services, req, res, maxRows: 3 })
+    const userReportsLists = await UserReportsListUtils.init({ services, req, res, maxRows: 20 })
 
     res.render('views/pages/dprService.njk', {
       title: 'Home',

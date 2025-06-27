@@ -1,0 +1,7 @@
+{% from "../../../components/_dashboards/dashboard/view.njk" import dprDashboard %}
+
+{% extends layoutPath %}
+
+{% block content %}
+  {{ dprDashboard(dashboardData) }}
+{% endblock %}

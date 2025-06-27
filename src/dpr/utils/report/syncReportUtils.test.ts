@@ -39,6 +39,7 @@ describe('SyncReportUtils', () => {
       },
       get: jest.fn().mockReturnValue('host'),
       originalUrl: 'originalUrl',
+      baseUrl: 'baseUrl',
       protocol: 'protocol',
     } as unknown as Request
 

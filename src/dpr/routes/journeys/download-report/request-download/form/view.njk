@@ -1,0 +1,10 @@
+{% extends layoutPath %}
+
+{% from "./form.njk" import dprDownloadRequestForm %}
+
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+  {{ dprDownloadRequestForm(user, report, csrfToken) }}
+{% endblock %}

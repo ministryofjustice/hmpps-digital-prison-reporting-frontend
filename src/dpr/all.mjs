@@ -50,7 +50,7 @@ import LineChartVisualisation from './components/_charts/chart/line/clientClass.
 import ScoreCard from './components/_dashboards/scorecard/clientClass.mjs'
 
 // Forms
-import GenericForm from './components/forms/clientClass.mjs'
+import GenericForm from './DprGenericFormClass.mjs'
 
 /**
  * Initialise all components

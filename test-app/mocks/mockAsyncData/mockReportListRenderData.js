@@ -212,16 +212,16 @@ const mockGetReportListRenderData = {
       },
     ],
     pagination: {
-      next: 'pathname?search=&selectedPage=2',
+      next: 'originalUrl?search=&selectedPage=2',
       pages: [
         {
           number: 1,
-          href: 'pathname?search=&selectedPage=1',
+          href: 'originalUrl?search=&selectedPage=1',
           current: true,
         },
         {
           number: 2,
-          href: 'pathname?search=&selectedPage=2',
+          href: 'originalUrl?search=&selectedPage=2',
           current: false,
         },
         {
@@ -229,7 +229,7 @@ const mockGetReportListRenderData = {
         },
         {
           number: 5,
-          href: 'pathname?search=&selectedPage=5',
+          href: 'originalUrl?search=&selectedPage=5',
           current: false,
         },
       ],

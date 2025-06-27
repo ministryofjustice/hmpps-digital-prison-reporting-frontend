@@ -1,0 +1,8 @@
+{% extends layoutPath %}
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+  <h1>Unauthorised</h1>
+  <p>You are unauthorised to view this report: <strong>{{ definition.name }} - {{ definition.variant.name }}  </strong></p>
+  <a href="/">Back to reporting homepage</a>
+{% endblock %}

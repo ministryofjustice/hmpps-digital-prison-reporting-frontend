@@ -81,10 +81,7 @@ export default {
     loadType?: LoadType
   }) {
     const { userId, token } = LocalsHelper.getValues(res)
-
     const { reportId, id, tableId, dataProductDefinitionsPath, reportName, name, cols: columns } = req.body
-
-    req.query = LocalsHelper.setDdpPathToReqQuery(req, dataProductDefinitionsPath)
 
     const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
     if (!canDownload) {

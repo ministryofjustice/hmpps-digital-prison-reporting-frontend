@@ -271,7 +271,7 @@ const getTemplateData = async (
   let pagination
   let totals
   if (meta.template === 'list') {
-    pagination = PaginationUtils.getPaginationData(url, count)
+    pagination = PaginationUtils.getPaginationData(url, count, req)
     const { pageSize, currentPage, totalRows } = pagination
     totals = TotalsUtils.getTotals(pageSize, currentPage, totalRows, dataTable[0].rowCount)
   }

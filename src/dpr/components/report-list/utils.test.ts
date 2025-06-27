@@ -27,7 +27,7 @@ jest.mock('../../data/reportingClient.ts', () => {
   })
 })
 
-describe('EmbeddedReportListUtils', () => {
+describe('ReportListUtils', () => {
   let request: Request
   let response: Response
   let next: NextFunction

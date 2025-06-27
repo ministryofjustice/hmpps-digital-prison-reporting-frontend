@@ -16,7 +16,7 @@
       html: "<p><strong>Do not close this window or you will lose your progress</strong></p> <p>It can take up to 5 mins to generate a " + type + ".</p>"
     }) }}
 
-    <form id="dpr-sync-loading-form" action="/sync/{{ type }}/{{ reportId }}/{{ id }}/report" method="get"></form>
+    <form id="dpr-sync-loading-form" action="./report" method="get"></form>
   </div>
 
 {% endmacro %}

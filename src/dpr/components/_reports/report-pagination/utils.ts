@@ -1,4 +1,5 @@
 import { Url } from 'url'
+import type { Request } from 'express'
 import { Page, PageSize, Pagination } from './types'
 
 const SELECTED_PAGE_PARAM = 'selectedPage'
@@ -126,8 +127,9 @@ const setPageSizes = (totalRows: number): PageSize[] => {
  * @return {*}
  */
 export default {
-  getPaginationData: (url: Url, totalRows: number): Pagination => {
-    const { pathname, search } = url
+  getPaginationData: (url: Url, totalRows: number, req?: Request): Pagination => {
+    const { search } = url
+    const pathname = search ? req.originalUrl.split(search)[0] : req.originalUrl
     const queryParams = new URLSearchParams(search)
     const pageSize = +queryParams.get(PAGE_SIZE_PARAM) || DEFAULT_PAGE_SIZE
     const currentPage = +queryParams.get(SELECTED_PAGE_PARAM) || DEFAULT_PAGE

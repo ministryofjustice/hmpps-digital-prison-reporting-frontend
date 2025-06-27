@@ -9,11 +9,12 @@
   {% set reportUrl = reportData.reportUrl %}
   {% set encodedSearch = reportData.encodedSearch %}
 
+  {# TODO: Improvement: move logic server side #}
   {% if loadType === 'async' %}
     {% set tableId = reportData.tableId %}
-    {% set feedbackFormHref = "/download/"+ reportId + "/" + id + "/" + tableId + "/feedback?reportUrl=" + reportUrl   %}
+    {% set feedbackFormHref = "/dpr/download-report/request-download/"+ reportId + "/" + id + "/tableId/" + tableId + "/form?reportUrl=" + reportUrl   %}
   {% else %}
-    {% set feedbackFormHref = "/download/"+ reportId + "/" + id + "/feedback?reportUrl=" + reportUrl  %}
+    {% set feedbackFormHref = "/dpr/download-report/request-download/"+ reportId + "/" + id + "/form?reportUrl=" + reportUrl  %}
   {% endif %}
 
   {% if encodedSearch %}

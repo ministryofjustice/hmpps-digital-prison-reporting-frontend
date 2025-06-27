@@ -1,9 +1,5 @@
 import type { Router } from 'express'
 import addAsyncReportingRoutes from './asyncReports'
-import addBookmarkingRoutes from './bookmarks'
-import addDownloadRoutes from './download'
-import addRecentlyViewedRoutes from './recentlyViewed'
-import addSyncRoutes from './syncReports'
 
 import type { Services } from '../types/Services'
 import logger from '../utils/logger'
@@ -28,18 +24,6 @@ export default function routes(routeImportParams: {
   }
 
   addAsyncReportingRoutes(params)
-  addRecentlyViewedRoutes(params)
-  addSyncRoutes(params)
-
-  const { bookmarkService, downloadPermissionService } = routeImportParams.services
-
-  if (bookmarkService) {
-    addBookmarkingRoutes(params)
-  }
-
-  if (downloadPermissionService) {
-    addDownloadRoutes(params)
-  }
 
   router.use('/', JourneyRoutes({ services, layoutPath }))
 }

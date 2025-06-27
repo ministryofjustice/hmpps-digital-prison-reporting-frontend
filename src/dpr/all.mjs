@@ -1,5 +1,10 @@
 /* eslint-disable no-new */
 /* global dayjs */
+import jquery from 'jquery'
+import dayjs from 'dayjs'
+import customParse from 'dayjs/plugin/customParseFormat'
+import chartjs from 'chart.js'
+import chartjsplugin from 'chartjs-plugin-datalabels'
 
 // Helper
 import DprLoadingHelper from './DprLoadingHelper.mjs'
@@ -91,8 +96,7 @@ function initAll() {
     GenericForm,
   ]
 
-  const customParseFormat = window.dayjs_plugin_customParseFormat
-  dayjs.extend(customParseFormat)
+  dayjs.extend(customParse)
 
   components.forEach((Component) => {
     const $elements = document.querySelectorAll(`[data-dpr-module="${Component.getModuleName()}"]`)

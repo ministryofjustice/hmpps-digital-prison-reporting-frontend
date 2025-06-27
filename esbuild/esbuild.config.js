@@ -17,48 +17,104 @@ const buildConfig = {
   isProduction: process.env.NODE_ENV === 'production',
 
   app: {
-    outDir: path.join(cwd, 'dist'),
+    bundle: true,
+    minify: true,
+    outDir: path.join(cwd, 'dist/dpr'),
     entryPoints: glob
-      .sync([path.join(cwd, '*.ts'), path.join(cwd, '*.js'),path.join(cwd, 'test-app/**/*.ts'), path.join(cwd, 'test-app/**/*.js'), path.join(cwd, 'src/**/*.js'), path.join(cwd, 'src/**/*.ts')])
+      .sync([path.join(cwd, 'src/**/*.js'), path.join(cwd, 'src/**/*.ts')])
       .filter(file => !file.endsWith('.test.ts')),
     copy: [
       {
-        from: path.join(cwd, 'server/views/**/*'),
-        to: path.join(cwd, 'dist/server/views'),
-      },
-      {
-        from: path.join(cwd, 'server/routes/journeys/**/*'),
-        to: path.join(cwd, 'dist/server/routes/journeys'),
-      },
-      {
-        from: path.join(cwd, 'server/routes/**/*'),
-        to: path.join(cwd, 'dist/server/routes'),
-      },
-      {
+        // from: path.join(cwd, 'src/dpr/**/{css,js,ts,njk,scss}'),
         from: path.join(cwd, 'src/dpr/**/*'),
-        to: path.join(cwd, 'dist/src/dpr'),
-      },
-      {
-        from: path.join(cwd, 'test-app/**/*'),
-        to: path.join(cwd, 'dist/test-app'),
+        to: path.join(cwd, 'dist/dpr'),
+
       },
     ],
   },
 
   assets: {
-    outDir: path.join(cwd, 'dist/assets'),
-    entryPoints: glob.sync([path.join(cwd, 'assets/js/index.js'), path.join(cwd, 'assets/scss/application.scss'), path.join(cwd, 'assets/all-imports-bundle.scss'),]),
+    outDir: path.join(cwd, 'dist/dpr'),
+    entryPoints: glob.sync([
+      path.join(cwd, 'src/dpr/banana/app.js'),
+      path.join(cwd, 'esbuild/all-imports-bundle.scss')
+    ]),
     copy: [
       {
         from: path.join(cwd, 'assets/images/**/*'),
         to: path.join(cwd, 'dist/assets/images'),
       },
     ],
-    clear: glob.sync([path.join(cwd, 'dist/assets/{css,js}')]),
+    clear: glob.sync([path.join(cwd, 'dist/dpr/js/{css,js}')]),
   },
 }
 
-const main = () => {
+const buildLibrary = async () => {
+  const scssFiles = glob.sync(['src/**/*.scss'])
+  const imports = scssFiles.map(file => `@import '${file}';`).join('\n')
+
+  const allImportsBundle = 'esbuild/all-imports-bundle.scss'
+  fs.writeFileSync(allImportsBundle, imports, {
+    flush: true
+  })
+  
+  // if (args.includes('--build')) {
+  await buildApp(buildConfig)
+  await buildAssets(buildConfig)
+    // await Promise.all([buildApp(buildConfig), 
+    // ]).catch(e => {
+    //   process.stderr.write(`${e}\n`)
+    //   process.exit(1)
+    // })
+  // }
+
+}
+
+
+/**
+ * Configuration for build steps
+ * @type {BuildConfig}
+ */
+const buildConfigTestApp = {
+  isProduction: process.env.NODE_ENV === 'production',
+
+  app: {
+    bundle: false,
+    minify: false,
+    outDir: path.join(cwd, 'dist-test-app'),
+    entryPoints: glob
+      .sync([path.join(cwd, 'test-app/**/*.js'), path.join(cwd, 'test-app/**/*.ts')])
+      .filter(file => !file.endsWith('.test.ts')),
+    copy: [
+      {
+        // from: path.join(cwd, 'src/dpr/**/{css,js,ts,njk,scss}'),
+        from: path.join(cwd, 'test-app/**/*'),
+        to: path.join(cwd, 'dist-test-app'),
+
+      },
+    ],
+  },
+
+  assets: {
+    outDir: path.join(cwd, 'dist-test-app'),
+    entryPoints: glob.sync([
+      path.join(cwd, 'test-app/serverjs'),
+    ]),
+    clear: glob.sync([path.join(cwd, 'dist-test-app/js/{js}'), path.join(cwd, 'dist-test-app/css/{css}')]),
+  },
+}
+
+const main = async () => {
+  await buildLibrary()
+  Promise.all([
+    buildApp(buildConfigTestApp),
+    buildAssets(buildConfigTestApp)
+  ]).catch(e => {
+      process.stderr.write(`${e}\n`)
+      process.exit(1)
+    })
+
+  const args = process.argv
   /**
    * @type {chokidar.WatchOptions}
    */
@@ -67,41 +123,26 @@ const main = () => {
     ignoreInitial: true,
   }
 
-  const args = process.argv
-  const scssFiles = glob.sync(['src/**/*.scss'])
-  const imports = scssFiles.map(file => `@import '${file}';`).join('\n')
-  const allImportsBundle = 'assets/all-imports-bundle.scss'
-  fs.writeFileSync(allImportsBundle, imports, {
-    flush: true
-  })
-  
-  if (args.includes('--build')) {
-    Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch(e => {
-      process.stderr.write(`${e}\n`)
-      process.exit(1)
-    })
-  }
-
   if (args.includes('--dev-server')) {
     let serverProcess = null
     chokidar
-      .watch(['dist'], {
+      .watch(['dist-test-app'], {
         ignored: ['**/*.cy.ts'],
       })
       .on('all', () => {
         if (serverProcess) serverProcess.kill()
-        serverProcess = spawn('node', ['--env-file=.env', 'dist/test-app/server.js'], { stdio: 'inherit' })
+        serverProcess = spawn('node', ['--env-file=.env', 'dist-test-app/server.js'], { stdio: 'inherit' })
       })
   }
   if (args.includes('--dev-test-server')) {
     let serverProcess = null
     chokidar
-      .watch(['dist'], {
+      .watch(['dist-test-app'], {
         ignored: ['**/*.cy.ts'],
       })
       .on('all', () => {
         if (serverProcess) serverProcess.kill()
-        serverProcess = spawn('node', ['--env-file=e2e-test.env', 'dist/test-app/server.js'], { stdio: 'inherit' })
+        serverProcess = spawn('node', ['--env-file=e2e-test.env', 'dist-test-app/server.js'], { stdio: 'inherit' })
       })
   }
 
@@ -114,7 +155,11 @@ const main = () => {
 
     // App
     chokidar
-      .watch(['test-app/**/*', 'src/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
+      .watch(['src/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
+      .on('all', () => buildLibrary(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
+
+    chokidar
+      .watch(['test-app/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
       .on('all', () => buildApp(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
   }
 }

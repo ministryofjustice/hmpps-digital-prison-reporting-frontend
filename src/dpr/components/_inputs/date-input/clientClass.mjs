@@ -1,4 +1,4 @@
-/* global dayjs */
+import dayjs from 'dayjs'
 
 import { DprClientClass } from '../../../DprClientClass.mjs'
 

@@ -1,4 +1,4 @@
-/* global dayjs */
+import dayjs from 'dayjs'
 
 /* eslint-disable class-methods-use-this */
 import { DprClientClass } from './DprClientClass.mjs'

@@ -1,0 +1,10 @@
+{% from "../../../dist/dpr/components/_async/async-filters-form/view.njk" import dprAsyncFiltersForm %}
+
+{{ dprAsyncFiltersForm({ 
+    filters: filters,
+    selectedFilters: selectedFilters, 
+    sortBy: sortBy, 
+    data: reportData, 
+    endpoint: endpoint,
+    type: type
+  }) }}

@@ -17,4 +17,4 @@ export interface BuildConfig {
   }
 }
 
-export type BuildStep = (BuildConfig) => Promise<BuildResult>
+export type BuildStep = (arg0: BuildConfig) => Promise<BuildResult>

@@ -17,5 +17,5 @@
     "ignoreDeprecations": "5.0"
   },
   "exclude": ["node_modules", "dist", "package", "cypress-tests", "esbuild"],
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "esbuild/index.d.ts"]
 }

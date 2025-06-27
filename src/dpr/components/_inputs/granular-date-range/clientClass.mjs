@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* global dayjs */
+import dayjs from 'dayjs'
 
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
@@ -87,9 +87,9 @@ export default class GranularDateRangeInput extends DprClientClass {
   }
 
   updateStartEndValues(quickFilterValue) {
-    let startDate
-    let endDate
-    let granularity
+    let startDate = dayjs()
+    let endDate = dayjs()
+    let granularity = 'daily'
 
     switch (quickFilterValue) {
       case 'today':

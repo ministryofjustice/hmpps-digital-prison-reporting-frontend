@@ -10,8 +10,9 @@ const buildApp = buildConfig => {
   return esbuild.build({
     entryPoints: glob.sync(buildConfig.app.entryPoints),
     outdir: buildConfig.app.outDir,
-    bundle: false,
+    bundle: buildConfig.app.bundle,
     sourcemap: true,
+    minify: buildConfig.app.minify,
     platform: 'node',
     format: 'cjs',
     plugins: [

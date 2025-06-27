@@ -87,9 +87,9 @@ export default class GranularDateRangeInput extends DprClientClass {
   }
 
   updateStartEndValues(quickFilterValue) {
-    let startDate = dayjs()
-    let endDate = dayjs()
-    let granularity = 'daily'
+    let startDate
+    let endDate
+    let granularity
 
     switch (quickFilterValue) {
       case 'today':

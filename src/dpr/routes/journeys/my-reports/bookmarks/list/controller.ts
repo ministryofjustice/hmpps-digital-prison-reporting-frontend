@@ -13,7 +13,7 @@ export default class BookmarkListingController {
   }
 
   GET: RequestHandler = async (req, res, next) => {
-    res.render(`dpr/routes/journeys/my-reports/bookmarks/list/view`, {
+    res.render(`dpr/routes/journeys/my-reports/view`, {
       title: 'Bookmarks',
       layoutPath: this.layoutPath,
       id: 'dpr-bookmarks-list',

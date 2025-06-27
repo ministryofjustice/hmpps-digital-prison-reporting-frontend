@@ -3,14 +3,14 @@
 {% from "../catalogue-search/view.njk" import dprCatalogueSearch %}
 {% from "../catalogue-unauthorised-toggle/view.njk" import dprUnauthorisedToggle %}
 
-{% macro dprCatalogueFilters(id, features, type) %}
+{% macro dprCatalogueFilters(id, features) %}
   {% set filteringEnabled = features.filteringEnabled %}
   {% set unauthorisedToggleEnabled = features.unauthorisedToggleEnabled %}
 
   <div class='dpr-catalogue-filters' data-dpr-module='dpr-catalogue-filters'>
     <div class='dpr-catalogue-filters--heading'>
       <div class="dpr-catalogue-filters__search">
-        {{ dprCatalogueSearch(id, type) }}
+        {{ dprCatalogueSearch(id) }}
       </div> 
     </div>
     <div class='dpr-catalogue-filters--content'>

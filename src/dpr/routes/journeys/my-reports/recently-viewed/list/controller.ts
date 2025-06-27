@@ -25,7 +25,7 @@ export default class RecentlyViewedReportsListController {
       type: 'viewed',
     })
 
-    res.render(`dpr/routes/journeys/my-reports/recently-viewed/list/view`, {
+    res.render(`dpr/routes/journeys/my-reports/view`, {
       title: 'Recently viewed reports',
       id: 'recently-viewed-reports-list',
       layoutPath: this.layoutPath,

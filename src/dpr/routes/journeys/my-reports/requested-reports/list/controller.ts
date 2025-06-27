@@ -25,7 +25,7 @@ export default class RequestedReportsListController {
       type: 'requested',
     })
 
-    res.render(`dpr/routes/journeys/my-reports/requested-reports/list/view`, {
+    res.render(`dpr/routes/journeys/my-reports/view`, {
       title: 'Requested reports',
       id: 'requested-reports-list',
       layoutPath: this.layoutPath,

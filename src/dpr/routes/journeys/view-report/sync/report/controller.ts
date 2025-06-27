@@ -16,9 +16,6 @@ export default class ViewSyncReportController {
   GET: RequestHandler = async (req, res, next) => {
     try {
       const renderData = await SyncReportUtils.getReport({ req, res, services: this.services })
-
-      console.log({ GET: renderData })
-
       res.render(`dpr/routes/journeys/view-report/report`, {
         layoutPath: this.layoutPath,
         ...renderData,

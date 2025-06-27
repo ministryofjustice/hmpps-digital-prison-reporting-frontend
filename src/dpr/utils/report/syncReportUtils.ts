@@ -194,7 +194,7 @@ const getReportRenderData = async (
 ) => {
   const url = parseUrl(req)
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
-  const pagination = PaginationUtils.getPaginationData(url, count)
+  const pagination = PaginationUtils.getPaginationData(url, count, req)
 
   const dataTable: DataTable = new DataTableBuilder(specification.fields)
     .withHeaderSortOptions(reportQuery)

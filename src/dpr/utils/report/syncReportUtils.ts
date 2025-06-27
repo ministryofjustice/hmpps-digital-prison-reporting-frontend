@@ -220,7 +220,7 @@ const getReportRenderData = async (
     filterData,
     columns,
     pagination,
-    reportUrl: url.pathname.replace('/download-disabled', '').replace('/download-disabled?', ''),
+    reportUrl: `${req.baseUrl}${url.pathname}`.replace('/download-disabled', '').replace('/download-disabled?', ''),
     reportSearch: url.search,
     encodedSearch: url.search ? encodeURIComponent(url.search) : undefined,
     fullUrl,

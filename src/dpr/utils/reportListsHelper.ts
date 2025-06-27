@@ -94,8 +94,9 @@ export const setInitialHref = (loadType: LoadType, type: ReportType, reportId: s
     const { pathSuffix, dpdPathFromQuery, routePrefix } = localsHelper.getValues(res)
     const dpdPathQueryParam = dpdPathFromQuery ? pathSuffix : ''
     href = `${routePrefix}/async/${type}/${reportId}/${id}/request${dpdPathQueryParam}`
+
     if (loadType && loadType === LoadType.SYNC) {
-      href = `${routePrefix}/sync/${type}/${reportId}/${id}/load-report${dpdPathQueryParam}`
+      href = `dpr/view-report/sync/${type}/${reportId}/${id}/load-report${dpdPathQueryParam}`
     }
   }
   return href

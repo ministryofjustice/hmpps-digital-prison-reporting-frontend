@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
-import BookmarklistUtils from '../../../../components/user-reports/bookmarks/utils'
-import { Services } from '../../../../types/Services'
+import BookmarklistUtils from '../../../../../components/user-reports/bookmarks/utils'
+import { Services } from '../../../../../types/Services'
 
 export default class BookmarkListingController {
   layoutPath: string
@@ -13,10 +13,10 @@ export default class BookmarkListingController {
   }
 
   GET: RequestHandler = async (req, res, next) => {
-    res.render(`dpr/routes/journeys/bookmarks/list/view`, {
+    res.render(`dpr/routes/journeys/my-reports/bookmarks/list/view`, {
       title: 'Bookmarks',
       layoutPath: this.layoutPath,
-      catId: 'dpr-bookmarks-list',
+      id: 'dpr-bookmarks-list',
       ...(await BookmarklistUtils.renderBookmarkList({ services: this.services, res, req })),
     })
   }

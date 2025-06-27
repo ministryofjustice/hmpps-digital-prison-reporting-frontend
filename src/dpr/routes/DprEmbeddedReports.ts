@@ -1,7 +1,5 @@
 import type { Router } from 'express'
 import addAsyncReportingRoutes from './asyncReports'
-import addRecentlyViewedRoutes from './recentlyViewed'
-import addSyncRoutes from './syncReports'
 
 import type { Services } from '../types/Services'
 import logger from '../utils/logger'
@@ -26,8 +24,6 @@ export default function routes(routeImportParams: {
   }
 
   addAsyncReportingRoutes(params)
-  addRecentlyViewedRoutes(params)
-  addSyncRoutes(params)
 
   router.use('/', JourneyRoutes({ services, layoutPath }))
 }

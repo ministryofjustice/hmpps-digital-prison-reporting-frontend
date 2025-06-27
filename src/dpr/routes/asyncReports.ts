@@ -181,26 +181,6 @@ export default function routes({
     }
   }
 
-  /**
-   * REQUEST: Remove request
-   *
-   * @param {Request} req
-   * @param {Response} res
-   * @param {NextFunction} next
-   */
-  const removeRequestedItemHandler: RequestHandler = async (req, res, next) => {
-    const { userId } = LocalsHelper.getValues(res)
-    try {
-      await services.requestedReportService.removeReport(req.body.executionId, userId)
-      res.end()
-    } catch (error) {
-      req.body.title = 'Failed to abort request'
-      req.body.errorDescription = 'We were unable to abort the report request for the following reason:'
-      req.body.error = ErrorSummaryUtils.handleError(error)
-      next()
-    }
-  }
-
   /**   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
    *                                                            *
    *                  STAGE 2: POLLING ROUTES                   *
@@ -245,27 +225,6 @@ export default function routes({
     try {
       const response = await AsyncRequestListUtils.getRequestStatus({ req, res, services })
       res.send({ status: response.status })
-    } catch (error) {
-      res.send({ status: 'FAILED' })
-    }
-  }
-
-  /**
-   * POLLING: Get Expired Status
-   *
-   * @param {Request} req
-   * @param {Response} res
-   * @param {NextFunction} next
-   */
-  const getExpiredStatus: RequestHandler = async (req, res, next) => {
-    try {
-      const response = await UserReportsListUtils.getExpiredStatus({
-        req,
-        res,
-        services,
-        storeService: services.requestedReportService,
-      })
-      res.send({ isExpired: response })
     } catch (error) {
       res.send({ status: 'FAILED' })
     }
@@ -319,20 +278,6 @@ export default function routes({
     }
   }
 
-  const listingHandler: RequestHandler = async (req, res, next) => {
-    const { requestedReports } = LocalsHelper.getValues(res)
-    res.render(`dpr/views/async-reports`, {
-      title: 'Requested reports',
-      layoutPath,
-      ...(await UserReportsListUtils.renderList({
-        reportsData: requestedReports,
-        filterFunction: AsyncRequestListUtils.filterReports,
-        res,
-        type: 'requested',
-      })),
-    })
-  }
-
   // 1 - REQUEST
   router.get(
     `${prefix}/async/:type/:reportId/:id/request`,
@@ -353,9 +298,4 @@ export default function routes({
     `${prefix}/async/:type/:reportId/:id/request/:tableId/report/:download`,
   ]
   router.get(viewReportPaths, isAuthorisedToViewReport, viewReportHandler, asyncErrorHandler)
-
-  // Homepage widget routes
-  router.post('/dpr/removeRequestedItem/', removeRequestedItemHandler, asyncErrorHandler)
-  router.post('/dpr/getRequestedExpiredStatus/', getExpiredStatus)
-  router.get(`${prefix}/async-reports/requested`, listingHandler)
 }

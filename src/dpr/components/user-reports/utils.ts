@@ -266,8 +266,9 @@ const renderList = async ({
   if (maxRows) formatted = formatted.slice(0, maxRows)
   const tableData = formatTable(formatted, type)
 
+  const path = type === 'requested' ? 'requested-reports' : 'recently-viewed'
   const head = {
-    ...(formatted.length && { href: `./async-reports/${type}` }),
+    ...(formatted.length && { href: `/dpr/my-reports/${path}/list` }),
     ...(!formatted.length && { emptyMessage: `You have 0 ${type} reports` }),
   }
 

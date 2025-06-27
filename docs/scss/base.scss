@@ -2,8 +2,8 @@ $govuk-global-styles: true;
 $moj-page-width: 1170px;
 
 @import "node_modules/highlight.js/scss/github.scss";
-@import "govuk-frontend/dist/govuk/all";
-@import "@ministryofjustice/frontend/moj/all";
+@import 'govuk/all';
+@import 'moj/all';
 
 .govuk-header__container {
   padding-top: 25px;

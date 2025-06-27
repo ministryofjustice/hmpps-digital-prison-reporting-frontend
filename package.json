@@ -64,6 +64,10 @@
     "testMatch": [
       "<rootDir>/**/?(*.)(cy|test).{ts,js,jsx,mjs}"
     ],
+    "testPathIgnorePatterns": [
+      "dist",
+      "dist-test-app"
+    ],
     "testEnvironment": "node",
     "reporters": [
       "default",

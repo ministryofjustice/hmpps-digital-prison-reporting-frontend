@@ -176,7 +176,7 @@ export default {
     const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, userId, maxRows)
 
     const head = {
-      ...(formatted.length && { href: '/dpr/my-reports/bookmarks' }),
+      ...(formatted.length && { href: '/dpr/my-reports/bookmarks/list' }),
       ...(!formatted.length && { emptyMessage: 'You have 0 bookmarked reports' }),
     }
 

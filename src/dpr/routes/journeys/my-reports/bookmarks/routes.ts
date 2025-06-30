@@ -9,8 +9,8 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
 
   const controller = new BookmarkController(layoutPath, services)
 
-  router.post('/add-bookmark', controller.addBookmark)
-  router.post('/remove-bookmark', controller.removeBookmark)
+  router.post('/', controller.POST)
+  router.delete('/', controller.DELETE)
 
   router.use(`/list`, listRoutes({ layoutPath, services }))
   return router

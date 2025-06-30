@@ -9,8 +9,8 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
 
   const controller = new RecentlyViewedReportsController(layoutPath, services)
 
-  router.post('/get-expired-status', controller.getExpiredStatus)
-  router.post('/remove-item', controller.removeViewedItem)
+  router.post('/update-expired-status', controller.updateExpiredStatus)
+  router.delete('/:id', controller.DELETE)
 
   router.use(`/list`, listRoutes({ layoutPath, services }))
 

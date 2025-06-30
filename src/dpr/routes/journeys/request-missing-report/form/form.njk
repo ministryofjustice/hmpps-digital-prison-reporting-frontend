@@ -22,7 +22,7 @@
   {% set time = report.time %}
 
   <div class="dpr-form--request-missing-report" data-dpr-module="dpr-generic-form">
-    <form action="{{ postEndpoint }}" method="post" id="dpr-form" class="dpr-form--hidden">
+    <form method="post" id="dpr-form" class="dpr-form--hidden">
       <div id="dpr-form-summary--error-summary" class="query-error-summary query-error-summary--hidden">
         {{ govukErrorSummary({
           titleText: "There is a problem",

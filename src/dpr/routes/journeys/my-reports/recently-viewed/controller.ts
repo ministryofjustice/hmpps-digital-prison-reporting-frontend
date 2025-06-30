@@ -13,9 +13,9 @@ export default class RecentlyViewedReportsController {
     this.services = services
   }
 
-  getExpiredStatus: RequestHandler = async (req, res) => {
+  updateExpiredStatus: RequestHandler = async (req, res) => {
     try {
-      const response = await UserReportsListUtils.getExpiredStatus({
+      const response = await UserReportsListUtils.updateExpiredStatus({
         req,
         res,
         services: this.services,
@@ -27,9 +27,10 @@ export default class RecentlyViewedReportsController {
     }
   }
 
-  removeViewedItem: RequestHandler = async (req, res) => {
+  DELETE: RequestHandler = async (req, res) => {
     const { userId } = LocalsHelper.getValues(res)
-    await this.services.recentlyViewedService.removeReport(req.body.executionId, userId)
+    const { id } = req.params
+    await this.services.recentlyViewedService.removeReport(id, userId)
     res.end()
   }
 }

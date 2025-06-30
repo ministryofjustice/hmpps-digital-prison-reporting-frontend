@@ -7,7 +7,7 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
   const router = Router({ mergeParams: true })
   const controller = new ViewReportController(layoutPath, services)
 
-  router.get([`/report`, `/report/:download`], controller.GET)
+  router.get([`/`, `/download-disabled`], controller.GET)
 
   return router
 }

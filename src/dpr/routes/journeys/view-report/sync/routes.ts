@@ -12,8 +12,7 @@ import reportAuthoriser from '../../../../middleware/reportAuthoriser'
 export default function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
   const router = Router({ mergeParams: true })
 
-  router.use('/', reportAuthoriser(services, layoutPath))
-  router.use('/', viewReportRoutes({ layoutPath, services }))
+  router.use('/report', reportAuthoriser(services, layoutPath), viewReportRoutes({ layoutPath, services }))
   router.use(`/load-report`, loadReportRoutes({ layoutPath, services }))
   return router
 }

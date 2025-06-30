@@ -8,7 +8,7 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
   const controller = new MissingReportFormController(layoutPath, services)
 
   router.get(`/`, controller.GET)
-  router.post('/submit', controller.POST)
+  router.post('/', controller.POST)
 
   return router
 }

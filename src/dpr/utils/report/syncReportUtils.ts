@@ -194,6 +194,7 @@ const getReportRenderData = async (
 ) => {
   const url = parseUrl(req)
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
+  const pathname = url.search ? req.originalUrl.split(url.search)[0] : req.originalUrl
   const pagination = PaginationUtils.getPaginationData(url, count, req)
 
   const dataTable: DataTable = new DataTableBuilder(specification.fields)
@@ -220,7 +221,7 @@ const getReportRenderData = async (
     filterData,
     columns,
     pagination,
-    reportUrl: `${req.baseUrl}${url.pathname}`.replace('/download-disabled', '').replace('/download-disabled?', ''),
+    reportUrl: pathname.replace('/download-disabled', '').replace('/download-disabled?', ''),
     reportSearch: url.search,
     encodedSearch: url.search ? encodeURIComponent(url.search) : undefined,
     fullUrl,

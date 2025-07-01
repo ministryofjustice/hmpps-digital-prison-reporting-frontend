@@ -7,13 +7,15 @@ import mockFiltersData from '../../../../../test-app/mocks/mockClients/reports/m
 import dashboardDefinitions from '../../../../../test-app/mocks/mockClients/dashboards/dashboard-definitions'
 
 // Types
-import type ReportingService from '../../../services/reportingService'
 import { Services } from '../../../types/Services'
 import { ReportType } from '../../../types/UserReports'
 import { components } from '../../../types/api'
-import type DashboardService from '../../../services/dashboardService'
-import type RequestedReportService from '../../../services/requestedReportService'
-import type RecentlyViewedStoreService from '../../../services/recentlyViewedService'
+import type {
+  RequestedReportService,
+  RecentlyViewedStoreService,
+  ReportingService,
+  DashboardService,
+} from '../../../services'
 
 describe('RequestReportUtils', () => {
   let services: Services

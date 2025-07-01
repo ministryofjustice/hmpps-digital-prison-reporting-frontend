@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import BookmarkService from './bookmarkService'
-import type ReportDataStore from '../data/reportDataStore'
-import MockUserStoreService from '../../../test-app/mocks/mockClients/store/mockRedisStore'
-import { ReportStoreConfig } from '../types/ReportStore'
-import { ReportType } from '../types/UserReports'
-import { BookmarkStoreData } from '../types/Bookmark'
+import BookmarkService from './service'
+import type ReportDataStore from '../../../../data/reportDataStore'
+import MockUserStoreService from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
+import { ReportStoreConfig } from '../../../../types/ReportStore'
+import { ReportType } from '../../../../types/UserReports'
+import { BookmarkStoreData } from '../../../../types/Bookmark'
 
 describe('BookmarkService', () => {
   const mockUserStore: ReportDataStore = new MockUserStoreService() as unknown as ReportDataStore

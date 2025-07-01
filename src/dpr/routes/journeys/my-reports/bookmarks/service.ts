@@ -1,8 +1,8 @@
-import ReportStoreService from './reportStoreService'
-import ReportDataStore from '../data/reportDataStore'
-import { ReportType } from '../types/UserReports'
-import { ReportStoreConfig } from '../types/ReportStore'
-import logger from '../utils/logger'
+import ReportStoreService from '../../../../services/reportStoreService'
+import ReportDataStore from '../../../../data/reportDataStore'
+import { ReportType } from '../../../../types/UserReports'
+import { ReportStoreConfig } from '../../../../types/ReportStore'
+import logger from '../../../../utils/logger'
 
 export default class BookmarkService extends ReportStoreService {
   bookmarksInitialised: boolean

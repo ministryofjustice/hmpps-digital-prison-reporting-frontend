@@ -1,8 +1,8 @@
-import ReportStoreService from './reportStoreService'
-import UserDataStore from '../data/reportDataStore'
-import { RequestStatus, RequestedReport, RecentlyViewedReport, StoredReportData } from '../types/UserReports'
-import { ReportStoreConfig } from '../types/ReportStore'
-import logger from '../utils/logger'
+import ReportStoreService from '../../../../services/reportStoreService'
+import UserDataStore from '../../../../data/reportDataStore'
+import { RequestStatus, RequestedReport, RecentlyViewedReport, StoredReportData } from '../../../../types/UserReports'
+import { ReportStoreConfig } from '../../../../types/ReportStore'
+import logger from '../../../../utils/logger'
 
 export default class RecentlyViewedStoreService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {

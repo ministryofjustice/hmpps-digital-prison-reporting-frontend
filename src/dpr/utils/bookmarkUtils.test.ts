@@ -1,4 +1,4 @@
-import BookmarkService from '../services/bookmarkService'
+import { BookmarkService } from '../services'
 import { Services } from '../types/Services'
 import BookmarkUtils, { BookmarksByCaseload } from './bookmarkUtils'
 

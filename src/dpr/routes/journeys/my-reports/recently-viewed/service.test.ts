@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import RecentlyViewedStoreService from './recentlyViewedService'
-import MockUserStoreService from '../../../test-app/mocks/mockClients/store/mockRedisStore'
-import type ReportDataStore from '../data/reportDataStore'
-import { ReportStoreConfig } from '../types/ReportStore'
-import MockViewedListData from '../../../test-app/mocks/mockClients/store/mockViewedUserListDataV2'
-import MockRequestedListData from '../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
-import { RequestedReport, RequestStatus } from '../types/UserReports'
+import RecentlyViewedStoreService from './service'
+import type ReportDataStore from '../../../../data/reportDataStore'
+import type { ReportStoreConfig } from '../../../../types/ReportStore'
+import { RequestedReport, RequestStatus } from '../../../../types/UserReports'
+
+import MockViewedListData from '../../../../../../test-app/mocks/mockClients/store/mockViewedUserListDataV2'
+import MockUserStoreService from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
+import MockRequestedListData from '../../../../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
 
 describe('RecentlyViewedStoreService', () => {
   const mockUserStore: ReportDataStore = new MockUserStoreService() as unknown as ReportDataStore

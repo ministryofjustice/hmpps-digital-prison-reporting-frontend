@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import RequestedReportService from './requestedReportService'
-import type ReportDataStore from '../data/reportDataStore'
-import MockUserStoreService from '../../../test-app/mocks/mockClients/store/mockRedisStore'
-import { RequestedReport, RequestStatus } from '../types/UserReports'
-import { ReportStoreConfig } from '../types/ReportStore'
-import MockRequestedListData2 from '../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
+import type ReportDataStore from '../../../../data/reportDataStore'
+import RequestedReportService from './service'
+import { RequestedReport, RequestStatus } from '../../../../types/UserReports'
+import { ReportStoreConfig } from '../../../../types/ReportStore'
+
+import MockUserStoreService from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
+import MockRequestedListData2 from '../../../../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
 
 describe('RequestedReportService', () => {
   const mockUserStore: ReportDataStore = new MockUserStoreService() as unknown as ReportDataStore

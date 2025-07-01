@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response, Request } from 'express'
-import ReportingService from '../services/reportingService'
 import { Services } from '../types/Services'
 import DownloadUtils from './downloadUtils'
-import DownloadPermissionService from '../services/downloadPermissionService'
+import { DownloadPermissionService, ReportingService } from '../services'
 import createMockData from '../../../test-app/mocks/mockClients/reports/mockAsyncData'
 import { LoadType } from '../types/UserReports'
 import { components } from '../types/api'

@@ -2,14 +2,17 @@ import type { Request, Response } from 'express'
 import { Url } from 'url'
 import { Services } from '../../types/Services'
 import SyncReportUtils from './syncReportUtils'
-import ReportingService from '../../services/reportingService'
 import RecentlyViewedService from '../../services/recentlyViewedService'
 
 // mocks
 import mockReportVariant from '../../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
 import { components } from '../../types/api'
-import DownloadPermissionService from '../../services/downloadPermissionService'
-import BookmarkService from '../../services/bookmarkService'
+import {
+  DownloadPermissionService,
+  BookmarkService,
+  ReportingService,
+  RecentlyViewedStoreService,
+} from '../../services'
 import createMockData from '../../../../test-app/mocks/mockClients/reports/mockAsyncData'
 import mockSyncListData from '../../../../test-app/mocks/mockClients/reports/mockSyncListData'
 
@@ -24,7 +27,7 @@ describe('SyncReportUtils', () => {
   let services: Services
   let reportingService: ReportingService
   let downloadPermissionService: DownloadPermissionService
-  let recentlyViewedService: RecentlyViewedService
+  let recentlyViewedService: RecentlyViewedStoreService
   let bookmarkService: BookmarkService
   let mockDefinition: components['schemas']['SingleVariantReportDefinition']
 

@@ -1,12 +1,13 @@
 /* eslint-disable no-param-reassign */
-import RequestedReportService from '../services/requestedReportService'
-import RecentlyViewedStoreService from '../services/recentlyViewedService'
-import BookmarkService from '../services/bookmarkService'
-import DownloadPermissionService from '../services/downloadPermissionService'
+import {
+  DownloadPermissionService,
+  BookmarkService,
+  RequestedReportService,
+  RecentlyViewedStoreService,
+  ReportingService,
+  DashboardService,
+} from '../services'
 import ReportDataStore from '../data/reportDataStore'
-
-import ReportingService from '../services/reportingService'
-import DashboardService from '../services/dashboardService'
 import ReportingClient from '../data/reportingClient'
 import DashboardClient from '../data/dashboardClient'
 import logger from './logger'

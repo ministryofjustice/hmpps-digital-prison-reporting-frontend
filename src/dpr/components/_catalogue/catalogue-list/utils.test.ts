@@ -1,7 +1,7 @@
 import { Response } from 'express'
 import CatalogueUtils from './utils'
 import { Services } from '../../../types/Services'
-import BookmarkService from '../../../services/bookmarkService'
+import { BookmarkService } from '../../../services'
 import ListDefinitions from '../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
 
 describe('CatalogueUtils', () => {

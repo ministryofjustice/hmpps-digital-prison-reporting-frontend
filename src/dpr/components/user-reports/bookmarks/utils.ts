@@ -1,5 +1,5 @@
 import { Response, Request } from 'express'
-import BookmarkService from '../../../services/bookmarkService'
+import { BookmarkService } from '../../../services'
 import { BookmarkedReportData, BookmarkStoreData } from '../../../types/Bookmark'
 import { FormattedUserReportData, LoadType, ReportType } from '../../../types/UserReports'
 import { Services } from '../../../types/Services'

@@ -12,12 +12,14 @@ import UserReportsUtils from '../../components/user-reports/utils'
 import * as AsyncReportListUtilsHelper from './asyncReportUtils'
 
 // Services
-import BookmarkService from '../../services/bookmarkService'
-import RecentlyViewedStoreService from '../../services/recentlyViewedService'
-import RequestedReportService from '../../services/requestedReportService'
-import DashboardService from '../../services/dashboardService'
-import DownloadPermissionService from '../../services/downloadPermissionService'
-import ReportingService from '../../services/reportingService'
+import {
+  DownloadPermissionService,
+  DashboardService,
+  RequestedReportService,
+  RecentlyViewedStoreService,
+  BookmarkService,
+  ReportingService,
+} from '../../services'
 
 // Mocked
 import createMockData from '../../../../test-app/mocks/mockClients/reports/mockAsyncData'

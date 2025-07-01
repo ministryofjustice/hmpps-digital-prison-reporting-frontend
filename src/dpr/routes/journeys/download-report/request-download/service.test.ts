@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import DownloadPermissionService from './downloadPermissionService'
-import MockUserStoreService from '../../../test-app/mocks/mockClients/store/mockRedisStore'
-import ReportDataStore from '../data/reportDataStore'
-import { ReportStoreConfig } from '../types/ReportStore'
+import MockUserStoreService from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
+import ReportDataStore from '../../../../data/reportDataStore'
+import type { ReportStoreConfig } from '../../../../types/ReportStore'
+import DownloadPermissionService from './service'
 
 describe('DownloadPermissionService', () => {
   const mockUserStore: ReportDataStore = new MockUserStoreService() as unknown as ReportDataStore

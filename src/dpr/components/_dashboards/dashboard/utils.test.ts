@@ -13,11 +13,13 @@ import DashboardUtils from './utils'
 import UserReportsUtils from '../../user-reports/utils'
 
 // Services
-import DashboardService from '../../../services/dashboardService'
-import RecentlyViewedStoreService from '../../../services/recentlyViewedService'
-import RequestedReportService from '../../../services/requestedReportService'
-import ReportingService from '../../../services/reportingService'
-import BookmarkService from '../../../services/bookmarkService'
+import {
+  BookmarkService,
+  ReportingService,
+  RequestedReportService,
+  RecentlyViewedStoreService,
+  DashboardService,
+} from '../../../services'
 
 // Mocks
 import MockDashboardRequestData from '../../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'

@@ -1,7 +1,7 @@
-import UserDataStore from '../data/reportDataStore'
-import { DownloadPermissionConfig } from '../types/Download'
-import ReportStoreService from './reportStoreService'
-import logger from '../utils/logger'
+import logger from '../../../../utils/logger'
+import type { DownloadPermissionConfig } from '../../../../types/Download'
+import ReportStoreService from '../../../../services/reportStoreService'
+import UserDataStore from '../../../../data/reportDataStore'
 
 export default class DownloadPermissionService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {

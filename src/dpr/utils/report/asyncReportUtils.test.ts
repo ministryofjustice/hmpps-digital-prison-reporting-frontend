@@ -31,7 +31,7 @@ jest.mock('parseurl', () => ({
   default: jest.fn().mockImplementation(() => ({ pathname: 'pathname', search: 'search' } as Url)),
 }))
 
-describe('AsyncReportUtils2', () => {
+describe('AsyncReportUtils', () => {
   let requestedReportState: RequestedReport
 
   beforeEach(() => {
@@ -88,6 +88,7 @@ describe('AsyncReportUtils2', () => {
           id: 'id',
           tableId: 'tableId',
         },
+        originalUrl: 'originalUrl',
       } as unknown as Request
 
       res = {

@@ -117,13 +117,13 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
       break
     case RequestStatus.READY:
     case RequestStatus.FINISHED:
-      itemActions = `<a class='govuk-link govuk-link--no-visited-state' href="${href}">Go to ${reportType}</a>`
+      itemActions = `<a class=govuk-link govuk-link--no-visited-state dpr-type__${reportType}' href="${href}">Go to ${reportType}</a>`
       statusClass = 'govuk-tag--green'
       break
     case RequestStatus.PICKED:
     case RequestStatus.SUBMITTED:
     case RequestStatus.STARTED:
-      itemActions = `<a class='govuk-link govuk-link--no-visited-state' href="${href}">Go to status</a>`
+      itemActions = `<a class='govuk-link govuk-link--no-visited-state dpr-type__${reportType}' href="${href}">Go to status</a>`
       break
     default:
       break
@@ -266,8 +266,9 @@ const renderList = async ({
   if (maxRows) formatted = formatted.slice(0, maxRows)
   const tableData = formatTable(formatted, type)
 
+  const path = type === 'requested' ? 'requested-reports' : 'recently-viewed'
   const head = {
-    ...(formatted.length && { href: `./async-reports/${type}` }),
+    ...(formatted.length && { href: `/dpr/my-reports/${path}/list` }),
     ...(!formatted.length && { emptyMessage: `You have 0 ${type} reports` }),
   }
 
@@ -286,7 +287,7 @@ const renderList = async ({
 export default {
   renderList,
 
-  getExpiredStatus: async ({
+  updateExpiredStatus: async ({
     req,
     res,
     services,

@@ -17,9 +17,12 @@
       
       {% set catalogueFiltersHtml %}
       <div class='dpr-catalogue-filters--content-filters'>
+
+        {% if unauthorisedToggleEnabled %}
         <div class="dpr-catalogue-filters__unauth-toggle">
           {{ dprUnauthorisedToggle(id) }}
         </div> 
+        {% endif %}
 
         <div class="dpr-catalogue-filters__type-filter">
           {{ dprCatalogueFilterByType(id) }}

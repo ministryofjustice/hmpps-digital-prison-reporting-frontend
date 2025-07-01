@@ -33,10 +33,14 @@ export default class DprRecentlyViewedList extends DprPollingStatusClass {
     await Promise.all(
       JSON.parse(this.viewedReportData).map(async (metaData) => {
         if (metaData.status !== 'EXPIRED') {
-          const response = await this.getExpiredStatus('/dpr/getExpiredStatus/', metaData, this.csrfToken)
+          const response = await this.getExpiredStatus(
+            '/dpr/my-reports/recently-viewed/update-expired-status/',
+            metaData,
+            this.csrfToken,
+          )
           if (response && response.isExpired) {
-            // window.location.reload()
             clearInterval(this.expiredViewedInterval)
+            window.location.reload()
           }
         }
       }),
@@ -55,16 +59,13 @@ export default class DprRecentlyViewedList extends DprPollingStatusClass {
 
   async removeItemFromList(executionId) {
     let response
-    await fetch('/dpr/removeViewedItem/', {
-      method: 'post',
+    await fetch(`/dpr/my-reports/recently-viewed/${executionId}`, {
+      method: 'delete',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         'CSRF-Token': this.csrfToken,
       },
-      body: JSON.stringify({
-        executionId,
-      }),
     })
       .then(() => {
         window.location.reload()

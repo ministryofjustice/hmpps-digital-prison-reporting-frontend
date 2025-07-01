@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response, Request } from 'express'
-import { Services } from '../types/Services'
-import DownloadUtils from './downloadUtils'
-import { DownloadPermissionService, ReportingService } from '../services'
-import createMockData from '../../../test-app/mocks/mockClients/reports/mockAsyncData'
-import { LoadType } from '../types/UserReports'
-import { components } from '../types/api'
+import { Services } from '../../../types/Services'
+import DownloadUtils from './utils'
+import { DownloadPermissionService, ReportingService } from '../../../services'
+import createMockData from '../../../../../test-app/mocks/mockClients/reports/mockAsyncData'
+import { LoadType } from '../../../types/UserReports'
+import { components } from '../../../types/api'
 
 describe('DownloadUtils', () => {
   describe('downloadReport', () => {

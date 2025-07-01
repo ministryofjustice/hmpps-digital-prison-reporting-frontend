@@ -1,5 +1,5 @@
-import { BookmarkStoreData } from '../types/Bookmark'
-import { Services } from '../types/Services'
+import { BookmarkStoreData } from '../../../../types/Bookmark'
+import { Services } from '../../../../types/Services'
 
 export interface BookmarksByCaseload {
   [caseLoadId: string]: BookmarkStoreData[]

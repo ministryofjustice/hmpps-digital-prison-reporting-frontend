@@ -1,12 +1,12 @@
 import { Response, Request } from 'express'
 import { json2csv, Json2CsvOptions } from 'json-2-csv'
 import { KeysList } from 'json-2-csv/lib/types'
-import { Services } from '../types/Services'
+import { Services } from '../../../types/Services'
 import Dict = NodeJS.Dict
-import { LoadType } from '../types/UserReports'
-import SyncReportUtils from './report/syncReportUtils'
-import { components } from '../types/api'
-import LocalsHelper from './localsHelper'
+import { LoadType } from '../../../types/UserReports'
+import SyncReportUtils from '../view-report/sync/report/utils'
+import { components } from '../../../types/api'
+import LocalsHelper from '../../../utils/localsHelper'
 
 const convertToCsv = (reportData: Dict<string>[], options: Json2CsvOptions) => {
   const csvData = json2csv(reportData, options)

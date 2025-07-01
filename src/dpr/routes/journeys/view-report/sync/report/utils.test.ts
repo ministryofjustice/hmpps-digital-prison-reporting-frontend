@@ -1,20 +1,19 @@
 import type { Request, Response } from 'express'
 import { Url } from 'url'
-import { Services } from '../../types/Services'
-import SyncReportUtils from './syncReportUtils'
-import RecentlyViewedService from '../../services/recentlyViewedService'
+import { Services } from '../../../../../types/Services'
+import SyncReportUtils from './utils'
 
 // mocks
-import mockReportVariant from '../../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
-import { components } from '../../types/api'
+import mockReportVariant from '../../../../../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
+import { components } from '../../../../../types/api'
 import {
   DownloadPermissionService,
   BookmarkService,
   ReportingService,
   RecentlyViewedStoreService,
-} from '../../services'
-import createMockData from '../../../../test-app/mocks/mockClients/reports/mockAsyncData'
-import mockSyncListData from '../../../../test-app/mocks/mockClients/reports/mockSyncListData'
+} from '../../../../../services'
+import createMockData from '../../../../../../../test-app/mocks/mockClients/reports/mockAsyncData'
+import mockSyncListData from '../../../../../../../test-app/mocks/mockClients/reports/mockSyncListData'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
@@ -75,7 +74,7 @@ describe('SyncReportUtils', () => {
 
     recentlyViewedService = {
       setRecentlyViewed: jest.fn().mockResolvedValue({}),
-    } as unknown as RecentlyViewedService
+    } as unknown as RecentlyViewedStoreService
 
     bookmarkService = {
       isBookmarked: jest.fn().mockResolvedValue(false),

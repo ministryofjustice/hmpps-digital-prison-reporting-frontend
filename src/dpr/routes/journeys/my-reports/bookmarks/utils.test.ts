@@ -1,6 +1,6 @@
-import { BookmarkService } from '../services'
-import { Services } from '../types/Services'
-import BookmarkUtils, { BookmarksByCaseload } from './bookmarkUtils'
+import { BookmarkService } from '../../../../services'
+import { Services } from '../../../../types/Services'
+import BookmarkUtils, { BookmarksByCaseload } from './utils'
 
 describe('bookmarkUtils', () => {
   let services: Services

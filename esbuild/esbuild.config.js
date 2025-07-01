@@ -36,7 +36,7 @@ const buildConfig = {
   assets: {
     outDir: path.join(cwd, 'dist/dpr'),
     entryPoints: glob.sync([
-      path.join(cwd, 'src/dpr/banana/app.js'),
+      path.join(cwd, 'src/dpr/assets/app.js'),
       path.join(cwd, 'esbuild/all-imports-bundle.scss')
     ]),
     copy: [
@@ -57,19 +57,15 @@ const buildLibrary = async () => {
   fs.writeFileSync(allImportsBundle, imports, {
     flush: true
   })
-  
-  // if (args.includes('--build')) {
-  await buildApp(buildConfig)
-  await buildAssets(buildConfig)
-    // await Promise.all([buildApp(buildConfig), 
-    // ]).catch(e => {
-    //   process.stderr.write(`${e}\n`)
-    //   process.exit(1)
-    // })
-  // }
 
+  await Promise.all([
+    buildApp(buildConfig), 
+    buildAssets(buildConfig)
+  ]).catch(e => {
+    process.stderr.write(`${e}\n`)
+    process.exit(1)
+  })
 }
-
 
 /**
  * Configuration for build steps

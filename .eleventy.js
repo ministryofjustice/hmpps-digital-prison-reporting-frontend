@@ -7,7 +7,7 @@ const matter = require("gray-matter");
 const mojFilters = require("@ministryofjustice/frontend/moj/filters/all.js");
 const nunjucks = require("nunjucks");
 const path = require("path");
-const releasePackage = require('./package/package.json');
+const releasePackage = require('./dist-docs/package.json');
 const { EleventyHtmlBasePlugin } = require("@11ty/eleventy");
 
 module.exports = function (eleventyConfig) {
@@ -26,7 +26,7 @@ module.exports = function (eleventyConfig) {
     nunjucksEnv.addFilter(name, callback);
   });
 
-  const setUpNunjucksFilters = require('./package/dpr/setUpNunjucksFilters').default
+  const setUpNunjucksFilters = require('./dist-docs/dpr/setUpNunjucksFilters').default
   setUpNunjucksFilters(nunjucksEnv)
 
   eleventyConfig.setLibrary("njk", nunjucksEnv);

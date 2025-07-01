@@ -12,7 +12,6 @@ const nunjucks = require('nunjucks')
 const bodyParser = require('body-parser')
 
 // Set up application
-console.log(`__dirname: ${__dirname}`)
 const appViews = [
   path.join('node_modules/govuk-frontend/dist/'),
   path.join('node_modules/@ministryofjustice/frontend/'),
@@ -47,7 +46,7 @@ Array.of(
   '/dist/assets',
   '/dist/assets/stylesheets',
   '/dist/assets/js',
-  '/banana',
+  '/assets',
   '/node_modules/govuk-frontend/dist/govuk/assets',
   '/node_modules/govuk-frontend/dist',
   '/node_modules/@ministryofjustice/frontend/moj/assets',
@@ -62,8 +61,6 @@ Array.of(
 app.use('/assets/css', express.static(path.join(__dirname, '../dist/dpr/css')))
 app.use('/assets/js', express.static(path.join(__dirname, '../dist/dpr/js')))
 app.use('/assets', express.static(path.join(__dirname, '../dist/dpr')))
-// app.use('/banana', express.static(path.join(__dirname, 'banana')))
-// app.use('/assets/scss', express.static(path.join(__dirname, '../dist/assets/scss')))
 app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
 app.use(bodyParser.json())
 

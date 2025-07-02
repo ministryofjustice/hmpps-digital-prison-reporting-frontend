@@ -84,9 +84,11 @@ const buildLibrary = async () => {
     execSync(`eleventy ${pathPrefixArg} --input=${path.join(cwd, "docs")} --output=${path.join(cwd, "dist-docs/dpr")}`, {
         stdio: 'inherit'
     })
-    const appCssContents = String(fs.readFileSync('dist-docs/dpr/assets/css/app.css'))
-    const updatedContents = appCssContents.replace(/url\(\/assets/g, `url(/${pathPrefix}/assets`)
-    fs.writeFileSync('dist-docs/dpr/assets/css/app.css', updatedContents)
+    if (!args.includes('--local')) {
+        const appCssContents = String(fs.readFileSync('dist-docs/dpr/assets/css/app.css'))
+        const updatedContents = appCssContents.replace(/url\(\/assets/g, `url(/${pathPrefix}/assets`)
+        fs.writeFileSync('dist-docs/dpr/assets/css/app.css', updatedContents)
+    }
 }
 
 const main = async () => {

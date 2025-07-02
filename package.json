@@ -22,7 +22,7 @@
     "docs:serve-prod": "live-server dist-docs/dpr --port=3000 --no-browser",
     "docs": "node esbuild/esbuild.docs.config.js --build",
     "docs:serve": "live-server dist-docs/dpr",
-    "docs:local": "concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.docs.config.js --build --watch --local\" \"node esbuild/esbuild.docs.config.js --dev-server\"",
+    "docs:local": "concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.docs.config.js --build --watch --local\" \"node esbuild/esbuild.docs.config.js --local --dev-server\"",
     "test": "npm-run-all --parallel test:*",
     "test:jest": "jest --verbose --silent=false",
     "test:docs": "npm run docs",

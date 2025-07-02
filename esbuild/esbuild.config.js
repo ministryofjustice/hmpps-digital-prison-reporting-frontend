@@ -102,7 +102,7 @@ const buildConfigTestApp = {
 
 const main = async () => {
   await buildLibrary()
-  Promise.all([
+  await Promise.all([
     buildApp(buildConfigTestApp),
     buildAssets(buildConfigTestApp)
   ]).catch(e => {

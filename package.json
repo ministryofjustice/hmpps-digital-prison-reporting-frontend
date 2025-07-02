@@ -117,7 +117,7 @@
     "@jgoz/esbuild-plugin-typecheck": "^4.0.3",
     "@ministryofjustice/frontend": "^3.0.3",
     "agentkeepalive": "^4.5.0",
-    "bunyan": "^1.8.15",
+    "bunyan": "npm:bunyan-sfdx-no-dtrace@^1.8.2",
     "bunyan-format": "^0.2.1",
     "chart.js": "^3.9.1",
     "chartjs-plugin-datalabels": "^2.2.0",

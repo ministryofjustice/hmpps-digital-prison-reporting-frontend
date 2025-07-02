@@ -127,7 +127,7 @@ const main = async () => {
       })
       .on('all', () => {
         if (serverProcess) serverProcess.kill()
-        serverProcess = spawn('node', ['--env-file=.env', 'dist-test-app/server.js'], { stdio: 'inherit' })
+        serverProcess = spawn('node', ['dist-test-app/server.js'], { stdio: 'inherit' })
       })
   }
   if (args.includes('--dev-test-server')) {
@@ -138,7 +138,7 @@ const main = async () => {
       })
       .on('all', () => {
         if (serverProcess) serverProcess.kill()
-        serverProcess = spawn('node', ['--env-file=e2e-test.env', 'dist-test-app/server.js'], { stdio: 'inherit' })
+        serverProcess = spawn('node', ['dist-test-app/server.js'], { stdio: 'inherit' })
       })
   }
 

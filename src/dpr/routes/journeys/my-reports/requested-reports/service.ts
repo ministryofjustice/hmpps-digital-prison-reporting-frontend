@@ -105,7 +105,7 @@ export default class RequestedReportService extends ReportStoreService {
         const viewReportPath = `/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`
         const searchPath = search || dpdPath
 
-        report.url.report.pathname = `${viewReportPath}/${searchPath}`
+        report.url.report.pathname = `${viewReportPath}${searchPath}`
         report.url.report.fullUrl = `${report.url.origin}${report.url.report.pathname}`
         break
       }

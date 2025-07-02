@@ -30,7 +30,7 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
         await this.pollStatus()
       }, this.POLLING_FREQUENCY)
     } else if (this.currentStatus === 'FINISHED') {
-      // window.location.href = this.reportUrl
+      window.location.href = this.reportUrl
     }
   }
 

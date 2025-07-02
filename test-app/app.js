@@ -51,8 +51,6 @@ Array.of(
   '/node_modules/govuk-frontend/dist',
   '/node_modules/@ministryofjustice/frontend/moj/assets',
   '/node_modules/@ministryofjustice/frontend',
-  // '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/assets',
-  // '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend',
 ).forEach((dir) => {
   app.use('/assets', express.static(path.join(process.cwd(), dir)))
 })

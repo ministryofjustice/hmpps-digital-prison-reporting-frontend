@@ -12,10 +12,10 @@ This action also publishes the documentation to GitHub pages.
 
 ## Packaging
 
-Packaging for both NPM and GitHub Pages is done by Gulp:
+Packaging for both NPM and GitHub Pages is done by esbuild:
 
-- `gulp build:package`: This builds the NPM package, which is also used as sources for the Test Application.
-- `gulp build:docs`: This compiles the markdown in `docs` into HTML for GitHub Pages.
+- `npm run package`: This builds the NPM package, which is also used as sources for the Test Application.
+- `npm run docs`: This compiles the markdown in `docs` into HTML for GitHub Pages.
 
 Both tasks use the `package` directory.
 

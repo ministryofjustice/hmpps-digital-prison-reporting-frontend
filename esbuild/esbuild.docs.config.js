@@ -23,8 +23,11 @@ const buildConfig = {
       .sync([path.join(cwd, 'src/**/*.js'), path.join(cwd, 'src/**/*.ts')])
       .filter(file => !file.endsWith('.test.ts')),
     copy: [
+        {
+          from: path.join(cwd, 'src/dpr/**/*.{png,jpg,jpeg,gif,svg}'),
+          to: path.join(cwd, 'dist-docs')
+        },
       {
-        // from: path.join(cwd, 'src/dpr/**/{css,js,ts,njk,scss}'),
         from: path.join(cwd, 'src/dpr/**/*'),
         to: path.join(cwd, 'dist-docs/dpr'),
 
@@ -45,12 +48,16 @@ const buildConfig = {
     copy: [
       {
         from: path.join(cwd, 'assets/images/**/*'),
-        to: path.join(cwd, 'dist-docs/assets/images'),
+        to: path.join(cwd, 'dist-docs/assets/dpr/images'),
       },
       {
         from: path.join(cwd, 'docs/assets/**/*'),
-        to: path.join(cwd, 'dist-docs/assets'),
+        to: path.join(cwd, 'dist-docs/dpr/assets'),
       },
+      {
+        from: path.join(cwd, 'node_modules/govuk-frontend/dist/govuk/assets/**/*'),
+        to: path.join(cwd, 'dist-docs/dpr/assets/govuk')
+      }
     ],
     clear: glob.sync([path.join(cwd, 'dist-docs/dpr/js/{css,js}')]),
   },
@@ -59,7 +66,7 @@ const buildConfig = {
 const buildLibrary = async () => {
     const args = process.argv
     const scssFiles = glob.sync([
-        args.includes('--local') ? 'docs/scss/local-paths.scss' : 'docs/scss/remote-paths.scss',
+        'docs/scss/paths.scss',
         'docs/scss/base.scss',
         'docs/scss/tabs.scss',
         'docs/scss/example.scss',
@@ -70,15 +77,16 @@ const buildLibrary = async () => {
     fs.writeFileSync(allImportsBundle, imports, {
         flush: true
     })
-    
-    // if (args.includes('--build')) {
+    const pathPrefix = 'hmpps-digital-prison-reporting-frontend'
     await buildApp(buildConfig)
     await buildAssets(buildConfig)
-    const pathPrefixArg = args.includes('--local') ? '' : '--pathprefix hmpps-digital-prison-reporting-frontend'
-    console.log(`eleventy ${pathPrefixArg} --input=${path.join(__dirname, "../docs")} --output=${path.join(__dirname, "../dist-docs/dpr")}`)
-    execSync(`eleventy ${pathPrefixArg} --input=${path.join(__dirname, "../docs")} --output=${path.join(__dirname, "../dist-docs/dpr")}`, {
+    const pathPrefixArg = args.includes('--local') ? '' : `--pathprefix ${pathPrefix}`
+    execSync(`eleventy ${pathPrefixArg} --input=${path.join(cwd, "docs")} --output=${path.join(cwd, "dist-docs/dpr")}`, {
         stdio: 'inherit'
     })
+    const appCssContents = String(fs.readFileSync('dist-docs/dpr/assets/css/app.css'))
+    const updatedContents = appCssContents.replace(/url\(\/assets/g, `url(/${pathPrefix}/assets`)
+    fs.writeFileSync('dist-docs/dpr/assets/css/app.css', updatedContents)
 }
 
 const main = async () => {

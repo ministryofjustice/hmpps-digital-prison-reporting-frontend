@@ -19,6 +19,7 @@
     "bundle-modules": "node ./scripts/bundle-modules.mjs",
     "ci:release": "HUSKY=0 CI=true semantic-release --debug",
     "ci:dryrun": "HUSKY=0 CI=true semantic-release --dry-run",
+    "docs:serve-prod": "live-server dist-docs/dpr --port=3000 --no-browser",
     "docs": "node esbuild/esbuild.docs.config.js --build",
     "docs:serve": "live-server dist-docs/dpr",
     "docs:local": "concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.docs.config.js --build --watch --local\" \"node esbuild/esbuild.docs.config.js --dev-server\"",

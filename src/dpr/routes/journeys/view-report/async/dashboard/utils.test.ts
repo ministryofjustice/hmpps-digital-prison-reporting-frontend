@@ -2,15 +2,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response, Request } from 'express'
 import { Url } from 'url'
-import { Services } from '../../../types/Services'
+import { Services } from '../../../../../types/Services'
 
 // Clients
-import MockDashboardClient from '../../../../../test-app/mocks/mockClients/dashboards/mock-client'
-import DashboardClient from '../../../data/dashboardClient'
+import MockDashboardClient from '../../../../../../../test-app/mocks/mockClients/dashboards/mock-client'
+import DashboardClient from '../../../../../data/dashboardClient'
 
 // Utils
 import DashboardUtils from './utils'
-import UserReportsUtils from '../../user-reports/utils'
+import UserReportsUtils from '../../../../../components/user-reports/utils'
 
 // Services
 import {
@@ -19,14 +19,14 @@ import {
   RequestedReportService,
   RecentlyViewedStoreService,
   DashboardService,
-} from '../../../services'
+} from '../../../../../services'
 
 // Mocks
-import MockDashboardRequestData from '../../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'
-import MockDefinitions from '../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
-import { RequestedReport } from '../../../types/UserReports'
-import { ChartCardData } from '../../../types/Charts'
-import { FilterValue } from '../../_filters/types'
+import MockDashboardRequestData from '../../../../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'
+import MockDefinitions from '../../../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
+import { RequestedReport } from '../../../../../types/UserReports'
+import { ChartCardData } from '../../../../../types/Charts'
+import { FilterValue } from '../../../../../components/_filters/types'
 
 jest.mock('parseurl', () => ({
   __esModule: true,

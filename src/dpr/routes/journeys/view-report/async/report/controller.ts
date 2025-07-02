@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { Services } from '../../../../../types/Services'
 import ErrorSummaryUtils from '../../../../../components/error-summary/utils'
 import LocalsHelper from '../../../../../utils/localsHelper'
-import AsyncReportUtils from '../../../../../utils/report/asyncReportUtils'
+import AsyncReportUtils from './utils'
 
 export default class ViewAyncReportController {
   layoutPath: string

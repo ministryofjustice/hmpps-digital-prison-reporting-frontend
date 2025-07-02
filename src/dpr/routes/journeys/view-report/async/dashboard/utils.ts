@@ -1,7 +1,7 @@
 import parseUrl from 'parseurl'
 import { Url } from 'url'
 import { Request } from 'express'
-import type { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
+import type { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 
 import {
   DashboardUIVisualisation,
@@ -11,23 +11,23 @@ import {
   type DashboardSection,
   type DashboardUISection,
   type DashboardVisualisation,
-} from './types'
-import type { DashboardDataResponse } from '../../../types/Metrics'
-import type { RequestedReport } from '../../../types/UserReports'
-import { ReportType } from '../../../types/UserReports'
-import type { components } from '../../../types/api'
+} from '../../../../../components/_dashboards/dashboard/types'
+import type { DashboardDataResponse } from '../../../../../types/Metrics'
+import type { RequestedReport } from '../../../../../types/UserReports'
+import { ReportType } from '../../../../../types/UserReports'
+import type { components } from '../../../../../types/api'
 
-import ChartUtils from '../../_charts/utils'
-import DefinitionUtils from '../../../utils/definitionUtils'
-import UserReportsUtils from '../../user-reports/utils'
-import DashboardListUtils from '../dashboard-list/utils'
-import FilterUtils from '../../_filters/utils'
-import ScorecardsUtils from '../scorecard/utils'
-import ReportActionsUtils from '../../_reports/report-actions/utils'
-import ReportQuery from '../../../types/ReportQuery'
-import LocalsHelper from '../../../utils/localsHelper'
-import { Services } from '../../../types/Services'
-import { FilterValue } from '../../_filters/types'
+import ChartUtils from '../../../../../components/_charts/utils'
+import DefinitionUtils from '../../../../../utils/definitionUtils'
+import UserReportsUtils from '../../../../../components/user-reports/utils'
+import DashboardListUtils from '../../../../../components/_dashboards/dashboard-list/utils'
+import FilterUtils from '../../../../../components/_filters/utils'
+import ScorecardsUtils from '../../../../../components/_dashboards/scorecard/utils'
+import ReportActionsUtils from '../../../../../components/_reports/report-actions/utils'
+import ReportQuery from '../../../../../types/ReportQuery'
+import LocalsHelper from '../../../../../utils/localsHelper'
+import { Services } from '../../../../../types/Services'
+import { FilterValue } from '../../../../../components/_filters/types'
 
 const setDashboardActions = (
   dashboardDefinition: DashboardDefinition,

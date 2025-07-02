@@ -1,9 +1,0 @@
-{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
-{% from "../components/_sync/sync-load/view.njk" import dprSyncLoad %}
-
-{% extends layoutPath %}
-{% set mainClasses = "app-container govuk-body" %}
-
-{% block content %}
-  {{ dprSyncLoad(renderData) }}
-{% endblock %}

@@ -1,18 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { RequestHandler, Router } from 'express'
-import AsyncPollingUtils from '../components/_async/async-polling/utils'
-import AsyncRequestListUtils from '../components/user-reports/requested/utils'
-import ErrorSummaryUtils from '../components/error-summary/utils'
-import AysncRequestUtils from '../components/_async/async-request/utils'
-import DashboardUtils from './journeys/view-report/async/dashboard/utils'
-import LocalsHelper from '../utils/localsHelper'
-import AsyncReportUtils from '../utils/report/asyncReportUtils'
-import logger from '../utils/logger'
 
 // Types
 import { Services } from '../types/Services'
 import { ReportType } from '../types/UserReports'
 import { RequestDataResult } from '../types/AsyncReportUtils'
+
+import AsyncRequestListUtils from '../components/user-reports/requested/utils'
+import ErrorSummaryUtils from '../components/error-summary/utils'
+import LocalsHelper from '../utils/localsHelper'
+import logger from '../utils/logger'
+
+// New utils paths
+import AsyncPollingUtils from './journeys/request-report/status/utils'
+import AysncRequestUtils from './journeys/request-report/filters/utils'
+import DashboardUtils from './journeys/view-report/async/dashboard/utils'
+import AsyncReportUtils from './journeys/view-report/async/report/utils'
+
+// New async views paths
+const filtersViewPath = 'dpr/routes/journeys/request-report/filters/view'
+const statusViewPath = 'dpr/routes/journeys/request-report/status/view'
+const reportViewPath = 'dpr/routes/journeys/view-report'
+const errorPath = 'dpr/routes/journeys/view-report/error'
+const unauthorisedPath = 'dpr/routes/journeys/view-report/unauthorised'
 
 export default function routes({
   router,
@@ -42,7 +52,7 @@ export default function routes({
    */
   const asyncErrorHandler: RequestHandler = async (req, res) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
-    res.render(`dpr/views/async-error`, {
+    res.render(errorPath, {
       layoutPath,
       ...req.body,
       ...req.params,
@@ -79,7 +89,7 @@ export default function routes({
    * @param {NextFunction} next
    */
   const unauthorisedReportHandler: RequestHandler = async (req, res) => {
-    res.render(`dpr/views/unauthorised-report`, {
+    res.render(unauthorisedPath, {
       layoutPath,
       ...req.body,
     })
@@ -92,7 +102,8 @@ export default function routes({
    **   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */
 
   /**
-   * REQUEST: Render request handler
+   * REQUEST: Render request handler -
+   * NOTE: MOVED
    *
    * @param {Request} req
    * @param {Response} res
@@ -107,7 +118,7 @@ export default function routes({
         next,
       })
 
-      res.render(`dpr/views/async-request`, {
+      res.render(filtersViewPath, {
         layoutPath,
         postEndpoint: '/dpr/requestReport/',
         ...requestRenderData,
@@ -122,7 +133,7 @@ export default function routes({
 
   /**
    * REQUEST: Make request
-   *
+   * NOTE: MOVED
    * @param {Request} req
    * @param {Response} res
    * @param {NextFunction} next
@@ -188,6 +199,7 @@ export default function routes({
 
   /**
    * POLLING: Render Polling
+   * NOTE: MOVED
    *
    * @param {Request} req
    * @param {Response} res
@@ -201,7 +213,7 @@ export default function routes({
         services,
         next,
       })
-      res.render(`dpr/views/async-polling`, {
+      res.render(statusViewPath, {
         layoutPath,
         ...pollingRenderData,
       })
@@ -215,6 +227,7 @@ export default function routes({
 
   /**
    * POLLING: Get Status
+   * NOTE: MOVED
    *
    * @param {Request} req
    * @param {Response} res
@@ -237,6 +250,7 @@ export default function routes({
 
   /**
    * VIEW REPORT: Render report
+   * NOTE: MOVED
    *
    * @param {Request} req
    * @param {Response} res
@@ -259,7 +273,7 @@ export default function routes({
         renderData = await DashboardUtils.renderAsyncDashboard(params)
       }
 
-      res.render(`dpr/views/${template}`, {
+      res.render(`${reportViewPath}/${template}`, {
         layoutPath,
         ...renderData,
       })

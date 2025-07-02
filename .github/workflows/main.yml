@@ -57,7 +57,7 @@ jobs:
       - run: npm run package
       - name: Run the node app and integration tests
         run: |
-          npm run start-test-app &
+          npm run start:dev &
           sleep 5
           npm run int-test
       - uses: actions/upload-artifact@v4
@@ -92,7 +92,7 @@ jobs:
           echo "chromedriver version: $(chromedriver --version)"
       - name: Run the node app       
         run: |
-          npm run start-test-app &
+          npm run start:dev &
           npx wait-on http://localhost:3010
       - name: Run the Axe tests        
         run: axe --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver $HOME_URL, $REQUEST_URL, $POLLING_URL, $REPORT_URL --load-delay=1500 --exit

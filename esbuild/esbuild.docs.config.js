@@ -1,7 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies eslint thinks these are build time dependencies, which they aren't */
+
 const fs = require('fs')
 const { spawn, execSync } = require('node:child_process')
 const path = require('node:path')
-const Eleventy = require("@11ty/eleventy");
 const { glob } = require('glob')
 const chokidar = require('chokidar')
 const cwd = process.cwd()

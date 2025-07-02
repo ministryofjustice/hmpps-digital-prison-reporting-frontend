@@ -21,12 +21,12 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
-    - run: NODE_DTRACE_PROVIDER_REQUIRE=hard V=1 npm ci
-    - run: NODE_DTRACE_PROVIDER_REQUIRE=hard V=1 npm run package
+    - run: npm ci
+    - run: npm run package
     - uses: actions/upload-artifact@v4
       with:
         name: dpr-package
-        path: package
+        path: dist
 
   test:
     runs-on: ubuntu-latest
@@ -41,7 +41,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: dpr-package
-          path: package
+          path: dist
       - run: npm run test
 
   integration_test:

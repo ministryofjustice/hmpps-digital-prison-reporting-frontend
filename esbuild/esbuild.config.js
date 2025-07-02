@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 const fs = require('fs')
 const { spawn } = require('node:child_process')
 const path = require('node:path')
@@ -22,13 +24,12 @@ const buildConfig = {
     outDir: path.join(cwd, 'dist/dpr'),
     entryPoints: glob
       .sync([path.join(cwd, 'src/**/*.js'), path.join(cwd, 'src/**/*.ts')])
-      .filter(file => !file.endsWith('.test.ts')),
+      .filter((file) => !file.endsWith('.test.ts')),
     copy: [
       {
         // from: path.join(cwd, 'src/dpr/**/{css,js,ts,njk,scss}'),
         from: path.join(cwd, 'src/dpr/**/*'),
         to: path.join(cwd, 'dist/dpr'),
-
       },
     ],
   },
@@ -37,7 +38,7 @@ const buildConfig = {
     outDir: path.join(cwd, 'dist/dpr'),
     entryPoints: glob.sync([
       path.join(cwd, 'src/dpr/assets/app.js'),
-      path.join(cwd, 'esbuild/all-imports-bundle.scss')
+      path.join(cwd, 'esbuild/all-imports-bundle.scss'),
     ]),
     copy: [
       {
@@ -51,17 +52,14 @@ const buildConfig = {
 
 const buildLibrary = async () => {
   const scssFiles = glob.sync(['src/**/*.scss'])
-  const imports = scssFiles.map(file => `@import '${file}';`).join('\n')
+  const imports = scssFiles.map((file) => `@import '${file}';`).join('\n')
 
   const allImportsBundle = 'esbuild/all-imports-bundle.scss'
   fs.writeFileSync(allImportsBundle, imports, {
-    flush: true
+    flush: true,
   })
 
-  await Promise.all([
-    buildApp(buildConfig), 
-    buildAssets(buildConfig)
-  ]).catch(e => {
+  await Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch((e) => {
     process.stderr.write(`${e}\n`)
     process.exit(1)
   })
@@ -80,35 +78,29 @@ const buildConfigTestApp = {
     outDir: path.join(cwd, 'dist-test-app'),
     entryPoints: glob
       .sync([path.join(cwd, 'test-app/**/*.js'), path.join(cwd, 'test-app/**/*.ts')])
-      .filter(file => !file.endsWith('.test.ts')),
+      .filter((file) => !file.endsWith('.test.ts')),
     copy: [
       {
         // from: path.join(cwd, 'src/dpr/**/{css,js,ts,njk,scss}'),
         from: path.join(cwd, 'test-app/**/*'),
         to: path.join(cwd, 'dist-test-app'),
-
       },
     ],
   },
 
   assets: {
     outDir: path.join(cwd, 'dist-test-app'),
-    entryPoints: glob.sync([
-      path.join(cwd, 'test-app/serverjs'),
-    ]),
+    entryPoints: glob.sync([path.join(cwd, 'test-app/serverjs')]),
     clear: glob.sync([path.join(cwd, 'dist-test-app/js/{js}'), path.join(cwd, 'dist-test-app/css/{css}')]),
   },
 }
 
 const main = async () => {
   await buildLibrary()
-  await Promise.all([
-    buildApp(buildConfigTestApp),
-    buildAssets(buildConfigTestApp)
-  ]).catch(e => {
-      process.stderr.write(`${e}\n`)
-      process.exit(1)
-    })
+  await Promise.all([buildApp(buildConfigTestApp), buildAssets(buildConfigTestApp)]).catch((e) => {
+    process.stderr.write(`${e}\n`)
+    process.exit(1)
+  })
 
   const args = process.argv
   /**
@@ -147,16 +139,16 @@ const main = async () => {
     // Assets
     chokidar
       .watch(['assets/**/*'], chokidarOptions)
-      .on('all', () => buildAssets(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
+      .on('all', () => buildAssets(buildConfig).catch((e) => process.stderr.write(`${e}\n`)))
 
     // App
     chokidar
       .watch(['src/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
-      .on('all', () => buildLibrary(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
+      .on('all', () => buildLibrary(buildConfig).catch((e) => process.stderr.write(`${e}\n`)))
 
     chokidar
       .watch(['test-app/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
-      .on('all', () => buildApp(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
+      .on('all', () => buildApp(buildConfig).catch((e) => process.stderr.write(`${e}\n`)))
   }
 }
 

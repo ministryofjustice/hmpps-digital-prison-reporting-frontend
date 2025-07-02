@@ -1,10 +1,11 @@
-/* eslint-disable import/no-extraneous-dependencies eslint thinks these are build time dependencies, which they aren't */
+/* eslint-disable import/no-extraneous-dependencies */
 
 const fs = require('fs')
 const { spawn, execSync } = require('node:child_process')
 const path = require('node:path')
 const { glob } = require('glob')
 const chokidar = require('chokidar')
+
 const cwd = process.cwd()
 const buildAssets = require('./assets.config')
 const buildApp = require('./app.config')
@@ -22,20 +23,19 @@ const buildConfig = {
     outDir: path.join(cwd, 'dist-docs/dpr'),
     entryPoints: glob
       .sync([path.join(cwd, 'src/**/*.js'), path.join(cwd, 'src/**/*.ts')])
-      .filter(file => !file.endsWith('.test.ts')),
+      .filter((file) => !file.endsWith('.test.ts')),
     copy: [
-        {
-          from: path.join(cwd, 'src/dpr/**/*.{png,jpg,jpeg,gif,svg}'),
-          to: path.join(cwd, 'dist-docs')
-        },
+      {
+        from: path.join(cwd, 'src/dpr/**/*.{png,jpg,jpeg,gif,svg}'),
+        to: path.join(cwd, 'dist-docs'),
+      },
       {
         from: path.join(cwd, 'src/dpr/**/*'),
         to: path.join(cwd, 'dist-docs/dpr'),
-
       },
       {
         from: path.join(cwd, 'publishing/*'),
-        to: path.join(cwd, 'dist-docs')
+        to: path.join(cwd, 'dist-docs'),
       },
     ],
   },
@@ -44,7 +44,7 @@ const buildConfig = {
     outDir: path.join(cwd, 'dist-docs/dpr/assets'),
     entryPoints: glob.sync([
       path.join(cwd, 'src/dpr/assets/app.js'),
-      path.join(cwd, 'esbuild/all-imports-bundle.scss')
+      path.join(cwd, 'esbuild/all-imports-bundle.scss'),
     ]),
     copy: [
       {
@@ -57,39 +57,40 @@ const buildConfig = {
       },
       {
         from: path.join(cwd, 'node_modules/govuk-frontend/dist/govuk/assets/**/*'),
-        to: path.join(cwd, 'dist-docs/dpr/assets/govuk')
-      }
+        to: path.join(cwd, 'dist-docs/dpr/assets/govuk'),
+      },
     ],
     clear: glob.sync([path.join(cwd, 'dist-docs/dpr/js/{css,js}')]),
   },
 }
 
 const buildLibrary = async () => {
-    const args = process.argv
-    const scssFiles = glob.sync([
-        'docs/scss/paths.scss',
-        'docs/scss/base.scss',
-        'docs/scss/tabs.scss',
-        'docs/scss/example.scss',
-        'src/dpr/components/**/*.scss',])
-    const imports = scssFiles.map(file => `@import '${file}';`).join('\n')
+  const args = process.argv
+  const scssFiles = glob.sync([
+    'docs/scss/paths.scss',
+    'docs/scss/base.scss',
+    'docs/scss/tabs.scss',
+    'docs/scss/example.scss',
+    'src/dpr/components/**/*.scss',
+  ])
+  const imports = scssFiles.map((file) => `@import '${file}';`).join('\n')
 
-    const allImportsBundle = 'esbuild/all-imports-bundle.scss'
-    fs.writeFileSync(allImportsBundle, imports, {
-        flush: true
-    })
-    const pathPrefix = 'hmpps-digital-prison-reporting-frontend'
-    await buildApp(buildConfig)
-    await buildAssets(buildConfig)
-    const pathPrefixArg = args.includes('--local') ? '' : `--pathprefix ${pathPrefix}`
-    execSync(`eleventy ${pathPrefixArg} --input=${path.join(cwd, "docs")} --output=${path.join(cwd, "dist-docs/dpr")}`, {
-        stdio: 'inherit'
-    })
-    if (!args.includes('--local')) {
-        const appCssContents = String(fs.readFileSync(path.join(cwd, 'dist-docs/dpr/assets/css/app.css')))
-        const updatedContents = appCssContents.replace(/url\(\/assets/g, `url(/${pathPrefix}/assets`)
-        fs.writeFileSync(path.join(cwd, 'dist-docs/dpr/assets/css/app.css'), updatedContents)
-    }
+  const allImportsBundle = 'esbuild/all-imports-bundle.scss'
+  fs.writeFileSync(allImportsBundle, imports, {
+    flush: true,
+  })
+  const pathPrefix = 'hmpps-digital-prison-reporting-frontend'
+  await buildApp(buildConfig)
+  await buildAssets(buildConfig)
+  const pathPrefixArg = args.includes('--local') ? '' : `--pathprefix ${pathPrefix}`
+  execSync(`eleventy ${pathPrefixArg} --input=${path.join(cwd, 'docs')} --output=${path.join(cwd, 'dist-docs/dpr')}`, {
+    stdio: 'inherit',
+  })
+  if (!args.includes('--local')) {
+    const appCssContents = String(fs.readFileSync(path.join(cwd, 'dist-docs/dpr/assets/css/app.css')))
+    const updatedContents = appCssContents.replace(/url\(\/assets/g, `url(/${pathPrefix}/assets`)
+    fs.writeFileSync(path.join(cwd, 'dist-docs/dpr/assets/css/app.css'), updatedContents)
+  }
 }
 
 const main = async () => {
@@ -112,10 +113,10 @@ const main = async () => {
     // App
     chokidar
       .watch(['src/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
-      .on('all', () => buildLibrary().catch(e => process.stderr.write(`${e}\n`)))
+      .on('all', () => buildLibrary().catch((e) => process.stderr.write(`${e}\n`)))
     chokidar
       .watch(['docs/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
-      .on('all', () => buildLibrary().catch(e => process.stderr.write(`${e}\n`)))
+      .on('all', () => buildLibrary().catch((e) => process.stderr.write(`${e}\n`)))
   }
 }
 

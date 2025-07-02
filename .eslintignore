@@ -2,5 +2,8 @@ node_modules/
 package/
 assets/
 docs/
+dist/
+dist-test-app/
+dist-docs
 **/init.js
 test-app/

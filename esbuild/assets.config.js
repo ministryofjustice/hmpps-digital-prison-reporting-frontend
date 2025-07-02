@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 const path = require('node:path')
 
 const { copy } = require('esbuild-plugin-copy')
@@ -10,7 +12,7 @@ const { glob } = require('glob')
  * Copy additional assets into distribution
  * @type {BuildStep}
  */
-const buildAdditionalAssets = buildConfig => {
+const buildAdditionalAssets = (buildConfig) => {
   return esbuild.build({
     outdir: buildConfig.assets.outDir,
     plugins: [
@@ -26,7 +28,7 @@ const buildAdditionalAssets = buildConfig => {
  * Build scss and javascript assets
  * @type {BuildStep}
  */
-const buildAssets = buildConfig => {
+const buildAssets = (buildConfig) => {
   return esbuild.build({
     entryPoints: buildConfig.assets.entryPoints,
     outdir: buildConfig.assets.outDir,
@@ -53,7 +55,7 @@ const buildAssets = buildConfig => {
  * @param {BuildConfig} buildConfig
  * @returns {Promise}
  */
-module.exports = buildConfig => {
+module.exports = (buildConfig) => {
   process.stderr.write('\u{1b}[1m\u{2728} Building assets...\u{1b}[0m\n')
 
   return Promise.all([buildAssets(buildConfig), buildAdditionalAssets(buildConfig)])

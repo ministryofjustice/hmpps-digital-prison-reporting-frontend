@@ -21,7 +21,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
-    - run: npm ci
+    - run: NODE_DTRACE_PROVIDER_REQUIRE=hard npm ci
     - run: npm run package
     - uses: actions/upload-artifact@v4
       with:

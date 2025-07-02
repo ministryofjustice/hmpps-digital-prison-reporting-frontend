@@ -40,12 +40,12 @@ jobs:
         version-fragment: ${{ inputs.versionType }}
 
     - name: Set version
-      run: sed -i -e 's/Version set by script/${{ steps.bump-version.outputs.next-version }}/' package/package.json
+      run: sed -i -e 's/Version set by script/${{ steps.bump-version.outputs.next-version }}/' dist/package.json
 
     - uses: JS-DevTools/npm-publish@v1
       with:
         token: ${{ secrets.NPM_AUTH_TOKEN }}
-        package: package/package.json
+        package: dist/package.json
 
   publish-pages:
     runs-on: ubuntu-latest

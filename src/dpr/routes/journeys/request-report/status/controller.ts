@@ -24,7 +24,7 @@ export default class RequestStatusController {
         services: this.services,
         next,
       })
-      res.render(`dpr/views/async-polling`, {
+      res.render(`dpr/routes/journeys/request-report/status/view`, {
         layoutPath: this.layoutPath,
         ...pollingRenderData,
       })
@@ -46,9 +46,7 @@ export default class RequestStatusController {
     }
   }
 
-  // TODO: convert this, and the fetch method from a post to a delete
-  // Cant do this until we switch over old async routes to new routes
-  cancelRequest: RequestHandler = async (req, res, next) => {
+  DELETE: RequestHandler = async (req, res, next) => {
     try {
       await AsyncRequestUtils.cancelRequest({
         req,

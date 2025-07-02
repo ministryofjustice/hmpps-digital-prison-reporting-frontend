@@ -248,7 +248,7 @@ const getTemplateData = async (
   reportQuery: ReportQuery,
 ) => {
   const url = parseUrl(req)
-  const urls = setUrls(url)
+  const urls = setUrls(url, req)
   const definitionData = extractDataFromDefinition(definition)
   const { fields, specification } = definitionData
   const requestedData = extractDataFromRequest(requestData)
@@ -310,9 +310,9 @@ const setMetaData = (definition: components['schemas']['SingleVariantReportDefin
   }
 }
 
-const setUrls = (url: Url) => {
-  const { search, pathname } = url
-
+const setUrls = (url: Url, req: Request) => {
+  const { search } = url
+  const pathname = url.search ? req.originalUrl.split(url.search)[0] : req.originalUrl
   const reportUrl = pathname.replace('/download-disabled', '').replace('/download-disabled?', '')
   const reportSearch = search
   const encodedSearch = search ? encodeURIComponent(search) : undefined

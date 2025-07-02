@@ -83,10 +83,9 @@ export default class RequestedReportService extends ReportStoreService {
   }
 
   updateDataByStatus(report: RequestedReport, status?: RequestStatus | undefined, errorMessage?: string) {
-    const { dataProductDefinitionsPath, dpdPathFromQuery } = report
+    const { dataProductDefinitionsPath, dpdPathFromQuery, type, reportId, id, tableId } = report
 
     const ts = new Date()
-    const { tableId } = report
     if (status) report.status = status
     switch (status) {
       case RequestStatus.FAILED:
@@ -103,11 +102,10 @@ export default class RequestedReportService extends ReportStoreService {
         report.timestamp.completed = ts
         const search = report.url.report?.search ? report.url.report.search : ''
         const dpdPath = dpdPathFromQuery ? `${getDpdPathSuffix(dataProductDefinitionsPath)}` : ''
+        const viewReportPath = `/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`
+        const searchPath = search || dpdPath
 
-        report.url.report.pathname = search
-          ? `${report.url.request.pathname}/${tableId}/report${search}`
-          : `${report.url.request.pathname}/${tableId}/report${dpdPath}`
-
+        report.url.report.pathname = `${viewReportPath}/${searchPath}`
         report.url.report.fullUrl = `${report.url.origin}${report.url.report.pathname}`
         break
       }

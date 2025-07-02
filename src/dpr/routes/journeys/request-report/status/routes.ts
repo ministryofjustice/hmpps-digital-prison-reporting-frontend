@@ -9,9 +9,7 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
 
   router.get(`/`, controller.GET)
   router.post(`/`, controller.POST)
-
-  // TODO: convert to delete once fetch has been updated
-  router.post(`/cancel`, controller.cancelRequest)
+  router.delete(`/`, controller.DELETE)
 
   return router
 }

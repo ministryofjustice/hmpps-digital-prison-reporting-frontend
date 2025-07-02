@@ -19,6 +19,15 @@ export default (services: Services, layoutPath: string): RequestHandler => {
       )
     }
 
+    if (type === ReportType.DASHBOARD) {
+      definition = await services.dashboardService.getDefinition(
+        token,
+        variantId || id,
+        reportId,
+        dataProductDefinitionsPath,
+      )
+    }
+
     req.body.definition = definition
     if (definition?.authorised !== undefined && !definition.authorised) {
       res.render(`dpr/routes/journeys/view-report/unauthorised`, {

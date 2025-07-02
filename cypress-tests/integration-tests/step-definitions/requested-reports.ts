@@ -49,27 +49,30 @@ When(/^I am taken to the (report|reportV2|dashboard) page$/, function (this: Moc
   if (reportType === 'report') {
     cy.url().should(
       'match',
-      /http:\/\/localhost:3010\/async\/report\/test-report-(.*)\/variantId-1\/request\/(.*)\/report\?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7/i,
+      /http:\/\/localhost:3010\/dpr\/view-report\/async\/report\/test-report-(.*)\/variantId-1\/(.*)\/report\?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7/i,
     )
   }
 
   if (reportType === 'dashboard') {
     cy.url().should(
       'match',
-      /http:\/\/localhost:3010\/async\/dashboard\/test-report-(.*)\/test-dashboard-8\/request\/(.*)\/report/i,
+      /http:\/\/localhost:3010\/dpr\/view-report\/async\/dashboard\/test-report-(.*)\/test-dashboard-8\/(.*)\/dashboard/i,
     )
   }
 })
 
 When(/^I am taken to the (report|reportV2|dashboard) status page$/, function (this: Mocha.Context, reportType: string) {
   if (reportType === 'report') {
-    cy.url().should('eq', 'http://localhost:3010/async/report/test-report-3/variantId-2/request/exId_1729765694790')
+    cy.url().should(
+      'eq',
+      'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-2/exId_1729765694790/status',
+    )
   }
 
   if (reportType === 'dashboard') {
     cy.url().should(
       'eq',
-      'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-2/request/exId_1724943092123',
+      'http://localhost:3010/dpr/request-report/dashboard/test-report-1/test-dashboard-2/exId_1724943092123/status',
     )
   }
 })
@@ -78,12 +81,12 @@ When(/^I am taken to the (report|reportV2|dashboard) query page$/, function (thi
   if (reportType === 'report') {
     cy.url().should(
       'eq',
-      'http://localhost:3010/async/report/test-report-3/variantId-4/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1',
+      'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-4/filters?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true',
     )
   }
 
   if (reportType === 'dashboard') {
-    cy.url().should('eq', 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-3/request?')
+    cy.url().should('eq', 'http://localhost:3010/dpr/request-report/dashboard/test-report-1/test-dashboard-3/filters')
   }
 })
 

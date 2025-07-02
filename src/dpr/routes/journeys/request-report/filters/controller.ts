@@ -24,11 +24,8 @@ export default class RequestReportController {
         next,
       })
 
-      console.log(JSON.stringify(requestRenderData, null, 2))
-
       res.render(`dpr/routes/journeys/request-report/filters/view`, {
         layoutPath: this.layoutPath,
-        postEndpoint: '/dpr/requestReport/',
         ...requestRenderData,
       })
     } catch (error) {
@@ -42,15 +39,17 @@ export default class RequestReportController {
   // Request report
   POST: RequestHandler = async (req, res, next) => {
     try {
-      const redirectToPollingPage = await AysncRequestUtils.request({
+      const { reportId, type, id } = req.params
+      const executionId = await AysncRequestUtils.request({
         req,
         res,
         services: this.services,
         next,
       })
 
-      if (redirectToPollingPage) {
-        res.redirect(redirectToPollingPage)
+      if (executionId) {
+        const redirect = `/dpr/request-report/${type}/${reportId}/${id}/${executionId}/status`
+        res.redirect(redirect)
       } else {
         res.end()
       }

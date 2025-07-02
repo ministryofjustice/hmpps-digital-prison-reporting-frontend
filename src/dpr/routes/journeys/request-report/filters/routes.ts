@@ -7,7 +7,8 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
   const router = Router({ mergeParams: true })
   const controller = new RequestReportController(layoutPath, services)
 
-  router.get(`/`, controller.GET)
+  router.get('/', controller.GET)
+  router.post('/', controller.POST)
 
   return router
 }

@@ -13,10 +13,27 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   const controller = new ViewReportController(layoutPath, services)
   router.use(`/sync/:type/:reportId/:id`, viewSyncReportRoutes({ layoutPath, services }), controller.errorHandler)
   router.use(
-    `/async/:type/:reportId/:id/:tableId/`,
+    `/async/:type/:reportId/:id/:tableId`,
     viewAyncReportRoutes({ layoutPath, services }),
     controller.errorHandler,
   )
+
+  return router
+}
+
+export function Redirects() {
+  const router = Router({ mergeParams: true })
+
+  // Request route redirect
+  router.get(`/async/:type/:reportId/:id/request/:tableId/report`, (req, res) => {
+    const { type, reportId, id, tableId } = req.params
+    res.redirect(`/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`)
+  })
+
+  router.get(`/async/:type/:reportId/:id/request/:tableId/report/:download`, (req, res) => {
+    const { type, reportId, id, tableId } = req.params
+    res.redirect(`/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}/download-disabled`)
+  })
 
   return router
 }
@@ -32,6 +49,7 @@ export const ViewReportRoutes = ({
 }) => {
   const router = Router({ mergeParams: true })
   router.use(path, Routes({ services, layoutPath }))
+  router.use('/', Redirects())
 
   return router
 }

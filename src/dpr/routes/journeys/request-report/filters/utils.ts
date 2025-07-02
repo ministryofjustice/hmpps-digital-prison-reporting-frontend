@@ -46,7 +46,8 @@ export const updateStore = async ({
   queryData?: SetQueryFromFiltersResult
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
-}): Promise<string> => {
+}): Promise<void> => {
+  console.log('updateStore')
   const { search, id, type } = req.body
   const { userId, definitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
 
@@ -88,9 +89,9 @@ export const updateStore = async ({
       break
   }
 
-  await services.requestedReportService.addReport(userId, requestedReportData)
+  console.log(JSON.stringify({ requestedReportData }, null, 2))
 
-  return requestedReportData.url.polling.pathname
+  await services.requestedReportService.addReport(userId, requestedReportData)
 }
 
 async function requestChildReports(
@@ -256,9 +257,8 @@ export default {
       reportingService: services.reportingService,
     })
 
-    let redirect = ''
     if (executionData) {
-      redirect = await updateStore({
+      await updateStore({
         req,
         res,
         services,
@@ -268,12 +268,12 @@ export default {
       })
     }
 
-    return redirect
+    return executionData.executionId
   },
 
   cancelRequest: async ({ req, res, services }: AsyncReportUtilsParams) => {
     const { token, userId, definitionsPath } = LocalsHelper.getValues(res)
-    const { reportId, id, executionId, type } = req.body
+    const { reportId, id, executionId, type } = req.params
 
     let service
     if (type === ReportType.REPORT) service = services.reportingService
@@ -297,6 +297,9 @@ export default {
       const { token, csrfToken, definitionsPath: definitionPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
       const { reportId, type, id } = req.params
       const { definition } = req.body
+
+      console.log({ definition })
+
       const definitionApiArgs = { token, reportId, definitionPath, services }
 
       let name

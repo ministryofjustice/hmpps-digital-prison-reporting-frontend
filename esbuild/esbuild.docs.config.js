@@ -86,9 +86,9 @@ const buildLibrary = async () => {
         stdio: 'inherit'
     })
     if (!args.includes('--local')) {
-        const appCssContents = String(fs.readFileSync('dist-docs/dpr/assets/css/app.css'))
+        const appCssContents = String(fs.readFileSync(path.join(cwd, 'dist-docs/dpr/assets/css/app.css')))
         const updatedContents = appCssContents.replace(/url\(\/assets/g, `url(/${pathPrefix}/assets`)
-        fs.writeFileSync('dist-docs/dpr/assets/css/app.css', updatedContents)
+        fs.writeFileSync(path.join(cwd, 'dist-docs/dpr/assets/css/app.css'), updatedContents)
     }
 }
 

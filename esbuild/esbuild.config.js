@@ -31,6 +31,10 @@ const buildConfig = {
         from: path.join(cwd, 'src/dpr/**/*'),
         to: path.join(cwd, 'dist/dpr'),
       },
+      {
+        from: path.join(cwd, 'publishing/*'),
+        to: path.join(cwd, 'dist'),
+      },
     ],
   },
 

@@ -91,7 +91,7 @@ const buildLibrary = async () => {
     const appCssContents = String(fs.readFileSync(path.join(cwd, 'dist-docs/dpr/assets/css/app.css')))
     const updatedContents = appCssContents.replace(/url\(\/assets/g, `url(/${pathPrefix}/assets`)
     fs.writeFileSync(path.join(cwd, 'dist-docs/dpr/assets/css/app.css'), updatedContents, {
-        flush: true
+      flush: true,
     })
   }
 }

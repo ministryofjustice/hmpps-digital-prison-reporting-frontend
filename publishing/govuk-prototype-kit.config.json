@@ -24,7 +24,7 @@
       "macroName": "dprDataTable"
     },
     {
-      "importFrom": "package/dpr/components/filters/view.njk",
+      "importFrom": "dist/dpr/components/filters/view.njk",
       "macroName": "dprFilters"
     }
   ]

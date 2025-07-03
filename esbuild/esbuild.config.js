@@ -13,9 +13,10 @@ const cwd = process.cwd()
 
 /**
  * Configuration for build steps
+ * This needs to be a function because some of the files input into glob.sync dont exist until the build process has started
  * @type {BuildConfig}
  */
-const buildConfig = {
+const buildConfig = () => ({
   isProduction: process.env.NODE_ENV === 'production',
 
   app: {
@@ -52,7 +53,7 @@ const buildConfig = {
     ],
     clear: glob.sync([path.join(cwd, 'dist/dpr/js/{css,js}')]),
   },
-}
+})
 
 const buildLibrary = async () => {
   const scssFiles = glob.sync(['src/**/*.scss'])
@@ -63,7 +64,7 @@ const buildLibrary = async () => {
     flush: true,
   })
 
-  await Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch((e) => {
+  await Promise.all([buildApp(buildConfig()), buildAssets(buildConfig())]).catch((e) => {
     process.stderr.write(`${e}\n`)
     process.exit(1)
   })
@@ -91,17 +92,11 @@ const buildConfigTestApp = {
       },
     ],
   },
-
-  assets: {
-    outDir: path.join(cwd, 'dist-test-app'),
-    entryPoints: glob.sync([path.join(cwd, 'test-app/serverjs')]),
-    clear: glob.sync([path.join(cwd, 'dist-test-app/js/{js}'), path.join(cwd, 'dist-test-app/css/{css}')]),
-  },
 }
 
 const main = async () => {
   await buildLibrary()
-  await Promise.all([buildApp(buildConfigTestApp), buildAssets(buildConfigTestApp)]).catch((e) => {
+  await Promise.all([buildApp(buildConfigTestApp)]).catch((e) => {
     process.stderr.write(`${e}\n`)
     process.exit(1)
   })
@@ -140,19 +135,14 @@ const main = async () => {
 
   if (args.includes('--watch')) {
     process.stderr.write('\u{1b}[1m\u{1F52D} Watching for changes...\u{1b}[0m\n')
-    // Assets
-    chokidar
-      .watch(['assets/**/*'], chokidarOptions)
-      .on('all', () => buildAssets(buildConfig).catch((e) => process.stderr.write(`${e}\n`)))
-
     // App
     chokidar
       .watch(['src/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
-      .on('all', () => buildLibrary(buildConfig).catch((e) => process.stderr.write(`${e}\n`)))
+      .on('all', () => buildLibrary(buildConfig()).catch((e) => process.stderr.write(`${e}\n`)))
 
     chokidar
       .watch(['test-app/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
-      .on('all', () => buildApp(buildConfig).catch((e) => process.stderr.write(`${e}\n`)))
+      .on('all', () => buildApp(buildConfigTestApp).catch((e) => process.stderr.write(`${e}\n`)))
   }
 }
 

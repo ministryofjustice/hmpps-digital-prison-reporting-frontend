@@ -12,9 +12,10 @@ const buildApp = require('./app.config')
 
 /**
  * Configuration for build steps
+ * This needs to be a function because some of the files input into glob.sync dont exist until the build process has started
  * @type {BuildConfig}
  */
-const buildConfig = {
+const buildConfig = () => ({
   isProduction: process.env.NODE_ENV === 'production',
 
   app: {
@@ -62,7 +63,7 @@ const buildConfig = {
     ],
     clear: glob.sync([path.join(cwd, 'dist-docs/dpr/js/{css,js}')]),
   },
-}
+})
 
 const buildLibrary = async () => {
   const args = process.argv
@@ -80,8 +81,8 @@ const buildLibrary = async () => {
     flush: true,
   })
   const pathPrefix = 'hmpps-digital-prison-reporting-frontend'
-  await buildApp(buildConfig)
-  await buildAssets(buildConfig)
+  await buildApp(buildConfig())
+  await buildAssets(buildConfig())
   const pathPrefixArg = args.includes('--local') ? '' : `--pathprefix ${pathPrefix}`
   execSync(`eleventy ${pathPrefixArg} --input=${path.join(cwd, 'docs')} --output=${path.join(cwd, 'dist-docs/dpr')}`, {
     stdio: 'inherit',
@@ -89,7 +90,9 @@ const buildLibrary = async () => {
   if (!args.includes('--local')) {
     const appCssContents = String(fs.readFileSync(path.join(cwd, 'dist-docs/dpr/assets/css/app.css')))
     const updatedContents = appCssContents.replace(/url\(\/assets/g, `url(/${pathPrefix}/assets`)
-    fs.writeFileSync(path.join(cwd, 'dist-docs/dpr/assets/css/app.css'), updatedContents)
+    fs.writeFileSync(path.join(cwd, 'dist-docs/dpr/assets/css/app.css'), updatedContents, {
+      flush: true,
+    })
   }
 }
 

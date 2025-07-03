@@ -1,10 +1,9 @@
 import { Response, Request } from 'express'
 import UserReportRequestListUtils from './utils'
-import type RequestedReportService from '../../../services/requestedReportService'
+import type { RequestedReportService, ReportingService } from '../../../services'
 import { Services } from '../../../types/Services'
 import mockRequested from '../../../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
 import { ReportType, RequestStatus } from '../../../types/UserReports'
-import ReportingService from '../../../services/reportingService'
 
 describe('UserReportRequestListUtils', () => {
   let res: Response

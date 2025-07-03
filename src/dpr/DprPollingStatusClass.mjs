@@ -18,7 +18,8 @@ export default class DprPollingStatusClass extends DprClientClass {
   }
 
   async getRequestStatus(metaData, csrfToken) {
-    return this.getStatus('/dpr/getStatus/', metaData, csrfToken)
+    const { executionId, reportId, id, type } = metaData
+    return this.getStatus(`/dpr/request-report/${type}/${reportId}/${id}/${executionId}/status`, metaData, csrfToken)
   }
 
   async getExpiredStatus(endpoint, metaData, csrfToken) {

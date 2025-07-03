@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import LocalsHelper from '../../../utils/localsHelper'
-import DownloadUtils from '../../../utils/downloadUtils'
+import DownloadUtils from './utils'
 import { Services } from '../../../types/Services'
 
 export default class DownloadReportController {

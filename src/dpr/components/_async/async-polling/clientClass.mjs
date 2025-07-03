@@ -56,19 +56,13 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
       const csrfToken = this.cancelRequestButton.getAttribute('data-csrf-token')
 
       this.cancelRequestButton.addEventListener('click', async () => {
-        await fetch('/dpr/cancelRequest/', {
-          method: 'post',
+        await fetch(`/dpr/request-report/${type}/${reportId}/${id}/${executionId}/status`, {
+          method: 'delete',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
             'CSRF-Token': csrfToken,
           },
-          body: JSON.stringify({
-            executionId,
-            reportId,
-            id,
-            type,
-          }),
         })
           .then(() => {
             window.location.reload()

@@ -91,9 +91,9 @@ export const setInitialHref = (loadType: LoadType, type: ReportType, reportId: s
   if (type === ReportType.UNAVAILABLE) {
     href = `dpr/request-missing-report/${reportId}/${id}/form`
   } else {
-    const { pathSuffix, dpdPathFromQuery, routePrefix } = localsHelper.getValues(res)
+    const { pathSuffix, dpdPathFromQuery } = localsHelper.getValues(res)
     const dpdPathQueryParam = dpdPathFromQuery ? pathSuffix : ''
-    href = `${routePrefix}/async/${type}/${reportId}/${id}/request${dpdPathQueryParam}`
+    href = `dpr/request-report/${type}/${reportId}/${id}/filters${dpdPathQueryParam}`
 
     if (loadType && loadType === LoadType.SYNC) {
       href = `dpr/view-report/sync/${type}/${reportId}/${id}/load-report${dpdPathQueryParam}`

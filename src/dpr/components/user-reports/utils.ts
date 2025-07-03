@@ -1,7 +1,5 @@
 import { Response, Request } from 'express'
 import dayjs from 'dayjs'
-import RecentlyViewedStoreService from '../../services/recentlyViewedService'
-import RequestedReportService from '../../services/requestedReportService'
 import { RenderTableListResponse } from './types'
 import Dict = NodeJS.Dict
 import {
@@ -12,18 +10,21 @@ import {
   RequestedReport,
   StoredReportData,
 } from '../../types/UserReports'
+import { FilterValue } from '../_filters/types'
+import { Services } from '../../types/Services'
+
+import { RecentlyViewedStoreService, RequestedReportService } from '../../services'
+
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { getExpiredStatus } from '../../utils/requestStatusHelper'
 import SelectedFiltersUtils from '../_filters/filters-selected/utils'
 import { itemActionsHtml, createListItemProduct } from '../../utils/reportListsHelper'
-import { Services } from '../../types/Services'
 import RequestedReportUtils from './requested/utils'
 import RecentlyViewedCardGroupUtils from './viewed/utils'
 import BookmarklistUtils from './bookmarks/utils'
 import LocalsHelper from '../../utils/localsHelper'
 import DateMapper from '../../utils/DateMapper/DateMapper'
 import UserStoreItemBuilder from '../../utils/UserStoreItemBuilder'
-import { FilterValue } from '../_filters/types'
 
 const formatData = (reportData: UserReportData): FormattedUserReportData => {
   const reportDataCopy: UserReportData = JSON.parse(JSON.stringify(reportData))

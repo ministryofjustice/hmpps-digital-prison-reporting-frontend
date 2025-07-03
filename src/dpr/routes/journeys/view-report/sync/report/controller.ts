@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../../types/Services'
-import SyncReportUtils from '../../../../../utils/report/syncReportUtils'
+import SyncReportUtils from './utils'
 import ErrorSummaryUtils from '../../../../../components/error-summary/utils'
 
 export default class ViewSyncReportController {

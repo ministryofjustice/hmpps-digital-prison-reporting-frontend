@@ -2,11 +2,8 @@ import { Response, Request } from 'express'
 
 import { Services } from '../types/Services'
 import * as Middleware from './setUpDprResources'
-import RequestedReportService from '../services/requestedReportService'
 import { RecentlyViewedReport } from '../types/UserReports'
-import BookmarkService from '../services/bookmarkService'
-import DownloadPermissionService from '../services/downloadPermissionService'
-import ReportingService from '../services/reportingService'
+import { DownloadPermissionService, RequestedReportService, ReportingService, BookmarkService } from '../services'
 
 describe('setUpDprResources', () => {
   describe('populateRequestedReports', () => {

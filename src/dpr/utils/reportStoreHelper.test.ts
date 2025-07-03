@@ -1,7 +1,6 @@
 import { RequestedReport, UserReportData } from '../types/UserReports'
 import * as ReportStoreHelper from './reportStoreHelper'
-import type RequestedReportService from '../services/requestedReportService'
-import type RecentlyViewedStoreService from '../services/recentlyViewedService'
+import type { RequestedReportService, RecentlyViewedStoreService } from '../services'
 
 describe('ReportStoreHelper', () => {
   describe('removeDuplicates', () => {

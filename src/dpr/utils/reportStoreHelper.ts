@@ -1,5 +1,4 @@
-import type RecentlyViewedStoreService from '../services/recentlyViewedService'
-import type RequestedReportService from '../services/requestedReportService'
+import type { RecentlyViewedStoreService, RequestedReportService } from '../services'
 import { UserReportData } from '../types/UserReports'
 
 export const removeDuplicates = async ({

@@ -1,12 +1,12 @@
 import MockUserStoreService from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
 import ReportDataStore from '../../../../data/reportDataStore'
 import { ReportStoreConfig } from '../../../../types/ReportStore'
-import DefaultFilterService from './service'
+import DefaultFilterValuesService from './service'
 import { defaultFilterConfig } from './types'
 
-describe('DefaultFilterService', () => {
+describe('DefaultFilterValuesService', () => {
   const mockUserStore: ReportDataStore = new MockUserStoreService() as unknown as ReportDataStore
-  const defaultFilterService: DefaultFilterService = new DefaultFilterService(mockUserStore)
+  const defaultFilterValuesService: DefaultFilterValuesService = new DefaultFilterValuesService(mockUserStore)
 
   let saveStateSpy: jest.SpyInstance<Promise<void>, [userId: string, userConfig: ReportStoreConfig], any>
 
@@ -20,9 +20,9 @@ describe('DefaultFilterService', () => {
       reportId: 'reportId1',
       id: 'id1',
       values: [
-        { id: 'name1.1', value: 'value1.1' },
-        { id: 'name1.2', value: 'value1.2' },
-        { id: 'name1.3', value: 'value1.3' },
+        { name: 'name1.1', value: 'value1.1' },
+        { name: 'name1.2', value: 'value1.2' },
+        { name: 'name1.3', value: 'value1.3' },
       ],
     }
 
@@ -30,9 +30,9 @@ describe('DefaultFilterService', () => {
       reportId: 'reportId1',
       id: 'id1',
       values: [
-        { id: 'name1.1', value: 'value1.1' },
-        { id: 'name1.2', value: 'value1.5' },
-        { id: 'name1.3', value: 'value1.7' },
+        { name: 'name1.1', value: 'value1.1' },
+        { name: 'name1.2', value: 'value1.5' },
+        { name: 'name1.3', value: 'value1.7' },
       ],
     }
 
@@ -40,9 +40,9 @@ describe('DefaultFilterService', () => {
       reportId: 'reportId2',
       id: 'id2',
       values: [
-        { id: 'name2.1', value: 'value2.1' },
-        { id: 'name2.2', value: 'value2.2' },
-        { id: 'name2.3', value: 'value2.3' },
+        { name: 'name2.1', value: 'value2.1' },
+        { name: 'name2.2', value: 'value2.2' },
+        { name: 'name2.3', value: 'value2.3' },
       ],
     }
 
@@ -52,16 +52,16 @@ describe('DefaultFilterService', () => {
       values: [],
     }
 
-    jest.spyOn(defaultFilterService, 'getState').mockResolvedValue({
+    jest.spyOn(defaultFilterValuesService, 'getState').mockResolvedValue({
       defaultFilters: [defaults1],
     } as unknown as ReportStoreConfig)
 
-    saveStateSpy = jest.spyOn(defaultFilterService, 'saveState')
+    saveStateSpy = jest.spyOn(defaultFilterValuesService, 'saveState')
   })
 
   describe('save', () => {
     it('should save the defaults', async () => {
-      await defaultFilterService.save('userId', defaults2.reportId, defaults2.id, defaults2.values)
+      await defaultFilterValuesService.save('userId', defaults2.reportId, defaults2.id, defaults2.values)
 
       const userConfig = {
         defaultFilters: [defaults1, defaults2],
@@ -71,7 +71,7 @@ describe('DefaultFilterService', () => {
     })
 
     it('should update the defaults', async () => {
-      await defaultFilterService.save('userId', defaults1.reportId, defaults1.id, defaults1b.values)
+      await defaultFilterValuesService.save('userId', defaults1.reportId, defaults1.id, defaults1b.values)
 
       const userConfig = {
         defaultFilters: [defaults1b],
@@ -81,7 +81,7 @@ describe('DefaultFilterService', () => {
     })
 
     it('should delete the defaults', async () => {
-      await defaultFilterService.save('userId', defaults1.reportId, defaults1.id, defaults1c.values)
+      await defaultFilterValuesService.save('userId', defaults1.reportId, defaults1.id, defaults1c.values)
 
       const userConfig = {
         defaultFilters: [],
@@ -93,8 +93,8 @@ describe('DefaultFilterService', () => {
 
   describe('get', () => {
     it('should get the default values', async () => {
-      const defaults = await defaultFilterService.get('userId', defaults1.id, defaults1.reportId)
-      expect(defaults).toEqual(defaults1)
+      const defaults = await defaultFilterValuesService.get('userId', defaults1.id, defaults1.reportId)
+      expect(defaults).toEqual(defaults1.values)
     })
   })
 })

@@ -3,7 +3,7 @@ import ReportDataStore from '../../../../data/reportDataStore'
 import { defaultFilterValue } from './types'
 import { ReportStoreConfig } from '../../../../types/ReportStore'
 
-export default class DefaultFilterService extends ReportStoreService {
+export default class DefaultFilterValuesService extends ReportStoreService {
   constructor(reportDataStore: ReportDataStore) {
     super(reportDataStore)
   }
@@ -35,9 +35,10 @@ export default class DefaultFilterService extends ReportStoreService {
 
   async get(userId: string, id: string, reportId: string) {
     const userConfig = await this.getState(userId)
-    return userConfig.defaultFilters.find((defaultFilter) => {
+    const defaultConfig = userConfig.defaultFilters.find((defaultFilter) => {
       return defaultFilter.id === id && defaultFilter.reportId === reportId
     })
+    return defaultConfig ? defaultConfig.values : undefined
   }
 
   async getIndex(userId: string, id: string, reportId: string) {

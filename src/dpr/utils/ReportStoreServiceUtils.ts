@@ -6,6 +6,7 @@ import {
   RecentlyViewedStoreService,
   ReportingService,
   DashboardService,
+  DefaultFilterValuesService,
 } from '../services'
 import ReportDataStore from '../data/reportDataStore'
 import ReportingClient from '../data/reportingClient'
@@ -26,6 +27,7 @@ interface dprServices {
   recentlyViewedService?: RecentlyViewedStoreService
   bookmarkService?: BookmarkService
   downloadPermissionService?: DownloadPermissionService
+  defaultFilterValuesService?: DefaultFilterValuesService
 }
 
 const createDprServices = (clients: InitDPRServicesArgs, reportStoreConfig: ReportStoreConfig = {}): Services => {
@@ -81,6 +83,7 @@ const createReportStoreServices = (
     ...services,
     requestedReportService: new RequestedReportService(reportDataStore),
     recentlyViewedService: new RecentlyViewedStoreService(reportDataStore),
+    defaultFilterValuesService: new DefaultFilterValuesService(reportDataStore),
   }
 
   if (config.bookmarking === undefined || config.bookmarking) {

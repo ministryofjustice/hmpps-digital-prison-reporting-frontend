@@ -291,7 +291,13 @@ export default {
    */
   renderRequest: async ({ req, res, services, next }: AsyncReportUtilsParams): Promise<RequestDataResult | boolean> => {
     try {
-      const { token, csrfToken, definitionsPath: definitionPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
+      const {
+        token,
+        csrfToken,
+        definitionsPath: definitionPath,
+        dpdPathFromQuery,
+        userId,
+      } = LocalsHelper.getValues(res)
       const { reportId, type, id } = req.params
       const { definition } = req.body
 
@@ -306,6 +312,7 @@ export default {
       let interactive
       let defaultInteractiveQueryString
       let filtersData
+      let defaultValues
 
       if (type === ReportType.REPORT) {
         ;({ name, reportName, description, fields, interactive } = await renderReportRequestData(definition))
@@ -320,6 +327,11 @@ export default {
 
       if (fields) {
         filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
+        console.log(JSON.stringify({ filter: filtersData.filters }, null, 2))
+        // defaultValues = services.defaultFilterValuesService.get(userId, reportId, id)
+        // if (defaultValues) {
+        //   filtersData.filters = FiltersUtils.setFilterValuesFromSavedDefaults(filtersData.filters, defaultValues)
+        // }
         filtersData.filters = FiltersUtils.setFilterValuesFromRequest(filtersData.filters, req)
         defaultInteractiveQueryString = FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
       }

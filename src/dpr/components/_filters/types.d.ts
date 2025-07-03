@@ -55,7 +55,7 @@ export interface GranularDateRange extends DateRange {
     value: QuickFilters
     display: string
   }
-  partialDate: {
+  partialDate?: {
     start: boolean
     end: boolean
   }

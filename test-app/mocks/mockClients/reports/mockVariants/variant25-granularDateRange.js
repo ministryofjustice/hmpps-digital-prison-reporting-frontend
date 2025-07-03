@@ -17,7 +17,8 @@ const variant25 = {
         mandatory: false,
         filter: {
           type: 'granulardaterange',
-          defaultValue: 'last-90-days',
+          defaultValue: '2003-02-01 - 2006-05-04',
+          defaultQuickFilterValue: 'last-six-months',
           mandatory: true,
           defaultGranularity: 'daily',
         },

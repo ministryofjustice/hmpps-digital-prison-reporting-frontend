@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import { FilterType } from './filter-input/enum'
 import type { components } from '../../types/api'
 import type { FilterOption } from './filter-input/types'
-import type { DateRange, FilterValue } from './types'
+import type { DateFilterValue, DateRange, FilterValue, GranularDateRange } from './types'
 import ReportQuery, { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 
 import SelectedFiltersUtils from './filters-selected/utils'
@@ -13,6 +13,7 @@ import GranularDateRangeInputUtils from '../_inputs/granular-date-range/utils'
 import MultiSelectUtils from '../_inputs/multi-select/utils'
 import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
 import createUrlForParameters from '../../utils/urlHelper'
+import { defaultFilterValue, granularDateFilterValue } from '../../routes/journeys/request-report/filters/types'
 
 /**
  * Given a FilterValue[], will update the values to match the req.query values if present
@@ -56,6 +57,51 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
       value,
       ...(requestfilterValues && { values: requestfilterValues }),
     }
+  })
+}
+
+const setFilterValuesFromSavedDefaults = (filters: FilterValue[], defaultValues: defaultFilterValue[]) => {
+  return filters.map((filter) => {
+    const defaultValue = defaultValues.find((v) => v.name === filter.name)
+    if (defaultValue) {
+      let updatedFilter = {
+        ...filter,
+        value: defaultValue.value,
+      }
+
+      if (filter.type.toLocaleLowerCase() === FilterType.multiselect.toLocaleLowerCase()) {
+        updatedFilter = {
+          ...updatedFilter,
+          values: (<string>defaultValue.value).split(','),
+        }
+      }
+
+      if (filter.type.toLocaleLowerCase() === FilterType.granularDateRange.toLocaleLowerCase()) {
+        const { granularity, quickFilter } = <granularDateFilterValue>defaultValue.value
+
+        const value: GranularDateRange = {
+          start: (<granularDateFilterValue>defaultValue.value).start,
+          end: (<granularDateFilterValue>defaultValue.value).end,
+          granularity: {
+            value: granularity,
+            display: (<DateFilterValue>filter).granularityOptions.find((o) => o.value === granularity)?.text,
+          },
+          quickFilter: {
+            value: quickFilter,
+            display: (<DateFilterValue>filter).quickFilterOptions.find((o) => o.value === quickFilter)?.text,
+          },
+        }
+
+        updatedFilter = {
+          ...updatedFilter,
+          value,
+        }
+      }
+
+      return updatedFilter
+    }
+
+    return filter
   })
 }
 
@@ -287,4 +333,5 @@ export default {
   getFilters,
   setFilterQueryFromFilterDefinition,
   redirectWithDefaultFilters,
+  setFilterValuesFromSavedDefaults,
 }

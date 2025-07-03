@@ -1,6 +1,6 @@
-const CatalogueUtils = require('../../package/dpr/components/_catalogue/catalogue/utils').default
-const UserReportsListUtils = require('../../package/dpr/components/user-reports/utils').default
-const createDprServices = require('../../package/dpr/utils/ReportStoreServiceUtils').default
+const CatalogueUtils = require('../../dist/dpr/components/_catalogue/catalogue/utils').default
+const UserReportsListUtils = require('../../dist/dpr/components/user-reports/utils').default
+const createDprServices = require('../../dist/dpr/utils/ReportStoreServiceUtils').default
 
 // Mock Clients & API responses
 const MockReportingClient = require('../mocks/mockClients/reports/mockReportingClient')
@@ -8,10 +8,10 @@ const MockDashboardClient = require('../mocks/mockClients/dashboards/mock-client
 const MockUserStoreService = require('../mocks/mockClients/store/mockRedisStore')
 
 // Middleware
-const setUpDprResources = require('../../package/dpr/middleware/setUpDprResources').default
+const setUpDprResources = require('../../dist/dpr/middleware/setUpDprResources').default
 
 // Routes
-const DprEmbeddedAsyncReports = require('../../package/dpr/routes/DprEmbeddedReports').default
+const DprEmbeddedAsyncReports = require('../../dist/dpr/routes/DprEmbeddedReports').default
 
 const platformRoutes = (app) => {
   /**

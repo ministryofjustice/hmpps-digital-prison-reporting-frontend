@@ -39,7 +39,7 @@ export function Redirects() {
     res.redirect(`/dpr/request-report/${type}/${reportId}/${id}/filters`)
   })
 
-  // Request route redirect
+  // Status route redirect
   router.get(`/async/:type/:reportId/:id/request/:executionId`, (req, res) => {
     const { type, reportId, id, executionId } = req.params
     res.redirect(`/dpr/request-report/${type}/${reportId}/${id}/${executionId}/status`)

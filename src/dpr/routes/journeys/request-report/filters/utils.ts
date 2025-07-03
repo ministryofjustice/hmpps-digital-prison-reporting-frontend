@@ -295,8 +295,6 @@ export default {
       const { reportId, type, id } = req.params
       const { definition } = req.body
 
-      console.log({ definition })
-
       const definitionApiArgs = { token, reportId, definitionPath, services }
 
       let name

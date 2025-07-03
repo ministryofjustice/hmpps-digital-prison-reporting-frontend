@@ -428,22 +428,22 @@ describe('RequestReportUtils', () => {
       )
     })
 
-    // it('should request a report with a definition path', async () => {
-    //   const addReportSpy = jest.spyOn(services.requestedReportService, 'addReport')
-    //   req.body = {
-    //     ...body,
-    //     dataProductDefinitionsPath: 'dataProductDefinitionsPath',
-    //   }
+    it('should request a report with a definition path', async () => {
+      const addReportSpy = jest.spyOn(services.requestedReportService, 'addReport')
+      req.body = {
+        ...body,
+        dataProductDefinitionsPath: 'dataProductDefinitionsPath',
+      }
 
-    //   await RequestReportUtils.request({ req, res, services })
+      await RequestReportUtils.request({ req, res, services })
 
-    //   expect(addReportSpy).toHaveBeenCalledWith(
-    //     'userId',
-    //     expect.objectContaining({
-    //       dataProductDefinitionsPath: 'dataProductDefinitionsPath',
-    //     }),
-    //   )
-    // })
+      expect(addReportSpy).toHaveBeenCalledWith(
+        'userId',
+        expect.objectContaining({
+          dataProductDefinitionsPath: 'dataProductDefinitionsPath',
+        }),
+      )
+    })
 
     it('should request a dashboard with a definition path', async () => {
       const addReportSpy = jest.spyOn(services.requestedReportService, 'addReport')

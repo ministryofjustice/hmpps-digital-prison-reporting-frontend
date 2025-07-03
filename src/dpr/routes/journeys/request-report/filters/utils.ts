@@ -47,7 +47,6 @@ export const updateStore = async ({
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
 }): Promise<void> => {
-  console.log('updateStore')
   const { search, id, type } = req.body
   const { userId, definitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
 
@@ -88,8 +87,6 @@ export const updateStore = async ({
     default:
       break
   }
-
-  console.log(JSON.stringify({ requestedReportData }, null, 2))
 
   await services.requestedReportService.addReport(userId, requestedReportData)
 }

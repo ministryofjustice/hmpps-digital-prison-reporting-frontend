@@ -5,69 +5,335 @@
 
 export interface paths {
   '/user/caseload/active': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     /** @description Gets a user's active caseloads */
     get: operations['definitions']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
   }
   '/reports/{reportId}/{reportVariantId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     /** @description Returns the dataset for the given report ID and report variant ID filtered by the filters provided in the query. */
     get: operations['configuredApiDataset']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
   }
   '/reports/{reportId}/{reportVariantId}/{fieldId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     /** @description Returns the dataset for the given report ID and report variant ID filtered by the filters provided in the query. */
     get: operations['configuredApiDynamicFilter']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
   }
   '/reports/{reportId}/{reportVariantId}/tables/{tableId}/result': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     /** @description Returns the resulting rows of the executed statement in a paginated fashion which has been stored in a dedicated table. */
     get: operations['getQueryExecutionResult']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
   }
   '/reports/{reportId}/{reportVariantId}/tables/{tableId}/result/summary/{summaryId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     /** @description Returns a summary of a request, which has been stored in a dedicated table. */
     get: operations['getSummaryQueryExecutionResult']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/reports/{reportId}/{reportVariantId}/tables/{tableId}/count': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** @description Returns the number of rows of the table which contains the result of a previously executed query. Allows filtering and it is aimed at supporting the interactive journey. */
+    get: operations['getInteractiveExternalTableRowCount']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
   }
   '/reports/{reportId}/{reportVariantId}/statements/{statementId}/status': {
-    /**
-     * @description Returns the status of the statement execution based on the statement ID provided.The following status values can be returned:
-     * ABORTED - The query run was stopped by the user.
-     * ALL - A status value that includes all query statuses. This value can be used to filter results.
-     * FAILED - The query run failed.
-     * FINISHED - The query has finished running.
-     * PICKED - The query has been chosen to be run.
-     * STARTED - The query run has started.
-     * SUBMITTED - The query was submitted, but not yet processed.
-     * Note: When the status is FAILED the error field of the response will be populated.ResultRows is the number of rows returned from the SQL statement. A -1 indicates the value is null.ResultSize is the size in bytes of the returned results. A -1 indicates the value is null.
-     * For Athena:
-     * Athena automatically retries your queries in cases of certain transient errors. As a result, you may see the query state transition from STARTED or FAILED to SUBMITTED.
-     */
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** @description Returns the status of the statement execution based on the statement ID provided.The following status values can be returned:
+     *     ABORTED - The query run was stopped by the user.
+     *     ALL - A status value that includes all query statuses. This value can be used to filter results.
+     *     FAILED - The query run failed.
+     *     FINISHED - The query has finished running.
+     *     PICKED - The query has been chosen to be run.
+     *     STARTED - The query run has started.
+     *     SUBMITTED - The query was submitted, but not yet processed.
+     *     Note: When the status is FAILED the error field of the response will be populated.ResultRows is the number of rows returned from the SQL statement. A -1 indicates the value is null.ResultSize is the size in bytes of the returned results. A -1 indicates the value is null.
+     *     For Athena:
+     *     Athena automatically retries your queries in cases of certain transient errors. As a result, you may see the query state transition from STARTED or FAILED to SUBMITTED.
+     *      */
     get: operations['getQueryExecutionStatus']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
   }
   '/reports/{reportId}/{reportVariantId}/count': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     /** @description Returns the number of records for the given report ID and report variant ID filtered by the filters provided in the query. */
     get: operations['configuredApiCount']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/reports/{reportId}/dashboards/{dashboardId}/tables/{tableId}/result': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** @description Returns the resulting rows of the executed statement in a paginated fashion which has been stored in a dedicated table. */
+    get: operations['getDashboardQueryExecutionResult']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/reports/{reportId}/dashboards/{dashboardId}/statements/{statementId}/status': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** @description Returns the status of the dashboard statement execution based on the statement ID provided.The following status values can be returned:
+     *     ABORTED - The query run was stopped by the user.
+     *     ALL - A status value that includes all query statuses. This value can be used to filter results.
+     *     FAILED - The query run failed.
+     *     FINISHED - The query has finished running.
+     *     PICKED - The query has been chosen to be run.
+     *     STARTED - The query run has started.
+     *     SUBMITTED - The query was submitted, but not yet processed.
+     *     Note: When the status is FAILED the error field of the response will be populated.ResultRows is the number of rows returned from the SQL statement. A -1 indicates the value is null.ResultSize is the size in bytes of the returned results. A -1 indicates the value is null.
+     *     For Athena:
+     *     Athena automatically retries your queries in cases of certain transient errors. As a result, you may see the query state transition from STARTED or FAILED to SUBMITTED.
+     *      */
+    get: operations['getDashboardExecutionStatus']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
   }
   '/report/tables/{tableId}/count': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     /** @description Returns the number of rows of the table which contains the result of a previously executed query. */
     get: operations['getExternalTableRowCount']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
   }
   '/definitions': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     /** @description Gets summaries of all report definitions */
     get: operations['definitions_1']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
   }
   '/definitions/{reportId}/{variantId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     /** @description Gets report definition containing a single variant. */
     get: operations['definition']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/definitions/{dataProductDefinitionId}/dashboards/{dashboardId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** @description Gets the metric dashboard definition. */
+    get: operations['dashboardDefinition']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
   }
   '/async/reports/{reportId}/{reportVariantId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
     /** @description Executes asynchronously the dataset query for the given report and stores the result into an external table.The response returned contains the table ID and the execution ID. This is the asynchronous version of the /reports/{reportId}/{reportVariantId} API. */
     get: operations['asyncConfiguredApiExecuteQuery']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/async/dashboards/{reportId}/{dashboardId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** @description Executes asynchronously the dataset query for the given dashboard and stores the result into an external table.The response returned contains the table ID and the execution ID.  */
+    get: operations['asyncExecuteDashboard']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
   }
   '/reports/{reportId}/{reportVariantId}/statements/{statementId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
     /** @description Cancels the execution of a running query. */
-    delete: operations['cancelQueryExecution']
+    delete: operations['cancelReportQueryExecution']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/reports/{reportId}/dashboards/{dashboardId}/statements/{statementId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    /** @description Cancels the execution of a running query. */
+    delete: operations['cancelDashboardQueryExecution']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
   }
 }
-
 export type webhooks = Record<string, never>
-
 export interface components {
   schemas: {
     ErrorResponse: {
@@ -79,6 +345,14 @@ export interface components {
       developerMessage?: string
       moreInfo?: string
     }
+    Count: {
+      /**
+       * Format: int64
+       * @description The total number of records
+       * @example 501
+       */
+      count: number
+    }
     StatementExecutionStatus: {
       /** @description The status of the statement execution. */
       status: string
@@ -88,7 +362,6 @@ export interface components {
        * @example 10562762848
        */
       duration: number
-      queryString: string
       /**
        * Format: int64
        * @description The number of rows returned from the query.
@@ -106,43 +379,42 @@ export interface components {
       /**
        * Format: int32
        * @description Specific to Athena queries. An integer value that specifies the category of a query failure error. The following list shows the category for each integer value.
-       * 1 - System
-       * 2 - User
-       * 3 - Other
+       *     1 - System
+       *     2 - User
+       *     3 - Other
        */
       errorCategory?: number
       /** @description Specific to Athena queries. Further detail about the status of the query. */
       stateChangeReason?: string
     }
-    Count: {
-      /**
-       * Format: int64
-       * @description The total number of records
-       * @example 501
-       */
-      count: number
+    DashboardDefinitionSummary: {
+      id: string
+      name: string
+      description?: string
     }
     ReportDefinitionSummary: {
       id: string
       name: string
       description?: string
       variants: components['schemas']['VariantDefinitionSummary'][]
+      dashboards?: components['schemas']['DashboardDefinitionSummary'][]
+      authorised: boolean
     }
     VariantDefinitionSummary: {
       id: string
       name: string
       description?: string
-      isMissing?: boolean
+    }
+    ChildVariantDefinition: {
+      id: string
+      name: string
+      resourceName: string
+      specification?: components['schemas']['Specification']
+      joinFields: string[]
     }
     DynamicFilterOption: {
       /** Format: int32 */
       minimumLength?: number
-      returnAsStaticOptions: boolean
-      /** Format: int64 */
-      maximumOptions?: number
-      dataset?: string
-      name?: string
-      display?: string
     }
     FieldDefinition: {
       name: string
@@ -153,15 +425,17 @@ export interface components {
       sortable: boolean
       defaultsort: boolean
       /** @enum {string} */
+      sortDirection?: 'asc' | 'desc'
+      /** @enum {string} */
       type: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time'
       mandatory: boolean
       visible: boolean
       calculated: boolean
-      header?: boolean
+      header: boolean
     }
     FilterDefinition: {
       /** @enum {string} */
-      type: 'Radio' | 'Select' | 'daterange' | 'autocomplete' | 'text' | 'date' | 'multiselect'
+      type: 'Radio' | 'Select' | 'multiselect' | 'daterange' | 'autocomplete' | 'text' | 'date' | 'granulardaterange'
       mandatory: boolean
       pattern?: string
       staticOptions?: components['schemas']['FilterOption'][]
@@ -169,6 +443,32 @@ export interface components {
       defaultValue?: string
       min?: string
       max?: string
+      interactive?: boolean
+      /** @enum {string} */
+      defaultGranularity?: 'hourly' | 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'annually'
+      /** @enum {string} */
+      defaultQuickFilterValue?:
+        | 'today'
+        | 'yesterday'
+        | 'last-seven-days'
+        | 'last-thirty-days'
+        | 'last-month'
+        | 'last-full-month'
+        | 'last-ninety-days'
+        | 'last-three-months'
+        | 'last-full-three-months'
+        | 'last-year'
+        | 'last-full-year'
+        | 'tomorrow'
+        | 'next-seven-days'
+        | 'next-thirty-days'
+        | 'next-month'
+        | 'next-full-month'
+        | 'next-ninety-days'
+        | 'next-three-months'
+        | 'next-full-three-months'
+        | 'next-year'
+        | 'next-full-year'
     }
     FilterOption: {
       name: string
@@ -197,18 +497,14 @@ export interface components {
         | 'parent-child'
         | 'parent-child-section'
         | 'row-section'
+        | 'row-section-child'
       fields: components['schemas']['FieldDefinition'][]
       sections: string[]
-      sectionedFields: components['schemas']['SectionedField'][]
-    }
-    SectionedField: {
-      name: string
-      fields?: string[]
-      child?: string
     }
     SummaryField: {
       name: string
-      display: string
+      display?: string
+      /** @enum {string} */
       type?: 'boolean' | 'date' | 'double' | 'HTML' | 'long' | 'string' | 'time'
       header?: boolean
       mergeRows?: boolean
@@ -223,14 +519,48 @@ export interface components {
       printable?: boolean
       summaries?: components['schemas']['ReportSummary'][]
       interactive?: boolean
-      childVariants: components['schemas']['ChildVariantDefinition'][]
+      childVariants?: components['schemas']['ChildVariantDefinition'][]
     }
-    ChildVariantDefinition: {
+    DashboardDefinition: {
       id: string
       name: string
-      resourceName: string
-      specification?: components['schemas']['Specification']
-      joinFields: string[]
+      description?: string
+      sections: components['schemas']['DashboardSectionDefinition'][]
+      filterFields?: components['schemas']['FieldDefinition'][]
+    }
+    DashboardSectionDefinition: {
+      id: string
+      display?: string
+      description?: string
+      visualisations: components['schemas']['DashboardVisualisationDefinition'][]
+    }
+    DashboardVisualisationColumnDefinition: {
+      id: string
+      display: string
+      /** @enum {string} */
+      aggregate?: 'sum' | 'average'
+      /** @enum {string} */
+      unit?: 'NUMBER' | 'PERCENTAGE'
+      displayValue?: boolean
+      axis?: string
+    }
+    DashboardVisualisationColumnsDefinition: {
+      keys?: components['schemas']['DashboardVisualisationColumnDefinition'][]
+      measures: components['schemas']['DashboardVisualisationColumnDefinition'][]
+      filters?: components['schemas']['ValueVisualisationColumnDefinition'][]
+      expectNulls: boolean
+    }
+    DashboardVisualisationDefinition: {
+      id: string
+      /** @enum {string} */
+      type: 'list' | 'doughnut' | 'bar' | 'bar-timeseries' | 'line' | 'scorecard' | 'scorecard-group'
+      display?: string
+      description?: string
+      columns: components['schemas']['DashboardVisualisationColumnsDefinition']
+    }
+    ValueVisualisationColumnDefinition: {
+      id: string
+      equals: string
     }
     StatementExecutionResponse: {
       tableId: string
@@ -247,42 +577,64 @@ export interface components {
   headers: never
   pathItems: never
 }
-
 export type $defs = Record<string, never>
-
-export type external = Record<string, never>
-
 export interface operations {
-  /** @description Gets a user's active caseloads */
   definitions: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
     responses: {
       /** @description OK */
       200: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': string[]
         }
       }
       /** @description Bad Request */
       400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Too Many Requests */
       429: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Internal Server Error */
       500: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
     }
   }
-  /** @description Returns the dataset for the given report ID and report variant ID filtered by the filters provided in the query. */
   configuredApiDataset: {
     parameters: {
       query: {
@@ -292,43 +644,67 @@ export interface operations {
         sortedAsc?: boolean
         /**
          * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
-         *       |For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
+         *           filters.someMultiselectFilter=a,b,c
          *
          * @example {
-         *   "filters.date.start": "2023-04-25",
-         *   "filters.date.end": "2023-05-30"
-         * }
+         *       "filters.date.start": "2023-04-25",
+         *       "filters.date.end": "2023-05-30",
+         *       "filters.someMultiselectFilter": "a,b,c"
+         *     }
          */
         filters: {
           [key: string]: string
         }
         /**
          * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
          * @example definitions/prisons/orphanage
          */
         dataProductDefinitionsPath?: string
       }
+      header?: never
       path: {
         reportId: string
         reportVariantId: string
       }
+      cookie?: never
     }
+    requestBody?: never
     responses: {
       /** @description Bad Request */
       400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Too Many Requests */
       429: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Internal Server Error */
       500: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
@@ -338,6 +714,7 @@ export interface operations {
         headers: {
           /** @description Provides additional information about why no data has been returned. */
           'x-no-data-warning'?: string
+          [name: string]: unknown
         }
         content: {
           'application/json': {
@@ -347,7 +724,6 @@ export interface operations {
       }
     }
   }
-  /** @description Returns the dataset for the given report ID and report variant ID filtered by the filters provided in the query. */
   configuredApiDynamicFilter: {
     parameters: {
       query: {
@@ -355,12 +731,15 @@ export interface operations {
         sortedAsc?: boolean
         /**
          * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
-         *       |For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
+         *           filters.someMultiselectFilter=a,b,c
          *
          * @example {
-         *   "filters.date.start": "2023-04-25",
-         *   "filters.date.end": "2023-05-30"
-         * }
+         *       "filters.date.start": "2023-04-25",
+         *       "filters.date.end": "2023-05-30",
+         *       "filters.someMultiselectFilter": "a,b,c"
+         *     }
          */
         filters: {
           [key: string]: string
@@ -372,11 +751,12 @@ export interface operations {
         prefix: string
         /**
          * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
          * @example definitions/prisons/orphanage
          */
         dataProductDefinitionsPath?: string
       }
+      header?: never
       path: {
         reportId: string
         reportVariantId: string
@@ -386,22 +766,42 @@ export interface operations {
          */
         fieldId: string
       }
+      cookie?: never
     }
+    requestBody?: never
     responses: {
       /** @description Bad Request */
       400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Too Many Requests */
       429: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Internal Server Error */
       500: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
@@ -411,6 +811,7 @@ export interface operations {
         headers: {
           /** @description Provides additional information about why no data has been returned. */
           'x-no-data-warning'?: string
+          [name: string]: unknown
         }
         content: {
           'application/json': string[]
@@ -418,23 +819,45 @@ export interface operations {
       }
     }
   }
-  /** @description Returns the resulting rows of the executed statement in a paginated fashion which has been stored in a dedicated table. */
   getQueryExecutionResult: {
     parameters: {
-      query?: {
+      query: {
         dataProductDefinitionsPath?: string
         selectedPage?: number
         pageSize?: number
+        /**
+         * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
+         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
+         *           filters.someMultiselectFilter=a,b,c
+         *
+         * @example {
+         *       "filters.date.start": "2023-04-25",
+         *       "filters.date.end": "2023-05-30",
+         *       "filters.someMultiselectFilter": "a,b,c"
+         *     }
+         */
+        filters: {
+          [key: string]: string
+        }
+        sortColumn?: string
+        sortedAsc?: boolean
       }
+      header?: never
       path: {
         reportId: string
         reportVariantId: string
         tableId: string
       }
+      cookie?: never
     }
+    requestBody?: never
     responses: {
       /** @description OK */
       200: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': {
             [key: string]: Record<string, never>
@@ -443,40 +866,78 @@ export interface operations {
       }
       /** @description Bad Request */
       400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Too Many Requests */
       429: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Internal Server Error */
       500: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
     }
   }
-  /** @description Returns a summary of a request, which has been stored in a dedicated table. */
   getSummaryQueryExecutionResult: {
     parameters: {
-      query?: {
+      query: {
         dataProductDefinitionsPath?: string
+        /**
+         * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
+         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
+         *           filters.someMultiselectFilter=a,b,c
+         *
+         * @example {
+         *       "filters.date.start": "2023-04-25",
+         *       "filters.date.end": "2023-05-30",
+         *       "filters.someMultiselectFilter": "a,b,c"
+         *     }
+         */
+        filters: {
+          [key: string]: string
+        }
       }
+      header?: never
       path: {
         reportId: string
         reportVariantId: string
         tableId: string
         summaryId: string
       }
+      cookie?: never
     }
+    requestBody?: never
     responses: {
       /** @description OK */
       200: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': {
             [key: string]: Record<string, never>
@@ -485,123 +946,247 @@ export interface operations {
       }
       /** @description Bad Request */
       400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Too Many Requests */
       429: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Internal Server Error */
       500: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
     }
   }
-  /**
-   * @description Returns the status of the statement execution based on the statement ID provided.The following status values can be returned:
-   * ABORTED - The query run was stopped by the user.
-   * ALL - A status value that includes all query statuses. This value can be used to filter results.
-   * FAILED - The query run failed.
-   * FINISHED - The query has finished running.
-   * PICKED - The query has been chosen to be run.
-   * STARTED - The query run has started.
-   * SUBMITTED - The query was submitted, but not yet processed.
-   * Note: When the status is FAILED the error field of the response will be populated.ResultRows is the number of rows returned from the SQL statement. A -1 indicates the value is null.ResultSize is the size in bytes of the returned results. A -1 indicates the value is null.
-   * For Athena:
-   * Athena automatically retries your queries in cases of certain transient errors. As a result, you may see the query state transition from STARTED or FAILED to SUBMITTED.
-   */
+  getInteractiveExternalTableRowCount: {
+    parameters: {
+      query: {
+        filters: {
+          [key: string]: string
+        }
+        dataProductDefinitionsPath?: string
+      }
+      header?: never
+      path: {
+        tableId: string
+        reportId: string
+        reportVariantId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Bad Request */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description default response */
+      default: {
+        headers: {
+          /** @description Provides additional information about why no data has been returned. */
+          'x-no-data-warning'?: string
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Count']
+        }
+      }
+    }
+  }
   getQueryExecutionStatus: {
     parameters: {
       query?: {
         /**
          * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
          * @example definitions/prisons/orphanage
          */
         dataProductDefinitionsPath?: string
+        /**
+         * @description External table ID.
+         * @example reports._6b3c6dfb_f601_4795_8ee5_2ad65b7fb283
+         */
+        tableId?: string
       }
+      header?: never
       path: {
         reportId: string
         reportVariantId: string
         statementId: string
       }
+      cookie?: never
     }
+    requestBody?: never
     responses: {
       /** @description OK */
       200: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['StatementExecutionStatus']
         }
       }
       /** @description Bad Request */
       400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Too Many Requests */
       429: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Internal Server Error */
       500: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
     }
   }
-  /** @description Returns the number of records for the given report ID and report variant ID filtered by the filters provided in the query. */
   configuredApiCount: {
     parameters: {
       query: {
         /**
          * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
-         *       |For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
+         *           filters.someMultiselectFilter=a,b,c
          *
          * @example {
-         *   "filters.date.start": "2023-04-25",
-         *   "filters.date.end": "2023-05-30"
-         * }
+         *       "filters.date.start": "2023-04-25",
+         *       "filters.date.end": "2023-05-30",
+         *       "filters.someMultiselectFilter": "a,b,c"
+         *     }
          */
         filters: {
           [key: string]: string
         }
         /**
          * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
          * @example definitions/prisons/orphanage
          */
         dataProductDefinitionsPath?: string
       }
+      header?: never
       path: {
         reportId: string
         reportVariantId: string
       }
+      cookie?: never
     }
+    requestBody?: never
     responses: {
       /** @description Bad Request */
       400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Too Many Requests */
       429: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Internal Server Error */
       500: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
@@ -611,6 +1196,7 @@ export interface operations {
         headers: {
           /** @description Provides additional information about why no data has been returned. */
           'x-no-data-warning'?: string
+          [name: string]: unknown
         }
         content: {
           'application/json': components['schemas']['Count']
@@ -618,28 +1204,202 @@ export interface operations {
       }
     }
   }
-  /** @description Returns the number of rows of the table which contains the result of a previously executed query. */
+  getDashboardQueryExecutionResult: {
+    parameters: {
+      query: {
+        dataProductDefinitionsPath?: string
+        selectedPage?: number
+        pageSize?: number
+        /**
+         * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
+         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
+         *           filters.someMultiselectFilter=a,b,c
+         *
+         * @example {
+         *       "filters.date.start": "2023-04-25",
+         *       "filters.date.end": "2023-05-30",
+         *       "filters.someMultiselectFilter": "a,b,c"
+         *     }
+         */
+        filters: {
+          [key: string]: string
+        }
+      }
+      header?: never
+      path: {
+        reportId: string
+        dashboardId: string
+        tableId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': {
+            [key: string]: Record<string, never>
+          }[][]
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+    }
+  }
+  getDashboardExecutionStatus: {
+    parameters: {
+      query?: {
+        /**
+         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
+         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         * @example definitions/prisons/orphanage
+         */
+        dataProductDefinitionsPath?: string
+        /**
+         * @description External table ID.
+         * @example reports._6b3c6dfb_f601_4795_8ee5_2ad65b7fb283
+         */
+        tableId?: string
+      }
+      header?: never
+      path: {
+        reportId: string
+        dashboardId: string
+        statementId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['StatementExecutionStatus']
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+    }
+  }
   getExternalTableRowCount: {
     parameters: {
+      query?: never
+      header?: never
       path: {
         tableId: string
       }
+      cookie?: never
     }
+    requestBody?: never
     responses: {
       /** @description Bad Request */
       400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Too Many Requests */
       429: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Internal Server Error */
       500: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
@@ -649,6 +1409,7 @@ export interface operations {
         headers: {
           /** @description Provides additional information about why no data has been returned. */
           'x-no-data-warning'?: string
+          [name: string]: unknown
         }
         content: {
           'application/json': components['schemas']['Count']
@@ -656,7 +1417,6 @@ export interface operations {
       }
     }
   }
-  /** @description Gets summaries of all report definitions */
   definitions_1: {
     parameters: {
       query?: {
@@ -667,50 +1427,75 @@ export interface operations {
         renderMethod?: 'HTML' | 'PDF' | 'SVG'
         /**
          * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
          * @example definitions/prisons/orphanage
          */
         dataProductDefinitionsPath?: string
       }
+      header?: never
+      path?: never
+      cookie?: never
     }
+    requestBody?: never
     responses: {
       /** @description OK */
       200: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ReportDefinitionSummary'][]
         }
       }
       /** @description Bad Request */
       400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Too Many Requests */
       429: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Internal Server Error */
       500: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
     }
   }
-  /** @description Gets report definition containing a single variant. */
   definition: {
     parameters: {
       query?: {
         /**
          * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
          * @example definitions/prisons/orphanage
          */
         dataProductDefinitionsPath?: string
       }
+      header?: never
       path: {
         /**
          * @description The ID of the report definition.
@@ -723,35 +1508,131 @@ export interface operations {
          */
         variantId: string
       }
+      cookie?: never
     }
+    requestBody?: never
     responses: {
       /** @description OK */
       200: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['SingleVariantReportDefinition']
         }
       }
       /** @description Bad Request */
       400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Too Many Requests */
       429: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Internal Server Error */
       500: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
     }
   }
-  /** @description Executes asynchronously the dataset query for the given report and stores the result into an external table.The response returned contains the table ID and the execution ID. This is the asynchronous version of the /reports/{reportId}/{reportVariantId} API. */
+  dashboardDefinition: {
+    parameters: {
+      query?: {
+        /**
+         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
+         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         * @example definitions/prisons/orphanage
+         */
+        dataProductDefinitionsPath?: string
+      }
+      header?: never
+      path: {
+        /**
+         * @description The ID of the Data Product Definition.
+         * @example external-movements
+         */
+        dataProductDefinitionId: string
+        /**
+         * @description The ID of the dashboard.
+         * @example dashboardId
+         */
+        dashboardId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['DashboardDefinition']
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+    }
+  }
   asyncConfiguredApiExecuteQuery: {
     parameters: {
       query: {
@@ -759,43 +1640,67 @@ export interface operations {
         sortedAsc?: boolean
         /**
          * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
-         *       |For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
-         *
+         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
+         *           filters.someMultiselectFilter=a,b,c
+         *          Note: For legacy nomis and bodmis reports, for filters deriving from DPD parameters(prompts),there is no need for these to be suffixed with .start and .end. For example, filters.start_date and filters.end_date are perfectly valid in this case.
          * @example {
-         *   "filters.date.start": "2023-04-25",
-         *   "filters.date.end": "2023-05-30"
-         * }
+         *       "filters.date.start": "2023-04-25",
+         *       "filters.date.end": "2023-05-30",
+         *       "filters.someMultiselectFilter": "a,b,c"
+         *     }
          */
         filters: {
           [key: string]: string
         }
         /**
          * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
          * @example definitions/prisons/orphanage
          */
         dataProductDefinitionsPath?: string
       }
+      header?: never
       path: {
         reportId: string
         reportVariantId: string
       }
+      cookie?: never
     }
+    requestBody?: never
     responses: {
       /** @description Bad Request */
       400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Too Many Requests */
       429: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Internal Server Error */
       500: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
@@ -805,6 +1710,7 @@ export interface operations {
         headers: {
           /** @description Provides additional information about why no data has been returned. */
           'x-no-data-warning'?: string
+          [name: string]: unknown
         }
         content: {
           'application/json': components['schemas']['StatementExecutionResponse']
@@ -812,44 +1718,217 @@ export interface operations {
       }
     }
   }
-  /** @description Cancels the execution of a running query. */
-  cancelQueryExecution: {
+  asyncExecuteDashboard: {
     parameters: {
-      query?: {
+      query: {
         /**
          * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
-         *       "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
          * @example definitions/prisons/orphanage
          */
         dataProductDefinitionsPath?: string
-      }
-      path: {
-        reportId: string
-        reportVariantId: string
-        statementId: string
-      }
-    }
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          'application/json': components['schemas']['StatementCancellationResponse']
+        /**
+         * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
+         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
+         *           filters.someMultiselectFilter=a,b,c
+         *
+         * @example {
+         *       "filters.date.start": "2023-04-25",
+         *       "filters.date.end": "2023-05-30",
+         *       "filters.someMultiselectFilter": "a,b,c"
+         *     }
+         */
+        filters: {
+          [key: string]: string
         }
       }
+      header?: never
+      path: {
+        reportId: string
+        dashboardId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
       /** @description Bad Request */
       400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Too Many Requests */
       429: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Internal Server Error */
       500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description default response */
+      default: {
+        headers: {
+          /** @description Provides additional information about why no data has been returned. */
+          'x-no-data-warning'?: string
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['StatementExecutionResponse']
+        }
+      }
+    }
+  }
+  cancelReportQueryExecution: {
+    parameters: {
+      query?: {
+        /**
+         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
+         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         * @example definitions/prisons/orphanage
+         */
+        dataProductDefinitionsPath?: string
+      }
+      header?: never
+      path: {
+        reportId: string
+        reportVariantId: string
+        statementId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['StatementCancellationResponse']
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+    }
+  }
+  cancelDashboardQueryExecution: {
+    parameters: {
+      query?: {
+        /**
+         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
+         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         * @example definitions/prisons/orphanage
+         */
+        dataProductDefinitionsPath?: string
+      }
+      header?: never
+      path: {
+        reportId: string
+        dashboardId: string
+        statementId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['StatementCancellationResponse']
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
         content: {
           'application/json': components['schemas']['ErrorResponse']
         }

@@ -7,6 +7,7 @@ export interface FilterOption {
   text: string
   disabled?: boolean
   selected?: boolean
+  sortedAsc?: boolean
 }
 
 export type FilterValue = GenericFilterValue | DateFilterValue

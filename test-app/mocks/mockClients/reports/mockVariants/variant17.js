@@ -78,6 +78,7 @@ const variant17 = {
         mandatory: false,
         visible: false,
         defaultsort: true,
+        sortDirection: 'asc'
       },
       {
         name: 'field6',

@@ -15,6 +15,7 @@ import type {
   RecentlyViewedStoreService,
   ReportingService,
   DashboardService,
+  DefaultFilterValuesService,
 } from '../../../../services'
 
 describe('RequestReportUtils', () => {
@@ -23,6 +24,7 @@ describe('RequestReportUtils', () => {
   let dashboardService: DashboardService
   let requestedReportService: RequestedReportService
   let recentlyViewedService: RecentlyViewedStoreService
+  let defaultFilterValuesService: DefaultFilterValuesService
   let res: Response
   let req: Request
   let next: NextFunction
@@ -92,11 +94,16 @@ describe('RequestReportUtils', () => {
       },
     } as unknown as RequestedReportService
 
+    defaultFilterValuesService = {
+      get: jest.fn().mockResolvedValue(undefined),
+    } as unknown as DefaultFilterValuesService
+
     services = {
       reportingService,
       dashboardService,
       requestedReportService,
       recentlyViewedService,
+      defaultFilterValuesService,
     } as unknown as Services
 
     next = ((error: Error) => {

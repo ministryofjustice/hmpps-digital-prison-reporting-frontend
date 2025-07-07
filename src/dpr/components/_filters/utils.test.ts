@@ -403,7 +403,7 @@ describe('Filters Utils tests', () => {
                 text: 'Value 8.4',
               },
             ],
-            values: ['value8.2', 'value8.4', 'value8.4'],
+            values: ['value8.2', 'value8.4'],
           },
         ],
         selectedFilters: [

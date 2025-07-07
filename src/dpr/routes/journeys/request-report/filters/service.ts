@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import ReportStoreService from '../../../../services/reportStoreService'
 import ReportDataStore from '../../../../data/reportDataStore'
 import { defaultFilterValue } from './types'
@@ -8,8 +9,16 @@ export default class DefaultFilterValuesService extends ReportStoreService {
     super(reportDataStore)
   }
 
+  async init(userConfig: ReportStoreConfig, userId: string) {
+    if (!userConfig.defaultFilters) {
+      userConfig.defaultFilters = []
+      await this.saveState(userId, userConfig)
+    }
+  }
+
   async save(userId: string, reportId: string, id: string, values: defaultFilterValue[]) {
     const userConfig = await this.getState(userId)
+    await this.init(userConfig, userId)
 
     if (!values.length) {
       await this.delete(userConfig, userId, id, reportId)
@@ -31,11 +40,14 @@ export default class DefaultFilterValuesService extends ReportStoreService {
     }
 
     await this.saveState(userId, userConfig)
+
+    const userConfig3 = await this.getState(userId)
+    console.log(userConfig3.defaultFilters)
   }
 
-  async get(userId: string, id: string, reportId: string) {
+  async get(userId: string, reportId: string, id: string) {
     const userConfig = await this.getState(userId)
-    const defaultConfig = userConfig.defaultFilters.find((defaultFilter) => {
+    const defaultConfig = userConfig.defaultFilters?.find((defaultFilter) => {
       return defaultFilter.id === id && defaultFilter.reportId === reportId
     })
     return defaultConfig ? defaultConfig.values : undefined
@@ -50,7 +62,9 @@ export default class DefaultFilterValuesService extends ReportStoreService {
 
   async delete(userConfig: ReportStoreConfig, userId: string, id: string, reportId: string) {
     const index = await this.getIndex(userId, id, reportId)
-    userConfig.defaultFilters.splice(index, 1)
-    await this.saveState(userId, userConfig)
+    if (index !== -1) {
+      userConfig.defaultFilters.splice(index, 1)
+      await this.saveState(userId, userConfig)
+    }
   }
 }

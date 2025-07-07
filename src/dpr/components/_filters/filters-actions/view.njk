@@ -17,10 +17,15 @@
             id: submitId
           }
         }) }}
-      {% endif %}
 
-      {% if showReset %}
-        <a id="{{ resetId }}" class="govuk-link govuk-link--no-visited-state dpr-reset-columns-button" href="#" defaultQuery="{{ defaultQuery }}" >{{ resetText }}</a>
+        {{ govukButton({
+          text: 'Save defaults',
+          classes: "govuk-button--primary",
+          attributes: {
+            id: submitId,
+            formaction: './filters/save-defaults'
+          }
+        }) }}
       {% endif %}
     </div>
 {% endmacro %}

@@ -93,7 +93,7 @@ describe('DefaultFilterValuesService', () => {
 
   describe('get', () => {
     it('should get the default values', async () => {
-      const defaults = await defaultFilterValuesService.get('userId', defaults1.id, defaults1.reportId)
+      const defaults = await defaultFilterValuesService.get('userId', defaults1.reportId, defaults1.id)
       expect(defaults).toEqual(defaults1.values)
     })
   })

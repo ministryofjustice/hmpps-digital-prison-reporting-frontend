@@ -6,6 +6,7 @@ import { components } from '../../../types/api'
 import { DateFilterValue, DateRange, FilterValue } from '../../_filters/types'
 import StartEndDateUtils from '../start-end-date/utils'
 import RelativeDateRange, { RelativeOption } from './types'
+import { dateFilterValue, defaultFilterValue } from '../../../routes/journeys/request-report/filters/types'
 
 const dateIsInBounds = (startDate: dayjs.Dayjs | string, endDate: dayjs.Dayjs | string, min: string, max: string) => {
   dayjs.extend(isBetween)
@@ -76,6 +77,42 @@ const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) 
   } as DateRange
 
   return value
+}
+
+const setDefaultValue = (req: Request, name: string) => {
+  const dateRangeName = name.split('.')[0]
+  const dateRangeDefaults = Object.keys(req.body)
+    .filter((key) => key.includes(dateRangeName))
+    .map((key) => {
+      return { name: key, value: req.body[key] }
+    })
+  let dateRangeValue: dateFilterValue | string = { start: '', end: '' }
+  dateRangeDefaults.forEach((dateRangeDefault) => {
+    if (dateRangeDefault.name.includes('start')) {
+      ;(<dateFilterValue>dateRangeValue).start = dateRangeDefault.value
+    }
+    if (dateRangeDefault.name.includes('end')) {
+      ;(<dateFilterValue>dateRangeValue).end = dateRangeDefault.value
+    }
+  })
+  dateRangeValue = dateRangeValue.start !== '' && dateRangeValue.end !== '' ? dateRangeValue : ''
+
+  return { value: dateRangeValue, name: dateRangeName }
+}
+
+const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: FilterValue) => {
+  const value = { start: '', end: '' }
+  const { start, end } = <dateFilterValue>defaultValue.value
+  if (start) {
+    value.start = dayjs(start).format('YYYY-MM-DD').toString()
+  }
+  if (end) {
+    value.end = dayjs(end).format('YYYY-MM-DD').toString()
+  }
+  return {
+    ...filter,
+    value,
+  }
 }
 
 const getRelativeDateOptions = (min: string, max: string) => {
@@ -162,4 +199,6 @@ export default {
   setValueFromRequest,
   getQueryFromDefinition,
   mapRelativeValue,
+  setDefaultValue,
+  setFilterValueFromDefault,
 }

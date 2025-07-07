@@ -154,7 +154,7 @@ const requestProduct = async ({
   }
 
   if (type === ReportType.DASHBOARD) {
-    definition = await dashboardService.getDefinition(token, id, reportId, dataProductDefinitionsPath)
+    definition = await dashboardService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
 
     fields = definition ? definition.filterFields : []
     queryData = FiltersFormUtils.setQueryFromFilters(req, fields)
@@ -225,14 +225,8 @@ const getDefintionByType = async (req: Request, res: Response, next: NextFunctio
   const { token, definitionsPath } = LocalsHelper.getValues(res)
   const { reportId, id, variantId, type } = req.params
 
-  let definition
-  if (type === ReportType.REPORT) {
-    definition = await services.reportingService.getDefinition(token, reportId, variantId || id, definitionsPath)
-  }
-
-  if (type === ReportType.DASHBOARD) {
-    definition = await services.dashboardService.getDefinition(token, variantId || id, reportId, definitionsPath)
-  }
+  const service = type === ReportType.REPORT ? services.reportingService : services.dashboardService
+  const definition = await service.getDefinition(token, reportId, variantId || id, definitionsPath)
 
   return definition
 }
@@ -312,7 +306,7 @@ export default {
       let interactive
       let defaultInteractiveQueryString
       let filtersData
-      let defaultValues
+      let defaultFilterValues
 
       if (type === ReportType.REPORT) {
         ;({ name, reportName, description, fields, interactive } = await renderReportRequestData(definition))
@@ -327,11 +321,13 @@ export default {
 
       if (fields) {
         filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
-        console.log(JSON.stringify({ filter: filtersData.filters }, null, 2))
-        // defaultValues = services.defaultFilterValuesService.get(userId, reportId, id)
-        // if (defaultValues) {
-        //   filtersData.filters = FiltersUtils.setFilterValuesFromSavedDefaults(filtersData.filters, defaultValues)
-        // }
+        // console.log(filtersData.filters)
+        defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id)
+        if (defaultFilterValues) {
+          filtersData.filters = FiltersUtils.setFilterValuesFromSavedDefaults(filtersData.filters, defaultFilterValues)
+        }
+        console.log({ defaultFilterValues })
+        // console.log(filtersData.filters)
         filtersData.filters = FiltersUtils.setFilterValuesFromRequest(filtersData.filters, req)
         defaultInteractiveQueryString = FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
       }

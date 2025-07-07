@@ -9,8 +9,7 @@ import { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 import { FilterValue } from './types'
 import { FilterType } from './filter-input/enum'
 import { defaultFilterValue } from '../../routes/journeys/request-report/filters/types'
-import { Granularity } from '../_inputs/granular-date-range/types'
-import { QuickFilters } from '../../../../dist-docs/dpr/components/_inputs/granular-date-range/types'
+import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
 
 describe('Filters Utils tests', () => {
   let req: Request = {

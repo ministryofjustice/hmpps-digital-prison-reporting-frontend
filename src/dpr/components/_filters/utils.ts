@@ -1,10 +1,9 @@
 /* eslint-disable no-param-reassign */
 import { Request, Response } from 'express'
-import dayjs from 'dayjs'
 import { FilterType } from './filter-input/enum'
 import type { components } from '../../types/api'
 import type { FilterOption } from './filter-input/types'
-import type { DateFilterValue, DateRange, FilterValue, GranularDateRange } from './types'
+import type { DateRange, FilterValue } from './types'
 import ReportQuery, { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 
 import SelectedFiltersUtils from './filters-selected/utils'
@@ -14,11 +13,7 @@ import GranularDateRangeInputUtils from '../_inputs/granular-date-range/utils'
 import MultiSelectUtils from '../_inputs/multi-select/utils'
 import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
 import createUrlForParameters from '../../utils/urlHelper'
-import {
-  dateFilterValue,
-  defaultFilterValue,
-  granularDateFilterValue,
-} from '../../routes/journeys/request-report/filters/types'
+import { defaultFilterValue } from '../../routes/journeys/request-report/filters/types'
 import localsHelper from '../../utils/localsHelper'
 import { Services } from '../../types/Services'
 import { ReportType } from '../../types/UserReports'

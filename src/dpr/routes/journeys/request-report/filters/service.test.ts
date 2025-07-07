@@ -8,11 +8,10 @@ describe('DefaultFilterValuesService', () => {
   const mockUserStore: ReportDataStore = new MockUserStoreService() as unknown as ReportDataStore
   const defaultFilterValuesService: DefaultFilterValuesService = new DefaultFilterValuesService(mockUserStore)
 
-  let saveStateSpy: jest.SpyInstance<Promise<void>, [userId: string, userConfig: ReportStoreConfig], any>
+  let saveStateSpy: jest.SpyInstance<Promise<void>, [userId: string, userConfig: ReportStoreConfig], unknown>
 
   let defaults1: defaultFilterConfig
   let defaults1b: defaultFilterConfig
-  let defaults1c: defaultFilterConfig
   let defaults2: defaultFilterConfig
 
   beforeEach(() => {
@@ -44,12 +43,6 @@ describe('DefaultFilterValuesService', () => {
         { name: 'name2.2', value: 'value2.2' },
         { name: 'name2.3', value: 'value2.3' },
       ],
-    }
-
-    defaults1c = {
-      reportId: 'reportId1',
-      id: 'id1',
-      values: [],
     }
 
     jest.spyOn(defaultFilterValuesService, 'getState').mockResolvedValue({

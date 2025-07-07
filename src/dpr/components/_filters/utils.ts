@@ -69,38 +69,51 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
 }
 
 const setFilterValuesFromSavedDefaults = (filters: FilterValue[], defaultValues: defaultFilterValue[]) => {
+  const hasDefaults = filters.some((f) => {
+    const defaultValue = defaultValues.findIndex((v) => v.name === f.name)
+    return defaultValue !== -1
+  })
+
   return filters.map((filter) => {
-    const defaultValue = defaultValues.find((v) => v.name === filter.name)
-    if (defaultValue) {
-      const type = filter.type.toLocaleLowerCase()
-      let updatedFilter = {
+    let defaultValue = defaultValues.find((v) => v.name === filter.name)
+    let updatedFilter = {
+      ...filter,
+    }
+    const type = filter.type.toLocaleLowerCase()
+
+    if (type === FilterType.multiselect.toLocaleLowerCase()) {
+      let value = hasDefaults ? '' : updatedFilter.value
+      value = defaultValue ? defaultValue.value : value
+      let values = hasDefaults ? [] : updatedFilter.values
+      values = defaultValue ? (<string>defaultValue.value).split(',') : values
+
+      updatedFilter = {
+        ...updatedFilter,
+        value,
+        values,
+      }
+    } else if (type === FilterType.date.toLocaleLowerCase()) {
+      const value = hasDefaults ? '' : updatedFilter.value
+      defaultValue = defaultValue || { ...defaultValue, value }
+      updatedFilter = DateInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
+    } else if (type === FilterType.dateRange.toLocaleLowerCase()) {
+      const value = hasDefaults ? { start: '', end: '' } : updatedFilter.value
+      defaultValue = defaultValue || { ...defaultValue, value }
+      updatedFilter = DateRangeInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
+    } else if (type === FilterType.granularDateRange.toLocaleLowerCase()) {
+      const value = hasDefaults ? { start: '', end: '', granularity: '', quickFilter: '' } : updatedFilter.value
+      defaultValue = defaultValue || { ...defaultValue, value }
+      updatedFilter = GranularDateRangeInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
+    } else {
+      let value = hasDefaults ? '' : updatedFilter.value
+      value = defaultValue ? defaultValue.value : value
+      updatedFilter = {
         ...filter,
-        value: defaultValue.value,
+        value,
       }
-
-      if (type === FilterType.multiselect.toLocaleLowerCase()) {
-        updatedFilter = {
-          ...updatedFilter,
-          values: (<string>defaultValue.value).split(','),
-        }
-      }
-
-      if (type === FilterType.date.toLocaleLowerCase()) {
-        updatedFilter = DateInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
-      }
-
-      if (type === FilterType.dateRange.toLocaleLowerCase()) {
-        updatedFilter = DateRangeInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
-      }
-
-      if (type === FilterType.granularDateRange.toLocaleLowerCase()) {
-        updatedFilter = GranularDateRangeInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
-      }
-
-      return updatedFilter
     }
 
-    return filter
+    return updatedFilter
   })
 }
 

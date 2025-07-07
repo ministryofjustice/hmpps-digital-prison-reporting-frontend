@@ -2,6 +2,7 @@
 {% from "../../_filters/filter-input/view.njk" import dprFilterInput %}
 {% from "../../_filters/filters-actions/view.njk" import dprFiltersActions %}
 {% from "../../_filters/filters-selected/view.njk" import dprSelectedFilters %}
+{% from "../../_filters/fitlers-save-defaults/view.njk" import dprFiltersSaveDefaults %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
@@ -23,21 +24,12 @@
   {% set defaultInteractiveQueryString = data.defaultInteractiveQueryString %}
   {% set csrfToken = data.csrfToken %}
   {% set template = data.template %}
+  {% set hasDefaults = data.hasDefaults %}
+  {% set defaultsSaved = data.defaultsSaved %}
   {% set type = data.type %}
   {% set sections = data.sections %}
   {% set dashboardId = data.dashboardId %}
   {% set interactive = data.interactive %}
-
-  {% set reportDetailsHtml %}
-  {{ dprRequestDetails(data)}}
-  {% endset %}
-
-  {{ govukDetails({
-    summaryText: 'Details for "' + reportName + ': ' + name + '"',
-    html: reportDetailsHtml,
-    classes: 'dpr-meta-data-details',
-    open: (filters.length == null or filters.length == 0)
-  }) }}
 
   <div class="dpr-async-request-filters dpr-filters govuk-!-margin-top-4" data-dpr-module="async-filters">
     <form 
@@ -92,6 +84,10 @@
 
             <div class='dpr-request-selected-filters-container'>
               {{ dprSelectedFilters() }}
+            </div>
+
+            <div class='dpr-request-save-filters-container'>
+              {{ dprFiltersSaveDefaults('async-filters-form', hasDefaults, defaultsSaved) }}
             </div>
 
             <div class="filter-container">

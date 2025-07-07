@@ -14,16 +14,8 @@
           text: submitText,
           classes: "govuk-button--primary",
           attributes: {
-            id: submitId
-          }
-        }) }}
-
-        {{ govukButton({
-          text: 'Save defaults',
-          classes: "govuk-button--primary",
-          attributes: {
             id: submitId,
-            formaction: './filters/save-defaults'
+            formaction: './filters'
           }
         }) }}
       {% endif %}

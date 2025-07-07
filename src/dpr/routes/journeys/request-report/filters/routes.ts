@@ -10,6 +10,7 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
   router.get('/', controller.GET)
   router.post('/', controller.POST)
   router.post('/save-defaults', controller.saveDefaultFilterValues)
+  router.post('/remove-defaults', controller.removeDefaultFilterValues)
 
   return router
 }

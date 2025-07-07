@@ -28,6 +28,13 @@
           margin-bottom: 0px;
         }
       }
+
+      .dpr-request-save-filters-container {
+        padding: govuk-spacing(4);
+        padding-top: govuk-spacing(0);
+        border-bottom: solid 1px govuk-colour('mid-grey');
+        background-color: govuk-colour("light-grey");
+      }
       
       .dpr-async-request-filters__section--actions {
         padding: govuk-spacing(4);

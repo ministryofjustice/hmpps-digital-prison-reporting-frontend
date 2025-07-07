@@ -4,13 +4,7 @@ import { RequestDataResult } from '../../../../types/AsyncReportUtils'
 import AysncRequestUtils from './utils'
 import FiltersUtils from '../../../../components/_filters/utils'
 import ErrorSummaryUtils from '../../../../components/error-summary/utils'
-import GranularDateRangeUtils from '../../../../components/_inputs/granular-date-range/utils'
-import DateRangeUtils from '../../../../components/_inputs/date-range/utils'
 import localsHelper from '../../../../utils/localsHelper'
-import { ReportType } from '../../../../types/UserReports'
-import { components } from '../../../../types/api'
-import { FilterType } from '../../../../components/_filters/filter-input/enum'
-import { defaultFilterValue } from './types'
 
 export default class RequestReportController {
   layoutPath: string
@@ -81,10 +75,32 @@ export default class RequestReportController {
   saveDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
       const defaultValuesForReport = await FiltersUtils.setUserDefinedDefaultValuesForReport(req, res, this.services)
-      console.log({ defaultValuesForReport })
       const { userId } = localsHelper.getValues(res)
       const { reportId, id } = req.body
       await this.services.defaultFilterValuesService.save(userId, reportId, id, defaultValuesForReport)
+      res.redirect(`${req.baseUrl}?defaultsSaved=true`)
+    } catch (error) {
+      const dprError = ErrorSummaryUtils.handleError(error, req.params.type)
+      const filters = AysncRequestUtils.getFiltersFromReqBody(req)
+
+      req.body = {
+        title: 'Failed to save defaults',
+        errorDescription: `Your ${req.params.type} has failed to generate.`,
+        error: dprError,
+        retry: true,
+        filters,
+        ...req.body,
+      }
+      next()
+    }
+  }
+
+  // Save filter values
+  removeDefaultFilterValues: RequestHandler = async (req, res, next) => {
+    try {
+      const { userId } = localsHelper.getValues(res)
+      const { reportId, id } = req.params
+      await this.services.defaultFilterValuesService.delete(userId, reportId, id)
       res.redirect(req.baseUrl)
     } catch (error) {
       const dprError = ErrorSummaryUtils.handleError(error, req.params.type)

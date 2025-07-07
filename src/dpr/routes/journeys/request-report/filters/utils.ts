@@ -294,6 +294,7 @@ export default {
       } = LocalsHelper.getValues(res)
       const { reportId, type, id } = req.params
       const { definition } = req.body
+      const defaultsSaved = <string>req.query.defaultsSaved
 
       const definitionApiArgs = { token, reportId, definitionPath, services }
 
@@ -321,13 +322,10 @@ export default {
 
       if (fields) {
         filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
-        // console.log(filtersData.filters)
         defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id)
         if (defaultFilterValues) {
           filtersData.filters = FiltersUtils.setFilterValuesFromSavedDefaults(filtersData.filters, defaultFilterValues)
         }
-        console.log({ defaultFilterValues })
-        // console.log(filtersData.filters)
         filtersData.filters = FiltersUtils.setFilterValuesFromRequest(filtersData.filters, req)
         defaultInteractiveQueryString = FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
       }
@@ -343,6 +341,8 @@ export default {
         csrfToken,
         template,
         sections,
+        hasDefaults: defaultFilterValues?.length,
+        defaultsSaved,
         type: type as ReportType,
       }
 

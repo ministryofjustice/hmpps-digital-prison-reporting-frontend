@@ -79,16 +79,6 @@ describe('DefaultFilterValuesService', () => {
 
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })
-
-    it('should delete the defaults', async () => {
-      await defaultFilterValuesService.save('userId', defaults1.reportId, defaults1.id, defaults1c.values)
-
-      const userConfig = {
-        defaultFilters: [],
-      } as unknown as ReportStoreConfig
-
-      expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
-    })
   })
 
   describe('get', () => {

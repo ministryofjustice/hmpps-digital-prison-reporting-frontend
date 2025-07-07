@@ -86,6 +86,7 @@ const setDefaultValue = (req: Request, name: string) => {
     .map((key) => {
       return { name: key, value: req.body[key] }
     })
+
   let dateRangeValue: dateFilterValue | string = { start: '', end: '' }
   dateRangeDefaults.forEach((dateRangeDefault) => {
     if (dateRangeDefault.name.includes('start')) {
@@ -95,7 +96,10 @@ const setDefaultValue = (req: Request, name: string) => {
       ;(<dateFilterValue>dateRangeValue).end = dateRangeDefault.value
     }
   })
-  dateRangeValue = dateRangeValue.start !== '' && dateRangeValue.end !== '' ? dateRangeValue : ''
+
+  if (dateRangeValue.start === '' && dateRangeValue.end === '') {
+    dateRangeValue = ''
+  }
 
   return { value: dateRangeValue, name: dateRangeName }
 }
@@ -104,11 +108,14 @@ const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: Fil
   const value = { start: '', end: '' }
   const { start, end } = <dateFilterValue>defaultValue.value
   if (start) {
-    value.start = dayjs(start).format('YYYY-MM-DD').toString()
+    const startDate = dayjs(start).format('D/M/YYYY')
+    value.start = dayjs(startDate).format('YYYY-MM-DD').toString()
   }
   if (end) {
-    value.end = dayjs(end).format('YYYY-MM-DD').toString()
+    const endDate = dayjs(end).format('D/M/YYYY')
+    value.end = dayjs(endDate).format('YYYY-MM-DD').toString()
   }
+
   return {
     ...filter,
     value,

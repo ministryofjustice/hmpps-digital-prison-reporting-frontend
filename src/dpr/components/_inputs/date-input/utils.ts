@@ -27,9 +27,8 @@ const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) 
 }
 
 const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: FilterValue) => {
-  const value = dayjs(<string>defaultValue.value)
-    .format('YYYY-MM-DD')
-    .toString()
+  const date = dayjs(<string>defaultValue.value).format('D/M/YYYY')
+  const value = dayjs(date).format('YYYY-MM-DD').toString()
   return {
     ...filter,
     value,

@@ -20,18 +20,13 @@ export default class DefaultFilterValuesService extends ReportStoreService {
     const userConfig = await this.getState(userId)
     await this.init(userConfig, userId)
 
-    if (!values.length) {
-      await this.delete(userConfig, userId, id, reportId)
-      return
-    }
-
     const defaults = {
       reportId,
       id,
       values,
     }
 
-    const defaultValuesIndex = await this.getIndex(userId, id, reportId)
+    const defaultValuesIndex = await this.getIndex(userId, reportId, id)
 
     if (defaultValuesIndex === -1) {
       userConfig.defaultFilters.push(defaults)
@@ -41,8 +36,7 @@ export default class DefaultFilterValuesService extends ReportStoreService {
 
     await this.saveState(userId, userConfig)
 
-    const userConfig3 = await this.getState(userId)
-    console.log(userConfig3.defaultFilters)
+    await this.getState(userId)
   }
 
   async get(userId: string, reportId: string, id: string) {
@@ -53,15 +47,16 @@ export default class DefaultFilterValuesService extends ReportStoreService {
     return defaultConfig ? defaultConfig.values : undefined
   }
 
-  async getIndex(userId: string, id: string, reportId: string) {
+  async getIndex(userId: string, reportId: string, id: string) {
     const userConfig = await this.getState(userId)
     return userConfig.defaultFilters.findIndex((defaultFilter) => {
       return defaultFilter.id === id && defaultFilter.reportId === reportId
     })
   }
 
-  async delete(userConfig: ReportStoreConfig, userId: string, id: string, reportId: string) {
-    const index = await this.getIndex(userId, id, reportId)
+  async delete(userId: string, reportId: string, id: string) {
+    const userConfig = await this.getState(userId)
+    const index = await this.getIndex(userId, reportId, id)
     if (index !== -1) {
       userConfig.defaultFilters.splice(index, 1)
       await this.saveState(userId, userConfig)

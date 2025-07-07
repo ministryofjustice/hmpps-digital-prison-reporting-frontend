@@ -26,7 +26,7 @@ const sortByTemplate = () => {
           text: 'Descending',
         },
       ] as FilterOption[],
-      value: 'true',
+      value: 'false',
       minimumLength: null,
       mandatory: true,
     },

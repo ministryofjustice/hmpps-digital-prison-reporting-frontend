@@ -213,7 +213,7 @@ const filtersData = {
       ],
       "text": "Direction",
       "type": "Radio",
-      "value": "true",
+      "value": "false",
     },
   ],
 }

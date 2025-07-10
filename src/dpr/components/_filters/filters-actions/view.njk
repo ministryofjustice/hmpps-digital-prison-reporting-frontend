@@ -14,13 +14,10 @@
           text: submitText,
           classes: "govuk-button--primary",
           attributes: {
-            id: submitId
+            id: submitId,
+            formaction: './filters'
           }
         }) }}
-      {% endif %}
-
-      {% if showReset %}
-        <a id="{{ resetId }}" class="govuk-link govuk-link--no-visited-state dpr-reset-columns-button" href="#" defaultQuery="{{ defaultQuery }}" >{{ resetText }}</a>
       {% endif %}
     </div>
 {% endmacro %}

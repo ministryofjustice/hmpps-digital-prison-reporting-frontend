@@ -13,6 +13,10 @@ import GranularDateRangeInputUtils from '../_inputs/granular-date-range/utils'
 import MultiSelectUtils from '../_inputs/multi-select/utils'
 import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
 import createUrlForParameters from '../../utils/urlHelper'
+import { defaultFilterValue } from '../../routes/journeys/request-report/filters/types'
+import localsHelper from '../../utils/localsHelper'
+import { Services } from '../../types/Services'
+import { ReportType } from '../../types/UserReports'
 
 /**
  * Given a FilterValue[], will update the values to match the req.query values if present
@@ -59,6 +63,55 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
   })
 }
 
+const setFilterValuesFromSavedDefaults = (filters: FilterValue[], defaultValues: defaultFilterValue[]) => {
+  const hasDefaults = filters.some((f) => {
+    const defaultValue = defaultValues.findIndex((v) => v.name === f.name)
+    return defaultValue !== -1
+  })
+
+  return filters.map((filter) => {
+    let defaultValue = defaultValues.find((v) => v.name === filter.name)
+    let updatedFilter = {
+      ...filter,
+    }
+    const type = filter.type.toLocaleLowerCase()
+
+    if (type === FilterType.multiselect.toLocaleLowerCase()) {
+      let value = hasDefaults ? '' : updatedFilter.value
+      value = defaultValue ? defaultValue.value : value
+      let values = hasDefaults ? [] : updatedFilter.values
+      values = defaultValue ? (<string>defaultValue.value).split(',') : values
+
+      updatedFilter = {
+        ...updatedFilter,
+        value,
+        values,
+      }
+    } else if (type === FilterType.date.toLocaleLowerCase()) {
+      const value = hasDefaults ? '' : updatedFilter.value
+      defaultValue = defaultValue || { ...defaultValue, value }
+      updatedFilter = DateInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
+    } else if (type === FilterType.dateRange.toLocaleLowerCase()) {
+      const value = hasDefaults ? { start: '', end: '' } : updatedFilter.value
+      defaultValue = defaultValue || { ...defaultValue, value }
+      updatedFilter = DateRangeInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
+    } else if (type === FilterType.granularDateRange.toLocaleLowerCase()) {
+      const value = hasDefaults ? { start: '', end: '', granularity: '', quickFilter: '' } : updatedFilter.value
+      defaultValue = defaultValue || { ...defaultValue, value }
+      updatedFilter = GranularDateRangeInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
+    } else {
+      let value = hasDefaults ? '' : updatedFilter.value
+      value = defaultValue ? defaultValue.value : value
+      updatedFilter = {
+        ...filter,
+        value,
+      }
+    }
+
+    return updatedFilter
+  })
+}
+
 const setFilterQueryFromFilterDefinition = (
   fields: components['schemas']['FieldDefinition'][],
   interactive?: boolean,
@@ -99,6 +152,64 @@ const setFilterQueryFromFilterDefinition = (
       return `${DEFAULT_FILTERS_PREFIX}${field.name}=${filter.defaultValue}`
     })
     .join('&')
+}
+
+const setUserDefinedDefaultValuesForReport = async (
+  req: Request,
+  res: Response,
+  services: Services,
+): Promise<defaultFilterValue[]> => {
+  const { token, definitionsPath } = localsHelper.getValues(res)
+  const { reportId, id, type } = req.body
+
+  const service = type === ReportType.REPORT ? services.reportingService : services.dashboardService
+  const definition = await service.getDefinition(token, reportId, id, definitionsPath)
+  const fields: components['schemas']['FieldDefinition'][] =
+    type === ReportType.REPORT ? definition.variant.specification.fields : definition.filterFields
+
+  const bodyFilterValues = Object.keys(req.body)
+    .filter((k) => {
+      return k.includes('filters.')
+    })
+    .map((k) => {
+      return { name: k.replace('filters.', ''), value: req.body[k] }
+    })
+    .map((k) => {
+      const n = k.name.split('.')[0]
+      const field = fields.find((f) => f.name === n)
+      let { value, name } = k
+
+      if (field) {
+        const filterType = field.filter?.type.toLocaleLowerCase()
+
+        if (filterType === FilterType.multiselect.toLocaleLowerCase()) {
+          value = k.value.join(',')
+        }
+
+        if (filterType === FilterType.dateRange.toLocaleLowerCase()) {
+          ;({ value, name } = DateRangeInputUtils.setDefaultValue(req, name))
+        }
+
+        if (filterType === FilterType.granularDateRange.toLocaleLowerCase()) {
+          ;({ name, value } = GranularDateRangeInputUtils.setDefaultValue(req, name))
+        }
+      }
+
+      return {
+        name,
+        value,
+      }
+    })
+
+  let defaultValuesConfig = Array.from(new Set(bodyFilterValues.map((a) => a.name))).map((name) => {
+    return bodyFilterValues.find((a) => a.name === name)
+  })
+
+  defaultValuesConfig = defaultValuesConfig.filter((defaultValue) => {
+    return defaultValue.value !== ''
+  })
+
+  return defaultValuesConfig
 }
 
 const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
@@ -287,4 +398,6 @@ export default {
   getFilters,
   setFilterQueryFromFilterDefinition,
   redirectWithDefaultFilters,
+  setFilterValuesFromSavedDefaults,
+  setUserDefinedDefaultValuesForReport,
 }

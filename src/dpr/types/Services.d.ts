@@ -8,4 +8,5 @@ export interface UserStoreServices {
   requestedReportService?: RequestedReportService
   recentlyViewedService?: RecentlyViewedStoreService
   bookmarkService?: BookmarkService
+  defaultFilterValuesService?: DefaultFilterValuesService
 }

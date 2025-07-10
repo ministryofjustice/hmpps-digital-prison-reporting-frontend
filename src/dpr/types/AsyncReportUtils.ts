@@ -32,6 +32,8 @@ export interface RequestReportData {
   sections: DashboardSection[]
   type: ReportType
   defaultInteractiveQueryString?: string
+  hasDefaults: boolean
+  defaultsSaved?: string
 }
 
 export interface RequestDataResult {

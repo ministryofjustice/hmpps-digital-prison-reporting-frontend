@@ -1,0 +1,34 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% macro dprFiltersHelp(formId, hasDefaults, defaultsSaved) %}
+  {% set helpHtml %}
+    <h2 class="govuk-!-margin-top-0">How to use</h2>
+
+    <p class="govuk-body">Request a report by setting dataset constraints with filters and sort options. Your report will be generated using the constraints you have provided, and once generated, the report can be viewed.</p>
+    
+    <h3>Filters</h3>
+    <p class="govuk-body">Update the filters in the form to set the constraints of your generated report</p>
+    
+    <h4>Selected Filters</h4>
+    <p class="govuk-body">Selected filters show the currently set filter values that will be used to generate your report. Clicking the selected button will remove filter. <br> "Reset filters" will reset the filters to their initial pre-defined default values</p>
+    
+    <h4>Save current filter values as defaults for this report</h4>
+    <p class="govuk-body">Save your current filter values as defaults so the next time you want to request this report, your default values will be prefilled. 
+      You can update or delete your saved defaults to reset the report to its pre-defined default values. 
+      If you have saved defaults, "Reset filters" will reset the values to your saved defaults. 
+      Otherwise, it will reset to its intitial pre-defined default values
+    </p>
+    
+    <h4>Sort</h4>
+    <p>Select the sort column and sort direction for your generated report</p>
+    
+    <h4>Request Report</h4>
+    <p class="govuk-body">Clicking the request report button will request the report with your chosen filters.</p>
+  {% endset %}
+
+  {{ govukDetails({
+    summaryText: "Help",
+    html: helpHtml
+  }) }}
+{% endmacro %}

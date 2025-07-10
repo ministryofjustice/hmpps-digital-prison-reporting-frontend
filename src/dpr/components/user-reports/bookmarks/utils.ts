@@ -124,7 +124,7 @@ const mapBookmarkIdsToDefinition = async (
             definitionsPath,
           )
 
-          definition = await services.dashboardService.getDefinition(token, bookmarkId, reportId, definitionsPath)
+          definition = await services.dashboardService.getDefinition(token, reportId, bookmarkId, definitionsPath)
           name = definition.name
           reportName = reportDefinition.name
           description = definition.description

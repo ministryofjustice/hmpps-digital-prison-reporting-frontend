@@ -154,7 +154,7 @@ const requestProduct = async ({
   }
 
   if (type === ReportType.DASHBOARD) {
-    definition = await dashboardService.getDefinition(token, id, reportId, dataProductDefinitionsPath)
+    definition = await dashboardService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
 
     fields = definition ? definition.filterFields : []
     queryData = FiltersFormUtils.setQueryFromFilters(req, fields)
@@ -225,14 +225,8 @@ const getDefintionByType = async (req: Request, res: Response, next: NextFunctio
   const { token, definitionsPath } = LocalsHelper.getValues(res)
   const { reportId, id, variantId, type } = req.params
 
-  let definition
-  if (type === ReportType.REPORT) {
-    definition = await services.reportingService.getDefinition(token, reportId, variantId || id, definitionsPath)
-  }
-
-  if (type === ReportType.DASHBOARD) {
-    definition = await services.dashboardService.getDefinition(token, variantId || id, reportId, definitionsPath)
-  }
+  const service = type === ReportType.REPORT ? services.reportingService : services.dashboardService
+  const definition = await service.getDefinition(token, reportId, variantId || id, definitionsPath)
 
   return definition
 }
@@ -291,9 +285,16 @@ export default {
    */
   renderRequest: async ({ req, res, services, next }: AsyncReportUtilsParams): Promise<RequestDataResult | boolean> => {
     try {
-      const { token, csrfToken, definitionsPath: definitionPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
+      const {
+        token,
+        csrfToken,
+        definitionsPath: definitionPath,
+        dpdPathFromQuery,
+        userId,
+      } = LocalsHelper.getValues(res)
       const { reportId, type, id } = req.params
       const { definition } = req.body
+      const defaultsSaved = <string>req.query.defaultsSaved
 
       const definitionApiArgs = { token, reportId, definitionPath, services }
 
@@ -306,6 +307,7 @@ export default {
       let interactive
       let defaultInteractiveQueryString
       let filtersData
+      let defaultFilterValues
 
       if (type === ReportType.REPORT) {
         ;({ name, reportName, description, fields, interactive } = await renderReportRequestData(definition))
@@ -320,6 +322,10 @@ export default {
 
       if (fields) {
         filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
+        defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id)
+        if (defaultFilterValues) {
+          filtersData.filters = FiltersUtils.setFilterValuesFromSavedDefaults(filtersData.filters, defaultFilterValues)
+        }
         filtersData.filters = FiltersUtils.setFilterValuesFromRequest(filtersData.filters, req)
         defaultInteractiveQueryString = FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
       }
@@ -335,6 +341,8 @@ export default {
         csrfToken,
         template,
         sections,
+        hasDefaults: defaultFilterValues?.length,
+        defaultsSaved,
         type: type as ReportType,
       }
 

@@ -30,7 +30,7 @@ describe('DashboardService', () => {
 
       dashboardClient.getDefinition.mockResolvedValue(expectedResponse)
 
-      const result = await dashboardService.getDefinition('token', 'test-metric-id-1', 'pdp-id')
+      const result = await dashboardService.getDefinition('token', 'pdp-id', 'test-metric-id-1')
 
       expect(result).toEqual(expectedResponse)
     })

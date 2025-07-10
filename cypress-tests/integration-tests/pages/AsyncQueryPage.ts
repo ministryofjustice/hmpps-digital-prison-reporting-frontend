@@ -1,7 +1,7 @@
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default class QueryPage {
-  reportDetails = (): PageElement => cy.xpath(`//*[@id="main-content"]/details`)
+  reportDetails = (): PageElement => cy.xpath(`//*[@id="main-content"]/details`).first()
 
   reportDetailsTable = (): PageElement => cy.xpath(`//* [@id="main-content"]/details/div/div/table`)
 

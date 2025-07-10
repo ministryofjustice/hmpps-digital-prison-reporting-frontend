@@ -63,8 +63,8 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
   // Dashboard Definition,
   const dashboardDefinition: DashboardDefinition = await services.dashboardService.getDefinition(
     token,
-    id,
     reportId,
+    id,
     dataProductDefinitionsPath,
   )
 

@@ -22,8 +22,8 @@ export default (services: Services, layoutPath: string): RequestHandler => {
     if (type === ReportType.DASHBOARD) {
       definition = await services.dashboardService.getDefinition(
         token,
-        variantId || id,
         reportId,
+        variantId || id,
         dataProductDefinitionsPath,
       )
     }

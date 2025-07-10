@@ -11,8 +11,8 @@ export default class DashboardService {
 
   async getDefinition(
     token: string,
-    id: string,
     dpdId: string,
+    id: string,
     dataProductDefinitionsPath?: string,
   ): Promise<DashboardDefinition> {
     return this.dashboardClient.getDefinition(token, id, dpdId, dataProductDefinitionsPath)

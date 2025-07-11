@@ -68,6 +68,7 @@ const buildLibrary = async () => {
     process.stderr.write(`${e}\n`)
     process.exit(1)
   })
+  fs.copyFileSync(path.join(cwd, 'dist/dpr/css/app.css'), path.join(cwd, 'dist/dpr/all.css'))
 }
 
 /**

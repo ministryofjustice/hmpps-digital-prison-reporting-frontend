@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
-/* global Chart */
-/* global ChartDataLabels */
+import Chart from 'chart.js/auto'
+import ChartDataLabels from 'chartjs-plugin-datalabels'
 
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
@@ -18,6 +18,7 @@ export default class ChartVisualisation extends DprClientClass {
     this.legend = this.getElement().querySelector(`#js-legend-${this.id}`)
 
     // ChartCard elements
+    
     this.tooltipDetailsEl = document.getElementById(`dpr-${this.id}-tooltip-details`)
     this.headlineValuesEl = document.getElementById(`dpr-${this.id}-headline-values`)
     this.labelElement = document.getElementById(`dpr-${this.id}-label`)

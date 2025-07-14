@@ -47,6 +47,7 @@ Array.of(
   '/dist/assets/stylesheets',
   '/dist/assets/js',
   '/assets',
+  '/all.css',
   '/node_modules/govuk-frontend/dist/govuk/assets',
   '/node_modules/govuk-frontend/dist',
   '/node_modules/@ministryofjustice/frontend/moj/assets',
@@ -56,7 +57,7 @@ Array.of(
 })
 
 // Local overrides
-app.use('/assets/css', express.static(path.join(__dirname, '../dist/dpr/css')))
+app.use('/all.css', express.static(path.join(__dirname, '../dist/dpr/all.css')))
 app.use('/assets/js', express.static(path.join(__dirname, '../dist/dpr/js')))
 app.use('/assets', express.static(path.join(__dirname, '../dist/dpr')))
 app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))

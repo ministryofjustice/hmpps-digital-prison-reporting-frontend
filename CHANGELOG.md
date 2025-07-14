@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## v4.9.1
+- Bugfix for chart imports
+
 ## v4.9.0
 - User can save the values of a filters form to automatically pre-fill filter values for sub-sequent report requests of the same report
 - Bugfix for css and js exports

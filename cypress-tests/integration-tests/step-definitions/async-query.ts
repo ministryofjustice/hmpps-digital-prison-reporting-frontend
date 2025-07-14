@@ -16,7 +16,7 @@ Then('the report details are displayed', () => {
 Then('the url is initialised to the default values', () => {
   cy.url().should(
     'eq',
-    'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-1/filters?filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3&sortColumn=field1&sortedAsc=true',
+    'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-1/filters?filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3&sortColumn=field1&sortedAsc=false',
   )
 })
 
@@ -38,7 +38,7 @@ Then('I update the sort values', () => {
 Then('the URL is updated', () => {
   cy.url().should(
     'eq',
-    'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-1/filters?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3&sortColumn=field2&sortedAsc=true',
+    'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-1/filters?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3&sortColumn=field2&sortedAsc=false',
   )
 })
 

@@ -59,7 +59,7 @@ Array.of(
 // Local overrides
 app.use('/all.css', express.static(path.join(__dirname, '../dist/dpr/all.css')))
 app.use('/assets/js', express.static(path.join(__dirname, '../dist/dpr/js')))
-app.use('/assets', express.static(path.join(__dirname, '../dist/dpr')))
+app.use('/assets', express.static(path.join(__dirname, '../dist')))
 app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
 app.use(bodyParser.json())
 

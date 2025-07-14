@@ -3,8 +3,6 @@
 import jquery from 'jquery'
 import dayjs from 'dayjs'
 import customParse from 'dayjs/plugin/customParseFormat'
-import chartjs from 'chart.js'
-import chartjsplugin from 'chartjs-plugin-datalabels'
 
 // Helper
 import DprLoadingHelper from './DprLoadingHelper.mjs'

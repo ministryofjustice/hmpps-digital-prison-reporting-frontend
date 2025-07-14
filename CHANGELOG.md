@@ -1,5 +1,30 @@
 Below you can find the changes included in each release.
 
+## v4.9.0
+- User can save the values of a filters form to automatically pre-fill filter values for sub-sequent report requests of the same report
+- Bugfix for css and js exports
+
+## v4.8.1
+- Small bugfix for docs publishing
+
+## v4.8.0
+- Bugfixes for build issues
+- More routes refactoring to conform to new pattern
+
+## v4.7.0
+- Refactored build system to use ESBuild as per the template instead of Gulp
+- Refactored routes - added journeys to routes folder, implemented new routing pattern that groups together files by feature, rather than type
+- Catalogue missing reports
+- Missing reports are shown in the catalogue and tagged as missing.
+- Uses the `isMissing` flag in the DPD to determine its status
+- New catalogue filters to toggle the show/hide of missing reports
+- New catalogue filters to toggle show/hide of live reports
+- Refactored catalogue filters class
+- Added filter for catalogue to filter the list by report type
+- Fixed variant name issue on submitted page.
+- Fixed H3 accessibility issue
+
+
 ## v4.6.4
 
 - Bugfix: show all dataset as list fixed

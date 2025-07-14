@@ -81,7 +81,7 @@ When(/^I am taken to the (report|reportV2|dashboard) query page$/, function (thi
   if (reportType === 'report') {
     cy.url().should(
       'eq',
-      'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-4/filters?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true',
+      'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-4/filters?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=false',
     )
   }
 

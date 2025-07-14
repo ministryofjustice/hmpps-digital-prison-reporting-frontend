@@ -133,7 +133,7 @@ const mockRenderFiltersData = {
           text: 'Descending',
         },
       ],
-      value: 'true',
+      value: 'false',
       minimumLength: null,
       mandatory: true,
     },

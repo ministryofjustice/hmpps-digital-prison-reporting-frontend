@@ -204,16 +204,16 @@ const filtersData = {
       "options": [
         {
           "text": "Ascending",
-          "value": "true",
+          "value": "false",
         },
         {
           "text": "Descending",
-          "value": "false",
+          "value": "true",
         },
       ],
       "text": "Direction",
       "type": "Radio",
-      "value": "true",
+      "value": "false",
     },
   ],
 }

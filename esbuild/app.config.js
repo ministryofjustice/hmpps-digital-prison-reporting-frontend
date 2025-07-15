@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 const { copy } = require('esbuild-plugin-copy')
 const esbuild = require('esbuild')
 const glob = require('glob')

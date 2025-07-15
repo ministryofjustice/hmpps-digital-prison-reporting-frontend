@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 const path = require('node:path')
 const { copy } = require('esbuild-plugin-copy')
 const { sassPlugin } = require('esbuild-sass-plugin')
@@ -42,8 +44,10 @@ const buildAssets = (buildConfig) => {
         patterns: glob.sync(buildConfig.assets.clear),
       }),
       manifestPlugin({
-        generate: entries =>
-          Object.fromEntries(Object.entries(entries).map(paths => paths.map(p => p.replace(/^dist-test-app\//, '/')))),
+        generate: (entries) =>
+          Object.fromEntries(
+            Object.entries(entries).map((paths) => paths.map((p) => p.replace(/^dist-test-app\//, '/'))),
+          ),
       }),
       sassPlugin({
         quietDeps: true,
@@ -57,7 +61,7 @@ const buildAssets = (buildConfig) => {
  * @param {BuildConfig} buildConfig
  * @returns {Promise}
  */
-module.exports = buildConfig => {
+module.exports = (buildConfig) => {
   process.stderr.write('\u{1b}[1m\u{2728} Building assets...\u{1b}[0m\n')
 
   return Promise.all([buildAssets(buildConfig), buildAdditionalAssets(buildConfig)])

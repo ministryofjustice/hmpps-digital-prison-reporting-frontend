@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 const { spawn } = require('node:child_process')
 const path = require('node:path')
 const fs = require('fs')
@@ -33,12 +35,14 @@ const buildConfigLib = () => ({
 })
 
 const buildLibrary = async () => {
-    await buildApp(buildConfigLib()).catch((e) => {
-        process.stderr.write(`${e}\n`)
-        process.exit(1)
-    })
-    const scssFiles = glob.sync(['src/**/*.scss'])
-    scssFiles.forEach(file => fs.appendFileSync(path.join(cwd, 'dist/dpr/all.scss'), fs.readFileSync(path.join(cwd, file))))
+  await buildApp(buildConfigLib()).catch((e) => {
+    process.stderr.write(`${e}\n`)
+    process.exit(1)
+  })
+  const scssFiles = glob.sync(['src/**/*.scss'])
+  scssFiles.forEach((file) =>
+    fs.appendFileSync(path.join(cwd, 'dist/dpr/all.scss'), fs.readFileSync(path.join(cwd, file))),
+  )
 }
 
 /**
@@ -53,8 +57,13 @@ const buildConfig = {
     minify: false,
     outDir: path.join(cwd, 'dist-test-app'),
     entryPoints: glob
-      .sync([path.join(cwd, 'test-app/*.js'), path.join(cwd, 'test-app/**/*.js'), path.join(cwd, 'test-app/*.ts'), path.join(cwd, 'test-app/**/*.ts')])
-      .filter(file => !file.endsWith('.test.ts') && !file.endsWith('.test.js')),
+      .sync([
+        path.join(cwd, 'test-app/*.js'),
+        path.join(cwd, 'test-app/**/*.js'),
+        path.join(cwd, 'test-app/*.ts'),
+        path.join(cwd, 'test-app/**/*.ts'),
+      ])
+      .filter((file) => !file.endsWith('.test.ts') && !file.endsWith('.test.js')),
     copy: [
       {
         from: path.join(cwd, 'test-app/views/**/*'),
@@ -69,20 +78,23 @@ const buildConfig = {
 
   assets: {
     outDir: path.join(cwd, 'dist-test-app/assets'),
-    entryPoints: glob.sync([path.join(cwd, 'test-app/assets/application.js'), path.join(cwd, 'test-app/assets/application.scss')]),
+    entryPoints: glob.sync([
+      path.join(cwd, 'test-app/assets/application.js'),
+      path.join(cwd, 'test-app/assets/application.scss'),
+    ]),
     clear: glob.sync([path.join(cwd, 'dist-test-app/assets/{css,js}')]),
   },
 }
 
 const buildLibraryThenApp = async () => {
-    await buildLibrary().catch(e => {
-      process.stderr.write(`${e}\n`)
-      process.exit(1)
-    })
-    await Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch(e => {
-      process.stderr.write(`${e}\n`)
-      process.exit(1)
-    })
+  await buildLibrary().catch((e) => {
+    process.stderr.write(`${e}\n`)
+    process.exit(1)
+  })
+  await Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch((e) => {
+    process.stderr.write(`${e}\n`)
+    process.exit(1)
+  })
 }
 
 const main = async () => {
@@ -97,7 +109,7 @@ const main = async () => {
 
   const args = process.argv
   if (args.includes('--build')) {
-    Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch(e => {
+    Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch((e) => {
       process.stderr.write(`${e}\n`)
       process.exit(1)
     })
@@ -120,16 +132,18 @@ const main = async () => {
     // Assets
     chokidar
       .watch(['src/dpr/assets/**/*'], chokidarOptions)
-      .on('all', () => buildAssets(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
+      .on('all', () => buildAssets(buildConfig).catch((e) => process.stderr.write(`${e}\n`)))
 
     // App
     chokidar
       .watch(['test-app/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts', 'manifest.json'] })
-      .on('all', () => Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch(e => process.stderr.write(`${e}\n`)))
+      .on('all', () =>
+        Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch((e) => process.stderr.write(`${e}\n`)),
+      )
 
     chokidar
       .watch(['src/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts', 'manifest.json'] })
-      .on('all', () => buildLibraryThenApp().catch(e => process.stderr.write(`${e}\n`)))
+      .on('all', () => buildLibraryThenApp().catch((e) => process.stderr.write(`${e}\n`)))
   }
 }
 

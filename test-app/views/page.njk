@@ -1,13 +1,23 @@
 {% extends "govuk/template.njk" %}
 {% from "components/card-group/view.njk" import dprCardGroup %}
+{% set mainClasses = "app-container govuk-body" %}
 
 {% block head %}
-  <link href="/all.css" rel="stylesheet">
+  <link href="{{ '/assets/css/app.css' | assetMap }}" rel="stylesheet">
+
+  {% for js in feComponents.jsIncludes %}
+    <script src="{{ js }}" nonce="{{ cspNonce }}"></script>
+  {% endfor %}
+
+  {% for css in feComponents.cssIncludes %}
+    <link href="{{ css }}" nonce="{{ cspNonce }}" rel="stylesheet" />
+  {% endfor %}
+
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% endblock %}
 
 {% block pageTitle %}Test App{% endblock %}
 
 {% block bodyEnd %}    
-  <script type="module" src="/assets/js/app.js"></script>
+  <script type="module" src="{{ '/assets/js/app.js' | assetMap }}"></script>
 {% endblock %}

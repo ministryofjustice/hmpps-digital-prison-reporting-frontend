@@ -1,21 +1,46 @@
 {
+  "extends": "@tsconfig/node22/tsconfig.json",
   "compileOnSave": true,
   "compilerOptions": {
-    "target": "es2018",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "outDir": "./dist",
     "sourceMap": true,
     "skipLibCheck": true,
     "noEmit": false,
     "allowJs": true,
     "checkJs": true,
+    "lib": ["dom", "es2015.promise", "DOM.Iterable", "ESNext"],
+    "types": ["cypress", "express", "express-session", "@testing-library/cypress"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "experimentalDecorators": true,
-    "ignoreDeprecations": "5.0"
+    // "strict": true,
+    // "noUncheckedIndexedAccess": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noPropertyAccessFromIndexSignature": true,
+    // "exactOptionalPropertyTypes": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noImplicitOverride": true,
+    "inlineSources": true,
+    // This improves issue grouping in Sentry.
+    "sourceRoot": "/"
   },
-  "exclude": ["node_modules", "dist", "dist-test-app", "package", "cypress-tests", "esbuild"],
-  "include": ["**/*.ts"]
+  "exclude": [
+    "node_modules",
+    "assets/**/*.js",
+    "dist",
+    "dist-test-app",
+    "dist-docs",
+    "cypress.config.ts",
+    "coverage",
+    "codecov_reports",
+    "ctrf",
+    "esbuild",
+    "server/@types/csip/index.d.ts",
+    "test_results",
+    "eslint.config.mjs"
+  ],
+  "include": ["**/*.js", "**/*.ts"]
 }

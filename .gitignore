@@ -156,3 +156,4 @@ dist-test-app
 dist-docs
 # This is a generated file 
 all-imports-bundle.scss
+_bakdist

@@ -3,8 +3,8 @@
 // Core dependencies
 
 const fs = require('fs')
-const path = require('path')
-
+import path from 'path'
+import noCache from 'nocache'
 // NPM dependencies
 const express = require('express')
 const nunjucks = require('nunjucks')
@@ -25,6 +25,18 @@ const app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
+let assetManifest = {}
+
+  try {
+    const assetMetadataPath = path.resolve(__dirname, 'assets/manifest.json')
+    assetManifest = JSON.parse(fs.readFileSync(assetMetadataPath, 'utf8'))
+  } catch (e) {
+    if (process.env.NODE_ENV !== 'test') {
+      console.error(`Could not read asset manifest file: ${e} -- ${__dirname}`)
+    }
+  }
+
+
 // Nunjucks configurations
 const nunjucksEnvironment = nunjucks.configure(appViews, {
   autoescape: true,
@@ -32,6 +44,7 @@ const nunjucksEnvironment = nunjucks.configure(appViews, {
   noCache: true,
   watch: true,
 })
+nunjucksEnvironment.addFilter('assetMap', (url) => assetManifest[url] || url)
 
 // Add library filters
 const setUpNunjucksFilters = require('../dist/dpr/setUpNunjucksFilters').default
@@ -41,25 +54,44 @@ setUpNunjucksFilters(nunjucksEnvironment)
 // Set view engine
 app.set('view engine', 'njk')
 
-// Middleware to serve static assets
-Array.of(
-  '/dist/assets',
-  '/dist/assets/stylesheets',
-  '/dist/assets/js',
-  '/assets',
-  '/all.css',
-  '/node_modules/govuk-frontend/dist/govuk/assets',
-  '/node_modules/govuk-frontend/dist',
-  '/node_modules/@ministryofjustice/frontend/moj/assets',
-  '/node_modules/@ministryofjustice/frontend',
-).forEach((dir) => {
-  app.use('/assets', express.static(path.join(process.cwd(), dir)))
-})
+function setUpStaticResources() {
+  const router = express.Router()
+
+  //  Static Resources Configuration
+  const cacheControl = { maxAge: '24h' }
+
+  Array.of(
+    '/dist-test-app/assets',
+    '/node_modules/govuk-frontend/dist/govuk/assets',
+    '/node_modules/govuk-frontend/dist',
+    '/node_modules/@ministryofjustice/frontend/moj/assets',
+    '/node_modules/@ministryofjustice/frontend',
+    '/node_modules/@microsoft/applicationinsights-web/dist/es5',
+    '/node_modules/@microsoft/applicationinsights-clickanalytics-js/dist/es5',
+  ).forEach(dir => {
+    router.use('/assets', express.static(path.join(process.cwd(), dir), cacheControl))
+  })
+
+  // Don't cache dynamic resources
+  router.use(noCache())
+
+  return router
+}
+
+// // Middleware to serve static assets
+// Array.of(
+//   '/dist-test-app/assets',
+//   '/node_modules/govuk-frontend/dist/govuk/assets',
+//   '/node_modules/govuk-frontend/dist',
+//   '/node_modules/@ministryofjustice/frontend/moj/assets',
+//   '/node_modules/@ministryofjustice/frontend',
+// ).forEach((dir) => {
+//   app.use('/assets', express.static(path.join(process.cwd(), dir)))
+// })
+
+app.use(setUpStaticResources())
 
 // Local overrides
-app.use('/all.css', express.static(path.join(__dirname, '../dist/dpr/all.css')))
-app.use('/assets/js', express.static(path.join(__dirname, '../dist/dpr/js')))
-app.use('/assets', express.static(path.join(__dirname, '../dist')))
 app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
 app.use(bodyParser.json())
 

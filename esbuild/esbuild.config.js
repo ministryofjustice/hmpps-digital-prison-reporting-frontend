@@ -1,6 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
-const fs = require('fs')
 const { spawn } = require('node:child_process')
 const path = require('node:path')
 
@@ -11,12 +8,7 @@ const buildApp = require('./app.config')
 
 const cwd = process.cwd()
 
-/**
- * Configuration for build steps
- * This needs to be a function because some of the files input into glob.sync dont exist until the build process has started
- * @type {BuildConfig}
- */
-const buildConfig = () => ({
+const buildConfigLib = () => ({
   isProduction: process.env.NODE_ENV === 'production',
 
   app: {
@@ -64,7 +56,7 @@ const buildLibrary = async () => {
     flush: true,
   })
 
-  await Promise.all([buildApp(buildConfig()), buildAssets(buildConfig())]).catch((e) => {
+  await Promise.all([buildApp(buildConfigLib()), buildAssets(buildConfigLib())]).catch((e) => {
     process.stderr.write(`${e}\n`)
     process.exit(1)
   })
@@ -75,7 +67,7 @@ const buildLibrary = async () => {
  * Configuration for build steps
  * @type {BuildConfig}
  */
-const buildConfigTestApp = {
+const buildConfig = {
   isProduction: process.env.NODE_ENV === 'production',
 
   app: {
@@ -83,32 +75,49 @@ const buildConfigTestApp = {
     minify: false,
     outDir: path.join(cwd, 'dist-test-app'),
     entryPoints: glob
-      .sync([path.join(cwd, 'test-app/**/*.js'), path.join(cwd, 'test-app/**/*.ts')])
-      .filter((file) => !file.endsWith('.test.ts')),
+      .sync([path.join(cwd, 'test-app/*.js'), path.join(cwd, 'test-app/**/*.js'), path.join(cwd, 'test-app/*.ts'), path.join(cwd, 'test-app/**/*.ts')])
+      .filter(file => !file.endsWith('.test.ts') && !file.endsWith('.test.js')),
     copy: [
       {
-        // from: path.join(cwd, 'src/dpr/**/{css,js,ts,njk,scss}'),
-        from: path.join(cwd, 'test-app/**/*'),
-        to: path.join(cwd, 'dist-test-app'),
+        from: path.join(cwd, 'test-app/views/**/*'),
+        to: path.join(cwd, 'dist-test-app/views'),
+      },
+      {
+        from: path.join(cwd, 'routes/**/*'),
+        to: path.join(cwd, 'dist-test-app/routes'),
       },
     ],
+  },
+
+  assets: {
+    outDir: path.join(cwd, 'dist-test-app/assets'),
+    entryPoints: glob.sync([path.join(cwd, 'test-app/assets/application.js'), path.join(cwd, 'test-app/assets/application.scss')]),
+    // copy: [
+    //   {
+    //     from: path.join(cwd, 'assets/images/**/*'),
+    //     to: path.join(cwd, 'dist/assets/images'),
+    //   },
+    // ],
+    clear: glob.sync([path.join(cwd, 'dist-test-app/assets/{css,js}')]),
   },
 }
 
 const main = async () => {
   await buildLibrary()
-  await Promise.all([buildApp(buildConfigTestApp)]).catch((e) => {
-    process.stderr.write(`${e}\n`)
-    process.exit(1)
-  })
-
-  const args = process.argv
   /**
    * @type {chokidar.WatchOptions}
    */
   const chokidarOptions = {
     persistent: true,
     ignoreInitial: true,
+  }
+
+  const args = process.argv
+  if (args.includes('--build')) {
+    Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch(e => {
+      process.stderr.write(`${e}\n`)
+      process.exit(1)
+    })
   }
 
   if (args.includes('--dev-server')) {
@@ -122,28 +131,18 @@ const main = async () => {
         serverProcess = spawn('node', ['dist-test-app/server.js'], { stdio: 'inherit' })
       })
   }
-  if (args.includes('--dev-test-server')) {
-    let serverProcess = null
-    chokidar
-      .watch(['dist-test-app'], {
-        ignored: ['**/*.cy.ts'],
-      })
-      .on('all', () => {
-        if (serverProcess) serverProcess.kill()
-        serverProcess = spawn('node', ['dist-test-app/server.js'], { stdio: 'inherit' })
-      })
-  }
 
   if (args.includes('--watch')) {
     process.stderr.write('\u{1b}[1m\u{1F52D} Watching for changes...\u{1b}[0m\n')
+    // Assets
+    chokidar
+      .watch(['assets/**/*'], chokidarOptions)
+      .on('all', () => buildAssets(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
+
     // App
     chokidar
-      .watch(['src/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
-      .on('all', () => buildLibrary(buildConfig()).catch((e) => process.stderr.write(`${e}\n`)))
-
-    chokidar
-      .watch(['test-app/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
-      .on('all', () => buildApp(buildConfigTestApp).catch((e) => process.stderr.write(`${e}\n`)))
+      .watch(['test-app/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts', 'manifest.json'] })
+      .on('all', () => buildApp(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
   }
 }
 

@@ -10,7 +10,7 @@ const { glob } = require('glob')
  * Copy additional assets into distribution
  * @type {BuildStep}
  */
-const buildAdditionalAssets = buildConfig => {
+const buildAdditionalAssets = (buildConfig) => {
   return esbuild.build({
     outdir: buildConfig.assets.outDir,
     plugins: [
@@ -26,7 +26,7 @@ const buildAdditionalAssets = buildConfig => {
  * Build scss and javascript assets
  * @type {BuildStep}
  */
-const buildAssets = buildConfig => {
+const buildAssets = (buildConfig) => {
   return esbuild.build({
     entryPoints: buildConfig.assets.entryPoints,
     outdir: buildConfig.assets.outDir,

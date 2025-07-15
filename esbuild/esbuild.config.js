@@ -74,6 +74,17 @@ const buildConfig = {
   },
 }
 
+const buildLibraryThenApp = async () => {
+    await buildLibrary().catch(e => {
+      process.stderr.write(`${e}\n`)
+      process.exit(1)
+    })
+    await Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch(e => {
+      process.stderr.write(`${e}\n`)
+      process.exit(1)
+    })
+}
+
 const main = async () => {
   await buildLibrary()
   /**
@@ -95,7 +106,7 @@ const main = async () => {
   if (args.includes('--dev-server')) {
     let serverProcess = null
     chokidar
-      .watch(['dist-test-app'], {
+      .watch(['dist-test-app/**/*', 'dist/**/*'], {
         ignored: ['**/*.cy.ts'],
       })
       .on('all', () => {
@@ -108,13 +119,17 @@ const main = async () => {
     process.stderr.write('\u{1b}[1m\u{1F52D} Watching for changes...\u{1b}[0m\n')
     // Assets
     chokidar
-      .watch(['assets/**/*'], chokidarOptions)
+      .watch(['src/dpr/assets/**/*'], chokidarOptions)
       .on('all', () => buildAssets(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
 
     // App
     chokidar
       .watch(['test-app/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts', 'manifest.json'] })
-      .on('all', () => buildApp(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
+      .on('all', () => Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch(e => process.stderr.write(`${e}\n`)))
+
+    chokidar
+      .watch(['src/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts', 'manifest.json'] })
+      .on('all', () => buildLibraryThenApp().catch(e => process.stderr.write(`${e}\n`)))
   }
 }
 

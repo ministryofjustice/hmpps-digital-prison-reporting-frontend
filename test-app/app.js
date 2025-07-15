@@ -78,17 +78,6 @@ function setUpStaticResources() {
   return router
 }
 
-// // Middleware to serve static assets
-// Array.of(
-//   '/dist-test-app/assets',
-//   '/node_modules/govuk-frontend/dist/govuk/assets',
-//   '/node_modules/govuk-frontend/dist',
-//   '/node_modules/@ministryofjustice/frontend/moj/assets',
-//   '/node_modules/@ministryofjustice/frontend',
-// ).forEach((dir) => {
-//   app.use('/assets', express.static(path.join(process.cwd(), dir)))
-// })
-
 app.use(setUpStaticResources())
 
 // Local overrides

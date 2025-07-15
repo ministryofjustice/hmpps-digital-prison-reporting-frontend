@@ -2,12 +2,12 @@ $govuk-global-styles: true;
 
 $dpr-images-path: "/assets/dpr/assets/images/";
 $govuk-assets-path: "/assets/";
-@import "node_modules/govuk-frontend/dist/govuk/index";
+@import "govuk-frontend/dist/govuk/all";
 
 // Configure MoJ Frontend
 $moj-assets-path: '/assets/';
 $moj-images-path: '/assets/images/';
-@import "node_modules/@ministryofjustice/frontend/moj/all";
+@import "@ministryofjustice/frontend/moj/all";
 
 .govuk-width-container {
   max-width: 1170px !important;

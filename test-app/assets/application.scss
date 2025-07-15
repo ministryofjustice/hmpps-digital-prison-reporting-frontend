@@ -1,0 +1,6 @@
+
+@import "govuk-frontend/dist/govuk/all";
+@import "@ministryofjustice/frontend/moj/all";
+// This is what should be done in a real app, but we aren't installing the library using the test app
+// @import "@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/all";
+@import "../../dist/dpr/all"

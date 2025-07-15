@@ -1,10 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 const path = require('node:path')
-
 const { copy } = require('esbuild-plugin-copy')
 const { sassPlugin } = require('esbuild-sass-plugin')
 const { clean } = require('esbuild-plugin-clean')
+const manifestPlugin = require('esbuild-plugin-manifest')
 const esbuild = require('esbuild')
 const { glob } = require('glob')
 
@@ -33,7 +33,7 @@ const buildAssets = (buildConfig) => {
     entryPoints: buildConfig.assets.entryPoints,
     outdir: buildConfig.assets.outDir,
     entryNames: '[ext]/app',
-    minify: true,
+    minify: buildConfig.isProduction,
     sourcemap: !buildConfig.isProduction,
     platform: 'browser',
     target: 'es2018',
@@ -42,6 +42,12 @@ const buildAssets = (buildConfig) => {
     plugins: [
       clean({
         patterns: glob.sync(buildConfig.assets.clear),
+      }),
+      manifestPlugin({
+        generate: (entries) =>
+          Object.fromEntries(
+            Object.entries(entries).map((paths) => paths.map((p) => p.replace(/^dist-test-app\//, '/'))),
+          ),
       }),
       sassPlugin({
         quietDeps: true,

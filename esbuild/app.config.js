@@ -13,9 +13,9 @@ const buildApp = (buildConfig) => {
     entryPoints: glob.sync(buildConfig.app.entryPoints),
     outdir: buildConfig.app.outDir,
     bundle: true,
-    sourcemap: true,
     minify: buildConfig.app.minify,
     external: ['dtrace-provider', 'fsevents'],
+    sourcemap: true,
     platform: 'node',
     format: 'cjs',
     plugins: [

@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v4.10.1
+- Make the UI sort to the default sort direction if present in the DPD
+- Fix more build artifact issues, make the test app build on top of the lib more like a normal app would
+
 ## v4.9.1
 - Bugfix for chart imports
 

@@ -100,7 +100,7 @@ const main = async () => {
   await buildLibrary()
 
   const args = process.argv
-  /**
+  /*
    * @type {chokidar.WatchOptions}
    */
   const chokidarOptions = {

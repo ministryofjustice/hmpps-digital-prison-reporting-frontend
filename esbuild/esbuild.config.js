@@ -1,5 +1,6 @@
 const { spawn } = require('node:child_process')
 const path = require('node:path')
+const fs = require('fs')
 
 const { glob } = require('glob')
 const chokidar = require('chokidar')
@@ -20,7 +21,6 @@ const buildConfigLib = () => ({
       .filter((file) => !file.endsWith('.test.ts')),
     copy: [
       {
-        // from: path.join(cwd, 'src/dpr/**/{css,js,ts,njk,scss}'),
         from: path.join(cwd, 'src/dpr/**/*'),
         to: path.join(cwd, 'dist/dpr'),
       },
@@ -30,37 +30,15 @@ const buildConfigLib = () => ({
       },
     ],
   },
-
-  assets: {
-    outDir: path.join(cwd, 'dist/dpr'),
-    entryPoints: glob.sync([
-      path.join(cwd, 'src/dpr/assets/app.js'),
-      path.join(cwd, 'esbuild/all-imports-bundle.scss'),
-    ]),
-    copy: [
-      {
-        from: path.join(cwd, 'assets/images/**/*'),
-        to: path.join(cwd, 'dist/assets/images'),
-      },
-    ],
-    clear: glob.sync([path.join(cwd, 'dist/dpr/js/{css,js}')]),
-  },
 })
 
 const buildLibrary = async () => {
-  const scssFiles = glob.sync(['src/**/*.scss'])
-  const imports = scssFiles.map((file) => `@import '${file}';`).join('\n')
-
-  const allImportsBundle = 'esbuild/all-imports-bundle.scss'
-  fs.writeFileSync(allImportsBundle, imports, {
-    flush: true,
-  })
-
-  await Promise.all([buildApp(buildConfigLib()), buildAssets(buildConfigLib())]).catch((e) => {
-    process.stderr.write(`${e}\n`)
-    process.exit(1)
-  })
-  fs.copyFileSync(path.join(cwd, 'dist/dpr/css/app.css'), path.join(cwd, 'dist/dpr/all.css'))
+    await buildApp(buildConfigLib()).catch((e) => {
+        process.stderr.write(`${e}\n`)
+        process.exit(1)
+    })
+    const scssFiles = glob.sync(['src/**/*.scss'])
+    scssFiles.forEach(file => fs.appendFileSync(path.join(cwd, 'dist/dpr/all.scss'), fs.readFileSync(path.join(cwd, file))))
 }
 
 /**
@@ -92,12 +70,6 @@ const buildConfig = {
   assets: {
     outDir: path.join(cwd, 'dist-test-app/assets'),
     entryPoints: glob.sync([path.join(cwd, 'test-app/assets/application.js'), path.join(cwd, 'test-app/assets/application.scss')]),
-    // copy: [
-    //   {
-    //     from: path.join(cwd, 'assets/images/**/*'),
-    //     to: path.join(cwd, 'dist/assets/images'),
-    //   },
-    // ],
     clear: glob.sync([path.join(cwd, 'dist-test-app/assets/{css,js}')]),
   },
 }

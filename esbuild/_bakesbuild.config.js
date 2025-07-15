@@ -40,9 +40,7 @@ const buildConfig = () => ({
   },
 })
 
-const buildLibrary = async () => {
-  // fs.mkdirSync('dist/dpr', { recursive: true })
-  
+const buildLibrary = async () => {  
   await Promise.all([buildApp(buildConfig())]).catch((e) => {
     process.stderr.write(`${e}\n`)
     process.exit(1)

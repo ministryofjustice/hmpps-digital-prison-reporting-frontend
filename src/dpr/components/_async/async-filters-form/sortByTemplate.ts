@@ -1,7 +1,7 @@
 import { FilterType } from '../../_filters/filter-input/enum'
 import { FilterOption, FilterValue } from '../../_filters/types'
 
-const sortByTemplate = () => {
+const sortByTemplate = (): FilterValue[] => {
   return [
     {
       text: 'Column',
@@ -30,7 +30,7 @@ const sortByTemplate = () => {
       minimumLength: null,
       mandatory: true,
     },
-  ] satisfies FilterValue[]
+  ]
 }
 
 export default {

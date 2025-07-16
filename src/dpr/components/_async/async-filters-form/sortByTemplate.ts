@@ -29,7 +29,7 @@ const sortByTemplate = (): FilterValue[] => {
       value: 'false',
       minimumLength: null,
       mandatory: true,
-    } 
+    },
   ]
 }
 

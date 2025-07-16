@@ -20,7 +20,9 @@ export default {
 
     if (reportDef) {
       // TODO: this needs fixing, we should never be using `as unknown as`, but the types are very mixed up here
-      variantDef = reportDef.variants.find((variant) => variantId === variant.id) as unknown as components['schemas']['VariantDefinition']
+      variantDef = reportDef.variants.find(
+        (variant) => variantId === variant.id,
+      ) as unknown as components['schemas']['VariantDefinition']
     }
 
     return variantDef || undefined

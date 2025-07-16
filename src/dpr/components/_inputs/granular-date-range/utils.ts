@@ -7,7 +7,11 @@ import StartEndDateUtils from '../start-end-date/utils'
 import { Granularity, QuickFilters } from './types'
 import { defaultFilterValue, granularDateFilterValue } from '../../../routes/journeys/request-report/filters/types'
 
-const hasPartialStartEnd = (granularity: Granularity, startDate: string, endDate: string) => {
+const hasPartialStartEnd = (
+  granularity: components['schemas']['FilterDefinition']['defaultGranularity'],
+  startDate: string,
+  endDate: string,
+) => {
   let partialStart
   let partialEnd
 
@@ -364,13 +368,7 @@ const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: Fil
   }
 }
 
-const getFilterFromDefinition = (
-  filter: components['schemas']['FilterDefinition'] & {
-    defaultGranularity: Granularity
-    defaultQuickFilterValue: QuickFilters
-  },
-  filterData: FilterValue,
-) => {
+const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition'], filterData: FilterValue) => {
   let value
   const quickFilterValue = filter.defaultQuickFilterValue
   const granularityOptions = getGranularityOptions()
@@ -395,7 +393,7 @@ const getFilterFromDefinition = (
     }
   } else {
     value = <GranularDateRange>StartEndDateUtils.getStartAndEndValueFromDefinition(filter)
-    const granularityValue: Granularity = value.granularity
+    const granularityValue: (typeof filter)['defaultGranularity'] = value.granularity
       ? value.granularity.value
       : filter.defaultGranularity || Granularity.DAILY
 
@@ -426,10 +424,7 @@ const getFilterFromDefinition = (
 }
 
 const getQueryFromDefinition = (
-  filter: components['schemas']['FilterDefinition'] & {
-    defaultGranularity: Granularity
-    defaultQuickFilterValue: QuickFilters
-  },
+  filter: components['schemas']['FilterDefinition'],
   name: string,
   filterPrefix: string,
   startEndParams: string,

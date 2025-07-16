@@ -42,7 +42,7 @@ export default {
           const { id, name, description, isMissing } = variant
 
           // NOTE: loadType added to VariantDefinitionSummary mocked data to dictate the load/request journey. Not present in API response. To discuss
-          const { loadType } = <components['schemas']['VariantDefinitionSummary'] & { loadType: LoadType }>variant
+          const { loadType } = <components['schemas']['VariantDefinitionSummary']>variant
 
           return {
             reportName,

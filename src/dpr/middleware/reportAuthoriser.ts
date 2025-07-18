@@ -28,7 +28,7 @@ export default (services: Services, layoutPath: string): RequestHandler => {
       )
     }
 
-    req.body.definition = definition
+    res.locals.definition = definition
     if (definition?.authorised !== undefined && !definition.authorised) {
       res.render(`dpr/routes/journeys/view-report/unauthorised`, {
         layoutPath,

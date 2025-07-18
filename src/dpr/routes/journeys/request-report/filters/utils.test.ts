@@ -47,6 +47,7 @@ describe('RequestReportUtils', () => {
         csfrToken: 'CsRfToKeN',
         definitionsPath: 'dataProductDefinitionsPath',
         dpdPathFromQuery: true,
+        definition: mockDefinition,
       },
     } as unknown as Response
 
@@ -55,9 +56,6 @@ describe('RequestReportUtils', () => {
         reportId: 'reportId',
       },
       query: {},
-      body: {
-        definition: mockDefinition,
-      },
     } as unknown as Request
 
     mockDefinitions = [

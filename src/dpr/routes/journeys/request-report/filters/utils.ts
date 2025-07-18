@@ -293,7 +293,7 @@ export default {
         userId,
       } = LocalsHelper.getValues(res)
       const { reportId, type, id } = req.params
-      const { definition } = req.body
+      const { definition } = res.locals
       const defaultsSaved = <string>req.query.defaultsSaved
 
       const definitionApiArgs = { token, reportId, definitionPath, services }

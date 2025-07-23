@@ -212,6 +212,22 @@ const setUserDefinedDefaultValuesForReport = async (
   return defaultValuesConfig
 }
 
+const setUserContextDefaults = (res: Response, filters: FilterValue[]) => {
+  const { activeCaseLoadId } = localsHelper.getValues(res)
+
+  filters.forEach((filter) => {
+    if (
+      filter.type.toLocaleLowerCase() === FilterType.autocomplete.toLocaleLowerCase() &&
+      filter.text.toLocaleLowerCase().includes('establishment') &&
+      activeCaseLoadId.length
+    ) {
+      filter.value = activeCaseLoadId
+    }
+  })
+
+  return filters
+}
+
 const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
   return fields
     .filter((f) => f.filter)
@@ -400,4 +416,5 @@ export default {
   redirectWithDefaultFilters,
   setFilterValuesFromSavedDefaults,
   setUserDefinedDefaultValuesForReport,
+  setUserContextDefaults,
 }

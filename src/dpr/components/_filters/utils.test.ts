@@ -1,4 +1,4 @@
-import { Request } from 'express'
+import { Request, Response } from 'express'
 import MockDate from 'mockdate'
 import FiltersUtils from './utils'
 import mockVariant from '../../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
@@ -1282,6 +1282,167 @@ describe('Filters Utils tests', () => {
       ]
 
       expect(res).toEqual(expectedRes)
+    })
+  })
+
+  describe('setUserContextDefaults', () => {
+    it('should set the filter values from the user context', () => {
+      const res = {
+        locals: {
+          user: {
+            activeCaseLoadId: 'Inigo Montoya',
+          },
+        },
+      } as unknown as Response
+
+      const filterValues: FilterValue[] = [
+        {
+          text: 'Field 1',
+          name: 'field1',
+          type: FilterType.radio,
+          value: 'value1.1',
+          minimumLength: null,
+          dynamicResourceEndpoint: null,
+          mandatory: false,
+          options: [
+            {
+              value: 'value1.1',
+              text: 'Value 1.1',
+            },
+            {
+              value: 'value1.2',
+              text: 'Value 1.2',
+            },
+          ],
+        },
+        {
+          text: 'Field 2 Establishment',
+          name: 'field2',
+          type: FilterType.autocomplete,
+          value: null,
+          minimumLength: 3,
+          dynamicResourceEndpoint: null,
+          mandatory: false,
+          options: [
+            {
+              value: 'Fezzick',
+              text: 'Fezzick',
+            },
+            {
+              value: 'Inigo Montoya',
+              text: 'Inigo Montoya',
+            },
+            {
+              value: 'PrHu',
+              text: 'Prince Humperdink',
+            },
+            {
+              value: 'Princess Buttercup',
+              text: 'Princess Buttercup',
+            },
+            {
+              value: 'Westley',
+              text: 'Westley',
+            },
+          ],
+        },
+        {
+          text: 'Field 3',
+          name: 'field3',
+          type: FilterType.text,
+          value: null,
+          minimumLength: null,
+          dynamicResourceEndpoint: null,
+          mandatory: false,
+        },
+      ]
+
+      const result = FiltersUtils.setUserContextDefaults(res, filterValues)
+
+      expect(result).toEqual([
+        filterValues[0],
+        {
+          ...filterValues[1],
+          value: 'Inigo Montoya',
+        },
+        filterValues[2],
+      ])
+    })
+
+    it('should not set the filter values from the user context', () => {
+      const res = {
+        locals: {
+          user: {
+            activeCaseLoadId: 'Inigo Montoya',
+          },
+        },
+      } as unknown as Response
+
+      const filterValues: FilterValue[] = [
+        {
+          text: 'Field 1',
+          name: 'field1',
+          type: FilterType.radio,
+          value: 'value1.1',
+          minimumLength: null,
+          dynamicResourceEndpoint: null,
+          mandatory: false,
+          options: [
+            {
+              value: 'value1.1',
+              text: 'Value 1.1',
+            },
+            {
+              value: 'value1.2',
+              text: 'Value 1.2',
+            },
+          ],
+        },
+        {
+          text: 'Field 2',
+          name: 'field2',
+          type: FilterType.autocomplete,
+          value: null,
+          minimumLength: 3,
+          dynamicResourceEndpoint: null,
+          mandatory: false,
+          options: [
+            {
+              value: 'Fezzick',
+              text: 'Fezzick',
+            },
+            {
+              value: 'Inigo Montoya',
+              text: 'Inigo Montoya',
+            },
+            {
+              value: 'PrHu',
+              text: 'Prince Humperdink',
+            },
+            {
+              value: 'Princess Buttercup',
+              text: 'Princess Buttercup',
+            },
+            {
+              value: 'Westley',
+              text: 'Westley',
+            },
+          ],
+        },
+        {
+          text: 'Field 3',
+          name: 'field3',
+          type: FilterType.text,
+          value: null,
+          minimumLength: null,
+          dynamicResourceEndpoint: null,
+          mandatory: false,
+        },
+      ]
+
+      const result = FiltersUtils.setUserContextDefaults(res, filterValues)
+
+      expect(result).toEqual([filterValues[0], filterValues[1], filterValues[2]])
     })
   })
 })

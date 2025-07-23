@@ -2,9 +2,9 @@
 /* eslint-disable new-cap */
 // Core dependencies
 
-const fs = require('fs')
 import path from 'path'
 import noCache from 'nocache'
+
 // NPM dependencies
 const express = require('express')
 const nunjucks = require('nunjucks')
@@ -27,15 +27,14 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 let assetManifest = {}
 
-  try {
-    const assetMetadataPath = path.resolve(__dirname, 'assets/manifest.json')
-    assetManifest = JSON.parse(fs.readFileSync(assetMetadataPath, 'utf8'))
-  } catch (e) {
-    if (process.env.NODE_ENV !== 'test') {
-      console.error(`Could not read asset manifest file: ${e} -- ${__dirname}`)
-    }
+try {
+  const assetMetadataPath = path.resolve(__dirname, 'assets/manifest.json')
+  assetManifest = JSON.parse(fs.readFileSync(assetMetadataPath, 'utf8'))
+} catch (e) {
+  if (process.env.NODE_ENV !== 'test') {
+    console.error(`Could not read asset manifest file: ${e} -- ${__dirname}`)
   }
-
+}
 
 // Nunjucks configurations
 const nunjucksEnvironment = nunjucks.configure(appViews, {
@@ -68,7 +67,7 @@ function setUpStaticResources() {
     '/node_modules/@ministryofjustice/frontend',
     '/node_modules/@microsoft/applicationinsights-web/dist/es5',
     '/node_modules/@microsoft/applicationinsights-clickanalytics-js/dist/es5',
-  ).forEach(dir => {
+  ).forEach((dir) => {
     router.use('/assets', express.static(path.join(process.cwd(), dir), cacheControl))
   })
 
@@ -87,7 +86,7 @@ app.use(bodyParser.json())
 // Mock middleware
 const addMockUserData = (req, res, next) => {
   const uuid = 'userId'
-  const activeCaseLoadId = 'random-caseload-id-1'
+  const activeCaseLoadId = 'KMI'
 
   res.locals.user = {
     displayName: 'Test User',

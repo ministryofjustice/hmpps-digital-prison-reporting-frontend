@@ -1316,8 +1316,8 @@ describe('Filters Utils tests', () => {
           ],
         },
         {
-          text: 'Field 2',
-          name: 'field2 Establishment',
+          text: 'Field 2 Establishment',
+          name: 'field2',
           type: FilterType.autocomplete,
           value: null,
           minimumLength: 3,

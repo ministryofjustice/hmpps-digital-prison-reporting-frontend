@@ -218,7 +218,7 @@ const setUserContextDefaults = (res: Response, filters: FilterValue[]) => {
   filters.forEach((filter) => {
     if (
       filter.type.toLocaleLowerCase() === FilterType.autocomplete.toLocaleLowerCase() &&
-      filter.name.toLocaleLowerCase().includes('establishment') &&
+      filter.text.toLocaleLowerCase().includes('establishment') &&
       activeCaseLoadId.length
     ) {
       filter.value = activeCaseLoadId

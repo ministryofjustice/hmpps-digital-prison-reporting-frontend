@@ -5,7 +5,6 @@
 import path from 'path'
 import noCache from 'nocache'
 
-const fs = require('fs')
 // NPM dependencies
 const express = require('express')
 const nunjucks = require('nunjucks')

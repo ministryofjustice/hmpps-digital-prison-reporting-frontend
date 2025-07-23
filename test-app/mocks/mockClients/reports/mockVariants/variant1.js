@@ -67,7 +67,6 @@ const variant1 = {
         type: 'string',
         filter: {
           type: 'autocomplete',
-          defaultValue: 'Fezzick',
           dynamicOptions: {
             minimumLength: 3,
             returnAsStaticOptions: true,

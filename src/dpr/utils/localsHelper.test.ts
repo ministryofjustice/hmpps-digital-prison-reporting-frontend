@@ -32,6 +32,7 @@ describe('LocalsHelper', () => {
       const values = LocalsHelper.getValues(res)
 
       const expected = {
+        activeCaseLoadId: '',
         csrfToken: 'csrfTokenValue',
         userId: 'userIdValue',
         token: 'token',

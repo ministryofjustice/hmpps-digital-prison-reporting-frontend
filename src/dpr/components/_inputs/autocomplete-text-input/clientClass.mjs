@@ -20,6 +20,13 @@ export default class Autocomplete extends DprClientClass {
       this.onTextInput(event, textInput)
     })
 
+    textInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.stopPropagation()
+        e.preventDefault()
+      }
+    })
+
     this.getElement()
       .querySelectorAll('.autocomplete-text-input-list-button')
       .forEach((button) => {
@@ -51,8 +58,10 @@ export default class Autocomplete extends DprClientClass {
       this.getElement()
         .querySelectorAll(this.listItemsSelector)
         .forEach((item) => {
-          if (searchValue.length >= minLength &&
-            this.isMatchingStaticOptionNameOrDisplayPrefix(this.getInputListButton(item), searchValue, item)) {
+          if (
+            searchValue.length >= minLength &&
+            this.isMatchingStaticOptionNameOrDisplayPrefix(this.getInputListButton(item), searchValue, item)
+          ) {
             item.classList.remove('autocomplete-text-input-item-hide')
           } else {
             item.classList.add('autocomplete-text-input-item-hide')
@@ -71,8 +80,10 @@ export default class Autocomplete extends DprClientClass {
   }
 
   isMatchingStaticOptionNameOrDisplayPrefix(inputListButton, searchValue, item) {
-    return this.isStaticOptionsNamePrefix(inputListButton.dataset.staticOptionNameValue, searchValue)
-      || item.innerText.trim().toLowerCase().startsWith(searchValue)
+    return (
+      this.isStaticOptionsNamePrefix(inputListButton.dataset.staticOptionNameValue, searchValue) ||
+      item.innerText.trim().toLowerCase().startsWith(searchValue)
+    )
   }
 
   isStaticOptionsNamePrefix(staticOptionNameValue, searchValue) {

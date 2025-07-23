@@ -231,6 +231,29 @@ const getDefintionByType = async (req: Request, res: Response, next: NextFunctio
   return definition
 }
 
+const getFilterData = async (
+  req: Request,
+  res: Response,
+  fields: components['schemas']['FieldDefinition'][],
+  interactive: boolean,
+  services: Services,
+  userId: string,
+) => {
+  const { reportId, id } = req.params
+
+  const filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
+  filtersData.filters = FiltersUtils.setUserContextDefaults(res, filtersData.filters)
+
+  const defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id)
+  if (defaultFilterValues) {
+    filtersData.filters = FiltersUtils.setFilterValuesFromSavedDefaults(filtersData.filters, defaultFilterValues)
+  }
+
+  filtersData.filters = FiltersUtils.setFilterValuesFromRequest(filtersData.filters, req)
+
+  return { filtersData, defaultFilterValues }
+}
+
 export default {
   /**
    * Sends the request for the async report
@@ -321,12 +344,7 @@ export default {
       }
 
       if (fields) {
-        filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
-        defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id)
-        if (defaultFilterValues) {
-          filtersData.filters = FiltersUtils.setFilterValuesFromSavedDefaults(filtersData.filters, defaultFilterValues)
-        }
-        filtersData.filters = FiltersUtils.setFilterValuesFromRequest(filtersData.filters, req)
+        ;({ filtersData, defaultFilterValues } = await getFilterData(req, res, fields, interactive, services))
         defaultInteractiveQueryString = FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
       }
 

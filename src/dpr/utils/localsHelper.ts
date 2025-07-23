@@ -6,6 +6,7 @@ const getValues = (res: Response) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
   const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
   const token = res.locals.user?.token ? res.locals.user.token : 'token'
+  const activeCaseLoadId = res.locals.user?.activeCaseLoadId || ''
   const pathSuffix = res.locals.pathSuffix || ''
   const routePrefix = res.locals.routePrefix || ''
   const definitions = res.locals.definitions || []
@@ -29,6 +30,7 @@ const getValues = (res: Response) => {
     definitionsPath,
     pathSuffix,
     routePrefix,
+    activeCaseLoadId,
   }
 }
 

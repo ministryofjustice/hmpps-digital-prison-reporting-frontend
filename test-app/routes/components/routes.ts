@@ -9,22 +9,22 @@ import DashboardRoutes from './dashboards/routes'
 import UserReportsRoutes from './user-reports/routes'
 import FiltersRoutes from './filters/routes'
 
-export function Routes({ layoutPath }: { layoutPath: string }) {
+export function Routes() {
   const router = Router({ mergeParams: true })
 
-  router.use(`/search`, SearchRoutes({ layoutPath }))
-  router.use(`/catalogue`, CatalogueRoutes({ layoutPath }))
-  router.use(`/user-reports`, UserReportsRoutes({ layoutPath }))
-  router.use(`/dashboards`, DashboardRoutes({ layoutPath }))
-  router.use(`/filters`, FiltersRoutes({ layoutPath }))
+  router.use(`/search`, SearchRoutes())
+  router.use(`/catalogue`, CatalogueRoutes())
+  router.use(`/user-reports`, UserReportsRoutes())
+  router.use(`/dashboards`, DashboardRoutes())
+  router.use(`/filters`, FiltersRoutes())
 
   return router
 }
 
-export const ComponentRoutes = ({ path, layoutPath }: { path: string; layoutPath: string }) => {
+export const ComponentRoutes = ({ path }: { path: string }) => {
   logger.info('Initialiasing routes: components')
 
   const router = Router({ mergeParams: true })
-  router.use(path, Routes({ layoutPath }))
+  router.use(path, Routes())
   return router
 }

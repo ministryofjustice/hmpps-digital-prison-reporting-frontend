@@ -1,4 +1,7 @@
-const app = require('./app')
+// const app = require('./app')
+import createApp from './app'
+
+const app = createApp()
 
 // Port
 const port = Number(process.env.PORT) || 3010

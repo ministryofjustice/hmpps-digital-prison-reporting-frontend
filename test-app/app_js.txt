@@ -4,6 +4,7 @@
 
 import path from 'path'
 import noCache from 'nocache'
+import fs from 'fs'
 
 // NPM dependencies
 const express = require('express')
@@ -99,6 +100,10 @@ const addMockUserData = (req, res, next) => {
 }
 
 app.use(addMockUserData)
+
+const tsRoutes = require('./routes/routes')
+
+app.use(tsRoutes())
 
 // Routes
 const chartsRoutes = require('./routes/charts')

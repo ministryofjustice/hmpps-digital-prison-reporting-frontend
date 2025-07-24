@@ -1,16 +1,17 @@
 import { RequestHandler } from 'express'
 import { renderListWithDefinition } from '../../../../../dist/dpr/components/report-list/utils'
-import { RenderListWithDefinitionInput } from '../../../../../dist-docs/dpr/components/report-list/types'
 
-export default class SyncReportByMethodController {
+export default class SyncReportFailController {
   GET: RequestHandler = async (req, res, next) => {
     renderListWithDefinition({
-      title: 'Method',
-      definitionName: 'test-report',
-      variantName: 'test-variant',
+      title: 'Fail',
+      definitionName: 'failing-report',
+      variantName: 'failing-variant',
+      request: req,
+      response: res,
+      next,
       apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
       layoutTemplate: 'views/page.njk',
-      dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}',
       otherOptions: {
         breadCrumbList: [
           { text: 'Home', href: '/' },
@@ -18,9 +19,8 @@ export default class SyncReportByMethodController {
           { text: 'Synchronous reports', href: '/embedded/sync' },
         ],
       },
-      request: req,
-      response: res,
-      next,
-    } as unknown as RenderListWithDefinitionInput)
+      apiTimeout: 0,
+      token: 'token',
+    })
   }
 }

@@ -2,9 +2,11 @@
 import { Router } from 'express'
 import SyncReportByHandlerController from './controller'
 
-export default function routes({ layoutPath }: { layoutPath: string }) {
+export default function routes() {
   const router = Router({ mergeParams: true })
-  const controller = new SyncReportByHandlerController(layoutPath)
+
+  const controller = new SyncReportByHandlerController()
   router.get('/', controller.GET)
+
   return router
 }

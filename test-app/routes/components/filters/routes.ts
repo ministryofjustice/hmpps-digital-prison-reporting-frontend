@@ -8,14 +8,14 @@ import DateRangeRoutes from './date-range/routes'
 import GranularDateRangeRoutes from './granular-date-range/routes'
 import MultiSelectRoutes from './multi-select/routes'
 
-export default function routes({ layoutPath }: { layoutPath: string }) {
+export default function routes() {
   const router = Router({ mergeParams: true })
 
-  router.use(`/autocomplete`, AutocompleteRoutes({ layoutPath }))
-  router.use(`/date`, DateRoutes({ layoutPath }))
-  router.use(`/date-range`, DateRangeRoutes({ layoutPath }))
-  router.use(`/granular-date-range`, GranularDateRangeRoutes({ layoutPath }))
-  router.use(`/multi-select`, MultiSelectRoutes({ layoutPath }))
+  router.use(`/autocomplete`, AutocompleteRoutes())
+  router.use(`/date`, DateRoutes())
+  router.use(`/date-range`, DateRangeRoutes())
+  router.use(`/granular-date-range`, GranularDateRangeRoutes())
+  router.use(`/multi-select`, MultiSelectRoutes())
 
   return router
 }

@@ -1,16 +1,18 @@
-import type { Router } from 'express'
-import type { Services } from '../../src/dpr/types/Services'
+import { Router } from 'express'
 import logger from '../../src/dpr/utils/logger'
 
 import { ComponentRoutes } from './components/routes'
 import { EmbeddedRoutes } from './embedded/routes'
+import HomeRoutes from './home/routes'
 
-export default function routes(routeImportParams: { router: Router; services: Services; layoutPath: string }) {
-  const { router, layoutPath } = routeImportParams
+export default function routes(): Router {
+  const router = Router({ mergeParams: true })
+
   logger.info('Initialiasing Test app routes')
 
-  router.use('/', ComponentRoutes({ path: '/components', layoutPath }))
-  router.use('/', EmbeddedRoutes({ path: '/embedded', layoutPath }))
+  router.use('/', HomeRoutes())
+  router.use('/', ComponentRoutes({ path: '/components' }))
+  router.use('/', EmbeddedRoutes({ path: '/embedded' }))
 
   return router
 }

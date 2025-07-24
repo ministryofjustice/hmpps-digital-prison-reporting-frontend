@@ -1,24 +1,28 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
 import logger from '../../../src/dpr/utils/logger'
+import EmbeddedController from './controller'
 
 // Routes
-import SyncRoutes from './sync/routes'
+import SyncRoutes from './sync-report/routes'
 import PlatformRoutes from './platform/routes'
 
-export function Routes({ layoutPath }: { layoutPath: string }) {
+export function Routes() {
   const router = Router({ mergeParams: true })
+  const controller = new EmbeddedController()
 
-  router.use(`/platform`, PlatformRoutes({ layoutPath }))
-  router.use(`/sync`, SyncRoutes({ layoutPath }))
+  router.get('/', controller.GET)
+
+  router.use(`/platform`, PlatformRoutes())
+  router.use(`/sync`, SyncRoutes())
 
   return router
 }
 
-export const ComponentRoutes = ({ path, layoutPath }: { path: string; layoutPath: string }) => {
-  logger.info('Initialiasing routes: components')
+export const EmbeddedRoutes = ({ path }: { path: string }) => {
+  logger.info('Initialiasing routes: Embedded Routes')
 
   const router = Router({ mergeParams: true })
-  router.use(path, Routes({ layoutPath }))
+  router.use(path, Routes())
   return router
 }

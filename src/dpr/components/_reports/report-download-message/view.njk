@@ -2,6 +2,7 @@
 {%- from "moj/components/ticket-panel/macro.njk" import mojTicketPanel -%}
 
 {% macro dprDownloadMessage(reportData) %}
+  {% set nestedBaseUrl = reportData.nestedBaseUrl %}
   {% set reportId = reportData.reportId %}
   {% set id = reportData.id %}
   {% set loadType = reportData.loadType %}
@@ -12,9 +13,9 @@
   {# TODO: Improvement: move logic server side #}
   {% if loadType === 'async' %}
     {% set tableId = reportData.tableId %}
-    {% set feedbackFormHref = "/dpr/download-report/request-download/"+ reportId + "/" + id + "/tableId/" + tableId + "/form?reportUrl=" + reportUrl   %}
+    {% set feedbackFormHref = nestedBaseUrl + "/dpr/download-report/request-download/"+ reportId + "/" + id + "/tableId/" + tableId + "/form?reportUrl=" + reportUrl   %}
   {% else %}
-    {% set feedbackFormHref = "/dpr/download-report/request-download/"+ reportId + "/" + id + "/form?reportUrl=" + reportUrl  %}
+    {% set feedbackFormHref = nestedBaseUrl + "/dpr/download-report/request-download/"+ reportId + "/" + id + "/form?reportUrl=" + reportUrl  %}
   {% endif %}
 
   {% if encodedSearch %}

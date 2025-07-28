@@ -151,9 +151,9 @@ const readyDashboard = {
       pathname: '/async/dashboard/test-report-1/test-dashboard-8/request/exId_1730382324700',
     },
     report: {
-      pathname: '/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730382324700/report',
+      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730382324700/report',
       fullUrl:
-        'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730382324700/report',
+        'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730382324700/report',
     },
   },
   status: 'FINISHED',

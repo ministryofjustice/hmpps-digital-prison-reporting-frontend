@@ -56,7 +56,7 @@ export default class DprRecentlyViewedList extends DprPollingStatusClass {
 
   async removeItemFromList(executionId) {
     let response
-    await fetch(`/dpr/my-reports/recently-viewed/${executionId}`, {
+    await fetch(`dpr/my-reports/recently-viewed/${executionId}`, {
       method: 'delete',
       headers: {
         Accept: 'application/json',

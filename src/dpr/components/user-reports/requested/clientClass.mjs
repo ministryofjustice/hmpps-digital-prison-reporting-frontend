@@ -83,7 +83,7 @@ export default class DprAsyncRequestList extends DprPollingStatusClass {
 
   async removeItemFromList(executionId) {
     let response
-    await fetch(`/dpr/my-reports/requested-reports/${executionId}`, {
+    await fetch(`dpr/my-reports/requested-reports/${executionId}`, {
       method: 'delete',
       headers: {
         Accept: 'application/json',

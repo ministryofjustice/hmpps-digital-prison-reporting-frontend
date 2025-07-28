@@ -35,14 +35,15 @@ const requestedReady = {
     origin: 'http://localhost:3010',
     request: {
       fullUrl:
-        'http://localhost:3010/async/report/test-report-3/variantId-1/request?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
-      pathname: '/async/report/test-report-3/variantId-1/request',
+        'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-1/request?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
+      pathname: '/embedded/platform/async/report/test-report-3/variantId-1/request',
       search:
         '?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
     },
     polling: {
-      fullUrl: 'http://localhost:3010/async/report/test-report-3/variantId-1/request/exId_1729765628165',
-      pathname: '/async/report/test-report-3/variantId-1/request/exId_1729765628165',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-1/request/exId_1729765628165',
+      pathname: '/embedded/platform/async/report/test-report-3/variantId-1/request/exId_1729765628165',
     },
     report: {
       pathname: '/embedded/platform/dpr/view-report/async/report/test-report-3/variantId-1/tblId_1729765628165/report',
@@ -134,18 +135,20 @@ const requestedExpired = {
     origin: 'http://localhost:3010',
     request: {
       fullUrl:
-        'http://localhost:3010/async/report/test-report-3/variantId-4/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1',
-      pathname: '/async/report/test-report-3/variantId-4/request',
+        'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-4/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1',
+      pathname: '/embedded/platform/async/report/test-report-3/variantId-4/request',
       search:
         '?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1',
     },
     polling: {
-      fullUrl: 'http://localhost:3010/async/report/test-report-3/variantId-4/request/exId_1729765871851',
-      pathname: '/async/report/test-report-3/variantId-4/request/exId_1729765871851',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-4/request/exId_1729765871851',
+      pathname: '/embedded/platform/async/report/test-report-3/variantId-4/request/exId_1729765871851',
     },
     report: {
-      pathname: '/async/report/test-report-3/variantId-4/request/tblId_1729765871851/report',
-      fullUrl: 'http://localhost:3010/async/report/test-report-3/variantId-4/request/tblId_1729765871851/report',
+      pathname: '/embedded/platform/async/report/test-report-3/variantId-4/request/tblId_1729765871851/report',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-4/request/tblId_1729765871851/report',
     },
   },
   query: {
@@ -224,14 +227,15 @@ const requestedAborted = {
     origin: 'http://localhost:3010',
     request: {
       fullUrl:
-        'http://localhost:3010/async/report/test-report-3/variantId-1/request?filters.field1=value1.1&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
-      pathname: '/async/report/test-report-3/variantId-1/request',
+        'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-1/request?filters.field1=value1.1&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
+      pathname: '/embedded/platform/async/report/test-report-3/variantId-1/request',
       search:
         '?filters.field1=value1.1&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
     },
     polling: {
-      fullUrl: 'http://localhost:3010/async/report/test-report-3/variantId-1/request/exId_1729766013077',
-      pathname: '/async/report/test-report-3/variantId-1/request/exId_1729766013077',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-1/request/exId_1729766013077',
+      pathname: '/embedded/platform/async/report/test-report-3/variantId-1/request/exId_1729766013077',
     },
     report: {},
   },
@@ -319,14 +323,15 @@ const requestedFailed = {
     origin: 'http://localhost:3010',
     request: {
       fullUrl:
-        'http://localhost:3010/async/report/test-report-3/variantId-2/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.2&filters.field4=Inigo+Montoya',
-      pathname: '/async/report/test-report-3/variantId-2/request',
+        'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-2/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.2&filters.field4=Inigo+Montoya',
+      pathname: '/embedded/platform/async/report/test-report-3/variantId-2/request',
       search:
         '?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.2&filters.field4=Inigo+Montoya',
     },
     polling: {
-      fullUrl: 'http://localhost:3010/async/report/test-report-3/variantId-2/request/exId_1729765694790',
-      pathname: '/async/report/test-report-3/variantId-2/request/exId_1729765694790',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-2/request/exId_1729765694790',
+      pathname: '/embedded/platform/async/report/test-report-3/variantId-2/request/exId_1729765694790',
     },
     report: {},
   },
@@ -412,14 +417,15 @@ const requestedSubmitted = {
     origin: 'http://localhost:3010',
     request: {
       fullUrl:
-        'http://localhost:3010/async/report/test-report-3/variantId-2/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
-      pathname: '/async/report/test-report-3/variantId-2/request',
+        'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-2/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
+      pathname: '/embedded/platform/async/report/test-report-3/variantId-2/request',
       search:
         '?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
     },
     polling: {
-      fullUrl: 'http://localhost:3010/async/report/test-report-3/variantId-2/request/exId_1729765698654',
-      pathname: '/async/report/test-report-3/variantId-2/request/exId_1729765698654',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-2/request/exId_1729765698654',
+      pathname: '/embedded/platform/async/report/test-report-3/variantId-2/request/exId_1729765698654',
     },
     report: {},
   },

@@ -106,7 +106,10 @@ Then(
     }
 
     if (reportType === 'dashboard') {
-      cy.url().should('eq', 'http://localhost:3010/embedded/platform/dpr/request-report/dashboard/test-report-1/test-dashboard-8/filters')
+      cy.url().should(
+        'eq',
+        'http://localhost:3010/embedded/platform/dpr/request-report/dashboard/test-report-1/test-dashboard-8/filters',
+      )
     }
   },
 )

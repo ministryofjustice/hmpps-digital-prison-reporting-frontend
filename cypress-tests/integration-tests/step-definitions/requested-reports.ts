@@ -86,7 +86,10 @@ When(/^I am taken to the (report|reportV2|dashboard) query page$/, function (thi
   }
 
   if (reportType === 'dashboard') {
-    cy.url().should('eq', 'http://localhost:3010/embedded/platform/dpr/request-report/dashboard/test-report-1/test-dashboard-3/filters')
+    cy.url().should(
+      'eq',
+      'http://localhost:3010/embedded/platform/dpr/request-report/dashboard/test-report-1/test-dashboard-3/filters',
+    )
   }
 })
 

@@ -20,7 +20,9 @@ const viewedReady = {
         '?filters.field1=value1.1&filters.field2=value2.2&filters.field3.start=2004-02-01&filters.field3.end=2006-08-04&filters.field7=2003-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
     },
     report: {
-      fullUrl: 'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729766362362/report',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/dpr/view-report/async/report/test-report-3/variantId-1/tblId_1729766362362/report',
+      pathname: '/embedded/platform/dpr/view-report/async/report/test-report-3/variantId-1/tblId_1729766362362/report',
     },
   },
   timestamp: {
@@ -92,7 +94,9 @@ const viewedDashboard = {
     },
     report: {
       fullUrl:
-        'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730302242487/report',
+        'http://localhost:3010/embedded/platform/dpr/view-report/async/dashboard/test-report-1/test-dashboard-8/tblId_1730302242487/report',
+      pathname:
+        '/embedded/platform/dpr/view-report/async/dashboard/test-report-1/test-dashboard-8/tblId_1730302242487/report',
     },
   },
   timestamp: {
@@ -185,6 +189,7 @@ const viewedExpired = {
     },
     report: {
       fullUrl: 'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729766465228/report',
+      pathname: '/async/report/test-report-3/variantId-1/request/tblId_1729766465228/report',
     },
   },
   timestamp: {
@@ -253,6 +258,7 @@ const expiredDashboard = {
     report: {
       fullUrl:
         'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730302123456/report',
+      pathname: '/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730302123456/report',
     },
   },
   timestamp: {

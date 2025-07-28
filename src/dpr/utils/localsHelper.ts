@@ -13,7 +13,14 @@ const getValues = (res: Response) => {
   const requestedReports: StoredReportData[] = res.locals.requestedReports || []
   const recentlyViewedReports: StoredReportData[] = res.locals.recentlyViewedReports || []
   const bookmarks: BookmarkStoreData[] = res.locals.bookmarks || []
-  const { bookmarkingEnabled, downloadingEnabled, definitionsPath, dpdPathFromQuery, dpdPathFromConfig } = res.locals
+  const {
+    bookmarkingEnabled,
+    downloadingEnabled,
+    definitionsPath,
+    dpdPathFromQuery,
+    dpdPathFromConfig,
+    nestedBaseUrl,
+  } = res.locals
 
   return {
     csrfToken,
@@ -31,6 +38,7 @@ const getValues = (res: Response) => {
     pathSuffix,
     routePrefix,
     activeCaseLoadId,
+    nestedBaseUrl,
   }
 }
 

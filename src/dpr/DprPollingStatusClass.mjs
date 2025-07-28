@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import { DprClientClass } from './DprClientClass.mjs'
 
 export default class DprPollingStatusClass extends DprClientClass {
@@ -18,8 +19,8 @@ export default class DprPollingStatusClass extends DprClientClass {
   }
 
   async getRequestStatus(metaData, csrfToken) {
-    const { executionId, reportId, id, type } = metaData
-    return this.getStatus(`/dpr/request-report/${type}/${reportId}/${id}/${executionId}/status`, metaData, csrfToken)
+    const { pollingUrl } = metaData
+    return this.getStatus(pollingUrl, metaData, csrfToken)
   }
 
   async getExpiredStatus(endpoint, metaData, csrfToken) {

@@ -9,8 +9,13 @@ import DashboardRoutes from './dashboards/routes'
 import UserReportsRoutes from './user-reports/routes'
 import FiltersRoutes from './filters/routes'
 
+import ComponentsController from './controller'
+
 export function Routes() {
   const router = Router({ mergeParams: true })
+  const controller = new ComponentsController()
+
+  router.get('/', controller.GET)
 
   router.use(`/search`, SearchRoutes())
   router.use(`/catalogue`, CatalogueRoutes())

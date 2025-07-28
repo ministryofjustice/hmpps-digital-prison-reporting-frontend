@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { Router } from 'express'
 import AutocompleteController from './controller'
 

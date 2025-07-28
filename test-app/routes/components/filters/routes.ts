@@ -8,8 +8,13 @@ import DateRangeRoutes from './date-range/routes'
 import GranularDateRangeRoutes from './granular-date-range/routes'
 import MultiSelectRoutes from './multi-select/routes'
 
+import FiltersController from './controller'
+
 export default function routes() {
   const router = Router({ mergeParams: true })
+
+  const controller = new FiltersController()
+  router.get('/', controller.GET)
 
   router.use(`/autocomplete`, AutocompleteRoutes())
   router.use(`/date`, DateRoutes())

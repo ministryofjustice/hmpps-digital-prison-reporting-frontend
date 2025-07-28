@@ -41,7 +41,6 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
       // Reload if new status is an end state
       if (this.currentStatus !== response.status) {
         clearInterval(this.pollingInterval)
-
         window.location.reload()
       }
     }
@@ -49,14 +48,10 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
 
   initCancelRequestButton() {
     if (this.cancelRequestButton) {
-      const executionId = this.cancelRequestButton.getAttribute('data-execution-id')
-      const reportId = this.cancelRequestButton.getAttribute('data-report-id')
-      const id = this.cancelRequestButton.getAttribute('data-id')
-      const type = this.cancelRequestButton.getAttribute('data-type')
+      const meta = JSON.parse(this.requestData)
       const csrfToken = this.cancelRequestButton.getAttribute('data-csrf-token')
-
       this.cancelRequestButton.addEventListener('click', async () => {
-        await fetch(`/dpr/request-report/${type}/${reportId}/${id}/${executionId}/status`, {
+        await fetch(meta.pollingUrl, {
           method: 'delete',
           headers: {
             Accept: 'application/json',

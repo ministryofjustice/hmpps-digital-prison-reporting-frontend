@@ -9,11 +9,11 @@ import PlatformRoutes from './platform/routes'
 
 export function Routes() {
   const router = Router({ mergeParams: true })
-  const controller = new EmbeddedController()
 
+  const controller = new EmbeddedController()
   router.get('/', controller.GET)
 
-  router.use(`/platform`, PlatformRoutes())
+  router.use(`/platform/`, PlatformRoutes())
   router.use(`/sync`, SyncRoutes())
 
   return router
@@ -24,5 +24,6 @@ export const EmbeddedRoutes = ({ path }: { path: string }) => {
 
   const router = Router({ mergeParams: true })
   router.use(path, Routes())
+
   return router
 }

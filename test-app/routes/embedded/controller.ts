@@ -11,7 +11,7 @@ export default class EmbeddedController {
         {
           text: 'Platform',
           description: 'Platform integration example',
-          href: '/embedded/platform',
+          href: '/embedded/platform/',
         },
         {
           text: 'Synchronous reports',

@@ -13,8 +13,6 @@ import {
 import { FilterValue } from '../_filters/types'
 import { Services } from '../../types/Services'
 
-import { RecentlyViewedStoreService, RequestedReportService } from '../../services'
-
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { getExpiredStatus } from '../../utils/requestStatusHelper'
 import SelectedFiltersUtils from '../_filters/filters-selected/utils'
@@ -45,6 +43,7 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
     reportName,
     dataProductDefinitionsPath,
     type: reportType,
+    url,
   } = reportDataCopy
 
   let summary: { name: string; value: string }[] = []
@@ -78,6 +77,8 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
       status,
       type,
       dataProductDefinitionsPath,
+      pollingUrl: url.polling?.pathname,
+      reportUrl: url.report?.pathname,
     },
   }
 }
@@ -174,7 +175,9 @@ const createSummaryHtml = (data: FormattedUserReportData) => {
   return `<ul class="dpr-card-group__item__filters-list govuk-!-margin-top-0 govuk-!-margin-bottom-0">${summaryHtml}${interactiveSummaryHtml}</ul>`
 }
 
-const getMeta = (formattedData: FormattedUserReportData[]) => {
+const getMeta = (formattedData: FormattedUserReportData[], res: Response) => {
+  const { nestedBaseUrl } = LocalsHelper.getValues(res)
+
   return formattedData.map((d) => {
     return {
       reportId: d.meta.reportId,
@@ -185,6 +188,9 @@ const getMeta = (formattedData: FormattedUserReportData[]) => {
       requestedAt: d.meta.requestedAt,
       type: d.meta.type,
       dataProductDefinitionsPath: d.meta.dataProductDefinitionsPath,
+      pollingUrl: d.meta.pollingUrl,
+      reportUrl: d.meta.reportUrl,
+      nestedBaseUrl,
     }
   })
 }
@@ -259,7 +265,7 @@ const renderList = async ({
   filterFunction: (report: UserReportData) => boolean
   type: 'requested' | 'viewed'
 }): Promise<RenderTableListResponse> => {
-  const { csrfToken } = LocalsHelper.getValues(res)
+  const { csrfToken, nestedBaseUrl } = LocalsHelper.getValues(res)
 
   let formatted = reportsData.filter(filterFunction).map(formatData)
   const formattedCount = formatted.length
@@ -269,7 +275,7 @@ const renderList = async ({
 
   const path = type === 'requested' ? 'requested-reports' : 'recently-viewed'
   const head = {
-    ...(formatted.length && { href: `/dpr/my-reports/${path}/list` }),
+    ...(formatted.length && { href: `dpr/my-reports/${path}/list` }),
     ...(!formatted.length && { emptyMessage: `You have 0 ${type} reports` }),
   }
 
@@ -277,7 +283,7 @@ const renderList = async ({
     head,
     tableData,
     total: getTotals(formattedCount, maxRows),
-    meta: getMeta(formatted),
+    meta: getMeta(formatted, res),
     csrfToken,
     maxRows,
   }
@@ -288,18 +294,15 @@ const renderList = async ({
 export default {
   renderList,
 
-  updateExpiredStatus: async ({
-    req,
-    res,
-    services,
-    storeService,
-  }: AsyncReportUtilsParams & { storeService: RequestedReportService | RecentlyViewedStoreService }) => {
+  updateExpiredStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
     const { userId } = LocalsHelper.getValues(res)
     const report = await getExpiredStatus({ req, res, services })
 
     if (report && report.isExpired) {
-      await storeService.setToExpired(report.executionId, userId)
+      await services.recentlyViewedService.setToExpired(report.executionId, userId)
+      await services.requestedReportService.setToExpired(report.executionId, userId)
     }
+
     return report ? report.isExpired : false
   },
 

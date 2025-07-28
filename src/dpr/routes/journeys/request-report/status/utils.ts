@@ -38,6 +38,7 @@ export default {
         tableId,
         status,
         definitionPath,
+        pollingUrl: req.baseUrl,
         ...(query && { querySummary: query.summary }),
         requestedAt: timestamp.requested,
         csrfToken,

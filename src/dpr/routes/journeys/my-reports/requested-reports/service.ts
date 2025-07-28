@@ -77,14 +77,31 @@ export default class RequestedReportService extends ReportStoreService {
           expired: new Date(),
         },
       }
+      userConfig.requestedReports[index] = report
+      await this.saveState(userId, userConfig)
     }
-    userConfig.requestedReports[index] = report
-    await this.saveState(userId, userConfig)
+  }
+
+  setReportUrl(report: RequestedReport) {
+    const { tableId, url, dpdPathFromQuery, dataProductDefinitionsPath } = report
+
+    const reportUrlArr = url.polling.pathname.replace('/request-report', '/view-report/async').split('/')
+    reportUrlArr[reportUrlArr.length - 2] = tableId
+    reportUrlArr[reportUrlArr.length - 1] = 'report'
+    const reportUrl = reportUrlArr.join('/')
+
+    const search = report.url.report?.search ? report.url.report.search : ''
+    const dpdPath = dpdPathFromQuery ? `${getDpdPathSuffix(dataProductDefinitionsPath)}` : ''
+    const searchPath = search || dpdPath
+    const pathname = `${reportUrl}${searchPath}`
+
+    return {
+      pathname: `${reportUrl}${searchPath}`,
+      fullUrl: `${url.origin}${pathname}`,
+    }
   }
 
   updateDataByStatus(report: RequestedReport, status?: RequestStatus | undefined, errorMessage?: string) {
-    const { dataProductDefinitionsPath, dpdPathFromQuery, type, reportId, id, tableId } = report
-
     const ts = new Date()
     if (status) report.status = status
     switch (status) {
@@ -100,13 +117,10 @@ export default class RequestedReportService extends ReportStoreService {
         break
       case RequestStatus.FINISHED: {
         report.timestamp.completed = ts
-        const search = report.url.report?.search ? report.url.report.search : ''
-        const dpdPath = dpdPathFromQuery ? `${getDpdPathSuffix(dataProductDefinitionsPath)}` : ''
-        const viewReportPath = `/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`
-        const searchPath = search || dpdPath
-
-        report.url.report.pathname = `${viewReportPath}${searchPath}`
-        report.url.report.fullUrl = `${report.url.origin}${report.url.report.pathname}`
+        report.url.report = {
+          ...report.url.report,
+          ...this.setReportUrl(report),
+        }
         break
       }
       case RequestStatus.SUBMITTED:

@@ -45,8 +45,9 @@ const requestedReady = {
       pathname: '/async/report/test-report-3/variantId-1/request/exId_1729765628165',
     },
     report: {
-      pathname: '/async/report/test-report-3/variantId-1/request/tblId_1729765628165/report',
-      fullUrl: 'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729765628165/report',
+      pathname: '/embedded/platform/dpr/view-report/async/report/test-report-3/variantId-1/tblId_1729765628165/report',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/dpr/view-report/async/report/test-report-3/variantId-1/tblId_1729765628165/report',
     },
   },
   query: {

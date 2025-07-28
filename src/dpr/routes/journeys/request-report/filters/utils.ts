@@ -64,7 +64,7 @@ export const updateStore = async ({
         .addFilters(queryData.filterData)
         .addSortData(queryData.sortData)
         .addDefinitionsPath(definitionsPath, dpdPathFromQuery)
-        .addRequestUrls()
+        .addRequestUrls(req)
         .addQuery(queryData)
         .addStatus(RequestStatus.SUBMITTED)
         .addTimestamp()
@@ -76,7 +76,7 @@ export const updateStore = async ({
         .addChildExecutionData(childExecutionData)
         .addFilters(queryData.filterData)
         .addDefinitionsPath(definitionsPath, dpdPathFromQuery)
-        .addRequestUrls()
+        .addRequestUrls(req)
         .addQuery(queryData)
         .addStatus(RequestStatus.SUBMITTED)
         .addTimestamp()
@@ -344,7 +344,7 @@ export default {
       }
 
       if (fields) {
-        ;({ filtersData, defaultFilterValues } = await getFilterData(req, res, fields, interactive, services))
+        ;({ filtersData, defaultFilterValues } = await getFilterData(req, res, fields, interactive, services, userId))
         defaultInteractiveQueryString = FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
       }
 

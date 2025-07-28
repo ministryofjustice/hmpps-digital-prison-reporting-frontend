@@ -32,12 +32,9 @@ export default class DprRecentlyViewedList extends DprPollingStatusClass {
   async checkIsExpired() {
     await Promise.all(
       JSON.parse(this.viewedReportData).map(async (metaData) => {
-        if (metaData.status !== 'EXPIRED') {
-          const response = await this.getExpiredStatus(
-            '/dpr/my-reports/recently-viewed/update-expired-status/',
-            metaData,
-            this.csrfToken,
-          )
+        const { status, reportUrl } = metaData
+        if (status !== 'EXPIRED') {
+          const response = await this.getExpiredStatus(reportUrl, metaData, this.csrfToken)
           if (response && response.isExpired) {
             clearInterval(this.expiredViewedInterval)
             window.location.reload()

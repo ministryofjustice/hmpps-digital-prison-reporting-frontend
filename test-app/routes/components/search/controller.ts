@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 
 export default class SearchController {
   GET: RequestHandler = async (req, res, next) => {
-    res.render('./view.njk', {
+    res.render('views/pages/components/search/view.njk', {
       title: 'Search',
       head: [{ text: 'Product' }, { text: 'Name' }],
       rows: [

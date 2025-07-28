@@ -265,7 +265,7 @@ const renderList = async ({
   filterFunction: (report: UserReportData) => boolean
   type: 'requested' | 'viewed'
 }): Promise<RenderTableListResponse> => {
-  const { csrfToken, nestedBaseUrl } = LocalsHelper.getValues(res)
+  const { csrfToken } = LocalsHelper.getValues(res)
 
   let formatted = reportsData.filter(filterFunction).map(formatData)
   const formattedCount = formatted.length

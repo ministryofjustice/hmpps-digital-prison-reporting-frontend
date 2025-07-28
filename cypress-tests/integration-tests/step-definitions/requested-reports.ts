@@ -49,14 +49,14 @@ When(/^I am taken to the (report|reportV2|dashboard) page$/, function (this: Moc
   if (reportType === 'report') {
     cy.url().should(
       'match',
-      /http:\/\/localhost:3010\/dpr\/view-report\/async\/report\/test-report-(.*)\/variantId-1\/(.*)\/report\?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7/i,
+      /http:\/\/localhost:3010\/embedded\/platform\/dpr\/view-report\/async\/report\/test-report-(.*)\/variantId-1\/(.*)\/report\?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7/i,
     )
   }
 
   if (reportType === 'dashboard') {
     cy.url().should(
       'match',
-      /http:\/\/localhost:3010\/dpr\/view-report\/async\/dashboard\/test-report-(.*)\/test-dashboard-8\/(.*)\/dashboard/i,
+      /http:\/\/localhost:3010\/embedded\/platform\/dpr\/view-report\/async\/dashboard\/test-report-(.*)\/test-dashboard-8\/(.*)\/dashboard/i,
     )
   }
 })
@@ -86,7 +86,10 @@ When(/^I am taken to the (report|reportV2|dashboard) query page$/, function (thi
   }
 
   if (reportType === 'dashboard') {
-    cy.url().should('eq', 'http://localhost:3010/embedded/platform/dpr/request-report/dashboard/test-report-1/test-dashboard-3/filters')
+    cy.url().should(
+      'eq',
+      'http://localhost:3010/embedded/platform/dpr/request-report/dashboard/test-report-1/test-dashboard-3/filters',
+    )
   }
 })
 

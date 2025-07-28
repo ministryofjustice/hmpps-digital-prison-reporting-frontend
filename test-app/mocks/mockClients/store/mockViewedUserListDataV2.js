@@ -1,5 +1,3 @@
-const { interactive } = require('../reports/mockVariants/variant23-interactive')
-
 const viewedReady = {
   reportId: 'test-report-3',
   id: 'variantId-1',
@@ -96,9 +94,9 @@ const viewedDashboard = {
     },
     report: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/embedded/platform/dpr/view-report/async/dashboard/test-report-1/test-dashboard-8/tblId_1730302242487/report',
+        'http://localhost:3010/embedded/platform/dpr/view-report/async/dashboard/test-report-1/test-dashboard-8/tblId_1730302242487/dashboard',
       pathname:
-        '/embedded/platform/dpr/view-report/async/dashboard/test-report-1/test-dashboard-8/tblId_1730302242487/report',
+        '/embedded/platform/dpr/view-report/async/dashboard/test-report-1/test-dashboard-8/tblId_1730302242487/dashboard',
     },
   },
   timestamp: {

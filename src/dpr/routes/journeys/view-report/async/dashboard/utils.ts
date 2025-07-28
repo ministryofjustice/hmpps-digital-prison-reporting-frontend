@@ -1,6 +1,6 @@
 import parseUrl from 'parseurl'
 import { Url } from 'url'
-import { Request, Response } from 'express'
+import { Request } from 'express'
 import type { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 
 import {

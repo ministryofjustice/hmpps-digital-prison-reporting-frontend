@@ -12,13 +12,14 @@ const failedDashboard = {
   url: {
     origin: 'http://localhost:3010',
     request: {
-      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-2/request?',
-      pathname: '/async/dashboard/test-report-1/test-dashboard-2/request',
+      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-2/request?',
+      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-2/request',
       search: '',
     },
     polling: {
-      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-2/request/exId_1724943092123',
-      pathname: '/async/dashboard/test-report-1/test-dashboard-2/request/exId_1724943092123',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-2/request/exId_1724943092123',
+      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-2/request/exId_1724943092123',
     },
     report: {},
   },
@@ -45,13 +46,14 @@ const expiredDashboard = {
   url: {
     origin: 'http://localhost:3010',
     request: {
-      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-3/request?',
+      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-3/request?',
       pathname: '/async/dashboard/test-report-1/test-dashboard-3/request',
       search: '',
     },
     polling: {
-      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-3/request/exId_1724943092824',
-      pathname: '/async/dashboard/test-report-1/test-dashboard-3/request/exId_1724943092824',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-3/request/exId_1724943092824',
+      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-3/request/exId_1724943092824',
     },
     report: {},
   },
@@ -78,13 +80,14 @@ const submittedDashboard = {
   url: {
     origin: 'http://localhost:3010',
     request: {
-      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request?',
-      pathname: '/async/dashboard/test-report-1/test-dashboard-1/request',
+      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request?',
+      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request',
       search: '',
     },
     polling: {
-      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
-      pathname: '/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
+      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
     },
     report: {},
   },
@@ -108,13 +111,14 @@ const abortedDashboard = {
   url: {
     origin: 'http://localhost:3010',
     request: {
-      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request?',
-      pathname: '/async/dashboard/test-report-1/test-dashboard-1/request',
+      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request?',
+      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request',
       search: '',
     },
     polling: {
-      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
-      pathname: '/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
+      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
     },
     report: {},
   },
@@ -142,18 +146,20 @@ const readyDashboard = {
   url: {
     origin: 'http://localhost:3010',
     request: {
-      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request?',
-      pathname: '/async/dashboard/test-report-1/test-dashboard-8/request',
+      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request?',
+      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request',
       search: '',
     },
     polling: {
-      fullUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-8/request/exId_1730382324700',
-      pathname: '/async/dashboard/test-report-1/test-dashboard-8/request/exId_1730382324700',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request/exId_1730382324700',
+      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request/exId_1730382324700',
     },
     report: {
-      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730382324700/report',
+      pathname:
+        '/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730382324700/dashboard',
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730382324700/report',
+        'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730382324700/dashboard',
     },
   },
   status: 'FINISHED',

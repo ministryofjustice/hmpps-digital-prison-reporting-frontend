@@ -83,11 +83,11 @@ export default class RequestedReportService extends ReportStoreService {
   }
 
   setReportUrl(report: RequestedReport) {
-    const { tableId, url, dpdPathFromQuery, dataProductDefinitionsPath } = report
+    const { tableId, url, dpdPathFromQuery, dataProductDefinitionsPath, type } = report
 
     const reportUrlArr = url.polling.pathname.replace('/request-report', '/view-report/async').split('/')
     reportUrlArr[reportUrlArr.length - 2] = tableId
-    reportUrlArr[reportUrlArr.length - 1] = 'report'
+    reportUrlArr[reportUrlArr.length - 1] = type
     const reportUrl = reportUrlArr.join('/')
 
     const search = report.url.report?.search ? report.url.report.search : ''

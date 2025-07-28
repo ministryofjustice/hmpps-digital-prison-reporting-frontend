@@ -253,8 +253,8 @@ describe('RequestedReportService', () => {
         url: {
           ...MockRequestedListData2.requestedReady.url,
           report: {
-            fullUrl: `http://localhost:3010/dpr/view-report/async/report/${reportId}/${id}/${tableId}/report`,
-            pathname: `/dpr/view-report/async/report/${reportId}/${id}/${tableId}/report`,
+            fullUrl: `http://localhost:3010/embedded/platform/dpr/view-report/async/report/${reportId}/${id}/${tableId}/report`,
+            pathname: `/embedded/platform/dpr/view-report/async/report/${reportId}/${id}/${tableId}/report`,
           },
         },
       }

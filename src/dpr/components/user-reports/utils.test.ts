@@ -174,27 +174,27 @@ describe('AsyncRequestListUtils', () => {
 
         const v1Ready = result.tableData.rows[0]
         expect(v1Ready[3].html).toContain(
-          'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729765628165/report',
+          'http://localhost:3010/embedded/platform/dpr/view-report/async/report/test-report-3/variantId-1/tblId_1729765628165/report',
         )
         expect(v1Ready[2].html).toContain('FINISHED')
 
         const v1Failed = result.tableData.rows[1]
         const v1FailedRetryUrl =
-          'http://localhost:3010/async/report/test-report-3/variantId-2/request/exId_1729765694790'
+          'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-2/request/exId_1729765694790'
         expect(v1Failed[2].html).toContain('FAILED')
         expect(v1Failed[3].html).toContain(v1FailedRetryUrl)
         expect(v1Failed[3].html).toContain('remove')
 
         const v1Expired = result.tableData.rows[2]
         const v1ExpiredRetryUrl =
-          'http://localhost:3010/async/report/test-report-3/variantId-4/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1'
+          'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-4/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1'
         expect(v1Expired[2].html).toContain('EXPIRED')
         expect(v1Expired[3].html).toContain(v1ExpiredRetryUrl)
         expect(v1Expired[3].html).toContain('remove')
 
         const v1Aborted = result.tableData.rows[3]
         const v1AbortedRetryUrl =
-          'http://localhost:3010/async/report/test-report-3/variantId-1/request?filters.field1=value1.1&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1'
+          'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-1/request?filters.field1=value1.1&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1'
         expect(v1Aborted[2].html).toContain('ABORTED')
         expect(v1Aborted[3].html).toContain(v1AbortedRetryUrl)
         expect(v1Aborted[3].html).toContain('remove')
@@ -258,13 +258,13 @@ describe('AsyncRequestListUtils', () => {
 
         const v1Ready = result.tableData.rows[0]
         expect(v1Ready[3].html).toContain(
-          'http://localhost:3010/async/report/test-report-3/variantId-1/request/tblId_1729766362362/report',
+          'http://localhost:3010/embedded/platform/dpr/view-report/async/report/test-report-3/variantId-1/tblId_1729766362362/report',
         )
         expect(v1Ready[2].html).toContain('READY')
 
         const v1Expired = result.tableData.rows[1]
         const v1ExpiredRetryUrl =
-          'http://localhost:3010/async/report/test-report-3/variantId-1/request?filters.field2=value2.3&filters.field3.start=2003-09-05&filters.field3.end=2007-05-01&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field4=Inigo+Montoya'
+          'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-1/request?filters.field2=value2.3&filters.field3.start=2003-09-05&filters.field3.end=2007-05-01&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field4=Inigo+Montoya'
         expect(v1Expired[2].html).toContain('EXPIRED')
         expect(v1Expired[3].html).toContain(v1ExpiredRetryUrl)
         expect(v1Expired[3].html).toContain('remove')

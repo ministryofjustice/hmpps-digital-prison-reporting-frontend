@@ -42,8 +42,8 @@ const requestedReady = {
     },
     polling: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-1/request/exId_1729765628165',
-      pathname: '/embedded/platform/async/report/test-report-3/variantId-1/request/exId_1729765628165',
+        'http://localhost:3010/embedded/platform/dpr/request-report/report/test-report-3/variantId-1/exId_1729765628165/status',
+      pathname: '/embedded/platform/dpr/request-report/report/test-report-3/variantId-1/exId_1729765628165/status',
     },
     report: {
       pathname: '/embedded/platform/dpr/view-report/async/report/test-report-3/variantId-1/tblId_1729765628165/report',

@@ -65,14 +65,14 @@ When(/^I am taken to the (report|reportV2|dashboard) status page$/, function (th
   if (reportType === 'report') {
     cy.url().should(
       'eq',
-      'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-2/exId_1729765694790/status',
+      'http://localhost:3010/embedded/platform/dpr/request-report/report/test-report-3/variantId-2/exId_1729765694790/status',
     )
   }
 
   if (reportType === 'dashboard') {
     cy.url().should(
       'eq',
-      'http://localhost:3010/dpr/request-report/dashboard/test-report-1/test-dashboard-2/exId_1724943092123/status',
+      'http://localhost:3010/embedded/platform/dpr/request-report/dashboard/test-report-1/test-dashboard-2/exId_1724943092123/status',
     )
   }
 })
@@ -81,12 +81,12 @@ When(/^I am taken to the (report|reportV2|dashboard) query page$/, function (thi
   if (reportType === 'report') {
     cy.url().should(
       'eq',
-      'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-4/filters?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=false',
+      'http://localhost:3010/embedded/platform/dpr/request-report/report/test-report-3/variantId-4/filters?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=false',
     )
   }
 
   if (reportType === 'dashboard') {
-    cy.url().should('eq', 'http://localhost:3010/dpr/request-report/dashboard/test-report-1/test-dashboard-3/filters')
+    cy.url().should('eq', 'http://localhost:3010/embedded/platform/dpr/request-report/dashboard/test-report-1/test-dashboard-3/filters')
   }
 })
 

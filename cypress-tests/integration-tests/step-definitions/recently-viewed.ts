@@ -101,12 +101,12 @@ Then(
     if (reportType === 'report') {
       cy.url().should(
         'eq',
-        'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-1/filters?filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3&sortColumn=field1&sortedAsc=false',
+        'http://localhost:3010/embedded/platform/dpr/request-report/report/test-report-3/variantId-1/filters?filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3&sortColumn=field1&sortedAsc=false',
       )
     }
 
     if (reportType === 'dashboard') {
-      cy.url().should('eq', 'http://localhost:3010/dpr/request-report/dashboard/test-report-1/test-dashboard-8/filters')
+      cy.url().should('eq', 'http://localhost:3010/embedded/platform/dpr/request-report/dashboard/test-report-1/test-dashboard-8/filters')
     }
   },
 )
@@ -115,14 +115,14 @@ Then(/^I am taken to the async (report|reportV2|dashboard)$/, function (this: Mo
   if (reportType === 'report') {
     cy.url().should(
       'eq',
-      'http://localhost:3010/dpr/view-report/async/report/test-report-3/variantId-1/tblId_1729766362362/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7&pageSize=10&selectedPage=10',
+      'http://localhost:3010/embedded/platform/dpr/view-report/async/report/test-report-3/variantId-1/tblId_1729766362362/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7&pageSize=10&selectedPage=10',
     )
   }
 
   if (reportType === 'dashboard') {
     cy.url().should(
       'have.string',
-      'http://localhost:3010/dpr/view-report/async/dashboard/test-report-1/test-dashboard-8/tblId_1730302242487/dashboard',
+      'http://localhost:3010/embedded/platform/dpr/view-report/async/dashboard/test-report-1/test-dashboard-8/tblId_1730302242487/dashboard',
     )
   }
 })

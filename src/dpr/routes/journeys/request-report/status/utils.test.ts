@@ -180,7 +180,7 @@ describe('PollingUtils', () => {
           name: 'Requested dashboard',
           reportId: 'reportId',
           reportName: 'Test Report',
-          requestUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request?',
+          requestUrl: 'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request?',
           requestedAt: '2024-08-29T14:51:33.557Z',
           status: 'SUBMITTED',
           tableId: 'tblId_1724943092098',

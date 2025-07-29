@@ -215,19 +215,20 @@ describe('AsyncRequestListUtils', () => {
 
         const v2Ready = result.tableData.rows[4]
         expect(v2Ready[3].html).toContain(
-          'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
+          'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
         )
         expect(v2Ready[2].html).toContain('SUBMITTED')
 
         const v2Failed = result.tableData.rows[5]
         const v2FailedRetryUrl =
-          'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-2/request/exId_1724943092123'
+          'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-2/request/exId_1724943092123'
         expect(v2Failed[2].html).toContain('FAILED')
         expect(v2Failed[3].html).toContain(v2FailedRetryUrl)
         expect(v2Failed[3].html).toContain('remove')
 
         const v2Expired = result.tableData.rows[6]
-        const v2ExpiredRetryUrl = 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-3/request'
+        const v2ExpiredRetryUrl =
+          'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-3/request'
         expect(v2Expired[2].html).toContain('EXPIRED')
         expect(v2Expired[3].html).toContain(v2ExpiredRetryUrl)
         expect(v2Expired[3].html).toContain('remove')

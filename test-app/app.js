@@ -4,6 +4,7 @@
 
 import path from 'path'
 import noCache from 'nocache'
+import fs from 'fs'
 
 // NPM dependencies
 const express = require('express')

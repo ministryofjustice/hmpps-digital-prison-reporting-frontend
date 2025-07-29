@@ -3,6 +3,7 @@ import logger from '../../src/dpr/utils/logger'
 
 import { ComponentRoutes } from './components/routes'
 import { EmbeddedRoutes } from './embedded/routes'
+import { TemplateRoutes } from './report-templates/routes'
 import HomeRoutes from './home/routes'
 
 export default function routes(): Router {
@@ -13,6 +14,7 @@ export default function routes(): Router {
   router.use('/', HomeRoutes())
   router.use('/', ComponentRoutes({ path: '/components' }))
   router.use('/', EmbeddedRoutes({ path: '/embedded' }))
+  router.use('/', TemplateRoutes({ path: '/templates' }))
 
   return router
 }

@@ -17,6 +17,11 @@ export default class HomepageController {
           description: 'Component testing',
           href: '/components',
         },
+        {
+          text: 'Report templates',
+          description: 'Template testing',
+          href: '/templates',
+        },
       ],
     })
   }

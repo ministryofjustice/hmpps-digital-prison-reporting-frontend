@@ -31,7 +31,7 @@ export default class FiltersController {
         {
           text: 'Multiselect',
           description: 'Multiselect input component.',
-          href: '/components/filters/multiselect',
+          href: '/components/filters/multi-select',
         },
       ],
     })

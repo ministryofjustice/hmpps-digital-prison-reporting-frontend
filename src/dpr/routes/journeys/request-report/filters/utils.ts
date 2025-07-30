@@ -344,7 +344,7 @@ export default {
       }
 
       if (fields) {
-        ;({ filtersData, defaultFilterValues } = await getFilterData(req, res, fields, interactive, services))
+        ;({ filtersData, defaultFilterValues } = await getFilterData(req, res, fields, interactive, services, userId))
         defaultInteractiveQueryString = FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
       }
 

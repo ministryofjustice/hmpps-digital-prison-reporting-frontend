@@ -98,7 +98,6 @@ const buildLibraryThenApp = async () => {
 }
 
 const main = async () => {
-  await buildLibrary()
   /**
    * @type {chokidar.WatchOptions}
    */
@@ -109,6 +108,7 @@ const main = async () => {
 
   const args = process.argv
   if (args.includes('--build')) {
+    await buildLibrary()
     Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch((e) => {
       process.stderr.write(`${e}\n`)
       process.exit(1)
@@ -118,7 +118,7 @@ const main = async () => {
   if (args.includes('--dev-server')) {
     let serverProcess = null
     chokidar
-      .watch(['dist-test-app/**/*', 'dist/**/*'], {
+      .watch(['dist-test-app'], {
         ignored: ['**/*.cy.ts'],
       })
       .on('all', () => {

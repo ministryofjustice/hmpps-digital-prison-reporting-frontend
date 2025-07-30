@@ -118,7 +118,7 @@ const main = async () => {
   if (args.includes('--dev-server')) {
     let serverProcess = null
     chokidar
-      .watch(['dist-test-app/**/*', 'dist/**/*'], {
+      .watch(['dist-test-app'], {
         ignored: ['**/*.cy.ts'],
       })
       .on('all', () => {

@@ -11,12 +11,12 @@ export default class DashboardController {
         {
           text: 'Scorecards',
           description: 'Autocomplete input component.',
-          href: '/components/dashboard/scorecards',
+          href: '/components/dashboards/scorecards',
         },
         {
           text: 'Charts',
           description: 'Date input component.',
-          href: '/components/dashboard/charts',
+          href: '/components/dashboards/charts',
         },
       ],
     })

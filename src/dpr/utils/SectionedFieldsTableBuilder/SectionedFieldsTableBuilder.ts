@@ -111,8 +111,8 @@ export default class SectionedFieldsDataTableBuilder extends ParentChildDataTabl
   buildTable(data: Array<Dict<string>>): DataTable {
     return {
       head: [
-        { text: '', classes: 'dpr-row-section-header' },
-        { text: '', classes: 'pr-row-section-header-value' },
+        // { text: '', classes: 'dpr-row-section-header' },
+        // { text: '', classes: 'dpr-row-section-header-value' },
       ],
       rows: this.createRows(data),
       rowCount: data.length,

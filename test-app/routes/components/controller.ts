@@ -29,11 +29,6 @@ export default class ComponentsController {
           href: '/components/filters',
         },
         {
-          text: 'Report',
-          description: 'Report components.',
-          href: '/components/report',
-        },
-        {
           text: 'Dashboard',
           description: 'Dashboard components.',
           href: '/components/dashboards',

@@ -5,8 +5,7 @@ export default class TemplateController {
 
   GET: RequestHandler = async (req, res, next) => {
     res.render('views/pages/menu.njk', {
-      title: 'Filter inputs',
-      caption: 'Report templates',
+      title: 'Report templates',
       cards: [
         {
           text: 'List',

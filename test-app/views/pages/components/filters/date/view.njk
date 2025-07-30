@@ -1,10 +1,12 @@
 {% extends "views/page.njk" %}
 
+{% from "components/_inputs/date-input/view.njk" import dprDate %}
+
 {% block content %}
   <span class="govuk-caption-l">Components</span>
   <h1 class="govuk-heading-l">{{ title }}</h1>
 
   <div class="govuk-width-container">
-    {#  #}
+    {{ dprDate(defaultInput) }}
   </div>
 {% endblock %}

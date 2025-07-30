@@ -38,16 +38,7 @@ export default class RowSectionChildTemplateController {
       pathname: '/async/report/test-report-3/variantId-31/request/tblId_1749034042532/report',
       dataTable: [
         {
-          head: [
-            {
-              text: '',
-              classes: 'dpr-row-section-header',
-            },
-            {
-              text: '',
-              classes: 'pr-row-section-header-value',
-            },
-          ],
+          head: [],
           rows: [
             [
               {

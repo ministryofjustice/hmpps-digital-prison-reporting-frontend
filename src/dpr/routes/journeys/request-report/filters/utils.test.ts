@@ -339,8 +339,8 @@ describe('RequestReportUtils', () => {
                 '?filters.field1=value1.2&filters.field2=value2.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true',
             },
             polling: {
-              fullUrl: 'http://localhost:3010/dpr/request-report/test-report-3/variantId-1/executionId/status',
-              pathname: 'dpr/request-report/test-report-3/variantId-1/executionId/status',
+              fullUrl: 'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-1/executionId/status',
+              pathname: 'dpr/request-report/report/test-report-3/variantId-1/executionId/status',
             },
             report: {},
           },
@@ -418,8 +418,8 @@ describe('RequestReportUtils', () => {
             },
             polling: {
               fullUrl:
-                'http://localhost:3010/dpr/request-report/test-report-1/test-dashboard-1/executionId_dash/status',
-              pathname: 'dpr/request-report/test-report-1/test-dashboard-1/executionId_dash/status',
+                'http://localhost:3010/dpr/request-report/dashboard/test-report-1/test-dashboard-1/executionId_dash/status',
+              pathname: 'dpr/request-report/dashboard/test-report-1/test-dashboard-1/executionId_dash/status',
             },
             report: {},
           },

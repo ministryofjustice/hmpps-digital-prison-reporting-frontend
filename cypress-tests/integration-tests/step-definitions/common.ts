@@ -156,7 +156,7 @@ When(
   },
 )
 
-When(/I navigate to the (bar|pie|line) chart page/, (page: string) => {
+When(/I navigate to the (bar|pie|line|scorecards) chart page/, (page: string) => {
   const type = page.toLowerCase()
   let path = '/'
   switch (type) {

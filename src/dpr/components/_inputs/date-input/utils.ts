@@ -1,9 +1,12 @@
 import { Request } from 'express'
 import dayjs from 'dayjs'
+import customParse from 'dayjs/plugin/customParseFormat'
 import { components } from '../../../types/api'
 import { DateFilterValue, FilterValue } from '../../_filters/types'
 import StartEndDatetUtils from '../start-end-date/utils'
 import { defaultFilterValue } from '../../../routes/journeys/request-report/filters/types'
+
+dayjs.extend(customParse)
 
 const setDateValueWithinMinMax = (filter: components['schemas']['FilterDefinition']) => {
   const { defaultValue, min, max } = filter
@@ -27,8 +30,11 @@ const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) 
 }
 
 const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: FilterValue) => {
-  const date = dayjs(<string>defaultValue.value).format('D/M/YYYY')
-  const value = dayjs(date).format('YYYY-MM-DD').toString()
+  const value = defaultValue.value
+    ? dayjs(<string>defaultValue.value, 'D/M/YYYY')
+        .format('YYYY-MM-DD')
+        .toString()
+    : ''
   return {
     ...filter,
     value,

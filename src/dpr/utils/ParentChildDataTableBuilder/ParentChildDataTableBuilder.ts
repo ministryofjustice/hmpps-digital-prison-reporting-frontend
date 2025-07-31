@@ -57,9 +57,9 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
               {
                 classes: 'dpr-child-report-cell',
                 format: 'string',
-                html: `<div class='dpr-child-report'><h3 class="govuk-heading-s">${
+                html: `<div class='dpr-child-report'><h2 class="govuk-heading-s">${
                   childVariant.name
-                }</h3><div class="dpr-child-report_table">${this.convertDataTableToHtml(dataTable)}</div></div>`,
+                }</h2><div class="dpr-child-report_table">${this.convertDataTableToHtml(dataTable)}</div></div>`,
                 colspan: this.columns.length,
               },
             ]

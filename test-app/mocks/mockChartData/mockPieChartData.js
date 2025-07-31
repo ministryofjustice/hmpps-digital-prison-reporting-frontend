@@ -1,39 +1,34 @@
-const mockBarChartData = [
+const mockPieChartData = [
   {
     id: 'pie_chart-1',
-    title: 'Prisoners favourite colours',
-    description: 'Prisoners favourite colours',
-    type: ['doughnut'],
-    details: {
-      headlines: [],
-      meta: [
-        {
-          label: 'Data for Period',
-          value: '6th Aug 2024 - 6th Sept 2024',
-        },
-        {
-          label: 'Source data refreshed',
-          value: 'Friday, 6 September 2024',
-        },
-      ],
-    },
     data: {
-      chart: [
-        {
-          type: 'doughnut',
-          unit: 'number',
-          data: {
-            labels: ['Red Red RedRed Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [
-              {
-                label: 'No of prisoners',
-                data: [12, 19, 3, 5, 2, 10],
-                total: [12, 19, 3, 5, 2, 10].reduce((acc, val) => acc + val, 0),
-              },
-            ],
+      details: {
+        headlines: [],
+        meta: [
+          {
+            label: 'Data for Period',
+            value: '6th Aug 2024 - 6th Sept 2024',
           },
+          {
+            label: 'Source data refreshed',
+            value: 'Friday, 6 September 2024',
+          },
+        ],
+      },
+      chart: {
+        type: 'doughnut',
+        unit: 'number',
+        data: {
+          labels: ['Red Red RedRed Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          datasets: [
+            {
+              label: 'No of prisoners',
+              data: [12, 19, 3, 5, 2, 10],
+              total: [12, 19, 3, 5, 2, 10].reduce((acc, val) => acc + val, 0),
+            },
+          ],
         },
-      ],
+      },
       table: {
         head: [{ text: 'Colours' }, { text: 'No of prisoners' }],
         rows: [
@@ -49,44 +44,39 @@ const mockBarChartData = [
   },
   {
     id: 'pie_chart-2',
-    title: 'Prisoners and Staff favourite colours',
-    description: 'Prisoners and Staff favourite colours',
-    type: ['doughnut'],
-    details: {
-      headlines: [],
-      meta: [
-        {
-          label: 'Data for Period',
-          value: '6th Aug 2024 - 6th Sept 2024',
-        },
-        {
-          label: 'Source data refreshed',
-          value: 'Friday, 6 September 2024',
-        },
-      ],
-    },
     data: {
-      chart: [
-        {
-          type: 'doughnut',
-          unit: 'number',
-          data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green'],
-            datasets: [
-              {
-                label: 'No of prisoners',
-                data: [12, 19, 3, 5],
-                total: [12, 19, 3, 5].reduce((acc, val) => acc + val, 0),
-              },
-              {
-                label: 'No of Staff',
-                data: [17, 10, 6, 9],
-                total: [17, 10, 6, 9].reduce((acc, val) => acc + val, 0),
-              },
-            ],
+      details: {
+        headlines: [],
+        meta: [
+          {
+            label: 'Data for Period',
+            value: '6th Aug 2024 - 6th Sept 2024',
           },
+          {
+            label: 'Source data refreshed',
+            value: 'Friday, 6 September 2024',
+          },
+        ],
+      },
+      chart: {
+        type: 'doughnut',
+        unit: 'number',
+        data: {
+          labels: ['Red', 'Blue', 'Yellow', 'Green'],
+          datasets: [
+            {
+              label: 'No of prisoners',
+              data: [12, 19, 3, 5],
+              total: [12, 19, 3, 5].reduce((acc, val) => acc + val, 0),
+            },
+            {
+              label: 'No of Staff',
+              data: [17, 10, 6, 9],
+              total: [17, 10, 6, 9].reduce((acc, val) => acc + val, 0),
+            },
+          ],
         },
-      ],
+      },
       table: {
         head: [{ text: 'Colours' }, { text: 'No of prisoners' }, { text: 'No of Staff' }],
         rows: [
@@ -100,4 +90,4 @@ const mockBarChartData = [
   },
 ]
 
-module.exports = mockBarChartData
+module.exports = mockPieChartData

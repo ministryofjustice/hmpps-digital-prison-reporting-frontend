@@ -123,6 +123,8 @@ export interface meta {
   type: ReportType
   requestedAt?: Date
   dataProductDefinitionsPath?: string
+  pollingUrl: string
+  reportUrl: string
 }
 
 export interface RequestFormData extends RequestFormFilterData {

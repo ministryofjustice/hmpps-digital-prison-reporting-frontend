@@ -1,0 +1,23 @@
+{% extends "views/page.njk" %}
+
+{% from "components/_charts/chart-card/view.njk" import dprChartCard %}
+{% from "components/_charts/chart-tabs/view.njk" import dprChartTabs %}
+{% from "components/_charts/chart/view.njk" import dprChart %}
+
+{% block content %}
+  <h1 class="govuk-heading-l">{{ title }}</h1>
+
+  {% for chart in charts %}
+    <div class="govuk-!-margin-bottom-6 govuk-!-padding-bottom-6">
+      <h2 class="govuk-heading-m dpr-dotted-unterline govuk-!-margin-bottom-6 govuk-!-margin-top-6">dprChartCard component</h2>
+      {{ dprChartCard(chart.id, chart.data) }}
+
+      <h2 class="govuk-heading-m dpr-dotted-unterline govuk-!-margin-bottom-6 govuk-!-margin-top-6">dprChartTabs component</h2>
+      {{ dprChartTabs(chart.id + "_", chart.data) }}
+
+      <h2 class="govuk-heading-m dpr-dotted-unterline govuk-!-margin-bottom-6 govuk-!-margin-top-6">dprChart component</h2>
+      {{ dprChart(chart.id, chart.data.chart.type, chart.data.chart.data, chart.data.chart.unit)}}
+    </div>
+  {% endfor %}
+
+{% endblock %}

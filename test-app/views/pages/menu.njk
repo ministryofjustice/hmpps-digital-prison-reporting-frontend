@@ -20,7 +20,12 @@
       </div>
     {% endif %}
 
+    {% if caption %}
+      <span class="govuk-caption-l">{{ caption }}</span>
+    {% endif %}
+    
     <h1 class="govuk-heading-l">{{ title }}</h1>
+
 
     {{ dprCardGroup(cards, 2) }}
   </div>

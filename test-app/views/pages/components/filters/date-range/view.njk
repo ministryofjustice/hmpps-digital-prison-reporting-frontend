@@ -1,0 +1,23 @@
+{% extends "views/page.njk" %}
+
+{%- from "components/_inputs/date-range/view.njk" import dprDateRange %}
+
+{% block content %}
+  <span class="govuk-caption-l">Components</span>
+  <h1 class="govuk-heading-l">{{ title }}</h1>
+
+  <div class="govuk-width-container">
+    <h2 class="govuk-heading-m">Default</h2>  
+    {{ dprDateRange(defaultInput) }}
+  </div>
+
+  <div class="govuk-width-container">
+    <h2 class="govuk-heading-m govuk-!-margin-top-4">Min & Max</h2>  
+    {{ dprDateRange(minMax) }}
+  </div>
+
+  <div class="govuk-width-container">
+    <h2 class="govuk-heading-m">Relative range</h2>  
+    {{ dprDateRange(relativeRange) }}
+  </div>
+{% endblock %}

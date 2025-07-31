@@ -1,0 +1,12 @@
+{% extends "views/page.njk" %}
+
+{% from "components/_inputs/autocomplete-text-input/view.njk" import dprAutocompleteTextInput %}
+
+{% block content %}
+  <span class="govuk-caption-l">Components</span>
+  <h1 class="govuk-heading-l">{{ title }}</h1>
+
+  <div class="govuk-width-container">
+    {{ dprAutocompleteTextInput(options) }}
+  </div>
+{% endblock %}

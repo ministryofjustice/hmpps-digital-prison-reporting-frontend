@@ -53,7 +53,7 @@ export default class MissingReportFormController {
 
     // If succesful redirect to submitted page
     const queryParams = `reportName=${reportName}&name=${variantName}&reportId=${reportId}&variantId=${variantId}`
-    const redirect = `/dpr/request-missing-report/submitted?${queryParams}`
+    const redirect = `./submitted?${queryParams}`
 
     // TODO: Redirect to failed page
 

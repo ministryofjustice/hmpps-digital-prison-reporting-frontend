@@ -14,6 +14,7 @@ export interface DownloadActionParams {
   loadType: LoadType
   currentUrl: string
   currentQueryParams: string
+  nestedBaseUrl: string
 }
 
 export interface ShareActionParams {

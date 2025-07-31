@@ -82,7 +82,7 @@ describe('PollingUtils', () => {
           reportId: 'reportId',
           reportName: 'Test Report',
           requestUrl:
-            'http://localhost:3010/async/report/test-report-3/variantId-2/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
+            'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-2/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
           requestedAt: '2024-10-24T10:28:15.792Z',
           status: 'SUBMITTED',
           tableId: 'tblId_1729765698654',
@@ -136,7 +136,7 @@ describe('PollingUtils', () => {
           reportId: 'reportId',
           reportName: 'Test Report',
           requestUrl:
-            'http://localhost:3010/async/report/test-report-3/variantId-2/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
+            'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-2/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
           requestedAt: '2024-10-24T10:28:15.792Z',
           status: 'SUBMITTED',
           tableId: 'tblId_1729765698654',
@@ -180,7 +180,7 @@ describe('PollingUtils', () => {
           name: 'Requested dashboard',
           reportId: 'reportId',
           reportName: 'Test Report',
-          requestUrl: 'http://localhost:3010/async/dashboard/test-report-1/test-dashboard-1/request?',
+          requestUrl: 'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request?',
           requestedAt: '2024-08-29T14:51:33.557Z',
           status: 'SUBMITTED',
           tableId: 'tblId_1724943092098',

@@ -1,0 +1,28 @@
+{% extends "views/page.njk" %}
+
+{% from "components/user-reports/view.njk" import dprUserReports %}
+
+{% block content %}
+  <span class="govuk-caption-l">Components</span>
+  <h1 class="govuk-heading-l">{{ title }}</h1>
+
+  <h2 class="govuk-heading-m">Default</h2>
+  <div class="govuk-width-container">
+    {{ dprUserReports({ requestedReports: userReports.requestedReports, viewedReports: userReports.viewedReports, bookmarks: userReports.bookmarks2 })}}
+  </div>
+
+  <h2 class="govuk-heading-m">Bookmarks</h2>
+  <div class="govuk-width-container">
+    {{ dprUserReports({ bookmarks: userReports.bookmarks })}}
+  </div>
+
+  <h2 class="govuk-heading-m">Requested reports</h2>
+  <div class="govuk-width-container">
+    {{ dprUserReports({ requestedReports: userReports.requestedReports })}}
+  </div>
+
+  <h2 class="govuk-heading-m">Viewed reports</h2>
+  <div class="govuk-width-container">
+    {{ dprUserReports({ viewedReports: userReports.viewedReports })}}
+  </div>
+{% endblock %}

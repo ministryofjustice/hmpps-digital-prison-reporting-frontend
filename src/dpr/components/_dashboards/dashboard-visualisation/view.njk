@@ -24,6 +24,8 @@
 
     {% elif type === 'list' %}  
 
+      {{ data | json }}
+
       {{ dprDashboardList(id, data) }}
 
     {% else %}

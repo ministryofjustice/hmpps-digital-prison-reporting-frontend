@@ -5,6 +5,7 @@ import logger from '../../../src/dpr/utils/logger'
 // Routes
 import ListRoutes from './list/routes'
 import listSectionRoutes from './list-section/routes'
+import listSectionSummariesRoutes from './list-section-with-summaries/routes'
 import parentChildRoutes from './parent-child/routes'
 import parentChildSectionRoutes from './parent-child-section/routes'
 import rowSectionRoutes from './row-section/routes'
@@ -22,6 +23,7 @@ export function Routes() {
 
   router.use(`/list`, ListRoutes())
   router.use(`/list-section`, listSectionRoutes())
+  router.use(`/list-section-summaries`, listSectionSummariesRoutes())
   router.use(`/parent-child-section`, parentChildSectionRoutes())
   router.use(`/parent-child`, parentChildRoutes())
   router.use(`/row-section`, rowSectionRoutes())

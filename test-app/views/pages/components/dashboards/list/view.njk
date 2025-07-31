@@ -1,0 +1,10 @@
+{% extends "views/page.njk" %}
+
+{% from "components/_dashboards/dashboard-list/view.njk" import dprDashboardList %}
+
+{% block content %}
+  <h1 class="govuk-heading-l">{{ title }}</h1>
+
+  {{ dprDashboardList('id', data) }}
+{% endblock %}
+ 

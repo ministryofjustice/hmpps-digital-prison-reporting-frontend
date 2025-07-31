@@ -5,7 +5,7 @@ export default class DashboardController {
 
   GET: RequestHandler = async (req, res, next) => {
     res.render('views/pages/menu.njk', {
-      title: 'Dashboard',
+      title: 'Dashboard visualisations',
       caption: 'Components',
       cards: [
         {
@@ -15,8 +15,13 @@ export default class DashboardController {
         },
         {
           text: 'Charts',
-          description: 'Date input component.',
+          description: 'Chart type visualisations',
           href: '/components/dashboards/charts',
+        },
+        {
+          text: 'list',
+          description: 'List visualisation',
+          href: '/components/dashboards/list',
         },
       ],
     })

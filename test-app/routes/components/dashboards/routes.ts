@@ -4,6 +4,7 @@ import { Router } from 'express'
 // Routes
 import ScorecardRoutes from './scorecards/routes'
 import ChartsRoutes from './charts/routes'
+import ListsRoutes from './list/routes'
 
 import DashboardController from './controller'
 
@@ -15,6 +16,7 @@ export default function routes() {
 
   router.use('/scorecards', ScorecardRoutes())
   router.use('/charts', ChartsRoutes())
+  router.use('/list', ListsRoutes())
 
   return router
 }

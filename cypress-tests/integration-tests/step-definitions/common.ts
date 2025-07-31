@@ -73,13 +73,19 @@ Then(/The text (.+) is displayed on the page/, (text) => {
 })
 
 When(
-  /I navigate to the (list-section|parent-child|parent-child-section|row-section|row-section-child|summary|summary-section) template page/,
+  /I navigate to the (list|list-section-summaries|list-section|parent-child|parent-child-section|row-section|row-section-child|summary|summary-section) template page/,
   (page: string) => {
     const type = page.toLowerCase()
     let path = '/'
     switch (type) {
+      case 'list':
+        path = 'templates/list-section'
+        break
       case 'list-section':
         path = 'templates/list-section'
+        break
+      case 'list-section-summaries':
+        path = 'templates/list-section-summaries'
         break
       case 'parent-child':
         path = '/templates/parent-child'
@@ -156,7 +162,7 @@ When(
   },
 )
 
-When(/I navigate to the (bar|pie|line|scorecards) chart page/, (page: string) => {
+When(/I navigate to the (bar|pie|line|scorecards|list) chart page/, (page: string) => {
   const type = page.toLowerCase()
   let path = '/'
   switch (type) {
@@ -171,6 +177,9 @@ When(/I navigate to the (bar|pie|line|scorecards) chart page/, (page: string) =>
       break
     case 'scorecards':
       path = '/components/dashboards/scorecards'
+      break
+    case 'list':
+      path = '/components/dashboards/list'
       break
     default:
       break

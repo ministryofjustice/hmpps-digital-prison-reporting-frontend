@@ -8,42 +8,47 @@ export default class TemplateController {
       title: 'Report templates',
       cards: [
         {
-          text: 'List',
+          text: 'list',
           description: 'Examplate of a list report template',
           href: '/templates/list',
         },
         {
-          text: 'List section',
+          text: 'list-section',
           description: 'Examplate of a list-section report template',
           href: '/templates/list-section',
         },
         {
-          text: 'Parent child',
+          text: 'list-section with summaries',
+          description: 'Examplate of a list-section report template',
+          href: '/templates/list-section-summaries',
+        },
+        {
+          text: 'parent-child',
           description: 'Examplate of a parent-child report template',
           href: '/templates/parent-child',
         },
         {
-          text: 'Parent child section',
+          text: 'parent-child-section',
           description: 'Examplate of a parent-child-section report template',
           href: '/templates/parent-child-section',
         },
         {
-          text: 'Row section',
+          text: 'row-section',
           description: 'Examplate of a row-section report template',
           href: '/templates/row-section',
         },
         {
-          text: 'Row section child',
+          text: 'row-section-child',
           description: 'Examplate of a row-section-child report template',
           href: '/templates/row-section-child',
         },
         {
-          text: 'Summary',
+          text: 'summary',
           description: 'Examplate of a summary report template',
           href: '/templates/summary',
         },
         {
-          text: 'Summary section',
+          text: 'summary-section',
           description: 'Examplate of a summary-section report template',
           href: '/templates/summary-section',
         },

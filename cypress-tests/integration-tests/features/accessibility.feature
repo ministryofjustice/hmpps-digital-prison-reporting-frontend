@@ -1,7 +1,15 @@
 Feature: Accessibility
 
+Scenario: Report template: list is accessible
+  When I navigate to the list template page
+  Then the page is accessible
+
 Scenario: Report template: list-section is accessible
   When I navigate to the list-section template page
+  Then the page is accessible
+
+Scenario: Report template: list-section with summaries is accessible
+  When I navigate to the list-section-summaries template page
   Then the page is accessible
 
 Scenario: Report template: parent-child is accessible
@@ -60,20 +68,24 @@ Scenario: Component - input: multi-select component is accessible
   When I navigate to the multi-select filter input component page
   Then the page is accessible
 
-Scenario: Component - charts: line chart is accessible
+Scenario: Component - dashboard visualisation: line chart is accessible
   When I navigate to the line chart page
   Then the page is accessible
 
-Scenario: Component - charts: bar chart is accessible
+Scenario: Component - dashboard visualisation: bar chart is accessible
   When I navigate to the bar chart page
   Then the page is accessible
 
-Scenario: Component - charts: pie chart is accessible
+Scenario: Component - dashboard visualisation: pie chart is accessible
   When I navigate to the pie chart page
   Then the page is accessible
 
-Scenario: Component - charts: scorecards chart is accessible
+Scenario: Component - dashboard visualisation: scorecards chart is accessible
   When I navigate to the scorecards chart page
+  Then the page is accessible
+
+Scenario: Component - dashboard visualisation: list is accessible
+  When I navigate to the list chart page
   Then the page is accessible
 
 Scenario: Platform: Homepage page is accessible

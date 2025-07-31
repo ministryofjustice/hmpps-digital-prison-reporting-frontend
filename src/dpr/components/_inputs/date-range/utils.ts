@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import dayjs from 'dayjs'
+import customParse from 'dayjs/plugin/customParseFormat'
 import { Request } from 'express'
 import isBetween from 'dayjs/plugin/isBetween'
 import { components } from '../../../types/api'
@@ -7,6 +8,8 @@ import { DateFilterValue, DateRange, FilterValue } from '../../_filters/types'
 import StartEndDateUtils from '../start-end-date/utils'
 import RelativeDateRange, { RelativeOption } from './types'
 import { dateFilterValue, defaultFilterValue } from '../../../routes/journeys/request-report/filters/types'
+
+dayjs.extend(customParse)
 
 const dateIsInBounds = (startDate: dayjs.Dayjs | string, endDate: dayjs.Dayjs | string, min: string, max: string) => {
   dayjs.extend(isBetween)
@@ -87,7 +90,7 @@ const setDefaultValue = (req: Request, name: string) => {
       return { name: key, value: req.body[key] }
     })
 
-  let dateRangeValue: dateFilterValue | string = { start: '', end: '' }
+  const dateRangeValue: dateFilterValue | string = { start: '', end: '' }
   dateRangeDefaults.forEach((dateRangeDefault) => {
     if (dateRangeDefault.name.includes('start')) {
       ;(<dateFilterValue>dateRangeValue).start = dateRangeDefault.value
@@ -97,10 +100,6 @@ const setDefaultValue = (req: Request, name: string) => {
     }
   })
 
-  if (dateRangeValue.start === '' && dateRangeValue.end === '') {
-    dateRangeValue = ''
-  }
-
   return { value: dateRangeValue, name: dateRangeName }
 }
 
@@ -108,12 +107,10 @@ const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: Fil
   const value = { start: '', end: '' }
   const { start, end } = <dateFilterValue>defaultValue.value
   if (start) {
-    const startDate = dayjs(start).format('D/M/YYYY')
-    value.start = dayjs(startDate).format('YYYY-MM-DD').toString()
+    value.start = dayjs(start, 'D/M/YYYY').format('YYYY-MM-DD').toString()
   }
   if (end) {
-    const endDate = dayjs(end).format('D/M/YYYY')
-    value.end = dayjs(endDate).format('YYYY-MM-DD').toString()
+    value.end = dayjs(end, 'D/M/YYYY').format('YYYY-MM-DD').toString()
   }
 
   return {

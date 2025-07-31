@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import customParse from 'dayjs/plugin/customParseFormat'
 import { Request } from 'express'
 import { components } from '../../../types/api'
 import { DateFilterValue, FilterValue, GranularDateRange } from '../../_filters/types'
@@ -6,6 +7,8 @@ import { DateFilterValue, FilterValue, GranularDateRange } from '../../_filters/
 import StartEndDateUtils from '../start-end-date/utils'
 import { Granularity, QuickFilters } from './types'
 import { defaultFilterValue, granularDateFilterValue } from '../../../routes/journeys/request-report/filters/types'
+
+dayjs.extend(customParse)
 
 const hasPartialStartEnd = (
   granularity: components['schemas']['FilterDefinition']['defaultGranularity'],
@@ -346,12 +349,9 @@ const setDefaultValue = (req: Request, name: string) => {
 
 const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: FilterValue) => {
   const { granularity, quickFilter, start, end } = <granularDateFilterValue>defaultValue.value
-  const startDate = dayjs(start).format('D/M/YYYY')
-  const endDate = dayjs(end).format('D/M/YYYY')
-
   const value: GranularDateRange = {
-    start: dayjs(startDate).format('YYYY-MM-DD').toString(),
-    end: dayjs(endDate).format('YYYY-MM-DD').toString(),
+    start: start ? dayjs(start, 'D/M/YYYY').format('YYYY-MM-DD').toString() : '',
+    end: end ? dayjs(end, 'D/M/YYYY').format('YYYY-MM-DD').toString() : '',
     granularity: {
       value: granularity,
       display: (<DateFilterValue>filter).granularityOptions.find((o) => o.value === granularity)?.text,

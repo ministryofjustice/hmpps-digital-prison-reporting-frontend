@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import customParse from 'dayjs/plugin/customParseFormat'
 import { Request, Response } from 'express'
 import { ReportType, RequestedReport, RequestStatus } from '../types/UserReports'
 import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
@@ -7,6 +8,7 @@ import logger from './logger'
 import { Services } from '../types/Services'
 import localsHelper from './localsHelper'
 
+dayjs.extend(customParse)
 interface GetStatusUtilsResponse {
   status: RequestStatus
   errorMessage?: string

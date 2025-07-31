@@ -4,7 +4,6 @@ import AsyncPollingUtils from './utils'
 import AsyncRequestUtils from '../filters/utils'
 import AsyncRequestListUtils from '../../../../components/user-reports/requested/utils'
 import ErrorSummaryUtils from '../../../../components/error-summary/utils'
-import UserReportsListUtils from '../../../../components/user-reports/utils'
 
 export default class RequestStatusController {
   layoutPath: string

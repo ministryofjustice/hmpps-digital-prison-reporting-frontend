@@ -10,6 +10,7 @@ const sync = require('./sync')
 const unprintable = require('./unprintable')
 const userDefinedDefaults = require('./userDefinedDefaults')
 const validation = require('./validation')
+const bigReport = require('./bigReport')
 
 module.exports = [
   emptyQuery,
@@ -24,4 +25,5 @@ module.exports = [
   unprintable,
   userDefinedDefaults,
   validation,
+  bigReport,
 ]

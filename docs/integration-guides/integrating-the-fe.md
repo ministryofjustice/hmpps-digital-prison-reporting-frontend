@@ -124,12 +124,17 @@ If you prefer to create your own report listings, and not use DPR's [Catalogue c
 ```html
 <h1>My reports list</h1>
 
-<a href="/async/report/report-id-1/variant-id-1-1/request">Async report 1</a>
-<a href="/async/report/report-id-1/variant-id-1-2/request">Async report 2</a>
-<a href="/async/report/report-id-2/variant-id-2-1/request">Async report 3</a>
+<a href="dpr/request-report/report/report-id-1/variant-id-1-1/filters">Async report 1</a>
+<a href="dpr/request-report/report/report-id-1/variant-id-1-2/filters">Async report 2</a>
+<a href="dpr/request-report/report/report-id-2/variant-id-2-1/filters">Async report 3</a>
 ```
 
-For information about the request path [see here](/reports/async-routes/#request-page)
+url structure:
+```
+/dpr/request-report/:report-type/:report-id/:variant-id/filters
+
+report-type: "report" | "dashboard" 
+```
 
 <hr class='dpr-docs-hr'>
 

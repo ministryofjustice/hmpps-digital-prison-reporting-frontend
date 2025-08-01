@@ -10,20 +10,20 @@ Then('the report details are displayed', () => {
   new AsyncQueryPage().reportDetailsTable().contains('Successful Report')
 
   new AsyncQueryPage().reportDetailsTable().contains('Product:')
-  new AsyncQueryPage().reportDetailsTable().contains('Test Report')
+  new AsyncQueryPage().reportDetailsTable().contains('Request examples')
 })
 
 Then('the url is initialised to the default values', () => {
   cy.url().should(
     'eq',
-    'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-1/filters?filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3&sortColumn=field1&sortedAsc=false',
+    'http://localhost:3010/dpr/request-report/report/request-examples/request-example-success/filters?filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3&sortColumn=field1&sortedAsc=false',
   )
 })
 
 Then('the url is set to the default values', () => {
   cy.url().should(
     'eq',
-    'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-1/filters?sortColumn=field2&sortedAsc=false&filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3',
+    'http://localhost:3010/dpr/request-report/report/request-examples/request-example-success/filters?sortColumn=field2&sortedAsc=false&filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3',
   )
 })
 
@@ -38,7 +38,7 @@ Then('I update the sort values', () => {
 Then('the URL is updated', () => {
   cy.url().should(
     'eq',
-    'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-1/filters?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3&sortColumn=field2&sortedAsc=false',
+    'http://localhost:3010/dpr/request-report/report/request-examples/request-example-success/filters?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3&sortColumn=field2&sortedAsc=false',
   )
 })
 
@@ -51,5 +51,8 @@ Then('I click the submit button', () => {
 })
 
 Then('I am take to the polling page', () => {
-  cy.url().should('include', 'http://localhost:3010/dpr/request-report/report/test-report-3/variantId-1/exId_')
+  cy.url().should(
+    'include',
+    'http://localhost:3010/dpr/request-report/report/request-examples/request-example-success/exId_',
+  )
 })

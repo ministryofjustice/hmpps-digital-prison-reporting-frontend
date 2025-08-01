@@ -4,7 +4,7 @@ import type { Services } from '../../../../types/Services'
 import type { RequestedReportService } from '../../../../services'
 import PollingUtils from './utils'
 
-import MockRequestedListData2 from '../../../../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
+import MockRequestedListData2 from '../../../../../../test-app/mocks/mockClients/store/mockRequestedUserListData'
 import MockRequestedDashboardData from '../../../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'
 
 describe('PollingUtils', () => {

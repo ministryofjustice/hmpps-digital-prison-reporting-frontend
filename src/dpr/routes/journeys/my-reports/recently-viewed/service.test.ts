@@ -4,9 +4,9 @@ import type ReportDataStore from '../../../../data/reportDataStore'
 import type { ReportStoreConfig } from '../../../../types/ReportStore'
 import { RequestedReport, RequestStatus } from '../../../../types/UserReports'
 
-import MockViewedListData from '../../../../../../test-app/mocks/mockClients/store/mockViewedUserListDataV2'
+import MockViewedListData from '../../../../../../test-app/mocks/mockClients/store/mockViewedUserListData'
 import MockUserStoreService from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
-import MockRequestedListData from '../../../../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
+import MockRequestedListData from '../../../../../../test-app/mocks/mockClients/store/mockRequestedUserListData'
 
 describe('RecentlyViewedStoreService', () => {
   const mockUserStore: ReportDataStore = new MockUserStoreService() as unknown as ReportDataStore

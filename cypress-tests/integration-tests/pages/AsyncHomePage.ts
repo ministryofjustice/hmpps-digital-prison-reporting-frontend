@@ -66,13 +66,13 @@ export default class HomePage {
 
   // V2
   requestedReportRow_FinishedV2 = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Successful report v2')
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Successful report')
 
   requestedReportRow_FinishedV2_Full = (): PageElement =>
     cy
       .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
       .find('tr')
-      .contains('Successful report v2')
+      .contains('Successful report')
       .parent()
       .parent()
       .parent()
@@ -80,13 +80,13 @@ export default class HomePage {
       .contains('FINISHED')
 
   requestedReportRow_ExpiredV2 = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Expiring report v2')
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Expiring report')
 
   requestedReportRow_ExpiredV2_Full = (): PageElement =>
     cy
       .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
       .find('tr')
-      .contains('Expiring report v2')
+      .contains('Expiring report')
       .parent()
       .parent()
       .parent()
@@ -94,13 +94,13 @@ export default class HomePage {
       .contains('EXPIRED')
 
   requestedReportRow_FailedV2 = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Failing report v2')
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Failing report')
 
   requestedReportRow_FailedV2_Full = (): PageElement =>
     cy
       .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
       .find('tr')
-      .contains('Failing report v2')
+      .contains('Failing report')
       .parent()
       .parent()
       .parent()
@@ -108,13 +108,13 @@ export default class HomePage {
       .contains('FAILED')
 
   requestedReportRow_AbortedV2 = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Cancelled report v2')
+    cy.xpath(`//*[@id="dpr-async-request-component"]/div/table`).find('tr').contains('Cancelled report')
 
   requestedReportRow_AbortedV2_Full = (): PageElement =>
     cy
       .xpath(`//*[@id="dpr-async-request-component"]/div/table`)
       .find('tr')
-      .contains('Cancelled report v2')
+      .contains('Cancelled report')
       .parent()
       .parent()
       .parent()
@@ -184,16 +184,16 @@ export default class HomePage {
   viewedReportsList = (): PageElement => cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table`)
 
   viewedReportRow_Finished = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table`).find('tr').contains('Viewed report v1')
+    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table`).find('tr').contains('Viewed report')
 
   viewedReportRow_Expired = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table`).find('tr').contains('Expiring viewed report v1')
+    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table`).find('tr').contains('Expiring viewed report')
 
   viewedReportRow_FinishedV2 = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table`).find('tr').contains('Viewed report v2')
+    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table`).find('tr').contains('Viewed report')
 
   viewedReportRow_ExpiredV2 = (): PageElement =>
-    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table`).find('tr').contains('Expired viewed report v2')
+    cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table`).find('tr').contains('Expired viewed report')
 
   viewedDashboardRow_Ready = (): PageElement =>
     cy.xpath(`//*[@id="dpr-recently-viewed-component"]/div/table`).find('tr').contains('Viewed dashboard')
@@ -211,23 +211,25 @@ export default class HomePage {
 
   bookmarkRow = (): PageElement => cy.xpath(`//*[@id="dpr-bookmarks-list"]/div/table/tbody/tr`)
 
-  bookmarkButton = (): PageElement => cy.xpath(`//*[@id="variantId-1-test-report-3-bookmark-list-bookmark-label"]`)
+  bookmarkButton = (): PageElement =>
+    cy.xpath(`//*[@id="request-example-success-request-examples-bookmark-list-bookmark-label"]`)
 
   bookmarkDashboardButton = (): PageElement =>
-    cy.xpath(`//*[@id="test-dashboard-8-test-report-1-bookmark-list-bookmark-label"]`)
+    cy.xpath(`//*[@id="test-dashboard-8-mock-dashboards-bookmark-list-bookmark-label"]`)
 
   bookmarkLink = (): PageElement => cy.xpath(`//*[@id="dpr-bookmarks-list"]/div/table/tbody/tr/td[3]/a`)
 
   bookmarkButtonFromList = (): PageElement =>
-    cy.xpath(`//*[@id="variantId-16-test-report-1-reports-list-bookmark-label"]`)
+    cy.xpath(`//*[@id="feature-testing-big-report-feature-testing-reports-list-bookmark-label"]`)
 
   bookmarkDashboardButtonFromList = (): PageElement =>
-    cy.xpath(`//*[@id="test-dashboard-1-test-report-1-reports-list-bookmark-label"]`)
+    cy.xpath(`//*[@id="test-dashboard-1-request-examples-reports-list-bookmark-label"]`)
 
-  bookmarkButtonFromReport = (): PageElement => cy.xpath(`//*[@id="variantId-1-test-report-3-report-bookmark-label"]`)
+  bookmarkButtonFromReport = (): PageElement =>
+    cy.xpath(`//*[@id="request-example-success-request-examples-report-bookmark-label"]`)
 
   bookmarkDashboardButtonFromReport = (): PageElement =>
-    cy.xpath(`//*[@id="variantId-1-test-report-3-report-bookmark-label"]`)
+    cy.xpath(`//*[@id="request-example-success-request-examples-report-bookmark-label"]`)
 
   // Dashboards
   dashboardLink = (): PageElement => cy.xpath(`//*[@id="main-content"]/div/div[2]/table/tbody/tr[11]/td[4]/a`)

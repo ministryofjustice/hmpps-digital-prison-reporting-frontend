@@ -1,42 +1,42 @@
 const autoBms = {
   'random-caseload-id-2': [
     {
-      reportId: 'test-report-2',
-      variantId: 'variantId-8',
+      reportId: 'report-templates',
+      variantId: 'report-template-example-list-section',
     },
     {
-      reportId: 'test-report-2',
-      variantId: 'variantId-17',
+      reportId: 'report-templates',
+      variantId: 'report-template-example-row-section-child',
     },
     {
-      reportId: 'test-report-2',
-      variantId: 'variantId-18',
+      reportId: 'report-templates',
+      variantId: 'report-template-example-summaries',
     },
   ],
   'random-caseload-id-1': [
     {
-      reportId: 'test-report-1',
-      variantId: 'variantId-12',
+      reportId: 'report-templates',
+      variantId: 'report-template-example-list-section',
     },
     {
-      reportId: 'test-report-1',
-      variantId: 'variantId-13',
+      reportId: 'report-templates',
+      variantId: 'report-template-example-summaries',
     },
     {
-      reportId: 'test-report-1',
-      variantId: 'variantId-14',
+      reportId: 'mock-reports',
+      variantId: 'variantId-34',
     },
     {
-      reportId: 'test-report-1',
-      variantId: 'variantId-15',
+      reportId: 'mock-reports',
+      variantId: 'variantId-35',
     },
     {
-      reportId: 'test-report-1',
-      variantId: 'variantId-16',
+      reportId: 'request-examples',
+      variantId: 'request-example-success',
     },
     {
-      reportId: 'test-report-1',
-      variantId: 'variantId-25',
+      reportId: 'request-examples',
+      variantId: 'request-example-fail-status',
     },
   ],
 }

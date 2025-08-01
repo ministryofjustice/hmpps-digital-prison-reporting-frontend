@@ -65,7 +65,7 @@ When(/I navigate to the async-home page/, () => {
 })
 
 When(/I navigate to the async-query page/, () => {
-  cy.visit('/async/report/test-report-3/variantId-1/request')
+  cy.visit('/async/report/request-examples/request-example-success/request')
 })
 
 Then(/The text (.+) is displayed on the page/, (text) => {

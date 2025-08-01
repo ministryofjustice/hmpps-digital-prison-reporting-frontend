@@ -23,7 +23,7 @@ When(/^I click the Update filters button$/, () => {
 })
 
 When(/I navigate to the interactive report page/, () => {
-  cy.visit('/async/report/test-report-6/variantId-23/request/tblId_1733925499607/report')
+  cy.visit('/async/report/feature-testing/feature-testing-interactive/request/tblId_1733925499607/report')
 })
 
 When('I update the filter inputs', () => {

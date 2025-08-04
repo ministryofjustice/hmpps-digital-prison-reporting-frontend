@@ -32,6 +32,7 @@
     "start:server": "node esbuild/esbuild.config.js --dev-server",
     "security_audit": "npx audit-ci --config audit-ci.json",
     "int-test": "cypress run --config-file cypress-tests/integration-tests/cypress.config.js",
+    "int:test": "cypress run --config-file cypress.config.ts && cypress run --config-file cypress-tests/integration-tests/cypress.config.js",
     "int-test-ui": "cypress open --config-file cypress-tests/integration-tests/cypress.config.js",
     "clean": "rm -rf dist && rm -rf dist-docs && rm -rf dist-test-app && rm -rf node_modules",
     "lint:fix": "./node_modules/.bin/eslint . --fix",

@@ -2,8 +2,8 @@ import { components } from '../../types/api'
 import SectionedFieldsTableBuilder from './SectionedFieldsTableBuilder'
 
 // Definitions
-import variant30 from '../../../../test-app/mocks/mockClients/reports/mockVariants/variant30-row-section'
-import variant31 from '../../../../test-app/mocks/mockClients/reports/mockVariants/variant31-row-section-child'
+import variant30 from '../../../../test-app/mocks/mockClients/reports/mockVariants/report-templates/row-section'
+import variant31 from '../../../../test-app/mocks/mockClients/reports/mockVariants/report-templates/row-section-child'
 
 // Data
 import variant30Data from '../../../../test-app/mocks/mockClients/reports/mockVariants/data/row-section'

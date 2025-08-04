@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-const definitions = require('./mockReportDefinition')
+const defs = require('./mockReportDefinition')
 const mockStatusApiError = require('./mockStatusResponseError')
 const mockBadQueryRequest = require('./mockBadQueryRequest')
 const createMockData = require('./mockAsyncData')
@@ -52,7 +52,7 @@ class MockReportingClient {
   async getDefinition(token, reportId, variantId, definitionsPath) {
     this.logInfo('getDefinition', { token, reportId, variantId, definitionsPath })
 
-    const report = definitions.reports.find((r) => r.id === reportId)
+    const report = defs.reports.find((r) => r.id === reportId)
     const variant = report.variants.filter((v) => v.id === variantId)
     // eslint-disable-next-line prefer-destructuring
     const reportClone = JSON.parse(JSON.stringify(report))
@@ -64,7 +64,7 @@ class MockReportingClient {
   async getDefinitions(token, definitionsPath) {
     this.logInfo('getDefinitions', { token, definitionsPath })
 
-    return Promise.resolve(definitions.reports)
+    return Promise.resolve(defs.reports)
   }
 
   async getList(resourceName, token, listRequest) {
@@ -96,23 +96,23 @@ class MockReportingClient {
 
     let data = []
     switch (variantId) {
-      case 'variantId-26':
+      case 'report-template-example-parent-child':
         // Parent child template - parent
         data = mockParentChild.parentData()
         break
-      case 'variantId-26-child':
+      case 'report-template-example-parent-child_child':
         // Parent child template - child
         data = mockParentChild.childData()
         break
-      case 'variantId-8':
+      case 'report-template-example-list-section':
         // List section
         data = mockListSection.listSectionData()
         break
-      case 'variantId-27':
+      case 'report-template-example-parent-child-section':
         // Parent-child-section - parent
         data = mockParentChildSection.parentData()
         break
-      case 'variantId-27-child':
+      case 'report-template-example-parent-child-section_child':
         // List section
         data = mockParentChildSection.childData()
         break
@@ -120,31 +120,31 @@ class MockReportingClient {
         // Single row template
         data = mockRowSectionData
         break
-      case 'variantId-31':
+      case 'report-template-example-row-section-child':
         // row-section-child - parent
         data = mockRowSectionChild.parentData()
         break
-      case 'variantId-31-child':
+      case 'report-template-example-row-section-child_child':
         data = mockRowSectionChild.childData()
         break
-      case 'variantId-31-child-2':
+      case 'report-template-example-row-section-child_child-2':
         data = mockRowSectionChild.childData2()
         break
-      case 'variantId-32-row-section-multiple':
+      case 'report-template-example-row-section-multiple-rows':
         data = mockRowSectionDataMultiple
         break
-      case 'variantId-33':
-        // row-section-child - parent
+      case 'report-template-example-row-section-child-multiple':
+        // row-section-child- multiple - parent
         data = mockRowSectionChildDataMultiple.parentData()
         break
-      case 'variantId-33-child':
+      case 'report-template-example-row-section-child-multiple_child':
         data = mockRowSectionChildDataMultiple.childData()
         break
-      case 'variantId-33-child-2':
+      case 'report-template-example-row-section-child-multiple_child-2':
         data = mockRowSectionChildDataMultiple.childData2()
         break
       case 'variantId-34':
-        // row-section-child - parent
+        // incident report
         data = mockRowSectionIncidentReport.parentData()
         break
       case 'variantId-34-prisoners-involved':
@@ -308,13 +308,13 @@ class MockReportingClient {
   // Mock Helpers
   getStatusResponses(variantId) {
     switch (variantId) {
-      case 'variantId-2':
+      case 'request-example-fail-status':
         return this.statusResponses.sadStatuses
-      case 'variantId-3':
+      case 'request-example-fail-code':
         return this.statusResponses.sadServerStatuses
-      case 'variantId-4':
+      case 'request-example-expire':
         return this.statusResponses.expiredStatuses
-      case 'variantId-14':
+      case 'request-example-timeout':
         return this.statusResponses.timedOutStatuses
       default:
         return this.statusResponses.happyStatuses

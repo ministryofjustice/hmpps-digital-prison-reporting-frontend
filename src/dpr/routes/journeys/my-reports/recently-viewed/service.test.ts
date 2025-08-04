@@ -4,9 +4,9 @@ import type ReportDataStore from '../../../../data/reportDataStore'
 import type { ReportStoreConfig } from '../../../../types/ReportStore'
 import { RequestedReport, RequestStatus } from '../../../../types/UserReports'
 
-import MockViewedListData from '../../../../../../test-app/mocks/mockClients/store/mockViewedUserListDataV2'
+import MockViewedListData from '../../../../../../test-app/mocks/mockClients/store/mockViewedUserListData'
 import MockUserStoreService from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
-import MockRequestedListData from '../../../../../../test-app/mocks/mockClients/store/mockRequestedUserListDataV2'
+import MockRequestedListData from '../../../../../../test-app/mocks/mockClients/store/mockRequestedUserListData'
 
 describe('RecentlyViewedStoreService', () => {
   const mockUserStore: ReportDataStore = new MockUserStoreService() as unknown as ReportDataStore
@@ -34,14 +34,14 @@ describe('RecentlyViewedStoreService', () => {
 
   describe('getAllReportsById', () => {
     it('should return all the reports with a specific id', async () => {
-      const res = await recentlyViewedService.getAllReportsById('variantId-1', 'userId')
+      const res = await recentlyViewedService.getAllReportsById('request-example-success', 'userId')
 
       expect(res.length).toEqual(1)
       expect(res[0]).toEqual(MockViewedListData.viewedReady)
     })
 
     it('should return no reports when no ID in store', async () => {
-      const res = await recentlyViewedService.getAllReportsById('variantId-2', 'userId')
+      const res = await recentlyViewedService.getAllReportsById('request-example-fail-status', 'userId')
 
       expect(res.length).toEqual(0)
     })

@@ -1,36 +1,36 @@
 // TODO: integration tests with this mocked data also
-const mockRequestedV2 = require('./mockRequestedUserListDataV2')
-const mockViewedV2 = require('./mockViewedUserListDataV2')
+const mockRequested = require('./mockRequestedUserListData')
+const mockViewed = require('./mockViewedUserListData')
 const mockRequestedDashboards = require('./mockRequestedDashboardData')
 
 const startData = {
   requestedReports: [
-    mockRequestedV2.requestedReady,
-    mockRequestedV2.requestedExpired,
-    mockRequestedV2.requestedFailed,
-    mockRequestedV2.requestedAborted,
+    mockRequested.requestedReady,
+    mockRequested.requestedExpired,
+    mockRequested.requestedFailed,
+    mockRequested.requestedAborted,
     // Dashboards
     mockRequestedDashboards.readyDashboard,
     mockRequestedDashboards.failedDashboard,
     mockRequestedDashboards.expiredDashboard,
     mockRequestedDashboards.abortedDashboard,
     // Viewed must be present in the request list also
-    mockViewedV2.viewedReady,
-    mockViewedV2.viewedDashboard,
-    mockViewedV2.viewedInteractive,
-    mockViewedV2.viewedInteractiveAsync,
+    mockViewed.viewedReady,
+    mockViewed.viewedDashboard,
+    mockViewed.viewedInteractive,
+    mockViewed.viewedInteractiveAsync,
   ],
   recentlyViewedReports: [
-    mockViewedV2.viewedDashboard,
-    mockViewedV2.viewedReady,
-    mockViewedV2.viewedInteractive,
-    mockViewedV2.viewedExpired,
-    mockViewedV2.expiredDashboard,
-    mockViewedV2.viewedInteractiveAsync,
+    mockViewed.viewedDashboard,
+    mockViewed.viewedReady,
+    mockViewed.viewedInteractive,
+    mockViewed.viewedExpired,
+    mockViewed.expiredDashboard,
+    mockViewed.viewedInteractiveAsync,
   ],
   bookmarks: [
-    { reportId: 'test-report-3', variantId: 'variantId-1' },
-    { reportId: 'test-report-1', id: 'test-dashboard-8', type: 'dashboard' },
+    { reportId: 'request-examples', variantId: 'request-example-success' },
+    { reportId: 'mock-dashboards', id: 'test-dashboard-8', type: 'dashboard' },
   ],
   downloads: [],
 }

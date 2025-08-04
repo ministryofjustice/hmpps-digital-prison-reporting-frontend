@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import MockDate from 'mockdate'
 import FiltersUtils from './utils'
-import mockVariant from '../../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
+import mockVariant from '../../../../test-app/mocks/mockClients/reports/mockVariants/request-examples/success'
 import { components } from '../../types/api'
 import DateRangeUtils from '../_inputs/date-range/utils'
 import GranularDaterangeUtils from '../_inputs/granular-date-range/utils'

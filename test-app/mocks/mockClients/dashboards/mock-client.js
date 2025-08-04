@@ -9,7 +9,11 @@ const DataQualityMetricsHelper = require('./data/data-quality-metrics/dataGenera
 
 class MockDashboardClient {
   constructor() {
-    this.dashboards = dashboardDefinitions
+    this.dashboards = [
+      ...dashboardDefinitions.requestExamples,
+      ...dashboardDefinitions.visualisationExamples,
+      ...dashboardDefinitions.mockDashboards,
+    ]
     this.requests = [{ executionId: `exId_1721738244284`, tableId: `tblId_1721738244284` }]
     this.statusResponses = mockStatusSequence
   }

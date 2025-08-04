@@ -1,7 +1,7 @@
 const variant34 = {
   id: 'variantId-34',
   name: 'Sectioned row - Incident report',
-  description: 'An example of an incident report using a row section template',
+  description: 'An example of an incident report using a row section template.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

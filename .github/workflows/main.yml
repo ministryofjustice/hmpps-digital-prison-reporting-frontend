@@ -8,9 +8,9 @@ on:
 
 env:
   HOME_URL: 'http://localhost:3010/embedded/platform/'
-  REQUEST_URL: 'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-1/request'
-  POLLING_URL: 'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-1/request/exId_1729765628165'
-  REPORT_URL: 'http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-1/request/tblId_1729765628165/report'
+  REQUEST_URL: 'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request'
+  POLLING_URL: 'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/exId_1729765628165'
+  REPORT_URL: 'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/tblId_1729765628165/report'
 
 jobs:
   build:

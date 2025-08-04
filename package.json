@@ -9,10 +9,10 @@
   "license": "MIT",
   "private": false,
   "config": {
-    "home_url": "http://localhost:3010/embedded/platform/",
-    "request_url": "http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-1/request",
-    "polling_url": "http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-1/request/exId_1729765628165",
-    "report_url": "http://localhost:3010/embedded/platform/async/report/test-report-3/variantId-1/request/tblId_1729765628165/report"
+    "home_url": "http://localhost:3010/embedded/platform/async-reports",
+    "request_url": "http://localhost:3010/embedded/platform/async/request-examples/request-example-success/request",
+    "polling_url": "http://localhost:3010/embedded/platform/async/request-examples/request-example-success/request/exId_1721738244284",
+    "report_url": "http://localhost:3010/embedded/platform/async/request-examples/request-example-success/request/tblId_1721738244284/report"
   },
   "scripts": {
     "package": "node esbuild/esbuild.config.js --build",

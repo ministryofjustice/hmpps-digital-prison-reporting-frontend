@@ -11,7 +11,7 @@ describe('DefinitionUtils tests', () => {
 
   describe('getCurrentVariantDefinition', () => {
     it('should get the current variant definition from a report summary', () => {
-      const definition = DefinitionUtils.getCurrentVariantDefinition(definitions, 'test-report-1', 'variantId-15')
+      const definition = DefinitionUtils.getCurrentVariantDefinition(definitions, 'filter-inputs', 'variantId-15')
 
       expect(definition.name).toEqual('Relative Daterange')
       expect(definition.specification.fields.length).toEqual(1)
@@ -28,7 +28,7 @@ describe('DefinitionUtils tests', () => {
     it('should get the specific field name', () => {
       const variant15Definition = DefinitionUtils.getCurrentVariantDefinition(
         definitions,
-        'test-report-1',
+        'filter-inputs',
         'variantId-15',
       )
       const fieldDisplay = DefinitionUtils.getFieldDisplayName(variant15Definition.specification.fields, 'field1')
@@ -39,7 +39,7 @@ describe('DefinitionUtils tests', () => {
     it('should return the specific field id if no match', () => {
       const variant15Definition = DefinitionUtils.getCurrentVariantDefinition(
         definitions,
-        'test-report-1',
+        'filter-inputs',
         'variantId-15',
       )
       const fieldDisplay = DefinitionUtils.getFieldDisplayName(variant15Definition.specification.fields, 'field8')

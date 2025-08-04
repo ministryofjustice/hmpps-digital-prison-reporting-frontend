@@ -2,9 +2,9 @@ import { Response, Request, NextFunction } from 'express'
 import RequestReportUtils from './utils'
 
 // Mocks
-import variant1 from '../../../../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
+import variant1 from '../../../../../../test-app/mocks/mockClients/reports/mockVariants/request-examples/success'
 import mockFiltersData from '../../../../../../test-app/mocks/mockClients/reports/mockAsyncRequestFilters'
-import dashboardDefinitions from '../../../../../../test-app/mocks/mockClients/dashboards/dashboard-definitions'
+import dashboardDefinition from '../../../../../../test-app/mocks/mockClients/dashboards/dashboard-definitions'
 
 // Types
 import { Services } from '../../../../types/Services'
@@ -30,6 +30,11 @@ describe('RequestReportUtils', () => {
   let next: NextFunction
   let mockDefinition: components['schemas']['SingleVariantReportDefinition']
   let mockDefinitions: components['schemas']['ReportDefinitionSummary'][]
+  const dashboardDefinitions = [
+    ...dashboardDefinition.requestExamples,
+    ...dashboardDefinition.mockDashboards,
+    ...dashboardDefinition.visualisationExamples,
+  ]
 
   beforeEach(() => {
     mockDefinition = {

@@ -65,7 +65,7 @@ When(/I navigate to the async-home page/, () => {
 })
 
 When(/I navigate to the async-query page/, () => {
-  cy.visit('/embedded/platform/async/report/test-report-3/variantId-1/request')
+  cy.visit('/embedded/platform/async/report/request-examples/request-example-success/request')
 })
 
 Then(/The text (.+) is displayed on the page/, (text) => {
@@ -198,10 +198,11 @@ When(
         path = '/embedded/platform/'
         break
       case 'request':
-        path = '/embedded/platform/dpr/request-report/report/test-report-3/variantId-1/filters'
+        path = '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/filters'
         break
       case 'report':
-        path = '/embedded/platform/dpr/view-report/async/report/test-report-3/variantId-1/tblId_1753863906851/report'
+        path =
+          '/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1753863906851/report'
         break
       case 'dashboard':
         path =
@@ -209,18 +210,18 @@ When(
         break
       case 'download-form':
         path =
-          '/embedded/platform/dpr/download-report/request-download/test-report-3/variantId-1/tableId/tblId_1753863906851/form?reportUrl=/embedded/platform/dpr/view-report/async/report/test-report-3/variantId-1/tblId_1753863906851/report'
+          '/embedded/platform/dpr/download-report/request-download/request-examples/request-example-success/tableId/tblId_1753863906851/form?reportUrl=/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1753863906851/report'
         break
       case 'download-submitted':
         path =
-          'http://localhost:3010/embedded/platform/dpr/download-report/request-download/test-report-3/variantId-1/tableId/tblId_1753863906851/form/submitted?reportName=C%20Test%20Report&variantName=Successful%20Report&reportUrl=/embedded/platform/dpr/view-report/async/report/test-report-3/variantId-1/tblId_1753863906851/report'
+          'http://localhost:3010/embedded/platform/dpr/download-report/request-download/request-examples/request-example-success/tableId/tblId_1753863906851/form/submitted?reportName=C%20Test%20Report&variantName=Successful%20Report&reportUrl=/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1753863906851/report'
         break
       case 'missing-report-form':
-        path = '/embedded/platform/dpr/request-missing-report/test-report-3/variantId-37/form'
+        path = '/embedded/platform/dpr/request-missing-report/feature-testing/feature-testing-missing-1/form'
         break
       case 'missing-report-submitted':
         path =
-          '/embedded/platform/dpr/request-missing-report/test-report-3/variantId-37/submitted?reportName=C%20Test%20Report&name=Missing%20Report%20about%20beans&reportId=test-report-3&variantId=variantId-37'
+          '/embedded/platform/dpr/request-missing-report/feature-testing/feature-testing-missing-1/submitted?reportName=C%20Test%20Report&name=Missing%20Report%20about%20beans&reportId=feature-testing&variantId=feature-testing-missing-1'
         break
       case 'requested-list':
         path = '/embedded/platform/dpr/my-reports/requested-reports/list'

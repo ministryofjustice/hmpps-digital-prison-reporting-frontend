@@ -14,14 +14,14 @@ Then('I select the columns', () => {
 Then('the URL will show the correct columns', () => {
   cy.url().should(
     'eq',
-    'http://localhost:3010/embedded/platform/dpr/view-report/async/report/test-report-3/variantId-1/tblId_1729766362362/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field4&columns=field5',
+    'http://localhost:3010/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1729766362362/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field4&columns=field5',
   )
 })
 
 Then('the URL will show the default columns', () => {
   cy.url().should(
     'eq',
-    'http://localhost:3010/embedded/platform/dpr/view-report/async/report/test-report-3/variantId-1/tblId_1729766362362/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7',
+    'http://localhost:3010/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1729766362362/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7',
   )
 })
 

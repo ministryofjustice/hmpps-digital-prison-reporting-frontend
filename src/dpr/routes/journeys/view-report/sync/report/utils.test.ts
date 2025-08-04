@@ -4,7 +4,7 @@ import { Services } from '../../../../../types/Services'
 import SyncReportUtils from './utils'
 
 // mocks
-import mockReportVariant from '../../../../../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
+import mockReportVariant from '../../../../../../../test-app/mocks/mockClients/reports/mockVariants/request-examples/success'
 import { components } from '../../../../../types/api'
 import {
   DownloadPermissionService,

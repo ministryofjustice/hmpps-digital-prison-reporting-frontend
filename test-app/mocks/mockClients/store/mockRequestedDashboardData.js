@@ -1,10 +1,10 @@
 const failedDashboard = {
-  reportId: 'test-report-1',
+  reportId: 'request-examples',
   id: 'test-dashboard-2',
   executionId: 'exId_1724943092123',
   tableId: 'tblId_1724943092123',
   name: 'Failing dashboard',
-  reportName: 'Test Report',
+  reportName: 'Request examples',
   description: 'Requested Dashboard',
   template: 'list',
   type: 'dashboard',
@@ -12,14 +12,14 @@ const failedDashboard = {
   url: {
     origin: 'http://localhost:3010',
     request: {
-      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-2/request?',
-      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-2/request',
+      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-2/request?',
+      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-2/request',
       search: '',
     },
     polling: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-2/request/exId_1724943092123',
-      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-2/request/exId_1724943092123',
+        'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-2/request/exId_1724943092123',
+      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-2/request/exId_1724943092123',
     },
     report: {},
   },
@@ -33,12 +33,12 @@ const failedDashboard = {
 }
 
 const expiredDashboard = {
-  reportId: 'test-report-1',
+  reportId: 'request-examples',
   id: 'test-dashboard-3',
   executionId: 'exId_1724943092824',
   tableId: 'tblId_1724943092824',
   name: 'Expiring dashboard',
-  reportName: 'Test Report',
+  reportName: 'Request examples',
   description: 'requested dashboard',
   template: 'list',
   type: 'dashboard',
@@ -46,14 +46,14 @@ const expiredDashboard = {
   url: {
     origin: 'http://localhost:3010',
     request: {
-      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-3/request?',
-      pathname: '/async/dashboard/test-report-1/test-dashboard-3/request',
+      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-3/request?',
+      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-3/request',
       search: '',
     },
     polling: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-3/request/exId_1724943092824',
-      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-3/request/exId_1724943092824',
+        'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-3/request/exId_1724943092824',
+      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-3/request/exId_1724943092824',
     },
     report: {},
   },
@@ -67,12 +67,12 @@ const expiredDashboard = {
 }
 
 const submittedDashboard = {
-  reportId: 'test-report-1',
+  reportId: 'request-examples',
   id: 'test-dashboard-1',
   executionId: 'exId_1724943092098',
   tableId: 'tblId_1724943092098',
   name: 'Requested dashboard',
-  reportName: 'Test Report',
+  reportName: 'Request examples',
   description: 'This dashboard is pending',
   template: 'list',
   type: 'dashboard',
@@ -80,14 +80,14 @@ const submittedDashboard = {
   url: {
     origin: 'http://localhost:3010',
     request: {
-      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request?',
-      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request',
+      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request?',
+      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request',
       search: '',
     },
     polling: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
-      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
+        'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request/exId_1724943092098',
+      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request/exId_1724943092098',
     },
     report: {},
   },
@@ -98,12 +98,12 @@ const submittedDashboard = {
 }
 
 const abortedDashboard = {
-  reportId: 'test-report-1',
+  reportId: 'request-examples',
   id: 'test-dashboard-1',
   executionId: 'exId_1724943092098',
   tableId: 'tblId_1724943092098',
   name: 'Cancelled dashboard',
-  reportName: 'Test Report',
+  reportName: 'Request examples',
   description: 'Cancel dashboard',
   template: 'list',
   type: 'dashboard',
@@ -111,14 +111,14 @@ const abortedDashboard = {
   url: {
     origin: 'http://localhost:3010',
     request: {
-      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request?',
-      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request',
+      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request?',
+      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request',
       search: '',
     },
     polling: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
-      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-1/request/exId_1724943092098',
+        'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request/exId_1724943092098',
+      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request/exId_1724943092098',
     },
     report: {},
   },
@@ -132,8 +132,8 @@ const abortedDashboard = {
 const readyDashboard = {
   dataProductDefinitionsPath: '',
   type: 'dashboard',
-  reportId: 'test-report-1',
-  reportName: 'A Test Report',
+  reportId: 'mock-dashboards',
+  reportName: 'Mock dashboards',
   description: 'This dashboard has succeeded',
   id: 'test-dashboard-8',
   name: 'Successful dashboard',
@@ -146,20 +146,20 @@ const readyDashboard = {
   url: {
     origin: 'http://localhost:3010',
     request: {
-      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request?',
-      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request',
+      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request?',
+      pathname: '/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request',
       search: '',
     },
     polling: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request/exId_1730382324700',
-      pathname: '/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request/exId_1730382324700',
+        'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/exId_1730382324700',
+      pathname: '/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/exId_1730382324700',
     },
     report: {
       pathname:
-        '/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730382324700/dashboard',
+        '/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730382324700/report',
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/dashboard/test-report-1/test-dashboard-8/request/tblId_1730382324700/dashboard',
+        'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730382324700/report',
     },
   },
   status: 'FINISHED',

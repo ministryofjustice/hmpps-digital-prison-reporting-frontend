@@ -1,11 +1,11 @@
 import { Response, Request } from 'express'
 import { Services } from '../../../types/Services'
 import BookmarkUtils from './utils'
-import type BookmarkService from '../../../services/bookmarkService'
+import type BookmarkService from '../../../routes/journeys/my-reports/bookmarks/service'
 import type ReportingService from '../../../services/reportingService'
 import DashboardService from '../../../services/dashboardService'
 import { components } from '../../../types/api'
-import variant1 from '../../../../../test-app/mocks/mockClients/reports/mockVariants/variant1'
+import variant1 from '../../../../../test-app/mocks/mockClients/reports/mockVariants/request-examples/success'
 import dashboardDefinitions from '../../../../../test-app/mocks/mockClients/dashboards/dashboard-definitions'
 
 describe('BookmarkUtils', () => {

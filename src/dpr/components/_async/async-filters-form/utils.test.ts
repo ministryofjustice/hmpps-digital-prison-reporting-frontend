@@ -1,6 +1,6 @@
 import MockDate from 'mockdate'
 import { Request } from 'express'
-import MockDefinitions from '../../../../../test-app/mocks/mockClients/reports/mockReportDefinition'
+import mockVariant from '../../../../../test-app/mocks/mockClients/reports/mockVariants/feature-testing/missingDescription'
 import MockRenderFiltersData from '../../../../../test-app/mocks/mockAsyncData/mockRenderFiltersData'
 
 import * as AsyncFiltersUtils from './utils'
@@ -10,21 +10,16 @@ import type { components } from '../../../types/api'
 import type { RenderFiltersReturnValue } from './types'
 
 describe('AsyncFiltersUtils', () => {
-  let mockDefintionVariants: components['schemas']['VariantDefinition'][]
   let mockReport: components['schemas']['SingleVariantReportDefinition']
 
   beforeEach(() => {
     jest.spyOn(ReportSummaryHelper, 'getDuplicateRequestIds').mockReturnValue([])
 
-    mockDefintionVariants = MockDefinitions.report.variants.filter(
-      (v) => v.id === 'variantId-17',
-    ) as components['schemas']['VariantDefinition'][]
-
     mockReport = {
       id: 'mockReport',
       name: 'name',
       description: 'descriptionFromReport',
-      variant: mockDefintionVariants[0],
+      variant: mockVariant as components['schemas']['VariantDefinition'],
     }
   })
 

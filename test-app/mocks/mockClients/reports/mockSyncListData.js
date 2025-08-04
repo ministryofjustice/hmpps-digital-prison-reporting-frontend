@@ -432,7 +432,7 @@ const mockSyncData = {
           reportName: 'reportName',
           csrfToken: 'csrfToken',
           reportId: 'reportId',
-          id: 'variantId-1',
+          id: 'request-example-success',
           columns: ['field2', 'field6', 'field1', 'field3', 'field7'],
           loadType: 'sync',
           definitionPath: 'this/that/other',

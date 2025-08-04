@@ -234,7 +234,7 @@ describe('RequestedReportService', () => {
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })
 
-    it('should updated the records status - FINISHED', async () => {
+    it('should update the records status - FINISHED', async () => {
       await requestedReportService.updateStatus(
         MockRequestedListData2.requestedReady.executionId,
         'userId',

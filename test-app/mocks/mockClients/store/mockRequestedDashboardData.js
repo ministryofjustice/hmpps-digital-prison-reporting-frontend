@@ -157,9 +157,9 @@ const readyDashboard = {
     },
     report: {
       pathname:
-        '/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730382324700/report',
+        '/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730382324700/dashboard',
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730382324700/report',
+        'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730382324700/dashboard',
     },
   },
   status: 'FINISHED',

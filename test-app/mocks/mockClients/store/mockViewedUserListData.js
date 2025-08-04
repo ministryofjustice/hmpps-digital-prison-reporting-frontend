@@ -91,7 +91,7 @@ const viewedDashboard = {
     },
     report: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730302242487/report',
+        'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730302242487/dashboard',
     },
   },
   timestamp: {
@@ -254,7 +254,7 @@ const expiredDashboard = {
     },
     report: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730302123456/report',
+        'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730302123456/dashboard',
     },
   },
   timestamp: {

@@ -34,14 +34,14 @@ describe('RecentlyViewedStoreService', () => {
 
   describe('getAllReportsById', () => {
     it('should return all the reports with a specific id', async () => {
-      const res = await recentlyViewedService.getAllReportsById('variantId-1', 'userId')
+      const res = await recentlyViewedService.getAllReportsById('request-example-success', 'userId')
 
       expect(res.length).toEqual(1)
       expect(res[0]).toEqual(MockViewedListData.viewedReady)
     })
 
     it('should return no reports when no ID in store', async () => {
-      const res = await recentlyViewedService.getAllReportsById('variantId-2', 'userId')
+      const res = await recentlyViewedService.getAllReportsById('request-example-fail-status', 'userId')
 
       expect(res.length).toEqual(0)
     })

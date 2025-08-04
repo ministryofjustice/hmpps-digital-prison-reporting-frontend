@@ -206,6 +206,7 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
 
   withChildData(childData: Array<ChildData>) {
     this.childData = childData
+    console.log(this.childData)
     return this
   }
 

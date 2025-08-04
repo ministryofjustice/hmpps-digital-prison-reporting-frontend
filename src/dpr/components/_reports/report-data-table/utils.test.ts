@@ -15,10 +15,10 @@ import ReportDataTableUtils from './utils'
 import createMockData from '../../../../../test-app/mocks/mockClients/reports/mockAsyncData'
 
 // Services
-import variant2 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/variant2')
-import variant26 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/variant26-parent-child')
+import variant2 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/request-examples/fail-status')
+import variant26 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/report-templates/parent-child')
 import { ChildData } from '../../../utils/ParentChildDataTableBuilder/types'
-import variant10 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/variant10')
+import variant10 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/report-templates/list-section-wtih-summaries')
 
 jest.mock('parseurl', () => ({
   __esModule: true,
@@ -461,8 +461,8 @@ describe('AsyncReportListUtils', () => {
 
     it('should get the table data for a parent/child table', () => {
       definition = {
-        id: 'test-report-1',
-        name: 'A Test Report',
+        id: 'report-template-examples',
+        name: 'Report templates',
         variant: variant26,
       } as unknown as components['schemas']['SingleVariantReportDefinition']
 
@@ -475,7 +475,7 @@ describe('AsyncReportListUtils', () => {
 
       childData = [
         {
-          id: 'variantId-26-child',
+          id: 'report-template-example-parent-child_child',
           data: [
             {
               field1: 'Value 1',

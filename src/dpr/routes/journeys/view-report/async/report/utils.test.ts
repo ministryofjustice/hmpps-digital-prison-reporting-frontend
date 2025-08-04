@@ -23,10 +23,10 @@ import {
 
 // Mocked
 import createMockData from '../../../../../../../test-app/mocks/mockClients/reports/mockAsyncData'
-import variant2 = require('../../../../../../../test-app/mocks/mockClients/reports/mockVariants/variant2')
+import variant2 = require('../../../../../../../test-app/mocks/mockClients/reports/mockVariants/request-examples/fail-status')
 import { mockGetReportListRenderData } from '../../../../../../../test-app/mocks/mockAsyncData/mockReportListRenderData'
-import variant9 = require('../../../../../../../test-app/mocks/mockClients/reports/mockVariants/variant9')
-import variant26 = require('../../../../../../../test-app/mocks/mockClients/reports/mockVariants/variant26-parent-child')
+import variant9 = require('../../../../../../../test-app/mocks/mockClients/reports/mockVariants/report-templates/list-with-summaries')
+import variant26 = require('../../../../../../../test-app/mocks/mockClients/reports/mockVariants/report-templates/parent-child')
 
 jest.mock('parseurl', () => ({
   __esModule: true,
@@ -209,7 +209,7 @@ describe('AsyncReportUtils', () => {
               ...requestedReportState,
               childExecutionData: [
                 {
-                  variantId: 'variantId-26-child',
+                  variantId: 'report-template-example-parent-child_child',
                   tableId: 'childTableID',
                 },
               ],
@@ -272,14 +272,15 @@ describe('AsyncReportUtils', () => {
       expect(services.reportingService.getAsyncReport).toHaveBeenCalledTimes(1)
       expect(services.reportingService.getAsyncSummaryReport).toHaveBeenCalled()
     })
+
     it('should get the data for a parent child report', async () => {
       mockReportingService = {
         ...mockReportingService,
         getDefinition: jest.fn().mockImplementation(() => {
           return new Promise((resolve) => {
             resolve({
-              id: 'test-report-1',
-              name: 'A Test Report',
+              id: 'report-template-examples',
+              name: 'Report templates',
               variant: variant26,
             })
           })
@@ -317,7 +318,7 @@ describe('AsyncReportUtils', () => {
         2,
         'token',
         'reportId',
-        'variantId-26-child',
+        'report-template-example-parent-child_child',
         'childTableID',
         {
           columns: ['column'],

@@ -89,7 +89,7 @@ describe('DashboardUtils', () => {
 
       req = {
         params: {
-          reportId: 'test-report-1',
+          reportId: 'mock-dashboards',
           id: 'test-dashboard-8',
         },
         query: {

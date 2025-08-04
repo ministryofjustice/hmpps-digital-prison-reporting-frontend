@@ -14,11 +14,11 @@ const reportTemplateExampleRowSectionChild = {
       },
       {
         name: 'section2',
-        child: 'variantId-31-child',
+        child: 'report-template-example-row-section-child_child',
       },
       {
         name: 'section3',
-        child: 'variantId-31-child-2',
+        child: 'report-template-example-row-section-child_child-2',
       },
     ],
     fields: [

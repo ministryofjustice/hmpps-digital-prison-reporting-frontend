@@ -174,7 +174,7 @@ describe('AsyncRequestListUtils', () => {
 
         const v1Ready = result.tableData.rows[0]
         expect(v1Ready[3].html).toContain(
-          'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/tblId_1729765628165/report',
+          'http://localhost:3010/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1729765628165/report',
         )
         expect(v1Ready[2].html).toContain('FINISHED')
 

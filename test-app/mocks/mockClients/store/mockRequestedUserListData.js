@@ -42,14 +42,15 @@ const requestedReady = {
     },
     polling: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/exId_1729765628165',
-      pathname: '/embedded/platform/async/report/request-examples/request-example-success/request/exId_1729765628165',
+        'http://localhost:3010/embedded/platform/dpr/request-report/report/request-examples/request-example-success/exId_1729765628165/status',
+      pathname:
+        '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/exId_1729765628165/status',
     },
     report: {
       pathname:
-        '/embedded/platform/async/report/request-examples/request-example-success/request/tblId_1729765628165/report',
+        '/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1729765628165/report',
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/tblId_1729765628165/report',
+        'http://localhost:3010/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1729765628165/report',
     },
   },
   query: {

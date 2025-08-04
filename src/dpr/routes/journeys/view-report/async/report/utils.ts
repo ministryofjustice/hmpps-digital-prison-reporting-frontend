@@ -143,8 +143,6 @@ export const getChildData = async (
   const { definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
   const { reportId } = req.params
 
-  console.log(JSON.stringify(reportDefinition.variant, null, 2))
-
   return Promise.all(
     reportDefinition.variant.childVariants.map(async (childVariant) => {
       const { specification } = childVariant

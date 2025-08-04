@@ -61,10 +61,13 @@
       "!src/dpr/components/report-list/defaultTokenProvider.ts",
       "!src/dpr/setUpNunjucksFilters.ts",
       "!src/dpr/data/dprReportingClient.ts",
-      "!src/dpr/middleware/updateBookmarksByCaseload.ts"
+      "!src/dpr/middleware/updateBookmarksByCaseload.ts",
+      "!<rootDir>/**/controller.ts",
+      "!<rootDir>/**/routes.ts",
+      "!<rootDir>/**/tests.cy.ts"
     ],
     "testMatch": [
-      "<rootDir>/**/?(*.)(cy|test).{ts,js,jsx,mjs}"
+      "<rootDir>/**/?(*.)test.{ts,js,jsx,mjs}"
     ],
     "testPathIgnorePatterns": [
       "dist",

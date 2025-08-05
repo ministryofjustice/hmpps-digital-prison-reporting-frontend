@@ -31,6 +31,7 @@ const setActions = (
   dataProductDefinitionsPath: string,
   currentUrl: string,
   currentQueryParams: string,
+  nestedBaseUrl: string,
 ) => {
   const { name: reportName, variant, id: reportId } = reportDefinition
   const { name, id, printable } = variant
@@ -48,6 +49,7 @@ const setActions = (
     canDownload,
     currentUrl,
     currentQueryParams,
+    nestedBaseUrl,
   }
 
   return ReportActionsUtils.getActions({
@@ -151,6 +153,7 @@ const getReport = async ({ req, res, services }: { req: Request; res: Response; 
 
   const renderData = await getRenderData({
     req,
+    res,
     reportDefinition,
     reportQuery,
     reportData,
@@ -230,6 +233,7 @@ const getReportRenderData = async (
 
 const getRenderData = async ({
   req,
+  res,
   reportDefinition,
   reportQuery,
   reportData,
@@ -238,6 +242,7 @@ const getRenderData = async ({
   canDownload,
 }: {
   req: Request
+  res: Response
   reportDefinition: components['schemas']['SingleVariantReportDefinition']
   reportQuery: ReportQuery
   reportData: ListWithWarnings
@@ -246,6 +251,7 @@ const getRenderData = async ({
   canDownload: boolean
 }) => {
   const { dataProductDefinitionsPath } = req.query
+  const { nestedBaseUrl } = LocalsHelper.getValues(res)
   const { name: reportName, description: reportDescription } = reportDefinition
   const { specification, name, description, classification, printable } = reportDefinition.variant
   const { data } = reportData
@@ -262,6 +268,7 @@ const getRenderData = async ({
     <string>dataProductDefinitionsPath,
     reportRenderData.reportUrl,
     reportRenderData.reportSearch,
+    nestedBaseUrl,
   )
 
   return {

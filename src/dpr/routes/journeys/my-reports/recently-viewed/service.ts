@@ -63,10 +63,10 @@ export default class RecentlyViewedStoreService extends ReportStoreService {
           expired: new Date(),
         },
       }
+      // eslint-disable-next-line no-param-reassign
+      userConfig.recentlyViewedReports[index] = report
+      await this.saveState(userId, userConfig)
     }
-    // eslint-disable-next-line no-param-reassign
-    userConfig.recentlyViewedReports[index] = report
-    await this.saveState(userId, userConfig)
   }
 
   async removeReport(id: string, userId: string) {

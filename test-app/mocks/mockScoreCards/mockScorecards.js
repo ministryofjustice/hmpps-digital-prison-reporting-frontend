@@ -1,87 +1,81 @@
 const mockScoreCards = [
   {
-    title: 'Barricade or prevention of access incidents',
-    value: '1,827',
-    trend: {
-      direction: 'Up',
-      value: '456',
-      from: '2022-23',
-    },
-    link: {
-      href: '#',
-      displayName: 'View breakdown',
-    },
-    valueFor: '2023-24',
-    rag: 'yellow',
+    title: 'Establishment ID: MDI',
+    scorecards: [
+      {
+        title: 'Has ethnicity',
+        value: 602,
+        rag: { score: 2, color: 'red' },
+        valueFor: 'Jul 25',
+        trend: { direction: 1, value: 34, from: 'Feb 25' },
+      },
+      {
+        title: 'Ethnicity is missing',
+        value: 443,
+        valueFor: 'Jul 25',
+        trend: { direction: -1, value: 133, from: 'Feb 25' },
+      },
+      { title: 'Has nationality', value: 448, valueFor: 'Jul 25', trend: { direction: 1, value: 17, from: 'Feb 25' } },
+      {
+        title: 'Nationality is missing',
+        value: 470,
+        valueFor: 'Jul 25',
+        trend: { direction: -1, value: 174, from: 'Feb 25' },
+      },
+      {
+        title: 'Has religion',
+        value: 645,
+        rag: { score: 2, color: 'red' },
+        valueFor: 'Jul 25',
+        trend: { direction: 1, value: 139, from: 'Feb 25' },
+      },
+      {
+        title: 'Religion is missing',
+        value: 526,
+        rag: { score: 1, color: 'yellow' },
+        valueFor: 'Jul 25',
+        trend: { direction: -1, value: 219, from: 'Feb 25' },
+      },
+    ],
   },
   {
-    title: 'Prisoners completing treatment free from dependence',
-    value: '35.5%',
-    trend: {
-      direction: 'Down',
-      value: '3.2ppt',
-      from: '2021-22',
-    },
-    link: {
-      href: '#',
-      displayName: 'View time series',
-    },
-    valueFor: '2022-23',
-    rag: 'red',
-  },
-  {
-    title: 'Probation caseload',
-    value: '239,014',
-    trend: {
-      direction: 'No change',
-      from: '2022-23',
-    },
-    link: {
-      href: '#',
-      displayName: 'View time series',
-    },
-    valueFor: '2023-24',
-    rag: 'green',
-  },
-  {
-    title: 'Self inflicted deaths',
-    value: '72',
-    trend: {
-      direction: 'No change',
-      from: '2022-23',
-    },
-    link: {
-      href: '#',
-      displayName: 'View time series',
-    },
-    valueFor: '2023-24',
-    rag: 'green',
-  },
-  {
-    title: 'Prisoner on prisoner assaults per 1,000 prisoners',
-    value: '232',
-    trend: {
-      direction: 'Up',
-      value: '456',
-      from: '2022-23',
-    },
-    valueFor: '2023-24',
-    rag: 'red',
-  },
-  {
-    title: 'Prison operational capacity',
-    value: '88,818',
-    trend: {
-      direction: 'Up',
-      value: '1,959',
-      from: 'Jun 23',
-    },
-    link: {
-      href: '#',
-      displayName: 'View breakdown',
-    },
-    valueFor: 'Jun 24',
-    rag: 'red',
+    title: 'Establishment ID: KMI',
+    scorecards: [
+      {
+        title: 'Has ethnicity',
+        value: 602,
+        rag: { score: 2, color: 'red' },
+        valueFor: 'Jul 25',
+        trend: { direction: 1, value: 34, from: 'Feb 25' },
+      },
+      {
+        title: 'Ethnicity is missing',
+        value: 443,
+        valueFor: 'Jul 25',
+        trend: { direction: -1, value: 133, from: 'Feb 25' },
+      },
+      { title: 'Has nationality', value: 448, valueFor: 'Jul 25', trend: { direction: 1, value: 17, from: 'Feb 25' } },
+      {
+        title: 'Nationality is missing',
+        value: 470,
+        valueFor: 'Jul 25',
+        trend: { direction: -1, value: 174, from: 'Feb 25' },
+      },
+      {
+        title: 'Has religion',
+        value: 645,
+        rag: { score: 2, color: 'red' },
+        valueFor: 'Jul 25',
+        trend: { direction: 1, value: 139, from: 'Feb 25' },
+      },
+      {
+        title: 'Religion is missing',
+        value: 526,
+        rag: { score: 1, color: 'yellow' },
+        valueFor: 'Jul 25',
+        trend: { direction: -1, value: 219, from: 'Feb 25' },
+      },
+    ],
   },
 ]
 

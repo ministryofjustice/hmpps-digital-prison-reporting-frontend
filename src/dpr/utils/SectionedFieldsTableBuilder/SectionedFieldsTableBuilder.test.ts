@@ -9,7 +9,7 @@ import variant31 from '../../../../test-app/mocks/mockClients/reports/mockVarian
 import variant30Data from '../../../../test-app/mocks/mockClients/reports/mockVariants/data/row-section'
 import variant31Data from '../../../../test-app/mocks/mockClients/reports/mockVariants/data/row-section-child'
 
-describe('SectionedDataTableBuilder', () => {
+describe('SectionedFieldsDataTableBuilder', () => {
   let rowSectionVariant: components['schemas']['VariantDefinition']
   let rowSectionChildVariant: components['schemas']['VariantDefinition']
 
@@ -28,10 +28,7 @@ describe('SectionedDataTableBuilder', () => {
       .buildTable(variant30Data)
 
     expect(table).toEqual({
-      head: [
-        { text: '', classes: 'dpr-row-section-header' },
-        { text: '', classes: 'pr-row-section-header-value' },
-      ],
+      head: [],
       rows: [
         [{ classes: 'dpr-section-header', colspan: 2, html: '<h2 class="govuk-heading-m">Section 1 title</h2>' }],
         [{ classes: 'dpr-section-header-spacer-bottom', colspan: 2, text: '' }],
@@ -90,10 +87,7 @@ describe('SectionedDataTableBuilder', () => {
       .buildTable(variant31Data.parentData())
 
     expect(table).toEqual({
-      head: [
-        { text: '', classes: 'dpr-row-section-header' },
-        { text: '', classes: 'pr-row-section-header-value' },
-      ],
+      head: [],
       rows: [
         [{ classes: 'dpr-section-header', colspan: 2, html: '<h2 class="govuk-heading-m">Data columns as rows</h2>' }],
         [{ classes: 'dpr-section-header-spacer-bottom', colspan: 2, text: '' }],

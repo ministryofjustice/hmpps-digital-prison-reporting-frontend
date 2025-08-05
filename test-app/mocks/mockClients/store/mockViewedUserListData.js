@@ -13,13 +13,15 @@ const viewedReady = {
     origin: 'http://localhost:3010',
     request: {
       fullUrl:
-        'http://localhost:3010/async/report/request-examples/request-example-success/request?filters.field1=value1.1&filters.field2=value2.2&filters.field3.start=2004-02-01&filters.field3.end=2006-08-04&filters.field7=2003-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
+        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request?filters.field1=value1.1&filters.field2=value2.2&filters.field3.start=2004-02-01&filters.field3.end=2006-08-04&filters.field7=2003-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
       search:
         '?filters.field1=value1.1&filters.field2=value2.2&filters.field3.start=2004-02-01&filters.field3.end=2006-08-04&filters.field7=2003-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
     },
     report: {
       fullUrl:
-        'http://localhost:3010/async/report/request-examples/request-example-success/request/tblId_1729766362362/report',
+        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/tblId_1729766362362/report',
+      pathname:
+        '/embedded/platform/async/report/request-examples/request-example-success/request/tblId_1729766362362/report',
     },
   },
   timestamp: {
@@ -86,12 +88,14 @@ const viewedDashboard = {
   url: {
     origin: 'http://localhost:3010',
     request: {
-      fullUrl: 'http://localhost:3010/async/dashboard/mock-dashboards/test-dashboard-8/request?',
+      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request?',
       search: '',
     },
     report: {
       fullUrl:
-        'http://localhost:3010/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730302242487/report',
+        'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730302242487/dashboard',
+      pathname:
+        '/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730302242487/dashboard',
     },
   },
   timestamp: {
@@ -112,14 +116,16 @@ const viewedInteractive = {
   url: {
     origin: 'http://localhost:3010',
     request: {
-      fullUrl: 'http://localhost:3010/async/report/feature-testing/feature-testing-interactive/request?',
-      pathname: '/async/report/feature-testing/feature-testing-interactive/request',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/async/report/feature-testing/feature-testing-interactive/request?',
+      pathname: '/embedded/platform/async/report/feature-testing/feature-testing-interactive/request',
       search: '',
     },
     report: {
-      pathname: '/async/report/feature-testing/feature-testing-interactive/request/tblId_1733925499607/report',
+      pathname:
+        '/embedded/platform/async/report/feature-testing/feature-testing-interactive/request/tblId_1733925499607/report',
       fullUrl:
-        'http://localhost:3010/async/report/feature-testing/feature-testing-interactive/request/tblId_1733925499607/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7&filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3',
+        'http://localhost:3010/embedded/platform/async/report/feature-testing/feature-testing-interactive/request/tblId_1733925499607/report?columns=field1&columns=field2&columns=field3&columns=field6&columns=field7&filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3',
     },
   },
   timestamp: {
@@ -178,13 +184,13 @@ const viewedExpired = {
     origin: 'http://localhost:3010',
     request: {
       fullUrl:
-        'http://localhost:3010/async/report/request-examples/request-example-success/request?filters.field2=value2.3&filters.field3.start=2003-09-05&filters.field3.end=2007-05-01&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field4=Inigo+Montoya',
+        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request?filters.field2=value2.3&filters.field3.start=2003-09-05&filters.field3.end=2007-05-01&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field4=Inigo+Montoya',
       search:
         '?filters.field2=value2.3&filters.field3.start=2003-09-05&filters.field3.end=2007-05-01&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field4=Inigo+Montoya',
     },
     report: {
       fullUrl:
-        'http://localhost:3010/async/report/request-examples/request-example-success/request/tblId_1729766465228/report',
+        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/tblId_1729766465228/report',
     },
   },
   timestamp: {
@@ -247,12 +253,12 @@ const expiredDashboard = {
   url: {
     origin: 'http://localhost:3010',
     request: {
-      fullUrl: 'http://localhost:3010/async/dashboard/mock-dashboards/test-dashboard-8/request?',
+      fullUrl: 'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request?',
       search: '',
     },
     report: {
       fullUrl:
-        'http://localhost:3010/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730302123456/report',
+        'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730302123456/dashboard',
     },
   },
   timestamp: {
@@ -313,13 +319,14 @@ const viewedInteractiveAsync = {
     origin: 'localhost:3010',
     request: {
       fullUrl:
-        'http://localhost:3010/async/report/mock-report/variantId-35/request?filters.field1=value1.2&filters.field7=2005-02-01',
-      pathname: '/async/report/mock-report/variantId-35/request',
+        'http://localhost:3010/embedded/platform/async/report/mock-report/variantId-35/request?filters.field1=value1.2&filters.field7=2005-02-01',
+      pathname: '/embedded/platform/async/report/mock-report/variantId-35/request',
       search: '?filters.field1=value1.2&filters.field7=2005-02-01',
     },
     polling: {
-      fullUrl: 'http://localhost:3010/async/report/mock-report/variantId-35/request/exId_1749551815281',
-      pathname: '/async/report/mock-report/variantId-35/request/exId_1749551815281',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/async/report/mock-report/variantId-35/request/exId_1749551815281',
+      pathname: '/embedded/platform/async/report/mock-report/variantId-35/request/exId_1749551815281',
     },
     report: {
       search:
@@ -327,9 +334,9 @@ const viewedInteractiveAsync = {
       default:
         '?filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field8=value8.2&filters.field8=value8.3',
       pathname:
-        '/async/report/mock-report/variantId-35/request/tblId_1749551815281/report?filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field8=value8.2&filters.field8=value8.3',
+        '/embedded/platform/async/report/mock-report/variantId-35/request/tblId_1749551815281/report?filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field8=value8.2&filters.field8=value8.3',
       fullUrl:
-        'http://localhost:3010/async/report/mock-report/variantId-35/request/tblId_1749551815281/report?filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field8=value8.2&filters.field8=value8.3',
+        'http://localhost:3010/embedded/platform/async/report/mock-report/variantId-35/request/tblId_1749551815281/report?filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field8=value8.2&filters.field8=value8.3',
     },
   },
 }

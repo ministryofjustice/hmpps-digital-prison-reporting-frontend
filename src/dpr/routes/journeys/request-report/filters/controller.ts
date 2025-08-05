@@ -41,7 +41,6 @@ export default class RequestReportController {
   // Request report
   POST: RequestHandler = async (req, res, next) => {
     try {
-      const { reportId, type, id } = req.params
       const executionId = await AysncRequestUtils.request({
         req,
         res,
@@ -50,7 +49,7 @@ export default class RequestReportController {
       })
 
       if (executionId) {
-        const redirect = `/dpr/request-report/${type}/${reportId}/${id}/${executionId}/status`
+        const redirect = `${executionId}/status`
         res.redirect(redirect)
       } else {
         res.end()

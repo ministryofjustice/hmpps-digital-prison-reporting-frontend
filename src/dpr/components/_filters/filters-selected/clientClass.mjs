@@ -254,6 +254,7 @@ export default class SelectedFilters extends DprFiltersFormClass {
     const { displayName, displayValue, key, value } = selectedData
     const selectedItem = document.createElement('a')
     selectedItem.classList = 'govuk-link govuk-body interactive-remove-filter-button'
+    selectedItem.href = '#'
 
     selectedItem.dataset.dataQueryParamKey = Array.isArray(key) ? JSON.stringify(key) : `[ "${key}" ]`
     selectedItem.dataset.dataQueryParamValue = Array.isArray(value) ? JSON.stringify(value) : `[ "${value}" ]`

@@ -1,0 +1,16 @@
+{% extends "views/page.njk" %}
+
+{% from "components/_inputs/multi-select/view.njk" import dprMultiSelect %}
+
+{% block content %}
+  <span class="govuk-caption-l">Components</span>
+  <h1 class="govuk-heading-l">{{ title }}</h1>
+
+  <div class="govuk-width-container">
+    {{ dprMultiSelect(defaultInput) }}
+  </div>
+
+  <div class="govuk-width-container">
+    {{ dprMultiSelect(scroll) }}
+  </div>
+{% endblock %}

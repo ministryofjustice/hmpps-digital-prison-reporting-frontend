@@ -143,8 +143,6 @@ export const getChildData = async (
   const { definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
   const { reportId } = req.params
 
-  console.log(JSON.stringify(reportDefinition.variant, null, 2))
-
   return Promise.all(
     reportDefinition.variant.childVariants.map(async (childVariant) => {
       const { specification } = childVariant
@@ -249,6 +247,7 @@ const getTemplateData = async (
   columns: Columns,
   reportQuery: ReportQuery,
 ) => {
+  const { nestedBaseUrl } = LocalsHelper.getValues(res)
   const url = parseUrl(req)
   const urls = setUrls(url, req)
   const definitionData = extractDataFromDefinition(definition)
@@ -282,6 +281,7 @@ const getTemplateData = async (
     ...(showColumns(specification) && { columns }),
     filterData,
     count,
+    nestedBaseUrl,
     ...meta,
     ...features,
     ...requestedData,
@@ -352,7 +352,17 @@ const setFeatures = async (
     bookmarked = await services.bookmarkService.isBookmarked(id, reportId, userId)
   }
 
-  const actions = setActions(csrfToken, variant, requestData, columns, canDownload, count, urls.pathname, urls.search)
+  const actions = setActions(
+    csrfToken,
+    variant,
+    requestData,
+    columns,
+    canDownload,
+    count,
+    urls.pathname,
+    urls.search,
+    res,
+  )
   const { printable } = variant
 
   return {
@@ -422,9 +432,11 @@ const setActions = (
   count: number,
   currentUrl: string,
   currentQueryParams: string,
+  res: Response,
 ) => {
   const { reportName, name, id, variantId, reportId, tableId, executionId, dataProductDefinitionsPath, url } =
     requestData
+  const { nestedBaseUrl } = LocalsHelper.getValues(res)
   const requestUrl = url.request.fullUrl
   const { printable } = variant
   const ID = variantId || id
@@ -443,6 +455,7 @@ const setActions = (
     canDownload,
     currentUrl,
     currentQueryParams,
+    nestedBaseUrl,
   }
 
   const shareConfig = {

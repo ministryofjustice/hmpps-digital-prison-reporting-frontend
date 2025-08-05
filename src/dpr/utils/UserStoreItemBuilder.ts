@@ -112,13 +112,14 @@ export default class UserStoreItemBuilder {
     return this
   }
 
-  addRequestUrls = () => {
+  addRequestUrls = (req: Request) => {
     const { origin, pathname, search, href, defaultInteractiveQueryString } = this.requestFormData
-    const { executionId, dataProductDefinitionsPath, dpdPathFromQuery, reportId, id, type } = this.userStoreItem
+    const { executionId, dataProductDefinitionsPath, dpdPathFromQuery } = this.userStoreItem
     const dpdPath = dpdPathFromQuery ? `${getDpdPathSuffix(dataProductDefinitionsPath)}` : ''
 
-    const pollingPath = `dpr/request-report/${type}/${reportId}/${id}/${executionId}/status`
-    const pollingFullUrl = `${origin}/${pollingPath}`
+    // Polling path
+    const pollingPath = req.baseUrl.replace('/filters', `/${executionId}/status`)
+    const pollingFullUrl = `${origin}${pollingPath}`
 
     this.userStoreItem = {
       ...this.userStoreItem,

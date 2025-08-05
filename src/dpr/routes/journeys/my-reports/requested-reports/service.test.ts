@@ -234,7 +234,7 @@ describe('RequestedReportService', () => {
       expect(saveStateSpy).toHaveBeenCalledWith('userId', userConfig)
     })
 
-    it('should updated the records status - FINISHED', async () => {
+    it('should update the records status - FINISHED', async () => {
       await requestedReportService.updateStatus(
         MockRequestedListData2.requestedReady.executionId,
         'userId',
@@ -253,8 +253,8 @@ describe('RequestedReportService', () => {
         url: {
           ...MockRequestedListData2.requestedReady.url,
           report: {
-            fullUrl: `http://localhost:3010/dpr/view-report/async/report/${reportId}/${id}/${tableId}/report`,
-            pathname: `/dpr/view-report/async/report/${reportId}/${id}/${tableId}/report`,
+            fullUrl: `http://localhost:3010/embedded/platform/dpr/view-report/async/report/${reportId}/${id}/${tableId}/report`,
+            pathname: `/embedded/platform/dpr/view-report/async/report/${reportId}/${id}/${tableId}/report`,
           },
         },
       }

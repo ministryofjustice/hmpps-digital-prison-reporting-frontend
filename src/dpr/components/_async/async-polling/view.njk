@@ -22,6 +22,7 @@
   {% set csrfToken = data.csrfToken %}
   {% set requestedAt = data.requestedAt %}
   {% set definitionPath = data.definitionPath %}
+  {% set pollingUrl = data.pollingUrl %}
   {% set descriptionClasses = 'govuk-!-margin-top-4 govuk-!-margin-bottom-6'%}
 
   {% set meta = { 
@@ -32,9 +33,10 @@
     type: type,
     status: status,
     requestedAt: requestedAt,
-    dataProductDefinitionsPath: definitionPath
+    dataProductDefinitionsPath: definitionPath,
+    pollingUrl: pollingUrl
   }%}
-
+  
   <div id="async-request-polling-status" 
     data-current-status='{{ status }}'
     data-request-data='{{ meta | dump | safe }}'
@@ -69,10 +71,6 @@
         text: "Cancel request",  
         classes: "govuk-button--secondary govuk-!-margin-bottom-0",
         attributes: {
-          'data-execution-id': executionId,
-          'data-report-id': reportId,
-          'data-id': id,
-          'data-type': type,
           'data-csrf-token': csrfToken
         }
       }) }}

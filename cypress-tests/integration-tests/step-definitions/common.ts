@@ -36,22 +36,22 @@ When(/I navigate to the main page/, () => {
 })
 
 When(/I navigate to the reports page/, () => {
-  cy.visit('/embedded-reports/route-config')
+  cy.visit('/embedded/sync')
 })
 
 When(/I navigate to the fail page/, () => {
-  cy.visit('/embedded-reports/route-config/fail', {
+  cy.visit('/embedded/sync/fail', {
     failOnStatusCode: false,
   })
 })
 
 When(/I navigate to the search page/, () => {
-  cy.visit('/search')
+  cy.visit('/components/search')
 })
 
 When(/I navigate to the (method|handler|validation) page/, (page: string) => {
   const type = page.toLowerCase()
-  let path = '/embedded-reports/route-config/'
+  let path = '/embedded/sync/'
   if (type === 'method') {
     path += `${type}?dataProductDefinitionsPath=test-location`
   } else {
@@ -61,11 +61,11 @@ When(/I navigate to the (method|handler|validation) page/, (page: string) => {
 })
 
 When(/I navigate to the async-home page/, () => {
-  cy.visit('/dpr-service')
+  cy.visit('/embedded/platform/')
 })
 
 When(/I navigate to the async-query page/, () => {
-  cy.visit('/async/report/request-examples/request-example-success/request')
+  cy.visit('/embedded/platform/async/report/request-examples/request-example-success/request')
 })
 
 Then(/The text (.+) is displayed on the page/, (text) => {

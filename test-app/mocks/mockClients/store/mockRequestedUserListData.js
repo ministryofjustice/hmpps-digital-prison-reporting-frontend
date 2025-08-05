@@ -35,19 +35,22 @@ const requestedReady = {
     origin: 'http://localhost:3010',
     request: {
       fullUrl:
-        'http://localhost:3010/async/report/request-examples/request-example-success/request?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
-      pathname: '/async/report/request-examples/request-example-success/request',
+        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
+      pathname: '/embedded/platform/async/report/request-examples/request-example-success/request',
       search:
         '?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
     },
     polling: {
-      fullUrl: 'http://localhost:3010/async/report/request-examples/request-example-success/request/exId_1729765628165',
-      pathname: '/async/report/request-examples/request-example-success/request/exId_1729765628165',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/dpr/request-report/report/request-examples/request-example-success/exId_1729765628165/status',
+      pathname:
+        '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/exId_1729765628165/status',
     },
     report: {
-      pathname: '/async/report/request-examples/request-example-success/request/tblId_1729765628165/report',
+      pathname:
+        '/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1729765628165/report',
       fullUrl:
-        'http://localhost:3010/async/report/request-examples/request-example-success/request/tblId_1729765628165/report',
+        'http://localhost:3010/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1729765628165/report',
     },
   },
   query: {
@@ -134,19 +137,21 @@ const requestedExpired = {
     origin: 'http://localhost:3010',
     request: {
       fullUrl:
-        'http://localhost:3010/async/report/request-examples/request-example-expire/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1',
-      pathname: '/async/report/request-examples/request-example-expire/request',
+        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-expire/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1',
+      pathname: '/embedded/platform/async/report/request-examples/request-example-expire/request',
       search:
         '?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1',
     },
     polling: {
-      fullUrl: 'http://localhost:3010/async/report/request-examples/request-example-expire/request/exId_1729765871851',
-      pathname: '/async/report/request-examples/request-example-expire/request/exId_1729765871851',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-expire/request/exId_1729765871851',
+      pathname: '/embedded/platform/async/report/request-examples/request-example-expire/request/exId_1729765871851',
     },
     report: {
-      pathname: '/async/report/request-examples/request-example-expire/request/tblId_1729765871851/report',
+      pathname:
+        '/embedded/platform/async/report/request-examples/request-example-expire/request/tblId_1729765871851/report',
       fullUrl:
-        'http://localhost:3010/async/report/request-examples/request-example-expire/request/tblId_1729765871851/report',
+        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-expire/request/tblId_1729765871851/report',
     },
   },
   query: {
@@ -225,14 +230,15 @@ const requestedAborted = {
     origin: 'http://localhost:3010',
     request: {
       fullUrl:
-        'http://localhost:3010/async/report/request-examples/request-example-success/request?filters.field1=value1.1&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
-      pathname: '/async/report/request-examples/request-example-success/request',
+        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request?filters.field1=value1.1&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
+      pathname: '/embedded/platform/async/report/request-examples/request-example-success/request',
       search:
         '?filters.field1=value1.1&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
     },
     polling: {
-      fullUrl: 'http://localhost:3010/async/report/request-examples/request-example-success/request/exId_1729766013077',
-      pathname: '/async/report/request-examples/request-example-success/request/exId_1729766013077',
+      fullUrl:
+        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/exId_1729766013077',
+      pathname: '/embedded/platform/async/report/request-examples/request-example-success/request/exId_1729766013077',
     },
     report: {},
   },
@@ -320,15 +326,16 @@ const requestedFailed = {
     origin: 'http://localhost:3010',
     request: {
       fullUrl:
-        'http://localhost:3010/async/report/request-examples/request-example-fail-status/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.2&filters.field4=Inigo+Montoya',
-      pathname: '/async/report/request-examples/request-example-fail-status/request',
+        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-fail-status/request?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.2&filters.field4=Inigo+Montoya',
+      pathname: '/embedded/platform/async/report/request-examples/request-example-fail-status/request',
       search:
         '?filters.field1=value1.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.2&filters.field4=Inigo+Montoya',
     },
     polling: {
       fullUrl:
-        'http://localhost:3010/async/report/request-examples/request-example-fail-status/request/exId_1729765694790',
-      pathname: '/async/report/request-examples/request-example-fail-status/request/exId_1729765694790',
+        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_1729765694790',
+      pathname:
+        '/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_1729765694790',
     },
     report: {},
   },
@@ -414,15 +421,16 @@ const requestedSubmitted = {
     origin: 'http://localhost:3010',
     request: {
       fullUrl:
-        'http://localhost:3010/async/report/request-examples/request-example-fail-status/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
-      pathname: '/async/report/request-examples/request-example-fail-status/request',
+        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-fail-status/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
+      pathname: '/embedded/platform/async/report/request-examples/request-example-fail-status/request',
       search:
         '?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
     },
     polling: {
       fullUrl:
-        'http://localhost:3010/async/report/request-examples/request-example-fail-status/request/exId_1729765698654',
-      pathname: '/async/report/request-examples/request-example-fail-status/request/exId_1729765698654',
+        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_1729765698654',
+      pathname:
+        '/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_1729765698654',
     },
     report: {},
   },

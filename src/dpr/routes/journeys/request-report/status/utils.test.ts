@@ -82,7 +82,7 @@ describe('PollingUtils', () => {
           reportId: 'reportId',
           reportName: 'Request examples',
           requestUrl:
-            'http://localhost:3010/async/report/request-examples/request-example-fail-status/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
+            'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-fail-status/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
           requestedAt: '2024-10-24T10:28:15.792Z',
           status: 'SUBMITTED',
           tableId: 'tblId_1729765698654',
@@ -136,7 +136,7 @@ describe('PollingUtils', () => {
           reportId: 'reportId',
           reportName: 'Request examples',
           requestUrl:
-            'http://localhost:3010/async/report/request-examples/request-example-fail-status/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
+            'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-fail-status/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
           requestedAt: '2024-10-24T10:28:15.792Z',
           status: 'SUBMITTED',
           tableId: 'tblId_1729765698654',
@@ -180,7 +180,8 @@ describe('PollingUtils', () => {
           name: 'Requested dashboard',
           reportId: 'reportId',
           reportName: 'Request examples',
-          requestUrl: 'http://localhost:3010/async/dashboard/request-examples/test-dashboard-1/request?',
+          requestUrl:
+            'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request?',
           requestedAt: '2024-08-29T14:51:33.557Z',
           status: 'SUBMITTED',
           tableId: 'tblId_1724943092098',

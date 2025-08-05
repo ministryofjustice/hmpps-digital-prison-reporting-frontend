@@ -20,7 +20,7 @@
       } %}
 
     {% if not button.disabled %}
-      <form id="download-report-form" action="/dpr/download-report/" method="post">
+      <form id="download-report-form" action="{{ button.attributes.nestedBaseUrl }}/dpr/download-report/" method="post">
         <input type="hidden" name="dataProductDefinitionsPath" value="{{ button.attributes.definitionPath }}">
         <input type="hidden" name="_csrf" value="{{ button.attributes.csrfToken }}">
         <input type="hidden" name="reportId" value="{{ button.attributes.reportId }}">

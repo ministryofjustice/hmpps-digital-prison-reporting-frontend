@@ -20,6 +20,8 @@ const viewedReady = {
     report: {
       fullUrl:
         'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/tblId_1729766362362/report',
+      pathname:
+        '/embedded/platform/async/report/request-examples/request-example-success/request/tblId_1729766362362/report',
     },
   },
   timestamp: {
@@ -92,6 +94,8 @@ const viewedDashboard = {
     report: {
       fullUrl:
         'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730302242487/dashboard',
+      pathname:
+        '/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/tblId_1730302242487/dashboard',
     },
   },
   timestamp: {

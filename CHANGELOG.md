@@ -1,5 +1,10 @@
 Below you can find the changes included in each release.
 
+## v4.11.0
+- Improvements to the test application + docs on how to run locally
+- Accessibility fixes
+- Enable platform routes to be nested within services routing structure
+
 ## v4.10.1
 - Make the UI sort to the default sort direction if present in the DPD
 - Fix more build artifact issues, make the test app build on top of the lib more like a normal app would

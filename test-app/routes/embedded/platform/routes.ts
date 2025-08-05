@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
-import platformRoutes from '../../../../dist/dpr/routes/DprEmbeddedReports'
+import platformRoutes from '../../../../dist/dpr/routes'
 
 // Mock Clients & API responses
 import MockReportingClient from '../../../mocks/mockClients/reports/mockReportingClient'

@@ -283,6 +283,7 @@ const getRenderData = async ({
     actions,
     warnings: reportData.warnings,
     canDownload,
+    nestedBaseUrl,
   }
 }
 

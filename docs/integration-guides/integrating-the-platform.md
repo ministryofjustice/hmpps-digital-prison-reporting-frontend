@@ -189,7 +189,7 @@ export default function routes(services: Services): Router {
   
   ...
 
-  router.use('/', dprPlatformRoutes({ services, layoutPath: 'path/to/layout.njk',})) 
+  router.use('/', dprPlatformRoutes({ services, layoutPath: 'path/to/layout.njk'})) 
 }
 ```
 

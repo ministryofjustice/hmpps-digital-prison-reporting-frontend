@@ -13,6 +13,7 @@ import createDprServices from '../../../../dist/dpr/utils/ReportStoreServiceUtil
 import DashboardClient from '../../../../dist/dpr/data/dashboardClient'
 import ReportDataStore from '../../../../dist/dpr/data/reportDataStore'
 import setUpDprResources from '../../../../dist/dpr/middleware/setUpDprResources'
+import initMockClients from '../../../utils/initMockClients'
 
 import PlatformController from './controller'
 
@@ -36,11 +37,8 @@ const integratePlatformSteps = () => {
 export default function routes() {
   const router = Router({ mergeParams: true })
 
-  const { services } = integratePlatformSteps()
+  const { services } = initMockClients(router)
   const controller = new PlatformController(services)
-
-  // 3. Add middleware
-  router.use(setUpDprResources(services))
 
   router.get('/', controller.GET)
   router.use('/', platformRoutes({ services, layoutPath: 'views/page.njk' }))

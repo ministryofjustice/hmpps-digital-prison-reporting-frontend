@@ -5,11 +5,7 @@
 {% from "../start-end-date/view.njk" import dprStartEndDate %}
 
 {% macro dprDateRange(data, parameterPrefix = "filters.", mandatory = false) %}
-  {% set min = data.min %}
-  {% set max = data.max %}
   {% set relativeOptions = data.relativeOptions %}
-  {% set startId = parameterPrefix + data.name + '.start' %}
-  {% set endId = parameterPrefix + data.name + '.end' %}
   {% set durationInputId = parameterPrefix + data.name + '.relative-duration' %}
 
   <div class="dpr-date-range" data-dpr-module="date-range-input">
@@ -20,7 +16,7 @@
 
       {% set datepickerHtml %}
       <div id='dpr-date-range' data-field-name='{{ data.name }}'>
-        {{ dprStartEndDate(data.name, data.value, min, max, mandatory) }}
+        {{ dprStartEndDate(data, mandatory) }}
       </div>
       {% endset %}
       

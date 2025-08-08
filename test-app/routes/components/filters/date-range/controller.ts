@@ -3,7 +3,7 @@ import { RequestHandler } from 'express'
 export default class DateRangeController {
   GET: RequestHandler = async (req, res, next) => {
     res.render('views/pages/menu.njk', {
-      title: 'Date range inputs',
+      title: 'Date range component variants',
       caption: 'Components',
       cards: [
         {

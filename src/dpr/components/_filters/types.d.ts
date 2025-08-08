@@ -30,7 +30,7 @@ export interface DateFilterValue extends GenericFilterValue {
   value?: DateRange | string | GranularDateRange
   min?: string
   max?: string
-  relativeOptions?: { value: string; text: string }[]
+  relativeOptions?: { value: string; text: string; disabled?: boolean }[]
   quickFilterOptions?: { value: string; text: string; disabled?: boolean }[]
   granularityOptions?: { value: string; text: string }[]
 }

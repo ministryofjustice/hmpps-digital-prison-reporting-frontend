@@ -71,7 +71,7 @@
     {% if toggleMin and minDate or toggleMax and maxDate %}
     <div class="daterange-set-to-minmax__container">
     {% if toggleMin and minDate %}
-      <a class="govuk-body-s daterange-set-to-minmax" 
+      <a class="govuk-body-s daterange-set-to-minmax" id="{{ name }}-min-helper"
         data-set-to-input='{{ id }}' 
         data-set-min-max-value={{ minDate | dprDate }} 
         data-set-min-max-trigger='true'
@@ -82,7 +82,7 @@
       {% endif %}
 
       {% if toggleMax and maxDate %}
-      <a class="govuk-body-s daterange-set-to-minmax" 
+      <a class="govuk-body-s daterange-set-to-minmax" id="{{ name }}-max-helper"
         data-set-to-input='{{ id }}' 
         data-set-min-max-value={{ maxDate | dprDate }} 
         data-set-min-max-trigger='true'

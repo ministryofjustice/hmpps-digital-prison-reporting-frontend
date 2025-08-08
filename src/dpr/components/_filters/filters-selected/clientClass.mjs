@@ -161,7 +161,7 @@ export default class SelectedFilters extends DprFiltersFormClass {
 
       case 'radio': {
         const checkedInput = Array.from(inputs).find((i) => i.checked)
-        displayValue = checkedInput.labels[0].innerText
+        displayValue = checkedInput ? checkedInput.labels[0].innerText : ''
         break
       }
 

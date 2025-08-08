@@ -8,6 +8,7 @@ export interface defaultFilterValue {
 export interface dateFilterValue {
   start: string
   end: string
+  relative?: RelativeDateRange
 }
 
 export interface granularDateFilterValue {

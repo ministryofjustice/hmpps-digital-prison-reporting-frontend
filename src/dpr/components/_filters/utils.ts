@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import { FilterType } from './filter-input/enum'
 import type { components } from '../../types/api'
 import type { FilterOption } from './filter-input/types'
-import type { DateRange, FilterValue } from './types'
+import type { DateFilterValue, DateRange, FilterValue } from './types'
 import ReportQuery, { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 
 import SelectedFiltersUtils from './filters-selected/utils'
@@ -92,9 +92,9 @@ const setFilterValuesFromSavedDefaults = (filters: FilterValue[], defaultValues:
       defaultValue = defaultValue || { ...defaultValue, value }
       updatedFilter = DateInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
     } else if (type === FilterType.dateRange.toLocaleLowerCase()) {
-      const value = hasDefaults ? { start: '', end: '' } : updatedFilter.value
+      const value = hasDefaults ? { start: '', end: '', relative: '' } : updatedFilter.value
       defaultValue = defaultValue || { ...defaultValue, value }
-      updatedFilter = DateRangeInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
+      updatedFilter = <DateFilterValue>DateRangeInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
     } else if (type === FilterType.granularDateRange.toLocaleLowerCase()) {
       const value = hasDefaults ? { start: '', end: '', granularity: '', quickFilter: '' } : updatedFilter.value
       defaultValue = defaultValue || { ...defaultValue, value }

@@ -183,7 +183,7 @@ export default class DprQueryParamClass extends DprClientClass {
    */
   setMultiSelectValue(inputs, value) {
     const input = Array.from(inputs).find((i) => i.getAttribute('value') === value)
-    if (input) input.checked = true
+    if (input && !input.disabled) input.checked = true
   }
 
   /**

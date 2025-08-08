@@ -2,43 +2,36 @@ import { RequestHandler } from 'express'
 
 export default class DateRangeController {
   GET: RequestHandler = async (req, res, next) => {
-    res.render('views/pages/components/filters/date-range/view.njk', {
-      title: 'Date range input',
-      defaultInput: {
-        text: 'Date-range',
-        name: 'date-range',
-        value: {
-          start: '2003-02-01',
-          end: '2007-05-04',
+    res.render('views/pages/menu.njk', {
+      title: 'Date range component variants',
+      caption: 'Components',
+      cards: [
+        {
+          text: 'Date range',
+          description: 'Date range component example',
+          href: '/components/filters/date-range/date-range',
         },
-      },
-      minMax: {
-        text: 'Date-range, with min and max',
-        name: 'date-range-min-max',
-        value: {
-          start: '2003-02-01',
-          end: '2007-05-04',
+        {
+          text: 'Date range with defaults',
+          description: 'Date range component example with default values',
+          href: '/components/filters/date-range/default-date-range',
         },
-        min: '2003-02-01',
-        max: '2007-05-04',
-      },
-      relativeRange: {
-        text: 'Relative Date range picker',
-        name: 'relative-date-range-picker',
-        value: {
-          start: '2003-02-01',
-          end: '2007-05-04',
+        {
+          text: 'Date range with min & max',
+          description: 'Date range component example with min and max contraints',
+          href: '/components/filters/date-range/min-max-date-range',
         },
-        relativeOptions: [
-          { value: null, text: 'None' },
-          { value: 'yesterday', text: 'Yesterday' },
-          { value: 'tomorrow', text: 'Tomorrow' },
-          { value: 'last-week', text: 'Last week' },
-          { value: 'next-week', text: 'Next week' },
-          { value: 'last-month', text: 'Last month' },
-          { value: 'next-month', text: 'Next-month' },
-        ],
-      },
+        {
+          text: 'Relative date range',
+          description: 'Date range component example with relative date radio buttons',
+          href: '/components/filters/date-range/relative-date-range',
+        },
+        {
+          text: 'Relative date range with min max',
+          description: 'Date range component example with relative date radio buttons, and min and max defaults',
+          href: '/components/filters/date-range/relative-min-max-date-range',
+        },
+      ],
     })
   }
 }

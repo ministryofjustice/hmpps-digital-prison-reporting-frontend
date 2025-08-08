@@ -15,7 +15,7 @@
     "noImplicitAny": true,
     "experimentalDecorators": true,
     "ignoreDeprecations": "5.0",
-    "types": ["cypress", "cypress-axe"]
+    "types": ["cypress", "cypress-axe", "cypress-xpath"]
   },
   "exclude": ["node_modules", "dist", "dist-test-app", "package", "cypress-tests", "esbuild"],
   "include": ["**/*.ts"]

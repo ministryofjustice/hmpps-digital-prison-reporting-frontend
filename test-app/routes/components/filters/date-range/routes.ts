@@ -2,6 +2,7 @@
 import { Router } from 'express'
 import DateRangeController from './controller'
 
+import dateRangeRoutes from './no-default/routes'
 import defaultDateRangeRoutes from './default/routes'
 import minMaxDateRangeRoutes from './min-max/routes'
 import relativeDateRangeRoutes from './relative-date/routes'
@@ -12,6 +13,7 @@ export default function routes() {
   const controller = new DateRangeController()
   router.get('/', controller.GET)
 
+  router.use(`/date-range`, dateRangeRoutes())
   router.use(`/default-date-range`, defaultDateRangeRoutes())
   router.use(`/min-max-date-range`, minMaxDateRangeRoutes())
   router.use(`/relative-date-range`, relativeDateRangeRoutes())

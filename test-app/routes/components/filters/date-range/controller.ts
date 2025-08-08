@@ -9,6 +9,11 @@ export default class DateRangeController {
         {
           text: 'Date range',
           description: 'Date range component example',
+          href: '/components/filters/date-range/date-range',
+        },
+        {
+          text: 'Date range with defaults',
+          description: 'Date range component example with default values',
           href: '/components/filters/date-range/default-date-range',
         },
         {

@@ -1,3 +1,5 @@
+const dayjs = require('dayjs')
+
 const variant15 = {
   id: 'variantId-15',
   name: 'Relative Daterange',
@@ -10,14 +12,27 @@ const variant15 = {
     fields: [
       {
         name: 'field1',
-        display: 'Field 1',
+        display: 'Relative date-range',
         sortable: false,
         visible: true,
         type: 'date',
         mandatory: false,
         filter: {
           type: 'daterange',
-          defaultValue: 'next-week',
+          mandatory: true,
+        },
+      },
+      {
+        name: 'field2',
+        display: 'Relative date-range with min and max',
+        sortable: false,
+        visible: true,
+        type: 'date',
+        mandatory: false,
+        filter: {
+          type: 'daterange',
+          min: dayjs().format('YYYY-MM-DD').toString(),
+          max: dayjs().add(2, 'month').format('YYYY-MM-DD').toString(),
           mandatory: true,
         },
       },

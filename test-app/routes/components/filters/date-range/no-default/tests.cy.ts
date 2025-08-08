@@ -215,4 +215,24 @@ context('Inputs: date range', () => {
       })
     })
   })
+
+  describe('Reseting to default values', () => {
+    it('should reset the input to the default DPD values', () => {
+      dateRangeStart.type('02/05/2025')
+      dateRangeEnd.type('05/07/2025').blur()
+
+      cy.location().should((location) => {
+        expect(location.search).to.contain(`filters.date-range.start=2025-05-02`)
+        expect(location.search).to.contain(`filters.date-range.end=2025-07-05`)
+      })
+
+      cy.get('#dpr-selected-filters').children().should('have.length', 3)
+      cy.get('#async-request-reset-filters-button').click()
+      cy.location().should((location) => {
+        expect(location.search).not.to.contain(`filters.date-range.start`)
+        expect(location.search).not.to.contain(`filters.date-range.end`)
+      })
+      cy.get('#dpr-selected-filters').children().should('have.length', 2)
+    })
+  })
 })

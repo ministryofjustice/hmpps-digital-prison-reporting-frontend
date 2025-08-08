@@ -68,15 +68,22 @@ const calcDates = (durationValue: string) => {
   }
 }
 
-const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
+const setValueFromRequest = (filter: DateFilterValue, req: Request, prefix: string) => {
+  const { relativeOptions } = filter
   const start = <string>req.query[`${prefix}${filter.name}.start`]
   const end = <string>req.query[`${prefix}${filter.name}.end`]
   const relative = <string>req.query[`${prefix}${filter.name}.relative-duration`]
 
+  let relativeDisabled = false
+  if (relative) {
+    const option = relativeOptions.find((opt) => opt.value === relative)
+    relativeDisabled = option && option.disabled ? option.disabled : false
+  }
+
   const value = {
     start: start || (<DateFilterValue>filter).min,
     end: end || (<DateFilterValue>filter).max,
-    ...(relative && { relative }),
+    ...(relative && !relativeDisabled && { relative }),
   } as DateRange
 
   return value

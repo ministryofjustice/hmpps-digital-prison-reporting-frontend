@@ -1,34 +1,27 @@
 import { RequestHandler } from 'express'
 import dayjs from 'dayjs'
+import DateRangeInputUtils from '../../../../../../dist/dpr/components/_inputs/date-range/utils'
+import { components } from '../../../../../../dist/dpr/types/api'
+import { FilterType } from '../../../../../../dist/dpr/components/_filters/filter-input/enum'
+import { FilterValue } from '../../../../../../dist/dpr/components/_filters/types'
 
 export default class DateRangeController {
   GET: RequestHandler = async (req, res, next) => {
-    const today = dayjs().format('YYYY-MM-DD').toString()
-    const future = dayjs().add(40, 'day').format('YYYY-MM-DD').toString()
+    const filter = {
+      type: 'daterange' as components['schemas']['FilterDefinition']['type'],
+      min: dayjs().format('YYYY-MM-DD').toString(),
+      max: dayjs().add(2, 'month').format('YYYY-MM-DD').toString(),
+      mandatory: true,
+    }
 
-    const filters = [
-      {
-        text: 'Relative Date-range with min & max',
-        name: 'relative-date-range-min-max',
-        type: 'daterange',
-        value: {
-          start: today,
-          end: future,
-        },
-        min: today,
-        max: future,
-        mandatory: true,
-        relativeOptions: [
-          { value: 'none', text: 'None' },
-          { value: 'yesterday', text: 'Yesterday' },
-          { value: 'tomorrow', text: 'Tomorrow' },
-          { value: 'last-week', text: 'Last week' },
-          { value: 'next-week', text: 'Next week' },
-          { value: 'last-month', text: 'Last month' },
-          { value: 'next-month', text: 'Next month' },
-        ],
-      },
-    ]
+    const filterData: FilterValue = {
+      text: 'Relative Date-range with min & max',
+      name: 'relative-date-range-min-max',
+      type: FilterType.dateRange,
+      mandatory: true,
+    }
+    const dateRangeFilterData = DateRangeInputUtils.getFilterFromDefinition(filter, filterData)
+    const filters = [dateRangeFilterData]
 
     res.render('views/pages/components/filters/view.njk', {
       title: 'Date range input',

@@ -24,8 +24,8 @@ export default class DateRangeInput extends DprClientClass {
     this.startRequired = this.startInput.required
     this.endRequired = this.endInput.required
 
-    this.datePickerTab = document.getElementById('tab_date-picker')
-    this.relativeDurationTab = document.getElementById('tab_relative-range')
+    this.datePickerTab = document.getElementById(`tab_${this.fieldName}-date-picker`)
+    this.relativeDurationTab = document.getElementById(`tab_${this.fieldName}-relative-range`)
     this.durationValue = undefined
 
     if (this.datePickerTab && this.relativeDurationTab) {

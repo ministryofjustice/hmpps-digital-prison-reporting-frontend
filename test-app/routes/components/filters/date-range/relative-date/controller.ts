@@ -1,20 +1,12 @@
 import { RequestHandler } from 'express'
-import dayjs from 'dayjs'
 
 export default class DateRangeController {
   GET: RequestHandler = async (req, res, next) => {
-    const today = dayjs().format('YYYY-MM-DD').toString()
-    const future = dayjs().add(40, 'day').format('YYYY-MM-DD').toString()
-
     const filters = [
       {
         text: 'Relative Date-range',
         name: 'relative-date-range',
         type: 'daterange',
-        value: {
-          start: today,
-          end: future,
-        },
         mandatory: true,
         relativeOptions: [
           { value: 'none', text: 'None' },

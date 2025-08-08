@@ -27,8 +27,8 @@ export const getSortByFromDefinition = (
         if (f.defaultsort) sortBy[0].value = f.name
         const field: FilterOption = { value: f.name, text: f.display }
         if (f.sortDirection) {
-          sortBy[1].options[0].value = String(f.sortDirection === 'asc')
-          sortBy[1].options[1].value = String(f.sortDirection !== 'asc')
+          // the 'value' here is whether sortedAsc is true or not
+          sortBy[1].value = f.sortDirection === 'asc' ? 'true' : 'false'
         }
         return field
       })

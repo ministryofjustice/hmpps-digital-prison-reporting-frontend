@@ -22,20 +22,6 @@ const variant15 = {
           mandatory: true,
         },
       },
-      {
-        name: 'field2',
-        display: 'Relative date-range with min and max',
-        sortable: false,
-        visible: true,
-        type: 'date',
-        mandatory: false,
-        filter: {
-          type: 'daterange',
-          min: dayjs().format('YYYY-MM-DD').toString(),
-          max: dayjs().add(2, 'month').format('YYYY-MM-DD').toString(),
-          mandatory: true,
-        },
-      },
     ],
   },
 }

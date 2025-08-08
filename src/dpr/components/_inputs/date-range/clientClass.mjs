@@ -33,6 +33,7 @@ export default class DateRangeInput extends DprClientClass {
       this.initRelativeDurationTabClick()
       this.initTabs()
       this.initDurationRadionButtonClick()
+      this.initDatePickerUpdateEvents()
     }
   }
 
@@ -54,7 +55,7 @@ export default class DateRangeInput extends DprClientClass {
         this.removeSearchParam(this.durationInputID)
       }
       this.updateInputs(value)
-      window.location.hash = 'date-picker'
+      // window.location.hash = `tab_${this.fieldName}-date-picker`
     })
   }
 
@@ -63,7 +64,7 @@ export default class DateRangeInput extends DprClientClass {
       this.relativeRangeRadioButtons.forEach((durationRadioButton) => {
         this.updateCheckedDuration(durationRadioButton)
       })
-      window.location.hash = 'relative-range'
+      // window.location.hash = `tab_${this.fieldName}-relative-range`
     })
   }
 
@@ -127,6 +128,15 @@ export default class DateRangeInput extends DprClientClass {
     const changeEvent = new Event('change')
     this.startInput.dispatchEvent(changeEvent)
     this.endInput.dispatchEvent(changeEvent)
+  }
+
+  initDatePickerUpdateEvents() {
+    this.startInput.addEventListener('change', () => {
+      this.removeSearchParam(this.durationInputID)
+    })
+    this.endInput.addEventListener('change', () => {
+      this.removeSearchParam(this.durationInputID)
+    })
   }
 
   calculateDateForDatepicker(duration) {

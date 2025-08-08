@@ -17,6 +17,18 @@ context('Inputs: Relative date range', () => {
       cy.get('#tab_relative-date-range-date-picker').click()
       cy.get('input[id="filters.relative-date-range.start"]').should('not.have.value', '')
       cy.get('input[id="filters.relative-date-range.end"]').should('not.have.value', '')
+      cy.get('input[id="filters.relative-date-range.start"]')
+        .invoke('val')
+        .then((dateValue) => {
+          expect(dateValue).to.match(/\d{2}\/\d{2}\/\d{4}/)
+        })
+
+      cy.get('input[id="filters.relative-date-range.end"]')
+        .invoke('val')
+        .then((dateValue) => {
+          expect(dateValue).to.match(/\d{2}\/\d{2}\/\d{4}/)
+        })
+
       const selectedFilters = cy.get('#dpr-selected-filters').children()
       selectedFilters.each((filter, index) => {
         switch (index) {
@@ -193,6 +205,144 @@ context('Inputs: Relative date range', () => {
       })
 
       expectDatePickerValues()
+    })
+  })
+
+  describe('User defined defaults', () => {
+    beforeEach(() => {
+      cy.visit(platformPath)
+    })
+
+    it('should save the relative date range as user defined defaults', () => {
+      cy.get('#tab_field1-relative-range').click()
+      cy.get('input[id="filters.field1.relative-duration-2"]').click()
+      cy.location().should((location) => {
+        expect(location.search).to.contain(`filters.field1.relative-duration=yesterday`)
+        expect(location.search).to.contain(`filters.field1.start=`)
+        expect(location.search).to.contain(`filters.field1.end=`)
+      })
+      cy.get('#dpr-selected-filters')
+        .children()
+        .each((filter, index) => {
+          switch (index) {
+            case 0:
+              cy.wrap(filter).contains('Preset date range')
+              cy.wrap(filter).contains('Yesterday')
+              break
+            default:
+              break
+          }
+        })
+
+      cy.get(`#dpr-save-user-defaults`).click()
+
+      cy.location().should((location) => {
+        expect(location.search).to.contain('defaultsSaved=true')
+      })
+
+      cy.get(`#dpr-save-user-defaults`).contains('Update defaults')
+      cy.get('#dpr-remove-user-defaults').should('exist')
+
+      cy.get('#dpr-selected-filters')
+        .children()
+        .each((filter, index) => {
+          switch (index) {
+            case 0:
+              cy.wrap(filter).contains('Preset date range')
+              cy.wrap(filter).contains('Yesterday')
+              break
+            default:
+              break
+          }
+        })
+    })
+
+    it('should pre-fill the filter values with the saved defaults next visit', () => {
+      cy.location().should((location) => {
+        expect(location.search).to.contain(`filters.field1.relative-duration=yesterday`)
+        expect(location.search).to.contain(`filters.field1.start=`)
+        expect(location.search).to.contain(`filters.field1.end=`)
+        expect(location.search).not.to.contain(`defaultsSaved=true`)
+      })
+
+      cy.get(`#dpr-save-user-defaults`).contains('Update defaults')
+      cy.get('#dpr-remove-user-defaults').should('exist')
+
+      const selectedFilters = cy.get('#dpr-selected-filters').children()
+      selectedFilters.each((filter, index) => {
+        switch (index) {
+          case 0:
+            cy.wrap(filter).contains('Preset date range')
+            cy.wrap(filter).contains('Yesterday')
+            break
+          default:
+            break
+        }
+      })
+
+      cy.get('#tab_field1-relative-range').click()
+      cy.get('input[id="filters.field1.relative-duration-2"]').should('be.checked')
+    })
+
+    it('should update the saved defaults', () => {
+      cy.get('#tab_field1-relative-range').click()
+      cy.get('input[id="filters.field1.relative-duration-4"]').click()
+
+      cy.get(`#dpr-save-user-defaults`).click()
+
+      cy.location().should((location) => {
+        expect(location.search).to.contain(`filters.field1.relative-duration=last-week`)
+        expect(location.search).to.contain(`filters.field1.start=`)
+        expect(location.search).to.contain(`filters.field1.end=`)
+      })
+
+      cy.get('#dpr-selected-filters')
+        .children()
+        .each((filter, index) => {
+          switch (index) {
+            case 0:
+              cy.wrap(filter).contains('Preset date range')
+              cy.wrap(filter).contains('Last week')
+              break
+            default:
+              break
+          }
+        })
+
+      cy.reload()
+
+      cy.location().should((location) => {
+        expect(location.search).to.contain(`filters.field1.relative-duration=last-week`)
+        expect(location.search).to.contain(`filters.field1.start=`)
+        expect(location.search).to.contain(`filters.field1.end=`)
+      })
+    })
+
+    it('should remove the save defaults', () => {
+      cy.get(`#dpr-remove-user-defaults`).click()
+
+      cy.location().should((location) => {
+        expect(location.search).not.to.contain(`filters.field1.relative-duration=`)
+        expect(location.search).not.to.contain(`filters.field1.start=`)
+        expect(location.search).not.to.contain(`filters.field1.end=`)
+      })
+    })
+  })
+
+  describe('validation', () => {
+    beforeEach(() => {
+      cy.visit(platformPath)
+    })
+
+    it('should display validation messages', () => {
+      cy.get('input[name="filters.field1.start"]').clear().blur()
+      cy.get('input[name="filters.field1.end"]').clear().blur()
+
+      cy.get('#async-request-report-button').click()
+
+      cy.get('p.govuk-error-message').eq(0).contains('Relative date-range start is required')
+      cy.get('p.govuk-error-message').eq(1).contains('Relative date-range end is required')
+      cy.get('#query-error-summary').should('be.visible')
     })
   })
 })

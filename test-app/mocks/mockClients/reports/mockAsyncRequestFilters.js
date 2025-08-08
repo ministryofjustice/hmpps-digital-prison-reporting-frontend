@@ -204,11 +204,11 @@ const filtersData = {
       "options": [
         {
           "text": "Ascending",
-          "value": "false",
+          "value": "true",
         },
         {
           "text": "Descending",
-          "value": "true",
+          "value": "false",
         },
       ],
       "text": "Direction",

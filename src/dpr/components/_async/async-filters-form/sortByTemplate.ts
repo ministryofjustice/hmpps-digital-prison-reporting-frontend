@@ -18,11 +18,11 @@ const sortByTemplate = (): FilterValue[] => {
       type: 'Radio' as FilterType,
       options: [
         {
-          value: 'false',
+          value: 'true',
           text: 'Ascending',
         },
         {
-          value: 'true',
+          value: 'false',
           text: 'Descending',
         },
       ] as FilterOption[],

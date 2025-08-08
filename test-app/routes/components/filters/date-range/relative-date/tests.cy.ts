@@ -14,7 +14,7 @@ context('Inputs: Relative date range', () => {
     })
 
     const expectDatePickerValues = () => {
-      cy.get('#tab_relative-date-range-min-max-date-picker').click()
+      cy.get('#tab_relative-date-range-date-picker').click()
       cy.get('input[id="filters.relative-date-range.start"]').should('not.have.value', '')
       cy.get('input[id="filters.relative-date-range.end"]').should('not.have.value', '')
       const selectedFilters = cy.get('#dpr-selected-filters').children()
@@ -33,7 +33,7 @@ context('Inputs: Relative date range', () => {
     }
 
     it('should set the relative date to none', () => {
-      cy.get('#tab_relative-date-range-min-max-relative-range').click()
+      cy.get('#tab_relative-date-range-relative-range').click()
       cy.get('input[id="filters.relative-date-range.relative-duration"]').click()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=none`)
@@ -52,13 +52,13 @@ context('Inputs: Relative date range', () => {
         }
       })
 
-      cy.get('#tab_date-picker').click()
+      cy.get('#tab_relative-date-range-date-picker').click()
       cy.get('input[id="filters.relative-date-range.start"]').should('have.value', '')
       cy.get('input[id="filters.relative-date-range.end"]').should('have.value', '')
     })
 
     it('should set the relative date to yesterday', () => {
-      cy.get('#tab_relative-date-range-min-max-relative-range').click()
+      cy.get('#tab_relative-date-range-relative-range').click()
       cy.get('input[id="filters.relative-date-range.relative-duration-2"]').click()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=yesterday`)
@@ -81,7 +81,7 @@ context('Inputs: Relative date range', () => {
     })
 
     it('should set the relative date to tommorrow', () => {
-      cy.get('#tab_relative-date-range-min-max-relative-range').click()
+      cy.get('#tab_relative-date-range-relative-range').click()
       cy.get('input[id="filters.relative-date-range.relative-duration-3"]').click()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=tomorrow`)
@@ -104,7 +104,7 @@ context('Inputs: Relative date range', () => {
     })
 
     it('should set the relative date to last week', () => {
-      cy.get('#tab_relative-date-range-min-max-relative-range').click()
+      cy.get('#tab_relative-date-range-relative-range').click()
       cy.get('input[id="filters.relative-date-range.relative-duration-4"]').click()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=last-week`)
@@ -127,7 +127,7 @@ context('Inputs: Relative date range', () => {
     })
 
     it('should set the relative date to next week', () => {
-      cy.get('#tab_relative-date-range-min-max-relative-range').click()
+      cy.get('#tab_relative-date-range-relative-range').click()
       cy.get('input[id="filters.relative-date-range.relative-duration-5"]').click()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=next-week`)
@@ -150,7 +150,7 @@ context('Inputs: Relative date range', () => {
     })
 
     it('should set the relative date to last month', () => {
-      cy.get('#tab_relative-date-range-min-max-relative-range').click()
+      cy.get('#tab_relative-date-range-relative-range').click()
       cy.get('input[id="filters.relative-date-range.relative-duration-6"]').click()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=last-month`)
@@ -173,7 +173,7 @@ context('Inputs: Relative date range', () => {
     })
 
     it('should set the relative date to next month', () => {
-      cy.get('#tab_relative-date-range-min-max-relative-range').click()
+      cy.get('#tab_relative-date-range-relative-range').click()
       cy.get('input[id="filters.relative-date-range.relative-duration-7"]').click()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=next-month`)

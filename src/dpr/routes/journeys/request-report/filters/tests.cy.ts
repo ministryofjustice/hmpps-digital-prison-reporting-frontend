@@ -120,11 +120,11 @@ describe('Request a report', () => {
             cy.wrap(filter).contains('Value 2.2')
             break
           case 1:
-            cy.wrap(filter).contains('Start date')
+            cy.wrap(filter).contains('Field 3 start')
             cy.wrap(filter).contains('01/02/2003')
             break
           case 2:
-            cy.wrap(filter).contains('End date')
+            cy.wrap(filter).contains('Field 3 end')
             cy.wrap(filter).contains('4/5/2007')
             break
           case 3:

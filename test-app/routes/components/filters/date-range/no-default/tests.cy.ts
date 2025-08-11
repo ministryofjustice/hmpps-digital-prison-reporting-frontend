@@ -91,28 +91,28 @@ context('Inputs: date range', () => {
       cy.get(
         '#dpr-date-range > div > div.dpr-daterange__start-date > div > div > div > div.moj-datepicker__wrapper > div.govuk-input__wrapper > button',
       ).click()
-      cy.xpath('//* [@id="datepicker-filters.date-range.start"]').should('be.visible')
-      cy.xpath('//* [@id="datepicker-filters.date-range.start"]/table/tbody/tr[3]/td[1]/button').click() // 11/8/2025
+      cy.get('.moj-datepicker__dialog--open').should('be.visible')
+      cy.get('button[data-testid="11/8/2025"]').eq(0).click()
 
       cy.get(
         '#dpr-date-range > div > div.dpr-daterange__end-date > div > div > div > div.moj-datepicker__wrapper > div.govuk-input__wrapper > button',
       ).click()
-      cy.xpath('//* [@id="datepicker-filters.date-range.end"]').should('be.visible')
-      cy.xpath('//* [@id="datepicker-filters.date-range.end"]/table/tbody/tr[5]/td[6]/button').click()
+      cy.get('.moj-datepicker__dialog--open').should('be.visible')
+      cy.get('button[data-testid="30/8/2025"]').eq(1).click()
     }
 
     const setDateRangeValuesViaCalendarSingleDigit = () => {
       cy.get(
         '#dpr-date-range > div > div.dpr-daterange__start-date > div > div > div > div.moj-datepicker__wrapper > div.govuk-input__wrapper > button',
       ).click()
-      cy.xpath('//* [@id="datepicker-filters.date-range.start"]').should('be.visible')
-      cy.xpath('//* [@id="datepicker-filters.date-range.start"]/table/tbody/tr[1]/td[5]/button').click() //
+      cy.get('.moj-datepicker__dialog--open').should('be.visible')
+      cy.get('button[data-testid="1/8/2025"]').eq(0).click()
 
       cy.get(
         '#dpr-date-range > div > div.dpr-daterange__end-date > div > div > div > div.moj-datepicker__wrapper > div.govuk-input__wrapper > button',
       ).click()
-      cy.xpath('//* [@id="datepicker-filters.date-range.end"]').should('be.visible')
-      cy.xpath('//* [@id="datepicker-filters.date-range.end"]/table/tbody/tr[2]/td[6]/button').click() //
+      cy.get('.moj-datepicker__dialog--open').should('be.visible')
+      cy.get('button[data-testid="9/8/2025"]').eq(1).click()
     }
 
     it('should set the date value in the inputs', () => {

@@ -18,7 +18,7 @@
     {% endif %}
 
     {% set metaHtml %}
-      <div class="govuk-!-margin-top-3">
+      <div id="request-error_request-details" class="govuk-!-margin-top-3">
         <p class="govuk-body-s">Please take note of the following meta data and use in any correspondence with the support team to help speed up your request:</p>
         <ul class="govuk-list govuk-body-s">
           {% if reportId %}<li><strong>Report ID: </strong> {{ reportId }}</li>{% endif %}
@@ -39,7 +39,7 @@
       {% endif %}
 
       {% set metaStackTracErrorHtml %}
-      <div class="govuk-!-margin-top-4">
+      <div id="request-error_full-error" class="govuk-!-margin-top-4">
         {{ govukDetails({
           summaryText: 'Show full error',
           html: fullError

@@ -44,6 +44,8 @@ export default class DprFormValidationClass extends DprQueryParamClass {
     } else {
       this.errorSummary.classList.add('query-error-summary--hidden')
     }
+
+    return this.errorMessages
   }
 
   fieldIsValid(field) {

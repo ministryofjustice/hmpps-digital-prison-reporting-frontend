@@ -15,8 +15,8 @@ export default class DprCatalogueSearch extends DprCatalogueFilters {
       this.tableId = this.searchBox.dataset.tableId
       this.initTable()
       this.initSeachBoxEvents()
-      this.initSearchInputFromQueryParams()
       this.updateTableRows()
+      this.initSearchInputFromQueryParams()
     }
   }
 

@@ -1,11 +1,11 @@
 {% extends "views/page.njk" %}
 
-{% from "components/_async/async-filters-form/view.njk" import dprAsyncFiltersForm %} 
+{% from "components/_async/async-filters-form/view.njk" import dprAsyncFiltersForm %}
 
 {% block content %}
   <h1>{{ title }}</h1>
   <p>Input example & testing within the filters context.</p>
- 
+
   {{ dprAsyncFiltersForm({ 
     filters: filters,
     selectedFilters: [], 

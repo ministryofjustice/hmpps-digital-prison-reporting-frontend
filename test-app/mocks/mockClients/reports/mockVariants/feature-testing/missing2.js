@@ -1,7 +1,7 @@
 const featureTestingMissing2 = {
   id: 'feature-testing-missing2',
-  name: 'Missing Report about bread',
-  description: 'this report is missing',
+  name: 'Missing Report 2',
+  description: 'Description of missing report 2',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: false,

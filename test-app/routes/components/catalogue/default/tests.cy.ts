@@ -1,5 +1,5 @@
 context('Catalogue component', () => {
-  const path = '/components/catalogue'
+  const path = '/components/catalogue/default'
 
   beforeEach(() => {
     cy.visit(path)
@@ -119,6 +119,42 @@ context('Catalogue component', () => {
         .each((tr) => {
           cy.wrap(tr).contains(/Succ|succ/g)
         })
+    })
+  })
+
+  describe('Catalogue listing', () => {
+    it('should display to relevant information for each listing', () => {
+      const rows = cy
+        .get('#dpr-reports-catalogue > tbody > tr')
+        .not('.dpr-report-type-hide')
+        .not('.dpr-missing-report-hide')
+
+      rows.each((row) => {
+        // Product name
+        cy.wrap(row)
+          .find('td:nth-child(1) > p')
+          .each((productName) => {
+            cy.wrap(productName).should('not.be.empty')
+          })
+        // variantName
+        cy.wrap(row)
+          .find('td:nth-child(2) > div > p > strong')
+          .each((variantName) => {
+            cy.wrap(variantName).should('not.be.empty')
+          })
+        // Type
+        cy.wrap(row)
+          .find('td:nth-child(2) > div > strong.govuk-tag')
+          .each((tag) => {
+            cy.wrap(tag).contains(/Dashboard|Report|Unavailable|Unauthorised/g)
+          })
+        // description
+        cy.wrap(row)
+          .find('td:nth-child(3)> .dpr-show-more > .dpr-show-more-content')
+          .each((description) => {
+            cy.wrap(description).should('not.be.empty')
+          })
+      })
     })
   })
 })

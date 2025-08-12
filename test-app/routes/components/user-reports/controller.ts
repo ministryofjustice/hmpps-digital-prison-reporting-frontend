@@ -1,20 +1,24 @@
 import { RequestHandler } from 'express'
-import { Services } from '../../../../dist/dpr/types/Services'
-import UserReportsListUtils from '../../../../dist/dpr/components/user-reports/utils'
 
 export default class UserReportsController {
-  services: Services
-
-  constructor(services: Services) {
-    this.services = services
-  }
+  layoutPath: string
 
   GET: RequestHandler = async (req, res, next) => {
-    const userReports = await UserReportsListUtils.init({ services: this.services, req, res, maxRows: 20 })
-
-    res.render('views/pages/components/user-reports/view.njk', {
-      title: 'User reports list',
-      userReports,
+    res.render('views/pages/menu.njk', {
+      title: 'User Reports list variants',
+      caption: 'Components',
+      cards: [
+        {
+          text: 'User reports list',
+          description: 'User reports list component example.',
+          href: '/components/user-reports/default',
+        },
+        {
+          text: 'Configured User reports list',
+          description: 'User reports list component example with configuration',
+          href: '/components/user-reports/configured',
+        },
+      ],
     })
   }
 }

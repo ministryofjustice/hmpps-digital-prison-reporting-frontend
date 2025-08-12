@@ -1,17 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
 import UserReportsController from './controller'
-
-import defaultRoutes from './default/routes'
-import configuredRoutes from './configured/routes'
+import initMockClients from '../../../../utils/initMockClients'
 
 export default function routes() {
   const router = Router({ mergeParams: true })
-  const controller = new UserReportsController()
+  const { services } = initMockClients(router, { bookmarking: false })
+  const controller = new UserReportsController(services)
   router.get('/', controller.GET)
-
-  router.use('/default', defaultRoutes())
-  router.use('/configured', configuredRoutes())
-
   return router
 }

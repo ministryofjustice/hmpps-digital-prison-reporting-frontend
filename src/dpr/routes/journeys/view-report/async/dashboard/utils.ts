@@ -184,7 +184,7 @@ const updateStore = async (
 
 export default {
   renderAsyncDashboard: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
-    const { token, csrfToken, userId } = LocalsHelper.getValues(res)
+    const { token, csrfToken, userId, nestedBaseUrl } = LocalsHelper.getValues(res)
     const { reportId, id, tableId } = req.params
     const url = parseUrl(req)
 
@@ -221,6 +221,7 @@ export default {
         description: dashboardDefinition.description,
         reportName: reportDefinition.name,
         bookmarked: await services.bookmarkService.isBookmarked(id, reportId, userId),
+        nestedBaseUrl,
         csrfToken,
         sections,
         filters,

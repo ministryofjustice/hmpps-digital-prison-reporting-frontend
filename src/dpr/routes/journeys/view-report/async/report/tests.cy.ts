@@ -16,7 +16,6 @@ context('Viewing a report', () => {
         viewReportUrl = url
         const urlArr = url.split('/')
         tableId = urlArr[urlArr.length - 2]
-        console.log({ tableId })
       })
     })
 

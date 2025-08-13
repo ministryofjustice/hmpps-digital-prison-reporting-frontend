@@ -1,14 +1,23 @@
 {% extends layoutPath %}
 
 {% from "../../../../components/_async/request-details/view.njk" import dprRequestDetails %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
-  <h1 class="govuk-heading-xl">{{ title }}</h1>
+  {{ govukPanel({
+    titleText: "Request submitted"
+  }) }}
 
-  <p class="govuk-body">Your request has been submitted to include the following report to the catalogue:</p>
-  {{ dprRequestDetails(report) }}
+  {% set detailsHtml %}
+    {{ dprRequestDetails(report) }}
+  {% endset %}
+  {{ govukDetails({
+    summaryText: 'Report details',
+    html: detailsHtml
+  }) }}
 
   <h2 class="govuk-heading">What happens next?</h2>
 

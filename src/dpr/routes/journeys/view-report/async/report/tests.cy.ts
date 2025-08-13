@@ -37,31 +37,33 @@ context('Viewing a report', () => {
       it('should show the report details', () => {
         cy.get('.dpr-meta-data-details > .govuk-details__summary').click()
         cy.get('#dpr-request-details-table > tbody > tr').each((row, index) => {
+          const td1 = 'td:nth-child(1) > p'
+          const td2 = 'td:nth-child(2)'
           switch (index) {
             case 0:
-              cy.wrap(row).find('td:nth-child(1) > p').contains('Name')
-              cy.wrap(row).find('td:nth-child(2)').contains('Successful Report')
+              cy.wrap(row).find(td1).contains('Name')
+              cy.wrap(row).find(td2).contains('Successful Report')
               break
             case 1:
-              cy.wrap(row).find('td:nth-child(1) > p').contains('Product')
-              cy.wrap(row).find('td:nth-child(2)').contains('Request examples')
+              cy.wrap(row).find(td1).contains('Product')
+              cy.wrap(row).find(td2).contains('Request examples')
               break
             case 2:
-              cy.wrap(row).find('td:nth-child(1) > p').contains('Description')
-              cy.wrap(row).find('td:nth-child(2)').contains('this will succeed')
+              cy.wrap(row).find(td1).contains('Description')
+              cy.wrap(row).find(td2).contains('this will succeed')
               break
             case 3:
-              cy.wrap(row).find('td:nth-child(1) > p').contains('Classification')
-              cy.wrap(row).find('td:nth-child(2)').contains('OFFICIAL')
+              cy.wrap(row).find(td1).contains('Classification')
+              cy.wrap(row).find(td2).contains('OFFICIAL')
               break
             case 4:
-              cy.wrap(row).find('td:nth-child(1) > p').contains('Requested at')
+              cy.wrap(row).find(td1).contains('Requested at')
               cy.wrap(row)
-                .find('td:nth-child(2)')
+                .find(td2)
                 .contains(/\d{1,2}\/\d{1,2}\/\d{2,4}/)
               break
             case 5:
-              cy.wrap(row).find('td:nth-child(1) > p').contains('Applied Filters')
+              cy.wrap(row).find(td1).contains('Applied Filters')
               cy.wrap(row)
                 .find('td:nth-child(2) > ul > li')
                 .each((li, liIndex) => {

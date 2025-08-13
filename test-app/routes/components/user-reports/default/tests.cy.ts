@@ -11,6 +11,7 @@ context('User reports component', () => {
   })
 
   describe('Requested reports list', () => {
+    const requestedRows = '#dpr-async-request-component > div > table > tbody > tr'
     beforeEach(() => {
       cy.get('#tab_requested-reports-tab').click()
     })
@@ -59,7 +60,7 @@ context('User reports component', () => {
     })
 
     it('should show the product and variant information', () => {
-      const rows = cy.get('#dpr-async-request-component > div > table > tbody > tr')
+      const rows = cy.get(requestedRows)
       rows.each((row) => {
         cy.wrap(row).get('td:nth-child(1) > div > p:nth-child(1) > strong').should('not.be.empty')
         cy.wrap(row).get('td:nth-child(1) > div > p:nth-child(2)').should('not.be.empty')
@@ -71,7 +72,7 @@ context('User reports component', () => {
     })
 
     it('should show the requested filters', () => {
-      const rows = cy.get('#dpr-async-request-component > div > table > tbody > tr')
+      const rows = cy.get(requestedRows)
       rows.each((row) => {
         cy.wrap(row)
           .get('td:nth-child(2) > ul > li')
@@ -85,7 +86,7 @@ context('User reports component', () => {
     })
 
     it('should show the status', () => {
-      const rows = cy.get('#dpr-async-request-component > div > table > tbody > tr')
+      const rows = cy.get(requestedRows)
       rows.each((row) => {
         cy.wrap(row)
           .get('td:nth-child(3) > strong')
@@ -94,7 +95,7 @@ context('User reports component', () => {
     })
 
     it('should show the correct actions', () => {
-      const rows = cy.get('#dpr-async-request-component > div > table > tbody > tr')
+      const rows = cy.get(requestedRows)
       rows.each((row) => {
         cy.wrap(row)
           .find('td:nth-child(3) > strong')
@@ -122,6 +123,8 @@ context('User reports component', () => {
   })
 
   describe('Viewed reports list', () => {
+    const viewedRows = '#dpr-recently-viewed-component > div > table > tbody > tr'
+
     beforeEach(() => {
       cy.get('#tab_recently-viewed-tab').click()
     })
@@ -170,7 +173,7 @@ context('User reports component', () => {
     })
 
     it('should show the product and variant information', () => {
-      const rows = cy.get('#dpr-recently-viewed-component > div > table > tbody > tr')
+      const rows = cy.get(viewedRows)
       rows.each((row) => {
         cy.wrap(row).get('td:nth-child(1) > div > p:nth-child(1) > strong').should('not.be.empty')
         cy.wrap(row).get('td:nth-child(1) > div > p:nth-child(2)').should('not.be.empty')
@@ -182,7 +185,7 @@ context('User reports component', () => {
     })
 
     it('should show the requested filters', () => {
-      const rows = cy.get('#dpr-recently-viewed-component > div > table > tbody > tr')
+      const rows = cy.get(viewedRows)
       rows.each((row) => {
         cy.wrap(row)
           .get('td:nth-child(2) > ul > li')
@@ -196,7 +199,7 @@ context('User reports component', () => {
     })
 
     it('should show the status', () => {
-      const rows = cy.get('#dpr-recently-viewed-component > div > table > tbody > tr')
+      const rows = cy.get(viewedRows)
       rows.each((row) => {
         cy.wrap(row)
           .get('td:nth-child(3) > strong')
@@ -205,7 +208,7 @@ context('User reports component', () => {
     })
 
     it('should show the correct actions', () => {
-      const rows = cy.get('#dpr-recently-viewed-component > div > table > tbody > tr')
+      const rows = cy.get(viewedRows)
       rows.each((row) => {
         cy.wrap(row)
           .find('td:nth-child(3) > strong')
@@ -228,6 +231,7 @@ context('User reports component', () => {
   })
 
   describe('Bookmarked reports list', () => {
+    const bookmarkRows = '#dpr-bookmarks-list > div > table > tbody > tr'
     beforeEach(() => {
       cy.get('#tab_my-bookmarks-tab').click()
     })
@@ -271,7 +275,7 @@ context('User reports component', () => {
     })
 
     it('should show the product and variant information', () => {
-      const rows = cy.get('#dpr-bookmarks-list > div > table > tbody > tr')
+      const rows = cy.get(bookmarkRows)
       rows.each((row) => {
         cy.wrap(row).get('td:nth-child(1) > div > p:nth-child(1) > strong').should('not.be.empty')
         cy.wrap(row).get('td:nth-child(1) > div > p:nth-child(2)').should('not.be.empty')
@@ -283,7 +287,7 @@ context('User reports component', () => {
     })
 
     it('should show the correct actions', () => {
-      const rows = cy.get('#dpr-bookmarks-list > div > table > tbody > tr')
+      const rows = cy.get(bookmarkRows)
       rows.each((row) => {
         cy.wrap(row)
           .find('td:nth-child(3)')

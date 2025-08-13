@@ -51,7 +51,7 @@ context('Bookmarks list', () => {
         cy.get(dashboardCatalogueListingBookmarkToggle).contains('Remove bookmark')
       })
 
-      it('should remove a bookmark to the bookmarks list', () => {
+      it('should remove a bookmark from the bookmarks list', () => {
         cy.get(bookmarksTab).click()
         cy.get(bookmarkListRows).should('have.length', 3)
         cy.get(dashboardCatalogueListingBookmarkToggle).contains('Remove bookmark')

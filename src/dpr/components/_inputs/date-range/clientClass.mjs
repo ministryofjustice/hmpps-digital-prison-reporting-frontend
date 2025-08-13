@@ -55,7 +55,6 @@ export default class DateRangeInput extends DprClientClass {
         this.removeSearchParam(this.durationInputID)
       }
       this.updateInputs(value)
-      // window.location.hash = `tab_${this.fieldName}-date-picker`
     })
   }
 
@@ -64,7 +63,6 @@ export default class DateRangeInput extends DprClientClass {
       this.relativeRangeRadioButtons.forEach((durationRadioButton) => {
         this.updateCheckedDuration(durationRadioButton)
       })
-      // window.location.hash = `tab_${this.fieldName}-relative-range`
     })
   }
 

@@ -110,7 +110,7 @@ context('Bookmarks list', () => {
     it('should remove a bookmark', () => {
       cy.get(bookmarkListRows).should('have.length', 2)
       cy.visit(dashboardPath)
-      cy.get(dashboardBookmarkToggle).contains('Bookmark removed').click()
+      cy.get(dashboardBookmarkToggle).click().contains('Bookmark removed')
       cy.visit(path)
       cy.get(bookmarkListRows).should('have.length', 1)
     })
@@ -118,7 +118,7 @@ context('Bookmarks list', () => {
     it('should add a bookmark', () => {
       cy.get(bookmarkListRows).should('have.length', 1)
       cy.visit(dashboardPath)
-      cy.get(dashboardBookmarkToggle).contains('Bookmarked').click()
+      cy.get(dashboardBookmarkToggle).click().contains('Bookmarked')
       cy.visit(path)
       cy.get(bookmarkListRows).should('have.length', 2)
     })

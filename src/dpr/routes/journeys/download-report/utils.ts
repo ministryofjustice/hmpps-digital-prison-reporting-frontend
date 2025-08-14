@@ -34,9 +34,7 @@ export const getKeys = (reportData: Dict<string>[], fields: components['schemas'
 const applyColumnsAndSort = (data: Dict<string>[], columns: string[]) => {
   return data.map((row) => {
     return Object.keys(row)
-      .filter((key) => {
-        return columns.includes(key)
-      })
+      .filter((key) => columns.includes(key))
       .reduce((obj: Dict<string>, key) => {
         // eslint-disable-next-line no-param-reassign
         obj[key] = row[key]

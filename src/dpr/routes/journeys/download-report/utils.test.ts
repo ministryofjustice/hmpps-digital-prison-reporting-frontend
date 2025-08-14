@@ -2,7 +2,6 @@
 import { Response, Request } from 'express'
 import { Services } from '../../../types/Services'
 import DownloadUtils, { getKeys } from './utils'
-
 import { DownloadPermissionService, ReportingService } from '../../../services'
 import createMockData from '../../../../../test-app/mocks/mockClients/reports/mockAsyncData'
 import { LoadType } from '../../../types/UserReports'

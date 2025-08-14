@@ -9,6 +9,8 @@
 {% block content %}
   <h1 class="govuk-heading-xl">{{ title }}</h1>
 
+  <p class="govuk-body-l">We're constantly updating our reports. To request that this one be added, please fill out the form below.</p>
+
   {% set detailsHtml %}
     {{ dprRequestDetails(report) }}
   {% endset %}
@@ -17,6 +19,7 @@
     html: detailsHtml
   }) }}
 
-  <h2>Request missing report</h2>
+  <h2>Request this report<h2>
+
   {{ dprRequestMissingReportForm(user, report, csrfToken, postEndpoint) }}
 {% endblock %}

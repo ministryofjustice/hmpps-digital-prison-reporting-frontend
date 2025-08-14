@@ -12,21 +12,21 @@
   }) }}
 
   {% set detailsHtml %}
+    <p>You have requested the following report to be added to the catalogue:</p>
     {{ dprRequestDetails(report) }}
   {% endset %}
   {{ govukDetails({
-    summaryText: 'Report details',
+    summaryText: 'Request details',
     html: detailsHtml
   }) }}
 
   <h2 class="govuk-heading">What happens next?</h2>
-
   <ul class="govuk-list govuk-list--bullet">
     <li>The report details have been added to a list for possible future inclusion to the service.</li>
     <li>A member of our team will review your request.</li>
     <li>When a new report is added to the reporting catalogue, you will be notified through the "DPR Rollout Support" Teams channel</li>  
   </ul>
 
-  <a href="/">Return to Report catalogue</a>
+  <a href="{{ nestedBaseUrl }}/">Return to catalogue</a>
 
 {% endblock %}

@@ -18,22 +18,27 @@ const getKeys = (
   reportDefinition: components['schemas']['SingleVariantReportDefinition'],
 ): KeysList => {
   const { fields } = reportDefinition.variant.specification
+  console.log({ fields })
   const keys: KeysList = []
   Object.keys(reportData[0]).forEach((key) => {
+    console.log({ key })
     const field = fields.find((f) => f.name === key)
     keys.push({
       field: key,
       title: field.display,
     })
   })
-
   return keys
 }
 
 const applyColumnsAndSort = (data: Dict<string>[], columns: string[]) => {
+  console.log({ columns })
   return data.map((row) => {
     return Object.keys(row)
-      .filter((key) => columns.includes(key))
+      .filter((key) => {
+        console.log(key, columns.includes(key))
+        return columns.includes(key)
+      })
       .reduce((obj: Dict<string>, key) => {
         // eslint-disable-next-line no-param-reassign
         obj[key] = row[key]
@@ -111,12 +116,14 @@ export default {
           pageSize,
         })
       }
+      console.log(JSON.stringify({ reportData }))
 
       if (columns) {
         reportData = applyColumnsAndSort(reportData, JSON.parse(columns))
       }
       reportData = removeHtmlTags(reportData, reportDefinition)
       const keys: KeysList = getKeys(reportData, reportDefinition)
+      console.log({ keys })
       const csvData = convertToCsv(reportData, { keys })
 
       res.setHeader('Content-Type', 'application/json')

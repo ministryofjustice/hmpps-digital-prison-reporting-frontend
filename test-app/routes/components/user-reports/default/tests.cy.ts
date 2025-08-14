@@ -296,4 +296,30 @@ context('User reports component', () => {
       })
     })
   })
+
+  describe('Polling expired status', () => {
+    it('should poll for the expired status or reports in the list', () => {
+      cy.intercept({
+        method: 'POST',
+        url: '/embedded/platform/dpr/view-report/async/report/**/**/**/report',
+      }).as('expiredPolling')
+
+      cy.wait('@expiredPolling')
+        .its('request')
+        .then((request) => {
+          expect(request.body).to.have.property('id')
+          expect(request.body).to.have.property('reportId')
+          expect(request.body).to.have.property('executionId')
+          expect(request.body).to.have.property('type', 'report')
+          expect(request.body).to.have.property('tableId')
+          expect(request.body).to.have.property('status')
+        })
+
+      cy.wait('@expiredPolling')
+        .its('response')
+        .then((response) => {
+          expect(response.body).to.have.property('isExpired')
+        })
+    })
+  })
 })

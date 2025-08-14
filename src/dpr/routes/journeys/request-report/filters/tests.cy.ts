@@ -317,4 +317,46 @@ describe('Request a report', () => {
       })
     })
   })
+
+  context('Submission', () => {
+    it('should submit the report details in the request', () => {
+      cy.intercept({
+        method: 'POST',
+        url: '/embedded/platform/dpr/request-report/report/**/**/filters?**',
+      }).as('requestSubmit')
+
+      cy.get('#async-request-report-button').click()
+
+      cy.wait('@requestSubmit')
+        .its('request')
+        .then((request) => {
+          cy.wrap(request).its('body').should('include', 'reportId=request-examples')
+          cy.wrap(request).its('body').should('include', 'name=Successful+Report')
+          cy.wrap(request).its('body').should('include', 'reportName=Request+examples')
+          cy.wrap(request).its('body').should('include', 'id=request-example-success')
+        })
+    })
+
+    it('should submit the request with the correct query params', () => {
+      cy.intercept({
+        method: 'POST',
+        url: '/embedded/platform/dpr/request-report/report/**/**/filters?**',
+      }).as('requestSubmit')
+
+      cy.get('#async-request-report-button').click()
+
+      cy.wait('@requestSubmit')
+        .its('request')
+        .then((request) => {
+          expect(request.query).to.have.property('filters.field1', 'value1.2')
+          expect(request.query).to.have.property('filters.field3.end', '2006-05-04')
+          expect(request.query).to.have.property('filters.field3.start', '2003-02-01')
+          expect(request.query).to.have.property('filters.field7', '2005-02-01')
+          expect(request.query).to.have.property('filters.field8')
+          cy.wrap(request.query['filters.field8']).should('deep.eq', ['value8.2', 'value8.3'])
+          expect(request.query).to.have.property('sortColumn', 'field1')
+          expect(request.query).to.have.property('sortedAsc', 'false')
+        })
+    })
+  })
 })

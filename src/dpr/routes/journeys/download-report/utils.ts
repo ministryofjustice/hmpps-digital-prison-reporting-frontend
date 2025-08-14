@@ -13,30 +13,28 @@ const convertToCsv = (reportData: Dict<string>[], options: Json2CsvOptions) => {
   return csvData
 }
 
-const getKeys = (
-  reportData: Dict<string>[],
-  reportDefinition: components['schemas']['SingleVariantReportDefinition'],
-): KeysList => {
-  const { fields } = reportDefinition.variant.specification
-  console.log('Download debugging:', { fields })
+export const getKeys = (reportData: Dict<string>[], fields: components['schemas']['FieldDefinition'][]): KeysList => {
   const keys: KeysList = []
-  Object.keys(reportData[0]).forEach((key) => {
-    console.log('Download debugging:', { key })
-    const field = fields.find((f) => f.name === key)
-    keys.push({
-      field: key,
-      title: field.display,
+  const keyNames: string[] = []
+  reportData.forEach((row) => {
+    Object.keys(row).forEach((key) => {
+      const field = fields.find((f) => f.name === key)
+      if (!keyNames.includes(key)) {
+        keyNames.push(key)
+        keys.push({
+          field: key,
+          title: field.display,
+        })
+      }
     })
   })
   return keys
 }
 
 const applyColumnsAndSort = (data: Dict<string>[], columns: string[]) => {
-  console.log('Download debugging:', { columns })
   return data.map((row) => {
     return Object.keys(row)
       .filter((key) => {
-        console.log('Download debugging:', key, columns.includes(key))
         return columns.includes(key)
       })
       .reduce((obj: Dict<string>, key) => {
@@ -116,14 +114,11 @@ export default {
           pageSize,
         })
       }
-      console.log('Download debugging:', JSON.stringify({ reportData }))
-
       if (columns) {
         reportData = applyColumnsAndSort(reportData, JSON.parse(columns))
       }
       reportData = removeHtmlTags(reportData, reportDefinition)
-      const keys: KeysList = getKeys(reportData, reportDefinition)
-      console.log('Download debugging:', { keys })
+      const keys: KeysList = getKeys(reportData, reportDefinition.variant.specification.fields)
       const csvData = convertToCsv(reportData, { keys })
 
       res.setHeader('Content-Type', 'application/json')
@@ -131,4 +126,5 @@ export default {
       res.end(csvData)
     }
   },
+  getKeys,
 }

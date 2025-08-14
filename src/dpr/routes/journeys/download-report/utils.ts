@@ -18,10 +18,10 @@ const getKeys = (
   reportDefinition: components['schemas']['SingleVariantReportDefinition'],
 ): KeysList => {
   const { fields } = reportDefinition.variant.specification
-  console.log({ fields })
+  console.log('Download debugging:', { fields })
   const keys: KeysList = []
   Object.keys(reportData[0]).forEach((key) => {
-    console.log({ key })
+    console.log('Download debugging:', { key })
     const field = fields.find((f) => f.name === key)
     keys.push({
       field: key,
@@ -32,11 +32,11 @@ const getKeys = (
 }
 
 const applyColumnsAndSort = (data: Dict<string>[], columns: string[]) => {
-  console.log({ columns })
+  console.log('Download debugging:', { columns })
   return data.map((row) => {
     return Object.keys(row)
       .filter((key) => {
-        console.log(key, columns.includes(key))
+        console.log('Download debugging:', key, columns.includes(key))
         return columns.includes(key)
       })
       .reduce((obj: Dict<string>, key) => {
@@ -116,14 +116,14 @@ export default {
           pageSize,
         })
       }
-      console.log(JSON.stringify({ reportData }))
+      console.log('Download debugging:', JSON.stringify({ reportData }))
 
       if (columns) {
         reportData = applyColumnsAndSort(reportData, JSON.parse(columns))
       }
       reportData = removeHtmlTags(reportData, reportDefinition)
       const keys: KeysList = getKeys(reportData, reportDefinition)
-      console.log({ keys })
+      console.log('Download debugging:', { keys })
       const csvData = convertToCsv(reportData, { keys })
 
       res.setHeader('Content-Type', 'application/json')

@@ -30,7 +30,7 @@ export default class MissingReportFormController {
 
     try {
       res.render(`dpr/routes/journeys/request-missing-report/form/view`, {
-        title: 'Request a missing report',
+        title: 'This report is not yet available',
         report: {
           reportId,
           variantId,

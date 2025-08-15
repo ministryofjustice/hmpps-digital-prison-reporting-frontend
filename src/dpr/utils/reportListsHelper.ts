@@ -58,6 +58,7 @@ export const createListActions = (
   loadType?: LoadType,
   bookmarkHtml?: string,
   authorised = true,
+  missing = false,
 ) => {
   if (!authorised) {
     return `<strong class="govuk-tag govuk-tag--red dpr-request-status-tag dpr-request-status-tag--small dpr-unauthorised-report" aria-label="You are unauthorised to view this report">Unauthorised</strong>`
@@ -65,9 +66,9 @@ export const createListActions = (
 
   let requestAction
   let actionText
-  if (type === ReportType.UNAVAILABLE) {
+  if (missing) {
     actionText = `Request report`
-    requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1 dpr-missing-report' href="${href}">${actionText}</a>`
+    requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">${actionText}</a>`
   } else {
     actionText = `Request ${type}`
     if (loadType && loadType === LoadType.SYNC) {
@@ -86,9 +87,16 @@ export const toSentenceCase = (text: string) => {
   return text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
 }
 
-export const setInitialHref = (loadType: LoadType, type: ReportType, reportId: string, id: string, res: Response) => {
+export const setInitialHref = (
+  loadType: LoadType,
+  type: ReportType,
+  reportId: string,
+  id: string,
+  res: Response,
+  isMissing = false,
+) => {
   let href = ''
-  if (type === ReportType.UNAVAILABLE) {
+  if (isMissing) {
     href = `dpr/request-missing-report/${reportId}/${id}/form`
   } else {
     const { pathSuffix, dpdPathFromQuery } = localsHelper.getValues(res)

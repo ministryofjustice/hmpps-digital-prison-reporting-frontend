@@ -10,7 +10,8 @@
   {% set rows = data.rows %}
   {% set id = data.id %}
 
-  <div id="reports-catalogue" class="dpr-reports-wrapper">
+  <div id="reports-catalogue" class="dpr-reports-wrapper" aria-labelledby="dpr-reports-catalogue-heading">
+    <h2 id="dpr-reports-catalogue-heading" class="govuk-heading-l govuk-!-margin-bottom-4">Reports catalogue</h2>
     {% if features.howToUseEnabled %}
       {{ dprCatalogueHowToUse(features) }}
     {% endif %}

@@ -1,6 +1,6 @@
 const variant15 = {
-  id: 'variantId-15',
-  name: 'Relative Daterange',
+  id: 'relative-daterange-with-default',
+  name: 'Relative Daterange with default',
   description: 'Relative Daterange variant',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
@@ -18,6 +18,7 @@ const variant15 = {
         filter: {
           type: 'daterange',
           mandatory: true,
+          defaultQuickFilterValue: 'next-month',
         },
       },
     ],

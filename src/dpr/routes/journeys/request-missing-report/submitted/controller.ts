@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express'
+import localsHelper from '../../../../utils/localsHelper'
 
 export default class MissingReportSubmittedController {
   layoutPath: string
@@ -8,6 +9,7 @@ export default class MissingReportSubmittedController {
   }
 
   GET: RequestHandler = async (req, res, next) => {
+    const { nestedBaseUrl } = localsHelper.getValues(res)
     const { reportId, variantId, reportName, name } = req.query
 
     try {
@@ -19,6 +21,7 @@ export default class MissingReportSubmittedController {
           reportName,
           name,
         },
+        nestedBaseUrl,
         layoutPath: this.layoutPath,
       })
     } catch (error) {

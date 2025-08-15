@@ -89,7 +89,7 @@ context('Catalogue component', () => {
     })
 
     it('should filter the reports by the key word search', () => {
-      cy.get('#dpr-reports-catalogue_search_input').clear().type('Succ')
+      cy.findByRole('textbox', { name: 'Filter by key word' }).clear().type('Succ')
       cy.get('#total-shown').invoke('text').then(parseFloat).should('equal', 3)
       cy.get('#dpr-reports-catalogue > tbody > tr')
         .not('.dpr-search-option-hide')
@@ -100,7 +100,7 @@ context('Catalogue component', () => {
 
     it('should filter the reports via the URL', () => {
       cy.visit(`${path}?dpr-reports-catalogue_search_input=Succ`)
-      cy.get('#dpr-reports-catalogue_search_input').should('have.value', 'Succ')
+      cy.findByRole('textbox', { name: 'Filter by key word' }).should('have.value', 'Succ')
       cy.get('#total-shown').invoke('text').then(parseFloat).should('equal', 3)
       cy.get('#dpr-reports-catalogue > tbody > tr')
         .not('.dpr-search-option-hide')

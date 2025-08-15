@@ -4,6 +4,10 @@
   <div class="dpr-unauthorised-toggle" data-dpr-module="dpr-catalogue-show-unauthorised">
     {% set name = 'Show unauthorised reports' %}
 
+    {% set showUnauthorised = {text:"Show unauthorised reports", value:"show-unauthorised", id: "show-unauthorised" } %}
+    {% set showMissing = { text:"Show missing reports", value:"show-missing", id: "show-missing" } %}
+    {% set hideLive = { text:"Hide live reports", value:"hide-live", id: "hide-live" } %}
+
     {{ govukCheckboxes({
       name: name,
       classes: "dpr-show-unauthorised-checkbox govuk-checkboxes--small",
@@ -22,9 +26,7 @@
         "data-table-id": tableId
       },
       items: [
-        {text:"Show unauthorised reports", value:"show-unauthorised", id: "show-unauthorised" },
-        {text:"Show missing reports", value:"show-missing", id: "show-missing" },
-        {text:"Hide live reports", value:"hide-live", id: "hide-live" }
+        showUnauthorised
       ],
       values: []
     }) }}

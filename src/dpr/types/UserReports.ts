@@ -164,4 +164,5 @@ export interface DefinitionData {
   reportDescription: string
   loadType?: LoadType
   authorised: boolean
+  isMissing: boolean
 }

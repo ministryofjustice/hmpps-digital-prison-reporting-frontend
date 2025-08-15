@@ -33,30 +33,29 @@ export default {
           authorised: boolean
         },
       ) => {
-        const { id: reportId, name: reportName, description: reportDescription } = def
-        const { variants } = def
-        const { dashboards } = def
-        const { authorised } = def
+        const { id: reportId, name: reportName, description: reportDescription, variants, dashboards, authorised } = def
 
-        const variantsArray = variants.map((variant: components['schemas']['VariantDefinitionSummary']) => {
-          const { id, name, description, isMissing } = variant
+        const variantsArray: DefinitionData[] = variants.map(
+          (variant: components['schemas']['VariantDefinitionSummary']) => {
+            const { id, name, description, isMissing } = variant
 
-          // NOTE: loadType added to VariantDefinitionSummary mocked data to dictate the load/request journey. Not present in API response. To discuss
-          const { loadType } = <components['schemas']['VariantDefinitionSummary']>variant
+            // NOTE: loadType added to VariantDefinitionSummary mocked data to dictate the load/request journey. Not present in API response. To discuss
+            const { loadType } = <components['schemas']['VariantDefinitionSummary']>variant
 
-          return {
-            reportName,
-            reportId,
-            id,
-            name,
-            description,
-            type: !isMissing ? ReportType.REPORT : ReportType.UNAVAILABLE,
-            loadType,
-            authorised,
-            isMissing,
-            ...(reportDescription && reportDescription.length && { reportDescription }),
-          }
-        })
+            return {
+              reportName,
+              reportId,
+              id,
+              name,
+              description,
+              type: ReportType.REPORT,
+              loadType,
+              authorised,
+              isMissing,
+              ...(reportDescription && reportDescription.length && { reportDescription }),
+            }
+          },
+        )
 
         let dashboardsArray: DefinitionData[] = []
         if (dashboards) {
@@ -68,9 +67,10 @@ export default {
               id,
               name,
               description,
-              type: !isMissing ? ReportType.DASHBOARD : ReportType.UNAVAILABLE,
+              type: ReportType.DASHBOARD,
               reportDescription,
               authorised,
+              isMissing,
             }
           })
         }
@@ -89,10 +89,21 @@ export default {
 
     const rows = await Promise.all(
       sortedVariants.map(async (v: DefinitionData) => {
-        const { id, name, description, reportName, reportId, reportDescription, type, loadType, authorised } = v
+        const {
+          id,
+          name,
+          description,
+          reportName,
+          reportId,
+          reportDescription,
+          type,
+          loadType,
+          authorised,
+          isMissing,
+        } = v
         const desc = description || reportDescription
 
-        const href = setInitialHref(loadType, type, reportId, id, res)
+        const href = setInitialHref(loadType, type, reportId, id, res, isMissing)
 
         let bookmarkHtml
         const showBookMarkToggle =
@@ -113,7 +124,7 @@ export default {
           { html: `<p class="govuk-body-s">${reportName}</p>` },
           { html: createListItemProductMin(name, <ReportType>type) },
           { html: ShowMoreUtils.createShowMoreHtml(desc) },
-          { html: createListActions(href, type, loadType, bookmarkHtml, authorised) },
+          { html: createListActions(href, type, loadType, bookmarkHtml, authorised, isMissing) },
         ]
       }),
     )

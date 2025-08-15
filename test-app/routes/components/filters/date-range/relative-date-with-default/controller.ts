@@ -10,11 +10,12 @@ export default class DateRangeController {
       type: 'daterange' as components['schemas']['FilterDefinition']['type'],
       mandatory: true,
       defaultValue: '2003-02-01 - 2007-05-04',
+      defaultQuickFilterValue: 'last-week' as components['schemas']['FilterDefinition']['defaultQuickFilterValue'],
     }
 
     const filterData: FilterValue = {
-      text: 'Default Date-range',
-      name: 'default-date-range',
+      text: 'Relative date-range with default',
+      name: 'relative-date-range-with-default',
       type: FilterType.dateRange,
       mandatory: true,
     }

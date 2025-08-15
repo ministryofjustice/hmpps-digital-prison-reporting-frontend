@@ -5,8 +5,8 @@ context('Inputs: date range', () => {
 
   beforeEach(() => {
     cy.visit(path)
-    dateRangeStart = cy.get('input[name="filters.date-range.start"]')
-    dateRangeEnd = cy.get('input[name="filters.date-range.end"]')
+    dateRangeStart = cy.findByRole('textbox', { name: 'From' })
+    dateRangeEnd = cy.findByRole('textbox', { name: 'To' })
   })
 
   it('is accessible', () => {
@@ -46,87 +46,78 @@ context('Inputs: date range', () => {
     it('should set the selected filters correctly', () => {
       setDateRangeValuesViaInput()
 
-      const selectedFilters = cy.get('#dpr-selected-filters').children()
-      selectedFilters.should('have.length', 3)
-      selectedFilters.each((filter, index) => {
-        switch (index) {
-          case 0:
-            cy.wrap(filter).contains('Date-range start')
-            cy.wrap(filter).contains('02/05/2025')
-            break
-          case 1:
-            cy.wrap(filter).contains('Date-range end')
-            cy.wrap(filter).contains('05/07/2025')
-            break
-          default:
-            break
-        }
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link')
+          .should('have.length', 3)
+          .each((filter, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(filter).contains('Date-range start')
+                cy.wrap(filter).contains('02/05/2025')
+                break
+              case 1:
+                cy.wrap(filter).contains('Date-range end')
+                cy.wrap(filter).contains('05/07/2025')
+                break
+              default:
+                break
+            }
+          })
       })
     })
 
     it('should set the selected filters correctly with single digits', () => {
       setDateRangeValuesViaInputSingleDigit()
 
-      const selectedFilters = cy.get('#dpr-selected-filters').children()
-      selectedFilters.should('have.length', 3)
-      selectedFilters.each((filter, index) => {
-        switch (index) {
-          case 0:
-            cy.wrap(filter).contains('Date-range start')
-            cy.wrap(filter).contains('2/5/2025')
-            break
-          case 1:
-            cy.wrap(filter).contains('Date-range end')
-            cy.wrap(filter).contains('5/7/2025')
-            break
-          default:
-            break
-        }
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link')
+          .should('have.length', 3)
+          .each((filter, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(filter).contains('Date-range start')
+                cy.wrap(filter).contains('2/5/2025')
+                break
+              case 1:
+                cy.wrap(filter).contains('Date-range end')
+                cy.wrap(filter).contains('5/7/2025')
+                break
+              default:
+                break
+            }
+          })
       })
     })
   })
 
   describe('Setting the value via the datepicker', () => {
     const setDateRangeValuesViaCalendar = () => {
-      cy.get(
-        '#dpr-date-range > div > div.dpr-daterange__start-date > div > div > div > div.moj-datepicker__wrapper > div.govuk-input__wrapper > button',
-      ).click()
-      cy.get('.moj-datepicker__dialog--open').should('be.visible')
+      cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
       cy.get('button[data-testid="11/8/2025"]').eq(0).click()
 
-      cy.get(
-        '#dpr-date-range > div > div.dpr-daterange__end-date > div > div > div > div.moj-datepicker__wrapper > div.govuk-input__wrapper > button',
-      ).click()
-      cy.get('.moj-datepicker__dialog--open').should('be.visible')
+      cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
       cy.get('button[data-testid="30/8/2025"]').eq(1).click()
     }
 
     const setDateRangeValuesViaCalendarSingleDigit = () => {
-      cy.get(
-        '#dpr-date-range > div > div.dpr-daterange__start-date > div > div > div > div.moj-datepicker__wrapper > div.govuk-input__wrapper > button',
-      ).click()
-      cy.get('.moj-datepicker__dialog--open').should('be.visible')
+      cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
       cy.get('button[data-testid="1/8/2025"]').eq(0).click()
-
-      cy.get(
-        '#dpr-date-range > div > div.dpr-daterange__end-date > div > div > div > div.moj-datepicker__wrapper > div.govuk-input__wrapper > button',
-      ).click()
-      cy.get('.moj-datepicker__dialog--open').should('be.visible')
+      cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
       cy.get('button[data-testid="9/8/2025"]').eq(1).click()
     }
 
     it('should set the date value in the inputs', () => {
       setDateRangeValuesViaCalendar()
 
-      cy.get('input[name="filters.date-range.start"]').should('have.value', '11/8/2025')
-      cy.get('input[name="filters.date-range.end"]').should('have.value', '30/8/2025')
+      cy.findByRole('textbox', { name: 'From' }).should('have.value', '11/8/2025')
+      cy.findByRole('textbox', { name: 'To' }).should('have.value', '30/8/2025')
     })
 
     it('should set the date value in the inputs - single digits', () => {
       setDateRangeValuesViaCalendarSingleDigit()
 
-      cy.get('input[name="filters.date-range.start"]').should('have.value', '1/8/2025')
-      cy.get('input[name="filters.date-range.end"]').should('have.value', '9/8/2025')
+      cy.findByRole('textbox', { name: 'From' }).should('have.value', '1/8/2025')
+      cy.findByRole('textbox', { name: 'To' }).should('have.value', '9/8/2025')
     })
 
     it('should set the date value correctly in the query string', () => {
@@ -150,42 +141,44 @@ context('Inputs: date range', () => {
     it('should set the selected filters correctly', () => {
       setDateRangeValuesViaCalendar()
 
-      const selectedFilters = cy.get('#dpr-selected-filters').children()
-      selectedFilters.should('have.length', 3)
-      selectedFilters.each((filter, index) => {
-        switch (index) {
-          case 0:
-            cy.wrap(filter).contains('Date-range start')
-            cy.wrap(filter).contains('11/8/2025')
-            break
-          case 1:
-            cy.wrap(filter).contains('Date-range end')
-            cy.wrap(filter).contains('30/8/2025')
-            break
-          default:
-            break
-        }
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').each((filter, index) => {
+          switch (index) {
+            case 0:
+              cy.wrap(filter).contains('Date-range start')
+              cy.wrap(filter).contains('11/8/2025')
+              break
+            case 1:
+              cy.wrap(filter).contains('Date-range end')
+              cy.wrap(filter).contains('30/8/2025')
+              break
+            default:
+              break
+          }
+        })
       })
     })
 
     it('should set the selected filters correctly with single digits', () => {
       setDateRangeValuesViaCalendarSingleDigit()
 
-      const selectedFilters = cy.get('#dpr-selected-filters').children()
-      selectedFilters.should('have.length', 3)
-      selectedFilters.each((filter, index) => {
-        switch (index) {
-          case 0:
-            cy.wrap(filter).contains('Date-range start')
-            cy.wrap(filter).contains('1/8/2025')
-            break
-          case 1:
-            cy.wrap(filter).contains('Date-range end')
-            cy.wrap(filter).contains('9/8/2025')
-            break
-          default:
-            break
-        }
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link')
+          .should('have.length', 3)
+          .each((filter, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(filter).contains('Date-range start')
+                cy.wrap(filter).contains('1/8/2025')
+                break
+              case 1:
+                cy.wrap(filter).contains('Date-range end')
+                cy.wrap(filter).contains('9/8/2025')
+                break
+              default:
+                break
+            }
+          })
       })
     })
   })
@@ -194,24 +187,26 @@ context('Inputs: date range', () => {
     it('should set the date value from the query string', () => {
       cy.visit(`${path}?filters.date-range.start=2024-11-01&filters.date-range.end=2025-06-11`)
 
-      cy.get('input[name="filters.date-range.start"]').should('have.value', '01/11/2024')
-      cy.get('input[name="filters.date-range.end"]').should('have.value', '11/06/2025')
+      cy.findByRole('textbox', { name: 'From' }).should('have.value', '01/11/2024')
+      cy.findByRole('textbox', { name: 'To' }).should('have.value', '11/06/2025')
 
-      const selectedFilters = cy.get('#dpr-selected-filters').children()
-      selectedFilters.should('have.length', 3)
-      selectedFilters.each((filter, index) => {
-        switch (index) {
-          case 0:
-            cy.wrap(filter).contains('Date-range start')
-            cy.wrap(filter).contains('01/11/2024')
-            break
-          case 1:
-            cy.wrap(filter).contains('Date-range end')
-            cy.wrap(filter).contains('11/06/2025')
-            break
-          default:
-            break
-        }
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link')
+          .should('have.length', 3)
+          .each((filter, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(filter).contains('Date-range start')
+                cy.wrap(filter).contains('01/11/2024')
+                break
+              case 1:
+                cy.wrap(filter).contains('Date-range end')
+                cy.wrap(filter).contains('11/06/2025')
+                break
+              default:
+                break
+            }
+          })
       })
     })
   })
@@ -226,13 +221,19 @@ context('Inputs: date range', () => {
         expect(location.search).to.contain(`filters.date-range.end=2025-07-05`)
       })
 
-      cy.get('#dpr-selected-filters').children().should('have.length', 3)
-      cy.get('#async-request-reset-filters-button').click()
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').should('have.length', 3)
+      })
+
+      cy.findByRole('link', { name: 'Reset filters' }).click()
+
       cy.location().should((location) => {
         expect(location.search).not.to.contain(`filters.date-range.start`)
         expect(location.search).not.to.contain(`filters.date-range.end`)
       })
-      cy.get('#dpr-selected-filters').children().should('have.length', 2)
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').should('have.length', 1)
+      })
     })
   })
 })

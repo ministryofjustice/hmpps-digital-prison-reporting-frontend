@@ -14,13 +14,13 @@ context('Inputs: Relative date range', () => {
       cy.visit(path)
     })
     it('should initialise the start and end values', () => {
-      cy.get('input[id="filters.relative-date-range-with-default.start"]').should('not.have.value', '')
-      cy.get('input[id="filters.relative-date-range-with-default.end"]').should('not.have.value', '')
+      cy.findByRole('textbox', { name: 'From' }).should('not.have.value', '')
+      cy.findByRole('textbox', { name: 'To' }).should('not.have.value', '')
     })
 
     it('should initialise the relative date', () => {
-      cy.get('#tab_relative-date-range-with-default-relative-range').click()
-      cy.get('input[id="filters.relative-date-range-with-default.relative-duration-4"]').should('be.checked')
+      cy.findByRole('tab', { name: 'Preset date ranges' }).click()
+      cy.findByRole('radio', { name: 'Last week' }).should('be.checked')
     })
   })
 
@@ -35,6 +35,7 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.field1.start=`)
         expect(location.search).to.contain(`filters.field1.end=`)
       })
+
       cy.get('#dpr-selected-filters')
         .children()
         .each((filter, index) => {
@@ -48,14 +49,15 @@ context('Inputs: Relative date range', () => {
           }
         })
 
-      cy.get(`#dpr-save-user-defaults`).click()
+      cy.findByRole('button', { name: 'Save current filter values as defaults for this report' })
+        .should('exist')
+        .click()
 
       cy.location().should((location) => {
         expect(location.search).to.contain('defaultsSaved=true')
       })
 
-      cy.get(`#dpr-save-user-defaults`).contains('Update defaults')
-      cy.get('#dpr-remove-user-defaults').should('exist')
+      cy.findByRole('button', { name: 'Update defaults' }).should('exist')
 
       cy.get('#dpr-selected-filters')
         .children()
@@ -79,8 +81,7 @@ context('Inputs: Relative date range', () => {
         expect(location.search).not.to.contain(`defaultsSaved=true`)
       })
 
-      cy.get(`#dpr-save-user-defaults`).contains('Update defaults')
-      cy.get('#dpr-remove-user-defaults').should('exist')
+      cy.findByRole('button', { name: 'Update defaults' }).should('exist')
 
       const selectedFilters = cy.get('#dpr-selected-filters').children()
       selectedFilters.each((filter, index) => {
@@ -94,15 +95,14 @@ context('Inputs: Relative date range', () => {
         }
       })
 
-      cy.get('#tab_field1-relative-range').click()
-      cy.get('input[id="filters.field1.relative-duration-7"]').should('be.checked')
+      cy.findByRole('tab', { name: 'Preset date ranges' }).click()
+      cy.findByRole('radio', { name: 'Next month' }).should('be.checked')
     })
 
     it('should update the saved defaults', () => {
-      cy.get('#tab_field1-relative-range').click()
-      cy.get('input[id="filters.field1.relative-duration-4"]').click()
-
-      cy.get(`#dpr-save-user-defaults`).click()
+      cy.findByRole('tab', { name: 'Preset date ranges' }).click()
+      cy.findByRole('radio', { name: 'Last week' }).check()
+      cy.findByRole('button', { name: 'Update defaults' }).should('exist').click()
 
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.field1.relative-duration=last-week`)
@@ -133,7 +133,8 @@ context('Inputs: Relative date range', () => {
     })
 
     it('should remove the save defaults', () => {
-      cy.get(`#dpr-remove-user-defaults`).click()
+      cy.findByRole('tab', { name: 'Preset date ranges' }).click()
+      cy.findByRole('button', { name: 'Delete defaults' }).click().should('exist')
 
       cy.location().should((location) => {
         expect(location.search).contain(`filters.field1.relative-duration=next-month`)

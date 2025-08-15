@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response, Request } from 'express'
 import { Services } from '../../../types/Services'
-import DownloadUtils from './utils'
+import DownloadUtils, { getKeys } from './utils'
 import { DownloadPermissionService, ReportingService } from '../../../services'
 import createMockData from '../../../../../test-app/mocks/mockClients/reports/mockAsyncData'
 import { LoadType } from '../../../types/UserReports'
@@ -128,6 +128,30 @@ Value 1,Value 2,2003-02-01T01:00`
       })
 
       expect(redirectSpy).toHaveBeenCalledWith(`/async/report/reportId/id/request/tableId/report/download-disabled`)
+    })
+
+    it('should get the data keys to map to the display name', () => {
+      const data = [
+        { one: 'one', two: 'two' },
+        { one: 'one', two: 'two', three: 'three', four: 'four' },
+        { one: 'one', two: 'two', three: 'three' },
+      ]
+
+      const fields = [
+        { name: 'one', display: 'One' },
+        { name: 'two', display: 'Two' },
+        { name: 'three', display: 'Three' },
+        { name: 'four', display: 'Four' },
+      ]
+
+      const keys = getKeys(data, <components['schemas']['FieldDefinition'][]>fields)
+
+      expect(keys).toEqual([
+        { field: 'one', title: 'One' },
+        { field: 'two', title: 'Two' },
+        { field: 'three', title: 'Three' },
+        { field: 'four', title: 'Four' },
+      ])
     })
   })
 })

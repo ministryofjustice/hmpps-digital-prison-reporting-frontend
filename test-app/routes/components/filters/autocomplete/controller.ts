@@ -2,23 +2,41 @@ import { RequestHandler } from 'express'
 
 export default class AutocompleteController {
   GET: RequestHandler = async (req, res, next) => {
-    res.render('views/pages/components/filters/autocomplete/view.njk', {
-      title: 'Autocomplete input',
-      options: {
-        id: 'people',
-        name: 'people',
-        items: [
-          { text: 'Magnar Azure' },
-          { text: 'Quinctus Zainabu' },
-          { text: 'Paraskevi Munroe' },
-          { text: 'Gundega Johanneke' },
-          { text: 'Konjit Taina' },
-          { text: 'Lennie Alma' },
-          { text: 'Murad Ali' },
+    const filters = [
+      {
+        text: 'Autocomplete',
+        name: 'autocomplete',
+        type: 'autocomplete',
+        minimumLength: 3,
+        mandatory: true,
+        options: [
+          {
+            value: 'Fezzick',
+            text: 'Fezzick',
+          },
+          {
+            value: 'Inigo Montoya',
+            text: 'Inigo Montoya',
+          },
+          {
+            value: 'PrHu',
+            text: 'Prince Humperdink',
+          },
+          {
+            value: 'Princess Buttercup',
+            text: 'Princess Buttercup',
+          },
+          {
+            value: 'Westley',
+            text: 'Westley',
+          },
         ],
-        labelText: 'People',
-        minimumlength: 1,
       },
+    ]
+
+    res.render('views/pages/components/filters/view.njk', {
+      title: 'Autocomplete input',
+      filters,
     })
   }
 }

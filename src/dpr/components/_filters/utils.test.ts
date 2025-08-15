@@ -1028,6 +1028,7 @@ describe('Filters Utils tests', () => {
           value: {
             start: '2004-02-01',
             end: '2008-05-04',
+            relative: '',
           },
           minimumLength: null,
           dynamicResourceEndpoint: null,

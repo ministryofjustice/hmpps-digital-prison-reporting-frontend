@@ -8,7 +8,7 @@ import ReportDataStore from '../../dist/dpr/data/reportDataStore'
 import createDprServices from '../../dist/dpr/utils/ReportStoreServiceUtils'
 import setUpDprResources from '../../dist/dpr/middleware/setUpDprResources'
 
-export default function initMockClients(router: Router) {
+export default function initMockClients(router: Router, featureConfig?: { bookmarking?: boolean; download?: boolean }) {
   // 1. Init Data clients
   const reportingClient = new MockReportingClient() as unknown as ReportingClient
   const dashboardClient = new MockDashboardClient() as unknown as DashboardClient
@@ -16,7 +16,7 @@ export default function initMockClients(router: Router) {
 
   // 2. Create services
   const services = {
-    ...createDprServices({ reportingClient, dashboardClient, reportDataStore }),
+    ...createDprServices({ reportingClient, dashboardClient, reportDataStore }, featureConfig),
   }
 
   router.use(setUpDprResources(services))

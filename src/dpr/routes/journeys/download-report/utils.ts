@@ -13,20 +13,21 @@ const convertToCsv = (reportData: Dict<string>[], options: Json2CsvOptions) => {
   return csvData
 }
 
-const getKeys = (
-  reportData: Dict<string>[],
-  reportDefinition: components['schemas']['SingleVariantReportDefinition'],
-): KeysList => {
-  const { fields } = reportDefinition.variant.specification
+export const getKeys = (reportData: Dict<string>[], fields: components['schemas']['FieldDefinition'][]): KeysList => {
   const keys: KeysList = []
-  Object.keys(reportData[0]).forEach((key) => {
-    const field = fields.find((f) => f.name === key)
-    keys.push({
-      field: key,
-      title: field.display,
+  const keyNames: string[] = []
+  reportData.forEach((row) => {
+    Object.keys(row).forEach((key) => {
+      const field = fields.find((f) => f.name === key)
+      if (!keyNames.includes(key)) {
+        keyNames.push(key)
+        keys.push({
+          field: key,
+          title: field.display,
+        })
+      }
     })
   })
-
   return keys
 }
 
@@ -111,12 +112,11 @@ export default {
           pageSize,
         })
       }
-
       if (columns) {
         reportData = applyColumnsAndSort(reportData, JSON.parse(columns))
       }
       reportData = removeHtmlTags(reportData, reportDefinition)
-      const keys: KeysList = getKeys(reportData, reportDefinition)
+      const keys: KeysList = getKeys(reportData, reportDefinition.variant.specification.fields)
       const csvData = convertToCsv(reportData, { keys })
 
       res.setHeader('Content-Type', 'application/json')
@@ -124,4 +124,5 @@ export default {
       res.end(csvData)
     }
   },
+  getKeys,
 }

@@ -1,5 +1,6 @@
 import { components } from '../../../types/api'
-import { DateRange } from '../../_filters/types'
+import { DateRange, FilterValue } from '../../_filters/types'
+import RelativeDateRange from '../date-range/types'
 
 const setDateRangeValuesWithinMinMax = (
   filter: components['schemas']['FilterDefinition'],
@@ -39,23 +40,22 @@ const compareMax = (max: string, dateValue: string) => {
   return date > maxDate ? max : dateValue
 }
 
-const getStartAndEndValueFromDefinition = (filter: components['schemas']['FilterDefinition']) => {
-  const { min, max, defaultValue } = filter
+const getStartAndEndValueFromDefinition = (filter: components['schemas']['FilterDefinition']): DateRange => {
+  const { min, max, defaultValue, defaultQuickFilterValue } = filter
 
-  let startValue
-  let endValue
-  if (min) startValue = min
-  if (max) endValue = max
-
-  const dateRegEx = /^\d{1,4}-\d{1,2}-\d{2,2} - \d{1,4}-\d{1,2}-\d{1,2}$/
-  let value
-  if (defaultValue && defaultValue.match(dateRegEx)) {
-    ;[startValue, endValue] = defaultValue.split(' - ')
-    value = setDateRangeValuesWithinMinMax(filter, startValue, endValue)
-  } else if (defaultValue) {
-    value = defaultValue
+  let value: DateRange = { start: '', end: '' }
+  if (defaultQuickFilterValue) {
+    value.relative = defaultQuickFilterValue as RelativeDateRange
   } else {
-    value = setDateRangeValuesWithinMinMax(filter, startValue, endValue)
+    let startValue
+    let endValue
+    if (min) startValue = min
+    if (max) endValue = max
+    const dateRegEx = /^\d{1,4}-\d{1,2}-\d{2,2} - \d{1,4}-\d{1,2}-\d{1,2}$/
+    if (defaultValue && defaultValue.match(dateRegEx)) {
+      ;[startValue, endValue] = defaultValue.split(' - ')
+      value = setDateRangeValuesWithinMinMax(filter, startValue, endValue)
+    }
   }
 
   return value

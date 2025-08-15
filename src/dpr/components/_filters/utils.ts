@@ -324,10 +324,7 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
           break
 
         case FilterType.granularDateRange.toLocaleLowerCase(): {
-          const granularDateRangeFilter = filter as components['schemas']['FilterDefinition'] & {
-            defaultGranularity: Granularity
-            defaultQuickFilterValue: QuickFilters
-          }
+          const granularDateRangeFilter = filter as components['schemas']['FilterDefinition']
           filterData = GranularDateRangeInputUtils.getFilterFromDefinition(granularDateRangeFilter, filterData)
           break
         }

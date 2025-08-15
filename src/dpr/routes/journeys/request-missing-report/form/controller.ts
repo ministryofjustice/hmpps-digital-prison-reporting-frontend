@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express'
+import { Response } from 'superagent'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { components } from '../../../../types/api'
 import { Services } from '../../../../types/Services'
 import MissingReportClient from '../../../../services/missingReport/missingReportClient'
 import { ReportingService } from '../../../../services'
-import { Response } from 'superagent'
 
 export default class MissingReportFormController {
   layoutPath: string
@@ -53,17 +53,22 @@ export default class MissingReportFormController {
     const { reportId, variantId, reportName, variantName } = body
 
     const { token } = LocalsHelper.getValues(res)
-    
-    await this.missingReportClient.submitMissingReportEntry(token, reportId, variantId, body).then(() => {
-      const queryParams = `reportName=${reportName}&name=${variantName}&reportId=${reportId}&variantId=${variantId}`
-      const redirect = `./submitted?${queryParams}`
-  
-      res.redirect(redirect)
-    }, () => {
-      res.render(`dpr/components/serviceError/view`)
-    }
-  ).catch(() => {
-      res.render(`dpr/components/serviceError/view`)
-    })
+
+    await this.missingReportClient
+      .submitMissingReportEntry(token, reportId, variantId, body)
+      .then(
+        () => {
+          const queryParams = `reportName=${reportName}&name=${variantName}&reportId=${reportId}&variantId=${variantId}`
+          const redirect = `./submitted?${queryParams}`
+
+          res.redirect(redirect)
+        },
+        () => {
+          res.render(`dpr/components/serviceError/view`)
+        },
+      )
+      .catch(() => {
+        res.render(`dpr/components/serviceError/view`)
+      })
   }
 }

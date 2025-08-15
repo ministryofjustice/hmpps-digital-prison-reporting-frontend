@@ -2,19 +2,22 @@ context('Request missing report', () => {
   const path = '/embedded/platform/'
 
   beforeEach(() => {
+    cy.task('reset')
+    cy.task('stubSubmitMissingRequest')
+    cy.task('stubGetDefinition')
     cy.visit(path)
-    cy.get('#dpr-reports-catalogue_search_input').type('Missing report')
+    cy.findByRole('textbox', { name: 'Filter by key word' }).type('Missing report')
     cy.get('#dpr-reports-catalogue > tbody > tr:nth-child(19) > td:nth-child(4) > a').click()
   })
 
   describe('Request form page', () => {
     it('should show the request form page when a report is missing', () => {
       cy.url().should('have.string', 'dpr/request-missing-report/feature-testing/feature-testing-missing-1/form')
-      cy.get('#main-content > h1').contains('This report is not yet available')
+      cy.findByRole('heading', { name: 'This report is not yet available' }).should('exist')
     })
 
     it('should show the details of the report being requested', () => {
-      cy.get('#main-content > details > summary').click()
+      cy.findByRole('group').contains('Report details').click()
       cy.get('#main-content > details > div > div > table > tbody > tr').each((row, index) => {
         const td1 = 'td:nth-child(1) > p'
         const td2 = 'td:nth-child(2)'
@@ -38,7 +41,8 @@ context('Request missing report', () => {
     })
 
     it('should show the request form', () => {
-      cy.get('#dpr-form').should('be.visible')
+      cy.findByRole('heading', { name: 'Request this report' }).should('be.visible')
+      cy.findByRole('textbox', { name: 'Why do you need this report? (Optional)' }).should('be.visible')
     })
 
     it('should have the report data in the form', () => {
@@ -52,17 +56,13 @@ context('Request missing report', () => {
       cy.get('#dpr-form > input[name="staffId"]').should('exist')
     })
 
-    it('should have a text area to add description of usage', () => {
-      cy.get('#more-detail').should('exist')
-    })
-
     it('should submit the missing report request', () => {
       cy.intercept({
         method: 'POST',
         url: '/embedded/platform/dpr/request-missing-report/**/**/form',
       }).as('requestSubmit')
 
-      cy.get('#dpr-form-summary--form-submit').click()
+      cy.findByRole('button', { name: /Submit/ }).click()
 
       cy.wait('@requestSubmit')
         .its('request')
@@ -76,7 +76,7 @@ context('Request missing report', () => {
     })
 
     it('should go to the submitted page when', () => {
-      cy.get('#dpr-form-summary--form-submit').click()
+      cy.findByRole('button', { name: /Submit/ }).click()
       cy.url().should(
         'have.string',
         'http://localhost:3010/embedded/platform/dpr/request-missing-report/feature-testing/feature-testing-missing-1/submitted?reportName=Feature%20testing&name=Missing%20Report%201&reportId=feature-testing&variantId=feature-testing-missing-1',
@@ -86,7 +86,7 @@ context('Request missing report', () => {
 
   describe('Submitted page', () => {
     it('should show that the details of the request', () => {
-      cy.get('#dpr-form-summary--form-submit').click()
+      cy.findByRole('button', { name: /Submit/ }).click()
       cy.get('#main-content > details > summary').click()
       cy.get('#main-content > details > div > div > table > tbody > tr').each((row, index) => {
         const td1 = 'td:nth-child(1) > p'

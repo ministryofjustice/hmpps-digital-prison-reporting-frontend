@@ -61,11 +61,11 @@ describe('Request a report', () => {
             cy.wrap(filter).contains('Value 1.2')
             break
           case 1:
-            cy.wrap(filter).contains('Start date')
+            cy.wrap(filter).contains('Field 3 start')
             cy.wrap(filter).contains('01/02/2003')
             break
           case 2:
-            cy.wrap(filter).contains('End date')
+            cy.wrap(filter).contains('Field 3 end')
             cy.wrap(filter).contains('04/05/2006')
             break
           case 3:
@@ -120,11 +120,11 @@ describe('Request a report', () => {
             cy.wrap(filter).contains('Value 2.2')
             break
           case 1:
-            cy.wrap(filter).contains('Start date')
+            cy.wrap(filter).contains('Field 3 start')
             cy.wrap(filter).contains('01/02/2003')
             break
           case 2:
-            cy.wrap(filter).contains('End date')
+            cy.wrap(filter).contains('Field 3 end')
             cy.wrap(filter).contains('4/5/2007')
             break
           case 3:
@@ -315,6 +315,48 @@ describe('Request a report', () => {
         expect(location.search).to.contain(`filters.field7=2005-02-01`)
         expect(location.search).to.contain(`filters.field8=value8.2&filters.field8=value8.3`)
       })
+    })
+  })
+
+  context('Submission', () => {
+    it('should submit the report details in the request', () => {
+      cy.intercept({
+        method: 'POST',
+        url: '/embedded/platform/dpr/request-report/report/**/**/filters?**',
+      }).as('requestSubmit')
+
+      cy.get('#async-request-report-button').click()
+
+      cy.wait('@requestSubmit')
+        .its('request')
+        .then((request) => {
+          cy.wrap(request).its('body').should('include', 'reportId=request-examples')
+          cy.wrap(request).its('body').should('include', 'name=Successful+Report')
+          cy.wrap(request).its('body').should('include', 'reportName=Request+examples')
+          cy.wrap(request).its('body').should('include', 'id=request-example-success')
+        })
+    })
+
+    it('should submit the request with the correct query params', () => {
+      cy.intercept({
+        method: 'POST',
+        url: '/embedded/platform/dpr/request-report/report/**/**/filters?**',
+      }).as('requestSubmit')
+
+      cy.get('#async-request-report-button').click()
+
+      cy.wait('@requestSubmit')
+        .its('request')
+        .then((request) => {
+          expect(request.query).to.have.property('filters.field1', 'value1.2')
+          expect(request.query).to.have.property('filters.field3.end', '2006-05-04')
+          expect(request.query).to.have.property('filters.field3.start', '2003-02-01')
+          expect(request.query).to.have.property('filters.field7', '2005-02-01')
+          expect(request.query).to.have.property('filters.field8')
+          cy.wrap(request.query['filters.field8']).should('deep.eq', ['value8.2', 'value8.3'])
+          expect(request.query).to.have.property('sortColumn', 'field1')
+          expect(request.query).to.have.property('sortedAsc', 'false')
+        })
     })
   })
 })

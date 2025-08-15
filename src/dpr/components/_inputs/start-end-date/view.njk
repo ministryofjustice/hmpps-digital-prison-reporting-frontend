@@ -1,6 +1,12 @@
 {% from "../date-input/view.njk" import dprDate %}
 
-{% macro dprStartEndDate(name, value, min, max, mandatory, label) %}
+{% macro dprStartEndDate(data, mandatory, label) %}
+  {% set name = data.name %}
+  {% set text = data.text %}
+  {% set value = data.value %}
+  {% set min = data.min %}
+  {% set max = data.max %}
+
   {# START #}
   <div class="dpr-daterange__start-end-date-wrapper">
      {% if label %}
@@ -17,7 +23,7 @@
           min: min,
           max: max,
           mandatory: mandatory,
-          displayName: 'Start date'
+          displayName: text + ' start'
         },
         'From',
         '.start',
@@ -35,7 +41,7 @@
           min: min,
           max: max,
           mandatory: mandatory,
-          displayName: 'End date'
+          displayName: text + ' end'
         },
         'To',
         '.end',

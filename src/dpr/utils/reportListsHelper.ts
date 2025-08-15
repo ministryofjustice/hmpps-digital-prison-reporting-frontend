@@ -66,7 +66,7 @@ export const createListActions = (
   let requestAction
   let actionText
   if (type === ReportType.UNAVAILABLE) {
-    actionText = `Request missing report`
+    actionText = `Request report`
     requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1 dpr-missing-report' href="${href}">${actionText}</a>`
   } else {
     actionText = `Request ${type}`

@@ -33,7 +33,7 @@ describe('DefinitionUtils tests', () => {
       )
       const fieldDisplay = DefinitionUtils.getFieldDisplayName(variant15Definition.specification.fields, 'field1')
 
-      expect(fieldDisplay).toEqual('Field 1')
+      expect(fieldDisplay).toEqual('Relative date-range')
     })
 
     it('should return the specific field id if no match', () => {

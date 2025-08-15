@@ -7,6 +7,6 @@
   <h1 class="govuk-heading-l">{{ title }}</h1>
 
   <div class="govuk-width-container">
-    {{ dprUserReports({ requestedReports: userReports.requestedReports, viewedReports: userReports.viewedReports, bookmarks: userReports.bookmarks2 })}}
+    {{ dprUserReports(userReports)}}
   </div>
 {% endblock %}

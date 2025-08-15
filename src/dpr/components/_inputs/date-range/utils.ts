@@ -68,15 +68,22 @@ const calcDates = (durationValue: string) => {
   }
 }
 
-const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
+const setValueFromRequest = (filter: DateFilterValue, req: Request, prefix: string) => {
+  const { relativeOptions } = filter
   const start = <string>req.query[`${prefix}${filter.name}.start`]
   const end = <string>req.query[`${prefix}${filter.name}.end`]
   const relative = <string>req.query[`${prefix}${filter.name}.relative-duration`]
 
+  let relativeDisabled = false
+  if (relative) {
+    const option = relativeOptions.find((opt) => opt.value === relative)
+    relativeDisabled = option && option.disabled ? option.disabled : false
+  }
+
   const value = {
     start: start || (<DateFilterValue>filter).min,
     end: end || (<DateFilterValue>filter).max,
-    ...(relative && { relative }),
+    ...(relative && !relativeDisabled && { relative }),
   } as DateRange
 
   return value
@@ -84,6 +91,7 @@ const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) 
 
 const setDefaultValue = (req: Request, name: string) => {
   const dateRangeName = name.split('.')[0]
+
   const dateRangeDefaults = Object.keys(req.body)
     .filter((key) => key.includes(dateRangeName))
     .map((key) => {
@@ -98,19 +106,26 @@ const setDefaultValue = (req: Request, name: string) => {
     if (dateRangeDefault.name.includes('end')) {
       ;(<dateFilterValue>dateRangeValue).end = dateRangeDefault.value
     }
+    if (dateRangeDefault.name.includes('relative-duration')) {
+      ;(<dateFilterValue>dateRangeValue).relative = dateRangeDefault.value
+    }
   })
 
   return { value: dateRangeValue, name: dateRangeName }
 }
 
 const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: FilterValue) => {
-  const value = { start: '', end: '' }
-  const { start, end } = <dateFilterValue>defaultValue.value
-  if (start) {
-    value.start = dayjs(start, 'D/M/YYYY').format('YYYY-MM-DD').toString()
-  }
-  if (end) {
-    value.end = dayjs(end, 'D/M/YYYY').format('YYYY-MM-DD').toString()
+  const value = { start: '', end: '', relative: '' }
+  const { start, end, relative } = <dateFilterValue>defaultValue.value
+  if (relative) {
+    value.relative = relative
+  } else {
+    if (start) {
+      value.start = dayjs(start, 'D/M/YYYY').format('YYYY-MM-DD').toString()
+    }
+    if (end) {
+      value.end = dayjs(end, 'D/M/YYYY').format('YYYY-MM-DD').toString()
+    }
   }
 
   return {

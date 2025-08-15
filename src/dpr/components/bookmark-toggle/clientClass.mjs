@@ -85,7 +85,7 @@ export default class BookmarkToggle extends DprClientClass {
       }),
     })
       .then(() => {
-        if (!window.location.href.includes('/report')) {
+        if (!window.location.href.includes('/report') && !window.location.href.includes('/dashboard')) {
           window.location.reload()
         }
       })

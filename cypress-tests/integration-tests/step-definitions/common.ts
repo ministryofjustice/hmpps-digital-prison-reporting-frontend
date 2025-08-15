@@ -76,3 +76,15 @@ Then(/the page is accessible/, () => {
   cy.injectAxe()
   cy.checkA11y(null, null, terminalLog)
 })
+
+// TEMP FIXES TO GET THESE RUNNING - IT will all be replaced
+
+When('I click on the recently viewed reports tab', () => {
+  cy.get('#tab_recently-viewed-tab').click()
+})
+
+When('I click on a ready viewed report', () => {
+  cy.visit(
+    '/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1729766362362/report',
+  )
+})

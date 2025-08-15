@@ -71,7 +71,6 @@ export default class DateRangeInput extends DprClientClass {
       durationRadioButton.addEventListener('click', (e) => {
         const durationValue = e.target.value
         this.durationValue = durationValue
-        console.log(this.durationValue)
         this.updateInputs(durationValue)
         this.removeRequiredFromDatePickers()
       })

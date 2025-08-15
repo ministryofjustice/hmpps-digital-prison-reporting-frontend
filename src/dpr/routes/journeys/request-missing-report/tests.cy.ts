@@ -18,26 +18,12 @@ context('Request missing report', () => {
 
     it('should show the details of the report being requested', () => {
       cy.findByRole('group').contains('Report details').click()
-      cy.get('#main-content > details > div > div > table > tbody > tr').each((row, index) => {
-        const td1 = 'td:nth-child(1) > p'
-        const td2 = 'td:nth-child(2)'
-        switch (index) {
-          case 0:
-            cy.wrap(row).find(td1).contains('Name')
-            cy.wrap(row).find(td2).contains('Missing Report 1')
-            break
-          case 1:
-            cy.wrap(row).find(td1).contains('Product')
-            cy.wrap(row).find(td2).contains('Feature testing')
-            break
-          case 2:
-            cy.wrap(row).find(td1).contains('Description')
-            cy.wrap(row).find(td2).contains('Description for missing report 1')
-            break
-          default:
-            break
-        }
-      })
+      cy.findAllByRole('cell', { name: 'Name:' }).should('exist')
+      cy.findAllByRole('cell', { name: 'Missing Report 1' }).should('exist')
+      cy.findAllByRole('cell', { name: 'Product:' }).should('exist')
+      cy.findAllByRole('cell', { name: 'Feature testing' }).should('exist')
+      cy.findAllByRole('cell', { name: 'Description:' }).should('exist')
+      cy.findAllByRole('cell', { name: 'Description for missing report 1' }).should('exist')
     })
 
     it('should show the request form', () => {
@@ -87,23 +73,11 @@ context('Request missing report', () => {
   describe('Submitted page', () => {
     it('should show that the details of the request', () => {
       cy.findByRole('button', { name: /Submit/ }).click()
-      cy.get('#main-content > details > summary').click()
-      cy.get('#main-content > details > div > div > table > tbody > tr').each((row, index) => {
-        const td1 = 'td:nth-child(1) > p'
-        const td2 = 'td:nth-child(2)'
-        switch (index) {
-          case 0:
-            cy.wrap(row).find(td1).contains('Name')
-            cy.wrap(row).find(td2).contains('Missing Report 1')
-            break
-          case 1:
-            cy.wrap(row).find(td1).contains('Product')
-            cy.wrap(row).find(td2).contains('Feature testing')
-            break
-          default:
-            break
-        }
-      })
+      cy.findByRole('group').contains('Request details').click()
+      cy.findAllByRole('cell', { name: 'Name:' }).should('exist')
+      cy.findAllByRole('cell', { name: 'Missing Report 1' }).should('exist')
+      cy.findAllByRole('cell', { name: 'Product:' }).should('exist')
+      cy.findAllByRole('cell', { name: 'Feature testing' }).should('exist')
     })
   })
 })

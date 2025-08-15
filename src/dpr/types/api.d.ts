@@ -6,6 +6,23 @@
 import { LoadType } from './UserReports'
 
 export interface paths {
+  '/missingRequest/{reportId}/{variantId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** @description Submit a request for a missing report */
+    post: operations['requestMissing']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/user/caseload/active': {
     parameters: {
       query?: never
@@ -347,6 +364,14 @@ export interface components {
       developerMessage?: string
       moreInfo?: string
     }
+    MissingReportSubmission: {
+      userId: string
+      reportId: string
+      reportVariantId: string
+      reason?: string
+      /** Format: int32 */
+      id?: number
+    }
     Count: {
       /**
        * Format: int64
@@ -507,12 +532,6 @@ export interface components {
         | 'row-section-child'
       fields: components['schemas']['FieldDefinition'][]
       sections: string[]
-      sectionedFields: components['schemas']['SectionedField'][]
-    }
-    SectionedField: {
-      name: string
-      fields?: string[]
-      child?: string
     }
     SummaryField: {
       name: string
@@ -592,6 +611,73 @@ export interface components {
 }
 export type $defs = Record<string, never>
 export interface operations {
+  requestMissing: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        reportId: string
+        /**
+         * @description The ID of the variant definition.
+         * @example list
+         */
+        variantId: string
+      }
+      cookie?: never
+    }
+    requestBody?: {
+      content: {
+        'application/json': string
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['MissingReportSubmission']
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+    }
+  }
   definitions: {
     parameters: {
       query?: never

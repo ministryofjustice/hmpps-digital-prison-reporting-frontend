@@ -11,6 +11,18 @@ export interface ResultWithHeaders<T> {
   headers: Dict<string>
 }
 
+interface Request {
+  path: string
+  query?: object | string
+  headers?: Record<string, string>
+  responseType?: string
+  raw?: boolean
+}
+interface RequestWithBody extends Request {
+  data?: Record<string, unknown> | string
+  retry?: boolean
+}
+
 export default class RestClient {
   agent: Agent
 
@@ -28,6 +40,45 @@ export default class RestClient {
 
   async get<T>(request: GetRequest): Promise<T> {
     return this.getWithHeaders<T>(request).then((result) => result.data)
+  }
+
+  private async requestWithBody<Response = unknown>(
+    method: 'patch' | 'post' | 'put',
+    { path, query = {}, headers = {}, responseType = '', data = {}, raw = false, retry = false }: RequestWithBody,
+    token: string,
+  ): Promise<Response> {
+    logger.info(`${this.name} ${method.toUpperCase()}: ${path}`)
+    console.log(`info about request: ${method} | ${path} | ${JSON.stringify(data)} | ${query}`)
+    try {
+      const result = await superagent[method](`${this.apiUrl()}${path}`)
+        .query(query)
+        .send(data)
+        .agent(this.agent)
+        .retry(2, (err) => {
+          if (retry === false) {
+            return false
+          }
+          if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
+          return undefined // retry handler only for logging retries, not to influence retry logic
+        })
+        .auth(token, { type: 'bearer' })
+        .set(headers)
+        .responseType(responseType)
+        .timeout(this.timeoutConfig())
+
+      return raw ? (result as Response) : result.body
+    } catch (error) {
+      if (!(error instanceof Error)) {
+        throw error
+      }
+      const sanitisedError = sanitiseError(error)
+      logger.warn({ ...sanitisedError }, `Error calling ${this.name}, path: '${path}', verb: '${method.toUpperCase()}'`)
+      throw sanitisedError
+    }
+  }
+
+  async post<Response = unknown>(request: RequestWithBody, token: string): Promise<Response> {
+    return this.requestWithBody('post', request, token)
   }
 
   async getWithHeaders<T>({

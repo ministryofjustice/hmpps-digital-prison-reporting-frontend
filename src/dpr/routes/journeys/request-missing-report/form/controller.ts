@@ -2,15 +2,21 @@ import { RequestHandler } from 'express'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { components } from '../../../../types/api'
 import { Services } from '../../../../types/Services'
+import MissingReportClient from '../../../../services/missingReport/missingReportClient'
+import { ReportingService } from '../../../../services'
+import { Response } from 'superagent'
 
 export default class MissingReportFormController {
   layoutPath: string
 
-  services: Services
+  missingReportClient: MissingReportClient
+
+  reportingService: ReportingService
 
   constructor(layoutPath: string, services: Services) {
     this.layoutPath = layoutPath
-    this.services = services
+    this.missingReportClient = services.missingReportClient
+    this.reportingService = services.reportingService
   }
 
   GET: RequestHandler = async (req, res, next) => {
@@ -18,7 +24,7 @@ export default class MissingReportFormController {
     const { reportId, variantId } = req.params
 
     const reportDefinition: components['schemas']['SingleVariantReportDefinition'] =
-      await this.services.reportingService.getDefinition(token, reportId, variantId, definitionsPath)
+      await this.reportingService.getDefinition(token, reportId, variantId, definitionsPath)
 
     const { variant, name } = reportDefinition
 
@@ -46,17 +52,18 @@ export default class MissingReportFormController {
     const { body } = req
     const { reportId, variantId, reportName, variantName } = body
 
-    // TODO:
-    // Post to API here. When available from this ticket - https://dsdmoj.atlassian.net/browse/DPR2-2059
-    // const { token } = LocalsHelper.getValues(res)
-    // const doTheThing = await services.reportingService.addToLogs(token, body) // Or something like that
-
-    // If succesful redirect to submitted page
-    const queryParams = `reportName=${reportName}&name=${variantName}&reportId=${reportId}&variantId=${variantId}`
-    const redirect = `./submitted?${queryParams}`
-
-    // TODO: Redirect to failed page
-
-    res.redirect(redirect)
+    const { token } = LocalsHelper.getValues(res)
+    
+    await this.missingReportClient.submitMissingReportEntry(token, reportId, variantId, body).then(() => {
+      const queryParams = `reportName=${reportName}&name=${variantName}&reportId=${reportId}&variantId=${variantId}`
+      const redirect = `./submitted?${queryParams}`
+  
+      res.redirect(redirect)
+    }, () => {
+      res.render(`dpr/components/serviceError/view`)
+    }
+  ).catch(() => {
+      res.render(`dpr/components/serviceError/view`)
+    })
   }
 }

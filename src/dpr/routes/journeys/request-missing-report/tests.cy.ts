@@ -7,7 +7,14 @@ context('Request missing report', () => {
     cy.task('stubGetDefinition')
     cy.visit(path)
     cy.findByRole('textbox', { name: 'Filter by key word' }).type('Missing report')
-    cy.get('#dpr-reports-catalogue > tbody > tr:nth-child(19) > td:nth-child(4) > a').click()
+
+    cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+      cy.findByRole('row', {
+        name: /Missing Report 1/,
+      }).within(() => {
+        cy.findByRole('link', { name: 'Request report' }).click()
+      })
+    })
   })
 
   describe('Request form page', () => {
@@ -31,17 +38,6 @@ context('Request missing report', () => {
       cy.findByRole('textbox', { name: 'Why do you need this report? (Optional)' }).should('be.visible')
     })
 
-    it('should have the report data in the form', () => {
-      cy.get('#dpr-form > input[name="reportId"]').should('exist').should('have.value', 'feature-testing')
-      cy.get('#dpr-form > input[name="reportName"]').should('exist').should('have.value', 'Feature testing')
-      cy.get('#dpr-form > input[name="variantId"]').should('exist').should('have.value', 'feature-testing-missing-1')
-      cy.get('#dpr-form > input[name="variantName"]').should('exist').should('have.value', 'Missing Report 1')
-    })
-
-    it('should have the staff ID in the form', () => {
-      cy.get('#dpr-form > input[name="staffId"]').should('exist')
-    })
-
     it('should submit the missing report request', () => {
       cy.intercept({
         method: 'POST',
@@ -53,10 +49,10 @@ context('Request missing report', () => {
       cy.wait('@requestSubmit')
         .its('request')
         .then((request) => {
-          cy.wrap(request).its('body').should('include', 'reportId')
-          cy.wrap(request).its('body').should('include', 'variantId')
-          cy.wrap(request).its('body').should('include', 'reportName')
-          cy.wrap(request).its('body').should('include', 'variantName')
+          cy.wrap(request).its('body').should('include', 'reportId=feature-testing')
+          cy.wrap(request).its('body').should('include', 'variantId=feature-testing-missing-1')
+          cy.wrap(request).its('body').should('include', 'reportName=Feature+testing')
+          cy.wrap(request).its('body').should('include', 'variantName=Missing+Report+1')
           cy.wrap(request).its('body').should('include', 'staffId')
         })
     })

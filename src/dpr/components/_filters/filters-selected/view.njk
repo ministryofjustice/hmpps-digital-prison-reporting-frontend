@@ -5,9 +5,9 @@
   <div class='dpr-selected-filters-container'>
     <div class='dpr-selected-filters'>
       <div>
-        <p class="govuk-body govuk-!-margin-bottom-2"><strong>Selected filters</strong></p>
+        <p id="dpr-selected-filters-label" class="govuk-body govuk-!-margin-bottom-2"><strong>Selected filters</strong></p>
       </div>
-      <div id="dpr-selected-filters">
+      <div id="dpr-selected-filters" aria-labelledby="dpr-selected-filters-label">
         {% if selectedFilters.length %}      
 
           {% for selected in selectedFilters %}
@@ -36,7 +36,6 @@
         {% else %}
           <p class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">No filters selected</p>
         {% endif %}
-      
         {{ dprFiltersReset(resetArgs) }}
       </div>
     </div>

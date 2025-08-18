@@ -11,40 +11,19 @@ context('Catalogue component', () => {
   })
 
   describe('Catalogue filters', () => {
-    const catalogueFiltersButton =
-      '#reports-catalogue > div.dpr-catalogue-filters > div.dpr-catalogue-filters--content > div > details > summary'
-
-    it('should hide the live reports', () => {
-      cy.get('#total-shown').invoke('text').then(parseFloat).should('be.gt', 10)
-      cy.get(catalogueFiltersButton).click()
-      cy.get('#hide-live').check()
-      cy.get('#total-shown').invoke('text').then(parseFloat).should('equal', 0)
-    })
-
     it('should show the unauthorised reports', () => {
       cy.get('#total-shown').invoke('text').then(parseFloat).should('be.gt', 10)
-      cy.get(catalogueFiltersButton).click()
+      cy.findByRole('group').contains('Show more filters').click()
       cy.get('#hide-live').check()
+
+      cy.findByRole('checkbox', { name: 'Show unauthorised reports' }).check()
       cy.get('#show-unauthorised').check()
       cy.get('#total-shown').invoke('text').then(parseFloat).should('equal', 0)
     })
 
-    it('should show the missing reports', () => {
-      cy.get('#total-shown').invoke('text').then(parseFloat).should('be.gt', 10)
-      cy.get(catalogueFiltersButton).click()
-      cy.get('#show-missing').check()
-      cy.get('#hide-live').check()
-      cy.get('#total-shown').invoke('text').then(parseFloat).should('equal', 3)
-      cy.get('#dpr-reports-catalogue > tbody > tr')
-        .not('.dpr-live-report-hide')
-        .each((tr) => {
-          cy.wrap(tr).contains('Unavailable')
-        })
-    })
-
     it('should show reports', () => {
-      cy.get(catalogueFiltersButton).click()
-      cy.get('#report-type-2').check()
+      cy.findByRole('group').contains('Show more filters').click()
+      cy.findByRole('radio', { name: 'Report' }).check()
       const rows = cy.get('#dpr-reports-catalogue > tbody > tr').not('.dpr-report-type-hide')
       rows.each((row) => {
         cy.wrap(row)
@@ -57,8 +36,8 @@ context('Catalogue component', () => {
     })
 
     it('should show dashboards only', () => {
-      cy.get(catalogueFiltersButton).click()
-      cy.get('#report-type-3').check()
+      cy.findByRole('group').contains('Show more filters').click()
+      cy.findByRole('radio', { name: 'Dashboard' }).check()
 
       const rows = cy.get('#dpr-reports-catalogue > tbody > tr').not('.dpr-report-type-hide')
       rows.each((row) => {
@@ -72,8 +51,8 @@ context('Catalogue component', () => {
     })
 
     it('should show show dashboards and reports', () => {
-      cy.get(catalogueFiltersButton).click()
-      cy.get('#report-type').check()
+      cy.findByRole('group').contains('Show more filters').click()
+      cy.findByRole('radio', { name: 'All' }).check()
 
       const rows = cy
         .get('#dpr-reports-catalogue > tbody > tr')

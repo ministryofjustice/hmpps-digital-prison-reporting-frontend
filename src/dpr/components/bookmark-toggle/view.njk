@@ -4,7 +4,7 @@
   {% set tooltip %}{{ 'Remove bookmark' if bookmarked else 'Add bookmark' }}{% endset %}
 
   <div class='dpr-bookmark dpr-bookmark-inline dpr-bookmark-component' data-dpr-module="bookmark-toggle">
-    <input class="bookmark-input" aria-label="bookmark toggle" type='checkbox' id='{{ reportId }}-{{ id }}-{{ ctxId }}' data-id='{{ id }}' data-report-id='{{ reportId }}' data-report-type='{{ type }}' data-csrf-token='{{ csrfToken }}' data-base-url="{{ nestedBaseUrl }}"{{ checked }}/>
+    <input class="bookmark-input" aria-label="bookmark toggle" arial-labelledby="{{id}}-{{reportId}}-{{ ctxId }}-bookmark-label" type='checkbox' id='{{ reportId }}-{{ id }}-{{ ctxId }}' data-id='{{ id }}' data-report-id='{{ reportId }}' data-report-type='{{ type }}' data-csrf-token='{{ csrfToken }}' data-base-url="{{ nestedBaseUrl }}"{{ checked }}/>
     <label id="{{id}}-{{reportId}}-{{ ctxId }}-bookmark-label" tabindex="0" for='{{ reportId }}-{{ id }}-{{ ctxId }}' class=''><span class="govuk-link--no-visited-state dpr-bookmark-label dpr-bookmark-label--component govuk-body-xs">{{tooltip}}</span></label>
   </div>
 {% endmacro %}

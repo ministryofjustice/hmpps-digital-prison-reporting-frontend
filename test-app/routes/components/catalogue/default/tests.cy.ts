@@ -12,14 +12,22 @@ context('Catalogue component', () => {
 
   describe('Catalogue filters', () => {
     it('should show the unauthorised reports', () => {
-      cy.get('#total-shown').invoke('text').then(parseFloat).should('be.gt', 10)
+      cy.findAllByRole('paragraph')
+        .contains(/Showing \d{1,4} of \d{1,4} reports/)
+        .within(() => {
+          cy.findAllByRole('strong').eq(0).invoke('text').then(parseFloat).should('be.gt', 10)
+        })
       cy.findAllByRole('group').eq(1).contains('Show more filters').click()
       cy.findByRole('checkbox', { name: 'Show unauthorised reports' }).check()
-      cy.get('#total-shown').invoke('text').then(parseFloat).should('be.gt', 10)
+      cy.findAllByRole('paragraph')
+        .contains(/Showing \d{1,4} of \d{1,4} reports/)
+        .within(() => {
+          cy.findAllByRole('strong').eq(0).invoke('text').then(parseFloat).should('be.gt', 10)
+        })
     })
 
     it('should show reports', () => {
-      cy.findAllByRole('group').eq(1).contains('Show more filters').click()
+      cy.findAllByRole('group').contains('Show more filters').click()
       cy.findByRole('radio', { name: 'Report' }).check()
 
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
@@ -30,7 +38,7 @@ context('Catalogue component', () => {
     })
 
     it('should show dashboards only', () => {
-      cy.findAllByRole('group').eq(1).contains('Show more filters').click()
+      cy.findAllByRole('group').contains('Show more filters').click()
       cy.findByRole('radio', { name: 'Dashboard' }).check()
 
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
@@ -41,7 +49,7 @@ context('Catalogue component', () => {
     })
 
     it('should show show dashboards and reports', () => {
-      cy.findAllByRole('group').eq(1).contains('Show more filters').click()
+      cy.findAllByRole('group').contains('Show more filters').click()
       cy.findByRole('radio', { name: 'All' }).check()
 
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
@@ -85,11 +93,6 @@ context('Catalogue component', () => {
 
   describe('Catalogue listing', () => {
     it('should display to relevant information for each listing', () => {
-      // const rows = cy
-      //   .get('#dpr-reports-catalogue > tbody > tr')
-      //   .not('.dpr-report-type-hide')
-      //   .not('.dpr-missing-report-hide')
-
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findAllByRole('rowgroup')
           .eq(1)
@@ -113,6 +116,26 @@ context('Catalogue component', () => {
                         break
                       default:
                         break
+                    }
+                  })
+                })
+              })
+            })
+          })
+      })
+    })
+
+    it('should show the add bookmark toggle', () => {
+      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+        cy.findAllByRole('rowgroup')
+          .eq(1)
+          .within(() => {
+            cy.findAllByRole('row').each((row) => {
+              cy.wrap(row).within(() => {
+                cy.findAllByRole('cell').each((cell, index) => {
+                  cy.wrap(cell).within(() => {
+                    if (index === 3) {
+                      cy.findByLabelText(/Add bookmark|Remove bookmark/g).should('exist')
                     }
                   })
                 })

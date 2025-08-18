@@ -93,17 +93,17 @@ context('Inputs: date range', () => {
   describe('Setting the value via the datepicker', () => {
     const setDateRangeValuesViaCalendar = () => {
       cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
-      cy.get('button[data-testid="11/8/2025"]').eq(0).click()
+      cy.findByRole('button', { name: 'Monday 11 August 2025' }).click()
 
       cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
-      cy.get('button[data-testid="30/8/2025"]').eq(1).click()
+      cy.findByRole('button', { name: 'Saturday 30 August 2025' }).click()
     }
 
     const setDateRangeValuesViaCalendarSingleDigit = () => {
       cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
-      cy.get('button[data-testid="1/8/2025"]').eq(0).click()
+      cy.findByRole('button', { name: 'Friday 1 August 2025' }).click()
       cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
-      cy.get('button[data-testid="9/8/2025"]').eq(1).click()
+      cy.findByRole('button', { name: 'Saturday 9 August 2025' }).click()
     }
 
     it('should set the date value in the inputs', () => {

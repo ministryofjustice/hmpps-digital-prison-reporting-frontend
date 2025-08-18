@@ -256,11 +256,6 @@ context('Requesting a report', () => {
         /http:\/\/localhost:3010\/embedded\/platform\/dpr\/request-report\/report\/request-examples\/request-example-success\/(.*)\/status/i,
       )
 
-      cy.url().then((url) => {
-        const urlArr = url.split('/')
-        executionId = urlArr[urlArr.length - 2]
-      })
-
       cy.findByRole('button', { name: /Cancel/ }).click()
       cy.findByRole('strong').contains('ABORTED')
       cy.findByRole('button', { name: /Return to request page/ }).click()
@@ -336,7 +331,6 @@ context('Requesting a report', () => {
   })
 
   describe('Expired request', () => {
-    let expiredExecutionId: string
     const filtersHref =
       'http://localhost:3010/embedded/platform/dpr/request-report/report/request-examples/request-example-expire/filters?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=false'
 

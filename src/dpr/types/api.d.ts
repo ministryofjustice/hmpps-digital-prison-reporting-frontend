@@ -532,6 +532,12 @@ export interface components {
         | 'row-section-child'
       fields: components['schemas']['FieldDefinition'][]
       sections: string[]
+      sectionedFields: components['schemas']['SectionedField'][]
+    }
+    SectionedField: {
+      name: string
+      fields?: string[]
+      child?: string
     }
     SummaryField: {
       name: string

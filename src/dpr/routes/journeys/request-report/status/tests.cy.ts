@@ -1,15 +1,21 @@
 context('Request status', () => {
   const path = '/embedded/platform/'
-  const successfulRequestUrlSelector =
-    '#dpr-reports-catalogue > tbody > tr > td > a[href="dpr/request-report/report/request-examples/request-example-success/filters"]'
 
   beforeEach(() => {
     cy.visit(path)
-    cy.get(successfulRequestUrlSelector).click()
+    cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+      cy.findByRole('row', {
+        name: (_, element) => {
+          return element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
+        },
+      }).within(() => {
+        cy.findByRole('link', { name: 'Request report' }).click()
+      })
+    })
   })
 
   it('is accessible', () => {
-    cy.get('#async-request-report-button').click()
+    cy.findByRole('button', { name: /Request/ }).click()
     cy.injectAxe()
     cy.checkA11y()
   })
@@ -25,7 +31,7 @@ context('Request status', () => {
         req.continue()
       })
 
-      cy.get('#async-request-report-button').click()
+      cy.findByRole('button', { name: /Request/ }).click()
 
       cy.url().then((url) => {
         const urlArr = url.split('/')

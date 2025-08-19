@@ -1,5 +1,5 @@
 import { components } from '../../../types/api'
-import { DateRange, FilterValue } from '../../_filters/types'
+import { DateRange } from '../../_filters/types'
 import RelativeDateRange from '../date-range/types'
 
 const setDateRangeValuesWithinMinMax = (

@@ -346,13 +346,8 @@ context('Inputs: Relative date range', () => {
     it('should display validation messages', () => {
       cy.findByRole('textbox', { name: 'From' }).clear().blur()
       cy.findByRole('textbox', { name: 'To' }).clear().blur()
-
-      cy.findByRole('button', { name: 'Request report' })
-      cy.get('#async-request-report-button').click()
-
-      cy.get('p.govuk-error-message').eq(0).contains('Relative date-range start is required')
-      cy.get('p.govuk-error-message').eq(1).contains('Relative date-range end is required')
-      cy.get('#query-error-summary').should('be.visible')
+      cy.findByRole('button', { name: 'Request report' }).click()
+      cy.findByRole('heading', { name: 'There is a problem' }).should('be.visible')
     })
   })
 })

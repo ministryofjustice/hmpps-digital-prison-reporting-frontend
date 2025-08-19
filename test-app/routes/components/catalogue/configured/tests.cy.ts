@@ -21,15 +21,6 @@ context('Catalogue component', () => {
     })
 
     it('should not show the bookmark toggle', () => {
-      const rows = cy
-        .get('#dpr-reports-catalogue > tbody > tr')
-        .not('.dpr-report-type-hide')
-        .not('.dpr-missing-report-hide')
-
-      rows.each((row) => {
-        cy.wrap(row).find('td:nth-child(4) > div.dpr-bookmark-label').should('not.exist')
-      })
-
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findAllByRole('rowgroup')
           .eq(1)

@@ -95,9 +95,9 @@ export default class BookmarkService extends ReportStoreService {
 
     return automatic
       ? ''
-      : `<div class='dpr-bookmark dpr-bookmark-table' data-dpr-module="bookmark-toggle">
-  <input class="bookmark-input" aria-label="bookmark toggle" type='checkbox' id='${reportId}-${id}-${ctxId}' aria-labelledby="${id}-${reportId}-${ctxId}-bookmark-label" data-report-id='${reportId}' data-id='${id}' data-report-type='${reportType}' data-csrf-token='${csrfToken}' ${checked} />
-  <label tabindex="0" id="${id}-${reportId}-${ctxId}-bookmark-label" for='${reportId}-${id}-${ctxId}'><span class="dpr-bookmark-label govuk-body-s">${tooltip}</span></label>
+      : `<div class='dpr-bookmark dpr-bookmark-table' data-dpr-module='bookmark-toggle'>
+  <input class='bookmark-input' aria-label='bookmark toggle' type='checkbox' id='${reportId}-${id}-${ctxId}' aria-labelledby='${id}-${reportId}-${ctxId}-bookmark-label' data-report-id='${reportId}' data-id='${id}' data-report-type='${reportType}' data-csrf-token='${csrfToken}' ${checked} />
+  <label tabindex='0' id='${id}-${reportId}-${ctxId}-bookmark-label' for='${reportId}-${id}-${ctxId}'><span class='dpr-bookmark-label govuk-body-s'>${tooltip}</span></label>
 </div>`
   }
 }

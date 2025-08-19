@@ -24,7 +24,7 @@ export const actionTemplates: ActionTemplates = {
     id: 'dpr-button-copy',
     disabled: false,
     tooltipText: 'Copy report link',
-    ariaLabelText: 'report request',
+    ariaLabelText: 'copy report request',
   },
   downloadable: {
     id: 'dpr-button-downloadable',

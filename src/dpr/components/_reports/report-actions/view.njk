@@ -11,10 +11,12 @@
         attributes: {
           id: button.id,
           disabled: button.disabled,
-          form: "download-report-form"
+          form: "download-report-form",
+          "aria-label": button.ariaLabelText
         } if button.disabled else {
           id: button.id,
-          form: "download-report-form"
+          form: "download-report-form",
+          "aria-label": button.ariaLabelText
         },
         classes: '{{ button.id }} govuk-button--secondary'
       } %}

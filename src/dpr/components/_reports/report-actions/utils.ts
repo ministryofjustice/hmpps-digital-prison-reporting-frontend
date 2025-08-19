@@ -68,6 +68,8 @@ const setDownloadAction = (template: ActionTemplate, data: DownloadActionParams)
   const { canDownload, enabled } = data
   const { tooltipText, ariaLabelText } = template
 
+  const ariaLabel = canDownload ? ariaLabelText : 'Enable download'
+
   return {
     ...template,
     tooltipText: canDownload ? tooltipText : 'Enable download',
@@ -75,7 +77,7 @@ const setDownloadAction = (template: ActionTemplate, data: DownloadActionParams)
     attributes: {
       ...data,
     },
-    ariaLabelText: !enabled ? `${ariaLabelText}, disabled` : ariaLabelText,
+    ariaLabelText: !enabled ? `${ariaLabel}, disabled` : ariaLabel,
   }
 }
 

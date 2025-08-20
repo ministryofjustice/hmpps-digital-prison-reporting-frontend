@@ -111,7 +111,7 @@ context('Download report', () => {
 
   describe('Download', () => {
     it('should show the enabled download button', () => {
-      cy.findByLabelText(/Download/).should('exist')
+      cy.findByLabelText(/download/).should('exist')
     })
 
     it('should post the correct data to prepare the download', () => {
@@ -120,7 +120,7 @@ context('Download report', () => {
         url: '/embedded/platform/dpr/download-report/',
       }).as('downloadReport')
 
-      cy.findByLabelText(/Download/).click()
+      cy.findByLabelText(/download/).click()
 
       cy.wait('@downloadReport')
         .its('request')

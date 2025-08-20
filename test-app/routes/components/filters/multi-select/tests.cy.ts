@@ -63,7 +63,7 @@ context('Inputs: multiselect', () => {
   describe('Validation', () => {
     it('should show the validation message when no value is provided', () => {
       cy.findByRole('button', { name: /Request/ }).click()
-      cy.findByRole('heading', { name: 'There is a problem' }).should('be.visible')
+      cy.findByRole('alert').should('exist')
     })
   })
 })

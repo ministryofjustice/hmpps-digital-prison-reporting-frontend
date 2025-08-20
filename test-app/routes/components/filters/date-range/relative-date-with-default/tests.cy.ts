@@ -1,4 +1,4 @@
-context('Inputs: Relative date range', () => {
+context('Inputs: Relative date range with defaults', () => {
   const path = '/components/filters/date-range/relative-date-range-with-default'
   const platformPath =
     '/embedded/platform/dpr/request-report/report/filter-inputs/relative-daterange-with-default/filters'
@@ -36,9 +36,8 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.field1.end=`)
       })
 
-      cy.get('#dpr-selected-filters')
-        .children()
-        .each((filter, index) => {
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')
@@ -48,6 +47,7 @@ context('Inputs: Relative date range', () => {
               break
           }
         })
+      })
 
       cy.findByRole('button', { name: 'Save current filter values as defaults for this report' })
         .should('exist')
@@ -59,9 +59,8 @@ context('Inputs: Relative date range', () => {
 
       cy.findByRole('button', { name: 'Update defaults' }).should('exist')
 
-      cy.get('#dpr-selected-filters')
-        .children()
-        .each((filter, index) => {
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')
@@ -71,6 +70,7 @@ context('Inputs: Relative date range', () => {
               break
           }
         })
+      })
     })
 
     it('should pre-fill the filter values with the saved defaults next visit', () => {
@@ -83,16 +83,17 @@ context('Inputs: Relative date range', () => {
 
       cy.findByRole('button', { name: 'Update defaults' }).should('exist')
 
-      const selectedFilters = cy.get('#dpr-selected-filters').children()
-      selectedFilters.each((filter, index) => {
-        switch (index) {
-          case 0:
-            cy.wrap(filter).contains('Preset date range')
-            cy.wrap(filter).contains('Next month')
-            break
-          default:
-            break
-        }
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').each((filter, index) => {
+          switch (index) {
+            case 0:
+              cy.wrap(filter).contains('Preset date range')
+              cy.wrap(filter).contains('Next month')
+              break
+            default:
+              break
+          }
+        })
       })
 
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()
@@ -110,9 +111,8 @@ context('Inputs: Relative date range', () => {
         expect(location.search).to.contain(`filters.field1.end=`)
       })
 
-      cy.get('#dpr-selected-filters')
-        .children()
-        .each((filter, index) => {
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').each((filter, index) => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Preset date range')
@@ -122,6 +122,7 @@ context('Inputs: Relative date range', () => {
               break
           }
         })
+      })
 
       cy.reload()
 

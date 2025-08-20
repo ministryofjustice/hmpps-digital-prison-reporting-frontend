@@ -344,10 +344,15 @@ context('Inputs: Relative date range', () => {
     })
 
     it('should display validation messages', () => {
+      cy.findByRole('alert').should('not.exist')
+      cy.findAllByRole('paragraph').contains('Relative date-range start is required').should('not.exist')
+      cy.findAllByRole('paragraph').contains('Relative date-range end is required').should('not.exist')
       cy.findByRole('textbox', { name: 'From' }).clear().blur()
       cy.findByRole('textbox', { name: 'To' }).clear().blur()
       cy.findByRole('button', { name: 'Request report' }).click()
-      cy.findByRole('heading', { name: 'There is a problem' }).should('be.visible')
+      cy.findByRole('alert').should('exist')
+      cy.findAllByRole('paragraph').contains('Relative date-range start is required').should('exist')
+      cy.findAllByRole('paragraph').contains('Relative date-range end is required').should('exist')
     })
   })
 })

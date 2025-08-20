@@ -84,7 +84,7 @@ const mockGetReportListRenderData = {
         id: 'dpr-button-copy',
         disabled: false,
         tooltipText: 'Copy report link',
-        ariaLabelText: 'report request',
+        ariaLabelText: 'copy report request',
         href: 'fullUrl',
       },
       {

@@ -418,14 +418,14 @@ const mockSyncData = {
         id: 'dpr-button-copy',
         disabled: false,
         tooltipText: 'Copy report link',
-        ariaLabelText: 'report request',
+        ariaLabelText: 'copy report request',
         href: 'protocol://hostoriginalUrl',
       },
       {
         id: 'dpr-button-downloadable',
         disabled: false,
         tooltipText: 'Enable download',
-        ariaLabelText: 'download report',
+        ariaLabelText: 'Enable download',
         attributes: {
           enabled: true,
           name: 'Successful Report',

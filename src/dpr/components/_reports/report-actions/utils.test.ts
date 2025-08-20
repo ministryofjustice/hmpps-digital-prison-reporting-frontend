@@ -87,14 +87,14 @@ describe('ReportActionsUtils', () => {
           id: 'dpr-button-copy',
           disabled: false,
           tooltipText: 'Copy report link',
-          ariaLabelText: 'report request',
+          ariaLabelText: 'copy report request',
           href: 'url',
         },
         {
           id: 'dpr-button-downloadable',
           disabled: false,
           tooltipText: 'Enable download',
-          ariaLabelText: 'download report',
+          ariaLabelText: 'Enable download',
           attributes: {
             enabled: true,
             csrfToken: 'csrfToken',
@@ -141,7 +141,7 @@ describe('ReportActionsUtils', () => {
           id: 'dpr-button-copy',
           disabled: false,
           tooltipText: 'Copy report link',
-          ariaLabelText: 'report request',
+          ariaLabelText: 'copy report request',
           href: 'url',
         },
       ]

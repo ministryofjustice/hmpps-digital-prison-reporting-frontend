@@ -141,7 +141,7 @@ context('Viewing a report', () => {
       })
 
       it('should show the download action', () => {
-        cy.findByLabelText(/Enable download/).should('be.visible')
+        cy.findByLabelText(/download/).should('be.visible')
       })
 
       it('should show the copy action', () => {
@@ -353,7 +353,9 @@ context('Viewing a report', () => {
 
     describe('Paging interaction', () => {
       it('should show the table totals', () => {
-        cy.findAllByLabelText('List totals').should('exist')
+        cy.findAllByRole('paragraph')
+          .contains(/Showing \d{1,4} to \d{1,4} of \d{1,4} results/)
+          .should('exist')
         cy.findByLabelText('Successful Report').within(() => {
           cy.findAllByRole('rowgroup')
             .eq(1)
@@ -365,7 +367,9 @@ context('Viewing a report', () => {
 
       it('should change the page size', () => {
         cy.get('#page-size-select').select('10')
-        cy.findAllByLabelText('List totals').contains('Showing 1 to 10 of 100 results')
+        cy.findAllByRole('paragraph')
+          .contains(/Showing 1 to 10 of 100 results/)
+          .should('exist')
         cy.findByLabelText('Successful Report').within(() => {
           cy.findAllByRole('rowgroup')
             .eq(1)
@@ -379,7 +383,9 @@ context('Viewing a report', () => {
         cy.visit(
           `/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/${tableId}/report?pageSize=100`,
         )
-        cy.findAllByLabelText('List totals').contains('100 total results')
+        cy.findAllByRole('paragraph')
+          .contains(/100 total results/)
+          .should('exist')
         cy.findByLabelText('Successful Report').within(() => {
           cy.findAllByRole('rowgroup')
             .eq(1)

@@ -4,13 +4,23 @@ import { Cell, DataTable, FieldDefinition } from '../DataTableBuilder/types'
 import type { Template } from '../../types/Templates'
 import ParentChildDataTableBuilder from '../ParentChildDataTableBuilder/ParentChildDataTableBuilder'
 
+interface SectionedField {
+  name: string
+  fields?: string[]
+  child?: string
+}
+
 export default class SectionedFieldsDataTableBuilder extends ParentChildDataTableBuilder {
-  sectionedFields: components['schemas']['SectionedField'][]
+  // TODO: change this to use schema type if ever implemented in the backend
+  sectionedFields: SectionedField[]
 
   template: Template
 
   constructor(variant: components['schemas']['VariantDefinition']) {
-    const { sectionedFields, template } = variant.specification
+    // TODO: removed the union if sectionedFields changed to use schema type
+    const { sectionedFields, template } = variant.specification as components['schemas']['Specification'] & {
+      sectionedFields: SectionedField[]
+    }
     super(variant)
 
     this.sectionedFields = sectionedFields

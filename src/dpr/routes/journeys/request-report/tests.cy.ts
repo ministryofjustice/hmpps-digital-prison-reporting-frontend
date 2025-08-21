@@ -366,7 +366,7 @@ context('Requesting a report', () => {
       cy.visit(path)
       cy.findByRole('tab', { name: /Viewed/ }).click()
       cy.reload().reload().reload()
-      cy.findByLabelText(/Viewed/i).within(() => {
+      cy.findByLabelText(/Viewed \(/).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
             return element.textContent.includes('Expiring report')
@@ -381,7 +381,7 @@ context('Requesting a report', () => {
     it('should go to filters page when clicking refresh in the user catalogue', () => {
       cy.findByRole('tab', { name: /Viewed/ }).click()
 
-      cy.findByLabelText(/Viewed/i).within(() => {
+      cy.findByLabelText(/Viewed \(/).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
             return element.textContent.includes('Expiring report')
@@ -396,7 +396,7 @@ context('Requesting a report', () => {
     it('should show the correct status', () => {
       cy.findByRole('tab', { name: /Viewed/ }).click()
 
-      cy.findByLabelText(/Viewed/i).within(() => {
+      cy.findByLabelText(/Viewed \(/).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
             return element.textContent.includes('Expiring report')
@@ -410,7 +410,7 @@ context('Requesting a report', () => {
     it('should remove the item from the list by clicking remove', () => {
       cy.findByRole('tab', { name: /Viewed/ }).click()
 
-      cy.findByLabelText(/Viewed/i).within(() => {
+      cy.findByLabelText(/Viewed \(/).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
             return element.textContent.includes('Expiring report')

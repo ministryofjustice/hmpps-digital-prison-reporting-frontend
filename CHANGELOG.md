@@ -1,5 +1,10 @@
 Below you can find the changes included in each release.
 
+## v4.11.6
+- Download Bugfix: Column mismatch with screen and downloaded data
+- Accessibility fixes
+- Increased behaviour testing coverage
+
 ## v4.11.0
 - Improvements to the test application + docs on how to run locally
 - Accessibility fixes

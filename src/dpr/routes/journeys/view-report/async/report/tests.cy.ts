@@ -39,8 +39,8 @@ context('Viewing a report', () => {
 
     describe('Report details', () => {
       it('should show the product name', () => {
-        cy.findByLabelText('Product name').should('not.be.empty').contains('Request examples')
-        cy.findByLabelText('Report name').should('not.be.empty').contains('Successful Report')
+        cy.findAllByRole('heading', { name: 'Successful Report' }).should('be.visible')
+        cy.findAllByRole('heading', { name: 'Request examples' }).should('be.visible')
       })
 
       it('should show the report details', () => {
@@ -219,7 +219,7 @@ context('Viewing a report', () => {
       })
 
       it('should initialise the correct columns in the list table', () => {
-        cy.findByLabelText('Successful Report').within(() => {
+        cy.findByLabelText(/Successful Report/).within(() => {
           cy.findAllByRole('rowgroup')
             .eq(0)
             .within(() => {
@@ -260,7 +260,7 @@ context('Viewing a report', () => {
 
         expectUpdatedColumns()
 
-        cy.findByLabelText('Successful Report').within(() => {
+        cy.findByLabelText(/Successful Report/).within(() => {
           cy.findAllByRole('rowgroup')
             .eq(0)
             .within(() => {
@@ -321,7 +321,7 @@ context('Viewing a report', () => {
         cy.findByRole('checkbox', { name: 'Field 7' }).should('not.be.checked')
         cy.findByRole('checkbox', { name: 'Field 8' }).should('be.checked')
 
-        cy.findByLabelText('Successful Report').within(() => {
+        cy.findByLabelText(/Successful Report/).within(() => {
           cy.findAllByRole('rowgroup')
             .eq(0)
             .within(() => {
@@ -356,7 +356,7 @@ context('Viewing a report', () => {
         cy.findAllByRole('paragraph')
           .contains(/Showing \d{1,4} to \d{1,4} of \d{1,4} results/)
           .should('exist')
-        cy.findByLabelText('Successful Report').within(() => {
+        cy.findByLabelText(/Successful Report/).within(() => {
           cy.findAllByRole('rowgroup')
             .eq(1)
             .within(() => {
@@ -370,7 +370,7 @@ context('Viewing a report', () => {
         cy.findAllByRole('paragraph')
           .contains(/Showing 1 to 10 of 100 results/)
           .should('exist')
-        cy.findByLabelText('Successful Report').within(() => {
+        cy.findByLabelText(/Successful Report/).within(() => {
           cy.findAllByRole('rowgroup')
             .eq(1)
             .within(() => {
@@ -386,7 +386,7 @@ context('Viewing a report', () => {
         cy.findAllByRole('paragraph')
           .contains(/100 total results/)
           .should('exist')
-        cy.findByLabelText('Successful Report').within(() => {
+        cy.findByLabelText(/Successful Report/).within(() => {
           cy.findAllByRole('rowgroup')
             .eq(1)
             .within(() => {

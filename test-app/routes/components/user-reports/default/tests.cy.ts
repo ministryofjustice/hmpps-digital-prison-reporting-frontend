@@ -78,9 +78,9 @@ context('User reports component', () => {
                   cy.wrap(cell).within(() => {
                     switch (index) {
                       case 0:
-                        cy.findByLabelText('Report name').should('not.be.empty')
-                        cy.findByLabelText('Product name').should('not.be.empty')
-                        cy.findByLabelText('Report type').should('not.be.empty')
+                        cy.findByLabelText(/Report name/).should('not.be.empty')
+                        cy.findByLabelText(/Product name/).should('not.be.empty')
+                        cy.findByLabelText(/Report type/).should('not.be.empty')
                         break
                       case 1:
                         if (cell.find('li').length > 0) {
@@ -141,13 +141,13 @@ context('User reports component', () => {
     })
 
     it('should show the help text', () => {
-      cy.findByLabelText(/Viewed.*/i).within(() => {
+      cy.findByLabelText(/Viewed \(/).within(() => {
         cy.findAllByRole('group').contains('Help').should('be.visible')
       })
     })
 
     it('should show the total reports', () => {
-      cy.findByLabelText(/Viewed.*/i).within(() => {
+      cy.findByLabelText(/Viewed \(/).within(() => {
         cy.findAllByRole('paragraph')
           .contains(/Showing \d{1,4} of \d{1,4} reports/)
           .should('be.visible')
@@ -155,13 +155,13 @@ context('User reports component', () => {
     })
 
     it('should show the link to view all reports', () => {
-      cy.findByLabelText(/Viewed.*/i).within(() => {
+      cy.findByLabelText(/Viewed \(/).within(() => {
         cy.findByRole('link', { name: 'Show all' }).should('exist')
       })
     })
 
     it('should show the correct table headers', () => {
-      cy.findByLabelText(/Viewed.*/i).within(() => {
+      cy.findByLabelText(/Viewed \(/).within(() => {
         cy.findAllByRole('rowgroup')
           .eq(0)
           .within(() => {
@@ -188,7 +188,7 @@ context('User reports component', () => {
     })
 
     it('should show the product and variant information', () => {
-      cy.findByLabelText(/Viewed*/i).within(() => {
+      cy.findByLabelText(/Viewed \(/).within(() => {
         cy.findAllByRole('rowgroup')
           .eq(1)
           .within(() => {
@@ -199,9 +199,9 @@ context('User reports component', () => {
                   cy.wrap(cell).within(() => {
                     switch (index) {
                       case 0:
-                        cy.findByLabelText('Report name').should('not.be.empty')
-                        cy.findByLabelText('Product name').should('not.be.empty')
-                        cy.findByLabelText('Report type').should('not.be.empty')
+                        cy.findByLabelText(/Report name/).should('not.be.empty')
+                        cy.findByLabelText(/Product name/).should('not.be.empty')
+                        cy.findByLabelText(/Report type/).should('not.be.empty')
                         break
                       case 1:
                         if (cell.find('li').length > 0) {
@@ -270,8 +270,8 @@ context('User reports component', () => {
       })
     })
 
-    it('should show the link to view all reports', () => {
-      cy.findByLabelText(/Viewed.*/i).within(() => {
+    it('should not show the link to view all reports', () => {
+      cy.findByLabelText(/Bookmarks.*/i).within(() => {
         cy.findByRole('link', { name: 'Show all' }).should('not.exist')
       })
     })
@@ -311,9 +311,9 @@ context('User reports component', () => {
                   cy.wrap(cell).within(() => {
                     switch (index) {
                       case 0:
-                        cy.findByLabelText('Report name').should('not.be.empty')
-                        cy.findByLabelText('Product name').should('not.be.empty')
-                        cy.findByLabelText('Report type').should('not.be.empty')
+                        cy.findByLabelText(/Report name/).should('not.be.empty')
+                        cy.findByLabelText(/Product name/).should('not.be.empty')
+                        cy.findByLabelText(/Report type/).should('not.be.empty')
                         break
 
                       case 2:

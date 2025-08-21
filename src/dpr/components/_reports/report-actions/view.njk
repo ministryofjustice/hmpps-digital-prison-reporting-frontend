@@ -7,14 +7,16 @@
   {% for button in buttonList %}
     {% if button.id === 'dpr-button-downloadable' %}
       {% set item = {
-        text: button.tooltipText,
+        text: button.text,
         attributes: {
           id: button.id,
           disabled: button.disabled,
-          form: "download-report-form"
+          form: "download-report-form",
+          "aria-label": button.ariaLabelText
         } if button.disabled else {
           id: button.id,
-          form: "download-report-form"
+          form: "download-report-form",
+          "aria-label": button.ariaLabelText
         },
         classes: '{{ button.id }} govuk-button--secondary'
       } %}
@@ -38,7 +40,7 @@
 
     {% else %}
       {% set item = {
-        text: button.tooltipText,
+        text: button.text,
         attributes: {
           id: button.id,
           "data-href": button.href,

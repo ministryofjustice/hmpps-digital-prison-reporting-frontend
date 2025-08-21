@@ -1,6 +1,5 @@
 describe('Request a report', () => {
   const path = '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/filters'
-  let field1: Cypress.Chainable<JQuery<HTMLElement>>
   let field2: Cypress.Chainable<JQuery<HTMLElement>>
   let field3Start: Cypress.Chainable<JQuery<HTMLElement>>
   let field3End: Cypress.Chainable<JQuery<HTMLElement>>
@@ -8,7 +7,6 @@ describe('Request a report', () => {
   let field5: Cypress.Chainable<JQuery<HTMLElement>>
   let field6: Cypress.Chainable<JQuery<HTMLElement>>
   let field7: Cypress.Chainable<JQuery<HTMLElement>>
-  let field8: Cypress.Chainable<JQuery<HTMLElement>>
 
   const clearSelectedFilters = () => {
     for (let index = 0; index < 5; index += 1) {
@@ -18,31 +16,29 @@ describe('Request a report', () => {
   }
 
   const updateFilterValues = () => {
-    field2.select('value2.2')
-    field3Start.type('1/2/2003')
-    field3End.type('4/5/2007')
-    field4.type('Inigo Montoya')
-    field6.type('Value 6.1')
-    field7.type('05/05/2005')
+    cy.findByRole('combobox', { name: 'Field 2' }).select('value2.2')
+    cy.findByRole('textbox', { name: 'From' }).type('1/2/2003')
+    cy.findByRole('textbox', { name: 'To' }).type('4/5/2007')
+    cy.findByRole('combobox', { name: 'Field 4' }).type('Inigo Montoya')
+    cy.findByRole('textbox', { name: 'Field 6' }).type('Value 6.1')
+    cy.findByRole('textbox', { name: 'Field 7' }).type('05/05/2005')
     // multiselect
-    cy.get('input[id="filters.field8"]').check()
-    cy.get('input[id="filters.field8-2"]').check()
-    cy.get('input[id="filters.field8-3"]').check()
-    cy.get('input[id="filters.field8-4"]').check()
+    cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
+    cy.findByRole('checkbox', { name: 'Value 8.2' }).check()
+    cy.findByRole('checkbox', { name: 'Value 8.3' }).check()
+    cy.findByRole('checkbox', { name: 'Value 8.4' }).check()
   }
 
   beforeEach(() => {
     cy.visit(path)
 
-    field1 = cy.get('select[name="filters.field2"]')
-    field2 = cy.get('select[name="filters.field2"]')
-    field3Start = cy.get('input[name="filters.field3.start"]')
-    field3End = cy.get('input[name="filters.field3.end"]')
-    field4 = cy.get('input[name="filters.field4"]')
-    field5 = cy.get('input[name="filters.field5"]')
-    field6 = cy.get('input[name="filters.field6"]')
-    field7 = cy.get('input[name="filters.field7"]')
-    field8 = cy.get('input[name="filters.field8"]')
+    field2 = cy.findByRole('combobox', { name: 'Field 2' })
+    field3Start = cy.findByRole('textbox', { name: 'From' })
+    field3End = cy.findByRole('textbox', { name: 'To' })
+    field4 = cy.findByRole('combobox', { name: 'Field 4' })
+    field5 = cy.findByRole('combobox', { name: 'Field 5' })
+    field6 = cy.findByRole('textbox', { name: 'Field 6' })
+    field7 = cy.findByRole('textbox', { name: 'Field 7' })
   })
 
   it('is accessible', () => {
@@ -52,47 +48,54 @@ describe('Request a report', () => {
 
   context('Selected filters', () => {
     it('should show the default selected filters', () => {
-      const selectedFilters = cy.get('#dpr-selected-filters').children()
-      selectedFilters.should('have.length', 6)
-      selectedFilters.each((filter, index) => {
-        switch (index) {
-          case 0:
-            cy.wrap(filter).contains('Field 1')
-            cy.wrap(filter).contains('Value 1.2')
-            break
-          case 1:
-            cy.wrap(filter).contains('Field 3 start')
-            cy.wrap(filter).contains('01/02/2003')
-            break
-          case 2:
-            cy.wrap(filter).contains('Field 3 end')
-            cy.wrap(filter).contains('04/05/2006')
-            break
-          case 3:
-            cy.wrap(filter).contains('Field 7')
-            cy.wrap(filter).contains('01/02/2005')
-            break
-          case 4:
-            cy.wrap(filter).contains('Field 8')
-            cy.wrap(filter).contains('Value 8.2, Value 8.3')
-            break
-          case 5:
-            cy.wrap(filter).contains('Reset filters')
-            break
-          default:
-            break
-        }
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link')
+          .should('have.length', 6)
+          .each((filter, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(filter).contains('Field 1')
+                cy.wrap(filter).contains('Value 1.2')
+                break
+              case 1:
+                cy.wrap(filter).contains('Field 3 start')
+                cy.wrap(filter).contains('01/02/2003')
+                break
+              case 2:
+                cy.wrap(filter).contains('Field 3 end')
+                cy.wrap(filter).contains('04/05/2006')
+                break
+              case 3:
+                cy.wrap(filter).contains('Field 7')
+                cy.wrap(filter).contains('01/02/2005')
+                break
+              case 4:
+                cy.wrap(filter).contains('Field 8')
+                cy.wrap(filter).contains('Value 8.2, Value 8.3')
+                break
+              case 5:
+                cy.wrap(filter).contains('Reset filters')
+                break
+              default:
+                break
+            }
+          })
       })
     })
 
     it('should remove the selected filter and reset the input', () => {
-      const selectedFilters = cy.get('#dpr-selected-filters').children().should('have.length', 6)
-      clearSelectedFilters()
-      selectedFilters.should('have.length', 0)
-
-      field1.each((input) => {
-        cy.wrap(input).should('not.be.checked')
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').should('have.length', 6)
       })
+      clearSelectedFilters()
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').should('have.length', 1)
+      })
+
+      cy.findByRole('radio', { name: 'None' }).should('not.be.checked')
+      cy.findByRole('radio', { name: 'Value 1.1' }).should('not.be.checked')
+      cy.findByRole('radio', { name: 'Value 1.2' }).should('not.be.checked')
+      cy.findByRole('radio', { name: 'Value 1.3' }).should('not.be.checked')
       field2.find('option:selected').should('have.text', 'Select your option')
       field3Start.should('have.value', '')
       field3End.should('have.value', '')
@@ -100,52 +103,52 @@ describe('Request a report', () => {
       field5.should('have.value', '')
       field6.should('have.value', '')
       field7.should('have.value', '')
-      field8.each((input) => {
-        cy.wrap(input).should('not.be.checked')
-      })
     })
 
     it('should add selected filters when inputs values are updated', () => {
       clearSelectedFilters()
-      cy.get('#dpr-selected-filters').children().should('have.length', 2)
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').should('have.length', 1)
+      })
 
       updateFilterValues()
-
-      const selectedFilters = cy.get('#dpr-selected-filters').children()
-      selectedFilters.should('have.length', 8)
-      selectedFilters.each((filter, index) => {
-        switch (index) {
-          case 0:
-            cy.wrap(filter).contains('Field 2')
-            cy.wrap(filter).contains('Value 2.2')
-            break
-          case 1:
-            cy.wrap(filter).contains('Field 3 start')
-            cy.wrap(filter).contains('01/02/2003')
-            break
-          case 2:
-            cy.wrap(filter).contains('Field 3 end')
-            cy.wrap(filter).contains('4/5/2007')
-            break
-          case 3:
-            cy.wrap(filter).contains('Field 4')
-            cy.wrap(filter).contains('Inigo Montoya')
-            break
-          case 4:
-            cy.wrap(filter).contains('Field 6')
-            cy.wrap(filter).contains('Value 6.1')
-            break
-          case 5:
-            cy.wrap(filter).contains('Field 7')
-            cy.wrap(filter).contains('05/05/2005')
-            break
-          case 6:
-            cy.wrap(filter).contains('Field 8')
-            cy.wrap(filter).contains('Value 8.1, Value 8.2, Value 8.3 + 1 more')
-            break
-          default:
-            break
-        }
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link')
+          .should('have.length', 8)
+          .each((filter, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(filter).contains('Field 2')
+                cy.wrap(filter).contains('Value 2.2')
+                break
+              case 1:
+                cy.wrap(filter).contains('Field 3 start')
+                cy.wrap(filter).contains('01/02/2003')
+                break
+              case 2:
+                cy.wrap(filter).contains('Field 3 end')
+                cy.wrap(filter).contains('4/5/2007')
+                break
+              case 3:
+                cy.wrap(filter).contains('Field 4')
+                cy.wrap(filter).contains('Inigo Montoya')
+                break
+              case 4:
+                cy.wrap(filter).contains('Field 6')
+                cy.wrap(filter).contains('Value 6.1')
+                break
+              case 5:
+                cy.wrap(filter).contains('Field 7')
+                cy.wrap(filter).contains('05/05/2005')
+                break
+              case 6:
+                cy.wrap(filter).contains('Field 8')
+                cy.wrap(filter).contains('Value 8.1, Value 8.2, Value 8.3 + 1 more')
+                break
+              default:
+                break
+            }
+          })
       })
 
       cy.location().should((location) => {
@@ -159,11 +162,20 @@ describe('Request a report', () => {
     })
 
     it('should reset the filters back to their DPD defaults', () => {
-      let selectedFilters = cy.get('#dpr-selected-filters').children().should('have.length', 6)
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').should('have.length', 6)
+      })
       clearSelectedFilters()
-      selectedFilters.should('have.length', 0)
-      cy.get('#async-request-reset-filters-button').click()
-      selectedFilters = cy.get('#dpr-selected-filters').children().should('have.length', 6)
+
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').should('have.length', 1)
+      })
+
+      cy.findByRole('link', { name: 'Reset filters' }).click()
+
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').should('have.length', 6)
+      })
     })
   })
 
@@ -216,14 +228,14 @@ describe('Request a report', () => {
       clearSelectedFilters()
       updateFilterValues()
 
-      cy.get(`#dpr-save-user-defaults`).click()
+      cy.findByRole('button', { name: 'Save current filter values as defaults for this report' }).click()
 
       cy.location().should((location) => {
         expect(location.search).to.contain('defaultsSaved=true')
       })
 
-      cy.get(`#dpr-save-user-defaults`).contains('Update defaults')
-      cy.get('#dpr-remove-user-defaults').should('exist')
+      cy.findByRole('button', { name: 'Update defaults' }).should('exist')
+      cy.findByRole('button', { name: 'Delete defaults' }).should('exist')
     })
 
     it('should pre-fill the filter values with the saved defaults next visit', () => {
@@ -240,25 +252,26 @@ describe('Request a report', () => {
         )
       })
 
-      cy.get(`#dpr-save-user-defaults`).contains('Update defaults')
-      cy.get('#dpr-remove-user-defaults').should('exist')
+      cy.findByRole('button', { name: 'Update defaults' }).should('exist')
+      cy.findByRole('button', { name: 'Delete defaults' }).should('exist')
     })
 
     it('should update the saved defaults', () => {
-      cy.get('#dpr-selected-filters > a:nth-child(2)').click(1, 1)
-      cy.get('#dpr-selected-filters > a:nth-child(2)').click(1, 1)
-      cy.get('#dpr-selected-filters > a:nth-child(2)').click(1, 1)
-      cy.get('input[id="filters.field8-2"]').uncheck()
-      cy.get('input[id="filters.field8-3"]').uncheck()
-      field2.select('value2.3')
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').eq(1).click(1, 1)
+        cy.findAllByRole('link').eq(1).click(1, 1)
+        cy.findAllByRole('link').eq(1).click(1, 1)
+      })
 
-      cy.get(`#dpr-save-user-defaults`).click()
+      cy.findByRole('checkbox', { name: 'Value 8.2' }).uncheck()
+      cy.findByRole('checkbox', { name: 'Value 8.3' }).uncheck()
+      cy.findByRole('combobox', { name: 'Field 2' }).select('value2.3')
 
-      const selectedFilters = cy.get('#dpr-selected-filters').children()
-      selectedFilters.should('have.length', 5)
+      cy.findByRole('button', { name: 'Update defaults' }).click()
 
-      cy.get('#dpr-selected-filters > a:nth-child(4)').contains('Field 8')
-      cy.get('#dpr-selected-filters > a:nth-child(4)').contains('Value 8.1, Value 8.4')
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').should('have.length', 5)
+      })
 
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.field2=value2.3`)
@@ -292,21 +305,25 @@ describe('Request a report', () => {
     })
 
     it('should reset the defaults back to the user saved defaults', () => {
-      cy.get('#dpr-selected-filters > a:nth-child(2)').click(1, 1)
-      cy.get('#dpr-selected-filters > a:nth-child(2)').click(1, 1)
-      cy.get('#dpr-selected-filters > a:nth-child(2)').click(1, 1)
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').eq(1).click(1, 1)
+        cy.findAllByRole('link').eq(1).click(1, 1)
+        cy.findAllByRole('link').eq(1).click(1, 1)
+      })
 
-      let selectedFilters = cy.get('#dpr-selected-filters').children()
-      selectedFilters.should('have.length', 2)
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').should('have.length', 2)
+      })
 
-      cy.get('#async-request-reset-filters-button').click()
+      cy.findByRole('link', { name: 'Reset filters' }).click()
 
-      selectedFilters = cy.get('#dpr-selected-filters').children()
-      selectedFilters.should('have.length', 5)
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').should('have.length', 5)
+      })
     })
 
     it('should remove the save defaults', () => {
-      cy.get(`#dpr-remove-user-defaults`).click()
+      cy.findByRole('button', { name: 'Delete defaults' }).click()
 
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.field1=value1.2`)
@@ -325,7 +342,7 @@ describe('Request a report', () => {
         url: '/embedded/platform/dpr/request-report/report/**/**/filters?**',
       }).as('requestSubmit')
 
-      cy.get('#async-request-report-button').click()
+      cy.findByRole('button', { name: /Request/ }).click()
 
       cy.wait('@requestSubmit')
         .its('request')
@@ -343,7 +360,7 @@ describe('Request a report', () => {
         url: '/embedded/platform/dpr/request-report/report/**/**/filters?**',
       }).as('requestSubmit')
 
-      cy.get('#async-request-report-button').click()
+      cy.findByRole('button', { name: /Request/ }).click()
 
       cy.wait('@requestSubmit')
         .its('request')

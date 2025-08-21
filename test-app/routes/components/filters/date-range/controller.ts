@@ -31,6 +31,11 @@ export default class DateRangeController {
           description: 'Date range component example with relative date radio buttons, and min and max defaults',
           href: '/components/filters/date-range/relative-min-max-date-range',
         },
+        {
+          text: 'Relative date range with defaults',
+          description: 'Date range component example with relative date radio buttons',
+          href: '/components/filters/date-range/relative-date-range-with-default',
+        },
       ],
     })
   }

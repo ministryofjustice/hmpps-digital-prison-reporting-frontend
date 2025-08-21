@@ -5,7 +5,7 @@
   {% set head = dataTable.head %}
   {% set colCount = dataTable.colCount %}
 
-  <div id="table-container" class='dpr-table-container' data-dpr-module="data-table">
+  <div id="table-container" class='dpr-table-container' data-dpr-module="data-table" aria-labelledby="dpr-report-name">
     <div class="dpr-overflow-gradient" id="dpr-overflow-gradient"></div>
     <div class="dpr-table-wrapper" id="dpr-table-wrapper">
       {{ govukTable({

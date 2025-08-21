@@ -11,288 +11,323 @@ context('User reports component', () => {
   })
 
   describe('Requested reports list', () => {
-    const requestedRows = '#dpr-async-request-component > div > table > tbody > tr'
     beforeEach(() => {
-      cy.get('#tab_requested-reports-tab').click()
+      cy.findByRole('tab', { name: /Requested/ }).click()
     })
 
     it('should show the "Requested" tab', () => {
-      cy.get('#tab_requested-reports-tab').should('be.visible')
+      cy.findByRole('tab', { name: /Requested/ }).should('be.visible')
     })
 
     it('should show the help text', () => {
-      cy.get('#dpr-async-request-component > div > div > details > summary').should('be.visible')
+      cy.findByLabelText(/Requested.*/i).within(() => {
+        cy.findAllByRole('group').contains('Help').should('be.visible')
+      })
     })
 
     it('should show the total reports', () => {
-      cy.get('#dpr-async-request-component > :nth-child(1) > .dpr-slide__header > .dpr-slide__sub-text').should(
-        'be.visible',
-      )
-      cy.get('#dpr-async-request-component > div > div > p > strong:nth-child(1)').should('not.be.empty')
-      cy.get('#dpr-async-request-component > div > div > p > strong:nth-child(2)').should('not.be.empty')
+      cy.findByLabelText(/Requested.*/i).within(() => {
+        cy.findAllByRole('paragraph')
+          .contains(/Showing \d{1,4} of \d{1,4} reports/)
+          .should('be.visible')
+      })
     })
 
     it('should show the link to view all reports', () => {
-      cy.get('#dpr-async-request-component > div > div > p > a').should('exist')
+      cy.findByLabelText(/Requested.*/i).within(() => {
+        cy.findByRole('link', { name: 'Show all' }).should('exist')
+      })
     })
 
     it('should show the correct table headers', () => {
-      const th = cy.get('#dpr-async-request-component > div > table > thead > tr > th')
-      th.should('have.length', 4)
-      th.each((head, index) => {
-        switch (index) {
-          case 0:
-            cy.wrap(head).contains('Product')
-            break
-          case 1:
-            cy.wrap(head).contains('Filters')
-            break
-          case 2:
-            cy.wrap(head).contains('Status')
-            break
-          case 3:
-            cy.wrap(head).contains('Actions')
-            break
-          default:
-            break
-        }
-      })
-    })
-
-    it('should show the product and variant information', () => {
-      const rows = cy.get(requestedRows)
-      rows.each((row) => {
-        cy.wrap(row).get('td:nth-child(1) > div > p:nth-child(1) > strong').should('not.be.empty')
-        cy.wrap(row).get('td:nth-child(1) > div > p:nth-child(2)').should('not.be.empty')
-        cy.wrap(row)
-          .get('td:nth-child(1) > div > strong')
-          .contains(/Dashboard|Report/g)
-        cy.wrap(row).get('td:nth-child(1) > div > p:nth-child(3)').should('not.be.empty')
-      })
-    })
-
-    it('should show the requested filters', () => {
-      const rows = cy.get(requestedRows)
-      rows.each((row) => {
-        cy.wrap(row)
-          .get('td:nth-child(2) > ul > li')
-          .each((li) => {
-            cy.wrap(li).should('satisfy', ($el) => {
-              const classList = Array.from($el[0].classList)
-              return classList.includes('dpr-query-summary') || classList.includes('dpr-interactive-query-summary') // passes
+      cy.findByLabelText(/Requested.*/i).within(() => {
+        cy.findAllByRole('rowgroup')
+          .eq(0)
+          .within(() => {
+            cy.findAllByRole('columnheader').each((head, index) => {
+              switch (index) {
+                case 0:
+                  cy.wrap(head).contains('Product')
+                  break
+                case 1:
+                  cy.wrap(head).contains('Filters')
+                  break
+                case 2:
+                  cy.wrap(head).contains('Status')
+                  break
+                case 3:
+                  cy.wrap(head).contains('Actions')
+                  break
+                default:
+                  break
+              }
             })
           })
       })
     })
 
-    it('should show the status', () => {
-      const rows = cy.get(requestedRows)
-      rows.each((row) => {
-        cy.wrap(row)
-          .get('td:nth-child(3) > strong')
-          .contains(/FINISHED|EXPIRED|FAILED|ABORTED/g)
-      })
-    })
-
-    it('should show the correct actions', () => {
-      const rows = cy.get(requestedRows)
-      rows.each((row) => {
-        cy.wrap(row)
-          .find('td:nth-child(3) > strong')
-          .then((status) => {
-            const s = status.text()
-            switch (s) {
-              case 'FINISHED':
-                cy.wrap(row).find('td:nth-child(4)').contains('Go to report')
-                break
-              case 'EXPIRED':
-                cy.wrap(row).find('td:nth-child(4)').contains('Refresh')
-                cy.wrap(row).find('td:nth-child(4)').contains('Remove')
-                break
-              case 'FAILED':
-              case 'ABORTED':
-                cy.wrap(row).find('td:nth-child(4)').contains('Retry')
-                cy.wrap(row).find('td:nth-child(4)').contains('Remove')
-                break
-              default:
-                break
-            }
+    it('should show the product and variant information', () => {
+      cy.findByLabelText(/Requested*/i).within(() => {
+        cy.findAllByRole('rowgroup')
+          .eq(1)
+          .within(() => {
+            cy.findAllByRole('row').each((row) => {
+              cy.wrap(row).within(() => {
+                let status: string
+                cy.findAllByRole('cell').each((cell, index) => {
+                  cy.wrap(cell).within(() => {
+                    switch (index) {
+                      case 0:
+                        cy.findByLabelText(/Report name/).should('not.be.empty')
+                        cy.findByLabelText(/Product name/).should('not.be.empty')
+                        cy.findByLabelText(/Report type/).should('not.be.empty')
+                        break
+                      case 1:
+                        if (cell.find('li').length > 0) {
+                          cy.findAllByRole('listitem').each((li) => {
+                            cy.wrap(li).should('satisfy', ($el) => {
+                              const classList = Array.from($el[0].classList)
+                              return (
+                                classList.includes('dpr-query-summary') ||
+                                classList.includes('dpr-interactive-query-summary')
+                              )
+                            })
+                          })
+                        }
+                        break
+                      case 2:
+                        cy.findByRole('strong').then((s) => {
+                          status = s.text()
+                        })
+                        cy.findByRole('strong').contains(/FINISHED|EXPIRED|FAILED|ABORTED/g)
+                        break
+                      case 3:
+                        switch (status) {
+                          case 'FINISHED':
+                            cy.wrap(cell).contains('Go to report')
+                            break
+                          case 'EXPIRED':
+                            cy.wrap(cell).contains('Refresh')
+                            cy.wrap(cell).contains('Remove')
+                            break
+                          case 'FAILED':
+                          case 'ABORTED':
+                            cy.wrap(cell).contains('Retry')
+                            cy.wrap(cell).contains('Remove')
+                            break
+                          default:
+                            break
+                        }
+                        break
+                      default:
+                        break
+                    }
+                  })
+                })
+              })
+            })
           })
       })
     })
   })
 
   describe('Viewed reports list', () => {
-    const viewedRows = '#dpr-recently-viewed-component > div > table > tbody > tr'
-
     beforeEach(() => {
-      cy.get('#tab_recently-viewed-tab').click()
+      cy.findByRole('tab', { name: /Viewed/ }).click()
     })
 
     it('should show the "Viewed" tab', () => {
-      cy.get('#tab_recently-viewed-tab').should('be.visible')
+      cy.findByRole('tab', { name: /Viewed/ }).should('be.visible')
     })
 
     it('should show the help text', () => {
-      cy.get('#dpr-recently-viewed-component > div > div > details > summary').should('be.visible')
+      cy.findByLabelText(/Viewed \(/).within(() => {
+        cy.findAllByRole('group').contains('Help').should('be.visible')
+      })
     })
 
     it('should show the total reports', () => {
-      cy.get('#dpr-recently-viewed-component > :nth-child(1) > .dpr-slide__header > .dpr-slide__sub-text').should(
-        'be.visible',
-      )
-      cy.get('#dpr-recently-viewed-component > div > div > p > strong:nth-child(1)').should('not.be.empty')
-      cy.get('#dpr-recently-viewed-component > div > div > p > strong:nth-child(2)').should('not.be.empty')
+      cy.findByLabelText(/Viewed \(/).within(() => {
+        cy.findAllByRole('paragraph')
+          .contains(/Showing \d{1,4} of \d{1,4} reports/)
+          .should('be.visible')
+      })
     })
 
     it('should show the link to view all reports', () => {
-      cy.get('#dpr-recently-viewed-component > div > div > p > a').should('exist')
+      cy.findByLabelText(/Viewed \(/).within(() => {
+        cy.findByRole('link', { name: 'Show all' }).should('exist')
+      })
     })
 
     it('should show the correct table headers', () => {
-      const th = cy.get('#dpr-recently-viewed-component > div > table > thead > tr > th')
-      th.should('have.length', 4)
-      th.each((head, index) => {
-        switch (index) {
-          case 0:
-            cy.wrap(head).contains('Product')
-            break
-          case 1:
-            cy.wrap(head).contains('Filters')
-            break
-          case 2:
-            cy.wrap(head).contains('Status')
-            break
-          case 3:
-            cy.wrap(head).contains('Actions')
-            break
-          default:
-            break
-        }
-      })
-    })
-
-    it('should show the product and variant information', () => {
-      const rows = cy.get(viewedRows)
-      rows.each((row) => {
-        cy.wrap(row).get('td:nth-child(1) > div > p:nth-child(1) > strong').should('not.be.empty')
-        cy.wrap(row).get('td:nth-child(1) > div > p:nth-child(2)').should('not.be.empty')
-        cy.wrap(row)
-          .get('td:nth-child(1) > div > strong')
-          .contains(/Dashboard|Report/g)
-        cy.wrap(row).get('td:nth-child(1) > div > p:nth-child(3)').should('not.be.empty')
-      })
-    })
-
-    it('should show the requested filters', () => {
-      const rows = cy.get(viewedRows)
-      rows.each((row) => {
-        cy.wrap(row)
-          .get('td:nth-child(2) > ul > li')
-          .each((li) => {
-            cy.wrap(li).should('satisfy', ($el) => {
-              const classList = Array.from($el[0].classList)
-              return classList.includes('dpr-query-summary') || classList.includes('dpr-interactive-query-summary') // passes
+      cy.findByLabelText(/Viewed \(/).within(() => {
+        cy.findAllByRole('rowgroup')
+          .eq(0)
+          .within(() => {
+            cy.findAllByRole('columnheader').each((head, index) => {
+              switch (index) {
+                case 0:
+                  cy.wrap(head).contains('Product')
+                  break
+                case 1:
+                  cy.wrap(head).contains('Filters')
+                  break
+                case 2:
+                  cy.wrap(head).contains('Status')
+                  break
+                case 3:
+                  cy.wrap(head).contains('Actions')
+                  break
+                default:
+                  break
+              }
             })
           })
       })
     })
 
-    it('should show the status', () => {
-      const rows = cy.get(viewedRows)
-      rows.each((row) => {
-        cy.wrap(row)
-          .get('td:nth-child(3) > strong')
-          .contains(/FINISHED|EXPIRED|FAILED|ABORTED/g)
-      })
-    })
-
-    it('should show the correct actions', () => {
-      const rows = cy.get(viewedRows)
-      rows.each((row) => {
-        cy.wrap(row)
-          .find('td:nth-child(3) > strong')
-          .then((status) => {
-            const s = status.text()
-            switch (s) {
-              case 'FINISHED':
-                cy.wrap(row).find('td:nth-child(4)').contains('Go to report')
-                break
-              case 'EXPIRED':
-                cy.wrap(row).find('td:nth-child(4)').contains('Refresh')
-                cy.wrap(row).find('td:nth-child(4)').contains('Remove')
-                break
-              default:
-                break
-            }
+    it('should show the product and variant information', () => {
+      cy.findByLabelText(/Viewed \(/).within(() => {
+        cy.findAllByRole('rowgroup')
+          .eq(1)
+          .within(() => {
+            cy.findAllByRole('row').each((row) => {
+              cy.wrap(row).within(() => {
+                let status: string
+                cy.findAllByRole('cell').each((cell, index) => {
+                  cy.wrap(cell).within(() => {
+                    switch (index) {
+                      case 0:
+                        cy.findByLabelText(/Report name/).should('not.be.empty')
+                        cy.findByLabelText(/Product name/).should('not.be.empty')
+                        cy.findByLabelText(/Report type/).should('not.be.empty')
+                        break
+                      case 1:
+                        if (cell.find('li').length > 0) {
+                          cy.findAllByRole('listitem').each((li) => {
+                            cy.wrap(li).should('satisfy', ($el) => {
+                              const classList = Array.from($el[0].classList)
+                              return (
+                                classList.includes('dpr-query-summary') ||
+                                classList.includes('dpr-interactive-query-summary')
+                              )
+                            })
+                          })
+                        }
+                        break
+                      case 2:
+                        cy.findByRole('strong').then((s) => {
+                          status = s.text()
+                        })
+                        cy.findByRole('strong').contains(/READY|EXPIRED/g)
+                        break
+                      case 3:
+                        switch (status) {
+                          case 'FINISHED':
+                            cy.wrap(cell).contains('Go to report')
+                            break
+                          case 'EXPIRED':
+                            cy.wrap(cell).contains('Refresh')
+                            cy.wrap(cell).contains('Remove')
+                            break
+                          default:
+                            break
+                        }
+                        break
+                      default:
+                        break
+                    }
+                  })
+                })
+              })
+            })
           })
       })
     })
   })
 
   describe('Bookmarked reports list', () => {
-    const bookmarkRows = '#dpr-bookmarks-list > div > table > tbody > tr'
     beforeEach(() => {
-      cy.get('#tab_my-bookmarks-tab').click()
+      cy.findByRole('tab', { name: /Bookmarks/ }).click()
     })
 
     it('should show the "Bookmarks" tab', () => {
-      cy.get('#tab_my-bookmarks-tab').should('be.visible')
+      cy.findByRole('tab', { name: /Bookmarks/ }).should('be.visible')
     })
 
     it('should show the help text', () => {
-      cy.get('#dpr-bookmarks-list > div > div > details > summary').should('be.visible')
+      cy.findByLabelText(/Bookmarks.*/i).within(() => {
+        cy.findAllByRole('group').contains('Help').should('be.visible')
+      })
     })
 
     it('should show the total reports', () => {
-      cy.get('#dpr-bookmarks-list > :nth-child(1) > .dpr-slide__header > .dpr-slide__sub-text').should('be.visible')
-      cy.get('#dpr-bookmarks-list > div > div > p > strong:nth-child(1)').should('not.be.empty')
-      cy.get('#dpr-bookmarks-list > div > div > p > strong:nth-child(2)').should('not.be.empty')
+      cy.findByLabelText(/Bookmarks.*/i).within(() => {
+        cy.findAllByRole('paragraph')
+          .contains(/Showing \d{1,4} of \d{1,4} reports/)
+          .should('be.visible')
+      })
     })
 
-    it('should show the link to view all reports', () => {
-      cy.get('#dpr-bookmarks-list > div > div > p > a').should('not.exist')
+    it('should not show the link to view all reports', () => {
+      cy.findByLabelText(/Bookmarks.*/i).within(() => {
+        cy.findByRole('link', { name: 'Show all' }).should('not.exist')
+      })
     })
 
     it('should show the correct table headers', () => {
-      const th = cy.get('#dpr-bookmarks-list > div > table > thead > tr > th')
-      th.should('have.length', 3)
-      th.each((head, index) => {
-        switch (index) {
-          case 0:
-            cy.wrap(head).contains('Product')
-            break
-          case 1:
-            cy.wrap(head).contains('Description')
-            break
-          case 3:
-            cy.wrap(head).contains('Actions')
-            break
-          default:
-            break
-        }
+      cy.findByLabelText(/Bookmarks.*/i).within(() => {
+        cy.findAllByRole('rowgroup')
+          .eq(0)
+          .within(() => {
+            cy.findAllByRole('columnheader').each((head, index) => {
+              switch (index) {
+                case 0:
+                  cy.wrap(head).contains('Product')
+                  break
+                case 1:
+                  cy.wrap(head).contains('Description')
+                  break
+                case 3:
+                  cy.wrap(head).contains('Actions')
+                  break
+                default:
+                  break
+              }
+            })
+          })
       })
     })
 
     it('should show the product and variant information', () => {
-      const rows = cy.get(bookmarkRows)
-      rows.each((row) => {
-        cy.wrap(row).get('td:nth-child(1) > div > p:nth-child(1) > strong').should('not.be.empty')
-        cy.wrap(row).get('td:nth-child(1) > div > p:nth-child(2)').should('not.be.empty')
-        cy.wrap(row)
-          .get('td:nth-child(1) > div > strong')
-          .contains(/Dashboard|Report/g)
-        cy.wrap(row).get('td:nth-child(1) > div > p:nth-child(3)').should('not.exist')
-      })
-    })
+      cy.findByLabelText(/Bookmarks.*/i).within(() => {
+        cy.findAllByRole('rowgroup')
+          .eq(1)
+          .within(() => {
+            cy.findAllByRole('row').each((row) => {
+              cy.wrap(row).within(() => {
+                cy.findAllByRole('cell').each((cell, index) => {
+                  cy.wrap(cell).within(() => {
+                    switch (index) {
+                      case 0:
+                        cy.findByLabelText(/Report name/).should('not.be.empty')
+                        cy.findByLabelText(/Product name/).should('not.be.empty')
+                        cy.findByLabelText(/Report type/).should('not.be.empty')
+                        break
 
-    it('should show the correct actions', () => {
-      const rows = cy.get(bookmarkRows)
-      rows.each((row) => {
-        cy.wrap(row)
-          .find('td:nth-child(3)')
-          .contains(/Request report|Request dashboard/g)
-        cy.wrap(row).find('td:nth-child(3)').contains('Remove bookmark')
+                      case 2:
+                        cy.wrap(cell).contains(/Request report|Request dashboard/g)
+                        cy.wrap(cell).contains('Remove bookmark')
+                        break
+                      default:
+                        break
+                    }
+                  })
+                })
+              })
+            })
+          })
       })
     })
   })

@@ -40,7 +40,6 @@ export default class MultiSelectController {
           { value: 'value5.2', text: 'Value 5.2' },
           { value: 'value6.2', text: 'Value 6.2' },
           { value: 'value7.2', text: 'Value 7.2' },
-          { value: 'value8.2', text: 'Value 8.2' },
           { value: 'value9.2', text: 'Value 9.2' },
           { value: 'value10.2', text: 'Value 10.2' },
         ],

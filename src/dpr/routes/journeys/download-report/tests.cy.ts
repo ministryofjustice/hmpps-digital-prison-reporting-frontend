@@ -10,20 +10,22 @@ context('Download report', () => {
 
   describe('Enabling download', () => {
     it('should show the enable download button', () => {
-      cy.get('#dpr-button-downloadable').contains('Enable download')
-      cy.get('#dpr-download-message > article > section').should('not.be.visible')
+      cy.findByLabelText(/Enable download/)
+        .should('exist')
+        .should('be.visible')
+      cy.findByRole('heading', { name: 'To download this report' }).should('not.exist')
     })
 
     it('should show the download disabled message with link to form', () => {
-      cy.get('#dpr-button-downloadable').contains('Enable download').click()
+      cy.findByLabelText(/Enable download/).click()
       cy.url().should('have.string', '/report/download-disabled')
-      cy.get('#dpr-download-message > article > section').should('be.visible')
-      cy.get('#dpr-download-message > article > section > p:nth-child(2) > a').should('be.visible')
+      cy.findByRole('heading', { name: 'To download this report' }).should('be.visible')
+      cy.findByRole('link', { name: 'Fill out a form' })
     })
 
     it('should go to the request download form', () => {
-      cy.get('#dpr-button-downloadable').click()
-      cy.get('#dpr-download-message > article > section > p:nth-child(2) > a').click()
+      cy.findByLabelText(/Enable download/).click()
+      cy.findByRole('link', { name: 'Fill out a form' }).click()
 
       cy.url().then((url) => {
         downloadRequestFormPage = url
@@ -44,34 +46,36 @@ context('Download report', () => {
   describe('Requesting download', () => {
     it('should prefill the user data in the request form', () => {
       cy.visit(downloadRequestFormPage)
-      cy.get('#name').should('have.value', 'Test User')
-      cy.get('#email').should('have.value', 'test@user.com')
+      cy.findByRole('textbox', { name: 'What is your Full name?' }).should('have.value', 'Test User')
+      cy.findByRole('textbox', { name: 'What is your Email address?' }).should('have.value', 'test@user.com')
     })
 
     it('should validate the required fields', () => {
       cy.visit(downloadRequestFormPage)
+      cy.findByRole('alert').should('not.exist')
+
+      cy.findAllByRole('paragraph').contains('Enter your Job title').should('not.exist')
+      cy.findAllByRole('paragraph').contains('provide information on how you will use this data').should('not.exist')
       cy.get('#more-detail-error').should('not.be.visible')
-      cy.get('#role-error').should('not.be.visible')
-      cy.get('#dpr-form-summary--error-summary > div').should('not.be.visible')
 
-      cy.get('#dpr-form-summary--form-submit').click()
+      cy.findByRole('button', { name: /Submit request/ }).click()
 
-      cy.get('#dpr-form-summary--error-summary > div').should('be.visible')
-      cy.get('#more-detail-error').should('be.visible')
-      cy.get('#role-error').should('be.visible')
+      cy.findByRole('alert').should('exist')
+      cy.findAllByRole('paragraph').contains('Enter your Job title').should('exist')
+      cy.findAllByRole('paragraph').contains('provide information on how you will use this data').should('exist')
     })
 
     it('should submit the download request', () => {
       cy.visit(downloadRequestFormPage)
-      cy.get('#role').type('Software engineer')
-      cy.get('#more-detail').type('I like this report')
+      cy.findByRole('textbox', { name: 'What is your Job title?' }).type('Software engineer')
+      cy.findByRole('textbox', { name: 'Can you provide more detail' }).type('I like this report')
 
       cy.intercept({
         method: 'POST',
         url: '/embedded/platform/dpr/download-report/request-download/**/**/tableId/**',
       }).as('requestDownload')
 
-      cy.get('#dpr-form-summary--form-submit').click()
+      cy.findByRole('button', { name: 'Submit request' }).click()
 
       cy.wait('@requestDownload')
         .its('request')
@@ -101,13 +105,13 @@ context('Download report', () => {
   describe('Request download submitted', () => {
     it('should show the report details', () => {
       cy.visit(downloadRequestSubmittedPage)
-      cy.get('.download-success-panel > :nth-child(3)').contains('Request examples - Successful Report')
+      cy.findAllByRole('paragraph').contains('Request examples - Successful Report').should('exist')
     })
   })
 
   describe('Download', () => {
     it('should show the enabled download button', () => {
-      cy.get('#dpr-button-downloadable').contains('Download')
+      cy.findByLabelText(/download/).should('exist')
     })
 
     it('should post the correct data to prepare the download', () => {
@@ -116,7 +120,7 @@ context('Download report', () => {
         url: '/embedded/platform/dpr/download-report/',
       }).as('downloadReport')
 
-      cy.get('#dpr-button-downloadable').click()
+      cy.findByLabelText(/download/).click()
 
       cy.wait('@downloadReport')
         .its('request')

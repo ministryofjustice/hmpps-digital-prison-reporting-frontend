@@ -36,10 +36,10 @@ export const createListItemProduct = (productName: string, reportName: string, t
   const tagColor = getTypeTagColor(type)
   const reportType = toSentenceCase(type)
   return `<div>
-  <p class="govuk-body govuk-!-margin-bottom-1"><strong>${reportName}</strong></p>
-  <p class="govuk-body-s govuk-!-margin-bottom-3">${productName}</p>
-  <strong class="govuk-tag ${tagColor} dpr-request-status-tag--small govuk-!-margin-bottom-4'">${reportType}</strong>
-  <p class="govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-3 ${tsClass}">${ts}</p>
+  <p class="govuk-body govuk-!-margin-bottom-1" aria-label="Report name ${reportName}"><strong>${reportName}</strong></p>
+  <p class="govuk-body-s govuk-!-margin-bottom-3" aria-label="Product name ${productName}">${productName}</p>
+  <strong class="govuk-tag ${tagColor} dpr-request-status-tag--small govuk-!-margin-bottom-4" aria-label="Report type ${reportType}">${reportType}</strong>
+  <p class="govuk-body-xs govuk-!-margin-bottom-0 govuk-!-margin-top-3 ${tsClass}" aria-label="Timestamp">${ts}</p>
 </div>`
 }
 
@@ -75,11 +75,12 @@ export const createListActions = (
       actionText = `Load ${type}`
     }
     requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1 dpr-live-report dpr-type__${type}' href="${href}">${actionText}</a>`
-
-    if (bookmarkHtml) {
-      requestAction = `${requestAction}${bookmarkHtml}`
-    }
   }
+
+  if (bookmarkHtml) {
+    requestAction = `${requestAction}${bookmarkHtml}`
+  }
+
   return requestAction
 }
 

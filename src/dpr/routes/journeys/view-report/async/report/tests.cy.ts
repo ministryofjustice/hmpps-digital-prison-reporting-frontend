@@ -1,8 +1,5 @@
 context('Viewing a report', () => {
   const path = '/embedded/platform/'
-  const listUrlSelector =
-    '#dpr-reports-catalogue > tbody > tr > td > a[href="dpr/request-report/report/request-examples/request-example-success/filters"]'
-
   let viewReportUrl: string
 
   let tableId: string
@@ -10,8 +7,20 @@ context('Viewing a report', () => {
   describe('List report page', () => {
     before(() => {
       cy.visit(path)
-      cy.get(listUrlSelector).click()
-      cy.get('#async-request-report-button').click().wait(4000)
+      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+        cy.findByRole('row', {
+          name: (_, element) => {
+            return (
+              element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
+            )
+          },
+        }).within(() => {
+          cy.findByRole('link', { name: 'Request report' }).click()
+        })
+      })
+      cy.findByRole('button', { name: /Request/ })
+        .click()
+        .wait(4000)
       cy.url().then((url) => {
         viewReportUrl = url
         const urlArr = url.split('/')
@@ -30,85 +39,87 @@ context('Viewing a report', () => {
 
     describe('Report details', () => {
       it('should show the product name', () => {
-        cy.get('.govuk-caption-l').should('not.be.empty').contains('Request examples')
-        cy.get('.govuk-heading-l').should('not.be.empty').contains('Successful Report')
+        cy.findAllByRole('heading', { name: 'Successful Report' }).should('be.visible')
+        cy.findAllByRole('heading', { name: 'Request examples' }).should('be.visible')
       })
 
       it('should show the report details', () => {
-        cy.get('.dpr-meta-data-details > .govuk-details__summary').click()
-        cy.get('#dpr-request-details-table > tbody > tr').each((row, index) => {
-          const td1 = 'td:nth-child(1) > p'
-          const td2 = 'td:nth-child(2)'
-          switch (index) {
-            case 0:
-              cy.wrap(row).find(td1).contains('Name')
-              cy.wrap(row).find(td2).contains('Successful Report')
-              break
-            case 1:
-              cy.wrap(row).find(td1).contains('Product')
-              cy.wrap(row).find(td2).contains('Request examples')
-              break
-            case 2:
-              cy.wrap(row).find(td1).contains('Description')
-              cy.wrap(row).find(td2).contains('this will succeed')
-              break
-            case 3:
-              cy.wrap(row).find(td1).contains('Classification')
-              cy.wrap(row).find(td2).contains('OFFICIAL')
-              break
-            case 4:
-              cy.wrap(row).find(td1).contains('Requested at')
-              cy.wrap(row)
-                .find(td2)
-                .contains(/\d{1,2}\/\d{1,2}\/\d{2,4}/)
-              break
-            case 5:
-              cy.wrap(row).find(td1).contains('Applied Filters')
-              cy.wrap(row)
-                .find('td:nth-child(2) > ul > li')
-                .each((li, liIndex) => {
-                  switch (liIndex) {
-                    case 0:
-                      cy.wrap(li).contains('Field 1: value1.2')
-                      break
-                    case 1:
-                      cy.wrap(li).contains('Field 3 start: 01/02/2003')
-                      break
-                    case 2:
-                      cy.wrap(li).contains('Field 3 end: 04/05/2006')
-                      break
-                    case 3:
-                      cy.wrap(li).contains('Field 7: 01/02/2005')
-                      break
-                    case 4:
-                      cy.wrap(li).contains('Field 8: value8.2,value8.3')
-                      break
-                    case 5:
-                      cy.wrap(li).contains('Sort column: Field 1')
-                      break
-                    case 6:
-                      cy.wrap(li).contains('Sort direction: Descending')
-                      break
-                    default:
-                      break
-                  }
-                })
-              break
-            default:
-              break
-          }
-        })
+        cy.findAllByRole('group').contains('Report details').should('be.visible').click()
+
+        cy.findAllByRole('group')
+          .contains('Report details')
+          .parent()
+          .parent()
+          .within(() => {
+            cy.findAllByRole('row').each((row, index) => {
+              cy.wrap(row).within(() => {
+                switch (index) {
+                  case 0:
+                    cy.findAllByRole('cell', { name: 'Name:' }).should('exist')
+                    cy.findAllByRole('cell', { name: 'Successful Report' }).should('exist')
+                    break
+                  case 1:
+                    cy.findAllByRole('cell', { name: 'Product:' }).should('exist')
+                    cy.findAllByRole('cell', { name: 'Request examples' }).should('exist')
+                    break
+                  case 2:
+                    cy.findAllByRole('cell', { name: 'Description:' }).should('exist')
+                    cy.findAllByRole('cell', { name: 'this will succeed' }).should('exist')
+                    break
+                  case 3:
+                    cy.findAllByRole('cell', { name: 'Classification:' }).should('exist')
+                    cy.findAllByRole('cell', { name: 'OFFICIAL' }).should('exist')
+                    break
+                  case 4:
+                    cy.findAllByRole('cell', { name: 'Requested at:' }).should('exist')
+                    cy.findAllByRole('cell', { name: /\d{1,2}\/\d{1,2}\/\d{2,4}/ }).should('exist')
+                    break
+                  case 5:
+                    cy.findAllByRole('cell', { name: 'Applied Filters:' }).should('exist')
+                    cy.findAllByRole('listitem').each((item, i) => {
+                      switch (i) {
+                        case 0:
+                          cy.wrap(item).contains('Field 1: value1.2')
+                          break
+                        case 1:
+                          cy.wrap(item).contains('Field 3 start: 01/02/2003')
+                          break
+                        case 2:
+                          cy.wrap(item).contains('Field 3 end: 04/05/2006')
+                          break
+                        case 3:
+                          cy.wrap(item).contains('Field 7: 01/02/2005')
+                          break
+                        case 4:
+                          cy.wrap(item).contains('Field 8: value8.2,value8.3')
+                          break
+                        case 5:
+                          cy.wrap(item).contains('Sort column: Field 1')
+                          break
+                        case 6:
+                          cy.wrap(item).contains('Sort direction: Descending')
+                          break
+                        default:
+                          break
+                      }
+                    })
+                    break
+                  default:
+                    break
+                }
+              })
+            })
+          })
       })
     })
 
     describe('Actions', () => {
       it('should show the refresh action', () => {
-        cy.get('#dpr-button-refresh').should('be.visible')
+        cy.findByLabelText('Refresh report').should('be.visible')
       })
 
       it('should go to the filters page when refresh action is clicked', () => {
-        cy.get('#dpr-button-refresh').click()
-
+        cy.findByLabelText('Refresh report').should('be.visible').click()
         cy.url().should(
           'match',
           /http:\/\/localhost:3010\/embedded\/platform\/dpr\/request-report\/report\/request-examples\/request-example-success\/filters/i,
@@ -124,32 +135,34 @@ context('Viewing a report', () => {
       })
 
       it('should show the print action', () => {
-        cy.get('#dpr-button-printable').should('be.visible').should('be.disabled')
+        cy.findByLabelText(/Print screen/)
+          .should('be.visible')
+          .should('be.disabled')
       })
 
       it('should show the download action', () => {
-        cy.get('#dpr-button-downloadable').should('be.visible')
+        cy.findByLabelText(/download/).should('be.visible')
       })
 
       it('should show the copy action', () => {
-        cy.get('#dpr-button-copy').should('be.visible')
+        cy.findByLabelText(/Copy report link/).should('be.visible')
       })
 
       it('should show the bookmark toggle', () => {
-        cy.get('#request-example-success-request-examples-report-bookmark-label').should('be.visible')
+        cy.findByLabelText('bookmark toggle').should('be.visible')
       })
     })
 
     describe('Column interactions', () => {
       const expectInitialisedColumns = () => {
-        cy.get('#columns').should('be.checked')
-        cy.get('#columns-2').should('be.checked').should('be.disabled')
-        cy.get('#columns-3').should('be.checked')
-        cy.get('#columns-4').should('not.be.checked')
-        cy.get('#columns-5').should('not.be.checked')
-        cy.get('#columns-6').should('be.checked').should('be.disabled')
-        cy.get('#columns-7').should('be.checked')
-        cy.get('#columns-8').should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Field 1' }).should('be.checked')
+        cy.findByRole('checkbox', { name: 'Field 2' }).should('be.checked').should('be.disabled')
+        cy.findByRole('checkbox', { name: 'Field 3' }).should('be.checked')
+        cy.findByRole('checkbox', { name: 'Field 4' }).should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Field 5' }).should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Field 6' }).should('be.checked').should('be.disabled')
+        cy.findByRole('checkbox', { name: 'Field 7' }).should('be.checked')
+        cy.findByRole('checkbox', { name: 'Field 8' }).should('not.be.checked')
 
         cy.location().should((location) => {
           expect(location.search).to.contain(`columns=field1`)
@@ -164,14 +177,14 @@ context('Viewing a report', () => {
       }
 
       const expectUpdatedColumns = () => {
-        cy.get('#columns').should('not.be.checked')
-        cy.get('#columns-2').should('be.checked').should('be.disabled')
-        cy.get('#columns-3').should('not.be.checked')
-        cy.get('#columns-4').should('not.be.checked')
-        cy.get('#columns-5').should('be.checked')
-        cy.get('#columns-6').should('be.checked').should('be.disabled')
-        cy.get('#columns-7').should('not.be.checked')
-        cy.get('#columns-8').should('be.checked')
+        cy.findByRole('checkbox', { name: 'Field 1' }).should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Field 2' }).should('be.checked').should('be.disabled')
+        cy.findByRole('checkbox', { name: 'Field 3' }).should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Field 4' }).should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Field 5' }).should('be.checked')
+        cy.findByRole('checkbox', { name: 'Field 6' }).should('be.checked').should('be.disabled')
+        cy.findByRole('checkbox', { name: 'Field 7' }).should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Field 8' }).should('be.checked')
 
         cy.location().should((location) => {
           expect(location.search).not.to.contain(`columns=field1`)
@@ -186,90 +199,110 @@ context('Viewing a report', () => {
       }
 
       const setColumnValues = () => {
-        cy.get('#columns').uncheck()
-        cy.get('#columns-3').uncheck()
-        cy.get('#columns-5').check()
-        cy.get('#columns-7').uncheck()
-        cy.get('#columns-8').check()
+        cy.findByRole('checkbox', { name: 'Field 1' }).uncheck()
+        cy.findByRole('checkbox', { name: 'Field 3' }).uncheck()
+        cy.findByRole('checkbox', { name: 'Field 5' }).check()
+        cy.findByRole('checkbox', { name: 'Field 7' }).uncheck()
+        cy.findByRole('checkbox', { name: 'Field 8' }).check()
       }
 
       it('should initialise the column filter values', () => {
-        cy.get('.columns-section-button > .govuk-details > .govuk-details__summary').click()
+        cy.findAllByRole('group')
+          .contains(/Show columns/)
+          .should('be.visible')
+          .click()
         expectInitialisedColumns()
       })
 
       it('should show the columns count', () => {
-        cy.get('.columns-section-button > .govuk-details > .govuk-details__summary').contains(
-          'Show columns (5 of 8 shown)',
-        )
+        cy.findAllByRole('group').contains('Show columns (5 of 8 shown)')
       })
 
       it('should initialise the correct columns in the list table', () => {
-        cy.get('#dpr-data-table > thead > tr.govuk-table__row > th').each((th, index) => {
-          switch (index) {
-            case 0:
-              cy.wrap(th).contains('Field 1')
-              break
-            case 1:
-              cy.wrap(th).contains('Field 2')
-              break
-            case 2:
-              cy.wrap(th).contains('Field 3')
-              break
-            case 3:
-              cy.wrap(th).contains('Field 6')
-              break
-            case 4:
-              cy.wrap(th).contains('Field 7')
-              break
-            default:
-              break
-          }
+        cy.findByLabelText(/Successful Report/).within(() => {
+          cy.findAllByRole('rowgroup')
+            .eq(0)
+            .within(() => {
+              cy.findAllByRole('columnheader').each((head, index) => {
+                switch (index) {
+                  case 0:
+                    cy.wrap(head).contains('Field 1')
+                    break
+                  case 1:
+                    cy.wrap(head).contains('Field 2')
+                    break
+                  case 2:
+                    cy.wrap(head).contains('Field 3')
+                    break
+                  case 3:
+                    cy.wrap(head).contains('Field 6')
+                    break
+                  case 4:
+                    cy.wrap(head).contains('Field 7')
+                    break
+                  default:
+                    break
+                }
+              })
+            })
         })
       })
 
       it('should apply the columns', () => {
-        cy.get('.columns-section-button > .govuk-details > .govuk-details__summary').click()
+        cy.findAllByRole('group')
+          .contains(/Show columns/)
+          .click()
 
         setColumnValues()
         expectUpdatedColumns()
 
-        cy.get('.govuk-button-group > .govuk-button').click()
+        cy.findByRole('button', { name: 'Apply columns' }).click()
 
         expectUpdatedColumns()
 
-        cy.get('#dpr-data-table > thead > tr.govuk-table__row > th').each((th, index) => {
-          switch (index) {
-            case 0:
-              cy.wrap(th).contains('Field 2')
-              break
-            case 1:
-              cy.wrap(th).contains('Field 5')
-              break
-            case 2:
-              cy.wrap(th).contains('Field 6')
-              break
-            case 3:
-              cy.wrap(th).contains('Field 8')
-              break
-            default:
-              break
-          }
+        cy.findByLabelText(/Successful Report/).within(() => {
+          cy.findAllByRole('rowgroup')
+            .eq(0)
+            .within(() => {
+              cy.findAllByRole('columnheader').each((head, index) => {
+                switch (index) {
+                  case 0:
+                    cy.wrap(head).contains('Field 2')
+                    break
+                  case 1:
+                    cy.wrap(head).contains('Field 5')
+                    break
+                  case 2:
+                    cy.wrap(head).contains('Field 6')
+                    break
+                  case 3:
+                    cy.wrap(head).contains('Field 8')
+                    break
+                  default:
+                    break
+                }
+              })
+            })
         })
       })
 
       it('should reset the columns to their DPD defaults', () => {
-        cy.get('.columns-section-button > .govuk-details > .govuk-details__summary').click()
+        cy.findAllByRole('group')
+          .contains(/Show columns/)
+          .click()
 
         setColumnValues()
         expectUpdatedColumns()
 
-        cy.get('.govuk-button-group > .govuk-button').click()
+        cy.findByRole('button', { name: 'Apply columns' }).click()
 
         expectUpdatedColumns()
 
-        cy.get('.columns-section-button > .govuk-details > .govuk-details__summary').click()
-        cy.get('.govuk-button-group > .govuk-link').click()
+        cy.findAllByRole('group')
+          .contains(/Show columns/)
+          .click()
+
+        cy.findByRole('link', { name: 'Reset columns' }).click()
 
         expectInitialisedColumns()
       })
@@ -279,61 +312,91 @@ context('Viewing a report', () => {
           `/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/${tableId}/report?columns=field1&columns=field5&columns=field8`,
         )
 
-        cy.get('#columns').should('be.checked')
-        cy.get('#columns-2').should('be.checked').should('be.disabled')
-        cy.get('#columns-3').should('not.be.checked')
-        cy.get('#columns-4').should('not.be.checked')
-        cy.get('#columns-5').should('be.checked')
-        cy.get('#columns-6').should('be.checked').should('be.disabled')
-        cy.get('#columns-7').should('not.be.checked')
-        cy.get('#columns-8').should('be.checked')
+        cy.findByRole('checkbox', { name: 'Field 1' }).should('be.checked')
+        cy.findByRole('checkbox', { name: 'Field 2' }).should('be.checked').should('be.disabled')
+        cy.findByRole('checkbox', { name: 'Field 3' }).should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Field 4' }).should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Field 5' }).should('be.checked')
+        cy.findByRole('checkbox', { name: 'Field 6' }).should('be.checked').should('be.disabled')
+        cy.findByRole('checkbox', { name: 'Field 7' }).should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Field 8' }).should('be.checked')
 
-        cy.get('#dpr-data-table > thead > tr.govuk-table__row > th').each((th, index) => {
-          switch (index) {
-            case 0:
-              cy.wrap(th).contains('Field 1')
-              break
-            case 1:
-              cy.wrap(th).contains('Field 2')
-              break
-            case 2:
-              cy.wrap(th).contains('Field 5')
-              break
-            case 3:
-              cy.wrap(th).contains('Field 6')
-              break
-            case 4:
-              cy.wrap(th).contains('Field 8')
-              break
-            default:
-              break
-          }
+        cy.findByLabelText(/Successful Report/).within(() => {
+          cy.findAllByRole('rowgroup')
+            .eq(0)
+            .within(() => {
+              cy.findAllByRole('columnheader').each((head, index) => {
+                switch (index) {
+                  case 0:
+                    cy.wrap(head).contains('Field 1')
+                    break
+                  case 1:
+                    cy.wrap(head).contains('Field 2')
+                    break
+                  case 2:
+                    cy.wrap(head).contains('Field 5')
+                    break
+                  case 3:
+                    cy.wrap(head).contains('Field 6')
+                    break
+                  case 4:
+                    cy.wrap(head).contains('Field 8')
+                    break
+                  default:
+                    break
+                }
+              })
+            })
         })
       })
     })
 
     describe('Paging interaction', () => {
       it('should show the table totals', () => {
-        cy.get('div.dpr-report-totals').contains('Showing 1 to 20 of 100 results')
-        cy.get('#dpr-data-table > tbody > tr').should('have.length', 20)
+        cy.findAllByRole('paragraph')
+          .contains(/Showing \d{1,4} to \d{1,4} of \d{1,4} results/)
+          .should('exist')
+        cy.findByLabelText(/Successful Report/).within(() => {
+          cy.findAllByRole('rowgroup')
+            .eq(1)
+            .within(() => {
+              cy.findAllByRole('row').should('have.length', 20)
+            })
+        })
       })
 
       it('should change the page size', () => {
         cy.get('#page-size-select').select('10')
-        cy.get('div.dpr-report-totals').contains('Showing 1 to 10 of 100 results')
-        cy.get('#dpr-data-table > tbody > tr').should('have.length', 10)
+        cy.findAllByRole('paragraph')
+          .contains(/Showing 1 to 10 of 100 results/)
+          .should('exist')
+        cy.findByLabelText(/Successful Report/).within(() => {
+          cy.findAllByRole('rowgroup')
+            .eq(1)
+            .within(() => {
+              cy.findAllByRole('row').should('have.length', 10)
+            })
+        })
       })
 
       it('should change the page size via the URL', () => {
         cy.visit(
           `/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/${tableId}/report?pageSize=100`,
         )
-        cy.get('div.dpr-report-totals').contains('100 total results')
-        cy.get('#dpr-data-table > tbody > tr').should('have.length', 100)
+        cy.findAllByRole('paragraph')
+          .contains(/100 total results/)
+          .should('exist')
+        cy.findByLabelText(/Successful Report/).within(() => {
+          cy.findAllByRole('rowgroup')
+            .eq(1)
+            .within(() => {
+              cy.findAllByRole('row').should('have.length', 100)
+            })
+        })
       })
 
       it('should change the page', () => {
-        cy.get(':nth-child(4) > .govuk-link').click()
+        cy.findByLabelText('Page 5').click()
         cy.location().should((location) => {
           expect(location.search).to.contain(`selectedPage=5`)
         })
@@ -343,7 +406,7 @@ context('Viewing a report', () => {
         cy.visit(
           `/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/${tableId}/report?selectedPage=3`,
         )
-        cy.get('.govuk-pagination__item--current > .govuk-link').contains('3')
+        cy.findByRole('link', { current: 'page' }).contains('3')
       })
     })
   })

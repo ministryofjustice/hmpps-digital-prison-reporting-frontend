@@ -1,6 +1,5 @@
 context('Inputs: Relative date range', () => {
   const path = '/components/filters/date-range/relative-min-max-date-range#relative-date-range-min-max-relative-range'
-  const platformPath = '/embedded/platform/dpr/request-report/report/filter-inputs/variantId-15/filters'
 
   it('is accessible', () => {
     cy.visit(path)
@@ -14,33 +13,13 @@ context('Inputs: Relative date range', () => {
     })
 
     it('should disable relative inputs outside of the min and max bounds', () => {
-      cy.get('.govuk-radios__item > input').each((input, index) => {
-        switch (index) {
-          case 0:
-            cy.wrap(input).should('not.be.disabled')
-            break
-          case 1:
-            cy.wrap(input).should('be.disabled')
-            break
-          case 2:
-            cy.wrap(input).should('not.be.disabled')
-            break
-          case 3:
-            cy.wrap(input).should('be.disabled')
-            break
-          case 4:
-            cy.wrap(input).should('not.be.disabled')
-            break
-          case 5:
-            cy.wrap(input).should('be.disabled')
-            break
-          case 7:
-            cy.wrap(input).should('not.be.disabled')
-            break
-          default:
-            break
-        }
-      })
+      cy.findByRole('radio', { name: 'None' }).should('not.be.disabled')
+      cy.findByRole('radio', { name: 'Yesterday' }).should('be.disabled')
+      cy.findByRole('radio', { name: 'Tomorrow' }).should('not.be.disabled')
+      cy.findByRole('radio', { name: 'Last week' }).should('be.disabled')
+      cy.findByRole('radio', { name: 'Next week' }).should('not.be.disabled')
+      cy.findByRole('radio', { name: 'Last month' }).should('be.disabled')
+      cy.findByRole('radio', { name: 'Next month' }).should('not.be.disabled')
     })
   })
 
@@ -52,7 +31,7 @@ context('Inputs: Relative date range', () => {
     })
 
     it('should disable relative inputs outside of the min and max bounds', () => {
-      cy.get('input[id="filters.relative-date-range-min-max.relative-duration-2"]').should('not.be.checked')
+      cy.findByRole('radio', { name: 'Yesterday' }).should('not.be.checked')
     })
   })
 })

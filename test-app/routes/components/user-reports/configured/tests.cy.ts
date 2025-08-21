@@ -12,6 +12,6 @@ context('User reports component', () => {
   })
 
   it('should not show the bookmarks tab', () => {
-    cy.get('#tab_my-bookmarks-tab').should('not.exist')
+    cy.findByRole('tab', { name: /Bookmarks/ }).should('not.exist')
   })
 })

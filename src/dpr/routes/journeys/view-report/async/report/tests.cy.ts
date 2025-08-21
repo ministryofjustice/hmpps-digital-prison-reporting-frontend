@@ -115,11 +115,11 @@ context('Viewing a report', () => {
 
     describe('Actions', () => {
       it('should show the refresh action', () => {
-        cy.findByLabelText('refresh report').should('be.visible')
+        cy.findByLabelText('Refresh report').should('be.visible')
       })
 
       it('should go to the filters page when refresh action is clicked', () => {
-        cy.findByLabelText('refresh report').should('be.visible').click()
+        cy.findByLabelText('Refresh report').should('be.visible').click()
         cy.url().should(
           'match',
           /http:\/\/localhost:3010\/embedded\/platform\/dpr\/request-report\/report\/request-examples\/request-example-success\/filters/i,
@@ -135,7 +135,7 @@ context('Viewing a report', () => {
       })
 
       it('should show the print action', () => {
-        cy.findByLabelText(/print report/)
+        cy.findByLabelText(/Print screen/)
           .should('be.visible')
           .should('be.disabled')
       })

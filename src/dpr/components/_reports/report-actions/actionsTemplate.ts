@@ -6,19 +6,19 @@ export const actionTemplates: ActionTemplates = {
     id: 'dpr-button-refresh',
     disabled: false,
     text: 'Refresh',
-    ariaLabelText: 'refresh report',
+    ariaLabelText: 'Refresh report',
   },
   printable: {
     id: 'dpr-button-printable',
     disabled: false,
     text: 'Print screen',
-    ariaLabelText: 'print report',
+    ariaLabelText: 'Print screen',
   },
   sharable: {
     id: 'dpr-button-sharable',
     disabled: true,
     text: 'Email report link',
-    ariaLabelText: 'share report request via email',
+    ariaLabelText: 'Email report link',
   },
   copy: {
     id: 'dpr-button-copy',

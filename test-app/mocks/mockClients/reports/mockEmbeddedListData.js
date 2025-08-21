@@ -402,14 +402,14 @@ const mockSyncData = {
         id: 'dpr-button-printable',
         disabled: true,
         text: 'Print screen',
-        ariaLabelText: 'print report, disabled',
+        ariaLabelText: 'Print screen, disabled',
         href: '#',
       },
       {
         id: 'dpr-button-sharable',
-        disabled: false,
+        disabled: true,
         text: 'Email report link',
-        ariaLabelText: 'share report request via email',
+        ariaLabelText: 'Email report link',
         href: 'mailto:?subject=reportName-Successful Report&body=protocol%3A%2F%2FhostoriginalUrl',
       },
       {

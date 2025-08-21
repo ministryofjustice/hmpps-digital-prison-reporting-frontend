@@ -145,7 +145,7 @@ context('Viewing a report', () => {
       })
 
       it('should show the copy action', () => {
-        cy.findByLabelText(/copy report request/).should('be.visible')
+        cy.findByLabelText(/Copy report link/).should('be.visible')
       })
 
       it('should show the bookmark toggle', () => {

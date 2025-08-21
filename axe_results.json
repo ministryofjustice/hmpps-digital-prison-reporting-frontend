@@ -26630,7 +26630,7 @@
               }
             ],
             "impact": null,
-            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report request\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
+            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report link\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
             "target": [
               "#dpr-button-copy"
             ]
@@ -26889,7 +26889,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report request\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
+            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report link\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
             "target": [
               "#dpr-button-copy"
             ]
@@ -26998,7 +26998,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report request\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
+            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report link\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
             "target": [
               "#dpr-button-copy"
             ]
@@ -27122,7 +27122,7 @@
             ],
             "none": [],
             "impact": null,
-            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report request\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
+            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report link\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
             "target": [
               "#dpr-button-copy"
             ]
@@ -27336,7 +27336,7 @@
               }
             ],
             "impact": null,
-            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report request\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
+            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report link\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
             "target": [
               "#dpr-button-copy"
             ]
@@ -27610,7 +27610,7 @@
               }
             ],
             "impact": null,
-            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report request\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
+            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report link\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
             "target": [
               "#dpr-button-copy"
             ]
@@ -27824,7 +27824,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report request\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
+            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report link\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
             "target": [
               "#dpr-button-copy"
             ]
@@ -28018,7 +28018,7 @@
               }
             ],
             "impact": null,
-            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report request\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
+            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report link\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
             "target": [
               "#dpr-button-copy"
             ]
@@ -28226,7 +28226,7 @@
             ],
             "none": [],
             "impact": null,
-            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report request\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
+            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report link\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
             "target": [
               "#dpr-button-copy"
             ]
@@ -28524,7 +28524,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report request\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
+            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report link\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
             "target": [
               "#dpr-button-copy"
             ]
@@ -33656,7 +33656,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report request\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
+            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report link\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
             "target": [
               "#dpr-button-copy"
             ]
@@ -34431,7 +34431,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report request\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
+            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report link\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
             "target": [
               "#dpr-button-copy"
             ]
@@ -39019,7 +39019,7 @@
             "all": [],
             "none": [],
             "impact": null,
-            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report request\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
+            "html": "<div tabindex=\"0\" id=\"dpr-button-copy\" data-href=\"http://localhost:3010/async/test-report-1/variantId-1/request?filters.field1=value1.2&amp;filters.field2=value2.1&amp;filters.field3.start=2003-02-01&amp;filters.field3.end=2006-05-04&amp;filters.field7=2005-02-01&amp;sortColumn=field1&amp;sortedAsc=true\" class=\"dpr-icon-wrapper dpr-icon-wrapper--l dpr-icon-live \" tooltip=\"Copy report link\" aria-label=\"report request\" data-disabled=\"false\" role=\"button\">",
             "target": [
               "#dpr-button-copy"
             ]

@@ -5,31 +5,31 @@ export const actionTemplates: ActionTemplates = {
   refresh: {
     id: 'dpr-button-refresh',
     disabled: false,
-    tooltipText: 'Refresh',
+    text: 'Refresh',
     ariaLabelText: 'refresh report',
   },
   printable: {
     id: 'dpr-button-printable',
     disabled: false,
-    tooltipText: 'Print screen',
+    text: 'Print screen',
     ariaLabelText: 'print report',
   },
   sharable: {
     id: 'dpr-button-sharable',
-    disabled: false,
-    tooltipText: 'Email report link',
+    disabled: true,
+    text: 'Email report link',
     ariaLabelText: 'share report request via email',
   },
   copy: {
     id: 'dpr-button-copy',
     disabled: false,
-    tooltipText: 'Copy report link',
-    ariaLabelText: 'copy report request',
+    text: 'Copy report link',
+    ariaLabelText: 'Copy report link',
   },
   downloadable: {
     id: 'dpr-button-downloadable',
     disabled: false,
-    tooltipText: 'Download',
+    text: 'Download',
     ariaLabelText: 'download report',
   },
 }

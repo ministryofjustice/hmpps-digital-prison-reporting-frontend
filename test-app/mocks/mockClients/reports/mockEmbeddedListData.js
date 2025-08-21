@@ -401,28 +401,28 @@ const mockSyncData = {
       {
         id: 'dpr-button-printable',
         disabled: true,
-        tooltipText: 'Print screen',
+        text: 'Print screen',
         ariaLabelText: 'print report, disabled',
         href: '#',
       },
       {
         id: 'dpr-button-sharable',
         disabled: false,
-        tooltipText: 'Email report link',
+        text: 'Email report link',
         ariaLabelText: 'share report request via email',
         href: 'mailto:?subject=reportName-Successful Report&body=protocol%3A%2F%2FhostoriginalUrl',
       },
       {
         id: 'dpr-button-copy',
         disabled: false,
-        tooltipText: 'Copy report link',
+        text: 'Copy report link',
         ariaLabelText: 'report request',
         href: 'protocol://hostoriginalUrl',
       },
       {
         id: 'dpr-button-downloadable',
         disabled: false,
-        tooltipText: 'Enable download',
+        text: 'Enable download',
         ariaLabelText: 'download report',
         attributes: {
           enabled: true,

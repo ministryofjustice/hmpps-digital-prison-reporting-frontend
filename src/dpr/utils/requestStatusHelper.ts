@@ -100,7 +100,7 @@ const getStatusByReportType = async (
 }
 
 export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams): Promise<GetStatusUtilsResponse> => {
-  const { token, userId } = localsHelper.getValues(res)
+  const { token, dprUser } = localsHelper.getValues(res)
   const { status: currentStatus, requestedAt } = req.body
   const timeoutExemptStatuses = [RequestStatus.READY, RequestStatus.EXPIRED, RequestStatus.FAILED]
 
@@ -108,7 +108,7 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
   let errorMessage
   let statusResponse
   try {
-    ;({ status, statusResponse } = await getStatusByReportType(services, req, res, token, userId))
+    ;({ status, statusResponse } = await getStatusByReportType(services, req, res, token, dprUser.id))
     if (
       shouldTimeoutRequest({ requestedAt, compareTime: new Date(), durationMins: 15 }) &&
       !timeoutExemptStatuses.includes(status)
@@ -154,13 +154,13 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
  * @return {*}
  */
 export const getExpiredStatus = async ({ req, res, services }: AsyncReportUtilsParams) => {
-  const { token, userId } = localsHelper.getValues(res)
+  const { token, dprUser } = localsHelper.getValues(res)
   const { executionId, status: currentStatus } = req.body
 
   let errorMessage
   let status
   try {
-    ;({ status } = await getStatusByReportType(services, req, res, token, userId))
+    ;({ status } = await getStatusByReportType(services, req, res, token, dprUser.id))
   } catch (error) {
     const { data } = error
     errorMessage = (data ?? {}).userMessage

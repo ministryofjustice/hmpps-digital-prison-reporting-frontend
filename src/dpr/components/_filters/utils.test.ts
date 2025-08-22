@@ -1290,7 +1290,7 @@ describe('Filters Utils tests', () => {
     it('should set the filter values from the user context', () => {
       const res = {
         locals: {
-          user: {
+          dprUser: {
             activeCaseLoadId: 'Inigo Montoya',
           },
         },
@@ -1373,7 +1373,7 @@ describe('Filters Utils tests', () => {
     it('should not set the filter values from the user context', () => {
       const res = {
         locals: {
-          user: {
+          dprUser: {
             activeCaseLoadId: 'Inigo Montoya',
           },
         },

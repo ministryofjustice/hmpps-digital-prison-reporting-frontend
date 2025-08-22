@@ -34,6 +34,12 @@ export default class Autocomplete extends DprClientClass {
           this.onOptionClick(event, textInput, this.getElement())
         })
       })
+
+    this.initialiseDefaultValue(textInput)
+  }
+
+  initialiseDefaultValue(textInput) {
+    this.setValue(textInput, textInput.value, textInput.dataset.staticOptionNameValue)
   }
 
   getTextInput() {
@@ -111,16 +117,21 @@ export default class Autocomplete extends DprClientClass {
 
   onOptionClick(event, textInput, topLevelElement) {
     event.preventDefault()
-    // eslint-disable-next-line no-param-reassign
-    textInput.value = event.target.innerText.trim()
-    textInput.staticOptionNameValue = event.target.dataset.staticOptionNameValue
-    textInput.focus()
-    const changeEvent = new Event('change')
-    textInput.dispatchEvent(changeEvent)
-
+    this.setValue(textInput, event.target.innerText.trim(), event.target.dataset.staticOptionNameValue)
     topLevelElement.querySelectorAll('li').forEach((item) => {
       item.classList.add('autocomplete-text-input-item-hide')
     })
+  }
+
+  setValue(textInput, value, staticOptionNameValue) {
+    // eslint-disable-next-line no-param-reassign
+    textInput.value = value
+    // eslint-disable-next-line no-param-reassign
+    textInput.staticOptionNameValue = staticOptionNameValue
+
+    textInput.focus()
+    const changeEvent = new Event('change')
+    textInput.dispatchEvent(changeEvent)
   }
 
   addItem(template, content, clickEvent) {

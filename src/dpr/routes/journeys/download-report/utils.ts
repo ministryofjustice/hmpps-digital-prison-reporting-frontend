@@ -81,10 +81,10 @@ export default {
     redirect: string
     loadType?: LoadType
   }) {
-    const { userId, token } = LocalsHelper.getValues(res)
+    const { dprUser, token } = LocalsHelper.getValues(res)
     const { reportId, id, tableId, dataProductDefinitionsPath, reportName, name, cols: columns } = req.body
 
-    const canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
+    const canDownload = await services.downloadPermissionService.downloadEnabled(dprUser.id, reportId, id)
     if (!canDownload) {
       res.redirect(redirect)
     } else {

@@ -48,10 +48,10 @@ export const updateStore = async ({
   childExecutionData: Array<ChildReportExecutionData>
 }): Promise<void> => {
   const { search, id, type } = req.body
-  const { userId, definitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
+  const { dprUser, definitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
 
-  await removeDuplicates({ storeService: services.requestedReportService, userId, id, search })
-  await removeDuplicates({ storeService: services.recentlyViewedService, userId, id, search })
+  await removeDuplicates({ storeService: services.requestedReportService, userId: dprUser.id, id, search })
+  await removeDuplicates({ storeService: services.recentlyViewedService, userId: dprUser.id, id, search })
 
   const reportData: RequestFormData = req.body
 
@@ -88,7 +88,7 @@ export const updateStore = async ({
       break
   }
 
-  await services.requestedReportService.addReport(userId, requestedReportData)
+  await services.requestedReportService.addReport(dprUser.id, requestedReportData)
 }
 
 async function requestChildReports(
@@ -286,7 +286,7 @@ export default {
   },
 
   cancelRequest: async ({ req, res, services }: AsyncReportUtilsParams) => {
-    const { token, userId, definitionsPath } = LocalsHelper.getValues(res)
+    const { token, dprUser, definitionsPath } = LocalsHelper.getValues(res)
     const { reportId, id, executionId, type } = req.params
 
     let service
@@ -296,7 +296,7 @@ export default {
     const response = await service.cancelAsyncRequest(token, reportId, id, executionId, definitionsPath)
 
     if (response && response.cancellationSucceeded) {
-      await services.requestedReportService.updateStatus(executionId, userId, RequestStatus.ABORTED)
+      await services.requestedReportService.updateStatus(executionId, dprUser.id, RequestStatus.ABORTED)
     }
   },
 
@@ -313,7 +313,7 @@ export default {
         csrfToken,
         definitionsPath: definitionPath,
         dpdPathFromQuery,
-        userId,
+        dprUser,
       } = LocalsHelper.getValues(res)
       const { reportId, type, id } = req.params
       const { definition } = res.locals
@@ -344,7 +344,14 @@ export default {
       }
 
       if (fields) {
-        ;({ filtersData, defaultFilterValues } = await getFilterData(req, res, fields, interactive, services, userId))
+        ;({ filtersData, defaultFilterValues } = await getFilterData(
+          req,
+          res,
+          fields,
+          interactive,
+          services,
+          dprUser.id,
+        ))
         defaultInteractiveQueryString = FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
       }
 

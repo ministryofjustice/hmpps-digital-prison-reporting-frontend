@@ -95,7 +95,7 @@ describe('AsyncReportUtils', () => {
 
       res = {
         locals: {
-          user: {
+          dprUser: {
             token: 'token',
           },
           bookmarkingEnabled: true,

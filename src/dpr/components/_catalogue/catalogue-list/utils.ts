@@ -14,7 +14,7 @@ export default {
     services: Services,
     features?: CatalogueFeatures,
   ): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[]; id: string }> => {
-    const { definitions, csrfToken, bookmarkingEnabled, userId } = LocalsHelper.getValues(res)
+    const { definitions, csrfToken, bookmarkingEnabled, dprUser } = LocalsHelper.getValues(res)
 
     // Sort report Definitions by product name
     const sortedDefinitions = definitions.sort(
@@ -111,7 +111,7 @@ export default {
 
         if (showBookMarkToggle) {
           bookmarkHtml = await services.bookmarkService.createBookMarkToggleHtml({
-            userId,
+            userId: dprUser.id,
             reportId,
             id,
             csrfToken,

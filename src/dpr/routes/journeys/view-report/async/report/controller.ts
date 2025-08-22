@@ -29,8 +29,11 @@ export default class ViewAyncReportController {
       const dprError = ErrorSummaryUtils.handleError(error, req.params.type)
       let refreshLink
       if (dprError.status === 'EXPIRED') {
-        const { userId } = LocalsHelper.getValues(res)
-        refreshLink = await this.services.recentlyViewedService.asyncSetToExpiredByTableId(req.params.tableId, userId)
+        const { dprUser } = LocalsHelper.getValues(res)
+        refreshLink = await this.services.recentlyViewedService.asyncSetToExpiredByTableId(
+          req.params.tableId,
+          dprUser.id,
+        )
       }
       req.body.title = `Failed to retrieve ${type}`
       req.body.error = dprError

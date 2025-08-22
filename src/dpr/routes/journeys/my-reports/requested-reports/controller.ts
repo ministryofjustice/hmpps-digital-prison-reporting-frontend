@@ -10,9 +10,9 @@ export default class RequestedReportsController {
   }
 
   DELETE: RequestHandler = async (req, res) => {
-    const { userId } = LocalsHelper.getValues(res)
+    const { dprUser } = LocalsHelper.getValues(res)
     const { id } = req.params
-    await this.services.requestedReportService.removeReport(id, userId)
+    await this.services.requestedReportService.removeReport(id, dprUser.id)
     res.end()
   }
 }

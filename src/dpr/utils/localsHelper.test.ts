@@ -1,8 +1,5 @@
 import { Response, Request } from 'express'
 import LocalsHelper from './localsHelper'
-import { StoredReportData } from '../types/UserReports'
-import { BookmarkStoreData } from '../types/Bookmark'
-import { components } from '../types/api'
 
 describe('LocalsHelper', () => {
   let res: Response
@@ -12,10 +9,6 @@ describe('LocalsHelper', () => {
     res = {
       locals: {
         csrfToken: 'csrfTokenValue',
-        user: {
-          uuid: 'userIdValue',
-        },
-        token: 'token',
       },
     } as unknown as Response
 
@@ -28,22 +21,31 @@ describe('LocalsHelper', () => {
   })
 
   describe('getValues', () => {
-    it('should get the local values', () => {
+    it('should set the user from the dprUser locals', () => {
+      res.locals.dprUser = {
+        token: 'userToken',
+        id: 'dprUserId',
+        activeCaseLoadId: 'MDI',
+        staffId: 123456,
+        emailAddress: 'test@user.com',
+        displayName: 'Test User',
+      }
+
       const values = LocalsHelper.getValues(res)
 
-      const expected = {
-        activeCaseLoadId: '',
-        csrfToken: 'csrfTokenValue',
-        userId: 'userIdValue',
-        token: 'token',
-        pathSuffix: '',
-        routePrefix: '',
-        recentlyViewedReports: [] as StoredReportData[],
-        requestedReports: [] as StoredReportData[],
-        bookmarks: [] as BookmarkStoreData[],
-        definitions: [] as components['schemas']['ReportDefinitionSummary'][],
-      }
-      expect(values).toEqual(expected)
+      expect(values).toEqual(
+        expect.objectContaining({
+          token: 'userToken',
+          dprUser: {
+            id: 'dprUserId',
+            token: 'userToken',
+            activeCaseLoadId: 'MDI',
+            email: 'test@user.com',
+            displayName: 'Test User',
+            staffId: 123456,
+          },
+        }),
+      )
     })
   })
 

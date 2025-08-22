@@ -13,16 +13,16 @@ export default class BookmarkController {
   }
 
   POST: RequestHandler = async (req, res) => {
-    const { userId } = LocalsHelper.getValues(res)
+    const { dprUser } = LocalsHelper.getValues(res)
     const { reportId, id, reportType } = req.body
-    await this.services.bookmarkService.addBookmark(userId, reportId, id, reportType)
+    await this.services.bookmarkService.addBookmark(dprUser.id, reportId, id, reportType)
     res.end()
   }
 
   DELETE: RequestHandler = async (req, res) => {
-    const { userId } = LocalsHelper.getValues(res)
+    const { dprUser } = LocalsHelper.getValues(res)
     const { id, reportId } = req.body
-    await this.services.bookmarkService.removeBookmark(userId, id, reportId)
+    await this.services.bookmarkService.removeBookmark(dprUser.id, id, reportId)
     res.end()
   }
 }

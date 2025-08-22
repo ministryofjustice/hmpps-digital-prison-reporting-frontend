@@ -15,6 +15,7 @@
   {% set name = parameterPrefix + filter.name %}
   {% set value = filter.value %}
   {% set values = filter.values %}
+  {% set values = filter.values %}
   {% set text = filter.text %}
   {% set options = filter.options %}
   {% set pattern = filter.pattern if filter.pattern else 
@@ -108,6 +109,7 @@
         name: name,
         items: options,
         value: value,
+        staticOptionNameValue: filter.staticOptionNameValue,
         labelText: labelText,
         minimumLength: minimumLength,
         dynamicResourceEndpoint: dynamicResourceEndpoint,

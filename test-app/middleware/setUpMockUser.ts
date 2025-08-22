@@ -21,7 +21,7 @@ export default (): RequestHandler => {
 
       const dprUser = new DprUser()
       dprUser.token = res.locals.user.token
-      dprUser.userId = mockManageUsersGetUserResponse.uuid
+      dprUser.id = mockManageUsersGetUserResponse.uuid
       dprUser.activeCaseLoadId = mockManageUsersGetUserResponse.activeCaseLoadId
       dprUser.emailAddress = mockManageUsersGetUserResponse.email
       dprUser.displayName = mockManageUsersGetUserResponse.displayName

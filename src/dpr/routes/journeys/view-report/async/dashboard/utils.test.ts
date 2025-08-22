@@ -101,7 +101,7 @@ describe('DashboardUtils', () => {
         locals: {
           dprUser: {
             token: 'ToK3n',
-            userId: 'Us3rId',
+            id: 'Us3rId',
           },
         },
       } as unknown as Response

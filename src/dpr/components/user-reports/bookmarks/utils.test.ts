@@ -22,7 +22,7 @@ describe('BookmarkUtils', () => {
       res = {
         locals: {
           dprUser: {
-            userId: 'UuId',
+            id: 'UuId',
             token: 'tOkEn',
           },
           csfrToken: 'CsRfToKeN',

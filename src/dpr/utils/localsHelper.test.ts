@@ -24,7 +24,7 @@ describe('LocalsHelper', () => {
     it('should set the user from the dprUser locals', () => {
       res.locals.dprUser = {
         token: 'userToken',
-        userId: 'dprUserId',
+        id: 'dprUserId',
         activeCaseLoadId: 'MDI',
         staffId: 123456,
         emailAddress: 'test@user.com',

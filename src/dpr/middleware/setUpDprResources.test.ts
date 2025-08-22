@@ -38,7 +38,7 @@ describe('setUpDprResources', () => {
         locals: {
           dprUser: {
             token: 'T0k3n',
-            userId: 'Uu1d',
+            id: 'Uu1d',
           },
         },
       } as unknown as Response

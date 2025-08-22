@@ -56,7 +56,7 @@ const setDpdPaths = (res: Response) => {
 
 const setDprUserContext = (res: Response) => {
   const { dprUser } = res.locals
-  const id = dprUser?.userId
+  const id = dprUser?.id
   const token = dprUser?.token
   const activeCaseLoadId = dprUser?.activeCaseLoadId
   const staffId = dprUser?.staffId

@@ -12,7 +12,7 @@ describe('CatalogueUtils', () => {
     res = {
       locals: {
         dprUser: {
-          userId: 'UsErId',
+          id: 'UsErId',
         },
         csfrToken: 'CsRfToKeN',
         definitions: ListDefinitions.reports,

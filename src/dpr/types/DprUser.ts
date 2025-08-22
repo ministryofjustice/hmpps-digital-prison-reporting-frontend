@@ -3,7 +3,7 @@ export default class DprUser {
   token: string
 
   // Nomis user uuid
-  userId: string
+  id: string
 
   // e.g. John Smith
   displayName?: string

@@ -115,7 +115,7 @@ describe('AsyncRequestListUtils', () => {
       res = {
         locals: {
           dprUser: {
-            userId: 'UuId',
+            id: 'UuId',
           },
           csfrToken: 'CsRfToKeN',
           requestedReports: [

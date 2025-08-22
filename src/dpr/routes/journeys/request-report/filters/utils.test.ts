@@ -48,7 +48,7 @@ describe('RequestReportUtils', () => {
       locals: {
         dprUser: {
           token: 'ToKeN',
-          userId: 'userId',
+          id: 'userId',
         },
         csfrToken: 'CsRfToKeN',
         definitionsPath: 'dataProductDefinitionsPath',

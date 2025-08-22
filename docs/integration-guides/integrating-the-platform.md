@@ -155,7 +155,7 @@ const user = await this.hmppsManageUsersClient.getUser(token)
 
 const dprUser = new DprUser()
 dprUser.token = res.locals.user.token
-dprUser.userId = user.uuid
+dprUser.id = user.uuid
 dprUser.activeCaseLoadId = user.activeCaseLoadId
 dprUser.emailAddress = user.email
 dprUser.displayName = user.displayName

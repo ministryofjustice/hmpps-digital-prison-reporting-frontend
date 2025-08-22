@@ -1,7 +1,6 @@
 import type { Response, Request } from 'express'
 import { StoredReportData } from '../types/UserReports'
 import { BookmarkStoreData } from '../types/Bookmark'
-import { components } from '../types/api'
 
 const getValues = (res: Response) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
@@ -20,7 +19,7 @@ const getValues = (res: Response) => {
 }
 
 const setDefinitions = (res: Response) => {
-  const definitions: Array<components['schemas']['ReportDefinitionSummary']> = res.locals.definitions || []
+  const definitions = res.locals.definitions || []
   return {
     definitions,
   }

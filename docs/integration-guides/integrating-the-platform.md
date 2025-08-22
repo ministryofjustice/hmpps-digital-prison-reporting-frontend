@@ -164,20 +164,6 @@ dprUser.staffId = user.staffId
 res.locals.dprUser = dprUser
 ```
 
-
-# Get the current User ID
-
-The user ID of the currently logged in user is the primary key used in the report config store, to retrieve and store report information against a specific user.
-
-A users report data will be stored using this key structure: 
-```js
-`dprReportStoreUser:${ uuid }`
-```
-
-The integration assumes that users `uuid` is located in the `res` object at `res.locals.user.uuid`. 
-
-In the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/middleware/setUpCurrentUser.ts" target="_blank">HMPPS template</a> this is set in at `server/middleware/setUpCurrentUser.ts` 
-
 <hr class='dpr-docs-hr'>
 
 # Initialise middleware

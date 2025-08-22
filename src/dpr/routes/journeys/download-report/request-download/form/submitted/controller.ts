@@ -13,7 +13,7 @@ export default class RequestDownloadSubmittedController {
   }
 
   GET: RequestHandler = async (req, res, next) => {
-    const { userId } = localsHelper.getValues(res)
+    const { dprUser } = localsHelper.getValues(res)
     const { reportId, variantId } = req.params
     const { reportName, variantName, reportUrl, reportSearch } = req.query
 
@@ -24,7 +24,7 @@ export default class RequestDownloadSubmittedController {
 
     const reportHref = reportSearch ? `${reportUrl}${decodedReportSearch}` : `${reportUrl}`
 
-    await this.services.downloadPermissionService.saveDownloadPermissionData(userId, reportId, variantId)
+    await this.services.downloadPermissionService.saveDownloadPermissionData(dprUser.id, reportId, variantId)
 
     res.render(`dpr/routes/journeys/download-report/request-download/form/submitted/view`, {
       title: 'success',

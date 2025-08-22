@@ -9,10 +9,6 @@ describe('LocalsHelper', () => {
     res = {
       locals: {
         csrfToken: 'csrfTokenValue',
-        user: {
-          uuid: 'userIdValue',
-        },
-        token: 'token',
       },
     } as unknown as Response
 
@@ -25,42 +21,29 @@ describe('LocalsHelper', () => {
   })
 
   describe('getValues', () => {
-    it('should set the user context from the user', () => {
-      res.locals.user = {
-        uuid: 'userIdValueOne',
+    it('should set the user from the dprUser locals', () => {
+      res.locals.dprUser = {
         token: 'userToken',
-        activeCaseLoadId: 'KMI',
-      }
-      const values = LocalsHelper.getValues(res)
-
-      expect(values).toEqual(
-        expect.objectContaining({
-          userId: 'userIdValueOne',
-          token: 'userToken',
-          activeCaseLoadId: 'KMI',
-        }),
-      )
-    })
-
-    it('should set the user context from the dpr context', () => {
-      res.locals.user = {
-        uuid: 'userIdValue',
-        token: 'userToken',
-        activeCaseLoadId: 'KMI',
-      }
-      res.locals.dprContext = {
-        uuid: 'dprContextIdValue',
-        token: 'dprContextToken',
+        userId: 'dprUserId',
         activeCaseLoadId: 'MDI',
+        staffId: 123456,
+        emailAddress: 'test@user.com',
+        displayName: 'Test User',
       }
 
       const values = LocalsHelper.getValues(res)
 
       expect(values).toEqual(
         expect.objectContaining({
-          userId: 'dprContextIdValue',
-          token: 'dprContextToken',
-          activeCaseLoadId: 'MDI',
+          token: 'userToken',
+          dprUser: {
+            id: 'dprUserId',
+            token: 'userToken',
+            activeCaseLoadId: 'MDI',
+            email: 'test@user.com',
+            displayName: 'Test User',
+            staffId: 123456,
+          },
         }),
       )
     })

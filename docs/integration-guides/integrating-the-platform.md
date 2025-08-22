@@ -145,6 +145,33 @@ const dprServices = createDprServices({ reportingClient, dashboardClient, report
 
 <hr class='dpr-docs-hr'>
 
+# Setup the DPR user context
+
+In you `populateCurrentUser` middleware, ensure you have `dprContext` defined in your `res.locals` 
+
+```js
+type dprContext {
+  // the user ID. 
+  uuid: string
+  // the active caseload ID
+  activeCaseloadId: string
+  // the user token
+  token: string
+}
+```
+
+```js
+// example using manage user api
+res.locals.user = await this.hmppsManageUsersClient.getUser(token)
+
+res.locals.dprContext = {
+  uuid: res.locals.user.uuid
+  activeCaseloadId: res.locals.user.activeCaseloadId
+  token: res.locals.user.token
+}
+```
+
+
 # Get the current User ID
 
 The user ID of the currently logged in user is the primary key used in the report config store, to retrieve and store report information against a specific user.

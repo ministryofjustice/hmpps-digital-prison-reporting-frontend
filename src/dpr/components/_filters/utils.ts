@@ -213,7 +213,8 @@ const setUserDefinedDefaultValuesForReport = async (
 }
 
 const setUserContextDefaults = (res: Response, filters: FilterValue[]) => {
-  const { activeCaseLoadId } = localsHelper.getValues(res)
+  const { dprUser } = localsHelper.getValues(res)
+  const { activeCaseLoadId } = dprUser
 
   filters.forEach((filter) => {
     if (

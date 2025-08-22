@@ -7,6 +7,7 @@ import DefinitionUtils from '../utils/definitionUtils'
 import { BookmarkStoreData } from '../types/Bookmark'
 import { getRoutePrefix } from '../utils/urlHelper'
 import { DprConfig } from '../types/DprConfig'
+import localsHelper from '../utils/localsHelper'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -34,6 +35,8 @@ export default (services: Services, config?: DprConfig): RequestHandler => {
 
 export const populateDefinitions = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
   // Get the DPD path from the query
+  const { token } = localsHelper.getValues(res)
+
   const dpdPathFromQuery = deriveDefinitionsPath(req.query)
   const dpdPathFromBody = req.body?.dataProductDefinitionsPath
   const definitionsPathFromQuery = dpdPathFromQuery || dpdPathFromBody
@@ -52,27 +55,24 @@ export const populateDefinitions = async (services: Services, req: Request, res:
   res.locals.definitionsPath = definitionsPathFromQuery || dpdPathFromConfig
   res.locals.pathSuffix = `?dataProductDefinitionsPath=${res.locals.definitionsPath}`
 
-  if (res.locals.user.token && services.reportingService) {
-    res.locals.definitions = await services.reportingService.getDefinitions(
-      res.locals.user.token,
-      res.locals.definitionsPath,
-    )
+  if (token && services.reportingService) {
+    res.locals.definitions = await services.reportingService.getDefinitions(token, res.locals.definitionsPath)
   }
 }
 
 export const populateRequestedReports = async (services: Services, res: Response) => {
-  if (res.locals.user) {
-    const { uuid: userId } = res.locals.user
+  const { dprUser } = localsHelper.getValues(res)
+  if (dprUser.id) {
     const { definitions, definitionsPath } = res.locals
 
-    const requested = await services.requestedReportService.getAllReports(userId)
+    const requested = await services.requestedReportService.getAllReports(dprUser.id)
     res.locals.requestedReports = !definitionsPath
       ? requested
       : requested.filter((report: RequestedReport) => {
           return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
         })
 
-    const recent = await services.recentlyViewedService.getAllReports(userId)
+    const recent = await services.recentlyViewedService.getAllReports(dprUser.id)
     res.locals.recentlyViewedReports = !definitionsPath
       ? recent
       : recent.filter((report: StoredReportData) => {
@@ -82,7 +82,7 @@ export const populateRequestedReports = async (services: Services, res: Response
     if (services.bookmarkService) {
       res.locals.bookmarkingEnabled = true
 
-      const bookmarks = await services.bookmarkService.getAllBookmarks(userId)
+      const bookmarks = await services.bookmarkService.getAllBookmarks(dprUser.id)
       res.locals.bookmarks = !definitionsPath
         ? bookmarks
         : bookmarks.filter((bookmark: BookmarkStoreData) => {

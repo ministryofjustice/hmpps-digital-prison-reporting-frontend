@@ -16,8 +16,8 @@ describe('PollingUtils', () => {
   beforeEach(() => {
     res = {
       locals: {
-        user: {
-          uuid: 'UsErId',
+        dprUser: {
+          userId: 'UsErId',
         },
         csfrToken: 'CsRfToKeN',
         definitionsPath: 'dataProductDefinitionsPath',

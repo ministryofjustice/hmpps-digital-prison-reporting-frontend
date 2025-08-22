@@ -146,8 +146,8 @@ const mapBookmarkIdsToDefinition = async (
       } catch (error) {
         // DPD has been deleted so API throws error
         logger.warn(`Failed to map bookmark for: Report ${reportId}, variant ${bookmarkId}`)
-        const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-        await services.bookmarkService.removeBookmark(userId, bookmarkId, reportId)
+        const { dprUser } = LocalsHelper.getValues(res)
+        await services.bookmarkService.removeBookmark(dprUser.id, bookmarkId, reportId)
       }
     }),
   )
@@ -166,14 +166,14 @@ export default {
     res: Response
     req: Request
   }) => {
-    const { token, csrfToken, userId, bookmarks } = LocalsHelper.getValues(res)
+    const { token, csrfToken, dprUser, bookmarks } = LocalsHelper.getValues(res)
     const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, res, token, services)
 
     let formatted = await formatBookmarks(bookmarksData)
     const formattedCount = formatted.length
 
     if (maxRows) formatted = formatted.slice(0, maxRows)
-    const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, userId, maxRows)
+    const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, dprUser.id, maxRows)
 
     const head = {
       ...(formatted.length && { href: '/dpr/my-reports/bookmarks/list' }),

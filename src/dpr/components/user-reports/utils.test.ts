@@ -114,8 +114,8 @@ describe('AsyncRequestListUtils', () => {
     beforeEach(() => {
       res = {
         locals: {
-          user: {
-            uuid: 'UuId',
+          dprUser: {
+            userId: 'UuId',
           },
           csfrToken: 'CsRfToKeN',
           requestedReports: [

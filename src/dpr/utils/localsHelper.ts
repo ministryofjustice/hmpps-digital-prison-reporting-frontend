@@ -5,9 +5,11 @@ import { components } from '../types/api'
 
 const getValues = (res: Response) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+  const dprUser = setDprUserContext(res)
 
   return {
-    ...setUserContext(res),
+    token: dprUser.token,
+    dprUser,
     ...setUserReports(res),
     ...setDpdPaths(res),
     ...setFeatures(res),
@@ -26,8 +28,8 @@ const setDefinitions = (res: Response) => {
 
 const setFeatures = (res: Response) => {
   return {
-    bookmarkingEnabled: <boolean>res.locals.bookmarkingEnabled || false,
-    downloadingEnabled: <boolean>res.locals.downloadingEnabled || false,
+    bookmarkingEnabled: <boolean>res.locals.bookmarkingEnabled,
+    downloadingEnabled: <boolean>res.locals.downloadingEnabled,
   }
 }
 
@@ -53,17 +55,22 @@ const setDpdPaths = (res: Response) => {
   }
 }
 
-const setUserContext = (res: Response) => {
-  const { dprContext, user } = res.locals
-
-  const userId = dprContext?.uuid || user?.uuid
-  const token = dprContext?.token || user?.token
-  const activeCaseLoadId = dprContext?.activeCaseLoadId || user.activeCaseLoadId
+const setDprUserContext = (res: Response) => {
+  const { dprUser } = res.locals
+  const id = dprUser?.userId
+  const token = dprUser?.token
+  const activeCaseLoadId = dprUser?.activeCaseLoadId
+  const staffId = dprUser?.staffId
+  const email = dprUser?.emailAddress || ''
+  const displayName = dprUser?.displayName || ''
 
   return {
-    userId,
+    id,
     token,
     activeCaseLoadId,
+    staffId,
+    email,
+    displayName,
   }
 }
 

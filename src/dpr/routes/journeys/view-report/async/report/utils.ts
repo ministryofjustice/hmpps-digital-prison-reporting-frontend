@@ -179,7 +179,7 @@ export const getChildData = async (
  * @return {*}
  */
 const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
-  const { token, userId } = LocalsHelper.getValues(res)
+  const { token, dprUser } = LocalsHelper.getValues(res)
 
   // Get the report data
   const { definition, requestData, reportData, childData, summariesData, reportQuery } = await getData({
@@ -187,7 +187,7 @@ const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
     res,
     services,
     token,
-    userId,
+    userId: dprUser.id,
   })
 
   // Get the columns
@@ -226,7 +226,7 @@ const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
       req,
       services,
       reportStateData: requestData,
-      userId,
+      userId: dprUser.id,
       search: renderData.search,
       href: renderData.pathname,
       filters: templateData.filterData.filters,
@@ -337,19 +337,19 @@ const setFeatures = async (
   count: number,
   urls: Dict<string>,
 ) => {
-  const { csrfToken, userId, bookmarkingEnabled, downloadingEnabled } = LocalsHelper.getValues(res)
+  const { csrfToken, dprUser, bookmarkingEnabled, downloadingEnabled } = LocalsHelper.getValues(res)
   const { reportId } = requestData
   const id = requestData.variantId || requestData.id
   const { variant } = definition
 
   let canDownload
   if (downloadingEnabled) {
-    canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
+    canDownload = await services.downloadPermissionService.downloadEnabled(dprUser.id, reportId, id)
   }
 
   let bookmarked
   if (bookmarkingEnabled) {
-    bookmarked = await services.bookmarkService.isBookmarked(id, reportId, userId)
+    bookmarked = await services.bookmarkService.isBookmarked(id, reportId, dprUser.id)
   }
 
   const actions = setActions(

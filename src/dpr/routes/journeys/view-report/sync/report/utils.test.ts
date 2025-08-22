@@ -47,8 +47,8 @@ describe('SyncReportUtils', () => {
 
     res = {
       locals: {
-        user: {
-          uuid: 'userId',
+        dprUser: {
+          userId: 'userId',
         },
         token: 'T03En',
       },

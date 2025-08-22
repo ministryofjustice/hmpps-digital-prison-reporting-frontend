@@ -16,7 +16,7 @@ export default class RequestDownloadController {
   }
 
   GET: RequestHandler = async (req, res, next) => {
-    const { token, csrfToken, definitionsPath } = LocalsHelper.getValues(res)
+    const { token, csrfToken, definitionsPath, dprUser } = LocalsHelper.getValues(res)
     const { reportId, variantId, tableId } = req.params
     const loadType = tableId ? LoadType.ASYNC : LoadType.SYNC
 
@@ -36,7 +36,7 @@ export default class RequestDownloadController {
     try {
       res.render(`dpr/routes/journeys/download-report/request-download/form/view`, {
         title: 'Download request form',
-        user: res.locals.user,
+        user: dprUser,
         report: {
           reportId,
           reportName: variantData.name,

@@ -74,9 +74,9 @@ export default class RequestReportController {
   saveDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
       const defaultValuesForReport = await FiltersUtils.setUserDefinedDefaultValuesForReport(req, res, this.services)
-      const { userId } = localsHelper.getValues(res)
+      const { dprUser } = localsHelper.getValues(res)
       const { reportId, id } = req.body
-      await this.services.defaultFilterValuesService.save(userId, reportId, id, defaultValuesForReport)
+      await this.services.defaultFilterValuesService.save(dprUser.id, reportId, id, defaultValuesForReport)
       res.redirect(`${req.baseUrl}?defaultsSaved=true`)
     } catch (error) {
       const dprError = ErrorSummaryUtils.handleError(error, req.params.type)
@@ -97,9 +97,9 @@ export default class RequestReportController {
   // Save filter values
   removeDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
-      const { userId } = localsHelper.getValues(res)
+      const { dprUser } = localsHelper.getValues(res)
       const { reportId, id } = req.params
-      await this.services.defaultFilterValuesService.delete(userId, reportId, id)
+      await this.services.defaultFilterValuesService.delete(dprUser.id, reportId, id)
       res.redirect(req.baseUrl)
     } catch (error) {
       const dprError = ErrorSummaryUtils.handleError(error, req.params.type)

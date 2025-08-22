@@ -25,16 +25,11 @@ export default (services: Services, config?: DprConfig): RequestHandler => {
     try {
       await populateDefinitions(services, req, res, config)
       await populateRequestedReports(services, res)
-      setRoutePrefix(res, config)
       return next()
     } catch (error) {
       return next(error)
     }
   }
-}
-
-export const setRoutePrefix = async (res: Response, config?: DprConfig) => {
-  res.locals.routePrefix = getRoutePrefix(config)
 }
 
 export const populateDefinitions = async (services: Services, req: Request, res: Response, config?: DprConfig) => {

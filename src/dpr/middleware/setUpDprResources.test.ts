@@ -142,38 +142,4 @@ describe('setUpDprResources', () => {
       expect(services.reportingService.getDefinitions).toHaveBeenCalledWith('T0k3n', 'dpd/path/from/query')
     })
   })
-
-  describe('setRoutePrefix', () => {
-    let res: Response
-
-    beforeEach(() => {
-      res = {
-        locals: {},
-      } as unknown as Response
-    })
-
-    it('should set the route suffix to blank', async () => {
-      await Middleware.setRoutePrefix(res, { routePrefix: 'dpr' })
-
-      expect(res.locals.routePrefix).toEqual('')
-    })
-
-    it('should set the route suffix to /dpr', async () => {
-      await Middleware.setRoutePrefix(res, {})
-
-      expect(res.locals.routePrefix).toEqual('/dpr')
-    })
-
-    it('should set the route suffix to /dpr when no config provided', async () => {
-      await Middleware.setRoutePrefix(res)
-
-      expect(res.locals.routePrefix).toEqual('/dpr')
-    })
-
-    it('should set the route suffix to /my-path-prefix when config provided', async () => {
-      await Middleware.setRoutePrefix(res, { routePrefix: '/my-path-prefix' })
-
-      expect(res.locals.routePrefix).toEqual('/my-path-prefix')
-    })
-  })
 })

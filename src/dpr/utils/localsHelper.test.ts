@@ -1,8 +1,5 @@
 import { Response, Request } from 'express'
 import LocalsHelper from './localsHelper'
-import { StoredReportData } from '../types/UserReports'
-import { BookmarkStoreData } from '../types/Bookmark'
-import { components } from '../types/api'
 
 describe('LocalsHelper', () => {
   let res: Response
@@ -28,22 +25,44 @@ describe('LocalsHelper', () => {
   })
 
   describe('getValues', () => {
-    it('should get the local values', () => {
+    it('should set the user context from the user', () => {
+      res.locals.user = {
+        uuid: 'userIdValueOne',
+        token: 'userToken',
+        activeCaseLoadId: 'KMI',
+      }
       const values = LocalsHelper.getValues(res)
 
-      const expected = {
-        activeCaseLoadId: '',
-        csrfToken: 'csrfTokenValue',
-        userId: 'userIdValue',
-        token: 'token',
-        pathSuffix: '',
-        routePrefix: '',
-        recentlyViewedReports: [] as StoredReportData[],
-        requestedReports: [] as StoredReportData[],
-        bookmarks: [] as BookmarkStoreData[],
-        definitions: [] as components['schemas']['ReportDefinitionSummary'][],
+      expect(values).toEqual(
+        expect.objectContaining({
+          userId: 'userIdValueOne',
+          token: 'userToken',
+          activeCaseLoadId: 'KMI',
+        }),
+      )
+    })
+
+    it('should set the user context from the dpr context', () => {
+      res.locals.user = {
+        uuid: 'userIdValue',
+        token: 'userToken',
+        activeCaseLoadId: 'KMI',
       }
-      expect(values).toEqual(expected)
+      res.locals.dprContext = {
+        uuid: 'dprContextIdValue',
+        token: 'dprContextToken',
+        activeCaseLoadId: 'MDI',
+      }
+
+      const values = LocalsHelper.getValues(res)
+
+      expect(values).toEqual(
+        expect.objectContaining({
+          userId: 'dprContextIdValue',
+          token: 'dprContextToken',
+          activeCaseLoadId: 'MDI',
+        }),
+      )
     })
   })
 

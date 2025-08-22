@@ -221,7 +221,12 @@ const setUserContextDefaults = (res: Response, filters: FilterValue[]) => {
       filter.text.toLocaleLowerCase().includes('establishment') &&
       activeCaseLoadId.length
     ) {
-      filter.value = activeCaseLoadId
+      const option = filter.options.find((opt) => opt.value === activeCaseLoadId)
+
+      if (option) {
+        filter.value = option.text
+        filter.staticOptionNameValue = activeCaseLoadId
+      }
     }
   })
 

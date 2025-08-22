@@ -4,6 +4,8 @@
 {% macro dprAutocompleteTextInput(options) %}
 
     {%  set listId = (options.id | replace(".", "")) + "-list" %}
+    {{ options | json }}
+
     <div class="dpr-autocomplete-text-input" data-dpr-module="autocomplete-text-input">
         {{ govukInput({
             id: options.id,
@@ -27,8 +29,9 @@
                 "placeholder": "Search",
                 "role": "combobox",
                 pattern: options.pattern,
-                required: true,
-                'display-name': options.labelText
+                'display-name': options.labelText,
+                "data-static-option-name-value": options.staticOptionNameValue,
+                required: true
             } if options.mandatory else {
                 "aria-autocomplete": "list",
                 "aria-expanded": "false",
@@ -39,7 +42,8 @@
                 "placeholder": "Search",
                 "role": "combobox",
                 pattern: options.pattern,
-                'display-name': options.labelText
+                'display-name': options.labelText,
+                "data-static-option-name-value": options.staticOptionNameValue
             },
             autocomplete: "off",
             suffix: {

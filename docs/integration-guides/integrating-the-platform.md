@@ -145,30 +145,23 @@ const dprServices = createDprServices({ reportingClient, dashboardClient, report
 
 <hr class='dpr-docs-hr'>
 
-# Setup the DPR user context
+# Setup the DPR user in locals
 
-In you `populateCurrentUser` middleware, ensure you have `dprContext` defined in your `res.locals` 
-
-```js
-type dprContext {
-  // the user ID. 
-  uuid: string
-  // the active caseload ID
-  activeCaseloadId: string
-  // the user token
-  token: string
-}
-```
+In you `populateCurrentUser` middleware, ensure you have `dprUser` defined in your `res.locals` 
 
 ```js
 // example using manage user api
-res.locals.user = await this.hmppsManageUsersClient.getUser(token)
+const user = await this.hmppsManageUsersClient.getUser(token)
 
-res.locals.dprContext = {
-  uuid: res.locals.user.uuid
-  activeCaseloadId: res.locals.user.activeCaseloadId
-  token: res.locals.user.token
-}
+const dprUser = new DprUser()
+dprUser.token = res.locals.user.token
+dprUser.userId = user.uuid
+dprUser.activeCaseLoadId = user.activeCaseLoadId
+dprUser.emailAddress = user.email
+dprUser.displayName = user.displayName
+dprUser.staffId = user.staffId
+
+res.locals.dprUser = dprUser
 ```
 
 

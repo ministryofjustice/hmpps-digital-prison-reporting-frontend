@@ -130,9 +130,9 @@ If you prefer to create your own report listings, and not use DPR's [Catalogue c
 ```
 
 url structure:
+
 ```
 /dpr/request-report/:report-type/:report-id/:variant-id/filters
-
 report-type: "report" | "dashboard" 
 ```
 

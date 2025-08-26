@@ -1,21 +1,22 @@
 import { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
 import { RequestedReport, RequestStatus } from '../../../types/UserReports'
 import { getStatus } from '../../../utils/requestStatusHelper'
+import LocalsHelper from '../../../utils/localsHelper'
 
 export default {
   getRequestStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
     const { executionId, status: currentStatus } = req.body
-    const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
+    const { dprUser } = LocalsHelper.getValues(res)
     const response = await getStatus({ req, res, services })
 
     if (currentStatus !== response.status) {
       await services.requestedReportService.updateStatus(
         executionId,
-        userId,
+        dprUser.id,
         response.status as RequestStatus,
         response.errorMessage,
       )
-      response.reportData = await services.requestedReportService.getReportByExecutionId(executionId, userId)
+      response.reportData = await services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
     }
     return response
   },

@@ -184,7 +184,7 @@ const updateStore = async (
 
 export default {
   renderAsyncDashboard: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
-    const { token, csrfToken, userId, nestedBaseUrl } = LocalsHelper.getValues(res)
+    const { token, csrfToken, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
     const { reportId, id, tableId } = req.params
     const url = parseUrl(req)
 
@@ -210,7 +210,7 @@ export default {
     const sections: DashboardUISection[] = getSections(dashboardDefinition, flattenedData)
 
     // Update the store
-    const dashboardRequestData = await updateStore(services, tableId, userId, sections, url, req, filters.filters)
+    const dashboardRequestData = await updateStore(services, tableId, dprUser.id, sections, url, req, filters.filters)
 
     return {
       dashboardData: {
@@ -220,7 +220,7 @@ export default {
         name: dashboardDefinition.name,
         description: dashboardDefinition.description,
         reportName: reportDefinition.name,
-        bookmarked: await services.bookmarkService.isBookmarked(id, reportId, userId),
+        bookmarked: await services.bookmarkService.isBookmarked(id, reportId, dprUser.id),
         nestedBaseUrl,
         csrfToken,
         sections,

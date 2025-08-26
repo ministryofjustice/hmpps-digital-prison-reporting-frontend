@@ -14,13 +14,13 @@ export default class DownloadReportController {
   }
 
   POST: RequestHandler = async (req, res, next) => {
-    const { userId } = LocalsHelper.getValues(res)
+    const { dprUser } = LocalsHelper.getValues(res)
     const { reportId, id, loadType, currentUrl, currentQueryParams } = req.body
 
     let redirect = `${currentUrl}/download-disabled`
     redirect = currentQueryParams ? `${redirect}${currentQueryParams}` : redirect
 
-    const canDownload = await this.services.downloadPermissionService.downloadEnabled(userId, reportId, id)
+    const canDownload = await this.services.downloadPermissionService.downloadEnabled(dprUser.id, reportId, id)
 
     if (canDownload) {
       await DownloadUtils.downloadReport({ req, res, services: this.services, redirect, loadType })

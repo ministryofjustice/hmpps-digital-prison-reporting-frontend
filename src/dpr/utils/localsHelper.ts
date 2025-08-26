@@ -4,41 +4,72 @@ import { BookmarkStoreData } from '../types/Bookmark'
 
 const getValues = (res: Response) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
-  const userId = res.locals.user?.uuid ? res.locals.user.uuid : 'userId'
-  const token = res.locals.user?.token ? res.locals.user.token : 'token'
-  const activeCaseLoadId = res.locals.user?.activeCaseLoadId || ''
-  const pathSuffix = res.locals.pathSuffix || ''
-  const routePrefix = res.locals.routePrefix || ''
+  const dprUser = setDprUserContext(res)
+
+  return {
+    token: dprUser.token,
+    dprUser,
+    ...setUserReports(res),
+    ...setDpdPaths(res),
+    ...setFeatures(res),
+    ...setDefinitions(res),
+    csrfToken,
+    nestedBaseUrl: res.locals.nestedBaseUrl,
+  }
+}
+
+const setDefinitions = (res: Response) => {
   const definitions = res.locals.definitions || []
+  return {
+    definitions,
+  }
+}
+
+const setFeatures = (res: Response) => {
+  return {
+    bookmarkingEnabled: <boolean>res.locals.bookmarkingEnabled,
+    downloadingEnabled: <boolean>res.locals.downloadingEnabled,
+  }
+}
+
+const setUserReports = (res: Response) => {
   const requestedReports: StoredReportData[] = res.locals.requestedReports || []
   const recentlyViewedReports: StoredReportData[] = res.locals.recentlyViewedReports || []
   const bookmarks: BookmarkStoreData[] = res.locals.bookmarks || []
-  const {
-    bookmarkingEnabled,
-    downloadingEnabled,
-    definitionsPath,
-    dpdPathFromQuery,
-    dpdPathFromConfig,
-    nestedBaseUrl,
-  } = res.locals
 
   return {
-    csrfToken,
-    userId,
-    token,
-    definitions,
     requestedReports,
     recentlyViewedReports,
     bookmarks,
-    bookmarkingEnabled,
-    downloadingEnabled,
+  }
+}
+
+const setDpdPaths = (res: Response) => {
+  const { definitionsPath, dpdPathFromQuery, dpdPathFromConfig, pathSuffix } = res.locals
+  return {
+    definitionsPath,
     dpdPathFromQuery,
     dpdPathFromConfig,
-    definitionsPath,
-    pathSuffix,
-    routePrefix,
+    pathSuffix: pathSuffix || '',
+  }
+}
+
+const setDprUserContext = (res: Response) => {
+  const { dprUser } = res.locals
+  const id = dprUser?.id
+  const token = dprUser?.token
+  const activeCaseLoadId = dprUser?.activeCaseLoadId
+  const staffId = dprUser?.staffId
+  const email = dprUser?.emailAddress || ''
+  const displayName = dprUser?.displayName || ''
+
+  return {
+    id,
+    token,
     activeCaseLoadId,
-    nestedBaseUrl,
+    staffId,
+    email,
+    displayName,
   }
 }
 

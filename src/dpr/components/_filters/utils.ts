@@ -213,7 +213,8 @@ const setUserDefinedDefaultValuesForReport = async (
 }
 
 const setUserContextDefaults = (res: Response, filters: FilterValue[]) => {
-  const { activeCaseLoadId } = localsHelper.getValues(res)
+  const { dprUser } = localsHelper.getValues(res)
+  const { activeCaseLoadId } = dprUser
 
   filters.forEach((filter) => {
     if (
@@ -221,7 +222,12 @@ const setUserContextDefaults = (res: Response, filters: FilterValue[]) => {
       filter.text.toLocaleLowerCase().includes('establishment') &&
       activeCaseLoadId.length
     ) {
-      filter.value = activeCaseLoadId
+      const option = filter.options.find((opt) => opt.value === activeCaseLoadId)
+
+      if (option) {
+        filter.value = option.text
+        filter.staticOptionNameValue = activeCaseLoadId
+      }
     }
   })
 

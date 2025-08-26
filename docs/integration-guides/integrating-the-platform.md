@@ -147,7 +147,7 @@ const dprServices = createDprServices({ reportingClient, dashboardClient, report
 
 # Setup the DPR user in locals
 
-In you `populateCurrentUser` middleware, ensure you have `dprUser` defined in your `res.locals` 
+In your `populateCurrentUser` middleware, ensure you have `dprUser` defined in your `res.locals` 
 
 ```js
 // example using manage user api

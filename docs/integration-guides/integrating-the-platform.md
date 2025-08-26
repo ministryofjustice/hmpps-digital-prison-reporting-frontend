@@ -201,8 +201,6 @@ export default function routes(services: Services): Router {
 }
 ```
 
-This step will enable the page routes documented [here](/reports/async-routes)
-
 <hr class='dpr-docs-hr'>
 
 # Summary

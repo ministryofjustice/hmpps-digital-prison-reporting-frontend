@@ -9,7 +9,7 @@ const initDprReportingClients = (reportingApiConfig: ApiConfig, redisClient: Red
     reportingClient: new ReportingClient(reportingApiConfig),
     dashboardClient: new DashboardClient(reportingApiConfig),
     reportDataStore: new ReportDataStore(redisClient, storePrefix),
-    missingReportClient: new MissingReportClient(reportingApiConfig)
+    missingReportClient: new MissingReportClient(reportingApiConfig),
   }
 }
 

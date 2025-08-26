@@ -135,7 +135,7 @@ context('Inputs: Relative date range with defaults', () => {
 
     it('should remove the save defaults', () => {
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()
-      cy.findByRole('button', { name: 'Delete defaults' }).click().should('exist')
+      cy.findByRole('button', { name: 'Delete defaults' }).should('exist').click()
 
       cy.location().should((location) => {
         expect(location.search).contain(`filters.field1.relative-duration=next-month`)

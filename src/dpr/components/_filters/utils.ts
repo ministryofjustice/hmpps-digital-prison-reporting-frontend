@@ -17,6 +17,7 @@ import { defaultFilterValue } from '../../routes/journeys/request-report/filters
 import localsHelper from '../../utils/localsHelper'
 import { Services } from '../../types/Services'
 import { ReportType } from '../../types/UserReports'
+import { RenderFiltersReturnValue } from '../_async/async-filters-form/types'
 
 /**
  * Given a FilterValue[], will update the values to match the req.query values if present
@@ -63,13 +64,16 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
   })
 }
 
-const setFilterValuesFromSavedDefaults = (filters: FilterValue[], defaultValues: defaultFilterValue[]) => {
-  const hasDefaults = filters.some((f) => {
+const setFilterValuesFromSavedDefaults = (
+  filtersData: RenderFiltersReturnValue,
+  defaultValues: defaultFilterValue[],
+): RenderFiltersReturnValue => {
+  const hasDefaults = filtersData.filters.some((f) => {
     const defaultValue = defaultValues.findIndex((v) => v.name === f.name)
     return defaultValue !== -1
   })
 
-  return filters.map((filter) => {
+  const filterValues = filtersData.filters.map((filter) => {
     let defaultValue = defaultValues.find((v) => v.name === filter.name)
     let updatedFilter = {
       ...filter,
@@ -110,6 +114,19 @@ const setFilterValuesFromSavedDefaults = (filters: FilterValue[], defaultValues:
 
     return updatedFilter
   })
+
+  const sortValues = filtersData.sortBy.map((sortFilter) => {
+    const defaultValue = defaultValues.find((v) => v.name === sortFilter.name)
+    return {
+      ...sortFilter,
+      value: defaultValue.value,
+    }
+  })
+
+  return {
+    filters: filterValues,
+    sortBy: sortValues,
+  }
 }
 
 const setFilterQueryFromFilterDefinition = (
@@ -169,7 +186,7 @@ const setUserDefinedDefaultValuesForReport = async (
 
   const bodyFilterValues = Object.keys(req.body)
     .filter((k) => {
-      return k.includes('filters.')
+      return k.includes('filters.') || k.includes('sortColumn') || k.includes('sortedAsc')
     })
     .map((k) => {
       return { name: k.replace('filters.', ''), value: req.body[k] }

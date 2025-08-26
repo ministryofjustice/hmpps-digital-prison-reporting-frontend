@@ -154,8 +154,10 @@ In your `populateCurrentUser` middleware, ensure you have `dprUser` defined in y
 const user = await this.hmppsManageUsersClient.getUser(token)
 
 const dprUser = new DprUser()
+// required
 dprUser.token = res.locals.user.token
 dprUser.id = user.uuid
+// optional
 dprUser.activeCaseLoadId = user.activeCaseLoadId
 dprUser.emailAddress = user.email
 dprUser.displayName = user.displayName

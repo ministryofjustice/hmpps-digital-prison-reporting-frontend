@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## v4.12.0
+- Library integration update: Define a bespoke dpr user context in `res.locals` to interact with the platform, to ensure all integrating services provide all the required configuration, and leave the `locals.user` context to the discretion of the intergrating service. Services updating to this version will need to update their `populateCurrentUser` middleware to accomodate this change. See the <a href="https://ministryofjustice.github.io/hmpps-digital-prison-reporting-frontend/integration-guides/integrating-the-platform/#setup-the-dpr-user-in-locals" target="_blank">integration docs</a> for instructions. 
+
 ## v4.11.6
 - Download Bugfix: Column mismatch with screen and downloaded data
 - Accessibility fixes

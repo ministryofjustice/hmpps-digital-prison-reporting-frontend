@@ -23,8 +23,7 @@ export default function initMockClients(router: Router, featureConfig?: { bookma
 
   // 2. Create services
   const services = {
-    ...createDprServices({ reportingClient, dashboardClient, reportDataStore }, featureConfig),
-    missingReportClient,
+    ...createDprServices({ reportingClient, dashboardClient, reportDataStore, missingReportClient }, featureConfig),
   }
 
   router.use(setUpDprResources(services))

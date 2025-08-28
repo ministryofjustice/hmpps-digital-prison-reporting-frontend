@@ -43,8 +43,6 @@ export const getData = async ({
   // Get the request data
   const requestData: RequestedReport = await services.requestedReportService.getReportByTableId(tableId, userId)
 
-  console.log(JSON.stringify({ requestData }, null, 2))
-
   // Get the reportData
   const { reportData, reportQuery } = await getReportData({ definition, services, token, req, res, requestData })
 
@@ -82,10 +80,9 @@ const getReportData = async (args: {
   const reportVariantId = variantId || id
   const { variant } = definition
   const { specification } = variant
-  const { sortColumn, sortedAsc } = requestData.query.data
   const queryParams = {
-    ...(sortColumn && { sortColumn }),
-    ...(sortedAsc && { sortedAsc }),
+    ...(requestData.query?.data?.sortColumn && { sortColumn: requestData.query?.data?.sortColumn }),
+    ...(requestData.query?.data?.sortedAsc && { sortColumn: requestData.query?.data?.sortedAsc }),
     ...req.query,
   }
 

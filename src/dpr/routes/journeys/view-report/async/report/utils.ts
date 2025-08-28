@@ -82,7 +82,7 @@ const getReportData = async (args: {
   const { specification } = variant
   const queryParams = {
     ...(requestData.query?.data?.sortColumn && { sortColumn: requestData.query?.data?.sortColumn }),
-    ...(requestData.query?.data?.sortedAsc && { sortColumn: requestData.query?.data?.sortedAsc }),
+    ...(requestData.query?.data?.sortedAsc && { sortedAsc: requestData.query?.data?.sortedAsc }),
     ...req.query,
   }
 
@@ -92,6 +92,8 @@ const getReportData = async (args: {
     queryParams,
     definitionsPath,
   })
+
+  console.log(JSON.stringify({ reportQuery }, null, 2))
 
   const reportData = await services.reportingService.getAsyncReport(
     token,

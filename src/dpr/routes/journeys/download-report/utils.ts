@@ -49,17 +49,18 @@ const removeHtmlTags = (
 ) => {
   // Find HMTL field + name
   const { fields } = reportDefinition.variant.specification
-  const htmlField = fields.find((field) => {
+  const htmlFields = fields.filter((field) => {
     return field.type === 'HTML'
   })
 
-  if (htmlField) {
-    // remove wrapping HTML tags from value
-    const { name } = htmlField
+  if (htmlFields.length) {
     reportData.map((d) => {
-      const innerText = /target="_blank">(.*?)<\/a>/g.exec(d[name])
-      // eslint-disable-next-line prefer-destructuring, no-param-reassign
-      d[name] = innerText[1]
+      htmlFields.forEach((field) => {
+        const { name } = field
+        const innerText = /target="_blank">(.*?)<\/a>/g.exec(d[name])
+        // eslint-disable-next-line prefer-destructuring, no-param-reassign
+        d[name] = innerText ? innerText[1] : d[name]
+      })
       return d
     })
   }
@@ -82,7 +83,17 @@ export default {
     loadType?: LoadType
   }) {
     const { dprUser, token } = LocalsHelper.getValues(res)
-    const { reportId, id, tableId, dataProductDefinitionsPath, reportName, name, cols: columns } = req.body
+    const {
+      reportId,
+      id,
+      tableId,
+      dataProductDefinitionsPath,
+      reportName,
+      name,
+      cols: columns,
+      sortedAsc,
+      sortColumn,
+    } = req.body
 
     const canDownload = await services.downloadPermissionService.downloadEnabled(dprUser.id, reportId, id)
     if (!canDownload) {
@@ -107,17 +118,20 @@ export default {
         reportData = listWithWarnings.data
       } else {
         const pageSize = await services.reportingService.getAsyncCount(token, tableId)
-        reportData = await services.reportingService.getAsyncReport(token, reportId, id, tableId, {
+        const query = {
           dataProductDefinitionsPath,
           pageSize,
-        })
+          ...(sortedAsc && { sortedAsc }),
+          ...(sortColumn && { sortColumn }),
+        }
+        reportData = await services.reportingService.getAsyncReport(token, reportId, id, tableId, query)
       }
       if (columns) {
         reportData = applyColumnsAndSort(reportData, JSON.parse(columns))
       }
       reportData = removeHtmlTags(reportData, reportDefinition)
       const keys: KeysList = getKeys(reportData, reportDefinition.variant.specification.fields)
-      const csvData = convertToCsv(reportData, { keys })
+      const csvData = convertToCsv(reportData, { keys, emptyFieldValue: '' })
 
       res.setHeader('Content-Type', 'application/json')
       res.setHeader('Content-disposition', `attachment; filename=${reportName}-${name}-${new Date().toISOString()}.csv`)

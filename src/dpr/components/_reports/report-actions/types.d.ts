@@ -15,6 +15,8 @@ export interface DownloadActionParams {
   currentUrl: string
   currentQueryParams: string
   nestedBaseUrl: string
+  sortColumn: string
+  sortedAsc: string
 }
 
 export interface ShareActionParams {

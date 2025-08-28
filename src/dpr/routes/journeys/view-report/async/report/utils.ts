@@ -43,8 +43,10 @@ export const getData = async ({
   // Get the request data
   const requestData: RequestedReport = await services.requestedReportService.getReportByTableId(tableId, userId)
 
+  console.log(JSON.stringify({ requestData }, null, 2))
+
   // Get the reportData
-  const { reportData, reportQuery } = await getReportData(definition, services, token, req, res)
+  const { reportData, reportQuery } = await getReportData({ definition, services, token, req, res, requestData })
 
   // Get the summary data, if applicable
   const summariesData = !definition.variant.summaries
@@ -66,23 +68,31 @@ export const getData = async ({
   }
 }
 
-const getReportData = async (
-  reportDefinition: components['schemas']['SingleVariantReportDefinition'],
-  services: Services,
-  token: string,
-  req: Request,
-  res: Response,
-) => {
+const getReportData = async (args: {
+  definition: components['schemas']['SingleVariantReportDefinition']
+  services: Services
+  token: string
+  req: Request
+  res: Response
+  requestData: RequestedReport
+}) => {
+  const { definition, services, token, req, res, requestData } = args
   const { definitionsPath } = LocalsHelper.getValues(res)
   const { reportId, variantId, id, tableId } = req.params
   const reportVariantId = variantId || id
-  const { variant } = reportDefinition
+  const { variant } = definition
   const { specification } = variant
+  const { sortColumn, sortedAsc } = requestData.query.data
+  const queryParams = {
+    ...(sortColumn && { sortColumn }),
+    ...(sortedAsc && { sortedAsc }),
+    ...req.query,
+  }
 
   const reportQuery = new ReportQuery({
     fields: specification.fields,
     template: specification.template as Template,
-    queryParams: req.query,
+    queryParams,
     definitionsPath,
   })
 

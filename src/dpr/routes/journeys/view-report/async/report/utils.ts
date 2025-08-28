@@ -441,7 +441,7 @@ const setActions = (
   currentQueryParams: string,
   res: Response,
 ) => {
-  const { reportName, name, id, variantId, reportId, tableId, executionId, dataProductDefinitionsPath, url } =
+  const { reportName, name, id, variantId, reportId, tableId, executionId, dataProductDefinitionsPath, url, query } =
     requestData
   const { nestedBaseUrl } = LocalsHelper.getValues(res)
   const requestUrl = url.request.fullUrl
@@ -463,6 +463,8 @@ const setActions = (
     currentUrl,
     currentQueryParams,
     nestedBaseUrl,
+    sortColumn: query?.data?.sortColumn,
+    sortedAsc: query?.data?.sortedAsc,
   }
 
   const shareConfig = {

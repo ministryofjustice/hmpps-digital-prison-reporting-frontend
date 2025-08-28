@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express'
-import { Response } from 'superagent'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { components } from '../../../../types/api'
 import { Services } from '../../../../types/Services'

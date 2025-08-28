@@ -5,7 +5,6 @@ import { Services } from '../types/Services'
 import { RequestedReport, StoredReportData } from '../types/UserReports'
 import DefinitionUtils from '../utils/definitionUtils'
 import { BookmarkStoreData } from '../types/Bookmark'
-import { getRoutePrefix } from '../utils/urlHelper'
 import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
 

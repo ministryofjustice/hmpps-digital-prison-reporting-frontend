@@ -164,8 +164,6 @@ export default {
         ...(sortColumn && { sortColumn }),
       }
 
-      console.log(JSON.stringify({ queryParams }, null, 2))
-
       let reportData
       if (loadType === LoadType.SYNC) {
         reportData = await downloadSyncData({

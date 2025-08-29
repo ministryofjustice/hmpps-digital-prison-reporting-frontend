@@ -4,9 +4,10 @@ import { KeysList } from 'json-2-csv/lib/types'
 import { Services } from '../../../types/Services'
 import Dict = NodeJS.Dict
 import { LoadType } from '../../../types/UserReports'
-import SyncReportUtils from '../view-report/sync/report/utils'
 import { components } from '../../../types/api'
 import LocalsHelper from '../../../utils/localsHelper'
+import { Template } from '../../../types/Templates'
+import ReportQuery from '../../../types/ReportQuery'
 
 const convertToCsv = (reportData: Dict<string>[], options: Json2CsvOptions) => {
   const csvData = json2csv(reportData, options)
@@ -68,6 +69,63 @@ const removeHtmlTags = (
   return reportData
 }
 
+const dowloadAsyncData = async (args: {
+  services: Services
+  token: string
+  tableId: string
+  reportId: string
+  id: string
+  queryParams: {
+    dataProductDefinitionsPath: string
+    sortedAsc?: string
+    sortColumn?: string
+  }
+}) => {
+  const { token, services, tableId, reportId, id, queryParams } = args
+  const pageSize = await services.reportingService.getAsyncCount(token, tableId)
+  const query = {
+    ...queryParams,
+    pageSize,
+  }
+  return services.reportingService.getAsyncReport(token, reportId, id, tableId, query)
+}
+
+const downloadSyncData = async (args: {
+  definition: components['schemas']['SingleVariantReportDefinition']
+  services: Services
+  token: string
+  queryParams: {
+    dataProductDefinitionsPath: string
+    sortedAsc?: string
+    sortColumn?: string
+  }
+}) => {
+  const { token, services, queryParams, definition } = args
+  const { variant } = definition
+  const { resourceName, specification } = variant
+
+  const countReportQuery = new ReportQuery({
+    fields: specification.fields,
+    template: specification.template as Template,
+    queryParams,
+    definitionsPath: <string>queryParams.dataProductDefinitionsPath,
+  })
+  const count = await services.reportingService.getCount(resourceName, token, countReportQuery)
+
+  const dataReportQuery = new ReportQuery({
+    fields: specification.fields,
+    template: specification.template as Template,
+    queryParams: {
+      ...queryParams,
+      pageSize: count,
+    },
+    definitionsPath: <string>queryParams.dataProductDefinitionsPath,
+  })
+
+  const reportData = await services.reportingService.getListWithWarnings(resourceName, token, dataReportQuery)
+  return reportData.data
+}
+
 export default {
   async downloadReport({
     req,
@@ -99,38 +157,36 @@ export default {
     if (!canDownload) {
       res.redirect(redirect)
     } else {
-      const reportDefinition = await services.reportingService.getDefinition(
-        token,
-        reportId,
-        id,
+      const definition = await services.reportingService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
+      const queryParams = {
         dataProductDefinitionsPath,
-      )
+        ...(sortedAsc && { sortedAsc }),
+        ...(sortColumn && { sortColumn }),
+      }
 
       let reportData
       if (loadType === LoadType.SYNC) {
-        const { reportData: listWithWarnings } = await SyncReportUtils.getReportData({
+        reportData = await downloadSyncData({
+          definition,
           services,
-          req,
+          token,
+          queryParams,
+        })
+      } else {
+        reportData = await dowloadAsyncData({
+          services,
           token,
           reportId,
           id,
+          tableId,
+          queryParams,
         })
-        reportData = listWithWarnings.data
-      } else {
-        const pageSize = await services.reportingService.getAsyncCount(token, tableId)
-        const query = {
-          dataProductDefinitionsPath,
-          pageSize,
-          ...(sortedAsc && { sortedAsc }),
-          ...(sortColumn && { sortColumn }),
-        }
-        reportData = await services.reportingService.getAsyncReport(token, reportId, id, tableId, query)
       }
       if (columns) {
         reportData = applyColumnsAndSort(reportData, JSON.parse(columns))
       }
-      reportData = removeHtmlTags(reportData, reportDefinition)
-      const keys: KeysList = getKeys(reportData, reportDefinition.variant.specification.fields)
+      reportData = removeHtmlTags(reportData, definition)
+      const keys: KeysList = getKeys(reportData, definition.variant.specification.fields)
       const csvData = convertToCsv(reportData, { keys, emptyFieldValue: '' })
 
       res.setHeader('Content-Type', 'application/json')

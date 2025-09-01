@@ -8,35 +8,24 @@ const setDateRangeValuesWithinMinMax = (
   endValue?: string,
 ) => {
   const { min, max } = filter
-  let start
-  if (min) {
-    start = compareMin(min, startValue)
-  } else {
-    start = startValue
-  }
-
-  let end
-  if (max) {
-    end = compareMax(max, endValue)
-  } else {
-    end = endValue
-  }
+  const start = min ? compareMin(min, startValue) : startValue
+  const end = max ? compareMax(max, endValue) : endValue
 
   return {
-    start,
-    end,
+    start: start || '',
+    end: end || '',
   }
 }
 
-const compareMin = (min: string, dateValue: string) => {
+const compareMin = (min: string, dateValue?: string) => {
   const minDate = new Date(min)
-  const date = new Date(dateValue)
+  const date = dateValue ? new Date(dateValue) : new Date()
   return date < minDate ? min : dateValue
 }
 
-const compareMax = (max: string, dateValue: string) => {
+const compareMax = (max: string, dateValue?: string) => {
   const maxDate = new Date(max)
-  const date = new Date(dateValue)
+  const date = dateValue ? new Date(dateValue) : new Date()
   return date > maxDate ? max : dateValue
 }
 

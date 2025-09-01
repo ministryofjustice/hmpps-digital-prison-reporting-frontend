@@ -37,7 +37,8 @@ export const getDuplicateRequestIds = (newReportSearchParams: string, existingRe
 
   existingReports.forEach((existingReportData: UserReportData) => {
     const matches: boolean[] = []
-    const existingQueryParams = new URLSearchParams(existingReportData.url.request.search)
+    const search = existingReportData.url?.request?.search || ''
+    const existingQueryParams = new URLSearchParams(search)
 
     if (existingQueryParams.entries.length === newQueryParams.entries.length) {
       newQueryParams.forEach((newValue, newKey) => {

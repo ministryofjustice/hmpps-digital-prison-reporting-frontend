@@ -26,8 +26,8 @@ const dateIsInBounds = (startDate: dayjs.Dayjs | string, endDate: dayjs.Dayjs | 
 }
 
 const calcDates = (durationValue: string) => {
-  let endDate
-  let startDate
+  let endDate: string | dayjs.Dayjs = dayjs()
+  let startDate: string | dayjs.Dayjs = dayjs()
 
   switch (durationValue) {
     case 'none':
@@ -75,7 +75,7 @@ const setValueFromRequest = (filter: DateFilterValue, req: Request, prefix: stri
   const relative = <string>req.query[`${prefix}${filter.name}.relative-duration`]
 
   let relativeDisabled = false
-  if (relative) {
+  if (relative && relativeOptions) {
     const option = relativeOptions.find((opt) => opt.value === relative)
     relativeDisabled = option && option.disabled ? option.disabled : false
   }
@@ -134,7 +134,7 @@ const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: Fil
   }
 }
 
-const getRelativeDateOptions = (min: string, max: string) => {
+const getRelativeDateOptions = (min?: string, max?: string) => {
   if (!min) min = '1977-05-25'
   if (!max) max = '9999-01-01'
   let options: RelativeOption[] = getRelativeValues()
@@ -200,8 +200,8 @@ const getQueryFromDefinition = (
   name: string,
   filterPrefix: string,
 ) => {
-  const dates = filter.defaultValue.split(' - ')
-  let param
+  const dates = filter.defaultValue ? filter.defaultValue.split(' - ') : []
+  let param = ''
   if (dates.length >= 1) {
     param = `${filterPrefix}${name}.start=${dates[0]}`
     if (dates.length >= 2) {

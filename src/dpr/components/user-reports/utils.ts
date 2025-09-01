@@ -162,11 +162,11 @@ const getTotals = (formattedCount: number, maxRows: number) => {
 
 const createSummaryHtml = (data: FormattedUserReportData) => {
   const summaryHtml = data.summary
-    .map((item) => `<li class="govuk-body-s dpr-query-summary"><strong>${item.name}</strong>: ${item.value}</li>`)
+    ?.map((item) => `<li class="govuk-body-s dpr-query-summary"><strong>${item.name}</strong>: ${item.value}</li>`)
     .join('')
 
   const interactiveSummaryHtml = data.interactiveSummary
-    .map(
+    ?.map(
       (item) =>
         `<li class="govuk-body-s dpr-interactive-query-summary"><strong>${item.name}</strong>: ${item.value}</li>`,
     )
@@ -376,8 +376,7 @@ export default {
       querySummary: SelectedFiltersUtils.getQuerySummary(req, filters),
     }
 
-    const recentlyViewedData = new UserStoreItemBuilder()
-      .addReportData(reportData)
+    const recentlyViewedData = new UserStoreItemBuilder(reportData)
       .addExecutionData(executionData)
       .addQuery(queryData)
       .addInteractiveQuery(interactiveQueryData)

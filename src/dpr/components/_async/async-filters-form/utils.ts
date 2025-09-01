@@ -66,7 +66,7 @@ export const setDurationStartAndEnd = (
   let queryValue = `${value.charAt(0).toUpperCase() + value.slice(1).replace('-', ' ')}`
   queryValue = `${queryValue} (${startDateDisplayString} - ${endDateDisplayString})`
   querySummary.push({
-    name: `${field.display}`,
+    name: field ? `${field.display}` : name,
     value: queryValue,
   })
 

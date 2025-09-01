@@ -17,7 +17,7 @@ const featureTestingSync = {
         defaultsort: true,
         type: 'string',
         mandatory: false,
-        visible: true,
+        visible: false,
         filter: {
           type: 'Radio',
           staticOptions: [

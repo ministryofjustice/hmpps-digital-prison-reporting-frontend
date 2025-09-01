@@ -1,6 +1,5 @@
 import { Response, Request } from 'express'
 import dayjs from 'dayjs'
-import customParse from 'dayjs/plugin/customParseFormat'
 import { RenderTableListResponse } from './types'
 import Dict = NodeJS.Dict
 import {
@@ -296,12 +295,12 @@ export default {
   renderList,
 
   updateExpiredStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
-    const { userId } = LocalsHelper.getValues(res)
+    const { dprUser } = LocalsHelper.getValues(res)
     const report = await getExpiredStatus({ req, res, services })
 
     if (report && report.isExpired) {
-      await services.recentlyViewedService.setToExpired(report.executionId, userId)
-      await services.requestedReportService.setToExpired(report.executionId, userId)
+      await services.recentlyViewedService.setToExpired(report.executionId, dprUser.id)
+      await services.requestedReportService.setToExpired(report.executionId, dprUser.id)
     }
 
     return report ? report.isExpired : false

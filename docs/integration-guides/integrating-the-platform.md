@@ -145,18 +145,26 @@ const dprServices = createDprServices({ reportingClient, dashboardClient, report
 
 <hr class='dpr-docs-hr'>
 
-# Get the current User ID
+# Setup the DPR user in locals
 
-The user ID of the currently logged in user is the primary key used in the report config store, to retrieve and store report information against a specific user.
+In your `populateCurrentUser` middleware, ensure you have `dprUser` defined in your `res.locals` 
 
-A users report data will be stored using this key structure: 
 ```js
-`dprReportStoreUser:${ uuid }`
+// example using manage user api
+const user = await this.hmppsManageUsersClient.getUser(token)
+
+const dprUser = new DprUser()
+// required
+dprUser.token = res.locals.user.token
+dprUser.id = user.uuid
+// optional
+dprUser.activeCaseLoadId = user.activeCaseLoadId
+dprUser.emailAddress = user.email
+dprUser.displayName = user.displayName
+dprUser.staffId = user.staffId
+
+res.locals.dprUser = dprUser
 ```
-
-The integration assumes that users `uuid` is located in the `res` object at `res.locals.user.uuid`. 
-
-In the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/middleware/setUpCurrentUser.ts" target="_blank">HMPPS template</a> this is set in at `server/middleware/setUpCurrentUser.ts` 
 
 <hr class='dpr-docs-hr'>
 
@@ -192,8 +200,6 @@ export default function routes(services: Services): Router {
   router.use('/', dprPlatformRoutes({ services, layoutPath: 'path/to/layout.njk'})) 
 }
 ```
-
-This step will enable the page routes documented [here](/reports/async-routes)
 
 <hr class='dpr-docs-hr'>
 

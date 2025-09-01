@@ -16,8 +16,8 @@ describe('UserReportRequestListUtils', () => {
     beforeEach(() => {
       res = {
         locals: {
-          user: {
-            uuid: 'UuId',
+          dprUser: {
+            id: 'UuId',
             token: 'ToKeN',
           },
           csfrToken: 'CsRfToKeN',

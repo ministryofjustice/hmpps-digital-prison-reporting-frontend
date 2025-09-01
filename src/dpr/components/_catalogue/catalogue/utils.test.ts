@@ -16,7 +16,7 @@ describe('CatalogueUtils', () => {
     beforeEach(() => {
       res = {
         locals: {
-          user: {
+          dprUser: {
             token: 'T0k3n',
           },
         },

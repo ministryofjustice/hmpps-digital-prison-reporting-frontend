@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express'
-import { Response } from 'superagent'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { components } from '../../../../types/api'
 import { Services } from '../../../../types/Services'
@@ -20,7 +19,7 @@ export default class MissingReportFormController {
   }
 
   GET: RequestHandler = async (req, res, next) => {
-    const { token, csrfToken, definitionsPath } = LocalsHelper.getValues(res)
+    const { token, csrfToken, definitionsPath, dprUser } = LocalsHelper.getValues(res)
     const { reportId, variantId } = req.params
 
     const reportDefinition: components['schemas']['SingleVariantReportDefinition'] =
@@ -38,7 +37,7 @@ export default class MissingReportFormController {
           name: variant.name,
           description: variant.description || reportDefinition.description,
         },
-        user: res.locals.user,
+        user: dprUser,
         csrfToken,
         layoutPath: this.layoutPath,
         postEndpoint: `/dpr/request-missing-report/${reportId}/${variantId}/form/submit`,

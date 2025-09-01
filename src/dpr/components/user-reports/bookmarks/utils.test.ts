@@ -21,8 +21,8 @@ describe('BookmarkUtils', () => {
     beforeEach(() => {
       res = {
         locals: {
-          user: {
-            uuid: 'UuId',
+          dprUser: {
+            id: 'UuId',
             token: 'tOkEn',
           },
           csfrToken: 'CsRfToKeN',

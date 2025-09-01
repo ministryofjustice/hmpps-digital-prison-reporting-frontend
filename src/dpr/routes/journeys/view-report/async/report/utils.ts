@@ -44,7 +44,7 @@ export const getData = async ({
   const requestData: RequestedReport = await services.requestedReportService.getReportByTableId(tableId, userId)
 
   // Get the reportData
-  const { reportData, reportQuery } = await getReportData(definition, services, token, req, res)
+  const { reportData, reportQuery } = await getReportData({ definition, services, token, req, res, requestData })
 
   // Get the summary data, if applicable
   const summariesData = !definition.variant.summaries
@@ -66,23 +66,30 @@ export const getData = async ({
   }
 }
 
-const getReportData = async (
-  reportDefinition: components['schemas']['SingleVariantReportDefinition'],
-  services: Services,
-  token: string,
-  req: Request,
-  res: Response,
-) => {
+const getReportData = async (args: {
+  definition: components['schemas']['SingleVariantReportDefinition']
+  services: Services
+  token: string
+  req: Request
+  res: Response
+  requestData: RequestedReport
+}) => {
+  const { definition, services, token, req, res, requestData } = args
   const { definitionsPath } = LocalsHelper.getValues(res)
   const { reportId, variantId, id, tableId } = req.params
   const reportVariantId = variantId || id
-  const { variant } = reportDefinition
+  const { variant } = definition
   const { specification } = variant
+  const queryParams = {
+    ...(requestData.query?.data?.sortColumn && { sortColumn: requestData.query.data.sortColumn }),
+    ...(requestData.query?.data?.sortedAsc && { sortedAsc: requestData.query.data.sortedAsc }),
+    ...req.query,
+  }
 
   const reportQuery = new ReportQuery({
     fields: specification.fields,
     template: specification.template as Template,
-    queryParams: req.query,
+    queryParams,
     definitionsPath,
   })
 
@@ -179,7 +186,7 @@ export const getChildData = async (
  * @return {*}
  */
 const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
-  const { token, userId } = LocalsHelper.getValues(res)
+  const { token, dprUser } = LocalsHelper.getValues(res)
 
   // Get the report data
   const { definition, requestData, reportData, childData, summariesData, reportQuery } = await getData({
@@ -187,7 +194,7 @@ const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
     res,
     services,
     token,
-    userId,
+    userId: dprUser.id,
   })
 
   // Get the columns
@@ -226,7 +233,7 @@ const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
       req,
       services,
       reportStateData: requestData,
-      userId,
+      userId: dprUser.id,
       search: renderData.search,
       href: renderData.pathname,
       filters: templateData.filterData.filters,
@@ -337,19 +344,19 @@ const setFeatures = async (
   count: number,
   urls: Dict<string>,
 ) => {
-  const { csrfToken, userId, bookmarkingEnabled, downloadingEnabled } = LocalsHelper.getValues(res)
+  const { csrfToken, dprUser, bookmarkingEnabled, downloadingEnabled } = LocalsHelper.getValues(res)
   const { reportId } = requestData
   const id = requestData.variantId || requestData.id
   const { variant } = definition
 
   let canDownload
   if (downloadingEnabled) {
-    canDownload = await services.downloadPermissionService.downloadEnabled(userId, reportId, id)
+    canDownload = await services.downloadPermissionService.downloadEnabled(dprUser.id, reportId, id)
   }
 
   let bookmarked
   if (bookmarkingEnabled) {
-    bookmarked = await services.bookmarkService.isBookmarked(id, reportId, userId)
+    bookmarked = await services.bookmarkService.isBookmarked(id, reportId, dprUser.id)
   }
 
   const actions = setActions(
@@ -434,7 +441,7 @@ const setActions = (
   currentQueryParams: string,
   res: Response,
 ) => {
-  const { reportName, name, id, variantId, reportId, tableId, executionId, dataProductDefinitionsPath, url } =
+  const { reportName, name, id, variantId, reportId, tableId, executionId, dataProductDefinitionsPath, url, query } =
     requestData
   const { nestedBaseUrl } = LocalsHelper.getValues(res)
   const requestUrl = url.request.fullUrl
@@ -456,6 +463,8 @@ const setActions = (
     currentUrl,
     currentQueryParams,
     nestedBaseUrl,
+    sortColumn: query?.data?.sortColumn,
+    sortedAsc: query?.data?.sortedAsc,
   }
 
   const shareConfig = {

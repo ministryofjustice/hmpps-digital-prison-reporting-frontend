@@ -18,6 +18,7 @@ export interface GenericFilterValue {
   type: FilterType
   value?: string
   values?: string[]
+  staticOptionNameValue?: string
   options?: Array<FilterOption>
   minimumLength?: number
   dynamicResourceEndpoint?: string

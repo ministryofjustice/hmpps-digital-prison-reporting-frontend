@@ -1,12 +1,22 @@
+import dayjs from 'dayjs'
+
 context('Inputs: date range', () => {
   const path = '/components/filters/date-range/date-range'
   let dateRangeStart: Cypress.Chainable<JQuery<HTMLElement>>
   let dateRangeEnd: Cypress.Chainable<JQuery<HTMLElement>>
+  let currentMonth: string
+  let currentMonthDoubleDigits: string
+  let currentMonthName: string
+  let currentYear: number
 
   beforeEach(() => {
     cy.visit(path)
     dateRangeStart = cy.findByRole('textbox', { name: 'From' })
     dateRangeEnd = cy.findByRole('textbox', { name: 'To' })
+    currentMonth = dayjs().format('M')
+    currentMonthDoubleDigits = dayjs().format('MM')
+    currentMonthName = dayjs().format('MMMM')
+    currentYear = dayjs().year()
   })
 
   it('is accessible', () => {
@@ -92,40 +102,53 @@ context('Inputs: date range', () => {
 
   describe('Setting the value via the datepicker', () => {
     const setDateRangeValuesViaCalendar = () => {
+      const date = 11
+      const day = dayjs().date(date).format('dddd')
+      const startDateString = `${day} ${date} ${currentMonthName} ${currentYear}`
       cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
-      cy.findByRole('button', { name: 'Monday 11 August 2025' }).click()
+      cy.findByRole('button', { name: `${startDateString}` }).click()
 
+      const endDate = 25
+      const endDay = dayjs().date(endDate).format('dddd')
+      const endDateString = `${endDay} ${endDate} ${currentMonthName} ${currentYear}`
       cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
-      cy.findByRole('button', { name: 'Saturday 30 August 2025' }).click()
+      cy.findByRole('button', { name: `${endDateString}` }).click()
     }
 
     const setDateRangeValuesViaCalendarSingleDigit = () => {
       cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
-      cy.findByRole('button', { name: 'Friday 1 August 2025' }).click()
+      const date = 1
+      const day = dayjs().date(date).format('dddd')
+      const startDateString = `${day} ${date} ${currentMonthName} ${currentYear}`
+      cy.findByRole('button', { name: `${startDateString}` }).click()
+
       cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
-      cy.findByRole('button', { name: 'Saturday 9 August 2025' }).click()
+      const endDate = 9
+      const endDay = dayjs().date(endDate).format('dddd')
+      const endDateString = `${endDay} ${endDate} ${currentMonthName} ${currentYear}`
+      cy.findByRole('button', { name: `${endDateString}` }).click()
     }
 
     it('should set the date value in the inputs', () => {
       setDateRangeValuesViaCalendar()
 
-      cy.findByRole('textbox', { name: 'From' }).should('have.value', '11/8/2025')
-      cy.findByRole('textbox', { name: 'To' }).should('have.value', '30/8/2025')
+      cy.findByRole('textbox', { name: 'From' }).should('have.value', `11/${currentMonth}/${currentYear}`)
+      cy.findByRole('textbox', { name: 'To' }).should('have.value', `25/${currentMonth}/${currentYear}`)
     })
 
     it('should set the date value in the inputs - single digits', () => {
       setDateRangeValuesViaCalendarSingleDigit()
 
-      cy.findByRole('textbox', { name: 'From' }).should('have.value', '1/8/2025')
-      cy.findByRole('textbox', { name: 'To' }).should('have.value', '9/8/2025')
+      cy.findByRole('textbox', { name: 'From' }).should('have.value', `1/${currentMonth}/${currentYear}`)
+      cy.findByRole('textbox', { name: 'To' }).should('have.value', `9/${currentMonth}/${currentYear}`)
     })
 
     it('should set the date value correctly in the query string', () => {
       setDateRangeValuesViaCalendar()
 
       cy.location().should((location) => {
-        expect(location.search).to.contain(`filters.date-range.start=2025-08-11`)
-        expect(location.search).to.contain(`filters.date-range.end=2025-08-30`)
+        expect(location.search).to.contain(`filters.date-range.start=${currentYear}-${currentMonthDoubleDigits}-11`)
+        expect(location.search).to.contain(`filters.date-range.end=${currentYear}-${currentMonthDoubleDigits}-25`)
       })
     })
 
@@ -133,8 +156,8 @@ context('Inputs: date range', () => {
       setDateRangeValuesViaCalendarSingleDigit()
 
       cy.location().should((location) => {
-        expect(location.search).to.contain(`filters.date-range.start=2025-08-01`)
-        expect(location.search).to.contain(`filters.date-range.end=2025-08-09`)
+        expect(location.search).to.contain(`filters.date-range.start=${currentYear}-${currentMonthDoubleDigits}-01`)
+        expect(location.search).to.contain(`filters.date-range.end=${currentYear}-${currentMonthDoubleDigits}-09`)
       })
     })
 
@@ -146,11 +169,11 @@ context('Inputs: date range', () => {
           switch (index) {
             case 0:
               cy.wrap(filter).contains('Date-range start')
-              cy.wrap(filter).contains('11/8/2025')
+              cy.wrap(filter).contains(`11/${currentMonth}/${currentYear}`)
               break
             case 1:
               cy.wrap(filter).contains('Date-range end')
-              cy.wrap(filter).contains('30/8/2025')
+              cy.wrap(filter).contains(`25/${currentMonth}/${currentYear}`)
               break
             default:
               break
@@ -169,11 +192,11 @@ context('Inputs: date range', () => {
             switch (index) {
               case 0:
                 cy.wrap(filter).contains('Date-range start')
-                cy.wrap(filter).contains('1/8/2025')
+                cy.wrap(filter).contains(`1/${currentMonth}/${currentYear}`)
                 break
               case 1:
                 cy.wrap(filter).contains('Date-range end')
-                cy.wrap(filter).contains('9/8/2025')
+                cy.wrap(filter).contains(`9/${currentMonth}/${currentYear}`)
                 break
               default:
                 break

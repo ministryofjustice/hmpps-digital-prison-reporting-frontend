@@ -350,10 +350,6 @@ context('Requesting a report', () => {
         'match',
         /http:\/\/localhost:3010\/embedded\/platform\/dpr\/request-report\/report\/request-examples\/request-example-expire\/(.*)\/status/i,
       )
-      cy.url().then((url) => {
-        const urlArr = url.split('/')
-        expiredExecutionId = urlArr[urlArr.length - 2]
-      })
 
       checkStatuses()
       cy.url().should(

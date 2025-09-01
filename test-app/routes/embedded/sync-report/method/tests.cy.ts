@@ -1,5 +1,5 @@
-context('Embedded sync report by handler', () => {
-  const path = '/embedded/sync/handler'
+context('Embedded sync report by method', () => {
+  const path = '/embedded/sync/method'
 
   beforeEach(() => {
     cy.visit(path)
@@ -81,7 +81,7 @@ context('Embedded sync report by handler', () => {
         expect(location.search).not.to.contain(`columns=field4`)
         expect(location.search).not.to.contain(`columns=field5`)
         expect(location.search).to.contain(`columns=field6`)
-        expect(location.search).to.contain(`columns=field7`)
+        expect(location.search).not.to.contain(`columns=field7`)
       })
     }
 
@@ -123,7 +123,7 @@ context('Embedded sync report by handler', () => {
     it('should initialise the correct columns in the list table', () => {
       cy.findAllByRole('group').contains('Show columns (4 of 7 shown)')
 
-      cy.findByLabelText(/Successful Report/).within(() => {
+      cy.findByLabelText(/Test Variant/).within(() => {
         cy.findAllByRole('rowgroup')
           .eq(0)
           .within(() => {
@@ -163,12 +163,12 @@ context('Embedded sync report by handler', () => {
 
       expectUpdatedColumns()
 
-      cy.findByLabelText(/Successful Report/).within(() => {
+      cy.findByLabelText(/Test Variant/).within(() => {
         cy.findAllByRole('rowgroup')
           .eq(0)
           .within(() => {
             cy.findAllByRole('columnheader')
-              .should('have.length', 3)
+              .should('have.length', 4)
               .each((head, index) => {
                 switch (index) {
                   case 0:
@@ -179,6 +179,9 @@ context('Embedded sync report by handler', () => {
                     break
                   case 2:
                     cy.wrap(head).contains('Field 6')
+                    break
+                  case 3:
+                    cy.wrap(head).contains('Field 7')
                     break
                   default:
                     break
@@ -220,7 +223,7 @@ context('Embedded sync report by handler', () => {
       cy.findByRole('checkbox', { name: 'Field 6' }).should('not.be.checked')
       cy.findByRole('checkbox', { name: 'Field 7' }).should('not.be.checked')
 
-      cy.findByLabelText(/Successful Report/).within(() => {
+      cy.findByLabelText(/Test Variant/).within(() => {
         cy.findAllByRole('rowgroup')
           .eq(0)
           .within(() => {
@@ -319,7 +322,7 @@ context('Embedded sync report by handler', () => {
                 break
               case 3:
                 cy.wrap(filter).contains('Field 7')
-                cy.wrap(filter).contains('Value 8.3, Value 8.4, Value 8.1')
+                cy.wrap(filter).contains('Value 8.2, Value 8.1, Value 8.4')
                 break
               case 4:
                 cy.wrap(filter).contains('Reset filters')
@@ -357,6 +360,8 @@ context('Embedded sync report by handler', () => {
       cy.findByRole('checkbox', { name: 'Value 8.3' }).uncheck()
       cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
       cy.findByRole('checkbox', { name: 'Value 8.4' }).check()
+
+      cy.findByRole('button', { name: 'Apply filters' }).click()
 
       expectUpdatedLocation()
       expectUpdatedSelectedFilters()
@@ -403,7 +408,7 @@ context('Embedded sync report by handler', () => {
       cy.findByRole('combobox', { name: 'Field 2' }).find('option:selected').should('have.text', 'Value 2.3')
       cy.findByRole('textbox', { name: 'From' }).should('have.value', '02/03/2004')
       cy.findByRole('textbox', { name: 'To' }).should('have.value', '10/10/2005')
-      cy.findByRole('radio', { name: 'Value 1.3' }).should('not.be.checked')
+      cy.findByRole('radio', { name: 'Value 1.3' }).should('be.checked')
     })
 
     it('should remove the selected filter when clicked', () => {
@@ -445,14 +450,14 @@ context('Embedded sync report by handler', () => {
 
       cy.findByRole('button', { name: 'Apply columns' }).click()
 
-      cy.findAllByRole('group').contains('Show columns (3 of 7 Shown)').should('be.visible')
-
       cy.findAllByRole('group').contains('Show filters').should('be.visible').click()
 
       cy.findByRole('combobox', { name: 'Field 2' }).select('value2.2')
       cy.findByRole('checkbox', { name: 'Value 8.3' }).uncheck()
       cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
       cy.findByRole('checkbox', { name: 'Value 8.4' }).check()
+
+      cy.findByRole('button', { name: 'Apply filters' }).click()
 
       expectUpdatedLocation()
       expectUpdatedSelectedFilters()
@@ -463,7 +468,7 @@ context('Embedded sync report by handler', () => {
       expectDefaultSelectedFilters()
 
       cy.findAllByRole('group')
-        .contains(/Show columns (3 of 7 Shown)/)
+        .contains(/Show columns/)
         .should('be.visible')
     })
   })

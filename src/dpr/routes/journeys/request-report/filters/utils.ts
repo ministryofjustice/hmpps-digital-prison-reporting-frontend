@@ -246,9 +246,7 @@ const getFilterData = async (
 
   const defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id)
   if (defaultFilterValues) {
-    console.log(JSON.stringify(defaultFilterValues, null, 2))
     filtersData = FiltersUtils.setFilterValuesFromSavedDefaults(filtersData, defaultFilterValues)
-    console.log(JSON.stringify(filtersData, null, 2))
   }
 
   filtersData.filters = FiltersUtils.setFilterValuesFromRequest(filtersData.filters, req)

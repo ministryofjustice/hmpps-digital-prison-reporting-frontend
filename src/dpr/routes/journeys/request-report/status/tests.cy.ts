@@ -2,74 +2,91 @@ context('Request status', () => {
   const path = '/embedded/platform/'
 
   beforeEach(() => {
-    cy.visit(path)
-    cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-      cy.findByRole('row', {
-        name: (_, element) => {
-          return element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
-        },
-      }).within(() => {
-        cy.findByRole('link', { name: 'Request report' }).click()
-      })
-    })
-  })
-
-  it('is accessible', () => {
-    cy.findByRole('button', { name: /Request/ }).click()
-    cy.injectAxe()
-    cy.checkA11y()
+    cy.task('resetStubs')
+    cy.task('resetRedis')
+    cy.task('stubDefinitions')
+    cy.task('stubDefinitionRequestExamplesSuccess')
+    cy.task('stubViewAsyncReportingResults')
+    cy.task('stubRequestSuccessReportTablesCount')
+    cy.task('stubRequestSuccessResult20WithDelay')
   })
 
   describe('post request', () => {
-    let executionId = ''
+    const executionId = ''
 
-    it('should post to the status endpoint with the correct params', () => {
-      let requestStatusCall = 0
-      cy.intercept('POST', '/embedded/platform/dpr/request-report/report/**/**/**/status', (req) => {
-        requestStatusCall += 1
-        req.alias = `requestStatus${requestStatusCall}`
-        req.continue()
+    it('should show the status pages', () => {
+      cy.visit(path)
+      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+        cy.findByRole('row', {
+          name: (_, element) => {
+            return (
+              element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
+            )
+          },
+        }).within(() => {
+          cy.findByRole('link', { name: 'Request report' }).click()
+        })
       })
-
       cy.findByRole('button', { name: /Request/ }).click()
+      cy.injectAxe()
+      cy.checkA11y()
+      cy.task('stubReportsPickedStatus')
+      cy.findByText(/picked/i).should('be.visible')
+      cy.injectAxe()
+      cy.checkA11y()
+      cy.task('stubReportsStartedStatus')
+      cy.findByText(/started/i).should('be.visible')
+      cy.injectAxe()
+      cy.checkA11y()
+      cy.task('stubReportsFinishedStatus')
+      cy.findByRole('heading', { name: /successful report/i }).should('be.visible')
+    })
 
-      cy.url().then((url) => {
-        const urlArr = url.split('/')
-        executionId = urlArr[urlArr.length - 2]
+    describe('failure status pages', () => {
+      beforeEach(() => {
+        cy.task('resetRedis')
+        cy.task('stubReportsPickedStatus')
+        cy.visit(path)
+        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+          cy.findByRole('row', {
+            name: (_, element) => {
+              return (
+                element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
+              )
+            },
+          }).within(() => {
+            cy.findByRole('link', { name: 'Request report' }).click()
+          })
+        })
+        cy.findByRole('button', { name: /Request/ }).click()
+        cy.findByText(/submitted/i).should('be.visible')
+        cy.findByText(/picked/i).should('be.visible')
       })
 
-      cy.wait('@requestStatus1')
-        .its('request')
-        .then((request) => {
-          expect(request.body).to.have.property('id', 'request-example-success')
-          expect(request.body).to.have.property('reportId', 'request-examples')
-          expect(request.body).to.have.property('executionId', executionId)
-          expect(request.body).to.have.property('type', 'report')
-          expect(request.body).to.have.property('tableId')
-          expect(request.body).to.have.property('status', 'SUBMITTED')
-        })
-
-      cy.wait('@requestStatus2')
-        .its('request')
-        .then((request) => {
-          expect(request.body).to.have.property('id', 'request-example-success')
-          expect(request.body).to.have.property('reportId', 'request-examples')
-          expect(request.body).to.have.property('executionId', executionId)
-          expect(request.body).to.have.property('type', 'report')
-          expect(request.body).to.have.property('tableId')
-          expect(request.body).to.have.property('status', 'PICKED')
-        })
-
-      cy.wait('@requestStatus3')
-        .its('request')
-        .then((request) => {
-          expect(request.body).to.have.property('id', 'request-example-success')
-          expect(request.body).to.have.property('reportId', 'request-examples')
-          expect(request.body).to.have.property('executionId', executionId)
-          expect(request.body).to.have.property('type', 'report')
-          expect(request.body).to.have.property('tableId')
-          expect(request.body).to.have.property('status', 'STARTED')
-        })
+      it('should show the aborted status page', () => {
+        cy.task('stubReportsAbortedStatus')
+        cy.findByText(/aborted/i).should('be.visible')
+        cy.injectAxe()
+        cy.checkA11y()
+      })
+      it('should show the expired status page', () => {
+        cy.task('stubReportsExpiredStatus')
+        cy.findByText(/expired/i).should('be.visible')
+        cy.injectAxe()
+        cy.checkA11y()
+      })
+      it('should show the failed status page', () => {
+        cy.task('stubReportsFailedStatus')
+        cy.findByText(/your report has failed to generate/i).should('be.visible')
+        cy.findByRole('group').contains('Show full error').should('be.visible')
+        cy.findByText(/Show full error/).click()
+        cy.findByText(/a developer message goes here/).should('be.visible')
+        cy.findAllByRole('list').contains('Report ID: request-examples').should('be.visible')
+        cy.findAllByRole('list').contains(`Execution ID: ${executionId}`).should('be.visible')
+        cy.findAllByRole('list').contains('Table ID: tblId_').should('be.visible')
+        cy.injectAxe()
+        cy.checkA11y()
+      })
     })
   })
 })

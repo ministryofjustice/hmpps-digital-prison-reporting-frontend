@@ -17,6 +17,6 @@
     "ignoreDeprecations": "5.0",
     "types": ["cypress", "cypress-axe", "@testing-library/cypress"]
   },
-  "exclude": ["node_modules", "dist", "dist-test-app", "package", "cypress-tests", "esbuild"],
+  "exclude": ["node_modules", "dist", "dist-test-app", "package", "esbuild", "dist-docs"],
   "include": ["**/*.ts"]
 }

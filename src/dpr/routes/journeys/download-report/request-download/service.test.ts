@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import MockUserStoreService from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
+import { MockUserStoreService } from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
 import ReportDataStore from '../../../../data/reportDataStore'
 import type { ReportStoreConfig } from '../../../../types/ReportStore'
 import DownloadPermissionService from './service'

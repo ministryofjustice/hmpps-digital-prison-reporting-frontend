@@ -1,22 +1,13 @@
-import dayjs from 'dayjs'
-
 context('Inputs: date range', () => {
   const path = '/components/filters/date-range/date-range'
+  const dateToday = new Date()
   let dateRangeStart: Cypress.Chainable<JQuery<HTMLElement>>
   let dateRangeEnd: Cypress.Chainable<JQuery<HTMLElement>>
-  let currentMonth: string
-  let currentMonthDoubleDigits: string
-  let currentMonthName: string
-  let currentYear: number
 
   beforeEach(() => {
     cy.visit(path)
     dateRangeStart = cy.findByRole('textbox', { name: 'From' })
     dateRangeEnd = cy.findByRole('textbox', { name: 'To' })
-    currentMonth = dayjs().format('M')
-    currentMonthDoubleDigits = dayjs().format('MM')
-    currentMonthName = dayjs().format('MMMM')
-    currentYear = dayjs().year()
   })
 
   it('is accessible', () => {
@@ -101,107 +92,85 @@ context('Inputs: date range', () => {
   })
 
   describe('Setting the value via the datepicker', () => {
-    const setDateRangeValuesViaCalendar = () => {
-      const date = 11
-      const day = dayjs().date(date).format('dddd')
-      const startDateString = `${day} ${date} ${currentMonthName} ${currentYear}`
-      cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
-      cy.findByRole('button', { name: `${startDateString}` }).click()
+    const setDateRangeValuesViaCalendar = (dateFrom: number, dateTo: number) => {
+      if (dateFrom < 0 || dateFrom > 31) { throw new Error("Invalid dateFrom sent to setDateRangeValuesViaCalendar") }
+      if (dateTo < 0 || dateTo > 31) { throw new Error("Invalid dateTo sent to setDateRangeValuesViaCalendar") }
+      if (dateFrom > dateTo) { throw new Error("dateFrom was greater than dateTo in setDateRangeValuesViaCalendar") }
+      
+      const monthYearStringLabel = new Date().toLocaleDateString("en-GB", {
+        year: "numeric",
+        month: "long",
+      })
+      
+      cy.findAllByRole('button', { name: 'Choose date' }).eq(1).should('be.visible').click()
+      cy.findByRole('dialog', { name: new RegExp(monthYearStringLabel)}).should('be.visible').within(() => {
+        // The [^0-9] before ${dateTo} and ${dateFrom} in the regex is important, else e.g. 9 September 2025 could match 19 September 2025
+        cy.findByRole('button', { name: new RegExp(`[^0-9]${dateTo} ${monthYearStringLabel}`) }).click()
+      })
 
-      const endDate = 25
-      const endDay = dayjs().date(endDate).format('dddd')
-      const endDateString = `${endDay} ${endDate} ${currentMonthName} ${currentYear}`
-      cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
-      cy.findByRole('button', { name: `${endDateString}` }).click()
+      cy.findAllByRole('button', { name: 'Choose date' }).first().click()
+      cy.findByRole('dialog', { name: new RegExp(monthYearStringLabel)}).should('be.visible').within(() => {
+        cy.findByRole('button', { name: new RegExp(`[^0-9]${dateFrom} ${monthYearStringLabel}`) }).click()
+      })
     }
 
-    const setDateRangeValuesViaCalendarSingleDigit = () => {
-      cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
-      const date = 1
-      const day = dayjs().date(date).format('dddd')
-      const startDateString = `${day} ${date} ${currentMonthName} ${currentYear}`
-      cy.findByRole('button', { name: `${startDateString}` }).click()
-
-      cy.findAllByRole('button', { name: 'Choose date' }).eq(0).click()
-      const endDate = 9
-      const endDay = dayjs().date(endDate).format('dddd')
-      const endDateString = `${endDay} ${endDate} ${currentMonthName} ${currentYear}`
-      cy.findByRole('button', { name: `${endDateString}` }).click()
+    const getMOJFormattedDate = (date: Date) => {
+      return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+    }
+    const getISOFormattedDate = (date: Date) => {
+      const year = date.getFullYear()
+      const month = date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`
+      const twoDigitDate = date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`
+      return `${year}-${month}-${twoDigitDate}`
     }
 
     it('should set the date value in the inputs', () => {
-      setDateRangeValuesViaCalendar()
-
-      cy.findByRole('textbox', { name: 'From' }).should('have.value', `11/${currentMonth}/${currentYear}`)
-      cy.findByRole('textbox', { name: 'To' }).should('have.value', `25/${currentMonth}/${currentYear}`)
+      setDateRangeValuesViaCalendar(11, 28)
+      
+      cy.findByRole('textbox', { name: 'From' }).should('have.value', getMOJFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 11)))
+      cy.findByRole('textbox', { name: 'To' }).should('have.value', getMOJFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 28)))
     })
 
     it('should set the date value in the inputs - single digits', () => {
-      setDateRangeValuesViaCalendarSingleDigit()
+      setDateRangeValuesViaCalendar(1, 9)
 
-      cy.findByRole('textbox', { name: 'From' }).should('have.value', `1/${currentMonth}/${currentYear}`)
-      cy.findByRole('textbox', { name: 'To' }).should('have.value', `9/${currentMonth}/${currentYear}`)
+      cy.findByRole('textbox', { name: 'From' }).should('have.value', getMOJFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 1)))
+      cy.findByRole('textbox', { name: 'To' }).should('have.value', getMOJFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 9)))
     })
 
     it('should set the date value correctly in the query string', () => {
-      setDateRangeValuesViaCalendar()
+      setDateRangeValuesViaCalendar(11, 28)
 
       cy.location().should((location) => {
-        expect(location.search).to.contain(`filters.date-range.start=${currentYear}-${currentMonthDoubleDigits}-11`)
-        expect(location.search).to.contain(`filters.date-range.end=${currentYear}-${currentMonthDoubleDigits}-25`)
+        expect(location.search).to.contain(`filters.date-range.start=${getISOFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 11))}`)
+        expect(location.search).to.contain(`filters.date-range.end=${getISOFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 28))}`)
       })
     })
 
     it('should format the date value correctly in the query string when single digits', () => {
-      setDateRangeValuesViaCalendarSingleDigit()
+      setDateRangeValuesViaCalendar(1, 9)
 
       cy.location().should((location) => {
-        expect(location.search).to.contain(`filters.date-range.start=${currentYear}-${currentMonthDoubleDigits}-01`)
-        expect(location.search).to.contain(`filters.date-range.end=${currentYear}-${currentMonthDoubleDigits}-09`)
+        expect(location.search).to.contain(`filters.date-range.start=${getISOFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 1))}`)
+        expect(location.search).to.contain(`filters.date-range.end=${getISOFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 9))}`)
       })
     })
 
     it('should set the selected filters correctly', () => {
-      setDateRangeValuesViaCalendar()
+      setDateRangeValuesViaCalendar(11, 28)
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').each((filter, index) => {
-          switch (index) {
-            case 0:
-              cy.wrap(filter).contains('Date-range start')
-              cy.wrap(filter).contains(`11/${currentMonth}/${currentYear}`)
-              break
-            case 1:
-              cy.wrap(filter).contains('Date-range end')
-              cy.wrap(filter).contains(`25/${currentMonth}/${currentYear}`)
-              break
-            default:
-              break
-          }
-        })
+        cy.findByRole('link', { name: /Date-range start/ }).contains(getMOJFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 11))).should('be.visible')
+        cy.findByRole('link', { name: /Date-range end/ }).contains(getMOJFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 28))).should('be.visible')
       })
     })
 
     it('should set the selected filters correctly with single digits', () => {
-      setDateRangeValuesViaCalendarSingleDigit()
+      setDateRangeValuesViaCalendar(1, 9)
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link')
-          .should('have.length', 3)
-          .each((filter, index) => {
-            switch (index) {
-              case 0:
-                cy.wrap(filter).contains('Date-range start')
-                cy.wrap(filter).contains(`1/${currentMonth}/${currentYear}`)
-                break
-              case 1:
-                cy.wrap(filter).contains('Date-range end')
-                cy.wrap(filter).contains(`9/${currentMonth}/${currentYear}`)
-                break
-              default:
-                break
-            }
-          })
+        cy.findByRole('link', { name: /Date-range start/ }).contains(getMOJFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 1))).should('be.visible')
+        cy.findByRole('link', { name: /Date-range end/ }).contains(getMOJFormattedDate(new Date(dateToday.getFullYear(), dateToday.getMonth(), 9))).should('be.visible')
       })
     })
   })

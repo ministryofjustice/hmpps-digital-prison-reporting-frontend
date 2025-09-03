@@ -107,9 +107,6 @@ describe('AsyncRequestListUtils', () => {
 
   describe('renderList', () => {
     let res: Response
-    let storeService: RequestedReportService | RecentlyViewedStoreService
-    let requestedReportService: RequestedReportService
-    let recentlyViewedStoreService: RecentlyViewedStoreService
 
     beforeEach(() => {
       res = {
@@ -130,35 +127,9 @@ describe('AsyncRequestListUtils', () => {
           recentlyViewedReports: [mockViewedData.viewedReady, mockViewedData.viewedExpired],
         },
       } as unknown as Response
-
-      requestedReportService = {
-        getAllReports: jest.fn(),
-      } as unknown as RequestedReportService
-
-      recentlyViewedStoreService = {
-        getAllReports: jest.fn(),
-      } as unknown as RecentlyViewedStoreService
     })
 
     describe('Requested Reports', () => {
-      beforeEach(() => {
-        requestedReportService = {
-          getAllReports: jest
-            .fn()
-            .mockResolvedValue([
-              mockRequestedData.requestedReady,
-              mockRequestedData.requestedFailed,
-              mockRequestedData.requestedExpired,
-              mockRequestedData.requestedAborted,
-              mockDashboardData.submittedDashboard,
-              mockDashboardData.failedDashboard,
-              mockDashboardData.expiredDashboard,
-            ]),
-        } as unknown as RequestedReportService
-
-        storeService = requestedReportService
-      })
-
       it('should return the render list data with reports', async () => {
         const result = await UserReportUtils.renderList({
           res,
@@ -180,7 +151,7 @@ describe('AsyncRequestListUtils', () => {
 
         const v1Failed = result.tableData.rows[1]
         const v1FailedRetryUrl =
-          'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_1729765694790'
+          'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923'
         expect(v1Failed[2].html).toContain('FAILED')
         expect(v1Failed[3].html).toContain(v1FailedRetryUrl)
         expect(v1Failed[3].html).toContain('remove')
@@ -215,13 +186,13 @@ describe('AsyncRequestListUtils', () => {
 
         const v2Ready = result.tableData.rows[4]
         expect(v2Ready[3].html).toContain(
-          'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request/exId_1724943092098',
+          'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request/exId_238947923',
         )
         expect(v2Ready[2].html).toContain('SUBMITTED')
 
         const v2Failed = result.tableData.rows[5]
         const v2FailedRetryUrl =
-          'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-2/request/exId_1724943092123'
+          'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-2/request/exId_238947923'
         expect(v2Failed[2].html).toContain('FAILED')
         expect(v2Failed[3].html).toContain(v2FailedRetryUrl)
         expect(v2Failed[3].html).toContain('remove')
@@ -236,14 +207,6 @@ describe('AsyncRequestListUtils', () => {
     })
 
     describe('Viewed Reports', () => {
-      beforeEach(() => {
-        recentlyViewedStoreService = {
-          getAllReports: jest.fn().mockResolvedValue([mockViewedData.viewedReady, mockViewedData.viewedExpired]),
-        } as unknown as RecentlyViewedStoreService
-
-        storeService = recentlyViewedStoreService
-      })
-
       it('should return the render list data', async () => {
         const result = await UserReportUtils.renderList({
           res,

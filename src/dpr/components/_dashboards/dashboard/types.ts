@@ -76,7 +76,9 @@ export interface DashboardVisualisationColumnKey extends DashboardVisualisationC
 
 export interface DashboardVisualisationColumnMeasure extends DashboardVisualisationColumn {
   aggregate?: AggregateType
+  displayValue?: boolean
   unit?: UnitType
+  axis?: 'x' | 'y'
 }
 
 export interface DashboardVisualisationColumnFilter {

@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import customParse from 'dayjs/plugin/customParseFormat'
 import { Request } from 'express'
 import { components } from '../../../types/api'
-import { DateFilterValue, FilterValue, GranularDateRange } from '../../_filters/types'
+import { DateFilterValue, FilterValue, GranularDateRange, GranularDateRangeFilterValue } from '../../_filters/types'
 
 import StartEndDateUtils from '../start-end-date/utils'
 import { Granularity, QuickFilters } from './types'
@@ -254,7 +254,11 @@ const getOptionDisplayValue = (value: string, options: { text: string; value: st
   return item?.text || value
 }
 
-const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
+const setValueFromRequest = (
+  filter: FilterValue,
+  req: Request,
+  prefix: string,
+): GranularDateRangeFilterValue['value'] => {
   const { preventDefault } = req.query
 
   const quickFilter = <QuickFilters>req.query[`${prefix}${filter.name}.quick-filter`]
@@ -344,7 +348,7 @@ const setDefaultValue = (req: Request, name: string) => {
 }
 
 const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: FilterValue) => {
-  const { granularityOptions, quickFilterOptions } = <DateFilterValue>filter
+  const { granularityOptions, quickFilterOptions } = <GranularDateRangeFilterValue>filter
   const { granularity, quickFilter, start, end } = <granularDateFilterValue>defaultValue.value
   const value: GranularDateRange = {
     start: start ? dayjs(start, 'D/M/YYYY').format('YYYY-MM-DD').toString() : '',

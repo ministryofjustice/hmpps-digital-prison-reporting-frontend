@@ -84,8 +84,6 @@ const mockSyncData = {
             },
           ],
           value: 'value1.2',
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
           mandatory: false,
         },
         {
@@ -114,8 +112,6 @@ const mockSyncData = {
             },
           ],
           value: null,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
           mandatory: false,
         },
         {
@@ -126,8 +122,6 @@ const mockSyncData = {
             start: '2003-02-01',
             end: '2006-05-04',
           },
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
           mandatory: true,
           min: '2003-02-01',
           max: '2007-05-04',
@@ -161,7 +155,6 @@ const mockSyncData = {
           ],
           value: null,
           minimumLength: 3,
-          dynamicResourceEndpoint: null,
           mandatory: false,
         },
         {
@@ -171,7 +164,6 @@ const mockSyncData = {
           options: [],
           value: null,
           minimumLength: 3,
-          dynamicResourceEndpoint: null,
           mandatory: false,
         },
         {
@@ -179,8 +171,6 @@ const mockSyncData = {
           name: 'field6',
           type: 'text',
           value: null,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
           mandatory: false,
         },
         {
@@ -188,16 +178,12 @@ const mockSyncData = {
           name: 'field7',
           type: 'date',
           value: '2005-02-01',
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
           min: '2003-02-01',
           max: '2007-05-04',
           mandatory: false,
         },
         {
-          dynamicResourceEndpoint: null,
           mandatory: false,
-          minimumLength: null,
           name: 'field8',
           options: [
             {

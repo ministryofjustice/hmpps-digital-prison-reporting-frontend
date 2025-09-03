@@ -47,7 +47,7 @@ const createList = (
 const createListFromColumns = (listDefinition: ListVisualisation, dashboardData: DashboardDataResponse[]) => {
   const { columns } = listDefinition
   const { keys, measures } = columns
-  const groupKey = DatasetHelper.getGroupKey(keys, dashboardData)
+  const groupKey = DatasetHelper.getGroupKey(keys || [], dashboardData)
 
   const timestampData = dashboardData[0]?.ts?.raw
   const ts = timestampData ? `${timestampData}` : ''
@@ -132,7 +132,7 @@ const createFullList = (dashboardData: DashboardDataResponse[]) => {
 const sumColumns = (rowsData: MoJTableRow[][], measures: DashboardVisualisationColumnMeasure[]) => {
   const sumColumnIndexes: number[] = measures
     .map((col, index) => (col.aggregate ? index : undefined))
-    .filter((index) => index)
+    .filter((index) => index !== undefined)
 
   if (sumColumnIndexes.length) {
     const sumRow: MoJTableRow[] = [{ html: `<strong>Total<strong>` }]
@@ -143,7 +143,10 @@ const sumColumns = (rowsData: MoJTableRow[][], measures: DashboardVisualisationC
     rowsData.push(sumRow)
     sumColumnIndexes.forEach((index) => {
       const total = rowsData.reduce((acc, row) => {
-        acc += +row[index].text
+        const rowIndex = row[index]
+        if (rowIndex && rowIndex.text) {
+          acc += +rowIndex.text
+        }
         return acc
       }, 0)
       rowsData[rowsData.length - 1][index] = {

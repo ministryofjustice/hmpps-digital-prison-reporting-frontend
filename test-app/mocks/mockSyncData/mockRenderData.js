@@ -54,8 +54,6 @@ const mockRenderDataFromDefinition = {
           type: 'Radio',
           value: 'value1.1',
           mandatory: false,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
           options: [
             {
               disabled: false,
@@ -81,9 +79,7 @@ const mockRenderDataFromDefinition = {
           name: 'field2',
           type: 'Select',
           value: null,
-          minimumLength: null,
           mandatory: false,
-          dynamicResourceEndpoint: null,
           options: [
             {
               value: '',
@@ -118,9 +114,7 @@ const mockRenderDataFromDefinition = {
             start: '2003-02-01',
             end: '2006-05-04',
           },
-          minimumLength: null,
           mandatory: false,
-          dynamicResourceEndpoint: null,
           min: '2003-02-01',
           max: '2007-05-04',
           relativeOptions: [],
@@ -132,7 +126,6 @@ const mockRenderDataFromDefinition = {
           value: null,
           mandatory: false,
           minimumLength: 3,
-          dynamicResourceEndpoint: null,
           options: [
             {
               value: 'Fezzick',
@@ -163,7 +156,6 @@ const mockRenderDataFromDefinition = {
           value: null,
           mandatory: false,
           minimumLength: 3,
-          dynamicResourceEndpoint: null,
           options: [],
         },
         {
@@ -172,13 +164,9 @@ const mockRenderDataFromDefinition = {
           type: 'text',
           value: null,
           mandatory: false,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
         },
         {
-          dynamicResourceEndpoint: null,
           mandatory: false,
-          minimumLength: null,
           name: 'field7',
           options: [
             {
@@ -392,8 +380,6 @@ const mockRenderDataFromData = {
           type: 'Radio',
           value: 'value1.1',
           mandatory: false,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
           options: [
             {
               disabled: false,
@@ -420,8 +406,6 @@ const mockRenderDataFromData = {
           type: 'Select',
           value: null,
           mandatory: false,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
           options: [
             {
               value: '',
@@ -457,8 +441,6 @@ const mockRenderDataFromData = {
             end: '2006-05-04',
           },
           mandatory: false,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
           min: '2003-02-01',
           max: '2007-05-04',
           relativeOptions: [],
@@ -470,7 +452,6 @@ const mockRenderDataFromData = {
           value: null,
           mandatory: false,
           minimumLength: 3,
-          dynamicResourceEndpoint: null,
           options: [
             {
               value: 'Fezzick',
@@ -501,7 +482,6 @@ const mockRenderDataFromData = {
           value: null,
           mandatory: false,
           minimumLength: 3,
-          dynamicResourceEndpoint: null,
           options: [],
         },
         {
@@ -510,13 +490,9 @@ const mockRenderDataFromData = {
           type: 'text',
           value: null,
           mandatory: false,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
         },
         {
-          dynamicResourceEndpoint: null,
           mandatory: false,
-          minimumLength: null,
           name: 'field7',
           options: [
             {

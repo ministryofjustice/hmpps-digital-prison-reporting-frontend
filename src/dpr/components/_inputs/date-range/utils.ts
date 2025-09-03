@@ -4,7 +4,7 @@ import customParse from 'dayjs/plugin/customParseFormat'
 import { Request } from 'express'
 import isBetween from 'dayjs/plugin/isBetween'
 import { components } from '../../../types/api'
-import { DateFilterValue, DateRange, FilterValue } from '../../_filters/types'
+import { DateRangeFilterValue, DateRange, FilterValue } from '../../_filters/types'
 import StartEndDateUtils from '../start-end-date/utils'
 import RelativeDateRange, { RelativeOption } from './types'
 import { dateFilterValue, defaultFilterValue } from '../../../routes/journeys/request-report/filters/types'
@@ -68,7 +68,11 @@ const calcDates = (durationValue: string) => {
   }
 }
 
-const setValueFromRequest = (filter: DateFilterValue, req: Request, prefix: string) => {
+const setValueFromRequest = (
+  filter: DateRangeFilterValue,
+  req: Request,
+  prefix: string,
+): DateRangeFilterValue['value'] => {
   const { relativeOptions } = filter
   const start = <string>req.query[`${prefix}${filter.name}.start`]
   const end = <string>req.query[`${prefix}${filter.name}.end`]
@@ -81,8 +85,8 @@ const setValueFromRequest = (filter: DateFilterValue, req: Request, prefix: stri
   }
 
   const value = {
-    start: start || (<DateFilterValue>filter).min,
-    end: end || (<DateFilterValue>filter).max,
+    start: start || filter.min,
+    end: end || filter.max,
     ...(relative && !relativeDisabled && { relative }),
   } as DateRange
 
@@ -98,16 +102,16 @@ const setDefaultValue = (req: Request, name: string) => {
       return { name: key, value: req.body[key] }
     })
 
-  const dateRangeValue: dateFilterValue | string = { start: '', end: '' }
+  const dateRangeValue: DateRangeFilterValue['value'] | string = { start: '', end: '' }
   dateRangeDefaults.forEach((dateRangeDefault) => {
     if (dateRangeDefault.name.includes('start')) {
-      ;(<dateFilterValue>dateRangeValue).start = dateRangeDefault.value
+      dateRangeValue.start = dateRangeDefault.value
     }
     if (dateRangeDefault.name.includes('end')) {
-      ;(<dateFilterValue>dateRangeValue).end = dateRangeDefault.value
+      dateRangeValue.end = dateRangeDefault.value
     }
     if (dateRangeDefault.name.includes('relative-duration')) {
-      ;(<dateFilterValue>dateRangeValue).relative = dateRangeDefault.value
+      dateRangeValue.relative = dateRangeDefault.value
     }
   })
 

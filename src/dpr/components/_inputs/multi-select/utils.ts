@@ -1,8 +1,15 @@
 import { Request } from 'express'
-import { FilterValue } from '../../_filters/types'
+import { MultiselectFilterValue } from '../../_filters/types'
 import { components } from '../../../types/api'
 
-const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
+const setValueFromRequest = (
+  filter: MultiselectFilterValue,
+  req: Request,
+  prefix: string,
+): {
+  requestfilterValue: MultiselectFilterValue['value']
+  requestfilterValues: MultiselectFilterValue['values']
+} => {
   const queryValue = <string[] | string | undefined>req.query[`${prefix}${filter.name}`]
 
   let valueArr: string[] = []
@@ -31,7 +38,7 @@ const getQueryFromDefinition = (
     .join('&')
 }
 
-const getMultiselectValues = (f: FilterValue, prefix: string) => {
+const getMultiselectValues = (f: MultiselectFilterValue, prefix: string) => {
   const MAX_VALUES = 3
   const splitValues = (<string>f.value).split(',')
   let displayValue = splitValues

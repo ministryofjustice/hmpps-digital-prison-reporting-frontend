@@ -47,7 +47,7 @@ export const getDuplicateRequestIds = (newReportSearchParams: string, existingRe
       })
     }
     if (matches.every(Boolean)) {
-      duplicates.push(existingReportData.executionId)
+      duplicates.push(<string>existingReportData.executionId)
     }
   })
 

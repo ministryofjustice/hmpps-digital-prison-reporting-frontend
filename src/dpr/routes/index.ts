@@ -2,7 +2,6 @@ import { Router } from 'express'
 import type { Services } from '../types/Services'
 import logger from '../utils/logger'
 import JourneyRoutes from './journeys/routes'
-
 // middleware
 import setUpNestedRoute from '../middleware/setUpNestedRoute'
 
@@ -11,6 +10,5 @@ export default function routes(routeImportParams: { services: Services; layoutPa
 
   const router = Router({ mergeParams: true })
   router.use('/', setUpNestedRoute(), JourneyRoutes(routeImportParams))
-
   return router
 }

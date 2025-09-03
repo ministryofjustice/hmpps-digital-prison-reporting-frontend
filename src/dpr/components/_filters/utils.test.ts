@@ -629,8 +629,17 @@ describe('Filters Utils tests', () => {
             quickFilter: QuickFilters.LAST_SEVEN_DAYS,
           },
         },
+        {
+          name: 'sortColumn',
+          value: 'field2',
+        },
+        {
+          name: 'sortedAsc',
+          value: 'true',
+        },
       ]
-      const filterValues: FilterValue[] = [
+
+      const filters: FilterValue[] = [
         {
           text: 'Field 1',
           name: 'field1',
@@ -956,331 +965,411 @@ describe('Filters Utils tests', () => {
           ],
         },
       ]
-      const res = FiltersUtils.setFilterValuesFromSavedDefaults(filterValues, defaultValues)
 
-      const expectedRes = [
+      const sortBy: FilterValue[] = [
         {
-          text: 'Field 1',
-          name: 'field1',
+          text: 'Column',
+          name: 'sortColumn',
           type: 'Radio',
-          value: 'value1.2',
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
-          mandatory: false,
           options: [
             {
-              value: 'no-filter',
-              text: 'None',
-              disabled: false,
+              value: 'field1',
+              text: 'Field 1',
             },
             {
-              value: 'value1.1',
-              text: 'Value 1.1',
-            },
-            {
-              value: 'value1.2',
-              text: 'Value 1.2',
-            },
-            {
-              value: 'value1.3',
-              text: 'Value 1.3',
+              value: 'field2',
+              text: 'Field 2',
             },
           ],
-        },
-        {
-          text: 'Field 2',
-          name: 'field2',
-          type: 'Select',
-          value: 'value2.3',
+          value: 'field1',
           minimumLength: null,
-          dynamicResourceEndpoint: null,
-          mandatory: false,
-          options: [
-            {
-              value: '',
-              text: 'Select your option',
-              disabled: true,
-              selected: true,
-            },
-            {
-              value: 'no-filter',
-              text: 'None',
-              disabled: false,
-            },
-            {
-              value: 'value2.1',
-              text: 'Value 2.1',
-            },
-            {
-              value: 'value2.2',
-              text: 'Value 2.2',
-            },
-            {
-              value: 'value2.3',
-              text: 'Value 2.3',
-            },
-          ],
-        },
-        {
-          text: 'Field 3',
-          name: 'field3',
-          type: 'DateRange',
-          value: {
-            start: '2004-02-01',
-            end: '2008-05-04',
-            relative: '',
-          },
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
           mandatory: true,
-          min: '2003-02-01',
-          max: '2007-05-04',
-          relativeOptions: [],
         },
         {
-          text: 'Field 4',
-          name: 'field4',
-          type: 'Autocomplete',
-          value: 'Inigo Montoya',
-          minimumLength: 3,
-          dynamicResourceEndpoint: null,
-          mandatory: false,
+          text: 'Direction',
+          name: 'sortedAsc',
+          type: 'Radio',
           options: [
             {
-              value: 'Fezzick',
-              text: 'Fezzick',
+              value: 'true',
+              text: 'Ascending',
             },
             {
-              value: 'Inigo Montoya',
-              text: 'Inigo Montoya',
-            },
-            {
-              value: 'PrHu',
-              text: 'Prince Humperdink',
-            },
-            {
-              value: 'Princess Buttercup',
-              text: 'Princess Buttercup',
-            },
-            {
-              value: 'Westley',
-              text: 'Westley',
+              value: 'false',
+              text: 'Descending',
             },
           ],
-        },
-        {
-          text: 'Field 5',
-          name: 'field5',
-          type: 'Autocomplete',
-          value: '',
-          minimumLength: 3,
-          dynamicResourceEndpoint: null,
-          mandatory: false,
-          options: [],
-        },
-        {
-          text: 'Field 6',
-          name: 'field6',
-          type: 'Text',
-          value: 'some text',
+          value: 'false',
           minimumLength: null,
-          dynamicResourceEndpoint: null,
-          mandatory: false,
-        },
-        {
-          text: 'Field 7',
-          name: 'field7',
-          type: 'Date',
-          value: '2004-02-01',
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
-          mandatory: false,
-          min: '2003-02-01',
-          max: '2007-05-04',
-        },
-        {
-          text: 'Field 8',
-          name: 'field8',
-          type: 'Multiselect',
-          value: 'value8.2,value8.4,value8.3',
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
-          mandatory: false,
-          options: [
-            {
-              value: 'value8.1',
-              text: 'Value 8.1',
-            },
-            {
-              value: 'value8.2',
-              text: 'Value 8.2',
-            },
-            {
-              value: 'value8.3',
-              text: 'Value 8.3',
-            },
-            {
-              value: 'value8.4',
-              text: 'Value 8.4',
-            },
-          ],
-          values: ['value8.2', 'value8.4', 'value8.3'],
-        },
-        {
-          text: 'Field 9',
-          name: 'field9',
-          type: FilterType.granularDateRange,
-          value: {
-            start: '2004-01-01',
-            end: '2004-01-07',
-            granularity: {
-              value: Granularity.DAILY,
-              display: 'Daily',
-            },
-            quickFilter: {
-              value: QuickFilters.LAST_SEVEN_DAYS,
-              display: 'Last 7 days',
-            },
-          },
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
           mandatory: true,
-          quickFilterOptions: [
-            {
-              value: 'none',
-              text: 'None',
-            },
-            {
-              value: 'today',
-              text: 'Today',
-            },
-            {
-              value: 'past',
-              text: 'Past:',
-              disabled: true,
-            },
-            {
-              value: 'yesterday',
-              text: 'Yesterday',
-            },
-            {
-              value: 'last-seven-days',
-              text: 'Last 7 days',
-            },
-            {
-              value: 'last-thirty-days',
-              text: 'Last 30 days',
-            },
-            {
-              value: 'last-month',
-              text: 'Last month',
-            },
-            {
-              value: 'last-full-month',
-              text: 'Last full month',
-            },
-            {
-              value: 'last-ninety-days',
-              text: 'Last 90 days',
-            },
-            {
-              value: 'last-three-months',
-              text: 'Last 3 months',
-            },
-            {
-              value: 'last-full-three-months',
-              text: 'Last full 3 months',
-            },
-            {
-              value: 'last-six-months',
-              text: 'Last 6 months',
-            },
-            {
-              value: 'last-full-six-months',
-              text: 'Last full 6 months',
-            },
-            {
-              value: 'last-year',
-              text: 'Last year',
-            },
-            {
-              value: 'last-full-year',
-              text: 'Last full year',
-            },
-            {
-              value: 'future',
-              text: 'Future:',
-              disabled: true,
-            },
-            {
-              value: 'tomorrow',
-              text: 'Tomorrow',
-            },
-            {
-              value: 'next-seven-days',
-              text: 'Next 7 days',
-            },
-            {
-              value: 'next-thirty-days',
-              text: 'Next 30 days',
-            },
-            {
-              value: 'next-month',
-              text: 'Next month',
-            },
-            {
-              value: 'next-full-month',
-              text: 'Next full month',
-            },
-            {
-              value: 'next-ninety-days',
-              text: 'Next 90 days',
-            },
-            {
-              value: 'next-three-months',
-              text: 'Next 3 months',
-            },
-            {
-              value: 'next-full-three-months',
-              text: 'Next full 3 months',
-            },
-            {
-              value: 'next-six-months',
-              text: 'Next 6 months',
-            },
-            {
-              value: 'next-full-six-months',
-              text: 'Next full 6 months',
-            },
-            {
-              value: 'next-year',
-              text: 'Next year',
-            },
-            {
-              value: 'next-full-year',
-              text: 'Next full year',
-            },
-          ],
-          granularityOptions: [
-            {
-              value: 'hourly',
-              text: 'Hourly',
-            },
-            {
-              value: 'daily',
-              text: 'Daily',
-            },
-            {
-              value: 'monthly',
-              text: 'Monthly',
-            },
-            {
-              value: 'annually',
-              text: 'Annually',
-            },
-          ],
         },
       ]
+
+      const res = FiltersUtils.setFilterValuesFromSavedDefaults({ filters, sortBy }, defaultValues)
+
+      const expectedRes = {
+        filters: [
+          {
+            text: 'Field 1',
+            name: 'field1',
+            type: 'Radio',
+            value: 'value1.2',
+            minimumLength: null,
+            dynamicResourceEndpoint: null,
+            mandatory: false,
+            options: [
+              {
+                value: 'no-filter',
+                text: 'None',
+                disabled: false,
+              },
+              {
+                value: 'value1.1',
+                text: 'Value 1.1',
+              },
+              {
+                value: 'value1.2',
+                text: 'Value 1.2',
+              },
+              {
+                value: 'value1.3',
+                text: 'Value 1.3',
+              },
+            ],
+          },
+          {
+            text: 'Field 2',
+            name: 'field2',
+            type: 'Select',
+            value: 'value2.3',
+            minimumLength: null,
+            dynamicResourceEndpoint: null,
+            mandatory: false,
+            options: [
+              {
+                value: '',
+                text: 'Select your option',
+                disabled: true,
+                selected: true,
+              },
+              {
+                value: 'no-filter',
+                text: 'None',
+                disabled: false,
+              },
+              {
+                value: 'value2.1',
+                text: 'Value 2.1',
+              },
+              {
+                value: 'value2.2',
+                text: 'Value 2.2',
+              },
+              {
+                value: 'value2.3',
+                text: 'Value 2.3',
+              },
+            ],
+          },
+          {
+            text: 'Field 3',
+            name: 'field3',
+            type: 'DateRange',
+            value: {
+              start: '2004-02-01',
+              end: '2008-05-04',
+              relative: '',
+            },
+            minimumLength: null,
+            dynamicResourceEndpoint: null,
+            mandatory: true,
+            min: '2003-02-01',
+            max: '2007-05-04',
+            relativeOptions: [],
+          },
+          {
+            text: 'Field 4',
+            name: 'field4',
+            type: 'Autocomplete',
+            value: 'Inigo Montoya',
+            minimumLength: 3,
+            dynamicResourceEndpoint: null,
+            mandatory: false,
+            options: [
+              {
+                value: 'Fezzick',
+                text: 'Fezzick',
+              },
+              {
+                value: 'Inigo Montoya',
+                text: 'Inigo Montoya',
+              },
+              {
+                value: 'PrHu',
+                text: 'Prince Humperdink',
+              },
+              {
+                value: 'Princess Buttercup',
+                text: 'Princess Buttercup',
+              },
+              {
+                value: 'Westley',
+                text: 'Westley',
+              },
+            ],
+          },
+          {
+            text: 'Field 5',
+            name: 'field5',
+            type: 'Autocomplete',
+            value: '',
+            minimumLength: 3,
+            dynamicResourceEndpoint: null,
+            mandatory: false,
+            options: [],
+          },
+          {
+            text: 'Field 6',
+            name: 'field6',
+            type: 'Text',
+            value: 'some text',
+            minimumLength: null,
+            dynamicResourceEndpoint: null,
+            mandatory: false,
+          },
+          {
+            text: 'Field 7',
+            name: 'field7',
+            type: 'Date',
+            value: '2004-02-01',
+            minimumLength: null,
+            dynamicResourceEndpoint: null,
+            mandatory: false,
+            min: '2003-02-01',
+            max: '2007-05-04',
+          },
+          {
+            text: 'Field 8',
+            name: 'field8',
+            type: 'Multiselect',
+            value: 'value8.2,value8.4,value8.3',
+            minimumLength: null,
+            dynamicResourceEndpoint: null,
+            mandatory: false,
+            options: [
+              {
+                value: 'value8.1',
+                text: 'Value 8.1',
+              },
+              {
+                value: 'value8.2',
+                text: 'Value 8.2',
+              },
+              {
+                value: 'value8.3',
+                text: 'Value 8.3',
+              },
+              {
+                value: 'value8.4',
+                text: 'Value 8.4',
+              },
+            ],
+            values: ['value8.2', 'value8.4', 'value8.3'],
+          },
+          {
+            text: 'Field 9',
+            name: 'field9',
+            type: FilterType.granularDateRange,
+            value: {
+              start: '2004-01-01',
+              end: '2004-01-07',
+              granularity: {
+                value: Granularity.DAILY,
+                display: 'Daily',
+              },
+              quickFilter: {
+                value: QuickFilters.LAST_SEVEN_DAYS,
+                display: 'Last 7 days',
+              },
+            },
+            minimumLength: null,
+            dynamicResourceEndpoint: null,
+            mandatory: true,
+            quickFilterOptions: [
+              {
+                value: 'none',
+                text: 'None',
+              },
+              {
+                value: 'today',
+                text: 'Today',
+              },
+              {
+                value: 'past',
+                text: 'Past:',
+                disabled: true,
+              },
+              {
+                value: 'yesterday',
+                text: 'Yesterday',
+              },
+              {
+                value: 'last-seven-days',
+                text: 'Last 7 days',
+              },
+              {
+                value: 'last-thirty-days',
+                text: 'Last 30 days',
+              },
+              {
+                value: 'last-month',
+                text: 'Last month',
+              },
+              {
+                value: 'last-full-month',
+                text: 'Last full month',
+              },
+              {
+                value: 'last-ninety-days',
+                text: 'Last 90 days',
+              },
+              {
+                value: 'last-three-months',
+                text: 'Last 3 months',
+              },
+              {
+                value: 'last-full-three-months',
+                text: 'Last full 3 months',
+              },
+              {
+                value: 'last-six-months',
+                text: 'Last 6 months',
+              },
+              {
+                value: 'last-full-six-months',
+                text: 'Last full 6 months',
+              },
+              {
+                value: 'last-year',
+                text: 'Last year',
+              },
+              {
+                value: 'last-full-year',
+                text: 'Last full year',
+              },
+              {
+                value: 'future',
+                text: 'Future:',
+                disabled: true,
+              },
+              {
+                value: 'tomorrow',
+                text: 'Tomorrow',
+              },
+              {
+                value: 'next-seven-days',
+                text: 'Next 7 days',
+              },
+              {
+                value: 'next-thirty-days',
+                text: 'Next 30 days',
+              },
+              {
+                value: 'next-month',
+                text: 'Next month',
+              },
+              {
+                value: 'next-full-month',
+                text: 'Next full month',
+              },
+              {
+                value: 'next-ninety-days',
+                text: 'Next 90 days',
+              },
+              {
+                value: 'next-three-months',
+                text: 'Next 3 months',
+              },
+              {
+                value: 'next-full-three-months',
+                text: 'Next full 3 months',
+              },
+              {
+                value: 'next-six-months',
+                text: 'Next 6 months',
+              },
+              {
+                value: 'next-full-six-months',
+                text: 'Next full 6 months',
+              },
+              {
+                value: 'next-year',
+                text: 'Next year',
+              },
+              {
+                value: 'next-full-year',
+                text: 'Next full year',
+              },
+            ],
+            granularityOptions: [
+              {
+                value: 'hourly',
+                text: 'Hourly',
+              },
+              {
+                value: 'daily',
+                text: 'Daily',
+              },
+              {
+                value: 'monthly',
+                text: 'Monthly',
+              },
+              {
+                value: 'annually',
+                text: 'Annually',
+              },
+            ],
+          },
+        ],
+        sortBy: [
+          {
+            text: 'Column',
+            name: 'sortColumn',
+            type: 'Radio',
+            options: [
+              {
+                value: 'field1',
+                text: 'Field 1',
+              },
+              {
+                value: 'field2',
+                text: 'Field 2',
+              },
+            ],
+            value: 'field2',
+            minimumLength: null,
+            mandatory: true,
+          },
+          {
+            text: 'Direction',
+            name: 'sortedAsc',
+            type: 'Radio',
+            options: [
+              {
+                value: 'true',
+                text: 'Ascending',
+              },
+              {
+                value: 'false',
+                text: 'Descending',
+              },
+            ],
+            value: 'true',
+            minimumLength: null,
+            mandatory: true,
+          },
+        ],
+      }
 
       expect(res).toEqual(expectedRes)
     })

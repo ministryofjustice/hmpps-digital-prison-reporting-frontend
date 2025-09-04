@@ -68,7 +68,7 @@ describe('AsyncReportListUtils', () => {
       const expectedTable = [
         {
           colCount: 1,
-          head: [{ classes: null, text: 'Field 1' }],
+          head: [{ text: 'Field 1' }],
           rowCount: 5,
           rows: [
             [

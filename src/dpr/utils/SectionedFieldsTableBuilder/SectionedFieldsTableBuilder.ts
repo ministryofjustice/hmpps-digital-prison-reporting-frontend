@@ -16,6 +16,8 @@ export default class SectionedFieldsDataTableBuilder extends ParentChildDataTabl
 
   template: Template
 
+  childVariants: components['schemas']['ChildVariantDefinition'][]
+
   constructor(variant: components['schemas']['VariantDefinition']) {
     // TODO: removed the union if sectionedFields changed to use schema type
     const { sectionedFields, template } = variant.specification as components['schemas']['Specification'] & {
@@ -26,15 +28,21 @@ export default class SectionedFieldsDataTableBuilder extends ParentChildDataTabl
     this.sectionedFields = sectionedFields
     this.sections = this.sectionedFields.map((f) => f.name)
     this.template = template
+    this.childVariants = this.variant.childVariants || []
   }
 
   getChildFields(childId: string): FieldDefinition[] {
-    const childVariant = this.variant.childVariants.find((child) => child.id === childId)
-    return childVariant ? childVariant.specification.fields : []
+    const childVariant = this.childVariants.find((child) => child.id === childId)
+    let fields: FieldDefinition[] = []
+    if (childVariant) {
+      const { specification } = childVariant
+      fields = specification ? specification.fields : fields
+    }
+    return fields
   }
 
   getJoinKey() {
-    return this.variant.childVariants[0].joinFields[0]
+    return this.childVariants[0].joinFields[0]
   }
 
   initSectionedData(data: Array<Dict<string>>) {
@@ -66,14 +74,16 @@ export default class SectionedFieldsDataTableBuilder extends ParentChildDataTabl
 
           return {
             header: section.header.display,
-            fields: childData.data
-              .filter((cd) => cd[joinKey] === row[joinKey])
-              .map((cd) => {
-                return {
-                  heading: cd[displayFields[0]?.name] || 'Not found',
-                  data: cd[displayFields[1]?.name] || 'Not found',
-                }
-              }),
+            fields: childData
+              ? childData.data
+                  .filter((cd) => cd[joinKey] === row[joinKey])
+                  .map((cd) => {
+                    return {
+                      heading: cd[displayFields[0]?.name] || 'Not found',
+                      data: cd[displayFields[1]?.name] || 'Not found',
+                    }
+                  })
+              : [],
           }
         }
         return {
@@ -99,7 +109,11 @@ export default class SectionedFieldsDataTableBuilder extends ParentChildDataTabl
     const sectionedData = this.initSectionedData(data)
 
     const rows = sectionedData.flatMap((section, index) => {
-      const sectionHeaderRow = this.createSectionHeader(section.header, index)
+      let sectionHeaderRow: Cell[][] = []
+      if (section.header) {
+        sectionHeaderRow = this.createSectionHeader(section.header, index)
+      }
+
       const sectionRows = section.fields.map((field) => {
         return [
           {
@@ -112,6 +126,7 @@ export default class SectionedFieldsDataTableBuilder extends ParentChildDataTabl
           },
         ]
       })
+
       return [...sectionHeaderRow, ...sectionRows]
     })
 

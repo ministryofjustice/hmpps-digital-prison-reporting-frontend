@@ -14,7 +14,7 @@ export interface StoredReportData {
   name?: string
   description: string
   status?: RequestStatus
-  timestamp?: AsyncReportsTimestamp
+  timestamp: AsyncReportsTimestamp
   dataProductDefinitionsPath?: string
   dpdPathFromQuery?: boolean
   query?: AsyncReportQueryData
@@ -127,11 +127,12 @@ export interface meta {
   reportUrl: string
 }
 
-export interface RequestFormData extends RequestFormFilterData {
+export interface RequestFormData {
   dataProductDefinitionsPath: string
   _csrf: string
   reportId: string
   name: string
+  reportName: string
   description: string
   type: string
   pathname: string
@@ -141,11 +142,8 @@ export interface RequestFormData extends RequestFormFilterData {
   id: string
   variantId?: string
   template?: string
-  metrics?: string
-}
-
-export interface RequestFormFilterData {
-  [index: string]: string
+  metrics?: { name: string }[]
+  defaultInteractiveQueryString: string
 }
 
 export enum LoadType {
@@ -159,10 +157,10 @@ export interface DefinitionData {
   reportId: string
   id: string
   name: string
-  description: string
+  description?: string
   type: ReportType
-  reportDescription: string
-  loadType?: LoadType
+  reportDescription?: string
+  loadType: LoadType
   authorised: boolean
-  isMissing: boolean
+  isMissing?: boolean
 }

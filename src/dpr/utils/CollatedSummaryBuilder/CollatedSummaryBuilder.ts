@@ -40,15 +40,14 @@ export default class CollatedSummaryBuilder {
 
   collate(summaryTemplates: Array<SummaryTemplate> = this.pageSummaryTemplates): Dict<Array<AsyncSummary>> {
     const collatedSummaries: Dict<Array<AsyncSummary>> = {}
-
     if (this.summaries) {
       this.summaries.forEach((summary: AsyncSummary) => {
-        if (summaryTemplates.includes(summary.template)) {
-          if (!collatedSummaries[summary.template]) {
-            collatedSummaries[summary.template] = []
+        const { template } = summary
+        if (summaryTemplates.includes(template)) {
+          if (!collatedSummaries[template]) {
+            collatedSummaries[template] = []
           }
-
-          collatedSummaries[summary.template].push(summary)
+          collatedSummaries[template].push(summary)
         }
       })
     }
@@ -60,9 +59,11 @@ export default class CollatedSummaryBuilder {
     const dataTables: Dict<Array<DataTable>> = {}
 
     Object.keys(summaries).forEach((summaryType) => {
-      dataTables[summaryType] = summaries[summaryType].map((summary) => {
-        return new SummaryDataTableBuilder(summary, this.specification.sections).buildSummaryTable()
-      })
+      if (summaries[summaryType]) {
+        dataTables[summaryType] = summaries[summaryType].map((summary) => {
+          return new SummaryDataTableBuilder(summary, this.specification.sections).buildSummaryTable()
+        })
+      }
     })
 
     return dataTables

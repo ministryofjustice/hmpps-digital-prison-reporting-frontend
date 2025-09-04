@@ -1,4 +1,5 @@
 export enum Granularity {
+  NONE = 'none',
   HOURLY = 'hourly',
   DAILY = 'daily',
   WEEKLY = 'weekly',

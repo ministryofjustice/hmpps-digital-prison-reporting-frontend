@@ -23,9 +23,11 @@ export default {
       variantDef = reportDef.variants.find(
         (variant) => variantId === variant.id,
       ) as unknown as components['schemas']['VariantDefinition']
+
+      return variantDef
     }
 
-    return variantDef || undefined
+    return undefined
   },
 
   getFieldDisplayName: (fields: components['schemas']['FieldDefinition'][], fieldId: string) => {

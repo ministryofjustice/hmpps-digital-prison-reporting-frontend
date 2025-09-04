@@ -16,9 +16,9 @@ export default class DataTableBuilder {
   protected reportSummaries: Dict<Array<AsyncSummary>> = {}
 
   // Sortable headers only
-  private reportQuery: ReportQuery = null
+  private reportQuery: ReportQuery | null = null
 
-  private currentQueryParams: Record<string, string | Array<string>> = null
+  private currentQueryParams: NodeJS.Dict<string | Array<string>> | null = null
 
   private dateMapper = new DateMapper()
 
@@ -27,13 +27,13 @@ export default class DataTableBuilder {
     this.sortData = sortData
   }
 
-  private mapDate(isoDate: string) {
+  private mapDate(isoDate?: string) {
     if (!isoDate) return ''
 
     return this.dateMapper.toDateString(isoDate, 'local-datetime-short-year')
   }
 
-  private mapBoolean(value: string) {
+  private mapBoolean(value?: string) {
     if (!value) return ''
     return value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase()
   }
@@ -53,7 +53,7 @@ export default class DataTableBuilder {
   }
 
   private mapCell(field: FieldDefinition, rowData: NodeJS.Dict<string>, extraClasses = '') {
-    const text: string = this.mapCellValue(field, rowData[field.name])
+    const textValue = this.mapCellValue(field, rowData[field.name])
     let fieldFormat: CellFormat = 'string'
 
     let classes = extraClasses
@@ -73,7 +73,7 @@ export default class DataTableBuilder {
     const isHtml = field.type === 'HTML'
     const cell: Cell = {
       fieldName: field.name,
-      ...(isHtml ? { html: text } : { text }),
+      ...(isHtml ? { html: textValue } : { text: textValue }),
       format: fieldFormat,
       classes: classes.trim(),
     }
@@ -81,7 +81,7 @@ export default class DataTableBuilder {
     return cell
   }
 
-  protected mapCellValue(field: FieldDefinition, cellData: string) {
+  protected mapCellValue(field: FieldDefinition, cellData?: string) {
     if (field.calculated) {
       return cellData
     }
@@ -99,14 +99,14 @@ export default class DataTableBuilder {
     }
   }
 
-  protected mapHeader(disableSort = false, extraClasses: string = null): Cell[] {
+  protected mapHeader(disableSort = false, extraClasses: string | null = null): Cell[] {
     return this.fields
       .filter((field) => this.columns.includes(field.name))
       .map((f) => {
         if (this.reportQuery && !disableSort) {
           if (f.sortable) {
             let sortDirection = 'none'
-            let url = createUrlForParameters(this.currentQueryParams, {
+            let url = createUrlForParameters(this.currentQueryParams || {}, {
               sortColumn: f.name,
               sortedAsc: 'true',
             })
@@ -115,7 +115,7 @@ export default class DataTableBuilder {
               sortDirection = this.reportQuery.sortedAsc ? 'ascending' : 'descending'
 
               if (this.reportQuery.sortedAsc) {
-                url = createUrlForParameters(this.currentQueryParams, {
+                url = createUrlForParameters(this.currentQueryParams || {}, {
                   sortColumn: f.name,
                   sortedAsc: 'false',
                 })
@@ -129,13 +129,13 @@ export default class DataTableBuilder {
                 `class="data-table-header-button data-table-header-button-sort-${sortDirection}" ` +
                 `href="${url}"` +
                 `>${f.display}</a>`,
-              classes: extraClasses,
+              ...(extraClasses && { classes: extraClasses }),
             }
           }
         }
         return {
           text: f.display,
-          classes: extraClasses,
+          ...(extraClasses && { classes: extraClasses }),
         }
       })
   }
@@ -159,7 +159,10 @@ export default class DataTableBuilder {
     mergeFieldNames.forEach((f) => {
       occurrences[f] = rows.reduce((accumulator: Dict<number>, currentRow) => {
         const currentCell = this.getCellByFieldName(currentRow, f)
-        const cellValue = currentCell.text ?? currentCell.html
+        let cellValue = ''
+        if (currentCell) {
+          cellValue = currentCell.text || currentCell.html || ''
+        }
 
         return {
           ...accumulator,
@@ -173,20 +176,24 @@ export default class DataTableBuilder {
 
       mergeFieldNames.forEach((mergeFieldName) => {
         const currentRowCell = this.getCellByFieldName(row, mergeFieldName)
-        const cellValue = currentRowCell.text ?? currentRowCell.html
-        const occurrencesOfValue = occurrences[mergeFieldName][cellValue]
+        let cellValue
+        let occurrencesOfValue
+        if (currentRowCell && occurrences[mergeFieldName]) {
+          cellValue = currentRowCell.text || currentRowCell.html || ''
+          occurrencesOfValue = occurrences[mergeFieldName][cellValue]
 
-        switch (occurrencesOfValue) {
-          case -1:
-            mergedRow = mergedRow.filter((c) => c.fieldName !== mergeFieldName)
-            break
+          switch (occurrencesOfValue) {
+            case -1:
+              mergedRow = mergedRow.filter((c) => c.fieldName !== mergeFieldName)
+              break
 
-          case 1:
-            break
+            case 1:
+              break
 
-          default:
-            currentRowCell.rowspan = occurrencesOfValue
-            occurrences[mergeFieldName][cellValue] = -1
+            default:
+              currentRowCell.rowspan = occurrencesOfValue
+              occurrences[mergeFieldName][cellValue] = -1
+          }
         }
       })
 
@@ -234,7 +241,7 @@ export default class DataTableBuilder {
     }
   }
 
-  private appendSortKeyToData(data: Dict<string>[], fields: FieldDefinition[] = null): SortKey[] {
+  private appendSortKeyToData(data: Dict<string>[], fields: FieldDefinition[] | null = null): SortKey[] {
     const sortFields = fields || this.fields
 
     return data.map((rowData) => {
@@ -248,19 +255,14 @@ export default class DataTableBuilder {
   }
 
   protected mapNamesToFields(names: string[]): FieldDefinition[] {
-    return names.map((s) => this.fields.find((f) => f.name === s))
+    return names.map((s) => this.fields.find((f) => f.name === s)).filter((n) => n !== undefined)
   }
 
   protected getSortKey(rowData: NodeJS.Dict<string>, sortFields: FieldDefinition[]) {
     return sortFields
       .map((f) => {
         const value = rowData[f.name]
-
-        if (value === null) {
-          return 'zzzzzzzz'
-        }
-
-        if (this.dateMapper.isDate(value)) {
+        if (value && this.dateMapper.isDate(value)) {
           return this.dateMapper.toDateString(value, 'iso')
         }
 
@@ -271,7 +273,8 @@ export default class DataTableBuilder {
   }
 
   protected convertDataTableToHtml(dataTable: DataTable): string {
-    const headers = dataTable.head.map((h) => `<th scope='col' class='govuk-table__header'>${h.html ?? h.text}</th>`)
+    const head = dataTable.head || []
+    const headers = head.map((h) => `<th scope='col' class='govuk-table__header'>${h.html ?? h.text}</th>`)
     const rows = dataTable.rows.map(
       (r) =>
         `<tr class='govuk-table__row'>${r
@@ -298,7 +301,7 @@ export default class DataTableBuilder {
     columns: string[]
     interactive: boolean
   }) {
-    if (interactive) {
+    if (interactive && reportQuery) {
       return this.withHeaderSortOptions(reportQuery)
     }
     return this.withNoHeaderOptions(columns)

@@ -2,7 +2,7 @@ import { Response } from 'express'
 import { components } from '../../../types/api'
 import { Services } from '../../../types/Services'
 import { DashboardDefinition } from '../../_dashboards/dashboard/types'
-import { DefinitionData, ReportType } from '../../../types/UserReports'
+import { DefinitionData, LoadType, ReportType } from '../../../types/UserReports'
 import ShowMoreUtils from '../../show-more/utils'
 import { createListItemProductMin, createListActions, setInitialHref } from '../../../utils/reportListsHelper'
 import { CatalogueFeatures } from '../catalogue/types'
@@ -40,7 +40,7 @@ export default {
             const { id, name, description, isMissing } = variant
 
             // NOTE: loadType added to VariantDefinitionSummary mocked data to dictate the load/request journey. Not present in API response. To discuss
-            const { loadType } = <components['schemas']['VariantDefinitionSummary']>variant
+            const loadType = variant.loadType || LoadType.ASYNC
 
             return {
               reportName,
@@ -71,6 +71,7 @@ export default {
               reportDescription,
               authorised,
               isMissing,
+              loadType: LoadType.ASYNC,
             }
           })
         }
@@ -101,7 +102,7 @@ export default {
           authorised,
           isMissing,
         } = v
-        const desc = description || reportDescription
+        const desc = description || reportDescription || ''
 
         const href = setInitialHref(loadType, type, reportId, id, res, isMissing)
 

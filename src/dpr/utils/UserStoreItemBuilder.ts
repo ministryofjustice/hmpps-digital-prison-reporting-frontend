@@ -17,28 +17,25 @@ import { DashboardSection } from '../components/_dashboards/dashboard/types'
 export default class UserStoreItemBuilder {
   userStoreItem: UserReportData
 
-  requestFormData: RequestFormData
+  requestFormData: RequestFormData | Record<string, never>
 
-  constructor(reportData?: RequestFormData) {
-    this.requestFormData = reportData
-    if (this.requestFormData) {
-      this.initialiseItem()
-    }
+  constructor(
+    reportData: {
+      type: ReportType
+      reportId: string
+      reportName: string
+      description: string
+      id: string
+      name: string
+    },
+    requestFormData?: RequestFormData,
+  ) {
+    this.requestFormData = requestFormData || {}
+    this.userStoreItem = this.addReportData(reportData)
   }
 
   build = () => {
     return this.userStoreItem as RequestedReport
-  }
-
-  initialiseItem = () => {
-    return this.addReportData({
-      type: this.requestFormData.type as ReportType,
-      reportId: this.requestFormData.reportId,
-      reportName: this.requestFormData.reportName,
-      description: this.requestFormData.description,
-      id: this.requestFormData.id,
-      name: this.requestFormData.name,
-    })
   }
 
   addReportData = ({
@@ -56,7 +53,7 @@ export default class UserStoreItemBuilder {
     id: string
     name: string
   }) => {
-    this.userStoreItem = {
+    return {
       type: type as ReportType,
       reportId,
       reportName,
@@ -65,12 +62,11 @@ export default class UserStoreItemBuilder {
       name,
       timestamp: {},
     }
-    return this
   }
 
   addExecutionData = (executionData: ExecutionData) => {
     this.userStoreItem = {
-      ...this.userStoreItem,
+      ...(<UserReportData>this.userStoreItem),
       ...executionData,
     }
     return this
@@ -78,13 +74,13 @@ export default class UserStoreItemBuilder {
 
   addChildExecutionData = (childExecutionData: Array<ChildReportExecutionData>) => {
     this.userStoreItem = {
-      ...this.userStoreItem,
+      ...(<UserReportData>this.userStoreItem),
       childExecutionData,
     }
     return this
   }
 
-  addFilters = (filterData: Dict<string>) => {
+  addFilters = (filterData?: Record<string, string>) => {
     const filtersQueryString = new URLSearchParams(filterData).toString()
     this.userStoreItem = {
       ...this.userStoreItem,
@@ -98,7 +94,7 @@ export default class UserStoreItemBuilder {
     return this
   }
 
-  addSortData = (sortData: Dict<string>) => {
+  addSortData = (sortData: Record<string, string>) => {
     const sortByQueryString = new URLSearchParams(sortData).toString()
     this.userStoreItem = {
       ...this.userStoreItem,
@@ -115,7 +111,8 @@ export default class UserStoreItemBuilder {
   addRequestUrls = (req: Request) => {
     const { origin, pathname, search, href, defaultInteractiveQueryString } = this.requestFormData
     const { executionId, dataProductDefinitionsPath, dpdPathFromQuery } = this.userStoreItem
-    const dpdPath = dpdPathFromQuery ? `${getDpdPathSuffix(dataProductDefinitionsPath)}` : ''
+    const dpdPath =
+      dpdPathFromQuery && dataProductDefinitionsPath ? `${getDpdPathSuffix(dataProductDefinitionsPath)}` : ''
 
     // Polling path
     const pollingPath = req.baseUrl.replace('/filters', `/${executionId}/status`)
@@ -170,13 +167,13 @@ export default class UserStoreItemBuilder {
       ...this.userStoreItem,
       ...{
         url: {
-          origin: origin || this.userStoreItem.url.origin,
+          origin: origin || this.userStoreItem.url?.origin || '',
           ...(this.userStoreItem.url?.request && { request: this.userStoreItem.url.request }),
           ...(this.userStoreItem.url?.polling && { polling: this.userStoreItem.url.polling }),
           report: {
             ...(this.userStoreItem.url?.report && this.userStoreItem.url.report),
             fullUrl,
-            ...(urlData.search && { search: urlData.search }),
+            ...(urlData && urlData.search && { search: urlData.search }),
           },
         },
       },
@@ -194,15 +191,15 @@ export default class UserStoreItemBuilder {
     return this
   }
 
-  addQuery = (queryData: { query: Dict<string>; querySummary: Array<Dict<string>> }) => {
+  addQuery = (queryData?: { query: Dict<string>; querySummary: Array<Dict<string>> }) => {
     this.userStoreItem = {
       ...this.userStoreItem,
-      ...{
+      ...(queryData && {
         query: {
           data: queryData.query,
           summary: queryData.querySummary,
         },
-      },
+      }),
     }
     return this
   }
@@ -233,9 +230,7 @@ export default class UserStoreItemBuilder {
   addMetrics = (metrics: DashboardSection[]) => {
     this.userStoreItem = {
       ...this.userStoreItem,
-      metrics: metrics.map((metric: DashboardSection) => {
-        return { name: metric.display }
-      }),
+      metrics: metrics.filter((metric) => metric.display).map((metric) => ({ name: metric.display || '' })),
     }
     return this
   }

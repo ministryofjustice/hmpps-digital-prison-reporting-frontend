@@ -39,59 +39,63 @@ export async function renderList(
       let data
       let warnings: Warnings = {}
       const { specification, classification, printable, description, name: variantName } = variantDefinition
-      const { template } = specification
-      const count = resolvedData[1]
+      if (specification) {
+        const { template } = specification
+        const count = resolvedData[1]
 
-      if (isListWithWarnings(resolvedData[0])) {
-        // eslint-disable-next-line prefer-destructuring
-        data = resolvedData[0].data
-        warnings = resolvedData[0].warnings
-      } else {
-        // eslint-disable-next-line prefer-destructuring
-        data = resolvedData[0]
-      }
+        if (isListWithWarnings(resolvedData[0])) {
+          // eslint-disable-next-line prefer-destructuring
+          data = resolvedData[0].data
+          warnings = resolvedData[0].warnings
+        } else {
+          // eslint-disable-next-line prefer-destructuring
+          data = resolvedData[0]
+        }
 
-      const reportRenderData = await SyncReportUtils.getReportRenderData(
-        request,
-        count,
-        specification,
-        reportQuery,
-        data,
-      )
-
-      const actions = ReportActionsUtils.getActions({
-        print: {
-          enabled: variantDefinition.printable,
-        },
-        share: {
-          reportName,
-          name: variantDefinition.name,
-          url: reportRenderData.fullUrl,
-        },
-        copy: {
-          url: reportRenderData.fullUrl,
-        },
-      })
-
-      const renderData = {
-        renderData: {
-          ...reportRenderData,
-          reportName,
-          name: title || variantName,
-          description,
+        const reportRenderData = await SyncReportUtils.getReportRenderData(
+          request,
           count,
-          classification,
-          printable,
-          actions,
-          template,
-          warnings,
-          type: ReportType.REPORT,
-          ...otherOptions,
-        },
-        layoutTemplate,
-      }
+          specification,
+          reportQuery,
+          data,
+        )
 
-      response.render(`dpr/components/report-list/list`, renderData)
+        const actions = ReportActionsUtils.getActions({
+          print: {
+            enabled: Boolean(variantDefinition.printable),
+          },
+          share: {
+            reportName: reportName || 'Product',
+            name: variantDefinition.name,
+            url: reportRenderData.fullUrl,
+          },
+          copy: {
+            url: reportRenderData.fullUrl,
+          },
+        })
+
+        const renderData = {
+          renderData: {
+            ...reportRenderData,
+            reportName,
+            name: title || variantName,
+            description,
+            count,
+            classification,
+            printable,
+            actions,
+            template,
+            warnings,
+            type: ReportType.REPORT,
+            ...otherOptions,
+          },
+          layoutTemplate,
+        }
+
+        response.render(`dpr/components/report-list/list`, renderData)
+      } else {
+        throw new Error('No specification in definition')
+      }
     })
     .catch((err) => next(err))
 }
@@ -124,32 +128,37 @@ export const renderListWithDefinition = async ({
     const reportDefinition = await reportingClient.getDefinition(token, definitionName, variantName, reportDef)
     const reportName: string = reportDefinition.name
     const variantDefinition = reportDefinition.variant
+    const { specification, resourceName } = variantDefinition
+    if (specification) {
+      const { fields, template } = specification
+      const reportQuery = new ReportQuery({
+        fields,
+        template: template as Template,
+        queryParams: request.query,
+        definitionsPath: reportDef,
+      })
 
-    const reportQuery = new ReportQuery({
-      fields: variantDefinition.specification.fields,
-      template: variantDefinition.specification.template as Template,
-      queryParams: request.query,
-      definitionsPath: reportDef,
-    })
+      if (!FiltersUtils.redirectWithDefaultFilters(reportQuery, variantDefinition, response, request)) {
+        const getListData: ListDataSources = {
+          data: reportingClient.getListWithWarnings(resourceName, token, reportQuery),
+          count: reportingClient.getCount(resourceName, token, reportQuery),
+        }
 
-    if (!FiltersUtils.redirectWithDefaultFilters(reportQuery, variantDefinition, response, request)) {
-      const getListData: ListDataSources = {
-        data: reportingClient.getListWithWarnings(variantDefinition.resourceName, token, reportQuery),
-        count: reportingClient.getCount(variantDefinition.resourceName, token, reportQuery),
+        await renderList(
+          getListData,
+          variantDefinition,
+          reportQuery,
+          request,
+          response,
+          next,
+          `${variantDefinition.name}`,
+          layoutTemplate,
+          otherOptions,
+          title || `${reportName}`,
+        )
       }
-
-      await renderList(
-        getListData,
-        variantDefinition,
-        reportQuery,
-        request,
-        response,
-        next,
-        `${variantDefinition.name}`,
-        layoutTemplate,
-        otherOptions,
-        title || `${reportName}`,
-      )
+    } else {
+      throw new Error('No specification in definition')
     }
   } catch (error) {
     next(error)
@@ -169,9 +178,10 @@ export default {
     layoutTemplate,
   }: RenderListWithDataInput) => {
     const { specification } = variantDefinition
+    const { fields, template } = <components['schemas']['Specification']>specification
     const reportQuery = new ReportQuery({
-      fields: specification.fields,
-      template: specification.template as Template,
+      fields,
+      template: template as Template,
       queryParams: request.query,
       definitionsPath: <string>request.query.dataProductDefinitionsPath,
     })

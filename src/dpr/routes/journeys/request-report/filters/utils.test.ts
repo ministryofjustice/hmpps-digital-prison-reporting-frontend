@@ -434,7 +434,7 @@ describe('RequestReportUtils', () => {
             summary: [],
           },
           status: 'SUBMITTED',
-          metrics: [{}, {}],
+          metrics: [],
         }),
       )
     })

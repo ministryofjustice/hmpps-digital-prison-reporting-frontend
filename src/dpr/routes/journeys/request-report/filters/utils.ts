@@ -53,16 +53,24 @@ export const updateStore = async ({
   await removeDuplicates({ storeService: services.requestedReportService, userId: dprUser.id, id, search })
   await removeDuplicates({ storeService: services.recentlyViewedService, userId: dprUser.id, id, search })
 
-  const reportData: RequestFormData = req.body
+  const requestFormData: RequestFormData = req.body
+  const reportData = {
+    type: requestFormData.type as ReportType,
+    reportId: requestFormData.reportId,
+    reportName: requestFormData.reportName,
+    description: requestFormData.description,
+    id: requestFormData.id,
+    name: requestFormData.name,
+  }
 
   let requestedReportData
   switch (type) {
     case ReportType.REPORT:
-      requestedReportData = new UserStoreItemBuilder(reportData)
+      requestedReportData = new UserStoreItemBuilder(reportData, requestFormData)
         .addExecutionData(executionData)
         .addChildExecutionData(childExecutionData)
-        .addFilters(queryData.filterData)
-        .addSortData(queryData.sortData)
+        .addFilters(queryData?.filterData)
+        .addSortData(queryData?.sortData)
         .addDefinitionsPath(definitionsPath, dpdPathFromQuery)
         .addRequestUrls(req)
         .addQuery(queryData)
@@ -71,10 +79,10 @@ export const updateStore = async ({
         .build()
       break
     case ReportType.DASHBOARD: {
-      requestedReportData = new UserStoreItemBuilder(reportData)
+      requestedReportData = new UserStoreItemBuilder(reportData, requestFormData)
         .addExecutionData(executionData)
         .addChildExecutionData(childExecutionData)
-        .addFilters(queryData.filterData)
+        .addFilters(queryData?.filterData)
         .addDefinitionsPath(definitionsPath, dpdPathFromQuery)
         .addRequestUrls(req)
         .addQuery(queryData)
@@ -144,7 +152,7 @@ const requestProduct = async ({
   if (type === ReportType.REPORT) {
     definition = await reportingService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
 
-    fields = definition ? definition.variant.specification.fields : []
+    fields = definition ? definition.variant.specification?.fields : []
     queryData = FiltersFormUtils.setQueryFromFilters(req, fields)
     ;({ executionId, tableId } = await reportingService.requestAsyncReport(token, reportId, id, {
       ...queryData.query,

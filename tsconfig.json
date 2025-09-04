@@ -9,6 +9,7 @@
     "noEmit": false,
     "allowJs": true,
     "checkJs": true,
+    "strict": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

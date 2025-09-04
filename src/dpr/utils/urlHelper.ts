@@ -57,13 +57,13 @@ export const createQuerystringFromObject = (
   const querystring = Object.keys(source)
     .flatMap((key: string) => {
       const fieldDef = fields?.find((f) => `filters.${f.name}` === key)
-      const value = source[key]
+      const value = source[key] || ''
 
       if (Array.isArray(value)) {
         return value.map((v) => `${encodeURI(key)}=${encodeURI(v)}`)
       }
 
-      if (fieldDef && fieldDef.filter.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
+      if (fieldDef && fieldDef.filter && fieldDef.filter.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
         const values = value.split(',')
         return values.map((v) => {
           return `${encodeURI(key)}=${encodeURI(v)}`

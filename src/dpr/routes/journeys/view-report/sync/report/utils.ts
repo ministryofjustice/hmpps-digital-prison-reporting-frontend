@@ -86,8 +86,7 @@ const setAsRecentlyViewed = async (
     description,
     name,
   }
-  const recentlyViewedData = new UserStoreItemBuilder()
-    .addReportData(stateData)
+  const recentlyViewedData = new UserStoreItemBuilder(stateData)
     .addStatus(RequestStatus.READY)
     .addTimestamp()
     .addReportUrls(req)

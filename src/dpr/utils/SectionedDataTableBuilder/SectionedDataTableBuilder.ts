@@ -68,10 +68,13 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
     return data.reduce((previousValue, rowData) => {
       const sectionDescription: string = this.mapSectionDescription(rowData)
       const mappedData = this.mapRow(rowData)
+      const previousValueDescription = previousValue[sectionDescription]
 
       return {
         ...previousValue,
-        [sectionDescription]: previousValue[sectionDescription].concat([mappedData]),
+        ...(previousValueDescription && {
+          [sectionDescription]: previousValueDescription.concat([mappedData]),
+        }),
       }
     }, sectionedData)
   }
@@ -88,9 +91,12 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
   private mapDataToSection(data: Array<Dict<string>>, sectionedData: Dict<Array<Dict<string>>>) {
     return data.reduce((previousValue, rowData) => {
       const sectionDescription: string = this.mapSectionDescription(rowData)
+      const previousValueDescription = previousValue[sectionDescription]
       const section = {
         ...previousValue,
-        [sectionDescription]: previousValue[sectionDescription].concat([rowData]),
+        ...(previousValueDescription && {
+          [sectionDescription]: previousValueDescription.concat([rowData]),
+        }),
       }
       return section
     }, sectionedData)
@@ -105,7 +111,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
    * @memberof SectionedDataTableBuilder
    */
   getSectionCount(sectionedData: Dict<Cell[][]> | Dict<Dict<string>[]>, sectionDescription: string) {
-    const count = sectionedData[sectionDescription].length
+    const count = sectionedData[sectionDescription] ? sectionedData[sectionDescription].length : 0
     const countDescription = `${count} result${count === 1 ? '' : 's'}`
 
     return {
@@ -164,10 +170,12 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
       const mappedTableData = sectionedData[sectionDescription]
 
       let tableContent: Cell[][] = []
-      if (Object.keys(this.reportSummaries).length) {
-        tableContent = this.mapSummariesAndCreateTable(sectionDescription, mappedTableData, header)
-      } else {
-        tableContent = tableContent.concat(mappedTableData.length > 0 ? [header] : []).concat(mappedTableData)
+      if (mappedTableData) {
+        if (Object.keys(this.reportSummaries).length) {
+          tableContent = this.mapSummariesAndCreateTable(sectionDescription, mappedTableData, header)
+        } else {
+          tableContent = tableContent.concat(mappedTableData.length > 0 ? [header] : []).concat(mappedTableData)
+        }
       }
 
       const sectionHeader = this.createSectionHeader(sectionDescription, index, count, countDescription)
@@ -192,7 +200,7 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
         classes: 'dpr-section-header',
         colspan: this.columns.length,
         html: `<h2 class="govuk-heading-m">${sectionDescription}${
-          count > 0 ? ` <span class='govuk-caption-m'>${countDescription}</span>` : ''
+          count && count > 0 ? ` <span class='govuk-caption-m'>${countDescription}</span>` : ''
         }</h2>`,
       },
     ])

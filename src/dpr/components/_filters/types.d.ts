@@ -10,25 +10,54 @@ export interface FilterOption {
   sortedAsc?: boolean
 }
 
-export type FilterValue = GenericFilterValue | DateFilterValue
+export type FilterValue =
+  | TextFilterValue
+  | FilterValueWithOptions
+  | MultiselectFilterValue
+  | DateFilterValue
+  | DateRangeFilterValue
+  | GranularDateRangeFilterValue
 
-export interface GenericFilterValue {
+export type FilterValueType = string | DateRange | GranularDateRange | null
+export interface BaseFilterValue {
   text: string
   name: string
   type: FilterType
-  value?: string
-  values?: string[]
-  staticOptionNameValue?: string
-  options?: Array<FilterOption>
-  minimumLength?: number
-  dynamicResourceEndpoint?: string
-  pattern?: string
+  value: FilterValueType
   mandatory?: boolean
 }
 
-export interface DateFilterValue extends GenericFilterValue {
-  type: FilterType
-  value?: DateRange | string | GranularDateRange
+export interface TextFilterValue extends BaseFilterValue {
+  minimumLength?: number
+  pattern?: string
+}
+
+export interface FilterValueWithOptions extends BaseFilterValue {
+  options: Array<FilterOption>
+  staticOptionNameValue?: string
+  dynamicResourceEndpoint?: string
+}
+
+export interface MultiselectFilterValue extends Omit<BaseFilterValue, 'value'>, FilterValueWithOptions {
+  value: string | null
+  values: string[]
+}
+
+export interface DateFilterValue extends Omit<BaseFilterValue, 'value'> {
+  value: string | null
+  min?: string
+  max?: string
+}
+
+export interface DateRangeFilterValue extends Omit<BaseFilterValue, 'value'> {
+  value: DateRange
+  min?: string
+  max?: string
+  relativeOptions?: { value: string; text: string; disabled?: boolean }[]
+}
+
+export interface GranularDateRangeFilterValue extends Omit<BaseFilterValue, 'value'> {
+  value: GranularDateRange
   min?: string
   max?: string
   relativeOptions?: { value: string; text: string; disabled?: boolean }[]

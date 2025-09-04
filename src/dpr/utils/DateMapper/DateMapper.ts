@@ -58,7 +58,7 @@ export default class DateMapper {
     return 'none'
   }
 
-  getDateWrapper(value: string): Dayjs {
+  getDateWrapper(value: string): Dayjs | null {
     dayjs.extend(customParseFormat)
 
     switch (this.getDateType(value)) {
@@ -81,7 +81,7 @@ export default class DateMapper {
     return this.getDateType(value) !== 'none'
   }
 
-  toDateString(value: string, type: DateType): string {
+  toDateString(value: string, type: DateType): string | null {
     const dateWrapper = this.getDateWrapper(value)
 
     if (dateWrapper) {

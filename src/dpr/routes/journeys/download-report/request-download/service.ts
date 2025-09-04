@@ -26,13 +26,16 @@ export default class DownloadPermissionService extends ReportStoreService {
 
   async removeDownloadPermissionData(userId: string, reportId: string, id: string) {
     const userConfig = await this.getState(userId)
-    const index = userConfig.downloadPermissions.findIndex((downloadConfig) => {
-      return downloadConfig.id === id
-    })
-    if (index >= 0) {
-      userConfig.downloadPermissions.splice(index, 1)
+    const { downloadPermissions } = userConfig
+    if (downloadPermissions) {
+      const index = downloadPermissions.findIndex((downloadConfig) => {
+        return downloadConfig.id === id
+      })
+      if (index >= 0) {
+        downloadPermissions.splice(index, 1)
+      }
+      await this.saveState(userId, userConfig)
     }
-    await this.saveState(userId, userConfig)
   }
 
   async downloadEnabled(userId: string, reportId: string, id: string) {

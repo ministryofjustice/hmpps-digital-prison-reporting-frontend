@@ -17,7 +17,10 @@ export default {
    * @param specification
    * @param requestedColumns
    */
-  getColumns: (specification: components['schemas']['Specification'], requestedColumns: string[] = null): Columns => {
+  getColumns: (
+    specification: components['schemas']['Specification'],
+    requestedColumns: string[] | null = null,
+  ): Columns => {
     const { fields } = specification
 
     const options: Column[] = fields

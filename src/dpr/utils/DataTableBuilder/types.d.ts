@@ -11,7 +11,7 @@ export interface Cell {
 }
 
 export interface DataTable {
-  head: Array<Header>
+  head: Array<Header> | null
   rows: Array<Array<Cell>>
   rowCount: number
   colCount: number

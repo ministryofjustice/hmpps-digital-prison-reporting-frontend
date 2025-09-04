@@ -102,14 +102,6 @@ describe('DateRangeInputUtils', () => {
     })
   })
 
-  describe('calcDates', () => {
-    it('should return undefined values when no duration value is set', async () => {
-      const res = await DateRangeInputUtils.calcDates('')
-
-      expect(res).toEqual({})
-    })
-  })
-
   describe('setDateRangeValueFromRequest', () => {
     let dateFilter: DateFilterValue
 

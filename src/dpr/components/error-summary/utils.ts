@@ -52,12 +52,12 @@ export interface DprError {
   status: number | string
   errorCode?: number
   userMessage: string
-  developerMessage: string
+  developerMessage?: string
   moreInfo?: string
 }
 
 interface DprUIError {
   status: string
   userMessage: string
-  developerMessage: string
+  developerMessage?: string
 }

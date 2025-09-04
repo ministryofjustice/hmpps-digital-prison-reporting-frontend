@@ -24,14 +24,19 @@ export default class RecentlyViewedStoreService extends ReportStoreService {
 
   async setRecentlyViewed(reportData: RequestedReport, userId: string) {
     const userConfig = await this.getState(userId)
-    const index = this.findIndexByExecutionId(reportData.executionId, userConfig.recentlyViewedReports)
+    const { executionId } = reportData
+    if (executionId) {
+      const index = this.findIndexByExecutionId(executionId, userConfig.recentlyViewedReports)
 
-    if (index > -1) {
-      userConfig.recentlyViewedReports.splice(index, 1)
-      await this.saveState(userId, userConfig)
+      if (index > -1) {
+        userConfig.recentlyViewedReports.splice(index, 1)
+        await this.saveState(userId, userConfig)
+      }
+
+      await this.addReport(reportData, userId, userConfig)
+    } else {
+      logger.warn('Cant add to recently viewed: Missing execution ID')
     }
-
-    await this.addReport(reportData, userId, userConfig)
   }
 
   async addReport(reportData: RecentlyViewedReport, userId: string, userConfig: ReportStoreConfig) {
@@ -49,7 +54,11 @@ export default class RecentlyViewedStoreService extends ReportStoreService {
     const userConfig = await this.getState(userId)
     const index = this.findIndexByTableId(id, userConfig.recentlyViewedReports)
     await this.saveExpiredState(userConfig, index, userId)
-    return userConfig.recentlyViewedReports[index].url.request.fullUrl
+
+    const updatedItem = userConfig.recentlyViewedReports[index]
+    const { url } = updatedItem
+
+    return url?.request?.fullUrl || ''
   }
 
   async saveExpiredState(userConfig: ReportStoreConfig, index: number, userId: string) {

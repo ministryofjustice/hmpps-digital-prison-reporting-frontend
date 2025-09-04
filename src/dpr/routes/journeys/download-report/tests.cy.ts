@@ -1,11 +1,41 @@
+import { checkA11y } from '../../../../../cypress-tests/cypressUtils'
+
 context('Download report', () => {
-  const path =
-    '/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1729766362362/report'
+  const path = '/embedded/platform/'
   let downloadRequestFormPage: string
   let downloadRequestSubmittedPage: string
+  let viewReportUrl: string
+
+  before(() => {
+    cy.task('resetStubs')
+    cy.task('resetRedis')
+    cy.task('stubDefinitions')
+    cy.task('stubDefinitionRequestExamplesSuccess')
+    cy.task('stubRequestExamplesSuccessStatus')
+    cy.task('stubRequestSuccessResult20')
+    cy.task('stubRequestSuccessReportTablesCount')
+    cy.task('stubViewAsyncReportingResults')
+    cy.visit(path)
+    cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+      cy.findByRole('row', {
+        name: (_, element) => {
+          return element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
+        },
+      }).within(() => {
+        cy.findByRole('link', { name: 'Request report' }).click()
+      })
+    })
+    checkA11y()
+    cy.findByRole('button', { name: /Request/ }).click()
+    checkA11y()
+    cy.findByRole('heading', { level: 1, name: /Successful Report/ }).should('be.visible')
+    cy.url().then((url) => {
+      viewReportUrl = url
+    })
+  })
 
   beforeEach(() => {
-    cy.visit(path)
+    cy.visit(viewReportUrl)
   })
 
   describe('Enabling download', () => {
@@ -32,12 +62,12 @@ context('Download report', () => {
       })
 
       cy.url().should(
-        'have.string',
-        '/embedded/platform/dpr/download-report/request-download/request-examples/request-example-success/tableId/tblId_1729766362362/form',
+        'match',
+        /\/embedded\/platform\/dpr\/download-report\/request-download\/request-examples\/request-example-success\/tableId\/tblId_[0-9]+\/form/,
       )
       cy.location().should((location) => {
-        expect(location.search).to.contain(
-          `reportUrl=/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1729766362362/report`,
+        expect(location.search).to.match(
+          /.*reportUrl=\/embedded\/platform\/dpr\/view-report\/async\/report\/request-examples\/request-example-success\/tblId_[0-9]+\/report/,
         )
       })
     })
@@ -84,7 +114,9 @@ context('Download report', () => {
           cy.wrap(request).its('body').should('have.string', 'reportId=request-examples')
           cy.wrap(request).its('body').should('have.string', 'reportName=Request+examples')
           cy.wrap(request).its('body').should('have.string', 'variantName=Successful+Report')
-          cy.wrap(request).its('body').should('have.string', 'tableId=tblId_1729766362362')
+          cy.wrap(request)
+            .its('body')
+            .and('match', /tableId=tblId_[0-9]+/)
           cy.wrap(request).its('body').should('have.string', 'variantId=request-example-success')
           cy.wrap(request).its('body').should('have.string', 'activeCaseLoadId=KMI')
           cy.wrap(request).its('body').should('have.string', 'role=Software+engineer')
@@ -95,9 +127,9 @@ context('Download report', () => {
         downloadRequestSubmittedPage = url
       })
 
-      cy.url().should(
-        'have.string',
-        '/dpr/download-report/request-download/request-examples/request-example-success/tableId/tblId_1729766362362/form/submitted',
+      cy.url().and(
+        'match',
+        /dpr\/download-report\/request-download\/request-examples\/request-example-success\/tableId\/tblId_[0-9]+\/form\/submitted/,
       )
     })
   })
@@ -128,7 +160,9 @@ context('Download report', () => {
           cy.wrap(request).its('body').should('have.string', '_csrf=csrfToken')
           cy.wrap(request).its('body').should('have.string', 'reportId=request-examples')
           cy.wrap(request).its('body').should('have.string', 'id=request-example-success')
-          cy.wrap(request).its('body').should('have.string', 'tableId=tblId_1729766362362')
+          cy.wrap(request)
+            .its('body')
+            .and('match', /tableId=tblId_[0-9]+/)
           cy.wrap(request).its('body').should('have.string', 'reportName=Request+examples')
           cy.wrap(request).its('body').should('have.string', 'cols=')
           cy.wrap(request).its('body').should('have.string', 'field1')

@@ -3,7 +3,7 @@ const mockRequested = require('./mockRequestedUserListData')
 const mockViewed = require('./mockViewedUserListData')
 const mockRequestedDashboards = require('./mockRequestedDashboardData')
 
-const startData = {
+export const startData = {
   requestedReports: [
     mockRequested.requestedReady,
     mockRequested.requestedExpired,
@@ -35,7 +35,8 @@ const startData = {
   downloads: [],
 }
 
-const MockUserStoreService = class MockUserStoreService {
+export const MockUserStoreService = class MockUserStoreService {
+  
   constructor() {
     this.userStore = JSON.stringify(startData)
   }
@@ -49,5 +50,3 @@ const MockUserStoreService = class MockUserStoreService {
     return Promise.resolve(JSON.parse(this.userStore))
   }
 }
-
-module.exports = MockUserStoreService

@@ -1,6 +1,6 @@
 import MockReportingClient from '../../../test-app/mocks/mockClients/reports/mockReportingClient'
 import MockDashboardClient from '../../../test-app/mocks/mockClients/dashboards/mock-client'
-import MockUserStoreService from '../../../test-app/mocks/mockClients/store/mockRedisStore'
+import { MockUserStoreService } from '../../../test-app/mocks/mockClients/store/mockRedisStore'
 import createDprServices, { InitDPRServicesArgs } from './ReportStoreServiceUtils'
 
 describe('ReportStoreServiceUtils', () => {

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import BookmarkService from './service'
 import type ReportDataStore from '../../../../data/reportDataStore'
-import MockUserStoreService from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
+import { MockUserStoreService } from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
 import { ReportStoreConfig } from '../../../../types/ReportStore'
 import { ReportType } from '../../../../types/UserReports'
 import { BookmarkStoreData } from '../../../../types/Bookmark'

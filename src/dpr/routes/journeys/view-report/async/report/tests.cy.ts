@@ -1,12 +1,31 @@
+import { checkA11y } from '../../../../../../../cypress-tests/cypressUtils'
+
 context('Viewing a report', () => {
   const path = '/embedded/platform/'
   let viewReportUrl: string
-
   let tableId: string
 
   describe('List report page', () => {
     before(() => {
+      cy.task('resetStubs')
+      cy.task('resetRedis')
+      cy.task('stubDefinitions')
+      cy.task('stubMockReportVariant35')
+      cy.task('stubFeatureTestingInteractive')
+      cy.task('stubDefinitionRequestExamplesSuccess')
+      cy.task('stubRequestExamplesSuccessStatus')
+      cy.task('stubTestDashboard8')
+      cy.task('stubMockDashboardsStatus')
+      cy.task('stubTestDashboard8Status')
+      cy.task('stubRequestSuccessResult20')
+      cy.task('stubRequestSuccessResult10')
+      cy.task('stubRequestSuccessReportTablesCount')
+      cy.task('stubRequestSuccessResult100')
+      cy.task('stubViewAsyncReportingResults')
+
+      // Request and run a report so we can go back to it for each test
       cy.visit(path)
+      checkA11y()
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
@@ -18,9 +37,10 @@ context('Viewing a report', () => {
           cy.findByRole('link', { name: 'Request report' }).click()
         })
       })
-      cy.findByRole('button', { name: /Request/ })
-        .click()
-        .wait(4000)
+      checkA11y()
+      cy.findByRole('button', { name: /Request/ }).click()
+      checkA11y()
+      cy.findByRole('heading', { level: 1, name: /Successful Report/ }).should('be.visible')
       cy.url().then((url) => {
         viewReportUrl = url
         const urlArr = url.split('/')
@@ -32,17 +52,7 @@ context('Viewing a report', () => {
       cy.visit(viewReportUrl)
     })
 
-    it('is accessible', () => {
-      cy.injectAxe()
-      cy.checkA11y()
-    })
-
     describe('Report details', () => {
-      it('should show the product name', () => {
-        cy.findAllByRole('heading', { name: 'Successful Report' }).should('be.visible')
-        cy.findAllByRole('heading', { name: 'Request examples' }).should('be.visible')
-      })
-
       it('should show the report details', () => {
         cy.findAllByRole('group').contains('Report details').should('be.visible').click()
 
@@ -114,11 +124,15 @@ context('Viewing a report', () => {
     })
 
     describe('Actions', () => {
-      it('should show the refresh action', () => {
+      it('should show the actions and go to the filters page when refresh action is clicked', () => {
         cy.findByLabelText('Refresh report').should('be.visible')
-      })
+        cy.findByLabelText(/Print screen/)
+          .should('be.visible')
+          .should('be.disabled')
+        cy.findByLabelText(/download/).should('be.visible')
+        cy.findByLabelText(/Copy report link/).should('be.visible')
+        cy.findByLabelText('bookmark toggle').should('be.visible')
 
-      it('should go to the filters page when refresh action is clicked', () => {
         cy.findByLabelText('Refresh report').should('be.visible').click()
         cy.url().should(
           'match',
@@ -132,24 +146,6 @@ context('Viewing a report', () => {
           expect(location.search).to.contain(`filters.field7=2005-02-01`)
           expect(location.search).to.contain(`filters.field8=value8.2&filters.field8=value8.3`)
         })
-      })
-
-      it('should show the print action', () => {
-        cy.findByLabelText(/Print screen/)
-          .should('be.visible')
-          .should('be.disabled')
-      })
-
-      it('should show the download action', () => {
-        cy.findByLabelText(/download/).should('be.visible')
-      })
-
-      it('should show the copy action', () => {
-        cy.findByLabelText(/Copy report link/).should('be.visible')
-      })
-
-      it('should show the bookmark toggle', () => {
-        cy.findByLabelText('bookmark toggle').should('be.visible')
       })
     })
 
@@ -206,19 +202,13 @@ context('Viewing a report', () => {
         cy.findByRole('checkbox', { name: 'Field 8' }).check()
       }
 
-      it('should initialise the column filter values', () => {
+      it('should initialise the column content correctly', () => {
         cy.findAllByRole('group')
           .contains(/Show columns/)
           .should('be.visible')
           .click()
         expectInitialisedColumns()
-      })
-
-      it('should show the columns count', () => {
         cy.findAllByRole('group').contains('Show columns (5 of 8 shown)')
-      })
-
-      it('should initialise the correct columns in the list table', () => {
         cy.findByLabelText(/Successful Report/).within(() => {
           cy.findAllByRole('rowgroup')
             .eq(0)

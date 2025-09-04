@@ -29,6 +29,17 @@ describe('Request a report', () => {
     cy.findByRole('checkbox', { name: 'Value 8.4' }).check()
   }
 
+  before(() => {
+    cy.task('resetStubs')
+    cy.task('resetRedis')
+    cy.task('stubDefinitions')
+    cy.task('stubDefinitionRequestExamplesSuccess')
+    cy.task('stubViewAsyncReportingResults')
+    cy.task('stubReportsFinishedStatus')
+    cy.task('stubRequestSuccessResult20')
+    cy.task('stubRequestSuccessReportTablesCount')
+  })
+
   beforeEach(() => {
     cy.visit(path)
 

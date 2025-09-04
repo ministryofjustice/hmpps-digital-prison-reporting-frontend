@@ -1,4 +1,4 @@
-import MockUserStoreService from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
+import { MockUserStoreService } from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
 import ReportDataStore from '../../../../data/reportDataStore'
 import { ReportStoreConfig } from '../../../../types/ReportStore'
 import DefaultFilterValuesService from './service'

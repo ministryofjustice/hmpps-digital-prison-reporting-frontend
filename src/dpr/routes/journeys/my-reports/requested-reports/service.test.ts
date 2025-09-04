@@ -4,7 +4,7 @@ import RequestedReportService from './service'
 import { RequestedReport, RequestStatus } from '../../../../types/UserReports'
 import { ReportStoreConfig } from '../../../../types/ReportStore'
 
-import MockUserStoreService from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
+import { MockUserStoreService } from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
 import MockRequestedListData2 from '../../../../../../test-app/mocks/mockClients/store/mockRequestedUserListData'
 
 describe('RequestedReportService', () => {

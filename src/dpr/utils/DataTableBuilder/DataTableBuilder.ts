@@ -262,11 +262,6 @@ export default class DataTableBuilder {
     return sortFields
       .map((f) => {
         const value = rowData[f.name]
-
-        if (value === null) {
-          return 'zzzzzzzz'
-        }
-
         if (value && this.dateMapper.isDate(value)) {
           return this.dateMapper.toDateString(value, 'iso')
         }
@@ -278,7 +273,8 @@ export default class DataTableBuilder {
   }
 
   protected convertDataTableToHtml(dataTable: DataTable): string {
-    const headers = dataTable.head.map((h) => `<th scope='col' class='govuk-table__header'>${h.html ?? h.text}</th>`)
+    const head = dataTable.head || []
+    const headers = head.map((h) => `<th scope='col' class='govuk-table__header'>${h.html ?? h.text}</th>`)
     const rows = dataTable.rows.map(
       (r) =>
         `<tr class='govuk-table__row'>${r

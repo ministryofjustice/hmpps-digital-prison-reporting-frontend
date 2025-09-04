@@ -145,7 +145,7 @@ const sumColumns = (rowsData: MoJTableRow[][], measures: DashboardVisualisationC
       const total = rowsData.reduce((acc, row) => {
         const rowIndex = row[index]
         if (rowIndex && rowIndex.text) {
-          acc += +rowIndex.text
+          acc += Number(rowIndex.text)
         }
         return acc
       }, 0)

@@ -134,10 +134,10 @@ export default {
 
     const pageSizeParam = queryParams.get(PAGE_SIZE_PARAM)
     const currentPageParam = queryParams.get(SELECTED_PAGE_PARAM)
-    const pageSize = pageSizeParam ? +pageSizeParam : DEFAULT_PAGE_SIZE
-    const currentPage = currentPageParam ? +currentPageParam : DEFAULT_PAGE
+    const pageSize = pageSizeParam ? Number(pageSizeParam) : DEFAULT_PAGE_SIZE
+    const currentPage = currentPageParam ? Number(currentPageParam) : DEFAULT_PAGE
 
-    const { pages, pagesLength } = createPages(pathname, queryParams, totalRows, +pageSize, currentPage)
+    const { pages, pagesLength } = createPages(pathname, queryParams, totalRows, Number(pageSize), currentPage)
     return {
       next: createNext(pathname, search, pagesLength, totalRows, currentPage),
       prev: createPrev(pathname, search, currentPage),

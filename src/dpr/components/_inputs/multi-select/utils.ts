@@ -21,7 +21,7 @@ const setValueFromRequest = (
 
   return {
     requestfilterValue: valueString || null,
-    requestfilterValues: valueArr.length ? valueArr : [],
+    requestfilterValues: valueArr,
   }
 }
 

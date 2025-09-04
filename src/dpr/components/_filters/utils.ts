@@ -27,14 +27,14 @@ import { Services } from '../../types/Services'
 import { ReportType } from '../../types/UserReports'
 import { RenderFiltersReturnValue } from '../_async/async-filters-form/types'
 
-// /**
-//  * Given a FilterValue[], will update the values to match the req.query values if present
-//  *
-//  * @param {FilterValue[]} filters
-//  * @param {Request} req
-//  * @param {string} [prefix='filters.']
-//  * @return {*}  {FilterValue[]}
-//  */
+/**
+ * Given a FilterValue[], will update the values to match the req.query values if present
+ *
+ * @param {FilterValue[]} filters
+ * @param {Request} req
+ * @param {string} [prefix='filters.']
+ * @return {*}  {FilterValue[]}
+ */
 const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix = 'filters.'): FilterValue[] => {
   const { preventDefault } = req.query
 
@@ -235,17 +235,15 @@ const setUserDefinedDefaultValuesForReport = async (
       }
     })
 
-  let defaultValuesConfig = Array.from(new Set(bodyFilterValues.map((a) => a.name)))
+  const defaultValuesConfig = Array.from(new Set(bodyFilterValues.map((a) => a.name)))
     .map((name) => {
       return bodyFilterValues.find((a) => a.name === name)
     })
     .filter((c) => c !== undefined)
 
-  defaultValuesConfig = defaultValuesConfig.filter((defaultValue) => {
+  return defaultValuesConfig.filter((defaultValue) => {
     return defaultValue ? defaultValue.value !== '' : false
   })
-
-  return defaultValuesConfig
 }
 
 const setUserContextDefaults = (res: Response, filters: FilterValue[]) => {
@@ -291,7 +289,7 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
       }
       return true
     })
-    .map((f: components['schemas']['FieldDefinition']) => {
+    .map((f) => {
       const { display: text, name } = f
       const filter = <components['schemas']['FilterDefinition']>f.filter
       const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern } = filter
@@ -394,7 +392,7 @@ const redirectWithDefaultFilters = (
   if (hasNoQueryFilters) {
     fields
       .filter((f) => f.filter && f.filter.defaultValue)
-      .forEach((f: components['schemas']['FieldDefinition']) => {
+      .forEach((f) => {
         const { filter } = f
         if (filter) {
           if (filter.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {

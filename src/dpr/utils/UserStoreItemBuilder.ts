@@ -230,13 +230,7 @@ export default class UserStoreItemBuilder {
   addMetrics = (metrics: DashboardSection[]) => {
     this.userStoreItem = {
       ...this.userStoreItem,
-      metrics: metrics
-        .filter((metric) => {
-          return metric.display
-        })
-        .map((metric: DashboardSection) => {
-          return { name: metric.display || '' }
-        }),
+      metrics: metrics.filter((metric) => metric.display).map((metric) => ({ name: metric.display || '' })),
     }
     return this
   }

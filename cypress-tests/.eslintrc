@@ -3,8 +3,10 @@
   "env": {
     "cypress/globals": true
   },
+  "ignorePatterns": ["cypress-tests/mockApis/**/*"],
   "extends": ["plugin:cypress/recommended"],
   "rules": {
+    "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "no-only-tests/no-only-tests": "error"
   }

@@ -1,7 +1,7 @@
 const failedDashboard = {
   reportId: 'request-examples',
   id: 'test-dashboard-2',
-  executionId: 'exId_1724943092123',
+  executionId: 'exId_238947923',
   tableId: 'tblId_1724943092123',
   name: 'Failing dashboard',
   reportName: 'Request examples',
@@ -18,8 +18,8 @@ const failedDashboard = {
     },
     polling: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-2/request/exId_1724943092123',
-      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-2/request/exId_1724943092123',
+        'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-2/request/exId_238947923',
+      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-2/request/exId_238947923',
     },
     report: {},
   },
@@ -35,7 +35,7 @@ const failedDashboard = {
 const expiredDashboard = {
   reportId: 'request-examples',
   id: 'test-dashboard-3',
-  executionId: 'exId_1724943092824',
+  executionId: 'exId_238947923',
   tableId: 'tblId_1724943092824',
   name: 'Expiring dashboard',
   reportName: 'Request examples',
@@ -52,8 +52,8 @@ const expiredDashboard = {
     },
     polling: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-3/request/exId_1724943092824',
-      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-3/request/exId_1724943092824',
+        'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-3/request/exId_238947923',
+      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-3/request/exId_238947923',
     },
     report: {},
   },
@@ -69,7 +69,7 @@ const expiredDashboard = {
 const submittedDashboard = {
   reportId: 'request-examples',
   id: 'test-dashboard-1',
-  executionId: 'exId_1724943092098',
+  executionId: 'exId_238947923',
   tableId: 'tblId_1724943092098',
   name: 'Requested dashboard',
   reportName: 'Request examples',
@@ -86,8 +86,8 @@ const submittedDashboard = {
     },
     polling: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request/exId_1724943092098',
-      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request/exId_1724943092098',
+        'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request/exId_238947923',
+      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request/exId_238947923',
     },
     report: {},
   },
@@ -100,7 +100,7 @@ const submittedDashboard = {
 const abortedDashboard = {
   reportId: 'request-examples',
   id: 'test-dashboard-1',
-  executionId: 'exId_1724943092098',
+  executionId: 'exId_238947923',
   tableId: 'tblId_1724943092098',
   name: 'Cancelled dashboard',
   reportName: 'Request examples',
@@ -117,8 +117,8 @@ const abortedDashboard = {
     },
     polling: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request/exId_1724943092098',
-      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request/exId_1724943092098',
+        'http://localhost:3010/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request/exId_238947923',
+      pathname: '/embedded/platform/async/dashboard/request-examples/test-dashboard-1/request/exId_238947923',
     },
     report: {},
   },
@@ -141,7 +141,7 @@ const readyDashboard = {
     requested: '2024-10-31T13:45:25.707Z',
     completed: '2024-10-31T13:45:26.794Z',
   },
-  executionId: 'exId_1730382324700',
+  executionId: 'exId_238947923',
   tableId: 'tblId_1730382324700',
   url: {
     origin: 'http://localhost:3010',
@@ -152,8 +152,8 @@ const readyDashboard = {
     },
     polling: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/exId_1730382324700',
-      pathname: '/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/exId_1730382324700',
+        'http://localhost:3010/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/exId_238947923',
+      pathname: '/embedded/platform/async/dashboard/mock-dashboards/test-dashboard-8/request/exId_238947923',
     },
     report: {
       pathname:

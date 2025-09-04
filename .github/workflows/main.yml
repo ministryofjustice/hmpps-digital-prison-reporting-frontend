@@ -48,6 +48,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
 
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -57,9 +68,16 @@ jobs:
       - run: npm run package
       - name: Run the node app and integration tests
         run: |
-          npm run start:dev &
+          npm run start:dev:noMockClients &
           sleep 5
-          npm run int-test
+          npm run int-test-lib
+          pkill -P $(pgrep "npm run start")
+      - name: Run the node app and integration tests
+        run: |
+          rm -rf dist dist-docs/ dist-test-app/ && npm run start:dev &
+          sleep 5
+          npm run int-test-test-app
+          pkill -P $(pgrep "npm run start")
       - uses: actions/upload-artifact@v4
         with:
           name: test_results

@@ -131,7 +131,7 @@ const main = async () => {
     process.stderr.write('\u{1b}[1m\u{1F52D} Watching for changes...\u{1b}[0m\n')
     // Assets
     chokidar
-      .watch(['src/dpr/assets/**/*'], chokidarOptions)
+      .watch(['src/dpr/assets/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
       .on('all', () => buildAssets(buildConfig).catch((e) => process.stderr.write(`${e}\n`)))
 
     // App
@@ -142,7 +142,10 @@ const main = async () => {
       )
 
     chokidar
-      .watch(['src/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts', 'manifest.json'] })
+      .watch(['src/**/*'], {
+        ...chokidarOptions,
+        ignored: ['**/*.test.ts', '**/*.cy.ts', 'manifest.json', 'cypress.config.ts'],
+      })
       .on('all', () => buildLibraryThenApp().catch((e) => process.stderr.write(`${e}\n`)))
   }
 }

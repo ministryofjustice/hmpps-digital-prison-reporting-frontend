@@ -78,7 +78,7 @@ const viewedReady = {
 const viewedDashboard = {
   reportId: 'mock-dashboards',
   id: 'Mock dashboards',
-  executionId: 'exId_1730302242487',
+  executionId: 'exId_1729766362362',
   tableId: 'tblId_1730302242487',
   reportName: 'Mock dashboards',
   name: 'Viewed dashboard',
@@ -106,7 +106,7 @@ const viewedDashboard = {
 const viewedInteractive = {
   reportId: 'feature-testing',
   id: 'feature-testing-interactive',
-  executionId: 'exId_1733925499607',
+  executionId: 'exId_1729766362362',
   tableId: 'tblId_1733925499607',
   reportName: 'Feature testing',
   name: 'Interactive Report',
@@ -172,7 +172,7 @@ const viewedInteractive = {
 const viewedExpired = {
   reportId: 'request-examples',
   id: 'request-example-success',
-  executionId: 'exId_1729766465228',
+  executionId: 'exId_1729766362362',
   tableId: 'tblId_1729766465228',
   reportName: 'Request examples',
   variantName: 'Expired viewed report',
@@ -243,7 +243,7 @@ const viewedExpired = {
 const expiredDashboard = {
   reportId: 'mock-dashboards',
   id: 'test-dashboard-8',
-  executionId: 'exId_1730302123456',
+  executionId: 'exId_1729766362362',
   tableId: 'tblId_1730302123456',
   reportName: 'Mock dashboards',
   name: 'Expired viewed dashboard',
@@ -277,7 +277,7 @@ const viewedInteractiveAsync = {
   timestamp: {
     lastViewed: '2025-06-10T10:37:02.786Z',
   },
-  executionId: 'exId_1749551815281',
+  executionId: 'exId_1729766362362',
   tableId: 'tblId_1749551815281',
   query: {
     data: {
@@ -325,8 +325,8 @@ const viewedInteractiveAsync = {
     },
     polling: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/report/mock-report/variantId-35/request/exId_1749551815281',
-      pathname: '/embedded/platform/async/report/mock-report/variantId-35/request/exId_1749551815281',
+        'http://localhost:3010/embedded/platform/async/report/mock-report/variantId-35/request/exId_1729766362362',
+      pathname: '/embedded/platform/async/report/mock-report/variantId-35/request/exId_1729766362362',
     },
     report: {
       search:

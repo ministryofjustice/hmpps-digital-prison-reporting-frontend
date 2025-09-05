@@ -1,4 +1,6 @@
-const viewedReady = {
+import { ReportType, RequestStatus, StoredReportData } from "../../src/dpr/types/UserReports"
+
+export const viewedReady: StoredReportData = {
   reportId: 'request-examples',
   id: 'request-example-success',
   executionId: 'exId_1729766362362',
@@ -7,8 +9,8 @@ const viewedReady = {
   variantName: 'Viewed report',
   name: 'Viewed report',
   description: 'this will succeed',
-  type: 'report',
-  status: 'READY',
+  type: ReportType.REPORT,
+  status: RequestStatus.READY,
   url: {
     origin: 'http://localhost:3010',
     request: {
@@ -25,7 +27,7 @@ const viewedReady = {
     },
   },
   timestamp: {
-    lastViewed: '2024-10-24T10:39:32.169Z',
+    lastViewed: new Date('2024-10-24T10:39:32.169Z'),
   },
   query: {
     data: {
@@ -75,7 +77,7 @@ const viewedReady = {
   },
 }
 
-const viewedDashboard = {
+export const viewedDashboard: StoredReportData = {
   reportId: 'mock-dashboards',
   id: 'Mock dashboards',
   executionId: 'exId_1729766362362',
@@ -83,8 +85,8 @@ const viewedDashboard = {
   reportName: 'Mock dashboards',
   name: 'Viewed dashboard',
   description: 'Async Dashboard Testing',
-  type: 'dashboard',
-  status: 'READY',
+  type: ReportType.DASHBOARD,
+  status: RequestStatus.READY,
   url: {
     origin: 'http://localhost:3010',
     request: {
@@ -99,11 +101,11 @@ const viewedDashboard = {
     },
   },
   timestamp: {
-    lastViewed: '2024-10-30T15:30:46.136Z',
+    lastViewed: new Date('2024-10-30T15:30:46.136Z'),
   },
 }
 
-const viewedInteractive = {
+export const viewedInteractive: StoredReportData = {
   reportId: 'feature-testing',
   id: 'feature-testing-interactive',
   executionId: 'exId_1729766362362',
@@ -111,8 +113,8 @@ const viewedInteractive = {
   reportName: 'Feature testing',
   name: 'Interactive Report',
   description: 'this is an interactive report',
-  type: 'report',
-  status: 'READY',
+  type: ReportType.REPORT,
+  status: RequestStatus.READY,
   url: {
     origin: 'http://localhost:3010',
     request: {
@@ -129,7 +131,7 @@ const viewedInteractive = {
     },
   },
   timestamp: {
-    lastViewed: '2024-12-11T13:58:30.841Z',
+    lastViewed: new Date('2024-12-11T13:58:30.841Z'),
   },
   query: {
     data: {},
@@ -137,12 +139,12 @@ const viewedInteractive = {
   },
   interactiveQuery: {
     data: {
-      columns: ['field1', 'field2', 'field3', 'field6', 'field7'],
+      // columns: ['field1', 'field2', 'field3', 'field6', 'field7'],
       'filters.field1': 'value1.2',
       'filters.field3.start': '2003-02-01',
       'filters.field3.end': '2006-05-04',
       'filters.field7': '2005-02-01',
-      'filters.field8': ['value8.2', 'value8.3'],
+      // 'filters.field8': ['value8.2', 'value8.3'],
     },
     summary: [
       {
@@ -169,7 +171,7 @@ const viewedInteractive = {
   },
 }
 
-const viewedExpired = {
+export const viewedExpired: StoredReportData = {
   reportId: 'request-examples',
   id: 'request-example-success',
   executionId: 'exId_1729766362362',
@@ -178,8 +180,8 @@ const viewedExpired = {
   variantName: 'Expired viewed report',
   name: 'Expired viewed report',
   description: 'this will succeed',
-  type: 'report',
-  status: 'EXPIRED',
+  type: ReportType.REPORT,
+  status: RequestStatus.EXPIRED,
   url: {
     origin: 'http://localhost:3010',
     request: {
@@ -194,8 +196,8 @@ const viewedExpired = {
     },
   },
   timestamp: {
-    lastViewed: '2024-10-24T10:41:28.196Z',
-    expired: '2024-10-24T10:41:28.196Z',
+    lastViewed: new Date('2024-10-24T10:41:28.196Z'),
+    expired: new Date('2024-10-24T10:41:28.196Z'),
   },
   query: {
     data: {
@@ -240,7 +242,7 @@ const viewedExpired = {
   },
 }
 
-const expiredDashboard = {
+export const expiredDashboard: StoredReportData = {
   reportId: 'mock-dashboards',
   id: 'test-dashboard-8',
   executionId: 'exId_1729766362362',
@@ -248,8 +250,8 @@ const expiredDashboard = {
   reportName: 'Mock dashboards',
   name: 'Expired viewed dashboard',
   description: 'Async Dashboard Testing',
-  type: 'dashboard',
-  status: 'EXPIRED',
+  type: ReportType.DASHBOARD,
+  status: RequestStatus.EXPIRED,
   url: {
     origin: 'http://localhost:3010',
     request: {
@@ -262,20 +264,20 @@ const expiredDashboard = {
     },
   },
   timestamp: {
-    lastViewed: '2024-10-30T15:30:46.136Z',
-    expired: '2024-10-30T15:30:46.136Z',
+    lastViewed: new Date('2024-10-30T15:30:46.136Z'),
+    expired: new Date('2024-10-30T15:30:46.136Z'),
   },
 }
 
-const viewedInteractiveAsync = {
-  type: 'report',
+export const viewedInteractiveAsync: StoredReportData = {
+  type: ReportType.REPORT,
   reportId: 'mock-report',
   reportName: 'Mock reports',
   description: 'this is an interactive report',
   id: 'variantId-35',
   name: 'Interactive Report with async filters',
   timestamp: {
-    lastViewed: '2025-06-10T10:37:02.786Z',
+    lastViewed: new Date('2025-06-10T10:37:02.786Z'),
   },
   executionId: 'exId_1729766362362',
   tableId: 'tblId_1749551815281',
@@ -299,7 +301,7 @@ const viewedInteractiveAsync = {
     data: {
       'filters.field3.start': '2003-02-01',
       'filters.field3.end': '2006-05-04',
-      'filters.field8': ['value8.2', 'value8.3'],
+      // 'filters.field8': ['value8.2', 'value8.3'],
     },
     summary: [
       {
@@ -314,7 +316,7 @@ const viewedInteractiveAsync = {
       },
     ],
   },
-  status: 'READY',
+  status: RequestStatus.READY,
   url: {
     origin: 'localhost:3010',
     request: {
@@ -339,13 +341,4 @@ const viewedInteractiveAsync = {
         'http://localhost:3010/embedded/platform/async/report/mock-report/variantId-35/request/tblId_1749551815281/report?filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field8=value8.2&filters.field8=value8.3',
     },
   },
-}
-
-module.exports = {
-  viewedReady,
-  viewedExpired,
-  viewedDashboard,
-  expiredDashboard,
-  viewedInteractive,
-  viewedInteractiveAsync,
 }

@@ -1,12 +1,15 @@
 import { createBasicHttpStub, createHttpStub, reportIdRegex, stubFor } from './wiremock'
 import defs from './reports/mockReportDefinition'
 import { requestExampleSuccess } from './reports/mockVariants/request-examples/success'
+import requestExampleFail from './reports/mockVariants/request-examples/fail-status'
 import { createMockData } from './reports/mockAsyncData'
 import { variant35Interactive } from './reports/mockVariants/mock-report/interactive-async'
 import { featureTestingInteractive } from './reports/mockVariants/feature-testing/interactiveFilters'
 import { featureTestingMissingDescription } from './reports/mockVariants/feature-testing/missingDescription'
 import { featureTestingMissing1 } from './reports/mockVariants/feature-testing/missing1'
 import { RequestStatus } from '../../src/dpr/types/UserReports'
+import relativeDateRangeVariant from './reports/mockVariants/filter-input-examples/relativeDateRange'
+import relativeDateRangeWithDefaultVariant from './reports/mockVariants/filter-input-examples/relativeDateRangeWithDefaults'
 
 const stubs = {
   stubGetFeatureTestingMissing: () =>
@@ -17,6 +20,20 @@ const stubs = {
       variant: featureTestingMissing1,
       dashboards: [],
     }),
+  stubFilterInputsVariant15Def: () => createBasicHttpStub('GET', `/definitions/filter-inputs/variantId-15`, 200, {
+    id: 'filter-inputs',
+    name: 'Filter input testing',
+    description: 'Example variants used for input testing',
+    variant: relativeDateRangeVariant,
+    dashboards: [],
+  }),
+  stubFilterInputsRelDateDef: () => createBasicHttpStub('GET', `/definitions/filter-inputs/relative-daterange-with-default`, 200, {
+    id: 'filter-inputs',
+    name: 'Filter input testing',
+    description: 'Example variants used for input testing',
+    variant: relativeDateRangeWithDefaultVariant,
+    dashboards: [],
+  }),
   stubGetTestReport3Fail: () =>
     createHttpStub('GET', '/definitions/test-report-3/request-example-fail-status', undefined, undefined, 200, {
       id: 'request-example-fail-status',
@@ -127,6 +144,9 @@ const stubs = {
       },
     }),
   stubDefinitions: () => createBasicHttpStub(`GET`, `/definitions`, 200, defs.reports),
+  stubPollingReportEndpoint: () => createBasicHttpStub('POST', `/view-report/async/report/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tblId_[0-9]+/report`, 200, {
+    isExpired: false,
+  }),
   stubMockReportVariant35: () =>
     createBasicHttpStub(`GET`, `/reports/mock-report/variantId-35/statements/[a-zA-Z0-9_]+/status`, 200, {
       status: 'FINISHED',
@@ -141,12 +161,28 @@ const stubs = {
         status: 'FINISHED',
       },
     ),
+  stubCancelAsyncRequest: () =>
+    createBasicHttpStub(
+      `DELETE`,
+      `/reports/request-examples/request-example-success/statements/exId_[a-zA-Z0-9]+`,
+      200,
+      {
+        status: 'FINISHED',
+      },
+    ),
   stubDefinitionRequestExamplesSuccess: () =>
     createBasicHttpStub(`GET`, `/definitions/request-examples/request-example-success`, 200, {
       id: 'request-examples',
       name: 'Request examples',
       dashboards: [],
       variant: requestExampleSuccess,
+    }),
+  stubDefinitionRequestExamplesFail: () =>
+    createBasicHttpStub(`GET`, `/definitions/request-examples/request-example-fail-status`, 200, {
+      id: 'request-examples',
+      name: 'Request examples',
+      dashboards: [],
+      variant: requestExampleFail,
     }),
   stubDefinitionFeatureTestingInteractive: () =>
     createBasicHttpStub(`GET`, `/definitions/feature-testing/feature-testing-interactive`, 200, {
@@ -304,6 +340,8 @@ const stubs = {
       reason: 'a reason',
       id: '123abc',
     }),
+  stubMissingRequestSubmitFail: () =>
+    createBasicHttpStub(`POST`, `/missingRequest/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+`, 500, undefined),
 }
 
 export default stubs

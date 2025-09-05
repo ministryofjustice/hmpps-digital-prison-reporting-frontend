@@ -5,6 +5,6 @@ export default defineConfig({
   ...sharedConfig,
   e2e: {
     ...sharedConfig.e2e,
-    specPattern: 'src/dpr/**/*.cy.{js,jsx,ts,tsx}',
+    specPattern: '{src/dpr,test-app}/**/*.cy.{js,jsx,ts,tsx}',
   },
 })

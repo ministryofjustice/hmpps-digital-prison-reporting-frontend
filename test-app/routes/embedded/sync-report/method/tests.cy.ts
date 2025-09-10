@@ -273,7 +273,7 @@ context('Embedded sync report by method', () => {
                 break
               case 1:
                 cy.wrap(filter).contains('Field 3')
-                cy.wrap(filter).contains('2003-02-01 - 2006-05-04')
+                cy.wrap(filter).contains('01/02/2003 - 04/05/2006')
                 break
               case 2:
                 cy.wrap(filter).contains('Field 7')
@@ -318,7 +318,7 @@ context('Embedded sync report by method', () => {
                 break
               case 2:
                 cy.wrap(filter).contains('Field 3')
-                cy.wrap(filter).contains('2003-02-01 - 2006-05-04')
+                cy.wrap(filter).contains('01/02/2003 - 04/05/2006')
                 break
               case 3:
                 cy.wrap(filter).contains('Field 7')
@@ -392,7 +392,7 @@ context('Embedded sync report by method', () => {
                 break
               case 2:
                 cy.wrap(filter).contains('Field 3')
-                cy.wrap(filter).contains('2004-03-02 - 2005-10-10')
+                cy.wrap(filter).contains('02/03/2004 - 10/10/2005')
                 break
               case 3:
                 cy.wrap(filter).contains('Reset filters')
@@ -423,7 +423,7 @@ context('Embedded sync report by method', () => {
             switch (index) {
               case 0:
                 cy.wrap(filter).contains('Field 3')
-                cy.wrap(filter).contains('2003-02-01 - 2006-05-04')
+                cy.wrap(filter).contains('01/02/2003 - 04/05/2006')
                 break
               case 1:
                 cy.wrap(filter).contains('Field 7')

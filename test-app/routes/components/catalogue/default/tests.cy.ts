@@ -2,6 +2,9 @@ context('Catalogue component', () => {
   const path = '/components/catalogue/default'
 
   beforeEach(() => {
+    cy.task('resetStubs')
+    cy.task('resetRedis')
+    cy.task('stubDefinitions')
     cy.visit(path)
   })
 

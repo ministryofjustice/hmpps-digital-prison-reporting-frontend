@@ -32,6 +32,7 @@ context('Request missing report', () => {
     })
 
     it('should show the form, and on failed submission, redirect to the error page', () => {
+      cy.task('stubMissingRequestSubmitFail')
       cy.findByRole('heading', { name: /Request this report/ }).should('be.visible')
       cy.findByRole('textbox').type('a reason')
       cy.findByRole('button', { name: /Submit/ }).click()

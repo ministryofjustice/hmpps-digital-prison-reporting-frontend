@@ -280,6 +280,7 @@ context('Requesting a report', () => {
       cy.task('stubReportsFinishedStatus')
       cy.task('stubRequestSuccessResult20')
       cy.task('stubRequestSuccessReportTablesCount')
+      cy.task('stubCancelAsyncRequest')
       cy.visit(path)
     })
 

@@ -1,17 +1,18 @@
+import { checkA11y } from "../../../../../cypress-tests/cypressUtils"
+
 context('Catalogue component', () => {
   const path = '/components/catalogue/configured'
 
   beforeEach(() => {
+    cy.task('resetStubs')
+    cy.task('resetRedis')
+    cy.task('stubDefinitions')
     cy.visit(path)
-  })
-
-  it('is accessible', () => {
-    cy.injectAxe()
-    cy.checkA11y()
   })
 
   describe('Configuration testing', () => {
     it('should not show the help text', () => {
+      checkA11y()
       cy.findAllByRole('group').contains('How to use').should('not.exist')
     })
 

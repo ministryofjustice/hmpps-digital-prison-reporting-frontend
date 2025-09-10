@@ -70,14 +70,7 @@ jobs:
         run: |
           npm run start:dev:noMockClients &
           sleep 5
-          npm run int-test-lib
-          pkill -P $(pgrep "npm run start")
-      - name: Run the node app and integration tests
-        run: |
-          rm -rf dist dist-docs/ dist-test-app/ && npm run start:dev &
-          sleep 5
-          npm run int-test-test-app
-          pkill -P $(pgrep "npm run start")
+          npm run int-test
       - uses: actions/upload-artifact@v4
         with:
           name: test_results

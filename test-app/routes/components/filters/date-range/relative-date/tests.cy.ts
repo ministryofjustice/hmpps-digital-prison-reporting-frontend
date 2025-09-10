@@ -1,3 +1,5 @@
+import { setRedisState } from "../../../../integrationTests/setRedisState"
+
 context('Inputs: Relative date range', () => {
   const path = '/components/filters/date-range/relative-date-range#relative-date-range-relative-range'
   const platformPath = '/embedded/platform/dpr/request-report/report/filter-inputs/variantId-15/filters'
@@ -218,10 +220,14 @@ context('Inputs: Relative date range', () => {
 
   describe('User defined defaults', () => {
     beforeEach(() => {
+      cy.task('resetStubs')
+      cy.task('resetRedis')
+      cy.task('stubDefinitions')
+      cy.task('stubFilterInputsVariant15Def')
       cy.visit(platformPath)
     })
 
-    it('should save the relative date range as user defined defaults', () => {
+    it('should save relative date range', () => {
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()
       cy.findByRole('radio', { name: 'Yesterday' }).check()
       cy.location().should((location) => {
@@ -266,6 +272,20 @@ context('Inputs: Relative date range', () => {
     })
 
     it('should pre-fill the filter values with the saved defaults next visit', () => {
+      setRedisState({
+        requestedReports: [],
+        recentlyViewedReports: [],
+        bookmarks: [],
+        downloadPermissions: [],
+        defaultFilters: [
+          { reportId: 'filter-inputs', id: 'variantId-15', values: [
+            {
+              name: 'field1',
+              value: { start: '', end: '', relative: 'yesterday' }
+            }]
+          }
+        ]
+      })
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.field1.relative-duration=yesterday`)
         expect(location.search).to.contain(`filters.field1.start=`)
@@ -294,6 +314,20 @@ context('Inputs: Relative date range', () => {
     })
 
     it('should update the saved defaults', () => {
+      setRedisState({
+        requestedReports: [],
+        recentlyViewedReports: [],
+        bookmarks: [],
+        downloadPermissions: [],
+        defaultFilters: [
+          { reportId: 'filter-inputs', id: 'variantId-15', values: [
+            {
+              name: 'field1',
+              value: { start: '', end: '', relative: 'yesterday' }
+            }]
+          }
+        ]
+      })
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()
       cy.findByRole('radio', { name: 'Last week' }).check()
 
@@ -328,6 +362,20 @@ context('Inputs: Relative date range', () => {
     })
 
     it('should remove the save defaults', () => {
+      setRedisState({
+        requestedReports: [],
+        recentlyViewedReports: [],
+        bookmarks: [],
+        downloadPermissions: [],
+        defaultFilters: [
+          { reportId: 'filter-inputs', id: 'variantId-15', values: [
+            {
+              name: 'field1',
+              value: { start: '', end: '', relative: 'yesterday' }
+            }]
+          }
+        ]
+      })
       cy.findByRole('button', { name: 'Delete defaults' }).click()
 
       cy.location().should((location) => {
@@ -340,6 +388,7 @@ context('Inputs: Relative date range', () => {
 
   describe('validation', () => {
     beforeEach(() => {
+      
       cy.visit(platformPath)
     })
 

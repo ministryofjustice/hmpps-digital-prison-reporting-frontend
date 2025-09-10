@@ -214,8 +214,8 @@ const setSelectedGranularDateRange = (f: FilterValue, prefix: string) => {
 
 const getSelectedDate = (f: FilterValue, prefix: string) => {
   const key = [`${prefix}${f.name}`]
+  const value = [`"${f.value}"`]
   const displayValue = setDateDisplayFormat(<string>f.value)
-  const value = [`"${displayValue}"`]
   const constraints = setMinMaxContraints(f, key, true)
 
   const { disabled, cantRemoveClass, displayValue: disabledDisplayValue } = disabledDate(f, value, displayValue)

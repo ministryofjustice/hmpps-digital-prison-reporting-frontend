@@ -15,6 +15,7 @@ context('Download report', () => {
     cy.task('stubRequestSuccessResult20')
     cy.task('stubRequestSuccessReportTablesCount')
     cy.task('stubViewAsyncReportingResults')
+    cy.task('stubRequestSuccessResult100')
     cy.visit(path)
     cy.findByLabelText(/Reports catalogue.*/i).within(() => {
       cy.findByRole('row', {

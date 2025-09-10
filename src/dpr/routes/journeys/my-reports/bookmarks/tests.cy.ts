@@ -15,6 +15,7 @@ context('Bookmarks list', () => {
     cy.task('stubDefinitionFeatureTestingInteractive')
     cy.task('stubDashboardSuccessResult20')
     cy.task('stubRequestSuccessResult20')
+    cy.task('stubPollingReportEndpoint')
 
     setRedisState({
       requestedReports: [],

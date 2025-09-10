@@ -4,10 +4,9 @@ import { RequestedReport, RequestStatus } from '../../types/UserReports'
 import UserReportUtils, { setDataFromStatus } from './utils'
 import RequestedReportsUtils from './requested/utils'
 import ViewedReportsUtils from './viewed/utils'
-import type { RequestedReportService, RecentlyViewedStoreService } from '../../services'
 import mockDashboardData from '../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'
 import mockRequestedData from '../../../../test-app/mocks/mockClients/store/mockRequestedUserListData'
-import mockViewedData from '../../../../test-app/mocks/mockClients/store/mockViewedUserListData'
+import * as mockViewedData from '../../../../cypress-tests/mockApis/mockViewedUserListData'
 
 describe('AsyncRequestListUtils', () => {
   describe('setDataFromStatus', () => {

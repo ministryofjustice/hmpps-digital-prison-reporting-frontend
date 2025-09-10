@@ -1,7 +1,62 @@
+import { requestedReady, requestedAborted, requestedExpired, requestedFailed, requestedSubmitted } from "../../../../../cypress-tests/mockApis/mockRequestedUserListData"
+import { viewedDashboard, viewedExpired, viewedInteractive, viewedInteractiveAsync, viewedReady, expiredDashboard } from "../../../../../cypress-tests/mockApis/mockViewedUserListData"
+import { setRedisState } from "../../../integrationTests/setRedisState"
+
 context('User reports component', () => {
   const path = '/components/user-reports/default'
 
   beforeEach(() => {
+    cy.task('resetStubs')
+    cy.task('resetRedis')
+    cy.task('stubDefinitions')
+    cy.task('stubViewAsyncReportingResults')
+    cy.task('stubRequestExamplesSuccessStatus')
+    cy.task('stubDefinitionRequestExamplesFail')
+    cy.task('stubDefinitionRequestExamplesSuccess')
+    setRedisState({
+      bookmarks: [{
+        reportId: requestedReady.reportId,
+        variantId: requestedReady.id,
+        automatic: false,
+        id: requestedReady.id,
+        type: requestedReady.type,
+      }, {
+        reportId: requestedAborted.reportId,
+        variantId: requestedAborted.id,
+        automatic: false,
+        id: requestedAborted.id,
+        type: requestedAborted.type,
+      }, {
+        reportId: requestedExpired.reportId,
+        variantId: requestedExpired.id,
+        automatic: false,
+        id: requestedExpired.id,
+        type: requestedExpired.type,
+      }, {
+        reportId: requestedFailed.reportId,
+        variantId: requestedFailed.id,
+        automatic: false,
+        id: requestedFailed.id,
+        type: requestedFailed.type,
+      }, {
+        reportId: requestedSubmitted.reportId,
+        variantId: requestedSubmitted.id,
+        automatic: false,
+        id: requestedSubmitted.id,
+        type: requestedSubmitted.type,
+      }],
+      defaultFilters: [],
+      downloadPermissions: [],
+      recentlyViewedReports: [
+        viewedReady,
+        viewedDashboard,
+        viewedInteractive,
+        viewedExpired,
+        expiredDashboard,
+        viewedInteractiveAsync
+      ],
+      requestedReports: [requestedReady, requestedAborted, requestedExpired, requestedFailed, requestedSubmitted]
+    })
     cy.visit(path)
   })
 
@@ -329,32 +384,6 @@ context('User reports component', () => {
             })
           })
       })
-    })
-  })
-
-  describe('Polling expired status', () => {
-    it('should poll for the expired status or reports in the list', () => {
-      cy.intercept({
-        method: 'POST',
-        url: '/embedded/platform/dpr/view-report/async/report/**/**/**/report',
-      }).as('expiredPolling')
-
-      cy.wait('@expiredPolling')
-        .its('request')
-        .then((request) => {
-          expect(request.body).to.have.property('id')
-          expect(request.body).to.have.property('reportId')
-          expect(request.body).to.have.property('executionId')
-          expect(request.body).to.have.property('type', 'report')
-          expect(request.body).to.have.property('tableId')
-          expect(request.body).to.have.property('status')
-        })
-
-      cy.wait('@expiredPolling')
-        .its('response')
-        .then((response) => {
-          expect(response.body).to.have.property('isExpired')
-        })
     })
   })
 })

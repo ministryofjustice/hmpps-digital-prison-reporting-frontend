@@ -3,6 +3,7 @@ import { Request } from 'express'
 import { FilterType } from '../filter-input/enum'
 import { FilterValue, DateRange, DateFilterValue, GranularDateRange } from '../types'
 import DateRangeFilterUtils from '../../_inputs/date-range/utils'
+import DateMapper from '../../../utils/DateMapper/DateMapper'
 
 const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
   const emptyValues: string[] = [undefined, null, '']
@@ -82,14 +83,23 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
 }
 
 const setSelectedDateRange = (f: FilterValue, prefix: string) => {
-  const startValue = (<DateRange>f.value).start || 'Open start'
-  const endValue = (<DateRange>f.value).end || 'Open end'
+  let startValue = (<DateRange>f.value).start || 'Open start'
+  let endValue = (<DateRange>f.value).end || 'Open end'
   const name = `${prefix}${f.name}`
 
   const key = [`${name}.start`, `${name}.end`]
   const value = [`"${startValue}"`, `"${endValue}"`]
-
+  const dateMapper = new DateMapper()
+  const startDateType = dateMapper.getDateType(startValue)
+  const endDateType = dateMapper.getDateType(endValue)
+  if (startDateType !== 'none') {
+    startValue = dateMapper.toDateString(startValue, 'local-date')
+  }
+  if (endDateType !== 'none') {
+    endValue = dateMapper.toDateString(endValue, 'local-date')
+  }
   let displayValue = `${startValue} - ${endValue}`
+
   if ((<DateRange>f.value).relative) {
     key.push(`${name}.relative-duration`)
     value.push(`"${(<DateRange>f.value).relative}"`)
@@ -98,6 +108,8 @@ const setSelectedDateRange = (f: FilterValue, prefix: string) => {
 
   const constraints = setMinMaxContraints(f, key)
   const { disabled, cantRemoveClass, displayValue: disabledDisplayValue } = disabledDateRange(f, value, displayValue)
+
+  console.log(JSON.stringify({ displayValue }, null, 2))
 
   return {
     key,

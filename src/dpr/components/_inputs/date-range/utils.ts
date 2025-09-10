@@ -7,7 +7,7 @@ import { components } from '../../../types/api'
 import { DateRangeFilterValue, DateRange, FilterValue } from '../../_filters/types'
 import StartEndDateUtils from '../start-end-date/utils'
 import RelativeDateRange, { RelativeOption } from './types'
-import { dateFilterValue, defaultFilterValue } from '../../../routes/journeys/request-report/filters/types'
+import { DefaultDateFilterValue, defaultFilterValue } from '../../../routes/journeys/request-report/filters/types'
 
 dayjs.extend(customParse)
 
@@ -120,7 +120,7 @@ const setDefaultValue = (req: Request, name: string) => {
 
 const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: FilterValue) => {
   const value = { start: '', end: '', relative: '' }
-  const { start, end, relative } = <dateFilterValue>defaultValue.value
+  const { start, end, relative } = <DefaultDateFilterValue>defaultValue.value
   if (relative) {
     value.relative = relative
   } else {

@@ -232,7 +232,11 @@ const getSelectedDate = (f: DateFilterValue, prefix: string) => {
   }
 }
 
-const disabledDateRange = (f: DateRangeFilterValue, value: (string | DateRange)[], displayValue: string) => {
+const disabledDateRange = (
+  f: DateRangeFilterValue | DateFilterValue,
+  value: (string | DateRange)[],
+  displayValue: string,
+) => {
   const { min, max } = f
   if (min && (<string>value[0]).includes(min) && max && (<string>value[1]).includes(max)) {
     return {

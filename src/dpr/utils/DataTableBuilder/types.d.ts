@@ -2,8 +2,8 @@ export type CellFormat = 'numeric' | 'string'
 
 export interface Cell {
   fieldName?: string
-  text?: string
-  html?: string
+  text?: string | null
+  html?: string | null
   format?: CellFormat
   classes?: string
   colspan?: number

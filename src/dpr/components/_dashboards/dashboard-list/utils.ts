@@ -130,9 +130,7 @@ const createFullList = (dashboardData: DashboardDataResponse[]) => {
 }
 
 const sumColumns = (rowsData: MoJTableRow[][], measures: DashboardVisualisationColumnMeasure[]) => {
-  const sumColumnIndexes: number[] = measures
-    .map((col, index) => (col.aggregate ? index : undefined))
-    .filter((index) => index !== undefined)
+  const sumColumnIndexes: number[] = measures.flatMap((col, idx) => (col.aggregate ? [idx] : []))
 
   if (sumColumnIndexes.length) {
     const sumRow: MoJTableRow[] = [{ html: `<strong>Total<strong>` }]

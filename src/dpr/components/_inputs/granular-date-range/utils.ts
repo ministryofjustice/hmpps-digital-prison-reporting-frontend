@@ -6,7 +6,10 @@ import { DateFilterValue, FilterValue, GranularDateRange, GranularDateRangeFilte
 
 import StartEndDateUtils from '../start-end-date/utils'
 import { Granularity, QuickFilters } from './types'
-import { defaultFilterValue, granularDateFilterValue } from '../../../routes/journeys/request-report/filters/types'
+import {
+  defaultFilterValue,
+  DefaultGranularDateFilterValue,
+} from '../../../routes/journeys/request-report/filters/types'
 
 dayjs.extend(customParse)
 
@@ -314,7 +317,7 @@ const setDefaultValue = (req: Request, name: string) => {
       return { name: key, value: req.body[key] }
     })
 
-  let granularDateRangeValue: granularDateFilterValue | string = {
+  let granularDateRangeValue: DefaultGranularDateFilterValue | string = {
     start: '',
     end: '',
     granularity: Granularity.NONE,
@@ -323,16 +326,16 @@ const setDefaultValue = (req: Request, name: string) => {
 
   granularDateRangeDefaults.forEach((dateRangeDefault) => {
     if (dateRangeDefault.name.includes('start')) {
-      ;(<granularDateFilterValue>granularDateRangeValue).start = dateRangeDefault.value
+      ;(<DefaultGranularDateFilterValue>granularDateRangeValue).start = dateRangeDefault.value
     }
     if (dateRangeDefault.name.includes('end')) {
-      ;(<granularDateFilterValue>granularDateRangeValue).end = dateRangeDefault.value
+      ;(<DefaultGranularDateFilterValue>granularDateRangeValue).end = dateRangeDefault.value
     }
     if (dateRangeDefault.name.includes('granularity')) {
-      ;(<granularDateFilterValue>granularDateRangeValue).granularity = dateRangeDefault.value
+      ;(<DefaultGranularDateFilterValue>granularDateRangeValue).granularity = dateRangeDefault.value
     }
     if (dateRangeDefault.name.includes('granularity')) {
-      ;(<granularDateFilterValue>granularDateRangeValue).quickFilter = dateRangeDefault.value
+      ;(<DefaultGranularDateFilterValue>granularDateRangeValue).quickFilter = dateRangeDefault.value
     }
   })
 
@@ -349,7 +352,7 @@ const setDefaultValue = (req: Request, name: string) => {
 
 const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: FilterValue) => {
   const { granularityOptions, quickFilterOptions } = <GranularDateRangeFilterValue>filter
-  const { granularity, quickFilter, start, end } = <granularDateFilterValue>defaultValue.value
+  const { granularity, quickFilter, start, end } = <DefaultGranularDateFilterValue>defaultValue.value
   const value: GranularDateRange = {
     start: start ? dayjs(start, 'D/M/YYYY').format('YYYY-MM-DD').toString() : '',
     end: end ? dayjs(end, 'D/M/YYYY').format('YYYY-MM-DD').toString() : '',

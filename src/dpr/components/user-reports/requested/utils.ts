@@ -1,10 +1,11 @@
-import { AsyncReportUtilsParams } from '../../../types/AsyncReportUtils'
+import { Response, Request } from 'express'
 import { RequestedReport, RequestStatus } from '../../../types/UserReports'
 import { getStatus } from '../../../utils/requestStatusHelper'
 import LocalsHelper from '../../../utils/localsHelper'
+import { Services } from '../../../types/Services'
 
 export default {
-  getRequestStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
+  getRequestStatus: async ({ req, res, services }: { req: Request; res: Response; services: Services }) => {
     const { executionId, status: currentStatus } = req.body
     const { dprUser } = LocalsHelper.getValues(res)
     const response = await getStatus({ req, res, services })
@@ -22,6 +23,6 @@ export default {
   },
 
   filterReports: (report: RequestedReport) => {
-    return !report.timestamp.lastViewed
+    return report.timestamp ? !report.timestamp.lastViewed : false
   },
 }

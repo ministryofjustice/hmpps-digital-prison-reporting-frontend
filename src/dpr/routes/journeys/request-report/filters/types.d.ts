@@ -2,16 +2,16 @@ import { Granularity, QuickFilters } from '../../../../components/_inputs/granul
 
 export interface defaultFilterValue {
   name: string
-  value: string | dateFilterValue | granularDateFilterValue
+  value: string | DefaultDateFilterValue | DefaultGranularDateFilterValue
 }
 
-export interface dateFilterValue {
+export interface DefaultDateFilterValue {
   start: string
   end: string
   relative?: RelativeDateRange
 }
 
-export interface granularDateFilterValue {
+export interface DefaultGranularDateFilterValue {
   start: string
   end: string
   granularity: Granularity

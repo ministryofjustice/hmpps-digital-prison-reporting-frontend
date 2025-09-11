@@ -5,19 +5,15 @@ const mockRenderDataFromDefinition = {
         head: [
           {
             html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 1</a>',
-            classes: null,
           },
           {
             html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 2</a>',
-            classes: null,
           },
           {
             text: 'Field 3',
-            classes: null,
           },
           {
             text: 'Field 6',
-            classes: null,
           },
         ],
         rows: [
@@ -58,8 +54,6 @@ const mockRenderDataFromDefinition = {
           type: 'Radio',
           value: 'value1.1',
           mandatory: false,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
           options: [
             {
               disabled: false,
@@ -85,9 +79,7 @@ const mockRenderDataFromDefinition = {
           name: 'field2',
           type: 'Select',
           value: null,
-          minimumLength: null,
           mandatory: false,
-          dynamicResourceEndpoint: null,
           options: [
             {
               value: '',
@@ -122,9 +114,7 @@ const mockRenderDataFromDefinition = {
             start: '2003-02-01',
             end: '2006-05-04',
           },
-          minimumLength: null,
           mandatory: false,
-          dynamicResourceEndpoint: null,
           min: '2003-02-01',
           max: '2007-05-04',
           relativeOptions: [],
@@ -136,7 +126,6 @@ const mockRenderDataFromDefinition = {
           value: null,
           mandatory: false,
           minimumLength: 3,
-          dynamicResourceEndpoint: null,
           options: [
             {
               value: 'Fezzick',
@@ -167,7 +156,6 @@ const mockRenderDataFromDefinition = {
           value: null,
           mandatory: false,
           minimumLength: 3,
-          dynamicResourceEndpoint: null,
           options: [],
         },
         {
@@ -176,13 +164,9 @@ const mockRenderDataFromDefinition = {
           type: 'text',
           value: null,
           mandatory: false,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
         },
         {
-          dynamicResourceEndpoint: null,
           mandatory: false,
-          minimumLength: null,
           name: 'field7',
           options: [
             {
@@ -371,19 +355,15 @@ const mockRenderDataFromData = {
         head: [
           {
             html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 1</a>',
-            classes: null,
           },
           {
             html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2,value8.3">Field 2</a>',
-            classes: null,
           },
           {
             text: 'Field 3',
-            classes: null,
           },
           {
             text: 'Field 6',
-            classes: null,
           },
         ],
         rows: [],
@@ -400,8 +380,6 @@ const mockRenderDataFromData = {
           type: 'Radio',
           value: 'value1.1',
           mandatory: false,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
           options: [
             {
               disabled: false,
@@ -428,8 +406,6 @@ const mockRenderDataFromData = {
           type: 'Select',
           value: null,
           mandatory: false,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
           options: [
             {
               value: '',
@@ -465,8 +441,6 @@ const mockRenderDataFromData = {
             end: '2006-05-04',
           },
           mandatory: false,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
           min: '2003-02-01',
           max: '2007-05-04',
           relativeOptions: [],
@@ -478,7 +452,6 @@ const mockRenderDataFromData = {
           value: null,
           mandatory: false,
           minimumLength: 3,
-          dynamicResourceEndpoint: null,
           options: [
             {
               value: 'Fezzick',
@@ -509,7 +482,6 @@ const mockRenderDataFromData = {
           value: null,
           mandatory: false,
           minimumLength: 3,
-          dynamicResourceEndpoint: null,
           options: [],
         },
         {
@@ -518,13 +490,9 @@ const mockRenderDataFromData = {
           type: 'text',
           value: null,
           mandatory: false,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
         },
         {
-          dynamicResourceEndpoint: null,
           mandatory: false,
-          minimumLength: null,
           name: 'field7',
           options: [
             {

@@ -57,7 +57,6 @@ const expectedAllActivitiesDataTable: DataTable = {
   head: [
     {
       text: 'Activity',
-      classes: null,
     },
   ],
   rowCount: 4,

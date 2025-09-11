@@ -157,7 +157,7 @@ const mapBookmarkIdsToDefinition = async (
 export default {
   renderBookmarkList: async ({
     services,
-    maxRows,
+    maxRows = 20,
     res,
     req,
   }: {

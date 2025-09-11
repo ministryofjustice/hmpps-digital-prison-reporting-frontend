@@ -20,7 +20,7 @@ export const getKeys = (reportData: Dict<string>[], fields: components['schemas'
   reportData.forEach((row) => {
     Object.keys(row).forEach((key) => {
       const field = fields.find((f) => f.name === key)
-      if (!keyNames.includes(key)) {
+      if (field && !keyNames.includes(key)) {
         keyNames.push(key)
         keys.push({
           field: key,
@@ -49,23 +49,28 @@ const removeHtmlTags = (
   reportDefinition: components['schemas']['SingleVariantReportDefinition'],
 ) => {
   // Find HMTL field + name
-  const { fields } = reportDefinition.variant.specification
-  const htmlFields = fields.filter((field) => {
-    return field.type === 'HTML'
-  })
-
-  if (htmlFields.length) {
-    reportData.map((d) => {
-      htmlFields.forEach((field) => {
-        const { name } = field
-        const innerText = /target="_blank">(.*?)<\/a>/g.exec(d[name])
-        // eslint-disable-next-line prefer-destructuring, no-param-reassign
-        d[name] = innerText ? innerText[1] : d[name]
-      })
-      return d
+  const { specification } = reportDefinition.variant
+  if (specification) {
+    const { fields } = specification
+    const htmlFields = fields.filter((field) => {
+      return field.type === 'HTML'
     })
-  }
 
+    if (htmlFields.length) {
+      reportData.map((d) => {
+        htmlFields.forEach((field) => {
+          const { name } = field
+          const colValue = d[name]
+          if (colValue) {
+            const innerText = /target="_blank">(.*?)<\/a>/g.exec(colValue)
+            // eslint-disable-next-line prefer-destructuring, no-param-reassign
+            d[name] = innerText ? innerText[1] : colValue
+          }
+        })
+        return d
+      })
+    }
+  }
   return reportData
 }
 
@@ -103,27 +108,31 @@ const downloadSyncData = async (args: {
   const { token, services, queryParams, definition } = args
   const { variant } = definition
   const { resourceName, specification } = variant
+  let data = []
 
-  const countReportQuery = new ReportQuery({
-    fields: specification.fields,
-    template: specification.template as Template,
-    queryParams,
-    definitionsPath: <string>queryParams.dataProductDefinitionsPath,
-  })
-  const count = await services.reportingService.getCount(resourceName, token, countReportQuery)
+  if (specification) {
+    const countReportQuery = new ReportQuery({
+      fields: specification.fields,
+      template: specification.template as Template,
+      queryParams,
+      definitionsPath: <string>queryParams.dataProductDefinitionsPath,
+    })
+    const count = await services.reportingService.getCount(resourceName, token, countReportQuery)
 
-  const dataReportQuery = new ReportQuery({
-    fields: specification.fields,
-    template: specification.template as Template,
-    queryParams: {
-      ...queryParams,
-      pageSize: count,
-    },
-    definitionsPath: <string>queryParams.dataProductDefinitionsPath,
-  })
+    const dataReportQuery = new ReportQuery({
+      fields: specification.fields,
+      template: specification.template as Template,
+      queryParams: {
+        ...queryParams,
+        pageSize: count,
+      },
+      definitionsPath: <string>queryParams.dataProductDefinitionsPath,
+    })
+    const reportData = await services.reportingService.getListWithWarnings(resourceName, token, dataReportQuery)
+    data = reportData.data
+  }
 
-  const reportData = await services.reportingService.getListWithWarnings(resourceName, token, dataReportQuery)
-  return reportData.data
+  return data
 }
 
 export default {

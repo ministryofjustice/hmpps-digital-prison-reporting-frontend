@@ -127,14 +127,17 @@ const setPageSizes = (totalRows: number): PageSize[] => {
  * @return {*}
  */
 export default {
-  getPaginationData: (url: Url, totalRows: number, req?: Request): Pagination => {
-    const { search } = url
+  getPaginationData: (url: Url, totalRows: number, req: Request): Pagination => {
+    const search = url.search || ''
     const pathname = search ? req.originalUrl.split(search)[0] : req.originalUrl
     const queryParams = new URLSearchParams(search)
-    const pageSize = +queryParams.get(PAGE_SIZE_PARAM) || DEFAULT_PAGE_SIZE
-    const currentPage = +queryParams.get(SELECTED_PAGE_PARAM) || DEFAULT_PAGE
 
-    const { pages, pagesLength } = createPages(pathname, queryParams, totalRows, pageSize, currentPage)
+    const pageSizeParam = queryParams.get(PAGE_SIZE_PARAM)
+    const currentPageParam = queryParams.get(SELECTED_PAGE_PARAM)
+    const pageSize = pageSizeParam ? Number(pageSizeParam) : DEFAULT_PAGE_SIZE
+    const currentPage = currentPageParam ? Number(currentPageParam) : DEFAULT_PAGE
+
+    const { pages, pagesLength } = createPages(pathname, queryParams, totalRows, Number(pageSize), currentPage)
     return {
       next: createNext(pathname, search, pagesLength, totalRows, currentPage),
       prev: createPrev(pathname, search, currentPage),

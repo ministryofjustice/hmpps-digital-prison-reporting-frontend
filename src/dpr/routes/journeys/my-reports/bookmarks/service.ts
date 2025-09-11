@@ -5,8 +5,6 @@ import { ReportStoreConfig } from '../../../../types/ReportStore'
 import logger from '../../../../utils/logger'
 
 export default class BookmarkService extends ReportStoreService {
-  bookmarksInitialised: boolean
-
   constructor(reportDataStore: ReportDataStore) {
     super(reportDataStore)
     logger.info('Service created: BookmarkService')

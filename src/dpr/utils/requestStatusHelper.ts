@@ -2,7 +2,6 @@ import dayjs from 'dayjs'
 import customParse from 'dayjs/plugin/customParseFormat'
 import { Request, Response } from 'express'
 import { ReportType, RequestedReport, RequestStatus } from '../types/UserReports'
-import { AsyncReportUtilsParams } from '../types/AsyncReportUtils'
 import { ChildReportExecutionData } from '../types/ExecutionData'
 import logger from './logger'
 import { Services } from '../types/Services'
@@ -99,7 +98,15 @@ const getStatusByReportType = async (
   }
 }
 
-export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams): Promise<GetStatusUtilsResponse> => {
+export const getStatus = async ({
+  req,
+  res,
+  services,
+}: {
+  req: Request
+  res: Response
+  services: Services
+}): Promise<GetStatusUtilsResponse> => {
   const { token, dprUser } = localsHelper.getValues(res)
   const { status: currentStatus, requestedAt } = req.body
   const timeoutExemptStatuses = [RequestStatus.READY, RequestStatus.EXPIRED, RequestStatus.FAILED]
@@ -153,7 +160,7 @@ export const getStatus = async ({ req, res, services }: AsyncReportUtilsParams):
  * @param {AsyncReportUtilsParams} { req, res, services }
  * @return {*}
  */
-export const getExpiredStatus = async ({ req, res, services }: AsyncReportUtilsParams) => {
+export const getExpiredStatus = async ({ req, res, services }: { req: Request; res: Response; services: Services }) => {
   const { token, dprUser } = localsHelper.getValues(res)
   const { executionId, status: currentStatus } = req.body
 

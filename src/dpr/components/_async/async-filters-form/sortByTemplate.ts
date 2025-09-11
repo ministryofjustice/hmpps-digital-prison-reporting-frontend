@@ -9,7 +9,6 @@ const sortByTemplate = (): FilterValue[] => {
       type: 'Radio' as FilterType,
       options: [] as FilterOption[],
       value: null,
-      minimumLength: null,
       mandatory: true,
     },
     {
@@ -27,7 +26,6 @@ const sortByTemplate = (): FilterValue[] => {
         },
       ] as FilterOption[],
       value: 'false',
-      minimumLength: null,
       mandatory: true,
     },
   ]

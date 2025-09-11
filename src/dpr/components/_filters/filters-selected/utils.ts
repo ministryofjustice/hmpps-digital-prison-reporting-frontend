@@ -1,12 +1,20 @@
 /* eslint-disable no-param-reassign */
 import { Request } from 'express'
 import { FilterType } from '../filter-input/enum'
-import { FilterValue, DateRange, DateFilterValue, GranularDateRange } from '../types'
+import {
+  FilterValue,
+  DateRange,
+  DateFilterValue,
+  DateRangeFilterValue,
+  FilterValueWithOptions,
+  GranularDateRangeFilterValue,
+  MultiselectFilterValue,
+} from '../types'
 import DateRangeFilterUtils from '../../_inputs/date-range/utils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
 
 const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
-  const emptyValues: string[] = [undefined, null, '']
+  const emptyValues: (string | undefined | null)[] = [undefined, null, '']
 
   return filters
     .filter((f) => {
@@ -34,18 +42,24 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
       let constraints: { key: string; value: string }[] | undefined
 
       if (f.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
-        ;({ key, value, disabled, cantRemoveClass, displayValue, constraints } = setSelectedDateRange(f, prefix))
+        ;({ key, value, disabled, cantRemoveClass, displayValue, constraints } = setSelectedDateRange(
+          <DateRangeFilterValue>f,
+          prefix,
+        ))
       }
 
       if (f.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
         ;({ key, value, disabled, cantRemoveClass, displayValue, constraints } = setSelectedGranularDateRange(
-          f,
+          <GranularDateRangeFilterValue>f,
           prefix,
         ))
       }
 
       if (f.type.toLowerCase() === FilterType.date.toLowerCase()) {
-        ;({ key, value, disabled, cantRemoveClass, displayValue, constraints } = getSelectedDate(f, prefix))
+        ;({ key, value, disabled, cantRemoveClass, displayValue, constraints } = getSelectedDate(
+          <DateFilterValue>f,
+          prefix,
+        ))
       }
 
       if (
@@ -53,11 +67,11 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
         f.type.toLowerCase() === FilterType.radio.toLowerCase() ||
         f.type.toLowerCase() === FilterType.select.toLowerCase()
       ) {
-        ;({ key, value, displayValue } = getOptionsValue(f, prefix))
+        ;({ key, value, displayValue } = getOptionsValue(<FilterValueWithOptions>f, prefix))
       }
 
       if (f.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
-        ;({ key, value, displayValue } = getMultiselectValues(f, prefix))
+        ;({ key, value, displayValue } = getMultiselectValues(<FilterValueWithOptions>f, prefix))
       }
 
       let ariaLabel
@@ -86,12 +100,12 @@ const setDateDisplayFormat = (dateValue: string) => {
   const dateMapper = new DateMapper()
   const type = dateMapper.getDateType(dateValue)
   if (type !== 'none') {
-    dateValue = dateMapper.toDateString(dateValue, 'local-date')
+    dateValue = dateMapper.toDateString(dateValue, 'local-date') || dateValue
   }
   return dateValue
 }
 
-const setSelectedDateRange = (f: FilterValue, prefix: string) => {
+const setSelectedDateRange = (f: DateRangeFilterValue, prefix: string) => {
   const startValue = (<DateRange>f.value).start || 'Open start'
   const endValue = (<DateRange>f.value).end || 'Open end'
   const value = [`"${startValue}"`, `"${endValue}"`]
@@ -101,11 +115,11 @@ const setSelectedDateRange = (f: FilterValue, prefix: string) => {
   const displayStartValue = setDateDisplayFormat(startValue)
   const displayEndValue = setDateDisplayFormat(endValue)
   let displayValue = `${displayStartValue} - ${displayEndValue}`
-
-  if ((<DateRange>f.value).relative) {
+  const { relative } = <DateRange>f.value
+  if (relative) {
     key.push(`${name}.relative-duration`)
-    value.push(`"${(<DateRange>f.value).relative}"`)
-    displayValue = DateRangeFilterUtils.mapRelativeValue((<DateRange>f.value).relative)
+    value.push(`"${relative}"`)
+    displayValue = DateRangeFilterUtils.mapRelativeValue(relative)
   }
 
   const constraints = setMinMaxContraints(f, key)
@@ -121,7 +135,7 @@ const setSelectedDateRange = (f: FilterValue, prefix: string) => {
   }
 }
 
-const setMinMaxContraints = (f: DateFilterValue, key: string[], singleDate = false) => {
+const setMinMaxContraints = (f: DateFilterValue | DateRangeFilterValue, key: string[], singleDate = false) => {
   const constraints: { key: string; value: string }[] = []
   const { min, max } = f
   if (min) {
@@ -139,9 +153,9 @@ const setMinMaxContraints = (f: DateFilterValue, key: string[], singleDate = fal
   return constraints.length ? constraints : undefined
 }
 
-const getOptionsValue = (f: FilterValue, prefix: string) => {
+const getOptionsValue = (f: FilterValueWithOptions, prefix: string) => {
   const displayOption = f.options.find((opt) => opt.value === f.value)
-  const displayValue = displayOption.text
+  const displayValue = displayOption ? displayOption.text : ''
   const key = [`${prefix}${f.name}`]
   const value = [`"${f.value}"`]
 
@@ -152,13 +166,13 @@ const getOptionsValue = (f: FilterValue, prefix: string) => {
   }
 }
 
-const getMultiselectValues = (f: FilterValue, prefix: string) => {
+const getMultiselectValues = (f: FilterValueWithOptions, prefix: string) => {
   const MAX_VALUES = 3
   const splitValues = (<string>f.value).split(',')
   let displayValue = splitValues
     .map((v) => {
       const displayOption = f.options.find((opt) => opt.value === v)
-      return displayOption.text
+      return displayOption ? displayOption.text : ''
     })
     .filter((v, i) => {
       return i < MAX_VALUES
@@ -178,22 +192,24 @@ const getMultiselectValues = (f: FilterValue, prefix: string) => {
   }
 }
 
-const setSelectedGranularDateRange = (f: FilterValue, prefix: string) => {
-  const startValue = (<GranularDateRange>f.value).start || 'Open start'
-  const endValue = (<GranularDateRange>f.value).end || 'Open end'
-  const quickFilterValue = (<GranularDateRange>f.value).quickFilter?.value
+const setSelectedGranularDateRange = (f: GranularDateRangeFilterValue, prefix: string) => {
+  const startValue = f.value.start || 'Open start'
+  const endValue = f.value.end || 'Open end'
+  const quickFilterValue = f.value.quickFilter?.value
+  const quickFilterDisplay = f.value.quickFilter?.display
+  const granularityValue = f.value.granularity.value
   const name = `${prefix}${f.name}`
 
   const key = [`${name}.start`, `${name}.end`, `${name}.granularity`]
-  const value = [`"${startValue}"`, `"${endValue}"`, `"${(<GranularDateRange>f.value).granularity.value}"`]
+  const value = [`"${startValue}"`, `"${endValue}"`, `"${granularityValue}"`]
   const constraints = setMinMaxContraints(f, key)
 
   let displayValue
-  const granularityDisplay = (<GranularDateRange>f.value).granularity.display
-  if (quickFilterValue && quickFilterValue !== 'none') {
+  const granularityDisplay = f.value.granularity.display
+  if (quickFilterValue && quickFilterValue !== 'none' && quickFilterDisplay) {
     key.push(`${name}.quick-filter`)
-    value.push(`"${(<GranularDateRange>f.value).quickFilter.value}"`)
-    displayValue = `${(<GranularDateRange>f.value).quickFilter.display}: ${granularityDisplay}`
+    value.push(`"${quickFilterValue}"`)
+    displayValue = `${quickFilterDisplay}: ${granularityDisplay}`
   } else {
     const displayStartValue = setDateDisplayFormat(startValue)
     const displayEndValue = setDateDisplayFormat(endValue)
@@ -212,7 +228,7 @@ const setSelectedGranularDateRange = (f: FilterValue, prefix: string) => {
   }
 }
 
-const getSelectedDate = (f: FilterValue, prefix: string) => {
+const getSelectedDate = (f: DateFilterValue, prefix: string) => {
   const key = [`${prefix}${f.name}`]
   const value = [`"${f.value}"`]
   const displayValue = setDateDisplayFormat(<string>f.value)
@@ -229,8 +245,8 @@ const getSelectedDate = (f: FilterValue, prefix: string) => {
   }
 }
 
-const disabledDateRange = (f: DateFilterValue, value: (string | DateRange)[], displayValue: string) => {
-  const { min, max } = <DateFilterValue>f
+const disabledDateRange = (f: DateRangeFilterValue | DateFilterValue, value: string[], displayValue: string) => {
+  const { min, max } = f
   if (min && (<string>value[0]).includes(min) && max && (<string>value[1]).includes(max)) {
     return {
       disabled: true,
@@ -250,8 +266,8 @@ const disabledDate = (f: DateFilterValue, value: (string | DateRange)[], display
 
   if ((min && (<string>value[0]).includes(min)) || (max && (<string>value[0]).includes(max))) {
     let valueType
-    if ((<string>value[0]).includes(min)) valueType = 'min'
-    if ((<string>value[0]).includes(max)) valueType = 'max'
+    if (min && (<string>value[0]).includes(min)) valueType = 'min'
+    if (max && (<string>value[0]).includes(max)) valueType = 'max'
 
     return {
       disabled: true,
@@ -276,7 +292,7 @@ const getQuerySummary = (req: Request, filters: FilterValue[]) => {
       let { value } = f
 
       if (f.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
-        value = <string>getMultiselectValues(f, 'filters').displayValue
+        value = <string>getMultiselectValues(<MultiselectFilterValue>f, 'filters').displayValue
       }
 
       if (
@@ -284,15 +300,15 @@ const getQuerySummary = (req: Request, filters: FilterValue[]) => {
         f.type.toLowerCase() === FilterType.radio.toLowerCase() ||
         f.type.toLowerCase() === FilterType.select.toLowerCase()
       ) {
-        value = <string>getOptionsValue(f, prefix).displayValue
+        value = <string>getOptionsValue(<FilterValueWithOptions>f, prefix).displayValue
       }
 
       if (f.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
-        value = setSelectedDateRange(f, prefix).displayValue
+        value = setSelectedDateRange(<DateRangeFilterValue>f, prefix).displayValue
       }
 
       if (f.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
-        value = setSelectedGranularDateRange(f, prefix).displayValue
+        value = setSelectedGranularDateRange(<GranularDateRangeFilterValue>f, prefix).displayValue
       }
 
       return {

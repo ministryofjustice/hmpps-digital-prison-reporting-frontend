@@ -19,7 +19,7 @@ const setDateValueWithinMinMax = (filter: components['schemas']['FilterDefinitio
   return dateValue
 }
 
-const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string) => {
+const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string): string => {
   const { min, max, mandatory } = <DateFilterValue>filter
   const dateValue = <string>req.query[`${prefix}${filter.name}`]
   let value = dateValue
@@ -44,7 +44,7 @@ const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: Fil
 const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition'], filterData: FilterValue) => {
   return {
     ...filterData,
-    value: setDateValueWithinMinMax(filter),
+    value: setDateValueWithinMinMax(filter) || '',
     min: filter.min,
     max: filter.max,
   }

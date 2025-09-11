@@ -2,8 +2,8 @@ export type CellFormat = 'numeric' | 'string'
 
 export interface Cell {
   fieldName?: string
-  text?: string
-  html?: string
+  text?: string | null
+  html?: string | null
   format?: CellFormat
   classes?: string
   colspan?: number
@@ -11,7 +11,7 @@ export interface Cell {
 }
 
 export interface DataTable {
-  head: Array<Header>
+  head: Array<Header> | null
   rows: Array<Array<Cell>>
   rowCount: number
   colCount: number

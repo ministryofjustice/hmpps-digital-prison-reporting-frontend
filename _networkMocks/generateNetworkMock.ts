@@ -1,6 +1,7 @@
 import superagent from 'superagent'
 
 export const defaultMockRequest = {
+  priority: 5,
   request: {
     method: 'GET',
   },
@@ -12,6 +13,7 @@ export const defaultMockRequest = {
 } as const
 
 type CompleteMockRequest = {
+  priority: number
   request: {
     method: 'GET' | 'POST' | 'DELETE' | 'PUT' | 'OPTIONS',
     queryParameters?: object | undefined,
@@ -26,8 +28,9 @@ type CompleteMockRequest = {
   }
 }
 
-export const setupSimpleMock = (urlPathPattern: string, jsonBody: object): CompleteMockRequest => {
+export const setupSimpleMock = (urlPathPattern: string, jsonBody: object, priority?: number): CompleteMockRequest => {
   return {
+    priority,
     request: {
       ...defaultMockRequest.request,
       urlPathPattern,

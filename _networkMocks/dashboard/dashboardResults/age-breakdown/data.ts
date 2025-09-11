@@ -855,7 +855,7 @@ const mockAgeBreakdownData = [
   ],
 ]
 
-const generateAgeBreakdownData = (establishment, wing) => {
+export const generateAgeBreakdownData = (establishment, wing) => {
   let data = [
     ...mockTotalTableData,
     ...mockAgeRange1TableData,
@@ -903,7 +903,7 @@ const generateAgeBreakdownData = (establishment, wing) => {
   return data
 }
 
-module.exports = {
+export default {
   mockAgeBreakdownData,
   generateAgeBreakdownData,
 }

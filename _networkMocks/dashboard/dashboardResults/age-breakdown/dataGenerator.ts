@@ -27,7 +27,7 @@ const baseData = {
   count: { raw: '' },
 }
 
-const generateData = (query) => {
+export const generateData = (query) => {
   const { establishmentId, wing: wingFilter, timestamps } = extractQueryAndCreateTimestamps(query)
 
   const ageRange1Values = ['18-25', '26-34', '35-44', '45-54', '56-54']
@@ -215,6 +215,6 @@ const generateData = (query) => {
   return data.flat()
 }
 
-module.exports = {
+export default {
   generateData,
 }

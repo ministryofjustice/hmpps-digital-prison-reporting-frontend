@@ -1,12 +1,15 @@
-const requestExampleExpiredBookmark = {
-  id: 'request-example-expired-bookmark',
-  name: 'Expired bookmarked',
-  description: 'This demonstrates an expired bookmarked report list page',
+import { components } from "src/dpr/types/api";
+
+export const requestExampleSuccess: components['schemas']['VariantDefinition'] = {
+  id: 'request-example-success',
+  name: 'Successful Report',
+  description: 'this will succeed',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
-  printable: true,
+  printable: false,
   specification: {
     template: 'list',
+    sections: [],
     fields: [
       {
         name: 'field1',
@@ -16,6 +19,8 @@ const requestExampleExpiredBookmark = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -23,7 +28,8 @@ const requestExampleExpiredBookmark = {
             { name: 'value1.2', display: 'Value 1.2' },
             { name: 'value1.3', display: 'Value 1.3' },
           ],
-          defaultValue: 'value1.1',
+          defaultValue: 'value1.2',
+          mandatory: false,
         },
       },
       {
@@ -33,6 +39,9 @@ const requestExampleExpiredBookmark = {
         type: 'string',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'Select',
           staticOptions: [
@@ -40,6 +49,7 @@ const requestExampleExpiredBookmark = {
             { name: 'value2.2', display: 'Value 2.2' },
             { name: 'value2.3', display: 'Value 2.3' },
           ],
+          mandatory: false,
         },
       },
       {
@@ -49,11 +59,15 @@ const requestExampleExpiredBookmark = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
           min: '2003-02-01',
           max: '2007-05-04',
+          mandatory: true,
         },
       },
       {
@@ -62,19 +76,23 @@ const requestExampleExpiredBookmark = {
         visible: false,
         sortable: false,
         type: 'string',
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        mandatory: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
             { name: 'Inigo Montoya', display: 'Inigo Montoya' },
-            { name: 'Prince Humperdink', display: 'Prince Humperdink' },
+            { name: 'PrHu', display: 'Prince Humperdink' },
             { name: 'Princess Buttercup', display: 'Princess Buttercup' },
             { name: 'Westley', display: 'Westley' },
           ],
+          mandatory: false,
         },
       },
       {
@@ -84,12 +102,15 @@ const requestExampleExpiredBookmark = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: false,
           },
+          mandatory: false,
         },
       },
       {
@@ -97,11 +118,56 @@ const requestExampleExpiredBookmark = {
         display: 'Field 6',
         sortable: false,
         type: 'HTML',
-        mandatory: false,
+        mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        filter: {
+          type: 'text',
+          mandatory: false,
+        },
+      },
+      {
+        name: 'field7',
+        display: 'Field 7',
+        sortable: false,
+        visible: true,
+        type: 'date',
+        mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        filter: {
+          mandatory: false,
+          type: 'date',
+          defaultValue: '2005-02-01',
+          min: '2003-02-01',
+          max: '2007-05-04',
+        },
+      },
+      {
+        name: 'field8',
+        display: 'Field 8',
+        sortable: false,
+        visible: false,
+        type: 'date',
+        mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        filter: {
+          mandatory: false,
+          type: 'multiselect',
+          staticOptions: [
+            { name: 'value8.1', display: 'Value 8.1' },
+            { name: 'value8.2', display: 'Value 8.2' },
+            { name: 'value8.3', display: 'Value 8.3' },
+            { name: 'value8.4', display: 'Value 8.4' },
+          ],
+          defaultValue: 'value8.2,value8.3',
+        },
       },
     ],
   },
 }
-
-module.exports = requestExampleExpiredBookmark

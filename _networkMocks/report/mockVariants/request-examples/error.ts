@@ -1,12 +1,15 @@
-const requestExampleFailStatus = {
-  id: 'request-example-fail-status',
-  name: 'Failed report',
-  description: 'this will fail with returned Status: FAILED',
+import { components } from "src/dpr/types/api";
+
+export const requestExampleRequestError: components['schemas']['VariantDefinition'] = {
+  id: 'request-example-reques-error',
+  name: 'Request Error',
+  description: 'This will return a request error',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
   specification: {
     template: 'list',
+    sections: [],
     fields: [
       {
         name: 'field1',
@@ -16,15 +19,17 @@ const requestExampleFailStatus = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
         filter: {
           type: 'Radio',
+          mandatory: false,
           staticOptions: [
             { name: 'value1.1', display: 'Value 1.1' },
             { name: 'value1.2', display: 'Value 1.2' },
             { name: 'value1.3', display: 'Value 1.3' },
           ],
-          defaultValue: 'value1.2',
-          interactive: false,
+          defaultValue: 'value1.1',
         },
       },
       {
@@ -34,14 +39,17 @@ const requestExampleFailStatus = {
         type: 'string',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'Select',
+          mandatory: false,
           staticOptions: [
             { name: 'value2.1', display: 'Value 2.1' },
             { name: 'value2.2', display: 'Value 2.2' },
             { name: 'value2.3', display: 'Value 2.3' },
           ],
-          interactive: false,
         },
       },
       {
@@ -51,10 +59,15 @@ const requestExampleFailStatus = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
-          interactive: false,
+          min: '2003-02-01',
+          max: '2007-05-04',
         },
       },
       {
@@ -63,11 +76,15 @@ const requestExampleFailStatus = {
         visible: false,
         sortable: false,
         type: 'string',
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        mandatory: false,
         filter: {
+          mandatory: false,
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -76,7 +93,6 @@ const requestExampleFailStatus = {
             { name: 'Princess Buttercup', display: 'Princess Buttercup' },
             { name: 'Westley', display: 'Westley' },
           ],
-          interactive: false,
         },
       },
       {
@@ -86,13 +102,15 @@ const requestExampleFailStatus = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: false,
           },
-          interactive: false,
         },
       },
       {
@@ -102,9 +120,10 @@ const requestExampleFailStatus = {
         type: 'HTML',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
       },
     ],
   },
 }
-
-module.exports = requestExampleFailStatus

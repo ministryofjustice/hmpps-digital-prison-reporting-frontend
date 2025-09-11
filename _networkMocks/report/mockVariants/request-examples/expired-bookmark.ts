@@ -1,11 +1,14 @@
-const requestExampleRequestError = {
-  id: 'request-example-reques-error',
-  name: 'Request Error',
-  description: 'This will return a request error',
+import { components } from "src/dpr/types/api";
+
+export const requestExampleExpiredBookmark: components['schemas']['VariantDefinition'] = {
+  id: 'request-example-expired-bookmark',
+  name: 'Expired bookmarked',
+  description: 'This demonstrates an expired bookmarked report list page',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
   specification: {
+    sections: [],
     template: 'list',
     fields: [
       {
@@ -16,7 +19,10 @@ const requestExampleRequestError = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
         filter: {
+          mandatory: false,
           type: 'Radio',
           staticOptions: [
             { name: 'value1.1', display: 'Value 1.1' },
@@ -33,7 +39,11 @@ const requestExampleRequestError = {
         type: 'string',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'Select',
           staticOptions: [
             { name: 'value2.1', display: 'Value 2.1' },
@@ -49,7 +59,11 @@ const requestExampleRequestError = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
           min: '2003-02-01',
@@ -62,11 +76,15 @@ const requestExampleRequestError = {
         visible: false,
         sortable: false,
         type: 'string',
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        mandatory: false,
         filter: {
+          mandatory: false,
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -84,11 +102,14 @@ const requestExampleRequestError = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: false,
           },
         },
       },
@@ -99,9 +120,10 @@ const requestExampleRequestError = {
         type: 'HTML',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
       },
     ],
   },
 }
-
-module.exports = requestExampleRequestError

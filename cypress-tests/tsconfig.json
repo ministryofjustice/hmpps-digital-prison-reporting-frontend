@@ -11,5 +11,5 @@
       "@networkMocks/*": ["../_networkMocks/*"]
     }
   },
-  "include": ["**/*.ts", "../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition-base.ts", "../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition.ts", "../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition-2-summary.ts", "../_networkMocks/dashboard/dashboardDefinitions/dashboard-definiton-1-nat-eth-relig.ts", "../_networkMocks/mockReportDefinition.ts"]
+  "include": ["**/*.ts"]
 }

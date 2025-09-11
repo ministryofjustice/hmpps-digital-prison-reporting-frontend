@@ -1,4 +1,4 @@
-import defs from './mockReportDefinition'
+import defs from './report/mockReportDefinition'
 import { setupSimpleMock } from "./generateNetworkMock";
 
 export const mocks = [

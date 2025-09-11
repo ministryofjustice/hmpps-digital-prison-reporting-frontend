@@ -1,9 +1,9 @@
-const requestExamples = require('../cypress-tests/mockApis/reports/mockVariants/request-examples')
-const templateExamples = require('../cypress-tests/mockApis/reports/mockVariants/report-templates')
-const featureTesting = require('../cypress-tests/mockApis/reports/mockVariants/feature-testing')
-const { variants } = require('../cypress-tests/mockApis/reports/mockVariants/mock-report')
-const inputExamples = require('../cypress-tests/mockApis/reports/mockVariants/filter-input-examples')
-import dashboardDefinitions from '../cypress-tests/mockApis/dashboards/dashboard-definitions'
+import { requestExampleVariants } from './mockVariants/request-examples'
+import templateExamples from './mockVariants/report-templates'
+import featureTesting from './mockVariants/feature-testing'
+import { variants } from './mockVariants/mock-report'
+import inputExamples from './mockVariants/filter-input-examples'
+import dashboardDefinitions from '../dashboard/dashboardDefinitions/dashboard-definitions'
 
 export default {
   report: {
@@ -18,7 +18,7 @@ export default {
       id: 'request-examples',
       name: 'Request examples',
       description: 'Example variants used for request testing',
-      variants: requestExamples,
+      variants: requestExampleVariants,
       dashboards: dashboardDefinitions.requestExamples,
     },
     {

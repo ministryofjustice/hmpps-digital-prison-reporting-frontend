@@ -6,7 +6,7 @@ import {
   initBaseData,
 } from '../timeseriesDataHelper'
 
-import { DashboardDataResponse } from '../../../../../src/dpr/types/Metrics'
+import { DashboardDataResponse } from '../../../../src/dpr/types/Metrics'
 
 const baseData: DashboardDataResponse = {
   ts: { raw: '' },
@@ -20,7 +20,7 @@ const baseData: DashboardDataResponse = {
   count: { raw: '' },
 }
 
-const generateData = (query) => {
+export const generateData = (query) => {
   const { establishmentId, timestamps } = extractQueryAndCreateTimestamps(query)
   const estId = establishmentId || 'ALL'
 
@@ -69,6 +69,6 @@ const generateData = (query) => {
   return data.flat()
 }
 
-module.exports = {
+export default {
   generateData,
 }

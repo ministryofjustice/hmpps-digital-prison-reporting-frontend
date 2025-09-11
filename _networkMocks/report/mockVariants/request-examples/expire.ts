@@ -1,4 +1,6 @@
-const requestExampleExpire = {
+import { components } from "src/dpr/types/api";
+
+export const requestExampleExpire: components['schemas']['VariantDefinition'] = {
   id: 'request-example-expire',
   name: 'Expiring report',
   description: 'This will Expire after one minute',
@@ -7,6 +9,7 @@ const requestExampleExpire = {
   printable: true,
   specification: {
     template: 'list',
+    sections: [],
     fields: [
       {
         name: 'field1',
@@ -16,7 +19,10 @@ const requestExampleExpire = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
         filter: {
+          mandatory: false,
           type: 'Radio',
           staticOptions: [
             { name: 'value1.1', display: 'Value 1.1' },
@@ -33,7 +39,11 @@ const requestExampleExpire = {
         type: 'string',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'Select',
           staticOptions: [
             { name: 'value2.1', display: 'Value 2.1' },
@@ -49,7 +59,11 @@ const requestExampleExpire = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
           min: '2003-02-01',
@@ -62,11 +76,15 @@ const requestExampleExpire = {
         visible: false,
         sortable: false,
         type: 'string',
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        mandatory: false,
         filter: {
+          mandatory: false,
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fez', display: 'Fezzick' },
@@ -84,11 +102,14 @@ const requestExampleExpire = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: false,
           },
         },
       },
@@ -99,9 +120,10 @@ const requestExampleExpire = {
         type: 'HTML',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
       },
     ],
   },
 }
-
-module.exports = requestExampleExpire

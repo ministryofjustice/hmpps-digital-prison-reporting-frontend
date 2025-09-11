@@ -1,16 +1,12 @@
 // const app = require('./app')
 import createApp from './app'
 
-const run = async () => {
-  const app = await createApp()
+const app = createApp()
 
-  // Port
-  const port = Number(process.env.PORT) || 3010
-  
-  // Start the server
-  // eslint-disable-next-line no-console
-  console.log(`Listening on port ${port} url: http://localhost:${port}`)
-  app.listen(port)
-}
+// Port
+const port = Number(process.env.PORT) || 3010
 
-run()
+// Start the server
+// eslint-disable-next-line no-console
+console.log(`Listening on port ${port} url: http://localhost:${port}`)
+app.listen(port)

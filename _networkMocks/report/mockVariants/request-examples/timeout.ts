@@ -1,4 +1,6 @@
-const requestExampleTimeout = {
+import { components } from "src/dpr/types/api";
+
+export const requestExampleTimeout: components['schemas']['VariantDefinition'] = {
   id: 'request-example-timeout',
   name: 'Timedout',
   description: 'This variant will timeout',
@@ -6,6 +8,7 @@ const requestExampleTimeout = {
   classification: 'OFFICIAL',
   printable: false,
   specification: {
+    sections: [],
     template: 'list',
     fields: [
       {
@@ -15,6 +18,9 @@ const requestExampleTimeout = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
       },
       {
         name: 'field2',
@@ -23,6 +29,9 @@ const requestExampleTimeout = {
         type: 'string',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
       },
       {
         name: 'field3',
@@ -31,6 +40,9 @@ const requestExampleTimeout = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
       },
       {
         name: 'field4',
@@ -38,6 +50,10 @@ const requestExampleTimeout = {
         visible: false,
         sortable: false,
         type: 'string',
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        mandatory: false,
       },
       {
         name: 'field5',
@@ -46,6 +62,9 @@ const requestExampleTimeout = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
       },
       {
         name: 'field6',
@@ -54,6 +73,9 @@ const requestExampleTimeout = {
         type: 'HTML',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
       },
       {
         name: 'field7',
@@ -62,9 +84,10 @@ const requestExampleTimeout = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
       },
     ],
   },
 }
-
-module.exports = requestExampleTimeout

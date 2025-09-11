@@ -1,6 +1,7 @@
 import { Request } from 'express'
 import { MultiselectFilterValue } from '../../_filters/types'
 import { components } from '../../../types/api'
+import { defaultFilterValue } from '../../../routes/journeys/request-report/filters/types'
 
 const setValueFromRequest = (
   filter: MultiselectFilterValue,
@@ -64,8 +65,25 @@ const getMultiselectValues = (f: MultiselectFilterValue, prefix: string) => {
   }
 }
 
+const setFilterValuesFromSavedDefault = (
+  filter: MultiselectFilterValue,
+  hasDefaults: boolean,
+  defaultValue?: defaultFilterValue,
+) => {
+  let value = hasDefaults ? '' : filter.value
+  value = defaultValue ? <string>defaultValue.value : value
+  let values = hasDefaults ? [] : filter.values
+  values = defaultValue ? (<string>defaultValue.value).split(',') : values
+  return {
+    ...filter,
+    value,
+    values,
+  }
+}
+
 export default {
   getQueryFromDefinition,
   setValueFromRequest,
   getMultiselectValues,
+  setFilterValuesFromSavedDefault,
 }

@@ -47,20 +47,30 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
     let requestfilterValues: string[] = []
 
     const type = filter.type.toLowerCase()
-    if (type === FilterType.dateRange.toLowerCase()) {
-      const f = <DateRangeFilterValue>filter
-      requestfilterValue = DateRangeInputUtils.setValueFromRequest(f, req, prefix)
-    } else if (type === FilterType.granularDateRange.toLowerCase()) {
-      const f = <GranularDateRangeFilterValue>filter
-      requestfilterValue = GranularDateRangeInputUtils.setValueFromRequest(f, req, prefix)
-    } else if (type === FilterType.date.toLowerCase()) {
-      const f = <DateFilterValue>filter
-      requestfilterValue = DateInputUtils.setValueFromRequest(f, req, prefix)
-    } else if (type === FilterType.multiselect.toLowerCase()) {
-      const f = <MultiselectFilterValue>filter
-      ;({ requestfilterValue, requestfilterValues } = MultiSelectUtils.setValueFromRequest(f, req, prefix))
-    } else {
-      requestfilterValue = <string>req.query[`${prefix}${filter.name}`]
+    switch (type) {
+      case FilterType.dateRange.toLowerCase():
+        requestfilterValue = DateRangeInputUtils.setValueFromRequest(<DateRangeFilterValue>filter, req, prefix)
+        break
+      case FilterType.granularDateRange.toLowerCase():
+        requestfilterValue = GranularDateRangeInputUtils.setValueFromRequest(
+          <GranularDateRangeFilterValue>filter,
+          req,
+          prefix,
+        )
+        break
+      case FilterType.date.toLowerCase():
+        requestfilterValue = DateInputUtils.setValueFromRequest(<DateFilterValue>filter, req, prefix)
+        break
+      case FilterType.multiselect.toLowerCase():
+        ;({ requestfilterValue, requestfilterValues } = MultiSelectUtils.setValueFromRequest(
+          <MultiselectFilterValue>filter,
+          req,
+          prefix,
+        ))
+        break
+      default:
+        requestfilterValue = <string>req.query[`${prefix}${filter.name}`]
+        break
     }
 
     let value: FilterValueType = null
@@ -94,37 +104,46 @@ const setFilterValuesFromSavedDefaults = (
     }
     const type = filter.type.toLocaleLowerCase()
 
-    if (type === FilterType.multiselect.toLocaleLowerCase()) {
-      let value = hasDefaults ? '' : updatedFilter.value
-      value = defaultValue ? defaultValue.value : value
-      let values = hasDefaults ? [] : updatedFilter.values
-      values = defaultValue ? (<string>defaultValue.value).split(',') : values
-      updatedFilter = {
-        ...updatedFilter,
-        value,
-        values,
-      }
-    } else if (type === FilterType.date.toLocaleLowerCase()) {
-      const value = hasDefaults ? '' : updatedFilter.value
-      const presetValue = defaultValue || value
-      updatedFilter = <DateFilterValue>DateInputUtils.setFilterValueFromDefault(presetValue, updatedFilter)
-    } else if (type === FilterType.dateRange.toLocaleLowerCase()) {
-      const value = hasDefaults ? { start: '', end: '', relative: '' } : updatedFilter.value
-      const presetValue = defaultValue || value
-      updatedFilter = <DateRangeFilterValue>DateRangeInputUtils.setFilterValueFromDefault(presetValue, updatedFilter)
-    } else if (type === FilterType.granularDateRange.toLocaleLowerCase()) {
-      const value = hasDefaults ? { start: '', end: '', granularity: '', quickFilter: '' } : updatedFilter.value
-      const presetValue = defaultValue || value
-      updatedFilter = <GranularDateRangeFilterValue>(
-        GranularDateRangeInputUtils.setFilterValueFromDefault(presetValue, updatedFilter)
-      )
-    } else {
-      let value = hasDefaults ? '' : updatedFilter.value
-      value = defaultValue ? defaultValue.value : value
-      updatedFilter = {
-        ...filter,
-        value,
-      }
+    switch (type) {
+      case FilterType.multiselect.toLocaleLowerCase():
+        updatedFilter = MultiSelectUtils.setFilterValuesFromSavedDefault(updatedFilter, hasDefaults, defaultValue)
+        break
+      case FilterType.date.toLocaleLowerCase():
+        {
+          const value = hasDefaults ? '' : updatedFilter.value
+          const presetValue = defaultValue || value
+          updatedFilter = <DateFilterValue>DateInputUtils.setFilterValueFromDefault(presetValue, updatedFilter)
+        }
+        break
+      case FilterType.dateRange.toLocaleLowerCase():
+        {
+          const value = hasDefaults ? { start: '', end: '', relative: '' } : updatedFilter.value
+          const presetValue = defaultValue || value
+          updatedFilter = <DateRangeFilterValue>(
+            DateRangeInputUtils.setFilterValueFromDefault(presetValue, updatedFilter)
+          )
+        }
+        break
+      case FilterType.granularDateRange.toLocaleLowerCase():
+        {
+          const value = hasDefaults ? { start: '', end: '', granularity: '', quickFilter: '' } : updatedFilter.value
+          const presetValue = defaultValue || value
+          updatedFilter = <GranularDateRangeFilterValue>(
+            GranularDateRangeInputUtils.setFilterValueFromDefault(presetValue, updatedFilter)
+          )
+        }
+        break
+      default:
+        {
+          let value = hasDefaults ? '' : updatedFilter.value
+          value = defaultValue ? defaultValue.value : value
+          updatedFilter = {
+            ...filter,
+            value,
+          }
+        }
+
+        break
     }
 
     return updatedFilter
@@ -156,34 +175,35 @@ const setFilterQueryFromFilterDefinition = (
   }
 
   return filterFields
-    .filter((field) => field.filter && field.filter.defaultValue)
-    .map((field: components['schemas']['FieldDefinition']) => {
-      const { filter } = field
+    .filter((field) => field.filter !== undefined)
+    .filter((field) => (<components['schemas']['FilterDefinition']>field.filter).defaultValue !== undefined)
+    .map((field) => {
+      const filter = <components['schemas']['FilterDefinition']>field.filter
+      const type = filter.type.toLocaleLowerCase()
 
-      if (filter && filter.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
-        return DateRangeInputUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
+      switch (type) {
+        case FilterType.dateRange.toLowerCase():
+          return DateRangeInputUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
+
+        case FilterType.multiselect.toLowerCase():
+          return MultiSelectUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
+
+        case FilterType.granularDateRange.toLowerCase(): {
+          const startEndParams = DateRangeInputUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
+          return GranularDateRangeInputUtils.getQueryFromDefinition(
+            filter as unknown as components['schemas']['FilterDefinition'] & {
+              defaultGranularity: Granularity
+              defaultQuickFilterValue: QuickFilters
+            },
+            field.name,
+            DEFAULT_FILTERS_PREFIX,
+            startEndParams,
+          )
+        }
+
+        default:
+          return `${DEFAULT_FILTERS_PREFIX}${field.name}=${filter.defaultValue}`
       }
-
-      if (filter && filter.type.toLowerCase() === FilterType.multiselect.toLowerCase()) {
-        return MultiSelectUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
-      }
-
-      if (filter && filter.type.toLowerCase() === FilterType.granularDateRange.toLowerCase()) {
-        const startEndParams = DateRangeInputUtils.getQueryFromDefinition(filter, field.name, DEFAULT_FILTERS_PREFIX)
-        return GranularDateRangeInputUtils.getQueryFromDefinition(
-          filter as unknown as components['schemas']['FilterDefinition'] & {
-            defaultGranularity: Granularity
-            defaultQuickFilterValue: QuickFilters
-          },
-          field.name,
-          DEFAULT_FILTERS_PREFIX,
-          startEndParams,
-        )
-      }
-
-      return `${DEFAULT_FILTERS_PREFIX}${field.name}=${
-        (<components['schemas']['FilterDefinition']>filter).defaultValue
-      }`
     })
     .join('&')
 }
@@ -216,16 +236,21 @@ const setUserDefinedDefaultValuesForReport = async (
       if (field) {
         const filterType = field.filter?.type.toLocaleLowerCase()
 
-        if (filterType === FilterType.multiselect.toLocaleLowerCase()) {
-          value = k.value.join(',')
-        }
+        switch (filterType) {
+          case FilterType.multiselect.toLocaleLowerCase():
+            value = k.value.join(',')
+            break
 
-        if (filterType === FilterType.dateRange.toLocaleLowerCase()) {
-          ;({ value, name } = DateRangeInputUtils.setDefaultValue(req, name))
-        }
+          case FilterType.dateRange.toLocaleLowerCase():
+            ;({ value, name } = DateRangeInputUtils.setDefaultValue(req, name))
+            break
 
-        if (filterType === FilterType.granularDateRange.toLocaleLowerCase()) {
-          ;({ name, value } = GranularDateRangeInputUtils.setDefaultValue(req, name))
+          case FilterType.granularDateRange.toLocaleLowerCase():
+            ;({ name, value } = GranularDateRangeInputUtils.setDefaultValue(req, name))
+            break
+
+          default:
+            break
         }
       }
 

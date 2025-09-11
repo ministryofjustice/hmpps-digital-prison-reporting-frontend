@@ -27,6 +27,7 @@
     "test:jest": "jest --verbose --silent=false",
     "test:docs": "npm run docs",
     "test:packaging": "npm run package",
+    "wiremock": "wiremock --port=9091",
     "start-test-app": "npm run package && node $NODE_OPTIONS test-app/start-server.js",
     "start:dev": "USE_MOCK_CLIENTS=true concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.config.js --build --watch\" \"node esbuild/esbuild.config.js --dev-server\"",
     "start:dev:noMockClients": "concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.config.js --build --watch\" \"node esbuild/esbuild.config.js --dev-server\"",

@@ -5,7 +5,11 @@
     "lib": ["es5", "dom", "es2015.promise"],
     "types": ["cypress", "express", "express-session", "cypress-axe"],
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@networkMocks/*": ["../_networkMocks/*"]
+    }
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition-base.ts", "../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition.ts", "../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition-2-summary.ts", "../_networkMocks/dashboard/dashboardDefinitions/dashboard-definiton-1-nat-eth-relig.ts", "../_networkMocks/mockReportDefinition.ts"]
 }

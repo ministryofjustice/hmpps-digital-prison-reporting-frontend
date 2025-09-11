@@ -18,8 +18,10 @@ import nunjucksSetup from './utils/nujucksSetup'
 
 // Mocks
 import setUpMockSyncApis from './mocks/mockSyncData/mockSyncApis'
+import { setupMocks } from '@networkMocks/setupMocks'
 
-export default function createApp(): express.Application {
+export default async function createApp(): Promise<express.Application> {
+  await setupMocks()
   const app = express()
   nunjucksSetup(app, path)
   app.use(bodyParser.urlencoded({ extended: false }))

@@ -1,12 +1,14 @@
-const { ageBreakdownReport2 } = require('./definitions/age-breakdown/dashboard-definition-2')
-const { ageBreakdownReport1 } = require('./definitions/age-breakdown/dashboard-definition-1')
-const { ageBreakdownReport3 } = require('./definitions/age-breakdown/dashboard-definition-3')
-const { dataQualityDashboard1 } = require('./definitions/data-quality/dashboard-definition')
-const { dataQualityDashboardBase } = require('./definitions/data-quality/dashboard-definition-base')
-const listExamples = require('./definitions/examples/lists')
-const scorecardExamples = require('./definitions/examples/scorecards')
-const chartExamples = require('./definitions/examples/charts')
-import { testingDashboards } from './definitions/test-dashboard'
+import { testingDashboard2 } from "@networkMocks/dashboard/dashboardDefinitions/dashboard-definition-2-summary"
+import { testingDashboard8 } from "@networkMocks/dashboard/dashboardDefinitions/dashboard-definiton-1-nat-eth-relig"
+
+const { ageBreakdownReport2 } = require('../../../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition-2')
+const { ageBreakdownReport1 } = require('../../../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition-1')
+const { ageBreakdownReport3 } = require('../../../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition-3')
+const { dataQualityDashboard1 } = require('../../../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition')
+const { dataQualityDashboardBase } = require('../../../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition-base')
+const listExamples = require('../../../_networkMocks/dashboard/dashboardDefinitions/lists')
+const scorecardExamples = require('../../../_networkMocks/dashboard/dashboardDefinitions/scorecards')
+const chartExamples = require('../../../_networkMocks/dashboard/dashboardDefinitions/charts')
 
 const successfulExecution = {
   id: 'test-dashboard-1',
@@ -59,7 +61,8 @@ const failedRequest = {
 export default {
   requestExamples: [successfulExecution, failedExecution, serverError, expiredDashboard, requestTimeout, failedRequest],
   mockDashboards: [
-    ...testingDashboards,
+    testingDashboard2,
+    testingDashboard8,
     dataQualityDashboardBase,
     dataQualityDashboard1,
     ageBreakdownReport1,

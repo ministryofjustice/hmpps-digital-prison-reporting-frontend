@@ -97,7 +97,7 @@ export const setInitialHref = (
   isMissing = false,
 ) => {
   let href = ''
-  if (isMissing) {
+  if (false) {
     href = `dpr/request-missing-report/${reportId}/${id}/form`
   } else {
     const { pathSuffix, dpdPathFromQuery } = localsHelper.getValues(res)

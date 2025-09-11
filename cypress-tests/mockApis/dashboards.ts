@@ -1,7 +1,7 @@
-import { testingDashboard8 } from './dashboards/definitions/test-dashboard/dashboard-definiton-1'
+import { testingDashboard8 } from '../../_networkMocks/dashboard/dashboardDefinitions/dashboard-definiton-1-nat-eth-relig'
 import { createBasicHttpStub, createHttpStub } from './wiremock'
 import { mockTimeSeriesDataLastSixMonths } from './dashboards/data/data-quality-metrics/data'
-import { dataQualityFullDataset } from './dashboards/definitions/examples/lists'
+import { dataQualityFullDataset } from '../../_networkMocks/dashboard/dashboardDefinitions/lists'
 
 const stubs = {
   stubDashboardSuccessResult20: () =>

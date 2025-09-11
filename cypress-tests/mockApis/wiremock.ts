@@ -51,6 +51,11 @@ export const getSentAuditEvents = async (): Promise<unknown> => {
   return responses.map(parseAuditEventBody)
 }
 
+export const getMappings = async () => {
+  const response = (await fetch(`${url}/mappings?limit=10000`))
+  return (await response.json()) as { mappings: Record<string, unknown>[], meta: { total: number } }
+}
+
 export const resetStubs = (): Promise<Array<Response>> =>
   Promise.all([superagent.delete(`${url}/mappings`), superagent.delete(`${url}/requests`)])
 

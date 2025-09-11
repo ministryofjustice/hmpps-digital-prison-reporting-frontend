@@ -1,5 +1,5 @@
 import { createBasicHttpStub, createHttpStub, reportIdRegex, stubFor } from './wiremock'
-import defs from './reports/mockReportDefinition'
+import defs from '../../_networkMocks/mockReportDefinition'
 import { requestExampleSuccess } from './reports/mockVariants/request-examples/success'
 import requestExampleFail from './reports/mockVariants/request-examples/fail-status'
 import { createMockData } from './reports/mockAsyncData'
@@ -143,6 +143,12 @@ const stubs = {
         ],
       },
     }),
+  stubGenericDefinitionRequest: () => createBasicHttpStub('GET', '/definitions/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+', 200, {
+    id: 'request-examples',
+    name: 'Request examples',
+    dashboards: [],
+    variant: requestExampleSuccess,
+  }),
   stubDefinitions: () => createBasicHttpStub(`GET`, `/definitions`, 200, defs.reports),
   stubPollingReportEndpoint: () => createBasicHttpStub('POST', `/view-report/async/report/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tblId_[0-9]+/report`, 200, {
     isExpired: false,

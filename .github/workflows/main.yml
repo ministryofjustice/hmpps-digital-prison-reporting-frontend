@@ -99,7 +99,7 @@ jobs:
       - run: npm install -g pa11y
       - name: Install chromedriver
         run: |
-          npm install -g chromedriver@138
+          npm install -g chromedriver@140
           echo "chromedriver version: $(chromedriver --version)"
       - name: Run the node app       
         run: |

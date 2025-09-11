@@ -157,18 +157,18 @@ describe('SelectedFiltersUtils', () => {
         },
         {
           text: `Filter 5`,
-          displayValue: '12/12/23 - 21/11/24',
+          displayValue: '12/12/2023 - 21/11/2024',
           key: '["filters.filter5.start","filters.filter5.end"]',
           value: ['"12/12/23"', '"21/11/24"'],
           classes: 'interactive-remove-filter-button',
           disabled: false,
           attributes: {
-            'aria-label': `Selected Filter: Filter 5: 12/12/23 - 21/11/24. Click to clear this filter`,
+            'aria-label': `Selected Filter: Filter 5: 12/12/2023 - 21/11/2024. Click to clear this filter`,
           },
         },
         {
           text: 'Filter 6',
-          displayValue: '01/02/20 - 01/02/22 (maximum range)',
+          displayValue: '01/02/2020 - 01/02/2022 (maximum range)',
           key: '["filters.filter6.start","filters.filter6.end"]',
           value: ['"01/02/20"', '"01/02/22"'],
           classes: 'interactive-remove-filter-button interactive-remove-filter-button--disabled',
@@ -185,7 +185,7 @@ describe('SelectedFiltersUtils', () => {
           ],
           attributes: {
             'aria-label':
-              'Selected Filter: Filter 6: 01/02/20 - 01/02/22 (maximum range). This filter cant be removed. Update the filter input to change the value',
+              'Selected Filter: Filter 6: 01/02/2020 - 01/02/2022 (maximum range). This filter cant be removed. Update the filter input to change the value',
           },
         },
         {
@@ -235,12 +235,12 @@ describe('SelectedFiltersUtils', () => {
         {
           id: 'filter5',
           name: 'Filter 5',
-          value: '12/12/23 - 21/11/24',
+          value: '12/12/2023 - 21/11/2024',
         },
         {
           id: 'filter6',
           name: 'Filter 6',
-          value: '01/02/20 - 01/02/22 (maximum range)',
+          value: '01/02/2020 - 01/02/2022 (maximum range)',
         },
         {
           id: 'filter7',

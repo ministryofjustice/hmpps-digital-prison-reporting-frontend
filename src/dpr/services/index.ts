@@ -2,7 +2,7 @@ import DownloadPermissionService from '../routes/journeys/download-report/reques
 import BookmarkService from '../routes/journeys/my-reports/bookmarks/service'
 import RequestedReportService from '../routes/journeys/my-reports/requested-reports/service'
 import RecentlyViewedStoreService from '../routes/journeys/my-reports/recently-viewed/service'
-import DefaultFilterValuesService from '../routes/journeys/request-report/filters/service'
+import DefaultFilterValuesService from './defaultFilterValuesService'
 import ReportStoreService from './reportStoreService'
 import ReportingService from './reportingService'
 import DashboardService from './dashboardService'

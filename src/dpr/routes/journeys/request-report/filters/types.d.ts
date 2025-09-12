@@ -3,6 +3,12 @@ import { Granularity, QuickFilters } from '../../../../components/_inputs/granul
 export interface defaultFilterValue {
   name: string
   value: string | DefaultDateFilterValue | DefaultGranularDateFilterValue
+  type?: FiltersType
+}
+
+export enum FiltersType {
+  INTERACTIVE = 'interactive',
+  REQUEST = 'request',
 }
 
 export interface DefaultDateFilterValue {

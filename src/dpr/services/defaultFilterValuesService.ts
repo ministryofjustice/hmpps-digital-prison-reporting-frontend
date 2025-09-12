@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
-import ReportStoreService from '../../../../services/reportStoreService'
-import ReportDataStore from '../../../../data/reportDataStore'
-import { defaultFilterValue } from './types'
-import { ReportStoreConfig } from '../../../../types/ReportStore'
+import ReportStoreService from './reportStoreService'
+import ReportDataStore from '../data/reportDataStore'
+import { ReportStoreConfig } from '../types/ReportStore'
+import { defaultFilterValue, FiltersType } from '../routes/journeys/request-report/filters/types'
 
 export default class DefaultFilterValuesService extends ReportStoreService {
   constructor(reportDataStore: ReportDataStore) {
@@ -54,11 +54,20 @@ export default class DefaultFilterValuesService extends ReportStoreService {
     })
   }
 
-  async delete(userId: string, reportId: string, id: string) {
+  async delete(userId: string, reportId: string, id: string, type: FiltersType) {
     const userConfig = await this.getState(userId)
     const index = await this.getIndex(userId, reportId, id)
     if (index !== -1) {
-      userConfig.defaultFilters.splice(index, 1)
+      const defaults = userConfig.defaultFilters[index]
+      if (defaults.values.length > 0) {
+        const updatedValues = defaults.values.filter((value) => {
+          const filtersType = !value.type ? FiltersType.REQUEST : value.type
+          return filtersType === type
+        })
+        userConfig.defaultFilters[index].values = updatedValues
+      } else {
+        userConfig.defaultFilters.splice(index, 1)
+      }
       await this.saveState(userId, userConfig)
     }
   }

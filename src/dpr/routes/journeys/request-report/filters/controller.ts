@@ -2,9 +2,8 @@ import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
 import { RequestDataResult } from '../../../../types/AsyncReportUtils'
 import AysncRequestUtils from './utils'
-import FiltersUtils from '../../../../components/_filters/utils'
 import ErrorSummaryUtils from '../../../../components/error-summary/utils'
-import localsHelper from '../../../../utils/localsHelper'
+import PersonalisationUtils, { FiltersType } from '../../../../utils/personalistionUtils'
 
 export default class RequestReportController {
   layoutPath: string
@@ -73,10 +72,7 @@ export default class RequestReportController {
   // Save filter values
   saveDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
-      const defaultValuesForReport = await FiltersUtils.setUserDefinedDefaultValuesForReport(req, res, this.services)
-      const { dprUser } = localsHelper.getValues(res)
-      const { reportId, id } = req.body
-      await this.services.defaultFilterValuesService.save(dprUser.id, reportId, id, defaultValuesForReport)
+      PersonalisationUtils.saveDefaults(FiltersType.REQUEST, res, req, this.services)
       res.redirect(`${req.baseUrl}?defaultsSaved=true`)
     } catch (error) {
       const dprError = ErrorSummaryUtils.handleError(error, req.params.type)
@@ -97,9 +93,7 @@ export default class RequestReportController {
   // Save filter values
   removeDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
-      const { dprUser } = localsHelper.getValues(res)
-      const { reportId, id } = req.params
-      await this.services.defaultFilterValuesService.delete(dprUser.id, reportId, id)
+      PersonalisationUtils.removeDefaults(FiltersType.REQUEST, res, req, this.services)
       res.redirect(req.baseUrl)
     } catch (error) {
       const dprError = ErrorSummaryUtils.handleError(error, req.params.type)

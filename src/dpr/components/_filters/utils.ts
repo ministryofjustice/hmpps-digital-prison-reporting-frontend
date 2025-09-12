@@ -21,7 +21,7 @@ import GranularDateRangeInputUtils from '../_inputs/granular-date-range/utils'
 import MultiSelectUtils from '../_inputs/multi-select/utils'
 import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
 import createUrlForParameters from '../../utils/urlHelper'
-import { defaultFilterValue } from '../../routes/journeys/request-report/filters/types'
+import { defaultFilterValue, FiltersType } from '../../routes/journeys/request-report/filters/types'
 import localsHelper from '../../utils/localsHelper'
 import { Services } from '../../types/Services'
 import { ReportType } from '../../types/UserReports'
@@ -212,6 +212,7 @@ const setUserDefinedDefaultValuesForReport = async (
   req: Request,
   res: Response,
   services: Services,
+  filtersType: FiltersType,
 ): Promise<defaultFilterValue[]> => {
   const { token, definitionsPath } = localsHelper.getValues(res)
   const { reportId, id, type } = req.body
@@ -257,6 +258,7 @@ const setUserDefinedDefaultValuesForReport = async (
       return {
         name,
         value,
+        type: filtersType,
       }
     })
 

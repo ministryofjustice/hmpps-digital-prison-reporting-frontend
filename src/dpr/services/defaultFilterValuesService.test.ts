@@ -1,8 +1,8 @@
-import { MockUserStoreService } from '../../../../../../test-app/mocks/mockClients/store/mockRedisStore'
-import ReportDataStore from '../../../../data/reportDataStore'
-import { ReportStoreConfig } from '../../../../types/ReportStore'
-import DefaultFilterValuesService from './service'
-import { defaultFilterConfig } from './types'
+import { MockUserStoreService } from '../../../test-app/mocks/mockClients/store/mockRedisStore'
+import ReportDataStore from '../data/reportDataStore'
+import { defaultFilterConfig } from '../routes/journeys/request-report/filters/types'
+import { ReportStoreConfig } from '../types/ReportStore'
+import DefaultFilterValuesService from './defaultFilterValuesService'
 
 describe('DefaultFilterValuesService', () => {
   const mockUserStore: ReportDataStore = new MockUserStoreService() as unknown as ReportDataStore

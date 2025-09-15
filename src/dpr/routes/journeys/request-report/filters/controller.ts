@@ -70,42 +70,28 @@ export default class RequestReportController {
     }
   }
 
-  // Save filter values
   saveDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
-      PersonalisationUtils.saveDefaults(FiltersType.REQUEST, res, req, this.services)
+      await PersonalisationUtils.saveDefaults(FiltersType.REQUEST, res, req, this.services)
       res.redirect(`${req.baseUrl}?defaultsSaved=true`)
     } catch (error) {
-      const dprError = ErrorSummaryUtils.handleError(error, req.params.type)
-      const filters = AysncRequestUtils.getFiltersFromReqBody(req)
-
       req.body = {
         title: 'Failed to save defaults',
-        errorDescription: `Your ${req.params.type} has failed to generate.`,
-        error: dprError,
-        retry: true,
-        filters,
+        error: ErrorSummaryUtils.handleError(error, req.params.type),
         ...req.body,
       }
       next()
     }
   }
 
-  // Save filter values
   removeDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
-      PersonalisationUtils.removeDefaults(FiltersType.REQUEST, res, req, this.services)
+      await PersonalisationUtils.removeDefaults(FiltersType.REQUEST, res, req, this.services)
       res.redirect(req.baseUrl)
     } catch (error) {
-      const dprError = ErrorSummaryUtils.handleError(error, req.params.type)
-      const filters = AysncRequestUtils.getFiltersFromReqBody(req)
-
       req.body = {
-        title: 'Failed to save defaults',
-        errorDescription: `Your ${req.params.type} has failed to generate.`,
-        error: dprError,
-        retry: true,
-        filters,
+        title: 'Failed to remove defaults',
+        error: ErrorSummaryUtils.handleError(error, req.params.type),
         ...req.body,
       }
       next()

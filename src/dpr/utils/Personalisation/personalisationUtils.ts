@@ -100,7 +100,6 @@ const getDefaultValues = async (
 const setFilterValuesFromSavedDefaults = (
   filtersData: RenderFiltersReturnValue,
   defaultValues: defaultFilterValue[],
-  filtersType?: FiltersType,
 ): RenderFiltersReturnValue => {
   const hasDefaults = filtersData.filters.some((f) => {
     const defaultValue = defaultValues.findIndex((v) => v.name === f.name)

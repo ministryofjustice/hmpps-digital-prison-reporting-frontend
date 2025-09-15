@@ -254,13 +254,10 @@ const getFilterData = async (
   let filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
   filtersData.filters = PersonalistionUtils.setUserContextDefaults(res, filtersData.filters)
 
-  const defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id)
+  const defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id, FiltersType.REQUEST)
+  console.log(JSON.stringify({ defaultFilterValues }, null, 2))
   if (defaultFilterValues) {
-    filtersData = PersonalistionUtils.setFilterValuesFromSavedDefaults(
-      filtersData,
-      defaultFilterValues,
-      FiltersType.REQUEST,
-    )
+    filtersData = PersonalistionUtils.setFilterValuesFromSavedDefaults(filtersData, defaultFilterValues)
   }
 
   filtersData.filters = FiltersUtils.setFilterValuesFromRequest(filtersData.filters, req)

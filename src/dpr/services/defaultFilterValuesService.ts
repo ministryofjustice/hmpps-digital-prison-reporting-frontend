@@ -40,12 +40,19 @@ export default class DefaultFilterValuesService extends ReportStoreService {
     await this.getState(userId)
   }
 
-  async get(userId: string, reportId: string, id: string) {
+  async get(userId: string, reportId: string, id: string, filtersType: FiltersType) {
     const userConfig = await this.getState(userId)
     const defaultConfig = userConfig.defaultFilters?.find((defaultFilter) => {
       return defaultFilter.id === id && defaultFilter.reportId === reportId
     })
-    return defaultConfig ? defaultConfig.values : undefined
+    let values: defaultFilterValue[] = []
+    if (defaultConfig) {
+      values = defaultConfig.values.filter((v) => {
+        const type = !v.type ? FiltersType.REQUEST : v.type
+        return filtersType === type
+      })
+    }
+    return values.length ? values : undefined
   }
 
   async getIndex(userId: string, reportId: string, id: string) {
@@ -63,8 +70,9 @@ export default class DefaultFilterValuesService extends ReportStoreService {
       if (defaults.values.length > 0) {
         const updatedValues = defaults.values.filter((value) => {
           const filtersType = !value.type ? FiltersType.REQUEST : value.type
-          return filtersType === type
+          return filtersType !== type
         })
+        console.log(JSON.stringify({ updatedValues }, null, 2))
         userConfig.defaultFilters[index].values = updatedValues
       } else {
         userConfig.defaultFilters.splice(index, 1)

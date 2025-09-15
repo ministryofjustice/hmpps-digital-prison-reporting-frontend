@@ -21,6 +21,7 @@ import type { components } from '../../../../types/api'
 import type { DashboardDefinition } from '../../../../components/_dashboards/dashboard/types'
 import type { Services } from '../../../../types/Services'
 import type DashboardService from '../../../../services/dashboardService'
+import PersonalistionUtils, { FiltersType } from '../../../../utils/personalisationUtils'
 
 /**
  * Updates the store with the request details
@@ -250,11 +251,15 @@ const getFilterData = async (
   const { reportId, id } = req.params
 
   let filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
-  filtersData.filters = FiltersUtils.setUserContextDefaults(res, filtersData.filters)
+  filtersData.filters = PersonalistionUtils.setUserContextDefaults(res, filtersData.filters)
 
   const defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id)
   if (defaultFilterValues) {
-    filtersData = FiltersUtils.setFilterValuesFromSavedDefaults(filtersData, defaultFilterValues)
+    filtersData = PersonalistionUtils.setFilterValuesFromSavedDefaults(
+      filtersData,
+      defaultFilterValues,
+      FiltersType.REQUEST,
+    )
   }
 
   filtersData.filters = FiltersUtils.setFilterValuesFromRequest(filtersData.filters, req)

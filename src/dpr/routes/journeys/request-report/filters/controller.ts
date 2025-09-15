@@ -3,7 +3,7 @@ import { Services } from '../../../../types/Services'
 import { RequestDataResult } from '../../../../types/AsyncReportUtils'
 import AysncRequestUtils from './utils'
 import ErrorSummaryUtils from '../../../../components/error-summary/utils'
-import PersonalisationUtils, { FiltersType } from '../../../../utils/personalistionUtils'
+import PersonalisationUtils, { FiltersType } from '../../../../utils/personalisationUtils'
 
 export default class RequestReportController {
   layoutPath: string

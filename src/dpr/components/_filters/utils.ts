@@ -10,7 +10,6 @@ import type {
   FilterValue,
   MultiselectFilterValue,
   GranularDateRangeFilterValue,
-  FilterValueWithOptions,
 } from './types'
 import ReportQuery, { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 
@@ -21,11 +20,6 @@ import GranularDateRangeInputUtils from '../_inputs/granular-date-range/utils'
 import MultiSelectUtils from '../_inputs/multi-select/utils'
 import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
 import createUrlForParameters from '../../utils/urlHelper'
-import { defaultFilterValue, FiltersType } from '../../routes/journeys/request-report/filters/types'
-import localsHelper from '../../utils/localsHelper'
-import { Services } from '../../types/Services'
-import { ReportType } from '../../types/UserReports'
-import { RenderFiltersReturnValue } from '../_async/async-filters-form/types'
 
 /**
  * Given a FilterValue[], will update the values to match the req.query values if present

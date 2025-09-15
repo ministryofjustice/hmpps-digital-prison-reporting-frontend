@@ -21,7 +21,8 @@ import type { components } from '../../../../types/api'
 import type { DashboardDefinition } from '../../../../components/_dashboards/dashboard/types'
 import type { Services } from '../../../../types/Services'
 import type DashboardService from '../../../../services/dashboardService'
-import PersonalistionUtils, { FiltersType } from '../../../../utils/personalisationUtils'
+import PersonalistionUtils from '../../../../utils/Personalisation/personalisationUtils'
+import { FiltersType } from '../../../../utils/Personalisation/types'
 
 /**
  * Updates the store with the request details

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import MockDate from 'mockdate'
 import FiltersUtils from './utils'
-import PersonalistionUtils from '../../utils/personalisationUtils'
+import PersonalistionUtils from '../../utils/Personalisation/personalisationUtils'
 import mockVariant from '../../../../test-app/mocks/mockClients/reports/mockVariants/request-examples/success'
 import { components } from '../../types/api'
 import DateRangeUtils from '../_inputs/date-range/utils'
@@ -9,8 +9,8 @@ import GranularDaterangeUtils from '../_inputs/granular-date-range/utils'
 import { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 import { FilterValue } from './types'
 import { FilterType } from './filter-input/enum'
-import { defaultFilterValue } from '../../routes/journeys/request-report/filters/types'
 import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
+import { defaultFilterValue } from '../../utils/Personalisation/types'
 
 describe('Filters Utils tests', () => {
   let req: Request = {

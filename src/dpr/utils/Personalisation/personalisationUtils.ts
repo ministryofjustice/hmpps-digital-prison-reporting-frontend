@@ -1,27 +1,22 @@
 import { Request, Response } from 'express'
-import { Services } from '../types/Services'
-import localsHelper from './localsHelper'
-import { defaultFilterValue } from '../routes/journeys/request-report/filters/types'
-import { ReportType } from '../types/UserReports'
-import { components } from '../types/api'
-import { FilterType } from '../components/_filters/filter-input/enum'
-import DateRangeInputUtils from '../components/_inputs/date-range/utils'
-import GranularDateRangeInputUtils from '../components/_inputs/granular-date-range/utils'
-import MultiSelectUtils from '../components/_inputs/multi-select/utils'
-import DateInputUtils from '../components/_inputs/date-input/utils'
-import { RenderFiltersReturnValue } from '../components/_async/async-filters-form/types'
+import { Services } from '../../types/Services'
+import localsHelper from '../localsHelper'
+import { ReportType } from '../../types/UserReports'
+import { components } from '../../types/api'
+import { FilterType } from '../../components/_filters/filter-input/enum'
+import DateRangeInputUtils from '../../components/_inputs/date-range/utils'
+import GranularDateRangeInputUtils from '../../components/_inputs/granular-date-range/utils'
+import MultiSelectUtils from '../../components/_inputs/multi-select/utils'
+import DateInputUtils from '../../components/_inputs/date-input/utils'
+import { RenderFiltersReturnValue } from '../../components/_async/async-filters-form/types'
 import {
   DateFilterValue,
   DateRangeFilterValue,
   FilterValue,
   FilterValueWithOptions,
   GranularDateRangeFilterValue,
-} from '../components/_filters/types'
-
-export enum FiltersType {
-  INTERACTIVE = 'interactive',
-  REQUEST = 'request',
-}
+} from '../../components/_filters/types'
+import { defaultFilterValue, FiltersType } from './types'
 
 const saveDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
   const defaultValuesForReport = await getDefaultValues(req, res, services, type)

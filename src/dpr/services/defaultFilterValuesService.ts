@@ -2,7 +2,8 @@
 import ReportStoreService from './reportStoreService'
 import ReportDataStore from '../data/reportDataStore'
 import { ReportStoreConfig } from '../types/ReportStore'
-import { defaultFilterValue, FiltersType } from '../utils/Personalisation/types'
+import { defaultFilterValue } from '../utils/Personalisation/types'
+import { FiltersType } from '../components/_filters/filtersTypeEnum'
 
 export default class DefaultFilterValuesService extends ReportStoreService {
   constructor(reportDataStore: ReportDataStore) {

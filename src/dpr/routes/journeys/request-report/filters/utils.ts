@@ -22,7 +22,7 @@ import type { DashboardDefinition } from '../../../../components/_dashboards/das
 import type { Services } from '../../../../types/Services'
 import type DashboardService from '../../../../services/dashboardService'
 import PersonalistionUtils from '../../../../utils/Personalisation/personalisationUtils'
-import { FiltersType } from '../../../../utils/Personalisation/types'
+import { FiltersType } from '../../../../components/_filters/filtersTypeEnum'
 
 /**
  * Updates the store with the request details

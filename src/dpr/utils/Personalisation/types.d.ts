@@ -1,9 +1,5 @@
 import { Granularity, QuickFilters } from '../../components/_inputs/granular-date-range/types'
-
-export enum FiltersType {
-  INTERACTIVE = 'interactive',
-  REQUEST = 'request',
-}
+import { FiltersType } from '../../components/_filters/filtersTypeEnum'
 
 export interface defaultFilterValue {
   name: string

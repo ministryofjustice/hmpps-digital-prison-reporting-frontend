@@ -16,7 +16,8 @@ import {
   FilterValueWithOptions,
   GranularDateRangeFilterValue,
 } from '../../components/_filters/types'
-import { defaultFilterValue, FiltersType } from './types'
+import { defaultFilterValue } from './types'
+import { FiltersType } from '../../components/_filters/filtersTypeEnum'
 
 const saveDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
   const defaultValuesForReport = await getDefaultValues(req, res, services, type)

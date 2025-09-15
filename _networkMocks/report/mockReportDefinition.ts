@@ -1,8 +1,8 @@
 import { requestExampleVariants } from './mockVariants/request-examples'
-import templateExamples from './mockVariants/report-templates'
-import featureTesting from './mockVariants/feature-testing'
-import { variants } from './mockVariants/mock-report'
-import inputExamples from './mockVariants/filter-input-examples'
+import { reportTemplates } from './mockVariants/report-templates'
+import { featureTestingVariants } from './mockVariants/feature-testing'
+import { mockReportVariants } from './mockVariants/mock-report'
+import { filterInputExamplesVariants } from './mockVariants/filter-input-examples'
 import dashboardDefinitions from '../dashboard/dashboardDefinitions/dashboard-definitions'
 
 export default {
@@ -25,28 +25,28 @@ export default {
       id: 'report-template-examples',
       name: 'Report templates',
       description: 'Example variants used for template testing',
-      variants: templateExamples,
+      variants: reportTemplates,
       dashboards: [],
     },
     {
       id: 'mock-report',
       name: 'Mock reports',
       description: 'Example variants',
-      variants,
+      variants: mockReportVariants,
       dashboards: [],
     },
     {
       id: 'filter-inputs',
       name: 'Filter input testing',
       description: 'Example variants used for input testing',
-      variants: inputExamples,
+      variants: filterInputExamplesVariants,
       dashboards: [],
     },
     {
       id: 'feature-testing',
       name: 'Feature testing',
       description: 'Example variants used for feature testing',
-      variants: featureTesting,
+      variants: featureTestingVariants,
       dashboards: [],
     },
     {

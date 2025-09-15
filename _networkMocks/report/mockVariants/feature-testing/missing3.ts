@@ -1,11 +1,14 @@
-const featureTestingValidation = {
-  id: 'feature-testing-validation',
-  name: 'Validation Test',
-  description: 'The report is used to test the form validation',
+import { components } from "src/dpr/types/api";
+
+export const featureTestingMissing3: components['schemas']['VariantDefinition'] = {
+  id: 'feature-testing-missing-3',
+  name: 'Missing Report 3',
+  description: 'Description for missing report 3',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: false,
   specification: {
+    sections: [],
     template: 'list',
     fields: [
       {
@@ -16,6 +19,8 @@ const featureTestingValidation = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -23,8 +28,8 @@ const featureTestingValidation = {
             { name: 'value1.2', display: 'Value 1.2' },
             { name: 'value1.3', display: 'Value 1.3' },
           ],
-          // defaultValue: 'value1.2',
-          mandatory: true,
+          defaultValue: 'value1.2',
+          mandatory: false,
         },
       },
       {
@@ -34,6 +39,9 @@ const featureTestingValidation = {
         type: 'string',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'Select',
           staticOptions: [
@@ -41,7 +49,7 @@ const featureTestingValidation = {
             { name: 'value2.2', display: 'Value 2.2' },
             { name: 'value2.3', display: 'Value 2.3' },
           ],
-          mandatory: true,
+          mandatory: false,
         },
       },
       {
@@ -51,6 +59,9 @@ const featureTestingValidation = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
@@ -65,20 +76,23 @@ const featureTestingValidation = {
         visible: false,
         sortable: false,
         type: 'string',
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        mandatory: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
             { name: 'Inigo Montoya', display: 'Inigo Montoya' },
-            { name: 'Prince Humperdink', display: 'Prince Humperdink' },
+            { name: 'PrHu', display: 'Prince Humperdink' },
             { name: 'Princess Buttercup', display: 'Princess Buttercup' },
             { name: 'Westley', display: 'Westley' },
           ],
-          mandatory: true,
+          mandatory: false,
         },
       },
       {
@@ -88,13 +102,15 @@ const featureTestingValidation = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: false,
           },
-          mandatory: true,
+          mandatory: false,
         },
       },
       {
@@ -102,12 +118,14 @@ const featureTestingValidation = {
         display: 'Field 6',
         sortable: false,
         type: 'HTML',
-        mandatory: false,
+        mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'text',
-          mandatory: true,
-          pattern: 'Value 6\\.\\d',
         },
       },
       {
@@ -117,16 +135,39 @@ const featureTestingValidation = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'date',
           defaultValue: '2005-02-01',
           min: '2003-02-01',
           max: '2007-05-04',
-          mandatory: true,
+        },
+      },
+      {
+        name: 'field8',
+        display: 'Field 8',
+        sortable: false,
+        visible: false,
+        type: 'date',
+        mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        filter: {
+          mandatory: false,
+          type: 'multiselect',
+          staticOptions: [
+            { name: 'value8.1', display: 'Value 8.1' },
+            { name: 'value8.2', display: 'Value 8.2' },
+            { name: 'value8.3', display: 'Value 8.3' },
+            { name: 'value8.4', display: 'Value 8.4' },
+          ],
+          defaultValue: 'value8.2,value8.3',
         },
       },
     ],
   },
 }
-
-module.exports = featureTestingValidation

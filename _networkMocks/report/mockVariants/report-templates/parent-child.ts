@@ -1,4 +1,8 @@
-const reportTemplateExampleParentChild = {
+import { components } from "src/dpr/types/api";
+import { LoadType } from "src/dpr/types/UserReports";
+
+const reportTemplateExampleParentChild: components['schemas']['VariantDefinition'] & { loadType: LoadType } = {
+  loadType: LoadType.ASYNC,
   id: 'report-template-example-parent-child',
   name: 'Parent Child Template',
   description: 'A report with parent and child datasets',
@@ -6,6 +10,7 @@ const reportTemplateExampleParentChild = {
   classification: 'OFFICIAL',
   printable: true,
   specification: {
+    sections: [],
     template: 'parent-child',
     fields: [
       {
@@ -16,6 +21,8 @@ const reportTemplateExampleParentChild = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
       },
       {
         name: 'field1',
@@ -25,6 +32,8 @@ const reportTemplateExampleParentChild = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
       },
     ],
   },
@@ -35,6 +44,7 @@ const reportTemplateExampleParentChild = {
       resourceName: 'reports/list',
       joinFields: ['section1'],
       specification: {
+        sections: ['section1'],
         template: 'parent-child',
         fields: [
           {
@@ -45,6 +55,8 @@ const reportTemplateExampleParentChild = {
             type: 'string',
             mandatory: false,
             visible: false,
+            calculated: false,
+            header: false,
           },
           {
             name: 'field2',
@@ -54,6 +66,8 @@ const reportTemplateExampleParentChild = {
             type: 'string',
             mandatory: false,
             visible: true,
+            calculated: false,
+            header: false,
           },
           {
             name: 'field3',
@@ -63,6 +77,8 @@ const reportTemplateExampleParentChild = {
             type: 'string',
             mandatory: false,
             visible: true,
+            calculated: false,
+            header: false,
           },
         ],
       },
@@ -70,4 +86,4 @@ const reportTemplateExampleParentChild = {
   ],
 }
 
-module.exports = reportTemplateExampleParentChild
+export default reportTemplateExampleParentChild

@@ -1,4 +1,6 @@
-export const variant35Interactive = {
+import { components } from "src/dpr/types/api";
+
+export const variant35Interactive: components['schemas']['VariantDefinition'] = {
   id: 'variantId-35',
   name: 'Interactive Report with async filters',
   description: 'this is an interactive report',
@@ -7,6 +9,7 @@ export const variant35Interactive = {
   printable: false,
   interactive: true,
   specification: {
+    sections: [],
     template: 'list',
     fields: [
       {
@@ -17,6 +20,8 @@ export const variant35Interactive = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -36,6 +41,9 @@ export const variant35Interactive = {
         type: 'string',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'Select',
           staticOptions: [
@@ -54,6 +62,9 @@ export const variant35Interactive = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
@@ -69,11 +80,14 @@ export const variant35Interactive = {
         visible: false,
         sortable: false,
         type: 'string',
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        mandatory: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -93,6 +107,9 @@ export const variant35Interactive = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
       },
       {
         name: 'field6',
@@ -101,8 +118,12 @@ export const variant35Interactive = {
         type: 'HTML',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'text',
+          mandatory: false,
           interactive: true,
         },
       },
@@ -112,8 +133,12 @@ export const variant35Interactive = {
         sortable: false,
         visible: true,
         type: 'date',
+        calculated: false,
+        header: false,
+        defaultsort: false,
         mandatory: false,
         filter: {
+          mandatory: false,
           type: 'date',
           defaultValue: '2005-02-01',
           min: '2003-02-01',
@@ -127,8 +152,12 @@ export const variant35Interactive = {
         sortable: false,
         visible: false,
         type: 'date',
+        calculated: false,
+        header: false,
+        defaultsort: false,
         mandatory: false,
         filter: {
+          mandatory: false,
           type: 'multiselect',
           staticOptions: [
             { name: 'value8.1', display: 'Value 8.1' },

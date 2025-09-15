@@ -1,41 +1,16 @@
-const reportTemplateExampleListSectionWithSummaries = {
-  id: 'report-template-example-list-section-with-summaries',
-  name: 'Page Summaries and Sections',
-  description: 'A report with summaries and sections.',
+import { components } from "src/dpr/types/api";
+
+const reportTemplateExampleTableSummaries: components['schemas']['VariantDefinition'] = {
+  id: 'report-template-example-table-summaries',
+  name: 'Table Summaries',
+  description:
+    'A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
   summaries: [
     {
-      id: 'summary1',
-      template: 'page-header',
-      fields: [
-        {
-          name: 'total',
-          display: 'Total',
-        },
-      ],
-    },
-    {
-      id: 'summary3',
-      template: 'page-footer',
-      fields: [
-        {
-          name: 'percentGood',
-          display: 'Good (%)',
-        },
-        {
-          name: 'percentBad',
-          display: 'Bad (%)',
-        },
-        {
-          name: 'percentUgly',
-          display: 'Ugly (%)',
-        },
-      ],
-    },
-    {
-      id: 'summary6',
+      id: 'summary4',
       template: 'table-header',
       fields: [
         {
@@ -61,7 +36,7 @@ const reportTemplateExampleListSectionWithSummaries = {
       ],
     },
     {
-      id: 'summary7',
+      id: 'summary5',
       template: 'table-footer',
       fields: [
         {
@@ -88,8 +63,8 @@ const reportTemplateExampleListSectionWithSummaries = {
     },
   ],
   specification: {
-    template: 'list-section',
-    sections: ['section1', 'section2'],
+    sections: [],
+    template: 'list',
     fields: [
       {
         name: 'field1',
@@ -99,6 +74,8 @@ const reportTemplateExampleListSectionWithSummaries = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -116,6 +93,9 @@ const reportTemplateExampleListSectionWithSummaries = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'Select',
           staticOptions: [
@@ -133,6 +113,9 @@ const reportTemplateExampleListSectionWithSummaries = {
         type: 'date',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'daterange',
           min: '2003-02-01',
@@ -146,11 +129,14 @@ const reportTemplateExampleListSectionWithSummaries = {
         sortable: false,
         type: 'string',
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        mandatory: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -169,6 +155,10 @@ const reportTemplateExampleListSectionWithSummaries = {
         sortable: false,
         type: 'string',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        visible: false,
         filter: {
           type: 'text',
           pattern: 'Value 6\\.\\d',
@@ -183,6 +173,8 @@ const reportTemplateExampleListSectionWithSummaries = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
       {
         name: 'section2',
@@ -192,9 +184,11 @@ const reportTemplateExampleListSectionWithSummaries = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
     ],
   },
 }
 
-module.exports = reportTemplateExampleListSectionWithSummaries
+export default reportTemplateExampleTableSummaries

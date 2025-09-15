@@ -1,4 +1,6 @@
-export const featureTestingMissingDescription = {
+import { components } from "src/dpr/types/api";
+
+export const featureTestingMissingDescription: components['schemas']['VariantDefinition'] = {
   id: 'feature-testing-missing-description',
   name: 'Missing variant description',
   // note description missing
@@ -6,6 +8,7 @@ export const featureTestingMissingDescription = {
   classification: 'OFFICIAL',
   printable: false,
   specification: {
+    sections: [],
     template: 'list',
     fields: [
       {
@@ -15,6 +18,9 @@ export const featureTestingMissingDescription = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
       },
       {
         name: 'field2',
@@ -23,6 +29,9 @@ export const featureTestingMissingDescription = {
         type: 'string',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'Select',
           staticOptions: [
@@ -40,6 +49,9 @@ export const featureTestingMissingDescription = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
@@ -54,11 +66,14 @@ export const featureTestingMissingDescription = {
         visible: false,
         sortable: false,
         type: 'string',
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        mandatory: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -79,6 +94,8 @@ export const featureTestingMissingDescription = {
         visible: false,
         defaultsort: true,
         sortDirection: 'asc',
+        calculated: false,
+        header: false,
       },
       {
         name: 'field6',
@@ -87,7 +104,11 @@ export const featureTestingMissingDescription = {
         type: 'HTML',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'text',
         },
       },
@@ -98,6 +119,9 @@ export const featureTestingMissingDescription = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
       },
     ],
   },

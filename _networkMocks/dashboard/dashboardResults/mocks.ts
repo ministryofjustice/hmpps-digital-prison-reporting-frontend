@@ -27,10 +27,18 @@ const dietDashboards = [
   'scorecard-examples-diet-totals',
 ]
 
+export const listsExampleDashboardResultMock = setupSimpleMock(`/reports/[a-zA-Z0-9-_]+/dashboards/(lists-example-dashboard)/tables/tblId_[a-zA-Z0-9]+/result`, generateData({}))
+export const ageBreakdownDashboard3ResultMock = setupSimpleMock(`/reports/[a-zA-Z0-9-_]+/dashboards/(age-breakdown-dashboard-3)/tables/tblId_[a-zA-Z0-9]+/result`, generateData({}))
+export const ageBreakdownDashboard1_2ResultMock = setupSimpleMock(`/reports/[a-zA-Z0-9-_]+/dashboards/age-breakdown-dashboard-[1-2]/tables/tblId_[a-zA-Z0-9]+/result`, generateAgeBreakdownData('MDI', 'I'))
+export const dataQualityDashboardsResultMock = setupSimpleMock(`/reports/dashboard-visualisations/dashboards/(${dataQualityDashboards.join('|')})/tables/tblId_[0-9]+/result`, generateDataQualityData({}))
+export const dietDashboardsResultMock = setupSimpleMock(`/reports/dashboard-visualisations/dashboards/(${dietDashboards.join('|')})/tables/tblId_[0-9]+/result`, generateDietData({}))
+export const catchallDashboardsResultMock = setupSimpleMock(`/reports/dashboard-visualisations/dashboards/[a-zA-Z0-9-_]+/tables/tblId_[0-9]+/result`, generateDataQualityData({}), 100)
+
 export const mocks = [
-  setupSimpleMock(`/reports/[a-zA-Z0-9-_]+/dashboards/(age-breakdown-dashboard-3|lists-example-dashboard)/tables/tblId_[a-zA-Z0-9]+/result`, generateData({})),
-  setupSimpleMock(`/reports/[a-zA-Z0-9-_]+/dashboards/age-breakdown-dashboard-[1-2]/tables/tblId_[a-zA-Z0-9]+/result`, generateAgeBreakdownData('MDI', 'I')),
-  setupSimpleMock(`/reports/dashboard-visualisations/dashboards/(${dataQualityDashboards.join('|')})/tables/tblId_[0-9]+/result`, generateDataQualityData({})),
-  setupSimpleMock(`/reports/dashboard-visualisations/dashboards/(${dietDashboards.join('|')})/tables/tblId_[0-9]+/result`, generateDietData({})),
-  setupSimpleMock(`/reports/dashboard-visualisations/dashboards/[a-zA-Z0-9-_]+/tables/tblId_[0-9]+/result`, generateDataQualityData({}), 100),
+  listsExampleDashboardResultMock,
+  ageBreakdownDashboard3ResultMock,
+  ageBreakdownDashboard1_2ResultMock,
+  dataQualityDashboardsResultMock,
+  dietDashboardsResultMock,
+  catchallDashboardsResultMock,
 ]

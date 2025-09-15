@@ -1,4 +1,6 @@
-const reportTemplateExampleSummariesComplex = {
+import { components } from "src/dpr/types/api";
+
+const reportTemplateExampleSummariesComplex: components['schemas']['VariantDefinition'] = {
   id: 'report-template-example-summaries-complex',
   name: 'Summaries (no list), complex titles',
   description: 'A report with titled summaries, but no list.',
@@ -25,7 +27,6 @@ const reportTemplateExampleSummariesComplex = {
           display: '',
           header: true,
           mergeRows: true,
-          sortAsc: false,
         },
         {
           name: 'measureType',
@@ -61,6 +62,7 @@ const reportTemplateExampleSummariesComplex = {
     },
   ],
   specification: {
+    sections: [],
     template: 'summary',
     fields: [
       {
@@ -71,6 +73,8 @@ const reportTemplateExampleSummariesComplex = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
       {
         name: 'section2',
@@ -80,9 +84,11 @@ const reportTemplateExampleSummariesComplex = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
     ],
   },
 }
 
-module.exports = reportTemplateExampleSummariesComplex
+export default reportTemplateExampleSummariesComplex

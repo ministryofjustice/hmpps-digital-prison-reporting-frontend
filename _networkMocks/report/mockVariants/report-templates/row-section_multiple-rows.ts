@@ -1,26 +1,15 @@
-const reportTemplateExampleRowSection = {
-  id: 'report-template-example-row-section',
-  name: 'Sectioned Rows template',
+import { components } from "src/dpr/types/api";
+
+const reportTemplateExampleRowSectionMultiple: components['schemas']['VariantDefinition'] = {
+  id: 'report-template-example-row-section-multiple-rows',
+  name: 'Sectioned Rows template (muliple rows)',
   description: 'A report with sectioned rows',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
   specification: {
     template: 'row-section',
-    sectionedFields: [
-      {
-        name: 'section1',
-        fields: ['field1', 'field2'],
-      },
-      {
-        name: 'section2',
-        fields: ['field3', 'field4'],
-      },
-      {
-        name: 'section3',
-        fields: ['field5', 'field6'],
-      },
-    ],
+    sections: ['section1', 'section2', 'section3'],
     fields: [
       {
         name: 'field1',
@@ -30,6 +19,8 @@ const reportTemplateExampleRowSection = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
       },
       {
         name: 'field2',
@@ -39,6 +30,8 @@ const reportTemplateExampleRowSection = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
       },
       {
         name: 'field3',
@@ -48,6 +41,8 @@ const reportTemplateExampleRowSection = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
       },
       {
         name: 'field4',
@@ -57,6 +52,8 @@ const reportTemplateExampleRowSection = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
       },
       {
         name: 'field5',
@@ -66,6 +63,8 @@ const reportTemplateExampleRowSection = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
       },
       {
         name: 'field6',
@@ -75,6 +74,8 @@ const reportTemplateExampleRowSection = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
       },
       {
         name: 'section1',
@@ -84,6 +85,8 @@ const reportTemplateExampleRowSection = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
       {
         name: 'section2',
@@ -93,6 +96,8 @@ const reportTemplateExampleRowSection = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
       {
         name: 'section3',
@@ -102,9 +107,11 @@ const reportTemplateExampleRowSection = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
     ],
   },
 }
 
-module.exports = reportTemplateExampleRowSection
+export default reportTemplateExampleRowSectionMultiple

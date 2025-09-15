@@ -1,51 +1,14 @@
-const reportTemplateExampleListWithSummaries = {
-  id: 'report-template-example-list-with-summaries',
-  name: 'Page Summaries',
-  description: 'A report with summaries.',
+import { components } from "src/dpr/types/api";
+
+export const featureTestingValidation: components['schemas']['VariantDefinition'] = {
+  id: 'feature-testing-validation',
+  name: 'Validation Test',
+  description: 'The report is used to test the form validation',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
-  printable: true,
-  summaries: [
-    {
-      id: 'summary1',
-      template: 'page-header',
-      fields: [
-        {
-          name: 'total',
-          display: 'Total',
-        },
-      ],
-    },
-    {
-      id: 'summary2',
-      template: 'page-header',
-      fields: [
-        {
-          name: 'total',
-          display: 'Other Total',
-        },
-      ],
-    },
-    {
-      id: 'summary3',
-      template: 'page-footer',
-      fields: [
-        {
-          name: 'percentGood',
-          display: 'Good (%)',
-        },
-        {
-          name: 'percentBad',
-          display: 'Bad (%)',
-        },
-        {
-          name: 'percentUgly',
-          display: 'Ugly (%)',
-        },
-      ],
-    },
-  ],
+  printable: false,
   specification: {
+    sections: [],
     template: 'list',
     fields: [
       {
@@ -56,6 +19,8 @@ const reportTemplateExampleListWithSummaries = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -63,7 +28,8 @@ const reportTemplateExampleListWithSummaries = {
             { name: 'value1.2', display: 'Value 1.2' },
             { name: 'value1.3', display: 'Value 1.3' },
           ],
-          mandatory: false,
+          // defaultValue: 'value1.2',
+          mandatory: true,
         },
       },
       {
@@ -71,8 +37,11 @@ const reportTemplateExampleListWithSummaries = {
         display: 'Field 2',
         sortable: true,
         type: 'string',
-        mandatory: false,
+        mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'Select',
           staticOptions: [
@@ -80,34 +49,41 @@ const reportTemplateExampleListWithSummaries = {
             { name: 'value2.2', display: 'Value 2.2' },
             { name: 'value2.3', display: 'Value 2.3' },
           ],
-          mandatory: false,
+          mandatory: true,
         },
       },
       {
         name: 'field3',
         display: 'Field 3',
         sortable: false,
+        visible: true,
         type: 'date',
         mandatory: false,
-        visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'daterange',
+          defaultValue: '2003-02-01 - 2006-05-04',
           min: '2003-02-01',
           max: '2007-05-04',
-          mandatory: false,
+          mandatory: true,
         },
       },
       {
         name: 'field4',
         display: 'Field 4',
+        visible: false,
         sortable: false,
         type: 'string',
-        visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        mandatory: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -116,42 +92,61 @@ const reportTemplateExampleListWithSummaries = {
             { name: 'Princess Buttercup', display: 'Princess Buttercup' },
             { name: 'Westley', display: 'Westley' },
           ],
-          mandatory: false,
-          pattern: '(?!Invalid).+',
+          mandatory: true,
+        },
+      },
+      {
+        name: 'field5',
+        display: 'Field 5',
+        sortable: false,
+        type: 'string',
+        mandatory: false,
+        visible: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        filter: {
+          type: 'autocomplete',
+          dynamicOptions: {
+            minimumLength: 3,
+          },
+          mandatory: true,
         },
       },
       {
         name: 'field6',
         display: 'Field 6',
         sortable: false,
-        type: 'string',
+        type: 'HTML',
         mandatory: false,
+        visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'text',
+          mandatory: true,
           pattern: 'Value 6\\.\\d',
-          mandatory: false,
         },
       },
       {
-        name: 'section1',
-        display: 'First',
+        name: 'field7',
+        display: 'Field 7',
         sortable: false,
-        defaultsort: false,
-        type: 'string',
+        visible: true,
+        type: 'date',
         mandatory: false,
-        visible: false,
-      },
-      {
-        name: 'section2',
-        display: 'Second',
-        sortable: false,
+        calculated: false,
+        header: false,
         defaultsort: false,
-        type: 'string',
-        mandatory: false,
-        visible: false,
+        filter: {
+          type: 'date',
+          defaultValue: '2005-02-01',
+          min: '2003-02-01',
+          max: '2007-05-04',
+          mandatory: true,
+        },
       },
     ],
   },
 }
-
-module.exports = reportTemplateExampleListWithSummaries

@@ -1,12 +1,14 @@
-const featureTestingMissing3 = {
-  id: 'feature-testing-missing-3',
-  name: 'Missing Report 3',
-  description: 'Description for missing report 3',
+import { components } from "src/dpr/types/api";
+
+export const featureTestingMissing2: components['schemas']['VariantDefinition'] = {
+  id: 'feature-testing-missing2',
+  name: 'Missing Report 2',
+  description: 'Description for missing report 2',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: false,
-  isMissing: true,
   specification: {
+    sections: [],
     template: 'list',
     fields: [
       {
@@ -17,6 +19,8 @@ const featureTestingMissing3 = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -35,6 +39,9 @@ const featureTestingMissing3 = {
         type: 'string',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'Select',
           staticOptions: [
@@ -52,6 +59,9 @@ const featureTestingMissing3 = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
@@ -66,11 +76,14 @@ const featureTestingMissing3 = {
         visible: false,
         sortable: false,
         type: 'string',
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        mandatory: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -89,11 +102,13 @@ const featureTestingMissing3 = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: false,
           },
           mandatory: false,
         },
@@ -105,7 +120,11 @@ const featureTestingMissing3 = {
         type: 'HTML',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'text',
         },
       },
@@ -116,7 +135,11 @@ const featureTestingMissing3 = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'date',
           defaultValue: '2005-02-01',
           min: '2003-02-01',
@@ -130,7 +153,11 @@ const featureTestingMissing3 = {
         visible: false,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'multiselect',
           staticOptions: [
             { name: 'value8.1', display: 'Value 8.1' },
@@ -145,4 +172,3 @@ const featureTestingMissing3 = {
   },
 }
 
-module.exports = featureTestingMissing3

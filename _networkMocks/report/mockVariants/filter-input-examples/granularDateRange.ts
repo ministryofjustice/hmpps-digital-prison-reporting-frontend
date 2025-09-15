@@ -1,4 +1,6 @@
-const variant25 = {
+import { components } from "src/dpr/types/api";
+
+export const variant25: components['schemas']['VariantDefinition'] = {
   id: 'variantId-25',
   name: 'Granular Daterange',
   description: 'Granular Daterange variant',
@@ -6,6 +8,7 @@ const variant25 = {
   classification: 'OFFICIAL',
   printable: false,
   specification: {
+    sections: [],
     template: 'list',
     fields: [
       {
@@ -15,10 +18,13 @@ const variant25 = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'granulardaterange',
           defaultValue: '2003-02-01 - 2006-05-04',
-          defaultQuickFilterValue: 'last-six-months',
+          defaultQuickFilterValue: 'last-three-months',
           mandatory: true,
           defaultGranularity: 'daily',
         },
@@ -26,5 +32,3 @@ const variant25 = {
     ],
   },
 }
-
-module.exports = variant25

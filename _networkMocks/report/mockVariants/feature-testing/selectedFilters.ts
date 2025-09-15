@@ -1,4 +1,6 @@
-const featureTestingSelectedFilters = {
+import { components } from "src/dpr/types/api";
+
+export const featureTestingSelectedFilters: components['schemas']['VariantDefinition'] = {
   id: 'feature-testing-selected-filters',
   name: 'Selected Filter Testing',
   description: 'this will succeed',
@@ -6,6 +8,7 @@ const featureTestingSelectedFilters = {
   classification: 'OFFICIAL',
   printable: false,
   specification: {
+    sections: [],
     template: 'list',
     fields: [
       {
@@ -15,6 +18,9 @@ const featureTestingSelectedFilters = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'granulardaterange',
           defaultValue: 'last-90-days',
@@ -30,6 +36,8 @@ const featureTestingSelectedFilters = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -48,6 +56,9 @@ const featureTestingSelectedFilters = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -65,6 +76,9 @@ const featureTestingSelectedFilters = {
         type: 'string',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'Select',
           staticOptions: [
@@ -82,6 +96,9 @@ const featureTestingSelectedFilters = {
         type: 'string',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'Select',
           staticOptions: [
@@ -99,6 +116,9 @@ const featureTestingSelectedFilters = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'daterange',
           // defaultValue: '2003-02-01 - 2006-05-04',
@@ -113,11 +133,14 @@ const featureTestingSelectedFilters = {
         visible: false,
         sortable: false,
         type: 'string',
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        mandatory: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -136,11 +159,13 @@ const featureTestingSelectedFilters = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: false,
           },
           mandatory: false,
         },
@@ -152,7 +177,11 @@ const featureTestingSelectedFilters = {
         type: 'HTML',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'text',
           defaultValue: 'Hello',
         },
@@ -164,7 +193,11 @@ const featureTestingSelectedFilters = {
         type: 'HTML',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'text',
         },
       },
@@ -175,7 +208,11 @@ const featureTestingSelectedFilters = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'date',
           defaultValue: '2005-02-01',
           min: '2003-02-01',
@@ -189,7 +226,11 @@ const featureTestingSelectedFilters = {
         visible: false,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'multiselect',
           staticOptions: [
             { name: 'value8.1', display: 'Value 8.1' },
@@ -211,5 +252,3 @@ const featureTestingSelectedFilters = {
     ],
   },
 }
-
-module.exports = featureTestingSelectedFilters

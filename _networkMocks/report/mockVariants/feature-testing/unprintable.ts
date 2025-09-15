@@ -1,4 +1,6 @@
-const featureTestingUnprintable = {
+import { components } from "src/dpr/types/api";
+
+export const featureTestingUnprintable: components['schemas']['VariantDefinition'] = {
   id: 'feature-testing-unprintable',
   name: 'Unprintable',
   description: 'An unprintable variant',
@@ -6,6 +8,7 @@ const featureTestingUnprintable = {
   classification: 'OFFICIAL',
   printable: false,
   specification: {
+    sections: [],
     template: 'list',
     fields: [
       {
@@ -16,7 +19,10 @@ const featureTestingUnprintable = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
         filter: {
+          mandatory: false,
           type: 'Radio',
           staticOptions: [
             { name: 'value1.1', display: 'Value 1.1' },
@@ -33,7 +39,11 @@ const featureTestingUnprintable = {
         type: 'string',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'Select',
           staticOptions: [
             { name: 'value2.1', display: 'Value 2.1' },
@@ -49,7 +59,11 @@ const featureTestingUnprintable = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
           min: '2003-02-01',
@@ -62,11 +76,15 @@ const featureTestingUnprintable = {
         visible: false,
         sortable: false,
         type: 'string',
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        mandatory: false,
         filter: {
+          mandatory: false,
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'Fezzick', display: 'Fezzick' },
@@ -84,11 +102,14 @@ const featureTestingUnprintable = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: false,
           },
         },
       },
@@ -99,12 +120,14 @@ const featureTestingUnprintable = {
         type: 'HTML',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'text',
         },
       },
     ],
   },
 }
-
-module.exports = featureTestingUnprintable

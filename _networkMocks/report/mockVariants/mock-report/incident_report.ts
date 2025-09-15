@@ -1,4 +1,6 @@
-export const variant34 = {
+import { components } from "src/dpr/types/api";
+
+export const variant34: components['schemas']['VariantDefinition'] = {
   id: 'variantId-34',
   name: 'Sectioned row - Incident report',
   description: 'An example of an incident report using a row section template.',
@@ -7,24 +9,7 @@ export const variant34 = {
   printable: true,
   specification: {
     template: 'row-section-child',
-    sectionedFields: [
-      {
-        name: 'section1',
-        fields: ['type', 'date', 'reportedBy', 'status', 'description'],
-      },
-      {
-        name: 'section2',
-        child: 'variantId-34-prisoners-involved',
-      },
-      {
-        name: 'section3',
-        child: 'variantId-34-staff-involved',
-      },
-      {
-        name: 'section4',
-        child: 'variantId-34-incident-details',
-      },
-    ],
+    sections: ['section1', 'section2', 'section3', 'section4'],
     fields: [
       {
         name: 'type',
@@ -34,6 +19,8 @@ export const variant34 = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
       },
       {
         name: 'date',
@@ -43,6 +30,8 @@ export const variant34 = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
       },
       {
         name: 'status',
@@ -52,6 +41,8 @@ export const variant34 = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
       },
       {
         name: 'reportedBy',
@@ -61,6 +52,8 @@ export const variant34 = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
       },
       {
         name: 'description',
@@ -70,6 +63,8 @@ export const variant34 = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
       },
       {
         name: 'joinField',
@@ -79,6 +74,8 @@ export const variant34 = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
       {
         name: 'section1',
@@ -88,6 +85,8 @@ export const variant34 = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
       {
         name: 'section2',
@@ -97,6 +96,8 @@ export const variant34 = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
       {
         name: 'section3',
@@ -106,6 +107,8 @@ export const variant34 = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
       {
         name: 'section4',
@@ -115,6 +118,8 @@ export const variant34 = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
     ],
   },
@@ -125,6 +130,7 @@ export const variant34 = {
       resourceName: 'reports/list',
       joinFields: ['incidentId'],
       specification: {
+        sections: [],
         template: 'row-section-child',
         fields: [
           {
@@ -135,6 +141,8 @@ export const variant34 = {
             type: 'string',
             mandatory: false,
             visible: true,
+            calculated: false,
+            header: false,
           },
           {
             name: 'prisonerDetails',
@@ -144,6 +152,8 @@ export const variant34 = {
             type: 'string',
             mandatory: false,
             visible: true,
+            calculated: false,
+            header: false,
           },
           {
             name: 'incidentId',
@@ -153,6 +163,8 @@ export const variant34 = {
             type: 'string',
             mandatory: false,
             visible: false,
+            calculated: false,
+            header: false,
           },
         ],
       },
@@ -163,6 +175,7 @@ export const variant34 = {
       resourceName: 'reports/list',
       joinFields: ['incidentId'],
       specification: {
+        sections: [],
         template: 'row-section-child',
         fields: [
           {
@@ -173,6 +186,8 @@ export const variant34 = {
             type: 'string',
             mandatory: false,
             visible: true,
+            calculated: false,
+            header: false,
           },
           {
             name: 'staffDetails',
@@ -182,6 +197,8 @@ export const variant34 = {
             type: 'string',
             mandatory: false,
             visible: true,
+            calculated: false,
+            header: false,
           },
           {
             name: 'incidentId',
@@ -191,6 +208,8 @@ export const variant34 = {
             type: 'string',
             mandatory: false,
             visible: false,
+            calculated: false,
+            header: false,
           },
         ],
       },
@@ -201,6 +220,7 @@ export const variant34 = {
       resourceName: 'reports/list',
       joinFields: ['incidentId'],
       specification: {
+        sections: [],
         template: 'row-section-child',
         fields: [
           {
@@ -211,6 +231,8 @@ export const variant34 = {
             type: 'string',
             mandatory: false,
             visible: true,
+            calculated: false,
+            header: false,
           },
           {
             name: 'incidentResponse',
@@ -220,6 +242,8 @@ export const variant34 = {
             type: 'string',
             mandatory: false,
             visible: true,
+            calculated: false,
+            header: false,
           },
           {
             name: 'incidentId',
@@ -229,6 +253,8 @@ export const variant34 = {
             type: 'string',
             mandatory: false,
             visible: false,
+            calculated: false,
+            header: false,
           },
         ],
       },

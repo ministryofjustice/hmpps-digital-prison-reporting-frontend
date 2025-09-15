@@ -1,15 +1,15 @@
 import { createBasicHttpStub, createHttpStub, reportIdRegex, stubFor } from './wiremock'
 import defs from '../../_networkMocks/report/mockReportDefinition'
 import { requestExampleSuccess } from '../../_networkMocks/report/mockVariants/request-examples/success'
-import requestExampleFail from '../../_networkMocks/report/mockVariants/request-examples/fail-status'
+import { requestExampleFailStatus } from '../../_networkMocks/report/mockVariants/request-examples/fail-status'
 import { createMockData } from './reports/mockAsyncData'
 import { variant35Interactive } from '../../_networkMocks/report/mockVariants/mock-report/interactive-async'
 import { featureTestingInteractive } from '../../_networkMocks/report/mockVariants/feature-testing/interactiveFilters'
 import { featureTestingMissingDescription } from '../../_networkMocks/report/mockVariants/feature-testing/missingDescription'
 import { featureTestingMissing1 } from '../../_networkMocks/report/mockVariants/feature-testing/missing1'
 import { RequestStatus } from '../../src/dpr/types/UserReports'
-import relativeDateRangeVariant from '../../_networkMocks/report/mockVariants/filter-input-examples/relativeDateRange'
-import relativeDateRangeWithDefaultVariant from '../../_networkMocks/report/mockVariants/filter-input-examples/relativeDateRangeWithDefaults'
+import { variant15 as relativeDateRange } from '../../_networkMocks/report/mockVariants/filter-input-examples/relativeDateRange'
+import { variant15 as relativeDateRangeWithDefaults } from '../../_networkMocks/report/mockVariants/filter-input-examples/relativeDateRangeWithDefaults'
 
 const stubs = {
   stubGetFeatureTestingMissing: () =>
@@ -17,21 +17,23 @@ const stubs = {
       id: 'feature-testing',
       name: 'Missing report 1',
       description: 'Description for missing report 1',
-      variant: featureTestingMissing1,
+      variant: {
+        ...featureTestingMissing1,
+      },
       dashboards: [],
     }),
   stubFilterInputsVariant15Def: () => createBasicHttpStub('GET', `/definitions/filter-inputs/variantId-15`, 200, {
     id: 'filter-inputs',
     name: 'Filter input testing',
     description: 'Example variants used for input testing',
-    variant: relativeDateRangeVariant,
+    variant: relativeDateRange,
     dashboards: [],
   }),
   stubFilterInputsRelDateDef: () => createBasicHttpStub('GET', `/definitions/filter-inputs/relative-daterange-with-default`, 200, {
     id: 'filter-inputs',
     name: 'Filter input testing',
     description: 'Example variants used for input testing',
-    variant: relativeDateRangeWithDefaultVariant,
+    variant: relativeDateRangeWithDefaults,
     dashboards: [],
   }),
   stubGetTestReport3Fail: () =>
@@ -188,7 +190,7 @@ const stubs = {
       id: 'request-examples',
       name: 'Request examples',
       dashboards: [],
-      variant: requestExampleFail,
+      variant: requestExampleFailStatus,
     }),
   stubDefinitionFeatureTestingInteractive: () =>
     createBasicHttpStub(`GET`, `/definitions/feature-testing/feature-testing-interactive`, 200, {

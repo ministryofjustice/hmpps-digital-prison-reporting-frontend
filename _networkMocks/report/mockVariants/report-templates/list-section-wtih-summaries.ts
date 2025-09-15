@@ -1,16 +1,99 @@
 import { components } from "src/dpr/types/api";
+import { LoadType } from "src/dpr/types/UserReports";
 
-export const variant20: components['schemas']['VariantDefinition'] = {
-  id: 'variantId-20',
-  name: 'By Person ID and Visit Detail',
-  description:
-    'Visitor and Prisoner details for those Visitors who have visits within a date range specified, along with the number of Prisoners visited and the Visitor details. This identification will facilitate multi-agency work as well as assist Establishments with their Data Cleansing.</br>VIS0019 - v0.1 Last Modified: 08 /09 / 2017',
+const reportTemplateExampleListSectionWithSummaries: components['schemas']['VariantDefinition'] & { loadType: LoadType } = {
+  loadType: LoadType.ASYNC,
+  id: 'report-template-example-list-section-with-summaries',
+  name: 'Page Summaries and Sections',
+  description: 'A report with summaries and sections.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
-  printable: false,
+  printable: true,
+  summaries: [
+    {
+      id: 'summary1',
+      template: 'page-header',
+      fields: [
+        {
+          name: 'total',
+          display: 'Total',
+        },
+      ],
+    },
+    {
+      id: 'summary3',
+      template: 'page-footer',
+      fields: [
+        {
+          name: 'percentGood',
+          display: 'Good (%)',
+        },
+        {
+          name: 'percentBad',
+          display: 'Bad (%)',
+        },
+        {
+          name: 'percentUgly',
+          display: 'Ugly (%)',
+        },
+      ],
+    },
+    {
+      id: 'summary6',
+      template: 'table-header',
+      fields: [
+        {
+          name: 'field1',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field2',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field3',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field4',
+          display: 'Field 1',
+          type: 'string',
+        },
+      ],
+    },
+    {
+      id: 'summary7',
+      template: 'table-footer',
+      fields: [
+        {
+          name: 'field1',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field2',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field3',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field4',
+          display: 'Field 1',
+          type: 'string',
+        },
+      ],
+    },
+  ],
   specification: {
-    sections: [],
-    template: 'list',
+    template: 'list-section',
+    sections: ['section1', 'section2'],
     fields: [
       {
         name: 'field1',
@@ -29,7 +112,6 @@ export const variant20: components['schemas']['VariantDefinition'] = {
             { name: 'value1.2', display: 'Value 1.2' },
             { name: 'value1.3', display: 'Value 1.3' },
           ],
-          defaultValue: 'value1.2',
           mandatory: false,
         },
       },
@@ -38,7 +120,7 @@ export const variant20: components['schemas']['VariantDefinition'] = {
         display: 'Field 2',
         sortable: true,
         type: 'string',
-        mandatory: true,
+        mandatory: false,
         visible: true,
         calculated: false,
         header: false,
@@ -50,33 +132,32 @@ export const variant20: components['schemas']['VariantDefinition'] = {
             { name: 'value2.2', display: 'Value 2.2' },
             { name: 'value2.3', display: 'Value 2.3' },
           ],
-          mandatory: true,
+          mandatory: false,
         },
       },
       {
         name: 'field3',
         display: 'Field 3',
         sortable: false,
-        visible: true,
         type: 'date',
         mandatory: false,
+        visible: true,
         calculated: false,
         header: false,
         defaultsort: false,
         filter: {
           type: 'daterange',
-          defaultValue: '2003-02-01 - 2006-05-04',
           min: '2003-02-01',
           max: '2007-05-04',
-          mandatory: true,
+          mandatory: false,
         },
       },
       {
         name: 'field4',
         display: 'Field 4',
-        visible: false,
         sortable: false,
         type: 'string',
+        visible: true,
         calculated: false,
         header: false,
         defaultsort: false,
@@ -94,59 +175,49 @@ export const variant20: components['schemas']['VariantDefinition'] = {
             { name: 'Westley', display: 'Westley' },
           ],
           mandatory: false,
-        },
-      },
-      {
-        name: 'field5',
-        display: 'Field 5',
-        sortable: false,
-        type: 'string',
-        mandatory: false,
-        visible: false,
-        calculated: false,
-        header: false,
-        defaultsort: false,
-        filter: {
-          type: 'autocomplete',
-          dynamicOptions: {
-            minimumLength: 3,
-          },
-          mandatory: false,
+          pattern: '(?!Invalid).+',
         },
       },
       {
         name: 'field6',
         display: 'Field 6',
         sortable: false,
-        type: 'HTML',
-        visible: true,
+        type: 'string',
+        mandatory: false,
         calculated: false,
         header: false,
         defaultsort: false,
-        mandatory: false,
+        visible: false,
         filter: {
-          mandatory: false,
           type: 'text',
+          pattern: 'Value 6\\.\\d',
+          mandatory: false,
         },
       },
       {
-        name: 'field7',
-        display: 'Field 7',
+        name: 'section1',
+        display: 'First',
         sortable: false,
-        visible: true,
-        type: 'date',
+        defaultsort: false,
+        type: 'string',
         mandatory: false,
+        visible: false,
         calculated: false,
         header: false,
+      },
+      {
+        name: 'section2',
+        display: 'Second',
+        sortable: false,
         defaultsort: false,
-        filter: {
-          mandatory: false,
-          type: 'date',
-          defaultValue: '2005-02-01',
-          min: '2003-02-01',
-          max: '2007-05-04',
-        },
+        type: 'string',
+        mandatory: false,
+        visible: false,
+        calculated: false,
+        header: false,
       },
     ],
   },
 }
+
+export default reportTemplateExampleListSectionWithSummaries

@@ -1,4 +1,6 @@
-const featureTestingEmptyQuery = {
+import { components } from "src/dpr/types/api";
+
+export const featureTestingEmptyQuery: components['schemas']['VariantDefinition'] = {
   id: 'feature-testing-empty-query',
   name: 'Empty query',
   description: 'No filters or Sort columns',
@@ -6,6 +8,7 @@ const featureTestingEmptyQuery = {
   classification: 'OFFICIAL',
   printable: false,
   specification: {
+    sections: [],
     template: 'list',
     fields: [
       {
@@ -15,6 +18,9 @@ const featureTestingEmptyQuery = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        defaultsort: false,
+        header: false
       },
       {
         name: 'field2',
@@ -23,6 +29,9 @@ const featureTestingEmptyQuery = {
         type: 'string',
         mandatory: true,
         visible: true,
+        calculated: false,
+        defaultsort: false,
+        header: false
       },
       {
         name: 'field3',
@@ -31,6 +40,9 @@ const featureTestingEmptyQuery = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        defaultsort: false,
+        header: false
       },
       {
         name: 'field4',
@@ -38,6 +50,10 @@ const featureTestingEmptyQuery = {
         visible: false,
         sortable: false,
         type: 'string',
+        calculated: false,
+        defaultsort: false,
+        header: false,
+        mandatory: false,
       },
       {
         name: 'field5',
@@ -46,6 +62,9 @@ const featureTestingEmptyQuery = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        defaultsort: false,
+        header: false
       },
       {
         name: 'field6',
@@ -54,6 +73,9 @@ const featureTestingEmptyQuery = {
         type: 'HTML',
         mandatory: false,
         visible: true,
+        calculated: false,
+        defaultsort: false,
+        header: false
       },
       {
         name: 'field7',
@@ -62,9 +84,10 @@ const featureTestingEmptyQuery = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        defaultsort: false,
+        header: false
       },
     ],
   },
 }
-
-module.exports = featureTestingEmptyQuery

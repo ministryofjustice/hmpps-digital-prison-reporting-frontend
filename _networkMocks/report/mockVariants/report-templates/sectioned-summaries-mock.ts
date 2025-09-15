@@ -1,4 +1,6 @@
-const reportTemplateExampleSectionedSummaries = {
+import { components } from "src/dpr/types/api";
+
+const reportTemplateExampleSectionedSummaries: components['schemas']['VariantDefinition'] = {
   id: 'report-template-example-sectioned-summaries',
   name: 'Sectioned Summaries (no list)',
   description: 'A report with summaries in sections, but no list.',
@@ -71,6 +73,8 @@ const reportTemplateExampleSectionedSummaries = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
       {
         name: 'section2',
@@ -80,9 +84,11 @@ const reportTemplateExampleSectionedSummaries = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
     ],
   },
 }
 
-module.exports = reportTemplateExampleSectionedSummaries
+export default reportTemplateExampleSectionedSummaries

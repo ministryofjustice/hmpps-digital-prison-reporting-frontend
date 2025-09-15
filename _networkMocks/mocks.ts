@@ -1,6 +1,6 @@
-import defs from './report/mockReportDefinition'
 import { setupSimpleMock } from "./generateNetworkMock";
+import { summaries } from './definitionSummaries';
 
-export const mocks = [
-  setupSimpleMock("/definitions", defs.reports),
-]
+export const getDefinitionSummaries = setupSimpleMock("/definitions", summaries)
+
+export const mocks = [getDefinitionSummaries]

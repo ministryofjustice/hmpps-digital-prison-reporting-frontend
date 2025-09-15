@@ -1,4 +1,6 @@
-const featureTestingUserDefinedDefaults = {
+import { components } from "src/dpr/types/api";
+
+export const featureTestingUserDefinedDefaults: components['schemas']['VariantDefinition'] = {
   id: 'feature-testing-user-defined-defaults',
   name: 'User context defined defaults',
   description: 'Filters will be populated with data from the user context',
@@ -6,6 +8,7 @@ const featureTestingUserDefinedDefaults = {
   classification: 'OFFICIAL',
   printable: false,
   specification: {
+    sections: [],
     template: 'list',
     fields: [
       {
@@ -16,6 +19,8 @@ const featureTestingUserDefinedDefaults = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -33,11 +38,14 @@ const featureTestingUserDefinedDefaults = {
         visible: false,
         sortable: false,
         type: 'string',
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        mandatory: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
             minimumLength: 3,
-            returnAsStaticOptions: true,
           },
           staticOptions: [
             { name: 'KMI ', display: 'KIRKHAM (HMP)' },
@@ -54,12 +62,14 @@ const featureTestingUserDefinedDefaults = {
         type: 'HTML',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
+          mandatory: false,
           type: 'text',
         },
       },
     ],
   },
 }
-
-module.exports = featureTestingUserDefinedDefaults

@@ -1,26 +1,15 @@
-const reportTemplateExampleRowSectionChild = {
-  id: 'report-template-example-row-section-child',
-  name: 'Sectioned Rows + child template',
-  description: 'A report with sectioned rows and child report',
+import { components } from "src/dpr/types/api";
+
+const reportTemplateExampleRowSectionChildMultiple: components['schemas']['VariantDefinition'] = {
+  id: 'report-template-example-row-section-child-multiple',
+  name: 'Sectioned Rows + child template (multiple rows)',
+  description: 'A report with sectioned rows and child report, with multiple dataset rows',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
   specification: {
     template: 'row-section-child',
-    sectionedFields: [
-      {
-        name: 'section1',
-        fields: ['field1', 'field2'],
-      },
-      {
-        name: 'section2',
-        child: 'report-template-example-row-section-child_child',
-      },
-      {
-        name: 'section3',
-        child: 'report-template-example-row-section-child_child-2',
-      },
-    ],
+    sections: ['section1', 'section2', 'section3'],
     fields: [
       {
         name: 'field1',
@@ -30,6 +19,8 @@ const reportTemplateExampleRowSectionChild = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
       },
       {
         name: 'field2',
@@ -39,6 +30,8 @@ const reportTemplateExampleRowSectionChild = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
       },
       {
         name: 'joinField',
@@ -48,6 +41,8 @@ const reportTemplateExampleRowSectionChild = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
       {
         name: 'section1',
@@ -57,6 +52,8 @@ const reportTemplateExampleRowSectionChild = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
       {
         name: 'section2',
@@ -66,6 +63,8 @@ const reportTemplateExampleRowSectionChild = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
       {
         name: 'section3',
@@ -75,16 +74,19 @@ const reportTemplateExampleRowSectionChild = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
       },
     ],
   },
   childVariants: [
     {
-      id: 'report-template-example-row-section-child_child',
+      id: 'report-template-example-row-section-child-multiple_child',
       name: 'Child Report',
       resourceName: 'reports/list',
       joinFields: ['joinField'],
       specification: {
+        sections: [],
         template: 'row-section-child',
         fields: [
           {
@@ -95,6 +97,8 @@ const reportTemplateExampleRowSectionChild = {
             type: 'string',
             mandatory: false,
             visible: true,
+            calculated: false,
+            header: false,
           },
           {
             name: 'childField2',
@@ -104,6 +108,8 @@ const reportTemplateExampleRowSectionChild = {
             type: 'string',
             mandatory: false,
             visible: true,
+            calculated: false,
+            header: false,
           },
           {
             name: 'joinField',
@@ -113,16 +119,19 @@ const reportTemplateExampleRowSectionChild = {
             type: 'string',
             mandatory: false,
             visible: false,
+            calculated: false,
+            header: false,
           },
         ],
       },
     },
     {
-      id: 'report-template-example-row-section-child_child-2',
+      id: 'report-template-example-row-section-child-multiple_child-2',
       name: 'Child Report',
       resourceName: 'reports/list',
       joinFields: ['joinField'],
       specification: {
+        sections: [],
         template: 'row-section-child',
         fields: [
           {
@@ -133,6 +142,8 @@ const reportTemplateExampleRowSectionChild = {
             type: 'string',
             mandatory: false,
             visible: true,
+            calculated: false,
+            header: false,
           },
           {
             name: 'childField2',
@@ -142,6 +153,8 @@ const reportTemplateExampleRowSectionChild = {
             type: 'string',
             mandatory: false,
             visible: true,
+            calculated: false,
+            header: false,
           },
           {
             name: 'joinField',
@@ -151,6 +164,8 @@ const reportTemplateExampleRowSectionChild = {
             type: 'string',
             mandatory: false,
             visible: false,
+            calculated: false,
+            header: false,
           },
         ],
       },
@@ -158,4 +173,4 @@ const reportTemplateExampleRowSectionChild = {
   ],
 }
 
-module.exports = reportTemplateExampleRowSectionChild
+export default reportTemplateExampleRowSectionChildMultiple

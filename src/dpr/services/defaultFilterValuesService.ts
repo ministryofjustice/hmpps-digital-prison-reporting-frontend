@@ -2,7 +2,7 @@
 import ReportStoreService from './reportStoreService'
 import ReportDataStore from '../data/reportDataStore'
 import { ReportStoreConfig } from '../types/ReportStore'
-import { defaultFilterValue, FiltersType } from '../routes/journeys/request-report/filters/types'
+import { defaultFilterValue, FiltersType } from '../utils/Personalisation/types'
 
 export default class DefaultFilterValuesService extends ReportStoreService {
   constructor(reportDataStore: ReportDataStore) {

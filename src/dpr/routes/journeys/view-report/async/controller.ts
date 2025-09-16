@@ -16,6 +16,10 @@ export default class AsyncController {
   }
 
   POST: RequestHandler = async (req, res, next) => {
+    res.redirect(req.originalUrl)
+  }
+
+  checkExpiredStatus: RequestHandler = async (req, res, next) => {
     try {
       const response = await UserReportsListUtils.updateExpiredStatus({
         req,

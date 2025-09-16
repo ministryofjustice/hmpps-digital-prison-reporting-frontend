@@ -15,6 +15,8 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
 
   const controller = new AsyncController(layoutPath, services)
 
+  // Expired check
+  router.post(['/report/expired', '/dashboard/expired'], controller.checkExpiredStatus)
   router.post(['/report', '/dashboard'], controller.POST)
   router.post('/report/save-defaults', controller.saveDefaultFilterValues)
   router.post('/report/remove-defaults', controller.removeDefaultFilterValues)

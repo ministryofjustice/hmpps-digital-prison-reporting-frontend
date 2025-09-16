@@ -21,7 +21,13 @@ import { defaultFilterValue } from './types'
 import { FiltersType } from '../../components/_filters/filtersTypeEnum'
 
 const saveDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
-  const defaultValuesForReport = await getDefaultValues(req, res, services, type)
+  let defaultValuesForReport
+  if (type === FiltersType.REQUEST) {
+    defaultValuesForReport = await getDefaultValues(req, res, services)
+  } else {
+    defaultValuesForReport = await getInteractiveDefaultValues(req, res, services)
+  }
+  console.log(JSON.stringify({ defaultValuesForReport }, null, 2))
   const { dprUser } = localsHelper.getValues(res)
   const { reportId, id } = req.body
   return services.defaultFilterValuesService.save(dprUser.id, reportId, id, defaultValuesForReport)
@@ -33,12 +39,7 @@ const removeDefaults = async (type: FiltersType, res: Response, req: Request, se
   return services.defaultFilterValuesService.delete(dprUser.id, reportId, id, type)
 }
 
-const getDefaultValues = async (
-  req: Request,
-  res: Response,
-  services: Services,
-  filtersType: FiltersType,
-): Promise<defaultFilterValue[]> => {
+const getDefaultValues = async (req: Request, res: Response, services: Services): Promise<defaultFilterValue[]> => {
   const { token, definitionsPath } = localsHelper.getValues(res)
   const { reportId, id, type } = req.body
 
@@ -83,7 +84,7 @@ const getDefaultValues = async (
       return {
         name,
         value,
-        type: filtersType,
+        type: FiltersType.REQUEST,
       }
     })
 
@@ -92,6 +93,75 @@ const getDefaultValues = async (
       return bodyFilterValues.find((a) => a.name === name)
     })
     .filter((c) => c !== undefined)
+
+  return defaultValuesConfig.filter((defaultValue) => {
+    return defaultValue ? defaultValue.value !== '' : false
+  })
+}
+
+const getInteractiveDefaultValues = async (
+  req: Request,
+  res: Response,
+  services: Services,
+): Promise<defaultFilterValue[]> => {
+  const { token, definitionsPath } = localsHelper.getValues(res)
+  const { reportId, id, type } = req.params
+  console.log({ reportId, id, type })
+
+  const service = type === ReportType.REPORT ? services.reportingService : services.dashboardService
+  const definition = await service.getDefinition(token, reportId, id, definitionsPath)
+  const fields: components['schemas']['FieldDefinition'][] =
+    type === ReportType.REPORT ? definition.variant.specification.fields : definition.filterFields
+
+  console.log(req.query)
+  const bodyFilterValues = Object.keys(req.query)
+    .filter((k) => {
+      return k.includes('filters.') || k.includes('sortColumn') || k.includes('sortedAsc')
+    })
+    .map((k) => {
+      console.log({ k })
+      return { name: k.replace('filters.', ''), value: req.body[k] }
+    })
+    .map((k) => {
+      const n = k.name.split('.')[0]
+      const field = fields.find((f) => f.name === n)
+      let { value, name } = k
+
+      if (field) {
+        const filterType = field.filter?.type.toLocaleLowerCase()
+
+        switch (filterType) {
+          case FilterType.multiselect.toLocaleLowerCase():
+            value = k.value.join(',')
+            break
+
+          case FilterType.dateRange.toLocaleLowerCase():
+            ;({ value, name } = DateRangeInputUtils.setDefaultValue(req, name))
+            break
+
+          case FilterType.granularDateRange.toLocaleLowerCase():
+            ;({ name, value } = GranularDateRangeInputUtils.setDefaultValue(req, name))
+            break
+
+          default:
+            break
+        }
+      }
+
+      return {
+        name,
+        value,
+        type: FiltersType.INTERACTIVE,
+      }
+    })
+
+  const defaultValuesConfig = Array.from(new Set(bodyFilterValues.map((a) => a.name)))
+    .map((name) => {
+      return bodyFilterValues.find((a) => a.name === name)
+    })
+    .filter((c) => c !== undefined)
+
+  console.log(JSON.stringify({ defaultValuesConfig }, null, 2))
 
   return defaultValuesConfig.filter((defaultValue) => {
     return defaultValue ? defaultValue.value !== '' : false

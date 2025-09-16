@@ -19,7 +19,12 @@ import DateInputUtils from '../_inputs/date-input/utils'
 import GranularDateRangeInputUtils from '../_inputs/granular-date-range/utils'
 import MultiSelectUtils from '../_inputs/multi-select/utils'
 import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
+import PersonalistionUtils from '../../utils/Personalisation/personalisationUtils'
 import createUrlForParameters from '../../utils/urlHelper'
+import { Services } from '../../types/Services'
+import { FiltersType } from './filtersTypeEnum'
+import { RenderFiltersReturnValue } from '../_async/async-filters-form/types'
+import LocalsHelper from '../../utils/localsHelper'
 
 /**
  * Given a FilterValue[], will update the values to match the req.query values if present
@@ -282,19 +287,44 @@ const redirectWithDefaultFilters = (
   return false
 }
 
+const getPersonalisedFilters = async (
+  filters: FilterValue[],
+  req: Request,
+  res: Response,
+  services: Services,
+  filtersType: FiltersType,
+) => {
+  const { reportId, id } = req.params
+  const { dprUser } = LocalsHelper.getValues(res)
+  const defaultFilterValues = await services.defaultFilterValuesService.get(dprUser.id, reportId, id, filtersType)
+  if (defaultFilterValues) {
+    ;({ filters } = PersonalistionUtils.setFilterValuesFromSavedDefaults(filters, [], defaultFilterValues))
+  }
+  return filters
+}
+
 const getFilters = async ({
   fields,
   req,
+  res,
   interactive = false,
   prefix = 'filters.',
+  services,
+  filtersType,
 }: {
   fields: components['schemas']['FieldDefinition'][]
   req: Request
+  res?: Response
   interactive?: boolean
   prefix?: string
+  services?: Services
+  filtersType: FiltersType
 }) => {
-  const defaultFilters = await getFiltersFromDefinition(fields, interactive)
-  const filters = setFilterValuesFromRequest(defaultFilters, req)
+  let filters = await getFiltersFromDefinition(fields, interactive)
+  if (services) {
+    filters = await getPersonalisedFilters(filters, req, res, services, filtersType)
+  }
+  filters = setFilterValuesFromRequest(filters, req)
   const selectedFilters = SelectedFiltersUtils.getSelectedFilters(filters, prefix)
 
   return {

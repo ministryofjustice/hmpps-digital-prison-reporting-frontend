@@ -255,9 +255,12 @@ const getFilterData = async (
   filtersData.filters = PersonalistionUtils.setUserContextDefaults(res, filtersData.filters)
 
   const defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id, FiltersType.REQUEST)
-  console.log(JSON.stringify({ defaultFilterValues }, null, 2))
   if (defaultFilterValues) {
-    filtersData = PersonalistionUtils.setFilterValuesFromSavedDefaults(filtersData, defaultFilterValues)
+    filtersData = PersonalistionUtils.setFilterValuesFromSavedDefaults(
+      filtersData.filters,
+      filtersData.sortBy,
+      defaultFilterValues,
+    )
   }
 
   filtersData.filters = FiltersUtils.setFilterValuesFromRequest(filtersData.filters, req)

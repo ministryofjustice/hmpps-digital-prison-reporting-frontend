@@ -15,6 +15,7 @@ import {
   FilterValue,
   FilterValueWithOptions,
   GranularDateRangeFilterValue,
+  MultiselectFilterValue,
 } from '../../components/_filters/types'
 import { defaultFilterValue } from './types'
 import { FiltersType } from '../../components/_filters/filtersTypeEnum'
@@ -98,15 +99,16 @@ const getDefaultValues = async (
 }
 
 const setFilterValuesFromSavedDefaults = (
-  filtersData: RenderFiltersReturnValue,
+  filters: FilterValue[],
+  sortBy: FilterValue[],
   defaultValues: defaultFilterValue[],
 ): RenderFiltersReturnValue => {
-  const hasDefaults = filtersData.filters.some((f) => {
+  const hasDefaults = filters.some((f) => {
     const defaultValue = defaultValues.findIndex((v) => v.name === f.name)
     return defaultValue !== -1
   })
 
-  const filterValues = filtersData.filters.map((filter) => {
+  const filterValues = filters.map((filter) => {
     const defaultValue = defaultValues.find((v) => v.name === filter.name)
     let updatedFilter = {
       ...filter,
@@ -115,30 +117,37 @@ const setFilterValuesFromSavedDefaults = (
 
     switch (type) {
       case FilterType.multiselect.toLocaleLowerCase():
-        updatedFilter = MultiSelectUtils.setFilterValuesFromSavedDefault(updatedFilter, hasDefaults, defaultValue)
+        updatedFilter = MultiSelectUtils.setFilterValuesFromSavedDefault(
+          <MultiselectFilterValue>updatedFilter,
+          hasDefaults,
+          defaultValue,
+        )
         break
       case FilterType.date.toLocaleLowerCase():
-        {
-          const value = hasDefaults ? '' : updatedFilter.value
-          const presetValue = defaultValue || value
-          updatedFilter = <DateFilterValue>DateInputUtils.setFilterValueFromDefault(presetValue, updatedFilter)
+        if (hasDefaults) {
+          updatedFilter.value = ''
+        }
+        if (defaultValue) {
+          updatedFilter = <DateFilterValue>DateInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
         }
         break
       case FilterType.dateRange.toLocaleLowerCase():
-        {
-          const value = hasDefaults ? { start: '', end: '', relative: '' } : updatedFilter.value
-          const presetValue = defaultValue || value
+        if (hasDefaults) {
+          updatedFilter.value = { start: '', end: '', relative: undefined }
+        }
+        if (defaultValue) {
           updatedFilter = <DateRangeFilterValue>(
-            DateRangeInputUtils.setFilterValueFromDefault(presetValue, updatedFilter)
+            DateRangeInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
           )
         }
         break
       case FilterType.granularDateRange.toLocaleLowerCase():
-        {
-          const value = hasDefaults ? { start: '', end: '', granularity: '', quickFilter: '' } : updatedFilter.value
-          const presetValue = defaultValue || value
+        if (hasDefaults) {
+          updatedFilter.value = { start: '', end: '', granularity: undefined, quickFilter: undefined }
+        }
+        if (defaultValue) {
           updatedFilter = <GranularDateRangeFilterValue>(
-            GranularDateRangeInputUtils.setFilterValueFromDefault(presetValue, updatedFilter)
+            GranularDateRangeInputUtils.setFilterValueFromDefault(defaultValue, updatedFilter)
           )
         }
         break
@@ -158,7 +167,7 @@ const setFilterValuesFromSavedDefaults = (
     return updatedFilter
   })
 
-  const sortValues = filtersData.sortBy.map((sortFilter) => {
+  const sortValues = sortBy.map((sortFilter) => {
     const defaultValue = defaultValues.find((v) => v.name === sortFilter.name)
     return {
       ...sortFilter,

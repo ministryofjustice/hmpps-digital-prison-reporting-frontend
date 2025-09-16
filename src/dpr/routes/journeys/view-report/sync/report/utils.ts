@@ -20,6 +20,7 @@ import LocalsHelper from '../../../../../utils/localsHelper'
 import UserStoreItemBuilder from '../../../../../utils/UserStoreItemBuilder'
 
 import DataTableBuilder from '../../../../../utils/DataTableBuilder/DataTableBuilder'
+import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 
 const setActions = (
   csrfToken: string,
@@ -153,6 +154,7 @@ const getReport = async ({ req, res, services }: { req: Request; res: Response; 
   const renderData = await getRenderData({
     req,
     res,
+    services,
     reportDefinition,
     reportQuery,
     reportData,
@@ -187,13 +189,23 @@ const getReport = async ({ req, res, services }: { req: Request; res: Response; 
   }
 }
 
-const getReportRenderData = async (
-  req: Request,
-  count: number,
-  specification: components['schemas']['Specification'],
-  reportQuery: ReportQuery,
-  data: Dict<string>[],
-) => {
+const getReportRenderData = async ({
+  req,
+  res,
+  services,
+  count,
+  specification,
+  reportQuery,
+  data,
+}: {
+  req: Request
+  res?: Response
+  services?: Services
+  count: number
+  specification: components['schemas']['Specification']
+  reportQuery: ReportQuery
+  data: Dict<string>[]
+}) => {
   const url = parseUrl(req)
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
   const pathname = url.search ? req.originalUrl.split(url.search)[0] : req.originalUrl
@@ -213,6 +225,9 @@ const getReportRenderData = async (
   const filterData = await FiltersUtils.getFilters({
     fields: specification.fields,
     req,
+    res,
+    services,
+    filtersType: FiltersType.INTERACTIVE,
   })
 
   const columns = ColumnUtils.getColumns(specification, reportQuery.columns)
@@ -233,6 +248,7 @@ const getReportRenderData = async (
 const getRenderData = async ({
   req,
   res,
+  services,
   reportDefinition,
   reportQuery,
   reportData,
@@ -242,6 +258,7 @@ const getRenderData = async ({
 }: {
   req: Request
   res: Response
+  services: Services
   reportDefinition: components['schemas']['SingleVariantReportDefinition']
   reportQuery: ReportQuery
   reportData: ListWithWarnings
@@ -255,7 +272,7 @@ const getRenderData = async ({
   const { specification, name, description, classification, printable } = reportDefinition.variant
   const { data } = reportData
 
-  const reportRenderData = await getReportRenderData(req, count, specification, reportQuery, data)
+  const reportRenderData = await getReportRenderData({ req, res, services, count, specification, reportQuery, data })
 
   const actions = setActions(
     csrfToken,

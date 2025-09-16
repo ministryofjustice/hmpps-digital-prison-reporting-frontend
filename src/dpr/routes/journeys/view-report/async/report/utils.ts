@@ -24,6 +24,7 @@ import { DownloadActionParams } from '../../../../../components/_reports/report-
 import { Services } from '../../../../../types/Services'
 import { ChildData } from '../../../../../utils/ParentChildDataTableBuilder/types'
 import DataTableUtils from '../../../../../components/_reports/report-data-table/utils'
+import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 
 export const getData = async ({
   res,
@@ -265,7 +266,10 @@ const getTemplateData = async (
   const filterData = await ReportFiltersUtils.getFilters({
     fields,
     req,
+    res,
     interactive,
+    services,
+    filtersType: FiltersType.INTERACTIVE,
   })
   const features = await setFeatures(services, res, requestData, definition, columns, count, urls)
   const meta = setMetaData(definition, res)

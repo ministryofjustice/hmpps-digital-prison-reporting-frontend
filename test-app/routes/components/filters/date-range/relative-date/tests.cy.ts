@@ -1,4 +1,4 @@
-import { setRedisState } from "../../../../integrationTests/setRedisState"
+import { setRedisState } from '../../../../integrationTests/setRedisState'
 
 context('Inputs: Relative date range', () => {
   const path = '/components/filters/date-range/relative-date-range#relative-date-range-relative-range'
@@ -278,13 +278,17 @@ context('Inputs: Relative date range', () => {
         bookmarks: [],
         downloadPermissions: [],
         defaultFilters: [
-          { reportId: 'filter-inputs', id: 'variantId-15', values: [
-            {
-              name: 'field1',
-              value: { start: '', end: '', relative: 'yesterday' }
-            }]
-          }
-        ]
+          {
+            reportId: 'filter-inputs',
+            id: 'variantId-15',
+            values: [
+              {
+                name: 'field1',
+                value: { start: '', end: '', relative: 'yesterday' },
+              },
+            ],
+          },
+        ],
       })
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.field1.relative-duration=yesterday`)
@@ -320,13 +324,17 @@ context('Inputs: Relative date range', () => {
         bookmarks: [],
         downloadPermissions: [],
         defaultFilters: [
-          { reportId: 'filter-inputs', id: 'variantId-15', values: [
-            {
-              name: 'field1',
-              value: { start: '', end: '', relative: 'yesterday' }
-            }]
-          }
-        ]
+          {
+            reportId: 'filter-inputs',
+            id: 'variantId-15',
+            values: [
+              {
+                name: 'field1',
+                value: { start: '', end: '', relative: 'yesterday' },
+              },
+            ],
+          },
+        ],
       })
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()
       cy.findByRole('radio', { name: 'Last week' }).check()
@@ -368,13 +376,17 @@ context('Inputs: Relative date range', () => {
         bookmarks: [],
         downloadPermissions: [],
         defaultFilters: [
-          { reportId: 'filter-inputs', id: 'variantId-15', values: [
-            {
-              name: 'field1',
-              value: { start: '', end: '', relative: 'yesterday' }
-            }]
-          }
-        ]
+          {
+            reportId: 'filter-inputs',
+            id: 'variantId-15',
+            values: [
+              {
+                name: 'field1',
+                value: { start: '', end: '', relative: 'yesterday' },
+              },
+            ],
+          },
+        ],
       })
       cy.findByRole('button', { name: 'Delete defaults' }).click()
 
@@ -388,7 +400,6 @@ context('Inputs: Relative date range', () => {
 
   describe('validation', () => {
     beforeEach(() => {
-      
       cy.visit(platformPath)
     })
 

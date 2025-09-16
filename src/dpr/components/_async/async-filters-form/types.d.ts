@@ -26,7 +26,7 @@ export interface SortByDefaults {
 
 export interface RenderFiltersReturnValue {
   filters: FilterValue[]
-  sortBy: FilterValue[]
+  sortBy?: FilterValue[]
 }
 
 export interface SetQueryFromFiltersResult {

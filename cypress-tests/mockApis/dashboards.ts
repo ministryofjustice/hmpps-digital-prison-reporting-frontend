@@ -1,7 +1,7 @@
-import { testingDashboard8 } from '../../_networkMocks/dashboard/dashboardDefinitions/dashboard-definiton-1-nat-eth-relig'
+import { testingDashboard8 } from '@networkMocks/dashboard/dashboardDefinitions/dashboard-definiton-1-nat-eth-relig'
 import { createBasicHttpStub, createHttpStub } from './wiremock'
-import { mockTimeSeriesDataLastSixMonths } from '../../_networkMocks/dashboard/dashboardResults/data-quality-metrics/data'
-import { dataQualityFullDataset } from '../../_networkMocks/dashboard/dashboardDefinitions/lists'
+import { mockTimeSeriesDataLastSixMonths } from '@networkMocks/dashboard/dashboardResults/data-quality-metrics/data'
+import { dataQualityFullDataset } from '@networkMocks/dashboard/dashboardDefinitions/lists/lists-data-quality-full'
 
 const stubs = {
   stubDashboardSuccessResult20: () =>

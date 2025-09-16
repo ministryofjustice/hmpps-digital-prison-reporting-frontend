@@ -1,4 +1,7 @@
-import { DashboardVisualisation, DashboardVisualisationType } from "../../../../../src/dpr/components/_dashboards/dashboard/types"
+import {
+  DashboardVisualisation,
+  DashboardVisualisationType,
+} from '../../../../../src/dpr/components/_dashboards/dashboard/types'
 
 const mockScorecardDefinitionNationality: DashboardVisualisation = {
   id: 'mockNationalityScorecard',

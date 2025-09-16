@@ -6,7 +6,7 @@ import { dataQuality } from './charts-data-quality'
 import { dataQualityHistoric } from './charts-data-quality-historic'
 import { dataQualityFlexible } from './charts-data-quality-flexible'
 
-export {
+export default {
   historicDietTotals,
   dietTotals,
   flexibleDietTotals,

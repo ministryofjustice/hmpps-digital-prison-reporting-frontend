@@ -1,8 +1,7 @@
+import { establishmentIdFilter, granularDateRangeFilter } from '@networkMocks/dashboard/filter-definitions'
 import chartDefs from './age-breakdown/visualisations/ethnicityReligionDefinitions'
 import cardDefs from './age-breakdown/visualisations/scorecard-definitions-nationality-ethnicity-religion'
 import vizExamples from './visualisations/lists'
-
-import { establishmentIdFilter, granularDateRangeFilter } from '@networkMocks/dashboard/filter-definitions'
 
 import type { DashboardDefinition } from '../../../src/dpr/components/_dashboards/dashboard/types'
 
@@ -15,7 +14,11 @@ export const testingDashboard8: DashboardDefinition = {
       id: 'test-section-1',
       display: 'Section 1 - Ethnicity charts',
       description: 'Section 1 description - charts showing ethnicity data',
-      visualisations: [chartDefs.mockEthnicityBarChart, chartDefs.mockEthnicityPieChart, chartDefs.mockEthnicityBarChartList],
+      visualisations: [
+        chartDefs.mockEthnicityBarChart,
+        chartDefs.mockEthnicityPieChart,
+        chartDefs.mockEthnicityBarChartList,
+      ],
     },
     {
       id: 'test-section-2',

@@ -1,5 +1,20 @@
 import { establishmentIdFilter, wingFilter } from '../filter-definitions'
-import { mockListDefinitionAgeRange1, mockListDefinitionAgeRange1Wing, mockListDefinitionAgeRange2, mockListDefinitionAgeRange2Wing, mockListDefinitionCell, mockListDefinitionEthnicity, mockListDefinitionEthnicityAgeRange, mockListDefinitionEthnicityByEst, mockListDefinitionNationality, mockListDefinitionNationalityByWing, mockListDefinitionReligion, mockListDefinitionReligionByEst, mockListDefinitionTotalPrisoners, mockListDefinitionTotalPrisonersByWing } from './age-breakdown/visualisations/list-definitions'
+import {
+  mockListDefinitionAgeRange1,
+  mockListDefinitionAgeRange1Wing,
+  mockListDefinitionAgeRange2,
+  mockListDefinitionAgeRange2Wing,
+  mockListDefinitionCell,
+  mockListDefinitionEthnicity,
+  mockListDefinitionEthnicityAgeRange,
+  mockListDefinitionEthnicityByEst,
+  mockListDefinitionNationality,
+  mockListDefinitionNationalityByWing,
+  mockListDefinitionReligion,
+  mockListDefinitionReligionByEst,
+  mockListDefinitionTotalPrisoners,
+  mockListDefinitionTotalPrisonersByWing,
+} from './age-breakdown/visualisations/list-definitions'
 
 export const ageBreakdownReport3 = {
   id: 'age-breakdown-dashboard-3',

@@ -5,4 +5,11 @@ import { requestExampleFailCode } from './fail-code'
 import { requestExampleFailStatus } from './fail-status'
 import { requestExampleSuccess } from './success'
 
-export const requestExampleVariants = [requestExampleRequestError, requestExampleExpire, requestExampleExpiredBookmark, requestExampleFailCode, requestExampleFailStatus, requestExampleSuccess]
+export const requestExampleVariants = [
+  requestExampleRequestError,
+  requestExampleExpire,
+  requestExampleExpiredBookmark,
+  requestExampleFailCode,
+  requestExampleFailStatus,
+  requestExampleSuccess,
+]

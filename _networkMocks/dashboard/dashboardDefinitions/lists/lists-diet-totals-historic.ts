@@ -1,4 +1,8 @@
-import { establishmentIdFilter, wingFilterCompass, granularDateRangeFilter } from '@networkMocks/dashboard/filter-definitions'
+import {
+  establishmentIdFilter,
+  wingFilterCompass,
+  granularDateRangeFilter,
+} from '@networkMocks/dashboard/filter-definitions'
 import lists from '../visualisations/lists'
 
 export const historicDietTotals = {

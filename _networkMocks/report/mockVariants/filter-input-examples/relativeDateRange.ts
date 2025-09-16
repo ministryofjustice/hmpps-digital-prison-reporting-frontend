@@ -1,5 +1,4 @@
-const dayjs = require('dayjs')
-import { components } from "src/dpr/types/api";
+import { components } from 'src/dpr/types/api'
 
 export const variant15: components['schemas']['VariantDefinition'] = {
   id: 'variantId-15',

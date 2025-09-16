@@ -1,4 +1,5 @@
 import { components } from 'src/dpr/types/api'
+import { LoadType } from 'src/dpr/types/UserReports'
 import listSection from './list-section'
 import listSectionWithSummaries from './list-section-wtih-summaries'
 import listWithSummaries from './list-with-summaries'
@@ -14,7 +15,6 @@ import summariesMock from './summaries-mock'
 import summary from './summary'
 import summarySection from './summary-section'
 import tableSummaries from './table-summaries'
-import { LoadType } from 'src/dpr/types/UserReports'
 
 export const reportTemplates: (components['schemas']['VariantDefinition'] & { loadType?: LoadType })[] = [
   listSection,

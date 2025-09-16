@@ -7,7 +7,7 @@ import { dataQualityFullDataset } from './lists-data-quality-full'
 import { dietTotalsFullDataset } from './lists-diet-totals-full'
 import { dataQualityFlexible } from './lists-data-quality-flexible'
 
-export {
+export default {
   fallBackKeysDashboard,
   dietTotals,
   historicDietTotals,
@@ -15,5 +15,5 @@ export {
   dataQualityHistoric,
   dietTotalsFullDataset,
   dataQualityFullDataset,
-  dataQualityFlexible
+  dataQualityFlexible,
 }

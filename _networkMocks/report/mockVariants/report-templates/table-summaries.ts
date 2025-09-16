@@ -1,4 +1,4 @@
-import { components } from "src/dpr/types/api";
+import { components } from 'src/dpr/types/api'
 
 const reportTemplateExampleTableSummaries: components['schemas']['VariantDefinition'] = {
   id: 'report-template-example-table-summaries',

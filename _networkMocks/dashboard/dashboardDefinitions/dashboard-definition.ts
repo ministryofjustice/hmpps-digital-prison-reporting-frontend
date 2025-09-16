@@ -1,10 +1,9 @@
+import { establishmentIdFilter, granularDateRangeFilter } from '@networkMocks/dashboard/filter-definitions'
 import chartDefs from './age-breakdown/visualisations/ethnicityReligionDefinitions'
 
 import lists from './visualisations/lists'
 import charts from './visualisations/charts'
 import scorecards from './visualisations/scorecards'
-
-import { establishmentIdFilter, granularDateRangeFilter } from '@networkMocks/dashboard/filter-definitions'
 
 export const dataQualityDashboard1 = {
   id: 'data-quality-dashboard-1',
@@ -36,7 +35,11 @@ export const dataQualityDashboard1 = {
     {
       id: 'charts-section-nationality',
       display: 'Nationality totals',
-      visualisations: [chartDefs.mockNationalityBarChart, chartDefs.mockNationalityPieChart, lists.dataQualityNationality],
+      visualisations: [
+        chartDefs.mockNationalityBarChart,
+        chartDefs.mockNationalityPieChart,
+        lists.dataQualityNationality,
+      ],
     },
     {
       id: 'historic',

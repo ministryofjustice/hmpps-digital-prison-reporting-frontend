@@ -1,14 +1,15 @@
-import { testingDashboard2 } from "@networkMocks/dashboard/dashboardDefinitions/dashboard-definition-2-summary"
-import { testingDashboard8 } from "@networkMocks/dashboard/dashboardDefinitions/dashboard-definiton-1-nat-eth-relig"
+import { testingDashboard2 } from './dashboard-definition-2-summary'
+import { testingDashboard8 } from './dashboard-definiton-1-nat-eth-relig'
 
-const { ageBreakdownReport2 } = require('../../../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition-2')
-const { ageBreakdownReport1 } = require('../../../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition-1')
-const { ageBreakdownReport3 } = require('../../../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition-3')
-const { dataQualityDashboard1 } = require('../../../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition')
-const { dataQualityDashboardBase } = require('../../../_networkMocks/dashboard/dashboardDefinitions/dashboard-definition-base')
-const listExamples = require('../../../_networkMocks/dashboard/dashboardDefinitions/lists')
-const scorecardExamples = require('../../../_networkMocks/dashboard/dashboardDefinitions/scorecards')
-const chartExamples = require('../../../_networkMocks/dashboard/dashboardDefinitions/charts')
+import { ageBreakdownReport2 } from './dashboard-definition-2'
+import { ageBreakdownReport1 } from './dashboard-definition-1'
+import { ageBreakdownReport3 } from './dashboard-definition-3'
+import { dataQualityDashboard1 } from './dashboard-definition'
+import { dataQualityDashboardBase } from './dashboard-definition-base'
+
+import listExamples from './lists'
+import scorecardExamples from './scorecards'
+import chartExamples from './charts'
 
 const successfulExecution = {
   id: 'test-dashboard-1',

@@ -1,5 +1,5 @@
-import { components } from "src/dpr/types/api";
-import { LoadType } from "src/dpr/types/UserReports";
+import { components } from 'src/dpr/types/api'
+import { LoadType } from 'src/dpr/types/UserReports'
 
 const reportTemplateExampleParentChild: components['schemas']['VariantDefinition'] & { loadType: LoadType } = {
   loadType: LoadType.ASYNC,

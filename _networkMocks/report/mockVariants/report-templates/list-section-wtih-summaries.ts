@@ -1,7 +1,9 @@
-import { components } from "src/dpr/types/api";
-import { LoadType } from "src/dpr/types/UserReports";
+import { components } from 'src/dpr/types/api'
+import { LoadType } from 'src/dpr/types/UserReports'
 
-const reportTemplateExampleListSectionWithSummaries: components['schemas']['VariantDefinition'] & { loadType: LoadType } = {
+const reportTemplateExampleListSectionWithSummaries: components['schemas']['VariantDefinition'] & {
+  loadType: LoadType
+} = {
   loadType: LoadType.ASYNC,
   id: 'report-template-example-list-section-with-summaries',
   name: 'Page Summaries and Sections',

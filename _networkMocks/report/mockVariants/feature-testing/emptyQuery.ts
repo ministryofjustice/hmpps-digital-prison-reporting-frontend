@@ -1,4 +1,4 @@
-import { components } from "src/dpr/types/api";
+import { components } from 'src/dpr/types/api'
 
 export const featureTestingEmptyQuery: components['schemas']['VariantDefinition'] = {
   id: 'feature-testing-empty-query',
@@ -20,7 +20,7 @@ export const featureTestingEmptyQuery: components['schemas']['VariantDefinition'
         visible: true,
         calculated: false,
         defaultsort: false,
-        header: false
+        header: false,
       },
       {
         name: 'field2',
@@ -31,7 +31,7 @@ export const featureTestingEmptyQuery: components['schemas']['VariantDefinition'
         visible: true,
         calculated: false,
         defaultsort: false,
-        header: false
+        header: false,
       },
       {
         name: 'field3',
@@ -42,7 +42,7 @@ export const featureTestingEmptyQuery: components['schemas']['VariantDefinition'
         mandatory: false,
         calculated: false,
         defaultsort: false,
-        header: false
+        header: false,
       },
       {
         name: 'field4',
@@ -64,7 +64,7 @@ export const featureTestingEmptyQuery: components['schemas']['VariantDefinition'
         visible: false,
         calculated: false,
         defaultsort: false,
-        header: false
+        header: false,
       },
       {
         name: 'field6',
@@ -75,7 +75,7 @@ export const featureTestingEmptyQuery: components['schemas']['VariantDefinition'
         visible: true,
         calculated: false,
         defaultsort: false,
-        header: false
+        header: false,
       },
       {
         name: 'field7',
@@ -86,7 +86,7 @@ export const featureTestingEmptyQuery: components['schemas']['VariantDefinition'
         mandatory: false,
         calculated: false,
         defaultsort: false,
-        header: false
+        header: false,
       },
     ],
   },

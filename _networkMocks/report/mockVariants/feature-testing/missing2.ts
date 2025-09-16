@@ -1,4 +1,4 @@
-import { components } from "src/dpr/types/api";
+import { components } from 'src/dpr/types/api'
 
 export const featureTestingMissing2: components['schemas']['VariantDefinition'] = {
   id: 'feature-testing-missing2',
@@ -171,4 +171,3 @@ export const featureTestingMissing2: components['schemas']['VariantDefinition'] 
     ],
   },
 }
-

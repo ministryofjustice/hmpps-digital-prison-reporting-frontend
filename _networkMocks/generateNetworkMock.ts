@@ -9,20 +9,20 @@ export const defaultMockRequest = {
     status: 200,
     headers: { 'Content-Type': 'application/json;charset=UTF-8' },
     fixedDelayMilliseconds: 0,
-  }
+  },
 } as const
 
 type CompleteMockRequest = {
   priority: number
   request: {
-    method: 'GET' | 'POST' | 'DELETE' | 'PUT' | 'OPTIONS',
-    queryParameters?: object | undefined,
-    bodyPatterns?: Array<object> | undefined,
+    method: 'GET' | 'POST' | 'DELETE' | 'PUT' | 'OPTIONS'
+    queryParameters?: object | undefined
+    bodyPatterns?: Array<object> | undefined
     urlPathPattern: string
   }
   response: {
     status: number
-    headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+    headers: { 'Content-Type': 'application/json;charset=UTF-8' }
     jsonBody: object
     fixedDelayMilliseconds: number
   }
@@ -38,23 +38,25 @@ export const setupSimpleMock = (urlPathPattern: string, jsonBody: object, priori
     response: {
       ...defaultMockRequest.response,
       jsonBody,
-    }
+    },
   }
 }
 
 export const generateNetworkMock = (mockRequest: CompleteMockRequest) => ({
   request: {
     ...defaultMockRequest.request,
-    ...mockRequest.request
+    ...mockRequest.request,
   },
   response: {
     ...defaultMockRequest.response,
     ...mockRequest.response,
-  }
+  },
 })
 
 export const reportIdRegex = `[a-zA-Z0-9-_]+`
 
 export const postNetworkMocks = async (mockRequests: CompleteMockRequest[]) => {
-  return await Promise.all(mockRequests.map(async (mock) => await superagent.post(`http://localhost:9091/__admin/mappings`).send(mock)))
+  return Promise.all(
+    mockRequests.map(async (mock) => superagent.post(`http://localhost:9091/__admin/mappings`).send(mock)),
+  )
 }

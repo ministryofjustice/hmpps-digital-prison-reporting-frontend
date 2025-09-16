@@ -28,9 +28,9 @@ export const dataQuality = {
       display: 'Line charts',
       description: '',
       visualisations: [
-        charts.dataQualityEthnicityLine, 
-        charts.dataQualityNationalityLine, 
-        charts.dataQualityReligionLine
+        charts.dataQualityEthnicityLine,
+        charts.dataQualityNationalityLine,
+        charts.dataQualityReligionLine,
       ],
     },
     {

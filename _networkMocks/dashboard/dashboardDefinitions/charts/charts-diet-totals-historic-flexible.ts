@@ -1,4 +1,8 @@
-import { establishmentIdFilter, granularDateRangeFilter, wingFilterCompass } from '@networkMocks/dashboard/filter-definitions'
+import {
+  establishmentIdFilter,
+  granularDateRangeFilter,
+  wingFilterCompass,
+} from '@networkMocks/dashboard/filter-definitions'
 import lists from '../visualisations/lists'
 import charts from '../visualisations/charts'
 

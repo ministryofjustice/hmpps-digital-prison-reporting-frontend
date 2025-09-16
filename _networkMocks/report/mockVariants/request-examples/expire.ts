@@ -1,4 +1,4 @@
-import { components } from "src/dpr/types/api";
+import { components } from 'src/dpr/types/api'
 
 export const requestExampleExpire: components['schemas']['VariantDefinition'] = {
   id: 'request-example-expire',

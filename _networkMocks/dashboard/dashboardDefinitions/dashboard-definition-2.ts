@@ -10,7 +10,13 @@ import {
   mockListDefinitionNationality,
   mockListDefinitionEthnicityAgeRange,
 } from './age-breakdown/visualisations/list-definitions-1'
-import { mockScorecardDefinitionEthnicAsian, mockScorecardDefinitionEthnicWhite, mockScorecardDefinitionTotalInEst, mockScorecardDefinitionTotalInWing, mockScoreCardGroupReligion } from './age-breakdown/visualisations/scorecard-definitions'
+import {
+  mockScorecardDefinitionEthnicAsian,
+  mockScorecardDefinitionEthnicWhite,
+  mockScorecardDefinitionTotalInEst,
+  mockScorecardDefinitionTotalInWing,
+  mockScoreCardGroupReligion,
+} from './age-breakdown/visualisations/scorecard-definitions'
 
 import { establishmentIdFilter, wingFilter } from '../filter-definitions'
 

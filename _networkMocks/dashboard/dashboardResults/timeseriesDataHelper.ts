@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+
 import dayjs from 'dayjs'
 
 export const splitIntoRandomValues = (total, parts) => {
   let arr = new Array(parts)
   let sum = 0
   do {
+    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < parts; i++) {
       arr[i] = Math.random()
     }

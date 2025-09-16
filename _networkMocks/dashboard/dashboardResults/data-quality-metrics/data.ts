@@ -554,5 +554,5 @@ export const mockTimeSeriesDataLastSixMonths = [
 ]
 
 export default {
-  mockTimeSeriesDataLastSixMonths
+  mockTimeSeriesDataLastSixMonths,
 }

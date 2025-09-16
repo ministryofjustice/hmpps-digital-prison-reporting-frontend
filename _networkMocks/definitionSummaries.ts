@@ -1,11 +1,11 @@
-import { components } from "src/dpr/types/api";
-import dashboardDefinitions from "./dashboard/dashboardDefinitions/dashboard-definitions";
-import { requestExampleVariants } from "./report/mockVariants/request-examples";
-import { reportTemplates } from "./report/mockVariants/report-templates";
-import { mockReportVariants } from "./report/mockVariants/mock-report";
-import { filterInputExamplesVariants } from "./report/mockVariants/filter-input-examples";
-import { featureTestingVariants } from "./report/mockVariants/feature-testing";
-import { LoadType } from "src/dpr/types/UserReports";
+import { components } from 'src/dpr/types/api'
+import { LoadType } from 'src/dpr/types/UserReports'
+import dashboardDefinitions from './dashboard/dashboardDefinitions/dashboard-definitions'
+import { requestExampleVariants } from './report/mockVariants/request-examples'
+import { reportTemplates } from './report/mockVariants/report-templates'
+import { mockReportVariants } from './report/mockVariants/mock-report'
+import { filterInputExamplesVariants } from './report/mockVariants/filter-input-examples'
+import { featureTestingVariants } from './report/mockVariants/feature-testing'
 
 export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
   {
@@ -30,7 +30,7 @@ export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
       name,
       description,
       isMissing: false,
-      ...(loadType && { loadType })
+      ...(loadType && { loadType }),
     })),
     dashboards: [],
     authorised: true,
@@ -70,7 +70,7 @@ export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
       name,
       description,
       isMissing: /feature-testing-missing-[1-3]/.test(id),
-      ...(id === 'feature-testing-sync' && { loadType: LoadType.SYNC })
+      ...(id === 'feature-testing-sync' && { loadType: LoadType.SYNC }),
     })),
     dashboards: [],
     authorised: true,
@@ -90,5 +90,5 @@ export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
     variants: [],
     dashboards: dashboardDefinitions.mockDashboards,
     authorised: true,
-  }
+  },
 ]

@@ -1,10 +1,10 @@
-const {
+import {
   extractQueryAndCreateTimestamps,
   initEstablishments,
   generateFieldValuesWithCountData,
   addColumnValuesToRows,
   initBaseData,
-} = require('../timeseriesDataHelper')
+} from '../timeseriesDataHelper'
 
 const baseData = {
   ts: { raw: '' },

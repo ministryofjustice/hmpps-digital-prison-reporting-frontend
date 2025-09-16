@@ -1,4 +1,4 @@
-import { DashboardDefinition } from "../../src/dpr/components/_dashboards/dashboard/types"
+import { DashboardDefinition } from '../../src/dpr/components/_dashboards/dashboard/types'
 
 type FilterField = DashboardDefinition['filterFields'][number]
 
@@ -29,7 +29,7 @@ export const establishmentIdFilter: FilterField = {
     ],
     defaultValue: 'MDI',
     dynamicOptions: {
-      minimumLength: null,
+      minimumLength: undefined,
     },
     interactive: true,
   },
@@ -68,7 +68,7 @@ export const wingFilterCompass: FilterField = {
     ],
     defaultValue: 'north',
     dynamicOptions: {
-      minimumLength: null,
+      minimumLength: undefined,
     },
     interactive: true,
   },
@@ -107,7 +107,7 @@ export const wingFilter: FilterField = {
     ],
     defaultValue: 'I',
     dynamicOptions: {
-      minimumLength: null,
+      minimumLength: undefined,
     },
     interactive: true,
   },

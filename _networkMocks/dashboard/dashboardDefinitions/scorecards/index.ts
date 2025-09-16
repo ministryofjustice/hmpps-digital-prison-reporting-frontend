@@ -1,7 +1,7 @@
 import { dietTotalsScoreCards } from './scorecards-diet-totals'
 import { dataQualityScoreCards } from './scorecards-data-quality'
 
-export {
+export default {
   dietTotalsScoreCards,
   dataQualityScoreCards,
 }

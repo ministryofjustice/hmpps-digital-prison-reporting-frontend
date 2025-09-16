@@ -1,4 +1,7 @@
-import { DashboardVisualisation, DashboardVisualisationType } from "../../../../src/dpr/components/_dashboards/dashboard/types"
+import {
+  DashboardVisualisation,
+  DashboardVisualisationType,
+} from '../../../../src/dpr/components/_dashboards/dashboard/types'
 
 const explicitKeys = {
   id: 'explicit-keys',
@@ -1042,6 +1045,7 @@ const lists = {
   dietTotalsOverTime,
   dietTotalsByEstablishmentOverTime,
   dietTotalsByEstablishmentByWingOverTime,
+  dietTotalsByEstablishmentByWingByCellFilters,
   dietTotalsByEstablishmentByWingOverTimeOptional,
   dietTotalsVegetarianOvertime,
   dietTotalsVeganOvertime,

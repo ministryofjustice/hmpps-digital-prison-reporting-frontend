@@ -19,6 +19,7 @@ import {
   RecentlyViewedStoreService,
   BookmarkService,
   ReportingService,
+  DefaultFilterValuesService,
 } from '../../../../../services'
 
 // Mocked
@@ -71,6 +72,7 @@ describe('AsyncReportUtils', () => {
     let bookmarkService: BookmarkService
     let dashboardService: DashboardService
     let downloadPermissionService: DownloadPermissionService
+    let defaultFilterValuesService: DefaultFilterValuesService
     let reportingService: ReportingService
     let services: Services
 
@@ -126,6 +128,10 @@ describe('AsyncReportUtils', () => {
         downloadEnabled: jest.fn().mockResolvedValue(true),
       } as unknown as DownloadPermissionService
 
+      defaultFilterValuesService = {
+        get: jest.fn().mockResolvedValue(undefined),
+      } as unknown as DefaultFilterValuesService
+
       reportingService = {
         getAsyncCount: jest.fn().mockImplementation(() => {
           return new Promise((resolve) => {
@@ -161,7 +167,8 @@ describe('AsyncReportUtils', () => {
         dashboardService,
         downloadPermissionService,
         reportingService,
-      }
+        defaultFilterValuesService,
+      } as unknown as Services
     })
 
     it('should return data to render the report list', async () => {

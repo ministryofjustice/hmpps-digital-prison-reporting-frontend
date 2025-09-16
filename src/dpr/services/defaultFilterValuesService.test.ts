@@ -1,4 +1,5 @@
 import { MockUserStoreService } from '../../../test-app/mocks/mockClients/store/mockRedisStore'
+import { FiltersType } from '../components/_filters/filtersTypeEnum'
 import ReportDataStore from '../data/reportDataStore'
 import { ReportStoreConfig } from '../types/ReportStore'
 import { defaultFilterConfig } from '../utils/Personalisation/types'
@@ -21,7 +22,9 @@ describe('DefaultFilterValuesService', () => {
       values: [
         { name: 'name1.1', value: 'value1.1' },
         { name: 'name1.2', value: 'value1.2' },
-        { name: 'name1.3', value: 'value1.3' },
+        { name: 'name1.3', value: 'value1.3', type: FiltersType.REQUEST },
+        { name: 'name1.4', value: 'value1.4', type: FiltersType.INTERACTIVE },
+        { name: 'name1.5', value: 'value1.5', type: FiltersType.INTERACTIVE },
       ],
     }
 
@@ -41,7 +44,9 @@ describe('DefaultFilterValuesService', () => {
       values: [
         { name: 'name2.1', value: 'value2.1' },
         { name: 'name2.2', value: 'value2.2' },
-        { name: 'name2.3', value: 'value2.3' },
+        { name: 'name2.3', value: 'value2.3', type: FiltersType.REQUEST },
+        { name: 'name2.4', value: 'value2.4', type: FiltersType.INTERACTIVE },
+        { name: 'name2.5', value: 'value2.5', type: FiltersType.INTERACTIVE },
       ],
     }
 
@@ -75,9 +80,31 @@ describe('DefaultFilterValuesService', () => {
   })
 
   describe('get', () => {
-    it('should get the default values', async () => {
-      const defaults = await defaultFilterValuesService.get('userId', defaults1.reportId, defaults1.id)
-      expect(defaults).toEqual(defaults1.values)
+    it('should get the default values for a request filters', async () => {
+      const defaults = await defaultFilterValuesService.get(
+        'userId',
+        defaults1.reportId,
+        defaults1.id,
+        FiltersType.REQUEST,
+      )
+      expect(defaults).toEqual([
+        { name: 'name1.1', value: 'value1.1' },
+        { name: 'name1.2', value: 'value1.2' },
+        { name: 'name1.3', value: 'value1.3', type: FiltersType.REQUEST },
+      ])
+    })
+
+    it('should get the default values for a request filters', async () => {
+      const defaults = await defaultFilterValuesService.get(
+        'userId',
+        defaults1.reportId,
+        defaults1.id,
+        FiltersType.INTERACTIVE,
+      )
+      expect(defaults).toEqual([
+        { name: 'name1.4', value: 'value1.4', type: FiltersType.INTERACTIVE },
+        { name: 'name1.5', value: 'value1.5', type: FiltersType.INTERACTIVE },
+      ])
     })
   })
 })

@@ -11,6 +11,7 @@ import {
   BookmarkService,
   ReportingService,
   RecentlyViewedStoreService,
+  DefaultFilterValuesService,
 } from '../../../../../services'
 import createMockData from '../../../../../../../test-app/mocks/mockClients/reports/mockAsyncData'
 import mockSyncListData from '../../../../../../../test-app/mocks/mockClients/reports/mockSyncListData'
@@ -27,6 +28,7 @@ describe('SyncReportUtils', () => {
   let reportingService: ReportingService
   let downloadPermissionService: DownloadPermissionService
   let recentlyViewedService: RecentlyViewedStoreService
+  let defaultFilterValuesService: DefaultFilterValuesService
   let bookmarkService: BookmarkService
   let mockDefinition: components['schemas']['SingleVariantReportDefinition']
 
@@ -80,11 +82,16 @@ describe('SyncReportUtils', () => {
       isBookmarked: jest.fn().mockResolvedValue(false),
     } as unknown as BookmarkService
 
+    defaultFilterValuesService = {
+      get: jest.fn().mockResolvedValue(undefined),
+    } as unknown as DefaultFilterValuesService
+
     services = {
       reportingService,
       downloadPermissionService,
       bookmarkService,
       recentlyViewedService,
+      defaultFilterValuesService,
     } as unknown as Services
   })
 

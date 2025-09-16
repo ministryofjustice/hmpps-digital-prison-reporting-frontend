@@ -72,7 +72,6 @@ export default class DefaultFilterValuesService extends ReportStoreService {
           const filtersType = !value.type ? FiltersType.REQUEST : value.type
           return filtersType !== type
         })
-        console.log(JSON.stringify({ updatedValues }, null, 2))
         userConfig.defaultFilters[index].values = updatedValues
       } else {
         userConfig.defaultFilters.splice(index, 1)

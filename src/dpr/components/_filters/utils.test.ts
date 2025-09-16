@@ -978,7 +978,7 @@ describe('Filters Utils tests', () => {
         },
       ]
 
-      const res = PersonalistionUtils.setFilterValuesFromSavedDefaults({ filters, sortBy }, defaultValues)
+      const res = PersonalistionUtils.setFilterValuesFromSavedDefaults(filters, sortBy, defaultValues)
 
       const expectedRes = {
         filters: [

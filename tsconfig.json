@@ -16,8 +16,15 @@
     "noImplicitAny": true,
     "experimentalDecorators": true,
     "ignoreDeprecations": "5.0",
-    "types": ["cypress", "cypress-axe", "@testing-library/cypress"]
+    "types": ["cypress", "cypress-axe", "@testing-library/cypress"],
+    "baseUrl": ".",
+    "paths": {
+      "@networkMocks/*": ["_networkMocks/*"]
+    }
   },
   "exclude": ["node_modules", "dist", "dist-test-app", "package", "esbuild", "dist-docs"],
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
 }

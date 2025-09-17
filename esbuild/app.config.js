@@ -6,7 +6,7 @@ const glob = require('glob')
 
 /**
  * Build typescript application into CommonJS
- * @type {BuildStep}
+ * @type {import('./types').BuildStep}
  */
 const buildApp = (buildConfig) => {
   return esbuild.build({

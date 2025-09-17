@@ -1,3 +1,4 @@
+import { checkA11y } from "../../../../../cypress-tests/cypressUtils"
 import { requestedReady, requestedAborted, requestedExpired, requestedFailed, requestedSubmitted } from "../../../../../cypress-tests/mockApis/mockRequestedUserListData"
 import { viewedDashboard, viewedExpired, viewedInteractive, viewedInteractiveAsync, viewedReady, expiredDashboard } from "../../../../../cypress-tests/mockApis/mockViewedUserListData"
 import { setRedisState } from "../../../integrationTests/setRedisState"
@@ -5,73 +6,24 @@ import { setRedisState } from "../../../integrationTests/setRedisState"
 context('User reports component', () => {
   const path = '/components/user-reports/default'
 
-  beforeEach(() => {
-    cy.task('resetStubs')
-    cy.task('resetRedis')
-    cy.task('stubDefinitions')
-    cy.task('stubViewAsyncReportingResults')
-    cy.task('stubRequestExamplesSuccessStatus')
-    cy.task('stubDefinitionRequestExamplesFail')
-    cy.task('stubDefinitionRequestExamplesSuccess')
-    setRedisState({
-      bookmarks: [{
-        reportId: requestedReady.reportId,
-        variantId: requestedReady.id,
-        automatic: false,
-        id: requestedReady.id,
-        type: requestedReady.type,
-      }, {
-        reportId: requestedAborted.reportId,
-        variantId: requestedAborted.id,
-        automatic: false,
-        id: requestedAborted.id,
-        type: requestedAborted.type,
-      }, {
-        reportId: requestedExpired.reportId,
-        variantId: requestedExpired.id,
-        automatic: false,
-        id: requestedExpired.id,
-        type: requestedExpired.type,
-      }, {
-        reportId: requestedFailed.reportId,
-        variantId: requestedFailed.id,
-        automatic: false,
-        id: requestedFailed.id,
-        type: requestedFailed.type,
-      }, {
-        reportId: requestedSubmitted.reportId,
-        variantId: requestedSubmitted.id,
-        automatic: false,
-        id: requestedSubmitted.id,
-        type: requestedSubmitted.type,
-      }],
-      defaultFilters: [],
-      downloadPermissions: [],
-      recentlyViewedReports: [
-        viewedReady,
-        viewedDashboard,
-        viewedInteractive,
-        viewedExpired,
-        expiredDashboard,
-        viewedInteractiveAsync
-      ],
-      requestedReports: [requestedReady, requestedAborted, requestedExpired, requestedFailed, requestedSubmitted]
-    })
-    cy.visit(path)
-  })
-
-  it('is accessible', () => {
-    cy.injectAxe()
-    cy.checkA11y()
-  })
-
   describe('Requested reports list', () => {
     beforeEach(() => {
+      cy.task('resetStubs')
+      cy.task('resetRedis')
+      cy.task('stubDefinitions')
+      cy.task('stubRequestExamplesSuccessStatus')
+      cy.task('stubGenericDefinitionRequest')
+      setRedisState({
+        bookmarks: [],
+        recentlyViewedReports: [],
+        requestedReports: [requestedReady, requestedAborted, requestedExpired, requestedFailed, requestedSubmitted]
+      })
+      cy.visit(path)
       cy.findByRole('tab', { name: /Requested/ }).click()
     })
-
     it('should show the "Requested" tab', () => {
       cy.findByRole('tab', { name: /Requested/ }).should('be.visible')
+      checkA11y()
     })
 
     it('should show the help text', () => {
@@ -188,6 +140,24 @@ context('User reports component', () => {
 
   describe('Viewed reports list', () => {
     beforeEach(() => {
+      cy.task('resetStubs')
+      cy.task('resetRedis')
+      cy.task('stubDefinitions')
+      setRedisState({
+        bookmarks: [],
+        defaultFilters: [],
+        downloadPermissions: [],
+        recentlyViewedReports: [
+          viewedReady,
+          viewedDashboard,
+          viewedInteractive,
+          viewedExpired,
+          expiredDashboard,
+          viewedInteractiveAsync
+        ],
+        requestedReports: []
+      })
+      cy.visit(path)
       cy.findByRole('tab', { name: /Viewed/ }).click()
     })
 
@@ -304,6 +274,37 @@ context('User reports component', () => {
 
   describe('Bookmarked reports list', () => {
     beforeEach(() => {
+      cy.task('resetStubs')
+      cy.task('resetRedis')
+      cy.task('stubDefinitions')
+      cy.task('stubViewAsyncReportingResults')
+      cy.task('stubRequestExamplesSuccessStatus')
+      cy.task('stubGenericDefinitionRequest')
+      setRedisState({
+        bookmarks: [{
+          reportId: requestedReady.reportId,
+          variantId: requestedReady.id,
+          automatic: false,
+          id: requestedReady.id,
+          type: requestedReady.type,
+        }, {
+          reportId: requestedExpired.reportId,
+          variantId: requestedExpired.id,
+          automatic: false,
+          id: requestedExpired.id,
+          type: requestedExpired.type,
+        }],
+        defaultFilters: [],
+        downloadPermissions: [],
+        recentlyViewedReports: [viewedReady,
+          viewedDashboard,
+          viewedInteractive,
+          viewedExpired,
+          expiredDashboard,
+          viewedInteractiveAsync],
+        requestedReports: [requestedReady, requestedAborted, requestedExpired, requestedFailed, requestedSubmitted]
+      })
+      cy.visit(path)
       cy.findByRole('tab', { name: /Bookmarks/ }).click()
     })
 

@@ -9,7 +9,7 @@ const setValueFromRequest = (
   prefix: string,
 ): {
   requestfilterValue: MultiselectFilterValue['value']
-  requestfilterValues: MultiselectFilterValue['values']
+  requestfilterValues?: MultiselectFilterValue['values']
 } => {
   const queryValue = <string[] | string | undefined>req.query[`${prefix}${filter.name}`]
 

@@ -44,7 +44,7 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
 
   return filters.map((filter: FilterValue) => {
     let requestfilterValue: FilterValueType
-    let requestfilterValues: string[] = []
+    let requestfilterValues: string[] | undefined
 
     const type = filter.type.toLowerCase()
     switch (type) {
@@ -83,7 +83,7 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
     return {
       ...filter,
       value,
-      ...(requestfilterValues.length && { values: requestfilterValues }),
+      ...(requestfilterValues && { values: requestfilterValues }),
     }
   })
 }

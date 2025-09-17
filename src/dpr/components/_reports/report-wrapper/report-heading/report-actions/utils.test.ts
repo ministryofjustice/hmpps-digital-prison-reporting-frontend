@@ -1,4 +1,4 @@
-import { LoadType, ReportType } from '../../../types/UserReports'
+import { LoadType, ReportType } from '../../../../../types/UserReports'
 import {
   CopyActionParams,
   DownloadActionParams,

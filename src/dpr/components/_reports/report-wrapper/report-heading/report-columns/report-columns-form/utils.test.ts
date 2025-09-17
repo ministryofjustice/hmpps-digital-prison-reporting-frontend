@@ -1,4 +1,4 @@
-import { components } from '../../../types/api'
+import { components } from '../../../../../../types/api'
 import { Column } from './types'
 import Utils from './utils'
 

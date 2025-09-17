@@ -1,4 +1,4 @@
-import { DprClientClass } from '../../../DprClientClass.mjs'
+import { DprClientClass } from '../../../../../DprClientClass.mjs'
 
 export default class IconButtonList extends DprClientClass {
   static getModuleName() {

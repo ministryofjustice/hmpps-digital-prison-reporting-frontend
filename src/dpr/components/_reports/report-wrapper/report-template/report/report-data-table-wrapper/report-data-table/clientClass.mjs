@@ -1,4 +1,4 @@
-import { DprClientClass } from '../../../DprClientClass.mjs'
+import { DprClientClass } from '../../../../../../../DprClientClass.mjs'
 
 export default class DataTable extends DprClientClass {
   static getModuleName() {

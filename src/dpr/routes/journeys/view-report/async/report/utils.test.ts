@@ -6,8 +6,8 @@ import { Services } from '../../../../../types/Services'
 
 // Utils
 import AsyncReportUtils from './utils'
-import ColumnUtils from '../../../../../components/_reports/report-columns-form/utils'
-import PaginationUtils from '../../../../../components/_reports/report-pagination/utils'
+import ColumnUtils from '../../../../../components/_reports/report-wrapper/report-heading/report-columns/report-columns-form/utils'
+import PaginationUtils from '../../../../../components/_reports/report-wrapper/report-template/report-pagination/utils'
 import UserReportsUtils from '../../../../../components/user-reports/utils'
 import * as AsyncReportListUtilsHelper from './utils'
 

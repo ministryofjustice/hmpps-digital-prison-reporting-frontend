@@ -2,7 +2,7 @@ import parseUrl from 'parseurl'
 import { Url } from 'url'
 import { Request, Response } from 'express'
 import Dict = NodeJS.Dict
-import type { Columns } from '../../../../../components/_reports/report-columns-form/types'
+import type { Columns } from '../../../../../components/_reports/report-wrapper/report-heading/report-columns/report-columns-form/types'
 import type { Template } from '../../../../../types/Templates'
 import type { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 import type { DataTable } from '../../../../../utils/DataTableBuilder/types'
@@ -13,17 +13,17 @@ import ReportQuery from '../../../../../types/ReportQuery'
 
 import CollatedSummaryBuilder from '../../../../../utils/CollatedSummaryBuilder/CollatedSummaryBuilder'
 
-import PaginationUtils from '../../../../../components/_reports/report-pagination/utils'
-import TotalsUtils from '../../../../../components/_reports/report-totals/utils'
+import PaginationUtils from '../../../../../components/_reports/report-wrapper/report-template/report-pagination/utils'
+import TotalsUtils from '../../../../../components/_reports/report-wrapper/report-template/report/report-totals/utils'
 import ReportFiltersUtils from '../../../../../components/_filters/utils'
-import ColumnUtils from '../../../../../components/_reports/report-columns-form/utils'
-import ReportActionsUtils from '../../../../../components/_reports/report-actions/utils'
+import ColumnUtils from '../../../../../components/_reports/report-wrapper/report-heading/report-columns/report-columns-form/utils'
+import ReportActionsUtils from '../../../../../components/_reports/report-wrapper/report-heading/report-actions/utils'
 import UserReportsUtils from '../../../../../components/user-reports/utils'
 import LocalsHelper from '../../../../../utils/localsHelper'
-import { DownloadActionParams } from '../../../../../components/_reports/report-actions/types'
+import { DownloadActionParams } from '../../../../../components/_reports/report-wrapper/report-heading/report-actions/types'
 import { Services } from '../../../../../types/Services'
 import { ChildData } from '../../../../../utils/ParentChildDataTableBuilder/types'
-import DataTableUtils from '../../../../../components/_reports/report-data-table/utils'
+import DataTableUtils from '../../../../../components/_reports/report-wrapper/report-template/report/report-data-table-wrapper/report-data-table/utils'
 
 export const getData = async ({
   res,

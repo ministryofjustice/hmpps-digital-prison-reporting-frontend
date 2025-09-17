@@ -10,8 +10,9 @@
     {% set resetId = args.resetId %}
     {% set prefix = args.prefix %}
     {% set defaultQuery = args.defaultQuery %}
+    {% set method = args.method %}
 
-    <form id="{{ formId }}" method='post'>
+    <form id="{{ formId }}" method='{{ method }}'>
       <div id="query-error-summary" class="query-error-summary query-error-summary--hidden">
         {{ govukErrorSummary({
           titleText: "There is a problem",

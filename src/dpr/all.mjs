@@ -18,11 +18,7 @@ import UnauthorisedReportsFilter from './components/_catalogue/catalogue-unautho
 import ReportTypeFilter from './components/_catalogue/catalogue-filter-by-type/clientClass.mjs'
 
 // Reports
-import Pagination from './components/_reports/report-pagination/clientClass.mjs'
-import ReportActions from './components/_reports/report-actions/clientClass.mjs'
-import DataTable from './components/_reports/report-data-table/clientClass.mjs'
-import Columns from './components/_reports/report-columns-form/clientClass.mjs'
-import DownloadMessage from './components/_reports/report-download-message/clientClass.mjs'
+import { Pagination, ReportActions, DataTable, Columns, DownloadMessage } from './components/_reports/Reports.mjs'
 
 // Filters
 import InteractiveFilters from './components/_filters/filters-interactive/clientClass.mjs'

@@ -1,16 +1,16 @@
-import { components } from '../../../types/api'
+import { components } from '../../../../../../../types/api'
 import Dict = NodeJS.Dict
-import ReportQuery from '../../../types/ReportQuery'
-import { AsyncSummary } from '../../../types/UserReports'
-import CollatedSummaryBuilder from '../../../utils/CollatedSummaryBuilder/CollatedSummaryBuilder'
-import DataTableBuilder from '../../../utils/DataTableBuilder/DataTableBuilder'
-import { Columns } from '../report-columns-form/types'
-import { ChildData } from '../../../utils/ParentChildDataTableBuilder/types'
-import ParentChildDataTableBuilder from '../../../utils/ParentChildDataTableBuilder/ParentChildDataTableBuilder'
-import SectionedDataTableBuilder from '../../../utils/SectionedDataTableBuilder/SectionedDataTableBuilder'
-import SectionedFieldsDataTableBuilder from '../../../utils/SectionedFieldsTableBuilder/SectionedFieldsTableBuilder'
-import { DataTable } from '../../../utils/DataTableBuilder/types'
-import type { Template } from '../../../types/Templates'
+import ReportQuery from '../../../../../../../types/ReportQuery'
+import { AsyncSummary } from '../../../../../../../types/UserReports'
+import CollatedSummaryBuilder from '../../../../../../../utils/CollatedSummaryBuilder/CollatedSummaryBuilder'
+import DataTableBuilder from '../../../../../../../utils/DataTableBuilder/DataTableBuilder'
+import { Columns } from '../../../../report-heading/report-columns/report-columns-form/types'
+import { ChildData } from '../../../../../../../utils/ParentChildDataTableBuilder/types'
+import ParentChildDataTableBuilder from '../../../../../../../utils/ParentChildDataTableBuilder/ParentChildDataTableBuilder'
+import SectionedDataTableBuilder from '../../../../../../../utils/SectionedDataTableBuilder/SectionedDataTableBuilder'
+import SectionedFieldsDataTableBuilder from '../../../../../../../utils/SectionedFieldsTableBuilder/SectionedFieldsTableBuilder'
+import { DataTable } from '../../../../../../../utils/DataTableBuilder/types'
+import type { Template } from '../../../../../../../types/Templates'
 
 const buildListTable = (
   definition: components['schemas']['SingleVariantReportDefinition'],

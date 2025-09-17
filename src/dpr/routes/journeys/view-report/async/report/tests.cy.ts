@@ -136,7 +136,7 @@ context('Viewing a report', () => {
         cy.findByLabelText('Refresh report').should('be.visible').click()
         cy.url().should(
           'match',
-          /http:\/\/localhost:3010\/embedded\/platform\/dpr\/request-report\/report\/request-examples\/request-example-success\/filters/i,
+          /.*\/embedded\/platform\/dpr\/request-report\/report\/request-examples\/request-example-success\/filters/i,
         )
 
         cy.location().should((location) => {

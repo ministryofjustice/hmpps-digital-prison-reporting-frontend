@@ -11,7 +11,7 @@ context('User reports component', () => {
       cy.task('resetStubs')
       cy.task('resetRedis')
       cy.task('stubDefinitions')
-      cy.task('stubRequestExamplesSuccessStatus')
+      cy.task('stubReportsFinishedStatus')
       cy.task('stubGenericDefinitionRequest')
       setRedisState({
         bookmarks: [],
@@ -278,7 +278,7 @@ context('User reports component', () => {
       cy.task('resetRedis')
       cy.task('stubDefinitions')
       cy.task('stubViewAsyncReportingResults')
-      cy.task('stubRequestExamplesSuccessStatus')
+      cy.task('stubReportsFinishedStatus')
       cy.task('stubGenericDefinitionRequest')
       setRedisState({
         bookmarks: [{

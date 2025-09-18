@@ -11,7 +11,7 @@ context('Download report', () => {
     cy.task('resetRedis')
     cy.task('stubDefinitions')
     cy.task('stubDefinitionRequestExamplesSuccess')
-    cy.task('stubRequestExamplesSuccessStatus')
+    cy.task('stubReportsFinishedStatus')
     cy.task('stubRequestSuccessResult20')
     cy.task('stubRequestSuccessReportTablesCount')
     cy.task('stubViewAsyncReportingResults')

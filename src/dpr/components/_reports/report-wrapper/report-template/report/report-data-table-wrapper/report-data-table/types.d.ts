@@ -1,5 +1,5 @@
-import { DataTable } from '../../../utils/DataTableBuilder/types'
-import { Pagination } from '../report-pagination/types'
+import { DataTable } from '../../../../../../../utils/DataTableBuilder/types'
+import { Pagination } from '../../../report-pagination/types'
 
 export interface DataTableOptions {
   dataTable: DataTable

@@ -3,7 +3,7 @@ import { FilteredListRequest } from './index'
 import Dict = NodeJS.Dict
 import { components } from './api'
 import { clearFilterValue } from '../utils/urlHelper'
-import ColumnUtils from '../components/_reports/report-columns-form/utils'
+import ColumnUtils from '../components/_reports/report-wrapper/report-heading/report-columns/report-columns-form/utils'
 import { Template } from './Templates'
 
 export const DEFAULT_FILTERS_PREFIX = 'filters.'

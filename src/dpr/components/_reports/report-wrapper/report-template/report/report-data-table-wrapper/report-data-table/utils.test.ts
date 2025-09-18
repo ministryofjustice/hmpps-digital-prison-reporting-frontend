@@ -2,23 +2,23 @@ import { Url } from 'url'
 import Dict = NodeJS.Dict
 
 // types
-import ReportQuery from '../../../types/ReportQuery'
-import type { components } from '../../../types/api'
-import type { AsyncSummary } from '../../../types/UserReports'
-import type { Columns } from '../report-columns-form/types'
-import type { Template } from '../../../types/Templates'
+import ReportQuery from '../../../../../../../types/ReportQuery'
+import type { components } from '../../../../../../../types/api'
+import type { AsyncSummary } from '../../../../../../../types/UserReports'
+import type { Columns } from '../../../../report-heading/report-columns/report-columns-form/types'
+import type { Template } from '../../../../../../../types/Templates'
 
 // Utils
 import ReportDataTableUtils from './utils'
 
 // Mocked
-import createMockData from '../../../../../test-app/mocks/mockClients/reports/mockAsyncData'
+import createMockData from '../../../../../../../../../test-app/mocks/mockClients/reports/mockAsyncData'
 
 // Services
-import variant2 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/request-examples/fail-status')
-import variant26 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/report-templates/parent-child')
-import { ChildData } from '../../../utils/ParentChildDataTableBuilder/types'
-import variant10 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/report-templates/list-section-wtih-summaries')
+import variant2 = require('../../../../../../../../../test-app/mocks/mockClients/reports/mockVariants/request-examples/fail-status')
+import variant26 = require('../../../../../../../../../test-app/mocks/mockClients/reports/mockVariants/report-templates/parent-child')
+import { ChildData } from '../../../../../../../utils/ParentChildDataTableBuilder/types'
+import variant10 = require('../../../../../../../../../test-app/mocks/mockClients/reports/mockVariants/report-templates/list-section-wtih-summaries')
 
 jest.mock('parseurl', () => ({
   __esModule: true,

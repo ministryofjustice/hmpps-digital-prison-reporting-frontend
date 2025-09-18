@@ -1,6 +1,6 @@
-import { components } from '../../../types/api'
+import { components } from '../../../../../../types/api'
 import { Column, Columns } from './types'
-import { distinct } from '../../../utils/arrayUtils'
+import { distinct } from '../../../../../../utils/arrayUtils'
 
 const mandatoryColumns = (fields: Array<components['schemas']['FieldDefinition']>) =>
   fields.filter((field) => field.mandatory).map((field) => field.name)

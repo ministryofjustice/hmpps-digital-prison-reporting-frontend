@@ -1,4 +1,4 @@
-import { LoadType } from '../../../types/UserReports'
+import { LoadType } from '../../../../../types/UserReports'
 
 export interface DownloadActionParams {
   enabled: boolean

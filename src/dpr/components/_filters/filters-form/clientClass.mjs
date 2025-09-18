@@ -39,7 +39,8 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
       this.initFormData()
       const errors = this.validateForm()
       if (this.mainForm.checkValidity() && errors.length === 0) {
-        this.submitAction()
+        // this.submitAction()
+        this.mainForm.requestSubmit()
       }
     })
   }

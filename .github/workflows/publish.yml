@@ -18,10 +18,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
+    - uses: actions/checkout@v5
+    - uses: actions/setup-node@v5
       with:
         node-version: 'lts/*'
+
+    # Ensure npm 11.5.1 or later is installed, to support OIDC publishing
+    - name: Update npm
+      run: npm install -g npm@latest
+
     - run: npm ci
     - run: npm run package
 
@@ -42,10 +47,8 @@ jobs:
     - name: Set version
       run: sed -i -e 's/Version set by script/${{ steps.bump-version.outputs.next-version }}/' dist/package.json
 
-    - uses: JS-DevTools/npm-publish@v1
-      with:
-        token: ${{ secrets.NPM_AUTH_TOKEN }}
-        package: dist/package.json
+    - name: Publish
+      run: npm publish ./dist --access public
 
   publish-pages:
     runs-on: ubuntu-latest

@@ -1,7 +1,7 @@
 import { createBasicHttpStub } from './wiremock'
 import { requestExampleSuccess } from '@networkMocks/report/mockVariants/request-examples/success'
 import { requestExampleFailStatus } from '@networkMocks/report/mockVariants/request-examples/fail-status'
-import { createMockData } from './reports/mockAsyncData'
+import { createMockData } from '@networkMocks/report/mockVariants/mockAsyncData'
 import { variant35Interactive } from '@networkMocks/report/mockVariants/mock-report/interactive-async'
 import { featureTestingInteractive } from '@networkMocks/report/mockVariants/feature-testing/interactiveFilters'
 import { featureTestingMissingDescription } from '@networkMocks/report/mockVariants/feature-testing/missingDescription'

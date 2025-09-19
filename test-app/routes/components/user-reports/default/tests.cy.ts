@@ -1,6 +1,6 @@
 import { checkA11y } from "../../../../../cypress-tests/cypressUtils"
-import { requestedReady, requestedAborted, requestedExpired, requestedFailed, requestedSubmitted } from "../../../../../cypress-tests/mockApis/mockRequestedUserListData"
-import { viewedDashboard, viewedExpired, viewedInteractive, viewedInteractiveAsync, viewedReady, expiredDashboard } from "../../../../../cypress-tests/mockApis/mockViewedUserListData"
+import { requestedReady, requestedAborted, requestedExpired, requestedFailed, requestedSubmitted } from "@networkMocks/report/mockVariants/mockRequestedUserListData"
+import { viewedDashboard, viewedExpired, viewedInteractive, viewedInteractiveAsync, viewedReady, expiredDashboard } from "@networkMocks/report/mockVariants/mockViewedUserListData"
 import { setRedisState } from "../../../integrationTests/setRedisState"
 
 context('User reports component', () => {

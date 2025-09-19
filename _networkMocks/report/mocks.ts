@@ -1,5 +1,5 @@
 import { defaultMockRequest, generateNetworkMock, setupSimpleMock } from '@networkMocks/generateNetworkMock'
-import { createMockData } from 'cypress-tests/mockApis/reports/mockAsyncData'
+import { createMockData } from '@networkMocks/report/mockVariants/mockAsyncData'
 import { components } from 'src/dpr/types/api'
 import { requestExampleVariants } from './mockVariants/request-examples'
 import { reportTemplates } from './mockVariants/report-templates'

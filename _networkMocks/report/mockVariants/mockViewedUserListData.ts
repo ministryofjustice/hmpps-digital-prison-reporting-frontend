@@ -1,4 +1,4 @@
-import { ReportType, RequestStatus, StoredReportData } from "../../src/dpr/types/UserReports"
+import { ReportType, RequestStatus, StoredReportData } from "../../../src/dpr/types/UserReports"
 
 export const viewedReady: StoredReportData = {
   reportId: 'request-examples',

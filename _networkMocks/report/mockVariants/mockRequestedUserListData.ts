@@ -1,4 +1,4 @@
-import { ReportType, RequestedReport, RequestStatus } from "../../src/dpr/types/UserReports"
+import { ReportType, RequestedReport, RequestStatus } from "../../../src/dpr/types/UserReports"
 
 export const requestedReady: RequestedReport = {
   template: 'list',

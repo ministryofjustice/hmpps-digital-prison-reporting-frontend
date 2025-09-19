@@ -20,7 +20,12 @@ export const missingReportSubmitSuccessMock = generateNetworkMock({
 })
 
 export const missingReportSubmitFailMock = generateNetworkMock({
-  ...missingReportSubmitSuccessMock
+  ...missingReportSubmitSuccessMock,
+  response: {
+    ...missingReportSubmitSuccessMock.response,
+    status: 500,
+    jsonBody: {},
+  }
 })
 
 export const mocks = [

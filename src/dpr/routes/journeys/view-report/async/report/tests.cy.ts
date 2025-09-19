@@ -69,7 +69,7 @@ context('Viewing a report', () => {
                     break
                   case 1:
                     cy.findAllByRole('cell', { name: 'Product:' }).should('exist')
-                    cy.findAllByRole('cell', { name: 'Request examples' }).should('exist')
+                    cy.findAllByRole('cell', { name: 'Successful Report' }).should('exist')
                     break
                   case 2:
                     cy.findAllByRole('cell', { name: 'Description:' }).should('exist')

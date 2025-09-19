@@ -95,7 +95,7 @@ const stubs = {
       ...getAsyncReportResultMock.request,
       queryParameters: {
         pageSize: {
-          matches: '20'
+          matches: '100'
         }
       }
     },

@@ -360,7 +360,7 @@ describe('Request a report', () => {
         .then((request) => {
           cy.wrap(request).its('body').should('include', 'reportId=request-examples')
           cy.wrap(request).its('body').should('include', 'name=Successful+Report')
-          cy.wrap(request).its('body').should('include', 'reportName=Request+examples')
+          cy.wrap(request).its('body').should('include', 'reportName=Successful+Report')
           cy.wrap(request).its('body').should('include', 'id=request-example-success')
         })
     })

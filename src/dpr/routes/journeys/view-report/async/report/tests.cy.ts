@@ -10,13 +10,12 @@ context('Viewing a report', () => {
       cy.task('resetStubs')
       cy.task('resetRedis')
       cy.task('stubDefinitions')
-      cy.task('stubMockReportVariant35')
-      cy.task('stubFeatureTestingInteractive')
+      cy.task('stubReportStatusMock')
+      cy.task('stubReportsFinishedStatus')
       cy.task('stubDefinitionRequestExamplesSuccess')
-      cy.task('stubRequestExamplesSuccessStatus')
+      cy.task('stubReportsFinishedStatus')
       cy.task('stubTestDashboard8')
-      cy.task('stubMockDashboardsStatus')
-      cy.task('stubTestDashboard8Status')
+      cy.task('stubMockDashboardsStatusFinished')
       cy.task('stubRequestSuccessResult20')
       cy.task('stubRequestSuccessResult10')
       cy.task('stubRequestSuccessReportTablesCount')
@@ -70,7 +69,7 @@ context('Viewing a report', () => {
                     break
                   case 1:
                     cy.findAllByRole('cell', { name: 'Product:' }).should('exist')
-                    cy.findAllByRole('cell', { name: 'Request examples' }).should('exist')
+                    cy.findAllByRole('cell', { name: 'Successful Report' }).should('exist')
                     break
                   case 2:
                     cy.findAllByRole('cell', { name: 'Description:' }).should('exist')

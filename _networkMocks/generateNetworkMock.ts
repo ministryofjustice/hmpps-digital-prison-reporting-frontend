@@ -1,4 +1,4 @@
-import superagent from 'superagent'
+import superagent, { SuperAgentRequest } from 'superagent'
 
 export const defaultMockRequest = {
   priority: 5,
@@ -43,6 +43,7 @@ export const setupSimpleMock = (urlPathPattern: string, jsonBody: object, priori
 }
 
 export const generateNetworkMock = (mockRequest: CompleteMockRequest) => ({
+  ...mockRequest,
   request: {
     ...defaultMockRequest.request,
     ...mockRequest.request,
@@ -55,8 +56,10 @@ export const generateNetworkMock = (mockRequest: CompleteMockRequest) => ({
 
 export const reportIdRegex = `[a-zA-Z0-9-_]+`
 
+const wiremockUrl = 'http://localhost:9091/__admin'
+export const stubFor = (mapping: Record<string, unknown>): SuperAgentRequest =>
+  superagent.post(`${wiremockUrl}/mappings`).send(mapping)
+
 export const postNetworkMocks = async (mockRequests: CompleteMockRequest[]) => {
-  return Promise.all(
-    mockRequests.map(async (mock) => superagent.post(`http://localhost:9091/__admin/mappings`).send(mock)),
-  )
+  return Promise.all(mockRequests.map(async (mock) => stubFor(mock)))
 }

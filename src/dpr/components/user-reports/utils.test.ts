@@ -6,7 +6,7 @@ import RequestedReportsUtils from './requested/utils'
 import ViewedReportsUtils from './viewed/utils'
 import mockDashboardData from '../../../../test-app/mocks/mockClients/store/mockRequestedDashboardData'
 import mockRequestedData from '../../../../test-app/mocks/mockClients/store/mockRequestedUserListData'
-import * as mockViewedData from '../../../../cypress-tests/mockApis/mockViewedUserListData'
+import * as mockViewedData from '../../../../test-app/mocks/mockClients/store/mockViewedUserListData'
 
 describe('AsyncRequestListUtils', () => {
   describe('setDataFromStatus', () => {

@@ -39,7 +39,7 @@ context('Request status', () => {
       cy.injectAxe()
       cy.checkA11y()
       cy.task('stubReportsFinishedStatus')
-      cy.findByRole('heading', { name: /successful report/i }).should('be.visible')
+      cy.findAllByRole('heading', { name: /successful report/i }).should('be.visible')
     })
 
     describe('failure status pages', () => {

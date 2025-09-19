@@ -8,7 +8,7 @@ context('Viewing a report', () => {
     before(() => {
       cy.task('stubDefinitions')
       cy.task('stubTestDashboard8')
-      cy.task('stubTestDashboard8Status')
+      cy.task('stubMockDashboardsStatusFinished')
       cy.task('stubViewAsyncResults')
       cy.task('stubDashboardSuccessResult20')
 

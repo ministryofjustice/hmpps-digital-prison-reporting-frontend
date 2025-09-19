@@ -11,5 +11,6 @@
       "@networkMocks/*": ["../_networkMocks/*"]
     }
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "../**/*.ts"],
+  "exclude": ["../**/*.test.ts"]
 }

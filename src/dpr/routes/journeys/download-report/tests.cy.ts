@@ -11,7 +11,7 @@ context('Download report', () => {
     cy.task('resetRedis')
     cy.task('stubDefinitions')
     cy.task('stubDefinitionRequestExamplesSuccess')
-    cy.task('stubRequestExamplesSuccessStatus')
+    cy.task('stubReportsFinishedStatus')
     cy.task('stubRequestSuccessResult20')
     cy.task('stubRequestSuccessReportTablesCount')
     cy.task('stubViewAsyncReportingResults')
@@ -113,7 +113,7 @@ context('Download report', () => {
         .then((request) => {
           cy.wrap(request).its('body').should('have.string', '_csrf=csrfToken')
           cy.wrap(request).its('body').should('have.string', 'reportId=request-examples')
-          cy.wrap(request).its('body').should('have.string', 'reportName=Request+examples')
+          cy.wrap(request).its('body').should('have.string', 'reportName=Successful+Report')
           cy.wrap(request).its('body').should('have.string', 'variantName=Successful+Report')
           cy.wrap(request)
             .its('body')
@@ -138,7 +138,7 @@ context('Download report', () => {
   describe('Request download submitted', () => {
     it('should show the report details', () => {
       cy.visit(downloadRequestSubmittedPage)
-      cy.findAllByRole('paragraph').contains('Request examples - Successful Report').should('exist')
+      cy.findAllByRole('paragraph').contains('Successful Report - Successful Report').should('exist')
     })
   })
 
@@ -164,7 +164,7 @@ context('Download report', () => {
           cy.wrap(request)
             .its('body')
             .and('match', /tableId=tblId_[0-9]+/)
-          cy.wrap(request).its('body').should('have.string', 'reportName=Request+examples')
+          cy.wrap(request).its('body').should('have.string', 'reportName=Successful+Report')
           cy.wrap(request).its('body').should('have.string', 'cols=')
           cy.wrap(request).its('body').should('have.string', 'field1')
           cy.wrap(request).its('body').should('have.string', 'field2')

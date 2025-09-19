@@ -296,7 +296,7 @@ context('Bookmarks list', () => {
 
     before(() => {
       cy.task('stubDefinitionFeatureTestingMissingDesc')
-      cy.task('stubFeatureTestingMissingDesc')
+      cy.task('stubReportsFinishedStatus')
       cy.task('stubViewAsyncReportingResults')
       cy.task('stubRequestSuccessReportTablesCount')
 
@@ -375,7 +375,7 @@ context('Bookmarks list', () => {
 
     before(() => {
       cy.task('stubTestDashboard8')
-      cy.task('stubTestDashboard8Status')
+      cy.task('stubMockDashboardsStatusFinished')
       cy.task('stubViewAsyncResults')
       cy.task('stubDashboardSuccessResult20')
 

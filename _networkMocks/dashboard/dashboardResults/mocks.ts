@@ -1,8 +1,9 @@
-import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
+import { defaultMockRequest, generateNetworkMock, setupSimpleMock } from '@networkMocks/generateNetworkMock'
 import { generateData } from './age-breakdown/dataGenerator'
 import { generateData as generateDataQualityData } from './data-quality-metrics/dataGenerator'
 import { generateData as generateDietData } from './diet-data/dataGenerator'
 import { generateAgeBreakdownData } from './age-breakdown/data'
+import { mockTimeSeriesDataLastSixMonths } from './data-quality-metrics/data'
 
 const dataQualityDashboards = [
   'list-examples-data-quality',
@@ -47,6 +48,23 @@ export const dietDashboardsResultMock = setupSimpleMock(
   `/reports/dashboard-visualisations/dashboards/(${dietDashboards.join('|')})/tables/tblId_[0-9]+/result`,
   generateDietData({}),
 )
+export const testDashboardResultMock = generateNetworkMock({
+  ...defaultMockRequest,
+  request: {
+    ...defaultMockRequest.request,
+    urlPathPattern: `/reports/mock-dashboards/dashboards/test-dashboard-8/tables/tblId_[a-zA-Z0-9]+/result`,
+    queryParameters: {
+      pageSize: {
+        matches: '20',
+      },
+    },
+  },
+  response: {
+    ...defaultMockRequest.response,
+    jsonBody: mockTimeSeriesDataLastSixMonths,
+  },
+})
+
 export const catchallDashboardsResultMock = setupSimpleMock(
   `/reports/dashboard-visualisations/dashboards/[a-zA-Z0-9-_]+/tables/tblId_[0-9]+/result`,
   generateDataQualityData({}),

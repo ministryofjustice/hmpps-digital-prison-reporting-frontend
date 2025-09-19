@@ -8,7 +8,14 @@ import { mocks as dashboardResultsMocks } from './dashboard/dashboardResults/moc
 import { mocks as missingReportMocks } from './report/missingReport/mocks'
 
 const setupMocks = async () => {
-  const allMocks = [...basicMocks, ...dashboardMocks, ...reportMocks, ...dashboardDefMocks, ...dashboardResultsMocks, ...missingReportMocks]
+  const allMocks = [
+    ...basicMocks,
+    ...dashboardMocks,
+    ...reportMocks,
+    ...dashboardDefMocks,
+    ...dashboardResultsMocks,
+    ...missingReportMocks,
+  ]
 
   await postNetworkMocks(allMocks)
   const mappings = await getMappings()

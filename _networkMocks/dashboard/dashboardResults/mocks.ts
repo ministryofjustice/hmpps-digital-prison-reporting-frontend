@@ -57,12 +57,12 @@ export const testDashboardResultMock = generateNetworkMock({
       pageSize: {
         matches: '20',
       },
-    }
+    },
   },
   response: {
     ...defaultMockRequest.response,
     jsonBody: mockTimeSeriesDataLastSixMonths,
-  }
+  },
 })
 
 export const catchallDashboardsResultMock = setupSimpleMock(

@@ -1,11 +1,11 @@
-import { defaultMockRequest, generateNetworkMock, setupSimpleMock } from "@networkMocks/generateNetworkMock"
+import { defaultMockRequest, generateNetworkMock, setupSimpleMock } from '@networkMocks/generateNetworkMock'
 
 export const missingReportSubmitSuccessMock = generateNetworkMock({
   ...defaultMockRequest,
   request: {
     ...defaultMockRequest.request,
     method: 'POST',
-    urlPathPattern: `/missingRequest/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+`
+    urlPathPattern: `/missingRequest/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+`,
   },
   response: {
     ...defaultMockRequest.response,
@@ -15,8 +15,8 @@ export const missingReportSubmitSuccessMock = generateNetworkMock({
       reportVariantId: 'feature-testing-missing-1',
       reason: 'a reason',
       id: '123abc',
-    }
-  }
+    },
+  },
 })
 
 export const missingReportSubmitFailMock = generateNetworkMock({
@@ -25,10 +25,7 @@ export const missingReportSubmitFailMock = generateNetworkMock({
     ...missingReportSubmitSuccessMock.response,
     status: 500,
     jsonBody: {},
-  }
+  },
 })
 
-export const mocks = [
-  missingReportSubmitSuccessMock,
-  missingReportSubmitFailMock,
-]
+export const mocks = [missingReportSubmitSuccessMock, missingReportSubmitFailMock]

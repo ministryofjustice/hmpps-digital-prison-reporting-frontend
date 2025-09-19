@@ -1,4 +1,4 @@
-import { ReportType, RequestedReport, RequestStatus } from "../../../src/dpr/types/UserReports"
+import { ReportType, RequestedReport, RequestStatus } from '../../../src/dpr/types/UserReports'
 
 export const requestedReady: RequestedReport = {
   template: 'list',
@@ -102,7 +102,7 @@ export const requestedReady: RequestedReport = {
       },
     ],
   },
-  status: RequestStatus.FINISHED
+  status: RequestStatus.FINISHED,
 }
 
 export const requestedExpired: RequestedReport = {
@@ -340,8 +340,7 @@ export const requestedFailed: RequestedReport = {
     polling: {
       fullUrl:
         'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
-      pathname:
-        '/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
+      pathname: '/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
     },
     report: {},
   },
@@ -433,8 +432,7 @@ export const requestedSubmitted: RequestedReport = {
     polling: {
       fullUrl:
         'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
-      pathname:
-        '/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
+      pathname: '/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
     },
     report: {},
   },

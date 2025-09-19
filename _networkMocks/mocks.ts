@@ -14,8 +14,8 @@ export const pollingEndpoint = generateNetworkMock({
     ...defaultMockRequest.response,
     jsonBody: {
       isExpired: false,
-    }
-  }
+    },
+  },
 })
 
 export const mocks = [getDefinitionSummaries]

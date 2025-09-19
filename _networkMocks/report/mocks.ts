@@ -1,12 +1,12 @@
 import { defaultMockRequest, generateNetworkMock, setupSimpleMock } from '@networkMocks/generateNetworkMock'
 import { createMockData } from '@networkMocks/report/mockVariants/mockAsyncData'
 import { components } from 'src/dpr/types/api'
+import { RequestStatus } from 'src/dpr/types/UserReports'
 import { requestExampleVariants } from './mockVariants/request-examples'
 import { reportTemplates } from './mockVariants/report-templates'
 import { mockReportVariants } from './mockVariants/mock-report'
 import { filterInputExamplesVariants } from './mockVariants/filter-input-examples'
 import { featureTestingVariants } from './mockVariants/feature-testing'
-import { RequestStatus } from 'src/dpr/types/UserReports'
 
 const generateMocksFromDefs = (reportId: string, defs: components['schemas']['VariantDefinition'][]) => {
   return defs.map((def) => setupSimpleReportDefinitionResponseMock(reportId, def))
@@ -36,33 +36,57 @@ export const getReportStatusMock = setupSimpleMock(
   `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
   { status: 'FINISHED' },
 )
-export const reportsFinishedStatusMock = setupSimpleMock(`/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`, {
-  status: RequestStatus.FINISHED,
-})
-export const reportsPickedStatusMock = setupSimpleMock(`/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`, {
-  status: RequestStatus.PICKED,
-})
-export const reportsStartedStatusMock = setupSimpleMock(`/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`, {
-  status: RequestStatus.STARTED,
-})
-export const reportsSubmittedStatusMock = setupSimpleMock(`/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`, {
-  status: RequestStatus.SUBMITTED,
-})
-export const reportsAbortedStatusMock = setupSimpleMock(`/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`, {
-  status: RequestStatus.ABORTED,
-})
-export const reportsExpiredStatusMock = setupSimpleMock(`/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`, {
-  status: RequestStatus.EXPIRED,
-})
-export const reportsReadyStatusMock = setupSimpleMock(`/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`, {
-  status: RequestStatus.READY,
-})
-export const reportsFailedStatusMock = setupSimpleMock(`/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`, {
-  error: {
-    developerMessage: 'a developer message goes here',
+export const reportsFinishedStatusMock = setupSimpleMock(
+  `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
+  {
+    status: RequestStatus.FINISHED,
   },
-  status: RequestStatus.FAILED,
-})
+)
+export const reportsPickedStatusMock = setupSimpleMock(
+  `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
+  {
+    status: RequestStatus.PICKED,
+  },
+)
+export const reportsStartedStatusMock = setupSimpleMock(
+  `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
+  {
+    status: RequestStatus.STARTED,
+  },
+)
+export const reportsSubmittedStatusMock = setupSimpleMock(
+  `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
+  {
+    status: RequestStatus.SUBMITTED,
+  },
+)
+export const reportsAbortedStatusMock = setupSimpleMock(
+  `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
+  {
+    status: RequestStatus.ABORTED,
+  },
+)
+export const reportsExpiredStatusMock = setupSimpleMock(
+  `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
+  {
+    status: RequestStatus.EXPIRED,
+  },
+)
+export const reportsReadyStatusMock = setupSimpleMock(
+  `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
+  {
+    status: RequestStatus.READY,
+  },
+)
+export const reportsFailedStatusMock = setupSimpleMock(
+  `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
+  {
+    error: {
+      developerMessage: 'a developer message goes here',
+    },
+    status: RequestStatus.FAILED,
+  },
+)
 export const cancelAsyncRequestMock = generateNetworkMock({
   ...defaultMockRequest,
   request: {

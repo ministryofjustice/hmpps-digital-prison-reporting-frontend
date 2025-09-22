@@ -1,4 +1,9 @@
-import { defaultMockRequest, generateNetworkMock, reportIdRegex, setupSimpleMock } from '@networkMocks/generateNetworkMock'
+import {
+  defaultMockRequest,
+  generateNetworkMock,
+  reportIdRegex,
+  setupSimpleMock,
+} from '@networkMocks/generateNetworkMock'
 import { createMockData } from '@networkMocks/report/mockVariants/mockAsyncData'
 import { components } from 'src/dpr/types/api'
 import { RequestStatus } from 'src/dpr/types/UserReports'
@@ -104,9 +109,12 @@ export const cancelAsyncRequestMock = generateNetworkMock({
 export const getReportResultCountMock = setupSimpleMock(`/report/tables/tblId_[a-zA-Z0-9]+/count`, {
   count: 100,
 })
-export const getAsyncInteractiveCountMock = setupSimpleMock(`/reports/${reportIdRegex}/${reportIdRegex}/tables/tblId_[a-zA-Z0-9]+/count`, {
-  count: 100,
-})
+export const getAsyncInteractiveCountMock = setupSimpleMock(
+  `/reports/${reportIdRegex}/${reportIdRegex}/tables/tblId_[a-zA-Z0-9]+/count`,
+  {
+    count: 100,
+  },
+)
 
 export const requestExampleVariantMocks = generateMocksFromDefs('request-examples', requestExampleVariants)
 export const reportTempleVariantMocks = generateMocksFromDefs('report-templates', reportTemplates)

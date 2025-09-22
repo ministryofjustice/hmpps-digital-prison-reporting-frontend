@@ -11,7 +11,7 @@
     {% set prefix = args.prefix %}
     {% set defaultQuery = args.defaultQuery %}
 
-    <form id="{{ formId }}">
+    <form id="{{ formId }}" method="post" action="./apply-filters">
       <div id="query-error-summary" class="query-error-summary query-error-summary--hidden">
         {{ govukErrorSummary({
           titleText: "There is a problem",

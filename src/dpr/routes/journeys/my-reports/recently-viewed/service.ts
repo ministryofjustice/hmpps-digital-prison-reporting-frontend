@@ -22,6 +22,16 @@ export default class RecentlyViewedStoreService extends ReportStoreService {
     })
   }
 
+  async getReportByExecutionId(id: string, userId: string) {
+    const userConfig = await this.getState(userId)
+    return userConfig.recentlyViewedReports.find((report) => report.executionId === id)
+  }
+
+  async getReportByTableId(id: string, userId: string) {
+    const userConfig = await this.getState(userId)
+    return userConfig.recentlyViewedReports.find((report) => report.tableId === id)
+  }
+
   async setRecentlyViewed(reportData: RequestedReport, userId: string) {
     const userConfig = await this.getState(userId)
     const { executionId } = reportData

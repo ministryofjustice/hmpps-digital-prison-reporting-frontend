@@ -3,7 +3,7 @@ import { components } from 'src/dpr/types/api'
 export const variant35Interactive: components['schemas']['VariantDefinition'] = {
   id: 'variantId-35',
   name: 'Interactive Report with async filters',
-  description: 'this is an interactive report',
+  description: 'Async filters and interactive filters',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: false,

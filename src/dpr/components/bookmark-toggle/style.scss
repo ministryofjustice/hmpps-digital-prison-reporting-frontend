@@ -1,4 +1,7 @@
 .dpr-bookmark {
+  padding: 0;
+  background: none;
+  border: none;
 
   &:focus {
     background-color: red;
@@ -159,8 +162,7 @@
 }
 
 .dpr-bookmark-component {
-  position: relative;
-  text-align: right;
+  float: right;
 
   .dpr-bookmark-label {
     margin-left: govuk-spacing(2);

@@ -10,6 +10,7 @@ context('Viewing a report', () => {
       cy.task('resetStubs')
       cy.task('resetRedis')
       cy.task('stubDefinitions')
+      cy.task('stubDefinitionFeatureTestingInteractive')
       cy.task('stubFeatureTestingInteractive')
 
       cy.visit(path)

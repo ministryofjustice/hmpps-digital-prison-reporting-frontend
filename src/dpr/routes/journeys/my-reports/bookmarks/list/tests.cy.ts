@@ -29,6 +29,6 @@ context('Bookmarks list', () => {
     cy.visit(path)
     cy.injectAxe()
     cy.checkA11y()
-    cy.findByText(/Successful Report/).should('be.visible')
+    cy.findAllByText(/Successful Report/).should('be.visible')
   })
 })

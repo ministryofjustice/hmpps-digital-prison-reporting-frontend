@@ -130,7 +130,7 @@ context('Viewing a report', () => {
           .should('be.disabled')
         cy.findByLabelText(/download/).should('be.visible')
         cy.findByLabelText(/Copy report link/).should('be.visible')
-        cy.findByLabelText('bookmark toggle').should('be.visible')
+        cy.findByRole('button', { name: /Add bookmark/ }).should('be.visible')
 
         cy.findByLabelText('Refresh report').should('be.visible').click()
         cy.url().should(

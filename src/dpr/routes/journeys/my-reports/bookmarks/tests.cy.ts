@@ -67,7 +67,7 @@ context('Bookmarks list', () => {
               return element.textContent.includes('Interactive Report with async filters')
             },
           }).within(() => {
-            cy.findByLabelText('bookmark toggle').should('exist').contains('Add bookmark').click()
+            cy.findByRole('button', { name: /Add bookmark/ }).click()
           })
         })
 
@@ -86,7 +86,7 @@ context('Bookmarks list', () => {
               return element.textContent.includes('Interactive Report with async filters')
             },
           }).within(() => {
-            cy.findByLabelText('bookmark toggle').should('exist').contains('Remove bookmark')
+            cy.findByRole('button', { name: /Remove bookmark/ }).should('exist')
           })
         })
       })
@@ -107,7 +107,7 @@ context('Bookmarks list', () => {
               return element.textContent.includes('Interactive Report with async filters')
             },
           }).within(() => {
-            cy.findByLabelText('bookmark toggle').should('exist').contains('Remove bookmark').click()
+            cy.findByRole('button', { name: /Remove bookmark/ }).click()
           })
         })
 
@@ -125,7 +125,7 @@ context('Bookmarks list', () => {
               return element.textContent.includes('Interactive Report with async filters')
             },
           }).within(() => {
-            cy.findByLabelText('bookmark toggle').should('exist').contains('Add bookmark').should('exist')
+            cy.findByRole('button', { name: /Add bookmark/ }).should('exist')
           })
         })
       })
@@ -148,7 +148,7 @@ context('Bookmarks list', () => {
               return element.textContent.includes('Data quality data set')
             },
           }).within(() => {
-            cy.findByLabelText('bookmark toggle').should('exist').contains('Add bookmark').click()
+            cy.findByRole('button', { name: /Add bookmark/ }).click()
           })
         })
 
@@ -167,7 +167,7 @@ context('Bookmarks list', () => {
               return element.textContent.includes('Data quality data set')
             },
           }).within(() => {
-            cy.findByLabelText('bookmark toggle').should('exist').contains('Remove bookmark')
+            cy.findByRole('button', { name: /Remove bookmark/ }).should('exist')
           })
         })
       })
@@ -188,7 +188,7 @@ context('Bookmarks list', () => {
               return element.textContent.includes('Data quality data set')
             },
           }).within(() => {
-            cy.findByLabelText('bookmark toggle').should('exist').contains('Remove bookmark').click()
+            cy.findByRole('button', { name: /Remove bookmark/ }).click()
           })
         })
 
@@ -206,7 +206,7 @@ context('Bookmarks list', () => {
               return element.textContent.includes('Data quality data set')
             },
           }).within(() => {
-            cy.findByLabelText('bookmark toggle').should('exist').contains('Add bookmark')
+            cy.findByRole('button', { name: /Add bookmark/ }).should('exist')
           })
         })
       })
@@ -221,7 +221,7 @@ context('Bookmarks list', () => {
             return element.textContent.includes('Data quality data set')
           },
         }).within(() => {
-          cy.findByLabelText('bookmark toggle').should('exist').contains('Add bookmark').click()
+          cy.findByRole('button', { name: /Add bookmark/ }).click()
         })
       })
 
@@ -239,7 +239,7 @@ context('Bookmarks list', () => {
             return element.textContent.includes('Data quality data set')
           },
         }).within(() => {
-          cy.findByLabelText('bookmark toggle').should('exist').contains('Remove bookmark').click()
+          cy.findByRole('button', { name: /Remove bookmark/ }).click()
         })
       })
 
@@ -259,7 +259,7 @@ context('Bookmarks list', () => {
             return element.textContent.includes('Interactive Report with async filters')
           },
         }).within(() => {
-          cy.findByLabelText('bookmark toggle').should('exist').contains('Add bookmark').click()
+          cy.findByRole('button', { name: /Add bookmark/ }).click()
         })
       })
 
@@ -277,7 +277,7 @@ context('Bookmarks list', () => {
             return element.textContent.includes('Interactive Report with async filters')
           },
         }).within(() => {
-          cy.findByLabelText('bookmark toggle').should('exist').contains('Remove bookmark').click()
+          cy.findByRole('button', { name: /Remove bookmark/ }).click()
         })
       })
 
@@ -333,8 +333,8 @@ context('Bookmarks list', () => {
       })
 
       cy.visit(viewReportUrl)
-      cy.findByLabelText('bookmark toggle').should('exist').contains('Add bookmark').click()
-      cy.findByLabelText('bookmark toggle').should('exist').contains('Bookmarked')
+      cy.findByRole('button', { name: /Add bookmark/ }).click()
+      cy.findByRole('button', { name: /Bookmarked/ }).should('be.visible')
 
       cy.visit(path)
       cy.findByLabelText(/Bookmarks.*/i).within(() => {
@@ -356,8 +356,8 @@ context('Bookmarks list', () => {
       })
       cy.visit(viewReportUrl)
 
-      cy.findByLabelText('bookmark toggle').contains('Remove bookmark').should('exist').click()
-      cy.findByLabelText('bookmark toggle').should('exist').contains('Bookmark removed')
+      cy.findByRole('button', { name: /Remove bookmark/ }).click()
+      cy.findByRole('button', { name: /Bookmark removed/ })
 
       cy.visit(path)
       cy.findByLabelText(/Bookmarks.*/i).within(() => {
@@ -409,9 +409,7 @@ context('Bookmarks list', () => {
           })
       })
       cy.visit(viewReportUrl)
-      cy.findByLabelText('bookmark toggle')
-        .contains('Remove bookmark')
-        .should('exist')
+      cy.findByRole('button', { name: /Remove bookmark/ })
         .click()
         .contains('Bookmark removed')
       cy.visit(path)

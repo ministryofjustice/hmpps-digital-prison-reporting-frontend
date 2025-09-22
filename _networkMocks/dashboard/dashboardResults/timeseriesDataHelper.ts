@@ -1,22 +1,20 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-
 import dayjs from 'dayjs'
 
-export const splitIntoRandomValues = (total, parts) => {
-  let arr = new Array(parts)
+export const splitIntoRandomValues = (total: number, parts: number): number[] => {
+  let randomValues
   let sum = 0
   do {
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < parts; i++) {
-      arr[i] = Math.random()
-    }
-    sum = arr.reduce((acc, val) => acc + val, 0)
-    const scale = (total - parts) / sum
-    arr = arr.map((val) => Math.min(total, Math.round(val * scale) + 1))
-    sum = arr.reduce((acc, val) => acc + val, 0)
+    randomValues = Array.from({ length: parts }, Math.random)
+
+    const currentSum = randomValues.reduce((acc, val) => acc + val, 0)
+    const scale = (total - parts) / currentSum
+    const scaledValues = randomValues.map((val) => Math.min(total, Math.round(val * scale) + 1))
+
+    sum = scaledValues.reduce((acc, val) => acc + val, 0)
+    randomValues = scaledValues
   } while (sum - total)
 
-  return arr
+  return randomValues
 }
 
 export const extractQueryAndCreateTimestamps = (query) => {
@@ -169,20 +167,20 @@ export const initEstablishments = (baseData, establishmentId, timestamp) => {
 }
 
 /**
- * @param {*} data
- * @param {*} field: string[]
+ * @param {*} reportData
+ * @param {*} fields: string[]
  * @param {*} values: string[][]
  * @param {*} filter
  * @return {*}
  */
-export const generateFieldValuesWithCountData = (data, field, values, filter) => {
-  return data.flatMap((d) => {
+export const generateFieldValuesWithCountData = (reportData, fields, values, filter) => {
+  return reportData.flatMap((d) => {
     const total = +d.count.raw
     const totals = splitIntoRandomValues(total, values[0].length)
 
     const fieldData = []
-    field.forEach((field, index) => {
-      return values[index].forEach((value, index) => {
+    fields.forEach((field, fieldIndex) => {
+      return values[fieldIndex].forEach((value, index) => {
         fieldData[index] = {
           ...fieldData[index],
           [field]: { raw: value },
@@ -198,8 +196,8 @@ export const generateFieldValuesWithCountData = (data, field, values, filter) =>
           count: { raw: `${totals[index]}` },
         }
       })
-      .filter((d) => {
-        return !filter || (filter && d[field].raw === filter)
+      .filter((data) => {
+        return !filter || (filter && data[fields].raw === filter)
       })
   })
 }

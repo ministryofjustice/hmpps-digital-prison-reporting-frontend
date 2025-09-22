@@ -1,6 +1,6 @@
 import { checkA11y } from "../../../../../cypress-tests/cypressUtils"
-import { requestedReady, requestedAborted, requestedExpired, requestedFailed, requestedSubmitted } from "../../../../../cypress-tests/mockApis/mockRequestedUserListData"
-import { viewedDashboard, viewedExpired, viewedInteractive, viewedInteractiveAsync, viewedReady, expiredDashboard } from "../../../../../cypress-tests/mockApis/mockViewedUserListData"
+import { requestedReady, requestedAborted, requestedExpired, requestedFailed, requestedSubmitted } from "@networkMocks/report/mockVariants/mockRequestedUserListData"
+import { viewedDashboard, viewedExpired, viewedInteractive, viewedInteractiveAsync, viewedReady, expiredDashboard } from "@networkMocks/report/mockVariants/mockViewedUserListData"
 import { setRedisState } from "../../../integrationTests/setRedisState"
 
 context('User reports component', () => {
@@ -11,7 +11,7 @@ context('User reports component', () => {
       cy.task('resetStubs')
       cy.task('resetRedis')
       cy.task('stubDefinitions')
-      cy.task('stubRequestExamplesSuccessStatus')
+      cy.task('stubReportsFinishedStatus')
       cy.task('stubGenericDefinitionRequest')
       setRedisState({
         bookmarks: [],
@@ -278,7 +278,7 @@ context('User reports component', () => {
       cy.task('resetRedis')
       cy.task('stubDefinitions')
       cy.task('stubViewAsyncReportingResults')
-      cy.task('stubRequestExamplesSuccessStatus')
+      cy.task('stubReportsFinishedStatus')
       cy.task('stubGenericDefinitionRequest')
       setRedisState({
         bookmarks: [{

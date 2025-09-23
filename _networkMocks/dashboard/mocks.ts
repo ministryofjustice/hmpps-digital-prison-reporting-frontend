@@ -1,6 +1,6 @@
 import { reportIdRegex, setupSimpleMock } from '@networkMocks/generateNetworkMock'
 
-export const getDashboardStatusMock = setupSimpleMock(
+export const getDashboardStatusFinishedMock = setupSimpleMock(
   `/reports/${reportIdRegex}/dashboards/${reportIdRegex}/statements/exId_[0-9]+/status`,
   {
     status: 'FINISHED',
@@ -11,4 +11,4 @@ export const requestAsyncDashboardMock = setupSimpleMock(`/async/dashboards/[a-z
   tableId: 'tblId_1729765628165',
 })
 
-export const mocks = [getDashboardStatusMock, requestAsyncDashboardMock]
+export const mocks = [getDashboardStatusFinishedMock, requestAsyncDashboardMock]

@@ -179,11 +179,10 @@ describe('BookmarkService', () => {
         reportType: ReportType.REPORT,
       })
 
-      expect(res)
-        .toEqual(`<div class='dpr-bookmark dpr-bookmark-table' data-dpr-module='bookmark-toggle' aria-label='bookmark toggle'>
+      expect(res).toEqual(`<button class='dpr-bookmark dpr-bookmark-table' data-dpr-module='bookmark-toggle'>
   <input class='bookmark-input' type='checkbox' id='report-id-variant-id-context-id' data-report-id='report-id' data-id='variant-id' data-report-type='report' data-csrf-token='csrfToken' null />
   <label tabindex='0' id='variant-id-report-id-context-id-bookmark-label' for='report-id-variant-id-context-id'><span class='dpr-bookmark-label govuk-body-s'>Add bookmark</span></label>
-</div>`)
+</button>`)
     })
   })
 })

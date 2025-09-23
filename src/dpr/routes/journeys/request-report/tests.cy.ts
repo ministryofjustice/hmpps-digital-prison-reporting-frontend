@@ -90,6 +90,7 @@ context('Requesting a report', () => {
       cy.task('stubDefinitionRequestExamplesSuccess')
       cy.task('stubViewAsyncReportingResults')
       cy.task('stubRequestSuccessResult20')
+      cy.task('stubReportsFinishedStatus')
       cy.task('stubRequestSuccessReportTablesCount')
       cy.visit(path)
     })
@@ -209,7 +210,7 @@ context('Requesting a report', () => {
       })
       cy.findByRole('link', { name: 'Retry' }).click()
       cy.findByText(/Your report has failed to generate/).should('be.visible')
-      cy.findByText(/Successful Report/).should('be.visible')
+      cy.findAllByText(/Successful Report/).should('be.visible')
 
       cy.visit(path)
       cy.findByRole('tab', { name: /Requested/ }).click()
@@ -223,7 +224,7 @@ context('Requesting a report', () => {
         })
       })
       cy.findByText(/Your report has failed to generate/).should('be.visible')
-      cy.findByText(/Successful Report/).should('be.visible')
+      cy.findAllByText(/Successful Report/).should('be.visible')
     }
     const testRedirectsOldStatusUrl = () => {
       cy.url().then((url) => {

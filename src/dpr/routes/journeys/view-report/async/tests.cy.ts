@@ -11,7 +11,7 @@ context('Viewing a report', () => {
       cy.task('resetRedis')
       cy.task('stubDefinitions')
       cy.task('stubDefinitionFeatureTestingInteractive')
-      cy.task('stubFeatureTestingInteractiveStatus')
+      cy.task('stubReportStatusMock')
       cy.task('stubAsyncRequestSuccessReportTablesCount')
       cy.task('stubViewAsyncReportingResults')
       cy.task('stubRequestSuccessResult20')

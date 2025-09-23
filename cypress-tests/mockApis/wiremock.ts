@@ -1,10 +1,8 @@
 import superagent, { SuperAgentRequest, Response } from 'superagent'
 import { createClient } from 'redis'
+import { stubFor } from '@networkMocks/generateNetworkMock'
 
 const url = 'http://localhost:9091/__admin'
-
-export const stubFor = (mapping: Record<string, unknown>): SuperAgentRequest =>
-  superagent.post(`${url}/mappings`).send(mapping)
 
 export const deleteStub = (uuid: string): SuperAgentRequest => superagent.delete(`${url}/mappings/${uuid}`).send()
 

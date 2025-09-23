@@ -12,30 +12,30 @@ export default class BookmarkToggle extends DprClientClass {
 
   initToggles() {
     const element = this.getElement()
-    element.querySelectorAll('.bookmark-input[type=checkbox]').forEach((bookmarkToggle) => {
-      const csrfToken = bookmarkToggle.getAttribute('data-csrf-token')
-      const reportId = bookmarkToggle.getAttribute('data-report-id')
-      const id = bookmarkToggle.getAttribute('data-id')
-      const reportType = bookmarkToggle.getAttribute('data-report-type')
-      this.baseUrl = bookmarkToggle.getAttribute('data-base-url')
+    const bookmarkToggle = element.querySelector('.bookmark-input[type=checkbox]')
+    const csrfToken = bookmarkToggle.getAttribute('data-csrf-token')
+    const reportId = bookmarkToggle.getAttribute('data-report-id')
+    const id = bookmarkToggle.getAttribute('data-id')
+    const reportType = bookmarkToggle.getAttribute('data-report-type')
+    this.baseUrl = bookmarkToggle.getAttribute('data-base-url')
 
-      this.bookmarkWrapper = bookmarkToggle.parentNode
-      this.bookmarkColumn = this.bookmarkWrapper.parentNode
-      this.bookmarkLabel = this.bookmarkWrapper.querySelector('.dpr-bookmark-label--component')
+    this.bookmarkWrapper = bookmarkToggle.parentNode
+    this.bookmarkColumn = this.bookmarkWrapper.parentNode
+    this.bookmarkLabel = this.bookmarkWrapper.querySelector('.dpr-bookmark-label--component')
 
-      bookmarkToggle.addEventListener('change', async () => {
-        if (bookmarkToggle.checked) {
-          await this.addBookmark(bookmarkToggle, id, reportId, reportType, csrfToken)
-        } else {
-          await this.removeBookmark(bookmarkToggle, id, reportId, reportType, csrfToken)
-        }
-      })
+    element.addEventListener('click', async () => {
+      bookmarkToggle.checked = !bookmarkToggle.checked
+      if (bookmarkToggle.checked) {
+        await this.addBookmark(bookmarkToggle, id, reportId, reportType, csrfToken)
+      } else {
+        await this.removeBookmark(bookmarkToggle, id, reportId, reportType, csrfToken)
+      }
+    })
 
-      this.bookmarkColumn.addEventListener('keyup', async (e) => {
-        if (e.key === 'Enter') {
-          await this.handleBookmarkChange(bookmarkToggle, id, reportId, reportType, csrfToken)
-        }
-      })
+    this.bookmarkColumn.addEventListener('keyup', async (e) => {
+      if (e.key === 'Enter') {
+        await this.handleBookmarkChange(bookmarkToggle, id, reportId, reportType, csrfToken)
+      }
     })
   }
 

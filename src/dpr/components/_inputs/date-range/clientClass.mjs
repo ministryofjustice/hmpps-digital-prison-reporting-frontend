@@ -55,6 +55,10 @@ export default class DateRangeInput extends DprClientClass {
         this.removeSearchParam(this.durationInputID)
       }
       this.updateInputs(value)
+
+      const changeEvent = new Event('change')
+      this.startInput.dispatchEvent(changeEvent)
+      this.endInput.dispatchEvent(changeEvent)
     })
   }
 

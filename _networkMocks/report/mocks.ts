@@ -33,6 +33,12 @@ export const getReportStatusMock = setupSimpleMock(
     status: 'FINISHED',
   },
 )
+export const getAsyncReportResultCountMock = setupSimpleMock(
+  `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/count`,
+  {
+    count: 100,
+  },
+)
 export const getReportResultCountMock = setupSimpleMock(`/report/tables/tblId_[a-zA-Z0-9]+/count`, {
   count: 100,
 })
@@ -48,6 +54,7 @@ export const mocks = [
   getAsyncReportResultMock,
   getReportStatusMock,
   getReportResultCountMock,
+  getAsyncReportResultCountMock,
   ...requestExampleVariantMocks,
   ...reportTempleVariantMocks,
   ...mockReportVariantMocks,

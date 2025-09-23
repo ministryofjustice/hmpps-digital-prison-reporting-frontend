@@ -22,6 +22,13 @@ export default class RecentlyViewedStoreService extends ReportStoreService {
     })
   }
 
+  async getReportById(id: string, userId: string) {
+    const userConfig = await this.getState(userId)
+    return userConfig.recentlyViewedReports.find((viewed) => {
+      return (viewed.id && viewed.id === id) || (viewed.variantId && viewed.variantId === id)
+    })
+  }
+
   async getReportByExecutionId(id: string, userId: string) {
     const userConfig = await this.getState(userId)
     return userConfig.recentlyViewedReports.find((report) => report.executionId === id)
@@ -35,18 +42,34 @@ export default class RecentlyViewedStoreService extends ReportStoreService {
   async setRecentlyViewed(reportData: RequestedReport, userId: string) {
     const userConfig = await this.getState(userId)
     const { executionId } = reportData
+
+    const index = executionId
+      ? this.findIndexByExecutionId(executionId, userConfig.recentlyViewedReports)
+      : await this.findIndexByReportId(reportData.id, userConfig.recentlyViewedReports)
+
+    // Remove the old entry before inserting the new at index 0
+    if (index > -1) {
+      userConfig.recentlyViewedReports.splice(index, 1)
+      await this.saveState(userId, userConfig)
+    }
+
+    await this.addReport(reportData, userId, userConfig)
+  }
+
+  async updateRecentlyViewed(reportData: RequestedReport, userId: string) {
+    const userConfig = await this.getState(userId)
+    const { executionId } = reportData
     if (executionId) {
       const index = this.findIndexByExecutionId(executionId, userConfig.recentlyViewedReports)
-
-      if (index > -1) {
-        userConfig.recentlyViewedReports.splice(index, 1)
-        await this.saveState(userId, userConfig)
-      }
-
-      await this.addReport(reportData, userId, userConfig)
+      await this.updateReport(reportData, userId, userConfig, index)
     } else {
-      logger.warn('Cant add to recently viewed: Missing execution ID')
+      logger.warn('Cant update recently viewed: Missing execution ID')
     }
+  }
+
+  async updateReport(updatedData: RecentlyViewedReport, userId: string, userConfig: ReportStoreConfig, index: number) {
+    userConfig.recentlyViewedReports.splice(index, 1, updatedData)
+    await this.saveState(userId, userConfig)
   }
 
   async addReport(reportData: RecentlyViewedReport, userId: string, userConfig: ReportStoreConfig) {

@@ -248,7 +248,7 @@ const stubs = {
     createBasicHttpStub(`GET`, `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`, 200, {
       status: RequestStatus.READY,
     }),
-  stubFeatureTestingInteractive: () =>
+  stubFeatureTestingInteractiveStatus: () =>
     createBasicHttpStub(
       `GET`,
       `/reports/feature-testing/feature-testing-interactive/statements/[a-zA-Z0-9_]+/status`,
@@ -334,6 +334,16 @@ const stubs = {
     createBasicHttpStub(
       `GET`,
       `/report/tables/tblId_[a-zA-Z0-9]+/count`,
+      200,
+      {
+        count: 100,
+      },
+      500,
+    ),
+  stubAsyncRequestSuccessReportTablesCount: () =>
+    createBasicHttpStub(
+      `GET`,
+      `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/count`,
       200,
       {
         count: 100,

@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
-import UserReportsListUtils from '../../../../components/user-reports/utils'
 import ViewReportUtils from '../utils'
 
 export default class AsyncController {
@@ -20,18 +19,5 @@ export default class AsyncController {
   applyColumns: RequestHandler = async (req, res, next) => {
     const { type } = req.params
     res.redirect(`${req.baseUrl}/${type}`)
-  }
-
-  checkExpiredStatus: RequestHandler = async (req, res, next) => {
-    try {
-      const response = await UserReportsListUtils.updateExpiredStatus({
-        req,
-        res,
-        services: this.services,
-      })
-      res.send({ isExpired: response })
-    } catch (error) {
-      res.send({ status: 'FAILED' })
-    }
   }
 }

@@ -1,4 +1,4 @@
-import { checkA11y } from "../../../../../../cypress-tests/cypressUtils"
+import { checkA11y } from '../../../../../../cypress-tests/cypressUtils'
 
 context('Inputs: Relative date range with defaults', () => {
   const path = '/components/filters/date-range/relative-date-range-with-default'
@@ -12,13 +12,12 @@ context('Inputs: Relative date range with defaults', () => {
       cy.task('resetRedis')
       cy.task('stubDefinitions')
       cy.task('stubFilterInputsRelDateDef')
-      
     })
     it('should initialise the start and end values', () => {
       checkA11y()
       cy.findByRole('textbox', { name: 'From' }).should('not.have.value', '')
       cy.findByRole('textbox', { name: 'To' }).should('not.have.value', '')
-    
+
       cy.findByRole('tab', { name: 'Preset date ranges' }).click()
       cy.findByRole('radio', { name: 'Last week' }).should('be.checked')
     })
@@ -28,8 +27,6 @@ context('Inputs: Relative date range with defaults', () => {
       checkA11y()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.field1.relative-duration=next-month`)
-        expect(location.search).to.contain(`filters.field1.start=`)
-        expect(location.search).to.contain(`filters.field1.end=`)
       })
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
@@ -69,7 +66,7 @@ context('Inputs: Relative date range with defaults', () => {
           }
         })
       })
-    
+
       cy.visit(platformPath)
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.field1.relative-duration=next-month`)

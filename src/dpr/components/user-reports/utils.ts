@@ -362,8 +362,6 @@ export default {
     services: Services
     reportStateData: RequestedReport
     userId: string
-    search: string
-    href: string
     filters: FilterValue[]
   }) => {
     const { type, reportId, reportName, description, id, name, executionId, tableId, query, url } = reportStateData
@@ -371,10 +369,14 @@ export default {
     const executionData = { executionId, tableId }
     const queryData = query ? { query: query.data, querySummary: query.summary } : { query: {}, querySummary: [] }
 
+    console.log(JSON.stringify({ queryData }, null, 2))
+
     const interactiveQueryData: { query: Dict<string>; querySummary: Array<Dict<string>> } = {
       query: <Dict<string>>req.query,
       querySummary: SelectedFiltersUtils.getQuerySummary(req, filters),
     }
+
+    console.log(JSON.stringify({ interactiveQueryData }, null, 2))
 
     const recentlyViewedData = new UserStoreItemBuilder(reportData)
       .addExecutionData(executionData)

@@ -15,7 +15,7 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
 
   const controller = new AsyncController(layoutPath, services)
 
-  router.post(['/report/expired', '/dashboard/expired'], controller.checkExpiredStatus)
+  router.post(['/report', '/dashboard'], controller.POST)
   router.post('/apply-filters', controller.applyFilters)
   router.post('/apply-columns', controller.applyColumns)
 

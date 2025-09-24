@@ -21,7 +21,7 @@ export default class AsyncController {
     await ViewReportUtils.applyInteractiveQuery(req, res, this.services, 'columns')
   }
 
-  checkExpiredStatus: RequestHandler = async (req, res, next) => {
+  POST: RequestHandler = async (req, res, next) => {
     try {
       const response = await UserReportsListUtils.updateExpiredStatus({
         req,

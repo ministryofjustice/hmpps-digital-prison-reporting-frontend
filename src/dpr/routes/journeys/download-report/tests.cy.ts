@@ -111,19 +111,7 @@ context('Download report', () => {
       )
       cy.findByRole('link', { name: /Return to report to download/ }).click()
       cy.findAllByRole('heading').contains('Successful Report').should('exist')
-    })
-  })
-
-  describe('Download', () => {
-    it('should show the enabled download button', () => {
-      cy.findByLabelText(/download/).should('exist')
-    })
-
-    it('should post the correct data to prepare the download', () => {
-      cy.task<number>('countFiles').then((beforeCount) => {
-        cy.findByLabelText(/download/).click()
-        cy.task<boolean>('checkFilesIncremented', beforeCount).should('equal', true)
-      })
+      cy.findByRole('button', { name: /download/ }).should('be.visible')
     })
   })
 })

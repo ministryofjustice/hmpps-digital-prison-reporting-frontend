@@ -407,7 +407,7 @@ context('Viewing a report', () => {
       cy.task('resetRedis')
       cy.task('stubDefinitions')
       cy.task('stubDefinitionFeatureTestingInteractive')
-      cy.task('stubFeatureTestingInteractiveStatus')
+      cy.task('stubReportStatusMock')
       cy.task('stubAsyncRequestSuccessReportTablesCount')
       cy.task('stubViewAsyncReportingResults')
       cy.task('stubRequestSuccessResult20')
@@ -440,7 +440,13 @@ context('Viewing a report', () => {
       cy.visit(viewReportUrl)
     })
 
-    describe('Filter types', () => {
+    describe('Apply filters', () => {
+      const applyFilters = () => {
+        cy.findByRole('button', { name: 'Apply filters' }).click()
+      }
+      const applyFiltersURL =
+        '/embedded/platform/dpr/view-report/async/report/feature-testing/feature-testing-interactive/**/apply-filters'
+
       const removeAllFilters = () => {
         for (let index = 0; index < 4; index += 1) {
           const selectedFilter = cy.get('#dpr-selected-filters > a:nth-child(1)')
@@ -464,10 +470,10 @@ context('Viewing a report', () => {
 
           cy.intercept({
             method: 'POST',
-            url: '/embedded/platform/dpr/view-report/async/report/feature-testing/feature-testing-interactive/**/apply-filters',
+            url: applyFiltersURL,
           }).as('applyFilters')
 
-          cy.findByRole('button', { name: 'Apply filters' }).click()
+          applyFilters()
 
           cy.wait('@applyFilters')
             .its('request')
@@ -512,10 +518,10 @@ context('Viewing a report', () => {
 
           cy.intercept({
             method: 'POST',
-            url: '/embedded/platform/dpr/view-report/async/report/feature-testing/feature-testing-interactive/**/apply-filters',
+            url: applyFiltersURL,
           }).as('applyFilters')
 
-          cy.findByRole('button', { name: 'Apply filters' }).click()
+          applyFilters()
 
           cy.wait('@applyFilters')
             .its('request')
@@ -589,10 +595,10 @@ context('Viewing a report', () => {
 
           cy.intercept({
             method: 'POST',
-            url: '/embedded/platform/dpr/view-report/async/report/feature-testing/feature-testing-interactive/**/apply-filters',
+            url: applyFiltersURL,
           }).as('applyFilters')
 
-          cy.findByRole('button', { name: 'Apply filters' }).click()
+          applyFilters()
 
           cy.wait('@applyFilters')
             .its('request')
@@ -646,10 +652,10 @@ context('Viewing a report', () => {
 
           cy.intercept({
             method: 'POST',
-            url: '/embedded/platform/dpr/view-report/async/report/feature-testing/feature-testing-interactive/**/apply-filters',
+            url: applyFiltersURL,
           }).as('applyFilters')
 
-          cy.findByRole('button', { name: 'Apply filters' }).click()
+          applyFilters()
 
           cy.wait('@applyFilters')
             .its('request')

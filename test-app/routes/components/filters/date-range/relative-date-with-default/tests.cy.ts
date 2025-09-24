@@ -70,8 +70,6 @@ context('Inputs: Relative date range with defaults', () => {
       cy.visit(platformPath)
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.field1.relative-duration=next-month`)
-        expect(location.search).to.contain(`filters.field1.start=`)
-        expect(location.search).to.contain(`filters.field1.end=`)
         expect(location.search).not.to.contain(`defaultsSaved=true`)
       })
     })

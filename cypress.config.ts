@@ -6,6 +6,8 @@ import missingRequestStubs from './cypress-tests/mockApis/missingRequest'
 import reportingStubs from './cypress-tests/mockApis/reporting'
 import dashboardStubs from './cypress-tests/mockApis/dashboards'
 
+const cwd = process.cwd()
+
 const config: Cypress.ConfigOptions = {
   chromeWebSecurity: false,
   videosFolder: 'cypress-tests/integration-tests/videos',
@@ -26,7 +28,7 @@ const config: Cypress.ConfigOptions = {
         ...reportingStubs,
         ...dashboardStubs,
         countFiles() {
-          return fs.readdirSync(path.join(__dirname, 'cypress/downloads')).length
+          return fs.readdirSync(path.join(cwd, 'cypress/downloads')).length
         },
         async checkFilesIncremented(beforeCount) {
           for (let i = 3; i > 0; i -= 1) {
@@ -34,7 +36,7 @@ const config: Cypress.ConfigOptions = {
             await new Promise((r) => {
               setTimeout(r, 500)
             })
-            if (Number(fs.readdirSync(path.join(__dirname, 'cypress/downloads')).length) === Number(beforeCount + 1)) {
+            if (Number(fs.readdirSync(path.join(cwd, 'cypress/downloads')).length) === Number(beforeCount + 1)) {
               return true
             }
           }

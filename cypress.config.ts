@@ -1,4 +1,5 @@
 import { Result } from 'axe-core'
+import path from 'path'
 import fs from 'fs'
 import { resetStubs, resetRedis, deleteStub } from './cypress-tests/mockApis/wiremock'
 import missingRequestStubs from './cypress-tests/mockApis/missingRequest'
@@ -25,14 +26,17 @@ const config: Cypress.ConfigOptions = {
         ...reportingStubs,
         ...dashboardStubs,
         countFiles() {
-          return fs.readdirSync(Cypress.config().downloadsFolder).length
+          return fs.readdirSync(path.join(__dirname, 'cypress/downloads')).length
         },
         async checkFilesIncremented(beforeCount) {
-          for (let i = 3; i > 0; i--) {
-            if (fs.readdirSync(Cypress.config().downloadsFolder).length === beforeCount + 1) {
+          for (let i = 3; i > 0; i -= 1) {
+            // eslint-disable-next-line no-await-in-loop
+            await new Promise((r) => {
+              setTimeout(r, 500)
+            })
+            if (Number(fs.readdirSync(path.join(__dirname, 'cypress/downloads')).length) === Number(beforeCount + 1)) {
               return true
             }
-            await new Promise(r => setTimeout(r, 500))
           }
           return false
         },

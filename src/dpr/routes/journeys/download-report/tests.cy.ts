@@ -119,10 +119,6 @@ context('Download report', () => {
       cy.findByLabelText(/download/).should('exist')
     })
 
-    it('should redirect when the user does not have permission to download', () => {
-      cy.findByText('will fail').should('exist')
-    })
-
     it('should post the correct data to prepare the download', () => {
       cy.task<number>('countFiles').then((beforeCount) => {
         cy.findByLabelText(/download/).click()

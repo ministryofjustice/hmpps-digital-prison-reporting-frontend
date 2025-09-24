@@ -10,6 +10,7 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
     this.mainForm.noValidate = true
     this.formFields = Array.from(this.mainForm.elements)
     this.errorSummary = document.getElementById('query-error-summary')
+    this.embbeddedReportList = document.getElementById('dpr-embedded-report-list')
 
     // Buttons
     this.submitButton = document.getElementById(submitButtonId)
@@ -39,7 +40,11 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
       this.initFormData()
       const errors = this.validateForm()
       if (this.mainForm.checkValidity() && errors.length === 0) {
-        this.mainForm.requestSubmit()
+        if (this.embbeddedReportList) {
+          this.submitAction()
+        } else {
+          this.mainForm.requestSubmit()
+        }
       }
     })
   }

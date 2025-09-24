@@ -7,7 +7,12 @@ import LocalsHelper from '../../../utils/localsHelper'
 import definitionUtils from '../../../utils/definitionUtils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
 
-const applyInteractiveFilters = async (req: Request, res: Response, services: Services) => {
+const applyInteractiveQuery = async (
+  req: Request,
+  res: Response,
+  services: Services,
+  applyType: 'columns' | 'filters',
+) => {
   const { type, tableId, reportId, id } = req.params
   const { dprUser, token, definitionsPath } = LocalsHelper.getValues(res)
 
@@ -16,7 +21,7 @@ const applyInteractiveFilters = async (req: Request, res: Response, services: Se
     await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
   const fields = definition.variant.specification.fields || []
 
-  // get the report state to get columns
+  // get the report state
   let reportStateData: StoredReportData
   if (tableId) {
     // means its an async report
@@ -26,11 +31,19 @@ const applyInteractiveFilters = async (req: Request, res: Response, services: Se
     reportStateData = await services.recentlyViewedService.getReportById(id, dprUser.id)
   }
 
+  // Get the stored interactive query data
+  const interactiveQueryData = reportStateData?.interactiveQuery?.data
+  const { columns, preventDefault } = interactiveQueryData
+  const filters = Object.keys(interactiveQueryData)
+    .filter((key) => key.includes('filters.'))
+    .reduce((acc, key) => ({ ...acc, [key]: interactiveQueryData[key] }), {})
+
   // Create merged form data
-  const formData: Record<string, string | string[]> = {
+  let formData: Record<string, string | string[]> = {
+    ...(preventDefault && { preventDefault }),
     ...req.body,
-    columns: reportStateData.interactiveQuery.data.columns,
   }
+  formData = applyType === 'columns' ? { ...formData, ...filters } : { ...formData, columns }
 
   // Create query string
   const filtersString = createQueryParamsFromFormData({
@@ -97,6 +110,12 @@ const createQueryParamsFromFormData = ({
               break
           }
         }
+      } else if (Array.isArray(value)) {
+        value.forEach((v: string) => {
+          params.append(key, v)
+        })
+      } else {
+        params.append(key, value)
       }
     }
   })
@@ -106,5 +125,5 @@ const createQueryParamsFromFormData = ({
 }
 
 export default {
-  applyInteractiveFilters,
+  applyInteractiveQuery,
 }

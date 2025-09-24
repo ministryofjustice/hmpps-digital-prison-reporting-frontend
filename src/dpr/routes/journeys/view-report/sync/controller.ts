@@ -13,11 +13,10 @@ export default class AsyncController {
   }
 
   applyFilters: RequestHandler = async (req, res, next) => {
-    await ViewReportUtils.applyInteractiveFilters(req, res, this.services)
+    await ViewReportUtils.applyInteractiveQuery(req, res, this.services, 'filters')
   }
 
   applyColumns: RequestHandler = async (req, res, next) => {
-    const { type } = req.params
-    res.redirect(`${req.baseUrl}/${type}`)
+    await ViewReportUtils.applyInteractiveQuery(req, res, this.services, 'columns')
   }
 }

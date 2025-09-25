@@ -444,11 +444,13 @@ context('Viewing a report', () => {
       const applyFilters = () => {
         cy.findByRole('button', { name: 'Apply filters' }).click()
       }
-      const applyFiltersURL =
-        '/embedded/platform/dpr/view-report/async/report/feature-testing/feature-testing-interactive/**/apply-filters'
 
       const removeAllFilters = () => {
-        cy.findByLabelText('Selected Filters').within(() => cy.findAllByRole('link').click())
+        for (let index = 0; index < 4; index += 1) {
+          cy.findByLabelText('Selected filters').within(() => {
+            cy.findAllByRole('link').first().click()
+          })
+        }
       }
 
       describe('Date range', () => {

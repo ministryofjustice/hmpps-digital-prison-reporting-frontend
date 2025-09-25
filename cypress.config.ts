@@ -32,15 +32,17 @@ const config: Cypress.ConfigOptions = {
         },
         checkContents10RowExcelValid() {
           const mostRecentReportPath = globSync(`${cfg.downloadsFolder}/*.csv`)
-            .map(name => ({name, ctime: fs.statSync(name).ctime}))
+            .map((name) => ({ name, ctime: fs.statSync(name).ctime }))
             .sort((a, b) => b.ctime.getTime() - a.ctime.getTime())[0].name
           const contents = String(fs.readFileSync(mostRecentReportPath)).split('\n')
           // Number of cols is worked out by number of commas
           const numCols = contents[0].split(',').length
           // Make sure the total length of the csv is 10 + 1 (title row) and that every row has same number of cols, and that every row has something in it
-          return contents.length === 11 
-            && contents.reduce((acc, val) => acc && (val.split(',').length === numCols), true)
-            && contents.reduce((acc, val) => acc + val.length, 0) > 0
+          return (
+            contents.length === 11 &&
+            contents.reduce((acc, val) => acc && val.split(',').length === numCols, true) &&
+            contents.reduce((acc, val) => acc + val.length, 0) > 0
+          )
         },
         async checkFilesIncremented(beforeCount) {
           for (let i = 3; i > 0; i -= 1) {

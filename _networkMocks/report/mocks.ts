@@ -41,9 +41,11 @@ export const getAsyncReportResultMock = setupSimpleMock(
 export const getAsyncReportResultMockMissingData = setupSimpleMock(
   `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/result`,
   createMockData(10).map((row, idx) => {
-    if (idx !== 0) { return row }
+    if (idx !== 0) {
+      return row
+    }
     return Object.entries(row).map(([key, _value]) => ({
-      [key]: undefined
+      [key]: undefined,
     }))
   }),
 )

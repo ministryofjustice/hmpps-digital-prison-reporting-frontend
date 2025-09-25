@@ -3,7 +3,6 @@ import { checkA11y } from '../../../../../cypress-tests/cypressUtils'
 context('Download report', () => {
   const path = '/embedded/platform/'
   let downloadRequestFormPage: string
-  let downloadRequestSubmittedPage: string
   let viewReportUrl: string
 
   before(() => {
@@ -101,77 +100,22 @@ context('Download report', () => {
       cy.findByRole('textbox', { name: 'What is your Job title?' }).type('Software engineer')
       cy.findByRole('textbox', { name: 'Can you provide more detail' }).type('I like this report')
 
-      cy.intercept({
-        method: 'POST',
-        url: '/embedded/platform/dpr/download-report/request-download/**/**/tableId/**',
-      }).as('requestDownload')
-
       cy.findByRole('button', { name: 'Submit request' }).click()
+      cy.findByText(/You have been granted permission/).should('be.visible')
 
-      cy.wait('@requestDownload')
-        .its('request')
-        .then((request) => {
-          cy.wrap(request).its('body').should('have.string', '_csrf=csrfToken')
-          cy.wrap(request).its('body').should('have.string', 'reportId=request-examples')
-          cy.wrap(request).its('body').should('have.string', 'reportName=Successful+Report')
-          cy.wrap(request).its('body').should('have.string', 'variantName=Successful+Report')
-          cy.wrap(request)
-            .its('body')
-            .and('match', /tableId=tblId_[0-9]+/)
-          cy.wrap(request).its('body').should('have.string', 'variantId=request-example-success')
-          cy.wrap(request).its('body').should('have.string', 'activeCaseLoadId=KMI')
-          cy.wrap(request).its('body').should('have.string', 'role=Software+engineer')
-          cy.wrap(request).its('body').should('have.string', 'moreDetail=I+like+this+report')
-        })
-
-      cy.url().then((url) => {
-        downloadRequestSubmittedPage = url
-      })
+      cy.url().as('downloadRequestSubmittedPage')
 
       cy.url().and(
         'match',
         /dpr\/download-report\/request-download\/request-examples\/request-example-success\/tableId\/tblId_[0-9]+\/form\/submitted/,
       )
-    })
-  })
+      cy.findByRole('link', { name: /Return to report to download/ }).click()
+      cy.findAllByRole('heading').contains('Successful Report').should('exist')
+      cy.findByRole('button', { name: /download/ }).should('be.visible')
 
-  describe('Request download submitted', () => {
-    it('should show the report details', () => {
-      cy.visit(downloadRequestSubmittedPage)
-      cy.findAllByRole('paragraph').contains('Successful Report - Successful Report').should('exist')
-    })
-  })
-
-  describe('Download', () => {
-    it('should show the enabled download button', () => {
-      cy.findByLabelText(/download/).should('exist')
-    })
-
-    it('should post the correct data to prepare the download', () => {
-      cy.intercept({
-        method: 'POST',
-        url: '/embedded/platform/dpr/download-report/',
-      }).as('downloadReport')
-
-      cy.findByLabelText(/download/).click()
-
-      cy.wait('@downloadReport')
-        .its('request')
-        .then((request) => {
-          cy.wrap(request).its('body').should('have.string', '_csrf=csrfToken')
-          cy.wrap(request).its('body').should('have.string', 'reportId=request-examples')
-          cy.wrap(request).its('body').should('have.string', 'id=request-example-success')
-          cy.wrap(request)
-            .its('body')
-            .and('match', /tableId=tblId_[0-9]+/)
-          cy.wrap(request).its('body').should('have.string', 'reportName=Successful+Report')
-          cy.wrap(request).its('body').should('have.string', 'cols=')
-          cy.wrap(request).its('body').should('have.string', 'field1')
-          cy.wrap(request).its('body').should('have.string', 'field2')
-          cy.wrap(request).its('body').should('have.string', 'field3')
-          cy.wrap(request).its('body').should('have.string', 'field6')
-          cy.wrap(request).its('body').should('have.string', 'field7')
-        })
+      cy.task('stubRequestSuccessResult10MissingFirstRow')
+      cy.findByRole('button', { name: /download/ }).click()
+      cy.task('checkContents10RowExcelValid').should('equal', true)
     })
   })
 })

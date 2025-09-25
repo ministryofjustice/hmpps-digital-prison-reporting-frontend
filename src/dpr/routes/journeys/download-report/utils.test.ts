@@ -85,30 +85,6 @@ describe('DownloadUtils', () => {
       } as unknown as Services
     })
 
-    it('should download the report', async () => {
-      await DownloadUtils.downloadReport({
-        req,
-        services,
-        res,
-        redirect: `/async/report/reportId/id/request/tableId/report/download-disabled`,
-        loadType: LoadType.ASYNC,
-      })
-
-      const csv = `field 1 display,field 2 display,field 3 display
-Value 1,Value 2,2003-02-01T01:00
-Value 1,Value 2,2003-02-01T01:00
-Value 1,Value 2,2003-02-01T01:00
-Value 1,Value 2,2003-02-01T01:00
-Value 1,Value 2,2003-02-01T01:00
-Value 1,Value 2,2003-02-01T01:00
-Value 1,Value 2,2003-02-01T01:00
-Value 1,Value 2,2003-02-01T01:00
-Value 1,Value 2,2003-02-01T01:00
-Value 1,Value 2,2003-02-01T01:00`
-
-      expect(downloadSpy).toHaveBeenCalledWith(csv)
-    })
-
     it('should redirect when user does not have permission to download', async () => {
       downloadPermissionService = {
         downloadEnabled: jest.fn().mockResolvedValue(false),
@@ -128,30 +104,6 @@ Value 1,Value 2,2003-02-01T01:00`
       })
 
       expect(redirectSpy).toHaveBeenCalledWith(`/async/report/reportId/id/request/tableId/report/download-disabled`)
-    })
-
-    it('should get the data keys to map to the display name', () => {
-      const data = [
-        { one: 'one', two: 'two' },
-        { one: 'one', two: 'two', three: 'three', four: 'four' },
-        { one: 'one', two: 'two', three: 'three' },
-      ]
-
-      const fields = [
-        { name: 'one', display: 'One' },
-        { name: 'two', display: 'Two' },
-        { name: 'three', display: 'Three' },
-        { name: 'four', display: 'Four' },
-      ]
-
-      const keys = getKeys(data, <components['schemas']['FieldDefinition'][]>fields)
-
-      expect(keys).toEqual([
-        { field: 'one', title: 'One' },
-        { field: 'two', title: 'Two' },
-        { field: 'three', title: 'Three' },
-        { field: 'four', title: 'Four' },
-      ])
     })
   })
 })

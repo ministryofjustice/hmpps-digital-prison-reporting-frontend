@@ -362,8 +362,6 @@ export default {
     services: Services
     reportStateData: RequestedReport
     userId: string
-    search: string
-    href: string
     filters: FilterValue[]
   }) => {
     const { type, reportId, reportName, description, id, name, executionId, tableId, query, url } = reportStateData

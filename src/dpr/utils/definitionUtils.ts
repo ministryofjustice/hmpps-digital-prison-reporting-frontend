@@ -47,6 +47,13 @@ export default {
     })
   },
 
+  getFilter: (
+    fields: components['schemas']['FieldDefinition'][],
+    fieldId: string,
+  ): components['schemas']['FilterDefinition'] | undefined => {
+    return fields.find((f) => f.name === fieldId)?.filter
+  },
+
   getReportSummary: async (
     reportId: string,
     reportingService: ReportingService,

@@ -7,19 +7,53 @@ import LocalsHelper from '../../../utils/localsHelper'
 import definitionUtils from '../../../utils/definitionUtils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
 
-const applyInteractiveQuery = async (
+const applyReportInteractiveQuery = async (
   req: Request,
   res: Response,
   services: Services,
   applyType: 'columns' | 'filters',
 ) => {
-  const { type, tableId, reportId, id } = req.params
-  const { dprUser, token, definitionsPath } = LocalsHelper.getValues(res)
+  const { reportId, id } = req.params
+  const { token, definitionsPath } = LocalsHelper.getValues(res)
 
   // Get the definition
   const definition: components['schemas']['SingleVariantReportDefinition'] =
     await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
   const fields = definition.variant.specification.fields || []
+
+  return applyInteractiveQuery(req, res, services, applyType, fields)
+}
+
+const applyDashboardInteractiveQuery = async (
+  req: Request,
+  res: Response,
+  services: Services,
+  applyType: 'columns' | 'filters',
+) => {
+  const { reportId, id } = req.params
+  const { token, definitionsPath } = LocalsHelper.getValues(res)
+
+  // Get the definition
+  const definition: components['schemas']['DashboardDefinition'] = await services.dashboardService.getDefinition(
+    token,
+    reportId,
+    id,
+    definitionsPath,
+  )
+  const fields = definition.filterFields || []
+
+  return applyInteractiveQuery(req, res, services, applyType, fields)
+}
+
+const applyInteractiveQuery = async (
+  req: Request,
+  res: Response,
+  services: Services,
+  applyType: 'columns' | 'filters',
+  fields: components['schemas']['FieldDefinition'][],
+) => {
+  const { tableId, id } = req.params
+  const { dprUser } = LocalsHelper.getValues(res)
 
   // get the report state
   let reportStateData: StoredReportData
@@ -52,7 +86,7 @@ const applyInteractiveQuery = async (
   })
 
   // Redirect back to report
-  res.redirect(`${req.baseUrl}/${type}?${filtersString}`)
+  res.redirect(`${req.baseUrl}?${filtersString}`)
 }
 
 const createQueryParamsFromFormData = ({
@@ -89,7 +123,7 @@ const createQueryParamsFromFormData = ({
               }
               break
 
-            // MULTIVALUE TYPES
+            // MULTIVALUE TYPES: string[]
             case FilterType.multiselect.toLocaleLowerCase():
               {
                 const multiselectValue = <string[]>value
@@ -99,14 +133,9 @@ const createQueryParamsFromFormData = ({
               }
               break
 
+            // OTHER TYPES - always a string
             default:
-              if (Array.isArray(value)) {
-                value.forEach((v: string) => {
-                  params.append(key, v)
-                })
-              } else {
-                params.append(key, value)
-              }
+              params.append(key, <string>value)
               break
           }
         }
@@ -125,5 +154,6 @@ const createQueryParamsFromFormData = ({
 }
 
 export default {
-  applyInteractiveQuery,
+  applyDashboardInteractiveQuery,
+  applyReportInteractiveQuery,
 }

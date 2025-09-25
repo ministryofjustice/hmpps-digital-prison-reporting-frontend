@@ -461,8 +461,10 @@ const setActions = (
     currentUrl,
     currentQueryParams,
     nestedBaseUrl,
-    sortColumn: <string>query?.data?.sortColumn,
-    sortedAsc: <string>query?.data?.sortedAsc,
+    ...(query?.data && {
+      sortColumn: <string>query.data.sortColumn,
+      sortedAsc: <string>query.data.sortedAsc,
+    }),
   }
 
   const shareConfig = {

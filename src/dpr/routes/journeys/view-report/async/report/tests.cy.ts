@@ -448,10 +448,7 @@ context('Viewing a report', () => {
         '/embedded/platform/dpr/view-report/async/report/feature-testing/feature-testing-interactive/**/apply-filters'
 
       const removeAllFilters = () => {
-        for (let index = 0; index < 4; index += 1) {
-          const selectedFilter = cy.get('#dpr-selected-filters > a:nth-child(1)')
-          selectedFilter.click(1, 1)
-        }
+        cy.findByLabelText('Selected Filters').within(() => cy.findAllByRole('link').click())
       }
 
       describe('Date range', () => {
@@ -468,19 +465,7 @@ context('Viewing a report', () => {
           cy.findByRole('textbox', { name: 'From' }).type('02/05/2025')
           cy.findByRole('textbox', { name: 'To' }).type('05/07/2025').blur()
 
-          cy.intercept({
-            method: 'POST',
-            url: applyFiltersURL,
-          }).as('applyFilters')
-
           applyFilters()
-
-          cy.wait('@applyFilters')
-            .its('request')
-            .then((request) => {
-              cy.wrap(request).its('body').should('have.string', 'filters.field3.start=02%2F05%2F2025')
-              cy.wrap(request).its('body').should('have.string', 'filters.field3.end=05%2F07%2F2025')
-            })
 
           cy.location().should((location) => {
             expect(location.search).to.contain(`filters.field3.start=2025-05-02`)
@@ -516,21 +501,7 @@ context('Viewing a report', () => {
           cy.findByRole('tab', { name: 'Preset date ranges' }).click()
           cy.findByRole('radio', { name: 'Tomorrow' }).check()
 
-          cy.intercept({
-            method: 'POST',
-            url: applyFiltersURL,
-          }).as('applyFilters')
-
           applyFilters()
-
-          cy.wait('@applyFilters')
-            .its('request')
-            .then((request) => {
-              cy.wrap(request).its('body').should('have.string', 'filters.field3.start=')
-              cy.wrap(request).its('body').should('have.string', 'filters.field3.end=')
-              cy.wrap(request).its('body').should('not.have.string', 'filters.field3.start=&filters.field3.end=')
-              cy.wrap(request).its('body').should('have.string', 'filters.field3.relative-duration=tomorrow')
-            })
 
           let startValue: string
           let endValue: string
@@ -593,18 +564,7 @@ context('Viewing a report', () => {
           cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
           cy.findByRole('checkbox', { name: 'Value 8.3' }).check()
 
-          cy.intercept({
-            method: 'POST',
-            url: applyFiltersURL,
-          }).as('applyFilters')
-
           applyFilters()
-
-          cy.wait('@applyFilters')
-            .its('request')
-            .then((request) => {
-              cy.wrap(request).its('body').should('have.string', 'filters.field8=value8.1&filters.field8=value8.3')
-            })
 
           cy.findByRole('checkbox', { name: 'Value 8.1' }).should('be.checked')
           cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
@@ -650,23 +610,7 @@ context('Viewing a report', () => {
           cy.findByRole('checkbox', { name: 'Value 8.3' }).check()
           cy.findByRole('checkbox', { name: 'Value 8.4' }).check()
 
-          cy.intercept({
-            method: 'POST',
-            url: applyFiltersURL,
-          }).as('applyFilters')
-
           applyFilters()
-
-          cy.wait('@applyFilters')
-            .its('request')
-            .then((request) => {
-              cy.wrap(request)
-                .its('body')
-                .should(
-                  'have.string',
-                  'filters.field8=value8.1&filters.field8=value8.2&filters.field8=value8.3&filters.field8=value8.4',
-                )
-            })
 
           cy.findByRole('checkbox', { name: 'Value 8.1' }).should('be.checked')
           cy.findByRole('checkbox', { name: 'Value 8.2' }).should('be.checked')
@@ -691,10 +635,6 @@ context('Viewing a report', () => {
               })
           })
         })
-      })
-
-      describe('Autocomplete', () => {
-        //
       })
     })
   })

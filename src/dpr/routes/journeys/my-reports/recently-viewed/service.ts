@@ -56,22 +56,6 @@ export default class RecentlyViewedStoreService extends ReportStoreService {
     await this.addReport(reportData, userId, userConfig)
   }
 
-  async updateRecentlyViewed(reportData: RequestedReport, userId: string) {
-    const userConfig = await this.getState(userId)
-    const { executionId } = reportData
-    if (executionId) {
-      const index = this.findIndexByExecutionId(executionId, userConfig.recentlyViewedReports)
-      await this.updateReport(reportData, userId, userConfig, index)
-    } else {
-      logger.warn('Cant update recently viewed: Missing execution ID')
-    }
-  }
-
-  async updateReport(updatedData: RecentlyViewedReport, userId: string, userConfig: ReportStoreConfig, index: number) {
-    userConfig.recentlyViewedReports.splice(index, 1, updatedData)
-    await this.saveState(userId, userConfig)
-  }
-
   async addReport(reportData: RecentlyViewedReport, userId: string, userConfig: ReportStoreConfig) {
     userConfig.recentlyViewedReports.unshift(reportData)
     await this.saveState(userId, userConfig)

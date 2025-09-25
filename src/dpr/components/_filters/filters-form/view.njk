@@ -12,8 +12,6 @@
     {% set defaultQuery = args.defaultQuery | default("", true) %}
     {% set reportType = args.reportType %}
 
-    {{ reportType }}
-
     <form id="{{ formId }}" method="post" action="./{{ reportType }}/apply-filters">
       <div id="query-error-summary" class="query-error-summary query-error-summary--hidden">
         {{ govukErrorSummary({

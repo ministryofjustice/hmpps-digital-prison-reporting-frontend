@@ -33,9 +33,19 @@ export const requestAsyncReportMock = setupSimpleMock(`/async/reports/[a-zA-Z0-9
   executionId: 'exId_238947923',
   tableId: 'tblId_1729765628165',
 })
+
 export const getAsyncReportResultMock = setupSimpleMock(
   `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/result`,
   createMockData(10),
+)
+export const getAsyncReportResultMockMissingData = setupSimpleMock(
+  `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/result`,
+  createMockData(10).map((row, idx) => {
+    if (idx !== 0) { return row }
+    return Object.entries(row).map(([key, _value]) => ({
+      [key]: undefined
+    }))
+  }),
 )
 export const getReportStatusMock = setupSimpleMock(
   `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,

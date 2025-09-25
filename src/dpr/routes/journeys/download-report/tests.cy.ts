@@ -112,6 +112,10 @@ context('Download report', () => {
       cy.findByRole('link', { name: /Return to report to download/ }).click()
       cy.findAllByRole('heading').contains('Successful Report').should('exist')
       cy.findByRole('button', { name: /download/ }).should('be.visible')
+
+      cy.task('stubRequestSuccessResult10MissingFirstRow')
+      cy.findByRole('button', { name: /download/ }).click()
+      cy.task('checkContents10RowExcelValid').should('equal', true)
     })
   })
 })

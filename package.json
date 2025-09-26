@@ -27,6 +27,7 @@
     "test:jest": "jest --verbose --silent=false",
     "test:docs": "npm run docs",
     "test:packaging": "npm run package",
+    "wiremock": "concurrently -p \"[{name}]\" -n \"Wiremock,SetupMocks\" -c \"yellow.bold,cyan.bold\" \"wiremock --verbose --port=9091\" \"wait-on http-get://localhost:9091/__admin/health && ts-node -T ./_networkMocks/setupMocks.ts\"",
     "start-test-app": "npm run package && node $NODE_OPTIONS test-app/start-server.js",
     "start:dev": "USE_MOCK_CLIENTS=true concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.config.js --build --watch\" \"node esbuild/esbuild.config.js --dev-server\"",
     "start:dev:noMockClients": "concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.config.js --build --watch\" \"node esbuild/esbuild.config.js --dev-server\"",
@@ -212,7 +213,10 @@
     "serve": "^14.2.4",
     "superagent": "^10.2.3",
     "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4",
+    "wait-on": "^9.0.1",
     "wiremock": "^3.13.1"
   },
   "publishConfig": {

@@ -5,7 +5,12 @@
     "lib": ["es5", "dom", "es2015.promise"],
     "types": ["cypress", "express", "express-session", "cypress-axe"],
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@networkMocks/*": ["../_networkMocks/*"]
+    }
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "../**/*.ts"],
+  "exclude": ["../**/*.test.ts"]
 }

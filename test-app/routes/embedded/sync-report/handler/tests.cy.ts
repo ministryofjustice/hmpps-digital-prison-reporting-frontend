@@ -413,30 +413,41 @@ context('Embedded sync report by handler', () => {
 
     it('should remove the selected filter when clicked', () => {
       cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link').should('have.length', 4).eq(0).click(1, 1)
+        cy.findAllByRole('link').eq(0).click(1, 1)
+        cy.findAllByRole('link').eq(0).click(1, 1)
+        cy.findAllByRole('link').eq(0).click(1, 1)
       })
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
         cy.findAllByRole('link')
-          .should('have.length', 3)
+          .should('have.length', 1)
           .each((filter, index) => {
             switch (index) {
               case 0:
-                cy.wrap(filter).contains('Field 3')
-                cy.wrap(filter).contains('01/02/2003 - 04/05/2006')
-                break
-              case 1:
-                cy.wrap(filter).contains('Field 7')
-                cy.wrap(filter).contains('Value 8.2, Value 8.3')
-                break
-              case 2:
                 cy.wrap(filter).contains('Reset filters')
                 break
               default:
                 break
             }
           })
+        cy.findAllByRole('paragraph')
+          .should('have.length', 1)
+          .each((p, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(p).contains('Field 3: 01/02/2003 - 04/05/2007 (maximum range)')
+                break
+              default:
+                break
+            }
+          })
       })
+      cy.findAllByRole('group').contains('Show filters').click()
+
+      cy.findByRole('checkbox', { name: 'Value 8.1' }).should('not.be.checked')
+      cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
+      cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
+      cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
     })
 
     it('should keep the current columns when resetting the filters', () => {

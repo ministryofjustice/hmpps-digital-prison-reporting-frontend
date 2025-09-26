@@ -10,7 +10,7 @@ const { glob } = require('glob')
 
 /**
  * Copy additional assets into distribution
- * @type {BuildStep}
+ * @type {import('./types').BuildStep}
  */
 const buildAdditionalAssets = (buildConfig) => {
   return esbuild.build({
@@ -26,7 +26,7 @@ const buildAdditionalAssets = (buildConfig) => {
 
 /**
  * Build scss and javascript assets
- * @type {BuildStep}
+ * @type {import('./types').BuildStep}
  */
 const buildAssets = (buildConfig) => {
   return esbuild.build({

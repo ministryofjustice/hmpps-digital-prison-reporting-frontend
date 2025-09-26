@@ -3,16 +3,17 @@
 {% from "dpr/components/_filters/fitlers-save-defaults/view.njk" import dprFiltersSaveDefaults %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
+{% macro dprInteractiveFilters(filterData, templateArgs) %}
 
-{% macro dprInteractiveFilters(data, defaultQuery = '', prefix = 'filters.', detailsOpen = false) %}
+  {% set filters = filterData.filters %}
+  {% set selectedFilters = filterData.selectedFilters %}
 
-  {% set filters = data.filters %}
-  {% set selectedFilters = data.selectedFilters %}
-  {% set detailsLabel = 'Show filters' %}
-
+  {% set reportType = templateArgs.reportType %}
+  {% set prefix = templateArgs.prefix %}
+  {% set defaultQuery = templateArgs.defaultQuery %}
 
   <div class='dpr-interactive-filters-section'>
-    {{ dprSelectedFilters(data.selectedFilters, { 
+    {{ dprSelectedFilters(selectedFilters, { 
       resetId: 'interactive-reset-filters-button',
       defaultQuery: defaultQuery 
     }) }}
@@ -27,7 +28,8 @@
             prefix: prefix,
             formId: 'interactive-filters-form',
             submitId: 'interactive-apply-filters-button',
-            defaultQuery: defaultQuery
+            defaultQuery: defaultQuery,
+            reportType: reportType
           }) }}
         </div>
       </div>
@@ -36,9 +38,8 @@
 
     <div class="dpr-interactive-filters-accordion"> 
       {{ govukDetails({
-        summaryText: detailsLabel,
+        summaryText: 'Show filters',
         html: filtersHtml,
-        open: detailsOpen,
         attributes: {
           id: 'dpr-interactive-filters-details'
         }

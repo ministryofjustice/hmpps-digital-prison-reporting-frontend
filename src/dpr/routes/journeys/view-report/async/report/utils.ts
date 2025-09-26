@@ -235,8 +235,6 @@ const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
       services,
       reportStateData: requestData,
       userId: dprUser.id,
-      search: renderData.search,
-      href: renderData.pathname,
       filters: templateData.filterData.filters,
     })
   }
@@ -467,8 +465,10 @@ const setActions = (
     currentUrl,
     currentQueryParams,
     nestedBaseUrl,
-    sortColumn: query?.data?.sortColumn,
-    sortedAsc: query?.data?.sortedAsc,
+    ...(query?.data && {
+      sortColumn: <string>query.data.sortColumn,
+      sortedAsc: <string>query.data.sortedAsc,
+    }),
   }
 
   const shareConfig = {

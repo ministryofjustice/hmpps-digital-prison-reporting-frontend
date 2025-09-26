@@ -3,6 +3,7 @@ import { Services } from '../../../../../types/Services'
 import ErrorSummaryUtils from '../../../../../components/error-summary/utils'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import DashboardUtils from './utils'
+import ViewReportUtils from '../../utils'
 
 export default class ViewAsyncDashboardController {
   layoutPath: string
@@ -42,5 +43,9 @@ export default class ViewAsyncDashboardController {
       }
       next()
     }
+  }
+
+  applyFilters: RequestHandler = async (req, res, next) => {
+    await ViewReportUtils.applyDashboardInteractiveQuery(req, res, this.services, 'filters')
   }
 }

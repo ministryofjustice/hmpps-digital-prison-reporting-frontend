@@ -4,6 +4,7 @@ import SyncReportUtils from './utils'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import ErrorSummaryUtils from '../../../../../components/error-summary/utils'
 import PersonalisationUtils from '../../../../../utils/Personalisation/personalisationUtils'
+import ViewReportUtils from '../../utils'
 
 export default class ViewSyncReportController {
   layoutPath: string
@@ -56,5 +57,13 @@ export default class ViewSyncReportController {
       }
       next()
     }
+  }
+
+  applyFilters: RequestHandler = async (req, res, next) => {
+    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'filters')
+  }
+
+  applyColumns: RequestHandler = async (req, res, next) => {
+    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'columns')
   }
 }

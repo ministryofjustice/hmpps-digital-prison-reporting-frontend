@@ -10,12 +10,14 @@ import type { DownloadActionParams } from '../../../../../components/_reports/re
 import { LoadType, ReportType, RequestStatus } from '../../../../../types/UserReports'
 import ReportQuery from '../../../../../types/ReportQuery'
 import { Template } from '../../../../../types/Templates'
+import { FilterValue } from '../../../../../components/_filters/types'
 
 import PaginationUtils from '../../../../../components/_reports/report-pagination/utils'
 import TotalsUtils from '../../../../../components/_reports/report-totals/utils'
 import ColumnUtils from '../../../../../components/_reports/report-columns-form/utils'
 import ReportActionsUtils from '../../../../../components/_reports/report-actions/utils'
 import FiltersUtils from '../../../../../components/_filters/utils'
+import SelectedFiltersUtils from '../../../../../components/_filters/filters-selected/utils'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import UserStoreItemBuilder from '../../../../../utils/UserStoreItemBuilder'
 
@@ -69,16 +71,27 @@ const setActions = (
   })
 }
 
-const setAsRecentlyViewed = async (
-  req: Request,
-  services: Services,
-  reportName: string,
-  name: string,
-  description: string,
-  reportId: string,
-  id: string,
-  userId: string,
-) => {
+const setAsRecentlyViewed = async ({
+  req,
+  services,
+  reportName,
+  name,
+  description,
+  reportId,
+  id,
+  userId,
+  filters,
+}: {
+  req: Request
+  services: Services
+  reportName: string
+  name: string
+  description: string
+  reportId: string
+  id: string
+  userId: string
+  filters: FilterValue[]
+}) => {
   const stateData = {
     type: ReportType.REPORT,
     reportId,
@@ -87,7 +100,14 @@ const setAsRecentlyViewed = async (
     description,
     name,
   }
+
+  const interactiveQueryData: { query: Dict<string>; querySummary: Array<Dict<string>> } = {
+    query: <Dict<string>>req.query,
+    querySummary: SelectedFiltersUtils.getQuerySummary(req, filters),
+  }
+
   const recentlyViewedData = new UserStoreItemBuilder(stateData)
+    .addInteractiveQuery(interactiveQueryData)
     .addStatus(RequestStatus.READY)
     .addTimestamp()
     .addReportUrls(req)
@@ -164,16 +184,17 @@ const getReport = async ({ req, res, services }: { req: Request; res: Response; 
   })
 
   if (Object.keys(renderData).length) {
-    setAsRecentlyViewed(
+    await setAsRecentlyViewed({
       req,
       services,
+      reportName: renderData.reportName,
+      name: renderData.name,
+      description: renderData.description,
       reportId,
       id,
-      renderData.reportName,
-      renderData.name,
-      renderData.description,
-      dprUser.id,
-    )
+      userId: dprUser.id,
+      filters: renderData.filterData.filters,
+    })
   }
 
   return {

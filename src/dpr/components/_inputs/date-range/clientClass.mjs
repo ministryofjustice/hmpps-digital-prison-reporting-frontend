@@ -55,6 +55,10 @@ export default class DateRangeInput extends DprClientClass {
         this.removeSearchParam(this.durationInputID)
       }
       this.updateInputs(value)
+
+      const changeEvent = new Event('change')
+      this.startInput.dispatchEvent(changeEvent)
+      this.endInput.dispatchEvent(changeEvent)
     })
   }
 
@@ -66,13 +70,19 @@ export default class DateRangeInput extends DprClientClass {
     })
   }
 
+  resetDurationValue() {
+    this.relativeRangeRadioButtons.forEach((durationRadioButton) => {
+      // eslint-disable-next-line no-param-reassign
+      durationRadioButton.checked = false
+    })
+  }
+
   initDurationRadionButtonClick() {
     this.relativeRangeRadioButtons.forEach((durationRadioButton) => {
       durationRadioButton.addEventListener('click', (e) => {
         const durationValue = e.target.value
         this.durationValue = durationValue
         this.updateInputs(durationValue)
-        this.removeRequiredFromDatePickers()
       })
     })
 
@@ -123,17 +133,16 @@ export default class DateRangeInput extends DprClientClass {
       this.startInput.value = null
       this.endInput.value = null
     }
-    const changeEvent = new Event('change')
-    this.startInput.dispatchEvent(changeEvent)
-    this.endInput.dispatchEvent(changeEvent)
   }
 
   initDatePickerUpdateEvents() {
     this.startInput.addEventListener('change', () => {
       this.removeSearchParam(this.durationInputID)
+      this.resetDurationValue()
     })
     this.endInput.addEventListener('change', () => {
       this.removeSearchParam(this.durationInputID)
+      this.resetDurationValue()
     })
   }
 

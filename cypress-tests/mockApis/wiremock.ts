@@ -1,10 +1,8 @@
 import superagent, { SuperAgentRequest, Response } from 'superagent'
 import { createClient } from 'redis'
+import { stubFor } from '@networkMocks/generateNetworkMock'
 
 const url = 'http://localhost:9091/__admin'
-
-export const stubFor = (mapping: Record<string, unknown>): SuperAgentRequest =>
-  superagent.post(`${url}/mappings`).send(mapping)
 
 export const deleteStub = (uuid: string): SuperAgentRequest => superagent.delete(`${url}/mappings/${uuid}`).send()
 
@@ -49,6 +47,11 @@ export const getSentAuditEvents = async (): Promise<unknown> => {
   // Skip first two audit events that come from sign-in
   const responses = (wiremockApiResponse.body || '[]').requests.slice(2)
   return responses.map(parseAuditEventBody)
+}
+
+export const getMappings = async () => {
+  const response = (await fetch(`${url}/mappings?limit=10000`))
+  return (await response.json()) as { mappings: Record<string, unknown>[], meta: { total: number } }
 }
 
 export const resetStubs = (): Promise<Array<Response>> =>

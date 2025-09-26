@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
-import CatalogueUtils from '../../../../../dist/dpr/components/_catalogue/catalogue/utils'
-import { Services } from '../../../../../dist/dpr/types/Services'
+import CatalogueUtils from '../../../../../src/dpr/components/_catalogue/catalogue/utils'
+import { Services } from '../../../../../src/dpr/types/Services'
 
 export default class CatalogueController {
   layoutPath: string
@@ -11,7 +11,7 @@ export default class CatalogueController {
     this.services = services
   }
 
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_, res) => {
     const catalogue = await CatalogueUtils.init({
       res,
       services: this.services,

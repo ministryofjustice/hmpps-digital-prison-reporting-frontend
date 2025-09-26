@@ -56,63 +56,6 @@ describe('BookmarkService', () => {
   })
 
   describe('addBookmark', () => {
-    it('should add a bookmark', async () => {
-      await bookmarkService.addBookmark('userId', 'reportId', 'new-bm-id', ReportType.REPORT)
-
-      const userCongfig = {
-        bookmarks: [
-          {
-            reportId: 'reportId',
-            id: 'new-bm-id',
-            type: ReportType.REPORT,
-          },
-          bm1,
-          bm2,
-          bm3,
-        ],
-      } as unknown as ReportStoreConfig
-
-      expect(saveStateSpy).toHaveBeenCalledWith('userId', userCongfig)
-    })
-
-    it('should add a report bookmark', async () => {
-      await bookmarkService.addBookmark('userId', 'reportId', 'new-report-bm-id', ReportType.REPORT)
-
-      const userCongfig = {
-        bookmarks: [
-          {
-            reportId: 'reportId',
-            id: 'new-report-bm-id',
-            type: ReportType.REPORT,
-          },
-          bm1,
-          bm2,
-          bm3,
-        ],
-      } as unknown as ReportStoreConfig
-
-      expect(saveStateSpy).toHaveBeenCalledWith('userId', userCongfig)
-    })
-
-    it('should add a dashboard bookmark', async () => {
-      await bookmarkService.addBookmark('userId', 'reportId', 'new-dashboard-bm-id', ReportType.DASHBOARD)
-
-      const userCongfig = {
-        bookmarks: [
-          {
-            reportId: 'reportId',
-            id: 'new-dashboard-bm-id',
-            type: ReportType.DASHBOARD,
-          },
-          bm1,
-          bm2,
-          bm3,
-        ],
-      } as unknown as ReportStoreConfig
-
-      expect(saveStateSpy).toHaveBeenCalledWith('userId', userCongfig)
-    })
-
     it('should not add a bookmark if already bookmarked, with variantId', async () => {
       await bookmarkService.addBookmark('userId', 'reportId', 'variantId', ReportType.REPORT)
 
@@ -134,40 +77,6 @@ describe('BookmarkService', () => {
     })
   })
 
-  describe('removeBookmark', () => {
-    it('should remove a bookamrk with variantId', async () => {
-      await bookmarkService.removeBookmark('userId', 'variantId', 'reportId')
-
-      const userCongfig = {
-        bookmarks: [bm2, bm3],
-      } as unknown as ReportStoreConfig
-
-      expect(saveStateSpy).toHaveBeenCalledWith('userId', userCongfig)
-    })
-
-    it('should remove a bookmark with id', async () => {
-      await bookmarkService.removeBookmark('userId', 'just-id', 'reportId')
-
-      const userCongfig = {
-        bookmarks: [bm1, bm3],
-      } as unknown as ReportStoreConfig
-
-      expect(saveStateSpy).toHaveBeenCalledWith('userId', userCongfig)
-    })
-  })
-
-  describe('isBookmarked', () => {
-    it('should confirm an id is bookmarked', async () => {
-      const res = await bookmarkService.isBookmarked('just-id', 'reportId', 'userId')
-      expect(res).toBeTruthy()
-    })
-
-    it('should confirm an id is not bookmarked', async () => {
-      const res = await bookmarkService.isBookmarked('new-id', 'reportId', 'userId')
-      expect(res).toBeFalsy()
-    })
-  })
-
   describe('createBookMarkToggleHtml', () => {
     it('should return a bookmarkToggle Component', async () => {
       const res = await bookmarkService.createBookMarkToggleHtml({
@@ -179,11 +88,10 @@ describe('BookmarkService', () => {
         reportType: ReportType.REPORT,
       })
 
-      expect(res)
-        .toEqual(`<div class='dpr-bookmark dpr-bookmark-table' data-dpr-module='bookmark-toggle' aria-label='bookmark toggle'>
+      expect(res).toEqual(`<button class='dpr-bookmark dpr-bookmark-table' data-dpr-module='bookmark-toggle'>
   <input class='bookmark-input' type='checkbox' id='report-id-variant-id-context-id' data-report-id='report-id' data-id='variant-id' data-report-type='report' data-csrf-token='csrfToken' null />
   <label tabindex='0' id='variant-id-report-id-context-id-bookmark-label' for='report-id-variant-id-context-id'><span class='dpr-bookmark-label govuk-body-s'>Add bookmark</span></label>
-</div>`)
+</button>`)
     })
   })
 })

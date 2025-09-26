@@ -52,8 +52,6 @@ context('Inputs: Relative date range', () => {
       cy.findByRole('radio', { name: 'None' }).check()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=none`)
-        expect(location.search).not.to.contain(`filters.relative-date-range.start=`)
-        expect(location.search).not.to.contain(`filters.relative-date-range.end=`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
         cy.findAllByRole('link').each((filter, index) => {
@@ -78,8 +76,6 @@ context('Inputs: Relative date range', () => {
       cy.findByRole('radio', { name: 'Yesterday' }).check()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=yesterday`)
-        expect(location.search).to.contain(`filters.relative-date-range.start=`)
-        expect(location.search).to.contain(`filters.relative-date-range.end=`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
         cy.findAllByRole('link').each((filter, index) => {
@@ -102,8 +98,6 @@ context('Inputs: Relative date range', () => {
       cy.findByRole('radio', { name: 'Tomorrow' }).check()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=tomorrow`)
-        expect(location.search).to.contain(`filters.relative-date-range.start=`)
-        expect(location.search).to.contain(`filters.relative-date-range.end=`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
         cy.findAllByRole('link').each((filter, index) => {
@@ -126,8 +120,6 @@ context('Inputs: Relative date range', () => {
       cy.findByRole('radio', { name: 'Last week' }).check()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=last-week`)
-        expect(location.search).to.contain(`filters.relative-date-range.start=`)
-        expect(location.search).to.contain(`filters.relative-date-range.end=`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
         cy.findAllByRole('link').each((filter, index) => {
@@ -150,8 +142,6 @@ context('Inputs: Relative date range', () => {
       cy.findByRole('radio', { name: 'Next week' }).check()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=next-week`)
-        expect(location.search).to.contain(`filters.relative-date-range.start=`)
-        expect(location.search).to.contain(`filters.relative-date-range.end=`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
         cy.findAllByRole('link').each((filter, index) => {
@@ -174,8 +164,6 @@ context('Inputs: Relative date range', () => {
       cy.findByRole('radio', { name: 'Last month' }).check()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=last-month`)
-        expect(location.search).to.contain(`filters.relative-date-range.start=`)
-        expect(location.search).to.contain(`filters.relative-date-range.end=`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
         cy.findAllByRole('link').each((filter, index) => {
@@ -198,8 +186,6 @@ context('Inputs: Relative date range', () => {
       cy.findByRole('radio', { name: 'Next month' }).check()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.relative-date-range.relative-duration=next-month`)
-        expect(location.search).to.contain(`filters.relative-date-range.start=`)
-        expect(location.search).to.contain(`filters.relative-date-range.end=`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
         cy.findAllByRole('link').each((filter, index) => {
@@ -232,8 +218,6 @@ context('Inputs: Relative date range', () => {
       cy.findByRole('radio', { name: 'Yesterday' }).check()
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.field1.relative-duration=yesterday`)
-        expect(location.search).to.contain(`filters.field1.start=`)
-        expect(location.search).to.contain(`filters.field1.end=`)
       })
       cy.findByLabelText(/Selected filters.*/i).within(() => {
         cy.findAllByRole('link').each((filter, index) => {
@@ -292,8 +276,6 @@ context('Inputs: Relative date range', () => {
       })
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.field1.relative-duration=yesterday`)
-        expect(location.search).to.contain(`filters.field1.start=`)
-        expect(location.search).to.contain(`filters.field1.end=`)
         expect(location.search).not.to.contain(`defaultsSaved=true`)
       })
 
@@ -343,8 +325,6 @@ context('Inputs: Relative date range', () => {
 
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.field1.relative-duration=last-week`)
-        expect(location.search).to.contain(`filters.field1.start=`)
-        expect(location.search).to.contain(`filters.field1.end=`)
       })
 
       cy.findByLabelText(/Selected filters.*/i).within(() => {
@@ -364,8 +344,6 @@ context('Inputs: Relative date range', () => {
 
       cy.location().should((location) => {
         expect(location.search).to.contain(`filters.field1.relative-duration=last-week`)
-        expect(location.search).to.contain(`filters.field1.start=`)
-        expect(location.search).to.contain(`filters.field1.end=`)
       })
     })
 

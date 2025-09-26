@@ -28,6 +28,7 @@ import ReportQuery from '../../../../../types/ReportQuery'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import { Services } from '../../../../../types/Services'
 import { FilterValue } from '../../../../../components/_filters/types'
+import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 
 const setDashboardActions = (
   dashboardDefinition: DashboardDefinition,
@@ -81,6 +82,7 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
     fields: dashboardDefinition.filterFields || [],
     req,
     interactive: true,
+    filtersType: FiltersType.INTERACTIVE,
   })
 
   // Create the query

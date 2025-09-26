@@ -26,7 +26,7 @@ export async function renderList(
   listData: ListDataSources,
   variantDefinition: components['schemas']['VariantDefinition'],
   reportQuery: ReportQuery,
-  request: Request,
+  req: Request,
   response: Response,
   next: NextFunction,
   title: string,
@@ -52,13 +52,13 @@ export async function renderList(
           data = resolvedData[0]
         }
 
-        const reportRenderData = await SyncReportUtils.getReportRenderData(
-          request,
+        const reportRenderData = await SyncReportUtils.getReportRenderData({
+          req,
           count,
           specification,
           reportQuery,
           data,
-        )
+        })
 
         const actions = ReportActionsUtils.getActions({
           print: {

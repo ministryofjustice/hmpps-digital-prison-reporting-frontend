@@ -1,5 +1,6 @@
 {% from "dpr/components/_filters/filters-form/view.njk" import dprFiltersForm %}
 {% from "dpr/components/_filters/filters-selected/view.njk" import dprSelectedFilters %}
+{% from "dpr/components/_filters/fitlers-save-defaults/view.njk" import dprFiltersSaveDefaults %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% macro dprInteractiveFilters(filterData, templateArgs) %}
@@ -16,6 +17,8 @@
       resetId: 'interactive-reset-filters-button',
       defaultQuery: defaultQuery 
     }) }}
+
+    {{ dprFiltersSaveDefaults('interactive-filters-form', './report') }}
 
     {% set filtersHtml %}
       <div class='dpr-interactive-filters'>

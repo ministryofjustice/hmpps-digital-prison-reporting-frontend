@@ -6,10 +6,7 @@ import { DateFilterValue, FilterValue, GranularDateRange, GranularDateRangeFilte
 
 import StartEndDateUtils from '../start-end-date/utils'
 import { Granularity, QuickFilters } from './types'
-import {
-  defaultFilterValue,
-  DefaultGranularDateFilterValue,
-} from '../../../routes/journeys/request-report/filters/types'
+import { defaultFilterValue, DefaultGranularDateFilterValue } from '../../../utils/Personalisation/types'
 
 dayjs.extend(customParse)
 

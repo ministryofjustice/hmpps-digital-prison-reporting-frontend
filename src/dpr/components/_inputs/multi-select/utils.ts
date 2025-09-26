@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import { MultiselectFilterValue } from '../../_filters/types'
 import { components } from '../../../types/api'
-import { defaultFilterValue } from '../../../routes/journeys/request-report/filters/types'
+import { defaultFilterValue } from '../../../utils/Personalisation/types'
 
 const setValueFromRequest = (
   filter: MultiselectFilterValue,

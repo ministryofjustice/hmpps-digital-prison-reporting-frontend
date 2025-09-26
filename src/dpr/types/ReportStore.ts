@@ -1,4 +1,4 @@
-import { defaultFilterConfig } from '../routes/journeys/request-report/filters/types'
+import { defaultFilterConfig } from '../utils/Personalisation/types'
 import { BookmarkStoreData } from './Bookmark'
 import { DownloadPermissionConfig } from './Download'
 import { RequestedReport, RecentlyViewedReport } from './UserReports'

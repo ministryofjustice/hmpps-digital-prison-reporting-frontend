@@ -1,7 +1,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
-{% macro dprFiltersSaveDefaults(formId, hasDefaults, defaultsSaved) %}
+{% macro dprFiltersSaveDefaults(formId, action, hasDefaults, defaultsSaved) %}
   <div class="dpr-save-defaults-action">
     {% set text = 'Save current filter values as defaults for this report' %}
     {% if hasDefaults %}
@@ -15,7 +15,7 @@
       attributes: {
         id: 'dpr-save-user-defaults',
         form: formId,
-        formaction: './filters/save-defaults'
+        formaction: action + '/save-defaults'
       }
     }) }}
     
@@ -24,9 +24,9 @@
         text: 'Delete defaults',
         classes: "govuk-button--secondary dpr-button-link",
         attributes: {
-        id: 'dpr-remove-user-defaults',
+          id: 'dpr-remove-user-defaults',
           form: formId,
-          formaction: './filters/remove-defaults'
+          formaction: action + '/remove-defaults'
         }
       }) }}
     {% endif %}

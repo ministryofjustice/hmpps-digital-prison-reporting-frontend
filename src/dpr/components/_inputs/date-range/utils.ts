@@ -7,7 +7,7 @@ import { components } from '../../../types/api'
 import { DateRangeFilterValue, DateRange, FilterValue } from '../../_filters/types'
 import StartEndDateUtils from '../start-end-date/utils'
 import RelativeDateRange, { RelativeOption } from './types'
-import { DefaultDateFilterValue, defaultFilterValue } from '../../../routes/journeys/request-report/filters/types'
+import { DefaultDateFilterValue, defaultFilterValue } from '../../../utils/Personalisation/types'
 
 dayjs.extend(customParse)
 

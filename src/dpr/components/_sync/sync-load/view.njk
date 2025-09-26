@@ -13,7 +13,7 @@
     {{ dprRequestDetails(renderData) }}
 
     {{ govukInsetText({
-      html: "<p><strong>Do not close this window or you will lose your progress</strong></p> <p>It can take up to 5 mins to generate a " + type + ".</p>"
+      html: "<p><strong>Please keep this window open to preserve your progress</strong></p> <p>Your" + type + " will be ready shortly.</p>"
     }) }}
 
     <form id="dpr-sync-loading-form" action="./report" method="get"></form>

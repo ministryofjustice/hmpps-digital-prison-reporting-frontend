@@ -10,23 +10,23 @@ export const startData = {
     mockRequested.requestedFailed,
     mockRequested.requestedAborted,
     // Dashboards
-    mockRequestedDashboards.readyDashboard,
+    // mockRequestedDashboards.readyDashboard,
     mockRequestedDashboards.failedDashboard,
     mockRequestedDashboards.expiredDashboard,
     mockRequestedDashboards.abortedDashboard,
     // Viewed must be present in the request list also
-    mockViewed.viewedReady,
-    mockViewed.viewedDashboard,
-    mockViewed.viewedInteractive,
-    mockViewed.viewedInteractiveAsync,
+    // mockViewed.viewedReady,
+    // mockViewed.viewedDashboard,
+    // mockViewed.viewedInteractive,
+    // mockViewed.viewedInteractiveAsync,
   ],
   recentlyViewedReports: [
-    mockViewed.viewedDashboard,
-    mockViewed.viewedReady,
-    mockViewed.viewedInteractive,
+    // mockViewed.viewedDashboard,
+    // mockViewed.viewedReady,
+    // mockViewed.viewedInteractive,
     mockViewed.viewedExpired,
     mockViewed.expiredDashboard,
-    mockViewed.viewedInteractiveAsync,
+    // mockViewed.viewedInteractiveAsync,
   ],
   bookmarks: [
     { reportId: 'request-examples', variantId: 'request-example-success' },
@@ -36,7 +36,6 @@ export const startData = {
 }
 
 export const MockUserStoreService = class MockUserStoreService {
-  
   constructor() {
     this.userStore = JSON.stringify(startData)
   }

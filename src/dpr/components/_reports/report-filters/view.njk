@@ -1,7 +1,13 @@
 {% from "../../_filters/filters-interactive/view.njk" import dprInteractiveFilters %}
 
-{% macro dprReportFilters(filterData, defaultQuery = '', prefix = 'filters.') %}
+{% macro dprReportFilters(filterData, defaultQuery, prefix) %}
+    {% set templateArgs = {
+      defaultQuery: defaultQuery,
+      prefix: prefix,
+      reportType: 'report'
+    }%}
+    
     {% if filterData.filters.length %}
-      {{ dprInteractiveFilters(filterData, defaultQuery, prefix) }}
+      {{ dprInteractiveFilters(filterData, templateArgs) }}
     {% endif %}
 {% endmacro %}

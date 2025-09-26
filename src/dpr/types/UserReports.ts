@@ -54,7 +54,7 @@ export interface AsyncReportUrlItemData {
 }
 
 export interface AsyncReportQueryData {
-  data: Dict<string>
+  data: Dict<string | string[]>
   summary: Array<Dict<string>>
 }
 

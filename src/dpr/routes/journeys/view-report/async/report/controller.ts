@@ -3,6 +3,7 @@ import { Services } from '../../../../../types/Services'
 import ErrorSummaryUtils from '../../../../../components/error-summary/utils'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import AsyncReportUtils from './utils'
+import ViewReportUtils from '../../utils'
 
 export default class ViewAyncReportController {
   layoutPath: string
@@ -42,5 +43,13 @@ export default class ViewAyncReportController {
       }
       next()
     }
+  }
+
+  applyFilters: RequestHandler = async (req, res, next) => {
+    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'filters')
+  }
+
+  applyColumns: RequestHandler = async (req, res, next) => {
+    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'columns')
   }
 }

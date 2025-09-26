@@ -22,21 +22,38 @@ export default class RecentlyViewedStoreService extends ReportStoreService {
     })
   }
 
+  async getReportById(id: string, userId: string) {
+    const userConfig = await this.getState(userId)
+    return userConfig.recentlyViewedReports.find((viewed) => {
+      return (viewed.id && viewed.id === id) || (viewed.variantId && viewed.variantId === id)
+    })
+  }
+
+  async getReportByExecutionId(id: string, userId: string) {
+    const userConfig = await this.getState(userId)
+    return userConfig.recentlyViewedReports.find((report) => report.executionId === id)
+  }
+
+  async getReportByTableId(id: string, userId: string) {
+    const userConfig = await this.getState(userId)
+    return userConfig.recentlyViewedReports.find((report) => report.tableId === id)
+  }
+
   async setRecentlyViewed(reportData: RequestedReport, userId: string) {
     const userConfig = await this.getState(userId)
     const { executionId } = reportData
-    if (executionId) {
-      const index = this.findIndexByExecutionId(executionId, userConfig.recentlyViewedReports)
 
-      if (index > -1) {
-        userConfig.recentlyViewedReports.splice(index, 1)
-        await this.saveState(userId, userConfig)
-      }
+    const index = executionId
+      ? this.findIndexByExecutionId(executionId, userConfig.recentlyViewedReports)
+      : await this.findIndexByReportId(reportData.id, userConfig.recentlyViewedReports)
 
-      await this.addReport(reportData, userId, userConfig)
-    } else {
-      logger.warn('Cant add to recently viewed: Missing execution ID')
+    // Remove the old entry before inserting the new at index 0
+    if (index > -1) {
+      userConfig.recentlyViewedReports.splice(index, 1)
+      await this.saveState(userId, userConfig)
     }
+
+    await this.addReport(reportData, userId, userConfig)
   }
 
   async addReport(reportData: RecentlyViewedReport, userId: string, userConfig: ReportStoreConfig) {

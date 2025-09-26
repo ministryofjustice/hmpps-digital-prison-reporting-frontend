@@ -8,6 +8,8 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
   const controller = new ViewReportController(layoutPath, services)
 
   router.get([`/`, `/download-disabled`], controller.GET)
+  router.post('/apply-filters', controller.applyFilters)
+  router.post('/apply-columns', controller.applyColumns)
 
   return router
 }

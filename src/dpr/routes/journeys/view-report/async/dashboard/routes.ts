@@ -8,6 +8,7 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
   const controller = new ViewAsyncDashboardController(layoutPath, services)
 
   router.get(`/`, controller.GET)
+  router.post('/apply-filters', controller.applyFilters)
 
   return router
 }

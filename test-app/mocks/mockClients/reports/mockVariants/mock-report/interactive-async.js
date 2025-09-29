@@ -1,7 +1,7 @@
 const variant35Interactive = {
   id: 'variantId-35',
   name: 'Interactive Report with async filters',
-  description: 'this is an interactive report',
+  description: 'this is an report with request and interactive filters',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: false,

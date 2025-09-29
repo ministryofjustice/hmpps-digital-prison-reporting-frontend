@@ -8,10 +8,11 @@
     {% set formId = args.formId %}
     {% set submitId = args.submitId %}
     {% set resetId = args.resetId %}
-    {% set prefix = args.prefix %}
-    {% set defaultQuery = args.defaultQuery %}
+    {% set prefix = args.prefix | default("filters.", true) %}
+    {% set defaultQuery = args.defaultQuery | default("", true) %}
+    {% set reportType = args.reportType %}
 
-    <form id="{{ formId }}">
+    <form id="{{ formId }}" method="post" action="./{{ reportType }}/apply-filters">
       <div id="query-error-summary" class="query-error-summary query-error-summary--hidden">
         {{ govukErrorSummary({
           titleText: "There is a problem",

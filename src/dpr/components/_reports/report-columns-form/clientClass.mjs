@@ -7,6 +7,7 @@ export default class Columns extends DprQueryParamClass {
 
   initialise() {
     this.form = this.getElement()
+    this.embbeddedReportList = document.getElementById('dpr-embedded-report-list')
     this.submitButton = this.getElement().querySelector('.dpr-apply-columns-button')
     this.resetButton = this.getElement().querySelector('.dpr-reset-columns-button')
 
@@ -22,7 +23,12 @@ export default class Columns extends DprQueryParamClass {
     this.submitButton.addEventListener('click', (e) => {
       e.preventDefault()
       this.loadingHelper.showLoadingAnimation()
-      window.location.reload()
+
+      if (this.embbeddedReportList) {
+        window.location.reload()
+      } else {
+        this.form.requestSubmit()
+      }
     })
   }
 

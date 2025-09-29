@@ -8,7 +8,7 @@ import { featureTestingMissingDescription } from '@networkMocks/report/mockVaria
 import { featureTestingMissing1 } from '@networkMocks/report/mockVariants/feature-testing/missing1'
 import { variant15 as relativeDateRange } from '@networkMocks/report/mockVariants/filter-input-examples/relativeDateRange'
 import { variant15 as relativeDateRangeWithDefaults } from '@networkMocks/report/mockVariants/filter-input-examples/relativeDateRangeWithDefaults'
-import { cancelAsyncRequestMock, getAsyncReportResultMock, getReportResultCountMock, getReportStatusMock, reportsAbortedStatusMock, reportsExpiredStatusMock, reportsFailedStatusMock, reportsFinishedStatusMock, reportsPickedStatusMock, reportsReadyStatusMock, reportsStartedStatusMock, reportsSubmittedStatusMock, requestAsyncReportMock, setupSimpleReportDefinitionResponseMock } from '@networkMocks/report/mocks'
+import { cancelAsyncRequestMock, getAsyncInteractiveCountMock, getAsyncReportResultMock, getAsyncReportResultMockMissingData, getReportResultCountMock, getReportStatusMock, reportsAbortedStatusMock, reportsExpiredStatusMock, reportsFailedStatusMock, reportsFinishedStatusMock, reportsPickedStatusMock, reportsReadyStatusMock, reportsStartedStatusMock, reportsSubmittedStatusMock, requestAsyncReportMock, setupSimpleReportDefinitionResponseMock } from '@networkMocks/report/mocks'
 import { getDefinitionSummaries, pollingEndpoint } from '@networkMocks/mocks'
 import { generateNetworkMock, stubFor } from '@networkMocks/generateNetworkMock'
 import { missingReportSubmitFailMock, missingReportSubmitSuccessMock } from '@networkMocks/report/missingReport/mocks'
@@ -111,8 +111,16 @@ const stubs = {
       fixedDelayMilliseconds: 500,
     }
   })),
+  stubAsyncRequestSuccessReportTablesCount: () => stubFor(generateNetworkMock({
+    ...getAsyncInteractiveCountMock,
+    response: {
+      ...getAsyncInteractiveCountMock.response,
+      fixedDelayMilliseconds: 500,
+    }
+  })),
   stubMissingRequestSubmitSuccess: () => stubFor(missingReportSubmitSuccessMock),
-  stubMissingRequestSubmitFail: () => stubFor(missingReportSubmitFailMock)
+  stubMissingRequestSubmitFail: () => stubFor(missingReportSubmitFailMock),
+  stubRequestSuccessResult10MissingFirstRow: () => stubFor(getAsyncReportResultMockMissingData),
 }
 
 export default stubs

@@ -2,6 +2,7 @@ import { RequestHandler } from 'express'
 import { Services } from '../../../../../types/Services'
 import SyncReportUtils from './utils'
 import ErrorSummaryUtils from '../../../../../components/error-summary/utils'
+import ViewReportUtils from '../../utils'
 
 export default class ViewSyncReportController {
   layoutPath: string
@@ -26,5 +27,13 @@ export default class ViewSyncReportController {
       req.body.error = ErrorSummaryUtils.handleError(error)
       next()
     }
+  }
+
+  applyFilters: RequestHandler = async (req, res, next) => {
+    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'filters')
+  }
+
+  applyColumns: RequestHandler = async (req, res, next) => {
+    await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'columns')
   }
 }

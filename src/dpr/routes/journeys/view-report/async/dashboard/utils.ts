@@ -172,8 +172,6 @@ const updateStore = async (
       services,
       reportStateData: dashboardRequestData,
       userId,
-      search: url.search,
-      href: url.href,
       req,
       filters,
     })

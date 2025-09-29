@@ -14,5 +14,6 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
 
   router.use('/report', reportAuthoriser(services, layoutPath), viewReportRoutes({ layoutPath, services }))
   router.use(`/load-report`, loadReportRoutes({ layoutPath, services }))
+
   return router
 }

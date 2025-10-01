@@ -1,7 +1,7 @@
 import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/feature-testing/unprintable'
+import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feature-testing/emptyQuery'
 import { setRedisState } from '../../../../../../test-app/routes/integrationTests/setRedisState'
 import { ReportType } from '../../../../types/UserReports'
-import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feature-testing/emptyQuery'
 
 context('Bookmarks list', () => {
   const path = '/embedded/platform/'
@@ -21,11 +21,11 @@ context('Bookmarks list', () => {
           .eq(1)
           .within(() => {
             cy.findAllByRole('row').should('have.length', 2)
-            cy.findByRole('link', { name: (_, element) => 
-              (element as HTMLAnchorElement).href.includes(featureTestingUnprintable.id)
+            cy.findByRole('link', {
+              name: (_, element) => (element as HTMLAnchorElement).href.includes(featureTestingUnprintable.id),
             })
-            cy.findByRole('link', { name: (_, element) => 
-              (element as HTMLAnchorElement).href.includes(featureTestingEmptyQuery.id)
+            cy.findByRole('link', {
+              name: (_, element) => (element as HTMLAnchorElement).href.includes(featureTestingEmptyQuery.id),
             })
           })
       })
@@ -460,12 +460,16 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes('this is an interactive report') && element.textContent.includes('Feature testing')
+              return (
+                element.textContent.includes('this is an interactive report') &&
+                element.textContent.includes('Feature testing')
+              )
             },
           }).within(() => {
             cy.get('input').then((el) => {
-              (el.get(0) as HTMLInputElement)!.checked = false
-              el.get(0)!.removeAttribute('checked')
+              // eslint-disable-next-line no-param-reassign
+              ;(el.get(0) as HTMLInputElement).checked = false
+              el.get(0).removeAttribute('checked')
             })
             cy.get('input').invoke('attr', 'checked').should('equal', undefined)
           })
@@ -473,7 +477,10 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes('this is an interactive report') && element.textContent.includes('Feature testing')
+              return (
+                element.textContent.includes('this is an interactive report') &&
+                element.textContent.includes('Feature testing')
+              )
             },
           }).within(() => {
             cy.findByRole('button', { name: /Remove bookmark/ }).click()
@@ -483,7 +490,10 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes('this is an interactive report') && element.textContent.includes('Feature testing')
+              return (
+                element.textContent.includes('this is an interactive report') &&
+                element.textContent.includes('Feature testing')
+              )
             },
           }).within(() => {
             cy.findByRole('button', { name: /Remove bookmark/ }).should('exist')
@@ -500,8 +510,9 @@ context('Bookmarks list', () => {
             },
           }).within(() => {
             cy.get('input').then((el) => {
-              (el.get(0) as HTMLInputElement)!.checked = true
-              el.get(0)!.setAttribute('checked', "true")
+              // eslint-disable-next-line no-param-reassign
+              ;(el.get(0) as HTMLInputElement).checked = true
+              el.get(0).setAttribute('checked', 'true')
             })
             // Browser does funny things with checked attribute, it can be 'checked' or 'true' or unset - just check its there and not false
             cy.get('input').invoke('attr', 'checked').should('not.equal', undefined).and('not.equal', false)

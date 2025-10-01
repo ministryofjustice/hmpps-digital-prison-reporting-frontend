@@ -1,4 +1,4 @@
-import { defaultMockRequest, generateNetworkMock, setupSimpleMock } from '@networkMocks/generateNetworkMock'
+import { defaultMockRequest, generateNetworkMock } from '@networkMocks/generateNetworkMock'
 
 export const missingReportSubmitSuccessMock = generateNetworkMock({
   ...defaultMockRequest,

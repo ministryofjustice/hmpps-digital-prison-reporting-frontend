@@ -1,7 +1,6 @@
 context('Platform sync tests', () => {
   const path = '/embedded/platform/'
 
-  
   describe('Sync tests from the platform', () => {
     before(() => {
       cy.task('resetStubs')

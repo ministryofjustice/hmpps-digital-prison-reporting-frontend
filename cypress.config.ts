@@ -6,8 +6,6 @@ import missingRequestStubs from './cypress-tests/mockApis/missingRequest'
 import reportingStubs from './cypress-tests/mockApis/reporting'
 import dashboardStubs from './cypress-tests/mockApis/dashboards'
 
-const cwd = process.cwd()
-
 const config: Cypress.ConfigOptions = {
   chromeWebSecurity: false,
   videosFolder: 'cypress-tests/integration-tests/videos',

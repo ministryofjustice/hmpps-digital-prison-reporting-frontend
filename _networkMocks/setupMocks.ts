@@ -16,7 +16,7 @@ const setupMocks = async () => {
     ...dashboardDefMocks,
     ...dashboardResultsMocks,
     ...missingReportMocks,
-    ...syncMocks
+    ...syncMocks,
   ]
 
   await postNetworkMocks(allMocks)

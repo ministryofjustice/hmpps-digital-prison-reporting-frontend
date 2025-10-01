@@ -6,6 +6,7 @@ import { mocks as dashboardMocks } from './dashboard/mocks'
 import { mocks as reportMocks } from './report/mocks'
 import { mocks as dashboardResultsMocks } from './dashboard/dashboardResults/mocks'
 import { mocks as missingReportMocks } from './report/missingReport/mocks'
+import { mocks as syncMocks } from './report/sync/mocks'
 
 const setupMocks = async () => {
   const allMocks = [
@@ -15,6 +16,7 @@ const setupMocks = async () => {
     ...dashboardDefMocks,
     ...dashboardResultsMocks,
     ...missingReportMocks,
+    ...syncMocks
   ]
 
   await postNetworkMocks(allMocks)

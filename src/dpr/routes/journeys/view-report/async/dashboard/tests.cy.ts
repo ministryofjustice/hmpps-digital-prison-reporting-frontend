@@ -6,14 +6,21 @@ context('Viewing a report', () => {
 
   describe('dashboard tests', () => {
     before(() => {
+      cy.task('resetStubs')
+      cy.task('resetRedis')
       cy.task('stubDefinitions')
       cy.task('stubTestDashboard8')
       cy.task('stubMockDashboardsStatusFinished')
       cy.task('stubViewAsyncResults')
       cy.task('stubDashboardSuccessResult20')
 
+      
+    })
+
+    it('should mark the dashboard as recently viewed', () => {
       // Request and run a report so we can go back to it for each test
       cy.visit(path)
+      cy.findByRole('tab', { name: /Viewed \(0\)/ }).should('be.visible')
       checkA11y()
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
@@ -34,12 +41,9 @@ context('Viewing a report', () => {
       cy.url().then((url) => {
         viewReportUrl = url
       })
-    })
-
-    it('is accessible', () => {
-      cy.visit(viewReportUrl)
-      cy.injectAxe()
-      cy.checkA11y()
+      checkA11y()
+      cy.visit(path)
+      cy.findByRole('tab', { name: /Viewed \(1\)/ }).should('be.visible')
     })
   })
 })

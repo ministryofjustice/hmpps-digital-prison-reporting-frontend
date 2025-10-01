@@ -2,6 +2,9 @@ context('User reports component', () => {
   const path = '/components/user-reports/configured'
 
   beforeEach(() => {
+    cy.task('resetStubs')
+    cy.task('resetRedis')
+    cy.task('stubDefinitions')
     cy.visit(path)
   })
 

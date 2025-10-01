@@ -1,3 +1,5 @@
+import { automaticBookmarkConfig } from "test-app/middleware/setUpBookmarks"
+
 context('Catalogue component', () => {
   const path = '/components/catalogue/default'
 
@@ -131,20 +133,25 @@ context('Catalogue component', () => {
     it('should show the add bookmark toggle', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findAllByRole('rowgroup')
-          .eq(1)
-          .within(() => {
-            cy.findAllByRole('row').each((row) => {
-              cy.wrap(row).within(() => {
-                cy.findAllByRole('cell').each((cell, index) => {
-                  cy.wrap(cell).within(() => {
-                    if (index === 3) {
-                      cy.findByLabelText(/Add bookmark|Remove bookmark/g).should('exist')
-                    }
-                  })
+        .eq(1)
+        .within(() => {
+          cy.findAllByRole('row').each((row) => {
+            cy.wrap(row).within(() => {
+              cy.findAllByRole('cell').each((cell, index) => {
+                cy.wrap(cell).within((cell) => {
+                  if (index === 3) {
+                    const requestLink = cy.findByRole('link', { name: /Request / })
+                    const isAlreadyBookmarkedRow = requestLink.invoke('attr', 'href').then((href) => {
+                      if (!automaticBookmarkConfig.caseloads.KMI.some(caseload => href?.includes(caseload.variantId))) {
+                        cy.findByLabelText(/Add bookmark|Remove bookmark/g).should('exist')
+                      }
+                    })
+                  }
                 })
               })
             })
           })
+        })
       })
     })
   })

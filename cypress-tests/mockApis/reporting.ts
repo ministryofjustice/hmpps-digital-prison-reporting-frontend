@@ -12,6 +12,10 @@ import { cancelAsyncRequestMock, getAsyncInteractiveCountMock, getAsyncReportRes
 import { getDefinitionSummaries, pollingEndpoint } from '@networkMocks/mocks'
 import { generateNetworkMock, stubFor } from '@networkMocks/generateNetworkMock'
 import { missingReportSubmitFailMock, missingReportSubmitSuccessMock } from '@networkMocks/report/missingReport/mocks'
+import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/feature-testing/unprintable'
+import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feature-testing/emptyQuery'
+import { featureTestingSync } from '@networkMocks/report/mockVariants/feature-testing/sync'
+import { getListWithWarnings, getListWithWarningsCount } from '@networkMocks/report/sync/mocks'
 
 const stubs = {
   stubGetFeatureTestingMissing: () => stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingMissing1)),
@@ -121,6 +125,11 @@ const stubs = {
   stubMissingRequestSubmitSuccess: () => stubFor(missingReportSubmitSuccessMock),
   stubMissingRequestSubmitFail: () => stubFor(missingReportSubmitFailMock),
   stubRequestSuccessResult10MissingFirstRow: () => stubFor(getAsyncReportResultMockMissingData),
+  stubDefinitionUnprintable: () => stubFor(setupSimpleReportDefinitionResponseMock(`feature-testing`, featureTestingUnprintable)),
+  stubDefinitionEmptyReport: () => stubFor(setupSimpleReportDefinitionResponseMock(`feature-testing`, featureTestingEmptyQuery)),
+  stubDefinitionSyncReport: () => stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingSync)),
+  stubSyncRequestDataSuccess: () => stubFor(getListWithWarnings),
+  stubSyncRequestDataSuccessCount: () => stubFor(getListWithWarningsCount),
 }
 
 export default stubs

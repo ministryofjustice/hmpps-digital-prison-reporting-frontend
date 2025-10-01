@@ -10,26 +10,27 @@ import UserReportsRoutes from './user-reports/routes'
 import FiltersRoutes from './filters/routes'
 
 import ComponentsController from './controller'
+import { Services } from 'src/dpr/types/Services'
 
-export function Routes() {
+export function Routes(services: Services) {
   const router = Router({ mergeParams: true })
   const controller = new ComponentsController()
 
   router.get('/', controller.GET)
 
   router.use(`/search`, SearchRoutes())
-  router.use(`/catalogue`, CatalogueRoutes())
-  router.use(`/user-reports`, UserReportsRoutes())
+  router.use(`/catalogue`, CatalogueRoutes(services))
+  router.use(`/user-reports`, UserReportsRoutes(services))
   router.use(`/dashboards`, DashboardRoutes())
   router.use(`/filters`, FiltersRoutes())
 
   return router
 }
 
-export const ComponentRoutes = ({ path }: { path: string }) => {
+export const ComponentRoutes = ({ path, services }: { path: string; services: Services }) => {
   logger.info('Initialiasing routes: components')
 
   const router = Router({ mergeParams: true })
-  router.use(path, Routes())
+  router.use(path, Routes(services))
   return router
 }

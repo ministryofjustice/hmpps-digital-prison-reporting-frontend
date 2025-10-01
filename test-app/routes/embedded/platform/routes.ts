@@ -1,22 +1,30 @@
 /* eslint-disable no-param-reassign */
 import { Router, Request, Response } from 'express'
-import platformRoutes from '../../../../dist/dpr/routes'
+import platformRoutes from '../../../../src/dpr/routes'
 
-import initMockClients from '../../../utils/initMockClients'
 import PlatformController from './controller'
 import { ReportStoreConfig } from '../../../../src/dpr/types/ReportStore'
+import { Services } from 'src/dpr/types/Services'
 
 // Routes
-export default function routes() {
+export default function routes(services: Services) {
   const router = Router({ mergeParams: true })
 
-  const { services } = initMockClients(router)
   const controller = new PlatformController(services)
 
   router.get('/', controller.GET)
-  router.post('/setRedisState', (req: Request, res: Response) => {
+  router.post('/setRedisState', async (req: Request, res: Response) => {
     const { userId, data } = req.body
-    services.bookmarkService.saveState(userId, data as ReportStoreConfig)
+    await services.bookmarkService.saveState(userId, data as ReportStoreConfig)
+    res.sendStatus(200)
+  })
+  router.post('/updateRedisState', async (req: Request, res: Response) => {
+    const { userId, userStoreKey, userStoreValue } = req.body
+    const currentState = await services.bookmarkService.getState(userId)
+    await services.bookmarkService.saveState(userId, {
+      ...currentState,
+      [userStoreKey]: userStoreValue,
+    } as ReportStoreConfig)
     res.sendStatus(200)
   })
   router.use('/', platformRoutes({ services, layoutPath: 'views/page.njk' }))

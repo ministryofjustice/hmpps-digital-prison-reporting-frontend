@@ -1,7 +1,11 @@
 // const app = require('./app')
 import createApp from './app'
+import { initServices } from './utils/initMockClients'
 
-const app = createApp()
+const app = createApp(initServices({
+  bookmarking: true,
+  download: true,
+}))
 
 // Port
 const port = Number(process.env.PORT) || 3010

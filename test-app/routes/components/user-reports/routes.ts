@@ -4,14 +4,15 @@ import UserReportsController from './controller'
 
 import defaultRoutes from './default/routes'
 import configuredRoutes from './configured/routes'
+import { Services } from 'src/dpr/types/Services'
 
-export default function routes() {
+export default function routes(services: Services) {
   const router = Router({ mergeParams: true })
   const controller = new UserReportsController()
   router.get('/', controller.GET)
 
-  router.use('/default', defaultRoutes())
-  router.use('/configured', configuredRoutes())
+  router.use('/default', defaultRoutes(services))
+  router.use('/configured', configuredRoutes(services))
 
   return router
 }

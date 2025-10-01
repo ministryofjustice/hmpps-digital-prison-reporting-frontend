@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
-import { Services } from '../../../../../dist/dpr/types/Services'
-import UserReportsListUtils from '../../../../../dist/dpr/components/user-reports/utils'
+import UserReportsListUtils from '../../../../../src/dpr/components/user-reports/utils'
+import { Services } from 'src/dpr/types/Services'
 
 export default class UserReportsController {
   services: Services
@@ -10,6 +10,7 @@ export default class UserReportsController {
   }
 
   GET: RequestHandler = async (req, res, next) => {
+    res.locals.bookmarkingEnabled = false
     const userReports = await UserReportsListUtils.init({ services: this.services, req, res, maxRows: 20 })
 
     res.render('views/pages/components/user-reports/view.njk', {

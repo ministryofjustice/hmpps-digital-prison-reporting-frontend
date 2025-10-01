@@ -17,7 +17,7 @@ export const removeDuplicates = async ({
   if (duplicateIds.length) {
     await Promise.all(
       duplicateIds.map(async (duplicateId: string) => {
-        await await storeService.removeReport(duplicateId, userId)
+        await storeService.removeReport(duplicateId, userId)
       }),
     )
   }

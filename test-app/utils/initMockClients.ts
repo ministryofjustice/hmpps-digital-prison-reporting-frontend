@@ -10,7 +10,7 @@ import MockReportingClient from '../mocks/mockClients/reports/mockReportingClien
 import { MockUserStoreService } from '../mocks/mockClients/store/mockRedisStore'
 import MockDashboardClient from '../mocks/mockClients/dashboards/mock-client'
 
-export default function initMockClients(router: Router, featureConfig?: { bookmarking?: boolean; download?: boolean }) {
+export const initServices = (featureConfig?: { bookmarking?: boolean; download?: boolean }) => {
   let clients: {
     reportingClient: any
     dashboardClient: any
@@ -60,10 +60,12 @@ export default function initMockClients(router: Router, featureConfig?: { bookma
   })
 
   // 2. Create services
-  const services = {
-    ...createDprServices(clients, featureConfig),
-  }
+  return createDprServices(clients, featureConfig)
+}
 
+export default function initMockClients(router: Router, featureConfig?: { bookmarking?: boolean; download?: boolean }) {
+  const services = initServices(featureConfig)
+  
   router.use(setUpDprResources(services))
 
   return {

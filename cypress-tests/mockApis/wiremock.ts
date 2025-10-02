@@ -35,7 +35,7 @@ export const resetRedis = async () => {
     },
   })
   await client.connect()
-  await client.flushAll()
+  await client.flushDb()
   await client.disconnect()
   return true
 }

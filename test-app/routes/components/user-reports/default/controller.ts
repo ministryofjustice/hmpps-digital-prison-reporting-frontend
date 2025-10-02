@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import { Services } from '../../../../../dist/dpr/types/Services'
+import { Services } from '../../../../../src/dpr/types/Services'
 import UserReportsListUtils from '../../../../../src/dpr/components/user-reports/utils'
 
 export default class UserReportsController {

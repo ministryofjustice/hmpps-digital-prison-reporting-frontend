@@ -1,3 +1,4 @@
+import { updateRedisState } from 'test-app/routes/integrationTests/setRedisState'
 import { checkA11y } from '../../../../../cypress-tests/cypressUtils'
 
 context('Download report', () => {
@@ -116,6 +117,13 @@ context('Download report', () => {
       cy.task('stubRequestSuccessResult10MissingFirstRow')
       cy.findByRole('button', { name: /download/ }).click()
       cy.task('checkContents10RowExcelValid').should('equal', true)
+    })
+
+    it('should redirect on trying to download after having the permission to download removed', () => {
+      updateRedisState('downloadPermissions', [])
+      cy.findByRole('heading', { name: /To download this report/ }).should('not.exist')
+      cy.findByRole('button', { name: /download/ }).click()
+      cy.findByRole('heading', { name: /To download this report/ }).should('be.visible')
     })
   })
 })

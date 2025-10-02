@@ -18,6 +18,11 @@ export default function routes(services: Services) {
     await services.bookmarkService.saveState(userId, data as ReportStoreConfig)
     res.sendStatus(200)
   })
+  router.get('/getRedisState/:userId', async (req: Request, res: Response) => {
+    const { userId } = req.params
+    const state = await services.bookmarkService.getState(userId)
+    res.status(200).send(state)
+  })
   router.post('/updateRedisState', async (req: Request, res: Response) => {
     const { userId, userStoreKey, userStoreValue } = req.body
     const currentState = await services.bookmarkService.getState(userId)

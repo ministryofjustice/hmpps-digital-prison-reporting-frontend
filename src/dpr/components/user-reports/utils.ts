@@ -319,11 +319,6 @@ export default {
     maxRows?: number
   }) => {
     const { requestedReports, recentlyViewedReports, bookmarkingEnabled } = LocalsHelper.getValues(res)
-    console.log(`
-      -----------------------`)
-    console.log(JSON.stringify({ recentlyViewedReports }, null, 2))
-    console.log(`-----------------------
-      `)
     const requestedReportsList = await renderList({
       res,
       reportsData: requestedReports,
@@ -390,8 +385,6 @@ export default {
       .addAsyncUrls(url)
       .addReportUrls(req)
       .build()
-
-    console.log(JSON.stringify({ recentlyViewedData }, null, 2))
 
     await services.requestedReportService.updateLastViewed(reportStateData.executionId, userId)
     await services.recentlyViewedService.setRecentlyViewed(recentlyViewedData, userId)

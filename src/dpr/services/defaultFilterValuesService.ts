@@ -35,8 +35,6 @@ export default class DefaultFilterValuesService extends ReportStoreService {
       userConfig.defaultFilters[defaultValuesIndex] = defaults
     }
 
-    console.log(JSON.stringify({ userConfig: userConfig.defaultFilters }, null, 2))
-
     await this.saveState(userId, userConfig)
   }
 

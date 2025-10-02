@@ -47,15 +47,8 @@ export const getData = async ({
   // initialise report query
   const reportQuery = await initReportQuery(definition, res, req, requestData, services)
 
-  console.log(`
-####################################################################################################`)
-
   // Get the reportData
   const reportData = await getReportData({ definition, services, token, req, res, requestData, reportQuery })
-
-  console.log(`
-####################################################################################################
-    `)
 
   // Get the summary data, if applicable
   const summariesData = !definition.variant.summaries

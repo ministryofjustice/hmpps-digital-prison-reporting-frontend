@@ -30,6 +30,7 @@ describe('Filters Utils tests', () => {
       })
 
       expect(result).toEqual({
+        canSaveDefaults: false,
         filters: [
           {
             text: 'Field 1',
@@ -224,6 +225,7 @@ describe('Filters Utils tests', () => {
       })
 
       expect(result).toEqual({
+        canSaveDefaults: false,
         filters: [
           {
             text: 'Field 1',

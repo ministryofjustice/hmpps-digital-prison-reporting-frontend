@@ -1,9 +1,9 @@
 import parseUrl from 'parseurl'
 import { Url } from 'url'
 import { Request, Response } from 'express'
+import definitionUtils from '../../../../../utils/definitionUtils'
 import Dict = NodeJS.Dict
 import type { Columns } from '../../../../../components/_reports/report-columns-form/types'
-import type { Template } from '../../../../../types/Templates'
 import type { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 import type { DataTable } from '../../../../../utils/DataTableBuilder/types'
 import type { components } from '../../../../../types/api'
@@ -44,8 +44,18 @@ export const getData = async ({
   // Get the request data
   const requestData: RequestedReport = await services.requestedReportService.getReportByTableId(tableId, userId)
 
+  // initialise report query
+  const reportQuery = await initReportQuery(definition, res, req, requestData, services)
+
+  console.log(`
+####################################################################################################`)
+
   // Get the reportData
-  const { reportData, reportQuery } = await getReportData({ definition, services, token, req, res, requestData })
+  const reportData = await getReportData({ definition, services, token, req, res, requestData, reportQuery })
+
+  console.log(`
+####################################################################################################
+    `)
 
   // Get the summary data, if applicable
   const summariesData = !definition.variant.summaries
@@ -67,6 +77,52 @@ export const getData = async ({
   }
 }
 
+const initReportQuery = async (
+  definition: components['schemas']['SingleVariantReportDefinition'],
+  res: Response,
+  req: Request,
+  requestData: RequestedReport,
+  services: Services,
+) => {
+  const { definitionsPath } = LocalsHelper.getValues(res)
+  const fields = definitionUtils.getFields(definition)
+  const template = definitionUtils.getTemplate(definition)
+
+  const filtersData = await ReportFiltersUtils.getFilters({
+    fields,
+    req,
+    res,
+    services,
+    filtersType: FiltersType.INTERACTIVE,
+  })
+
+  // Sort
+  const sortColumn = requestData.query?.data?.sortColumn
+  const sortedAsc = requestData.query?.data?.sortedAsc
+
+  // Pagination
+  const selectedPage = req.query?.selectedPage
+  const pageSize = req.query?.pageSize
+
+  // Filters
+  const filtersQuery = ReportFiltersUtils.setRequestQueryFromFilterValues(filtersData.filters)
+
+  const queryParams = {
+    ...(sortColumn && { sortColumn }),
+    ...(sortedAsc && { sortedAsc }),
+    ...filtersQuery,
+    ...(pageSize && { pageSize }),
+    ...(selectedPage && { pageSize }),
+  }
+
+  return new ReportQuery({
+    fields,
+    template,
+    queryParams,
+    definitionsPath,
+  })
+}
+
 const getReportData = async (args: {
   definition: components['schemas']['SingleVariantReportDefinition']
   services: Services
@@ -74,38 +130,19 @@ const getReportData = async (args: {
   req: Request
   res: Response
   requestData: RequestedReport
+  reportQuery: ReportQuery
 }) => {
-  const { definition, services, token, req, res, requestData } = args
-  const { definitionsPath } = LocalsHelper.getValues(res)
+  const { services, token, req, reportQuery } = args
   const { reportId, variantId, id, tableId } = req.params
   const reportVariantId = variantId || id
-  const { variant } = definition
-  const { specification } = variant
-  const queryParams = {
-    ...(requestData.query?.data?.sortColumn && { sortColumn: requestData.query.data.sortColumn }),
-    ...(requestData.query?.data?.sortedAsc && { sortedAsc: requestData.query.data.sortedAsc }),
-    ...req.query,
-  }
 
-  const reportQuery = new ReportQuery({
-    fields: specification.fields,
-    template: specification.template as Template,
-    queryParams,
-    definitionsPath,
-  })
-
-  const reportData = await services.reportingService.getAsyncReport(
+  return services.reportingService.getAsyncReport(
     token,
     reportId,
     reportVariantId,
     tableId,
     reportQuery.toRecordWithFilterPrefix(true),
   )
-
-  return {
-    reportData,
-    reportQuery,
-  }
 }
 
 export const getSummariesData = async (
@@ -260,12 +297,10 @@ const getTemplateData = async (
   const { fields, specification } = definitionData
   const requestedData = extractDataFromRequest(requestData)
   const count = await getCount(definition, requestData, services, res, reportQuery)
-  const interactive = true
   const filterData = await ReportFiltersUtils.getFilters({
     fields,
     req,
     res,
-    interactive,
     services,
     filtersType: FiltersType.INTERACTIVE,
   })

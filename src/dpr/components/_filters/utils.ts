@@ -23,8 +23,8 @@ import PersonalistionUtils from '../../utils/Personalisation/personalisationUtil
 import createUrlForParameters from '../../utils/urlHelper'
 import { Services } from '../../types/Services'
 import { FiltersType } from './filtersTypeEnum'
-import { RenderFiltersReturnValue } from '../_async/async-filters-form/types'
 import LocalsHelper from '../../utils/localsHelper'
+import { defaultFilterValue } from '../../utils/Personalisation/types'
 
 /**
  * Given a FilterValue[], will update the values to match the req.query values if present
@@ -132,7 +132,10 @@ const setFilterQueryFromFilterDefinition = (
     .join('&')
 }
 
-const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
+const getFiltersFromDefinition = (
+  fields: components['schemas']['FieldDefinition'][],
+  interactive?: boolean,
+): FilterValue[] => {
   return fields
     .filter((f) => f.filter)
     .filter((f) => {
@@ -241,6 +244,41 @@ const getFiltersFromDefinition = (fields: components['schemas']['FieldDefinition
     })
 }
 
+const setRequestQueryFromFilterValues = (filterValues: FilterValue[]) => {
+  const requestQuery = filterValues
+    .filter((fv) => fv.value)
+    .reduce((acc, curr) => {
+      const { value, name } = curr
+      const filterPrefix = `filters.${name}`
+      switch (curr.type) {
+        case FilterType.granularDateRange.toLowerCase():
+        case FilterType.dateRange.toLowerCase():
+          Object.keys(value).forEach((key) => {
+            acc = {
+              ...acc,
+              [`${filterPrefix}.${key}`]: value[key as keyof FilterValueType],
+            }
+          })
+          break
+        case FilterType.multiselect.toLowerCase():
+          acc = {
+            ...acc,
+            [`${filterPrefix}`]: (<string>value).split(','),
+          }
+          break
+        default:
+          acc = {
+            ...acc,
+            [`${filterPrefix}`]: value,
+          }
+          break
+      }
+      return acc
+    }, {})
+
+  return requestQuery
+}
+
 const redirectWithDefaultFilters = (
   reportQuery: ReportQuery,
   variantDefinition: components['schemas']['VariantDefinition'],
@@ -296,18 +334,23 @@ const getPersonalisedFilters = async (
 ) => {
   const { reportId, id } = req.params
   const { dprUser } = LocalsHelper.getValues(res)
-  const defaultFilterValues = await services.defaultFilterValuesService.get(dprUser.id, reportId, id, filtersType)
+  const defaultFilterValues: defaultFilterValue[] = await services.defaultFilterValuesService.get(
+    dprUser.id,
+    reportId,
+    id,
+    filtersType,
+  )
   if (defaultFilterValues) {
     ;({ filters } = PersonalistionUtils.setFilterValuesFromSavedDefaults(filters, [], defaultFilterValues))
   }
-  return filters
+
+  return { filters, defaultFilterValues }
 }
 
 const getFilters = async ({
   fields,
   req,
   res,
-  interactive = false,
   prefix = 'filters.',
   services,
   filtersType,
@@ -315,21 +358,42 @@ const getFilters = async ({
   fields: components['schemas']['FieldDefinition'][]
   req: Request
   res?: Response
-  interactive?: boolean
   prefix?: string
   services?: Services
   filtersType: FiltersType
 }) => {
-  let filters = await getFiltersFromDefinition(fields, interactive)
+  // 1. Set the filters from the product definition
+  let filters = await getFiltersFromDefinition(fields, filtersType === FiltersType.INTERACTIVE)
+
+  let hasDefaults
+  let canSaveDefaults = false
   if (services) {
-    filters = await getPersonalisedFilters(filters, req, res, services, filtersType)
+    // 2. If there are personalised filters, overwrite fiters with the personalised filter values.
+    const { filters: personalisedFilterValues, defaultFilterValues } = await getPersonalisedFilters(
+      filters,
+      req,
+      res,
+      services,
+      filtersType,
+    )
+    filters = personalisedFilterValues
+    hasDefaults = defaultFilterValues?.length > 0
+    canSaveDefaults = true
   }
-  filters = setFilterValuesFromRequest(filters, req)
+
+  // If there is a request query, overwrite the filters with the query params
+  if (req.query) {
+    filters = setFilterValuesFromRequest(filters, req)
+  }
+
+  // Set the selected filters
   const selectedFilters = SelectedFiltersUtils.getSelectedFilters(filters, prefix)
 
   return {
     filters,
     selectedFilters,
+    hasDefaults,
+    canSaveDefaults,
   }
 }
 
@@ -339,4 +403,6 @@ export default {
   getFilters,
   setFilterQueryFromFilterDefinition,
   redirectWithDefaultFilters,
+  setRequestQueryFromFilterValues,
+  getPersonalisedFilters,
 }

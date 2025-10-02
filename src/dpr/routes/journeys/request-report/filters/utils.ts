@@ -342,7 +342,6 @@ export default {
       let fields: components['schemas']['FieldDefinition'][]
       let sections
       let interactive
-      let defaultInteractiveQueryString
       let filtersData
       let defaultFilterValues
 
@@ -366,7 +365,6 @@ export default {
           services,
           dprUser.id,
         ))
-        defaultInteractiveQueryString = FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
       }
 
       const reportData: RequestReportData = {
@@ -376,7 +374,6 @@ export default {
         reportId,
         id,
         ...(dpdPathFromQuery && { definitionPath }),
-        ...(defaultInteractiveQueryString?.length && { defaultInteractiveQueryString }),
         csrfToken,
         template,
         sections,

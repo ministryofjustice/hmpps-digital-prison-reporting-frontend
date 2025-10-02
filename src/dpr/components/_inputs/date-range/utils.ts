@@ -123,13 +123,12 @@ const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: Fil
   const { start, end, relative } = <DefaultDateFilterValue>defaultValue.value
   if (relative) {
     value.relative = relative
-  } else {
-    if (start) {
-      value.start = dayjs(start, 'D/M/YYYY').format('YYYY-MM-DD').toString()
-    }
-    if (end) {
-      value.end = dayjs(end, 'D/M/YYYY').format('YYYY-MM-DD').toString()
-    }
+  }
+  if (start) {
+    value.start = dayjs(start, 'D/M/YYYY').format('YYYY-MM-DD').toString()
+  }
+  if (end) {
+    value.end = dayjs(end, 'D/M/YYYY').format('YYYY-MM-DD').toString()
   }
 
   return {

@@ -5,15 +5,15 @@ const mockRequestedDashboards = require('./mockRequestedDashboardData')
 
 export const startData = {
   requestedReports: [
-    mockRequested.requestedReady,
-    mockRequested.requestedExpired,
-    mockRequested.requestedFailed,
-    mockRequested.requestedAborted,
+    // mockRequested.requestedReady,
+    // mockRequested.requestedExpired,
+    // mockRequested.requestedFailed,
+    // mockRequested.requestedAborted,
     // Dashboards
     // mockRequestedDashboards.readyDashboard,
-    mockRequestedDashboards.failedDashboard,
-    mockRequestedDashboards.expiredDashboard,
-    mockRequestedDashboards.abortedDashboard,
+    // mockRequestedDashboards.failedDashboard,
+    // mockRequestedDashboards.expiredDashboard,
+    // mockRequestedDashboards.abortedDashboard,
     // Viewed must be present in the request list also
     // mockViewed.viewedReady,
     // mockViewed.viewedDashboard,
@@ -24,8 +24,8 @@ export const startData = {
     // mockViewed.viewedDashboard,
     // mockViewed.viewedReady,
     // mockViewed.viewedInteractive,
-    mockViewed.viewedExpired,
-    mockViewed.expiredDashboard,
+    // mockViewed.viewedExpired,
+    // mockViewed.expiredDashboard,
     // mockViewed.viewedInteractiveAsync,
   ],
   bookmarks: [

@@ -17,6 +17,7 @@ import { Template } from '../../types/Templates'
 import { SyncReportUtils } from '../../utils'
 import FiltersUtils from '../_filters/utils'
 import { ReportType } from '../../types/UserReports'
+import { FiltersType } from '../_filters/filtersTypeEnum'
 
 function isListWithWarnings(data: Dict<string>[] | ListWithWarnings): data is ListWithWarnings {
   return (data as ListWithWarnings).data !== undefined
@@ -58,6 +59,7 @@ export async function renderList(
           specification,
           reportQuery,
           data,
+          filtersType: FiltersType.REQUEST,
         })
 
         const actions = ReportActionsUtils.getActions({

@@ -218,6 +218,7 @@ const getReportRenderData = async ({
   specification,
   reportQuery,
   data,
+  filtersType,
 }: {
   req: Request
   res?: Response
@@ -226,6 +227,7 @@ const getReportRenderData = async ({
   specification: components['schemas']['Specification']
   reportQuery: ReportQuery
   data: Dict<string>[]
+  filtersType?: FiltersType
 }) => {
   const url = parseUrl(req)
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
@@ -248,7 +250,7 @@ const getReportRenderData = async ({
     req,
     res,
     services,
-    filtersType: FiltersType.INTERACTIVE,
+    filtersType: filtersType || FiltersType.INTERACTIVE,
   })
 
   const columns = ColumnUtils.getColumns(specification, reportQuery.columns)

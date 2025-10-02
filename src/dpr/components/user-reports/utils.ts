@@ -16,6 +16,7 @@ import { Services } from '../../types/Services'
 import { AsyncReportUtilsParams } from '../../types/AsyncReportUtils'
 import { getExpiredStatus } from '../../utils/requestStatusHelper'
 import SelectedFiltersUtils from '../_filters/filters-selected/utils'
+import FiltersUtils from '../_filters/utils'
 import { itemActionsHtml, createListItemProduct } from '../../utils/reportListsHelper'
 import RequestedReportUtils from './requested/utils'
 import RecentlyViewedCardGroupUtils from './viewed/utils'
@@ -318,6 +319,11 @@ export default {
     maxRows?: number
   }) => {
     const { requestedReports, recentlyViewedReports, bookmarkingEnabled } = LocalsHelper.getValues(res)
+    console.log(`
+      -----------------------`)
+    console.log(JSON.stringify({ recentlyViewedReports }, null, 2))
+    console.log(`-----------------------
+      `)
     const requestedReportsList = await renderList({
       res,
       reportsData: requestedReports,
@@ -369,9 +375,10 @@ export default {
     const executionData = { executionId, tableId }
     const queryData = query ? { query: query.data, querySummary: query.summary } : { query: {}, querySummary: [] }
 
+    const reqQuery = FiltersUtils.setRequestQueryFromFilterValues(filters)
     const interactiveQueryData: { query: Dict<string>; querySummary: Array<Dict<string>> } = {
-      query: <Dict<string>>req.query,
-      querySummary: SelectedFiltersUtils.getQuerySummary(req, filters),
+      query: reqQuery,
+      querySummary: SelectedFiltersUtils.getQuerySummary(reqQuery, filters),
     }
 
     const recentlyViewedData = new UserStoreItemBuilder(reportData)
@@ -383,6 +390,8 @@ export default {
       .addAsyncUrls(url)
       .addReportUrls(req)
       .build()
+
+    console.log(JSON.stringify({ recentlyViewedData }, null, 2))
 
     await services.requestedReportService.updateLastViewed(reportStateData.executionId, userId)
     await services.recentlyViewedService.setRecentlyViewed(recentlyViewedData, userId)

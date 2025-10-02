@@ -2,8 +2,9 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% macro dprFiltersSaveDefaults(formId, action, hasDefaults, defaultsSaved) %}
+
   <div class="dpr-save-defaults-action">
-    {% set text = 'Save current filter values as defaults for this report' %}
+    {% set text = 'Save current filter values as defaults' %}
     {% if hasDefaults %}
       <p class="govuk-body-xs govuk-!-margin-bottom-2">Your saved default filter values have been applied to this form.</p>
       {% set text = 'Update defaults' %}

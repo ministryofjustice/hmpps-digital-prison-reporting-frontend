@@ -363,7 +363,11 @@ const getFilters = async ({
   filtersType: FiltersType
 }) => {
   // 1. Set the filters from the product definition
+
+  console.log(JSON.stringify({ filtersType }))
+  console.log(JSON.stringify({ fields }, null, 2))
   let filters = await getFiltersFromDefinition(fields, filtersType === FiltersType.INTERACTIVE)
+  console.log(JSON.stringify({ filters }, null, 2))
 
   let hasDefaults
   let canSaveDefaults = false

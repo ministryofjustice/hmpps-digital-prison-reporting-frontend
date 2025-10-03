@@ -245,6 +245,7 @@ const getReportRenderData = async ({
     dataTable.rowCount,
   )
 
+  console.log('getReportRenderData', filtersType)
   const filterData = await FiltersUtils.getFilters({
     fields: specification.fields,
     req,
@@ -252,6 +253,8 @@ const getReportRenderData = async ({
     services,
     filtersType: filtersType || FiltersType.INTERACTIVE,
   })
+
+  console.log(JSON.stringify({ filterData }, null, 2))
 
   const columns = ColumnUtils.getColumns(specification, reportQuery.columns)
 

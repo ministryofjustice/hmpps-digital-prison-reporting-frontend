@@ -304,6 +304,10 @@ const getQuerySummary = (reqQuery: Dict<string>, filters: FilterValue[]) => {
         value = <string>getOptionsValue(<FilterValueWithOptions>f, prefix).displayValue
       }
 
+      if (f.type.toLowerCase() === FilterType.date.toLowerCase()) {
+        value = setDateDisplayFormat(<string>f.value)
+      }
+
       if (f.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {
         value = setSelectedDateRange(<DateRangeFilterValue>f, prefix).displayValue
       }

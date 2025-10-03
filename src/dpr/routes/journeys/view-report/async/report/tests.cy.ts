@@ -555,6 +555,36 @@ context('Viewing a report', () => {
         return cy.findByRole('button', { name: 'Delete defaults' })
       }
 
+      const checkSelectedFiltersInUserReports = ({
+        name,
+        product,
+        length,
+        selectedFilters,
+      }: {
+        name: string
+        product: string
+        length: number
+        selectedFilters: { key: string; value: string }[]
+      }) => {
+        cy.findByLabelText(/Viewed \(/).within(() => {
+          cy.findByRole('row', {
+            name: (_, element) => {
+              return element.textContent.includes(name) && element.textContent.includes(product)
+            },
+          }).within(() => {
+            cy.findAllByRole('listitem')
+              .should('have.length', length)
+              .each((li, index) => {
+                if (selectedFilters[index]) {
+                  const { key, value } = selectedFilters[index]
+                  cy.wrap(li).contains(key)
+                  cy.wrap(li).contains(value)
+                }
+              })
+          })
+        })
+      }
+
       it('should save the interactive filters correctly', () => {
         // request the report
         requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
@@ -625,6 +655,15 @@ context('Viewing a report', () => {
           length: 6,
           buttonValues: selectedFiltersButtonValues,
         })
+
+        cy.visit(path)
+        cy.findByRole('tab', { name: /Viewed/ }).click()
+        checkSelectedFiltersInUserReports({
+          name: 'Interactive Report',
+          product: 'Interactive Report',
+          length: 5,
+          selectedFilters: selectedFiltersButtonValues,
+        })
       })
 
       it('should reset the filter values to the saved defaults', () => {
@@ -664,11 +703,37 @@ context('Viewing a report', () => {
           ],
         })
 
+        cy.visit(path)
+        cy.findByRole('tab', { name: /Viewed/ }).click()
+        checkSelectedFiltersInUserReports({
+          name: 'Interactive Report',
+          product: 'Interactive Report',
+          length: 5,
+          selectedFilters: [
+            { key: 'Field 1', value: 'Value 1.2' },
+            { key: 'Field 2', value: 'Value 2.3' },
+            { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+            { key: 'Field 7', value: '01/02/2005' },
+            { key: 'Field 8', value: 'Value 8.4' },
+          ],
+        })
+
+        cy.visit(viewReportUrl)
+
         cy.findByRole('link', { name: 'Reset filters' }).click()
 
         checkSelectedFilterValues({
           length: 6,
           buttonValues: savedDefaultSelectedFilters,
+        })
+
+        cy.visit(path)
+        cy.findByRole('tab', { name: /Viewed/ }).click()
+        checkSelectedFiltersInUserReports({
+          name: 'Interactive Report',
+          product: 'Interactive Report',
+          length: 5,
+          selectedFilters: savedDefaultSelectedFilters,
         })
       })
 
@@ -731,6 +796,15 @@ context('Viewing a report', () => {
         // check saved defaults page furniture
         updateDefaultsButton().should('exist')
         deleteDefaultsButton().should('exist')
+
+        cy.visit(path)
+        cy.findByRole('tab', { name: /Viewed/ }).click()
+        checkSelectedFiltersInUserReports({
+          name: 'Interactive Report',
+          product: 'Interactive Report',
+          length: 5,
+          selectedFilters: expectedSelectedValues,
+        })
       })
 
       it('should delete the saved defaults', () => {
@@ -753,6 +827,20 @@ context('Viewing a report', () => {
         checkSelectedFilterValues({
           length: 5,
           buttonValues: [
+            { key: 'Field 1', value: 'Value 1.2' },
+            { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+            { key: 'Field 7', value: '01/02/2005' },
+            { key: 'Field 8', value: 'Value 8.2, Value 8.3' },
+          ],
+        })
+
+        cy.visit(path)
+        cy.findByRole('tab', { name: /Viewed/ }).click()
+        checkSelectedFiltersInUserReports({
+          name: 'Interactive Report',
+          product: 'Interactive Report',
+          length: 4,
+          selectedFilters: [
             { key: 'Field 1', value: 'Value 1.2' },
             { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
             { key: 'Field 7', value: '01/02/2005' },

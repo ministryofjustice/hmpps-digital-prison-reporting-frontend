@@ -19,6 +19,10 @@ import { setRedisState } from '../../../integrationTests/setRedisState'
 context('User reports component', () => {
   const path = '/components/user-reports/default'
 
+  after(() => {
+    cy.task('resetRedis')
+  })
+
   describe('Requested reports list', () => {
     beforeEach(() => {
       cy.task('resetStubs')
@@ -34,6 +38,7 @@ context('User reports component', () => {
       cy.visit(path)
       cy.findByRole('tab', { name: /Requested/ }).click()
     })
+
     it('should show the "Requested" tab', () => {
       cy.findByRole('tab', { name: /Requested/ }).should('be.visible')
       checkA11y()

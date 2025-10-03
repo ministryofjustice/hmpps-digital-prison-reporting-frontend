@@ -1,7 +1,7 @@
 import { checkA11y } from "../../../../../cypress-tests/cypressUtils"
 import { requestedReady, requestedAborted, requestedExpired, requestedFailed, requestedSubmitted } from "@networkMocks/report/mockVariants/mockRequestedUserListData"
 import { viewedDashboard, viewedExpired, viewedInteractive, viewedInteractiveAsync, viewedReady, expiredDashboard } from "@networkMocks/report/mockVariants/mockViewedUserListData"
-import { setRedisState } from "../../../integrationTests/setRedisState"
+import { setRedisState } from "../../../integrationTests/redisStateTestUtils"
 
 context('User reports component', () => {
   const path = '/components/user-reports/default'

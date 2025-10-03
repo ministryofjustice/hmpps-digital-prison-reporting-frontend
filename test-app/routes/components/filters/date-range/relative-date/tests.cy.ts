@@ -1,4 +1,4 @@
-import { setRedisState } from '../../../../integrationTests/setRedisState'
+import { setRedisState } from '../../../../integrationTests/redisStateTestUtils'
 
 context('Inputs: Relative date range', () => {
   const path = '/components/filters/date-range/relative-date-range#relative-date-range-relative-range'

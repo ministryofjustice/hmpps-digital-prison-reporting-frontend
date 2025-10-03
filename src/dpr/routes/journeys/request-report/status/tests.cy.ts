@@ -1,3 +1,7 @@
+import { checkA11y } from 'cypress-tests/cypressUtils'
+import dayjs from 'dayjs'
+import { getRedisState, setRedisState } from 'test-app/routes/integrationTests/redisStateTestUtils'
+
 context('Request status', () => {
   const path = '/embedded/platform/'
 
@@ -28,18 +32,45 @@ context('Request status', () => {
         })
       })
       cy.findByRole('button', { name: /Request/ }).click()
-      cy.injectAxe()
-      cy.checkA11y()
+      checkA11y()
       cy.task('stubReportsPickedStatus')
       cy.findByText(/picked/i).should('be.visible')
-      cy.injectAxe()
-      cy.checkA11y()
+      checkA11y()
       cy.task('stubReportsStartedStatus')
       cy.findByText(/started/i).should('be.visible')
-      cy.injectAxe()
-      cy.checkA11y()
+      checkA11y()
       cy.task('stubReportsFinishedStatus')
       cy.findAllByRole('heading', { name: /successful report/i }).should('be.visible')
+    })
+
+    it('should timeout', () => {
+      cy.visit(path)
+      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+        cy.findByRole('row', {
+          name: (_, element) => {
+            return (
+              element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
+            )
+          },
+        }).within(() => {
+          cy.findByRole('link', { name: 'Request report' }).click()
+        })
+      })
+      cy.findByRole('button', { name: /Request/ }).click()
+      checkA11y()
+      cy.task('stubReportsPickedStatus')
+      cy.findByText('PICKED').should('be.visible')
+      getRedisState().then((state) => {
+        const newState = {
+          ...state.body,
+        }
+        newState.requestedReports[0].timestamp.requested = dayjs(state.body.requestedReports[0].timestamp.requested)
+          .add(-1, 'days')
+          .toDate()
+        setRedisState(newState)
+      })
+      cy.findByText(/Request taking too long/).should('be.visible')
+      checkA11y()
     })
 
     describe('failure status pages', () => {

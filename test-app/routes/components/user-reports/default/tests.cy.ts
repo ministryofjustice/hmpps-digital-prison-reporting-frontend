@@ -13,8 +13,8 @@ import {
   viewedReady,
   expiredDashboard,
 } from '@networkMocks/report/mockVariants/mockViewedUserListData'
+import { setRedisState } from '../../../integrationTests/redisStateTestUtils'
 import { checkA11y } from '../../../../../cypress-tests/cypressUtils'
-import { setRedisState } from '../../../integrationTests/setRedisState'
 
 context('User reports component', () => {
   const path = '/components/user-reports/default'

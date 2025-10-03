@@ -17,6 +17,7 @@ import { Template } from '../../types/Templates'
 import { SyncReportUtils } from '../../utils'
 import FiltersUtils from '../_filters/utils'
 import { ReportType } from '../../types/UserReports'
+import { FiltersType } from '../_filters/filtersTypeEnum'
 
 function isListWithWarnings(data: Dict<string>[] | ListWithWarnings): data is ListWithWarnings {
   return (data as ListWithWarnings).data !== undefined
@@ -26,7 +27,7 @@ export async function renderList(
   listData: ListDataSources,
   variantDefinition: components['schemas']['VariantDefinition'],
   reportQuery: ReportQuery,
-  request: Request,
+  req: Request,
   response: Response,
   next: NextFunction,
   title: string,
@@ -52,13 +53,14 @@ export async function renderList(
           data = resolvedData[0]
         }
 
-        const reportRenderData = await SyncReportUtils.getReportRenderData(
-          request,
+        const reportRenderData = await SyncReportUtils.getReportRenderData({
+          req,
           count,
           specification,
           reportQuery,
           data,
-        )
+          filtersType: FiltersType.REQUEST,
+        })
 
         const actions = ReportActionsUtils.getActions({
           print: {

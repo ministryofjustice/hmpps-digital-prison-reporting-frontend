@@ -2,9 +2,9 @@ import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
 import { RequestDataResult } from '../../../../types/AsyncReportUtils'
 import AysncRequestUtils from './utils'
-import FiltersUtils from '../../../../components/_filters/utils'
 import ErrorSummaryUtils from '../../../../components/error-summary/utils'
-import localsHelper from '../../../../utils/localsHelper'
+import PersonalisationUtils from '../../../../utils/Personalisation/personalisationUtils'
+import { FiltersType } from '../../../../components/_filters/filtersTypeEnum'
 
 export default class RequestReportController {
   layoutPath: string
@@ -70,47 +70,28 @@ export default class RequestReportController {
     }
   }
 
-  // Save filter values
   saveDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
-      const defaultValuesForReport = await FiltersUtils.setUserDefinedDefaultValuesForReport(req, res, this.services)
-      const { dprUser } = localsHelper.getValues(res)
-      const { reportId, id } = req.body
-      await this.services.defaultFilterValuesService.save(dprUser.id, reportId, id, defaultValuesForReport)
+      await PersonalisationUtils.saveDefaults(FiltersType.REQUEST, res, req, this.services)
       res.redirect(`${req.baseUrl}?defaultsSaved=true`)
     } catch (error) {
-      const dprError = ErrorSummaryUtils.handleError(error, req.params.type)
-      const filters = AysncRequestUtils.getFiltersFromReqBody(req)
-
       req.body = {
         title: 'Failed to save defaults',
-        errorDescription: `Your ${req.params.type} has failed to generate.`,
-        error: dprError,
-        retry: true,
-        filters,
+        error: ErrorSummaryUtils.handleError(error, req.params.type),
         ...req.body,
       }
       next()
     }
   }
 
-  // Save filter values
   removeDefaultFilterValues: RequestHandler = async (req, res, next) => {
     try {
-      const { dprUser } = localsHelper.getValues(res)
-      const { reportId, id } = req.params
-      await this.services.defaultFilterValuesService.delete(dprUser.id, reportId, id)
+      await PersonalisationUtils.removeDefaults(FiltersType.REQUEST, res, req, this.services)
       res.redirect(req.baseUrl)
     } catch (error) {
-      const dprError = ErrorSummaryUtils.handleError(error, req.params.type)
-      const filters = AysncRequestUtils.getFiltersFromReqBody(req)
-
       req.body = {
-        title: 'Failed to save defaults',
-        errorDescription: `Your ${req.params.type} has failed to generate.`,
-        error: dprError,
-        retry: true,
-        filters,
+        title: 'Failed to remove defaults',
+        error: ErrorSummaryUtils.handleError(error, req.params.type),
         ...req.body,
       }
       next()

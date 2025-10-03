@@ -109,10 +109,8 @@ export default class UserStoreItemBuilder {
   }
 
   addRequestUrls = (req: Request) => {
-    const { origin, pathname, search, href, defaultInteractiveQueryString } = this.requestFormData
-    const { executionId, dataProductDefinitionsPath, dpdPathFromQuery } = this.userStoreItem
-    const dpdPath =
-      dpdPathFromQuery && dataProductDefinitionsPath ? `${getDpdPathSuffix(dataProductDefinitionsPath)}` : ''
+    const { origin, pathname, search, href } = this.requestFormData
+    const { executionId } = this.userStoreItem
 
     // Polling path
     const pollingPath = req.baseUrl.replace('/filters', `/${executionId}/status`)
@@ -131,14 +129,6 @@ export default class UserStoreItemBuilder {
           polling: {
             fullUrl: pollingFullUrl,
             pathname: pollingPath,
-          },
-          report: {
-            ...(defaultInteractiveQueryString?.length && {
-              search: dpdPath.length
-                ? `${dpdPath}&${defaultInteractiveQueryString}`
-                : `?${defaultInteractiveQueryString}`,
-              default: `?${defaultInteractiveQueryString}`,
-            }),
           },
         },
       },

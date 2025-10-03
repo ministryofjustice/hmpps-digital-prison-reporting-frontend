@@ -47,6 +47,7 @@ const mockRenderDataFromDefinition = {
     ],
     totals: '0-0 of 0',
     filterData: {
+      canSaveDefaults: false,
       filters: [
         {
           text: 'Field 1',
@@ -373,6 +374,7 @@ const mockRenderDataFromData = {
     ],
     totals: '0 total results',
     filterData: {
+      canSaveDefaults: false,
       filters: [
         {
           text: 'Field 1',

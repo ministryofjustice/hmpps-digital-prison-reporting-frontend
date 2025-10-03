@@ -21,6 +21,8 @@ import type { components } from '../../../../types/api'
 import type { DashboardDefinition } from '../../../../components/_dashboards/dashboard/types'
 import type { Services } from '../../../../types/Services'
 import type DashboardService from '../../../../services/dashboardService'
+import PersonalistionUtils from '../../../../utils/Personalisation/personalisationUtils'
+import { FiltersType } from '../../../../components/_filters/filtersTypeEnum'
 
 /**
  * Updates the store with the request details
@@ -250,11 +252,15 @@ const getFilterData = async (
   const { reportId, id } = req.params
 
   let filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
-  filtersData.filters = FiltersUtils.setUserContextDefaults(res, filtersData.filters)
+  filtersData.filters = PersonalistionUtils.setUserContextDefaults(res, filtersData.filters)
 
-  const defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id)
+  const defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id, FiltersType.REQUEST)
   if (defaultFilterValues) {
-    filtersData = FiltersUtils.setFilterValuesFromSavedDefaults(filtersData, defaultFilterValues)
+    filtersData = PersonalistionUtils.setFilterValuesFromSavedDefaults(
+      filtersData.filters,
+      filtersData.sortBy,
+      defaultFilterValues,
+    )
   }
 
   filtersData.filters = FiltersUtils.setFilterValuesFromRequest(filtersData.filters, req)
@@ -336,7 +342,6 @@ export default {
       let fields: components['schemas']['FieldDefinition'][]
       let sections
       let interactive
-      let defaultInteractiveQueryString
       let filtersData
       let defaultFilterValues
 
@@ -360,7 +365,6 @@ export default {
           services,
           dprUser.id,
         ))
-        defaultInteractiveQueryString = FiltersUtils.setFilterQueryFromFilterDefinition(fields, true)
       }
 
       const reportData: RequestReportData = {
@@ -370,7 +374,6 @@ export default {
         reportId,
         id,
         ...(dpdPathFromQuery && { definitionPath }),
-        ...(defaultInteractiveQueryString?.length && { defaultInteractiveQueryString }),
         csrfToken,
         template,
         sections,

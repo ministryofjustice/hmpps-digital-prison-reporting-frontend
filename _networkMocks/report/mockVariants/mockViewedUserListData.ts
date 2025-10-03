@@ -155,7 +155,7 @@ export const viewedInteractive: StoredReportData = {
       {
         id: 'field3',
         name: 'Field 3',
-        value: '2003-02-01 - 2006-05-04',
+        value: '01/02/2003 - 04/05/2006',
       },
       {
         id: 'field7',
@@ -289,7 +289,7 @@ export const viewedInteractiveAsync: StoredReportData = {
     summary: [
       {
         name: 'Field 1',
-        value: 'value1.2',
+        value: 'Value 1.2',
       },
       {
         name: 'Field 7',
@@ -301,13 +301,13 @@ export const viewedInteractiveAsync: StoredReportData = {
     data: {
       'filters.field3.start': '2003-02-01',
       'filters.field3.end': '2006-05-04',
-      // 'filters.field8': ['value8.2', 'value8.3'],
+      'filters.field8': ['value8.2', 'value8.3'],
     },
     summary: [
       {
         id: 'field3',
         name: 'Field 3',
-        value: '2003-02-01 - 2006-05-04',
+        value: '01/02/2003 - 04/05/2006',
       },
       {
         id: 'field8',

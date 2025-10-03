@@ -1,8 +1,10 @@
-import { Granularity, QuickFilters } from '../../../../components/_inputs/granular-date-range/types'
+import { Granularity, QuickFilters } from '../../components/_inputs/granular-date-range/types'
+import { FiltersType } from '../../components/_filters/filtersTypeEnum'
 
 export interface defaultFilterValue {
   name: string
   value: string | DefaultDateFilterValue | DefaultGranularDateFilterValue
+  type?: FiltersType
 }
 
 export interface DefaultDateFilterValue {

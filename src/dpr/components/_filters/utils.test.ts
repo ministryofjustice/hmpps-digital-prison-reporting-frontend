@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import MockDate from 'mockdate'
 import FiltersUtils from './utils'
+import PersonalistionUtils from '../../utils/Personalisation/personalisationUtils'
 import mockVariant from '../../../../test-app/mocks/mockClients/reports/mockVariants/request-examples/success'
 import { components } from '../../types/api'
 import DateRangeUtils from '../_inputs/date-range/utils'
@@ -8,8 +9,8 @@ import GranularDaterangeUtils from '../_inputs/granular-date-range/utils'
 import { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 import { FilterValue } from './types'
 import { FilterType } from './filter-input/enum'
-import { defaultFilterValue } from '../../routes/journeys/request-report/filters/types'
 import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
+import { defaultFilterValue } from '../../utils/Personalisation/types'
 
 describe('Filters Utils tests', () => {
   let req: Request = {
@@ -29,6 +30,7 @@ describe('Filters Utils tests', () => {
       })
 
       expect(result).toEqual({
+        canSaveDefaults: false,
         filters: [
           {
             text: 'Field 1',
@@ -223,6 +225,7 @@ describe('Filters Utils tests', () => {
       })
 
       expect(result).toEqual({
+        canSaveDefaults: false,
         filters: [
           {
             text: 'Field 1',
@@ -977,7 +980,7 @@ describe('Filters Utils tests', () => {
         },
       ]
 
-      const res = FiltersUtils.setFilterValuesFromSavedDefaults({ filters, sortBy }, defaultValues)
+      const res = PersonalistionUtils.setFilterValuesFromSavedDefaults(filters, sortBy, defaultValues)
 
       const expectedRes = {
         filters: [
@@ -1419,7 +1422,7 @@ describe('Filters Utils tests', () => {
         },
       ]
 
-      const result = FiltersUtils.setUserContextDefaults(res, filterValues)
+      const result = PersonalistionUtils.setUserContextDefaults(res, filterValues)
 
       expect(result).toEqual([
         filterValues[0],
@@ -1502,7 +1505,7 @@ describe('Filters Utils tests', () => {
         },
       ]
 
-      const result = FiltersUtils.setUserContextDefaults(res, filterValues)
+      const result = PersonalistionUtils.setUserContextDefaults(res, filterValues)
 
       expect(result).toEqual([filterValues[0], filterValues[1], filterValues[2]])
     })

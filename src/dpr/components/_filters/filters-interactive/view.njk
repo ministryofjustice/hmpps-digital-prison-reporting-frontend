@@ -1,21 +1,31 @@
 {% from "dpr/components/_filters/filters-form/view.njk" import dprFiltersForm %}
 {% from "dpr/components/_filters/filters-selected/view.njk" import dprSelectedFilters %}
+{% from "dpr/components/_filters/fitlers-save-defaults/view.njk" import dprFiltersSaveDefaults %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% macro dprInteractiveFilters(filterData, templateArgs) %}
 
   {% set filters = filterData.filters %}
+  {% set hasDefaults = filterData.hasDefaults %}
+  {% set canSaveDefaults = filterData.canSaveDefaults %}
   {% set selectedFilters = filterData.selectedFilters %}
 
   {% set reportType = templateArgs.reportType %}
   {% set prefix = templateArgs.prefix %}
   {% set defaultQuery = templateArgs.defaultQuery %}
+  {% set defaultsSaved = templateArgs.defaultsSaved %}
 
   <div class='dpr-interactive-filters-section'>
     {{ dprSelectedFilters(selectedFilters, { 
       resetId: 'interactive-reset-filters-button',
       defaultQuery: defaultQuery 
     }) }}
+
+    {% if canSaveDefaults %}
+      <div class='dpr-interactive-save-defaults-actions'>
+        {{ dprFiltersSaveDefaults('interactive-filters-form', './report', hasDefaults) }}
+      </div>
+    {% endif %}
 
     {% set filtersHtml %}
       <div class='dpr-interactive-filters'>

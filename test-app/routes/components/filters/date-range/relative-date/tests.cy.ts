@@ -232,7 +232,7 @@ context('Inputs: Relative date range', () => {
         })
       })
 
-      cy.findByRole('button', { name: 'Save current filter values as defaults for this report' }).click()
+      cy.findByRole('button', { name: 'Save current filter values as defaults' }).click()
 
       cy.location().should((location) => {
         expect(location.search).to.contain('defaultsSaved=true')

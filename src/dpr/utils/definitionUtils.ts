@@ -1,6 +1,33 @@
 import ReportingService from '../services/reportingService'
 import { components } from '../types/api'
+import { Template } from '../types/Templates'
 import logger from './logger'
+
+const getFilter = (
+  fields: components['schemas']['FieldDefinition'][],
+  fieldId: string,
+): components['schemas']['FilterDefinition'] | undefined => {
+  return fields.find((f) => f.name === fieldId)?.filter
+}
+
+const getFiltersDefaultsValues = (fields: components['schemas']['FieldDefinition'][]) => {
+  return fields
+    .filter((field) => field.filter)
+    .map((field) => {
+      const { name, display } = field
+      const { type, interactive, defaultValue, defaultGranularity, defaultQuickFilterValue } = field.filter
+
+      return {
+        name,
+        display,
+        type,
+        interactive,
+        ...(defaultValue && { defaultValue }),
+        ...(defaultGranularity && { defaultGranularity }),
+        ...(defaultQuickFilterValue && { defaultQuickFilterValue }),
+      }
+    })
+}
 
 export default {
   getCurrentVariantDefinition: (
@@ -47,12 +74,23 @@ export default {
     })
   },
 
-  getFilter: (
-    fields: components['schemas']['FieldDefinition'][],
-    fieldId: string,
-  ): components['schemas']['FilterDefinition'] | undefined => {
-    return fields.find((f) => f.name === fieldId)?.filter
+  getFields: (
+    definition: components['schemas']['SingleVariantReportDefinition'],
+  ): components['schemas']['FieldDefinition'][] => {
+    return definition.variant.specification?.fields || []
   },
+
+  getTemplate: (definition: components['schemas']['SingleVariantReportDefinition']): Template => {
+    return definition.variant.specification?.template
+  },
+
+  getFilter,
+
+  getFilters: (fields: components['schemas']['FieldDefinition'][]): components['schemas']['FilterDefinition'][] => {
+    return fields.filter((field) => field.filter).map((field) => field.filter)
+  },
+
+  getFiltersDefaultsValues,
 
   getReportSummary: async (
     reportId: string,

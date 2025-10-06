@@ -342,11 +342,8 @@ const getPersonalisedFilters = async (
   )
   let defaultFilters = filters
   if (defaultFilterValues) {
-    ;({ filters: defaultFilters } = PersonalistionUtils.setFilterValuesFromSavedDefaults(
-      filters,
-      [],
-      defaultFilterValues,
-    ))
+    const personalisedFilters = PersonalistionUtils.setFilterValuesFromSavedDefaults(filters, [], defaultFilterValues)
+    defaultFilters = personalisedFilters.filters
   }
 
   return { filters: defaultFilters, defaultFilterValues }

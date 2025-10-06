@@ -12,9 +12,9 @@ const setUpNunjucksFilters = (env: nunjucks.Environment) => {
   nunjucksDate.install(env, 'dprDate')
 }
 
-const findError = (errs: {text: string; href: string}[] | undefined, errToFind: string) => {
-  const error = errs?.find(err => err.href.slice(1) === errToFind)?.text
-  return error ? {text: error} : null
+const findError = (errs: { text: string; href: string }[] | undefined, errToFind: string) => {
+  const error = errs?.find((err) => err.href.slice(1) === errToFind)?.text
+  return error ? { text: error } : null
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

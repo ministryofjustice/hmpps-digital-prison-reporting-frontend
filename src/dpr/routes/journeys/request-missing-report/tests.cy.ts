@@ -24,7 +24,9 @@ context('Request missing report', () => {
   describe('Request form page', () => {
     it('should show the form, and on successful submission, redirect to the success submitted page', () => {
       cy.task('stubMissingRequestSubmitSuccess')
-      cy.findByRole('textbox', { name: /Request this report/ }).should('be.visible').type('abcd')
+      cy.findByRole('textbox', { name: /Request this report/ })
+        .should('be.visible')
+        .type('abcd')
       cy.findByRole('button', { name: /Submit/ }).click()
       cy.findByRole('heading', { name: /We've received your request for report Missing Report 1/ }).should('be.visible')
       checkA11y()

@@ -1,4 +1,6 @@
-import session, { Store } from 'express-session'
+/* eslint-disable import/no-extraneous-dependencies */
+
+import session from 'express-session'
 import { RedisStore } from 'connect-redis'
 import express, { Router } from 'express'
 import { randomUUID } from 'crypto'
@@ -6,10 +8,9 @@ import { createClient } from 'redis'
 import logger from '../utils/logger'
 
 export default function setUpWebSession(): Router {
-  let store: Store
   const client = createClient()
   client.connect().catch((err: Error) => logger.error(`Error connecting to Redis`, err))
-  store = new RedisStore({ client })
+  const store = new RedisStore({ client })
 
   const router = express.Router()
   router.use(

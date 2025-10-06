@@ -10,7 +10,7 @@ import DefinitionUtils from '../../../utils/definitionUtils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
 import FiltersUtils from '../../_filters/utils'
 import DateRangeInputUtils from '../../_inputs/date-range/utils'
-import { FilterOption, FilterValue } from '../../_filters/types'
+import { FilterOption, FilterValue, FilterValueWithOptions } from '../../_filters/types'
 
 /**
  * Initialises the sortData from the definition
@@ -34,7 +34,9 @@ export const getSortByFromDefinition = (
       })
 
     if (options.length) {
-      sortBy[0].options = options
+      const sortWithOptions: FilterValueWithOptions = <FilterValueWithOptions>sortBy[0]
+      sortWithOptions.options = options
+      sortBy[0] = sortWithOptions
       return sortBy
     }
   }

@@ -191,7 +191,7 @@ export default class UserStoreItemBuilder {
     return this
   }
 
-  addQuery = (queryData?: { query: Dict<string>; querySummary: Array<Dict<string>> }) => {
+  addQuery = (queryData?: { query: Dict<string | string[]>; querySummary: Array<Dict<string>> }) => {
     this.userStoreItem = {
       ...this.userStoreItem,
       ...(queryData && {

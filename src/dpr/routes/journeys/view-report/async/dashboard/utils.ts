@@ -88,6 +88,7 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
     fields: dashboardDefinition.filterFields || [],
     queryParams: req.query,
     definitionsPath: <string>dataProductDefinitionsPath,
+    reportType: ReportType.DASHBOARD,
   }).toRecordWithFilterPrefix(true)
 
   return {

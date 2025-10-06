@@ -5,13 +5,14 @@ import { components } from './api'
 import { clearFilterValue } from '../utils/urlHelper'
 import ColumnUtils from '../components/_reports/report-columns-form/utils'
 import { Template } from './Templates'
+import { ReportType } from './UserReports'
 
 export const DEFAULT_FILTERS_PREFIX = 'filters.'
 
 export default class ReportQuery implements FilteredListRequest {
   selectedPage: number
 
-  pageSize: number
+  pageSize: number | undefined
 
   sortColumn?: string
 
@@ -31,16 +32,17 @@ export default class ReportQuery implements FilteredListRequest {
     queryParams,
     definitionsPath,
     filtersPrefix = DEFAULT_FILTERS_PREFIX,
+    reportType,
   }: {
     fields: components['schemas']['FieldDefinition'][]
     template?: Template
     queryParams: ParsedQs
     definitionsPath?: string
     filtersPrefix?: string
+    reportType: ReportType
   }) {
     this.selectedPage = queryParams.selectedPage ? Number(queryParams.selectedPage) : 1
-    this.pageSize =
-      queryParams.pageSize && template ? Number(queryParams.pageSize) : this.getDefaultPageSize(template as Template)
+    this.pageSize = this.getPageSize(queryParams, template, reportType)
     this.sortColumn = queryParams.sortColumn ? queryParams.sortColumn.toString() : this.getDefaultSortColumn(fields)
     this.sortedAsc = queryParams.sortedAsc !== 'false'
     this.dataProductDefinitionsPath =
@@ -119,13 +121,21 @@ export default class ReportQuery implements FilteredListRequest {
     return defaultSortColumn ? defaultSortColumn.name : fields.find((f) => f.sortable)?.name
   }
 
+  getPageSize(queryParams: ParsedQs, template: Template, reportType: ReportType): number | undefined {
+    let pageSize
+    if (reportType === ReportType.REPORT) {
+      pageSize = queryParams.pageSize && template ? Number(queryParams.pageSize) : this.getDefaultPageSize(template)
+    }
+    return pageSize
+  }
+
   toRecordWithFilterPrefix(removeClearedFilters = false): Record<string, string | Array<string>> {
     const record: Record<string, string | Array<string>> = {
-      selectedPage: this.selectedPage.toString(),
-      pageSize: this.pageSize.toString(),
       sortColumn: this.sortColumn,
       sortedAsc: this.sortedAsc.toString(),
       columns: this.columns,
+      selectedPage: this.selectedPage.toString(),
+      ...(this.pageSize && { pageSize: this.pageSize.toString() }),
     }
 
     if (this.dataProductDefinitionsPath) {
@@ -143,7 +153,7 @@ export default class ReportQuery implements FilteredListRequest {
   }
 
   private getDefaultPageSize(template: Template) {
-    const maxResultsSize = 50000
+    const maxResultsSize = 500000
     const standardPage = 20
 
     switch (template) {

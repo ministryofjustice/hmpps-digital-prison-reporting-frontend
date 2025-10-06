@@ -39,7 +39,7 @@ export default class ReportQuery implements FilteredListRequest {
     queryParams: ParsedQs
     definitionsPath?: string
     filtersPrefix?: string
-    reportType: ReportType
+    reportType?: ReportType
   }) {
     this.selectedPage = queryParams.selectedPage ? Number(queryParams.selectedPage) : 1
     this.pageSize = this.getPageSize(queryParams, template, reportType)
@@ -121,9 +121,9 @@ export default class ReportQuery implements FilteredListRequest {
     return defaultSortColumn ? defaultSortColumn.name : fields.find((f) => f.sortable)?.name
   }
 
-  getPageSize(queryParams: ParsedQs, template: Template, reportType: ReportType): number | undefined {
+  getPageSize(queryParams: ParsedQs, template: Template, reportType?: ReportType): number | undefined {
     let pageSize
-    if (reportType === ReportType.REPORT) {
+    if (!reportType || reportType === ReportType.REPORT) {
       pageSize = queryParams.pageSize && template ? Number(queryParams.pageSize) : this.getDefaultPageSize(template)
     }
     return pageSize
@@ -131,11 +131,11 @@ export default class ReportQuery implements FilteredListRequest {
 
   toRecordWithFilterPrefix(removeClearedFilters = false): Record<string, string | Array<string>> {
     const record: Record<string, string | Array<string>> = {
+      selectedPage: this.selectedPage.toString(),
+      ...(this.pageSize && { pageSize: this.pageSize.toString() }),
       sortColumn: this.sortColumn,
       sortedAsc: this.sortedAsc.toString(),
       columns: this.columns,
-      selectedPage: this.selectedPage.toString(),
-      ...(this.pageSize && { pageSize: this.pageSize.toString() }),
     }
 
     if (this.dataProductDefinitionsPath) {

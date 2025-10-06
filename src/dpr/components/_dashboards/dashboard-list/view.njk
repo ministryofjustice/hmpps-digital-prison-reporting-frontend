@@ -9,7 +9,10 @@
   <div class="dpr-dashboard-list-container">
     {% if rows.length %}
       {{ govukTable(table)}}
-      <p class="govuk-body-s dpr-value-for">Value for: {{ ts }}</p>
+
+      {% if ts %}
+        <p class="govuk-body-s dpr-value-for">Value for: {{ ts }}</p>
+      {% endif %} 
     {% else %} 
       {{ dprDashboardVisNoData() }}
     {% endif %} 

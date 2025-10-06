@@ -53,11 +53,7 @@ export const testDashboardResultMock = generateNetworkMock({
   request: {
     ...defaultMockRequest.request,
     urlPathPattern: `/reports/mock-dashboards/dashboards/test-dashboard-8/tables/tblId_[a-zA-Z0-9]+/result`,
-    queryParameters: {
-      pageSize: {
-        matches: '20',
-      },
-    },
+    queryParameters: {},
   },
   response: {
     ...defaultMockRequest.response,

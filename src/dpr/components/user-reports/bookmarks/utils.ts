@@ -105,7 +105,7 @@ const mapBookmarkIdsToDefinition = async (
         let description
         let reportName
         let loadType = LoadType.ASYNC
-        let href = `/async/${reportType}/${reportId}/${bookmarkId}/request`
+        const href = setInitialHref(loadType, reportType, reportId, bookmarkId, res)
 
         if (reportType === ReportType.REPORT) {
           definition = await services.reportingService.getDefinition(token, reportId, bookmarkId, definitionsPath)
@@ -113,7 +113,6 @@ const mapBookmarkIdsToDefinition = async (
           name = definition.variant.name
           description = definition.variant.description || definition.description
           loadType = definition.variant.loadType || loadType
-          href = setInitialHref(loadType, reportType, reportId, bookmarkId, res)
         }
 
         if (reportType === ReportType.DASHBOARD) {

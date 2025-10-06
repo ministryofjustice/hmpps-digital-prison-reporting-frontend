@@ -2,14 +2,23 @@
 
 {% from "./form.njk" import dprRequestMissingReportForm %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 {% from "../../../../components/_async/request-details/view.njk" import dprRequestDetails %}
 
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
-  <h1 class="govuk-heading-xl">{{ title }}</h1>
-
-  <p class="govuk-body-l">We're constantly updating our reports. To request that this one be added, please fill out the form below.</p>
+  {% if validationErrors.length > 0 %}
+    <div id="dpr-form-summary--error-summary" class="query-error-summary">
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: validationErrors
+      }) }}
+    </div>
+  {% endif %}
+  <h1 class="govuk-heading-xl govuk-!-margin-0 govuk-!-margin-bottom-2">{{ title }}</h1>
+  <h2 class="govuk-heading-l govuk-!-font-weight-regular">Help us improve our service</h2>
 
   {% set detailsHtml %}
     {{ dprRequestDetails(report) }}
@@ -19,7 +28,5 @@
     html: detailsHtml
   }) }}
 
-  <h2>Request this report</h2>
-
-  {{ dprRequestMissingReportForm(user, report, csrfToken, postEndpoint) }}
+  {{ dprRequestMissingReportForm(user, report, csrfToken, postEndpoint, validationErrors) }}
 {% endblock %}

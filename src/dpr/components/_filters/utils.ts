@@ -340,11 +340,16 @@ const getPersonalisedFilters = async (
     id,
     filtersType,
   )
+  let defaultFilters = filters
   if (defaultFilterValues) {
-    ;({ filters } = PersonalistionUtils.setFilterValuesFromSavedDefaults(filters, [], defaultFilterValues))
+    ;({ filters: defaultFilters } = PersonalistionUtils.setFilterValuesFromSavedDefaults(
+      filters,
+      [],
+      defaultFilterValues,
+    ))
   }
 
-  return { filters, defaultFilterValues }
+  return { filters: defaultFilters, defaultFilterValues }
 }
 
 const getFilters = async ({
@@ -363,11 +368,7 @@ const getFilters = async ({
   filtersType: FiltersType
 }) => {
   // 1. Set the filters from the product definition
-
-  console.log(JSON.stringify({ filtersType }))
-  console.log(JSON.stringify({ fields }, null, 2))
   let filters = await getFiltersFromDefinition(fields, filtersType === FiltersType.INTERACTIVE)
-  console.log(JSON.stringify({ filters }, null, 2))
 
   let hasDefaults
   let canSaveDefaults = false

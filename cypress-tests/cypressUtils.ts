@@ -18,8 +18,8 @@ export const checkSelectedFilterValues = ({
       .each((filter, index) => {
         if (buttonValues[index]) {
           const { key, value } = buttonValues[index]
-          cy.wrap(filter).contains(key)
-          cy.wrap(filter).contains(value)
+          cy.wrap(filter).contains(key).should('be.visible')
+          cy.wrap(filter).contains(value).should('be.visible')
         }
       })
   })

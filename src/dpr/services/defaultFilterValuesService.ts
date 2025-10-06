@@ -43,14 +43,13 @@ export default class DefaultFilterValuesService extends ReportStoreService {
     const defaultConfig = userConfig.defaultFilters?.find((defaultFilter) => {
       return defaultFilter.id === id && defaultFilter.reportId === reportId
     })
-    let values: defaultFilterValue[] = []
-    if (defaultConfig) {
-      values = defaultConfig.values.filter((v) => {
-        const type = !v.type ? FiltersType.REQUEST : v.type
-        return filtersType === type
-      })
+    if (!defaultConfig) {
+      return undefined
     }
-    return values.length ? values : undefined
+    return defaultConfig.values.filter((v) => {
+      const type = !v.type ? FiltersType.REQUEST : v.type
+      return filtersType === type
+    })
   }
 
   async getIndex(userId: string, reportId: string, id: string) {

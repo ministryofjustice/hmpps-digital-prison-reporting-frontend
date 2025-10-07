@@ -24,17 +24,17 @@ context('Request missing report', () => {
   describe('Request form page', () => {
     it('should show the form, and on successful submission, redirect to the success submitted page', () => {
       cy.task('stubMissingRequestSubmitSuccess')
-      cy.findByRole('heading', { name: /Request this report/ }).should('be.visible')
-      cy.findByRole('textbox', { name: /Why do you need this report/ }).should('be.visible')
+      cy.findByRole('textbox', { name: /Request this report/ })
+        .should('be.visible')
+        .type('abcd')
       cy.findByRole('button', { name: /Submit/ }).click()
-      cy.findByRole('heading', { name: /Request submitted/ }).should('be.visible')
+      cy.findByRole('heading', { name: /We've received your request for report Missing Report 1/ }).should('be.visible')
       checkA11y()
     })
 
     it('should show the form, and on failed submission, redirect to the error page', () => {
       cy.task('stubMissingRequestSubmitFail')
-      cy.findByRole('heading', { name: /Request this report/ }).should('be.visible')
-      cy.findByRole('textbox').type('a reason')
+      cy.findByRole('textbox', { name: /Request this report/ }).type('a reason')
       cy.findByRole('button', { name: /Submit/ }).click()
       cy.findByRole('heading', { name: /Sorry, there is a problem with the service/ }).should('be.visible')
       checkA11y()

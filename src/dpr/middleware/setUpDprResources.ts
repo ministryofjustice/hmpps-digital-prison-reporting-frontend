@@ -22,6 +22,7 @@ const deriveDefinitionsPath = (query: ParsedQs): string | null => {
 
 export default (services: Services, config?: DprConfig): RequestHandler => {
   return async (req, res, next) => {
+    populateValidationErrors(req, res)
     try {
       await populateDefinitions(services, req, res, config)
       await populateRequestedReports(services, res)
@@ -29,6 +30,13 @@ export default (services: Services, config?: DprConfig): RequestHandler => {
     } catch (error) {
       return next(error)
     }
+  }
+}
+
+const populateValidationErrors = (req: Request, res: Response) => {
+  const errors = req.flash(`DPR_ERRORS`)
+  if (errors[0]) {
+    res.locals.validationErrors = JSON.parse(errors[0])
   }
 }
 

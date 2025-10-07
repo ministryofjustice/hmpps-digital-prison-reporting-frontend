@@ -38,6 +38,10 @@ const buildConfig = () => ({
         from: path.join(cwd, 'publishing/*'),
         to: path.join(cwd, 'dist-docs'),
       },
+      {
+        from: path.join(cwd, 'package.json'),
+        to: path.join(cwd, 'dist-docs'),
+      },
     ],
   },
 

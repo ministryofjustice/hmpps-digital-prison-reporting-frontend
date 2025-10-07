@@ -30,6 +30,10 @@ const buildConfigLib = () => ({
         from: path.join(cwd, 'publishing/*'),
         to: path.join(cwd, 'dist'),
       },
+      {
+        from: path.join(cwd, 'package.json'),
+        to: path.join(cwd, 'dist'),
+      },
     ],
   },
 })

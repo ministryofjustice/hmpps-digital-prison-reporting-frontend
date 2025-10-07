@@ -49,7 +49,7 @@ jobs:
         version-fragment: ${{ inputs.versionType }}
 
     - name: Set version
-      run: sed -i -e 's/Version set by script/${{ steps.bump-version.outputs.next-version }}/' dist/package.json
+      run: sed -i -e 's/9999.9999.9999/${{ steps.bump-version.outputs.next-version }}/' dist/package.json
 
     - name: Publish
       run: npm publish ./dist --access public

@@ -29,7 +29,7 @@ export default class ReportDataStore {
   public async getUserConfig(userId: string): Promise<ReportStoreConfig> {
     await this.ensureConnected()
     const userConfig = await this.redisClient.get(`${this.prefix}${userId}`)
-    return userConfig ? JSON.parse(userConfig) : this.setBaseplate(userId)
+    return userConfig ? JSON.parse(String(userConfig)) : this.setBaseplate(userId)
   }
 
   private async setBaseplate(userId: string) {

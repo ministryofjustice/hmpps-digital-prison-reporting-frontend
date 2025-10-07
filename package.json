@@ -1,13 +1,34 @@
 {
   "name": "@ministryofjustice/hmpps-digital-prison-reporting-frontend",
-  "version": "1.0.0",
   "description": "The Digital Prison Reporting Frontend contains templates and code to help display data effectively in UI applications.",
+  "version": "Version set by script",
+  "main": "dpr/all.mjs",
+  "sass": "dpr/all.scss",
+  "engines": {
+    "node": "^22",
+    "npm": "^11"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend.git"
+    "url": "git+https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend.git"
   },
+  "keywords": [
+    "dpr",
+    "moj",
+    "frontend",
+    "design system",
+    "template"
+  ],
+  "author": "HMPPS Digital Prison Reporting Team",
   "license": "MIT",
   "private": false,
+  "bugs": {
+    "url": "https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend/issues"
+  },
+  "homepage": "https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "config": {
     "home_url": "http://localhost:3010/embedded/platform/async-reports",
     "request_url": "http://localhost:3010/embedded/platform/async/request-examples/request-example-success/request",
@@ -43,10 +64,6 @@
     "axe_tests": "axe --exit --save axe_results.json $npm_package_config_home_url, $npm_package_config_request_url, $npm_package_config_polling_url, $npm_package_config_report_url",
     "accessibility_tests": "npm run axe_tests && npm run pa11y_tests",
     "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output src/dpr/types/api.d.ts && npm run lint:fix"
-  },
-  "engines": {
-    "node": "^22",
-    "npm": "^11"
   },
   "jest": {
     "transform": {
@@ -224,7 +241,7 @@
     "wait-on": "^9.0.1",
     "wiremock": "^3.13.1"
   },
-  "publishConfig": {
-    "access": "public"
+  "peerDependencies": {
+    "jquery": "^3.7.1"
   }
 }

@@ -23,7 +23,12 @@ export default class MissingReportFormController {
     const { reportId, variantId } = req.params
 
     const reportDefinition: components['schemas']['SingleVariantReportDefinition'] =
-      await this.reportingService.getDefinition(token, reportId, variantId, definitionsPath)
+      await this.reportingService.getDefinition(
+        token,
+        reportId,
+        variantId,
+        definitionsPath ?? 'definitions/prisons/missing',
+      )
 
     const { variant, name } = reportDefinition
 

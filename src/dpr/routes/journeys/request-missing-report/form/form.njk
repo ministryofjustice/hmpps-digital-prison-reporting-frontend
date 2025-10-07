@@ -2,10 +2,8 @@
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
-{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
-{% macro dprRequestMissingReportForm(user, report, csrfToken, postEndpoint) %}
+{% macro dprRequestMissingReportForm(user, report, csrfToken, postEndpoint, validationErrors) %}
 
   {# User details #}
   {% set name = user.displayName %}
@@ -20,15 +18,9 @@
   {% set variantName = report.name %}
   {% set csrfToken = csrfToken %}
   {% set time = report.time %}
-
+  
   <div class="dpr-form--request-missing-report" data-dpr-module="dpr-generic-form">
-    <form method="post" id="dpr-form" class="dpr-form--hidden">
-      <div id="dpr-form-summary--error-summary" class="query-error-summary query-error-summary--hidden">
-        {{ govukErrorSummary({
-          titleText: "There is a problem",
-          errorList: []
-        }) }}
-      </div>
+    <form method="post">
 
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
       
@@ -44,20 +36,21 @@
       <input type="hidden" name="name" value="{{ name }}">
       <input type="hidden" name="email" value="{{ email }}">
       <input type="hidden" name="activeCaseLoadId" value="{{ activeCaseLoadId }}">
-      
+
       {{ govukTextarea({
-        name: "request-details",
+        name: "more-detail",
         id: "more-detail",
         rows: "8",
         classes: "govuk-!-width-three-quarters",
         label: {
-          text: "Why do you need this report? (Optional)",
+          text: "Request this report",
           classes: "govuk-label--s",
           isPageHeading: true
         },
         hint: {
-          html: "Your feedback helps us prioritize which reports to add next."
-        }
+          html: "Tell us what information you need from it and how you will use it. This will help us shape future improvements."
+        },
+        errorMessage: validationErrors | dpr.findError('more-detail')
       }) }}
 
       {{ govukButton({

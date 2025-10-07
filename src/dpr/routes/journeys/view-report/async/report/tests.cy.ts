@@ -1,4 +1,4 @@
-import { checkA11y } from '../../../../../../../cypress-tests/cypressUtils'
+import { checkSelectedFilterValues, requestReport } from '../../../../../../../cypress-tests/cypressUtils'
 import DateMapper from '../../../../../utils/DateMapper/DateMapper'
 
 context('Viewing a report', () => {
@@ -24,23 +24,7 @@ context('Viewing a report', () => {
       cy.task('stubViewAsyncReportingResults')
 
       // Request and run a report so we can go back to it for each test
-      cy.visit(path)
-      checkA11y()
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
-      checkA11y()
-      cy.findByRole('button', { name: /Request/ }).click()
-      checkA11y()
-      cy.findByRole('heading', { level: 1, name: /Successful Report/ }).should('be.visible')
+      requestReport({ name: 'Successful Report', description: 'this will succeed', path })
       cy.url().then((url) => {
         viewReportUrl = url
         const urlArr = url.split('/')
@@ -402,6 +386,16 @@ context('Viewing a report', () => {
   })
 
   describe('Interactive report', () => {
+    const applyFilters = () => {
+      cy.findByRole('button', { name: 'Apply filters' }).click()
+    }
+
+    const showFilters = () => {
+      cy.findAllByRole('group')
+        .contains(/Show filters/)
+        .click()
+    }
+
     before(() => {
       cy.task('resetStubs')
       cy.task('resetRedis')
@@ -412,38 +406,19 @@ context('Viewing a report', () => {
       cy.task('stubViewAsyncReportingResults')
       cy.task('stubRequestSuccessResult20')
       cy.task('stubRequestSuccessResult100')
-
-      cy.visit(path)
-      checkA11y()
-      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-        cy.findByRole('row', {
-          name: (_, element) => {
-            return (
-              element.textContent.includes('Interactive Report') &&
-              element.textContent.includes('this is an interactive report')
-            )
-          },
-        }).within(() => {
-          cy.findByRole('link', { name: 'Request report' }).click()
-        })
-      })
-      checkA11y()
-      cy.findByRole('button', { name: /Request/ }).click()
-      checkA11y()
-      cy.findByRole('heading', { level: 1, name: /Interactive Report/ }).should('be.visible')
-      cy.url().then((url) => {
-        viewReportUrl = url
-      })
-    })
-
-    beforeEach(() => {
-      cy.visit(viewReportUrl)
     })
 
     describe('Apply filters', () => {
-      const applyFilters = () => {
-        cy.findByRole('button', { name: 'Apply filters' }).click()
-      }
+      before(() => {
+        requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
+        cy.url().then((url) => {
+          viewReportUrl = url
+        })
+      })
+
+      beforeEach(() => {
+        cy.visit(viewReportUrl)
+      })
 
       const removeAllFilters = () => {
         for (let index = 0; index < 4; index += 1) {
@@ -459,10 +434,7 @@ context('Viewing a report', () => {
           cy.findByRole('textbox', { name: 'To' }).should('have.value', '04/05/2006')
 
           removeAllFilters()
-
-          cy.findAllByRole('group')
-            .contains(/Show filters/)
-            .click()
+          showFilters()
 
           cy.findByRole('textbox', { name: 'From' }).type('02/05/2025')
           cy.findByRole('textbox', { name: 'To' }).type('05/07/2025').blur()
@@ -474,31 +446,12 @@ context('Viewing a report', () => {
             expect(location.search).to.contain(`filters.field3.end=2025-07-05`)
           })
 
-          cy.findByLabelText(/Selected filters.*/i).within(() => {
-            cy.findAllByRole('link')
-              .should('have.length', 2)
-              .each((filter, index) => {
-                switch (index) {
-                  case 0:
-                    cy.wrap(filter).contains('Field 3')
-                    cy.wrap(filter).contains('02/05/2025 - 05/07/2025')
-                    break
-                  case 1:
-                    cy.wrap(filter).contains('Reset filters')
-                    break
-                  default:
-                    break
-                }
-              })
-          })
+          checkSelectedFilterValues({ length: 2, buttonValues: [{ key: 'Field 3', value: '02/05/2025 - 05/07/2025' }] })
         })
 
         it('should apply the relative daterange', () => {
           removeAllFilters()
-
-          cy.findAllByRole('group')
-            .contains(/Show filters/)
-            .click()
+          showFilters()
 
           cy.findByRole('tab', { name: 'Preset date ranges' }).click()
           cy.findByRole('radio', { name: 'Tomorrow' }).check()
@@ -527,23 +480,7 @@ context('Viewing a report', () => {
             expect(location.search).to.contain(`filters.field3.relative-duration=tomorrow`)
           })
 
-          cy.findByLabelText(/Selected filters.*/i).within(() => {
-            cy.findAllByRole('link')
-              .should('have.length', 2)
-              .each((filter, index) => {
-                switch (index) {
-                  case 0:
-                    cy.wrap(filter).contains('Field 3')
-                    cy.wrap(filter).contains('Tomorrow')
-                    break
-                  case 1:
-                    cy.wrap(filter).contains('Reset filters')
-                    break
-                  default:
-                    break
-                }
-              })
-          })
+          checkSelectedFilterValues({ length: 2, buttonValues: [{ key: 'Field 3', value: 'Tomorrow' }] })
         })
       })
 
@@ -559,9 +496,7 @@ context('Viewing a report', () => {
           cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
           cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
 
-          cy.findAllByRole('group')
-            .contains(/Show filters/)
-            .click()
+          showFilters()
 
           cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
           cy.findByRole('checkbox', { name: 'Value 8.3' }).check()
@@ -573,23 +508,7 @@ context('Viewing a report', () => {
           cy.findByRole('checkbox', { name: 'Value 8.3' }).should('be.checked')
           cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
 
-          cy.findByLabelText(/Selected filters.*/i).within(() => {
-            cy.findAllByRole('link')
-              .should('have.length', 2)
-              .each((filter, index) => {
-                switch (index) {
-                  case 0:
-                    cy.wrap(filter).contains('Field 8')
-                    cy.wrap(filter).contains('Value 8.1, Value 8.3')
-                    break
-                  case 1:
-                    cy.wrap(filter).contains('Reset filters')
-                    break
-                  default:
-                    break
-                }
-              })
-          })
+          checkSelectedFilterValues({ length: 2, buttonValues: [{ key: 'Field 8', value: 'Value 8.1, Value 8.3' }] })
         })
 
         it('should set the selected filter values correctly', () => {
@@ -603,9 +522,7 @@ context('Viewing a report', () => {
           cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
           cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
 
-          cy.findAllByRole('group')
-            .contains(/Show filters/)
-            .click()
+          showFilters()
 
           cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
           cy.findByRole('checkbox', { name: 'Value 8.2' }).check()
@@ -619,22 +536,374 @@ context('Viewing a report', () => {
           cy.findByRole('checkbox', { name: 'Value 8.3' }).should('be.checked')
           cy.findByRole('checkbox', { name: 'Value 8.4' }).should('be.checked')
 
-          cy.findByLabelText(/Selected filters.*/i).within(() => {
-            cy.findAllByRole('link')
-              .should('have.length', 2)
-              .each((filter, index) => {
-                switch (index) {
-                  case 0:
-                    cy.wrap(filter).contains('Field 8')
-                    cy.wrap(filter).contains('Value 8.1, Value 8.2, Value 8.3 + 1 more')
-                    break
-                  case 1:
-                    cy.wrap(filter).contains('Reset filters')
-                    break
-                  default:
-                    break
+          checkSelectedFilterValues({
+            length: 2,
+            buttonValues: [{ key: 'Field 8', value: 'Value 8.1, Value 8.2, Value 8.3 + 1 more' }],
+          })
+        })
+      })
+    })
+
+    describe('User defined interactive defaults', () => {
+      const saveDefaultsButton = () => {
+        return cy.findByRole('button', { name: 'Save current filter values as defaults' })
+      }
+      const updateDefaultsButton = () => {
+        return cy.findByRole('button', { name: 'Update defaults' })
+      }
+      const deleteDefaultsButton = () => {
+        return cy.findByRole('button', { name: 'Delete defaults' })
+      }
+
+      const checkSelectedFiltersInUserReports = ({
+        name,
+        product,
+        length,
+        selectedFilters,
+      }: {
+        name: string
+        product: string
+        length: number
+        selectedFilters: { key: string; value: string }[]
+      }) => {
+        cy.findByLabelText(/Viewed \(/).within(() => {
+          cy.findByRole('row', {
+            name: (_, element) => {
+              return element.textContent.includes(name) && element.textContent.includes(product)
+            },
+          }).within(() => {
+            cy.findAllByRole('listitem')
+              .should('have.length', length)
+              .each((li, index) => {
+                if (selectedFilters[index]) {
+                  const { key, value } = selectedFilters[index]
+                  cy.wrap(li).contains(key)
+                  cy.wrap(li).contains(value)
                 }
               })
+          })
+        })
+      }
+
+      it('should save the interactive filters correctly', () => {
+        // request the report
+        requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
+
+        // check the default filters
+        checkSelectedFilterValues({
+          length: 5,
+          buttonValues: [
+            { key: 'Field 1', value: 'Value 1.2' },
+            { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+            { key: 'Field 7', value: '01/02/2005' },
+            { key: 'Field 8', value: 'Value 8.2, Value 8.3' },
+          ],
+        })
+
+        // update the filters
+        showFilters()
+        cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
+        cy.findByRole('checkbox', { name: 'Value 8.4' }).check()
+        cy.findByRole('combobox', { name: 'Field 2' }).select('value2.2')
+        applyFilters()
+
+        const selectedFiltersButtonValues = [
+          { key: 'Field 1', value: 'Value 1.2' },
+          { key: 'Field 2', value: 'Value 2.2' },
+          { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+          { key: 'Field 7', value: '01/02/2005' },
+          { key: 'Field 8', value: 'Value 8.1, Value 8.2, Value 8.3 + 1 more' },
+        ]
+        checkSelectedFilterValues({
+          length: 6,
+          buttonValues: selectedFiltersButtonValues,
+        })
+
+        // save the filters
+        saveDefaultsButton().click()
+
+        // check for saved page furniture
+        updateDefaultsButton().should('exist')
+        deleteDefaultsButton().should('exist')
+
+        // check the selected filters
+        checkSelectedFilterValues({
+          length: 6,
+          buttonValues: selectedFiltersButtonValues,
+        })
+      })
+
+      it('should init the report with saved interactive defaults', () => {
+        // request the report
+        requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
+        cy.url().then((url) => {
+          viewReportUrl = url
+        })
+
+        // check saved defaults page furniture
+        updateDefaultsButton().should('exist')
+        deleteDefaultsButton().should('exist')
+
+        const selectedFiltersButtonValues = [
+          { key: 'Field 1', value: 'Value 1.2' },
+          { key: 'Field 2', value: 'Value 2.2' },
+          { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+          { key: 'Field 7', value: '01/02/2005' },
+          { key: 'Field 8', value: 'Value 8.1, Value 8.2, Value 8.3 + 1 more' },
+        ]
+        checkSelectedFilterValues({
+          length: 6,
+          buttonValues: selectedFiltersButtonValues,
+        })
+
+        cy.visit(path)
+        cy.findByRole('tab', { name: /Viewed/ }).click()
+        checkSelectedFiltersInUserReports({
+          name: 'Interactive Report',
+          product: 'Interactive Report',
+          length: 5,
+          selectedFilters: selectedFiltersButtonValues,
+        })
+      })
+
+      it('should reset the filter values to the saved defaults', () => {
+        cy.visit(viewReportUrl)
+
+        // check saved defaults page furniture
+        updateDefaultsButton().should('exist')
+        deleteDefaultsButton().should('exist')
+
+        const savedDefaultSelectedFilters = [
+          { key: 'Field 1', value: 'Value 1.2' },
+          { key: 'Field 2', value: 'Value 2.2' },
+          { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+          { key: 'Field 7', value: '01/02/2005' },
+          { key: 'Field 8', value: 'Value 8.1, Value 8.2, Value 8.3 + 1 more' },
+        ]
+        checkSelectedFilterValues({
+          length: 6,
+          buttonValues: savedDefaultSelectedFilters,
+        })
+
+        // apply some filters
+        showFilters()
+        cy.findByRole('checkbox', { name: 'Value 8.1' }).uncheck()
+        cy.findByRole('checkbox', { name: 'Value 8.3' }).uncheck()
+        cy.findByRole('combobox', { name: 'Field 2' }).select('value2.3')
+        applyFilters()
+
+        checkSelectedFilterValues({
+          length: 6,
+          buttonValues: [
+            { key: 'Field 1', value: 'Value 1.2' },
+            { key: 'Field 2', value: 'Value 2.3' },
+            { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+            { key: 'Field 7', value: '01/02/2005' },
+            { key: 'Field 8', value: 'Value 8.4' },
+          ],
+        })
+
+        cy.visit(path)
+        cy.findByRole('tab', { name: /Viewed/ }).click()
+        checkSelectedFiltersInUserReports({
+          name: 'Interactive Report',
+          product: 'Interactive Report',
+          length: 5,
+          selectedFilters: [
+            { key: 'Field 1', value: 'Value 1.2' },
+            { key: 'Field 2', value: 'Value 2.3' },
+            { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+            { key: 'Field 7', value: '01/02/2005' },
+            { key: 'Field 8', value: 'Value 8.4' },
+          ],
+        })
+
+        cy.visit(viewReportUrl)
+
+        cy.findByRole('link', { name: 'Reset filters' }).click()
+
+        checkSelectedFilterValues({
+          length: 6,
+          buttonValues: savedDefaultSelectedFilters,
+        })
+
+        cy.visit(path)
+        cy.findByRole('tab', { name: /Viewed/ }).click()
+        checkSelectedFiltersInUserReports({
+          name: 'Interactive Report',
+          product: 'Interactive Report',
+          length: 5,
+          selectedFilters: savedDefaultSelectedFilters,
+        })
+      })
+
+      it('should update the filter values and init the report with the updated interactive defaults', () => {
+        cy.visit(viewReportUrl)
+
+        // check saved defaults page furniture
+        updateDefaultsButton().should('exist')
+        deleteDefaultsButton().should('exist')
+
+        checkSelectedFilterValues({
+          length: 6,
+          buttonValues: [
+            { key: 'Field 1', value: 'Value 1.2' },
+            { key: 'Field 2', value: 'Value 2.2' },
+            { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+            { key: 'Field 7', value: '01/02/2005' },
+            { key: 'Field 8', value: 'Value 8.1, Value 8.2, Value 8.3 + 1 more' },
+          ],
+        })
+
+        // apply some filters
+        showFilters()
+        cy.findByRole('checkbox', { name: 'Value 8.1' }).uncheck()
+        cy.findByRole('checkbox', { name: 'Value 8.3' }).uncheck()
+        cy.findByRole('combobox', { name: 'Field 2' }).select('value2.3')
+        applyFilters()
+
+        const expectedSelectedValues = [
+          { key: 'Field 1', value: 'Value 1.2' },
+          { key: 'Field 2', value: 'Value 2.3' },
+          { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+          { key: 'Field 7', value: '01/02/2005' },
+          { key: 'Field 8', value: 'Value 8.2, Value 8.4' },
+        ]
+
+        checkSelectedFilterValues({
+          length: 6,
+          buttonValues: expectedSelectedValues,
+        })
+
+        updateDefaultsButton().click()
+
+        checkSelectedFilterValues({
+          length: 6,
+          buttonValues: expectedSelectedValues,
+        })
+
+        requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
+        cy.url().then((url) => {
+          viewReportUrl = url
+        })
+
+        // check the initial filter values match the default
+        checkSelectedFilterValues({
+          length: 6,
+          buttonValues: expectedSelectedValues,
+        })
+
+        // check saved defaults page furniture
+        updateDefaultsButton().should('exist')
+        deleteDefaultsButton().should('exist')
+
+        cy.visit(path)
+        cy.findByRole('tab', { name: /Viewed/ }).click()
+        checkSelectedFiltersInUserReports({
+          name: 'Interactive Report',
+          product: 'Interactive Report',
+          length: 5,
+          selectedFilters: expectedSelectedValues,
+        })
+      })
+
+      it('should delete the saved defaults', () => {
+        cy.visit(viewReportUrl)
+
+        checkSelectedFilterValues({
+          length: 6,
+          buttonValues: [
+            { key: 'Field 1', value: 'Value 1.2' },
+            { key: 'Field 2', value: 'Value 2.3' },
+            { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+            { key: 'Field 7', value: '01/02/2005' },
+            { key: 'Field 8', value: 'Value 8.2, Value 8.4' },
+          ],
+        })
+
+        deleteDefaultsButton().click()
+
+        // Expect DPD defaults to be applied
+        checkSelectedFilterValues({
+          length: 5,
+          buttonValues: [
+            { key: 'Field 1', value: 'Value 1.2' },
+            { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+            { key: 'Field 7', value: '01/02/2005' },
+            { key: 'Field 8', value: 'Value 8.2, Value 8.3' },
+          ],
+        })
+
+        cy.visit(path)
+        cy.findByRole('tab', { name: /Viewed/ }).click()
+        checkSelectedFiltersInUserReports({
+          name: 'Interactive Report',
+          product: 'Interactive Report',
+          length: 4,
+          selectedFilters: [
+            { key: 'Field 1', value: 'Value 1.2' },
+            { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+            { key: 'Field 7', value: '01/02/2005' },
+            { key: 'Field 8', value: 'Value 8.2, Value 8.3' },
+          ],
+        })
+      })
+
+      describe('Input types', () => {
+        describe('Relative date range', () => {
+          it('should save the relative daterange', () => {
+            // request the report
+            requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
+
+            checkSelectedFilterValues({
+              length: 5,
+              buttonValues: [
+                { key: 'Field 1', value: 'Value 1.2' },
+                { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+                { key: 'Field 7', value: '01/02/2005' },
+                { key: 'Field 8', value: 'Value 8.2, Value 8.3' },
+              ],
+            })
+
+            // update the filters
+            showFilters()
+            cy.findByRole('tab', { name: 'Preset date ranges' }).click()
+            cy.findByRole('radio', { name: 'Tomorrow' }).check()
+            applyFilters()
+
+            const expectedUpdatedSelected = [
+              { key: 'Field 1', value: 'Value 1.2' },
+              { key: 'Field 3', value: 'Tomorrow' },
+              { key: 'Field 7', value: '01/02/2005' },
+              { key: 'Field 8', value: 'Value 8.2, Value 8.3' },
+            ]
+
+            checkSelectedFilterValues({
+              length: 5,
+              buttonValues: expectedUpdatedSelected,
+            })
+
+            // save the filters
+            saveDefaultsButton().click()
+
+            // check for saved page furniture
+            updateDefaultsButton().should('exist')
+            deleteDefaultsButton().should('exist')
+
+            // check the selected filters
+            checkSelectedFilterValues({
+              length: 5,
+              buttonValues: expectedUpdatedSelected,
+            })
+
+            // request the report to check it defaults to saved
+            requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
+
+            // check the selected filters
+            checkSelectedFilterValues({
+              length: 5,
+              buttonValues: expectedUpdatedSelected,
+            })
           })
         })
       })

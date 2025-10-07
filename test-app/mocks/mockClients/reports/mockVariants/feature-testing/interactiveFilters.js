@@ -4,7 +4,7 @@ const featureTestingInteractive = {
   description: 'this is an interactive report',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
-  printable: false,
+  printable: true,
   interactive: true,
   specification: {
     template: 'list',

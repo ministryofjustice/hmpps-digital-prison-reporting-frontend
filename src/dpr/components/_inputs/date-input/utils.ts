@@ -4,7 +4,7 @@ import customParse from 'dayjs/plugin/customParseFormat'
 import { components } from '../../../types/api'
 import { DateFilterValue, FilterValue } from '../../_filters/types'
 import StartEndDatetUtils from '../start-end-date/utils'
-import { defaultFilterValue } from '../../../routes/journeys/request-report/filters/types'
+import { defaultFilterValue } from '../../../utils/Personalisation/types'
 
 dayjs.extend(customParse)
 

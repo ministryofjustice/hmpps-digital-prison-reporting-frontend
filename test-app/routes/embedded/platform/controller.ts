@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
+import { Services } from '../../../../dist/dpr/types/Services'
 import CatalogueUtils from '../../../../dist/dpr/components/_catalogue/catalogue/utils'
 import UserReportsListUtils from '../../../../dist/dpr/components/user-reports/utils'
-import { Services } from '../../../../dist-docs/dpr/types/Services'
 
 export default class PlatformController {
   services: Services

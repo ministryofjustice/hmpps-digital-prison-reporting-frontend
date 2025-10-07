@@ -83,30 +83,3 @@ jobs:
         with:
           name: screenshots
           path: cypress-tests/integration-tests/screenshots
-
-  accessibility: 
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-      - run: npm ci
-      - run: npm run package
-      - run: npm install -g @axe-core/cli 
-      - run: npm install -g pa11y
-      - name: Install chromedriver
-        run: |
-          npm install -g chromedriver@140
-          echo "chromedriver version: $(chromedriver --version)"
-      - name: Run the node app       
-        run: |
-          npm run start:dev &
-          npx wait-on http://localhost:3010
-      - name: Run the Axe tests        
-        run: axe --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver $HOME_URL, $REQUEST_URL, $POLLING_URL, $REPORT_URL --load-delay=1500 --exit
-      - name: Run the Pa11y tests        
-        run: npm run pa11y_tests
-

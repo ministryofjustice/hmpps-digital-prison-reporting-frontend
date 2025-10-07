@@ -7,6 +7,7 @@
 import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
+import flash from 'connect-flash'
 
 // middleware
 import setUpStaticResources from './middleware/setUpStaticResources'
@@ -21,12 +22,15 @@ import setUpMockSyncApis from './mocks/mockSyncData/mockSyncApis'
 import setUpBookmarks from './middleware/setUpBookmarks'
 import { Services } from 'src/dpr/types/Services'
 import setUpDprResources from 'src/dpr/middleware/setUpDprResources'
+import setUpWebSession from './middleware/setupSession'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
   nunjucksSetup(app, path)
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
+  app.use(setUpWebSession())
+  app.use(flash())
   app.use(setUpStaticResources())
   app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
   app.use(setUpMockUser())

@@ -34,7 +34,7 @@ export default class MissingReportFormController {
 
     try {
       res.render(`dpr/routes/journeys/request-missing-report/form/view`, {
-        title: 'This report is not yet available',
+        title: 'This report is not available',
         report: {
           reportId,
           variantId,
@@ -54,12 +54,12 @@ export default class MissingReportFormController {
 
   POST: RequestHandler = async (req, res, next) => {
     const { body } = req
-    const { reportId, variantId, reportName, variantName } = body
+    const { reportId, variantId, reportName, variantName, 'more-detail': requestDetails } = body
 
     const { token } = LocalsHelper.getValues(res)
 
     await this.missingReportClient
-      .submitMissingReportEntry(token, reportId, variantId, body)
+      .submitMissingReportEntry(token, reportId, variantId, requestDetails)
       .then(
         () => {
           const queryParams = `reportName=${reportName}&name=${variantName}&reportId=${reportId}&variantId=${variantId}`

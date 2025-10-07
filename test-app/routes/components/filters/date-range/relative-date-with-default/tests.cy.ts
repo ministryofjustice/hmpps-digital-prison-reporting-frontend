@@ -42,9 +42,7 @@ context('Inputs: Relative date range with defaults', () => {
         })
       })
 
-      cy.findByRole('button', { name: 'Save current filter values as defaults for this report' })
-        .should('exist')
-        .click()
+      cy.findByRole('button', { name: 'Save current filter values as defaults' }).should('exist').click()
 
       checkA11y()
 

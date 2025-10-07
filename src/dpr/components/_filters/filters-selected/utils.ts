@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import { Request } from 'express'
 import { FilterType } from '../filter-input/enum'
 import {
   FilterValue,
@@ -12,6 +11,7 @@ import {
 } from '../types'
 import DateRangeFilterUtils from '../../_inputs/date-range/utils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
+import Dict = NodeJS.Dict
 
 const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
   const emptyValues: (string | undefined | null)[] = [undefined, null, '']
@@ -282,12 +282,13 @@ const disabledDate = (f: DateFilterValue, value: (string | DateRange)[], display
   }
 }
 
-const getQuerySummary = (req: Request, filters: FilterValue[]) => {
-  const { query } = req
+const getQuerySummary = (reqQuery: Dict<string>, filters: FilterValue[]) => {
   const prefix = 'filters.'
 
   return filters
-    .filter((f) => query[`filters.${f.name}`] || query[`filters.${f.name}.start`] || query[`filters.${f.name}.end`])
+    .filter(
+      (f) => reqQuery[`filters.${f.name}`] || reqQuery[`filters.${f.name}.start`] || reqQuery[`filters.${f.name}.end`],
+    )
     .map((f) => {
       let { value } = f
 
@@ -301,6 +302,10 @@ const getQuerySummary = (req: Request, filters: FilterValue[]) => {
         f.type.toLowerCase() === FilterType.select.toLowerCase()
       ) {
         value = <string>getOptionsValue(<FilterValueWithOptions>f, prefix).displayValue
+      }
+
+      if (f.type.toLowerCase() === FilterType.date.toLowerCase()) {
+        value = setDateDisplayFormat(<string>f.value)
       }
 
       if (f.type.toLowerCase() === FilterType.dateRange.toLowerCase()) {

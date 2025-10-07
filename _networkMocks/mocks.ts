@@ -8,7 +8,7 @@ export const pollingEndpoint = generateNetworkMock({
   request: {
     ...defaultMockRequest.request,
     method: 'POST',
-    urlPathPattern: `/view-report/async/(report|dashboard)/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tblId_[0-9]+/report`,
+    urlPathPattern: `/view-report/async/(report|dashboard)/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tblId_[0-9]+/(report|dashboard)`,
   },
   response: {
     ...defaultMockRequest.response,

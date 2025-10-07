@@ -143,7 +143,6 @@ export interface RequestFormData {
   variantId?: string
   template?: string
   metrics?: { name: string }[]
-  defaultInteractiveQueryString: string
 }
 
 export enum LoadType {

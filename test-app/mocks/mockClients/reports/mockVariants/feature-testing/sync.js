@@ -27,7 +27,7 @@ const featureTestingSync = {
           ],
           defaultValue: 'value1.2',
           mandatory: false,
-          interactive: false,
+          interactive: true,
         },
       },
       {
@@ -45,7 +45,7 @@ const featureTestingSync = {
             { name: 'value2.3', display: 'Value 2.3' },
           ],
           mandatory: true,
-          interactive: false,
+          interactive: true,
         },
       },
       {
@@ -61,7 +61,7 @@ const featureTestingSync = {
           min: '2003-02-01',
           max: '2007-05-04',
           mandatory: true,
-          interactive: false,
+          interactive: true,
         },
       },
       {
@@ -84,7 +84,7 @@ const featureTestingSync = {
             { name: 'Westley', display: 'Westley' },
           ],
           mandatory: false,
-          interactive: false,
+          interactive: true,
         },
       },
       {
@@ -104,7 +104,7 @@ const featureTestingSync = {
         visible: true,
         filter: {
           type: 'text',
-          interactive: false,
+          interactive: true,
         },
       },
       {
@@ -119,7 +119,7 @@ const featureTestingSync = {
           defaultValue: '2005-02-01',
           min: '2003-02-01',
           max: '2007-05-04',
-          interactive: false,
+          interactive: true,
         },
       },
     ],

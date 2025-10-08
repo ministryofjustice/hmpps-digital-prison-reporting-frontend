@@ -56,7 +56,7 @@
       {% endset %}
 
       {{ govukDetails({
-        summaryText: type + ' details',
+        summaryText: type | capitalize + ' details',
         html: reportDetailsHtml,
         classes: 'dpr-meta-data-details',
         open: detailsOpen

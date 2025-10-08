@@ -32,7 +32,7 @@ To learn more about defining the data for the visualisation using the `columns` 
 
 ## Define dataset columns as bar labels
 
-In this example we will define the which dataset columns to use in the bar chart as follows:
+In this example we will define which dataset columns to use in the bar chart as follows:
 
 - each column will be new bar in the chart
 - the column value will be represented as the size of the bar

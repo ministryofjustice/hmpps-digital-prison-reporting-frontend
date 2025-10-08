@@ -78,24 +78,25 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
   )
 
   // Get the filters
-  const filters = await FilterUtils.getFilters({
+  const filtersData = await FilterUtils.getFilters({
     fields: dashboardDefinition.filterFields || [],
     req,
-    interactive: true,
     filtersType: FiltersType.INTERACTIVE,
   })
+
+  const filtersQuery = FilterUtils.setRequestQueryFromFilterValues(filtersData.filters)
 
   // Create the query
   const query = new ReportQuery({
     fields: dashboardDefinition.filterFields || [],
-    queryParams: req.query,
+    queryParams: filtersQuery,
     definitionsPath: <string>dataProductDefinitionsPath,
     reportType: ReportType.DASHBOARD,
   }).toRecordWithFilterPrefix(true)
 
   return {
     query,
-    filters,
+    filters: filtersData,
     dashboardDefinition,
     reportDefinition,
   }

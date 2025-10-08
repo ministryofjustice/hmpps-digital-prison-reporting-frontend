@@ -51,20 +51,16 @@
       {{ dprDownloadMessage(reportData) }}
     {% endif %}
 
-    {% if type === 'report' or type is not defined %}
-
       {% set reportDetailsHtml %}
         {{ dprRequestDetails(reportData)}}
       {% endset %}
 
       {{ govukDetails({
-        summaryText: 'Report details',
+        summaryText: type | capitalize + ' details',
         html: reportDetailsHtml,
         classes: 'dpr-meta-data-details',
         open: detailsOpen
       }) }}
-
-    {% endif %}
 
     {% if type === 'dashboard' %}
 

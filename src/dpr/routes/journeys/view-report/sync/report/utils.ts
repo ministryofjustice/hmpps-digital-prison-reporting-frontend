@@ -103,7 +103,7 @@ const setAsRecentlyViewed = async ({
 
   const interactiveQueryData: { query: Dict<string>; querySummary: Array<Dict<string>> } = {
     query: <Dict<string>>req.query,
-    querySummary: SelectedFiltersUtils.getQuerySummary(req, filters),
+    querySummary: SelectedFiltersUtils.getQuerySummary(<Dict<string>>req.query, filters),
   }
 
   const recentlyViewedData = new UserStoreItemBuilder(stateData)

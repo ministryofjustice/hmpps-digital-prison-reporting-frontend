@@ -81,7 +81,6 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
   const filters = await FilterUtils.getFilters({
     fields: dashboardDefinition.filterFields || [],
     req,
-    interactive: true,
     filtersType: FiltersType.INTERACTIVE,
   })
 

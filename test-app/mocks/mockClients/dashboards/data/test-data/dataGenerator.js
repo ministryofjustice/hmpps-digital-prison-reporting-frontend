@@ -15,6 +15,8 @@ const baseData = {
 }
 
 const generateData = (query) => {
+  console.log(JSON.stringify({ query }, null, 2))
+
   const { establishmentId, wing: wingFilter, timestamps } = extractQueryAndCreateTimestamps(query)
   const wings = ['north', 'south', 'east', 'west']
   const dietValues = ['Vegetarian', 'Pescatarian', 'Vegan', 'Omnivore']

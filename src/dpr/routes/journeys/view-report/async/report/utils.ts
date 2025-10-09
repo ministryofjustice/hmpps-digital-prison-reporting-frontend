@@ -100,6 +100,8 @@ const initReportQuery = async (
   // Filters
   const filtersQuery = ReportFiltersUtils.setRequestQueryFromFilterValues(filtersData.filters)
 
+  console.log(JSON.stringify({ filtersQuery }, null, 2))
+
   const queryParams = {
     ...(sortColumn && { sortColumn }),
     ...(sortedAsc && { sortedAsc }),

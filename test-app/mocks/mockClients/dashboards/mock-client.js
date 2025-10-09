@@ -122,6 +122,7 @@ const getData = (def, dashboardId, query) => {
       'chart-examples-diet-totals-historic',
       'chart-examples-diet-totals-historic-flexible',
       'scorecard-examples-diet-totals',
+      'matrix-examples-diet-totals-historic',
     ].includes(dashboardId)
   ) {
     return TestDataHelper.generateData(query)

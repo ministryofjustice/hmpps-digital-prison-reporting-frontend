@@ -78,18 +78,22 @@ export interface DateRange {
 }
 
 export interface GranularDateRange extends DateRange {
-  granularity: {
-    value: Granularity
-    display: string
-  }
-  quickFilter?: {
-    value: QuickFilters
-    display: string
-  }
+  granularity: GranularDateRangeGranularityValue
+  quickFilter?: GranularDateRangeQuickFilterValue
   partialDate?: {
     start: boolean
     end: boolean
   }
+}
+
+interface GranularDateRangeGranularityValue {
+  value: Granularity
+  display: string
+}
+
+interface GranularDateRangeQuickFilterValue {
+  value: QuickFilters
+  display: string
 }
 
 export interface FilterOptions {

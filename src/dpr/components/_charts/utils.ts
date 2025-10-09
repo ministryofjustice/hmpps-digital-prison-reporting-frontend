@@ -18,7 +18,11 @@ import DatasetHelper from '../../utils/datasetHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 
 const createChart = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]): ChartCardData => {
-  const timeseriesChartTypes = [DashboardVisualisationType.BAR_TIMESERIES, DashboardVisualisationType.LINE_TIMESERIES]
+  const timeseriesChartTypes = [
+    DashboardVisualisationType.BAR_TIMESERIES,
+    DashboardVisualisationType.LINE_TIMESERIES,
+    DashboardVisualisationType.MATRIX,
+  ]
   const { type } = chartDefinition
 
   let table: MoJTable

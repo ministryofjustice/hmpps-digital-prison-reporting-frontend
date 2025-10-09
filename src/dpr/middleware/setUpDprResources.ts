@@ -64,9 +64,17 @@ export const populateDefinitions = async (services: Services, req: Request, res:
   res.locals.pathSuffix = `?dataProductDefinitionsPath=${res.locals.definitionsPath}`
 
   if (token && services.reportingService) {
-    logger.info(`Started getting defs in populateDefinitions for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
+    logger.info(
+      `Started getting defs in populateDefinitions for user: ${
+        res.locals.dprUser && JSON.stringify(res.locals.dprUser)
+      }`,
+    )
     res.locals.definitions = await services.reportingService.getDefinitions(token, res.locals.definitionsPath)
-    logger.info(`Finished getting defs in populateDefinitions for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
+    logger.info(
+      `Finished getting defs in populateDefinitions for user: ${
+        res.locals.dprUser && JSON.stringify(res.locals.dprUser)
+      }`,
+    )
   }
 }
 
@@ -102,7 +110,11 @@ export const populateRequestedReports = async (services: Services, res: Response
             return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
           })
     }
-    logger.info(`Finished getting requested/recent/bookmarks for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
+    logger.info(
+      `Finished getting requested/recent/bookmarks for user: ${
+        res.locals.dprUser && JSON.stringify(res.locals.dprUser)
+      }`,
+    )
     if (services.downloadPermissionService) {
       res.locals.downloadingEnabled = true
     }

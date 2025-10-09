@@ -98,11 +98,15 @@ export default {
     reportingService: ReportingService,
     token: string,
     definitionPath: string,
-    res: Response
+    res: Response,
   ) => {
-    logger.info(`Started getting defs in getReportSummary for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
+    logger.info(
+      `Started getting defs in getReportSummary for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`,
+    )
     const definitions = await reportingService.getDefinitions(token, definitionPath)
-    logger.info(`Finished getting defs in getReportSummary for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
+    logger.info(
+      `Finished getting defs in getReportSummary for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`,
+    )
     return definitions.find((def) => def.id === reportId)
   },
 }

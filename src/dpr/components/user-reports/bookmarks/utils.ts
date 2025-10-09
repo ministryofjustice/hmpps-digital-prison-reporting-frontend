@@ -90,7 +90,9 @@ const mapBookmarkIdsToDefinition = async (
   token: string,
   services: Services,
 ): Promise<BookmarkedReportData[]> => {
-  logger.info(`Started mapBookmarkIdsToDefinition for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
+  logger.info(
+    `Started mapBookmarkIdsToDefinition for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`,
+  )
   const bookmarkData: BookmarkedReportData[] = []
   const { definitionsPath } = LocalsHelper.getValues(res)
 
@@ -107,7 +109,11 @@ const mapBookmarkIdsToDefinition = async (
         let reportName
         let loadType = LoadType.ASYNC
         const href = setInitialHref(loadType, reportType, reportId, bookmarkId, res)
-        logger.info(`Started getting a def in mapBookmarkIdsToDefinition for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
+        logger.info(
+          `Started getting a def in mapBookmarkIdsToDefinition for user: ${
+            res.locals.dprUser && JSON.stringify(res.locals.dprUser)
+          }`,
+        )
         if (reportType === ReportType.REPORT) {
           definition = await services.reportingService.getDefinition(token, reportId, bookmarkId, definitionsPath)
           reportName = definition.name
@@ -131,7 +137,11 @@ const mapBookmarkIdsToDefinition = async (
           description = definition.description
         }
 
-        logger.info(`Finished getting a def in mapBookmarkIdsToDefinition for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
+        logger.info(
+          `Finished getting a def in mapBookmarkIdsToDefinition for user: ${
+            res.locals.dprUser && JSON.stringify(res.locals.dprUser)
+          }`,
+        )
 
         if (definition) {
           bookmarkData.push({

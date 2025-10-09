@@ -101,7 +101,7 @@ const createQueryParamsFromFormData = ({
   Object.keys(formData).forEach((key) => {
     const value = formData[key]
 
-    if (value) {
+    if (value && key !== '_csrf') {
       const fieldId = key.split('.')[1] // filters are prefixed with 'filters.'
       if (fieldId) {
         const filter = definitionUtils.getFilter(fields, fieldId)

@@ -35,6 +35,7 @@ export default function setUpBookmarks(services: Services): RequestHandler {
           services,
           automaticBookmarkConfig.caseloads,
         )
+        logger.info(`Initialised bookmarks for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
       }
       res.locals.bookmarksInitialised = true
       return next()

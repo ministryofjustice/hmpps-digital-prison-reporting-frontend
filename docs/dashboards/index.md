@@ -2,6 +2,8 @@
 layout: layouts/dashboards.njk
 title: Dashboards
 ---
+🚧 This section is a work in progress 🚧
+
 A dashboard a collection of things. The role of the dashboard is present data in easy to digest slices, through the use of various [visualisation types](#visualisations).
 
 ## Structure

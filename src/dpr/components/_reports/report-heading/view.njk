@@ -21,6 +21,7 @@
   {% set filterData = reportData.filterData %}
   {% set count = reportData.count %}
   {% set nestedBaseUrl = reportData.nestedBaseUrl %}
+  {% set csrfToken = reportData.csrfToken %}
 
   <div class="dpr-report-header">
     {% if actions or bookmarked is defined %}
@@ -31,7 +32,6 @@
 
       {% if bookmarked is defined %}
         {% set id = reportData.id %}
-        {% set csrfToken = reportData.csrfToken %}
         {% set actions = reportData.actions %}
         
         {{ dprBookmarkToggle(reportId, id, csrfToken, bookmarked, 'report', type, nestedBaseUrl) }}
@@ -78,7 +78,7 @@
         {{ dprReportColumns(columns) }}
       {% endif %}
 
-      {{ dprReportFilters(filterData, defaultQuery) }}
+      {{ dprReportFilters(filterData, defaultQuery, csrfToken) }}
     </div>
   </div>
 {% endmacro %}

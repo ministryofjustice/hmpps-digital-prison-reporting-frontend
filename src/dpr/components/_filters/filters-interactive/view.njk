@@ -14,6 +14,7 @@
   {% set prefix = templateArgs.prefix %}
   {% set defaultQuery = templateArgs.defaultQuery %}
   {% set defaultsSaved = templateArgs.defaultsSaved %}
+  {% set csrfToken = templateArgs.csrfToken %}
 
   <div class='dpr-interactive-filters-section'>
     {{ dprSelectedFilters(selectedFilters, { 
@@ -36,7 +37,8 @@
             formId: 'interactive-filters-form',
             submitId: 'interactive-apply-filters-button',
             defaultQuery: defaultQuery,
-            reportType: reportType
+            reportType: reportType,
+            csrfToken: csrfToken 
           }) }}
         </div>
       </div>

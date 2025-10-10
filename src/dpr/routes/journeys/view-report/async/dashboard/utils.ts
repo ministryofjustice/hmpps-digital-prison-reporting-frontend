@@ -85,11 +85,7 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
     filtersType: FiltersType.INTERACTIVE,
   })
 
-  console.log(JSON.stringify({ filtersData }, null, 2))
-
   const filtersQuery = FilterUtils.setRequestQueryFromFilterValues(filtersData.filters)
-
-  console.log(JSON.stringify({ filtersQuery }, null, 2))
 
   // Create the query
   const query = new ReportQuery({
@@ -98,8 +94,6 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
     definitionsPath: <string>dataProductDefinitionsPath,
     reportType: ReportType.DASHBOARD,
   }).toRecordWithFilterPrefix(true)
-
-  console.log(JSON.stringify({ query }, null, 2))
 
   return {
     query,
@@ -138,16 +132,25 @@ const getSections = (
 
         case DashboardVisualisationType.BAR:
         case DashboardVisualisationType.LINE:
-        case DashboardVisualisationType.MATRIX:
-        case DashboardVisualisationType.BAR_TIMESERIES:
-        case DashboardVisualisationType.LINE_TIMESERIES:
         case DashboardVisualisationType.DONUT: {
           data = ChartUtils.createChart(visDefinition, dashboardData)
+          break
+        }
+        case DashboardVisualisationType.MATRIX:
+        case DashboardVisualisationType.MATRIX_TIMESERIES: {
+          data = ChartUtils.createMatrixChart(visDefinition, dashboardData)
+          break
+        }
+        case DashboardVisualisationType.BAR_TIMESERIES:
+        case DashboardVisualisationType.LINE_TIMESERIES: {
+          data = ChartUtils.createTimeseriesCharts(visDefinition, dashboardData)
           break
         }
         default:
           break
       }
+
+      console.log(JSON.stringify({ data }, null, 2))
 
       return {
         id: visId,

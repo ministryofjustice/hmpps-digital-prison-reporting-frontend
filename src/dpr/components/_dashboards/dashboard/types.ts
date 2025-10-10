@@ -53,6 +53,7 @@ export enum DashboardVisualisationType {
   BAR = 'bar',
   LINE = 'line',
   MATRIX = 'matrix',
+  MATRIX_TIMESERIES = 'matrix-timeseries',
   BAR_TIMESERIES = 'bar-timeseries',
   LINE_TIMESERIES = 'line-timeseries',
   SCORECARD = 'scorecard',

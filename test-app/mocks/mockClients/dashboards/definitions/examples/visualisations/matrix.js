@@ -1,6 +1,6 @@
 const dietTotalsVegetarianOvertime = {
   id: 'diet-totals-vegetarian-overtime',
-  type: 'matrix',
+  type: 'matrix-timeseries',
   display: 'Vegetarian totals over time matrix chart',
   description: '',
   showLatest: false,

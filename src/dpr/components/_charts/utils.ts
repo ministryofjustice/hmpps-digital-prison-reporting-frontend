@@ -18,11 +18,7 @@ import DatasetHelper from '../../utils/datasetHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 
 const createChart = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]): ChartCardData => {
-  const timeseriesChartTypes = [
-    DashboardVisualisationType.BAR_TIMESERIES,
-    DashboardVisualisationType.LINE_TIMESERIES,
-    DashboardVisualisationType.MATRIX,
-  ]
+  const timeseriesChartTypes = [DashboardVisualisationType.BAR_TIMESERIES, DashboardVisualisationType.LINE_TIMESERIES]
   const { type } = chartDefinition
 
   let table: MoJTable
@@ -52,8 +48,49 @@ const createChart = (chartDefinition: DashboardVisualisation, rawData: Dashboard
   }
 }
 
+const createTimeseriesCharts = (
+  chartDefinition: DashboardVisualisation,
+  rawData: DashboardDataResponse[],
+): ChartCardData => {
+  let table: MoJTable
+  let chart: ChartData
+  let details: ChartDetails
+
+  const { latestData, dataSetRows, timeseriesData } = getDataForTimeseriesCharts(chartDefinition, rawData)
+  if (dataSetRows.length) {
+    chart = createTimeseriesChart(chartDefinition, timeseriesData)
+    table = createTimeseriesTable(chartDefinition, timeseriesData)
+    details = getChartDetails(chartDefinition, latestData, true)
+  }
+  return {
+    details,
+    table,
+    chart,
+  }
+}
+
+const createMatrixChart = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]) => {
+  let table: MoJTable
+  let chart: ChartData
+  let details: ChartDetails
+
+  const { latestData, dataSetRows, timeseriesData } = getDataForTimeseriesCharts(chartDefinition, rawData)
+  if (dataSetRows.length) {
+    chart = createTimeseriesMatrixChart(chartDefinition, timeseriesData)
+    table = createTimeseriesTable(chartDefinition, timeseriesData)
+    details = getChartDetails(chartDefinition, latestData, true)
+  }
+  return {
+    details,
+    table,
+    chart,
+  }
+}
+
 export default {
   createChart,
+  createTimeseriesCharts,
+  createMatrixChart,
 }
 
 const getDataForSnapshotCharts = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]) => {
@@ -246,6 +283,52 @@ const createSnapshotTable = (chartDefinition: DashboardVisualisation, data: Dash
   }
 }
 
+const createTimeseriesMatrixChart = (
+  chartDefinition: DashboardVisualisation,
+  timeseriesData: DashboardDataResponse[],
+): ChartData => {
+  const { columns } = chartDefinition
+  const { keys, measures } = columns
+
+  const unit = measures[0].unit ? measures[0].unit : undefined
+  const type = chartDefinition.type.split('-')[0]
+  const groupKey = DatasetHelper.getGroupKey(keys, timeseriesData)
+  const labelId = groupKey.id as keyof DashboardDataResponse
+
+  const timeBlockData = DatasetHelper.groupRowsByTimestamp(timeseriesData)
+
+  // Create x & y labels
+  const labels = timeBlockData.map((d: DashboardDataResponse[]) => d[0].ts.raw as unknown as string)
+  const datasetCount = timeBlockData[0].length
+
+  console.log(JSON.stringify({ timeBlockData }, null, 2))
+
+  const datasets: ChartDataset[] = []
+  for (let index = 0; index < datasetCount; index += 1) {
+    const data = timeBlockData.map((timeperiod) => {
+      return +timeperiod[index][measures[1].id].raw
+    })
+    const total = data.reduce((a, c) => a + c, 0)
+    const label = timeBlockData[0][index][labelId].raw as string
+
+    datasets.push({
+      data,
+      label,
+      total,
+    })
+  }
+
+  return {
+    type: type as unknown as ChartType,
+    unit,
+    timeseries: true,
+    data: {
+      labels,
+      datasets,
+    },
+  }
+}
+
 const createTimeseriesChart = (
   chartDefinition: DashboardVisualisation,
   timeseriesData: DashboardDataResponse[],
@@ -254,9 +337,7 @@ const createTimeseriesChart = (
   const { keys, measures } = columns
 
   const unit = measures[0].unit ? measures[0].unit : undefined
-
-  const type = chartDefinition.type === DashboardVisualisationType.BAR_TIMESERIES ? 'bar' : 'line'
-
+  const type = chartDefinition.type.split('-')[0]
   const groupKey = DatasetHelper.getGroupKey(keys, timeseriesData)
   const labelId = groupKey.id as keyof DashboardDataResponse
 

@@ -2,6 +2,7 @@
   .dpr-button-link {
     all: unset;
     display: inline-block;
+    font-family: "GDS Transport", arial, sans-serif;
     position: relative;
     text-decoration: underline;
     text-decoration-thickness: max(1px, .0625rem);
@@ -14,6 +15,7 @@
     &:hover {
       all: unset;
       display: inline-block;
+      font-family: "GDS Transport", arial, sans-serif;
       position: relative;
       cursor: pointer;
       background-color: none;

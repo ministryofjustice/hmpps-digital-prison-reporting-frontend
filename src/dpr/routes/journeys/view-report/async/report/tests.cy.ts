@@ -541,6 +541,31 @@ context('Viewing a report', () => {
             buttonValues: [{ key: 'Field 8', value: 'Value 8.1, Value 8.2, Value 8.3 + 1 more' }],
           })
         })
+
+        it('should set the values correctly when only one checkbox selected', () => {
+          removeAllFilters()
+
+          cy.findByRole('checkbox', { name: 'Value 8.1' }).should('not.be.checked')
+          cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
+          cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
+          cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
+
+          showFilters()
+
+          cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
+
+          applyFilters()
+
+          cy.findByRole('checkbox', { name: 'Value 8.1' }).should('be.checked')
+          cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
+          cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
+          cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
+
+          checkSelectedFilterValues({
+            length: 2,
+            buttonValues: [{ key: 'Field 8', value: 'Value 8.1' }],
+          })
+        })
       })
     })
 

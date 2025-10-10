@@ -101,7 +101,7 @@ const createQueryParamsFromFormData = ({
   Object.keys(formData).forEach((key) => {
     const value = formData[key]
 
-    if (value) {
+    if (value && key !== '_csrf') {
       const fieldId = key.split('.')[1] // filters are prefixed with 'filters.'
       if (fieldId) {
         const filter = definitionUtils.getFilter(fields, fieldId)
@@ -123,13 +123,15 @@ const createQueryParamsFromFormData = ({
               }
               break
 
-            // MULTIVALUE TYPES: string[]
+            // MULTIVALUE TYPES: string[] || string if only one value selected
             case FilterType.multiselect.toLocaleLowerCase():
-              {
+              if (Array.isArray(value)) {
                 const multiselectValue = <string[]>value
                 multiselectValue.forEach((v: string) => {
                   params.append(key, v)
                 })
+              } else {
+                params.append(key, <string>value)
               }
               break
 

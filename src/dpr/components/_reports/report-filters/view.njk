@@ -1,11 +1,11 @@
 {% from "../../_filters/filters-interactive/view.njk" import dprInteractiveFilters %}
 
-{% macro dprReportFilters(filterData, defaultQuery, prefix) %}
+{% macro dprReportFilters(filterData, defaultQuery, csrfToken) %}
     {% set templateArgs = {
       defaultQuery: defaultQuery,
-      prefix: prefix,
       reportType: 'report',
-      hasDefaults: filterData.hasDefaults
+      hasDefaults: filterData.hasDefaults,
+      csrfToken: csrfToken
     }%}
     
     {% if filterData.filters.length %}

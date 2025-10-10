@@ -541,6 +541,31 @@ context('Viewing a report', () => {
             buttonValues: [{ key: 'Field 8', value: 'Value 8.1, Value 8.2, Value 8.3 + 1 more' }],
           })
         })
+
+        it('should set the values correctly when only one checkbox selected', () => {
+          removeAllFilters()
+
+          cy.findByRole('checkbox', { name: 'Value 8.1' }).should('not.be.checked')
+          cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
+          cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
+          cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
+
+          showFilters()
+
+          cy.findByRole('checkbox', { name: 'Value 8.1' }).check()
+
+          applyFilters()
+
+          cy.findByRole('checkbox', { name: 'Value 8.1' }).should('be.checked')
+          cy.findByRole('checkbox', { name: 'Value 8.2' }).should('not.be.checked')
+          cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
+          cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
+
+          checkSelectedFilterValues({
+            length: 2,
+            buttonValues: [{ key: 'Field 8', value: 'Value 8.1' }],
+          })
+        })
       })
     })
 
@@ -906,6 +931,52 @@ context('Viewing a report', () => {
             })
           })
         })
+      })
+    })
+
+    describe('Sorting', () => {
+      before(() => {
+        requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
+        cy.url().then((url) => {
+          viewReportUrl = url
+        })
+      })
+
+      beforeEach(() => {
+        cy.visit(viewReportUrl)
+      })
+
+      it('should show the sort direction in the column header and the url', () => {
+        cy.findByRole('link', { name: 'Field 1' }).should('have.class', 'data-table-header-button-sort-ascending')
+        cy.findByRole('link', { name: 'Field 2' }).should('have.class', 'data-table-header-button-sort-none')
+
+        cy.findByRole('link', { name: 'Field 1' }).click()
+        cy.location().should((location) => {
+          expect(location.search).to.contain(`&sortColumn=field1&sortedAsc=false`)
+        })
+        cy.findByRole('link', { name: 'Field 1' }).should('have.class', 'data-table-header-button-sort-descending')
+        cy.findByRole('link', { name: 'Field 2' }).should('have.class', 'data-table-header-button-sort-none')
+
+        cy.findByRole('link', { name: 'Field 1' }).click()
+        cy.location().should((location) => {
+          expect(location.search).to.contain(`&sortColumn=field1&sortedAsc=true`)
+        })
+        cy.findByRole('link', { name: 'Field 1' }).should('have.class', 'data-table-header-button-sort-ascending')
+        cy.findByRole('link', { name: 'Field 2' }).should('have.class', 'data-table-header-button-sort-none')
+
+        cy.findByRole('link', { name: 'Field 2' }).click()
+        cy.location().should((location) => {
+          expect(location.search).to.contain(`&sortColumn=field2&sortedAsc=true`)
+        })
+        cy.findByRole('link', { name: 'Field 2' }).should('have.class', 'data-table-header-button-sort-ascending')
+        cy.findByRole('link', { name: 'Field 1' }).should('have.class', 'data-table-header-button-sort-none')
+
+        cy.findByRole('link', { name: 'Field 2' }).click()
+        cy.location().should((location) => {
+          expect(location.search).to.contain(`&sortColumn=field2&sortedAsc=false`)
+        })
+        cy.findByRole('link', { name: 'Field 2' }).should('have.class', 'data-table-header-button-sort-descending')
+        cy.findByRole('link', { name: 'Field 1' }).should('have.class', 'data-table-header-button-sort-none')
       })
     })
   })

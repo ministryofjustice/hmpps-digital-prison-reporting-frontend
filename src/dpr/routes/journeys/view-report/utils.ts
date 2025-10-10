@@ -123,13 +123,15 @@ const createQueryParamsFromFormData = ({
               }
               break
 
-            // MULTIVALUE TYPES: string[]
+            // MULTIVALUE TYPES: string[] || string if only one value selected
             case FilterType.multiselect.toLocaleLowerCase():
-              {
+              if (Array.isArray(value)) {
                 const multiselectValue = <string[]>value
                 multiselectValue.forEach((v: string) => {
                   params.append(key, v)
                 })
+              } else {
+                params.append(key, <string>value)
               }
               break
 

@@ -189,7 +189,7 @@ const setUserContextDefaults = (res: Response, filters: FilterValue[]) => {
     if (
       filter.type.toLocaleLowerCase() === FilterType.autocomplete.toLocaleLowerCase() &&
       filter.text.toLocaleLowerCase().includes('establishment') &&
-      activeCaseLoadId.length
+      activeCaseLoadId?.length
     ) {
       const f = <FilterValueWithOptions>filter
       const option = f.options.find((opt) => opt.value === activeCaseLoadId)

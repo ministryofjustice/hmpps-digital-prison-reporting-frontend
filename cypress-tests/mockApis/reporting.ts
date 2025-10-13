@@ -9,7 +9,7 @@ import { featureTestingMissing1 } from '@networkMocks/report/mockVariants/featur
 import { variant15 as relativeDateRange } from '@networkMocks/report/mockVariants/filter-input-examples/relativeDateRange'
 import { variant15 as relativeDateRangeWithDefaults } from '@networkMocks/report/mockVariants/filter-input-examples/relativeDateRangeWithDefaults'
 import { cancelAsyncRequestMock, getAsyncInteractiveCountMock, getAsyncReportResultMock, getAsyncReportResultMockMissingData, getReportResultCountMock, getReportStatusMock, reportsAbortedStatusMock, reportsExpiredStatusMock, reportsFailedStatusMock, reportsFinishedStatusMock, reportsPickedStatusMock, reportsReadyStatusMock, reportsStartedStatusMock, reportsSubmittedStatusMock, requestAsyncReportMock, setupSimpleReportDefinitionResponseMock } from '@networkMocks/report/mocks'
-import { getDefinitionSummaries, pollingEndpoint } from '@networkMocks/mocks'
+import { generateIndividualDefinitionSummaries, getDefinitionSummaries, pollingEndpoint } from '@networkMocks/mocks'
 import { generateNetworkMock, stubFor } from '@networkMocks/generateNetworkMock'
 import { missingReportSubmitFailMock, missingReportSubmitSuccessMock } from '@networkMocks/report/missingReport/mocks'
 import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/feature-testing/unprintable'
@@ -130,6 +130,7 @@ const stubs = {
   stubDefinitionSyncReport: () => stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingSync)),
   stubSyncRequestDataSuccess: () => stubFor(getListWithWarnings),
   stubSyncRequestDataSuccessCount: () => stubFor(getListWithWarningsCount),
+  stubSingleSummaries: () => Promise.all(generateIndividualDefinitionSummaries.map(stubFor)),
 }
 
 export default stubs

@@ -64,7 +64,7 @@ const getDefaultValues = async (
 
         switch (filterType) {
           case FilterType.multiselect.toLocaleLowerCase():
-            value = k.value.join(',')
+            value = Array.isArray(k.value) ? k.value.join(',') : k.value
             break
 
           case FilterType.dateRange.toLocaleLowerCase():

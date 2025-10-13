@@ -82,11 +82,11 @@ export default class BookmarkService extends ReportStoreService {
   }) {
     let tooltip = 'Add bookmark'
     let automatic = false
-    let checked = false
+    let checked = null
     if (userConfig?.bookmarks) {
       const bookmark = this.getBookmark(userConfig, id, reportId)
-      checked = Boolean(bookmark)
       if (bookmark) {
+        checked = 'checked'
         tooltip = 'Remove bookmark'
         automatic = bookmark.automatic
       }

@@ -8,6 +8,7 @@ import logger from '../../../utils/logger'
 import DefinitionUtils from '../../../utils/definitionUtils'
 import { createListItemProduct, createListActions, setInitialHref } from '../../../utils/reportListsHelper'
 import LocalsHelper from '../../../utils/localsHelper'
+import { ReportStoreConfig } from '../../../types/ReportStore'
 
 export const formatBookmarks = async (bookmarksData: BookmarkedReportData[]): Promise<FormattedUserReportData[]> => {
   return bookmarksData
@@ -38,11 +39,12 @@ const formatTable = async (
   userId: string,
   maxRows?: number,
 ) => {
+  const userConfig = await bookmarkService.getState(userId)
   const rows = await Promise.all(
     bookmarksData
       .sort((a, b) => a.name.localeCompare(b.name))
       .map(async (bookmark: BookmarkedReportData) => {
-        return formatTableData(bookmark, bookmarkService, csrfToken, userId)
+        return formatTableData(bookmark, bookmarkService, csrfToken, userConfig)
       }),
   )
 
@@ -60,11 +62,11 @@ const formatTableData = async (
   bookmarksData: BookmarkedReportData,
   bookmarkService: BookmarkService,
   csrfToken: string,
-  userId: string,
+  userConfig: ReportStoreConfig,
 ) => {
   const { description, reportName, reportId, id, href, name, type, loadType } = bookmarksData
   const bookmarkHtml = await bookmarkService.createBookMarkToggleHtml({
-    userId,
+    userConfig,
     reportId,
     id,
     csrfToken,

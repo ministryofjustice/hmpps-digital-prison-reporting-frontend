@@ -51,6 +51,8 @@ export default class ChartVisualisation extends DprClientClass {
     Chart.register(ChartDataLabels)
     Chart.register(MatrixController, MatrixElement)
 
+    console.log(JSON.stringify(this.chartData, null, 2))
+
     this.chart = new Chart(this.chartContext, this.chartData)
     this.initChartEvents()
   }

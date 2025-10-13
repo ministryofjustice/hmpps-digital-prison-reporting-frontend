@@ -106,6 +106,7 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
 const getSections = (
   dashboardDefinition: DashboardDefinition,
   dashboardData: DashboardDataResponse[],
+  query: Record<string, string | string[]>,
 ): DashboardUISection[] => {
   return dashboardDefinition.sections.map((section: DashboardSection) => {
     const { id, display: title, description } = section
@@ -138,7 +139,7 @@ const getSections = (
         }
         case DashboardVisualisationType.MATRIX:
         case DashboardVisualisationType.MATRIX_TIMESERIES: {
-          data = ChartUtils.createMatrixChart(visDefinition, dashboardData)
+          data = ChartUtils.createMatrixChart(visDefinition, dashboardData, query)
           break
         }
         case DashboardVisualisationType.BAR_TIMESERIES:
@@ -220,7 +221,7 @@ export default {
     const flattenedData: DashboardDataResponse[] = dashboardData.flat()
 
     // Get the dashboard parts
-    const sections: DashboardUISection[] = getSections(dashboardDefinition, flattenedData)
+    const sections: DashboardUISection[] = getSections(dashboardDefinition, flattenedData, query)
 
     // Update the store
     const dashboardRequestData = await updateStore(services, tableId, dprUser.id, sections, url, req, filters.filters)

@@ -32,6 +32,10 @@ export default class DateMapper {
 
   private localDateTimeShortYearFormatOutput = 'DD/MM/YY HH:mm'
 
+  private localDateFormatMonthYear = 'MMM YY'
+
+  private localDateFormatYear = 'YYYY'
+
   getDateType(value: string): DateType {
     if (value && value.match) {
       if (value.match(this.isoDateRegEx)) {

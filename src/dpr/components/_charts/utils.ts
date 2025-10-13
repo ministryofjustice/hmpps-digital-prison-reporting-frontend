@@ -6,39 +6,28 @@ import {
   ChartType,
   ChartDetails,
   ChartMetaData,
+  MatrixChartData,
 } from '../../types/Charts'
 import { DashboardDataResponse } from '../../types/Metrics'
 import {
   BarChartVisualisationColumn,
   DashboardVisualisation,
   DashboardVisualisationColumns,
-  DashboardVisualisationType,
 } from '../_dashboards/dashboard/types'
 import DatasetHelper from '../../utils/datasetHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
+import { Granularity } from '../_inputs/granular-date-range/types'
 
 const createChart = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]): ChartCardData => {
-  const timeseriesChartTypes = [DashboardVisualisationType.BAR_TIMESERIES, DashboardVisualisationType.LINE_TIMESERIES]
-  const { type } = chartDefinition
-
   let table: MoJTable
   let chart: ChartData
   let details: ChartDetails
 
-  if (timeseriesChartTypes.includes(type)) {
-    const { latestData, dataSetRows, timeseriesData } = getDataForTimeseriesCharts(chartDefinition, rawData)
-    if (dataSetRows.length) {
-      chart = createTimeseriesChart(chartDefinition, timeseriesData)
-      table = createTimeseriesTable(chartDefinition, timeseriesData)
-      details = getChartDetails(chartDefinition, latestData, true)
-    }
-  } else {
-    const { dataSetRows, snapshotData } = getDataForSnapshotCharts(chartDefinition, rawData)
-    if (dataSetRows.length) {
-      chart = createSnapshotChart(chartDefinition, snapshotData)
-      table = createSnapshotTable(chartDefinition, dataSetRows)
-      details = getChartDetails(chartDefinition, dataSetRows)
-    }
+  const { dataSetRows, snapshotData } = getDataForSnapshotCharts(chartDefinition, rawData)
+  if (dataSetRows.length) {
+    chart = createSnapshotChart(chartDefinition, snapshotData)
+    table = createSnapshotTable(chartDefinition, dataSetRows)
+    details = getChartDetails(chartDefinition, dataSetRows)
   }
 
   return {
@@ -69,14 +58,25 @@ const createTimeseriesCharts = (
   }
 }
 
-const createMatrixChart = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]) => {
+const createMatrixChart = (
+  chartDefinition: DashboardVisualisation,
+  rawData: DashboardDataResponse[],
+  query: Record<string, string | string[]>,
+) => {
   let table: MoJTable
   let chart: ChartData
   let details: ChartDetails
+  let granularity: Granularity
+
+  Object.keys(query).forEach((key) => {
+    if (key.includes('granularity')) {
+      granularity = <Granularity>query[key]
+    }
+  })
 
   const { latestData, dataSetRows, timeseriesData } = getDataForTimeseriesCharts(chartDefinition, rawData)
   if (dataSetRows.length) {
-    chart = createTimeseriesMatrixChart(chartDefinition, timeseriesData)
+    chart = createTimeseriesMatrixChart(chartDefinition, timeseriesData, granularity)
     table = createTimeseriesTable(chartDefinition, timeseriesData)
     details = getChartDetails(chartDefinition, latestData, true)
   }
@@ -286,6 +286,7 @@ const createSnapshotTable = (chartDefinition: DashboardVisualisation, data: Dash
 const createTimeseriesMatrixChart = (
   chartDefinition: DashboardVisualisation,
   timeseriesData: DashboardDataResponse[],
+  granularity: Granularity,
 ): ChartData => {
   const { columns } = chartDefinition
   const { keys, measures } = columns
@@ -296,15 +297,13 @@ const createTimeseriesMatrixChart = (
   const labelId = groupKey.id as keyof DashboardDataResponse
 
   const timeBlockData = DatasetHelper.groupRowsByTimestamp(timeseriesData)
-
-  // Create x & y labels
-  const labels = timeBlockData.map((d: DashboardDataResponse[]) => d[0].ts.raw as unknown as string)
-  const datasetCount = timeBlockData[0].length
-
   console.log(JSON.stringify({ timeBlockData }, null, 2))
 
+  const matrixDataSets: ChartDataset[] = createMatrixDataSet(timeBlockData, granularity)
+  console.log(JSON.stringify({ matrixDataSets }, null, 2))
+
   const datasets: ChartDataset[] = []
-  for (let index = 0; index < datasetCount; index += 1) {
+  for (let index = 0; index < timeBlockData[0].length; index += 1) {
     const data = timeBlockData.map((timeperiod) => {
       return +timeperiod[index][measures[1].id].raw
     })
@@ -323,10 +322,46 @@ const createTimeseriesMatrixChart = (
     unit,
     timeseries: true,
     data: {
-      labels,
-      datasets,
+      datasets: matrixDataSets,
     },
   }
+}
+
+const createMatrixDataSet = (timeBlockData: DashboardDataResponse[][], granularity: Granularity) => {
+  const dataset: MatrixChartData[] = initTimeseriesMatrixAxis(timeBlockData, granularity)
+  return [{ label: 'test', data: dataset }]
+}
+
+const initTimeseriesMatrixAxis = (
+  timeBlockData: DashboardDataResponse[][],
+  granularity: Granularity,
+): MatrixChartData[] => {
+  let dataset: MatrixChartData[] = []
+  switch (granularity) {
+    case 'hourly':
+      break
+    case 'daily':
+      break
+    case 'monthly':
+      // Assumes ts format is MMM YY
+      dataset = timeBlockData.map((tsData) => {
+        const ts = (<string>tsData[0].ts.raw).split(' ')
+        return {
+          y: ts[0],
+          x: ts[1],
+          v: 10,
+        }
+      })
+      break
+    case 'annually':
+      break
+    default:
+      break
+  }
+
+  console.log(JSON.stringify({ dataset }, null, 2))
+
+  return dataset
 }
 
 const createTimeseriesChart = (

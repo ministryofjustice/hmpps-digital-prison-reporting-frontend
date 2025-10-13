@@ -929,6 +929,64 @@ context('Viewing a report', () => {
               length: 5,
               buttonValues: expectedUpdatedSelected,
             })
+
+            deleteDefaultsButton().click()
+          })
+        })
+
+        describe('Multiselect', () => {
+          it('should save a single multiselect value', () => {
+            // request the report
+            requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
+
+            checkSelectedFilterValues({
+              length: 5,
+              buttonValues: [
+                { key: 'Field 1', value: 'Value 1.2' },
+                { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+                { key: 'Field 7', value: '01/02/2005' },
+                { key: 'Field 8', value: 'Value 8.2, Value 8.3' },
+              ],
+            })
+
+            // update the filters
+            showFilters()
+            cy.findByRole('checkbox', { name: 'Value 8.3' }).uncheck()
+            applyFilters()
+
+            const expectedUpdatedSelected = [
+              { key: 'Field 1', value: 'Value 1.2' },
+              { key: 'Field 3', value: '01/02/2003 - 04/05/2006' },
+              { key: 'Field 7', value: '01/02/2005' },
+              { key: 'Field 8', value: 'Value 8.2' },
+            ]
+
+            checkSelectedFilterValues({
+              length: 5,
+              buttonValues: expectedUpdatedSelected,
+            })
+
+            // save the filters
+            saveDefaultsButton().click()
+
+            // check for saved page furniture
+            updateDefaultsButton().should('exist')
+            deleteDefaultsButton().should('exist')
+
+            // check the selected filters
+            checkSelectedFilterValues({
+              length: 5,
+              buttonValues: expectedUpdatedSelected,
+            })
+
+            // request the report to check it defaults to saved
+            requestReport({ name: 'Interactive Report', description: 'this is an interactive report', path })
+
+            // check the selected filters
+            checkSelectedFilterValues({
+              length: 5,
+              buttonValues: expectedUpdatedSelected,
+            })
           })
         })
       })

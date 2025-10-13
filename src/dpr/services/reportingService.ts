@@ -23,6 +23,14 @@ export default class ReportingService {
     return this.reportingClient.getListWithWarnings(resourceName, token, listRequest)
   }
 
+  async getDefinitionSummary(
+    token: string,
+    reportId: string,
+    dataProductDefinitionsPath?: string,
+  ): Promise<components['schemas']['ReportDefinitionSummary']> {
+    return this.reportingClient.getDefinitionSummary(token, reportId, dataProductDefinitionsPath)
+  }
+
   async getDefinitions(
     token: string,
     dataProductDefinitionsPath?: string,

@@ -46,6 +46,26 @@ export default class ReportingClient {
       }))
   }
 
+  getDefinitionSummary(
+    token: string,
+    reportId: string,
+    definitionsPath?: string,
+  ): Promise<components['schemas']['ReportDefinitionSummary']> {
+    this.logInfo('Get definition summary', { reportId })
+
+    const queryParams: operations['definitionSummary']['parameters']['query'] = {
+      dataProductDefinitionsPath: definitionsPath,
+    }
+
+    return this.restClient
+      .get({
+        path: `/definitions/${reportId}`,
+        query: queryParams,
+        token,
+      })
+      .then((response) => <components['schemas']['ReportDefinitionSummary']>response)
+  }
+
   getDefinitions(
     token: string,
     definitionsPath?: string,

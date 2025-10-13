@@ -23,7 +23,8 @@ export default class BookmarkToggle extends DprClientClass {
     this.bookmarkColumn = this.bookmarkWrapper.parentNode
     this.bookmarkLabel = this.bookmarkWrapper.querySelector('.dpr-bookmark-label--component')
 
-    element.addEventListener('click', async () => {
+    element.addEventListener('click', async (e) => {
+      e.preventDefault()
       bookmarkToggle.checked = !bookmarkToggle.checked
       if (bookmarkToggle.checked) {
         await this.addBookmark(bookmarkToggle, id, reportId, reportType, csrfToken)

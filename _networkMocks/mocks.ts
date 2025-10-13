@@ -18,20 +18,19 @@ export const pollingEndpoint = generateNetworkMock({
   },
 })
 
-export const generateIndividualDefinitionSummaries =  
-  summaries.map((summary) => 
-    generateNetworkMock({
-      ...defaultMockRequest,
-      request: {
-        ...defaultMockRequest.request,
-        method: 'GET',
-        urlPathPattern: `/definitions/${summary.id}`,
-      },
-      response: {
-        ...defaultMockRequest.response,
-        jsonBody: summary,
-      },
-    })
-  )
+export const generateIndividualDefinitionSummaries = summaries.map((summary) =>
+  generateNetworkMock({
+    ...defaultMockRequest,
+    request: {
+      ...defaultMockRequest.request,
+      method: 'GET',
+      urlPathPattern: `/definitions/${summary.id}`,
+    },
+    response: {
+      ...defaultMockRequest.response,
+      jsonBody: summary,
+    },
+  }),
+)
 
 export const mocks = [getDefinitionSummaries, ...generateIndividualDefinitionSummaries]

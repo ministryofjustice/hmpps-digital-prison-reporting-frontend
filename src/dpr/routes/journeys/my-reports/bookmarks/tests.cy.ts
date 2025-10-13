@@ -489,7 +489,7 @@ context('Bookmarks list', () => {
             cy.findByRole('button', { name: /Remove bookmark/ }).should('exist')
           })
         })
-         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
               return element.textContent.includes('Interactive Report with async filters')

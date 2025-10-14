@@ -1,13 +1,15 @@
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% macro dprColumnsForm(columns) %}
+{% macro dprColumnsForm(columns, csrfToken) %}
+  {% set csrfToken = columns.csrfToken %}
   {% set items = columns.options %}
   {% set name = columns.name %}
   {% set text = columns.text %}
   {% set values = columns.value %}
 
   <form data-dpr-module="columns" class="dpr-columns-form" method="post" action="./report/apply-columns">
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
     <div class="columns-container">
       {{ govukCheckboxes({
           id: name,

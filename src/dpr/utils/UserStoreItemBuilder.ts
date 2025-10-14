@@ -10,7 +10,6 @@ import {
   UserReportData,
 } from '../types/UserReports'
 import Dict = NodeJS.Dict
-import { getDpdPathSuffix } from './urlHelper'
 import { ChildReportExecutionData, ExecutionData } from '../types/ExecutionData'
 import { DashboardSection } from '../components/_dashboards/dashboard/types'
 

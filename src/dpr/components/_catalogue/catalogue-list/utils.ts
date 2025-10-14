@@ -119,6 +119,7 @@ export default {
             csrfToken,
             ctxId: 'reports-list',
             reportType: type,
+            isMissing,
           })
         }
 

@@ -1,26 +1,11 @@
-import { Request } from 'express'
 import SelectedFiltersUtils from './utils'
 import type { FilterValue } from '../types'
 import { FilterType } from '../filter-input/enum'
 
 describe('SelectedFiltersUtils', () => {
   let filters: FilterValue[] = []
-  let req: Request
 
   beforeEach(() => {
-    req = {
-      query: {
-        'filters.filter2': 'anything',
-        'filters.filter4': 'anything',
-        'filters.filter5.start': 'anything',
-        'filters.filter5.end': 'anything',
-        'filters.filter6.start': 'anything',
-        'filters.filter6.end': 'anything',
-        'filters.filter7': 'anything',
-        'filters.filter8': 'anything',
-      },
-    } as unknown as Request
-
     filters = [
       {
         text: 'Filter 1',

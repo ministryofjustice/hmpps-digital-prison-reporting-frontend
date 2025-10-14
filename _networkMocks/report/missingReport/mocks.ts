@@ -28,4 +28,4 @@ export const missingReportSubmitFailMock = generateNetworkMock({
   },
 })
 
-export const mocks = [missingReportSubmitSuccessMock, missingReportSubmitFailMock]
+export const mocks = [missingReportSubmitFailMock, missingReportSubmitSuccessMock]

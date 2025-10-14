@@ -72,6 +72,8 @@ const formatTableData = async (
     csrfToken,
     ctxId: 'bookmark-list',
     reportType: type,
+    // We don't have the data here, and missing reports should never get into bookmarked, viewed or requested
+    isMissing: false,
   })
   return [
     {
@@ -92,9 +94,6 @@ const mapBookmarkIdsToDefinition = async (
   token: string,
   services: Services,
 ): Promise<BookmarkedReportData[]> => {
-  logger.info(
-    `Started mapBookmarkIdsToDefinition for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`,
-  )
   const bookmarkData: BookmarkedReportData[] = []
   const { definitionsPath } = LocalsHelper.getValues(res)
 

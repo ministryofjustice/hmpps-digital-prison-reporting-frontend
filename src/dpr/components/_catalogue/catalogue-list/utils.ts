@@ -88,6 +88,7 @@ export default {
       },
     )
 
+    const userConfig = await services.bookmarkService.getState(dprUser.id)
     const rows = await Promise.all(
       sortedVariants.map(async (v: DefinitionData) => {
         const {
@@ -112,12 +113,13 @@ export default {
 
         if (showBookMarkToggle) {
           bookmarkHtml = await services.bookmarkService.createBookMarkToggleHtml({
-            userId: dprUser.id,
+            userConfig,
             reportId,
             id,
             csrfToken,
             ctxId: 'reports-list',
             reportType: type,
+            isMissing,
           })
         }
 

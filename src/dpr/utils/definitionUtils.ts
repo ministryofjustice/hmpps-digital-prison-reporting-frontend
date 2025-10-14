@@ -1,4 +1,3 @@
-import { Response } from 'express'
 import ReportingService from '../services/reportingService'
 import { components } from '../types/api'
 import { Template } from '../types/Templates'
@@ -93,20 +92,6 @@ export default {
 
   getFiltersDefaultsValues,
 
-  getReportSummary: async (
-    reportId: string,
-    reportingService: ReportingService,
-    token: string,
-    definitionPath: string,
-    res: Response,
-  ) => {
-    logger.info(
-      `Started getting defs in getReportSummary for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`,
-    )
-    const definitions = await reportingService.getDefinitions(token, definitionPath)
-    logger.info(
-      `Finished getting defs in getReportSummary for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`,
-    )
-    return definitions.find((def) => def.id === reportId)
-  },
+  getReportSummary: (reportId: string, reportingService: ReportingService, token: string, definitionPath: string) =>
+    reportingService.getDefinitionSummary(token, reportId, definitionPath),
 }

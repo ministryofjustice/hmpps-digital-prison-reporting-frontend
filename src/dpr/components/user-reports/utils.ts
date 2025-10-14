@@ -1,6 +1,5 @@
 import { Response, Request } from 'express'
 import dayjs from 'dayjs'
-import logger from '../../utils/logger'
 import { RenderTableListResponse } from './types'
 import Dict = NodeJS.Dict
 import {

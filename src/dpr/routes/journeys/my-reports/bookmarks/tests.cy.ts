@@ -1,7 +1,5 @@
 import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/feature-testing/unprintable'
 import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feature-testing/emptyQuery'
-import { setRedisState } from '../../../../../../test-app/routes/integrationTests/redisStateTestUtils'
-import { ReportType } from '../../../../types/UserReports'
 
 context('Bookmarks list', () => {
   const path = '/embedded/platform/'

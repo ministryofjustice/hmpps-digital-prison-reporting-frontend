@@ -72,7 +72,7 @@ export default class BookmarkService extends ReportStoreService {
     csrfToken,
     ctxId,
     reportType,
-    isMissing
+    isMissing,
   }: {
     userConfig: ReportStoreConfig
     reportId: string

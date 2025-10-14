@@ -25,7 +25,7 @@ const reportTemplateExampleParentChild = {
         defaultsort: false,
         type: 'string',
         mandatory: false,
-        visible: false,
+        visible: true,
       },
       {
         name: 'section1',

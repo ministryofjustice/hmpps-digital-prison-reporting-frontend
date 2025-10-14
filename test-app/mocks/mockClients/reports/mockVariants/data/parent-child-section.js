@@ -56,18 +56,6 @@ const sectionTwoTwo = [
     section2: 'Section 2.2',
     childKey: 'eight',
   },
-  {
-    field1: 'Parent 9',
-    section1: 'Section 2',
-    section2: 'Section 2.2',
-    childKey: 'nine',
-  },
-  {
-    field1: 'Parent 10',
-    section1: 'Section 2',
-    section2: 'Section 2.2',
-    childKey: 'ten',
-  },
 ]
 
 const parentData = () => {

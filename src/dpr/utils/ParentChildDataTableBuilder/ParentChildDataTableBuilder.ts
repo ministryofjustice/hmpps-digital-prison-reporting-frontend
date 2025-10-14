@@ -28,10 +28,12 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
   private createParentChildTable(parentData: Array<Dict<string>>, header: Cell[]) {
     let sectionedParentChildData: Dict<Dict<Array<Dict<string>>>> = {}
     const joinFields = this.mapNamesToFields(this.childVariants.flatMap((c) => c.joinFields).reduce(distinct, []))
+    logger.info({ joinFields })
     // Get the parent-child joins definition data
 
     // Create the section keys and
     const parentChildKeys = this.calculateParentChildKeys(parentData, joinFields)
+    logger.info({ parentChildKeys })
     parentChildKeys.forEach((parentKey) => {
       sectionedParentChildData[parentKey.sortKey] = {
         parent: [],
@@ -40,6 +42,8 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
 
     sectionedParentChildData = this.splitParentDataIntoSections(sectionedParentChildData, parentData, joinFields)
     sectionedParentChildData = this.splitChildDataIntoSections(parentChildKeys, sectionedParentChildData)
+
+    logger.info({ sectionedParentChildData })
 
     const childDataTableBuilders = this.createChildDataTableBuilders()
 
@@ -72,11 +76,14 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
       )
     })
 
+    logger.info({ parentChildTable })
+
     return parentChildTable
   }
 
   private createParentChildSectionRows(parentData: Array<Dict<string>>, header: Cell[]) {
     const sectionsDetails = this.mapSections(parentData)
+    logger.info(sectionsDetails)
     const sectionedData = sectionsDetails.sectionedData as Dict<Array<Dict<string>>>
     const sectionedParentChildSectionedRows: {
       sectionDescription: string
@@ -86,12 +93,16 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
     }[] = []
 
     Object.keys(sectionedData).forEach((sectionDescription) => {
+      logger.info({ sectionDescription })
       const data = sectionedData[sectionDescription] as Array<Dict<string>>
+      logger.info({ data })
+
       sectionedParentChildSectionedRows.push({
         sectionDescription,
         ...this.getSectionCount(sectionedData, sectionDescription),
         rows: this.createParentChildTable(data, header),
       })
+      logger.info({ sectionedParentChildSectionedRows })
     })
 
     const rows = sectionedParentChildSectionedRows.flatMap((section, index) => {
@@ -103,6 +114,7 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
       )
       return [...sectionHeader, ...section.rows]
     })
+    logger.info({ rows })
 
     return rows
   }

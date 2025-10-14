@@ -72,6 +72,7 @@ export default class BookmarkService extends ReportStoreService {
     csrfToken,
     ctxId,
     reportType,
+    isMissing
   }: {
     userConfig: ReportStoreConfig
     reportId: string
@@ -79,6 +80,7 @@ export default class BookmarkService extends ReportStoreService {
     csrfToken: string
     ctxId: string
     reportType: ReportType
+    isMissing: boolean
   }) {
     let tooltip = 'Add bookmark'
     let automatic = false
@@ -92,7 +94,7 @@ export default class BookmarkService extends ReportStoreService {
       }
     }
 
-    return automatic
+    return automatic || isMissing
       ? ''
       : `<button class='dpr-bookmark dpr-bookmark-table' data-dpr-module='bookmark-toggle'>
   <input class='bookmark-input' type='checkbox' id='${reportId}-${id}-${ctxId}' data-report-id='${reportId}' data-id='${id}' data-report-type='${reportType}' data-csrf-token='${csrfToken}' ${checked} />

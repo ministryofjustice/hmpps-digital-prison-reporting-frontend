@@ -320,11 +320,6 @@ export default {
     maxRows?: number
   }) => {
     const { requestedReports, recentlyViewedReports, bookmarkingEnabled } = LocalsHelper.getValues(res)
-    logger.info(
-      `Started renderList for requested reports in init for user: ${
-        res.locals.dprUser && JSON.stringify(res.locals.dprUser)
-      }`,
-    )
     const requestedReportsList = await renderList({
       res,
       reportsData: requestedReports,
@@ -332,13 +327,6 @@ export default {
       maxRows,
       type: 'requested',
     })
-    logger.info(`Finished renderList in init for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
-
-    logger.info(
-      `Started renderList for viewed reports in init for user: ${
-        res.locals.dprUser && JSON.stringify(res.locals.dprUser)
-      }`,
-    )
     const viewedReportsList = await renderList({
       res,
       reportsData: recentlyViewedReports,
@@ -346,30 +334,15 @@ export default {
       maxRows,
       type: 'viewed',
     })
-    logger.info(
-      `Finished renderList for viewed reports in init for user: ${
-        res.locals.dprUser && JSON.stringify(res.locals.dprUser)
-      }`,
-    )
 
     let bookmarks
     if (bookmarkingEnabled) {
-      logger.info(
-        `Started renderList for bookmarked reports in init for user: ${
-          res.locals.dprUser && JSON.stringify(res.locals.dprUser)
-        }`,
-      )
       bookmarks = await BookmarklistUtils.renderBookmarkList({
         res,
         req,
         services,
         maxRows,
       })
-      logger.info(
-        `Finished renderList for bookmarked reports in init for user: ${
-          res.locals.dprUser && JSON.stringify(res.locals.dprUser)
-        }`,
-      )
     }
 
     return {

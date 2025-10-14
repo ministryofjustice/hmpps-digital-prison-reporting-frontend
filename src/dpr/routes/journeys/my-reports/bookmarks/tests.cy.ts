@@ -217,6 +217,22 @@ context('Bookmarks list', () => {
           })
         })
       })
+
+      describe('missing report', () => {
+        it('should not be able to be bookmarked', () => {
+          cy.findByRole('tab', { name: /Bookmarks/ }).click()
+          cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+            cy.findByRole('row', {
+              name: (_, element) => {
+                return element.textContent.includes('Description for missing report 1')
+              },
+            }).within(() => {
+              cy.findByRole('button', { name: /Add bookmark/ }).should('not.exist')
+              cy.findByRole('link', { name: /Request report/ }).should('be.visible')
+            })
+          })
+        })
+      })
     })
 
     describe('Removing via the user reports list', () => {

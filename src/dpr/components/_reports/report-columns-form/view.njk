@@ -2,7 +2,6 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% macro dprColumnsForm(columns, csrfToken) %}
-  {% set csrfToken = columns.csrfToken %}
   {% set items = columns.options %}
   {% set name = columns.name %}
   {% set text = columns.text %}

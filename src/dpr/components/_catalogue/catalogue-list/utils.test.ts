@@ -20,7 +20,7 @@ describe('CatalogueUtils', () => {
     } as unknown as Response
 
     services = {
-      bookmarkService: { createBookMarkToggleHtml: jest.fn() } as unknown as BookmarkService,
+      bookmarkService: { createBookMarkToggleHtml: jest.fn(), getState: jest.fn() } as unknown as BookmarkService,
     } as unknown as Services
   })
 

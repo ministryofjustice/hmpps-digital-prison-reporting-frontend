@@ -37,6 +37,7 @@ describe('BookmarkUtils', () => {
       bookmarkService = {
         getAllBookmarks: jest.fn().mockResolvedValue([{ reportId: 'test-report-1', variantId: 'test-variant-1' }]),
         createBookMarkToggleHtml: jest.fn().mockResolvedValue('<p>Bookmark toggle</p>'),
+        getState: jest.fn(),
       } as unknown as BookmarkService
 
       mockDefinition = {

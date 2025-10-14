@@ -1,7 +1,7 @@
 {% from "../report-columns-form/view.njk" import dprColumnsForm %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
-{% macro dprReportColumns(columns) %}
+{% macro dprReportColumns(columns, csrfToken) %}
   {% if columns and columns.options.length > 0 %}
   <div class="dpr-columns-section-wrapper">
     <div class="dpr-columns-section-heading">
@@ -10,7 +10,7 @@
 
 
     {% set columnsHtml %}
-      {{ dprColumnsForm(columns) }}
+      {{ dprColumnsForm(columns, csrfToken) }}
     {% endset %}
 
     <div class="dpr-interactive-filters-accordion"> 

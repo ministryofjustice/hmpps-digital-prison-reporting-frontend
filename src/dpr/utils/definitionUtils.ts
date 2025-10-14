@@ -1,4 +1,3 @@
-import { Response } from 'express'
 import ReportingService from '../services/reportingService'
 import { components } from '../types/api'
 import { Template } from '../types/Templates'

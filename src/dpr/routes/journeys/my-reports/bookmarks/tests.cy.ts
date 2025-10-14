@@ -1,7 +1,5 @@
 import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/feature-testing/unprintable'
 import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feature-testing/emptyQuery'
-import { setRedisState } from '../../../../../../test-app/routes/integrationTests/redisStateTestUtils'
-import { ReportType } from '../../../../types/UserReports'
 
 context('Bookmarks list', () => {
   const path = '/embedded/platform/'
@@ -213,6 +211,22 @@ context('Bookmarks list', () => {
               },
             }).within(() => {
               cy.findByRole('button', { name: /Add bookmark/ }).should('exist')
+            })
+          })
+        })
+      })
+
+      describe('missing report', () => {
+        it('should not be able to be bookmarked', () => {
+          cy.findByRole('tab', { name: /Bookmarks/ }).click()
+          cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+            cy.findByRole('row', {
+              name: (_, element) => {
+                return element.textContent.includes('Description for missing report 1')
+              },
+            }).within(() => {
+              cy.findByRole('button', { name: /Add bookmark/ }).should('not.exist')
+              cy.findByRole('link', { name: /Request report/ }).should('be.visible')
             })
           })
         })

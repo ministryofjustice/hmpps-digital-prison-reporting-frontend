@@ -1,5 +1,22 @@
 Below you can find the changes included in each release.
 
+## v4.13.19
+- Make missing reports unable to be bookmarked
+
+## v4.13.18
+- Fix small bug passing the wrong params into `DefinitionUtils.getReportSummary`
+
+## v4.13.17
+- Fix missing csrf token in apply columns post 
+- Small css fix for parent-child template
+
+## v4.13.16
+- Fix for various performance issues when many DPDs are present
+
+## v4.13.15
+- Fixed a bug where adding/removing a bookmark would break due to click events not being handled correctly
+- Fixed a bug with setting user defaults
+
 ## v4.13.14
 - Bug fix for error thrown when a single multi-select value is saved + tests
 

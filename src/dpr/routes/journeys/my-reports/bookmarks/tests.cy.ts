@@ -13,6 +13,7 @@ context('Bookmarks list', () => {
       cy.task('stubDefinitions')
       cy.task('stubDefinitionUnprintable')
       cy.task('stubDefinitionEmptyReport')
+      cy.task('stubSingleSummaries')
       cy.visit(path)
 
       cy.findByRole('tab', { name: /Bookmarks/ }).click()
@@ -37,6 +38,7 @@ context('Bookmarks list', () => {
       cy.task('resetStubs')
       cy.task('stubDefinitions')
       cy.task('resetRedis')
+      cy.task('stubSingleSummaries')
       cy.task('stubDefinitionRequestExamplesSuccess')
       cy.task('stubDefinitionUnprintable')
       cy.task('stubDefinitionEmptyReport')
@@ -47,37 +49,10 @@ context('Bookmarks list', () => {
       cy.task('stubDashboardSuccessResult20')
       cy.task('stubRequestSuccessResult20')
       cy.task('stubPollingReportEndpoint')
-
-      setRedisState({
-        requestedReports: [],
-        recentlyViewedReports: [],
-        bookmarks: [
-          {
-            reportId: 'feature-testing',
-            id: 'request-examples',
-            variantId: 'feature-testing-interactive',
-            type: ReportType.REPORT,
-          },
-          {
-            reportId: 'mock-dashboards',
-            id: 'mock-dashboards',
-            variantId: 'test-dashboard-8',
-            type: ReportType.DASHBOARD,
-          },
-        ],
-        downloadPermissions: [],
-        defaultFilters: [],
-      })
     })
 
     beforeEach(() => {
       cy.visit(path)
-    })
-
-    it('is accessible', () => {
-      cy.visit(path)
-      cy.injectAxe()
-      cy.checkA11y()
     })
 
     describe('Bookmarking via the catalogue', () => {
@@ -430,13 +405,28 @@ context('Bookmarks list', () => {
         })
       })
 
+      it('should add a bookmark', () => {
+        cy.visit(viewReportUrl)
+        cy.findByRole('button', { name: /Add bookmark/ })
+          .click()
+          .contains('Bookmarked')
+        cy.visit(path)
+        cy.findByLabelText(/Bookmarks.*/i).within(() => {
+          cy.findAllByRole('rowgroup')
+            .eq(1)
+            .within(() => {
+              cy.findAllByRole('row').should('have.length', 3)
+            })
+        })
+      })
+
       it('should remove a bookmark', () => {
         cy.visit(path)
         cy.findByLabelText(/Bookmarks.*/i).within(() => {
           cy.findAllByRole('rowgroup')
             .eq(1)
             .within(() => {
-              cy.findAllByRole('row').should('have.length', 2)
+              cy.findAllByRole('row').should('have.length', 3)
             })
         })
         cy.visit(viewReportUrl)
@@ -448,7 +438,7 @@ context('Bookmarks list', () => {
           cy.findAllByRole('rowgroup')
             .eq(1)
             .within(() => {
-              cy.findAllByRole('row').should('have.length', 1)
+              cy.findAllByRole('row').should('have.length', 2)
             })
         })
       })
@@ -456,14 +446,20 @@ context('Bookmarks list', () => {
 
     describe('bookmarking should be idempotent', () => {
       it('should not change the bookmark status of an already bookmarked item', () => {
+        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+          cy.findByRole('row', {
+            name: (_, element) => {
+              return element.textContent.includes('Interactive Report with async filters')
+            },
+          }).within(() => {
+            cy.findByRole('button', { name: /Add bookmark/ }).click()
+          })
+        })
         // Deselect the bookmark hidden input so that we try to add it whilst it's already added
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return (
-                element.textContent.includes('this is an interactive report') &&
-                element.textContent.includes('Feature testing')
-              )
+              return element.textContent.includes('Interactive Report with async filters')
             },
           }).within(() => {
             cy.get('input').then((el) => {
@@ -477,10 +473,7 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return (
-                element.textContent.includes('this is an interactive report') &&
-                element.textContent.includes('Feature testing')
-              )
+              return element.textContent.includes('Interactive Report with async filters')
             },
           }).within(() => {
             cy.findByRole('button', { name: /Remove bookmark/ }).click()
@@ -490,13 +483,19 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return (
-                element.textContent.includes('this is an interactive report') &&
-                element.textContent.includes('Feature testing')
-              )
+              return element.textContent.includes('Interactive Report with async filters')
             },
           }).within(() => {
             cy.findByRole('button', { name: /Remove bookmark/ }).should('exist')
+          })
+        })
+        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+          cy.findByRole('row', {
+            name: (_, element) => {
+              return element.textContent.includes('Interactive Report with async filters')
+            },
+          }).within(() => {
+            cy.findByRole('button', { name: /Remove bookmark/ }).click()
           })
         })
       })

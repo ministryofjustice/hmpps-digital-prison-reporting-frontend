@@ -12,6 +12,9 @@ context('Viewing a report', () => {
       cy.task('stubMockDashboardsStatusFinished')
       cy.task('stubViewAsyncResults')
       cy.task('stubDashboardSuccessResult20')
+      cy.task('stubSingleSummaries')
+      cy.task('stubDefinitionUnprintable')
+      cy.task('stubDefinitionEmptyReport')
     })
 
     it('should mark the dashboard as recently viewed', () => {

@@ -249,6 +249,23 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/definitions/{reportId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** @description Gets report definition summary */
+    get: operations['definitionSummary']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/definitions/{reportId}/{variantId}': {
     parameters: {
       query?: never
@@ -1544,6 +1561,75 @@ export interface operations {
         }
         content: {
           'application/json': components['schemas']['ReportDefinitionSummary'][]
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+    }
+  }
+  definitionSummary: {
+    parameters: {
+      query?: {
+        /**
+         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
+         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         * @example definitions/prisons/orphanage
+         */
+        dataProductDefinitionsPath?: string
+      }
+      header?: never
+      path: {
+        /**
+         * @description The ID of the report definition.
+         * @example external-movements
+         */
+        reportId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ReportDefinitionSummary']
         }
       }
       /** @description Bad Request */

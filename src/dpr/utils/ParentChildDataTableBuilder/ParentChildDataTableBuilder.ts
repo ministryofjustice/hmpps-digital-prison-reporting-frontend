@@ -28,12 +28,12 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
   private createParentChildTable(parentData: Array<Dict<string>>, header: Cell[]) {
     let sectionedParentChildData: Dict<Dict<Array<Dict<string>>>> = {}
     const joinFields = this.mapNamesToFields(this.childVariants.flatMap((c) => c.joinFields).reduce(distinct, []))
-    logger.info({ joinFields })
+    logger.info(`DPR-Parent-child-template-debugging`, JSON.stringify({ joinFields }, null, 2))
     // Get the parent-child joins definition data
 
     // Create the section keys and
     const parentChildKeys = this.calculateParentChildKeys(parentData, joinFields)
-    logger.info({ parentChildKeys })
+    logger.info(`DPR-Parent-child-template-debugging`, JSON.stringify({ parentChildKeys }, null, 2))
     parentChildKeys.forEach((parentKey) => {
       sectionedParentChildData[parentKey.sortKey] = {
         parent: [],
@@ -43,7 +43,7 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
     sectionedParentChildData = this.splitParentDataIntoSections(sectionedParentChildData, parentData, joinFields)
     sectionedParentChildData = this.splitChildDataIntoSections(parentChildKeys, sectionedParentChildData)
 
-    logger.info({ sectionedParentChildData })
+    logger.info(`DPR-Parent-child-template-debugging`, JSON.stringify({ sectionedParentChildData }, null, 2))
 
     const childDataTableBuilders = this.createChildDataTableBuilders()
 
@@ -76,14 +76,14 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
       )
     })
 
-    logger.info({ parentChildTable })
+    logger.info(`DPR-Parent-child-template-debugging`, JSON.stringify({ parentChildTable }, null, 2))
 
     return parentChildTable
   }
 
   private createParentChildSectionRows(parentData: Array<Dict<string>>, header: Cell[]) {
     const sectionsDetails = this.mapSections(parentData)
-    logger.info(sectionsDetails)
+    logger.info(`DPR-Parent-child-template-debugging`, JSON.stringify({ sectionsDetails }, null, 2))
     const sectionedData = sectionsDetails.sectionedData as Dict<Array<Dict<string>>>
     const sectionedParentChildSectionedRows: {
       sectionDescription: string
@@ -93,16 +93,16 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
     }[] = []
 
     Object.keys(sectionedData).forEach((sectionDescription) => {
-      logger.info({ sectionDescription })
+      logger.info(`DPR-Parent-child-template-debugging`, JSON.stringify({ sectionDescription }, null, 2))
       const data = sectionedData[sectionDescription] as Array<Dict<string>>
-      logger.info({ data })
+      logger.info(`DPR-Parent-child-template-debugging`, JSON.stringify({ data }, null, 2))
 
       sectionedParentChildSectionedRows.push({
         sectionDescription,
         ...this.getSectionCount(sectionedData, sectionDescription),
         rows: this.createParentChildTable(data, header),
       })
-      logger.info({ sectionedParentChildSectionedRows })
+      logger.info(`DPR-Parent-child-template-debugging`, JSON.stringify({ sectionedParentChildSectionedRows }, null, 2))
     })
 
     const rows = sectionedParentChildSectionedRows.flatMap((section, index) => {
@@ -114,7 +114,7 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
       )
       return [...sectionHeader, ...section.rows]
     })
-    logger.info({ rows })
+    logger.info(`DPR-Parent-child-template-debugging`, JSON.stringify({ rows }, null, 2))
 
     return rows
   }

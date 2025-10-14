@@ -75,7 +75,7 @@
 
     <div class="dpr-report-interactive-actions">
       {% if count and count > 0 %}
-        {{ dprReportColumns(columns) }}
+        {{ dprReportColumns(columns, csrfToken) }}
       {% endif %}
 
       {{ dprReportFilters(filterData, defaultQuery, csrfToken) }}

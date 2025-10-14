@@ -75,7 +75,6 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
     services.reportingService,
     token,
     <string>dataProductDefinitionsPath,
-    res,
   )
 
   // Get the filters

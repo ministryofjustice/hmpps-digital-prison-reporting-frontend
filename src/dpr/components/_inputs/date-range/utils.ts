@@ -102,18 +102,12 @@ const setDefaultValue = (req: Request, name: string) => {
       return { name: key.split('.')[2], value: req.body[key] }
     })
 
-  console.log({ dateRangeDefaults })
-
   const dateRangeValue: DateRangeFilterValue['value'] | string = { start: '', end: '' }
   dateRangeDefaults.forEach((dateRangeDefault) => {
-    console.log({ name: dateRangeDefault.name })
-
     if (dateRangeDefault.name.includes('start')) {
-      console.log({ start: dateRangeDefault.value })
       dateRangeValue.start = dateRangeDefault.value
     }
     if (dateRangeDefault.name.includes('end')) {
-      console.log({ end: dateRangeDefault.value })
       dateRangeValue.end = dateRangeDefault.value
     }
     if (dateRangeDefault.name.includes('relative-duration')) {

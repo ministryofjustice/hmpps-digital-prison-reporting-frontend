@@ -48,7 +48,7 @@ const featureTestingInteractive = {
         },
       },
       {
-        name: 'start_date',
+        name: 'field3',
         display: 'Field 3',
         sortable: false,
         visible: true,

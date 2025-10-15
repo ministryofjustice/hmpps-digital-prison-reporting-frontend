@@ -6,6 +6,7 @@ import { Services } from '../../../types/Services'
 import LocalsHelper from '../../../utils/localsHelper'
 import definitionUtils from '../../../utils/definitionUtils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
+import ColumnsUtils from '../../../components/_reports/report-columns-form/utils'
 
 const applyReportInteractiveQuery = async (
   req: Request,
@@ -67,7 +68,7 @@ const applyInteractiveQuery = async (
 
   // Get the stored interactive query data
   const interactiveQueryData = reportStateData?.interactiveQuery?.data
-  const { columns, preventDefault } = interactiveQueryData
+  const { preventDefault } = interactiveQueryData
   const filters = Object.keys(interactiveQueryData)
     .filter((key) => key.includes('filters.'))
     .reduce((acc, key) => ({ ...acc, [key]: interactiveQueryData[key] }), {})
@@ -77,7 +78,21 @@ const applyInteractiveQuery = async (
     ...(preventDefault && { preventDefault }),
     ...req.body,
   }
-  formData = applyType === 'columns' ? { ...formData, ...filters } : { ...formData, columns }
+
+  if (applyType === 'columns') {
+    const { columns } = req.body
+    const mandatoryCols = ColumnsUtils.mandatoryColumns(fields)
+
+    let bodyColumns = []
+    if (columns) {
+      bodyColumns = Array.isArray(columns) ? columns : [columns]
+    }
+    const columnsData = [...mandatoryCols, ...bodyColumns]
+    formData = { ...formData, columns: columnsData, ...filters }
+  } else {
+    const { columns } = interactiveQueryData
+    formData = { ...formData, columns }
+  }
 
   // Create query string
   const filtersString = createQueryParamsFromFormData({

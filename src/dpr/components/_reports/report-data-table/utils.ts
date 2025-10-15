@@ -22,8 +22,6 @@ const buildListTable = (
   const { variant } = definition
   const { interactive, specification } = variant
 
-  console.log(columns.value)
-
   const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, summariesData)
   return new DataTableBuilder(specification.fields)
     .withSummaries(collatedSummaryBuilder.collateDataTableSummaries())
@@ -97,8 +95,6 @@ const createDataTable = (
 ): DataTable[] => {
   let dataTables: DataTable[] = []
   const { template } = definition.variant.specification
-
-  console.log('createDataTable', JSON.stringify({ columns }, null, 2))
 
   switch (template as Template) {
     case 'summary-section':

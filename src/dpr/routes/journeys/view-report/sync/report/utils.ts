@@ -253,7 +253,7 @@ const getReportRenderData = async ({
     filtersType: filtersType || FiltersType.INTERACTIVE,
   })
 
-  const columns = ColumnUtils.getColumns(specification, reportQuery.columns)
+  const columns = ColumnUtils.getColumns(specification, req)
 
   return {
     dataTable: [dataTable],

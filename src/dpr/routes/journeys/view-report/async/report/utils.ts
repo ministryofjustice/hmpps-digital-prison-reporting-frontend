@@ -44,8 +44,11 @@ export const getData = async ({
   // Get the request data
   const requestData: RequestedReport = await services.requestedReportService.getReportByTableId(tableId, userId)
 
+  // Get the columns
+  const columns = ColumnUtils.getColumns(definition.variant.specification, req)
+
   // initialise report query
-  const reportQuery = await initReportQuery(definition, res, req, requestData, services)
+  const reportQuery = await initReportQuery(definition, columns, res, req, requestData, services)
 
   // Get the reportData
   const reportData = await getReportData({ definition, services, token, req, res, requestData, reportQuery })
@@ -67,11 +70,13 @@ export const getData = async ({
     summariesData,
     childData,
     reportQuery,
+    columns,
   }
 }
 
 const initReportQuery = async (
   definition: components['schemas']['SingleVariantReportDefinition'],
+  columns: Columns,
   res: Response,
   req: Request,
   requestData: RequestedReport,
@@ -106,6 +111,7 @@ const initReportQuery = async (
     ...filtersQuery,
     ...(pageSize && { pageSize }),
     ...(selectedPage && { pageSize }),
+    ...(columns && { columns: columns.value }),
   }
 
   return new ReportQuery({
@@ -220,16 +226,13 @@ const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { token, dprUser } = LocalsHelper.getValues(res)
 
   // Get the report data
-  const { definition, requestData, reportData, childData, summariesData, reportQuery } = await getData({
+  const { definition, requestData, reportData, childData, summariesData, reportQuery, columns } = await getData({
     req,
     res,
     services,
     token,
     userId: dprUser.id,
   })
-
-  // Get the columns
-  const columns = ColumnUtils.getColumns(definition.variant.specification, <string[]>req.query.columns)
 
   // Get the data table
   const dataTable: DataTable[] = DataTableUtils.createDataTable(

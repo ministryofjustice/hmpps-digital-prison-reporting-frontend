@@ -189,18 +189,32 @@ class ParentChildDataTableBuilder extends SectionedDataTableBuilder {
   ): Dict<Dict<Array<Dict<string>>>> {
     const sectionedParentChildDataWithChildren = { ...sectionedParentChildData }
 
+    logger.info('DPR-Parent-child-template-debugging', JSON.stringify({ childData: this.childData }, null, 2))
+
     this.childVariants.forEach((childVariant) => {
       const childFields = this.mapNamesToFields(childVariant.joinFields)
       logger.info(
         'DPR-Parent-child-template-debugging splitChildDataIntoSections',
-        JSON.stringify({
-          childFields,
-          parentKeys,
-        }),
+        JSON.stringify(
+          {
+            childFields,
+            parentKeys,
+          },
+          null,
+          2,
+        ),
       )
 
-      const matchingChildData = this.childData.find((d) => d.id === childVariant.id)
+      const matchingChildData = this.childData.find((d) => {
+        logger.info(
+          'DPR-Parent-child-template-debugging',
+          JSON.stringify({ childDataId: d.id, childVariantId: childVariant.id }, null, 2),
+        )
+        return d.id === childVariant.id
+      })
       const data = matchingChildData ? matchingChildData.data : []
+
+      logger.info('DPR-Parent-child-template-debugging', JSON.stringify({ matchingChildData, data }, null, 2))
 
       data
         .filter((rowData) => {
@@ -208,6 +222,7 @@ class ParentChildDataTableBuilder extends SectionedDataTableBuilder {
           return parentKeys.find((p) => p.childSortKeys[childVariant.id] === sortKey)
         })
         .forEach((rowData) => {
+          logger.info('DPR-Parent-child-template-debugging', JSON.stringify({ rowData }, null, 2))
           const sortKey = this.getSortKey(rowData, childFields)
           const parent = parentKeys.find((p) => p.childSortKeys[childVariant.id] === sortKey)
           const parentSortKey = parent ? parent.sortKey : ''
@@ -218,6 +233,11 @@ class ParentChildDataTableBuilder extends SectionedDataTableBuilder {
           }
         })
     })
+
+    logger.info(
+      'DPR-Parent-child-template-debugging',
+      JSON.stringify({ sectionedParentChildDataWithChildren }, null, 2),
+    )
 
     return sectionedParentChildDataWithChildren
   }

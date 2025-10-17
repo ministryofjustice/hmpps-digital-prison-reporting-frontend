@@ -1,5 +1,23 @@
 Below you can find the changes included in each release.
 
+## v4.14.0
+- Stop bundling imports to give consumers the option to bundle or not
+- Give all default exports also a named export so that compilation of the code doesn't discard them as imports aren't bundled anymore
+
+## v4.13.23
+- Bug fix for saving date-range as user defaults
+
+## v4.13.22
+- More temporary logging
+- Bug fix for datatable columns no updating when applying columns
+- Bug fix for single column showing no data
+
+## v4.13.21
+- Add some temporary logging to help diagnose an issue
+
+## v4.13.20
+- Fix a CSRF token missing 
+
 ## v4.13.19
 - Make missing reports unable to be bookmarked
 

@@ -5,7 +5,7 @@ import LocalsHelper from '../../../../../utils/localsHelper'
 import DashboardUtils from './utils'
 import ViewReportUtils from '../../utils'
 
-export default class ViewAsyncDashboardController {
+class ViewAsyncDashboardController {
   layoutPath: string
 
   services: Services
@@ -49,3 +49,6 @@ export default class ViewAsyncDashboardController {
     await ViewReportUtils.applyDashboardInteractiveQuery(req, res, this.services, 'filters')
   }
 }
+
+export { ViewAsyncDashboardController }
+export default ViewAsyncDashboardController

@@ -3,7 +3,7 @@ import LocalsHelper from '../utils/localsHelper'
 import { Services } from '../types/Services'
 import { ReportType } from '../types/UserReports'
 
-export default (services: Services, layoutPath: string): RequestHandler => {
+export const reportAuthoriser = (services: Services, layoutPath: string): RequestHandler => {
   return async (req, res, next) => {
     const { token } = LocalsHelper.getValues(res)
     const { reportId, id, variantId, type } = req.params
@@ -39,3 +39,5 @@ export default (services: Services, layoutPath: string): RequestHandler => {
     }
   }
 }
+
+export default reportAuthoriser

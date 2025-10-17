@@ -4,7 +4,7 @@ import { Services } from '../../../types/Services'
 import LocalsHelper from '../../../utils/localsHelper'
 import { CatalogueFeatures } from './types'
 
-const init = async ({
+export const init = async ({
   features,
   res,
   services,

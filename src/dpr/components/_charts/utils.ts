@@ -17,7 +17,10 @@ import {
 import DatasetHelper from '../../utils/datasetHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 
-const createChart = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]): ChartCardData => {
+export const createChart = (
+  chartDefinition: DashboardVisualisation,
+  rawData: DashboardDataResponse[],
+): ChartCardData => {
   const timeseriesChartTypes = [DashboardVisualisationType.BAR_TIMESERIES, DashboardVisualisationType.LINE_TIMESERIES]
   const { type } = chartDefinition
 

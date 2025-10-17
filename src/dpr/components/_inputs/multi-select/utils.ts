@@ -3,7 +3,7 @@ import { MultiselectFilterValue } from '../../_filters/types'
 import { components } from '../../../types/api'
 import { defaultFilterValue } from '../../../utils/Personalisation/types'
 
-const setValueFromRequest = (
+export const setValueFromRequest = (
   filter: MultiselectFilterValue,
   req: Request,
   prefix: string,
@@ -26,7 +26,7 @@ const setValueFromRequest = (
   }
 }
 
-const getQueryFromDefinition = (
+export const getQueryFromDefinition = (
   filter: components['schemas']['FilterDefinition'],
   name: string,
   filterPrefix: string,
@@ -39,7 +39,7 @@ const getQueryFromDefinition = (
     .join('&')
 }
 
-const getMultiselectValues = (f: MultiselectFilterValue, prefix: string) => {
+export const getMultiselectValues = (f: MultiselectFilterValue, prefix: string) => {
   const MAX_VALUES = 3
   const splitValues = (<string>f.value).split(',')
   let displayValue = splitValues
@@ -65,7 +65,7 @@ const getMultiselectValues = (f: MultiselectFilterValue, prefix: string) => {
   }
 }
 
-const setFilterValuesFromSavedDefault = (
+export const setFilterValuesFromSavedDefault = (
   filter: MultiselectFilterValue,
   hasDefaults: boolean,
   defaultValue?: defaultFilterValue,

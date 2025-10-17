@@ -1,6 +1,6 @@
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
-export default class IconButtonList extends DprClientClass {
+class IconButtonList extends DprClientClass {
   static getModuleName() {
     return 'report-actions'
   }
@@ -82,3 +82,6 @@ export default class IconButtonList extends DprClientClass {
     }
   }
 }
+
+export { IconButtonList }
+export default IconButtonList

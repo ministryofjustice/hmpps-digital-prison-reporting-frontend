@@ -2,7 +2,7 @@ import ReportDataStore from '../data/reportDataStore'
 import { UserReportData } from '../types/UserReports'
 import { ReportStoreConfig } from '../types/ReportStore'
 
-export default class ReportStoreService {
+class ReportStoreService {
   reportStore: ReportDataStore
 
   constructor(private readonly reportDataStore: ReportDataStore) {
@@ -29,3 +29,6 @@ export default class ReportStoreService {
     return array.findIndex((report) => report.id === id)
   }
 }
+
+export { ReportStoreService }
+export default ReportStoreService

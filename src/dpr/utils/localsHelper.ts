@@ -2,7 +2,7 @@ import type { Response, Request } from 'express'
 import { StoredReportData } from '../types/UserReports'
 import { BookmarkStoreData } from '../types/Bookmark'
 
-const getValues = (res: Response) => {
+export const getValues = (res: Response) => {
   const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
   const dprUser = setDprUserContext(res)
 
@@ -73,7 +73,7 @@ const setDprUserContext = (res: Response) => {
   }
 }
 
-const setDdpPathToReqQuery = (req: Request, value: string) => {
+export const setDdpPathToReqQuery = (req: Request, value: string) => {
   if (value) {
     req.query = {
       ...req.query,

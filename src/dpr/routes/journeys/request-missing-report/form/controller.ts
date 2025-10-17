@@ -5,7 +5,7 @@ import { Services } from '../../../../types/Services'
 import MissingReportClient from '../../../../services/missingReport/missingReportClient'
 import { ReportingService } from '../../../../services'
 
-export default class MissingReportFormController {
+class MissingReportFormController {
   layoutPath: string
 
   missingReportClient: MissingReportClient
@@ -76,3 +76,6 @@ export default class MissingReportFormController {
       })
   }
 }
+
+export { MissingReportFormController }
+export default MissingReportFormController

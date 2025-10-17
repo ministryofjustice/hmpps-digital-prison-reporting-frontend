@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import { DprClientClass } from './DprClientClass.mjs'
 
-export default class DprPollingStatusClass extends DprClientClass {
+class DprPollingStatusClass extends DprClientClass {
   getPollingFrquency() {
     return '1000' // 1 second
   }
@@ -61,3 +61,6 @@ export default class DprPollingStatusClass extends DprClientClass {
     return response
   }
 }
+
+export { DprPollingStatusClass }
+export default DprPollingStatusClass

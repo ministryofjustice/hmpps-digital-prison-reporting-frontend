@@ -3,7 +3,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { DateType } from './types'
 import logger from '../logger'
 
-export default class DateMapper {
+class DateMapper {
   private isoDateRegEx = /^(\d{4}[/-](0?[1-9]|1[012])[/-](0?[1-9]|[12][0-9]|3[01]))/
 
   private localDateRegEx = /^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]\d{4}$/
@@ -108,3 +108,6 @@ export default class DateMapper {
     return null
   }
 }
+
+export { DateMapper }
+export default DateMapper

@@ -3,7 +3,7 @@ import { Services } from '../../../../../types/Services'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import { ReportType } from '../../../../../types/UserReports'
 
-export default class LoadReportController {
+class LoadReportController {
   layoutPath: string
 
   services: Services
@@ -45,3 +45,6 @@ export default class LoadReportController {
     }
   }
 }
+
+export { LoadReportController }
+export default LoadReportController

@@ -1,6 +1,6 @@
 import DprSelectedFiltersClass from '../filters-selected/clientClass.mjs'
 
-export default class InteractiveFilters extends DprSelectedFiltersClass {
+class InteractiveFilters extends DprSelectedFiltersClass {
   static getModuleName() {
     return 'interactive-filters'
   }
@@ -16,3 +16,6 @@ export default class InteractiveFilters extends DprSelectedFiltersClass {
     this.initInteractiveSelectedFilterButtonsEvents()
   }
 }
+
+export { InteractiveFilters }
+export default InteractiveFilters

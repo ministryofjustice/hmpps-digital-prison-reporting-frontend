@@ -222,7 +222,7 @@ export const getChildData = async (
  * @param {AsyncReportUtilsParams} { req, res, services }
  * @return {*}
  */
-const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
+export const renderReport = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { token, dprUser } = LocalsHelper.getValues(res)
 
   // Get the report data

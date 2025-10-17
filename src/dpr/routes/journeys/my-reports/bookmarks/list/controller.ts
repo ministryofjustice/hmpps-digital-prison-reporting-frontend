@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import BookmarklistUtils from '../../../../../components/user-reports/bookmarks/utils'
 import { Services } from '../../../../../types/Services'
 
-export default class BookmarkListingController {
+class BookmarkListingController {
   layoutPath: string
 
   services: Services
@@ -21,3 +21,6 @@ export default class BookmarkListingController {
     })
   }
 }
+
+export { BookmarkListingController }
+export default BookmarkListingController

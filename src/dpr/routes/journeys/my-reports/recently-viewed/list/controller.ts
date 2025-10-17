@@ -5,7 +5,7 @@ import RecentReportslistUtils from '../../../../../components/user-reports/viewe
 import UserReportsListUtils from '../../../../../components/user-reports/utils'
 import LocalsHelper from '../../../../../utils/localsHelper'
 
-export default class RecentlyViewedReportsListController {
+class RecentlyViewedReportsListController {
   layoutPath: string
 
   services: Services
@@ -33,3 +33,6 @@ export default class RecentlyViewedReportsListController {
     })
   }
 }
+
+export { RecentlyViewedReportsListController }
+export default RecentlyViewedReportsListController

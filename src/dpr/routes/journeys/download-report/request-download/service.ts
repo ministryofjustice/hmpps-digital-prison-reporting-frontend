@@ -3,7 +3,7 @@ import type { DownloadPermissionConfig } from '../../../../types/Download'
 import ReportStoreService from '../../../../services/reportStoreService'
 import UserDataStore from '../../../../data/reportDataStore'
 
-export default class DownloadPermissionService extends ReportStoreService {
+class DownloadPermissionService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
     logger.info('Service created: DownloadPermissionService')
@@ -54,3 +54,6 @@ export default class DownloadPermissionService extends ReportStoreService {
     return userConfig.downloadPermissions
   }
 }
+
+export { DownloadPermissionService }
+export default DownloadPermissionService

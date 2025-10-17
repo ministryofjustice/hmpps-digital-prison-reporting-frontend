@@ -1,4 +1,4 @@
-export default class DprUser {
+class DprUser {
   // Auth token
   token: string
 
@@ -17,3 +17,6 @@ export default class DprUser {
   // Email address
   emailAddress?: string
 }
+
+export { DprUser }
+export default DprUser

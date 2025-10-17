@@ -5,7 +5,7 @@ import { ReportStoreConfig } from '../types/ReportStore'
 
 export type RedisClient = ReturnType<typeof createClient>
 
-export default class ReportDataStore {
+class ReportDataStore {
   prefix: string
 
   constructor(private readonly redisClient: RedisClient, prefix = 'dprReportStoreUser:') {
@@ -47,3 +47,6 @@ const baseplateStore: ReportStoreConfig = {
   downloadPermissions: [],
   defaultFilters: [],
 }
+
+export { ReportDataStore }
+export default ReportDataStore

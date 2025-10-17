@@ -20,14 +20,14 @@ import {
 import { defaultFilterValue } from './types'
 import { FiltersType } from '../../components/_filters/filtersTypeEnum'
 
-const saveDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
+export const saveDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
   const defaultValuesForReport = await getDefaultValues(req, res, services, type)
   const { dprUser } = localsHelper.getValues(res)
   const { reportId, id } = req.params
   return services.defaultFilterValuesService.save(dprUser.id, reportId, id, defaultValuesForReport)
 }
 
-const removeDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
+export const removeDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
   const { dprUser } = localsHelper.getValues(res)
   const { reportId, id } = req.params
   return services.defaultFilterValuesService.delete(dprUser.id, reportId, id, type)
@@ -98,7 +98,7 @@ const getDefaultValues = async (
   })
 }
 
-const setFilterValuesFromSavedDefaults = (
+export const setFilterValuesFromSavedDefaults = (
   filters: FilterValue[],
   sortBy: FilterValue[],
   defaultValues: defaultFilterValue[],
@@ -181,7 +181,7 @@ const setFilterValuesFromSavedDefaults = (
   }
 }
 
-const setUserContextDefaults = (res: Response, filters: FilterValue[]) => {
+export const setUserContextDefaults = (res: Response, filters: FilterValue[]) => {
   const { dprUser } = localsHelper.getValues(res)
   const { activeCaseLoadId } = dprUser
 

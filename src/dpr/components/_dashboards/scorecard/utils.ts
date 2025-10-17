@@ -10,7 +10,7 @@ import {
 import { Scorecard, ScorecardGroup, ScorecardTrend } from './types'
 import DatasetHelper from '../../../utils/datasetHelper'
 
-const createScorecards = (
+export const createScorecards = (
   scorecardDefinition: DashboardVisualisation,
   rawData: DashboardDataResponse[],
 ): ScorecardGroup[] => {
@@ -81,7 +81,7 @@ const createScorecardData = ({
   }
 }
 
-const createScorecard = (scorecardDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]) => {
+export const createScorecard = (scorecardDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]) => {
   const { columns } = scorecardDefinition
   const { measures } = columns
   const displayColumn = measures[0]
@@ -262,7 +262,7 @@ const createTrend = (
   return trendData
 }
 
-const mergeScorecardsIntoGroup = (visualisations: DashboardUIVisualisation[]) => {
+export const mergeScorecardsIntoGroup = (visualisations: DashboardUIVisualisation[]) => {
   const groupedScorecardIndexes: number[][] = visualisations
     // get scorecard indexes
     .reduce((acc: number[], vis: DashboardUIVisualisation, i: number) => {

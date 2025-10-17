@@ -5,7 +5,7 @@ import LocalsHelper from '../../../../../utils/localsHelper'
 import AsyncReportUtils from './utils'
 import ViewReportUtils from '../../utils'
 
-export default class ViewAyncReportController {
+class ViewAyncReportController {
   layoutPath: string
 
   services: Services
@@ -53,3 +53,6 @@ export default class ViewAyncReportController {
     await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'columns')
   }
 }
+
+export { ViewAyncReportController }
+export default ViewAyncReportController

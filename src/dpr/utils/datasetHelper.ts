@@ -1,7 +1,7 @@
 import { DashboardDataResponse } from '../types/Metrics'
 import { DashboardVisualisation, DashboardVisualisationColumnKey } from '../components/_dashboards/dashboard/types'
 
-const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: DashboardDataResponse[]) => {
+export const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: DashboardDataResponse[]) => {
   const { keys, measures, filters, expectNulls } = listDefinition.columns
 
   const displayColumnsIds = measures.map((col) => col.id)
@@ -54,7 +54,7 @@ const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: D
   return filtered
 }
 
-const getKeyVariations = (dashboardData: DashboardDataResponse[], keys: DashboardVisualisationColumnKey[]) => {
+export const getKeyVariations = (dashboardData: DashboardDataResponse[], keys: DashboardVisualisationColumnKey[]) => {
   const colIdVariations: string[][] = []
   const keyColumnsIds = keys.map((col) => col.id)
   const allOptional = keys.every((key) => key.optional)
@@ -72,7 +72,7 @@ const getKeyVariations = (dashboardData: DashboardDataResponse[], keys: Dashboar
   return colIdVariations
 }
 
-const getKeyIds = (dashboardData: DashboardDataResponse[], colIdVariations: string[][]) => {
+export const getKeyIds = (dashboardData: DashboardDataResponse[], colIdVariations: string[][]) => {
   let validHeadIds: string[] = []
   colIdVariations.every((ids: string[]) => {
     const validRows = []
@@ -105,7 +105,7 @@ const getKeyIds = (dashboardData: DashboardDataResponse[], colIdVariations: stri
   return validHeadIds
 }
 
-const filterKeys = (dashboardData: DashboardDataResponse[], keys: DashboardVisualisationColumnKey[]) => {
+export const filterKeys = (dashboardData: DashboardDataResponse[], keys: DashboardVisualisationColumnKey[]) => {
   const colIdVariations = getKeyVariations(dashboardData, keys)
   const validHeadIds = getKeyIds(dashboardData, colIdVariations)
 
@@ -124,7 +124,7 @@ const filterKeys = (dashboardData: DashboardDataResponse[], keys: DashboardVisua
   })
 }
 
-const getLastestDataset = (dashboardData: DashboardDataResponse[]): DashboardDataResponse[] => {
+export const getLastestDataset = (dashboardData: DashboardDataResponse[]): DashboardDataResponse[] => {
   const latestTimestamp = dashboardData[dashboardData.length - 1]?.ts?.raw
   if (latestTimestamp) {
     return dashboardData.filter((data) => data.ts.raw === latestTimestamp)
@@ -132,7 +132,7 @@ const getLastestDataset = (dashboardData: DashboardDataResponse[]): DashboardDat
   return dashboardData
 }
 
-const getEarliestDataset = (dashboardData: DashboardDataResponse[]): DashboardDataResponse[] => {
+export const getEarliestDataset = (dashboardData: DashboardDataResponse[]): DashboardDataResponse[] => {
   const latestTimestamp = dashboardData[0]?.ts?.raw
   if (latestTimestamp) {
     return dashboardData.filter((data) => data.ts.raw === latestTimestamp)
@@ -140,21 +140,21 @@ const getEarliestDataset = (dashboardData: DashboardDataResponse[]): DashboardDa
   return dashboardData
 }
 
-const groupRowsByTimestamp = (dashboardData: DashboardDataResponse[]): DashboardDataResponse[][] => {
+export const groupRowsByTimestamp = (dashboardData: DashboardDataResponse[]): DashboardDataResponse[][] => {
   const uniqueTimestamps = [...new Set(dashboardData.map((item) => item.ts.raw))]
   return uniqueTimestamps.map((ts) => {
     return dashboardData.filter((d) => d.ts.raw === ts)
   })
 }
 
-const groupRowsByKey = (dashboardData: DashboardDataResponse[], key: string): DashboardDataResponse[][] => {
+export const groupRowsByKey = (dashboardData: DashboardDataResponse[], key: string): DashboardDataResponse[][] => {
   const uniqueKeyValues = [...new Set(dashboardData.map((item) => item[key].raw))]
   return uniqueKeyValues.map((keyValue) => {
     return dashboardData.filter((d) => d[key].raw === keyValue)
   })
 }
 
-const getGroupKey = (keys: DashboardVisualisationColumnKey[], rawData: DashboardDataResponse[]) => {
+export const getGroupKey = (keys: DashboardVisualisationColumnKey[], rawData: DashboardDataResponse[]) => {
   if (!keys || !keys.length) {
     return undefined
   }
@@ -174,7 +174,7 @@ const getGroupKey = (keys: DashboardVisualisationColumnKey[], rawData: Dashboard
   return index !== -1 ? keys[index] : undefined
 }
 
-const filterRowsByDisplayColumns = (
+export const filterRowsByDisplayColumns = (
   listDefinition: DashboardVisualisation,
   dashboardData: DashboardDataResponse[],
   includeKeys = false,

@@ -1,6 +1,6 @@
 import DprQueryParamClass from '../../../DprQueryParamClass.mjs'
 
-export default class Columns extends DprQueryParamClass {
+class Columns extends DprQueryParamClass {
   static getModuleName() {
     return 'columns'
   }
@@ -41,3 +41,6 @@ export default class Columns extends DprQueryParamClass {
     })
   }
 }
+
+export { Columns }
+export default Columns

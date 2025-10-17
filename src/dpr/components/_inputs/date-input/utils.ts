@@ -8,7 +8,7 @@ import { defaultFilterValue } from '../../../utils/Personalisation/types'
 
 dayjs.extend(customParse)
 
-const setDateValueWithinMinMax = (filter: components['schemas']['FilterDefinition']) => {
+export const setDateValueWithinMinMax = (filter: components['schemas']['FilterDefinition']) => {
   const { defaultValue, min, max } = filter
   let dateValue
   if (defaultValue) {
@@ -19,7 +19,7 @@ const setDateValueWithinMinMax = (filter: components['schemas']['FilterDefinitio
   return dateValue
 }
 
-const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string): string => {
+export const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string): string => {
   const { min, max, mandatory } = <DateFilterValue>filter
   const dateValue = <string>req.query[`${prefix}${filter.name}`]
   let value = dateValue
@@ -29,7 +29,7 @@ const setValueFromRequest = (filter: FilterValue, req: Request, prefix: string):
   return value
 }
 
-const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: FilterValue) => {
+export const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: FilterValue) => {
   const value = defaultValue.value
     ? dayjs(<string>defaultValue.value, 'D/M/YYYY')
         .format('YYYY-MM-DD')
@@ -41,7 +41,7 @@ const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: Fil
   }
 }
 
-const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition'], filterData: FilterValue) => {
+export const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition'], filterData: FilterValue) => {
   return {
     ...filterData,
     value: setDateValueWithinMinMax(filter) || '',

@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import DprQueryParamClass from './DprQueryParamClass.mjs'
 
-export default class DprFormValidationClass extends DprQueryParamClass {
+class DprFormValidationClass extends DprQueryParamClass {
   initFormValidation(formFields) {
     formFields.forEach((field) => {
       const formGroup = field.closest('div.govuk-form-group')
@@ -135,3 +135,6 @@ export default class DprFormValidationClass extends DprQueryParamClass {
     return message
   }
 }
+
+export { DprFormValidationClass }
+export default DprFormValidationClass

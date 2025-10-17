@@ -167,68 +167,72 @@ export const renderListWithDefinition = async ({
   }
 }
 
-export default {
-  renderListWithData: async ({
-    title,
-    reportName,
+export const renderListWithData = async ({
+  title,
+  reportName,
+  variantDefinition,
+  request,
+  response,
+  next,
+  getListDataSources,
+  otherOptions,
+  layoutTemplate,
+}: RenderListWithDataInput) => {
+  const { specification } = variantDefinition
+  const { fields, template } = <components['schemas']['Specification']>specification
+  const reportQuery = new ReportQuery({
+    fields,
+    template: template as Template,
+    queryParams: request.query,
+    definitionsPath: <string>request.query.dataProductDefinitionsPath,
+  })
+
+  const listData = getListDataSources(reportQuery)
+  await renderList(
+    listData,
     variantDefinition,
+    reportQuery,
     request,
     response,
     next,
-    getListDataSources,
-    otherOptions,
+    title,
     layoutTemplate,
-  }: RenderListWithDataInput) => {
-    const { specification } = variantDefinition
-    const { fields, template } = <components['schemas']['Specification']>specification
-    const reportQuery = new ReportQuery({
-      fields,
-      template: template as Template,
-      queryParams: request.query,
-      definitionsPath: <string>request.query.dataProductDefinitionsPath,
-    })
+    otherOptions,
+    reportName,
+  )
+}
 
-    const listData = getListDataSources(reportQuery)
-    await renderList(
-      listData,
-      variantDefinition,
-      reportQuery,
+export const createReportListRequestHandler = ({
+  title,
+  definitionName,
+  variantName,
+  apiUrl,
+  apiTimeout,
+  otherOptions,
+  layoutTemplate,
+  tokenProvider,
+  definitionsPath,
+}: CreateRequestHandlerInput): RequestHandler => {
+  return (request: Request, response: Response, next: NextFunction) => {
+    renderListWithDefinition({
+      title,
+      definitionName,
+      variantName,
       request,
       response,
       next,
-      title,
-      layoutTemplate,
       otherOptions,
-      reportName,
-    )
-  },
-  createReportListRequestHandler: ({
-    title,
-    definitionName,
-    variantName,
-    apiUrl,
-    apiTimeout,
-    otherOptions,
-    layoutTemplate,
-    tokenProvider,
-    definitionsPath,
-  }: CreateRequestHandlerInput): RequestHandler => {
-    return (request: Request, response: Response, next: NextFunction) => {
-      renderListWithDefinition({
-        title,
-        definitionName,
-        variantName,
-        request,
-        response,
-        next,
-        otherOptions,
-        layoutTemplate,
-        token: tokenProvider(request, response, next),
-        apiUrl,
-        apiTimeout,
-        definitionsPath,
-      })
-    }
-  },
+      layoutTemplate,
+      token: tokenProvider(request, response, next),
+      apiUrl,
+      apiTimeout,
+      definitionsPath,
+    })
+  }
+}
+
+export default {
+  renderListWithData,
+  createReportListRequestHandler,
   renderListWithDefinition,
 }

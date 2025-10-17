@@ -7,7 +7,7 @@ import { ChildData, ParentChildSortKey } from './types'
 import logger from '../logger'
 import SectionedDataTableBuilder from '../SectionedDataTableBuilder/SectionedDataTableBuilder'
 
-export default class ParentChildDataTableBuilder extends SectionedDataTableBuilder {
+class ParentChildDataTableBuilder extends SectionedDataTableBuilder {
   variant: components['schemas']['VariantDefinition']
 
   childVariants: components['schemas']['ChildVariantDefinition'][]
@@ -256,3 +256,6 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
     }
   }
 }
+
+export { ParentChildDataTableBuilder }
+export default ParentChildDataTableBuilder

@@ -1,6 +1,6 @@
 import DprFormValidationClass from './DprFormValidationClass.mjs'
 
-export default class DprGenericForm extends DprFormValidationClass {
+class DprGenericForm extends DprFormValidationClass {
   static getModuleName() {
     return 'dpr-generic-form'
   }
@@ -30,3 +30,6 @@ export default class DprGenericForm extends DprFormValidationClass {
     })
   }
 }
+
+export { DprGenericForm }
+export default DprGenericForm

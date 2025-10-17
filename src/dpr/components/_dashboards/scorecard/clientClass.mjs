@@ -1,6 +1,6 @@
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
-export default class Pagination extends DprClientClass {
+class Pagination extends DprClientClass {
   static getModuleName() {
     return 'scorecard'
   }
@@ -21,3 +21,6 @@ export default class Pagination extends DprClientClass {
     })
   }
 }
+
+export { Pagination }
+export default Pagination

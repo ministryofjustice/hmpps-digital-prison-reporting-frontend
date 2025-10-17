@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import ChartVisualisation from '../clientClass.mjs'
 
-export default class LineChartVisualisation extends ChartVisualisation {
+class LineChartVisualisation extends ChartVisualisation {
   static getModuleName() {
     return 'line-chart'
   }
@@ -89,3 +89,6 @@ export default class LineChartVisualisation extends ChartVisualisation {
     }
   }
 }
+
+export { LineChartVisualisation }
+export default LineChartVisualisation

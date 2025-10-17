@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { Services } from '../../../types/Services'
 import logger from '../../../utils/logger'
 
-export default class ViewReportController {
+class ViewReportController {
   layoutPath: string
 
   services: Services
@@ -24,3 +24,6 @@ export default class ViewReportController {
     })
   }
 }
+
+export { ViewReportController }
+export default ViewReportController

@@ -5,7 +5,7 @@ export interface BookmarksByCaseload {
   [caseLoadId: string]: BookmarkStoreData[]
 }
 
-const preBookmarkReportsByRoleId = async (
+export const preBookmarkReportsByRoleId = async (
   userId: string,
   activeCaseLoadId: string,
   services: Services,

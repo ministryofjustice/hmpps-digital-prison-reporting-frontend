@@ -157,46 +157,48 @@ const mapBookmarkIdsToDefinition = async (
   return bookmarkData
 }
 
+export const renderBookmarkList = async ({
+  services,
+  maxRows = 20,
+  res,
+  req,
+}: {
+  services: Services
+  maxRows?: number
+  res: Response
+  req: Request
+}) => {
+  const { token, csrfToken, dprUser, bookmarks } = LocalsHelper.getValues(res)
+  const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, res, token, services)
+
+  let formatted = await formatBookmarks(bookmarksData)
+  const formattedCount = formatted.length
+
+  if (maxRows) formatted = formatted.slice(0, maxRows)
+  const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, dprUser.id, maxRows)
+
+  const head = {
+    ...(formatted.length && { href: '/dpr/my-reports/bookmarks/list' }),
+    ...(!formatted.length && { emptyMessage: 'You have 0 bookmarked reports' }),
+  }
+
+  const total = {
+    amount: formattedCount,
+    shown: formattedCount > maxRows ? maxRows : formattedCount,
+    max: maxRows,
+  }
+
+  const result = {
+    head,
+    tableData,
+    total,
+    csrfToken,
+    type: 'bookmark',
+  }
+
+  return result
+}
+
 export default {
-  renderBookmarkList: async ({
-    services,
-    maxRows = 20,
-    res,
-    req,
-  }: {
-    services: Services
-    maxRows?: number
-    res: Response
-    req: Request
-  }) => {
-    const { token, csrfToken, dprUser, bookmarks } = LocalsHelper.getValues(res)
-    const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, res, token, services)
-
-    let formatted = await formatBookmarks(bookmarksData)
-    const formattedCount = formatted.length
-
-    if (maxRows) formatted = formatted.slice(0, maxRows)
-    const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, dprUser.id, maxRows)
-
-    const head = {
-      ...(formatted.length && { href: '/dpr/my-reports/bookmarks/list' }),
-      ...(!formatted.length && { emptyMessage: 'You have 0 bookmarked reports' }),
-    }
-
-    const total = {
-      amount: formattedCount,
-      shown: formattedCount > maxRows ? maxRows : formattedCount,
-      max: maxRows,
-    }
-
-    const result = {
-      head,
-      tableData,
-      total,
-      csrfToken,
-      type: 'bookmark',
-    }
-
-    return result
-  },
+  renderBookmarkList,
 }

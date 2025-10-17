@@ -21,7 +21,9 @@
     "baseUrl": ".",
     "paths": {
       "@networkMocks/*": ["_networkMocks/*"]
-    }
+    },
+    "inlineSources": true,
+    "sourceRoot": "/"
   },
   "exclude": ["node_modules", "dist", "dist-test-app", "package", "esbuild", "dist-docs"],
   "include": ["**/*.ts"],

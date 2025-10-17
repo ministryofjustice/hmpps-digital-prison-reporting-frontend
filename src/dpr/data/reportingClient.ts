@@ -6,7 +6,7 @@ import { components, operations } from '../types/api'
 import { ApiConfig, Count, FieldValuesRequest, ListWithWarnings } from './types'
 import type { ResultWithHeaders } from './restClient'
 
-export default class ReportingClient {
+class ReportingClient {
   restClient: RestClient
 
   constructor(config: ApiConfig) {
@@ -264,3 +264,6 @@ export default class ReportingClient {
     if (args && Object.keys(args).length) logger.info(JSON.stringify(args, null, 2))
   }
 }
+
+export { ReportingClient }
+export default ReportingClient

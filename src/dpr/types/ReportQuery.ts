@@ -9,7 +9,7 @@ import { ReportType } from './UserReports'
 
 export const DEFAULT_FILTERS_PREFIX = 'filters.'
 
-export default class ReportQuery implements FilteredListRequest {
+class ReportQuery implements FilteredListRequest {
   selectedPage: number
 
   pageSize: number | undefined
@@ -168,3 +168,6 @@ export default class ReportQuery implements FilteredListRequest {
     }
   }
 }
+
+export { ReportQuery }
+export default ReportQuery

@@ -1,6 +1,6 @@
 import DprQueryParamClass from '../../../DprQueryParamClass.mjs'
 
-export default class Pagination extends DprQueryParamClass {
+class Pagination extends DprQueryParamClass {
   static getModuleName() {
     return 'pagination'
   }
@@ -23,3 +23,6 @@ export default class Pagination extends DprQueryParamClass {
     })
   }
 }
+
+export { Pagination }
+export default Pagination

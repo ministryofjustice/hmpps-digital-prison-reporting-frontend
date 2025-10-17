@@ -85,7 +85,7 @@ const buildRowSectionedTable = (
   })
 }
 
-const createDataTable = (
+export const createDataTable = (
   definition: components['schemas']['SingleVariantReportDefinition'],
   columns: Columns,
   reportData: Dict<string>[],

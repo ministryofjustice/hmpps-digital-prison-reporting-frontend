@@ -135,73 +135,75 @@ const downloadSyncData = async (args: {
   return data
 }
 
-export default {
-  async downloadReport({
-    req,
-    services,
-    res,
-    redirect,
-    loadType,
-  }: {
-    req: Request
-    services: Services
-    res: Response
-    redirect: string
-    loadType?: LoadType
-  }) {
-    const { dprUser, token } = LocalsHelper.getValues(res)
-    const {
-      reportId,
-      id,
-      tableId,
+export const downloadReport = async ({
+  req,
+  services,
+  res,
+  redirect,
+  loadType,
+}: {
+  req: Request
+  services: Services
+  res: Response
+  redirect: string
+  loadType?: LoadType
+}) => {
+  const { dprUser, token } = LocalsHelper.getValues(res)
+  const {
+    reportId,
+    id,
+    tableId,
+    dataProductDefinitionsPath,
+    reportName,
+    name,
+    cols: columns,
+    sortedAsc,
+    sortColumn,
+  } = req.body
+
+  const canDownload = await services.downloadPermissionService.downloadEnabled(dprUser.id, reportId, id)
+  if (!canDownload) {
+    res.redirect(redirect)
+  } else {
+    const definition = await services.reportingService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
+    const queryParams = {
       dataProductDefinitionsPath,
-      reportName,
-      name,
-      cols: columns,
-      sortedAsc,
-      sortColumn,
-    } = req.body
-
-    const canDownload = await services.downloadPermissionService.downloadEnabled(dprUser.id, reportId, id)
-    if (!canDownload) {
-      res.redirect(redirect)
-    } else {
-      const definition = await services.reportingService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
-      const queryParams = {
-        dataProductDefinitionsPath,
-        ...(sortedAsc && { sortedAsc }),
-        ...(sortColumn && { sortColumn }),
-      }
-
-      let reportData
-      if (loadType === LoadType.SYNC) {
-        reportData = await downloadSyncData({
-          definition,
-          services,
-          token,
-          queryParams,
-        })
-      } else {
-        reportData = await dowloadAsyncData({
-          services,
-          token,
-          reportId,
-          id,
-          tableId,
-          queryParams,
-        })
-      }
-      if (columns) {
-        reportData = applyColumnsAndSort(reportData, JSON.parse(columns))
-      }
-      reportData = removeHtmlTags(reportData, definition)
-      const keys: KeysList = getKeys(reportData, definition.variant.specification.fields)
-      const csvData = convertToCsv(reportData, { keys, emptyFieldValue: '' })
-
-      res.setHeader('Content-Type', 'application/json')
-      res.setHeader('Content-disposition', `attachment; filename=${reportName}-${name}-${new Date().toISOString()}.csv`)
-      res.end(csvData)
+      ...(sortedAsc && { sortedAsc }),
+      ...(sortColumn && { sortColumn }),
     }
-  },
+
+    let reportData
+    if (loadType === LoadType.SYNC) {
+      reportData = await downloadSyncData({
+        definition,
+        services,
+        token,
+        queryParams,
+      })
+    } else {
+      reportData = await dowloadAsyncData({
+        services,
+        token,
+        reportId,
+        id,
+        tableId,
+        queryParams,
+      })
+    }
+    if (columns) {
+      reportData = applyColumnsAndSort(reportData, JSON.parse(columns))
+    }
+    reportData = removeHtmlTags(reportData, definition)
+    const keys: KeysList = getKeys(reportData, definition.variant.specification.fields)
+    const csvData = convertToCsv(reportData, { keys, emptyFieldValue: '' })
+
+    res.setHeader('Content-Type', 'application/json')
+    res.setHeader('Content-disposition', `attachment; filename=${reportName}-${name}-${new Date().toISOString()}.csv`)
+    res.end(csvData)
+  }
+}
+
+export default {
+  downloadReport,
   getKeys,
 }

@@ -4,7 +4,7 @@ import { RequestStatus, RequestedReport, RecentlyViewedReport, StoredReportData 
 import { ReportStoreConfig } from '../../../../types/ReportStore'
 import logger from '../../../../utils/logger'
 
-export default class RecentlyViewedStoreService extends ReportStoreService {
+class RecentlyViewedStoreService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
     logger.info('Service created: RecentlyViewedStoreService')
@@ -102,3 +102,6 @@ export default class RecentlyViewedStoreService extends ReportStoreService {
     await this.saveState(userId, userConfig)
   }
 }
+
+export { RecentlyViewedStoreService }
+export default RecentlyViewedStoreService

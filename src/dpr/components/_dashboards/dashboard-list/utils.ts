@@ -78,7 +78,10 @@ const createListFromColumns = (listDefinition: ListVisualisation, dashboardData:
   }
 }
 
-export const createTableRows = (data: DashboardDataResponse[], measures?: DashboardVisualisationColumn[]): MoJTableRow[][] => {
+export const createTableRows = (
+  data: DashboardDataResponse[],
+  measures?: DashboardVisualisationColumn[],
+): MoJTableRow[][] => {
   return data.map((dataRow) => {
     const row: MoJTableRow[] = measures?.length ? Array(measures.length) : Array(Object.keys(data[0]).length)
     Object.keys(dataRow).forEach((key, index) => {

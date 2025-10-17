@@ -8,19 +8,8 @@ export const renderPolling = async ({ req, res, services }: AsyncReportUtilsPara
 
   const requestReportData = await services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
 
-  const {
-    reportName,
-    name,
-    variantName,
-    description,
-    status,
-    query,
-    timestamp,
-    url,
-    errorMessage,
-    metrics,
-    tableId,
-  } = requestReportData
+  const { reportName, name, variantName, description, status, query, timestamp, url, errorMessage, metrics, tableId } =
+    requestReportData
 
   const title = `${type.charAt(0).toUpperCase() + type.substring(1).toLowerCase()} request status`
 
@@ -50,5 +39,5 @@ export const renderPolling = async ({ req, res, services }: AsyncReportUtilsPara
 }
 
 export default {
-  renderPolling
+  renderPolling,
 }

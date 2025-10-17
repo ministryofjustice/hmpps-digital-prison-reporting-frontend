@@ -25,14 +25,14 @@ export const ensureMandatoryColumns = (
 }
 
 /**
-   * Converts the columns from a DPD into a column readable format
-   *
-   * @param specification
-   * @param requestedColumns
-   */
+ * Converts the columns from a DPD into a column readable format
+ *
+ * @param specification
+ * @param requestedColumns
+ */
 export const getColumns = (specification: components['schemas']['Specification'], req: Request): Columns => {
-    const requestedColumns = <string[] | string | undefined>req.query.columns
-    const { fields } = specification
+  const requestedColumns = <string[] | string | undefined>req.query.columns
+  const { fields } = specification
 
   const options: Column[] = fields
     .filter((field) => !specification.sections || !specification.sections.includes(field.name))
@@ -40,7 +40,7 @@ export const getColumns = (specification: components['schemas']['Specification']
       text: field.display,
       value: field.name,
       disabled: field.mandatory,
-  }))
+    }))
 
   return {
     name: 'columns',

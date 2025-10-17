@@ -34,7 +34,11 @@ import { defaultFilterValue } from '../../utils/Personalisation/types'
  * @param {string} [prefix='filters.']
  * @return {*}  {FilterValue[]}
  */
-export const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix = 'filters.'): FilterValue[] => {
+export const setFilterValuesFromRequest = (
+  filters: FilterValue[],
+  req: Request,
+  prefix = 'filters.',
+): FilterValue[] => {
   const { preventDefault } = req.query
 
   if (Object.keys(req.query).every((key) => !key.includes(prefix)) && !preventDefault) {

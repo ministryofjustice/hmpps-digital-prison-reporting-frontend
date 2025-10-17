@@ -149,5 +149,5 @@ export const getPaginationData = (url: Url, totalRows: number, req: Request): Pa
 }
 
 export default {
-  getPaginationData
+  getPaginationData,
 }

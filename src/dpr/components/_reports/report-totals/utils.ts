@@ -19,5 +19,5 @@ export const getTotals = (pageSize: number, currentPage: number, totalRows: numb
 }
 
 export default {
-  getTotals
+  getTotals,
 }

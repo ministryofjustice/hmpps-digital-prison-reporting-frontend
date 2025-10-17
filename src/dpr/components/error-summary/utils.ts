@@ -5,19 +5,19 @@ export const handleError = (error: DprError | DprErrorData | Error, reportType?:
 
 const mapError = (error: DprError | DprErrorData | Error, reportType?: string): DprUIError => {
   const dprError: DprError = formatError(error)
-  
+
   let status = 'FAILED'
   let message
-  
+
   if (dprError.userMessage.includes('TypeError:')) {
     message = 'There is an issue in the client. This has been reported to admin staff'
   }
-  
+
   if (dprError.userMessage.includes('The stored report or dashboard was not found.')) {
     status = 'EXPIRED'
     message = `This ${reportType} has expired`
   }
-  
+
   return {
     status,
     developerMessage: dprError.developerMessage,
@@ -29,7 +29,7 @@ const formatError = (error: DprError | DprErrorData | Error) => {
   if (error && (<DprErrorData>error).data) {
     return (<DprErrorData>error).data
   }
-  
+
   if (error && (<Error>error).message) {
     const e: Error = error as Error
     return {
@@ -38,7 +38,7 @@ const formatError = (error: DprError | DprErrorData | Error) => {
       developerMessage: e.stack,
     }
   }
-  
+
   return error as DprError
 }
 
@@ -61,5 +61,5 @@ interface DprUIError {
 }
 
 export default {
-  handleError
+  handleError,
 }

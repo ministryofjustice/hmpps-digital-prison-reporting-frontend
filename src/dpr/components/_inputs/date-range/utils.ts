@@ -11,7 +11,12 @@ import { DefaultDateFilterValue, defaultFilterValue } from '../../../utils/Perso
 
 dayjs.extend(customParse)
 
-export const dateIsInBounds = (startDate: dayjs.Dayjs | string, endDate: dayjs.Dayjs | string, min: string, max: string) => {
+export const dateIsInBounds = (
+  startDate: dayjs.Dayjs | string,
+  endDate: dayjs.Dayjs | string,
+  min: string,
+  max: string,
+) => {
   dayjs.extend(isBetween)
 
   const minDate = dayjs(min)

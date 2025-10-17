@@ -8,5 +8,5 @@ export const createShowMoreHtml = (text: string, length?: number) => {
 }
 
 export default {
-  createShowMoreHtml
+  createShowMoreHtml,
 }

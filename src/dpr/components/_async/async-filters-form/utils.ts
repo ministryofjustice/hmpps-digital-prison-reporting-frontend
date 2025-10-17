@@ -79,13 +79,12 @@ export const setDurationStartAndEnd = (
   }
 }
 
-
-  /**
-   * Returns the data required for rendering the async filters component
-   *
-   * @param {AsyncReportUtilsParams} { req, res, dataSources }
-   * @return {*}
-   */
+/**
+ * Returns the data required for rendering the async filters component
+ *
+ * @param {AsyncReportUtilsParams} { req, res, dataSources }
+ * @return {*}
+ */
 export const renderFilters = async (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
   return {
     filters: FiltersUtils.getFiltersFromDefinition(fields, false),
@@ -94,9 +93,9 @@ export const renderFilters = async (fields: components['schemas']['FieldDefiniti
 }
 
 export const setQueryFromFilters = (
-    req: Request,
-    fields: components['schemas']['FieldDefinition'][],
-  ): SetQueryFromFiltersResult => {
+  req: Request,
+  fields: components['schemas']['FieldDefinition'][],
+): SetQueryFromFiltersResult => {
   let query: Dict<string> = {}
   let filterData: Dict<string> = {}
   let querySummary: Array<Dict<string>> = []

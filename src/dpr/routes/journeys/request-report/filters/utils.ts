@@ -319,15 +319,14 @@ export const cancelRequest = async ({ req, res, services }: AsyncReportUtilsPara
  * @param {AsyncReportUtilsParams} { req, res, dataSources }
  * @return {*}
  */
-export const renderRequest = async ({ req, res, services, next }: AsyncReportUtilsParams): Promise<RequestDataResult | boolean> => {
+export const renderRequest = async ({
+  req,
+  res,
+  services,
+  next,
+}: AsyncReportUtilsParams): Promise<RequestDataResult | boolean> => {
   try {
-    const {
-      token,
-      csrfToken,
-      definitionsPath: definitionPath,
-      dpdPathFromQuery,
-      dprUser,
-    } = LocalsHelper.getValues(res)
+    const { token, csrfToken, definitionsPath: definitionPath, dpdPathFromQuery, dprUser } = LocalsHelper.getValues(res)
     const { reportId, type, id } = req.params
     const { definition } = res.locals
     const defaultsSaved = <string>req.query.defaultsSaved
@@ -356,14 +355,7 @@ export const renderRequest = async ({ req, res, services, next }: AsyncReportUti
     }
 
     if (fields) {
-      ;({ filtersData, defaultFilterValues } = await getFilterData(
-        req,
-        res,
-        fields,
-        interactive,
-        services,
-        dprUser.id,
-      ))
+      ;({ filtersData, defaultFilterValues } = await getFilterData(req, res, fields, interactive, services, dprUser.id))
     }
 
     const reportData: RequestReportData = {

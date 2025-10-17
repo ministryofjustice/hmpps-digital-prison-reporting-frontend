@@ -15,8 +15,6 @@ class RequestReportController {
   errorHandler: RequestHandler = async (req, res, next) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
 
-    if (1 == 1) throw Error("a lib error")
-
     res.render(`dpr/routes/journeys/view-report/error`, {
       layoutPath: this.layoutPath,
       ...req.body,

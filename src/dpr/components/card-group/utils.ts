@@ -38,5 +38,5 @@ export const variantDefinitionsToCards = (
 
 export default {
   reportDefinitionsToCards,
-  variantDefinitionsToCards
+  variantDefinitionsToCards,
 }

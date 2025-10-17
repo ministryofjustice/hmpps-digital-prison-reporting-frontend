@@ -83,12 +83,18 @@ export const getTemplate = (definition: components['schemas']['SingleVariantRepo
   return definition.variant.specification?.template
 }
 
-export const getFilters = (fields: components['schemas']['FieldDefinition'][]): components['schemas']['FilterDefinition'][] => {
+export const getFilters = (
+  fields: components['schemas']['FieldDefinition'][],
+): components['schemas']['FilterDefinition'][] => {
   return fields.filter((field) => field.filter).map((field) => field.filter)
 }
 
-export const getReportSummary = (reportId: string, reportingService: ReportingService, token: string, definitionPath: string) =>
-  reportingService.getDefinitionSummary(token, reportId, definitionPath)
+export const getReportSummary = (
+  reportId: string,
+  reportingService: ReportingService,
+  token: string,
+  definitionPath: string,
+) => reportingService.getDefinitionSummary(token, reportId, definitionPath)
 
 export default {
   getCurrentVariantDefinition,
@@ -99,5 +105,5 @@ export default {
   getFilter,
   getFilters,
   getFiltersDefaultsValues,
-  getReportSummary
+  getReportSummary,
 }

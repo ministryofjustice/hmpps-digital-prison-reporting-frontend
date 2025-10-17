@@ -7,5 +7,5 @@ export const filterReports = (report: RecentlyViewedReport) => {
 }
 
 export default {
-  filterReports
+  filterReports,
 }

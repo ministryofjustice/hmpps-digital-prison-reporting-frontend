@@ -292,7 +292,6 @@ export const renderList = async ({
   return result
 }
 
-
 export const updateExpiredStatus = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { dprUser } = LocalsHelper.getValues(res)
   const report = await getExpiredStatus({ req, res, services })
@@ -391,5 +390,5 @@ export default {
   renderList,
   updateExpiredStatus,
   init,
-  updateLastViewed
+  updateLastViewed,
 }

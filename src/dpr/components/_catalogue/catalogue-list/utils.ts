@@ -9,9 +9,9 @@ import { CatalogueFeatures } from '../catalogue/types'
 import LocalsHelper from '../../../utils/localsHelper'
 
 export const getReportsList = async (
-    res: Response,
-    services: Services,
-    features?: CatalogueFeatures,
+  res: Response,
+  services: Services,
+  features?: CatalogueFeatures,
 ): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[]; id: string }> => {
   const { definitions, csrfToken, bookmarkingEnabled, dprUser } = LocalsHelper.getValues(res)
 
@@ -90,18 +90,8 @@ export const getReportsList = async (
   const userConfig = await services.bookmarkService.getState(dprUser.id)
   const rows = await Promise.all(
     sortedVariants.map(async (v: DefinitionData) => {
-      const {
-        id,
-        name,
-        description,
-        reportName,
-        reportId,
-        reportDescription,
-        type,
-        loadType,
-        authorised,
-        isMissing,
-      } = v
+      const { id, name, description, reportName, reportId, reportDescription, type, loadType, authorised, isMissing } =
+        v
       const desc = description || reportDescription || ''
 
       const href = setInitialHref(loadType, type, reportId, id, res, isMissing)

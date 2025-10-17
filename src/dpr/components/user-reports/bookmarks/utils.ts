@@ -200,5 +200,5 @@ export const renderBookmarkList = async ({
 }
 
 export default {
-  renderBookmarkList
+  renderBookmarkList,
 }

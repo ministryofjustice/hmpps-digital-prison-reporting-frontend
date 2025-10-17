@@ -233,5 +233,5 @@ export const renderAsyncDashboard = async ({ req, res, services, next }: AsyncRe
 }
 
 export default {
-  renderAsyncDashboard
+  renderAsyncDashboard,
 }

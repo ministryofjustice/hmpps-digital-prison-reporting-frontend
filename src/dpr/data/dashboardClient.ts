@@ -4,7 +4,7 @@ import RestClient from './restClient'
 import Dict = NodeJS.Dict
 import { ApiConfig } from './types'
 
-export default class DashboardClient {
+class DashboardClient {
   restClient: RestClient
 
   constructor(config: ApiConfig) {
@@ -112,3 +112,6 @@ export default class DashboardClient {
     if (args && Object.keys(args).length) logger.info(JSON.stringify(args, null, 2))
   }
 }
+
+export { DashboardClient }
+export default DashboardClient

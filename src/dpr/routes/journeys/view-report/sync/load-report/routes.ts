@@ -3,7 +3,7 @@ import { Router } from 'express'
 import LoadReportController from './controller'
 import { Services } from '../../../../../types/Services'
 
-export default function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
+export function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
   const router = Router({ mergeParams: true })
 
   const controller = new LoadReportController(layoutPath, services)
@@ -11,3 +11,5 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
 
   return router
 }
+
+export default routes

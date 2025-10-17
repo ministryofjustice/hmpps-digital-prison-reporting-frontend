@@ -5,7 +5,7 @@ import ReportStoreService from '../../../../services/reportStoreService'
 import { getDpdPathSuffix } from '../../../../utils/urlHelper'
 import logger from '../../../../utils/logger'
 
-export default class RequestedReportService extends ReportStoreService {
+class RequestedReportService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
     logger.info('Service created: RequestedReportService')
@@ -137,3 +137,6 @@ export default class RequestedReportService extends ReportStoreService {
     return report
   }
 }
+
+export { RequestedReportService }
+export default RequestedReportService

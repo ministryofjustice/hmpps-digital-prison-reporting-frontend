@@ -13,7 +13,7 @@ import Dict = NodeJS.Dict
 import { ChildReportExecutionData, ExecutionData } from '../types/ExecutionData'
 import { DashboardSection } from '../components/_dashboards/dashboard/types'
 
-export default class UserStoreItemBuilder {
+class UserStoreItemBuilder {
   userStoreItem: UserReportData
 
   requestFormData: RequestFormData | Record<string, never>
@@ -264,3 +264,6 @@ export default class UserStoreItemBuilder {
     return this
   }
 }
+
+export { UserStoreItemBuilder }
+export default UserStoreItemBuilder

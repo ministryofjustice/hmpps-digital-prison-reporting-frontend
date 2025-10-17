@@ -23,7 +23,7 @@ interface RequestWithBody extends Request {
   retry?: boolean
 }
 
-export default class RestClient {
+class RestClient {
   agent: Agent
 
   constructor(private readonly name: string, private readonly config: ApiConfig) {
@@ -161,3 +161,6 @@ export default class RestClient {
     return this.deleteWithHeaders<T>(request).then((result) => result.data)
   }
 }
+
+export { RestClient }
+export default RestClient

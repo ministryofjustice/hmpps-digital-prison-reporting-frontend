@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import localsHelper from '../../../../utils/localsHelper'
 
-export default class MissingReportSubmittedController {
+class MissingReportSubmittedController {
   layoutPath: string
 
   constructor(layoutPath: string) {
@@ -29,3 +29,6 @@ export default class MissingReportSubmittedController {
     }
   }
 }
+
+export { MissingReportSubmittedController }
+export default MissingReportSubmittedController

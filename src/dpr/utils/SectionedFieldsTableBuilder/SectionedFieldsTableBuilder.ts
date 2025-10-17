@@ -10,7 +10,7 @@ interface SectionedField {
   child?: string
 }
 
-export default class SectionedFieldsDataTableBuilder extends ParentChildDataTableBuilder {
+class SectionedFieldsDataTableBuilder extends ParentChildDataTableBuilder {
   // TODO: change this to use schema type if ever implemented in the backend
   sectionedFields: SectionedField[]
 
@@ -145,3 +145,6 @@ export default class SectionedFieldsDataTableBuilder extends ParentChildDataTabl
     }
   }
 }
+
+export { SectionedFieldsDataTableBuilder }
+export default SectionedFieldsDataTableBuilder

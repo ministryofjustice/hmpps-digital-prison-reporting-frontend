@@ -1,7 +1,7 @@
 import UserReportsListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/utils'
 
 
-export default function routes (services: Services): Router {
+export function routes (services: Services): Router {
 
   ...
 
@@ -14,3 +14,5 @@ export default function routes (services: Services): Router {
     })
   })
 }
+
+export default routes

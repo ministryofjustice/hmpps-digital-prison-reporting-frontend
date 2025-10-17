@@ -5,7 +5,7 @@ import AsyncRequestListUtils from '../../../../../components/user-reports/reques
 import UserReportsListUtils from '../../../../../components/user-reports/utils'
 import LocalsHelper from '../../../../../utils/localsHelper'
 
-export default class RequestedReportsListController {
+class RequestedReportsListController {
   layoutPath: string
 
   services: Services
@@ -33,3 +33,6 @@ export default class RequestedReportsListController {
     })
   }
 }
+
+export { RequestedReportsListController }
+export default RequestedReportsListController

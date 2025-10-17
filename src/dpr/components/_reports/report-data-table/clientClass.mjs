@@ -1,6 +1,6 @@
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
-export default class DataTable extends DprClientClass {
+class DataTable extends DprClientClass {
   static getModuleName() {
     return 'data-table'
   }
@@ -61,3 +61,6 @@ export default class DataTable extends DprClientClass {
     }
   }
 }
+
+export { DataTable }
+export default DataTable

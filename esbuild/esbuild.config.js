@@ -15,7 +15,7 @@ const buildConfigLib = () => ({
   isProduction: process.env.NODE_ENV === 'production',
 
   app: {
-    bundle: true,
+    bundle: false,
     minify: true,
     outDir: path.join(cwd, 'dist/dpr'),
     entryPoints: glob
@@ -57,7 +57,7 @@ const buildConfig = {
   isProduction: process.env.NODE_ENV === 'production',
 
   app: {
-    bundle: false,
+    bundle: true,
     minify: false,
     outDir: path.join(cwd, 'dist-test-app'),
     entryPoints: glob

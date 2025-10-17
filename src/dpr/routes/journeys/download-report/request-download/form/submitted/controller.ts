@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { Services } from '../../../../../../types/Services'
 import localsHelper from '../../../../../../utils/localsHelper'
 
-export default class RequestDownloadSubmittedController {
+class RequestDownloadSubmittedController {
   layoutPath: string
 
   services: Services
@@ -37,3 +37,6 @@ export default class RequestDownloadSubmittedController {
     })
   }
 }
+
+export { RequestDownloadSubmittedController }
+export default RequestDownloadSubmittedController

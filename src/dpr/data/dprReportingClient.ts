@@ -4,7 +4,7 @@ import ReportDataStore, { RedisClient } from './reportDataStore'
 import { ApiConfig } from './types'
 import MissingReportClient from '../services/missingReport/missingReportClient'
 
-const initDprReportingClients = (reportingApiConfig: ApiConfig, redisClient: RedisClient, storePrefix?: string) => {
+export const initDprReportingClients = (reportingApiConfig: ApiConfig, redisClient: RedisClient, storePrefix?: string) => {
   return {
     reportingClient: new ReportingClient(reportingApiConfig),
     dashboardClient: new DashboardClient(reportingApiConfig),

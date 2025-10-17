@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
 import LocalsHelper from '../../../../utils/localsHelper'
 
-export default class BookmarkController {
+class BookmarkController {
   layoutPath: string
 
   services: Services
@@ -26,3 +26,6 @@ export default class BookmarkController {
     res.end()
   }
 }
+
+export { BookmarkController }
+export default BookmarkController

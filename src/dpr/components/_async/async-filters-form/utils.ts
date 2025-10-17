@@ -79,95 +79,99 @@ export const setDurationStartAndEnd = (
   }
 }
 
-export default {
+
   /**
    * Returns the data required for rendering the async filters component
    *
    * @param {AsyncReportUtilsParams} { req, res, dataSources }
    * @return {*}
    */
-  renderFilters: async (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
-    return {
-      filters: FiltersUtils.getFiltersFromDefinition(fields, false),
-      sortBy: getSortByFromDefinition(fields, interactive),
-    }
-  },
+export const renderFilters = async (fields: components['schemas']['FieldDefinition'][], interactive?: boolean) => {
+  return {
+    filters: FiltersUtils.getFiltersFromDefinition(fields, false),
+    sortBy: getSortByFromDefinition(fields, interactive),
+  }
+}
 
-  setQueryFromFilters: (
+export const setQueryFromFilters = (
     req: Request,
     fields: components['schemas']['FieldDefinition'][],
   ): SetQueryFromFiltersResult => {
-    let query: Dict<string> = {}
-    let filterData: Dict<string> = {}
-    let querySummary: Array<Dict<string>> = []
-    const sortData: Dict<string> = {}
-    const dateMapper = new DateMapper()
-    const urlParams = new URLSearchParams(req.body.search)
+  let query: Dict<string> = {}
+  let filterData: Dict<string> = {}
+  let querySummary: Array<Dict<string>> = []
+  const sortData: Dict<string> = {}
+  const dateMapper = new DateMapper()
+  const urlParams = new URLSearchParams(req.body.search)
 
-    Object.keys(req.body)
-      .filter((name) => name !== '_csrf' && req.body[name] !== '')
-      .forEach((name) => {
-        const shortName = name.replace('filters.', '')
-        const value = req.body[name]
+  Object.keys(req.body)
+    .filter((name) => name !== '_csrf' && req.body[name] !== '')
+    .forEach((name) => {
+      const shortName = name.replace('filters.', '')
+      const value = req.body[name]
 
-        if (name.startsWith('filters.') && value !== '' && !query[name] && value !== 'no-filter') {
-          if (name.includes('relative-duration')) {
-            ;({ query, filterData, querySummary } = setDurationStartAndEnd(
-              name,
-              value,
-              query,
-              filterData,
-              querySummary,
-              fields,
-            ))
-          } else {
-            let urlParamValue: string | string[] = urlParams.getAll(name)
-            urlParamValue = !urlParamValue || urlParamValue.length === 0 ? value : urlParamValue
-            urlParamValue = urlParamValue.length === 1 ? `${urlParamValue[0]}` : `${urlParamValue}`
+      if (name.startsWith('filters.') && value !== '' && !query[name] && value !== 'no-filter') {
+        if (name.includes('relative-duration')) {
+          ;({ query, filterData, querySummary } = setDurationStartAndEnd(
+            name,
+            value,
+            query,
+            filterData,
+            querySummary,
+            fields,
+          ))
+        } else {
+          let urlParamValue: string | string[] = urlParams.getAll(name)
+          urlParamValue = !urlParamValue || urlParamValue.length === 0 ? value : urlParamValue
+          urlParamValue = urlParamValue.length === 1 ? `${urlParamValue[0]}` : `${urlParamValue}`
 
-            query[name as keyof Dict<string>] = urlParamValue
-            filterData[shortName as keyof Dict<string>] = urlParamValue
+          query[name as keyof Dict<string>] = urlParamValue
+          filterData[shortName as keyof Dict<string>] = urlParamValue
 
-            let dateDisplayValue
-            if (dateMapper.isDate(value)) {
-              dateDisplayValue = dateMapper.toDateString(value, 'local-date')
+          let dateDisplayValue
+          if (dateMapper.isDate(value)) {
+            dateDisplayValue = dateMapper.toDateString(value, 'local-date')
 
-              const isoFormatDate = dateMapper.toDateString(value, 'iso')
-              query[name as keyof Dict<string>] = isoFormatDate
-              filterData[shortName as keyof Dict<string>] = isoFormatDate
-            }
-
-            const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
-            querySummary.push({
-              name: fieldDisplayName || shortName,
-              value: dateDisplayValue || urlParamValue,
-            })
-          }
-        } else if (name.startsWith('sort')) {
-          query[name as keyof Dict<string>] = value
-          sortData[name as keyof Dict<string>] = value
-
-          const fieldDef = DefinitionUtils.getField(fields, value)
-
-          let displayName = 'Sort Direction'
-          let displayValue = value === 'true' ? 'Ascending' : 'Descending'
-          if (fieldDef) {
-            displayName = 'Sort Column'
-            displayValue = fieldDef.display
+            const isoFormatDate = dateMapper.toDateString(value, 'iso')
+            query[name as keyof Dict<string>] = isoFormatDate
+            filterData[shortName as keyof Dict<string>] = isoFormatDate
           }
 
+          const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
           querySummary.push({
-            name: displayName,
-            value: displayValue,
+            name: fieldDisplayName || shortName,
+            value: dateDisplayValue || urlParamValue,
           })
         }
-      })
+      } else if (name.startsWith('sort')) {
+        query[name as keyof Dict<string>] = value
+        sortData[name as keyof Dict<string>] = value
 
-    return {
-      query,
-      filterData,
-      querySummary,
-      sortData,
-    }
-  },
+        const fieldDef = DefinitionUtils.getField(fields, value)
+
+        let displayName = 'Sort Direction'
+        let displayValue = value === 'true' ? 'Ascending' : 'Descending'
+        if (fieldDef) {
+          displayName = 'Sort Column'
+          displayValue = fieldDef.display
+        }
+
+        querySummary.push({
+          name: displayName,
+          value: displayValue,
+        })
+      }
+    })
+
+  return {
+    query,
+    filterData,
+    querySummary,
+    sortData,
+  }
+}
+
+export default {
+  renderFilters,
+  setQueryFromFilters,
 }

@@ -1,6 +1,6 @@
 import { DprClientClass } from '../../DprClientClass.mjs'
 
-export default class CardGroup extends DprClientClass {
+class CardGroup extends DprClientClass {
   static getModuleName() {
     return 'card-group'
   }
@@ -26,3 +26,6 @@ export default class CardGroup extends DprClientClass {
     })
   }
 }
+
+export { CardGroup }
+export default CardGroup

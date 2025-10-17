@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
-export default class GranularDateRangeInput extends DprClientClass {
+class GranularDateRangeInput extends DprClientClass {
   static getModuleName() {
     return 'granular-date-range-input'
   }
@@ -224,3 +224,6 @@ export default class GranularDateRangeInput extends DprClientClass {
     this.currentQuickFilterValue = quickFilterValue
   }
 }
+
+export { GranularDateRangeInput }
+export default GranularDateRangeInput

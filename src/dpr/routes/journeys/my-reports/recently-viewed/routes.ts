@@ -4,7 +4,7 @@ import { Services } from '../../../../types/Services'
 import RecentlyViewedReportsController from './controller'
 import listRoutes from './list/routes'
 
-export default function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
+export function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
   const router = Router({ mergeParams: true })
 
   const controller = new RecentlyViewedReportsController(services)
@@ -13,3 +13,5 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
 
   return router
 }
+
+export default routes

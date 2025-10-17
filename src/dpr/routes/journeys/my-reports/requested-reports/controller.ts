@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
 import LocalsHelper from '../../../../utils/localsHelper'
 
-export default class RequestedReportsController {
+class RequestedReportsController {
   services: Services
 
   constructor(services: Services) {
@@ -16,3 +16,6 @@ export default class RequestedReportsController {
     res.end()
   }
 }
+
+export { RequestedReportsController }
+export default RequestedReportsController

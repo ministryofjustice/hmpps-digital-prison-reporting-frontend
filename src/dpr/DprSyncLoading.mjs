@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import { DprClientClass } from './DprClientClass.mjs'
 
-export default class DprSyncLoading extends DprClientClass {
+class DprSyncLoading extends DprClientClass {
   static getModuleName() {
     return 'sync-loading'
   }
@@ -17,3 +17,6 @@ export default class DprSyncLoading extends DprClientClass {
     this.form.submit()
   }
 }
+
+export { DprSyncLoading }
+export default DprSyncLoading

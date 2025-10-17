@@ -184,52 +184,54 @@ const updateStore = async (
   return dashboardRequestData
 }
 
-export default {
-  renderAsyncDashboard: async ({ req, res, services, next }: AsyncReportUtilsParams) => {
-    const { token, csrfToken, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
-    const { reportId, id, tableId } = req.params
-    const url = parseUrl(req)
+export const renderAsyncDashboard = async ({ req, res, services, next }: AsyncReportUtilsParams) => {
+  const { token, csrfToken, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
+  const { reportId, id, tableId } = req.params
+  const url = parseUrl(req)
 
-    // Get the definition Data
-    const { query, filters, reportDefinition, dashboardDefinition } = await getDefinitionData({
-      req,
-      res,
-      services,
-    })
+  // Get the definition Data
+  const { query, filters, reportDefinition, dashboardDefinition } = await getDefinitionData({
+    req,
+    res,
+    services,
+  })
 
-    // Get the results data
-    const dashboardData: DashboardDataResponse[][] = await services.dashboardService.getAsyncDashboard(
+  // Get the results data
+  const dashboardData: DashboardDataResponse[][] = await services.dashboardService.getAsyncDashboard(
+    token,
+    id,
+    reportId,
+    tableId,
+    query,
+  )
+
+  const flattenedData: DashboardDataResponse[] = dashboardData.flat()
+
+  // Get the dashboard parts
+  const sections: DashboardUISection[] = getSections(dashboardDefinition, flattenedData)
+
+  // Update the store
+  const dashboardRequestData = await updateStore(services, tableId, dprUser.id, sections, url, req, filters.filters)
+
+  return {
+    dashboardData: {
       token,
       id,
       reportId,
-      tableId,
-      query,
-    )
+      name: dashboardDefinition.name,
+      description: dashboardDefinition.description,
+      reportName: reportDefinition.name,
+      bookmarked: await services.bookmarkService.isBookmarked(id, reportId, dprUser.id),
+      nestedBaseUrl,
+      csrfToken,
+      sections,
+      filters,
+      type: ReportType.DASHBOARD,
+      actions: setDashboardActions(dashboardDefinition, reportDefinition, dashboardRequestData),
+    },
+  }
+}
 
-    const flattenedData: DashboardDataResponse[] = dashboardData.flat()
-
-    // Get the dashboard parts
-    const sections: DashboardUISection[] = getSections(dashboardDefinition, flattenedData)
-
-    // Update the store
-    const dashboardRequestData = await updateStore(services, tableId, dprUser.id, sections, url, req, filters.filters)
-
-    return {
-      dashboardData: {
-        token,
-        id,
-        reportId,
-        name: dashboardDefinition.name,
-        description: dashboardDefinition.description,
-        reportName: reportDefinition.name,
-        bookmarked: await services.bookmarkService.isBookmarked(id, reportId, dprUser.id),
-        nestedBaseUrl,
-        csrfToken,
-        sections,
-        filters,
-        type: ReportType.DASHBOARD,
-        actions: setDashboardActions(dashboardDefinition, reportDefinition, dashboardRequestData),
-      },
-    }
-  },
+export default {
+  renderAsyncDashboard
 }

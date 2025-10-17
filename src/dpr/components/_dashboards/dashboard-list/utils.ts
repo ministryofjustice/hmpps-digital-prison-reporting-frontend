@@ -8,7 +8,7 @@ import {
 } from '../dashboard/types'
 import DatasetHelper from '../../../utils/datasetHelper'
 
-const createList = (
+export const createList = (
   listDefinition: ListVisualisation,
   dashboardData: DashboardDataResponse[],
 ): { table: MoJTable; ts: string } => {
@@ -78,7 +78,7 @@ const createListFromColumns = (listDefinition: ListVisualisation, dashboardData:
   }
 }
 
-const createTableRows = (data: DashboardDataResponse[], measures?: DashboardVisualisationColumn[]): MoJTableRow[][] => {
+export const createTableRows = (data: DashboardDataResponse[], measures?: DashboardVisualisationColumn[]): MoJTableRow[][] => {
   return data.map((dataRow) => {
     const row: MoJTableRow[] = measures?.length ? Array(measures.length) : Array(Object.keys(data[0]).length)
     Object.keys(dataRow).forEach((key, index) => {

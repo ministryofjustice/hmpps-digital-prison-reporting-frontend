@@ -4,7 +4,7 @@ import { Services } from '../../../../types/Services'
 import BookmarkController from './controller'
 import listRoutes from './list/routes'
 
-export default function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
+export function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
   const router = Router({ mergeParams: true })
 
   const controller = new BookmarkController(layoutPath, services)
@@ -15,3 +15,5 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
   router.use(`/list`, listRoutes({ layoutPath, services }))
   return router
 }
+
+export default routes

@@ -1,6 +1,6 @@
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
-export default class DownloadMessage extends DprClientClass {
+class DownloadMessage extends DprClientClass {
   static getModuleName() {
     return 'download-message'
   }
@@ -12,3 +12,6 @@ export default class DownloadMessage extends DprClientClass {
     }
   }
 }
+
+export { DownloadMessage }
+export default DownloadMessage

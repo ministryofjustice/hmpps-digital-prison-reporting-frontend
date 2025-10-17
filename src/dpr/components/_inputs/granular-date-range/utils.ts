@@ -254,7 +254,7 @@ const getOptionDisplayValue = (value: string, options: { text: string; value: st
   return item?.text || value
 }
 
-const setValueFromRequest = (
+export const setValueFromRequest = (
   filter: FilterValue,
   req: Request,
   prefix: string,
@@ -306,7 +306,7 @@ const setValueFromRequest = (
   return value as GranularDateRange
 }
 
-const setDefaultValue = (req: Request, name: string) => {
+export const setDefaultValue = (req: Request, name: string) => {
   const dateRangeName = name.split('.')[0]
   const granularDateRangeDefaults = Object.keys(req.body)
     .filter((key) => key.includes(dateRangeName))
@@ -347,7 +347,7 @@ const setDefaultValue = (req: Request, name: string) => {
   return { value: granularDateRangeValue, name: dateRangeName }
 }
 
-const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: FilterValue) => {
+export const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: FilterValue) => {
   const { granularityOptions, quickFilterOptions } = <GranularDateRangeFilterValue>filter
   const { granularity, quickFilter, start, end } = <DefaultGranularDateFilterValue>defaultValue.value
   const value: GranularDateRange = {
@@ -369,7 +369,7 @@ const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: Fil
   }
 }
 
-const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition'], filterData: FilterValue) => {
+export const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition'], filterData: FilterValue) => {
   let value
   const quickFilterValue = filter.defaultQuickFilterValue
   const granularityOptions = getGranularityOptions()
@@ -424,7 +424,7 @@ const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition
   }
 }
 
-const getQueryFromDefinition = (
+export const getQueryFromDefinition = (
   filter: components['schemas']['FilterDefinition'],
   name: string,
   filterPrefix: string,

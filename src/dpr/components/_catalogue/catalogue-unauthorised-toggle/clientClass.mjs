@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 import DprCatalogueFilters from '../catalogue-filters/clientClass.mjs'
 
-export default class DprCatalogueUnauthorisedFilter extends DprCatalogueFilters {
+class DprCatalogueUnauthorisedFilter extends DprCatalogueFilters {
   static getModuleName() {
     return 'dpr-catalogue-show-unauthorised'
   }
@@ -110,3 +110,6 @@ export default class DprCatalogueUnauthorisedFilter extends DprCatalogueFilters 
     })
   }
 }
+
+export { DprCatalogueUnauthorisedFilter }
+export default DprCatalogueUnauthorisedFilter

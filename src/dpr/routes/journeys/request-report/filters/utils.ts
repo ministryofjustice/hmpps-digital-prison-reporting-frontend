@@ -231,7 +231,7 @@ const renderReportRequestData = async (definition: components['schemas']['Single
   }
 }
 
-const getDefintionByType = async (req: Request, res: Response, next: NextFunction, services: Services) => {
+export const getDefintionByType = async (req: Request, res: Response, next: NextFunction, services: Services) => {
   const { token, definitionsPath } = LocalsHelper.getValues(res)
   const { reportId, id, variantId, type } = req.params
 
@@ -268,140 +268,144 @@ const getFilterData = async (
   return { filtersData, defaultFilterValues }
 }
 
-export default {
-  /**
-   * Sends the request for the async report
-   *
-   * @param {AsyncReportUtilsParams} { req, res, services }
-   * @return {*}
-   */
-  request: async ({ req, res, services }: AsyncReportUtilsParams) => {
-    const { token } = LocalsHelper.getValues(res)
-    const requestArgs = { req, res, token }
+/**
+ * Sends the request for the async report
+ *
+ * @param {AsyncReportUtilsParams} { req, res, services }
+ * @return {*}
+ */
+export const request = async ({ req, res, services }: AsyncReportUtilsParams) => {
+  const { token } = LocalsHelper.getValues(res)
+  const requestArgs = { req, res, token }
 
-    const { executionData, queryData, childExecutionData } = await requestProduct({
-      ...requestArgs,
-      dashboardService: services.dashboardService,
-      reportingService: services.reportingService,
+  const { executionData, queryData, childExecutionData } = await requestProduct({
+    ...requestArgs,
+    dashboardService: services.dashboardService,
+    reportingService: services.reportingService,
+  })
+
+  if (executionData) {
+    await updateStore({
+      req,
+      res,
+      services,
+      queryData,
+      executionData,
+      childExecutionData,
     })
+  }
 
-    if (executionData) {
-      await updateStore({
+  return executionData.executionId
+}
+
+export const cancelRequest = async ({ req, res, services }: AsyncReportUtilsParams) => {
+  const { token, dprUser, definitionsPath } = LocalsHelper.getValues(res)
+  const { reportId, id, executionId, type } = req.params
+
+  let service
+  if (type === ReportType.REPORT) service = services.reportingService
+  if (type === ReportType.DASHBOARD) service = services.dashboardService
+
+  const response = await service.cancelAsyncRequest(token, reportId, id, executionId, definitionsPath)
+
+  if (response && response.cancellationSucceeded) {
+    await services.requestedReportService.updateStatus(executionId, dprUser.id, RequestStatus.ABORTED)
+  }
+}
+
+/**
+ * Returns the data required for rendering the async filters component
+ *
+ * @param {AsyncReportUtilsParams} { req, res, dataSources }
+ * @return {*}
+ */
+export const renderRequest = async ({ req, res, services, next }: AsyncReportUtilsParams): Promise<RequestDataResult | boolean> => {
+  try {
+    const {
+      token,
+      csrfToken,
+      definitionsPath: definitionPath,
+      dpdPathFromQuery,
+      dprUser,
+    } = LocalsHelper.getValues(res)
+    const { reportId, type, id } = req.params
+    const { definition } = res.locals
+    const defaultsSaved = <string>req.query.defaultsSaved
+
+    const definitionApiArgs = { token, reportId, definitionPath, services }
+
+    let name
+    let reportName
+    let description
+    let template
+    let fields: components['schemas']['FieldDefinition'][]
+    let sections
+    let interactive
+    let filtersData
+    let defaultFilterValues
+
+    if (type === ReportType.REPORT) {
+      ;({ name, reportName, description, fields, interactive } = await renderReportRequestData(definition))
+    }
+
+    if (type === ReportType.DASHBOARD) {
+      ;({ name, reportName, description, sections, fields } = await renderDashboardRequestData({
+        ...definitionApiArgs,
+        definition,
+      }))
+    }
+
+    if (fields) {
+      ;({ filtersData, defaultFilterValues } = await getFilterData(
         req,
         res,
+        fields,
+        interactive,
         services,
-        queryData,
-        executionData,
-        childExecutionData,
-      })
+        dprUser.id,
+      ))
     }
 
-    return executionData.executionId
-  },
-
-  cancelRequest: async ({ req, res, services }: AsyncReportUtilsParams) => {
-    const { token, dprUser, definitionsPath } = LocalsHelper.getValues(res)
-    const { reportId, id, executionId, type } = req.params
-
-    let service
-    if (type === ReportType.REPORT) service = services.reportingService
-    if (type === ReportType.DASHBOARD) service = services.dashboardService
-
-    const response = await service.cancelAsyncRequest(token, reportId, id, executionId, definitionsPath)
-
-    if (response && response.cancellationSucceeded) {
-      await services.requestedReportService.updateStatus(executionId, dprUser.id, RequestStatus.ABORTED)
+    const reportData: RequestReportData = {
+      reportName,
+      name,
+      description,
+      reportId,
+      id,
+      ...(dpdPathFromQuery && { definitionPath }),
+      csrfToken,
+      template,
+      sections,
+      hasDefaults: defaultFilterValues?.length,
+      defaultsSaved,
+      type: type as ReportType,
     }
-  },
 
-  /**
-   * Returns the data required for rendering the async filters component
-   *
-   * @param {AsyncReportUtilsParams} { req, res, dataSources }
-   * @return {*}
-   */
-  renderRequest: async ({ req, res, services, next }: AsyncReportUtilsParams): Promise<RequestDataResult | boolean> => {
-    try {
-      const {
-        token,
-        csrfToken,
-        definitionsPath: definitionPath,
-        dpdPathFromQuery,
-        dprUser,
-      } = LocalsHelper.getValues(res)
-      const { reportId, type, id } = req.params
-      const { definition } = res.locals
-      const defaultsSaved = <string>req.query.defaultsSaved
-
-      const definitionApiArgs = { token, reportId, definitionPath, services }
-
-      let name
-      let reportName
-      let description
-      let template
-      let fields: components['schemas']['FieldDefinition'][]
-      let sections
-      let interactive
-      let filtersData
-      let defaultFilterValues
-
-      if (type === ReportType.REPORT) {
-        ;({ name, reportName, description, fields, interactive } = await renderReportRequestData(definition))
-      }
-
-      if (type === ReportType.DASHBOARD) {
-        ;({ name, reportName, description, sections, fields } = await renderDashboardRequestData({
-          ...definitionApiArgs,
-          definition,
-        }))
-      }
-
-      if (fields) {
-        ;({ filtersData, defaultFilterValues } = await getFilterData(
-          req,
-          res,
-          fields,
-          interactive,
-          services,
-          dprUser.id,
-        ))
-      }
-
-      const reportData: RequestReportData = {
-        reportName,
-        name,
-        description,
-        reportId,
-        id,
-        ...(dpdPathFromQuery && { definitionPath }),
-        csrfToken,
-        template,
-        sections,
-        hasDefaults: defaultFilterValues?.length,
-        defaultsSaved,
-        type: type as ReportType,
-      }
-
-      return {
-        title: `Request ${type}`,
-        filtersDescription: `Customise your ${type} using the filters below and submit your request.`,
-        filtersData,
-        reportData,
-      }
-    } catch (error) {
-      next(error)
-      return false
+    return {
+      title: `Request ${type}`,
+      filtersDescription: `Customise your ${type} using the filters below and submit your request.`,
+      filtersData,
+      reportData,
     }
-  },
+  } catch (error) {
+    next(error)
+    return false
+  }
+}
 
-  getFiltersFromReqBody: (req: Request) => {
-    return Object.keys(req.body)
-      .filter((attr) => attr.includes('filters.'))
-      .filter((attr) => !!req.body[attr])
-      .map((attr) => {
-        return { name: attr, value: req.body[attr] }
-      })
-  },
+export const getFiltersFromReqBody = (req: Request) => {
+  return Object.keys(req.body)
+    .filter((attr) => attr.includes('filters.'))
+    .filter((attr) => !!req.body[attr])
+    .map((attr) => {
+      return { name: attr, value: req.body[attr] }
+    })
+}
 
+export default {
+  request,
+  cancelRequest,
+  renderRequest,
+  getFiltersFromReqBody,
   getDefintionByType,
 }

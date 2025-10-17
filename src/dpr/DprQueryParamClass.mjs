@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 /* eslint-disable class-methods-use-this */
 import { DprClientClass } from './DprClientClass.mjs'
 
-export default class DprQueryParamClass extends DprClientClass {
+class DprQueryParamClass extends DprClientClass {
   /**
    * initialises the selected values from the query params
    *
@@ -207,3 +207,6 @@ export default class DprQueryParamClass extends DprClientClass {
     window.history.replaceState(null, null, `?${this.queryParams.toString()}`)
   }
 }
+
+export { DprQueryParamClass }
+export default DprQueryParamClass

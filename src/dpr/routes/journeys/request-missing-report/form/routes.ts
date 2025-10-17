@@ -5,7 +5,7 @@ import { Services } from '../../../../types/Services'
 import { schema } from './validation'
 import { validate } from '../../../../validation/validate'
 
-export default function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
+export function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
   const router = Router({ mergeParams: true })
   const controller = new MissingReportFormController(layoutPath, services)
 
@@ -14,3 +14,5 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
 
   return router
 }
+
+export default routes

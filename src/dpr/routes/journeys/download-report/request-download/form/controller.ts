@@ -5,7 +5,7 @@ import { Services } from '../../../../../types/Services'
 import { LoadType } from '../../../../../types/UserReports'
 import logger from '../../../../../utils/logger'
 
-export default class RequestDownloadController {
+class RequestDownloadController {
   layoutPath: string
 
   services: Services
@@ -74,3 +74,6 @@ export default class RequestDownloadController {
     res.redirect(redirect)
   }
 }
+
+export { RequestDownloadController }
+export default RequestDownloadController

@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
-export default class Autocomplete extends DprClientClass {
+class Autocomplete extends DprClientClass {
   static getModuleName() {
     return 'autocomplete-text-input'
   }
@@ -157,3 +157,6 @@ export default class Autocomplete extends DprClientClass {
     return template
   }
 }
+
+export { Autocomplete }
+export default Autocomplete

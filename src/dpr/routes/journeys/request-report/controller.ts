@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { Services } from '../../../types/Services'
 import logger from '../../../utils/logger'
 
-export default class RequestReportController {
+class RequestReportController {
   layoutPath: string
 
   services: Services
@@ -15,6 +15,8 @@ export default class RequestReportController {
   errorHandler: RequestHandler = async (req, res, next) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
 
+    if (1 == 1) throw Error("a lib error")
+
     res.render(`dpr/routes/journeys/view-report/error`, {
       layoutPath: this.layoutPath,
       ...req.body,
@@ -24,3 +26,6 @@ export default class RequestReportController {
     })
   }
 }
+
+export { RequestReportController }
+export default RequestReportController

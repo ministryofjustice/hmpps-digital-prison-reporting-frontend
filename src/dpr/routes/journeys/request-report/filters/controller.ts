@@ -6,7 +6,7 @@ import ErrorSummaryUtils from '../../../../components/error-summary/utils'
 import PersonalisationUtils from '../../../../utils/Personalisation/personalisationUtils'
 import { FiltersType } from '../../../../components/_filters/filtersTypeEnum'
 
-export default class RequestReportController {
+class RequestReportController {
   layoutPath: string
 
   services: Services
@@ -98,3 +98,6 @@ export default class RequestReportController {
     }
   }
 }
+
+export { RequestReportController }
+export default RequestReportController

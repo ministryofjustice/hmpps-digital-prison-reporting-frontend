@@ -10,7 +10,7 @@ import viewDashboardRoutes from './dashboard/routes'
 import reportAuthoriser from '../../../../middleware/reportAuthoriser'
 import AsyncController from './controller'
 
-export default function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
+export function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
   const router = Router({ mergeParams: true })
 
   const controller = new AsyncController(layoutPath, services)
@@ -21,3 +21,5 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
   router.use('/dashboard', reportAuthoriser(services, layoutPath), viewDashboardRoutes({ layoutPath, services }))
   return router
 }
+
+export default routes

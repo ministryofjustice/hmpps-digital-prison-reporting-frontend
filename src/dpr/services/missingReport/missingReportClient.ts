@@ -2,7 +2,7 @@ import RestClient from '../../data/restClient'
 import { ApiConfig } from '../../data/types'
 import { components } from '../../types/api'
 
-export default class MissingReportClient {
+class MissingReportClient {
   restClient: RestClient
 
   constructor(config: ApiConfig) {
@@ -24,3 +24,6 @@ export default class MissingReportClient {
     )
   }
 }
+
+export { MissingReportClient }
+export default MissingReportClient

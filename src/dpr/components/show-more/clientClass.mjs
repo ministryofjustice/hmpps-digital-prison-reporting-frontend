@@ -1,6 +1,6 @@
 import { DprClientClass } from '../../DprClientClass.mjs'
 
-export default class ShowMore extends DprClientClass {
+class ShowMore extends DprClientClass {
   static getModuleName() {
     return 'show-more'
   }
@@ -36,3 +36,6 @@ export default class ShowMore extends DprClientClass {
     })
   }
 }
+
+export { ShowMore }
+export default ShowMore

@@ -1,8 +1,6 @@
-export default {
-  handleError: (error: DprError | DprErrorData | Error, reportType?: string) => {
-    const dprError: DprError = formatError(error)
-    return mapError(dprError, reportType)
-  },
+export const handleError = (error: DprError | DprErrorData | Error, reportType?: string) => {
+  const dprError: DprError = formatError(error)
+  return mapError(dprError, reportType)
 }
 
 const mapError = (error: DprError | DprErrorData | Error, reportType?: string): DprUIError => {
@@ -60,4 +58,8 @@ interface DprUIError {
   status: string
   userMessage: string
   developerMessage?: string
+}
+
+export default {
+  handleError,
 }

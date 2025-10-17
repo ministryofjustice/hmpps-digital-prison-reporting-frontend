@@ -40,7 +40,7 @@ Render your stored async request data to the frontend using `UserReportsListUtil
 import UserReportsListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/utils'
 
 
-export default function routes(services: Services): Router {
+export function routes(services: Services): Router {
 
   ...
 
@@ -60,6 +60,8 @@ export default function routes(services: Services): Router {
     })
   })
 }
+
+export default routes
 ```
 
 This will give you the arguments to simply apply as components arguments in the HTML:

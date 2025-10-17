@@ -13,7 +13,7 @@ import DateRangeFilterUtils from '../../_inputs/date-range/utils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
 import Dict = NodeJS.Dict
 
-const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
+export const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
   const emptyValues: (string | undefined | null)[] = [undefined, null, '']
 
   return filters
@@ -96,7 +96,7 @@ const getSelectedFilters = (filters: FilterValue[], prefix: string) => {
     })
 }
 
-const setDateDisplayFormat = (dateValue: string) => {
+export const setDateDisplayFormat = (dateValue: string) => {
   const dateMapper = new DateMapper()
   const type = dateMapper.getDateType(dateValue)
   if (type !== 'none') {
@@ -105,7 +105,7 @@ const setDateDisplayFormat = (dateValue: string) => {
   return dateValue
 }
 
-const setSelectedDateRange = (f: DateRangeFilterValue, prefix: string) => {
+export const setSelectedDateRange = (f: DateRangeFilterValue, prefix: string) => {
   const startValue = (<DateRange>f.value).start || 'Open start'
   const endValue = (<DateRange>f.value).end || 'Open end'
   const value = [`"${startValue}"`, `"${endValue}"`]
@@ -135,7 +135,7 @@ const setSelectedDateRange = (f: DateRangeFilterValue, prefix: string) => {
   }
 }
 
-const setMinMaxContraints = (f: DateFilterValue | DateRangeFilterValue, key: string[], singleDate = false) => {
+export const setMinMaxContraints = (f: DateFilterValue | DateRangeFilterValue, key: string[], singleDate = false) => {
   const constraints: { key: string; value: string }[] = []
   const { min, max } = f
   if (min) {
@@ -153,7 +153,7 @@ const setMinMaxContraints = (f: DateFilterValue | DateRangeFilterValue, key: str
   return constraints.length ? constraints : undefined
 }
 
-const getOptionsValue = (f: FilterValueWithOptions, prefix: string) => {
+export const getOptionsValue = (f: FilterValueWithOptions, prefix: string) => {
   const displayOption = f.options.find((opt) => opt.value === f.value)
   const displayValue = displayOption ? displayOption.text : ''
   const key = [`${prefix}${f.name}`]
@@ -166,7 +166,7 @@ const getOptionsValue = (f: FilterValueWithOptions, prefix: string) => {
   }
 }
 
-const getMultiselectValues = (f: FilterValueWithOptions, prefix: string) => {
+export const getMultiselectValues = (f: FilterValueWithOptions, prefix: string) => {
   const MAX_VALUES = 3
   const splitValues = (<string>f.value).split(',')
   let displayValue = splitValues
@@ -192,7 +192,7 @@ const getMultiselectValues = (f: FilterValueWithOptions, prefix: string) => {
   }
 }
 
-const setSelectedGranularDateRange = (f: GranularDateRangeFilterValue, prefix: string) => {
+export const setSelectedGranularDateRange = (f: GranularDateRangeFilterValue, prefix: string) => {
   const startValue = f.value.start || 'Open start'
   const endValue = f.value.end || 'Open end'
   const quickFilterValue = f.value.quickFilter?.value
@@ -228,7 +228,7 @@ const setSelectedGranularDateRange = (f: GranularDateRangeFilterValue, prefix: s
   }
 }
 
-const getSelectedDate = (f: DateFilterValue, prefix: string) => {
+export const getSelectedDate = (f: DateFilterValue, prefix: string) => {
   const key = [`${prefix}${f.name}`]
   const value = [`"${f.value}"`]
   const displayValue = setDateDisplayFormat(<string>f.value)
@@ -245,7 +245,7 @@ const getSelectedDate = (f: DateFilterValue, prefix: string) => {
   }
 }
 
-const disabledDateRange = (f: DateRangeFilterValue | DateFilterValue, value: string[], displayValue: string) => {
+export const disabledDateRange = (f: DateRangeFilterValue | DateFilterValue, value: string[], displayValue: string) => {
   const { min, max } = f
   if (min && (<string>value[0]).includes(min) && max && (<string>value[1]).includes(max)) {
     return {
@@ -261,7 +261,7 @@ const disabledDateRange = (f: DateRangeFilterValue | DateFilterValue, value: str
   }
 }
 
-const disabledDate = (f: DateFilterValue, value: (string | DateRange)[], displayValue: string) => {
+export const disabledDate = (f: DateFilterValue, value: (string | DateRange)[], displayValue: string) => {
   const { min, max } = <DateFilterValue>f
 
   if ((min && (<string>value[0]).includes(min)) || (max && (<string>value[0]).includes(max))) {
@@ -282,7 +282,7 @@ const disabledDate = (f: DateFilterValue, value: (string | DateRange)[], display
   }
 }
 
-const getQuerySummary = (reqQuery: Dict<string>, filters: FilterValue[]) => {
+export const getQuerySummary = (reqQuery: Dict<string>, filters: FilterValue[]) => {
   const prefix = 'filters.'
 
   return filters

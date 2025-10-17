@@ -6,7 +6,7 @@ import ErrorSummaryUtils from '../../../../../components/error-summary/utils'
 import PersonalisationUtils from '../../../../../utils/Personalisation/personalisationUtils'
 import ViewReportUtils from '../../utils'
 
-export default class ViewSyncReportController {
+class ViewSyncReportController {
   layoutPath: string
 
   services: Services
@@ -67,3 +67,6 @@ export default class ViewSyncReportController {
     await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'columns')
   }
 }
+
+export { ViewSyncReportController }
+export default ViewSyncReportController

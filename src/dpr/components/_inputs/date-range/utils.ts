@@ -11,7 +11,12 @@ import { DefaultDateFilterValue, defaultFilterValue } from '../../../utils/Perso
 
 dayjs.extend(customParse)
 
-const dateIsInBounds = (startDate: dayjs.Dayjs | string, endDate: dayjs.Dayjs | string, min: string, max: string) => {
+export const dateIsInBounds = (
+  startDate: dayjs.Dayjs | string,
+  endDate: dayjs.Dayjs | string,
+  min: string,
+  max: string,
+) => {
   dayjs.extend(isBetween)
 
   const minDate = dayjs(min)
@@ -25,7 +30,7 @@ const dateIsInBounds = (startDate: dayjs.Dayjs | string, endDate: dayjs.Dayjs | 
   return startDateIsBetweenMinAndMax && endDateIsBetweenMinAndMax
 }
 
-const calcDates = (durationValue: string) => {
+export const calcDates = (durationValue: string) => {
   let endDate: string | dayjs.Dayjs = dayjs()
   let startDate: string | dayjs.Dayjs = dayjs()
 
@@ -68,7 +73,7 @@ const calcDates = (durationValue: string) => {
   }
 }
 
-const setValueFromRequest = (
+export const setValueFromRequest = (
   filter: DateRangeFilterValue,
   req: Request,
   prefix: string,
@@ -93,7 +98,7 @@ const setValueFromRequest = (
   return value
 }
 
-const setDefaultValue = (req: Request, name: string) => {
+export const setDefaultValue = (req: Request, name: string) => {
   const dateRangeName = name.split('.')[0]
 
   const dateRangeDefaults = Object.keys(req.body)
@@ -118,7 +123,7 @@ const setDefaultValue = (req: Request, name: string) => {
   return { value: dateRangeValue, name: dateRangeName }
 }
 
-const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: FilterValue) => {
+export const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: FilterValue) => {
   const value = { start: '', end: '', relative: '' }
   const { start, end, relative } = <DefaultDateFilterValue>defaultValue.value
   if (relative) {
@@ -137,7 +142,7 @@ const setFilterValueFromDefault = (defaultValue: defaultFilterValue, filter: Fil
   }
 }
 
-const getRelativeDateOptions = (min?: string, max?: string) => {
+export const getRelativeDateOptions = (min?: string, max?: string) => {
   if (!min) min = '1977-05-25'
   if (!max) max = '9999-01-01'
   let options: RelativeOption[] = getRelativeValues()
@@ -163,13 +168,13 @@ const getRelativeDateOptions = (min?: string, max?: string) => {
   return options
 }
 
-const mapRelativeValue = (value: RelativeDateRange) => {
+export const mapRelativeValue = (value: RelativeDateRange) => {
   const values = getRelativeValues()
   const opt = values.find((v) => v.value === value)
   return opt ? opt.text : ''
 }
 
-const getRelativeValues = (): {
+export const getRelativeValues = (): {
   value: string
   text: string
   disabled?: boolean
@@ -185,7 +190,7 @@ const getRelativeValues = (): {
   ]
 }
 
-const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition'], filterData: FilterValue) => {
+export const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition'], filterData: FilterValue) => {
   const value = StartEndDateUtils.getStartAndEndValueFromDefinition(filter)
   const relativeOptions = getRelativeDateOptions(filter.min, filter.max)
 
@@ -198,7 +203,7 @@ const getFilterFromDefinition = (filter: components['schemas']['FilterDefinition
   }
 }
 
-const getQueryFromDefinition = (
+export const getQueryFromDefinition = (
   filter: components['schemas']['FilterDefinition'],
   name: string,
   filterPrefix: string,

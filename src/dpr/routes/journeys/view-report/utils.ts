@@ -8,7 +8,7 @@ import definitionUtils from '../../../utils/definitionUtils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
 import ColumnsUtils from '../../../components/_reports/report-columns-form/utils'
 
-const applyReportInteractiveQuery = async (
+export const applyReportInteractiveQuery = async (
   req: Request,
   res: Response,
   services: Services,
@@ -25,7 +25,7 @@ const applyReportInteractiveQuery = async (
   return applyInteractiveQuery(req, res, services, applyType, fields)
 }
 
-const applyDashboardInteractiveQuery = async (
+export const applyDashboardInteractiveQuery = async (
   req: Request,
   res: Response,
   services: Services,

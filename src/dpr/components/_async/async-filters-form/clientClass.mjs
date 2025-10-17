@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import DprSelectedFiltersClass from '../../_filters/filters-selected/clientClass.mjs'
 
-export default class AsyncFilters extends DprSelectedFiltersClass {
+class AsyncFilters extends DprSelectedFiltersClass {
   static getModuleName() {
     return 'async-filters'
   }
@@ -45,3 +45,6 @@ export default class AsyncFilters extends DprSelectedFiltersClass {
     this.initInputEventsForSelectedFilters(this.mainForm.elements)
   }
 }
+
+export { AsyncFilters }
+export default AsyncFilters

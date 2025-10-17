@@ -43,7 +43,7 @@ Initialise the component with the required data using the component utility help
 import CatalogueUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/_catalogue/catalogue/utils'
 
 
-export default function routes(services: Services): Router {
+export function routes(services: Services): Router {
 
   ...
 
@@ -54,6 +54,8 @@ export default function routes(services: Services): Router {
     })
   })
 }
+
+export default routes
 ```
 
 ## Add the component to your HTML
@@ -89,7 +91,7 @@ Initialise the component with the required data using the component utility help
 import UserReportsListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/utils'
 
 
-export default function routes(services: Services): Router {
+export function routes(services: Services): Router {
 
   ...
 
@@ -103,6 +105,8 @@ export default function routes(services: Services): Router {
     })
   })
 }
+
+export default routes
 ```
 
 ## Add the component to your HTML

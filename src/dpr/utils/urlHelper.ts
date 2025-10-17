@@ -5,7 +5,7 @@ import { DprConfig } from '../types/DprConfig'
 
 export const clearFilterValue = '~clear~'
 
-const createUrlForParameters = (
+export const createUrlForParameters = (
   currentQueryParams: NodeJS.Dict<string | Array<string>>,
   updateQueryParams: NodeJS.Dict<string>,
   fields?: components['schemas']['FieldDefinition'][],

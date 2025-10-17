@@ -2,7 +2,7 @@
 /* eslint-disable class-methods-use-this */
 import ChartVisualisation from '../clientClass.mjs'
 
-export default class BarChartVisualisation extends ChartVisualisation {
+class BarChartVisualisation extends ChartVisualisation {
   static getModuleName() {
     return 'bar-chart'
   }
@@ -121,3 +121,6 @@ export default class BarChartVisualisation extends ChartVisualisation {
     }
   }
 }
+
+export { BarChartVisualisation }
+export default BarChartVisualisation

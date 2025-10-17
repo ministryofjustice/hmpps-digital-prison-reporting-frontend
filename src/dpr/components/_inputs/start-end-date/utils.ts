@@ -2,7 +2,7 @@ import { components } from '../../../types/api'
 import { DateRange } from '../../_filters/types'
 import RelativeDateRange from '../date-range/types'
 
-const setDateRangeValuesWithinMinMax = (
+export const setDateRangeValuesWithinMinMax = (
   filter: components['schemas']['FilterDefinition'],
   startValue?: string,
   endValue?: string,
@@ -17,19 +17,19 @@ const setDateRangeValuesWithinMinMax = (
   }
 }
 
-const compareMin = (min: string, dateValue?: string) => {
+export const compareMin = (min: string, dateValue?: string) => {
   const minDate = new Date(min)
   const date = dateValue ? new Date(dateValue) : new Date()
   return date < minDate ? min : dateValue
 }
 
-const compareMax = (max: string, dateValue?: string) => {
+export const compareMax = (max: string, dateValue?: string) => {
   const maxDate = new Date(max)
   const date = dateValue ? new Date(dateValue) : new Date()
   return date > maxDate ? max : dateValue
 }
 
-const getStartAndEndValueFromDefinition = (filter: components['schemas']['FilterDefinition']): DateRange => {
+export const getStartAndEndValueFromDefinition = (filter: components['schemas']['FilterDefinition']): DateRange => {
   const { min, max, defaultValue, defaultQuickFilterValue } = filter
 
   let value: DateRange = { start: '', end: '' }
@@ -50,7 +50,7 @@ const getStartAndEndValueFromDefinition = (filter: components['schemas']['Filter
   return value
 }
 
-function isDateRange(value: DateRange | string): value is DateRange {
+export function isDateRange(value: DateRange | string): value is DateRange {
   return (<DateRange>value).start !== undefined || (<DateRange>value).end !== undefined
 }
 

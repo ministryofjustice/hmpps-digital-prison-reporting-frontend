@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import DprPollingStatusClass from '../../../DprPollingStatusClass.mjs'
 
-export default class DprAsyncPolling extends DprPollingStatusClass {
+class DprAsyncPolling extends DprPollingStatusClass {
   static getModuleName() {
     return 'async-polling-content'
   }
@@ -67,3 +67,6 @@ export default class DprAsyncPolling extends DprPollingStatusClass {
     }
   }
 }
+
+export { DprAsyncPolling }
+export default DprAsyncPolling

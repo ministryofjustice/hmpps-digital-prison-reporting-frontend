@@ -2,7 +2,7 @@
 import { Router } from 'express'
 import MissingReportSubmittedController from './controller'
 
-export default function routes({ layoutPath }: { layoutPath: string }) {
+export function routes({ layoutPath }: { layoutPath: string }) {
   const router = Router({ mergeParams: true })
 
   const controller = new MissingReportSubmittedController(layoutPath)
@@ -10,3 +10,5 @@ export default function routes({ layoutPath }: { layoutPath: string }) {
 
   return router
 }
+
+export default routes

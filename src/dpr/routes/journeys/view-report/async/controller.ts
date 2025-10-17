@@ -5,7 +5,7 @@ import { FiltersType } from '../../../../components/_filters/filtersTypeEnum'
 import ErrorSummaryUtils from '../../../../components/error-summary/utils'
 import PersonalisationUtils from '../../../../utils/Personalisation/personalisationUtils'
 
-export default class AsyncController {
+class AsyncController {
   layoutPath: string
 
   services: Services
@@ -56,3 +56,6 @@ export default class AsyncController {
     }
   }
 }
+
+export { AsyncController }
+export default AsyncController

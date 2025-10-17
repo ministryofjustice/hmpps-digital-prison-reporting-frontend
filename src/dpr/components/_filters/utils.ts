@@ -34,7 +34,11 @@ import { defaultFilterValue } from '../../utils/Personalisation/types'
  * @param {string} [prefix='filters.']
  * @return {*}  {FilterValue[]}
  */
-const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix = 'filters.'): FilterValue[] => {
+export const setFilterValuesFromRequest = (
+  filters: FilterValue[],
+  req: Request,
+  prefix = 'filters.',
+): FilterValue[] => {
   const { preventDefault } = req.query
 
   if (Object.keys(req.query).every((key) => !key.includes(prefix)) && !preventDefault) {
@@ -87,7 +91,7 @@ const setFilterValuesFromRequest = (filters: FilterValue[], req: Request, prefix
   })
 }
 
-const setFilterQueryFromFilterDefinition = (
+export const setFilterQueryFromFilterDefinition = (
   fields: components['schemas']['FieldDefinition'][],
   interactive?: boolean,
 ) => {
@@ -132,7 +136,7 @@ const setFilterQueryFromFilterDefinition = (
     .join('&')
 }
 
-const getFiltersFromDefinition = (
+export const getFiltersFromDefinition = (
   fields: components['schemas']['FieldDefinition'][],
   interactive?: boolean,
 ): FilterValue[] => {
@@ -244,7 +248,7 @@ const getFiltersFromDefinition = (
     })
 }
 
-const setRequestQueryFromFilterValues = (filterValues: FilterValue[]) => {
+export const setRequestQueryFromFilterValues = (filterValues: FilterValue[]) => {
   const requestQuery = filterValues
     .filter((fv) => fv.value)
     .reduce((acc, curr) => {
@@ -279,7 +283,7 @@ const setRequestQueryFromFilterValues = (filterValues: FilterValue[]) => {
   return requestQuery
 }
 
-const redirectWithDefaultFilters = (
+export const redirectWithDefaultFilters = (
   reportQuery: ReportQuery,
   variantDefinition: components['schemas']['VariantDefinition'],
   response: Response,
@@ -325,7 +329,7 @@ const redirectWithDefaultFilters = (
   return false
 }
 
-const getPersonalisedFilters = async (
+export const getPersonalisedFilters = async (
   filters: FilterValue[],
   req: Request,
   res: Response,
@@ -349,7 +353,7 @@ const getPersonalisedFilters = async (
   return { filters: defaultFilters, defaultFilterValues }
 }
 
-const getFilters = async ({
+export const getFilters = async ({
   fields,
   req,
   res,

@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
-export default class DateInput extends DprClientClass {
+class DateInput extends DprClientClass {
   static getModuleName() {
     return 'date-input'
   }
@@ -81,3 +81,6 @@ export default class DateInput extends DprClientClass {
     })
   }
 }
+
+export { DateInput }
+export default DateInput

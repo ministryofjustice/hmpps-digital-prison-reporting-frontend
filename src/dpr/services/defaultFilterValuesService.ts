@@ -5,7 +5,7 @@ import { ReportStoreConfig } from '../types/ReportStore'
 import { defaultFilterValue } from '../utils/Personalisation/types'
 import { FiltersType } from '../components/_filters/filtersTypeEnum'
 
-export default class DefaultFilterValuesService extends ReportStoreService {
+class DefaultFilterValuesService extends ReportStoreService {
   constructor(reportDataStore: ReportDataStore) {
     super(reportDataStore)
   }
@@ -77,3 +77,6 @@ export default class DefaultFilterValuesService extends ReportStoreService {
     }
   }
 }
+
+export { DefaultFilterValuesService }
+export default DefaultFilterValuesService

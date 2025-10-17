@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import ChartVisualisation from '../clientClass.mjs'
 
-export default class DoughnutChartVisualisation extends ChartVisualisation {
+class DoughnutChartVisualisation extends ChartVisualisation {
   static getModuleName() {
     return 'doughnut-chart'
   }
@@ -199,3 +199,6 @@ ${dataset.label}`
     }
   }
 }
+
+export { DoughnutChartVisualisation }
+export default DoughnutChartVisualisation

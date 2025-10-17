@@ -2,7 +2,7 @@ import { AsyncSummary } from '../../types/UserReports'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../DataTableBuilder/types'
 
-export default class SummaryDataTableBuilder extends DataTableBuilder {
+class SummaryDataTableBuilder extends DataTableBuilder {
   private summary: AsyncSummary
 
   constructor(summary: AsyncSummary, sections?: Array<string>) {
@@ -29,3 +29,6 @@ export default class SummaryDataTableBuilder extends DataTableBuilder {
     return super.buildTable(this.summary.data)
   }
 }
+
+export { SummaryDataTableBuilder }
+export default SummaryDataTableBuilder

@@ -161,6 +161,7 @@ class ReportQuery implements FilteredListRequest {
       case 'summary-section':
       case 'row-section-child':
       case 'parent-child':
+      case 'parent-child-section':
         return maxResultsSize
 
       default:

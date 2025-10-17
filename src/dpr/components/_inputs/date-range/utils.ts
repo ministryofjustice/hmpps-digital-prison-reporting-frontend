@@ -99,7 +99,7 @@ const setDefaultValue = (req: Request, name: string) => {
   const dateRangeDefaults = Object.keys(req.body)
     .filter((key) => key.includes(dateRangeName))
     .map((key) => {
-      return { name: key, value: req.body[key] }
+      return { name: key.split('.')[2], value: req.body[key] }
     })
 
   const dateRangeValue: DateRangeFilterValue['value'] | string = { start: '', end: '' }

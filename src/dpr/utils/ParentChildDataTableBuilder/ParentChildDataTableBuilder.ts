@@ -179,9 +179,7 @@ class ParentChildDataTableBuilder extends SectionedDataTableBuilder {
 
     this.childVariants.forEach((childVariant) => {
       const childFields = this.mapNamesToFields(childVariant.joinFields)
-      const matchingChildData = this.childData.find((d) => {
-        return d.id === childVariant.id
-      })
+      const matchingChildData = this.childData.find((d) => d.id === childVariant.id)
       const data = matchingChildData ? matchingChildData.data : []
 
       data

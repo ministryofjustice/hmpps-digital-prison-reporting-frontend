@@ -4,7 +4,7 @@ import ViewAsyncReportController from './controller'
 import ViewReportController from '../controller'
 import { Services } from '../../../../../types/Services'
 
-export default function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
+export function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
   const router = Router({ mergeParams: true })
   const asyncReportController = new ViewAsyncReportController(layoutPath, services)
   const viewReportController = new ViewReportController(layoutPath, services)
@@ -20,3 +20,5 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
 
   return router
 }
+
+export default routes

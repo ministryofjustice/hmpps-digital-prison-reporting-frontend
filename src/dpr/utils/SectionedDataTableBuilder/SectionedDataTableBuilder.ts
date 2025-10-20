@@ -7,7 +7,7 @@ import { distinct } from '../arrayUtils'
 import SummaryDataTableBuilder from '../SummaryDataTableBuilder/SummaryDataTableBuilder'
 import { SectionSortKey } from './types'
 
-export default class SectionedDataTableBuilder extends DataTableBuilder {
+class SectionedDataTableBuilder extends DataTableBuilder {
   sections: Array<string>
 
   template: Template
@@ -330,3 +330,6 @@ export default class SectionedDataTableBuilder extends DataTableBuilder {
     }
   }
 }
+
+export { SectionedDataTableBuilder }
+export default SectionedDataTableBuilder

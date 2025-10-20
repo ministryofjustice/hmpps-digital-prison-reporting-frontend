@@ -1,4 +1,4 @@
-export default class DprLoadingHelper {
+class DprLoadingHelper {
   showLoadingAnimation(wrapperClass) {
     const loadingPanelClass = '.dpr-loading-panel'
     document.querySelectorAll(loadingPanelClass).forEach((l) => {
@@ -21,3 +21,6 @@ export default class DprLoadingHelper {
     })
   }
 }
+
+export { DprLoadingHelper }
+export default DprLoadingHelper

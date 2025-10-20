@@ -10,7 +10,7 @@ import {
 } from './types'
 import { actionTemplates } from './actionsTemplate'
 
-const getActions = ({ refresh, print, share, copy, download }: GetActionsParams): ReportAction[] => {
+export const getActions = ({ refresh, print, share, copy, download }: GetActionsParams): ReportAction[] => {
   const actions: ReportAction[] = []
 
   if (refresh && refresh.url && refresh.executionId) {

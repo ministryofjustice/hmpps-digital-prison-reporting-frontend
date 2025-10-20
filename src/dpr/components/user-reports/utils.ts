@@ -1,6 +1,5 @@
 import { Response, Request } from 'express'
 import dayjs from 'dayjs'
-import logger from '../../utils/logger'
 import { RenderTableListResponse } from './types'
 import Dict = NodeJS.Dict
 import {
@@ -254,7 +253,7 @@ export const setDataFromStatus = (status: RequestStatus, reportsData: UserReport
   }
 }
 
-const renderList = async ({
+export const renderList = async ({
   res,
   reportsData,
   maxRows,
@@ -293,127 +292,103 @@ const renderList = async ({
   return result
 }
 
+export const updateExpiredStatus = async ({ req, res, services }: AsyncReportUtilsParams) => {
+  const { dprUser } = LocalsHelper.getValues(res)
+  const report = await getExpiredStatus({ req, res, services })
+
+  if (report && report.isExpired) {
+    await services.recentlyViewedService.setToExpired(report.executionId, dprUser.id)
+    await services.requestedReportService.setToExpired(report.executionId, dprUser.id)
+  }
+
+  return report ? report.isExpired : false
+}
+
+export const init = async ({
+  services,
+  res,
+  req,
+  maxRows = 6,
+}: {
+  services: Services
+  res: Response
+  req: Request
+  maxRows?: number
+}) => {
+  const { requestedReports, recentlyViewedReports, bookmarkingEnabled } = LocalsHelper.getValues(res)
+  const requestedReportsList = await renderList({
+    res,
+    reportsData: requestedReports,
+    filterFunction: RequestedReportUtils.filterReports,
+    maxRows,
+    type: 'requested',
+  })
+  const viewedReportsList = await renderList({
+    res,
+    reportsData: recentlyViewedReports,
+    filterFunction: RecentlyViewedCardGroupUtils.filterReports,
+    maxRows,
+    type: 'viewed',
+  })
+
+  let bookmarks
+  if (bookmarkingEnabled) {
+    bookmarks = await BookmarklistUtils.renderBookmarkList({
+      res,
+      req,
+      services,
+      maxRows,
+    })
+  }
+
+  return {
+    requestedReports: requestedReportsList,
+    viewedReports: viewedReportsList,
+    bookmarks,
+  }
+}
+
+export const updateLastViewed = async ({
+  req,
+  services,
+  reportStateData,
+  userId,
+  filters,
+}: {
+  req: Request
+  services: Services
+  reportStateData: RequestedReport
+  userId: string
+  filters: FilterValue[]
+}) => {
+  const { type, reportId, reportName, description, id, name, executionId, tableId, query, url } = reportStateData
+  const reportData = { type, reportId, reportName, description, id, name }
+  const executionData = { executionId, tableId }
+  const queryData = query ? { query: query.data, querySummary: query.summary } : { query: {}, querySummary: [] }
+
+  const reqQuery = FiltersUtils.setRequestQueryFromFilterValues(filters)
+  const interactiveQueryData: { query: Dict<string>; querySummary: Array<Dict<string>> } = {
+    query: reqQuery,
+    querySummary: SelectedFiltersUtils.getQuerySummary(reqQuery, filters),
+  }
+
+  const recentlyViewedData = new UserStoreItemBuilder(reportData)
+    .addExecutionData(executionData)
+    .addQuery(queryData)
+    .addInteractiveQuery(interactiveQueryData)
+    .addStatus(RequestStatus.READY)
+    .addTimestamp()
+    .addAsyncUrls(url)
+    .addReportUrls(req)
+    .build()
+
+  await services.requestedReportService.updateLastViewed(reportStateData.executionId, userId)
+  await services.recentlyViewedService.setRecentlyViewed(recentlyViewedData, userId)
+}
+
 export default {
   renderList,
-
-  updateExpiredStatus: async ({ req, res, services }: AsyncReportUtilsParams) => {
-    const { dprUser } = LocalsHelper.getValues(res)
-    const report = await getExpiredStatus({ req, res, services })
-
-    if (report && report.isExpired) {
-      await services.recentlyViewedService.setToExpired(report.executionId, dprUser.id)
-      await services.requestedReportService.setToExpired(report.executionId, dprUser.id)
-    }
-
-    return report ? report.isExpired : false
-  },
-
-  init: async ({
-    services,
-    res,
-    req,
-    maxRows = 6,
-  }: {
-    services: Services
-    res: Response
-    req: Request
-    maxRows?: number
-  }) => {
-    const { requestedReports, recentlyViewedReports, bookmarkingEnabled } = LocalsHelper.getValues(res)
-    logger.info(
-      `Started renderList for requested reports in init for user: ${
-        res.locals.dprUser && JSON.stringify(res.locals.dprUser)
-      }`,
-    )
-    const requestedReportsList = await renderList({
-      res,
-      reportsData: requestedReports,
-      filterFunction: RequestedReportUtils.filterReports,
-      maxRows,
-      type: 'requested',
-    })
-    logger.info(`Finished renderList in init for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
-
-    logger.info(
-      `Started renderList for viewed reports in init for user: ${
-        res.locals.dprUser && JSON.stringify(res.locals.dprUser)
-      }`,
-    )
-    const viewedReportsList = await renderList({
-      res,
-      reportsData: recentlyViewedReports,
-      filterFunction: RecentlyViewedCardGroupUtils.filterReports,
-      maxRows,
-      type: 'viewed',
-    })
-    logger.info(
-      `Finished renderList for viewed reports in init for user: ${
-        res.locals.dprUser && JSON.stringify(res.locals.dprUser)
-      }`,
-    )
-
-    let bookmarks
-    if (bookmarkingEnabled) {
-      logger.info(
-        `Started renderList for bookmarked reports in init for user: ${
-          res.locals.dprUser && JSON.stringify(res.locals.dprUser)
-        }`,
-      )
-      bookmarks = await BookmarklistUtils.renderBookmarkList({
-        res,
-        req,
-        services,
-        maxRows,
-      })
-      logger.info(
-        `Finished renderList for bookmarked reports in init for user: ${
-          res.locals.dprUser && JSON.stringify(res.locals.dprUser)
-        }`,
-      )
-    }
-
-    return {
-      requestedReports: requestedReportsList,
-      viewedReports: viewedReportsList,
-      bookmarks,
-    }
-  },
-
-  updateLastViewed: async ({
-    req,
-    services,
-    reportStateData,
-    userId,
-    filters,
-  }: {
-    req: Request
-    services: Services
-    reportStateData: RequestedReport
-    userId: string
-    filters: FilterValue[]
-  }) => {
-    const { type, reportId, reportName, description, id, name, executionId, tableId, query, url } = reportStateData
-    const reportData = { type, reportId, reportName, description, id, name }
-    const executionData = { executionId, tableId }
-    const queryData = query ? { query: query.data, querySummary: query.summary } : { query: {}, querySummary: [] }
-
-    const reqQuery = FiltersUtils.setRequestQueryFromFilterValues(filters)
-    const interactiveQueryData: { query: Dict<string>; querySummary: Array<Dict<string>> } = {
-      query: reqQuery,
-      querySummary: SelectedFiltersUtils.getQuerySummary(reqQuery, filters),
-    }
-
-    const recentlyViewedData = new UserStoreItemBuilder(reportData)
-      .addExecutionData(executionData)
-      .addQuery(queryData)
-      .addInteractiveQuery(interactiveQueryData)
-      .addStatus(RequestStatus.READY)
-      .addTimestamp()
-      .addAsyncUrls(url)
-      .addReportUrls(req)
-      .build()
-
-    await services.requestedReportService.updateLastViewed(reportStateData.executionId, userId)
-    await services.recentlyViewedService.setRecentlyViewed(recentlyViewedData, userId)
-  },
+  updateExpiredStatus,
+  init,
+  updateLastViewed,
 }

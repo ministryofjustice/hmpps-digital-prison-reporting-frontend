@@ -7,7 +7,6 @@ import DefinitionUtils from '../utils/definitionUtils'
 import { BookmarkStoreData } from '../types/Bookmark'
 import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
-import logger from '../utils/logger'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -21,7 +20,7 @@ const deriveDefinitionsPath = (query: ParsedQs): string | null => {
   return null
 }
 
-export default (services: Services, config?: DprConfig): RequestHandler => {
+export const setupResources = (services: Services, config?: DprConfig): RequestHandler => {
   return async (req, res, next) => {
     populateValidationErrors(req, res)
     try {
@@ -64,17 +63,7 @@ export const populateDefinitions = async (services: Services, req: Request, res:
   res.locals.pathSuffix = `?dataProductDefinitionsPath=${res.locals.definitionsPath}`
 
   if (token && services.reportingService) {
-    logger.info(
-      `Started getting defs in populateDefinitions for user: ${
-        res.locals.dprUser && JSON.stringify(res.locals.dprUser)
-      }`,
-    )
     res.locals.definitions = await services.reportingService.getDefinitions(token, res.locals.definitionsPath)
-    logger.info(
-      `Finished getting defs in populateDefinitions for user: ${
-        res.locals.dprUser && JSON.stringify(res.locals.dprUser)
-      }`,
-    )
   }
 }
 
@@ -83,7 +72,6 @@ export const populateRequestedReports = async (services: Services, res: Response
   if (dprUser.id) {
     const { definitions, definitionsPath } = res.locals
 
-    logger.info(`Getting requested reports for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
     const requested = await services.requestedReportService.getAllReports(dprUser.id)
     res.locals.requestedReports = !definitionsPath
       ? requested
@@ -91,7 +79,6 @@ export const populateRequestedReports = async (services: Services, res: Response
           return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
         })
 
-    logger.info(`Getting recently viewed reports for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
     const recent = await services.recentlyViewedService.getAllReports(dprUser.id)
     res.locals.recentlyViewedReports = !definitionsPath
       ? recent
@@ -102,7 +89,6 @@ export const populateRequestedReports = async (services: Services, res: Response
     if (services.bookmarkService) {
       res.locals.bookmarkingEnabled = true
 
-      logger.info(`Getting bookmarks for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
       const bookmarks = await services.bookmarkService.getAllBookmarks(dprUser.id)
       res.locals.bookmarks = !definitionsPath
         ? bookmarks
@@ -110,13 +96,11 @@ export const populateRequestedReports = async (services: Services, res: Response
             return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
           })
     }
-    logger.info(
-      `Finished getting requested/recent/bookmarks for user: ${
-        res.locals.dprUser && JSON.stringify(res.locals.dprUser)
-      }`,
-    )
+
     if (services.downloadPermissionService) {
       res.locals.downloadingEnabled = true
     }
   }
 }
+
+export default setupResources

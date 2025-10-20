@@ -4,7 +4,7 @@ import { ReportType } from '../../../../types/UserReports'
 import { ReportStoreConfig } from '../../../../types/ReportStore'
 import logger from '../../../../utils/logger'
 
-export default class BookmarkService extends ReportStoreService {
+class BookmarkService extends ReportStoreService {
   constructor(reportDataStore: ReportDataStore) {
     super(reportDataStore)
     logger.info('Service created: BookmarkService')
@@ -66,32 +66,35 @@ export default class BookmarkService extends ReportStoreService {
   }
 
   async createBookMarkToggleHtml({
-    userId,
+    userConfig,
     reportId,
     id,
     csrfToken,
     ctxId,
     reportType,
+    isMissing,
   }: {
-    userId: string
+    userConfig: ReportStoreConfig
     reportId: string
     id: string
     csrfToken: string
     ctxId: string
     reportType: ReportType
+    isMissing: boolean
   }) {
-    const userConfig = await this.getState(userId)
-    const checked = this.isBookmarkedCheck(userConfig, id, reportId) ? 'checked' : null
-
     let tooltip = 'Add bookmark'
     let automatic = false
-    if (checked) {
-      tooltip = 'Remove bookmark'
+    let checked = null
+    if (userConfig?.bookmarks) {
       const bookmark = this.getBookmark(userConfig, id, reportId)
-      automatic = bookmark.automatic
+      if (bookmark) {
+        checked = 'checked'
+        tooltip = 'Remove bookmark'
+        automatic = bookmark.automatic
+      }
     }
 
-    return automatic
+    return automatic || isMissing
       ? ''
       : `<button class='dpr-bookmark dpr-bookmark-table' data-dpr-module='bookmark-toggle'>
   <input class='bookmark-input' type='checkbox' id='${reportId}-${id}-${ctxId}' data-report-id='${reportId}' data-id='${id}' data-report-type='${reportType}' data-csrf-token='${csrfToken}' ${checked} />
@@ -99,3 +102,6 @@ export default class BookmarkService extends ReportStoreService {
 </button>`
   }
 }
+
+export { BookmarkService }
+export default BookmarkService

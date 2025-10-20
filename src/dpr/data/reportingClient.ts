@@ -6,7 +6,7 @@ import { components, operations } from '../types/api'
 import { ApiConfig, Count, FieldValuesRequest, ListWithWarnings } from './types'
 import type { ResultWithHeaders } from './restClient'
 
-export default class ReportingClient {
+class ReportingClient {
   restClient: RestClient
 
   constructor(config: ApiConfig) {
@@ -44,6 +44,26 @@ export default class ReportingClient {
           noDataAvailable: response.headers['x-no-data-warning'],
         },
       }))
+  }
+
+  getDefinitionSummary(
+    token: string,
+    reportId: string,
+    definitionsPath?: string,
+  ): Promise<components['schemas']['ReportDefinitionSummary']> {
+    this.logInfo('Get definition summary', { reportId })
+
+    const queryParams: operations['definitionSummary']['parameters']['query'] = {
+      dataProductDefinitionsPath: definitionsPath,
+    }
+
+    return this.restClient
+      .get({
+        path: `/definitions/${reportId}`,
+        query: queryParams,
+        token,
+      })
+      .then((response) => <components['schemas']['ReportDefinitionSummary']>response)
   }
 
   getDefinitions(
@@ -244,3 +264,6 @@ export default class ReportingClient {
     if (args && Object.keys(args).length) logger.info(JSON.stringify(args, null, 2))
   }
 }
+
+export { ReportingClient }
+export default ReportingClient

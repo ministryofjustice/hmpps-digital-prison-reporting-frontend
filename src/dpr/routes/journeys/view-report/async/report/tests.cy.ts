@@ -154,6 +154,18 @@ context('Viewing a report', () => {
           expect(location.search).to.contain(`columns=field7`)
           expect(location.search).not.to.contain(`columns=field8`)
         })
+
+        cy.findByLabelText(/Successful Report/).within(() => {
+          cy.findAllByRole('rowgroup')
+            .eq(0)
+            .within(() => {
+              cy.findAllByRole('row')
+                .eq(1)
+                .within(() => {
+                  cy.findAllByRole('columnheader').should('have.length', 5)
+                })
+            })
+        })
       }
 
       const expectUpdatedColumns = () => {
@@ -175,6 +187,18 @@ context('Viewing a report', () => {
           expect(location.search).to.contain(`columns=field6`)
           expect(location.search).not.to.contain(`columns=field7`)
           expect(location.search).to.contain(`columns=field8`)
+        })
+
+        cy.findByLabelText(/Successful Report/).within(() => {
+          cy.findAllByRole('rowgroup')
+            .eq(0)
+            .within(() => {
+              cy.findAllByRole('row')
+                .eq(1)
+                .within(() => {
+                  cy.findAllByRole('columnheader').should('have.length', 4)
+                })
+            })
         })
       }
 
@@ -228,7 +252,6 @@ context('Viewing a report', () => {
           .click()
 
         setColumnValues()
-        expectUpdatedColumns()
 
         cy.findByRole('button', { name: 'Apply columns' }).click()
 
@@ -266,10 +289,7 @@ context('Viewing a report', () => {
           .click()
 
         setColumnValues()
-        expectUpdatedColumns()
-
         cy.findByRole('button', { name: 'Apply columns' }).click()
-
         expectUpdatedColumns()
 
         cy.findAllByRole('group')
@@ -320,6 +340,50 @@ context('Viewing a report', () => {
                     break
                 }
               })
+            })
+        })
+      })
+
+      it('should only apply mandatory columms', () => {
+        cy.findAllByRole('group')
+          .contains(/Show columns/)
+          .click()
+
+        cy.findByRole('checkbox', { name: 'Field 1' }).uncheck()
+        cy.findByRole('checkbox', { name: 'Field 3' }).uncheck()
+        cy.findByRole('checkbox', { name: 'Field 7' }).uncheck()
+
+        cy.findByRole('button', { name: 'Apply columns' }).click()
+
+        cy.findByRole('checkbox', { name: 'Field 1' }).should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Field 2' }).should('be.checked').should('be.disabled')
+        cy.findByRole('checkbox', { name: 'Field 3' }).should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Field 4' }).should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Field 5' }).should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Field 6' }).should('be.checked').should('be.disabled')
+        cy.findByRole('checkbox', { name: 'Field 7' }).should('not.be.checked')
+        cy.findByRole('checkbox', { name: 'Field 8' }).should('not.be.checked')
+
+        cy.location().should((location) => {
+          expect(location.search).not.to.contain(`columns=field1`)
+          expect(location.search).to.contain(`columns=field2`)
+          expect(location.search).not.to.contain(`columns=field3`)
+          expect(location.search).not.to.contain(`columns=field4`)
+          expect(location.search).not.to.contain(`columns=field5`)
+          expect(location.search).to.contain(`columns=field6`)
+          expect(location.search).not.to.contain(`columns=field7`)
+          expect(location.search).not.to.contain(`columns=field8`)
+        })
+
+        cy.findByLabelText(/Successful Report/).within(() => {
+          cy.findAllByRole('rowgroup')
+            .eq(0)
+            .within(() => {
+              cy.findAllByRole('row')
+                .eq(1)
+                .within(() => {
+                  cy.findAllByRole('columnheader').should('have.length', 2)
+                })
             })
         })
       })

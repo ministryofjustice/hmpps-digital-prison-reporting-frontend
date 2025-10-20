@@ -5,7 +5,7 @@ import { components } from '../../types/api'
 import { DataTable } from '../DataTableBuilder/types'
 import SummaryDataTableBuilder from '../SummaryDataTableBuilder/SummaryDataTableBuilder'
 
-export default class CollatedSummaryBuilder {
+class CollatedSummaryBuilder {
   private summaries: Array<AsyncSummary>
 
   private specification: components['schemas']['Specification']
@@ -69,3 +69,6 @@ export default class CollatedSummaryBuilder {
     return dataTables
   }
 }
+
+export { CollatedSummaryBuilder }
+export default CollatedSummaryBuilder

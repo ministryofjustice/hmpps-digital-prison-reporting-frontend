@@ -24,7 +24,7 @@ import UserStoreItemBuilder from '../../../../../utils/UserStoreItemBuilder'
 import DataTableBuilder from '../../../../../utils/DataTableBuilder/DataTableBuilder'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 
-const setActions = (
+export const setActions = (
   csrfToken: string,
   reportDefinition: components['schemas']['SingleVariantReportDefinition'],
   columns: Columns,
@@ -116,7 +116,7 @@ const setAsRecentlyViewed = async ({
   await services.recentlyViewedService.setRecentlyViewed(recentlyViewedData, userId)
 }
 
-const getReportData = async ({
+export const getReportData = async ({
   services,
   req,
   token,
@@ -154,7 +154,7 @@ const getReportData = async ({
   }
 }
 
-const getReport = async ({ req, res, services }: { req: Request; res: Response; services: Services }) => {
+export const getReport = async ({ req, res, services }: { req: Request; res: Response; services: Services }) => {
   const { token, csrfToken, dprUser } = LocalsHelper.getValues(res)
   const { reportId, id } = req.params
   const dataProductDefinitionsPath = <string>req.query.dataProductDefinitionsPath
@@ -210,7 +210,7 @@ const getReport = async ({ req, res, services }: { req: Request; res: Response; 
   }
 }
 
-const getReportRenderData = async ({
+export const getReportRenderData = async ({
   req,
   res,
   services,
@@ -253,7 +253,7 @@ const getReportRenderData = async ({
     filtersType: filtersType || FiltersType.INTERACTIVE,
   })
 
-  const columns = ColumnUtils.getColumns(specification, reportQuery.columns)
+  const columns = ColumnUtils.getColumns(specification, req)
 
   return {
     dataTable: [dataTable],
@@ -268,7 +268,7 @@ const getReportRenderData = async ({
   }
 }
 
-const getRenderData = async ({
+export const getRenderData = async ({
   req,
   res,
   services,

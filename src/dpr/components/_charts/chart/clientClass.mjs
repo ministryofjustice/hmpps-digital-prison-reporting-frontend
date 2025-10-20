@@ -5,7 +5,7 @@ import { MatrixController, MatrixElement } from 'chartjs-chart-matrix'
 
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
-export default class ChartVisualisation extends DprClientClass {
+class ChartVisualisation extends DprClientClass {
   setupCanvas() {
     this.chartContext = this.getElement().querySelector('canvas')
 
@@ -198,3 +198,6 @@ export default class ChartVisualisation extends DprClientClass {
     })
   }
 }
+
+export { ChartVisualisation }
+export default ChartVisualisation

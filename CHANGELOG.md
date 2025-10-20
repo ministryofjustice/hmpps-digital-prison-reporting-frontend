@@ -1,5 +1,125 @@
 Below you can find the changes included in each release.
 
+## v4.14.0
+- Stop bundling imports to give consumers the option to bundle or not
+- Give all default exports also a named export so that compilation of the code doesn't discard them as imports aren't bundled anymore
+
+## v4.13.23
+- Bug fix for saving date-range as user defaults
+
+## v4.13.22
+- More temporary logging
+- Bug fix for datatable columns no updating when applying columns
+- Bug fix for single column showing no data
+
+## v4.13.21
+- Add some temporary logging to help diagnose an issue
+
+## v4.13.20
+- Fix a CSRF token missing 
+
+## v4.13.19
+- Make missing reports unable to be bookmarked
+
+## v4.13.18
+- Fix small bug passing the wrong params into `DefinitionUtils.getReportSummary`
+
+## v4.13.17
+- Fix missing csrf token in apply columns post 
+- Small css fix for parent-child template
+
+## v4.13.16
+- Fix for various performance issues when many DPDs are present
+
+## v4.13.15
+- Fixed a bug where adding/removing a bookmark would break due to click events not being handled correctly
+- Fixed a bug with setting user defaults
+
+## v4.13.14
+- Bug fix for error thrown when a single multi-select value is saved + tests
+
+## v4.13.13
+- When a single mult-iselect value is selected it is returned as a `string` and not `string[]`. Caused the `forEach` to throw an error
+- Fix styling issue with save defaults button
+
+## v4.13.12
+- Missing csrf token apply and save forms
+- Fix sort
+- Fix typo
+
+## v4.13.11
+- Add logging to try and diagnose a performance issue
+
+## v4.13.10
+- Update dev docs for dashboards
+- On initial load, dashboards weren't applying the default filter values to the request query.
+- Show request details on dashboard heading
+
+## v4.13.9
+- Fix typing issue
+- Fix import issue
+
+## v4.13.8
+- Merge differing package.jsons in publishing/ folder and in base and only use one in base
+- Fix couple issues with `getFilters` call in dashboard utils and `setAsRecentlyViewed` where incorrect parameters were being sent
+
+## v4.13.7
+- Add ability to save interactive filters as defaults
+- Update content on the request missing report form
+- Use standard server-side validation and POST for missing report form, introduce use of [Zod (a validation library)](https://github.com/colinhacks/zod)
+- Fix bug where default path for missing reports was not being sent
+
+## v4.13.6
+- Fix typing issues
+
+## v4.13.5
+- Change bookmark element from a div to a button and use `click` event instead of `change` to improve accessibility (this change introduced a bug when adding/removing a bookmark which is fixed in 4.13.15)
+- Convert interactive filter form submission from get to post
+- Remove page size from dashboard requests as a full dataset is required for the visualisations
+- Fix dashboard bookmarks
+- Remove "Value for" in list vis if no timestamp is provided
+- Tidying up the various network mocks added as a result of the changes in v4.13.1
+- Deleting mock code that is now unused
+- Improving cypress tests
+- Updating docs
+- Update dev docs
+- Remove jest tests which are now better covered with cypress ones, add some more cypress tests
+- Bump tar-fs due to dependency issue
+
+## v4.13.4
+- Fix dependencies
+
+## v4.13.3
+- No changes
+
+## v4.13.2
+- No changes
+
+## v4.13.1
+- Remove a bunch of mock code being used to test the library, and use cypress tests to drive library code using network level mocks
+- Fix a couple of typing and accessibility issues
+- Fix to bug whereby the date format was incorrect for the date values of interactive selected filters
+- Fix various typing issues surfaced by enabling strictmode during dev, add new guardrails where types surfaced issues
+- Remove logging json in view for multiselect
+- Fix multiselect selected filter bug - clicking selected filter did not remove the checks in multiselect
+- Update the publish Github Action to support OIDC auth
+
+## v4.13.0
+- Add ability to save user defined sort values as defaults
+- Refactor sync cypress tests
+
+## v4.12.4
+- Fix download sort bug in sync, fix typing issue
+
+## v4.12.3
+- Fix download sort bug where it was defaulting back to DPD sort
+
+## v4.12.2
+- Queryparams for sort were defaulting to DPD value, so set them to requested ones
+
+## v4.12.1
+- Ensure missing report API client is initialised, fix a test
+
 ## v4.12.0
 - Library integration update: Define a bespoke dpr user context in `res.locals` to interact with the platform, to ensure all integrating services provide all the required configuration, and leave the `locals.user` context to the discretion of the intergrating service. Services updating to this version will need to update their `populateCurrentUser` middleware to accomodate this change. See the <a href="https://ministryofjustice.github.io/hmpps-digital-prison-reporting-frontend/integration-guides/integrating-the-platform/#setup-the-dpr-user-in-locals" target="_blank">integration docs</a> for instructions. 
 

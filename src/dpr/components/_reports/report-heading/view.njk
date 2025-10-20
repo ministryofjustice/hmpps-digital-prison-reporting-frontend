@@ -22,7 +22,7 @@
   {% set count = reportData.count %}
   {% set nestedBaseUrl = reportData.nestedBaseUrl %}
   {% set csrfToken = reportData.csrfToken %}
-
+  
   <div class="dpr-report-header">
     {% if actions or bookmarked is defined %}
     <div class="dpr-report-heading__actions">
@@ -75,7 +75,7 @@
 
     <div class="dpr-report-interactive-actions">
       {% if count and count > 0 %}
-        {{ dprReportColumns(columns) }}
+        {{ dprReportColumns(columns, csrfToken) }}
       {% endif %}
 
       {{ dprReportFilters(filterData, defaultQuery, csrfToken) }}

@@ -3,7 +3,7 @@ import LocalsHelper from '../../../utils/localsHelper'
 import DownloadUtils from './utils'
 import { Services } from '../../../types/Services'
 
-export default class DownloadReportController {
+class DownloadReportController {
   layoutPath: string
 
   services: Services
@@ -29,3 +29,6 @@ export default class DownloadReportController {
     }
   }
 }
+
+export { DownloadReportController }
+export default DownloadReportController

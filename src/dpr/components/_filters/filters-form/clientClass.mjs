@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import DprFormValidationClass from '../../../DprFormValidationClass.mjs'
 
-export default class DprFiltersFormClass extends DprFormValidationClass {
+class DprFiltersFormClass extends DprFormValidationClass {
   initFiltersForm({ formId, submitButtonId, resetButtonId, selectedFiltersId, removeSelectedButtonClass }) {
     this.errorMessages = []
 
@@ -75,3 +75,6 @@ export default class DprFiltersFormClass extends DprFormValidationClass {
     window.location.reload()
   }
 }
+
+export { DprFiltersFormClass }
+export default DprFiltersFormClass

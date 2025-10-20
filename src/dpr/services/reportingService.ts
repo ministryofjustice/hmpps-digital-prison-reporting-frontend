@@ -5,7 +5,7 @@ import Dict = NodeJS.Dict
 import { ListWithWarnings } from '../data/types'
 import logger from '../utils/logger'
 
-export default class ReportingService {
+class ReportingService {
   constructor(private readonly reportingClient: ReportingClient) {
     this.reportingClient = reportingClient
     logger.info('Service created: ReportingService')
@@ -21,6 +21,14 @@ export default class ReportingService {
 
   async getListWithWarnings(resourceName: string, token: string, listRequest: ReportQuery): Promise<ListWithWarnings> {
     return this.reportingClient.getListWithWarnings(resourceName, token, listRequest)
+  }
+
+  async getDefinitionSummary(
+    token: string,
+    reportId: string,
+    dataProductDefinitionsPath?: string,
+  ): Promise<components['schemas']['ReportDefinitionSummary']> {
+    return this.reportingClient.getDefinitionSummary(token, reportId, dataProductDefinitionsPath)
   }
 
   async getDefinitions(
@@ -111,3 +119,6 @@ export default class ReportingService {
     return this.reportingClient.getAsyncInteractiveCount(token, tableId, reportId, id, filters)
   }
 }
+
+export { ReportingService }
+export default ReportingService

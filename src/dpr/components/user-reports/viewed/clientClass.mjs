@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import DprPollingStatusClass from '../../../DprPollingStatusClass.mjs'
 
-export default class DprRecentlyViewedList extends DprPollingStatusClass {
+class DprRecentlyViewedList extends DprPollingStatusClass {
   static getModuleName() {
     return 'recently-viewed-list'
   }
@@ -72,3 +72,6 @@ export default class DprRecentlyViewedList extends DprPollingStatusClass {
     return response
   }
 }
+
+export { DprRecentlyViewedList }
+export default DprRecentlyViewedList

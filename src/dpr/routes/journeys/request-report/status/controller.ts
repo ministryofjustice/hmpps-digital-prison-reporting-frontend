@@ -5,7 +5,7 @@ import AsyncRequestUtils from '../filters/utils'
 import AsyncRequestListUtils from '../../../../components/user-reports/requested/utils'
 import ErrorSummaryUtils from '../../../../components/error-summary/utils'
 
-export default class RequestStatusController {
+class RequestStatusController {
   layoutPath: string
 
   services: Services
@@ -62,3 +62,6 @@ export default class RequestStatusController {
     }
   }
 }
+
+export { RequestStatusController }
+export default RequestStatusController

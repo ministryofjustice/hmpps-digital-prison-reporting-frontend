@@ -33,7 +33,10 @@ interface dprServices {
   defaultFilterValuesService?: DefaultFilterValuesService
 }
 
-const createDprServices = (clients: InitDPRServicesArgs, reportStoreConfig: ReportStoreConfig = {}): Services => {
+export const createDprServices = (
+  clients: InitDPRServicesArgs,
+  reportStoreConfig: ReportStoreConfig = {},
+): Services => {
   logger.info('Creating DPR services...')
 
   const { reportingClient, dashboardClient, reportDataStore } = clients

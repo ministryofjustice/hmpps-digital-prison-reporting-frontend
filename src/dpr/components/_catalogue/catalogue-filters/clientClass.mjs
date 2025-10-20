@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
-export default class DprCatalogueFilters extends DprClientClass {
+class DprCatalogueFilters extends DprClientClass {
   initTable() {
     this.table = document.getElementById(this.tableId).querySelector('tbody')
     this.classes = [
@@ -43,3 +43,6 @@ export default class DprCatalogueFilters extends DprClientClass {
     }
   }
 }
+
+export { DprCatalogueFilters }
+export default DprCatalogueFilters

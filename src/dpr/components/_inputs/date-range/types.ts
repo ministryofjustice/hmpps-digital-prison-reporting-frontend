@@ -1,4 +1,4 @@
-enum RelativeDateRange {
+export enum RelativeDateRange {
   YESTERDAY = 'yesterday',
   TOMORROW = 'tomorrow',
   LAST_WEEK = 'last-week',

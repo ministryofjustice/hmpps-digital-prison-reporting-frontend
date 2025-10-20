@@ -11,7 +11,7 @@ interface SanitisedError {
 
 export type UnsanitisedError = ResponseError
 
-export default function sanitise(error: UnsanitisedError): SanitisedError {
+export function sanitise(error: UnsanitisedError): SanitisedError {
   if (error.response) {
     return {
       text: error.response.text,
@@ -27,3 +27,5 @@ export default function sanitise(error: UnsanitisedError): SanitisedError {
     stack: error.stack,
   }
 }
+
+export default sanitise

@@ -2,7 +2,7 @@ import nunjucks from 'nunjucks'
 import nunjucksDate from 'nunjucks-date'
 import { FilterOption } from './components/_filters/filter-input/types'
 
-const setUpNunjucksFilters = (env: nunjucks.Environment) => {
+export const setUpNunjucksFilters = (env: nunjucks.Environment) => {
   env.addFilter('addRequiredAttributeToAll', addRequiredAttributeToAll)
   env.addFilter('json', stringifyJson)
   env.addFilter('capitaliseSentence', capitaliseSentence)

@@ -4,10 +4,9 @@ import { Cell, DataTable, FieldDefinition } from '../DataTableBuilder/types'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import { distinct } from '../arrayUtils'
 import { ChildData, ParentChildSortKey } from './types'
-import logger from '../logger'
 import SectionedDataTableBuilder from '../SectionedDataTableBuilder/SectionedDataTableBuilder'
 
-export default class ParentChildDataTableBuilder extends SectionedDataTableBuilder {
+class ParentChildDataTableBuilder extends SectionedDataTableBuilder {
   variant: components['schemas']['VariantDefinition']
 
   childVariants: components['schemas']['ChildVariantDefinition'][]
@@ -87,6 +86,7 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
 
     Object.keys(sectionedData).forEach((sectionDescription) => {
       const data = sectionedData[sectionDescription] as Array<Dict<string>>
+
       sectionedParentChildSectionedRows.push({
         sectionDescription,
         ...this.getSectionCount(sectionedData, sectionDescription),
@@ -179,14 +179,6 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
 
     this.childVariants.forEach((childVariant) => {
       const childFields = this.mapNamesToFields(childVariant.joinFields)
-      logger.info(
-        'DPR-Parent-child-template-debugging splitChildDataIntoSections',
-        JSON.stringify({
-          childFields,
-          parentKeys,
-        }),
-      )
-
       const matchingChildData = this.childData.find((d) => d.id === childVariant.id)
       const data = matchingChildData ? matchingChildData.data : []
 
@@ -224,3 +216,6 @@ export default class ParentChildDataTableBuilder extends SectionedDataTableBuild
     }
   }
 }
+
+export { ParentChildDataTableBuilder }
+export default ParentChildDataTableBuilder

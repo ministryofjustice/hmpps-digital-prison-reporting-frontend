@@ -9,7 +9,7 @@ import viewReportRoutes from './report/routes'
 // middleware
 import reportAuthoriser from '../../../../middleware/reportAuthoriser'
 
-export default function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
+export function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
   const router = Router({ mergeParams: true })
 
   router.use('/report', reportAuthoriser(services, layoutPath), viewReportRoutes({ layoutPath, services }))
@@ -17,3 +17,5 @@ export default function routes({ layoutPath, services }: { layoutPath: string; s
 
   return router
 }
+
+export default routes

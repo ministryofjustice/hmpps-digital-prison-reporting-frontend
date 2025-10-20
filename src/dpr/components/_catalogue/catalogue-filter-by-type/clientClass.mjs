@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 import DprCatalogueFilters from '../catalogue-filters/clientClass.mjs'
 
-export default class DprCatalogueTypeFilter extends DprCatalogueFilters {
+class DprCatalogueTypeFilter extends DprCatalogueFilters {
   static getModuleName() {
     return 'dpr-catalogue-type-filter'
   }
@@ -63,3 +63,6 @@ export default class DprCatalogueTypeFilter extends DprCatalogueFilters {
       })
   }
 }
+
+export { DprCatalogueTypeFilter }
+export default DprCatalogueTypeFilter

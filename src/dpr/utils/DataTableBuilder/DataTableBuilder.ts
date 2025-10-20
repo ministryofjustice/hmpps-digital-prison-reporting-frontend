@@ -6,7 +6,7 @@ import type { SummaryTemplate } from '../../types/Templates'
 import { AsyncSummary } from '../../types/UserReports'
 import DateMapper from '../DateMapper/DateMapper'
 
-export default class DataTableBuilder {
+class DataTableBuilder {
   protected fields: Array<FieldDefinition>
 
   private sortData: boolean
@@ -341,3 +341,6 @@ export default class DataTableBuilder {
     return this
   }
 }
+
+export { DataTableBuilder }
+export default DataTableBuilder

@@ -28,20 +28,19 @@ This integration quide describes the steps required to use DPR's Platform into y
 Add DPR API configuration to your `config.ts` file. 
 
 ```js
-export default {
+export const apis = {
   ...
-  apis: {
-    ...
-    dpr: {
-      url: get('DPR_API_URL', 'http://127.0.0.1:3002', requiredInProduction),
-      timeout: {
-        response: Number(get('DPR_API_TIMEOUT_RESPONSE', 60000)),
-        deadline: Number(get('DPR_API_TIMEOUT_DEADLINE', 60000)),
-      },
-      agent: new AgentConfig(Number(get('DPR_API_TIMEOUT_RESPONSE', 60000))),
-    }
+  dpr: {
+    url: get('DPR_API_URL', 'http://127.0.0.1:3002', requiredInProduction),
+    timeout: {
+      response: Number(get('DPR_API_TIMEOUT_RESPONSE', 60000)),
+      deadline: Number(get('DPR_API_TIMEOUT_DEADLINE', 60000)),
+    },
+    agent: new AgentConfig(Number(get('DPR_API_TIMEOUT_RESPONSE', 60000))),
   }
-  ...
+}
+export default {
+  apis
 }
 ```
 
@@ -58,16 +57,16 @@ definitions/prisons/dps/${yourServiceName}
 Add your DPD path to the `config.ts` file: 
 
 ```js
+export const apis = {
+  ...
+}
+...
+export const dpr = {
+  dataProductDefinitionsPath: 'definitions/prisons/dps/yourServiceName'
+}
 export default {
-  ...
-  apis: {
-    ...
-  }
-  ...
-  dpr {
-    dataProductDefinitionsPath: 'definitions/prisons/dps/yourServiceName'
-  }
-  ...
+  apis,
+  dpr,
 }
 ```
 
@@ -192,13 +191,15 @@ This setup is commonly done in the `server/routes/index.ts` file of the <a href=
 ```js
 import dprPlatformRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes'
 
-export default function routes(services: Services): Router {
+export function routes(services: Services): Router {
   const router = Router()
   
   ...
 
   router.use('/', dprPlatformRoutes({ services, layoutPath: 'path/to/layout.njk'})) 
 }
+
+export default routes
 ```
 
 <hr class='dpr-docs-hr'>

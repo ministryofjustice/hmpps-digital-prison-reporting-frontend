@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import { DprClientClass } from '../../DprClientClass.mjs'
 
-export default class BookmarkToggle extends DprClientClass {
+class BookmarkToggle extends DprClientClass {
   static getModuleName() {
     return 'bookmark-toggle'
   }
@@ -23,7 +23,8 @@ export default class BookmarkToggle extends DprClientClass {
     this.bookmarkColumn = this.bookmarkWrapper.parentNode
     this.bookmarkLabel = this.bookmarkWrapper.querySelector('.dpr-bookmark-label--component')
 
-    element.addEventListener('click', async () => {
+    element.addEventListener('click', async (e) => {
+      e.preventDefault()
       bookmarkToggle.checked = !bookmarkToggle.checked
       if (bookmarkToggle.checked) {
         await this.addBookmark(bookmarkToggle, id, reportId, reportType, csrfToken)
@@ -92,3 +93,6 @@ export default class BookmarkToggle extends DprClientClass {
       .catch((error) => console.error('Error:', error))
   }
 }
+
+export { BookmarkToggle }
+export default BookmarkToggle

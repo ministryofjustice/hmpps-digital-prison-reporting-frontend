@@ -3,7 +3,7 @@ import Dict = NodeJS.Dict
 import logger from '../utils/logger'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export default class DashboardService {
+class DashboardService {
   constructor(private readonly dashboardClient: any) {
     this.dashboardClient = dashboardClient
     logger.info('Service created: DashboardService')
@@ -71,3 +71,6 @@ export default class DashboardService {
     return this.dashboardClient.getAsyncDashboard(token, reportId, dashboardId, tableId, query)
   }
 }
+
+export { DashboardService }
+export default DashboardService

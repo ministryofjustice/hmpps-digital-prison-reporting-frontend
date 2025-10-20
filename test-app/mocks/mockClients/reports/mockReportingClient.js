@@ -61,6 +61,12 @@ class MockReportingClient {
     return Promise.resolve(reportClone)
   }
 
+  async getDefinitionSummary(token, reportId, definitionsPath) {
+    this.logInfo('getDefinitions', { token, definitionsPath })
+    const report = defs.reports.find((r) => r.id === reportId)
+    return Promise.resolve(report)
+  }
+
   async getDefinitions(token, definitionsPath) {
     this.logInfo('getDefinitions', { token, definitionsPath })
 

@@ -1,6 +1,8 @@
+import { DashboardVisualisationType } from '../../../../src/dpr/components/_dashboards/dashboard/types'
+
 const dietTotalsVegetarianOvertime = {
   id: 'diet-totals-vegetarian-overtime',
-  type: 'matrix-timeseries',
+  type: DashboardVisualisationType.MATRIX_TIMESERIES,
   display: 'Vegetarian totals over time matrix chart',
   description: '',
   showLatest: false,
@@ -8,6 +10,7 @@ const dietTotalsVegetarianOvertime = {
     keys: [
       {
         id: 'ts',
+        display: 'Date',
       },
     ],
     measures: [
@@ -30,6 +33,8 @@ const dietTotalsVegetarianOvertime = {
   },
 }
 
-module.exports = {
+const matrix = {
   dietTotalsVegetarianOvertime,
 }
+
+export default matrix

@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+import weekOfYear from 'dayjs/plugin/weekOfYear'
 import {
   ChartData,
   MoJTable,
@@ -6,8 +8,8 @@ import {
   ChartType,
   ChartDetails,
   ChartMetaData,
-  MatrixChartData,
 } from '../../types/Charts'
+import { createTimeseriesMatrixChart } from './chart/heatmap/utils'
 import { DashboardDataResponse } from '../../types/Metrics'
 import {
   BarChartVisualisationColumn,
@@ -18,7 +20,12 @@ import DatasetHelper from '../../utils/datasetHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 import { Granularity } from '../_inputs/granular-date-range/types'
 
-const createChart = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]): ChartCardData => {
+dayjs.extend(weekOfYear)
+
+export const createChart = (
+  chartDefinition: DashboardVisualisation,
+  rawData: DashboardDataResponse[],
+): ChartCardData => {
   let table: MoJTable
   let chart: ChartData
   let details: ChartDetails
@@ -37,7 +44,7 @@ const createChart = (chartDefinition: DashboardVisualisation, rawData: Dashboard
   }
 }
 
-const createTimeseriesCharts = (
+export const createTimeseriesCharts = (
   chartDefinition: DashboardVisualisation,
   rawData: DashboardDataResponse[],
 ): ChartCardData => {
@@ -58,7 +65,7 @@ const createTimeseriesCharts = (
   }
 }
 
-const createMatrixChart = (
+export const createMatrixChart = (
   chartDefinition: DashboardVisualisation,
   rawData: DashboardDataResponse[],
   query: Record<string, string | string[]>,
@@ -85,12 +92,6 @@ const createMatrixChart = (
     table,
     chart,
   }
-}
-
-export default {
-  createChart,
-  createTimeseriesCharts,
-  createMatrixChart,
 }
 
 const getDataForSnapshotCharts = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]) => {
@@ -283,87 +284,6 @@ const createSnapshotTable = (chartDefinition: DashboardVisualisation, data: Dash
   }
 }
 
-const createTimeseriesMatrixChart = (
-  chartDefinition: DashboardVisualisation,
-  timeseriesData: DashboardDataResponse[],
-  granularity: Granularity,
-): ChartData => {
-  const { columns } = chartDefinition
-  const { keys, measures } = columns
-
-  const unit = measures[0].unit ? measures[0].unit : undefined
-  const type = chartDefinition.type.split('-')[0]
-  const groupKey = DatasetHelper.getGroupKey(keys, timeseriesData)
-  const labelId = groupKey.id as keyof DashboardDataResponse
-
-  const timeBlockData = DatasetHelper.groupRowsByTimestamp(timeseriesData)
-  console.log(JSON.stringify({ timeBlockData }, null, 2))
-
-  const matrixDataSets: ChartDataset[] = createMatrixDataSet(timeBlockData, granularity)
-  console.log(JSON.stringify({ matrixDataSets }, null, 2))
-
-  const datasets: ChartDataset[] = []
-  for (let index = 0; index < timeBlockData[0].length; index += 1) {
-    const data = timeBlockData.map((timeperiod) => {
-      return +timeperiod[index][measures[1].id].raw
-    })
-    const total = data.reduce((a, c) => a + c, 0)
-    const label = timeBlockData[0][index][labelId].raw as string
-
-    datasets.push({
-      data,
-      label,
-      total,
-    })
-  }
-
-  return {
-    type: type as unknown as ChartType,
-    unit,
-    timeseries: true,
-    data: {
-      datasets: matrixDataSets,
-    },
-  }
-}
-
-const createMatrixDataSet = (timeBlockData: DashboardDataResponse[][], granularity: Granularity) => {
-  const dataset: MatrixChartData[] = initTimeseriesMatrixAxis(timeBlockData, granularity)
-  return [{ label: 'test', data: dataset }]
-}
-
-const initTimeseriesMatrixAxis = (
-  timeBlockData: DashboardDataResponse[][],
-  granularity: Granularity,
-): MatrixChartData[] => {
-  let dataset: MatrixChartData[] = []
-  switch (granularity) {
-    case 'hourly':
-      break
-    case 'daily':
-      break
-    case 'monthly':
-      // Assumes ts format is MMM YY
-      dataset = timeBlockData.map((tsData) => {
-        const ts = (<string>tsData[0].ts.raw).split(' ')
-        return {
-          y: ts[0],
-          x: ts[1],
-          v: 10,
-        }
-      })
-      break
-    case 'annually':
-      break
-    default:
-      break
-  }
-
-  console.log(JSON.stringify({ dataset }, null, 2))
-
-  return dataset
-}
-
 const createTimeseriesChart = (
   chartDefinition: DashboardVisualisation,
   timeseriesData: DashboardDataResponse[],
@@ -438,4 +358,10 @@ const createTimeseriesTable = (
     head,
     rows,
   } as MoJTable
+}
+
+export default {
+  createChart,
+  createTimeseriesCharts,
+  createMatrixChart,
 }

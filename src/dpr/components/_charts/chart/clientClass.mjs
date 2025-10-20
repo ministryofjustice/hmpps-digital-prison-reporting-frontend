@@ -54,6 +54,7 @@ class ChartVisualisation extends DprClientClass {
     console.log(JSON.stringify(this.chartData, null, 2))
 
     this.chart = new Chart(this.chartContext, this.chartData)
+    console.log(this.chart)
     this.initChartEvents()
   }
 

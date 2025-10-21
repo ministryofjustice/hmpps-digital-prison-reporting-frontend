@@ -5,7 +5,7 @@ const dietTotalsVegetarianOvertime = {
   type: DashboardVisualisationType.MATRIX_TIMESERIES,
   display: 'Vegetarian totals over time matrix chart',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {

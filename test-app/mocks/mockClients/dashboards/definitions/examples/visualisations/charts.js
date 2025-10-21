@@ -295,7 +295,7 @@ const dietTotalsOverTime = {
   type: 'line-timeseries',
   display: 'Prisoner totals over time',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -322,7 +322,7 @@ const dietTotalsByEstablishmentOverTime = {
   type: 'line-timeseries',
   display: 'Prisoner totals by establishment over time',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -348,7 +348,7 @@ const dietTotalsByEstablishmentByWingOverTime = {
   type: 'line-timeseries',
   display: 'Prisoner totals by establishment, by wing, over time',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -377,7 +377,7 @@ const dietTotalsVegetarianOvertime = {
   type: 'line-timeseries',
   display: 'Vegetarian totals over time line chart',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -410,7 +410,7 @@ const dietTotalsVeganOvertime = {
   type: 'line-timeseries',
   display: 'Vegan totals over time line chart',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -443,7 +443,7 @@ const dietTotalsVegetarianOvertimeByEstLine = {
   type: 'line-timeseries',
   display: 'Vegetarian totals over time line',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -476,7 +476,7 @@ const dietTotalsVegetarianOvertimeByEstByWingLine = {
   type: 'line-timeseries',
   display: 'Vegetarian totals over time by wing line',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -513,7 +513,7 @@ const dietTotalsAllDietOvertimeByEstLine = {
   type: 'line-timeseries',
   display: 'All Diet totals over time',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -541,7 +541,7 @@ const dietTotalsByEstablishmentByWingOverTimeOptionalLine = {
   type: 'line-timeseries',
   display: 'Diet totals by Establishment, by wing, over time',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -815,7 +815,7 @@ const dataQualityEthnicityHistoricLine = {
       },
     ],
   },
-  showLatest: false,
+  options: { showLatest: false },
 }
 
 const dataQualityReligionHistoricLine = {
@@ -840,7 +840,7 @@ const dataQualityReligionHistoricLine = {
       },
     ],
   },
-  showLatest: false,
+  options: { showLatest: false },
 }
 
 const dataQualityNationalityHistoricLine = {
@@ -865,7 +865,7 @@ const dataQualityNationalityHistoricLine = {
       },
     ],
   },
-  showLatest: false,
+  options: { showLatest: false },
 }
 
 const dataQualityEthnicityHistoricBar = {
@@ -890,7 +890,7 @@ const dataQualityEthnicityHistoricBar = {
       },
     ],
   },
-  showLatest: false,
+  options: { showLatest: false },
 }
 
 const dataQualityReligionHistoricBar = {
@@ -915,7 +915,7 @@ const dataQualityReligionHistoricBar = {
       },
     ],
   },
-  showLatest: false,
+  options: { showLatest: false },
 }
 
 const dataQualityNationalityHistoricBar = {
@@ -940,7 +940,7 @@ const dataQualityNationalityHistoricBar = {
       },
     ],
   },
-  showLatest: false,
+  options: { showLatest: false },
 }
 
 const charts = {

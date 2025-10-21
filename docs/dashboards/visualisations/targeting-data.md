@@ -8,24 +8,48 @@ These docs describe how to define a visualisation definition to target specific 
 
 Data can be targeted to create a data subset specific to your visualisation by defining the following fields:
 
-#### `keys` 
+### `keys` 
+
+
 - Specifies the columns whose values are expected to be present for a specific row
 - The column values are checked for the presence. 
 - If a row contains values that are undefined the row is removed
 
-#### `measures`
+Type: `Array`<br>
+See [keys schema](/dashboards/visualisations/visualisation-definition/#keys)
+
+### `measures`
 - Specifies the columns you want to include/visualise in your visualisation
 - Does not affect the data sub-set
 - Column values will be used/shown in your visualisation.
 
-#### `filters`
+Type: `Array`<br>
+See [measures schema](/dashboards/visualisations/visualisation-definition/#measures)
+
+### `filters`
 - Specifies the column and value you want to filter the data set by
 - The specified column is checked to contain a specified value
 - If not equal, the row is removed
 
-# Examples 
+Type: `Array`<br>
+See [filters schema](/dashboards/visualisations/visualisation-definition/#filters)
+
+### `expectNull`
+- Specifies if remaining columns that are not defined in `keys` or `measures` should, or should not have null values present
+
+Type: `Boolean`<br>
+
+# Examples
 
 The following examples will demonstrate the targeting of specific rows, using the `list` visualisation type.
+
+- [Targeting specific rows](#targeting-specific-rows)
+- [Filtering by column value](#filtering-by-column-value)
+- [Targeting prisoner totals](#targeting-prisoner-totals)
+- [Targeting diet totals](#targeting-diet-totals)
+- [Diet totals with sum total row](#diet-totals-with-sum-total-row)
+- [Cell totals with sum total row](#cell-totals-with-sum-total-row)
+
 
 ### Example Dataset
 
@@ -209,7 +233,7 @@ List visualisation:
 | Total | 140             |
 ```
 
-## Targeting Prisoner Totals
+## Targeting prisoner totals
 
 ```js
 {
@@ -244,7 +268,7 @@ List visualisation:
 | 5000            |
 ```
 
-## Targeting diet Totals
+## Targeting diet totals
 
 ```js
 {
@@ -291,7 +315,7 @@ List visualisation:
 | Omnivore    | 1009            |
 ```
 
-## Targeting diet totals by establishment, with a sum total row
+## Diet totals with sum total row
 
 ```js
 {
@@ -348,7 +372,7 @@ List visualisation:
 | Total              |             | 1109            |
 ```
 
-## Targeting cell totals, with sum total row
+## Cell totals with sum total row
 
 ```js
 {

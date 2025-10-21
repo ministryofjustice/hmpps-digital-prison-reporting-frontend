@@ -28,7 +28,7 @@ The dashboard definition is responsible for defining the structure and IA of a d
 | `id`             | string  | yes      | The section ID                                                       |
 | `display`        | string  | yes      | The section title                                                    |
 | `description`    | string  | yes      | The section desciption                                               | 
-| `visualisations` | array   | yes      | The visualisation definitions. See [Visualisations](../visualisations/visualisation-definition.md)   |
+| `visualisations` | array   | yes      | The visualisation definitions. See [Visualisations](/dashboards/visualisations/visualisation-definition/)   |
 
 
 ## Example

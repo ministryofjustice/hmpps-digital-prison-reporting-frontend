@@ -12,6 +12,12 @@ const dataQualityHistoric = {
       description: '',
       visualisations: [matrix.dietTotalsVegetarianOvertime, lists.fullDatasetOverTime],
     },
+    {
+      id: 'matrix-test',
+      display: 'Matrix RAG example',
+      description: '',
+      visualisations: [matrix.dietTotalsVegetarianOvertimeRag, lists.fullDatasetOverTime],
+    },
   ],
   filterFields: [granularDateRangeFilter],
 }

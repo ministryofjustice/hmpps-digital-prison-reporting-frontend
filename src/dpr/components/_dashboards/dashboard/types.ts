@@ -39,12 +39,22 @@ export interface DashboardVisualisation {
   display?: string
   description?: string
   columns: DashboardVisualisationColumns
+  options: DashboardVisualisationOptions
+}
+
+export type DashboardVisualisationOptions = ListDashboardVisualisationOptions | MatrixDashboardVisualisationOptions
+
+export interface ListDashboardVisualisationOptions {
   showLatest?: boolean
+  columnsAsList?: boolean
+}
+
+export interface MatrixDashboardVisualisationOptions {
+  ragStatus?: boolean
 }
 
 export interface ListVisualisation extends DashboardVisualisation {
   type: DashboardVisualisationType.LIST
-  columnsAsList: boolean
 }
 
 export enum DashboardVisualisationType {

@@ -50,11 +50,11 @@ class ChartVisualisation extends DprClientClass {
     Chart.defaults.font.size = 12
     Chart.register(ChartDataLabels)
     Chart.register(MatrixController, MatrixElement)
+    this.chart = new Chart(this.chartContext, this.chartData)
 
     console.log(JSON.stringify(this.chartData, null, 2))
-
-    this.chart = new Chart(this.chartContext, this.chartData)
     console.log(this.chart)
+
     this.initChartEvents()
   }
 

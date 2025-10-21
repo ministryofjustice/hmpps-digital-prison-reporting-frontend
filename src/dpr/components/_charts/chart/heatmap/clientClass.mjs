@@ -27,7 +27,24 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
   }
 
   setToolTipOptions() {
-    return {}
+    const ctx = this
+    return {
+      callbacks: {
+        title(context) {
+          const { raw } = context[0]
+          const title = `${raw.y} ${raw.x}`
+          return title
+        },
+        label(context) {
+          const { data, label: legend } = context.dataset
+          const dataValue = data[context.dataIndex]
+          const label = `${dataValue.y} ${dataValue.x}`
+          const value = `${dataValue.v}${ctx.suffix}`
+          ctx.setHoverValue({ label, value, legend, ctx })
+          return `${legend}: ${value}`
+        },
+      },
+    }
   }
 
   setOptions({ scaleType }) {

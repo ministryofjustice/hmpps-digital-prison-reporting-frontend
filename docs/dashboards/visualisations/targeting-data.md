@@ -15,29 +15,24 @@ Data can be targeted to create a data subset specific to your visualisation by d
 - The column values are checked for the presence. 
 - If a row contains values that are undefined the row is removed
 
-Type: `Array`<br>
-See [keys schema](/dashboards/visualisations/visualisation-definition/#keys)
+See [keys schema](/dashboards/visualisations/visualisation-definition/#key)
 
 ### `measures`
 - Specifies the columns you want to include/visualise in your visualisation
 - Does not affect the data sub-set
 - Column values will be used/shown in your visualisation.
 
-Type: `Array`<br>
-See [measures schema](/dashboards/visualisations/visualisation-definition/#measures)
+See [measures schema](/dashboards/visualisations/visualisation-definition/#measure)
 
 ### `filters`
 - Specifies the column and value you want to filter the data set by
 - The specified column is checked to contain a specified value
 - If not equal, the row is removed
 
-Type: `Array`<br>
-See [filters schema](/dashboards/visualisations/visualisation-definition/#filters)
+See [filters schema](/dashboards/visualisations/visualisation-definition/#filter)
 
 ### `expectNull`
 - Specifies if remaining columns that are not defined in `keys` or `measures` should, or should not have null values present
-
-Type: `Boolean`<br>
 
 # Examples
 
@@ -76,7 +71,9 @@ For these examples we will use a mocked dataset representing diet totals.
 | 2025/02/25 | MDI      |       |       | omnivore    | 80    |
 ```
 
-## Targeting specific rows
+<hr/>
+
+# Targeting specific rows
 
 This example shows a visualisation definiton of type `list`, where the keys are `est_id` and `wing`, with a measure of `count`: 
 
@@ -119,7 +116,7 @@ This definition will return the following dataset:
 
 Note that rows with `cell` values were also returned here also, as the defintion returns all rows where the `keys` and `measures` are defined.
 
-### expectNulls field
+## expectNulls field
 
 To filter out the rows with `cell` values, and therefore specifically target the row for wing totals, we can specify `expectNulls` as `true`
 
@@ -167,7 +164,11 @@ which will produce the following `list` visualisation.
 | 140             |
 ```
 
-## Filtering by column value
+<hr/>
+
+# Filtering by column value
+
+## Definition
 
 ```js
 {
@@ -214,7 +215,7 @@ which will produce the following `list` visualisation.
 }
 ```
 
-Dataset returned: 
+### Dataset returned: 
 
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
@@ -223,7 +224,7 @@ Dataset returned:
 | 2025/02/25 | MDI      | north | cell5 |             | 42    |
 ```
 
-List visualisation:
+### List visualisation:
 
 ```js
 | Cell  | Total prisoners | 
@@ -233,7 +234,11 @@ List visualisation:
 | Total | 140             |
 ```
 
-## Targeting prisoner totals
+<hr/>
+
+# Targeting prisoner totals
+
+## Definition
 
 ```js
 {
@@ -268,7 +273,11 @@ List visualisation:
 | 5000            |
 ```
 
-## Targeting diet totals
+<hr/>
+
+# Targeting diet totals
+
+## Definition
 
 ```js
 {
@@ -315,7 +324,11 @@ List visualisation:
 | Omnivore    | 1009            |
 ```
 
-## Diet totals with sum total row
+<hr/>
+
+# Diet totals with sum total row
+
+## Definition
 
 ```js
 {
@@ -372,7 +385,11 @@ List visualisation:
 | Total              |             | 1109            |
 ```
 
-## Cell totals with sum total row
+<hr/>
+
+# Cell totals with sum total row
+
+## Definition
 
 ```js
 {
@@ -405,7 +422,7 @@ List visualisation:
 }
 ```
 
-Dataset returned: 
+### Dataset returned: 
 
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
@@ -417,7 +434,7 @@ Dataset returned:
 | 2025/02/25 | MDI      | north | cell5 |             | 42    |
 ```
 
-List visualisation:
+### List visualisation:
 
 ```js
 | Cell  | Total prisoners | 

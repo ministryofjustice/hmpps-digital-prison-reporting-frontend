@@ -20,9 +20,7 @@ The visualisation definition is responsible for:
 - `scorecard`
 - `scorecard-group`
 
-## Fields
-
-### Visualisation definition
+## Visualisation definition
 
 All visualisation types share the same common definition attributes:
 
@@ -35,13 +33,14 @@ All visualisation types share the same common definition attributes:
 | `columns`       | object  | yes      | The dataset colums definition. See [Columns](#columns)                            |
 | `options`       | object  | no       | Set specific option per visualisation type [Options](#options)                            |
 
+## Options
 
-### Options
-
+| Name            | Type    | Required | Description                                                                       |
+| ----------------| ------- | -------- | ----------------------------------------------------------------------------------|
 | `columnsAsList` | boolean | no       | default value: `false`. Specific to  [List visualisation](/dashboards/visualisations/list) |
 | `showLatest`    | boolean | no       | default value: `true`. Specific to  [List visualisation](/dashboards/visualisations/list)  |
 
-### Columns
+## Columns
 
 The `columns` definition is responsible for targeting the required visualisation data from a dataset. See [Targeting data in a dataset](/dashboards/visualisations/targeting-data) for usage.
 
@@ -52,7 +51,7 @@ The `columns` definition is responsible for targeting the required visualisation
 | `filters`     | array   | no       |  The array of filter column data. See [Filter](#filter)    |
 | `expectNulls` | boolean | no       |  Targets rows based on whether columns contain null/undefined values. See [here](/dashboards/visualisations/targeting-data/#targeting-specific-rows) for example usage                        |
 
-### Key 
+## Key 
 
 | Name        | Type    | Required | Description                                              |
 | ------------| ------- | -------- | -------------------------------------------------------- |
@@ -60,7 +59,7 @@ The `columns` definition is responsible for targeting the required visualisation
 | `display`   | string  | no       |  The display name of the column                          |
 | `optional`  | boolean | no       |  Defines whether the key is optional                      |
 
-### Measure 
+## Measure 
 
 | Name        | Type    | Required | Description                                              |
 | ------------| ------- | -------- | -------------------------------------------------------- |
@@ -70,7 +69,7 @@ The `columns` definition is responsible for targeting the required visualisation
 | `unit`      | `number`, `percentage`     | no       |  The unit type. Default: `number`     |
 | `axis`      | `x`,`y` | no       |  specific to [bar visualisation types](/dashboards/visualisations/bar) |
 
-### Filter 
+## Filter 
 
 | Name        | Type    | Required | Description                                              |
 | ------------| ------- | -------- | -------------------------------------------------------- |

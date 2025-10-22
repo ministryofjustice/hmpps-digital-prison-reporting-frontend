@@ -1,11 +1,9 @@
-const dietTotalsVegetarianOvertime = {
-  id: 'diet-totals-vegetarian-overtime',
+const findsTotalsVegetarianOvertime = {
+  id: 'finds-totals-vegetarian-overtime',
   type: 'matrix-timeseries',
-  display: 'Vegetarian totals over time matrix chart',
+  display: 'Finds totals over time matrix chart',
   description: '',
-  options: {
-    showLatest: false,
-  },
+  options: {},
   columns: {
     keys: [
       {
@@ -19,27 +17,20 @@ const dietTotalsVegetarianOvertime = {
       },
       {
         id: 'count',
-        display: 'Total prisoners',
-      },
-    ],
-    filters: [
-      {
-        id: 'diet',
-        equals: 'Vegetarian',
+        display: 'Total finds',
       },
     ],
     expectNulls: true,
   },
 }
 
-const dietTotalsVegetarianOvertimeRag = {
-  id: 'diet-totals-vegetarian-overtime-rag',
+const findsTotalsVegetarianOvertimeRag = {
+  id: 'finds-totals-vegetarian-overtime-rag',
   type: 'matrix-timeseries',
-  display: 'Vegetarian totals over time matrix chart RAG',
+  display: 'Finds totals over time matrix chart RAG',
   description: '',
   options: {
-    showLatest: false,
-    ragStatus: true,
+    useRagColours: true,
   },
   columns: {
     keys: [
@@ -54,13 +45,7 @@ const dietTotalsVegetarianOvertimeRag = {
       },
       {
         id: 'count',
-        display: 'Total prisoners',
-      },
-    ],
-    filters: [
-      {
-        id: 'diet',
-        equals: 'Vegetarian',
+        display: 'Total finds',
       },
     ],
     expectNulls: true,
@@ -68,6 +53,6 @@ const dietTotalsVegetarianOvertimeRag = {
 }
 
 module.exports = {
-  dietTotalsVegetarianOvertime,
-  dietTotalsVegetarianOvertimeRag,
+  findsTotalsVegetarianOvertime,
+  findsTotalsVegetarianOvertimeRag,
 }

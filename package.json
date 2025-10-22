@@ -163,6 +163,7 @@
     "parseurl": "^1.3.3",
     "redis": "^5.8.3",
     "superagent": "^10.1.1",
+    "with-alpha-hex": "^1.0.6",
     "zod": "^4.1.11"
   },
   "devDependencies": {

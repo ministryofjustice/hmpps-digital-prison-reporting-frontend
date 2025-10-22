@@ -50,7 +50,7 @@ export interface ListDashboardVisualisationOptions {
 }
 
 export interface MatrixDashboardVisualisationOptions {
-  ragStatus?: boolean
+  useRagColours?: boolean
 }
 
 export interface ListVisualisation extends DashboardVisualisation {

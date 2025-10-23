@@ -14,7 +14,8 @@ export const createList = (
   dashboardData: DashboardDataResponse[],
 ): { table: MoJTable; ts: string } => {
   const { columns, options } = listDefinition
-  const { showLatest = true, columnsAsList } = <ListDashboardVisualisationOptions>options
+  const showLatest = (<ListDashboardVisualisationOptions>options)?.showLatest
+  const columnsAsList = (<ListDashboardVisualisationOptions>options)?.columnsAsList
   const { measures, keys } = columns
   const showAllData = (!measures && !keys) || (!measures.length && !keys)
 

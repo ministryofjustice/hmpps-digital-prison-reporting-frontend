@@ -4,6 +4,7 @@ import { withAlphaHex } from 'with-alpha-hex'
 import {
   DashboardVisualisation,
   DashboardVisualisationColumns,
+  DashboardVisualisationType,
   MatrixDashboardVisualisationOptions,
 } from '../../../_dashboards/dashboard/types'
 import { Granularity } from '../../../_inputs/granular-date-range/types'
@@ -20,8 +21,7 @@ const initTimeseriesMatrixAxis = (
   return timeBlockData.map((tsData) => {
     const { raw, rag } = tsData[0][measures[1].id]
     const v = Number(raw)
-    const r = rag ? Number(tsData[0][measures[1].id].rag) : undefined
-
+    const r = rag !== undefined ? Number(tsData[0][measures[1].id].rag) : undefined
     let x
     let y
     switch (granularity) {
@@ -59,13 +59,37 @@ const initTimeseriesMatrixAxis = (
 const createMatrixDataSet = (
   timeBlockData: DashboardDataResponse[][],
   granularity: Granularity,
-  columns: DashboardVisualisationColumns,
+  chartDefinition: DashboardVisualisation,
   options: MatrixDashboardVisualisationOptions,
 ) => {
-  let dataset: MatrixChartData[] = initTimeseriesMatrixAxis(timeBlockData, granularity, columns)
-  dataset = addBucketData(dataset, options)
+  const { columns } = chartDefinition
+  validateDefinition(chartDefinition)
+  const label = getLabel(columns)
+  let data: MatrixChartData[] = initTimeseriesMatrixAxis(timeBlockData, granularity, columns)
+  data = addBucketData(data, options)
 
-  return [{ label: 'test', data: dataset }]
+  return [{ label, data }]
+}
+
+const validateDefinition = (chartDefinition: DashboardVisualisation) => {
+  const { id, columns, type } = chartDefinition
+
+  const errors = []
+  if (columns.measures.length !== 2) {
+    errors.push(`Measures should only have 2 columns defined. Only found ${columns.measures.length}`)
+  } else if (type === DashboardVisualisationType.MATRIX_TIMESERIES) {
+    if (columns.measures[0].id !== 'ts') {
+      errors.push(`measure at index 0 has incorrect ID. Expected ID to be "ts". Found "${columns.measures[0].id}"`)
+    }
+  }
+  if (errors.length) {
+    const message = `Validation: Visualisaton definition: ID: ${id}, type: ${type}, errors: ${errors.join(',')}`
+    throw new Error(message)
+  }
+}
+
+const getLabel = (columns: DashboardVisualisationColumns) => {
+  return columns.measures[1].display
 }
 
 const addBucketData = (matrixDataSets: MatrixChartData[], options: MatrixDashboardVisualisationOptions) => {
@@ -143,11 +167,9 @@ export const createTimeseriesMatrixChart = (
   const matrixDataSets: ChartDataset[] = createMatrixDataSet(
     timeBlockData,
     granularity,
-    columns,
+    chartDefinition,
     <MatrixDashboardVisualisationOptions>options,
   )
-
-  console.log(JSON.stringify({ matrixDataSets }, null, 2))
 
   return {
     type: type as unknown as ChartType,

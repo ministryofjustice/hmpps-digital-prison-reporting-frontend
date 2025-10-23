@@ -10,13 +10,13 @@ const dataQualityHistoric = {
       id: 'matrix-test',
       display: 'Matrix example',
       description: '',
-      visualisations: [matrix.findsTotalsVegetarianOvertime],
+      visualisations: [matrix.findsTotalsOvertime, matrix.findsTotalsOvertimeValidationError],
     },
     {
       id: 'matrix-test-rag',
       display: 'Matrix RAG example',
       description: '',
-      visualisations: [matrix.findsTotalsVegetarianOvertimeRag],
+      visualisations: [matrix.findsTotalsOvertimeRag],
     },
     {
       id: 'matrix-test-alldata',

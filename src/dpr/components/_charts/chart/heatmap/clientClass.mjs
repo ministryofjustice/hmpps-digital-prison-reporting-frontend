@@ -69,6 +69,7 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
         plugins: {
           legend: {
             position: 'bottom',
+            display: false,
           },
           ...(pluginsOptions && pluginsOptions),
           datalabels: {

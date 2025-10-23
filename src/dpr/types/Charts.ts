@@ -1,7 +1,7 @@
 export interface ChartData {
   type: ChartType
   unit?: UnitType
-  data: ChartDataValues | MatrixChartDataValues
+  data: ChartDataValues
   timeseries?: boolean
 }
 
@@ -38,13 +38,6 @@ export interface ChartDataValues {
   labels?: string[]
   datasets: ChartDataset[]
   axis?: 'x' | 'y'
-}
-
-export interface MatrixChartDataValues {
-  datasets: ChartDataset[]
-  bucketCount: number
-  hasRag: boolean
-  useRagColours: boolean
 }
 
 export interface ChartDataset {

@@ -1,5 +1,5 @@
-const findsTotalsVegetarianOvertime = {
-  id: 'finds-totals-vegetarian-overtime',
+const findsTotalsOvertime = {
+  id: 'finds-totals--overtime',
   type: 'matrix-timeseries',
   display: 'Finds totals over time matrix chart',
   description: '',
@@ -24,8 +24,8 @@ const findsTotalsVegetarianOvertime = {
   },
 }
 
-const findsTotalsVegetarianOvertimeRag = {
-  id: 'finds-totals-vegetarian-overtime-rag',
+const findsTotalsOvertimeRag = {
+  id: 'finds-totals-overtime-rag',
   type: 'matrix-timeseries',
   display: 'Finds totals over time matrix chart RAG',
   description: '',
@@ -52,7 +52,36 @@ const findsTotalsVegetarianOvertimeRag = {
   },
 }
 
+const findsTotalsOvertimeValidationError = {
+  id: 'finds-totals-overtime-rag',
+  type: 'matrix-timeseries',
+  display: 'Finds totals over time matrix chart RAG',
+  description: '',
+  options: {
+    useRagColours: true,
+  },
+  columns: {
+    keys: [
+      {
+        id: 'ts',
+      },
+    ],
+    measures: [
+      {
+        id: 'count',
+        display: 'Total finds',
+      },
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
 module.exports = {
-  findsTotalsVegetarianOvertime,
-  findsTotalsVegetarianOvertimeRag,
+  findsTotalsOvertime,
+  findsTotalsOvertimeRag,
+  findsTotalsOvertimeValidationError,
 }

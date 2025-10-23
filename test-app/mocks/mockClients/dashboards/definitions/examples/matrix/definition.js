@@ -1,5 +1,5 @@
 const { matrix, lists } = require('../visualisations')
-const { granularDateRangeFilter } = require('../../../filter-definitions')
+const { granularDateRangeFilter, dateRangeFilter } = require('../../../filter-definitions')
 
 const dataQualityHistoric = {
   id: 'matrix-examples-diet-totals-historic',
@@ -10,7 +10,7 @@ const dataQualityHistoric = {
       id: 'matrix-test',
       display: 'Matrix example',
       description: '',
-      visualisations: [matrix.findsTotalsOvertime, matrix.findsTotalsOvertimeValidationError],
+      visualisations: [matrix.findsTotalsOvertime],
     },
     {
       id: 'matrix-test-rag',
@@ -25,7 +25,7 @@ const dataQualityHistoric = {
       visualisations: [lists.fullDatasetOverTime],
     },
   ],
-  filterFields: [granularDateRangeFilter],
+  filterFields: [dateRangeFilter],
 }
 
 module.exports = {

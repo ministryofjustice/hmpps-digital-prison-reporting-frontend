@@ -73,7 +73,7 @@ export const createMatrixChart = (
   let table: MoJTable
   let chart: ChartData
   let details: ChartDetails
-  let granularity: Granularity
+  let granularity: Granularity = Granularity.DAILY
 
   Object.keys(query).forEach((key) => {
     if (key.includes('granularity')) {
@@ -334,15 +334,18 @@ const createTimeseriesTable = (
   const { keys, measures } = columns
 
   let flatTimeseriesData = timeseriesData.flat()
-  const hasMultipleRowsPerTimePeriod = timeseriesData.length > 1
   let headerColumns = [...measures]
 
-  if (hasMultipleRowsPerTimePeriod) {
+  if (timeseriesData.length > 1) {
+    // Add keys as columns as well as measures, and put TS first:
+    // Get TS column an remove it from headings
     const timestampIndex = headerColumns.findIndex((m) => m.id === 'ts')
     const timestampCol = headerColumns[timestampIndex]
-
     headerColumns.splice(timestampIndex, 1)
-    headerColumns = [...keys, ...headerColumns]
+    // Remove duplicate TS from keys if present and add keys to headings
+    const keysWithoutTs = keys.filter((k) => k.id !== 'ts')
+    headerColumns = [...keysWithoutTs, ...headerColumns]
+    // Add TS column to the start
     headerColumns.unshift(timestampCol)
   } else {
     flatTimeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, flatTimeseriesData)

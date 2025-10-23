@@ -81,12 +81,14 @@ and a definition as follows:
 This definition will return the following dataset (see [here](/dashboards/visualisations/targeting-data) for more info on targeting data):
 
 ```js
+
 | est_id | has_ethnicity | ethnicity_is_missing |
 |--------|---------------|----------------------|
 | MDI    | 407           | 485                  | 
 | SLI    | 584           | 701                  |
 | LTI    | 729           | 725                  |
 | DAI    | 520           | 765                  |
+
 ```
 
 And produce this bar chart visualisation:
@@ -157,6 +159,6 @@ This definition will return the following dataset (see [here](/dashboards/visual
 
 to produce this bar chart. 
 
-<img src="/assets/images/barExample1.png" alt="bar chart example" width="850"/>
+<img src="../../assets/images/barExample1.png" alt="bar chart example" width="850"/>
 
 ```

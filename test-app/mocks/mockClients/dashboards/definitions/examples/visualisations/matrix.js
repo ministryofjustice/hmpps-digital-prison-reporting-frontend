@@ -20,6 +20,12 @@ const findsTotalsOvertime = {
         display: 'Total finds',
       },
     ],
+    filters: [
+      {
+        id: 'finds',
+        equals: 'Weapons',
+      },
+    ],
     expectNulls: true,
   },
 }

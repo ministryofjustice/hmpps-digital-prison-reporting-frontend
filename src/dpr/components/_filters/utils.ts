@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Request, Response } from 'express'
-import { GranularDateRangeQuickFilterValue } from 'dist/dpr/components/_filters/types'
+import { GranularDateRangeQuickFilterValue } from './types'
 import { FilterType } from './filter-input/enum'
 import type { components } from '../../types/api'
 import type { FilterOption } from './filter-input/types'

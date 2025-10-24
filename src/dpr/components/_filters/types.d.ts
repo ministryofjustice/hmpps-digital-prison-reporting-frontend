@@ -91,7 +91,7 @@ interface GranularDateRangeGranularityValue {
   display: string
 }
 
-interface GranularDateRangeQuickFilterValue {
+export interface GranularDateRangeQuickFilterValue {
   value: QuickFilters
   display: string
 }

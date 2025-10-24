@@ -4,6 +4,7 @@ import { DashboardDataResponse } from '../../../types/Metrics'
 import {
   DashboardVisualisationColumn,
   DashboardVisualisationColumnMeasure,
+  ListDashboardVisualisationOptions,
   ListVisualisation,
 } from '../dashboard/types'
 import DatasetHelper from '../../../utils/datasetHelper'
@@ -12,7 +13,9 @@ export const createList = (
   listDefinition: ListVisualisation,
   dashboardData: DashboardDataResponse[],
 ): { table: MoJTable; ts: string } => {
-  const { columns, showLatest = true, columnsAsList } = listDefinition
+  const { columns, options } = listDefinition
+  const showLatest = (<ListDashboardVisualisationOptions>options)?.showLatest || true
+  const columnsAsList = (<ListDashboardVisualisationOptions>options)?.columnsAsList
   const { measures, keys } = columns
   const showAllData = (!measures && !keys) || (!measures.length && !keys)
 

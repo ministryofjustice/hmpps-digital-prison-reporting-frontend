@@ -4,28 +4,54 @@ title: Targeting data in a dataset
 ---
 These docs describe how to define a visualisation definition to target specific data within a dataset.
 
-## How to target data
+- [How to target data](#how-to-target-data)
+- [Examples](#examples)
+
+<hr class='dpr-docs-hr'/>
+
+# How to target data
 
 Data can be targeted to create a data subset specific to your visualisation by defining the following fields:
 
-#### `keys` 
+### `keys` 
+
+
 - Specifies the columns whose values are expected to be present for a specific row
 - The column values are checked for the presence. 
 - If a row contains values that are undefined the row is removed
 
-#### `measures`
+See [keys schema](/dashboards/visualisations/visualisation-definition/#key)
+
+### `measures`
 - Specifies the columns you want to include/visualise in your visualisation
 - Does not affect the data sub-set
 - Column values will be used/shown in your visualisation.
 
-#### `filters`
+See [measures schema](/dashboards/visualisations/visualisation-definition/#measure)
+
+### `filters`
 - Specifies the column and value you want to filter the data set by
 - The specified column is checked to contain a specified value
 - If not equal, the row is removed
 
-# Examples 
+See [filters schema](/dashboards/visualisations/visualisation-definition/#filter)
+
+### `expectNull`
+- Specifies if remaining columns that are not defined in `keys` or `measures` should, or should not have null values present
+
+<hr class='dpr-docs-hr'/>
+
+# Examples
 
 The following examples will demonstrate the targeting of specific rows, using the `list` visualisation type.
+
+- [Targeting specific rows](#targeting-specific-rows)
+- [Filtering by column value](#filtering-by-column-value)
+- [Targeting prisoner totals](#targeting-prisoner-totals)
+- [Targeting diet totals](#targeting-diet-totals)
+- [Diet totals with sum total row](#diet-totals-with-sum-total-row)
+- [Cell totals with sum total row](#cell-totals-with-sum-total-row)
+
 
 ### Example Dataset
 
@@ -52,7 +78,9 @@ For these examples we will use a mocked dataset representing diet totals.
 | 2025/02/25 | MDI      |       |       | omnivore    | 80    |
 ```
 
-## Targeting specific rows
+<hr class='dpr-docs-hr'/>
+
+# Targeting specific rows
 
 This example shows a visualisation definiton of type `list`, where the keys are `est_id` and `wing`, with a measure of `count`: 
 
@@ -95,7 +123,7 @@ This definition will return the following dataset:
 
 Note that rows with `cell` values were also returned here also, as the defintion returns all rows where the `keys` and `measures` are defined.
 
-### expectNulls field
+## expectNulls field
 
 To filter out the rows with `cell` values, and therefore specifically target the row for wing totals, we can specify `expectNulls` as `true`
 
@@ -143,7 +171,11 @@ which will produce the following `list` visualisation.
 | 140             |
 ```
 
-## Filtering by column value
+<hr class='dpr-docs-hr'/>
+
+# Filtering by column value
+
+### Definition
 
 ```js
 {
@@ -190,7 +222,7 @@ which will produce the following `list` visualisation.
 }
 ```
 
-Dataset returned: 
+### Dataset returned: 
 
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
@@ -199,7 +231,7 @@ Dataset returned:
 | 2025/02/25 | MDI      | north | cell5 |             | 42    |
 ```
 
-List visualisation:
+### List visualisation:
 
 ```js
 | Cell  | Total prisoners | 
@@ -209,7 +241,11 @@ List visualisation:
 | Total | 140             |
 ```
 
-## Targeting Prisoner Totals
+<hr class='dpr-docs-hr'/>
+
+# Targeting prisoner totals
+
+### Definition
 
 ```js
 {
@@ -236,7 +272,7 @@ List visualisation:
 | 2025/02/25 |          |       |       |             | 5000  |
 ```
 
-### List visualisation:
+### Visualisation:
 
 ```js
 | Total prisoners | 
@@ -244,7 +280,11 @@ List visualisation:
 | 5000            |
 ```
 
-## Targeting diet Totals
+<hr class='dpr-docs-hr'/>
+
+# Targeting diet totals
+
+### Definition
 
 ```js
 {
@@ -280,7 +320,7 @@ List visualisation:
 | 2025/02/25 |          |       |       | Omnivore    | 1009  |
 ```
 
-### List visualisation:
+### Visualisation:
 
 ```js
 | Diet        | Total prisoners | 
@@ -291,7 +331,11 @@ List visualisation:
 | Omnivore    | 1009            |
 ```
 
-## Targeting diet totals by establishment, with a sum total row
+<hr class='dpr-docs-hr'/>
+
+# Diet totals with sum total row
+
+### Definition
 
 ```js
 {
@@ -336,7 +380,7 @@ List visualisation:
 | 2025/02/25 | MDI      |       |       | Omnivore    | 80    |
 ```
 
-### List visualisation:
+### Visualisation:
  
 ```js
 |  Establishment ID  | Diet        | Total prisoners | 
@@ -348,7 +392,11 @@ List visualisation:
 | Total              |             | 1109            |
 ```
 
-## Targeting cell totals, with sum total row
+<hr class='dpr-docs-hr'/>
+
+# Cell totals with sum total row
+
+### Definition
 
 ```js
 {
@@ -381,7 +429,7 @@ List visualisation:
 }
 ```
 
-Dataset returned: 
+### Dataset returned: 
 
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
@@ -393,7 +441,7 @@ Dataset returned:
 | 2025/02/25 | MDI      | north | cell5 |             | 42    |
 ```
 
-List visualisation:
+### Visualisation:
 
 ```js
 | Cell  | Total prisoners | 

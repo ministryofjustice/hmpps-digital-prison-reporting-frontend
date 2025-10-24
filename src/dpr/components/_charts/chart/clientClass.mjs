@@ -1,6 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import Chart from 'chart.js/auto'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
+import { MatrixController, MatrixElement } from 'chartjs-chart-matrix'
 
 import { DprClientClass } from '../../../DprClientClass.mjs'
 
@@ -18,7 +19,6 @@ class ChartVisualisation extends DprClientClass {
     this.legend = this.getElement().querySelector(`#js-legend-${this.id}`)
 
     // ChartCard elements
-    
     this.tooltipDetailsEl = document.getElementById(`dpr-${this.id}-tooltip-details`)
     this.headlineValuesEl = document.getElementById(`dpr-${this.id}-headline-values`)
     this.labelElement = document.getElementById(`dpr-${this.id}-label`)
@@ -47,10 +47,11 @@ class ChartVisualisation extends DprClientClass {
 
   initChart() {
     Chart.defaults.font.family = 'GDS Transport'
-    Chart.register(ChartDataLabels)
     Chart.defaults.font.size = 12
-
+    Chart.register(ChartDataLabels)
+    Chart.register(MatrixController, MatrixElement)
     this.chart = new Chart(this.chartContext, this.chartData)
+
     this.initChartEvents()
   }
 

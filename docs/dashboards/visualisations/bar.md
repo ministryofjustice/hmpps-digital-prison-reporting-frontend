@@ -3,16 +3,23 @@ layout: layouts/dashboards.njk
 title: Bar chart
 subsection: Visualisation definition
 ---
+<img src="/assets/images//barExample2.png" alt="bar chart example" width="500" style="margin-bottom: 20px"/>
 
 The `bar` chart visualisation type represents data as a bar chart visualisation.
 
-Charts are accompanied by a table/list representation of the underlying chart data. 
+- [When to use](#when-to-use)
+- [Definition](#definition)
+- [Examples](#examples)
 
-## When to use
+<hr class='dpr-docs-hr'/>
+
+# When to use
 
 Use this visualisation type when you need to display data as a bar chart. 
 
-## Definition
+<hr class='dpr-docs-hr'/>
+
+# Definition
 
 ```js
 {
@@ -28,9 +35,16 @@ Use this visualisation type when you need to display data as a bar chart.
 
 To learn more about defining the data for the visualisation using the `columns` field see [here](/dashboards/visualisations/targeting-data)
 
+<hr class='dpr-docs-hr'/>
+
 # Examples
 
-## Define dataset columns as bar labels
+- [Define dataset columns as bar labels](#define-dataset-columns-as-bar-labels)
+- [Dataset values as labels](#dataset-values-as-labels)
+
+<hr class='dpr-docs-hr'/>
+
+# Define dataset columns as bar labels
 
 In this example we will define which dataset columns to use in the bar chart as follows:
 
@@ -38,7 +52,8 @@ In this example we will define which dataset columns to use in the bar chart as 
 - the column value will be represented as the size of the bar
 - each row will be a new dataset in the chart
 
-For example, given we have a dashboard dataset like this:
+
+### Example Dataset
 
 ```js
 | est_id | has_ethnicity | ethnicity_is_missing | has_religion | religion_is_missing |
@@ -49,7 +64,7 @@ For example, given we have a dashboard dataset like this:
 | DAI    | 520           | 765                  | 220          | 214                 |
 ```
 
-and a definition as follows:
+### Definition
 
 ```js
 {
@@ -78,29 +93,35 @@ and a definition as follows:
 }
 ```
 
-This definition will return the following dataset (see [here](/dashboards/visualisations/targeting-data) for more info on targeting data):
+### Dataset returned: 
 
+This definition will return the following dataset 
 ```js
+
 | est_id | has_ethnicity | ethnicity_is_missing |
 |--------|---------------|----------------------|
 | MDI    | 407           | 485                  | 
 | SLI    | 584           | 701                  |
 | LTI    | 729           | 725                  |
 | DAI    | 520           | 765                  |
+
 ```
-
-And produce this bar chart visualisation:
-
-<img src="/assets/images//barExample2.png" alt="bar chart example" width="850"/>
+see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
 
 
-## Dataset values as labels 
+### Visualisation:
+
+<img src="/assets/images//barExample2.png" alt="bar chart example" width="800"/>
+
+<hr class='dpr-docs-hr'/>
+
+# Dataset values as labels 
 
 In this example we will use values in a specific column for the bar labels, and use another column as the values for the bar.
 
 Here we can define the `axis` field on the specific dataset columns we want to use for the labels (`x`), and their corresponding values (`y`)
 
-For example, given we have a dashboard dataset like this:
+### Example Dataset
 
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
@@ -117,7 +138,7 @@ For example, given we have a dashboard dataset like this:
 | 2025/02/25 | MDI      |       |       | Omnivore    | 80    |
 ```
 
-and this definition:
+### Definition:
 
 ```js
 {
@@ -144,7 +165,9 @@ and this definition:
 }
 ```
 
-This definition will return the following dataset (see [here](/dashboards/visualisations/targeting-data) for more info on targeting data).
+### Dataset returned: 
+
+This definition will return the following dataset
 
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
@@ -154,9 +177,10 @@ This definition will return the following dataset (see [here](/dashboards/visual
 | 2025/02/25 |          |       |       | Vegan       | 1354  |
 | 2025/02/25 |          |       |       | Omnivore    | 1009  |
 ```
+see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
 
-to produce this bar chart. 
+### Visualisation:
 
-<img src="/assets/images/barExample1.png" alt="bar chart example" width="850"/>
+<img src="../../assets/images/barExample1.png" alt="bar chart example" width="800"/>
 
 ```

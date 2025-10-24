@@ -112,6 +112,21 @@ const wingFilter = {
   calculated: false,
 }
 
+const dateRangeFilter = {
+  name: 'date',
+  display: 'Date',
+  sortable: false,
+  visible: true,
+  type: 'date',
+  mandatory: false,
+  filter: {
+    type: 'daterange',
+    defaultValue: '2025-01-01 - 2025-02-01',
+    mandatory: true,
+    interactive: true,
+  },
+}
+
 const granularDateRangeFilter = {
   name: 'date',
   display: 'Date',
@@ -134,4 +149,5 @@ module.exports = {
   granularDateRangeFilter,
   wingFilterCompass,
   wingFilter,
+  dateRangeFilter,
 }

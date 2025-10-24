@@ -35,15 +35,22 @@ export interface ChartCardData {
 }
 
 export interface ChartDataValues {
-  labels: string[]
+  labels?: string[]
   datasets: ChartDataset[]
   axis?: 'x' | 'y'
 }
 
 export interface ChartDataset {
   label: string
-  data: number[]
-  total: number
+  data: number[] | MatrixChartData[]
+  total?: number
+}
+
+export interface MatrixChartData {
+  x: number | string
+  y: number | string
+  r?: number
+  v?: number
 }
 
 export interface MoJTable {

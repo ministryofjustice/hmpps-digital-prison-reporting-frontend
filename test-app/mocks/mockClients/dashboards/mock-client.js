@@ -41,7 +41,7 @@ class MockDashboardClient {
     })
   }
 
-  async getAsyncStatus(token, reportId, id, executionId, definitionsPath, tableId) {
+  async getAsyncStatus(token, reportId, id, executionId, tableId, definitionsPath) {
     logInfo('getAsyncStatus', { token, reportId, id, executionId, definitionsPath, tableId })
 
     const statuses = this.getStatusResponses(id)

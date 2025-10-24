@@ -41,15 +41,19 @@ class RequestReportController {
   // Request report
   POST: RequestHandler = async (req, res, next) => {
     try {
-      const executionId = await AysncRequestUtils.request({
+      const executionData = await AysncRequestUtils.request({
         req,
         res,
         services: this.services,
         next,
       })
 
+      const { executionId, dataProductDefinitionsPath } = executionData
+
       if (executionId) {
-        const redirect = `${executionId}/status`
+        const redirect = dataProductDefinitionsPath
+          ? `${executionId}/status?dataProductDefinitionsPath=${dataProductDefinitionsPath}`
+          : `${executionId}/status`
         res.redirect(redirect)
       } else {
         res.end()

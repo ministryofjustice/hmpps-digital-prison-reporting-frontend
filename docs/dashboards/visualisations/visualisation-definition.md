@@ -8,7 +8,13 @@ The visualisation definition is responsible for:
 - retriveing the data needed for the visualisation from a single dataset
 - defining the presentation information required to render the visualisation correctly
 
-## Visualisation types:
+**contents**
+- [Visualisation Types](#visualisation-types)
+- [Definition](#definition)
+
+<hr class='dpr-docs-hr'/>
+
+# Visualisation Types
 
 - `list`
 - `bar`
@@ -20,7 +26,9 @@ The visualisation definition is responsible for:
 - `scorecard`
 - `scorecard-group`
 
-## Visualisation definition
+<hr class='dpr-docs-hr'/>
+
+# Definition
 
 All visualisation types share the same common definition attributes:
 
@@ -39,6 +47,7 @@ All visualisation types share the same common definition attributes:
 | ----------------| ------- | -------- | ----------------------------------------------------------------------------------|
 | `columnsAsList` | boolean | no       | default value: `false`. Specific to  [List visualisation](/dashboards/visualisations/list) |
 | `showLatest`    | boolean | no       | default value: `true`. Specific to  [List visualisation](/dashboards/visualisations/list)  |
+| `useRagColours` | boolean | no       | default value: `true`. Specific to  [Matrix visualisation](/dashboards/visualisations/matrix-timeseries)  |
 
 ## Columns
 

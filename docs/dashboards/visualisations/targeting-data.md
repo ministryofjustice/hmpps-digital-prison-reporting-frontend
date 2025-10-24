@@ -4,7 +4,12 @@ title: Targeting data in a dataset
 ---
 These docs describe how to define a visualisation definition to target specific data within a dataset.
 
-## How to target data
+- [How to target data](#how-to-target-data)
+- [Examples](#examples)
+
+<hr class='dpr-docs-hr'/>
+
+# How to target data
 
 Data can be targeted to create a data subset specific to your visualisation by defining the following fields:
 
@@ -33,6 +38,8 @@ See [filters schema](/dashboards/visualisations/visualisation-definition/#filter
 
 ### `expectNull`
 - Specifies if remaining columns that are not defined in `keys` or `measures` should, or should not have null values present
+
+<hr class='dpr-docs-hr'/>
 
 # Examples
 
@@ -71,7 +78,7 @@ For these examples we will use a mocked dataset representing diet totals.
 | 2025/02/25 | MDI      |       |       | omnivore    | 80    |
 ```
 
-<hr/>
+<hr class='dpr-docs-hr'/>
 
 # Targeting specific rows
 
@@ -164,11 +171,11 @@ which will produce the following `list` visualisation.
 | 140             |
 ```
 
-<hr/>
+<hr class='dpr-docs-hr'/>
 
 # Filtering by column value
 
-## Definition
+### Definition
 
 ```js
 {
@@ -234,11 +241,11 @@ which will produce the following `list` visualisation.
 | Total | 140             |
 ```
 
-<hr/>
+<hr class='dpr-docs-hr'/>
 
 # Targeting prisoner totals
 
-## Definition
+### Definition
 
 ```js
 {
@@ -265,7 +272,7 @@ which will produce the following `list` visualisation.
 | 2025/02/25 |          |       |       |             | 5000  |
 ```
 
-### List visualisation:
+### Visualisation:
 
 ```js
 | Total prisoners | 
@@ -273,11 +280,11 @@ which will produce the following `list` visualisation.
 | 5000            |
 ```
 
-<hr/>
+<hr class='dpr-docs-hr'/>
 
 # Targeting diet totals
 
-## Definition
+### Definition
 
 ```js
 {
@@ -313,7 +320,7 @@ which will produce the following `list` visualisation.
 | 2025/02/25 |          |       |       | Omnivore    | 1009  |
 ```
 
-### List visualisation:
+### Visualisation:
 
 ```js
 | Diet        | Total prisoners | 
@@ -324,11 +331,11 @@ which will produce the following `list` visualisation.
 | Omnivore    | 1009            |
 ```
 
-<hr/>
+<hr class='dpr-docs-hr'/>
 
 # Diet totals with sum total row
 
-## Definition
+### Definition
 
 ```js
 {
@@ -373,7 +380,7 @@ which will produce the following `list` visualisation.
 | 2025/02/25 | MDI      |       |       | Omnivore    | 80    |
 ```
 
-### List visualisation:
+### Visualisation:
  
 ```js
 |  Establishment ID  | Diet        | Total prisoners | 
@@ -385,11 +392,11 @@ which will produce the following `list` visualisation.
 | Total              |             | 1109            |
 ```
 
-<hr/>
+<hr class='dpr-docs-hr'/>
 
 # Cell totals with sum total row
 
-## Definition
+### Definition
 
 ```js
 {
@@ -434,7 +441,7 @@ which will produce the following `list` visualisation.
 | 2025/02/25 | MDI      | north | cell5 |             | 42    |
 ```
 
-### List visualisation:
+### Visualisation:
 
 ```js
 | Cell  | Total prisoners | 

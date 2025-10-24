@@ -1,18 +1,46 @@
 ---
 layout: layouts/dashboards.njk
-title: Line chart
+title: Matrix timeseries chart
 subsection: Visualisation definition
 ---
 
-The `matrix-timeseries` chart visualisation type represents data as a matrix/heatmap chart visualisation.
+<img src="../../assets/images/matrixExample2.png" alt="bar chart example" width="250" style="margin-bottom: 20px"/>
+<img src="../../assets/images/matrixExample1.png" alt="bar chart example" width="250" style="margin-bottom: 20px"/>
 
-Charts are accompanied by a table/list representation of the underlying chart data. 
+The `matrix-timeseries` chart visualisation type represents data as a matrix/heatmap chart visualisation. 
 
-## When to use
+- [When to use](#when-to-use)
+- [How it works](#how-it-works)
+- [Definition](#definition)
+- [Data assumptions](#data-assumptions)
+- [Examples](#examples)
 
-Use this visualisation type when you need to display historic data in as a heatmap, or traffic-light matrix. 
+<hr class='dpr-docs-hr'/>
 
-## How it works
+# When to use
+
+Use this visualisation type when you need to display historic data as a **heatmap**, or as a **Red, Amber, Green** traffic-light conventions.
+
+### Red, Amber, Green
+
+Use RAG when:
+
+- You have 3 buckets
+- You're visualising performance, status, or compliance data.
+- Quick identification of "bad" areas in the primary goal.
+- Your audience expects traffic-light conventions of red, amber and green.
+
+### Heatmaps
+
+Gradient variations of a base colour. Use heatmap colouring when:
+
+- You need many buckets for fine grained data
+- You're showing purely quantative data.
+- When there are no natural thresholds. i.e. There are no meaningful good, warning, or bad thresholds.
+
+<hr class='dpr-docs-hr'/>
+
+# How it works
 
 This chart uses colour to represent data as two dimensional matrix. Values in a dataset can be assigned colours in few ways value. 
 
@@ -31,27 +59,9 @@ If no RAG value is in the dataset:
 - Each bucket is assigned a specific colour
 - Each value is put into the appropriate bucket
 
-## Buckets colours
+<hr class='dpr-docs-hr'/>
 
-### Red, Amber or Green
-
-Use RAG when:
-
-- You have 3 buckets
-- You're visualising performance, status, or compliance data.
-- Quick identification of "bad" areas in the primary goal.
-- Your audience expects traffic-light conventions.
-
-### Heatmaps
-
-This is gradient variations of a base colour. User heatmap colouring when
-
-- You need many buckets for fine grained data
-- You're showing purely quantative data.
-- When there are no natural thresholds. There are no meaningful good, warning, or bad thresholds.
- 
-
-## Definition
+# Definition
 
 ```js
 {
@@ -73,10 +83,18 @@ This is gradient variations of a base colour. User heatmap colouring when
 
 ```js
 options: {
-  useRagColours: true,
+  useRagColours: true, // default: false
 }
 ```
 
+<hr class='dpr-docs-hr'/>
+
+# Data assumptions
+
+- The dataset includes a column with an ID of `ts` that contains timestamp data
+- The `ts` date format must be `YYYY/MM/DD`
+
+<hr class='dpr-docs-hr'/>
 
 # Examples
 
@@ -110,7 +128,7 @@ For these examples we will use a mocked dataset representing finds totals
 
 ```
 
-<hr/>
+<hr class='dpr-docs-hr'/>
 
 # Define a timeseries matrix chart
 
@@ -151,6 +169,7 @@ In this example we will define a matrix chart that:
 
 ### Dataset returned: 
 
+This definition will return the following dataset
 ```js
 | ts         |  est_id  | wing  | cell  | finds       | count | 
 |------------|----------| ------|-------|-------------|-------|
@@ -159,13 +178,14 @@ In this example we will define a matrix chart that:
 | 2025/02/23 |          |       |       |             | 92    |
 ... more rows ommitted
 ```
+see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
 
-### Matrix visualisation
+### Visualisation
 
 <img src="../../assets/images/matrixExample1.png" alt="bar chart example" width="500"/>
 
 
-<hr/>
+<hr class='dpr-docs-hr'/>
 
 # Define a timeseries RAG matrix chart
 
@@ -209,6 +229,8 @@ In this example we will define a matrix chart that:
 
 ### Dataset returned: 
 
+This definition will return the following dataset
+
 ```js
 | ts         |  est_id  | wing  | cell  | finds       | count | 
 |------------|----------| ------|-------|-------------|-------|
@@ -218,11 +240,13 @@ In this example we will define a matrix chart that:
 ... more rows ommitted
 ```
 
-### Matrix visualisation
+see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+
+### Visualisation
 
 <img src="../../assets/images/matrixExample2.png" alt="bar chart example" width="500"/>
 
-<hr/>
+<hr class='dpr-docs-hr'/>
 
 # Weapons finds total over time
 
@@ -269,6 +293,8 @@ In this example we will define a matrix chart that:
 
 ### Dataset returned: 
 
+This definition will return the following dataset
+
 ```js
 | ts         |  est_id  | wing  | cell  | finds       | count | 
 |------------|----------| ------|-------|-------------|-------|
@@ -277,7 +303,8 @@ In this example we will define a matrix chart that:
 | 2025/02/23 |          |       |       | Weapons     | 49    |
 ... more rows ommitted
 ```
+see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
 
-### Matrix visualisation
+### Visualisation:
 
 <img src="../../assets/images/matrixExample1.png" alt="bar chart example" width="500"/>

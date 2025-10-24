@@ -9,9 +9,13 @@ The dashboard definition is responsible for defining the structure and IA of a d
 - zero or many sections
 - zero or many visualisations within a section
 
-## Fields
+**contents**
+- [Definition](#definition)
+- [Example](#example)
 
-### Dashboard definition
+<hr class='dpr-docs-hr'/>
+
+# Definition
 
 | Name          | Type    | Required | Description                                                             |
 | --------------| ------- | -------- | ------------------------------------------------------------------------|
@@ -21,17 +25,18 @@ The dashboard definition is responsible for defining the structure and IA of a d
 | `sections`    | array   | yes      | The dashboard sections. See [Section](#section)                         |
 | `filterFields`| boolean | no       | The dashboard filters                                                   |
 
-### Section
+## Section
 
 | Name             | Type    | Required | Description                                                          |
 | -----------------| ------- | -------- | ---------------------------------------------------------------------|
 | `id`             | string  | yes      | The section ID                                                       |
 | `display`        | string  | yes      | The section title                                                    |
 | `description`    | string  | yes      | The section desciption                                               | 
-| `visualisations` | array   | yes      | The visualisation definitions. See [Visualisations](/dashboards/visualisations/visualisation-definition/)   |
+| `visualisations` | array   | yes      | The visualisation definitions. See [Visualisation Definition](/dashboards/visualisations/visualisation-definition/)   |
 
+<hr class='dpr-docs-hr'/>
 
-## Example
+# Example
 
 ```js
 {

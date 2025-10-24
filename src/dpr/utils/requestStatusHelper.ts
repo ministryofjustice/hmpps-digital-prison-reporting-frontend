@@ -86,7 +86,7 @@ const getStatusByReportType = async (
 
   if (type === ReportType.DASHBOARD) {
     statusRequests.push(
-      services.dashboardService.getAsyncStatus(token, reportId, id, executionId, definitionsPath, tableId),
+      services.dashboardService.getAsyncStatus(token, reportId, id, executionId, tableId, definitionsPath),
     )
   }
 

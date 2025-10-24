@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v4.15.0
+- Dashboard visualisation addition: Matrix timeseries chart.
+- Bug fix for incorrect dataProductDefinitionPath in dashboard status polling
+
 ## v4.14.0
 - Stop bundling imports to give consumers the option to bundle or not
 - Give all default exports also a named export so that compilation of the code doesn't discard them as imports aren't bundled anymore

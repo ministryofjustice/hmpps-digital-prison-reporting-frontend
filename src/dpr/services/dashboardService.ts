@@ -48,8 +48,8 @@ class DashboardService {
     reportId: string,
     dashboardId: string,
     executionId: string,
-    dataProductDefinitionsPath?: string,
     tableId?: string,
+    dataProductDefinitionsPath?: string,
   ): Promise<Dict<string>> {
     return this.dashboardClient.getAsyncStatus(
       token,

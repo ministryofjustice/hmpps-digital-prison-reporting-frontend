@@ -141,7 +141,7 @@ const requestProduct = async ({
   childExecutionData: Array<ChildReportExecutionData>
   queryData: SetQueryFromFiltersResult
 }> => {
-  const { definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
+  const { definitionsPath: dataProductDefinitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
   const { reportId, id, type } = req.body
 
   let fields
@@ -183,8 +183,14 @@ const requestProduct = async ({
     dataProductDefinitionsPath,
   )
 
+  const executionData = {
+    executionId,
+    tableId,
+    ...(dpdPathFromQuery && { dataProductDefinitionsPath }),
+  }
+
   return {
-    executionData: { executionId, tableId },
+    executionData,
     childExecutionData,
     queryData,
   }
@@ -295,7 +301,7 @@ export const request = async ({ req, res, services }: AsyncReportUtilsParams) =>
     })
   }
 
-  return executionData.executionId
+  return executionData
 }
 
 export const cancelRequest = async ({ req, res, services }: AsyncReportUtilsParams) => {

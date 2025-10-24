@@ -52,7 +52,10 @@ describe('ChartCard Utils', () => {
 
     it('should get the timeseries chart data', async () => {
       const expectedResult = dataQualityTimeseriesLine
-      const result = ChartCardUtils.createChart(timeseriesVisualisationDefinition, dashboardMetricsData.flat())
+      const result = ChartCardUtils.createTimeseriesCharts(
+        timeseriesVisualisationDefinition,
+        dashboardMetricsData.flat(),
+      )
       expect(result).toEqual(expectedResult)
     })
   })

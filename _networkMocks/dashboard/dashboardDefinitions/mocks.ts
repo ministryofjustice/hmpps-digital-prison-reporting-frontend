@@ -7,6 +7,7 @@ import { dataQualityDashboard1 } from './dashboard-definition'
 import { testingDashboard2 } from './dashboard-definition-2-summary'
 import { testingDashboard8 } from './dashboard-definiton-1-nat-eth-relig'
 import lists from './lists'
+import matrix from './matrix'
 import charts from './charts'
 import { dataQualityScoreCards } from './scorecards/scorecards-data-quality'
 import { dietTotalsScoreCards } from './scorecards/scorecards-diet-totals'
@@ -110,6 +111,11 @@ export const dietTotalsMockCharts = setupSimpleMock(
   charts.dietTotals,
 )
 
+export const dataQualityHistoricMatrix = setupSimpleMock(
+  '/definitions/dashboard-visualisations/dashboards/matrix-examples-diet-totals-historic',
+  matrix.dataQualityHistoric,
+)
+
 export const mocks = [
   ageBreakdownReport1Mock,
   ageBreakdownReport2Mock,
@@ -137,4 +143,6 @@ export const mocks = [
   historicFlexibleDietTotalsMockCharts,
   historicDietTotalsMockCharts,
   dietTotalsMockCharts,
+
+  dataQualityHistoricMatrix,
 ]

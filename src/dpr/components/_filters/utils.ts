@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Request, Response } from 'express'
+import { GranularDateRangeQuickFilterValue } from './types'
 import { FilterType } from './filter-input/enum'
 import type { components } from '../../types/api'
 import type { FilterOption } from './filter-input/types'
@@ -10,6 +11,8 @@ import type {
   FilterValue,
   MultiselectFilterValue,
   GranularDateRangeFilterValue,
+  GranularDateRange,
+  GranularDateRangeGranularityValue,
 } from './types'
 import ReportQuery, { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 
@@ -235,8 +238,7 @@ export const getFiltersFromDefinition = (
           break
 
         case FilterType.granularDateRange.toLocaleLowerCase(): {
-          const granularDateRangeFilter = filter as components['schemas']['FilterDefinition']
-          filterData = GranularDateRangeInputUtils.getFilterFromDefinition(granularDateRangeFilter, filterData)
+          filterData = GranularDateRangeInputUtils.getFilterFromDefinition(filter, filterData)
           break
         }
 
@@ -256,6 +258,26 @@ export const setRequestQueryFromFilterValues = (filterValues: FilterValue[]) => 
       const filterPrefix = `filters.${name}`
       switch (curr.type) {
         case FilterType.granularDateRange.toLowerCase():
+          {
+            const granularDateRangeValue = <GranularDateRange>value
+            Object.keys(granularDateRangeValue).forEach((key) => {
+              let v = granularDateRangeValue[key as keyof GranularDateRange]
+              if (key.includes('partialDate')) {
+                acc = {
+                  ...acc,
+                }
+              } else {
+                if (key.includes('granularity') || key.includes('quickFilter')) {
+                  v = (<GranularDateRangeGranularityValue | GranularDateRangeQuickFilterValue>v).value
+                }
+                acc = {
+                  ...acc,
+                  [`${filterPrefix}.${key}`]: v,
+                }
+              }
+            })
+          }
+          break
         case FilterType.dateRange.toLowerCase():
           Object.keys(value).forEach((key) => {
             acc = {

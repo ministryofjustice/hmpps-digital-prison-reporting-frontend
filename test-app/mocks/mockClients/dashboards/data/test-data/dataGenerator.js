@@ -11,13 +11,24 @@ const baseData = {
   wing: { raw: '' },
   cell: { raw: '' },
   diet: { raw: '' },
+  finds: { raw: '', rag: '' },
   count: { raw: '' },
 }
 
-const generateData = (query) => {
+const generateData = (query, type) => {
   const { establishmentId, wing: wingFilter, timestamps } = extractQueryAndCreateTimestamps(query)
   const wings = ['north', 'south', 'east', 'west']
-  const dietValues = ['Vegetarian', 'Pescatarian', 'Vegan', 'Omnivore']
+
+  let values = ['Vegetarian', 'Pescatarian', 'Vegan', 'Omnivore']
+  let valuesLabel = 'diet'
+  if (type && type === 'finds') {
+    values = ['Drugs', 'Phones', 'Weapons', 'Alcohol']
+    valuesLabel = 'finds'
+    delete baseData.diet
+  } else {
+    delete baseData.finds
+  }
+
   const cells = ['cell-1', 'cell-2', 'cell-3', 'cell-4', 'cell-5']
 
   const data = timestamps.map((ts) => {
@@ -34,24 +45,24 @@ const generateData = (query) => {
       [cells],
     )
 
-    const allDietTotals = generateFieldValuesWithCountData(allTotals, ['diet'], [dietValues])
+    const allValueTotals = generateFieldValuesWithCountData(allTotals, [valuesLabel], [values])
 
-    const allDietTotalsByEstablishment = generateFieldValuesWithCountData(
+    const allValueTotalsByEstablishment = generateFieldValuesWithCountData(
       allTotalsByEstablishment,
-      ['diet'],
-      [dietValues],
+      [valuesLabel],
+      [values],
     )
 
-    const allDietTotalsByEstablishmentByWing = generateFieldValuesWithCountData(
+    const allValueTotalsByEstablishmentByWing = generateFieldValuesWithCountData(
       allTotalsByEstablishmentByWing,
-      ['diet'],
-      [dietValues],
+      [valuesLabel],
+      [values],
     )
 
-    const allDietTotalsByEstablishmentByWingByCell = generateFieldValuesWithCountData(
+    const allValueTotalsByEstablishmentByWingByCell = generateFieldValuesWithCountData(
       allTotalsByEstablishmentByWingByCell,
-      ['diet'],
-      [dietValues],
+      [valuesLabel],
+      [values],
     )
 
     return [
@@ -59,10 +70,10 @@ const generateData = (query) => {
       ...allTotalsByEstablishment,
       ...allTotalsByEstablishmentByWing,
       ...allTotalsByEstablishmentByWingByCell,
-      ...allDietTotals,
-      ...allDietTotalsByEstablishment,
-      ...allDietTotalsByEstablishmentByWing,
-      ...allDietTotalsByEstablishmentByWingByCell,
+      ...allValueTotals,
+      ...allValueTotalsByEstablishment,
+      ...allValueTotalsByEstablishmentByWing,
+      ...allValueTotalsByEstablishmentByWingByCell,
     ]
   })
 

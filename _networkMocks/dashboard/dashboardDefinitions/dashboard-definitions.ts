@@ -8,6 +8,7 @@ import { dataQualityDashboard1 } from './dashboard-definition'
 import { dataQualityDashboardBase } from './dashboard-definition-base'
 
 import listExamples from './lists'
+import matrixExamples from './matrix'
 import scorecardExamples from './scorecards'
 import chartExamples from './charts'
 
@@ -86,5 +87,6 @@ export default {
     chartExamples.flexibleDietTotals,
     chartExamples.dataQuality,
     chartExamples.dataQualityHistoric,
+    matrixExamples.dataQualityHistoric,
   ],
 }

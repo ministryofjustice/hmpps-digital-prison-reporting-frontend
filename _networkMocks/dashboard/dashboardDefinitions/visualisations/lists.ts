@@ -406,7 +406,7 @@ const dietTotalsOverTime = {
   type: 'list',
   display: 'Prisoner totals over time',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [],
     measures: [
@@ -428,7 +428,7 @@ const dietTotalsByEstablishmentOverTime = {
   type: 'list',
   display: 'Prsioner totals by establishment over time',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -458,7 +458,7 @@ const dietTotalsByEstablishmentByWingOverTime = {
   type: 'list',
   display: 'Prisoner totals by establishment, by wing, over time',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -495,7 +495,7 @@ const dietTotalsByEstablishmentByWingOverTimeOptional = {
   type: 'list',
   display: 'Diet totals by Establishment, by wing, over time',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -534,7 +534,7 @@ const dietTotalsVegetarianOvertime = {
   type: 'list',
   display: 'Vegetarian totals over time',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [],
     measures: [
@@ -566,7 +566,7 @@ const dietTotalsVegetarianOvertimeByEst = {
   type: 'list',
   display: 'Vegetarian totals over time',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -607,7 +607,7 @@ const dietTotalsVegetarianOvertimeByEstByWing = {
   type: 'list',
   display: 'Vegetarian totals over time by wing',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -656,7 +656,7 @@ const dietTotalsVegetarianOvertimeByEstByWingOptional = {
   type: 'list',
   display: 'Vegetarian totals over time by wing - Optional',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -707,7 +707,7 @@ const dietTotalsVeganOvertime = {
   type: 'list',
   display: 'Vegan totals over time',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [],
     measures: [
@@ -739,7 +739,7 @@ const dietTotalsAllDietOvertime = {
   type: 'list',
   display: 'All Diet totals over time',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [],
     measures: [
@@ -765,7 +765,7 @@ const dietTotalsAllDietOvertimeByEst = {
   type: 'list',
   display: 'All Diet totals over time',
   description: '',
-  showLatest: false,
+  options: { showLatest: false },
   columns: {
     keys: [
       {
@@ -811,7 +811,7 @@ const fullDatasetOverTime = {
   type: 'list',
   display: 'All Data in dataset',
   columns: {},
-  showLatest: false,
+  options: { showLatest: false },
 }
 
 const dataQualityEthnicity = {
@@ -877,7 +877,7 @@ const dataQualityColsToList = {
       },
     ],
   },
-  columnsAsList: true,
+  options: { columnsAsList: true },
 }
 
 const dataQualityReligion = {
@@ -963,7 +963,7 @@ const dataQualityEthnicityHistoric = {
       },
     ],
   },
-  showLatest: false,
+  options: { showLatest: false },
 }
 
 const dataQualityReligionHistoric = {
@@ -995,7 +995,7 @@ const dataQualityReligionHistoric = {
       },
     ],
   },
-  showLatest: false,
+  options: { showLatest: false },
 }
 
 const dataQualityNationalityHistoric = {
@@ -1027,7 +1027,7 @@ const dataQualityNationalityHistoric = {
       },
     ],
   },
-  showLatest: false,
+  options: { showLatest: false },
 }
 
 const lists = {

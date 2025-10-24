@@ -48,6 +48,7 @@ import RecentlyViewedList from './components/user-reports/viewed/clientClass.mjs
 import BarChartVisualisation from './components/_charts/chart/bar/clientClass.mjs'
 import DoughnutChartVisualisation from './components/_charts/chart/doughnut/clientClass.mjs'
 import LineChartVisualisation from './components/_charts/chart/line/clientClass.mjs'
+import MatrixChartVisualisation from './components/_charts/chart/heatmap/clientClass.mjs'
 
 // Dashboards
 import ScoreCard from './components/_dashboards/scorecard/clientClass.mjs'
@@ -86,6 +87,7 @@ function initAll() {
     BarChartVisualisation,
     DoughnutChartVisualisation,
     LineChartVisualisation,
+    MatrixChartVisualisation,
     ScoreCard,
     ReportActions,
     DownloadMessage,

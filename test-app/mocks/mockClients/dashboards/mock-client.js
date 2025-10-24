@@ -127,6 +127,10 @@ const getData = (def, dashboardId, query) => {
     return TestDataHelper.generateData(query)
   }
 
+  if (['matrix-examples-diet-totals-historic'].includes(dashboardId)) {
+    return TestDataHelper.generateData(query, 'finds')
+  }
+
   if (
     [
       'list-examples-data-quality',

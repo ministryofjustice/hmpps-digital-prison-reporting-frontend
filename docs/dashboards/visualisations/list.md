@@ -6,11 +6,19 @@ subsection: Visualisation definition
 
 The `list` visualisation type represents data as a simple list visualisation.
 
-## When to use
+- [When to use](#when-to-use)
+- [Definition](#definition)
+- [Examples](#examples)
+
+<hr class='dpr-docs-hr'/>
+
+# When to use
 
 Use this visualisation type when you need to display data in a list. 
 
-## Definition
+<hr class='dpr-docs-hr'/>
+
+# Definition
 
 To define a list visualisation:
 
@@ -28,16 +36,26 @@ To define a list visualisation:
 
 To learn more about defining the data for the visualisation using the `columns` field see [here](/dashboards/visualisations/targeting-data)
 
-## List representations
+### Options: 
+
+```js
+options: {
+  columnsAsList: true,  // default: false
+  showLatest: false,    // default: true
+}
+```
+
+<hr class='dpr-docs-hr'/>
+
+# Examples
 
 There are two ways to represent data from a dataset as a list:
 
 - [Using dataset rows as list rows](#using-dataset-rows-as-list-rows) using-dataset-rows-as-list-rows
 - [Using dataset columns as list rows](#using-dataset-columns-as-list-rows)
 
-# Examples
 
-For these examples we will use this mocked dataset:
+### Example Dataset
 
 ```js
 | est_id | metric_1 | metric_2 | metric_3 | metric_4 |
@@ -47,19 +65,11 @@ For these examples we will use this mocked dataset:
 | LTI    | 150      | 208      | 220      | 214      |
 ```
 
-## Using dataset rows as list rows
+<hr class='dpr-docs-hr'/>
 
-List visualisation:
+# Using dataset rows as list rows
 
-```js
-| Establishment ID | Metric 1 | Metric 2 title | Random name |
-|------------------|----------|----------------|-------------|
-| MDI              | 100      | 231            | 300         |
-| SLI              | 200      | 238            | 280         |
-| LTI              | 150      | 208            | 220         |
-```
-
-The definition: 
+### Definition
 
 ```js
 {
@@ -95,19 +105,21 @@ The definition:
 }
 ```
 
-## Using dataset columns as list rows
-
-List visualisation
+### Visualisation
 
 ```js
-                 | MDI      | SLI      | LTI      |
-|----------------|----------|----------|----------|
-| Metric 1       | 100      | 200      | 150      |
-| Metric 2 title | 231      | 238      | 208      |
-| Random name    | 300      | 280      | 220      |
+| Establishment ID | Metric 1 | Metric 2 title | Random name |
+|------------------|----------|----------------|-------------|
+| MDI              | 100      | 231            | 300         |
+| SLI              | 200      | 238            | 280         |
+| LTI              | 150      | 208            | 220         |
 ```
 
-the definition: 
+<hr class='dpr-docs-hr'/>
+
+# Using dataset columns as list rows
+
+### Definition: 
 
 ```js
 {
@@ -139,5 +151,15 @@ the definition:
   },
   columnsAsList: true,    // <-- Note the addition of this boolean field
 }
+```
+
+### Visualisation
+
+```js
+                 | MDI      | SLI      | LTI      |
+|----------------|----------|----------|----------|
+| Metric 1       | 100      | 200      | 150      |
+| Metric 2 title | 231      | 238      | 208      |
+| Random name    | 300      | 280      | 220      |
 ```
 

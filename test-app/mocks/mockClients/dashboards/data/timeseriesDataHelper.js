@@ -71,13 +71,13 @@ const mapGranularityValue = (granularity) => {
 const setFormat = (granularity) => {
   switch (granularity) {
     case 'day':
-      return 'YYYY/MM/DD'
+      return 'DD/MM/YYYY'
     case 'month':
       return 'MMM YY'
     case 'year':
       return 'YYYY'
     default:
-      return 'YYYY/MM/DD'
+      return 'DD/MM/YYYY'
   }
 }
 
@@ -90,19 +90,20 @@ const generateRawValue = (maxOverride, minOverride) => {
 const generateRag = (value) => {
   let ragValue
 
-  if (value < 800) ragValue = 2
-  if (value < 600) ragValue = 1
-  if (value < 500) ragValue = 0
+  if (value <= 100) ragValue = 2
+  if (value < 66) ragValue = 1
+  if (value <= 33) ragValue = 0
 
   return ragValue
 }
 
 const initBaseData = (baseData, ts) => {
+  const countValue = Math.floor(Math.random() * (100 - 1)) + 1
   return [
     {
       ...baseData,
       ts: { raw: ts },
-      count: { raw: 5000 },
+      count: { raw: countValue, rag: generateRag(countValue) },
     },
   ]
 }

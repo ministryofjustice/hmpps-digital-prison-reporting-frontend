@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+import weekOfYear from 'dayjs/plugin/weekOfYear'
 import {
   ChartData,
   MoJTable,
@@ -7,41 +9,32 @@ import {
   ChartDetails,
   ChartMetaData,
 } from '../../types/Charts'
+import { createTimeseriesMatrixChart } from './chart/heatmap/utils'
 import { DashboardDataResponse } from '../../types/Metrics'
 import {
   BarChartVisualisationColumn,
   DashboardVisualisation,
   DashboardVisualisationColumns,
-  DashboardVisualisationType,
 } from '../_dashboards/dashboard/types'
 import DatasetHelper from '../../utils/datasetHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
+import { Granularity } from '../_inputs/granular-date-range/types'
+
+dayjs.extend(weekOfYear)
 
 export const createChart = (
   chartDefinition: DashboardVisualisation,
   rawData: DashboardDataResponse[],
 ): ChartCardData => {
-  const timeseriesChartTypes = [DashboardVisualisationType.BAR_TIMESERIES, DashboardVisualisationType.LINE_TIMESERIES]
-  const { type } = chartDefinition
-
   let table: MoJTable
   let chart: ChartData
   let details: ChartDetails
 
-  if (timeseriesChartTypes.includes(type)) {
-    const { latestData, dataSetRows, timeseriesData } = getDataForTimeseriesCharts(chartDefinition, rawData)
-    if (dataSetRows.length) {
-      chart = createTimeseriesChart(chartDefinition, timeseriesData)
-      table = createTimeseriesTable(chartDefinition, timeseriesData)
-      details = getChartDetails(chartDefinition, latestData, true)
-    }
-  } else {
-    const { dataSetRows, snapshotData } = getDataForSnapshotCharts(chartDefinition, rawData)
-    if (dataSetRows.length) {
-      chart = createSnapshotChart(chartDefinition, snapshotData)
-      table = createSnapshotTable(chartDefinition, dataSetRows)
-      details = getChartDetails(chartDefinition, dataSetRows)
-    }
+  const { dataSetRows, snapshotData } = getDataForSnapshotCharts(chartDefinition, rawData)
+  if (dataSetRows.length) {
+    chart = createSnapshotChart(chartDefinition, snapshotData)
+    table = createSnapshotTable(chartDefinition, dataSetRows)
+    details = getChartDetails(chartDefinition, dataSetRows)
   }
 
   return {
@@ -51,8 +44,54 @@ export const createChart = (
   }
 }
 
-export default {
-  createChart,
+export const createTimeseriesCharts = (
+  chartDefinition: DashboardVisualisation,
+  rawData: DashboardDataResponse[],
+): ChartCardData => {
+  let table: MoJTable
+  let chart: ChartData
+  let details: ChartDetails
+
+  const { latestData, dataSetRows, timeseriesData } = getDataForTimeseriesCharts(chartDefinition, rawData)
+  if (dataSetRows.length) {
+    chart = createTimeseriesChart(chartDefinition, timeseriesData)
+    table = createTimeseriesTable(chartDefinition, timeseriesData)
+    details = getChartDetails(chartDefinition, latestData, true)
+  }
+  return {
+    details,
+    table,
+    chart,
+  }
+}
+
+export const createMatrixChart = (
+  chartDefinition: DashboardVisualisation,
+  rawData: DashboardDataResponse[],
+  query: Record<string, string | string[]>,
+) => {
+  let table: MoJTable
+  let chart: ChartData
+  let details: ChartDetails
+  let granularity: Granularity = Granularity.DAILY
+
+  Object.keys(query).forEach((key) => {
+    if (key.includes('granularity')) {
+      granularity = <Granularity>query[key]
+    }
+  })
+
+  const { latestData, dataSetRows, timeseriesData } = getDataForTimeseriesCharts(chartDefinition, rawData)
+  if (dataSetRows.length) {
+    chart = createTimeseriesMatrixChart(chartDefinition, timeseriesData, granularity)
+    table = createTimeseriesTable(chartDefinition, timeseriesData)
+    details = getChartDetails(chartDefinition, latestData, true)
+  }
+  return {
+    details,
+    table,
+    chart,
+  }
 }
 
 const getDataForSnapshotCharts = (chartDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]) => {
@@ -253,9 +292,7 @@ const createTimeseriesChart = (
   const { keys, measures } = columns
 
   const unit = measures[0].unit ? measures[0].unit : undefined
-
-  const type = chartDefinition.type === DashboardVisualisationType.BAR_TIMESERIES ? 'bar' : 'line'
-
+  const type = chartDefinition.type.split('-')[0]
   const groupKey = DatasetHelper.getGroupKey(keys, timeseriesData)
   const labelId = groupKey.id as keyof DashboardDataResponse
 
@@ -297,15 +334,18 @@ const createTimeseriesTable = (
   const { keys, measures } = columns
 
   let flatTimeseriesData = timeseriesData.flat()
-  const hasMultipleRowsPerTimePeriod = timeseriesData.length > 1
   let headerColumns = [...measures]
 
-  if (hasMultipleRowsPerTimePeriod) {
+  if (timeseriesData.length > 1) {
+    // Add keys as columns as well as measures, and put TS first:
+    // Get TS column an remove it from headings
     const timestampIndex = headerColumns.findIndex((m) => m.id === 'ts')
     const timestampCol = headerColumns[timestampIndex]
-
     headerColumns.splice(timestampIndex, 1)
-    headerColumns = [...keys, ...headerColumns]
+    // Remove duplicate TS from keys if present and add keys to headings
+    const keysWithoutTs = keys.filter((k) => k.id !== 'ts')
+    headerColumns = [...keysWithoutTs, ...headerColumns]
+    // Add TS column to the start
     headerColumns.unshift(timestampCol)
   } else {
     flatTimeseriesData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, flatTimeseriesData)
@@ -321,4 +361,10 @@ const createTimeseriesTable = (
     head,
     rows,
   } as MoJTable
+}
+
+export default {
+  createChart,
+  createTimeseriesCharts,
+  createMatrixChart,
 }

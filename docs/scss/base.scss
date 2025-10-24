@@ -114,9 +114,29 @@ code {
   }
 } 
 
+ul {
+  li {
+    margin: 4px 0;
+  }
+}
+
+hr {
+  margin: 60px 0px 40px 0px;
+}
+
 table {
   width: 100%;
   padding: 5px;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+
+  td, th {
+    border-bottom: 1px solid #ddd;
+    padding-top: 8px;
+    padding-bottom: 10px;
+    min-width: 140px;
+    vertical-align: top;
+  }
 }
 
 .dpr-docs-table {

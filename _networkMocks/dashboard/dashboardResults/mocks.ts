@@ -26,6 +26,7 @@ const dietDashboards = [
   'chart-examples-diet-totals-historic',
   'chart-examples-diet-totals-historic-flexible',
   'scorecard-examples-diet-totals',
+  'matrix-examples-diet-totals-historic',
 ]
 
 export const listsExampleDashboardResultMock = setupSimpleMock(
@@ -46,7 +47,12 @@ export const dataQualityDashboardsResultMock = setupSimpleMock(
 )
 export const dietDashboardsResultMock = setupSimpleMock(
   `/reports/dashboard-visualisations/dashboards/(${dietDashboards.join('|')})/tables/tblId_[0-9]+/result`,
-  generateDietData({}),
+  generateDietData({
+    'filters.date.start': '2025-04-21',
+    'filters.date.end': '2025-10-20',
+    'filters.date.granularity': 'monthly',
+    'filters.date.quickFilter': 'last-six-months',
+  }),
 )
 export const testDashboardResultMock = generateNetworkMock({
   ...defaultMockRequest,

@@ -70,8 +70,8 @@ class DashboardClient {
     reportId: string,
     dashboardId: string,
     executionId: string,
-    dataProductDefinitionsPath?: string,
     tableId?: string,
+    dataProductDefinitionsPath?: string,
   ): Promise<Dict<string>> {
     this.logInfo('Get status:', { reportId, dashboardId, executionId, tableId })
 

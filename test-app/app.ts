@@ -10,6 +10,8 @@ import bodyParser from 'body-parser'
 import flash from 'connect-flash'
 
 // middleware
+import { Services } from 'src/dpr/types/Services'
+import setUpDprResources from 'src/dpr/middleware/setUpDprResources'
 import setUpStaticResources from './middleware/setUpStaticResources'
 import setUpMockUser from './middleware/setUpMockUser'
 
@@ -20,8 +22,6 @@ import nunjucksSetup from './utils/nujucksSetup'
 // Mocks
 import setUpMockSyncApis from './mocks/mockSyncData/mockSyncApis'
 import setUpBookmarks from './middleware/setUpBookmarks'
-import { Services } from 'src/dpr/types/Services'
-import setUpDprResources from 'src/dpr/middleware/setUpDprResources'
 import setUpWebSession from './middleware/setupSession'
 
 export default function createApp(services: Services): express.Application {

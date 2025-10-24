@@ -872,7 +872,7 @@ const dataQualityColsToList = {
       },
     ],
   },
-  columnsAsList: true,
+  options: { columnsAsList: true },
 }
 
 const dataQualityReligion = {

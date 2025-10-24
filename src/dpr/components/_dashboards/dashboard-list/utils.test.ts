@@ -31,6 +31,7 @@ describe('DashboardListUtils', () => {
     it('should create the list data from data columns', () => {
       const visDefinition = dataQualityColsToList as unknown as ListVisualisation
       const result = DashboardListUtils.createList(visDefinition, mockTimeSeriesDataLastSixMonths.flat())
+
       const expectedResult = {
         table: {
           head: [{ text: '' }, { text: 'MDI' }, { text: 'SLI' }, { text: 'DAI' }],

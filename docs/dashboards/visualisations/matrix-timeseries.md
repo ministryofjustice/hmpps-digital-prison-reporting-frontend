@@ -44,6 +44,11 @@ Gradient variations of a base colour. Use heatmap colouring when:
 
 This chart uses colour to represent data as two dimensional matrix. Values in a dataset can be assigned colours in few ways value. 
 
+### Custom threshold Bucketing
+
+If custom buckets thresholds are defined in the visualisation definition:
+- Bins the value within the appropriate custom bucket. 
+
 ### Using the RAG value 
 
 If RAG values are present in the data
@@ -52,14 +57,9 @@ If RAG values are present in the data
 - Each bucket is assigned and specific colour and an index starting from 0.
 - Each RAG value is assigned to their corresponding bucket. 
 
-### Custom threshold Bucketing
-
-If custom buckets thresholds are defined in the visualisation definition:
-- Bins the value within the appropriat custom bucket. 
-
 ### Automatic threshold bucketing
 
-If no RAG value is in the dataset: 
+If no RAG value is in the dataset, or any custom buckets defined in the definition: 
 - Buckets are defined by determining the data range and splitting it into 3 equal parts.
 - Each bucket is assigned a specific colour
 - Each value is put into the appropriate bucket
@@ -133,8 +133,11 @@ options: {
 
 # Examples
 
-- [Define a timeseries matrix chart](#define-a-timeseries-matrix-chart)
-- [Define a timeseries RAG matrix chart](#define-a-timeseries-rag-matrix-chart)
+- [Automatic bucketing](#automatic-bucketing)
+- [Custom base colour](#custom-base-colour)
+- [Custom buckets](#custom-buckets)
+- [Custom buckets thresholds and colours](#custom-buckets)
+- [RAG colours](#define-a-timeseries-rag-matrix-chart)
 
 ### Example Dataset
 
@@ -165,10 +168,11 @@ For these examples we will use a mocked dataset representing finds totals
 
 <hr class='dpr-docs-hr'/>
 
-# Define a timeseries matrix chart
+# Automatic bucketing
 
-In this example we will define a matrix chart that:
+In this example we will define a heatmap that:
 
+- defines buckets based on the values in the dataset
 - selects the dataset rows that show the total count of finds for each day
 - represent that as a matrix chart that show daily finds over 3 months
 
@@ -219,16 +223,207 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 <img src="../../assets/images/matrixExample1.png" alt="bar chart example" width="500"/>
 
+<hr class='dpr-docs-hr'/>
+
+# Custom base colour
+
+In this example we will define a heatmap that:
+
+- defines buckets based on the values in the dataset
+- Uses a custom base colour for the gradient colours
+- selects the dataset rows that show the total count of finds for each day
+- represent that as a matrix chart that show daily finds over 3 months
+
+### Definition
+
+```js
+{
+  id: 'finds-totals--overtime',
+  type: 'matrix-timeseries',
+  display: 'Finds totals over time matrix chart',
+  description: '',
+  option: {
+    baseColour: '#00703c'   // <-- Sets the custom base colour
+  },
+  columns: {
+    key: [
+      {
+        id: 'ts',
+      },
+    ],
+    measure: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total finds',
+      },
+    ],
+    expectNull: true,
+  },
+}
+```
+
+### Dataset returned: 
+
+This definition will return the following dataset
+```js
+| ts         |  est_id  | wing  | cell  | finds       | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 |          |       |       |             | 81    |
+| 2025/02/24 |          |       |       |             | 69    |
+| 2025/02/23 |          |       |       |             | 92    |
+... more rows ommitted
+```
+see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+
+### Visualisation
+
+<img src="../../assets/images/matrixExample1.png" alt="bar chart example" width="500"/>
 
 <hr class='dpr-docs-hr'/>
 
-# Define a timeseries RAG matrix chart
+# Custom buckets
+
+In this example we will define a heatmap that:
+
+- Uses buckets defined in the definition
+- selects the dataset rows that show the total count of finds for each day
+- represent that as a matrix chart that show daily finds over 3 months
+
+### Definition
+
+```js
+{
+  id: 'finds-totals--overtime',
+  type: 'matrix-timeseries',
+  display: 'Finds totals over time matrix chart',
+  description: '',
+  option: {
+    buckets: [
+      { min: 0, max: 20 },
+      { min: 21, max: 40 },
+      { min: 41, max: 60 },
+      { min: 61, max: 80 }
+      { min: 81, max: 100 }
+    ]
+  },
+  columns: {
+    key: [
+      {
+        id: 'ts',
+      },
+    ],
+    measure: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total finds',
+      },
+    ],
+    expectNull: true,
+  },
+}
+```
+
+### Dataset returned: 
+
+This definition will return the following dataset
+```js
+| ts         |  est_id  | wing  | cell  | finds       | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 |          |       |       |             | 81    |
+| 2025/02/24 |          |       |       |             | 69    |
+| 2025/02/23 |          |       |       |             | 92    |
+... more rows ommitted
+```
+see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+
+### Visualisation
+
+<img src="../../assets/images/matrixExample1.png" alt="bar chart example" width="500"/>
+
+<hr class='dpr-docs-hr'/>
+
+# Custom buckets thresholds and colours
+
+In this example we will define a heatmap that:
+
+- Uses custom buckets defined in the definition
+- Uses custom colours defined in the definition
+- selects the dataset rows that show the total count of finds for each day
+- represent that as a matrix chart that show daily finds over 3 months
+
+### Definition
+
+```js
+{
+  id: 'finds-totals--overtime',
+  type: 'matrix-timeseries',
+  display: 'Finds totals over time matrix chart',
+  description: '',
+  option: {
+    buckets: [
+      { min: 0, max: 20, hexColour: '#' },
+      { min: 21, max: 40, hexColour: '#' },
+      { min: 41, max: 60, hexColour: '#' },
+      { min: 61, max: 80, hexColour: '#' }
+      { min: 81, max: 100, hexColour: '#' }
+    ]
+  },
+  columns: {
+    key: [
+      {
+        id: 'ts',
+      },
+    ],
+    measure: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total finds',
+      },
+    ],
+    expectNull: true,
+  },
+}
+```
+
+### Dataset returned: 
+
+This definition will return the following dataset
+```js
+| ts         |  est_id  | wing  | cell  | finds       | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 |          |       |       |             | 81    |
+| 2025/02/24 |          |       |       |             | 69    |
+| 2025/02/23 |          |       |       |             | 92    |
+... more rows ommitted
+```
+see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+
+### Visualisation
+
+<img src="../../assets/images/matrixExample1.png" alt="bar chart example" width="500"/>
+
+<hr class='dpr-docs-hr'/>
+
+
+# RAG colours
 
 In this example we will define a matrix chart that:
 
+- Uses RAG colouring
 - selects the dataset rows that show the total count of finds for each day
 - represent that as a matrix chart that show daily finds over 3 months
-- Uses RAG colouring
 
 ### Definition
 

@@ -6,19 +6,19 @@ const dataQualityScoreCards = {
   name: 'Scorecard Examples - Data Quality',
   description: 'Scorecard examples',
   sections: [
-    // {
-    //   id: 'section-1',
-    //   display: 'Data quality scorecards',
-    //   description: '',
-    //   visualisations: [
-    //     scorecards.dataQualityAllEstablishmentsEthnicity,
-    //     scorecards.dataQualityAllEstablishmentsNoEthnicity,
-    //     scorecards.dataQualityAllEstablishmentsNationality,
-    //     scorecards.dataQualityAllEstablishmentsNoNationality,
-    //     scorecards.dataQualityAllEstablishmentsReligion,
-    //     scorecards.dataQualityAllEstablishmentsNoReligion,
-    //   ],
-    // },
+    {
+      id: 'section-1',
+      display: 'Data quality scorecards',
+      description: '',
+      visualisations: [
+        scorecards.dataQualityAllEstablishmentsEthnicity,
+        scorecards.dataQualityAllEstablishmentsNoEthnicity,
+        scorecards.dataQualityAllEstablishmentsNationality,
+        scorecards.dataQualityAllEstablishmentsNoNationality,
+        scorecards.dataQualityAllEstablishmentsReligion,
+        scorecards.dataQualityAllEstablishmentsNoReligion,
+      ],
+    },
     {
       id: 'section-2',
       display: 'Scorecards with columns',

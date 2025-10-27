@@ -4,8 +4,8 @@ title: Matrix timeseries chart
 subsection: Visualisation definition
 ---
 
-<img src="../../assets/images/matrixExample2.png" alt="bar chart example" width="250" style="margin-bottom: 20px"/>
-<img src="../../assets/images/matrixExample1.png" alt="bar chart example" width="250" style="margin-bottom: 20px"/>
+<img src="/assets/images/matrixExample2.png" alt="bar chart example" width="250" style="margin-bottom: 20px"/>
+<img src="/assets/images/matrixExample1.png" alt="bar chart example" width="250" style="margin-bottom: 20px"/>
 
 The `matrix-timeseries` chart visualisation type represents data as a matrix/heatmap chart visualisation. 
 
@@ -182,7 +182,7 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 ### Visualisation
 
-<img src="../../assets/images/matrixExample1.png" alt="bar chart example" width="500"/>
+<img src="/assets/images/matrixExample1.png" alt="bar chart example" width="500"/>
 
 
 <hr class='dpr-docs-hr'/>
@@ -244,7 +244,7 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 ### Visualisation
 
-<img src="../../assets/images/matrixExample2.png" alt="bar chart example" width="500"/>
+<img src="/assets/images/matrixExample2.png" alt="bar chart example" width="500"/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -307,4 +307,4 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 ### Visualisation:
 
-<img src="../../assets/images/matrixExample1.png" alt="bar chart example" width="500"/>
+<img src="/assets/images/matrixExample1.png" alt="bar chart example" width="500"/>

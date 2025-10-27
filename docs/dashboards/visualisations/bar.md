@@ -181,6 +181,6 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 ### Visualisation:
 
-<img src="../../assets/images/barExample1.png" alt="bar chart example" width="800"/>
+<img src="/assets/images/barExample1.png" alt="bar chart example" width="800"/>
 
 ```

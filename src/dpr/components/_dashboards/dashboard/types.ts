@@ -51,6 +51,14 @@ export interface ListDashboardVisualisationOptions {
 
 export interface MatrixDashboardVisualisationOptions {
   useRagColours?: boolean
+  buckets?: MatrixDashboardVisualisationBucket[]
+  baseColour?: string
+}
+
+export interface MatrixDashboardVisualisationBucket {
+  min?: number
+  max?: number
+  hexColour?: string
 }
 
 export interface ListVisualisation extends DashboardVisualisation {

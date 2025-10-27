@@ -5,6 +5,7 @@ import {
   DashboardVisualisation,
   DashboardVisualisationColumns,
   DashboardVisualisationType,
+  MatrixDashboardVisualisationBucket,
   MatrixDashboardVisualisationOptions,
 } from '../../../_dashboards/dashboard/types'
 import { Granularity } from '../../../_inputs/granular-date-range/types'
@@ -63,11 +64,18 @@ const createMatrixDataSet = (
   options: MatrixDashboardVisualisationOptions,
 ) => {
   const { columns } = chartDefinition
+
+  // Validate the definition
   validateDefinition(chartDefinition)
-  const label = getLabel(columns)
+
+  // Initialies the timeseries data
   let data: MatrixChartData[] = initTimeseriesMatrixAxis(timeBlockData, granularity, columns)
+
+  // Bin the data into buckets
   data = addBucketData(data, options)
 
+  // Return the dataset
+  const label = getLabel(columns)
   return [{ label, data }]
 }
 
@@ -93,11 +101,20 @@ const getLabel = (columns: DashboardVisualisationColumns) => {
 }
 
 const addBucketData = (matrixDataSets: MatrixChartData[], options: MatrixDashboardVisualisationOptions) => {
-  const { useRagColours } = options
-  const hasRag = hasRagNumber(matrixDataSets)
-  const bucketCount = hasRag ? getBucketCount(matrixDataSets) : 3
-  const bucketColours = createRagColours(bucketCount, useRagColours)
-  return hasRag ? setColoursForRag(matrixDataSets, bucketColours) : setColoursWithoutRag(matrixDataSets, bucketColours)
+  const { useRagColours, buckets, baseColour } = options
+  const hasRagNumberInData = hasRagNumber(matrixDataSets)
+
+  let bucketCount = 3
+  if (hasRagNumberInData) {
+    bucketCount = getBucketCount(matrixDataSets)
+  } else if (buckets) {
+    bucketCount = buckets.length
+  }
+  const bucketColours = getBucketColours(bucketCount, buckets, useRagColours)
+
+  return hasRagNumberInData
+    ? setColoursForRag(matrixDataSets, bucketColours)
+    : setColoursWithoutRag(matrixDataSets, bucketColours)
 }
 
 const setColoursWithoutRag = (matrixDataSets: MatrixChartData[], bucketColours: string[]) => {
@@ -119,9 +136,14 @@ const setColoursForRag = (matrixDataSets: MatrixChartData[], bucketColours: stri
   })
 }
 
-const createRagColours = (bucketCount: number, useRagColours: boolean) => {
-  const ragColours = ['#00703c', '#ffdd00', '	#d4351c']
-  return useRagColours ? ragColours : generateBucketColours(bucketCount)
+const getRagColours = () => ['#00703c', '#ffdd00', '	#d4351c']
+
+const getBucketColours = (
+  bucketCount: number,
+  buckets: MatrixDashboardVisualisationBucket[],
+  useRagColours: boolean,
+) => {
+  return useRagColours ? getRagColours() : generateBucketColours(bucketCount)
 }
 
 const generateBucketColours = (bucketCount: number) => {

@@ -19,6 +19,7 @@ import {
 import DatasetHelper from '../../utils/datasetHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 import { Granularity } from '../_inputs/granular-date-range/types'
+import HeatmapChart from './chart/heatmap/Heatmap'
 
 dayjs.extend(weekOfYear)
 
@@ -83,7 +84,7 @@ export const createMatrixChart = (
 
   const { latestData, dataSetRows, timeseriesData } = getDataForTimeseriesCharts(chartDefinition, rawData)
   if (dataSetRows.length) {
-    chart = createTimeseriesMatrixChart(chartDefinition, timeseriesData, granularity)
+    chart = new HeatmapChart(timeseriesData, granularity, chartDefinition).build()
     table = createTimeseriesTable(chartDefinition, timeseriesData)
     details = getChartDetails(chartDefinition, latestData, true)
   }

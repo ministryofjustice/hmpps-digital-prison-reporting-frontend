@@ -9,14 +9,24 @@ const dataQualityHistoric = {
     {
       id: 'matrix-test',
       display: 'Matrix example',
-      description: '',
-      visualisations: [matrix.findsTotalsOvertime],
+      description: 'Range defined thresholds',
+      visualisations: [matrix.findsTotalsOvertime, matrix.findsTotalsOvertimeCustomBaseColour],
     },
     {
       id: 'matrix-test-rag',
-      display: 'Matrix RAG example',
-      description: '',
+      display: 'Matrix RAG colour example',
+      description: 'Range defined thresholds with RAG Colours',
       visualisations: [matrix.findsTotalsOvertimeRag],
+    },
+    {
+      id: 'matrix-test-rag',
+      display: 'Custom buckets example',
+      description: 'User defined custom buckets',
+      visualisations: [
+        matrix.findsTotalsOvertimeCustomBuckets,
+        matrix.findsTotalsOvertimeCustomBucketsWithSizing,
+        matrix.findsTotalsOvertimeCustomBucketsWithSizingAndColour,
+      ],
     },
     {
       id: 'matrix-test-alldata',
@@ -25,7 +35,7 @@ const dataQualityHistoric = {
       visualisations: [lists.fullDatasetOverTime],
     },
   ],
-  filterFields: [dateRangeFilter],
+  filterFields: [granularDateRangeFilter],
 }
 
 module.exports = {

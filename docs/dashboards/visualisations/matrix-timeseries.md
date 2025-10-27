@@ -52,7 +52,12 @@ If RAG values are present in the data
 - Each bucket is assigned and specific colour and an index starting from 0.
 - Each RAG value is assigned to their corresponding bucket. 
 
-### Custom threshold bucketing
+### Custom threshold Bucketing
+
+If custom buckets thresholds are defined in the visualisation definition:
+- Bins the value within the appropriat custom bucket. 
+
+### Automatic threshold bucketing
 
 If no RAG value is in the dataset: 
 - Buckets are defined by determining the data range and splitting it into 3 equal parts.
@@ -63,29 +68,59 @@ If no RAG value is in the dataset:
 
 # Definition
 
+See the [Visualisation definition]() docs for the Definition schema
+
 ```js
 {
   id: 'line-definition-example',
   type: 'matrix-timeseries',
   display: 'Matrix timeseries chart',
   description: 'Matrix visualisation description',
-  options: {
+  option: {
     ...
   }
-  columns: {
+  column: {
     ...
   }
 }
 ```
-  To learn more about defining the data for the visualisation using the `columns` field see [here](/dashboards/visualisations/targeting-data)
+See the [Visualisation definition](/dashboards/visualisations/visualisation-definition) docs for the definition schema
 
-### Options: 
+To learn more about defining the data for the visualisation using the `columns` field see [here](/dashboards/visualisations/targeting-data)
+
+## Options:
 
 ```js
 options: {
-  useRagColours: true, // default: false
+  // Defines whether to use Red, Amber and Green for bucket colours
+  useRagColour: true, // default: false
+
+  // Define the base colour:
+  baseColour: '#00000'
+
+  // Custom bucketing
+  bucket: [
+    { min: 0, max: 100, hexColour: '' },
+    { min: 101, max: 200 },
+    { min: 201, max: 300 },
+    { min: 301, hexColour: '' },
+  ]
 }
 ```
+
+| Name            | Type    | Required | Description                                                    |
+| ----------------| ------- | -------- | ---------------------------------------------------------------|
+| `useRagColour`  | boolean | No       | Defines whether to use Red, Amber and Green for bucket colours |
+| `baseColour`    | string  | No       | Defines the base colour to user                                |
+| `bucket`        | Array   | No       | Defines the number of buckets and their thresholds             |
+
+### bucket
+
+| Name        | Type    | Required | Description                                   |
+| ------------| ------- | -------- | ----------------------------------------------|
+| `min`       | number  | Yes      | The minimum value for the bucket              |
+| `max`       | number  | No       | The maximum value for the bucket              |
+| `hexColour` | string  | No       | The bucket colour value in hexidecimal format |
 
 <hr class='dpr-docs-hr'/>
 
@@ -145,14 +180,14 @@ In this example we will define a matrix chart that:
   type: 'matrix-timeseries',
   display: 'Finds totals over time matrix chart',
   description: '',
-  options: {},
+  option: {},
   columns: {
-    keys: [
+    key: [
       {
         id: 'ts',
       },
     ],
-    measures: [
+    measure: [
       {
         id: 'ts',
         display: 'Date',
@@ -162,7 +197,7 @@ In this example we will define a matrix chart that:
         display: 'Total finds',
       },
     ],
-    expectNulls: true,
+    expectNull: true,
   },
 }
 ```
@@ -206,13 +241,13 @@ In this example we will define a matrix chart that:
   options: {
     useRagColours: true // <- Defines the use of RAG colouring
   },
-  columns: {
-    keys: [
+  column: {
+    key: [
       {
         id: 'ts',
       },
     ],
-    measures: [
+    measure: [
       {
         id: 'ts',
         display: 'Date',
@@ -222,7 +257,7 @@ In this example we will define a matrix chart that:
         display: 'Tota finds',
       },
     ],
-    expectNulls: true,
+    expectNull: true,
   },
 }
 ```
@@ -270,7 +305,7 @@ In this example we will define a matrix chart that:
         id: 'ts',
       },
     ],
-    measures: [
+    measure: [
       {
         id: 'ts',
         display: 'Date',
@@ -286,7 +321,7 @@ In this example we will define a matrix chart that:
         equals: 'Weapons'
       }
     ]
-    expectNulls: true,
+    expectNull: true,
   },
 }
 ```

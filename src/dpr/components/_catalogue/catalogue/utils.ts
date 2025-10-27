@@ -14,15 +14,20 @@ export const init = async ({
   services: Services
 }) => {
   const data = await CatalogueListUtils.getReportsList(res, services, features)
+  const { token, bookmarkingEnabled, dprUser } = LocalsHelper.getValues(res)
+  const catalogueCollections = await services.reportingService.getCatalogueCollections(token)
+  const selectedCatalogueCollection = await services.catalogueCollectionService.getSelectedCatalogueCollection(dprUser.id)
   return {
     data,
-    features: setFeatures(res, features),
+    catalogueCollectionInfo: {
+      selectedCatalogueCollection,
+      catalogueCollections,
+    },
+    features: setFeatures(bookmarkingEnabled, features),
   }
 }
 
-const setFeatures = (res: Response, features?: CatalogueFeatures) => {
-  const { bookmarkingEnabled } = LocalsHelper.getValues(res)
-
+const setFeatures = (bookmarkingEnabled: boolean, features?: CatalogueFeatures) => {
   return {
     filteringEnabled: features?.filteringEnabled === undefined || features.filteringEnabled,
     unauthorisedToggleEnabled: features?.unauthorisedToggleEnabled === undefined || features.unauthorisedToggleEnabled,

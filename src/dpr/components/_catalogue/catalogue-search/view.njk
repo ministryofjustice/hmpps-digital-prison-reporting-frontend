@@ -1,6 +1,10 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
 
-{% macro dprCatalogueSearch(id, type = 'catalogue') %}
+{% macro dprCatalogueSearch(id, catalogueCollectionInfo, type = 'catalogue') %}
+  {% set catalogueCollections = catalogueCollectionInfo.catalogueCollections %}
+  {% set selectedCatalogueCollection = catalogueCollectionInfo.selectedCatalogueCollection %}
+
   <div class="dpr-search" data-dpr-module="dpr-catalogue-search">
     <div class="dpr-search-inputs">
         {{ govukInput({
@@ -17,6 +21,22 @@
             "data-table-id": id
           }
         }) }}
+        {% if catalogueCollections.length > 0 %}
+          {{ govukSelect({
+            id: 'catalogue-collection',
+            value: selectedCatalogueCollection,
+            formGroup: {
+              attributes: {
+                style: "justify-self: end;"
+              }
+            },
+            items: catalogueCollections,
+            label: {
+              text: 'Your collections',
+              classes: "govuk-label govuk-!-font-weight-bold govuk-!-margin-bottom-2"
+            }
+        }) }}
+      {% endif %}
     </div>
   </div>
 {% endmacro %}

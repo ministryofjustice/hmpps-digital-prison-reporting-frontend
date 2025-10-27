@@ -5,6 +5,7 @@
 {% macro dprCatalogue(args) %}
   {% set data = args.data %}
   {% set features = args.features %}
+  {% set catalogueCollectionInfo = args.catalogueCollectionInfo %}
 
   {% set head = data.head %}
   {% set rows = data.rows %}
@@ -16,7 +17,7 @@
       {{ dprCatalogueHowToUse(features) }}
     {% endif %}
 
-    {{ dprCatalogueFilters(id, features) }}
+    {{ dprCatalogueFilters(id, features, catalogueCollectionInfo) }}
     {{ dprCatalogueList(head, rows, id) }}
   <div>
 {% endmacro %}

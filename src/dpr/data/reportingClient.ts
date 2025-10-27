@@ -259,6 +259,18 @@ class ReportingClient {
       .then((response) => (<Count>response).count)
   }
 
+  getCatalogueCollections(
+    token: string,
+  ): Promise<CatalogueCollection[]> {
+    this.logInfo('Get catalogue collections')
+
+    return this.restClient
+      .get({
+        path: `/catalogueCollections`,
+        token,
+      })
+  }
+
   logInfo(title: string, args?: Dict<string>) {
     logger.info(`Reporting Client: ${title}:`)
     if (args && Object.keys(args).length) logger.info(JSON.stringify(args, null, 2))

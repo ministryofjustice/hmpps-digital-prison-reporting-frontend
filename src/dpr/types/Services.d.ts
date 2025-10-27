@@ -1,3 +1,5 @@
+import { BookmarkService, DashboardService, DefaultFilterValuesService, DownloadPermissionService, RecentlyViewedStoreService, ReportingService, RequestedReportService } from '../services'
+import { CatalogueCollectionService } from '../services/catalogueCollection/catalogueCollectionService'
 import MissingReportClient from '../services/missingReport/missingReportClient'
 
 export type Services = UserStoreServices & {
@@ -12,4 +14,5 @@ export interface UserStoreServices {
   recentlyViewedService?: RecentlyViewedStoreService
   bookmarkService?: BookmarkService
   defaultFilterValuesService?: DefaultFilterValuesService
+  catalogueCollectionService?: CatalogueCollectionService
 }

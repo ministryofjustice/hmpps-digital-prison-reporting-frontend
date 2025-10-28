@@ -1,6 +1,6 @@
 import Dict = NodeJS.Dict
 import ReportQuery from '../../types/ReportQuery'
-import { Cell, CellFormat, DataTable, FieldDefinition, SortKey } from './types'
+import { Cell, CellFormat, DataTable, SortKey } from './types'
 import createUrlForParameters from '../urlHelper'
 import type { SummaryTemplate } from '../../types/Templates'
 import { AsyncSummary } from '../../types/UserReports'
@@ -158,7 +158,9 @@ class DataTableBuilder {
   }
 
   private mergeCells(rows: Cell[][]): Cell[][] {
-    const mergeFieldNames = this.fields.filter((f) => (<FieldDefinition>f).mergeRows).map((f) => f.name)
+    const mergeFieldNames = this.fields
+      .filter((f) => (<components['schemas']['SummaryField']>f).mergeRows)
+      .map((f) => f.name)
 
     if (mergeFieldNames.length === 0) {
       return rows

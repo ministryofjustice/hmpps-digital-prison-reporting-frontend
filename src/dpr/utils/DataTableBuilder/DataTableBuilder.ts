@@ -5,9 +5,10 @@ import createUrlForParameters from '../urlHelper'
 import type { SummaryTemplate } from '../../types/Templates'
 import { AsyncSummary } from '../../types/UserReports'
 import DateMapper from '../DateMapper/DateMapper'
+import { components } from '../../types/api'
 
 class DataTableBuilder {
-  protected fields: Array<FieldDefinition>
+  protected fields: components['schemas']['FieldDefinition'][]
 
   private sortData: boolean
 
@@ -22,7 +23,7 @@ class DataTableBuilder {
 
   private dateMapper = new DateMapper()
 
-  constructor(fields: Array<FieldDefinition>, sortData = false) {
+  constructor(fields: components['schemas']['FieldDefinition'][], sortData = false) {
     this.fields = fields
     this.sortData = sortData
   }
@@ -106,19 +107,27 @@ class DataTableBuilder {
         if (this.reportQuery && !disableSort) {
           if (f.sortable) {
             let sortDirection = 'none'
-            let url = createUrlForParameters(this.currentQueryParams || {}, {
-              sortColumn: f.name,
-              sortedAsc: 'true',
-            })
+            let url = createUrlForParameters(
+              this.currentQueryParams || {},
+              {
+                sortColumn: f.name,
+                sortedAsc: 'true',
+              },
+              this.fields,
+            )
 
             if (f.name === this.reportQuery.sortColumn) {
               sortDirection = this.reportQuery.sortedAsc ? 'ascending' : 'descending'
 
               if (this.reportQuery.sortedAsc) {
-                url = createUrlForParameters(this.currentQueryParams || {}, {
-                  sortColumn: f.name,
-                  sortedAsc: 'false',
-                })
+                url = createUrlForParameters(
+                  this.currentQueryParams || {},
+                  {
+                    sortColumn: f.name,
+                    sortedAsc: 'false',
+                  },
+                  this.fields,
+                )
               }
             }
 
@@ -149,7 +158,7 @@ class DataTableBuilder {
   }
 
   private mergeCells(rows: Cell[][]): Cell[][] {
-    const mergeFieldNames = this.fields.filter((f) => f.mergeRows).map((f) => f.name)
+    const mergeFieldNames = this.fields.filter((f) => (<FieldDefinition>f).mergeRows).map((f) => f.name)
 
     if (mergeFieldNames.length === 0) {
       return rows

@@ -1,6 +1,6 @@
 import Dict = NodeJS.Dict
 import { components } from '../../types/api'
-import { Cell, DataTable, FieldDefinition } from '../DataTableBuilder/types'
+import { Cell, DataTable } from '../DataTableBuilder/types'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import { distinct } from '../arrayUtils'
 import { ChildData, ParentChildSortKey } from './types'
@@ -130,7 +130,10 @@ class ParentChildDataTableBuilder extends SectionedDataTableBuilder {
     return childDataTables
   }
 
-  private calculateParentChildKeys(parentData: Array<NodeJS.Dict<string>>, joinFields: FieldDefinition[]) {
+  private calculateParentChildKeys(
+    parentData: Array<NodeJS.Dict<string>>,
+    joinFields: components['schemas']['FieldDefinition'][],
+  ) {
     return parentData
       .map(
         (rowData): ParentChildSortKey => ({
@@ -154,7 +157,7 @@ class ParentChildDataTableBuilder extends SectionedDataTableBuilder {
   private splitParentDataIntoSections(
     sectionedParentChildData: NodeJS.Dict<NodeJS.Dict<Array<NodeJS.Dict<string>>>>,
     parentData: Array<NodeJS.Dict<string>>,
-    joinFields: FieldDefinition[],
+    joinFields: components['schemas']['FieldDefinition'][],
   ) {
     return parentData.reduce((previousValue, rowData) => {
       const parentKey: string = this.getSortKey(rowData, joinFields)

@@ -68,7 +68,10 @@ const applyInteractiveQuery = async (
 
   // Get the stored interactive query data
   const interactiveQueryData = reportStateData?.interactiveQuery?.data
-  const { preventDefault } = interactiveQueryData
+
+  console.log(JSON.stringify({ interactiveQueryData }, null, 2))
+
+  const { preventDefault, selectedPage, pageSize, sortColumn, sortedAsc } = interactiveQueryData
   const filters = Object.keys(interactiveQueryData)
     .filter((key) => key.includes('filters.'))
     .reduce((acc, key) => ({ ...acc, [key]: interactiveQueryData[key] }), {})
@@ -76,6 +79,10 @@ const applyInteractiveQuery = async (
   // Create merged form data
   let formData: Record<string, string | string[]> = {
     ...(preventDefault && { preventDefault }),
+    ...(selectedPage && { selectedPage }),
+    ...(pageSize && { pageSize }),
+    ...(sortColumn && { sortColumn }),
+    ...(sortedAsc && { sortedAsc }),
     ...req.body,
   }
 

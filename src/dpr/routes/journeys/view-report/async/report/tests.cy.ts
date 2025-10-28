@@ -1079,7 +1079,7 @@ context('Viewing a report', () => {
         cy.findByRole('link', { name: 'Field 2' }).should('have.class', 'data-table-header-button-sort-none')
         cy.location().should((location) => {
           expect(location.search).to.contain(`&sortColumn=field1&sortedAsc=false`)
-          expect(location.search).to.contain(`filters.field8=value8.2&filters.field8=value8.3`)
+          expect(location.search).to.contain(`filters.field7=value8.2&filters.field7=value8.3`)
         })
 
         // Sort asc by field 1
@@ -1088,7 +1088,7 @@ context('Viewing a report', () => {
         cy.findByRole('link', { name: 'Field 2' }).should('have.class', 'data-table-header-button-sort-none')
         cy.location().should((location) => {
           expect(location.search).to.contain(`&sortColumn=field1&sortedAsc=true`)
-          expect(location.search).to.contain(`filters.field8=value8.2&filters.field8=value8.3`)
+          expect(location.search).to.contain(`filters.field7=value8.2&filters.field7=value8.3`)
         })
 
         // Sort asc by field 2
@@ -1097,7 +1097,7 @@ context('Viewing a report', () => {
         cy.findByRole('link', { name: 'Field 1' }).should('have.class', 'data-table-header-button-sort-none')
         cy.location().should((location) => {
           expect(location.search).to.contain(`&sortColumn=field2&sortedAsc=true`)
-          expect(location.search).to.contain(`filters.field8=value8.2&filters.field8=value8.3`)
+          expect(location.search).to.contain(`filters.field7=value8.2&filters.field7=value8.3`)
         })
 
         // Sort desc by field 2
@@ -1106,7 +1106,7 @@ context('Viewing a report', () => {
         cy.findByRole('link', { name: 'Field 1' }).should('have.class', 'data-table-header-button-sort-none')
         cy.location().should((location) => {
           expect(location.search).to.contain(`&sortColumn=field2&sortedAsc=false`)
-          expect(location.search).to.contain(`filters.field8=value8.2&filters.field8=value8.3`)
+          expect(location.search).to.contain(`filters.field7=value8.2&filters.field7=value8.3`)
         })
       })
     })

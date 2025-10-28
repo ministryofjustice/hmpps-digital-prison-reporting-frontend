@@ -1,3 +1,4 @@
+import { components } from '../../types/api'
 import { AsyncSummary } from '../../types/UserReports'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../DataTableBuilder/types'
@@ -19,7 +20,7 @@ class SummaryDataTableBuilder extends DataTableBuilder {
       visible: true,
     }))
 
-    super(fields, true)
+    super(<components['schemas']['FieldDefinition'][]>fields, true)
 
     this.summary = summary
     this.columns = columns

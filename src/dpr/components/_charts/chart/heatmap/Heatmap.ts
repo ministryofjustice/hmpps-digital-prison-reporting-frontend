@@ -102,7 +102,7 @@ class HeatmapChart {
    * and dividing into 3 equal parts
    */
   private initAutomaticThresholdBucket = () => {
-    const { min, max, bucketSize } = this.setThresholdSize()
+    const { min, max, bucketSize } = this.setAutomaticThresholdSize()
     let maxValue = 0
     this.buckets = this.buckets.map((bucket, i) => {
       let minValue = min
@@ -137,7 +137,7 @@ class HeatmapChart {
     }
   }
 
-  private setThresholdSize = () => {
+  private setAutomaticThresholdSize = () => {
     const values = this.responseData.map((resData) => Number(resData[this.valueKey].raw))
     const min = Math.min(...values)
     const max = Math.max(...values)
@@ -164,7 +164,6 @@ class HeatmapChart {
 
   private validateDefinition = () => {
     const { id, columns, type } = this.definition
-
     const errors = []
 
     // Validate measures
@@ -252,8 +251,6 @@ class HeatmapChart {
 
       return { ...d, c }
     })
-
-    console.log(JSON.stringify({ data: this.data }, null, 2))
   }
 
   build = (): ChartData => {

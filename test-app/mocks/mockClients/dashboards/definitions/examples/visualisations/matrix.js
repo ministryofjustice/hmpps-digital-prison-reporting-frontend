@@ -1,7 +1,7 @@
-const findsTotalsOvertime = {
-  id: 'finds-totals--overtime',
+const automaticBucketing = {
+  id: 'automatic-bucketing',
   type: 'matrix-timeseries',
-  display: 'Finds totals over time matrix chart',
+  display: 'Automatic bucketing example',
   description: '',
   options: {},
   columns: {
@@ -30,11 +30,11 @@ const findsTotalsOvertime = {
   },
 }
 
-const findsTotalsOvertimeCustomBaseColour = {
-  id: 'finds-totals--overtime',
+const automaticBucketingCustomBaseColour = {
+  id: 'automatic-bucketing-custom-base-colour',
   type: 'matrix-timeseries',
-  display: 'Finds totals over time matrix chart',
-  description: '',
+  display: 'Custom base colour',
+  description: 'Example with user defined custom base colour',
   options: {
     baseColour: '#912b88',
   },
@@ -64,11 +64,11 @@ const findsTotalsOvertimeCustomBaseColour = {
   },
 }
 
-const findsTotalsOvertimeRag = {
-  id: 'finds-totals-overtime-rag',
+const automaticBucketingRag = {
+  id: 'automatic-bucketing-rag-colours',
   type: 'matrix-timeseries',
-  display: 'Finds totals over time matrix chart RAG',
-  description: '',
+  display: 'RAG colours',
+  description: 'Example using RAG colours',
   options: {
     useRagColours: true,
   },
@@ -92,10 +92,10 @@ const findsTotalsOvertimeRag = {
   },
 }
 
-const findsTotalsOvertimeCustomBuckets = {
-  id: 'finds-totals-overtime-rag-custom-buckets',
+const automaticBucketingCustomColours = {
+  id: 'automatic-bucketing-custom-bucket-colours',
   type: 'matrix-timeseries',
-  display: 'Finds totals over time',
+  display: 'Custom buckets colours',
   description: '',
   options: {
     buckets: [
@@ -130,11 +130,11 @@ const findsTotalsOvertimeCustomBuckets = {
   },
 }
 
-const findsTotalsOvertimeCustomBucketsWithSizing = {
-  id: 'finds-totals-overtime-rag-custom-buckets-with-sizing',
+const customBucketsWithSizing = {
+  id: 'custom-bucket-sizing',
   type: 'matrix-timeseries',
-  display: 'Finds totals over time',
-  description: '',
+  display: 'Custom bucket count and sizing',
+  description: 'Example produces 5 buckets with boundaries in increments of 20',
   options: {
     buckets: [
       {
@@ -179,11 +179,51 @@ const findsTotalsOvertimeCustomBucketsWithSizing = {
   },
 }
 
-const findsTotalsOvertimeCustomBucketsWithSizingAndColour = {
-  id: 'finds-totals-overtime-rag-sizing-and-colour',
+const customBucketsWithSizingOpen = {
+  id: 'custom-bucket-open-sizing',
   type: 'matrix-timeseries',
-  display: 'Finds totals over time',
-  description: '',
+  display: 'Open ended bucket boundaries',
+  description:
+    'Demonstrates custom bucketing where the first bucket has not lower limit, and the last bucket has no higher limit',
+  options: {
+    buckets: [
+      {
+        max: 10,
+      },
+      {
+        min: 11,
+        max: 30,
+      },
+      {
+        min: 31,
+      },
+    ],
+  },
+  columns: {
+    keys: [
+      {
+        id: 'ts',
+      },
+    ],
+    measures: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total finds',
+      },
+    ],
+    expectNulls: true,
+  },
+}
+
+const customBucketsWithSizingAndColour = {
+  id: 'custom-bucket-sizing-and-colour',
+  type: 'matrix-timeseries',
+  display: 'Custom bucket sizing, count and colour',
+  description: '5 buckets. Increments of 20. 3 Custom colours',
   options: {
     buckets: [
       {
@@ -260,11 +300,12 @@ const findsTotalsOvertimeValidationError = {
 }
 
 module.exports = {
-  findsTotalsOvertime,
-  findsTotalsOvertimeRag,
-  findsTotalsOvertimeCustomBuckets,
-  findsTotalsOvertimeCustomBucketsWithSizing,
-  findsTotalsOvertimeCustomBucketsWithSizingAndColour,
-  findsTotalsOvertimeCustomBaseColour,
+  automaticBucketing,
+  automaticBucketingRag,
+  automaticBucketingCustomBaseColour,
+  automaticBucketingCustomColours,
+  customBucketsWithSizing,
+  customBucketsWithSizingOpen,
+  customBucketsWithSizingAndColour,
   findsTotalsOvertimeValidationError,
 }

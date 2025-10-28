@@ -3,29 +3,30 @@ const { granularDateRangeFilter, dateRangeFilter } = require('../../../filter-de
 
 const dataQualityHistoric = {
   id: 'matrix-examples-diet-totals-historic',
-  name: 'Matrix Examples - Diet totals - Historic',
-  description: 'list examples',
+  name: 'Matrix Chart Examples - Finds totals - Historic',
+  description: 'Heatmap examples',
   sections: [
     {
       id: 'matrix-test',
-      display: 'Matrix example',
-      description: 'Range defined thresholds',
-      visualisations: [matrix.findsTotalsOvertime, matrix.findsTotalsOvertimeCustomBaseColour],
-    },
-    {
-      id: 'matrix-test-rag',
-      display: 'Matrix RAG colour example',
-      description: 'Range defined thresholds with RAG Colours',
-      visualisations: [matrix.findsTotalsOvertimeRag],
-    },
-    {
-      id: 'matrix-test-rag',
-      display: 'Custom buckets example',
-      description: 'User defined custom buckets',
+      display: 'Automatic bucketing',
+      description:
+        'Examples of heatmaps charts where buckets are defined automatically using the values in the data, to produce 3 buckets of equal size',
       visualisations: [
-        matrix.findsTotalsOvertimeCustomBuckets,
-        matrix.findsTotalsOvertimeCustomBucketsWithSizing,
-        matrix.findsTotalsOvertimeCustomBucketsWithSizingAndColour,
+        matrix.automaticBucketing,
+        matrix.automaticBucketingCustomBaseColour,
+        matrix.automaticBucketingRag,
+        matrix.automaticBucketingCustomColours,
+      ],
+    },
+    {
+      id: 'matrix-test-rag',
+      display: 'User defined custom buckets',
+      description:
+        'Examples of heatmaps where the bucket count, sizing and colourings are defined in the visualisation definition',
+      visualisations: [
+        matrix.customBucketsWithSizing,
+        matrix.customBucketsWithSizingOpen,
+        matrix.customBucketsWithSizingAndColour,
       ],
     },
     {

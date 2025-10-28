@@ -9,7 +9,6 @@ import {
   ChartDetails,
   ChartMetaData,
 } from '../../types/Charts'
-import { createTimeseriesMatrixChart } from './chart/heatmap/utils'
 import { DashboardDataResponse } from '../../types/Metrics'
 import {
   BarChartVisualisationColumn,

@@ -1,8 +1,11 @@
 Below you can find the changes included in each release.
 
+<<<<<<< HEAD
 ## v4.15.2
 - Fix type errors
 
+=======
+>>>>>>> main
 ## v4.15.1
 - Bug fix for persisting column selection when applying filters.
 - Bug fix for persisting multiselect values when applying column sort in interactive report

@@ -1051,6 +1051,8 @@ context('Viewing a report', () => {
               length: 5,
               buttonValues: expectedUpdatedSelected,
             })
+
+            deleteDefaultsButton().click()
           })
         })
       })

@@ -195,7 +195,7 @@ class UserStoreItemBuilder {
     return this
   }
 
-  addInteractiveQuery = (queryData?: { query: Dict<string>; querySummary: Array<Dict<string>> }) => {
+  addInteractiveQuery = (queryData?: { query: Dict<string | string[]>; querySummary: Array<Dict<string>> }) => {
     if (queryData) {
       this.userStoreItem = {
         ...this.userStoreItem,

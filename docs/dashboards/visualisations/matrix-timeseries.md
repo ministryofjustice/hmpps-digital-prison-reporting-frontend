@@ -55,7 +55,7 @@ If custom buckets are defined in the visualisation definition values are binned 
 
 ### RAG score 
 
-RAG scores will be available in datasets through a a scoreing engine. This is currently in development and will be available to use. 
+RAG scores will be available in datasets through a scoreing engine. This is currently in development and currently not available. 
 
 If RAG values are present in the data
 - The max RAG value is used to determine the total number of buckets.
@@ -63,7 +63,7 @@ If RAG values are present in the data
 - Each bucket is assigned and specific colour and an index starting from 0.
 - Each RAG value is assigned to their corresponding bucket. 
 
-### Automatic threshold bucketing
+### Automatic buckets
 
 If no RAG value is in the dataset, or any custom buckets defined in the definition: 
 - Buckets are defined by determining the data range and splitting it into 3 equal parts.
@@ -74,11 +74,9 @@ If no RAG value is in the dataset, or any custom buckets defined in the definiti
 
 # Definition
 
-See the [Visualisation definition]() docs for the Definition schema
-
 ```js
 {
-  id: 'line-definition-example',
+  id: 'matrix-definition-id',
   type: 'matrix-timeseries',
   display: 'Matrix timeseries chart',
   description: 'Matrix visualisation description',
@@ -106,10 +104,10 @@ options: {
 
   // Custom bucketing
   bucket: [
-    { min: 0, max: 100, hexColour: '' },
+    { min: 0, max: 100, hexColour: '#00703c' },
     { min: 101, max: 200 },
     { min: 201, max: 300 },
-    { min: 301, hexColour: '' },
+    { min: 301, hexColour: '#f47738' },
   ]
 }
 ```
@@ -504,6 +502,7 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 In this example we will define a matrix chart that:
 
 - Uses RAG colouring
+- defines 3 automatic buckets
 - selects the dataset rows that show the total count of finds for each day
 - represent that as a matrix chart that show daily finds over 3 months
 

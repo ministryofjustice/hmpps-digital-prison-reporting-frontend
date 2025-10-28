@@ -223,7 +223,11 @@ class SectionedDataTableBuilder extends DataTableBuilder {
         reportSummary.data
           .filter((rowData) => this.mapSectionDescription(rowData) === sectionDescription)
           .map((rowData) =>
-            this.mapRow(rowData, `dpr-report-summary-cell dpr-report-summary-cell-${template}`, reportSummary.fields),
+            this.mapRow(
+              rowData,
+              `dpr-report-summary-cell dpr-report-summary-cell-${template}`,
+              <components['schemas']['FieldDefinition'][]>reportSummary.fields,
+            ),
           ),
       )
     }

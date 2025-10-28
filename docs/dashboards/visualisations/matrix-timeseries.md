@@ -90,7 +90,7 @@ If no RAG value is in the dataset, or any custom buckets defined in the definiti
 ```
 See the [Visualisation definition](/dashboards/visualisations/visualisation-definition) docs for the definition schema
 
-To learn more about defining the data for the visualisation using the `columns` field see [here](/dashboards/visualisations/targeting-data)
+See the [Targeting data](/dashboards/visualisations/targeting-data) for and how to target data with the `column`
 
 ## Options:
 

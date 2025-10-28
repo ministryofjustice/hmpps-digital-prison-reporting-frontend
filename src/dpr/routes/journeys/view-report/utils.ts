@@ -69,8 +69,6 @@ const applyInteractiveQuery = async (
   // Get the stored interactive query data
   const interactiveQueryData = reportStateData?.interactiveQuery?.data
 
-  console.log(JSON.stringify({ interactiveQueryData }, null, 2))
-
   const { preventDefault, selectedPage, pageSize, sortColumn, sortedAsc } = interactiveQueryData
   const filters = Object.keys(interactiveQueryData)
     .filter((key) => key.includes('filters.'))

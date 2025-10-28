@@ -1,6 +1,6 @@
 import Dict = NodeJS.Dict
 import { components } from '../../types/api'
-import { Cell, DataTable, FieldDefinition } from '../DataTableBuilder/types'
+import { Cell, DataTable } from '../DataTableBuilder/types'
 import type { SummaryTemplate, Template } from '../../types/Templates'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import { distinct } from '../arrayUtils'
@@ -26,7 +26,10 @@ class SectionedDataTableBuilder extends DataTableBuilder {
    * @param {FieldDefinition[]} sectionFields
    * @return {*}  {string[]} array of section headings
    */
-  private createSectionHeadings(data: Dict<string>[], sectionFields: FieldDefinition[]): string[] {
+  private createSectionHeadings(
+    data: Dict<string>[],
+    sectionFields: components['schemas']['FieldDefinition'][],
+  ): string[] {
     return data
       .map(
         (rowData): SectionSortKey => ({

@@ -3,20 +3,31 @@ const { granularDateRangeFilter, dateRangeFilter } = require('../../../filter-de
 
 const dataQualityHistoric = {
   id: 'matrix-examples-diet-totals-historic',
-  name: 'Matrix Examples - Diet totals - Historic',
-  description: 'list examples',
+  name: 'Matrix Chart Examples - Finds totals - Historic',
+  description: 'Heatmap examples',
   sections: [
     {
       id: 'matrix-test',
-      display: 'Matrix example',
-      description: '',
-      visualisations: [matrix.findsTotalsOvertime],
+      display: 'Automatic bucketing',
+      description:
+        'Examples of heatmaps charts where buckets are defined automatically using the values in the data, to produce 3 buckets of equal size',
+      visualisations: [
+        matrix.automaticBucketing,
+        matrix.automaticBucketingCustomBaseColour,
+        matrix.automaticBucketingRag,
+        matrix.automaticBucketingCustomColours,
+      ],
     },
     {
       id: 'matrix-test-rag',
-      display: 'Matrix RAG example',
-      description: '',
-      visualisations: [matrix.findsTotalsOvertimeRag],
+      display: 'User defined custom buckets',
+      description:
+        'Examples of heatmaps where the bucket count, sizing and colourings are defined in the visualisation definition',
+      visualisations: [
+        matrix.customBucketsWithSizing,
+        matrix.customBucketsWithSizingOpen,
+        matrix.customBucketsWithSizingAndColour,
+      ],
     },
     {
       id: 'matrix-test-alldata',
@@ -25,7 +36,7 @@ const dataQualityHistoric = {
       visualisations: [lists.fullDatasetOverTime],
     },
   ],
-  filterFields: [dateRangeFilter],
+  filterFields: [granularDateRangeFilter],
 }
 
 module.exports = {

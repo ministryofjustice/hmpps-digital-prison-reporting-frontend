@@ -44,7 +44,18 @@ Gradient variations of a base colour. Use heatmap colouring when:
 
 This chart uses colour to represent data as two dimensional matrix. Values in a dataset can be assigned colours in few ways value. 
 
-### Using the RAG value 
+### Custom Buckets
+
+Custom buckets allow user to define:
+- the bucket count
+- the bucket sizing and boundaries
+- the bucket colours
+
+If custom buckets are defined in the visualisation definition values are binned within the appropriate custom bucket. 
+
+### RAG score 
+
+RAG scores will be available in datasets through a scoreing engine. This is currently in development and currently not available. 
 
 If RAG values are present in the data
 - The max RAG value is used to determine the total number of buckets.
@@ -52,9 +63,9 @@ If RAG values are present in the data
 - Each bucket is assigned and specific colour and an index starting from 0.
 - Each RAG value is assigned to their corresponding bucket. 
 
-### Custom threshold bucketing
+### Automatic buckets
 
-If no RAG value is in the dataset: 
+If no RAG value is in the dataset, or any custom buckets defined in the definition: 
 - Buckets are defined by determining the data range and splitting it into 3 equal parts.
 - Each bucket is assigned a specific colour
 - Each value is put into the appropriate bucket
@@ -65,27 +76,55 @@ If no RAG value is in the dataset:
 
 ```js
 {
-  id: 'line-definition-example',
+  id: 'matrix-definition-id',
   type: 'matrix-timeseries',
   display: 'Matrix timeseries chart',
   description: 'Matrix visualisation description',
-  options: {
+  option: {
     ...
   }
-  columns: {
+  column: {
     ...
   }
 }
 ```
-  To learn more about defining the data for the visualisation using the `columns` field see [here](/dashboards/visualisations/targeting-data)
+See the [Visualisation definition](/dashboards/visualisations/visualisation-definition) docs for the definition schema
 
-### Options: 
+See the [Targeting data](/dashboards/visualisations/targeting-data) for and how to target data with the `column`
+
+## Options:
 
 ```js
 options: {
-  useRagColours: true, // default: false
+  // Defines whether to use Red, Amber and Green for bucket colours
+  useRagColour: true, // default: false
+
+  // Define the base colour:
+  baseColour: '#00000'
+
+  // Custom bucketing
+  bucket: [
+    { min: 0, max: 100, hexColour: '#00703c' },
+    { min: 101, max: 200 },
+    { min: 201, max: 300 },
+    { min: 301, hexColour: '#f47738' },
+  ]
 }
 ```
+
+| Name            | Type    | Required | Description                                                    |
+| ----------------| ------- | -------- | ---------------------------------------------------------------|
+| `useRagColour`  | boolean | No       | Defines whether to use Red, Amber and Green for bucket colours |
+| `baseColour`    | string  | No       | Defines the base colour to user                                |
+| `bucket`        | Array   | No       | Defines the number of buckets and their thresholds             |
+
+### bucket
+
+| Name        | Type    | Required | Description                                   |
+| ------------| ------- | -------- | ----------------------------------------------|
+| `min`       | number  | No      | The minimum value for the bucket              |
+| `max`       | number  | No       | The maximum value for the bucket              |
+| `hexColour` | string  | No       | The bucket colour value in hexidecimal format |
 
 <hr class='dpr-docs-hr'/>
 
@@ -98,8 +137,12 @@ options: {
 
 # Examples
 
-- [Define a timeseries matrix chart](#define-a-timeseries-matrix-chart)
-- [Define a timeseries RAG matrix chart](#define-a-timeseries-rag-matrix-chart)
+- [Automatic bucketing](#automatic-bucketing)
+- [Custom base colour](#custom-base-colour)
+- [Custom buckets definition](#custom-buckets)
+- [Custom buckets thresholds and colours](#custom-buckets-thresholds-and-colours)
+- [Custom buckets with open ended boundaries](#custom-buckets-with-open-ended-boundaries)
+- [RAG colours](#rag-colours)
 
 ### Example Dataset
 
@@ -130,10 +173,11 @@ For these examples we will use a mocked dataset representing finds totals
 
 <hr class='dpr-docs-hr'/>
 
-# Define a timeseries matrix chart
+# Automatic bucketing
 
-In this example we will define a matrix chart that:
+In this example we will define a heatmap that:
 
+- automatically defines buckets based on the values in the dataset
 - selects the dataset rows that show the total count of finds for each day
 - represent that as a matrix chart that show daily finds over 3 months
 
@@ -145,14 +189,13 @@ In this example we will define a matrix chart that:
   type: 'matrix-timeseries',
   display: 'Finds totals over time matrix chart',
   description: '',
-  options: {},
   columns: {
-    keys: [
+    key: [
       {
         id: 'ts',
       },
     ],
-    measures: [
+    measure: [
       {
         id: 'ts',
         display: 'Date',
@@ -162,7 +205,7 @@ In this example we will define a matrix chart that:
         display: 'Total finds',
       },
     ],
-    expectNulls: true,
+    expectNull: true,
   },
 }
 ```
@@ -184,16 +227,16 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 <img src="/assets/images/matrixExample1.png" alt="bar chart example" width="500"/>
 
-
 <hr class='dpr-docs-hr'/>
 
-# Define a timeseries RAG matrix chart
+# Custom base colour
 
-In this example we will define a matrix chart that:
+In this example we will define a heatmap that:
 
+- automatically defines buckets based on the values in the dataset
+- uses a custom base colour for the gradient colours
 - selects the dataset rows that show the total count of finds for each day
 - represent that as a matrix chart that show daily finds over 3 months
-- Uses RAG colouring
 
 ### Definition
 
@@ -203,8 +246,211 @@ In this example we will define a matrix chart that:
   type: 'matrix-timeseries',
   display: 'Finds totals over time matrix chart',
   description: '',
+  option: {
+    baseColour: '#00703c'   // <-- Sets the custom base colour
+  },
+  columns: {
+    key: [
+      {
+        id: 'ts',
+      },
+    ],
+    measure: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total finds',
+      },
+    ],
+    expectNull: true,
+  },
+}
+```
+
+### Dataset returned: 
+
+This definition will return the following dataset
+```js
+| ts         |  est_id  | wing  | cell  | finds       | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 |          |       |       |             | 81    |
+| 2025/02/24 |          |       |       |             | 69    |
+| 2025/02/23 |          |       |       |             | 92    |
+... more rows ommitted
+```
+see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+
+### Visualisation
+
+<img src="../../assets/images/matrix-example-base-colour.png" alt="bar chart example" width="500"/>
+
+<hr class='dpr-docs-hr'/>
+
+# Custom buckets definition
+
+In this example we will define a heatmap that:
+
+- uses custom bucketing to define the bucket count, size and boundaries
+- uses the default base colour
+- defines 5 buckets
+- selects the dataset rows that show the total count of finds for each day
+- represent that as a matrix chart that show daily finds over 3 months
+
+### Definition
+
+```js
+{
+  id: 'finds-totals--overtime',
+  type: 'matrix-timeseries',
+  display: 'Finds totals over time matrix chart',
+  description: '',
+  option: {
+    buckets: [
+      { min: 0, max: 20 },
+      { min: 21, max: 40 },
+      { min: 41, max: 60 },
+      { min: 61, max: 80 }
+      { min: 81, max: 100 }
+    ]
+  },
+  columns: {
+    key: [
+      {
+        id: 'ts',
+      },
+    ],
+    measure: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total finds',
+      },
+    ],
+    expectNull: true,
+  },
+}
+```
+
+### Dataset returned: 
+
+This definition will return the following dataset
+```js
+| ts         |  est_id  | wing  | cell  | finds       | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 |          |       |       |             | 81    |
+| 2025/02/24 |          |       |       |             | 69    |
+| 2025/02/23 |          |       |       |             | 92    |
+... more rows ommitted
+```
+see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+
+### Visualisation
+
+<img src="../../assets/images/matrix-example-custom.png" alt="bar chart example" width="500"/>
+
+<hr class='dpr-docs-hr'/>
+
+# Custom buckets thresholds and colours
+
+In this example we will define a heatmap that:
+
+- uses custom bucketing, defined in the definition
+- uses custom colours defined in the definition
+- selects the dataset rows that show the total count of finds for each day
+- represent that as a matrix chart that show daily finds over 3 months
+
+### Definition
+
+```js
+{
+  id: 'finds-totals--overtime',
+  type: 'matrix-timeseries',
+  display: 'Finds totals over time matrix chart',
+  description: '',
+  option: {
+    buckets: [
+      { min: 0, max: 20, hexColour: '#912b88' },
+      { min: 21, max: 40, hexColour: '#f47738' },
+      { min: 41, max: 60, hexColour: '#28a197' },
+    ]
+  },
+  columns: {
+    key: [
+      {
+        id: 'ts',
+      },
+    ],
+    measure: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
+        display: 'Total finds',
+      },
+    ],
+    expectNull: true,
+  },
+}
+```
+
+### Dataset returned: 
+
+This definition will return the following dataset
+```js
+| ts         |  est_id  | wing  | cell  | finds       | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 |          |       |       |             | 81    |
+| 2025/02/24 |          |       |       |             | 69    |
+| 2025/02/23 |          |       |       |             | 92    |
+... more rows ommitted
+```
+see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+
+### Visualisation
+
+<img src="../../assets/images/matrix-example-custom-colour.png" alt="bar chart example" width="500"/>
+
+<hr class='dpr-docs-hr'/>
+
+# Custom buckets with open ended boundaries
+
+In this example we will define a matrix chart that:
+
+- uses custom bucketing
+- has open ended lower limit bucket, and open ended higher limit bucket
+- selects the dataset rows that show the total weapons found for each day
+- represent that as a matrix chart that show daily finds over 3 months
+
+### Definition
+
+```js
+{
+  id: 'custom-bucket-open-sizing',
+  type: 'matrix-timeseries',
+  display: 'Open ended bucket boundaries',
+  description:
+    'Demonstrates custom bucketing where the first bucket has not lower limit, and the last bucket has no higher limit',
   options: {
-    useRagColours: true // <- Defines the use of RAG colouring
+    buckets: [
+      {
+        max: 10,
+      },
+      {
+        min: 11,
+        max: 30,
+      },
+      {
+        min: 31,
+      },
+    ],
   },
   columns: {
     keys: [
@@ -219,10 +465,75 @@ In this example we will define a matrix chart that:
       },
       {
         id: 'count',
+        display: 'Total finds',
+      },
+      filters: [
+        {
+          id: 'finds',
+          equals: 'Weapons'
+        }
+      ]
+    ],
+    expectNulls: true,
+  },
+}
+```
+
+### Dataset returned: 
+
+This definition will return the following dataset
+
+```js
+| ts         |  est_id  | wing  | cell  | finds       | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 |          |       |       | Weapons     | 26    |
+| 2025/02/24 |          |       |       | Weapons     | 30    |
+| 2025/02/23 |          |       |       | Weapons     | 49    |
+... more rows ommitted
+```
+see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+
+### Visualisation:
+
+<img src="../../assets/images/matrixExample1.png" alt="bar chart example" width="500"/>
+
+# RAG colours
+
+In this example we will define a matrix chart that:
+
+- Uses RAG colouring
+- defines 3 automatic buckets
+- selects the dataset rows that show the total count of finds for each day
+- represent that as a matrix chart that show daily finds over 3 months
+
+### Definition
+
+```js
+{
+  id: 'finds-totals--overtime',
+  type: 'matrix-timeseries',
+  display: 'Finds totals over time matrix chart',
+  description: '',
+  options: {
+    useRagColours: true // <- Defines the use of RAG colouring
+  },
+  column: {
+    key: [
+      {
+        id: 'ts',
+      },
+    ],
+    measure: [
+      {
+        id: 'ts',
+        display: 'Date',
+      },
+      {
+        id: 'count',
         display: 'Tota finds',
       },
     ],
-    expectNulls: true,
+    expectNull: true,
   },
 }
 ```
@@ -248,63 +559,3 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 <hr class='dpr-docs-hr'/>
 
-# Weapons finds total over time
-
-In this example we will define a matrix chart that:
-
-- selects the dataset rows that show the total count of finds for each day
-- represent that as a matrix chart that show weapon finds over 3 months
-- Uses RAG colouring
-
-### Definition
-
-```js
-{
-  id: 'finds-totals--overtime',
-  type: 'matrix-timeseries',
-  display: 'Finds totals over time matrix chart',
-  description: '',
-  columns: {
-    keys: [
-      {
-        id: 'ts',
-      },
-    ],
-    measures: [
-      {
-        id: 'ts',
-        display: 'Date',
-      },
-      {
-        id: 'count',
-        display: 'Weapons found',
-      },
-    ],
-    filters: [
-      {
-        id: 'finds',
-        equals: 'Weapons'
-      }
-    ]
-    expectNulls: true,
-  },
-}
-```
-
-### Dataset returned: 
-
-This definition will return the following dataset
-
-```js
-| ts         |  est_id  | wing  | cell  | finds       | count | 
-|------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 |          |       |       | Weapons     | 26    |
-| 2025/02/24 |          |       |       | Weapons     | 30    |
-| 2025/02/23 |          |       |       | Weapons     | 49    |
-... more rows ommitted
-```
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
-
-### Visualisation:
-
-<img src="/assets/images/matrixExample1.png" alt="bar chart example" width="500"/>

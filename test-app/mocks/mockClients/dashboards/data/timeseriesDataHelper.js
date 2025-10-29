@@ -103,7 +103,10 @@ const initBaseData = (baseData, ts) => {
     {
       ...baseData,
       ts: { raw: ts },
-      count: { raw: countValue, rag: generateRag(countValue) },
+      count: {
+        raw: countValue,
+        // rag: generateRag(countValue)
+      },
     },
   ]
 }

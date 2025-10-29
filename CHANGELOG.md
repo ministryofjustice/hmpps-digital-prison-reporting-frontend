@@ -1,5 +1,12 @@
 Below you can find the changes included in each release.
 
+## v4.15.2
+- Fix type errors
+
+## v4.15.1
+- Bug fix for persisting column selection when applying filters.
+- Bug fix for persisting multiselect values when applying column sort in interactive report
+
 ## v4.15.0
 - Dashboard visualisation addition: Matrix timeseries chart.
 - Bug fix for incorrect dataProductDefinitionPath in dashboard status polling

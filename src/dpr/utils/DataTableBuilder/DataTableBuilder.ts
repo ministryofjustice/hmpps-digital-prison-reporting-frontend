@@ -1,13 +1,14 @@
 import Dict = NodeJS.Dict
 import ReportQuery from '../../types/ReportQuery'
-import { Cell, CellFormat, DataTable, FieldDefinition, SortKey } from './types'
+import { Cell, CellFormat, DataTable, SortKey } from './types'
 import createUrlForParameters from '../urlHelper'
 import type { SummaryTemplate } from '../../types/Templates'
 import { AsyncSummary } from '../../types/UserReports'
 import DateMapper from '../DateMapper/DateMapper'
+import { components } from '../../types/api'
 
 class DataTableBuilder {
-  protected fields: Array<FieldDefinition>
+  protected fields: components['schemas']['FieldDefinition'][]
 
   private sortData: boolean
 
@@ -22,7 +23,7 @@ class DataTableBuilder {
 
   private dateMapper = new DateMapper()
 
-  constructor(fields: Array<FieldDefinition>, sortData = false) {
+  constructor(fields: components['schemas']['FieldDefinition'][], sortData = false) {
     this.fields = fields
     this.sortData = sortData
   }
@@ -41,7 +42,7 @@ class DataTableBuilder {
   protected mapRow(
     rowData: NodeJS.Dict<string>,
     extraClasses = '',
-    overrideFields: Array<FieldDefinition> = [],
+    overrideFields: components['schemas']['FieldDefinition'][] = [],
   ): Cell[] {
     return this.fields
       .filter((f) => this.columns.includes(f.name))
@@ -52,7 +53,7 @@ class DataTableBuilder {
       })
   }
 
-  private mapCell(field: FieldDefinition, rowData: NodeJS.Dict<string>, extraClasses = '') {
+  private mapCell(field: components['schemas']['FieldDefinition'], rowData: NodeJS.Dict<string>, extraClasses = '') {
     const textValue = this.mapCellValue(field, rowData[field.name])
     let fieldFormat: CellFormat = 'string'
 
@@ -81,7 +82,7 @@ class DataTableBuilder {
     return cell
   }
 
-  protected mapCellValue(field: FieldDefinition, cellData?: string) {
+  protected mapCellValue(field: components['schemas']['FieldDefinition'], cellData?: string) {
     if (field.calculated) {
       return cellData
     }
@@ -106,19 +107,27 @@ class DataTableBuilder {
         if (this.reportQuery && !disableSort) {
           if (f.sortable) {
             let sortDirection = 'none'
-            let url = createUrlForParameters(this.currentQueryParams || {}, {
-              sortColumn: f.name,
-              sortedAsc: 'true',
-            })
+            let url = createUrlForParameters(
+              this.currentQueryParams || {},
+              {
+                sortColumn: f.name,
+                sortedAsc: 'true',
+              },
+              this.fields,
+            )
 
             if (f.name === this.reportQuery.sortColumn) {
               sortDirection = this.reportQuery.sortedAsc ? 'ascending' : 'descending'
 
               if (this.reportQuery.sortedAsc) {
-                url = createUrlForParameters(this.currentQueryParams || {}, {
-                  sortColumn: f.name,
-                  sortedAsc: 'false',
-                })
+                url = createUrlForParameters(
+                  this.currentQueryParams || {},
+                  {
+                    sortColumn: f.name,
+                    sortedAsc: 'false',
+                  },
+                  this.fields,
+                )
               }
             }
 
@@ -149,7 +158,9 @@ class DataTableBuilder {
   }
 
   private mergeCells(rows: Cell[][]): Cell[][] {
-    const mergeFieldNames = this.fields.filter((f) => f.mergeRows).map((f) => f.name)
+    const mergeFieldNames = this.fields
+      .filter((f) => (<components['schemas']['SummaryField']>f).mergeRows)
+      .map((f) => f.name)
 
     if (mergeFieldNames.length === 0) {
       return rows
@@ -209,7 +220,11 @@ class DataTableBuilder {
     if (this.reportSummaries[template]) {
       return this.reportSummaries[template].flatMap((reportSummary) =>
         reportSummary.data.map((rowData) =>
-          this.mapRow(rowData, `dpr-report-summary-cell dpr-report-summary-cell-${template}`, reportSummary.fields),
+          this.mapRow(
+            rowData,
+            `dpr-report-summary-cell dpr-report-summary-cell-${template}`,
+            <components['schemas']['FieldDefinition'][]>reportSummary.fields,
+          ),
         ),
       )
     }
@@ -241,7 +256,10 @@ class DataTableBuilder {
     }
   }
 
-  private appendSortKeyToData(data: Dict<string>[], fields: FieldDefinition[] | null = null): SortKey[] {
+  private appendSortKeyToData(
+    data: Dict<string>[],
+    fields: components['schemas']['FieldDefinition'][] | null = null,
+  ): SortKey[] {
     const sortFields = fields || this.fields
 
     return data.map((rowData) => {
@@ -254,11 +272,11 @@ class DataTableBuilder {
     })
   }
 
-  protected mapNamesToFields(names: string[]): FieldDefinition[] {
+  protected mapNamesToFields(names: string[]): components['schemas']['FieldDefinition'][] {
     return names.map((s) => this.fields.find((f) => f.name === s)).filter((n) => n !== undefined)
   }
 
-  protected getSortKey(rowData: NodeJS.Dict<string>, sortFields: FieldDefinition[]) {
+  protected getSortKey(rowData: NodeJS.Dict<string>, sortFields: components['schemas']['FieldDefinition'][]) {
     return sortFields
       .map((f) => {
         const value = rowData[f.name]

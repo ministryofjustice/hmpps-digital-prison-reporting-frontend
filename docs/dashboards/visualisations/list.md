@@ -33,8 +33,9 @@ To define a list visualisation:
   }
 }
 ```
+See the [Visualisation definition](/dashboards/visualisations/visualisation-definition) docs for the definition schema
 
-To learn more about defining the data for the visualisation using the `columns` field see [here](/dashboards/visualisations/targeting-data)
+See the [Targeting data](/dashboards/visualisations/targeting-data) for and how to target data with the `column`
 
 ### Options: 
 
@@ -44,6 +45,11 @@ options: {
   showLatest: false,    // default: true
 }
 ```
+
+| Name            | Type    | Required | Description                                                    |
+| ----------------| ------- | -------- | ---------------------------------------------------------------|
+| `columnsAsList` | boolean | No       | Defines whether a list should use the columns headings as a list. default: `false`. See [example](#using-dataset-columns-as-list-rows) |
+| `showLatest`    | boolean  | No      | Defines whether to include all historic data or just the latest data. default: `true`                              |
 
 <hr class='dpr-docs-hr'/>
 
@@ -119,6 +125,10 @@ There are two ways to represent data from a dataset as a list:
 
 # Using dataset columns as list rows
 
+This example demonstrates how to use the dataset column headings as a list within the visualisation.
+- uses the dataset column heading as heading in the first visualisation column
+- uses the `key` values and visualisation column headings
+
 ### Definition: 
 
 ```js
@@ -127,6 +137,9 @@ There are two ways to represent data from a dataset as a list:
   type: 'list',
   display: 'Dataset columns as list rows',
   description: '',
+  options: {
+    columnsAsList: true,    // <-- Note the addition of this boolean field
+  },
   columns: {
     keys: [
       {
@@ -149,7 +162,6 @@ There are two ways to represent data from a dataset as a list:
       },
     ],
   },
-  columnsAsList: true,    // <-- Note the addition of this boolean field
 }
 ```
 

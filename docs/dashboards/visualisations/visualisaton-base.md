@@ -44,7 +44,7 @@ TBD
   }
 }
 ```
-  To learn more about defining the data for the visualisation using the `columns` field see [here](/dashboards/visualisations/targeting-data)
+  See the [Targeting data](/dashboards/visualisations/targeting-data) for and how to target data with the `column`
 
 ### Options: 
 

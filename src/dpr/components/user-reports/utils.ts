@@ -366,10 +366,20 @@ export const updateLastViewed = async ({
   const executionData = { executionId, tableId }
   const queryData = query ? { query: query.data, querySummary: query.summary } : { query: {}, querySummary: [] }
 
-  const reqQuery = FiltersUtils.setRequestQueryFromFilterValues(filters)
-  const interactiveQueryData: { query: Dict<string>; querySummary: Array<Dict<string>> } = {
+  const columns = <string[]>req.query?.columns
+  const { selectedPage, pageSize, sortColumn, sortedAsc } = <Dict<string>>req.query
+  const filtersQuery = FiltersUtils.setRequestQueryFromFilterValues(filters)
+  const reqQuery = {
+    ...filtersQuery,
+    ...(columns && { columns }),
+    ...(selectedPage && { selectedPage }),
+    ...(pageSize && { pageSize }),
+    ...(sortColumn && { sortColumn }),
+    ...(sortedAsc && { sortedAsc }),
+  }
+  const interactiveQueryData: { query: Dict<string | string[]>; querySummary: Array<Dict<string>> } = {
     query: reqQuery,
-    querySummary: SelectedFiltersUtils.getQuerySummary(reqQuery, filters),
+    querySummary: SelectedFiltersUtils.getQuerySummary(filtersQuery, filters),
   }
 
   const recentlyViewedData = new UserStoreItemBuilder(reportData)

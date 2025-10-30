@@ -42,33 +42,9 @@ Gradient variations of a base colour. Use heatmap colouring when:
 
 # How it works
 
-This chart uses colour to represent data as two dimensional matrix. Values in a dataset can be assigned colours in few ways value. 
+The Matrix chart uses colour to represent data as two dimensional matrix. Values in a dataset are assigned to buckets which have a colour associated to them. 
 
-### Custom Buckets
-
-Custom buckets allow user to define:
-- the bucket count
-- the bucket sizing and boundaries
-- the bucket colours
-
-If custom buckets are defined in the visualisation definition values are binned within the appropriate custom bucket. 
-
-### RAG score 
-
-RAG scores will be available in datasets through a scoreing engine. This is currently in development and currently not available. 
-
-If RAG values are present in the data
-- The max RAG value is used to determine the total number of buckets.
-- There is no upper limit to the number of buckets created.
-- Each bucket is assigned and specific colour and an index starting from 0.
-- Each RAG value is assigned to their corresponding bucket. 
-
-### Automatic buckets
-
-If no RAG value is in the dataset, or any custom buckets defined in the definition: 
-- Buckets are defined by determining the data range and splitting it into 3 equal parts.
-- Each bucket is assigned a specific colour
-- Each value is put into the appropriate bucket
+See [Custom buckets](/dashboards/visualisations/custom-buckets#custom-buckets) for docs on how data is scored and bucketed, and how to define custom buckets.  
 
 <hr class='dpr-docs-hr'/>
 
@@ -80,10 +56,10 @@ If no RAG value is in the dataset, or any custom buckets defined in the definiti
   type: 'matrix-timeseries',
   display: 'Matrix timeseries chart',
   description: 'Matrix visualisation description',
-  option: {
+  options: {
     ...
   }
-  column: {
+  columns: {
     ...
   }
 }
@@ -94,37 +70,7 @@ See the [Targeting data](/dashboards/visualisations/targeting-data) for and how 
 
 ## Options:
 
-```js
-options: {
-  // Defines whether to use Red, Amber and Green for bucket colours
-  useRagColour: true, // default: false
-
-  // Define the base colour:
-  baseColour: '#00000'
-
-  // Custom bucketing
-  bucket: [
-    { min: 0, max: 100, hexColour: '#00703c' },
-    { min: 101, max: 200 },
-    { min: 201, max: 300 },
-    { min: 301, hexColour: '#f47738' },
-  ]
-}
-```
-
-| Name            | Type    | Required | Description                                                    |
-| ----------------| ------- | -------- | ---------------------------------------------------------------|
-| `useRagColour`  | boolean | No       | Defines whether to use Red, Amber and Green for bucket colours |
-| `baseColour`    | string  | No       | Defines the base colour to user                                |
-| `bucket`        | Array   | No       | Defines the number of buckets and their thresholds             |
-
-### bucket
-
-| Name        | Type    | Required | Description                                   |
-| ------------| ------- | -------- | ----------------------------------------------|
-| `min`       | number  | No      | The minimum value for the bucket              |
-| `max`       | number  | No       | The maximum value for the bucket              |
-| `hexColour` | string  | No       | The bucket colour value in hexidecimal format |
+See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) for `options` documentation 
 
 <hr class='dpr-docs-hr'/>
 

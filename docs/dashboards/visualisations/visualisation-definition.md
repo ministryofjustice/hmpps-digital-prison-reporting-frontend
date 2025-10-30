@@ -47,11 +47,15 @@ All visualisation types share the same common definition attributes:
 | ----------------| ------- | -------- | ----------------------------------------------------------------------------------|
 | `columnsAsList` | boolean | no       | default value: `false`. Specific to  [List visualisation](/dashboards/visualisations/list) |
 | `showLatest`    | boolean | no       | default value: `true`. Specific to  [List visualisation](/dashboards/visualisations/list)  |
-| `useRagColours` | boolean | no       | default value: `true`. Specific to  [Matrix visualisation](/dashboards/visualisations/matrix-timeseries)  |
+| `useRagColours` | boolean | no       | default value: `false`. Specific to  [Bucketed visualisations](/dashboards/visualisations/custom-buckets)  |
+| `baseColour`    | string  | No       | dDefault: `#1d70b8`. Specific to  [Bucketed visualisations](/dashboards/visualisations/custom-buckets)            |
+| `buckets`       | Array   | No       | Defines the custom buckets. Specific to  [Bucketed visualisations](/dashboards/visualisations/custom-buckets)              |
 
 ## Columns
 
-The `columns` definition is responsible for targeting the required visualisation data from a dataset. See [Targeting data in a dataset](/dashboards/visualisations/targeting-data) for usage.
+The `columns` definition is responsible for targeting the data required by the visualisation. 
+
+See [Targeting data in a dataset](/dashboards/visualisations/targeting-data) for usage.
 
 | Name          | Type    | Required | Description                                                |
 | --------------| ------- | -------- | -----------------------------------------------------------|

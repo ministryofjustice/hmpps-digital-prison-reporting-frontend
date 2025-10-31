@@ -1,4 +1,4 @@
-const { establishmentIdFilter, wingFilterCompass, granularDateRangeFilter } = require('../../../filter-definitions')
+const { establishmentIdFilter, granularDateRangeFilter } = require('../../../filter-definitions')
 const { scorecards, lists } = require('../visualisations')
 
 const dataQualityScoreCards = {
@@ -30,7 +30,7 @@ const dataQualityScoreCards = {
       visualisations: [lists.fullDataset],
     },
   ],
-  filterFields: [establishmentIdFilter, wingFilterCompass, granularDateRangeFilter],
+  filterFields: [establishmentIdFilter, granularDateRangeFilter],
 }
 
 module.exports = {

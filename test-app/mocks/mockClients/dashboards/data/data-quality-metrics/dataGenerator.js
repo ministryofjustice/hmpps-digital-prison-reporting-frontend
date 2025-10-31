@@ -19,6 +19,10 @@ const baseData = {
 }
 
 const generateData = (query) => {
+  console.log(
+    'generateDatagenerateDatagenerateDatagenerateDatagenerateDatagenerateDatagenerateDatagenerateDatagenerateDatagenerateData',
+  )
+
   const { establishmentId, timestamps } = extractQueryAndCreateTimestamps(query)
   const estId = establishmentId || 'ALL'
 
@@ -29,7 +33,7 @@ const generateData = (query) => {
     return allEstablishments.map((estData) => {
       const hasEthnicity = generateRawValue()
       const ethnicityIsMissing = generateRawValue()
-      const hasNationality = generateRawValue()
+      const hasNationality = generateRawValue(100, 1)
       const nationalityIsMissing = generateRawValue()
       const hasReligion = generateRawValue()
       const religionIsMissing = generateRawValue()

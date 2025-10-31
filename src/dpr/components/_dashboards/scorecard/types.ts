@@ -1,3 +1,5 @@
+import { DashboardDataResponse } from '../../../types/Metrics'
+
 export interface Scorecard {
   title: string
   group?: string
@@ -30,5 +32,22 @@ export interface ScorecardTrend {
 
 export interface ScorecardRag {
   score: number
-  color: string
+  colour: string
+}
+
+export interface ScorecardDataset {
+  earliest: DashboardDataResponse[]
+  earliestTs: string | number
+  latest: DashboardDataResponse[]
+  latestTs: string | number
+}
+
+export interface CreateScorecardDataArgs {
+  title: string
+  value: string | number
+  rag?: number
+  valueFor: string
+  valueFrom: string
+  prevVal: string | number
+  groupTitle?: string
 }

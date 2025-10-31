@@ -61,8 +61,8 @@ The Share action open up your email client and populate it with a relevant subje
 
 ### Refresh
 
-The refresh action navigates the user back to the request page in order to update their request parameters, and re-request their report. Requires  [platform integration](/integration-guides/integrating-the-platform)
+The refresh action navigates the user back to the request page in order to update their request parameters, and re-request their report. Requires  [platform integration](/integration-guides/integrating-the-fe-platform)
 
 ### Download
 
-The download action enables users to download the full dataset as a CSV. Requires  [platform integration](/integration-guides/integrating-the-platform)
+The download action enables users to download the full dataset as a CSV. Requires  [platform integration](/integration-guides/integrating-the-fe-platform)

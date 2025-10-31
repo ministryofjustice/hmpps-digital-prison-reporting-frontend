@@ -6,24 +6,63 @@ subsection: Integration Guides
 
 This guide describes the integration process to add FE components and processes into your service. 
 
-
 ## Pre-requisites
 
 - [Integrate the DPR FE Library](/integration-guides/integrating-the-library)
-- [Integrate the DPR platform](/integration-guides/integrating-the-platform)
+- [Integrate the DPR platform](/integration-guides/integrating-the-fe-platform)
 
 ## Contents
 
-- [Report Catalogue component](#report-catalogue-component)
-- [Implement request route directly](#implement-request-route-directly)
-- [User reports list component](#user-reports-list-component)
+- [Viewing a report](#viewing-a-report)
+- [Optional components](#optional-components)
+
+<hr class='dpr-docs-hr'>
+
+# Viewing a report
+
+- [Request or load report via href](#request-or-load-report-via-href)
 - [Render report as list](#render-report-as-list)
 
 <hr class='dpr-docs-hr'>
 
-# Report Catalogue component
+# Request or load report via href
 
-This component supports the DPR platform functionality by providing a unified way of listing and navigating reports 
+
+## Async reports
+
+```html
+<h1>My Async reports list</h1>
+
+<a href="/dpr/request-report/report/report-id-1/variant-id-1-1/filters">Async report 1</a>
+<a href="/dpr/request-report/report/report-id-1/variant-id-1-2/filters">Async report 2</a>
+<a href="/dpr/request-report/report/report-id-2/variant-id-2-1/filters">Async report 3</a>
+```
+See [async routes docs](/get-started/routes#asynchronous-routes) for route structure
+
+## Sync reports
+
+```html
+<h1>My Sync reports list</h1>
+
+<a href="/dpr/view-report/report/report-id-1/variant-id-1-1/load-report">Sync report 1</a>
+<a href="/dpr/view-report/report/report-id-1/variant-id-1-2/load-report">Sync report 2</a>
+<a href="/dpr/view-report/report/report-id-2/variant-id-2-1/load-report">Sync report 3</a
+```
+
+See [sync routes docs](/get-started/routes#synchronous-routes) for route structure
+
+<hr class='dpr-docs-hr'>
+
+# Optional components
+
+- [Report Catalogue component](#report-catalogue-component)
+- [User reports list component](#user-reports-list-component)
+
+<hr class='dpr-docs-hr'>
+
+## Report Catalogue component
+
+This component provides a unified way of listing and navigating reports 
 
 The catalogue component is used to:
 
@@ -39,14 +78,10 @@ Initialise the component with the required data using the component utility help
 
 ```js
 // server/routes/index.ts
-
 import CatalogueUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/_catalogue/catalogue/utils'
 
-
 export function routes(services: Services): Router {
-
   ...
-
   router.get('/path/to/catalogue', (req, res) => {
     const catalogue = await CatalogueUtils.init({ res, services })
     res.render('reports-catalogue.njk', {
@@ -54,13 +89,13 @@ export function routes(services: Services): Router {
     })
   })
 }
-
 export default routes
 ```
 
 ## Add the component to your HTML
 
 ```js
+// reports-catalogue.njk
 { from "components/_catalogue/catalogue/view.njk" import dprCatalogue }
 
 { dprCatalogue(catalogue) }
@@ -118,27 +153,6 @@ export default routes
 ```
 
 See [Reports List](/components/reports-list) component for usage and examples.
-
-<hr class='dpr-docs-hr'>
-
-# Implement request route directly
-
-If you prefer to create your own report listings, and not use DPR's [Catalogue component](#report-catalogue-component), you can link your reports to the request path directly to start the process.
-
-```html
-<h1>My reports list</h1>
-
-<a href="dpr/request-report/report/report-id-1/variant-id-1-1/filters">Async report 1</a>
-<a href="dpr/request-report/report/report-id-1/variant-id-1-2/filters">Async report 2</a>
-<a href="dpr/request-report/report/report-id-2/variant-id-2-1/filters">Async report 3</a>
-```
-
-url structure:
-
-```
-/dpr/request-report/:report-type/:report-id/:variant-id/filters
-report-type: "report" | "dashboard" 
-```
 
 <hr class='dpr-docs-hr'>
 

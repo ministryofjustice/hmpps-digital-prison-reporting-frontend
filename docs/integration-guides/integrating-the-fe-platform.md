@@ -1,10 +1,14 @@
 ---
 layout: layouts/integration-guides/integrate-the-platform.njk
-title: Integrating the platform
+title: Integrating the FE platform
 subsection: Integration Guides
 ---
 
-This integration quide describes the steps required to use DPR's Platform into your service, using the <a href="https://github.com/ministryofjustice/hmpps-template-typescript" target="_blank">HMPPS TS template</a>
+This integration quide describes the steps required to use DPR's FE Platform into your service, using the <a href="https://github.com/ministryofjustice/hmpps-template-typescript" target="_blank">HMPPS TS template</a>
+
+The FE platform provides means for services to integrate DPR reporting processes and features. 
+
+**NOTE:** These steps are not required if you are only using DPRs embedded sync report handlers.  
 
 ## Pre-requisites
 
@@ -16,9 +20,10 @@ This integration quide describes the steps required to use DPR's Platform into y
 - [Initialise Redis client](#initialise-redis-client)
 - [Initialise data clients](#initialise-data-clients)
 - [Create services](#create-services)
-- [Get the current User ID](#current-the-current-user-id)
+- [Setup the DPR user in locals](#setup-the-dpr-user-in-locals)
 - [Initialise middleware](#initialise-middleware)
 - [Initialise routes](#initialise-routes)
+- [Quick start guide](#quick-start-guide)
 
 <hr class='dpr-docs-hr'>
 
@@ -184,7 +189,7 @@ app.use(setUpDprResources(services, config.dpr))
 
 # Initialise routes
 
-Import the async routes in to your `routes` file which will give you access to the [async reporting paths](/reports/async-routes). 
+Import the async routes in to your `routes` file. See [reporting routes](/get-started/routes). 
 
 This setup is commonly done in the `server/routes/index.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/routes/index.ts" target="_blank">HMPPS template</a>
 
@@ -204,7 +209,7 @@ export default routes
 
 <hr class='dpr-docs-hr'>
 
-# Summary
+# Quick start guide
 
 This summary represents a simple view of the steps required for integrating the platform and should not be used in production. Please follow [these integration steps](#integration-steps) to integrate using best practices of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/routes/index.ts" target="_blank">HMPPS template</a>  
 
@@ -229,8 +234,10 @@ const services = {
   ...createDprServices(clients),
 }
 
-// 3. Add middleware
+// 3. Init DPR user in populateCurrentUser. See "Setup the DPR user in locals" section of guide
+
+// 4. Add middleware
 app.use(setUpDprResources(services, config.dpr))
 
-// 4. Initialise routes
+// 5. Initialise routes
 router.use('/', dprPlatformRoutes({ services, layoutPath: 'path/to/layout.njk',})) 

@@ -1,5 +1,8 @@
 const mockScorecardDefinitionNationality = {
   type: 'scorecard',
+  options: {
+    buckets: [{ hexColour: '#f47738' }, { hexColour: '#f499be' }, { hexColour: '#d53880' }],
+  },
   columns: {
     keys: [
       {

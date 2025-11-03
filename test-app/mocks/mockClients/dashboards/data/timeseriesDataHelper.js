@@ -3,6 +3,7 @@ const dayjs = require('dayjs')
 const splitIntoRandomValues = (total, parts) => {
   let arr = new Array(parts)
   let sum = 0
+  let hasNegativeValues = true
   do {
     for (let i = 0; i < parts; i++) {
       arr[i] = Math.random()
@@ -11,7 +12,8 @@ const splitIntoRandomValues = (total, parts) => {
     const scale = (total - parts) / sum
     arr = arr.map((val) => Math.min(total, Math.round(val * scale) + 1))
     sum = arr.reduce((acc, val) => acc + val, 0)
-  } while (sum - total)
+    hasNegativeValues = arr.some((v) => v === -1)
+  } while (sum - total && hasNegativeValues)
 
   return arr
 }
@@ -99,6 +101,7 @@ const generateRag = (value) => {
 
 const initBaseData = (baseData, ts) => {
   const countValue = Math.floor(Math.random() * (100 - 1)) + 1
+  console.log({ countValue })
   return [
     {
       ...baseData,
@@ -180,6 +183,8 @@ const generateFieldValuesWithCountData = (data, field, values, filter) => {
   return data.flatMap((d) => {
     const total = +d.count.raw
     const totals = splitIntoRandomValues(total, values[0].length)
+
+    console.log({ total, totals })
 
     const fieldData = []
     field.forEach((field, index) => {

@@ -44,9 +44,9 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
     if (group) {
       this.initGroupVars()
     } else {
-      this.titleColumn = this.measures[0]
       this.valueKey = this.measures[0].id
-      this.bucketsHelper = new Buckets(responseData, this.definition, this.valueKey, false, this.ragColours)
+      this.titleColumn = { display: definition.display, id: this.valueKey }
+      this.initBuckets(responseData, this.valueKey)
     }
   }
 
@@ -138,16 +138,6 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
   private validateDefinition = () => {
     const { id, type } = this.definition
     const errors = []
-
-    // if (this.group) {
-    //   if (this.measures.length !== 2) {
-    //     errors.push(`Measures should have 2 column defined. Found ${this.measures.length}`)
-    //   } else if (!this.titleColumn) {
-    //     errors.push(`No title column defined. Expected measure to include "display: string" field`)
-    //   } else if (!this.titleKey) {
-    //     errors.push(`Missing ID in title measure. Expected measure to include "id: string" field`)
-    //   }
-    // }
     if (!this.group) {
       if (this.measures.length !== 1) {
         errors.push(`Measures should only have 1 column defined. Found ${this.measures.length}`)
@@ -280,7 +270,7 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
       const prevVal = earliest[index][this.valueKey].raw
       const valueFor = `${latestTs}`
       const valueFrom = `${earliestTs}`
-      const title = this.measures[0].display
+      const title = this.titleColumn.display
 
       return this.createScorecardData({
         title,

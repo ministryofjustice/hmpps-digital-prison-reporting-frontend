@@ -155,7 +155,7 @@ export const groupRowsByKey = (dashboardData: DashboardDataResponse[], key: stri
 }
 
 export const getGroupKey = (keys: DashboardVisualisationColumnKey[], rawData: DashboardDataResponse[]) => {
-  if (!keys || !keys.length) {
+  if (!keys || !keys.length || !rawData.length) {
     return undefined
   }
 

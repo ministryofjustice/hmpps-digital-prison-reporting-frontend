@@ -1,5 +1,5 @@
 const { establishmentIdFilter, wingFilterCompass, granularDateRangeFilter } = require('../../../filter-definitions')
-const { scorecards, lists } = require('../visualisations')
+const { scorecards, lists, scorecard } = require('../visualisations')
 
 const dietTotalsScoreCards = {
   id: 'scorecard-examples-diet-totals',
@@ -35,6 +35,12 @@ const dietTotalsScoreCards = {
       display: 'Diet Totals by cell loop',
       description: 'Example showing a list as scorecards, with more than two columns',
       visualisations: [scorecards.dietTotalsByEstablishmentByWingByCellLoop],
+    },
+    {
+      id: 'section-5',
+      display: 'Diet totals',
+      description: 'Example showing scorecard usage',
+      visualisations: [scorecard.dietTotalFilter, scorecard.dietTotalFilterEstWing],
     },
     {
       id: 'totals-breakdown',

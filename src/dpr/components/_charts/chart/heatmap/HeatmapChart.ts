@@ -1,16 +1,16 @@
 /* eslint-disable prefer-destructuring */
 import dayjs from 'dayjs'
-import { Granularity } from '../../_inputs/granular-date-range/types'
-import { DashboardDataResponse } from '../../../types/Metrics'
+import { Granularity } from '../../../_inputs/granular-date-range/types'
+import { DashboardDataResponse } from '../../../../types/Metrics'
 import {
   DashboardVisualisation,
   DashboardVisualisationType,
   DashboardVisualisationBucket,
-} from '../../_dashboards/dashboard/types'
-import { ChartData, MatrixChartData } from '../../../types/Charts'
-import DatasetHelper from '../../../utils/datasetHelper'
-import DashboardVisualisationClass from './DashboardVisualisation'
-import Buckets from './Buckets'
+} from '../../../_dashboards/dashboard/types'
+import { ChartData, MatrixChartData } from '../../../../types/Charts'
+import DatasetHelper from '../../../../utils/datasetHelper'
+import DashboardVisualisationClass from '../DashboardVisualisation'
+import Buckets from '../Buckets'
 
 class HeatmapChart extends DashboardVisualisationClass {
   private granularity: Granularity
@@ -123,26 +123,6 @@ class HeatmapChart extends DashboardVisualisationClass {
     this.validateDefinition()
     this.initTimeseriesData()
     this.bucketData()
-
-    console.log(
-      JSON.stringify(
-        {
-          type: this.type,
-          unit: this.unit,
-          timeseries: true,
-          data: {
-            datasets: [
-              {
-                label: this.label,
-                data: this.data,
-              },
-            ],
-          },
-        },
-        null,
-        2,
-      ),
-    )
 
     return {
       type: this.type,

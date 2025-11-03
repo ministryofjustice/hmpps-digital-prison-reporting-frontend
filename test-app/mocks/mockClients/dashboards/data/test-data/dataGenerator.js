@@ -16,10 +16,7 @@ const baseData = {
 }
 
 const generateData = (query, type) => {
-  console.log('generating data')
   const { establishmentId, wing: wingFilter, timestamps } = extractQueryAndCreateTimestamps(query)
-
-  console.log({ establishmentId, wing: wingFilter, timestamps })
   const wings = ['north', 'south', 'east', 'west']
 
   let values = ['Vegetarian', 'Pescatarian', 'Vegan', 'Omnivore']
@@ -61,6 +58,7 @@ const generateData = (query, type) => {
       [valuesLabel],
       [values],
     )
+
     const allValueTotalsByEstablishmentByWingByCell = generateFieldValuesWithCountData(
       allTotalsByEstablishmentByWingByCell,
       [valuesLabel],

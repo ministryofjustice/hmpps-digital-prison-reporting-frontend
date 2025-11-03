@@ -4,7 +4,7 @@ title: Scorecard Group
 subsection: Visualisation definition
 ---
 
-<img src="../../assets/images/scorecard-group-2.png" alt=""/>
+<img src="../../assets/images/scorecard-group-2.png" alt="" style="margin-bottom: 20px"/>
 
 The `scorecard-group` chart visualisation type represents data as a collection `scorecard` visualisations in a group. 
 
@@ -35,7 +35,9 @@ Use scorecard group when:
 
 # How it works
 
-A scorecard group uses multiple rows in the returned dataset to create the visualisation. 
+A scorecard group uses multiple rows in a dataset to create the visualisation. 
+
+A scorecard group can be generated from a list, or from columns defined in a dataset. See the [examples](#examples) below for instruction in how to do this. 
 
 See the [scorecard](/dashboards/visualisations/scorecard) for details on how a scorecard works
 
@@ -99,9 +101,9 @@ To do this we define 2 measures
 - the column we want to use as the list: `est_id`
 - the column we want to use as the numeric value: `has_ethnicity`
 
-We must also define `displayValue` in the `measure` for the numeric value to display:
+We must also define `displayValue` in the `measure` for the numeric value:
 - Informs which column the numeric value should be taken from, and which is the description column. 
-- Informs that the group is to be generated from a list 
+- instructs that the group is to be generated from a list 
 
 In this dataset we have 4 unique values for `est_id`, therefore we will have 4 scorecards in our group
 
@@ -142,12 +144,16 @@ In this dataset we have 4 unique values for `est_id`, therefore we will have 4 s
 
 # Scorecard group from columms
 
-The example demonstrates how to create a scorecard group using dataset columns as scorecard titles and values.
-- Shows data quality metrics as a group for each establishment
-- Defines all columns in the `measure` array that you want display, with a `display` field to add the scorecard title
-- Each establishment is displayed as a new group
+This example demonstrates how to create a scorecard group using columns in a dataset as scorecard titles and values. The example shows data quality metrics as a group for each establishment
 
+- Define all columns in the `measure` array that you want display, with a `display` field to add the scorecard title
+- Define the column(s) in the `key` array that we want to group by.
 
+Each value in the group column will be used as new group:
+- `est_id` is defined as our group
+- `est_id` has 4 unique values in the dataset
+- therefore we will have 4 groups - One for each value. 
+ 
 ### Definition
 
 ```js
@@ -163,7 +169,7 @@ The example demonstrates how to create a scorecard group using dataset columns a
   columns: {
     keys: [
       {
-        id: 'establishment_id',
+        id: 'est_id',
         display: 'Establishment ID',
       },
     ],

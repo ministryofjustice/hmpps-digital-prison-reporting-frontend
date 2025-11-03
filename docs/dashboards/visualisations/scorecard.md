@@ -49,6 +49,8 @@ Use [Scorecard group](/dashboards/visualisations/scorecard-group) when:
 
 The metric value and description is taken from the value in the single `measure` column provided in the definition 
 
+If timestamp data is present in the data, the value is taken from the latest data in the dataset
+
 ## Data score
 
 The data score is represented as a colour to denote its status.

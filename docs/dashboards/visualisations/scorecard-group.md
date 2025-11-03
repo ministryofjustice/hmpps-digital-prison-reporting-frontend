@@ -71,8 +71,8 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) 
 
 These examples demonstrate how to present multiple rows within a dataset as a scorecard group.
 
-- [Scoregroup from list data](#scoregroup-from-list-data)
-- [Scoregroup from columms](#example-2)
+- [Scorecard group from list data](#scorecard-group-from-list-data)
+- [Scorecard group from columms](#scorecard-group-from-columns)
 
 ### Example Dataset
 
@@ -91,7 +91,7 @@ For these examples we will use a mocked dataset representing data quality totals
 <hr class='dpr-docs-hr'/>
 
 
-# Scoregroup from list data
+# Scorecard group from list data
 
 The example creates a scorecard group using values in a list. We will be showing ethnicity metrics by establishment ID.
 
@@ -140,7 +140,7 @@ In this dataset we have 4 unique values for `est_id`, therefore we will have 4 s
 
 <hr class='dpr-docs-hr'/>
 
-# Scoregroup from columms
+# Scorecard group from columms
 
 The example demonstrates how to create a scorecard group using dataset columns as scorecard titles and values.
 - Shows data quality metrics as a group for each establishment

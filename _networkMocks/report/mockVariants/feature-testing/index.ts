@@ -11,6 +11,7 @@ import { featureTestingUnprintable } from './unprintable'
 import { featureTestingUserDefinedDefaults } from './userDefinedDefaults'
 import { featureTestingValidation } from './validation'
 import { featureTesting } from './bigReport'
+import { featureTestingOrderFilters } from './orderFilters'
 
 export const featureTestingVariants = [
   featureTestingEmptyQuery,
@@ -26,4 +27,5 @@ export const featureTestingVariants = [
   featureTestingUserDefinedDefaults,
   featureTestingValidation,
   featureTesting,
+  featureTestingOrderFilters,
 ]

@@ -83,10 +83,10 @@ For these examples we will use a mocked dataset representing data quality totals
 ```js
 | ts         | est_id | has_nationality | has_ethnicity | has_religion | religion_is_missing |
 |------------|--------|-----------------|---------------|--------------|---------------------|
-| Jun 25.    | MDI    | 21              | 91            | 54           | 63                  |
-| Jun 25.    | SLI    | 34              | 21            | 12           | 12                  |
-| Jun 25.    | DAI    | 86              | 64            | 36           | 87                  |
-| Jun 25.    | LTI    | 23              | 63            | 87           | 54                  |
+| Nov 25.    | MDI    | 21              | 91            | 54           | 63                  |
+| Nov 25.    | SLI    | 34              | 21            | 12           | 12                  |
+| Nov 25.    | DAI    | 86              | 64            | 36           | 87                  |
+| Nov 25.    | LTI    | 23              | 63            | 87           | 54                  |
 ... omitted past ts data
 ```
 

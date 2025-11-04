@@ -121,12 +121,12 @@ This exmaple demonstrates how to define a scorecard in its simplest form.
 ```js
 | ts         | est_id | has_nationality | nationality_is_missing | has_religion | religion_is_missing |
 |------------|--------|-----------------|------------------------|--------------|---------------------|
-| Jun 25.    | MDI    | 21              | 485                    | 300          | 500                 |
+| Jun 25.    | MDI    | 74              | 485                    | 300          | 500                 |
 | Jul 25.    | MDI    | 80              | 701                    | 280          | 320                 |
 | Aug 25.    | MDI    | 56              | 725                    | 220          | 214                 |
 | Sep 25     | MDI    | 30              | 765                    | 220          | 214                 |
 | Oct 25.    | MDI    | 42              | 765                    | 220          | 214                 |
-| Nov 25.    | MDI    | 74              | 765                    | 220          | 214                 |
+| Nov 25.    | MDI    | 21              | 765                    | 220          | 214                 |
 ```
 
 ### Definition
@@ -161,7 +161,7 @@ The example demonstrates how to a define scorecard that get its value by using t
 | ts         | est_id | has_nationality | has_religion |
 |------------|--------|-----------------|--------------|
 | Jun 25.    | MDI    | 21              | 485          |
-| Jun 25.    | SLI    | 33              | 485          | 
+| Jun 25.    | SLI    | 27              | 485          | 
 | Jul 25.    | MDI    | 80              | 701          | 
 | Jul 25.    | SLI    | 84              | 701          |
 | Aug 25.    | MDI    | 56              | 725          | 
@@ -170,8 +170,8 @@ The example demonstrates how to a define scorecard that get its value by using t
 | Sep 25     | SLI    | 36              | 765          |
 | Oct 25.    | MDI    | 42              | 765          | 
 | Oct 25.    | SLI    | 44              | 765          | 
-| Oct 25.    | MDI    | 12              | 765          | 
-| Oct 25.    | SLI    | 27              | 765          | 
+| Nov 25.    | MDI    | 12              | 765          | 
+| Nov 25.    | SLI    | 33              | 765          | 
 ```
 
 ### Definition
@@ -208,19 +208,19 @@ The example demonstrates how to a define scorecard that get its value by using t
 ```js
 | ts         | est_id | wing     | diet       | total  | 
 |------------|--------|----------|------------|--------|
-| Jun 25.    |        |          |            | 30     |
-| Jun 25.    |        |          | Vegetarian | 12     |
-| Jun 25.    |        |          | Vegan      | 8      |
-| Jun 25.    |        |          | Omnivore   | 10     |
-| Jun 25.    |  MDI   |          |            | 30     |
-| Jun 25.    |  MDI   | north    |            | 15     |
-| Jun 25.    |  MDI   | south    |            | 15     |
-| Jun 25.    |  MDI   | north    | Vegetarian | 1      |
-| Jun 25.    |  MDI   | north    | Vegan      | 5      |
-| Jun 25.    |  MDI   | north    | Omnivore   | 9      |
-| Jun 25.    |  MDI   | south    | Vegetarian | 11     |
-| Jun 25.    |  MDI   | south    | Vegan      | 3      |
-| Jun 25.    |  MDI   | south    | Omnivore   | 1      |
+| Nov 25.    |        |          |            | 30     |
+| Nov 25.    |        |          | Vegetarian | 12     |
+| Nov 25.    |        |          | Vegan      | 8      |
+| Nov 25.    |        |          | Omnivore   | 10     |
+| Nov 25.    |  MDI   |          |            | 30     |
+| Nov 25.    |  MDI   | north    |            | 15     |
+| Nov 25.    |  MDI   | south    |            | 15     |
+| Nov 25.    |  MDI   | north    | Vegetarian | 1      |
+| Nov 25.    |  MDI   | north    | Vegan      | 5      |
+| Nov 25.    |  MDI   | north    | Omnivore   | 9      |
+| Nov 25.    |  MDI   | south    | Vegetarian | 11     |
+| Nov 25.    |  MDI   | south    | Vegan      | 3      |
+| Nov 25.    |  MDI   | south    | Omnivore   | 1      |
 ... omitted past ts rows. 
 ```
 
@@ -291,12 +291,12 @@ Defining multiple `scorecard` visualisation types adjacent to each other within 
 ```js
 | ts         | est_id | has_nationality | has_religion | has_ethnicity |
 |------------|--------|-----------------|--------------|---------------|
-| Jun 25.    | MDI    | 94              | 61           | 51            | 
+| Jun 25.    | MDI    | 81              | 89           | 36            | 
 | Jul 25.    | MDI    | 80              | 34           | 80            | 
 | Aug 25.    | MDI    | 56              | 67           | 30            | 
 | Sep 25     | MDI    | 30              | 56           | 67            | 
 | Oct 25.    | MDI    | 42              | 43           | 42            |
-| Nov 25.    | MDI    | 81              | 89           | 36            | 
+| Nov 25.    | MDI    | 94              | 61           | 51            | 
 ```
 
 ### Definition
@@ -356,12 +356,12 @@ This examples display RAG scores within the scorecard:
 ```js
 | ts         | est_id | has_nationality | has_religion | has_ethnicity |
 |------------|--------|-----------------|--------------|---------------|
-| Jun 25.    | MDI    | 87              | 29           | 38            | 
+| Jun 25.    | MDI    | 37              | 85           | 75            | 
 | Jul 25.    | MDI    | 80              | 34           | 80            | 
 | Aug 25.    | MDI    | 56              | 67           | 30            | 
 | Sep 25     | MDI    | 30              | 56           | 67            | 
 | Oct 25.    | MDI    | 42              | 43           | 42            |
-| Nov 25.    | MDI    | 37              | 85           | 75            | 
+| Nov 25.    | MDI    | 87              | 29           | 38            | 
 ```
 
 ### Definition
@@ -431,12 +431,12 @@ Define custom colours to your buckets:
 ```js
 | ts         | est_id | has_nationality | has_religion | has_ethnicity |
 |------------|--------|-----------------|--------------|---------------|
-| Jun 25.    | MDI    | 94              | 61           | 51            | 
+| Jun 25.    | MDI    | 70              | 30           | 60            | 
 | Jul 25.    | MDI    | 80              | 34           | 80            | 
 | Aug 25.    | MDI    | 56              | 67           | 30            | 
 | Sep 25     | MDI    | 30              | 56           | 67            | 
 | Oct 25.    | MDI    | 42              | 43           | 42            |
-| Nov 25.    | MDI    | 81              | 89           | 36            | 
+| Nov 25.    | MDI    | 98              | 13           | 51            | 
 ```
 
 ### Definition
@@ -516,12 +516,12 @@ In this example custom buckets are defined in the definition to set the RAG scor
 ```js
 | ts         | est_id | has_nationality | has_religion | has_ethnicity |
 |------------|--------|-----------------|--------------|---------------|
-| Jun 25.    | MDI    | 94              | 61           | 51            | 
+| Jun 25.    | MDI    | 70              | 30           | 60            | 
 | Jul 25.    | MDI    | 80              | 34           | 80            | 
 | Aug 25.    | MDI    | 56              | 67           | 30            | 
 | Sep 25     | MDI    | 30              | 56           | 67            | 
 | Oct 25.    | MDI    | 42              | 43           | 42            |
-| Nov 25.    | MDI    | 81              | 89           | 36            | 
+| Nov 25.    | MDI    | 98              | 13           | 51            | 
 ```
 
 ### Definition

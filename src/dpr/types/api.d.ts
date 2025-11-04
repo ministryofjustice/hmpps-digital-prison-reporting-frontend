@@ -3,8 +3,6 @@
  * Do not make direct changes to the file.
  */
 
-import { LoadType } from './UserReports'
-
 export interface paths {
   '/missingRequest/{reportId}/{variantId}': {
     parameters: {
@@ -452,7 +450,7 @@ export interface components {
       description?: string
       isMissing: boolean
       /** @enum {string} */
-      loadType?: LoadType
+      loadType?: 'sync' | 'async'
     }
     ChildVariantDefinition: {
       id: string
@@ -518,6 +516,8 @@ export interface components {
         | 'next-full-three-months'
         | 'next-year'
         | 'next-full-year'
+      /** Format: int32 */
+      index?: number
     }
     FilterOption: {
       name: string

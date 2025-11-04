@@ -11,6 +11,7 @@ const unprintable = require('./unprintable')
 const userDefinedDefaults = require('./userDefinedDefaults')
 const validation = require('./validation')
 const bigReport = require('./bigReport')
+const orderFilters = require('./orderFilters')
 
 module.exports = [
   emptyQuery,
@@ -26,4 +27,5 @@ module.exports = [
   userDefinedDefaults,
   validation,
   bigReport,
+  orderFilters,
 ]

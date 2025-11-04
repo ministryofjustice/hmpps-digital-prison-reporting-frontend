@@ -39,6 +39,7 @@ describe('Request a report', () => {
     cy.task('stubReportsFinishedStatus')
     cy.task('stubRequestSuccessResult20')
     cy.task('stubRequestSuccessReportTablesCount')
+    cy.task('stubDefinitionOrderFilters')
   })
 
   beforeEach(() => {
@@ -389,7 +390,7 @@ describe('Request a report', () => {
     })
   })
 
-  context('filter order', () => {
+  context('Filter order', () => {
     beforeEach(() => {
       cy.visit(orderPath)
     })
@@ -409,7 +410,7 @@ describe('Request a report', () => {
               cy.wrap(el)
                 .should('have.attr', 'display-name')
                 .then((displayName) => {
-                  expect(displayName).contains('Field 1')
+                  expect(displayName).contains('Field 3')
                 })
               break
             case 2:

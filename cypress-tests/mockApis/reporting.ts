@@ -16,6 +16,7 @@ import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/fea
 import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feature-testing/emptyQuery'
 import { featureTestingSync } from '@networkMocks/report/mockVariants/feature-testing/sync'
 import { getListWithWarnings, getListWithWarningsCount } from '@networkMocks/report/sync/mocks'
+import { featureTestingOrderFilters } from '@networkMocks/report/mockVariants/feature-testing/orderFilters'
 
 const stubs = {
   stubGetFeatureTestingMissing: () => stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingMissing1)),
@@ -128,6 +129,7 @@ const stubs = {
   stubDefinitionUnprintable: () => stubFor(setupSimpleReportDefinitionResponseMock(`feature-testing`, featureTestingUnprintable)),
   stubDefinitionEmptyReport: () => stubFor(setupSimpleReportDefinitionResponseMock(`feature-testing`, featureTestingEmptyQuery)),
   stubDefinitionSyncReport: () => stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingSync)),
+  stubDefinitionOrderFilters: () => stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingOrderFilters)),
   stubSyncRequestDataSuccess: () => stubFor(getListWithWarnings),
   stubSyncRequestDataSuccessCount: () => stubFor(getListWithWarningsCount),
   stubSingleSummaries: () => Promise.all(generateIndividualDefinitionSummaries.map(stubFor)),

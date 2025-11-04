@@ -142,7 +142,7 @@ In this dataset we have 4 unique values for `est_id`, therefore we will have 4 s
 
 <hr class='dpr-docs-hr'/>
 
-# Scorecard group from columms
+# Scorecard group from columns
 
 This example demonstrates how to create a scorecard group using columns in a dataset as scorecard titles and values. The example shows data quality metrics as a group for each establishment
 

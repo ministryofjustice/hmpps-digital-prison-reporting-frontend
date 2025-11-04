@@ -78,6 +78,7 @@ module.exports = {
     listExamples.dataQualityFullDataset,
     scorecardExamples.dietTotalsScoreCards,
     scorecardExamples.dataQualityScoreCards,
+    scorecardExamples.docsScoreCard,
     chartExamples.historicDietTotals,
     chartExamples.historicFlexibleDietTotals,
     chartExamples.dietTotals,

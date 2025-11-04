@@ -4,6 +4,8 @@ title: Line chart
 subsection: Visualisation definition
 ---
 
+## 🚧 Docs in progress 🚧 
+
 The `line` chart visualisation type represents data as a line chart visualisation.
 
 Charts are accompanied by a table/list representation of the underlying chart data. 

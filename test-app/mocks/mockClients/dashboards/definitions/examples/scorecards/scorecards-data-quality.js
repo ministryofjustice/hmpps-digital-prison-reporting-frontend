@@ -1,4 +1,4 @@
-const { establishmentIdFilter, wingFilterCompass, granularDateRangeFilter } = require('../../../filter-definitions')
+const { establishmentIdFilter, granularDateRangeFilter } = require('../../../filter-definitions')
 const { scorecards, lists } = require('../visualisations')
 
 const dataQualityScoreCards = {
@@ -6,19 +6,19 @@ const dataQualityScoreCards = {
   name: 'Scorecard Examples - Data Quality',
   description: 'Scorecard examples',
   sections: [
-    // {
-    //   id: 'section-1',
-    //   display: 'Data quality scorecards',
-    //   description: '',
-    //   visualisations: [
-    //     scorecards.dataQualityAllEstablishmentsEthnicity,
-    //     scorecards.dataQualityAllEstablishmentsNoEthnicity,
-    //     scorecards.dataQualityAllEstablishmentsNationality,
-    //     scorecards.dataQualityAllEstablishmentsNoNationality,
-    //     scorecards.dataQualityAllEstablishmentsReligion,
-    //     scorecards.dataQualityAllEstablishmentsNoReligion,
-    //   ],
-    // },
+    {
+      id: 'section-1',
+      display: 'Data quality scorecards',
+      description: '',
+      visualisations: [
+        scorecards.dataQualityAllEstablishmentsEthnicity,
+        scorecards.dataQualityAllEstablishmentsNoEthnicity,
+        scorecards.dataQualityAllEstablishmentsNationality,
+        scorecards.dataQualityAllEstablishmentsNoNationality,
+        scorecards.dataQualityAllEstablishmentsReligion,
+        scorecards.dataQualityAllEstablishmentsNoReligion,
+      ],
+    },
     {
       id: 'section-2',
       display: 'Scorecards with columns',
@@ -30,7 +30,7 @@ const dataQualityScoreCards = {
       visualisations: [lists.fullDataset],
     },
   ],
-  filterFields: [establishmentIdFilter, wingFilterCompass, granularDateRangeFilter],
+  filterFields: [establishmentIdFilter, granularDateRangeFilter],
 }
 
 module.exports = {

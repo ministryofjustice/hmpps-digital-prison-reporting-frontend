@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## v4.16.0
+- Dashboard visualisations: Scorecards & scorecard groups + documentation
+- Dahsboard visualisatonss: Custom bucket defintion for data scoring + documentation
+
 ## v4.15.2
 - Fix type errors
 

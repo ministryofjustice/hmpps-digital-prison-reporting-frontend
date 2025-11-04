@@ -27,12 +27,12 @@ const generateData = (query) => {
     const allEstablishments = initEstablishments(allTotals[0], estId, ts)
 
     return allEstablishments.map((estData) => {
-      const hasEthnicity = generateRawValue()
-      const ethnicityIsMissing = generateRawValue()
-      const hasNationality = generateRawValue()
-      const nationalityIsMissing = generateRawValue()
-      const hasReligion = generateRawValue()
-      const religionIsMissing = generateRawValue()
+      const hasEthnicity = generateRawValue(100, 1)
+      const ethnicityIsMissing = generateRawValue(100, 1)
+      const hasNationality = generateRawValue(100, 1)
+      const nationalityIsMissing = generateRawValue(100, 1)
+      const hasReligion = generateRawValue(100, 1)
+      const religionIsMissing = generateRawValue(100, 1)
 
       return {
         ...estData,

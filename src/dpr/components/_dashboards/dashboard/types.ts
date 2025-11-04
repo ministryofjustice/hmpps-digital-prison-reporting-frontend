@@ -42,20 +42,20 @@ export interface DashboardVisualisation {
   options: DashboardVisualisationOptions
 }
 
-export type DashboardVisualisationOptions = ListDashboardVisualisationOptions | MatrixDashboardVisualisationOptions
+export type DashboardVisualisationOptions = ListDashboardVisualisationOptions | BucketDashboardVisualisationOptions
 
 export interface ListDashboardVisualisationOptions {
   showLatest?: boolean
   columnsAsList?: boolean
 }
 
-export interface MatrixDashboardVisualisationOptions {
+export interface BucketDashboardVisualisationOptions {
   useRagColours?: boolean
-  buckets?: MatrixDashboardVisualisationBucket[]
+  buckets?: DashboardVisualisationBucket[]
   baseColour?: string
 }
 
-export interface MatrixDashboardVisualisationBucket {
+export interface DashboardVisualisationBucket {
   min?: number
   max?: number
   hexColour?: string

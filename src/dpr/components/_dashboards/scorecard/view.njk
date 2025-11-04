@@ -25,8 +25,8 @@
       {{ title }}
     </p>
 
-    <p class="govuk-body dpr-scorecard__value {% if rag %}govuk-tag--{{ rag.color }}{% endif %}">{{ value }}</p>
-    {% if rag %}
+    <p style="background-color: {{ rag.colour }}" class="govuk-body dpr-scorecard__value {% if rag %}govuk-tag--{{ rag.colour }}{% endif %}">{{ value }}</p>
+    {% if rag.score %}
       <p class="govuk-body dpr-scorecard__value-description">Status: {{ rag.score }}</p>
     {% endif %}
 

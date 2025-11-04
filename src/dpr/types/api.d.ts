@@ -518,6 +518,8 @@ export interface components {
         | 'next-full-three-months'
         | 'next-year'
         | 'next-full-year'
+      /** Format: int32 */
+      index?: number
     }
     FilterOption: {
       name: string

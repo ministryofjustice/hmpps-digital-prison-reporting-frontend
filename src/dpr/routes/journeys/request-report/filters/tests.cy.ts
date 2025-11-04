@@ -1,5 +1,6 @@
 describe('Request a report', () => {
   const path = '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/filters'
+  const orderPath = '/embedded/platform/dpr/request-report/report/feature-testing/feature-testing-filter-order/filters'
   let field2: Cypress.Chainable<JQuery<HTMLElement>>
   let field3Start: Cypress.Chainable<JQuery<HTMLElement>>
   let field3End: Cypress.Chainable<JQuery<HTMLElement>>
@@ -38,6 +39,7 @@ describe('Request a report', () => {
     cy.task('stubReportsFinishedStatus')
     cy.task('stubRequestSuccessResult20')
     cy.task('stubRequestSuccessReportTablesCount')
+    cy.task('stubDefinitionOrderFilters')
   })
 
   beforeEach(() => {
@@ -385,6 +387,44 @@ describe('Request a report', () => {
           expect(request.query).to.have.property('sortColumn', 'field1')
           expect(request.query).to.have.property('sortedAsc', 'false')
         })
+    })
+  })
+
+  context('Filter order', () => {
+    beforeEach(() => {
+      cy.visit(orderPath)
+    })
+
+    it('should order the filters correctly', () => {
+      cy.findAllByLabelText(/Filters/).within(() => {
+        cy.findAllByRole('textbox').each((el, idx) => {
+          switch (idx) {
+            case 0:
+              cy.wrap(el)
+                .should('have.attr', 'display-name')
+                .then((displayName) => {
+                  expect(displayName).contains('Field 2')
+                })
+              break
+            case 1:
+              cy.wrap(el)
+                .should('have.attr', 'display-name')
+                .then((displayName) => {
+                  expect(displayName).contains('Field 3')
+                })
+              break
+            case 2:
+              cy.wrap(el)
+                .should('have.attr', 'display-name')
+                .then((displayName) => {
+                  expect(displayName).contains('Field 1')
+                })
+              break
+            default:
+              break
+          }
+        })
+      })
     })
   })
 })

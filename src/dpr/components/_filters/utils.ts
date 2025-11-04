@@ -143,29 +143,21 @@ export const getFiltersFromDefinition = (
   fields: components['schemas']['FieldDefinition'][],
   interactive?: boolean,
 ): FilterValue[] => {
-  return fields
+  const filters = fields
     .filter((f) => f.filter)
     .filter((f) => {
       if (interactive !== undefined) {
-        const interactiveFilterValue = (<
-          components['schemas']['FieldDefinition'] & {
-            interactive?: boolean
-          }
-        >f.filter).interactive
-
-        // NOTE: Uncomment if filters are meant to be both interactive and non interactive.
-        if (interactiveFilterValue === undefined) {
+        if (f.filter.interactive === undefined) {
           return !interactive
         }
-
-        return interactive === interactiveFilterValue
+        return interactive === f.filter.interactive
       }
       return true
     })
     .map((f) => {
       const { display: text, name } = f
       const filter = <components['schemas']['FilterDefinition']>f.filter
-      const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern } = filter
+      const { type, staticOptions, dynamicOptions, defaultValue, mandatory, pattern, index } = filter
 
       const options: FilterOption[] = staticOptions
         ? staticOptions.map((opt) => {
@@ -181,6 +173,7 @@ export const getFiltersFromDefinition = (
         minimumLength: dynamicOptions?.minimumLength,
         mandatory: mandatory || false,
         pattern,
+        index,
       }
 
       const noFilterOption = {
@@ -248,6 +241,18 @@ export const getFiltersFromDefinition = (
 
       return filterData
     })
+
+  const orderedFilters = orderFilters(filters)
+  return orderedFilters
+}
+
+const orderFilters = (filterValues: FilterValue[]) => {
+  const noIndexFilters = filterValues.filter((f) => f.index === undefined)
+  const indexFilters = filterValues.filter((f) => f.index !== undefined)
+  indexFilters.forEach((f) => {
+    noIndexFilters.splice(f.index, 0, f)
+  })
+  return noIndexFilters
 }
 
 export const setRequestQueryFromFilterValues = (filterValues: FilterValue[]) => {

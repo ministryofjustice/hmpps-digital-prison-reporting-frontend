@@ -28,7 +28,7 @@ To define a list visualisation:
   type: 'list',
   display: 'List title',
   description: 'List visualisation description',
-  columns: {
+  column: {
     ...
   }
 }
@@ -40,7 +40,7 @@ See the [Targeting data](/dashboards/visualisations/targeting-data) for and how 
 ### Options: 
 
 ```js
-options: {
+option: {
   columnsAsList: true,  // default: false
   showLatest: false,    // default: true
 }
@@ -83,13 +83,13 @@ There are two ways to represent data from a dataset as a list:
   type: 'list',
   display: 'Dataset rows as list rows',
   description: '',
-  columns: {
-    keys: [
+  column: {
+    key: [
       {
         id: 'est_id',
       },
     ],
-    measures: [
+    measure: [
       {
         id: 'est_id',
         display: 'Establishment ID'
@@ -137,16 +137,16 @@ This example demonstrates how to use the dataset column headings as a list withi
   type: 'list',
   display: 'Dataset columns as list rows',
   description: '',
-  options: {
+  option: {
     columnsAsList: true,    // <-- Note the addition of this boolean field
   },
-  columns: {
-    keys: [
+  column: {
+    key: [
       {
         id: 'est_id',
       },
     ],
-    measures: [
+    measure: [
       {
         id: 'metric_1',
         display: 'Metric 1',

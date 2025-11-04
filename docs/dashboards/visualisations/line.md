@@ -22,7 +22,7 @@ Use this visualisation type when you need to display data in as a line chart.
   type: 'line',
   display: 'line title',
   description: 'line visualisation description',
-  columns: {
+  column: {
     ...
   }
 }

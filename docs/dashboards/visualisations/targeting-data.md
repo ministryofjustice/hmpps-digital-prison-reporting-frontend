@@ -13,7 +13,7 @@ These docs describe how to define a visualisation definition to target specific 
 
 Data can be targeted to create a data subset specific to your visualisation by defining the following fields:
 
-### `keys` 
+### `key` 
 
 
 - Specifies the columns whose values are expected to be present for a specific row
@@ -22,14 +22,14 @@ Data can be targeted to create a data subset specific to your visualisation by d
 
 See [keys schema](/dashboards/visualisations/visualisation-definition/#key)
 
-### `measures`
+### `measure`
 - Specifies the columns you want to include/visualise in your visualisation
 - Does not affect the data sub-set
 - Column values will be used/shown in your visualisation.
 
 See [measures schema](/dashboards/visualisations/visualisation-definition/#measure)
 
-### `filters`
+### `filter`
 - Specifies the column and value you want to filter the data set by
 - The specified column is checked to contain a specified value
 - If not equal, the row is removed
@@ -89,8 +89,8 @@ This example shows a visualisation definiton of type `list`, where the keys are 
   id: 'total-prisoners',
   type: 'list',
   display: 'Prisoner totals by wing',
-  columns: {
-    keys: [
+  column: {
+    key: [
       {
         id: 'est_id',
       },
@@ -98,7 +98,7 @@ This example shows a visualisation definiton of type `list`, where the keys are 
         id: 'wing',
       },
     ],
-    measures: [
+    measure: [
       {
         id: 'count',
         display: 'Total prisoners',
@@ -135,8 +135,8 @@ e.g.
   id: 'total-prisoners',
   type: 'list',
   display: 'Prisoner totals by wing',
-  columns: {
-    keys: [
+  column: {
+    key: [
       {
         id: 'est_id',
       },
@@ -144,13 +144,13 @@ e.g.
         id: 'wing',
       },
     ],
-    measures: [
+    measure: [
       {
         id: 'count',
         display: 'Total prisoners',
       },
     ],
-    expectNulls: true, // <-- all remaining cols other than est_id, wing, and count, must be null.
+    expectNull: true, // <-- all remaining cols other than est_id, wing, and count, must be null.
   },
 }
 ```
@@ -183,8 +183,8 @@ which will produce the following `list` visualisation.
   type: 'list',
   display: 'Cell totals by establishment',
   description: '',
-  columns: {
-    keys: [
+  column: {
+    key: [
       {
         id: 'establishment_id',
       },
@@ -192,7 +192,7 @@ which will produce the following `list` visualisation.
         id: 'wing',
       },
     ],
-    measures: [
+    measure: [
       {
         id: 'cell',
         display: 'Cell',
@@ -203,7 +203,7 @@ which will produce the following `list` visualisation.
         aggregate: 'sum'
       },
     ],
-    filters: [
+    filter: [
       {
         id: 'cell'
         equals: 'cell5'; 
@@ -217,7 +217,7 @@ which will produce the following `list` visualisation.
         equals: 'north'; 
       }
     ]
-    expectNulls: false, // or undefined
+    expectNull: false, // or undefined
   },
 }
 ```
@@ -252,15 +252,15 @@ which will produce the following `list` visualisation.
   id: 'total-prisoners',
   type: 'list',
   display: 'Prisoner totals',
-  columns: {
-    keys: [],
-    measures: [
+  column: {
+    key: [],
+    measure: [
       {
         id: 'count',
         display: 'Total prisoners',
       },
     ],
-    expectNulls: true,
+    expectNull: true,
   },
 }
 ```
@@ -292,9 +292,9 @@ which will produce the following `list` visualisation.
   type: 'list',
   display: 'Diet totals',
   description: '',
-  columns: {
-    keys: [],
-    measures: [
+  column: {
+    key: [],
+    measure: [
       {
         id: 'diet',
         display: 'Diet',
@@ -304,7 +304,7 @@ which will produce the following `list` visualisation.
         display: 'Total prisoners',
       },
     ],
-    expectNulls: true,
+    expectNull: true,
   },
 }
 ```
@@ -343,13 +343,13 @@ which will produce the following `list` visualisation.
   type: 'list',
   display: 'Diet totals by establishment',
   description: '',
-  columns: {
-    keys: [
+  column: {
+    key: [
       {
         id: 'establishment_id',
       },
     ],
-    measures: [
+    measure: [
       {
         id: 'establishment_id',
         display: 'Establishment ID',
@@ -364,7 +364,7 @@ which will produce the following `list` visualisation.
         aggregate: 'sum' 
       },
     ],
-    expectNulls: true,
+    expectNull: true,
   },
 }
 ```
@@ -404,8 +404,8 @@ which will produce the following `list` visualisation.
   type: 'list',
   display: 'Cell totals by establishment',
   description: '',
-  columns: {
-    keys: [
+  column: {
+    key: [
       {
         id: 'establishment_id',
       },
@@ -413,7 +413,7 @@ which will produce the following `list` visualisation.
         id: 'wing',
       },
     ],
-    measures: [
+    measure: [
       {
         id: 'cell',
         display: 'Cell',
@@ -424,7 +424,7 @@ which will produce the following `list` visualisation.
         aggregate: 'sum'
       },
     ],
-    expectNulls: false, // or undefined
+    expectNull: false, // or undefined
   },
 }
 ```

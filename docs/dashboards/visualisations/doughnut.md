@@ -22,7 +22,7 @@ Use this visualisation type when you need to display data in as a doughnut chart
   type: 'doughnut',
   display: 'doughnut title',
   description: 'doughnut visualisation description',
-  columns: {
+  column: {
     ...
   }
 }

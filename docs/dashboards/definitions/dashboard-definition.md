@@ -22,8 +22,8 @@ The dashboard definition is responsible for defining the structure and IA of a d
 | `id`          | string  | yes      | The dashboard ID                                                        |
 | `name`        | string  | yes      | The dashboard title                                                     |
 | `description` | string  | yes      | The dashboard desciption                                                |
-| `sections`    | array   | yes      | The dashboard sections. See [Section](#section)                         |
-| `filterFields`| boolean | no       | The dashboard filters                                                   |
+| `section`    | array   | yes      | The dashboard sections. See [Section](#section)                         |
+| `filterField`| boolean | no       | The dashboard filters                                                   |
 
 ## Section
 
@@ -32,7 +32,7 @@ The dashboard definition is responsible for defining the structure and IA of a d
 | `id`             | string  | yes      | The section ID                                                       |
 | `display`        | string  | yes      | The section title                                                    |
 | `description`    | string  | yes      | The section desciption                                               | 
-| `visualisations` | array   | yes      | The visualisation definitions. See [Visualisation Definition](/dashboards/visualisations/visualisation-definition/)   |
+| `visualisation` | array   | yes      | The visualisation definitions. See [Visualisation Definition](/dashboards/visualisations/visualisation-definition/)   |
 
 <hr class='dpr-docs-hr'/>
 
@@ -44,27 +44,27 @@ The dashboard definition is responsible for defining the structure and IA of a d
   name: 'Dashboard Defintion Example',
   description:
     'A dashboard is made up of multiple sections. Each section can have a title, description, and multiple visualisation types',
-  sections: [
+  section: [
     {
       id: 'section-1',
       display: 'Section 1',
       description: 'Section 1 description',
-      visualisations: [...],
+      visualisation: [...],
     },
     {
       id: 'section-2',
       display: 'Section 2',
       description: 'Section 1 description',
-      visualisations: [...],
+      visualisation: [...],
     },
     {
       id: 'section-3',
       display: 'Dataset',
       description: 'Underlying data set',
-      visualisations: [...],
+      visualisation: [...],
     },
   ],
-  filterFields: [...],
+  filterField: [...],
 }
 ```
 

@@ -36,11 +36,11 @@ If custom buckets are defined in the visualisation definition values are binned 
 Custom buckets are defined in the `options` field of the visualisaton definition
 
 ```js
-options: {
+option: {
   ...
   useRagColour: true,     // Defines whether to use Red, Amber and Green for bucket colours
   baseColour: '#00000'    // Define the base colour
-  buckets: [
+  bucket: [
     { min: 0, max: 100, hexColour: '#00703c' },
     { min: 101, max: 200 },
     { min: 201, max: 300 },
@@ -80,8 +80,8 @@ This example defines:
 - uses default base colour
 
 ```js
-options: {
-  buckets: [
+option: {
+  bucket: [
     { min: 0, max: 100 },
     { min: 101, max: 200 },
     { min: 201, max: 300 },
@@ -99,8 +99,8 @@ This example defines:
 - uses default base colour
 
 ```js
-options: {
-  buckets: [
+option: {
+  bucket: [
     { max: 100 },
     { min: 101, max: 200 },
     { min: 201, max: 300 },
@@ -118,9 +118,9 @@ This example defines:
 - uses custom base colour
 
 ```js
-options: {
+option: {
   baseColour: '#4c2c92',
-  buckets: [
+  bucket: [
     { min: 0, max: 100 },
     { min: 101, max: 200 },
     { min: 201, max: 300 },
@@ -139,9 +139,9 @@ This example defines:
 Note: `useRagColour` only applies when 3 buckets are defined
 
 ```js
-options: {
+option: {
   useRagColour: true
-  buckets: [
+  bucket: [
     { max: 100 },
     { min: 101, max: 200 },
     { min: 201 },
@@ -157,8 +157,8 @@ This example defines:
 - colour values assigned to each bucket
 
 ```js
-options: {
-  buckets: [
+option: {
+  bucket: [
     { hexColour: '#00703c' },
     { hexColour: '#1d70b8' },
     { hexColour: '#d53880' },
@@ -174,8 +174,8 @@ This example defines:
 - colour values assigned to each bucket
 
 ```js
-options: {
-  buckets: [
+option: {
+  bucket: [
     { min: 0, max: 100, hexColour: '#00703c' },
     { min: 101, max: 200, hexColour: '#1d70b8' },
     { min: 201, max: 300, hexColour: '#6f72af' },

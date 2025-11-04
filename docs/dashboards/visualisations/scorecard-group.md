@@ -4,7 +4,7 @@ title: Scorecard Group
 subsection: Visualisation definition
 ---
 
-<img src="../../assets/images/scorecard-group-2.png" alt="" style="margin-bottom: 30px"/>
+<img src="/assets/images/scorecard-group-2.png" alt="" style="margin-bottom: 30px"/>
 
 The `scorecard-group` chart visualisation type represents data as a collection `scorecard` visualisations in a group. 
 
@@ -51,10 +51,10 @@ See the [scorecard](/dashboards/visualisations/scorecard) for details on how a s
   type: 'scorecard-group',
   display: 'Scorecard Group title',
   description: 'scorecard-group visualisation description',
-  options: {
+  option: {
     ...
   }
-  columns: {
+  column: {
     ...
   }
 }
@@ -115,13 +115,13 @@ In this dataset we have 4 unique values for `est_id`, therefore we will have 4 s
   type: 'scorecard-group',
   display: 'Ethnicity score',
   description: '',
-  options: {
+  option: {
     useRagColours: true,
-    buckets: [{ min: 0, max: 500 }, { min: 501, max: 700 }, { min: 701 }],
+    bucket: [{ min: 0, max: 500 }, { min: 501, max: 700 }, { min: 701 }],
   },
-  columns: {
-    keys: [{ id: 'establishment_id' }],
-    measures: [
+  column: {
+    key: [{ id: 'establishment_id' }],
+    measure: [
       {
         id: 'establishment_id',       // defines the value to use as the scorecard title
         display: ''                   // optional prefix display value
@@ -138,7 +138,7 @@ In this dataset we have 4 unique values for `est_id`, therefore we will have 4 s
 
 ### Visualisation
 
-<img src="../../assets/images/scorecard-group.png" alt=""/>
+<img src="/assets/images/scorecard-group.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -162,18 +162,18 @@ Each value in the group column will be used as new group:
   type: 'scorecard-group',
   display: 'Data quality scores',
   description: '',
-  options: {
-    buckets: [{ min: 0, max: 500 }, { min: 501, max: 700 }, { min: 701 }],
+  option: {
+    bucket: [{ min: 0, max: 500 }, { min: 501, max: 700 }, { min: 701 }],
     useRagColours: true,
   },
-  columns: {
-    keys: [
+  column: {
+    key: [
       {
         id: 'est_id',
         display: 'Establishment ID',
       },
     ],
-    measures: [
+    measure: [
       {
         id: 'has_nationality',
         display: 'Has nationality',
@@ -205,6 +205,6 @@ Each value in the group column will be used as new group:
 
 ### Visualisation
 
-<img src="../../assets/images/scorecard-group-2.png" alt=""/>
+<img src="/assets/images/scorecard-group-2.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>

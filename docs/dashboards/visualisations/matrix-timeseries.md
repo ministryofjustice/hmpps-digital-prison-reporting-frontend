@@ -56,10 +56,10 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets#custom-buckets) f
   type: 'matrix-timeseries',
   display: 'Matrix timeseries chart',
   description: 'Matrix visualisation description',
-  options: {
+  option: {
     ...
   }
-  columns: {
+  column: {
     ...
   }
 }
@@ -135,7 +135,7 @@ In this example we will define a heatmap that:
   type: 'matrix-timeseries',
   display: 'Finds totals over time matrix chart',
   description: '',
-  columns: {
+  column: {
     key: [
       {
         id: 'ts',
@@ -195,7 +195,7 @@ In this example we will define a heatmap that:
   option: {
     baseColour: '#00703c'   // <-- Sets the custom base colour
   },
-  columns: {
+  column: {
     key: [
       {
         id: 'ts',
@@ -231,7 +231,7 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 ### Visualisation
 
-<img src="../../assets/images/matrix-example-base-colour.png" alt="bar chart example" width="500"/>
+<img src="/assets/images/matrix-example-base-colour.png" alt="bar chart example" width="500"/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -254,7 +254,7 @@ In this example we will define a heatmap that:
   display: 'Finds totals over time matrix chart',
   description: '',
   option: {
-    buckets: [
+    bucket: [
       { min: 0, max: 20 },
       { min: 21, max: 40 },
       { min: 41, max: 60 },
@@ -262,7 +262,7 @@ In this example we will define a heatmap that:
       { min: 81, max: 100 }
     ]
   },
-  columns: {
+  column: {
     key: [
       {
         id: 'ts',
@@ -298,7 +298,7 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 ### Visualisation
 
-<img src="../../assets/images/matrix-example-custom.png" alt="bar chart example" width="500"/>
+<img src="/assets/images/matrix-example-custom.png" alt="bar chart example" width="500"/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -320,13 +320,13 @@ In this example we will define a heatmap that:
   display: 'Finds totals over time matrix chart',
   description: '',
   option: {
-    buckets: [
+    bucket: [
       { min: 0, max: 20, hexColour: '#912b88' },
       { min: 21, max: 40, hexColour: '#f47738' },
       { min: 41, max: 60, hexColour: '#28a197' },
     ]
   },
-  columns: {
+  column: {
     key: [
       {
         id: 'ts',
@@ -362,7 +362,7 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 ### Visualisation
 
-<img src="../../assets/images/matrix-example-custom-colour.png" alt="bar chart example" width="500"/>
+<img src="/assets/images/matrix-example-custom-colour.png" alt="bar chart example" width="500"/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -384,8 +384,8 @@ In this example we will define a matrix chart that:
   display: 'Open ended bucket boundaries',
   description:
     'Demonstrates custom bucketing where the first bucket has not lower limit, and the last bucket has no higher limit',
-  options: {
-    buckets: [
+  option: {
+    bucket: [
       {
         max: 10,
       },
@@ -398,13 +398,13 @@ In this example we will define a matrix chart that:
       },
     ],
   },
-  columns: {
-    keys: [
+  column: {
+    key: [
       {
         id: 'ts',
       },
     ],
-    measures: [
+    measure: [
       {
         id: 'ts',
         display: 'Date',
@@ -413,14 +413,14 @@ In this example we will define a matrix chart that:
         id: 'count',
         display: 'Total finds',
       },
-      filters: [
+      filter: [
         {
           id: 'finds',
           equals: 'Weapons'
         }
       ]
     ],
-    expectNulls: true,
+    expectNull: true,
   },
 }
 ```
@@ -441,7 +441,7 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 ### Visualisation:
 
-<img src="../../assets/images/matrixExample1.png" alt="bar chart example" width="500"/>
+<img src="/assets/images/matrixExample1.png" alt="bar chart example" width="500"/>
 
 # RAG colours
 
@@ -460,7 +460,7 @@ In this example we will define a matrix chart that:
   type: 'matrix-timeseries',
   display: 'Finds totals over time matrix chart',
   description: '',
-  options: {
+  option: {
     useRagColours: true // <- Defines the use of RAG colouring
   },
   column: {

@@ -27,7 +27,7 @@ Use this visualisation type when you need to display data as a bar chart.
   type: 'bar',
   display: 'bar title',
   description: 'bar visualisation description',
-  columns: {
+  column: {
     ...
   }
 }
@@ -73,14 +73,14 @@ In this example we will define which dataset columns to use in the bar chart as 
   type: 'bar',
   display: 'Ethnicity values',
   description: '',
-  columns: {
-    keys: [
+  column: {
+    key: [
       {
         id: 'est_id',
         display: 'Establishment ID'
       }
     ],
-    measures: [
+    measure: [
       {
         id: 'has_ethnicity',
         display: 'Has ethnicity',  
@@ -147,9 +147,9 @@ Here we can define the `axis` field on the specific dataset columns we want to u
   type: 'bar',
   display: 'Diet totals as bar chart',
   description: '',
-  columns: {
-    keys: [],
-    measures: [
+  column: {
+    key: [],
+    measure: [
       {
         id: 'diet',
         display: 'Diet',
@@ -161,7 +161,7 @@ Here we can define the `axis` field on the specific dataset columns we want to u
         axis: 'y',    // <-- column whose values are used as the bar size
       },
     ],
-    expectNulls: true,
+    expectNull: true,
   },
 }
 ```

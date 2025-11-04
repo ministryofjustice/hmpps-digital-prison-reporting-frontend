@@ -9,7 +9,7 @@ The `scorecard` chart visualisation type represents data as a scorecard.
 
 A scorecard is used to display:
 
-- A **snapshot value** of a data point at a specific point in time.
+- The **value** of a data point at a specific point in time.
 - The data **trend** over time, within a user selected date range.
 - The RAG **score/status** for the presented value.
 
@@ -45,13 +45,13 @@ Use [Scorecard group](/dashboards/visualisations/scorecard-group) when:
 
 # How it works
 
-## Snapshot value
+## Value
 
 The metric value and description is taken from the value in the single `measure` column provided in the definition 
 
 If timestamp data is present in the data, the value is taken from the latest data in the dataset
 
-## Data score
+## Score
 
 The data score is represented as a colour to denote its status.
 
@@ -80,8 +80,7 @@ If no timestamp data is found then the trend is not displayed
   }
   column: {
     key: [ ... ], 
-    // Always expects only a single measure
-    measure: [{ id: 'column-id' }]
+    measure: [{ id: 'column-id' }]  // Always expects only a single measure
   }
 }
 ```

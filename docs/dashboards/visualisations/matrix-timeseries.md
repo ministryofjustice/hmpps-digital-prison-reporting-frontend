@@ -4,8 +4,8 @@ title: Matrix timeseries chart
 subsection: Visualisation definition
 ---
 
-<img src="/assets/images/matrixExample2.png" alt="bar chart example" width="250" style="margin-bottom: 20px"/>
-<img src="/assets/images/matrixExample1.png" alt="bar chart example" width="250" style="margin-bottom: 20px"/>
+<img src="/assets/images/matrixExample2.png" alt="bar chart example" width="350" style="margin-bottom: 30px"/>
+<img src="/assets/images/matrixExample1.png" alt="bar chart example" width="350" style="margin-bottom: 30px"/>
 
 The `matrix-timeseries` chart visualisation type represents data as a matrix/heatmap chart visualisation. 
 

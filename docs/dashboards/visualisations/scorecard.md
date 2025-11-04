@@ -3,7 +3,7 @@ layout: layouts/dashboards.njk
 title: Scorecard
 subsection: Visualisation definition
 ---
-<img src="../../assets/images/scorecard-section-rag.png" alt="" style="margin-bottom: 20px"/>
+<img src="../../assets/images/scorecard-section-rag.png" alt="" style="margin-bottom: 30px"/>
 
 The `scorecard` chart visualisation type represents data as a scorecard. 
 

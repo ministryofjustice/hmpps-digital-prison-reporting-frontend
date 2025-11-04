@@ -4,7 +4,7 @@ title: Scorecard Group
 subsection: Visualisation definition
 ---
 
-<img src="../../assets/images/scorecard-group-2.png" alt="" style="margin-bottom: 20px"/>
+<img src="../../assets/images/scorecard-group-2.png" alt="" style="margin-bottom: 30px"/>
 
 The `scorecard-group` chart visualisation type represents data as a collection `scorecard` visualisations in a group. 
 

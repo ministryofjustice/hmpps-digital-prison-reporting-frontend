@@ -3,7 +3,7 @@ layout: layouts/dashboards.njk
 title: Bar chart
 subsection: Visualisation definition
 ---
-<img src="/assets/images//barExample2.png" alt="bar chart example" width="500" style="margin-bottom: 20px"/>
+<img src="/assets/images//barExample2.png" alt="bar chart example" width="700" style="margin-bottom: 30px"/>
 
 The `bar` chart visualisation type represents data as a bar chart visualisation.
 

@@ -6,7 +6,7 @@ subsection: Visualisation definition
 
 Data scoring and bucketing is used by visualisations to attribute colour and score values to data in order to visualise performance, status, compliance, or quantative data.   
 
-Visualisations that use buckets are: 
+Visualisations that use scoring and bucketing are: 
 - [Matrix timeseries](/dashboards/visualisations/matrix-timeseries)
 - [Scorecard](/dashboards/visualisations/scorecard)
 - [Scorecard group](/dashboards/visualisations/scorecard-group)
@@ -16,6 +16,8 @@ Visualisations that use buckets are:
 - [Custom buckets](#custom-buckets)
 - [Automatic bucketing](#automatic-bucketing) 
 - [Scoring engine](#scoring-engine) 
+
+<hr class='dpr-docs-hr'/>
 
 # Custom buckets 
 
@@ -65,10 +67,10 @@ options: {
 
 ## Examples
 
-[Defining buckets and boundaries](#defining-buckets-and-boundaries)
-[Open ended boundaries](#open-ended-boundaries)
-[Define bucket colours](#define-bucket-colours)
-[Define colours and boundaries](#define-colours-and-boundaries)
+- [Defining buckets and boundaries](#defining-buckets-and-boundaries)
+- [Open ended boundaries](#open-ended-boundaries)
+- [Define bucket colours](#define-bucket-colours)
+- [Define colours and boundaries](#define-colours-and-boundaries)
 
 ### Defining buckets and boundaries
 
@@ -193,6 +195,8 @@ If no RAG score is in the dataset, or no custom buckets have been defined:
 - Buckets are defined by determining the data range and splitting it into 3 equal parts.
 - Each bucket is assigned a specific colour
 - Each value is put into the appropriate bucket
+
+<hr class='dpr-docs-hr'/>
 
 # Scoring engine
 

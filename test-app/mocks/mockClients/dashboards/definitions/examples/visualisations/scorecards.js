@@ -208,6 +208,10 @@ const dataQualityAllEstablishmentsEthnicity = {
   type: 'scorecard-group',
   display: 'Ethnicity score',
   description: '',
+  options: {
+    useRagColours: true,
+    buckets: [{ min: 0, max: 500 }, { min: 501, max: 700 }, { min: 701 }],
+  },
   columns: {
     keys: [
       {
@@ -308,6 +312,9 @@ const dataQualityAllEstablishmentsNationality = {
   type: 'scorecard-group',
   display: 'Nationality score',
   description: '',
+  options: {
+    useRagColours: true,
+  },
   columns: {
     keys: [
       {
@@ -358,7 +365,10 @@ const dataQualityAllCols = {
   type: 'scorecard-group',
   display: 'Data quality scores',
   description: '',
-  cols: true,
+  options: {
+    buckets: [{ min: 0, max: 500 }, { min: 501, max: 700 }, { min: 701 }],
+    useRagColours: true,
+  },
   columns: {
     keys: [
       {

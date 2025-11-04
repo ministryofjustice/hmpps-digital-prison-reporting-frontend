@@ -4,6 +4,8 @@ title: Doughnut chart
 subsection: Visualisation definition
 ---
 
+## 🚧 Docs in progress 🚧 
+
 The `doughnut` chart visualisation type represents data as a doughnut chart visualisation.
 
 Charts are accompanied by a table/list representation of the underlying chart data. 

@@ -795,6 +795,9 @@ const fullDataset = {
   id: 'allData',
   type: 'list',
   display: 'All Data in dataset',
+  options: {
+    showLatest: false,
+  },
   columns: {
     measures: [],
     expectNulls: false,

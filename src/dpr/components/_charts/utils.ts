@@ -18,7 +18,7 @@ import {
 import DatasetHelper from '../../utils/datasetHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 import { Granularity } from '../_inputs/granular-date-range/types'
-import HeatmapChart from './chart/heatmap/Heatmap'
+import HeatmapChart from './chart/heatmap/HeatmapChart'
 
 dayjs.extend(weekOfYear)
 

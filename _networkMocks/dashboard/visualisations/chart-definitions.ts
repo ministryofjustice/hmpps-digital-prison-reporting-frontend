@@ -1,8 +1,5 @@
 import { components } from '../../../src/dpr/types/api'
-import {
-  DashboardVisualisation,
-  DashboardVisualisationType,
-} from '../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
+import { DashboardVisualisationType } from '../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
 const mockEthnicityBarChart: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockEthnicityBarChart',

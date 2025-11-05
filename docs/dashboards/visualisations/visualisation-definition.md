@@ -38,8 +38,8 @@ All visualisation types share the same common definition attributes:
 | `type`          | string  | Yes      | The visualisation type   See [Visualisation types](#visualisation-types)       |
 | `display`       | string  | no       | The visualisation title                                                           |
 | `description`   | string  | no       | The visualisation desciption                                                      |
-| `columns`       | object  | yes      | The dataset colums definition. See [Columns](#columns)                            |
-| `options`       | object  | no       | Set specific option per visualisation type [Options](#options)                            |
+| `column`       | object  | yes      | The dataset colums definition. See [Columns](#columns)                            |
+| `option`       | object  | no       | Set specific option per visualisation type [Options](#options)                            |
 
 ## Options
 
@@ -47,9 +47,9 @@ All visualisation types share the same common definition attributes:
 | ----------------| ------- | -------- | ----------------------------------------------------------------------------------|
 | `columnsAsList` | boolean | no       | default value: `false`. Specific to  [List visualisation](/dashboards/visualisations/list) |
 | `showLatest`    | boolean | no       | default value: `true`. Specific to  [List visualisation](/dashboards/visualisations/list)  |
-| `useRagColours` | boolean | no       | default value: `false`. Specific to  [Bucketed visualisations](/dashboards/visualisations/custom-buckets)  |
+| `useRagColour` | boolean | no       | default value: `false`. Specific to  [Bucketed visualisations](/dashboards/visualisations/custom-buckets)  |
 | `baseColour`    | string  | No       | dDefault: `#1d70b8`. Specific to  [Bucketed visualisations](/dashboards/visualisations/custom-buckets)            |
-| `buckets`       | Array   | No       | Defines the custom buckets. Specific to  [Bucketed visualisations](/dashboards/visualisations/custom-buckets)              |
+| `bucket`       | Array   | No       | Defines the custom buckets. Specific to  [Bucketed visualisations](/dashboards/visualisations/custom-buckets)              |
 
 ## Columns
 
@@ -59,10 +59,10 @@ See [Targeting data in a dataset](/dashboards/visualisations/targeting-data) for
 
 | Name          | Type    | Required | Description                                                |
 | --------------| ------- | -------- | -----------------------------------------------------------|
-| `keys`        | array   | Yes      |  The array of key column data. See [Key](#key)             |
-| `measures`    | array   | Yes      |  The array of measure column data. See [Measure](#measure) |
-| `filters`     | array   | no       |  The array of filter column data. See [Filter](#filter)    |
-| `expectNulls` | boolean | no       |  Targets rows based on whether columns contain null/undefined values. See [here](/dashboards/visualisations/targeting-data/#targeting-specific-rows) for example usage                        |
+| `key`        | array   | Yes      |  The array of key column data. See [Key](#key)             |
+| `measure`    | array   | Yes      |  The array of measure column data. See [Measure](#measure) |
+| `filter`     | array   | no       |  The array of filter column data. See [Filter](#filter)    |
+| `expectNull` | boolean | no       |  Targets rows based on whether columns contain null/undefined values. See [here](/dashboards/visualisations/targeting-data/#targeting-specific-rows) for example usage                        |
 
 ## Key 
 

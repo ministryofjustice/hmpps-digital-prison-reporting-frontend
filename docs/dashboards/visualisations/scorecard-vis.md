@@ -3,13 +3,13 @@ layout: layouts/dashboards.njk
 title: Scorecard
 subsection: Visualisation definition
 ---
-<img src="../../assets/images/scorecard-section-rag.png" alt="" style="margin-bottom: 30px"/>
+<img src="/assets/images/scorecard-section-rag.png" alt="" style="margin-bottom: 30px"/>
 
 The `scorecard` chart visualisation type represents data as a scorecard. 
 
 A scorecard is used to display:
 
-- A **snapshot value** of a data point at a specific point in time.
+- The **value** of a data point at a specific point in time.
 - The data **trend** over time, within a user selected date range.
 - The RAG **score/status** for the presented value.
 
@@ -45,13 +45,13 @@ Use [Scorecard group](/dashboards/visualisations/scorecard-group) when:
 
 # How it works
 
-## Snapshot value
+## Value
 
 The metric value and description is taken from the value in the single `measure` column provided in the definition 
 
 If timestamp data is present in the data, the value is taken from the latest data in the dataset
 
-## Data score
+## Score
 
 The data score is represented as a colour to denote its status.
 
@@ -75,13 +75,12 @@ If no timestamp data is found then the trend is not displayed
   type: 'scorecard',
   display: 'The description displayed in the scorecard',
   description: 'scorecard visualisation description',
-  options: {
+  option: {
     ...
   }
-  columns: {
-    keys: [ ... ], 
-    // Always expects only a single measure
-    measures: [{ id: 'column-id' }]
+  column: {
+    key: [ ... ], 
+    measure: [{ id: 'column-id' }]  // Always expects only a single measure
   }
 }
 ```
@@ -137,16 +136,16 @@ This exmaple demonstrates how to define a scorecard in its simplest form.
   type: 'scorecard',
   display: 'No of prisoners with nationality',
   description: 'Example definition description',
-  columns: {
-    keys: [{ id: 'est_id' }],
-    measures: [{ id: 'has_nationality' }],
+  column: {
+    key: [{ id: 'est_id' }],
+    measure: [{ id: 'has_nationality' }],
   },
 }
 ```
 
 ### Visualisation
 
-<img src="../../assets/images/scorecard-simple.png" alt=""/>
+<img src="/assets/images/scorecard-simple.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -182,10 +181,10 @@ The example demonstrates how to a define scorecard that get its value by using t
   type: 'scorecard',
   display: 'No of prisoners with nationality',
   description: 'Example definition description',
-  columns: {
-    keys: [{ id: 'est_id' }],
-    measures: [{ id: 'has_nationality' }],
-    filters: [
+  column: {
+    key: [{ id: 'est_id' }],
+    measure: [{ id: 'has_nationality' }],
+    filter: [
       { 
         id: 'est_id', 
         equals: 'SLI' 
@@ -197,7 +196,7 @@ The example demonstrates how to a define scorecard that get its value by using t
 
 ### Visualisation
 
-<img src="../../assets/images/scorecard-filter.png" alt=""/>
+<img src="/assets/images/scorecard-filter.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -231,31 +230,31 @@ The example demonstrates how to a define scorecard that get its value by using t
   id: 'section-2',
   display: 'Diet totals',
   description: '',
-  visualisations: [
+  visualisation: [
     {
       id: 'sc-diet-totals',
       type: 'scorecard',
       display: 'Total Vegetarians',
-      columns: {
-        keys: [],
-        measures: [{ id: 'count' }],
-        filters: [
+      column: {
+        key: [],
+        measure: [{ id: 'count' }],
+        filter: [
           {
             id: 'diet',
             equals: 'Vegetarian',
           },
         ],
-        expectNulls: true,
+        expectNull: true,
       },
     },
     {
       id: 'sc-diet-totals-by-wing',
       type: 'scorecard',
       display: 'Vegetarians in MDI, in North wing',
-      columns: {
-        keys: [{ id: 'establishment_id' }, { id: 'wing' }],
-        measures: [{ id: 'count' }],
-        filters: [
+      column: {
+        key: [{ id: 'establishment_id' }, { id: 'wing' }],
+        measure: [{ id: 'count' }],
+        filter: [
           {
             id: 'diet',
             equals: 'Vegetarian',
@@ -269,7 +268,7 @@ The example demonstrates how to a define scorecard that get its value by using t
             equals: 'north',
           },
         ],
-        expectNulls: true,
+        expectNull: true,
       },
     }
   ],
@@ -278,7 +277,7 @@ The example demonstrates how to a define scorecard that get its value by using t
 
 ### Visualisation
 
-<img src="../../assets/images/scorecard-diet-filters.png" alt=""/>
+<img src="/assets/images/scorecard-diet-filters.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -306,32 +305,32 @@ Defining multiple `scorecard` visualisation types adjacent to each other within 
   id: 'section-2',
   display: 'Data quality scorecards with RAG colours',
   description: '',
-  visualisations: [
+  visualisation: [
     {
       id: 'simple-scorecard-nationality',
       type: 'scorecard',
       display: 'No of prisoners with nationality',
-      columns: {
-        keys: [{ id: 'est_id' }],
-        measures: [{ id: 'has_nationality' }],
+      column: {
+        key: [{ id: 'est_id' }],
+        measure: [{ id: 'has_nationality' }],
       },
     },
     {
       id: 'simple-scorecard-ethnicity',
       type: 'scorecard',
       display: 'No of prisoners with ethnicity',
-      columns: {
-        keys: [{ id: 'est_id' }],
-        measures: [{ id: 'has_ethnicity' }],
+      column: {
+        key: [{ id: 'est_id' }],
+        measure: [{ id: 'has_ethnicity' }],
       },
     },
     {
       id: 'simple-scorecard-religion',
       type: 'scorecard',
       display: 'No of prisoners with religion',
-      columns: {
-        keys: [{ id: 'est_id' }],
-        measures: [{ id: 'has_religion' }],
+      column: {
+        key: [{ id: 'est_id' }],
+        measure: [{ id: 'has_religion' }],
       },
     },
   ],
@@ -341,7 +340,7 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 ### Visualisation
 
-<img src="../../assets/images/scorecard-section.png" alt=""/>
+<img src="/assets/images/scorecard-section.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -371,29 +370,29 @@ This examples display RAG scores within the scorecard:
   id: 'section-2',
   display: 'Data quality scorecards with RAG colous',
   description: '',
-  visualisations: [
+  visualisation: [
     {
       id: 'simple-scorecard-nationality',
       type: 'scorecard',
       display: 'No of prisoners with nationality',
-      options: {
+      option: {
         useRagColours: true
       },
-      columns: {
-        keys: [{ id: 'est_id' }],
-        measures: [{ id: 'has_nationality' }],
+      column: {
+        key: [{ id: 'est_id' }],
+        measure: [{ id: 'has_nationality' }],
       },
     },
     {
       id: 'simple-scorecard-ethnicity',
       type: 'scorecard',
       display: 'No of prisoners with ethnicity',
-      options: {
+      option: {
         useRagColours: true
       },
-      columns: {
-        keys: [{ id: 'est_id' }],
-        measures: [{ id: 'has_ethnicity' }],
+      column: {
+        key: [{ id: 'est_id' }],
+        measure: [{ id: 'has_ethnicity' }],
       },
     },
     {
@@ -401,12 +400,12 @@ This examples display RAG scores within the scorecard:
       type: 'scorecard',
       display: 'No of prisoners with religion',
       description: 'Example definition description',
-      options: {
+      option: {
         useRagColours: true
       },
-      columns: {
-        keys: [{ id: 'est_id' }],
-        measures: [{ id: 'has_religion' }],
+      column: {
+        key: [{ id: 'est_id' }],
+        measure: [{ id: 'has_religion' }],
       },
     },
   ],
@@ -416,7 +415,7 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 ### Visualisation
 
-<img src="../../assets/images/scorecard-section-rag.png" alt=""/>
+<img src="/assets/images/scorecard-section-rag.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -446,53 +445,53 @@ Define custom colours to your buckets:
   id: 'section-2',
   display: 'Data quality scorecards with RAG colous',
   description: '',
-  visualisations: [
+  visualisation: [
     {
       id: 'simple-scorecard-nationality',
       type: 'scorecard',
       display: 'No of prisoners with nationality',
-      options: {
-        buckets: [
+      option: {
+        bucket: [
           { hexColour: '#912b88' }, 
           { hexColour: '#28a197' }, 
           { hexColour: '#f47738' }
         ],
       },
-      columns: {
-        keys: [{ id: 'est_id' }],
-        measures: [{ id: 'has_nationality' }],
+      column: {
+        key: [{ id: 'est_id' }],
+        measure: [{ id: 'has_nationality' }],
       },
     },
     {
       id: 'simple-scorecard-ethnicity',
       type: 'scorecard',
       display: 'No of prisoners with ethnicity',
-      options: {
-        buckets: [
+      option: {
+        bucket: [
           { hexColour: '#912b88' }, 
           { hexColour: '#28a197' }, 
           { hexColour: '#f47738' }
         ],
       },
-      columns: {
-        keys: [{ id: 'est_id' }],
-        measures: [{ id: 'has_ethnicity' }],
+      column: {
+        key: [{ id: 'est_id' }],
+        measure: [{ id: 'has_ethnicity' }],
       },
     },
     {
       id: 'simple-scorecard-religion',
       type: 'scorecard',
       display: 'No of prisoners with religion',
-      options: {
-        buckets: [
+      option: {
+        bucket: [
           { hexColour: '#912b88' }, 
           { hexColour: '#28a197' }, 
           { hexColour: '#f47738' }
         ],
       },
-      columns: {
-        keys: [{ id: 'est_id' }],
-        measures: [{ id: 'has_religion' }],
+      column: {
+        key: [{ id: 'est_id' }],
+        measure: [{ id: 'has_religion' }],
       },
     },
   ],
@@ -503,7 +502,7 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 ### Visualisation
 
-<img src="../../assets/images/scorecard-bucket-colours.png" alt=""/>
+<img src="/assets/images/scorecard-bucket-colours.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -531,56 +530,56 @@ In this example custom buckets are defined in the definition to set the RAG scor
   id: 'section-2',
   display: 'Data quality scorecards with RAG colous',
   description: '',
-  visualisations: [
+  visualisation: [
     {
       id: 'simple-scorecard-nationality',
       type: 'scorecard',
       display: 'No of prisoners with nationality',
-      options: {
+      option: {
         useRagColours: true,
-        buckets: [
+        bucket: [
           { max: 40 }, 
           { min: 41, max: 60 }, 
           { min: 61 }
         ],
       },
-      columns: {
-        keys: [{ id: 'est_id' }],
-        measures: [{ id: 'has_nationality' }],
+      column: {
+        key: [{ id: 'est_id' }],
+        measure: [{ id: 'has_nationality' }],
       },
     },
     {
       id: 'simple-scorecard-ethnicity',
       type: 'scorecard',
       display: 'No of prisoners with ethnicity',
-      options: {
+      option: {
         useRagColours: true,
-        buckets: [
+        bucket: [
           { max: 50 }, 
           { min: 51, max: 55 }, 
           { min: 56 }
         ],
       },
-      columns: {
-        keys: [{ id: 'est_id' }],
-        measures: [{ id: 'has_ethnicity' }],
+      column: {
+        key: [{ id: 'est_id' }],
+        measure: [{ id: 'has_ethnicity' }],
       },
     },
     {
       id: 'simple-scorecard-religion',
       type: 'scorecard',
       display: 'No of prisoners with religion',
-      options: {
+      option: {
         useRagColours: true,
-        buckets: [
+        bucket: [
           { max: 20 }, 
           { min: 21, max: 70 }, 
           { min: 71 }
         ],
       },
-      columns: {
-        keys: [{ id: 'est_id' }],
-        measures: [{ id: 'has_religion' }],
+      column: {
+        key: [{ id: 'est_id' }],
+        measure: [{ id: 'has_religion' }],
       },
     },
   ],
@@ -593,6 +592,6 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 ### Visualisation
 
-<img src="../../assets/images/scorecard-custom-buckets.png" alt=""/>
+<img src="/assets/images/scorecard-custom-buckets.png" alt=""/>
 
 <hr class='dpr-docs-hr'/>

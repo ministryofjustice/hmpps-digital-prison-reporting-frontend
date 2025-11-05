@@ -28,9 +28,9 @@ A visualisation definition can be one of the following types:
 - [`bar`](/dashboards/visualisations/bar)
 - [`doughnut`](/dashboards/visualisations/doughnut)
 - [`line`](/dashboards/visualisations/line)
+- [`matrix-timeseries`](/dashboards/visualisations/matrix-timeseries)
 - [`scorecard`](/dashboards/visualisations/scorecard)
 - [`scorecard-group`](/dashboards/visualisations/scorecard-group)
-
 
 ## Data
 

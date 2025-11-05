@@ -36,10 +36,10 @@ TBD
   type: 'type',
   display: 'name',
   description: 'description',
-  options: {
+  option: {
     ...
   }
-  columns: {
+  column: {
     ...
   }
 }
@@ -49,7 +49,7 @@ TBD
 ### Options: 
 
 ```js
-options: {
+option: {
   ...
 }
 ```
@@ -89,12 +89,12 @@ TBD
   type: 'vis-type',
   display: 'Example definition',
   description: 'Example definition description',
-  options: {},
-  columns: {
-    keys: [],
-    measures: [],
-    filters: []
-    expectNulls: true,
+  option: {},
+  column: {
+    key: [],
+    measure: [],
+    filter: []
+    expectNull: true,
   },
 }
 ```
@@ -111,7 +111,7 @@ see [here](/dashboards/visualisations/targeting-data) for more info on targeting
 
 ### Visualisation
 
-<img src="../../assets/images/barExample1.png" alt="" width="500"/>
+<img src="/assets/images/barExample1.png" alt="" width="500"/>
 
 <hr class='dpr-docs-hr'/>
 
@@ -127,12 +127,12 @@ TBD
   type: 'vis-type',
   display: 'Example definition',
   description: 'Example definition description',
-  options: {},
-  columns: {
-    keys: [],
-    measures: [],
-    filters: []
-    expectNulls: true,
+  option: {},
+  column: {
+    key: [],
+    measure: [],
+    filter: []
+    expectNull: true,
   },
 }
 ```

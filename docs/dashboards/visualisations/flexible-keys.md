@@ -32,7 +32,7 @@ TBD
 # Definition
 
 ```js
-columns: {
+column: {
   key: [
     { 
       id: "final-fallback-group-id", 
@@ -47,7 +47,7 @@ columns: {
       optional: true 
     }
   ],
-  measures: [
+  measure: [
     ...
   ] 
 }
@@ -107,12 +107,12 @@ TBD
   type: 'vis-type',
   display: 'Example definition',
   description: 'Example definition description',
-  options: {},
-  columns: {
-    keys: [],
-    measures: [],
-    filters: []
-    expectNulls: true,
+  option: {},
+  column: {
+    key: [],
+    measure: [],
+    filter: []
+    expectNull: true,
   },
 }
 ```

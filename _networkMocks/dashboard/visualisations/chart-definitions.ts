@@ -1,9 +1,10 @@
+import { components } from '../../../src/dpr/types/api'
 import {
   DashboardVisualisation,
   DashboardVisualisationType,
-} from '../../../src/dpr/components/_dashboards/dashboard/types'
+} from '../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
-const mockEthnicityBarChart: DashboardVisualisation = {
+const mockEthnicityBarChart: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockEthnicityBarChart',
   type: DashboardVisualisationType.BAR,
   display: 'Missing Ethnicity Bar Chart',
@@ -29,7 +30,7 @@ const mockEthnicityBarChart: DashboardVisualisation = {
   },
 }
 
-const mockEthnicityBarChartList: DashboardVisualisation = {
+const mockEthnicityBarChartList: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockEthnicityBarChartFromList',
   type: DashboardVisualisationType.BAR,
   display: 'Missing Ethnicity Bar Chart from list',
@@ -52,7 +53,7 @@ const mockEthnicityBarChartList: DashboardVisualisation = {
   },
 }
 
-const mockEthnicityLineChartTimeseries: DashboardVisualisation = {
+const mockEthnicityLineChartTimeseries: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockEthnicityLineChartTimeseries',
   type: DashboardVisualisationType.LINE_TIMESERIES,
   display: 'Missing ethnicity timeseries chart',
@@ -78,14 +79,14 @@ const mockEthnicityLineChartTimeseries: DashboardVisualisation = {
   },
 }
 
-const mockEthnicityPieChart: DashboardVisualisation = {
+const mockEthnicityPieChart: components['schemas']['DashboardVisualisationDefinition'] = {
   ...mockEthnicityBarChart,
   id: 'mockEthnicityPieChart',
   type: DashboardVisualisationType.DONUT,
   display: 'Missing Ethnicity Pie Chart',
 }
 
-const mockNationalityBarChart: DashboardVisualisation = {
+const mockNationalityBarChart: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockNationalityBarChart',
   type: DashboardVisualisationType.BAR,
   display: 'Missing Nationality Bar Chart',
@@ -111,14 +112,14 @@ const mockNationalityBarChart: DashboardVisualisation = {
   },
 }
 
-const mockReligionPieChart: DashboardVisualisation = {
+const mockReligionPieChart: components['schemas']['DashboardVisualisationDefinition'] = {
   ...mockNationalityBarChart,
   id: 'mockReligionPieChart',
   type: DashboardVisualisationType.DONUT,
   display: 'Missing Nationality Pie Chart',
 }
 
-const mockReligionBarChart: DashboardVisualisation = {
+const mockReligionBarChart: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockReligionBarChart',
   type: DashboardVisualisationType.BAR,
   display: 'Missing Religion Bar Chart',
@@ -144,7 +145,7 @@ const mockReligionBarChart: DashboardVisualisation = {
   },
 }
 
-const mockNationalityPieChart: DashboardVisualisation = {
+const mockNationalityPieChart: components['schemas']['DashboardVisualisationDefinition'] = {
   ...mockNationalityBarChart,
   id: 'mockNationalityPieChart',
   type: DashboardVisualisationType.DONUT,

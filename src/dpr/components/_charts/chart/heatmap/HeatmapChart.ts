@@ -2,13 +2,16 @@
 import dayjs from 'dayjs'
 import { Granularity } from '../../../_inputs/granular-date-range/types'
 import { DashboardDataResponse } from '../../../../types/Metrics'
-import { DashboardVisualisationType, DashboardVisualisationBucket } from '../../../_dashboards/dashboard/types'
+import {
+  DashboardVisualisationType,
+  DashboardVisualisationBucket,
+  DashboardVisualisationData,
+} from '../../../_dashboards/dashboard-visualisation/types'
 import { MatrixChartData } from './types'
 import DatasetHelper from '../../../../utils/datasetHelper'
 import DashboardVisualisationClass from '../../../_dashboards/dashboard-visualisation/DashboardVisualisation'
 import Buckets from '../Buckets'
 import { components } from '../../../../types/api'
-import { DashboardVisualisationData } from '../../../_dashboards/dashboard-visualisation/types'
 
 class HeatmapChart extends DashboardVisualisationClass {
   private granularity: Granularity

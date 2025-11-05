@@ -2,7 +2,7 @@ import { components } from '../../../../../src/dpr/types/api'
 import {
   DashboardVisualisation,
   DashboardVisualisationType,
-} from '../../../../../src/dpr/components/_dashboards/dashboard/types'
+} from '../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
 const mockScorecardDefinitionNationality: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockNationalityScorecard',

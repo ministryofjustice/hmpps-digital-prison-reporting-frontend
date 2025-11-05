@@ -874,6 +874,7 @@ const dataQualityColsToList = {
         display: 'No nationality',
       },
     ],
+    expectNulls: false,
   },
   options: { columnsAsList: true },
 }

@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
 import { DashboardDataResponse } from '../../../types/Metrics'
 import DashboardVisualisationClass from '../dashboard-visualisation/DashboardVisualisation'
-import { DashboardVisualisationBucket } from '../dashboard/types'
+import { DashboardVisualisationBucket } from '../dashboard-visualisation/types'
 import DatasetHelper from '../../../utils/datasetHelper'
 import { CreateScorecardDataArgs, Scorecard, ScorecardDataset, ScorecardGroup, ScorecardTrend } from './types'
 import Buckets from '../../_charts/chart/Buckets'

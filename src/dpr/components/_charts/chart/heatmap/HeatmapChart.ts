@@ -2,15 +2,13 @@
 import dayjs from 'dayjs'
 import { Granularity } from '../../../_inputs/granular-date-range/types'
 import { DashboardDataResponse } from '../../../../types/Metrics'
-import {
-  DashboardVisualisation,
-  DashboardVisualisationType,
-  DashboardVisualisationBucket,
-} from '../../../_dashboards/dashboard/types'
-import { ChartData, MatrixChartData } from '../../../../types/Charts'
+import { DashboardVisualisationType, DashboardVisualisationBucket } from '../../../_dashboards/dashboard/types'
+import { MatrixChartData } from './types'
 import DatasetHelper from '../../../../utils/datasetHelper'
-import DashboardVisualisationClass from '../DashboardVisualisation'
+import DashboardVisualisationClass from '../../../_dashboards/dashboard-visualisation/DashboardVisualisation'
 import Buckets from '../Buckets'
+import { components } from '../../../../types/api'
+import { DashboardVisualisationData } from '../../../_dashboards/dashboard-visualisation/types'
 
 class HeatmapChart extends DashboardVisualisationClass {
   private granularity: Granularity
@@ -27,10 +25,17 @@ class HeatmapChart extends DashboardVisualisationClass {
 
   private bucketsHelper: Buckets
 
-  constructor(responseData: DashboardDataResponse[], granularity: Granularity, definition: DashboardVisualisation) {
+  private isTimeseriesChart: boolean
+
+  constructor(
+    responseData: DashboardDataResponse[],
+    granularity: Granularity,
+    definition: components['schemas']['DashboardVisualisationDefinition'],
+  ) {
     super(responseData, definition)
 
     this.granularity = granularity
+    this.isTimeseriesChart = <DashboardVisualisationType>this.type === DashboardVisualisationType.LINE_TIMESERIES
     this.setLabel()
     this.initUnit()
     this.bucketsHelper = new Buckets(responseData, this.definition, this.valueKey, true)
@@ -55,7 +60,7 @@ class HeatmapChart extends DashboardVisualisationClass {
     // Validate measures
     if (columns.measures.length !== 2) {
       errors.push(`Measures should only have 2 columns defined. Only found ${columns.measures.length}`)
-    } else if (type === DashboardVisualisationType.MATRIX_TIMESERIES) {
+    } else if (<DashboardVisualisationType>type === DashboardVisualisationType.MATRIX_TIMESERIES) {
       if (columns.measures[0].id !== 'ts') {
         errors.push(`measure at index 0 has incorrect ID. Expected ID to be "ts". Found "${columns.measures[0].id}"`)
       }
@@ -119,7 +124,7 @@ class HeatmapChart extends DashboardVisualisationClass {
     })
   }
 
-  build = (): ChartData => {
+  build = (): DashboardVisualisationData => {
     this.validateDefinition()
     this.initTimeseriesData()
     this.bucketData()

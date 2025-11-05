@@ -1,20 +1,16 @@
 /* eslint-disable prefer-destructuring */
 import { DashboardDataResponse } from '../../../types/Metrics'
-import DashboardVisualisationClass from '../../_charts/chart/DashboardVisualisation'
-import {
-  DashboardVisualisation,
-  DashboardVisualisationBucket,
-  DashboardVisualisationColumnKey,
-  DashboardVisualisationColumnMeasure,
-} from '../dashboard/types'
+import DashboardVisualisationClass from '../dashboard-visualisation/DashboardVisualisation'
+import { DashboardVisualisationBucket } from '../dashboard/types'
 import DatasetHelper from '../../../utils/datasetHelper'
 import { CreateScorecardDataArgs, Scorecard, ScorecardDataset, ScorecardGroup, ScorecardTrend } from './types'
 import Buckets from '../../_charts/chart/Buckets'
+import { components } from '../../../types/api'
 
 class ScorecardVisualisation extends DashboardVisualisationClass {
   private dataset: ScorecardDataset
 
-  private groupKey: DashboardVisualisationColumnKey
+  private groupKey: components['schemas']['DashboardVisualisationColumnDefinition']
 
   private groupKeyId: string
 
@@ -24,11 +20,11 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
 
   private buckets: DashboardVisualisationBucket[] = []
 
-  private valueColumn: DashboardVisualisationColumnMeasure
+  private valueColumn: components['schemas']['DashboardVisualisationColumnDefinition']
 
   private valueKey: string
 
-  private titleColumn: DashboardVisualisationColumnMeasure
+  private titleColumn: components['schemas']['DashboardVisualisationColumnDefinition']
 
   private titleKey: string
 
@@ -36,7 +32,11 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
 
   private ragColours: string[] = ['#cce2d8', '#fff7bf', '#f4cdc6']
 
-  constructor(responseData: DashboardDataResponse[], definition: DashboardVisualisation, group = false) {
+  constructor(
+    responseData: DashboardDataResponse[],
+    definition: components['schemas']['DashboardVisualisationDefinition'],
+    group = false,
+  ) {
     super(responseData, definition)
     this.group = group
     this.dataset = this.getDataset(definition, responseData)
@@ -70,7 +70,10 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
     }
   }
 
-  private getDataset = (scorecardDefinition: DashboardVisualisation, rawData: DashboardDataResponse[]) => {
+  private getDataset = (
+    scorecardDefinition: components['schemas']['DashboardVisualisationDefinition'],
+    rawData: DashboardDataResponse[],
+  ) => {
     const latestData = DatasetHelper.getLastestDataset(rawData)
     const latestDataSetRows = DatasetHelper.getDatasetRows(scorecardDefinition, latestData)
     const latestTs = latestDataSetRows[0]?.ts?.raw

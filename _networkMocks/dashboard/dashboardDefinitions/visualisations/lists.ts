@@ -1,7 +1,5 @@
-import {
-  DashboardVisualisation,
-  DashboardVisualisationType,
-} from '../../../../src/dpr/components/_dashboards/dashboard/types'
+import { components } from '../../../../src/dpr/types/api'
+import { DashboardVisualisationType } from '../../../../src/dpr/components/_dashboards/dashboard/types'
 
 const explicitKeys = {
   id: 'explicit-keys',
@@ -796,7 +794,7 @@ const dietTotalsAllDietOvertimeByEst = {
   },
 }
 
-const fullDataset: DashboardVisualisation = {
+const fullDataset: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'allData',
   type: DashboardVisualisationType.LIST,
   display: 'All Data in dataset',

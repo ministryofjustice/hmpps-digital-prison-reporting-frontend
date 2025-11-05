@@ -436,7 +436,7 @@ export interface components {
       name: string
       description?: string
       /** @enum {string} */
-      loadType?: 'sync' | 'async'
+      loadType?: LoadType
     }
     ReportDefinitionSummary: {
       id: string

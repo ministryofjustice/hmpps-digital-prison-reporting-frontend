@@ -2,10 +2,10 @@
 import { withAlphaHex } from 'with-alpha-hex'
 import { DashboardDataResponse } from '../../../types/Metrics'
 import {
-  DashboardVisualisation,
   DashboardVisualisationBucket,
   BucketDashboardVisualisationOptions,
-} from '../../_dashboards/dashboard/types'
+} from '../../_dashboards/dashboard-visualisation/types'
+import { components } from '../../../types/api'
 
 class Buckets {
   private baseColour = '#1d70b8'
@@ -32,7 +32,7 @@ class Buckets {
 
   constructor(
     responseData: DashboardDataResponse[],
-    definition: DashboardVisualisation,
+    definition: components['schemas']['DashboardVisualisationDefinition'],
     valueKey: string,
     autoBucketing?: boolean,
     ragColours?: string[],
@@ -46,7 +46,7 @@ class Buckets {
     this.initBuckets()
   }
 
-  private initFromOptions = (definition: DashboardVisualisation) => {
+  private initFromOptions = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
     this.options = <BucketDashboardVisualisationOptions>definition.options || {}
     this.baseColour = this.options?.baseColour || this.baseColour
     this.useRagColours = this.options?.useRagColours || false

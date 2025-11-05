@@ -60,15 +60,11 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets#custom-buckets) f
     ...
   }
   column: {
-<<<<<<< HEAD
     key: [{ id: 'ts' }],
     measure: [
       { id: 'ts', display: 'Date' },
       { id: 'id-of-count-column', display: 'Count column title' },
     ],
-=======
-    ...
->>>>>>> main
   }
 }
 ```

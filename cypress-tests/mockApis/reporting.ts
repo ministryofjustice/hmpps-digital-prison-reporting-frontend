@@ -134,9 +134,9 @@ const stubs = {
   stubSyncRequestDataSuccess: () => stubFor(getListWithWarnings),
   stubSyncRequestDataSuccessCount: () => stubFor(getListWithWarningsCount),
   stubSingleSummaries: () => Promise.all(generateIndividualDefinitionSummaries.map(stubFor)),
-  stubGetCatalogueCollections: () => stubFor(getCatalogueCollections),
-  getCatalogueCollection1: () => stubFor(getCatalogueCollection1),
-  getCatalogueCollection2: () => stubFor(getCatalogueCollection2),
+  stubGetProductCollections: () => stubFor(getProductCollections),
+  getProductCollection1: () => stubFor(getProductCollection1),
+  getProductCollection2: () => stubFor(getProductCollection2),
 }
 
 export default stubs

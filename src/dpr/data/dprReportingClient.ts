@@ -3,6 +3,7 @@ import DashboardClient from './dashboardClient'
 import ReportDataStore, { RedisClient } from './reportDataStore'
 import { ApiConfig } from './types'
 import MissingReportClient from '../services/missingReport/missingReportClient'
+import { ProductCollectionService } from '../services/productCollection/productCollectionService'
 
 export const initDprReportingClients = (
   reportingApiConfig: ApiConfig,
@@ -14,6 +15,7 @@ export const initDprReportingClients = (
     dashboardClient: new DashboardClient(reportingApiConfig),
     reportDataStore: new ReportDataStore(redisClient, storePrefix),
     missingReportClient: new MissingReportClient(reportingApiConfig),
+    productCollectionService: new ProductCollectionService(reportingApiConfig),
   }
 }
 

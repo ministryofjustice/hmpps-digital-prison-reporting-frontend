@@ -42,7 +42,7 @@ const populateValidationErrors = (req: Request, res: Response) => {
 
 export const populateDefinitions = async (services: Services, req: Request, res: Response, config?: DprConfig) => {
   // Get the DPD path from the query
-  const { token } = localsHelper.getValues(res)
+  const { token, dprUser } = localsHelper.getValues(res)
 
   const dpdPathFromQuery = deriveDefinitionsPath(req.query)
   const dpdPathFromBody = req.body?.dataProductDefinitionsPath
@@ -63,7 +63,22 @@ export const populateDefinitions = async (services: Services, req: Request, res:
   res.locals.pathSuffix = `?dataProductDefinitionsPath=${res.locals.definitionsPath}`
 
   if (token && services.reportingService) {
-    res.locals.definitions = await services.reportingService.getDefinitions(token, res.locals.definitionsPath)
+    const selectedProductCollectionId = await services.productCollectionStoreService.getSelectedProductCollectionId(
+      dprUser.id,
+    )
+
+    const defs = await Promise.all([
+      services.reportingService.getDefinitions(token, res.locals.definitionsPath),
+      selectedProductCollectionId &&
+        services.productCollectionService.getProductCollection(dprUser.id, selectedProductCollectionId),
+    ]).then(([defs, selectedProductCollection]) => {
+      if (selectedProductCollection) {
+        const productIds = selectedProductCollection.products.map((product) => product.productId)
+        defs = defs.filter((def) => productIds.includes(def.id))
+      }
+      return defs
+    })
+    res.locals.definitions = defs ?? []
   }
 }
 

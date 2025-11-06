@@ -118,12 +118,6 @@ class ReportingService {
   ): Promise<number> {
     return this.reportingClient.getAsyncInteractiveCount(token, tableId, reportId, id, filters)
   }
-
-  async getCatalogueCollections(
-    token: string,
-  ): Promise<CatalogueCollection[]> {
-    return this.reportingClient.getCatalogueCollections(token)
-  }
 }
 
 export { ReportingService }

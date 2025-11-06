@@ -15,13 +15,26 @@ export const init = async ({
 }) => {
   const data = await CatalogueListUtils.getReportsList(res, services, features)
   const { token, bookmarkingEnabled, dprUser } = LocalsHelper.getValues(res)
-  const catalogueCollections = await services.reportingService.getCatalogueCollections(token)
-  const selectedCatalogueCollection = await services.catalogueCollectionService.getSelectedCatalogueCollection(dprUser.id)
+  const productCollections = (await services.productCollectionService.getProductCollections(token))?.map(
+    (collection) => ({
+      value: collection.id,
+      text: collection.name,
+    }),
+  )
+  if (productCollections && productCollections.length > 0) {
+    productCollections.unshift({ value: 'RESET', text: 'Full catalogue' })
+  }
+  const selectedProductCollectionId = await services.productCollectionStoreService.getSelectedProductCollectionId(
+    dprUser.id,
+  )
+  const selectedProductCollection =
+    selectedProductCollectionId &&
+    (await services.productCollectionService.getProductCollection(dprUser.id, selectedProductCollectionId))
   return {
     data,
-    catalogueCollectionInfo: {
-      selectedCatalogueCollection,
-      catalogueCollections,
+    productCollectionInfo: {
+      productCollections,
+      ...(selectedProductCollection && { selectedProductCollection }),
     },
     features: setFeatures(bookmarkingEnabled, features),
   }

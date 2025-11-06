@@ -1,9 +1,9 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 
-{% macro dprCatalogueSearch(id, catalogueCollectionInfo, type = 'catalogue') %}
-  {% set catalogueCollections = catalogueCollectionInfo.catalogueCollections %}
-  {% set selectedCatalogueCollection = catalogueCollectionInfo.selectedCatalogueCollection %}
+{% macro dprCatalogueSearch(id, productCollectionInfo, type = 'catalogue') %}
+  {% set productCollections = productCollectionInfo.productCollections %}
+  {% set selectedProductCollection = productCollectionInfo.selectedProductCollection %}
 
   <div class="dpr-search" data-dpr-module="dpr-catalogue-search">
     <div class="dpr-search-inputs">
@@ -21,21 +21,24 @@
             "data-table-id": id
           }
         }) }}
-        {% if catalogueCollections.length > 0 %}
-          {{ govukSelect({
-            id: 'catalogue-collection',
-            value: selectedCatalogueCollection,
-            formGroup: {
-              attributes: {
-                style: "justify-self: end;"
+        {% if productCollections.length > 0 %}
+          <form method="post" action="dpr/product-collection/selected">
+            {{ govukSelect({
+              id: 'productCollection',
+              name: 'productCollection',
+              value: selectedProductCollection.id,
+              formGroup: {
+                attributes: {
+                  style: "justify-self: end;"
+                }
+              },
+              items: productCollections,
+              label: {
+                text: 'Your collections',
+                classes: "govuk-label govuk-!-font-weight-bold govuk-!-margin-bottom-2"
               }
-            },
-            items: catalogueCollections,
-            label: {
-              text: 'Your collections',
-              classes: "govuk-label govuk-!-font-weight-bold govuk-!-margin-bottom-2"
-            }
-        }) }}
+          }) }}
+        </form>
       {% endif %}
     </div>
   </div>

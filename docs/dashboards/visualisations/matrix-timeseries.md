@@ -160,7 +160,7 @@ In this example we will define a heatmap that:
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 ```js
@@ -220,7 +220,7 @@ In this example we will define a heatmap that:
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 ```js
@@ -287,7 +287,7 @@ In this example we will define a heatmap that:
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 ```js
@@ -351,7 +351,7 @@ In this example we will define a heatmap that:
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 ```js
@@ -429,7 +429,7 @@ In this example we will define a matrix chart that:
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 
@@ -488,7 +488,7 @@ In this example we will define a matrix chart that:
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 

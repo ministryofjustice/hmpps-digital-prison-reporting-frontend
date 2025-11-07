@@ -4,6 +4,8 @@ title: Chart Type
 subsection: Visualisation definition
 ---
 
+🚧 This section is a work in progress 🚧
+
 <img src="" alt="" width="500" style="margin-bottom: 20px"/>
 
 The `vis-type` chart visualisation type represents data as a matrix/heatmap chart visualisation. 
@@ -99,7 +101,7 @@ TBD
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 ```js
@@ -137,7 +139,7 @@ TBD
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 ```js

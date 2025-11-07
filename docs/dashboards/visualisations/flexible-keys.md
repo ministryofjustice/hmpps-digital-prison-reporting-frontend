@@ -3,7 +3,7 @@ layout: layouts/dashboards.njk
 title: Flexible keys and Grouping
 ---
 
-## 🚧 Docs in progress 🚧 
+🚧 This section is a work in progress 🚧
 
 Flexible keys: 
 - enable your visualisatons to react to dataset changes from interactive filtering.
@@ -117,7 +117,7 @@ TBD
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 ```js

@@ -60,7 +60,7 @@ See [sync routes docs](/get-started/routes#synchronous-routes) for route structu
 
 <hr class='dpr-docs-hr'>
 
-## Report Catalogue component
+# Report Catalogue component
 
 This component provides a unified way of listing and navigating reports 
 

@@ -59,9 +59,9 @@ See [Targeting data in a dataset](/dashboards/visualisations/targeting-data) for
 
 | Name          | Type    | Required | Description                                                |
 | --------------| ------- | -------- | -----------------------------------------------------------|
-| `key`        | array   | Yes      |  The array of key column data. See [Key](#key)             |
-| `measure`    | array   | Yes      |  The array of measure column data. See [Measure](#measure) |
-| `filter`     | array   | no       |  The array of filter column data. See [Filter](#filter)    |
+| `key`        | array   | Yes      |  The array of key columns. See [Key](#key)             |
+| `measure`    | array   | Yes      |  The array of measure columns. See [Measure](#measure) |
+| `filter`     | array   | no       |  The array of filter columns. See [Filter](#filter)    |
 | `expectNull` | boolean | no       |  Targets rows based on whether columns contain null/undefined values. See [here](/dashboards/visualisations/targeting-data/#targeting-specific-rows) for example usage                        |
 
 ## Key 
@@ -80,7 +80,7 @@ See [Targeting data in a dataset](/dashboards/visualisations/targeting-data) for
 | `display`   | string  | no       |  The display name of the column                          |
 | `aggregate` | `sum`    | no       | The aggregation operation                               |
 | `unit`      | `number`, `percentage`     | no       |  The unit type. Default: `number`     |
-| `axis`      | `x`,`y` | no       |  specific to [bar visualisation types](/dashboards/visualisations/bar) |
+| `axis`      | `x`,`y` | no       |  specific to [bar visualisation types](/dashboards/visualisations/bar-vis) |
 
 ## Filter 
 

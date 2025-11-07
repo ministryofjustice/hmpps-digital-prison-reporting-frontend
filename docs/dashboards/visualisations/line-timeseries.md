@@ -4,6 +4,8 @@ title: Line timeseries chart
 subsection: Visualisation definition
 ---
 
+🚧 This section is a work in progress 🚧
+
 <img src="" alt="" width="500" style="margin-bottom: 20px"/>
 
 The `line-timeseries` chart visualisation type represents data as a line chart showing historic data. 
@@ -89,7 +91,7 @@ TBD
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 ```js
@@ -127,7 +129,7 @@ TBD
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 ```js

@@ -24,13 +24,15 @@ Visualisations are defined by a [visualisation definition](/dashboards/visualisa
 
 A visualisation definition can be one of the following types:
 
-- [`list`](/dashboards/visualisations/line)
-- [`bar`](/dashboards/visualisations/bar)
-- [`doughnut`](/dashboards/visualisations/doughnut)
-- [`line`](/dashboards/visualisations/line)
-- [`matrix-timeseries`](/dashboards/visualisations/matrix-timeseries)
-- [`scorecard`](/dashboards/visualisations/scorecard)
+- [`list`](/dashboards/visualisations/list)
+- [`scorecard`](/dashboards/visualisations/scorecard-vis)
 - [`scorecard-group`](/dashboards/visualisations/scorecard-group)
+- [`bar`](/dashboards/visualisations/bar-vis)
+- [`bar-timeseries`](/dashboards/visualisations/bar-timeseries)
+- [`line`](/dashboards/visualisations/line-vis)
+- [`line-timeseries`](/dashboards/visualisations/line-timeseries)
+- [`doughnut`](/dashboards/visualisations/doughnut)
+- [`matrix-timeseries`](/dashboards/visualisations/matrix-timeseries)
 
 ## Data
 

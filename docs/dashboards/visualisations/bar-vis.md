@@ -94,7 +94,7 @@ In this example we will define which dataset columns to use in the bar chart as 
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset 
 ```js
@@ -166,7 +166,7 @@ Here we can define the `axis` field on the specific dataset columns we want to u
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 

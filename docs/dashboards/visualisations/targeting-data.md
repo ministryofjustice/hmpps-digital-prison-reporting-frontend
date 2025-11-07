@@ -1,43 +1,151 @@
 ---
 layout: layouts/dashboards.njk
-title: Targeting data in a dataset
+title: Visualisation dataset
 ---
-These docs describe how to define a visualisation definition to target specific data within a dataset.
+These docs describe how to create and use a **visualisation dataset**. 
 
-- [How to target data](#how-to-target-data)
+A visualisation dataset is: 
+- a subset of the master dataset that is specific to the visualisation.
+- a dataset that contains only the relevant rows and columns to create the visualisation.
+- created by the `column` definition of the visualisation definition. 
+
+**contents**
+- [Defining the dataset](#defining-the-dataset)
 - [Examples](#examples)
 
 <hr class='dpr-docs-hr'/>
 
-# How to target data
+# Defining the dataset
 
-Data can be targeted to create a data subset specific to your visualisation by defining the following fields:
+A visualisation dataset is created by defining the fields of the `column` definition
 
-### `key` 
+| Name          | Type    | Required | Description                                                |
+| --------------| ------- | -------- | -----------------------------------------------------------|
+| `key`        | array   | Yes      |  The array of key columns. See [Key](#key)             |
+| `measure`    | array   | Yes      |  The array of measure columns. See [Measure](#measure) |
+| `filter`     | array   | no       |  The array of filter columns. See [Filter](#filter)    |
+| `expectNull` | boolean | no       |  Targets rows based on whether columns contain null/undefined values. See [expectNull](#expectnull) |
 
+<hr class='dpr-docs-hr'/>
 
-- Specifies the columns whose values are expected to be present for a specific row
-- The column values are checked for the presence. 
-- If a row contains values that are undefined the row is removed
+# key
 
-See [keys schema](/dashboards/visualisations/visualisation-definition/#key)
+The `key` array is used to:
+- identify the rows we want in our dataset
+- identify the **visualisation group**
+- create a composite key of columnn ID's for selecting rows
 
-### `measure`
-- Specifies the columns you want to include/visualise in your visualisation
-- Does not affect the data sub-set
-- Column values will be used/shown in your visualisation.
+The `key` array works by:
+- specifying the columns that must have **non-null** values
+- filtering out rows whose key column value is null
 
-See [measures schema](/dashboards/visualisations/visualisation-definition/#measure)
+Key values are **not used** in the visualisation display and are only in defining the visualisation dataset
 
-### `filter`
-- Specifies the column and value you want to filter the data set by
-- The specified column is checked to contain a specified value
-- If not equal, the row is removed
+### Schema
 
-See [filters schema](/dashboards/visualisations/visualisation-definition/#filter)
+| Name        | Type    | Required | Description                                              |
+| ------------| ------- | -------- | -------------------------------------------------------- |
+| `id`        | string  | Yes      |  The column ID     |
+| `display`   | string  | no       |  The display name of the column                          |
+| `optional`  | boolean | no       |  Defines whether the key is optional                     |
 
-### `expectNull`
-- Specifies if remaining columns that are not defined in `keys` or `measures` should, or should not have null values present
+### Example usage
+
+```js
+column: {
+  key: [
+    { id: 'establishment_id' }, 
+    { id: 'establishmenr_wing' }
+  ]
+  ...
+}
+```
+- creates a **visualisation group** of `establishment_id` and `establishment_wing`
+- filters out rows whose values for `establishment_id` and `establishment_wing` are `null` or `undefined`
+- left with rows grouped by `establishment_id` and `establishment_wing`
+
+<hr class='dpr-docs-hr'/>
+
+# measure
+
+The `measure` array is used to:
+- identify the rows we want in our dataset
+- specify the columns you want to **visualise**
+
+The `measure` array works by:
+- specifying the columns that must have **non-null** values
+- filtering out rows whose column value is null
+- displaying the column value in the chosen chart/visualisation type. 
+
+### Schema
+
+| Name        | Type    | Required | Description                                              |
+| ------------| ------- | -------- | -------------------------------------------------------- |
+| `id`        | string  | Yes      |  The column ID       |
+| `display`   | string  | no       |  The display name of the column                          |
+| `aggregate` | `sum`    | no       | The aggregation operation                               |
+| `unit`      | `number`, `percentage`     | no       |  The unit type. Default: `number`     |
+| `axis`      | `x`,`y` | no       |  specific to [bar visualisation types](/dashboards/visualisations/bar-vis) |
+
+### Example usage
+
+```js
+column: {
+  ...
+  measure: [
+    { id: 'establishment_id', display: 'Establisment ID' }, 
+    { id: 'count', display: 'No of ' }
+  ]
+  ...
+}
+```
+- filters out rows whose values for `establishment_id` and `count` are `null` or `undefined`
+- will use the values in columns `establishment_id` and `count` to create the visualisation/chart
+
+<hr class='dpr-docs-hr'/>
+
+# filter
+
+The `filter`array is used to:
+- filter the dataset based on specific column values
+
+The `filter` array works by:
+- specifying the column and value you want to filter the data set by
+- filtering out rows that do not match the criteria
+
+### Schema
+
+| Name        | Type    | Required | Description                                              |
+| ------------| ------- | -------- | -------------------------------------------------------- |
+| `id`        | string  | Yes      |  The id/column name of the column within the dataset     |
+| `equals`    | string  | Yes      |  The value the column should match                       |
+
+### Example usage
+
+```js
+column: {
+  filter: [
+    { id: 'establishment_id', equals: 'MDI' }, 
+    { id: 'establishmenr_wing', equals: 'North' }
+  ]
+  ...
+}
+```
+- filters out rows whose values for `establishment_id` column are not 'MDI' 
+- filters out rows whose values for `establishmenr_wing` column are not 'North' 
+
+<hr class='dpr-docs-hr'/>
+
+# expectNull
+
+`expectNull` is used to:
+- filter out rows based on the values of the **unspecified** columns that are not defined in `key`, `measure` or `filter` 
+
+`expectNull` works by:
+- checking all the columns that have not been specified in `key`, `measure` or `filter`
+- filtering out columns based on their non-null/null state. 
+
+See the [Targeting specific rows](#targeting-specific-rows) example for usage, and how this field effects the visualisation dataset
 
 <hr class='dpr-docs-hr'/>
 
@@ -55,7 +163,7 @@ The following examples will demonstrate the targeting of specific rows, using th
 
 ### Example Dataset
 
-For these examples we will use a mocked dataset representing diet totals. 
+For these examples we will use mocked data that represents diet totals as our master dataset. 
 
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
@@ -123,7 +231,7 @@ This definition will return the following dataset:
 
 Note that rows with `cell` values were also returned here also, as the defintion returns all rows where the `keys` and `measures` are defined.
 
-## expectNulls field
+## expectNull
 
 To filter out the rows with `cell` values, and therefore specifically target the row for wing totals, we can specify `expectNulls` as `true`
 
@@ -222,7 +330,7 @@ which will produce the following `list` visualisation.
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
@@ -231,7 +339,7 @@ which will produce the following `list` visualisation.
 | 2025/02/25 | MDI      | north | cell5 |             | 42    |
 ```
 
-### List visualisation:
+### Visualisation
 
 ```js
 | Cell  | Total prisoners | 
@@ -264,7 +372,7 @@ which will produce the following `list` visualisation.
   },
 }
 ```
-### Dataset returned: 
+### Visualisation dataset
 
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
@@ -309,7 +417,7 @@ which will produce the following `list` visualisation.
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
@@ -369,7 +477,7 @@ which will produce the following `list` visualisation.
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
@@ -429,7 +537,7 @@ which will produce the following `list` visualisation.
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 

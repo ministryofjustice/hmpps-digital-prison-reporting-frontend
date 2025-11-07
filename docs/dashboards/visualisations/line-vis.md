@@ -1,6 +1,6 @@
 ---
 layout: layouts/dashboards.njk
-title: Bar timeseries chart
+title: Line chart
 subsection: Visualisation definition
 ---
 
@@ -8,7 +8,7 @@ subsection: Visualisation definition
 
 <img src="" alt="" width="500" style="margin-bottom: 20px"/>
 
-The `bar-timeseries` chart visualisation type represents data as a bar chart showing historic data. 
+The `line` chart visualisation type represents data as a matrix/heatmap chart visualisation. 
 
 - [When to use](#when-to-use)
 - [How it works](#how-it-works)
@@ -35,16 +35,18 @@ TBD
 ```js
 {
   id: 'id',
-  type: 'bar-timeseries',
+  type: 'line',
   display: 'name',
   description: 'description',
+  option: {
+    ...
+  }
   column: {
     ...
   }
 }
 ```
-
-See the [Targeting data](/dashboards/visualisations/targeting-data) for and how to target data with the `column`
+  See the [Targeting data](/dashboards/visualisations/targeting-data) for and how to target data with the `column`
 
 <hr class='dpr-docs-hr'/>
 

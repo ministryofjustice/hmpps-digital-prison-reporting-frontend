@@ -6,6 +6,7 @@ context('Platform sync tests', () => {
       cy.task('resetStubs')
       cy.task('resetRedis')
       cy.task('stubDefinitions')
+      cy.task('stubGetProductCollections')
       cy.task('stubDefinitionSyncReport')
       cy.task('stubRequestSuccessResult20')
       cy.task('stubReportsFinishedStatus')

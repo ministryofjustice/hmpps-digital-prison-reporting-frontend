@@ -18,6 +18,7 @@ import { featureTestingSync } from '@networkMocks/report/mockVariants/feature-te
 import { getListWithWarnings, getListWithWarningsCount } from '@networkMocks/report/sync/mocks'
 import { featureTestingOrderFilters } from '@networkMocks/report/mockVariants/feature-testing/orderFilters'
 import { getCatalogueCollection1, getCatalogueCollection2, getCatalogueCollections } from '@networkMocks/catalogueCollections/mocks'
+import { getProductCollection1, getProductCollection2, getProductCollections } from '@networkMocks/productCollections/mocks'
 
 const stubs = {
   stubGetFeatureTestingMissing: () => stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingMissing1)),

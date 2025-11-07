@@ -7,6 +7,7 @@ context('Catalogue component', () => {
     cy.task('resetStubs')
     cy.task('resetRedis')
     cy.task('stubDefinitions')
+    cy.task('stubGetProductCollections')
     cy.visit(path)
   })
 

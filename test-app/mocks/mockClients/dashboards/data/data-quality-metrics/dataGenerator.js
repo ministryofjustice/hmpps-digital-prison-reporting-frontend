@@ -19,6 +19,7 @@ const baseData = {
 }
 
 const generateData = (query) => {
+  console.log(JSON.stringify({ query }, null, 2))
   const { establishmentId, timestamps } = extractQueryAndCreateTimestamps(query)
   const estId = establishmentId || 'ALL'
 

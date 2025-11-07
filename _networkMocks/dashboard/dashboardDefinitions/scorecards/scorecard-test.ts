@@ -2,8 +2,8 @@ import { establishmentIdFilter, granularDateRangeFilter } from '@networkMocks/da
 import { components } from '../../../../src/dpr/types/api'
 import scorecard from '../../visualisations/scorecard'
 
-export const docsScoreCard: components['schemas']['DashboardDefinition'] = {
-  id: 'docs-scorecard-examples-data-quality',
+export const scoreCardTest: components['schemas']['DashboardDefinition'] = {
+  id: 'test-scorecard-examples-data-quality',
   name: 'Docs Scorecard Examples - Data Quality',
   description: 'Scorecard examples',
   sections: [

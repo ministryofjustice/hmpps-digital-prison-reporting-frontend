@@ -35,7 +35,7 @@ To define a list visualisation:
 ```
 See the [Visualisation definition](/dashboards/visualisations/visualisation-definition) docs for the definition schema
 
-See the [Targeting data](/dashboards/visualisations/targeting-data) for and how to target data with the `column`
+See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
 
 ### Options: 
 

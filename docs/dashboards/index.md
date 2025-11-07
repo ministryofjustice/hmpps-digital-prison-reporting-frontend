@@ -13,10 +13,8 @@ A dashboards structure is defined by a [dashboard definition](/dashboards/defini
 A dashboard has: 
 
 - a title and a description
-- zero or many **filters**
 - zero or many **sections**
 - zero or many **visualisations** within a **section**
-
 
 ## Visualisations
 
@@ -36,4 +34,6 @@ A visualisation definition can be one of the following types:
 
 ## Data
 
-A dashboard is always backed by a **single** dataset.
+A dashboard is always backed by a **single** master dataset.
+
+[Visualisaton datasets](/dashboards/visualisations/visualisation-dataset) are defined from the master dataset. See [Visualisaton dataset](/dashboards/visualisations/visualisation-dataset) for details on how to create this. 

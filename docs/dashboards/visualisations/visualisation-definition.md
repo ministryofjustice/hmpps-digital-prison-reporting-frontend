@@ -55,14 +55,14 @@ All visualisation types share the same common definition attributes:
 
 The `columns` definition is responsible for targeting the data required by the visualisation. 
 
-See [Targeting data in a dataset](/dashboards/visualisations/targeting-data) for usage.
+See [Targeting data in a dataset](/dashboards/visualisations/visualisation-dataset) for usage.
 
 | Name          | Type    | Required | Description                                                |
 | --------------| ------- | -------- | -----------------------------------------------------------|
 | `key`        | array   | Yes      |  The array of key columns. See [Key](#key)             |
 | `measure`    | array   | Yes      |  The array of measure columns. See [Measure](#measure) |
 | `filter`     | array   | no       |  The array of filter columns. See [Filter](#filter)    |
-| `expectNull` | boolean | no       |  Targets rows based on whether columns contain null/undefined values. See [here](/dashboards/visualisations/targeting-data/#targeting-specific-rows) for example usage                        |
+| `expectNull` | boolean | no       |  Targets rows based on whether columns contain null/undefined values. See [here](/dashboards/visualisations/visualisation-dataset/#targeting-specific-rows) for example usage                        |
 
 ## Key 
 

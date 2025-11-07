@@ -122,6 +122,6 @@ TBD
 This definition will return the following dataset
 ```js
 ```
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 <hr class='dpr-docs-hr'/>

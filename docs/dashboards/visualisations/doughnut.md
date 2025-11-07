@@ -43,7 +43,7 @@ TBD
   }
 }
 ```
-  See the [Targeting data](/dashboards/visualisations/targeting-data) for and how to target data with the `column`
+  See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
 
 <hr class='dpr-docs-hr'/>
 
@@ -96,7 +96,7 @@ This definition will return the following dataset
 ```js
 
 ```
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 <hr class='dpr-docs-hr'/>
 
@@ -134,7 +134,7 @@ This definition will return the following dataset
 ```js
 
 ```
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 <hr class='dpr-docs-hr'/>
 

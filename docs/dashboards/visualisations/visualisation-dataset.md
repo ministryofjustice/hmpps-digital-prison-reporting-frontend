@@ -5,8 +5,8 @@ title: Visualisation dataset
 These docs describe how to create and use a **visualisation dataset**. 
 
 A visualisation dataset is: 
-- a subset of the master dataset that is specific to the visualisation.
-- a dataset that contains only the relevant rows and columns to create the visualisation.
+- a subset of the master dataset that is specific to a **single** visualisation.
+- a dataset that contains only the relevant rows and columns to create a visualisation.
 - created by the `column` definition of the visualisation definition. 
 
 **contents**
@@ -17,7 +17,9 @@ A visualisation dataset is:
 
 # Defining the dataset
 
-A visualisation dataset is created by defining the fields of the `column` definition
+A visualisation dataset is created by defining the fields of the `column` definition.
+
+### Column Schema
 
 | Name          | Type    | Required | Description                                                |
 | --------------| ------- | -------- | -----------------------------------------------------------|
@@ -33,13 +35,12 @@ A visualisation dataset is created by defining the fields of the `column` defini
 The `key` array is used to:
 - identify the rows we want in our dataset
 - identify the **visualisation group**
-- create a composite key of columnn ID's for selecting rows
 
 The `key` array works by:
 - specifying the columns that must have **non-null** values
 - filtering out rows whose key column value is null
 
-Key values are **not used** in the visualisation display and are only in defining the visualisation dataset
+Key values are **not used in the visualisation display** and are only in defining the visualisation dataset
 
 ### Schema
 
@@ -139,7 +140,7 @@ column: {
 # expectNull
 
 `expectNull` is used to:
-- filter out rows based on the values of the **unspecified** columns that are not defined in `key`, `measure` or `filter` 
+- filter out rows based on the values of the **unspecified columns** that are not defined in `key`, `measure` or `filter` 
 
 `expectNull` works by:
 - checking all the columns that have not been specified in `key`, `measure` or `filter`

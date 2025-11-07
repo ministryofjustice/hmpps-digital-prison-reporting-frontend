@@ -34,7 +34,7 @@ Use this visualisation type when you need to display data as a bar chart.
 ```
 See the [Visualisation definition](/dashboards/visualisations/visualisation-definition) docs for the definition schema
 
-See the [Targeting data](/dashboards/visualisations/targeting-data) for and how to target data with the `column`
+See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
 
 <hr class='dpr-docs-hr'/>
 
@@ -107,7 +107,7 @@ This definition will return the following dataset
 | DAI    | 520           | 765                  |
 
 ```
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 
 ### Visualisation:
@@ -178,7 +178,7 @@ This definition will return the following dataset
 | 2025/02/25 |          |       |       | Vegan       | 1354  |
 | 2025/02/25 |          |       |       | Omnivore    | 1009  |
 ```
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation:
 

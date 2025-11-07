@@ -67,17 +67,18 @@ export const populateDefinitions = async (services: Services, req: Request, res:
       dprUser.id,
     )
 
-    res.locals.definitions = await Promise.all([
-      services.reportingService.getDefinitions(token, res.locals.definitionsPath),
-      selectedProductCollectionId &&
-        services.productCollectionService.getProductCollection(dprUser.id, selectedProductCollectionId),
-    ]).then(([defs, selectedProductCollection]) => {
-      if (selectedProductCollection && selectedProductCollection) {
-        const productIds = selectedProductCollection.products.map((product) => product.productId)
-        defs = defs.filter((def) => productIds.includes(def.id))
-      }
-      return defs
-    }) ?? []
+    res.locals.definitions =
+      (await Promise.all([
+        services.reportingService.getDefinitions(token, res.locals.definitionsPath),
+        selectedProductCollectionId &&
+          services.productCollectionService.getProductCollection(dprUser.id, selectedProductCollectionId),
+      ]).then(([defs, selectedProductCollection]) => {
+        if (selectedProductCollection && selectedProductCollection) {
+          const productIds = selectedProductCollection.products.map((product) => product.productId)
+          return defs.filter((def) => productIds.includes(def.id))
+        }
+        return defs
+      })) ?? []
   }
 }
 

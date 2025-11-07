@@ -98,10 +98,10 @@ describe('setUpDprResources', () => {
         reportingService,
         productCollectionService: {
           getProductCollections: jest.fn(() => []),
-          getProductCollection: jest.fn()
+          getProductCollection: jest.fn(),
         },
         productCollectionStoreService: {
-          getSelectedProductCollectionId: jest.fn()
+          getSelectedProductCollectionId: jest.fn(),
         },
       } as unknown as Services
 

@@ -18,7 +18,6 @@ import type {
   SetQueryFromFiltersResult,
 } from '../../../../components/_async/async-filters-form/types'
 import type { components } from '../../../../types/api'
-import type { DashboardDefinition } from '../../../../components/_dashboards/dashboard/types'
 import type { Services } from '../../../../types/Services'
 import type DashboardService from '../../../../services/dashboardService'
 import PersonalistionUtils from '../../../../utils/Personalisation/personalisationUtils'
@@ -207,7 +206,7 @@ const renderDashboardRequestData = async ({
   reportId: string
   definitionPath: string
   services: Services
-  definition: DashboardDefinition
+  definition: components['schemas']['DashboardDefinition']
 }) => {
   const productDefinitions = await services.reportingService.getDefinitions(token, definitionPath)
   const productDefinition = productDefinitions.find(

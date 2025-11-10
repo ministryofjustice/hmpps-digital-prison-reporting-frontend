@@ -23,7 +23,6 @@ The dashboard definition is responsible for defining the structure and IA of a d
 | `name`        | string  | yes      | The dashboard title                                                     |
 | `description` | string  | yes      | The dashboard desciption                                                |
 | `section`    | array   | yes      | The dashboard sections. See [Section](#section)                         |
-| `filterField`| boolean | no       | The dashboard filters                                                   |
 
 ## Section
 
@@ -64,7 +63,6 @@ The dashboard definition is responsible for defining the structure and IA of a d
       visualisation: [...],
     },
   ],
-  filterField: [...],
 }
 ```
 

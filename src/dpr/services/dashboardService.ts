@@ -1,6 +1,6 @@
-import { DashboardDefinition } from '../components/_dashboards/dashboard/types'
 import Dict = NodeJS.Dict
 import logger from '../utils/logger'
+import { components } from '../types/api'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 class DashboardService {
@@ -14,7 +14,7 @@ class DashboardService {
     dpdId: string,
     id: string,
     dataProductDefinitionsPath?: string,
-  ): Promise<DashboardDefinition> {
+  ): Promise<components['schemas']['DashboardDefinition']> {
     return this.dashboardClient.getDefinition(token, id, dpdId, dataProductDefinitionsPath)
   }
 

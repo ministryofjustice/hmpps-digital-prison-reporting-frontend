@@ -1,6 +1,6 @@
-import { DashboardDefinition } from '../../src/dpr/components/_dashboards/dashboard/types'
+import { components } from '../../src/dpr/types/api'
 
-type FilterField = DashboardDefinition['filterFields'][number]
+type FilterField = components['schemas']['DashboardDefinition']['filterFields'][number]
 
 export const establishmentIdFilter: FilterField = {
   header: false,

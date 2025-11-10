@@ -7,6 +7,7 @@ import { DownloadReportRoutes } from './download-report/routes'
 import { MyReportsRoutes } from './my-reports/routes'
 import { ViewReportRoutes } from './view-report/routes'
 import { RequestReportRoutes } from './request-report/routes'
+import { ProductCollectionRoutes } from './product-collection/routes'
 
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }) {
   const router = Router({ mergeParams: true })
@@ -16,6 +17,7 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   router.use('/', MyReportsRoutes({ path: '/dpr/my-reports', layoutPath, services }))
   router.use('/', ViewReportRoutes({ path: '/dpr/view-report', layoutPath, services }))
   router.use('/', RequestReportRoutes({ path: '/dpr/request-report', layoutPath, services }))
+  router.use('/', ProductCollectionRoutes({ path: '/dpr/product-collection', layoutPath, services }))
 
   return router
 }

@@ -1,6 +1,10 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
 
-{% macro dprCatalogueSearch(id, type = 'catalogue') %}
+{% macro dprCatalogueSearch(id, productCollectionInfo, type = 'catalogue') %}
+  {% set productCollections = productCollectionInfo.productCollections %}
+  {% set selectedProductCollection = productCollectionInfo.selectedProductCollection %}
+
   <div class="dpr-search" data-dpr-module="dpr-catalogue-search">
     <div class="dpr-search-inputs">
         {{ govukInput({
@@ -17,6 +21,25 @@
             "data-table-id": id
           }
         }) }}
+        {% if productCollections.length > 0 %}
+          <form method="post" action="dpr/product-collection/selected">
+            {{ govukSelect({
+              id: 'productCollection',
+              name: 'productCollection',
+              value: selectedProductCollection.id,
+              formGroup: {
+                attributes: {
+                  style: "justify-self: end;"
+                }
+              },
+              items: productCollections,
+              label: {
+                text: 'Your collections',
+                classes: "govuk-label govuk-!-font-weight-bold govuk-!-margin-bottom-2"
+              }
+          }) }}
+        </form>
+      {% endif %}
     </div>
   </div>
 {% endmacro %}

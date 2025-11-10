@@ -232,6 +232,40 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/productCollections': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** @description Gets all product collections */
+    get: operations['getCollections']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/productCollections/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** @description Gets product collection by id */
+    get: operations['getCollections_1']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/definitions': {
     parameters: {
       query?: never
@@ -431,6 +465,22 @@ export interface components {
       /** @description Specific to Athena queries. Further detail about the status of the query. */
       stateChangeReason?: string
     }
+    ProductCollectionSummary: {
+      id: string
+      name: string
+      version: string
+      ownerName: string
+    }
+    ProductCollectionDTO: {
+      id: string
+      name: string
+      version: string
+      ownerName: string
+      products: components['schemas']['ProductCollectionProduct'][]
+    }
+    ProductCollectionProduct: {
+      productId: string
+    }
     DashboardDefinitionSummary: {
       id: string
       name: string
@@ -572,12 +622,26 @@ export interface components {
       interactive?: boolean
       childVariants?: components['schemas']['ChildVariantDefinition'][]
     }
+    DashboardBucketDefinition: {
+      /** Format: int64 */
+      min?: number
+      /** Format: int64 */
+      max?: number
+      hexColour?: string
+    }
     DashboardDefinition: {
       id: string
       name: string
       description?: string
       sections: components['schemas']['DashboardSectionDefinition'][]
       filterFields?: components['schemas']['FieldDefinition'][]
+    }
+    DashboardOptionDefinition: {
+      useRagColour?: boolean
+      baseColour?: string
+      buckets?: components['schemas']['DashboardBucketDefinition'][]
+      showLatest?: boolean
+      columnsAsList?: boolean
     }
     DashboardSectionDefinition: {
       id: string
@@ -594,6 +658,7 @@ export interface components {
       unit?: 'NUMBER' | 'PERCENTAGE'
       displayValue?: boolean
       axis?: string
+      optional?: boolean
     }
     DashboardVisualisationColumnsDefinition: {
       keys?: components['schemas']['DashboardVisualisationColumnDefinition'][]
@@ -604,10 +669,20 @@ export interface components {
     DashboardVisualisationDefinition: {
       id: string
       /** @enum {string} */
-      type: 'list' | 'doughnut' | 'bar' | 'bar-timeseries' | 'line' | 'scorecard' | 'scorecard-group'
+      type:
+        | 'list'
+        | 'doughnut'
+        | 'bar'
+        | 'bar-timeseries'
+        | 'line'
+        | 'scorecard'
+        | 'scorecard-group'
+        | 'matrix-timeseries'
+        | 'line-timeseries'
       display?: string
       description?: string
       columns: components['schemas']['DashboardVisualisationColumnsDefinition']
+      options?: components['schemas']['DashboardOptionDefinition']
     }
     ValueVisualisationColumnDefinition: {
       id: string
@@ -1535,7 +1610,125 @@ export interface operations {
       }
     }
   }
-  definitions_1: {
+  getCollections: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ProductCollectionSummary'][]
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ErrorResponse']
+        }
+      }
+    }
+  }
+  getCollections_1: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /**
+         * @description The ID of the product collection.
+         * @example 72c22579-3f77-4e23-8d16-1e5aadcc88c9
+         */
+        id: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ProductCollectionDTO']
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ErrorResponse']
+        }
+      }
+    }
+  }
+  definitions: {
     parameters: {
       query?: {
         /**

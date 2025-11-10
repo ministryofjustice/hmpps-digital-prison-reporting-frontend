@@ -9,6 +9,7 @@ import { createClient } from 'redis'
 import MockReportingClient from '../mocks/mockClients/reports/mockReportingClient'
 import { MockUserStoreService } from '../mocks/mockClients/store/mockRedisStore'
 import MockDashboardClient from '../mocks/mockClients/dashboards/mock-client'
+import { ProductCollectionService } from 'src/dpr/services/productCollection/productCollectionService'
 
 export const initServices = (featureConfig?: { bookmarking?: boolean; download?: boolean }) => {
   let clients: {
@@ -16,6 +17,7 @@ export const initServices = (featureConfig?: { bookmarking?: boolean; download?:
     dashboardClient: any
     reportDataStore: any
     missingReportClient: any
+    productCollectionService: ProductCollectionService
   } = {} as typeof clients
   if (process.env.USE_MOCK_CLIENTS) {
     clients.reportingClient = new MockReportingClient() as unknown as ReportingClient
@@ -57,6 +59,12 @@ export const initServices = (featureConfig?: { bookmarking?: boolean; download?:
       timeout: 1000,
     },
     url: `http://localhost:9091`,
+  })
+  clients.productCollectionService = new ProductCollectionService({
+    agent: {
+      timeout: 1000
+    },
+    url: `http://localhost:9091`
   })
 
   // 2. Create services

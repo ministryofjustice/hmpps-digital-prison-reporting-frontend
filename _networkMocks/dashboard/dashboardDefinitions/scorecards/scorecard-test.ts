@@ -37,22 +37,6 @@ export const scoreCardTest: components['schemas']['DashboardDefinition'] = {
         scorecard.simpleScorecardCustomBucketsEthnicity,
       ],
     },
-    {
-      id: 'section-4',
-      display: 'Custom bucket boundaries',
-      description: '',
-      visualisations: [
-        scorecard.simpleScorecardCustomBucketsBoundariesNationality,
-        scorecard.simpleScorecardCustomBucketsBoundariesReligion,
-        scorecard.simpleScorecardCustomBucketsBoundariesEthnicity,
-      ],
-    },
-    {
-      id: 'section-4',
-      display: 'Filters',
-      description: '',
-      visualisations: [scorecard.simpleScorecardNationalityFilter],
-    },
   ],
   filterFields: [establishmentIdFilter, granularDateRangeFilter],
 }

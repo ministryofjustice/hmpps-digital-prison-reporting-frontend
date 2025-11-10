@@ -101,8 +101,9 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
     valueFrom,
     prevVal,
     groupTitle,
-  }: CreateScorecardDataArgs) => {
+  }: CreateScorecardDataArgs): Scorecard => {
     return {
+      id: this.definition.id,
       title,
       value,
       ...(!Number.isNaN(value) && this.buckets.length && { rag: this.setRagScore(<number>value, rag) }),

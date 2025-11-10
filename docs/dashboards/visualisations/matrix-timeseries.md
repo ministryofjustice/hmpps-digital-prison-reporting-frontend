@@ -461,7 +461,7 @@ In this example we will define a matrix chart that:
   display: 'Finds totals over time matrix chart',
   description: '',
   option: {
-    useRagColours: true // <- Defines the use of RAG colouring
+    useRagColour: true // <- Defines the use of RAG colouring
   },
   column: {
     key: [

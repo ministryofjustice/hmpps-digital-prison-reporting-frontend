@@ -122,6 +122,10 @@ export const dataQualityScorecardDashboard = setupSimpleMock(
   '/definitions/dashboard-visualisations/dashboards/test-scorecard-examples-data-quality',
   scorecards.scoreCardTest,
 )
+export const dataQualityScorecardBucketDashboard = setupSimpleMock(
+  '/definitions/dashboard-visualisations/dashboards/test-scorecard-bucket-examples-data-quality',
+  scorecards.scoreCardBucketTest,
+)
 export const dataQualityScorecardGroupDashboard = setupSimpleMock(
   '/definitions/dashboard-visualisations/dashboards/scorecard-examples-data-quality',
   scorecards.dataQualityScoreCards,
@@ -159,4 +163,5 @@ export const mocks = [
 
   dataQualityScorecardDashboard,
   dataQualityScorecardGroupDashboard,
+  dataQualityScorecardBucketDashboard,
 ]

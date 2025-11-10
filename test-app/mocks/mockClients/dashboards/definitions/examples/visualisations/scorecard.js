@@ -54,7 +54,7 @@ const simpleScorecardRagColoursNationality = {
   display: 'No of prisoners with nationality',
   description: 'Rag score in dataset. Uses rag colours',
   options: {
-    useRagColours: true,
+    useRagColour: true,
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
@@ -68,7 +68,7 @@ const simpleScorecardRagColoursReligion = {
   display: 'No of prisoners with religion',
   description: 'Rag score in dataset. Uses rag colours',
   options: {
-    useRagColours: true,
+    useRagColour: true,
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
@@ -82,7 +82,7 @@ const simpleScorecardRagColoursEthnicity = {
   display: 'No of prisoners with ethnicity',
   description: 'Rag score in dataset. Uses rag colours',
   options: {
-    useRagColours: true,
+    useRagColour: true,
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
@@ -138,7 +138,7 @@ const simpleScorecardCustomBucketsBoundariesReligion = {
   display: 'No of prisoners with religion',
   description: 'Custom buckets',
   options: {
-    useRagColours: true,
+    useRagColour: true,
     buckets: [{ max: 40 }, { min: 41, max: 60 }, { min: 61 }],
   },
   columns: {
@@ -153,7 +153,7 @@ const simpleScorecardCustomBucketsBoundariesNationality = {
   display: 'No of prisoners with nationality',
   description: 'Custom buckets',
   options: {
-    useRagColours: true,
+    useRagColour: true,
     buckets: [{ max: 50 }, { min: 51, max: 55 }, { min: 56 }],
   },
   columns: {
@@ -168,7 +168,7 @@ const simpleScorecardCustomBucketsBoundariesEthnicity = {
   display: 'No of prisoners with ethnicity',
   description: 'Custom buckets',
   options: {
-    useRagColours: true,
+    useRagColour: true,
     buckets: [{ max: 20 }, { min: 21, max: 70 }, { min: 71 }],
   },
   columns: {

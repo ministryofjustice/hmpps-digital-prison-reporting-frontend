@@ -5,7 +5,7 @@ title: Visualisation Definition
 The visualisation definition is responsible for:
 
 - specifying the type of visualisation
-- retriveing the data needed for the visualisation from a single dataset
+- specifying the data needed for the visualisation from a single dataset
 - defining the presentation information required to render the visualisation correctly
 
 **contents**

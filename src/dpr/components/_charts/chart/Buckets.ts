@@ -14,7 +14,7 @@ class Buckets {
 
   private buckets: DashboardVisualisationBucket[] = []
 
-  private useRagColours: boolean
+  private useRagColour: boolean
 
   private bucketCount: number
 
@@ -49,7 +49,7 @@ class Buckets {
   private initFromOptions = (definition: DashboardVisualisation) => {
     this.options = <BucketDashboardVisualisationOptions>definition.options || {}
     this.baseColour = this.options?.baseColour || this.baseColour
-    this.useRagColours = this.options?.useRagColours || false
+    this.useRagColour = this.options?.useRagColour || false
     this.onlyBucketColoursDefined = this.options?.buckets?.every(
       (bucket) => !bucket.max && !bucket.min && bucket.hexColour !== undefined,
     )
@@ -107,7 +107,7 @@ class Buckets {
   }
 
   private initBucketColours = () => {
-    if (this.useRagColours && this.bucketCount === 3) {
+    if (this.useRagColour && this.bucketCount === 3) {
       this.buckets = Array.from(new Array(this.bucketCount)).map((d, i) => {
         return {
           hexColour: this.ragColours[i],
@@ -140,7 +140,7 @@ class Buckets {
   private setBucketCount = () => {
     const { buckets } = this.options
     if (this.hasRagScore) {
-      if (this.useRagColours) {
+      if (this.useRagColour) {
         this.bucketCount = 3
       } else {
         this.bucketCount =

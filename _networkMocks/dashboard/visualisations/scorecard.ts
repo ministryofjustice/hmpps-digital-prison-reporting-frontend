@@ -56,7 +56,7 @@ const simpleScorecardRagColoursNationality: components['schemas']['DashboardVisu
   display: 'No of prisoners with nationality',
   description: 'Rag score in dataset. Uses rag colours',
   options: {
-    useRagColours: true,
+    useRagColour: true,
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
@@ -70,7 +70,7 @@ const simpleScorecardRagColoursReligion: components['schemas']['DashboardVisuali
   display: 'No of prisoners with religion',
   description: 'Rag score in dataset. Uses rag colours',
   options: {
-    useRagColours: true,
+    useRagColour: true,
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
@@ -84,7 +84,7 @@ const simpleScorecardRagColoursEthnicity: components['schemas']['DashboardVisual
   display: 'No of prisoners with ethnicity',
   description: 'Rag score in dataset. Uses rag colours',
   options: {
-    useRagColours: true,
+    useRagColour: true,
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
@@ -135,13 +135,13 @@ const simpleScorecardCustomBucketsReligion: components['schemas']['DashboardVisu
 }
 
 const simpleScorecardCustomBucketsBoundariesReligion: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'simple-scorecard-rag',
+  id: 'simple-scorecard-rag-religion',
   type: 'scorecard',
   display: 'No of prisoners with religion',
   description: 'Custom buckets',
   options: {
-    useRagColours: true,
-    buckets: [{ max: 40 }, { min: 41, max: 60 }, { min: 61 }],
+    useRagColour: true,
+    buckets: [{ max: 500 }, { min: 501, max: 600 }, { min: 601 }],
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
@@ -150,13 +150,13 @@ const simpleScorecardCustomBucketsBoundariesReligion: components['schemas']['Das
 }
 
 const simpleScorecardCustomBucketsBoundariesNationality: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'simple-scorecard-rag',
+  id: 'simple-scorecard-rag-nationality',
   type: 'scorecard',
   display: 'No of prisoners with nationality',
   description: 'Custom buckets',
   options: {
-    useRagColours: true,
-    buckets: [{ max: 50 }, { min: 51, max: 55 }, { min: 56 }],
+    useRagColour: true,
+    buckets: [{ max: 300 }, { min: 301, max: 800 }, { min: 801 }],
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
@@ -165,13 +165,13 @@ const simpleScorecardCustomBucketsBoundariesNationality: components['schemas']['
 }
 
 const simpleScorecardCustomBucketsBoundariesEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'simple-scorecard-rag',
+  id: 'simple-scorecard-rag-ethnicity',
   type: 'scorecard',
   display: 'No of prisoners with ethnicity',
   description: 'Custom buckets',
   options: {
-    useRagColours: true,
-    buckets: [{ max: 20 }, { min: 21, max: 70 }, { min: 71 }],
+    useRagColour: true,
+    buckets: [{ max: 200 }, { min: 201, max: 700 }, { min: 701 }],
   },
   columns: {
     keys: [{ id: 'establishment_id' }],

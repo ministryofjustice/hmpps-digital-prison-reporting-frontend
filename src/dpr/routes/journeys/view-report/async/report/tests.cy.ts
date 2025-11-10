@@ -1,4 +1,8 @@
-import { checkSelectedFilterValues, requestReport } from '../../../../../../../cypress-tests/cypressUtils'
+import {
+  checkSelectedFilterValues,
+  requestReport,
+  executeReportStubs,
+} from '../../../../../../../cypress-tests/cypressUtils'
 import DateMapper from '../../../../../utils/DateMapper/DateMapper'
 
 context('Viewing a report', () => {
@@ -8,19 +12,11 @@ context('Viewing a report', () => {
 
   describe('List report page', () => {
     before(() => {
-      cy.task('resetStubs')
-      cy.task('resetRedis')
-      cy.task('stubDefinitions')
-      cy.task('stubReportStatusMock')
-      cy.task('stubReportsFinishedStatus')
+      executeReportStubs()
       cy.task('stubDefinitionRequestExamplesSuccess')
-      cy.task('stubTestDashboard8')
-      cy.task('stubMockDashboardsStatusFinished')
-      cy.task('stubRequestSuccessResult20')
       cy.task('stubRequestSuccessResult10')
-      cy.task('stubRequestSuccessReportTablesCount')
+      cy.task('stubRequestSuccessResult20')
       cy.task('stubRequestSuccessResult100')
-      cy.task('stubViewAsyncReportingResults')
 
       // Request and run a report so we can go back to it for each test
       requestReport({ name: 'Successful Report', description: 'this will succeed', path })
@@ -460,13 +456,9 @@ context('Viewing a report', () => {
     }
 
     before(() => {
-      cy.task('resetStubs')
-      cy.task('resetRedis')
-      cy.task('stubDefinitions')
+      executeReportStubs()
       cy.task('stubDefinitionFeatureTestingInteractive')
-      cy.task('stubReportStatusMock')
       cy.task('stubAsyncRequestSuccessReportTablesCount')
-      cy.task('stubViewAsyncReportingResults')
       cy.task('stubRequestSuccessResult20')
       cy.task('stubRequestSuccessResult100')
     })

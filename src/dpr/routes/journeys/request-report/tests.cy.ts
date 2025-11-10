@@ -1,3 +1,5 @@
+import { executeReportStubs } from '../../../../../cypress-tests/cypressUtils'
+
 context('Requesting a report', () => {
   const path = '/embedded/platform/'
 
@@ -13,14 +15,9 @@ context('Requesting a report', () => {
 
   describe('Successful request', () => {
     beforeEach(() => {
-      cy.task('resetStubs')
-      cy.task('resetRedis')
-      cy.task('stubDefinitions')
+      executeReportStubs()
       cy.task('stubDefinitionRequestExamplesSuccess')
-      cy.task('stubViewAsyncReportingResults')
-      cy.task('stubReportsFinishedStatus')
       cy.task('stubRequestSuccessResult20')
-      cy.task('stubRequestSuccessReportTablesCount')
       cy.visit(path)
     })
 
@@ -84,14 +81,9 @@ context('Requesting a report', () => {
 
   describe('Failed request', () => {
     beforeEach(() => {
-      cy.task('resetStubs')
-      cy.task('resetRedis')
-      cy.task('stubDefinitions')
+      executeReportStubs()
       cy.task('stubDefinitionRequestExamplesSuccess')
-      cy.task('stubViewAsyncReportingResults')
       cy.task('stubRequestSuccessResult20')
-      cy.task('stubReportsFinishedStatus')
-      cy.task('stubRequestSuccessReportTablesCount')
       cy.visit(path)
     })
 
@@ -273,14 +265,9 @@ context('Requesting a report', () => {
       '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/filters?filters.field1=value1.2&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&filters.field8=value8.2&filters.field8=value8.3&sortColumn=field1&sortedAsc=false'
 
     beforeEach(() => {
-      cy.task('resetStubs')
-      cy.task('resetRedis')
-      cy.task('stubDefinitions')
+      executeReportStubs()
       cy.task('stubDefinitionRequestExamplesSuccess')
-      cy.task('stubViewAsyncReportingResults')
-      cy.task('stubReportsFinishedStatus')
       cy.task('stubRequestSuccessResult20')
-      cy.task('stubRequestSuccessReportTablesCount')
       cy.task('stubCancelAsyncRequest')
       cy.visit(path)
     })
@@ -368,14 +355,9 @@ context('Requesting a report', () => {
 
   describe('Expired request', () => {
     beforeEach(() => {
-      cy.task('resetStubs')
-      cy.task('resetRedis')
-      cy.task('stubDefinitions')
+      executeReportStubs()
       cy.task('stubDefinitionRequestExamplesSuccess')
-      cy.task('stubViewAsyncReportingResults')
-      cy.task('stubReportsFinishedStatus')
       cy.task('stubRequestSuccessResult20')
-      cy.task('stubRequestSuccessReportTablesCount')
       cy.visit(path)
     })
   })

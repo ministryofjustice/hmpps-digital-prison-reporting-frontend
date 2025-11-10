@@ -1,3 +1,5 @@
+import { executeDashboardStubs } from '../../../../../cypress-tests/cypressUtils'
+
 context('Dashboard visualisation: Scorecards', () => {
   const scorecardPath =
     '/embedded/platform/dpr/request-report/dashboard/dashboard-visualisations/test-scorecard-examples-data-quality/filters'
@@ -5,12 +7,10 @@ context('Dashboard visualisation: Scorecards', () => {
     '/embedded/platform/dpr/request-report/dashboard/dashboard-visualisations/scorecard-examples-data-quality/filters'
 
   before(() => {
-    cy.task('resetStubs')
-    cy.task('resetRedis')
-    cy.task('stubDefinitions')
+    executeDashboardStubs()
+
     cy.task('stubDefinitionScorecardDashboard')
     cy.task('stubDefinitionScorecardGroupDashboard')
-    cy.task('stubReportStatusMock')
     cy.task('stubScorecardResults')
     cy.task('stubScorecardGroupResults')
   })

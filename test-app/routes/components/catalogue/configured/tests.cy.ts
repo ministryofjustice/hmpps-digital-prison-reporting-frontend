@@ -1,4 +1,4 @@
-import { checkA11y } from "../../../../../cypress-tests/cypressUtils"
+import { checkA11y } from '../../../../../cypress-tests/cypressUtils'
 
 context('Catalogue component', () => {
   const path = '/components/catalogue/configured'
@@ -7,6 +7,7 @@ context('Catalogue component', () => {
     cy.task('resetStubs')
     cy.task('resetRedis')
     cy.task('stubDefinitions')
+    cy.task('stubSingleSummaries')
     cy.visit(path)
   })
 

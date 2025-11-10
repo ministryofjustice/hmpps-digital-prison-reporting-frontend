@@ -8,6 +8,7 @@ context('Bookmarks list', () => {
     cy.task('resetStubs')
     cy.task('resetRedis')
     cy.task('stubDefinitions')
+    cy.task('stubSingleSummaries')
     cy.task('stubDefinitionRequestExamplesSuccess')
   })
 

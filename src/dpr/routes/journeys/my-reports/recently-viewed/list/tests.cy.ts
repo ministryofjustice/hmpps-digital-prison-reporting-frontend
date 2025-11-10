@@ -1,3 +1,5 @@
+import { executeReportStubs } from '../../../../../../../cypress-tests/cypressUtils'
+
 context('Recently viewed list', () => {
   const path = '/embedded/platform/'
 
@@ -15,17 +17,13 @@ context('Recently viewed list', () => {
     cy.task('resetStubs')
     cy.task('resetRedis')
     cy.task('stubDefinitions')
+    cy.task('stubSingleSummaries')
   })
 
   beforeEach(() => {
-    cy.task('resetStubs')
-    cy.task('resetRedis')
-    cy.task('stubDefinitions')
+    executeReportStubs()
     cy.task('stubDefinitionRequestExamplesSuccess')
-    cy.task('stubViewAsyncReportingResults')
-    cy.task('stubReportsFinishedStatus')
     cy.task('stubRequestSuccessResult20')
-    cy.task('stubRequestSuccessReportTablesCount')
     cy.visit(path)
   })
 

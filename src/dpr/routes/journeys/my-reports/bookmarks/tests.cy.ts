@@ -1,17 +1,14 @@
 import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/feature-testing/unprintable'
 import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feature-testing/emptyQuery'
+import { stubBaseTasks, stubDefinitionsTasks } from '../../../../../../cypress-tests/cypressUtils'
 
 context('Bookmarks list', () => {
   const path = '/embedded/platform/'
 
   describe('check the default starting state', () => {
     it('should have the default bookmarks from the caseload bookmark config', () => {
-      cy.task('resetStubs')
-      cy.task('resetRedis')
-      cy.task('stubDefinitions')
-      cy.task('stubDefinitionUnprintable')
-      cy.task('stubDefinitionEmptyReport')
-      cy.task('stubSingleSummaries')
+      stubBaseTasks()
+      stubDefinitionsTasks()
       cy.visit(path)
 
       cy.findByRole('tab', { name: /Bookmarks/ }).click()
@@ -33,13 +30,9 @@ context('Bookmarks list', () => {
 
   describe('check other interactions', () => {
     before(() => {
-      cy.task('resetStubs')
-      cy.task('stubDefinitions')
-      cy.task('resetRedis')
-      cy.task('stubSingleSummaries')
+      stubBaseTasks()
+      stubDefinitionsTasks()
       cy.task('stubDefinitionRequestExamplesSuccess')
-      cy.task('stubDefinitionUnprintable')
-      cy.task('stubDefinitionEmptyReport')
       cy.task('stubListExampleDashboard')
       cy.task('stubDefinitionMockReportVariant35')
       cy.task('stubTestDashboard8')

@@ -3,6 +3,7 @@ context('Request download form submitted', () => {
     cy.task('resetStubs')
     cy.task('resetRedis')
     cy.task('stubDefinitions')
+    cy.task('stubSingleSummaries')
   })
 
   it('is accessible', () => {

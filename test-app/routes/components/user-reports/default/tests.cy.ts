@@ -28,6 +28,7 @@ context('User reports component', () => {
       cy.task('resetStubs')
       cy.task('resetRedis')
       cy.task('stubDefinitions')
+      cy.task('stubSingleSummaries')
       cy.task('stubReportsFinishedStatus')
       cy.task('stubGenericDefinitionRequest')
       setRedisState({
@@ -161,6 +162,7 @@ context('User reports component', () => {
       cy.task('resetStubs')
       cy.task('resetRedis')
       cy.task('stubDefinitions')
+      cy.task('stubSingleSummaries')
       setRedisState({
         bookmarks: [],
         defaultFilters: [],
@@ -295,6 +297,7 @@ context('User reports component', () => {
       cy.task('resetStubs')
       cy.task('resetRedis')
       cy.task('stubDefinitions')
+      cy.task('stubSingleSummaries')
       cy.task('stubViewAsyncReportingResults')
       cy.task('stubReportsFinishedStatus')
       cy.task('stubGenericDefinitionRequest')

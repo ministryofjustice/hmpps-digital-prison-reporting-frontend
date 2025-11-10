@@ -49,10 +49,6 @@ export const getAsyncReportResultMockMissingData = setupSimpleMock(
     }))
   }),
 )
-export const getReportStatusMock = setupSimpleMock(
-  `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
-  { status: 'FINISHED' },
-)
 export const reportsFinishedStatusMock = setupSimpleMock(
   `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
   {
@@ -137,7 +133,6 @@ export const featureTestingVariantMocks = generateMocksFromDefs('feature-testing
 export const mocks = [
   requestAsyncReportMock,
   getAsyncReportResultMock,
-  getReportStatusMock,
   getReportResultCountMock,
   getAsyncInteractiveCountMock,
   ...requestExampleVariantMocks,

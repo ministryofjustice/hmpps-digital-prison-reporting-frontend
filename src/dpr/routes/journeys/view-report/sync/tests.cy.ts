@@ -1,14 +1,13 @@
+import { executeReportStubs } from '../../../../../../cypress-tests/cypressUtils'
+
 context('Platform sync tests', () => {
   const path = '/embedded/platform/'
 
   describe('Sync tests from the platform', () => {
     before(() => {
-      cy.task('resetStubs')
-      cy.task('resetRedis')
-      cy.task('stubDefinitions')
+      executeReportStubs()
       cy.task('stubDefinitionSyncReport')
       cy.task('stubRequestSuccessResult20')
-      cy.task('stubReportsFinishedStatus')
       cy.task('stubSyncRequestDataSuccess')
       cy.task('stubSyncRequestDataSuccessCount')
     })

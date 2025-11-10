@@ -3,6 +3,7 @@ import { stubFor } from '@networkMocks/generateNetworkMock'
 import { dataQualityFullDatasetMockLists, testingDashboard8Mock,  dataQualityScorecardDashboard,
   dataQualityScorecardGroupDashboard, } from '@networkMocks/dashboard/dashboardDefinitions/mocks'
 import { getDashboardStatusFinishedMock, requestAsyncDashboardMock } from '@networkMocks/dashboard/mocks'
+import { generateIndividualDefinitionSummaries } from '@networkMocks/mocks'
 
 const stubs = {
   stubDashboardSuccessResult20: () => stubFor(testDashboardResultMock),

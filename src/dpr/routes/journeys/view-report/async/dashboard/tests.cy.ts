@@ -8,6 +8,7 @@ context('Viewing a report', () => {
       cy.task('resetStubs')
       cy.task('resetRedis')
       cy.task('stubDefinitions')
+      cy.task('stubGetProductCollections')
       cy.task('stubTestDashboard8')
       cy.task('stubMockDashboardsStatusFinished')
       cy.task('stubViewAsyncResults')

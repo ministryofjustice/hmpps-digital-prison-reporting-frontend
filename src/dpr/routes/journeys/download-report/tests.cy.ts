@@ -10,6 +10,7 @@ context('Download report', () => {
     cy.task('resetStubs')
     cy.task('resetRedis')
     cy.task('stubDefinitions')
+    cy.task('stubGetProductCollections')
     cy.task('stubDefinitionRequestExamplesSuccess')
     cy.task('stubReportsFinishedStatus')
     cy.task('stubRequestSuccessResult20')

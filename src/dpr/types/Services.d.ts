@@ -1,9 +1,21 @@
+import {
+  BookmarkService,
+  DashboardService,
+  DefaultFilterValuesService,
+  DownloadPermissionService,
+  RecentlyViewedStoreService,
+  ReportingService,
+  RequestedReportService,
+} from '../services'
+import { ProductCollectionStoreService } from '../services/productCollection/productCollectionStoreService'
 import MissingReportClient from '../services/missingReport/missingReportClient'
+import { ProductCollectionService } from '../services/productCollection/productCollectionService'
 
 export type Services = UserStoreServices & {
   reportingService: ReportingService
   dashboardService: DashboardService
   missingReportClient: MissingReportClient
+  productCollectionService: ProductCollectionService
 }
 
 export interface UserStoreServices {
@@ -12,4 +24,5 @@ export interface UserStoreServices {
   recentlyViewedService?: RecentlyViewedStoreService
   bookmarkService?: BookmarkService
   defaultFilterValuesService?: DefaultFilterValuesService
+  productCollectionStoreService?: ProductCollectionStoreService
 }

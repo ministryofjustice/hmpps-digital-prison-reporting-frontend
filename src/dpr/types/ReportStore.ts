@@ -9,4 +9,5 @@ export interface ReportStoreConfig {
   bookmarks: BookmarkStoreData[]
   downloadPermissions?: DownloadPermissionConfig[]
   defaultFilters?: defaultFilterConfig[]
+  productCollectionInfo?: { selectedProductCollection: string }
 }

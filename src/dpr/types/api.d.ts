@@ -3,6 +3,8 @@
  * Do not make direct changes to the file.
  */
 
+import { LoadType } from './UserReports'
+
 export interface paths {
   '/missingRequest/{reportId}/{variantId}': {
     parameters: {
@@ -484,7 +486,7 @@ export interface components {
       name: string
       description?: string
       /** @enum {string} */
-      loadType?: 'sync' | 'async'
+      loadType?: LoadType
     }
     ReportDefinitionSummary: {
       id: string
@@ -500,7 +502,7 @@ export interface components {
       description?: string
       isMissing: boolean
       /** @enum {string} */
-      loadType?: 'sync' | 'async'
+      loadType?: LoadType
     }
     ChildVariantDefinition: {
       id: string

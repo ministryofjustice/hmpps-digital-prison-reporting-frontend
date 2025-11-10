@@ -7,6 +7,7 @@ context('Request missing report', () => {
     cy.task('resetStubs')
     cy.task('resetRedis')
     cy.task('stubDefinitions')
+    cy.task('stubGetProductCollections')
     cy.task('stubGetFeatureTestingMissing')
     cy.visit(path)
     cy.findByLabelText(/Reports catalogue.*/i).within(() => {

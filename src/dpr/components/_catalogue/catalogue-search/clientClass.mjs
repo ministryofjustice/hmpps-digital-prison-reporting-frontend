@@ -17,9 +17,23 @@ class DprCatalogueSearch extends DprCatalogueFilters {
       this.initSeachBoxEvents()
       this.updateTableRows()
       this.initSearchInputFromQueryParams()
+      this.initProductCollectionSelect()
     }
   }
 
+  initProductCollectionSelect() {
+    /**
+     * @type {HTMLSelectElement | undefined}
+     */
+    const productCollections = this.getElement().querySelector('#productCollection')
+    if (productCollections) {
+      productCollections.addEventListener('change', (e) => {
+        e.preventDefault()
+        productCollections.closest('form').submit()
+      })
+    }
+  }
+  
   initSeachBoxEvents() {
     this.searchBox.addEventListener('keyup', (e) => {
       this.updateTableRows(e.target.value)

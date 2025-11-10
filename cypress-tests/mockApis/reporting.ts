@@ -17,6 +17,8 @@ import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feat
 import { featureTestingSync } from '@networkMocks/report/mockVariants/feature-testing/sync'
 import { getListWithWarnings, getListWithWarningsCount } from '@networkMocks/report/sync/mocks'
 import { featureTestingOrderFilters } from '@networkMocks/report/mockVariants/feature-testing/orderFilters'
+import { getCatalogueCollection1, getCatalogueCollection2, getCatalogueCollections } from '@networkMocks/catalogueCollections/mocks'
+import { getProductCollection1, getProductCollection2, getProductCollections } from '@networkMocks/productCollections/mocks'
 
 const stubs = {
   stubGetFeatureTestingMissing: () => stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingMissing1)),
@@ -133,6 +135,9 @@ const stubs = {
   stubSyncRequestDataSuccess: () => stubFor(getListWithWarnings),
   stubSyncRequestDataSuccessCount: () => stubFor(getListWithWarningsCount),
   stubSingleSummaries: () => Promise.all(generateIndividualDefinitionSummaries.map(stubFor)),
+  stubGetProductCollections: () => stubFor(getProductCollections),
+  getProductCollection1: () => stubFor(getProductCollection1),
+  getProductCollection2: () => stubFor(getProductCollection2),
 }
 
 export default stubs

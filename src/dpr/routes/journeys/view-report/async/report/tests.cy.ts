@@ -14,7 +14,6 @@ context('Viewing a report', () => {
       cy.task('stubReportStatusMock')
       cy.task('stubReportsFinishedStatus')
       cy.task('stubDefinitionRequestExamplesSuccess')
-      cy.task('stubReportsFinishedStatus')
       cy.task('stubTestDashboard8')
       cy.task('stubMockDashboardsStatusFinished')
       cy.task('stubRequestSuccessResult20')

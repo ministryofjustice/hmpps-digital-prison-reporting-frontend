@@ -360,6 +360,8 @@ export const renderRequest = async ({
       }))
     }
 
+    console.log(JSON.stringify({ definition }, null, 2))
+
     if (fields) {
       ;({ filtersData, defaultFilterValues } = await getFilterData(req, res, fields, interactive, services, dprUser.id))
     }

@@ -1,10 +1,11 @@
 import { DashboardDefinition } from '../components/_dashboards/dashboard/types'
 import Dict = NodeJS.Dict
 import logger from '../utils/logger'
+import DashboardClient from '../data/dashboardClient'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 class DashboardService {
-  constructor(private readonly dashboardClient: any) {
+  constructor(private readonly dashboardClient: DashboardClient) {
     this.dashboardClient = dashboardClient
     logger.info('Service created: DashboardService')
   }

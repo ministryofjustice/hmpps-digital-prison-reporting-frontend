@@ -1,4 +1,6 @@
 import MissingReportClient from '../services/missingReport/missingReportClient'
+import ReportingService from '../services/reportingService'
+import DashboardService from '../services/dashboardService'
 
 export type Services = UserStoreServices & {
   reportingService: ReportingService

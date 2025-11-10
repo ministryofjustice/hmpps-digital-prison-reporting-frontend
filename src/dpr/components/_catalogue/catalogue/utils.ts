@@ -14,15 +14,33 @@ export const init = async ({
   services: Services
 }) => {
   const data = await CatalogueListUtils.getReportsList(res, services, features)
+  const { token, bookmarkingEnabled, dprUser } = LocalsHelper.getValues(res)
+  const productCollections = (await services.productCollectionService.getProductCollections(token))?.map(
+    (collection) => ({
+      value: collection.id,
+      text: collection.name,
+    }),
+  )
+  if (productCollections && productCollections.length > 0) {
+    productCollections.unshift({ value: 'RESET', text: 'Full catalogue' })
+  }
+  const selectedProductCollectionId = await services.productCollectionStoreService.getSelectedProductCollectionId(
+    dprUser.id,
+  )
+  const selectedProductCollection =
+    selectedProductCollectionId &&
+    (await services.productCollectionService.getProductCollection(dprUser.id, selectedProductCollectionId))
   return {
     data,
-    features: setFeatures(res, features),
+    productCollectionInfo: {
+      productCollections,
+      ...(selectedProductCollection && { selectedProductCollection }),
+    },
+    features: setFeatures(bookmarkingEnabled, features),
   }
 }
 
-const setFeatures = (res: Response, features?: CatalogueFeatures) => {
-  const { bookmarkingEnabled } = LocalsHelper.getValues(res)
-
+const setFeatures = (bookmarkingEnabled: boolean, features?: CatalogueFeatures) => {
   return {
     filteringEnabled: features?.filteringEnabled === undefined || features.filteringEnabled,
     unauthorisedToggleEnabled: features?.unauthorisedToggleEnabled === undefined || features.unauthorisedToggleEnabled,

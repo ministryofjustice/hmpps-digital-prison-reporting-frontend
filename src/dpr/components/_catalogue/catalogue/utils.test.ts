@@ -22,7 +22,15 @@ describe('CatalogueUtils', () => {
         },
       } as unknown as Response
 
-      services = {} as unknown as Services
+      services = {
+        productCollectionService: {
+          getProductCollections: jest.fn(() => []),
+          getProductCollection: jest.fn(),
+        },
+        productCollectionStoreService: {
+          getSelectedProductCollectionId: jest.fn(),
+        },
+      } as unknown as Services
     })
 
     it('should init the catalogue with defaults', async () => {
@@ -35,6 +43,9 @@ describe('CatalogueUtils', () => {
           filteringEnabled: true,
           howToUseEnabled: true,
           unauthorisedToggleEnabled: true,
+        },
+        productCollectionInfo: {
+          productCollections: [],
         },
       })
     })
@@ -57,6 +68,9 @@ describe('CatalogueUtils', () => {
           filteringEnabled: false,
           howToUseEnabled: true,
           unauthorisedToggleEnabled: false,
+        },
+        productCollectionInfo: {
+          productCollections: [],
         },
       })
     })

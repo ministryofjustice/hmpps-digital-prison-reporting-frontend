@@ -651,7 +651,7 @@ export interface components {
     }
     DashboardVisualisationColumnDefinition: {
       id: string
-      display: string
+      display?: string
       /** @enum {string} */
       aggregate?: 'sum' | 'average'
       /** @enum {string} */

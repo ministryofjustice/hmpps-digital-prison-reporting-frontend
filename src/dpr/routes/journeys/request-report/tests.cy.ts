@@ -352,13 +352,4 @@ context('Requesting a report', () => {
       })
     })
   })
-
-  describe('Expired request', () => {
-    beforeEach(() => {
-      executeReportStubs()
-      cy.task('stubDefinitionRequestExamplesSuccess')
-      cy.task('stubRequestSuccessResult20')
-      cy.visit(path)
-    })
-  })
 })

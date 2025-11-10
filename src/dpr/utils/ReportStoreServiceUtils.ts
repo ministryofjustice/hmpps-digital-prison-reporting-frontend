@@ -14,23 +14,28 @@ import DashboardClient from '../data/dashboardClient'
 import logger from './logger'
 import { Services } from '../types/Services'
 import MissingReportClient from '../services/missingReport/missingReportClient'
+import { ProductCollectionStoreService } from '../services/productCollection/productCollectionStoreService'
+import { ProductCollectionService } from '../services/productCollection/productCollectionService'
 
 export interface InitDPRServicesArgs {
   reportingClient: ReportingClient
   dashboardClient: DashboardClient
   reportDataStore: ReportDataStore
   missingReportClient: MissingReportClient
+  productCollectionService?: ProductCollectionService
 }
 
 interface dprServices {
   reportingService?: ReportingService
   dashboardService?: DashboardService
+  productCollectionService?: ProductCollectionService
   requestedReportService?: RequestedReportService
   missingReportClient?: MissingReportClient
   recentlyViewedService?: RecentlyViewedStoreService
   bookmarkService?: BookmarkService
   downloadPermissionService?: DownloadPermissionService
   defaultFilterValuesService?: DefaultFilterValuesService
+  productCollectionStoreService?: ProductCollectionStoreService
 }
 
 export const createDprServices = (
@@ -57,6 +62,7 @@ export const createDprServices = (
   services = {
     ...services,
     missingReportClient: clients.missingReportClient,
+    productCollectionService: clients.productCollectionService,
   }
 
   return services as Services
@@ -95,6 +101,7 @@ const createReportStoreServices = (
     requestedReportService: new RequestedReportService(reportDataStore),
     recentlyViewedService: new RecentlyViewedStoreService(reportDataStore),
     defaultFilterValuesService: new DefaultFilterValuesService(reportDataStore),
+    productCollectionStoreService: new ProductCollectionStoreService(reportDataStore),
   }
 
   if (config.bookmarking === undefined || config.bookmarking) {

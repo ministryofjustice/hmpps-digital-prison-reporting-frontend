@@ -72,6 +72,7 @@ export const stubDefinitionsTasks = () => {
   cy.task('stubDefinitions')
   cy.task('stubSingleSummaries')
   cy.task('stubGetProductCollections')
+  cy.task('stubGenericDefinitionRequest')
   stubBookmarks()
 }
 

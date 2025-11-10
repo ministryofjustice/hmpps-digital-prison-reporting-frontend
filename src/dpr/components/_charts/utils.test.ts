@@ -14,19 +14,22 @@ import {
   dataQualityEthnicityHistoricLine,
   dietTotalsByEstablishmentBar,
 } from '../../../../test-app/mocks/mockClients/dashboards/definitions/examples/visualisations/charts'
-import { DashboardVisualisation } from '../_dashboards/dashboard/types'
+import { components } from '../../types/api'
 
 describe('ChartCard Utils', () => {
   let dashboardMetricsData: DashboardDataResponse[][]
   let dashboardMockDietData: DashboardDataResponse[]
-  let snapshotVisualisationDefinition: DashboardVisualisation
-  let snapshotVisualisationFromListDefinition: DashboardVisualisation
-  let timeseriesVisualisationDefinition: DashboardVisualisation
+  let snapshotVisualisationDefinition: components['schemas']['DashboardVisualisationDefinition']
+  let snapshotVisualisationFromListDefinition: components['schemas']['DashboardVisualisationDefinition']
+  let timeseriesVisualisationDefinition: components['schemas']['DashboardVisualisationDefinition']
 
   beforeEach(() => {
-    snapshotVisualisationDefinition = mockEthnicityBarChart as unknown as DashboardVisualisation
-    timeseriesVisualisationDefinition = dataQualityEthnicityHistoricLine as unknown as DashboardVisualisation
-    snapshotVisualisationFromListDefinition = dietTotalsByEstablishmentBar as unknown as DashboardVisualisation
+    snapshotVisualisationDefinition =
+      mockEthnicityBarChart as unknown as components['schemas']['DashboardVisualisationDefinition']
+    timeseriesVisualisationDefinition =
+      dataQualityEthnicityHistoricLine as unknown as components['schemas']['DashboardVisualisationDefinition']
+    snapshotVisualisationFromListDefinition =
+      dietTotalsByEstablishmentBar as unknown as components['schemas']['DashboardVisualisationDefinition']
     dashboardMetricsData = mockTimeSeriesDataLastSixMonths
     dashboardMockDietData = mockDietDataLastSixMonths
   })

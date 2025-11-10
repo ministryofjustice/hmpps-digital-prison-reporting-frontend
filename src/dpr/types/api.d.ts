@@ -3,8 +3,6 @@
  * Do not make direct changes to the file.
  */
 
-import { LoadType } from './UserReports'
-
 export interface paths {
   '/missingRequest/{reportId}/{variantId}': {
     parameters: {
@@ -502,7 +500,7 @@ export interface components {
       description?: string
       isMissing: boolean
       /** @enum {string} */
-      loadType?: LoadType
+      loadType?: 'sync' | 'async'
     }
     ChildVariantDefinition: {
       id: string
@@ -651,7 +649,7 @@ export interface components {
     }
     DashboardVisualisationColumnDefinition: {
       id: string
-      display: string
+      display?: string
       /** @enum {string} */
       aggregate?: 'sum' | 'average'
       /** @enum {string} */
@@ -1625,7 +1623,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ProductCollectionSummary'][]
+          'application/json': components['schemas']['ProductCollectionSummary'][]
         }
       }
       /** @description Bad Request */
@@ -1634,7 +1632,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ErrorResponse']
+          'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Forbidden */
@@ -1643,7 +1641,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ErrorResponse']
+          'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Too Many Requests */
@@ -1652,7 +1650,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ErrorResponse']
+          'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Internal Server Error */
@@ -1661,7 +1659,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ErrorResponse']
+          'application/json': components['schemas']['ErrorResponse']
         }
       }
     }
@@ -1687,7 +1685,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ProductCollectionDTO']
+          'application/json': components['schemas']['ProductCollectionDTO']
         }
       }
       /** @description Bad Request */
@@ -1696,7 +1694,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ErrorResponse']
+          'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Forbidden */
@@ -1705,7 +1703,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ErrorResponse']
+          'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Too Many Requests */
@@ -1714,7 +1712,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ErrorResponse']
+          'application/json': components['schemas']['ErrorResponse']
         }
       }
       /** @description Internal Server Error */
@@ -1723,12 +1721,12 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ErrorResponse']
+          'application/json': components['schemas']['ErrorResponse']
         }
       }
     }
   }
-  definitions: {
+  definitions_1: {
     parameters: {
       query?: {
         /**

@@ -1,9 +1,7 @@
-import {
-  DashboardVisualisation,
-  DashboardVisualisationType,
-} from '../../../../../src/dpr/components/_dashboards/dashboard/types'
+import { components } from '../../../../../src/dpr/types/api'
+import { DashboardVisualisationType } from '../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
-const mockScorecardDefinitionNationality: DashboardVisualisation = {
+const mockScorecardDefinitionNationality: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockNationalityScorecard',
   type: DashboardVisualisationType.SCORECARD,
   columns: {
@@ -22,7 +20,7 @@ const mockScorecardDefinitionNationality: DashboardVisualisation = {
   },
 }
 
-const mockScorecardDefinitionNoNationality: DashboardVisualisation = {
+const mockScorecardDefinitionNoNationality: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockNoNationalityScorecard',
   type: DashboardVisualisationType.SCORECARD,
   columns: {
@@ -41,7 +39,7 @@ const mockScorecardDefinitionNoNationality: DashboardVisualisation = {
   },
 }
 
-const mockScorecardDefinitionReligion: DashboardVisualisation = {
+const mockScorecardDefinitionReligion: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockReligionScorecard',
   type: DashboardVisualisationType.SCORECARD,
   columns: {
@@ -60,7 +58,7 @@ const mockScorecardDefinitionReligion: DashboardVisualisation = {
   },
 }
 
-const mockTargetScorecardDefinitionReligion: DashboardVisualisation = {
+const mockTargetScorecardDefinitionReligion: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockReligionTargetScorecard',
   type: DashboardVisualisationType.SCORECARD,
   columns: {
@@ -85,7 +83,7 @@ const mockTargetScorecardDefinitionReligion: DashboardVisualisation = {
   },
 }
 
-const mockScorecardGroupReligionByEstablishment: DashboardVisualisation = {
+const mockScorecardGroupReligionByEstablishment: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'religion-by-est-sc-group',
   type: DashboardVisualisationType.SCORECARD_GROUP,
   display: 'Has religion by Establishment',
@@ -110,7 +108,7 @@ const mockScorecardGroupReligionByEstablishment: DashboardVisualisation = {
   },
 }
 
-const mockScorecardGroupNationalityByEstablishment: DashboardVisualisation = {
+const mockScorecardGroupNationalityByEstablishment: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'nationality-by-est-sc-group',
   type: DashboardVisualisationType.SCORECARD_GROUP,
   display: 'Has nationality by Establishment',
@@ -135,7 +133,7 @@ const mockScorecardGroupNationalityByEstablishment: DashboardVisualisation = {
   },
 }
 
-const mockScorecardGroupEthnicityByEstablishment: DashboardVisualisation = {
+const mockScorecardGroupEthnicityByEstablishment: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'ethnicity-by-est-sc-group',
   type: DashboardVisualisationType.SCORECARD_GROUP,
   display: 'Has ethnicity by Establishment',

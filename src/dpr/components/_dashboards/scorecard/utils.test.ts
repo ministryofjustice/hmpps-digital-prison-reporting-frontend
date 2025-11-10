@@ -1,8 +1,11 @@
 import ScorecardUtils from './utils'
 import { Scorecard } from './types'
 
-import { DashboardUIVisualisation, DashboardVisualisationType } from '../dashboard/types'
-import { ChartCardData } from '../../../types/Charts'
+import {
+  DashboardVisualisation,
+  DashboardVisualisationType,
+  DashboardVisualisatonCardData,
+} from '../dashboard-visualisation/types'
 
 describe('ScorecardUtils', () => {
   let scorecardData1: Scorecard
@@ -42,7 +45,7 @@ describe('ScorecardUtils', () => {
 
   describe('mergeScorecards', () => {
     it('should merge individual scorecards into a scorecard group', () => {
-      const visualistationData: DashboardUIVisualisation[] = [
+      const visualistationData: DashboardVisualisation[] = [
         {
           id: '1',
           type: DashboardVisualisationType.SCORECARD,
@@ -56,7 +59,7 @@ describe('ScorecardUtils', () => {
         {
           id: '3',
           type: DashboardVisualisationType.BAR,
-          data: {} as unknown as ChartCardData,
+          data: {} as unknown as DashboardVisualisatonCardData,
         },
         {
           id: '4',

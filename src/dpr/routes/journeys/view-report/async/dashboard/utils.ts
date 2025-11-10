@@ -1,17 +1,13 @@
 import parseUrl from 'parseurl'
 import { Url } from 'url'
 import { Request } from 'express'
+import {
+  DashboardSection,
+  DashboardVisualisation,
+  DashboardVisualisationType,
+} from '../../../../../components/_dashboards/dashboard-visualisation/types'
 import type { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 
-import {
-  DashboardUIVisualisation,
-  DashboardVisualisationType,
-  ListVisualisation,
-  type DashboardDefinition,
-  type DashboardSection,
-  type DashboardUISection,
-  type DashboardVisualisation,
-} from '../../../../../components/_dashboards/dashboard/types'
 import type { DashboardDataResponse } from '../../../../../types/Metrics'
 import type { RequestedReport } from '../../../../../types/UserReports'
 import { ReportType } from '../../../../../types/UserReports'
@@ -32,7 +28,7 @@ import { FilterValue } from '../../../../../components/_filters/types'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 
 const setDashboardActions = (
-  dashboardDefinition: DashboardDefinition,
+  dashboardDefinition: components['schemas']['DashboardDefinition'],
   reportDefinition: components['schemas']['ReportDefinitionSummary'],
   requestData: RequestedReport,
 ) => {
@@ -63,12 +59,8 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
   const { dataProductDefinitionsPath } = req.query
 
   // Dashboard Definition,
-  const dashboardDefinition: DashboardDefinition = await services.dashboardService.getDefinition(
-    token,
-    reportId,
-    id,
-    dataProductDefinitionsPath,
-  )
+  const dashboardDefinition: components['schemas']['DashboardDefinition'] =
+    await services.dashboardService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
 
   // Report summary data
   const reportDefinition = await DefinitionUtils.getReportSummary(
@@ -104,61 +96,63 @@ const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsP
 }
 
 const getSections = (
-  dashboardDefinition: DashboardDefinition,
+  dashboardDefinition: components['schemas']['DashboardDefinition'],
   dashboardData: DashboardDataResponse[],
   query: Record<string, string | string[]>,
-): DashboardUISection[] => {
-  return dashboardDefinition.sections.map((section: DashboardSection) => {
+): DashboardSection[] => {
+  return dashboardDefinition.sections.map((section: components['schemas']['DashboardSectionDefinition']) => {
     const { id, display: title, description } = section
 
     let hasScorecard = false
-    const visualisations = section.visualisations.map((visDefinition: DashboardVisualisation) => {
-      const { type, display, description: visDescription, id: visId } = visDefinition
+    const visualisations = section.visualisations.map(
+      (visDefinition: components['schemas']['DashboardVisualisationDefinition']) => {
+        const { type, display, description: visDescription, id: visId } = visDefinition
 
-      let data: DashboardUIVisualisation['data']
+        let data: DashboardVisualisation['data']
 
-      switch (type) {
-        case DashboardVisualisationType.LIST:
-          data = DashboardListUtils.createList(visDefinition as ListVisualisation, dashboardData)
-          break
+        switch (type) {
+          case DashboardVisualisationType.LIST:
+            data = DashboardListUtils.createList(visDefinition, dashboardData)
+            break
 
-        case DashboardVisualisationType.SCORECARD:
-          hasScorecard = true
-          data = new ScorecardVisualisation(dashboardData, visDefinition).build()
-          break
+          case DashboardVisualisationType.SCORECARD:
+            hasScorecard = true
+            data = new ScorecardVisualisation(dashboardData, visDefinition).build()
+            break
 
-        case DashboardVisualisationType.SCORECARD_GROUP:
-          data = new ScorecardVisualisation(dashboardData, visDefinition, true).build()
-          break
+          case DashboardVisualisationType.SCORECARD_GROUP:
+            data = new ScorecardVisualisation(dashboardData, visDefinition, true).build()
+            break
 
-        case DashboardVisualisationType.BAR:
-        case DashboardVisualisationType.LINE:
-        case DashboardVisualisationType.DONUT: {
-          data = ChartUtils.createChart(visDefinition, dashboardData)
-          break
+          case DashboardVisualisationType.BAR:
+          case DashboardVisualisationType.LINE:
+          case DashboardVisualisationType.DONUT: {
+            data = ChartUtils.createChart(visDefinition, dashboardData)
+            break
+          }
+          case DashboardVisualisationType.MATRIX:
+          case DashboardVisualisationType.MATRIX_TIMESERIES: {
+            data = ChartUtils.createMatrixChart(visDefinition, dashboardData, query)
+            break
+          }
+          case DashboardVisualisationType.BAR_TIMESERIES:
+          case DashboardVisualisationType.LINE_TIMESERIES: {
+            data = ChartUtils.createTimeseriesCharts(visDefinition, dashboardData)
+            break
+          }
+          default:
+            break
         }
-        case DashboardVisualisationType.MATRIX:
-        case DashboardVisualisationType.MATRIX_TIMESERIES: {
-          data = ChartUtils.createMatrixChart(visDefinition, dashboardData, query)
-          break
-        }
-        case DashboardVisualisationType.BAR_TIMESERIES:
-        case DashboardVisualisationType.LINE_TIMESERIES: {
-          data = ChartUtils.createTimeseriesCharts(visDefinition, dashboardData)
-          break
-        }
-        default:
-          break
-      }
 
-      return {
-        id: visId,
-        title: display,
-        description: visDescription,
-        type,
-        data,
-      }
-    })
+        return {
+          id: visId,
+          title: display,
+          description: visDescription,
+          type,
+          data,
+        }
+      },
+    )
 
     if (hasScorecard) ScorecardsUtils.mergeScorecardsIntoGroup(visualisations)
 
@@ -170,7 +164,7 @@ const updateStore = async (
   services: Services,
   tableId: string,
   userId: string,
-  sections: DashboardUISection[],
+  sections: DashboardSection[],
   url: Url,
   req: Request,
   filters: FilterValue[],
@@ -218,7 +212,7 @@ export const renderAsyncDashboard = async ({ req, res, services, next }: AsyncRe
   const flattenedData: DashboardDataResponse[] = dashboardData.flat()
 
   // Get the dashboard parts
-  const sections: DashboardUISection[] = getSections(dashboardDefinition, flattenedData, query)
+  const sections: DashboardSection[] = getSections(dashboardDefinition, flattenedData, query)
 
   // Update the store
   const dashboardRequestData = await updateStore(services, tableId, dprUser.id, sections, url, req, filters.filters)

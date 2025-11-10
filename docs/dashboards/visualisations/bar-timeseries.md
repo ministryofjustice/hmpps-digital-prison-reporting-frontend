@@ -1,6 +1,6 @@
 ---
 layout: layouts/dashboards.njk
-title: Chart Type
+title: Bar timeseries chart
 subsection: Visualisation definition
 ---
 
@@ -8,7 +8,7 @@ subsection: Visualisation definition
 
 <img src="" alt="" width="500" style="margin-bottom: 20px"/>
 
-The `vis-type` chart visualisation type represents data as a matrix/heatmap chart visualisation. 
+The `bar-timeseries` chart visualisation type represents data as a bar chart showing historic data. 
 
 - [When to use](#when-to-use)
 - [How it works](#how-it-works)
@@ -35,26 +35,16 @@ TBD
 ```js
 {
   id: 'id',
-  type: 'type',
+  type: 'bar-timeseries',
   display: 'name',
   description: 'description',
-  option: {
-    ...
-  }
   column: {
     ...
   }
 }
 ```
-  See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
 
-### Options: 
-
-```js
-option: {
-  ...
-}
-```
+See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
 
 <hr class='dpr-docs-hr'/>
 

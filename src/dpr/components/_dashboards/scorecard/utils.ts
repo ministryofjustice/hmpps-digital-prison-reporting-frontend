@@ -1,10 +1,10 @@
-import { DashboardUIVisualisation, DashboardVisualisationType } from '../dashboard/types'
+import { DashboardVisualisation, DashboardVisualisationType } from '../dashboard-visualisation/types'
 import { Scorecard } from './types'
 
-export const mergeScorecardsIntoGroup = (visualisations: DashboardUIVisualisation[]) => {
+export const mergeScorecardsIntoGroup = (visualisations: DashboardVisualisation[]) => {
   const groupedScorecardIndexes: number[][] = visualisations
     // get scorecard indexes
-    .reduce((acc: number[], vis: DashboardUIVisualisation, i: number) => {
+    .reduce((acc: number[], vis: DashboardVisualisation, i: number) => {
       if (vis.type === DashboardVisualisationType.SCORECARD) acc.push(i)
       return acc
     }, [])

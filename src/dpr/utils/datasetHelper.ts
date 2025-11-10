@@ -1,8 +1,14 @@
 import { DashboardDataResponse } from '../types/Metrics'
-import { DashboardVisualisation, DashboardVisualisationColumnKey } from '../components/_dashboards/dashboard/types'
+import { components } from '../types/api'
 
-export const getDatasetRows = (listDefinition: DashboardVisualisation, dashboardData: DashboardDataResponse[]) => {
-  const { keys, measures, filters, expectNulls } = listDefinition.columns
+export const getDatasetRows = (
+  listDefinition: components['schemas']['DashboardVisualisationDefinition'],
+  dashboardData: DashboardDataResponse[],
+) => {
+  const { measures, filters, expectNulls } = listDefinition.columns
+  const keys = <Array<components['schemas']['DashboardVisualisationColumnDefinition'] & { optional: boolean }>>(
+    listDefinition.columns.keys
+  )
 
   const displayColumnsIds = measures.map((col) => col.id)
   const keyColumnsIds = keys?.map((col) => col.id) || []
@@ -22,7 +28,7 @@ export const getDatasetRows = (listDefinition: DashboardVisualisation, dashboard
       // 1. check if the column value is equal to a defined column value
       if (filterColIds.includes(datasetField)) {
         const filterValues = filters ? filters.filter((f) => f.id === datasetField).map((f) => f.equals) : []
-        valid = filterValues.includes(value)
+        valid = filterValues.includes(<string>value)
 
         // 3. check keys exist in the defined columns
       } else if (keyColumnsIds.includes(datasetField) && hasOptionalKeys) {
@@ -54,7 +60,10 @@ export const getDatasetRows = (listDefinition: DashboardVisualisation, dashboard
   return filtered
 }
 
-export const getKeyVariations = (dashboardData: DashboardDataResponse[], keys: DashboardVisualisationColumnKey[]) => {
+export const getKeyVariations = (
+  dashboardData: DashboardDataResponse[],
+  keys: Array<components['schemas']['DashboardVisualisationColumnDefinition'] & { optional: boolean }>,
+) => {
   const colIdVariations: string[][] = []
   const keyColumnsIds = keys.map((col) => col.id)
   const allOptional = keys.every((key) => key.optional)
@@ -105,7 +114,10 @@ export const getKeyIds = (dashboardData: DashboardDataResponse[], colIdVariation
   return validHeadIds
 }
 
-export const filterKeys = (dashboardData: DashboardDataResponse[], keys: DashboardVisualisationColumnKey[]) => {
+export const filterKeys = (
+  dashboardData: DashboardDataResponse[],
+  keys: Array<components['schemas']['DashboardVisualisationColumnDefinition'] & { optional: boolean }>,
+) => {
   const colIdVariations = getKeyVariations(dashboardData, keys)
   const validHeadIds = getKeyIds(dashboardData, colIdVariations)
 
@@ -154,7 +166,10 @@ export const groupRowsByKey = (dashboardData: DashboardDataResponse[], key: stri
   })
 }
 
-export const getGroupKey = (keys: DashboardVisualisationColumnKey[], rawData: DashboardDataResponse[]) => {
+export const getGroupKey = (
+  keys: Array<components['schemas']['DashboardVisualisationColumnDefinition'] & { optional: boolean }>,
+  rawData: DashboardDataResponse[],
+) => {
   if (!keys || !keys.length || !rawData.length) {
     return undefined
   }
@@ -175,7 +190,7 @@ export const getGroupKey = (keys: DashboardVisualisationColumnKey[], rawData: Da
 }
 
 export const filterRowsByDisplayColumns = (
-  listDefinition: DashboardVisualisation,
+  listDefinition: components['schemas']['DashboardVisualisationDefinition'],
   dashboardData: DashboardDataResponse[],
   includeKeys = false,
 ) => {

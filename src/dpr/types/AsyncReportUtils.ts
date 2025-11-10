@@ -2,7 +2,6 @@ import { Response, Request, NextFunction } from 'express'
 import { Services } from './Services'
 import { components } from './api'
 import { ReportType } from './UserReports'
-import { DashboardSection } from '../components/_dashboards/dashboard/types'
 import { RenderFiltersReturnValue } from '../components/_async/async-filters-form/types'
 
 export interface AsyncReportUtilsParams {
@@ -29,7 +28,7 @@ export interface RequestReportData {
   definitionPath: string
   csrfToken: string
   template?: string
-  sections: DashboardSection[]
+  sections: components['schemas']['DashboardSectionDefinition'][]
   type: ReportType
   defaultInteractiveQueryString?: string
   hasDefaults: boolean

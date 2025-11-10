@@ -1,6 +1,6 @@
 ---
 layout: layouts/dashboards.njk
-title: Chart Type
+title: Line chart
 subsection: Visualisation definition
 ---
 
@@ -8,7 +8,7 @@ subsection: Visualisation definition
 
 <img src="" alt="" width="500" style="margin-bottom: 20px"/>
 
-The `vis-type` chart visualisation type represents data as a matrix/heatmap chart visualisation. 
+The `line` chart visualisation type represents data as a matrix/heatmap chart visualisation. 
 
 - [When to use](#when-to-use)
 - [How it works](#how-it-works)
@@ -35,7 +35,7 @@ TBD
 ```js
 {
   id: 'id',
-  type: 'type',
+  type: 'line',
   display: 'name',
   description: 'description',
   option: {
@@ -47,14 +47,6 @@ TBD
 }
 ```
   See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
-
-### Options: 
-
-```js
-option: {
-  ...
-}
-```
 
 <hr class='dpr-docs-hr'/>
 

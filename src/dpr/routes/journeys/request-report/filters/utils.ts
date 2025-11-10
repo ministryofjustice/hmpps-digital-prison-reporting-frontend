@@ -374,7 +374,7 @@ export const renderRequest = async ({
       csrfToken,
       template,
       sections,
-      hasDefaults: defaultFilterValues?.length !== 0,
+      hasDefaults: defaultFilterValues?.length > 0,
       defaultsSaved,
       type: type as ReportType,
     }

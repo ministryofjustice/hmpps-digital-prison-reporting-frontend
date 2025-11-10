@@ -3,12 +3,12 @@ import { mockListDefinitionAgeRange1 } from '../../../../../test-app/mocks/mockC
 import { dataQualityColsToList } from '../../../../../test-app/mocks/mockClients/dashboards/definitions/examples/visualisations/lists'
 import { mockAgeBreakdownData } from '../../../../../test-app/mocks/mockClients/dashboards/data/age-breakdown/data'
 import { mockTimeSeriesDataLastSixMonths } from '../../../../../test-app/mocks/mockClients/dashboards/data/data-quality-metrics/data'
-import { ListVisualisation } from '../dashboard/types'
+import { components } from '../../../types/api'
 
 describe('DashboardListUtils', () => {
   describe('createList', () => {
     it('should create the list data', () => {
-      const visDefinition = mockListDefinitionAgeRange1 as unknown as ListVisualisation
+      const visDefinition = mockListDefinitionAgeRange1 as components['schemas']['DashboardVisualisationDefinition']
       const result = DashboardListUtils.createList(visDefinition, mockAgeBreakdownData.flat())
       const expectedResult = {
         table: {
@@ -29,7 +29,7 @@ describe('DashboardListUtils', () => {
     })
 
     it('should create the list data from data columns', () => {
-      const visDefinition = dataQualityColsToList as unknown as ListVisualisation
+      const visDefinition = dataQualityColsToList as components['schemas']['DashboardVisualisationDefinition']
       const result = DashboardListUtils.createList(visDefinition, mockTimeSeriesDataLastSixMonths.flat())
 
       const expectedResult = {

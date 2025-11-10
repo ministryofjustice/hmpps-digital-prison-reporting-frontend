@@ -1,7 +1,6 @@
 import { Response } from 'express'
 import { components } from '../../../types/api'
 import { Services } from '../../../types/Services'
-import { DashboardDefinition } from '../../_dashboards/dashboard/types'
 import { DefinitionData, LoadType, ReportType } from '../../../types/UserReports'
 import ShowMoreUtils from '../../show-more/utils'
 import { createListItemProductMin, createListActions, setInitialHref } from '../../../utils/reportListsHelper'
@@ -28,7 +27,7 @@ export const getReportsList = async (
   const sortedVariants = sortedDefinitions.flatMap(
     (
       def: components['schemas']['ReportDefinitionSummary'] & {
-        dashboards: DashboardDefinition[]
+        dashboards: components['schemas']['DashboardDefinition'][]
         authorised: boolean
       },
     ) => {
@@ -58,8 +57,8 @@ export const getReportsList = async (
 
       let dashboardsArray: DefinitionData[] = []
       if (dashboards) {
-        dashboardsArray = dashboards.map((dashboard: DashboardDefinition) => {
-          const { id, name, description, isMissing } = dashboard
+        dashboardsArray = dashboards.map((dashboard: components['schemas']['DashboardDefinition']) => {
+          const { id, name, description } = dashboard
           return {
             reportName,
             reportId,
@@ -69,7 +68,7 @@ export const getReportsList = async (
             type: ReportType.DASHBOARD,
             reportDescription,
             authorised,
-            isMissing,
+            isMissing: false,
             loadType: LoadType.ASYNC,
           }
         })

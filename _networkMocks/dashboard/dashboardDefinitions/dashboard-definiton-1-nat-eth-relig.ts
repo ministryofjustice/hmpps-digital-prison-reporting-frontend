@@ -3,9 +3,9 @@ import chartDefs from './age-breakdown/visualisations/ethnicityReligionDefinitio
 import cardDefs from './age-breakdown/visualisations/scorecard-definitions-nationality-ethnicity-religion'
 import vizExamples from './visualisations/lists'
 
-import type { DashboardDefinition } from '../../../src/dpr/components/_dashboards/dashboard/types'
+import { components } from '../../../src/dpr/types/api'
 
-export const testingDashboard8: DashboardDefinition = {
+export const testingDashboard8: components['schemas']['DashboardDefinition'] = {
   id: 'test-dashboard-8',
   name: 'Test Dashboard',
   description: 'Dashboard used for testing testing',

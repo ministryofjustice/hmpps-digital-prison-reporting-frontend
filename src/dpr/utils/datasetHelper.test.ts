@@ -1,4 +1,4 @@
-import { DashboardVisualisation, DashboardVisualisationColumn } from '../components/_dashboards/dashboard/types'
+import { components } from '../types/api'
 import { DashboardDataResponse } from '../types/Metrics'
 import DatasetHelper from './datasetHelper'
 
@@ -57,7 +57,7 @@ describe('DatasetHelper', () => {
               },
             ],
           },
-        } as unknown as DashboardVisualisation
+        } as unknown as components['schemas']['DashboardVisualisationDefinition']
 
         const result = DatasetHelper.getDatasetRows(definition, dataset)
         expect(result).toEqual(expectedResult)
@@ -121,7 +121,7 @@ describe('DatasetHelper', () => {
               },
             ],
           },
-        } as unknown as DashboardVisualisation
+        } as unknown as components['schemas']['DashboardVisualisationDefinition']
 
         const result = DatasetHelper.getDatasetRows(definition, dataset)
         expect(result).toEqual(expectedResult)
@@ -165,7 +165,7 @@ describe('DatasetHelper', () => {
             ],
             expectNulls: true,
           },
-        } as unknown as DashboardVisualisation
+        } as unknown as components['schemas']['DashboardVisualisationDefinition']
 
         const result = DatasetHelper.getDatasetRows(definition, dataset)
         expect(result).toEqual(expectedResult)
@@ -274,7 +274,7 @@ describe('DatasetHelper', () => {
               },
             ],
           },
-        } as unknown as DashboardVisualisation
+        } as unknown as components['schemas']['DashboardVisualisationDefinition']
 
         const result = DatasetHelper.getDatasetRows(definition, dataset)
         expect(result).toEqual(expectedResult)
@@ -396,7 +396,7 @@ describe('DatasetHelper', () => {
               },
             ],
           },
-        } as unknown as DashboardVisualisation
+        } as unknown as components['schemas']['DashboardVisualisationDefinition']
 
         const result = DatasetHelper.getDatasetRows(definition, dataset)
         expect(result).toEqual(expectedResult)
@@ -475,7 +475,7 @@ describe('DatasetHelper', () => {
             },
           ],
         },
-      } as unknown as DashboardVisualisation
+      } as unknown as components['schemas']['DashboardVisualisationDefinition']
 
       const data = [
         {
@@ -501,7 +501,7 @@ describe('DatasetHelper', () => {
   })
 
   describe('getChartGroupKey', () => {
-    let keys: DashboardVisualisationColumn[]
+    let keys: components['schemas']['DashboardVisualisationColumnDefinition'][]
     beforeEach(() => {
       keys = [
         {
@@ -513,7 +513,7 @@ describe('DatasetHelper', () => {
         {
           id: 'key3',
         },
-      ] as unknown as DashboardVisualisationColumn[]
+      ]
     })
 
     it('should set the correct key - value is empty string - key3', () => {
@@ -711,7 +711,7 @@ describe('DatasetHelper', () => {
 
   describe('getKeyVariations', () => {
     let data: DashboardDataResponse[]
-    let keys: DashboardVisualisationColumn[]
+    let keys: components['schemas']['DashboardVisualisationColumnDefinition'][]
 
     beforeEach(() => {
       data = [
@@ -904,7 +904,7 @@ describe('DatasetHelper', () => {
 
   describe('filterKeys', () => {
     let data: DashboardDataResponse[]
-    let keys: DashboardVisualisationColumn[]
+    let keys: components['schemas']['DashboardVisualisationColumnDefinition'][]
 
     it('should filter the data by the keys 1', () => {
       data = [

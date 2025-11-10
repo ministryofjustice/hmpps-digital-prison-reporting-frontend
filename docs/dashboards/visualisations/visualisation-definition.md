@@ -4,9 +4,9 @@ title: Visualisation Definition
 ---
 The visualisation definition is responsible for:
 
-- specifying the type of visualisation
-- specifying the data needed for the visualisation from a single dataset
-- defining the presentation information required to render the visualisation correctly
+- specifying the type of visualisation.
+- creating the [Visualisation dataset](/dashboards/visualisations/visualisation-dataset).
+- defining the presentation information required to render the visualisation correctly.
 
 **contents**
 - [Visualisation Types](#visualisation-types)
@@ -55,14 +55,14 @@ All visualisation types share the same common definition attributes:
 
 The `columns` definition is responsible for targeting the data required by the visualisation. 
 
-See [Targeting data in a dataset](/dashboards/visualisations/targeting-data) for usage.
+See [Targeting data in a dataset](/dashboards/visualisations/visualisation-dataset) for usage.
 
 | Name          | Type    | Required | Description                                                |
 | --------------| ------- | -------- | -----------------------------------------------------------|
-| `key`        | array   | Yes      |  The array of key column data. See [Key](#key)             |
-| `measure`    | array   | Yes      |  The array of measure column data. See [Measure](#measure) |
-| `filter`     | array   | no       |  The array of filter column data. See [Filter](#filter)    |
-| `expectNull` | boolean | no       |  Targets rows based on whether columns contain null/undefined values. See [here](/dashboards/visualisations/targeting-data/#targeting-specific-rows) for example usage                        |
+| `key`        | array   | Yes      |  The array of key columns. See [Key](#key)             |
+| `measure`    | array   | Yes      |  The array of measure columns. See [Measure](#measure) |
+| `filter`     | array   | no       |  The array of filter columns. See [Filter](#filter)    |
+| `expectNull` | boolean | no       |  Targets rows based on whether columns contain null/undefined values. See [here](/dashboards/visualisations/visualisation-dataset/#targeting-specific-rows) for example usage                        |
 
 ## Key 
 
@@ -80,7 +80,7 @@ See [Targeting data in a dataset](/dashboards/visualisations/targeting-data) for
 | `display`   | string  | no       |  The display name of the column                          |
 | `aggregate` | `sum`    | no       | The aggregation operation                               |
 | `unit`      | `number`, `percentage`     | no       |  The unit type. Default: `number`     |
-| `axis`      | `x`,`y` | no       |  specific to [bar visualisation types](/dashboards/visualisations/bar) |
+| `axis`      | `x`,`y` | no       |  specific to [bar visualisation types](/dashboards/visualisations/bar-vis) |
 
 ## Filter 
 

@@ -1,8 +1,8 @@
-import { DashboardDefinition } from '../components/_dashboards/dashboard/types'
 import logger from '../utils/logger'
 import RestClient from './restClient'
 import Dict = NodeJS.Dict
 import { ApiConfig } from './types'
+import { components } from '../types/api'
 
 class DashboardClient {
   restClient: RestClient
@@ -16,7 +16,7 @@ class DashboardClient {
     dashboardId: string,
     dpdId: string,
     definitionsPath?: string,
-  ): Promise<DashboardDefinition> {
+  ): Promise<components['schemas']['DashboardDefinition']> {
     this.logInfo('Get definition:', { dpdId, dashboardId })
     const query = {
       dataProductDefinitionsPath: definitionsPath,
@@ -27,7 +27,7 @@ class DashboardClient {
         query,
         token,
       })
-      .then((response) => <DashboardDefinition>response)
+      .then((response) => <components['schemas']['DashboardDefinition']>response)
   }
 
   requestAsyncDashboard(

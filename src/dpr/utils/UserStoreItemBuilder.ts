@@ -11,7 +11,7 @@ import {
 } from '../types/UserReports'
 import Dict = NodeJS.Dict
 import { ChildReportExecutionData, ExecutionData } from '../types/ExecutionData'
-import { DashboardSection } from '../components/_dashboards/dashboard/types'
+import { components } from '../types/api'
 
 class UserStoreItemBuilder {
   userStoreItem: UserReportData
@@ -218,7 +218,7 @@ class UserStoreItemBuilder {
     return this
   }
 
-  addMetrics = (metrics: DashboardSection[]) => {
+  addMetrics = (metrics: components['schemas']['DashboardSectionDefinition'][]) => {
     this.userStoreItem = {
       ...this.userStoreItem,
       metrics: metrics.filter((metric) => metric.display).map((metric) => ({ name: metric.display || '' })),

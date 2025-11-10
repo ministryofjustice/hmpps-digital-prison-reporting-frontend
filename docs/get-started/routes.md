@@ -26,10 +26,9 @@ The provided routes allow you to run reports either **synchronously**, or **asyn
 
 | param           | description            |
 |-----------------|------------------------|
-| `:type`         | `report`, `dashboard` |
-| `:reportId`     | The report ID         |
-| `:id`           | The variant ID        |
-| `:tableId`      | The ID of the table where the data is stored |
+| `:type`         | `report`, `dashboard`  |
+| `:reportId`     | The report/product ID  |
+| `:id`           | The variant ID         |
 
 The route resolves to the report loading page:
 - Displays the meta data about the report while the report is loading
@@ -44,9 +43,8 @@ The route resolves to the report loading page:
 | param           | description           |
 |-----------------|-----------------------|
 | `:type`         | `report`, `dashboard` |
-| `:reportId`     | The report ID         |
+| `:reportId`     | The report/product ID |
 | `:id`           | The variant ID        |
-| `:tableId`      | The ID of the table where the data is stored |
 
 <hr class='dpr-docs-hr'/>
 

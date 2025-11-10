@@ -60,13 +60,17 @@ See [Custom buckets](/dashboards/visualisations/custom-buckets#custom-buckets) f
     ...
   }
   column: {
-    ...
+    key: [{ id: 'ts' }],
+    measure: [
+      { id: 'ts', display: 'Date' },
+      { id: 'id-of-count-column', display: 'Count column title' },
+    ],
   }
 }
 ```
 See the [Visualisation definition](/dashboards/visualisations/visualisation-definition) docs for the definition schema
 
-See the [Targeting data](/dashboards/visualisations/targeting-data) for and how to target data with the `column`
+See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
 
 ## Options:
 
@@ -156,7 +160,7 @@ In this example we will define a heatmap that:
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 ```js
@@ -167,7 +171,7 @@ This definition will return the following dataset
 | 2025/02/23 |          |       |       |             | 92    |
 ... more rows ommitted
 ```
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation
 
@@ -216,7 +220,7 @@ In this example we will define a heatmap that:
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 ```js
@@ -227,7 +231,7 @@ This definition will return the following dataset
 | 2025/02/23 |          |       |       |             | 92    |
 ... more rows ommitted
 ```
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation
 
@@ -283,7 +287,7 @@ In this example we will define a heatmap that:
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 ```js
@@ -294,7 +298,7 @@ This definition will return the following dataset
 | 2025/02/23 |          |       |       |             | 92    |
 ... more rows ommitted
 ```
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation
 
@@ -347,7 +351,7 @@ In this example we will define a heatmap that:
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 ```js
@@ -358,7 +362,7 @@ This definition will return the following dataset
 | 2025/02/23 |          |       |       |             | 92    |
 ... more rows ommitted
 ```
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation
 
@@ -425,7 +429,7 @@ In this example we will define a matrix chart that:
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 
@@ -437,7 +441,7 @@ This definition will return the following dataset
 | 2025/02/23 |          |       |       | Weapons     | 49    |
 ... more rows ommitted
 ```
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation:
 
@@ -484,7 +488,7 @@ In this example we will define a matrix chart that:
 }
 ```
 
-### Dataset returned: 
+### Visualisation dataset
 
 This definition will return the following dataset
 
@@ -497,7 +501,7 @@ This definition will return the following dataset
 ... more rows ommitted
 ```
 
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation
 

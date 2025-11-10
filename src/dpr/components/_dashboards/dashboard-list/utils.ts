@@ -1,16 +1,11 @@
 /* eslint-disable no-param-reassign */
-import { MoJTable, MoJTableRow } from '../../../types/Charts'
 import { DashboardDataResponse } from '../../../types/Metrics'
-import {
-  DashboardVisualisationColumn,
-  DashboardVisualisationColumnMeasure,
-  ListDashboardVisualisationOptions,
-  ListVisualisation,
-} from '../dashboard/types'
+import { ListDashboardVisualisationOptions, MoJTable, MoJTableRow } from '../dashboard-visualisation/types'
 import DatasetHelper from '../../../utils/datasetHelper'
+import { components } from '../../../types/api'
 
 export const createList = (
-  listDefinition: ListVisualisation,
+  listDefinition: components['schemas']['DashboardVisualisationDefinition'],
   dashboardData: DashboardDataResponse[],
 ): { table: MoJTable; ts: string } => {
   const { columns, options } = listDefinition
@@ -48,7 +43,10 @@ export const createList = (
   }
 }
 
-const createListFromColumns = (listDefinition: ListVisualisation, dashboardData: DashboardDataResponse[]) => {
+const createListFromColumns = (
+  listDefinition: components['schemas']['DashboardVisualisationDefinition'],
+  dashboardData: DashboardDataResponse[],
+) => {
   const { columns } = listDefinition
   const { keys, measures } = columns
   const groupKey = DatasetHelper.getGroupKey(keys || [], dashboardData)
@@ -84,7 +82,7 @@ const createListFromColumns = (listDefinition: ListVisualisation, dashboardData:
 
 export const createTableRows = (
   data: DashboardDataResponse[],
-  measures?: DashboardVisualisationColumn[],
+  measures?: components['schemas']['DashboardVisualisationColumnDefinition'][],
 ): MoJTableRow[][] => {
   return data.map((dataRow) => {
     const row: MoJTableRow[] = measures?.length ? Array(measures.length) : Array(Object.keys(data[0]).length)
@@ -98,7 +96,10 @@ export const createTableRows = (
   })
 }
 
-const creatListFromRows = (listDefinition: ListVisualisation, dashboardData: DashboardDataResponse[]) => {
+const creatListFromRows = (
+  listDefinition: components['schemas']['DashboardVisualisationDefinition'],
+  dashboardData: DashboardDataResponse[],
+) => {
   const { measures } = listDefinition.columns
 
   const head = measures.map((column) => {
@@ -136,7 +137,10 @@ const createFullList = (dashboardData: DashboardDataResponse[]) => {
   }
 }
 
-const sumColumns = (rowsData: MoJTableRow[][], measures: DashboardVisualisationColumnMeasure[]) => {
+const sumColumns = (
+  rowsData: MoJTableRow[][],
+  measures: components['schemas']['DashboardVisualisationColumnDefinition'][],
+) => {
   const sumColumnIndexes: number[] = measures.flatMap((col, idx) => (col.aggregate ? [idx] : []))
 
   if (sumColumnIndexes.length) {

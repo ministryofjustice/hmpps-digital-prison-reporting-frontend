@@ -85,7 +85,7 @@ If no timestamp data is found then the trend is not displayed
 }
 ```
 
-See the [Targeting data](/dashboards/visualisations/targeting-data) for and how to target data with the `column`
+See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
 
 ### Options: 
 
@@ -336,7 +336,7 @@ Defining multiple `scorecard` visualisation types adjacent to each other within 
   ],
 }
 ```
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation
 
@@ -411,7 +411,7 @@ This examples display RAG scores within the scorecard:
   ],
 },
 ```
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation
 
@@ -497,7 +497,7 @@ Define custom colours to your buckets:
   ],
 },
 ```
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 
 ### Visualisation
@@ -587,7 +587,7 @@ In this example custom buckets are defined in the definition to set the RAG scor
 ```
 
 See [Custom buckets](/dashboards/visualisations/custom-buckets##custom-buckets) for documentation on defining custom buckets. 
-see [here](/dashboards/visualisations/targeting-data) for more info on targeting data.
+see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data.
 
 
 ### Visualisation

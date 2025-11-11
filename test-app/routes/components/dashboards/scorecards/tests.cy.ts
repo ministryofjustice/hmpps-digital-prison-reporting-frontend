@@ -49,15 +49,15 @@ context('Dashboard visualisation: Scorecards', () => {
         .within(() => {
           // Metric
           cy.findAllByRole('paragraph')
-            .eq(0)
+            .eq(1)
             .invoke('text')
             .should('match', /^[0-9]*$/)
           // Colour
-          cy.findAllByRole('paragraph').eq(0).invoke('attr', 'style', 'background-color').should('exist')
+          cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style', 'background-color').should('exist')
           // trend
-          cy.findAllByRole('paragraph').eq(1).contains('from').should('exist')
+          cy.findAllByRole('paragraph').eq(2).contains('from').should('exist')
           // date
-          cy.findAllByRole('paragraph').eq(2).contains('Value for').should('exist')
+          cy.findAllByRole('paragraph').eq(3).contains('Value for').should('exist')
         })
     })
 
@@ -68,7 +68,7 @@ context('Dashboard visualisation: Scorecards', () => {
         .within(() => {
           // Colour
           cy.findAllByRole('paragraph')
-            .eq(0)
+            .eq(1)
             .invoke('attr', 'style')
             .should('not.match', /background-color: /)
         })
@@ -81,7 +81,7 @@ context('Dashboard visualisation: Scorecards', () => {
         .within(() => {
           // Colour
           cy.findAllByRole('paragraph')
-            .eq(0)
+            .eq(1)
             .invoke('attr', 'style')
             .should('match', /background-color: (#f4cdc6|#cce2d8|#fff7bf)/)
         })
@@ -94,7 +94,7 @@ context('Dashboard visualisation: Scorecards', () => {
         .within(() => {
           // Colour
           cy.findAllByRole('paragraph')
-            .eq(0)
+            .eq(1)
             .invoke('attr', 'style')
             .should('match', /background-color: (#f47738|#912b88|#28a197)/)
         })
@@ -126,15 +126,15 @@ context('Dashboard visualisation: Scorecards', () => {
         .within(() => {
           // Metric
           cy.findAllByRole('paragraph')
-            .eq(0)
+            .eq(1)
             .invoke('text')
             .should('match', /^[0-9]*$/)
           // Colour
-          cy.findAllByRole('paragraph').eq(0).invoke('attr', 'style', 'background-color').should('exist')
+          cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style', 'background-color').should('exist')
           // trend
-          cy.findAllByRole('paragraph').eq(1).contains('from').should('exist')
+          cy.findAllByRole('paragraph').eq(2).contains('from').should('exist')
           // date
-          cy.findAllByRole('paragraph').eq(2).contains('Value for').should('exist')
+          cy.findAllByRole('paragraph').eq(3).contains('Value for').should('exist')
         })
     })
 
@@ -145,7 +145,7 @@ context('Dashboard visualisation: Scorecards', () => {
         .within(() => {
           let value = 0
           cy.findAllByRole('paragraph')
-            .eq(0)
+            .eq(1)
             .then((p) => {
               value = Number(p.text())
 
@@ -155,7 +155,7 @@ context('Dashboard visualisation: Scorecards', () => {
               } else if (value >= 301 && value <= 800) {
                 colour = '#fff7bf'
               }
-              cy.findAllByRole('paragraph').eq(0).invoke('attr', 'style').should('equal', `background-color: ${colour}`)
+              cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('equal', `background-color: ${colour}`)
             })
         })
     })
@@ -167,7 +167,7 @@ context('Dashboard visualisation: Scorecards', () => {
         .within(() => {
           let value = 0
           cy.findAllByRole('paragraph')
-            .eq(0)
+            .eq(1)
             .then((p) => {
               value = Number(p.text())
 
@@ -177,7 +177,7 @@ context('Dashboard visualisation: Scorecards', () => {
               } else if (value >= 201 && value <= 700) {
                 colour = '#fff7bf'
               }
-              cy.findAllByRole('paragraph').eq(0).invoke('attr', 'style').should('equal', `background-color: ${colour}`)
+              cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('equal', `background-color: ${colour}`)
             })
         })
     })
@@ -189,7 +189,7 @@ context('Dashboard visualisation: Scorecards', () => {
         .within(() => {
           let value = 0
           cy.findAllByRole('paragraph')
-            .eq(0)
+            .eq(1)
             .then((p) => {
               value = Number(p.text())
 
@@ -199,7 +199,7 @@ context('Dashboard visualisation: Scorecards', () => {
               } else if (value >= 501 && value <= 600) {
                 colour = '#fff7bf'
               }
-              cy.findAllByRole('paragraph').eq(0).invoke('attr', 'style').should('equal', `background-color: ${colour}`)
+              cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('equal', `background-color: ${colour}`)
             })
         })
     })
@@ -226,22 +226,22 @@ context('Dashboard visualisation: Scorecards', () => {
           cy.findByLabelText('MDI')
             .should('exist')
             .within(() => {
-              cy.findAllByRole('paragraph').eq(0).invoke('attr', 'style').should('contain', 'background-color')
+              cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('contain', 'background-color')
             })
           cy.findByLabelText('SLI')
             .should('exist')
             .within(() => {
-              cy.findAllByRole('paragraph').eq(0).invoke('attr', 'style').should('contain', `background-color`)
+              cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('contain', `background-color`)
             })
           cy.findByLabelText('DAI')
             .should('exist')
             .within(() => {
-              cy.findAllByRole('paragraph').eq(0).invoke('attr', 'style').should('contain', `background-color`)
+              cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('contain', `background-color`)
             })
           cy.findByLabelText('LTI')
             .should('exist')
             .within(() => {
-              cy.findAllByRole('paragraph').eq(0).invoke('attr', 'style').should('contain', `background-color`)
+              cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('contain', `background-color`)
             })
         })
 

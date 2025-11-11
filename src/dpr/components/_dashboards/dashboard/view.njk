@@ -17,7 +17,7 @@
 
     <div class="dashboard-content">
       {{ dprReportHeading(data) }}
-      {{ dprDashboardFilters(data.filters) }}
+      {{ dprDashboardFilters(data.filters, { csrfToken: data.csrfToken }) }}
 
       {% for section in data.sections %}
         {{ dprDashboardSection(section) }}

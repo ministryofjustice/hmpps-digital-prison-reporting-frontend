@@ -26,7 +26,7 @@ export const mergeScorecardsIntoGroup = (visualisations: DashboardVisualisation[
 
     while (group.length) {
       const i = group.pop()
-      if (i) visualisations.splice(i, 1)
+      if (i !== undefined) visualisations.splice(i, 1)
     }
 
     if (scorecardGroup.length) {

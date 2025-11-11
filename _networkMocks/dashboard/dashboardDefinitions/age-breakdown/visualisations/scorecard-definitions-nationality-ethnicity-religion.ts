@@ -4,6 +4,7 @@ import { DashboardVisualisationType } from '../../../../../src/dpr/components/_d
 const mockScorecardDefinitionNationality: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockNationalityScorecard',
   type: DashboardVisualisationType.SCORECARD,
+  display: 'No of prisoners with nationality',
   columns: {
     expectNulls: false,
     keys: [
@@ -14,7 +15,6 @@ const mockScorecardDefinitionNationality: components['schemas']['DashboardVisual
     measures: [
       {
         id: 'has_nationality',
-        display: 'No of prisoners with nationality',
       },
     ],
   },
@@ -23,6 +23,7 @@ const mockScorecardDefinitionNationality: components['schemas']['DashboardVisual
 const mockScorecardDefinitionNoNationality: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockNoNationalityScorecard',
   type: DashboardVisualisationType.SCORECARD,
+  display: 'No of prisoners with no nationality',
   columns: {
     expectNulls: false,
     keys: [
@@ -33,7 +34,6 @@ const mockScorecardDefinitionNoNationality: components['schemas']['DashboardVisu
     measures: [
       {
         id: 'nationality_is_missing',
-        display: 'No of prisoners with no nationality',
       },
     ],
   },
@@ -42,6 +42,7 @@ const mockScorecardDefinitionNoNationality: components['schemas']['DashboardVisu
 const mockScorecardDefinitionReligion: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockReligionScorecard',
   type: DashboardVisualisationType.SCORECARD,
+  display: 'No of prisoners with nationality',
   columns: {
     expectNulls: false,
     keys: [
@@ -52,7 +53,6 @@ const mockScorecardDefinitionReligion: components['schemas']['DashboardVisualisa
     measures: [
       {
         id: 'has_religion',
-        display: 'No of prisoners with nationality',
       },
     ],
   },
@@ -61,6 +61,7 @@ const mockScorecardDefinitionReligion: components['schemas']['DashboardVisualisa
 const mockTargetScorecardDefinitionReligion: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockReligionTargetScorecard',
   type: DashboardVisualisationType.SCORECARD,
+  display: 'No of prisoners with religion in SLI',
   columns: {
     expectNulls: false,
     keys: [
@@ -71,7 +72,6 @@ const mockTargetScorecardDefinitionReligion: components['schemas']['DashboardVis
     measures: [
       {
         id: 'has_religion',
-        display: 'No of prisoners with religion in SLI',
       },
     ],
     filters: [

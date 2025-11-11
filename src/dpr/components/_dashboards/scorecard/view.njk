@@ -22,9 +22,9 @@
     {% set directionDisplay = '' %}
   {% endif %}
   <div class="dpr-scorecard" data-dpr-module="scorecard" aria-labelledby="{{ id }}_title_{{index }}">
-    <h1 id="{{ id }}_title_{{index}}" class="govuk-heading-s govuk-!-margin-bottom-1">
+    <h4 id="{{ id }}_title_{{index}}" class="govuk-heading-s govuk-!-margin-bottom-1">
       {{ title }}
-    </h1>
+    </h4>
 
     <p {% if rag %}style="background-color: {{ rag.colour }}"{% endif %} class="govuk-body dpr-scorecard__value {% if rag %}govuk-tag--{{ rag.colour }}{% endif %}">{{ value }}</p>
     {% if rag.score !== 'undefined' %}

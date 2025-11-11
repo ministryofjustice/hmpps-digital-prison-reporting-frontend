@@ -76,6 +76,8 @@ describe('ScorecardUtils', () => {
       ]
 
       const dashboardVis = ScorecardUtils.mergeScorecardsIntoGroup(visualistationData)
+      console.log(JSON.stringify({ dashboardVis }, null, 2))
+
       expect(dashboardVis).toEqual([
         {
           id: '0',
@@ -84,6 +86,7 @@ describe('ScorecardUtils', () => {
             {
               scorecards: [
                 {
+                  id: '1',
                   rag: {
                     colour: 'red',
                     score: 2,
@@ -98,6 +101,7 @@ describe('ScorecardUtils', () => {
                   valueFor: 'Jan 25',
                 },
                 {
+                  id: '2',
                   rag: {
                     colour: 'red',
                     score: 2,
@@ -127,6 +131,7 @@ describe('ScorecardUtils', () => {
             {
               scorecards: [
                 {
+                  id: '1',
                   rag: {
                     colour: 'red',
                     score: 2,
@@ -141,6 +146,7 @@ describe('ScorecardUtils', () => {
                   valueFor: 'Jan 25',
                 },
                 {
+                  id: '2',
                   rag: {
                     colour: 'red',
                     score: 2,

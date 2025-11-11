@@ -1,5 +1,6 @@
 const mockScorecardDefinitionNationality = {
   type: 'scorecard',
+  display: 'No of prisoners with nationality',
   options: {
     buckets: [{ hexColour: '#f47738' }, { hexColour: '#f499be' }, { hexColour: '#d53880' }],
   },
@@ -12,7 +13,6 @@ const mockScorecardDefinitionNationality = {
     measures: [
       {
         id: 'has_nationality',
-        display: 'No of prisoners with nationality',
       },
     ],
   },
@@ -20,6 +20,7 @@ const mockScorecardDefinitionNationality = {
 
 const mockScorecardDefinitionNoNationality = {
   type: 'scorecard',
+  display: 'No of prisoners with no nationality',
   columns: {
     keys: [
       {
@@ -29,7 +30,6 @@ const mockScorecardDefinitionNoNationality = {
     measures: [
       {
         id: 'nationality_is_missing',
-        display: 'No of prisoners with no nationality',
       },
     ],
   },
@@ -37,6 +37,7 @@ const mockScorecardDefinitionNoNationality = {
 
 const mockScorecardDefinitionReligion = {
   type: 'scorecard',
+  display: 'No of prisoners with nationality',
   columns: {
     keys: [
       {
@@ -46,7 +47,6 @@ const mockScorecardDefinitionReligion = {
     measures: [
       {
         id: 'has_religion',
-        display: 'No of prisoners with nationality',
       },
     ],
   },
@@ -54,6 +54,7 @@ const mockScorecardDefinitionReligion = {
 
 const mockTargetScorecardDefinitionReligion = {
   type: 'scorecard',
+  display: 'No of prisoners with religion in SLI',
   columns: {
     keys: [
       {
@@ -63,7 +64,6 @@ const mockTargetScorecardDefinitionReligion = {
     measures: [
       {
         id: 'has_religion',
-        display: 'No of prisoners with religion in SLI',
       },
     ],
     filters: [

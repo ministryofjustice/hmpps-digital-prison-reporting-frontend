@@ -12,11 +12,8 @@ const docsScoreCard = {
       description: '',
       visualisations: [
         scorecard.simpleScorecardNationality,
-        scorecard.simpleScorecardEthnicity,
-        scorecard.simpleScorecardNationality,
-        lists.dataQualityEthnicity,
         scorecard.simpleScorecardReligion,
-        scorecard.simpleScorecardNationality,
+        scorecard.simpleScorecardEthnicity,
       ],
     },
     {

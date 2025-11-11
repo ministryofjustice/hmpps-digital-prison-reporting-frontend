@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 import { withAlphaHex } from 'with-alpha-hex'
-import { DashboardDataResponse } from '../../../types/Metrics'
+import { DashboardDataResponse, DashboardDataResponseWithRag } from '../../../types/Metrics'
 import {
   DashboardVisualisationBucket,
   BucketDashboardVisualisationOptions,
@@ -14,19 +14,19 @@ class Buckets {
 
   private buckets: DashboardVisualisationBucket[] = []
 
-  private useRagColour: boolean
+  private useRagColour = false
 
-  private bucketCount: number
+  private bucketCount = 0
 
-  private onlyBucketColoursDefined: boolean
+  private onlyBucketColoursDefined = false
 
-  private autoBucketing: boolean
+  private autoBucketing = false
 
   private hasRagScore = false
 
   private valueKey: string
 
-  private options: BucketDashboardVisualisationOptions
+  private options: BucketDashboardVisualisationOptions = {}
 
   responseData: DashboardDataResponse[]
 
@@ -41,7 +41,7 @@ class Buckets {
     this.initFromOptions(definition)
     this.valueKey = valueKey
     this.hasRagScore = responseData[0][this.valueKey].rag !== undefined
-    this.autoBucketing = autoBucketing
+    this.autoBucketing = Boolean(autoBucketing)
     if (ragColours) this.ragColours = ragColours
     this.initBuckets()
   }
@@ -50,9 +50,10 @@ class Buckets {
     this.options = <BucketDashboardVisualisationOptions>definition.options || {}
     this.baseColour = this.options?.baseColour || this.baseColour
     this.useRagColour = this.options?.useRagColour || false
-    this.onlyBucketColoursDefined = this.options?.buckets?.every(
-      (bucket) => !bucket.max && !bucket.min && bucket.hexColour !== undefined,
-    )
+    this.onlyBucketColoursDefined =
+      this.options && this.options.buckets
+        ? this.options?.buckets?.every((bucket) => !bucket.max && !bucket.min && bucket.hexColour !== undefined)
+        : false
   }
 
   private initBuckets = () => {
@@ -77,12 +78,14 @@ class Buckets {
   }
 
   private initCustomThresholdBuckets = () => {
-    this.buckets = this.options.buckets.map((bucket, i) => {
-      return {
-        ...this.buckets[i],
-        ...bucket,
-      }
-    })
+    this.buckets = this.options.buckets
+      ? this.options.buckets.map((bucket, i) => {
+          return {
+            ...this.buckets[i],
+            ...bucket,
+          }
+        })
+      : []
   }
 
   /**
@@ -143,8 +146,13 @@ class Buckets {
       if (this.useRagColour) {
         this.bucketCount = 3
       } else {
-        this.bucketCount =
-          Math.max(...this.responseData.map((resData: DashboardDataResponse) => resData[this.valueKey].rag)) + 1
+        const allRags: number[] = this.responseData.reduce((acc: number[], resData: DashboardDataResponse) => {
+          if (resData[this.valueKey].rag !== undefined) {
+            acc.push(<number>resData[this.valueKey].rag)
+          }
+          return acc
+        }, [])
+        this.bucketCount = Math.max(...allRags) + 1
       }
     } else if (buckets) {
       this.bucketCount = buckets.length
@@ -153,13 +161,13 @@ class Buckets {
     }
   }
 
-  getBucketForValue = (value: number, ragScore?: number) => {
-    let colour
-    let score
+  getBucketForValue = (value: number, ragScore?: number): { colour: string; score: number } => {
+    let colour = ''
+    let score = 0
 
     if (ragScore !== undefined) {
       return {
-        colour: this.buckets[ragScore].hexColour,
+        colour: this.buckets[ragScore].hexColour || colour,
         score: ragScore,
       }
     }
@@ -168,18 +176,18 @@ class Buckets {
       const { min, max } = bucket
       // First bucket
       if (!min && max && value <= max) {
-        colour = bucket.hexColour
-        score = index.toString()
+        colour = bucket.hexColour || colour
+        score = index
       }
       // middle buckets
-      if (min && value >= bucket.min && max && value <= bucket.max) {
-        colour = bucket.hexColour
-        score = index.toString()
+      if (min && value >= min && max && value <= max) {
+        colour = bucket.hexColour || colour
+        score = index
       }
       // last bucket
       if (min && !max && value >= min) {
-        colour = bucket.hexColour
-        score = index.toString()
+        colour = bucket.hexColour || colour
+        score = index
       }
     })
 

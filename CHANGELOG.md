@@ -1,5 +1,11 @@
 Below you can find the changes included in each release.
 
+## 4.17.1 
+- Scorecard tests
+
+## v4.17.0
+- Service feature: Starter packs & Product collections: filter report catalogue by product collections 
+
 ## v4.16.1
 - Update docs to remove pluralisations from definitions
 

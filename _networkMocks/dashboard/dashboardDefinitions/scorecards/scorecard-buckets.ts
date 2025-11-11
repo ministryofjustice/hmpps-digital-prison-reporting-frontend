@@ -4,7 +4,7 @@ import scorecard from '../../visualisations/scorecard'
 
 export const scoreCardBucketTest: components['schemas']['DashboardDefinition'] = {
   id: 'test-scorecard-bucket-examples-data-quality',
-  name: 'Docs Scorecard Examples - Data Quality',
+  name: 'Docs Bucket Scorecard Examples - Data Quality',
   description: 'Scorecard examples',
   sections: [
     {

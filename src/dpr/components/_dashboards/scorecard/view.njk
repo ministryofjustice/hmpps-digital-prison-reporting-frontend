@@ -1,4 +1,4 @@
-{% macro dprScoreCard(scorecard) %}
+{% macro dprScoreCard(scorecard, index) %}
   {% set classes = scorecard.classes %}
 
   {% set id = scorecard.id %}
@@ -21,9 +21,8 @@
     {% set directionIcon = '◼' %}
     {% set directionDisplay = '' %}
   {% endif %}
-
-  <div class="dpr-scorecard" data-dpr-module="scorecard" aria-labelledby="{{ id }}_title">
-    <h1 id="{{ id }}_title" class="govuk-heading-s govuk-!-margin-bottom-1">
+  <div class="dpr-scorecard" data-dpr-module="scorecard" aria-labelledby="{{ id }}_title_{{index }}">
+    <h1 id="{{ id }}_title_{{index}}" class="govuk-heading-s govuk-!-margin-bottom-1">
       {{ title }}
     </h1>
 

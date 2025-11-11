@@ -82,6 +82,7 @@ export default {
     scorecardExamples.dietTotalsScoreCards,
     scorecardExamples.dataQualityScoreCards,
     scorecardExamples.scoreCardTest,
+    scorecardExamples.scoreCardBucketTest,
     chartExamples.historicDietTotals,
     chartExamples.historicFlexibleDietTotals,
     chartExamples.dietTotals,

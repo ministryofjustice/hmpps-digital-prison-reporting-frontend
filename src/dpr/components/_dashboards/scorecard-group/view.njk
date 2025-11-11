@@ -6,13 +6,13 @@
     {% set title = group.title %}
     {% set scorecards = group.scorecards %}
     
-    {% if scorecardGroup.length !== 1 %}
-      <p class="govuk-heading-s"><strong>{{ title }}</strong></p>
+   {% if title %}
+      <h4 id="{{ id }}_scorecard_group_{{ loop.index }}" class="govuk-heading-s"><strong>{{ title }}</strong></h3>
     {% endif %}
 
-    <div class="dpr-scorecard-group">
+    <div class="dpr-scorecard-group" aria-labelledby="{{ id }}_scorecard_group_{{ loop.index }}">
       {% for scorecard in scorecards %}
-        {{ dprScoreCard(scorecard) }}
+        {{ dprScoreCard(scorecard, loop.index) }}
       {% endfor %}
     </div> 
   {% endfor %}

@@ -61,7 +61,7 @@ context('Dashboard visualisation: Scorecards', () => {
         })
     })
 
-    it('should show the correct rag score colour using the base colour', () => {
+    it('should show no rag colour', () => {
       cy.findAllByLabelText(/No of prisoners with nationality/)
         .eq(0)
         .should('exist')
@@ -70,7 +70,7 @@ context('Dashboard visualisation: Scorecards', () => {
           cy.findAllByRole('paragraph')
             .eq(0)
             .invoke('attr', 'style')
-            .should('match', /background-color: #1D70B855|background-color: #1D70B8FF|/)
+            .should('not.match', /background-color: /)
         })
     })
 
@@ -83,20 +83,20 @@ context('Dashboard visualisation: Scorecards', () => {
           cy.findAllByRole('paragraph')
             .eq(0)
             .invoke('attr', 'style')
-            .should('match', /background-color: #f4cdc6|background-color: #cce2d8|background-color: #fff7bf|/)
+            .should('match', /background-color: (#f4cdc6|#cce2d8|#fff7bf)/)
         })
     })
 
     it('should show the correct rag score colour using custom colours', () => {
       cy.findAllByLabelText(/No of prisoners with nationality/)
-        .eq(1)
+        .eq(2)
         .should('exist')
         .within(() => {
           // Colour
           cy.findAllByRole('paragraph')
-            .eq(2)
+            .eq(0)
             .invoke('attr', 'style')
-            .should('match', /background-color: #f47738|background-color: #912b88|background-color: #28a197|/)
+            .should('match', /background-color: (#f47738|#912b88|#28a197)/)
         })
     })
   })
@@ -216,6 +216,57 @@ context('Dashboard visualisation: Scorecards', () => {
 
     beforeEach(() => {
       cy.visit(scorecardsPathViewUrl)
+    })
+
+    it('Should show scorecard group using list', () => {
+      cy.findAllByLabelText(/By Establishment ID/)
+        .eq(0)
+        .should('exist')
+        .within(() => {
+          cy.findByLabelText('MDI')
+            .should('exist')
+            .within(() => {
+              cy.findAllByRole('paragraph').eq(0).invoke('attr', 'style').should('contain', 'background-color')
+            })
+          cy.findByLabelText('SLI')
+            .should('exist')
+            .within(() => {
+              cy.findAllByRole('paragraph').eq(0).invoke('attr', 'style').should('contain', `background-color`)
+            })
+          cy.findByLabelText('DAI')
+            .should('exist')
+            .within(() => {
+              cy.findAllByRole('paragraph').eq(0).invoke('attr', 'style').should('contain', `background-color`)
+            })
+          cy.findByLabelText('LTI')
+            .should('exist')
+            .within(() => {
+              cy.findAllByRole('paragraph').eq(0).invoke('attr', 'style').should('contain', `background-color`)
+            })
+        })
+
+      cy.findAllByLabelText(/By Establishment ID/)
+        .eq(3)
+        .should('exist')
+        .within(() => {
+          cy.findByLabelText('MDI').should('exist')
+          cy.findByLabelText('SLI').should('exist')
+          cy.findByLabelText('DAI').should('exist')
+          cy.findByLabelText('LTI').should('exist')
+        })
+    })
+
+    it('should show scorecard group using columns', () => {
+      cy.findByLabelText(/Establishment ID: MDI/)
+        .should('exist')
+        .within(() => {
+          cy.findByLabelText('Has ethnicity').should('exist')
+          cy.findByLabelText('Ethnicity is missing').should('exist')
+          cy.findByLabelText('Has nationality').should('exist')
+          cy.findByLabelText('Nationality is missing').should('exist')
+          cy.findByLabelText('Has religion').should('exist')
+          cy.findByLabelText('Religion is missing').should('exist')
+        })
     })
   })
 })

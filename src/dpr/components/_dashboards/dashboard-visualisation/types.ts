@@ -84,7 +84,7 @@ export interface ListDashboardVisualisationOptions {
 }
 
 export interface BucketDashboardVisualisationOptions {
-  useRagColours?: boolean
+  useRagColour?: boolean
   buckets?: DashboardVisualisationBucket[]
   baseColour?: string
 }

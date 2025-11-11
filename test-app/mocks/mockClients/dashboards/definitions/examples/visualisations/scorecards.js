@@ -366,7 +366,6 @@ const dataQualityAllCols = {
   display: 'Data quality scores',
   description: '',
   options: {
-    buckets: [{ min: 0, max: 500 }, { min: 501, max: 700 }, { min: 701 }],
     useRagColour: true,
   },
   columns: {

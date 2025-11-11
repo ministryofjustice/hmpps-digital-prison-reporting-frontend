@@ -51,8 +51,10 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
   }
 
   private initBuckets = (responseData: DashboardDataResponse[], valueKey: string) => {
-    this.bucketsHelper = new Buckets(responseData, this.definition, valueKey, false, this.ragColours)
-    this.buckets = new Buckets(responseData, this.definition, valueKey, false, this.ragColours).getBuckets()
+    if (this.definition.options?.buckets || this.definition.options?.useRagColour) {
+      this.bucketsHelper = new Buckets(responseData, this.definition, valueKey, false, this.ragColours)
+      this.buckets = new Buckets(responseData, this.definition, valueKey, false, this.ragColours).getBuckets()
+    }
   }
 
   private initGroupVars = () => {
@@ -225,7 +227,7 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
 
     const scorecardGroup = latestGroupedByKey.map((group, groupIndex) => {
       return {
-        title: this.createGroupTitle(group[0]),
+        title: this.groupKeyDisplay ? `By ${this.groupKeyDisplay}` : '',
         scorecards: group.map((row, rowIndex) => {
           const values = this.getScorecardValues(row)
           const comparisonRow = earliestGroupedByKey[groupIndex][rowIndex]

@@ -71,7 +71,7 @@ class ReportingService {
     reportId: string,
     variantId: string,
     tableId: string,
-    query: Dict<string | number>,
+    query: Record<string, string | string[]>,
   ): Promise<Array<Dict<string>>> {
     return this.reportingClient.getAsyncReport(token, reportId, variantId, tableId, query)
   }

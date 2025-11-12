@@ -339,7 +339,7 @@ const getTemplateData = async (
   const features = await setFeatures(services, res, req, columns, count, definitionData, requestedData, urls)
 
   // Set the extra meta data
-  const meta = setMetaData(res)
+  const meta = setMetaData(res, req)
 
   let reportSummaries
   if (summariesData.length) {
@@ -377,13 +377,17 @@ const showColumns = (specification: components['schemas']['Specification']) => {
   return !['row-section', 'row-section-child', 'summary', 'summary-section'].includes(template)
 }
 
-const setMetaData = (res: Response) => {
+const setMetaData = (res: Response, req: Request) => {
   const { csrfToken } = LocalsHelper.getValues(res)
+  const { tableId, reportId, id } = req.params
 
   return {
     csrfToken,
     loadType: LoadType.ASYNC,
     type: ReportType.REPORT,
+    tableId,
+    reportId,
+    id,
   }
 }
 
@@ -452,8 +456,8 @@ const getCount = async (
 const extractDataFromDefinition = (
   definition: components['schemas']['SingleVariantReportDefinition'],
 ): ExtractedDefinitionData => {
-  const { variant, name: reportName, id: reportId, description: reportDescription } = definition
-  const { classification, printable, specification, name, id, description } = variant
+  const { variant, name: reportName, description: reportDescription } = definition
+  const { classification, printable, specification, name, description } = variant
   if (!specification) {
     throw new Error('No specification found in variant definition')
   }
@@ -462,8 +466,6 @@ const extractDataFromDefinition = (
   return {
     reportName,
     name,
-    reportId,
-    id,
     description: description || reportDescription,
     classification,
     printable: Boolean(printable),

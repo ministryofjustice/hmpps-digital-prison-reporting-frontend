@@ -12,8 +12,6 @@ export interface ReportUrls {
 export interface ExtractedDefinitionData {
   reportName: string
   name: string
-  reportId: string
-  id: string
   description: string | undefined
   classification: string | undefined
   printable: boolean

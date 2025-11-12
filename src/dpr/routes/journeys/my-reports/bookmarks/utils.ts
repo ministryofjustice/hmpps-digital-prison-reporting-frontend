@@ -18,7 +18,7 @@ export const preBookmarkReportsByRoleId = async (
   if (bookmarkService) {
     for (let index = 0; index < bookmarks.length; index += 1) {
       const foundBookmark = bookmarks[index]
-      if (foundBookmark && foundBookmark.id) {
+      if (foundBookmark && foundBookmark.variantId) {
         const { reportId, variantId: id } = foundBookmark
         // eslint-disable-next-line no-await-in-loop
         await bookmarkService.addBookmark(userId, reportId, <string>id, ReportType.REPORT, true)

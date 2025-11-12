@@ -5,8 +5,8 @@ import { ReportType } from './UserReports'
 import { RenderFiltersReturnValue } from '../components/_async/async-filters-form/types'
 
 export interface AsyncReportUtilsParams {
-  req?: Request
-  res?: Response
+  req: Request
+  res: Response
   next?: NextFunction
   services: Services
 }

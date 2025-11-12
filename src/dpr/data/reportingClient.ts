@@ -173,7 +173,7 @@ class ReportingClient {
     reportId: string,
     variantId: string,
     tableId: string,
-    query: Dict<string | number>,
+    query: Record<string, string | string[]>,
   ): Promise<Array<Dict<string>>> {
     this.logInfo('Get Data', { reportId, variantId, tableId })
 

@@ -24,13 +24,17 @@ export const saveDefaults = async (type: FiltersType, res: Response, req: Reques
   const defaultValuesForReport = await getDefaultValues(req, res, services, type)
   const { dprUser } = localsHelper.getValues(res)
   const { reportId, id } = req.params
-  return services.defaultFilterValuesService.save(dprUser.id, reportId, id, defaultValuesForReport)
+  const { defaultFilterValuesService } = services
+  return defaultFilterValuesService
+    ? defaultFilterValuesService.save(dprUser.id, reportId, id, defaultValuesForReport)
+    : undefined
 }
 
 export const removeDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
   const { dprUser } = localsHelper.getValues(res)
   const { reportId, id } = req.params
-  return services.defaultFilterValuesService.delete(dprUser.id, reportId, id, type)
+  const { defaultFilterValuesService } = services
+  return defaultFilterValuesService ? defaultFilterValuesService.delete(dprUser.id, reportId, id, type) : undefined
 }
 
 const getDefaultValues = async (
@@ -42,10 +46,15 @@ const getDefaultValues = async (
   const { token, definitionsPath } = localsHelper.getValues(res)
   const { reportId, id, type } = req.params
 
-  const service = type === ReportType.REPORT ? services.reportingService : services.dashboardService
-  const definition = await service.getDefinition(token, reportId, id, definitionsPath)
-  const fields: components['schemas']['FieldDefinition'][] =
-    type === ReportType.REPORT ? definition.variant.specification.fields : definition.filterFields
+  let definition: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
+  let fields = []
+  if (type === ReportType.REPORT) {
+    definition = await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
+    fields = definition.variant.specification?.fields || []
+  } else {
+    definition = await services.dashboardService.getDefinition(token, reportId, id, definitionsPath)
+    fields = definition.filterFields || []
+  }
 
   const bodyFilterValues = Object.keys(req.body)
     .filter((k) => {

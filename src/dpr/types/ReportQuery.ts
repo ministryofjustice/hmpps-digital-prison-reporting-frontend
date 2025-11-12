@@ -12,7 +12,7 @@ export const DEFAULT_FILTERS_PREFIX = 'filters.'
 class ReportQuery implements FilteredListRequest {
   selectedPage: number
 
-  pageSize: number | undefined
+  pageSize: number
 
   sortColumn?: string
 
@@ -47,7 +47,7 @@ class ReportQuery implements FilteredListRequest {
     this.sortedAsc = queryParams.sortedAsc !== 'false'
     this.dataProductDefinitionsPath =
       definitionsPath ??
-      (queryParams.dataProductDefinitionsPath ? queryParams.dataProductDefinitionsPath.toString() : null)
+      (queryParams.dataProductDefinitionsPath ? queryParams.dataProductDefinitionsPath.toString() : undefined)
     this.filtersPrefix = filtersPrefix
 
     if (queryParams.columns) {
@@ -58,15 +58,19 @@ class ReportQuery implements FilteredListRequest {
       this.columns = fields.filter((f) => f.visible).map((f) => f.name)
     }
 
-    let min: string
-    let max: string
-    const dateField: components['schemas']['FieldDefinition'] = fields.find((f) => {
+    const dateField: components['schemas']['FieldDefinition'] | undefined = fields.find((f) => {
       return (
         (f.type === 'date' && f.filter && f.filter.type === 'daterange') ||
         (f.type === 'date' && f.filter && f.filter.type === 'date')
       )
     })
-    if (dateField) ({ min, max } = dateField.filter)
+
+    let min: string | undefined
+    let max: string | undefined
+    if (dateField && dateField.filter) {
+      min = dateField.filter.min
+      max = dateField.filter.max
+    }
 
     this.filters = {}
 
@@ -75,7 +79,8 @@ class ReportQuery implements FilteredListRequest {
       .filter((key) => queryParams[key])
       .forEach((key) => {
         const filter = key.replace(this.filtersPrefix, '')
-        let value = queryParams[key].toString()
+        const p = queryParams[key]
+        let value = p ? p.toString() : ''
         if (filter.includes('.start') && min) {
           if (new Date(value) < new Date(min)) value = min
         }
@@ -87,7 +92,7 @@ class ReportQuery implements FilteredListRequest {
         }
       })
 
-    if (dateField && dateField.filter.type === 'daterange') {
+    if (dateField && dateField.filter && dateField.filter.type === 'daterange') {
       if (
         min &&
         Object.keys(queryParams).some((key) => key.includes(this.filtersPrefix)) &&
@@ -105,7 +110,7 @@ class ReportQuery implements FilteredListRequest {
       }
     }
 
-    if (dateField && dateField.filter.type === 'date') {
+    if (dateField && dateField.filter && dateField.filter.type === 'date') {
       if (
         min &&
         Object.keys(queryParams).some((key) => key.includes(this.filtersPrefix)) &&
@@ -121,10 +126,14 @@ class ReportQuery implements FilteredListRequest {
     return defaultSortColumn ? defaultSortColumn.name : fields.find((f) => f.sortable)?.name
   }
 
-  getPageSize(queryParams: ParsedQs, template: Template, reportType?: ReportType): number | undefined {
-    let pageSize
+  getPageSize(queryParams: ParsedQs, template?: Template, reportType?: ReportType): number {
+    let pageSize = 20
     if (!reportType || reportType === ReportType.REPORT) {
-      pageSize = queryParams.pageSize && template ? Number(queryParams.pageSize) : this.getDefaultPageSize(template)
+      if (queryParams.pageSize) {
+        pageSize = Number(queryParams.pageSize)
+      } else if (template) {
+        pageSize = this.getDefaultPageSize(template)
+      }
     }
     return pageSize
   }
@@ -133,7 +142,7 @@ class ReportQuery implements FilteredListRequest {
     const record: Record<string, string | Array<string>> = {
       selectedPage: this.selectedPage.toString(),
       ...(this.pageSize && { pageSize: this.pageSize.toString() }),
-      sortColumn: this.sortColumn,
+      ...(this.sortColumn && { sortColumn: this.sortColumn }),
       sortedAsc: this.sortedAsc.toString(),
       columns: this.columns,
     }
@@ -144,8 +153,8 @@ class ReportQuery implements FilteredListRequest {
 
     Object.keys(this.filters).forEach((filterName) => {
       const value = this.filters[filterName]
-      if (!removeClearedFilters || value !== clearFilterValue) {
-        record[`${this.filtersPrefix}${filterName}`] = value
+      if ((value && !removeClearedFilters) || value !== clearFilterValue) {
+        record[`${this.filtersPrefix}${filterName}`] = <string>value
       }
     })
 

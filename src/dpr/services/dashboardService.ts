@@ -3,7 +3,6 @@ import logger from '../utils/logger'
 import DashboardClient from '../data/dashboardClient'
 import { components } from '../types/api'
 import { DashboardDataResponse } from '../types/Metrics'
-import DashboardClient from '../data/dashboardClient'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 class DashboardService {

@@ -14,7 +14,7 @@ export const init = async ({
   services: Services
 }) => {
   const data = await CatalogueListUtils.getReportsList(res, services, features)
-  const { token, bookmarkingEnabled, dprUser } = LocalsHelper.getValues(res)
+  const { token, bookmarkingEnabled, dprUser, csrfToken } = LocalsHelper.getValues(res)
   const productCollections = (await services.productCollectionService.getProductCollections(token))?.map(
     (collection) => ({
       value: collection.id,
@@ -31,7 +31,10 @@ export const init = async ({
     selectedProductCollectionId &&
     (await services.productCollectionService.getProductCollection(dprUser.id, selectedProductCollectionId))
   return {
-    data,
+    data: {
+      ...data,
+      csrfToken,
+    },
     productCollectionInfo: {
       productCollections,
       ...(selectedProductCollection && { selectedProductCollection }),

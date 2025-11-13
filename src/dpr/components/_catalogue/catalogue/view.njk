@@ -4,6 +4,7 @@
 
 {% macro dprCatalogue(args) %}
   {% set data = args.data %}
+  {% set csrfToken = data.csrfToken %}
   {% set features = args.features %}
   {% set productCollectionInfo = args.productCollectionInfo %}
 
@@ -17,7 +18,7 @@
       {{ dprCatalogueHowToUse(features) }}
     {% endif %}
 
-    {{ dprCatalogueFilters(id, features, productCollectionInfo) }}
+    {{ dprCatalogueFilters(id, features, productCollectionInfo, csrfToken) }}
     {{ dprCatalogueList(head, rows, id) }}
   <div>
 {% endmacro %}

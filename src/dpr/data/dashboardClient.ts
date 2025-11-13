@@ -3,6 +3,7 @@ import RestClient from './restClient'
 import Dict = NodeJS.Dict
 import { ApiConfig } from './types'
 import { components } from '../types/api'
+import { DashboardDataResponse } from '../types/Metrics'
 
 class DashboardClient {
   restClient: RestClient
@@ -52,8 +53,8 @@ class DashboardClient {
     reportId: string,
     dashboardId: string,
     tableId: string,
-    query: Dict<string | number>,
-  ): Promise<Array<Dict<string>>> {
+    query: Record<string, string | string[]>,
+  ): Promise<DashboardDataResponse[][]> {
     this.logInfo('Get dashboard:', { reportId, dashboardId, tableId })
 
     return this.restClient
@@ -62,7 +63,7 @@ class DashboardClient {
         token,
         query,
       })
-      .then((response) => <Array<Dict<string>>>response)
+      .then((response) => <DashboardDataResponse[][]>response)
   }
 
   getAsyncStatus(
@@ -92,7 +93,7 @@ class DashboardClient {
     reportId: string,
     dashboardId: string,
     executionId: string,
-    dataProductDefinitionsPath: string,
+    dataProductDefinitionsPath?: string,
   ): Promise<Dict<string>> {
     this.logInfo('Cancel request:', { reportId, dashboardId, executionId })
 

@@ -1,6 +1,6 @@
-import RestClient from 'src/dpr/data/restClient'
-import { ApiConfig } from 'src/dpr/data/types'
-import { components } from 'src/dpr/types/api'
+import { ApiConfig } from '../../data/types'
+import { components } from '../../types/api'
+import RestClient from '../../data/restClient'
 
 export class ProductCollectionService {
   restClient: RestClient

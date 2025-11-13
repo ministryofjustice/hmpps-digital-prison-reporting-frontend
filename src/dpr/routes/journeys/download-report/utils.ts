@@ -88,9 +88,9 @@ const dowloadAsyncData = async (args: {
 }) => {
   const { token, services, tableId, reportId, id, queryParams } = args
   const pageSize = await services.reportingService.getAsyncCount(token, tableId)
-  const query = {
+  const query: Record<string, string | string[]> = {
     ...queryParams,
-    pageSize,
+    pageSize: pageSize.toString(),
   }
   return services.reportingService.getAsyncReport(token, reportId, id, tableId, query)
 }
@@ -108,7 +108,7 @@ const downloadSyncData = async (args: {
   const { token, services, queryParams, definition } = args
   const { variant } = definition
   const { resourceName, specification } = variant
-  let data = []
+  let data: Dict<string>[] = []
 
   if (specification) {
     const countReportQuery = new ReportQuery({
@@ -124,7 +124,7 @@ const downloadSyncData = async (args: {
       template: specification.template as Template,
       queryParams: {
         ...queryParams,
-        pageSize: count,
+        pageSize: count.toString(),
       },
       definitionsPath: <string>queryParams.dataProductDefinitionsPath,
     })
@@ -160,8 +160,10 @@ export const downloadReport = async ({
     sortedAsc,
     sortColumn,
   } = req.body
-
-  const canDownload = await services.downloadPermissionService.downloadEnabled(dprUser.id, reportId, id)
+  const { downloadPermissionService } = services
+  const canDownload = downloadPermissionService
+    ? await downloadPermissionService.downloadEnabled(dprUser.id, reportId, id)
+    : false
   if (!canDownload) {
     res.redirect(redirect)
   } else {
@@ -194,7 +196,8 @@ export const downloadReport = async ({
       reportData = applyColumnsAndSort(reportData, JSON.parse(columns))
     }
     reportData = removeHtmlTags(reportData, definition)
-    const keys: KeysList = getKeys(reportData, definition.variant.specification.fields)
+    const fields = definition.variant.specification?.fields || []
+    const keys: KeysList = getKeys(reportData, fields)
     const csvData = convertToCsv(reportData, { keys, emptyFieldValue: '' })
 
     res.setHeader('Content-Type', 'application/json')

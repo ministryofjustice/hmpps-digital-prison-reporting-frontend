@@ -1,8 +1,8 @@
 import parseUrl from 'parseurl'
 import { Url } from 'url'
 import { Request, Response } from 'express'
-import definitionUtils from '../../../../../utils/definitionUtils'
-import Dict = NodeJS.Dict
+
+// Types
 import type { Columns } from '../../../../../components/_reports/report-columns-form/types'
 import type { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 import type { DataTable } from '../../../../../utils/DataTableBuilder/types'
@@ -10,9 +10,14 @@ import type { components } from '../../../../../types/api'
 import type { AsyncSummary, RequestedReport } from '../../../../../types/UserReports'
 import { LoadType, ReportType } from '../../../../../types/UserReports'
 import ReportQuery from '../../../../../types/ReportQuery'
+import type { ChildData } from '../../../../../utils/ParentChildDataTableBuilder/types'
+import type { ExtractedDefinitionData, ExtractedRequestData, ReportUrls } from './types'
+import type { DownloadActionParams } from '../../../../../components/_reports/report-actions/types'
+import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
+import type { Services } from '../../../../../types/Services'
 
-import CollatedSummaryBuilder from '../../../../../utils/CollatedSummaryBuilder/CollatedSummaryBuilder'
-
+// Utils
+import definitionUtils from '../../../../../utils/definitionUtils'
 import PaginationUtils from '../../../../../components/_reports/report-pagination/utils'
 import TotalsUtils from '../../../../../components/_reports/report-totals/utils'
 import ReportFiltersUtils from '../../../../../components/_filters/utils'
@@ -20,11 +25,10 @@ import ColumnUtils from '../../../../../components/_reports/report-columns-form/
 import ReportActionsUtils from '../../../../../components/_reports/report-actions/utils'
 import UserReportsUtils from '../../../../../components/user-reports/utils'
 import LocalsHelper from '../../../../../utils/localsHelper'
-import { DownloadActionParams } from '../../../../../components/_reports/report-actions/types'
-import { Services } from '../../../../../types/Services'
-import { ChildData } from '../../../../../utils/ParentChildDataTableBuilder/types'
 import DataTableUtils from '../../../../../components/_reports/report-data-table/utils'
-import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
+import RequestedReportService from '../../../my-reports/requested-reports/service'
+
+import CollatedSummaryBuilder from '../../../../../utils/CollatedSummaryBuilder/CollatedSummaryBuilder'
 
 export const getData = async ({
   res,
@@ -40,28 +44,35 @@ export const getData = async ({
   // Get the definition
   const definition: components['schemas']['SingleVariantReportDefinition'] =
     await services.reportingService.getDefinition(token, reportId, reportVariantId, definitionPath)
+  const { variant } = definition
+  const { specification } = variant
+
+  if (!specification) {
+    throw new Error('No specification found in variant definition')
+  }
 
   // Get the request data
-  const requestData: RequestedReport = await services.requestedReportService.getReportByTableId(tableId, userId)
+  const requestedReportService = <RequestedReportService>services.requestedReportService
+  const requestData: RequestedReport | undefined = await requestedReportService.getReportByTableId(tableId, userId)
 
   // Get the columns
-  const columns = ColumnUtils.getColumns(definition.variant.specification, req)
+  const columns = ColumnUtils.getColumns(specification, req)
 
   // initialise report query
-  const reportQuery = await initReportQuery(definition, columns, res, req, requestData, services)
+  const reportQuery = await initReportQuery(definition, columns, res, req, services, requestData)
 
   // Get the reportData
-  const reportData = await getReportData({ definition, services, token, req, res, requestData, reportQuery })
+  const reportData = await getReportData({ definition, services, token, req, res, reportQuery })
 
   // Get the summary data, if applicable
-  const summariesData = !definition.variant.summaries
-    ? []
-    : await getSummariesData(definition, services, token, req, res)
+  const { summaries } = definition.variant
+  const summariesData = !summaries ? [] : await getSummariesData(summaries, services, token, req, res)
 
   // Get the child data, if applicable
-  const childData: ChildData[] = !definition.variant.childVariants
+  const { childVariants } = definition.variant
+  const childData: ChildData[] = !childVariants
     ? []
-    : await getChildData(definition, services, token, req, res, requestData)
+    : await getChildData(childVariants, services, token, req, res, requestData)
 
   return {
     definition,
@@ -79,8 +90,8 @@ const initReportQuery = async (
   columns: Columns,
   res: Response,
   req: Request,
-  requestData: RequestedReport,
   services: Services,
+  requestData?: RequestedReport,
 ) => {
   const { definitionsPath } = LocalsHelper.getValues(res)
   const fields = definitionUtils.getFields(definition)
@@ -95,8 +106,8 @@ const initReportQuery = async (
   })
 
   // Sort
-  const sortColumn = req.query?.sortColumn || requestData.query?.data?.sortColumn
-  const sortedAsc = req.query?.sortedAsc || requestData.query?.data?.sortedAsc
+  const sortColumn = req.query?.sortColumn || requestData?.query?.data?.sortColumn
+  const sortedAsc = req.query?.sortedAsc || requestData?.query?.data?.sortedAsc
 
   // Pagination
   const selectedPage = req.query?.selectedPage
@@ -128,7 +139,6 @@ const getReportData = async (args: {
   token: string
   req: Request
   res: Response
-  requestData: RequestedReport
   reportQuery: ReportQuery
 }) => {
   const { services, token, req, reportQuery } = args
@@ -145,7 +155,7 @@ const getReportData = async (args: {
 }
 
 export const getSummariesData = async (
-  reportDefinition: components['schemas']['SingleVariantReportDefinition'],
+  summaries: components['schemas']['ReportSummary'][],
   services: Services,
   token: string,
   req: Request,
@@ -156,7 +166,7 @@ export const getSummariesData = async (
   const reportVariantId = variantId || id
 
   return Promise.all(
-    reportDefinition.variant.summaries.map(async (summary) => {
+    summaries.map(async (summary) => {
       const summaryReport = await services.reportingService.getAsyncSummaryReport(
         token,
         reportId,
@@ -177,28 +187,38 @@ export const getSummariesData = async (
 }
 
 export const getChildData = async (
-  reportDefinition: components['schemas']['SingleVariantReportDefinition'],
+  childVariants: components['schemas']['ChildVariantDefinition'][],
   services: Services,
   token: string,
   req: Request,
   res: Response,
-  requestData: RequestedReport,
+  requestData?: RequestedReport,
 ): Promise<ChildData[]> => {
   const { definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
   const { reportId } = req.params
-
+  const childExecutionData = requestData?.childExecutionData
+  if (!childExecutionData) {
+    throw new Error('getChildData: No execution data found for child variants')
+  }
   return Promise.all(
-    reportDefinition.variant.childVariants.map(async (childVariant) => {
+    childVariants.map(async (childVariant) => {
       const { specification } = childVariant
+      if (!specification) {
+        throw new Error('getChildData: No specification found in child variant definition')
+      }
 
       const query = new ReportQuery({
-        fields: specification.fields,
-        template: reportDefinition.variant.specification.template,
+        fields: specification?.fields || [],
+        template: specification.template,
         queryParams: req.query,
         definitionsPath: dataProductDefinitionsPath,
       }).toRecordWithFilterPrefix(true)
 
-      const { tableId: childTableId } = requestData.childExecutionData.find((e) => e.variantId === childVariant.id)
+      const childData = childExecutionData.find((e) => e.variantId === childVariant.id)
+      if (!childData) {
+        throw new Error('getChildData: No matching child execution data found')
+      }
+      const { tableId: childTableId } = childData
 
       const childReport = await services.reportingService.getAsyncReport(
         token,
@@ -250,11 +270,11 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
     res,
     services,
     definition,
-    requestData,
     summariesData,
     dataTable,
     columns,
     reportQuery,
+    requestData,
   )
 
   const renderData = {
@@ -262,7 +282,7 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
     dataTable,
   }
 
-  if (Object.keys(requestData).length) {
+  if (requestData && Object.keys(requestData).length) {
     UserReportsUtils.updateLastViewed({
       req,
       services,
@@ -280,19 +300,33 @@ const getTemplateData = async (
   res: Response,
   services: Services,
   definition: components['schemas']['SingleVariantReportDefinition'],
-  requestData: RequestedReport,
   summariesData: AsyncSummary[],
   dataTable: DataTable[],
   columns: Columns,
   reportQuery: ReportQuery,
+  requestData?: RequestedReport,
 ) => {
   const { nestedBaseUrl } = LocalsHelper.getValues(res)
+
+  // get url data
   const url = parseUrl(req)
-  const urls = setUrls(url, req)
+  if (!url) {
+    throw new Error('Unable to set url data from request')
+  }
+
+  const urls = url ? setUrls(url, req) : undefined
+
+  // get from definition
   const definitionData = extractDataFromDefinition(definition)
   const { fields, specification } = definitionData
-  const requestedData = extractDataFromRequest(requestData)
-  const count = await getCount(definition, requestData, services, res, reportQuery)
+
+  // get from requestedData
+  const requestedData = requestData ? extractDataFromRequest(requestData) : undefined
+
+  // Get the count
+  const count = await getCount(definition, services, res, req, reportQuery)
+
+  // Get the filters
   const filterData = await ReportFiltersUtils.getFilters({
     fields,
     req,
@@ -300,8 +334,12 @@ const getTemplateData = async (
     services,
     filtersType: FiltersType.INTERACTIVE,
   })
-  const features = await setFeatures(services, res, requestData, definition, columns, count, urls)
-  const meta = setMetaData(definition, res)
+
+  // Set the features
+  const features = await setFeatures(services, res, req, columns, count, definitionData, requestedData, urls)
+
+  // Set the extra meta data
+  const meta = setMetaData(res, req)
 
   let reportSummaries
   if (summariesData.length) {
@@ -311,7 +349,7 @@ const getTemplateData = async (
 
   let pagination
   let totals
-  if (meta.template === 'list') {
+  if (definitionData.template === 'list') {
     pagination = PaginationUtils.getPaginationData(url, count, req)
     const { pageSize, currentPage, totalRows } = pagination
     totals = TotalsUtils.getTotals(pageSize, currentPage, totalRows, dataTable[0].rowCount)
@@ -324,6 +362,7 @@ const getTemplateData = async (
     nestedBaseUrl,
     ...meta,
     ...features,
+    ...definitionData,
     ...requestedData,
     ...urls,
     ...(pagination && { pagination }),
@@ -338,32 +377,30 @@ const showColumns = (specification: components['schemas']['Specification']) => {
   return !['row-section', 'row-section-child', 'summary', 'summary-section'].includes(template)
 }
 
-const setMetaData = (definition: components['schemas']['SingleVariantReportDefinition'], res: Response) => {
-  const { classification } = definition.variant
-  const { template } = definition.variant.specification
+const setMetaData = (res: Response, req: Request) => {
   const { csrfToken } = LocalsHelper.getValues(res)
+  const { tableId, reportId, id } = req.params
 
   return {
     csrfToken,
-    classification,
-    template,
     loadType: LoadType.ASYNC,
     type: ReportType.REPORT,
+    tableId,
+    reportId,
+    id,
   }
 }
 
-const setUrls = (url: Url, req: Request) => {
+const setUrls = (url: Url, req: Request): ReportUrls => {
   const { search } = url
-  const pathname = url.search ? req.originalUrl.split(url.search)[0] : req.originalUrl
-  const reportUrl = pathname.replace('/download-disabled', '').replace('/download-disabled?', '')
-  const reportSearch = search
   const encodedSearch = search ? encodeURIComponent(search) : undefined
+  const pathname = search ? req.originalUrl.split(search)[0] : req.originalUrl
+  const reportUrl = pathname.replace('/download-disabled', '').replace('/download-disabled?', '')
 
   return {
     reportUrl,
-    reportSearch,
+    reportSearch: search || undefined,
     encodedSearch,
-    search,
     pathname,
   }
 }
@@ -371,154 +408,154 @@ const setUrls = (url: Url, req: Request) => {
 const setFeatures = async (
   services: Services,
   res: Response,
-  requestData: RequestedReport,
-  definition: components['schemas']['SingleVariantReportDefinition'],
+  req: Request,
   columns: Columns,
   count: number,
-  urls: Dict<string>,
+  definitionData: ExtractedDefinitionData,
+  requestData?: ExtractedRequestData,
+  urls?: ReportUrls,
 ) => {
   const { csrfToken, dprUser, bookmarkingEnabled, downloadingEnabled } = LocalsHelper.getValues(res)
-  const { reportId } = requestData
-  const id = requestData.variantId || requestData.id
-  const { variant } = definition
+  const { reportId, id } = req.params
+  const { downloadPermissionService, bookmarkService } = services
 
-  let canDownload
-  if (downloadingEnabled) {
-    canDownload = await services.downloadPermissionService.downloadEnabled(dprUser.id, reportId, id)
+  let canDownload = false
+  if (downloadingEnabled && downloadPermissionService) {
+    canDownload = await downloadPermissionService.downloadEnabled(dprUser.id, reportId, id)
   }
 
   let bookmarked
-  if (bookmarkingEnabled) {
-    bookmarked = await services.bookmarkService.isBookmarked(id, reportId, dprUser.id)
+  if (bookmarkingEnabled && bookmarkService) {
+    bookmarked = await bookmarkService.isBookmarked(id, reportId, dprUser.id)
   }
 
-  const actions = setActions(
-    csrfToken,
-    variant,
-    requestData,
-    columns,
-    canDownload,
-    count,
-    urls.pathname,
-    urls.search,
-    res,
-  )
-  const { printable } = variant
+  const actions = setActions(csrfToken, columns, canDownload, count, res, req, definitionData, requestData, urls)
 
   return {
     actions,
     canDownload,
     bookmarked,
-    printable,
   }
 }
 
 const getCount = async (
   definition: components['schemas']['SingleVariantReportDefinition'],
-  requestData: RequestedReport,
   services: Services,
   res: Response,
+  req: Request,
   reportQuery: ReportQuery,
 ) => {
   const { token } = LocalsHelper.getValues(res)
-  const { tableId, reportId } = requestData
-  const id = requestData.variantId || requestData.id
+  const { tableId, reportId, id } = req.params
 
   return !definition.variant.interactive
     ? services.reportingService.getAsyncCount(token, tableId)
     : services.reportingService.getAsyncInteractiveCount(token, tableId, reportId, id, reportQuery)
 }
 
-const extractDataFromDefinition = (definition: components['schemas']['SingleVariantReportDefinition']) => {
-  const { variant } = definition
-  const { classification, printable, specification } = variant
+const extractDataFromDefinition = (
+  definition: components['schemas']['SingleVariantReportDefinition'],
+): ExtractedDefinitionData => {
+  const { variant, name: reportName, description: reportDescription } = definition
+  const { classification, printable, specification, name, description } = variant
+  if (!specification) {
+    throw new Error('No specification found in variant definition')
+  }
   const { template, fields } = specification
-  const { interactive } = <components['schemas']['VariantDefinition'] & { interactive?: boolean }>variant
 
   return {
+    reportName,
+    name,
+    description: description || reportDescription,
     classification,
-    printable,
+    printable: Boolean(printable),
     specification,
     template,
-    interactive,
     fields,
-    variant,
   }
 }
 
-const extractDataFromRequest = (requestData: RequestedReport) => {
+const extractDataFromRequest = (requestData: RequestedReport): ExtractedRequestData => {
+  const { query, url, timestamp } = requestData
+
   return {
-    reportName: requestData.reportName,
-    name: requestData.name,
-    description: requestData.description,
-    requestedTimestamp: new Date(requestData.timestamp.requested).toLocaleString(),
-    reportId: requestData.reportId,
-    tableId: requestData.tableId,
-    id: requestData.variantId || requestData.id,
     executionId: requestData.executionId,
-    querySummary: requestData.query.summary,
-    requestUrl: requestData.url.request,
-    defaultQuery: requestData.url.report.default,
+    requestedTimestamp: timestamp.requested ? new Date(timestamp.requested).toLocaleString() : undefined,
+    querySummary: query?.summary || [],
+    queryData: query?.data,
+    requestUrl: url?.request,
+    defaultQuery: url?.report?.default,
     dataProductDefinitionsPath: requestData.dataProductDefinitionsPath,
   }
 }
 
 const setActions = (
   csrfToken: string,
-  variant: components['schemas']['VariantDefinition'],
-  requestData: RequestedReport,
   columns: Columns,
   canDownload: boolean,
   count: number,
-  currentUrl: string,
-  currentQueryParams: string,
   res: Response,
+  req: Request,
+  definitionData: ExtractedDefinitionData,
+  requestData?: ExtractedRequestData,
+  urls?: ReportUrls,
 ) => {
-  const { reportName, name, id, variantId, reportId, tableId, executionId, dataProductDefinitionsPath, url, query } =
-    requestData
-  const { nestedBaseUrl } = LocalsHelper.getValues(res)
-  const requestUrl = url.request.fullUrl
-  const { printable } = variant
-  const ID = variantId || id
+  const { reportName, name, printable } = definitionData
+  const { tableId, id, reportId } = req.params
+  const { nestedBaseUrl, definitionsPath } = LocalsHelper.getValues(res)
 
-  const downloadConfig: DownloadActionParams = {
-    enabled: count > 0 && canDownload !== undefined,
-    name,
-    reportName,
-    csrfToken,
-    reportId,
-    id: ID,
-    tableId,
-    columns: columns.value,
-    definitionPath: dataProductDefinitionsPath,
-    loadType: LoadType.ASYNC,
-    canDownload,
-    currentUrl,
-    currentQueryParams,
-    nestedBaseUrl,
-    ...(query?.data && {
-      sortColumn: <string>query.data.sortColumn,
-      sortedAsc: <string>query.data.sortedAsc,
-    }),
+  // DownloadActionParams
+  let downloadConfig: DownloadActionParams | undefined
+  if (urls) {
+    downloadConfig = {
+      enabled: count > 0 && canDownload !== undefined,
+      name,
+      reportName,
+      csrfToken,
+      reportId,
+      id,
+      tableId,
+      columns: columns.value,
+      definitionPath: definitionsPath,
+      loadType: LoadType.ASYNC,
+      nestedBaseUrl,
+      canDownload,
+      currentUrl: urls.pathname,
+      currentQueryParams: urls.reportSearch,
+      ...(requestData?.queryData && {
+        sortColumn: <string>requestData.queryData.sortColumn,
+        sortedAsc: <string>requestData.queryData.sortedAsc,
+      }),
+    }
   }
 
-  const shareConfig = {
-    reportName,
-    name,
-    url: requestUrl,
+  let shareConfig
+  let copyConfig
+  if (requestData?.requestUrl?.fullUrl) {
+    shareConfig = {
+      reportName,
+      name,
+      url: requestData.requestUrl.fullUrl,
+    }
+    copyConfig = {
+      url: requestData.requestUrl.fullUrl,
+    }
   }
 
-  const refreshConfig = {
-    url: requestUrl,
-    executionId,
+  let refreshConfig
+  if (requestData?.executionId && requestData?.requestUrl?.fullUrl) {
+    refreshConfig = {
+      url: requestData.requestUrl.fullUrl,
+      executionId: requestData.executionId,
+    }
   }
 
   return ReportActionsUtils.getActions({
-    download: downloadConfig,
+    ...(downloadConfig && { download: downloadConfig }),
+    ...(shareConfig && { share: shareConfig }),
+    ...(refreshConfig && { refresh: refreshConfig }),
+    ...(copyConfig && { copy: copyConfig }),
     print: { enabled: printable },
-    share: shareConfig,
-    refresh: refreshConfig,
-    copy: { url: requestUrl },
   })
 }
 

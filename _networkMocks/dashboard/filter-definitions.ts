@@ -27,7 +27,6 @@ export const establishmentIdFilter: FilterField = {
         display: 'DAI',
       },
     ],
-    defaultValue: 'MDI',
     dynamicOptions: {
       minimumLength: undefined,
     },

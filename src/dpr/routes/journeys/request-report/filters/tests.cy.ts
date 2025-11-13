@@ -1,3 +1,5 @@
+import { executeReportStubs } from '../../../../../../cypress-tests/cypressUtils'
+
 describe('Request a report', () => {
   const path = '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/filters'
   const orderPath = '/embedded/platform/dpr/request-report/report/feature-testing/feature-testing-filter-order/filters'
@@ -31,14 +33,9 @@ describe('Request a report', () => {
   }
 
   before(() => {
-    cy.task('resetStubs')
-    cy.task('resetRedis')
-    cy.task('stubDefinitions')
+    executeReportStubs()
     cy.task('stubDefinitionRequestExamplesSuccess')
-    cy.task('stubViewAsyncReportingResults')
-    cy.task('stubReportsFinishedStatus')
     cy.task('stubRequestSuccessResult20')
-    cy.task('stubRequestSuccessReportTablesCount')
     cy.task('stubDefinitionOrderFilters')
   })
 

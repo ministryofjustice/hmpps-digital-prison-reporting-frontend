@@ -347,7 +347,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 # RAG Scores
 
 This examples display RAG scores within the scorecard:
-- defines `useRagColours: true` to enable RAG colouring.
+- defines `useRagColour: true` to enable RAG colouring.
 - Assumes that the dataset contains a rag score through a scoring engine.
 
 ### Dataset
@@ -376,7 +376,7 @@ This examples display RAG scores within the scorecard:
       type: 'scorecard',
       display: 'No of prisoners with nationality',
       option: {
-        useRagColours: true
+        useRagColour: true
       },
       column: {
         key: [{ id: 'est_id' }],
@@ -388,7 +388,7 @@ This examples display RAG scores within the scorecard:
       type: 'scorecard',
       display: 'No of prisoners with ethnicity',
       option: {
-        useRagColours: true
+        useRagColour: true
       },
       column: {
         key: [{ id: 'est_id' }],
@@ -401,7 +401,7 @@ This examples display RAG scores within the scorecard:
       display: 'No of prisoners with religion',
       description: 'Example definition description',
       option: {
-        useRagColours: true
+        useRagColour: true
       },
       column: {
         key: [{ id: 'est_id' }],
@@ -536,7 +536,7 @@ In this example custom buckets are defined in the definition to set the RAG scor
       type: 'scorecard',
       display: 'No of prisoners with nationality',
       option: {
-        useRagColours: true,
+        useRagColour: true,
         bucket: [
           { max: 40 }, 
           { min: 41, max: 60 }, 
@@ -553,7 +553,7 @@ In this example custom buckets are defined in the definition to set the RAG scor
       type: 'scorecard',
       display: 'No of prisoners with ethnicity',
       option: {
-        useRagColours: true,
+        useRagColour: true,
         bucket: [
           { max: 50 }, 
           { min: 51, max: 55 }, 
@@ -570,7 +570,7 @@ In this example custom buckets are defined in the definition to set the RAG scor
       type: 'scorecard',
       display: 'No of prisoners with religion',
       option: {
-        useRagColours: true,
+        useRagColour: true,
         bucket: [
           { max: 20 }, 
           { min: 21, max: 70 }, 

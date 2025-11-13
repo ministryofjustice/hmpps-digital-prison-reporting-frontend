@@ -1,4 +1,4 @@
-import { checkA11y } from 'cypress-tests/cypressUtils'
+import { checkA11y, executeReportStubs } from 'cypress-tests/cypressUtils'
 import dayjs from 'dayjs'
 import { getRedisState, setRedisState } from 'test-app/routes/integrationTests/redisStateTestUtils'
 
@@ -6,13 +6,8 @@ context('Request status', () => {
   const path = '/embedded/platform/'
 
   beforeEach(() => {
-    cy.task('resetStubs')
-    cy.task('resetRedis')
-    cy.task('stubDefinitions')
-    cy.task('stubGetProductCollections')
+    executeReportStubs()
     cy.task('stubDefinitionRequestExamplesSuccess')
-    cy.task('stubViewAsyncReportingResults')
-    cy.task('stubRequestSuccessReportTablesCount')
     cy.task('stubRequestSuccessResult20WithDelay')
   })
 

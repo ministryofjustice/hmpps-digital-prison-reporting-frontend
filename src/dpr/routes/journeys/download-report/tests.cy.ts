@@ -1,5 +1,5 @@
 import { updateRedisState } from 'test-app/routes/integrationTests/redisStateTestUtils'
-import { checkA11y } from '../../../../../cypress-tests/cypressUtils'
+import { checkA11y, executeReportStubs } from '../../../../../cypress-tests/cypressUtils'
 
 context('Download report', () => {
   const path = '/embedded/platform/'
@@ -7,15 +7,9 @@ context('Download report', () => {
   let viewReportUrl: string
 
   before(() => {
-    cy.task('resetStubs')
-    cy.task('resetRedis')
-    cy.task('stubDefinitions')
-    cy.task('stubGetProductCollections')
+    executeReportStubs()
     cy.task('stubDefinitionRequestExamplesSuccess')
-    cy.task('stubReportsFinishedStatus')
     cy.task('stubRequestSuccessResult20')
-    cy.task('stubRequestSuccessReportTablesCount')
-    cy.task('stubViewAsyncReportingResults')
     cy.task('stubRequestSuccessResult100')
     cy.visit(path)
     cy.findByLabelText(/Reports catalogue.*/i).within(() => {

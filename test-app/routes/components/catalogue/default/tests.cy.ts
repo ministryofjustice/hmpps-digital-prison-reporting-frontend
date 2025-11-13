@@ -1,4 +1,4 @@
-import { automaticBookmarkConfig } from "test-app/middleware/setUpBookmarks"
+import { automaticBookmarkConfig } from 'test-app/middleware/setUpBookmarks'
 
 context('Catalogue component', () => {
   const path = '/components/catalogue/default'
@@ -7,6 +7,7 @@ context('Catalogue component', () => {
     cy.task('resetStubs')
     cy.task('resetRedis')
     cy.task('stubDefinitions')
+    cy.task('stubSingleSummaries')
     cy.task('stubGetProductCollections')
     cy.visit(path)
   })

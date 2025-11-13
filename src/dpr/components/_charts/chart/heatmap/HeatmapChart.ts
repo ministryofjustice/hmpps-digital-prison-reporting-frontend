@@ -20,9 +20,9 @@ class HeatmapChart extends DashboardVisualisationClass {
 
   private dayDateFormat = 'DD/MM/YYYY'
 
-  private valueKey: string
+  private valueKey = ''
 
-  private label: string
+  private label = ''
 
   private buckets: DashboardVisualisationBucket[] = []
 
@@ -53,7 +53,7 @@ class HeatmapChart extends DashboardVisualisationClass {
   private setLabel = () => {
     const { id, display } = this.columns.measures[1]
     this.valueKey = id
-    this.label = display
+    this.label = display || ''
   }
 
   private validateDefinition = () => {
@@ -83,10 +83,10 @@ class HeatmapChart extends DashboardVisualisationClass {
       const { raw, rag } = tsData[0][this.valueKey]
       const tsRaw = tsData[0].ts.raw
 
-      const v = Number(raw)
-      const r = rag !== undefined ? Number(tsData[0][this.valueKey].rag) : undefined
-      let x
-      let y
+      const v: MatrixChartData['v'] = Number(raw)
+      const r: MatrixChartData['r'] = rag !== undefined ? Number(tsData[0][this.valueKey].rag) : undefined
+      let x: MatrixChartData['x'] = 0
+      let y: MatrixChartData['y'] = 0
 
       switch (this.granularity) {
         case 'hourly':

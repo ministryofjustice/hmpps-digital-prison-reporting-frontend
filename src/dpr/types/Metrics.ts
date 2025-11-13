@@ -4,3 +4,10 @@ export interface DashboardDataResponse {
     rag?: number
   }
 }
+
+export interface DashboardDataResponseWithRag {
+  [key: string]: {
+    raw: number | string
+    rag: number
+  }
+}

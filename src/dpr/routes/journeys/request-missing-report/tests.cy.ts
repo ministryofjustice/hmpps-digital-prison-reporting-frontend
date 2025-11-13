@@ -1,13 +1,11 @@
-import { checkA11y } from '../../../../../cypress-tests/cypressUtils'
+import { checkA11y, stubBaseTasks, stubDefinitionsTasks } from '../../../../../cypress-tests/cypressUtils'
 
 context('Request missing report', () => {
   const path = '/embedded/platform/'
 
   beforeEach(() => {
-    cy.task('resetStubs')
-    cy.task('resetRedis')
-    cy.task('stubDefinitions')
-    cy.task('stubGetProductCollections')
+    stubBaseTasks()
+    stubDefinitionsTasks()
     cy.task('stubGetFeatureTestingMissing')
     cy.visit(path)
     cy.findByLabelText(/Reports catalogue.*/i).within(() => {

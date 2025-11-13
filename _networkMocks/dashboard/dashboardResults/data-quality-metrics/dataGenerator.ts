@@ -20,7 +20,7 @@ const baseData: DashboardDataResponse = {
   count: { raw: '' },
 }
 
-export const generateData = (query) => {
+export const generateData = (query, useRag = true) => {
   const { establishmentId, timestamps } = extractQueryAndCreateTimestamps(query)
   const estId = establishmentId || 'ALL'
 
@@ -40,27 +40,27 @@ export const generateData = (query) => {
         ...estData,
         has_ethnicity: {
           raw: hasEthnicity,
-          rag: generateRag(hasEthnicity),
+          ...(useRag && { rag: generateRag(hasEthnicity) }),
         },
         ethnicity_is_missing: {
           raw: ethnicityIsMissing,
-          rag: generateRag(ethnicityIsMissing),
+          ...(useRag && { rag: generateRag(ethnicityIsMissing) }),
         },
         has_nationality: {
           raw: hasNationality,
-          rag: generateRag(hasNationality),
+          ...(useRag && { rag: generateRag(hasNationality) }),
         },
         nationality_is_missing: {
           raw: nationalityIsMissing,
-          rag: generateRag(nationalityIsMissing),
+          ...(useRag && { rag: generateRag(nationalityIsMissing) }),
         },
         has_religion: {
           raw: hasReligion,
-          rag: generateRag(hasReligion),
+          ...(useRag && { rag: generateRag(hasReligion) }),
         },
         religion_is_missing: {
           raw: religionIsMissing,
-          rag: generateRag(religionIsMissing),
+          ...(useRag && { rag: generateRag(religionIsMissing) }),
         },
       }
     })

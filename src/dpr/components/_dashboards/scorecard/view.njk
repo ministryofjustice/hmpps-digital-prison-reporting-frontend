@@ -1,6 +1,7 @@
-{% macro dprScoreCard(scorecard) %}
+{% macro dprScoreCard(scorecard, index) %}
   {% set classes = scorecard.classes %}
 
+  {% set id = scorecard.id %}
   {% set title = scorecard.title %}
   {% set value = scorecard.value %}
   {% set rag = scorecard.rag %}
@@ -20,13 +21,13 @@
     {% set directionIcon = '◼' %}
     {% set directionDisplay = '' %}
   {% endif %}
-  <div class="dpr-scorecard" data-dpr-module="scorecard">
-    <p class="govuk-heading-s govuk-!-margin-bottom-1">
+  <div class="dpr-scorecard" data-dpr-module="scorecard" aria-labelledby="{{ id }}_title_{{index }}">
+    <p id="{{ id }}_title_{{index}}" class="govuk-heading-s govuk-!-margin-bottom-1">
       {{ title }}
     </p>
 
-    <p style="background-color: {{ rag.colour }}" class="govuk-body dpr-scorecard__value {% if rag %}govuk-tag--{{ rag.colour }}{% endif %}">{{ value }}</p>
-    {% if rag.score %}
+    <p {% if rag %}style="background-color: {{ rag.colour }}"{% endif %} class="govuk-body dpr-scorecard__value {% if rag %}govuk-tag--{{ rag.colour }}{% endif %}">{{ value }}</p>
+    {% if rag.score !== 'undefined' %}
       <p class="govuk-body dpr-scorecard__value-description">Status: {{ rag.score }}</p>
     {% endif %}
 

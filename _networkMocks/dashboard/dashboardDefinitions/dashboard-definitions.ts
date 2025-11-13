@@ -81,6 +81,8 @@ export default {
     listExamples.dataQualityFullDataset,
     scorecardExamples.dietTotalsScoreCards,
     scorecardExamples.dataQualityScoreCards,
+    scorecardExamples.scoreCardTest,
+    scorecardExamples.scoreCardBucketTest,
     chartExamples.historicDietTotals,
     chartExamples.historicFlexibleDietTotals,
     chartExamples.dietTotals,

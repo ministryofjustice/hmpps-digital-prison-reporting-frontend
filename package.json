@@ -52,6 +52,7 @@
     "start-test-app": "npm run package && node $NODE_OPTIONS test-app/start-server.js",
     "start:dev": "USE_MOCK_CLIENTS=true concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.config.js --build --watch\" \"node esbuild/esbuild.config.js --dev-server\"",
     "start:dev:noMockClients": "concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.config.js --build --watch\" \"node esbuild/esbuild.config.js --dev-server\"",
+    "start:dev:noMockClients:noLogs": "SUPPRESS_LOGS=true concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.config.js --build --watch\" \"node esbuild/esbuild.config.js --dev-server\"",
     "start:server": "node esbuild/esbuild.config.js --dev-server",
     "security_audit": "npx audit-ci --config audit-ci.json",
     "int-test-cucumber": "cypress run --config-file cypress-tests/integration-tests/cypress.config.js",

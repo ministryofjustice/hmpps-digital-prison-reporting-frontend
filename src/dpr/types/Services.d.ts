@@ -9,6 +9,8 @@ import {
 } from '../services'
 import { ProductCollectionStoreService } from '../services/productCollection/productCollectionStoreService'
 import MissingReportClient from '../services/missingReport/missingReportClient'
+import ReportingService from '../services/reportingService'
+import DashboardService from '../services/dashboardService'
 import { ProductCollectionService } from '../services/productCollection/productCollectionService'
 
 export type Services = UserStoreServices & {

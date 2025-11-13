@@ -13,6 +13,7 @@ describe('ScorecardUtils', () => {
 
   beforeEach(() => {
     scorecardData1 = {
+      id: '1',
       rag: {
         colour: 'red',
         score: 2,
@@ -28,6 +29,7 @@ describe('ScorecardUtils', () => {
     }
 
     scorecardData2 = {
+      id: '2',
       rag: {
         colour: 'red',
         score: 2,
@@ -82,6 +84,7 @@ describe('ScorecardUtils', () => {
             {
               scorecards: [
                 {
+                  id: '1',
                   rag: {
                     colour: 'red',
                     score: 2,
@@ -96,6 +99,7 @@ describe('ScorecardUtils', () => {
                   valueFor: 'Jan 25',
                 },
                 {
+                  id: '2',
                   rag: {
                     colour: 'red',
                     score: 2,
@@ -125,6 +129,7 @@ describe('ScorecardUtils', () => {
             {
               scorecards: [
                 {
+                  id: '1',
                   rag: {
                     colour: 'red',
                     score: 2,
@@ -139,6 +144,7 @@ describe('ScorecardUtils', () => {
                   valueFor: 'Jan 25',
                 },
                 {
+                  id: '2',
                   rag: {
                     colour: 'red',
                     score: 2,

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { DashboardDataResponse } from 'src/dpr/types/Metrics'
 
 export const splitIntoRandomValues = (total: number, parts: number): number[] => {
   let randomValues
@@ -17,7 +18,7 @@ export const splitIntoRandomValues = (total: number, parts: number): number[] =>
   return randomValues
 }
 
-export const extractQueryAndCreateTimestamps = (query) => {
+export const extractQueryAndCreateTimestamps = (query: Record<string, string>) => {
   const start = query['filters.date.start'] || dayjs().format('YYYY-MM-DD')
   const end = query['filters.date.end'] || dayjs().format('YYYY-MM-DD')
   const granularity = query['filters.date.granularity'] || 'daily'
@@ -32,25 +33,25 @@ export const extractQueryAndCreateTimestamps = (query) => {
   }
 }
 
-export const createTimestamps = (start, end, granularity) => {
+export const createTimestamps = (start: string, end: string, granularity: string) => {
   const g = mapGranularityValue(granularity)
   const startDate = dayjs(start)
   const endDate = dayjs(end)
-  const endVal = end || endDate.add(1, g)
-  const diff = Math.abs(startDate.diff(endVal, g, true))
+  const endVal = end || endDate.add(1, <dayjs.ManipulateType>g)
+  const diff = Math.abs(startDate.diff(endVal, <dayjs.ManipulateType>g, true))
   const roundedCount = g === 'day' ? Math.ceil(diff + 1) : Math.ceil(diff)
   const dateFormat = setFormat(g)
   const timestamps: string[] = []
 
   for (let i = 0; i < roundedCount; i += 1) {
-    const date = endDate.subtract(i, g).format(dateFormat)
+    const date = endDate.subtract(i, <dayjs.ManipulateType>g).format(dateFormat)
     timestamps.unshift(date)
   }
 
   return timestamps
 }
 
-export const mapGranularityValue = (granularity) => {
+export const mapGranularityValue = (granularity: string) => {
   let mappedValue = 'days'
   switch (granularity) {
     case 'daily':
@@ -69,7 +70,7 @@ export const mapGranularityValue = (granularity) => {
   return mappedValue
 }
 
-export const setFormat = (granularity) => {
+export const setFormat = (granularity: string) => {
   switch (granularity) {
     case 'day':
       return 'DD/MM/YYYY'
@@ -82,13 +83,13 @@ export const setFormat = (granularity) => {
   }
 }
 
-export const generateRawValue = (maxOverride, minOverride) => {
+export const generateRawValue = (maxOverride: number, minOverride: number) => {
   const max = maxOverride || 800
   const min = minOverride || 400
   return Math.round(Math.random() * (max - min) + min)
 }
 
-export const generateRag = (value) => {
+export const generateRag = (value: number) => {
   let ragValue
 
   if (value < 800) ragValue = 2
@@ -98,7 +99,7 @@ export const generateRag = (value) => {
   return ragValue
 }
 
-export const initBaseData = (baseData, ts) => {
+export const initBaseData = (baseData: DashboardDataResponse, ts: string) => {
   return [
     {
       ...baseData,
@@ -108,8 +109,8 @@ export const initBaseData = (baseData, ts) => {
   ]
 }
 
-export const initEstablishments = (baseData, establishmentId, timestamp) => {
-  let establishmentData = []
+export const initEstablishments = (baseData: DashboardDataResponse, establishmentId: string, timestamp: string) => {
+  let establishmentData: DashboardDataResponse[] = []
   const total = +baseData.count.raw
   const totals = splitIntoRandomValues(total, 4)
   const ts = timestamp ? { raw: timestamp } : { raw: 'Feb 25' }
@@ -202,11 +203,11 @@ export const generateFieldValuesWithCountData = (reportData, fields, values, fil
   })
 }
 
-export const addColumnValuesToRows = (rows, columns) => {
+export const addColumnValuesToRows = (rows: DashboardDataResponse[], columns: string[]) => {
   return rows.map((row) => {
     const total = +row.count.raw
     const totals = splitIntoRandomValues(total, columns.length)
-    const colValues = columns.reduce((acc, col, index) => {
+    const colValues = columns.reduce((acc: DashboardDataResponse, col, index) => {
       acc[col] = { raw: totals[index] }
       return acc
     }, {})

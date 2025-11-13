@@ -1,7 +1,7 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 
-{% macro dprCatalogueSearch(id, productCollectionInfo, type = 'catalogue') %}
+{% macro dprCatalogueSearch(id, productCollectionInfo, csrfToken, type = 'catalogue') %}
   {% set productCollections = productCollectionInfo.productCollections %}
   {% set selectedProductCollection = productCollectionInfo.selectedProductCollection %}
 

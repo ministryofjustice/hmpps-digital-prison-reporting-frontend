@@ -6,7 +6,7 @@
 {% block content %}
   <h1 class="govuk-heading-l">Search</h1>
 
-  {{ dprCatalogueSearch('dpr-search-table', selectedProductCollection, productCollections) }}
+  {{ dprCatalogueSearch('dpr-search-table', selectedProductCollection, csrfToken, productCollections) }}
 
   <div class="govuk-width-container">
     {{ dprCatalogueList(head, rows, 'dpr-search-table') }}

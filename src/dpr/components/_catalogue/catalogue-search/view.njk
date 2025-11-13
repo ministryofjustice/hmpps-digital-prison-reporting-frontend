@@ -23,6 +23,7 @@
         }) }}
         {% if productCollections.length > 0 %}
           <form method="post" action="dpr/product-collection/selected">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
             {{ govukSelect({
               id: 'productCollection',
               name: 'productCollection',

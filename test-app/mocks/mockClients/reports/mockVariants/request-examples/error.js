@@ -1,3 +1,4 @@
+// @ts-nocheck
 const requestExampleRequestError = {
   id: 'request-example-reques-error',
   name: 'Request Error',

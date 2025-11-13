@@ -25,7 +25,7 @@
     "inlineSources": true,
     "sourceRoot": "/"
   },
-  "exclude": ["node_modules", "dist", "dist-test-app", "package", "esbuild", "dist-docs"],
+  "exclude": ["node_modules", "dist", "dist-test-app", "package", "esbuild", "dist-docs", "test-app", "cypress.config.ts"],
   "include": ["**/*.ts"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]

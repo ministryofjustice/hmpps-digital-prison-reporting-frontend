@@ -1,3 +1,4 @@
+// @ts-nocheck
 const reportTemplateExampleRowSectionChild = {
   id: 'report-template-example-row-section-child',
   name: 'Sectioned Rows + child template',

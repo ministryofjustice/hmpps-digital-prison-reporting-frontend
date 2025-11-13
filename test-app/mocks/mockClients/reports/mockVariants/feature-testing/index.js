@@ -1,3 +1,4 @@
+// @ts-nocheck
 const emptyQuery = require('./emptyQuery')
 const interactiveFilters = require('./interactiveFilters')
 const missing1 = require('./missing1')

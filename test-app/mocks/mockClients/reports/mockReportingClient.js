@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable class-methods-use-this */
 const defs = require('./mockReportDefinition')
 const mockStatusApiError = require('./mockStatusResponseError')

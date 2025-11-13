@@ -1,3 +1,4 @@
+// @ts-nocheck
 const variant34 = {
   id: 'variantId-34',
   name: 'Sectioned row - Incident report',

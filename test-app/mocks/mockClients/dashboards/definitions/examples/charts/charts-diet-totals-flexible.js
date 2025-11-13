@@ -1,3 +1,4 @@
+// @ts-nocheck
 const { establishmentIdFilter, wingFilterCompass } = require('../../../filter-definitions')
 const { charts, lists } = require('../visualisations')
 

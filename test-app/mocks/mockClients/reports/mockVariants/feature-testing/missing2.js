@@ -1,3 +1,4 @@
+// @ts-nocheck
 const featureTestingMissing2 = {
   id: 'feature-testing-missing2',
   name: 'Missing Report 2',

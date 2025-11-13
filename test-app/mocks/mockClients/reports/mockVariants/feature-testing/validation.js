@@ -1,3 +1,4 @@
+// @ts-nocheck
 const featureTestingValidation = {
   id: 'feature-testing-validation',
   name: 'Validation Test',

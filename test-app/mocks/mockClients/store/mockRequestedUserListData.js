@@ -1,3 +1,4 @@
+// @ts-nocheck
 const requestedReady = {
   dataProductDefinitionsPath: '',
   type: 'report',

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const featureTestingSync = {
   id: 'feature-testing-sync',
   name: 'Sync report',

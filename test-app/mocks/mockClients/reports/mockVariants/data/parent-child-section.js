@@ -1,3 +1,4 @@
+// @ts-nocheck
 const sectionOneOne = [
   {
     field1: 'Parent 1',

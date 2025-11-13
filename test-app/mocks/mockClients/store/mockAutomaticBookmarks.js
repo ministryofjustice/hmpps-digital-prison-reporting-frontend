@@ -1,3 +1,4 @@
+// @ts-nocheck
 const autoBms = {
   'random-caseload-id-2': [
     {

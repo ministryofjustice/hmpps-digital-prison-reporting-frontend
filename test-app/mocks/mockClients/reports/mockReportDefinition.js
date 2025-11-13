@@ -1,3 +1,4 @@
+// @ts-nocheck
 const requestExamples = require('./mockVariants/request-examples')
 const templateExamples = require('./mockVariants/report-templates')
 const featureTesting = require('./mockVariants/feature-testing')

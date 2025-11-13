@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockScorecardDefinitionNationality = {
   type: 'scorecard',
   options: {

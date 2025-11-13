@@ -1,3 +1,4 @@
+// @ts-nocheck
 const listSection = require('./list-section')
 const listSectionWithSummaries = require('./list-section-wtih-summaries')
 const listWithSummaries = require('./list-with-summaries')

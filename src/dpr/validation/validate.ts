@@ -1,9 +1,9 @@
-import { RequestHandler } from 'express'
+import { RequestHandler, Request } from 'express'
 import z from 'zod'
 
 export const validate =
   (schema: z.ZodType): RequestHandler =>
-  (req, res, next) => {
+  (req: Request, res, next) => {
     const result = schema.safeParse(req.body)
     if (result.success) {
       return next()

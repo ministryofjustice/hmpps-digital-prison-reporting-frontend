@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockDietData = [
   {
     ts: { raw: '2025/02/21' },

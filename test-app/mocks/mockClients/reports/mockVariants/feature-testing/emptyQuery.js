@@ -1,3 +1,4 @@
+// @ts-nocheck
 const featureTestingEmptyQuery = {
   id: 'feature-testing-empty-query',
   name: 'Empty query',

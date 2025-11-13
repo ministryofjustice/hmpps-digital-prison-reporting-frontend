@@ -1,3 +1,4 @@
+// @ts-nocheck
 const establishmentIdFilter = {
   name: 'establishment_id',
   display: 'Establishment ID',

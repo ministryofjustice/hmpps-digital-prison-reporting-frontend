@@ -1,3 +1,4 @@
+// @ts-nocheck
 const requestExampleExpiredBookmark = {
   id: 'request-example-expired-bookmark',
   name: 'Expired bookmarked',

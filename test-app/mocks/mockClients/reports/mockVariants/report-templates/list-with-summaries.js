@@ -1,3 +1,4 @@
+// @ts-nocheck
 const reportTemplateExampleListWithSummaries = {
   id: 'report-template-example-list-with-summaries',
   name: 'Page Summaries',

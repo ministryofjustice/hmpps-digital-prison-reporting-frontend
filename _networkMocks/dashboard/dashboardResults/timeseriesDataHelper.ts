@@ -83,7 +83,7 @@ export const setFormat = (granularity: string) => {
   }
 }
 
-export const generateRawValue = (maxOverride: number, minOverride: number) => {
+export const generateRawValue = (maxOverride?: number, minOverride?: number) => {
   const max = maxOverride || 800
   const min = minOverride || 400
   return Math.round(Math.random() * (max - min) + min)
@@ -174,7 +174,12 @@ export const initEstablishments = (baseData: DashboardDataResponse, establishmen
  * @param {*} filter
  * @return {*}
  */
-export const generateFieldValuesWithCountData = (reportData, fields, values, filter) => {
+export const generateFieldValuesWithCountData = (
+  reportData: DashboardDataResponse[],
+  fields,
+  values,
+  filter?: string,
+) => {
   return reportData.flatMap((d) => {
     const total = +d.count.raw
     const totals = splitIntoRandomValues(total, values[0].length)

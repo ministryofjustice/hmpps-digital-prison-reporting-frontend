@@ -1,3 +1,4 @@
+// @ts-nocheck
 const variant25 = {
   id: 'variantId-25',
   name: 'Granular Daterange',

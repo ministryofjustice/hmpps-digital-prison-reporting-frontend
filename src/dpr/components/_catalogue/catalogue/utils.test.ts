@@ -37,7 +37,7 @@ describe('CatalogueUtils', () => {
       const result = await CatalogueUtils.init({ features: {}, res, services })
 
       expect(result).toEqual({
-        data: { head: [], rows: [], csrfToken: "csrfToken" },
+        data: { head: [], rows: [], csrfToken: 'csrfToken' },
         features: {
           bookmarkingEnabled: undefined,
           filteringEnabled: true,
@@ -62,7 +62,7 @@ describe('CatalogueUtils', () => {
       })
 
       expect(result).toEqual({
-        data: { head: [], rows: [], csrfToken: "csrfToken" },
+        data: { head: [], rows: [], csrfToken: 'csrfToken' },
         features: {
           bookmarkingEnabled: false,
           filteringEnabled: false,

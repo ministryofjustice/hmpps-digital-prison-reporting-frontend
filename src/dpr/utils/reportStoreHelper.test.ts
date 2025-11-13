@@ -1,3 +1,4 @@
+import { expect, jest } from '@jest/globals'
 import { RequestedReport, UserReportData } from '../types/UserReports'
 import * as ReportStoreHelper from './reportStoreHelper'
 import type { RequestedReportService, RecentlyViewedStoreService } from '../services'
@@ -62,12 +63,12 @@ describe('ReportStoreHelper', () => {
       ] as unknown as UserReportData[]
 
       recentlyViewedService = {
-        getAllReportsById: jest.fn().mockResolvedValue([...reports]),
+        getAllReportsById: jest.fn().mockReturnValueOnce([...reports]),
         removeReport: jest.fn(),
       } as unknown as RecentlyViewedStoreService
 
       requestedReportService = {
-        getAllReportsById: jest.fn().mockResolvedValue([...reports]),
+        getAllReportsById: jest.fn().mockReturnValueOnce([...reports]),
         removeReport: jest.fn(),
       } as unknown as RequestedReportService
     })

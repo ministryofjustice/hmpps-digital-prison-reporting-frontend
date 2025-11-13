@@ -36,7 +36,7 @@ class DateMapper {
 
   private localDateFormatYear = 'YYYY'
 
-  getDateType(value: string): DateType {
+  getDateType(value: string | null): DateType {
     if (value && value.match) {
       if (value.match(this.isoDateRegEx)) {
         return 'iso'
@@ -62,9 +62,11 @@ class DateMapper {
     return 'none'
   }
 
-  getDateWrapper(value: string): Dayjs | null {
+  getDateWrapper(value: string | null): Dayjs | null {
     dayjs.extend(customParseFormat)
-
+    if (!value) {
+      return null
+    }
     switch (this.getDateType(value)) {
       case 'iso':
         return dayjs(value)
@@ -81,11 +83,11 @@ class DateMapper {
     }
   }
 
-  isDate(value: string): boolean {
+  isDate(value: string | null): boolean {
     return this.getDateType(value) !== 'none'
   }
 
-  toDateString(value: string, type: DateType): string | null {
+  toDateString(value: string | null, type: DateType): string | null {
     const dateWrapper = this.getDateWrapper(value)
 
     if (dateWrapper) {

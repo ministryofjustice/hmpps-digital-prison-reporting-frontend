@@ -1,3 +1,4 @@
+import { expect, jest } from '@jest/globals'
 import { Response, Request } from 'express'
 import { Services } from '../../../types/Services'
 import BookmarkUtils from './utils'
@@ -35,8 +36,8 @@ describe('BookmarkUtils', () => {
       } as unknown as Request
 
       bookmarkService = {
-        getAllBookmarks: jest.fn().mockResolvedValue([{ reportId: 'test-report-1', variantId: 'test-variant-1' }]),
-        createBookMarkToggleHtml: jest.fn().mockResolvedValue('<p>Bookmark toggle</p>'),
+        getAllBookmarks: jest.fn().mockReturnValueOnce([{ reportId: 'test-report-1', variantId: 'test-variant-1' }]),
+        createBookMarkToggleHtml: jest.fn().mockReturnValueOnce('<p>Bookmark toggle</p>'),
         getState: jest.fn(),
       } as unknown as BookmarkService
 
@@ -48,11 +49,13 @@ describe('BookmarkUtils', () => {
       }
 
       reportingService = {
-        getDefinition: jest.fn().mockResolvedValue(mockDefinition),
+        getDefinition: jest.fn().mockReturnValueOnce(mockDefinition),
       } as unknown as ReportingService
 
       dashboardService = {
-        getDefinition: jest.fn().mockResolvedValue(dashboardDefinitions[0]),
+        getDefinition: jest
+          .fn()
+          .mockReturnValueOnce(<components['schemas']['DashboardDefinition']>dashboardDefinitions.mockDashboards[0]),
       } as unknown as DashboardService
 
       services = {

@@ -25,7 +25,7 @@ const establishmentIdFilter = {
     ],
     defaultValue: 'MDI',
     dynamicOptions: {
-      minimumLength: null,
+      minimumLength: undefined,
     },
     interactive: true,
   },
@@ -63,7 +63,7 @@ const wingFilterCompass = {
     ],
     defaultValue: 'north',
     dynamicOptions: {
-      minimumLength: null,
+      minimumLength: undefined,
     },
     interactive: true,
   },
@@ -101,7 +101,7 @@ const wingFilter = {
     ],
     defaultValue: 'I',
     dynamicOptions: {
-      minimumLength: null,
+      minimumLength: undefined,
     },
     interactive: true,
   },

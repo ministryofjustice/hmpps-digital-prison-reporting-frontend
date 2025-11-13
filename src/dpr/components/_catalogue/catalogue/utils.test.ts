@@ -1,12 +1,15 @@
+import { expect, jest } from '@jest/globals'
 import { Response } from 'express'
 import CatalogueUtils from './utils'
 import CatalogueListUtils from '../catalogue-list/utils'
 import { Services } from '../../../types/Services'
 
 describe('CatalogueUtils', () => {
+  // const list:
   jest.spyOn(CatalogueListUtils, 'getReportsList').mockResolvedValue({
     head: [],
     rows: [],
+    id: 'id',
   })
 
   describe('init', () => {
@@ -37,7 +40,7 @@ describe('CatalogueUtils', () => {
       const result = await CatalogueUtils.init({ features: {}, res, services })
 
       expect(result).toEqual({
-        data: { head: [], rows: [] },
+        data: { head: [], rows: [], id: 'id' },
         features: {
           bookmarkingEnabled: undefined,
           filteringEnabled: true,
@@ -62,7 +65,7 @@ describe('CatalogueUtils', () => {
       })
 
       expect(result).toEqual({
-        data: { head: [], rows: [] },
+        data: { head: [], rows: [], id: 'id' },
         features: {
           bookmarkingEnabled: false,
           filteringEnabled: false,

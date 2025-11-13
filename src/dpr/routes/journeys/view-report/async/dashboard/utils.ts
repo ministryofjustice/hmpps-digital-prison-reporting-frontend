@@ -199,7 +199,6 @@ export const renderAsyncDashboard = async ({ req, res, services, next }: AsyncRe
   const { token, csrfToken, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
   const { reportId, id, tableId } = req.params
   const { bookmarkService, requestedReportService } = services
-  const url = parseUrl(req)
 
   // Get the definition Data
   const { query, filters, reportDefinition, dashboardDefinition } = await getDefinitionData({

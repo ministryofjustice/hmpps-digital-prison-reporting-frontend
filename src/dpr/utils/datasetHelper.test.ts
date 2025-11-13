@@ -1,3 +1,4 @@
+import { expect } from '@jest/globals'
 import { components } from '../types/api'
 import { DashboardDataResponse } from '../types/Metrics'
 import DatasetHelper from './datasetHelper'
@@ -429,7 +430,7 @@ describe('DatasetHelper', () => {
             },
           ],
         },
-      } as unknown as DashboardVisualisation
+      } as unknown as components['schemas']['DashboardVisualisationDefinition']
 
       const data = [
         {

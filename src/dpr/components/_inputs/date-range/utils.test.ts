@@ -1,7 +1,8 @@
+import { expect } from '@jest/globals'
 import dayjs from 'dayjs'
 import { Request } from 'express'
 import DateRangeInputUtils from './utils'
-import { DateFilterValue } from '../../_filters/types'
+import { DateFilterValue, DateRangeFilterValue } from '../../_filters/types'
 import { FilterType } from '../../_filters/filter-input/enum'
 
 describe('DateRangeInputUtils', () => {
@@ -103,17 +104,14 @@ describe('DateRangeInputUtils', () => {
   })
 
   describe('setDateRangeValueFromRequest', () => {
-    let dateFilter: DateFilterValue
+    let dateFilter: DateRangeFilterValue
 
     beforeEach(() => {
       dateFilter = {
         text: 'Field 3',
         name: 'field3',
         type: FilterType.dateRange,
-        options: null,
         value: { start: '2005-01-01', end: '2005-07-08' },
-        minimumLength: null,
-        dynamicResourceEndpoint: null,
         mandatory: true,
         min: '2003-02-01',
         max: '2007-05-04',
@@ -142,7 +140,7 @@ describe('DateRangeInputUtils', () => {
         query: {},
       } as unknown as Request
 
-      dateFilter.value = null
+      dateFilter.value = { start: '', end: '' }
 
       const result = DateRangeInputUtils.setValueFromRequest(dateFilter, req, 'filters.')
 
@@ -157,7 +155,7 @@ describe('DateRangeInputUtils', () => {
         query: {},
       } as unknown as Request
 
-      dateFilter.value = null
+      dateFilter.value = { start: '', end: '' }
       delete dateFilter.min
       delete dateFilter.max
 

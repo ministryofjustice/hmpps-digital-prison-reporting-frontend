@@ -1,3 +1,4 @@
+import { expect } from '@jest/globals'
 import Dict = NodeJS.Dict
 import ReportQuery from '../../types/ReportQuery'
 import { components } from '../../types/api'
@@ -6,6 +7,7 @@ import { AsyncSummary } from '../../types/UserReports'
 import { Template } from '../../types/Templates'
 
 const defaultField: components['schemas']['FieldDefinition'] = {
+  header: false,
   name: 'date',
   display: 'Date',
   sortable: true,
@@ -27,6 +29,7 @@ describe('mapData', () => {
       date: '2000-01-02T03:04:05.006Z',
     }
     const field: components['schemas']['FieldDefinition'] = {
+      header: false,
       name: 'date',
       display: 'Date',
       sortable: true,
@@ -64,6 +67,7 @@ describe('mapData', () => {
       date: '',
     }
     const field: components['schemas']['FieldDefinition'] = {
+      header: false,
       name: 'date',
       display: 'Date',
       sortable: true,
@@ -101,6 +105,7 @@ describe('mapData', () => {
       date: '2010-11-12T13:14:15.016Z',
     }
     const field: components['schemas']['FieldDefinition'] = {
+      header: false,
       name: 'date',
       display: 'Date',
       sortable: true,
@@ -129,6 +134,7 @@ describe('mapData', () => {
       number: '1234.05',
     }
     const field: components['schemas']['FieldDefinition'] = {
+      header: false,
       name: 'number',
       display: 'Number',
       sortable: true,
@@ -158,6 +164,7 @@ describe('mapData', () => {
     }
     const field: components['schemas']['FieldDefinition'] = {
       name: 'date',
+      header: false,
       display: 'Date',
       sortable: true,
       defaultsort: false,
@@ -185,6 +192,7 @@ describe('mapData', () => {
       string: '1234.05',
     }
     const field: components['schemas']['FieldDefinition'] = {
+      header: false,
       name: 'string',
       display: 'String',
       sortable: true,
@@ -213,6 +221,7 @@ describe('mapData', () => {
       string: '1234.05',
     }
     const field: components['schemas']['FieldDefinition'] = {
+      header: false,
       name: 'string',
       display: 'String',
       sortable: true,
@@ -353,6 +362,7 @@ describe('mapHeader', () => {
 
 describe('withSummary', () => {
   const field: components['schemas']['FieldDefinition'] = {
+    header: false,
     name: 'mainField',
     display: 'Main Field',
     sortable: true,

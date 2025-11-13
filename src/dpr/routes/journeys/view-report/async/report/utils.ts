@@ -100,9 +100,9 @@ const initReportQuery = async (
   const filtersData = await ReportFiltersUtils.getFilters({
     fields,
     req,
+    filtersType: FiltersType.INTERACTIVE,
     res,
     services,
-    filtersType: FiltersType.INTERACTIVE,
   })
 
   // Sort

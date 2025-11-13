@@ -15,8 +15,8 @@ export default class GranularDateRangeController {
           quickFilter: { value: 'last-six-months', display: 'Last 6 months' },
           partialDate: { start: true, end: true },
         },
-        minimumLength: null,
-        dynamicResourceEndpoint: null,
+        minimumLength: undefined,
+        dynamicResourceEndpoint: undefined,
         mandatory: true,
         quickFilterOptions: [
           { value: 'none', text: 'None' },

@@ -15,7 +15,13 @@ export interface DashboardVisualisation {
   type: components['schemas']['DashboardVisualisationDefinition']['type']
   title?: string
   description?: string
-  data: Scorecard | Scorecard[] | ScorecardGroup[] | DashboardVisualisatonCardData | DashboardVisualisationTable
+  data:
+    | Scorecard
+    | Scorecard[]
+    | ScorecardGroup[]
+    | DashboardVisualisatonCardData
+    | DashboardVisualisationTable
+    | undefined
 }
 
 export interface DashboardVisualisatonCardData {

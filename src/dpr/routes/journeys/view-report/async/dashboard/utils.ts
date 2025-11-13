@@ -1,6 +1,6 @@
 import parseUrl from 'parseurl'
-import { Url } from 'url'
 import { Request } from 'express'
+import { Services } from '../../../../../types/Services'
 import {
   DashboardSection,
   DashboardVisualisation,
@@ -23,40 +23,49 @@ import ScorecardVisualisation from '../../../../../components/_dashboards/scorec
 import ReportActionsUtils from '../../../../../components/_reports/report-actions/utils'
 import ReportQuery from '../../../../../types/ReportQuery'
 import LocalsHelper from '../../../../../utils/localsHelper'
-import { Services } from '../../../../../types/Services'
 import { FilterValue } from '../../../../../components/_filters/types'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
   reportDefinition: components['schemas']['ReportDefinitionSummary'],
-  requestData: RequestedReport,
+  requestData?: RequestedReport,
 ) => {
   const reportName = reportDefinition.name
   const { name } = dashboardDefinition
-  const actionsUrl = requestData.url.request.fullUrl
-  const { executionId } = requestData
+  const actionsUrl = requestData?.url?.request?.fullUrl
+  const executionId = requestData?.executionId
 
-  return ReportActionsUtils.getActions({
-    share: {
-      reportName,
-      name,
-      url: actionsUrl,
-    },
-    refresh: {
-      url: actionsUrl,
-      executionId,
-    },
-    copy: {
-      url: actionsUrl,
-    },
-  })
+  let actions = {}
+  if (actionsUrl) {
+    actions = {
+      share: {
+        reportName,
+        name,
+        url: actionsUrl,
+      },
+      copy: {
+        url: actionsUrl,
+      },
+    }
+    if (executionId) {
+      actions = {
+        ...actions,
+        refresh: {
+          url: actionsUrl,
+          executionId,
+        },
+      }
+    }
+  }
+
+  return ReportActionsUtils.getActions(actions)
 }
 
 const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsParams) => {
   const { token } = LocalsHelper.getValues(res)
   const { reportId, id } = req.params
-  const { dataProductDefinitionsPath } = req.query
+  const dataProductDefinitionsPath = <string>req.query.dataProductDefinitionsPath
 
   // Dashboard Definition,
   const dashboardDefinition: components['schemas']['DashboardDefinition'] =
@@ -104,11 +113,11 @@ const getSections = (
     const { id, display: title, description } = section
 
     let hasScorecard = false
-    const visualisations = section.visualisations.map(
+    const visualisations: DashboardVisualisation[] = section.visualisations.map(
       (visDefinition: components['schemas']['DashboardVisualisationDefinition']) => {
         const { type, display, description: visDescription, id: visId } = visDefinition
 
-        let data: DashboardVisualisation['data']
+        let data: DashboardVisualisation['data'] | undefined
 
         switch (type) {
           case DashboardVisualisationType.LIST:
@@ -130,7 +139,6 @@ const getSections = (
             data = ChartUtils.createChart(visDefinition, dashboardData)
             break
           }
-          case DashboardVisualisationType.MATRIX:
           case DashboardVisualisationType.MATRIX_TIMESERIES: {
             data = ChartUtils.createMatrixChart(visDefinition, dashboardData, query)
             break
@@ -165,14 +173,13 @@ const updateStore = async (
   tableId: string,
   userId: string,
   sections: DashboardSection[],
-  url: Url,
   req: Request,
   filters: FilterValue[],
-) => {
-  const dashboardRequestData: RequestedReport = await services.requestedReportService.getReportByTableId(
-    tableId,
-    userId,
-  )
+): Promise<RequestedReport | undefined> => {
+  const { requestedReportService } = services
+  const dashboardRequestData = requestedReportService
+    ? await requestedReportService.getReportByTableId(tableId, userId)
+    : undefined
 
   // Add to recently viewed
   if (sections && sections.length && dashboardRequestData) {
@@ -191,6 +198,7 @@ const updateStore = async (
 export const renderAsyncDashboard = async ({ req, res, services, next }: AsyncReportUtilsParams) => {
   const { token, csrfToken, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
   const { reportId, id, tableId } = req.params
+  const { bookmarkService, requestedReportService } = services
   const url = parseUrl(req)
 
   // Get the definition Data
@@ -215,7 +223,10 @@ export const renderAsyncDashboard = async ({ req, res, services, next }: AsyncRe
   const sections: DashboardSection[] = getSections(dashboardDefinition, flattenedData, query)
 
   // Update the store
-  const dashboardRequestData = await updateStore(services, tableId, dprUser.id, sections, url, req, filters.filters)
+  let dashboardRequestData
+  if (requestedReportService) {
+    dashboardRequestData = await updateStore(services, tableId, dprUser.id, sections, req, filters.filters)
+  }
 
   return {
     dashboardData: {
@@ -225,7 +236,7 @@ export const renderAsyncDashboard = async ({ req, res, services, next }: AsyncRe
       name: dashboardDefinition.name,
       description: dashboardDefinition.description,
       reportName: reportDefinition.name,
-      bookmarked: await services.bookmarkService.isBookmarked(id, reportId, dprUser.id),
+      bookmarked: bookmarkService ? await bookmarkService.isBookmarked(id, reportId, dprUser.id) : false,
       nestedBaseUrl,
       csrfToken,
       sections,

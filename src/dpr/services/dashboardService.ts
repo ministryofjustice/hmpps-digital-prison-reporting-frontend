@@ -1,10 +1,12 @@
 import Dict = NodeJS.Dict
 import logger from '../utils/logger'
 import { components } from '../types/api'
+import { DashboardDataResponse } from '../types/Metrics'
+import DashboardClient from '../data/dashboardClient'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 class DashboardService {
-  constructor(private readonly dashboardClient: any) {
+  constructor(private readonly dashboardClient: DashboardClient) {
     this.dashboardClient = dashboardClient
     logger.info('Service created: DashboardService')
   }
@@ -66,8 +68,8 @@ class DashboardService {
     dashboardId: string,
     reportId: string,
     tableId: string,
-    query: Dict<string | number>,
-  ): Promise<Array<Dict<string>>> {
+    query: Record<string, string | string[]>,
+  ): Promise<DashboardDataResponse[][]> {
     return this.dashboardClient.getAsyncDashboard(token, reportId, dashboardId, tableId, query)
   }
 }

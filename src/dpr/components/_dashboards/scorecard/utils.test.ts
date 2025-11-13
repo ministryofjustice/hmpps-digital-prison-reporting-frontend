@@ -76,8 +76,6 @@ describe('ScorecardUtils', () => {
       ]
 
       const dashboardVis = ScorecardUtils.mergeScorecardsIntoGroup(visualistationData)
-      console.log(JSON.stringify({ dashboardVis }, null, 2))
-
       expect(dashboardVis).toEqual([
         {
           id: '0',

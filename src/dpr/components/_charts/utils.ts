@@ -174,11 +174,10 @@ const createHeadlines = (
     if (headlineColumn) {
       const display = headlineColumn.display?.toLowerCase()
       label = display ? `Total ${display}` : 'Total'
-
       value = data.reduce((acc: number, d: DashboardDataResponse) => {
         if (headlineColumn) {
           const { id } = headlineColumn
-          const { raw } = data[0][id]
+          const { raw } = d[id]
           if (raw) {
             return acc + Number(raw)
           }

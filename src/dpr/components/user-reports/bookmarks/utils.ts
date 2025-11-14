@@ -145,6 +145,7 @@ const mapBookmarkIdsToDefinition = async (
           })
         }
       } catch (error) {
+        console.log(error)
         // DPD has been deleted so API throws error
         logger.warn(`Failed to map bookmark for: Report ${reportId}, variant ${id}`)
         const { dprUser } = LocalsHelper.getValues(res)

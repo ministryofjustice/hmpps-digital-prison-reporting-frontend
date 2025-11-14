@@ -36,7 +36,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.FAILED, reportData)
       const expectedResult = {
         href: 'pollingUrl',
-        timestamp: 'Failed at: null',
+        timestamp: 'Failed at: undefined',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -45,7 +45,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.FAILED, reportData)
       const expectedResult = {
         href: 'pollingUrl',
-        timestamp: 'Failed at: null',
+        timestamp: 'Failed at: undefined',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -54,7 +54,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.ABORTED, reportData)
       const expectedResult = {
         href: 'requestUrl',
-        timestamp: 'Aborted at: null',
+        timestamp: 'Aborted at: undefined',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -63,7 +63,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.FINISHED, reportData)
       const expectedResult = {
         href: 'reportUrl',
-        timestamp: 'Ready at: null',
+        timestamp: 'Ready at: undefined',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -72,7 +72,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.EXPIRED, reportData)
       const expectedResult = {
         href: 'requestUrl',
-        timestamp: 'Expired at: null',
+        timestamp: 'Expired at: undefined',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -81,7 +81,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.SUBMITTED, reportData)
       const expectedResult = {
         href: 'pollingUrl',
-        timestamp: 'Requested at: null',
+        timestamp: 'Requested at: undefined',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -90,7 +90,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.STARTED, reportData)
       const expectedResult = {
         href: 'pollingUrl',
-        timestamp: 'Requested at: null',
+        timestamp: 'Requested at: undefined',
       }
       expect(result).toEqual(expectedResult)
     })
@@ -99,7 +99,7 @@ describe('AsyncRequestListUtils', () => {
       const result = setDataFromStatus(RequestStatus.PICKED, reportData)
       const expectedResult = {
         href: 'pollingUrl',
-        timestamp: 'Requested at: null',
+        timestamp: 'Requested at: undefined',
       }
       expect(result).toEqual(expectedResult)
     })

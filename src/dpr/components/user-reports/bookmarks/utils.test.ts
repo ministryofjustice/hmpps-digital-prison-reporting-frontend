@@ -50,6 +50,12 @@ describe('BookmarkUtils', () => {
 
       reportingService = {
         getDefinition: jest.fn().mockReturnValueOnce(mockDefinition),
+        getDefinitionSummary: jest.fn().mockReturnValueOnce({
+          id: 'reportId',
+          name: 'reportName',
+          description: 'description',
+          variants: [variant1],
+        }),
       } as unknown as ReportingService
 
       dashboardService = {

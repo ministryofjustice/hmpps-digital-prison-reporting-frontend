@@ -137,14 +137,14 @@ describe('toDateString', () => {
   })
 
   it('No value', () => {
-    expect(dateMapper.toDateString(null, 'iso')).toBeNull()
+    expect(dateMapper.toDateString(null, 'iso')).toBeUndefined()
   })
 
   it('Non-date value', () => {
-    expect(dateMapper.toDateString('Not a date', 'iso')).toBeNull()
+    expect(dateMapper.toDateString('Not a date', 'iso')).toBeUndefined()
   })
 
   it('Invalid type', () => {
-    expect(dateMapper.toDateString('2001-02-03T04:05:06Z', 'none')).toBeNull()
+    expect(dateMapper.toDateString('2001-02-03T04:05:06Z', 'none')).toBeUndefined()
   })
 })

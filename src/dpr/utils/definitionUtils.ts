@@ -94,8 +94,9 @@ export const getFilters = (
   fields: components['schemas']['FieldDefinition'][],
 ): components['schemas']['FilterDefinition'][] => {
   const filters: components['schemas']['FilterDefinition'][] = fields
-    .filter((field) => field.filter)
-    .map((field) => field.filter)
+    .filter((field: components['schemas']['FieldDefinition']) => field.filter)
+    .map((field: components['schemas']['FieldDefinition']) => <components['schemas']['FilterDefinition']>field.filter)
+
   return filters.length ? filters : []
 }
 

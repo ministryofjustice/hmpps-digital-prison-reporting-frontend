@@ -141,7 +141,7 @@ const createQueryParamsFromFormData = ({
             case FilterType.dateRange.toLocaleLowerCase():
             case FilterType.granularDateRange.toLocaleLowerCase():
               {
-                let dateValue: string | null = <string>value
+                let dateValue: string | undefined = <string>value
                 const dateMapper = new DateMapper()
                 const currentDateFormat = dateMapper.getDateType(dateValue)
                 if (currentDateFormat !== 'none') {

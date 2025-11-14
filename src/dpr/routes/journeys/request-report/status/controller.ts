@@ -3,7 +3,7 @@ import { Services } from '../../../../types/Services'
 import AsyncPollingUtils from './utils'
 import AsyncRequestUtils from '../filters/utils'
 import AsyncRequestListUtils from '../../../../components/user-reports/requested/utils'
-import ErrorSummaryUtils from '../../../../components/error-summary/utils'
+import ErrorHandler from '../../../../utils/ErrorHandler'
 
 class RequestStatusController {
   layoutPath: string
@@ -31,7 +31,7 @@ class RequestStatusController {
     } catch (error) {
       req.body.title = 'Failed to retrieve report status'
       req.body.errorDescription = 'We were unable to retrieve the report status:'
-      req.body.error = ErrorSummaryUtils.handleError(error)
+      req.body.error = new ErrorHandler(error)
       next()
     }
   }
@@ -57,7 +57,7 @@ class RequestStatusController {
     } catch (error) {
       req.body.title = 'Failed to abort request'
       req.body.errorDescription = 'We were unable to abort the report request for the following reason:'
-      req.body.error = ErrorSummaryUtils.handleError(error)
+      req.body.error = new ErrorHandler(error)
       next()
     }
   }

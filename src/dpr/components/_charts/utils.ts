@@ -211,7 +211,10 @@ const createSnapshotChart = (
   let datasets: DashboardVisualisationDataSet[]
 
   if (!isListChart) {
-    ;({ labels, unit, datasets } = buildChart(columns, snapshotData))
+    const chart = buildChart(columns, snapshotData)
+    labels = chart.labels
+    unit = chart.unit
+    datasets = chart.datasets
   } else {
     ;({ labels, unit, datasets } = buildChartFromListData(columns, snapshotData))
   }
@@ -231,7 +234,7 @@ const buildChart = (
   rawData: DashboardDataResponse[],
 ) => {
   const { keys, measures } = columns
-  const labels = measures.map((col) => col.display)
+  const labels = measures.map((col) => col.display || '')
   const labelId = keys ? (keys[keys.length - 1]?.id as keyof DashboardDataResponse) : undefined
   const unit = measures[0].unit ? measures[0].unit : undefined
 
@@ -327,7 +330,7 @@ const createTimeseriesChart = (
   const unit = measures[0].unit ? measures[0].unit : undefined
   const type = <components['schemas']['DashboardVisualisationDefinition']['type']>chartDefinition.type.split('-')[0]
   const groupKey = DatasetHelper.getGroupKey(timeseriesData, keys)
-  const labelId = groupKey.id as keyof DashboardDataResponse
+  const labelId = groupKey?.id as keyof DashboardDataResponse
 
   const timeBlockData = DatasetHelper.groupRowsByTimestamp(timeseriesData)
   const labels = timeBlockData.map((d: DashboardDataResponse[]) => d[0].ts.raw as unknown as string)
@@ -340,7 +343,8 @@ const createTimeseriesChart = (
       return raw ? Number(raw) : 0
     })
     const total = data.reduce((a, c) => a + c, 0)
-    const label = timeBlockData[0][index][labelId].raw as string
+    const rawValue = timeBlockData[0][index][labelId].raw
+    const label = rawValue ? <string>rawValue : ''
 
     datasets.push({
       data,

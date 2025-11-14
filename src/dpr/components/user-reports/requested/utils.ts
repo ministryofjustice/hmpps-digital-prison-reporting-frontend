@@ -8,13 +8,14 @@ export const getRequestStatus = async ({ req, res, services }: { req: Request; r
   const { executionId, status: currentStatus } = req.body
   const { dprUser } = LocalsHelper.getValues(res)
   const response = await getStatus({ req, res, services })
+  const errorMessage = response.errorMessage?.developerMessage || response.errorMessage?.userMessage
 
   if (currentStatus !== response.status) {
     await services.requestedReportService.updateStatus(
       executionId,
       dprUser.id,
       response.status as RequestStatus,
-      response.errorMessage,
+      errorMessage,
     )
     response.reportData = await services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
   }

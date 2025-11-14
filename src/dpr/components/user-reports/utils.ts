@@ -396,7 +396,7 @@ export const updateLastViewed = async ({
     .addReportUrls(req)
     .build()
 
-  await services.requestedReportService.updateLastViewed(reportStateData.executionId, userId)
+  if (executionId) await services.requestedReportService.updateLastViewed(executionId, userId)
   await services.recentlyViewedService.setRecentlyViewed(recentlyViewedData, userId)
 }
 

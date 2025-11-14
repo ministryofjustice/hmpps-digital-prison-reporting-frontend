@@ -7,6 +7,7 @@ import logger from './logger'
 import { Services } from '../types/Services'
 import localsHelper from './localsHelper'
 import { components } from '../types/api'
+import ErrorHandler from './ErrorHandler'
 
 dayjs.extend(customParse)
 interface GetStatusUtilsResponse {
@@ -65,16 +66,16 @@ const getStatusByReportType = async (
   let statusRequests: Array<Promise<components['schemas']['StatementExecutionStatus']>> = []
   if (type === ReportType.REPORT) {
     reports.push({ executionId, tableId, variantId: id })
-    statusRequests = reports.map((executionData: ChildReportExecutionData) =>
-      services.reportingService.getAsyncReportStatus(
+    statusRequests = reports.map((executionData: ChildReportExecutionData) => {
+      return services.reportingService.getAsyncReportStatus(
         token,
         reportId,
         executionData.variantId,
-        executionData.executionId,
+        executionData.executionId || '',
         definitionsPath,
-        executionData.tableId,
-      ),
-    )
+        executionData.tableId || '',
+      )
+    })
   }
 
   if (type === ReportType.DASHBOARD) {
@@ -120,13 +121,11 @@ export const getStatus = async ({
 
     if (status === RequestStatus.FAILED) {
       logger.error(`Error: ${JSON.stringify(statusResponse.error)}`)
-      errorMessage = {
-        developerMessage: statusResponse.error,
-      }
+      errorMessage = new ErrorHandler(statusResponse.error)
     }
   } catch (error) {
     logger.error(`Error: ${JSON.stringify(error)}`)
-    errorMessage = { userMessage: (<Error>error).message }
+    errorMessage = new ErrorHandler(error)
     status = currentStatus === RequestStatus.FINISHED ? RequestStatus.EXPIRED : RequestStatus.FAILED
   }
 
@@ -159,9 +158,7 @@ export const getExpiredStatus = async ({ req, res, services }: { req: Request; r
     const statusData = await getStatusByReportType(services, req, res, token, dprUser.id)
     status = <RequestStatus>statusData.status
   } catch (error) {
-    errorMessage = {
-      developerMessage: (<Error>error).message,
-    }
+    errorMessage = new ErrorHandler(error)
     status =
       currentStatus === RequestStatus.READY || currentStatus === RequestStatus.FINISHED
         ? RequestStatus.EXPIRED

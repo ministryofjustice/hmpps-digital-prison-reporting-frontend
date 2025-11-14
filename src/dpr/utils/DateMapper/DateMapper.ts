@@ -87,7 +87,7 @@ class DateMapper {
     return this.getDateType(value) !== 'none'
   }
 
-  toDateString(value: string | null, type: DateType): string | null {
+  toDateString(value: string | null, type: DateType): string | undefined {
     const dateWrapper = this.getDateWrapper(value)
 
     if (dateWrapper) {
@@ -104,14 +104,14 @@ class DateMapper {
           return dateWrapper.format(this.localDateTimeShortYearFormatOutput)
         default:
           logger.warn(`Invalid date type: ${type}`)
-          return null
+          return undefined
       }
     }
 
     if (value) {
       logger.warn(`Could not map non-date value : ${value}`)
     }
-    return null
+    return undefined
   }
 }
 

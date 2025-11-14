@@ -13,22 +13,21 @@ import Dict = NodeJS.Dict
 import { ChildReportExecutionData, ExecutionData } from '../types/ExecutionData'
 import { components } from '../types/api'
 
+interface ReportData {
+  type: ReportType
+  reportId: string
+  reportName: string
+  description: string
+  id: string
+  name: string
+}
+
 class UserStoreItemBuilder {
   userStoreItem: UserReportData
 
   requestFormData: RequestFormData | Record<string, never>
 
-  constructor(
-    reportData: {
-      type: ReportType
-      reportId: string
-      reportName: string
-      description: string
-      id: string
-      name: string
-    },
-    requestFormData?: RequestFormData,
-  ) {
+  constructor(reportData: ReportData, requestFormData?: RequestFormData) {
     this.requestFormData = requestFormData || {}
     this.userStoreItem = this.addReportData(reportData)
   }
@@ -37,21 +36,7 @@ class UserStoreItemBuilder {
     return this.userStoreItem as RequestedReport
   }
 
-  addReportData = ({
-    type,
-    reportId,
-    reportName,
-    description,
-    id,
-    name,
-  }: {
-    type: ReportType
-    reportId: string
-    reportName: string
-    description: string
-    id: string
-    name: string
-  }) => {
+  addReportData = ({ type, reportId, reportName, description, id, name }: ReportData) => {
     return {
       type: type as ReportType,
       reportId,
@@ -138,12 +123,14 @@ class UserStoreItemBuilder {
     return this
   }
 
-  addAsyncUrls = (url: AsyncReportUrlData) => {
-    this.userStoreItem = {
-      ...this.userStoreItem,
-      ...{
-        url,
-      },
+  addAsyncUrls = (url?: AsyncReportUrlData) => {
+    if (url) {
+      this.userStoreItem = {
+        ...this.userStoreItem,
+        ...{
+          url,
+        },
+      }
     }
 
     return this

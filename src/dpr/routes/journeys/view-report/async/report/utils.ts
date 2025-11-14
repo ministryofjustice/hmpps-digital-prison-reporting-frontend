@@ -215,7 +215,7 @@ export const getChildData = async (
       }).toRecordWithFilterPrefix(true)
 
       const childData = childExecutionData.find((e) => e.variantId === childVariant.id)
-      if (!childData) {
+      if (!childData || !childData.tableId) {
         throw new Error('getChildData: No matching child execution data found')
       }
       const { tableId: childTableId } = childData

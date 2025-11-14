@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express'
+import ErrorHandler from '../../../../utils/ErrorHandler'
 import { Services } from '../../../../types/Services'
 import UserReportsListUtils from '../../../../components/user-reports/utils'
 import { FiltersType } from '../../../../components/_filters/filtersTypeEnum'
-import ErrorSummaryUtils from '../../../../components/error-summary/utils'
 import PersonalisationUtils from '../../../../utils/Personalisation/personalisationUtils'
 
 class AsyncController {
@@ -35,7 +35,7 @@ class AsyncController {
     } catch (error) {
       req.body = {
         title: 'Failed to save defaults',
-        error: ErrorSummaryUtils.handleError(<Error>error, req.params.type),
+        error: new ErrorHandler(error),
         ...req.body,
       }
       next()
@@ -49,7 +49,7 @@ class AsyncController {
     } catch (error) {
       req.body = {
         title: 'Failed to remove defaults',
-        error: ErrorSummaryUtils.handleError(<Error>error, req.params.type),
+        error: new ErrorHandler(error),
         ...req.body,
       }
       next()

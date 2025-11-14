@@ -11,7 +11,7 @@ export interface StoredReportData {
   tableId?: string
   reportName: string
   variantName?: string
-  name?: string
+  name: string
   description: string
   status?: RequestStatus
   timestamp: AsyncReportsTimestamp
@@ -112,6 +112,20 @@ export interface FormattedUserReportData {
   summary?: { name: string; value: string }[]
   interactiveSummary?: { name: string; value: string }[]
   meta: meta
+}
+
+export interface FormattedBookmarkData {
+  id?: string
+  href?: string
+  text: string
+  reportName: string
+  description: string
+  timestamp?: string
+  tag?: string
+  status?: string
+  type: ReportType
+  summary?: { name: string; value: string }[]
+  interactiveSummary?: { name: string; value: string }[]
 }
 
 export interface meta {

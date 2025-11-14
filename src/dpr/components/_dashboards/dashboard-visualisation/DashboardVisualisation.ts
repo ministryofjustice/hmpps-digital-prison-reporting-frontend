@@ -24,7 +24,7 @@ class DashboardVisualisationClass {
     this.definition = definition
     this.columns = definition.columns
     this.measures = this.columns.measures
-    this.keys = this.columns.keys
+    this.keys = this.columns.keys || []
     this.type = this.definition.type.split('-')[0] as components['schemas']['DashboardVisualisationDefinition']['type']
     this.initUnit()
     this.responseData = responseData

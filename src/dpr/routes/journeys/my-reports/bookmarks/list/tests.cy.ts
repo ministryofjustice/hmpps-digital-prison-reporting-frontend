@@ -19,8 +19,7 @@ context('Bookmarks list', () => {
       bookmarks: [
         {
           reportId: 'request-examples',
-          id: 'request-examples',
-          variantId: 'request-example-success',
+          id: 'request-example-success',
           type: ReportType.REPORT,
         },
       ],

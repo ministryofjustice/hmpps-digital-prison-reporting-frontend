@@ -176,8 +176,8 @@ export const initEstablishments = (baseData: DashboardDataResponse, establishmen
  */
 export const generateFieldValuesWithCountData = (
   reportData: DashboardDataResponse[],
-  fields,
-  values,
+  fields: string[],
+  values: string[][],
   filter?: string,
 ) => {
   return reportData.flatMap((d) => {
@@ -185,7 +185,7 @@ export const generateFieldValuesWithCountData = (
     const totals = splitIntoRandomValues(total, values[0].length)
 
     const fieldData = []
-    fields.forEach((field, fieldIndex) => {
+    fields.forEach((field: string, fieldIndex: number) => {
       return values[fieldIndex].forEach((value: string, index: number) => {
         fieldData[index] = {
           ...fieldData[index],
@@ -210,7 +210,7 @@ export const generateFieldValuesWithCountData = (
 
 export const addColumnValuesToRows = (rows: DashboardDataResponse[], columns: string[]) => {
   return rows.map((row) => {
-    const total = +row.count.raw
+    const total = row.count.raw ? Number(row.count.raw) : 0
     const totals = splitIntoRandomValues(total, columns.length)
     const colValues = columns.reduce((acc: DashboardDataResponse, col, index) => {
       acc[col] = { raw: totals[index] }

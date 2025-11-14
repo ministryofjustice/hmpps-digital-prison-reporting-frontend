@@ -29,7 +29,7 @@ export const init = async ({
   )
   const selectedProductCollection =
     selectedProductCollectionId &&
-    (await services.productCollectionService.getProductCollection(dprUser.id, selectedProductCollectionId))
+    (await services.productCollectionService.getProductCollection(token, selectedProductCollectionId))
   return {
     data: {
       ...data,

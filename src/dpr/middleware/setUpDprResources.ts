@@ -71,7 +71,7 @@ export const populateDefinitions = async (services: Services, req: Request, res:
       (await Promise.all([
         services.reportingService.getDefinitions(token, res.locals.definitionsPath),
         selectedProductCollectionId &&
-          services.productCollectionService.getProductCollection(dprUser.id, selectedProductCollectionId),
+          services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
       ]).then(([defs, selectedProductCollection]) => {
         if (selectedProductCollection && selectedProductCollection) {
           const productIds = selectedProductCollection.products.map((product) => product.productId)

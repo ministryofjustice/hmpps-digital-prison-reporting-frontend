@@ -90,7 +90,7 @@ class BookmarkService extends ReportStoreService {
       if (bookmark) {
         checked = 'checked'
         tooltip = 'Remove bookmark'
-        automatic = bookmark.automatic
+        automatic = Boolean(bookmark.automatic)
       }
     }
 

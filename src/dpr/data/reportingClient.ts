@@ -212,7 +212,7 @@ class ReportingClient {
     executionId: string,
     dataProductDefinitionsPath?: string,
     tableId?: string,
-  ): Promise<Dict<string>> {
+  ): Promise<components['schemas']['StatementExecutionStatus']> {
     this.logInfo('Get status', { reportId, variantId, tableId, executionId })
 
     return this.restClient
@@ -224,7 +224,7 @@ class ReportingClient {
           tableId,
         },
       })
-      .then((response) => <Dict<string>>response)
+      .then((response) => <components['schemas']['StatementExecutionStatus']>response)
   }
 
   getAsyncCount(token: string, tableId: string, dataProductDefinitionsPath?: string): Promise<number> {

@@ -1,4 +1,3 @@
-import parseUrl from 'parseurl'
 import { Request } from 'express'
 import { Services } from '../../../../../types/Services'
 import {

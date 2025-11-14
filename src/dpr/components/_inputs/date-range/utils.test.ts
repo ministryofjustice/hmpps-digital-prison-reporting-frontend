@@ -2,7 +2,7 @@ import { expect } from '@jest/globals'
 import dayjs from 'dayjs'
 import { Request } from 'express'
 import DateRangeInputUtils from './utils'
-import { DateFilterValue, DateRangeFilterValue } from '../../_filters/types'
+import { DateRangeFilterValue } from '../../_filters/types'
 import { FilterType } from '../../_filters/filter-input/enum'
 
 describe('DateRangeInputUtils', () => {

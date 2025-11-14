@@ -1,5 +1,5 @@
 import { Response, Request } from 'express'
-import { RequestedReport, RequestStatus } from '../../../types/UserReports'
+import { RequestStatus, UserReportData } from '../../../types/UserReports'
 import { getStatus } from '../../../utils/requestStatusHelper'
 import LocalsHelper from '../../../utils/localsHelper'
 import { Services } from '../../../types/Services'
@@ -21,7 +21,7 @@ export const getRequestStatus = async ({ req, res, services }: { req: Request; r
   return response
 }
 
-export const filterReports = (report: RequestedReport) => {
+export const filterReports = (report: UserReportData) => {
   return report.timestamp ? !report.timestamp.lastViewed : false
 }
 

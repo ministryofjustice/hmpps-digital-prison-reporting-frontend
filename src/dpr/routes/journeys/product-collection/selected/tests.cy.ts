@@ -23,7 +23,7 @@ context('Catalogue collections', () => {
 
       const totalReports = summaries.reduce((acc, cur) => acc + (cur.dashboards?.length ?? 0) + cur.variants.length, 0)
       cy.findAllByText((_text, el) =>
-        new RegExp(`Showing ${totalReports} of ${totalReports} reports`).test(el.textContent),
+        new RegExp(`Showing ${totalReports} of ${totalReports} reports`).test(el?.textContent || ''),
       ).should('be.visible')
 
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
@@ -42,12 +42,14 @@ context('Catalogue collections', () => {
         0,
       )
       cy.findAllByText((_text, el) =>
-        new RegExp(`Showing ${totalReportsStarterPack} of ${totalReportsStarterPack} reports`).test(el.textContent),
+        new RegExp(`Showing ${totalReportsStarterPack} of ${totalReportsStarterPack} reports`).test(
+          el?.textContent || '',
+        ),
       ).should('be.visible')
 
       cy.findByRole('combobox', { name: /Your collections/ }).select('Full catalogue')
       cy.findAllByText((_text, el) =>
-        new RegExp(`Showing ${totalReports} of ${totalReports} reports`).test(el.textContent),
+        new RegExp(`Showing ${totalReports} of ${totalReports} reports`).test(el?.textContent || ''),
       ).should('be.visible')
     })
   })

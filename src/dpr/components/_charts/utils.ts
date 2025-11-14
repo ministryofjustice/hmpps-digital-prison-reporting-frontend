@@ -336,7 +336,8 @@ const createTimeseriesChart = (
   const datasets: DashboardVisualisationDataSet[] = []
   for (let index = 0; index < datasetCount; index += 1) {
     const data = timeBlockData.map((timeperiod) => {
-      return parseInt(timeperiod[index][measures[1].id].raw)
+      const { raw } = timeperiod[index][measures[1].id]
+      return raw ? Number(raw) : 0
     })
     const total = data.reduce((a, c) => a + c, 0)
     const label = timeBlockData[0][index][labelId].raw as string

@@ -1,5 +1,5 @@
 import { expect } from '@jest/globals'
-import { LoadType, ReportType } from '../../../types/UserReports'
+import { LoadType } from '../../../types/UserReports'
 import {
   CopyActionParams,
   DownloadActionParams,

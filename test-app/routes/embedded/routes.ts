@@ -6,7 +6,7 @@ import EmbeddedController from './controller'
 // Routes
 import SyncRoutes from './sync-report/routes'
 import PlatformRoutes from './platform/routes'
-import { Services } from 'src/dpr/types/Services'
+import { Services } from '../../../src/dpr/types/Services'
 
 export function Routes(services: Services) {
   const router = Router({ mergeParams: true })
@@ -20,7 +20,7 @@ export function Routes(services: Services) {
   return router
 }
 
-export const EmbeddedRoutes = ({ path, services }: { path: string, services: Services }) => {
+export const EmbeddedRoutes = ({ path, services }: { path: string; services: Services }) => {
   logger.info('Initialiasing routes: Embedded Routes')
 
   const router = Router({ mergeParams: true })

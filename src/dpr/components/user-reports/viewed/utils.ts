@@ -1,8 +1,9 @@
-import { RecentlyViewedReport, RequestStatus } from '../../../types/UserReports'
+import { RequestStatus, UserReportData } from '../../../types/UserReports'
 
-export const filterReports = (report: RecentlyViewedReport) => {
-  return (
-    report.status === RequestStatus.READY || (report.executionId?.length && report.status === RequestStatus.EXPIRED)
+export const filterReports = (report: UserReportData) => {
+  return Boolean(
+    report.status === RequestStatus.READY ||
+      Boolean(report.executionId?.length && report.status === RequestStatus.EXPIRED),
   )
 }
 

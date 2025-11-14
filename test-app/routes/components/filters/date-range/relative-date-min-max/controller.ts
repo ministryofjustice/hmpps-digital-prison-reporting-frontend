@@ -19,6 +19,7 @@ export default class DateRangeController {
       name: 'relative-date-range-min-max',
       type: FilterType.dateRange,
       mandatory: true,
+      value: { start: '', end: '' },
     }
     const dateRangeFilterData = DateRangeInputUtils.getFilterFromDefinition(filter, filterData)
     const filters = [dateRangeFilterData]

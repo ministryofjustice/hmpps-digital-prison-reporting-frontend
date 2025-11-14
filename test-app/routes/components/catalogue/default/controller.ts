@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import { Services } from 'src/dpr/types/Services'
+import { Services } from '../../../../../src/dpr/types/Services'
 import CatalogueUtils from '../../../../../src/dpr/components/_catalogue/catalogue/utils'
 
 export default class CatalogueController {

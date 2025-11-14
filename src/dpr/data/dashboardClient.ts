@@ -73,7 +73,7 @@ class DashboardClient {
     executionId: string,
     tableId?: string,
     dataProductDefinitionsPath?: string,
-  ): Promise<Dict<string>> {
+  ): Promise<components['schemas']['StatementExecutionStatus']> {
     this.logInfo('Get status:', { reportId, dashboardId, executionId, tableId })
 
     return this.restClient
@@ -85,7 +85,7 @@ class DashboardClient {
           tableId,
         },
       })
-      .then((response) => <Dict<string>>response)
+      .then((response) => <components['schemas']['StatementExecutionStatus']>response)
   }
 
   cancelAsyncRequest(

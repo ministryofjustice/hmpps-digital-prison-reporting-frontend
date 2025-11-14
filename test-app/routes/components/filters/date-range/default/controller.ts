@@ -17,6 +17,7 @@ export default class DateRangeController {
       name: 'default-date-range',
       type: FilterType.dateRange,
       mandatory: true,
+      value: { start: '', end: '' },
     }
 
     const dateRangeFilterData = DateRangeInputUtils.getFilterFromDefinition(filter, filterData)

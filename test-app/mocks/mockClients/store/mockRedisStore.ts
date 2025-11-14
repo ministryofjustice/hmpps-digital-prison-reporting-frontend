@@ -36,11 +36,13 @@ export const startData = {
 }
 
 export const MockUserStoreService = class MockUserStoreService {
+  private userStore: string
+
   constructor() {
     this.userStore = JSON.stringify(startData)
   }
 
-  async setUserConfig(key, config) {
+  async setUserConfig(key: string, config: Record<string, unknown>) {
     this.userStore = JSON.stringify(config)
     return Promise.resolve()
   }

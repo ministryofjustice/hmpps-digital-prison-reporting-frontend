@@ -13,9 +13,7 @@ export const automaticBookmarkConfig = {
       { reportId: 'feature-testing', variantId: featureTestingUnprintable.id },
       { reportId: 'feature-testing', variantId: featureTestingEmptyQuery.id },
     ],
-    LEI: [
-      { reportId: 'feature-testing', variantId: featureTesting.id },
-    ],
+    LEI: [{ reportId: 'feature-testing', variantId: featureTesting.id }],
   },
 }
 

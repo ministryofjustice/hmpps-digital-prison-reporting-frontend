@@ -111,7 +111,7 @@ export const initBaseData = (baseData: DashboardDataResponse, ts: string) => {
 
 export const initEstablishments = (baseData: DashboardDataResponse, establishmentId: string, timestamp: string) => {
   let establishmentData: DashboardDataResponse[] = []
-  const total = +baseData.count.raw
+  const total = baseData.count.raw ? Number(baseData.count.raw) : 0
   const totals = splitIntoRandomValues(total, 4)
   const ts = timestamp ? { raw: timestamp } : { raw: 'Feb 25' }
 
@@ -181,12 +181,12 @@ export const generateFieldValuesWithCountData = (
   filter?: string,
 ) => {
   return reportData.flatMap((d) => {
-    const total = +d.count.raw
+    const total = d.count.raw ? Number(d.count.raw) : 0
     const totals = splitIntoRandomValues(total, values[0].length)
 
     const fieldData = []
     fields.forEach((field, fieldIndex) => {
-      return values[fieldIndex].forEach((value, index) => {
+      return values[fieldIndex].forEach((value: string, index: number) => {
         fieldData[index] = {
           ...fieldData[index],
           [field]: { raw: value },

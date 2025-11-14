@@ -71,7 +71,7 @@ const automaticBucketingRag = {
   display: 'RAG colours',
   description: 'Example using RAG colours',
   options: {
-    useRagColours: true,
+    useRagColour: true,
   },
   columns: {
     keys: [
@@ -278,7 +278,7 @@ const findsTotalsOvertimeValidationError = {
   display: 'Finds totals over time matrix chart RAG',
   description: '',
   options: {
-    useRagColours: true,
+    useRagColour: true,
   },
   columns: {
     keys: [

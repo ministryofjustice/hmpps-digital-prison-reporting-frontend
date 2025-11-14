@@ -11,6 +11,7 @@ context('Inputs: Relative date range with defaults', () => {
       cy.task('resetStubs')
       cy.task('resetRedis')
       cy.task('stubDefinitions')
+      cy.task('stubSingleSummaries')
       cy.task('stubFilterInputsRelDateDef')
     })
     it('should initialise the start and end values', () => {

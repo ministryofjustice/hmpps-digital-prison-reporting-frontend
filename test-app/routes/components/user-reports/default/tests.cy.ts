@@ -14,7 +14,12 @@ import {
   expiredDashboard,
 } from '@networkMocks/report/mockVariants/mockViewedUserListData'
 import { setRedisState } from '../../../integrationTests/redisStateTestUtils'
-import { checkA11y } from '../../../../../cypress-tests/cypressUtils'
+import {
+  checkA11y,
+  executeReportStubs,
+  stubBaseTasks,
+  stubDefinitionsTasks,
+} from '../../../../../cypress-tests/cypressUtils'
 
 context('User reports component', () => {
   const path = '/components/user-reports/default'
@@ -25,11 +30,7 @@ context('User reports component', () => {
 
   describe('Requested reports list', () => {
     beforeEach(() => {
-      cy.task('resetStubs')
-      cy.task('resetRedis')
-      cy.task('stubDefinitions')
-      cy.task('stubReportsFinishedStatus')
-      cy.task('stubGenericDefinitionRequest')
+      executeReportStubs()
       setRedisState({
         bookmarks: [],
         recentlyViewedReports: [],
@@ -158,9 +159,8 @@ context('User reports component', () => {
 
   describe('Viewed reports list', () => {
     beforeEach(() => {
-      cy.task('resetStubs')
-      cy.task('resetRedis')
-      cy.task('stubDefinitions')
+      stubBaseTasks()
+      stubDefinitionsTasks()
       setRedisState({
         bookmarks: [],
         defaultFilters: [],
@@ -292,12 +292,7 @@ context('User reports component', () => {
 
   describe('Bookmarked reports list', () => {
     beforeEach(() => {
-      cy.task('resetStubs')
-      cy.task('resetRedis')
-      cy.task('stubDefinitions')
-      cy.task('stubViewAsyncReportingResults')
-      cy.task('stubReportsFinishedStatus')
-      cy.task('stubGenericDefinitionRequest')
+      executeReportStubs()
       setRedisState({
         bookmarks: [
           {

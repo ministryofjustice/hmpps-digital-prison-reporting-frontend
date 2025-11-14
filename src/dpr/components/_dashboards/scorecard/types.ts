@@ -1,6 +1,7 @@
 import { DashboardDataResponse } from '../../../types/Metrics'
 
 export interface Scorecard {
+  id: string
   title: string
   group?: string
   value: number | string

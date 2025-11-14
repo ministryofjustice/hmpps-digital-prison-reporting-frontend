@@ -1,21 +1,13 @@
-import { checkA11y } from '../../../../../../../cypress-tests/cypressUtils'
+import { checkA11y, executeDashboardStubs } from '../../../../../../../cypress-tests/cypressUtils'
 
 context('Viewing a report', () => {
   const path = '/embedded/platform/'
 
   describe('dashboard tests', () => {
     before(() => {
-      cy.task('resetStubs')
-      cy.task('resetRedis')
-      cy.task('stubDefinitions')
-      cy.task('stubGetProductCollections')
+      executeDashboardStubs()
       cy.task('stubTestDashboard8')
-      cy.task('stubMockDashboardsStatusFinished')
-      cy.task('stubViewAsyncResults')
       cy.task('stubDashboardSuccessResult20')
-      cy.task('stubSingleSummaries')
-      cy.task('stubDefinitionUnprintable')
-      cy.task('stubDefinitionEmptyReport')
     })
 
     it('should mark the dashboard as recently viewed', () => {

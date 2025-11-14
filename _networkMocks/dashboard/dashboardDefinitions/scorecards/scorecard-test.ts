@@ -1,9 +1,9 @@
-// @ts-nocheck
-const { establishmentIdFilter, granularDateRangeFilter } = require('../../../filter-definitions')
-const { lists, scorecard } = require('../visualisations')
+import { establishmentIdFilter, granularDateRangeFilter } from '@networkMocks/dashboard/filter-definitions'
+import { components } from '../../../../src/dpr/types/api'
+import scorecard from '../../visualisations/scorecard'
 
-const docsScoreCard = {
-  id: 'docs-scorecard-examples-data-quality',
+export const scoreCardTest: components['schemas']['DashboardDefinition'] = {
+  id: 'test-scorecard-examples-data-quality',
   name: 'Docs Scorecard Examples - Data Quality',
   description: 'Scorecard examples',
   sections: [
@@ -13,8 +13,8 @@ const docsScoreCard = {
       description: '',
       visualisations: [
         scorecard.simpleScorecardNationality,
-        scorecard.simpleScorecardReligion,
         scorecard.simpleScorecardEthnicity,
+        scorecard.simpleScorecardReligion,
       ],
     },
     {
@@ -37,31 +37,6 @@ const docsScoreCard = {
         scorecard.simpleScorecardCustomBucketsEthnicity,
       ],
     },
-    {
-      id: 'section-4',
-      display: 'Custom bucket boundaries',
-      description: '',
-      visualisations: [
-        scorecard.simpleScorecardCustomBucketsBoundariesNationality,
-        scorecard.simpleScorecardCustomBucketsBoundariesReligion,
-        scorecard.simpleScorecardCustomBucketsBoundariesEthnicity,
-      ],
-    },
-    {
-      id: 'section-4',
-      display: 'Filters',
-      description: '',
-      visualisations: [scorecard.simpleScorecardNationalityFilter],
-    },
-    {
-      id: 'totals-breakdown',
-      display: 'Totals breakdown',
-      visualisations: [lists.fullDataset],
-    },
   ],
   filterFields: [establishmentIdFilter, granularDateRangeFilter],
-}
-
-module.exports = {
-  docsScoreCard,
 }

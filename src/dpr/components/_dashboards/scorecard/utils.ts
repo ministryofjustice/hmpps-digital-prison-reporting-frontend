@@ -9,7 +9,7 @@ export const mergeScorecardsIntoGroup = (visualisations: DashboardVisualisation[
       return acc
     }, [])
     // group adjacent indexes
-    .reduce((r, n) => {
+    .reduce((r: number[][], n) => {
       const lastSubArray = r[r.length - 1]
       if (!lastSubArray || lastSubArray[lastSubArray.length - 1] !== n - 1) r.push([])
       r[r.length - 1].push(n)
@@ -25,7 +25,8 @@ export const mergeScorecardsIntoGroup = (visualisations: DashboardVisualisation[
       .filter((scorecard: Scorecard) => !!scorecard)
 
     while (group.length) {
-      visualisations.splice(group.pop(), 1)
+      const i = group.pop()
+      if (i !== undefined) visualisations.splice(i, 1)
     }
 
     if (scorecardGroup.length) {

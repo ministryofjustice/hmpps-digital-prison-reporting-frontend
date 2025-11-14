@@ -116,7 +116,7 @@ In this dataset we have 4 unique values for `est_id`, therefore we will have 4 s
   display: 'Ethnicity score',
   description: '',
   option: {
-    useRagColours: true,
+    useRagColour: true,
     bucket: [{ min: 0, max: 500 }, { min: 501, max: 700 }, { min: 701 }],
   },
   column: {
@@ -164,7 +164,7 @@ Each value in the group column will be used as new group:
   description: '',
   option: {
     bucket: [{ min: 0, max: 500 }, { min: 501, max: 700 }, { min: 701 }],
-    useRagColours: true,
+    useRagColour: true,
   },
   column: {
     key: [

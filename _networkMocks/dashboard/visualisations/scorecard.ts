@@ -1,5 +1,6 @@
-// @ts-nocheck
-const simpleScorecardNationality = {
+import { components } from '../../../src/dpr/types/api'
+
+const simpleScorecardNationality: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-nationality',
   type: 'scorecard',
   display: 'No of prisoners with nationality',
@@ -10,7 +11,7 @@ const simpleScorecardNationality = {
   },
 }
 
-const simpleScorecardNationalityFilter = {
+const simpleScorecardNationalityFilter: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-nationality',
   type: 'scorecard',
   display: 'No of prisoners with nationality',
@@ -27,7 +28,7 @@ const simpleScorecardNationalityFilter = {
   },
 }
 
-const simpleScorecardReligion = {
+const simpleScorecardReligion: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-religion',
   type: 'scorecard',
   display: 'No of prisoners with religion',
@@ -38,7 +39,7 @@ const simpleScorecardReligion = {
   },
 }
 
-const simpleScorecardEthnicity = {
+const simpleScorecardEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-ethnicity',
   type: 'scorecard',
   display: 'No of prisoners with ethnicity',
@@ -49,7 +50,7 @@ const simpleScorecardEthnicity = {
   },
 }
 
-const simpleScorecardRagColoursNationality = {
+const simpleScorecardRagColoursNationality: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-rag-nationality',
   type: 'scorecard',
   display: 'No of prisoners with nationality',
@@ -63,7 +64,7 @@ const simpleScorecardRagColoursNationality = {
   },
 }
 
-const simpleScorecardRagColoursReligion = {
+const simpleScorecardRagColoursReligion: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-rag-religion',
   type: 'scorecard',
   display: 'No of prisoners with religion',
@@ -77,7 +78,7 @@ const simpleScorecardRagColoursReligion = {
   },
 }
 
-const simpleScorecardRagColoursEthnicity = {
+const simpleScorecardRagColoursEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-rag-ethnicity',
   type: 'scorecard',
   display: 'No of prisoners with ethnicity',
@@ -91,7 +92,7 @@ const simpleScorecardRagColoursEthnicity = {
   },
 }
 
-const simpleScorecardCustomBucketsNationality = {
+const simpleScorecardCustomBucketsNationality: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-rag',
   type: 'scorecard',
   display: 'No of prisoners with nationality',
@@ -105,7 +106,7 @@ const simpleScorecardCustomBucketsNationality = {
   },
 }
 
-const simpleScorecardCustomBucketsEthnicity = {
+const simpleScorecardCustomBucketsEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-rag',
   type: 'scorecard',
   display: 'No of prisoners with ethnicity',
@@ -119,7 +120,7 @@ const simpleScorecardCustomBucketsEthnicity = {
   },
 }
 
-const simpleScorecardCustomBucketsReligion = {
+const simpleScorecardCustomBucketsReligion: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-rag',
   type: 'scorecard',
   display: 'No of prisoners with religion',
@@ -133,14 +134,14 @@ const simpleScorecardCustomBucketsReligion = {
   },
 }
 
-const simpleScorecardCustomBucketsBoundariesReligion = {
-  id: 'simple-scorecard-rag',
+const simpleScorecardCustomBucketsBoundariesReligion: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'simple-scorecard-rag-religion',
   type: 'scorecard',
   display: 'No of prisoners with religion',
   description: 'Custom buckets',
   options: {
     useRagColour: true,
-    buckets: [{ max: 40 }, { min: 41, max: 60 }, { min: 61 }],
+    buckets: [{ max: 500 }, { min: 501, max: 600 }, { min: 601 }],
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
@@ -148,14 +149,14 @@ const simpleScorecardCustomBucketsBoundariesReligion = {
   },
 }
 
-const simpleScorecardCustomBucketsBoundariesNationality = {
-  id: 'simple-scorecard-rag',
+const simpleScorecardCustomBucketsBoundariesNationality: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'simple-scorecard-rag-nationality',
   type: 'scorecard',
   display: 'No of prisoners with nationality',
   description: 'Custom buckets',
   options: {
     useRagColour: true,
-    buckets: [{ max: 50 }, { min: 51, max: 55 }, { min: 56 }],
+    buckets: [{ max: 300 }, { min: 301, max: 800 }, { min: 801 }],
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
@@ -163,14 +164,14 @@ const simpleScorecardCustomBucketsBoundariesNationality = {
   },
 }
 
-const simpleScorecardCustomBucketsBoundariesEthnicity = {
-  id: 'simple-scorecard-rag',
+const simpleScorecardCustomBucketsBoundariesEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'simple-scorecard-rag-ethnicity',
   type: 'scorecard',
   display: 'No of prisoners with ethnicity',
   description: 'Custom buckets',
   options: {
     useRagColour: true,
-    buckets: [{ max: 20 }, { min: 21, max: 70 }, { min: 71 }],
+    buckets: [{ max: 200 }, { min: 201, max: 700 }, { min: 701 }],
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
@@ -178,7 +179,7 @@ const simpleScorecardCustomBucketsBoundariesEthnicity = {
   },
 }
 
-const dietTotalFilterEstWing = {
+const dietTotalFilterEstWing: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'sc-diet-totals-by-establishment-by-wing-by-cell',
   type: 'scorecard',
   display: 'Vegetarians in MDI, in North wing',
@@ -203,12 +204,11 @@ const dietTotalFilterEstWing = {
   },
 }
 
-const dietTotalFilter = {
+const dietTotalFilter: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'sc-diet-totals-by-establishment-by-wing-by-cell',
   type: 'scorecard',
   display: 'Total Vegetarians',
   columns: {
-    keys: [],
     measures: [{ id: 'count' }],
     filters: [
       {
@@ -246,4 +246,4 @@ const scorecard = {
   ...dietMetrics,
 }
 
-module.exports = scorecard
+export default scorecard

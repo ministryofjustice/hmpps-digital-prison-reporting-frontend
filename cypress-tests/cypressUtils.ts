@@ -51,3 +51,37 @@ export const requestReport = async ({
   const regexName = new RegExp(`${name}`)
   cy.findByRole('heading', { level: 1, name: regexName }).should('be.visible')
 }
+
+export const executeReportStubs = () => {
+  stubBaseTasks()
+  stubDefinitionsTasks()
+  cy.task('stubReportsFinishedStatus')
+  cy.task('stubViewAsyncReportingResults')
+  cy.task('stubRequestSuccessReportTablesCount')
+  cy.task('stubAsyncRequestSuccessReportTablesCount')
+}
+
+export const executeDashboardStubs = () => {
+  stubBaseTasks()
+  stubDefinitionsTasks()
+  cy.task('stubMockDashboardsStatusFinished')
+  cy.task('stubViewAsyncResults')
+}
+
+export const stubDefinitionsTasks = () => {
+  cy.task('stubDefinitions')
+  cy.task('stubSingleSummaries')
+  cy.task('stubGetProductCollections')
+  cy.task('stubGenericDefinitionRequest')
+  stubBookmarks()
+}
+
+export const stubBaseTasks = () => {
+  cy.task('resetStubs')
+  cy.task('resetRedis')
+}
+
+export const stubBookmarks = () => {
+  cy.task('stubDefinitionUnprintable')
+  cy.task('stubDefinitionEmptyReport')
+}

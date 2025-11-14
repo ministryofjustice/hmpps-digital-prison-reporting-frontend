@@ -7,29 +7,18 @@ export const reportAuthoriser = (services: Services, layoutPath: string): Reques
   return async (req, res, next) => {
     const { token } = LocalsHelper.getValues(res)
     const { reportId, id, variantId, type } = req.params
-    const { dataProductDefinitionsPath } = req.query
+    const dataProductDefinitionsPath = <string | undefined>req.query.dataProductDefinitionsPath
 
-    let definition
-    if (type === ReportType.REPORT) {
-      definition = await services.reportingService.getDefinition(
-        token,
-        reportId,
-        variantId || id,
-        dataProductDefinitionsPath,
-      )
-    }
+    const definitionSummary = await services.reportingService.getDefinitionSummary(
+      token,
+      reportId,
+      dataProductDefinitionsPath,
+    )
 
-    if (type === ReportType.DASHBOARD) {
-      definition = await services.dashboardService.getDefinition(
-        token,
-        reportId,
-        variantId || id,
-        dataProductDefinitionsPath,
-      )
-    }
+    const service = type === ReportType.REPORT ? services.reportingService : services.dashboardService
+    res.locals.definition = await service.getDefinition(token, reportId, variantId || id, dataProductDefinitionsPath)
 
-    res.locals.definition = definition
-    if (definition?.authorised !== undefined && !definition.authorised) {
+    if (definitionSummary?.authorised !== undefined && !definitionSummary.authorised) {
       res.render(`dpr/routes/journeys/view-report/unauthorised`, {
         layoutPath,
         ...req.body,

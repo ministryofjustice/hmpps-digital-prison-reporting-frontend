@@ -54,6 +54,41 @@ export const dietDashboardsResultMock = setupSimpleMock(
     'filters.date.quickFilter': 'last-six-months',
   }),
 )
+export const dataQualityScorecardDashboardsResultMock = setupSimpleMock(
+  `/reports/dashboard-visualisations/dashboards/test-scorecard-examples-data-quality/tables/tblId_[0-9]+/result`,
+  generateDataQualityData({
+    'filters.establishment_id': 'MDI',
+    'filters.date.start': '2025-05-08',
+    'filters.date.end': '2025-11-07',
+    'filters.date.granularity': 'monthly',
+    'filters.date.quickFilter': 'last-six-months',
+  }),
+)
+
+export const dataQualityScorecardBucketDashboardsResultMock = setupSimpleMock(
+  `/reports/dashboard-visualisations/dashboards/test-scorecard-bucket-examples-data-quality/tables/tblId_[0-9]+/result`,
+  generateDataQualityData(
+    {
+      'filters.establishment_id': 'MDI',
+      'filters.date.start': '2025-05-08',
+      'filters.date.end': '2025-11-07',
+      'filters.date.granularity': 'monthly',
+      'filters.date.quickFilter': 'last-six-months',
+    },
+    false,
+  ),
+)
+
+export const dataQualityScorecardGroupDashboardsResultMock = setupSimpleMock(
+  `/reports/dashboard-visualisations/dashboards/scorecard-examples-data-quality/tables/tblId_[0-9]+/result`,
+  generateDataQualityData({
+    'filters.date.start': '2025-05-08',
+    'filters.date.end': '2025-11-07',
+    'filters.date.granularity': 'monthly',
+    'filters.date.quickFilter': 'last-six-months',
+  }),
+)
+
 export const testDashboardResultMock = generateNetworkMock({
   ...defaultMockRequest,
   request: {
@@ -80,4 +115,7 @@ export const mocks = [
   dataQualityDashboardsResultMock,
   dietDashboardsResultMock,
   catchallDashboardsResultMock,
+  dataQualityScorecardDashboardsResultMock,
+  dataQualityScorecardGroupDashboardsResultMock,
+  dataQualityScorecardBucketDashboardsResultMock,
 ]

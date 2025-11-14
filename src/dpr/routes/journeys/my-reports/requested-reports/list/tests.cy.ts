@@ -5,6 +5,7 @@ context('Requested report list', () => {
     cy.task('resetStubs')
     cy.task('resetRedis')
     cy.task('stubDefinitions')
+    cy.task('stubSingleSummaries')
   })
 
   it('is accessible', () => {

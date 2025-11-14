@@ -29,7 +29,7 @@ context('Catalogue collections', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return element.textContent.includes('Interactive Report with async filters')
+            return Boolean(element.textContent?.includes('Interactive Report with async filters'))
           },
         }).within(() => {
           cy.findByRole('button', { name: /Add bookmark/ }).click()

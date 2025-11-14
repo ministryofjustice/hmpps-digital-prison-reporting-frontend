@@ -6,9 +6,7 @@ export const getDatasetRows = (
   dashboardData: DashboardDataResponse[],
 ) => {
   const { measures, filters, expectNulls } = listDefinition.columns
-  const keys = <Array<components['schemas']['DashboardVisualisationColumnDefinition'] & { optional: boolean }>>(
-    listDefinition.columns.keys
-  )
+  const keys = <Array<components['schemas']['DashboardVisualisationColumnDefinition']>>listDefinition.columns.keys
 
   const displayColumnsIds = measures.map((col) => col.id)
   const keyColumnsIds = keys?.map((col) => col.id) || []
@@ -62,7 +60,7 @@ export const getDatasetRows = (
 
 export const getKeyVariations = (
   dashboardData: DashboardDataResponse[],
-  keys: Array<components['schemas']['DashboardVisualisationColumnDefinition'] & { optional: boolean }>,
+  keys: Array<components['schemas']['DashboardVisualisationColumnDefinition']>,
 ) => {
   const colIdVariations: string[][] = []
   const keyColumnsIds = keys.map((col) => col.id)
@@ -116,7 +114,7 @@ export const getKeyIds = (dashboardData: DashboardDataResponse[], colIdVariation
 
 export const filterKeys = (
   dashboardData: DashboardDataResponse[],
-  keys: Array<components['schemas']['DashboardVisualisationColumnDefinition'] & { optional: boolean }>,
+  keys: Array<components['schemas']['DashboardVisualisationColumnDefinition']>,
 ) => {
   const colIdVariations = getKeyVariations(dashboardData, keys)
   const validHeadIds = getKeyIds(dashboardData, colIdVariations)
@@ -167,8 +165,8 @@ export const groupRowsByKey = (dashboardData: DashboardDataResponse[], key: stri
 }
 
 export const getGroupKey = (
-  keys: Array<components['schemas']['DashboardVisualisationColumnDefinition'] & { optional: boolean }>,
   rawData: DashboardDataResponse[],
+  keys?: Array<components['schemas']['DashboardVisualisationColumnDefinition']>,
 ) => {
   if (!keys || !keys.length || !rawData.length) {
     return undefined

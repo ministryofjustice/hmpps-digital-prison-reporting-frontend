@@ -2,6 +2,7 @@
 import { Request, Response, NextFunction } from 'express'
 
 // Utils
+import { defaultFilterValue } from '../../../../utils/Personalisation/types'
 import FiltersFormUtils from '../../../../components/_async/async-filters-form/utils'
 import LocalsHelper from '../../../../utils/localsHelper'
 import FiltersUtils from '../../../../components/_filters/utils'
@@ -105,18 +106,21 @@ async function requestChildReports(
   reportingService: ReportingService,
   token: string,
   reportId: string,
-  queryData: SetQueryFromFiltersResult,
-  dataProductDefinitionsPath: string,
+  queryData?: SetQueryFromFiltersResult,
+  dataProductDefinitionsPath?: string,
 ): Promise<Array<ChildReportExecutionData>> {
   return Promise.all(
     childVariants.map((childVariant) =>
       reportingService
         .requestAsyncReport(token, reportId, childVariant.id, {
-          ...queryData.query,
-          dataProductDefinitionsPath,
+          ...(queryData && { queryData: queryData.query }),
+          ...(dataProductDefinitionsPath && { dataProductDefinitionsPath }),
         })
         .then((response) => {
           const { executionId, tableId } = response
+          if (!executionId || !tableId) {
+            throw new Error('requestChildReports: No execution of tableId in response')
+          }
           return { executionId, tableId, variantId: childVariant.id }
         }),
     ),
@@ -138,12 +142,12 @@ const requestProduct = async ({
 }): Promise<{
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
-  queryData: SetQueryFromFiltersResult
+  queryData?: SetQueryFromFiltersResult
 }> => {
   const { definitionsPath: dataProductDefinitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
   const { reportId, id, type } = req.body
 
-  let fields
+  let fields: components['schemas']['FieldDefinition'][]
   let queryData
   let executionId
   let tableId
@@ -153,7 +157,7 @@ const requestProduct = async ({
   if (type === ReportType.REPORT) {
     definition = await reportingService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
 
-    fields = definition ? definition.variant.specification?.fields : []
+    fields = definition?.variant.specification?.fields || []
     queryData = FiltersFormUtils.setQueryFromFilters(req, fields)
     ;({ executionId, tableId } = await reportingService.requestAsyncReport(token, reportId, id, {
       ...queryData.query,
@@ -165,7 +169,7 @@ const requestProduct = async ({
   if (type === ReportType.DASHBOARD) {
     definition = await dashboardService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
 
-    fields = definition ? definition.filterFields : []
+    fields = definition?.filterFields || []
     queryData = FiltersFormUtils.setQueryFromFilters(req, fields)
     ;({ executionId, tableId } = await dashboardService.requestAsyncDashboard(token, reportId, id, {
       ...queryData.query,
@@ -212,7 +216,7 @@ const renderDashboardRequestData = async ({
   const productDefinition = productDefinitions.find(
     (def: components['schemas']['ReportDefinitionSummary']) => def.id === reportId,
   )
-  const reportName = productDefinition.name
+  const reportName = productDefinition?.name
   const { name, description, sections, filterFields: fields } = definition
 
   return {
@@ -220,7 +224,7 @@ const renderDashboardRequestData = async ({
     name,
     description,
     sections: sections || [],
-    fields,
+    fields: fields || [],
   }
 }
 
@@ -231,7 +235,7 @@ const renderReportRequestData = async (definition: components['schemas']['Single
     name: definition.variant.name,
     description: definition.variant.description || definition.description,
     template: definition.variant.specification,
-    fields: definition?.variant?.specification?.fields,
+    fields: definition?.variant?.specification?.fields || [],
     interactive: definition?.variant?.interactive,
   }
 }
@@ -263,7 +267,7 @@ const getFilterData = async (
   if (defaultFilterValues) {
     filtersData = PersonalistionUtils.setFilterValuesFromSavedDefaults(
       filtersData.filters,
-      filtersData.sortBy,
+      filtersData.sortBy || [],
       defaultFilterValues,
     )
   }
@@ -342,11 +346,11 @@ export const renderRequest = async ({
     let reportName
     let description
     let template
-    let fields: components['schemas']['FieldDefinition'][]
+    let fields: components['schemas']['FieldDefinition'][] = []
     let sections
     let interactive
     let filtersData
-    let defaultFilterValues
+    let defaultFilterValues: defaultFilterValue[] = []
 
     if (type === ReportType.REPORT) {
       ;({ name, reportName, description, fields, interactive } = await renderReportRequestData(definition))
@@ -360,7 +364,9 @@ export const renderRequest = async ({
     }
 
     if (fields) {
-      ;({ filtersData, defaultFilterValues } = await getFilterData(req, res, fields, interactive, services, dprUser.id))
+      const filterData = await getFilterData(req, res, fields, interactive || false, services, dprUser.id)
+      defaultFilterValues = filterData.defaultFilterValues || defaultFilterValues
+      filtersData = filterData.filtersData
     }
 
     const reportData: RequestReportData = {
@@ -373,7 +379,7 @@ export const renderRequest = async ({
       csrfToken,
       template,
       sections,
-      hasDefaults: defaultFilterValues?.length,
+      hasDefaults: defaultFilterValues.length,
       defaultsSaved,
       type: type as ReportType,
     }

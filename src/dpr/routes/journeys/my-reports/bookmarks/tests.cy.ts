@@ -70,7 +70,7 @@ context('Bookmarks list', () => {
           cy.findByLabelText(/Reports catalogue.*/i).within(() => {
             cy.findByRole('row', {
               name: (_, element) => {
-                return element.textContent.includes('Interactive Report with async filters')
+                return Boolean(element.textContent?.includes('Interactive Report with async filters'))
               },
             }).within(() => {
               cy.findByRole('button', { name: /Add bookmark/ }).click()
@@ -89,7 +89,7 @@ context('Bookmarks list', () => {
           cy.findByLabelText(/Reports catalogue.*/i).within(() => {
             cy.findByRole('row', {
               name: (_, element) => {
-                return element.textContent.includes('Interactive Report with async filters')
+                return Boolean(element.textContent?.includes('Interactive Report with async filters'))
               },
             }).within(() => {
               cy.findByRole('button', { name: /Remove bookmark/ }).should('exist')
@@ -110,7 +110,7 @@ context('Bookmarks list', () => {
           cy.findByLabelText(/Reports catalogue.*/i).within(() => {
             cy.findByRole('row', {
               name: (_, element) => {
-                return element.textContent.includes('Interactive Report with async filters')
+                return Boolean(element.textContent?.includes('Interactive Report with async filters'))
               },
             }).within(() => {
               cy.findByRole('button', { name: /Remove bookmark/ }).click()
@@ -128,7 +128,7 @@ context('Bookmarks list', () => {
           cy.findByLabelText(/Reports catalogue.*/i).within(() => {
             cy.findByRole('row', {
               name: (_, element) => {
-                return element.textContent.includes('Interactive Report with async filters')
+                return Boolean(element.textContent?.includes('Interactive Report with async filters'))
               },
             }).within(() => {
               cy.findByRole('button', { name: /Add bookmark/ }).should('exist')
@@ -151,7 +151,7 @@ context('Bookmarks list', () => {
           cy.findByLabelText(/Reports catalogue.*/i).within(() => {
             cy.findByRole('row', {
               name: (_, element) => {
-                return element.textContent.includes('Data quality data set')
+                return Boolean(element.textContent?.includes('Data quality data set'))
               },
             }).within(() => {
               cy.findByRole('button', { name: /Add bookmark/ }).click()
@@ -170,7 +170,7 @@ context('Bookmarks list', () => {
           cy.findByLabelText(/Reports catalogue.*/i).within(() => {
             cy.findByRole('row', {
               name: (_, element) => {
-                return element.textContent.includes('Data quality data set')
+                return Boolean(element.textContent?.includes('Data quality data set'))
               },
             }).within(() => {
               cy.findByRole('button', { name: /Remove bookmark/ }).should('exist')
@@ -191,7 +191,7 @@ context('Bookmarks list', () => {
           cy.findByLabelText(/Reports catalogue.*/i).within(() => {
             cy.findByRole('row', {
               name: (_, element) => {
-                return element.textContent.includes('Data quality data set')
+                return Boolean(element.textContent?.includes('Data quality data set'))
               },
             }).within(() => {
               cy.findByRole('button', { name: /Remove bookmark/ }).click()
@@ -209,7 +209,7 @@ context('Bookmarks list', () => {
           cy.findByLabelText(/Reports catalogue.*/i).within(() => {
             cy.findByRole('row', {
               name: (_, element) => {
-                return element.textContent.includes('Data quality data set')
+                return Boolean(element.textContent?.includes('Data quality data set'))
               },
             }).within(() => {
               cy.findByRole('button', { name: /Add bookmark/ }).should('exist')
@@ -224,7 +224,7 @@ context('Bookmarks list', () => {
           cy.findByLabelText(/Reports catalogue.*/i).within(() => {
             cy.findByRole('row', {
               name: (_, element) => {
-                return element.textContent.includes('Description for missing report 1')
+                return Boolean(element.textContent?.includes('Description for missing report 1'))
               },
             }).within(() => {
               cy.findByRole('button', { name: /Add bookmark/ }).should('not.exist')
@@ -240,7 +240,7 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes('Data quality data set')
+              return Boolean(element.textContent?.includes('Data quality data set'))
             },
           }).within(() => {
             cy.findByRole('button', { name: /Add bookmark/ }).click()
@@ -258,7 +258,7 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes('Data quality data set')
+              return Boolean(element.textContent?.includes('Data quality data set'))
             },
           }).within(() => {
             cy.findByRole('button', { name: /Remove bookmark/ }).click()
@@ -278,7 +278,7 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes('Interactive Report with async filters')
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
             cy.findByRole('button', { name: /Add bookmark/ }).click()
@@ -296,7 +296,7 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes('Interactive Report with async filters')
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
             cy.findByRole('button', { name: /Remove bookmark/ }).click()
@@ -327,9 +327,9 @@ context('Bookmarks list', () => {
           cy.findByRole('row', {
             name: (_, element) => {
               return (
-                element.textContent.includes('Feature testing') &&
-                element.textContent.includes('Missing variant description') &&
-                element.textContent.includes('Example variants used for feature testing')
+                Boolean(element.textContent?.includes('Feature testing')) &&
+                Boolean(element.textContent?.includes('Missing variant description')) &&
+                Boolean(element.textContent?.includes('Example variants used for feature testing'))
               )
             },
           }).within(() => {
@@ -406,8 +406,8 @@ context('Bookmarks list', () => {
           cy.findByRole('row', {
             name: (_, element) => {
               return (
-                element.textContent.includes('Test Dashboard') &&
-                element.textContent.includes('Dashboard used for testing testing')
+                Boolean(element.textContent?.includes('Test Dashboard')) &&
+                Boolean(element.textContent?.includes('Dashboard used for testing testing'))
               )
             },
           }).within(() => {
@@ -465,7 +465,7 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes('Interactive Report with async filters')
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
             cy.findByRole('button', { name: /Add bookmark/ }).click()
@@ -475,7 +475,7 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes('Interactive Report with async filters')
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
             cy.get('input').then((el) => {
@@ -489,7 +489,7 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes('Interactive Report with async filters')
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
             cy.findByRole('button', { name: /Remove bookmark/ }).click()
@@ -499,7 +499,7 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes('Interactive Report with async filters')
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
             cy.findByRole('button', { name: /Remove bookmark/ }).should('exist')
@@ -508,7 +508,7 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes('Interactive Report with async filters')
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
             cy.findByRole('button', { name: /Remove bookmark/ }).click()
@@ -521,7 +521,7 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes('Interactive Report with async filters')
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
             cy.get('input').then((el) => {
@@ -536,7 +536,7 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes('Interactive Report with async filters')
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
             cy.findByRole('button', { name: /Add bookmark/ }).click()
@@ -546,7 +546,7 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes('Interactive Report with async filters')
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
             cy.findByRole('button', { name: /Add bookmark/ }).should('exist')

@@ -58,7 +58,7 @@ export const setActions = (
   return ReportActionsUtils.getActions({
     download: downloadConfig,
     print: {
-      enabled: printable,
+      enabled: Boolean(printable),
     },
     share: {
       reportName,
@@ -113,7 +113,7 @@ const setAsRecentlyViewed = async ({
     .addReportUrls(req)
     .build()
 
-  await services.recentlyViewedService.setRecentlyViewed(recentlyViewedData, userId)
+  await services.recentlyViewedService?.setRecentlyViewed(recentlyViewedData, userId)
 }
 
 export const getReportData = async ({
@@ -141,8 +141,8 @@ export const getReportData = async ({
   const { resourceName, specification } = variant
 
   const reportQuery = new ReportQuery({
-    fields: specification.fields,
-    template: specification.template as Template,
+    fields: specification?.fields || [],
+    template: (specification?.template as Template) || 'list',
     queryParams: req.query,
     definitionsPath: <string>dataProductDefinitionsPath,
   })
@@ -168,8 +168,8 @@ export const getReport = async ({ req, res, services }: { req: Request; res: Res
     dataProductDefinitionsPath,
   })
   const count = await services.reportingService.getCount(reportDefinition.variant.resourceName, token, reportQuery)
-  const canDownload = await services.downloadPermissionService.downloadEnabled(dprUser.id, reportId, id)
-  const bookmarked = await services.bookmarkService.isBookmarked(id, reportId, dprUser.id)
+  const canDownload = Boolean(await services.downloadPermissionService?.downloadEnabled(dprUser.id, reportId, id))
+  const bookmarked = Boolean(await services.bookmarkService?.isBookmarked(id, reportId, dprUser.id))
 
   const renderData = await getRenderData({
     req,
@@ -189,7 +189,7 @@ export const getReport = async ({ req, res, services }: { req: Request; res: Res
       services,
       reportName: renderData.reportName,
       name: renderData.name,
-      description: renderData.description,
+      description: renderData.description || '',
       reportId,
       id,
       userId: dprUser.id,
@@ -231,19 +231,23 @@ export const getReportRenderData = async ({
 }) => {
   const url = parseUrl(req)
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
-  const pathname = url.search ? req.originalUrl.split(url.search)[0] : req.originalUrl
-  const pagination = PaginationUtils.getPaginationData(url, count, req)
+  const pathname = url?.search ? req.originalUrl.split(url.search)[0] : req.originalUrl
 
   const dataTable: DataTable = new DataTableBuilder(specification.fields)
     .withHeaderSortOptions(reportQuery)
     .buildTable(data)
 
-  const totals = TotalsUtils.getTotals(
-    pagination.pageSize,
-    pagination.currentPage,
-    pagination.totalRows,
-    dataTable.rowCount,
-  )
+  let pagination
+  let totals
+  if (url) {
+    pagination = PaginationUtils.getPaginationData(url, count, req)
+    totals = TotalsUtils.getTotals(
+      pagination.pageSize,
+      pagination.currentPage,
+      pagination.totalRows,
+      dataTable.rowCount,
+    )
+  }
 
   const filterData = await FiltersUtils.getFilters({
     fields: specification.fields,
@@ -262,8 +266,8 @@ export const getReportRenderData = async ({
     columns,
     pagination,
     reportUrl: pathname.replace('/download-disabled', '').replace('/download-disabled?', ''),
-    reportSearch: url.search,
-    encodedSearch: url.search ? encodeURIComponent(url.search) : undefined,
+    reportSearch: url?.search,
+    encodedSearch: url?.search ? encodeURIComponent(url.search) : undefined,
     fullUrl,
   }
 }
@@ -295,6 +299,10 @@ export const getRenderData = async ({
   const { specification, name, description, classification, printable } = reportDefinition.variant
   const { data } = reportData
 
+  if (!specification) {
+    throw new Error('No specicication found in definition')
+  }
+
   const reportRenderData = await getReportRenderData({ req, res, services, count, specification, reportQuery, data })
 
   const actions = setActions(
@@ -306,7 +314,7 @@ export const getRenderData = async ({
     count,
     <string>dataProductDefinitionsPath,
     reportRenderData.reportUrl,
-    reportRenderData.reportSearch,
+    reportRenderData.reportSearch || '',
     nestedBaseUrl,
   )
 

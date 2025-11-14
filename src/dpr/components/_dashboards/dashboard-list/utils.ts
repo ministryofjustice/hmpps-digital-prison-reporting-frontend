@@ -49,7 +49,7 @@ const createListFromColumns = (
 ) => {
   const { columns } = listDefinition
   const { keys, measures } = columns
-  const groupKey = DatasetHelper.getGroupKey(keys || [], dashboardData)
+  const groupKey = DatasetHelper.getGroupKey(dashboardData, keys || [])
 
   const timestampData = dashboardData[0]?.ts?.raw
   const ts = timestampData ? `${timestampData}` : ''

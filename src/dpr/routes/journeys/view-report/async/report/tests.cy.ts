@@ -683,7 +683,7 @@ context('Viewing a report', () => {
         cy.findByLabelText(/Viewed \(/).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes(name) && element.textContent.includes(product)
+              return Boolean(element.textContent?.includes(name)) && Boolean(element.textContent?.includes(product))
             },
           }).within(() => {
             cy.findAllByRole('listitem')

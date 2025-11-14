@@ -19,10 +19,10 @@ dayjs.extend(weekOfYear)
 export const createChart = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   rawData: DashboardDataResponse[],
-): DashboardVisualisatonCardData => {
-  let table: MoJTable
-  let chart: DashboardVisualisationData
-  let details: ChartDetails
+): DashboardVisualisatonCardData | undefined => {
+  let table: MoJTable | undefined
+  let chart: DashboardVisualisationData | undefined
+  let details: ChartDetails | undefined
 
   const { dataSetRows, snapshotData } = getDataForSnapshotCharts(chartDefinition, rawData)
   if (dataSetRows.length) {
@@ -42,9 +42,9 @@ export const createTimeseriesCharts = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   rawData: DashboardDataResponse[],
 ): DashboardVisualisatonCardData => {
-  let table: MoJTable
-  let chart: DashboardVisualisationData
-  let details: ChartDetails
+  let table: MoJTable | undefined
+  let chart: DashboardVisualisationData | undefined
+  let details: ChartDetails | undefined
 
   const { latestData, dataSetRows, timeseriesData } = getDataForTimeseriesCharts(chartDefinition, rawData)
   if (dataSetRows.length) {
@@ -64,9 +64,9 @@ export const createMatrixChart = (
   rawData: DashboardDataResponse[],
   query: Record<string, string | string[]>,
 ) => {
-  let table: MoJTable
-  let chart: DashboardVisualisationData
-  let details: ChartDetails
+  let table: MoJTable | undefined
+  let chart: DashboardVisualisationData | undefined
+  let details: ChartDetails | undefined
   let granularity: Granularity = Granularity.DAILY
 
   Object.keys(query).forEach((key) => {
@@ -125,7 +125,7 @@ const getChartDetails = (
   const meta: ChartMetaData[] = []
   const headlines: ChartMetaData[] = createHeadlines(chartDefinition, data, timeseries)
 
-  if (data[0]?.ts) {
+  if (data[0]?.ts.raw) {
     meta.push({
       label: 'Values for:',
       value: data[0]?.ts.raw,
@@ -147,29 +147,44 @@ const createHeadlines = (
   const { columns } = chartDefinition
   const { measures } = columns
   const isListChart = !!measures.find((col) => col.axis)
-  let headline: ChartMetaData
+  let headline: ChartMetaData | undefined
 
-  let headlineColumn: components['schemas']['DashboardVisualisationColumnDefinition']
-  let value: number
+  let headlineColumn: components['schemas']['DashboardVisualisationColumnDefinition'] | undefined
+  let value: number | undefined
   let label: string
 
   if (timeseries) {
     headlineColumn = measures.find((col) => col.id !== 'ts')
     if (headlineColumn) {
+      const { id } = headlineColumn
+      const { raw } = data[0][id]
       label = `${data[0].ts.raw}`
-      value = +data[0][headlineColumn.id].raw
+      value = raw ? Number(raw) : undefined
 
-      headline = {
-        label,
-        value,
+      if (value) {
+        headline = {
+          label,
+          value,
+        }
       }
     }
   } else {
     headlineColumn = !isListChart ? measures[0] : measures.find((col) => col.axis && col.axis === 'y')
 
     if (headlineColumn) {
-      label = `Total ${headlineColumn.display.toLowerCase()}`
-      value = data.reduce((acc: number, d: DashboardDataResponse) => acc + +d[headlineColumn.id].raw, 0)
+      const display = headlineColumn.display?.toLowerCase()
+      label = display ? `Total ${display}` : 'Total'
+
+      value = data.reduce((acc: number, d: DashboardDataResponse) => {
+        if (headlineColumn) {
+          const { id } = headlineColumn
+          const { raw } = data[0][id]
+          if (raw) {
+            return acc + Number(raw)
+          }
+        }
+        return acc
+      }, 0)
 
       headline = {
         label,
@@ -178,7 +193,7 @@ const createHeadlines = (
     }
   }
 
-  headlines.push(headline)
+  if (headline) headlines.push(headline)
 
   return headlines
 }
@@ -217,14 +232,14 @@ const buildChart = (
 ) => {
   const { keys, measures } = columns
   const labels = measures.map((col) => col.display)
-  const labelId = keys[keys.length - 1]?.id as keyof DashboardDataResponse
+  const labelId = keys ? (keys[keys.length - 1]?.id as keyof DashboardDataResponse) : undefined
   const unit = measures[0].unit ? measures[0].unit : undefined
 
   const datasets = rawData.map((row) => {
-    const label = row[labelId] ? `${row[labelId].raw}` : 'All'
+    const label = labelId && row[labelId] ? `${row[labelId].raw}` : 'All'
     const data = measures.map((c) => {
       const rowId = c.id as keyof DashboardDataResponse
-      return row[rowId] ? +row[rowId].raw : 0
+      return row[rowId] && row[rowId].raw ? Number(row[rowId].raw) : 0
     })
     const total = data.reduce((acc: number, val: number) => acc + val, 0)
     return { label, data, total } as DashboardVisualisationDataSet
@@ -243,11 +258,11 @@ const buildChartFromListData = (
 ) => {
   const { measures, keys } = columns
 
-  const xAxisColumn = measures.find((col) => col.axis === 'x')
-  const yAxisColumn = measures.find((col) => col.axis === 'y')
+  const xAxisColumn = measures.find((col) => col.axis === 'x') || measures[0]
+  const yAxisColumn = measures.find((col) => col.axis === 'y') || measures[1]
 
   const unit = yAxisColumn?.unit || undefined
-  const groupKey = DatasetHelper.getGroupKey(keys, rawData)
+  const groupKey = DatasetHelper.getGroupKey(rawData, keys)
   const groupsData = groupKey ? DatasetHelper.groupRowsByKey(rawData, groupKey.id) : [rawData]
 
   const labels = groupsData[0]?.map((row) => {
@@ -255,9 +270,19 @@ const buildChartFromListData = (
   })
 
   const datasets: DashboardVisualisationDataSet[] = groupsData.map((groupData) => {
-    const data = groupData.map((row) => +row[yAxisColumn.id].raw)
+    const data = groupData.map((row) => {
+      const raw = row[yAxisColumn.id] && row[yAxisColumn.id].raw ? Number(row[yAxisColumn.id].raw) : 0
+      return Number(raw)
+    })
+    let label = ''
+    if (groupKey) {
+      label = `${groupData[0][groupKey.id].raw}`
+    } else {
+      label = yAxisColumn.display || label
+    }
+
     return {
-      label: groupKey ? `${groupData[0][groupKey.id].raw}` : yAxisColumn.display,
+      label,
       data,
       total: data.reduce((acc: number, val: number) => acc + val, 0),
     }
@@ -275,7 +300,8 @@ const createSnapshotTable = (
   data: DashboardDataResponse[],
 ): MoJTable => {
   const { columns } = chartDefinition
-  const { keys, measures } = columns
+  const { measures } = columns
+  const keys = columns.keys || []
 
   const headerColumns = [...keys, ...measures]
   const head = headerColumns.map((column) => {
@@ -300,7 +326,7 @@ const createTimeseriesChart = (
 
   const unit = measures[0].unit ? measures[0].unit : undefined
   const type = <components['schemas']['DashboardVisualisationDefinition']['type']>chartDefinition.type.split('-')[0]
-  const groupKey = DatasetHelper.getGroupKey(keys, timeseriesData)
+  const groupKey = DatasetHelper.getGroupKey(timeseriesData, keys)
   const labelId = groupKey.id as keyof DashboardDataResponse
 
   const timeBlockData = DatasetHelper.groupRowsByTimestamp(timeseriesData)
@@ -310,7 +336,7 @@ const createTimeseriesChart = (
   const datasets: DashboardVisualisationDataSet[] = []
   for (let index = 0; index < datasetCount; index += 1) {
     const data = timeBlockData.map((timeperiod) => {
-      return +timeperiod[index][measures[1].id].raw
+      return parseInt(timeperiod[index][measures[1].id].raw)
     })
     const total = data.reduce((a, c) => a + c, 0)
     const label = timeBlockData[0][index][labelId].raw as string
@@ -350,7 +376,7 @@ const createTimeseriesTable = (
     const timestampCol = headerColumns[timestampIndex]
     headerColumns.splice(timestampIndex, 1)
     // Remove duplicate TS from keys if present and add keys to headings
-    const keysWithoutTs = keys.filter((k) => k.id !== 'ts')
+    const keysWithoutTs = keys ? keys.filter((k) => k.id !== 'ts') : []
     headerColumns = [...keysWithoutTs, ...headerColumns]
     // Add TS column to the start
     headerColumns.unshift(timestampCol)

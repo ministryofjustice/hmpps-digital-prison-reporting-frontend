@@ -56,7 +56,7 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
   }
 
   private initGroupVars = () => {
-    this.groupKey = DatasetHelper.getGroupKey(this.keys, this.dataset.latest)
+    this.groupKey = DatasetHelper.getGroupKey(this.dataset.latest, this.keys)
     this.groupKeyId = this.groupKey?.id
     this.groupKeyDisplay = this.groupKey?.display
 

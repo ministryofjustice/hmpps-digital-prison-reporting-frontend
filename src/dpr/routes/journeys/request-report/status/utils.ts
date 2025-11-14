@@ -8,32 +8,28 @@ export const renderPolling = async ({ req, res, services }: AsyncReportUtilsPara
 
   const requestReportData = await services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
 
-  const { reportName, name, variantName, description, status, query, timestamp, url, errorMessage, metrics, tableId } =
-    requestReportData
-
   const title = `${type.charAt(0).toUpperCase() + type.substring(1).toLowerCase()} request status`
 
   return {
     title,
     pollingRenderData: {
-      reportName,
-      name: variantName || name,
+      reportName: requestReportData?.reportName || '',
+      name: requestReportData?.variantName || requestReportData?.name || '',
       executionId,
       id: variantId || id,
-      description,
+      description: requestReportData?.description || '',
       type: type || ReportType.REPORT,
       reportId,
-      tableId,
-      status,
+      tableId: requestReportData?.tableId,
+      status: requestReportData?.status,
       definitionPath,
       pollingUrl: req.baseUrl,
-      ...(query && { querySummary: query.summary }),
-      requestedAt: timestamp.requested,
+      ...(requestReportData?.query && { querySummary: requestReportData.query.summary }),
+      requestedAt: requestReportData?.timestamp.requested,
       csrfToken,
-      ...(metrics && { metrics }),
-      ...(url.report?.fullUrl && { reportUrl: url.report.fullUrl }),
-      ...(url.request.fullUrl && { requestUrl: url.request.fullUrl }),
-      ...(errorMessage && { errorMessage }),
+      ...(requestReportData?.url?.report?.fullUrl && { reportUrl: requestReportData.url.report.fullUrl }),
+      ...(requestReportData?.url?.request?.fullUrl && { requestUrl: requestReportData.url.request.fullUrl }),
+      ...(requestReportData?.errorMessage && { errorMessage: requestReportData.errorMessage }),
     },
   }
 }

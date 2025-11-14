@@ -27,8 +27,8 @@ context('Viewing a report', () => {
         cy.findByRole('row', {
           name: (_, element) => {
             return (
-              element.textContent.includes('Test Dashboard') &&
-              element.textContent.includes('Dashboard used for testing testing')
+              Boolean(element.textContent?.includes('Test Dashboard')) &&
+              Boolean(element.textContent?.includes('Dashboard used for testing testing'))
             )
           },
         }).within(() => {

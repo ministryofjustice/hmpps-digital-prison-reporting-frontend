@@ -25,7 +25,7 @@ export interface DashboardVisualisation {
 }
 
 export interface DashboardVisualisatonCardData {
-  chart: DashboardVisualisationData
+  chart?: DashboardVisualisationData
   table?: MoJTable
   details?: ChartDetails
 }

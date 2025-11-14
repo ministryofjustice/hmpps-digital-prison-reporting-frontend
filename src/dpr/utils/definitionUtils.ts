@@ -1,6 +1,8 @@
+import { FiltersType } from '../components/_filters/filtersTypeEnum'
 import ReportingService from '../services/reportingService'
 import { components } from '../types/api'
 import { Template } from '../types/Templates'
+import { ReportType } from '../types/UserReports'
 import logger from './logger'
 
 export const getFilter = (
@@ -15,7 +17,12 @@ export const getFiltersDefaultsValues = (fields: components['schemas']['FieldDef
     .filter((field) => field.filter)
     .map((field) => {
       const { name, display } = field
-      const { type, interactive, defaultValue, defaultGranularity, defaultQuickFilterValue } = field.filter
+
+      const defaultValue = field.filter?.defaultValue
+      const defaultGranularity = field.filter?.defaultGranularity
+      const defaultQuickFilterValue = field.filter?.defaultQuickFilterValue
+      const type = field.filter?.type || ReportType.REPORT
+      const interactive = field.filter?.interactive || FiltersType.REQUEST
 
       return {
         name,
@@ -80,13 +87,16 @@ export const getFields = (
 }
 
 export const getTemplate = (definition: components['schemas']['SingleVariantReportDefinition']): Template => {
-  return definition.variant.specification?.template
+  return definition.variant.specification?.template || 'list'
 }
 
 export const getFilters = (
   fields: components['schemas']['FieldDefinition'][],
 ): components['schemas']['FilterDefinition'][] => {
-  return fields.filter((field) => field.filter).map((field) => field.filter)
+  const filters: components['schemas']['FilterDefinition'][] = fields
+    .filter((field) => field.filter)
+    .map((field) => field.filter)
+  return filters.length ? filters : []
 }
 
 export const getReportSummary = (

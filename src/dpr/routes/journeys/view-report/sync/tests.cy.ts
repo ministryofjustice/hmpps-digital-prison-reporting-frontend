@@ -19,7 +19,7 @@ context('Platform sync tests', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return element.textContent.includes('This is an sync report')
+            return Boolean(element.textContent?.includes('This is an sync report'))
           },
         }).within(() => {
           cy.findByRole('link', { name: /Load report/ }).click()

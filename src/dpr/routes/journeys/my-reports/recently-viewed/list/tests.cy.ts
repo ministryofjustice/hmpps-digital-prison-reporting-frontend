@@ -39,7 +39,10 @@ context('Recently viewed list', () => {
     cy.findByLabelText(/Reports catalogue.*/i).within(() => {
       cy.findByRole('row', {
         name: (_, element) => {
-          return element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
+          return (
+            Boolean(element.textContent?.includes('Successful Report')) &&
+            Boolean(element.textContent?.includes('this will succeed'))
+          )
         },
       }).within(() => {
         cy.findByRole('link', { name: 'Request report' }).click()
@@ -60,7 +63,7 @@ context('Recently viewed list', () => {
     cy.findByLabelText(/Viewed \(/).within(() => {
       cy.findByRole('row', {
         name: (_, element) => {
-          return element.textContent.includes('Successful Report')
+          return Boolean(element.textContent?.includes('Successful Report'))
         },
       }).within(() => {
         cy.findByRole('link', { name: 'Remove' }).should('be.visible')
@@ -76,7 +79,7 @@ context('Recently viewed list', () => {
     cy.findByLabelText(/Viewed \(/).within(() => {
       cy.findByRole('row', {
         name: (_, element) => {
-          return element.textContent.includes('Successful Report')
+          return Boolean(element.textContent?.includes('Successful Report'))
         },
       }).within(() => {
         cy.findByRole('link', { name: 'Remove' }).click()
@@ -86,7 +89,7 @@ context('Recently viewed list', () => {
     cy.findByLabelText(/Requested/i).within(() => {
       cy.findByRole('row', {
         name: (_, element) => {
-          return element.textContent.includes('Successful Report')
+          return Boolean(element.textContent?.includes('Successful Report'))
         },
       }).should('not.exist')
     })

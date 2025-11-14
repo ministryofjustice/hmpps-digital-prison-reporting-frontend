@@ -20,7 +20,7 @@ export const applyReportInteractiveQuery = async (
   // Get the definition
   const definition: components['schemas']['SingleVariantReportDefinition'] =
     await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
-  const fields = definition.variant.specification.fields || []
+  const fields = definition.variant.specification?.fields || []
 
   return applyInteractiveQuery(req, res, services, applyType, fields)
 }
@@ -57,22 +57,30 @@ const applyInteractiveQuery = async (
   const { dprUser } = LocalsHelper.getValues(res)
 
   // get the report state
-  let reportStateData: StoredReportData
+  let reportStateData: StoredReportData | undefined
   if (tableId) {
     // means its an async report
-    reportStateData = await services.recentlyViewedService.getReportByTableId(tableId, dprUser.id)
+    reportStateData = await services.recentlyViewedService?.getReportByTableId(tableId, dprUser.id)
   } else {
     // its a sync report and can be indentified by ID as will always only be 1
-    reportStateData = await services.recentlyViewedService.getReportById(id, dprUser.id)
+    reportStateData = await services.recentlyViewedService?.getReportById(id, dprUser.id)
   }
 
   // Get the stored interactive query data
   const interactiveQueryData = reportStateData?.interactiveQuery?.data
 
-  const { preventDefault, selectedPage, pageSize, sortColumn, sortedAsc } = interactiveQueryData
-  const filters = Object.keys(interactiveQueryData)
-    .filter((key) => key.includes('filters.'))
-    .reduce((acc, key) => ({ ...acc, [key]: interactiveQueryData[key] }), {})
+  const preventDefault = interactiveQueryData?.preventDefault
+  const pageSize = interactiveQueryData?.pageSize
+  const selectedPage = interactiveQueryData?.selectedPage
+  const sortColumn = interactiveQueryData?.sortColumn
+  const sortedAsc = interactiveQueryData?.sortedAsc
+
+  let filters = {}
+  if (interactiveQueryData) {
+    filters = Object.keys(interactiveQueryData)
+      .filter((key) => key.includes('filters.'))
+      .reduce((acc, key) => ({ ...acc, [key]: interactiveQueryData[key] }), {})
+  }
 
   // Create merged form data
   let formData: Record<string, string | string[]> = {
@@ -95,7 +103,7 @@ const applyInteractiveQuery = async (
     const columnsData = [...mandatoryCols, ...bodyColumns]
     formData = { ...formData, columns: columnsData, ...filters }
   } else {
-    const { columns } = interactiveQueryData
+    const columns = interactiveQueryData?.columns || []
     formData = { ...formData, columns }
   }
 
@@ -133,13 +141,15 @@ const createQueryParamsFromFormData = ({
             case FilterType.dateRange.toLocaleLowerCase():
             case FilterType.granularDateRange.toLocaleLowerCase():
               {
-                let dateValue = <string>value
+                let dateValue: string | null = <string>value
                 const dateMapper = new DateMapper()
                 const currentDateFormat = dateMapper.getDateType(dateValue)
                 if (currentDateFormat !== 'none') {
                   dateValue = dateMapper.toDateString(dateValue, 'iso')
                 }
-                params.append(key, dateValue)
+                if (dateValue) {
+                  params.append(key, dateValue)
+                }
               }
               break
 

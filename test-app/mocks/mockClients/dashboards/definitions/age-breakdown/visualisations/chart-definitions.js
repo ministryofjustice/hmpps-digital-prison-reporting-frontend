@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockBarChartReligion = {
   id: 'religion-bar',
   type: 'bar',

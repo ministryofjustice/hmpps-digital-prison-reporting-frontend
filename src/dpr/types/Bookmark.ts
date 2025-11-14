@@ -14,8 +14,14 @@ export interface BookmarkedReportData {
 
 export interface BookmarkStoreData {
   reportId: string
-  variantId?: string
-  id?: string
+  id: string
+  type?: ReportType
+  automatic?: boolean
+}
+
+export interface AutBookmarkStoreData {
+  reportId: string
+  variantId: string
   type?: ReportType
   automatic?: boolean
 }

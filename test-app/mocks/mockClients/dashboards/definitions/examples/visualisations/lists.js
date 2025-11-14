@@ -1,3 +1,4 @@
+// @ts-nocheck
 const explicitKeys = {
   id: 'explicit-keys',
   type: 'list',

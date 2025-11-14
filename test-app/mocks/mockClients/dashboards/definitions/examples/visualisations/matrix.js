@@ -1,3 +1,4 @@
+// @ts-nocheck
 const automaticBucketing = {
   id: 'automatic-bucketing',
   type: 'matrix-timeseries',

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockScoreCards = [
   {
     title: 'Establishment ID: MDI',

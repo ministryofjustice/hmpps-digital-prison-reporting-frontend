@@ -1,3 +1,4 @@
+// @ts-nocheck
 const defaultVariant = {
   id: 'test-variant',
   name: 'Test Variant',

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const testingDashboard2 = {
   id: '167078.RS',
   name: 'Summary',

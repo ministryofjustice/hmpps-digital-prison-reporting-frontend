@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockGetReportListRenderData = {
   renderData: {
     reportName: 'reportName',

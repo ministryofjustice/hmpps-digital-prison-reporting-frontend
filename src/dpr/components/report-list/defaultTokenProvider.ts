@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 
-export const setupDefaultToken = (request: Request, response: Response, next: NextFunction): string => {
+export const setupDefaultToken = (request: Request, response: Response, next: NextFunction): string | null => {
   if (response.locals.user && response.locals.user.token) {
     return response.locals.user.token
   }

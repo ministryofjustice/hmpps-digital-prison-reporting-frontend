@@ -1,3 +1,4 @@
+import { expect, jest } from '@jest/globals'
 import { Request, Response } from 'express'
 import MockDate from 'mockdate'
 import FiltersUtils from './utils'
@@ -11,6 +12,7 @@ import { FilterValue } from './types'
 import { FilterType } from './filter-input/enum'
 import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
 import { defaultFilterValue } from '../../utils/Personalisation/types'
+import { FiltersType } from './filtersTypeEnum'
 
 describe('Filters Utils tests', () => {
   let req: Request = {
@@ -27,6 +29,7 @@ describe('Filters Utils tests', () => {
       const result = await FiltersUtils.getFilters({
         fields,
         req,
+        filtersType: FiltersType.REQUEST,
       })
 
       expect(result).toEqual({
@@ -222,6 +225,7 @@ describe('Filters Utils tests', () => {
       const result = await FiltersUtils.getFilters({
         fields,
         req,
+        filtersType: FiltersType.REQUEST,
       })
 
       expect(result).toEqual({
@@ -494,6 +498,7 @@ describe('Filters Utils tests', () => {
       }
 
       const fieldParams = {
+        header: false,
         mandatory: false,
         defaultsort: false,
         calculated: false,
@@ -620,8 +625,8 @@ describe('Filters Utils tests', () => {
           name: 'field1',
           type: FilterType.radio,
           value: 'value1.1',
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
+          minimumLength: undefined,
+          dynamicResourceEndpoint: undefined,
           mandatory: false,
           options: [
             {
@@ -648,8 +653,8 @@ describe('Filters Utils tests', () => {
           name: 'field2',
           type: FilterType.select,
           value: 'value2.2',
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
+          minimumLength: undefined,
+          dynamicResourceEndpoint: undefined,
           mandatory: false,
           options: [
             {
@@ -685,8 +690,8 @@ describe('Filters Utils tests', () => {
             start: '2003-02-01',
             end: '2006-05-04',
           },
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
+          minimumLength: undefined,
+          dynamicResourceEndpoint: undefined,
           mandatory: true,
           min: '2003-02-01',
           max: '2007-05-04',
@@ -698,7 +703,7 @@ describe('Filters Utils tests', () => {
           type: FilterType.autocomplete,
           value: null,
           minimumLength: 3,
-          dynamicResourceEndpoint: null,
+          dynamicResourceEndpoint: undefined,
           mandatory: false,
           options: [
             {
@@ -729,7 +734,7 @@ describe('Filters Utils tests', () => {
           type: FilterType.autocomplete,
           value: null,
           minimumLength: 3,
-          dynamicResourceEndpoint: null,
+          dynamicResourceEndpoint: undefined,
           mandatory: false,
           options: [],
         },
@@ -738,8 +743,8 @@ describe('Filters Utils tests', () => {
           name: 'field6',
           type: FilterType.text,
           value: null,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
+          minimumLength: undefined,
+          dynamicResourceEndpoint: undefined,
           mandatory: false,
         },
         {
@@ -747,8 +752,8 @@ describe('Filters Utils tests', () => {
           name: 'field7',
           type: FilterType.date,
           value: null,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
+          minimumLength: undefined,
+          dynamicResourceEndpoint: undefined,
           mandatory: false,
           min: '2003-02-01',
           max: '2007-05-04',
@@ -758,8 +763,8 @@ describe('Filters Utils tests', () => {
           name: 'field8',
           type: FilterType.multiselect,
           value: 'value8.2,value8.4',
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
+          minimumLength: undefined,
+          dynamicResourceEndpoint: undefined,
           mandatory: false,
           options: [
             {
@@ -801,8 +806,8 @@ describe('Filters Utils tests', () => {
               end: true,
             },
           },
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
+          minimumLength: undefined,
+          dynamicResourceEndpoint: undefined,
           mandatory: true,
           quickFilterOptions: [
             {
@@ -945,7 +950,7 @@ describe('Filters Utils tests', () => {
         {
           text: 'Column',
           name: 'sortColumn',
-          type: 'Radio',
+          type: FilterType.radio,
           options: [
             {
               value: 'field1',
@@ -957,13 +962,13 @@ describe('Filters Utils tests', () => {
             },
           ],
           value: 'field1',
-          minimumLength: null,
+          minimumLength: undefined,
           mandatory: true,
         },
         {
           text: 'Direction',
           name: 'sortedAsc',
-          type: 'Radio',
+          type: FilterType.radio,
           options: [
             {
               value: 'true',
@@ -975,7 +980,7 @@ describe('Filters Utils tests', () => {
             },
           ],
           value: 'false',
-          minimumLength: null,
+          minimumLength: undefined,
           mandatory: true,
         },
       ]
@@ -989,8 +994,8 @@ describe('Filters Utils tests', () => {
             name: 'field1',
             type: 'Radio',
             value: 'value1.2',
-            minimumLength: null,
-            dynamicResourceEndpoint: null,
+            minimumLength: undefined,
+            dynamicResourceEndpoint: undefined,
             mandatory: false,
             options: [
               {
@@ -1017,8 +1022,8 @@ describe('Filters Utils tests', () => {
             name: 'field2',
             type: 'Select',
             value: 'value2.3',
-            minimumLength: null,
-            dynamicResourceEndpoint: null,
+            minimumLength: undefined,
+            dynamicResourceEndpoint: undefined,
             mandatory: false,
             options: [
               {
@@ -1055,8 +1060,8 @@ describe('Filters Utils tests', () => {
               end: '2008-05-04',
               relative: '',
             },
-            minimumLength: null,
-            dynamicResourceEndpoint: null,
+            minimumLength: undefined,
+            dynamicResourceEndpoint: undefined,
             mandatory: true,
             min: '2003-02-01',
             max: '2007-05-04',
@@ -1068,7 +1073,7 @@ describe('Filters Utils tests', () => {
             type: 'Autocomplete',
             value: 'Inigo Montoya',
             minimumLength: 3,
-            dynamicResourceEndpoint: null,
+            dynamicResourceEndpoint: undefined,
             mandatory: false,
             options: [
               {
@@ -1099,7 +1104,7 @@ describe('Filters Utils tests', () => {
             type: 'Autocomplete',
             value: '',
             minimumLength: 3,
-            dynamicResourceEndpoint: null,
+            dynamicResourceEndpoint: undefined,
             mandatory: false,
             options: [],
           },
@@ -1108,8 +1113,8 @@ describe('Filters Utils tests', () => {
             name: 'field6',
             type: 'Text',
             value: 'some text',
-            minimumLength: null,
-            dynamicResourceEndpoint: null,
+            minimumLength: undefined,
+            dynamicResourceEndpoint: undefined,
             mandatory: false,
           },
           {
@@ -1117,8 +1122,8 @@ describe('Filters Utils tests', () => {
             name: 'field7',
             type: 'Date',
             value: '2004-02-01',
-            minimumLength: null,
-            dynamicResourceEndpoint: null,
+            minimumLength: undefined,
+            dynamicResourceEndpoint: undefined,
             mandatory: false,
             min: '2003-02-01',
             max: '2007-05-04',
@@ -1128,8 +1133,8 @@ describe('Filters Utils tests', () => {
             name: 'field8',
             type: 'Multiselect',
             value: 'value8.2,value8.4,value8.3',
-            minimumLength: null,
-            dynamicResourceEndpoint: null,
+            minimumLength: undefined,
+            dynamicResourceEndpoint: undefined,
             mandatory: false,
             options: [
               {
@@ -1167,8 +1172,8 @@ describe('Filters Utils tests', () => {
                 display: 'Last 7 days',
               },
             },
-            minimumLength: null,
-            dynamicResourceEndpoint: null,
+            minimumLength: undefined,
+            dynamicResourceEndpoint: undefined,
             mandatory: true,
             quickFilterOptions: [
               {
@@ -1322,7 +1327,7 @@ describe('Filters Utils tests', () => {
               },
             ],
             value: 'field2',
-            minimumLength: null,
+            minimumLength: undefined,
             mandatory: true,
           },
           {
@@ -1340,7 +1345,7 @@ describe('Filters Utils tests', () => {
               },
             ],
             value: 'true',
-            minimumLength: null,
+            minimumLength: undefined,
             mandatory: true,
           },
         ],
@@ -1366,8 +1371,8 @@ describe('Filters Utils tests', () => {
           name: 'field1',
           type: FilterType.radio,
           value: 'value1.1',
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
+          minimumLength: undefined,
+          dynamicResourceEndpoint: undefined,
           mandatory: false,
           options: [
             {
@@ -1386,7 +1391,7 @@ describe('Filters Utils tests', () => {
           type: FilterType.autocomplete,
           value: null,
           minimumLength: 3,
-          dynamicResourceEndpoint: null,
+          dynamicResourceEndpoint: undefined,
           mandatory: false,
           options: [
             {
@@ -1416,8 +1421,8 @@ describe('Filters Utils tests', () => {
           name: 'field3',
           type: FilterType.text,
           value: null,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
+          minimumLength: undefined,
+          dynamicResourceEndpoint: undefined,
           mandatory: false,
         },
       ]
@@ -1449,8 +1454,8 @@ describe('Filters Utils tests', () => {
           name: 'field1',
           type: FilterType.radio,
           value: 'value1.1',
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
+          minimumLength: undefined,
+          dynamicResourceEndpoint: undefined,
           mandatory: false,
           options: [
             {
@@ -1469,7 +1474,7 @@ describe('Filters Utils tests', () => {
           type: FilterType.autocomplete,
           value: null,
           minimumLength: 3,
-          dynamicResourceEndpoint: null,
+          dynamicResourceEndpoint: undefined,
           mandatory: false,
           options: [
             {
@@ -1499,8 +1504,8 @@ describe('Filters Utils tests', () => {
           name: 'field3',
           type: FilterType.text,
           value: null,
-          minimumLength: null,
-          dynamicResourceEndpoint: null,
+          minimumLength: undefined,
+          dynamicResourceEndpoint: undefined,
           mandatory: false,
         },
       ]

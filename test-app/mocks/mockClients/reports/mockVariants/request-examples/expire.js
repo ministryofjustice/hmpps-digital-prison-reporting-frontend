@@ -1,3 +1,4 @@
+// @ts-nocheck
 const requestExampleExpire = {
   id: 'request-example-expire',
   name: 'Expiring report',

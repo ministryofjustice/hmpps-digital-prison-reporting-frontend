@@ -20,7 +20,7 @@ const baseData: DashboardDataResponse = {
   count: { raw: '' },
 }
 
-export const generateData = (query, useRag = true) => {
+export const generateData = (query: Record<string, string>, useRag = true) => {
   const { establishmentId, timestamps } = extractQueryAndCreateTimestamps(query)
   const estId = establishmentId || 'ALL'
 

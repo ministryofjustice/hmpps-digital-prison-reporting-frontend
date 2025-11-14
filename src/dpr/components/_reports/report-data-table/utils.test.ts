@@ -1,3 +1,4 @@
+import { expect, jest } from '@jest/globals'
 import { Url } from 'url'
 import Dict = NodeJS.Dict
 
@@ -58,9 +59,11 @@ describe('AsyncReportListUtils', () => {
         variant: variant2,
       } as unknown as components['schemas']['SingleVariantReportDefinition']
 
+      const template = definition.variant.specification?.template
+
       reportQuery = new ReportQuery({
-        fields: definition.variant.specification.fields,
-        template: definition.variant.specification.template as Template,
+        fields: definition.variant.specification?.fields || [],
+        template: template || ('list' as Template),
         queryParams: {},
         definitionsPath: 'dataProductDefinitionsPath',
       })
@@ -126,9 +129,11 @@ describe('AsyncReportListUtils', () => {
         variant: variant10,
       } as unknown as components['schemas']['SingleVariantReportDefinition']
 
+      const template = definition.variant.specification?.template
+
       reportQuery = new ReportQuery({
-        fields: definition.variant.specification.fields,
-        template: definition.variant.specification.template as Template,
+        fields: definition.variant.specification?.fields || [],
+        template: template || ('list' as Template),
         queryParams: {},
         definitionsPath: 'dataProductDefinitionsPath',
       })
@@ -466,9 +471,10 @@ describe('AsyncReportListUtils', () => {
         variant: variant26,
       } as unknown as components['schemas']['SingleVariantReportDefinition']
 
+      const template = definition.variant.specification?.template
       reportQuery = new ReportQuery({
-        fields: definition.variant.specification.fields,
-        template: definition.variant.specification.template as Template,
+        fields: definition.variant.specification?.fields || [],
+        template: template || ('list' as Template),
         queryParams: {},
         definitionsPath: 'dataProductDefinitionsPath',
       })

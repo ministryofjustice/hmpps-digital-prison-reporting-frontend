@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockStatusApiResponse = {
   status: 'FINISHED',
   duration: 3154450321,

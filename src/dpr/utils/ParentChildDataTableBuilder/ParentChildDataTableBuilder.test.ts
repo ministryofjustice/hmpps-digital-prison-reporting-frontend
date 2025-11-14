@@ -1,3 +1,4 @@
+import { expect } from '@jest/globals'
 import Dict = NodeJS.Dict
 import { components } from '../../types/api'
 import ParentChildDataTableBuilder from './ParentChildDataTableBuilder'
@@ -58,6 +59,7 @@ const childData: Array<Dict<string>> = [
 
 const parentFields: Array<components['schemas']['FieldDefinition']> = [
   {
+    header: false,
     name: 'sectionOne',
     display: 'Section One',
     sortable: true,
@@ -68,6 +70,7 @@ const parentFields: Array<components['schemas']['FieldDefinition']> = [
     calculated: false,
   },
   {
+    header: false,
     name: 'sectionTwo',
     display: 'Section Two',
     sortable: true,
@@ -78,6 +81,7 @@ const parentFields: Array<components['schemas']['FieldDefinition']> = [
     calculated: false,
   },
   {
+    header: false,
     name: 'oranges',
     display: 'Oranges!',
     sortable: true,
@@ -88,6 +92,7 @@ const parentFields: Array<components['schemas']['FieldDefinition']> = [
     calculated: false,
   },
   {
+    header: false,
     name: 'lemons',
     display: 'Lemons?!',
     sortable: true,
@@ -98,6 +103,7 @@ const parentFields: Array<components['schemas']['FieldDefinition']> = [
     calculated: false,
   },
   {
+    header: false,
     name: 'section',
     display: 'Section',
     sortable: true,
@@ -111,6 +117,7 @@ const parentFields: Array<components['schemas']['FieldDefinition']> = [
 
 const childFields: Array<components['schemas']['FieldDefinition']> = [
   {
+    header: false,
     name: 'sectionOne',
     display: 'Section One',
     sortable: true,
@@ -121,6 +128,7 @@ const childFields: Array<components['schemas']['FieldDefinition']> = [
     calculated: false,
   },
   {
+    header: false,
     name: 'sectionTwo',
     display: 'Section Two',
     sortable: true,
@@ -131,6 +139,7 @@ const childFields: Array<components['schemas']['FieldDefinition']> = [
     calculated: false,
   },
   {
+    header: false,
     name: 'cheese',
     display: 'Cheese',
     sortable: true,
@@ -373,8 +382,10 @@ describe('ParentChildDataTableBuilder', () => {
   })
 
   it('sections added correctly', () => {
-    parentVariant.specification.sections = ['section']
-    parentVariant.specification.template = 'parent-child-section'
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    parentVariant.specification!.sections = ['section']
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    parentVariant.specification!.template = 'parent-child-section'
     const mapped = new ParentChildDataTableBuilder(parentVariant)
       .withNoHeaderOptions(['sectionOne', 'sectionTwo', 'oranges', 'lemons'])
       .withChildData([

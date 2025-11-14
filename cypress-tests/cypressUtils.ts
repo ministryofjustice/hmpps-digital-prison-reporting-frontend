@@ -39,7 +39,7 @@ export const requestReport = async ({
   cy.findByLabelText(/Reports catalogue.*/i).within(() => {
     cy.findByRole('row', {
       name: (_, element) => {
-        return element.textContent.includes(name) && element.textContent.includes(description)
+        return Boolean(element?.textContent?.includes(name)) && Boolean(element?.textContent?.includes(description))
       },
     }).within(() => {
       cy.findByRole('link', { name: 'Request report' }).click()

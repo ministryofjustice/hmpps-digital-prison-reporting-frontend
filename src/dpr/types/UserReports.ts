@@ -11,7 +11,7 @@ export interface StoredReportData {
   tableId?: string
   reportName: string
   variantName?: string
-  name?: string
+  name: string
   description: string
   status?: RequestStatus
   timestamp: AsyncReportsTimestamp
@@ -100,8 +100,8 @@ export interface AsyncSummary {
 }
 
 export interface FormattedUserReportData {
-  id: string
-  href: string
+  id?: string
+  href?: string
   text: string
   reportName: string
   description: string
@@ -111,20 +111,34 @@ export interface FormattedUserReportData {
   type: ReportType
   summary?: { name: string; value: string }[]
   interactiveSummary?: { name: string; value: string }[]
-  meta?: meta
+  meta: meta
+}
+
+export interface FormattedBookmarkData {
+  id?: string
+  href?: string
+  text: string
+  reportName: string
+  description: string
+  timestamp?: string
+  tag?: string
+  status?: string
+  type: ReportType
+  summary?: { name: string; value: string }[]
+  interactiveSummary?: { name: string; value: string }[]
 }
 
 export interface meta {
   reportId: string
   id: string
-  executionId: string
-  tableId: string
+  executionId?: string
+  tableId?: string
   status?: string
   type: ReportType
   requestedAt?: Date
   dataProductDefinitionsPath?: string
-  pollingUrl: string
-  reportUrl: string
+  pollingUrl?: string
+  reportUrl?: string
 }
 
 export interface RequestFormData {

@@ -1,9 +1,9 @@
 class DprUser {
   // Auth token
-  token: string
+  token = ''
 
   // Nomis user uuid
-  id: string
+  id = ''
 
   // e.g. John Smith
   displayName?: string

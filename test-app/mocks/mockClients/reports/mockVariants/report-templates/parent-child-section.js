@@ -1,3 +1,4 @@
+// @ts-nocheck
 const reportTemplateExampleParentChild = {
   id: 'report-template-example-parent-child-section',
   name: 'Parent Child Section Template',

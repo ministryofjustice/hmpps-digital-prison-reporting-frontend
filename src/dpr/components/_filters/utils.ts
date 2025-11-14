@@ -147,7 +147,7 @@ export const getFiltersFromDefinition = (
     .filter((f) => f.filter)
     .filter((f) => {
       if (interactive !== undefined) {
-        if (f.filter.interactive === undefined) {
+        if (f.filter?.interactive === undefined) {
           return !interactive
         }
         return interactive === f.filter.interactive
@@ -250,7 +250,7 @@ const orderFilters = (filterValues: FilterValue[]) => {
   const noIndexFilters = filterValues.filter((f) => f.index === undefined)
   const indexFilters = filterValues.filter((f) => f.index !== undefined)
   indexFilters.forEach((f) => {
-    noIndexFilters.splice(f.index, 0, f)
+    if (f.index) noIndexFilters.splice(f.index, 0, f)
   })
   return noIndexFilters
 }
@@ -284,12 +284,14 @@ export const setRequestQueryFromFilterValues = (filterValues: FilterValue[]) => 
           }
           break
         case FilterType.dateRange.toLowerCase():
-          Object.keys(value).forEach((key) => {
-            acc = {
-              ...acc,
-              [`${filterPrefix}.${key}`]: value[key as keyof FilterValueType],
-            }
-          })
+          if (value) {
+            Object.keys(value).forEach((key) => {
+              acc = {
+                ...acc,
+                [`${filterPrefix}.${key}`]: value[key as keyof FilterValueType],
+              }
+            })
+          }
           break
         case FilterType.multiselect.toLowerCase():
           acc = {
@@ -400,7 +402,7 @@ export const getFilters = async ({
 
   let hasDefaults
   let canSaveDefaults = false
-  if (services) {
+  if (services && res) {
     // 2. If there are personalised filters, overwrite fiters with the personalised filter values.
     const { filters: personalisedFilterValues, defaultFilterValues } = await getPersonalisedFilters(
       filters,

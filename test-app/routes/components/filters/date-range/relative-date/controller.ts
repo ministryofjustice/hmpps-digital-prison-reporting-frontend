@@ -8,6 +8,7 @@ export default class DateRangeController {
         name: 'relative-date-range',
         type: 'daterange',
         mandatory: true,
+        value: { start: '', end: '' },
         relativeOptions: [
           { value: 'none', text: 'None' },
           { value: 'yesterday', text: 'Yesterday' },

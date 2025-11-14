@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockEthnicityBarChart = {
   id: 'mockEthnicityBarChart',
   type: 'bar',

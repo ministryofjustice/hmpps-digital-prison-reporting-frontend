@@ -38,9 +38,9 @@ export interface ScorecardRag {
 
 export interface ScorecardDataset {
   earliest: DashboardDataResponse[]
-  earliestTs: string | number
+  earliestTs?: string | number | null | undefined
   latest: DashboardDataResponse[]
-  latestTs: string | number
+  latestTs?: string | number | null | undefined
 }
 
 export interface CreateScorecardDataArgs {
@@ -49,6 +49,6 @@ export interface CreateScorecardDataArgs {
   rag?: number
   valueFor: string
   valueFrom: string
-  prevVal: string | number
+  prevVal: string | number | null | undefined
   groupTitle?: string
 }

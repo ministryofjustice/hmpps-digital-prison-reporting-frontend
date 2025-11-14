@@ -64,7 +64,8 @@
     "lint:fix": "./node_modules/.bin/eslint . --fix",
     "axe_tests": "axe --exit --save axe_results.json $npm_package_config_home_url, $npm_package_config_request_url, $npm_package_config_polling_url, $npm_package_config_report_url",
     "accessibility_tests": "npm run axe_tests && npm run pa11y_tests",
-    "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output src/dpr/types/api.d.ts && npm run lint:fix"
+    "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output src/dpr/types/api.d.ts && npm run lint:fix",
+    "typecheck": "tsc"
   },
   "jest": {
     "transform": {
@@ -190,6 +191,7 @@
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.62.0",
+    "@jest/globals": "^30.2.0",
     "audit-ci": "^6.6.1",
     "autoprefixer": "^10.4.15",
     "axe-core": "^4.9.0",

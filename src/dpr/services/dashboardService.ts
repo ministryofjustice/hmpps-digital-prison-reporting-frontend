@@ -52,7 +52,7 @@ class DashboardService {
     executionId: string,
     tableId?: string,
     dataProductDefinitionsPath?: string,
-  ): Promise<Dict<string>> {
+  ): Promise<components['schemas']['StatementExecutionStatus']> {
     return this.dashboardClient.getAsyncStatus(
       token,
       reportId,

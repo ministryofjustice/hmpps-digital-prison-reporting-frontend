@@ -20,7 +20,8 @@ context('Request status', () => {
         cy.findByRole('row', {
           name: (_, element) => {
             return (
-              element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
+              Boolean(element.textContent?.includes('Successful Report')) &&
+              Boolean(element.textContent?.includes('this will succeed'))
             )
           },
         }).within(() => {
@@ -45,7 +46,8 @@ context('Request status', () => {
         cy.findByRole('row', {
           name: (_, element) => {
             return (
-              element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
+              Boolean(element.textContent?.includes('Successful Report')) &&
+              Boolean(element.textContent?.includes('this will succeed'))
             )
           },
         }).within(() => {
@@ -78,7 +80,8 @@ context('Request status', () => {
           cy.findByRole('row', {
             name: (_, element) => {
               return (
-                element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
+                Boolean(element.textContent?.includes('Successful Report')) &&
+                Boolean(element.textContent?.includes('this will succeed'))
               )
             },
           }).within(() => {

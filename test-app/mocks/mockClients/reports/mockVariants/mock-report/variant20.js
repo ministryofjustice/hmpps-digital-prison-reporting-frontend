@@ -1,3 +1,4 @@
+// @ts-nocheck
 const variant20 = {
   id: 'variantId-20',
   name: 'By Person ID and Visit Detail',

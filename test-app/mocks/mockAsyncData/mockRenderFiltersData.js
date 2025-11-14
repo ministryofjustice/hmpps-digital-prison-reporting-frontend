@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockRenderFiltersData = {
   reportData: {
     reportName: 'name',

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const ReportingClient = require('../../../dist/dpr/data/reportingClient')
 const definitions = require('./reportDefinition')
 const data = require('./data')

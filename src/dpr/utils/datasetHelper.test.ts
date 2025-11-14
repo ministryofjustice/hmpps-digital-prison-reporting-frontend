@@ -1,3 +1,4 @@
+import { expect } from '@jest/globals'
 import { components } from '../types/api'
 import { DashboardDataResponse } from '../types/Metrics'
 import DatasetHelper from './datasetHelper'
@@ -429,7 +430,7 @@ describe('DatasetHelper', () => {
             },
           ],
         },
-      } as unknown as DashboardVisualisation
+      } as unknown as components['schemas']['DashboardVisualisationDefinition']
 
       const data = [
         {
@@ -527,7 +528,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(keys, data)
+      const result = DatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key3' })
     })
 
@@ -542,7 +543,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(keys, data)
+      const result = DatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key2' })
     })
 
@@ -557,7 +558,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(keys, data)
+      const result = DatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key1' })
     })
 
@@ -570,7 +571,7 @@ describe('DatasetHelper', () => {
         { measure2: { raw: 'value' } },
       ]
 
-      const result = DatasetHelper.getGroupKey(keys, data)
+      const result = DatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual(undefined)
     })
 
@@ -585,7 +586,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(keys, data)
+      const result = DatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key2' })
     })
 
@@ -600,7 +601,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(keys, data)
+      const result = DatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key1' })
     })
 
@@ -613,7 +614,7 @@ describe('DatasetHelper', () => {
         { measure2: { raw: 'value' } },
       ]
 
-      const result = DatasetHelper.getGroupKey(keys, data)
+      const result = DatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual(undefined)
     })
 
@@ -628,7 +629,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(keys, data)
+      const result = DatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key2' })
     })
 
@@ -643,7 +644,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(keys, data)
+      const result = DatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key1' })
     })
 
@@ -656,7 +657,7 @@ describe('DatasetHelper', () => {
         { measure2: { raw: 'value' } },
       ]
 
-      const result = DatasetHelper.getGroupKey(keys, data)
+      const result = DatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual(undefined)
     })
 
@@ -670,7 +671,7 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(keys, data)
+      const result = DatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key2' })
     })
 
@@ -683,28 +684,28 @@ describe('DatasetHelper', () => {
         },
       ]
 
-      const result = DatasetHelper.getGroupKey(keys, data)
+      const result = DatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual({ id: 'key1' })
     })
 
     it('should set the correct key - key is undefined - none', () => {
       const data: DashboardDataResponse[] = [{ measure1: { raw: 'value' } }, { measure2: { raw: 'value' } }]
 
-      const result = DatasetHelper.getGroupKey(keys, data)
+      const result = DatasetHelper.getGroupKey(data, keys)
       expect(result).toEqual(undefined)
     })
 
     it('should return undefined when no keys are provided', () => {
       const data: DashboardDataResponse[] = [{ measure1: { raw: 'value' } }, { measure2: { raw: 'value' } }]
 
-      const result = DatasetHelper.getGroupKey(undefined, data)
+      const result = DatasetHelper.getGroupKey(data, undefined)
       expect(result).toEqual(undefined)
     })
 
     it('should return undefined when no keys empty', () => {
       const data: DashboardDataResponse[] = [{ measure1: { raw: 'value' } }, { measure2: { raw: 'value' } }]
 
-      const result = DatasetHelper.getGroupKey([], data)
+      const result = DatasetHelper.getGroupKey(data, [])
       expect(result).toEqual(undefined)
     })
   })

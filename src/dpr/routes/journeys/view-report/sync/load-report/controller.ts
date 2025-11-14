@@ -23,7 +23,7 @@ class LoadReportController {
         token,
         reportId,
         id,
-        dataProductDefinitionsPath,
+        <string | undefined>dataProductDefinitionsPath,
       )
       const { name: reportName, variant, description: reportDescription } = definition
       const { classification, description, name } = variant

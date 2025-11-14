@@ -1,3 +1,4 @@
+// @ts-nocheck
 const error = require('./error')
 const expire = require('./expire')
 const expiredBookmark = require('./expired-bookmark')

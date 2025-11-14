@@ -1,3 +1,4 @@
+// @ts-nocheck
 const featureTestingMissingDescription = {
   id: 'feature-testing-missing-description',
   name: 'Missing variant description',

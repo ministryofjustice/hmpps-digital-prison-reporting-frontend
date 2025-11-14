@@ -1,3 +1,4 @@
+// @ts-nocheck
 const reportTemplateExampleRowSectionMultiple = {
   id: 'report-template-example-row-section-multiple-rows',
   name: 'Sectioned Rows template (muliple rows)',

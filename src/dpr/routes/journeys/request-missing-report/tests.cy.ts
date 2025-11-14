@@ -11,7 +11,7 @@ context('Request missing report', () => {
     cy.findByLabelText(/Reports catalogue.*/i).within(() => {
       cy.findByRole('row', {
         name: (_, element) => {
-          return element.textContent.includes('Missing Report 1')
+          return Boolean(element.textContent?.includes('Missing Report 1'))
         },
       }).within(() => {
         cy.findByRole('link', { name: 'Request report' }).click()

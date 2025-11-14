@@ -1,3 +1,4 @@
+// @ts-nocheck
 const reportTemplateExampleSummarySection = {
   id: 'report-template-example-summary-section-better',
   name: 'Sectioned Summaries template',

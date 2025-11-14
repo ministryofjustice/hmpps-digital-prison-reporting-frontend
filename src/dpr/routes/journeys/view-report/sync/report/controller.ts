@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express'
+import ErrorHandler from '../../../../../utils/ErrorHandler'
 import { Services } from '../../../../../types/Services'
 import SyncReportUtils from './utils'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
-import ErrorSummaryUtils from '../../../../../components/error-summary/utils'
 import PersonalisationUtils from '../../../../../utils/Personalisation/personalisationUtils'
 import ViewReportUtils from '../../utils'
 
@@ -26,7 +26,7 @@ class ViewSyncReportController {
     } catch (error) {
       req.body.title = `Report Failed`
       req.body.errorDescription = 'We were unable to show this report for the following reason:'
-      req.body.error = ErrorSummaryUtils.handleError(error)
+      req.body.error = new ErrorHandler(error)
       next()
     }
   }
@@ -38,7 +38,7 @@ class ViewSyncReportController {
     } catch (error) {
       req.body = {
         title: 'Failed to save defaults',
-        error: ErrorSummaryUtils.handleError(error, req.params.type),
+        error: new ErrorHandler(error),
         ...req.body,
       }
       next()
@@ -52,7 +52,7 @@ class ViewSyncReportController {
     } catch (error) {
       req.body = {
         title: 'Failed to remove defaults',
-        error: ErrorSummaryUtils.handleError(error, req.params.type),
+        error: new ErrorHandler(error),
         ...req.body,
       }
       next()

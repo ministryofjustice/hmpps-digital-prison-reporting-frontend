@@ -1,3 +1,4 @@
+import { expect, jest } from '@jest/globals'
 import { Response, Request } from 'express'
 import UserReportRequestListUtils from './utils'
 import type { RequestedReportService, ReportingService } from '../../../services'
@@ -34,12 +35,12 @@ describe('UserReportRequestListUtils', () => {
 
       requestedReportService = {
         updateStatus: jest.fn(),
-        getReportByExecutionId: jest.fn().mockResolvedValue(mockRequested.requestedReady),
+        getReportByExecutionId: jest.fn().mockImplementation(() => mockRequested.requestedReady),
       } as unknown as RequestedReportService
 
       reportingService = {
-        getAsyncReportStatus: jest.fn().mockResolvedValue({
-          status: RequestStatus.FINISHED,
+        getAsyncReportStatus: jest.fn().mockImplementation(() => {
+          return { status: RequestStatus.FINISHED }
         }),
       } as unknown as ReportingService
 

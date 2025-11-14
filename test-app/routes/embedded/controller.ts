@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 
 export default class EmbeddedController {
-  layoutPath: string
+  layoutPath = ''
 
   GET: RequestHandler = async (req, res, next) => {
     res.render('views/pages/menu.njk', {

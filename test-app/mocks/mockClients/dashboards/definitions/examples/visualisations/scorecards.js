@@ -1,3 +1,4 @@
+// @ts-nocheck
 const dietTotals = {
   id: 'sc-diet-totals',
   type: 'scorecard-group',

@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../../types/Services'
-import ErrorSummaryUtils from '../../../../../components/error-summary/utils'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import AsyncReportUtils from './utils'
 import ViewReportUtils from '../../utils'
+import ErrorHandler from '../../../../../utils/ErrorHandler'
 
 class ViewAyncReportController {
   layoutPath: string
@@ -27,7 +27,7 @@ class ViewAyncReportController {
         ...renderData,
       })
     } catch (error) {
-      const dprError = ErrorSummaryUtils.handleError(<Error>error, req.params.type)
+      const dprError = new ErrorHandler(error)
       let refreshLink
       const { recentlyViewedService } = this.services
       if (dprError.status === 'EXPIRED' && recentlyViewedService) {

@@ -1,4 +1,4 @@
-import superagent from 'superagent'
+import superagent, { ResponseError } from 'superagent'
 import Agent, { HttpsAgent } from 'agentkeepalive'
 
 import logger from '../utils/logger'
@@ -82,7 +82,7 @@ class RestClient {
   }
 
   async getWithHeaders<T>({
-    path = null,
+    path = '',
     query = {},
     headers = {},
     responseType = '',
@@ -113,14 +113,14 @@ class RestClient {
         headers: result.headers,
       }
     } catch (error) {
-      const sanitisedError = sanitiseError(error)
+      const sanitisedError = sanitiseError(<ResponseError>error)
       logger.warn({ ...sanitisedError, query }, `Error calling ${this.name}, path: '${path}', verb: 'GET'`)
       throw sanitisedError
     }
   }
 
   async deleteWithHeaders<T>({
-    path = null,
+    path = '',
     query = {},
     headers = {},
     responseType = '',
@@ -151,7 +151,7 @@ class RestClient {
         headers: result.headers,
       }
     } catch (error) {
-      const sanitisedError = sanitiseError(error)
+      const sanitisedError = sanitiseError(<ResponseError>error)
       logger.warn({ ...sanitisedError, query }, `Error calling ${this.name}, path: '${path}', verb: 'GET'`)
       throw sanitisedError
     }

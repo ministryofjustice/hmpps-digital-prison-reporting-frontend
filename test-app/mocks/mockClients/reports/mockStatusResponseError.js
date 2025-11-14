@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockStatusResponseError = {
   text: '{"status":400,"userMessage":"Validation failure: id must satisfy regex pattern: ^[a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}(:\\\\d+)?$ (Service: RedshiftData, Status Code: 400, Request ID: 2ae3c8fa-3bfc-4673-bd4f-3cb11a7cb0db)","developerMessage":"id must satisfy regex pattern: ^[a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}(:\\\\d+)?$ (Service: RedshiftData, Status Code: 400, Request ID: 2ae3c8fa-3bfc-4673-bd4f-3cb11a7cb0db)"}',
   status: 400,

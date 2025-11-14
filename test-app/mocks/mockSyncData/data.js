@@ -1,3 +1,4 @@
+// @ts-nocheck
 module.exports = [
   {
     field1: 'Value 1.1',

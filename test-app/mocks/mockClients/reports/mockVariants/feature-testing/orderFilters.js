@@ -1,3 +1,4 @@
+// @ts-nocheck
 const featureTesting = {
   id: 'feature-testing-filter-order',
   name: 'Filter Order',

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const simpleScorecardNationality = {
   id: 'simple-scorecard-nationality',
   type: 'scorecard',

@@ -1,3 +1,4 @@
+import { expect, jest } from '@jest/globals'
 import MockDate from 'mockdate'
 import { Request } from 'express'
 import mockVariant from '../../../../../test-app/mocks/mockClients/reports/mockVariants/feature-testing/missingDescription'
@@ -25,9 +26,8 @@ describe('AsyncFiltersUtils', () => {
 
   describe('renderFilters', () => {
     it('should get the render data for the filters page', async () => {
-      const filterRenderData = <RenderFiltersReturnValue>(
-        await AsyncFiltersUtils.default.renderFilters(mockReport.variant.specification.fields)
-      )
+      const fields = mockReport.variant?.specification?.fields || []
+      const filterRenderData = <RenderFiltersReturnValue>await AsyncFiltersUtils.default.renderFilters(fields)
       expect(filterRenderData.filters).toEqual(MockRenderFiltersData.filters)
       expect(filterRenderData.sortBy).toEqual(MockRenderFiltersData.sortBy)
     })

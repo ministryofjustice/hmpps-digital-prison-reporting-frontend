@@ -297,14 +297,12 @@ context('User reports component', () => {
         bookmarks: [
           {
             reportId: requestedReady.reportId,
-            variantId: requestedReady.id,
             automatic: false,
             id: requestedReady.id,
             type: requestedReady.type,
           },
           {
             reportId: requestedExpired.reportId,
-            variantId: requestedExpired.id,
             automatic: false,
             id: requestedExpired.id,
             type: requestedExpired.type,

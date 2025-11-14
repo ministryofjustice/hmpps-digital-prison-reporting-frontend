@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable no-param-reassign */
 const mockStatusApiResponse = require('./reports/mockStatusApiReponse')
 const mockStatusApiError = require('./reports/mockStatusResponseError')

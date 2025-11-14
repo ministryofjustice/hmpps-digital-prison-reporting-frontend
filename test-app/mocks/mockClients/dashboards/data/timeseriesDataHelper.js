@@ -1,3 +1,4 @@
+// @ts-nocheck
 const dayjs = require('dayjs')
 
 const splitIntoRandomValues = (total, parts) => {

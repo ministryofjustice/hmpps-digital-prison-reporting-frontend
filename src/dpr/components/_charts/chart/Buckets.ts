@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 import { withAlphaHex } from 'with-alpha-hex'
-import { DashboardDataResponse, DashboardDataResponseWithRag } from '../../../types/Metrics'
+import { DashboardDataResponse } from '../../../types/Metrics'
 import {
   DashboardVisualisationBucket,
   BucketDashboardVisualisationOptions,

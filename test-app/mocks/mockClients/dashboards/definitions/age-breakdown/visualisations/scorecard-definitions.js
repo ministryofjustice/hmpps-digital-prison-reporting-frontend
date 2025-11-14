@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockScorecardDefinitionTotalInWing = {
   type: 'scorecard',
   columns: {

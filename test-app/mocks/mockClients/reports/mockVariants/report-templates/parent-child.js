@@ -1,3 +1,4 @@
+// @ts-nocheck
 const reportTemplateExampleParentChild = {
   id: 'report-template-example-parent-child',
   name: 'Parent Child Template',

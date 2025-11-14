@@ -1,3 +1,4 @@
+import { expect } from '@jest/globals'
 import { components } from '../../types/api'
 import SectionedFieldsTableBuilder from './SectionedFieldsTableBuilder'
 
@@ -22,7 +23,7 @@ describe('SectionedFieldsDataTableBuilder', () => {
     const table = new SectionedFieldsTableBuilder(rowSectionVariant)
       .withHeaderOptions({
         columns: new Array(2),
-        interactive: rowSectionVariant.interactive,
+        interactive: Boolean(rowSectionVariant.interactive),
       })
       .withChildData([])
       .buildTable(variant30Data)
@@ -72,15 +73,17 @@ describe('SectionedFieldsDataTableBuilder', () => {
     const table = new SectionedFieldsTableBuilder(rowSectionChildVariant)
       .withHeaderOptions({
         columns: new Array(2),
-        interactive: rowSectionChildVariant.interactive,
+        interactive: Boolean(rowSectionChildVariant.interactive),
       })
       .withChildData([
         {
-          id: rowSectionChildVariant.childVariants[0].id,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          id: rowSectionChildVariant.childVariants![0].id,
           data: variant31Data.childData(),
         },
         {
-          id: rowSectionChildVariant.childVariants[1].id,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          id: rowSectionChildVariant.childVariants![1].id,
           data: variant31Data.childData2(),
         },
       ])

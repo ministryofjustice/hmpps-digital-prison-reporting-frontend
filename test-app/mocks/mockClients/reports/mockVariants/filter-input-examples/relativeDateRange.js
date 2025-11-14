@@ -1,3 +1,4 @@
+// @ts-nocheck
 const variant15 = {
   id: 'variantId-15',
   name: 'Relative Daterange',

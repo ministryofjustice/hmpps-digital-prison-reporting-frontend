@@ -1,3 +1,4 @@
+// @ts-nocheck
 const reportTemplateExampleListSection = {
   id: 'report-template-example-list-section',
   name: 'Sectioned',

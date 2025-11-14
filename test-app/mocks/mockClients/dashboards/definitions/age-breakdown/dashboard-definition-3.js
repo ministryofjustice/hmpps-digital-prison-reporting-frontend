@@ -1,3 +1,4 @@
+// @ts-nocheck
 const {
   mockListDefinitionAgeRange1,
   mockListDefinitionAgeRange2,

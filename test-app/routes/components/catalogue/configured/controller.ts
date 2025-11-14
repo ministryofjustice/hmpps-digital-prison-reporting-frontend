@@ -3,7 +3,7 @@ import CatalogueUtils from '../../../../../src/dpr/components/_catalogue/catalog
 import { Services } from '../../../../../src/dpr/types/Services'
 
 export default class CatalogueController {
-  layoutPath: string
+  layoutPath = ''
 
   services: Services
 

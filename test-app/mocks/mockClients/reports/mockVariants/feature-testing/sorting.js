@@ -1,3 +1,4 @@
+// @ts-nocheck
 const featureTestingSorting = {
   id: 'feature-testing-sorting',
   name: 'Sort',

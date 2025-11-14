@@ -1,3 +1,4 @@
+// @ts-nocheck
 const requestExampleTimeout = {
   id: 'request-example-timeout',
   name: 'Timedout',

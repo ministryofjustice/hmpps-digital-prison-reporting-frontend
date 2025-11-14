@@ -1,3 +1,4 @@
+// @ts-nocheck
 const createMockData = (amount) => {
   return Array(amount)
     .fill(0)

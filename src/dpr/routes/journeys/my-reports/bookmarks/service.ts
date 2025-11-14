@@ -26,7 +26,7 @@ class BookmarkService extends ReportStoreService {
   async removeBookmark(userId: string, id: string, reportId: string) {
     const userConfig = await this.getState(userId)
     const index = userConfig.bookmarks.findIndex((bookmark) => {
-      const bmVarId = bookmark.variantId || bookmark.id
+      const bmVarId = bookmark.id
       return bmVarId === id && bookmark.reportId === reportId
     })
     if (index >= 0) {
@@ -47,14 +47,14 @@ class BookmarkService extends ReportStoreService {
 
   isBookmarkedCheck = (userConfig: ReportStoreConfig, id: string, reportId: string) => {
     return userConfig.bookmarks.some((bookmark) => {
-      const bmVarId = bookmark.variantId || bookmark.id
+      const bmVarId = bookmark.id
       return bmVarId === id && bookmark.reportId === reportId
     })
   }
 
   getBookmark = (userConfig: ReportStoreConfig, id: string, reportId: string) => {
     return userConfig.bookmarks.find((bookmark) => {
-      const bmVarId = bookmark.variantId || bookmark.id
+      const bmVarId = bookmark.id
       return bmVarId === id && bookmark.reportId === reportId
     })
   }
@@ -90,7 +90,7 @@ class BookmarkService extends ReportStoreService {
       if (bookmark) {
         checked = 'checked'
         tooltip = 'Remove bookmark'
-        automatic = bookmark.automatic
+        automatic = Boolean(bookmark.automatic)
       }
     }
 

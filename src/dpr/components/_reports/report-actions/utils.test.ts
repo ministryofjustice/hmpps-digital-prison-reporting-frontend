@@ -1,4 +1,5 @@
-import { LoadType, ReportType } from '../../../types/UserReports'
+import { expect } from '@jest/globals'
+import { LoadType } from '../../../types/UserReports'
 import {
   CopyActionParams,
   DownloadActionParams,
@@ -45,10 +46,11 @@ describe('ReportActionsUtils', () => {
         id: 'id',
         tableId: 'tableId',
         columns: [],
-        type: ReportType.REPORT,
         definitionPath: 'definitionPath',
         canDownload: false,
         loadType: LoadType.ASYNC,
+        currentUrl: 'currentUrl',
+        nestedBaseUrl: 'nestedBaseUrl',
       }
     })
 
@@ -104,10 +106,11 @@ describe('ReportActionsUtils', () => {
             id: 'id',
             tableId: 'tableId',
             columns: [],
-            type: 'report',
             definitionPath: 'definitionPath',
             canDownload: false,
             loadType: 'async',
+            currentUrl: 'currentUrl',
+            nestedBaseUrl: 'nestedBaseUrl',
           },
         },
       ]

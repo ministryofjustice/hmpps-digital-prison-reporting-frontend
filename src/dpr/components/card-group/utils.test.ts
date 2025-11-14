@@ -1,3 +1,4 @@
+import { expect } from '@jest/globals'
 import Utils from './utils'
 import { components } from '../../types/api'
 
@@ -8,6 +9,7 @@ describe('reportDefinitionsToCards', () => {
       name: 'Two',
       description: 'Three',
       variants: [],
+      authorised: true,
     }
     const mapped = Utils.reportDefinitionsToCards([report], '/prefix')
 
@@ -26,6 +28,7 @@ describe('reportDefinitionsToCards', () => {
       name: 'Two',
       description: 'Three',
       variants: [],
+      authorised: true,
     }
     const mapped = Utils.reportDefinitionsToCards([report], '/prefix', { dataProductDefinitionsPath: 'test-location' })
 
@@ -45,11 +48,13 @@ describe('variantDefinitionsToCards', () => {
       id: 'one',
       name: 'Two',
       description: 'Three',
+      authorised: true,
       variants: [
         {
           id: 'four',
           name: 'Five',
           description: 'Six',
+          isMissing: false,
         },
       ],
     }
@@ -74,8 +79,10 @@ describe('variantDefinitionsToCards', () => {
           id: 'four',
           name: 'Five',
           description: 'Six',
+          isMissing: false,
         },
       ],
+      authorised: true,
     }
     const mapped = Utils.variantDefinitionsToCards(report, '/prefix', { dataProductDefinitionsPath: 'test-location' })
 

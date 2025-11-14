@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockRenderDataFromDefinition = {
   renderData: {
     dataTable: [

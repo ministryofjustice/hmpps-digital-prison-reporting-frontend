@@ -14,7 +14,7 @@ const baseData = {
   count: { raw: '' },
 }
 
-export const generateData = (query) => {
+export const generateData = (query: Record<string, string>) => {
   const { establishmentId, wing: wingFilter, timestamps } = extractQueryAndCreateTimestamps(query)
   const wings = ['north', 'south', 'east', 'west']
   const dietValues = ['Vegetarian', 'Pescatarian', 'Vegan', 'Omnivore']

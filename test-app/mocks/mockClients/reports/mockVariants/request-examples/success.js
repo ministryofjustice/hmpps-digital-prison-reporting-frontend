@@ -1,3 +1,4 @@
+// @ts-nocheck
 const requestExampleSuccess = {
   id: 'request-example-success',
   name: 'Successful Report',

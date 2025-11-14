@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable camelcase */
 const section1_1 = [
   {

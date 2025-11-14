@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 
 export default class SummarySectionTemplateController {
-  layoutPath: string
+  layoutPath = ''
 
   GET: RequestHandler = async (req, res, next) => {
     const reportData = {

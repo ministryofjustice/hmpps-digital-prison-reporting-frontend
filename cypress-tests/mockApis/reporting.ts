@@ -8,7 +8,7 @@ import { featureTestingMissingDescription } from '@networkMocks/report/mockVaria
 import { featureTestingMissing1 } from '@networkMocks/report/mockVariants/feature-testing/missing1'
 import { variant15 as relativeDateRange } from '@networkMocks/report/mockVariants/filter-input-examples/relativeDateRange'
 import { variant15 as relativeDateRangeWithDefaults } from '@networkMocks/report/mockVariants/filter-input-examples/relativeDateRangeWithDefaults'
-import { cancelAsyncRequestMock, getAsyncInteractiveCountMock, getAsyncReportResultMock, getAsyncReportResultMockMissingData, getReportResultCountMock, getReportStatusMock, reportsAbortedStatusMock, reportsExpiredStatusMock, reportsFailedStatusMock, reportsFinishedStatusMock, reportsPickedStatusMock, reportsReadyStatusMock, reportsStartedStatusMock, reportsSubmittedStatusMock, requestAsyncReportMock, setupSimpleReportDefinitionResponseMock } from '@networkMocks/report/mocks'
+import { cancelAsyncRequestMock, getAsyncInteractiveCountMock, getAsyncReportResultMock, getAsyncReportResultMockMissingData, getReportResultCountMock, reportsAbortedStatusMock, reportsExpiredStatusMock, reportsFailedStatusMock, reportsFinishedStatusMock, reportsPickedStatusMock, reportsReadyStatusMock, reportsStartedStatusMock, reportsSubmittedStatusMock, requestAsyncReportMock, setupSimpleReportDefinitionResponseMock } from '@networkMocks/report/mocks'
 import { generateIndividualDefinitionSummaries, getDefinitionSummaries, pollingEndpoint } from '@networkMocks/mocks'
 import { generateNetworkMock, stubFor } from '@networkMocks/generateNetworkMock'
 import { missingReportSubmitFailMock, missingReportSubmitSuccessMock } from '@networkMocks/report/missingReport/mocks'
@@ -17,7 +17,6 @@ import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feat
 import { featureTestingSync } from '@networkMocks/report/mockVariants/feature-testing/sync'
 import { getListWithWarnings, getListWithWarningsCount } from '@networkMocks/report/sync/mocks'
 import { featureTestingOrderFilters } from '@networkMocks/report/mockVariants/feature-testing/orderFilters'
-import { getCatalogueCollection1, getCatalogueCollection2, getCatalogueCollections } from '@networkMocks/catalogueCollections/mocks'
 import { getProductCollection1, getProductCollection2, getProductCollections } from '@networkMocks/productCollections/mocks'
 
 const stubs = {
@@ -32,7 +31,6 @@ const stubs = {
   }),
   stubDefinitions: () => stubFor(getDefinitionSummaries),
   stubPollingReportEndpoint: () => stubFor(pollingEndpoint),
-  stubReportStatusMock: () => stubFor(getReportStatusMock),
   stubCancelAsyncRequest: () => stubFor(cancelAsyncRequestMock),
   stubDefinitionRequestExamplesSuccess: () => stubFor(setupSimpleReportDefinitionResponseMock(`request-examples`, requestExampleSuccess)),
   stubDefinitionRequestExamplesFail: () => stubFor(setupSimpleReportDefinitionResponseMock('request-examples', requestExampleFailStatus)),

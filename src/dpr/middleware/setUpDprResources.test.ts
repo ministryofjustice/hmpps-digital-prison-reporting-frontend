@@ -1,3 +1,4 @@
+import { expect, jest } from '@jest/globals'
 import { Response, Request } from 'express'
 
 import { Services } from '../types/Services'
@@ -16,15 +17,15 @@ describe('setUpDprResources', () => {
 
     beforeEach(() => {
       requestedReportService = {
-        getAllReports: jest.fn().mockResolvedValue([]),
+        getAllReports: jest.fn().mockReturnValueOnce([]),
       } as unknown as RequestedReportService
 
       recentlyViewedService = {
-        getAllReports: jest.fn().mockResolvedValue([]),
+        getAllReports: jest.fn().mockReturnValueOnce([]),
       } as unknown as RecentlyViewedReport
 
       bookmarkService = {
-        getAllBookmarks: jest.fn().mockResolvedValue([]),
+        getAllBookmarks: jest.fn().mockReturnValueOnce([]),
       } as unknown as BookmarkService
 
       downloadPermissionService = {} as unknown as DownloadPermissionService

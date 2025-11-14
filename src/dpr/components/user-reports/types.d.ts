@@ -17,5 +17,5 @@ export interface RenderTableListResponse {
   }
   meta?: meta[]
   csrfToken?: string
-  maxRows: number
+  maxRows?: number
 }

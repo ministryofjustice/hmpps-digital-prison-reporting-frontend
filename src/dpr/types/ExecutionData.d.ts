@@ -1,6 +1,6 @@
 export interface ExecutionData {
-  executionId: string
-  tableId: string
+  executionId?: string
+  tableId?: string
   dataProductDefinitionsPath?: string
 }
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const featureTestingUnprintable = {
   id: 'feature-testing-unprintable',
   name: 'Unprintable',

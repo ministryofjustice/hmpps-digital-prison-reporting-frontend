@@ -42,25 +42,25 @@ describe('ChartCard Utils', () => {
       expect(result).toEqual(expectedResult)
     })
 
-    // it('should get the snapshot chart data from a list', async () => {
-    //   const expectedResult = chartFromList
-    //   const result = ChartCardUtils.createChart(snapshotVisualisationFromListDefinition, dashboardMockDietData)
-    //   expect(result).toEqual(expectedResult)
-    // })
+    it('should get the snapshot chart data from a list', async () => {
+      const expectedResult = chartFromList
+      const result = ChartCardUtils.createChart(snapshotVisualisationFromListDefinition, dashboardMockDietData)
+      expect(result).toEqual(expectedResult)
+    })
 
-    // it('should create the snapshot chart data from a list', () => {
-    //   const expectedResult = barChartFromListDataHasEthnicity
-    //   const result = ChartCardUtils.createChart(snapshotVisualisationDefinition, dashboardMetricsData.flat())
-    //   expect(result).toEqual(expectedResult)
-    // })
+    it('should create the snapshot chart data from a list', () => {
+      const expectedResult = barChartFromListDataHasEthnicity
+      const result = ChartCardUtils.createChart(snapshotVisualisationDefinition, dashboardMetricsData.flat())
+      expect(result).toEqual(expectedResult)
+    })
 
-    // it('should get the timeseries chart data', async () => {
-    //   const expectedResult = dataQualityTimeseriesLine
-    //   const result = ChartCardUtils.createTimeseriesCharts(
-    //     timeseriesVisualisationDefinition,
-    //     dashboardMetricsData.flat(),
-    //   )
-    //   expect(result).toEqual(expectedResult)
-    // })
+    it('should get the timeseries chart data', async () => {
+      const expectedResult = dataQualityTimeseriesLine
+      const result = ChartCardUtils.createTimeseriesCharts(
+        timeseriesVisualisationDefinition,
+        dashboardMetricsData.flat(),
+      )
+      expect(result).toEqual(expectedResult)
+    })
   })
 })

@@ -11,6 +11,8 @@ import MockReportingClient from '../mocks/mockClients/reports/mockReportingClien
 import { MockUserStoreService } from '../mocks/mockClients/store/mockRedisStore'
 import MockDashboardClient from '../mocks/mockClients/dashboards/mock-client'
 import { ServiceFeatureConfig } from '../../src/dpr/types/DprConfig'
+import { ProductCollectionService } from 'src/dpr/services/productCollection/productCollectionService'
+import { FeatureFlagService } from 'src/dpr/services/featureFlagService'
 
 export const initServices = (featureConfig?: ServiceFeatureConfig) => {
   const clients: {
@@ -18,7 +20,8 @@ export const initServices = (featureConfig?: ServiceFeatureConfig) => {
     dashboardClient: any
     reportDataStore: any
     missingReportClient: any
-    productCollectionClient: ProductCollectionClient
+    productCollectionService: ProductCollectionService
+    featureFlagService: FeatureFlagService
   } = {} as typeof clients
   if (process.env['USE_MOCK_CLIENTS']) {
     clients.reportingClient = new MockReportingClient() as unknown as ReportingClient
@@ -66,6 +69,11 @@ export const initServices = (featureConfig?: ServiceFeatureConfig) => {
       timeout: 1000,
     },
     url: `http://localhost:9091`,
+  })
+  clients.featureFlagService = new FeatureFlagService({
+    namespace: 'foo',
+    token: 'bar',
+    url: 'http://localhost:9091',
   })
 
   // 2. Create services

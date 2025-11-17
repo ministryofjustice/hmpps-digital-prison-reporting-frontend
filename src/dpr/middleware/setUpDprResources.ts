@@ -7,6 +7,7 @@ import DefinitionUtils from '../utils/definitionUtils'
 import { BookmarkStoreData } from '../types/Bookmark'
 import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
+import { FeatureFlagService } from '../services/featureFlagService'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -24,6 +25,7 @@ export const setupResources = (services: Services, config?: DprConfig): RequestH
   return async (req, res, next) => {
     populateValidationErrors(req, res)
     try {
+      await setFeatures(res, services.featureFlagService)
       await populateDefinitions(services, req, res, config)
       await populateRequestedReports(services, res)
       return next()
@@ -32,6 +34,32 @@ export const setupResources = (services: Services, config?: DprConfig): RequestH
     }
   }
 }
+
+
+const setFeatures = async (res: Response, featureFlagService: FeatureFlagService) => {
+  if (res.app.locals.featureFlags === undefined) {
+    res.app.locals.featureFlags = {
+      flags: [],
+      lastUpdated: new Date().getTime() - 601 * 1000,
+    }
+  }
+  const featureFlags = res.app.locals.featureFlags
+  console.log(`** beforeflags **: ${JSON.stringify(featureFlags)}`)
+  const currentTime = new Date().getTime()
+  const timeSinceLastUpdatedSeconds = (currentTime - featureFlags.lastUpdated) / 1000
+  const shouldUpdate = timeSinceLastUpdatedSeconds > 600
+  if (shouldUpdate) {
+    // Refresh every 10 mins
+    res.app.locals.featureFlags.lastUpdated = currentTime
+    const flags = await featureFlagService.getFlags().catch(e => {
+      res.app.locals.featureFlags.lastUpdated = currentTime - 601 * 1000
+      throw e
+    })
+    console.log(`flags: ${JSON.stringify(flags)}`)
+    res.app.locals.featureFlags.flags = flags.flags    
+  }
+}
+
 
 const populateValidationErrors = (req: Request, res: Response) => {
   const errors = req.flash(`DPR_ERRORS`)

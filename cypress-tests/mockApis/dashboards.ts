@@ -16,6 +16,8 @@ const stubs = {
   stubDefinitionScorecardDashboard: () => stubFor(dataQualityScorecardDashboard),
   stubDefinitionScorecardBucketDashboard: () => stubFor(dataQualityScorecardBucketDashboard),
   stubDefinitionScorecardGroupDashboard: () => stubFor(dataQualityScorecardGroupDashboard),
-}
+} as const
+
+export type DashboardStubsKeys = keyof typeof stubs
 
 export default stubs

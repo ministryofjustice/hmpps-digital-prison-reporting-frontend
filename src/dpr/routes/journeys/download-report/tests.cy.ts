@@ -1,4 +1,4 @@
-import { updateRedisState } from 'test-app/routes/integrationTests/redisStateTestUtils'
+import { updateRedisState } from 'test-app/routes/integrationTests/appStateUtils'
 import { checkA11y, executeReportStubs } from '../../../../../cypress-tests/cypressUtils'
 
 context('Download report', () => {

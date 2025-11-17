@@ -9,6 +9,12 @@ export interface GetRequest {
   token: string
 }
 
+export interface FeatureFlagConfig { 
+  namespace: string
+  token: string
+  url: string
+}
+
 export interface ApiConfig {
   url: string
   agent: AgentConfig

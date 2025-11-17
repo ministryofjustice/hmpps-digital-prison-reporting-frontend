@@ -140,6 +140,7 @@
     ]
   },
   "dependencies": {
+    "@flipt-io/flipt": "^1.4.0",
     "@ministryofjustice/frontend": "^6.0.0",
     "agentkeepalive": "^4.5.0",
     "bunyan": "^1.8.15",

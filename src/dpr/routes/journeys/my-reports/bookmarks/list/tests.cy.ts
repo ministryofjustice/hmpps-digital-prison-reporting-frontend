@@ -1,4 +1,4 @@
-import { setRedisState } from '../../../../../../../test-app/routes/integrationTests/redisStateTestUtils'
+import { setRedisState } from '../../../../../../../test-app/routes/integrationTests/appStateUtils'
 import { ReportType } from '../../../../../types/UserReports'
 
 context('Bookmarks list', () => {

@@ -210,7 +210,7 @@ class ParentChildDataTableBuilder extends SectionedDataTableBuilder {
     return this
   }
 
-  buildTable(data: Array<Dict<string>>): DataTable {
+  override buildTable(data: Array<Dict<string>>): DataTable {
     return {
       head: null,
       rows: this.mapParentChildData(data, this.mapHeader(true, 'govuk-table__header')),

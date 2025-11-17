@@ -38,11 +38,6 @@ class HeatmapChart extends DashboardVisualisationClass {
     this.bucketsHelper = new Buckets(responseData, this.definition, this.valueKey, true)
   }
 
-  initUnit = () => {
-    // todo
-    this.unit = this.columns.measures[0].unit ? this.columns.measures[0].unit : undefined
-  }
-
   private setLabel = () => {
     const { id, display } = this.columns.measures[1]
     this.valueKey = id

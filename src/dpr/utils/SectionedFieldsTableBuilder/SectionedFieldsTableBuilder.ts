@@ -14,9 +14,9 @@ class SectionedFieldsDataTableBuilder extends ParentChildDataTableBuilder {
   // TODO: change this to use schema type if ever implemented in the backend
   sectionedFields: SectionedField[]
 
-  template: Template
+  override template: Template
 
-  childVariants: components['schemas']['ChildVariantDefinition'][]
+  override childVariants: components['schemas']['ChildVariantDefinition'][]
 
   constructor(variant: components['schemas']['VariantDefinition']) {
     // TODO: removed the union if sectionedFields changed to use schema type
@@ -133,7 +133,7 @@ class SectionedFieldsDataTableBuilder extends ParentChildDataTableBuilder {
     return rows
   }
 
-  buildTable(data: Array<Dict<string>>): DataTable {
+  override buildTable(data: Array<Dict<string>>): DataTable {
     return {
       head: [
         // { text: '', classes: 'dpr-row-section-header' },

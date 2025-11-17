@@ -328,7 +328,7 @@ class SectionedDataTableBuilder extends DataTableBuilder {
     return tableContent
   }
 
-  buildTable(data: Array<Dict<string>>): DataTable {
+  override buildTable(data: Array<Dict<string>>): DataTable {
     return {
       head: null,
       rows: this.mapSectionedData(data, this.mapHeader(true, 'govuk-table__header')),

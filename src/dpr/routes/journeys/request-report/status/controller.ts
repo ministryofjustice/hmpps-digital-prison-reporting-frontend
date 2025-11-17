@@ -31,7 +31,7 @@ class RequestStatusController {
     } catch (error) {
       req.body.title = 'Failed to retrieve report status'
       req.body.errorDescription = 'We were unable to retrieve the report status:'
-      req.body.error = new ErrorHandler(error)
+      req.body.error = new ErrorHandler(error).formatError()
       next()
     }
   }
@@ -57,7 +57,7 @@ class RequestStatusController {
     } catch (error) {
       req.body.title = 'Failed to abort request'
       req.body.errorDescription = 'We were unable to abort the report request for the following reason:'
-      req.body.error = new ErrorHandler(error)
+      req.body.error = new ErrorHandler(error).formatError()
       next()
     }
   }

@@ -250,7 +250,7 @@ const orderFilters = (filterValues: FilterValue[]) => {
   const noIndexFilters = filterValues.filter((f) => f.index === undefined)
   const indexFilters = filterValues.filter((f) => f.index !== undefined)
   indexFilters.forEach((f) => {
-    if (f.index) noIndexFilters.splice(f.index, 0, f)
+    if (f.index !== undefined) noIndexFilters.splice(f.index, 0, f)
   })
   return noIndexFilters
 }

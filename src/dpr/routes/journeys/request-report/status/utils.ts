@@ -9,6 +9,7 @@ export const renderPolling = async ({ req, res, services }: AsyncReportUtilsPara
   const requestReportData = await services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
 
   const title = `${type.charAt(0).toUpperCase() + type.substring(1).toLowerCase()} request status`
+  const errorMessage = requestReportData?.errorMessage ? JSON.parse(requestReportData?.errorMessage) : undefined
 
   return {
     title,
@@ -29,7 +30,7 @@ export const renderPolling = async ({ req, res, services }: AsyncReportUtilsPara
       csrfToken,
       ...(requestReportData?.url?.report?.fullUrl && { reportUrl: requestReportData.url.report.fullUrl }),
       ...(requestReportData?.url?.request?.fullUrl && { requestUrl: requestReportData.url.request.fullUrl }),
-      ...(requestReportData?.errorMessage && { errorMessage: requestReportData.errorMessage }),
+      ...(errorMessage && { errorMessage }),
     },
   }
 }

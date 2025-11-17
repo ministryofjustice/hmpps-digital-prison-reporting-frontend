@@ -67,7 +67,9 @@ context('Request status', () => {
           .toDate()
         setRedisState(newState)
       })
-      cy.findByText(/Request taking too long/).should('be.visible')
+      cy.findAllByText(/Request taking too long/)
+        .eq(0)
+        .should('be.visible')
       checkA11y()
     })
 

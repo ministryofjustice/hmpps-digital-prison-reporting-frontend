@@ -26,7 +26,7 @@ class ViewSyncReportController {
     } catch (error) {
       req.body.title = `Report Failed`
       req.body.errorDescription = 'We were unable to show this report for the following reason:'
-      req.body.error = new ErrorHandler(error)
+      req.body.error = new ErrorHandler(error).formatError()
       next()
     }
   }
@@ -38,7 +38,7 @@ class ViewSyncReportController {
     } catch (error) {
       req.body = {
         title: 'Failed to save defaults',
-        error: new ErrorHandler(error),
+        error: new ErrorHandler(error).formatError(),
         ...req.body,
       }
       next()
@@ -52,7 +52,7 @@ class ViewSyncReportController {
     } catch (error) {
       req.body = {
         title: 'Failed to remove defaults',
-        error: new ErrorHandler(error),
+        error: new ErrorHandler(error).formatError(),
         ...req.body,
       }
       next()

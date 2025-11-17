@@ -102,9 +102,11 @@ const getDefaultValues = async (
     })
     .filter((c) => c !== undefined)
 
-  return defaultValuesConfig.filter((defaultValue) => {
+  const result = defaultValuesConfig.filter((defaultValue) => {
     return defaultValue ? defaultValue.value !== '' : false
   })
+
+  return result
 }
 
 export const setFilterValuesFromSavedDefaults = (

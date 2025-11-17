@@ -35,7 +35,7 @@ class AsyncController {
     } catch (error) {
       req.body = {
         title: 'Failed to save defaults',
-        error: new ErrorHandler(error),
+        error: new ErrorHandler(error).formatError(),
         ...req.body,
       }
       next()
@@ -49,7 +49,7 @@ class AsyncController {
     } catch (error) {
       req.body = {
         title: 'Failed to remove defaults',
-        error: new ErrorHandler(error),
+        error: new ErrorHandler(error).formatError(),
         ...req.body,
       }
       next()

@@ -27,7 +27,7 @@ class ViewAsyncDashboardController {
         ...renderData,
       })
     } catch (error) {
-      const dprError = new ErrorHandler(error)
+      const dprError = new ErrorHandler(error).formatError()
       let refreshLink
       if (dprError.status === 'EXPIRED') {
         const { dprUser } = LocalsHelper.getValues(res)

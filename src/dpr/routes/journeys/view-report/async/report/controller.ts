@@ -27,7 +27,7 @@ class ViewAyncReportController {
         ...renderData,
       })
     } catch (error) {
-      const dprError = new ErrorHandler(error)
+      const dprError = new ErrorHandler(error).formatError()
       let refreshLink
       const { recentlyViewedService } = this.services
       if (dprError.status === 'EXPIRED' && recentlyViewedService) {

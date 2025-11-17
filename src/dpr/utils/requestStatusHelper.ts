@@ -121,11 +121,10 @@ export const getStatus = async ({
 
     if (status === RequestStatus.FAILED) {
       logger.error(`Error: ${JSON.stringify(statusResponse.error)}`)
-      errorMessage = new ErrorHandler(statusResponse.error)
+      errorMessage = new ErrorHandler(statusResponse.error).formatError()
     }
   } catch (error) {
-    logger.error(`Error: ${JSON.stringify(error)}`)
-    errorMessage = new ErrorHandler(error)
+    errorMessage = new ErrorHandler(error).formatError()
     status = currentStatus === RequestStatus.FINISHED ? RequestStatus.EXPIRED : RequestStatus.FAILED
   }
 
@@ -158,7 +157,7 @@ export const getExpiredStatus = async ({ req, res, services }: { req: Request; r
     const statusData = await getStatusByReportType(services, req, res, token, dprUser.id)
     status = <RequestStatus>statusData.status
   } catch (error) {
-    errorMessage = new ErrorHandler(error)
+    errorMessage = new ErrorHandler(error).formatError()
     status =
       currentStatus === RequestStatus.READY || currentStatus === RequestStatus.FINISHED
         ? RequestStatus.EXPIRED

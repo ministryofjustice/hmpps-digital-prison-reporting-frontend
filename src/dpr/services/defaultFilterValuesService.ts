@@ -28,10 +28,10 @@ class DefaultFilterValuesService extends ReportStoreService {
     }
 
     const defaultValuesIndex = await this.getIndex(userId, reportId, id)
-    if (userConfig.defaultFilters) {
+    if (userConfig.defaultFilters !== undefined) {
       if (defaultValuesIndex === -1) {
         userConfig.defaultFilters.push(defaults)
-      } else if (defaultValuesIndex) {
+      } else if (typeof defaultValuesIndex === 'number') {
         userConfig.defaultFilters[defaultValuesIndex] = defaults
       }
       await this.saveState(userId, userConfig)
@@ -62,7 +62,7 @@ class DefaultFilterValuesService extends ReportStoreService {
   async delete(userId: string, reportId: string, id: string, type: FiltersType) {
     const userConfig = await this.getState(userId)
     const index = await this.getIndex(userId, reportId, id)
-    if (index && index !== -1 && userConfig.defaultFilters) {
+    if (index !== undefined && index !== -1 && userConfig.defaultFilters) {
       const defaults = userConfig.defaultFilters[index]
       if (defaults.values.length > 0) {
         const updatedValues = defaults.values.filter((value) => {

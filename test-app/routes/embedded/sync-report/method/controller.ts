@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import { renderListWithDefinition } from '../../../../../dist/dpr/components/report-list/utils'
-import { RenderListWithDefinitionInput } from '../../../../../dist-docs/dpr/components/report-list/types'
+import { RenderListWithDefinitionInput } from '../../../../../dist/dpr/components/report-list/types'
 
 export default class SyncReportByMethodController {
   GET: RequestHandler = async (req, res, next) => {

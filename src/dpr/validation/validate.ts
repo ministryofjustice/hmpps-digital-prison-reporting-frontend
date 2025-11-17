@@ -10,9 +10,9 @@ export const validate =
     }
 
     const errors = Object.entries(z.flattenError(result.error).fieldErrors).map(
-      ([fieldName, err]: [string, string | string[]]) => ({
+      ([fieldName, err]: [string, unknown]) => ({
         href: `#${fieldName}`,
-        text: err[0],
+        text: Array.isArray(err) ? err[0] : err,
       }),
     )
     req.flash(`DPR_ERRORS`, JSON.stringify(errors))

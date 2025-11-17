@@ -179,13 +179,13 @@ const initEstablishments = (baseData, establishmentId, timestamp) => {
  * @param {*} filter
  * @return {*}
  */
-const generateFieldValuesWithCountData = (data, field, values, filter) => {
+const generateFieldValuesWithCountData = (data, fields, values, filter) => {
   return data.flatMap((d) => {
     const total = +d.count.raw
     const totals = splitIntoRandomValues(total, values[0].length)
 
     const fieldData = []
-    field.forEach((field, index) => {
+    fields.forEach((field, index) => {
       return values[index].forEach((value, index) => {
         fieldData[index] = {
           ...fieldData[index],
@@ -194,17 +194,25 @@ const generateFieldValuesWithCountData = (data, field, values, filter) => {
       })
     })
 
-    return fieldData
-      .map((data, index) => {
-        return {
-          ...d,
-          ...data,
-          count: { raw: `${totals[index]}` },
-        }
+    let fieldDataWithCount = fieldData.map((data, index) => {
+      const item = {
+        ...d,
+        ...data,
+        count: { raw: `${totals[index]}` },
+      }
+
+      return item
+    })
+
+    if (filter) {
+      fieldDataWithCount = fieldDataWithCount.filter((d) => {
+        return fields.some((field) => {
+          return d[field] && d[field].raw === filter
+        })
       })
-      .filter((d) => {
-        return !filter || (filter && d[field].raw === filter)
-      })
+    }
+
+    return fieldDataWithCount
   })
 }
 

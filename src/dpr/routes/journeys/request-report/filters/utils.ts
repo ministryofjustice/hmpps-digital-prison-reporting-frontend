@@ -333,7 +333,12 @@ export const renderRequest = async ({
   res,
   services,
   next,
-}: AsyncReportUtilsParams): Promise<RequestDataResult | boolean> => {
+}: {
+  req: Request
+  res: Response
+  next: NextFunction
+  services: Services
+}): Promise<RequestDataResult | boolean> => {
   try {
     const { token, csrfToken, definitionsPath: definitionPath, dpdPathFromQuery, dprUser } = LocalsHelper.getValues(res)
     const { reportId, type, id } = req.params

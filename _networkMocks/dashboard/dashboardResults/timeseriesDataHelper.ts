@@ -179,12 +179,12 @@ export const generateFieldValuesWithCountData = (
   fields: string[],
   values: string[][],
   filter?: string,
-) => {
+): DashboardDataResponse[] => {
   return reportData.flatMap((d) => {
     const total = d.count.raw ? Number(d.count.raw) : 0
     const totals = splitIntoRandomValues(total, values[0].length)
 
-    const fieldData = []
+    const fieldData: DashboardDataResponse[] = []
     fields.forEach((field: string, fieldIndex: number) => {
       return values[fieldIndex].forEach((value: string, index: number) => {
         fieldData[index] = {
@@ -194,17 +194,21 @@ export const generateFieldValuesWithCountData = (
       })
     })
 
-    return fieldData
-      .map((data, index) => {
-        return {
-          ...d,
-          ...data,
-          count: { raw: `${totals[index]}` },
-        }
+    let fieldDataWithCount = fieldData.map((data, index) => {
+      return {
+        ...d,
+        ...data,
+        count: { raw: `${totals[index]}` },
+      }
+    })
+
+    if (filter) {
+      fieldDataWithCount = fieldDataWithCount.filter((data: DashboardDataResponse) => {
+        return fields.some((field) => data[field] && data[field].raw === filter)
       })
-      .filter((data) => {
-        return !filter || (filter && data[fields].raw === filter)
-      })
+    }
+
+    return fieldDataWithCount
   })
 }
 

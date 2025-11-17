@@ -6,6 +6,7 @@ interface DprErrorMessage {
   developerMessage?: string
   stack?: string
   moreInfo?: string
+  status?: string | number
 }
 
 interface DprErrorData {

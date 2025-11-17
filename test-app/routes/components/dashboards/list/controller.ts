@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 
 export default class DashboardListController {
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     res.render('views/pages/components/dashboards/list/view.njk', {
       title: 'List visualisation',
       data: {

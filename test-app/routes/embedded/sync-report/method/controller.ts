@@ -8,7 +8,7 @@ export default class SyncReportByMethodController {
       title: 'Method',
       definitionName: 'test-report',
       variantName: 'test-variant',
-      apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
+      apiUrl: `http://localhost:${Number(process.env['PORT']) || 3010}`,
       layoutTemplate: 'views/page.njk',
       dynamicAutocompleteEndpoint: '/dynamic-values/{fieldName}?prefix={prefix}',
       otherOptions: {

@@ -32,7 +32,7 @@ class ViewAsyncDashboardController {
       if (dprError.status === 'EXPIRED') {
         const { dprUser } = LocalsHelper.getValues(res)
         refreshLink = await this.services.recentlyViewedService.asyncSetToExpiredByTableId(
-          req.params.tableId,
+          req.params['tableId'],
           dprUser.id,
         )
       }
@@ -45,7 +45,7 @@ class ViewAsyncDashboardController {
     }
   }
 
-  applyFilters: RequestHandler = async (req, res, next) => {
+  applyFilters: RequestHandler = async (req, res, _next) => {
     await ViewReportUtils.applyDashboardInteractiveQuery(req, res, this.services, 'filters')
   }
 }

@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 
 export default class ChartsController {
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res, _next) => {
     res.render('views/pages/menu.njk', {
       title: 'Charts',
       caption: 'Dashboard',

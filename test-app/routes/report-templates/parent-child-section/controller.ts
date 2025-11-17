@@ -1,9 +1,12 @@
 import { RequestHandler } from 'express'
+import { MoJTableHead } from 'src/dpr/components/_dashboards/dashboard-visualisation/types'
+import { FilterValue, SelectedFilter } from 'src/dpr/components/_filters/types'
+import { ReportAction } from 'src/dpr/components/_reports/report-actions/types'
 
 export default class ParentChildSectionTemplateController {
   layoutPath = ''
 
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     const reportData = {
       columns: {
         name: 'columns',
@@ -23,8 +26,8 @@ export default class ParentChildSectionTemplateController {
         value: ['field1', 'childKey'],
       },
       filterData: {
-        filters: [],
-        selectedFilters: [],
+        filters: <FilterValue[]>[],
+        selectedFilters: <SelectedFilter[]>[],
       },
       count: 100,
       csrfToken: 'csrfToken',
@@ -32,7 +35,7 @@ export default class ParentChildSectionTemplateController {
       template: 'parent-child-section',
       loadType: 'async',
       type: 'report',
-      actions: [],
+      actions: <ReportAction[]>[],
       canDownload: false,
       printable: true,
       reportName: 'D Test Report',
@@ -43,7 +46,7 @@ export default class ParentChildSectionTemplateController {
       tableId: 'tblId_1747313592802',
       id: 'variantId-27',
       executionId: 'exId_1747313592802',
-      querySummary: [],
+      querySummary: <Record<string, string>[]>[],
       requestUrl: {
         fullUrl: 'http://localhost:3010/async/report/test-report-4/variantId-27/request',
         pathname: '/async/report/test-report-4/variantId-27/request',
@@ -56,7 +59,7 @@ export default class ParentChildSectionTemplateController {
       pathname: '/async/report/test-report-4/variantId-27/request/tblId_1747313592802/report',
       dataTable: [
         {
-          head: null,
+          head: <MoJTableHead[]>null,
           rows: [
             [
               {

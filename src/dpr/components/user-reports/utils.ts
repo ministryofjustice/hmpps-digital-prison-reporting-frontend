@@ -308,17 +308,7 @@ export const updateExpiredStatus = async ({ req, res, services }: AsyncReportUti
   return report ? report.isExpired : false
 }
 
-export const init = async ({
-  services,
-  res,
-  req,
-  maxRows = 6,
-}: {
-  services: Services
-  res: Response
-  req: Request
-  maxRows?: number
-}) => {
+export const init = async ({ services, res, maxRows = 6 }: { services: Services; res: Response; maxRows?: number }) => {
   const { requestedReports, recentlyViewedReports, bookmarkingEnabled } = LocalsHelper.getValues(res)
   const requestedReportsList = await renderList({
     res,
@@ -339,7 +329,6 @@ export const init = async ({
   if (bookmarkingEnabled) {
     bookmarks = await BookmarklistUtils.renderBookmarkList({
       res,
-      req,
       services,
       maxRows,
     })
@@ -370,7 +359,7 @@ export const updateLastViewed = async ({
   const executionData = { executionId, tableId }
   const queryData = query ? { query: query.data, querySummary: query.summary } : { query: {}, querySummary: [] }
 
-  const columns = <string[]>req.query?.columns
+  const columns = <string[]>req.query?.['columns']
   const { selectedPage, pageSize, sortColumn, sortedAsc } = <Dict<string>>req.query
   const filtersQuery = FiltersUtils.setRequestQueryFromFilterValues(filters)
   const reqQuery = {

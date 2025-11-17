@@ -1,13 +1,16 @@
 import { RequestHandler } from 'express'
+import { MoJTableHead, MoJTableRow } from 'src/dpr/components/_dashboards/dashboard-visualisation/types'
+import { FilterValue, SelectedFilter } from 'src/dpr/components/_filters/types'
+import { ReportAction } from 'src/dpr/components/_reports/report-actions/types'
 
 export default class SummaryTemplateController {
   layoutPath = ''
 
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     const reportData = {
       filterData: {
-        filters: [],
-        selectedFilters: [],
+        filters: <FilterValue[]>[],
+        selectedFilters: <SelectedFilter[]>[],
       },
       count: 100,
       csrfToken: 'csrfToken',
@@ -15,7 +18,7 @@ export default class SummaryTemplateController {
       template: 'summary',
       loadType: 'async',
       type: 'report',
-      actions: [],
+      actions: <ReportAction[]>[],
       canDownload: false,
       printable: true,
       reportName: 'C Test Report',
@@ -26,15 +29,13 @@ export default class SummaryTemplateController {
       tableId: 'tblId_1747314039609',
       id: 'variantId-28',
       executionId: 'exId_1747314039609',
-      querySummary: [],
+      querySummary: <Record<string, string>[]>[],
       requestUrl: {
         fullUrl: 'http://localhost:3010/async/report/test-report-3/variantId-28/request',
         pathname: '/async/report/test-report-3/variantId-28/request',
         search: '',
       },
       reportUrl: '/async/report/test-report-3/variantId-28/request/tblId_1747314039609/report',
-      reportSearch: null,
-      search: null,
       pathname: '/async/report/test-report-3/variantId-28/request/tblId_1747314039609/report',
       reportSummaries: {
         'page-header': [
@@ -42,7 +43,6 @@ export default class SummaryTemplateController {
             head: [
               {
                 text: 'Total',
-                classes: null,
               },
             ],
             rows: [
@@ -62,15 +62,12 @@ export default class SummaryTemplateController {
             head: [
               {
                 text: 'Good (%)',
-                classes: null,
               },
               {
                 text: 'Bad (%)',
-                classes: null,
               },
               {
                 text: 'Ugly (%)',
-                classes: null,
               },
             ],
             rows: [
@@ -102,8 +99,8 @@ export default class SummaryTemplateController {
       },
       dataTable: [
         {
-          head: [],
-          rows: [],
+          head: <MoJTableHead[]>[],
+          rows: <MoJTableRow[]>[],
           rowCount: 20,
           colCount: 0,
         },

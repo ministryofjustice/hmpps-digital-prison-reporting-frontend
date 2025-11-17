@@ -56,7 +56,7 @@ class RequestDownloadController {
     }
   }
 
-  POST: RequestHandler = async (req, res, next) => {
+  POST: RequestHandler = async (req, res, _next) => {
     const { body, baseUrl } = req
     const { reportName, variantName, reportUrl, reportSearch } = body
     logger.info('Download Feedback Submission:', `${JSON.stringify(body)}`)

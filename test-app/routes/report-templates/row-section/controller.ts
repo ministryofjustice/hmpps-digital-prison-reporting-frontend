@@ -1,13 +1,16 @@
 import { RequestHandler } from 'express'
+import { MoJTableHead } from 'src/dpr/components/_dashboards/dashboard-visualisation/types'
+import { FilterValue, SelectedFilter } from 'src/dpr/components/_filters/types'
+import { ReportAction } from 'src/dpr/components/_reports/report-actions/types'
 
 export default class RowSectionTemplateController {
   layoutPath = ''
 
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     const reportData = {
       filterData: {
-        filters: [],
-        selectedFilters: [],
+        filters: <FilterValue[]>[],
+        selectedFilters: <SelectedFilter[]>[],
       },
       count: 100,
       csrfToken: 'csrfToken',
@@ -15,7 +18,7 @@ export default class RowSectionTemplateController {
       template: 'row-section',
       loadType: 'async',
       type: 'report',
-      actions: [],
+      actions: <ReportAction[]>[],
       canDownload: false,
       printable: true,
       reportName: 'C Test Report',
@@ -26,19 +29,17 @@ export default class RowSectionTemplateController {
       tableId: 'tblId_1749033959282',
       id: 'variantId-30-row-section',
       executionId: 'exId_1749033959282',
-      querySummary: [],
+      querySummary: <Record<string, string>[]>[],
       requestUrl: {
         fullUrl: 'http://localhost:3010/async/report/test-report-3/variantId-30-row-section/request',
         pathname: '/async/report/test-report-3/variantId-30-row-section/request',
         search: '',
       },
       reportUrl: '/async/report/test-report-3/variantId-30-row-section/request/tblId_1749033959282/report',
-      reportSearch: null,
-      search: null,
       pathname: '/async/report/test-report-3/variantId-30-row-section/request/tblId_1749033959282/report',
       dataTable: [
         {
-          head: [],
+          head: <MoJTableHead[]>[],
           rows: [
             [
               {

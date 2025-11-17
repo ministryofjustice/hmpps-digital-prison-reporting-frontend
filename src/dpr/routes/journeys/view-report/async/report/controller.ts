@@ -32,7 +32,7 @@ class ViewAyncReportController {
       const { recentlyViewedService } = this.services
       if (dprError.status === 'EXPIRED' && recentlyViewedService) {
         const { dprUser } = LocalsHelper.getValues(res)
-        refreshLink = await recentlyViewedService.asyncSetToExpiredByTableId(req.params.tableId, dprUser.id)
+        refreshLink = await recentlyViewedService.asyncSetToExpiredByTableId(req.params['tableId'], dprUser.id)
       }
       req.body.title = `Failed to retrieve ${type}`
       req.body.error = dprError
@@ -43,11 +43,11 @@ class ViewAyncReportController {
     }
   }
 
-  applyFilters: RequestHandler = async (req, res, next) => {
+  applyFilters: RequestHandler = async (req, res, _next) => {
     await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'filters')
   }
 
-  applyColumns: RequestHandler = async (req, res, next) => {
+  applyColumns: RequestHandler = async (req, res, _next) => {
     await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'columns')
   }
 }

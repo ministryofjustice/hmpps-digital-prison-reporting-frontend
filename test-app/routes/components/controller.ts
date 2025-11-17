@@ -3,7 +3,7 @@ import { RequestHandler } from 'express'
 export default class ComponentsController {
   layoutPath = ''
 
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     res.render('views/pages/menu.njk', {
       title: 'Components',
       caption: 'HMPPS Data Hub frontend test site',

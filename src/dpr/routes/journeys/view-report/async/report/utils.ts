@@ -106,12 +106,12 @@ const initReportQuery = async (
   })
 
   // Sort
-  const sortColumn = req.query?.sortColumn || requestData?.query?.data?.sortColumn
-  const sortedAsc = req.query?.sortedAsc || requestData?.query?.data?.sortedAsc
+  const sortColumn = req.query?.['sortColumn'] || requestData?.query?.data?.['sortColumn']
+  const sortedAsc = req.query?.['sortedAsc'] || requestData?.query?.data?.['sortedAsc']
 
   // Pagination
-  const selectedPage = req.query?.selectedPage
-  const pageSize = req.query?.pageSize
+  const selectedPage = req.query?.['selectedPage']
+  const pageSize = req.query?.['pageSize']
 
   // Filters
   const filtersQuery = ReportFiltersUtils.setRequestQueryFromFilterValues(filtersData.filters)
@@ -523,8 +523,8 @@ const setActions = (
       currentUrl: urls.pathname,
       currentQueryParams: urls.reportSearch,
       ...(requestData?.queryData && {
-        sortColumn: <string>requestData.queryData.sortColumn,
-        sortedAsc: <string>requestData.queryData.sortedAsc,
+        sortColumn: <string>requestData.queryData['sortColumn'],
+        sortedAsc: <string>requestData.queryData['sortedAsc'],
       }),
     }
   }

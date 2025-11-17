@@ -1,5 +1,5 @@
 import { expect, jest } from '@jest/globals'
-import { Response, Request } from 'express'
+import { Response } from 'express'
 import { Services } from '../../../types/Services'
 import BookmarkUtils from './utils'
 import type BookmarkService from '../../../routes/journeys/my-reports/bookmarks/service'
@@ -12,7 +12,6 @@ import dashboardDefinitions from '../../../../../test-app/mocks/mockClients/dash
 describe('BookmarkUtils', () => {
   let services: Services
   let res: Response
-  let req: Request
   let bookmarkService: BookmarkService
   let reportingService: ReportingService
   let dashboardService: DashboardService
@@ -30,10 +29,6 @@ describe('BookmarkUtils', () => {
           bookmarks: [{ reportId: 'test-report-1', variantId: 'test-variant-1' }],
         },
       } as unknown as Response
-
-      req = {
-        query: {},
-      } as unknown as Request
 
       bookmarkService = {
         getAllBookmarks: jest.fn().mockReturnValueOnce([{ reportId: 'test-report-1', variantId: 'test-variant-1' }]),
@@ -76,7 +71,6 @@ describe('BookmarkUtils', () => {
         services,
         maxRows: 10,
         res,
-        req,
       })
 
       expect(result.tableData.rows.length).toEqual(1)

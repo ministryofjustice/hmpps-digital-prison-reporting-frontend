@@ -13,7 +13,7 @@ export const getDatasetRows = (
   const filterColIds = filters?.map((col) => col.id) || []
   const hasOptionalKeys = keys?.some((key) => key.optional)
 
-  if (dashboardData.length && dashboardData[0].ts) keyColumnsIds.unshift('ts')
+  if (dashboardData.length && dashboardData[0]['ts']) keyColumnsIds.unshift('ts')
 
   const filtered = dashboardData.filter((datasetRow: DashboardDataResponse) => {
     const validRow: boolean[] = []
@@ -58,10 +58,7 @@ export const getDatasetRows = (
   return filtered
 }
 
-export const getKeyVariations = (
-  dashboardData: DashboardDataResponse[],
-  keys: Array<components['schemas']['DashboardVisualisationColumnDefinition']>,
-) => {
+export const getKeyVariations = (keys: Array<components['schemas']['DashboardVisualisationColumnDefinition']>) => {
   const colIdVariations: string[][] = []
   const keyColumnsIds = keys.map((col) => col.id)
   const allOptional = keys.every((key) => key.optional)
@@ -116,7 +113,7 @@ export const filterKeys = (
   dashboardData: DashboardDataResponse[],
   keys: Array<components['schemas']['DashboardVisualisationColumnDefinition']>,
 ) => {
-  const colIdVariations = getKeyVariations(dashboardData, keys)
+  const colIdVariations = getKeyVariations(keys)
   const validHeadIds = getKeyIds(dashboardData, colIdVariations)
 
   return dashboardData.filter((datasetRow: DashboardDataResponse) => {
@@ -135,25 +132,25 @@ export const filterKeys = (
 }
 
 export const getLastestDataset = (dashboardData: DashboardDataResponse[]): DashboardDataResponse[] => {
-  const latestTimestamp = dashboardData[dashboardData.length - 1]?.ts?.raw
+  const latestTimestamp = dashboardData[dashboardData.length - 1]?.['ts']?.raw
   if (latestTimestamp) {
-    return dashboardData.filter((data) => data.ts.raw === latestTimestamp)
+    return dashboardData.filter((data) => data['ts'].raw === latestTimestamp)
   }
   return dashboardData
 }
 
 export const getEarliestDataset = (dashboardData: DashboardDataResponse[]): DashboardDataResponse[] => {
-  const latestTimestamp = dashboardData[0]?.ts?.raw
+  const latestTimestamp = dashboardData[0]?.['ts']?.raw
   if (latestTimestamp) {
-    return dashboardData.filter((data) => data.ts.raw === latestTimestamp)
+    return dashboardData.filter((data) => data['ts'].raw === latestTimestamp)
   }
   return dashboardData
 }
 
 export const groupRowsByTimestamp = (dashboardData: DashboardDataResponse[]): DashboardDataResponse[][] => {
-  const uniqueTimestamps = [...new Set(dashboardData.map((item) => item.ts.raw))]
+  const uniqueTimestamps = [...new Set(dashboardData.map((item) => item['ts'].raw))]
   return uniqueTimestamps.map((ts) => {
-    return dashboardData.filter((d) => d.ts.raw === ts)
+    return dashboardData.filter((d) => d['ts'].raw === ts)
   })
 }
 

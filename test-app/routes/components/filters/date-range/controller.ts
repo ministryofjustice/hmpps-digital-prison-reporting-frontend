@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 
 export default class DateRangeController {
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     res.render('views/pages/menu.njk', {
       title: 'Date range component variants',
       caption: 'Components',

@@ -8,6 +8,7 @@ import {
   ShareActionParams,
 } from './types'
 import ReportActionsUtils from './utils'
+import { Columns } from '../report-columns-form/types'
 
 describe('ReportActionsUtils', () => {
   describe('getActions', () => {
@@ -105,7 +106,7 @@ describe('ReportActionsUtils', () => {
             name: 'name',
             id: 'id',
             tableId: 'tableId',
-            columns: [],
+            columns: <Columns[]>[],
             definitionPath: 'definitionPath',
             canDownload: false,
             loadType: 'async',

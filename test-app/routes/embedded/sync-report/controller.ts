@@ -3,7 +3,7 @@ import { RequestHandler } from 'express'
 export default class SyncReportController {
   layoutPath = ''
 
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res, _next) => {
     res.render('views/pages/menu.njk', {
       title: 'Synchronous reports',
       caption: 'HMPPS Data Hub frontend test site',

@@ -20,6 +20,7 @@ import variant2 = require('../../../../../test-app/mocks/mockClients/reports/moc
 import variant26 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/report-templates/parent-child')
 import { ChildData } from '../../../utils/ParentChildDataTableBuilder/types'
 import variant10 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/report-templates/list-section-wtih-summaries')
+import { MoJTableHead } from '../../_dashboards/dashboard-visualisation/types'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
@@ -271,7 +272,7 @@ describe('AsyncReportListUtils', () => {
 
       const expectedTable = [
         {
-          head: null,
+          head: <MoJTableHead | null>null,
           rows: [
             [
               {
@@ -523,7 +524,7 @@ describe('AsyncReportListUtils', () => {
       const expectedTable = [
         {
           colCount: 1,
-          head: null,
+          head: <MoJTableHead | null>null,
           rowCount: 5,
           rows: [
             [{ classes: 'govuk-table__header', text: 'Second' }],

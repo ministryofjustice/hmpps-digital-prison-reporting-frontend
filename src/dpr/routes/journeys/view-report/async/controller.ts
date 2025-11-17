@@ -15,7 +15,7 @@ class AsyncController {
     this.services = services
   }
 
-  POST: RequestHandler = async (req, res, next) => {
+  POST: RequestHandler = async (req, res, _next) => {
     try {
       const response = await UserReportsListUtils.updateExpiredStatus({
         req,

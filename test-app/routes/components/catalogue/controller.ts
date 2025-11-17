@@ -3,7 +3,7 @@ import { RequestHandler } from 'express'
 export default class CatalogueController {
   layoutPath = ''
 
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     res.render('views/pages/menu.njk', {
       title: 'Catalogue variants',
       caption: 'Components',

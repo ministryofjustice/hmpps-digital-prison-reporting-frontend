@@ -184,7 +184,7 @@ export const renderListWithData = async ({
     fields,
     template: template as Template,
     queryParams: request.query,
-    definitionsPath: <string>request.query.dataProductDefinitionsPath,
+    definitionsPath: <string>request.query['dataProductDefinitionsPath'],
   })
 
   const listData = getListDataSources(reportQuery)

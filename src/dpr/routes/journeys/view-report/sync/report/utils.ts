@@ -157,7 +157,7 @@ export const getReportData = async ({
 export const getReport = async ({ req, res, services }: { req: Request; res: Response; services: Services }) => {
   const { token, csrfToken, dprUser } = LocalsHelper.getValues(res)
   const { reportId, id } = req.params
-  const dataProductDefinitionsPath = <string>req.query.dataProductDefinitionsPath
+  const dataProductDefinitionsPath = <string>req.query['dataProductDefinitionsPath']
 
   const { reportData, reportDefinition, reportQuery } = await getReportData({
     services,

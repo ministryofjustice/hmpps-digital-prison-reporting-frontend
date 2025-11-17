@@ -27,7 +27,6 @@ import createUrlForParameters from '../../utils/urlHelper'
 import { Services } from '../../types/Services'
 import { FiltersType } from './filtersTypeEnum'
 import LocalsHelper from '../../utils/localsHelper'
-import { defaultFilterValue } from '../../utils/Personalisation/types'
 
 /**
  * Given a FilterValue[], will update the values to match the req.query values if present

@@ -18,14 +18,14 @@ export const automaticBookmarkConfig = {
 }
 
 export default function setUpBookmarks(services: Services): RequestHandler {
-  return async (req, res, next) => {
+  return async (_req, res, next) => {
     try {
-      const bookmarks: BookmarkStoreData[] = await services.bookmarkService.getAllBookmarks(res.locals.dprUser.id)
-      if (res.locals.dprUser && (!bookmarks || bookmarks.length === 0)) {
-        const { id, activeCaseLoadId } = res.locals.dprUser
+      const bookmarks: BookmarkStoreData[] = await services.bookmarkService.getAllBookmarks(res.locals['dprUser'].id)
+      if (res.locals['dprUser'] && (!bookmarks || bookmarks.length === 0)) {
+        const { id, activeCaseLoadId } = res.locals['dprUser']
         // Hardcoded config just for test purposes
 
-        logger.info(` Initialising bookmarks for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
+        logger.info(` Initialising bookmarks for user: ${res.locals['dprUser'] && JSON.stringify(res.locals['dprUser'])}`)
 
         await BookmarkUtils.preBookmarkReportsByRoleId(
           id,
@@ -33,12 +33,12 @@ export default function setUpBookmarks(services: Services): RequestHandler {
           services,
           automaticBookmarkConfig.caseloads,
         )
-        logger.info(`Initialised bookmarks for user: ${res.locals.dprUser && JSON.stringify(res.locals.dprUser)}`)
+        logger.info(`Initialised bookmarks for user: ${res.locals['dprUser'] && JSON.stringify(res.locals['dprUser'])}`)
       }
-      res.locals.bookmarksInitialised = true
+      res.locals['bookmarksInitialised'] = true
       return next()
     } catch (error) {
-      logger.error(error, `Failed to initialise bookmarks : ${res.locals.dprUser && res.locals.dprUser.displayName}`)
+      logger.error(error, `Failed to initialise bookmarks : ${res.locals['dprUser'] && res.locals['dprUser'].displayName}`)
       return next(error)
     }
   }

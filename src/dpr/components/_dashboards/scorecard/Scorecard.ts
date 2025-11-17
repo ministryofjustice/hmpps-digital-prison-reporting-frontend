@@ -78,12 +78,12 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
   ): ScorecardDataset => {
     const latestData = DatasetHelper.getLastestDataset(rawData)
     const latestDataSetRows = DatasetHelper.getDatasetRows(scorecardDefinition, latestData)
-    const latestTs = latestDataSetRows[0]?.ts?.raw
+    const latestTs = latestDataSetRows[0]?.['ts']?.raw
     const latestFiltered = DatasetHelper.filterRowsByDisplayColumns(scorecardDefinition, latestDataSetRows, true)
 
     const earliestData = DatasetHelper.getEarliestDataset(rawData)
     const earliestDataSetRows = DatasetHelper.getDatasetRows(scorecardDefinition, earliestData)
-    const earliestTs = earliestDataSetRows[0]?.ts?.raw
+    const earliestTs = earliestDataSetRows[0]?.['ts']?.raw
     const earliestfiltered = DatasetHelper.filterRowsByDisplayColumns(scorecardDefinition, earliestDataSetRows, true)
 
     return {

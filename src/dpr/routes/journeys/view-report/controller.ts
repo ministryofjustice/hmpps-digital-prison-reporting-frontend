@@ -12,7 +12,7 @@ class ViewReportController {
     this.services = services
   }
 
-  errorHandler: RequestHandler = async (req, res, next) => {
+  errorHandler: RequestHandler = async (req, res, _next) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
 
     res.render(`dpr/routes/journeys/view-report/error`, {

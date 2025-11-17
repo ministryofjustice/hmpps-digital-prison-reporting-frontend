@@ -47,7 +47,7 @@ class ParentChildDataTableBuilder extends SectionedDataTableBuilder {
 
       let parentSectionData: Dict<string>[] = []
       if (sectionData) {
-        parentSectionData = sectionData.parent ? sectionData.parent : []
+        parentSectionData = sectionData['parent'] ? sectionData['parent'] : []
       }
 
       return [header].concat(parentSectionData.map((r) => this.mapRow(r, 'dpr-parent-cell'))).concat(
@@ -161,7 +161,7 @@ class ParentChildDataTableBuilder extends SectionedDataTableBuilder {
   ) {
     return parentData.reduce((previousValue, rowData) => {
       const parentKey: string = this.getSortKey(rowData, joinFields)
-      const previousParentValue = previousValue[parentKey] ? previousValue[parentKey].parent : []
+      const previousParentValue = previousValue[parentKey] ? previousValue[parentKey]['parent'] : []
 
       return {
         ...previousValue,

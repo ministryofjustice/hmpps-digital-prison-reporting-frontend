@@ -24,7 +24,7 @@ class DownloadPermissionService extends ReportStoreService {
     }
   }
 
-  async removeDownloadPermissionData(userId: string, reportId: string, id: string) {
+  async removeDownloadPermissionData(userId: string, id: string) {
     const userConfig = await this.getState(userId)
     const { downloadPermissions } = userConfig
     if (downloadPermissions) {

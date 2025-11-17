@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 
 export default class DateController {
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     res.render('views/pages/components/filters/date/view.njk', {
       title: 'Date input',
       defaultInput: {

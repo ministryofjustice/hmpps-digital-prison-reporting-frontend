@@ -52,7 +52,7 @@ class MissingReportFormController {
     }
   }
 
-  POST: RequestHandler = async (req, res, next) => {
+  POST: RequestHandler = async (req, res, _next) => {
     const { body } = req
     const { reportId, variantId, reportName, variantName, 'more-detail': requestDetails } = body
 

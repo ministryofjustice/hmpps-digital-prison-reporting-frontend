@@ -7,7 +7,7 @@ export default class SyncReportByHandlerController {
     title: 'Handler',
     definitionName: 'test-report',
     variantName: 'test-variant',
-    apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
+    apiUrl: `http://localhost:${Number(process.env['PORT']) || 3010}`,
     layoutTemplate: 'views/page.njk',
     tokenProvider: () => 'token',
     otherOptions: {

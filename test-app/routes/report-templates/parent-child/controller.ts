@@ -1,9 +1,12 @@
 import { RequestHandler } from 'express'
+import { MoJTableHead } from 'src/dpr/components/_dashboards/dashboard-visualisation/types'
+import { FilterValue, SelectedFilter } from 'src/dpr/components/_filters/types'
+import { ReportAction } from 'src/dpr/components/_reports/report-actions/types'
 
 export default class ParentChildTemplateController {
   layoutPath = ''
 
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     const reportData = {
       columns: {
         name: 'columns',
@@ -23,8 +26,8 @@ export default class ParentChildTemplateController {
         value: ['section1', 'field1'],
       },
       filterData: {
-        filters: [],
-        selectedFilters: [],
+        filters: <FilterValue[]>[],
+        selectedFilters: <SelectedFilter[]>[],
       },
       count: 100,
       csrfToken: 'csrfToken',
@@ -32,7 +35,7 @@ export default class ParentChildTemplateController {
       template: 'parent-child',
       loadType: 'async',
       type: 'report',
-      actions: [],
+      actions: <ReportAction[]>[],
       canDownload: false,
       printable: true,
       reportName: 'A Test Report',
@@ -43,19 +46,17 @@ export default class ParentChildTemplateController {
       tableId: 'tblId_1747313850286',
       id: 'variantId-26',
       executionId: 'exId_1747313850286',
-      querySummary: [],
+      querySummary: <Record<string, string>[]>[],
       requestUrl: {
         fullUrl: 'http://localhost:3010/async/report/test-report-1/variantId-26/request',
         pathname: '/async/report/test-report-1/variantId-26/request',
         search: '',
       },
       reportUrl: '/async/report/test-report-1/variantId-26/request/tblId_1747313850286/report',
-      reportSearch: null,
-      search: null,
       pathname: '/async/report/test-report-1/variantId-26/request/tblId_1747313850286/report',
       dataTable: [
         {
-          head: null,
+          head: <MoJTableHead[]>null,
           rows: [
             [
               {

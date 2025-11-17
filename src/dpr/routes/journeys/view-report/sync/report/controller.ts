@@ -59,11 +59,11 @@ class ViewSyncReportController {
     }
   }
 
-  applyFilters: RequestHandler = async (req, res, next) => {
+  applyFilters: RequestHandler = async (req, res, _next) => {
     await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'filters')
   }
 
-  applyColumns: RequestHandler = async (req, res, next) => {
+  applyColumns: RequestHandler = async (req, res, _next) => {
     await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'columns')
   }
 }

@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 
 export default class DateRangeController {
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     const filters = [
       {
         text: 'Relative Date-range',

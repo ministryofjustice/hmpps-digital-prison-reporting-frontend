@@ -61,10 +61,10 @@ const setDashboardActions = (
   return ReportActionsUtils.getActions(actions)
 }
 
-const getDefinitionData = async ({ req, res, services, next }: AsyncReportUtilsParams) => {
+const getDefinitionData = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { token } = LocalsHelper.getValues(res)
   const { reportId, id } = req.params
-  const dataProductDefinitionsPath = <string>req.query.dataProductDefinitionsPath
+  const dataProductDefinitionsPath = <string>req.query['dataProductDefinitionsPath']
 
   // Dashboard Definition,
   const dashboardDefinition: components['schemas']['DashboardDefinition'] =
@@ -194,7 +194,7 @@ const updateStore = async (
   return dashboardRequestData
 }
 
-export const renderAsyncDashboard = async ({ req, res, services, next }: AsyncReportUtilsParams) => {
+export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { token, csrfToken, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
   const { reportId, id, tableId } = req.params
   const { bookmarkService, requestedReportService } = services

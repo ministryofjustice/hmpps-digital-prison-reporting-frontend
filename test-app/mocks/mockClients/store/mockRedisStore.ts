@@ -32,7 +32,7 @@ export const startData = {
     { reportId: 'request-examples', variantId: 'request-example-success' },
     { reportId: 'mock-dashboards', id: 'test-dashboard-8', type: 'dashboard' },
   ],
-  downloads: [],
+  downloads: <string[]>[],
 }
 
 export const MockUserStoreService = class MockUserStoreService {
@@ -42,7 +42,7 @@ export const MockUserStoreService = class MockUserStoreService {
     this.userStore = JSON.stringify(startData)
   }
 
-  async setUserConfig(key: string, config: Record<string, unknown>) {
+  async setUserConfig(_key: string, config: Record<string, unknown>) {
     this.userStore = JSON.stringify(config)
     return Promise.resolve()
   }

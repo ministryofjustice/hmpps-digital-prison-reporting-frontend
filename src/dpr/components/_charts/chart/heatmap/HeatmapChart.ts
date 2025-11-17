@@ -4,7 +4,6 @@ import { Granularity } from '../../../_inputs/granular-date-range/types'
 import { DashboardDataResponse } from '../../../../types/Metrics'
 import {
   DashboardVisualisationType,
-  DashboardVisualisationBucket,
   DashboardVisualisationData,
 } from '../../../_dashboards/dashboard-visualisation/types'
 import { MatrixChartData } from './types'
@@ -24,11 +23,7 @@ class HeatmapChart extends DashboardVisualisationClass {
 
   private label = ''
 
-  private buckets: DashboardVisualisationBucket[] = []
-
   private bucketsHelper: Buckets
-
-  private isTimeseriesChart: boolean
 
   constructor(
     responseData: DashboardDataResponse[],
@@ -38,11 +33,9 @@ class HeatmapChart extends DashboardVisualisationClass {
     super(responseData, definition)
 
     this.granularity = granularity
-    this.isTimeseriesChart = <DashboardVisualisationType>this.type === DashboardVisualisationType.LINE_TIMESERIES
     this.setLabel()
     this.initUnit()
     this.bucketsHelper = new Buckets(responseData, this.definition, this.valueKey, true)
-    this.buckets = this.bucketsHelper.getBuckets()
   }
 
   initUnit = () => {
@@ -81,7 +74,7 @@ class HeatmapChart extends DashboardVisualisationClass {
 
     this.data = timeBlockData.map((tsData) => {
       const { raw, rag } = tsData[0][this.valueKey]
-      const tsRaw = tsData[0].ts.raw
+      const tsRaw = tsData[0]['ts'].raw
 
       const v: MatrixChartData['v'] = Number(raw)
       const r: MatrixChartData['r'] = rag !== undefined ? Number(tsData[0][this.valueKey].rag) : undefined

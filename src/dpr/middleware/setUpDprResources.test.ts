@@ -50,8 +50,8 @@ describe('setUpDprResources', () => {
 
       expect(services.requestedReportService.getAllReports).toHaveBeenCalledWith('Uu1d')
       expect(services.recentlyViewedService.getAllReports).toHaveBeenCalledWith('Uu1d')
-      expect(res.locals.bookmarkingEnabled).toBeUndefined()
-      expect(res.locals.downloadingEnabled).toBeUndefined()
+      expect(res.locals['bookmarkingEnabled']).toBeUndefined()
+      expect(res.locals['downloadingEnabled']).toBeUndefined()
     })
 
     it('should get the bookmarks', async () => {
@@ -63,9 +63,9 @@ describe('setUpDprResources', () => {
 
       expect(services.requestedReportService.getAllReports).toHaveBeenCalledWith('Uu1d')
       expect(services.recentlyViewedService.getAllReports).toHaveBeenCalledWith('Uu1d')
-      expect(res.locals.bookmarkingEnabled).toBeTruthy()
+      expect(res.locals['bookmarkingEnabled']).toBeTruthy()
       expect(services.bookmarkService.getAllBookmarks).toHaveBeenCalledWith('Uu1d')
-      expect(res.locals.downloadingEnabled).toBeUndefined()
+      expect(res.locals['downloadingEnabled']).toBeUndefined()
     })
 
     it('should enable downloading', async () => {
@@ -78,9 +78,9 @@ describe('setUpDprResources', () => {
 
       expect(services.requestedReportService.getAllReports).toHaveBeenCalledWith('Uu1d')
       expect(services.recentlyViewedService.getAllReports).toHaveBeenCalledWith('Uu1d')
-      expect(res.locals.bookmarkingEnabled).toBeTruthy()
+      expect(res.locals['bookmarkingEnabled']).toBeTruthy()
       expect(services.bookmarkService.getAllBookmarks).toHaveBeenCalledWith('Uu1d')
-      expect(res.locals.downloadingEnabled).toBeTruthy()
+      expect(res.locals['downloadingEnabled']).toBeTruthy()
     })
   })
 
@@ -130,23 +130,23 @@ describe('setUpDprResources', () => {
       await Middleware.populateDefinitions(services, req, res, {
         dataProductDefinitionsPath: 'dpd/path/from/config',
       })
-      expect(res.locals.dpdPathFromConfig).toBeTruthy()
-      expect(res.locals.dpdPathFromQuery).toBeFalsy()
-      expect(res.locals.definitionsPath).toEqual('dpd/path/from/config')
-      expect(res.locals.pathSuffix).toEqual('?dataProductDefinitionsPath=dpd/path/from/config')
+      expect(res.locals['dpdPathFromConfig']).toBeTruthy()
+      expect(res.locals['dpdPathFromQuery']).toBeFalsy()
+      expect(res.locals['definitionsPath']).toEqual('dpd/path/from/config')
+      expect(res.locals['pathSuffix']).toEqual('?dataProductDefinitionsPath=dpd/path/from/config')
       expect(services.reportingService.getDefinitions).toHaveBeenCalledWith('T0k3n', 'dpd/path/from/config')
     })
 
     it('should get the definitions and override the config DPD path with DPD path from query', async () => {
-      req.query.dataProductDefinitionsPath = 'dpd/path/from/query'
+      req.query['dataProductDefinitionsPath'] = 'dpd/path/from/query'
 
       await Middleware.populateDefinitions(services, req, res, {
         dataProductDefinitionsPath: 'dpd/path/from/config',
       })
-      expect(res.locals.dpdPathFromConfig).toBeTruthy()
-      expect(res.locals.dpdPathFromQuery).toBeTruthy()
-      expect(res.locals.definitionsPath).toEqual('dpd/path/from/query')
-      expect(res.locals.pathSuffix).toEqual('?dataProductDefinitionsPath=dpd/path/from/query')
+      expect(res.locals['dpdPathFromConfig']).toBeTruthy()
+      expect(res.locals['dpdPathFromQuery']).toBeTruthy()
+      expect(res.locals['definitionsPath']).toEqual('dpd/path/from/query')
+      expect(res.locals['pathSuffix']).toEqual('?dataProductDefinitionsPath=dpd/path/from/query')
       expect(services.reportingService.getDefinitions).toHaveBeenCalledWith('T0k3n', 'dpd/path/from/query')
     })
   })

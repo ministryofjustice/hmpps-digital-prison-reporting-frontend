@@ -6,7 +6,7 @@ export default class SyncReportValidationController {
     title: 'Handler',
     definitionName: 'test-report',
     variantName: 'test-validation-variant',
-    apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
+    apiUrl: `http://localhost:${Number(process.env['PORT']) || 3010}`,
     layoutTemplate: 'views/page.njk',
     tokenProvider: () => 'token',
     apiTimeout: 0,

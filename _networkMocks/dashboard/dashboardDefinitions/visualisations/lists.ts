@@ -112,7 +112,7 @@ const dietTotals = {
   display: 'Diet totals',
   description: '',
   columns: {
-    keys: [],
+    keys: <components['schemas']['DashboardVisualisationColumnDefinition'][]>[],
     measures: [
       {
         id: 'diet',
@@ -133,7 +133,7 @@ const dietTotalsWithFilters = {
   display: 'Diet totals filter on vegetarian',
   description: '',
   columns: {
-    keys: [],
+    keys: <components['schemas']['DashboardVisualisationColumnDefinition'][]>[],
     measures: [
       {
         id: 'diet',
@@ -406,7 +406,7 @@ const dietTotalsOverTime = {
   description: '',
   options: { showLatest: false },
   columns: {
-    keys: [],
+    keys: <components['schemas']['DashboardVisualisationColumnDefinition'][]>[],
     measures: [
       {
         id: 'ts',
@@ -534,7 +534,7 @@ const dietTotalsVegetarianOvertime = {
   description: '',
   options: { showLatest: false },
   columns: {
-    keys: [],
+    keys: <components['schemas']['DashboardVisualisationColumnDefinition'][]>[],
     measures: [
       {
         id: 'ts',
@@ -707,7 +707,7 @@ const dietTotalsVeganOvertime = {
   description: '',
   options: { showLatest: false },
   columns: {
-    keys: [],
+    keys: <components['schemas']['DashboardVisualisationColumnDefinition'][]>[],
     measures: [
       {
         id: 'ts',
@@ -739,7 +739,7 @@ const dietTotalsAllDietOvertime = {
   description: '',
   options: { showLatest: false },
   columns: {
-    keys: [],
+    keys: <components['schemas']['DashboardVisualisationColumnDefinition'][]>[],
     measures: [
       {
         id: 'ts',

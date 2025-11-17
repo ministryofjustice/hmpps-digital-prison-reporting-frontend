@@ -1,5 +1,3 @@
-import { automaticBookmarkConfig } from 'test-app/middleware/setUpBookmarks'
-
 context('Catalogue component', () => {
   const path = '/components/catalogue/default'
 

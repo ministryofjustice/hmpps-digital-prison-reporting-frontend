@@ -1,19 +1,23 @@
 import { RequestHandler } from 'express'
+import { MoJTableHead } from 'src/dpr/components/_dashboards/dashboard-visualisation/types'
+import { FilterValue, SelectedFilter } from 'src/dpr/components/_filters/types'
+import { ReportAction } from 'src/dpr/components/_reports/report-actions/types'
+import { Column } from 'src/dpr/components/_reports/report-columns-form/types'
 
 export default class SummarySectionTemplateController {
   layoutPath = ''
 
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     const reportData = {
       columns: {
         name: 'columns',
-        options: [],
+        options: <Column[]>[],
         text: 'Select report columns',
-        value: [],
+        value: <string[]>[],
       },
       filterData: {
-        filters: [],
-        selectedFilters: [],
+        filters: <FilterValue[]>[],
+        selectedFilters: <SelectedFilter[]>[],
       },
       count: 100,
       csrfToken: 'csrfToken',
@@ -21,7 +25,7 @@ export default class SummarySectionTemplateController {
       template: 'summary-section',
       loadType: 'async',
       type: 'report',
-      actions: [],
+      actions: <ReportAction[]>[],
       canDownload: false,
       printable: true,
       reportName: 'C Test Report',
@@ -32,20 +36,18 @@ export default class SummarySectionTemplateController {
       tableId: 'tblId_1747314574674',
       id: 'variantId-29',
       executionId: 'exId_1747314574674',
-      querySummary: [],
+      querySummary: <Record<string, string>[]>[],
       requestUrl: {
         fullUrl: 'http://localhost:3010/async/report/test-report-3/variantId-29/request',
         pathname: '/async/report/test-report-3/variantId-29/request',
         search: '',
       },
       reportUrl: '/async/report/test-report-3/variantId-29/request/tblId_1747314574674/report',
-      reportSearch: null,
-      search: null,
       pathname: '/async/report/test-report-3/variantId-29/request/tblId_1747314574674/report',
       reportSummaries: {},
       dataTable: [
         {
-          head: null,
+          head: <MoJTableHead[] | null>null,
           rows: [
             [
               {

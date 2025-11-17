@@ -66,6 +66,8 @@
   "extends": ["airbnb-base", "plugin:prettier/recommended"],
   "ignorePatterns": ["cypress-tests/mockApis/**/*"],
   "rules": {
+    "dot-notation": "off",
+    "@typescript-eslint/dot-notation": "error",
     "import/prefer-default-export": "off",
     "no-unused-vars": [
       1,

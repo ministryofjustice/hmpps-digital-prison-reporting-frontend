@@ -1,4 +1,4 @@
-import { Response, Request } from 'express'
+import { Response } from 'express'
 import { BookmarkService } from '../../../services'
 import { BookmarkedReportData, BookmarkStoreData } from '../../../types/Bookmark'
 import { FormattedBookmarkData, LoadType, ReportType } from '../../../types/UserReports'
@@ -89,7 +89,6 @@ const formatTableData = async (
 
 const mapBookmarkIdsToDefinition = async (
   bookmarks: BookmarkStoreData[],
-  req: Request,
   res: Response,
   token: string,
   services: Services,
@@ -159,15 +158,13 @@ export const renderBookmarkList = async ({
   services,
   maxRows = 20,
   res,
-  req,
 }: {
   services: Services
   maxRows?: number
   res: Response
-  req: Request
 }) => {
   const { token, csrfToken, dprUser, bookmarks } = LocalsHelper.getValues(res)
-  const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, res, token, services)
+  const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, res, token, services)
 
   let formatted = await formatBookmarks(bookmarksData)
   const formattedCount = formatted.length

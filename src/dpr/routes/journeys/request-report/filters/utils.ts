@@ -240,7 +240,7 @@ const renderReportRequestData = async (definition: components['schemas']['Single
   }
 }
 
-export const getDefintionByType = async (req: Request, res: Response, next: NextFunction, services: Services) => {
+export const getDefintionByType = async (req: Request, res: Response, _next: NextFunction, services: Services) => {
   const { token, definitionsPath } = LocalsHelper.getValues(res)
   const { reportId, id, variantId, type } = req.params
 
@@ -317,7 +317,7 @@ export const cancelRequest = async ({ req, res, services }: AsyncReportUtilsPara
 
   const response = await service.cancelAsyncRequest(token, reportId, id, executionId, definitionsPath)
 
-  if (response && response.cancellationSucceeded) {
+  if (response && response['cancellationSucceeded']) {
     await services.requestedReportService.updateStatus(executionId, dprUser.id, RequestStatus.ABORTED)
   }
 }
@@ -343,7 +343,7 @@ export const renderRequest = async ({
     const { token, csrfToken, definitionsPath: definitionPath, dpdPathFromQuery, dprUser } = LocalsHelper.getValues(res)
     const { reportId, type, id } = req.params
     const { definition } = res.locals
-    const defaultsSaved = <string>req.query.defaultsSaved
+    const defaultsSaved = <string>req.query['defaultsSaved']
 
     const definitionApiArgs = { token, reportId, definitionPath, services }
 

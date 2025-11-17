@@ -69,11 +69,11 @@ const applyInteractiveQuery = async (
   // Get the stored interactive query data
   const interactiveQueryData = reportStateData?.interactiveQuery?.data
 
-  const preventDefault = interactiveQueryData?.preventDefault
-  const pageSize = interactiveQueryData?.pageSize
-  const selectedPage = interactiveQueryData?.selectedPage
-  const sortColumn = interactiveQueryData?.sortColumn
-  const sortedAsc = interactiveQueryData?.sortedAsc
+  const preventDefault = interactiveQueryData?.['preventDefault']
+  const pageSize = interactiveQueryData?.['pageSize']
+  const selectedPage = interactiveQueryData?.['selectedPage']
+  const sortColumn = interactiveQueryData?.['sortColumn']
+  const sortedAsc = interactiveQueryData?.['sortedAsc']
 
   let filters = {}
   if (interactiveQueryData) {
@@ -103,7 +103,7 @@ const applyInteractiveQuery = async (
     const columnsData = [...mandatoryCols, ...bodyColumns]
     formData = { ...formData, columns: columnsData, ...filters }
   } else {
-    const columns = interactiveQueryData?.columns || []
+    const columns = interactiveQueryData?.['columns'] || []
     formData = { ...formData, columns }
   }
 

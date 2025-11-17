@@ -52,7 +52,7 @@ describe('ReportListUtils', () => {
       }),
     } as unknown as Response
 
-    next = ((error: Error) => {
+    next = ((_error: Error) => {
       //
     }) as unknown as NextFunction
   })

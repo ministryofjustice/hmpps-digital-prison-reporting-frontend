@@ -12,12 +12,12 @@ class BookmarkListingController {
     this.services = services
   }
 
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res, _next) => {
     res.render(`dpr/routes/journeys/my-reports/view`, {
       title: 'Bookmarks',
       layoutPath: this.layoutPath,
       id: 'dpr-bookmarks-list',
-      ...(await BookmarklistUtils.renderBookmarkList({ services: this.services, res, req })),
+      ...(await BookmarklistUtils.renderBookmarkList({ services: this.services, res })),
     })
   }
 }

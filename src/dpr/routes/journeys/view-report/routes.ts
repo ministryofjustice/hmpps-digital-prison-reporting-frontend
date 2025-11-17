@@ -27,21 +27,21 @@ export function Redirects() {
   // View Report
   router.get([`/async/:type/:reportId/:id/request/:tableId/:type`], (req, res) => {
     const { type, reportId, id, tableId } = req.params
-    res.redirect(`${res.locals.nestedBaseUrl}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`)
+    res.redirect(`${res.locals['nestedBaseUrl']}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`)
   })
 
   // Download
   router.get(`/async/:type/:reportId/:id/request/:tableId/report/:download`, (req, res) => {
     const { type, reportId, id, tableId } = req.params
     res.redirect(
-      `${res.locals.nestedBaseUrl}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}/download-disabled`,
+      `${res.locals['nestedBaseUrl']}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}/download-disabled`,
     )
   })
 
   // Expired Status
   router.post('/async/:type/:reportId/:id/request/:tableId/:type', (req, res) => {
     const { type, reportId, id, tableId } = req.params
-    res.redirect(308, `${res.locals.nestedBaseUrl}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`)
+    res.redirect(308, `${res.locals['nestedBaseUrl']}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`)
   })
 
   return router

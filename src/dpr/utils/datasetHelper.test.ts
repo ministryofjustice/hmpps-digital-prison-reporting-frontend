@@ -711,24 +711,11 @@ describe('DatasetHelper', () => {
   })
 
   describe('getKeyVariations', () => {
-    let data: DashboardDataResponse[]
     let keys: components['schemas']['DashboardVisualisationColumnDefinition'][]
-
-    beforeEach(() => {
-      data = [
-        {
-          field1: { raw: 'field1' },
-          field2: { raw: 'field2' },
-          field3: { raw: 'field3' },
-          field4: { raw: 'field4' },
-          field5: { raw: 'field5' },
-        },
-      ]
-    })
 
     it('should get the key variations', () => {
       keys = [{ id: 'field1' }, { id: 'field2' }, { id: 'field3' }]
-      const result = DatasetHelper.getKeyVariations(data, keys)
+      const result = DatasetHelper.getKeyVariations(keys)
 
       expect(result).toEqual([
         ['field1', 'field2', 'field3'],
@@ -739,7 +726,7 @@ describe('DatasetHelper', () => {
 
     it('should get the key variations with optional', () => {
       keys = [{ id: 'field1' }, { id: 'field2' }, { id: 'field3', optional: true }]
-      const result = DatasetHelper.getKeyVariations(data, keys)
+      const result = DatasetHelper.getKeyVariations(keys)
 
       expect(result).toEqual([
         ['field1', 'field2', 'field3'],
@@ -750,7 +737,7 @@ describe('DatasetHelper', () => {
 
     it('should get the key variations with optional', () => {
       keys = [{ id: 'field1' }, { id: 'field2', optional: true }, { id: 'field3', optional: true }]
-      const result = DatasetHelper.getKeyVariations(data, keys)
+      const result = DatasetHelper.getKeyVariations(keys)
 
       expect(result).toEqual([['field1', 'field2', 'field3'], ['field1', 'field2'], ['field1']])
     })
@@ -761,7 +748,7 @@ describe('DatasetHelper', () => {
         { id: 'field2', optional: true },
         { id: 'field3', optional: true },
       ]
-      const result = DatasetHelper.getKeyVariations(data, keys)
+      const result = DatasetHelper.getKeyVariations(keys)
 
       expect(result).toEqual([['field1', 'field2', 'field3'], ['field1', 'field2'], ['field1'], []])
     })

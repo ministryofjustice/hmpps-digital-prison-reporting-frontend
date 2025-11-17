@@ -37,7 +37,7 @@ class RequestStatusController {
   }
 
   // Poll request status
-  POST: RequestHandler = async (req, res, next) => {
+  POST: RequestHandler = async (req, res, _next) => {
     try {
       const response = await AsyncRequestListUtils.getRequestStatus({ req, res, services: this.services })
       res.send({ status: response.status })

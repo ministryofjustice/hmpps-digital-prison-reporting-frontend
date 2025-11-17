@@ -10,7 +10,7 @@ export default class SyncReportFailController {
       request: req,
       response: res,
       next,
-      apiUrl: `http://localhost:${Number(process.env.PORT) || 3010}`,
+      apiUrl: `http://localhost:${Number(process.env['PORT']) || 3010}`,
       layoutTemplate: 'views/page.njk',
       otherOptions: {
         breadCrumbList: [

@@ -51,7 +51,7 @@ const createListFromColumns = (
   const { keys, measures } = columns
   const groupKey = DatasetHelper.getGroupKey(dashboardData, keys || [])
 
-  const timestampData = dashboardData[0]?.ts?.raw
+  const timestampData = dashboardData[0]?.['ts']?.raw
   const ts = timestampData ? `${timestampData}` : ''
 
   const head = []
@@ -110,7 +110,7 @@ const creatListFromRows = (
   const displayRows = DatasetHelper.filterRowsByDisplayColumns(listDefinition, dataSetRows)
   const rows = createTableRows(displayRows, measures)
 
-  const timestampData = dataSetRows[0]?.ts?.raw
+  const timestampData = dataSetRows[0]?.['ts']?.raw
   const ts = timestampData ? `${timestampData}` : ''
 
   return {
@@ -127,7 +127,7 @@ const createFullList = (dashboardData: DashboardDataResponse[]) => {
   const rows = createTableRows(dashboardData)
 
   const latestData = DatasetHelper.getLastestDataset(dashboardData)
-  const timestampData = latestData[0]?.ts?.raw
+  const timestampData = latestData[0]?.['ts']?.raw
   const ts = timestampData ? `${timestampData}` : ''
 
   return {

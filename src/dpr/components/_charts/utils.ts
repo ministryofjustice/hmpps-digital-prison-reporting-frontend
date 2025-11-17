@@ -125,10 +125,10 @@ const getChartDetails = (
   const meta: ChartMetaData[] = []
   const headlines: ChartMetaData[] = createHeadlines(chartDefinition, data, timeseries)
 
-  if (data[0]?.ts.raw) {
+  if (data[0]?.['ts'].raw) {
     meta.push({
       label: 'Values for:',
-      value: data[0]?.ts.raw,
+      value: data[0]?.['ts'].raw,
     })
   }
 
@@ -158,7 +158,7 @@ const createHeadlines = (
     if (headlineColumn) {
       const { id } = headlineColumn
       const { raw } = data[0][id]
-      label = `${data[0].ts.raw}`
+      label = `${data[0]['ts'].raw}`
       value = raw ? Number(raw) : undefined
 
       if (value) {
@@ -332,7 +332,7 @@ const createTimeseriesChart = (
   const labelId = groupKey?.id as keyof DashboardDataResponse
 
   const timeBlockData = DatasetHelper.groupRowsByTimestamp(timeseriesData)
-  const labels = timeBlockData.map((d: DashboardDataResponse[]) => d[0].ts.raw as unknown as string)
+  const labels = timeBlockData.map((d: DashboardDataResponse[]) => d[0]['ts'].raw as unknown as string)
   const datasetCount = timeBlockData[0].length
 
   const datasets: DashboardVisualisationDataSet[] = []

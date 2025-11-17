@@ -994,8 +994,8 @@ describe('Filters Utils tests', () => {
             name: 'field1',
             type: 'Radio',
             value: 'value1.2',
-            minimumLength: undefined,
-            dynamicResourceEndpoint: undefined,
+            minimumLength: <number | undefined>undefined,
+            dynamicResourceEndpoint: <string | undefined>undefined,
             mandatory: false,
             options: [
               {
@@ -1022,8 +1022,8 @@ describe('Filters Utils tests', () => {
             name: 'field2',
             type: 'Select',
             value: 'value2.3',
-            minimumLength: undefined,
-            dynamicResourceEndpoint: undefined,
+            minimumLength: <number | undefined>undefined,
+            dynamicResourceEndpoint: <string | undefined>undefined,
             mandatory: false,
             options: [
               {
@@ -1060,12 +1060,12 @@ describe('Filters Utils tests', () => {
               end: '2008-05-04',
               relative: '',
             },
-            minimumLength: undefined,
-            dynamicResourceEndpoint: undefined,
+            minimumLength: <number | undefined>undefined,
+            dynamicResourceEndpoint: <string | undefined>undefined,
             mandatory: true,
             min: '2003-02-01',
             max: '2007-05-04',
-            relativeOptions: [],
+            relativeOptions: <string[]>[],
           },
           {
             text: 'Field 4',
@@ -1113,8 +1113,8 @@ describe('Filters Utils tests', () => {
             name: 'field6',
             type: 'Text',
             value: 'some text',
-            minimumLength: undefined,
-            dynamicResourceEndpoint: undefined,
+            minimumLength: <number | undefined>undefined,
+            dynamicResourceEndpoint: <string | undefined>undefined,
             mandatory: false,
           },
           {
@@ -1122,8 +1122,8 @@ describe('Filters Utils tests', () => {
             name: 'field7',
             type: 'Date',
             value: '2004-02-01',
-            minimumLength: undefined,
-            dynamicResourceEndpoint: undefined,
+            minimumLength: <number | undefined>undefined,
+            dynamicResourceEndpoint: <string | undefined>undefined,
             mandatory: false,
             min: '2003-02-01',
             max: '2007-05-04',
@@ -1133,8 +1133,8 @@ describe('Filters Utils tests', () => {
             name: 'field8',
             type: 'Multiselect',
             value: 'value8.2,value8.4,value8.3',
-            minimumLength: undefined,
-            dynamicResourceEndpoint: undefined,
+            minimumLength: <number | undefined>undefined,
+            dynamicResourceEndpoint: <string | undefined>undefined,
             mandatory: false,
             options: [
               {
@@ -1172,8 +1172,8 @@ describe('Filters Utils tests', () => {
                 display: 'Last 7 days',
               },
             },
-            minimumLength: undefined,
-            dynamicResourceEndpoint: undefined,
+            minimumLength: <number | undefined>undefined,
+            dynamicResourceEndpoint: <string | undefined>undefined,
             mandatory: true,
             quickFilterOptions: [
               {
@@ -1327,7 +1327,7 @@ describe('Filters Utils tests', () => {
               },
             ],
             value: 'field2',
-            minimumLength: undefined,
+            minimumLength: <number | undefined>undefined,
             mandatory: true,
           },
           {

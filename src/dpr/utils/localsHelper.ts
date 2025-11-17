@@ -3,7 +3,7 @@ import { StoredReportData } from '../types/UserReports'
 import { BookmarkStoreData } from '../types/Bookmark'
 
 export const getValues = (res: Response) => {
-  const csrfToken = (res.locals.csrfToken as unknown as string) || 'csrfToken'
+  const csrfToken = (res.locals['csrfToken'] as unknown as string) || 'csrfToken'
   const dprUser = setDprUserContext(res)
 
   return {
@@ -14,12 +14,12 @@ export const getValues = (res: Response) => {
     ...setFeatures(res),
     ...setDefinitions(res),
     csrfToken,
-    nestedBaseUrl: res.locals.nestedBaseUrl,
+    nestedBaseUrl: res.locals['nestedBaseUrl'],
   }
 }
 
 const setDefinitions = (res: Response) => {
-  const definitions = res.locals.definitions || []
+  const definitions = res.locals['definitions'] || []
   return {
     definitions,
   }
@@ -27,15 +27,15 @@ const setDefinitions = (res: Response) => {
 
 const setFeatures = (res: Response) => {
   return {
-    bookmarkingEnabled: <boolean>res.locals.bookmarkingEnabled,
-    downloadingEnabled: <boolean>res.locals.downloadingEnabled,
+    bookmarkingEnabled: <boolean>res.locals['bookmarkingEnabled'],
+    downloadingEnabled: <boolean>res.locals['downloadingEnabled'],
   }
 }
 
 const setUserReports = (res: Response) => {
-  const requestedReports: StoredReportData[] = res.locals.requestedReports || []
-  const recentlyViewedReports: StoredReportData[] = res.locals.recentlyViewedReports || []
-  const bookmarks: BookmarkStoreData[] = res.locals.bookmarks || []
+  const requestedReports: StoredReportData[] = res.locals['requestedReports'] || []
+  const recentlyViewedReports: StoredReportData[] = res.locals['recentlyViewedReports'] || []
+  const bookmarks: BookmarkStoreData[] = res.locals['bookmarks'] || []
 
   return {
     requestedReports,

@@ -79,6 +79,7 @@ export const stubDefinitionsTasks = () => {
 export const stubBaseTasks = () => {
   cy.task('resetStubs')
   cy.task('resetRedis')
+  cy.task('stubFeatureFlags')
 }
 
 export const stubBookmarks = () => {

@@ -1,6 +1,6 @@
 import { checkA11y, executeReportStubs } from 'cypress-tests/cypressUtils'
 import dayjs from 'dayjs'
-import { getRedisState, setRedisState } from 'test-app/routes/integrationTests/redisStateTestUtils'
+import { getRedisState, setRedisState } from 'test-app/routes/integrationTests/appStateUtils'
 
 context('Request status', () => {
   const path = '/embedded/platform/'

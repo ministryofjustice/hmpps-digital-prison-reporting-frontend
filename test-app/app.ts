@@ -29,6 +29,7 @@ export default function createApp(services: Services): express.Application {
   nunjucksSetup(app, path)
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
+  app.set('query parser', 'extended')
   app.use(setUpWebSession())
   app.use(flash())
   app.use(setUpStaticResources())

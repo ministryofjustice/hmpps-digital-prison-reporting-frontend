@@ -141,11 +141,11 @@ const createQueryParamsFromFormData = ({
             case FilterType.dateRange.toLocaleLowerCase():
             case FilterType.granularDateRange.toLocaleLowerCase():
               {
-                let dateValue: string | undefined = <string>value
+                let dateValue: string = <string>value
                 const dateMapper = new DateMapper()
                 const currentDateFormat = dateMapper.getDateType(dateValue)
                 if (currentDateFormat !== 'none') {
-                  dateValue = dateMapper.toDateString(dateValue, 'iso')
+                  dateValue = dateMapper.toDateString(dateValue, 'iso') || ''
                 }
                 if (dateValue) {
                   params.append(key, dateValue)

@@ -263,22 +263,33 @@ const buildChartFromListData = (
   const xAxisColumn = measures.find((col) => col.axis === 'x') || measures[0]
   const yAxisColumn = measures.find((col) => col.axis === 'y') || measures[1]
 
+  if(!xAxisColumn || !yAxisColumn) {
+    throw new Error('No X of Y Axis found in definition')
+  }
+
   const unit = yAxisColumn?.unit || undefined
   const groupKey = DatasetHelper.getGroupKey(rawData, keys)
   const groupsData = groupKey ? DatasetHelper.groupRowsByKey(rawData, groupKey.id) : [rawData]
 
   const labels = groupsData[0]?.map((row) => {
-    return `${row[xAxisColumn.id].raw}`
+    const { id: xId } = xAxisColumn
+    const field = row[xId]
+    return field ? `${field.raw}` : ''
   })
 
   const datasets: DashboardVisualisationDataSet[] = groupsData.map((groupData) => {
     const data = groupData.map((row) => {
-      const raw = row[yAxisColumn.id] && row[yAxisColumn.id].raw ? Number(row[yAxisColumn.id].raw) : 0
+      const { id: yId } = yAxisColumn
+      const field = row[yId]
+      const raw = field && field.raw ? Number(field.raw) : 0
       return Number(raw)
     })
+
     let label = ''
     if (groupKey) {
-      label = `${groupData[0][groupKey.id].raw}`
+      const groupKeyId = groupKey.id
+      const groupRow = groupData[0]
+      label = groupRow && groupRow[groupKeyId] ? `${groupRow[groupKeyId].raw}` : ''
     } else {
       label = yAxisColumn.display || label
     }

@@ -88,7 +88,7 @@ export default class ListSectionTemplateController {
       pathname: '/async/report/test-report-2/variantId-8/request/tblId_1747315232874/report',
       dataTable: [
         {
-          head: <MoJTableHead[]>null,
+          head: <MoJTableHead[] | null>null,
           rows: [
             [
               {

@@ -10,14 +10,14 @@
     "noEmit": true,
     "allowJs": true,
     "checkJs": true,
-    "strict": false,
-    // "noUncheckedIndexedAccess": true,
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": true,
-    // "noPropertyAccessFromIndexSignature": true,
-    // "strictNullChecks": true,
-    // "exactOptionalPropertyTypes": true,
-    // "noFallthroughCasesInSwitch": true,
+    "strict": false, // DONE - 45 errors related to services being optional
+    "noUnusedLocals": false, // DONE
+    "noUnusedParameters": false, // DONE
+    "noPropertyAccessFromIndexSignature": false, // DONE
+    "strictNullChecks": false,
+    // "noUncheckedIndexedAccess": true, // TODO
+    // "exactOptionalPropertyTypes": true, // TODO
+    "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,

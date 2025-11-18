@@ -1,9 +1,9 @@
 import { ReportType } from '../../../../types/UserReports'
-import { AutBookmarkStoreData } from '../../../../types/Bookmark'
+import { AutomaticBookmarkStoreData } from '../../../../types/Bookmark'
 import { Services } from '../../../../types/Services'
 
 export interface BookmarksByCaseload {
-  [caseLoadId: string]: AutBookmarkStoreData[]
+  [caseLoadId: string]: AutomaticBookmarkStoreData[]
 }
 
 export const preBookmarkReportsByRoleId = async (
@@ -12,7 +12,7 @@ export const preBookmarkReportsByRoleId = async (
   services: Services,
   bookmarksByCaseload: BookmarksByCaseload = {},
 ) => {
-  const bookmarks: AutBookmarkStoreData[] = bookmarksByCaseload[activeCaseLoadId] || []
+  const bookmarks: AutomaticBookmarkStoreData[] = bookmarksByCaseload[activeCaseLoadId] || []
   const { bookmarkService } = services
   // Add new automatic bookmarks
   if (bookmarkService) {

@@ -150,7 +150,7 @@ export default class ListSectionTemplateController {
       },
       dataTable: [
         {
-          head: <MoJTableHead[]>null,
+          head: <MoJTableHead[] | null>null,
           rows: [
             [
               {

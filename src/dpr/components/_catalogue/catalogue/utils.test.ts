@@ -5,7 +5,6 @@ import CatalogueListUtils from '../catalogue-list/utils'
 import { Services } from '../../../types/Services'
 
 describe('CatalogueUtils', () => {
-  // const list:
   jest.spyOn(CatalogueListUtils, 'getReportsList').mockResolvedValue({
     head: [],
     rows: [],

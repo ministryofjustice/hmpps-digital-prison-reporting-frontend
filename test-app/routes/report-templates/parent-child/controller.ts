@@ -56,7 +56,7 @@ export default class ParentChildTemplateController {
       pathname: '/async/report/test-report-1/variantId-26/request/tblId_1747313850286/report',
       dataTable: [
         {
-          head: <MoJTableHead[]>null,
+          head: <MoJTableHead[] | null>null,
           rows: [
             [
               {

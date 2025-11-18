@@ -44,7 +44,7 @@ export const getAsyncReportResultMockMissingData = setupSimpleMock(
     if (idx !== 0) {
       return row
     }
-    return Object.entries(row).map(([key, _value]) => ({
+    return Object.entries(row).map(([key, _value]): { [key: string]: undefined } => ({
       [key]: undefined,
     }))
   }),

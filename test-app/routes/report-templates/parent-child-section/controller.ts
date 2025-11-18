@@ -59,7 +59,7 @@ export default class ParentChildSectionTemplateController {
       pathname: '/async/report/test-report-4/variantId-27/request/tblId_1747313592802/report',
       dataTable: [
         {
-          head: <MoJTableHead[]>null,
+          head: <MoJTableHead[] | null>null,
           rows: [
             [
               {

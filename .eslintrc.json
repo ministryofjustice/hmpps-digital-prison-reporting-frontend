@@ -105,5 +105,8 @@
         "semi": false
       }
     ]
+  },
+  "parserOptions": {
+    "project": ["tsconfig.json"]
   }
 }

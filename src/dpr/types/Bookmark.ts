@@ -19,7 +19,7 @@ export interface BookmarkStoreData {
   automatic?: boolean
 }
 
-export interface AutBookmarkStoreData {
+export interface AutomaticBookmarkStoreData {
   reportId: string
   variantId: string
   type?: ReportType

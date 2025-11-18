@@ -16,15 +16,15 @@ interface DprErrorData {
 class ErrorHandler {
   error: Error | components['schemas']['ErrorResponse'] | string | undefined | unknown | DprErrorData
 
-  developerMessage?: string
+  developerMessage?: string | undefined
 
-  userMessage?: string
+  userMessage?: string | undefined
 
-  moreInfo?: string
+  moreInfo?: string | undefined
 
-  stack?: string
-
-  status?: number | string
+  stack?: string | undefined
+ 
+  status?: number | string | undefined
 
   constructor(error: Error | components['schemas']['ErrorResponse'] | string | undefined | unknown) {
     this.error = error

@@ -9,14 +9,14 @@ export interface BookmarkedReportData {
   href: string
   type: ReportType
   loadType: LoadType
-  automatic?: boolean
+  automatic?: boolean | undefined
 }
 
 export interface BookmarkStoreData {
   reportId: string
   id: string
   type?: ReportType
-  automatic?: boolean
+  automatic?: boolean | undefined
 }
 
 export interface AutomaticBookmarkStoreData {

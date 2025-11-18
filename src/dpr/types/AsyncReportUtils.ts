@@ -38,6 +38,6 @@ export interface RequestReportData {
 export interface RequestDataResult {
   title: string
   filtersDescription: string
-  filtersData?: RenderFiltersReturnValue
+  filtersData?: RenderFiltersReturnValue | undefined
   reportData: RequestReportData
 }

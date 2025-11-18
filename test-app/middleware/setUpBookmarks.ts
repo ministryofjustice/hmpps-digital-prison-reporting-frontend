@@ -25,7 +25,9 @@ export default function setUpBookmarks(services: Services): RequestHandler {
         const { id, activeCaseLoadId } = res.locals['dprUser']
         // Hardcoded config just for test purposes
 
-        logger.info(` Initialising bookmarks for user: ${res.locals['dprUser'] && JSON.stringify(res.locals['dprUser'])}`)
+        logger.info(
+          ` Initialising bookmarks for user: ${res.locals['dprUser'] && JSON.stringify(res.locals['dprUser'])}`,
+        )
 
         await BookmarkUtils.preBookmarkReportsByRoleId(
           id,
@@ -38,7 +40,10 @@ export default function setUpBookmarks(services: Services): RequestHandler {
       res.locals['bookmarksInitialised'] = true
       return next()
     } catch (error) {
-      logger.error(error, `Failed to initialise bookmarks : ${res.locals['dprUser'] && res.locals['dprUser'].displayName}`)
+      logger.error(
+        error,
+        `Failed to initialise bookmarks : ${res.locals['dprUser'] && res.locals['dprUser'].displayName}`,
+      )
       return next(error)
     }
   }

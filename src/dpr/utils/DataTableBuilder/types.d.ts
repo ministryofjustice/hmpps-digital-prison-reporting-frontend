@@ -2,12 +2,12 @@ export type CellFormat = 'numeric' | 'string'
 
 export interface Cell {
   fieldName?: string
-  text?: string | null
-  html?: string | null
+  text?: string | undefined
+  html?: string | undefined
   format?: CellFormat
   classes?: string
   colspan?: number
-  rowspan?: number
+  rowspan?: number | undefined
 }
 
 export interface DataTable {

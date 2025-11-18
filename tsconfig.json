@@ -10,15 +10,15 @@
     "noEmit": true,
     "allowJs": true,
     "checkJs": true,
-    "strict": true, // DONE - 45 errors related to services being optional
-    "noUnusedLocals": true, // DONE
-    "noUnusedParameters": true, // DONE
+    "strict": true, 
+    "noUnusedLocals": true, 
+    "noUnusedParameters": true, 
     "strictNullChecks": true,
-    "noPropertyAccessFromIndexSignature": true, // DONE
-    "noFallthroughCasesInSwitch": true, // DONE
-    "noImplicitOverride": true, // DONE
-    "exactOptionalPropertyTypes": false, // TODO
-    "noUncheckedIndexedAccess": false, // TODO
+    "noPropertyAccessFromIndexSignature": true, 
+    "noFallthroughCasesInSwitch": true, 
+    "noImplicitOverride": true, 
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": false,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

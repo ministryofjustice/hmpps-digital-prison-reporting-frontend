@@ -13,8 +13,8 @@ export interface DashboardSection {
 export interface DashboardVisualisation {
   id: string
   type: components['schemas']['DashboardVisualisationDefinition']['type']
-  title?: string
-  description?: string
+  title?: string | undefined
+  description?: string | undefined
   data:
     | Scorecard
     | Scorecard[]
@@ -25,9 +25,9 @@ export interface DashboardVisualisation {
 }
 
 export interface DashboardVisualisatonCardData {
-  chart?: DashboardVisualisationData
-  table?: MoJTable
-  details?: ChartDetails
+  chart?: DashboardVisualisationData | undefined
+  table?: MoJTable | undefined
+  details?: ChartDetails | undefined
 }
 
 export interface DashboardVisualisationData {
@@ -96,7 +96,7 @@ export interface BucketDashboardVisualisationOptions {
 }
 
 export interface DashboardVisualisationBucket {
-  min?: number
-  max?: number
-  hexColour?: string
+  min?: number | undefined
+  max?: number | undefined
+  hexColour?: string | undefined
 }

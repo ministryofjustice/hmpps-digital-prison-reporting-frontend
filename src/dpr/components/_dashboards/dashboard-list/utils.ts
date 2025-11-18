@@ -1,6 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { DashboardDataResponse } from '../../../types/Metrics'
-import { ListDashboardVisualisationOptions, MoJTable, MoJTableRow } from '../dashboard-visualisation/types'
+import {
+  ListDashboardVisualisationOptions,
+  MoJTable,
+  MoJTableHead,
+  MoJTableRow,
+} from '../dashboard-visualisation/types'
 import DatasetHelper from '../../../utils/datasetHelper'
 import { components } from '../../../types/api'
 
@@ -54,11 +59,11 @@ const createListFromColumns = (
   const timestampData = dashboardData[0]?.['ts']?.raw
   const ts = timestampData ? `${timestampData}` : ''
 
-  const head = []
+  const head: MoJTableHead[] = []
   head.push({ text: '' })
   dashboardData.forEach((row) => {
     head.push({
-      text: groupKey ? row[groupKey.id].raw : '',
+      text: groupKey ? `${row[groupKey.id].raw}` : '',
     })
   })
 
@@ -102,8 +107,8 @@ const creatListFromRows = (
 ) => {
   const { measures } = listDefinition.columns
 
-  const head = measures.map((column) => {
-    return { text: column.display }
+  const head: MoJTableHead[] = measures.map((column) => {
+    return { text: column.display || '' }
   })
 
   const dataSetRows = DatasetHelper.getDatasetRows(listDefinition, dashboardData)
@@ -121,8 +126,8 @@ const creatListFromRows = (
 }
 
 const createFullList = (dashboardData: DashboardDataResponse[]) => {
-  const head = Object.keys(dashboardData[0]).map((key) => {
-    return { text: key }
+  const head: MoJTableHead[] = Object.keys(dashboardData[0]).map((key) => {
+    return { text: key || '' }
   })
   const rows = createTableRows(dashboardData)
 

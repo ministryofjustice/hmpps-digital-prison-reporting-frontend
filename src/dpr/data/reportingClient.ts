@@ -54,7 +54,7 @@ class ReportingClient {
     this.logInfo('Get definition summary', { reportId })
 
     const queryParams: operations['definitionSummary']['parameters']['query'] = {
-      dataProductDefinitionsPath: definitionsPath,
+      ...(definitionsPath && { dataProductDefinitionsPath: definitionsPath }),
     }
 
     return this.restClient
@@ -72,17 +72,15 @@ class ReportingClient {
   ): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
     this.logInfo('Get definitions')
 
-    const params: operations['definitions_1']['parameters'] = {
-      query: {
-        renderMethod: 'HTML',
-        dataProductDefinitionsPath: definitionsPath,
-      },
+    const queryParams: operations['definitions_1']['parameters']['query'] = {
+      renderMethod: 'HTML',
+      ...(definitionsPath && { dataProductDefinitionsPath: definitionsPath }),
     }
 
     return this.restClient
       .get({
         path: '/definitions',
-        query: params.query,
+        query: queryParams,
         token,
       })
       .then((response) => <Array<components['schemas']['ReportDefinitionSummary']>>response)

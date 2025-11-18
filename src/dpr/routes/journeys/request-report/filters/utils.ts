@@ -45,7 +45,7 @@ export const updateStore = async ({
   req: Request
   res: Response
   services: Services
-  queryData?: SetQueryFromFiltersResult
+  queryData?: SetQueryFromFiltersResult | undefined
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
 }): Promise<void> => {
@@ -98,7 +98,7 @@ export const updateStore = async ({
       break
   }
 
-  await services.requestedReportService.addReport(dprUser.id, requestedReportData)
+  if (requestedReportData) await services.requestedReportService.addReport(dprUser.id, requestedReportData)
 }
 
 async function requestChildReports(
@@ -142,7 +142,7 @@ const requestProduct = async ({
 }): Promise<{
   executionData: ExecutionData
   childExecutionData: Array<ChildReportExecutionData>
-  queryData?: SetQueryFromFiltersResult
+  queryData?: SetQueryFromFiltersResult | undefined
 }> => {
   const { definitionsPath: dataProductDefinitionsPath, dpdPathFromQuery } = LocalsHelper.getValues(res)
   const { reportId, id, type } = req.body

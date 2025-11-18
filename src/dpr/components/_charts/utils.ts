@@ -263,7 +263,7 @@ const buildChartFromListData = (
   const xAxisColumn = measures.find((col) => col.axis === 'x') || measures[0]
   const yAxisColumn = measures.find((col) => col.axis === 'y') || measures[1]
 
-  if(!xAxisColumn || !yAxisColumn) {
+  if (!xAxisColumn || !yAxisColumn) {
     throw new Error('No X of Y Axis found in definition')
   }
 
@@ -318,7 +318,7 @@ const createSnapshotTable = (
 
   const headerColumns = [...keys, ...measures]
   const head = headerColumns.map((column) => {
-    return { text: column.display }
+    return { text: column.display || '' }
   })
 
   const filteredRowData = DatasetHelper.filterRowsByDisplayColumns(chartDefinition, data, true)

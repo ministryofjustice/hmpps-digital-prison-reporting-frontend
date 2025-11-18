@@ -7,8 +7,8 @@ export interface StoredReportData {
   reportId: string
   variantId?: string // NOTE variant ID exists fir V1 async routes
   id: string
-  executionId?: string
-  tableId?: string
+  executionId?: string | undefined
+  tableId?: string | undefined
   reportName: string
   variantName?: string
   name: string
@@ -47,8 +47,8 @@ export interface AsyncReportUrlData {
 }
 
 export interface AsyncReportUrlItemData {
-  pathname?: string
-  fullUrl?: string
+  pathname?: string | undefined
+  fullUrl?: string | undefined
   search?: string
   default?: string
 }
@@ -100,14 +100,14 @@ export interface AsyncSummary {
 }
 
 export interface FormattedUserReportData {
-  id?: string
-  href?: string
+  id?: string | undefined
+  href?: string | undefined
   text: string
   reportName: string
   description: string
   timestamp?: string
   tag?: string
-  status?: string
+  status?: string | undefined
   type: ReportType
   summary?: { name: string; value: string }[]
   interactiveSummary?: { name: string; value: string }[]
@@ -131,14 +131,14 @@ export interface FormattedBookmarkData {
 export interface meta {
   reportId: string
   id: string
-  executionId?: string
-  tableId?: string
-  status?: string
+  executionId?: string | undefined
+  tableId?: string | undefined
+  status?: string | undefined
   type: ReportType
-  requestedAt?: Date
-  dataProductDefinitionsPath?: string
-  pollingUrl?: string
-  reportUrl?: string
+  requestedAt?: Date | undefined
+  dataProductDefinitionsPath?: string | undefined
+  pollingUrl?: string | undefined
+  reportUrl?: string | undefined
 }
 
 export interface RequestFormData {

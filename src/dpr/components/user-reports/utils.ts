@@ -9,6 +9,7 @@ import {
   ReportType,
   RequestedReport,
   StoredReportData,
+  meta,
 } from '../../types/UserReports'
 import { FilterValue } from '../_filters/types'
 import { Services } from '../../types/Services'
@@ -176,7 +177,7 @@ const createSummaryHtml = (data: FormattedUserReportData) => {
   return `<ul class="dpr-card-group__item__filters-list govuk-!-margin-top-0 govuk-!-margin-bottom-0">${summaryHtml}${interactiveSummaryHtml}</ul>`
 }
 
-const getMeta = (formattedData: FormattedUserReportData[], res: Response) => {
+const getMeta = (formattedData: FormattedUserReportData[], res: Response): meta[] => {
   const { nestedBaseUrl } = LocalsHelper.getValues(res)
 
   return formattedData.map((d) => {
@@ -284,13 +285,13 @@ export const renderList = async ({
     ...(!formatted.length && { emptyMessage: `You have 0 ${type} reports` }),
   }
 
-  const result = {
+  const result: RenderTableListResponse = {
     head,
     tableData,
     total: getTotals(formattedCount, maxRows),
     meta: getMeta(formatted, res),
     csrfToken,
-    maxRows,
+    ...(maxRows && { maxRows }),
   }
 
   return result

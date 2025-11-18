@@ -115,7 +115,7 @@ class RequestedReportService extends ReportStoreService {
     switch (status) {
       case RequestStatus.FAILED:
         report.timestamp.failed = ts
-        report.errorMessage = errorMessage
+        if (errorMessage) report.errorMessage = errorMessage
         break
       case RequestStatus.EXPIRED:
         report.timestamp.expired = ts

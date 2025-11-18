@@ -45,7 +45,7 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
       this.initGroupVars()
     } else {
       this.valueKey = this.measures[0].id
-      this.titleColumn = { display: definition.display, id: this.valueKey }
+      this.titleColumn = { display: definition.display || '', id: this.valueKey }
       this.initBuckets(responseData, this.valueKey)
     }
   }

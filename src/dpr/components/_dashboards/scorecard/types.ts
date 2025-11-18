@@ -5,13 +5,15 @@ export interface Scorecard {
   title: string
   group?: string
   value: number | string
-  trend?: ScorecardTrend
-  link?: {
-    href: '#'
-    displayName: 'View breakdown'
-  }
+  trend?: ScorecardTrend | undefined
+  link?:
+    | {
+        href: '#'
+        displayName: 'View breakdown'
+      }
+    | undefined
   valueFor?: string
-  rag?: ScorecardRag
+  rag?: ScorecardRag | undefined
 }
 
 export interface ScorecardSubGroup {
@@ -46,7 +48,7 @@ export interface ScorecardDataset {
 export interface CreateScorecardDataArgs {
   title: string
   value: string | number
-  rag?: number
+  rag?: number | undefined
   valueFor: string
   valueFrom: string
   prevVal: string | number | null | undefined

@@ -14,7 +14,7 @@ class ReportQuery implements FilteredListRequest {
 
   pageSize: number
 
-  sortColumn?: string
+  sortColumn?: string | undefined
 
   columns: Array<string>
 
@@ -24,7 +24,7 @@ class ReportQuery implements FilteredListRequest {
 
   filtersPrefix: string
 
-  dataProductDefinitionsPath?: string
+  dataProductDefinitionsPath?: string | undefined
 
   constructor({
     fields,
@@ -43,7 +43,9 @@ class ReportQuery implements FilteredListRequest {
   }) {
     this.selectedPage = queryParams['selectedPage'] ? Number(queryParams['selectedPage']) : 1
     this.pageSize = this.getPageSize(queryParams, template, reportType)
-    this.sortColumn = queryParams['sortColumn'] ? queryParams['sortColumn'].toString() : this.getDefaultSortColumn(fields)
+    this.sortColumn = queryParams['sortColumn']
+      ? queryParams['sortColumn'].toString()
+      : this.getDefaultSortColumn(fields)
     this.sortedAsc = queryParams['sortedAsc'] !== 'false'
     this.dataProductDefinitionsPath =
       definitionsPath ??
@@ -52,7 +54,9 @@ class ReportQuery implements FilteredListRequest {
 
     if (queryParams['columns']) {
       const columns =
-        typeof queryParams['columns'] === 'string' ? queryParams['columns'].split(',') : (queryParams['columns'] as string[])
+        typeof queryParams['columns'] === 'string'
+          ? queryParams['columns'].split(',')
+          : (queryParams['columns'] as string[])
       this.columns = ColumnUtils.ensureMandatoryColumns(fields, columns)
     } else {
       this.columns = fields.filter((f) => f.visible).map((f) => f.name)

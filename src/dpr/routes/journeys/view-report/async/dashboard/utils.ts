@@ -153,8 +153,8 @@ const getSections = (
 
         return {
           id: visId,
-          title: display,
-          description: visDescription,
+          title: display || '',
+          description: visDescription || '',
           type,
           data,
         }
@@ -163,7 +163,7 @@ const getSections = (
 
     if (hasScorecard) ScorecardsUtils.mergeScorecardsIntoGroup(visualisations)
 
-    return { id, title, description, visualisations }
+    return { id, title: title || '', description: description || '', visualisations }
   })
 }
 

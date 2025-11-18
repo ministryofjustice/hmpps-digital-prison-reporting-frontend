@@ -137,7 +137,7 @@ export const renderListWithDefinition = async ({
         fields,
         template: template as Template,
         queryParams: request.query,
-        definitionsPath: reportDef,
+        ...(reportDef && { definitionsPath: reportDef }),
       })
 
       if (!FiltersUtils.redirectWithDefaultFilters(reportQuery, variantDefinition, response, request)) {
@@ -215,18 +215,18 @@ export const createReportListRequestHandler = ({
 }: CreateRequestHandlerInput): RequestHandler => {
   return (request: Request, response: Response, next: NextFunction) => {
     renderListWithDefinition({
-      title,
+      title: title || '',
       definitionName,
       variantName,
       request,
       response,
       next,
-      otherOptions,
       layoutTemplate,
       token: tokenProvider(request, response, next),
       apiUrl,
       apiTimeout,
-      definitionsPath,
+      ...(otherOptions && { otherOptions }),
+      ...(definitionsPath && { definitionsPath }),
     })
   }
 }

@@ -169,8 +169,8 @@ export const getFiltersFromDefinition = (
         name,
         type: type as FilterType,
         value: defaultValue || null,
-        minimumLength: dynamicOptions?.minimumLength,
         mandatory: mandatory || false,
+        minimumLength: dynamicOptions?.minimumLength,
         pattern,
         index,
       }
@@ -386,9 +386,9 @@ export const getFilters = async ({
 }: {
   fields: components['schemas']['FieldDefinition'][]
   req: Request
-  res?: Response
+  res?: Response | undefined
   prefix?: string
-  services?: Services
+  services?: Services | undefined
   filtersType: FiltersType
 }) => {
   // 1. Set the filters from the product definition

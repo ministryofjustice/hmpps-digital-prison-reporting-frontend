@@ -27,9 +27,7 @@ export const establishmentIdFilter: FilterField = {
         display: 'DAI',
       },
     ],
-    dynamicOptions: {
-      minimumLength: undefined,
-    },
+    dynamicOptions: {},
     interactive: true,
   },
   sortable: false,
@@ -66,9 +64,7 @@ export const wingFilterCompass: FilterField = {
       },
     ],
     defaultValue: 'north',
-    dynamicOptions: {
-      minimumLength: undefined,
-    },
+    dynamicOptions: {},
     interactive: true,
   },
   sortable: false,
@@ -105,9 +101,7 @@ export const wingFilter: FilterField = {
       },
     ],
     defaultValue: 'I',
-    dynamicOptions: {
-      minimumLength: undefined,
-    },
+    dynamicOptions: {},
     interactive: true,
   },
   sortable: false,

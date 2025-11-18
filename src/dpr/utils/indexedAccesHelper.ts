@@ -3,15 +3,15 @@ import { Request } from 'express'
 export const getRequestParam = ({
   req,
   param,
+  defaultValue,
   error,
   errorString,
-  defaultValue,
 }: {
   req: Request
   param: string
+  defaultValue?: string
   error?: boolean
   errorString?: string
-  defaultValue?: string
 }): string => {
   const value = req.params[param]
 

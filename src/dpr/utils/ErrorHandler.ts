@@ -23,7 +23,7 @@ class ErrorHandler {
   moreInfo?: string | undefined
 
   stack?: string | undefined
- 
+
   status?: number | string | undefined
 
   constructor(error: Error | components['schemas']['ErrorResponse'] | string | undefined | unknown) {

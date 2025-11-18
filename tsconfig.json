@@ -10,15 +10,15 @@
     "noEmit": true,
     "allowJs": true,
     "checkJs": true,
-    "strict": false, // DONE - 45 errors related to services being optional
-    "noUnusedLocals": false, // DONE
-    "noUnusedParameters": false, // DONE
-    "noPropertyAccessFromIndexSignature": false, // DONE
-    "strictNullChecks": false,
-    // "noUncheckedIndexedAccess": true, // TODO
-    // "exactOptionalPropertyTypes": true, // TODO
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,
+    "strict": true, // DONE - 45 errors related to services being optional
+    "noUnusedLocals": true, // DONE
+    "noUnusedParameters": true, // DONE
+    "strictNullChecks": true,
+    "noPropertyAccessFromIndexSignature": true, // DONE
+    "noFallthroughCasesInSwitch": true, // DONE
+    "noImplicitOverride": true, // DONE
+    "exactOptionalPropertyTypes": false, // TODO
+    "noUncheckedIndexedAccess": false, // TODO
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

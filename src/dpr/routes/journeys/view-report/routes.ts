@@ -41,7 +41,10 @@ export function Redirects() {
   // Expired Status
   router.post('/async/:type/:reportId/:id/request/:tableId/:type', (req, res) => {
     const { type, reportId, id, tableId } = req.params
-    res.redirect(308, `${res.locals['nestedBaseUrl']}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`)
+    res.redirect(
+      308,
+      `${res.locals['nestedBaseUrl']}/dpr/view-report/async/${type}/${reportId}/${id}/${tableId}/${type}`,
+    )
   })
 
   return router

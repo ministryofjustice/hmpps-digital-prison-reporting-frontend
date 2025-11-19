@@ -1,7 +1,9 @@
+import z from 'zod'
 import { components } from '../../../types/api'
 import { Scorecard, ScorecardGroup } from '../scorecard/types'
 import { MatrixChartData } from '../../_charts/chart/heatmap/types'
 import { ChartDetails } from '../../../types/Charts'
+import DashboardVisualisationSchemas from './Validate'
 
 export interface DashboardSection {
   id: string
@@ -100,3 +102,14 @@ export interface DashboardVisualisationBucket {
   max?: number
   hexColour?: string
 }
+
+export type ScorecardDefinitonType = z.infer<typeof DashboardVisualisationSchemas.ScorecardSchema>
+export type ScorecardGroupDefinitionType = z.infer<typeof DashboardVisualisationSchemas.ScorecardGroupSchema>
+export type MarricTimeseriesDefinitionType = z.infer<typeof DashboardVisualisationSchemas.MatrixTimeseriesSchema>
+export type VisualisationDefinitionType = z.infer<typeof DashboardVisualisationSchemas.DashboardVisualisationSchema>
+export type ListDefinitionType = z.infer<typeof DashboardVisualisationSchemas.ListSchema>
+export type BarDefinitionType = z.infer<typeof DashboardVisualisationSchemas.BarSchema>
+export type BarTimeseriesDefinitionType = z.infer<typeof DashboardVisualisationSchemas.BarTimeseriesSchema>
+export type LineDefinitionType = z.infer<typeof DashboardVisualisationSchemas.LineSchema>
+export type LineTimeseriesTypeDefinitionType = z.infer<typeof DashboardVisualisationSchemas.DoughnutSchema>
+export type DoughnutDefinitionType = z.infer<typeof DashboardVisualisationSchemas.DoughnutSchema>

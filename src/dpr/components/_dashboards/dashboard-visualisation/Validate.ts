@@ -42,7 +42,7 @@ const dashboardColumns = z.object({
 })
 
 const dashboardOptions = z.object({
-  ...dashboardBucket,
+  ...dashboardBucket.shape,
   showLatest: z.boolean().default(true),
   columnsAsList: z.boolean().optional(),
 })
@@ -82,7 +82,7 @@ const ScorecardSchema = z.object({
   type: z.literal('scorecard'),
   display: z.string(),
   description: z.undefined(),
-  options: z.object(bucketOptions.shape).optional(),
+  options: z.object(bucketOptions.shape),
   columns: z.object({
     ...dashboardColumns.shape,
     keys: z.array(scorecardKey).min(1),

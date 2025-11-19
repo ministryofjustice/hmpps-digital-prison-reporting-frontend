@@ -103,9 +103,9 @@ export interface DashboardVisualisationBucket {
   hexColour?: string
 }
 
-export type ScorecardDefinitonType = z.infer<typeof DashboardVisualisationSchemas.ScorecardSchema>
+export type ScorecardDefinitionType = z.infer<typeof DashboardVisualisationSchemas.ScorecardSchema>
 export type ScorecardGroupDefinitionType = z.infer<typeof DashboardVisualisationSchemas.ScorecardGroupSchema>
-export type MarricTimeseriesDefinitionType = z.infer<typeof DashboardVisualisationSchemas.MatrixTimeseriesSchema>
+export type MatrixTimeseriesDefinitionType = z.infer<typeof DashboardVisualisationSchemas.MatrixTimeseriesSchema>
 export type VisualisationDefinitionType = z.infer<typeof DashboardVisualisationSchemas.DashboardVisualisationSchema>
 export type ListDefinitionType = z.infer<typeof DashboardVisualisationSchemas.ListSchema>
 export type BarDefinitionType = z.infer<typeof DashboardVisualisationSchemas.BarSchema>

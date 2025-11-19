@@ -163,11 +163,11 @@ class DateRangeInput extends DprClientClass {
         startDate = dayjs()
         endDate = startDate.add(1, 'day')
         break
-      case 'last-week':
+      case 'last-seven-days':
         endDate = dayjs()
         startDate = endDate.subtract(1, 'week')
         break
-      case 'next-week':
+      case 'next-seven-days':
         startDate = dayjs()
         endDate = startDate.add(1, 'week')
         break

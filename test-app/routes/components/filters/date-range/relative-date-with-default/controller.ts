@@ -11,7 +11,6 @@ export default class DateRangeController {
     const filter: components['schemas']['FilterDefinition'] = {
       type: 'daterange' as components['schemas']['FilterDefinition']['type'],
       mandatory: true,
-      defaultValue: '2003-02-01 - 2007-05-04',
       defaultQuickFilterValue,
     }
 
@@ -20,7 +19,7 @@ export default class DateRangeController {
       name: 'relative-date-range-with-default',
       type: FilterType.dateRange,
       mandatory: true,
-      value: { start: '', end: '' },
+      value: null,
     }
 
     const dateRangeFilterData = DateRangeInputUtils.getFilterFromDefinition(filter, filterData)

@@ -222,6 +222,7 @@ export const getFiltersFromDefinition = (
           break
 
         case FilterType.dateRange.toLowerCase():
+          // console.log(JSON.stringify({ filterData }, null, 2))
           filterData = DateRangeInputUtils.getFilterFromDefinition(filter, filterData)
           break
 

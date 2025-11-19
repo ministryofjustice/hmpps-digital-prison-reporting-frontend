@@ -75,18 +75,21 @@ const scorecardKey = z.object({
 
 const scorecardMeasure = z.object({
   id: z.string(),
+  unit: z.enum(['NUMBER', 'PERCENTAGE']).optional(),
 })
+
+const ScorecardMeasuresSchema = z.array(scorecardMeasure).length(1, 'Measure must contain a single item')
 
 const ScorecardSchema = z.object({
   ...DashboardVisualisationSchema.shape,
   type: z.literal('scorecard'),
   display: z.string(),
   description: z.undefined(),
-  options: z.object(bucketOptions.shape),
+  options: z.object(bucketOptions.shape).optional(),
   columns: z.object({
     ...dashboardColumns.shape,
     keys: z.array(scorecardKey).min(1),
-    measures: z.array(scorecardMeasure).length(1, 'Measure must contain a single item'),
+    measures: ScorecardMeasuresSchema,
   }),
 })
 
@@ -96,6 +99,7 @@ const scorecardGroupColumn = z.object({
   id: z.string(),
   display: z.string().optional(),
   displayValue: z.boolean().optional(),
+  unit: z.enum(['NUMBER', 'PERCENTAGE']).optional(),
 })
 
 const ScorecardGroupSchema = z.object({
@@ -237,6 +241,7 @@ const BarTimeseriesSchema = z.object({
 const DashboardVisualisationSchemas = {
   DashboardVisualisationSchema,
   ScorecardSchema,
+  ScorecardMeasuresSchema,
   ScorecardGroupSchema,
   ListSchema,
   BarSchema,

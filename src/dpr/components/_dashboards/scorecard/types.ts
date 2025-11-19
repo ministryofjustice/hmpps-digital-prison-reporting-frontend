@@ -44,9 +44,13 @@ export interface ScorecardDataset {
 }
 
 export interface CreateScorecardDataArgs {
+  id: string
   title: string
   value: string | number
-  rag?: number
+  rag?: {
+    colour: string
+    score: number
+  }
   valueFor: string
   valueFrom: string
   prevVal: string | number

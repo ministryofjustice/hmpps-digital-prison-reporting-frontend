@@ -1,55 +1,103 @@
 /* eslint-disable prefer-destructuring */
 import { DashboardDataResponse } from '../../../types/Metrics'
-import DashboardVisualisationClass from '../dashboard-visualisation/DashboardVisualisation'
-import { DashboardVisualisationBucket, ScorecardDefinitionType } from '../dashboard-visualisation/types'
-import DatasetHelper from '../../../utils/datasetHelper'
-import { CreateScorecardDataArgs, Scorecard, ScorecardDataset, ScorecardGroup, ScorecardTrend } from './types'
+import {
+  DashboardVisualisationBucket,
+  ScorecardDefinitionType,
+  ScorecardGroupDefinitionType,
+} from '../dashboard-visualisation/types'
+import { CreateScorecardDataArgs, Scorecard, ScorecardDataset, ScorecardTrend } from './types'
 import Buckets from '../../_charts/chart/Buckets'
 import { components } from '../../../types/api'
+import DashboardVisualisationSchemas from '../dashboard-visualisation/Validate'
+import DatasetHelper from '../../../utils/datasetHelper'
 
-class ScorecardVisualisation extends DashboardVisualisationClass {
-  definition: ScorecardDefinitionType
+class ScorecardVisualisation {
+  private definition!: ScorecardDefinitionType
 
-  measures: ScorecardDefinitionType['columns']['measures']
+  private id!: string
 
-  keys: ScorecardDefinitionType['columns']['keys']
+  private measures!: ScorecardDefinitionType['columns']['measures']
 
-  private dataset: ScorecardDataset
+  private options!: ScorecardDefinitionType['options']
+
+  private dataset!: ScorecardDataset
 
   private bucketsHelper: Buckets | undefined
 
   private buckets: DashboardVisualisationBucket[] = []
 
-  private valueKey = ''
+  private valueKey!: string
 
   private titleColumn: components['schemas']['DashboardVisualisationColumnDefinition'] | undefined
 
+  private unit: 'NUMBER' | 'PERCENTAGE' | undefined
+
+  responseData: DashboardDataResponse[] = []
+
   ragColours: string[] = ['#cce2d8', '#fff7bf', '#f4cdc6']
 
-  constructor(
-    responseData: DashboardDataResponse[],
-    definition: components['schemas']['DashboardVisualisationDefinition'],
-  ) {
-    super(responseData, definition)
+  withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
+    this.definition = DashboardVisualisationSchemas.ScorecardSchema.parse(definition)
+    this.init()
 
-    this.dataset = this.getDataset(definition, responseData)
-    this.valueKey = this.measures[0].id
-    this.titleColumn = { display: definition.display, id: this.valueKey }
-    this.initBuckets(responseData, this.valueKey)
+    return this
   }
 
-  private initBuckets = (responseData: DashboardDataResponse[], valueKey: string) => {
-    if (this.definition.options?.buckets || this.definition.options?.useRagColour) {
-      this.bucketsHelper = new Buckets(responseData, this.definition, valueKey, false, this.ragColours)
-      this.buckets = new Buckets(responseData, this.definition, valueKey, false, this.ragColours).getBuckets()
+  withData = (responseData: DashboardDataResponse[]) => {
+    this.responseData = responseData
+    this.dataset = this.getDataset(this.definition, this.responseData)
+    this.initBuckets(this.responseData, this.valueKey)
+
+    return this
+  }
+
+  private init = () => {
+    this.id = this.definition.id
+    this.measures = this.definition.columns.measures
+    this.options = this.definition.options
+    this.titleColumn = { display: this.definition.display, id: this.valueKey }
+    this.initFromMeasures()
+  }
+
+  private initFromMeasures = () => {
+    // Zod should throw an error on line 40 so should always pass
+    if (this.measures[0] !== undefined) {
+      this.valueKey = this.measures[0].id
+      this.unit = this.measures[0].unit ? this.measures[0].unit : undefined
     }
   }
 
-  setRagScore = (value: number, rag?: number) => {
-    return this.bucketsHelper?.getBucketForValue(value, rag)
+  private initBuckets = (responseData: DashboardDataResponse[], valueKey: string) => {
+    if (this.options?.buckets || this.options?.useRagColour) {
+      this.bucketsHelper = new Buckets(responseData, this.definition, valueKey, false, this.ragColours)
+      this.buckets = this.bucketsHelper.getBuckets()
+    }
+  }
+
+  getDataset = (
+    definition: ScorecardDefinitionType | ScorecardGroupDefinitionType,
+    rawData: DashboardDataResponse[],
+  ) => {
+    const latestData = DatasetHelper.getLastestDataset(rawData)
+    const latestDataSetRows = DatasetHelper.getDatasetRows(definition, latestData)
+    const latestTs = latestDataSetRows[0]?.ts?.raw
+    const latestFiltered = DatasetHelper.filterRowsByDisplayColumns(definition, latestDataSetRows, true)
+
+    const earliestData = DatasetHelper.getEarliestDataset(rawData)
+    const earliestDataSetRows = DatasetHelper.getDatasetRows(definition, earliestData)
+    const earliestTs = earliestDataSetRows[0]?.ts?.raw
+    const earliestfiltered = DatasetHelper.filterRowsByDisplayColumns(definition, earliestDataSetRows, true)
+
+    return {
+      earliest: earliestfiltered,
+      earliestTs,
+      latest: latestFiltered,
+      latestTs,
+    }
   }
 
   createScorecardData = ({
+    id,
     title,
     value,
     rag,
@@ -59,12 +107,10 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
     groupTitle,
   }: CreateScorecardDataArgs): Scorecard => {
     return {
-      id: this.definition.id,
+      id,
       title,
       value,
-      ...(!Number.isNaN(value) &&
-        this.buckets.length &&
-        this.bucketsHelper && { rag: this.bucketsHelper?.getBucketForValue(<number>value, rag) }),
+      ...(rag && { rag }),
       valueFor,
       trend: this.createTrend(valueFor, valueFrom, value, prevVal),
       ...(groupTitle && {
@@ -94,6 +140,19 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
     return trendData
   }
 
+  setRagScore = (
+    value: string | number,
+    rag: number | undefined,
+    buckets: DashboardVisualisationBucket[] | undefined,
+    bucketsHelper: Buckets | undefined,
+  ) => {
+    let ragScore
+    if (!Number.isNaN(value) && buckets?.length && bucketsHelper) {
+      ragScore = bucketsHelper.getBucketForValue(<number>value, rag)
+    }
+    return ragScore
+  }
+
   build = () => {
     const { latest, earliest, latestTs, earliestTs } = this.dataset
     const scorecordArr: Scorecard[] = latest.map((datasetRow: DashboardDataResponse, index: number) => {
@@ -104,9 +163,10 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
       const title = this.titleColumn?.display
 
       return this.createScorecardData({
+        id: this.id,
         title: title || '',
         value,
-        rag,
+        rag: this.setRagScore(value, rag, this.buckets, this.bucketsHelper),
         prevVal,
         valueFor,
         valueFrom,

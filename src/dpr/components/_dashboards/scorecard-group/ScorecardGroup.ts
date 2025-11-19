@@ -1,26 +1,25 @@
 /* eslint-disable prefer-destructuring */
 import { DashboardDataResponse } from '../../../types/Metrics'
-import DashboardVisualisationClass from '../dashboard-visualisation/DashboardVisualisation'
 import { DashboardVisualisationBucket, ScorecardGroupDefinitionType } from '../dashboard-visualisation/types'
 import DatasetHelper from '../../../utils/datasetHelper'
-import {
-  CreateScorecardDataArgs,
-  ScorecardDataset,
-  ScorecardGroup,
-  ScorecardTrend,
-  Scorecard,
-} from '../scorecard/types'
+import { ScorecardDataset, ScorecardGroup } from '../scorecard/types'
 import Buckets from '../../_charts/chart/Buckets'
 import { components } from '../../../types/api'
+import DashboardVisualisationSchemas from '../dashboard-visualisation/Validate'
+import ScorecardVisualisation from '../scorecard/Scorecard'
 
-class ScorecardGroupVisualisation extends DashboardVisualisationClass {
-  definition: ScorecardGroupDefinitionType
+class ScorecardGroupVisualisation {
+  private definition!: ScorecardGroupDefinitionType
 
-  measures: ScorecardGroupDefinitionType['columns']['measures']
+  private id!: string
 
-  keys: ScorecardGroupDefinitionType['columns']['keys']
+  private measures!: ScorecardGroupDefinitionType['columns']['measures']
 
-  private dataset: ScorecardDataset
+  private keys!: ScorecardGroupDefinitionType['columns']['keys']
+
+  private options!: ScorecardGroupDefinitionType['options']
+
+  private dataset!: ScorecardDataset
 
   private groupKey: components['schemas']['DashboardVisualisationColumnDefinition'] | undefined
 
@@ -40,26 +39,50 @@ class ScorecardGroupVisualisation extends DashboardVisualisationClass {
 
   private titleKey = ''
 
-  private ragColours: string[] = ['#cce2d8', '#fff7bf', '#f4cdc6']
+  private unit: 'NUMBER' | 'PERCENTAGE' | undefined
 
-  constructor(
-    responseData: DashboardDataResponse[],
-    definition: components['schemas']['DashboardVisualisationDefinition'],
-  ) {
-    super(responseData, definition)
-    this.dataset = this.getDataset(definition, responseData)
+  responseData: DashboardDataResponse[] = []
+
+  scoreCardBuilder: ScorecardVisualisation
+
+  constructor() {
+    this.scoreCardBuilder = new ScorecardVisualisation()
+  }
+
+  withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
+    this.definition = DashboardVisualisationSchemas.ScorecardGroupSchema.parse(definition)
+    this.init()
+
+    return this
+  }
+
+  withData = (responseData: DashboardDataResponse[]) => {
+    this.responseData = responseData
+    this.dataset = this.scoreCardBuilder.getDataset(this.definition, this.responseData)
+    this.initBuckets(this.responseData, this.valueKey)
     this.initGroupVars()
+    return this
+  }
+
+  private init = () => {
+    this.id = this.definition.id
+    this.measures = this.definition.columns.measures
+    this.keys = this.definition.columns.keys
+    this.options = this.definition.options
+    this.valueKey = this.measures[0].id
+    this.titleColumn = { display: this.definition.display, id: this.valueKey }
+    this.unit = this.definition.columns.measures[0].unit ? this.definition.columns.measures[0].unit : undefined
   }
 
   private initBuckets = (responseData: DashboardDataResponse[], valueKey: string) => {
-    if (this.definition.options?.buckets || this.definition.options?.useRagColour) {
-      this.bucketsHelper = new Buckets(responseData, this.definition, valueKey, false, this.ragColours)
-      this.buckets = new Buckets(responseData, this.definition, valueKey, false, this.ragColours).getBuckets()
+    if (this.options?.buckets || this.options?.useRagColour) {
+      this.bucketsHelper = new Buckets(responseData, this.definition, valueKey, false, this.scoreCardBuilder.ragColours)
+      this.buckets = this.bucketsHelper.getBuckets()
     }
   }
 
   private initGroupVars = () => {
-    this.groupKey = DatasetHelper.getGroupKey(this.keys, this.dataset.latest)
+    this.groupKey = DatasetHelper.getGroupKey(this.keys || [], this.dataset.latest)
     this.groupKeyId = this.groupKey?.id
     this.groupKeyDisplay = this.groupKey?.display
 
@@ -71,51 +94,6 @@ class ScorecardGroupVisualisation extends DashboardVisualisationClass {
       })
       this.titleKey = this.titleColumn?.id || ''
     }
-  }
-
-  private createScorecardData = ({
-    title,
-    value,
-    rag,
-    valueFor,
-    valueFrom,
-    prevVal,
-    groupTitle,
-  }: CreateScorecardDataArgs): Scorecard => {
-    return {
-      id: this.definition.id,
-      title,
-      value,
-      ...(!Number.isNaN(value) &&
-        this.buckets.length &&
-        this.bucketsHelper && { rag: this.bucketsHelper?.getBucketForValue(<number>value, rag) }),
-      valueFor,
-      trend: this.createTrend(valueFor, valueFrom, value, prevVal),
-      ...(groupTitle && {
-        group: groupTitle,
-      }),
-    }
-  }
-
-  private createTrend = (
-    valueFor: string,
-    valueFrom: string,
-    latestValue: string | number,
-    earliestValue: string | number,
-  ): ScorecardTrend | undefined => {
-    let trendData
-
-    if (valueFrom !== valueFor) {
-      const value = +latestValue - +earliestValue
-      const direction = Math.sign(value)
-      trendData = {
-        direction,
-        value: Math.abs(value),
-        from: valueFrom,
-      }
-    }
-
-    return trendData
   }
 
   private createScorecardGroupFromColumns = () => {
@@ -130,10 +108,10 @@ class ScorecardGroupVisualisation extends DashboardVisualisationClass {
             const measure = this.measures.find((m) => m.id === colId)
             const title = measure?.display || colId
             const rowCol = row[colId]
-            const { raw, rag: ragScore } = rowCol
+            const { raw, rag } = rowCol
             const value = Number(raw)
 
-            const rag = ragScore !== undefined ? Number(ragScore) : undefined
+            const ragValue = rag !== undefined ? Number(rag) : undefined
             this.initBuckets([row], colId)
 
             const valueFor = `${latestTs}`
@@ -141,11 +119,13 @@ class ScorecardGroupVisualisation extends DashboardVisualisationClass {
 
             const comparisonRow = earliest[rowIndex]
             const prevVal = comparisonRow[colId]?.raw
+            const ragScore = this.scoreCardBuilder.setRagScore(value, ragValue, this.buckets, this.bucketsHelper)
 
-            return this.createScorecardData({
+            return this.scoreCardBuilder.createScorecardData({
+              id: this.id,
               title,
               value,
-              rag,
+              rag: ragScore,
               prevVal,
               valueFor,
               valueFrom,
@@ -163,7 +143,7 @@ class ScorecardGroupVisualisation extends DashboardVisualisationClass {
         scorecards: latest.map((row: DashboardDataResponse, index: number) => {
           const values = this.getScorecardValues(row)
           const prevVal = earliest[index][this.valueKey].raw
-          return this.createScorecardData({
+          return this.scoreCardBuilder.createScorecardData({
             ...values,
             prevVal,
           })
@@ -190,7 +170,7 @@ class ScorecardGroupVisualisation extends DashboardVisualisationClass {
           const comparisonRow = earliestGroupedByKey[groupIndex][rowIndex]
           const prevVal = comparisonRow[this.valueKey]?.raw
 
-          return this.createScorecardData({
+          return this.scoreCardBuilder.createScorecardData({
             ...values,
             prevVal,
           })
@@ -213,9 +193,10 @@ class ScorecardGroupVisualisation extends DashboardVisualisationClass {
     const valueFrom = `${earliestTs}`
 
     return {
+      id: this.id,
       title,
       value,
-      rag,
+      rag: this.scoreCardBuilder.setRagScore(value, rag, this.buckets, this.bucketsHelper),
       valueFor,
       valueFrom,
     }
@@ -226,7 +207,7 @@ class ScorecardGroupVisualisation extends DashboardVisualisationClass {
     return this.groupKeyDisplay && this.groupKeyDisplay.length ? `${this.groupKeyDisplay}: ${title}` : title
   }
 
-  private buildGroup = () => {
+  build = () => {
     let scorecardGroup: ScorecardGroup[]
     if (!this.valueColumn) {
       scorecardGroup = this.createScorecardGroupFromColumns()
@@ -236,10 +217,6 @@ class ScorecardGroupVisualisation extends DashboardVisualisationClass {
       scorecardGroup = this.createScorecardGroupFromList()
     }
     return scorecardGroup
-  }
-
-  build = () => {
-    return this.buildGroup()
   }
 }
 

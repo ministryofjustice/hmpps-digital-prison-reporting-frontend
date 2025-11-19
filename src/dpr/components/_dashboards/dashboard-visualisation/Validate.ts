@@ -200,6 +200,7 @@ const lineOptions = z.object({
 
 const LineSchema = z.object({
   ...DashboardVisualisationSchema.shape,
+  display: z.string(),
   type: z.literal('line'),
   options: z.object(lineOptions.shape),
   columns: z.object({

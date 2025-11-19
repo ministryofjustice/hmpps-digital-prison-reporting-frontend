@@ -59,6 +59,7 @@ class RequestReportController {
         res.end()
       }
     } catch (error) {
+      console.log('\n\n **** ERROR **** \n\n')
       const filters = AysncRequestUtils.getFiltersFromReqBody(req)
 
       req.body = {
@@ -69,7 +70,7 @@ class RequestReportController {
         filters,
         ...req.body,
       }
-      next()
+      next(error)
     }
   }
 

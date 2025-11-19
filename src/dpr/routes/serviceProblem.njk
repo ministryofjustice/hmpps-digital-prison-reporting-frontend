@@ -1,0 +1,10 @@
+{% extends layoutPath %}
+
+{% block content %}
+  <h1 class="govuk-heading-xl">{{ message | default("Sorry, there is a problem with the service.") }}</h1>
+  <p>The problem has been reported to the service team.</p>
+  <p>Try again later.</p>
+  <h2 class="govuk-heading-m">Get help</h2>
+  <p>Contact the helpdesk on 0800 917 5148 or #6598 from inside an establishment.</p>
+  <p><a class="govuk-link--no-visited-state" href="{{ digitalPrisonServicesUrl }}">Go to digital services home page</a></p>
+{% endblock %}

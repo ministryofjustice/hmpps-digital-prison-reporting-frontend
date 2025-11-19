@@ -1,4 +1,4 @@
-import { RequestHandler } from 'express'
+import { ErrorRequestHandler } from 'express'
 import { Services } from '../../../types/Services'
 import logger from '../../../utils/logger'
 
@@ -12,7 +12,7 @@ class RequestReportController {
     this.services = services
   }
 
-  errorHandler: RequestHandler = async (req, res, _next) => {
+  errorHandler: ErrorRequestHandler = async (_error, req, res, _next) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
 
     res.render(`dpr/routes/journeys/view-report/error`, {

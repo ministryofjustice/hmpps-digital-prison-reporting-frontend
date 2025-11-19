@@ -107,29 +107,10 @@ class ReportingClient {
         token,
       })
       .then((response) => <components['schemas']['SingleVariantReportDefinition']>response)
-  }
-
-  getFieldValues({
-    token,
-    definitionName,
-    variantName,
-    fieldName,
-    prefix,
-    definitionsPath,
-  }: FieldValuesRequest): Promise<Array<string>> {
-    const query = {
-      dataProductDefinitionsPath: definitionsPath,
-      prefix,
-    }
-    this.logInfo('Get field values', { definitionName, variantName, fieldName, prefix })
-
-    return this.restClient
-      .get({
-        path: `/reports/${definitionName}/${variantName}/${fieldName}`,
-        token,
-        query,
+      .catch(e => {
+        console.log(e.stack)
+        throw e
       })
-      .then((response) => <Array<string>>response)
   }
 
   requestAsyncReport(

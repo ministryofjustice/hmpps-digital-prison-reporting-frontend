@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { RequestHandler, Response, Request } from 'express'
+import { RequestHandler, Response, Request, ErrorRequestHandler, NextFunction } from 'express'
 import type { ParsedQs } from 'qs'
 import { Services } from '../types/Services'
 import { RequestedReport, StoredReportData } from '../types/UserReports'
@@ -7,6 +7,7 @@ import DefinitionUtils from '../utils/definitionUtils'
 import { BookmarkStoreData } from '../types/Bookmark'
 import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
+import { HTTPError } from 'superagent'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -20,7 +21,22 @@ const deriveDefinitionsPath = (query: ParsedQs): string | null => {
   return null
 }
 
-export const setupResources = (services: Services, config?: DprConfig): RequestHandler => {
+export const errorRequestHandler = (layoutPath: string): ErrorRequestHandler => (error: HTTPError, _req: Request, res: Response, next: NextFunction) => {
+  if (error.status === 401 || error.status === 403) {
+    return res.render('dpr/routes/authError.njk', {
+      layoutPath,
+      message: 'Sorry, there is a problem with authenticating your request'
+    })
+  }
+  if (error.status >= 400) {
+    return res.render('dpr/routes/serviceProblem.njk', {
+      layoutPath,
+    })
+  }
+  next()
+}
+
+export const setupResources = (services: Services, layoutPath: string, config?: DprConfig): RequestHandler => {
   return async (req, res, next) => {
     populateValidationErrors(req, res)
     try {
@@ -28,7 +44,7 @@ export const setupResources = (services: Services, config?: DprConfig): RequestH
       await populateRequestedReports(services, res)
       return next()
     } catch (error) {
-      return next(error)
+      return errorRequestHandler(layoutPath)(error, req, res, next)
     }
   }
 }
@@ -73,7 +89,7 @@ export const populateDefinitions = async (services: Services, req: Request, res:
     (await Promise.all([
       services.reportingService.getDefinitions(token, res.locals['definitionsPath']),
       selectedProductCollectionId &&
-        services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
+      services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
     ]).then(([defs, selectedProductCollection]) => {
       if (selectedProductCollection && selectedProductCollection) {
         const productIds = selectedProductCollection.products.map((product) => product.productId)
@@ -92,15 +108,15 @@ export const populateRequestedReports = async (services: Services, res: Response
     res.locals['requestedReports'] = !definitionsPath
       ? requested
       : requested.filter((report: RequestedReport) => {
-          return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
-        })
+        return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
+      })
 
     const recent = await services.recentlyViewedService.getAllReports(dprUser.id)
     res.locals['recentlyViewedReports'] = !definitionsPath
       ? recent
       : recent.filter((report: StoredReportData) => {
-          return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
-        })
+        return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
+      })
 
     res.locals['downloadingEnabled'] = services.downloadPermissionService.enabled
     res.locals['bookmarkingEnabled'] = services.bookmarkService.enabled
@@ -113,8 +129,8 @@ export const populateRequestedReports = async (services: Services, res: Response
       res.locals['bookmarks'] = !definitionsPath
         ? bookmarks
         : bookmarks.filter((bookmark: BookmarkStoreData) => {
-            return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
-          })
+          return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
+        })
     }
   }
 }

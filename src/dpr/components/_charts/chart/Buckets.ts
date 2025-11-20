@@ -62,7 +62,7 @@ class Buckets {
     this.setBucketCount()
     this.initBucketColours()
 
-    if (buckets) {
+    if (buckets && buckets.length) {
       if (this.hasRagScore) {
         if (this.onlyBucketColoursDefined) {
           this.buckets = buckets
@@ -110,12 +110,15 @@ class Buckets {
   }
 
   private initBucketColours = () => {
+    console.log({ useRagColour: this.useRagColour, bucketCount: this.bucketCount })
     if (this.useRagColour && this.bucketCount === 3) {
       this.buckets = Array.from(new Array(this.bucketCount)).map((d, i) => {
         return {
           hexColour: this.ragColours[i],
         }
       })
+
+      console.log('initBucketColours', this.buckets)
     } else {
       const alphaDivision = 1 / this.bucketCount
       this.buckets = Array.from(new Array(this.bucketCount)).map((d, i) => {
@@ -125,6 +128,8 @@ class Buckets {
         }
       })
     }
+
+    console.log('initBucketColours', this.buckets)
   }
 
   private setAutomaticThresholdSize = () => {
@@ -198,6 +203,7 @@ class Buckets {
   }
 
   getBuckets = () => {
+    console.log('getBuckets', this.buckets)
     return this.buckets
   }
 }

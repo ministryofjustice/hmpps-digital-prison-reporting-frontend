@@ -85,19 +85,27 @@ class RequestedReportService extends ReportStoreService {
   setReportUrl(report: RequestedReport) {
     const { tableId, url, dpdPathFromQuery, dataProductDefinitionsPath, type } = report
 
-    const reportUrlArr = url.polling.pathname.replace('/request-report', '/view-report/async').split('/')
-    reportUrlArr[reportUrlArr.length - 2] = tableId
-    reportUrlArr[reportUrlArr.length - 1] = type
-    const reportUrl = reportUrlArr.join('/')
+    let pathname
+    let fullUrl
 
-    const search = report.url.report?.search ? report.url.report.search : ''
-    const dpdPath = dpdPathFromQuery ? `${getDpdPathSuffix(dataProductDefinitionsPath)}` : ''
-    const searchPath = search || dpdPath
-    const pathname = `${reportUrl}${searchPath}`
+    if (url && url.polling?.pathname) {
+      let reportUrlArr = Array.from(new Array(2))
+      reportUrlArr = url.polling.pathname.replace('/request-report', '/view-report/async').split('/')
+      reportUrlArr[reportUrlArr.length - 2] = tableId
+      reportUrlArr[reportUrlArr.length - 1] = type
+      const reportUrl = reportUrlArr.join('/')
+
+      const search = url.report?.search ? url.report.search : ''
+      const dpdPath =
+        dataProductDefinitionsPath && dpdPathFromQuery ? `${getDpdPathSuffix(dataProductDefinitionsPath)}` : ''
+      const searchPath = search || dpdPath
+      pathname = `${reportUrl}${searchPath}`
+      fullUrl = `${url.origin}${pathname}`
+    }
 
     return {
-      pathname: `${reportUrl}${searchPath}`,
-      fullUrl: `${url.origin}${pathname}`,
+      pathname,
+      fullUrl,
     }
   }
 
@@ -107,7 +115,7 @@ class RequestedReportService extends ReportStoreService {
     switch (status) {
       case RequestStatus.FAILED:
         report.timestamp.failed = ts
-        report.errorMessage = errorMessage
+        if (errorMessage) report.errorMessage = errorMessage
         break
       case RequestStatus.EXPIRED:
         report.timestamp.expired = ts
@@ -117,9 +125,11 @@ class RequestedReportService extends ReportStoreService {
         break
       case RequestStatus.FINISHED: {
         report.timestamp.completed = ts
-        report.url.report = {
-          ...report.url.report,
-          ...this.setReportUrl(report),
+        if (report.url) {
+          report.url.report = {
+            ...report.url.report,
+            ...this.setReportUrl(report),
+          }
         }
         break
       }

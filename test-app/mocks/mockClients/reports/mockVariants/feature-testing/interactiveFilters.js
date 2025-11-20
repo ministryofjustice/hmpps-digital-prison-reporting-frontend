@@ -1,3 +1,4 @@
+// @ts-nocheck
 const featureTestingInteractive = {
   id: 'feature-testing-interactive',
   name: 'Interactive Report',

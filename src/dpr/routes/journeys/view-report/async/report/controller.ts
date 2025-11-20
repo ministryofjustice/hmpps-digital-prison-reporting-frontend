@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../../types/Services'
-import ErrorSummaryUtils from '../../../../../components/error-summary/utils'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import AsyncReportUtils from './utils'
 import ViewReportUtils from '../../utils'
+import ErrorHandler from '../../../../../utils/ErrorHandler'
 
 class ViewAyncReportController {
   layoutPath: string
@@ -27,12 +27,12 @@ class ViewAyncReportController {
         ...renderData,
       })
     } catch (error) {
-      const dprError = ErrorSummaryUtils.handleError(<Error>error, req.params.type)
+      const dprError = new ErrorHandler(error).formatError()
       let refreshLink
       const { recentlyViewedService } = this.services
       if (dprError.status === 'EXPIRED' && recentlyViewedService) {
         const { dprUser } = LocalsHelper.getValues(res)
-        refreshLink = await recentlyViewedService.asyncSetToExpiredByTableId(req.params.tableId, dprUser.id)
+        refreshLink = await recentlyViewedService.asyncSetToExpiredByTableId(req.params['tableId'], dprUser.id)
       }
       req.body.title = `Failed to retrieve ${type}`
       req.body.error = dprError
@@ -43,11 +43,11 @@ class ViewAyncReportController {
     }
   }
 
-  applyFilters: RequestHandler = async (req, res, next) => {
+  applyFilters: RequestHandler = async (req, res, _next) => {
     await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'filters')
   }
 
-  applyColumns: RequestHandler = async (req, res, next) => {
+  applyColumns: RequestHandler = async (req, res, _next) => {
     await ViewReportUtils.applyReportInteractiveQuery(req, res, this.services, 'columns')
   }
 }

@@ -1,6 +1,6 @@
 export interface MatrixChartData {
   x: number | string
   y: number | string
-  r?: number
+  r?: number | undefined
   v: number
 }

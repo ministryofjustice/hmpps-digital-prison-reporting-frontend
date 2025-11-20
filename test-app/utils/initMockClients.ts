@@ -19,7 +19,7 @@ export const initServices = (featureConfig?: { bookmarking?: boolean; download?:
     missingReportClient: any
     productCollectionService: ProductCollectionService
   } = {} as typeof clients
-  if (process.env.USE_MOCK_CLIENTS) {
+  if (process.env['USE_MOCK_CLIENTS']) {
     clients.reportingClient = new MockReportingClient() as unknown as ReportingClient
     clients.dashboardClient = new MockDashboardClient() as unknown as DashboardClient
     clients.reportDataStore = new MockUserStoreService() as unknown as ReportDataStore

@@ -1,6 +1,6 @@
 export interface DashboardDataResponse {
   [key: string]: {
-    raw: number | string
+    raw?: number | string | null | undefined
     rag?: number
   }
 }

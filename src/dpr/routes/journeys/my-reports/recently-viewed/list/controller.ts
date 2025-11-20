@@ -15,7 +15,7 @@ class RecentlyViewedReportsListController {
     this.services = services
   }
 
-  GET: RequestHandler = async (req, res) => {
+  GET: RequestHandler = async (_req, res) => {
     const { recentlyViewedReports } = LocalsHelper.getValues(res)
 
     const listParams = await UserReportsListUtils.renderList({

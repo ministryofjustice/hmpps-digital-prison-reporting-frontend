@@ -73,7 +73,7 @@ class HeatmapChart {
 
     this.data = timeBlockData.map((tsData) => {
       const { raw, rag } = tsData[0][this.valueKey]
-      const tsRaw = tsData[0].ts.raw
+      const tsRaw = tsData[0]['ts'].raw
 
       const v: MatrixChartData['v'] = Number(raw)
       const r: MatrixChartData['r'] = rag !== undefined ? Number(tsData[0][this.valueKey].rag) : undefined

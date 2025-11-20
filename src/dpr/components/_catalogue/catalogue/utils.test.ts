@@ -1,3 +1,4 @@
+import { expect, jest } from '@jest/globals'
 import { Response } from 'express'
 import CatalogueUtils from './utils'
 import CatalogueListUtils from '../catalogue-list/utils'
@@ -7,6 +8,7 @@ describe('CatalogueUtils', () => {
   jest.spyOn(CatalogueListUtils, 'getReportsList').mockResolvedValue({
     head: [],
     rows: [],
+    id: 'id',
   })
 
   describe('init', () => {
@@ -37,7 +39,7 @@ describe('CatalogueUtils', () => {
       const result = await CatalogueUtils.init({ features: {}, res, services })
 
       expect(result).toEqual({
-        data: { head: [], rows: [], csrfToken: 'csrfToken' },
+        data: { head: [], rows: [], csrfToken: 'csrfToken', id: 'id' },
         features: {
           bookmarkingEnabled: undefined,
           filteringEnabled: true,
@@ -62,7 +64,7 @@ describe('CatalogueUtils', () => {
       })
 
       expect(result).toEqual({
-        data: { head: [], rows: [], csrfToken: 'csrfToken' },
+        data: { head: [], rows: [], csrfToken: 'csrfToken', id: 'id' },
         features: {
           bookmarkingEnabled: false,
           filteringEnabled: false,

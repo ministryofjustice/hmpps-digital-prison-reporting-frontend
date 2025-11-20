@@ -1,6 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { DashboardDataResponse } from '../../../types/Metrics'
-import { ListDashboardVisualisationOptions, MoJTable, MoJTableRow } from '../dashboard-visualisation/types'
+import {
+  ListDashboardVisualisationOptions,
+  MoJTable,
+  MoJTableHead,
+  MoJTableRow,
+} from '../dashboard-visualisation/types'
 import DatasetHelper from '../../../utils/datasetHelper'
 import { components } from '../../../types/api'
 
@@ -49,16 +54,16 @@ const createListFromColumns = (
 ) => {
   const { columns } = listDefinition
   const { keys, measures } = columns
-  const groupKey = DatasetHelper.getGroupKey(keys || [], dashboardData)
+  const groupKey = DatasetHelper.getGroupKey(dashboardData, keys || [])
 
-  const timestampData = dashboardData[0]?.ts?.raw
+  const timestampData = dashboardData[0]?.['ts']?.raw
   const ts = timestampData ? `${timestampData}` : ''
 
-  const head = []
+  const head: MoJTableHead[] = []
   head.push({ text: '' })
   dashboardData.forEach((row) => {
     head.push({
-      text: groupKey ? row[groupKey.id].raw : '',
+      text: groupKey ? `${row[groupKey.id].raw}` : '',
     })
   })
 
@@ -102,15 +107,15 @@ const creatListFromRows = (
 ) => {
   const { measures } = listDefinition.columns
 
-  const head = measures.map((column) => {
-    return { text: column.display }
+  const head: MoJTableHead[] = measures.map((column) => {
+    return { text: column.display || '' }
   })
 
   const dataSetRows = DatasetHelper.getDatasetRows(listDefinition, dashboardData)
   const displayRows = DatasetHelper.filterRowsByDisplayColumns(listDefinition, dataSetRows)
   const rows = createTableRows(displayRows, measures)
 
-  const timestampData = dataSetRows[0]?.ts?.raw
+  const timestampData = dataSetRows[0]?.['ts']?.raw
   const ts = timestampData ? `${timestampData}` : ''
 
   return {
@@ -121,13 +126,13 @@ const creatListFromRows = (
 }
 
 const createFullList = (dashboardData: DashboardDataResponse[]) => {
-  const head = Object.keys(dashboardData[0]).map((key) => {
-    return { text: key }
+  const head: MoJTableHead[] = Object.keys(dashboardData[0]).map((key) => {
+    return { text: key || '' }
   })
   const rows = createTableRows(dashboardData)
 
   const latestData = DatasetHelper.getLastestDataset(dashboardData)
-  const timestampData = latestData[0]?.ts?.raw
+  const timestampData = latestData[0]?.['ts']?.raw
   const ts = timestampData ? `${timestampData}` : ''
 
   return {

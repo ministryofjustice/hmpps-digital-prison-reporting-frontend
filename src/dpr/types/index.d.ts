@@ -3,7 +3,7 @@ import Dict = NodeJS.Dict
 export interface ListRequest {
   selectedPage: number
   pageSize: number
-  sortColumn?: string
+  sortColumn?: string | undefined
   sortedAsc: boolean
 }
 

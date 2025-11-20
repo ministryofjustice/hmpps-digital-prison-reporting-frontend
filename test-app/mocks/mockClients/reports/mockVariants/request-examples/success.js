@@ -1,3 +1,4 @@
+// @ts-nocheck
 const requestExampleSuccess = {
   id: 'request-example-success',
   name: 'Successful Report',
@@ -7,6 +8,7 @@ const requestExampleSuccess = {
   printable: false,
   specification: {
     template: 'list',
+    sections: [],
     fields: [
       {
         name: 'field1',
@@ -16,6 +18,8 @@ const requestExampleSuccess = {
         type: 'string',
         mandatory: false,
         visible: true,
+        calculated: false,
+        header: false,
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -34,6 +38,9 @@ const requestExampleSuccess = {
         type: 'string',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'Select',
           staticOptions: [
@@ -51,6 +58,9 @@ const requestExampleSuccess = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
@@ -65,6 +75,9 @@ const requestExampleSuccess = {
         visible: false,
         sortable: false,
         type: 'string',
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
@@ -88,6 +101,9 @@ const requestExampleSuccess = {
         type: 'string',
         mandatory: false,
         visible: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
@@ -104,6 +120,9 @@ const requestExampleSuccess = {
         type: 'HTML',
         mandatory: true,
         visible: true,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'text',
         },
@@ -115,6 +134,9 @@ const requestExampleSuccess = {
         visible: true,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'date',
           defaultValue: '2005-02-01',
@@ -129,6 +151,9 @@ const requestExampleSuccess = {
         visible: false,
         type: 'date',
         mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
         filter: {
           type: 'multiselect',
           staticOptions: [

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockScorecardDefinitionNationality = {
   type: 'scorecard',
   display: 'No of prisoners with nationality',

@@ -513,25 +513,27 @@ context('Viewing a report', () => {
 
           applyFilters()
 
-          let startValue: string
-          let endValue: string
+          let startValue: string | number | string[] | undefined
+          let endValue: string | number | string[] | undefined
           cy.findByRole('textbox', { name: 'From' })
             .invoke('val')
             .should('not.be.empty')
-            .then((val: string) => {
+            .then((val) => {
               startValue = val
             })
           cy.findByRole('textbox', { name: 'To' })
             .invoke('val')
             .should('not.be.empty')
-            .then((val: string) => {
+            .then((val) => {
               endValue = val
             })
 
           const dateMapper = new DateMapper()
           cy.location().should((location) => {
-            expect(location.search).to.contain(`filters.field3.start=${dateMapper.toDateString(startValue, 'iso')}`)
-            expect(location.search).to.contain(`filters.field3.end=${dateMapper.toDateString(endValue, 'iso')}`)
+            expect(location.search).to.contain(
+              `filters.field3.start=${dateMapper.toDateString(<string>startValue, 'iso')}`,
+            )
+            expect(location.search).to.contain(`filters.field3.end=${dateMapper.toDateString(<string>endValue, 'iso')}`)
             expect(location.search).to.contain(`filters.field3.relative-duration=tomorrow`)
           })
 
@@ -672,7 +674,7 @@ context('Viewing a report', () => {
         cy.findByLabelText(/Viewed \(/).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return element.textContent.includes(name) && element.textContent.includes(product)
+              return Boolean(element.textContent?.includes(name)) && Boolean(element.textContent?.includes(product))
             },
           }).within(() => {
             cy.findAllByRole('listitem')

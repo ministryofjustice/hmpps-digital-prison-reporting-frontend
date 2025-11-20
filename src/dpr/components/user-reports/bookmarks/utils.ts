@@ -1,7 +1,7 @@
-import { Response, Request } from 'express'
+import { Response } from 'express'
 import { BookmarkService } from '../../../services'
 import { BookmarkedReportData, BookmarkStoreData } from '../../../types/Bookmark'
-import { FormattedUserReportData, LoadType, ReportType } from '../../../types/UserReports'
+import { FormattedBookmarkData, LoadType, ReportType } from '../../../types/UserReports'
 import { Services } from '../../../types/Services'
 import ShowMoreUtils from '../../show-more/utils'
 import logger from '../../../utils/logger'
@@ -10,7 +10,7 @@ import { createListItemProduct, createListActions, setInitialHref } from '../../
 import LocalsHelper from '../../../utils/localsHelper'
 import { ReportStoreConfig } from '../../../types/ReportStore'
 
-export const formatBookmarks = async (bookmarksData: BookmarkedReportData[]): Promise<FormattedUserReportData[]> => {
+export const formatBookmarks = async (bookmarksData: BookmarkedReportData[]): Promise<FormattedBookmarkData[]> => {
   return bookmarksData
     .map((report: BookmarkedReportData) => {
       return formatBookmark(report)
@@ -18,7 +18,7 @@ export const formatBookmarks = async (bookmarksData: BookmarkedReportData[]): Pr
     .sort((a, b) => a.text.localeCompare(b.text))
 }
 
-export const formatBookmark = (bookmarkData: BookmarkedReportData): FormattedUserReportData => {
+export const formatBookmark = (bookmarkData: BookmarkedReportData): FormattedBookmarkData => {
   const reportData: BookmarkedReportData = JSON.parse(JSON.stringify(bookmarkData))
   const { id, name, description, href, reportName, type } = reportData
 
@@ -89,7 +89,6 @@ const formatTableData = async (
 
 const mapBookmarkIdsToDefinition = async (
   bookmarks: BookmarkStoreData[],
-  req: Request,
   res: Response,
   token: string,
   services: Services,
@@ -100,43 +99,41 @@ const mapBookmarkIdsToDefinition = async (
   await Promise.all(
     bookmarks.map(async (bookmark) => {
       let definition
-      const { reportId, variantId, id, automatic, type } = bookmark
-      const bookmarkId = variantId || id
+      const { reportId, id, automatic, type } = bookmark
       const reportType: ReportType = type ? (type as ReportType) : ReportType.REPORT
 
       try {
-        let name
-        let description
-        let reportName
+        let name = ''
+        let description = ''
         let loadType = LoadType.ASYNC
-        const href = setInitialHref(loadType, reportType, reportId, bookmarkId, res)
+        const href = setInitialHref(loadType, reportType, reportId, id, res)
+
+        const procuctSummary = await DefinitionUtils.getReportSummary(
+          reportId,
+          services.reportingService,
+          token,
+          definitionsPath,
+        )
+        const reportName = procuctSummary.name
 
         if (reportType === ReportType.REPORT) {
-          definition = await services.reportingService.getDefinition(token, reportId, bookmarkId, definitionsPath)
-          reportName = definition.name
+          const variantSummary = procuctSummary.variants.find((v) => v.id === id)
+          definition = await services.reportingService.getDefinition(token, reportId, id, definitionsPath)
           name = definition.variant.name
-          description = definition.variant.description || definition.description
-          loadType = definition.variant.loadType || loadType
+          description = definition.variant.description || definition.description || ''
+          loadType = (variantSummary?.loadType as LoadType) || loadType
         }
 
         if (reportType === ReportType.DASHBOARD) {
-          const reportDefinition = await DefinitionUtils.getReportSummary(
-            reportId,
-            services.reportingService,
-            token,
-            definitionsPath,
-          )
-
-          definition = await services.dashboardService.getDefinition(token, reportId, bookmarkId, definitionsPath)
+          definition = await services.dashboardService.getDefinition(token, reportId, id, definitionsPath)
           name = definition.name
-          reportName = reportDefinition.name
-          description = definition.description
+          description = definition.description || ''
         }
 
         if (definition) {
           bookmarkData.push({
             reportId,
-            id: bookmarkId,
+            id,
             reportName,
             name,
             description,
@@ -148,9 +145,9 @@ const mapBookmarkIdsToDefinition = async (
         }
       } catch (error) {
         // DPD has been deleted so API throws error
-        logger.warn(`Failed to map bookmark for: Report ${reportId}, variant ${bookmarkId}`)
+        logger.warn(`Failed to map bookmark for: Report ${reportId}, variant ${id}`)
         const { dprUser } = LocalsHelper.getValues(res)
-        await services.bookmarkService.removeBookmark(dprUser.id, bookmarkId, reportId)
+        await services.bookmarkService.removeBookmark(dprUser.id, id, reportId)
       }
     }),
   )
@@ -161,15 +158,13 @@ export const renderBookmarkList = async ({
   services,
   maxRows = 20,
   res,
-  req,
 }: {
   services: Services
   maxRows?: number
   res: Response
-  req: Request
 }) => {
   const { token, csrfToken, dprUser, bookmarks } = LocalsHelper.getValues(res)
-  const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, req, res, token, services)
+  const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, res, token, services)
 
   let formatted = await formatBookmarks(bookmarksData)
   const formattedCount = formatted.length

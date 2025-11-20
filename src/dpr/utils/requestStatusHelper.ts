@@ -6,22 +6,14 @@ import { ChildReportExecutionData } from '../types/ExecutionData'
 import logger from './logger'
 import { Services } from '../types/Services'
 import localsHelper from './localsHelper'
+import { components } from '../types/api'
+import ErrorHandler from './ErrorHandler'
 
 dayjs.extend(customParse)
 interface GetStatusUtilsResponse {
   status: RequestStatus
-  errorMessage?: string
+  errorMessage?: { userMessage?: string; developerMessage?: string }
   reportData?: RequestedReport | undefined
-}
-
-interface StatusResponseError {
-  userMessage: string
-  developerMessage: string
-}
-
-interface StatusResponse {
-  status: RequestStatus
-  error: StatusResponseError
 }
 
 const BAD_REQUEST_STATUSES: Array<RequestStatus> = [RequestStatus.ABORTED, RequestStatus.FAILED, RequestStatus.EXPIRED]
@@ -32,7 +24,9 @@ const IN_PROGRESS_REQUEST_STATUSES: Array<RequestStatus> = [
   RequestStatus.PICKED,
 ]
 
-function findWorstStatusResponse(statusRequests: Array<Promise<StatusResponse>>): Promise<StatusResponse> {
+function findWorstStatusResponse(
+  statusRequests: Array<Promise<components['schemas']['StatementExecutionStatus']>>,
+): Promise<components['schemas']['StatementExecutionStatus']> {
   return Promise.all(statusRequests).then((statusResponses) => {
     const badStatus = statusResponses.find(
       (response) =>
@@ -67,22 +61,22 @@ const getStatusByReportType = async (
 
   const requestedReport = await services.requestedReportService.getReportByExecutionId(executionId, userId)
 
-  const reports = requestedReport.childExecutionData ?? []
+  const reports = requestedReport?.childExecutionData ?? []
 
+  let statusRequests: Array<Promise<components['schemas']['StatementExecutionStatus']>> = []
   if (type === ReportType.REPORT) {
     reports.push({ executionId, tableId, variantId: id })
+    statusRequests = reports.map((executionData: ChildReportExecutionData) => {
+      return services.reportingService.getAsyncReportStatus(
+        token,
+        reportId,
+        executionData.variantId,
+        executionData.executionId || '',
+        definitionsPath,
+        executionData.tableId || '',
+      )
+    })
   }
-
-  const statusRequests = reports.map((executionData: ChildReportExecutionData) =>
-    services.reportingService.getAsyncReportStatus(
-      token,
-      reportId,
-      executionData.variantId,
-      executionData.executionId,
-      definitionsPath,
-      executionData.tableId,
-    ),
-  )
 
   if (type === ReportType.DASHBOARD) {
     statusRequests.push(
@@ -111,33 +105,26 @@ export const getStatus = async ({
   const { status: currentStatus, requestedAt } = req.body
   const timeoutExemptStatuses = [RequestStatus.READY, RequestStatus.EXPIRED, RequestStatus.FAILED]
 
-  let status
+  let status: RequestStatus
   let errorMessage
-  let statusResponse
+  let statusResponse: components['schemas']['StatementExecutionStatus']
   try {
-    ;({ status, statusResponse } = await getStatusByReportType(services, req, res, token, dprUser.id))
+    const statusResponseData = await getStatusByReportType(services, req, res, token, dprUser.id)
+    statusResponse = statusResponseData.statusResponse
+    status = <RequestStatus>statusResponseData.status
     if (
       shouldTimeoutRequest({ requestedAt, compareTime: new Date(), durationMins: 15 }) &&
-      !timeoutExemptStatuses.includes(status)
+      !timeoutExemptStatuses.includes(<RequestStatus>status)
     ) {
       throw new Error('Request taking too long. Request Halted')
     }
 
     if (status === RequestStatus.FAILED) {
       logger.error(`Error: ${JSON.stringify(statusResponse.error)}`)
-      const { userMessage, developerMessage } = statusResponse.error
-      if (userMessage || developerMessage) {
-        errorMessage = statusResponse.error
-      } else {
-        errorMessage = {
-          developerMessage: statusResponse.error,
-        }
-      }
+      errorMessage = new ErrorHandler(statusResponse.error).formatError()
     }
   } catch (error) {
-    logger.error(`Error: ${JSON.stringify(error)}`)
-    const { data } = error
-    errorMessage = data || { userMessage: error.message }
+    errorMessage = new ErrorHandler(error).formatError()
     status = currentStatus === RequestStatus.FINISHED ? RequestStatus.EXPIRED : RequestStatus.FAILED
   }
 
@@ -167,10 +154,10 @@ export const getExpiredStatus = async ({ req, res, services }: { req: Request; r
   let errorMessage
   let status
   try {
-    ;({ status } = await getStatusByReportType(services, req, res, token, dprUser.id))
+    const statusData = await getStatusByReportType(services, req, res, token, dprUser.id)
+    status = <RequestStatus>statusData.status
   } catch (error) {
-    const { data } = error
-    errorMessage = (data ?? {}).userMessage
+    errorMessage = new ErrorHandler(error).formatError()
     status =
       currentStatus === RequestStatus.READY || currentStatus === RequestStatus.FINISHED
         ? RequestStatus.EXPIRED

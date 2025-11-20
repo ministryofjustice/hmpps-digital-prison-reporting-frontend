@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockListDefinitionAgeRange1 = {
   id: 'age-range-1',
   type: 'list',

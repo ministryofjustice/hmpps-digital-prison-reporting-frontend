@@ -32,10 +32,10 @@ export const createUrlForParameters = (
   } else {
     queryParams = {
       selectedPage: '1',
-      pageSize: currentQueryParams.pageSize,
-      sortColumn: currentQueryParams.sortColumn,
-      sortedAsc: currentQueryParams.sortedAsc,
-      dataProductDefinitionsPath: currentQueryParams.dataProductDefinitionsPath,
+      pageSize: currentQueryParams['pageSize'],
+      sortColumn: currentQueryParams['sortColumn'],
+      sortedAsc: currentQueryParams['sortedAsc'],
+      dataProductDefinitionsPath: currentQueryParams['dataProductDefinitionsPath'],
     }
   }
 

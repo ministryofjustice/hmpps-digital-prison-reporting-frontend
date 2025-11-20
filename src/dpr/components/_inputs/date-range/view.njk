@@ -5,6 +5,7 @@
 {% from "../start-end-date/view.njk" import dprStartEndDate %}
 
 {% macro dprDateRange(data, parameterPrefix = "filters.", mandatory = false) %}
+
   {% set relativeOptions = data.relativeOptions %}
   {% set durationInputId = parameterPrefix + data.name + '.relative-duration' %}
 

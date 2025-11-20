@@ -5,7 +5,7 @@ import { ReportStoreConfig } from '../types/ReportStore'
 class ReportStoreService {
   reportStore: ReportDataStore
 
-  constructor(private readonly reportDataStore: ReportDataStore) {
+  constructor(readonly reportDataStore: ReportDataStore) {
     this.reportStore = reportDataStore
   }
 

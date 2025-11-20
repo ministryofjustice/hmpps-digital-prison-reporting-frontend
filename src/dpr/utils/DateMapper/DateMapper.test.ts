@@ -1,3 +1,4 @@
+import { expect } from '@jest/globals'
 import DateMapper from './DateMapper'
 
 const dateMapper = new DateMapper()
@@ -40,27 +41,39 @@ describe('getDateType', () => {
 
 describe('getDateWrapper', () => {
   it('Iso Date', () => {
-    expect(dateMapper.getDateWrapper('2001-02-03').format('YYYY-MM-DD')).toEqual('2001-02-03')
+    const date = dateMapper.getDateWrapper('2001-02-03')
+    const formattedDate = date ? date.format('YYYY-MM-DD') : ''
+    expect(formattedDate).toEqual('2001-02-03')
   })
 
   it('Local Date', () => {
-    expect(dateMapper.getDateWrapper('01/02/2003').format('YYYY-MM-DD')).toEqual('2003-02-01')
+    const date = dateMapper.getDateWrapper('01/02/2003')
+    const formattedDate = date ? date.format('YYYY-MM-DD') : ''
+    expect(formattedDate).toEqual('2003-02-01')
   })
 
   it('Picker Local Date', () => {
-    expect(dateMapper.getDateWrapper('1/2/2003').format('YYYY-MM-DD')).toEqual('2003-02-01')
+    const date = dateMapper.getDateWrapper('1/2/2003')
+    const formattedDate = date ? date.format('YYYY-MM-DD') : ''
+    expect(formattedDate).toEqual('2003-02-01')
   })
 
   it('Local Date Short Year', () => {
-    expect(dateMapper.getDateWrapper('01/02/03').format('YYYY-MM-DD')).toEqual('2003-02-01')
+    const date = dateMapper.getDateWrapper('01/02/03')
+    const formattedDate = date ? date.format('YYYY-MM-DD') : ''
+    expect(formattedDate).toEqual('2003-02-01')
   })
 
   it('Local Date Time', () => {
-    expect(dateMapper.getDateWrapper('01/02/2003 04:05').format('YYYY-MM-DD')).toEqual('2003-02-01')
+    const date = dateMapper.getDateWrapper('01/02/2003 04:05')
+    const formattedDate = date ? date.format('YYYY-MM-DD') : ''
+    expect(formattedDate).toEqual('2003-02-01')
   })
 
   it('Local Date Time Short Year', () => {
-    expect(dateMapper.getDateWrapper('01/02/03 04:05').format('YYYY-MM-DD')).toEqual('2003-02-01')
+    const date = dateMapper.getDateWrapper('01/02/03 04:05')
+    const formattedDate = date ? date.format('YYYY-MM-DD') : ''
+    expect(formattedDate).toEqual('2003-02-01')
   })
 
   it('No value', () => {
@@ -124,14 +137,14 @@ describe('toDateString', () => {
   })
 
   it('No value', () => {
-    expect(dateMapper.toDateString(null, 'iso')).toBeNull()
+    expect(dateMapper.toDateString(null, 'iso')).toBeUndefined()
   })
 
   it('Non-date value', () => {
-    expect(dateMapper.toDateString('Not a date', 'iso')).toBeNull()
+    expect(dateMapper.toDateString('Not a date', 'iso')).toBeUndefined()
   })
 
   it('Invalid type', () => {
-    expect(dateMapper.toDateString('2001-02-03T04:05:06Z', 'none')).toBeNull()
+    expect(dateMapper.toDateString('2001-02-03T04:05:06Z', 'none')).toBeUndefined()
   })
 })

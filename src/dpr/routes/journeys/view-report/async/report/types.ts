@@ -4,8 +4,8 @@ import { AsyncReportUrlItemData } from '../../../../../types/UserReports'
 
 export interface ReportUrls {
   reportUrl: string
-  reportSearch?: string
-  encodedSearch?: string
+  reportSearch?: string | undefined
+  encodedSearch?: string | undefined
   pathname: string
 }
 
@@ -21,11 +21,11 @@ export interface ExtractedDefinitionData {
 }
 
 export interface ExtractedRequestData {
-  executionId?: string
-  requestedTimestamp?: string
+  executionId?: string | undefined
+  requestedTimestamp?: string | undefined
   querySummary: Dict<string>[]
-  queryData?: Dict<string | string[]>
-  requestUrl?: AsyncReportUrlItemData
-  defaultQuery?: string
-  dataProductDefinitionsPath?: string
+  queryData?: Dict<string | string[]> | undefined
+  requestUrl?: AsyncReportUrlItemData | undefined
+  defaultQuery?: string | undefined
+  dataProductDefinitionsPath?: string | undefined
 }

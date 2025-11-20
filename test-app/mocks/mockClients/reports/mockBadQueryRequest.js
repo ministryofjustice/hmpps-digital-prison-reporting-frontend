@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockBadQueryRequest = {
   text: '{"status":400,"userMessage":"Validation failure: Invalid filters provided.","developerMessage":"Invalid filters provided."}',
   status: 400,

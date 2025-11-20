@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express'
 
 export default class ListTemplateController {
-  layoutPath: string
+  layoutPath = ''
 
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     const pagination = {
       totalRows: 100,
       currentPage: 2,
@@ -127,7 +127,7 @@ export default class ListTemplateController {
           text: 'Text',
           name: 'text',
           type: 'text',
-          value: null,
+          value: <string | null>null,
           mandatory: true,
         },
       ],

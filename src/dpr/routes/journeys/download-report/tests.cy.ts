@@ -15,7 +15,10 @@ context('Download report', () => {
     cy.findByLabelText(/Reports catalogue.*/i).within(() => {
       cy.findByRole('row', {
         name: (_, element) => {
-          return element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
+          return (
+            Boolean(element.textContent?.includes('Successful Report')) &&
+            Boolean(element.textContent?.includes('this will succeed'))
+          )
         },
       }).within(() => {
         cy.findByRole('link', { name: 'Request report' }).click()

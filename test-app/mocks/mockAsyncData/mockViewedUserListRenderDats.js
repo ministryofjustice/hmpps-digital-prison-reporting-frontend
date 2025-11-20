@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockViewedUserListRenderData = {
   head: {
     href: './async-reports/viewed',

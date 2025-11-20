@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockAgeRange1TableData = [
   {
     ts: { raw: '2025/01/07' },

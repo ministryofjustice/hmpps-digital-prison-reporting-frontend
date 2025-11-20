@@ -1,9 +1,12 @@
 import { RequestHandler } from 'express'
+import { MoJTableHead } from 'src/dpr/components/_dashboards/dashboard-visualisation/types'
+import { FilterValue, SelectedFilter } from 'src/dpr/components/_filters/types'
+import { ReportAction } from 'src/dpr/components/_reports/report-actions/types'
 
 export default class ListSectionTemplateController {
-  layoutPath: string
+  layoutPath = ''
 
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     const reportData = {
       columns: {
         name: 'columns',
@@ -37,8 +40,8 @@ export default class ListSectionTemplateController {
         value: ['field1', 'field2', 'field3', 'field4'],
       },
       filterData: {
-        filters: [],
-        selectedFilters: [],
+        filters: <FilterValue[]>[],
+        selectedFilters: <SelectedFilter[]>[],
       },
       count: 100,
       csrfToken: 'csrfToken',
@@ -46,7 +49,7 @@ export default class ListSectionTemplateController {
       template: 'list-section',
       loadType: 'async',
       type: 'report',
-      actions: [],
+      actions: <ReportAction[]>[],
       canDownload: false,
       printable: true,
       reportName: 'B Test Report',
@@ -82,8 +85,6 @@ export default class ListSectionTemplateController {
         search: '?filters.field3.start=2003-02-01&filters.field3.end=2007-05-04&sortColumn=field1&sortedAsc=true',
       },
       reportUrl: '/async/report/test-report-2/variantId-10/request/tblId_1747314657029/report',
-      reportSearch: null,
-      search: null,
       pathname: '/async/report/test-report-2/variantId-10/request/tblId_1747314657029/report',
       reportSummaries: {
         'page-header': [
@@ -91,7 +92,6 @@ export default class ListSectionTemplateController {
             head: [
               {
                 text: 'Total',
-                classes: null,
               },
             ],
             rows: [
@@ -113,15 +113,12 @@ export default class ListSectionTemplateController {
             head: [
               {
                 text: 'Good (%)',
-                classes: null,
               },
               {
                 text: 'Bad (%)',
-                classes: null,
               },
               {
                 text: 'Ugly (%)',
-                classes: null,
               },
             ],
             rows: [
@@ -153,7 +150,7 @@ export default class ListSectionTemplateController {
       },
       dataTable: [
         {
-          head: null,
+          head: <MoJTableHead[] | null>null,
           rows: [
             [
               {

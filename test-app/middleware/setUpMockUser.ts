@@ -2,9 +2,9 @@ import { RequestHandler } from 'express'
 import DprUser from '../../src/dpr/types/DprUser'
 
 export default (): RequestHandler => {
-  return async (req, res, next) => {
+  return async (_req, res, next) => {
     try {
-      res.locals.user = {
+      res.locals['user'] = {
         token: 'eyJ1xwGG(TYXGSTSboyubXBHBHJSX',
         username: 'USERT_GEN',
         authSource: 'nomis',
@@ -20,14 +20,14 @@ export default (): RequestHandler => {
       }
 
       const dprUser = new DprUser()
-      dprUser.token = res.locals.user.token
+      dprUser.token = res.locals['user'].token
       dprUser.id = mockManageUsersGetUserResponse.uuid
       dprUser.activeCaseLoadId = mockManageUsersGetUserResponse.activeCaseLoadId
       dprUser.emailAddress = mockManageUsersGetUserResponse.email
       dprUser.displayName = mockManageUsersGetUserResponse.displayName
       dprUser.staffId = mockManageUsersGetUserResponse.staffId
 
-      res.locals.dprUser = dprUser
+      res.locals['dprUser'] = dprUser
 
       return next()
     } catch (error) {

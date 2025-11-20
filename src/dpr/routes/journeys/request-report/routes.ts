@@ -36,13 +36,13 @@ export function Redirects() {
   // Request route redirect
   router.get(`/async/:type/:reportId/:id/request`, (req, res) => {
     const { type, reportId, id } = req.params
-    res.redirect(`${res.locals.nestedBaseUrl}/dpr/request-report/${type}/${reportId}/${id}/filters`)
+    res.redirect(`${res.locals['nestedBaseUrl']}/dpr/request-report/${type}/${reportId}/${id}/filters`)
   })
 
   // Status route redirect
   router.get(`/async/:type/:reportId/:id/request/:executionId`, (req, res) => {
     const { type, reportId, id, executionId } = req.params
-    res.redirect(`${res.locals.nestedBaseUrl}/dpr/request-report/${type}/${reportId}/${id}/${executionId}/status`)
+    res.redirect(`${res.locals['nestedBaseUrl']}/dpr/request-report/${type}/${reportId}/${id}/${executionId}/status`)
   })
 
   return router

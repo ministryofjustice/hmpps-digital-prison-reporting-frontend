@@ -1,3 +1,4 @@
+import { expect } from '@jest/globals'
 import Dict = NodeJS.Dict
 import { components } from '../../types/api'
 import SectionedDataTableBuilder from './SectionedDataTableBuilder'
@@ -30,6 +31,7 @@ const data: Array<Dict<string>> = [
 ]
 const fields: Array<components['schemas']['FieldDefinition']> = [
   {
+    header: false,
     name: 'sectionOne',
     display: 'Section One',
     sortable: true,
@@ -40,6 +42,7 @@ const fields: Array<components['schemas']['FieldDefinition']> = [
     calculated: false,
   },
   {
+    header: false,
     name: 'sectionTwo',
     display: 'Section Two',
     sortable: true,
@@ -50,6 +53,7 @@ const fields: Array<components['schemas']['FieldDefinition']> = [
     calculated: false,
   },
   {
+    header: false,
     name: 'oranges',
     display: 'Oranges!',
     sortable: true,
@@ -60,6 +64,7 @@ const fields: Array<components['schemas']['FieldDefinition']> = [
     calculated: false,
   },
   {
+    header: false,
     name: 'lemons',
     display: 'Lemons?!',
     sortable: true,

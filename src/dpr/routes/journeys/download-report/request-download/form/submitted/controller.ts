@@ -12,7 +12,7 @@ class RequestDownloadSubmittedController {
     this.services = services
   }
 
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (req, res, _next) => {
     const { dprUser } = localsHelper.getValues(res)
     const { reportId, variantId } = req.params
     const { reportName, variantName, reportUrl, reportSearch } = req.query

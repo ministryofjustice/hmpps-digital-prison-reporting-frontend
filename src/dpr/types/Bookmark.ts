@@ -9,13 +9,19 @@ export interface BookmarkedReportData {
   href: string
   type: ReportType
   loadType: LoadType
-  automatic?: boolean
+  automatic?: boolean | undefined
 }
 
 export interface BookmarkStoreData {
   reportId: string
-  variantId?: string
-  id?: string
+  id: string
+  type?: ReportType
+  automatic?: boolean | undefined
+}
+
+export interface AutomaticBookmarkStoreData {
+  reportId: string
+  variantId: string
   type?: ReportType
   automatic?: boolean
 }

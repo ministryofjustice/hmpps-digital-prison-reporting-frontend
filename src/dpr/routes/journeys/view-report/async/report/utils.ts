@@ -100,18 +100,18 @@ const initReportQuery = async (
   const filtersData = await ReportFiltersUtils.getFilters({
     fields,
     req,
+    filtersType: FiltersType.INTERACTIVE,
     res,
     services,
-    filtersType: FiltersType.INTERACTIVE,
   })
 
   // Sort
-  const sortColumn = req.query?.sortColumn || requestData?.query?.data?.sortColumn
-  const sortedAsc = req.query?.sortedAsc || requestData?.query?.data?.sortedAsc
+  const sortColumn = req.query?.['sortColumn'] || requestData?.query?.data?.['sortColumn']
+  const sortedAsc = req.query?.['sortedAsc'] || requestData?.query?.data?.['sortedAsc']
 
   // Pagination
-  const selectedPage = req.query?.selectedPage
-  const pageSize = req.query?.pageSize
+  const selectedPage = req.query?.['selectedPage']
+  const pageSize = req.query?.['pageSize']
 
   // Filters
   const filtersQuery = ReportFiltersUtils.setRequestQueryFromFilterValues(filtersData.filters)
@@ -215,7 +215,7 @@ export const getChildData = async (
       }).toRecordWithFilterPrefix(true)
 
       const childData = childExecutionData.find((e) => e.variantId === childVariant.id)
-      if (!childData) {
+      if (!childData || !childData.tableId) {
         throw new Error('getChildData: No matching child execution data found')
       }
       const { tableId: childTableId } = childData
@@ -523,8 +523,8 @@ const setActions = (
       currentUrl: urls.pathname,
       currentQueryParams: urls.reportSearch,
       ...(requestData?.queryData && {
-        sortColumn: <string>requestData.queryData.sortColumn,
-        sortedAsc: <string>requestData.queryData.sortedAsc,
+        sortColumn: <string>requestData.queryData['sortColumn'],
+        sortedAsc: <string>requestData.queryData['sortedAsc'],
       }),
     }
   }

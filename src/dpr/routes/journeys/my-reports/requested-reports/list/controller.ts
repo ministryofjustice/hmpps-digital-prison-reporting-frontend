@@ -15,7 +15,7 @@ class RequestedReportsListController {
     this.services = services
   }
 
-  GET: RequestHandler = async (req, res) => {
+  GET: RequestHandler = async (_req, res) => {
     const { requestedReports } = LocalsHelper.getValues(res)
 
     const listParams = await UserReportsListUtils.renderList({

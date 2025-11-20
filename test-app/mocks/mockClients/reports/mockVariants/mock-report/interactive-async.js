@@ -1,3 +1,4 @@
+// @ts-nocheck
 const variant35Interactive = {
   id: 'variantId-35',
   name: 'Interactive Report with async filters',

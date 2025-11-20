@@ -1,3 +1,4 @@
+import { expect } from '@jest/globals'
 import SelectedFiltersUtils from './utils'
 import type { FilterValue } from '../types'
 import { FilterType } from '../filter-input/enum'
@@ -11,6 +12,7 @@ describe('SelectedFiltersUtils', () => {
         text: 'Filter 1',
         name: 'filter1',
         type: FilterType.text,
+        value: '',
       },
       {
         text: 'Filter 2',
@@ -22,6 +24,7 @@ describe('SelectedFiltersUtils', () => {
         text: 'Filter 3',
         name: 'filter3',
         type: FilterType.text,
+        value: '',
       },
       {
         text: 'Filter 4',
@@ -54,8 +57,8 @@ describe('SelectedFiltersUtils', () => {
         name: 'filter7',
         type: FilterType.multiselect,
         value: 'value7.2,value7.3',
-        minimumLength: null,
-        dynamicResourceEndpoint: null,
+        minimumLength: undefined,
+        dynamicResourceEndpoint: undefined,
         mandatory: false,
         options: [
           {
@@ -82,8 +85,8 @@ describe('SelectedFiltersUtils', () => {
         name: 'filter8',
         type: FilterType.select,
         value: 'value8.1',
-        minimumLength: null,
-        dynamicResourceEndpoint: null,
+        minimumLength: undefined,
+        dynamicResourceEndpoint: undefined,
         mandatory: false,
         options: [
           {

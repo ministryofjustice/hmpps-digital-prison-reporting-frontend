@@ -5,12 +5,13 @@ import { FilterType } from '../../../../../../dist/dpr/components/_filters/filte
 import { FilterValue } from '../../../../../../dist/dpr/components/_filters/types'
 
 export default class DateRangeController {
-  GET: RequestHandler = async (req, res, next) => {
-    const filter = {
+  GET: RequestHandler = async (_req, res) => {
+    const defaultQuickFilterValue: components['schemas']['FilterDefinition']['defaultQuickFilterValue'] =
+      'last-seven-days'
+    const filter: components['schemas']['FilterDefinition'] = {
       type: 'daterange' as components['schemas']['FilterDefinition']['type'],
       mandatory: true,
-      defaultValue: '2003-02-01 - 2007-05-04',
-      defaultQuickFilterValue: 'last-week' as components['schemas']['FilterDefinition']['defaultQuickFilterValue'],
+      defaultQuickFilterValue,
     }
 
     const filterData: FilterValue = {
@@ -18,6 +19,7 @@ export default class DateRangeController {
       name: 'relative-date-range-with-default',
       type: FilterType.dateRange,
       mandatory: true,
+      value: null,
     }
 
     const dateRangeFilterData = DateRangeInputUtils.getFilterFromDefinition(filter, filterData)

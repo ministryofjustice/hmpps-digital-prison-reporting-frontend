@@ -27,7 +27,6 @@ import createUrlForParameters from '../../utils/urlHelper'
 import { Services } from '../../types/Services'
 import { FiltersType } from './filtersTypeEnum'
 import LocalsHelper from '../../utils/localsHelper'
-import { defaultFilterValue } from '../../utils/Personalisation/types'
 
 /**
  * Given a FilterValue[], will update the values to match the req.query values if present
@@ -147,7 +146,7 @@ export const getFiltersFromDefinition = (
     .filter((f) => f.filter)
     .filter((f) => {
       if (interactive !== undefined) {
-        if (f.filter.interactive === undefined) {
+        if (f.filter?.interactive === undefined) {
           return !interactive
         }
         return interactive === f.filter.interactive
@@ -170,8 +169,8 @@ export const getFiltersFromDefinition = (
         name,
         type: type as FilterType,
         value: defaultValue || null,
-        minimumLength: dynamicOptions?.minimumLength,
         mandatory: mandatory || false,
+        minimumLength: dynamicOptions?.minimumLength,
         pattern,
         index,
       }
@@ -250,7 +249,7 @@ const orderFilters = (filterValues: FilterValue[]) => {
   const noIndexFilters = filterValues.filter((f) => f.index === undefined)
   const indexFilters = filterValues.filter((f) => f.index !== undefined)
   indexFilters.forEach((f) => {
-    noIndexFilters.splice(f.index, 0, f)
+    if (f.index !== undefined) noIndexFilters.splice(f.index, 0, f)
   })
   return noIndexFilters
 }
@@ -284,12 +283,14 @@ export const setRequestQueryFromFilterValues = (filterValues: FilterValue[]) => 
           }
           break
         case FilterType.dateRange.toLowerCase():
-          Object.keys(value).forEach((key) => {
-            acc = {
-              ...acc,
-              [`${filterPrefix}.${key}`]: value[key as keyof FilterValueType],
-            }
-          })
+          if (value) {
+            Object.keys(value).forEach((key) => {
+              acc = {
+                ...acc,
+                [`${filterPrefix}.${key}`]: value[key as keyof FilterValueType],
+              }
+            })
+          }
           break
         case FilterType.multiselect.toLowerCase():
           acc = {
@@ -365,12 +366,7 @@ export const getPersonalisedFilters = async (
 ) => {
   const { reportId, id } = req.params
   const { dprUser } = LocalsHelper.getValues(res)
-  const defaultFilterValues: defaultFilterValue[] = await services.defaultFilterValuesService.get(
-    dprUser.id,
-    reportId,
-    id,
-    filtersType,
-  )
+  const defaultFilterValues = await services.defaultFilterValuesService.get(dprUser.id, reportId, id, filtersType)
   let defaultFilters = filters
   if (defaultFilterValues) {
     const personalisedFilters = PersonalistionUtils.setFilterValuesFromSavedDefaults(filters, [], defaultFilterValues)
@@ -390,9 +386,9 @@ export const getFilters = async ({
 }: {
   fields: components['schemas']['FieldDefinition'][]
   req: Request
-  res?: Response
+  res?: Response | undefined
   prefix?: string
-  services?: Services
+  services?: Services | undefined
   filtersType: FiltersType
 }) => {
   // 1. Set the filters from the product definition
@@ -400,7 +396,7 @@ export const getFilters = async ({
 
   let hasDefaults
   let canSaveDefaults = false
-  if (services) {
+  if (services && res) {
     // 2. If there are personalised filters, overwrite fiters with the personalised filter values.
     const { filters: personalisedFilterValues, defaultFilterValues } = await getPersonalisedFilters(
       filters,
@@ -410,7 +406,7 @@ export const getFilters = async ({
       filtersType,
     )
     filters = personalisedFilterValues
-    hasDefaults = defaultFilterValues?.length > 0
+    hasDefaults = defaultFilterValues && defaultFilterValues.length > 0
     canSaveDefaults = true
   }
 

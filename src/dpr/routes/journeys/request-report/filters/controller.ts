@@ -2,9 +2,9 @@ import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
 import { RequestDataResult } from '../../../../types/AsyncReportUtils'
 import AysncRequestUtils from './utils'
-import ErrorSummaryUtils from '../../../../components/error-summary/utils'
 import PersonalisationUtils from '../../../../utils/Personalisation/personalisationUtils'
 import { FiltersType } from '../../../../components/_filters/filtersTypeEnum'
+import ErrorHandler from '../../../../utils/ErrorHandler'
 
 class RequestReportController {
   layoutPath: string
@@ -32,8 +32,8 @@ class RequestReportController {
       })
     } catch (error) {
       req.body.title = 'Request failed'
-      req.body.errorDescription = `Your ${req.params.type} has failed to generate.`
-      req.body.error = ErrorSummaryUtils.handleError(error, req.params.type)
+      req.body.errorDescription = `Your ${req.params['type']} has failed to generate.`
+      req.body.error = new ErrorHandler(error).formatError()
       next()
     }
   }
@@ -59,13 +59,12 @@ class RequestReportController {
         res.end()
       }
     } catch (error) {
-      const dprError = ErrorSummaryUtils.handleError(error, req.params.type)
       const filters = AysncRequestUtils.getFiltersFromReqBody(req)
 
       req.body = {
         title: 'Request Failed',
-        errorDescription: `Your ${req.params.type} has failed to generate.`,
-        error: dprError,
+        errorDescription: `Your ${req.params['type']} has failed to generate.`,
+        error: new ErrorHandler(error).formatError(),
         retry: true,
         filters,
         ...req.body,
@@ -81,7 +80,7 @@ class RequestReportController {
     } catch (error) {
       req.body = {
         title: 'Failed to save defaults',
-        error: ErrorSummaryUtils.handleError(error, req.params.type),
+        error: new ErrorHandler(error).formatError(),
         ...req.body,
       }
       next()
@@ -95,7 +94,7 @@ class RequestReportController {
     } catch (error) {
       req.body = {
         title: 'Failed to remove defaults',
-        error: ErrorSummaryUtils.handleError(error, req.params.type),
+        error: new ErrorHandler(error).formatError(),
         ...req.body,
       }
       next()

@@ -1,3 +1,4 @@
+import { expect } from '@jest/globals'
 import SummaryDataTableBuilder from './SummaryDataTableBuilder'
 import { AsyncSummary } from '../../types/UserReports'
 

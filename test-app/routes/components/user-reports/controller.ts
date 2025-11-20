@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express'
 
 export default class UserReportsController {
-  layoutPath: string
+  layoutPath = ''
 
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     res.render('views/pages/menu.njk', {
       title: 'User Reports list variants',
       caption: 'Components',

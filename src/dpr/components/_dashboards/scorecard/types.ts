@@ -5,13 +5,15 @@ export interface Scorecard {
   title: string
   group?: string
   value: number | string
-  trend?: ScorecardTrend
-  link?: {
-    href: '#'
-    displayName: 'View breakdown'
-  }
+  trend?: ScorecardTrend | undefined
+  link?:
+    | {
+        href: '#'
+        displayName: 'View breakdown'
+      }
+    | undefined
   valueFor?: string
-  rag?: ScorecardRag
+  rag?: ScorecardRag | undefined
 }
 
 export interface ScorecardSubGroup {
@@ -38,9 +40,9 @@ export interface ScorecardRag {
 
 export interface ScorecardDataset {
   earliest: DashboardDataResponse[]
-  earliestTs: string | number
+  earliestTs?: string | number | null | undefined
   latest: DashboardDataResponse[]
-  latestTs: string | number
+  latestTs?: string | number | null | undefined
 }
 
 export interface CreateScorecardDataArgs {
@@ -53,6 +55,6 @@ export interface CreateScorecardDataArgs {
   }
   valueFor: string
   valueFrom: string
-  prevVal: string | number
+  prevVal: string | number | null | undefined
   groupTitle?: string
 }

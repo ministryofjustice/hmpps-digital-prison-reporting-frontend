@@ -1,3 +1,4 @@
+// @ts-nocheck
 const { establishmentIdFilter } = require('../../filter-definitions')
 const {
   mockEthnicityBarChart,

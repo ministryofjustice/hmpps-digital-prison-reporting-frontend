@@ -13,7 +13,7 @@ class DownloadReportController {
     this.services = services
   }
 
-  POST: RequestHandler = async (req, res, next) => {
+  POST: RequestHandler = async (req, res) => {
     const { dprUser } = LocalsHelper.getValues(res)
     const { reportId, id, loadType, currentUrl, currentQueryParams } = req.body
 

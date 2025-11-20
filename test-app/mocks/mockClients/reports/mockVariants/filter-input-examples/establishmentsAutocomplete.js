@@ -1,3 +1,4 @@
+// @ts-nocheck
 const variant25 = {
   id: 'establishmentAutocomplete',
   name: 'Establishment autocomplete',

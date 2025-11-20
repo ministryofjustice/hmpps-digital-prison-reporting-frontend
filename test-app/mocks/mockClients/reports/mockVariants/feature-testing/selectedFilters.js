@@ -1,3 +1,4 @@
+// @ts-nocheck
 const featureTestingSelectedFilters = {
   id: 'feature-testing-selected-filters',
   name: 'Selected Filter Testing',

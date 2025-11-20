@@ -77,7 +77,7 @@ class ScorecardVisualisation {
   getDataset = (
     definition: ScorecardDefinitionType | ScorecardGroupDefinitionType,
     rawData: DashboardDataResponse[],
-  ) => {
+  ): ScorecardDataset => {
     const latestData = DatasetHelper.getLastestDataset(rawData)
     const latestDataSetRows = DatasetHelper.getDatasetRows(definition, latestData)
     const latestTs = latestDataSetRows[0]?.ts?.raw
@@ -123,12 +123,12 @@ class ScorecardVisualisation {
     valueFor: string,
     valueFrom: string,
     latestValue: string | number,
-    earliestValue: string | number,
+    earliestValue: string | number | null | undefined,
   ): ScorecardTrend | undefined => {
     let trendData
 
     if (valueFrom !== valueFor) {
-      const value = +latestValue - +earliestValue
+      const value = earliestValue ? Number(latestValue) - Number(earliestValue) : 0
       const direction = Math.sign(value)
       trendData = {
         direction,
@@ -141,7 +141,7 @@ class ScorecardVisualisation {
   }
 
   setRagScore = (
-    value: string | number,
+    value: string | number | undefined | null,
     rag: number | undefined,
     buckets: DashboardVisualisationBucket[] | undefined,
     bucketsHelper: Buckets | undefined,
@@ -165,7 +165,7 @@ class ScorecardVisualisation {
       return this.createScorecardData({
         id: this.id,
         title: title || '',
-        value,
+        value: value || '',
         rag: this.setRagScore(value, rag, this.buckets, this.bucketsHelper),
         prevVal,
         valueFor,

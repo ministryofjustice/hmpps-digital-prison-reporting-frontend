@@ -94,7 +94,7 @@ class ReportingService {
     executionId: string,
     dataProductDefinitionsPath: string,
     tableId: string,
-  ): Promise<Dict<string>> {
+  ): Promise<components['schemas']['StatementExecutionStatus']> {
     return this.reportingClient.getAsyncReportStatus(
       token,
       reportId,

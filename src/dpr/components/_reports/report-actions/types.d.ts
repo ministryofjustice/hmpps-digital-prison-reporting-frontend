@@ -13,7 +13,7 @@ export interface DownloadActionParams {
   canDownload: boolean
   loadType: LoadType
   currentUrl: string
-  currentQueryParams?: string
+  currentQueryParams?: string | undefined
   nestedBaseUrl: string
   sortColumn?: string
   sortedAsc?: string

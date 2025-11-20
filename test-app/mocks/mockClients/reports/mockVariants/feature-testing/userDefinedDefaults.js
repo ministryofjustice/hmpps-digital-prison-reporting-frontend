@@ -1,3 +1,4 @@
+// @ts-nocheck
 const featureTestingUserDefinedDefaults = {
   id: 'feature-testing-user-defined-defaults',
   name: 'User context defined defaults',

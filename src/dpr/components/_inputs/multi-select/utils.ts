@@ -47,7 +47,7 @@ export const getMultiselectValues = (f: MultiselectFilterValue, prefix: string) 
       const displayOption = f.options?.find((opt) => opt.value === v)
       return displayOption ? displayOption.text : null
     })
-    .filter((v, i) => {
+    .filter((_v, i) => {
       return i < MAX_VALUES
     })
     .join(', ')

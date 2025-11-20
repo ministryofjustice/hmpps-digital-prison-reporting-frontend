@@ -7,6 +7,7 @@ const simpleScorecardNationality: components['schemas']['DashboardVisualisationD
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_nationality' }],
+    expectNulls: false,
   },
 }
 
@@ -23,6 +24,7 @@ const simpleScorecardNationalityFilter: components['schemas']['DashboardVisualis
         equals: 'SLI',
       },
     ],
+    expectNulls: false,
   },
 }
 
@@ -33,6 +35,7 @@ const simpleScorecardReligion: components['schemas']['DashboardVisualisationDefi
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_religion' }],
+    expectNulls: false,
   },
 }
 
@@ -43,6 +46,7 @@ const simpleScorecardEthnicity: components['schemas']['DashboardVisualisationDef
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_ethnicity' }],
+    expectNulls: false,
   },
 }
 
@@ -56,6 +60,7 @@ const simpleScorecardRagColoursNationality: components['schemas']['DashboardVisu
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_nationality' }],
+    expectNulls: false,
   },
 }
 
@@ -69,6 +74,7 @@ const simpleScorecardRagColoursReligion: components['schemas']['DashboardVisuali
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_religion' }],
+    expectNulls: false,
   },
 }
 
@@ -82,6 +88,7 @@ const simpleScorecardRagColoursEthnicity: components['schemas']['DashboardVisual
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_ethnicity' }],
+    expectNulls: false,
   },
 }
 
@@ -95,6 +102,7 @@ const simpleScorecardCustomBucketsNationality: components['schemas']['DashboardV
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_nationality' }],
+    expectNulls: false,
   },
 }
 
@@ -108,6 +116,7 @@ const simpleScorecardCustomBucketsEthnicity: components['schemas']['DashboardVis
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_ethnicity' }],
+    expectNulls: false,
   },
 }
 
@@ -121,6 +130,7 @@ const simpleScorecardCustomBucketsReligion: components['schemas']['DashboardVisu
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_religion' }],
+    expectNulls: false,
   },
 }
 
@@ -135,6 +145,7 @@ const simpleScorecardCustomBucketsBoundariesReligion: components['schemas']['Das
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_religion' }],
+    expectNulls: false,
   },
 }
 
@@ -149,6 +160,7 @@ const simpleScorecardCustomBucketsBoundariesNationality: components['schemas']['
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_nationality' }],
+    expectNulls: false,
   },
 }
 
@@ -163,6 +175,7 @@ const simpleScorecardCustomBucketsBoundariesEthnicity: components['schemas']['Da
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_ethnicity' }],
+    expectNulls: false,
   },
 }
 

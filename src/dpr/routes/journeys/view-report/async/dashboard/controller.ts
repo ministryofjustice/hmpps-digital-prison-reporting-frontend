@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
+import ErrorHandler from '../../../../../utils/ErrorHandler'
 import { Services } from '../../../../../types/Services'
-import ErrorSummaryUtils from '../../../../../components/error-summary/utils'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import DashboardUtils from './utils'
 import ViewReportUtils from '../../utils'
@@ -27,12 +27,12 @@ class ViewAsyncDashboardController {
         ...renderData,
       })
     } catch (error) {
-      const dprError = ErrorSummaryUtils.handleError(error, req.params.type)
+      const dprError = new ErrorHandler(error).formatError()
       let refreshLink
       if (dprError.status === 'EXPIRED') {
         const { dprUser } = LocalsHelper.getValues(res)
         refreshLink = await this.services.recentlyViewedService.asyncSetToExpiredByTableId(
-          req.params.tableId,
+          req.params['tableId'],
           dprUser.id,
         )
       }
@@ -45,7 +45,7 @@ class ViewAsyncDashboardController {
     }
   }
 
-  applyFilters: RequestHandler = async (req, res, next) => {
+  applyFilters: RequestHandler = async (req, res, _next) => {
     await ViewReportUtils.applyDashboardInteractiveQuery(req, res, this.services, 'filters')
   }
 }

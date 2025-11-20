@@ -6,8 +6,8 @@ export interface Page {
 }
 
 export interface Pagination {
-  next?: string
-  prev?: string
+  next?: string | undefined
+  prev?: string | undefined
   pages: Page[]
   pageSize: number
   currentPage: number

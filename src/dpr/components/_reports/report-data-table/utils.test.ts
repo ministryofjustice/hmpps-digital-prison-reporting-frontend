@@ -1,3 +1,4 @@
+import { expect, jest } from '@jest/globals'
 import { Url } from 'url'
 import Dict = NodeJS.Dict
 
@@ -19,6 +20,7 @@ import variant2 = require('../../../../../test-app/mocks/mockClients/reports/moc
 import variant26 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/report-templates/parent-child')
 import { ChildData } from '../../../utils/ParentChildDataTableBuilder/types'
 import variant10 = require('../../../../../test-app/mocks/mockClients/reports/mockVariants/report-templates/list-section-wtih-summaries')
+import { MoJTableHead } from '../../_dashboards/dashboard-visualisation/types'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
@@ -58,9 +60,11 @@ describe('AsyncReportListUtils', () => {
         variant: variant2,
       } as unknown as components['schemas']['SingleVariantReportDefinition']
 
+      const template = definition.variant.specification?.template
+
       reportQuery = new ReportQuery({
-        fields: definition.variant.specification.fields,
-        template: definition.variant.specification.template as Template,
+        fields: definition.variant.specification?.fields || [],
+        template: template || ('list' as Template),
         queryParams: {},
         definitionsPath: 'dataProductDefinitionsPath',
       })
@@ -126,9 +130,11 @@ describe('AsyncReportListUtils', () => {
         variant: variant10,
       } as unknown as components['schemas']['SingleVariantReportDefinition']
 
+      const template = definition.variant.specification?.template
+
       reportQuery = new ReportQuery({
-        fields: definition.variant.specification.fields,
-        template: definition.variant.specification.template as Template,
+        fields: definition.variant.specification?.fields || [],
+        template: template || ('list' as Template),
         queryParams: {},
         definitionsPath: 'dataProductDefinitionsPath',
       })
@@ -266,7 +272,7 @@ describe('AsyncReportListUtils', () => {
 
       const expectedTable = [
         {
-          head: null,
+          head: <MoJTableHead | null>null,
           rows: [
             [
               {
@@ -466,9 +472,10 @@ describe('AsyncReportListUtils', () => {
         variant: variant26,
       } as unknown as components['schemas']['SingleVariantReportDefinition']
 
+      const template = definition.variant.specification?.template
       reportQuery = new ReportQuery({
-        fields: definition.variant.specification.fields,
-        template: definition.variant.specification.template as Template,
+        fields: definition.variant.specification?.fields || [],
+        template: template || ('list' as Template),
         queryParams: {},
         definitionsPath: 'dataProductDefinitionsPath',
       })
@@ -517,7 +524,7 @@ describe('AsyncReportListUtils', () => {
       const expectedTable = [
         {
           colCount: 1,
-          head: null,
+          head: <MoJTableHead | null>null,
           rowCount: 5,
           rows: [
             [{ classes: 'govuk-table__header', text: 'Second' }],

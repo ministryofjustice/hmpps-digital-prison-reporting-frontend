@@ -1,3 +1,4 @@
+// @ts-nocheck
 const requestedUserListData = {
   head: {
     href: './async-reports/requested',

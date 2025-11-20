@@ -2,19 +2,19 @@ import { RequestHandler } from 'express'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { components } from '../../../../types/api'
 import { Services } from '../../../../types/Services'
-import MissingReportClient from '../../../../services/missingReport/missingReportClient'
+import MissingReportService from '../../../../services/missingReport/missingReportService'
 import { ReportingService } from '../../../../services'
 
 class MissingReportFormController {
   layoutPath: string
 
-  missingReportClient: MissingReportClient
+  missingReportService: MissingReportService
 
   reportingService: ReportingService
 
   constructor(layoutPath: string, services: Services) {
     this.layoutPath = layoutPath
-    this.missingReportClient = services.missingReportClient
+    this.missingReportService = services.missingReportService
     this.reportingService = services.reportingService
   }
 
@@ -58,22 +58,17 @@ class MissingReportFormController {
 
     const { token } = LocalsHelper.getValues(res)
 
-    await this.missingReportClient
-      .submitMissingReportEntry(token, reportId, variantId, requestDetails)
-      .then(
-        () => {
-          const queryParams = `reportName=${reportName}&name=${variantName}&reportId=${reportId}&variantId=${variantId}`
-          const redirect = `./submitted?${queryParams}`
+    try {
+      const submission = this.missingReportService.submitMissingReportEntry(token, reportId, variantId, requestDetails)
+      if (submission) {
+        const queryParams = `reportName=${reportName}&name=${variantName}&reportId=${reportId}&variantId=${variantId}`
+        const redirect = `./submitted?${queryParams}`
 
-          res.redirect(redirect)
-        },
-        () => {
-          res.render(`dpr/components/serviceError/view`)
-        },
-      )
-      .catch(() => {
-        res.render(`dpr/components/serviceError/view`)
-      })
+        res.redirect(redirect)
+      }
+    } catch (_error) {
+      res.render(`dpr/components/serviceError/view`)
+    }
   }
 }
 

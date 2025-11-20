@@ -2,10 +2,15 @@
 import createApp from './app'
 import { initServices } from './utils/initMockClients'
 
-const app = createApp(initServices({
-  bookmarking: true,
-  download: true,
-}))
+const app = createApp(
+  initServices({
+    bookmarking: true,
+    download: true,
+    collections: true,
+    missingReports: true,
+    saveDefaults: true,
+  }),
+)
 
 // Port
 const port = Number(process.env['PORT']) || 3010

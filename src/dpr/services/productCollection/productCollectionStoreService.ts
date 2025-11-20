@@ -1,19 +1,27 @@
+import { ServiceFeatureConfig } from '../../types/DprConfig'
 import ReportDataStore from '../../data/reportDataStore'
 import logger from '../../utils/logger'
 import ReportStoreService from '../reportStoreService'
 
 export class ProductCollectionStoreService extends ReportStoreService {
-  constructor(reportDataStore: ReportDataStore) {
+  enabled: boolean
+
+  constructor(reportDataStore: ReportDataStore, serviceFeatureConfig: ServiceFeatureConfig) {
     super(reportDataStore)
+    this.enabled = Boolean(serviceFeatureConfig.collections)
     logger.info('Service created: ProductCollectionStoreService')
   }
 
   async getSelectedProductCollectionId(userId: string): Promise<string | undefined> {
+    if (!this.enabled) return undefined
+
     const userConfig = await this.getState(userId)
     return userConfig.productCollectionInfo?.selectedProductCollection
   }
 
   async setSelectedProductCollectionId(userId: string, id: string): Promise<void> {
+    if (!this.enabled) return undefined
+
     const userConfig = await this.getState(userId)
     return this.saveState(userId, {
       ...userConfig,

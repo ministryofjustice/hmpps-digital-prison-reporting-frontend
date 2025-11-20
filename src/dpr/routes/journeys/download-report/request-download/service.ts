@@ -2,14 +2,20 @@ import logger from '../../../../utils/logger'
 import type { DownloadPermissionConfig } from '../../../../types/Download'
 import ReportStoreService from '../../../../services/reportStoreService'
 import UserDataStore from '../../../../data/reportDataStore'
+import { ServiceFeatureConfig } from '../../../../types/DprConfig'
 
 class DownloadPermissionService extends ReportStoreService {
-  constructor(userDataStore: UserDataStore) {
+  enabled: boolean
+
+  constructor(userDataStore: UserDataStore, serviceFeatureConfig: ServiceFeatureConfig) {
     super(userDataStore)
+    this.enabled = Boolean(serviceFeatureConfig.download)
     logger.info('Service created: DownloadPermissionService')
   }
 
-  async saveDownloadPermissionData(userId: string, reportId: string, id: string) {
+  async saveDownloadPermissionData(userId: string, reportId: string, id: string): Promise<void> {
+    if (!this.enabled) return
+
     const userConfig = await this.getState(userId)
 
     // Init downloads if not present
@@ -24,7 +30,9 @@ class DownloadPermissionService extends ReportStoreService {
     }
   }
 
-  async removeDownloadPermissionData(userId: string, id: string) {
+  async removeDownloadPermissionData(userId: string, id: string): Promise<void> {
+    if (!this.enabled) return
+
     const userConfig = await this.getState(userId)
     const { downloadPermissions } = userConfig
     if (downloadPermissions) {
@@ -38,7 +46,9 @@ class DownloadPermissionService extends ReportStoreService {
     }
   }
 
-  async downloadEnabled(userId: string, reportId: string, id: string) {
+  async downloadEnabled(userId: string, reportId: string, id: string): Promise<boolean> {
+    if (!this.enabled) return false
+
     const userConfig = await this.getState(userId)
 
     if (!userConfig.downloadPermissions) return false
@@ -49,9 +59,11 @@ class DownloadPermissionService extends ReportStoreService {
     return !!config
   }
 
-  async getAllDownloadPermissions(userId: string) {
+  async getAllDownloadPermissions(userId: string): Promise<DownloadPermissionConfig[]> {
+    if (!this.enabled) return []
+
     const userConfig = await this.getState(userId)
-    return userConfig.downloadPermissions
+    return userConfig.downloadPermissions || []
   }
 }
 

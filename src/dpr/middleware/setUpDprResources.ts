@@ -59,7 +59,6 @@ export const populateDefinitions = async (services: Services, req: Request, res:
   }
 
   // query takes presedence over config
-  // query takes presedence over config
   res.locals['definitionsPath'] = definitionsPathFromQuery || dpdPathFromConfig
   res.locals['pathSuffix'] = `?dataProductDefinitionsPath=${res.locals['definitionsPath']}`
 

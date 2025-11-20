@@ -11,130 +11,66 @@ import {
 import ReportDataStore from '../data/reportDataStore'
 import ReportingClient from '../data/reportingClient'
 import DashboardClient from '../data/dashboardClient'
+import MissingReportClient from '../data/missingReportClient'
+import ProductCollectionClient from '../data/productCollectionClient'
 import logger from './logger'
 import { Services } from '../types/Services'
-import MissingReportClient from '../services/missingReport/missingReportClient'
+import { MissingReportService } from '../services/missingReport/missingReportService'
 import { ProductCollectionStoreService } from '../services/productCollection/productCollectionStoreService'
 import { ProductCollectionService } from '../services/productCollection/productCollectionService'
+import { ServiceFeatureConfig } from '../types/DprConfig'
 
 export interface InitDPRServicesArgs {
   reportingClient: ReportingClient
   dashboardClient: DashboardClient
   reportDataStore: ReportDataStore
   missingReportClient: MissingReportClient
-  productCollectionService?: ProductCollectionService
+  productCollectionClient: ProductCollectionClient
 }
 
 interface dprServices {
-  reportingService?: ReportingService
-  dashboardService?: DashboardService
-  productCollectionService?: ProductCollectionService
-  requestedReportService?: RequestedReportService
-  missingReportClient?: MissingReportClient
-  recentlyViewedService?: RecentlyViewedStoreService
-  bookmarkService?: BookmarkService
-  downloadPermissionService?: DownloadPermissionService
-  defaultFilterValuesService?: DefaultFilterValuesService
-  productCollectionStoreService?: ProductCollectionStoreService
+  reportingService: ReportingService
+  dashboardService: DashboardService
+  productCollectionService: ProductCollectionService
+  requestedReportService: RequestedReportService
+  missingReportService: MissingReportService
+  recentlyViewedService: RecentlyViewedStoreService
+  bookmarkService: BookmarkService
+  downloadPermissionService: DownloadPermissionService
+  defaultFilterValuesService: DefaultFilterValuesService
+  productCollectionStoreService: ProductCollectionStoreService
 }
 
 export const createDprServices = (
   clients: InitDPRServicesArgs,
-  reportStoreConfig: ReportStoreConfig = {},
+  serviceFeatureConfig: ServiceFeatureConfig = {
+    bookmarking: false,
+    download: false,
+    collections: false,
+    missingReports: false,
+    saveDefaults: false,
+  },
 ): Services => {
   logger.info('Creating DPR services...')
 
-  const { reportingClient, dashboardClient, reportDataStore } = clients
-  let services: dprServices = {}
+  const { reportingClient, dashboardClient, reportDataStore, missingReportClient, productCollectionClient } = clients
+  const services: dprServices = {
+    reportingService: new ReportingService(reportingClient),
+    dashboardService: new DashboardService(dashboardClient),
 
-  if (reportingClient) {
-    services = createReportingService(services, reportingClient)
-  }
+    requestedReportService: new RequestedReportService(reportDataStore),
+    recentlyViewedService: new RecentlyViewedStoreService(reportDataStore),
+    bookmarkService: new BookmarkService(reportDataStore, serviceFeatureConfig),
 
-  if (dashboardClient) {
-    services = createDashboardService(services, dashboardClient)
-  }
+    defaultFilterValuesService: new DefaultFilterValuesService(reportDataStore, serviceFeatureConfig),
+    productCollectionStoreService: new ProductCollectionStoreService(reportDataStore, serviceFeatureConfig),
+    downloadPermissionService: new DownloadPermissionService(reportDataStore, serviceFeatureConfig),
 
-  if (reportDataStore) {
-    services = createReportStoreServices(reportDataStore, services, reportStoreConfig)
-  }
-
-  services = {
-    ...services,
-    missingReportClient: clients.missingReportClient,
-    productCollectionService: clients.productCollectionService,
+    missingReportService: new MissingReportService(missingReportClient, serviceFeatureConfig),
+    productCollectionService: new ProductCollectionService(productCollectionClient, serviceFeatureConfig),
   }
 
   return services as Services
-}
-
-const createReportingService = (services: dprServices, client: ReportingClient) => {
-  services = {
-    ...services,
-    reportingService: new ReportingService(client),
-  }
-
-  return services
-}
-
-const createDashboardService = (services: dprServices, client: DashboardClient) => {
-  services = {
-    ...services,
-    dashboardService: new DashboardService(client),
-  }
-
-  return services
-}
-
-interface ReportStoreConfig {
-  bookmarking?: boolean
-  download?: boolean
-}
-
-const createReportStoreServices = (
-  reportDataStore: ReportDataStore,
-  services: dprServices,
-  config: ReportStoreConfig = {},
-) => {
-  services = {
-    ...services,
-    requestedReportService: new RequestedReportService(reportDataStore),
-    recentlyViewedService: new RecentlyViewedStoreService(reportDataStore),
-    defaultFilterValuesService: new DefaultFilterValuesService(reportDataStore),
-    productCollectionStoreService: new ProductCollectionStoreService(reportDataStore),
-  }
-
-  if (config.bookmarking === undefined || config.bookmarking) {
-    services = createBookmarkService(services, reportDataStore)
-  } else {
-    logger.info('Service Disabled: BookmarkService')
-  }
-
-  if (config.download === undefined || config.download) {
-    services = createDownloadService(services, reportDataStore)
-  } else {
-    logger.info('Service Disabled: DownloadPermissionService')
-  }
-
-  return services
-}
-
-const createDownloadService = (services: dprServices, reportDataStore: ReportDataStore) => {
-  services = {
-    ...services,
-    downloadPermissionService: new DownloadPermissionService(reportDataStore),
-  }
-
-  return services
-}
-
-const createBookmarkService = (services: dprServices, reportDataStore: ReportDataStore) => {
-  services = {
-    ...services,
-    bookmarkService: new BookmarkService(reportDataStore),
-  }
-
-  return services
 }
 
 export default createDprServices

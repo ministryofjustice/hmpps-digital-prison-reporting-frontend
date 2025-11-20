@@ -4,20 +4,28 @@ import ReportDataStore from '../data/reportDataStore'
 import { ReportStoreConfig } from '../types/ReportStore'
 import { defaultFilterValue } from '../utils/Personalisation/types'
 import { FiltersType } from '../components/_filters/filtersTypeEnum'
+import { ServiceFeatureConfig } from '../types/DprConfig'
 
 class DefaultFilterValuesService extends ReportStoreService {
-  constructor(reportDataStore: ReportDataStore) {
+  enabled: boolean
+
+  constructor(reportDataStore: ReportDataStore, serviceFeatureConfig: ServiceFeatureConfig) {
     super(reportDataStore)
+    this.enabled = Boolean(serviceFeatureConfig.saveDefaults)
   }
 
-  async init(userConfig: ReportStoreConfig, userId: string) {
+  async init(userConfig: ReportStoreConfig, userId: string): Promise<void> {
+    if (!this.enabled) return
+
     if (!userConfig.defaultFilters) {
       userConfig.defaultFilters = []
       await this.saveState(userId, userConfig)
     }
   }
 
-  async save(userId: string, reportId: string, id: string, values: defaultFilterValue[]) {
+  async save(userId: string, reportId: string, id: string, values: defaultFilterValue[]): Promise<void> {
+    if (!this.enabled) return
+
     const userConfig = await this.getState(userId)
     await this.init(userConfig, userId)
 
@@ -38,7 +46,14 @@ class DefaultFilterValuesService extends ReportStoreService {
     }
   }
 
-  async get(userId: string, reportId: string, id: string, filtersType: FiltersType) {
+  async get(
+    userId: string,
+    reportId: string,
+    id: string,
+    filtersType: FiltersType,
+  ): Promise<defaultFilterValue[] | undefined> {
+    if (!this.enabled) return []
+
     const userConfig = await this.getState(userId)
     const defaultConfig = userConfig.defaultFilters?.find((defaultFilter) => {
       return defaultFilter.id === id && defaultFilter.reportId === reportId
@@ -52,14 +67,16 @@ class DefaultFilterValuesService extends ReportStoreService {
     })
   }
 
-  async getIndex(userId: string, reportId: string, id: string) {
+  private async getIndex(userId: string, reportId: string, id: string) {
     const userConfig = await this.getState(userId)
     return userConfig.defaultFilters?.findIndex((defaultFilter) => {
       return defaultFilter.id === id && defaultFilter.reportId === reportId
     })
   }
 
-  async delete(userId: string, reportId: string, id: string, type: FiltersType) {
+  async delete(userId: string, reportId: string, id: string, type: FiltersType): Promise<void> {
+    if (!this.enabled) return
+
     const userConfig = await this.getState(userId)
     const index = await this.getIndex(userId, reportId, id)
     if (index !== undefined && index !== -1 && userConfig.defaultFilters) {

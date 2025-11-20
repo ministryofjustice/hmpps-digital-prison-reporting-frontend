@@ -311,7 +311,7 @@ export const cancelRequest = async ({ req, res, services }: AsyncReportUtilsPara
   const { token, dprUser, definitionsPath } = LocalsHelper.getValues(res)
   const { reportId, id, executionId, type } = req.params
 
-  let service
+  let service: ReportingService | DashboardService = services.reportingService
   if (type === ReportType.REPORT) service = services.reportingService
   if (type === ReportType.DASHBOARD) service = services.dashboardService
 

@@ -1,3 +1,5 @@
+import { components } from 'src/dpr/types/api'
+
 export const testingDashboard2 = {
   id: '167078.RS',
   name: 'Summary',
@@ -19,7 +21,7 @@ export const testingDashboard2 = {
                 display: 'Offender Id',
               },
             ],
-            measures: [],
+            measures: <components['schemas']['DashboardVisualisationColumnDefinition'][]>[],
             expectNulls: false,
           },
         },

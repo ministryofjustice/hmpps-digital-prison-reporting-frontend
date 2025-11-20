@@ -65,7 +65,7 @@ export const setDurationStartAndEnd = (
 
   filterData[name as keyof Dict<string>] = value
 
-  let queryValue = `${value.charAt(0).toUpperCase() + value.slice(1).replace('-', ' ')}`
+  let queryValue = `${value.charAt(0).toUpperCase() + value.slice(1).replaceAll('-', ' ')}`
   queryValue = `${queryValue} (${startDateDisplayString} - ${endDateDisplayString})`
   querySummary.push({
     name: field ? `${field.display}` : name,

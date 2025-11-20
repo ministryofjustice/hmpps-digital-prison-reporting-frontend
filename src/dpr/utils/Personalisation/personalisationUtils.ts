@@ -19,11 +19,13 @@ import {
 } from '../../components/_filters/types'
 import { defaultFilterValue } from './types'
 import { FiltersType } from '../../components/_filters/filtersTypeEnum'
+import { getRequestParam } from '../indexedAccesHelper'
 
 export const saveDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
   const defaultValuesForReport = await getDefaultValues(req, res, services, type)
   const { dprUser } = localsHelper.getValues(res)
-  const { reportId, id } = req.params
+  const id = getRequestParam({ req, param: 'id' })
+  const reportId = getRequestParam({ req, param: 'reportId' })
   const { defaultFilterValuesService } = services
   return defaultFilterValuesService
     ? defaultFilterValuesService.save(dprUser.id, reportId, id, defaultValuesForReport)
@@ -102,9 +104,11 @@ const getDefaultValues = async (
     })
     .filter((c) => c !== undefined)
 
-  return defaultValuesConfig.filter((defaultValue) => {
+  const result = defaultValuesConfig.filter((defaultValue) => {
     return defaultValue ? defaultValue.value !== '' : false
   })
+
+  return result
 }
 
 export const setFilterValuesFromSavedDefaults = (

@@ -5,7 +5,7 @@ import { FilterType } from '../../../../../../dist/dpr/components/_filters/filte
 import { FilterValue } from '../../../../../../dist/dpr/components/_filters/types'
 
 export default class DateRangeController {
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     const filter = {
       type: 'daterange' as components['schemas']['FilterDefinition']['type'],
       mandatory: true,
@@ -16,6 +16,7 @@ export default class DateRangeController {
       name: 'date-range',
       type: FilterType.dateRange,
       mandatory: true,
+      value: { start: '', end: '' },
     }
 
     const dateRangeFilterData = DateRangeInputUtils.getFilterFromDefinition(filter, filterData)

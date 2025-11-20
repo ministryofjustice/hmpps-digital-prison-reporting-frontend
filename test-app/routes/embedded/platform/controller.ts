@@ -10,8 +10,8 @@ export default class PlatformController {
     this.services = services
   }
 
-  GET: RequestHandler = async (req, res, next) => {
-    res.locals.csrfToken = 'csrfToken'
+  GET: RequestHandler = async (_req, res) => {
+    res.locals['csrfToken'] = 'csrfToken'
 
     const catalogue = await CatalogueUtils.init({
       res,
@@ -19,7 +19,7 @@ export default class PlatformController {
       features: { bookmarkingEnabled: true },
     })
 
-    const userReportsLists = await UserReportsListUtils.init({ services: this.services, req, res, maxRows: 20 })
+    const userReportsLists = await UserReportsListUtils.init({ services: this.services, res, maxRows: 20 })
 
     res.render('views/pages/platform/view.njk', {
       title: 'Home',

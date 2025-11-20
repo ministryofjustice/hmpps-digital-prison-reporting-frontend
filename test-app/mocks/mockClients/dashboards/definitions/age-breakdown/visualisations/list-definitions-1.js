@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockListDefinitionTotalPrisonersByWing = {
   id: 'total-prisoners',
   type: 'list',

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const featureTesting = {
   id: 'feature-testing-big-report',
   name: 'Big report',

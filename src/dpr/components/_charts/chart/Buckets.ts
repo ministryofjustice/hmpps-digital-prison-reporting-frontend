@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 import { withAlphaHex } from 'with-alpha-hex'
-import { DashboardDataResponse, DashboardDataResponseWithRag } from '../../../types/Metrics'
+import { DashboardDataResponse } from '../../../types/Metrics'
 import {
   DashboardVisualisationBucket,
   BucketDashboardVisualisationOptions,
@@ -111,14 +111,14 @@ class Buckets {
 
   private initBucketColours = () => {
     if (this.useRagColour && this.bucketCount === 3) {
-      this.buckets = Array.from(new Array(this.bucketCount)).map((d, i) => {
+      this.buckets = Array.from(new Array(this.bucketCount)).map((_d, i) => {
         return {
           hexColour: this.ragColours[i],
         }
       })
     } else {
       const alphaDivision = 1 / this.bucketCount
-      this.buckets = Array.from(new Array(this.bucketCount)).map((d, i) => {
+      this.buckets = Array.from(new Array(this.bucketCount)).map((_d, i) => {
         const division = alphaDivision * (i + 1)
         return {
           hexColour: withAlphaHex(this.baseColour, division),

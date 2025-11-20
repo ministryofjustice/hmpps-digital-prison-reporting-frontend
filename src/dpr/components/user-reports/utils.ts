@@ -9,6 +9,7 @@ import {
   ReportType,
   RequestedReport,
   StoredReportData,
+  meta,
 } from '../../types/UserReports'
 import { FilterValue } from '../_filters/types'
 import { Services } from '../../types/Services'
@@ -40,7 +41,6 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
     query,
     interactiveQuery,
     status,
-    timestamp,
     reportName,
     dataProductDefinitionsPath,
     type: reportType,
@@ -60,16 +60,15 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
 
   return {
     id: executionId,
-    text: name || variantName,
+    text: name || variantName || '',
     reportName,
     description,
     tag: 'MIS',
     summary,
     interactiveSummary,
-    timestamp,
     status,
     type,
-    ...setDataFromStatus(status, reportDataCopy),
+    ...(status && setDataFromStatus(status, reportDataCopy)),
     meta: {
       reportId,
       id: variantId || id,
@@ -78,8 +77,8 @@ const formatData = (reportData: UserReportData): FormattedUserReportData => {
       status,
       type,
       dataProductDefinitionsPath,
-      pollingUrl: url.polling?.pathname,
-      reportUrl: url.report?.pathname,
+      pollingUrl: url?.polling?.pathname,
+      reportUrl: url?.report?.pathname,
     },
   }
 }
@@ -105,31 +104,33 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
   let itemActions = ''
 
   const { href, id, reportName, text, timestamp, type: reportType, status } = data
-  switch (status) {
-    case RequestStatus.FAILED:
-      statusClass = 'govuk-tag--red'
-      itemActions = itemActionsHtml(href, id, type, status)
-      break
-    case RequestStatus.EXPIRED:
-      statusClass = 'govuk-tag--grey'
-      itemActions = itemActionsHtml(href, id, type, status)
-      break
-    case RequestStatus.ABORTED:
-      statusClass = 'govuk-tag--orange'
-      itemActions = itemActionsHtml(href, id, type, status)
-      break
-    case RequestStatus.READY:
-    case RequestStatus.FINISHED:
-      itemActions = `<a class=govuk-link govuk-link--no-visited-state dpr-type__${reportType}' href="${href}">Go to ${reportType}</a>`
-      statusClass = 'govuk-tag--green'
-      break
-    case RequestStatus.PICKED:
-    case RequestStatus.SUBMITTED:
-    case RequestStatus.STARTED:
-      itemActions = `<a class='govuk-link govuk-link--no-visited-state dpr-type__${reportType}' href="${href}">Go to status</a>`
-      break
-    default:
-      break
+  if (href && id) {
+    switch (status) {
+      case RequestStatus.FAILED:
+        statusClass = 'govuk-tag--red'
+        itemActions = itemActionsHtml(href, id, type, status)
+        break
+      case RequestStatus.EXPIRED:
+        statusClass = 'govuk-tag--grey'
+        itemActions = itemActionsHtml(href, id, type, status)
+        break
+      case RequestStatus.ABORTED:
+        statusClass = 'govuk-tag--orange'
+        itemActions = itemActionsHtml(href, id, type, status)
+        break
+      case RequestStatus.READY:
+      case RequestStatus.FINISHED:
+        itemActions = `<a class=govuk-link govuk-link--no-visited-state dpr-type__${reportType}' href="${href}">Go to ${reportType}</a>`
+        statusClass = 'govuk-tag--green'
+        break
+      case RequestStatus.PICKED:
+      case RequestStatus.SUBMITTED:
+      case RequestStatus.STARTED:
+        itemActions = `<a class='govuk-link govuk-link--no-visited-state dpr-type__${reportType}' href="${href}">Go to status</a>`
+        break
+      default:
+        break
+    }
   }
 
   let filtersSummary = ''
@@ -153,10 +154,10 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
   ]
 }
 
-const getTotals = (formattedCount: number, maxRows: number) => {
+const getTotals = (formattedCount: number, maxRows = 20) => {
   return {
     amount: formattedCount,
-    shown: formattedCount > maxRows ? maxRows : formattedCount,
+    shown: maxRows && formattedCount > maxRows ? maxRows : formattedCount,
     max: maxRows,
   }
 }
@@ -176,12 +177,12 @@ const createSummaryHtml = (data: FormattedUserReportData) => {
   return `<ul class="dpr-card-group__item__filters-list govuk-!-margin-top-0 govuk-!-margin-bottom-0">${summaryHtml}${interactiveSummaryHtml}</ul>`
 }
 
-const getMeta = (formattedData: FormattedUserReportData[], res: Response) => {
+const getMeta = (formattedData: FormattedUserReportData[], res: Response): meta[] => {
   const { nestedBaseUrl } = LocalsHelper.getValues(res)
 
   return formattedData.map((d) => {
     return {
-      reportId: d.meta.reportId,
+      reportId: d.meta?.reportId,
       id: d.meta.id,
       executionId: d.meta.executionId,
       tableId: d.meta.tableId,
@@ -201,35 +202,39 @@ export const setDataFromStatus = (status: RequestStatus, reportsData: UserReport
   let href
   let formattedDate
   const { url, timestamp: time } = reportsData
+  const polling = url?.polling
+  const request = url?.request
+  const report = url?.report
+
   const dateMapper = new DateMapper()
   switch (status) {
     case RequestStatus.FAILED: {
       formattedDate = time.failed
         ? dateMapper.toDateString(<string>(<unknown>time.failed), 'local-date')
         : dayjs().format('DD/MM/YYYY')
-      href = `${url.polling.fullUrl}`
+      href = polling?.fullUrl
       timestamp = `Failed at: ${formattedDate}`
       break
     }
     case RequestStatus.ABORTED: {
-      href = `${url.request.fullUrl}`
+      href = request?.fullUrl
       formattedDate = dateMapper.toDateString(<string>(<unknown>time.aborted), 'local-date')
       timestamp = `Aborted at: ${formattedDate}`
       break
     }
     case RequestStatus.FINISHED:
-      href = url.report.fullUrl
+      href = report?.fullUrl
       formattedDate = dateMapper.toDateString(<string>(<unknown>time.completed), 'local-date')
       timestamp = `Ready at: ${formattedDate}`
       break
     case RequestStatus.EXPIRED: {
-      href = `${url.request.fullUrl}`
+      href = request?.fullUrl
       formattedDate = dateMapper.toDateString(<string>(<unknown>time.expired), 'local-date')
       timestamp = `Expired at: ${formattedDate}`
       break
     }
     case RequestStatus.READY: {
-      href = `${url.report.fullUrl}`
+      href = report?.fullUrl
       formattedDate = dateMapper.toDateString(<string>(<unknown>time.lastViewed), 'local-date')
       timestamp = `Last viewed: ${formattedDate}`
       break
@@ -237,7 +242,7 @@ export const setDataFromStatus = (status: RequestStatus, reportsData: UserReport
     case RequestStatus.SUBMITTED:
     case RequestStatus.STARTED:
     case RequestStatus.PICKED:
-      href = url.polling.fullUrl
+      href = polling?.fullUrl
       formattedDate = dateMapper.toDateString(<string>(<unknown>time.requested), 'local-date')
       timestamp = `Requested at: ${formattedDate}`
       break
@@ -280,13 +285,13 @@ export const renderList = async ({
     ...(!formatted.length && { emptyMessage: `You have 0 ${type} reports` }),
   }
 
-  const result = {
+  const result: RenderTableListResponse = {
     head,
     tableData,
     total: getTotals(formattedCount, maxRows),
     meta: getMeta(formatted, res),
     csrfToken,
-    maxRows,
+    ...(maxRows && { maxRows }),
   }
 
   return result
@@ -304,17 +309,7 @@ export const updateExpiredStatus = async ({ req, res, services }: AsyncReportUti
   return report ? report.isExpired : false
 }
 
-export const init = async ({
-  services,
-  res,
-  req,
-  maxRows = 6,
-}: {
-  services: Services
-  res: Response
-  req: Request
-  maxRows?: number
-}) => {
+export const init = async ({ services, res, maxRows = 6 }: { services: Services; res: Response; maxRows?: number }) => {
   const { requestedReports, recentlyViewedReports, bookmarkingEnabled } = LocalsHelper.getValues(res)
   const requestedReportsList = await renderList({
     res,
@@ -335,7 +330,6 @@ export const init = async ({
   if (bookmarkingEnabled) {
     bookmarks = await BookmarklistUtils.renderBookmarkList({
       res,
-      req,
       services,
       maxRows,
     })
@@ -366,7 +360,7 @@ export const updateLastViewed = async ({
   const executionData = { executionId, tableId }
   const queryData = query ? { query: query.data, querySummary: query.summary } : { query: {}, querySummary: [] }
 
-  const columns = <string[]>req.query?.columns
+  const columns = <string[]>req.query?.['columns']
   const { selectedPage, pageSize, sortColumn, sortedAsc } = <Dict<string>>req.query
   const filtersQuery = FiltersUtils.setRequestQueryFromFilterValues(filters)
   const reqQuery = {
@@ -392,7 +386,7 @@ export const updateLastViewed = async ({
     .addReportUrls(req)
     .build()
 
-  await services.requestedReportService.updateLastViewed(reportStateData.executionId, userId)
+  if (executionId) await services.requestedReportService.updateLastViewed(executionId, userId)
   await services.recentlyViewedService.setRecentlyViewed(recentlyViewedData, userId)
 }
 

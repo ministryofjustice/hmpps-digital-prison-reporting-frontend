@@ -1,3 +1,4 @@
+// @ts-nocheck
 const {
   extractQueryAndCreateTimestamps,
   initEstablishments,

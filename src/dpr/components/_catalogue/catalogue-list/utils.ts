@@ -45,9 +45,9 @@ export const getReportsList = async (
             reportId,
             id,
             name,
-            description,
+            description: description || '',
             type: ReportType.REPORT,
-            loadType,
+            loadType: loadType as LoadType,
             authorised,
             isMissing,
             ...(reportDescription && reportDescription.length && { reportDescription }),
@@ -64,9 +64,9 @@ export const getReportsList = async (
             reportId,
             id,
             name,
-            description,
+            description: description || '',
             type: ReportType.DASHBOARD,
-            reportDescription,
+            reportDescription: reportDescription || '',
             authorised,
             isMissing: false,
             loadType: LoadType.ASYNC,
@@ -107,7 +107,7 @@ export const getReportsList = async (
           csrfToken,
           ctxId: 'reports-list',
           reportType: type,
-          isMissing,
+          isMissing: Boolean(isMissing),
         })
       }
 

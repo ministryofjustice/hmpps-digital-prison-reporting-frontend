@@ -30,7 +30,7 @@ type CompleteMockRequest = {
 
 export const setupSimpleMock = (urlPathPattern: string, jsonBody: object, priority?: number): CompleteMockRequest => {
   return {
-    priority,
+    priority: priority || 0,
     request: {
       ...defaultMockRequest.request,
       urlPathPattern,

@@ -24,7 +24,7 @@ export interface ListWithWarnings {
 }
 
 export interface Warnings {
-  noDataAvailable?: string
+  noDataAvailable?: string | undefined
 }
 
 export interface FieldValuesRequest {

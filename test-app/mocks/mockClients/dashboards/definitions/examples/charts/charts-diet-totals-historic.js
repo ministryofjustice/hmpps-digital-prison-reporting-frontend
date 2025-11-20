@@ -1,3 +1,4 @@
+// @ts-nocheck
 const { establishmentIdFilter, wingFilterCompass, granularDateRangeFilter } = require('../../../filter-definitions')
 const { lists, charts } = require('../visualisations')
 

@@ -24,13 +24,13 @@ export interface BaseFilterValue {
   name: string
   type: FilterType
   value: FilterValueType
-  mandatory?: boolean
-  index?: number
+  mandatory?: boolean | undefined
+  index?: number | undefined
 }
 
 export interface TextFilterValue extends BaseFilterValue {
-  minimumLength?: number
-  pattern?: string
+  minimumLength?: number | undefined
+  pattern?: string | undefined
 }
 
 export interface FilterValueWithOptions extends BaseFilterValue {
@@ -75,7 +75,7 @@ export interface SelectedFilter {
 export interface DateRange {
   start: string
   end: string
-  relative?: RelativeDateRange
+  relative?: RelativeDateRange | undefined
 }
 
 export interface GranularDateRange extends DateRange {

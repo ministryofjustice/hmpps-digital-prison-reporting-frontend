@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockBarChartData = [
   {
     id: 'bar-chart-1',

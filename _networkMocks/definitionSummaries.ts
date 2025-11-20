@@ -15,7 +15,7 @@ export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
     variants: requestExampleVariants.map(({ id, name, description }) => ({
       id,
       name,
-      description,
+      description: description || '',
       isMissing: false,
     })),
     dashboards: dashboardDefinitions.requestExamples,
@@ -28,7 +28,7 @@ export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
     variants: reportTemplates.map(({ id, name, description, loadType }) => ({
       id,
       name,
-      description,
+      description: description || '',
       isMissing: false,
       ...(loadType && { loadType }),
     })),
@@ -42,7 +42,7 @@ export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
     variants: mockReportVariants.map(({ id, name, description }) => ({
       id,
       name,
-      description,
+      description: description || '',
       isMissing: false,
     })),
     dashboards: [],
@@ -55,7 +55,7 @@ export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
     variants: filterInputExamplesVariants.map(({ id, name, description }) => ({
       id,
       name,
-      description,
+      description: description || '',
       isMissing: false,
     })),
     dashboards: [],
@@ -68,7 +68,7 @@ export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
     variants: featureTestingVariants.map(({ id, name, description }) => ({
       id,
       name,
-      description,
+      description: description || '',
       isMissing: /feature-testing-missing-[1-3]/.test(id),
       ...(id === 'feature-testing-sync' && { loadType: LoadType.SYNC }),
     })),

@@ -36,7 +36,7 @@ export const setupResources = (services: Services, config?: DprConfig): RequestH
 const populateValidationErrors = (req: Request, res: Response) => {
   const errors = req.flash(`DPR_ERRORS`)
   if (errors && errors[0]) {
-    res.locals.validationErrors = JSON.parse(errors[0])
+    res.locals['validationErrors'] = JSON.parse(errors[0])
   }
 }
 
@@ -49,27 +49,28 @@ export const populateDefinitions = async (services: Services, req: Request, res:
   const definitionsPathFromQuery = dpdPathFromQuery || dpdPathFromBody
 
   if (definitionsPathFromQuery) {
-    res.locals.dpdPathFromQuery = true
+    res.locals['dpdPathFromQuery'] = true
   }
 
   // Get the DPD path from the config
   const dpdPathFromConfig = config?.dataProductDefinitionsPath
   if (dpdPathFromConfig) {
-    res.locals.dpdPathFromConfig = true
+    res.locals['dpdPathFromConfig'] = true
   }
 
   // query takes presedence over config
-  res.locals.definitionsPath = definitionsPathFromQuery || dpdPathFromConfig
-  res.locals.pathSuffix = `?dataProductDefinitionsPath=${res.locals.definitionsPath}`
+  // query takes presedence over config
+  res.locals['definitionsPath'] = definitionsPathFromQuery || dpdPathFromConfig
+  res.locals['pathSuffix'] = `?dataProductDefinitionsPath=${res.locals['definitionsPath']}`
 
   if (token && services.reportingService) {
     const selectedProductCollectionId = await services.productCollectionStoreService.getSelectedProductCollectionId(
       dprUser.id,
     )
 
-    res.locals.definitions =
+    res.locals['definitions'] =
       (await Promise.all([
-        services.reportingService.getDefinitions(token, res.locals.definitionsPath),
+        services.reportingService.getDefinitions(token, res.locals['definitionsPath']),
         selectedProductCollectionId &&
           services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
       ]).then(([defs, selectedProductCollection]) => {
@@ -88,24 +89,24 @@ export const populateRequestedReports = async (services: Services, res: Response
     const { definitions, definitionsPath } = res.locals
 
     const requested = await services.requestedReportService.getAllReports(dprUser.id)
-    res.locals.requestedReports = !definitionsPath
+    res.locals['requestedReports'] = !definitionsPath
       ? requested
       : requested.filter((report: RequestedReport) => {
           return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
         })
 
     const recent = await services.recentlyViewedService.getAllReports(dprUser.id)
-    res.locals.recentlyViewedReports = !definitionsPath
+    res.locals['recentlyViewedReports'] = !definitionsPath
       ? recent
       : recent.filter((report: StoredReportData) => {
           return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
         })
 
     if (services.bookmarkService) {
-      res.locals.bookmarkingEnabled = true
+      res.locals['bookmarkingEnabled'] = true
 
       const bookmarks = await services.bookmarkService.getAllBookmarks(dprUser.id)
-      res.locals.bookmarks = !definitionsPath
+      res.locals['bookmarks'] = !definitionsPath
         ? bookmarks
         : bookmarks.filter((bookmark: BookmarkStoreData) => {
             return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
@@ -113,7 +114,7 @@ export const populateRequestedReports = async (services: Services, res: Response
     }
 
     if (services.downloadPermissionService) {
-      res.locals.downloadingEnabled = true
+      res.locals['downloadingEnabled'] = true
     }
   }
 }

@@ -8,7 +8,7 @@ const app = createApp(initServices({
 }))
 
 // Port
-const port = Number(process.env.PORT) || 3010
+const port = Number(process.env['PORT']) || 3010
 
 // Start the server
 // eslint-disable-next-line no-console

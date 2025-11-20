@@ -1,3 +1,4 @@
+// @ts-nocheck
 const requestExampleFailStatus = {
   id: 'request-example-fail-status',
   name: 'Failed report',

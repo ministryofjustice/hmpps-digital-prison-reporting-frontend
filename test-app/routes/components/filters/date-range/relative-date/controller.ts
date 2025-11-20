@@ -1,19 +1,20 @@
 import { RequestHandler } from 'express'
 
 export default class DateRangeController {
-  GET: RequestHandler = async (req, res, next) => {
+  GET: RequestHandler = async (_req, res) => {
     const filters = [
       {
         text: 'Relative Date-range',
         name: 'relative-date-range',
         type: 'daterange',
         mandatory: true,
+        value: { start: '', end: '' },
         relativeOptions: [
           { value: 'none', text: 'None' },
           { value: 'yesterday', text: 'Yesterday' },
           { value: 'tomorrow', text: 'Tomorrow' },
-          { value: 'last-week', text: 'Last week' },
-          { value: 'next-week', text: 'Next week' },
+          { value: 'last-seven-days', text: 'Last week' },
+          { value: 'next-seven-days', text: 'Next week' },
           { value: 'last-month', text: 'Last month' },
           { value: 'next-month', text: 'Next month' },
         ],

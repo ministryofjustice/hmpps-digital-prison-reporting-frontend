@@ -1,3 +1,5 @@
+import { expect, jest } from '@jest/globals'
+import { Url } from 'url'
 import { NextFunction, Request, Response } from 'express'
 import * as ReportListUtils from './utils'
 import { ListDataSources, RenderListWithDataInput, RenderListWithDefinitionInput } from './types'
@@ -14,15 +16,15 @@ jest.mock('parseurl', () => ({
   default: jest.fn().mockImplementation(() => ({ pathname: 'pathname', search: 'search' } as Url)),
 }))
 
-const getListWithWarnings = jest.fn().mockResolvedValue([''])
-const getDefinition = jest.fn().mockResolvedValue(ReportDefinition.singleVariantReport('test-variant'))
+const getListWithWarnings = jest.fn().mockImplementation(() => [''])
+const getDefinition = jest.fn().mockImplementation(() => ReportDefinition.singleVariantReport('test-variant'))
 
 jest.mock('../../data/reportingClient.ts', () => {
   return jest.fn().mockImplementation(() => {
     return {
       getDefinition,
       getListWithWarnings,
-      getCount: jest.fn().mockResolvedValue(''),
+      getCount: jest.fn().mockImplementation(() => ''),
     }
   })
 })
@@ -50,7 +52,7 @@ describe('ReportListUtils', () => {
       }),
     } as unknown as Response
 
-    next = ((error: Error) => {
+    next = ((_error: Error) => {
       //
     }) as unknown as NextFunction
   })

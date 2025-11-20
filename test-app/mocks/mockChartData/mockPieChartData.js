@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockPieChartData = [
   {
     id: 'pie_chart-1',

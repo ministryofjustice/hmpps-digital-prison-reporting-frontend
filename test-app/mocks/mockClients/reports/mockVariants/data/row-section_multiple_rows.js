@@ -1,3 +1,4 @@
+// @ts-nocheck
 const data = [
   {
     field1: 'Value 1.1',

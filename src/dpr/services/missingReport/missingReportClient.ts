@@ -18,7 +18,7 @@ class MissingReportClient {
     return this.restClient.post(
       {
         path: `/missingRequest/${reportId}/${variantId}`,
-        data: reason,
+        ...(reason && { data: reason }),
       },
       token,
     )

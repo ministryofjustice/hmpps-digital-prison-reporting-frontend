@@ -1,3 +1,4 @@
+// @ts-nocheck
 const { dietTotals } = require('./charts-diet-totals')
 const { flexibleDietTotals } = require('./charts-diet-totals-flexible')
 const { historicDietTotals } = require('./charts-diet-totals-historic')

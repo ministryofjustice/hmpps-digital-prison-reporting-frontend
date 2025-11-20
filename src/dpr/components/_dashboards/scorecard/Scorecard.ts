@@ -45,7 +45,7 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
       this.initGroupVars()
     } else {
       this.valueKey = this.measures[0].id
-      this.titleColumn = { display: definition.display, id: this.valueKey }
+      this.titleColumn = { display: definition.display || '', id: this.valueKey }
       this.initBuckets(responseData, this.valueKey)
     }
   }
@@ -58,7 +58,7 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
   }
 
   private initGroupVars = () => {
-    this.groupKey = DatasetHelper.getGroupKey(this.keys, this.dataset.latest)
+    this.groupKey = DatasetHelper.getGroupKey(this.dataset.latest, this.keys)
     this.groupKeyId = this.groupKey?.id
     this.groupKeyDisplay = this.groupKey?.display
 
@@ -75,15 +75,15 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
   private getDataset = (
     scorecardDefinition: components['schemas']['DashboardVisualisationDefinition'],
     rawData: DashboardDataResponse[],
-  ) => {
+  ): ScorecardDataset => {
     const latestData = DatasetHelper.getLastestDataset(rawData)
     const latestDataSetRows = DatasetHelper.getDatasetRows(scorecardDefinition, latestData)
-    const latestTs = latestDataSetRows[0]?.ts?.raw
+    const latestTs = latestDataSetRows[0]?.['ts']?.raw
     const latestFiltered = DatasetHelper.filterRowsByDisplayColumns(scorecardDefinition, latestDataSetRows, true)
 
     const earliestData = DatasetHelper.getEarliestDataset(rawData)
     const earliestDataSetRows = DatasetHelper.getDatasetRows(scorecardDefinition, earliestData)
-    const earliestTs = earliestDataSetRows[0]?.ts?.raw
+    const earliestTs = earliestDataSetRows[0]?.['ts']?.raw
     const earliestfiltered = DatasetHelper.filterRowsByDisplayColumns(scorecardDefinition, earliestDataSetRows, true)
 
     return {
@@ -126,12 +126,12 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
     valueFor: string,
     valueFrom: string,
     latestValue: string | number,
-    earliestValue: string | number,
+    earliestValue: string | number | null | undefined,
   ): ScorecardTrend | undefined => {
     let trendData
 
     if (valueFrom !== valueFor) {
-      const value = +latestValue - +earliestValue
+      const value = earliestValue ? Number(latestValue) - Number(earliestValue) : 0
       const direction = Math.sign(value)
       trendData = {
         direction,
@@ -282,7 +282,7 @@ class ScorecardVisualisation extends DashboardVisualisationClass {
 
       return this.createScorecardData({
         title: title || '',
-        value,
+        value: value || '',
         rag,
         prevVal,
         valueFor,

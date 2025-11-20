@@ -12,6 +12,17 @@ import SectionedFieldsDataTableBuilder from '../../../utils/SectionedFieldsTable
 import { DataTable } from '../../../utils/DataTableBuilder/types'
 import type { Template } from '../../../types/Templates'
 
+const validateDefinition = (definition: components['schemas']['SingleVariantReportDefinition']) => {
+  const { variant } = definition
+  const { specification } = variant
+
+  if (!specification) {
+    throw new Error('No specification in definition')
+  }
+
+  return { variant, specification }
+}
+
 const buildListTable = (
   definition: components['schemas']['SingleVariantReportDefinition'],
   columns: Columns,
@@ -19,8 +30,8 @@ const buildListTable = (
   summariesData: AsyncSummary[],
   reportQuery: ReportQuery,
 ): DataTable => {
-  const { variant } = definition
-  const { interactive, specification } = variant
+  const { variant, specification } = validateDefinition(definition)
+  const { interactive } = variant
 
   const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, summariesData)
   return new DataTableBuilder(specification.fields)
@@ -28,7 +39,7 @@ const buildListTable = (
     .withHeaderOptions({
       columns: columns.value,
       reportQuery,
-      interactive,
+      interactive: Boolean(interactive),
     })
     .buildTable(reportData)
 }
@@ -52,8 +63,8 @@ const buildSummarySectionTable = (
   summariesData: AsyncSummary[],
   reportQuery: ReportQuery,
 ): DataTable => {
-  const { variant } = definition
-  const { interactive, specification } = variant
+  const { variant, specification } = validateDefinition(definition)
+  const { interactive } = variant
 
   const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, summariesData)
   return new SectionedDataTableBuilder(specification)
@@ -61,7 +72,7 @@ const buildSummarySectionTable = (
     .withHeaderOptions({
       columns: columns.value,
       reportQuery,
-      interactive,
+      interactive: Boolean(interactive),
     })
     .buildTable(reportData)
 }
@@ -78,7 +89,7 @@ const buildRowSectionedTable = (
     return new SectionedFieldsDataTableBuilder(variant)
       .withHeaderOptions({
         columns: new Array(2),
-        interactive,
+        interactive: Boolean(interactive),
       })
       .withChildData(childData)
       .buildTable([rowData])
@@ -94,7 +105,8 @@ export const createDataTable = (
   reportQuery: ReportQuery,
 ): DataTable[] => {
   let dataTables: DataTable[] = []
-  const { template } = definition.variant.specification
+  const { specification } = validateDefinition(definition)
+  const { template } = specification
 
   switch (template as Template) {
     case 'summary-section':

@@ -1,6 +1,6 @@
 import { components } from '../../src/dpr/types/api'
 
-type FilterField = components['schemas']['DashboardDefinition']['filterFields'][number]
+type FilterField = components['schemas']['FieldDefinition']
 
 export const establishmentIdFilter: FilterField = {
   header: false,
@@ -27,9 +27,7 @@ export const establishmentIdFilter: FilterField = {
         display: 'DAI',
       },
     ],
-    dynamicOptions: {
-      minimumLength: undefined,
-    },
+    dynamicOptions: {},
     interactive: true,
   },
   sortable: false,
@@ -66,9 +64,7 @@ export const wingFilterCompass: FilterField = {
       },
     ],
     defaultValue: 'north',
-    dynamicOptions: {
-      minimumLength: undefined,
-    },
+    dynamicOptions: {},
     interactive: true,
   },
   sortable: false,
@@ -105,9 +101,7 @@ export const wingFilter: FilterField = {
       },
     ],
     defaultValue: 'I',
-    dynamicOptions: {
-      minimumLength: undefined,
-    },
+    dynamicOptions: {},
     interactive: true,
   },
   sortable: false,

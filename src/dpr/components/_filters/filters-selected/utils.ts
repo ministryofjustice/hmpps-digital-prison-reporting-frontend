@@ -174,7 +174,7 @@ export const getMultiselectValues = (f: FilterValueWithOptions, prefix: string) 
       const displayOption = f.options.find((opt) => opt.value === v)
       return displayOption ? displayOption.text : ''
     })
-    .filter((v, i) => {
+    .filter((_v, i) => {
       return i < MAX_VALUES
     })
     .join(', ')

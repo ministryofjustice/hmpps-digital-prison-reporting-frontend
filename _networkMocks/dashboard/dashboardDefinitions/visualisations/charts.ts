@@ -1,12 +1,14 @@
 // DIET TOTALS
 
+import { components } from 'src/dpr/types/api'
+
 const dietTotalsBar = {
   id: 'bar-diet-totals',
   type: 'bar',
   display: 'Diet totals as bar chart',
   description: '',
   columns: {
-    keys: [],
+    keys: <components['schemas']['DashboardVisualisationColumnDefinition'][]>[],
     measures: [
       {
         id: 'diet',
@@ -29,7 +31,7 @@ const dietTotalsDoughnut = {
   display: 'Diet totals as doughnut chart',
   description: '',
   columns: {
-    keys: [],
+    keys: <components['schemas']['DashboardVisualisationColumnDefinition'][]>[],
     measures: [
       {
         id: 'diet',

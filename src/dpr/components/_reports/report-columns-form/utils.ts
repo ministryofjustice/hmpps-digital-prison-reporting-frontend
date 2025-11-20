@@ -31,7 +31,7 @@ export const ensureMandatoryColumns = (
  * @param requestedColumns
  */
 export const getColumns = (specification: components['schemas']['Specification'], req: Request): Columns => {
-  const requestedColumns = <string[] | string | undefined>req.query.columns
+  const requestedColumns = <string[] | string | undefined>req.query['columns']
   const { fields } = specification
 
   const options: Column[] = fields

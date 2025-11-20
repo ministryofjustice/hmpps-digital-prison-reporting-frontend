@@ -14,7 +14,7 @@ class ReportQuery implements FilteredListRequest {
 
   pageSize: number
 
-  sortColumn?: string
+  sortColumn?: string | undefined
 
   columns: Array<string>
 
@@ -24,7 +24,7 @@ class ReportQuery implements FilteredListRequest {
 
   filtersPrefix: string
 
-  dataProductDefinitionsPath?: string
+  dataProductDefinitionsPath?: string | undefined
 
   constructor({
     fields,
@@ -41,18 +41,22 @@ class ReportQuery implements FilteredListRequest {
     filtersPrefix?: string
     reportType?: ReportType
   }) {
-    this.selectedPage = queryParams.selectedPage ? Number(queryParams.selectedPage) : 1
+    this.selectedPage = queryParams['selectedPage'] ? Number(queryParams['selectedPage']) : 1
     this.pageSize = this.getPageSize(queryParams, template, reportType)
-    this.sortColumn = queryParams.sortColumn ? queryParams.sortColumn.toString() : this.getDefaultSortColumn(fields)
-    this.sortedAsc = queryParams.sortedAsc !== 'false'
+    this.sortColumn = queryParams['sortColumn']
+      ? queryParams['sortColumn'].toString()
+      : this.getDefaultSortColumn(fields)
+    this.sortedAsc = queryParams['sortedAsc'] !== 'false'
     this.dataProductDefinitionsPath =
       definitionsPath ??
-      (queryParams.dataProductDefinitionsPath ? queryParams.dataProductDefinitionsPath.toString() : undefined)
+      (queryParams['dataProductDefinitionsPath'] ? queryParams['dataProductDefinitionsPath'].toString() : undefined)
     this.filtersPrefix = filtersPrefix
 
-    if (queryParams.columns) {
+    if (queryParams['columns']) {
       const columns =
-        typeof queryParams.columns === 'string' ? queryParams.columns.split(',') : (queryParams.columns as string[])
+        typeof queryParams['columns'] === 'string'
+          ? queryParams['columns'].split(',')
+          : (queryParams['columns'] as string[])
       this.columns = ColumnUtils.ensureMandatoryColumns(fields, columns)
     } else {
       this.columns = fields.filter((f) => f.visible).map((f) => f.name)
@@ -129,8 +133,8 @@ class ReportQuery implements FilteredListRequest {
   getPageSize(queryParams: ParsedQs, template?: Template, reportType?: ReportType): number {
     let pageSize = 20
     if (!reportType || reportType === ReportType.REPORT) {
-      if (queryParams.pageSize) {
-        pageSize = Number(queryParams.pageSize)
+      if (queryParams['pageSize']) {
+        pageSize = Number(queryParams['pageSize'])
       } else if (template) {
         pageSize = this.getDefaultPageSize(template)
       }
@@ -148,7 +152,7 @@ class ReportQuery implements FilteredListRequest {
     }
 
     if (this.dataProductDefinitionsPath) {
-      record.dataProductDefinitionsPath = this.dataProductDefinitionsPath
+      record['dataProductDefinitionsPath'] = this.dataProductDefinitionsPath
     }
 
     Object.keys(this.filters).forEach((filterName) => {

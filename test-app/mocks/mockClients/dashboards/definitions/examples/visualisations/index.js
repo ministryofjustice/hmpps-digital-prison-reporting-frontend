@@ -1,3 +1,4 @@
+// @ts-nocheck
 const lists = require('./lists')
 const matrix = require('./matrix')
 const charts = require('./charts')

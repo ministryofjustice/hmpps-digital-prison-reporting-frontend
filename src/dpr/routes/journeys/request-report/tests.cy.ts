@@ -26,7 +26,8 @@ context('Requesting a report', () => {
         cy.findByRole('row', {
           name: (_, element) => {
             return (
-              element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
+              Boolean(element.textContent?.includes('Successful Report')) &&
+              Boolean(element.textContent?.includes('this will succeed'))
             )
           },
         }).within(() => {
@@ -93,7 +94,8 @@ context('Requesting a report', () => {
         cy.findByRole('row', {
           name: (_, element) => {
             return (
-              element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
+              Boolean(element.textContent?.includes('Successful Report')) &&
+              Boolean(element.textContent?.includes('this will succeed'))
             )
           },
         }).within(() => {
@@ -192,7 +194,7 @@ context('Requesting a report', () => {
       cy.findByLabelText(/Requested/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return element.textContent.includes('Successful Report')
+            return Boolean(element.textContent?.includes('Successful Report'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Retry' }).should('be.visible')
@@ -209,7 +211,7 @@ context('Requesting a report', () => {
       cy.findByLabelText(/Requested/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return element.textContent.includes('Successful Report')
+            return Boolean(element.textContent?.includes('Successful Report'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Retry' }).click()
@@ -237,7 +239,7 @@ context('Requesting a report', () => {
       cy.findByLabelText(/Requested/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return element.textContent.includes('Successful Report')
+            return Boolean(element.textContent?.includes('Successful Report'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Remove' }).click()
@@ -247,7 +249,7 @@ context('Requesting a report', () => {
       cy.findByLabelText(/Requested/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return element.textContent.includes('Successful Report')
+            return Boolean(element.textContent?.includes('Successful Report'))
           },
         }).should('not.exist')
       })
@@ -277,7 +279,8 @@ context('Requesting a report', () => {
         cy.findByRole('row', {
           name: (_, element) => {
             return (
-              element.textContent.includes('Successful Report') && element.textContent.includes('this will succeed')
+              Boolean(element.textContent?.includes('Successful Report')) &&
+              Boolean(element.textContent?.includes('this will succeed'))
             )
           },
         }).within(() => {
@@ -310,7 +313,7 @@ context('Requesting a report', () => {
       cy.findByLabelText(/Requested/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return element.textContent.includes('Successful Report')
+            return Boolean(element.textContent?.includes('Successful Report'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Retry' }).should('be.visible')
@@ -322,7 +325,7 @@ context('Requesting a report', () => {
       cy.findByLabelText(/Requested/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return element.textContent.includes('Successful Report')
+            return Boolean(element.textContent?.includes('Successful Report'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Retry' }).click()
@@ -336,7 +339,7 @@ context('Requesting a report', () => {
       cy.findByLabelText(/Requested/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return element.textContent.includes('Successful Report')
+            return Boolean(element.textContent?.includes('Successful Report'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Remove' }).click()
@@ -346,7 +349,7 @@ context('Requesting a report', () => {
       cy.findByLabelText(/Requested/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return element.textContent.includes('Successful Report')
+            return Boolean(element.textContent?.includes('Successful Report'))
           },
         }).should('not.exist')
       })

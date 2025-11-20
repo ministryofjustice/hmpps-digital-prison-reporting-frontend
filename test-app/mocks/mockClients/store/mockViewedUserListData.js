@@ -1,3 +1,4 @@
+// @ts-nocheck
 const viewedReady = {
   reportId: 'request-examples',
   id: 'request-example-success',

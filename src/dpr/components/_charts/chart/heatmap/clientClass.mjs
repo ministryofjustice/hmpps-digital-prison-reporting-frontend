@@ -50,7 +50,7 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
 
   generateChartData(settings) {
     const { options, plugins, pluginsOptions, toolTipOptions, hoverEvent } = settings
-    return {
+    const d = {
       type: this.type,
       data: {
         datasets: this.createDatasets(),
@@ -83,6 +83,10 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
       },
       plugins: plugins && plugins.length ? [...plugins] : [],
     }
+
+    console.log(JSON.stringify({ d }, null, 2))
+
+    return d
   }
 
   createDatasets() {

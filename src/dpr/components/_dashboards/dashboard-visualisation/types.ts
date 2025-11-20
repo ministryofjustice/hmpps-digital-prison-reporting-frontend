@@ -33,7 +33,7 @@ export interface DashboardVisualisatonCardData {
 }
 
 export interface DashboardVisualisationData {
-  type: components['schemas']['DashboardVisualisationDefinition']['type']
+  type: DashboardVisualisationType
   unit?: components['schemas']['DashboardVisualisationColumnDefinition']['unit']
   data: DashboardVisualisationDataValues
   timeseries?: boolean

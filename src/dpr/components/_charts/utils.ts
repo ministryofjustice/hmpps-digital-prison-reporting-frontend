@@ -10,6 +10,7 @@ import { components } from '../../types/api'
 import {
   DashboardVisualisationData,
   DashboardVisualisationDataSet,
+  DashboardVisualisationType,
   DashboardVisualisatonCardData,
   MoJTable,
 } from '../_dashboards/dashboard-visualisation/types'
@@ -77,10 +78,15 @@ export const createMatrixChart = (
 
   const { latestData, dataSetRows, timeseriesData } = getDataForTimeseriesCharts(chartDefinition, rawData)
   if (dataSetRows.length) {
-    chart = new HeatmapChart(timeseriesData, granularity, chartDefinition).build()
+    chart = new HeatmapChart()
+      .withDefinition(chartDefinition)
+      .withGranularity(granularity)
+      .withData(timeseriesData)
+      .build()
     table = createTimeseriesTable(chartDefinition, timeseriesData)
     details = getChartDetails(chartDefinition, latestData, true)
   }
+
   return {
     details,
     table,
@@ -202,7 +208,7 @@ const createSnapshotChart = (
   }
 
   return {
-    type,
+    type: <DashboardVisualisationType>type,
     unit,
     data: {
       labels,
@@ -299,7 +305,7 @@ const createTimeseriesChart = (
   const { keys, measures } = columns
 
   const unit = measures[0].unit ? measures[0].unit : undefined
-  const type = <components['schemas']['DashboardVisualisationDefinition']['type']>chartDefinition.type.split('-')[0]
+  const type = <DashboardVisualisationType>chartDefinition.type.split('-')[0]
   const groupKey = DatasetHelper.getGroupKey(keys, timeseriesData)
   const labelId = groupKey.id as keyof DashboardDataResponse
 

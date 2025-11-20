@@ -131,7 +131,6 @@ const getSections = (
             break
 
           case DashboardVisualisationType.SCORECARD_GROUP:
-            console.log('dsfsdfsdfsdfsdfsdfsdfds')
             data = new ScorecardGroupVisualisation().withDefinition(visDefinition).withData(dashboardData).build()
             break
 

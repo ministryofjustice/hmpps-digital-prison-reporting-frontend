@@ -53,17 +53,17 @@ describe('AsyncFiltersUtils', () => {
     })
 
     it('should set the start and end date using a relative duration - Next week', () => {
-      const result = AsyncFiltersUtils.setDurationStartAndEnd(params.name, 'next-week', {}, {}, [], params.fields)
+      const result = AsyncFiltersUtils.setDurationStartAndEnd(params.name, 'next-seven-days', {}, {}, [], params.fields)
 
       const expectedResult = {
         querySummary: [
           {
             name: 'Duration Field name',
-            value: 'Next week (2024-06-06 - 2024-06-13)',
+            value: 'Next seven days (2024-06-06 - 2024-06-13)',
           },
         ],
         filterData: {
-          'filters.DurationFieldName.relative-duration': 'next-week',
+          'filters.DurationFieldName.relative-duration': 'next-seven-days',
         },
         query: {
           'filters.DurationFieldName.end': '2024-06-13',
@@ -75,16 +75,16 @@ describe('AsyncFiltersUtils', () => {
     })
 
     it('should set the start and end date using a relative duration - Last week', () => {
-      const result = AsyncFiltersUtils.setDurationStartAndEnd(params.name, 'last-week', {}, {}, [], params.fields)
+      const result = AsyncFiltersUtils.setDurationStartAndEnd(params.name, 'last-seven-days', {}, {}, [], params.fields)
 
       const expectedResult = {
         querySummary: [
           {
             name: 'Duration Field name',
-            value: 'Last week (2024-05-30 - 2024-06-06)',
+            value: 'Last seven days (2024-05-30 - 2024-06-06)',
           },
         ],
-        filterData: { 'filters.DurationFieldName.relative-duration': 'last-week' },
+        filterData: { 'filters.DurationFieldName.relative-duration': 'last-seven-days' },
         query: {
           'filters.DurationFieldName.end': '2024-06-06',
           'filters.DurationFieldName.start': '2024-05-30',

@@ -19,6 +19,7 @@ import DashboardListUtils from '../../../../../components/_dashboards/dashboard-
 import FilterUtils from '../../../../../components/_filters/utils'
 import ScorecardsUtils from '../../../../../components/_dashboards/scorecard/utils'
 import ScorecardVisualisation from '../../../../../components/_dashboards/scorecard/Scorecard'
+import ScorecardGroupVisualisation from '../../../../../components/_dashboards/scorecard-group/ScorecardGroup'
 import ReportActionsUtils from '../../../../../components/_reports/report-actions/utils'
 import ReportQuery from '../../../../../types/ReportQuery'
 import LocalsHelper from '../../../../../utils/localsHelper'
@@ -125,11 +126,11 @@ const getSections = (
 
           case DashboardVisualisationType.SCORECARD:
             hasScorecard = true
-            data = new ScorecardVisualisation(dashboardData, visDefinition).build()
+            data = new ScorecardVisualisation().withDefinition(visDefinition).withData(dashboardData).build()
             break
 
           case DashboardVisualisationType.SCORECARD_GROUP:
-            data = new ScorecardVisualisation(dashboardData, visDefinition, true).build()
+            data = new ScorecardGroupVisualisation().withDefinition(visDefinition).withData(dashboardData).build()
             break
 
           case DashboardVisualisationType.BAR:

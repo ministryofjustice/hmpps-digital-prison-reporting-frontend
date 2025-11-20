@@ -62,7 +62,7 @@ class Buckets {
     this.setBucketCount()
     this.initBucketColours()
 
-    if (buckets) {
+    if (buckets && buckets.length) {
       if (this.hasRagScore) {
         if (this.onlyBucketColoursDefined) {
           this.buckets = buckets
@@ -72,7 +72,7 @@ class Buckets {
       } else {
         this.initCustomThresholdBuckets()
       }
-    } else if (!buckets && !this.hasRagScore && this.autoBucketing) {
+    } else if (!this.hasRagScore && this.autoBucketing) {
       this.initAutomaticThresholdBucket()
     }
   }
@@ -102,7 +102,8 @@ class Buckets {
       if (i === this.buckets.length - 1) maxValue = max
 
       return {
-        hexColour: this.options?.buckets ? this.options.buckets[i]?.hexColour : bucket.hexColour,
+        hexColour:
+          this.options?.buckets && this.options?.buckets.length ? this.options.buckets[i]?.hexColour : bucket.hexColour,
         min: minValue,
         max: maxValue,
       }
@@ -154,7 +155,7 @@ class Buckets {
         }, [])
         this.bucketCount = Math.max(...allRags) + 1
       }
-    } else if (buckets) {
+    } else if (buckets && buckets.length) {
       this.bucketCount = buckets.length
     } else {
       this.bucketCount = 3

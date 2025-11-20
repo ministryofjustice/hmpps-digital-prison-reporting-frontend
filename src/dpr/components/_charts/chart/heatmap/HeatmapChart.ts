@@ -20,7 +20,7 @@ class HeatmapChart {
 
   private responseData: DashboardDataResponse[] = []
 
-  private granularity: Granularity
+  private granularity!: Granularity
 
   private data: MatrixChartData[] = []
 
@@ -32,7 +32,7 @@ class HeatmapChart {
 
   private unit: 'NUMBER' | 'PERCENTAGE' | undefined
 
-  private bucketsHelper: Buckets
+  private bucketsHelper!: Buckets
 
   withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
     this.definition = DashboardVisualisationSchemas.MatrixTimeseriesSchema.parse(definition)

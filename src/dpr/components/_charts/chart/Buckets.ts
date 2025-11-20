@@ -72,7 +72,7 @@ class Buckets {
       } else {
         this.initCustomThresholdBuckets()
       }
-    } else if (!buckets && !this.hasRagScore && this.autoBucketing) {
+    } else if (!this.hasRagScore && this.autoBucketing) {
       this.initAutomaticThresholdBucket()
     }
   }
@@ -102,7 +102,8 @@ class Buckets {
       if (i === this.buckets.length - 1) maxValue = max
 
       return {
-        hexColour: this.options?.buckets ? this.options.buckets[i]?.hexColour : bucket.hexColour,
+        hexColour:
+          this.options?.buckets && this.options?.buckets.length ? this.options.buckets[i]?.hexColour : bucket.hexColour,
         min: minValue,
         max: maxValue,
       }
@@ -110,15 +111,12 @@ class Buckets {
   }
 
   private initBucketColours = () => {
-    console.log({ useRagColour: this.useRagColour, bucketCount: this.bucketCount })
     if (this.useRagColour && this.bucketCount === 3) {
       this.buckets = Array.from(new Array(this.bucketCount)).map((d, i) => {
         return {
           hexColour: this.ragColours[i],
         }
       })
-
-      console.log('initBucketColours', this.buckets)
     } else {
       const alphaDivision = 1 / this.bucketCount
       this.buckets = Array.from(new Array(this.bucketCount)).map((d, i) => {
@@ -128,8 +126,6 @@ class Buckets {
         }
       })
     }
-
-    console.log('initBucketColours', this.buckets)
   }
 
   private setAutomaticThresholdSize = () => {
@@ -159,7 +155,7 @@ class Buckets {
         }, [])
         this.bucketCount = Math.max(...allRags) + 1
       }
-    } else if (buckets) {
+    } else if (buckets && buckets.length) {
       this.bucketCount = buckets.length
     } else {
       this.bucketCount = 3
@@ -203,7 +199,6 @@ class Buckets {
   }
 
   getBuckets = () => {
-    console.log('getBuckets', this.buckets)
     return this.buckets
   }
 }

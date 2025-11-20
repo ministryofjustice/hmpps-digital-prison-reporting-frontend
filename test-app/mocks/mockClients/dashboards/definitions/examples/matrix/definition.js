@@ -1,5 +1,5 @@
 const { matrix, lists } = require('../visualisations')
-const { granularDateRangeFilter, dateRangeFilter } = require('../../../filter-definitions')
+const { granularDateRangeFilter } = require('../../../filter-definitions')
 
 const dataQualityHistoric = {
   id: 'matrix-examples-diet-totals-historic',

@@ -61,10 +61,17 @@ class MissingReportFormController {
     try {
       const submission = this.missingReportService.submitMissingReportEntry(token, reportId, variantId, requestDetails)
       if (submission) {
-        const queryParams = `reportName=${reportName}&name=${variantName}&reportId=${reportId}&variantId=${variantId}`
-        const redirect = `./submitted?${queryParams}`
+        submission.then(
+          () => {
+            const queryParams = `reportName=${reportName}&name=${variantName}&reportId=${reportId}&variantId=${variantId}`
+            const redirect = `./submitted?${queryParams}`
 
-        res.redirect(redirect)
+            res.redirect(redirect)
+          },
+          () => {
+            res.render(`dpr/components/serviceError/view`)
+          },
+        )
       }
     } catch (_error) {
       res.render(`dpr/components/serviceError/view`)

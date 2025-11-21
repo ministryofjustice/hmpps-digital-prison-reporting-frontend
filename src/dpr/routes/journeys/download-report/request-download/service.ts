@@ -10,7 +10,7 @@ class DownloadPermissionService extends ReportStoreService {
   constructor(userDataStore: UserDataStore, serviceFeatureConfig: ServiceFeatureConfig) {
     super(userDataStore)
     this.enabled = Boolean(serviceFeatureConfig.download)
-    logger.info('Service created: DownloadPermissionService')
+    if (!this.enabled) logger.info(`Download: disabled `)
   }
 
   async saveDownloadPermissionData(userId: string, reportId: string, id: string): Promise<void> {
@@ -22,7 +22,7 @@ class DownloadPermissionService extends ReportStoreService {
     if (!userConfig.downloadPermissions) {
       userConfig.downloadPermissions = []
     }
-    const permissionExists = await this.downloadEnabled(userId, reportId, id)
+    const permissionExists = await this.downloadEnabledForReport(userId, reportId, id)
     if (!permissionExists) {
       userConfig.downloadPermissions.push({ reportId, id })
       logger.info(`Download permission granted for ${userId}: ${reportId} - ${id}`)
@@ -46,7 +46,7 @@ class DownloadPermissionService extends ReportStoreService {
     }
   }
 
-  async downloadEnabled(userId: string, reportId: string, id: string): Promise<boolean> {
+  async downloadEnabledForReport(userId: string, reportId: string, id: string): Promise<boolean> {
     if (!this.enabled) return false
 
     const userConfig = await this.getState(userId)

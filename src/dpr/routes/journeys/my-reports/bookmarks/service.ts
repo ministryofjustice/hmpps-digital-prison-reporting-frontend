@@ -12,7 +12,7 @@ class BookmarkService extends ReportStoreService {
   constructor(reportDataStore: ReportDataStore, serviceFeatureConfig: ServiceFeatureConfig) {
     super(reportDataStore)
     this.enabled = Boolean(serviceFeatureConfig.bookmarking)
-    logger.info(`Service created: BookmarkService. enabled:${this.enabled} `)
+    if (!this.enabled) logger.info(`Bookmarking: disabled `)
   }
 
   async getAllBookmarks(userId: string): Promise<BookmarkStoreData[]> {

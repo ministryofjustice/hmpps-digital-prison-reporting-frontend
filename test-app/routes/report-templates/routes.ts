@@ -35,8 +35,6 @@ export function Routes() {
 }
 
 export const TemplateRoutes = ({ path }: { path: string }) => {
-  logger.info('Initialiasing routes: components')
-
   const router = Router({ mergeParams: true })
   router.use(path, Routes())
   return router

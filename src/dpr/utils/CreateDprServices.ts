@@ -51,7 +51,7 @@ export const createDprServices = (
     saveDefaults: false,
   },
 ): Services => {
-  logger.info('Creating DPR services...')
+  logger.info('Initialising DPR services...')
 
   const { reportingClient, dashboardClient, reportDataStore, missingReportClient, productCollectionClient } = clients
   const services: dprServices = {
@@ -69,7 +69,6 @@ export const createDprServices = (
     missingReportService: new MissingReportService(missingReportClient, serviceFeatureConfig),
     productCollectionService: new ProductCollectionService(productCollectionClient, serviceFeatureConfig),
   }
-
   return services as Services
 }
 

@@ -16,7 +16,7 @@ export default class PlatformController {
     const catalogue = await CatalogueUtils.init({
       res,
       services: this.services,
-      features: { bookmarkingEnabled: true },
+      features: { bookmarkingEnabled: res.locals['bookmarkingEnabled'] },
     })
 
     const userReportsLists = await UserReportsListUtils.init({ services: this.services, res, maxRows: 20 })

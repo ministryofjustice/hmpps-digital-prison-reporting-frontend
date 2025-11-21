@@ -1,6 +1,5 @@
 import { ServiceFeatureConfig } from '../../types/DprConfig'
 import ReportDataStore from '../../data/reportDataStore'
-import logger from '../../utils/logger'
 import ReportStoreService from '../reportStoreService'
 
 export class ProductCollectionStoreService extends ReportStoreService {
@@ -9,7 +8,6 @@ export class ProductCollectionStoreService extends ReportStoreService {
   constructor(reportDataStore: ReportDataStore, serviceFeatureConfig: ServiceFeatureConfig) {
     super(reportDataStore)
     this.enabled = Boolean(serviceFeatureConfig.collections)
-    logger.info('Service created: ProductCollectionStoreService')
   }
 
   async getSelectedProductCollectionId(userId: string): Promise<string | undefined> {

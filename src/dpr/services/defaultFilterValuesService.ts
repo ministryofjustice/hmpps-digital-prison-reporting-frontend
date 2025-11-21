@@ -5,6 +5,7 @@ import { ReportStoreConfig } from '../types/ReportStore'
 import { defaultFilterValue } from '../utils/Personalisation/types'
 import { FiltersType } from '../components/_filters/filtersTypeEnum'
 import { ServiceFeatureConfig } from '../types/DprConfig'
+import logger from '../utils/logger'
 
 class DefaultFilterValuesService extends ReportStoreService {
   enabled: boolean
@@ -12,6 +13,7 @@ class DefaultFilterValuesService extends ReportStoreService {
   constructor(reportDataStore: ReportDataStore, serviceFeatureConfig: ServiceFeatureConfig) {
     super(reportDataStore)
     this.enabled = Boolean(serviceFeatureConfig.saveDefaults)
+    if (!this.enabled) logger.info(`saveDefaultsFilters: disabled`)
   }
 
   async init(userConfig: ReportStoreConfig, userId: string): Promise<void> {

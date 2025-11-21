@@ -1,6 +1,7 @@
 import { components } from '../../types/api'
 import { ServiceFeatureConfig } from '../../types/DprConfig'
 import { ProductCollectionClient } from '../../data/productCollectionClient'
+import logger from '../../utils/logger'
 
 export class ProductCollectionService {
   enabled: boolean
@@ -11,6 +12,7 @@ export class ProductCollectionService {
   ) {
     this.productCollectionClient = productCollectionClient
     this.enabled = Boolean(serviceFeatureConfig.collections)
+    if (!this.enabled) logger.info(`Product collections: disabled `)
   }
 
   async getProductCollections(token: string): Promise<components['schemas']['ProductCollectionSummary'][]> {

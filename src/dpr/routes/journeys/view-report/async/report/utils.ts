@@ -420,12 +420,12 @@ const setFeatures = async (
   const { downloadPermissionService, bookmarkService } = services
 
   let canDownload = false
-  if (downloadingEnabled && downloadPermissionService) {
-    canDownload = await downloadPermissionService.downloadEnabled(dprUser.id, reportId, id)
+  if (downloadingEnabled) {
+    canDownload = await downloadPermissionService.downloadEnabledForReport(dprUser.id, reportId, id)
   }
 
   let bookmarked
-  if (bookmarkingEnabled && bookmarkService) {
+  if (bookmarkingEnabled) {
     bookmarked = await bookmarkService.isBookmarked(id, reportId, dprUser.id)
   }
 
@@ -502,13 +502,13 @@ const setActions = (
 ) => {
   const { reportName, name, printable } = definitionData
   const { tableId, id, reportId } = req.params
-  const { nestedBaseUrl, definitionsPath } = LocalsHelper.getValues(res)
+  const { nestedBaseUrl, definitionsPath, downloadingEnabled } = LocalsHelper.getValues(res)
 
   // DownloadActionParams
   let downloadConfig: DownloadActionParams | undefined
-  if (urls) {
+  if (urls && downloadingEnabled) {
     downloadConfig = {
-      enabled: count > 0 && canDownload !== undefined,
+      enabled: downloadingEnabled,
       name,
       reportName,
       csrfToken,

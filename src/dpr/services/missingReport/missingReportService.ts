@@ -1,3 +1,4 @@
+import logger from '../../utils/logger'
 import MissingReportClient from '../../data/missingReportClient'
 import { components } from '../../types/api'
 import { ServiceFeatureConfig } from '../../types/DprConfig'
@@ -7,6 +8,7 @@ class MissingReportService {
 
   constructor(private readonly missingReportClient: MissingReportClient, serviceFeatureConfig: ServiceFeatureConfig) {
     this.enabled = Boolean(serviceFeatureConfig.collections)
+    if (!this.enabled) logger.info(`Missing reports: disabled `)
   }
 
   submitMissingReportEntry(

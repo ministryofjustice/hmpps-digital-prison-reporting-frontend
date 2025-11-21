@@ -1,25 +1,30 @@
-import { ApiConfig } from '../../data/types'
 import { components } from '../../types/api'
-import RestClient from '../../data/restClient'
+import { ServiceFeatureConfig } from '../../types/DprConfig'
+import { ProductCollectionClient } from '../../data/productCollectionClient'
+import logger from '../../utils/logger'
 
 export class ProductCollectionService {
-  restClient: RestClient
+  enabled: boolean
 
-  constructor(config: ApiConfig) {
-    this.restClient = new RestClient('ProductCollection API', config)
+  constructor(
+    private readonly productCollectionClient: ProductCollectionClient,
+    serviceFeatureConfig: ServiceFeatureConfig,
+  ) {
+    this.productCollectionClient = productCollectionClient
+    this.enabled = Boolean(serviceFeatureConfig.collections)
+    if (!this.enabled) logger.info(`Product collections: disabled `)
   }
 
   async getProductCollections(token: string): Promise<components['schemas']['ProductCollectionSummary'][]> {
-    return this.restClient.get({
-      path: `/productCollections`,
-      token,
-    })
+    if (!this.enabled) return []
+    return this.productCollectionClient.getProductCollections(token)
   }
 
-  async getProductCollection(token: string, id: string): Promise<components['schemas']['ProductCollectionDTO']> {
-    return this.restClient.get({
-      path: `/productCollections/${id}`,
-      token,
-    })
+  async getProductCollection(
+    token: string,
+    id: string,
+  ): Promise<components['schemas']['ProductCollectionDTO'] | undefined> {
+    if (!this.enabled) return undefined
+    return this.productCollectionClient.getProductCollection(token, id)
   }
 }

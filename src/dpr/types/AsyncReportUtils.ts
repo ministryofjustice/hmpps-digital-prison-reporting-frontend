@@ -33,6 +33,7 @@ export interface RequestReportData {
   defaultInteractiveQueryString?: string
   hasDefaults: boolean
   defaultsSaved?: string
+  saveDefaultsEnabled: boolean
 }
 
 export interface RequestDataResult {

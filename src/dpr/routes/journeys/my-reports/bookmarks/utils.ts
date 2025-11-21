@@ -15,7 +15,7 @@ export const preBookmarkReportsByRoleId = async (
   const bookmarks: AutomaticBookmarkStoreData[] = bookmarksByCaseload[activeCaseLoadId] || []
   const { bookmarkService } = services
   // Add new automatic bookmarks
-  if (bookmarkService) {
+  if (bookmarkService.enabled) {
     for (let index = 0; index < bookmarks.length; index += 1) {
       const foundBookmark = bookmarks[index]
       if (foundBookmark && foundBookmark.variantId) {

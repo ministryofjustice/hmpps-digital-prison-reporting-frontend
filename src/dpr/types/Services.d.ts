@@ -8,7 +8,7 @@ import {
   RequestedReportService,
 } from '../services'
 import { ProductCollectionStoreService } from '../services/productCollection/productCollectionStoreService'
-import MissingReportClient from '../services/missingReport/missingReportClient'
+import MissingReportService from '../services/missingReport/missingReportService'
 import ReportingService from '../services/reportingService'
 import DashboardService from '../services/dashboardService'
 import { ProductCollectionService } from '../services/productCollection/productCollectionService'
@@ -16,15 +16,15 @@ import { ProductCollectionService } from '../services/productCollection/productC
 export type Services = UserStoreServices & {
   reportingService: ReportingService
   dashboardService: DashboardService
-  missingReportClient: MissingReportClient
+  missingReportService: MissingReportService
   productCollectionService: ProductCollectionService
 }
 
 export interface UserStoreServices {
-  downloadPermissionService?: DownloadPermissionService
-  requestedReportService?: RequestedReportService
-  recentlyViewedService?: RecentlyViewedStoreService
-  bookmarkService?: BookmarkService
-  defaultFilterValuesService?: DefaultFilterValuesService
-  productCollectionStoreService?: ProductCollectionStoreService
+  downloadPermissionService: DownloadPermissionService
+  requestedReportService: RequestedReportService
+  recentlyViewedService: RecentlyViewedStoreService
+  bookmarkService: BookmarkService
+  defaultFilterValuesService: DefaultFilterValuesService
+  productCollectionStoreService: ProductCollectionStoreService
 }

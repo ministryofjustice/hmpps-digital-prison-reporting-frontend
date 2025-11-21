@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 4.17.2 
+- Strict typing enabled
+- Configurable services refactor
+
 ## 4.17.1 
 - Scorecard tests
 

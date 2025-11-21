@@ -21,6 +21,7 @@ describe('CatalogueUtils', () => {
           dprUser: {
             token: 'T0k3n',
           },
+          bookmarkingEnabled: false,
         },
       } as unknown as Response
 
@@ -41,7 +42,7 @@ describe('CatalogueUtils', () => {
       expect(result).toEqual({
         data: { head: [], rows: [], csrfToken: 'csrfToken', id: 'id' },
         features: {
-          bookmarkingEnabled: undefined,
+          bookmarkingEnabled: false,
           filteringEnabled: true,
           howToUseEnabled: true,
           unauthorisedToggleEnabled: true,

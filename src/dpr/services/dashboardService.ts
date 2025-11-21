@@ -1,5 +1,4 @@
 import Dict = NodeJS.Dict
-import logger from '../utils/logger'
 import DashboardClient from '../data/dashboardClient'
 import { components } from '../types/api'
 import { DashboardDataResponse } from '../types/Metrics'
@@ -8,7 +7,6 @@ import { DashboardDataResponse } from '../types/Metrics'
 class DashboardService {
   constructor(private readonly dashboardClient: DashboardClient) {
     this.dashboardClient = dashboardClient
-    logger.info('Service created: DashboardService')
   }
 
   async getDefinition(

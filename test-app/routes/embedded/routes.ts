@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
-import logger from '../../../src/dpr/utils/logger'
 import EmbeddedController from './controller'
 
 // Routes
@@ -21,8 +20,6 @@ export function Routes(services: Services) {
 }
 
 export const EmbeddedRoutes = ({ path, services }: { path: string; services: Services }) => {
-  logger.info('Initialiasing routes: Embedded Routes')
-
   const router = Router({ mergeParams: true })
   router.use(path, Routes(services))
 

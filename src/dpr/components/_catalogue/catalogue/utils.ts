@@ -45,10 +45,10 @@ export const init = async ({
 
 const setFeatures = (bookmarkingEnabled: boolean, features?: CatalogueFeatures) => {
   return {
+    bookmarkingEnabled,
     filteringEnabled: features?.filteringEnabled === undefined || features.filteringEnabled,
     unauthorisedToggleEnabled: features?.unauthorisedToggleEnabled === undefined || features.unauthorisedToggleEnabled,
     howToUseEnabled: features?.howToUseEnabled === undefined || features.howToUseEnabled,
-    bookmarkingEnabled: features?.bookmarkingEnabled !== undefined ? features.bookmarkingEnabled : bookmarkingEnabled,
   }
 }
 

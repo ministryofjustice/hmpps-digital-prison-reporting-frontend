@@ -263,7 +263,10 @@ const getFilterData = async (
   let filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
   filtersData.filters = PersonalistionUtils.setUserContextDefaults(res, filtersData.filters)
 
-  const defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id, FiltersType.REQUEST)
+  let defaultFilterValues
+  if (res.locals['saveDefaultsEnabled']) {
+    defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id, FiltersType.REQUEST)
+  }
   if (defaultFilterValues) {
     filtersData = PersonalistionUtils.setFilterValuesFromSavedDefaults(
       filtersData.filters,
@@ -311,7 +314,7 @@ export const cancelRequest = async ({ req, res, services }: AsyncReportUtilsPara
   const { token, dprUser, definitionsPath } = LocalsHelper.getValues(res)
   const { reportId, id, executionId, type } = req.params
 
-  let service
+  let service: ReportingService | DashboardService = services.reportingService
   if (type === ReportType.REPORT) service = services.reportingService
   if (type === ReportType.DASHBOARD) service = services.dashboardService
 
@@ -387,6 +390,7 @@ export const renderRequest = async ({
       hasDefaults: defaultFilterValues?.length > 0,
       defaultsSaved,
       type: type as ReportType,
+      saveDefaultsEnabled: res.locals['saveDefaultsEnabled'],
     }
 
     return {

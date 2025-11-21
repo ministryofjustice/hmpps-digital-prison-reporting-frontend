@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
-import logger from '../../../src/dpr/utils/logger'
 
 // Routes
 import ListRoutes from './list/routes'

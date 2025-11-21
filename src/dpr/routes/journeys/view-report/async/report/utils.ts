@@ -336,7 +336,7 @@ const getTemplateData = async (
   })
 
   // Set the features
-  const features = await setFeatures(services, res, req, columns, count, definitionData, requestedData, urls)
+  const features = await setFeatures(services, res, req, columns, definitionData, requestedData, urls)
 
   // Set the extra meta data
   const meta = setMetaData(res, req)
@@ -410,7 +410,6 @@ const setFeatures = async (
   res: Response,
   req: Request,
   columns: Columns,
-  count: number,
   definitionData: ExtractedDefinitionData,
   requestData?: ExtractedRequestData,
   urls?: ReportUrls,
@@ -429,7 +428,7 @@ const setFeatures = async (
     bookmarked = await bookmarkService.isBookmarked(id, reportId, dprUser.id)
   }
 
-  const actions = setActions(csrfToken, columns, canDownload, count, res, req, definitionData, requestData, urls)
+  const actions = setActions(csrfToken, columns, canDownload, res, req, definitionData, requestData, urls)
 
   return {
     actions,
@@ -493,7 +492,6 @@ const setActions = (
   csrfToken: string,
   columns: Columns,
   canDownload: boolean,
-  count: number,
   res: Response,
   req: Request,
   definitionData: ExtractedDefinitionData,

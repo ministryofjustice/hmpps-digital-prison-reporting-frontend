@@ -142,6 +142,7 @@ You can disable certain features by adding extra config to the `createDprService
 const featureConfig = {
   bookmarking: false    // Disables bookmarking feature 
   download: false       // Disables download feature
+  saveDefaults: false,   // Disables save user defaults feature
 }
 
 const dprServices = createDprServices({ reportingClient, dashboardClient, reportDataStore }, featureConfig)

@@ -4,7 +4,16 @@ import { Response, Request } from 'express'
 import { Services } from '../types/Services'
 import * as Middleware from './setUpDprResources'
 import { RecentlyViewedReport } from '../types/UserReports'
-import { DownloadPermissionService, RequestedReportService, ReportingService, BookmarkService } from '../services'
+import {
+  DownloadPermissionService,
+  RequestedReportService,
+  ReportingService,
+  BookmarkService,
+  DefaultFilterValuesService,
+} from '../services'
+import { ProductCollectionService } from '../services/productCollection/productCollectionService'
+import MissingReportService from '../services/missingReport/missingReportService'
+import { ProductCollectionStoreService } from '../services/productCollection/productCollectionStoreService'
 
 describe('setUpDprResources', () => {
   describe('populateRequestedReports', () => {
@@ -12,6 +21,10 @@ describe('setUpDprResources', () => {
     let bookmarkService: BookmarkService
     let recentlyViewedService: RecentlyViewedReport
     let downloadPermissionService: DownloadPermissionService
+    let productCollectionService: ProductCollectionService
+    let defaultFilterValuesService: DefaultFilterValuesService
+    let productCollectionStoreService: ProductCollectionStoreService
+    let missingReportService: MissingReportService
     let services: Services
     let res: Response
 
@@ -26,13 +39,38 @@ describe('setUpDprResources', () => {
 
       bookmarkService = {
         getAllBookmarks: jest.fn().mockReturnValueOnce([]),
+        enabled: true,
       } as unknown as BookmarkService
 
-      downloadPermissionService = {} as unknown as DownloadPermissionService
+      downloadPermissionService = {
+        enabled: true,
+      } as unknown as DownloadPermissionService
+
+      productCollectionService = {
+        enabled: true,
+      } as unknown as ProductCollectionService
+
+      productCollectionStoreService = {
+        enabled: true,
+      } as unknown as ProductCollectionStoreService
+
+      defaultFilterValuesService = {
+        enabled: true,
+      } as unknown as DefaultFilterValuesService
+
+      missingReportService = {
+        enabled: true,
+      } as unknown as MissingReportService
 
       services = {
         requestedReportService,
         recentlyViewedService,
+        productCollectionService,
+        productCollectionStoreService,
+        missingReportService,
+        defaultFilterValuesService,
+        downloadPermissionService,
+        bookmarkService,
       } as unknown as Services
 
       res = {
@@ -50,8 +88,8 @@ describe('setUpDprResources', () => {
 
       expect(services.requestedReportService.getAllReports).toHaveBeenCalledWith('Uu1d')
       expect(services.recentlyViewedService.getAllReports).toHaveBeenCalledWith('Uu1d')
-      expect(res.locals['bookmarkingEnabled']).toBeUndefined()
-      expect(res.locals['downloadingEnabled']).toBeUndefined()
+      expect(res.locals['bookmarkingEnabled']).toBeTruthy()
+      expect(res.locals['downloadingEnabled']).toBeTruthy()
     })
 
     it('should get the bookmarks', async () => {
@@ -65,7 +103,7 @@ describe('setUpDprResources', () => {
       expect(services.recentlyViewedService.getAllReports).toHaveBeenCalledWith('Uu1d')
       expect(res.locals['bookmarkingEnabled']).toBeTruthy()
       expect(services.bookmarkService.getAllBookmarks).toHaveBeenCalledWith('Uu1d')
-      expect(res.locals['downloadingEnabled']).toBeUndefined()
+      expect(res.locals['downloadingEnabled']).toBeTruthy()
     })
 
     it('should enable downloading', async () => {

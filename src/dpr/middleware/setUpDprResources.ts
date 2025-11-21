@@ -62,24 +62,25 @@ export const populateDefinitions = async (services: Services, req: Request, res:
   res.locals['definitionsPath'] = definitionsPathFromQuery || dpdPathFromConfig
   res.locals['pathSuffix'] = `?dataProductDefinitionsPath=${res.locals['definitionsPath']}`
 
+  let selectedProductCollectionId
   if (token && services.productCollectionStoreService.enabled) {
-    const selectedProductCollectionId = await services.productCollectionStoreService.getSelectedProductCollectionId(
+    selectedProductCollectionId = await services.productCollectionStoreService.getSelectedProductCollectionId(
       dprUser.id,
     )
-
-    res.locals['definitions'] =
-      (await Promise.all([
-        services.reportingService.getDefinitions(token, res.locals['definitionsPath']),
-        selectedProductCollectionId &&
-          services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
-      ]).then(([defs, selectedProductCollection]) => {
-        if (selectedProductCollection && selectedProductCollection) {
-          const productIds = selectedProductCollection.products.map((product) => product.productId)
-          return defs.filter((def) => productIds.includes(def.id))
-        }
-        return defs
-      })) ?? []
   }
+
+  res.locals['definitions'] =
+    (await Promise.all([
+      services.reportingService.getDefinitions(token, res.locals['definitionsPath']),
+      selectedProductCollectionId &&
+        services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
+    ]).then(([defs, selectedProductCollection]) => {
+      if (selectedProductCollection && selectedProductCollection) {
+        const productIds = selectedProductCollection.products.map((product) => product.productId)
+        return defs.filter((def) => productIds.includes(def.id))
+      }
+      return defs
+    })) ?? []
 }
 
 export const populateRequestedReports = async (services: Services, res: Response) => {

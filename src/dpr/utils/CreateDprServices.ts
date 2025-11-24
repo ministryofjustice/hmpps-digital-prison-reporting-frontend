@@ -71,5 +71,3 @@ export const createDprServices = (
   }
   return services as Services
 }
-
-export default createDprServices

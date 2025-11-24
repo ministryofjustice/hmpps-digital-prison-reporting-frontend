@@ -1,6 +1,5 @@
-import { FliptClient } from '@flipt-io/flipt'
+import { FliptClient, ListFlagsResponse } from '@flipt-io/flipt'
 import { FeatureFlagConfig } from '../data/types'
-import { ListFlagsResponse } from '@flipt-io/flipt/dist/flags/models'
 
 export class FeatureFlagService {
   restClient: FliptClient | undefined

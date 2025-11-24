@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.17.5 
+- Fix small type issue
+
 ## 4.17.2 
 - Strict typing enabled
 - Configurable services refactor

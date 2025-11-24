@@ -1,4 +1,4 @@
-import { Flag, ListFlagsResponse } from "@flipt-io/flipt/dist/flags/models";
+import { ListFlagsResponse } from "@flipt-io/flipt";
 import { setupSimpleMock } from "@networkMocks/generateNetworkMock";
 
 export const getFlagsMockEnabled = setupSimpleMock(`/api/v1/namespaces/[a-zA-Z0-9-_]+/flags`, {

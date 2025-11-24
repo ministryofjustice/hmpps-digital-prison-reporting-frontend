@@ -1,4 +1,4 @@
-import { Flag } from "@flipt-io/flipt/dist/flags/models"
+import { Flag } from "@flipt-io/flipt"
 
 export declare global {
   namespace Express {

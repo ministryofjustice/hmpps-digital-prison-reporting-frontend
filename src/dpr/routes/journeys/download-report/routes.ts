@@ -6,7 +6,6 @@ import DownloadReportController from './controller'
 // Routes
 import RequestDownloadRoutes from './request-download/routes'
 import { Services } from '../../../types/Services'
-import logger from '../../../utils/logger'
 
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }) {
   const router = Router({ mergeParams: true })
@@ -34,10 +33,8 @@ export const DownloadReportRoutes = ({
   path: string
   layoutPath: string
 }) => {
-  logger.info('Initialiasing routes: Download')
-
   const router = Router({ mergeParams: true })
-  if (services.downloadPermissionService) {
+  if (services.downloadPermissionService.enabled) {
     router.use(path, Routes({ services, layoutPath }))
   }
   return router

@@ -396,7 +396,7 @@ export const getFilters = async ({
 
   let hasDefaults
   let canSaveDefaults = false
-  if (services && res) {
+  if (services && res && res.locals['saveDefaultsEnabled']) {
     // 2. If there are personalised filters, overwrite fiters with the personalised filter values.
     const { filters: personalisedFilterValues, defaultFilterValues } = await getPersonalisedFilters(
       filters,

@@ -14,6 +14,7 @@
   {% set endpoint = args.endpoint %}
   {% set type = args.type %}
   {% set interactive = args.interactive %}
+  {% set saveDefaultsEnabled = args.saveDefaultsEnabled %}
 
   {% set reportId = data.reportId %}
   {% set id = data.id %}
@@ -84,9 +85,11 @@
               {{ dprSelectedFilters() }}
             </div>
 
-            <div class='dpr-request-save-filters-container'>
-              {{ dprFiltersSaveDefaults('async-filters-form', './filters', hasDefaults, defaultsSaved) }}
-            </div>
+            {% if saveDefaultsEnabled %}
+              <div class='dpr-request-save-filters-container'>
+                {{ dprFiltersSaveDefaults('async-filters-form', './filters', hasDefaults, defaultsSaved) }}
+              </div>
+            {% endif %}
 
             <div class="filter-container">
               {%- for filter in filters %}

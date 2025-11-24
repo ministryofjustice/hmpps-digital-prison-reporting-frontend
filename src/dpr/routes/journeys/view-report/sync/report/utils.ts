@@ -168,7 +168,9 @@ export const getReport = async ({ req, res, services }: { req: Request; res: Res
     dataProductDefinitionsPath,
   })
   const count = await services.reportingService.getCount(reportDefinition.variant.resourceName, token, reportQuery)
-  const canDownload = Boolean(await services.downloadPermissionService?.downloadEnabled(dprUser.id, reportId, id))
+  const canDownload = Boolean(
+    await services.downloadPermissionService?.downloadEnabledForReport(dprUser.id, reportId, id),
+  )
   const bookmarked = Boolean(await services.bookmarkService?.isBookmarked(id, reportId, dprUser.id))
 
   const renderData = await getRenderData({

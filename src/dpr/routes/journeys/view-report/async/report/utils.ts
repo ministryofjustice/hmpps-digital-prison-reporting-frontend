@@ -336,7 +336,7 @@ const getTemplateData = async (
   })
 
   // Set the features
-  const features = await setFeatures(services, res, req, columns, count, definitionData, requestedData, urls)
+  const features = await setFeatures(services, res, req, columns, definitionData, requestedData, urls)
 
   // Set the extra meta data
   const meta = setMetaData(res, req)
@@ -410,7 +410,6 @@ const setFeatures = async (
   res: Response,
   req: Request,
   columns: Columns,
-  count: number,
   definitionData: ExtractedDefinitionData,
   requestData?: ExtractedRequestData,
   urls?: ReportUrls,
@@ -420,16 +419,16 @@ const setFeatures = async (
   const { downloadPermissionService, bookmarkService } = services
 
   let canDownload = false
-  if (downloadingEnabled && downloadPermissionService) {
-    canDownload = await downloadPermissionService.downloadEnabled(dprUser.id, reportId, id)
+  if (downloadingEnabled) {
+    canDownload = await downloadPermissionService.downloadEnabledForReport(dprUser.id, reportId, id)
   }
 
   let bookmarked
-  if (bookmarkingEnabled && bookmarkService) {
+  if (bookmarkingEnabled) {
     bookmarked = await bookmarkService.isBookmarked(id, reportId, dprUser.id)
   }
 
-  const actions = setActions(csrfToken, columns, canDownload, count, res, req, definitionData, requestData, urls)
+  const actions = setActions(csrfToken, columns, canDownload, res, req, definitionData, requestData, urls)
 
   return {
     actions,
@@ -493,7 +492,6 @@ const setActions = (
   csrfToken: string,
   columns: Columns,
   canDownload: boolean,
-  count: number,
   res: Response,
   req: Request,
   definitionData: ExtractedDefinitionData,
@@ -502,13 +500,13 @@ const setActions = (
 ) => {
   const { reportName, name, printable } = definitionData
   const { tableId, id, reportId } = req.params
-  const { nestedBaseUrl, definitionsPath } = LocalsHelper.getValues(res)
+  const { nestedBaseUrl, definitionsPath, downloadingEnabled } = LocalsHelper.getValues(res)
 
   // DownloadActionParams
   let downloadConfig: DownloadActionParams | undefined
-  if (urls) {
+  if (urls && downloadingEnabled) {
     downloadConfig = {
-      enabled: count > 0 && canDownload !== undefined,
+      enabled: downloadingEnabled,
       name,
       reportName,
       csrfToken,

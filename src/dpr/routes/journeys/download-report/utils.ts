@@ -161,10 +161,8 @@ export const downloadReport = async ({
     sortColumn,
   } = req.body
   const { downloadPermissionService } = services
-  const canDownload = downloadPermissionService
-    ? await downloadPermissionService.downloadEnabled(dprUser.id, reportId, id)
-    : false
-  if (!canDownload) {
+  const canDownloadReport = await downloadPermissionService.downloadEnabledForReport(dprUser.id, reportId, id)
+  if (!canDownloadReport) {
     res.redirect(redirect)
   } else {
     const definition = await services.reportingService.getDefinition(token, reportId, id, dataProductDefinitionsPath)

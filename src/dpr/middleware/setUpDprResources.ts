@@ -59,28 +59,28 @@ export const populateDefinitions = async (services: Services, req: Request, res:
   }
 
   // query takes presedence over config
-  // query takes presedence over config
   res.locals['definitionsPath'] = definitionsPathFromQuery || dpdPathFromConfig
   res.locals['pathSuffix'] = `?dataProductDefinitionsPath=${res.locals['definitionsPath']}`
 
-  if (token && services.reportingService) {
-    const selectedProductCollectionId = await services.productCollectionStoreService.getSelectedProductCollectionId(
+  let selectedProductCollectionId: string | undefined
+  if (token) {
+    selectedProductCollectionId = await services.productCollectionStoreService.getSelectedProductCollectionId(
       dprUser.id,
     )
-
-    res.locals['definitions'] =
-      (await Promise.all([
-        services.reportingService.getDefinitions(token, res.locals['definitionsPath']),
-        selectedProductCollectionId &&
-          services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
-      ]).then(([defs, selectedProductCollection]) => {
-        if (selectedProductCollection && selectedProductCollection) {
-          const productIds = selectedProductCollection.products.map((product) => product.productId)
-          return defs.filter((def) => productIds.includes(def.id))
-        }
-        return defs
-      })) ?? []
   }
+
+  res.locals['definitions'] =
+    (await Promise.all([
+      services.reportingService.getDefinitions(token, res.locals['definitionsPath']),
+      selectedProductCollectionId &&
+        services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
+    ]).then(([defs, selectedProductCollection]) => {
+      if (selectedProductCollection && selectedProductCollection) {
+        const productIds = selectedProductCollection.products.map((product) => product.productId)
+        return defs.filter((def) => productIds.includes(def.id))
+      }
+      return defs
+    })) ?? []
 }
 
 export const populateRequestedReports = async (services: Services, res: Response) => {
@@ -102,19 +102,19 @@ export const populateRequestedReports = async (services: Services, res: Response
           return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
         })
 
-    if (services.bookmarkService) {
-      res.locals['bookmarkingEnabled'] = true
+    res.locals['downloadingEnabled'] = services.downloadPermissionService.enabled
+    res.locals['bookmarkingEnabled'] = services.bookmarkService.enabled
+    res.locals['collectionsEnabled'] = services.productCollectionService.enabled
+    res.locals['requestMissingEnabled'] = services.missingReportService.enabled
+    res.locals['saveDefaultsEnabled'] = services.defaultFilterValuesService.enabled
 
+    if (res.locals['bookmarkingEnabled']) {
       const bookmarks = await services.bookmarkService.getAllBookmarks(dprUser.id)
       res.locals['bookmarks'] = !definitionsPath
         ? bookmarks
         : bookmarks.filter((bookmark: BookmarkStoreData) => {
             return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
           })
-    }
-
-    if (services.downloadPermissionService) {
-      res.locals['downloadingEnabled'] = true
     }
   }
 }

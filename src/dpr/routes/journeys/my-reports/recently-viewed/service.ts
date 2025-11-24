@@ -2,12 +2,10 @@ import ReportStoreService from '../../../../services/reportStoreService'
 import UserDataStore from '../../../../data/reportDataStore'
 import { RequestStatus, RequestedReport, RecentlyViewedReport, StoredReportData } from '../../../../types/UserReports'
 import { ReportStoreConfig } from '../../../../types/ReportStore'
-import logger from '../../../../utils/logger'
 
 class RecentlyViewedStoreService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {
     super(userDataStore)
-    logger.info('Service created: RecentlyViewedStoreService')
   }
 
   async getAllReports(userId: string): Promise<StoredReportData[]> {

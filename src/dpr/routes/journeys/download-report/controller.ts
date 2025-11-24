@@ -20,9 +20,11 @@ class DownloadReportController {
     let redirect = `${currentUrl}/download-disabled`
     redirect = currentQueryParams ? `${redirect}${currentQueryParams}` : redirect
 
-    const canDownloadReport = this.services.downloadPermissionService.enabled
-      ? await this.services.downloadPermissionService.downloadEnabledForReport(dprUser.id, reportId, id)
-      : false
+    const canDownloadReport = await this.services.downloadPermissionService.downloadEnabledForReport(
+      dprUser.id,
+      reportId,
+      id,
+    )
 
     if (canDownloadReport) {
       await DownloadUtils.downloadReport({ req, res, services: this.services, redirect, loadType })

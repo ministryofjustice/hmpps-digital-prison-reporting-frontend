@@ -62,8 +62,8 @@ export const populateDefinitions = async (services: Services, req: Request, res:
   res.locals['definitionsPath'] = definitionsPathFromQuery || dpdPathFromConfig
   res.locals['pathSuffix'] = `?dataProductDefinitionsPath=${res.locals['definitionsPath']}`
 
-  let selectedProductCollectionId
-  if (token && services.productCollectionStoreService.enabled) {
+  let selectedProductCollectionId: string | undefined
+  if (token) {
     selectedProductCollectionId = await services.productCollectionStoreService.getSelectedProductCollectionId(
       dprUser.id,
     )

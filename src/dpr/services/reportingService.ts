@@ -41,8 +41,9 @@ class ReportingService {
     reportId: string,
     variantId: string,
     dataProductDefinitionsPath?: string,
+    query?: Dict<string | string[]>,
   ): Promise<components['schemas']['SingleVariantReportDefinition']> {
-    return this.reportingClient.getDefinition(token, reportId, variantId, dataProductDefinitionsPath)
+    return this.reportingClient.getDefinition(token, reportId, variantId, dataProductDefinitionsPath, query)
   }
 
   async requestAsyncReport(

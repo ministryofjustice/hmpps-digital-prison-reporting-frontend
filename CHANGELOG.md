@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.18.1 
+- Bigfix: Interactive filter: preset date range selection failed BE validation.
+
 ## 4.18.0 
 - Conditional interactive filters based on pre-filter values
 - Hide disabled report actions

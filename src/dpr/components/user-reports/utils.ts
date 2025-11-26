@@ -362,7 +362,7 @@ export const updateLastViewed = async ({
 
   const columns = <string[]>req.query?.['columns']
   const { selectedPage, pageSize, sortColumn, sortedAsc } = <Dict<string>>req.query
-  const filtersQuery = FiltersUtils.setRequestQueryFromFilterValues(filters)
+  const filtersQuery = FiltersUtils.setRequestQueryFromFilterValues(filters, true)
   const reqQuery = {
     ...filtersQuery,
     ...(columns && { columns }),

@@ -17,11 +17,14 @@ class DashboardClient {
     dashboardId: string,
     dpdId: string,
     definitionsPath?: string,
+    queryData?: Dict<string | string[]> | undefined,
   ): Promise<components['schemas']['DashboardDefinition']> {
-    this.logInfo('Get definition:', { dpdId, dashboardId })
     const query = {
+      ...queryData,
       dataProductDefinitionsPath: definitionsPath,
     }
+    this.logInfo('Get definition:', { dpdId, dashboardId, ...query })
+
     return this.restClient
       .get({
         path: `/definitions/${dpdId}/dashboards/${dashboardId}`,

@@ -14,8 +14,9 @@ class DashboardService {
     dpdId: string,
     id: string,
     dataProductDefinitionsPath?: string,
+    query?: Dict<string | string[]> | undefined,
   ): Promise<components['schemas']['DashboardDefinition']> {
-    return this.dashboardClient.getDefinition(token, id, dpdId, dataProductDefinitionsPath)
+    return this.dashboardClient.getDefinition(token, id, dpdId, dataProductDefinitionsPath, query)
   }
 
   async requestAsyncDashboard(

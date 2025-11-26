@@ -41,19 +41,20 @@ export const getData = async ({
   const { reportId, variantId, id, tableId } = req.params
   const reportVariantId = variantId || id
 
+  // Get the request data
+  const requestedReportService = <RequestedReportService>services.requestedReportService
+  const requestData: RequestedReport | undefined = await requestedReportService.getReportByTableId(tableId, userId)
+  const queryData = requestData?.query?.data
+
   // Get the definition
   const definition: components['schemas']['SingleVariantReportDefinition'] =
-    await services.reportingService.getDefinition(token, reportId, reportVariantId, definitionPath)
+    await services.reportingService.getDefinition(token, reportId, reportVariantId, definitionPath, queryData)
   const { variant } = definition
   const { specification } = variant
 
   if (!specification) {
     throw new Error('No specification found in variant definition')
   }
-
-  // Get the request data
-  const requestedReportService = <RequestedReportService>services.requestedReportService
-  const requestData: RequestedReport | undefined = await requestedReportService.getReportByTableId(tableId, userId)
 
   // Get the columns
   const columns = ColumnUtils.getColumns(specification, req)

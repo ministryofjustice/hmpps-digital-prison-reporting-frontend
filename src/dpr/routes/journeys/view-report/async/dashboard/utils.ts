@@ -1,5 +1,6 @@
-import { Request } from 'express'
+import { Request, Response } from 'express'
 import { Services } from '../../../../../types/Services'
+import Dict = NodeJS.Dict
 import {
   DashboardSection,
   DashboardVisualisation,
@@ -61,14 +62,24 @@ const setDashboardActions = (
   return ReportActionsUtils.getActions(actions)
 }
 
-const getDefinitionData = async ({ req, res, services }: AsyncReportUtilsParams) => {
+const getDefinitionData = async ({
+  req,
+  res,
+  services,
+  queryData,
+}: {
+  req: Request
+  res: Response
+  services: Services
+  queryData: Dict<string | string[]> | undefined
+}) => {
   const { token } = LocalsHelper.getValues(res)
   const { reportId, id } = req.params
   const dataProductDefinitionsPath = <string>req.query['dataProductDefinitionsPath']
 
   // Dashboard Definition,
   const dashboardDefinition: components['schemas']['DashboardDefinition'] =
-    await services.dashboardService.getDefinition(token, reportId, id, dataProductDefinitionsPath)
+    await services.dashboardService.getDefinition(token, reportId, id, dataProductDefinitionsPath, queryData)
 
   // Report summary data
   const reportDefinition = await DefinitionUtils.getReportSummary(
@@ -176,9 +187,7 @@ const updateStore = async (
   filters: FilterValue[],
 ): Promise<RequestedReport | undefined> => {
   const { requestedReportService } = services
-  const dashboardRequestData = requestedReportService
-    ? await requestedReportService.getReportByTableId(tableId, userId)
-    : undefined
+  const dashboardRequestData = await requestedReportService.getReportByTableId(tableId, userId)
 
   // Add to recently viewed
   if (sections && sections.length && dashboardRequestData) {
@@ -198,12 +207,17 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const { token, csrfToken, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
   const { reportId, id, tableId } = req.params
   const { bookmarkService, requestedReportService } = services
+  const { id: userId } = dprUser
+
+  let requestData: RequestedReport | undefined = await requestedReportService.getReportByTableId(tableId, userId)
+  const queryData = requestData?.query?.data
 
   // Get the definition Data
   const { query, filters, reportDefinition, dashboardDefinition } = await getDefinitionData({
     req,
     res,
     services,
+    queryData,
   })
 
   // Get the results data
@@ -221,9 +235,8 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const sections: DashboardSection[] = getSections(dashboardDefinition, flattenedData, query)
 
   // Update the store
-  let dashboardRequestData
   if (requestedReportService) {
-    dashboardRequestData = await updateStore(services, tableId, dprUser.id, sections, req, filters.filters)
+    requestData = await updateStore(services, tableId, dprUser.id, sections, req, filters.filters)
   }
 
   return {
@@ -240,7 +253,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
       sections,
       filters,
       type: ReportType.DASHBOARD,
-      actions: setDashboardActions(dashboardDefinition, reportDefinition, dashboardRequestData),
+      actions: setDashboardActions(dashboardDefinition, reportDefinition, requestData),
     },
   }
 }

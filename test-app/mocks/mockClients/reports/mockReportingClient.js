@@ -50,8 +50,8 @@ class MockReportingClient {
     return mockStatusHelper(this.mockRequests, statuses, executionId)
   }
 
-  async getDefinition(token, reportId, variantId, definitionsPath) {
-    this.logInfo('getDefinition', { token, reportId, variantId, definitionsPath })
+  async getDefinition(token, reportId, variantId, definitionsPath, query) {
+    this.logInfo('getDefinition', { token, reportId, variantId, definitionsPath, ...query })
 
     const report = defs.reports.find((r) => r.id === reportId)
     const variant = report.variants.filter((v) => v.id === variantId)

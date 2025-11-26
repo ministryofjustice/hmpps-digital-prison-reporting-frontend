@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import { ProductCollectionStoreService } from 'src/dpr/services/productCollection/productCollectionStoreService'
+import { ProductCollectionStoreService } from '../../../../services/productCollection/productCollectionStoreService'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { Services } from '../../../../types/Services'
 

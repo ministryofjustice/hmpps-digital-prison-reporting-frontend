@@ -76,19 +76,21 @@
           {% set itemClassNames = itemClassNames + " " + item.classes %}
         {% endif %}
 
-        {{ govukButton({
-          element: item.element,
-          classes: itemClassNames,
-          text: item.text,
-          html: item.html,
-          name: item.name,
-          type: item.type,
-          value: item.value,
-          href: item.href,
-          disabled: item.disabled,
-          attributes: item.attributes,
-          preventDoubleClick: items.preventDoubleClick
-        }) }}
+        {% if not item.attributes.disabled %}
+          {{ govukButton({
+            element: item.element,
+            classes: itemClassNames,
+            text: item.text,
+            html: item.html,
+            name: item.name,
+            type: item.type,
+            value: item.value,
+            href: item.href,
+            disabled: item.disabled,
+            attributes: item.attributes,
+            preventDoubleClick: items.preventDoubleClick
+          }) }}
+        {% endif %}
       {% endfor -%}
     </div>
 

@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.18.0 
+- Conditional interactive filters based on pre-filter values
+
 ## 4.17.5 
 - Fix small type issue
 

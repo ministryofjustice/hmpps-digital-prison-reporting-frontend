@@ -17,7 +17,8 @@
         id: 'dpr-save-user-defaults',
         form: formId,
         formaction: action + '/save-defaults'
-      }
+      },
+      element: "a"
     }) }}
     
     {% if hasDefaults %}
@@ -28,7 +29,8 @@
           id: 'dpr-remove-user-defaults',
           form: formId,
           formaction: action + '/remove-defaults'
-        }
+        },
+        element: "a"
       }) }}
     {% endif %}
 

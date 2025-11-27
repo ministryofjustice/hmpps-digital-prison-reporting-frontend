@@ -7,7 +7,8 @@ import DefinitionUtils from '../utils/definitionUtils'
 import { BookmarkStoreData } from '../types/Bookmark'
 import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
-import { FeatureFlagService } from '../services/featureFlagService'
+import { FeatureFlagService, isBooleanFlagEnabled } from '../services/featureFlagService'
+import type { Environment } from 'nunjucks'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -21,13 +22,14 @@ const deriveDefinitionsPath = (query: ParsedQs): string | null => {
   return null
 }
 
-export const setupResources = (services: Services, config?: DprConfig): RequestHandler => {
+export const setupResources = (services: Services, env: Environment, config?: DprConfig): RequestHandler => {
   return async (req, res, next) => {
     populateValidationErrors(req, res)
     try {
       await setFeatures(res, services.featureFlagService)
       await populateDefinitions(services, req, res, config)
       await populateRequestedReports(services, res)
+      setupRequestAwareNunjucks(env, res)
       return next()
     } catch (error) {
       return next(error)
@@ -35,16 +37,18 @@ export const setupResources = (services: Services, config?: DprConfig): RequestH
   }
 }
 
+const setupRequestAwareNunjucks = (env: Environment, res: Response) => {
+  env.addGlobal('getLocals', () => ({ locals: { ...res.locals, ...res.app.locals } }))
+}
 
 const setFeatures = async (res: Response, featureFlagService: FeatureFlagService) => {
   if (res.app.locals.featureFlags === undefined) {
     res.app.locals.featureFlags = {
-      flags: [],
+      flags: {},
       lastUpdated: new Date().getTime() - 601 * 1000,
     }
   }
   const featureFlags = res.app.locals.featureFlags
-  console.log(`** beforeflags **: ${JSON.stringify(featureFlags)}`)
   const currentTime = new Date().getTime()
   const timeSinceLastUpdatedSeconds = (currentTime - featureFlags.lastUpdated) / 1000
   const shouldUpdate = timeSinceLastUpdatedSeconds > 600
@@ -55,8 +59,7 @@ const setFeatures = async (res: Response, featureFlagService: FeatureFlagService
       res.app.locals.featureFlags.lastUpdated = currentTime - 601 * 1000
       throw e
     })
-    console.log(`flags: ${JSON.stringify(flags)}`)
-    res.app.locals.featureFlags.flags = flags.flags    
+    res.app.locals.featureFlags.flags = Object.fromEntries(flags.flags.map((flag) => [flag.key, flag]))
   }
 }
 
@@ -101,7 +104,7 @@ export const populateDefinitions = async (services: Services, req: Request, res:
     (await Promise.all([
       services.reportingService.getDefinitions(token, res.locals['definitionsPath']),
       selectedProductCollectionId &&
-        services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
+      services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
     ]).then(([defs, selectedProductCollection]) => {
       if (selectedProductCollection && selectedProductCollection) {
         const productIds = selectedProductCollection.products.map((product) => product.productId)
@@ -120,29 +123,29 @@ export const populateRequestedReports = async (services: Services, res: Response
     res.locals['requestedReports'] = !definitionsPath
       ? requested
       : requested.filter((report: RequestedReport) => {
-          return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
-        })
+        return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
+      })
 
     const recent = await services.recentlyViewedService.getAllReports(dprUser.id)
     res.locals['recentlyViewedReports'] = !definitionsPath
       ? recent
       : recent.filter((report: StoredReportData) => {
-          return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
-        })
+        return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
+      })
 
     res.locals['downloadingEnabled'] = services.downloadPermissionService.enabled
     res.locals['bookmarkingEnabled'] = services.bookmarkService.enabled
     res.locals['collectionsEnabled'] = services.productCollectionService.enabled
     res.locals['requestMissingEnabled'] = services.missingReportService.enabled
-    res.locals['saveDefaultsEnabled'] = services.defaultFilterValuesService.enabled
+    res.locals['saveDefaultsEnabled'] = isBooleanFlagEnabled('saveDefaultsEnabled', res.app)
 
     if (res.locals['bookmarkingEnabled']) {
       const bookmarks = await services.bookmarkService.getAllBookmarks(dprUser.id)
       res.locals['bookmarks'] = !definitionsPath
         ? bookmarks
         : bookmarks.filter((bookmark: BookmarkStoreData) => {
-            return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
-          })
+          return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
+        })
     }
   }
 }

@@ -1,4 +1,4 @@
-import { stubBaseTasks, stubDefinitionsTasks } from "cypress-tests/cypressUtils"
+import { executeReportStubs, stubBaseTasks, stubDefinitionsTasks } from "cypress-tests/cypressUtils"
 import { resetFeatureFlags } from "test-app/routes/integrationTests/appStateUtils"
 
 context('Viewing a report', () => {
@@ -6,26 +6,61 @@ context('Viewing a report', () => {
 
   describe('Feature flags', () => {
     beforeEach(() => {
-      stubBaseTasks()
-      stubDefinitionsTasks()
+      executeReportStubs()
+      cy.task('stubDefinitionRequestExamplesSuccess')
+      cy.task('stubRequestSuccessResult20')
       resetFeatureFlags()
     })
 
-    it('should show product collections with feature flag enabled', () => {
+    it('should show the ability to save filters as default with feature flag enabled', () => {
       cy.task('stubFeatureFlags')
 
       cy.visit(path)
-      cy.findByRole('combobox', { name: /Your collections/ })
-        .should('be.visible')
-        .within(() => cy.findAllByRole('option').should('have.length', 3))
+      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+        cy.findByRole('row', {
+          name: (_, element) => {
+            return Boolean(element?.textContent?.includes('Successful Report')) && Boolean(element?.textContent?.includes('this will succeed'))
+          },
+        }).within(() => {
+          cy.findByRole('link', { name: 'Request report' }).click()
+        })
+      })
+
+      cy.findByRole('button', { name: /Save current filter values as defaults/ }).should('be.visible')
     })
 
-    it('should not show product collections with feature flag disabled', () => {
+    it('should show the ability to save filters as default with feature flag not existing', () => {
       cy.task('stubFeatureFlagsEmpty')
 
       cy.visit(path)
-      cy.findByRole('combobox', { name: /Your collections/ })
-        .should('not.exist')
+      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+        cy.findByRole('row', {
+          name: (_, element) => {
+            return Boolean(element?.textContent?.includes('Successful Report')) && Boolean(element?.textContent?.includes('this will succeed'))
+          },
+        }).within(() => {
+          cy.findByRole('link', { name: 'Request report' }).click()
+        })
+      })
+
+      cy.findByRole('button', { name: /Save current filter values as defaults/ }).should('be.visible')
+    })
+
+    it('should not show the ability to save filters as default with feature flag disabled', () => {
+      cy.task('stubFeatureFlagsDisabled')
+
+      cy.visit(path)
+      cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+        cy.findByRole('row', {
+          name: (_, element) => {
+            return Boolean(element?.textContent?.includes('Successful Report')) && Boolean(element?.textContent?.includes('this will succeed'))
+          },
+        }).within(() => {
+          cy.findByRole('link', { name: 'Request report' }).click()
+        })
+      })
+
+      cy.findByRole('button', { name: /Save current filter values as defaults/ }).should('not.exist')
     })
   })
 })

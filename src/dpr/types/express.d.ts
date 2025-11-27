@@ -5,7 +5,9 @@ export declare global {
     interface Locals {
       featureFlags: {
         lastUpdated: number
-        flags: Flag[]
+        flags: {
+          [flagName: string]: Flag
+        }
       }
     }
   }

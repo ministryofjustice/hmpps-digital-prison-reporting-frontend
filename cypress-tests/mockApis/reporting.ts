@@ -18,7 +18,7 @@ import { featureTestingSync } from '@networkMocks/report/mockVariants/feature-te
 import { getListWithWarnings, getListWithWarningsCount } from '@networkMocks/report/sync/mocks'
 import { featureTestingOrderFilters } from '@networkMocks/report/mockVariants/feature-testing/orderFilters'
 import { getProductCollection1, getProductCollection2, getProductCollections } from '@networkMocks/productCollections/mocks'
-import { getFlagsMockEmpty, getFlagsMockEnabled } from '@networkMocks/featureFlags/mocks'
+import { getFlagsMockDisabled, getFlagsMockEmpty, getFlagsMockEnabled } from '@networkMocks/featureFlags/mocks'
 
 export const stubs = {
   stubGetFeatureTestingMissing: () => stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingMissing1)),
@@ -139,6 +139,7 @@ export const stubs = {
   getProductCollection2: () => stubFor(getProductCollection2),
   stubFeatureFlags: () => stubFor(getFlagsMockEnabled),
   stubFeatureFlagsEmpty: () => stubFor(getFlagsMockEmpty),
+  stubFeatureFlagsDisabled: () => stubFor(getFlagsMockDisabled)
 } as const
 
 export type ReportingStubsKeys = keyof typeof stubs

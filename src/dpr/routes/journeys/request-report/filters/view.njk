@@ -13,7 +13,7 @@
   {% if filters %}
     <p class="govuk-body">{{ filterDescription }}</p>
   {% endif %}
-
+  
   {% set reportDetailsHtml %}
     {{ dprRequestDetails(reportData)}}
   {% endset %}
@@ -25,7 +25,7 @@
     open: (filtersData.filters.length == null or filtersData.filters.length == 0)
   }) }}
 
-  {{ dprFiltersHelp() }}
+  {{ dprFiltersHelp(saveDefaultsEnabled) }}
  
   {{ dprAsyncFiltersForm({ 
     filters: filtersData.filters,

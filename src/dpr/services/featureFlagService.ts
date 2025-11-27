@@ -1,5 +1,6 @@
 import { FliptClient, ListFlagsResponse } from '@flipt-io/flipt'
 import { FeatureFlagConfig } from '../data/types'
+import { Application } from 'express'
 
 export class FeatureFlagService {
   restClient: FliptClient | undefined
@@ -21,7 +22,7 @@ export class FeatureFlagService {
   }
 
   async getFlags(): Promise<ListFlagsResponse> {
-    if (!this.restClient) {
+    if (!this.restClient || !this.namespace) {
       return {
         flags: [],
         nextPageToken: '',
@@ -30,4 +31,12 @@ export class FeatureFlagService {
     }
     return this.restClient.flags.listFlags(this.namespace)
   }
+}
+
+export const isBooleanFlagEnabled = (flagName: string, app: Application): boolean => {
+  const flag = app.locals.featureFlags.flags[flagName]
+  if (flag && flag.type !== 'BOOLEAN_FLAG_TYPE') {
+    throw Error('Tried to validate whether a non-boolean flag was enabled')
+  }
+  return !flag || flag.enabled
 }

@@ -26,7 +26,7 @@ import setUpWebSession from './middleware/setupSession'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
-  nunjucksSetup(app, path)
+  const env = nunjucksSetup(app, path)
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
   app.set('query parser', 'extended')
@@ -36,7 +36,7 @@ export default function createApp(services: Services): express.Application {
   app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
   app.use(setUpMockUser())
   app.use(setUpBookmarks(services))
-  app.use(setUpDprResources(services, 'views/page.njk'))
+  app.use(setUpDprResources(services, 'views/page.njk', env))
   app.use(Routes(services))
   setUpMockSyncApis(app)
 

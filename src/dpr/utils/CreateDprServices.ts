@@ -19,6 +19,7 @@ import { MissingReportService } from '../services/missingReport/missingReportSer
 import { ProductCollectionStoreService } from '../services/productCollection/productCollectionStoreService'
 import { ProductCollectionService } from '../services/productCollection/productCollectionService'
 import { ServiceFeatureConfig } from '../types/DprConfig'
+import { FeatureFlagService } from '../services/featureFlagService'
 
 export interface InitDPRServicesArgs {
   reportingClient: ReportingClient
@@ -26,6 +27,7 @@ export interface InitDPRServicesArgs {
   reportDataStore: ReportDataStore
   missingReportClient: MissingReportClient
   productCollectionClient: ProductCollectionClient
+  featureFlagService: FeatureFlagService
 }
 
 interface dprServices {
@@ -39,6 +41,7 @@ interface dprServices {
   downloadPermissionService: DownloadPermissionService
   defaultFilterValuesService: DefaultFilterValuesService
   productCollectionStoreService: ProductCollectionStoreService
+  featureFlagService: FeatureFlagService
 }
 
 export const createDprServices = (
@@ -68,6 +71,7 @@ export const createDprServices = (
 
     missingReportService: new MissingReportService(missingReportClient, serviceFeatureConfig),
     productCollectionService: new ProductCollectionService(productCollectionClient, serviceFeatureConfig),
+    featureFlagService: clients.featureFlagService,
   }
   return services as Services
 }

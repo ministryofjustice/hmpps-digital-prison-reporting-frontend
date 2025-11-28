@@ -34,6 +34,10 @@ context('Viewing a report', () => {
       })
 
       cy.findByRole('button', { name: /Save current filter values as defaults/ }).should('be.visible')
+      const helpSummary = cy.contains('summary', /Help/)
+      helpSummary.click()
+      helpSummary.parent('details').invoke('attr', 'open').should('exist')
+      cy.findByRole('heading', { name: /Save current filter values as defaults/ }).should('be.visible')
     })
 
     it('should show the ability to save filters as default with feature flag not existing', () => {
@@ -51,6 +55,10 @@ context('Viewing a report', () => {
       })
 
       cy.findByRole('button', { name: /Save current filter values as defaults/ }).should('be.visible')
+      const helpSummary = cy.contains('summary', /Help/)
+      helpSummary.click()
+      helpSummary.parent('details').invoke('attr', 'open').should('exist')
+      cy.findByRole('heading', { name: /Save current filter values as defaults/ }).should('be.visible')
     })
 
     it('should not show the ability to save filters as default with feature flag disabled', () => {
@@ -68,6 +76,10 @@ context('Viewing a report', () => {
       })
 
       cy.findByRole('button', { name: /Save current filter values as defaults/ }).should('not.exist')
+      const helpSummary = cy.contains('summary', /Help/)
+      helpSummary.click()
+      helpSummary.parent('details').invoke('attr', 'open').should('exist')
+      cy.findByRole('heading', { name: /Save current filter values as defaults/ }).should('not.exist')
     })
   })
 })

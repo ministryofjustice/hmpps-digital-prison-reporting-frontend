@@ -1,8 +1,15 @@
-import { executeReportStubs, stubBaseTasks, stubDefinitionsTasks } from "cypress-tests/cypressUtils"
+import { executeReportStubs } from "cypress-tests/cypressUtils"
 import { resetFeatureFlags } from "test-app/routes/integrationTests/appStateUtils"
 
 context('Viewing a report', () => {
   const path = '/embedded/platform/'
+
+  // Do a reset so that any tests after this re-query for feature flags
+  after(() => {
+    cy.task('stubFeatureFlags')
+    resetFeatureFlags()
+    console.log('\n\n RESET FLAGS \n\n')
+  })
 
   describe('Feature flags', () => {
     beforeEach(() => {

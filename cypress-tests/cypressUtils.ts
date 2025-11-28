@@ -69,6 +69,7 @@ export const executeDashboardStubs = () => {
 }
 
 export const stubDefinitionsTasks = () => {
+  cy.task('stubFeatureFlags')
   cy.task('stubDefinitions')
   cy.task('stubSingleSummaries')
   cy.task('stubGetProductCollections')

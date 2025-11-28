@@ -83,7 +83,7 @@ describe('setUpDprResources', () => {
 
       res = {
         app: {
-          locals: {}
+          locals: {},
         },
         locals: {
           dprUser: {

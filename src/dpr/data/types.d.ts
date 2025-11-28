@@ -10,7 +10,7 @@ export interface GetRequest {
   token: string
 }
 
-export interface FeatureFlagConfig { 
+export interface FeatureFlagConfig {
   namespace: string
   token: string
   url: string

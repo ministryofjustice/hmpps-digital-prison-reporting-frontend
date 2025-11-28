@@ -1,5 +1,5 @@
-import { executeReportStubs } from "cypress-tests/cypressUtils"
-import { resetFeatureFlags } from "test-app/routes/integrationTests/appStateUtils"
+import { executeReportStubs } from 'cypress-tests/cypressUtils'
+import { resetFeatureFlags } from 'test-app/routes/integrationTests/appStateUtils'
 
 context('Viewing a report', () => {
   const path = '/embedded/platform/'
@@ -8,7 +8,6 @@ context('Viewing a report', () => {
   after(() => {
     cy.task('stubFeatureFlags')
     resetFeatureFlags()
-    console.log('\n\n RESET FLAGS \n\n')
   })
 
   describe('Feature flags', () => {
@@ -26,7 +25,10 @@ context('Viewing a report', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element?.textContent?.includes('Successful Report')) && Boolean(element?.textContent?.includes('this will succeed'))
+            return (
+              Boolean(element?.textContent?.includes('Successful Report')) &&
+              Boolean(element?.textContent?.includes('this will succeed'))
+            )
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request report' }).click()
@@ -47,7 +49,10 @@ context('Viewing a report', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element?.textContent?.includes('Successful Report')) && Boolean(element?.textContent?.includes('this will succeed'))
+            return (
+              Boolean(element?.textContent?.includes('Successful Report')) &&
+              Boolean(element?.textContent?.includes('this will succeed'))
+            )
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request report' }).click()
@@ -68,7 +73,10 @@ context('Viewing a report', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element?.textContent?.includes('Successful Report')) && Boolean(element?.textContent?.includes('this will succeed'))
+            return (
+              Boolean(element?.textContent?.includes('Successful Report')) &&
+              Boolean(element?.textContent?.includes('this will succeed'))
+            )
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request report' }).click()

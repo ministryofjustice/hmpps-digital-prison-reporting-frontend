@@ -1,13 +1,14 @@
 import { FliptClient, ListFlagsResponse } from '@flipt-io/flipt'
-import { FeatureFlagConfig } from '../data/types'
 import { Application } from 'express'
+import { FeatureFlagConfig } from '../data/types'
 
 export class FeatureFlagService {
   restClient: FliptClient | undefined
+
   namespace: string | undefined
 
-  constructor(config: FeatureFlagConfig | {} = {}) {
-    const { namespace, token, url } = config && config as FeatureFlagConfig
+  constructor(config: FeatureFlagConfig | Record<string, unknown> = {}) {
+    const { namespace, token, url } = config && (config as FeatureFlagConfig)
     if (Object.keys(config).length !== 3 || !namespace || !token || !url) {
       return
     }

@@ -2,6 +2,7 @@
 import { RequestHandler, Response, Request, ErrorRequestHandler, NextFunction } from 'express'
 import type { ParsedQs } from 'qs'
 import { HTTPError } from 'superagent'
+import type { Environment } from 'nunjucks'
 import { Services } from '../types/Services'
 import { RequestedReport, StoredReportData } from '../types/UserReports'
 import DefinitionUtils from '../utils/definitionUtils'
@@ -9,7 +10,6 @@ import { BookmarkStoreData } from '../types/Bookmark'
 import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
 import { FeatureFlagService, isBooleanFlagEnabled } from '../services/featureFlagService'
-import type { Environment } from 'nunjucks'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -66,21 +66,20 @@ const setFeatures = async (res: Response, featureFlagService: FeatureFlagService
       lastUpdated: new Date().getTime() - 601 * 1000,
     }
   }
-  const featureFlags = res.app.locals.featureFlags
+  const { featureFlags } = res.app.locals
   const currentTime = new Date().getTime()
   const timeSinceLastUpdatedSeconds = (currentTime - featureFlags.lastUpdated) / 1000
   const shouldUpdate = timeSinceLastUpdatedSeconds > 600
   if (shouldUpdate) {
     // Refresh every 10 mins
     res.app.locals.featureFlags.lastUpdated = currentTime
-    const flags = await featureFlagService.getFlags().catch(e => {
+    const flags = await featureFlagService.getFlags().catch((e) => {
       res.app.locals.featureFlags.lastUpdated = currentTime - 601 * 1000
       throw e
     })
     res.app.locals.featureFlags.flags = Object.fromEntries(flags.flags.map((flag) => [flag.key, flag]))
   }
 }
-
 
 const populateValidationErrors = (req: Request, res: Response) => {
   const errors = req.flash(`DPR_ERRORS`)
@@ -122,7 +121,7 @@ export const populateDefinitions = async (services: Services, req: Request, res:
     (await Promise.all([
       services.reportingService.getDefinitions(token, res.locals['definitionsPath']),
       selectedProductCollectionId &&
-      services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
+        services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
     ]).then(([defs, selectedProductCollection]) => {
       if (selectedProductCollection && selectedProductCollection) {
         const productIds = selectedProductCollection.products.map((product) => product.productId)
@@ -141,15 +140,15 @@ export const populateRequestedReports = async (services: Services, res: Response
     res.locals['requestedReports'] = !definitionsPath
       ? requested
       : requested.filter((report: RequestedReport) => {
-        return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
-      })
+          return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
+        })
 
     const recent = await services.recentlyViewedService.getAllReports(dprUser.id)
     res.locals['recentlyViewedReports'] = !definitionsPath
       ? recent
       : recent.filter((report: StoredReportData) => {
-        return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
-      })
+          return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
+        })
 
     res.locals['downloadingEnabled'] = services.downloadPermissionService.enabled
     res.locals['bookmarkingEnabled'] = services.bookmarkService.enabled
@@ -162,8 +161,8 @@ export const populateRequestedReports = async (services: Services, res: Response
       res.locals['bookmarks'] = !definitionsPath
         ? bookmarks
         : bookmarks.filter((bookmark: BookmarkStoreData) => {
-          return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
-        })
+            return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
+          })
     }
   }
 }

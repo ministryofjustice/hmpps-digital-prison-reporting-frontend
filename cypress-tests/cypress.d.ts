@@ -1,5 +1,5 @@
-import { DashboardStubsKeys } from "./mockApis/dashboards";
-import { ReportingStubsKeys } from "./mockApis/reporting";
+import { DashboardStubsKeys } from './mockApis/dashboards'
+import { ReportingStubsKeys } from './mockApis/reporting'
 
 type StubsKeys = DashboardStubsKeys | ReportingStubsKeys
 

@@ -1,4 +1,4 @@
-import { Flag } from "@flipt-io/flipt"
+import { Flag } from '@flipt-io/flipt'
 
 export declare global {
   namespace Express {

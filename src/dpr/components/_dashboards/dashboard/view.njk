@@ -15,8 +15,6 @@
       {{ dprDashboardSidebar(data.sections) }}
     </nav> 
 
-    {{ data.csrfToken | json }}
-
     <div class="dashboard-content">
       {{ dprReportHeading(data) }}
       {{ dprDashboardFilters(data.filters, { csrfToken: data.csrfToken }) }}

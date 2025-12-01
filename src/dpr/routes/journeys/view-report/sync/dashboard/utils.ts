@@ -35,7 +35,7 @@ const setAsRecentlyViewed = async ({
   filters: FilterValue[]
 }) => {
   const stateData = {
-    type: ReportType.REPORT,
+    type: ReportType.DASHBOARD,
     reportId,
     id,
     reportName,

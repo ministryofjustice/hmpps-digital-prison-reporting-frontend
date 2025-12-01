@@ -1,4 +1,9 @@
-import { executeDashboardStubs, executeReportStubs, stubBaseTasks, stubDefinitionsTasks } from "cypress-tests/cypressUtils"
+import {
+  executeDashboardStubs,
+  executeReportStubs,
+  stubBaseTasks,
+  stubDefinitionsTasks,
+} from 'cypress-tests/cypressUtils'
 
 context('Try to run the app with failing and broken api endpoints', () => {
   const path = '/embedded/platform/'
@@ -27,7 +32,9 @@ context('Try to run the app with failing and broken api endpoints', () => {
 
       cy.visit(path)
 
-      cy.findByRole('heading', { name: /Sorry, there is a problem with authenticating your request/ }).should('be.visible')
+      cy.findByRole('heading', { name: /Sorry, there is a problem with authenticating your request/ }).should(
+        'be.visible',
+      )
     })
 
     it('should cope with single definition endpoint failing', () => {
@@ -40,7 +47,10 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element?.textContent?.includes('Successful Report')) && Boolean(element?.textContent?.includes('this will succeed'))
+            return (
+              Boolean(element?.textContent?.includes('Successful Report')) &&
+              Boolean(element?.textContent?.includes('this will succeed'))
+            )
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request report' }).click()
@@ -60,7 +70,10 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element?.textContent?.includes('Successful Report')) && Boolean(element?.textContent?.includes('this will succeed'))
+            return (
+              Boolean(element?.textContent?.includes('Successful Report')) &&
+              Boolean(element?.textContent?.includes('this will succeed'))
+            )
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request report' }).click()
@@ -80,7 +93,10 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element?.textContent?.includes('Successful Report')) && Boolean(element?.textContent?.includes('this will succeed'))
+            return (
+              Boolean(element?.textContent?.includes('Successful Report')) &&
+              Boolean(element?.textContent?.includes('this will succeed'))
+            )
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request report' }).click()
@@ -100,7 +116,10 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element?.textContent?.includes('Successful Report')) && Boolean(element?.textContent?.includes('this will succeed'))
+            return (
+              Boolean(element?.textContent?.includes('Successful Report')) &&
+              Boolean(element?.textContent?.includes('this will succeed'))
+            )
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request report' }).click()
@@ -121,7 +140,10 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element?.textContent?.includes('Successful Report')) && Boolean(element?.textContent?.includes('this will succeed'))
+            return (
+              Boolean(element?.textContent?.includes('Successful Report')) &&
+              Boolean(element?.textContent?.includes('this will succeed'))
+            )
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request report' }).click()
@@ -146,7 +168,10 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element?.textContent?.includes('Successful Report')) && Boolean(element?.textContent?.includes('this will succeed'))
+            return (
+              Boolean(element?.textContent?.includes('Successful Report')) &&
+              Boolean(element?.textContent?.includes('this will succeed'))
+            )
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request report' }).click()
@@ -169,7 +194,10 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element?.textContent?.includes('Successful Report')) && Boolean(element?.textContent?.includes('this will succeed'))
+            return (
+              Boolean(element?.textContent?.includes('Successful Report')) &&
+              Boolean(element?.textContent?.includes('this will succeed'))
+            )
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request report' }).click()
@@ -190,7 +218,10 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element?.textContent?.includes('Successful Report')) && Boolean(element?.textContent?.includes('this will succeed'))
+            return (
+              Boolean(element?.textContent?.includes('Successful Report')) &&
+              Boolean(element?.textContent?.includes('this will succeed'))
+            )
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request report' }).click()
@@ -211,7 +242,10 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element?.textContent?.includes('Successful Report')) && Boolean(element?.textContent?.includes('this will succeed'))
+            return (
+              Boolean(element?.textContent?.includes('Successful Report')) &&
+              Boolean(element?.textContent?.includes('this will succeed'))
+            )
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request report' }).click()
@@ -267,7 +301,6 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
     })
 
-
     it('should cope with getAsyncReport failing', () => {
       executeDashboardStubs()
       cy.task('stubDataQualityDashboardsResultMock')
@@ -289,7 +322,6 @@ context('Try to run the app with failing and broken api endpoints', () => {
 
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
     })
-
 
     it('should cope with getAsyncReportStatus failing', () => {
       stubBaseTasks()
@@ -340,6 +372,5 @@ context('Try to run the app with failing and broken api endpoints', () => {
 
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
     })
-
   })
 })

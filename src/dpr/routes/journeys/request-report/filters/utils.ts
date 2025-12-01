@@ -159,11 +159,10 @@ const requestProduct = async ({
 
     fields = definition?.variant.specification?.fields || []
     queryData = FiltersFormUtils.setQueryFromFilters(req, fields)
-    console.log('\n ** 123123 ** \n')
-      ; ({ executionId, tableId } = await reportingService.requestAsyncReport(token, reportId, id, {
-        ...queryData.query,
-        dataProductDefinitionsPath,
-      }))
+    ;({ executionId, tableId } = await reportingService.requestAsyncReport(token, reportId, id, {
+      ...queryData.query,
+      dataProductDefinitionsPath,
+    }))
     childVariants = definition.variant.childVariants ?? []
   }
 
@@ -172,10 +171,10 @@ const requestProduct = async ({
 
     fields = definition?.filterFields || []
     queryData = FiltersFormUtils.setQueryFromFilters(req, fields)
-      ; ({ executionId, tableId } = await dashboardService.requestAsyncDashboard(token, reportId, id, {
-        ...queryData.query,
-        dataProductDefinitionsPath,
-      }))
+    ;({ executionId, tableId } = await dashboardService.requestAsyncDashboard(token, reportId, id, {
+      ...queryData.query,
+      dataProductDefinitionsPath,
+    }))
   }
 
   const childExecutionData = await requestChildReports(
@@ -362,11 +361,11 @@ export const renderRequest = async ({
     let defaultFilterValues: defaultFilterValue[] = []
 
     if (type === ReportType.REPORT) {
-      ; ({ name, reportName, description, fields, interactive } = await renderReportRequestData(definition))
+      ;({ name, reportName, description, fields, interactive } = await renderReportRequestData(definition))
     }
 
     if (type === ReportType.DASHBOARD) {
-      ; ({ name, reportName, description, sections, fields } = await renderDashboardRequestData({
+      ;({ name, reportName, description, sections, fields } = await renderDashboardRequestData({
         ...definitionApiArgs,
         definition,
       }))

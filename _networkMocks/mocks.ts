@@ -1,4 +1,10 @@
-import { defaultMockRequest, generateNetworkMock, reportIdRegex, setupSimpleFailedMock, setupSimpleMock } from './generateNetworkMock'
+import {
+  defaultMockRequest,
+  generateNetworkMock,
+  reportIdRegex,
+  setupSimpleFailedMock,
+  setupSimpleMock,
+} from './generateNetworkMock'
 import { summaries } from './definitionSummaries'
 
 export const getDefinitionSummaries = setupSimpleMock('/definitions', summaries)
@@ -15,16 +21,22 @@ export const reportingApiFailures = {
     request: {
       ...defaultMockRequest.request,
       method: 'DELETE',
-      urlPathPattern: `/reports/${reportIdRegex}/${reportIdRegex}/statements/edIx_[0-9]+`
+      urlPathPattern: `/reports/${reportIdRegex}/${reportIdRegex}/statements/edIx_[0-9]+`,
     },
     response: {
       ...defaultMockRequest.response,
-      jsonBody: {}
-    }
+      jsonBody: {},
+    },
   }),
-  getAsyncReportFailure: setupSimpleFailedMock(`/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result`),
-  getAsyncSummaryReportFailure: setupSimpleFailedMock(`/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result/summary/${reportIdRegex}`),
-  getAsyncReportStatusFailure: setupSimpleFailedMock(`/reports/${reportIdRegex}/${reportIdRegex}/statements/edIx_[0-9]+/status`),
+  getAsyncReportFailure: setupSimpleFailedMock(
+    `/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result`,
+  ),
+  getAsyncSummaryReportFailure: setupSimpleFailedMock(
+    `/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result/summary/${reportIdRegex}`,
+  ),
+  getAsyncReportStatusFailure: setupSimpleFailedMock(
+    `/reports/${reportIdRegex}/${reportIdRegex}/statements/edIx_[0-9]+/status`,
+  ),
   getAsyncCountFailure: setupSimpleFailedMock(`/report/tables/tblId_[0-9]+/count`),
 } as const
 

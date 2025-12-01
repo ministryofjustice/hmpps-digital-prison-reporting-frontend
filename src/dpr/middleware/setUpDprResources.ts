@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { RequestHandler, Response, Request, ErrorRequestHandler, NextFunction } from 'express'
 import type { ParsedQs } from 'qs'
+import { HTTPError } from 'superagent'
 import { Services } from '../types/Services'
 import { RequestedReport, StoredReportData } from '../types/UserReports'
 import DefinitionUtils from '../utils/definitionUtils'
 import { BookmarkStoreData } from '../types/Bookmark'
 import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
-import { HTTPError } from 'superagent'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -21,20 +21,22 @@ const deriveDefinitionsPath = (query: ParsedQs): string | null => {
   return null
 }
 
-export const errorRequestHandler = (layoutPath: string): ErrorRequestHandler => (error: HTTPError, _req: Request, res: Response, next: NextFunction) => {
-  if (error.status === 401 || error.status === 403) {
-    return res.render('dpr/routes/authError.njk', {
-      layoutPath,
-      message: 'Sorry, there is a problem with authenticating your request'
-    })
-  }
-  if (error.status >= 400) {
-    return res.render('dpr/routes/serviceProblem.njk', {
-      layoutPath,
-    })
-  }
-  next()
-}
+export const errorRequestHandler =
+  (layoutPath: string): ErrorRequestHandler =>
+    (error: HTTPError, _req: Request, res: Response, next: NextFunction) => {
+      if (error.status === 401 || error.status === 403) {
+        return res.render('dpr/routes/authError.njk', {
+          layoutPath,
+          message: 'Sorry, there is a problem with authenticating your request',
+        })
+      }
+      if (error.status >= 400) {
+        return res.render('dpr/routes/serviceProblem.njk', {
+          layoutPath,
+        })
+      }
+      return next()
+    }
 
 export const setupResources = (services: Services, layoutPath: string, config?: DprConfig): RequestHandler => {
   return async (req, res, next) => {

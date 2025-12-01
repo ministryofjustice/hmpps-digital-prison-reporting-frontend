@@ -3,7 +3,7 @@ import logger from '../utils/logger'
 import RestClient from './restClient'
 import Dict = NodeJS.Dict
 import { components, operations } from '../types/api'
-import { ApiConfig, Count, FieldValuesRequest, ListWithWarnings } from './types'
+import { ApiConfig, Count, ListWithWarnings } from './types'
 import type { ResultWithHeaders } from './restClient'
 
 class ReportingClient {
@@ -107,10 +107,6 @@ class ReportingClient {
         token,
       })
       .then((response) => <components['schemas']['SingleVariantReportDefinition']>response)
-      .catch(e => {
-        console.log(e.stack)
-        throw e
-      })
   }
 
   requestAsyncReport(

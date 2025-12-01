@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.18.3
+- Bigfix: Fix dashboard filters csrf token issue. 
+
 ## 4.18.2
 - Bigfix: Pagination & totals count: totals count was incorrect. 
 

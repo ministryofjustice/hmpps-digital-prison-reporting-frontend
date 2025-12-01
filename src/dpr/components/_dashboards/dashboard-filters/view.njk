@@ -4,7 +4,8 @@
     {% set templateArgs = {
       defaultQuery: defaultQuery,
       prefix: prefix,
-      reportType: 'dashboard'
+      reportType: 'dashboard',
+      csrfToken: defaultQuery.csrfToken
     }%}
 
     {% if filterData.filters.length %}

@@ -3,5 +3,7 @@
 {% extends layoutPath %}
 
 {% block content %}
+  {{ dashboardData | json }}
+
   {{ dprDashboard(dashboardData) }}
 {% endblock %}

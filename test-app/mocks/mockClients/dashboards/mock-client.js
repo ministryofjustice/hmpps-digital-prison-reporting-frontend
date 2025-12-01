@@ -75,6 +75,21 @@ class MockDashboardClient {
     })
   }
 
+  async getSyncDashboard(token, reportId, dashboardId, query) {
+    logInfo('getSyncDashboard', { token, reportId, dashboardId }, query)
+
+    const def = await this.getDefinition('token', dashboardId)
+    if (def) {
+      const data = getData(def, dashboardId, query)
+      return new Promise((resolve) => {
+        resolve(data)
+      })
+    }
+    return new Promise((resolve) => {
+      resolve([])
+    })
+  }
+
   // Mock Helpers
   getStatusResponses(dashboardId) {
     switch (dashboardId) {

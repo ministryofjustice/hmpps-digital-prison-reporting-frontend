@@ -122,7 +122,7 @@ const initReportQuery = async (
     ...(sortedAsc && { sortedAsc }),
     ...filtersQuery,
     ...(pageSize && { pageSize }),
-    ...(selectedPage && { pageSize }),
+    ...(selectedPage && { selectedPage }),
     ...(columns && { columns: columns.value }),
   }
 

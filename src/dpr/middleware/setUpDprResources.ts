@@ -23,20 +23,20 @@ const deriveDefinitionsPath = (query: ParsedQs): string | null => {
 
 export const errorRequestHandler =
   (layoutPath: string): ErrorRequestHandler =>
-    (error: HTTPError, _req: Request, res: Response, next: NextFunction) => {
-      if (error.status === 401 || error.status === 403) {
-        return res.render('dpr/routes/authError.njk', {
-          layoutPath,
-          message: 'Sorry, there is a problem with authenticating your request',
-        })
-      }
-      if (error.status >= 400) {
-        return res.render('dpr/routes/serviceProblem.njk', {
-          layoutPath,
-        })
-      }
-      return next()
+  (error: HTTPError, _req: Request, res: Response, next: NextFunction) => {
+    if (error.status === 401 || error.status === 403) {
+      return res.render('dpr/routes/authError.njk', {
+        layoutPath,
+        message: 'Sorry, there is a problem with authenticating your request',
+      })
     }
+    if (error.status >= 400) {
+      return res.render('dpr/routes/serviceProblem.njk', {
+        layoutPath,
+      })
+    }
+    return next()
+  }
 
 export const setupResources = (services: Services, layoutPath: string, config?: DprConfig): RequestHandler => {
   return async (req, res, next) => {
@@ -91,7 +91,7 @@ export const populateDefinitions = async (services: Services, req: Request, res:
     (await Promise.all([
       services.reportingService.getDefinitions(token, res.locals['definitionsPath']),
       selectedProductCollectionId &&
-      services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
+        services.productCollectionService.getProductCollection(token, selectedProductCollectionId),
     ]).then(([defs, selectedProductCollection]) => {
       if (selectedProductCollection && selectedProductCollection) {
         const productIds = selectedProductCollection.products.map((product) => product.productId)
@@ -110,15 +110,15 @@ export const populateRequestedReports = async (services: Services, res: Response
     res.locals['requestedReports'] = !definitionsPath
       ? requested
       : requested.filter((report: RequestedReport) => {
-        return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
-      })
+          return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
+        })
 
     const recent = await services.recentlyViewedService.getAllReports(dprUser.id)
     res.locals['recentlyViewedReports'] = !definitionsPath
       ? recent
       : recent.filter((report: StoredReportData) => {
-        return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
-      })
+          return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
+        })
 
     res.locals['downloadingEnabled'] = services.downloadPermissionService.enabled
     res.locals['bookmarkingEnabled'] = services.bookmarkService.enabled
@@ -131,8 +131,8 @@ export const populateRequestedReports = async (services: Services, res: Response
       res.locals['bookmarks'] = !definitionsPath
         ? bookmarks
         : bookmarks.filter((bookmark: BookmarkStoreData) => {
-          return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
-        })
+            return DefinitionUtils.getCurrentVariantDefinition(definitions, bookmark.reportId, bookmark.id)
+          })
     }
   }
 }

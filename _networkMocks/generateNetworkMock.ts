@@ -46,7 +46,7 @@ export const setupSimpleFailedMock = (
   urlPathPattern: string,
   status = 500,
   jsonBody: object = {},
-  priority: number = 0,
+  priority = 0,
 ): CompleteMockRequest => {
   return {
     priority,

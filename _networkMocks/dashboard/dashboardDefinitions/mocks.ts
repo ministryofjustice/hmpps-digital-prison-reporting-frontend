@@ -169,4 +169,6 @@ export const mocks = [
   dataQualityScorecardDashboard,
   dataQualityScorecardGroupDashboard,
   dataQualityScorecardBucketDashboard,
+
+  dataQualityScoreCardsMock,
 ]

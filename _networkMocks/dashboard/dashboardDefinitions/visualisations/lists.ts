@@ -798,6 +798,9 @@ const fullDataset: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'allData',
   type: DashboardVisualisationType.LIST,
   display: 'All Data in dataset',
+  options: {
+    showLatest: false,
+  },
   columns: {
     measures: [],
     expectNulls: false,

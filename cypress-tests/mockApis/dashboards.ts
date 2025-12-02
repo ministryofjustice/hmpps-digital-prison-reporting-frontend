@@ -1,7 +1,7 @@
-import { dataQualityScorecardDashboardsResultMock, dataQualityScorecardBucketDashboardsResultMock, dataQualityScorecardGroupDashboardsResultMock, testDashboardResultMock } from '@networkMocks/dashboard/dashboardResults/mocks'
+import { dataQualityScorecardDashboardsResultMock, dataQualityScorecardBucketDashboardsResultMock, dataQualityScorecardGroupDashboardsResultMock, testDashboardResultMock, requestSyncDashboardMock } from '@networkMocks/dashboard/dashboardResults/mocks'
 import { stubFor } from '@networkMocks/generateNetworkMock'
 import { dataQualityFullDatasetMockLists, testingDashboard8Mock,  dataQualityScorecardDashboard, dataQualityScorecardBucketDashboard,
-  dataQualityScorecardGroupDashboard, } from '@networkMocks/dashboard/dashboardDefinitions/mocks'
+  dataQualityScorecardGroupDashboard, testingSyncDashboardMock } from '@networkMocks/dashboard/dashboardDefinitions/mocks'
 import { getDashboardStatusFinishedMock, requestAsyncDashboardMock } from '@networkMocks/dashboard/mocks'
 
 const stubs = {
@@ -16,6 +16,8 @@ const stubs = {
   stubDefinitionScorecardDashboard: () => stubFor(dataQualityScorecardDashboard),
   stubDefinitionScorecardBucketDashboard: () => stubFor(dataQualityScorecardBucketDashboard),
   stubDefinitionScorecardGroupDashboard: () => stubFor(dataQualityScorecardGroupDashboard),
+  stubDefinitionSyncDashboard: () => stubFor(testingSyncDashboardMock),
+  stubSyncDashboardRequestDataSuccess: () => stubFor(requestSyncDashboardMock),
 }
 
 export default stubs

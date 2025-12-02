@@ -89,6 +89,16 @@ export const dataQualityScorecardGroupDashboardsResultMock = setupSimpleMock(
   }),
 )
 
+export const requestSyncDashboardMock = setupSimpleMock(
+  `/reports/mock-dashboards/dashboards/[a-zA-Z0-9-_]+`,
+  generateDataQualityData({
+    'filters.date.start': '2025-05-08',
+    'filters.date.end': '2025-11-07',
+    'filters.date.granularity': 'monthly',
+    'filters.date.quickFilter': 'last-six-months',
+  }),
+)
+
 export const testDashboardResultMock = generateNetworkMock({
   ...defaultMockRequest,
   request: {
@@ -118,4 +128,5 @@ export const mocks = [
   dataQualityScorecardDashboardsResultMock,
   dataQualityScorecardGroupDashboardsResultMock,
   dataQualityScorecardBucketDashboardsResultMock,
+  requestSyncDashboardMock,
 ]

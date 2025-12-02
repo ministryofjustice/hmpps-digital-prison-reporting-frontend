@@ -33,6 +33,7 @@ class BarChart {
     this.keys = this.definition.columns.keys || []
     this.isList = !!this.measures.find((col) => col.axis)
     this.initUnit()
+    this.getLabelId()
   }
 
   private initUnit = () => {
@@ -73,6 +74,8 @@ class BarChart {
       this.labelId = this.keys[lastIndex]?.id
     }
   }
+
+  private setStyles = () => {}
 
   withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
     this.definition = DashboardVisualisationSchemas.BarSchema.parse(definition)

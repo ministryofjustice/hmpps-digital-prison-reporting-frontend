@@ -84,8 +84,6 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
       plugins: plugins && plugins.length ? [...plugins] : [],
     }
 
-    console.log(JSON.stringify({ d }, null, 2))
-
     return d
   }
 

@@ -6,8 +6,7 @@ import JourneyRoutes from './journeys/routes'
 import setUpNestedRoute from '../middleware/setUpNestedRoute'
 
 function routes(routeImportParams: { services: Services; layoutPath: string }) {
-  logger.info('Initialiasing DPR Embedded reports routes...')
-
+  logger.info('Initialiasing DPR routes...')
   const router = Router({ mergeParams: true })
   router.use('/', setUpNestedRoute(), JourneyRoutes(routeImportParams))
   return router

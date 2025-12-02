@@ -1,5 +1,25 @@
 Below you can find the changes included in each release.
 
+## 4.18.3
+- Bigfix: Fix dashboard filters csrf token issue. 
+
+## 4.18.2
+- Bigfix: Pagination & totals count: totals count was incorrect. 
+
+## 4.18.1 
+- Bigfix: Interactive filter: preset date range selection failed BE validation.
+
+## 4.18.0 
+- Conditional interactive filters based on pre-filter values
+- Hide disabled report actions
+
+## 4.17.5 
+- Fix small type issue
+
+## 4.17.2 
+- Strict typing enabled
+- Configurable services refactor
+
 ## 4.17.1 
 - Scorecard tests
 

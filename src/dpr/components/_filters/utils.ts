@@ -254,13 +254,13 @@ const orderFilters = (filterValues: FilterValue[]) => {
   return noIndexFilters
 }
 
-export const setRequestQueryFromFilterValues = (filterValues: FilterValue[]) => {
+export const setRequestQueryFromFilterValues = (filterValues: FilterValue[], verbose = false) => {
   const requestQuery = filterValues
     .filter((fv) => fv.value)
     .reduce((acc, curr) => {
-      const { value, name } = curr
+      const { value, name, type } = curr
       const filterPrefix = `filters.${name}`
-      switch (curr.type) {
+      switch (type) {
         case FilterType.granularDateRange.toLowerCase():
           {
             const granularDateRangeValue = <GranularDateRange>value
@@ -285,9 +285,13 @@ export const setRequestQueryFromFilterValues = (filterValues: FilterValue[]) => 
         case FilterType.dateRange.toLowerCase():
           if (value) {
             Object.keys(value).forEach((key) => {
-              acc = {
-                ...acc,
-                [`${filterPrefix}.${key}`]: value[key as keyof FilterValueType],
+              const attrKey = !verbose && key.includes('relative') ? undefined : `${filterPrefix}.${key}`
+              const attrValue = value[key as keyof FilterValueType]
+              if (attrKey) {
+                acc = {
+                  ...acc,
+                  [`${attrKey}`]: attrValue,
+                }
               }
             })
           }
@@ -396,7 +400,7 @@ export const getFilters = async ({
 
   let hasDefaults
   let canSaveDefaults = false
-  if (services && res) {
+  if (services && res && res.locals['saveDefaultsEnabled']) {
     // 2. If there are personalised filters, overwrite fiters with the personalised filter values.
     const { filters: personalisedFilterValues, defaultFilterValues } = await getPersonalisedFilters(
       filters,

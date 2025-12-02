@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
 import { Services } from '../../../types/Services'
-import logger from '../../../utils/logger'
 
 // Routes
 import bookmarkRoutes from './bookmarks/routes'
@@ -27,8 +26,6 @@ export const MyReportsRoutes = ({
   path: string
   layoutPath: string
 }) => {
-  logger.info('Initialiasing routes: Recently Viewed')
-
   const router = Router({ mergeParams: true })
   router.use(path, Routes({ services, layoutPath }))
   return router

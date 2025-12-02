@@ -1,5 +1,4 @@
 import Dict = NodeJS.Dict
-import logger from '../utils/logger'
 import DashboardClient from '../data/dashboardClient'
 import { components } from '../types/api'
 import { DashboardDataResponse } from '../types/Metrics'
@@ -8,7 +7,6 @@ import { DashboardDataResponse } from '../types/Metrics'
 class DashboardService {
   constructor(private readonly dashboardClient: DashboardClient) {
     this.dashboardClient = dashboardClient
-    logger.info('Service created: DashboardService')
   }
 
   async getDefinition(
@@ -16,8 +14,9 @@ class DashboardService {
     dpdId: string,
     id: string,
     dataProductDefinitionsPath?: string,
+    query?: Dict<string | string[]> | undefined,
   ): Promise<components['schemas']['DashboardDefinition']> {
-    return this.dashboardClient.getDefinition(token, id, dpdId, dataProductDefinitionsPath)
+    return this.dashboardClient.getDefinition(token, id, dpdId, dataProductDefinitionsPath, query)
   }
 
   async requestAsyncDashboard(

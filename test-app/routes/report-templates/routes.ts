@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
-import logger from '../../../src/dpr/utils/logger'
 
 // Routes
 import ListRoutes from './list/routes'
@@ -35,8 +34,6 @@ export function Routes() {
 }
 
 export const TemplateRoutes = ({ path }: { path: string }) => {
-  logger.info('Initialiasing routes: components')
-
   const router = Router({ mergeParams: true })
   router.use(path, Routes())
   return router

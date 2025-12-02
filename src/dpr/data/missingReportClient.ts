@@ -1,6 +1,6 @@
-import RestClient from '../../data/restClient'
-import { ApiConfig } from '../../data/types'
-import { components } from '../../types/api'
+import RestClient from './restClient'
+import { ApiConfig } from './types'
+import { components } from '../types/api'
 
 class MissingReportClient {
   restClient: RestClient

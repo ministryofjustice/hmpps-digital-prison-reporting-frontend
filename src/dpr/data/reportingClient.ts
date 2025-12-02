@@ -91,11 +91,14 @@ class ReportingClient {
     reportId: string,
     variantId: string,
     definitionsPath?: string,
+    queryData?: Dict<string | string[]>,
   ): Promise<components['schemas']['SingleVariantReportDefinition']> {
     const query = {
+      ...queryData,
       dataProductDefinitionsPath: definitionsPath,
     }
-    this.logInfo('Get definition', { reportId, variantId })
+
+    this.logInfo('Get definition', { reportId, variantId, ...query })
 
     return this.restClient
       .get({

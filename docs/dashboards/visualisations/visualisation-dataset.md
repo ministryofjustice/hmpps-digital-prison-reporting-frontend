@@ -371,7 +371,7 @@ which will produce the following `list` visualisation.
 
 # Targeting specific rows example using filters
 
-This example uses filtering instead of expect nulls to create the dataset. The resultant dataset will be the same as the first example that uses `expectNulls`
+This example uses filtering instead of expect nulls to create the dataset. The resultant dataset will be the same as the [first example](#targeting-specific-rows) that uses `expectNulls`
 
 ```js
 {

@@ -131,7 +131,7 @@ const getChartDetails = (
   const meta: ChartMetaData[] = []
   const headlines: ChartMetaData[] = createHeadlines(chartDefinition, data, timeseries)
 
-  if (data[0]?.['ts'].raw) {
+  if (data[0]?.['ts']?.raw) {
     meta.push({
       label: 'Values for:',
       value: data[0]?.['ts'].raw,
@@ -277,18 +277,26 @@ const buildChartFromListData = (
   const groupKey = DatasetHelper.getGroupKey(rawData, keys)
   const groupsData = groupKey ? DatasetHelper.groupRowsByKey(rawData, groupKey.id) : [rawData]
 
-  const labels = groupsData[0]?.map((row) => {
-    const { id: xId } = xAxisColumn
-    const field = row[xId]
-    return field ? `${field.raw}` : ''
+  const labels = groupsData.flatMap((gd) => {
+    return gd.map((row) => {
+      const { id: xId } = xAxisColumn
+      const field = row[xId]
+      return field ? `${field.raw}` : ''
+    })
   })
 
   const datasets: DashboardVisualisationDataSet[] = groupsData.map((groupData) => {
-    const data = groupData.map((row) => {
+    const data = Array(labels.length)
+    groupData.forEach((row) => {
       const { id: yId } = yAxisColumn
-      const field = row[yId]
-      const raw = field && field.raw ? Number(field.raw) : 0
-      return Number(raw)
+      const { id: xId } = xAxisColumn
+      const labelField = row[xId]
+      const valueField = row[yId]
+      const raw = valueField && valueField.raw ? Number(valueField.raw) : 0
+      const dataIndex = labels.findIndex((l) => l === labelField.raw)
+      if (dataIndex !== -1) {
+        data[dataIndex] = Number(raw)
+      }
     })
 
     let label = ''

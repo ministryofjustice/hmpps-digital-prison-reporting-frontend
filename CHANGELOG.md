@@ -1,5 +1,10 @@
 Below you can find the changes included in each release.
 
+## 4.19.0
+- Dashboard visualisation definition: Support for filters rows by null value
+- Bugfix: remove sort filters when requesting a dashboard
+- Bugfix: Dashboard data pagesize set to max 
+
 ## 4.18.3
 - Bigfix: Fix dashboard filters csrf token issue. 
 

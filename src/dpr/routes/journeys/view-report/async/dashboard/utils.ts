@@ -106,6 +106,8 @@ const getDefinitionData = async ({
     reportType: ReportType.DASHBOARD,
   }).toRecordWithFilterPrefix(true)
 
+  console.log(JSON.stringify({ query }))
+
   return {
     query,
     filters: filtersData,

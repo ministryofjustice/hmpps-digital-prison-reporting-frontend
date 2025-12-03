@@ -309,17 +309,6 @@ const buildChartFromListData = (
     }
   })
 
-  console.log(
-    JSON.stringify(
-      {
-        labels,
-        datasets,
-      },
-      null,
-      2,
-    ),
-  )
-
   return {
     labels,
     unit,

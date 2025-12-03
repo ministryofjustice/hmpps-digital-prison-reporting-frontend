@@ -8,6 +8,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% macro dprAsyncFiltersForm(args) %}
+
   {% set filters = args.filters %}
   {% set sortBy = args.sortBy %}
   {% set data = args.data %}
@@ -100,7 +101,7 @@
           {% endif %}
 
           {# SORT OPTIONS #}
-          {%  if sortBy.length > 0 and not interactive %}
+          {%  if sortBy.length > 0 and not interactive and type !== 'dashboard' %}
           <div class="dpr-async-request-filters__section">
             <div class="dpr-async-request-filters__section--heading">
               <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Sort</strong></h2>

@@ -42,6 +42,65 @@ const barcharttest = {
             expectNulls: false,
           },
         },
+        {
+          id: 'pc-description-2',
+          type: 'bar',
+          display: 'Average wait list duration by Activity bar 2',
+          columns: {
+            keys: [
+              {
+                id: 'pc',
+                display: 'Prison Code',
+              },
+            ],
+            measures: [
+              {
+                id: 'activity',
+                display: 'Activity',
+                axis: 'x',
+              },
+              {
+                id: 'avg_waittime',
+                display: 'Average time (days)',
+                axis: 'y',
+              },
+            ],
+            filters: [
+              {
+                id: 'status',
+                equals: null,
+              },
+            ],
+            expectNulls: false,
+          },
+        },
+        {
+          id: 'pc-description-2',
+          type: 'bar',
+          display: 'Average wait list duration by Activity bar 2',
+          columns: {
+            keys: [],
+            measures: [
+              {
+                id: 'activity',
+                display: 'Activity',
+                axis: 'x',
+              },
+              {
+                id: 'avg_waittime',
+                display: 'Average time (days)',
+                axis: 'y',
+              },
+            ],
+            filters: [
+              {
+                id: 'status',
+                equals: null,
+              },
+            ],
+            expectNulls: false,
+          },
+        },
       ],
     },
     {

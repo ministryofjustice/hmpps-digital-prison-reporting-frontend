@@ -131,7 +131,7 @@ class ReportQuery implements FilteredListRequest {
   }
 
   getPageSize(queryParams: ParsedQs, template?: Template, reportType?: ReportType): number {
-    let pageSize = 20
+    let pageSize = 5000000
     if (!reportType || reportType === ReportType.REPORT) {
       if (queryParams['pageSize']) {
         pageSize = Number(queryParams['pageSize'])

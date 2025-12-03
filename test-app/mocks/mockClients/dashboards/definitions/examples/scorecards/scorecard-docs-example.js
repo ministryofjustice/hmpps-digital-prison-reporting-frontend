@@ -19,8 +19,8 @@ const docsScoreCard = {
     },
     {
       id: 'section-2',
-      display: 'Data quality scorecards with RAG colous',
-      description: '',
+      display: 'RAG colours',
+      description: 'Example scorecards that use RAG colours',
       visualisations: [
         scorecard.simpleScorecardRagColoursNationality,
         scorecard.simpleScorecardRagColoursReligion,
@@ -30,7 +30,7 @@ const docsScoreCard = {
     {
       id: 'section-3',
       display: 'Custom buckets colours',
-      description: '',
+      description: 'Example scorecards that use custom bucket colours',
       visualisations: [
         scorecard.simpleScorecardCustomBucketsNationality,
         scorecard.simpleScorecardCustomBucketsReligion,
@@ -40,7 +40,7 @@ const docsScoreCard = {
     {
       id: 'section-4',
       display: 'Custom bucket boundaries',
-      description: '',
+      description: 'Example scorecards that use custom bucket bucket boundaries ',
       visualisations: [
         scorecard.simpleScorecardCustomBucketsBoundariesNationality,
         scorecard.simpleScorecardCustomBucketsBoundariesReligion,
@@ -50,7 +50,7 @@ const docsScoreCard = {
     {
       id: 'section-4',
       display: 'Filters',
-      description: '',
+      description: 'Scorecard showing Nationality metrics for Est ID: SLI',
       visualisations: [scorecard.simpleScorecardNationalityFilter],
     },
     {

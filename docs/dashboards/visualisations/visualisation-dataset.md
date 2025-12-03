@@ -119,21 +119,35 @@ The `filter` array works by:
 | Name        | Type    | Required | Description                                              |
 | ------------| ------- | -------- | -------------------------------------------------------- |
 | `id`        | string  | Yes      |  The id/column name of the column within the dataset     |
-| `equals`    | string  | Yes      |  The value the column should match                       |
+| `equals`    | string, `null`  | Yes      |  The value the column should match                       |
 
-### Example usage
+### Example usage 1 - string matching
 
 ```js
 column: {
   filter: [
     { id: 'establishment_id', equals: 'MDI' }, 
-    { id: 'establishmenr_wing', equals: 'North' }
+    { id: 'establishment_wing', equals: 'North' }
   ]
   ...
 }
 ```
 - filters out rows whose values for `establishment_id` column are not 'MDI' 
-- filters out rows whose values for `establishmenr_wing` column are not 'North' 
+- filters out rows whose values for `establishment_wing` column are not 'North' 
+
+### Example usage 2 - Null matching
+
+```js
+column: {
+  filter: [
+    { id: 'establishmenr_wing', equals: null },
+    { id: 'establishment_wing', equals: 'North' }
+  ]
+  ...
+}
+```
+- filters out rows whose values for `establishment_wing` column are not 'North' 
+- filters out rows whose values for `establishment_wing` column are not `null`, `undefined` or an empty string 
 
 <hr class='dpr-docs-hr'/>
 
@@ -320,16 +334,19 @@ which will produce the following `list` visualisation.
       {
         id: 'cell'
         equals: 'cell4'; 
-      }
+      },
       {
         id: 'wing'
         equals: 'north'; 
-      }
+      },
     ]
-    expectNull: false, // or undefined
+    expectNull: false
   },
 }
 ```
+
+- returns rows where `cell` values are 'cell5' or 'cell4'
+- returns rows where `wing` value is 'north
 
 ### Visualisation dataset
 
@@ -348,6 +365,102 @@ which will produce the following `list` visualisation.
 | cell4 | 26              |
 | cell5 | 42              |
 | Total | 140             |
+```
+
+<hr class='dpr-docs-hr'/>
+
+# Targeting specific rows example using filters
+
+This example uses filtering instead of expect nulls to create the dataset. The resultant dataset will be the same as the first example that uses `expectNulls`
+
+```js
+{
+  id: 'total-prisoners',
+  type: 'list',
+  display: 'Prisoner totals by wing',
+  column: {
+    key: [
+      {
+        id: 'est_id',
+      },
+      {
+        id: 'wing',
+      },
+    ],
+    measure: [
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+  },
+}
+```
+
+This definition will return the following dataset:
+
+```js
+| ts         |  est_id  | wing  | cell  | diet        | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 | MDI      | north |       |             | 140   |
+| 2025/02/25 | MDI      | north | cell1 |             | 30    |
+| 2025/02/25 | MDI      | north | cell2 |             | 29    |
+| 2025/02/25 | MDI      | north | cell3 |             | 13    |
+| 2025/02/25 | MDI      | north | cell4 |             | 26    |
+| 2025/02/25 | MDI      | north | cell5 |             | 42    |
+```
+
+Note that rows with `cell` values were also returned here also, as the defintion returns all rows where the `keys` and `measures` are defined.
+
+## Filter by null values
+
+To filter out the rows with `cell` values, and therefore specifically target the row for wing totals, we can specify a filter for `cell` that checks its value is empty
+
+e.g.
+```js
+{
+  id: 'total-prisoners',
+  type: 'list',
+  display: 'Prisoner totals by wing',
+  column: {
+    key: [
+      {
+        id: 'est_id',
+      },
+      {
+        id: 'wing',
+      },
+    ],
+    measure: [
+      {
+        id: 'count',
+        display: 'Total prisoners',
+      },
+    ],
+    filters: [
+      {
+        id: 'cell',
+        equals: null,
+      },
+    ]
+  },
+}
+```
+
+will return the following dataset:
+
+```js
+| ts         |  est_id  | wing  | cell  | diet        | count | 
+|------------|----------| ------|-------|-------------|-------|
+| 2025/02/25 | MDI      | north |       |             | 140   |
+```
+
+which will produce the following `list` visualisation.
+
+```js
+| Total prisoners | 
+|-----------------|
+| 140             |
 ```
 
 <hr class='dpr-docs-hr'/>

@@ -125,7 +125,7 @@ const getChartDetails = (
   const meta: ChartMetaData[] = []
   const headlines: ChartMetaData[] = createHeadlines(chartDefinition, data, timeseries)
 
-  if (data[0]?.['ts'].raw) {
+  if (data[0]?.['ts']?.raw) {
     meta.push({
       label: 'Values for:',
       value: data[0]?.['ts'].raw,

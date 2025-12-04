@@ -4,7 +4,7 @@ const { lists, doughnut } = require('../visualisations')
 
 const doughnutChartDashboard = {
   id: 'doughnut-chart-examples-dashboard',
-  name: 'Doughnut chart Examples - Data Quality',
+  name: 'Doughnut chart Examples',
   description: 'A set of doughnut chart examples using a mocked data quality dataset',
   sections: [
     {

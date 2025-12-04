@@ -4,7 +4,7 @@ const { lists, line } = require('../visualisations')
 
 const lineChartDashboard = {
   id: 'line-chart-examples-dashboard',
-  name: 'Line chart Examples - Data Quality',
+  name: 'Line chart Examples',
   description: 'A set of line chart examples using a mocked data quality dataset',
   sections: [
     {

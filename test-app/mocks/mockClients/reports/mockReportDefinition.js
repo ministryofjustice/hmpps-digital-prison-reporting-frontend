@@ -58,6 +58,13 @@ module.exports = {
       dashboards: dashboardDefinitions.visualisationExamples,
     },
     {
+      id: 'dashboard-visualisations',
+      name: 'Data quality',
+      description: 'Example dashboards using the data quality dataset',
+      variants: [],
+      dashboards: dashboardDefinitions.dataQuality,
+    },
+    {
       id: 'mock-dashboards',
       name: 'Mock dashboards',
       description: 'Example variants used for dashboard testing',

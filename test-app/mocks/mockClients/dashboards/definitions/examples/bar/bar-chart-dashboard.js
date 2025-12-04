@@ -4,7 +4,7 @@ const { lists, bar } = require('../visualisations')
 
 const barChartDashboard = {
   id: 'bar-chart-examples-dashboard',
-  name: 'Bar chart Examples - Data Quality',
+  name: 'Bar chart Examples',
   description: 'A set of bar chart examples using a mocked data quality dataset',
   sections: [
     {

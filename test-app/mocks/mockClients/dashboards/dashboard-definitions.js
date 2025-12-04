@@ -93,4 +93,10 @@ module.exports = {
     doughnutExamples.doughnutChartDashboard,
     lineExamples.lineChartDashboard,
   ],
+  dataQuality: [
+    barExamples.barChartDashboard,
+    doughnutExamples.doughnutChartDashboard,
+    lineExamples.lineChartDashboard,
+    scorecardExamples.dataQualityScoreCards,
+  ],
 }

@@ -111,6 +111,23 @@ class DashboardClient {
       .then((response) => <Dict<string>>response)
   }
 
+  getSyncDashboard(
+    token: string,
+    reportId: string,
+    dashboardId: string,
+    query: Record<string, string | string[]>,
+  ): Promise<DashboardDataResponse[][]> {
+    this.logInfo('Get dashboard:', { reportId, dashboardId })
+
+    return this.restClient
+      .get({
+        path: `/reports/${reportId}/dashboards/${dashboardId}`,
+        token,
+        query,
+      })
+      .then((response) => <DashboardDataResponse[][]>response)
+  }
+
   logInfo(title: string, args?: Dict<string>) {
     logger.info(`Dashboard client: ${title}:`)
     if (args && Object.keys(args).length) logger.info(JSON.stringify(args, null, 2))

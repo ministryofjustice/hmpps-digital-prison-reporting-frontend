@@ -22,7 +22,7 @@ const { establishmentIdFilter, granularDateRangeFilter } = require('../../filter
 const testingDashboard1 = {
   id: 'test-dashboard-8',
   name: 'Test Dashboard',
-  description: 'Dashboard used for testing testing',
+  description: 'Dashboard used for testing',
   sections: [
     {
       id: 'test-section-1',

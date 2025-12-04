@@ -168,6 +168,23 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/reports/{reportId}/dashboards/{dashboardId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** @description Returns the dataset for the given report ID and dashboard ID filtered by the filters provided in the query. */
+    get: operations['configuredApiDatasetForDashboard']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/reports/{reportId}/dashboards/{dashboardId}/tables/{tableId}/result': {
     parameters: {
       query?: never
@@ -484,7 +501,7 @@ export interface components {
       name: string
       description?: string
       /** @enum {string} */
-      loadType?: LoadType
+      loadType?: 'sync' | 'async'
     }
     ReportDefinitionSummary: {
       id: string
@@ -1395,6 +1412,95 @@ export interface operations {
       }
     }
   }
+  configuredApiDatasetForDashboard: {
+    parameters: {
+      query: {
+        selectedPage?: number
+        pageSize?: number
+        sortColumn?: string
+        sortedAsc?: boolean
+        /**
+         * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
+         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
+         *           filters.someMultiselectFilter=a,b,c
+         *
+         * @example {
+         *       "filters.date.start": "2023-04-25",
+         *       "filters.date.end": "2023-05-30",
+         *       "filters.someMultiselectFilter": "a,b,c"
+         *     }
+         */
+        filters: {
+          [key: string]: string
+        }
+        /**
+         * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
+         *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
+         * @example definitions/prisons/orphanage
+         */
+        dataProductDefinitionsPath?: string
+      }
+      header?: never
+      path: {
+        reportId: string
+        dashboardId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Bad Request */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponse']
+        }
+      }
+      /** @description default response */
+      default: {
+        headers: {
+          /** @description Provides additional information about why no data has been returned. */
+          'x-no-data-warning'?: string
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': {
+            [key: string]: Record<string, never>
+          }[]
+        }
+      }
+    }
+  }
   getDashboardQueryExecutionResult: {
     parameters: {
       query: {
@@ -1865,13 +1971,28 @@ export interface operations {
   }
   definition: {
     parameters: {
-      query?: {
+      query: {
         /**
          * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
          *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
          * @example definitions/prisons/orphanage
          */
         dataProductDefinitionsPath?: string
+        /**
+         * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
+         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
+         *           filters.someMultiselectFilter=a,b,c
+         *
+         * @example {
+         *       "filters.date.start": "2023-04-25",
+         *       "filters.date.end": "2023-05-30",
+         *       "filters.someMultiselectFilter": "a,b,c"
+         *     }
+         */
+        filters: {
+          [key: string]: string
+        }
       }
       header?: never
       path: {
@@ -1939,13 +2060,28 @@ export interface operations {
   }
   dashboardDefinition: {
     parameters: {
-      query?: {
+      query: {
         /**
          * @description This optional parameter sets the path of the directory of the data product definition files your application will use.
          *           "This query parameter is intended to be used in conjunction with the `dpr.lib.dataProductDefinitions.host` property to retrieve definition files from another application by using a web client.
          * @example definitions/prisons/orphanage
          */
         dataProductDefinitionsPath?: string
+        /**
+         * @description The filter query parameters have to start with the prefix "filters." followed by the name of the filter.
+         *           For range filters, like date for instance, these need to be followed by a .start or .end suffix accordingly.
+         *           For multiselect filters, these are passed as one query parameter per filter with a comma separated list of values:
+         *           filters.someMultiselectFilter=a,b,c
+         *
+         * @example {
+         *       "filters.date.start": "2023-04-25",
+         *       "filters.date.end": "2023-05-30",
+         *       "filters.someMultiselectFilter": "a,b,c"
+         *     }
+         */
+        filters: {
+          [key: string]: string
+        }
       }
       header?: never
       path: {

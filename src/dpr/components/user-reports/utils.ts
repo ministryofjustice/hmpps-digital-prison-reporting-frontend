@@ -104,19 +104,19 @@ const formatTableRow = (data: FormattedUserReportData, type: 'requested' | 'view
   let itemActions = ''
 
   const { href, id, reportName, text, timestamp, type: reportType, status } = data
-  if (href && id) {
+  if (href) {
     switch (status) {
       case RequestStatus.FAILED:
         statusClass = 'govuk-tag--red'
-        itemActions = itemActionsHtml(href, id, type, status)
+        itemActions = id ? itemActionsHtml(href, id, type, status) : ''
         break
       case RequestStatus.EXPIRED:
         statusClass = 'govuk-tag--grey'
-        itemActions = itemActionsHtml(href, id, type, status)
+        itemActions = id ? itemActionsHtml(href, id, type, status) : ''
         break
       case RequestStatus.ABORTED:
         statusClass = 'govuk-tag--orange'
-        itemActions = itemActionsHtml(href, id, type, status)
+        itemActions = id ? itemActionsHtml(href, id, type, status) : ''
         break
       case RequestStatus.READY:
       case RequestStatus.FINISHED:

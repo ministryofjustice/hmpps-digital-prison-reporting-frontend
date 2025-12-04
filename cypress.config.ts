@@ -13,6 +13,8 @@ const config: Cypress.ConfigOptions = {
   fixturesFolder: 'cypress-tests/integration-tests/fixtures',
   video: true,
   taskTimeout: 60000,
+  viewportWidth: 1800,
+  viewportHeight: 1000,
   e2e: {
     baseUrl: 'http://localhost:3010',
     supportFile: 'cypress-tests/integration-tests/support/index.ts',

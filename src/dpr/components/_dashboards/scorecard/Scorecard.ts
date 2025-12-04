@@ -1,15 +1,12 @@
 /* eslint-disable prefer-destructuring */
 import { DashboardDataResponse } from '../../../types/Metrics'
-import {
-  DashboardVisualisationBucket,
-  ScorecardDefinitionType,
-  ScorecardGroupDefinitionType,
-} from '../dashboard-visualisation/types'
-import { CreateScorecardDataArgs, Scorecard, ScorecardDataset, ScorecardTrend } from './types'
-import Buckets from '../../_charts/chart/Buckets'
+import { DashboardVisualisationBucket } from '../dashboard-visualisation/types'
+import { CreateScorecardDataArgs, Scorecard, ScorecardDataset, ScorecardDefinitionType, ScorecardTrend } from './types'
+import Buckets from '../../_charts/chart/buckets/Buckets'
 import { components } from '../../../types/api'
-import DashboardVisualisationSchemas from '../dashboard-visualisation/Validate'
 import DatasetHelper from '../../../utils/datasetHelper'
+import ScorecardSchemas from './validate'
+import { ScorecardGroupDefinitionType } from '../scorecard-group/types'
 
 class ScorecardVisualisation {
   private definition!: ScorecardDefinitionType
@@ -37,7 +34,7 @@ class ScorecardVisualisation {
   ragColours: string[] = ['#cce2d8', '#fff7bf', '#f4cdc6']
 
   withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
-    this.definition = DashboardVisualisationSchemas.ScorecardSchema.parse(definition)
+    this.definition = ScorecardSchemas.ScorecardSchema.parse(definition)
     this.init()
 
     return this
@@ -79,14 +76,28 @@ class ScorecardVisualisation {
     rawData: DashboardDataResponse[],
   ): ScorecardDataset => {
     const latestData = DatasetHelper.getLastestDataset(rawData)
-    const latestDataSetRows = DatasetHelper.getDatasetRows(definition, latestData)
-    const latestTs = latestDataSetRows[0]?.ts?.raw
-    const latestFiltered = DatasetHelper.filterRowsByDisplayColumns(definition, latestDataSetRows, true)
+    const latestDataSetRows = DatasetHelper.getDatasetRows(
+      <components['schemas']['DashboardVisualisationDefinition']>definition,
+      latestData,
+    )
+    const latestTs = latestDataSetRows[0]?.['ts']?.raw
+    const latestFiltered = DatasetHelper.filterRowsByDisplayColumns(
+      <components['schemas']['DashboardVisualisationDefinition']>definition,
+      latestDataSetRows,
+      true,
+    )
 
     const earliestData = DatasetHelper.getEarliestDataset(rawData)
-    const earliestDataSetRows = DatasetHelper.getDatasetRows(definition, earliestData)
-    const earliestTs = earliestDataSetRows[0]?.ts?.raw
-    const earliestfiltered = DatasetHelper.filterRowsByDisplayColumns(definition, earliestDataSetRows, true)
+    const earliestDataSetRows = DatasetHelper.getDatasetRows(
+      <components['schemas']['DashboardVisualisationDefinition']>definition,
+      earliestData,
+    )
+    const earliestTs = earliestDataSetRows[0]?.['ts']?.raw
+    const earliestfiltered = DatasetHelper.filterRowsByDisplayColumns(
+      <components['schemas']['DashboardVisualisationDefinition']>definition,
+      earliestDataSetRows,
+      true,
+    )
 
     return {
       earliest: earliestfiltered,

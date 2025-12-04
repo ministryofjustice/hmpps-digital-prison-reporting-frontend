@@ -3,95 +3,55 @@ import { DashboardDataResponse } from '../../../../types/Metrics'
 import {
   DashboardVisualisationType,
   DashboardVisualisationData,
-  BarDefinitionType,
   DashboardVisualisationDataSet,
+  VisualisationDefinitionKey,
 } from '../../../_dashboards/dashboard-visualisation/types'
 import { components } from '../../../../types/api'
-import DashboardVisualisationSchemas from '../../../_dashboards/dashboard-visualisation/Validate'
+import DatasetHelper from '../../../../utils/datasetHelper'
+import Chart from '../Chart'
+import BarChartSchemas from './validate'
+import { BarDefinitionMeasure, BarDefinitionType } from './types'
 
-class BarChart {
+class BarChart extends Chart {
   private definition!: BarDefinitionType
 
-  private measures!: BarDefinitionType['columns']['measures']
+  private measures!: BarDefinitionMeasure[]
 
-  private keys!: BarDefinitionType['columns']['measures']
+  private keys!: VisualisationDefinitionKey[]
 
-  private responseData: DashboardDataResponse[] = []
+  override responseData: DashboardDataResponse[] = []
 
   private isList = false
 
-  private labels: string[] = []
+  override datasets: DashboardVisualisationDataSet[] = []
 
-  private labelId: string | undefined = undefined
+  private groupsData: DashboardDataResponse[][] = []
 
-  private datasets: DashboardVisualisationDataSet[] = []
+  private groupKey: BarDefinitionMeasure | undefined
 
-  private unit: 'NUMBER' | 'PERCENTAGE' | undefined
+  private xAxisColumn: BarDefinitionMeasure | undefined
 
-  private init = () => {
-    this.measures = this.definition.columns.measures
-    this.keys = this.definition.columns.keys || []
-    this.isList = !!this.measures.find((col) => col.axis)
-    this.initUnit()
-    this.getLabelId()
-  }
-
-  private initUnit = () => {
-    this.unit = this.measures[0].unit ? this.measures[0].unit : undefined
-  }
-
-  private createDatasets = () => {
-    this.datasets = this.responseData.map((row) => {
-      const label = this.createDatasetLabel(row)
-      const data = this.createDatasetValues(row)
-      const total = data.reduce((acc: number, val: number) => acc + val, 0)
-      return {
-        label,
-        data,
-        total,
-      }
-    })
-  }
-
-  private createDatasetLabel = (row: DashboardDataResponse) => {
-    return this.labelId && row[this.labelId] ? `${row[this.labelId].raw}` : 'All'
-  }
-
-  private createDatasetValues = (row: DashboardDataResponse) => {
-    return this.measures.map((column) => {
-      const rowId = column.id
-      return row[rowId] && row[rowId].raw ? Number(row[rowId].raw) : 0
-    })
-  }
-
-  private createLabels = () => {
-    this.labels = this.measures.map((col) => col.display || '')
-  }
-
-  private getLabelId = () => {
-    if (this.keys.length) {
-      const lastIndex = this.keys.length - 1
-      this.labelId = this.keys[lastIndex]?.id
-    }
-  }
-
-  private setStyles = () => {}
+  private yAxisColumn: BarDefinitionMeasure | undefined
 
   withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
-    this.definition = DashboardVisualisationSchemas.BarSchema.parse(definition)
-    this.init()
+    this.definition = BarChartSchemas.BarSchema.parse(definition)
+    this.initFromDefinitionData()
 
     return this
   }
 
-  withData = (responseData: DashboardDataResponse[]) => {
+  override withData = (responseData: DashboardDataResponse[]) => {
     this.responseData = responseData
+    if (this.isList) this.initListData()
     return this
   }
 
   build = (): DashboardVisualisationData => {
-    this.createDatasets()
-    this.createLabels()
+    if (!this.isList) {
+      this.getBarChartData()
+    } else {
+      this.getListBarChartData()
+    }
     return {
       type: DashboardVisualisationType.BAR,
       unit: this.unit,
@@ -100,6 +60,84 @@ class BarChart {
         datasets: this.datasets,
       },
     }
+  }
+
+  private getBarChartData = () => {
+    this.createDatasets(this.measures, this.responseData)
+    this.createLabels(this.measures)
+  }
+
+  private getListBarChartData = () => {
+    this.createListLabels()
+    this.createListDatasets()
+  }
+
+  private initFromDefinitionData = () => {
+    this.measures = this.definition.columns.measures
+    this.keys = this.definition.columns.keys || []
+    this.isList = !!this.measures.find((col) => col.axis)
+    this.initUnit(this.measures)
+
+    if (!this.isList) this.getLabelId(this.keys)
+  }
+
+  private initListData = () => {
+    this.xAxisColumn = this.measures.find((col) => col.axis === 'x')
+    this.yAxisColumn = this.measures.find((col) => col.axis === 'y')
+    this.groupKey = <BarDefinitionMeasure>(
+      DatasetHelper.getGroupKey(
+        this.responseData,
+        <Array<components['schemas']['DashboardVisualisationColumnDefinition']>>this.keys,
+      )
+    )
+    this.groupsData = this.groupKey
+      ? DatasetHelper.groupRowsByKey(this.responseData, this.groupKey.id)
+      : [this.responseData]
+  }
+
+  private createListDatasets = () => {
+    this.datasets = this.groupsData.map((groupData) => {
+      const data = Array(this.labels.length)
+      groupData.forEach((row) => {
+        // Validation will ensure these columns exist
+        const yId = this.yAxisColumn?.id || ''
+        const xId = this.xAxisColumn?.id || ''
+
+        const labelField = row[xId]
+        const valueField = row[yId]
+
+        const raw = valueField && valueField.raw ? Number(valueField.raw) : 0
+        const dataIndex = this.labels.findIndex((l) => l === labelField.raw)
+        if (dataIndex !== -1) {
+          data[dataIndex] = Number(raw)
+        }
+      })
+
+      let label = ''
+      if (this.groupKey) {
+        const groupKeyId = this.groupKey.id
+        const groupRow = groupData[0]
+        label = groupRow && groupRow[groupKeyId] ? `${groupRow[groupKeyId].raw}` : ''
+      } else {
+        label = this.yAxisColumn?.display || label
+      }
+
+      return {
+        label,
+        data,
+        total: data.reduce((acc: number, val: number) => acc + val, 0),
+      }
+    })
+  }
+
+  private createListLabels = () => {
+    this.labels = this.groupsData.flatMap((gd) => {
+      const id = this.xAxisColumn?.id || ''
+      return gd.map((row) => {
+        const field = row[id]
+        return field ? `${field.raw}` : ''
+      })
+    })
   }
 }
 

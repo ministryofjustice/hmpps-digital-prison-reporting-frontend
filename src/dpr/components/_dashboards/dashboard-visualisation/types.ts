@@ -4,6 +4,9 @@ import { Scorecard, ScorecardGroup } from '../scorecard/types'
 import { MatrixChartData } from '../../_charts/chart/heatmap/types'
 import { ChartDetails } from '../../../types/Charts'
 import DashboardVisualisationSchemas from './Validate'
+import { BarDefinitionMeasure } from '../../_charts/chart/bar/types'
+import { DoughnutDefinitionMeasure } from '../../_charts/chart/doughnut/types'
+import { LineDefinitionMeasure } from '../../_charts/chart/line/types'
 
 export interface DashboardSection {
   id: string
@@ -103,13 +106,14 @@ export interface DashboardVisualisationBucket {
   hexColour?: string | undefined
 }
 
-export type ScorecardDefinitionType = z.infer<typeof DashboardVisualisationSchemas.ScorecardSchema>
-export type ScorecardGroupDefinitionType = z.infer<typeof DashboardVisualisationSchemas.ScorecardGroupSchema>
-export type MatrixTimeseriesDefinitionType = z.infer<typeof DashboardVisualisationSchemas.MatrixTimeseriesSchema>
 export type VisualisationDefinitionType = z.infer<typeof DashboardVisualisationSchemas.DashboardVisualisationSchema>
-export type ListDefinitionType = z.infer<typeof DashboardVisualisationSchemas.ListSchema>
-export type BarDefinitionType = z.infer<typeof DashboardVisualisationSchemas.BarSchema>
-export type BarTimeseriesDefinitionType = z.infer<typeof DashboardVisualisationSchemas.BarTimeseriesSchema>
-export type LineDefinitionType = z.infer<typeof DashboardVisualisationSchemas.LineSchema>
-export type LineTimeseriesTypeDefinitionType = z.infer<typeof DashboardVisualisationSchemas.DoughnutSchema>
-export type DoughnutDefinitionType = z.infer<typeof DashboardVisualisationSchemas.DoughnutSchema>
+export type VisualisationDefinitionKey = z.infer<typeof DashboardVisualisationSchemas.DashboardVisualisationKeySchema>
+export type VisualisationDefinitionMeasure = z.infer<
+  typeof DashboardVisualisationSchemas.DashboardVisualisationMeasureSchema
+>
+
+export type ChartMeasure =
+  | BarDefinitionMeasure[]
+  | DoughnutDefinitionMeasure[]
+  | LineDefinitionMeasure[]
+  | VisualisationDefinitionMeasure[]

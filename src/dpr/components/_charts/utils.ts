@@ -6,6 +6,7 @@ import DatasetHelper from '../../utils/datasetHelper'
 import DashboardListUtils from '../_dashboards/dashboard-list/utils'
 import { Granularity } from '../_inputs/granular-date-range/types'
 import HeatmapChart from './chart/heatmap/HeatmapChart'
+import BarChart from './chart/bar/BarChart'
 import { components } from '../../types/api'
 import {
   DashboardVisualisationData,
@@ -14,12 +15,15 @@ import {
   DashboardVisualisatonCardData,
   MoJTable,
 } from '../_dashboards/dashboard-visualisation/types'
+import DoughnutChart from './chart/doughnut/DoughnutChart'
+import LineChart from './chart/line/LineChart'
 
 dayjs.extend(weekOfYear)
 
 export const createChart = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   rawData: DashboardDataResponse[],
+  type: components['schemas']['DashboardVisualisationDefinition']['type'],
 ): DashboardVisualisatonCardData | undefined => {
   let table: MoJTable | undefined
   let chart: DashboardVisualisationData | undefined
@@ -27,7 +31,21 @@ export const createChart = (
 
   const { dataSetRows, snapshotData } = getDataForSnapshotCharts(chartDefinition, rawData)
   if (dataSetRows.length) {
-    chart = createSnapshotChart(chartDefinition, snapshotData)
+    switch (type) {
+      case DashboardVisualisationType.BAR:
+        chart = new BarChart().withDefinition(chartDefinition).withData(snapshotData).build()
+        break
+      case DashboardVisualisationType.DONUT:
+        chart = new DoughnutChart().withDefinition(chartDefinition).withData(snapshotData).build()
+        break
+      case DashboardVisualisationType.LINE:
+        chart = new LineChart().withDefinition(chartDefinition).withData(snapshotData).build()
+        break
+      default:
+        chart = createSnapshotChart(chartDefinition, snapshotData)
+        break
+    }
+
     table = createSnapshotTable(chartDefinition, dataSetRows)
     details = getChartDetails(chartDefinition, dataSetRows)
   }
@@ -53,6 +71,28 @@ export const createTimeseriesCharts = (
     table = createTimeseriesTable(chartDefinition, timeseriesData)
     details = getChartDetails(chartDefinition, latestData, true)
   }
+  return {
+    details,
+    table,
+    chart,
+  }
+}
+
+export const createBarChart = (
+  chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
+  rawData: DashboardDataResponse[],
+) => {
+  let table: MoJTable | undefined
+  let chart: DashboardVisualisationData | undefined
+  let details: ChartDetails | undefined
+
+  const { dataSetRows, snapshotData } = getDataForSnapshotCharts(chartDefinition, rawData)
+  if (dataSetRows.length) {
+    chart = new BarChart().withDefinition(chartDefinition).withData(snapshotData).build()
+    table = createSnapshotTable(chartDefinition, dataSetRows)
+    details = getChartDetails(chartDefinition, dataSetRows)
+  }
+
   return {
     details,
     table,
@@ -429,4 +469,5 @@ export default {
   createChart,
   createTimeseriesCharts,
   createMatrixChart,
+  createBarChart,
 }

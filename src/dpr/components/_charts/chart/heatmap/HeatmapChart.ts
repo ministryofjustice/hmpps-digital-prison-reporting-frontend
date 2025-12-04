@@ -5,13 +5,12 @@ import { DashboardDataResponse } from '../../../../types/Metrics'
 import {
   DashboardVisualisationType,
   DashboardVisualisationData,
-  MatrixTimeseriesDefinitionType,
 } from '../../../_dashboards/dashboard-visualisation/types'
-import { MatrixChartData } from './types'
+import { MatrixChartData, MatrixTimeseriesDefinitionType } from './types'
 import DatasetHelper from '../../../../utils/datasetHelper'
-import Buckets from '../Buckets'
+import Buckets from '../buckets/Buckets'
 import { components } from '../../../../types/api'
-import DashboardVisualisationSchemas from '../../../_dashboards/dashboard-visualisation/Validate'
+import MatrixSchema from './validate'
 
 class HeatmapChart {
   private definition!: MatrixTimeseriesDefinitionType
@@ -35,7 +34,7 @@ class HeatmapChart {
   private bucketsHelper!: Buckets
 
   withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
-    this.definition = DashboardVisualisationSchemas.MatrixTimeseriesSchema.parse(definition)
+    this.definition = MatrixSchema.parse(definition)
     this.init()
 
     return this

@@ -1,11 +1,14 @@
 /* eslint-disable prefer-destructuring */
 import { withAlphaHex } from 'with-alpha-hex'
-import { DashboardDataResponse } from '../../../types/Metrics'
-import {
-  DashboardVisualisationBucket,
-  BucketDashboardVisualisationOptions,
-} from '../../_dashboards/dashboard-visualisation/types'
-import { components } from '../../../types/api'
+import { ScorecardDefinitionType } from '../../../_dashboards/scorecard/types'
+import { ScorecardGroupDefinitionType } from '../../../_dashboards/scorecard-group/types'
+import { DashboardDataResponse } from '../../../../types/Metrics'
+import { DashboardVisualisationBucket } from '../../../_dashboards/dashboard-visualisation/types'
+import { MatrixTimeseriesDefinitionType } from '../heatmap/types'
+import BucketOptionsSchema from './validate'
+import { BucketOptionsDefinition } from './types'
+
+type DefinitionsWithBuckets = MatrixTimeseriesDefinitionType | ScorecardGroupDefinitionType | ScorecardDefinitionType
 
 class Buckets {
   private baseColour = '#1d70b8'
@@ -26,13 +29,13 @@ class Buckets {
 
   private valueKey: string
 
-  private options: BucketDashboardVisualisationOptions = {}
+  private options!: BucketOptionsDefinition
 
   responseData: DashboardDataResponse[]
 
   constructor(
     responseData: DashboardDataResponse[],
-    definition: components['schemas']['DashboardVisualisationDefinition'],
+    definition: DefinitionsWithBuckets,
     valueKey: string,
     autoBucketing?: boolean,
     ragColours?: string[],
@@ -46,8 +49,8 @@ class Buckets {
     this.initBuckets()
   }
 
-  private initFromOptions = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
-    this.options = <BucketDashboardVisualisationOptions>definition.options || {}
+  private initFromOptions = (definition: DefinitionsWithBuckets) => {
+    this.options = BucketOptionsSchema.parse(definition.options)
     this.baseColour = this.options?.baseColour || this.baseColour
     this.useRagColour = this.options?.useRagColour || false
     this.onlyBucketColoursDefined =

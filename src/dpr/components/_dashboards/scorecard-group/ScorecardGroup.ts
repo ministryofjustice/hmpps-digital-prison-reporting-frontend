@@ -1,12 +1,13 @@
 /* eslint-disable prefer-destructuring */
 import { DashboardDataResponse } from '../../../types/Metrics'
-import { DashboardVisualisationBucket, ScorecardGroupDefinitionType } from '../dashboard-visualisation/types'
 import DatasetHelper from '../../../utils/datasetHelper'
 import { ScorecardDataset, ScorecardGroup } from '../scorecard/types'
-import Buckets from '../../_charts/chart/Buckets'
+import Buckets from '../../_charts/chart/buckets/Buckets'
 import { components } from '../../../types/api'
-import DashboardVisualisationSchemas from '../dashboard-visualisation/Validate'
 import ScorecardVisualisation from '../scorecard/Scorecard'
+import { ScorecardGroupDefinitionType, ScorecardGroupDefinitionMeasure } from './types'
+import { DashboardVisualisationBucket } from '../dashboard-visualisation/types'
+import ScorecardGroupSchemas from './validate'
 
 class ScorecardGroupVisualisation {
   private definition!: ScorecardGroupDefinitionType
@@ -21,7 +22,7 @@ class ScorecardGroupVisualisation {
 
   private dataset!: ScorecardDataset
 
-  private groupKey: components['schemas']['DashboardVisualisationColumnDefinition'] | undefined
+  private groupKey: ScorecardGroupDefinitionMeasure | undefined
 
   private groupKeyId: string | undefined
 
@@ -31,11 +32,11 @@ class ScorecardGroupVisualisation {
 
   private buckets: DashboardVisualisationBucket[] = []
 
-  private valueColumn: components['schemas']['DashboardVisualisationColumnDefinition'] | undefined
+  private valueColumn: ScorecardGroupDefinitionMeasure | undefined
 
   private valueKey = ''
 
-  private titleColumn: components['schemas']['DashboardVisualisationColumnDefinition'] | undefined
+  private titleColumn: ScorecardGroupDefinitionMeasure | undefined
 
   private titleKey = ''
 
@@ -50,7 +51,7 @@ class ScorecardGroupVisualisation {
   }
 
   withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
-    this.definition = DashboardVisualisationSchemas.ScorecardGroupSchema.parse(definition)
+    this.definition = ScorecardGroupSchemas.ScorecardGroupSchema.parse(definition)
     this.init()
 
     return this
@@ -70,7 +71,7 @@ class ScorecardGroupVisualisation {
     this.keys = this.definition.columns.keys
     this.options = this.definition.options
     this.valueKey = this.measures[0].id
-    this.titleColumn = { display: this.definition.display, id: this.valueKey }
+    this.titleColumn = { display: this.definition.display || '', id: this.valueKey }
     this.unit = this.definition.columns.measures[0].unit ? this.definition.columns.measures[0].unit : undefined
   }
 
@@ -82,7 +83,10 @@ class ScorecardGroupVisualisation {
   }
 
   private initGroupVars = () => {
-    this.groupKey = DatasetHelper.getGroupKey(this.keys || [], this.dataset.latest)
+    this.groupKey = DatasetHelper.getGroupKey(
+      this.dataset.latest,
+      <Array<components['schemas']['DashboardVisualisationColumnDefinition']>>this.keys || [],
+    )
     this.groupKeyId = this.groupKey?.id
     this.groupKeyDisplay = this.groupKey?.display
 

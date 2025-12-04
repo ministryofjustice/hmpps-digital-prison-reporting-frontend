@@ -28,7 +28,7 @@ class ChartVisualisation extends DprClientClass {
 
     // Time series
     this.timeseries = this.getElement().getAttribute('data-dpr-chart-timeseries')
-    if (this.timeseries || this.type === 'line') {
+    if (this.timeseries) {
       this.daterangeInputs = document.querySelectorAll('.dpr-granular-date-range')
       if (this.daterangeInputs && this.daterangeInputs.length) {
         this.daterangeInputs.forEach((input) => {

@@ -53,6 +53,7 @@ class LineTimeseriesChart {
     return {
       type: DashboardVisualisationType.LINE,
       unit: this.unit,
+      timeseries: true,
       data: {
         labels: this.labels,
         datasets: this.datasets,

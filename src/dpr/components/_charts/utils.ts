@@ -10,7 +10,6 @@ import BarChart from './chart/bar/BarChart'
 import { components } from '../../types/api'
 import {
   DashboardVisualisationData,
-  DashboardVisualisationDataSet,
   DashboardVisualisationType,
   DashboardVisualisatonCardData,
   MoJTable,

@@ -71,15 +71,20 @@ const getDefinitionData = async ({
   req: Request
   res: Response
   services: Services
-  queryData: Dict<string | string[]> | undefined
+  queryData?: Dict<string | string[]> | undefined
 }) => {
   const { token } = LocalsHelper.getValues(res)
   const { reportId, id } = req.params
   const dataProductDefinitionsPath = <string>req.query['dataProductDefinitionsPath']
 
   // Dashboard Definition,
-  const dashboardDefinition: components['schemas']['DashboardDefinition'] =
-    await services.dashboardService.getDefinition(token, reportId, id, dataProductDefinitionsPath, queryData)
+  const dashboardDefinition = await services.dashboardService.getDefinition(
+    token,
+    reportId,
+    id,
+    dataProductDefinitionsPath,
+    queryData,
+  )
 
   // Report summary data
   const reportDefinition = await DefinitionUtils.getReportSummary(
@@ -247,7 +252,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
       name: dashboardDefinition.name,
       description: dashboardDefinition.description,
       reportName: reportDefinition.name,
-      bookmarked: bookmarkService ? await bookmarkService.isBookmarked(id, reportId, dprUser.id) : false,
+      bookmarked: await bookmarkService.isBookmarked(id, reportId, dprUser.id),
       nestedBaseUrl,
       csrfToken,
       sections,
@@ -260,4 +265,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
 
 export default {
   renderAsyncDashboard,
+  getDefinitionData,
+  getSections,
+  setDashboardActions,
 }

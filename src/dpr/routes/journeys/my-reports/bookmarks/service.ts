@@ -61,6 +61,7 @@ class BookmarkService extends ReportStoreService {
     if (isBookmarked) {
       bookmark = this.getBookmark(userConfig, id, reportId)
     }
+
     return bookmark?.automatic ? undefined : isBookmarked
   }
 

@@ -24,67 +24,60 @@ export const getReportsList = async (
   )
 
   // Sort by variant/dashboard name
-  const sortedVariants = sortedDefinitions.flatMap(
-    (
-      def: components['schemas']['ReportDefinitionSummary'] & {
-        dashboards: components['schemas']['DashboardDefinition'][]
-        authorised: boolean
-      },
-    ) => {
-      const { id: reportId, name: reportName, description: reportDescription, variants, dashboards, authorised } = def
+  const sortedVariants = sortedDefinitions.flatMap((def: components['schemas']['ReportDefinitionSummary']) => {
+    const { id: reportId, name: reportName, description: reportDescription, variants, dashboards, authorised } = def
 
-      const variantsArray: DefinitionData[] = variants.map(
-        (variant: components['schemas']['VariantDefinitionSummary']) => {
-          const { id, name, description, isMissing } = variant
+    const productBase = {
+      reportName,
+      reportId,
+      authorised,
+      reportDescription: reportDescription || '',
+    }
 
-          // NOTE: loadType added to VariantDefinitionSummary mocked data to dictate the load/request journey. Not present in API response. To discuss
-          const loadType = variant.loadType || LoadType.ASYNC
+    let variantsArray: DefinitionData[] = []
+    if (variants) {
+      variantsArray = variants.map((variant: components['schemas']['VariantDefinitionSummary']) => {
+        const { id, name, description, isMissing, loadType } = variant
 
-          return {
-            reportName,
-            reportId,
-            id,
-            name,
-            description: description || '',
-            type: ReportType.REPORT,
-            loadType: loadType as LoadType,
-            authorised,
-            isMissing,
-            ...(reportDescription && reportDescription.length && { reportDescription }),
-          }
-        },
-      )
-
-      let dashboardsArray: DefinitionData[] = []
-      if (dashboards) {
-        dashboardsArray = dashboards.map((dashboard: components['schemas']['DashboardDefinition']) => {
-          const { id, name, description } = dashboard
-          return {
-            reportName,
-            reportId,
-            id,
-            name,
-            description: description || '',
-            type: ReportType.DASHBOARD,
-            reportDescription: reportDescription || '',
-            authorised,
-            isMissing: false,
-            loadType: LoadType.ASYNC,
-          }
-        })
-      }
-
-      const mergedArray = [...dashboardsArray, ...variantsArray]
-
-      mergedArray.sort((a: DefinitionData, b: DefinitionData) => {
-        if (a.name < b.name) return -1
-        if (a.name > b.name) return 1
-        return 0
+        return {
+          ...productBase,
+          type: ReportType.REPORT,
+          loadType: <LoadType>loadType || LoadType.ASYNC,
+          id,
+          name,
+          description: description || '',
+          isMissing,
+        }
       })
+    }
 
-      return mergedArray
-    },
-  )
+    let dashboardsArray: DefinitionData[] = []
+    if (dashboards) {
+      dashboardsArray = dashboards.map((dashboard: components['schemas']['DashboardDefinitionSummary']) => {
+        const { id, name, description, loadType } = dashboard
+
+        return {
+          ...productBase,
+          type: ReportType.DASHBOARD,
+          loadType: <LoadType>loadType || LoadType.ASYNC,
+          id,
+          name,
+          description: description || '',
+          isMissing: false,
+        }
+      })
+    }
+
+    const mergedArray = [...dashboardsArray, ...variantsArray]
+
+    mergedArray.sort((a: DefinitionData, b: DefinitionData) => {
+      if (a.name < b.name) return -1
+      if (a.name > b.name) return 1
+      return 0
+    })
+
+    return mergedArray
+  })
 
   const userConfig = await services.bookmarkService.getState(dprUser.id)
   const rows = await Promise.all(

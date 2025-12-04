@@ -71,6 +71,15 @@ class DashboardService {
   ): Promise<DashboardDataResponse[][]> {
     return this.dashboardClient.getAsyncDashboard(token, reportId, dashboardId, tableId, query)
   }
+
+  async getSyncDashboard(
+    token: string,
+    dashboardId: string,
+    reportId: string,
+    query: Record<string, string | string[]>,
+  ) {
+    return this.dashboardClient.getSyncDashboard(token, reportId, dashboardId, query)
+  }
 }
 
 export { DashboardService }

@@ -10,7 +10,8 @@ export const getDatasetRows = (
 
   const displayColumnsIds = measures.map((col) => col.id)
   const keyColumnsIds = keys?.map((col) => col.id) || []
-  const filterColIds = filters?.map((col) => col.id) || []
+  let filterColIds = filters?.map((col) => col.id) || []
+  filterColIds = [...new Set(filterColIds)]
   const hasOptionalKeys = keys?.some((key) => key.optional)
 
   if (dashboardData.length && dashboardData[0]['ts']) keyColumnsIds.unshift('ts')
@@ -18,26 +19,34 @@ export const getDatasetRows = (
   const filtered = dashboardData.filter((datasetRow: DashboardDataResponse) => {
     const validRow: boolean[] = []
 
-    Object.keys(datasetRow).forEach((datasetField) => {
-      const value = datasetRow[datasetField].raw
+    Object.keys(datasetRow).forEach((fieldId) => {
+      const value = datasetRow[fieldId].raw
       // All rows are valid until proven otherwise
       let valid = true
 
       // 1. check if the column value is equal to a defined column value
-      if (filterColIds.includes(datasetField)) {
-        const filterValues = filters ? filters.filter((f) => f.id === datasetField).map((f) => f.equals) : []
-        valid = filterValues.includes(<string>value)
+      if (filterColIds.includes(fieldId) && filters) {
+        const filterValues = filters ? filters.filter((f) => f.id === fieldId).map((f) => f.equals) : []
+        const validFilters: boolean[] = []
+        filterValues.forEach((filterValue) => {
+          if (filterValue === null) {
+            validFilters.push(value === '' || value === undefined || value === null)
+          } else {
+            validFilters.push(filterValue === value)
+          }
+        })
+        valid = validFilters.some(Boolean)
 
         // 3. check keys exist in the defined columns
-      } else if (keyColumnsIds.includes(datasetField) && hasOptionalKeys) {
+      } else if (keyColumnsIds.includes(fieldId) && hasOptionalKeys) {
         valid = true
 
         // 3. check keys exist in the defined columns
-      } else if (keyColumnsIds.includes(datasetField) && !hasOptionalKeys) {
+      } else if (keyColumnsIds.includes(fieldId) && !hasOptionalKeys) {
         valid = value !== '' && value !== undefined && value !== null
 
         // 2. check values exist in the defined columns
-      } else if (displayColumnsIds.includes(datasetField)) {
+      } else if (displayColumnsIds.includes(fieldId)) {
         valid = value !== '' && value !== undefined && value !== null
 
         // 3. check that all remaining columns are null.

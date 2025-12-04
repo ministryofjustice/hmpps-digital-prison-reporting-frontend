@@ -235,7 +235,6 @@ context('Try to run the app with failing and broken api endpoints', () => {
     it('should cope with getAsyncReportStatus failing', () => {
       executeReportStubs()
       cy.task('stubDefinitionRequestExamplesSuccess')
-      cy.task('stubRequestSuccessResult20')
       cy.task('getAsyncReportStatusFailure')
 
       cy.visit(path)
@@ -301,7 +300,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
     })
 
-    it('should cope with getAsyncReport failing', () => {
+    it('should cope with getAsyncDashboard failing', () => {
       executeDashboardStubs()
       cy.task('stubDataQualityDashboardsResultMock')
       cy.task('stubListExampleDashboard')
@@ -323,7 +322,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
     })
 
-    it('should cope with getAsyncReportStatus failing', () => {
+    it('should cope with getAsyncDashboardStatus failing', () => {
       stubBaseTasks()
       stubDefinitionsTasks()
       cy.task('stubViewAsyncResults')
@@ -350,6 +349,8 @@ context('Try to run the app with failing and broken api endpoints', () => {
     it('should cope with cancelAsyncRequest failing', () => {
       stubBaseTasks()
       stubDefinitionsTasks()
+      cy.task('stubReportsStartedStatus')
+      cy.task('stubMockDashboardsStatusStarted')
       cy.task('stubViewAsyncResults')
       cy.task('stubDataQualityDashboardsResultMock')
       cy.task('stubListExampleDashboard')
@@ -369,8 +370,8 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByRole('button', { name: /Request/ }).click()
 
       cy.findByRole('button', { name: /Cancel request/ }).click()
-
-      cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
+      cy.task('stubMockDashboardsStatusFinished')
+      cy.findByRole('heading', { name: /Failed to abort request/ }).should('be.visible')
     })
   })
 })

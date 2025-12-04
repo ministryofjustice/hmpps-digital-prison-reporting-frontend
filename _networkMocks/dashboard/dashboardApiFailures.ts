@@ -12,17 +12,18 @@ export const dashboardApiFailures = {
     `/reports/${reportIdRegex}/dashboards/${reportIdRegex}/tables/${reportIdRegex}/result`,
   ),
   getAsyncDashboardStatusFailure: setupSimpleFailedMock(
-    `/reports/${reportIdRegex}/dashboards/${reportIdRegex}/statements/edIx_[0-9]+/status`,
+    `/reports/${reportIdRegex}/dashboards/${reportIdRegex}/statements/exId_[0-9]+/status`,
   ),
   cancelAsyncRequestDashboardFailure: generateNetworkMock({
     ...defaultMockRequest,
     request: {
       ...defaultMockRequest.request,
       method: 'DELETE',
-      urlPathPattern: `/reports/${reportIdRegex}/dashboards/${reportIdRegex}/statements/edIx_[0-9]+`,
+      urlPathPattern: `/reports/${reportIdRegex}/dashboards/${reportIdRegex}/statements/exId_[0-9]+`,
     },
     response: {
       ...defaultMockRequest.response,
+      status: 500,
       jsonBody: {},
     },
   }),

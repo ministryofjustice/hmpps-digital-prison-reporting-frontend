@@ -14,6 +14,8 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   const router = Router({ mergeParams: true })
 
   const controller = new RequestReportController(layoutPath, services)
+
+  router.post(`/:type/:reportId/:id/:executionId/cancel`, controller.CANCEL)
   router.use(
     `/:type/:reportId/:id/filters`,
     reportAuthoriser(services, layoutPath),
@@ -25,6 +27,23 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
     reportAuthoriser(services, layoutPath),
     requestStatusRoutes({ layoutPath, services }),
     controller.errorHandler,
+  )
+
+  router.get(
+    `/:type/:reportId/:id/:executionId/cancel/failed`,
+    (req, res, _next) => {
+      const body = JSON.parse(req.flash('ERROR_BODY')?.[0] || '')
+      const params = JSON.parse(req.flash('ERROR_PARAMS')?.[0] || '')
+      const error = req.flash('ERROR')
+
+      res.render(`dpr/routes/journeys/view-report/error`, {
+        layoutPath,
+        ...(body && { ...body }),
+        ...(params && { ...params }),
+        error,
+        params,
+      })
+    }
   )
 
   return router

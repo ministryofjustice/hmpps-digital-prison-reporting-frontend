@@ -4,7 +4,7 @@ import {
   dataQualityFullDatasetMockLists, testingDashboard8Mock, dataQualityScorecardDashboard, dataQualityScorecardBucketDashboard,
   dataQualityScorecardGroupDashboard,
 } from '@networkMocks/dashboard/dashboardDefinitions/mocks'
-import { getDashboardStatusFinishedMock, requestAsyncDashboardMock } from '@networkMocks/dashboard/mocks'
+import { getDashboardStatusFinishedMock, getDashboardStatusStartedMock, requestAsyncDashboardMock } from '@networkMocks/dashboard/mocks'
 import { dashboardFailureStubs } from './failures'
 
 const stubs = {
@@ -12,6 +12,7 @@ const stubs = {
   stubTestDashboard8: () => stubFor(testingDashboard8Mock),
   stubListExampleDashboard: () => stubFor(dataQualityFullDatasetMockLists),
   stubMockDashboardsStatusFinished: () => stubFor(getDashboardStatusFinishedMock),
+  stubMockDashboardsStatusStarted: () => stubFor(getDashboardStatusStartedMock),
   stubViewAsyncResults: () => stubFor(requestAsyncDashboardMock),
   stubScorecardResults: () => stubFor(dataQualityScorecardDashboardsResultMock),
   stubScorecardBucketResults: () => stubFor(dataQualityScorecardBucketDashboardsResultMock),

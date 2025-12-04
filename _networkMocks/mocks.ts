@@ -21,10 +21,11 @@ export const reportingApiFailures = {
     request: {
       ...defaultMockRequest.request,
       method: 'DELETE',
-      urlPathPattern: `/reports/${reportIdRegex}/${reportIdRegex}/statements/edIx_[0-9]+`,
+      urlPathPattern: `/reports/${reportIdRegex}/${reportIdRegex}/statements/exId_[0-9]+`,
     },
     response: {
       ...defaultMockRequest.response,
+      status: 500,
       jsonBody: {},
     },
   }),
@@ -35,7 +36,7 @@ export const reportingApiFailures = {
     `/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result/summary/${reportIdRegex}`,
   ),
   getAsyncReportStatusFailure: setupSimpleFailedMock(
-    `/reports/${reportIdRegex}/${reportIdRegex}/statements/edIx_[0-9]+/status`,
+    `/reports/${reportIdRegex}/${reportIdRegex}/statements/exId_[0-9]+/status`,
   ),
   getAsyncCountFailure: setupSimpleFailedMock(`/report/tables/tblId_[0-9]+/count`),
 } as const

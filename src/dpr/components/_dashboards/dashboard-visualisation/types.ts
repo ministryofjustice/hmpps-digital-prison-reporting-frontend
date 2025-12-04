@@ -7,6 +7,7 @@ import DashboardVisualisationSchemas from './Validate'
 import { BarDefinitionMeasure } from '../../_charts/chart/bar/types'
 import { DoughnutDefinitionMeasure } from '../../_charts/chart/doughnut/types'
 import { LineDefinitionMeasure } from '../../_charts/chart/line/types'
+import { LineTimeseriesDefinitionMeasure } from '../../_charts/chart/line-timeseries/types'
 
 export interface DashboardSection {
   id: string
@@ -117,3 +118,5 @@ export type ChartMeasure =
   | DoughnutDefinitionMeasure[]
   | LineDefinitionMeasure[]
   | VisualisationDefinitionMeasure[]
+
+export type TimeseriesChartMeasures = LineTimeseriesDefinitionMeasure

@@ -30,7 +30,7 @@ describe('CatalogueUtils', () => {
       const reportsTableData = await CatalogueUtils.getReportsList(res, services)
 
       expect(reportsTableData.head.length).toEqual(4)
-      expect(reportsTableData.rows.length).toEqual(72)
+      expect(reportsTableData.rows.length).toEqual(75)
     })
   })
 })

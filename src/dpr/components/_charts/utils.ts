@@ -17,6 +17,8 @@ import {
 } from '../_dashboards/dashboard-visualisation/types'
 import DoughnutChart from './chart/doughnut/DoughnutChart'
 import LineChart from './chart/line/LineChart'
+import LineTimeseriesChart from './chart/line-timeseries/LineTimeseriesChart'
+import BarTimeseriesChart from './chart/bar-timeseries/BarTimeseriesChart'
 
 dayjs.extend(weekOfYear)
 
@@ -42,7 +44,6 @@ export const createChart = (
         chart = new LineChart().withDefinition(chartDefinition).withData(snapshotData).build()
         break
       default:
-        chart = createSnapshotChart(chartDefinition, snapshotData)
         break
     }
 
@@ -60,69 +61,43 @@ export const createChart = (
 export const createTimeseriesCharts = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   rawData: DashboardDataResponse[],
-): DashboardVisualisatonCardData => {
-  let table: MoJTable | undefined
-  let chart: DashboardVisualisationData | undefined
-  let details: ChartDetails | undefined
-
-  const { latestData, dataSetRows, timeseriesData } = getDataForTimeseriesCharts(chartDefinition, rawData)
-  if (dataSetRows.length) {
-    chart = createTimeseriesChart(chartDefinition, timeseriesData)
-    table = createTimeseriesTable(chartDefinition, timeseriesData)
-    details = getChartDetails(chartDefinition, latestData, true)
-  }
-  return {
-    details,
-    table,
-    chart,
-  }
-}
-
-export const createBarChart = (
-  chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
-  rawData: DashboardDataResponse[],
-) => {
-  let table: MoJTable | undefined
-  let chart: DashboardVisualisationData | undefined
-  let details: ChartDetails | undefined
-
-  const { dataSetRows, snapshotData } = getDataForSnapshotCharts(chartDefinition, rawData)
-  if (dataSetRows.length) {
-    chart = new BarChart().withDefinition(chartDefinition).withData(snapshotData).build()
-    table = createSnapshotTable(chartDefinition, dataSetRows)
-    details = getChartDetails(chartDefinition, dataSetRows)
-  }
-
-  return {
-    details,
-    table,
-    chart,
-  }
-}
-
-export const createMatrixChart = (
-  chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
-  rawData: DashboardDataResponse[],
-  query: Record<string, string | string[]>,
+  type: components['schemas']['DashboardVisualisationDefinition']['type'],
+  query?: Record<string, string | string[]>,
 ) => {
   let table: MoJTable | undefined
   let chart: DashboardVisualisationData | undefined
   let details: ChartDetails | undefined
   let granularity: Granularity = Granularity.DAILY
 
-  Object.keys(query).forEach((key) => {
-    if (key.includes('granularity')) {
-      granularity = <Granularity>query[key]
-    }
-  })
+  if (query) {
+    Object.keys(query).forEach((key) => {
+      if (key.includes('granularity')) {
+        granularity = <Granularity>query[key]
+      }
+    })
+  }
 
   const { latestData, dataSetRows, timeseriesData } = getDataForTimeseriesCharts(chartDefinition, rawData)
+
   if (dataSetRows.length) {
-    chart = new HeatmapChart()
-      .withDefinition(chartDefinition)
-      .withGranularity(granularity)
-      .withData(timeseriesData)
-      .build()
+    switch (type) {
+      case DashboardVisualisationType.MATRIX_TIMESERIES:
+        chart = new HeatmapChart()
+          .withDefinition(chartDefinition)
+          .withGranularity(granularity)
+          .withData(timeseriesData)
+          .build()
+        break
+      case DashboardVisualisationType.LINE_TIMESERIES:
+        chart = new LineTimeseriesChart().withDefinition(chartDefinition).withData(timeseriesData).build()
+        break
+      case DashboardVisualisationType.BAR_TIMESERIES:
+        chart = new BarTimeseriesChart().withDefinition(chartDefinition).withData(timeseriesData).build()
+        break
+      default:
+        break
+    }
+
     table = createTimeseriesTable(chartDefinition, timeseriesData)
     details = getChartDetails(chartDefinition, latestData, true)
   }
@@ -243,125 +218,6 @@ const createHeadlines = (
   return headlines
 }
 
-const createSnapshotChart = (
-  chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
-  snapshotData: DashboardDataResponse[],
-): DashboardVisualisationData => {
-  const { type, columns } = chartDefinition
-  const { measures } = columns
-  const isListChart = !!measures.find((col) => col.axis)
-
-  let labels: string[]
-  let unit
-  let datasets: DashboardVisualisationDataSet[]
-
-  if (!isListChart) {
-    const chart = buildChart(columns, snapshotData)
-    labels = chart.labels
-    unit = chart.unit
-    datasets = chart.datasets
-  } else {
-    ;({ labels, unit, datasets } = buildChartFromListData(columns, snapshotData))
-  }
-
-  return {
-    type: <DashboardVisualisationType>type,
-    unit,
-    data: {
-      labels,
-      datasets,
-    },
-  }
-}
-
-const buildChart = (
-  columns: components['schemas']['DashboardVisualisationColumnsDefinition'],
-  rawData: DashboardDataResponse[],
-) => {
-  const { keys, measures } = columns
-  const labels = measures.map((col) => col.display || '')
-  const labelId = keys ? (keys[keys.length - 1]?.id as keyof DashboardDataResponse) : undefined
-  const unit = measures[0].unit ? measures[0].unit : undefined
-
-  const datasets = rawData.map((row) => {
-    const label = labelId && row[labelId] ? `${row[labelId].raw}` : 'All'
-    const data = measures.map((c) => {
-      const rowId = c.id as keyof DashboardDataResponse
-      return row[rowId] && row[rowId].raw ? Number(row[rowId].raw) : 0
-    })
-    const total = data.reduce((acc: number, val: number) => acc + val, 0)
-    return { label, data, total } as DashboardVisualisationDataSet
-  })
-
-  return {
-    labels,
-    unit,
-    datasets,
-  }
-}
-
-const buildChartFromListData = (
-  columns: components['schemas']['DashboardVisualisationColumnsDefinition'],
-  rawData: DashboardDataResponse[],
-) => {
-  const { measures, keys } = columns
-
-  const xAxisColumn = measures.find((col) => col.axis === 'x') || measures[0]
-  const yAxisColumn = measures.find((col) => col.axis === 'y') || measures[1]
-
-  if (!xAxisColumn || !yAxisColumn) {
-    throw new Error('No X of Y Axis found in definition')
-  }
-
-  const unit = yAxisColumn?.unit || undefined
-  const groupKey = DatasetHelper.getGroupKey(rawData, keys)
-  const groupsData = groupKey ? DatasetHelper.groupRowsByKey(rawData, groupKey.id) : [rawData]
-
-  const labels = groupsData.flatMap((gd) => {
-    return gd.map((row) => {
-      const { id: xId } = xAxisColumn
-      const field = row[xId]
-      return field ? `${field.raw}` : ''
-    })
-  })
-
-  const datasets: DashboardVisualisationDataSet[] = groupsData.map((groupData) => {
-    const data = Array(labels.length)
-    groupData.forEach((row) => {
-      const { id: yId } = yAxisColumn
-      const { id: xId } = xAxisColumn
-      const labelField = row[xId]
-      const valueField = row[yId]
-      const raw = valueField && valueField.raw ? Number(valueField.raw) : 0
-      const dataIndex = labels.findIndex((l) => l === labelField.raw)
-      if (dataIndex !== -1) {
-        data[dataIndex] = Number(raw)
-      }
-    })
-
-    let label = ''
-    if (groupKey) {
-      const groupKeyId = groupKey.id
-      const groupRow = groupData[0]
-      label = groupRow && groupRow[groupKeyId] ? `${groupRow[groupKeyId].raw}` : ''
-    } else {
-      label = yAxisColumn.display || label
-    }
-
-    return {
-      label,
-      data,
-      total: data.reduce((acc: number, val: number) => acc + val, 0),
-    }
-  })
-
-  return {
-    labels,
-    unit,
-    datasets,
-  }
-}
-
 const createSnapshotTable = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   data: DashboardDataResponse[],
@@ -381,50 +237,6 @@ const createSnapshotTable = (
   return {
     head,
     rows,
-  }
-}
-
-const createTimeseriesChart = (
-  chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
-  timeseriesData: DashboardDataResponse[],
-): DashboardVisualisationData => {
-  const { columns } = chartDefinition
-  const { keys, measures } = columns
-
-  const unit = measures[0].unit ? measures[0].unit : undefined
-  const type = <DashboardVisualisationType>chartDefinition.type.split('-')[0]
-  const groupKey = DatasetHelper.getGroupKey(timeseriesData, keys)
-  const labelId = (groupKey?.id as keyof DashboardDataResponse) || ''
-
-  const timeBlockData = DatasetHelper.groupRowsByTimestamp(timeseriesData)
-  const labels = timeBlockData.map((d: DashboardDataResponse[]) => d[0]['ts'].raw as unknown as string)
-  const datasetCount = timeBlockData[0].length
-
-  const datasets: DashboardVisualisationDataSet[] = []
-  for (let index = 0; index < datasetCount; index += 1) {
-    const data = timeBlockData.map((timeperiod) => {
-      const { raw } = timeperiod[index][measures[1].id]
-      return raw ? Number(raw) : 0
-    })
-    const total = data.reduce((a, c) => a + c, 0)
-    const rawValue = timeBlockData[0][index][labelId].raw
-    const label = rawValue ? <string>rawValue : ''
-
-    datasets.push({
-      data,
-      label,
-      total,
-    })
-  }
-
-  return {
-    type,
-    unit,
-    timeseries: true,
-    data: {
-      labels,
-      datasets,
-    },
   }
 }
 
@@ -468,6 +280,4 @@ const createTimeseriesTable = (
 export default {
   createChart,
   createTimeseriesCharts,
-  createMatrixChart,
-  createBarChart,
 }

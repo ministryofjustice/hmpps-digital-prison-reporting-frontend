@@ -150,13 +150,10 @@ const getSections = (
             data = ChartUtils.createChart(visDefinition, dashboardData, type)
             break
           }
-          case DashboardVisualisationType.MATRIX_TIMESERIES: {
-            data = ChartUtils.createMatrixChart(visDefinition, dashboardData, query)
-            break
-          }
+          case DashboardVisualisationType.MATRIX_TIMESERIES:
           case DashboardVisualisationType.BAR_TIMESERIES:
           case DashboardVisualisationType.LINE_TIMESERIES: {
-            data = ChartUtils.createTimeseriesCharts(visDefinition, dashboardData)
+            data = ChartUtils.createTimeseriesCharts(visDefinition, dashboardData, type, query)
             break
           }
           default:

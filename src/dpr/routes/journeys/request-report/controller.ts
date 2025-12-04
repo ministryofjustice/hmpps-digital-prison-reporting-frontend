@@ -41,7 +41,7 @@ class RequestReportController {
 
       return res.redirect(`${req.originalUrl}/failed`)
     }
-    res.redirect(req.originalUrl.replace('/cancel', '/status'))
+    return res.redirect(req.originalUrl.replace('/cancel', '/status'))
   }
 }
 

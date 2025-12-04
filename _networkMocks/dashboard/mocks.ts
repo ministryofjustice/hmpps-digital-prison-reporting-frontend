@@ -1,4 +1,9 @@
-import { defaultMockRequest, generateNetworkMock, reportIdRegex, setupSimpleMock } from '@networkMocks/generateNetworkMock'
+import {
+  defaultMockRequest,
+  generateNetworkMock,
+  reportIdRegex,
+  setupSimpleMock,
+} from '@networkMocks/generateNetworkMock'
 
 export const getDashboardStatusFinishedMock = setupSimpleMock(
   `/reports/${reportIdRegex}/dashboards/${reportIdRegex}/statements/exId_[0-9]+/status`,

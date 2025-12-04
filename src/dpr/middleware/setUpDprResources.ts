@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { RequestHandler, Response, Request } from 'express'
+import { RequestHandler, Response, Request, ErrorRequestHandler, NextFunction } from 'express'
 import type { ParsedQs } from 'qs'
+import { HTTPError } from 'superagent'
 import { Services } from '../types/Services'
 import { RequestedReport, StoredReportData } from '../types/UserReports'
 import DefinitionUtils from '../utils/definitionUtils'
@@ -20,7 +21,24 @@ const deriveDefinitionsPath = (query: ParsedQs): string | null => {
   return null
 }
 
-export const setupResources = (services: Services, config?: DprConfig): RequestHandler => {
+export const errorRequestHandler =
+  (layoutPath: string): ErrorRequestHandler =>
+  (error: HTTPError, _req: Request, res: Response, next: NextFunction) => {
+    if (error.status === 401 || error.status === 403) {
+      return res.render('dpr/routes/authError.njk', {
+        layoutPath,
+        message: 'Sorry, there is a problem with authenticating your request',
+      })
+    }
+    if (error.status >= 400) {
+      return res.render('dpr/routes/serviceProblem.njk', {
+        layoutPath,
+      })
+    }
+    return next()
+  }
+
+export const setupResources = (services: Services, layoutPath: string, config?: DprConfig): RequestHandler => {
   return async (req, res, next) => {
     populateValidationErrors(req, res)
     try {
@@ -28,7 +46,7 @@ export const setupResources = (services: Services, config?: DprConfig): RequestH
       await populateRequestedReports(services, res)
       return next()
     } catch (error) {
-      return next(error)
+      return errorRequestHandler(layoutPath)(error, req, res, next)
     }
   }
 }

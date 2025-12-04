@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express'
 import { Services } from '../../../../types/Services'
 import AsyncPollingUtils from './utils'
-import AsyncRequestUtils from '../filters/utils'
 import AsyncRequestListUtils from '../../../../components/user-reports/requested/utils'
 import ErrorHandler from '../../../../utils/ErrorHandler'
 
@@ -43,22 +42,6 @@ class RequestStatusController {
       res.send({ status: response.status })
     } catch (error) {
       res.send({ status: 'FAILED' })
-    }
-  }
-
-  DELETE: RequestHandler = async (req, res, next) => {
-    try {
-      await AsyncRequestUtils.cancelRequest({
-        req,
-        res,
-        services: this.services,
-      })
-      res.end()
-    } catch (error) {
-      req.body.title = 'Failed to abort request'
-      req.body.errorDescription = 'We were unable to abort the report request for the following reason:'
-      req.body.error = new ErrorHandler(error).formatError()
-      next()
     }
   }
 }

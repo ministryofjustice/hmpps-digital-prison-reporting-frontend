@@ -69,7 +69,7 @@ class RequestReportController {
         filters,
         ...req.body,
       }
-      next()
+      next(error)
     }
   }
 

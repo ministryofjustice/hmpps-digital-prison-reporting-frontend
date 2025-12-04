@@ -36,7 +36,7 @@ export default function createApp(services: Services): express.Application {
   app.use('/assets/images/favicon.ico', express.static(path.join(__dirname, './favicon.ico')))
   app.use(setUpMockUser())
   app.use(setUpBookmarks(services))
-  app.use(setUpDprResources(services))
+  app.use(setUpDprResources(services, 'views/page.njk'))
   app.use(Routes(services))
   setUpMockSyncApis(app)
 

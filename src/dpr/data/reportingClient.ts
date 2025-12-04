@@ -3,7 +3,7 @@ import logger from '../utils/logger'
 import RestClient from './restClient'
 import Dict = NodeJS.Dict
 import { components, operations } from '../types/api'
-import { ApiConfig, Count, FieldValuesRequest, ListWithWarnings } from './types'
+import { ApiConfig, Count, ListWithWarnings } from './types'
 import type { ResultWithHeaders } from './restClient'
 
 class ReportingClient {
@@ -107,29 +107,6 @@ class ReportingClient {
         token,
       })
       .then((response) => <components['schemas']['SingleVariantReportDefinition']>response)
-  }
-
-  getFieldValues({
-    token,
-    definitionName,
-    variantName,
-    fieldName,
-    prefix,
-    definitionsPath,
-  }: FieldValuesRequest): Promise<Array<string>> {
-    const query = {
-      dataProductDefinitionsPath: definitionsPath,
-      prefix,
-    }
-    this.logInfo('Get field values', { definitionName, variantName, fieldName, prefix })
-
-    return this.restClient
-      .get({
-        path: `/reports/${definitionName}/${variantName}/${fieldName}`,
-        token,
-        query,
-      })
-      .then((response) => <Array<string>>response)
   }
 
   requestAsyncReport(

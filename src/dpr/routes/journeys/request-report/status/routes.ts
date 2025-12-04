@@ -9,7 +9,6 @@ export function routes({ layoutPath, services }: { layoutPath: string; services:
 
   router.get(`/`, controller.GET)
   router.post(`/`, controller.POST)
-  router.delete(`/`, controller.DELETE)
 
   return router
 }

@@ -42,6 +42,26 @@ export const setupSimpleMock = (urlPathPattern: string, jsonBody: object, priori
   }
 }
 
+export const setupSimpleFailedMock = (
+  urlPathPattern: string,
+  status = 500,
+  jsonBody: object = {},
+  priority = 0,
+): CompleteMockRequest => {
+  return {
+    priority,
+    request: {
+      ...defaultMockRequest.request,
+      urlPathPattern,
+    },
+    response: {
+      ...defaultMockRequest.response,
+      jsonBody,
+      status,
+    },
+  }
+}
+
 export const generateNetworkMock = (mockRequest: CompleteMockRequest) => ({
   ...mockRequest,
   request: {

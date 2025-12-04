@@ -20,7 +20,6 @@ class DprAsyncPolling extends DprPollingStatusClass {
     this.csrfToken = this.statusSection.getAttribute('data-csrf-token')
     this.reportUrl = this.statusSection.getAttribute('data-report-url')
 
-    this.initCancelRequestButton()
     this.initPollingInterval()
   }
 
@@ -43,27 +42,6 @@ class DprAsyncPolling extends DprPollingStatusClass {
         clearInterval(this.pollingInterval)
         window.location.reload()
       }
-    }
-  }
-
-  initCancelRequestButton() {
-    if (this.cancelRequestButton) {
-      const meta = JSON.parse(this.requestData)
-      const csrfToken = this.cancelRequestButton.getAttribute('data-csrf-token')
-      this.cancelRequestButton.addEventListener('click', async () => {
-        await fetch(meta.pollingUrl, {
-          method: 'delete',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            'CSRF-Token': csrfToken,
-          },
-        })
-          .then(() => {
-            window.location.reload()
-          })
-          .catch((error) => console.error('Error:', error))
-      })
     }
   }
 }

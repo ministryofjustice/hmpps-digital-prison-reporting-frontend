@@ -24,7 +24,6 @@ class LineTimeseriesChart extends TimeseriesChart {
     this.buildDatasets()
     this.datasets = this.lineChartBuilder.augmentDataset(this.datasets)
     this.setStyles()
-    this.setPartialDateStyles()
     this.config = this.lineChartBuilder.setBespokeOptions()
 
     return {
@@ -46,30 +45,6 @@ class LineTimeseriesChart extends TimeseriesChart {
         ...set,
         backgroundColor: colour,
         borderColor: colour,
-      }
-    })
-  }
-
-  private setPartialDateStyles = () => {
-    console.log({ ps: this.partialDate })
-    this.datasets.map((d, i) => {
-      //
-      let partialStyle
-      if (
-        (i === 0 && this.partialDate && this.partialDate.start) ||
-        (i === d.data.length - 1 && this.partialDate && this.partialDate.end)
-      ) {
-        partialStyle = {
-          segment: {
-            borderDash: [6, 6],
-          },
-        }
-      }
-
-      console.log(partialStyle)
-      return {
-        ...d,
-        ...partialStyle,
       }
     })
   }

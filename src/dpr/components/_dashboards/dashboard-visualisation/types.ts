@@ -9,7 +9,6 @@ import { DoughnutDefinitionMeasure } from '../../_charts/chart/doughnut/types'
 import { LineDefinitionMeasure } from '../../_charts/chart/line/types'
 import { LineTimeseriesDefinitionMeasure } from '../../_charts/chart/line-timeseries/types'
 import { BarTimeseriesDefinitionMeasure } from '../../_charts/chart/bar-timeseries/types'
-import Chart from '../../_charts/chart/Chart'
 import { ChartOptionsType } from '../../_charts/chart/chart-config'
 
 export interface DashboardSection {

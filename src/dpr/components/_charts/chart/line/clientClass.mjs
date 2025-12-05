@@ -17,7 +17,7 @@ class LineChartVisualisation extends ChartVisualisation {
   initSettings() {
     return {
       toolTipOptions: this.setToolTipOptions(),
-      // styling: this.setDatasetStyling(),
+      styling: this.setDatasetStyling(),
     }
   }
 
@@ -29,25 +29,13 @@ class LineChartVisualisation extends ChartVisualisation {
     return style
   }
 
-  // setDatasetStyling() {
-  //   const pallette = this.getColourPallette()
-  //   return pallette.map((colour) => {
-  //     return {
-  //       borderColor: colour.hex,
-  //       backgroundColor: colour.hex,
-  //       pointStyle: 'circle',
-  //       pointRadius: 4,
-  //       pointHoverRadius: 10,
-  //       pointHitRadius: 20,
-  //       datalabels: {
-  //         display: false,
-  //       },
-  //       segment: {
-  //         borderDash: (ctx) => this.setPartialStyle(ctx),
-  //       },
-  //     }
-  //   })
-  // }
+  setDatasetStyling() {
+    return {
+      segment: {
+        borderDash: (ctx) => this.setPartialStyle(ctx),
+      },
+    }
+  }
 
   setToolTipOptions() {
     const ctx = this

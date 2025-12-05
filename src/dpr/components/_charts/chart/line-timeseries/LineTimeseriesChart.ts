@@ -34,6 +34,7 @@ class LineTimeseriesChart extends TimeseriesChart {
         labels: this.labels,
         datasets: this.datasets,
         config: this.config,
+        partialDate: this.partialDate,
       },
     }
   }

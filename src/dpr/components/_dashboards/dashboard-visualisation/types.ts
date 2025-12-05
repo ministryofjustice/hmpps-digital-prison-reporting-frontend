@@ -10,6 +10,7 @@ import { LineDefinitionMeasure } from '../../_charts/chart/line/types'
 import { LineTimeseriesDefinitionMeasure } from '../../_charts/chart/line-timeseries/types'
 import { BarTimeseriesDefinitionMeasure } from '../../_charts/chart/bar-timeseries/types'
 import { ChartOptionsType } from '../../_charts/chart/chart-config'
+import { PartialDate } from '../../_filters/types'
 
 export interface DashboardSection {
   id: string
@@ -50,6 +51,7 @@ export interface DashboardVisualisationDataValues {
   datasets: DashboardVisualisationDataSet[]
   axis?: 'x' | 'y'
   config: ChartOptionsType
+  partialDate?: PartialDate | undefined
 }
 
 export interface DashboardVisualisationDataSet {

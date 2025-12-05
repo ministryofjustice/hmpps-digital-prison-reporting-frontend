@@ -26,19 +26,9 @@ class ChartVisualisation extends DprClientClass {
     this.legendElement = document.getElementById(`dpr-${this.id}-legend`)
     this.legendElement = document.getElementById(`dpr-${this.id}-legend`)
 
-    // Time series
-    this.timeseries = this.getElement().getAttribute('data-dpr-chart-timeseries')
-    if (this.timeseries) {
-      this.daterangeInputs = document.querySelectorAll('.dpr-granular-date-range')
-      if (this.daterangeInputs && this.daterangeInputs.length) {
-        this.daterangeInputs.forEach((input) => {
-          this.partialStart = input.getAttribute('data-partial-start') === 'true'
-          this.partialEnd = input.getAttribute('data-partial-end') === 'true'
-        })
-      } else {
-        this.partialStart = false
-        this.partialEnd = false
-      }
+    if (this.chartParams.partialDate) {
+      this.partialStart = this.chartParams.partialDate.start || false
+      this.partialEnd = this.chartParams.partialDate.end || false
     }
 
     // flags
@@ -57,13 +47,13 @@ class ChartVisualisation extends DprClientClass {
 
   generateChartData(settings) {
     const { datasets, labels, config } = this.chartParams
-    const { options, datalabels, plugins, pluginsOptions, toolTipOptions, hoverEvent } = settings
+    const { options, datalabels, plugins, pluginsOptions, toolTipOptions, hoverEvent, styling } = settings
 
     const chartData = {
       type: this.type,
       data: {
         labels,
-        datasets,
+        datasets: this.createDatasets(datasets, styling),
       },
       options: {
         ...config,
@@ -83,6 +73,15 @@ class ChartVisualisation extends DprClientClass {
     }
 
     return chartData
+  }
+
+  createDatasets(datasets, styling) {
+    return datasets.map((dataset) => {
+      return {
+        ...dataset,
+        ...(styling && styling),
+      }
+    })
   }
 
   setHoverValue({ label, value, legend, ctx }) {

@@ -52,24 +52,50 @@ class BarChart extends Chart {
     } else {
       this.getListBarChartData()
     }
+
     return {
       type: DashboardVisualisationType.BAR,
       unit: this.unit,
       data: {
         labels: this.labels,
         datasets: this.datasets,
+        config: this.config,
       },
+    }
+  }
+
+  augmentDataset = (datasets: DashboardVisualisationDataSet[]) => {
+    return datasets.map((set) => {
+      return {
+        ...set,
+        borderWidth: [0, 0],
+        datalabels: {
+          align: 'center',
+          anchor: 'bottom',
+        },
+      }
+    })
+  }
+
+  setBespokeOptions = () => {
+    return {
+      ...this.config,
+      indexAxis: 'x',
     }
   }
 
   private getBarChartData = () => {
     this.createDatasets(this.measures, this.responseData)
+    this.datasets = this.augmentDataset(this.datasets)
+    this.config = this.setBespokeOptions()
     this.createLabels(this.measures)
   }
 
   private getListBarChartData = () => {
     this.createListLabels()
     this.createListDatasets()
+    this.datasets = this.augmentDataset(this.datasets)
+    this.config = this.setBespokeOptions()
   }
 
   private initFromDefinitionData = () => {

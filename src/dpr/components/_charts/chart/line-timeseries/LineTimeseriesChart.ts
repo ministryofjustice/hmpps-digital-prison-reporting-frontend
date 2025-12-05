@@ -2,53 +2,30 @@
 import {
   DashboardVisualisationType,
   DashboardVisualisationData,
-  VisualisationDefinitionKey,
-  DashboardVisualisationDataSet,
 } from '../../../_dashboards/dashboard-visualisation/types'
 import { components } from '../../../../types/api'
-import { LineTimeseriesDefinitionType, LineTimeseriesDefinitionMeasure } from './types'
+import { LineTimeseriesDefinitionType } from './types'
 import LineTimeseriesChartSchemas from './validate'
-import { DashboardDataResponse } from '../../../../types/Metrics'
-import DatasetHelper from '../../../../utils/datasetHelper'
+import TimeseriesChart from '../ChartTimeseries'
+import LineChart from '../line/LineChart'
 
-class LineTimeseriesChart {
+class LineTimeseriesChart extends TimeseriesChart {
   private definition!: LineTimeseriesDefinitionType
 
-  private measures!: LineTimeseriesDefinitionMeasure[]
-
-  private keys!: VisualisationDefinitionKey[]
-
-  private responseData: DashboardDataResponse[] = []
-
-  private timeBlockData: DashboardDataResponse[][] = []
-
-  private groupKey: LineTimeseriesDefinitionMeasure | undefined
-
-  private datasets: DashboardVisualisationDataSet[] = []
-
-  private unit: 'NUMBER' | 'PERCENTAGE' | undefined
-
-  private labels: string[] = []
-
-  private labelId: string | undefined = undefined
-
-  private datasetCount = 0
+  private lineChartBuilder: LineChart = new LineChart()
 
   withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
     this.definition = LineTimeseriesChartSchemas.LineTimeseriesSchema.parse(definition)
-    this.initFromDefinition()
-
-    return this
-  }
-
-  withData = (responseData: DashboardDataResponse[]) => {
-    this.responseData = responseData
-    this.initFromData()
+    this.initFromDefinition(this.definition)
     return this
   }
 
   build = (): DashboardVisualisationData => {
     this.buildDatasets()
+    this.datasets = this.lineChartBuilder.augmentDataset(this.datasets)
+    this.setStyles()
+    this.setPartialDateStyles()
+    this.config = this.lineChartBuilder.setBespokeOptions()
 
     return {
       type: DashboardVisualisationType.LINE,
@@ -57,47 +34,44 @@ class LineTimeseriesChart {
       data: {
         labels: this.labels,
         datasets: this.datasets,
+        config: this.config,
       },
     }
   }
 
-  private initFromDefinition = () => {
-    this.measures = this.definition.columns.measures
-    this.keys = this.definition.columns.keys || []
-    this.unit = this.measures.find((m) => m.unit)?.unit
+  private setStyles = () => {
+    this.datasets = this.datasets.map((set, datasetIndex) => {
+      const colour = this.hexColours[datasetIndex]
+      return {
+        ...set,
+        backgroundColor: colour,
+        borderColor: colour,
+      }
+    })
   }
 
-  private initFromData = () => {
-    this.groupKey = DatasetHelper.getGroupKey(
-      this.responseData,
-      <Array<components['schemas']['DashboardVisualisationColumnDefinition']>>this.keys,
-    )
-    this.labelId = this.groupKey?.id || ''
-    this.timeBlockData = DatasetHelper.groupRowsByTimestamp(this.responseData)
-    this.labels = this.getLabels()
-    this.datasetCount = this.timeBlockData[0]?.length
-  }
+  private setPartialDateStyles = () => {
+    console.log({ ps: this.partialDate })
+    this.datasets.map((d, i) => {
+      //
+      let partialStyle
+      if (
+        (i === 0 && this.partialDate && this.partialDate.start) ||
+        (i === d.data.length - 1 && this.partialDate && this.partialDate.end)
+      ) {
+        partialStyle = {
+          segment: {
+            borderDash: [6, 6],
+          },
+        }
+      }
 
-  private getLabels = () => {
-    return this.timeBlockData.map((d: DashboardDataResponse[]) => <string>d[0]['ts'].raw)
-  }
-
-  private buildDatasets = () => {
-    for (let index = 0; index < this.datasetCount; index += 1) {
-      const data = this.timeBlockData.map((timeperiod) => {
-        const { raw } = timeperiod[index][this.measures[1].id]
-        return raw ? Number(raw) : 0
-      })
-      const total = data.reduce((a, c) => a + c, 0)
-      const rawValue = this.labelId ? this.timeBlockData[0][index][this.labelId].raw : ''
-      const label = rawValue ? <string>rawValue : ''
-
-      this.datasets.push({
-        data,
-        label,
-        total,
-      })
-    }
+      console.log(partialStyle)
+      return {
+        ...d,
+        ...partialStyle,
+      }
+    })
   }
 }
 

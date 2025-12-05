@@ -32,6 +32,8 @@ class DoughnutChart extends Chart {
 
   build = (): DashboardVisualisationData => {
     this.createDatasets(this.measures, this.responseData)
+    this.augmentDataset()
+    this.setBespokeOptions()
     this.createLabels(this.measures)
 
     return {
@@ -40,7 +42,31 @@ class DoughnutChart extends Chart {
       data: {
         labels: this.labels,
         datasets: this.datasets,
+        config: this.config,
       },
+    }
+  }
+
+  private augmentDataset = () => {
+    this.datasets = this.datasets.map((set) => {
+      return {
+        ...set,
+        backgroundColor: [...this.hexColours, ...this.hexColours],
+        borderColor: undefined,
+        hoverOffset: 4,
+        datalabels: {
+          anchor: 'center',
+          borderWidth: 0,
+        },
+      }
+    })
+  }
+
+  private setBespokeOptions = () => {
+    const cutout = this.datasets.length === 1 ? '50%' : '20%'
+    this.config = {
+      ...this.config,
+      cutout,
     }
   }
 }

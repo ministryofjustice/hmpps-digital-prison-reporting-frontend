@@ -52,118 +52,39 @@ class ChartVisualisation extends DprClientClass {
     Chart.register(MatrixController, MatrixElement)
     this.chart = new Chart(this.chartContext, this.chartData)
 
+    console.log(JSON.stringify(this.chartData, null, 2))
+
     this.initChartEvents()
   }
 
-  // Accessible colours from the MoJ Pattern Library
-  getColourPallette() {
-    return [
-      {
-        name: 'blue',
-        hex: '#5694ca',
-      },
-      {
-        name: 'purple',
-        hex: '#912b88',
-      },
-      {
-        name: 'green',
-        hex: '#00703c',
-      },
-      {
-        name: 'dark_blue',
-        hex: '#003078',
-      },
-      {
-        name: 'orange',
-        hex: '#f47738',
-      },
-      {
-        name: 'orange',
-        hex: '#28a197',
-      },
-    ]
-  }
-
-  mapHexColourToName(hex, ctx) {
-    const pallette = ctx.getColourPallette()
-    const colour = pallette.find((p) => {
-      return p.hex === hex
-    })
-    return colour ? colour.name : ''
-  }
-
-  createDatasets(datasets, styling) {
-    return datasets.map((d, i) => {
-      const { label, data } = d
-      const s = styling[i % 6] ? styling[i % 6] : styling[0]
-      return {
-        label,
-        data,
-        ...s,
-      }
-    })
-  }
-
   generateChartData(settings) {
-    const { datasets, labels } = this.chartParams
-    const { options, styling, datalabels, plugins, pluginsOptions, toolTipOptions, hoverEvent } = settings
-    return {
+    const { datasets, labels, config } = this.chartParams
+    const { options, datalabels, plugins, pluginsOptions, toolTipOptions, hoverEvent } = settings
+
+    const chartData = {
       type: this.type,
       data: {
         labels,
-        datasets: this.createDatasets(datasets, styling),
+        datasets,
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: {
-          duration: 0,
-        },
-        hover: {
-          animationDuration: 0,
-        },
+        ...config,
         ...(options && options),
         ...(hoverEvent && hoverEvent),
         plugins: {
-          legend: {
-            position: 'bottom',
-          },
+          ...config.plugins,
           ...(pluginsOptions && pluginsOptions),
           ...(datalabels && { datalabels }),
           tooltip: {
-            ...this.setToolTip(),
+            ...config.plugins.tooltip,
             ...(toolTipOptions && toolTipOptions),
           },
         },
       },
       plugins: plugins && plugins.length ? [...plugins] : [],
     }
-  }
 
-  setToolTip() {
-    return {
-      backgroundColor: '#FFF',
-      bodyColor: '#000',
-      titleFont: {
-        size: 16,
-      },
-      bodyFont: {
-        size: 16,
-      },
-      titleColor: '#000',
-      displayColors: false,
-      borderWidth: 1,
-      borderColor: '#b1b4b6',
-      cornerRadius: 0,
-      padding: 20,
-      footerFont: {
-        weight: 'bold',
-      },
-      animation: {
-        duration: 0,
-      },
-    }
+    return chartData
   }
 
   setHoverValue({ label, value, legend, ctx }) {

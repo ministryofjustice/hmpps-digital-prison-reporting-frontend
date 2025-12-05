@@ -18,6 +18,7 @@ import DoughnutChart from './chart/doughnut/DoughnutChart'
 import LineChart from './chart/line/LineChart'
 import LineTimeseriesChart from './chart/line-timeseries/LineTimeseriesChart'
 import BarTimeseriesChart from './chart/bar-timeseries/BarTimeseriesChart'
+import { PartialDate } from '../_filters/types'
 
 dayjs.extend(weekOfYear)
 
@@ -61,7 +62,8 @@ export const createTimeseriesCharts = (
   chartDefinition: components['schemas']['DashboardVisualisationDefinition'],
   rawData: DashboardDataResponse[],
   type: components['schemas']['DashboardVisualisationDefinition']['type'],
-  query?: Record<string, string | string[]>,
+  query: Record<string, string | string[]>,
+  partialDate?: PartialDate,
 ) => {
   let table: MoJTable | undefined
   let chart: DashboardVisualisationData | undefined
@@ -88,10 +90,18 @@ export const createTimeseriesCharts = (
           .build()
         break
       case DashboardVisualisationType.LINE_TIMESERIES:
-        chart = new LineTimeseriesChart().withDefinition(chartDefinition).withData(timeseriesData).build()
+        chart = new LineTimeseriesChart()
+          .withDefinition(chartDefinition)
+          .withData(timeseriesData)
+          .withPartialDate(partialDate)
+          .build()
         break
       case DashboardVisualisationType.BAR_TIMESERIES:
-        chart = new BarTimeseriesChart().withDefinition(chartDefinition).withData(timeseriesData).build()
+        chart = new BarTimeseriesChart()
+          .withDefinition(chartDefinition)
+          .withData(timeseriesData)
+          .withPartialDate(partialDate)
+          .build()
         break
       default:
         break

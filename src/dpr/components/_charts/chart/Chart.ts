@@ -5,6 +5,8 @@ import {
   VisualisationDefinitionKey,
   ChartMeasure,
 } from '../../_dashboards/dashboard-visualisation/types'
+import { ChartColours } from './ChartColours'
+import ChartConfig from './chart-config'
 
 class Chart {
   labels: string[] = []
@@ -17,6 +19,16 @@ class Chart {
 
   responseData: DashboardDataResponse[] = []
 
+  backgroundColor: string[][] = []
+
+  borderWidth: number[] = [0, 0]
+
+  borderColor: string[][] = []
+
+  hexColours: string[] = []
+
+  config = ChartConfig
+
   withData = (responseData: DashboardDataResponse[]) => {
     this.responseData = responseData
     return this
@@ -27,14 +39,17 @@ class Chart {
   }
 
   createDatasets = (measures: ChartMeasure, responseData: DashboardDataResponse[]) => {
-    this.datasets = responseData.map((row) => {
+    this.hexColours = new ChartColours().getHexPallette()
+    this.datasets = responseData.map((row, datasetIndex) => {
       const label = this.createDatasetLabel(row)
       const data = this.createDatasetValues(measures, row)
       const total = data.reduce((acc: number, val: number) => acc + val, 0)
+
       return {
         label,
         data,
         total,
+        ...this.setStyles(datasetIndex),
       }
     })
   }
@@ -48,6 +63,14 @@ class Chart {
       const rowId = column.id
       return row[rowId] && row[rowId].raw ? Number(row[rowId].raw) : 0
     })
+  }
+
+  private setStyles = (datasetIndex: number) => {
+    const colour = this.hexColours[datasetIndex]
+    return {
+      backgroundColor: colour,
+      borderColor: colour,
+    }
   }
 
   createLabels = (measures: ChartMeasure) => {

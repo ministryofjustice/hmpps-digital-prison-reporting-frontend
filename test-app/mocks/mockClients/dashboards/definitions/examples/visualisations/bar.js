@@ -37,7 +37,6 @@ const dataQualityReligionBar = {
       {
         id: 'has_religion',
         display: 'Has religion',
-        axis: 'x',
       },
       {
         id: 'religion_is_missing',

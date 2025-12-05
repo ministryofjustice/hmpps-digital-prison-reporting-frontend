@@ -5,12 +5,14 @@ import { DashboardDataResponse } from '../../../../types/Metrics'
 import {
   DashboardVisualisationType,
   DashboardVisualisationData,
+  DashboardVisualisationDataSet,
 } from '../../../_dashboards/dashboard-visualisation/types'
 import { MatrixChartData, MatrixTimeseriesDefinitionType } from './types'
 import DatasetHelper from '../../../../utils/datasetHelper'
 import Buckets from '../buckets/Buckets'
 import { components } from '../../../../types/api'
 import MatrixSchema from './validate'
+import ChartConfig from '../chart-config'
 
 class HeatmapChart {
   private definition!: MatrixTimeseriesDefinitionType
@@ -33,10 +35,13 @@ class HeatmapChart {
 
   private bucketsHelper!: Buckets
 
+  private datasets: DashboardVisualisationDataSet[] = []
+
+  config = ChartConfig
+
   withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
     this.definition = MatrixSchema.parse(definition)
     this.init()
-
     return this
   }
 
@@ -108,6 +113,14 @@ class HeatmapChart {
       }
       return { y, x, v, r }
     })
+
+    this.bucketData()
+    this.datasets = [
+      {
+        label: this.label,
+        data: this.data,
+      },
+    ]
   }
 
   private bucketData = () => {
@@ -118,21 +131,72 @@ class HeatmapChart {
     })
   }
 
+  private setBespokeOptions = () => {
+    this.config = {
+      ...this.config,
+      scales: this.setScales(),
+    }
+  }
+
+  setScales() {
+    const xLabels = [
+      ...new Set(
+        (<MatrixChartData[]>this.datasets[0].data).map((d) => {
+          return d.x
+        }),
+      ),
+    ]
+    const yLabels = [
+      ...new Set(
+        (<MatrixChartData[]>this.datasets[0].data).map((d) => {
+          return d.y
+        }),
+      ),
+    ]
+    const grid = {
+      display: false,
+      drawBorder: false,
+    }
+    const ticks = {
+      padding: 1,
+      maxRotation: 0,
+      stepSize: 1,
+    }
+    const offset = true
+    const common = {
+      offset,
+      ticks,
+      grid,
+    }
+
+    return {
+      y: {
+        position: 'left',
+        type: 'category',
+        ...(yLabels && { labels: yLabels }),
+        ...common,
+      },
+      x: {
+        position: 'top',
+        type: 'category',
+        ...(xLabels && { labels: xLabels }),
+        ...common,
+      },
+    }
+  }
+
   build = (): DashboardVisualisationData => {
     this.initTimeseriesData()
     this.bucketData()
+    this.setBespokeOptions()
 
     return {
       type: DashboardVisualisationType.MATRIX,
       unit: this.unit,
       timeseries: true,
       data: {
-        datasets: [
-          {
-            label: this.label,
-            data: this.data,
-          },
-        ],
+        datasets: this.datasets,
+        config: this.config,
       },
     }
   }

@@ -3,6 +3,7 @@ import {
   DashboardVisualisationType,
   DashboardVisualisationData,
   VisualisationDefinitionKey,
+  DashboardVisualisationDataSet,
 } from '../../../_dashboards/dashboard-visualisation/types'
 import { components } from '../../../../types/api'
 import Chart from '../Chart'
@@ -32,6 +33,8 @@ class LineChart extends Chart {
 
   build = (): DashboardVisualisationData => {
     this.createDatasets(this.measures, this.responseData)
+    this.datasets = this.augmentDataset(this.datasets)
+    this.config = this.setBespokeOptions()
     this.createLabels(this.measures)
 
     return {
@@ -40,6 +43,41 @@ class LineChart extends Chart {
       data: {
         labels: this.labels,
         datasets: this.datasets,
+        config: this.config,
+      },
+    }
+  }
+
+  augmentDataset = (datasets: DashboardVisualisationDataSet[]) => {
+    return datasets.map((set) => {
+      return {
+        ...set,
+        pointStyle: 'circle',
+        pointRadius: 4,
+        pointHoverRadius: 10,
+        pointHitRadius: 20,
+        datalabels: {
+          display: false,
+        },
+      }
+    })
+  }
+
+  setBespokeOptions = () => {
+    return {
+      ...this.config,
+      scales: {
+        y: {
+          min: 0,
+          ticks: {
+            fontSize: 12,
+          },
+        },
+        x: {
+          ticks: {
+            fontSize: 12,
+          },
+        },
       },
     }
   }

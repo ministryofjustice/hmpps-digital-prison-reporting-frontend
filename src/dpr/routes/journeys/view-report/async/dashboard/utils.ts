@@ -20,11 +20,13 @@ import DashboardListUtils from '../../../../../components/_dashboards/dashboard-
 import FilterUtils from '../../../../../components/_filters/utils'
 import ScorecardsUtils from '../../../../../components/_dashboards/scorecard/utils'
 import ScorecardVisualisation from '../../../../../components/_dashboards/scorecard/Scorecard'
+import ScorecardGroupVisualisation from '../../../../../components/_dashboards/scorecard-group/ScorecardGroup'
 import ReportActionsUtils from '../../../../../components/_reports/report-actions/utils'
 import ReportQuery from '../../../../../types/ReportQuery'
 import LocalsHelper from '../../../../../utils/localsHelper'
-import { FilterValue } from '../../../../../components/_filters/types'
+import { FilterValue, GranularDateRangeFilterValue, PartialDate } from '../../../../../components/_filters/types'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
+import { FilterType } from '../../../../../components/_filters/filter-input/enum'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
@@ -123,6 +125,7 @@ const getSections = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
   dashboardData: DashboardDataResponse[],
   query: Record<string, string | string[]>,
+  partialDate?: PartialDate,
 ): DashboardSection[] => {
   return dashboardDefinition.sections.map((section: components['schemas']['DashboardSectionDefinition']) => {
     const { id, display: title, description } = section
@@ -141,26 +144,23 @@ const getSections = (
 
           case DashboardVisualisationType.SCORECARD:
             hasScorecard = true
-            data = new ScorecardVisualisation(dashboardData, visDefinition).build()
+            data = new ScorecardVisualisation().withDefinition(visDefinition).withData(dashboardData).build()
             break
 
           case DashboardVisualisationType.SCORECARD_GROUP:
-            data = new ScorecardVisualisation(dashboardData, visDefinition, true).build()
+            data = new ScorecardGroupVisualisation().withDefinition(visDefinition).withData(dashboardData).build()
             break
 
           case DashboardVisualisationType.BAR:
           case DashboardVisualisationType.LINE:
           case DashboardVisualisationType.DONUT: {
-            data = ChartUtils.createChart(visDefinition, dashboardData)
+            data = ChartUtils.createChart(visDefinition, dashboardData, type)
             break
           }
-          case DashboardVisualisationType.MATRIX_TIMESERIES: {
-            data = ChartUtils.createMatrixChart(visDefinition, dashboardData, query)
-            break
-          }
+          case DashboardVisualisationType.MATRIX_TIMESERIES:
           case DashboardVisualisationType.BAR_TIMESERIES:
           case DashboardVisualisationType.LINE_TIMESERIES: {
-            data = ChartUtils.createTimeseriesCharts(visDefinition, dashboardData)
+            data = ChartUtils.createTimeseriesCharts(visDefinition, dashboardData, type, query, partialDate)
             break
           }
           default:
@@ -208,6 +208,17 @@ const updateStore = async (
   return dashboardRequestData
 }
 
+const getPartialDate = (filters: FilterValue[]) => {
+  let partialDate: PartialDate | undefined
+  const granularDateRangeFilter = <GranularDateRangeFilterValue | undefined>(
+    filters.find((f) => f.type === FilterType.granularDateRange.toLowerCase())
+  )
+  if (granularDateRangeFilter) {
+    partialDate = granularDateRangeFilter.value.partialDate
+  }
+  return partialDate
+}
+
 export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { token, csrfToken, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
   const { reportId, id, tableId } = req.params
@@ -235,9 +246,10 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   )
 
   const flattenedData: DashboardDataResponse[] = dashboardData.flat()
+  const partialDate = getPartialDate(filters.filters)
 
   // Get the dashboard parts
-  const sections: DashboardSection[] = getSections(dashboardDefinition, flattenedData, query)
+  const sections: DashboardSection[] = getSections(dashboardDefinition, flattenedData, query, partialDate)
 
   // Update the store
   if (requestedReportService) {

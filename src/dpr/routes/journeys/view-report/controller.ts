@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express'
+import ErrorHandler from '../../../utils/ErrorHandler'
 import { Services } from '../../../types/Services'
 import logger from '../../../utils/logger'
 
@@ -14,12 +15,13 @@ class ViewReportController {
 
   errorHandler: RequestHandler = async (req, res, _next) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
+    const error = new ErrorHandler(req.body.error).formatError()
 
     res.render(`dpr/routes/journeys/view-report/error`, {
       layoutPath: this.layoutPath,
       ...req.body,
       ...req.params,
-      error: req.body.error,
+      error,
       params: req.params,
     })
   }

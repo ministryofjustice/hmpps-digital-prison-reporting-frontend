@@ -16,7 +16,6 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
 
   initSettings() {
     return {
-      options: this.setOptions({ scaleType: 'category' }),
       toolTipOptions: this.setToolTipOptions(),
     }
   }
@@ -42,31 +41,20 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
     }
   }
 
-  setOptions({ scaleType }) {
-    return {
-      scales: this.setScales({ scaleType }),
-    }
-  }
-
   generateChartData(settings) {
+    const { config } = this.chartParams
     const { options, plugins, pluginsOptions, toolTipOptions, hoverEvent } = settings
-    return {
+    const d = {
       type: this.type,
       data: {
         datasets: this.createDatasets(),
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: {
-          duration: 0,
-        },
-        hover: {
-          animationDuration: 0,
-        },
+        ...config,
         ...(options && options),
         ...(hoverEvent && hoverEvent),
         plugins: {
+          ...config.plugins,
           legend: {
             position: 'bottom',
             display: false,
@@ -76,13 +64,15 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
             display: false,
           },
           tooltip: {
-            ...this.setToolTip(),
+            ...config.plugins.tooltip,
             ...(toolTipOptions && toolTipOptions),
           },
         },
       },
       plugins: plugins && plugins.length ? [...plugins] : [],
     }
+
+    return d
   }
 
   createDatasets() {
@@ -99,77 +89,5 @@ export default class MatrixChartVisualisation extends ChartVisualisation {
         height: ({ chart }) => (chart.chartArea || {}).height / chart.scales.y.ticks.length - 1,
       }
     })
-  }
-
-  setScales({ scaleType }) {
-    let xTime
-    let yTime
-    let xLabels
-    let yLabels
-
-    switch (scaleType) {
-      case 'time':
-        yTime = {
-          unit: 'week',
-        }
-        xTime = {
-          unit: 'day',
-        }
-        break
-      case 'category':
-        {
-          const { datasets } = this.chartParams
-          xLabels = [
-            ...new Set(
-              datasets[0].data.map((d) => {
-                return d.x
-              }),
-            ),
-          ]
-          yLabels = [
-            ...new Set(
-              datasets[0].data.map((d) => {
-                return d.y
-              }),
-            ),
-          ]
-        }
-        break
-      default:
-        break
-    }
-
-    const grid = {
-      display: false,
-      drawBorder: false,
-    }
-    const ticks = {
-      padding: 1,
-      maxRotation: 0,
-      stepSize: 1,
-    }
-    const offset = true
-    const common = {
-      offset,
-      ticks,
-      grid,
-    }
-
-    return {
-      y: {
-        left: 'left',
-        ...(scaleType && { type: scaleType }),
-        ...(yLabels && { labels: yLabels }),
-        ...(yTime && { time: yTime }),
-        ...common,
-      },
-      x: {
-        position: 'top',
-        ...(scaleType && { type: scaleType }),
-        ...(xLabels && { labels: xLabels }),
-        ...(xTime && { time: xTime }),
-        ...common,
-      },
-    }
   }
 }

@@ -13,6 +13,11 @@ interface DprErrorData {
   data: components['schemas']['ErrorResponse']
 }
 
+interface ZodValidationError {
+  userMessage: string
+  stack: string
+}
+
 class ErrorHandler {
   error: Error | components['schemas']['ErrorResponse'] | string | undefined | unknown | DprErrorData
 
@@ -65,6 +70,17 @@ class ErrorHandler {
       this.userMessage = error.userMessage
       this.moreInfo = error.moreInfo
       this.status = error.status
+    }
+
+    // Zod error
+    else if (Object.prototype.hasOwnProperty.call(this.error, 'userMessage')) {
+      const error = <ZodValidationError>this.error
+      if (error.stack && error.stack.includes('ZodError')) {
+        const errorArr: { message: string }[] = JSON.parse(error.userMessage)
+        this.userMessage = errorArr.map((m) => m.message).join(', ')
+        this.status = 500
+        this.stack = error.stack
+      }
     }
 
     const formattedError = {

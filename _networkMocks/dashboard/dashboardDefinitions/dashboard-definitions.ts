@@ -1,6 +1,7 @@
 import { components } from 'src/dpr/types/api'
 import { testingDashboard2 } from './dashboard-definition-2-summary'
 import { testingDashboard8 } from './dashboard-definiton-1-nat-eth-relig'
+import { syncDashboard } from './dashboard-definition-sync'
 
 import { ageBreakdownReport2 } from './dashboard-definition-2'
 import { ageBreakdownReport1 } from './dashboard-definition-1'
@@ -71,6 +72,7 @@ export default {
     ageBreakdownReport1,
     ageBreakdownReport2,
     ageBreakdownReport3,
+    syncDashboard,
   ],
   visualisationExamples: [
     listExamples.fallBackKeysDashboard,

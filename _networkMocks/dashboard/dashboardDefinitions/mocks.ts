@@ -6,6 +6,7 @@ import { dataQualityDashboardBase } from './dashboard-definition-base'
 import { dataQualityDashboard1 } from './dashboard-definition'
 import { testingDashboard2 } from './dashboard-definition-2-summary'
 import { testingDashboard8 } from './dashboard-definiton-1-nat-eth-relig'
+import { syncDashboard } from './dashboard-definition-sync'
 import lists from './lists'
 import matrix from './matrix'
 import charts from './charts'
@@ -40,6 +41,10 @@ export const testingDashboard2Mock = setupSimpleMock(
 export const testingDashboard8Mock = setupSimpleMock(
   '/definitions/mock-dashboards/dashboards/test-dashboard-8',
   testingDashboard8,
+)
+export const testingSyncDashboardMock = setupSimpleMock(
+  '/definitions/mock-dashboards/dashboards/sync-dashboard',
+  syncDashboard,
 )
 export const dataQualityScoreCardsMock = setupSimpleMock(
   '/definitions/mock-dashboards/dashboards/scorecard-examples-data-quality',
@@ -168,4 +173,6 @@ export const mocks = [
   dataQualityScorecardDashboard,
   dataQualityScorecardGroupDashboard,
   dataQualityScorecardBucketDashboard,
+
+  dataQualityScoreCardsMock,
 ]

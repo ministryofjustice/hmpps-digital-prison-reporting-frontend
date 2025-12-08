@@ -110,7 +110,7 @@ export const cancelAsyncRequestMock = generateNetworkMock({
   response: {
     ...defaultMockRequest.response,
     jsonBody: {
-      status: 'FINISHED',
+      cancellationSucceeded: true,
     },
   },
 })

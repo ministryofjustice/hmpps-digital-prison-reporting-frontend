@@ -8,8 +8,8 @@ import { featureTestingMissingDescription } from '@networkMocks/report/mockVaria
 import { featureTestingMissing1 } from '@networkMocks/report/mockVariants/feature-testing/missing1'
 import { variant15 as relativeDateRange } from '@networkMocks/report/mockVariants/filter-input-examples/relativeDateRange'
 import { variant15 as relativeDateRangeWithDefaults } from '@networkMocks/report/mockVariants/filter-input-examples/relativeDateRangeWithDefaults'
-import { cancelAsyncRequestMock, getAsyncInteractiveCountMock, getAsyncReportResultMock, getAsyncReportResultMockMissingData, getReportResultCountMock, reportsAbortedStatusMock, reportsExpiredStatusMock, reportsFailedStatusMock, reportsFinishedStatusMock, reportsPickedStatusMock, reportsReadyStatusMock, reportsStartedStatusMock, reportsSubmittedStatusMock, requestAsyncReportMock, setupSimpleReportDefinitionResponseMock } from '@networkMocks/report/mocks'
-import { generateIndividualDefinitionSummaries, getDefinitionSummaries, pollingEndpoint } from '@networkMocks/mocks'
+import { cancelAsyncRequestMock, getAsyncInteractiveCountMock, getAsyncReportResultMock, getAsyncReportResultMockMissingData, getReportResultCountMock, getReportStatusMock, reportsAbortedStatusMock, reportsExpiredStatusMock, reportsFailedStatusMock, reportsFinishedStatusMock, reportsPickedStatusMock, reportsReadyStatusMock, reportsStartedStatusMock, reportsSubmittedStatusMock, requestAsyncReportMock, setupSimpleReportDefinitionResponseMock } from '@networkMocks/report/mocks'
+import { generateIndividualDefinitionSummaries, getDefinitionSummaries, getDefinitionSummariesFailure, getDefinitionSummariesUnauthenticatedFailure, getDefinitionSummariesUnauthorizedFailure, getSingleDefinitionFailure, pollingEndpoint } from '@networkMocks/mocks'
 import { generateNetworkMock, stubFor } from '@networkMocks/generateNetworkMock'
 import { missingReportSubmitFailMock, missingReportSubmitSuccessMock } from '@networkMocks/report/missingReport/mocks'
 import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/feature-testing/unprintable'
@@ -18,6 +18,7 @@ import { featureTestingSync } from '@networkMocks/report/mockVariants/feature-te
 import { getListWithWarnings, getListWithWarningsCount } from '@networkMocks/report/sync/mocks'
 import { featureTestingOrderFilters } from '@networkMocks/report/mockVariants/feature-testing/orderFilters'
 import { getProductCollection1, getProductCollection2, getProductCollections } from '@networkMocks/productCollections/mocks'
+import { failureStubs, reportingFailureStubs } from './failures'
 
 const stubs = {
   stubGetFeatureTestingMissing: () => stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingMissing1)),
@@ -136,6 +137,7 @@ const stubs = {
   stubGetProductCollections: () => stubFor(getProductCollections),
   getProductCollection1: () => stubFor(getProductCollection1),
   getProductCollection2: () => stubFor(getProductCollection2),
+  ...reportingFailureStubs,
 }
 
 export default stubs

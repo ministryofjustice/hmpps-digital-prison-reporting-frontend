@@ -79,6 +79,10 @@ export const dataQualityFullDatasetMockLists = setupSimpleMock(
   '/definitions/dashboard-visualisations/dashboards/list-examples-data-quality-dataset',
   lists.dataQualityFullDataset,
 )
+export const dataQualityFullDatasetMockListsFailure = setupSimpleMock(
+  '/definitions/dashboard-visualisations/dashboards/list-examples-data-quality-dataset',
+  lists.dataQualityFullDataset,
+)
 export const dataQualityFlexibleMockLists = setupSimpleMock(
   '/definitions/dashboard-visualisations/dashboards/list-examples-data-quality-flexible',
   lists.dataQualityFlexible,

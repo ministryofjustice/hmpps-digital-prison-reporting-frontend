@@ -4,33 +4,6 @@ const definitions = require('./reportDefinition')
 const data = require('./data')
 
 const setUpMockSyncApis = (app) => {
-  // Dynamic autocomplete endpoint
-  app.get('/dynamic-values/field5', (req, res, next) => {
-    // This delay is to simulate a real API request's delay, so we can see the message.
-    sleep(1000).then(() => {
-      new ReportingClient.default({
-        url: 'http://localhost:3010',
-        agent: {
-          timeout: 8000,
-        },
-      })
-        .getFieldValues({
-          token: 'token',
-          definitionName: 'test-report',
-          variantName: 'test-variant',
-          fieldName: 'field5',
-          prefix: req.query.prefix.toString(),
-        })
-        .then((result) => {
-          res.setHeader('Content-Type', 'application/json')
-          res.end(JSON.stringify(result))
-        })
-        .catch((err) => {
-          next(err)
-        })
-    })
-  })
-
   function sleep(ms) {
     return new Promise((resolve) => {
       setTimeout(resolve, ms)

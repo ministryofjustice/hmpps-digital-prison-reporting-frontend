@@ -39,6 +39,7 @@ describe('ChartCard Utils', () => {
     it('should get the snapshot chart data', async () => {
       const expectedResult = barChartDataHasEthnicity
       const result = ChartCardUtils.createChart(snapshotVisualisationDefinition, dashboardMetricsData.flat(), 'bar')
+      console.log(JSON.stringify(result, null, 2))
       expect(result).toEqual(expectedResult)
     })
 
@@ -51,6 +52,7 @@ describe('ChartCard Utils', () => {
     it('should create the snapshot chart data from a list', () => {
       const expectedResult = barChartFromListDataHasEthnicity
       const result = ChartCardUtils.createChart(snapshotVisualisationDefinition, dashboardMetricsData.flat(), 'bar')
+
       expect(result).toEqual(expectedResult)
     })
 
@@ -60,7 +62,10 @@ describe('ChartCard Utils', () => {
         timeseriesVisualisationDefinition,
         dashboardMetricsData.flat(),
         'line-timeseries',
+        {},
       )
+
+      console.log(JSON.stringify(result, null, 2))
       expect(result).toEqual(expectedResult)
     })
   })

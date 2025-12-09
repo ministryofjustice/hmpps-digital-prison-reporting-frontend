@@ -68,7 +68,7 @@ jobs:
       - run: npm run package
       - name: Run the node app and integration tests
         run: |
-          npm run start:dev:noMockClients &
+          npm run start:dev:noMockClients:noLogs &
           sleep 5
           npm run int-test
       - uses: actions/upload-artifact@v4

@@ -43,7 +43,7 @@ export interface CreateRequestHandlerInput {
   definitionName: string
   variantName: string
   apiUrl: string
-  apiTimeout
+  apiTimeout: number
   otherOptions?: Dict<object>
   layoutTemplate: string
   tokenProvider: (request: Request, response: Response, next: NextFunction) => string

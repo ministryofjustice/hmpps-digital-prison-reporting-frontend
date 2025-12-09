@@ -21,7 +21,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
-    - run: npm ci
+    - run: npm run setup
     - run: npm run package
     - uses: actions/upload-artifact@v4
       with:
@@ -37,7 +37,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-      - run: npm ci
+      - run: npm run setup
       - uses: actions/download-artifact@v4
         with:
           name: dpr-package
@@ -64,11 +64,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-      - run: npm ci
+      - run: npm run setup
       - run: npm run package
       - name: Run the node app and integration tests
         run: |
-          npm run start:dev:noMockClients:noLogs &
+          npm run start:dev:noMockClients &
           sleep 5
           npm run int-test
       - uses: actions/upload-artifact@v4

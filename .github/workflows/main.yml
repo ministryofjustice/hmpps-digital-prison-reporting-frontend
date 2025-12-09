@@ -44,6 +44,33 @@ jobs:
           path: dist
       - run: npm run test
 
+  test_with_app:
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+      - run: npm ci
+
+      - name: Clone app
+        run: |
+          git clone https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
+      - name: App build using this branch
+        run: cd ../app && npm ci && npm run build
+
   integration_test:
     runs-on: ubuntu-latest
     needs: build

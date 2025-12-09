@@ -1,5 +1,10 @@
 Below you can find the changes included in each release.
 
+## 4.20.0
+- Run a dashboard synchronously
+- Added unhappy path tests for failure modes
+- Integrated `@ministryofjustice/hmpps-npm-script-allowlist`
+
 ## 4.19.0
 - Dashboard visualisation definition: Support for filters rows by null value
 - Bugfix: remove sort filters when requesting a dashboard

@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.20.1
+- Fix for query params not being sent properly when using child reports
+
 ## 4.20.0
 - Run a dashboard synchronously
 - Added unhappy path tests for failure modes

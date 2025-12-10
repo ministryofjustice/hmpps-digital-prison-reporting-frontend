@@ -63,14 +63,31 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-      - run: npm ci
+      - run: npm run setup
 
       - name: Clone app
         run: |
           git clone https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
-      - name: App build using this branch
-        run: cd ../app && npm ci && npm run build
+      - name: App setup using this branch
+        run: cd ../app && npm run setup && npm run build
 
+      - name: Build lib and copy output into node_modules of mi-ui for lib
+        run: cd - && npm run package && cp -r dist/dpr ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr && cp dist/package.json ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/package.json
+      - name: Build mi-ui
+        run: cd ../app && npm run build
+      - name: mi-ui unit tests
+        run: npm run test:ci
+      - name: Get wiremock
+        run: curl -o wiremock.jar https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
+      - name: Run wiremock
+        run: java -jar wiremock.jar --port 9091 &
+      - name: Run mi-ui
+        run: npm run start-feature &
+      - name: Wait for mi-ui to start
+        run: sleep 5
+      - name: mi-ui integration tests
+        run: npm run int-test
+        
   integration_test:
     runs-on: ubuntu-latest
     needs: build

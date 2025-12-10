@@ -62,15 +62,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
+          node-version: 'lts/22.x'
       - run: npm run setup
 
-      - name: Clone app
+      - name: Clone mi-ui
         run: |
           git clone https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
-      - name: App setup using this branch
-        run: cd ../app && npm run setup && npm run build
-
+      - name: mi-ui setup using this branch
+        run: cd ../app && npm run setup
       - name: Build lib and copy output into node_modules of mi-ui for lib
         run: cd - && npm run package && cp -r dist/dpr ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr && cp dist/package.json ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/package.json
       - name: Build mi-ui

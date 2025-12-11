@@ -1,8 +1,9 @@
 /* eslint-disable no-param-reassign */
 import UserDataStore from '../../../../data/reportDataStore'
-import { RequestedReport, RequestStatus } from '../../../../types/UserReports'
+import { RequestedReport, RequestStatus, StoredReportData } from '../../../../types/UserReports'
 import ReportStoreService from '../../../../services/reportStoreService'
 import { getDpdPathSuffix } from '../../../../utils/urlHelper'
+import logger from '../../../../utils/logger'
 
 class RequestedReportService extends ReportStoreService {
   constructor(userDataStore: UserDataStore) {
@@ -78,6 +79,42 @@ class RequestedReportService extends ReportStoreService {
       userConfig.requestedReports[index] = report
       await this.saveState(userId, userConfig)
     }
+  }
+
+  /**
+   * Removes old stale data from requested reports
+   * - When a report is viewed it is given a lastViewed ts.
+   * - If the requested data has a lastViewed ts and
+   * - has no corresponding viewed entry
+   * - then that requested data is stale and can be removed
+   *
+   * @param {string} userId
+   * @param {StoredReportData[]} viewedReports
+   * @memberof RequestedReportService
+   */
+  async cleanList(userId: string, viewedReports: StoredReportData[]) {
+    const userConfig = await this.getState(userId)
+    const allRequested = userConfig.requestedReports
+    const viewedRequestedReports = allRequested.filter((requestedReport) => {
+      return requestedReport.timestamp.lastViewed !== undefined
+    })
+
+    let count = 0
+    await Promise.all(
+      viewedRequestedReports.map(async (viewedRequestReport) => {
+        const { executionId } = viewedRequestReport
+        const viewedReport = viewedReports.find((report) => {
+          const { executionId: viewedExecutionId } = report
+          return viewedExecutionId && viewedExecutionId === executionId
+        })
+
+        if (!viewedReport && executionId) {
+          await this.removeReport(executionId, userId)
+          count += count
+        }
+      }),
+    )
+    logger.info(`RequestedReports: Removed ${count} stale reports from list`)
   }
 
   setReportUrl(report: RequestedReport) {

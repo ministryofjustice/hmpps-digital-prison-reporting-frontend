@@ -44,6 +44,61 @@ jobs:
           path: dist
       - run: npm run test
 
+  test_with_app:
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+      - run: npm run setup
+
+      - name: Clone mi-ui
+        run: |
+          git clone https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
+      - name: mi-ui setup using this branch
+        run: npm run setup
+        working-directory: ${{ github.workspace }}/../app
+      - name: Build lib and copy output into node_modules of mi-ui for lib
+        working-directory: ${{ github.workspace }}
+        run: |
+          npm run package
+          cp -r dist/dpr ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr
+          cp dist/package.json ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/package.json
+      - name: Build mi-ui
+        run: npm run build
+        working-directory: ${{ github.workspace }}/../app
+      - name: mi-ui unit tests
+        run: npm run test:ci
+        working-directory: ${{ github.workspace }}/../app
+      - name: Get wiremock
+        run: curl -o wiremock.jar https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
+        working-directory: ${{ github.workspace }}/../app
+      - name: Run wiremock
+        run: java -jar wiremock.jar --port 9091 &
+        working-directory: ${{ github.workspace }}/../app
+      - name: Run mi-ui
+        run: npm run start-feature &
+        working-directory: ${{ github.workspace }}/../app
+      - name: Wait for mi-ui to start
+        run: sleep 5
+        working-directory: ${{ github.workspace }}/../app
+      - name: mi-ui integration tests
+        run: npm run int-test
+        working-directory: ${{ github.workspace }}/../app
+        
   integration_test:
     runs-on: ubuntu-latest
     needs: build

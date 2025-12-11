@@ -1,10 +1,8 @@
 import {
   BookmarkService,
-  DashboardService,
   DefaultFilterValuesService,
   DownloadPermissionService,
   RecentlyViewedStoreService,
-  ReportingService,
   RequestedReportService,
 } from '../services'
 import { ProductCollectionStoreService } from '../services/productCollection/productCollectionStoreService'

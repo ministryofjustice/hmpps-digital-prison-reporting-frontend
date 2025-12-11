@@ -75,7 +75,7 @@ export const initServices = (featureConfig?: ServiceFeatureConfig) => {
 export default function initMockClients(router: Router, featureConfig?: { bookmarking?: boolean; download?: boolean }) {
   const services = initServices(featureConfig)
 
-  router.use(setUpDprResources(services))
+  router.use(setUpDprResources(services, ''))
 
   return {
     services,

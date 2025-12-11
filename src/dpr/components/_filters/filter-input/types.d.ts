@@ -13,7 +13,7 @@ export interface GenericFilterValue {
   text: string
   name: string
   type: FilterType
-  value?: string
+  value?: string | DateRange
   options?: Array<FilterOption>
   minimumLength?: number
   dynamicResourceEndpoint?: string

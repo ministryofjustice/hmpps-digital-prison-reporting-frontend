@@ -113,7 +113,7 @@ async function requestChildReports(
     childVariants.map((childVariant) =>
       reportingService
         .requestAsyncReport(token, reportId, childVariant.id, {
-          ...(queryData && { queryData: queryData.query }),
+          ...(queryData && queryData.query),
           ...(dataProductDefinitionsPath && { dataProductDefinitionsPath }),
         })
         .then((response) => {

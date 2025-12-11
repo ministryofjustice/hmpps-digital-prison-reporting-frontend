@@ -1,3 +1,4 @@
+import RelativeDateRange from 'src/dpr/components/_inputs/date-range/types'
 import { setRedisState } from '../../../../integrationTests/redisStateTestUtils'
 
 context('Inputs: Relative date range', () => {
@@ -269,7 +270,7 @@ context('Inputs: Relative date range', () => {
             values: [
               {
                 name: 'field1',
-                value: { start: '', end: '', relative: 'yesterday' },
+                value: { start: '', end: '', relative: RelativeDateRange.YESTERDAY },
               },
             ],
           },
@@ -313,7 +314,7 @@ context('Inputs: Relative date range', () => {
             values: [
               {
                 name: 'field1',
-                value: { start: '', end: '', relative: 'yesterday' },
+                value: { start: '', end: '', relative: RelativeDateRange.YESTERDAY },
               },
             ],
           },
@@ -361,7 +362,7 @@ context('Inputs: Relative date range', () => {
             values: [
               {
                 name: 'field1',
-                value: { start: '', end: '', relative: 'yesterday' },
+                value: { start: '', end: '', relative: RelativeDateRange.YESTERDAY },
               },
             ],
           },

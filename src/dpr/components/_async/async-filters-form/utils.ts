@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Request } from 'express'
 import { Dayjs } from 'dayjs'
-import Dict = NodeJS.Dict
 import type { SetQueryFromFiltersResult } from './types'
 import type { components } from '../../../types/api'
 
@@ -46,9 +45,9 @@ export const getSortByFromDefinition = (
 export const setDurationStartAndEnd = (
   name: string,
   value: string,
-  query: Dict<string>,
-  filterData: Dict<string>,
-  querySummary: Array<Dict<string>>,
+  query: Record<string, string>,
+  filterData: Record<string, string>,
+  querySummary: Array<Record<string, string>>,
   fields: components['schemas']['FieldDefinition'][],
 ) => {
   const { startDate, endDate } = DateRangeInputUtils.calcDates(value)
@@ -60,10 +59,10 @@ export const setDurationStartAndEnd = (
     return f.name === fieldId
   })
 
-  query[`filters.${fieldId}.start` as keyof Dict<string>] = startDateDisplayString
-  query[`filters.${fieldId}.end` as keyof Dict<string>] = endDateDisplayString
+  query[`filters.${fieldId}.start`] = startDateDisplayString
+  query[`filters.${fieldId}.end`] = endDateDisplayString
 
-  filterData[name as keyof Dict<string>] = value
+  filterData[name] = value
 
   let queryValue = `${value.charAt(0).toUpperCase() + value.slice(1).replaceAll('-', ' ')}`
   queryValue = `${queryValue} (${startDateDisplayString} - ${endDateDisplayString})`
@@ -96,10 +95,10 @@ export const setQueryFromFilters = (
   req: Request,
   fields: components['schemas']['FieldDefinition'][],
 ): SetQueryFromFiltersResult => {
-  let query: Dict<string> = {}
-  let filterData: Dict<string> = {}
-  let querySummary: Array<Dict<string>> = []
-  const sortData: Dict<string> = {}
+  let query: Record<string, string> = {}
+  let filterData: Record<string, string> = {}
+  let querySummary: Array<Record<string, string>> = []
+  const sortData: Record<string, string> = {}
   const dateMapper = new DateMapper()
   const urlParams = new URLSearchParams(req.body.search)
 
@@ -124,16 +123,18 @@ export const setQueryFromFilters = (
           urlParamValue = !urlParamValue || urlParamValue.length === 0 ? value : urlParamValue
           urlParamValue = urlParamValue.length === 1 ? `${urlParamValue[0]}` : `${urlParamValue}`
 
-          query[name as keyof Dict<string>] = urlParamValue
-          filterData[shortName as keyof Dict<string>] = urlParamValue
+          query[name] = urlParamValue
+          filterData[shortName] = urlParamValue
 
           let dateDisplayValue
           if (dateMapper.isDate(value)) {
             dateDisplayValue = dateMapper.toDateString(value, 'local-date')
 
             const isoFormatDate = dateMapper.toDateString(value, 'iso')
-            query[name as keyof Dict<string>] = isoFormatDate
-            filterData[shortName as keyof Dict<string>] = isoFormatDate
+            if (isoFormatDate) {
+              query[name] = isoFormatDate
+              filterData[shortName] = isoFormatDate
+            }
           }
 
           const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
@@ -143,8 +144,8 @@ export const setQueryFromFilters = (
           })
         }
       } else if (name.startsWith('sort')) {
-        query[name as keyof Dict<string>] = value
-        sortData[name as keyof Dict<string>] = value
+        query[name] = value
+        sortData[name] = value
 
         const fieldDef = DefinitionUtils.getField(fields, value)
 

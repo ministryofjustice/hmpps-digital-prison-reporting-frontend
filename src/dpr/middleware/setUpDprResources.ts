@@ -40,6 +40,8 @@ export const errorRequestHandler =
 
 export const setupResources = (services: Services, layoutPath: string, config?: DprConfig): RequestHandler => {
   return async (req, res, next) => {
+    console.log('------------>', req.url)
+
     populateValidationErrors(req, res)
     try {
       await populateDefinitions(services, req, res, config)
@@ -106,14 +108,16 @@ export const populateRequestedReports = async (services: Services, res: Response
   if (dprUser.id) {
     const { definitions, definitionsPath } = res.locals
 
+    const recent = await services.recentlyViewedService.getAllReports(dprUser.id)
+    await services.requestedReportService.cleanList(dprUser.id, recent)
     const requested = await services.requestedReportService.getAllReports(dprUser.id)
+
     res.locals['requestedReports'] = !definitionsPath
       ? requested
       : requested.filter((report: RequestedReport) => {
           return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
         })
 
-    const recent = await services.recentlyViewedService.getAllReports(dprUser.id)
     res.locals['recentlyViewedReports'] = !definitionsPath
       ? recent
       : recent.filter((report: StoredReportData) => {

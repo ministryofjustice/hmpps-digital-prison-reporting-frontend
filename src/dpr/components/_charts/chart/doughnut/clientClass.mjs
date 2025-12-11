@@ -16,27 +16,11 @@ class DoughnutChartVisualisation extends ChartVisualisation {
   initSettings() {
     return {
       options: this.setOptions(),
-      styling: this.setDatasetStyling(),
       datalabels: this.setDataLabels(),
       pluginsOptions: this.setPluginsOptions(),
       toolTipOptions: this.setToolTipOptions(),
       plugins: this.setPlugins(),
     }
-  }
-
-  setDatasetStyling() {
-    const pallette = this.getColourPallette()
-    const backgroundColor = pallette.map((p) => p.hex)
-    return [
-      {
-        backgroundColor: [...backgroundColor, ...backgroundColor],
-        hoverOffset: 4,
-        datalabels: {
-          anchor: 'center',
-          borderWidth: 0,
-        },
-      },
-    ]
   }
 
   setOptions() {
@@ -98,35 +82,6 @@ class DoughnutChartVisualisation extends ChartVisualisation {
 
         ctx.fillText(title, titleX, titleY)
         ctx.save()
-      },
-    }
-  }
-
-  setLegend() {
-    const classContext = this
-    const { legend, suffix } = this
-    return {
-      id: 'legend',
-      beforeInit(chart) {
-        const ul = document.createElement('ul')
-        const { labels } = chart.data
-        const { backgroundColor, data } = chart.data.datasets[0]
-
-        labels.forEach((label, i) => {
-          const colourIndex = i % backgroundColor.length
-          const colour = backgroundColor[colourIndex]
-          const colourName = classContext.mapHexColourToName(colour, classContext)
-          const value = chart.data.datasets.length === 1 ? `${data[i]}${suffix}` : ''
-
-          ul.innerHTML += `
-              <li aria-label="${label} ${value}">
-                <span class="chart-colour__${colourName}">${value}</span>
-                ${label}
-              </li>
-            `
-        })
-        legend.appendChild(ul)
-        return legend.appendChild(ul)
       },
     }
   }

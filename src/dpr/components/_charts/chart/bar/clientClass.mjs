@@ -16,49 +16,8 @@ class BarChartVisualisation extends ChartVisualisation {
 
   initSettings() {
     return {
-      options: this.setOptions(),
       toolTipOptions: this.setToolTipOptions(),
       datalabels: this.setDataLabels(),
-      styling: this.setDatasetStyling(),
-    }
-  }
-
-  setDatasetStyling() {
-    const pallette = this.getColourPallette()
-    return pallette.map((colour) => {
-      return {
-        borderColor: colour.hex,
-        ...this.setBackgroundColour(colour.hex),
-        datalabels: {
-          align: 'center',
-          anchor: 'center',
-        },
-      }
-    })
-  }
-
-  setBackgroundColour(colour) {
-    const lastIndex = this.chartParams.labels.length - 1
-    const backgroundColors = []
-    const borderWidths = []
-    const borderColors = []
-
-    this.chartParams.labels.forEach((label, i) => {
-      if ((this.partialEnd && i === lastIndex) || (this.partialStart && i === 0)) {
-        backgroundColors.push(colour)
-        borderWidths.push(3)
-        borderColors.push('#b1b4b6')
-      } else {
-        backgroundColors.push(colour)
-        borderWidths.push(0)
-        borderColors.push(colour)
-      }
-    })
-
-    return {
-      backgroundColor: backgroundColors,
-      borderWidth: borderWidths,
-      borderColor: borderColors,
     }
   }
 
@@ -80,23 +39,6 @@ class BarChartVisualisation extends ChartVisualisation {
           return value
         },
       },
-    }
-  }
-
-  setOptions() {
-    const { indexAxis, stacked } = this.chartParams
-    return {
-      indexAxis: indexAxis || 'x',
-      ...(stacked && {
-        scales: {
-          x: {
-            stacked: true,
-          },
-          y: {
-            stacked: true,
-          },
-        },
-      }),
     }
   }
 

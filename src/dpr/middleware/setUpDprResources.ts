@@ -40,7 +40,12 @@ export const errorRequestHandler =
     return next()
   }
 
-export const setupResources = (services: Services, layoutPath: string, env: Environment, config?: DprConfig): RequestHandler => {
+export const setupResources = (
+  services: Services,
+  layoutPath: string,
+  env: Environment,
+  config?: DprConfig,
+): RequestHandler => {
   return async (req, res, next) => {
     populateValidationErrors(req, res)
     try {

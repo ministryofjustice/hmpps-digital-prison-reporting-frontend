@@ -71,7 +71,11 @@ jobs:
       - name: mi-ui setup using this branch
         run: cd ../app && npm run setup
       - name: Build lib and copy output into node_modules of mi-ui for lib
-        run: cd $lib_cwd && npm run package && cp -r dist/dpr ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr && cp dist/package.json ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/package.json
+        run: |
+          cd $lib_cwd
+          npm run package
+          cp -r dist/dpr ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr
+          cp dist/package.json ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/package.json
       - name: Build mi-ui
         run: cd ../app && npm run build
       - name: mi-ui unit tests

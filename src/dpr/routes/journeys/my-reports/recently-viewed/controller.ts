@@ -13,6 +13,7 @@ class RecentlyViewedReportsController {
     const { dprUser } = LocalsHelper.getValues(res)
     const { id } = req.params
     await this.services.recentlyViewedService.removeReport(id, dprUser.id)
+    await this.services.requestedReportService.removeReport(id, dprUser.id)
     res.end()
   }
 }

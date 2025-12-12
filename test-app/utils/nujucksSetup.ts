@@ -4,7 +4,7 @@ import nunjucks from 'nunjucks'
 import fs from 'fs'
 import setUpNunjucksFilters from '../../dist/dpr/setUpNunjucksFilters'
 
-export default function nunjucksSetup(app: express.Express, path: pathModule.PlatformPath): void {
+export default function nunjucksSetup(app: express.Express, path: pathModule.PlatformPath): nunjucks.Environment {
   app.set('view engine', 'njk')
 
   let assetManifest: Record<string, string> = {}
@@ -38,4 +38,5 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
 
   // Add library filters
   setUpNunjucksFilters(nunjucksEnvironment)
+  return nunjucksEnvironment
 }

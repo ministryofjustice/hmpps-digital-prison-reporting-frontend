@@ -27,6 +27,8 @@ const stubs = {
   stubSyncDashboardRequestDataSuccess: () => stubFor(requestSyncDashboardMock),
   stubDataQualityDashboardsResultMock: () => stubFor(dataQualityDashboardsResultMock),
   ...dashboardFailureStubs,
-}
+} as const
+
+export type DashboardStubsKeys = keyof typeof stubs
 
 export default stubs

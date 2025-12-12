@@ -12,10 +12,9 @@ describe('Request a report', () => {
   let field7: Cypress.Chainable<JQuery<HTMLElement>>
 
   const clearSelectedFilters = () => {
-    for (let index = 0; index < 5; index += 1) {
-      const selectedFilter = cy.get('#dpr-selected-filters > a:nth-child(1)')
-      selectedFilter.click(1, 1)
-    }
+    Array.from(Array(5).keys()).forEach(() =>
+      cy.findByLabelText(/Selected filters/).within(() => cy.findAllByRole('link').first().click(1, 1)),
+    )
   }
 
   const updateFilterValues = () => {

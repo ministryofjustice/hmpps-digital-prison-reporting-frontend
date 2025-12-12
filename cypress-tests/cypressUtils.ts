@@ -69,6 +69,7 @@ export const executeDashboardStubs = () => {
 }
 
 export const stubDefinitionsTasks = () => {
+  cy.task('stubFeatureFlags')
   cy.task('stubDefinitions')
   cy.task('stubSingleSummaries')
   cy.task('stubGetProductCollections')
@@ -79,6 +80,7 @@ export const stubDefinitionsTasks = () => {
 export const stubBaseTasks = () => {
   cy.task('resetStubs')
   cy.task('resetRedis')
+  cy.task('stubFeatureFlags')
 }
 
 export const stubBookmarks = () => {

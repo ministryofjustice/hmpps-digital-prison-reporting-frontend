@@ -40,8 +40,6 @@ export const errorRequestHandler =
 
 export const setupResources = (services: Services, layoutPath: string, config?: DprConfig): RequestHandler => {
   return async (req, res, next) => {
-    console.log('------------>', req.url)
-
     populateValidationErrors(req, res)
     try {
       await populateDefinitions(services, req, res, config)

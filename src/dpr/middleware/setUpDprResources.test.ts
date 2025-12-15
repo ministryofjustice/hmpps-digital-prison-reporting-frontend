@@ -31,6 +31,7 @@ describe('setUpDprResources', () => {
     beforeEach(() => {
       requestedReportService = {
         getAllReports: jest.fn().mockReturnValueOnce([]),
+        cleanList: jest.fn(),
       } as unknown as RequestedReportService
 
       recentlyViewedService = {

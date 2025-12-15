@@ -107,14 +107,13 @@ class RequestedReportService extends ReportStoreService {
           const { executionId: viewedExecutionId } = report
           return viewedExecutionId && viewedExecutionId === executionId
         })
-
         if (!viewedReport && executionId) {
           await this.removeReport(executionId, userId)
-          count += count
+          count += 1
         }
       }),
     )
-    logger.info(`RequestedReports: Removed ${count} stale reports from list`)
+    if (count > 0) logger.info(`RequestedReports: Removed ${count} stale reports from list`)
   }
 
   setReportUrl(report: RequestedReport) {

@@ -106,8 +106,11 @@ export const populateRequestedReports = async (services: Services, res: Response
   if (dprUser.id) {
     const { definitions, definitionsPath } = res.locals
 
+    console.log('ONE')
     const recent = await services.recentlyViewedService.getAllReports(dprUser.id)
+    console.log('TWO')
     await services.requestedReportService.cleanList(dprUser.id, recent)
+    console.log('THREE')
     const requested = await services.requestedReportService.getAllReports(dprUser.id)
 
     res.locals['requestedReports'] = !definitionsPath

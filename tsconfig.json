@@ -6,7 +6,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "noEmit": true,
     "allowJs": true,
     "checkJs": true,

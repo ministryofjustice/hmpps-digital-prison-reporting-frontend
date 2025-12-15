@@ -1,5 +1,5 @@
-import { components } from 'src/dpr/types/api'
-import { LoadType } from 'src/dpr/types/UserReports'
+import { LoadType } from '../src/dpr/types/UserReports'
+import { components } from '../src/dpr/types/api'
 import dashboardDefinitions from './dashboard/dashboardDefinitions/dashboard-definitions'
 import { requestExampleVariants } from './report/mockVariants/request-examples'
 import { reportTemplates } from './report/mockVariants/report-templates'
@@ -25,13 +25,15 @@ export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
     id: 'report-template-examples',
     name: 'Report templates',
     description: 'Example variants used for template testing',
-    variants: reportTemplates.map(({ id, name, description, loadType }) => ({
-      id,
-      name,
-      description: description || '',
-      isMissing: false,
-      ...(loadType && { loadType }),
-    })),
+    variants: <components['schemas']['VariantDefinitionSummary'][]>reportTemplates.map(
+      ({ id, name, description, loadType }) => ({
+        id,
+        name,
+        description: description || '',
+        isMissing: false,
+        ...(loadType && { loadType }),
+      }),
+    ),
     dashboards: [],
     authorised: true,
   },
@@ -88,7 +90,7 @@ export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
     name: 'Mock dashboards',
     description: 'Example variants used for dashboard testing',
     variants: [],
-    dashboards: dashboardDefinitions.mockDashboards,
+    dashboards: <components['schemas']['DashboardDefinitionSummary'][]>dashboardDefinitions.mockDashboards,
     authorised: true,
   },
 ]

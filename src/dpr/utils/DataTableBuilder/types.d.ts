@@ -11,7 +11,7 @@ export interface Cell {
 }
 
 export interface DataTable {
-  head: Array<Header> | null
+  head: Array<Cell> | null
   rows: Array<Array<Cell>>
   rowCount: number
   colCount: number
@@ -29,6 +29,6 @@ export interface FieldDefinition {
   visible?: boolean
 }
 
-export interface SortKey extends Dict<string> {
+export interface SortKey {
   sortKey: string
 }

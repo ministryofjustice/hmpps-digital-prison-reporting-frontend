@@ -478,213 +478,27 @@ const requestedSubmitted = {
 }
 
 const requestedReadyViewed = {
-  dataProductDefinitionsPath: '',
-  type: 'report',
-  reportId: 'request-examples-viewed-1',
-  reportName: 'Request examples',
-  description: 'this will succeed',
-  id: 'request-example-success-viewed-1',
-  name: 'Successful report',
+  ...requestedReady,
+  reportId: 'request-examples-viewed',
+  id: 'request-example-success-viewed',
+  executionId: 'exId_2382342488',
+  tableId: 'tblId_172453527824',
   timestamp: {
-    requested: '2024-10-24T10:27:09.173Z',
-    completed: '2024-10-24T10:27:15.448Z',
+    ...requestedReadyViewed.timestamp,
     lastViewed: '2024-10-24T10:27:15.448Z',
   },
-  executionId: 'exId_2389257925',
-  tableId: 'tblId_1729765628165',
-  filters: {
-    data: {
-      field1: 'value1.3',
-      field2: 'value2.3',
-      'field3.start': '2003-02-01',
-      'field3.end': '2006-05-04',
-      field6: 'Value 6.1',
-      field7: '2005-02-01',
-    },
-    queryString:
-      'field1=value1.3&field2=value2.3&field3.start=2003-02-01&field3.end=2006-05-04&field6=Value+6.1&field7=2005-02-01',
-  },
-  sortBy: {
-    data: {
-      sortColumn: 'field1',
-      sortedAsc: 'true',
-    },
-    queryString: 'sortColumn=field1&sortedAsc=true',
-  },
-  url: {
-    origin: 'http://localhost:3010',
-    request: {
-      fullUrl:
-        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
-      pathname: '/embedded/platform/async/report/request-examples/request-example-success/request',
-      search:
-        '?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
-    },
-    polling: {
-      fullUrl:
-        'http://localhost:3010/embedded/platform/dpr/request-report/report/request-examples/request-example-success/exId_238947923/status',
-      pathname:
-        '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/exId_238947923/status',
-    },
-    report: {
-      pathname:
-        '/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1729765628165/report',
-      fullUrl:
-        'http://localhost:3010/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1729765628165/report',
-    },
-  },
-  query: {
-    data: {
-      'filters.field1': 'value1.3',
-      'filters.field2': 'value2.3',
-      'filters.field3.start': '2003-02-01',
-      'filters.field3.end': '2006-05-04',
-      'filters.field6': 'Value 6.1',
-      'filters.field7': '2005-02-01',
-      sortColumn: 'field1',
-      sortedAsc: 'true',
-    },
-    summary: [
-      {
-        name: 'Field 1',
-        value: 'value1.3',
-      },
-      {
-        name: 'Field 2',
-        value: 'value2.3',
-      },
-      {
-        name: 'Field 3 start',
-        value: '01/02/2003',
-      },
-      {
-        name: 'Field 3 end',
-        value: '04/05/2006',
-      },
-      {
-        name: 'Field 6',
-        value: 'Value 6.1',
-      },
-      {
-        name: 'Field 7',
-        value: '01/02/2005',
-      },
-      {
-        name: 'Sort Column',
-        value: 'Field 1',
-      },
-      {
-        name: 'Sort Direction',
-        value: 'Ascending',
-      },
-    ],
-  },
-  status: 'FINISHED',
 }
 
 const requestedReadyViewed2 = {
-  dataProductDefinitionsPath: '',
-  type: 'report',
+  ...requestedReady,
   reportId: 'request-examples-viewed-2',
-  reportName: 'Request examples',
-  description: 'this will succeed',
   id: 'request-example-success-viewed-2',
-  name: 'Successful report',
+  executionId: 'exId_2382342481',
+  tableId: 'tblId_172453527821',
   timestamp: {
-    requested: '2024-10-24T10:27:09.173Z',
-    completed: '2024-10-24T10:27:15.448Z',
+    ...requestedReadyViewed.timestamp,
     lastViewed: '2024-10-24T10:27:15.448Z',
   },
-  executionId: 'exId_238925423',
-  tableId: 'tblId_1729765628165',
-  filters: {
-    data: {
-      field1: 'value1.3',
-      field2: 'value2.3',
-      'field3.start': '2003-02-01',
-      'field3.end': '2006-05-04',
-      field6: 'Value 6.1',
-      field7: '2005-02-01',
-    },
-    queryString:
-      'field1=value1.3&field2=value2.3&field3.start=2003-02-01&field3.end=2006-05-04&field6=Value+6.1&field7=2005-02-01',
-  },
-  sortBy: {
-    data: {
-      sortColumn: 'field1',
-      sortedAsc: 'true',
-    },
-    queryString: 'sortColumn=field1&sortedAsc=true',
-  },
-  url: {
-    origin: 'http://localhost:3010',
-    request: {
-      fullUrl:
-        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
-      pathname: '/embedded/platform/async/report/request-examples/request-example-success/request',
-      search:
-        '?filters.field1=value1.3&filters.field2=value2.3&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=2005-02-01&sortColumn=field1&sortedAsc=true&filters.field6=Value+6.1',
-    },
-    polling: {
-      fullUrl:
-        'http://localhost:3010/embedded/platform/dpr/request-report/report/request-examples/request-example-success/exId_238947923/status',
-      pathname:
-        '/embedded/platform/dpr/request-report/report/request-examples/request-example-success/exId_238947923/status',
-    },
-    report: {
-      pathname:
-        '/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1729765628165/report',
-      fullUrl:
-        'http://localhost:3010/embedded/platform/dpr/view-report/async/report/request-examples/request-example-success/tblId_1729765628165/report',
-    },
-  },
-  query: {
-    data: {
-      'filters.field1': 'value1.3',
-      'filters.field2': 'value2.3',
-      'filters.field3.start': '2003-02-01',
-      'filters.field3.end': '2006-05-04',
-      'filters.field6': 'Value 6.1',
-      'filters.field7': '2005-02-01',
-      sortColumn: 'field1',
-      sortedAsc: 'true',
-    },
-    summary: [
-      {
-        name: 'Field 1',
-        value: 'value1.3',
-      },
-      {
-        name: 'Field 2',
-        value: 'value2.3',
-      },
-      {
-        name: 'Field 3 start',
-        value: '01/02/2003',
-      },
-      {
-        name: 'Field 3 end',
-        value: '04/05/2006',
-      },
-      {
-        name: 'Field 6',
-        value: 'Value 6.1',
-      },
-      {
-        name: 'Field 7',
-        value: '01/02/2005',
-      },
-      {
-        name: 'Sort Column',
-        value: 'Field 1',
-      },
-      {
-        name: 'Sort Direction',
-        value: 'Ascending',
-      },
-    ],
-  },
-  status: 'FINISHED',
 }
 
 module.exports = {

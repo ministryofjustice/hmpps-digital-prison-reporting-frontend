@@ -5,16 +5,17 @@ const mockRequestedDashboards = require('./mockRequestedDashboardData')
 
 export const startData = {
   requestedReports: [
+    mockRequested.requestedSubmitted,
     mockRequested.requestedReady,
     mockRequested.requestedExpired,
     mockRequested.requestedFailed,
     mockRequested.requestedAborted,
-    // Dashboards
+    // // Dashboards
     mockRequestedDashboards.readyDashboard,
     mockRequestedDashboards.failedDashboard,
     mockRequestedDashboards.expiredDashboard,
     mockRequestedDashboards.abortedDashboard,
-    // Viewed must be present in the request list also
+    // // Viewed must be present in the request list also
     mockViewed.viewedReady,
     mockViewed.viewedDashboard,
     mockViewed.viewedInteractive,

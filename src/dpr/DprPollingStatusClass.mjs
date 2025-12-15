@@ -28,13 +28,13 @@ class DprPollingStatusClass extends DprClientClass {
   }
 
   shouldPollStatus(data) {
-    return JSON.parse(data).some((item) => {
+    return data.some((item) => {
       return !this.END_STATUSES.includes(item.status)
     })
   }
 
   shouldPollExpired(data) {
-    return JSON.parse(data).some((item) => {
+    return data.some((item) => {
       return !this.EXPIRED_END_STATUSES.includes(item.status)
     })
   }

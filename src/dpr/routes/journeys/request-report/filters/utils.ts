@@ -296,7 +296,7 @@ export const request = async ({ req, res, services }: AsyncReportUtilsParams) =>
     reportingService: services.reportingService,
   })
 
-  if (executionData) {
+  if (executionData.executionId && executionData.tableId) {
     await updateStore({
       req,
       res,
@@ -305,6 +305,8 @@ export const request = async ({ req, res, services }: AsyncReportUtilsParams) =>
       executionData,
       childExecutionData,
     })
+  } else {
+    throw new Error('No execution data returned')
   }
 
   return executionData

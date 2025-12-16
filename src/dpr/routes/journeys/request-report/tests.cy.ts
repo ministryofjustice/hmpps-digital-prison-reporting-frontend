@@ -1,4 +1,4 @@
-import { executeReportStubs } from '../../../../../cypress-tests/cypressUtils'
+import { executeReportStubs, requestReportByNameAndDescription } from '../../../../../cypress-tests/cypressUtils'
 
 context('Requesting a report', () => {
   const path = '/embedded/platform/'
@@ -355,4 +355,19 @@ context('Requesting a report', () => {
       })
     })
   })
+
+  // describe('Exceution failed', () => {
+  //   beforeEach(() => {
+  //     executeReportStubs()
+  //     cy.visit(path)
+  //   })
+
+  //   it('should error when execution data is incorrect', () => {
+  //     requestReportByNameAndDescription({ name: 'Execution data error', description: 'This will return an error' })
+
+  //     cy.findByRole('heading', { name: /Sorry, there is a problem with authenticating your request/ }).should(
+  //       'be.visible',
+  //     )
+  //   })
+  // })
 })

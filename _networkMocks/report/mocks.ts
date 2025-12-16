@@ -34,6 +34,11 @@ export const requestAsyncReportMock = setupSimpleMock(`/async/reports/[a-zA-Z0-9
   tableId: 'tblId_1729765628165',
 })
 
+export const requestAsyncReportBadDataMock = setupSimpleMock(
+  `/async/reports/request-examples/request-example-execution-data-error`,
+  {},
+)
+
 export const getAsyncReportResultMock = setupSimpleMock(
   `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/result`,
   createMockData(10),
@@ -135,6 +140,7 @@ export const mocks = [
   getAsyncReportResultMock,
   getReportResultCountMock,
   getAsyncInteractiveCountMock,
+  requestAsyncReportBadDataMock,
   ...requestExampleVariantMocks,
   ...reportTempleVariantMocks,
   ...mockReportVariantMocks,

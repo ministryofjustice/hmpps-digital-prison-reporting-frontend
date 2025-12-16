@@ -25,17 +25,7 @@ export const checkSelectedFilterValues = ({
   })
 }
 
-export const requestReport = async ({
-  name,
-  description,
-  path,
-}: {
-  name: string
-  description: string
-  path: string
-}) => {
-  cy.visit(path)
-  checkA11y()
+export const requestReportByNameAndDescription = ({ name, description }: { name: string; description: string }) => {
   cy.findByLabelText(/Reports catalogue.*/i).within(() => {
     cy.findByRole('row', {
       name: (_, element) => {
@@ -47,6 +37,20 @@ export const requestReport = async ({
   })
   checkA11y()
   cy.findByRole('button', { name: /Request/ }).click()
+}
+
+export const requestReport = async ({
+  name,
+  description,
+  path,
+}: {
+  name: string
+  description: string
+  path: string
+}) => {
+  cy.visit(path)
+  checkA11y()
+  requestReportByNameAndDescription({ name, description })
   checkA11y()
   const regexName = new RegExp(`${name}`)
   cy.findByRole('heading', { level: 1, name: regexName }).should('be.visible')
@@ -57,6 +61,7 @@ export const executeReportStubs = () => {
   stubDefinitionsTasks()
   cy.task('stubReportsFinishedStatus')
   cy.task('stubViewAsyncReportingResults')
+  // cy.task('stubViewAsyncReportingResultsBadData')
   cy.task('stubRequestSuccessReportTablesCount')
   cy.task('stubAsyncRequestSuccessReportTablesCount')
 }

@@ -27,6 +27,9 @@ Use this visualisation type when you need to display data as a bar chart.
   type: 'bar',
   display: 'bar title',
   description: 'bar visualisation description',
+  option: {
+    ...
+  }
   column: {
     ...
   }
@@ -35,6 +38,22 @@ Use this visualisation type when you need to display data as a bar chart.
 See the [Visualisation definition](/dashboards/visualisations/visualisation-definition) docs for the definition schema
 
 See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for and how to target data with the `column`
+
+### Options: 
+
+```js
+option: {
+  horizontal: boolean
+  xStacked: boolean
+  yStacket: boolean
+}
+```
+
+| Name            | Type    | Required | Description                                                    |
+| ----------------| ------- | -------- | ---------------------------------------------------------------|
+| `horizontal`    | boolean | No       | Defines whether the bar chart should be rendered horizontally. |
+| `xStacked`      | boolean | No       | Defines whether the bars should be stacked on the x axis.      |
+| `yStacked`      | boolean | No       | Defines whether the bars should be stacked on the y axis.      |
 
 <hr class='dpr-docs-hr'/>
 

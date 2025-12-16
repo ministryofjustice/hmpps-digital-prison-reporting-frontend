@@ -1,5 +1,11 @@
 Below you can find the changes included in each release.
 
+## 4.21.0
+- Dashboard visualisations: Horizontal bar chart support
+
+## 4.20.2
+- Bug Fix: Parent child report: child report page size issue fixed. 
+
 ## 4.20.1
 - Fix for query params not being sent properly when using child reports
 

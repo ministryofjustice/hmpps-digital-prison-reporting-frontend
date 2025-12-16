@@ -11,6 +11,7 @@ import DatasetHelper from '../../../../utils/datasetHelper'
 import Chart from '../Chart'
 import BarChartSchemas from './validate'
 import { BarDefinitionMeasure, BarDefinitionOptions, BarDefinitionType } from './types'
+import { ChartColours } from '../ChartColours'
 
 class BarChart extends Chart {
   private definition!: BarDefinitionType
@@ -152,7 +153,8 @@ class BarChart extends Chart {
   }
 
   private createListDatasets = () => {
-    this.datasets = this.groupsData.map((groupData) => {
+    this.hexColours = new ChartColours().getHexPallette()
+    this.datasets = this.groupsData.map((groupData, groupIndex) => {
       const data = Array(this.labels.length)
       groupData.forEach((row) => {
         // Validation will ensure these columns exist
@@ -182,6 +184,7 @@ class BarChart extends Chart {
         label,
         data,
         total: data.reduce((acc: number, val: number) => acc + val, 0),
+        ...this.setStyles(groupIndex),
       }
     })
   }

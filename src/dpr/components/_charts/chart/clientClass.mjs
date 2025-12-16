@@ -36,16 +36,15 @@ class ChartVisualisation extends DprClientClass {
   }
 
   initChart() {
-    Chart.defaults.font.family = 'GDS Transport'
-    Chart.defaults.font.size = 12
-    Chart.register(ChartDataLabels)
-    Chart.register(MatrixController, MatrixElement)
-    this.chart = new Chart(this.chartContext, this.chartData)
-
-    // Font loading fix
-    setTimeout(() => {
-      Chart.update()
-    }, 300)
+    // Prevent font loading issue
+    window.addEventListener('load', () => {
+      // An example of creating a chart, replace with your code:
+      Chart.defaults.font.family = 'GDS Transport'
+      Chart.defaults.font.size = 12
+      Chart.register(ChartDataLabels)
+      Chart.register(MatrixController, MatrixElement)
+      this.chart = new Chart(this.chartContext, this.chartData)
+    })
 
     this.initChartEvents()
   }

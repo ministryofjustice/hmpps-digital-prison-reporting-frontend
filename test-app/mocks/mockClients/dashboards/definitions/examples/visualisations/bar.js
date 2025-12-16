@@ -119,7 +119,7 @@ const dataQualityAllBar = {
 const dataQualityListBar = {
   id: 'bar-data-quality-list',
   type: 'bar',
-  display: 'All metrics',
+  display: 'Has nationality by establishment',
   columns: {
     keys: [],
     measures: [

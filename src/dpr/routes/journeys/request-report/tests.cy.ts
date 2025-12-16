@@ -356,18 +356,24 @@ context('Requesting a report', () => {
     })
   })
 
-  // describe('Exceution failed', () => {
-  //   beforeEach(() => {
-  //     executeReportStubs()
-  //     cy.visit(path)
-  //   })
+  describe('Exceution failed', () => {
+    beforeEach(() => {
+      executeReportStubs()
+      cy.visit(path)
+    })
 
-  //   it('should error when execution data is incorrect', () => {
-  //     requestReportByNameAndDescription({ name: 'Execution data error', description: 'This will return an error' })
+    it('should error when execution data is incorrect', () => {
+      requestReportByNameAndDescription({ name: 'Execution data error', description: 'This will return an error' })
 
-  //     cy.findByRole('heading', { name: /Sorry, there is a problem with authenticating your request/ }).should(
-  //       'be.visible',
-  //     )
-  //   })
-  // })
+      cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
+
+      cy.visit(path)
+      cy.findByRole('tab', { name: /Requested/ }).click()
+      cy.findByLabelText(/Requested.*/i).within(() => {
+        cy.findAllByRole('paragraph')
+          .contains(/You have 0 requested reports/)
+          .should('be.visible')
+      })
+    })
+  })
 })

@@ -61,7 +61,7 @@ export const executeReportStubs = () => {
   stubDefinitionsTasks()
   cy.task('stubReportsFinishedStatus')
   cy.task('stubViewAsyncReportingResults')
-  // cy.task('stubViewAsyncReportingResultsBadData')
+  cy.task('stubViewAsyncReportingResultsBadData')
   cy.task('stubRequestSuccessReportTablesCount')
   cy.task('stubAsyncRequestSuccessReportTablesCount')
 }

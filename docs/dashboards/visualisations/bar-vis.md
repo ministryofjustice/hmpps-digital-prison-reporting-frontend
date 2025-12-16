@@ -45,7 +45,7 @@ See the [Targeting data](/dashboards/visualisations/visualisation-dataset) for a
 option: {
   horizontal: boolean
   xStacked: boolean
-  yStacket: boolean
+  yStacked: boolean
 }
 ```
 

@@ -8,15 +8,18 @@ const BarMeasureShema = z.object({
   axis: z.enum(['x', 'y']).optional(),
 })
 
-const BarOptions = z.object({
+const BarOptionsSchema = z.object({
   showLatest: z.boolean().default(true),
+  horizontal: z.boolean().default(false),
+  xStacked: z.boolean().default(false),
+  yStacked: z.boolean().default(false),
 })
 
 const BarSchema = z.object({
   ...DashboardVisualisationSchema.shape,
   type: z.literal('bar'),
   display: z.string(),
-  options: z.object(BarOptions.shape).optional(),
+  options: z.object(BarOptionsSchema.shape).optional(),
   columns: z.object({
     ...DashboardColumns.shape,
     measures: z
@@ -50,6 +53,7 @@ const BarSchema = z.object({
 const BarChartSchemas = {
   BarSchema,
   BarMeasureShema,
+  BarOptionsSchema,
 }
 
 export default BarChartSchemas

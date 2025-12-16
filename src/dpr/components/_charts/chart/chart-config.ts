@@ -82,11 +82,12 @@ export type ChartOptionsType = {
 }
 
 type ChartScalesType = {
-  y: ChartScaleAxis
-  x: ChartScaleAxis
+  y?: ChartScaleAxis
+  x?: ChartScaleAxis
 }
 
 type ChartScaleAxis = {
+  stacked?: boolean
   position?: string
   type?: string
   min?: number

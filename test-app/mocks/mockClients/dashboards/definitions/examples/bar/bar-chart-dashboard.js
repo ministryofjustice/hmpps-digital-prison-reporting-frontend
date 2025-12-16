@@ -13,16 +13,16 @@ const barChartDashboard = {
       description: 'A set of simple barcharts',
       visualisations: [
         bar.dataQualityEthnicityBar,
-        // bar.dataQualityNationalityBar,
-        // bar.dataQualityReligionBar,
-        // bar.dataQualityAllBar,
+        bar.dataQualityNationalityBar,
+        bar.dataQualityReligionBar,
+        bar.dataQualityAllBar,
       ],
     },
-    // {
-    //   id: 'section-2',
-    //   display: 'Bar charts from list',
-    //   visualisations: [bar.dataQualityListBar],
-    // },
+    {
+      id: 'section-2',
+      display: 'Bar charts from list',
+      visualisations: [bar.dataQualityListBar],
+    },
     {
       id: 'section-3',
       display: 'Dashboard dataset',

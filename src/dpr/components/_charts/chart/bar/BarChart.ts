@@ -10,7 +10,7 @@ import { components } from '../../../../types/api'
 import DatasetHelper from '../../../../utils/datasetHelper'
 import Chart from '../Chart'
 import BarChartSchemas from './validate'
-import { BarDefinitionMeasure, BarDefinitionType } from './types'
+import { BarDefinitionMeasure, BarDefinitionOptions, BarDefinitionType } from './types'
 
 class BarChart extends Chart {
   private definition!: BarDefinitionType
@@ -18,6 +18,8 @@ class BarChart extends Chart {
   private measures!: BarDefinitionMeasure[]
 
   private keys!: VisualisationDefinitionKey[]
+
+  private options: BarDefinitionOptions | undefined
 
   override responseData: DashboardDataResponse[] = []
 
@@ -78,9 +80,24 @@ class BarChart extends Chart {
   }
 
   setBespokeOptions = () => {
+    let indexAxis = 'x'
+    let scales
+
+    if (this.options) {
+      const { horizontal, xStacked, yStacked } = this.options
+      indexAxis = horizontal ? 'y' : indexAxis
+      if (xStacked || yStacked) {
+        scales = {
+          ...(xStacked && { x: { stacked: xStacked } }),
+          ...(yStacked && { y: { stacked: yStacked } }),
+        }
+      }
+    }
+
     return {
       ...this.config,
-      indexAxis: 'x',
+      indexAxis,
+      ...(scales && { scales }),
     }
   }
 
@@ -100,6 +117,7 @@ class BarChart extends Chart {
 
   private initFromDefinitionData = () => {
     this.measures = this.definition.columns.measures
+    this.options = this.definition.options
     this.keys = this.definition.columns.keys || []
     this.isList = !!this.measures.find((col) => col.axis)
     this.initUnit(this.measures)

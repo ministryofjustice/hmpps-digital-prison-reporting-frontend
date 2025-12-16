@@ -38,7 +38,9 @@ class DoughnutChart extends Chart {
 
     return {
       type: DashboardVisualisationType.DONUT,
-      unit: this.unit,
+      options: {
+        unit: this.unit,
+      },
       data: {
         labels: this.labels,
         datasets: this.datasets,

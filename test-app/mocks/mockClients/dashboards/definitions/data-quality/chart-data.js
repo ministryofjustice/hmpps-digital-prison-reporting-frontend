@@ -64,6 +64,10 @@ const barChartDataHasEthnicity = {
   },
   chart: {
     type: 'bar',
+    options: {
+      height: 400,
+      timeseries: false,
+    },
     data: {
       labels: ['Has ethnicity', 'Has no ethnicity'],
       datasets: [
@@ -211,6 +215,10 @@ const barChartFromListDataHasEthnicity = {
   },
   chart: {
     type: 'bar',
+    options: {
+      height: 400,
+      timeseries: false,
+    },
     data: {
       labels: ['Has ethnicity', 'Has no ethnicity'],
       datasets: [
@@ -333,7 +341,9 @@ const dataQualityTimeseriesLine = {
   },
   chart: {
     type: 'line',
-    timeseries: true,
+    options: {
+      timeseries: true,
+    },
     data: {
       labels: ['Aug 24', 'Sep 24', 'Oct 24', 'Nov 24', 'Dec 24', 'Jan 25'],
       datasets: [
@@ -510,6 +520,10 @@ const chartFromList = {
   },
   chart: {
     type: 'bar',
+    options: {
+      height: 400,
+      timeseries: false,
+    },
     data: {
       labels: ['Vegetarian', 'Pescatarian', 'Vegan', 'Omnivore'],
       datasets: [
@@ -518,6 +532,8 @@ const chartFromList = {
           data: [251, 317, 330, 274],
           total: 1172,
           borderWidth: [0, 0],
+          backgroundColor: '#5694ca',
+          borderColor: '#5694ca',
           datalabels: {
             align: 'center',
             anchor: 'bottom',

@@ -28,8 +28,10 @@ class LineTimeseriesChart extends TimeseriesChart {
 
     return {
       type: DashboardVisualisationType.LINE,
-      unit: this.unit,
-      timeseries: true,
+      options: {
+        unit: this.unit,
+        timeseries: true,
+      },
       data: {
         labels: this.labels,
         datasets: this.datasets,

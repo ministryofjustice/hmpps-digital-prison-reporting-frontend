@@ -29,8 +29,10 @@ class BarTimeseriesChart extends TimeseriesChart {
 
     return {
       type: DashboardVisualisationType.BAR,
-      unit: this.unit,
-      timeseries: true,
+      options: {
+        unit: this.unit,
+        timeseries: true,
+      },
       data: {
         labels: this.labels,
         datasets: this.datasets,

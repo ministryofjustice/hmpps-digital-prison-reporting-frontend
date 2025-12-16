@@ -2,6 +2,9 @@ const dataQualityEthnicityBar = {
   id: 'bar-data-quality-has-ethnicity',
   type: 'bar',
   display: 'Ethnicity values',
+  options: {
+    horizontal: true,
+  },
   columns: {
     keys: [
       {
@@ -74,6 +77,9 @@ const dataQualityAllBar = {
   id: 'bar-data-quality-all',
   type: 'bar',
   display: 'All metrics together',
+  options: {
+    horizontal: true,
+  },
   columns: {
     keys: [
       {
@@ -113,7 +119,7 @@ const dataQualityAllBar = {
 const dataQualityListBar = {
   id: 'bar-data-quality-list',
   type: 'bar',
-  display: 'All metrics',
+  display: 'Has nationality by establishment',
   columns: {
     keys: [],
     measures: [

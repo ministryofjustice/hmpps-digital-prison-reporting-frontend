@@ -65,7 +65,7 @@ class Chart {
     })
   }
 
-  private setStyles = (datasetIndex: number) => {
+  setStyles = (datasetIndex: number) => {
     const colour = this.hexColours[datasetIndex]
     return {
       backgroundColor: colour,

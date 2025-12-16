@@ -39,6 +39,10 @@ class HeatmapChart {
 
   config = ChartConfig
 
+  private xLabels: (string | number)[] = []
+
+  private yLabels: (string | number)[] = []
+
   withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
     this.definition = MatrixSchema.parse(definition)
     this.init()
@@ -139,14 +143,14 @@ class HeatmapChart {
   }
 
   setScales() {
-    const xLabels = [
+    this.xLabels = [
       ...new Set(
         (<MatrixChartData[]>this.datasets[0].data).map((d) => {
           return d.x
         }),
       ),
     ]
-    const yLabels = [
+    this.yLabels = [
       ...new Set(
         (<MatrixChartData[]>this.datasets[0].data).map((d) => {
           return d.y
@@ -173,27 +177,35 @@ class HeatmapChart {
       y: {
         position: 'left',
         type: 'category',
-        ...(yLabels && { labels: yLabels }),
+        ...(this.yLabels && { labels: this.yLabels }),
         ...common,
       },
       x: {
         position: 'top',
         type: 'category',
-        ...(xLabels && { labels: xLabels }),
+        ...(this.xLabels && { labels: this.xLabels }),
         ...common,
       },
     }
+  }
+
+  getCanvasHeight = () => {
+    return this.yLabels.length * 20 + 60
   }
 
   build = (): DashboardVisualisationData => {
     this.initTimeseriesData()
     this.bucketData()
     this.setBespokeOptions()
+    const height = this.getCanvasHeight()
 
     return {
       type: DashboardVisualisationType.MATRIX,
-      unit: this.unit,
-      timeseries: true,
+      options: {
+        unit: this.unit,
+        timeseries: true,
+        height,
+      },
       data: {
         datasets: this.datasets,
         config: this.config,

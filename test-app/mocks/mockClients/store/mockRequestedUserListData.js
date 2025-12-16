@@ -484,7 +484,7 @@ const requestedReadyViewed = {
   executionId: 'exId_2382342488',
   tableId: 'tblId_172453527824',
   timestamp: {
-    ...requestedReadyViewed.timestamp,
+    ...requestedReady.timestamp,
     lastViewed: '2024-10-24T10:27:15.448Z',
   },
 }
@@ -496,7 +496,7 @@ const requestedReadyViewed2 = {
   executionId: 'exId_2382342481',
   tableId: 'tblId_172453527821',
   timestamp: {
-    ...requestedReadyViewed.timestamp,
+    ...requestedReady.timestamp,
     lastViewed: '2024-10-24T10:27:15.448Z',
   },
 }

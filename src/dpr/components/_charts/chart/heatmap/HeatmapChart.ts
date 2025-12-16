@@ -192,8 +192,10 @@ class HeatmapChart {
 
     return {
       type: DashboardVisualisationType.MATRIX,
-      unit: this.unit,
-      timeseries: true,
+      options: {
+        unit: this.unit,
+        timeseries: true,
+      },
       data: {
         datasets: this.datasets,
         config: this.config,

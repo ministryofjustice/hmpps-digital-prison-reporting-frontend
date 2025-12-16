@@ -35,6 +35,8 @@ class BarChart extends Chart {
 
   private yAxisColumn: BarDefinitionMeasure | undefined
 
+  private barCount = 0
+
   withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
     this.definition = BarChartSchemas.BarSchema.parse(definition)
     this.initFromDefinitionData()
@@ -48,16 +50,26 @@ class BarChart extends Chart {
     return this
   }
 
+  getCanvasHeight = () => {
+    this.barCount = this.datasets.length * this.datasets[0].data.length
+    return this.options?.horizontal ? this.barCount * 45 : 400
+  }
+
   build = (): DashboardVisualisationData => {
     if (!this.isList) {
       this.getBarChartData()
     } else {
       this.getListBarChartData()
     }
+    const height = this.getCanvasHeight()
 
     return {
       type: DashboardVisualisationType.BAR,
-      unit: this.unit,
+      options: {
+        height,
+        unit: this.unit,
+        timeseries: false,
+      },
       data: {
         labels: this.labels,
         datasets: this.datasets,

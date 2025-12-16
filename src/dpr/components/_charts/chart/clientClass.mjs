@@ -42,6 +42,11 @@ class ChartVisualisation extends DprClientClass {
     Chart.register(MatrixController, MatrixElement)
     this.chart = new Chart(this.chartContext, this.chartData)
 
+    // Font loading fix
+    setTimeout(() => {
+      Chart.update()
+    }, 300)
+
     this.initChartEvents()
   }
 

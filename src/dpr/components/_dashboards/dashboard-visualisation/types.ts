@@ -41,8 +41,13 @@ export interface DashboardVisualisatonCardData {
 
 export interface DashboardVisualisationData {
   type: DashboardVisualisationType
-  unit?: components['schemas']['DashboardVisualisationColumnDefinition']['unit']
+  options?: DashboardVisualisationDataOptions
   data: DashboardVisualisationDataValues
+}
+
+interface DashboardVisualisationDataOptions {
+  height?: number
+  unit?: components['schemas']['DashboardVisualisationColumnDefinition']['unit']
   timeseries?: boolean
 }
 

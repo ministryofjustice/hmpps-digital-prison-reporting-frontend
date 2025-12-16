@@ -221,17 +221,17 @@ describe('AsyncRequestListUtils', () => {
         expect(result.meta?.length).toEqual(2)
 
         const v1Ready = <NodeJS.Dict<string>[]>result.tableData.rows[0]
-        expect(v1Ready[3]!['html']).toContain(
+        expect(v1Ready[3]['html']).toContain(
           'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request/tblId_1729766362362/report',
         )
-        expect(v1Ready[2]!['html']).toContain('READY')
+        expect(v1Ready[2]['html']).toContain('READY')
 
         const v1Expired = <NodeJS.Dict<string>[]>result.tableData.rows[1]
         const v1ExpiredRetryUrl =
           'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-success/request?filters.field2=value2.3&filters.field3.start=2003-09-05&filters.field3.end=2007-05-01&filters.field7=2007-05-04&sortColumn=field1&sortedAsc=true&filters.field4=Inigo+Montoya'
-        expect(v1Expired[2]!['html']).toContain('EXPIRED')
-        expect(v1Expired[3]!['html']).toContain(v1ExpiredRetryUrl)
-        expect(v1Expired[3]!['html']).toContain('remove')
+        expect(v1Expired[2]['html']).toContain('EXPIRED')
+        expect(v1Expired[3]['html']).toContain(v1ExpiredRetryUrl)
+        expect(v1Expired[3]['html']).toContain('remove')
       })
     })
   })

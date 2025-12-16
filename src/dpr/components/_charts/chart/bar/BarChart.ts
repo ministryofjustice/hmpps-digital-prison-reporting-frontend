@@ -52,7 +52,7 @@ class BarChart extends Chart {
 
   getCanvasHeight = () => {
     this.barCount = this.datasets.length * this.datasets[0].data.length
-    return this.options?.horizontal ? this.barCount * 45 : 400
+    return this.options?.horizontal ? this.barCount * 40 + 60 : 400
   }
 
   build = (): DashboardVisualisationData => {

@@ -5,15 +5,23 @@ import { DashboardDataResponse } from '../../../../types/Metrics'
 import {
   DashboardVisualisationType,
   DashboardVisualisationData,
+  DashboardVisualisationDataSet,
 } from '../../../_dashboards/dashboard-visualisation/types'
-import { MatrixChartData } from './types'
+import { MatrixChartData, MatrixTimeseriesDefinitionType } from './types'
 import DatasetHelper from '../../../../utils/datasetHelper'
-import DashboardVisualisationClass from '../../../_dashboards/dashboard-visualisation/DashboardVisualisation'
-import Buckets from '../Buckets'
+import Buckets from '../buckets/Buckets'
 import { components } from '../../../../types/api'
+import MatrixSchema from './validate'
+import ChartConfig from '../chart-config'
 
-class HeatmapChart extends DashboardVisualisationClass {
-  private granularity: Granularity
+class HeatmapChart {
+  private definition!: MatrixTimeseriesDefinitionType
+
+  private measures!: MatrixTimeseriesDefinitionType['columns']['measures']
+
+  private responseData: DashboardDataResponse[] = []
+
+  private granularity!: Granularity
 
   private data: MatrixChartData[] = []
 
@@ -23,45 +31,45 @@ class HeatmapChart extends DashboardVisualisationClass {
 
   private label = ''
 
-  private bucketsHelper: Buckets
+  private unit: 'NUMBER' | 'PERCENTAGE' | undefined
 
-  constructor(
-    responseData: DashboardDataResponse[],
-    granularity: Granularity,
-    definition: components['schemas']['DashboardVisualisationDefinition'],
-  ) {
-    super(responseData, definition)
+  private bucketsHelper!: Buckets
 
+  private datasets: DashboardVisualisationDataSet[] = []
+
+  config = ChartConfig
+
+  withDefinition = (definition: components['schemas']['DashboardVisualisationDefinition']) => {
+    this.definition = MatrixSchema.parse(definition)
+    this.init()
+    return this
+  }
+
+  withData = (responseData: DashboardDataResponse[]) => {
+    this.responseData = responseData
+    this.bucketsHelper = new Buckets(this.responseData, this.definition, this.valueKey, true)
+    return this
+  }
+
+  withGranularity = (granularity: Granularity) => {
     this.granularity = granularity
+    return this
+  }
+
+  private init = () => {
+    this.measures = this.definition.columns.measures
     this.setLabel()
     this.initUnit()
-    this.bucketsHelper = new Buckets(responseData, this.definition, this.valueKey, true)
+  }
+
+  initUnit = () => {
+    this.unit = this.measures[0].unit ? this.measures[0].unit : undefined
   }
 
   private setLabel = () => {
-    const { id, display } = this.columns.measures[1]
+    const { id, display } = this.measures[1]
     this.valueKey = id
     this.label = display || ''
-  }
-
-  private validateDefinition = () => {
-    const { id, columns, type } = this.definition
-    const errors = []
-
-    // Validate measures
-    if (columns.measures.length !== 2) {
-      errors.push(`Measures should only have 2 columns defined. Only found ${columns.measures.length}`)
-    } else if (<DashboardVisualisationType>type === DashboardVisualisationType.MATRIX_TIMESERIES) {
-      if (columns.measures[0].id !== 'ts') {
-        errors.push(`measure at index 0 has incorrect ID. Expected ID to be "ts". Found "${columns.measures[0].id}"`)
-      }
-    }
-
-    // Throw the error
-    if (errors.length) {
-      const message = `Validation: Visualisaton definition: ID: ${id}, type: ${type}, errors: ${errors.join(',')}`
-      throw new Error(message)
-    }
   }
 
   private initTimeseriesData = () => {
@@ -105,6 +113,14 @@ class HeatmapChart extends DashboardVisualisationClass {
       }
       return { y, x, v, r }
     })
+
+    this.bucketData()
+    this.datasets = [
+      {
+        label: this.label,
+        data: this.data,
+      },
+    ]
   }
 
   private bucketData = () => {
@@ -115,22 +131,72 @@ class HeatmapChart extends DashboardVisualisationClass {
     })
   }
 
-  build = (): DashboardVisualisationData => {
-    this.validateDefinition()
-    this.initTimeseriesData()
-    this.bucketData()
+  private setBespokeOptions = () => {
+    this.config = {
+      ...this.config,
+      scales: this.setScales(),
+    }
+  }
+
+  setScales() {
+    const xLabels = [
+      ...new Set(
+        (<MatrixChartData[]>this.datasets[0].data).map((d) => {
+          return d.x
+        }),
+      ),
+    ]
+    const yLabels = [
+      ...new Set(
+        (<MatrixChartData[]>this.datasets[0].data).map((d) => {
+          return d.y
+        }),
+      ),
+    ]
+    const grid = {
+      display: false,
+      drawBorder: false,
+    }
+    const ticks = {
+      padding: 1,
+      maxRotation: 0,
+      stepSize: 1,
+    }
+    const offset = true
+    const common = {
+      offset,
+      ticks,
+      grid,
+    }
 
     return {
-      type: this.type,
+      y: {
+        position: 'left',
+        type: 'category',
+        ...(yLabels && { labels: yLabels }),
+        ...common,
+      },
+      x: {
+        position: 'top',
+        type: 'category',
+        ...(xLabels && { labels: xLabels }),
+        ...common,
+      },
+    }
+  }
+
+  build = (): DashboardVisualisationData => {
+    this.initTimeseriesData()
+    this.bucketData()
+    this.setBespokeOptions()
+
+    return {
+      type: DashboardVisualisationType.MATRIX,
       unit: this.unit,
       timeseries: true,
       data: {
-        datasets: [
-          {
-            label: this.label,
-            data: this.data,
-          },
-        ],
+        datasets: this.datasets,
+        config: this.config,
       },
     }
   }

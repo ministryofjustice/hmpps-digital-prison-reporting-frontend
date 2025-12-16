@@ -78,7 +78,7 @@ class UserStoreItemBuilder {
     return this
   }
 
-  addSortData = (sortData: Record<string, string>) => {
+  addSortData = (sortData?: Record<string, string>) => {
     const sortByQueryString = new URLSearchParams(sortData).toString()
     this.userStoreItem = {
       ...this.userStoreItem,

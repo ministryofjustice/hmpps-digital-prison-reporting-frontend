@@ -1,5 +1,6 @@
 import { Granularity, QuickFilters } from '../../components/_inputs/granular-date-range/types'
 import { FiltersType } from '../../components/_filters/filtersTypeEnum'
+import RelativeDateRange from '../../components/_inputs/date-range/types'
 
 export interface defaultFilterValue {
   name: string

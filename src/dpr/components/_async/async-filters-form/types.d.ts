@@ -1,3 +1,6 @@
+import { FilterValue } from '../../_filters/types'
+import Dict = NodeJS.Dict
+
 export interface requestAsyncReportParams {
   apiTimeout: number
   apiUrl: string
@@ -30,8 +33,8 @@ export interface RenderFiltersReturnValue {
 }
 
 export interface SetQueryFromFiltersResult {
-  query: Dict<string>
-  filterData: Dict<string>
-  querySummary: Array<Dict<string>>
-  sortData: Dict<string>
+  query: Record<string, string>
+  filterData: Record<string, string>
+  querySummary: Array<Record<string, string>>
+  sortData: Record<string, string>
 }

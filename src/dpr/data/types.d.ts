@@ -1,4 +1,5 @@
 import AgentConfig from './agentConfig'
+import Dict = NodeJS.Dict
 
 export interface GetRequest {
   path?: string
@@ -40,7 +41,7 @@ export interface AsyncRequestQuery {
   sortColumn: string
   sortedAsc: boolean
   dataProductDefinitionsPath: string
-  [key: string]: string
+  [key: string]: string | boolean
 }
 
 interface filter {

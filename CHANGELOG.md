@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.21.1
+- Fix small typing issue
+
 ## 4.21.0
 - Dashboard visualisations: Horizontal bar chart support
 

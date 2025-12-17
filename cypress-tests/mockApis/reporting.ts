@@ -4,6 +4,7 @@ import { requestExampleFailStatus } from '@networkMocks/report/mockVariants/requ
 import { createMockData } from '@networkMocks/report/mockVariants/mockAsyncData'
 import { variant35Interactive } from '@networkMocks/report/mockVariants/mock-report/interactive-async'
 import { featureTestingInteractive } from '@networkMocks/report/mockVariants/feature-testing/interactiveFilters'
+import { establishmentAutocomplete } from '@networkMocks/report/mockVariants/filter-input-examples/autocomplete'
 import { featureTestingMissingDescription } from '@networkMocks/report/mockVariants/feature-testing/missingDescription'
 import { featureTestingMissing1 } from '@networkMocks/report/mockVariants/feature-testing/missing1'
 import { variant15 as relativeDateRange } from '@networkMocks/report/mockVariants/filter-input-examples/relativeDateRange'
@@ -131,6 +132,7 @@ const stubs = {
   stubDefinitionEmptyReport: () => stubFor(setupSimpleReportDefinitionResponseMock(`feature-testing`, featureTestingEmptyQuery)),
   stubDefinitionSyncReport: () => stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingSync)),
   stubDefinitionOrderFilters: () => stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingOrderFilters)),
+  stubDefinitionAutocomplete: () => stubFor(setupSimpleReportDefinitionResponseMock('filter-inputs', establishmentAutocomplete)),
   stubSyncRequestDataSuccess: () => stubFor(getListWithWarnings),
   stubSyncRequestDataSuccessCount: () => stubFor(getListWithWarningsCount),
   stubSingleSummaries: () => Promise.all(generateIndividualDefinitionSummaries.map(stubFor)),

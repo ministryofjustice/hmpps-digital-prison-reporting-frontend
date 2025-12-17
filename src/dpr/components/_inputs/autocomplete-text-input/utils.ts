@@ -12,6 +12,7 @@ const setValueFromRequest = (filter: FilterValueWithOptions, req: Request, prefi
     requestfilterValue = option.text || value
     requestOptionValue = value
   }
+
   return {
     requestfilterValue,
     requestOptionValue,

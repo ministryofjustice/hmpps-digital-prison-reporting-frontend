@@ -52,6 +52,7 @@ export const setFilterValuesFromRequest = (
   return filters.map((filter: FilterValue) => {
     let requestfilterValue: FilterValueType
     let requestfilterValues: string[] | undefined
+    let requestOptionValue: string | undefined
 
     const type = filter.type.toLowerCase()
     switch (type) {
@@ -79,9 +80,14 @@ export const setFilterValuesFromRequest = (
         ))
         break
 
-      case FilterType.autocomplete.toLowerCase():
-        requestfilterValue = AutocompleteUtils.setValueFromRequest(<FilterValueWithOptions>filter, req, prefix)
+      case FilterType.autocomplete.toLowerCase(): {
+        ;({ requestfilterValue, requestOptionValue } = AutocompleteUtils.setValueFromRequest(
+          <FilterValueWithOptions>filter,
+          req,
+          prefix,
+        ))
         break
+      }
 
       default:
         requestfilterValue = <string>req.query[`${prefix}${filter.name}`]
@@ -99,6 +105,7 @@ export const setFilterValuesFromRequest = (
       ...filter,
       value,
       ...(requestfilterValues && { values: requestfilterValues }),
+      ...(requestOptionValue && { staticOptionNameValue: requestOptionValue }),
     }
   })
 }

@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.22.0
+- Remove 'View report'/'View dashboard' button on polling page when report/dashboard has finished loading to avoid potential race condition
+
 ## 4.21.1
 - Fix small typing issue
 

@@ -1,4 +1,5 @@
 import { Request } from 'express'
+import { components } from '../../../types/api'
 import { FilterValueWithOptions } from '../../_filters/types'
 
 const setValueFromRequest = (filter: FilterValueWithOptions, req: Request, prefix: string) => {
@@ -7,6 +8,12 @@ const setValueFromRequest = (filter: FilterValueWithOptions, req: Request, prefi
   return option ? option.text : value
 }
 
+const getDisplayValue = (filter: components['schemas']['FilterDefinition'], value: string) => {
+  const option = filter.staticOptions?.find((opt) => opt.name === value)
+  return option ? option.display : value
+}
+
 export default {
   setValueFromRequest,
+  getDisplayValue,
 }

@@ -116,11 +116,10 @@
 
       {{ dprRequestDetails(data)}}
 
-      {{ govukButton({
-        text: "View " + type,
-        classes: "govuk-button--primary",
-        href: reportUrl
-      }) }}
+      <p class="{{ descriptionClasses }}">Please wait, you are being redirected...</p>
+
+      <p class="{{ descriptionClasses }}">If you are not redirected within 10 seconds, please copy and paste this url into your browser and press enter:</p>
+      <p class="{{ descriptionClasses }}">{{ reportUrl }}</p>
 
     {% endif %}
   </div>

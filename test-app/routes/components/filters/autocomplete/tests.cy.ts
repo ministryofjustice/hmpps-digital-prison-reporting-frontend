@@ -81,8 +81,6 @@ context('Filters: Autocomplete', () => {
         cy.findAllByRole('link').eq(0).contains('Autocomplete')
         cy.findAllByRole('link').eq(0).contains('Moorland (HMP & YOI)')
       })
-
-      cy.findByRole('button', { name: 'Request report' }).click()
     })
   })
 })

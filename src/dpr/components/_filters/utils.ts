@@ -13,6 +13,7 @@ import type {
   GranularDateRangeFilterValue,
   GranularDateRange,
   GranularDateRangeGranularityValue,
+  FilterValueWithOptions,
 } from './types'
 import ReportQuery, { DEFAULT_FILTERS_PREFIX } from '../../types/ReportQuery'
 
@@ -20,6 +21,7 @@ import SelectedFiltersUtils from './filters-selected/utils'
 import DateRangeInputUtils from '../_inputs/date-range/utils'
 import DateInputUtils from '../_inputs/date-input/utils'
 import GranularDateRangeInputUtils from '../_inputs/granular-date-range/utils'
+import AutocompleteUtils from '../_inputs/autocomplete-text-input/utils'
 import MultiSelectUtils from '../_inputs/multi-select/utils'
 import { Granularity, QuickFilters } from '../_inputs/granular-date-range/types'
 import PersonalistionUtils from '../../utils/Personalisation/personalisationUtils'
@@ -56,6 +58,7 @@ export const setFilterValuesFromRequest = (
       case FilterType.dateRange.toLowerCase():
         requestfilterValue = DateRangeInputUtils.setValueFromRequest(<DateRangeFilterValue>filter, req, prefix)
         break
+
       case FilterType.granularDateRange.toLowerCase():
         requestfilterValue = GranularDateRangeInputUtils.setValueFromRequest(
           <GranularDateRangeFilterValue>filter,
@@ -63,9 +66,11 @@ export const setFilterValuesFromRequest = (
           prefix,
         )
         break
+
       case FilterType.date.toLowerCase():
         requestfilterValue = DateInputUtils.setValueFromRequest(<DateFilterValue>filter, req, prefix)
         break
+
       case FilterType.multiselect.toLowerCase():
         ;({ requestfilterValue, requestfilterValues } = MultiSelectUtils.setValueFromRequest(
           <MultiselectFilterValue>filter,
@@ -73,6 +78,11 @@ export const setFilterValuesFromRequest = (
           prefix,
         ))
         break
+
+      case FilterType.autocomplete.toLowerCase():
+        requestfilterValue = AutocompleteUtils.setValueFromRequest(<FilterValueWithOptions>filter, req, prefix)
+        break
+
       default:
         requestfilterValue = <string>req.query[`${prefix}${filter.name}`]
         break

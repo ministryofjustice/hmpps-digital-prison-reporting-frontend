@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
+import setUpNestedRoute from '../../../src/dpr/middleware/setUpNestedRoute'
 import EmbeddedController from './controller'
 
 // Routes
@@ -13,7 +14,7 @@ export function Routes(services: Services) {
   const controller = new EmbeddedController()
   router.get('/', controller.GET)
 
-  router.use(`/platform/`, PlatformRoutes(services))
+  router.use(`/platform/`, setUpNestedRoute(), PlatformRoutes(services))
   router.use(`/sync`, SyncRoutes())
 
   return router

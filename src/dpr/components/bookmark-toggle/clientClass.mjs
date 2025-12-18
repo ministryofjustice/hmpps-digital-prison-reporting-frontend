@@ -69,17 +69,16 @@ class BookmarkToggle extends DprClientClass {
   }
 
   async toggleBookmark(type, id, reportId, reportType, csrfToken) {
-    const method = type === 'add' ? 'post' : 'delete'
-    const endpoint = this.baseUrl ? `${this.baseUrl}/dpr/my-reports/bookmarks/` : `dpr/my-reports/bookmarks/`
-
+    const endpoint = this.baseUrl ? `${this.baseUrl}/dpr/my-reports/bookmarks/` : `/dpr/my-reports/bookmarks/`
     await fetch(endpoint, {
-      method,
+      method: 'post',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         'CSRF-Token': csrfToken,
       },
       body: JSON.stringify({
+        type,
         id,
         reportId,
         reportType,

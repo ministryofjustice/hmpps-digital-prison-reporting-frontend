@@ -38,13 +38,14 @@ const formatTable = async (
   csrfToken: string,
   userId: string,
   maxRows?: number,
+  nestedBaseUrl?: string,
 ) => {
   const userConfig = await bookmarkService.getState(userId)
   const rows = await Promise.all(
     bookmarksData
       .sort((a, b) => a.name.localeCompare(b.name))
       .map(async (bookmark: BookmarkedReportData) => {
-        return formatTableData(bookmark, bookmarkService, csrfToken, userConfig)
+        return formatTableData(bookmark, bookmarkService, csrfToken, userConfig, nestedBaseUrl)
       }),
   )
 
@@ -63,6 +64,7 @@ const formatTableData = async (
   bookmarkService: BookmarkService,
   csrfToken: string,
   userConfig: ReportStoreConfig,
+  nestedBaseUrl?: string,
 ) => {
   const { description, reportName, reportId, id, href, name, type, loadType } = bookmarksData
   const bookmarkHtml = await bookmarkService.createBookMarkToggleHtml({
@@ -74,6 +76,7 @@ const formatTableData = async (
     reportType: type,
     // We don't have the data here, and missing reports should never get into bookmarked, viewed or requested
     isMissing: false,
+    nestedBaseUrl,
   })
   return [
     {
@@ -163,14 +166,21 @@ export const renderBookmarkList = async ({
   maxRows?: number
   res: Response
 }) => {
-  const { token, csrfToken, dprUser, bookmarks } = LocalsHelper.getValues(res)
+  const { token, csrfToken, dprUser, bookmarks, nestedBaseUrl } = LocalsHelper.getValues(res)
   const bookmarksData: BookmarkedReportData[] = await mapBookmarkIdsToDefinition(bookmarks, res, token, services)
 
   let formatted = await formatBookmarks(bookmarksData)
   const formattedCount = formatted.length
 
   if (maxRows) formatted = formatted.slice(0, maxRows)
-  const tableData = await formatTable(bookmarksData, services.bookmarkService, csrfToken, dprUser.id, maxRows)
+  const tableData = await formatTable(
+    bookmarksData,
+    services.bookmarkService,
+    csrfToken,
+    dprUser.id,
+    maxRows,
+    nestedBaseUrl,
+  )
 
   const head = {
     ...(formatted.length && { href: '/dpr/my-reports/bookmarks/list' }),

@@ -63,8 +63,6 @@ describe('ChartCard Utils', () => {
         'line-timeseries',
         {},
       )
-
-      console.log(JSON.stringify(result, null, 2))
       expect(result).toEqual(expectedResult)
     })
   })

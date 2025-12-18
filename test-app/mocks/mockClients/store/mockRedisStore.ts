@@ -10,6 +10,8 @@ export const startData = {
     mockRequested.requestedExpired,
     mockRequested.requestedFailed,
     mockRequested.requestedAborted,
+    mockRequested.requestedReadyViewed,
+    mockRequested.requestedReadyViewed2,
     // Dashboards
     mockRequestedDashboards.readyDashboard,
     mockRequestedDashboards.failedDashboard,

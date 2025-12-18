@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.22.2
+- Bug fix: fix default sort direction for sync reports. 
+
 ## 4.22.1
 - Bug fix: Autocomplete to show display labels instead of values. 
 

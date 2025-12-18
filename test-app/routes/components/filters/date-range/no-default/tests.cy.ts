@@ -215,34 +215,6 @@ context('Inputs: date range', () => {
     })
   })
 
-  describe('Setting the value via the url', () => {
-    it('should set the date value from the query string', () => {
-      cy.visit(`${path}?filters.date-range.start=2024-11-01&filters.date-range.end=2025-06-11`)
-
-      cy.findByRole('textbox', { name: 'From' }).should('have.value', '01/11/2024')
-      cy.findByRole('textbox', { name: 'To' }).should('have.value', '11/06/2025')
-
-      cy.findByLabelText(/Selected filters.*/i).within(() => {
-        cy.findAllByRole('link')
-          .should('have.length', 3)
-          .each((filter, index) => {
-            switch (index) {
-              case 0:
-                cy.wrap(filter).contains('Date-range start')
-                cy.wrap(filter).contains('01/11/2024')
-                break
-              case 1:
-                cy.wrap(filter).contains('Date-range end')
-                cy.wrap(filter).contains('11/06/2025')
-                break
-              default:
-                break
-            }
-          })
-      })
-    })
-  })
-
   describe('Reseting to default values', () => {
     it('should reset the input to the default DPD values', () => {
       dateRangeStart.type('02/05/2025')

@@ -1,4 +1,8 @@
-{% macro dprChart(id, type, chartData, unit, timeseries) %}
+{% macro dprChart(id, type, chartData, options) %}
+  {% set timeseries = options.timeseries %}
+  {% set unit = options.unit %}
+  {% set height = options.height %}
+
   <div id="{{ id }}-chart-wrapper" 
     class="dpr-chart dpr-{{ type }}-chart" 
     data-dpr-module="{{ type }}-chart" 
@@ -6,6 +10,9 @@
     data-dpr-chart-type="{{ type }}"
     data-dpr-chart-unit="{{ unit }}"
     data-dpr-chart-timeseries="{{ timeseries }}"
+    {% if options.height %}
+      style="height: {{ height }}px"
+    {% endif %}
   >
     <div class="dpr-canvas-wrapper"><canvas id="{{ id }}" class="chart-canvas"></canvas></div>
     <div id="js-legend-{{ id }}" class="dpr-chart-legend"></div>

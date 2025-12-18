@@ -9,7 +9,9 @@ import DefinitionUtils from '../../../utils/definitionUtils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
 import FiltersUtils from '../../_filters/utils'
 import DateRangeInputUtils from '../../_inputs/date-range/utils'
+import AutocompleteUtils from '../../_inputs/autocomplete-text-input/utils'
 import { FilterOption, FilterValue, FilterValueWithOptions } from '../../_filters/types'
+import { FilterType } from '../../_filters/filter-input/enum'
 
 /**
  * Initialises the sortData from the definition
@@ -106,51 +108,62 @@ export const setQueryFromFilters = (
     .filter((name) => name !== '_csrf' && req.body[name] !== '')
     .forEach((name) => {
       const shortName = name.replace('filters.', '')
-      const value = req.body[name]
+      const queryValue = req.body[name]
+      let summaryValue = queryValue
 
-      if (name.startsWith('filters.') && value !== '' && !query[name] && value !== 'no-filter') {
+      if (name.startsWith('filters.') && queryValue !== '' && !query[name] && queryValue !== 'no-filter') {
         if (name.includes('relative-duration')) {
           ;({ query, filterData, querySummary } = setDurationStartAndEnd(
             name,
-            value,
+            queryValue,
             query,
             filterData,
             querySummary,
             fields,
           ))
         } else {
+          const fieldId = name.split('.')[1]
+          const filter: components['schemas']['FilterDefinition'] | undefined = fields.find(
+            (f) => f.name === fieldId,
+          )?.filter
+
           let urlParamValue: string | string[] = urlParams.getAll(name)
-          urlParamValue = !urlParamValue || urlParamValue.length === 0 ? value : urlParamValue
+          urlParamValue = !urlParamValue || urlParamValue.length === 0 ? queryValue : urlParamValue
           urlParamValue = urlParamValue.length === 1 ? `${urlParamValue[0]}` : `${urlParamValue}`
 
-          query[name] = urlParamValue
-          filterData[shortName] = urlParamValue
-
           let dateDisplayValue
-          if (dateMapper.isDate(value)) {
-            dateDisplayValue = dateMapper.toDateString(value, 'local-date')
-
-            const isoFormatDate = dateMapper.toDateString(value, 'iso')
+          if (dateMapper.isDate(queryValue)) {
+            dateDisplayValue = dateMapper.toDateString(queryValue, 'local-date')
+            const isoFormatDate = dateMapper.toDateString(queryValue, 'iso')
             if (isoFormatDate) {
               query[name] = isoFormatDate
               filterData[shortName] = isoFormatDate
             }
+          } else {
+            query[name] = urlParamValue
+            filterData[shortName] = urlParamValue
+          }
+
+          if (filter?.type === FilterType.autocomplete.toLowerCase()) {
+            summaryValue = AutocompleteUtils.getDisplayValue(filter, queryValue)
+          } else {
+            summaryValue = dateDisplayValue || summaryValue
           }
 
           const fieldDisplayName = DefinitionUtils.getFieldDisplayName(fields, shortName)
           querySummary.push({
             name: fieldDisplayName || shortName,
-            value: dateDisplayValue || urlParamValue,
+            value: summaryValue,
           })
         }
       } else if (name.startsWith('sort')) {
-        query[name] = value
-        sortData[name] = value
+        query[name] = queryValue
+        sortData[name] = queryValue
 
-        const fieldDef = DefinitionUtils.getField(fields, value)
+        const fieldDef = DefinitionUtils.getField(fields, queryValue)
 
         let displayName = 'Sort Direction'
-        let displayValue = value === 'true' ? 'Ascending' : 'Descending'
+        let displayValue = queryValue === 'true' ? 'Ascending' : 'Descending'
         if (fieldDef) {
           displayName = 'Sort Column'
           displayValue = fieldDef.display

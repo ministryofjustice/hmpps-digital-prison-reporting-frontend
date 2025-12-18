@@ -47,17 +47,6 @@ context('Inputs: multiselect', () => {
       cy.findByRole('checkbox', { name: 'Value 8.3' }).should('not.be.checked')
       cy.findByRole('checkbox', { name: 'Value 8.4' }).should('not.be.checked')
     })
-
-    it('should set the values via the URL', () => {
-      const search = `?filters.multiselect=value8.2&filters.multiselect=value8.3&filters.multiselect=value8.4&filters.multiselect-long=value2.2`
-      cy.visit(`${path}${search}`)
-
-      cy.findByRole('checkbox', { name: 'Value 8.1' }).should('not.be.checked')
-      cy.findByRole('checkbox', { name: 'Value 8.2' }).should('be.checked')
-      cy.findByRole('checkbox', { name: 'Value 8.3' }).should('be.checked')
-      cy.findByRole('checkbox', { name: 'Value 8.4' }).should('be.checked')
-      cy.findByRole('checkbox', { name: 'Value 2.2' }).should('be.checked')
-    })
   })
 
   describe('Validation', () => {

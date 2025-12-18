@@ -106,14 +106,16 @@ export const populateRequestedReports = async (services: Services, res: Response
   if (dprUser.id) {
     const { definitions, definitionsPath } = res.locals
 
+    const recent = await services.recentlyViewedService.getAllReports(dprUser.id)
+    await services.requestedReportService.cleanList(dprUser.id, recent)
     const requested = await services.requestedReportService.getAllReports(dprUser.id)
+
     res.locals['requestedReports'] = !definitionsPath
       ? requested
       : requested.filter((report: RequestedReport) => {
           return DefinitionUtils.getCurrentVariantDefinition(definitions, report.reportId, report.id)
         })
 
-    const recent = await services.recentlyViewedService.getAllReports(dprUser.id)
     res.locals['recentlyViewedReports'] = !definitionsPath
       ? recent
       : recent.filter((report: StoredReportData) => {

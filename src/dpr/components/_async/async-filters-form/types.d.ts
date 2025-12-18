@@ -1,5 +1,4 @@
 import { FilterValue } from '../../_filters/types'
-import Dict = NodeJS.Dict
 
 export interface requestAsyncReportParams {
   apiTimeout: number

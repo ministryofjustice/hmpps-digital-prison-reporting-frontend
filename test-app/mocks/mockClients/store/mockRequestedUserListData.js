@@ -335,8 +335,7 @@ const requestedFailed = {
     polling: {
       fullUrl:
         'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
-      pathname:
-        '/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
+      pathname: '/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
     },
     report: {},
   },
@@ -430,8 +429,7 @@ const requestedSubmitted = {
     polling: {
       fullUrl:
         'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
-      pathname:
-        '/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
+      pathname: '/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
     },
     report: {},
   },
@@ -479,10 +477,36 @@ const requestedSubmitted = {
   status: 'SUBMITTED',
 }
 
+const requestedReadyViewed = {
+  ...requestedReady,
+  reportId: 'request-examples-viewed',
+  id: 'request-example-success-viewed',
+  executionId: 'exId_2382342488',
+  tableId: 'tblId_172453527824',
+  timestamp: {
+    ...requestedReady.timestamp,
+    lastViewed: '2024-10-24T10:27:15.448Z',
+  },
+}
+
+const requestedReadyViewed2 = {
+  ...requestedReady,
+  reportId: 'request-examples-viewed-2',
+  id: 'request-example-success-viewed-2',
+  executionId: 'exId_2382342481',
+  tableId: 'tblId_172453527821',
+  timestamp: {
+    ...requestedReady.timestamp,
+    lastViewed: '2024-10-24T10:27:15.448Z',
+  },
+}
+
 module.exports = {
   requestedReady,
   requestedExpired,
   requestedFailed,
   requestedAborted,
   requestedSubmitted,
+  requestedReadyViewed,
+  requestedReadyViewed2,
 }

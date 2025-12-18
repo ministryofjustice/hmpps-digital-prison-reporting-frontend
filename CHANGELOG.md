@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.22.3
+- Bug fix: Bookmarking from a report 
+
 ## 4.22.2
 - Bug fix: fix default sort direction for sync reports. 
 

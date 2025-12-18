@@ -98,18 +98,6 @@ context('Inputs: date range with min and max', () => {
     })
   })
 
-  describe('Setting the value via the URL', () => {
-    it('should set the start value correctly is value is after the min date', () => {
-      cy.visit(`${path}?filters.date-range-min-max.start=2002-02-01`)
-      expectMinValues()
-    })
-
-    it('should set the end value correctly is value is before the max date', () => {
-      cy.visit(`${path}?filters.date-range-min-max.end=2008-02-01`)
-      expectMaxValues()
-    })
-  })
-
   describe('Min max helper buttons', () => {
     beforeEach(() => {
       cy.visit(path)

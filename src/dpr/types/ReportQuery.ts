@@ -43,13 +43,22 @@ class ReportQuery implements FilteredListRequest {
   }) {
     this.selectedPage = queryParams['selectedPage'] ? Number(queryParams['selectedPage']) : 1
     this.pageSize = this.getPageSize(queryParams, template, reportType)
+
     this.sortColumn = queryParams['sortColumn']
       ? queryParams['sortColumn'].toString()
       : this.getDefaultSortColumn(fields)
-    this.sortedAsc = queryParams['sortedAsc'] !== 'false'
+
+    this.sortedAsc =
+      queryParams['sortedAsc'] !== undefined
+        ? queryParams['sortedAsc'] !== 'false'
+        : this.getDefaultSortDirection(fields)
+
+    console.log(this.sortedAsc)
+
     this.dataProductDefinitionsPath =
       definitionsPath ??
       (queryParams['dataProductDefinitionsPath'] ? queryParams['dataProductDefinitionsPath'].toString() : undefined)
+
     this.filtersPrefix = filtersPrefix
 
     if (queryParams['columns']) {
@@ -128,6 +137,19 @@ class ReportQuery implements FilteredListRequest {
   private getDefaultSortColumn(fields: components['schemas']['FieldDefinition'][]) {
     const defaultSortColumn = fields.find((f) => f.defaultsort)
     return defaultSortColumn ? defaultSortColumn.name : fields.find((f) => f.sortable)?.name
+  }
+
+  private getDefaultSortDirection(fields: components['schemas']['FieldDefinition'][]) {
+    const field = fields.find((f) => f.defaultsort)
+    if (field) {
+      console.log('HERERERE')
+      const { sortDirection } = field
+      console.log({ sortDirection })
+      const sortAsc = sortDirection ? sortDirection === 'asc' : true
+      console.log({ sortAsc })
+      return sortAsc
+    }
+    return true
   }
 
   getPageSize(queryParams: ParsedQs, template?: Template, reportType?: ReportType): number {

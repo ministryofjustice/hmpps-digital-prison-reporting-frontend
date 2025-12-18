@@ -1,4 +1,4 @@
-import { executeReportStubs } from '../../../../../cypress-tests/cypressUtils'
+import { executeReportStubs, requestReportByNameAndDescription } from '../../../../../cypress-tests/cypressUtils'
 
 context('Requesting a report', () => {
   const path = '/embedded/platform/'
@@ -352,6 +352,27 @@ context('Requesting a report', () => {
             return Boolean(element.textContent?.includes('Successful Report'))
           },
         }).should('not.exist')
+      })
+    })
+  })
+
+  describe('Exceution failed', () => {
+    beforeEach(() => {
+      executeReportStubs()
+      cy.visit(path)
+    })
+
+    it('should error when execution data is incorrect', () => {
+      requestReportByNameAndDescription({ name: 'Execution data error', description: 'This will return an error' })
+
+      cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
+
+      cy.visit(path)
+      cy.findByRole('tab', { name: /Requested/ }).click()
+      cy.findByLabelText(/Requested.*/i).within(() => {
+        cy.findAllByRole('paragraph')
+          .contains(/You have 0 requested reports/)
+          .should('be.visible')
       })
     })
   })

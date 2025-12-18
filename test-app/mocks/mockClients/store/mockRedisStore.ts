@@ -5,6 +5,7 @@ const mockRequestedDashboards = require('./mockRequestedDashboardData')
 
 export const startData = {
   requestedReports: [
+    mockRequested.requestedSubmitted,
     mockRequested.requestedReady,
     mockRequested.requestedExpired,
     mockRequested.requestedFailed,

@@ -10,23 +10,24 @@
 
   {% set type = chartData.type %}
   {% set data = chartData.data %}
-  {% set unit = chartData.unit %}
-  {% set timeseries = chartData.timeseries %}
+  
+  {# Options #}
+  {% set options = chartData.options %}
 
   {% if chartData %}
-  {% set chartHtml %}
-    {{ dprChart(id, type, data, unit, timeseries) }}
-  {% endset -%}
-  
-  {% set tabContent = {
-    label: type | capitalize,
-    id: id + "_" + type + "_tab",
-    panel: {
-      html: chartHtml
-    }
-  } %}
+    {% set chartHtml %}
+      {{ dprChart(id, type, data, options) }}
+    {% endset -%}
+    
+    {% set tabContent = {
+      label: type | capitalize,
+      id: id + "_" + type + "_tab",
+      panel: {
+        html: chartHtml
+      }
+    } %}
 
-  {% set tabItems = (tabItems.push(tabContent), tabItems) %}
+    {% set tabItems = (tabItems.push(tabContent), tabItems) %}
   {% endif %}
 
   {% if tableData %}

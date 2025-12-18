@@ -36,7 +36,7 @@ class AsyncFilters extends DprSelectedFiltersClass {
   }
 
   initValues() {
-    this.initInputsFromQueryParams()
+    // this.initInputsFromQueryParams()
     this.initQueryParamsFromInputs(this.mainForm.elements)
     this.initInputEvents(this.mainForm.elements)
 

@@ -260,9 +260,13 @@ const getFilterData = async (
 ) => {
   const { reportId, id } = req.params
 
+  // 1. Get filters from definition with default values
   let filtersData = <RenderFiltersReturnValue>await FiltersFormUtils.renderFilters(fields, interactive)
+
+  // 2. Update filter values with user context values. eg. establishmnent code
   filtersData.filters = PersonalistionUtils.setUserContextDefaults(res, filtersData.filters)
 
+  // 3. Update filter values with saved defaults
   let defaultFilterValues
   if (res.locals['saveDefaultsEnabled']) {
     defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id, FiltersType.REQUEST)
@@ -275,6 +279,7 @@ const getFilterData = async (
     )
   }
 
+  // 4. Overwrite filter values with query param values
   filtersData.filters = FiltersUtils.setFilterValuesFromRequest(filtersData.filters, req)
 
   return { filtersData, defaultFilterValues }

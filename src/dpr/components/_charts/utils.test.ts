@@ -38,19 +38,21 @@ describe('ChartCard Utils', () => {
   describe('createChart', () => {
     it('should get the snapshot chart data', async () => {
       const expectedResult = barChartDataHasEthnicity
-      const result = ChartCardUtils.createChart(snapshotVisualisationDefinition, dashboardMetricsData.flat())
+      const result = ChartCardUtils.createChart(snapshotVisualisationDefinition, dashboardMetricsData.flat(), 'bar')
+      console.log(JSON.stringify(result, null, 2))
       expect(result).toEqual(expectedResult)
     })
 
     it('should get the snapshot chart data from a list', async () => {
       const expectedResult = chartFromList
-      const result = ChartCardUtils.createChart(snapshotVisualisationFromListDefinition, dashboardMockDietData)
+      const result = ChartCardUtils.createChart(snapshotVisualisationFromListDefinition, dashboardMockDietData, 'bar')
       expect(result).toEqual(expectedResult)
     })
 
     it('should create the snapshot chart data from a list', () => {
       const expectedResult = barChartFromListDataHasEthnicity
-      const result = ChartCardUtils.createChart(snapshotVisualisationDefinition, dashboardMetricsData.flat())
+      const result = ChartCardUtils.createChart(snapshotVisualisationDefinition, dashboardMetricsData.flat(), 'bar')
+
       expect(result).toEqual(expectedResult)
     })
 
@@ -59,7 +61,11 @@ describe('ChartCard Utils', () => {
       const result = ChartCardUtils.createTimeseriesCharts(
         timeseriesVisualisationDefinition,
         dashboardMetricsData.flat(),
+        'line-timeseries',
+        {},
       )
+
+      console.log(JSON.stringify(result, null, 2))
       expect(result).toEqual(expectedResult)
     })
   })

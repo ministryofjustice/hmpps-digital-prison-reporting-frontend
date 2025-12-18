@@ -4,7 +4,7 @@ const { scorecards, lists } = require('../visualisations')
 
 const dataQualityScoreCards = {
   id: 'scorecard-examples-data-quality',
-  name: 'Scorecard Examples - Data Quality',
+  name: 'Scorecard Examples',
   description: 'Scorecard examples',
   sections: [
     {

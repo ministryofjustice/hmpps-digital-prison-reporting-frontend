@@ -1,5 +1,20 @@
 Below you can find the changes included in each release.
 
+## 4.22.1
+- Bug fix: Autocomplete to show display labels instead of values. 
+
+## 4.22.0
+- Remove 'View report'/'View dashboard' button on polling page when report/dashboard has finished loading to avoid potential race condition
+
+## 4.21.1
+- Fix small typing issue
+
+## 4.21.0
+- Dashboard visualisations: Horizontal bar chart support
+
+## 4.20.2
+- Bug Fix: Parent child report: child report page size issue fixed. 
+
 ## 4.20.1
 - Fix for query params not being sent properly when using child reports
 

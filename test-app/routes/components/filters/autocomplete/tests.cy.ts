@@ -1,3 +1,5 @@
+import { executeReportStubs } from '../../../../../cypress-tests/cypressUtils'
+
 context('Filters: Autocomplete', () => {
   const path = '/components/filters/autocomplete'
 
@@ -59,6 +61,33 @@ context('Filters: Autocomplete', () => {
       cy.findByRole('button', { name: /Request/ }).click()
       cy.findByRole('alert').should('exist')
       cy.findAllByRole('paragraph').contains('Autocomplete is required').should('exist')
+    })
+  })
+
+  describe('Request', () => {
+    before(() => {
+      executeReportStubs()
+      cy.task('stubDefinitionAutocomplete')
+    })
+
+    it('should set the display value when setting the value from the URL', () => {
+      cy.visit(
+        '/embedded/platform/dpr/request-report/report/filter-inputs/establishmentAutocomplete/filters?filters.establishment=KMI',
+      )
+      cy.findByRole('combobox').should('have.value', 'KIRKHAM (HMP)')
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').eq(0).contains('Establishment')
+        cy.findAllByRole('link').eq(0).contains('KIRKHAM (HMP)')
+      })
+
+      cy.visit(
+        '/embedded/platform/dpr/request-report/report/filter-inputs/establishmentAutocomplete/filters?filters.establishment=MDI',
+      )
+      cy.findByRole('combobox').should('have.value', 'Moorland (HMP & YOI)')
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link').eq(0).contains('Establishment')
+        cy.findAllByRole('link').eq(0).contains('Moorland (HMP & YOI)')
+      })
     })
   })
 })

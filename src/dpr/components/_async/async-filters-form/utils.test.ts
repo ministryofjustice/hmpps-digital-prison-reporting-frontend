@@ -275,7 +275,7 @@ describe('AsyncFiltersUtils', () => {
         querySummary: [
           {
             name: 'Field 1 Display',
-            value: 'Fez',
+            value: 'Fezzick',
           },
           {
             name: 'Field 2 Display',
@@ -343,7 +343,7 @@ describe('AsyncFiltersUtils', () => {
         querySummary: [
           {
             name: 'Field 1 Display',
-            value: 'Fez',
+            value: 'Fezzick',
           },
           {
             name: 'Field 2 Display',

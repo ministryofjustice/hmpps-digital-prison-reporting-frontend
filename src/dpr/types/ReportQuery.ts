@@ -53,8 +53,6 @@ class ReportQuery implements FilteredListRequest {
         ? queryParams['sortedAsc'] !== 'false'
         : this.getDefaultSortDirection(fields)
 
-    console.log(this.sortedAsc)
-
     this.dataProductDefinitionsPath =
       definitionsPath ??
       (queryParams['dataProductDefinitionsPath'] ? queryParams['dataProductDefinitionsPath'].toString() : undefined)

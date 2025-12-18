@@ -142,12 +142,7 @@ class ReportQuery implements FilteredListRequest {
   private getDefaultSortDirection(fields: components['schemas']['FieldDefinition'][]) {
     const field = fields.find((f) => f.defaultsort)
     if (field) {
-      console.log('HERERERE')
-      const { sortDirection } = field
-      console.log({ sortDirection })
-      const sortAsc = sortDirection ? sortDirection === 'asc' : true
-      console.log({ sortAsc })
-      return sortAsc
+      return field.sortDirection ? field.sortDirection === 'asc' : true
     }
     return true
   }

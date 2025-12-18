@@ -14,7 +14,6 @@ const defaultVariant = {
         display: 'Field 1',
         sortable: true,
         defaultsort: true,
-        sortDirection: 'desc',
         type: 'string',
         mandatory: false,
         visible: true,

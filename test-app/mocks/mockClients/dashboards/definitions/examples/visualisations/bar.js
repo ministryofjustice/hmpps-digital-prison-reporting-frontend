@@ -22,6 +22,12 @@ const dataQualityEthnicityBar = {
         display: 'No Ethnicity',
       },
     ],
+    filters: [
+      {
+        id: 'ethnicity_is_missing',
+        equals: null,
+      },
+    ],
   },
 }
 

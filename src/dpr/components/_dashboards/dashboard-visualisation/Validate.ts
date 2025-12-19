@@ -14,7 +14,7 @@ export const BucketOptionsSchema = z.object({
 
 const dashboardVisFilter = z.object({
   id: z.string(),
-  equals: z.string(),
+  equals: z.number().nullable(),
 })
 
 const DashboardVisualisationKeySchema = z.object({

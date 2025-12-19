@@ -66,7 +66,7 @@ class Chart {
   }
 
   setStyles = (datasetIndex: number) => {
-    const colour = this.hexColours[datasetIndex]
+    const colour = this.hexColours[datasetIndex % this.hexColours.length]
     return {
       backgroundColor: colour,
       borderColor: colour,

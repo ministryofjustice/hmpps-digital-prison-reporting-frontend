@@ -8,7 +8,7 @@ export function routes({ layoutPath, services }: { layoutPath: string; services:
   const router = Router({ mergeParams: true })
 
   const controller = new RecentlyViewedReportsController(services)
-  router.delete('/:id', controller.DELETE)
+  router.post('/:id', controller.POST)
   router.use(`/list`, listRoutes({ layoutPath, services }))
 
   return router

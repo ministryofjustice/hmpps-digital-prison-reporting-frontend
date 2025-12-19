@@ -111,12 +111,12 @@ class BookmarkService extends ReportStoreService {
       }
     }
 
-    return automatic || isMissing
-      ? ''
-      : `<button class='dpr-bookmark dpr-bookmark-table' data-dpr-module='bookmark-toggle'>
-  <input class='bookmark-input' type='checkbox' id='${reportId}-${id}-${ctxId}' data-report-id='${reportId}' data-id='${id}' data-report-type='${reportType}' data-csrf-token='${csrfToken}' data-base-url="${nestedBaseUrl}" ${checked} />
+    const bookmarkButton = `<button class='dpr-bookmark dpr-bookmark-table' data-dpr-module='bookmark-toggle'>
+    <input class='bookmark-input' type='checkbox' id='${reportId}-${id}-${ctxId}' data-report-id='${reportId}' data-id='${id}' data-report-type='${reportType}' data-csrf-token='${csrfToken}' data-base-url='${nestedBaseUrl}' ${checked} />
   <label tabindex='0' id='${id}-${reportId}-${ctxId}-bookmark-label' for='${reportId}-${id}-${ctxId}'><span class='dpr-bookmark-label govuk-body-s'>${tooltip}</span></label>
 </button>`
+
+    return automatic || isMissing ? '' : bookmarkButton
   }
 }
 

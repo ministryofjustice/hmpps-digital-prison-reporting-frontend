@@ -18,7 +18,6 @@ class BookmarkToggle extends DprClientClass {
     const id = bookmarkToggle.getAttribute('data-id')
     const reportType = bookmarkToggle.getAttribute('data-report-type')
     this.baseUrl = bookmarkToggle.getAttribute('data-base-url')
-
     this.bookmarkWrapper = bookmarkToggle.parentNode
     this.bookmarkColumn = this.bookmarkWrapper.parentNode
     this.bookmarkLabel = this.bookmarkWrapper.querySelector('.dpr-bookmark-label--component')
@@ -69,7 +68,11 @@ class BookmarkToggle extends DprClientClass {
   }
 
   async toggleBookmark(type, id, reportId, reportType, csrfToken) {
-    const endpoint = this.baseUrl ? `${this.baseUrl}/dpr/my-reports/bookmarks/` : `/dpr/my-reports/bookmarks/`
+    const endpoint =
+      this.baseUrl && this.baseUrl !== 'undefined'
+        ? `${this.baseUrl}/dpr/my-reports/bookmarks/`
+        : `/dpr/my-reports/bookmarks/`
+
     await fetch(endpoint, {
       method: 'post',
       headers: {

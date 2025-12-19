@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.22.5
+- Bug fix: fix dashboard filter validation
+
 ## 4.22.4
 - Bug fix: Fix remove actions in higher envs
 - Bug fix: Bookmarking on the homepage

@@ -96,7 +96,7 @@ class DprAsyncRequestList extends DprPollingStatusClass {
   async removeItemFromList(executionId) {
     let response
     await fetch(`dpr/my-reports/requested-reports/${executionId}`, {
-      method: 'delete',
+      method: 'post',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',

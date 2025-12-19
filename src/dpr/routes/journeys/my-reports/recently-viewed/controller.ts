@@ -9,7 +9,7 @@ class RecentlyViewedReportsController {
     this.services = services
   }
 
-  DELETE: RequestHandler = async (req, res) => {
+  POST: RequestHandler = async (req, res) => {
     const { dprUser } = LocalsHelper.getValues(res)
     const { id } = req.params
     await this.services.recentlyViewedService.removeReport(id, dprUser.id)

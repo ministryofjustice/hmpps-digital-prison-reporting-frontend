@@ -19,7 +19,7 @@
 
       {% elif template === 'list-section' or template === 'summary-section' or template === 'parent-child' or template === 'parent-child-section' or template === 'row-section' or template === 'row-section-child' %}
 
-        {{ dprReport(renderData, count) }}
+        {{ dprReport(renderData, count, template) }}
 
       {% elif template === 'summary' %}
 
@@ -32,7 +32,7 @@
 
       {% else %}
 
-        {{ dprReport(renderData, count) }}
+        {{ dprReport(renderData, count, template) }}
         
         {% if count and count > 0 %}
           {{ dprReportPagination(pagination) }}

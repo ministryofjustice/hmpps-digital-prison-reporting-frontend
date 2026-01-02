@@ -1,9 +1,9 @@
 .dpr-summary-container-group {
-  column-gap: 15px;
   display: flex;
   position: relative;
   row-gap: 15px;
   flex-flow: column wrap;
+  padding-bottom: 40px;
 
   .dpr-summary-container {
     min-width: 200px;

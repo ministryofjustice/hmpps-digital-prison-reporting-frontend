@@ -14,8 +14,8 @@ const reportTemplateExampleParentChild: components['schemas']['VariantDefinition
     sections: ['section1', 'section2'],
     fields: [
       {
-        name: 'field1',
-        display: 'Field 1',
+        name: 'field3',
+        display: 'Field 3',
         sortable: false,
         defaultsort: false,
         type: 'string',
@@ -81,8 +81,8 @@ const reportTemplateExampleParentChild: components['schemas']['VariantDefinition
             header: false,
           },
           {
-            name: 'field1',
-            display: 'Child Field 1',
+            name: 'field3',
+            display: 'Child Field 3',
             sortable: false,
             defaultsort: false,
             type: 'string',
@@ -92,8 +92,8 @@ const reportTemplateExampleParentChild: components['schemas']['VariantDefinition
             header: false,
           },
           {
-            name: 'field2',
-            display: 'Child Field 2',
+            name: 'field4',
+            display: 'Child Field 4',
             sortable: false,
             defaultsort: false,
             type: 'string',

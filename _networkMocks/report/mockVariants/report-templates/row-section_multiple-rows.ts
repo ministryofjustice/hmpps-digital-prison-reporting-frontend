@@ -1,6 +1,11 @@
 import { components } from 'src/dpr/types/api'
+import { SectionedField } from 'src/dpr/utils/SectionedFieldsTableBuilder/SectionedFieldsTableBuilder'
 
-const reportTemplateExampleRowSectionMultiple: components['schemas']['VariantDefinition'] = {
+const reportTemplateExampleRowSectionMultiple: components['schemas']['VariantDefinition'] & {
+  specification: components['schemas']['VariantDefinition']['specification'] & {
+    sectionedFields: SectionedField[]
+  }
+} = {
   id: 'report-template-example-row-section-multiple-rows',
   name: 'Sectioned Rows template (muliple rows)',
   description: 'A report with sectioned rows',
@@ -10,6 +15,20 @@ const reportTemplateExampleRowSectionMultiple: components['schemas']['VariantDef
   specification: {
     template: 'row-section',
     sections: ['section1', 'section2', 'section3'],
+    sectionedFields: [
+      {
+        name: 'section1',
+        fields: ['field1', 'field2'],
+      },
+      {
+        name: 'section2',
+        fields: ['field3', 'field4'],
+      },
+      {
+        name: 'section3',
+        fields: ['field5', 'field6'],
+      },
+    ],
     fields: [
       {
         name: 'field1',

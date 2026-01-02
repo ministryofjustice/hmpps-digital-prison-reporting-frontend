@@ -8,10 +8,7 @@ export function routes({ layoutPath, services }: { layoutPath: string; services:
   const router = Router({ mergeParams: true })
 
   const controller = new BookmarkController(layoutPath, services)
-
   router.post('/', controller.POST)
-  router.delete('/', controller.DELETE)
-
   router.use(`/list`, listRoutes({ layoutPath, services }))
   return router
 }

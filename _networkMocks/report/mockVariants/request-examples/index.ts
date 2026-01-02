@@ -4,6 +4,7 @@ import { requestExampleExpiredBookmark } from './expired-bookmark'
 import { requestExampleFailCode } from './fail-code'
 import { requestExampleFailStatus } from './fail-status'
 import { requestExampleSuccess } from './success'
+import { requestExampleExecutionDataError } from './execution-data-error'
 
 export const requestExampleVariants = [
   requestExampleRequestError,
@@ -12,4 +13,5 @@ export const requestExampleVariants = [
   requestExampleFailCode,
   requestExampleFailStatus,
   requestExampleSuccess,
+  requestExampleExecutionDataError,
 ]

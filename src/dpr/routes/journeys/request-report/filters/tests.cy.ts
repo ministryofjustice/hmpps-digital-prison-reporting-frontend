@@ -230,6 +230,102 @@ describe('Request a report', () => {
         )
       })
     })
+
+    it('should correctly set the input values from the query parameters', () => {
+      cy.visit(
+        `${path}?filters.field1=value1.3&filters.field3.start=2004-02-01&filters.field3.end=2006-05-04&filters.field7=2004-02-01&filters.field8=value8.2&filters.field8=value8.4&sortColumn=field1&sortedAsc=false&filters.field2=value2.3&filters.field4=PrHu&preventDefault=true&filters.field8=value8.3&filters.field8=value8.1`,
+      )
+
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link')
+          .should('have.length', 8)
+          .each((filter, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(filter).contains('Field 1')
+                cy.wrap(filter).contains('Value 1.3')
+                break
+              case 1:
+                cy.wrap(filter).contains('Field 3 start')
+                cy.wrap(filter).contains('01/02/2004')
+                break
+              case 2:
+                cy.wrap(filter).contains('Field 3 end')
+                cy.wrap(filter).contains('04/05/2006')
+                break
+              case 3:
+                cy.wrap(filter).contains('Field 7')
+                cy.wrap(filter).contains('01/02/2004')
+                break
+              case 4:
+                cy.wrap(filter).contains('Field 8')
+                cy.wrap(filter).contains('Value 8.1, Value 8.2, Value 8.3 + 1 more')
+                break
+              case 5:
+                cy.wrap(filter).contains('Field 2')
+                cy.wrap(filter).contains('Value 2.3')
+                break
+              case 6:
+                cy.wrap(filter).contains('Field 4')
+                cy.wrap(filter).contains('Prince Humperdink')
+                break
+              case 7:
+                cy.wrap(filter).contains('Reset filters')
+                break
+              default:
+                break
+            }
+          })
+      })
+    })
+
+    it('should correctly set the input values from the query parameters with constraints', () => {
+      cy.visit(
+        `${path}?filters.field1=value1.3&filters.field3.start=2002-02-01&filters.field3.end=2008-05-04&filters.field7=2004-02-01&filters.field8=value8.2&filters.field8=value8.4&sortColumn=field1&sortedAsc=false&filters.field2=value2.3&filters.field4=PrHu&preventDefault=true&filters.field8=value8.3&filters.field8=value8.1`,
+      )
+
+      cy.findByLabelText(/Selected filters.*/i).within(() => {
+        cy.findAllByRole('link')
+          .should('have.length', 8)
+          .each((filter, index) => {
+            switch (index) {
+              case 0:
+                cy.wrap(filter).contains('Field 1')
+                cy.wrap(filter).contains('Value 1.3')
+                break
+              case 1:
+                cy.wrap(filter).contains('Field 3 start')
+                cy.wrap(filter).contains('01/02/2003')
+                break
+              case 2:
+                cy.wrap(filter).contains('Field 3 end')
+                cy.wrap(filter).contains('04/05/2007')
+                break
+              case 3:
+                cy.wrap(filter).contains('Field 7')
+                cy.wrap(filter).contains('01/02/2004')
+                break
+              case 4:
+                cy.wrap(filter).contains('Field 8')
+                cy.wrap(filter).contains('Value 8.1, Value 8.2, Value 8.3 + 1 more')
+                break
+              case 5:
+                cy.wrap(filter).contains('Field 2')
+                cy.wrap(filter).contains('Value 2.3')
+                break
+              case 6:
+                cy.wrap(filter).contains('Field 4')
+                cy.wrap(filter).contains('Prince Humperdink')
+                break
+              case 7:
+                cy.wrap(filter).contains('Reset filters')
+                break
+              default:
+                break
+            }
+          })
+      })
+    })
   })
 
   context('User defined defaults', () => {

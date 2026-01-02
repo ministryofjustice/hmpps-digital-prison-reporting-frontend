@@ -335,8 +335,7 @@ const requestedFailed = {
     polling: {
       fullUrl:
         'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
-      pathname:
-        '/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
+      pathname: '/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
     },
     report: {},
   },
@@ -394,7 +393,7 @@ const requestedSubmitted = {
   reportId: 'request-examples',
   reportName: 'Request examples',
   description: 'this will fail with returned Status: FAILED',
-  id: 'request-example-fail-status',
+  id: undefined,
   name: 'Submitted report',
   timestamp: {
     requested: '2024-10-24T10:28:15.792Z',
@@ -422,16 +421,14 @@ const requestedSubmitted = {
     origin: 'http://localhost:3010',
     request: {
       fullUrl:
-        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-fail-status/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
-      pathname: '/embedded/platform/async/report/request-examples/request-example-fail-status/request',
+        'http://localhost:3010/embedded/platform/async/report/request-examples/undefined/request?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
+      pathname: '/embedded/platform/async/report/request-examples/undefined/request',
       search:
         '?filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&sortColumn=field1&sortedAsc=true&filters.field2=value2.1&filters.field4=Inigo+Montoya',
     },
     polling: {
-      fullUrl:
-        'http://localhost:3010/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
-      pathname:
-        '/embedded/platform/async/report/request-examples/request-example-fail-status/request/exId_238947923',
+      fullUrl: 'http://localhost:3010/embedded/platform/async/report/request-examples/undefined/request/exId_238947923',
+      pathname: '/embedded/platform/async/report/request-examples/undefined/request/exId_238947923',
     },
     report: {},
   },
@@ -479,10 +476,36 @@ const requestedSubmitted = {
   status: 'SUBMITTED',
 }
 
+const requestedReadyViewed = {
+  ...requestedReady,
+  reportId: 'request-examples-viewed',
+  id: 'request-example-success-viewed',
+  executionId: 'exId_2382342488',
+  tableId: 'tblId_172453527824',
+  timestamp: {
+    ...requestedReady.timestamp,
+    lastViewed: '2024-10-24T10:27:15.448Z',
+  },
+}
+
+const requestedReadyViewed2 = {
+  ...requestedReady,
+  reportId: 'request-examples-viewed-2',
+  id: 'request-example-success-viewed-2',
+  executionId: 'exId_2382342481',
+  tableId: 'tblId_172453527821',
+  timestamp: {
+    ...requestedReady.timestamp,
+    lastViewed: '2024-10-24T10:27:15.448Z',
+  },
+}
+
 module.exports = {
   requestedReady,
   requestedExpired,
   requestedFailed,
   requestedAborted,
   requestedSubmitted,
+  requestedReadyViewed,
+  requestedReadyViewed2,
 }

@@ -1,5 +1,40 @@
 Below you can find the changes included in each release.
 
+## 4.23.0
+- Fix homepage bookmark buttons
+- Change DELETE to POST in form for requested-reports and recently-viewed
+- Cycle colours in charts
+- Fix validation for null filter
+- Bump glob to fix security issue, remove semantic-release and related @semantic-release libs as no longer used
+
+## 4.22.5
+- Bug fix: fix dashboard filter validation
+
+## 4.22.4
+- Bug fix: Fix remove actions in higher envs
+- Bug fix: Bookmarking on the homepage
+
+## 4.22.3
+- Bug fix: Bookmarking from a report 
+
+## 4.22.2
+- Bug fix: fix default sort direction for sync reports. 
+
+## 4.22.1
+- Bug fix: Autocomplete to show display labels instead of values. 
+
+## 4.22.0
+- Remove 'View report'/'View dashboard' button on polling page when report/dashboard has finished loading to avoid potential race condition
+
+## 4.21.1
+- Fix small typing issue
+
+## 4.21.0
+- Dashboard visualisations: Horizontal bar chart support
+
+## 4.20.2
+- Bug Fix: Parent child report: child report page size issue fixed. 
+
 ## 4.20.1
 - Fix for query params not being sent properly when using child reports
 
@@ -14,13 +49,13 @@ Below you can find the changes included in each release.
 - Bugfix: Dashboard data pagesize set to max 
 
 ## 4.18.3
-- Bigfix: Fix dashboard filters csrf token issue. 
+- Bugfix: Fix dashboard filters csrf token issue. 
 
 ## 4.18.2
-- Bigfix: Pagination & totals count: totals count was incorrect. 
+- Bugfix: Pagination & totals count: totals count was incorrect. 
 
 ## 4.18.1 
-- Bigfix: Interactive filter: preset date range selection failed BE validation.
+- Bugfix: Interactive filter: preset date range selection failed BE validation.
 
 ## 4.18.0 
 - Conditional interactive filters based on pre-filter values

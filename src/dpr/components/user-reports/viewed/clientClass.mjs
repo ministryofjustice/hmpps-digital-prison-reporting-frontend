@@ -11,7 +11,8 @@ class DprRecentlyViewedList extends DprPollingStatusClass {
     this.POLLING_FREQUENCY = '60000' // 1 min
 
     this.viewedList = document.getElementById('dpr-recently-viewed-component')
-    this.viewedReportData = this.viewedList.getAttribute('data-request-data')
+    const viewedReportData = this.viewedList.getAttribute('data-request-data')
+    this.viewedReportData = viewedReportData ? JSON.parse(viewedReportData) : undefined
     this.csrfToken = this.viewedList.getAttribute('data-csrf-token')
     this.removeActions = document.querySelectorAll('.dpr-remove-viewed-report-button')
 
@@ -31,7 +32,7 @@ class DprRecentlyViewedList extends DprPollingStatusClass {
 
   async checkIsExpired() {
     await Promise.all(
-      JSON.parse(this.viewedReportData).map(async (metaData) => {
+      this.viewedReportData.map(async (metaData) => {
         const { status, reportUrl } = metaData
         if (status !== 'EXPIRED') {
           const response = await this.getExpiredStatus(reportUrl, metaData, this.csrfToken)
@@ -57,7 +58,7 @@ class DprRecentlyViewedList extends DprPollingStatusClass {
   async removeItemFromList(executionId) {
     let response
     await fetch(`dpr/my-reports/recently-viewed/${executionId}`, {
-      method: 'delete',
+      method: 'post',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',

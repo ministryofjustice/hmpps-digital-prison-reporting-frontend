@@ -12,7 +12,8 @@ class DprAsyncRequestList extends DprPollingStatusClass {
     this.POLLING_FREQUENCY = this.getPollingFrquency()
 
     this.requestList = document.getElementById('dpr-async-request-component')
-    this.requestData = this.requestList.getAttribute('data-request-data')
+    const requestData = this.requestList.getAttribute('data-request-data')
+    this.requestData = requestData ? JSON.parse(requestData) : undefined
     this.csrfToken = this.requestList.getAttribute('data-csrf-token')
     this.removeActions = document.querySelectorAll('.dpr-remove-requested-report-button')
 
@@ -23,7 +24,7 @@ class DprAsyncRequestList extends DprPollingStatusClass {
   async initPollingIntervals() {
     await this.checkIfExpired()
 
-    if (this.requestData) {
+    if (this.requestData && !this.allHaveInvalidIds()) {
       if (this.shouldPollExpired(this.requestData)) {
         this.expiredInterval = setInterval(async () => {
           await this.checkIfExpired()
@@ -38,11 +39,22 @@ class DprAsyncRequestList extends DprPollingStatusClass {
     }
   }
 
+  hasValidIds(metaData) {
+    const { id, reportId, executionId, tableId } = metaData
+    return id !== undefined && reportId !== undefined && executionId !== undefined && tableId !== undefined
+  }
+
+  allHaveInvalidIds() {
+    return this.requestData.every((meta) => {
+      return !this.hasValidIds(meta)
+    })
+  }
+
   async checkIfExpired() {
     await Promise.all(
-      JSON.parse(this.requestData).map(async (metaData) => {
+      this.requestData.map(async (metaData) => {
         const { status, reportUrl } = metaData
-        if (!this.EXPIRED_END_STATUSES.includes(status)) {
+        if (this.hasValidIds(metaData) && !this.EXPIRED_END_STATUSES.includes(status)) {
           const response = await this.getExpiredStatus(reportUrl, metaData, this.csrfToken)
 
           if (response && response.isExpired) {
@@ -56,9 +68,9 @@ class DprAsyncRequestList extends DprPollingStatusClass {
 
   async pollStatus() {
     await Promise.all(
-      JSON.parse(this.requestData).map(async (metaData) => {
+      this.requestData.map(async (metaData) => {
         // Don't poll if current state is an end state
-        if (!this.END_STATUSES.includes(metaData.status)) {
+        if (this.hasValidIds(metaData) && !this.END_STATUSES.includes(metaData.status)) {
           const response = await this.getRequestStatus(metaData, this.csrfToken)
 
           // Reload if new status is an end state
@@ -84,7 +96,7 @@ class DprAsyncRequestList extends DprPollingStatusClass {
   async removeItemFromList(executionId) {
     let response
     await fetch(`dpr/my-reports/requested-reports/${executionId}`, {
-      method: 'delete',
+      method: 'post',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',

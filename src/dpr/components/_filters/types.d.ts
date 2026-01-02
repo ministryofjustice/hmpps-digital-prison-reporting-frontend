@@ -81,10 +81,12 @@ export interface DateRange {
 export interface GranularDateRange extends DateRange {
   granularity: GranularDateRangeGranularityValue
   quickFilter?: GranularDateRangeQuickFilterValue
-  partialDate?: {
-    start: boolean
-    end: boolean
-  }
+  partialDate?: PartialDate
+}
+
+export interface PartialDate {
+  start: boolean
+  end: boolean
 }
 
 interface GranularDateRangeGranularityValue {

@@ -45,7 +45,7 @@ export const getAsyncReportResultMock = setupSimpleMock(
 )
 export const getAsyncListSectionReportResultMock = setupSimpleMock(
   `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/result`,
-  createMockData(10)
+  createMockData(10),
 )
 export const getAsyncReportResultMockMissingData = setupSimpleMock(
   `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/result`,

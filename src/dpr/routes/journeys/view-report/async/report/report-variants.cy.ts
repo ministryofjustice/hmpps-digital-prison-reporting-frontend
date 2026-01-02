@@ -1,4 +1,4 @@
-import { executeReportStubs, requestReportByNameAndDescription, stubBaseTasks } from "cypress-tests/cypressUtils"
+import { executeReportStubs, requestReportByNameAndDescription, stubBaseTasks } from 'cypress-tests/cypressUtils'
 
 context('Viewing a report', () => {
   const path = '/embedded/platform/'
@@ -34,16 +34,18 @@ context('Viewing a report', () => {
 
       cy.contains('table', 'val40').within(() => {
         cy.findAllByRole('row').should('have.length', 8)
-          ;[40, 41, 42, 43, 44, 45, 46].forEach((num) => {
-            cy.findByRole('row', { name: new RegExp(`val${num}$`) }).should('be.visible')
-          })
+        ;[40, 41, 42, 43, 44, 45, 46].forEach((num) => {
+          cy.findByRole('row', { name: new RegExp(`val${num}$`) }).should('be.visible')
+        })
       })
 
       cy.contains('table', 'val30').within(() => {
-        cy.findAllByRole('row').should('have.length', 14);
-        [...Array(10).keys()].map(i => i + 30).forEach((num) => {
-          cy.findByRole('row', { name: new RegExp(`val${num}$`) }).should('be.visible')
-        })
+        cy.findAllByRole('row').should('have.length', 14)
+        ;[...Array(10).keys()]
+          .map((i) => i + 30)
+          .forEach((num) => {
+            cy.findByRole('row', { name: new RegExp(`val${num}$`) }).should('be.visible')
+          })
         cy.findByRole('row', { name: /val330/ }).should('be.visible')
         cy.findByRole('row', { name: /val331/ }).should('be.visible')
         cy.findByRole('row', { name: /val332/ }).should('be.visible')
@@ -85,8 +87,10 @@ context('Viewing a report', () => {
       cy.findAllByRole('row', {
         name: (textContent) => {
           return textContent.includes('val')
-        }
-      }).filter((_idx, el) => [...el.querySelectorAll('td')].length === 2).should('have.length', 100)
+        },
+      })
+        .filter((_idx, el) => [...el.querySelectorAll('td')].length === 2)
+        .should('have.length', 100)
     })
   })
 })

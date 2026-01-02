@@ -1,5 +1,12 @@
 Below you can find the changes included in each release.
 
+## 4.23.0
+- Fix homepage bookmark buttons
+- Change DELETE to POST in form for requested-reports and recently-viewed
+- Cycle colours in charts
+- Fix validation for null filter
+- Bump glob to fix security issue, remove semantic-release and related @semantic-release libs as no longer used
+
 ## 4.22.5
 - Bug fix: fix dashboard filter validation
 

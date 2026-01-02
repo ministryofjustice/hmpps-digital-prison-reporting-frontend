@@ -1,12 +1,12 @@
 import { summaries } from '@networkMocks/definitionSummaries'
+import { stubBaseTasks } from 'cypress-tests/cypressUtils'
 
 context('Catalogue collections', () => {
   const path = '/embedded/platform/'
 
   describe('Check catalogue collections work properly', () => {
     it('should allow the user to choose from any collection', () => {
-      cy.task('resetStubs')
-      cy.task('resetRedis')
+      stubBaseTasks()
       cy.task('stubDefinitions')
       cy.task('stubGetProductCollections')
       cy.task('getProductCollection1')

@@ -20,3 +20,8 @@ export const updateRedisState = (userStoreKey: keyof ReportStoreConfig, userStor
   })
   cy.reload()
 }
+
+export const resetFeatureFlags = () => {
+  cy.request('POST', `/embedded/platform/resetFeatureFlags`, {})
+  cy.reload()
+}

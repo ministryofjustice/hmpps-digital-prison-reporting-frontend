@@ -19,9 +19,10 @@ import { featureTestingSync } from '@networkMocks/report/mockVariants/feature-te
 import { getListWithWarnings, getListWithWarningsCount } from '@networkMocks/report/sync/mocks'
 import { featureTestingOrderFilters } from '@networkMocks/report/mockVariants/feature-testing/orderFilters'
 import { getProductCollection1, getProductCollection2, getProductCollections } from '@networkMocks/productCollections/mocks'
-import { reportingFailureStubs } from './failures'
+import { failureStubs, reportingFailureStubs } from './failures'
+import { getFlagsMockDisabled, getFlagsMockEmpty, getFlagsMockEnabled } from '@networkMocks/featureFlags/mocks'
 
-const stubs = {
+export const stubs = {
   stubGetFeatureTestingMissing: () => stubFor(setupSimpleReportDefinitionResponseMock('feature-testing', featureTestingMissing1)),
   stubFilterInputsVariant15Def: () => stubFor(setupSimpleReportDefinitionResponseMock('filter-inputs', relativeDateRange)),
   stubFilterInputsRelDateDef: () => stubFor(setupSimpleReportDefinitionResponseMock('filter-inputs', relativeDateRangeWithDefaults)),
@@ -146,7 +147,12 @@ const stubs = {
   stubGetProductCollections: () => stubFor(getProductCollections),
   getProductCollection1: () => stubFor(getProductCollection1),
   getProductCollection2: () => stubFor(getProductCollection2),
+  stubFeatureFlags: () => stubFor(getFlagsMockEnabled),
+  stubFeatureFlagsEmpty: () => stubFor(getFlagsMockEmpty),
+  stubFeatureFlagsDisabled: () => stubFor(getFlagsMockDisabled),
   ...reportingFailureStubs,
-}
+} as const
+
+export type ReportingStubsKeys = keyof typeof stubs
 
 export default stubs

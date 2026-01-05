@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.23.2
+- Bump sub-dependencies (`tmp`, `on-headers`, `serve`, `brace-expansion`, `js-yaml`) to fix security issues
+
 ## 4.23.1
 - Bump express 5.1.0 -> 5.2.0
 

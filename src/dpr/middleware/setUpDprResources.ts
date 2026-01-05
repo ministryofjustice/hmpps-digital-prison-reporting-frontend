@@ -2,12 +2,14 @@
 import { RequestHandler, Response, Request, ErrorRequestHandler, NextFunction } from 'express'
 import type { ParsedQs } from 'qs'
 import { HTTPError } from 'superagent'
+import type { Environment } from 'nunjucks'
 import { Services } from '../types/Services'
 import { RequestedReport, StoredReportData } from '../types/UserReports'
 import DefinitionUtils from '../utils/definitionUtils'
 import { BookmarkStoreData } from '../types/Bookmark'
 import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
+import { FeatureFlagService, isBooleanFlagEnabled } from '../services/featureFlagService'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -38,16 +40,49 @@ export const errorRequestHandler =
     return next()
   }
 
-export const setupResources = (services: Services, layoutPath: string, config?: DprConfig): RequestHandler => {
+export const setupResources = (
+  services: Services,
+  layoutPath: string,
+  env: Environment,
+  config?: DprConfig,
+): RequestHandler => {
   return async (req, res, next) => {
     populateValidationErrors(req, res)
     try {
+      await setFeatures(res, services.featureFlagService)
       await populateDefinitions(services, req, res, config)
       await populateRequestedReports(services, res)
+      setupRequestAwareNunjucks(env, res)
       return next()
     } catch (error) {
       return errorRequestHandler(layoutPath)(error, req, res, next)
     }
+  }
+}
+
+const setupRequestAwareNunjucks = (env: Environment, res: Response) => {
+  env.addGlobal('getLocals', () => ({ locals: { ...res.locals, ...res.app.locals } }))
+}
+
+const setFeatures = async (res: Response, featureFlagService: FeatureFlagService) => {
+  if (res.app.locals.featureFlags === undefined) {
+    res.app.locals.featureFlags = {
+      flags: {},
+      lastUpdated: new Date().getTime() - 601 * 1000,
+    }
+  }
+  const { featureFlags } = res.app.locals
+  const currentTime = new Date().getTime()
+  const timeSinceLastUpdatedSeconds = (currentTime - featureFlags.lastUpdated) / 1000
+  const shouldUpdate = timeSinceLastUpdatedSeconds > 600
+  if (shouldUpdate) {
+    // Refresh every 10 mins
+    res.app.locals.featureFlags.lastUpdated = currentTime
+    const flags = await featureFlagService.getFlags().catch((e) => {
+      res.app.locals.featureFlags.lastUpdated = currentTime - 601 * 1000
+      throw e
+    })
+    res.app.locals.featureFlags.flags = Object.fromEntries(flags.flags.map((flag) => [flag.key, flag]))
   }
 }
 
@@ -126,7 +161,7 @@ export const populateRequestedReports = async (services: Services, res: Response
     res.locals['bookmarkingEnabled'] = services.bookmarkService.enabled
     res.locals['collectionsEnabled'] = services.productCollectionService.enabled
     res.locals['requestMissingEnabled'] = services.missingReportService.enabled
-    res.locals['saveDefaultsEnabled'] = services.defaultFilterValuesService.enabled
+    res.locals['saveDefaultsEnabled'] = isBooleanFlagEnabled('saveDefaultsEnabled', res.app)
 
     if (res.locals['bookmarkingEnabled']) {
       const bookmarks = await services.bookmarkService.getAllBookmarks(dprUser.id)

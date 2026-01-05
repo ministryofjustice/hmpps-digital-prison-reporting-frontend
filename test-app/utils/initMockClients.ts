@@ -11,6 +11,9 @@ import MockReportingClient from '../mocks/mockClients/reports/mockReportingClien
 import { MockUserStoreService } from '../mocks/mockClients/store/mockRedisStore'
 import MockDashboardClient from '../mocks/mockClients/dashboards/mock-client'
 import { ServiceFeatureConfig } from '../../src/dpr/types/DprConfig'
+import { ProductCollectionService } from 'src/dpr/services/productCollection/productCollectionService'
+import { FeatureFlagService } from 'src/dpr/services/featureFlagService'
+import { Environment } from 'nunjucks'
 
 export const initServices = (featureConfig?: ServiceFeatureConfig) => {
   const clients: {
@@ -19,6 +22,7 @@ export const initServices = (featureConfig?: ServiceFeatureConfig) => {
     reportDataStore: any
     missingReportClient: any
     productCollectionClient: ProductCollectionClient
+    featureFlagService: FeatureFlagService
   } = {} as typeof clients
   if (process.env['USE_MOCK_CLIENTS']) {
     clients.reportingClient = new MockReportingClient() as unknown as ReportingClient
@@ -67,15 +71,20 @@ export const initServices = (featureConfig?: ServiceFeatureConfig) => {
     },
     url: `http://localhost:9091`,
   })
+  clients.featureFlagService = new FeatureFlagService({
+    namespace: 'foo',
+    token: 'bar',
+    url: 'http://localhost:9091',
+  })
 
   // 2. Create services
   return createDprServices(clients, featureConfig)
 }
 
-export default function initMockClients(router: Router, featureConfig?: { bookmarking?: boolean; download?: boolean }) {
+export default function initMockClients(router: Router, env: Environment, featureConfig?: { bookmarking?: boolean; download?: boolean }) {
   const services = initServices(featureConfig)
 
-  router.use(setUpDprResources(services, ''))
+  router.use(setUpDprResources(services, '', env))
 
   return {
     services,

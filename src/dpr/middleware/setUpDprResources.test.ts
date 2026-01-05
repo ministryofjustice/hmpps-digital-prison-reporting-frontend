@@ -14,6 +14,7 @@ import {
 import { ProductCollectionService } from '../services/productCollection/productCollectionService'
 import MissingReportService from '../services/missingReport/missingReportService'
 import { ProductCollectionStoreService } from '../services/productCollection/productCollectionStoreService'
+import { FeatureFlagService } from '../services/featureFlagService'
 
 describe('setUpDprResources', () => {
   describe('populateRequestedReports', () => {
@@ -25,6 +26,7 @@ describe('setUpDprResources', () => {
     let defaultFilterValuesService: DefaultFilterValuesService
     let productCollectionStoreService: ProductCollectionStoreService
     let missingReportService: MissingReportService
+    let featureFlagService: FeatureFlagService
     let services: Services
     let res: Response
 
@@ -63,6 +65,11 @@ describe('setUpDprResources', () => {
         enabled: true,
       } as unknown as MissingReportService
 
+      featureFlagService = {
+        restClient: undefined,
+        namespace: '',
+      } as unknown as FeatureFlagService
+
       services = {
         requestedReportService,
         recentlyViewedService,
@@ -72,9 +79,13 @@ describe('setUpDprResources', () => {
         defaultFilterValuesService,
         downloadPermissionService,
         bookmarkService,
+        featureFlagService,
       } as unknown as Services
 
       res = {
+        app: {
+          locals: {},
+        },
         locals: {
           dprUser: {
             token: 'T0k3n',

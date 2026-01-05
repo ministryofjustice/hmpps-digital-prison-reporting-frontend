@@ -13,7 +13,7 @@ import {
   viewedReady,
   expiredDashboard,
 } from '@networkMocks/report/mockVariants/mockViewedUserListData'
-import { setRedisState } from '../../../integrationTests/redisStateTestUtils'
+import { setRedisState } from '../../../integrationTests/appStateUtils'
 import {
   checkA11y,
   executeReportStubs,

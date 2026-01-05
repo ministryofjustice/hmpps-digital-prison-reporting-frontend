@@ -38,8 +38,6 @@
   "scripts": {
     "package": "node esbuild/esbuild.config.js --build",
     "bundle-modules": "node ./scripts/bundle-modules.mjs",
-    "ci:release": "HUSKY=0 CI=true semantic-release --debug",
-    "ci:dryrun": "HUSKY=0 CI=true semantic-release --dry-run",
     "docs:serve-prod": "serve -l 3000 dist-docs/dpr",
     "docs": "node esbuild/esbuild.docs.config.js --build",
     "docs:serve": "serve dist-docs/dpr",
@@ -140,6 +138,7 @@
     ]
   },
   "dependencies": {
+    "@flipt-io/flipt": "^1.5.0",
     "@ministryofjustice/frontend": "^6.0.0",
     "agentkeepalive": "^4.5.0",
     "bunyan": "^1.8.15",
@@ -156,7 +155,7 @@
     "dayjs": "^1.11.12",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
-    "govuk-frontend": "^5.11.0",
+    "govuk-frontend": "^5.13.0",
     "jquery": "^3.7.1",
     "json-2-csv": "^5.5.6",
     "nocache": "^4.0.0",
@@ -174,8 +173,6 @@
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.5",
     "@jest/globals": "^30.2.0",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.3",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/npm": "^11.0.0",
     "@testing-library/cypress": "^10.0.3",
     "@types/bunyan": "^1.8.8",
     "@types/bunyan-format": "^0.2.5",
@@ -236,7 +233,6 @@
     "prettier-plugin-jinja-template": "^0.5.0",
     "require-dir": "^1.2.0",
     "sass": "^1.66.1",
-    "semantic-release": "^22.0.5",
     "serve": "^14.2.4",
     "superagent": "^10.2.3",
     "ts-jest": "^29.1.1",

@@ -1,5 +1,22 @@
 Below you can find the changes included in each release.
 
+## 4.24.0
+- Add ability to use feature flags
+- Bump govuk-frontend in package.json - this is a noop as the package-lock already had it at 5.13.0, just to ensure it's kept on latest
+
+## 4.23.2
+- Bump sub-dependencies (`tmp`, `on-headers`, `serve`, `brace-expansion`, `js-yaml`) to fix security issues
+
+## 4.23.1
+- Bump express 5.1.0 -> 5.2.0
+
+## 4.23.0
+- Fix homepage bookmark buttons
+- Change DELETE to POST in form for requested-reports and recently-viewed
+- Cycle colours in charts
+- Fix validation for null filter
+- Bump glob to fix security issue, remove semantic-release and related @semantic-release libs as no longer used
+
 ## 4.22.5
 - Bug fix: fix dashboard filter validation
 

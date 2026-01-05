@@ -10,12 +10,14 @@ import MissingReportService from '../services/missingReport/missingReportService
 import ReportingService from '../services/reportingService'
 import DashboardService from '../services/dashboardService'
 import { ProductCollectionService } from '../services/productCollection/productCollectionService'
+import { FeatureFlagService } from '../services/featureFlagService'
 
 export type Services = UserStoreServices & {
   reportingService: ReportingService
   dashboardService: DashboardService
   missingReportService: MissingReportService
   productCollectionService: ProductCollectionService
+  featureFlagService: FeatureFlagService
 }
 
 export interface UserStoreServices {

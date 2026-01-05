@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 4.24.0
+- Add ability to use feature flags
+- Bump govuk-frontend in package.json - this is a noop as the package-lock already had it at 5.13.0, just to ensure it's kept on latest
+
 ## 4.23.2
 - Bump sub-dependencies (`tmp`, `on-headers`, `serve`, `brace-expansion`, `js-yaml`) to fix security issues
 

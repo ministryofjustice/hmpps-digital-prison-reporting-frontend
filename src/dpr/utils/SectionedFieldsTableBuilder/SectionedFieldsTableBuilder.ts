@@ -4,7 +4,7 @@ import { Cell, DataTable, FieldDefinition } from '../DataTableBuilder/types'
 import type { Template } from '../../types/Templates'
 import ParentChildDataTableBuilder from '../ParentChildDataTableBuilder/ParentChildDataTableBuilder'
 
-interface SectionedField {
+export interface SectionedField {
   name: string
   fields?: string[]
   child?: string

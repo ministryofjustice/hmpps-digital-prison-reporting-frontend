@@ -43,6 +43,10 @@ export const getAsyncReportResultMock = setupSimpleMock(
   `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/result`,
   createMockData(10),
 )
+export const getAsyncListSectionReportResultMock = setupSimpleMock(
+  `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/result`,
+  createMockData(10),
+)
 export const getAsyncReportResultMockMissingData = setupSimpleMock(
   `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/result`,
   createMockData(10).map((row, idx) => {
@@ -135,6 +139,11 @@ export const mockReportVariantMocks = generateMocksFromDefs('mock-report', mockR
 export const filterInputExampleVariantMocks = generateMocksFromDefs('filter-inputs', filterInputExamplesVariants)
 export const featureTestingVariantMocks = generateMocksFromDefs('feature-testing', featureTestingVariants)
 
+export const getAsyncSummaryReport = setupSimpleMock(
+  `/reports/${reportIdRegex}/${reportIdRegex}/tables/${reportIdRegex}/result/summary/${reportIdRegex}`,
+  createMockData(20),
+)
+
 export const mocks = [
   requestAsyncReportMock,
   getAsyncReportResultMock,
@@ -146,4 +155,5 @@ export const mocks = [
   ...mockReportVariantMocks,
   ...filterInputExampleVariantMocks,
   ...featureTestingVariantMocks,
+  getAsyncSummaryReport,
 ]

@@ -17,7 +17,7 @@ export const initDprReportingClients = (
     dashboardClient: new DashboardClient(reportingApiConfig),
     reportDataStore: new ReportDataStore(redisClient, storePrefix),
     missingReportClient: new MissingReportClient(reportingApiConfig),
-    productCollectionService: new ProductCollectionClient(reportingApiConfig),
+    productCollectionClient: new ProductCollectionClient(reportingApiConfig),
     featureFlagService: new FeatureFlagService(featureFlagConfig),
   }
 }

@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.25.1
+- Fix accidental revert of service initialisation
+
 ## 4.25.0
 - Update esbuild
 - Remove old unneeded config and libs being used in it

@@ -96,7 +96,7 @@ class DataTableBuilder {
         return this.mapDate(cellData)
 
       default:
-        return cellData
+        return cellData || ''
     }
   }
 

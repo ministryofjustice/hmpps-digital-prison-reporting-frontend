@@ -590,6 +590,7 @@ describe('withSummary', () => {
       fieldName: 'mainField',
       format: 'string',
       classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header',
+      text: '',
     })
     expect(mapped.rows[1][0]).toEqual({
       text: 'Body',

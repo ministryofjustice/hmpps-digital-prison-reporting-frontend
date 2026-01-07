@@ -23,11 +23,13 @@ const mockRenderDataFromDefinition = {
               fieldName: 'field1',
               format: 'string',
               classes: '',
+              text: '',
             },
             {
               fieldName: 'field2',
               format: 'string',
               classes: '',
+              text: '',
             },
             {
               fieldName: 'field3',
@@ -39,6 +41,7 @@ const mockRenderDataFromDefinition = {
               fieldName: 'field6',
               format: 'string',
               classes: '',
+              html: '',
             },
           ],
         ],

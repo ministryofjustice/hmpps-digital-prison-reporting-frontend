@@ -9,6 +9,10 @@
     .dpr-report-heading__title {
       flex: 1;
 
+      #dpr-report-name {
+        margin-bottom: govuk-spacing(2);
+      }
+
       .govuk-heading-l {
         margin-bottom: govuk-spacing(4);
       }

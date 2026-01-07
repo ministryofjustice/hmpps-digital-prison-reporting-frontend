@@ -66,7 +66,7 @@ const childData = () => {
   return [
     {
       field1: 'Child one - Parent 1',
-      field2: 'Other value',
+      field2: null,
       childKey: 'one',
     },
     {

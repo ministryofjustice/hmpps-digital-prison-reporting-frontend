@@ -12,7 +12,7 @@
 
     {{ govukButton({
       text: text,
-      classes: "govuk-body-s dpr-button-link",
+      classes: "govuk-button--secondary",
       attributes: {
         id: 'dpr-save-user-defaults',
         form: formId,
@@ -23,7 +23,7 @@
     {% if hasDefaults %}
       {{ govukButton({
         text: 'Delete defaults',
-        classes: "govuk-button--secondary dpr-button-link",
+        classes: "govuk-button--secondary",
         attributes: {
           id: 'dpr-remove-user-defaults',
           form: formId,

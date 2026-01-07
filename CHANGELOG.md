@@ -1,5 +1,13 @@
 Below you can find the changes included in each release.
 
+## 4.25.1
+- Fix accidental revert of service initialisation
+
+## 4.25.0
+- Update esbuild
+- Remove old unneeded config and libs being used in it
+- Add more tests
+
 ## 4.24.0
 - Add ability to use feature flags
 - Bump govuk-frontend in package.json - this is a noop as the package-lock already had it at 5.13.0, just to ensure it's kept on latest

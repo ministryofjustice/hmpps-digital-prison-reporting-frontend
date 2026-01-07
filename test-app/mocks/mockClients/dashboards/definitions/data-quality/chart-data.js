@@ -65,7 +65,7 @@ const barChartDataHasEthnicity = {
   chart: {
     type: 'bar',
     options: {
-      height: 400,
+      height: 5,
       timeseries: false,
     },
     data: {
@@ -216,7 +216,7 @@ const barChartFromListDataHasEthnicity = {
   chart: {
     type: 'bar',
     options: {
-      height: 400,
+      height: 5,
       timeseries: false,
     },
     data: {
@@ -521,7 +521,7 @@ const chartFromList = {
   chart: {
     type: 'bar',
     options: {
-      height: 400,
+      height: 5,
       timeseries: false,
     },
     data: {

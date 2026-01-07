@@ -163,6 +163,9 @@ const dietTotalsByEstablishmentByWingByCellBar = {
   type: 'bar',
   display: 'Diet totals by cell bar',
   description: '',
+  options: {
+    horizontal: true,
+  },
   columns: {
     keys: [
       {

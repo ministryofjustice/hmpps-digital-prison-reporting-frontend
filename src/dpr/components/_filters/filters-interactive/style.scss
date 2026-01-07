@@ -14,13 +14,14 @@
   }
   
   .dpr-selected-filters {
-    padding-bottom: govuk-spacing(0);
+    padding-bottom: govuk-spacing(2);
   }
 
   .dpr-interactive-save-defaults-actions {
     padding: govuk-spacing(4);
-    padding-top: govuk-spacing(0);
-    background-color: govuk-colour('light-grey');
+    background-color: white;
+    border-top: solid 1px govuk-colour('mid-grey');
+    border-bottom: solid 1px govuk-colour('mid-grey');
   }
 
   .dpr-interactive-filters-accordion {

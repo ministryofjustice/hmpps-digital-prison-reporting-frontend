@@ -1,33 +1,4 @@
 .dpr-save-defaults-action {
-  .dpr-button-link {
-    all: unset;
-    display: inline-block;
-    font-family: "GDS Transport", arial, sans-serif;
-    position: relative;
-    text-decoration: underline;
-    text-decoration-thickness: max(1px, .0625rem);
-    text-underline-offset: .1578em;
-    color: govuk-colour("blue");
-    font-size: 16px;
-    margin-right: govuk-spacing(2);
-    margin-bottom: 0px !important;
-
-    &:hover {
-      all: unset;
-      display: inline-block;
-      font-family: "GDS Transport", arial, sans-serif;
-      position: relative;
-      cursor: pointer;
-      background-color: none;
-      color: govuk-colour("dark-blue");
-      text-decoration: underline;
-      text-decoration-thickness: max(3px, .1875rem);
-      text-underline-offset: .1578em;
-      font-size: 16px;
-      margin-right: govuk-spacing(2);
-      margin-bottom: 0px !important;
-    }
-  }
 
   .dpr-default-saved {
     color: govuk-colour("green");

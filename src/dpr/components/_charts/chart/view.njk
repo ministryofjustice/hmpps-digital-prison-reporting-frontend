@@ -4,15 +4,13 @@
   {% set height = options.height %}
 
   <div id="{{ id }}-chart-wrapper" 
-    class="dpr-chart dpr-{{ type }}-chart" 
+    class="dpr-chart dpr-{{ type }}-chart dpr-chart-height-{{ height }}" 
     data-dpr-module="{{ type }}-chart" 
     data-dpr-chart-data="{{ chartData | json }}" 
     data-dpr-chart-type="{{ type }}"
     data-dpr-chart-unit="{{ unit }}"
     data-dpr-chart-timeseries="{{ timeseries }}"
-    {% if options.height %}
-      style="height: {{ height }}px"
-    {% endif %}
+    data-dpr-chart-height="{{ height }}"
   >
     <div class="dpr-canvas-wrapper"><canvas id="{{ id }}" class="chart-canvas"></canvas></div>
     <div id="js-legend-{{ id }}" class="dpr-chart-legend"></div>

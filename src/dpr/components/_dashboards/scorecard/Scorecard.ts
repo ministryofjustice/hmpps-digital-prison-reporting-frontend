@@ -27,8 +27,6 @@ class ScorecardVisualisation {
 
   private titleColumn: components['schemas']['DashboardVisualisationColumnDefinition'] | undefined
 
-  private unit: 'NUMBER' | 'PERCENTAGE' | undefined
-
   responseData: DashboardDataResponse[] = []
 
   ragColours: string[] = ['#cce2d8', '#fff7bf', '#f4cdc6']
@@ -60,7 +58,6 @@ class ScorecardVisualisation {
     // Zod should throw an error on line 40 so should always pass
     if (this.measures[0] !== undefined) {
       this.valueKey = this.measures[0].id
-      this.unit = this.measures[0].unit ? this.measures[0].unit : undefined
     }
   }
 

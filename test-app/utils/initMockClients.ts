@@ -11,7 +11,6 @@ import MockReportingClient from '../mocks/mockClients/reports/mockReportingClien
 import { MockUserStoreService } from '../mocks/mockClients/store/mockRedisStore'
 import MockDashboardClient from '../mocks/mockClients/dashboards/mock-client'
 import { ServiceFeatureConfig } from '../../src/dpr/types/DprConfig'
-import { ProductCollectionService } from 'src/dpr/services/productCollection/productCollectionService'
 import { FeatureFlagService } from 'src/dpr/services/featureFlagService'
 import { Environment } from 'nunjucks'
 

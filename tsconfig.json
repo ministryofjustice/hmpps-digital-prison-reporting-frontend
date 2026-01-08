@@ -1,7 +1,8 @@
 {
+  "extends": "@tsconfig/node24/tsconfig.json",
   "compileOnSave": true,
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es2024",
     "lib": ["ES2021", "DOM", "DOM.Iterable"],
     "module": "commonjs",
     "moduleResolution": "node",

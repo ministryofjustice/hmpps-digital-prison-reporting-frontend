@@ -14,9 +14,9 @@ class SectionedFieldsDataTableBuilder extends ParentChildDataTableBuilder {
   // TODO: change this to use schema type if ever implemented in the backend
   sectionedFields: SectionedField[]
 
-  override template: Template
+  declare template: Template
 
-  override childVariants: components['schemas']['ChildVariantDefinition'][]
+  declare childVariants: components['schemas']['ChildVariantDefinition'][]
 
   constructor(variant: components['schemas']['VariantDefinition']) {
     // TODO: removed the union if sectionedFields changed to use schema type

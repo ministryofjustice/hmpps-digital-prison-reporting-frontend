@@ -1,6 +1,6 @@
 import { Flag } from '@flipt-io/flipt'
 
-export declare global {
+declare global {
   namespace Express {
     interface Locals {
       featureFlags: {

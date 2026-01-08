@@ -1,5 +1,12 @@
 Below you can find the changes included in each release.
 
+## 4.26.0
+- Update save defaults link styling to a secondary button
+- Add security GHA from the template to bring in line with what the template does
+- Height issue fix for bar chart and matrix chart
+- Ensure that we don't print "undefined" if no data is sent for a cell in a data table
+- Update to node24 and make tsconfig target ES2024
+
 ## 4.25.1
 - Fix accidental revert of service initialisation
 

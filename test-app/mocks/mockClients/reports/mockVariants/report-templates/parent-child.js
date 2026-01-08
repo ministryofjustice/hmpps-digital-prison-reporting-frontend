@@ -21,7 +21,7 @@ const reportTemplateExampleParentChild = {
       {
         name: 'field1',
         display: 'Second',
-        sortable: false,
+        sortable: true,
         defaultsort: false,
         type: 'string',
         mandatory: false,

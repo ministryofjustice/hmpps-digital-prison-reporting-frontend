@@ -35,5 +35,5 @@ export interface SetQueryFromFiltersResult {
   query: Record<string, string>
   filterData: Record<string, string>
   querySummary: Array<Record<string, string>>
-  sortData: Record<string, string>
+  sortData?: Record<string, string>
 }

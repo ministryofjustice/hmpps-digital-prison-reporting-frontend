@@ -109,11 +109,18 @@ async function requestChildReports(
   queryData?: SetQueryFromFiltersResult,
   dataProductDefinitionsPath?: string,
 ): Promise<Array<ChildReportExecutionData>> {
+  let query: Record<string, string>
+  if (queryData) {
+    query = queryData.query
+    delete query['sortColumn']
+    delete query['sortedAsc']
+  }
+
   return Promise.all(
     childVariants.map((childVariant) =>
       reportingService
         .requestAsyncReport(token, reportId, childVariant.id, {
-          ...(queryData && queryData.query),
+          ...(query && query),
           ...(dataProductDefinitionsPath && { dataProductDefinitionsPath }),
         })
         .then((response) => {

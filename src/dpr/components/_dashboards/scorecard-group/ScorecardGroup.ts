@@ -40,8 +40,6 @@ class ScorecardGroupVisualisation {
 
   private titleKey = ''
 
-  private unit: 'NUMBER' | 'PERCENTAGE' | undefined
-
   responseData: DashboardDataResponse[] = []
 
   scoreCardBuilder: ScorecardVisualisation
@@ -72,7 +70,6 @@ class ScorecardGroupVisualisation {
     this.options = this.definition.options
     this.valueKey = this.measures[0].id
     this.titleColumn = { display: this.definition.display || '', id: this.valueKey }
-    this.unit = this.definition.columns.measures[0].unit ? this.definition.columns.measures[0].unit : undefined
   }
 
   private initBuckets = (responseData: DashboardDataResponse[], valueKey: string) => {

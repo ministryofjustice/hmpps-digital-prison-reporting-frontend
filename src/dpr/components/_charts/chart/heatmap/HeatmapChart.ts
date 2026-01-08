@@ -190,7 +190,7 @@ class HeatmapChart {
   }
 
   getCanvasHeight = () => {
-    return this.yLabels.length * 20 + 60
+    return this.yLabels.length / 2
   }
 
   build = (): DashboardVisualisationData => {

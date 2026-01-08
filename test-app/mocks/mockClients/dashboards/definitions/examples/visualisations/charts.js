@@ -162,6 +162,9 @@ const dietTotalsByEstablishmentByWingByCellBar = {
   type: 'bar',
   display: 'Diet totals by cell bar',
   description: '',
+  options: {
+    horizontal: true,
+  },
   columns: {
     keys: [
       {
@@ -576,6 +579,9 @@ const dataQualityEthnicityBar = {
   id: 'bar-data-quality-has-ethnicity',
   type: 'bar',
   display: 'Ethnicity values',
+  options: {
+    horizontal: true,
+  },
   columns: {
     keys: [
       {

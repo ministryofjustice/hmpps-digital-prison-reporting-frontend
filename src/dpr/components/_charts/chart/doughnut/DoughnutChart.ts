@@ -54,7 +54,7 @@ class DoughnutChart extends Chart {
       return {
         ...set,
         backgroundColor: [...this.hexColours, ...this.hexColours],
-        borderColor: '',
+        borderColor: '#FFFFFF',
         hoverOffset: 4,
         datalabels: {
           anchor: 'center',

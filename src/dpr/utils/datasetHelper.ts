@@ -1,11 +1,13 @@
 import { DashboardDataResponse } from '../types/Metrics'
 import { components } from '../types/api'
+import logger from './logger'
 
 export const getDatasetRows = (
   listDefinition: components['schemas']['DashboardVisualisationDefinition'],
   dashboardData: DashboardDataResponse[],
 ) => {
   const { measures, filters, expectNulls } = listDefinition.columns
+  logger.info('DEBUG: Dashboard vis filterValues:', filters)
   const keys = <Array<components['schemas']['DashboardVisualisationColumnDefinition']>>listDefinition.columns.keys
 
   const displayColumnsIds = measures.map((col) => col.id)

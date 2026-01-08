@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 4.26.1
+- Remove sort query from child report requests
+- debug logs for dashboard visualisations
+
 ## 4.26.0
 - Update save defaults link styling to a secondary button
 - Add security GHA from the template to bring in line with what the template does

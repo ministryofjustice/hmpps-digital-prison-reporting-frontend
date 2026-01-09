@@ -2,10 +2,9 @@
 
 .dpr-table-container {
   position: relative;
-  // overflow: scroll;
 
-  .govuk-table__header {
-    background-color: red;
+  .govuk-table {
+    position: relative;
   }
 
   td {
@@ -203,7 +202,7 @@
   }
 
   .dpr-table-wrapper {
-    overflow: scroll;
+    overflow-x: scroll;
     transform: rotateX(180deg);
 
     .dpr-table-content {

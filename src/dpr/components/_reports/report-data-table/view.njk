@@ -8,15 +8,17 @@
   <div id="table-container" class='dpr-table-container' data-dpr-module="data-table" aria-labelledby="dpr-report-name">
     <div class="dpr-overflow-gradient" id="dpr-overflow-gradient"></div>
     <div class="dpr-table-wrapper" id="dpr-table-wrapper">
-      {{ govukTable({
-        head: head,
-        rows: rows,
-        attributes: { 
-          'id': 'dpr-data-table',
-          'data-classification': classification,
-          'data-col-length': colCount
-        }
-      }) }}
+      <div class="dpr-table-content">
+        {{ govukTable({
+          head: head,
+          rows: rows,
+          attributes: { 
+            'id': 'dpr-data-table',
+            'data-classification': classification,
+            'data-col-length': colCount
+          }
+        }) }}
+      </div>
     </div>
   </div>
 {% endmacro %}

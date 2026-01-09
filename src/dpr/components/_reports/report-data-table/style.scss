@@ -2,7 +2,6 @@
 
 .dpr-table-container {
   position: relative;
-  // overflow: scroll;
 
   td {
     padding: govuk-spacing(2);
@@ -199,7 +198,12 @@
   }
 
   .dpr-table-wrapper {
-    overflow: scroll;
+    overflow-x: scroll;
+    transform: rotateX(180deg);
+
+    .dpr-table-content {
+      transform: rotateX(180deg);
+    }
   }
 
   .table-row-count {

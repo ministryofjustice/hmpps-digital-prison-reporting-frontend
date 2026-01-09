@@ -22,7 +22,7 @@
   background-color: govuk-colour("dark-blue")
 }
 
-@for $i from 1 through 50 {
+@for $i from 1 through 200 {
   .dpr-chart-height-#{$i} {
     height: $i * 80px !important;
   }

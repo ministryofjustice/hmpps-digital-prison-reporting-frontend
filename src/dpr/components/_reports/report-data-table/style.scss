@@ -4,6 +4,10 @@
   position: relative;
   // overflow: scroll;
 
+  .govuk-table__header {
+    background-color: red;
+  }
+
   td {
     padding: govuk-spacing(2);
   }
@@ -200,6 +204,11 @@
 
   .dpr-table-wrapper {
     overflow: scroll;
+    transform: rotateX(180deg);
+
+    .dpr-table-content {
+      transform: rotateX(180deg);
+    }
   }
 
   .table-row-count {

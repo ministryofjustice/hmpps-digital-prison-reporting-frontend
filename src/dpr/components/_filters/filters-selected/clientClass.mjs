@@ -43,6 +43,7 @@ class SelectedFilters extends DprFiltersFormClass {
             }
           })
 
+          this.updateQueryParam('selectedPage', 1)
           this.updateQueryParam('preventDefault', true)
           window.location.reload()
         })

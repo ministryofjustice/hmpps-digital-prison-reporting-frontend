@@ -150,6 +150,8 @@ class DprQueryParamClass extends DprClientClass {
         this.queryParams.delete('preventDefault')
       }
     })
+
+    this.queryParams.set('selectedPage', 1)
     window.history.replaceState(null, null, `?${this.queryParams.toString()}`)
   }
 

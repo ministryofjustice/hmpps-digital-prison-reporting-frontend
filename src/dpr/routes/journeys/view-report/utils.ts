@@ -71,7 +71,7 @@ const applyInteractiveQuery = async (
 
   const preventDefault = interactiveQueryData?.['preventDefault']
   const pageSize = interactiveQueryData?.['pageSize']
-  const selectedPage = interactiveQueryData?.['selectedPage']
+  const selectedPage = applyType === 'columns' ? interactiveQueryData?.['selectedPage'] : 1
   const sortColumn = interactiveQueryData?.['sortColumn']
   const sortedAsc = interactiveQueryData?.['sortedAsc']
 

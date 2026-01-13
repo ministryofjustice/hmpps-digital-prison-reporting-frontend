@@ -48,7 +48,8 @@
     .govuk-table__cell,
     .govuk-table__header {
       font-size: 12px;
-      padding: govuk-spacing(1)
+      padding: govuk-spacing(1);
+      padding-left: 0px;
     }
 
     .moj-button-menu__wrapper a {

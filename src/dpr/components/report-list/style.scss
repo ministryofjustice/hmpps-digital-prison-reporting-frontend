@@ -31,6 +31,13 @@
       display: none;
     }
 
+    .govuk-main-wrapper,
+    .govuk-width-container {
+      margin: 0px;
+      width: 100%;
+      max-width: none;
+    }
+
     .data-table-header-button-sort-ascending:after,
     .data-table-header-button-sort-descending:after,
     .data-table-header-button-sort-none:after,
@@ -40,19 +47,15 @@
 
     .govuk-table__cell,
     .govuk-table__header {
-      font-size: 14px;
+      font-size: 12px;
+      padding: govuk-spacing(1);
+      padding-left: 0px;
     }
 
     .moj-button-menu__wrapper a {
       border: 1px solid #b1b4b6;
       box-shadow: none;
       font-size: 14px;
-    }
-
-    div.govuk-width-container {
-      margin: 0;
-      max-width: none;
-      width: 100%;
     }
 
     .moj-page-header-actions {

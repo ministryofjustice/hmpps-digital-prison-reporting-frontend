@@ -6,7 +6,6 @@
 // NPM dependencies
 import express from 'express'
 import path from 'path'
-import bodyParser from 'body-parser'
 import flash from 'connect-flash'
 
 // middleware
@@ -27,8 +26,8 @@ import setUpWebSession from './middleware/setupSession'
 export default function createApp(services: Services): express.Application {
   const app = express()
   const env = nunjucksSetup(app, path)
-  app.use(bodyParser.urlencoded({ extended: false }))
-  app.use(bodyParser.json())
+  app.use(express.urlencoded({ extended: true }))
+  app.use(express.json())
   app.set('query parser', 'extended')
   app.use(setUpWebSession())
   app.use(flash())

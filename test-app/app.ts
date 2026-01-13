@@ -26,8 +26,8 @@ import setUpWebSession from './middleware/setupSession'
 export default function createApp(services: Services): express.Application {
   const app = express()
   const env = nunjucksSetup(app, path)
-  app.use(express.urlencoded({ extended: true }))
   app.use(express.json())
+  app.use(express.urlencoded({ extended: true }))
   app.set('query parser', 'extended')
   app.use(setUpWebSession())
   app.use(flash())

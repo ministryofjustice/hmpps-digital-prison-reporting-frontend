@@ -23,6 +23,7 @@ class ViewSyncDashboardController {
         ...renderData,
       })
     } catch (error) {
+      req.body ??= {}
       req.body.title = `Dashboard Failed`
       req.body.errorDescription = 'We were unable to show this dashboard for the following reason:'
       req.body.error = new ErrorHandler(error).formatError()

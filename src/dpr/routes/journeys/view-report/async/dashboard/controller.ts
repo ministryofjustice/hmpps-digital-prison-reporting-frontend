@@ -36,6 +36,7 @@ class ViewAsyncDashboardController {
           dprUser.id,
         )
       }
+      req.body ??= {}
       req.body.title = `Failed to retrieve ${type}`
       req.body.error = dprError
       if (refreshLink) {

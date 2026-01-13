@@ -54,7 +54,8 @@ class DataTableBuilder {
   }
 
   private mapCell(field: components['schemas']['FieldDefinition'], rowData: NodeJS.Dict<string>, extraClasses = '') {
-    const textValue = this.mapCellValue(field, rowData[field.name])
+    const displayValue = rowData[field.name]
+    const textValue = this.mapCellValue(field, displayValue)
     let fieldFormat: CellFormat = 'string'
 
     let classes = extraClasses
@@ -69,6 +70,13 @@ class DataTableBuilder {
 
     if (field.type === 'double' || field.type === 'long') {
       fieldFormat = 'numeric'
+    }
+
+    if (fieldFormat === 'string' && displayValue) {
+      const wordCount = displayValue.split(' ').length
+      if (wordCount > 10) {
+        classes += ' data-table-cell-long-string'
+      }
     }
 
     const isHtml = field.type === 'HTML'

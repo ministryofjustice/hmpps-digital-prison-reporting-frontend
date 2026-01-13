@@ -387,4 +387,19 @@
       }
     }
   }
+
+  .dpr-table-container--list-section {
+    .dpr-section-header {
+      h2 { 
+        font-size: 14px; 
+        span.govuk-caption-m {
+          font-size: 12px;
+        }
+      }
+    }
+
+    .dpr-section-header-spacer {
+      padding: 5px
+    }
+  }
 }

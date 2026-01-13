@@ -368,4 +368,23 @@
     color: black;
     text-decoration: none;
   }
+
+  // Parent Child table
+  .dpr-table-container--parent-child {
+    .govuk-table__cell {
+      .dpr-child-report {
+        h2 {
+          font-size: 12px;
+          font-weight: 700;
+        }
+        .dpr-child-report_table {
+          padding: 0px;
+    
+          td, th {
+            padding: govuk-spacing(1);
+          }
+        }
+      }
+    }
+  }
 }

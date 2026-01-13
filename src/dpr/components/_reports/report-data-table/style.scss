@@ -387,7 +387,7 @@
       }
     }
   }
-
+  
   .dpr-table-container--list-section {
     .dpr-section-header {
       h2 { 
@@ -400,6 +400,14 @@
 
     .dpr-section-header-spacer {
       padding: 5px
+    }
+
+    .dpr-report-summary-cell-table-footer,
+    .dpr-report-summary-cell-table-header {
+      background-color: transparent;
+      padding: govuk-spacing(2);
+      padding-left: 0px;
+      border-bottom: 1px solid #b1b4b6;
     }
   }
 }

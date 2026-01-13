@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.26.4
+-  Updated print styling to be more clean and concise, with a view to save ink and paper.
+
 ## 4.26.3
 -  Increased padding on table cells to create more distance between values to help differentiate them.
 - Removed word wrap on table head columns

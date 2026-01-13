@@ -68,7 +68,7 @@ class DataTableBuilder {
       classes += ' govuk-table__header'
     }
 
-    if (field.type === 'double' || field.type === 'long') {
+    if (field.type === 'double' || field.type === 'long' || typeof displayValue === 'number') {
       fieldFormat = 'numeric'
     }
 

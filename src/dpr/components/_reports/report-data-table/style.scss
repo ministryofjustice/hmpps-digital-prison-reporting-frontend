@@ -342,7 +342,17 @@
       width: 0px;
     }
   }
+
+  .govuk-footer {
+    display: none;
+  }
+
+  .dpr-request-details
+  .dpr-reports-heading-container,
+  .govuk-main-wrapper,
   .govuk-width-container {
     max-width: 100% !important;
+    margin: 0px;
+    padding: 0px;
   }
 }

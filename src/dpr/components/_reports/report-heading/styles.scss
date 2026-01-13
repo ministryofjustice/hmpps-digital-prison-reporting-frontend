@@ -48,21 +48,30 @@
       display: block;
 
       .dpr-request-details {
-        p, ul, li, h1 {
-          font-size: 16px;
+        p, ul, li, h1, h2 {
+          font-size: 12px;
           margin-top: 0px;
-          margin-bottom: 10px;
+          margin-bottom: 5px;
           padding-top: 0px;
         }
         ul {
+          padding: 0;
+          list-style-type: none;
           li {
             display: inline;
             padding-right: 10px;
           }
         }
         .dpr-request-details__table {
+          margin-top: 0px;
+          margin-bottom: 0px;
+
           tbody {
             vertical-align: top;
+          }
+
+          td {
+            padding: 0px;
           }
 
           .dpr-request-details__table-heading {

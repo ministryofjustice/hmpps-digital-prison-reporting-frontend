@@ -25,11 +25,11 @@
           {% endif %}
         {% endfor %}
       {% else %}
-        {{ dprDataTableWrapper(dataTable, classification) }}
+        {{ dprDataTableWrapper(dataTable, classification, template) }}
       {% endif %}
     </div>
     
-    <div class='govuk-!-margin-bottom-6'>
+    <div class='govuk-!-margin-bottom-6 govuk-!-margin-top-6'>
       {{ dprReportTotals(options.totals) }}
     </div>
     

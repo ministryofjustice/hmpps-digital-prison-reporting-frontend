@@ -28,6 +28,7 @@ class RequestStatusController {
         ...pollingRenderData,
       })
     } catch (error) {
+      req.body ??= {}
       req.body.title = 'Failed to retrieve report status'
       req.body.errorDescription = 'We were unable to retrieve the report status:'
       req.body.error = new ErrorHandler(error).formatError()

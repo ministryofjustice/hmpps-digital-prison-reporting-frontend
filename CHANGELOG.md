@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.26.3
+- List report usability improvements.
+
 ## 4.26.2
 - Reposition report scroll bar to the top of report to improve usability
 - Reset selected page to first when interactive filters are applied

@@ -1,6 +1,6 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 
-{% macro dprDataTable(dataTable, classification) %}
+{% macro dprDataTable(dataTable, classification, template) %}
   {% set rows = dataTable.rows %}
   {% set head = dataTable.head %}
   {% set colCount = dataTable.colCount %}
@@ -13,7 +13,7 @@
           head: head,
           rows: rows,
           attributes: { 
-            'id': 'dpr-data-table',
+            'id': 'dpr-data-table-' + template,
             'data-classification': classification,
             'data-col-length': colCount
           }

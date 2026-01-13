@@ -1,14 +1,14 @@
 {% from "../report-data-table/view.njk" import dprDataTable %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 
-{% macro dprDataTableWrapper(dataTables, classification) %}
+{% macro dprDataTableWrapper(dataTables, classification, template) %}
 
   {% if dataTables.length > 1 %}
       {% set tabItems = [] %}
       {% for dataTable in dataTables %}
         
         {% set dataTableHtml %}
-          {{ dprDataTable(dataTable, classification) }}
+          {{ dprDataTable(dataTable, classification, template) }}
         {% endset -%}
 
         {% set tabItems = (tabItems.push({
@@ -22,6 +22,6 @@
 
       {{ govukTabs({ items: tabItems}) }}
   {% else %}
-    {{ dprDataTable(dataTables[0], classification) }}
+    {{ dprDataTable(dataTables[0], classification, template) }}
   {% endif %}
 {% endmacro %}

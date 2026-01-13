@@ -31,6 +31,7 @@ class RequestReportController {
         ...requestRenderData,
       })
     } catch (error) {
+      req.body ??= {}
       req.body.title = 'Request failed'
       req.body.errorDescription = `Your ${req.params['type']} has failed to generate.`
       req.body.error = new ErrorHandler(error).formatError()
@@ -67,7 +68,7 @@ class RequestReportController {
         error: new ErrorHandler(error).formatError(),
         retry: true,
         filters,
-        ...req.body,
+        ...(req.body && { ...req.body }),
       }
       next(error)
     }
@@ -81,7 +82,7 @@ class RequestReportController {
       req.body = {
         title: 'Failed to save defaults',
         error: new ErrorHandler(error).formatError(),
-        ...req.body,
+        ...(req.body && { ...req.body }),
       }
       next()
     }
@@ -95,7 +96,7 @@ class RequestReportController {
       req.body = {
         title: 'Failed to remove defaults',
         error: new ErrorHandler(error).formatError(),
-        ...req.body,
+        ...(req.body && { ...req.body }),
       }
       next()
     }

@@ -15,11 +15,11 @@ class ViewReportController {
 
   errorHandler: RequestHandler = async (req, res, _next) => {
     logger.error(`Error: ${JSON.stringify(req.body)}`)
-    const error = new ErrorHandler(req.body.error).formatError()
+    const error = new ErrorHandler(req.body?.error || {}).formatError()
 
     res.render(`dpr/routes/journeys/view-report/error`, {
       layoutPath: this.layoutPath,
-      ...req.body,
+      ...(req.body && { ...req.body }),
       ...req.params,
       error,
       params: req.params,

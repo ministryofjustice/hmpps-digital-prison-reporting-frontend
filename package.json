@@ -169,7 +169,7 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy": "^3.1.2",
     "@jest/globals": "^30.2.0",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.3",
     "@testing-library/cypress": "^10.0.3",

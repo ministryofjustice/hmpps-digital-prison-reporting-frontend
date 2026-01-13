@@ -5,7 +5,7 @@ const requestExampleSuccess = {
   description: 'this will succeed',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
-  printable: true,
+  printable: false,
   specification: {
     template: 'list',
     sections: [],

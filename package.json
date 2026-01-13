@@ -187,7 +187,7 @@
     "@types/qs": "^6.9.8",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
-    "@typescript-eslint/parser": "^5.62.0",
+    "@typescript-eslint/parser": "^8.53.0",
     "audit-ci": "^6.6.1",
     "autoprefixer": "^10.4.15",
     "axe-core": "^4.9.0",

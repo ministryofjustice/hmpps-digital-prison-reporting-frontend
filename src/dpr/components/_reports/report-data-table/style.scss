@@ -370,7 +370,12 @@
   }
 
   // Parent Child table
+  .dpr-table-container--parent-child-section,
   .dpr-table-container--parent-child {
+    .dpr-section-header-spacer {
+        padding: 5px
+      }
+
     .govuk-table__cell {
       .dpr-child-report {
         h2 {
@@ -388,16 +393,16 @@
     }
   }
   
-  .dpr-table-container--list-section {
-    .dpr-section-header {
-      h2 { 
-        font-size: 14px; 
-        span.govuk-caption-m {
-          font-size: 12px;
-        }
+  .dpr-section-header {
+    padding: govuk-spacing(1);
+    h2 { 
+      font-size: 14px; 
+      span.govuk-caption-m {
+        font-size: 12px;
       }
     }
-
+  }
+  .dpr-table-container--list-section {
     .dpr-section-header-spacer {
       padding: 5px
     }

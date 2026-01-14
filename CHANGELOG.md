@@ -1,5 +1,11 @@
 Below you can find the changes included in each release.
 
+## 4.26.6
+-  Bugfix: Extra checks around word count to prevent error
+
+## 4.26.5
+-  Bugfix: Scroll gradient shows when report data of screen and is side scrollable
+
 ## 4.26.4
 -  Updated print styling to be more clean and concise, with a view to save ink and paper.
 

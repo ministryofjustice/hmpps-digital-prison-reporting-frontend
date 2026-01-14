@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.26.7
+-  Bugfix: stop false showing as blank in reports
+
 ## 4.26.6
 -  Bugfix: Extra checks around word count to prevent error
 

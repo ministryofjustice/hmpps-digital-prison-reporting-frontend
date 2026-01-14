@@ -2,23 +2,7 @@
 
 .dpr-table-container {
   position: relative;
-  
-  #dpr-data-table-list {
-    .govuk-table__header {
-      padding-right: govuk-spacing(4);
-      white-space: nowrap;
-    }
-    
-    .govuk-table__cell {
-      padding-right: govuk-spacing(4);
-    }
 
-    .govuk-table__body {
-      tr.govuk-table__row:nth-child(odd) {
-        background-color: govuk-colour("light-grey");
-      }
-    }
-  }
 
   .dpr-section-header {
     border-bottom: 0px;
@@ -273,15 +257,20 @@
   }
 }
 
-.dpr-table-container--list-section {
-  .govuk-table {
-    // td:first-child {
-    //   border-left: 1px solid govuk-colour("mid-grey");
-    // }
+.dpr-table-container--list {
+  .govuk-table__header {
+    padding-right: govuk-spacing(4);
+    white-space: nowrap;
+  }
 
-    // td:last-child {
-    //   border-right: 1px solid govuk-colour("mid-grey");
-    // }
+  .govuk-table__cell {
+    padding-right: govuk-spacing(4);
+  }
+
+  .govuk-table__body {
+    tr.govuk-table__row:nth-child(odd) {
+      background-color: govuk-colour("light-grey");
+    }
   }
 }
 

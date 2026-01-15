@@ -72,7 +72,7 @@ class DataTableBuilder {
       fieldFormat = 'numeric'
     }
 
-    if (fieldFormat === 'string' && displayValue) {
+    if (fieldFormat === 'string' && displayValue && typeof displayValue === 'string') {
       const wordCount = displayValue.split(' ').length
       if (wordCount > 10) {
         classes += ' data-table-cell-long-string'
@@ -104,7 +104,7 @@ class DataTableBuilder {
         return this.mapDate(cellData)
 
       default:
-        return cellData || ''
+        return cellData === undefined ? '' : cellData
     }
   }
 

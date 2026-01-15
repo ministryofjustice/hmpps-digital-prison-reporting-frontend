@@ -1,0 +1,148 @@
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+{% macro dprParentChildTemplate(renderData, classification) %}
+  {% set renderData = {
+  parentHead: [
+    {
+      fieldName: 'parent1',
+      text: 'Name',
+    },
+    {
+      fieldName: 'parent2',
+      text: 'Surname',
+    },
+  ],
+  childHead: [
+      {
+      fieldName: 'parent1',
+      text: 'Name',
+    },
+    {
+      fieldName: 'parent2',
+      text: 'Surname',
+    },
+  ],
+  sections: [
+    {
+      data: [
+        {
+          parent: {
+            rows: [
+              [
+                {
+                  fieldName: 'parent1',
+                  text: 'Parent 1',
+                },
+                {
+                  fieldName: 'parent2',
+                  text: 'Parent 2',
+                },
+              ],
+            ],
+          },
+          child: {
+            title: 'Child report 1',
+            rows: [
+              [
+                {
+                  fieldName: 'child1',
+                  text: 'Child 1.0',
+                },
+                {
+                  fieldName: 'child2',
+                  text: 'Child 1.1',
+                },
+              ],
+              [
+                {
+                  fieldName: 'child1',
+                  text: 'Child 2.0',
+                },
+                {
+                  fieldName: 'child2',
+                  text: 'Child 2.1',
+                },
+              ],
+            ],
+          },
+        },
+        {
+          parent: {
+            rows: [
+              [
+                {
+                  fieldName: 'parent1',
+                  text: 'Parent 1',
+                },
+                {
+                  fieldName: 'parent2',
+                  text: 'Parent 2',
+                },
+              ],
+            ],
+          },
+          child: {
+            title: 'Child report 1',
+            rows: [
+              [
+                {
+                  fieldName: 'child1',
+                  text: 'Child 1.0',
+                },
+                {
+                  fieldName: 'child2',
+                  text: 'Child 1.1',
+                },
+              ],
+              [
+                {
+                  fieldName: 'child1',
+                  text: 'Child 2.0',
+                },
+                {
+                  fieldName: 'child2',
+                  text: 'Child 2.1',
+                },
+              ],
+            ],
+          },
+        },
+      ],
+    },
+  ],
+} %}
+
+{% parentHead = renderData.parentHead %}
+{% childHead = renderData.childHead %}
+{% sections = renderData.sections %}
+
+{% for section in sections %}
+  <div class="dpr-parent-child-section">
+    {% sectionTitle = section.title %}
+    {% sectionCount = section.count %}
+    {% parent = section.parent %}
+    {% child = section.child %}
+
+    <div class="dpr-parent-child-section__parent">
+      {{ govukTable({
+        head: parentHead,
+        rows: parent.rows,
+        attributes: { 
+          'data-classification': classification,
+        }
+      }) }}
+    </div>
+
+    <div class="dpr-parent-child-section__child">
+      {{ govukTable({
+        head: childHead,
+        rows: child.rows,
+        attributes: { 
+          'data-classification': classification,
+        }
+      }) }}
+    </div>
+  </div>
+{% endfor %}
+
+{% endmacro %}

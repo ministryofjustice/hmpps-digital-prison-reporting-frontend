@@ -17,7 +17,7 @@
     {{ dprReportNoDataMessage(url) }}
   {% else %}
 
-    {# {{ dprParentChildTemplate({}, classification) }} #}
+    {{ dprParentChildTemplate({}, classification) }}
 
     {{ dprReportSummary(reportSummaries, 'page-header') }}
     {{ dprReportTotals(options.totals) }}

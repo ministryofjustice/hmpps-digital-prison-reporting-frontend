@@ -18,7 +18,7 @@ const config: Cypress.ConfigOptions = {
   e2e: {
     baseUrl: 'http://localhost:3010',
     supportFile: 'cypress-tests/integration-tests/support/index.ts',
-    specPattern: '{src/dpr,test-app}/**/*.cy.{js,jsx,ts,tsx}',
+    specPattern: '{dpr,test-app}/**/*.cy.{js,jsx,ts,tsx}',
     setupNodeEvents(on, cfg) {
       on('task', {
         resetRedis,

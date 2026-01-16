@@ -61,7 +61,7 @@
     "clean": "rm -rf dist && rm -rf dist-docs && rm -rf dist-test-app && rm -rf node_modules",
     "lint:fix": "./node_modules/.bin/eslint . --fix",
     "axe_tests": "axe --exit --save axe_results.json $npm_package_config_home_url, $npm_package_config_request_url, $npm_package_config_polling_url, $npm_package_config_report_url",
-    "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output src/dpr/types/api.d.ts && npm run lint:fix",
+    "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output dpr/types/api.d.ts && npm run lint:fix",
     "typecheck": "tsc",
     "setup": "npm ci && hmpps-npm-script-run-allowlist"
   },
@@ -76,12 +76,12 @@
     },
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**/*.ts",
-      "!src/**/*.d.ts",
-      "!src/dpr/components/report-list/defaultTokenProvider.ts",
-      "!src/dpr/setUpNunjucksFilters.ts",
-      "!src/dpr/data/dprReportingClient.ts",
-      "!src/dpr/middleware/updateBookmarksByCaseload.ts",
+      "dpr/**/*.ts",
+      "!dpr/**/*.d.ts",
+      "!dpr/components/report-list/defaultTokenProvider.ts",
+      "!dpr/setUpNunjucksFilters.ts",
+      "!dpr/data/dprReportingClient.ts",
+      "!dpr/middleware/updateBookmarksByCaseload.ts",
       "!<rootDir>/**/controller.ts",
       "!<rootDir>/**/routes.ts",
       "!<rootDir>/**/tests.cy.ts"

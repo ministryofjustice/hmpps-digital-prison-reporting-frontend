@@ -23,15 +23,15 @@ const buildConfig = () => ({
     minify: true,
     outDir: path.join(cwd, 'dist-docs/dpr'),
     entryPoints: glob
-      .sync([path.join(cwd, 'src/**/*.js'), path.join(cwd, 'src/**/*.ts')])
+      .sync([path.join(cwd, 'dpr/**/*.js'), path.join(cwd, 'dpr/**/*.ts')])
       .filter((file) => !file.endsWith('.test.ts')),
     copy: [
       {
-        from: path.join(cwd, 'src/dpr/**/*.{png,jpg,jpeg,gif,svg}'),
+        from: path.join(cwd, 'dpr/**/*.{png,jpg,jpeg,gif,svg}'),
         to: path.join(cwd, 'dist-docs'),
       },
       {
-        from: path.join(cwd, 'src/dpr/**/*'),
+        from: path.join(cwd, 'dpr/**/*'),
         to: path.join(cwd, 'dist-docs/dpr'),
       },
       {
@@ -48,7 +48,7 @@ const buildConfig = () => ({
   assets: {
     outDir: path.join(cwd, 'dist-docs/dpr/assets'),
     entryPoints: glob.sync([
-      path.join(cwd, 'src/dpr/assets/app.js'),
+      path.join(cwd, 'dpr/assets/app.js'),
       path.join(cwd, 'esbuild/all-imports-bundle.scss'),
     ]),
     copy: [
@@ -76,7 +76,7 @@ const buildLibrary = async () => {
     'docs/scss/base.scss',
     'docs/scss/tabs.scss',
     'docs/scss/example.scss',
-    'src/dpr/components/**/*.scss',
+    'dpr/components/**/*.scss',
   ])
   const imports = scssFiles.map((file) => `@import '${file}';`).join('\n')
 
@@ -119,7 +119,7 @@ const main = async () => {
     process.stderr.write('\u{1b}[1m\u{1F52D} Watching for changes...\u{1b}[0m\n')
     // App
     chokidar
-      .watch(['src/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
+      .watch(['dpr/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
       .on('all', () => buildLibrary().catch((e) => process.stderr.write(`${e}\n`)))
     chokidar
       .watch(['docs/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })

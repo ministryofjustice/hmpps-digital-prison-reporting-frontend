@@ -19,11 +19,11 @@ const buildConfigLib = () => ({
     minify: true,
     outDir: path.join(cwd, 'dist/dpr'),
     entryPoints: glob
-      .sync([path.join(cwd, 'src/**/*.js'), path.join(cwd, 'src/**/*.ts')])
+      .sync([path.join(cwd, 'dpr/**/*.js'), path.join(cwd, 'dpr/**/*.ts')])
       .filter((file) => !file.endsWith('.test.ts')),
     copy: [
       {
-        from: path.join(cwd, 'src/dpr/**/*'),
+        from: path.join(cwd, 'dpr/**/*'),
         to: path.join(cwd, 'dist/dpr'),
       },
       {
@@ -43,7 +43,7 @@ const buildLibrary = async () => {
     process.stderr.write(`${e}\n`)
     process.exit(1)
   })
-  const scssFiles = glob.sync(['src/**/*.scss'])
+  const scssFiles = glob.sync(['dpr/**/*.scss'])
   scssFiles.forEach((file) =>
     fs.appendFileSync(path.join(cwd, 'dist/dpr/all.scss'), fs.readFileSync(path.join(cwd, file))),
   )
@@ -135,7 +135,7 @@ const main = async () => {
     process.stderr.write('\u{1b}[1m\u{1F52D} Watching for changes...\u{1b}[0m\n')
     // Assets
     chokidar
-      .watch(['src/dpr/assets/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
+      .watch(['dpr/assets/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
       .on('all', () => buildAssets(buildConfig).catch((e) => process.stderr.write(`${e}\n`)))
 
     // App
@@ -146,7 +146,7 @@ const main = async () => {
       )
 
     chokidar
-      .watch(['src/**/*'], {
+      .watch(['dpr/**/*'], {
         ...chokidarOptions,
         ignored: ['**/*.test.ts', '**/*.cy.ts', 'manifest.json', 'cypress.config.ts'],
       })

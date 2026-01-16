@@ -16,7 +16,7 @@ module.exports = function (eleventyConfig) {
     "docs/_includes/",
     "node_modules/govuk-frontend/dist/",
     "node_modules/@ministryofjustice/frontend/",
-    "src/",
+    "dpr/",
   ]);
 
   Object.entries({

@@ -111,6 +111,10 @@ class MockReportingClient {
         // Parent child template - child
         data = mockParentChild.childData()
         break
+      case 'report-template-example-parent-child_child_2':
+        // Parent child template - child
+        data = mockParentChild.childData2()
+        break
       case 'report-template-example-list-section':
         // List section
         data = mockListSection.listSectionData()

@@ -129,11 +129,12 @@ class ParentChildDataBuilder {
       const children: ParentChildData['children'] = group.children.map((child) => {
         const childFields = this.getChildFields(child.id)
         const childColumns = this.getChildColumns(child.id)
+        const childVariant = this.getChildVariant(child.id)
         const childTableBuilder = new DataTableBuilder(childFields)
         const childTable = childTableBuilder.withNoHeaderOptions(childColumns).buildTable(child.data)
 
         return {
-          title: 'Test title',
+          title: childVariant?.name || 'Child report',
           rows: childTable.rows,
           head: childTable.head,
         }

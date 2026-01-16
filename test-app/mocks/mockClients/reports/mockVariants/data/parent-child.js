@@ -13,6 +13,10 @@ const parentData = () => {
       field1: 'Parent row 3',
       section1: 'three',
     },
+    {
+      field1: 'Parent row 4',
+      section1: 'four',
+    },
   ]
 }
 
@@ -51,17 +55,17 @@ const childData = () => {
     {
       field2: 'Child one - parent 3',
       field3: 'Other value',
-      section1: 'three',
+      section1: 'four',
     },
     {
       field2: 'Child two - parent 3',
       field3: 'Other value',
-      section1: 'three',
+      section1: 'four',
     },
     {
       field2: 'Child three - parent 3',
       field3: 'Other value',
-      section1: 'three',
+      section1: 'four',
     },
   ]
 }

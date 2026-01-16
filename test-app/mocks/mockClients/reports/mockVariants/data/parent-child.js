@@ -21,17 +21,67 @@ const childData = () => {
     {
       field2: 'Child one - parent 1',
       field3: 'Other value',
-      section1: 'One',
+      section1: 'one',
     },
     {
       field2: 'Child two - parent 1',
       field3: 'Other value',
-      section1: 'One',
+      section1: 'one',
     },
     {
       field2: 'Child three - parent 1',
       field3: 'Other value',
-      section1: 'One',
+      section1: 'one',
+    },
+    {
+      field2: 'Child one - parent 2',
+      field3: 'Other value',
+      section1: 'two',
+    },
+    {
+      field2: 'Child two - parent 2',
+      field3: 'Other value',
+      section1: 'two',
+    },
+    {
+      field2: 'Child three - parent 2',
+      field3: 'Other value',
+      section1: 'two',
+    },
+    {
+      field2: 'Child one - parent 3',
+      field3: 'Other value',
+      section1: 'three',
+    },
+    {
+      field2: 'Child two - parent 3',
+      field3: 'Other value',
+      section1: 'three',
+    },
+    {
+      field2: 'Child three - parent 3',
+      field3: 'Other value',
+      section1: 'three',
+    },
+  ]
+}
+
+const childData2 = () => {
+  return [
+    {
+      field2: 'Child one - parent 1',
+      field3: 'Other value',
+      section1: 'one',
+    },
+    {
+      field2: 'Child two - parent 1',
+      field3: 'Other value',
+      section1: 'one',
+    },
+    {
+      field2: 'Child three - parent 1',
+      field3: 'Other value',
+      section1: 'one',
     },
     {
       field2: 'Child one - parent 2',
@@ -69,4 +119,5 @@ const childData = () => {
 module.exports = {
   parentData,
   childData,
+  childData2,
 }

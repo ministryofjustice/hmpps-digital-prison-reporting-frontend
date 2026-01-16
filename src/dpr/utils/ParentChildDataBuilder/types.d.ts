@@ -7,12 +7,11 @@ export interface ParentChildSortKey extends SortKey {
 
 export interface ChildData {
   id: string
-  data: Array<Dict<string>>
+  data: Array<Record<string, string>>
 }
 
 export interface ParentChildTemplateData {
-  parentHead: Cell[]
-  childHead: Cell[]
+  rowCount: number
   sections: [
     {
       title?: string
@@ -24,10 +23,27 @@ export interface ParentChildTemplateData {
 
 export interface ParentChildData {
   parent: {
+    head: Cell[] | null
     rows: Cell[][]
   }
-  child: {
+  children: {
     title: string
+    head: Cell[] | null
     rows: Cell[][]
-  }
+  }[]
+}
+
+export interface ParentChildDataset {
+  parent: Record<string, string>
+  children: {
+    id: string
+    data: Array<Record<string, string>>
+  }[]
+}
+export interface GroupedParentChildDataset {
+  parent: Array<Record<string, string>>
+  children: {
+    id: string
+    data: Array<Record<string, string>>
+  }[]
 }

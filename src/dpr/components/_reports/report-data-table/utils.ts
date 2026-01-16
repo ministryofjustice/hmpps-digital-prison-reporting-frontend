@@ -5,8 +5,8 @@ import { AsyncSummary } from '../../../types/UserReports'
 import CollatedSummaryBuilder from '../../../utils/CollatedSummaryBuilder/CollatedSummaryBuilder'
 import DataTableBuilder from '../../../utils/DataTableBuilder/DataTableBuilder'
 import { Columns } from '../report-columns-form/types'
-import { ChildData } from '../../../utils/ParentChildDataTableBuilder/types'
-import ParentChildDataTableBuilder from '../../../utils/ParentChildDataTableBuilder/ParentChildDataTableBuilder'
+import { ChildData, ParentChildTemplateData } from '../../../utils/ParentChildDataBuilder/types'
+import ParentChildDataBuilder from '../../../utils/ParentChildDataBuilder/ParentChildDataBuilder'
 import SectionedDataTableBuilder from '../../../utils/SectionedDataTableBuilder/SectionedDataTableBuilder'
 import SectionedFieldsDataTableBuilder from '../../../utils/SectionedFieldsTableBuilder/SectionedFieldsTableBuilder'
 import { DataTable } from '../../../utils/DataTableBuilder/types'
@@ -47,13 +47,14 @@ const buildListTable = (
 const buildParentChildTable = (
   definition: components['schemas']['SingleVariantReportDefinition'],
   columns: Columns,
-  reportData: Dict<string>[],
+  reportData: Record<string, string>[],
   childData: ChildData[],
-): DataTable => {
-  return new ParentChildDataTableBuilder(definition.variant)
-    .withNoHeaderOptions(columns.value)
+): ParentChildTemplateData => {
+  return new ParentChildDataBuilder(definition.variant, reportData)
+    .withParentColumns(columns.value)
+    .withChildColumns([])
     .withChildData(childData)
-    .buildTable(reportData)
+    .build()
 }
 
 const buildSummarySectionTable = (
@@ -103,8 +104,8 @@ export const createDataTable = (
   childData: ChildData[],
   summariesData: AsyncSummary[],
   reportQuery: ReportQuery,
-): DataTable[] => {
-  let dataTables: DataTable[] = []
+): Array<DataTable | ParentChildTemplateData> => {
+  let dataTables: Array<DataTable | ParentChildTemplateData> = []
   const { specification } = validateDefinition(definition)
   const { template } = specification
 
@@ -118,7 +119,7 @@ export const createDataTable = (
 
     case 'parent-child':
     case 'parent-child-section': {
-      const dataTable = buildParentChildTable(definition, columns, reportData, childData)
+      const dataTable = buildParentChildTable(definition, columns, reportData as Record<string, string>[], childData)
       dataTables.push(dataTable)
       break
     }

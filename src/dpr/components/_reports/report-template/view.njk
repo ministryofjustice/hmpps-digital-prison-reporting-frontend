@@ -13,13 +13,13 @@
   {% set count = renderData.count %}
 
     <div class="report-template-container  {% if (printable == false) %}print-hide{% endif %}">
-      {% if template === 'list-tab' %}
-
-        {# Add template view here #}
-
-      {% elif template === 'list-section' or template === 'summary-section' or template === 'parent-child' or template === 'parent-child-section' or template === 'row-section' or template === 'row-section-child' %}
+      {% if template === 'list' %}
 
         {{ dprReport(renderData, count, template) }}
+
+        {% if count and count > 0 %}
+          {{ dprReportPagination(pagination) }}
+        {% endif %}
 
       {% elif template === 'summary' %}
 
@@ -33,10 +33,6 @@
       {% else %}
 
         {{ dprReport(renderData, count, template) }}
-        
-        {% if count and count > 0 %}
-          {{ dprReportPagination(pagination) }}
-        {% endif %}
 
       {% endif %}
     </div>

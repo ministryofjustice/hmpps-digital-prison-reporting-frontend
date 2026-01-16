@@ -16,20 +16,27 @@
   {% if not count or count === 0 %}
     {{ dprReportNoDataMessage(url) }}
   {% else %}
-
-    {{ dprParentChildTemplate({}, classification) }}
-
     {{ dprReportSummary(reportSummaries, 'page-header') }}
     {{ dprReportTotals(options.totals) }}
+  
     <div class='dpr-table-container dpr-table-container--{{ template }}'>
+     
       {% if template === 'summary-section' %}
+    
         {% for datatable in dataTable[0].rows %}
           {% if datatable[0].html %}
             {{ datatable[0].html | safe }}
           {% endif %}
         {% endfor %}
+
+      {% elif template === 'parent-child' or template === 'parent-child-section' %}
+
+        {{ dprParentChildTemplate(dataTable[0], classification) }}
+
       {% else %}
+
         {{ dprDataTableWrapper(dataTable, classification) }}
+      
       {% endif %}
     </div>
     

@@ -3,6 +3,7 @@ import { Url } from 'url'
 import { Request, Response } from 'express'
 
 // Types
+import { ParentChildTemplateData, ChildData } from '../../../../../utils/ParentChildDataBuilder/types'
 import type { Columns } from '../../../../../components/_reports/report-columns-form/types'
 import type { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 import type { DataTable } from '../../../../../utils/DataTableBuilder/types'
@@ -10,7 +11,6 @@ import type { components } from '../../../../../types/api'
 import type { AsyncSummary, RequestedReport } from '../../../../../types/UserReports'
 import { LoadType, ReportType } from '../../../../../types/UserReports'
 import ReportQuery from '../../../../../types/ReportQuery'
-import type { ChildData } from '../../../../../utils/ParentChildDataTableBuilder/types'
 import type { ExtractedDefinitionData, ExtractedRequestData, ReportUrls } from './types'
 import type { DownloadActionParams } from '../../../../../components/_reports/report-actions/types'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
@@ -256,7 +256,7 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
   })
 
   // Get the data table
-  const dataTable: DataTable[] = DataTableUtils.createDataTable(
+  const dataTable: Array<DataTable | ParentChildTemplateData> = DataTableUtils.createDataTable(
     definition,
     columns,
     reportData,
@@ -302,7 +302,7 @@ const getTemplateData = async (
   services: Services,
   definition: components['schemas']['SingleVariantReportDefinition'],
   summariesData: AsyncSummary[],
-  dataTable: DataTable[],
+  dataTable: Array<DataTable | ParentChildTemplateData>,
   columns: Columns,
   reportQuery: ReportQuery,
   requestData?: RequestedReport,

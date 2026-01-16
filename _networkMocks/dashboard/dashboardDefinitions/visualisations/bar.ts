@@ -1,4 +1,4 @@
-import { components } from '../../../../src/dpr/types/api'
+import { components } from '../../../../dpr/types/api'
 
 const mockEthnicityBarChart: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'mockEthnicityBarChart',

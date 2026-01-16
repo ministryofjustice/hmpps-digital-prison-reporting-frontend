@@ -1,4 +1,4 @@
-import { components } from 'src/dpr/types/api'
+import { components } from 'dpr/types/api'
 
 const reportTemplateExampleSectionedSummaries: components['schemas']['VariantDefinition'] = {
   id: 'report-template-example-sectioned-summaries',

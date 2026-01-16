@@ -1,5 +1,5 @@
 import { establishmentIdFilter, granularDateRangeFilter } from '@networkMocks/dashboard/filter-definitions'
-import { components } from '../../../../src/dpr/types/api'
+import { components } from '../../../../dpr/types/api'
 import scorecard from '../../visualisations/scorecard'
 
 export const scoreCardTest: components['schemas']['DashboardDefinition'] = {

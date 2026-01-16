@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
 import { Router, Request, Response } from 'express'
-import platformRoutes from '../../../../src/dpr/routes'
+import platformRoutes from '../../../../dpr/routes'
 
 import PlatformController from './controller'
-import { ReportStoreConfig } from '../../../../src/dpr/types/ReportStore'
-import { Services } from '../../../../src/dpr/types/Services'
+import { ReportStoreConfig } from '../../../../dpr/types/ReportStore'
+import { Services } from '../../../../dpr/types/Services'
 // Routes
 export default function routes(services: Services) {
   const router = Router({ mergeParams: true })

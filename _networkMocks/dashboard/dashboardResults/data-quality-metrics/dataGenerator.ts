@@ -6,7 +6,7 @@ import {
   initBaseData,
 } from '../timeseriesDataHelper'
 
-import { DashboardDataResponse } from '../../../../src/dpr/types/Metrics'
+import { DashboardDataResponse } from '../../../../dpr/types/Metrics'
 
 const baseData: DashboardDataResponse = {
   ts: { raw: '' },

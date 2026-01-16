@@ -1,4 +1,4 @@
-import { components } from 'src/dpr/types/api'
+import { components } from 'dpr/types/api'
 
 export const testingDashboard2 = {
   id: '167078.RS',

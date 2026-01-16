@@ -1,4 +1,4 @@
-import { components } from 'src/dpr/types/api'
+import { components } from 'dpr/types/api'
 
 export const variant15: components['schemas']['VariantDefinition'] = {
   id: 'relative-daterange-with-default',

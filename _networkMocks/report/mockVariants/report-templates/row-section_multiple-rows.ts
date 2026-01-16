@@ -1,5 +1,5 @@
-import { components } from 'src/dpr/types/api'
-import { SectionedField } from 'src/dpr/utils/SectionedFieldsTableBuilder/SectionedFieldsTableBuilder'
+import { components } from 'dpr/types/api'
+import { SectionedField } from 'dpr/utils/SectionedFieldsTableBuilder/SectionedFieldsTableBuilder'
 
 const reportTemplateExampleRowSectionMultiple: components['schemas']['VariantDefinition'] & {
   specification: components['schemas']['VariantDefinition']['specification'] & {

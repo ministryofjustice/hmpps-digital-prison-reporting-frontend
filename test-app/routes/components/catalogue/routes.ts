@@ -5,7 +5,7 @@ import CatalogueController from './controller'
 import catalogueRoutes from './default/routes'
 import configuredRoutes from './configured/routes'
 
-import { Services } from '../../../../src/dpr/types/Services'
+import { Services } from '../../../../dpr/types/Services'
 
 export default function routes(services: Services) {
   const router = Router({ mergeParams: true })

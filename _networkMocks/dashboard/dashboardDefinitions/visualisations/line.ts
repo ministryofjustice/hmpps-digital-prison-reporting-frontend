@@ -1,4 +1,4 @@
-import { components } from '../../../../src/dpr/types/api'
+import { components } from '../../../../dpr/types/api'
 
 const dataQualityReligionHistoricLine: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'line-data-quality-has-religion-historic',

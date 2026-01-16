@@ -1,4 +1,4 @@
-import { DashboardVisualisationType } from '../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
+import { DashboardVisualisationType } from '../../../../dpr/components/_dashboards/dashboard-visualisation/types'
 
 const dietTotalsVegetarianOvertime = {
   id: 'diet-totals-vegetarian-overtime',

@@ -2,10 +2,10 @@ import { featureTesting } from '@networkMocks/report/mockVariants/feature-testin
 import { featureTestingEmptyQuery } from '@networkMocks/report/mockVariants/feature-testing/emptyQuery'
 import { featureTestingUnprintable } from '@networkMocks/report/mockVariants/feature-testing/unprintable'
 import { RequestHandler } from 'express'
-import { BookmarkStoreData } from 'src/dpr/types/Bookmark'
-import { Services } from 'src/dpr/types/Services'
-import { BookmarkUtils } from 'src/dpr/utils'
-import logger from 'src/dpr/utils/logger'
+import { BookmarkStoreData } from 'dpr/types/Bookmark'
+import { Services } from 'dpr/types/Services'
+import { BookmarkUtils } from 'dpr/utils'
+import logger from 'dpr/utils/logger'
 
 export const automaticBookmarkConfig = {
   caseloads: {

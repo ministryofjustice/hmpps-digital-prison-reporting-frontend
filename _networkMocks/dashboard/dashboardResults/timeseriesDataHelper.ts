@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { DashboardDataResponse } from 'src/dpr/types/Metrics'
+import { DashboardDataResponse } from 'dpr/types/Metrics'
 
 export const splitIntoRandomValues = (total: number, parts: number): number[] => {
   let randomValues

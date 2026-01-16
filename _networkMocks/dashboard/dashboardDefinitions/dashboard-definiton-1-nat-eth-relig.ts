@@ -3,7 +3,7 @@ import chartDefs from './age-breakdown/visualisations/ethnicityReligionDefinitio
 import cardDefs from './age-breakdown/visualisations/scorecard-definitions-nationality-ethnicity-religion'
 import vizExamples from './visualisations/lists'
 
-import { components } from '../../../src/dpr/types/api'
+import { components } from '../../../dpr/types/api'
 
 export const testingDashboard8: components['schemas']['DashboardDefinition'] = {
   id: 'test-dashboard-8',

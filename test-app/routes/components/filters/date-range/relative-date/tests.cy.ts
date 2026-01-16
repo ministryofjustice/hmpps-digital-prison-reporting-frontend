@@ -1,4 +1,4 @@
-import RelativeDateRange from 'src/dpr/components/_inputs/date-range/types'
+import RelativeDateRange from 'dpr/components/_inputs/date-range/types'
 import { setRedisState } from '../../../../integrationTests/appStateUtils'
 
 context('Inputs: Relative date range', () => {

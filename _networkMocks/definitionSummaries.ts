@@ -1,5 +1,5 @@
-import { LoadType } from '../src/dpr/types/UserReports'
-import { components } from '../src/dpr/types/api'
+import { LoadType } from '../dpr/types/UserReports'
+import { components } from '../dpr/types/api'
 import dashboardDefinitions from './dashboard/dashboardDefinitions/dashboard-definitions'
 import { requestExampleVariants } from './report/mockVariants/request-examples'
 import { reportTemplates } from './report/mockVariants/report-templates'

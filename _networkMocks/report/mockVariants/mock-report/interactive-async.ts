@@ -1,4 +1,4 @@
-import { components } from 'src/dpr/types/api'
+import { components } from 'dpr/types/api'
 
 export const variant35Interactive: components['schemas']['VariantDefinition'] = {
   id: 'variantId-35',

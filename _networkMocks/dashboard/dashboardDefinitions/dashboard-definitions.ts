@@ -1,4 +1,4 @@
-import { components } from 'src/dpr/types/api'
+import { components } from 'dpr/types/api'
 import { testingDashboard2 } from './dashboard-definition-2-summary'
 import { testingDashboard8 } from './dashboard-definiton-1-nat-eth-relig'
 import { syncDashboard } from './dashboard-definition-sync'

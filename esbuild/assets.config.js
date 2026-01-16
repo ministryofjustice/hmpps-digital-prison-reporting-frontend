@@ -33,12 +33,12 @@ const buildAssets = (buildConfig) => {
     entryPoints: buildConfig.assets.entryPoints,
     outdir: buildConfig.assets.outDir,
     entryNames: '[ext]/app',
-    minify: buildConfig.isProduction,
+    minify: false,
     sourcemap: !buildConfig.isProduction,
     platform: 'browser',
     target: 'es2018',
     external: ['/assets/*'],
-    bundle: true,
+    bundle: buildConfig.app.bundle ?? false,
     plugins: [
       clean({
         patterns: glob.sync(buildConfig.assets.clear),

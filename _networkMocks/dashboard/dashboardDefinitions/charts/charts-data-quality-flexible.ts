@@ -1,5 +1,5 @@
 import { establishmentIdFilter } from '@networkMocks/dashboard/filter-definitions'
-import { components } from 'src/dpr/types/api'
+import { components } from 'dpr/types/api'
 import lists from '../visualisations/lists'
 
 export const dataQualityFlexible = {

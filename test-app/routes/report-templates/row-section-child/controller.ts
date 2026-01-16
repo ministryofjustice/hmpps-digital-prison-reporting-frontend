@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
-import { MoJTableHead } from 'src/dpr/components/_dashboards/dashboard-visualisation/types'
-import { FilterValue, SelectedFilter } from 'src/dpr/components/_filters/types'
-import { ReportAction } from 'src/dpr/components/_reports/report-actions/types'
+import { MoJTableHead } from 'dpr/components/_dashboards/dashboard-visualisation/types'
+import { FilterValue, SelectedFilter } from 'dpr/components/_filters/types'
+import { ReportAction } from 'dpr/components/_reports/report-actions/types'
 
 export default class RowSectionChildTemplateController {
   layoutPath = ''

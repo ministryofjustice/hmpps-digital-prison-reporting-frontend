@@ -1,4 +1,4 @@
-import { ReportStoreConfig } from "../../../src/dpr/types/ReportStore";
+import { ReportStoreConfig } from "../../../dpr/types/ReportStore";
 
 export const setRedisState = (userStore: ReportStoreConfig, userId: string = 'userId') => {
   cy.request('POST', `/embedded/platform/setRedisState`, {
@@ -12,7 +12,7 @@ export const getRedisState = (userId: string = 'userId') => {
   return cy.request<ReportStoreConfig>('GET', `/embedded/platform/getRedisState/${userId}`)
 }
 
-export const updateRedisState = (userStoreKey: keyof ReportStoreConfig, userStoreValue: ReportStoreConfig[typeof userStoreKey], userId: string = 'userId', ) => {
+export const updateRedisState = (userStoreKey: keyof ReportStoreConfig, userStoreValue: ReportStoreConfig[typeof userStoreKey], userId: string = 'userId',) => {
   cy.request('POST', `/embedded/platform/updateRedisState`, {
     userId,
     userStoreKey,

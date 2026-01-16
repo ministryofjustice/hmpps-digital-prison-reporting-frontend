@@ -1,5 +1,5 @@
-import { components } from 'src/dpr/types/api'
-import { LoadType } from 'src/dpr/types/UserReports'
+import { components } from 'dpr/types/api'
+import { LoadType } from 'dpr/types/UserReports'
 import listSection from './list-section'
 import listSectionWithSummaries from './list-section-wtih-summaries'
 import listWithSummaries from './list-with-summaries'

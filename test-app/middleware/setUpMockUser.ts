@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import DprUser from '../../src/dpr/types/DprUser'
+import DprUser from '../../dpr/types/DprUser'
 
 export default (): RequestHandler => {
   return async (_req, res, next) => {

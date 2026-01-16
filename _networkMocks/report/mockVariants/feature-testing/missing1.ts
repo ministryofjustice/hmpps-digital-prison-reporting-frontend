@@ -1,4 +1,4 @@
-import { components } from 'src/dpr/types/api'
+import { components } from 'dpr/types/api'
 
 export const featureTestingMissing1: components['schemas']['VariantDefinition'] & { isMissing?: boolean } = {
   id: 'feature-testing-missing-1',

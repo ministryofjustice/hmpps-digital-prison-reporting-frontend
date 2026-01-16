@@ -1,4 +1,4 @@
-import { components } from 'src/dpr/types/api'
+import { components } from 'dpr/types/api'
 
 export const featureTesting: components['schemas']['VariantDefinition'] = {
   id: 'feature-testing-big-report',

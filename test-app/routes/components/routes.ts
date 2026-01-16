@@ -8,7 +8,7 @@ import UserReportsRoutes from './user-reports/routes'
 import FiltersRoutes from './filters/routes'
 
 import ComponentsController from './controller'
-import { Services } from '../../../src/dpr/types/Services'
+import { Services } from '../../../dpr/types/Services'
 
 export function Routes(services: Services) {
   const router = Router({ mergeParams: true })

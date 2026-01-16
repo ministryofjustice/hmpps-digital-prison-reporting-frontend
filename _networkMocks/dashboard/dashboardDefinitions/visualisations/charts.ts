@@ -1,6 +1,6 @@
 // DIET TOTALS
 
-import { components } from 'src/dpr/types/api'
+import { components } from 'dpr/types/api'
 
 const dietTotalsBar = {
   id: 'bar-diet-totals',

@@ -5,7 +5,7 @@ import { RedisStore } from 'connect-redis'
 import express, { Router } from 'express'
 import { randomUUID } from 'crypto'
 import { createClient } from 'redis'
-import logger from 'src/dpr/utils/logger'
+import logger from 'dpr/utils/logger'
 
 
 export default function setUpWebSession(): Router {

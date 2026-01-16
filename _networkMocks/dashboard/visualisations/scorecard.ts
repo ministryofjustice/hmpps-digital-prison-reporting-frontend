@@ -1,4 +1,4 @@
-import { components } from '../../../src/dpr/types/api'
+import { components } from '../../../dpr/types/api'
 
 const simpleScorecardNationality: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-nationality',

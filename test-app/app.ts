@@ -9,8 +9,8 @@ import path from 'path'
 import flash from 'connect-flash'
 
 // middleware
-import { Services } from 'src/dpr/types/Services'
-import setUpDprResources from 'src/dpr/middleware/setUpDprResources'
+import { Services } from 'dpr/types/Services'
+import setUpDprResources from 'dpr/middleware/setUpDprResources'
 import setUpStaticResources from './middleware/setUpStaticResources'
 import setUpMockUser from './middleware/setUpMockUser'
 

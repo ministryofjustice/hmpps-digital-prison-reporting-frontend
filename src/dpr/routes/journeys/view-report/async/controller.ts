@@ -38,7 +38,7 @@ class AsyncController {
         error: new ErrorHandler(error).formatError(),
         ...(req.body && { ...req.body }),
       }
-      next()
+      next(error)
     }
   }
 
@@ -52,7 +52,7 @@ class AsyncController {
         error: new ErrorHandler(error).formatError(),
         ...(req.body && { ...req.body }),
       }
-      next()
+      next(error)
     }
   }
 }

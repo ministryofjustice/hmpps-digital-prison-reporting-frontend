@@ -35,7 +35,7 @@ class RequestReportController {
       req.body.title = 'Request failed'
       req.body.errorDescription = `Your ${req.params['type']} has failed to generate.`
       req.body.error = new ErrorHandler(error).formatError()
-      next()
+      next(req.body.error)
     }
   }
 
@@ -84,7 +84,7 @@ class RequestReportController {
         error: new ErrorHandler(error).formatError(),
         ...(req.body && { ...req.body }),
       }
-      next()
+      next(error)
     }
   }
 
@@ -98,7 +98,7 @@ class RequestReportController {
         error: new ErrorHandler(error).formatError(),
         ...(req.body && { ...req.body }),
       }
-      next()
+      next(error)
     }
   }
 }

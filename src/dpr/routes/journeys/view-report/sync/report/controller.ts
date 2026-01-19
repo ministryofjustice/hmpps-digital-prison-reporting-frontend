@@ -28,7 +28,7 @@ class ViewSyncReportController {
       req.body.title = `Report Failed`
       req.body.errorDescription = 'We were unable to show this report for the following reason:'
       req.body.error = new ErrorHandler(error).formatError()
-      next()
+      next(error)
     }
   }
 
@@ -42,7 +42,7 @@ class ViewSyncReportController {
         error: new ErrorHandler(error).formatError(),
         ...(req.body && { ...req.body }),
       }
-      next()
+      next(error)
     }
   }
 
@@ -56,7 +56,7 @@ class ViewSyncReportController {
         error: new ErrorHandler(error).formatError(),
         ...(req.body && { ...req.body }),
       }
-      next()
+      next(error)
     }
   }
 

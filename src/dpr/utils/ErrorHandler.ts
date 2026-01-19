@@ -1,7 +1,7 @@
 import { components } from '../types/api'
 import logger from './logger'
 
-interface DprErrorMessage {
+export interface DprErrorMessage {
   userMessage?: string
   developerMessage?: string
   stack?: string

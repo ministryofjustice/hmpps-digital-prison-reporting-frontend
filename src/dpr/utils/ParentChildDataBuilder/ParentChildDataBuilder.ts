@@ -45,25 +45,48 @@ class ParentChildDataBuilder {
     this.parentData = parentData
   }
 
-  getChildJoinFields(childId: string): string[] {
-    const childVariant = this.getChildVariant(childId)
-    return childVariant && childVariant.specification ? childVariant.joinFields : []
-  }
-
   getChildVariant(childId: string) {
     return this.childVariants.find((cv) => cv.id === childId)
   }
 
-  getChildFields(childId: string): components['schemas']['FieldDefinition'][] {
+  /**
+   * Exracts the relevant data from the child variant definition
+   * to generate the child table
+   *
+   * @param {string} childId
+   * @return { fields: components['schemas']['FieldDefinition'][], joinFields: string[], columns: string[], name: string }
+   * @memberof ParentChildDataBuilder
+   */
+  getChildVariantDefinitionData(childId: string) {
     const childVariant = this.getChildVariant(childId)
-    return childVariant && childVariant.specification ? childVariant.specification.fields : []
+
+    let fields: components['schemas']['FieldDefinition'][] = []
+    let joinFields: string[] = []
+    let columns: string[] = []
+    let name = 'Child report'
+
+    if (childVariant && childVariant.specification) {
+      fields = childVariant.specification.fields
+      joinFields = childVariant && childVariant.specification ? childVariant.joinFields : []
+      columns = fields.filter((f) => f.visible).map((f) => f.name)
+      name = childVariant.name
+    }
+
+    return {
+      fields,
+      joinFields,
+      columns,
+      name,
+    }
   }
 
-  getChildColumns(childId: string) {
-    const fields = this.getChildFields(childId)
-    return fields.filter((f) => f.visible).map((f) => f.name)
-  }
-
+  /**
+   * Maps the parent child rows together, and splits into sections
+   * to create the parent table
+   *
+   * @return {*}  {GroupedParentChildDataset[]}
+   * @memberof ParentChildDataBuilder
+   */
   mergeParentChildAndGroup(): GroupedParentChildDataset[] {
     const groups: GroupedParentChildDataset[] = []
     let pendingParents: Array<Record<string, string>> = []
@@ -77,7 +100,7 @@ class ParentChildDataBuilder {
 
       // Match against each child dataset
       this.childData.forEach((child) => {
-        const joinFields = this.getChildJoinFields(child.id)
+        const { joinFields } = this.getChildVariantDefinitionData(child.id)
         const matchedChildren: Record<string, string>[] = []
 
         // Compare join fields
@@ -120,6 +143,13 @@ class ParentChildDataBuilder {
     return groups
   }
 
+  /**
+   * Maps the parent child data to a table data
+   *
+   * @param {GroupedParentChildDataset[]} parentChildGroups
+   * @return {*}  {ParentChildData[]}
+   * @memberof ParentChildDataBuilder
+   */
   mapToTableData(parentChildGroups: GroupedParentChildDataset[]): ParentChildData[] {
     const parentTableBuilder = new DataTableBuilder(this.parentFields)
 
@@ -127,14 +157,12 @@ class ParentChildDataBuilder {
       const parentTable = parentTableBuilder.withNoHeaderOptions(this.columns).buildTable(group.parent)
 
       const children: ParentChildData['children'] = group.children.map((child) => {
-        const childFields = this.getChildFields(child.id)
-        const childColumns = this.getChildColumns(child.id)
-        const childVariant = this.getChildVariant(child.id)
+        const { fields: childFields, columns: childColumns, name } = this.getChildVariantDefinitionData(child.id)
         const childTableBuilder = new DataTableBuilder(childFields)
         const childTable = childTableBuilder.withNoHeaderOptions(childColumns).buildTable(child.data)
 
         return {
-          title: childVariant?.name || 'Child report',
+          title: name,
           rows: childTable.rows,
           head: childTable.head,
         }

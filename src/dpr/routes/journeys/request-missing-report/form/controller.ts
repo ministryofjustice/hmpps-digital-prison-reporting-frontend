@@ -4,6 +4,7 @@ import { components } from '../../../../types/api'
 import { Services } from '../../../../types/Services'
 import MissingReportService from '../../../../services/missingReport/missingReportService'
 import { ReportingService } from '../../../../services'
+import { captureException } from '@sentry/node'
 
 class MissingReportFormController {
   layoutPath: string
@@ -48,7 +49,7 @@ class MissingReportFormController {
         postEndpoint: `/dpr/request-missing-report/${reportId}/${variantId}/form/submit`,
       })
     } catch (error) {
-      next()
+      next(error)
     }
   }
 
@@ -68,12 +69,14 @@ class MissingReportFormController {
 
             res.redirect(redirect)
           },
-          () => {
+          (err) => {
+            captureException(err)
             res.render(`dpr/components/serviceError/view`)
           },
         )
       }
-    } catch (_error) {
+    } catch (error) {
+      captureException(error)
       res.render(`dpr/components/serviceError/view`)
     }
   }

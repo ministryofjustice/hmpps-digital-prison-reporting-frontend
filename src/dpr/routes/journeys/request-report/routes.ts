@@ -9,6 +9,7 @@ import requestStatusRoutes from './status/routes'
 
 // middleware
 import reportAuthoriser from '../../../middleware/reportAuthoriser'
+import { captureException } from '@sentry/node'
 
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }) {
   const router = Router({ mergeParams: true })
@@ -34,6 +35,7 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
     const params = JSON.parse(req.flash('ERROR_PARAMS')?.[0] || '')
     const error = req.flash('ERROR')
 
+    captureException(error)
     res.render(`dpr/routes/journeys/view-report/error`, {
       layoutPath,
       ...(body && { ...body }),

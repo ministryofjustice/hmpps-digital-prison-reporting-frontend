@@ -71,7 +71,7 @@ class LoadReportController {
         layoutPath: this.layoutPath,
       })
     } catch (error) {
-      next()
+      next(error)
     }
   }
 }

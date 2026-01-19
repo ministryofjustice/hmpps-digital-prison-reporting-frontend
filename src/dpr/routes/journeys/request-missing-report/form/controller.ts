@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express'
+import { captureException } from '@sentry/node'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { components } from '../../../../types/api'
 import { Services } from '../../../../types/Services'
 import MissingReportService from '../../../../services/missingReport/missingReportService'
 import { ReportingService } from '../../../../services'
-import { captureException } from '@sentry/node'
 
 class MissingReportFormController {
   layoutPath: string

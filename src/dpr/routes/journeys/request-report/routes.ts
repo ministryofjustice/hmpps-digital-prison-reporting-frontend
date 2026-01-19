@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
+import { captureException } from '@sentry/node'
 import { Services } from '../../../types/Services'
 import RequestReportController from './controller'
 
@@ -9,7 +10,6 @@ import requestStatusRoutes from './status/routes'
 
 // middleware
 import reportAuthoriser from '../../../middleware/reportAuthoriser'
-import { captureException } from '@sentry/node'
 
 export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }) {
   const router = Router({ mergeParams: true })

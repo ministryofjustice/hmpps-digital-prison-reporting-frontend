@@ -1,8 +1,8 @@
 import { ErrorRequestHandler, RequestHandler } from 'express'
+import { captureException } from '@sentry/node'
 import ErrorHandler from '../../../utils/ErrorHandler'
 import { Services } from '../../../types/Services'
 import logger from '../../../utils/logger'
-import { captureException } from '@sentry/node'
 
 class ViewReportController {
   layoutPath: string

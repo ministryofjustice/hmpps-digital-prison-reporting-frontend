@@ -46,6 +46,7 @@ const buildConfig = () => ({
   },
 
   assets: {
+    minify: true,
     outDir: path.join(cwd, 'dist-docs/dpr/assets'),
     entryPoints: glob.sync([
       path.join(cwd, 'src/dpr/assets/app.js'),

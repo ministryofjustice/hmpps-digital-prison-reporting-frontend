@@ -3,6 +3,7 @@ import { RequestHandler, Response, Request, ErrorRequestHandler, NextFunction } 
 import type { ParsedQs } from 'qs'
 import { HTTPError } from 'superagent'
 import type { Environment } from 'nunjucks'
+import { captureException } from '@sentry/node'
 import { Services } from '../types/Services'
 import { RequestedReport, StoredReportData } from '../types/UserReports'
 import DefinitionUtils from '../utils/definitionUtils'
@@ -32,12 +33,13 @@ export const errorRequestHandler =
         message: 'Sorry, there is a problem with authenticating your request',
       })
     }
+    captureException(error)
     if (error.status >= 400) {
       return res.render('dpr/routes/serviceProblem.njk', {
         layoutPath,
       })
     }
-    return next()
+    return next(error)
   }
 
 export const setupResources = (

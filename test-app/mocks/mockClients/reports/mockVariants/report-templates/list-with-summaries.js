@@ -45,6 +45,50 @@ const reportTemplateExampleListWithSummaries = {
         },
       ],
     },
+    {
+      id: 'summary4',
+      template: 'table-header',
+      fields: [
+        {
+          name: 'field1',
+          display: 'Field 1',
+        },
+        {
+          name: 'field2',
+          display: 'Field 2',
+        },
+        {
+          name: 'field1',
+          display: 'Field 3',
+        },
+        {
+          name: 'field4',
+          display: 'Field 4',
+        },
+      ],
+    },
+    {
+      id: 'summary4',
+      template: 'table-footer',
+      fields: [
+        {
+          name: 'field1',
+          display: 'Field 1',
+        },
+        {
+          name: 'field2',
+          display: 'Field 2',
+        },
+        {
+          name: 'field1',
+          display: 'Field 3',
+        },
+        {
+          name: 'field4',
+          display: 'Field 4',
+        },
+      ],
+    },
   ],
   specification: {
     template: 'list',

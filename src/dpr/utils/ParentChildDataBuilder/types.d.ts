@@ -10,18 +10,7 @@ export interface ChildData {
   data: Array<Record<string, string>>
 }
 
-export interface ParentChildTemplateData {
-  rowCount: number
-  sections: [
-    {
-      title?: string
-      count?: number
-      data: ParentChildData[]
-    },
-  ]
-}
-
-export interface ParentChildData {
+export interface ParentChildTableData {
   parent: {
     head: Cell[] | null
     rows: Cell[][]
@@ -35,15 +24,18 @@ export interface ParentChildData {
 
 export interface ParentChildDataset {
   parent: Record<string, string>
-  children: {
-    id: string
-    data: Array<Record<string, string>>
-  }[]
+  children: ChildData[]
 }
+
 export interface GroupedParentChildDataset {
   parent: Array<Record<string, string>>
-  children: {
-    id: string
-    data: Array<Record<string, string>>
+  children: ChildData[]
+}
+export interface ParentChildTemplateData {
+  rowCount: number
+  sections: {
+    title?: string
+    count?: number
+    data: ParentChildTableData[]
   }[]
 }

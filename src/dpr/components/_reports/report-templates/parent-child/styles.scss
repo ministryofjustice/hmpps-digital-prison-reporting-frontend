@@ -1,16 +1,10 @@
 .dpr-parent-child-section {
-  margin-bottom: govuk-spacing(8);
-
   .govuk-table {
     tr:last-child {
       td {
         border-bottom: none;
       }
     }
-  }
-
-  .dpr-parent-child-section-data__parent {
-
   }
 
   .dpr-parent-child-section-data__child {

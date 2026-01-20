@@ -1,20 +1,16 @@
 import { Template } from '../../types/Templates'
 import { components } from '../../types/api'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
-import {
-  ChildData,
-  GroupedParentChildDataset,
-  ParentChildData,
-  ParentChildDataset,
-  ParentChildTemplateData,
-} from './types'
+import SectionedDataBuilder from '../SectionedDataBuilder/SectionedDataBuilder'
+import { ReportTemplateData, SectionData } from '../SectionedDataBuilder/types'
+import { ChildData, GroupedParentChildDataset, ParentChildTableData, ParentChildDataset } from './types'
 
 class ParentChildDataBuilder {
   variant: components['schemas']['VariantDefinition']
 
-  protected columns: Array<string> = []
+  columns: Array<string> = []
 
-  protected childColumns: Array<string> = []
+  childColumns: Array<string> = []
 
   childVariants: components['schemas']['ChildVariantDefinition'][] = []
 
@@ -30,19 +26,28 @@ class ParentChildDataBuilder {
 
   parentChildDatasets: ParentChildDataset[] = []
 
+  parentFields: components['schemas']['FieldDefinition'][]
+
+  sections: string[] = []
+
   dataTableBuilder!: DataTableBuilder
 
-  parentFields: components['schemas']['FieldDefinition'][]
+  sectionBuilder: SectionedDataBuilder
 
   constructor(variant: components['schemas']['VariantDefinition'], parentData: Array<Record<string, string>>) {
     const { specification } = variant
-    const { template, fields } = <components['schemas']['Specification']>specification
+    const { template, fields, sections } = <components['schemas']['Specification']>specification
 
     this.template = template
-    this.parentFields = fields
+    this.parentFields = fields || []
+    this.sections = sections || []
     this.variant = variant
     this.childVariants = this.variant.childVariants || []
-    this.parentData = parentData
+    this.parentData = parentData || []
+    this.sectionBuilder = new SectionedDataBuilder()
+      .withSections(this.sections)
+      .withData(parentData)
+      .withFields(this.parentFields)
   }
 
   getChildVariant(childId: string) {
@@ -81,17 +86,17 @@ class ParentChildDataBuilder {
   }
 
   /**
-   * Maps the parent child rows together, and splits into sections
-   * to create the parent table
+   * Maps the parent child rows.
+   * Splits into sections that will become the parent table
    *
    * @return {*}  {GroupedParentChildDataset[]}
    * @memberof ParentChildDataBuilder
    */
-  mergeParentChildAndGroup(): GroupedParentChildDataset[] {
+  mergeParentChildAndGroup(parentData: Record<string, string>[]): GroupedParentChildDataset[] {
     const groups: GroupedParentChildDataset[] = []
     let pendingParents: Array<Record<string, string>> = []
 
-    this.parentData.forEach((parentRow) => {
+    parentData.forEach((parentRow) => {
       // Build a dataset for this parent
       const dataset: ParentChildDataset = {
         parent: parentRow,
@@ -150,23 +155,11 @@ class ParentChildDataBuilder {
    * @return {*}  {ParentChildData[]}
    * @memberof ParentChildDataBuilder
    */
-  mapToTableData(parentChildGroups: GroupedParentChildDataset[]): ParentChildData[] {
+  mapToTableData(parentChildGroups: GroupedParentChildDataset[]): ParentChildTableData[] {
     const parentTableBuilder = new DataTableBuilder(this.parentFields)
-
     return parentChildGroups.map((group: GroupedParentChildDataset) => {
       const parentTable = parentTableBuilder.withNoHeaderOptions(this.columns).buildTable(group.parent)
-
-      const children: ParentChildData['children'] = group.children.map((child) => {
-        const { fields: childFields, columns: childColumns, name } = this.getChildVariantDefinitionData(child.id)
-        const childTableBuilder = new DataTableBuilder(childFields)
-        const childTable = childTableBuilder.withNoHeaderOptions(childColumns).buildTable(child.data)
-
-        return {
-          title: name,
-          rows: childTable.rows,
-          head: childTable.head,
-        }
-      })
+      const children: ParentChildTableData['children'] = this.mapChildDataToTableData(group)
 
       return {
         parent: {
@@ -174,6 +167,27 @@ class ParentChildDataBuilder {
           rows: parentTable.rows,
         },
         children,
+      }
+    })
+  }
+
+  /**
+   * Maps the grouped child data to table data
+   *
+   * @param {GroupedParentChildDataset} group
+   * @return {*}
+   * @memberof ParentChildDataBuilder
+   */
+  mapChildDataToTableData(group: GroupedParentChildDataset) {
+    return group.children.map((child) => {
+      const { fields: childFields, columns: childColumns, name } = this.getChildVariantDefinitionData(child.id)
+      const childTableBuilder = new DataTableBuilder(childFields)
+      const childTable = childTableBuilder.withNoHeaderOptions(childColumns).buildTable(child.data)
+
+      return {
+        title: name,
+        rows: childTable.rows,
+        head: childTable.head,
       }
     })
   }
@@ -193,17 +207,22 @@ class ParentChildDataBuilder {
     return this
   }
 
-  build(): ParentChildTemplateData {
-    const groups = this.mergeParentChildAndGroup()
-    const table = this.mapToTableData(groups)
+  build(): ReportTemplateData {
+    const sectionData = this.sectionBuilder.build()
+    const { sections } = sectionData
+    const mappedSections = sections.map((section: SectionData) => {
+      const groups = this.mergeParentChildAndGroup(<Array<Record<string, string>>>section.data)
+      const table = this.mapToTableData(groups)
+
+      return {
+        ...section,
+        data: table,
+      }
+    })
 
     return {
       rowCount: this.parentData.length,
-      sections: [
-        {
-          data: table,
-        },
-      ],
+      sections: mappedSections,
     }
   }
 }

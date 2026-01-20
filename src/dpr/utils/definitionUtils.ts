@@ -63,7 +63,10 @@ export const getCurrentVariantDefinition = (
   return undefined
 }
 
-export const getFieldDisplayName = (fields: components['schemas']['FieldDefinition'][], fieldId: string) => {
+export const getFieldDisplayName = (
+  fields: components['schemas']['FieldDefinition'][] | components['schemas']['SummaryField'][],
+  fieldId: string,
+) => {
   const ids = fieldId.split('.')
   const field = fields.find((f) => {
     return f.name === ids[0]
@@ -98,6 +101,13 @@ export const getFilters = (
     .map((field: components['schemas']['FieldDefinition']) => <components['schemas']['FilterDefinition']>field.filter)
 
   return filters.length ? filters : []
+}
+
+export const getFieldsByName = (
+  names: string[],
+  fields: components['schemas']['FieldDefinition'][],
+): components['schemas']['FieldDefinition'][] => {
+  return names.map((s) => fields.find((f) => f.name === s)).filter((n) => n !== undefined)
 }
 
 export const getReportSummary = (

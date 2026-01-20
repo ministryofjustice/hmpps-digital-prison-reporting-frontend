@@ -4,6 +4,7 @@
 {% from "../report-no-data-message/view.njk" import dprReportNoDataMessage %}
 {% from "../../code-block/view.njk" import dprCodeBlock %}
 {% from "../report-templates/parent-child/view.njk" import dprParentChildTemplate %}
+{% from "../report-templates/report-section/view.njk" import dprReportSection %}
 
 {% macro dprReport(options, count, template) %}
 
@@ -29,9 +30,9 @@
           {% endif %}
         {% endfor %}
 
-      {% elif template === 'parent-child' or template === 'parent-child-section' %}
+      {% elif template === 'parent-child' or template === 'parent-child-section' or template === 'list-section' %}
 
-        {{ dprParentChildTemplate(dataTable[0], classification) }}
+        {# {{ dprReportSection(dataTable[0], template, classification) }} #}
 
       {% else %}
 

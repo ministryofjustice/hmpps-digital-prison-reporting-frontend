@@ -5,12 +5,14 @@ import { AsyncSummary } from '../../../types/UserReports'
 import CollatedSummaryBuilder from '../../../utils/CollatedSummaryBuilder/CollatedSummaryBuilder'
 import DataTableBuilder from '../../../utils/DataTableBuilder/DataTableBuilder'
 import { Columns } from '../report-columns-form/types'
-import { ChildData, ParentChildTemplateData } from '../../../utils/ParentChildDataBuilder/types'
+import { ChildData } from '../../../utils/ParentChildDataBuilder/types'
 import ParentChildDataBuilder from '../../../utils/ParentChildDataBuilder/ParentChildDataBuilder'
 import SectionedDataTableBuilder from '../../../utils/SectionedDataTableBuilder/SectionedDataTableBuilder'
 import SectionedFieldsDataTableBuilder from '../../../utils/SectionedFieldsTableBuilder/SectionedFieldsTableBuilder'
 import { DataTable } from '../../../utils/DataTableBuilder/types'
 import type { Template } from '../../../types/Templates'
+import { ReportTemplateData } from '../../../utils/SectionedDataBuilder/types'
+// import ListSectionDataBuilder from '../../../utils/ListSectionDataBuilder/ListSectionDataBuilder'
 
 const validateDefinition = (definition: components['schemas']['SingleVariantReportDefinition']) => {
   const { variant } = definition
@@ -44,12 +46,22 @@ const buildListTable = (
     .buildTable(reportData)
 }
 
-const buildParentChildTable = (
+// const buildListSectionReport = (
+//   definition: components['schemas']['SingleVariantReportDefinition'],
+//   columns: Columns,
+//   reportData: Record<string, string>[],
+//   summariesData: AsyncSummary[],
+//   reportQuery: ReportQuery,
+// ): ReportTemplateData => {
+//   return new ListSectionDataBuilder(definition.variant, reportData, summariesData).withColumns(columns.value).build()
+// }
+
+const buildParentChildReport = (
   definition: components['schemas']['SingleVariantReportDefinition'],
   columns: Columns,
   reportData: Record<string, string>[],
   childData: ChildData[],
-): ParentChildTemplateData => {
+): ReportTemplateData => {
   return new ParentChildDataBuilder(definition.variant, reportData)
     .withParentColumns(columns.value)
     .withChildColumns([])
@@ -104,14 +116,15 @@ export const createDataTable = (
   childData: ChildData[],
   summariesData: AsyncSummary[],
   reportQuery: ReportQuery,
-): Array<DataTable | ParentChildTemplateData> => {
-  let dataTables: Array<DataTable | ParentChildTemplateData> = []
+): Array<DataTable | ReportTemplateData> => {
+  let dataTables: Array<DataTable | ReportTemplateData> = []
   const { specification } = validateDefinition(definition)
   const { template } = specification
 
   switch (template as Template) {
     case 'summary-section':
     case 'list-section': {
+      // const dataTable = buildListSectionReport(definition, columns, reportData as Record<string, string>[])
       const dataTable = buildSummarySectionTable(definition, columns, reportData, summariesData, reportQuery)
       dataTables.push(dataTable)
       break
@@ -119,7 +132,7 @@ export const createDataTable = (
 
     case 'parent-child':
     case 'parent-child-section': {
-      const dataTable = buildParentChildTable(definition, columns, reportData as Record<string, string>[], childData)
+      const dataTable = buildParentChildReport(definition, columns, reportData as Record<string, string>[], childData)
       dataTables.push(dataTable)
       break
     }

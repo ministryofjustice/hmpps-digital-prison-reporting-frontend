@@ -3,7 +3,8 @@ import { Url } from 'url'
 import { Request, Response } from 'express'
 
 // Types
-import { ParentChildTemplateData, ChildData } from '../../../../../utils/ParentChildDataBuilder/types'
+import { ReportTemplateData } from '../../../../../utils/SectionedDataBuilder/types'
+import { ChildData } from '../../../../../utils/ParentChildDataBuilder/types'
 import type { Columns } from '../../../../../components/_reports/report-columns-form/types'
 import type { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 import type { DataTable } from '../../../../../utils/DataTableBuilder/types'
@@ -256,7 +257,7 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
   })
 
   // Get the data table
-  const dataTable: Array<DataTable | ParentChildTemplateData> = DataTableUtils.createDataTable(
+  const dataTable: Array<DataTable | ReportTemplateData> = DataTableUtils.createDataTable(
     definition,
     columns,
     reportData,
@@ -302,7 +303,7 @@ const getTemplateData = async (
   services: Services,
   definition: components['schemas']['SingleVariantReportDefinition'],
   summariesData: AsyncSummary[],
-  dataTable: Array<DataTable | ParentChildTemplateData>,
+  dataTable: Array<DataTable | ReportTemplateData>,
   columns: Columns,
   reportQuery: ReportQuery,
   requestData?: RequestedReport,

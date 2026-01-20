@@ -20,6 +20,7 @@ const requestExampleSuccess = {
         visible: true,
         calculated: false,
         header: false,
+        wordWrap: 'none',
         filter: {
           type: 'Radio',
           staticOptions: [
@@ -41,6 +42,7 @@ const requestExampleSuccess = {
         calculated: false,
         header: false,
         defaultsort: false,
+        wordWrap: 'none',
         filter: {
           type: 'Select',
           staticOptions: [
@@ -61,6 +63,7 @@ const requestExampleSuccess = {
         calculated: false,
         header: false,
         defaultsort: false,
+        wordWrap: 'none',
         filter: {
           type: 'daterange',
           defaultValue: '2003-02-01 - 2006-05-04',
@@ -78,6 +81,7 @@ const requestExampleSuccess = {
         calculated: false,
         header: false,
         defaultsort: false,
+        wordWrap: 'none',
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
@@ -104,6 +108,7 @@ const requestExampleSuccess = {
         calculated: false,
         header: false,
         defaultsort: false,
+        wordWrap: 'none',
         filter: {
           type: 'autocomplete',
           dynamicOptions: {
@@ -123,6 +128,7 @@ const requestExampleSuccess = {
         calculated: false,
         header: false,
         defaultsort: false,
+        wordWrap: 'none',
         filter: {
           type: 'text',
         },
@@ -137,6 +143,7 @@ const requestExampleSuccess = {
         calculated: false,
         header: false,
         defaultsort: false,
+        wordWrap: 'none',
         filter: {
           type: 'date',
           defaultValue: '2005-02-01',
@@ -149,7 +156,49 @@ const requestExampleSuccess = {
         display: 'Field 8',
         sortable: false,
         visible: false,
-        type: 'date',
+        type: 'string',
+        mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        filter: {
+          type: 'multiselect',
+          staticOptions: [
+            { name: 'value8.1', display: 'Value 8.1' },
+            { name: 'value8.2', display: 'Value 8.2' },
+            { name: 'value8.3', display: 'Value 8.3' },
+            { name: 'value8.4', display: 'Value 8.4' },
+          ],
+          defaultValue: 'value8.2,value8.3',
+        },
+      },
+      {
+        name: 'field9',
+        display: 'Field 9',
+        sortable: false,
+        visible: false,
+        type: 'string',
+        mandatory: false,
+        calculated: false,
+        header: false,
+        defaultsort: false,
+        filter: {
+          type: 'multiselect',
+          staticOptions: [
+            { name: 'value8.1', display: 'Value 8.1' },
+            { name: 'value8.2', display: 'Value 8.2' },
+            { name: 'value8.3', display: 'Value 8.3' },
+            { name: 'value8.4', display: 'Value 8.4' },
+          ],
+          defaultValue: 'value8.2,value8.3',
+        },
+      },
+      {
+        name: 'field10',
+        display: 'Field 10',
+        sortable: false,
+        visible: false,
+        type: 'string',
         mandatory: false,
         calculated: false,
         header: false,

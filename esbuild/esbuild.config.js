@@ -16,7 +16,7 @@ const buildConfigLib = () => ({
 
   app: {
     bundle: false,
-    minify: true,
+    minify: false,
     outDir: path.join(cwd, 'dist/dpr'),
     entryPoints: glob
       .sync([path.join(cwd, 'src/**/*.js'), path.join(cwd, 'src/**/*.ts')])
@@ -81,6 +81,7 @@ const buildConfig = {
   },
 
   assets: {
+    minify: false,
     outDir: path.join(cwd, 'dist-test-app/assets'),
     entryPoints: glob.sync([
       path.join(cwd, 'test-app/assets/application.js'),

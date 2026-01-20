@@ -12,7 +12,7 @@ const buildApp = (buildConfig) => {
   return esbuild.build({
     entryPoints: glob.sync(buildConfig.app.entryPoints),
     outdir: buildConfig.app.outDir,
-    minify: true,
+    minify: buildConfig.app.minify,
     ...(buildConfig.app.bundle && { external: ['dtrace-provider', 'fsevents'] }),
     bundle: buildConfig.app.bundle,
     ...(buildConfig.app.alias && { alias: buildConfig.app.alias }),

@@ -2,7 +2,7 @@
   "name": "@ministryofjustice/hmpps-digital-prison-reporting-frontend",
   "description": "The Digital Prison Reporting Frontend contains templates and code to help display data effectively in UI applications.",
   "version": "9999.9999.9999",
-  "main": "dpr/all.mjs",
+  "main": "dpr/all",
   "sass": "dpr/all.scss",
   "engines": {
     "node": "^22 || ^24",

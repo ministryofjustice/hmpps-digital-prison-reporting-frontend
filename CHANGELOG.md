@@ -1,5 +1,16 @@
 Below you can find the changes included in each release.
 
+## 4.27.0
+- Update various dependencies:
+  - jest-html-reporter
+  - redis
+  - jest
+  - cypress-multi-reporters
+  - ts-jest
+- Replace ts-node with tsx
+- Improve error fallthrough by always passing `error` to `next` in request handlers where we have `catch` clauses
+- Use sentry's `captureException` where we catch exceptions and display an error page so that apps using Sentry still get this error logged
+
 ## 4.26.8
 -  Updated integration docs
 

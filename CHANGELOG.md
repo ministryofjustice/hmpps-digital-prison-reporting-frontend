@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.28.0
+- Don't minify library output code so that apps can decide or not to minify their source
+
 ## 4.27.0
 - Update various dependencies:
   - jest-html-reporter

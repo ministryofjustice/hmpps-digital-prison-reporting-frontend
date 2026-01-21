@@ -43,7 +43,6 @@ class DprCatalogueSearch extends DprCatalogueFilters {
       const queryParams = new URLSearchParams(window.location.search)
       queryParams.set(this.searchBox.id, e.target.value)
       window.history.replaceState(null, null, `?${queryParams.toString()}`)
-      if (1 == 1) throw Error('client error 1')
     })
   }
 
@@ -58,7 +57,6 @@ class DprCatalogueSearch extends DprCatalogueFilters {
     if (value) {
       rows.forEach((row) => row.classList.add(this.hideClass))
     }
-    if (1 == 1) throw Error('client error 2')
   }
 
   updateSearchListing(value) {

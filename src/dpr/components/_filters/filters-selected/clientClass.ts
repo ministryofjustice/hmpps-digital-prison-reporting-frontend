@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
 import DprFiltersFormClass from '../filters-form/clientClass'

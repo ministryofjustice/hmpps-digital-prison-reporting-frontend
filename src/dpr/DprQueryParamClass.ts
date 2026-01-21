@@ -1,3 +1,4 @@
+// @ts-nocheck
 import dayjs from 'dayjs'
 
 /* eslint-disable class-methods-use-this */

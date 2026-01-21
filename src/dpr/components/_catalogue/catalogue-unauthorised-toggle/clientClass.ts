@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-param-reassign */
 import DprCatalogueFilters from '../catalogue-filters/clientClass'

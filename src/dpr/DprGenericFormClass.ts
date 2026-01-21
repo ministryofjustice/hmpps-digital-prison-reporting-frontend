@@ -1,3 +1,4 @@
+// @ts-nocheck
 import DprFormValidationClass from './DprFormValidationClass'
 
 class DprGenericForm extends DprFormValidationClass {

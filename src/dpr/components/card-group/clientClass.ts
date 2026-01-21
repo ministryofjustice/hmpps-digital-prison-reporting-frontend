@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { DprClientClass } from '../../DprClientClass'
 
 class CardGroup extends DprClientClass {

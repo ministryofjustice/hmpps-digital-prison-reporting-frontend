@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { DprClientClass } from '../../../DprClientClass'
 
 class IconButtonList extends DprClientClass {

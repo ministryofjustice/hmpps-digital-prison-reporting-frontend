@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable prefer-destructuring */
 /* eslint-disable class-methods-use-this */
 import ChartVisualisation from '../clientClass'

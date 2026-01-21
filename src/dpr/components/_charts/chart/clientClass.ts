@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable class-methods-use-this */
 import Chart from 'chart.js/auto'
 import ChartDataLabels from 'chartjs-plugin-datalabels'

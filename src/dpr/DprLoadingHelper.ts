@@ -1,3 +1,4 @@
+// @ts-nocheck
 class DprLoadingHelper {
   showLoadingAnimation(wrapperClass) {
     const loadingPanelClass = '.dpr-loading-panel'

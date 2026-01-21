@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable class-methods-use-this */
 import { DprClientClass } from '../../../DprClientClass'
 

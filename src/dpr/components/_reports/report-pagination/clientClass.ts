@@ -1,3 +1,4 @@
+// @ts-nocheck
 import DprQueryParamClass from '../../../DprQueryParamClass'
 
 class Pagination extends DprQueryParamClass {

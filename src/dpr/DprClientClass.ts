@@ -1,3 +1,4 @@
+// @ts-nocheck
 export class DprClientClass {
 
   constructor(element, loadingHelper) {

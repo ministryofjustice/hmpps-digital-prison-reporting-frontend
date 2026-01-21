@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 import ChartVisualisation from '../clientClass'

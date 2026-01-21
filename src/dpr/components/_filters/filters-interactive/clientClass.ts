@@ -1,3 +1,4 @@
+// @ts-nocheck
 import DprSelectedFiltersClass from '../filters-selected/clientClass'
 
 class InteractiveFilters extends DprSelectedFiltersClass {

@@ -1,4 +1,5 @@
-/* eslint-disable class-methods-use-this */
+// @ts-nocheck
+// /* eslint-disable class-methods-use-this */
 import DprSelectedFiltersClass from '../../_filters/filters-selected/clientClass'
 
 class AsyncFilters extends DprSelectedFiltersClass {

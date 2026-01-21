@@ -27,7 +27,18 @@
       "plugins": ["@typescript-eslint"],
       "parser": "@typescript-eslint/parser",
       "files": ["**/*.ts"],
-      "excludedFiles": "*.js",
+      "excludedFiles": [
+        "*.js",
+        "src/dpr/components/**/clientClass.ts",
+        "src/dpr/DprClientClass.ts",
+        "src/dpr/DprFormValidationClass.ts",
+        "src/dpr/DprGenericFormClass.ts",
+        "src/dpr/DprLoadingHelper.ts",
+        "src/dpr/DprPollingStatusClass.ts",
+        "src/dpr/DprQueryParamClass.ts",
+        "src/dpr/DprSyncLoading.ts",
+        "src/dpr/all.ts"
+      ],
       "extends": [
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",

@@ -50,7 +50,7 @@ const reportTemplateExampleParentChild = {
   },
   childVariants: [
     {
-      id: 'report-template-example-parent-child-section_child',
+      id: 'report-template-parent-child-section_child',
       name: 'Child Report',
       resourceName: 'reports/list',
       joinFields: ['childKey'],

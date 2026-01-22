@@ -6,6 +6,7 @@ import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import SectionedDataBuilder from '../SectionedDataBuilder/SectionedDataBuilder'
 import { ReportTemplateData, SectionData } from '../SectionedDataBuilder/types'
 import { DataTable } from '../DataTableBuilder/types'
+import ReportQuery from '../../types/ReportQuery'
 
 class ListSectionDataBuilder {
   variant: components['schemas']['VariantDefinition']
@@ -30,10 +31,15 @@ class ListSectionDataBuilder {
 
   summariesBuilder!: CollatedSummaryBuilder
 
+  reportQuery: ReportQuery
+
+  interactive = false
+
   constructor(
     variant: components['schemas']['VariantDefinition'],
     data: Array<Record<string, string>>,
     summariesData: AsyncSummary[],
+    reportQuery: ReportQuery,
   ) {
     const { specification } = variant
     const { template, fields, sections } = <components['schemas']['Specification']>specification
@@ -43,6 +49,7 @@ class ListSectionDataBuilder {
     this.template = template
     this.fields = fields
     this.data = data
+    this.reportQuery = reportQuery
     this.sectionBuilder = new SectionedDataBuilder()
       .withData(data)
       .withSections(sections)
@@ -61,16 +68,20 @@ class ListSectionDataBuilder {
     this.dataTableBuilder = new DataTableBuilder(this.fields)
     return this.dataTableBuilder
       .withSummaries(tableSummaries)
-      .withNoHeaderOptions(this.columns)
+      .withHeaderOptions({
+        columns: this.columns,
+        reportQuery: this.reportQuery,
+        interactive: Boolean(this.interactive),
+      })
       .buildTable(section.data)
   }
 
-  buildSummariesTables(section: SectionData): {
-    template: SummaryTemplate
-    data: DataTable
-  }[] {
+  buildSummariesTables(section: SectionData) {
     const { summaries } = section
-    return summaries.map((summaryData) => {
+    const summaryTables: {
+      template: SummaryTemplate
+      data: DataTable
+    }[] = summaries.map((summaryData) => {
       const fields = <components['schemas']['FieldDefinition'][]>summaryData.fields
       const { data, template } = summaryData
       const summaryTableData = new DataTableBuilder(fields)
@@ -82,6 +93,8 @@ class ListSectionDataBuilder {
         data: summaryTableData,
       }
     })
+
+    return this.groupSummaryTables(summaryTables)
   }
 
   groupSummaryTables(
@@ -102,14 +115,23 @@ class ListSectionDataBuilder {
   build(): ReportTemplateData {
     // Create the sections
     const sectionData = this.sectionBuilder.build()
+    console.log(
+      `
+      `,
+      JSON.stringify(sectionData, null, 2),
+    )
     const mappedSections = sectionData.sections.map((section: SectionData) => {
+      console.log(
+        `
+        `,
+        JSON.stringify(section, null, 2),
+      )
       const tableData = this.buildMainTable(section)
       const summaryTables = this.buildSummariesTables(section)
-      const groupedSummaryTables = this.groupSummaryTables(summaryTables)
 
       return {
         ...section,
-        summaries: groupedSummaryTables,
+        summaries: summaryTables,
         data: tableData,
       }
     })

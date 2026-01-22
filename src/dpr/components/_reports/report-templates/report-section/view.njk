@@ -1,6 +1,7 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 {% from "../parent-child/view.njk" import dprParentChildTemplate %}
 {% from "../../report-summary-table/view.njk" import dprReportSummary %}
+{% from "../../report-data-table/view.njk" import dprDataTable %}
 
 {% macro dprReportSection(renderData, template, classification) %}
   {% set sections = renderData.sections %}
@@ -14,8 +15,11 @@
         {% set summaries = section.summaries %}
 
         {% if sectionTitle %}
-        <h2 class="govuk-heading-m">{{ sectionTitle }} 
-        <span class="govuk-caption-m">{{ sectionCount }} results</span></h2>
+        <h2 class="govuk-heading-m">{{ sectionTitle }}
+          {% if template !== 'summary-section' %}
+          <span class="govuk-caption-m">{{ sectionCount }} results</span>
+          {% endif %}
+        </h2>
         {% endif %}
 
         {# SECTION HEADER SUMMARIES #}
@@ -29,13 +33,7 @@
         {% else %}
 
           <div id="dpr-{{ template }}-section-data-{{ loop.index }}" class="dpr-{{ template }}-section-data">
-            {{ govukTable({
-              head: data.head,
-              rows: data.rows,
-              attributes: { 
-                'data-classification': classification
-              }
-            }) }}
+            {{ dprDataTable(data, classification) }}
           </div>
 
         {% endif %}

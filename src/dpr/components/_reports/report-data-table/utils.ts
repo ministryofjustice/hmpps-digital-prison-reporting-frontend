@@ -51,8 +51,11 @@ const buildListSectionReport = (
   columns: Columns,
   reportData: Record<string, string>[],
   summariesData: AsyncSummary[],
+  reportQuery: ReportQuery,
 ): ReportTemplateData => {
-  return new ListSectionDataBuilder(definition.variant, reportData, summariesData).withColumns(columns.value).build()
+  return new ListSectionDataBuilder(definition.variant, reportData, summariesData, reportQuery)
+    .withColumns(columns.value)
+    .build()
 }
 
 const buildParentChildReport = (
@@ -66,27 +69,6 @@ const buildParentChildReport = (
     .withChildColumns([])
     .withChildData(childData)
     .build()
-}
-
-const buildSummarySectionTable = (
-  definition: components['schemas']['SingleVariantReportDefinition'],
-  columns: Columns,
-  reportData: Dict<string>[],
-  summariesData: AsyncSummary[],
-  reportQuery: ReportQuery,
-): DataTable => {
-  const { variant, specification } = validateDefinition(definition)
-  const { interactive } = variant
-
-  const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, summariesData)
-  return new SectionedDataTableBuilder(specification)
-    .withSummaries(collatedSummaryBuilder.collateDataTableSummaries())
-    .withHeaderOptions({
-      columns: columns.value,
-      reportQuery,
-      interactive: Boolean(interactive),
-    })
-    .buildTable(reportData)
 }
 
 const buildRowSectionedTable = (
@@ -121,12 +103,7 @@ export const createDataTable = (
   const { template } = specification
 
   switch (template as Template) {
-    // case 'summary-section': {
-    //   const dataTable = buildSummarySectionTable(definition, columns, reportData, summariesData, reportQuery)
-    //   dataTables.push(dataTable)
-    //   break
-    // }
-
+    case 'list':
     case 'summary-section':
     case 'list-section': {
       const dataTable = buildListSectionReport(
@@ -134,7 +111,9 @@ export const createDataTable = (
         columns,
         reportData as Record<string, string>[],
         summariesData,
+        reportQuery,
       )
+
       dataTables.push(dataTable)
       break
     }
@@ -146,11 +125,11 @@ export const createDataTable = (
       break
     }
 
-    case 'list': {
-      const dataTable = buildListTable(definition, columns, reportData, summariesData, reportQuery)
-      dataTables.push(dataTable)
-      break
-    }
+    // case 'list': {
+    //   const dataTable = buildListTable(definition, columns, reportData, summariesData, reportQuery)
+    //   dataTables.push(dataTable)
+    //   break
+    // }
 
     case 'row-section-child':
     case 'row-section': {

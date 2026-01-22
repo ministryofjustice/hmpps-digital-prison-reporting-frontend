@@ -2,7 +2,7 @@ import { SummaryTemplate } from '../../types/Templates'
 import { AsyncSummary } from '../../types/UserReports'
 import { components } from '../../types/api'
 import { getFieldsByName, getFieldDisplayName } from '../definitionUtils'
-import { SectionData, SectionedData } from './types'
+import { SectionData, SectionedData, SectionKey } from './types'
 
 class SectionedDataBuilder {
   sections: Array<string> = []
@@ -17,9 +17,9 @@ class SectionedDataBuilder {
 
   sectionedData!: SectionedData
 
-  createSectionKey(row: Record<string, string>) {
+  createSectionKey(row: Record<string, string>): { keyObj: SectionKey[]; key: string } {
     // Build structured entries with column names + values
-    const keyObj = this.sections.map((col) => ({
+    const keyObj: SectionKey[] = this.sections.map((col) => ({
       name: col,
       value: row[col] ?? '',
     }))
@@ -33,7 +33,7 @@ class SectionedDataBuilder {
   }
 
   createSectionTitle(
-    keyObj: { name: string; value: string }[],
+    keyObj: SectionKey[],
     fields: components['schemas']['FieldDefinition'][] | components['schemas']['SummaryField'][],
   ) {
     return keyObj
@@ -68,6 +68,7 @@ class SectionedDataBuilder {
           title,
           count: 0,
           key,
+          keyObj,
           summaries: [],
           data: <Array<Record<string, string>>>[],
         }
@@ -113,13 +114,14 @@ class SectionedDataBuilder {
       sections: this.sectionedDataArray
         .flatMap((input) => input.sections)
         .reduce<SectionData[]>((acc, section) => {
-          const { key } = section
+          const { key, keyObj } = section
           const existing = acc.find((s) => s.key === key)
 
           // If section doesn't exist yet → add fresh copy
           if (!existing) {
             return acc.concat({
               key: section.key || '',
+              keyObj: keyObj || [],
               title: section.title || '',
               count: section.count,
               summaries: section.summaries ? [...section.summaries] : [],
@@ -144,8 +146,51 @@ class SectionedDataBuilder {
     }
   }
 
+  /**
+   * Sorts sections based on keyObj values using an optional nameOrder override.
+   * - nameOrder can be partial; unspecified names fall back to default order
+   * - Default order is derived from the first section's keyObj sequence
+   */
+  sortSections(sectionedData: SectionedData, nameOrder: string[] = []): SectionedData {
+    const { sections } = sectionedData
+    if (sections.length === 0) return sectionedData
+
+    // Default order is the order of the keyObj.name fields in the first section
+    const defaultOrder = sections[0].keyObj.map((k) => k.name)
+
+    // Merge partial nameOrder with default order
+    const finalOrder = nameOrder
+      // 1. start with user-specified names
+      .filter((name) => defaultOrder.includes(name))
+      // 2. append missing names in default order
+      .concat(defaultOrder.filter((name) => !nameOrder.includes(name)))
+
+    // Build map for fast comparison
+    const buildMap = (keyObj: SectionKey[]) =>
+      keyObj.reduce<Record<string, string>>((acc, ko) => ({ ...acc, [ko.name]: ko.value }), {})
+
+    const sortedSections = [...sections].sort((a, b) => {
+      const aMap = buildMap(a.keyObj)
+      const bMap = buildMap(b.keyObj)
+
+      // Compare using final order
+      const comparisons = finalOrder.map((name) => {
+        const aVal = aMap[name] ?? ''
+        const bVal = bMap[name] ?? ''
+        return aVal.localeCompare(bVal, undefined, { numeric: true })
+      })
+
+      // Return first non-zero comparison
+      return comparisons.find((x) => x !== 0) ?? 0
+    })
+
+    return {
+      sections: sortedSections,
+    }
+  }
+
   withSections(sections: string[]) {
-    this.sections = sections
+    this.sections = sections || []
     return this
   }
 
@@ -160,7 +205,7 @@ class SectionedDataBuilder {
   }
 
   withSummaries(summaryData: Array<AsyncSummary>) {
-    this.summariesData = summaryData
+    this.summariesData = summaryData || []
     return this
   }
 
@@ -170,9 +215,11 @@ class SectionedDataBuilder {
       this.groupBySections(this.data, this.fields)
       this.createSummarySections()
       sections = this.mergeSections()
+      sections = this.sortSections(sections)
     } else {
       const singleSection: SectionData = {
-        key: 'mainSection',
+        key: '',
+        keyObj: [],
         data: this.data,
         count: this.data.length,
         summaries: this.summariesData,

@@ -13,27 +13,19 @@
   {% set count = renderData.count %}
 
     <div class="report-template-container  {% if (printable == false) %}print-hide{% endif %}">
-      {% if template === 'list' %}
-
-        {{ dprReport(renderData, count, template) }}
-
-        {% if count and count > 0 %}
-          {{ dprReportPagination(pagination) }}
-        {% endif %}
-
-      {% elif template === 'summary' %}
-
+      {% if template === 'summary' %}
         {% if not count or count === 0 %}
           {{ dprReportNoDataMessage(renderData.requestUrl.fullUrl) }}
         {% else %}
           {{ dprReportSummary(reportSummaries, 'page-header') }}
           {{ dprReportSummary(reportSummaries, 'page-footer') }}
         {% endif %}
-
       {% else %}
-
         {{ dprReport(renderData, count, template) }}
+      {% endif %}
 
+      {% if template === 'list' and count and count > 0 %}
+        {{ dprReportPagination(pagination) }}
       {% endif %}
     </div>
 

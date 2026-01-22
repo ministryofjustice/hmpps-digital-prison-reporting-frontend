@@ -19,8 +19,14 @@ export interface SectionSummary {
   data: ListSectionTableData // TODO: fix this
 }
 
+export interface SectionKey {
+  name: string
+  value: string
+}
+
 export interface SectionData {
   key?: string
+  keyObj: SectionKey[]
   title?: string
   count: number
   summaries: AsyncSummary[]

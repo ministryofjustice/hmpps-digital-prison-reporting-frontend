@@ -1,6 +1,7 @@
 import { Template } from '../../types/Templates'
 import { components } from '../../types/api'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
+import { DataTable } from '../DataTableBuilder/types'
 import SectionedDataBuilder from '../SectionedDataBuilder/SectionedDataBuilder'
 import { ReportTemplateData, SectionData } from '../SectionedDataBuilder/types'
 import { ChildData, GroupedParentChildDataset, ParentChildTableData, ParentChildDataset } from './types'
@@ -216,6 +217,7 @@ class ParentChildDataBuilder {
 
       return {
         ...section,
+        summaries: [] as unknown as Record<string, DataTable[]>, // TODO: fix this
         data: table,
       }
     })

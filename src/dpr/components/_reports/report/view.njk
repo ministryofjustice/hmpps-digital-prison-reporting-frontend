@@ -24,17 +24,14 @@
     {{ dprReportTotals(options.totals) }}
   
     <div class='dpr-table-container dpr-table-container--{{ template }}'>
-     
-      {# {% if template === 'summary-section' %}
-    
-        {% for datatable in dataTable[0].rows %}
-          {% if datatable[0].html %}
-            {{ datatable[0].html | safe }}
-          {% endif %}
-        {% endfor %} #}
 
-      {% if template === 'parent-child' or template === 'parent-child-section' or template === 'list-section' or template === 'summary-section'  %}
-
+      {% 
+        if template === 'parent-child' 
+        or template === 'parent-child-section' 
+        or template === 'list-section' 
+        or template === 'summary-section'  
+        or template === 'list'
+      %}
         {{ dprReportSection(dataTable[0], template, classification) }}
 
       {% else %}

@@ -103,15 +103,15 @@ class MockReportingClient {
 
     let data = []
     switch (variantId) {
-      case 'report-template-example-parent-child':
+      case 'report-template-parent-child':
         // Parent child template - parent
         data = mockParentChild.parentData()
         break
-      case 'report-template-example-parent-child_child':
+      case 'report-template-parent-child_child':
         // Parent child template - child
         data = mockParentChild.childData()
         break
-      case 'report-template-example-parent-child_child_2':
+      case 'report-template-parent-child_child_2':
         // Parent child template - child
         data = mockParentChild.childData2()
         break
@@ -120,11 +120,11 @@ class MockReportingClient {
         // List section
         data = mockListSection.listSectionData()
         break
-      case 'report-template-example-parent-child-section':
+      case 'report-template-parent-child-section':
         // Parent-child-section - parent
         data = mockParentChildSection.parentData()
         break
-      case 'report-template-example-parent-child-section_child':
+      case 'report-template-parent-child-section_child':
         // List section
         data = mockParentChildSection.childData()
         break

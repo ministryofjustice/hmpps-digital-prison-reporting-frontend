@@ -1,5 +1,13 @@
 Below you can find the changes included in each release.
 
+## 4.28.1
+- Bump dependencies:
+  - diff
+  - tar
+- Fix sourcemapping and ensure client side code is sourcemapped too
+- Change client .mjs files to .ts files and ensure they're transpiled
+- Ensure sourcemapping is working correctly when running local test-app so stack traces are easy to follow
+
 ## 4.28.0
 - Don't minify library output code so that apps can decide or not to minify their source
 

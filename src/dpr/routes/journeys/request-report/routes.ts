@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Router } from 'express'
+import { captureException } from '@sentry/node'
 import { Services } from '../../../types/Services'
 import RequestReportController from './controller'
 
@@ -34,6 +35,7 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
     const params = JSON.parse(req.flash('ERROR_PARAMS')?.[0] || '')
     const error = req.flash('ERROR')
 
+    captureException(error)
     res.render(`dpr/routes/journeys/view-report/error`, {
       layoutPath,
       ...(body && { ...body }),

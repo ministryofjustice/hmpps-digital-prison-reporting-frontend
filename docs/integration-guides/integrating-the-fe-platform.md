@@ -124,20 +124,19 @@ export const services = (): Services => {
     reportingClient,
     dashboardClient,
     reportDataStore,
-    productCollectionClient,
-    missingReportClient,
+    featureFlagService,
     ...
   } = dataAccess()
 
-  ...
-
-  const dprServices = createDprServices({
+  const dprClients = {
     reportingClient,
     dashboardClient,
     reportDataStore,
-    productCollectionClient,
-    missingReportClient,
-  })
+    featureFlagService,
+  }
+  ...
+
+  const dprServices = createDprServices(dprClients)
 
   return {
     ...,
@@ -147,19 +146,21 @@ export const services = (): Services => {
 
 ```
 
-### Enable/disable features
+### Enable features
 
-You can disable certain features by adding extra config to the `createDprServices` method:
+You can enable certain features by adding optional config to the `createDprServices` method:
 
 ```js
 const featureConfig = {
-  bookmarking: false    // Disables bookmarking feature 
-  download: false       // Disables download feature
-  saveDefaults: false,   // Disables save user defaults feature
+  bookmarking: true    // Enables bookmarking feature 
+  download: true       // Enables download feature
+  saveDefaults: true,  // Enables save user defaults feature
 }
 
-const dprServices = createDprServices({ reportingClient, dashboardClient, reportDataStore }, featureConfig)
+const dprServices = createDprServices(dprClients, featureConfig)
 ```
+
+By default all features are set to `false`
 
 <hr class='dpr-docs-hr'>
 
@@ -197,8 +198,8 @@ import { setupResources } from '@ministryofjustice/hmpps-digital-prison-reportin
 import config from './config'
 
 ...
-
-app.use(setupResources(services, 'path/to/layout.njk', config.dpr))
+const env = nunjucksSetup(app, applicationInfo)
+app.use(setupResources(services, 'path/to/layout.njk', env, config.dpr))
 ```
 
 <hr class='dpr-docs-hr'>
@@ -214,7 +215,6 @@ import dprPlatformRoutes from '@ministryofjustice/hmpps-digital-prison-reporting
 
 export function routes(services: Services): Router {
   const router = Router()
-  
   ...
 
   router.use('/', dprPlatformRoutes({ services, layoutPath: 'path/to/layout.njk'})) 
@@ -253,7 +253,8 @@ const services = {
 // 3. Init DPR user in populateCurrentUser. See "Setup the DPR user in locals" section of guide
 
 // 4. Add middleware
-app.use(setupResources(services, 'path/to/layout.njk', config.dpr))
+const env = nunjucksSetup(app, applicationInfo)
+app.use(setupResources(services, 'path/to/layout.njk', env, config.dpr))
 
 // 5. Initialise routes
 router.use('/', dprPlatformRoutes({ services, layoutPath: 'path/to/layout.njk',})) 

@@ -25,7 +25,7 @@ class MissingReportSubmittedController {
         layoutPath: this.layoutPath,
       })
     } catch (error) {
-      next()
+      next(error)
     }
   }
 }

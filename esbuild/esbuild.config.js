@@ -16,7 +16,7 @@ const buildConfigLib = () => ({
 
   app: {
     bundle: false,
-    minify: true,
+    minify: false,
     outDir: path.join(cwd, 'dist/dpr'),
     entryPoints: glob
       .sync([path.join(cwd, 'src/**/*.js'), path.join(cwd, 'src/**/*.ts')])
@@ -47,6 +47,14 @@ const buildLibrary = async () => {
   scssFiles.forEach((file) =>
     fs.appendFileSync(path.join(cwd, 'dist/dpr/all.scss'), fs.readFileSync(path.join(cwd, file))),
   )
+  // esbuild is outputting incorrect sourcemaps, possibly because we have our source in src/dpr and output to dist/dpr
+  // moving all the files would be a major change right now, so fix them manually
+  const sourceMapFiles = glob.sync(['dist/**/*.map'])
+  sourceMapFiles.forEach((filePath) => {
+    const fileContents = fs.readFileSync(filePath).toString()
+    const correctedContents = fileContents.replace(/\.\.\/src\//, '')
+    fs.writeFileSync(filePath, correctedContents)
+  })
 }
 
 /**
@@ -81,6 +89,7 @@ const buildConfig = {
   },
 
   assets: {
+    minify: false,
     outDir: path.join(cwd, 'dist-test-app/assets'),
     entryPoints: glob.sync([
       path.join(cwd, 'test-app/assets/application.js'),

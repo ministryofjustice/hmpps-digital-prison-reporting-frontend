@@ -1,0 +1,51 @@
+// @ts-nocheck
+/* eslint-disable class-methods-use-this */
+import DprPollingStatusClass from '../../../DprPollingStatusClass'
+
+class DprAsyncPolling extends DprPollingStatusClass {
+  static getModuleName() {
+    return 'async-polling-content'
+  }
+
+  initialise() {
+    this.POLLING_STATUSES = this.getPollingStatuses()
+    this.POLLING_FREQUENCY = this.getPollingFrquency()
+
+    this.statusSection = document.getElementById('async-request-polling-status')
+    this.retryRequestButton = document.getElementById('retry-async-request')
+    this.cancelRequestButton = document.getElementById('cancel-async-request')
+    this.viewReportButton = document.getElementById('view-async-report-button')
+
+    this.requestData = this.statusSection.getAttribute('data-request-data')
+    this.currentStatus = this.statusSection.getAttribute('data-current-status')
+    this.csrfToken = this.statusSection.getAttribute('data-csrf-token')
+    this.reportUrl = this.statusSection.getAttribute('data-report-url')
+
+    this.initPollingInterval()
+  }
+
+  async initPollingInterval() {
+    if (this.POLLING_STATUSES.includes(this.currentStatus)) {
+      this.pollingInterval = setInterval(async () => {
+        await this.pollStatus()
+      }, this.POLLING_FREQUENCY)
+    } else if (this.currentStatus === 'FINISHED') {
+      window.location.href = this.reportUrl
+    }
+  }
+
+  async pollStatus() {
+    if (this.requestData) {
+      const meta = JSON.parse(this.requestData)
+      const response = await this.getRequestStatus(meta, this.csrfToken)
+      // Reload if new status is an end state
+      if (this.currentStatus !== response.status) {
+        clearInterval(this.pollingInterval)
+        window.location.reload()
+      }
+    }
+  }
+}
+
+export { DprAsyncPolling }
+export default DprAsyncPolling

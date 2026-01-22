@@ -42,7 +42,7 @@ class ViewAsyncDashboardController {
       if (refreshLink) {
         req.body.refreshLink = refreshLink
       }
-      next()
+      next(error)
     }
   }
 

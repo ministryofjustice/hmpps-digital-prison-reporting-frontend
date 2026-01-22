@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express'
+import { captureException } from '@sentry/node'
 import LocalsHelper from '../../../../utils/localsHelper'
 import { components } from '../../../../types/api'
 import { Services } from '../../../../types/Services'
@@ -48,7 +49,7 @@ class MissingReportFormController {
         postEndpoint: `/dpr/request-missing-report/${reportId}/${variantId}/form/submit`,
       })
     } catch (error) {
-      next()
+      next(error)
     }
   }
 
@@ -68,12 +69,14 @@ class MissingReportFormController {
 
             res.redirect(redirect)
           },
-          () => {
+          (err) => {
+            captureException(err)
             res.render(`dpr/components/serviceError/view`)
           },
         )
       }
-    } catch (_error) {
+    } catch (error) {
+      captureException(error)
       res.render(`dpr/components/serviceError/view`)
     }
   }

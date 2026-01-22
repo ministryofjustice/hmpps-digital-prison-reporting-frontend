@@ -1,4 +1,4 @@
-import { ErrorRequestHandler, RequestHandler } from 'express'
+import { ErrorRequestHandler } from 'express'
 import { captureException } from '@sentry/node'
 import ErrorHandler from '../../../utils/ErrorHandler'
 import { Services } from '../../../types/Services'

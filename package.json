@@ -197,7 +197,7 @@
     "audit-ci": "^6.6.1",
     "autoprefixer": "^10.4.15",
     "axe-core": "^4.9.0",
-    "cssnano": "^6.0.1",
+    "cssnano": "^7.1.2",
     "cypress": "^14.5.4",
     "cypress-axe": "^1.6.0",
     "cypress-multi-reporters": "^2.0.5",

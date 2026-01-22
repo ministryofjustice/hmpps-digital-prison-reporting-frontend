@@ -1,8 +1,8 @@
 // @ts-nocheck
-const reportTemplateExampleListSectionWithSummaries = {
-  id: 'report-template-example-list-section-with-summaries',
-  name: 'Page Summaries and Sections',
-  description: 'A report with summaries and sections.',
+const reportTemplateExampleListWithSummaries = {
+  id: 'report-template-list-page-summaries',
+  name: 'List - with page summaries',
+  description: 'Template: "list".</br> A report with summaries.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
@@ -14,6 +14,16 @@ const reportTemplateExampleListSectionWithSummaries = {
         {
           name: 'total',
           display: 'Total',
+        },
+      ],
+    },
+    {
+      id: 'summary2',
+      template: 'page-header',
+      fields: [
+        {
+          name: 'total',
+          display: 'Other Total',
         },
       ],
     },
@@ -35,62 +45,9 @@ const reportTemplateExampleListSectionWithSummaries = {
         },
       ],
     },
-    {
-      id: 'summary6',
-      template: 'table-header',
-      fields: [
-        {
-          name: 'field1',
-          display: 'Field 1',
-          type: 'string',
-        },
-        {
-          name: 'field2',
-          display: 'Field 1',
-          type: 'string',
-        },
-        {
-          name: 'field3',
-          display: 'Field 1',
-          type: 'string',
-        },
-        {
-          name: 'field4',
-          display: 'Field 1',
-          type: 'string',
-        },
-      ],
-    },
-    {
-      id: 'summary7',
-      template: 'table-footer',
-      fields: [
-        {
-          name: 'field1',
-          display: 'Field 1',
-          type: 'string',
-        },
-        {
-          name: 'field2',
-          display: 'Field 1',
-          type: 'string',
-        },
-        {
-          name: 'field3',
-          display: 'Field 1',
-          type: 'string',
-        },
-        {
-          name: 'field4',
-          display: 'Field 1',
-          type: 'string',
-        },
-      ],
-    },
   ],
   specification: {
-    template: 'list-section',
-    sections: ['section1', 'section2'],
+    template: 'list',
     fields: [
       {
         name: 'field1',
@@ -198,4 +155,4 @@ const reportTemplateExampleListSectionWithSummaries = {
   },
 }
 
-module.exports = reportTemplateExampleListSectionWithSummaries
+module.exports = reportTemplateExampleListWithSummaries

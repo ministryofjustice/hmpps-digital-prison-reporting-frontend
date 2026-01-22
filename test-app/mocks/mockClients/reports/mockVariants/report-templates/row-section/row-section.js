@@ -1,8 +1,8 @@
 // @ts-nocheck
-const reportTemplateExampleRowSectionMultiple = {
-  id: 'report-template-example-row-section-multiple-rows',
-  name: 'Sectioned Rows template (muliple rows)',
-  description: 'A report with sectioned rows',
+const reportTemplateExampleRowSection = {
+  id: 'report-template-example-row-section',
+  name: 'Row-section',
+  description: 'template: "row-section". </br>A report with sectioned rows',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
@@ -108,4 +108,4 @@ const reportTemplateExampleRowSectionMultiple = {
   },
 }
 
-module.exports = reportTemplateExampleRowSectionMultiple
+module.exports = reportTemplateExampleRowSection

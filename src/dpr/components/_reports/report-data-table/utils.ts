@@ -12,7 +12,7 @@ import SectionedFieldsDataTableBuilder from '../../../utils/SectionedFieldsTable
 import { DataTable } from '../../../utils/DataTableBuilder/types'
 import type { Template } from '../../../types/Templates'
 import { ReportTemplateData } from '../../../utils/SectionedDataBuilder/types'
-// import ListSectionDataBuilder from '../../../utils/ListSectionDataBuilder/ListSectionDataBuilder'
+import ListSectionDataBuilder from '../../../utils/ListSectionDataBuilder/ListSectionDataBuilder'
 
 const validateDefinition = (definition: components['schemas']['SingleVariantReportDefinition']) => {
   const { variant } = definition
@@ -46,15 +46,14 @@ const buildListTable = (
     .buildTable(reportData)
 }
 
-// const buildListSectionReport = (
-//   definition: components['schemas']['SingleVariantReportDefinition'],
-//   columns: Columns,
-//   reportData: Record<string, string>[],
-//   summariesData: AsyncSummary[],
-//   reportQuery: ReportQuery,
-// ): ReportTemplateData => {
-//   return new ListSectionDataBuilder(definition.variant, reportData, summariesData).withColumns(columns.value).build()
-// }
+const buildListSectionReport = (
+  definition: components['schemas']['SingleVariantReportDefinition'],
+  columns: Columns,
+  reportData: Record<string, string>[],
+  summariesData: AsyncSummary[],
+): ReportTemplateData => {
+  return new ListSectionDataBuilder(definition.variant, reportData, summariesData).withColumns(columns.value).build()
+}
 
 const buildParentChildReport = (
   definition: components['schemas']['SingleVariantReportDefinition'],
@@ -122,10 +121,20 @@ export const createDataTable = (
   const { template } = specification
 
   switch (template as Template) {
+    // case 'summary-section': {
+    //   const dataTable = buildSummarySectionTable(definition, columns, reportData, summariesData, reportQuery)
+    //   dataTables.push(dataTable)
+    //   break
+    // }
+
     case 'summary-section':
     case 'list-section': {
-      // const dataTable = buildListSectionReport(definition, columns, reportData as Record<string, string>[])
-      const dataTable = buildSummarySectionTable(definition, columns, reportData, summariesData, reportQuery)
+      const dataTable = buildListSectionReport(
+        definition,
+        columns,
+        reportData as Record<string, string>[],
+        summariesData,
+      )
       dataTables.push(dataTable)
       break
     }

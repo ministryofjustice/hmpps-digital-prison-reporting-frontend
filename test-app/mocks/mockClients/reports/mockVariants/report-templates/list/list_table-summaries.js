@@ -1,9 +1,9 @@
 // @ts-nocheck
 const reportTemplateExampleTableSummaries = {
-  id: 'report-template-example-table-summaries',
-  name: 'Table Summaries',
+  id: 'report-template-list-table-summaries',
+  name: 'List - with table summaries',
   description:
-    'A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries.',
+    'Template: "list",</br> A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

@@ -116,6 +116,7 @@ class MockReportingClient {
         data = mockParentChild.childData2()
         break
       case 'report-template-example-list-section':
+      case 'report-template-example-sectioned-list-with-sectioned-summaries':
         // List section
         data = mockListSection.listSectionData()
         break
@@ -210,6 +211,7 @@ class MockReportingClient {
         return Promise.resolve([{ field1: 57, field2: 1, field3: 12219380923, field4: '3 Freds' }])
       case 'summary5':
         return Promise.resolve([{ field1: 'Percentageness', field2: '10%', field3: '20%', field4: '90%' }])
+      case 'summary9':
       case 'summary6':
         return Promise.resolve([
           {
@@ -229,6 +231,7 @@ class MockReportingClient {
             field4: '5 Freds',
           },
         ])
+      case 'summary10':
       case 'summary7':
         return Promise.resolve([
           {

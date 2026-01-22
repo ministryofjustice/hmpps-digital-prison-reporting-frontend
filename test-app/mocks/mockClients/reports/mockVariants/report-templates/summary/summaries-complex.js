@@ -1,8 +1,8 @@
 // @ts-nocheck
 const reportTemplateExampleSummariesComplex = {
   id: 'report-template-example-summaries-complex',
-  name: 'Summaries (no list), complex titles',
-  description: 'A report with titled summaries, but no list.',
+  name: 'Summary - with complex titles',
+  description: 'Template: "summary".</br> A report with titled summaries',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

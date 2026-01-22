@@ -1,8 +1,9 @@
 // @ts-nocheck
 const reportTemplateExampleRowSectionChildMultiple = {
   id: 'report-template-example-row-section-child-multiple',
-  name: 'Sectioned Rows + child template (multiple rows)',
-  description: 'A report with sectioned rows and child report, with multiple dataset rows',
+  name: 'Row-section - with children, multiple rows',
+  description:
+    'template: "row-section". </br> A report with sectioned rows and child report, with multiple dataset rows',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

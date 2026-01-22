@@ -3,7 +3,6 @@
 {% from "../report-totals/view.njk" import dprReportTotals %}
 {% from "../report-no-data-message/view.njk" import dprReportNoDataMessage %}
 {% from "../../code-block/view.njk" import dprCodeBlock %}
-{% from "../report-templates/parent-child/view.njk" import dprParentChildTemplate %}
 {% from "../report-templates/report-section/view.njk" import dprReportSection %}
 
 {% macro dprReport(options, count, template) %}
@@ -17,22 +16,26 @@
   {% if not count or count === 0 %}
     {{ dprReportNoDataMessage(url) }}
   {% else %}
-    {{ dprReportSummary(reportSummaries, 'page-header') }}
+
+    {% for summary in dataTable[0].summaries %}
+      {{ dprReportSummary(summary, 'page-header') }}
+    {% endfor %}
+
     {{ dprReportTotals(options.totals) }}
   
     <div class='dpr-table-container dpr-table-container--{{ template }}'>
      
-      {% if template === 'summary-section' %}
+      {# {% if template === 'summary-section' %}
     
         {% for datatable in dataTable[0].rows %}
           {% if datatable[0].html %}
             {{ datatable[0].html | safe }}
           {% endif %}
-        {% endfor %}
+        {% endfor %} #}
 
-      {% elif template === 'parent-child' or template === 'parent-child-section' or template === 'list-section' %}
+      {% if template === 'parent-child' or template === 'parent-child-section' or template === 'list-section' or template === 'summary-section'  %}
 
-        {# {{ dprReportSection(dataTable[0], template, classification) }} #}
+        {{ dprReportSection(dataTable[0], template, classification) }}
 
       {% else %}
 
@@ -44,8 +47,10 @@
     <div class='govuk-!-margin-bottom-6 govuk-!-margin-top-6'>
       {{ dprReportTotals(options.totals) }}
     </div>
-    
-    {{ dprReportSummary(reportSummaries, 'page-footer') }}
+
+    {% for summary in dataTable[0].summaries %}
+      {{ dprReportSummary(summary, 'page-footer') }}
+    {% endfor %}
 
   {% endif %}
 

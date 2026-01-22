@@ -1,8 +1,8 @@
 // @ts-nocheck
 const reportTemplateExampleListWithSummaries = {
-  id: 'report-template-example-list-with-summaries',
-  name: 'Page Summaries',
-  description: 'A report with summaries.',
+  id: 'report-template-list-summaries',
+  name: 'List - with summaries',
+  description: 'Template: "list".</br> A report with summaries.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

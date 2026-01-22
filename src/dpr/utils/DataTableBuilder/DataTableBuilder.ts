@@ -55,9 +55,7 @@ class DataTableBuilder {
 
   private mapCell(field: components['schemas']['FieldDefinition'], rowData: NodeJS.Dict<string>, extraClasses = '') {
     const displayValue = rowData[field.name]
-    console.log({ displayValue })
     const textValue = this.mapCellValue(field, displayValue)
-    console.log({ textValue })
     let fieldFormat: CellFormat = 'string'
 
     let classes = extraClasses
@@ -89,8 +87,6 @@ class DataTableBuilder {
       classes: classes.trim(),
     }
 
-    console.log(cell)
-
     return cell
   }
 
@@ -101,16 +97,13 @@ class DataTableBuilder {
 
     switch (field.type) {
       case 'boolean':
-        console.log('here 1')
         return this.mapBoolean(cellData)
 
       case 'date':
       case 'time':
-        console.log('here 2')
         return this.mapDate(cellData)
 
       default:
-        console.log('here here here here')
         return cellData === undefined ? '' : cellData
     }
   }

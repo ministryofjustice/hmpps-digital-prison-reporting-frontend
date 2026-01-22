@@ -1,8 +1,8 @@
 // @ts-nocheck
 const reportTemplateExampleRowSectionChild = {
   id: 'report-template-example-row-section-child',
-  name: 'Sectioned Rows + child template',
-  description: 'A report with sectioned rows and child report',
+  name: 'Row-section - with children',
+  description: 'template: "row-section". </br>A report with sectioned rows and child report',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

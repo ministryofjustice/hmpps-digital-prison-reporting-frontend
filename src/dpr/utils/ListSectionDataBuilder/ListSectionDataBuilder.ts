@@ -1,10 +1,11 @@
 import { AsyncSummary } from '../../types/UserReports'
-import { Template } from '../../types/Templates'
+import { SummaryTemplate, Template } from '../../types/Templates'
 import { components } from '../../types/api'
 import CollatedSummaryBuilder from '../CollatedSummaryBuilder/CollatedSummaryBuilder'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import SectionedDataBuilder from '../SectionedDataBuilder/SectionedDataBuilder'
 import { ReportTemplateData, SectionData } from '../SectionedDataBuilder/types'
+import { DataTable } from '../DataTableBuilder/types'
 
 class ListSectionDataBuilder {
   variant: components['schemas']['VariantDefinition']
@@ -54,28 +55,72 @@ class ListSectionDataBuilder {
     return this
   }
 
+  buildMainTable(section: SectionData) {
+    const collatedSummaryBuilder = new CollatedSummaryBuilder(this.specification!, section.summaries)
+    const tableSummaries = collatedSummaryBuilder.collateDataTableSummaries()
+    this.dataTableBuilder = new DataTableBuilder(this.fields)
+    return this.dataTableBuilder
+      .withSummaries(tableSummaries)
+      .withNoHeaderOptions(this.columns)
+      .buildTable(section.data)
+  }
+
+  buildSummariesTables(section: SectionData): {
+    template: SummaryTemplate
+    data: DataTable
+  }[] {
+    const { summaries } = section
+    return summaries.map((summaryData) => {
+      const fields = <components['schemas']['FieldDefinition'][]>summaryData.fields
+      const { data, template } = summaryData
+      const summaryTableData = new DataTableBuilder(fields)
+        .withNoHeaderOptions(fields.map((f) => f.name))
+        .buildTable(data)
+
+      return {
+        template,
+        data: summaryTableData,
+      }
+    })
+  }
+
+  groupSummaryTables(
+    summaryTables: {
+      template: SummaryTemplate
+      data: DataTable
+    }[],
+  ) {
+    return summaryTables.reduce<Record<string, DataTable[]>>((acc, item) => {
+      if (!acc[item.template]) {
+        acc[item.template] = []
+      }
+      acc[item.template].push(item.data)
+      return acc
+    }, {})
+  }
+
   build(): ReportTemplateData {
     // Create the sections
     const sectionData = this.sectionBuilder.build()
-    const { sections } = sectionData
-    const mappedSections = sections.map((section: SectionData) => {
-      const collatedSummaryBuilder = new CollatedSummaryBuilder(this.specification!, section.summaries)
-      const tableSummaries = collatedSummaryBuilder.collateDataTableSummaries()
-      this.dataTableBuilder = new DataTableBuilder(this.fields)
-      const tableData = this.dataTableBuilder
-        .withSummaries(tableSummaries)
-        .withNoHeaderOptions(this.columns)
-        .buildTable(section.data)
+    const mappedSections = sectionData.sections.map((section: SectionData) => {
+      const tableData = this.buildMainTable(section)
+      const summaryTables = this.buildSummariesTables(section)
+      const groupedSummaryTables = this.groupSummaryTables(summaryTables)
 
       return {
         ...section,
+        summaries: groupedSummaryTables,
         data: tableData,
       }
     })
 
+    const sections = mappedSections.filter((sec) => sec.key !== 'mainSection')
+    const summaries = mappedSections.filter((sec) => sec.key === 'mainSection').map((section) => section.summaries)
+
     return {
       rowCount: this.data.length,
-      sections: mappedSections,
+      summaries,
+      sections,
     }
   }
 }

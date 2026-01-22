@@ -1,9 +1,15 @@
-.dpr-parent-child-section {
+.dpr-parent-child-section, .dpr-parent-child-section-section {
   .govuk-table {
     tr:last-child {
       td {
         border-bottom: none;
       }
+    }
+  }
+
+  .dpr-parent-child-section-data__parent {
+    .govuk-table {
+      margin-bottom: 0px;
     }
   }
 

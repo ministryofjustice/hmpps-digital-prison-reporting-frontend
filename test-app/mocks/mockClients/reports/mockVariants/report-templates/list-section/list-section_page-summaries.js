@@ -1,11 +1,41 @@
 // @ts-nocheck
-const reportTemplateExampleListSection = {
-  id: 'report-template-example-list-section',
-  name: 'Sectioned',
-  description: 'A sectioned report.',
+const reportTemplateExampleListSectionWithSummaries = {
+  id: 'report-template-list-section-page-summaries',
+  name: 'List-section - with page summaries',
+  description: 'Template: "list-section".</br> A sectioned report with page summaries',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
+  summaries: [
+    {
+      id: 'summary1',
+      template: 'page-header',
+      fields: [
+        {
+          name: 'total',
+          display: 'Total',
+        },
+      ],
+    },
+    {
+      id: 'summary3',
+      template: 'page-footer',
+      fields: [
+        {
+          name: 'percentGood',
+          display: 'Good (%)',
+        },
+        {
+          name: 'percentBad',
+          display: 'Bad (%)',
+        },
+        {
+          name: 'percentUgly',
+          display: 'Ugly (%)',
+        },
+      ],
+    },
+  ],
   specification: {
     template: 'list-section',
     sections: ['section1', 'section2'],
@@ -116,4 +146,4 @@ const reportTemplateExampleListSection = {
   },
 }
 
-module.exports = reportTemplateExampleListSection
+module.exports = reportTemplateExampleListSectionWithSummaries

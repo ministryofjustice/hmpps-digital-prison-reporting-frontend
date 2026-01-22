@@ -32,9 +32,8 @@ export default function routes(services: Services) {
     res.sendStatus(200)
   })
   router.post('/resetFeatureFlags', (_req: Request, res: Response) => {
-    console.log('got here ok')
     res.app.locals.featureFlags.flags = {}
-    res.app.locals.featureFlags.lastUpdated = new Date().getTime() - (601 * 1000)
+    res.app.locals.featureFlags.lastUpdated = new Date().getTime() - 601 * 1000
     res.sendStatus(200)
   })
   router.use('/', platformRoutes({ services, layoutPath: 'views/page.njk' }))

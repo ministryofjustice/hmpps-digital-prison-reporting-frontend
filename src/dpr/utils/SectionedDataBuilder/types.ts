@@ -2,6 +2,7 @@ import { AsyncSummary } from '../../types/UserReports'
 import { SummaryTemplate } from '../../types/Templates'
 import { ListSectionTableData } from '../ListSectionDataBuilder/types'
 import { ParentChildTableData } from '../ParentChildDataBuilder/types'
+import { DataTable } from '../DataTableBuilder/types'
 
 export interface SectionedData {
   sections: SectionData[]
@@ -9,6 +10,7 @@ export interface SectionedData {
 
 export interface ReportTemplateData {
   rowCount: number
+  summaries?: Record<string, DataTable[]>[]
   sections: SectionDataResult[]
 }
 
@@ -28,6 +30,6 @@ export interface SectionData {
 export interface SectionDataResult {
   title?: string
   count: number
-  summaries: AsyncSummary[]
+  summaries: Record<string, DataTable[]>
   data: Array<Record<string, string>> | ParentChildTableData[] | ListSectionTableData
 }

@@ -1,8 +1,8 @@
 // @ts-nocheck
 const reportTemplateExampleParentChild = {
-  id: 'report-template-example-parent-child-section',
-  name: 'Parent Child Section Template',
-  description: 'A report with parent and child datasets in sections',
+  id: 'report-template-parent-child-section',
+  name: 'Parent-child-section',
+  description: 'Template: "parent-child-section". </br> A report with parent and child datasets in sections',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

@@ -13,6 +13,37 @@ class SectionedDataBuilder {
 
   summariesData: AsyncSummary[] = []
 
+  sectionedDataArray: SectionedData[] = []
+
+  sectionedData!: SectionedData
+
+  createSectionKey(row: Record<string, string>) {
+    // Build structured entries with column names + values
+    const keyObj = this.sections.map((col) => ({
+      name: col,
+      value: row[col] ?? '',
+    }))
+    const keyValues = keyObj.map((v) => v.value).join('')
+    const key = keyValues !== '' ? JSON.stringify(keyObj) : 'mainSection'
+
+    return {
+      keyObj: key === 'mainSection' ? [] : keyObj,
+      key,
+    }
+  }
+
+  createSectionTitle(
+    keyObj: { name: string; value: string }[],
+    fields: components['schemas']['FieldDefinition'][] | components['schemas']['SummaryField'][],
+  ) {
+    return keyObj
+      .map((column) => {
+        const fieldName = getFieldDisplayName(fields, column.name)
+        return `${fieldName}: ${column.value}`
+      })
+      .join(', ')
+  }
+
   /**
    * Groups the data into sections
    *
@@ -26,24 +57,10 @@ class SectionedDataBuilder {
       template: SummaryTemplate
       id: string
     },
-  ): SectionedData {
+  ) {
     const sectionMap = data.reduce<Record<string, SectionData>>((acc, row) => {
-      // Build structured entries with column names + values
-      const keyObj = this.sections.map((col) => ({
-        name: col,
-        value: row[col] ?? '',
-      }))
-
-      // Safe, collision-proof key
-      const key = JSON.stringify(keyObj)
-
-      // Human-readable display label
-      const title = keyObj
-        .map((column) => {
-          const fieldName = getFieldDisplayName(fields, column.name)
-          return `${fieldName}: ${column.value}`
-        })
-        .join(', ')
+      const { key, keyObj } = this.createSectionKey(row)
+      const title = this.createSectionTitle(keyObj, fields)
 
       // Create the section if needed
       if (!acc[key]) {
@@ -79,65 +96,60 @@ class SectionedDataBuilder {
       return acc
     }, {})
 
-    return {
+    this.sectionedDataArray.push({
       sections: Object.values(sectionMap),
+    })
+  }
+
+  createSummarySections() {
+    this.summariesData.forEach((summaryData) => {
+      const { fields, id, template, data } = summaryData
+      this.groupBySections(<Array<Record<string, string>>>data, fields, { id, template })
+    })
+  }
+
+  mergeSections(): SectionedData {
+    return {
+      sections: this.sectionedDataArray
+        .flatMap((input) => input.sections)
+        .reduce<SectionData[]>((acc, section) => {
+          const { key } = section
+          const existing = acc.find((s) => s.key === key)
+
+          // If section doesn't exist yet → add fresh copy
+          if (!existing) {
+            return acc.concat({
+              key: section.key || '',
+              title: section.title || '',
+              count: section.count,
+              summaries: section.summaries ? [...section.summaries] : [],
+              data: section.data ? [...section.data] : [],
+            })
+          }
+
+          // If exists → update it by concatenating data & summaries
+          const updated = acc.map((s) =>
+            s.key === key
+              ? {
+                  ...s,
+                  count: s.count + section.count,
+                  summaries: (s.summaries ?? []).concat(section.summaries ?? []),
+                  data: (s.data ?? []).concat(section.data ?? []),
+                }
+              : s,
+          )
+
+          return updated
+        }, []),
     }
   }
 
-  createSummarySections(): SectionedData[] {
-    const summarySections: SectionedData[] = []
-    this.summariesData.forEach((summaryData) => {
-      const { fields, id, template, data } = summaryData
-      const summarySection = this.groupBySections(<Array<Record<string, string>>>data, fields, { id, template })
-      summarySections.push(summarySection)
-    })
-    return summarySections
-  }
-
-  mergeSectionSummaries(target: SectionedData, sources: SectionedData[]): SectionedData {
-    // Build a lookup: key -> all summaries from all sources
-    const summariesByKey = sources
-      .flatMap((s) => s.sections)
-      .filter((section) => !!section.key)
-      .reduce<Record<string, AsyncSummary[]>>((acc, section) => {
-        const key = section.key as string
-
-        // Normalize undefined summaries to an empty array
-        const srcSummaries = section.summaries ?? []
-
-        // Deep copy summaries to avoid reference sharing
-        const copiedSummaries = srcSummaries.map((s) => s)
-
-        acc[key] = (acc[key] ?? []).concat(copiedSummaries)
-        return acc
-      }, {})
-
-    // Append summaries to target summaries when the keys match
-    const mergedSections = target.sections.map((section) => {
-      if (!section.key) return section
-
-      const incomingSummaries = summariesByKey[section.key]
-      if (!incomingSummaries) {
-        return section // no matching source summaries
-      }
-
-      return {
-        ...section,
-        summaries: [...(section.summaries ?? []), ...incomingSummaries],
-      }
-    })
-
-    return { sections: mergedSections }
-  }
-
   withSections(sections: string[]) {
-    console.log(sections)
     this.sections = sections
     return this
   }
 
   withFields(fields: components['schemas']['FieldDefinition'][]) {
-    console.log('____>', this.sections)
     this.fields = getFieldsByName(this.sections, fields)
     return this
   }
@@ -155,16 +167,19 @@ class SectionedDataBuilder {
   build(): SectionedData {
     let sections: SectionedData
     if (this.sections.length) {
-      // Split the parent data into sections
-      const parentSections = this.groupBySections(this.data, this.fields)
-      // If any summaries, split these into sections
-      const summarySections = this.createSummarySections()
-      // Merget the sections
-      sections = this.mergeSectionSummaries(parentSections, summarySections)
+      this.groupBySections(this.data, this.fields)
+      this.createSummarySections()
+      sections = this.mergeSections()
     } else {
-      const singleSection: SectionData = { data: this.data, count: this.data.length, summaries: this.summariesData }
+      const singleSection: SectionData = {
+        key: 'mainSection',
+        data: this.data,
+        count: this.data.length,
+        summaries: this.summariesData,
+      }
       sections = { sections: [singleSection] }
     }
+
     return sections
   }
 }

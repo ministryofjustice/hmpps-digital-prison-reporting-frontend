@@ -44,9 +44,9 @@ See [async routes docs](/get-started/routes#asynchronous-routes) for route struc
 ```html
 <h1>My Sync reports list</h1>
 
-<a href="/dpr/view-report/report/report-id-1/variant-id-1-1/load-report">Sync report 1</a>
-<a href="/dpr/view-report/report/report-id-1/variant-id-1-2/load-report">Sync report 2</a>
-<a href="/dpr/view-report/report/report-id-2/variant-id-2-1/load-report">Sync report 3</a
+<a href="/dpr/view-report/sync/report/report-id-1/variant-id-1-1/load-report">Sync report 1</a>
+<a href="/dpr/view-report/sync/report/report-id-1/variant-id-1-2/load-report">Sync report 2</a>
+<a href="/dpr/view-report/sync/report/report-id-2/variant-id-2-1/load-report">Sync report 3</a
 ```
 
 See [sync routes docs](/get-started/routes#synchronous-routes) for route structure

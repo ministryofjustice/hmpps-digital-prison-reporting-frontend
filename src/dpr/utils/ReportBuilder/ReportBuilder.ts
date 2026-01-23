@@ -7,11 +7,12 @@ import SectionedDataBuilder from '../SectionedDataBuilder/SectionedDataBuilder'
 import { ReportTemplateData, SectionData } from '../SectionedDataBuilder/types'
 import { DataTable } from '../DataTableBuilder/types'
 import ReportQuery from '../../types/ReportQuery'
+import { validateVariant } from '../definitionUtils'
 
-class ListSectionDataBuilder {
+class ReportBuilder {
   variant: components['schemas']['VariantDefinition']
 
-  specification: components['schemas']['Specification'] | undefined
+  specification: components['schemas']['Specification']
 
   columns: Array<string> = []
 
@@ -41,8 +42,8 @@ class ListSectionDataBuilder {
     summariesData: AsyncSummary[],
     reportQuery: ReportQuery,
   ) {
-    const { specification } = variant
-    const { template, fields, sections } = <components['schemas']['Specification']>specification
+    const { specification } = validateVariant(variant)
+    const { template, fields, sections } = specification
 
     this.variant = variant
     this.specification = specification
@@ -63,7 +64,7 @@ class ListSectionDataBuilder {
   }
 
   buildMainTable(section: SectionData) {
-    const collatedSummaryBuilder = new CollatedSummaryBuilder(this.specification!, section.summaries)
+    const collatedSummaryBuilder = new CollatedSummaryBuilder(this.specification, section.summaries)
     const tableSummaries = collatedSummaryBuilder.collateDataTableSummaries()
     this.dataTableBuilder = new DataTableBuilder(this.fields)
     return this.dataTableBuilder
@@ -113,19 +114,8 @@ class ListSectionDataBuilder {
   }
 
   build(): ReportTemplateData {
-    // Create the sections
     const sectionData = this.sectionBuilder.build()
-    console.log(
-      `
-      `,
-      JSON.stringify(sectionData, null, 2),
-    )
     const mappedSections = sectionData.sections.map((section: SectionData) => {
-      console.log(
-        `
-        `,
-        JSON.stringify(section, null, 2),
-      )
       const tableData = this.buildMainTable(section)
       const summaryTables = this.buildSummariesTables(section)
 
@@ -147,5 +137,5 @@ class ListSectionDataBuilder {
   }
 }
 
-export { ListSectionDataBuilder }
-export default ListSectionDataBuilder
+export { ReportBuilder }
+export default ReportBuilder

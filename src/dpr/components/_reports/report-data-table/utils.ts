@@ -7,23 +7,11 @@ import DataTableBuilder from '../../../utils/DataTableBuilder/DataTableBuilder'
 import { Columns } from '../report-columns-form/types'
 import { ChildData } from '../../../utils/ParentChildDataBuilder/types'
 import ParentChildDataBuilder from '../../../utils/ParentChildDataBuilder/ParentChildDataBuilder'
-import SectionedDataTableBuilder from '../../../utils/SectionedDataTableBuilder/SectionedDataTableBuilder'
-import SectionedFieldsDataTableBuilder from '../../../utils/SectionedFieldsTableBuilder/SectionedFieldsTableBuilder'
 import { DataTable } from '../../../utils/DataTableBuilder/types'
 import type { Template } from '../../../types/Templates'
 import { ReportTemplateData } from '../../../utils/SectionedDataBuilder/types'
-import ListSectionDataBuilder from '../../../utils/ListSectionDataBuilder/ListSectionDataBuilder'
-
-const validateDefinition = (definition: components['schemas']['SingleVariantReportDefinition']) => {
-  const { variant } = definition
-  const { specification } = variant
-
-  if (!specification) {
-    throw new Error('No specification in definition')
-  }
-
-  return { variant, specification }
-}
+import ReportBuilder from '../../../utils/ReportBuilder/ReportBuilder'
+import { validateDefinition } from '../../../utils/definitionUtils'
 
 const buildListTable = (
   definition: components['schemas']['SingleVariantReportDefinition'],
@@ -46,14 +34,14 @@ const buildListTable = (
     .buildTable(reportData)
 }
 
-const buildListSectionReport = (
+const buildReport = (
   definition: components['schemas']['SingleVariantReportDefinition'],
   columns: Columns,
   reportData: Record<string, string>[],
   summariesData: AsyncSummary[],
   reportQuery: ReportQuery,
 ): ReportTemplateData => {
-  return new ListSectionDataBuilder(definition.variant, reportData, summariesData, reportQuery)
+  return new ReportBuilder(definition.variant, reportData, summariesData, reportQuery)
     .withColumns(columns.value)
     .build()
 }
@@ -71,25 +59,6 @@ const buildParentChildReport = (
     .build()
 }
 
-const buildRowSectionedTable = (
-  definition: components['schemas']['SingleVariantReportDefinition'],
-  reportData: Dict<string>[],
-  childData: ChildData[],
-): DataTable[] => {
-  const { variant } = definition
-  const { interactive } = variant
-
-  return reportData.map((rowData) => {
-    return new SectionedFieldsDataTableBuilder(variant)
-      .withHeaderOptions({
-        columns: new Array(2),
-        interactive: Boolean(interactive),
-      })
-      .withChildData(childData)
-      .buildTable([rowData])
-  })
-}
-
 export const createDataTable = (
   definition: components['schemas']['SingleVariantReportDefinition'],
   columns: Columns,
@@ -98,7 +67,7 @@ export const createDataTable = (
   summariesData: AsyncSummary[],
   reportQuery: ReportQuery,
 ): Array<DataTable | ReportTemplateData> => {
-  let dataTables: Array<DataTable | ReportTemplateData> = []
+  const dataTables: Array<DataTable | ReportTemplateData> = []
   const { specification } = validateDefinition(definition)
   const { template } = specification
 
@@ -106,7 +75,7 @@ export const createDataTable = (
     case 'list':
     case 'summary-section':
     case 'list-section': {
-      const dataTable = buildListSectionReport(
+      const dataTable = buildReport(
         definition,
         columns,
         reportData as Record<string, string>[],
@@ -122,18 +91,6 @@ export const createDataTable = (
     case 'parent-child-section': {
       const dataTable = buildParentChildReport(definition, columns, reportData as Record<string, string>[], childData)
       dataTables.push(dataTable)
-      break
-    }
-
-    // case 'list': {
-    //   const dataTable = buildListTable(definition, columns, reportData, summariesData, reportQuery)
-    //   dataTables.push(dataTable)
-    //   break
-    // }
-
-    case 'row-section-child':
-    case 'row-section': {
-      dataTables = buildRowSectionedTable(definition, reportData, childData)
       break
     }
 

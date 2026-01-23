@@ -15,11 +15,13 @@
         {% set summaries = section.summaries %}
 
         {% if sectionTitle %}
-        <h2 class="govuk-heading-m">{{ sectionTitle }}
-          {% if template !== 'summary-section' %}
-          <span class="govuk-caption-m">{{ sectionCount }} results</span>
-          {% endif %}
-        </h2>
+        <div class="dpr-template__section__title">
+          <h2 class="govuk-heading-m">{{ sectionTitle }}
+            {% if template !== 'summary-section' %}
+            <span class="govuk-caption-m">{{ sectionCount }} results</span>
+            {% endif %}
+          </h2>
+        </div>
         {% endif %}
 
         {# SECTION HEADER SUMMARIES #}

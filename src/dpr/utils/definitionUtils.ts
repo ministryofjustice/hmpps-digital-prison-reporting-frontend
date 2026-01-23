@@ -110,6 +110,21 @@ export const getFieldsByName = (
   return names.map((s) => fields.find((f) => f.name === s)).filter((n) => n !== undefined)
 }
 
+export const validateDefinition = (definition: components['schemas']['SingleVariantReportDefinition']) => {
+  const { variant } = definition
+  return validateVariant(variant)
+}
+
+export const validateVariant = (variant: components['schemas']['VariantDefinition']) => {
+  const { specification } = variant
+
+  if (!specification) {
+    throw new Error('No specification in definition')
+  }
+
+  return { variant, specification }
+}
+
 export const getReportSummary = (
   reportId: string,
   reportingService: ReportingService,

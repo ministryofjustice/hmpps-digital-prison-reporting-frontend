@@ -1,3 +1,4 @@
+import ReportQuery from '../../types/ReportQuery'
 import { SummaryTemplate } from '../../types/Templates'
 import { AsyncSummary } from '../../types/UserReports'
 import { components } from '../../types/api'
@@ -16,6 +17,8 @@ class SectionedDataBuilder {
   sectionedDataArray: SectionedData[] = []
 
   sectionedData!: SectionedData
+
+  reportQuery!: ReportQuery
 
   createSectionKey(row: Record<string, string>): { keyObj: SectionKey[]; key: string } {
     // Build structured entries with column names + values
@@ -206,6 +209,12 @@ class SectionedDataBuilder {
 
   withSummaries(summaryData: Array<AsyncSummary>) {
     this.summariesData = summaryData || []
+    return this
+  }
+
+  // TODO: Do something with report query
+  withReportQuery(reportQuery: ReportQuery) {
+    this.reportQuery = reportQuery
     return this
   }
 

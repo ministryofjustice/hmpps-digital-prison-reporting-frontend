@@ -1,6 +1,6 @@
 import { AsyncSummary } from '../../types/UserReports'
 import { SummaryTemplate } from '../../types/Templates'
-import { ListSectionTableData } from '../ListSectionDataBuilder/types'
+import { ListSectionTableData } from '../ReportBuilder/types'
 import { ParentChildTableData } from '../ParentChildDataBuilder/types'
 import { DataTable } from '../DataTableBuilder/types'
 

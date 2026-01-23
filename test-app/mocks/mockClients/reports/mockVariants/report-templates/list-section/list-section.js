@@ -83,16 +83,25 @@ const reportTemplateExampleListSection = {
         },
       },
       {
+        name: 'field5',
+        display: 'Field 5',
+        sortable: false,
+        type: 'string',
+        visible: true,
+      },
+      {
         name: 'field6',
         display: 'Field 6',
         sortable: false,
-        type: 'string',
+        type: 'HTML',
         mandatory: false,
-        filter: {
-          type: 'text',
-          pattern: 'Value 6\\.\\d',
-          mandatory: false,
-        },
+      },
+      {
+        name: 'field7',
+        display: 'Field 7',
+        sortable: false,
+        type: 'HTML',
+        mandatory: false,
       },
       {
         name: 'section1',

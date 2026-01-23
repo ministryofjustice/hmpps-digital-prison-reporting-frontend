@@ -108,8 +108,8 @@ const initReportQuery = async (
   })
 
   // Sort
-  const sortColumn = req.query?.['sortColumn'] || requestData?.query?.data?.['sortColumn']
-  const sortedAsc = req.query?.['sortedAsc'] || requestData?.query?.data?.['sortedAsc']
+  const sortColumn = req.query?.['sortColumn'] || requestData?.sortBy?.data?.['sortColumn']
+  const sortedAsc = req.query?.['sortedAsc'] || requestData?.sortBy?.data?.['sortedAsc']
 
   // Pagination
   const selectedPage = req.query?.['selectedPage']

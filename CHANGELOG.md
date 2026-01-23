@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 4.28.2
+- Bugfix: fix async sorting
+- Updated integration docs
+
 ## 4.28.1
 - Bump dependencies:
   - diff

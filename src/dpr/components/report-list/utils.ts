@@ -12,7 +12,7 @@ import ReportingClient from '../../data/reportingClient'
 import { ListWithWarnings, Warnings } from '../../data/types'
 import { components } from '../../types/api'
 import Dict = NodeJS.Dict
-import ReportActionsUtils from '../_reports/report-actions/utils'
+import ReportActionsUtils from '../_reports/report-heading/report-actions/utils'
 import { Template } from '../../types/Templates'
 import { SyncReportUtils } from '../../utils'
 import FiltersUtils from '../_filters/utils'

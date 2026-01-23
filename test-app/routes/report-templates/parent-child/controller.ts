@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import { MoJTableHead } from 'src/dpr/components/_dashboards/dashboard-visualisation/types'
 import { FilterValue, SelectedFilter } from 'src/dpr/components/_filters/types'
-import { ReportAction } from 'src/dpr/components/_reports/report-actions/types'
+import { ReportAction } from 'src/dpr/components/_reports/report-heading/report-actions/types'
 
 export default class ParentChildTemplateController {
   layoutPath = ''

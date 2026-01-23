@@ -1,0 +1,24 @@
+
+{% from "./report-pagination/view.njk" import dprReportPagination %}
+{% from "./report-no-data-message/view.njk" import dprReportNoDataMessage %}
+{% from "./report-content/view.njk" import dprReport %}
+
+{% macro dprReportTemplate(renderData) %}
+  {% set printable = renderData.printable %}
+  {% set pagination = renderData.pagination %}
+  {% set template = renderData.template %}
+  {% set count = renderData.count %}
+
+  <div class="report-template-container  {% if (printable == false) %}print-hide{% endif %}">
+    {% if not count or count === 0 %}
+      {{ dprReportNoDataMessage(renderData.requestUrl.fullUrl) }}
+    {% else %}
+      {{ dprReport(renderData, count, template) }}
+
+      {% if template === 'list' and count and count > 0 %}
+        {{ dprReportPagination(pagination) }}
+      {% endif %}
+    {% endif %}
+  </div>
+
+{% endmacro %}

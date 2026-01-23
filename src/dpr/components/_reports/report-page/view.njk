@@ -1,0 +1,19 @@
+{% from "../report-heading/view.njk" import dprReportHeading %}
+
+{% from "./report-print-message/view.njk" import dprReportPrintMessage %}
+{% from "./report-template/view.njk" import dprReportTemplate %}
+
+{% macro dprReportPage(renderData) %}
+  {% set printable = renderData.printable %}
+  <div class="govuk-width-container">
+    <div class="dpr-report-page govuk-width-container report-list-container">
+      {{ dprReportPrintMessage(printable) }}
+      
+      <div class="dpr-report-page__heading-container">
+        {{ dprReportHeading(renderData) }}
+      </div>
+
+      {{ dprReportTemplate(renderData)}}
+    </div>
+  </div>
+{% endmacro %}

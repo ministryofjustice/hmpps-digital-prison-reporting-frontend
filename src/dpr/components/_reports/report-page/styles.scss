@@ -1,0 +1,46 @@
+.dpr-report-page {
+  .dpr-report-page__heading-container {
+    position: relative;
+    margin-top: govuk-spacing(5);
+    margin-bottom: govuk-spacing(5);
+  }
+
+  
+}
+
+.dpr-columns-section-wrapper {
+  .govuk-details {
+    margin-bottom: 0;
+  }
+}
+
+@media print {
+  .dpr-columns-section-wrapper {
+    display: none;
+  }
+
+  .dpr-report-page__heading-container {
+    h1.govuk-heading-l {
+      font-size: 20px;
+    }
+    p.govuk-body-s {
+      font-size: 14px;
+    }
+  }
+}
+
+.dpr-table-container {
+  @media screen {
+    .print-header-footer,
+    .govuk-table__header span,
+    .screen-hide {
+      display: none;
+    }
+  }
+}
+
+.dpr-report-interactive-actions {
+  a.govuk-button {
+    margin-top: -10px;
+  }
+}

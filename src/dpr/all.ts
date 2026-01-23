@@ -19,11 +19,11 @@ import UnauthorisedReportsFilter from './components/_catalogue/catalogue-unautho
 import ReportTypeFilter from './components/_catalogue/catalogue-filter-by-type/clientClass'
 
 // Reports
-import Pagination from './components/_reports/report-pagination/clientClass'
-import ReportActions from './components/_reports/report-actions/clientClass'
-import DataTable from './components/_reports/report-data-table/clientClass'
-import Columns from './components/_reports/report-columns-form/clientClass'
-import DownloadMessage from './components/_reports/report-download-message/clientClass'
+import Pagination from './components/_reports/report-page/report-template/report-pagination/clientClass'
+import ReportActions from './components/_reports/report-heading/report-actions/clientClass'
+import DataTable from './components/_reports/report-page/report-template/report-content/report-data-table/clientClass'
+import Columns from './components/_reports/report-heading/report-columns/report-columns-form/clientClass'
+import DownloadMessage from './components/_reports/report-heading/report-download-message/clientClass'
 
 // Filters
 import InteractiveFilters from './components/_filters/filters-interactive/clientClass'

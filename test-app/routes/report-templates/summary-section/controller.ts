@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express'
 import { MoJTableHead } from 'src/dpr/components/_dashboards/dashboard-visualisation/types'
 import { FilterValue, SelectedFilter } from 'src/dpr/components/_filters/types'
-import { ReportAction } from 'src/dpr/components/_reports/report-actions/types'
-import { Column } from 'src/dpr/components/_reports/report-columns-form/types'
+import { ReportAction } from 'src/dpr/components/_reports/report-heading/report-actions/types'
+import { Column } from 'src/dpr/components/_reports/report-heading/report-columns/report-columns-form/types'
 
 export default class SummarySectionTemplateController {
   layoutPath = ''

@@ -1,7 +1,7 @@
-{% from "dpr/components/_reports/report-wrapper/view.njk" import dprReportWrapper %}
+{% from "dpr/components/_reports/report-page/view.njk" import dprReportPage %}
 
 {% macro dprReportList(renderData) %}
 <div id="dpr-embedded-report-list">
-  {{ dprReportWrapper(renderData)}}
+  {{ dprReportPage(renderData)}}
 <div>
 {% endmacro %}

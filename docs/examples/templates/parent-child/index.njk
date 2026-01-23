@@ -3,7 +3,7 @@ layout: layouts/example.njk
 title: Parent-child Report (example)
 ---
 
-{%- from "dpr/components/_reports/report-wrapper/view.njk" import dprReportWrapper -%}
+{%- from "dpr/components/_reports/report-page/view.njk" import dprReportPage -%}
 
 {% set data = {
   "columns": {
@@ -163,4 +163,4 @@ title: Parent-child Report (example)
   }]
 } %}
 
-{{ dprReportWrapper(data) }}
+{{ dprReportPage(data) }}

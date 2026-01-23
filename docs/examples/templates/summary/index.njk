@@ -3,7 +3,7 @@ layout: layouts/example.njk
 title: List-section Report (example)
 ---
 
-{%- from "dpr/components/_reports/report-wrapper/view.njk" import dprReportWrapper -%}
+{%- from "dpr/components/_reports/report-page/view.njk" import dprReportPage -%}
 
 {% set data = {
   "filterData": {
@@ -109,4 +109,4 @@ title: List-section Report (example)
   }]
 } %}
 
-{{ dprReportWrapper(data) }}
+{{ dprReportPage(data) }}

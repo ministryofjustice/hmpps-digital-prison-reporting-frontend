@@ -3,8 +3,7 @@ layout: layouts/example.njk
 title: Data table (example)
 arguments: data-table
 ---
-{%- from "dpr/components/_reports/report-data-table/view.njk" import dprDataTable -%}
-
+{%- from "dpr/components/_reports/report-page/report-template/report-content/report-data-table/view.njk" import dprDataTable -%}
 {% set dataTableOptions = {
   head: [
     { text: "Name" },

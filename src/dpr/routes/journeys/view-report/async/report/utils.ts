@@ -43,7 +43,9 @@ export const getData = async ({
 
   // Get the request data
   const requestedReportService = <RequestedReportService>services.requestedReportService
+  console.log(tableId, userId)
   const requestData: RequestedReport | undefined = await requestedReportService.getReportByTableId(tableId, userId)
+  console.log(JSON.stringify(requestData, null, 2))
   const queryData = requestData?.query?.data
 
   // Get the definition
@@ -107,8 +109,8 @@ const initReportQuery = async (
   })
 
   // Sort
-  const sortColumn = req.query?.['sortColumn'] || requestData?.query?.data?.['sortColumn']
-  const sortedAsc = req.query?.['sortedAsc'] || requestData?.query?.data?.['sortedAsc']
+  const sortColumn = req.query?.['sortColumn'] || requestData?.sortBy?.data?.['sortColumn']
+  const sortedAsc = req.query?.['sortedAsc'] || requestData?.sortBy?.data?.['sortedAsc']
 
   // Pagination
   const selectedPage = req.query?.['selectedPage']
@@ -145,6 +147,12 @@ const getReportData = async (args: {
   const { services, token, req, reportQuery } = args
   const { reportId, variantId, id, tableId } = req.params
   const reportVariantId = variantId || id
+
+  console.log(
+    `
+    PRE-FILTER QUERY`,
+    reportQuery.toRecordWithFilterPrefix(true),
+  )
 
   return services.reportingService.getAsyncReport(
     token,

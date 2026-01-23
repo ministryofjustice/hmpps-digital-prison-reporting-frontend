@@ -96,7 +96,7 @@ import { initDprReportingClients } from '@ministryofjustice/hmpps-digital-prison
 import { createRedisClient } from './redisClient'
 import config from '../config'
 
-  const { reportingClient, dashboardClient, reportDataStore, productCollectionClient, missingReportClient } =
+  const { reportingClient, dashboardClient, reportDataStore, productCollectionClient, missingReportClient, featureFlagService } =
     initDprReportingClients(config.apis.dpr, createRedisClient())
 
 export const dataAccess = () => ({
@@ -106,6 +106,7 @@ export const dataAccess = () => ({
     reportDataStore,
     productCollectionClient,
     missingReportClient,
+    featureFlagService,
 })
 
 ```

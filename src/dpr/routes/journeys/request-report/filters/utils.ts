@@ -166,6 +166,15 @@ const requestProduct = async ({
 
     fields = definition?.variant.specification?.fields || []
     queryData = FiltersFormUtils.setQueryFromFilters(req, fields)
+
+    console.log(
+      `
+      PRE-FILTER QUERY`,
+      {
+        ...queryData.query,
+        dataProductDefinitionsPath,
+      },
+    )
     ;({ executionId, tableId } = await reportingService.requestAsyncReport(token, reportId, id, {
       ...queryData.query,
       dataProductDefinitionsPath,

@@ -146,6 +146,25 @@ class ReportingClient {
       .then((response) => <Dict<string>>response)
   }
 
+  downloadAsyncReport(
+    token: string,
+    reportId: string,
+    variantId: string,
+    tableId: string,
+    query: Record<string, string | string[]>,
+  ): Promise<Array<Dict<string>>> {
+    this.logInfo('Download Data', { reportId, variantId, tableId })
+
+    return this.restClient
+      .get({
+        path: `/reports/${reportId}/${variantId}/tables/${tableId}/download`,
+        token,
+        query,
+      })
+      .then((response) => <Array<Dict<string>>>response)
+  }
+
+
   getAsyncReport(
     token: string,
     reportId: string,

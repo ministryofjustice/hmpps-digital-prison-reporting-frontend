@@ -65,6 +65,16 @@ class ReportingService {
     return this.reportingClient.cancelAsyncRequest(token, reportId, variantId, executionId, dataProductDefinitionsPath)
   }
 
+  async downloadAsyncReport(
+    token: string,
+    reportId: string,
+    variantId: string,
+    tableId: string,
+    query: Record<string, string | string[]>,
+  ): Promise<Array<Dict<string>>> {
+    return this.reportingClient.downloadAsyncReport(token, reportId, variantId, tableId, query)
+  }
+
   async getAsyncReport(
     token: string,
     reportId: string,

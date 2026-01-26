@@ -36,7 +36,7 @@
         {% else %}
 
           <div id="dpr-{{ template }}-section-data-{{ loop.index }}" class="dpr-{{ template }}-section__data">
-            {{ dprDataTable(data, classification, template) }}
+            {{ dprDataTable(data, classification, template, loop.index) }}
           </div>
 
         {% endif %}

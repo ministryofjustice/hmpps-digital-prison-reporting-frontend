@@ -7,9 +7,11 @@ class DataTable extends DprClientClass {
   }
 
   initialise() {
-    this.tableContainer = document.getElementById('dpr-table-wrapper')
-    this.table = document.getElementById('dpr-data-table')
-    this.overflowGradient = Array.from(document.getElementsByClassName('dpr-overflow-gradient'))
+    this.element = this.getElement()
+    this.tableContainer = this.element.querySelector('.dpr-table-wrapper')
+    this.table = this.element.querySelector('.dpr-data-table')
+    this.gradient = this.element.querySelector('.dpr-overflow-gradient')
+
     this.createTableHeaderAndFooter()
     this.initTableScrollListener()
   }
@@ -25,31 +27,19 @@ class DataTable extends DprClientClass {
       const endOfScroll = this.table.offsetWidth
       const currentScroll = event.target.offsetWidth + event.target.scrollLeft
       if (endOfScroll === currentScroll) {
-        this.overflowGradient.forEach((gradient) => {
-          // eslint-disable-next-line no-param-reassign
-          gradient.style.display = 'none'
-        })
+        this.removeGradient()
       } else {
-        this.overflowGradient.forEach((gradient) => {
-          // eslint-disable-next-line no-param-reassign
-          gradient.style.display = 'block'
-        })
+        this.addGradient()
       }
     })
   }
 
-  removeGradient() {
-    this.overflowGradient.forEach((gradient) => {
-      // eslint-disable-next-line no-param-reassign
-      gradient.style.display = 'none'
-    })
+  removeGradient(gradient) {
+    this.gradient.style.display = 'none'
   }
 
-  addGradient() {
-    this.overflowGradient.forEach((gradient) => {
-      // eslint-disable-next-line no-param-reassign
-      gradient.style.display = 'block'
-    })
+  addGradient(gradient) {
+    this.gradient.style.display = 'block'
   }
 
   checkOffsetWidths() {

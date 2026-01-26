@@ -1,4 +1,5 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "../report-data-table/view.njk" import dprDataTable %}
 
 {% macro dprParentChildTemplate(data, classification, template) %}
   {% for dataset in data %}
@@ -7,27 +8,14 @@
 
     <div id="dpr-parent-child-data-{{ loop.index }}" class="dpr-parent-child-data">
       <div class="dpr-parent-child-data__parent">
-        {{ govukTable({
-          head: parent.head,
-          rows: parent.rows,
-          attributes: { 
-            'data-classification': classification
-          }
-        }) }}
+        {{ dprDataTable(parent, classification, template, loop.index) }}
       </div>
 
       {% for child in children %}
       <div id="dpr-parent-child-data__child-{{ loop.index }}" class="dpr-parent-child-data__child">
         <h2 class="govuk-heading-s">{{ child.title }}</h2>
-
         <div class="dpr-parent-child-data__child-table">
-          {{ govukTable({
-            head: child.head,
-            rows: child.rows,
-            attributes: { 
-              'data-classification': classification
-            }
-          }) }}
+          {{ dprDataTable(child, classification, template, loop.index) }}
         </div>
       </div>
       {% endfor %}

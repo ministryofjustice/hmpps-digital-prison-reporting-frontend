@@ -23,7 +23,6 @@ class Columns extends DprQueryParamClass {
   initSubmitButton() {
     this.submitButton.addEventListener('click', (e) => {
       e.preventDefault()
-      this.loadingHelper.showLoadingAnimation()
 
       if (this.embbeddedReportList) {
         window.location.reload()
@@ -36,7 +35,6 @@ class Columns extends DprQueryParamClass {
   initResetButton() {
     this.resetButton.addEventListener('click', (e) => {
       e.preventDefault()
-      this.loadingHelper.showLoadingAnimation()
       this.clearQueryParams('columns')
       window.location.reload()
     })

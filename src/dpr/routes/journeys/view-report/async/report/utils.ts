@@ -20,16 +20,14 @@ import type { Services } from '../../../../../types/Services'
 // Utils
 import definitionUtils from '../../../../../utils/definitionUtils'
 import PaginationUtils from '../../../../../components/_reports/report-page/report-template/report-pagination/utils'
-import TotalsUtils from '../../../../../components/_reports/report-page/report-template/report-content/report-totals/utils'
+import TotalsUtils from '../../../../../components/_reports/report-page/report-template/report-totals/utils'
 import ReportFiltersUtils from '../../../../../components/_filters/utils'
 import ColumnUtils from '../../../../../components/_reports/report-heading/report-columns/report-columns-form/utils'
 import ReportActionsUtils from '../../../../../components/_reports/report-heading/report-actions/utils'
 import UserReportsUtils from '../../../../../components/user-reports/utils'
 import LocalsHelper from '../../../../../utils/localsHelper'
-import DataTableUtils from '../../../../../components/_reports/report-page/report-template/report-content/report-data-table/utils'
+import ReportTemplateUtils from '../../../../../components/_reports/report-page/report-template/utils'
 import RequestedReportService from '../../../my-reports/requested-reports/service'
-
-import CollatedSummaryBuilder from '../../../../../utils/CollatedSummaryBuilder/CollatedSummaryBuilder'
 
 export const getData = async ({
   res,
@@ -257,7 +255,7 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
   })
 
   // Get the data table
-  const dataTable: Array<DataTable | ReportTemplateData> = DataTableUtils.createDataTable(
+  const dataTable: DataTable | ReportTemplateData = ReportTemplateUtils.createReportTemplateData(
     definition,
     columns,
     reportData,
@@ -272,7 +270,6 @@ export const renderReport = async ({ req, res, services }: AsyncReportUtilsParam
     res,
     services,
     definition,
-    summariesData,
     dataTable,
     columns,
     reportQuery,
@@ -302,8 +299,7 @@ const getTemplateData = async (
   res: Response,
   services: Services,
   definition: components['schemas']['SingleVariantReportDefinition'],
-  summariesData: AsyncSummary[],
-  dataTable: Array<DataTable | ReportTemplateData>,
+  dataTable: DataTable | ReportTemplateData,
   columns: Columns,
   reportQuery: ReportQuery,
   requestData?: RequestedReport,
@@ -343,18 +339,12 @@ const getTemplateData = async (
   // Set the extra meta data
   const meta = setMetaData(res, req)
 
-  let reportSummaries
-  if (summariesData.length) {
-    const collatedSummaryBuilder = new CollatedSummaryBuilder(specification, summariesData)
-    reportSummaries = collatedSummaryBuilder.collatePageSummaries()
-  }
-
   let pagination
   let totals
   if (definitionData.template === 'list') {
     pagination = PaginationUtils.getPaginationData(url, count, req)
     const { pageSize, currentPage, totalRows } = pagination
-    totals = TotalsUtils.getTotals(pageSize, currentPage, totalRows, dataTable[0].rowCount)
+    totals = TotalsUtils.getTotals(pageSize, currentPage, totalRows, dataTable.rowCount)
   }
 
   return {
@@ -369,7 +359,6 @@ const getTemplateData = async (
     ...urls,
     ...(pagination && { pagination }),
     ...(totals && { totals }),
-    ...(reportSummaries && { reportSummaries }),
   }
 }
 

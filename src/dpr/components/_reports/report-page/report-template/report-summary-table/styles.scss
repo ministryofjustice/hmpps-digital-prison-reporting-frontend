@@ -3,20 +3,22 @@
   position: relative;
   row-gap: 15px;
   flex-flow: column wrap;
+  margin-top: govuk-spacing(6);
 
   .dpr-summary-container {
     min-width: 200px;
     width: fit-content;
 
     .govuk-table {
-      border: solid 1px govuk-colour("mid-grey");
+      border: solid 1px govuk-colour('mid-grey');
       margin-bottom: 0;
 
-      th, td {
+      th,
+      td {
         padding: 10px;
       }
       th {
-        background-color: govuk-colour("light-grey");
+        background-color: govuk-colour('light-grey');
         border-bottom: 0px;
       }
     }
@@ -35,5 +37,3 @@
 .dpr-summary-container-group-page-footer {
   margin-bottom: 30px;
 }
-
-

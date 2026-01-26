@@ -13,7 +13,7 @@ import { Template } from '../../../../../types/Templates'
 import { FilterValue } from '../../../../../components/_filters/types'
 
 import PaginationUtils from '../../../../../components/_reports/report-page/report-template/report-pagination/utils'
-import TotalsUtils from '../../../../../components/_reports/report-page/report-template/report-content/report-totals/utils'
+import TotalsUtils from '../../../../../components/_reports/report-page/report-template/report-totals/utils'
 import ColumnUtils from '../../../../../components/_reports/report-heading/report-columns/report-columns-form/utils'
 import ReportActionsUtils from '../../../../../components/_reports/report-heading/report-actions/utils'
 import FiltersUtils from '../../../../../components/_filters/utils'

@@ -1,6 +1,6 @@
 .dpr-show-more {
   .dpr-show-hide-button {
-    display: inline-block
+    display: inline-block;
   }
 
   .dpr-show-more-content {
@@ -22,7 +22,7 @@ ul.dpr-card-group__item__filters-list {
     margin-bottom: govuk-spacing(1);
     margin-right: govuk-spacing(1);
   }
-  
+
   li.dpr-query-summary {
     background-color: govuk-colour('light-grey');
   }
@@ -32,7 +32,6 @@ ul.dpr-card-group__item__filters-list {
   }
 
   li:last-child {
-    margin-bottom: govuk-spacing(0);    
+    margin-bottom: govuk-spacing(0);
   }
 }
- 

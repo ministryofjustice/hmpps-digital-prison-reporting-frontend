@@ -1,12 +1,12 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 
-{% macro dprParentChildTemplate(data, classification) %}
+{% macro dprParentChildTemplate(data, classification, template) %}
   {% for dataset in data %}
     {% set parent = dataset.parent %}
     {% set children = dataset.children %}
 
-    <div id="dpr-parent-child-section-data-{{ loop.index }}" class="dpr-parent-child-section-data">
-      <div class="dpr-parent-child-section-data__parent">
+    <div id="dpr-parent-child-data-{{ loop.index }}" class="dpr-parent-child-data">
+      <div class="dpr-parent-child-data__parent">
         {{ govukTable({
           head: parent.head,
           rows: parent.rows,
@@ -17,10 +17,10 @@
       </div>
 
       {% for child in children %}
-      <div id="dpr-parent-child-section-data__child-{{ loop.index }}" class="dpr-parent-child-section-data__child">
+      <div id="dpr-parent-child-data__child-{{ loop.index }}" class="dpr-parent-child-data__child">
         <h2 class="govuk-heading-s">{{ child.title }}</h2>
 
-        <div class="dpr-parent-child-section-data__child-table">
+        <div class="dpr-parent-child-data__child-table">
           {{ govukTable({
             head: child.head,
             rows: child.rows,

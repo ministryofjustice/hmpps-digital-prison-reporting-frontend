@@ -5,9 +5,6 @@ import jquery from 'jquery'
 import dayjs from 'dayjs'
 import customParse from 'dayjs/plugin/customParseFormat'
 
-// Helper
-import DprLoadingHelper from './DprLoadingHelper'
-
 // General Components
 import CardGroup from './components/card-group/clientClass'
 import BookmarkToggle from './components/bookmark-toggle/clientClass'
@@ -21,7 +18,7 @@ import ReportTypeFilter from './components/_catalogue/catalogue-filter-by-type/c
 // Reports
 import Pagination from './components/_reports/report-page/report-template/report-pagination/clientClass'
 import ReportActions from './components/_reports/report-heading/report-actions/clientClass'
-import DataTable from './components/_reports/report-page/report-template/report-content/report-data-table/clientClass'
+import DataTable from './components/_reports/report-page/report-template/report-section/report-data-table/clientClass'
 import Columns from './components/_reports/report-heading/report-columns/report-columns-form/clientClass'
 import DownloadMessage from './components/_reports/report-heading/report-download-message/clientClass'
 
@@ -65,8 +62,6 @@ import GenericForm from './DprGenericFormClass'
  *
  */
 function initAll() {
-  const loadingHelper = new DprLoadingHelper()
-
   const components = [
     Autocomplete,
     CardGroup,
@@ -103,7 +98,7 @@ function initAll() {
     const $elements = document.querySelectorAll(`[data-dpr-module="${Component.getModuleName()}"]`)
     $elements.forEach(async ($element) => {
       try {
-        new Component($element, loadingHelper).initialise()
+        new Component($element).initialise()
       } catch (error) {
         console.log(error)
       }

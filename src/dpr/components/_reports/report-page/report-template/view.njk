@@ -1,24 +1,61 @@
+{% from "../../../code-block/view.njk" import dprCodeBlock %}
 
-{% from "./report-pagination/view.njk" import dprReportPagination %}
+{% from "./report-totals/view.njk" import dprReportTotals %}
+{% from "./report-summary-table/view.njk" import dprReportSummary %}
+{% from "./report-section/view.njk" import dprReportSection %}
 {% from "./report-no-data-message/view.njk" import dprReportNoDataMessage %}
-{% from "./report-content/view.njk" import dprReport %}
+{% from "./report-pagination/view.njk" import dprReportPagination %}
 
 {% macro dprReportTemplate(renderData) %}
-  {% set printable = renderData.printable %}
   {% set pagination = renderData.pagination %}
+  {% set classification = renderData.classification %}
   {% set template = renderData.template %}
+  {% set totals = renderData.totals %}
+  {% set dataTable = renderData.dataTable %}
+  {% set summaries = dataTable.summaries %}
   {% set count = renderData.count %}
 
-  <div class="report-template-container  {% if (printable == false) %}print-hide{% endif %}">
-    {% if not count or count === 0 %}
+  {% if not count or count === 0 %}
+    
+    <div class="dpr-report-template-container dpr-report-template-container--no-data">
       {{ dprReportNoDataMessage(renderData.requestUrl.fullUrl) }}
-    {% else %}
-      {{ dprReport(renderData, count, template) }}
+    </div>
 
+  {% else %}
+
+    <div class="dpr-report-template-container {% if (printable == false) %}print-hide{% endif %}">
+      {# Header summaries #}
+      <div class="dpr-report-template__page-summaries dpr-report-template__page-summaries--header">
+        {{ dprReportSummary(summaries, 'page-header') }}
+      </div>
+
+      {# header totals #}
+      <div class="dpr-report-template__page-totals dpr-report-template__page-totals--header">
+        {{ dprReportTotals(totals) }}
+      </div>
+      
+      {# sections #}
+      <div class='dpr-report-template__sections dpr-report-template__sections--{{ template }}'>
+        {{ dprReportSection(dataTable, template, classification) }}
+      </div>
+
+      {# footer totals #}
+      <div class="dpr-report-template__page-totals dpr-report-template__page-totals--footer">
+        {{ dprReportTotals(totals) }}
+      </div>
+
+      {# footer summaries #}
+      <div class="dpr-report-template__page-summaries dpr-report-template__page-summaries--footer">
+        {{ dprReportSummary(summaries, 'page-footer') }}
+      </div>
+
+      {# pagination #}
       {% if template === 'list' and count and count > 0 %}
+      <div class="dpr-report-template__pagination">
         {{ dprReportPagination(pagination) }}
+      </div>
       {% endif %}
-    {% endif %}
-  </div>
-
+    </div>
+  
+  {% endif %}
 {% endmacro %}

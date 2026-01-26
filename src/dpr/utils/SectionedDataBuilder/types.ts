@@ -10,7 +10,7 @@ export interface SectionedData {
 
 export interface ReportTemplateData {
   rowCount: number
-  summaries?: Record<string, DataTable[]>[]
+  summaries?: Record<string, DataTable[]>
   sections: SectionDataResult[]
 }
 

@@ -18,7 +18,7 @@ class ReportBuilder {
 
   sections: Array<string> = []
 
-  data: Array<Record<string, string>>
+  data!: Array<Record<string, string>>
 
   fields: components['schemas']['FieldDefinition'][]
 
@@ -32,16 +32,15 @@ class ReportBuilder {
 
   summariesBuilder!: CollatedSummaryBuilder
 
-  reportQuery: ReportQuery
+  reportQuery!: ReportQuery
 
   interactive = false
 
-  constructor(
-    variant: components['schemas']['VariantDefinition'],
-    data: Array<Record<string, string>>,
-    summariesData: AsyncSummary[],
-    reportQuery: ReportQuery,
-  ) {
+  pageSummaries!: AsyncSummary[]
+
+  summaries!: AsyncSummary[]
+
+  constructor(variant: components['schemas']['VariantDefinition']) {
     const { specification } = validateVariant(variant)
     const { template, fields, sections } = specification
 
@@ -49,17 +48,31 @@ class ReportBuilder {
     this.specification = specification
     this.template = template
     this.fields = fields
-    this.data = data
-    this.reportQuery = reportQuery
-    this.sectionBuilder = new SectionedDataBuilder()
-      .withData(data)
-      .withSections(sections)
-      .withSummaries(summariesData)
-      .withFields(fields)
+    this.sections = sections
   }
 
   withColumns(columns: string[]) {
     this.columns = columns
+    return this
+  }
+
+  withData(data: Array<Record<string, string>>) {
+    this.data = data
+    return this
+  }
+
+  withQuery(reportQuery: ReportQuery) {
+    this.reportQuery = reportQuery
+    return this
+  }
+
+  withSummaries(summariesData: AsyncSummary[]) {
+    this.pageSummaries = summariesData.filter((summary) => {
+      return summary.template.includes('page')
+    })
+    this.summaries = summariesData.filter((summary) => {
+      return summary.template.includes('section') || summary.template.includes('table')
+    })
     return this
   }
 
@@ -75,6 +88,23 @@ class ReportBuilder {
         interactive: Boolean(this.interactive),
       })
       .buildTable(section.data)
+  }
+
+  buildSummaryTables(summaries: AsyncSummary[]) {
+    const summaryTables = summaries.map((summaryData) => {
+      const fields = <components['schemas']['FieldDefinition'][]>summaryData.fields
+      const { data, template } = summaryData
+      const summaryTableData = new DataTableBuilder(fields)
+        .withNoHeaderOptions(fields.map((f) => f.name))
+        .buildTable(data)
+
+      return {
+        template,
+        data: summaryTableData,
+      }
+    })
+
+    return this.groupSummaryTables(summaryTables)
   }
 
   buildSummariesTables(section: SectionData) {
@@ -113,25 +143,32 @@ class ReportBuilder {
     }, {})
   }
 
-  build(): ReportTemplateData {
-    const sectionData = this.sectionBuilder.build()
-    const mappedSections = sectionData.sections.map((section: SectionData) => {
-      const tableData = this.buildMainTable(section)
-      const summaryTables = this.buildSummariesTables(section)
+  buildSectionedData() {
+    const sectionData = new SectionedDataBuilder()
+      .withData(this.data)
+      .withSections(this.sections)
+      .withSummaries(this.summaries)
+      .withFields(this.fields)
+      .build()
 
+    return sectionData.sections.map((section: SectionData) => {
+      const tableData = this.buildMainTable(section)
+      const sectionSummaryTables = this.buildSummaryTables(section.summaries)
       return {
         ...section,
-        summaries: summaryTables,
+        summaries: sectionSummaryTables,
         data: tableData,
       }
     })
+  }
 
-    const sections = mappedSections.filter((sec) => sec.key !== 'mainSection')
-    const summaries = mappedSections.filter((sec) => sec.key === 'mainSection').map((section) => section.summaries)
+  build(): ReportTemplateData {
+    const pageSummaryTables = this.buildSummaryTables(this.pageSummaries)
+    const sections = this.buildSectionedData()
 
     return {
       rowCount: this.data.length,
-      summaries,
+      summaries: pageSummaryTables,
       sections,
     }
   }

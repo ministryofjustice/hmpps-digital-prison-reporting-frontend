@@ -1,4 +1,8 @@
-.report-no-data-available {
+.dpr-report-no-data-message {
   text-align: left;
   margin-top: govuk-spacing(6);
+
+  p {
+    margin-bottom: govuk-spacing(3);
+  }
 }

@@ -40,19 +40,10 @@ const summaryComplex = require('./summary/summaries-complex')
 
 const summaryTemplates = [summary, summaryComplex]
 
-// row-section
-const rowSection = require('./row-section/row-section')
-const rowSectionChild = require('./row-section/row-section-child')
-const rowSectionChildMultiple = require('./row-section/row-section-child-multiple')
-const rowSectionMultiple = require('./row-section/row-section_multiple-rows')
-
-const rowSectionTemplates = [rowSection, rowSectionChild, rowSectionChildMultiple, rowSectionMultiple]
-
 module.exports = [
   ...listTemplates,
   ...listSectionTemplates,
   ...parentChildTemaplate,
   ...summarySectionTemplates,
   ...summaryTemplates,
-  ...rowSectionTemplates,
 ]

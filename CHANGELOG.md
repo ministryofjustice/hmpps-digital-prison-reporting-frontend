@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.28.3
+- Conditionally enable streaming for async report downloads based on the 'streamingDownloadEnabled' Flipt flag.
+
 ## 4.28.2
 - Bugfix: fix async sorting
 - Updated integration docs

@@ -3,6 +3,7 @@ import type ReportingClient from '../data/reportingClient'
 import ReportQuery from '../types/ReportQuery'
 import Dict = NodeJS.Dict
 import { ListWithWarnings } from '../data/types'
+import { Response } from 'express'
 
 class ReportingService {
   constructor(private readonly reportingClient: ReportingClient) {
@@ -71,8 +72,9 @@ class ReportingService {
     variantId: string,
     tableId: string,
     query: Record<string, string | string[]>,
-  ): Promise<Array<Dict<string>>> {
-    return this.reportingClient.downloadAsyncReport(token, reportId, variantId, tableId, query)
+    res: Response
+  ): Promise<void> {
+    return this.reportingClient.downloadAsyncReport(token, reportId, variantId, tableId, query, res)
   }
 
   async getAsyncReport(

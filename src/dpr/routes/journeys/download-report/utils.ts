@@ -88,12 +88,13 @@ const streamDownloadAsyncData = async (args: {
     sortedAsc?: string
     sortColumn?: string
   }
+  res: Response
 }) => {
-  const { token, services, tableId, reportId, id, queryParams } = args
+  const { token, services, tableId, reportId, id, queryParams, res } = args
   const query: Record<string, string | string[]> = {
     ...queryParams,
   }
-  return services.reportingService.downloadAsyncReport(token, reportId, id, tableId, query)
+  return services.reportingService.downloadAsyncReport(token, reportId, id, tableId, query, res)
 }
 
 const dowloadAsyncData = async (args: {
@@ -219,6 +220,7 @@ export const downloadReport = async ({
           id,
           tableId,
           queryParams: streamDownloadQueryParams,
+          res,
         })
         return
       }

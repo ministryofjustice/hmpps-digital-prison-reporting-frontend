@@ -1,5 +1,6 @@
 import superagent, { ResponseError } from 'superagent'
 import Agent, { HttpsAgent } from 'agentkeepalive'
+import { Response as ExpressResponse } from 'express'
 
 import logger from '../utils/logger'
 import sanitiseError from '../utils/sanitisedError'
@@ -40,6 +41,56 @@ class RestClient {
 
   async get<T>(request: GetRequest): Promise<T> {
     return this.getWithHeaders<T>(request).then((result) => result.data)
+  }
+
+  async getStream(
+    {
+      path = '',
+      query = {},
+      headers = {},
+      token,
+    }: GetRequest,
+    res: ExpressResponse,
+  ): Promise<void> {
+    logger.info(`${this.name} STREAM GET: ${this.apiUrl()}${path}`)
+    logger.info(`query: ${JSON.stringify(query)}`)
+
+    const req = superagent
+      .get(`${this.apiUrl()}${path}`)
+      .agent(this.agent)
+      .query(query)
+      .auth(token, { type: 'bearer' })
+      .set(headers)
+      .timeout(this.timeoutConfig())
+
+    req.on('response', (upstream) => {
+      // Forward status
+      res.status(upstream.status)
+
+      // Forward headers
+      Object.entries(upstream.headers).forEach(([key, value]) => {
+        if (value !== undefined) {
+          res.setHeader(key, value as string)
+        }
+      })
+      res.on('close', () => {
+        logger.info('Client disconnected, aborting upstream request.')
+        req.abort()
+      })
+      upstream.pipe(res)
+    })
+
+    req.on('error', (error) => {
+      logger.warn(
+        { error },
+        `Error streaming from ${this.name}, path: '${path}'`,
+      )
+      if (!res.headersSent) {
+        res.status(502).end('Download request failed. Error streaming response')
+      } else {
+        res.destroy(error)
+      }
+    })
   }
 
   private async requestWithBody<Response = unknown>(

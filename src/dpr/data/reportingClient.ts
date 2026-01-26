@@ -5,6 +5,7 @@ import Dict = NodeJS.Dict
 import { components, operations } from '../types/api'
 import { ApiConfig, Count, ListWithWarnings } from './types'
 import type { ResultWithHeaders } from './restClient'
+import { Response} from 'express'
 
 class ReportingClient {
   restClient: RestClient
@@ -152,16 +153,18 @@ class ReportingClient {
     variantId: string,
     tableId: string,
     query: Record<string, string | string[]>,
-  ): Promise<Array<Dict<string>>> {
-    this.logInfo('Download Data', { reportId, variantId, tableId })
+    res: Response
+  ): Promise<void> {
+    this.logInfo('Streaming download data', { reportId, variantId, tableId })
 
-    return this.restClient
-      .get({
+    return this.restClient.getStream(
+      {
         path: `/reports/${reportId}/${variantId}/tables/${tableId}/download`,
-        token,
         query,
-      })
-      .then((response) => <Array<Dict<string>>>response)
+        token,
+      },
+      res,
+    )
   }
 
 

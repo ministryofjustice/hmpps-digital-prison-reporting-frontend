@@ -195,12 +195,6 @@
       padding-left: govuk-spacing(0);
     }
   }
-}
-
-.dpr-table-container--parent-child-section,
-.dpr-table-container--parent-child,
-.dpr-table-container--list-section,
-.dpr-table-container--list {
   .govuk-table__header {
     padding-right: govuk-spacing(4);
     white-space: nowrap;
@@ -212,9 +206,10 @@
 }
 
 // Zebra stripes
+.dpr-table-container--list-section,
 .dpr-table-container--list {
   .govuk-table__body {
-    tr.govuk-table__row:nth-child(odd) {
+    tr.govuk-table__row:nth-child(even) {
       background-color: govuk-colour('light-grey');
     }
   }

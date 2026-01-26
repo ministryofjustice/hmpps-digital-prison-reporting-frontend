@@ -33,16 +33,6 @@ export default class TemplateController {
           href: '/templates/parent-child-section',
         },
         {
-          text: 'row-section',
-          description: 'Examplate of a row-section report template',
-          href: '/templates/row-section',
-        },
-        {
-          text: 'row-section-child',
-          description: 'Examplate of a row-section-child report template',
-          href: '/templates/row-section-child',
-        },
-        {
           text: 'summary',
           description: 'Examplate of a summary report template',
           href: '/templates/summary',

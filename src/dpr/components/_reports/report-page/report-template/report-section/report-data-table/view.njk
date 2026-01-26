@@ -5,21 +5,23 @@
   {% set head = dataTable.head %}
   {% set colCount = dataTable.colCount %}
   
-  <div id="table-container-{{ loopIndex }}" class='dpr-table-container dpr-table-container--{{ template }}' data-dpr-module="data-table" aria-labelledby="dpr-report-name">
-    <div class="dpr-overflow-gradient" id="dpr-overflow-gradient-{{ loopIndex }}"></div>
-    <div class="dpr-table-wrapper" id="dpr-table-wrapper-{{ loopIndex }}">
-      <div class="dpr-table-content">
-        {{ govukTable({
-          head: head,
-          rows: rows,
-          classes: 'dpr-data-table',
-          attributes: { 
-            'id': 'dpr-data-table-' + loopIndex,
-            'data-classification': classification,
-            'data-col-length': colCount
-          }
-        }) }}
+  {% if rows.length > 0 %}
+    <div id="table-container-{{ loopIndex }}" class='dpr-table-container dpr-table-container--{{ template }}' data-dpr-module="data-table" aria-labelledby="dpr-report-name">
+      <div class="dpr-overflow-gradient" id="dpr-overflow-gradient-{{ loopIndex }}"></div>
+      <div class="dpr-table-wrapper" id="dpr-table-wrapper-{{ loopIndex }}">
+        <div class="dpr-table-content">
+          {{ govukTable({
+            head: head,
+            rows: rows,
+            classes: 'dpr-data-table',
+            attributes: { 
+              'id': 'dpr-data-table-' + loopIndex,
+              'data-classification': classification,
+              'data-col-length': colCount
+            }
+          }) }}
+        </div>
       </div>
     </div>
-  </div>
+  {% endif%}
 {% endmacro %}

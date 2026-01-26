@@ -1,9 +1,9 @@
+import { Response } from 'express'
 import { components } from '../types/api'
 import type ReportingClient from '../data/reportingClient'
 import ReportQuery from '../types/ReportQuery'
 import Dict = NodeJS.Dict
 import { ListWithWarnings } from '../data/types'
-import { Response } from 'express'
 
 class ReportingService {
   constructor(private readonly reportingClient: ReportingClient) {

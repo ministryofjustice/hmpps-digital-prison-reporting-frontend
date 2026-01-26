@@ -1,3 +1,4 @@
+import { Response} from 'express'
 import ReportQuery from '../types/ReportQuery'
 import logger from '../utils/logger'
 import RestClient from './restClient'
@@ -5,7 +6,6 @@ import Dict = NodeJS.Dict
 import { components, operations } from '../types/api'
 import { ApiConfig, Count, ListWithWarnings } from './types'
 import type { ResultWithHeaders } from './restClient'
-import { Response} from 'express'
 
 class ReportingClient {
   restClient: RestClient

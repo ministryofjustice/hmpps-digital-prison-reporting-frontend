@@ -52,7 +52,7 @@ export const setupResources = (
     populateValidationErrors(req, res)
     try {
       await setFeatures(res, services.featureFlagService)
-      //Performance consideration: This seems to be called on every request. Not call GET definitions on every request.
+      // Performance consideration: This seems to be called on every request. Not call GET definitions on every request.
       await populateDefinitions(services, req, res, config)
       await populateRequestedReports(services, res)
       setupRequestAwareNunjucks(env, res)

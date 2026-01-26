@@ -1,4 +1,4 @@
-import { Response} from 'express'
+import { Response } from 'express'
 import ReportQuery from '../types/ReportQuery'
 import logger from '../utils/logger'
 import RestClient from './restClient'
@@ -153,7 +153,7 @@ class ReportingClient {
     variantId: string,
     tableId: string,
     query: Record<string, string | string[]>,
-    res: Response
+    res: Response,
   ): Promise<void> {
     this.logInfo('Streaming download data', { reportId, variantId, tableId })
 
@@ -166,7 +166,6 @@ class ReportingClient {
       res,
     )
   }
-
 
   getAsyncReport(
     token: string,

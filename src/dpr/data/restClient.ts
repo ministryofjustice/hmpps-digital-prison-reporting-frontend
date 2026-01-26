@@ -43,15 +43,7 @@ class RestClient {
     return this.getWithHeaders<T>(request).then((result) => result.data)
   }
 
-  async getStream(
-    {
-      path = '',
-      query = {},
-      headers = {},
-      token,
-    }: GetRequest,
-    res: ExpressResponse,
-  ): Promise<void> {
+  async getStream({ path = '', query = {}, headers = {}, token }: GetRequest, res: ExpressResponse): Promise<void> {
     logger.info(`${this.name} STREAM GET: ${this.apiUrl()}${path}`)
     logger.info(`query: ${JSON.stringify(query)}`)
 
@@ -81,10 +73,7 @@ class RestClient {
     })
 
     req.on('error', (error) => {
-      logger.warn(
-        { error },
-        `Error streaming from ${this.name}, path: '${path}'`,
-      )
+      logger.warn({ error }, `Error streaming from ${this.name}, path: '${path}'`)
       if (!res.headersSent) {
         res.status(502).end('Download request failed. Error streaming response')
       } else {

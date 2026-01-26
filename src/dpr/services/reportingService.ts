@@ -72,7 +72,7 @@ class ReportingService {
     variantId: string,
     tableId: string,
     query: Record<string, string | string[]>,
-    res: Response
+    res: Response,
   ): Promise<void> {
     return this.reportingClient.downloadAsyncReport(token, reportId, variantId, tableId, query, res)
   }

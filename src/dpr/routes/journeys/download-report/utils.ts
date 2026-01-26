@@ -10,7 +10,6 @@ import { Template } from '../../../types/Templates'
 import ReportQuery from '../../../types/ReportQuery'
 import { isBooleanFlagExplicitlyEnabled } from '../../../services/featureFlagService'
 
-
 const convertToCsv = (reportData: Dict<string>[], options: Json2CsvOptions) => {
   const csvData = json2csv(reportData, options)
   return csvData
@@ -83,7 +82,7 @@ const streamDownloadAsyncData = async (args: {
   reportId: string
   id: string
   queryParams: {
-    dataProductDefinitionsPath: string,
+    dataProductDefinitionsPath: string
     columns: string[]
     sortedAsc?: string
     sortColumn?: string

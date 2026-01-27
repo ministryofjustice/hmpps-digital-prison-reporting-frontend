@@ -1,17 +1,18 @@
-import { components } from 'src/dpr/types/api'
-import { LoadType } from 'src/dpr/types/UserReports'
+import { components } from '../../../../../src/dpr/types/api'
+import { LoadType } from '../../../../../src/dpr/types/UserReports'
 
-const reportTemplateExampleListSection: components['schemas']['VariantDefinition'] & { loadType: LoadType } = {
+const reportTemplateList: components['schemas']['VariantDefinition'] & { loadType: LoadType } = {
   loadType: LoadType.ASYNC,
-  id: 'report-template-example-list-section',
-  name: 'Sectioned',
-  description: 'A sectioned report.',
+  id: 'report-template-list',
+  name: 'List',
+  description: 'Template: "list"',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
+  summaries: [],
   specification: {
-    template: 'list-section',
-    sections: ['section1', 'section2'],
+    sections: [],
+    template: 'list',
     fields: [
       {
         name: 'field1',
@@ -102,10 +103,10 @@ const reportTemplateExampleListSection: components['schemas']['VariantDefinition
         sortable: false,
         type: 'string',
         mandatory: false,
+        visible: true,
         calculated: false,
         header: false,
         defaultsort: false,
-        visible: false,
         filter: {
           type: 'text',
           pattern: 'Value 6\\.\\d',
@@ -138,4 +139,4 @@ const reportTemplateExampleListSection: components['schemas']['VariantDefinition
   },
 }
 
-export default reportTemplateExampleListSection
+export default reportTemplateList

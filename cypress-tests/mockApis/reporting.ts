@@ -42,10 +42,10 @@ import {
   getProductCollections,
 } from '@networkMocks/productCollections/mocks'
 import { reportingFailureStubs } from './failures'
-import reportTemplateExampleListSection from '@networkMocks/report/mockVariants/report-templates/list-section'
-import reportTemplateExampleParentChild from '@networkMocks/report/mockVariants/report-templates/parent-child'
-import reportTemplateExampleParentChildSection from '@networkMocks/report/mockVariants/report-templates/parent-child-section'
-import reportTemplateExampleSummarySection from '@networkMocks/report/mockVariants/report-templates/summary-section'
+import reportTemplateExampleListSection from '@networkMocks/report/mockVariants/report-templates/list-section/list-section'
+import reportTemplateExampleParentChild from '@networkMocks/report/mockVariants/report-templates/parent-child/parent-child'
+import reportTemplateExampleParentChildSection from '@networkMocks/report/mockVariants/report-templates/parent-child/parent-child-section'
+import reportTemplateExampleSummarySection from '@networkMocks/report/mockVariants/report-templates/summary-section/summary-section'
 import { getFlagsMockDisabled, getFlagsMockEmpty, getFlagsMockEnabled } from '@networkMocks/featureFlags/mocks'
 
 export const stubs = {

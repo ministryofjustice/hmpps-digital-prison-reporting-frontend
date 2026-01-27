@@ -1,6 +1,8 @@
-import { components } from 'src/dpr/types/api'
+import { components } from '../../../../../src/dpr/types/api'
+import { LoadType } from '../../../../../src/dpr/types/UserReports'
 
-const reportTemplateExampleSummariesComplex: components['schemas']['VariantDefinition'] = {
+const reportTemplateExampleSummariesComplex: components['schemas']['VariantDefinition'] & { loadType: LoadType } = {
+  loadType: LoadType.ASYNC,
   id: 'report-template-example-summaries-complex',
   name: 'Summaries (no list), complex titles',
   description: 'A report with titled summaries, but no list.',

@@ -23,6 +23,8 @@ import UserStoreItemBuilder from '../../../../../utils/UserStoreItemBuilder'
 
 import DataTableBuilder from '../../../../../utils/DataTableBuilder/DataTableBuilder'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
+import { ReportTemplateData } from '../../../../../utils/SectionedDataBuilder/types'
+import ReportTemplateUtils from '../../../../../components/_reports/report-page/report-template/utils'
 
 export const setActions = (
   csrfToken: string,
@@ -221,6 +223,7 @@ export const getReportRenderData = async ({
   reportQuery,
   data,
   filtersType,
+  definition,
 }: {
   req: Request
   res?: Response
@@ -230,14 +233,22 @@ export const getReportRenderData = async ({
   reportQuery: ReportQuery
   data: Dict<string>[]
   filtersType?: FiltersType
+  definition: components['schemas']['SingleVariantReportDefinition']
 }) => {
   const url = parseUrl(req)
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
   const pathname = url?.search ? req.originalUrl.split(url.search)[0] : req.originalUrl
+  const columns = ColumnUtils.getColumns(specification, req)
 
-  const dataTable: DataTable = new DataTableBuilder(specification.fields)
-    .withHeaderSortOptions(reportQuery)
-    .buildTable(data)
+  // Get the data table
+  const dataTable: DataTable | ReportTemplateData = ReportTemplateUtils.createReportTemplateData(
+    definition,
+    columns,
+    data,
+    [], // child data - N/A for sync reports
+    [], // summaries data - N/A for sync reports
+    reportQuery,
+  )
 
   let pagination
   let totals
@@ -259,10 +270,8 @@ export const getReportRenderData = async ({
     filtersType: filtersType || FiltersType.INTERACTIVE,
   })
 
-  const columns = ColumnUtils.getColumns(specification, req)
-
   return {
-    dataTable: [dataTable],
+    dataTable,
     totals,
     filterData,
     columns,
@@ -271,6 +280,7 @@ export const getReportRenderData = async ({
     reportSearch: url?.search,
     encodedSearch: url?.search ? encodeURIComponent(url.search) : undefined,
     fullUrl,
+    template: specification.template,
   }
 }
 
@@ -305,7 +315,16 @@ export const getRenderData = async ({
     throw new Error('No specicication found in definition')
   }
 
-  const reportRenderData = await getReportRenderData({ req, res, services, count, specification, reportQuery, data })
+  const reportRenderData = await getReportRenderData({
+    req,
+    res,
+    services,
+    count,
+    specification,
+    reportQuery,
+    data,
+    definition: reportDefinition,
+  })
 
   const actions = setActions(
     csrfToken,

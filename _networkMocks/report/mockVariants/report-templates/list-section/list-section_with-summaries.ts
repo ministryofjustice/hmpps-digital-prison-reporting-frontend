@@ -1,16 +1,47 @@
-import { components } from 'src/dpr/types/api'
+import { components } from '../../../../../src/dpr/types/api'
+import { LoadType } from '../../../../../src/dpr/types/UserReports'
 
-const reportTemplateExampleTableSummaries: components['schemas']['VariantDefinition'] = {
-  id: 'report-template-example-table-summaries',
-  name: 'Table Summaries',
-  description:
-    'A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries. A report with table summaries.',
+const reportTemplateExampleListSectionWithSummaries: components['schemas']['VariantDefinition'] & {
+  loadType: LoadType
+} = {
+  loadType: LoadType.ASYNC,
+  id: 'report-template-list-section-summaries',
+  name: 'List-section - with Summaries',
+  description: 'Template: "list-section".</br> A sectioned report with all summaries',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
   summaries: [
     {
-      id: 'summary4',
+      id: 'summary1',
+      template: 'page-header',
+      fields: [
+        {
+          name: 'total',
+          display: 'Total',
+        },
+      ],
+    },
+    {
+      id: 'summary3',
+      template: 'page-footer',
+      fields: [
+        {
+          name: 'percentGood',
+          display: 'Good (%)',
+        },
+        {
+          name: 'percentBad',
+          display: 'Bad (%)',
+        },
+        {
+          name: 'percentUgly',
+          display: 'Ugly (%)',
+        },
+      ],
+    },
+    {
+      id: 'summary6',
       template: 'table-header',
       fields: [
         {
@@ -36,8 +67,60 @@ const reportTemplateExampleTableSummaries: components['schemas']['VariantDefinit
       ],
     },
     {
-      id: 'summary5',
+      id: 'summary7',
       template: 'table-footer',
+      fields: [
+        {
+          name: 'field1',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field2',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field3',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field4',
+          display: 'Field 1',
+          type: 'string',
+        },
+      ],
+    },
+    {
+      id: 'summary9',
+      template: 'section-header',
+      fields: [
+        {
+          name: 'field1',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field2',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field3',
+          display: 'Field 1',
+          type: 'string',
+        },
+        {
+          name: 'field4',
+          display: 'Field 1',
+          type: 'string',
+        },
+      ],
+    },
+    {
+      id: 'summary10',
+      template: 'section-footer',
       fields: [
         {
           name: 'field1',
@@ -63,17 +146,17 @@ const reportTemplateExampleTableSummaries: components['schemas']['VariantDefinit
     },
   ],
   specification: {
-    sections: [],
-    template: 'list',
+    template: 'list-section',
+    sections: ['section1', 'section2'],
     fields: [
       {
         name: 'field1',
         display: 'Field 1',
         sortable: true,
-        defaultsort: true,
         type: 'string',
         mandatory: false,
         visible: true,
+        defaultsort: true,
         calculated: false,
         header: false,
         filter: {
@@ -93,9 +176,9 @@ const reportTemplateExampleTableSummaries: components['schemas']['VariantDefinit
         type: 'string',
         mandatory: false,
         visible: true,
+        defaultsort: false,
         calculated: false,
         header: false,
-        defaultsort: false,
         filter: {
           type: 'Select',
           staticOptions: [
@@ -113,9 +196,9 @@ const reportTemplateExampleTableSummaries: components['schemas']['VariantDefinit
         type: 'date',
         mandatory: false,
         visible: true,
+        defaultsort: false,
         calculated: false,
         header: false,
-        defaultsort: false,
         filter: {
           type: 'daterange',
           min: '2003-02-01',
@@ -129,9 +212,9 @@ const reportTemplateExampleTableSummaries: components['schemas']['VariantDefinit
         sortable: false,
         type: 'string',
         visible: true,
+        defaultsort: false,
         calculated: false,
         header: false,
-        defaultsort: false,
         mandatory: false,
         filter: {
           type: 'autocomplete',
@@ -155,9 +238,9 @@ const reportTemplateExampleTableSummaries: components['schemas']['VariantDefinit
         sortable: false,
         type: 'string',
         mandatory: false,
+        defaultsort: false,
         calculated: false,
         header: false,
-        defaultsort: false,
         visible: false,
         filter: {
           type: 'text',
@@ -191,4 +274,4 @@ const reportTemplateExampleTableSummaries: components['schemas']['VariantDefinit
   },
 }
 
-export default reportTemplateExampleTableSummaries
+export default reportTemplateExampleListSectionWithSummaries

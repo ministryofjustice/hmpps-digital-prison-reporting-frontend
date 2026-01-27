@@ -1,11 +1,11 @@
-import { components } from 'src/dpr/types/api'
-import { LoadType } from 'src/dpr/types/UserReports'
+import { components } from '../../../../../src/dpr/types/api'
+import { LoadType } from '../../../../../src/dpr/types/UserReports'
 
 const reportTemplateExampleParentChild: components['schemas']['VariantDefinition'] & { loadType: LoadType } = {
   loadType: LoadType.ASYNC,
-  id: 'report-template-example-parent-child-section',
-  name: 'Parent Child Section Template',
-  description: 'A report with parent and child datasets in sections',
+  id: 'report-template-parent-child-section',
+  name: 'Parent-child-section',
+  description: 'Template: "parent-child-section". </br> A report with parent and child datasets in sections',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
@@ -14,8 +14,8 @@ const reportTemplateExampleParentChild: components['schemas']['VariantDefinition
     sections: ['section1', 'section2'],
     fields: [
       {
-        name: 'field3',
-        display: 'Field 3',
+        name: 'field1',
+        display: 'Field 1',
         sortable: false,
         defaultsort: false,
         type: 'string',
@@ -42,7 +42,7 @@ const reportTemplateExampleParentChild: components['schemas']['VariantDefinition
         defaultsort: false,
         type: 'string',
         mandatory: false,
-        visible: false,
+        visible: true,
         calculated: false,
         header: false,
       },
@@ -53,7 +53,7 @@ const reportTemplateExampleParentChild: components['schemas']['VariantDefinition
         defaultsort: false,
         type: 'string',
         mandatory: false,
-        visible: false,
+        visible: true,
         calculated: false,
         header: false,
       },
@@ -61,7 +61,7 @@ const reportTemplateExampleParentChild: components['schemas']['VariantDefinition
   },
   childVariants: [
     {
-      id: 'report-template-example-parent-child-section_child',
+      id: 'report-template-parent-child-section_child',
       name: 'Child Report',
       resourceName: 'reports/list',
       joinFields: ['childKey'],
@@ -76,13 +76,13 @@ const reportTemplateExampleParentChild: components['schemas']['VariantDefinition
             defaultsort: false,
             type: 'string',
             mandatory: false,
-            visible: false,
+            visible: true,
             calculated: false,
             header: false,
           },
           {
-            name: 'field3',
-            display: 'Child Field 3',
+            name: 'field1',
+            display: 'Child Field 1',
             sortable: false,
             defaultsort: false,
             type: 'string',
@@ -92,8 +92,8 @@ const reportTemplateExampleParentChild: components['schemas']['VariantDefinition
             header: false,
           },
           {
-            name: 'field4',
-            display: 'Child Field 4',
+            name: 'field2',
+            display: 'Child Field 2',
             sortable: false,
             defaultsort: false,
             type: 'string',

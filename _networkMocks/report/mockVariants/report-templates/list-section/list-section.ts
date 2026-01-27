@@ -1,98 +1,14 @@
-import { components } from 'src/dpr/types/api'
-import { LoadType } from 'src/dpr/types/UserReports'
+import { components } from '../../../../../src/dpr/types/api'
+import { LoadType } from '../../../../../src/dpr/types/UserReports'
 
-const reportTemplateExampleListSectionWithSummaries: components['schemas']['VariantDefinition'] & {
-  loadType: LoadType
-} = {
+const reportTemplateExampleListSection: components['schemas']['VariantDefinition'] & { loadType: LoadType } = {
   loadType: LoadType.ASYNC,
-  id: 'report-template-example-list-section-with-summaries',
-  name: 'Page Summaries and Sections',
-  description: 'A report with summaries and sections.',
+  id: 'report-template-example-list-section',
+  name: 'Sectioned',
+  description: 'A sectioned report.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
-  summaries: [
-    {
-      id: 'summary1',
-      template: 'page-header',
-      fields: [
-        {
-          name: 'total',
-          display: 'Total',
-        },
-      ],
-    },
-    {
-      id: 'summary3',
-      template: 'page-footer',
-      fields: [
-        {
-          name: 'percentGood',
-          display: 'Good (%)',
-        },
-        {
-          name: 'percentBad',
-          display: 'Bad (%)',
-        },
-        {
-          name: 'percentUgly',
-          display: 'Ugly (%)',
-        },
-      ],
-    },
-    {
-      id: 'summary6',
-      template: 'table-header',
-      fields: [
-        {
-          name: 'field1',
-          display: 'Field 1',
-          type: 'string',
-        },
-        {
-          name: 'field2',
-          display: 'Field 1',
-          type: 'string',
-        },
-        {
-          name: 'field3',
-          display: 'Field 1',
-          type: 'string',
-        },
-        {
-          name: 'field4',
-          display: 'Field 1',
-          type: 'string',
-        },
-      ],
-    },
-    {
-      id: 'summary7',
-      template: 'table-footer',
-      fields: [
-        {
-          name: 'field1',
-          display: 'Field 1',
-          type: 'string',
-        },
-        {
-          name: 'field2',
-          display: 'Field 1',
-          type: 'string',
-        },
-        {
-          name: 'field3',
-          display: 'Field 1',
-          type: 'string',
-        },
-        {
-          name: 'field4',
-          display: 'Field 1',
-          type: 'string',
-        },
-      ],
-    },
-  ],
   specification: {
     template: 'list-section',
     sections: ['section1', 'section2'],
@@ -222,4 +138,4 @@ const reportTemplateExampleListSectionWithSummaries: components['schemas']['Vari
   },
 }
 
-export default reportTemplateExampleListSectionWithSummaries
+export default reportTemplateExampleListSection

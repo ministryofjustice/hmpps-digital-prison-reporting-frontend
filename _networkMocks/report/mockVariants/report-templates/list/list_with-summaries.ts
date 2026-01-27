@@ -1,9 +1,11 @@
-import { components } from 'src/dpr/types/api'
+import { components } from '../../../../../src/dpr/types/api'
+import { LoadType } from '../../../../../src/dpr/types/UserReports'
 
-const reportTemplateExampleListWithSummaries: components['schemas']['VariantDefinition'] = {
-  id: 'report-template-example-list-with-summaries',
-  name: 'Page Summaries',
-  description: 'A report with summaries.',
+const reportTemplateListWithSummaries: components['schemas']['VariantDefinition'] & { loadType: LoadType } = {
+  loadType: LoadType.ASYNC,
+  id: 'report-template-list-summaries',
+  name: 'List - with summaries',
+  description: 'Template: "list".</br> A report with summaries.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,
@@ -46,6 +48,50 @@ const reportTemplateExampleListWithSummaries: components['schemas']['VariantDefi
         },
       ],
     },
+    {
+      id: 'summary4',
+      template: 'table-header',
+      fields: [
+        {
+          name: 'field1',
+          display: 'Field 1',
+        },
+        {
+          name: 'field2',
+          display: 'Field 2',
+        },
+        {
+          name: 'field1',
+          display: 'Field 3',
+        },
+        {
+          name: 'field4',
+          display: 'Field 4',
+        },
+      ],
+    },
+    {
+      id: 'summary4',
+      template: 'table-footer',
+      fields: [
+        {
+          name: 'field1',
+          display: 'Field 1',
+        },
+        {
+          name: 'field2',
+          display: 'Field 2',
+        },
+        {
+          name: 'field1',
+          display: 'Field 3',
+        },
+        {
+          name: 'field4',
+          display: 'Field 4',
+        },
+      ],
+    },
   ],
   specification: {
     sections: [],
@@ -77,10 +123,10 @@ const reportTemplateExampleListWithSummaries: components['schemas']['VariantDefi
         sortable: true,
         type: 'string',
         mandatory: false,
+        defaultsort: true,
         visible: true,
         calculated: false,
         header: false,
-        defaultsort: false,
         filter: {
           type: 'Select',
           staticOptions: [
@@ -100,7 +146,7 @@ const reportTemplateExampleListWithSummaries: components['schemas']['VariantDefi
         visible: true,
         calculated: false,
         header: false,
-        defaultsort: false,
+        defaultsort: true,
         filter: {
           type: 'daterange',
           min: '2003-02-01',
@@ -116,7 +162,7 @@ const reportTemplateExampleListWithSummaries: components['schemas']['VariantDefi
         visible: true,
         calculated: false,
         header: false,
-        defaultsort: false,
+        defaultsort: true,
         mandatory: false,
         filter: {
           type: 'autocomplete',
@@ -142,8 +188,8 @@ const reportTemplateExampleListWithSummaries: components['schemas']['VariantDefi
         mandatory: false,
         calculated: false,
         header: false,
-        defaultsort: false,
-        visible: false,
+        visible: true,
+        defaultsort: true,
         filter: {
           type: 'text',
           pattern: 'Value 6\\.\\d',
@@ -176,4 +222,4 @@ const reportTemplateExampleListWithSummaries: components['schemas']['VariantDefi
   },
 }
 
-export default reportTemplateExampleListWithSummaries
+export default reportTemplateListWithSummaries

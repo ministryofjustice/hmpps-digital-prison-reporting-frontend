@@ -26,6 +26,7 @@ function isListWithWarnings(data: Dict<string>[] | ListWithWarnings): data is Li
 export async function renderList(
   listData: ListDataSources,
   variantDefinition: components['schemas']['VariantDefinition'],
+  definition: components['schemas']['SingleVariantReportDefinition'],
   reportQuery: ReportQuery,
   req: Request,
   response: Response,
@@ -60,6 +61,7 @@ export async function renderList(
           reportQuery,
           data,
           filtersType: FiltersType.REQUEST,
+          definition,
         })
 
         const actions = ReportActionsUtils.getActions({
@@ -149,6 +151,7 @@ export const renderListWithDefinition = async ({
         await renderList(
           getListData,
           variantDefinition,
+          reportDefinition,
           reportQuery,
           request,
           response,
@@ -187,10 +190,17 @@ export const renderListWithData = async ({
     definitionsPath: <string>request.query['dataProductDefinitionsPath'],
   })
 
+  const definition: components['schemas']['SingleVariantReportDefinition'] = {
+    id: variantDefinition.id,
+    name: variantDefinition.name,
+    variant: variantDefinition,
+  }
+
   const listData = getListDataSources(reportQuery)
   await renderList(
     listData,
     variantDefinition,
+    definition,
     reportQuery,
     request,
     response,

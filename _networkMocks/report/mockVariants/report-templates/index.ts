@@ -1,27 +1,33 @@
 import { components } from '../../../../src/dpr/types/api'
 import { LoadType } from '../../../../src/dpr/types/UserReports'
-import listSection from './list-section'
-import listSectionWithSummaries from './list-section-wtih-summaries'
-import listWithSummaries from './list-with-summaries'
-import parentChild from './parent-child'
-import parentChildSection from './parent-child-section'
-import sectionedSummaries from './sectioned-summaries-mock'
-import summariesComplex from './summaries-complex'
-import summariesMock from './summaries-mock'
-import summary from './summary'
-import summarySection from './summary-section'
-import tableSummaries from './table-summaries'
+
+// List
+import list from './list/list'
+import listWithSummaries from './list/list_with-summaries'
+
+// List-section
+import listSection from './list-section/list-section'
+import listSectionWithSummaries from './list-section/list-section_with-summaries'
+
+// parent-child
+import parentChild from './parent-child/parent-child'
+import parentChildSection from './parent-child/parent-child-section'
+
+// summary-section
+import summarySection from './summary-section/summary-section'
+
+// summary
+import summary from './summary/summary'
+import summaryComplex from './summary/summary_complex'
 
 export const reportTemplates: (components['schemas']['VariantDefinition'] & { loadType?: LoadType })[] = [
+  list,
+  listWithSummaries,
   listSection,
   listSectionWithSummaries,
-  listWithSummaries,
   parentChild,
   parentChildSection,
-  sectionedSummaries,
-  summariesComplex,
-  summariesMock,
-  summary,
   summarySection,
-  tableSummaries,
+  summaryComplex,
+  summary,
 ]

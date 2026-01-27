@@ -2,6 +2,7 @@
 
 {% from "./report-print-message/view.njk" import dprReportPrintMessage %}
 {% from "./report-template/view.njk" import dprReportTemplate %}
+{# {% from "../../code-block/view.njk" import dprCodeBlock %} #}
 
 {% macro dprReportPage(renderData) %}
   {% set printable = renderData.printable %}
@@ -16,4 +17,6 @@
       {{ dprReportTemplate(renderData)}}
     </div>
   </div>
+
+  {# {{ dprCodeBlock(renderData) }} #}
 {% endmacro %}

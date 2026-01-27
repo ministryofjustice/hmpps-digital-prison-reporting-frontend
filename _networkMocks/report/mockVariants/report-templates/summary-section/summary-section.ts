@@ -1,10 +1,10 @@
-import { components } from 'src/dpr/types/api'
-import { LoadType } from 'src/dpr/types/UserReports'
+import { components } from '../../../../../src/dpr/types/api'
+import { LoadType } from '../../../../../src/dpr/types/UserReports'
 
-const reportTemplateExampleSummarySection: components['schemas']['VariantDefinition'] & { loadType: LoadType } = {
+const reportTemplateExampleSectionedSummaries: components['schemas']['VariantDefinition'] & { loadType: LoadType } = {
   loadType: LoadType.ASYNC,
-  id: 'report-template-example-summary-section-better',
-  name: 'Sectioned Summaries template',
+  id: 'report-template-example-sectioned-summaries',
+  name: 'Sectioned Summaries (no list)',
   description: 'A report with summaries in sections, but no list.',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
@@ -21,17 +21,17 @@ const reportTemplateExampleSummarySection: components['schemas']['VariantDefinit
         },
         {
           name: 'field2',
-          display: 'Field 2',
+          display: 'Field 1',
           type: 'string',
         },
         {
           name: 'field3',
-          display: 'Field 3',
+          display: 'Field 1',
           type: 'string',
         },
         {
           name: 'field4',
-          display: 'Field 4',
+          display: 'Field 1',
           type: 'string',
         },
       ],
@@ -47,17 +47,17 @@ const reportTemplateExampleSummarySection: components['schemas']['VariantDefinit
         },
         {
           name: 'field2',
-          display: 'Field 2',
+          display: 'Field 1',
           type: 'string',
         },
         {
           name: 'field3',
-          display: 'Field 3',
+          display: 'Field 1',
           type: 'string',
         },
         {
           name: 'field4',
-          display: 'Field 4',
+          display: 'Field 1',
           type: 'string',
         },
       ],
@@ -93,4 +93,4 @@ const reportTemplateExampleSummarySection: components['schemas']['VariantDefinit
   },
 }
 
-export default reportTemplateExampleSummarySection
+export default reportTemplateExampleSectionedSummaries

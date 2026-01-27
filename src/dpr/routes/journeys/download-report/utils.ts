@@ -8,6 +8,8 @@ import { components } from '../../../types/api'
 import LocalsHelper from '../../../utils/localsHelper'
 import { Template } from '../../../types/Templates'
 import ReportQuery from '../../../types/ReportQuery'
+import { isBooleanFlagExplicitlyEnabled } from '../../../services/featureFlagService'
+import logger from '../../../utils/logger'
 
 const convertToCsv = (reportData: Dict<string>[], options: Json2CsvOptions) => {
   const csvData = json2csv(reportData, options)
@@ -72,6 +74,27 @@ const removeHtmlTags = (
     }
   }
   return reportData
+}
+
+const streamDownloadAsyncData = async (args: {
+  services: Services
+  token: string
+  tableId: string
+  reportId: string
+  id: string
+  queryParams: {
+    dataProductDefinitionsPath: string
+    columns: string[]
+    sortedAsc?: string
+    sortColumn?: string
+  }
+  res: Response
+}) => {
+  const { token, services, tableId, reportId, id, queryParams, res } = args
+  const query: Record<string, string | string[]> = {
+    ...queryParams,
+  }
+  return services.reportingService.downloadAsyncReport(token, reportId, id, tableId, query, res)
 }
 
 const dowloadAsyncData = async (args: {
@@ -162,6 +185,9 @@ export const downloadReport = async ({
   } = req.body
   const { downloadPermissionService } = services
   const canDownloadReport = await downloadPermissionService.downloadEnabledForReport(dprUser.id, reportId, id)
+  const streamingEnabledInFlipt = isBooleanFlagExplicitlyEnabled('streamingDownloadEnabled', res.app)
+  const streamingEnabledInEnv = process.env['STREAMING_DOWNLOAD_ENABLED'] === 'true'
+
   if (!canDownloadReport) {
     res.redirect(redirect)
   } else {
@@ -181,6 +207,28 @@ export const downloadReport = async ({
         queryParams,
       })
     } else {
+      logger.info(`Streaming enabled in Flipt: ${streamingEnabledInFlipt}`)
+      logger.info(`Streaming enabled in Env: ${streamingEnabledInEnv}`)
+      if (streamingEnabledInFlipt || streamingEnabledInEnv) {
+        logger.info(`Initiating streaming...`)
+        const streamDownloadQueryParams = {
+          dataProductDefinitionsPath,
+          ...(columns && { columns: JSON.parse(columns) }),
+          ...(sortedAsc && { sortedAsc }),
+          ...(sortColumn && { sortColumn }),
+        }
+        await streamDownloadAsyncData({
+          services,
+          token,
+          reportId,
+          id,
+          tableId,
+          queryParams: streamDownloadQueryParams,
+          res,
+        })
+        return
+      }
+
       reportData = await dowloadAsyncData({
         services,
         token,

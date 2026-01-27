@@ -10,7 +10,8 @@ import DefinitionUtils from '../utils/definitionUtils'
 import { BookmarkStoreData } from '../types/Bookmark'
 import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
-import { FeatureFlagService, isBooleanFlagEnabled } from '../services/featureFlagService'
+import { FeatureFlagService, isBooleanFlagEnabledOrMissing } from '../services/featureFlagService'
+import logger from '../utils/logger'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -85,6 +86,14 @@ const setFeatures = async (res: Response, featureFlagService: FeatureFlagService
       throw e
     })
     res.app.locals.featureFlags.flags = Object.fromEntries(flags.flags.map((flag) => [flag.key, flag]))
+    logger.info(
+      {
+        flags: Object.fromEntries(
+          Object.entries(res.app.locals.featureFlags.flags).map(([k, v]) => [k, { key: v.key, enabled: v.enabled }]),
+        ),
+      },
+      'Feature Flags updated.',
+    )
   }
 }
 
@@ -163,7 +172,7 @@ export const populateRequestedReports = async (services: Services, res: Response
     res.locals['bookmarkingEnabled'] = services.bookmarkService.enabled
     res.locals['collectionsEnabled'] = services.productCollectionService.enabled
     res.locals['requestMissingEnabled'] = services.missingReportService.enabled
-    res.locals['saveDefaultsEnabled'] = isBooleanFlagEnabled('saveDefaultsEnabled', res.app)
+    res.locals['saveDefaultsEnabled'] = isBooleanFlagEnabledOrMissing('saveDefaultsEnabled', res.app)
 
     if (res.locals['bookmarkingEnabled']) {
       const bookmarks = await services.bookmarkService.getAllBookmarks(dprUser.id)

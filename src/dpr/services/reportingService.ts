@@ -1,3 +1,4 @@
+import { Response } from 'express'
 import { components } from '../types/api'
 import type ReportingClient from '../data/reportingClient'
 import ReportQuery from '../types/ReportQuery'
@@ -63,6 +64,17 @@ class ReportingService {
     dataProductDefinitionsPath?: string,
   ): Promise<Dict<string>> {
     return this.reportingClient.cancelAsyncRequest(token, reportId, variantId, executionId, dataProductDefinitionsPath)
+  }
+
+  async downloadAsyncReport(
+    token: string,
+    reportId: string,
+    variantId: string,
+    tableId: string,
+    query: Record<string, string | string[]>,
+    res: Response,
+  ): Promise<void> {
+    return this.reportingClient.downloadAsyncReport(token, reportId, variantId, tableId, query, res)
   }
 
   async getAsyncReport(

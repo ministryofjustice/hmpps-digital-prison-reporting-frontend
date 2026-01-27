@@ -45,6 +45,7 @@ class ReportBuilder {
     const { template, fields, sections } = specification
 
     this.variant = variant
+    this.interactive = Boolean(variant.interactive)
     this.specification = specification
     this.template = template
     this.fields = fields

@@ -239,10 +239,17 @@ export const getReportRenderData = async ({
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
   const pathname = url?.search ? req.originalUrl.split(url.search)[0] : req.originalUrl
   const columns = ColumnUtils.getColumns(specification, req)
+  const reportDefinition = {
+    ...definition,
+    variant: {
+      ...definition.variant,
+      interactive: true,
+    },
+  }
 
   // Get the data table
   const dataTable: DataTable | ReportTemplateData = ReportTemplateUtils.createReportTemplateData(
-    definition,
+    reportDefinition,
     columns,
     data,
     [], // child data - N/A for sync reports

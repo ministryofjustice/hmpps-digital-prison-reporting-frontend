@@ -1,57 +1,66 @@
 // @ts-nocheck
 const mockRenderDataFromDefinition = {
   renderData: {
-    dataTable: [
-      {
-        head: [
-          {
-            html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2&filters.field7=value8.3">Field 1</a>',
+    dataTable: {
+      rowCount: 1,
+      summaries: {},
+      sections: [
+        {
+          key: '',
+          keyObj: [],
+          data: {
+            head: [
+              {
+                text: 'Field 1',
+              },
+              {
+                text: 'Field 2',
+              },
+              {
+                text: 'Field 3',
+              },
+              {
+                text: 'Field 6',
+              },
+            ],
+            rows: [
+              [
+                {
+                  fieldName: 'field1',
+                  text: '',
+                  format: 'string',
+                  classes: '',
+                },
+                {
+                  fieldName: 'field2',
+                  text: '',
+                  format: 'string',
+                  classes: '',
+                },
+                {
+                  fieldName: 'field3',
+                  text: '',
+                  format: 'string',
+                  classes: '',
+                },
+                {
+                  fieldName: 'field6',
+                  html: '',
+                  format: 'string',
+                  classes: '',
+                },
+              ],
+            ],
+            rowCount: 1,
+            colCount: 4,
           },
-          {
-            html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2&filters.field7=value8.3">Field 2</a>',
-          },
-          {
-            text: 'Field 3',
-          },
-          {
-            text: 'Field 6',
-          },
-        ],
-        rows: [
-          [
-            {
-              fieldName: 'field1',
-              format: 'string',
-              classes: '',
-              text: '',
-            },
-            {
-              fieldName: 'field2',
-              format: 'string',
-              classes: '',
-              text: '',
-            },
-            {
-              fieldName: 'field3',
-              text: '',
-              format: 'string',
-              classes: '',
-            },
-            {
-              fieldName: 'field6',
-              format: 'string',
-              classes: '',
-              html: '',
-            },
-          ],
-        ],
-        rowCount: 1,
-        colCount: 4,
-      },
-    ],
+          count: 1,
+          summaries: {},
+        },
+      ],
+    },
     totals: '0-0 of 0',
     filterData: {
-      canSaveDefaults: false,
       filters: [
         {
           text: 'Field 1',
@@ -61,9 +70,9 @@ const mockRenderDataFromDefinition = {
           mandatory: false,
           options: [
             {
-              disabled: false,
-              text: 'None',
               value: 'no-filter',
+              text: 'None',
+              disabled: false,
             },
             {
               value: 'value1.1',
@@ -93,9 +102,9 @@ const mockRenderDataFromDefinition = {
               selected: true,
             },
             {
-              disabled: false,
-              text: 'None',
               value: 'no-filter',
+              text: 'None',
+              disabled: false,
             },
             {
               value: 'value2.1',
@@ -171,30 +180,29 @@ const mockRenderDataFromDefinition = {
           mandatory: false,
         },
         {
-          mandatory: false,
-          name: 'field7',
-          options: [
-            {
-              text: 'Value 8.1',
-              value: 'value8.1',
-            },
-            {
-              text: 'Value 8.2',
-              value: 'value8.2',
-            },
-            {
-              text: 'Value 8.3',
-              value: 'value8.3',
-            },
-            {
-              text: 'Value 8.4',
-              value: 'value8.4',
-            },
-          ],
-          pattern: undefined,
           text: 'Field 7',
+          name: 'field7',
           type: 'multiselect',
           value: 'value8.2,value8.3',
+          mandatory: false,
+          options: [
+            {
+              value: 'value8.1',
+              text: 'Value 8.1',
+            },
+            {
+              value: 'value8.2',
+              text: 'Value 8.2',
+            },
+            {
+              value: 'value8.3',
+              text: 'Value 8.3',
+            },
+            {
+              value: 'value8.4',
+              text: 'Value 8.4',
+            },
+          ],
           values: ['value8.2', 'value8.3'],
         },
       ],
@@ -216,7 +224,6 @@ const mockRenderDataFromDefinition = {
           key: '["filters.field3.start","filters.field3.end"]',
           value: ['"2003-02-01"', '"2006-05-04"'],
           disabled: false,
-          classes: 'interactive-remove-filter-button',
           constraints: [
             {
               key: 'filters.field3.start',
@@ -227,22 +234,24 @@ const mockRenderDataFromDefinition = {
               value: '2007-05-04',
             },
           ],
+          classes: 'interactive-remove-filter-button',
           attributes: {
             'aria-label': 'Selected Filter: Field 3: 01/02/2003 - 04/05/2006. Click to clear this filter',
           },
         },
         {
+          text: 'Field 7',
+          displayValue: 'Value 8.2, Value 8.3',
+          key: '["filters.field7"]',
+          value: ['"value8.2"', '"value8.3"'],
+          disabled: false,
+          classes: 'interactive-remove-filter-button',
           attributes: {
             'aria-label': 'Selected Filter: Field 7: Value 8.2, Value 8.3. Click to clear this filter',
           },
-          classes: 'interactive-remove-filter-button',
-          disabled: false,
-          key: '["filters.field7"]',
-          text: 'Field 7',
-          displayValue: 'Value 8.2, Value 8.3',
-          value: ['"value8.2"', '"value8.3"'],
         },
       ],
+      canSaveDefaults: false,
     },
     columns: {
       name: 'columns',
@@ -277,9 +286,9 @@ const mockRenderDataFromDefinition = {
           disabled: false,
         },
         {
-          disabled: false,
           text: 'Field 7',
           value: 'field7',
+          disabled: false,
         },
       ],
       text: 'Select report columns',
@@ -314,9 +323,10 @@ const mockRenderDataFromDefinition = {
       ],
     },
     reportUrl: 'originalUrl',
-    fullUrl: 'protocol://hostoriginalUrl',
     reportSearch: 'search',
     encodedSearch: 'search',
+    fullUrl: 'protocol://hostoriginalUrl',
+    template: 'list',
     reportName: 'Test Report Name',
     name: 'Test Variant',
     description: 'Test Variant Description',
@@ -346,7 +356,6 @@ const mockRenderDataFromDefinition = {
         href: 'protocol://hostoriginalUrl',
       },
     ],
-    template: 'list',
     warnings: {},
     type: 'report',
   },
@@ -355,30 +364,39 @@ const mockRenderDataFromDefinition = {
 
 const mockRenderDataFromData = {
   renderData: {
-    dataTable: [
-      {
-        head: [
-          {
-            html: '<a data-column="field1" class="data-table-header-button data-table-header-button-sort-ascending" href="?selectedPage=1&pageSize=20&sortColumn=field1&sortedAsc=false&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2&filters.field7=value8.3">Field 1</a>',
+    dataTable: {
+      rowCount: 0,
+      summaries: {},
+      sections: [
+        {
+          key: '',
+          keyObj: [],
+          data: {
+            head: [
+              {
+                text: 'Field 1',
+              },
+              {
+                text: 'Field 2',
+              },
+              {
+                text: 'Field 3',
+              },
+              {
+                text: 'Field 6',
+              },
+            ],
+            rows: [],
+            rowCount: 0,
+            colCount: 4,
           },
-          {
-            html: '<a data-column="field2" class="data-table-header-button data-table-header-button-sort-none" href="?selectedPage=1&pageSize=20&sortColumn=field2&sortedAsc=true&columns=field1&columns=field2&columns=field3&columns=field6&dataProductDefinitionsPath=dataProductDefinitionsPath&filters.field1=value1.1&filters.field3.start=2003-02-01&filters.field3.end=2006-05-04&filters.field7=value8.2&filters.field7=value8.3">Field 2</a>',
-          },
-          {
-            text: 'Field 3',
-          },
-          {
-            text: 'Field 6',
-          },
-        ],
-        rows: [],
-        rowCount: 0,
-        colCount: 4,
-      },
-    ],
+          count: 0,
+          summaries: {},
+        },
+      ],
+    },
     totals: '0 total results',
     filterData: {
-      canSaveDefaults: false,
       filters: [
         {
           text: 'Field 1',
@@ -388,9 +406,9 @@ const mockRenderDataFromData = {
           mandatory: false,
           options: [
             {
-              disabled: false,
-              text: 'None',
               value: 'no-filter',
+              text: 'None',
+              disabled: false,
             },
             {
               value: 'value1.1',
@@ -420,9 +438,9 @@ const mockRenderDataFromData = {
               selected: true,
             },
             {
-              disabled: false,
-              text: 'None',
               value: 'no-filter',
+              text: 'None',
+              disabled: false,
             },
             {
               value: 'value2.1',
@@ -498,30 +516,29 @@ const mockRenderDataFromData = {
           mandatory: false,
         },
         {
-          mandatory: false,
-          name: 'field7',
-          options: [
-            {
-              text: 'Value 8.1',
-              value: 'value8.1',
-            },
-            {
-              text: 'Value 8.2',
-              value: 'value8.2',
-            },
-            {
-              text: 'Value 8.3',
-              value: 'value8.3',
-            },
-            {
-              text: 'Value 8.4',
-              value: 'value8.4',
-            },
-          ],
-          pattern: undefined,
           text: 'Field 7',
+          name: 'field7',
           type: 'multiselect',
           value: 'value8.2,value8.3',
+          mandatory: false,
+          options: [
+            {
+              value: 'value8.1',
+              text: 'Value 8.1',
+            },
+            {
+              value: 'value8.2',
+              text: 'Value 8.2',
+            },
+            {
+              value: 'value8.3',
+              text: 'Value 8.3',
+            },
+            {
+              value: 'value8.4',
+              text: 'Value 8.4',
+            },
+          ],
           values: ['value8.2', 'value8.3'],
         },
       ],
@@ -559,17 +576,18 @@ const mockRenderDataFromData = {
           },
         },
         {
+          text: 'Field 7',
+          displayValue: 'Value 8.2, Value 8.3',
+          key: '["filters.field7"]',
+          value: ['"value8.2"', '"value8.3"'],
+          disabled: false,
+          classes: 'interactive-remove-filter-button',
           attributes: {
             'aria-label': 'Selected Filter: Field 7: Value 8.2, Value 8.3. Click to clear this filter',
           },
-          classes: 'interactive-remove-filter-button',
-          disabled: false,
-          key: '["filters.field7"]',
-          text: 'Field 7',
-          displayValue: 'Value 8.2, Value 8.3',
-          value: ['"value8.2"', '"value8.3"'],
         },
       ],
+      canSaveDefaults: false,
     },
     columns: {
       name: 'columns',
@@ -604,9 +622,9 @@ const mockRenderDataFromData = {
           disabled: false,
         },
         {
-          disabled: false,
           text: 'Field 7',
           value: 'field7',
+          disabled: false,
         },
       ],
       text: 'Select report columns',
@@ -644,6 +662,7 @@ const mockRenderDataFromData = {
     reportSearch: 'search',
     encodedSearch: 'search',
     fullUrl: 'protocol://hostoriginalUrl',
+    template: 'list',
     reportName: 'Test report name',
     name: 'Test variant title',
     description: 'Test Variant Description',
@@ -673,7 +692,6 @@ const mockRenderDataFromData = {
         href: 'protocol://hostoriginalUrl',
       },
     ],
-    template: 'list',
     warnings: {},
     type: 'report',
   },

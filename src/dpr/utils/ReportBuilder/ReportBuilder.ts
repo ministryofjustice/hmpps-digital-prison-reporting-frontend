@@ -149,6 +149,7 @@ class ReportBuilder {
       .withSections(this.sections)
       .withSummaries(this.summaries)
       .withFields(this.fields)
+      .withReportQuery(this.reportQuery)
       .build()
 
     return sectionData.sections.map((section: SectionData) => {

@@ -8,7 +8,7 @@ export default class ListTemplateController {
     const reportData = data
 
     res.render('views/pages/report-template/view.njk', {
-      title: 'list templates',
+      title: 'list template, with summaries',
       reportData,
     })
   }

@@ -3,6 +3,7 @@ import { Router } from 'express'
 
 // Routes
 import ListRoutes from './list/routes'
+import ListSummaryRoutes from './list_with-summaries/routes'
 import listSectionRoutes from './list-section/routes'
 import listSectionSummariesRoutes from './list-section-with-summaries/routes'
 import parentChildRoutes from './parent-child/routes'
@@ -19,6 +20,7 @@ export function Routes() {
   router.get('/', controller.GET)
 
   router.use(`/list`, ListRoutes())
+  router.use(`/list-summaries`, ListSummaryRoutes())
   router.use(`/list-section`, listSectionRoutes())
   router.use(`/list-section-summaries`, listSectionSummariesRoutes())
   router.use(`/parent-child-section`, parentChildSectionRoutes())

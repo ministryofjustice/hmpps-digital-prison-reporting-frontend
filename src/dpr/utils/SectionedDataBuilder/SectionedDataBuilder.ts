@@ -149,12 +149,18 @@ class SectionedDataBuilder {
     }
   }
 
+  getSortField() {
+    const { sortColumn } = this.reportQuery
+    return sortColumn && this.sections.includes(sortColumn) ? [sortColumn] : []
+  }
+
   /**
    * Sorts sections based on keyObj values using an optional nameOrder override.
    * - nameOrder can be partial; unspecified names fall back to default order
    * - Default order is derived from the first section's keyObj sequence
    */
-  sortSections(sectionedData: SectionedData, nameOrder: string[] = []): SectionedData {
+  sortSections(sectionedData: SectionedData): SectionedData {
+    const nameOrder = this.getSortField()
     const { sections } = sectionedData
     if (sections.length === 0) return sectionedData
 
@@ -212,7 +218,6 @@ class SectionedDataBuilder {
     return this
   }
 
-  // TODO: Do something with report query
   withReportQuery(reportQuery: ReportQuery) {
     this.reportQuery = reportQuery
     return this

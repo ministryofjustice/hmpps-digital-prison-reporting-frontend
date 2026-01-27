@@ -106,7 +106,7 @@ const reportTemplateExampleListSection = {
       {
         name: 'section1',
         display: 'First',
-        sortable: false,
+        sortable: true,
         defaultsort: false,
         type: 'string',
         mandatory: false,
@@ -115,7 +115,7 @@ const reportTemplateExampleListSection = {
       {
         name: 'section2',
         display: 'Second',
-        sortable: false,
+        sortable: true,
         defaultsort: false,
         type: 'string',
         mandatory: false,

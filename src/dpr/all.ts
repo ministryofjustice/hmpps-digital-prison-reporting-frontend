@@ -1,7 +1,6 @@
 // @ts-nocheck
 /* eslint-disable no-new */
 /* global dayjs */
-import jquery from 'jquery'
 import dayjs from 'dayjs'
 import customParse from 'dayjs/plugin/customParseFormat'
 

@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.28.4
+- Added logs around 'streamingDownloadEnabled' Flipt flag and also added STREAMING_DOWNLOAD_ENABLED env variable as an alternative check as Flipt flag is not being read.
+
 ## 4.28.3
 - Conditionally enable streaming for async report downloads based on the 'streamingDownloadEnabled' Flipt flag.
 

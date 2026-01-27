@@ -11,6 +11,7 @@ import { BookmarkStoreData } from '../types/Bookmark'
 import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
 import { FeatureFlagService, isBooleanFlagEnabledOrMissing } from '../services/featureFlagService'
+import logger from '../utils/logger'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -85,6 +86,14 @@ const setFeatures = async (res: Response, featureFlagService: FeatureFlagService
       throw e
     })
     res.app.locals.featureFlags.flags = Object.fromEntries(flags.flags.map((flag) => [flag.key, flag]))
+    logger.info(
+      {
+        flags: Object.fromEntries(
+          Object.entries(res.app.locals.featureFlags.flags).map(([k, v]) => [k, { key: v.key, enabled: v.enabled }]),
+        ),
+      },
+      'Feature Flags updated.',
+    )
   }
 }
 

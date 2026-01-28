@@ -88,9 +88,7 @@ const setFeatures = async (res: Response, featureFlagService: FeatureFlagService
     res.app.locals.featureFlags.flags = Object.fromEntries(flags.flags.map((flag) => [flag.key, flag]))
     logger.info(
       {
-        flags: Object.fromEntries(
-          Object.entries(res.app.locals.featureFlags.flags).map(([k, v]) => [k, { key: v.key, enabled: v.enabled }]),
-        ),
+        flags: JSON.stringify(res.app.locals.featureFlags.flags),
       },
       'Feature Flags updated.',
     )

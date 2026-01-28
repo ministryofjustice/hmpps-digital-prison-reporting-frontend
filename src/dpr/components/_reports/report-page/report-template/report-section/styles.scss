@@ -16,3 +16,18 @@
     }
   }
 }
+
+@media print {
+  .dpr-report-section {
+    .dpr-report-section__title {
+      border-bottom: solid 1px govuk-colour('mid-grey');
+
+      h2.govuk-heading-m {
+        font-size: 12px;
+        .govuk-caption-m {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}

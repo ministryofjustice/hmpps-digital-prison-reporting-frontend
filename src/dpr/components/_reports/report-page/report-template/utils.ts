@@ -6,11 +6,11 @@ import CollatedSummaryBuilder from '../../../../utils/CollatedSummaryBuilder/Col
 import DataTableBuilder from '../../../../utils/DataTableBuilder/DataTableBuilder'
 import { Columns } from '../../report-heading/report-columns/report-columns-form/types'
 import { ChildData } from '../../../../utils/ParentChildDataBuilder/types'
-import ParentChildDataBuilder from '../../../../utils/ParentChildDataBuilder/ParentChildDataBuilder'
 import { DataTable } from '../../../../utils/DataTableBuilder/types'
 import type { Template } from '../../../../types/Templates'
 import { ReportTemplateData } from '../../../../utils/SectionedDataBuilder/types'
 import ReportBuilder from '../../../../utils/ReportBuilder/ReportBuilder'
+import ParentChildDataBuilder from '../../../../utils/ParentChildDataBuilder/ParentChildDataBuilder'
 import { validateDefinition } from '../../../../utils/definitionUtils'
 
 const buildListTable = (
@@ -54,11 +54,13 @@ const buildParentChildReport = (
   columns: Columns,
   reportData: Record<string, string>[],
   childData: ChildData[],
+  reportQuery: ReportQuery,
 ): ReportTemplateData => {
   return new ParentChildDataBuilder(definition.variant, reportData)
     .withParentColumns(columns.value)
     .withChildColumns([])
     .withChildData(childData)
+    .withQuery(reportQuery)
     .build()
 }
 
@@ -83,7 +85,7 @@ export const createReportTemplateData = (
 
     case 'parent-child':
     case 'parent-child-section': {
-      return buildParentChildReport(definition, columns, reportData as Record<string, string>[], childData)
+      return buildParentChildReport(definition, columns, reportData as Record<string, string>[], childData, reportQuery)
     }
 
     default: {

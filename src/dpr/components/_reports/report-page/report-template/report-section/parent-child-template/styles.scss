@@ -46,3 +46,23 @@
     }
   }
 }
+
+@media print {
+  .dpr-parent-child-data {
+    padding-bottom: govuk-spacing(2);
+
+    .dpr-parent-child-data__child {
+      .dpr-parent-child-data__child-table {
+        padding: govuk-spacing(2);
+      }
+
+      border-left: solid 1px govuk-colour('mid-grey');
+      margin-bottom: govuk-spacing(2);
+
+      h2 {
+        font-size: 12px;
+        padding: govuk-spacing(2);
+      }
+    }
+  }
+}

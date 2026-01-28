@@ -1,3 +1,4 @@
+import ReportQuery from '../../types/ReportQuery'
 import { Template } from '../../types/Templates'
 import { components } from '../../types/api'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
@@ -19,6 +20,8 @@ class ParentChildDataBuilder {
 
   parentData: Array<Record<string, string>> = []
 
+  reportQuery!: ReportQuery
+
   template: Template
 
   joinFields: Array<components['schemas']['FieldDefinition']> = []
@@ -33,8 +36,6 @@ class ParentChildDataBuilder {
 
   dataTableBuilder!: DataTableBuilder
 
-  sectionBuilder: SectionedDataBuilder
-
   constructor(variant: components['schemas']['VariantDefinition'], parentData: Array<Record<string, string>>) {
     const { specification } = variant
     const { template, fields, sections } = <components['schemas']['Specification']>specification
@@ -45,10 +46,6 @@ class ParentChildDataBuilder {
     this.variant = variant
     this.childVariants = this.variant.childVariants || []
     this.parentData = parentData || []
-    this.sectionBuilder = new SectionedDataBuilder()
-      .withSections(this.sections)
-      .withData(parentData)
-      .withFields(this.parentFields)
   }
 
   getChildVariant(childId: string) {
@@ -208,8 +205,19 @@ class ParentChildDataBuilder {
     return this
   }
 
+  withQuery(reportQuery: ReportQuery) {
+    this.reportQuery = reportQuery
+    return this
+  }
+
   build(): ReportTemplateData {
-    const sectionData = this.sectionBuilder.build()
+    const sectionData = new SectionedDataBuilder()
+      .withSections(this.sections)
+      .withData(this.parentData)
+      .withFields(this.parentFields)
+      .withReportQuery(this.reportQuery)
+      .build()
+
     const { sections } = sectionData
     const mappedSections = sections.map((section: SectionData) => {
       const groups = this.mergeParentChildAndGroup(<Array<Record<string, string>>>section.data)
@@ -217,7 +225,7 @@ class ParentChildDataBuilder {
 
       return {
         ...section,
-        summaries: [] as unknown as Record<string, DataTable[]>, // TODO: fix this
+        summaries: [] as unknown as Record<string, DataTable[]>,
         data: table,
       }
     })

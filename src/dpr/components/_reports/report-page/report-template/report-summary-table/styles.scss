@@ -37,3 +37,20 @@
 .dpr-summary-container-group-page-footer {
   margin-bottom: 30px;
 }
+
+@media print {
+  .dpr-summary-container-group {
+    .dpr-summary-container {
+      .govuk-table {
+        th,
+        td {
+          padding: govuk-spacing(1);
+        }
+        th {
+          background-color: govuk-colour('light-grey');
+          border-bottom: 0px;
+        }
+      }
+    }
+  }
+}

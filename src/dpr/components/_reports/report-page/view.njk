@@ -2,21 +2,25 @@
 
 {% from "./report-print-message/view.njk" import dprReportPrintMessage %}
 {% from "./report-template/view.njk" import dprReportTemplate %}
-{# {% from "../../code-block/view.njk" import dprCodeBlock %} #}
 
 {% macro dprReportPage(renderData) %}
   {% set printable = renderData.printable %}
   <div class="govuk-width-container">
     <div class="dpr-report-page govuk-width-container report-list-container">
-      {{ dprReportPrintMessage(printable) }}
+
+      <div class="dpr-report-print-message-container">
+        {{ dprReportPrintMessage(printable) }}
+      </div>
       
       <div class="dpr-report-page__heading-container">
         {{ dprReportHeading(renderData) }}
       </div>
 
-      {{ dprReportTemplate(renderData)}}
+      <div class="dpr-report-page__template-container">
+        {{ dprReportTemplate(renderData)}}
+      </div>
+
     </div>
   </div>
 
-  {# {{ dprCodeBlock(renderData) }} #}
 {% endmacro %}

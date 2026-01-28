@@ -1,28 +1,17 @@
-import ReportQuery from '../../types/ReportQuery'
-import { Template } from '../../types/Templates'
 import { components } from '../../types/api'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../DataTableBuilder/types'
 import SectionedDataBuilder from '../SectionedDataBuilder/SectionedDataBuilder'
 import { ReportTemplateData, SectionData } from '../SectionedDataBuilder/types'
+import TemplateBuilder from '../TemplateBuilder/TemplateBuilder'
 import { ChildData, GroupedParentChildDataset, ParentChildTableData, ParentChildDataset } from './types'
 
-class ParentChildDataBuilder {
-  variant: components['schemas']['VariantDefinition']
-
-  columns: Array<string> = []
-
+class ParentChildDataBuilder extends TemplateBuilder {
   childColumns: Array<string> = []
 
   childVariants: components['schemas']['ChildVariantDefinition'][] = []
 
   childData: Array<ChildData> = []
-
-  parentData: Array<Record<string, string>> = []
-
-  reportQuery!: ReportQuery
-
-  template: Template
 
   joinFields: Array<components['schemas']['FieldDefinition']> = []
 
@@ -30,22 +19,12 @@ class ParentChildDataBuilder {
 
   parentChildDatasets: ParentChildDataset[] = []
 
-  parentFields: components['schemas']['FieldDefinition'][]
-
-  sections: string[] = []
-
   dataTableBuilder!: DataTableBuilder
 
-  constructor(variant: components['schemas']['VariantDefinition'], parentData: Array<Record<string, string>>) {
-    const { specification } = variant
-    const { template, fields, sections } = <components['schemas']['Specification']>specification
+  constructor(variant: components['schemas']['VariantDefinition']) {
+    super(variant)
 
-    this.template = template
-    this.parentFields = fields || []
-    this.sections = sections || []
-    this.variant = variant
     this.childVariants = this.variant.childVariants || []
-    this.parentData = parentData || []
   }
 
   getChildVariant(childId: string) {
@@ -154,7 +133,7 @@ class ParentChildDataBuilder {
    * @memberof ParentChildDataBuilder
    */
   mapToTableData(parentChildGroups: GroupedParentChildDataset[]): ParentChildTableData[] {
-    const parentTableBuilder = new DataTableBuilder(this.parentFields)
+    const parentTableBuilder = new DataTableBuilder(this.fields)
     return parentChildGroups.map((group: GroupedParentChildDataset) => {
       const parentTable = parentTableBuilder.withNoHeaderOptions(this.columns).buildTable(group.parent)
       const children: ParentChildTableData['children'] = this.mapChildDataToTableData(group)
@@ -191,26 +170,16 @@ class ParentChildDataBuilder {
     return this
   }
 
-  withParentColumns(columns: string[]) {
-    this.columns = columns
-    return this
-  }
-
   withChildColumns(childColumns: string[]) {
     this.childColumns = childColumns
-    return this
-  }
-
-  withQuery(reportQuery: ReportQuery) {
-    this.reportQuery = reportQuery
     return this
   }
 
   build(): ReportTemplateData {
     const sectionData = new SectionedDataBuilder()
       .withSections(this.sections)
-      .withData(this.parentData)
-      .withFields(this.parentFields)
+      .withData(this.data)
+      .withFields(this.fields)
       .withReportQuery(this.reportQuery)
       .build()
 
@@ -227,7 +196,7 @@ class ParentChildDataBuilder {
     })
 
     return {
-      rowCount: this.parentData.length,
+      rowCount: this.data.length,
       sections: mappedSections,
     }
   }

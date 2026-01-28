@@ -25,10 +25,10 @@
         </div>
         {% endif %}
 
-        {# SECTION HEADER SUMMARIES #}
+        {# section header summary tables #}
         {{ dprReportSummary(summaries, 'section-header') }}
 
-        {# TEMPLATES #}
+        {# report template #}
         {% if template === 'parent-child' or template === 'parent-child-section' %}
 
           {{ dprParentChildTemplate(data, classification, template) }}
@@ -41,7 +41,7 @@
 
         {% endif %}
 
-        {# SECTION FOOTER SUMMARIES #}
+        {# section footer summary tables #}
         {{ dprReportSummary(summaries, 'section-footer') }} 
 
       </div>

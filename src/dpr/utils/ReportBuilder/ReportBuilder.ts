@@ -1,80 +1,22 @@
 import { AsyncSummary } from '../../types/UserReports'
-import { SummaryTemplate, Template } from '../../types/Templates'
+import { SummaryTemplate } from '../../types/Templates'
 import { components } from '../../types/api'
 import CollatedSummaryBuilder from '../CollatedSummaryBuilder/CollatedSummaryBuilder'
 import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
 import SectionedDataBuilder from '../SectionedDataBuilder/SectionedDataBuilder'
 import { ReportTemplateData, SectionData } from '../SectionedDataBuilder/types'
 import { DataTable } from '../DataTableBuilder/types'
-import ReportQuery from '../../types/ReportQuery'
-import { validateVariant } from '../definitionUtils'
+import TemplateBuilder from '../TemplateBuilder/TemplateBuilder'
 
-class ReportBuilder {
-  variant: components['schemas']['VariantDefinition']
-
-  specification: components['schemas']['Specification']
-
-  columns: Array<string> = []
-
-  sections: Array<string> = []
-
-  data!: Array<Record<string, string>>
-
-  fields: components['schemas']['FieldDefinition'][]
-
-  sectionFields: components['schemas']['FieldDefinition'][] = []
-
-  template: Template
-
+class ReportBuilder extends TemplateBuilder {
   dataTableBuilder!: DataTableBuilder
 
   sectionBuilder!: SectionedDataBuilder
 
   summariesBuilder!: CollatedSummaryBuilder
 
-  reportQuery!: ReportQuery
-
-  interactive = false
-
-  pageSummaries!: AsyncSummary[]
-
-  summaries!: AsyncSummary[]
-
   constructor(variant: components['schemas']['VariantDefinition']) {
-    const { specification } = validateVariant(variant)
-    const { template, fields, sections } = specification
-
-    this.variant = variant
-    this.interactive = Boolean(variant.interactive)
-    this.specification = specification
-    this.template = template
-    this.fields = fields
-    this.sections = sections
-  }
-
-  withColumns(columns: string[]) {
-    this.columns = columns
-    return this
-  }
-
-  withData(data: Array<Record<string, string>>) {
-    this.data = data
-    return this
-  }
-
-  withQuery(reportQuery: ReportQuery) {
-    this.reportQuery = reportQuery
-    return this
-  }
-
-  withSummaries(summariesData: AsyncSummary[]) {
-    this.pageSummaries = summariesData.filter((summary) => {
-      return summary.template.includes('page')
-    })
-    this.summaries = summariesData.filter((summary) => {
-      return summary.template.includes('section') || summary.template.includes('table')
-    })
-    return this
+    super(variant)
   }
 
   buildMainTable(section: SectionData) {

@@ -56,8 +56,9 @@ const buildParentChildReport = (
   childData: ChildData[],
   reportQuery: ReportQuery,
 ): ReportTemplateData => {
-  return new ParentChildDataBuilder(definition.variant, reportData)
-    .withParentColumns(columns.value)
+  return new ParentChildDataBuilder(definition.variant)
+    .withData(reportData)
+    .withColumns(columns.value)
     .withChildColumns([])
     .withChildData(childData)
     .withQuery(reportQuery)

@@ -18,17 +18,17 @@ const reportTemplateExampleListSectionWithSummaries = {
         },
         {
           name: 'field2',
-          display: 'Field 1',
+          display: 'Field 2',
           type: 'string',
         },
         {
           name: 'field3',
-          display: 'Field 1',
+          display: 'Field 3',
           type: 'string',
         },
         {
           name: 'field4',
-          display: 'Field 1',
+          display: 'Field 3',
           type: 'string',
         },
       ],
@@ -44,17 +44,17 @@ const reportTemplateExampleListSectionWithSummaries = {
         },
         {
           name: 'field2',
-          display: 'Field 1',
+          display: 'Field 2',
           type: 'string',
         },
         {
           name: 'field3',
-          display: 'Field 1',
+          display: 'Field 3',
           type: 'string',
         },
         {
           name: 'field4',
-          display: 'Field 1',
+          display: 'Field 4',
           type: 'string',
         },
       ],

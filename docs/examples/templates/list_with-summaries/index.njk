@@ -1,7 +1,6 @@
 ---
 layout: layouts/example.njk
-title: List Report (example)
-jsArguments: list-report
+title: List, with summaries (example)
 ---
 
 {%- from "dpr/components/_reports/report-page/view.njk" import dprReportPage -%}
@@ -58,14 +57,14 @@ jsArguments: list-report
   csrfToken: 'csrfToken',
   loadType: 'async',
   type: 'report',
-  tableId: 'tblId_1769506193261',
+  tableId: 'tblId_1769506471246',
   reportId: 'report-template-examples',
-  id: 'report-template-list',
+  id: 'report-template-list-summaries',
   actions: [],
   canDownload: false,
   reportName: 'Report templates',
-  name: 'List',
-  description: 'Template: "list"',
+  name: 'List - with summaries',
+  description: 'Template: "list".</br> A report with summaries.',
   classification: 'OFFICIAL',
   printable: true,
   specification: {
@@ -346,40 +345,23 @@ jsArguments: list-report
       visible: false
     }
   ],
-  executionId: 'exId_1769506193261',
-  requestedTimestamp: '27/01/2026, 09:29:54',
-  querySummary: [
-    {
-      name: 'Sort Column',
-      value: 'Field 1'
-    },
-    {
-      name: 'Sort Direction',
-      value: 'Descending'
-    }
-  ],
-  queryData: {},
-  requestUrl: {
-    fullUrl:
-      'http://localhost:3010/embedded/platform/dpr/request-report/report/report-template-examples/report-template-list/filters?sortColumn=field1&sortedAsc=false',
-    pathname: '/embedded/platform/dpr/request-report/report/report-template-examples/report-template-list/filters',
-    search: '?sortColumn=field1&sortedAsc=false'
-  },
   reportUrl:
-    '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list/tblId_1769506193261/report',
+    '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list-summaries/tblId_1769506471246/report',
+  reportSearch: '?columns=field1&columns=field2&columns=field3&columns=field4',
+  encodedSearch: '%3Fcolumns%3Dfield1%26columns%3Dfield2%26columns%3Dfield3%26columns%3Dfield4',
   pathname:
-    '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list/tblId_1769506193261/report',
+    '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list-summaries/tblId_1769506471246/report',
   pagination: {
-    next: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list/tblId_1769506193261/report?selectedPage=2',
+    next: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list-summaries/tblId_1769506471246/report?columns=field1&columns=field2&columns=field3&columns=field4&selectedPage=2',
     pages: [
       {
         number: 1,
-        href: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list/tblId_1769506193261/report?selectedPage=1',
+        href: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list-summaries/tblId_1769506471246/report?columns=field1&columns=field2&columns=field3&columns=field4&selectedPage=1',
         current: true
       },
       {
         number: 2,
-        href: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list/tblId_1769506193261/report?selectedPage=2',
+        href: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list-summaries/tblId_1769506471246/report?columns=field1&columns=field2&columns=field3&columns=field4&selectedPage=2',
         current: false
       },
       {
@@ -387,7 +369,7 @@ jsArguments: list-report
       },
       {
         number: 5,
-        href: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list/tblId_1769506193261/report?selectedPage=5',
+        href: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list-summaries/tblId_1769506471246/report?columns=field1&columns=field2&columns=field3&columns=field4&selectedPage=5',
         current: false
       }
     ],
@@ -420,7 +402,87 @@ jsArguments: list-report
   totals: 'Showing <strong>1</strong> to <strong>20</strong> of <strong>100</strong> results',
   dataTable: {
     rowCount: 20,
-    summaries: {},
+    summaries: {
+      'page-header': [
+        {
+          head: [
+            {
+              text: 'Total'
+            }
+          ],
+          rows: [
+            [
+              {
+                fieldName: 'total',
+                text: 52,
+                format: 'numeric',
+                classes: ''
+              }
+            ]
+          ],
+          rowCount: 1,
+          colCount: 1
+        },
+        {
+          head: [
+            {
+              text: 'Other Total'
+            }
+          ],
+          rows: [
+            [
+              {
+                fieldName: 'total',
+                text: 52,
+                format: 'numeric',
+                classes: ''
+              }
+            ]
+          ],
+          rowCount: 1,
+          colCount: 1
+        }
+      ],
+      'page-footer': [
+        {
+          head: [
+            {
+              text: 'Good (%)'
+            },
+            {
+              text: 'Bad (%)'
+            },
+            {
+              text: 'Ugly (%)'
+            }
+          ],
+          rows: [
+            [
+              {
+                fieldName: 'percentGood',
+                text: 1,
+                format: 'numeric',
+                classes: ''
+              },
+              {
+                fieldName: 'percentBad',
+                text: 10,
+                format: 'numeric',
+                classes: ''
+              },
+              {
+                fieldName: 'percentUgly',
+                text: 89,
+                format: 'numeric',
+                classes: ''
+              }
+            ]
+          ],
+          rowCount: 1,
+          colCount: 3
+        }
+      ]
+    },
     sections: [
       {
         key: '',
@@ -444,105 +506,26 @@ jsArguments: list-report
             [
               {
                 fieldName: 'field1',
-                text: 'Value 1',
-                format: 'string',
-                classes: ''
+                text: 57,
+                format: 'numeric',
+                classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header'
               },
               {
                 fieldName: 'field2',
-                text: 'Value 2',
-                format: 'string',
-                classes: ''
+                text: 1,
+                format: 'numeric',
+                classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header'
               },
               {
                 fieldName: 'field3',
-                text: '01/02/03 01:00',
-                format: 'string',
-                classes: ''
+                format: 'numeric',
+                classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header'
               },
               {
                 fieldName: 'field4',
-                text: 'Value 4',
+                text: '3 Freds',
                 format: 'string',
-                classes: ''
-              }
-            ],
-            [
-              {
-                fieldName: 'field1',
-                text: 'Value 1',
-                format: 'string',
-                classes: ''
-              },
-              {
-                fieldName: 'field2',
-                text: 'Value 2',
-                format: 'string',
-                classes: ''
-              },
-              {
-                fieldName: 'field3',
-                text: '01/02/03 01:00',
-                format: 'string',
-                classes: ''
-              },
-              {
-                fieldName: 'field4',
-                text: 'Value 4',
-                format: 'string',
-                classes: ''
-              }
-            ],
-            [
-              {
-                fieldName: 'field1',
-                text: 'Value 1',
-                format: 'string',
-                classes: ''
-              },
-              {
-                fieldName: 'field2',
-                text: 'Value 2',
-                format: 'string',
-                classes: ''
-              },
-              {
-                fieldName: 'field3',
-                text: '01/02/03 01:00',
-                format: 'string',
-                classes: ''
-              },
-              {
-                fieldName: 'field4',
-                text: 'Value 4',
-                format: 'string',
-                classes: ''
-              }
-            ],
-            [
-              {
-                fieldName: 'field1',
-                text: 'Value 1',
-                format: 'string',
-                classes: ''
-              },
-              {
-                fieldName: 'field2',
-                text: 'Value 2',
-                format: 'string',
-                classes: ''
-              },
-              {
-                fieldName: 'field3',
-                text: '01/02/03 01:00',
-                format: 'string',
-                classes: ''
-              },
-              {
-                fieldName: 'field4',
-                text: 'Value 4',
-                format: 'string',
-                classes: ''
+                classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header'
               }
             ],
             [
@@ -654,7 +637,104 @@ jsArguments: list-report
           colCount: 4
         },
         count: 20,
-        summaries: {}
+        summaries: {
+          'table-header': [
+            {
+              head: [
+                {
+                  text: 'Field 1'
+                },
+                {
+                  text: 'Field 2'
+                },
+                {
+                  text: 'Field 3'
+                },
+                {
+                  text: 'Field 4'
+                }
+              ],
+              rows: [
+                [
+                  {
+                    fieldName: 'field1',
+                    text: 57,
+                    format: 'numeric',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'field2',
+                    text: 1,
+                    format: 'numeric',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'field1',
+                    text: 57,
+                    format: 'numeric',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'field4',
+                    text: '3 Freds',
+                    format: 'string',
+                    classes: ''
+                  }
+                ]
+              ],
+              rowCount: 1,
+              colCount: 4
+            }
+          ],
+          'table-footer': [
+            {
+              head: [
+                {
+                  text: 'Field 1'
+                },
+                {
+                  text: 'Field 2'
+                },
+                {
+                  text: 'Field 3'
+                },
+                {
+                  text: 'Field 4'
+                }
+              ],
+              rows: [
+                [
+                  {
+                    fieldName: 'field1',
+                    text: 57,
+                    format: 'numeric',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'field2',
+                    text: 1,
+                    format: 'numeric',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'field1',
+                    text: 57,
+                    format: 'numeric',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'field4',
+                    text: '3 Freds',
+                    format: 'string',
+                    classes: ''
+                  }
+                ]
+              ],
+              rowCount: 1,
+              colCount: 4
+            }
+          ]
+        }
       }
     ]
   }

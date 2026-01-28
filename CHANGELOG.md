@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.28.6
+- Fixed issue with streaming request not being sent.
+
 ## 4.28.5
 - Use JSON.stringify in setFeatures function to print the flags as `Object.entries` is causing Flag to be an unknown type in the hosting apps.
 - Remove jQuery as a dependency as it was not being used

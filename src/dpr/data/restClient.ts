@@ -69,6 +69,7 @@ class RestClient {
         logger.info('Client disconnected, aborting upstream request.')
         req.abort()
       })
+      res.flushHeaders()
       upstream.pipe(res)
     })
 
@@ -80,6 +81,7 @@ class RestClient {
         res.destroy(error)
       }
     })
+    req.end()
   }
 
   private async requestWithBody<Response = unknown>(

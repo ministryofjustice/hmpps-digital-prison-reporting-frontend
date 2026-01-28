@@ -6,9 +6,6 @@ Below you can find the changes included in each release.
 ## 4.28.5
 - Remove jQuery as a dependency as it was not being used
 
-## 4.28.5
-- Use JSON.stringify in setFeatures function to print the flags as `Object.entries` is causing Flag to be an unknown type in the hosting apps.
-
 ## 4.28.4
 - Added logs around 'streamingDownloadEnabled' Flipt flag and also added STREAMING_DOWNLOAD_ENABLED env variable as an alternative check as Flipt flag is not being read.
 

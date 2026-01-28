@@ -1,7 +1,7 @@
-{% from "../../../components/_reports/report-wrapper/view.njk" import dprReportWrapper %}
+{% from "../../../components/_reports/report-page/view.njk" import dprReportPage %}
 
 {% extends layoutPath %}
 
 {% block content %}
-  {{ dprReportWrapper(renderData) }}
+  {{ dprReportPage(renderData) }}
 {% endblock %}

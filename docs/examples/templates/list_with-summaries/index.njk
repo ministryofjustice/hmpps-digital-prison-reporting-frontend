@@ -1,0 +1,743 @@
+---
+layout: layouts/example.njk
+title: List, with summaries (example)
+---
+
+{%- from "dpr/components/_reports/report-page/view.njk" import dprReportPage -%}
+
+{% set data = {
+  columns: {
+    name: 'columns',
+    options: [
+      {
+        text: 'Field 1',
+        value: 'field1',
+        disabled: false
+      },
+      {
+        text: 'Field 2',
+        value: 'field2',
+        disabled: false
+      },
+      {
+        text: 'Field 3',
+        value: 'field3',
+        disabled: false
+      },
+      {
+        text: 'Field 4',
+        value: 'field4'
+      },
+      {
+        text: 'Field 6',
+        value: 'field6',
+        disabled: false
+      },
+      {
+        text: 'First',
+        value: 'section1',
+        disabled: false
+      },
+      {
+        text: 'Second',
+        value: 'section2',
+        disabled: false
+      }
+    ],
+    text: 'Select report columns',
+    value: ['field1', 'field2', 'field3', 'field4']
+  },
+  filterData: {
+    filters: [],
+    selectedFilters: [],
+    canSaveDefaults: true
+  },
+  count: 100,
+  nestedBaseUrl: '/embedded/platform',
+  csrfToken: 'csrfToken',
+  loadType: 'async',
+  type: 'report',
+  tableId: 'tblId_1769506471246',
+  reportId: 'report-template-examples',
+  id: 'report-template-list-summaries',
+  actions: [],
+  canDownload: false,
+  reportName: 'Report templates',
+  name: 'List - with summaries',
+  description: 'Template: "list".</br> A report with summaries.',
+  classification: 'OFFICIAL',
+  printable: true,
+  specification: {
+    template: 'list',
+    fields: [
+      {
+        name: 'field1',
+        display: 'Field 1',
+        sortable: true,
+        defaultsort: true,
+        type: 'string',
+        mandatory: false,
+        visible: true,
+        filter: {
+          type: 'Radio',
+          staticOptions: [
+            {
+              name: 'value1.1',
+              display: 'Value 1.1'
+            },
+            {
+              name: 'value1.2',
+              display: 'Value 1.2'
+            },
+            {
+              name: 'value1.3',
+              display: 'Value 1.3'
+            }
+          ],
+          mandatory: false
+        }
+      },
+      {
+        name: 'field2',
+        display: 'Field 2',
+        sortable: true,
+        type: 'string',
+        mandatory: false,
+        visible: true,
+        filter: {
+          type: 'Select',
+          staticOptions: [
+            {
+              name: 'value2.1',
+              display: 'Value 2.1'
+            },
+            {
+              name: 'value2.2',
+              display: 'Value 2.2'
+            },
+            {
+              name: 'value2.3',
+              display: 'Value 2.3'
+            }
+          ],
+          mandatory: false
+        }
+      },
+      {
+        name: 'field3',
+        display: 'Field 3',
+        sortable: false,
+        type: 'date',
+        mandatory: false,
+        visible: true,
+        filter: {
+          type: 'daterange',
+          min: '2003-02-01',
+          max: '2007-05-04',
+          mandatory: false
+        }
+      },
+      {
+        name: 'field4',
+        display: 'Field 4',
+        sortable: false,
+        type: 'string',
+        visible: true,
+        filter: {
+          type: 'autocomplete',
+          dynamicOptions: {
+            minimumLength: 3,
+            returnAsStaticOptions: true
+          },
+          staticOptions: [
+            {
+              name: 'Fezzick',
+              display: 'Fezzick'
+            },
+            {
+              name: 'Inigo Montoya',
+              display: 'Inigo Montoya'
+            },
+            {
+              name: 'Prince Humperdink',
+              display: 'Prince Humperdink'
+            },
+            {
+              name: 'Princess Buttercup',
+              display: 'Princess Buttercup'
+            },
+            {
+              name: 'Westley',
+              display: 'Westley'
+            }
+          ],
+          mandatory: false,
+          pattern: '(?!Invalid).+'
+        }
+      },
+      {
+        name: 'field6',
+        display: 'Field 6',
+        sortable: false,
+        type: 'string',
+        mandatory: false,
+        filter: {
+          type: 'text',
+          pattern: 'Value 6\\.\\d',
+          mandatory: false
+        }
+      },
+      {
+        name: 'section1',
+        display: 'First',
+        sortable: false,
+        defaultsort: false,
+        type: 'string',
+        mandatory: false,
+        visible: false
+      },
+      {
+        name: 'section2',
+        display: 'Second',
+        sortable: false,
+        defaultsort: false,
+        type: 'string',
+        mandatory: false,
+        visible: false
+      }
+    ]
+  },
+  template: 'list',
+  fields: [
+    {
+      name: 'field1',
+      display: 'Field 1',
+      sortable: true,
+      defaultsort: true,
+      type: 'string',
+      mandatory: false,
+      visible: true,
+      filter: {
+        type: 'Radio',
+        staticOptions: [
+          {
+            name: 'value1.1',
+            display: 'Value 1.1'
+          },
+          {
+            name: 'value1.2',
+            display: 'Value 1.2'
+          },
+          {
+            name: 'value1.3',
+            display: 'Value 1.3'
+          }
+        ],
+        mandatory: false
+      }
+    },
+    {
+      name: 'field2',
+      display: 'Field 2',
+      sortable: true,
+      type: 'string',
+      mandatory: false,
+      visible: true,
+      filter: {
+        type: 'Select',
+        staticOptions: [
+          {
+            name: 'value2.1',
+            display: 'Value 2.1'
+          },
+          {
+            name: 'value2.2',
+            display: 'Value 2.2'
+          },
+          {
+            name: 'value2.3',
+            display: 'Value 2.3'
+          }
+        ],
+        mandatory: false
+      }
+    },
+    {
+      name: 'field3',
+      display: 'Field 3',
+      sortable: false,
+      type: 'date',
+      mandatory: false,
+      visible: true,
+      filter: {
+        type: 'daterange',
+        min: '2003-02-01',
+        max: '2007-05-04',
+        mandatory: false
+      }
+    },
+    {
+      name: 'field4',
+      display: 'Field 4',
+      sortable: false,
+      type: 'string',
+      visible: true,
+      filter: {
+        type: 'autocomplete',
+        dynamicOptions: {
+          minimumLength: 3,
+          returnAsStaticOptions: true
+        },
+        staticOptions: [
+          {
+            name: 'Fezzick',
+            display: 'Fezzick'
+          },
+          {
+            name: 'Inigo Montoya',
+            display: 'Inigo Montoya'
+          },
+          {
+            name: 'Prince Humperdink',
+            display: 'Prince Humperdink'
+          },
+          {
+            name: 'Princess Buttercup',
+            display: 'Princess Buttercup'
+          },
+          {
+            name: 'Westley',
+            display: 'Westley'
+          }
+        ],
+        mandatory: false,
+        pattern: '(?!Invalid).+'
+      }
+    },
+    {
+      name: 'field6',
+      display: 'Field 6',
+      sortable: false,
+      type: 'string',
+      mandatory: false,
+      filter: {
+        type: 'text',
+        pattern: 'Value 6\\.\\d',
+        mandatory: false
+      }
+    },
+    {
+      name: 'section1',
+      display: 'First',
+      sortable: false,
+      defaultsort: false,
+      type: 'string',
+      mandatory: false,
+      visible: false
+    },
+    {
+      name: 'section2',
+      display: 'Second',
+      sortable: false,
+      defaultsort: false,
+      type: 'string',
+      mandatory: false,
+      visible: false
+    }
+  ],
+  reportUrl:
+    '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list-summaries/tblId_1769506471246/report',
+  reportSearch: '?columns=field1&columns=field2&columns=field3&columns=field4',
+  encodedSearch: '%3Fcolumns%3Dfield1%26columns%3Dfield2%26columns%3Dfield3%26columns%3Dfield4',
+  pathname:
+    '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list-summaries/tblId_1769506471246/report',
+  pagination: {
+    next: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list-summaries/tblId_1769506471246/report?columns=field1&columns=field2&columns=field3&columns=field4&selectedPage=2',
+    pages: [
+      {
+        number: 1,
+        href: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list-summaries/tblId_1769506471246/report?columns=field1&columns=field2&columns=field3&columns=field4&selectedPage=1',
+        current: true
+      },
+      {
+        number: 2,
+        href: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list-summaries/tblId_1769506471246/report?columns=field1&columns=field2&columns=field3&columns=field4&selectedPage=2',
+        current: false
+      },
+      {
+        ellipsis: true
+      },
+      {
+        number: 5,
+        href: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list-summaries/tblId_1769506471246/report?columns=field1&columns=field2&columns=field3&columns=field4&selectedPage=5',
+        current: false
+      }
+    ],
+    pageSize: 20,
+    currentPage: 1,
+    totalRows: 100,
+    sizes: [
+      {
+        value: 10,
+        text: '10'
+      },
+      {
+        value: 20,
+        text: '20'
+      },
+      {
+        value: 100,
+        text: '100'
+      },
+      {
+        value: 200,
+        text: '200'
+      },
+      {
+        value: 100,
+        text: 'All'
+      }
+    ]
+  },
+  totals: 'Showing <strong>1</strong> to <strong>20</strong> of <strong>100</strong> results',
+  dataTable: {
+    rowCount: 20,
+    summaries: {
+      'page-header': [
+        {
+          head: [
+            {
+              text: 'Total'
+            }
+          ],
+          rows: [
+            [
+              {
+                fieldName: 'total',
+                text: 52,
+                format: 'numeric',
+                classes: ''
+              }
+            ]
+          ],
+          rowCount: 1,
+          colCount: 1
+        },
+        {
+          head: [
+            {
+              text: 'Other Total'
+            }
+          ],
+          rows: [
+            [
+              {
+                fieldName: 'total',
+                text: 52,
+                format: 'numeric',
+                classes: ''
+              }
+            ]
+          ],
+          rowCount: 1,
+          colCount: 1
+        }
+      ],
+      'page-footer': [
+        {
+          head: [
+            {
+              text: 'Good (%)'
+            },
+            {
+              text: 'Bad (%)'
+            },
+            {
+              text: 'Ugly (%)'
+            }
+          ],
+          rows: [
+            [
+              {
+                fieldName: 'percentGood',
+                text: 1,
+                format: 'numeric',
+                classes: ''
+              },
+              {
+                fieldName: 'percentBad',
+                text: 10,
+                format: 'numeric',
+                classes: ''
+              },
+              {
+                fieldName: 'percentUgly',
+                text: 89,
+                format: 'numeric',
+                classes: ''
+              }
+            ]
+          ],
+          rowCount: 1,
+          colCount: 3
+        }
+      ]
+    },
+    sections: [
+      {
+        key: '',
+        keyObj: [],
+        data: {
+          head: [
+            {
+              text: 'Field 1'
+            },
+            {
+              text: 'Field 2'
+            },
+            {
+              text: 'Field 3'
+            },
+            {
+              text: 'Field 4'
+            }
+          ],
+          rows: [
+            [
+              {
+                fieldName: 'field1',
+                text: 57,
+                format: 'numeric',
+                classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header'
+              },
+              {
+                fieldName: 'field2',
+                text: 1,
+                format: 'numeric',
+                classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header'
+              },
+              {
+                fieldName: 'field3',
+                format: 'numeric',
+                classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header'
+              },
+              {
+                fieldName: 'field4',
+                text: '3 Freds',
+                format: 'string',
+                classes: 'dpr-report-summary-cell dpr-report-summary-cell-table-header'
+              }
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: ''
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: ''
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: ''
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: ''
+              }
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: ''
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: ''
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: ''
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: ''
+              }
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: ''
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: ''
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: ''
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: ''
+              }
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: ''
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: ''
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: ''
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: ''
+              }
+            ]
+          ],
+          rowCount: 20,
+          colCount: 4
+        },
+        count: 20,
+        summaries: {
+          'table-header': [
+            {
+              head: [
+                {
+                  text: 'Field 1'
+                },
+                {
+                  text: 'Field 2'
+                },
+                {
+                  text: 'Field 3'
+                },
+                {
+                  text: 'Field 4'
+                }
+              ],
+              rows: [
+                [
+                  {
+                    fieldName: 'field1',
+                    text: 57,
+                    format: 'numeric',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'field2',
+                    text: 1,
+                    format: 'numeric',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'field1',
+                    text: 57,
+                    format: 'numeric',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'field4',
+                    text: '3 Freds',
+                    format: 'string',
+                    classes: ''
+                  }
+                ]
+              ],
+              rowCount: 1,
+              colCount: 4
+            }
+          ],
+          'table-footer': [
+            {
+              head: [
+                {
+                  text: 'Field 1'
+                },
+                {
+                  text: 'Field 2'
+                },
+                {
+                  text: 'Field 3'
+                },
+                {
+                  text: 'Field 4'
+                }
+              ],
+              rows: [
+                [
+                  {
+                    fieldName: 'field1',
+                    text: 57,
+                    format: 'numeric',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'field2',
+                    text: 1,
+                    format: 'numeric',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'field1',
+                    text: 57,
+                    format: 'numeric',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'field4',
+                    text: '3 Freds',
+                    format: 'string',
+                    classes: ''
+                  }
+                ]
+              ],
+              rowCount: 1,
+              colCount: 4
+            }
+          ]
+        }
+      }
+    ]
+  }
+} %}
+
+{{ dprReportPage(data) }}

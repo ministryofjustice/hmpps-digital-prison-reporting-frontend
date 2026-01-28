@@ -1,12 +1,11 @@
 {% extends "views/page.njk" %}
 
-{%- from "components/_reports/report-wrapper/view.njk" import dprReportWrapper -%}
+{%- from "components/_reports/report-page/view.njk" import dprReportPage -%}
 
 {% block content %}
   <span class="govuk-caption-l">Report template</span>
   <h1 class="govuk-heading-l">{{ title }}</h1>
-
   <div class="govuk-width-container">
-    {{ dprReportWrapper(reportData) }}
+    {{ dprReportPage(reportData) }}
   </div>
 {% endblock %}

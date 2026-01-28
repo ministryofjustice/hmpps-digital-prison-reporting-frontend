@@ -6,7 +6,7 @@ import { Services } from '../../../types/Services'
 import LocalsHelper from '../../../utils/localsHelper'
 import definitionUtils from '../../../utils/definitionUtils'
 import DateMapper from '../../../utils/DateMapper/DateMapper'
-import ColumnsUtils from '../../../components/_reports/report-columns-form/utils'
+import ColumnsUtils from '../../../components/_reports/report-heading/report-columns/report-columns-form/utils'
 
 export const applyReportInteractiveQuery = async (
   req: Request,

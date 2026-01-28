@@ -11,7 +11,7 @@ import { DashboardDataResponse } from '../../../../../types/Metrics'
 import AsyncDashboardUtils from '../../async/dashboard/utils'
 import { DashboardSection } from '../../../../../components/_dashboards/dashboard-visualisation/types'
 import { components } from '../../../../../types/api'
-import ReportActionsUtils from '../../../../../components/_reports/report-actions/utils'
+import ReportActionsUtils from '../../../../../components/_reports/report-heading/report-actions/utils'
 
 const setAsRecentlyViewed = async ({
   req,

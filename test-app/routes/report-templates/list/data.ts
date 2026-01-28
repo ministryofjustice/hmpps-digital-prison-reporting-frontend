@@ -1,0 +1,1018 @@
+const listData = {
+  columns: {
+    name: 'columns',
+    options: [
+      {
+        text: 'Field 1',
+        value: 'field1',
+        disabled: false,
+      },
+      {
+        text: 'Field 2',
+        value: 'field2',
+        disabled: false,
+      },
+      {
+        text: 'Field 3',
+        value: 'field3',
+        disabled: false,
+      },
+      {
+        text: 'Field 4',
+        value: 'field4',
+      },
+      {
+        text: 'Field 6',
+        value: 'field6',
+        disabled: false,
+      },
+      {
+        text: 'First',
+        value: 'section1',
+        disabled: false,
+      },
+      {
+        text: 'Second',
+        value: 'section2',
+        disabled: false,
+      },
+    ],
+    text: 'Select report columns',
+    value: ['field1', 'field2', 'field3', 'field4'],
+  },
+  filterData: {
+    filters: [],
+    selectedFilters: [],
+    canSaveDefaults: true,
+  },
+  count: 100,
+  nestedBaseUrl: '/embedded/platform',
+  csrfToken: 'csrfToken',
+  loadType: 'async',
+  type: 'report',
+  tableId: 'tblId_1769506193261',
+  reportId: 'report-template-examples',
+  id: 'report-template-list',
+  actions: [
+    {
+      id: 'dpr-button-refresh',
+      disabled: false,
+      text: 'Refresh',
+      ariaLabelText: 'Refresh report',
+      href: 'http://localhost:3010/embedded/platform/dpr/request-report/report/report-template-examples/report-template-list/filters?sortColumn=field1&sortedAsc=false',
+    },
+    {
+      id: 'dpr-button-printable',
+      disabled: false,
+      text: 'Print screen',
+      ariaLabelText: 'Print screen',
+      href: '#',
+    },
+    {
+      id: 'dpr-button-sharable',
+      disabled: true,
+      text: 'Email report link',
+      ariaLabelText: 'Email report link',
+      href: 'mailto:?subject=Report templates-List&body=http%3A%2F%2Flocalhost%3A3010%2Fembedded%2Fplatform%2Fdpr%2Frequest-report%2Freport%2Freport-template-examples%2Freport-template-list%2Ffilters%3FsortColumn%3Dfield1%26sortedAsc%3Dfalse',
+    },
+    {
+      id: 'dpr-button-copy',
+      disabled: false,
+      text: 'Copy report link',
+      ariaLabelText: 'Copy report link',
+      href: 'http://localhost:3010/embedded/platform/dpr/request-report/report/report-template-examples/report-template-list/filters?sortColumn=field1&sortedAsc=false',
+    },
+    {
+      id: 'dpr-button-downloadable',
+      disabled: false,
+      text: 'Enable download',
+      ariaLabelText: 'Enable download',
+      attributes: {
+        enabled: true,
+        name: 'List',
+        reportName: 'Report templates',
+        csrfToken: 'csrfToken',
+        reportId: 'report-template-examples',
+        id: 'report-template-list',
+        tableId: 'tblId_1769506193261',
+        columns: ['field1', 'field2', 'field3', 'field4'],
+        loadType: 'async',
+        nestedBaseUrl: '/embedded/platform',
+        canDownload: false,
+        currentUrl:
+          '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list/tblId_1769506193261/report',
+      },
+    },
+  ],
+  canDownload: false,
+  bookmarked: false,
+  reportName: 'Report templates',
+  name: 'List',
+  description: 'Template: "list"',
+  classification: 'OFFICIAL',
+  printable: true,
+  specification: {
+    template: 'list',
+    fields: [
+      {
+        name: 'field1',
+        display: 'Field 1',
+        sortable: true,
+        defaultsort: true,
+        type: 'string',
+        mandatory: false,
+        visible: true,
+        filter: {
+          type: 'Radio',
+          staticOptions: [
+            {
+              name: 'value1.1',
+              display: 'Value 1.1',
+            },
+            {
+              name: 'value1.2',
+              display: 'Value 1.2',
+            },
+            {
+              name: 'value1.3',
+              display: 'Value 1.3',
+            },
+          ],
+          mandatory: false,
+        },
+      },
+      {
+        name: 'field2',
+        display: 'Field 2',
+        sortable: true,
+        type: 'string',
+        mandatory: false,
+        visible: true,
+        filter: {
+          type: 'Select',
+          staticOptions: [
+            {
+              name: 'value2.1',
+              display: 'Value 2.1',
+            },
+            {
+              name: 'value2.2',
+              display: 'Value 2.2',
+            },
+            {
+              name: 'value2.3',
+              display: 'Value 2.3',
+            },
+          ],
+          mandatory: false,
+        },
+      },
+      {
+        name: 'field3',
+        display: 'Field 3',
+        sortable: false,
+        type: 'date',
+        mandatory: false,
+        visible: true,
+        filter: {
+          type: 'daterange',
+          min: '2003-02-01',
+          max: '2007-05-04',
+          mandatory: false,
+        },
+      },
+      {
+        name: 'field4',
+        display: 'Field 4',
+        sortable: false,
+        type: 'string',
+        visible: true,
+        filter: {
+          type: 'autocomplete',
+          dynamicOptions: {
+            minimumLength: 3,
+            returnAsStaticOptions: true,
+          },
+          staticOptions: [
+            {
+              name: 'Fezzick',
+              display: 'Fezzick',
+            },
+            {
+              name: 'Inigo Montoya',
+              display: 'Inigo Montoya',
+            },
+            {
+              name: 'Prince Humperdink',
+              display: 'Prince Humperdink',
+            },
+            {
+              name: 'Princess Buttercup',
+              display: 'Princess Buttercup',
+            },
+            {
+              name: 'Westley',
+              display: 'Westley',
+            },
+          ],
+          mandatory: false,
+          pattern: '(?!Invalid).+',
+        },
+      },
+      {
+        name: 'field6',
+        display: 'Field 6',
+        sortable: false,
+        type: 'string',
+        mandatory: false,
+        filter: {
+          type: 'text',
+          pattern: 'Value 6\\.\\d',
+          mandatory: false,
+        },
+      },
+      {
+        name: 'section1',
+        display: 'First',
+        sortable: false,
+        defaultsort: false,
+        type: 'string',
+        mandatory: false,
+        visible: false,
+      },
+      {
+        name: 'section2',
+        display: 'Second',
+        sortable: false,
+        defaultsort: false,
+        type: 'string',
+        mandatory: false,
+        visible: false,
+      },
+    ],
+  },
+  template: 'list',
+  fields: [
+    {
+      name: 'field1',
+      display: 'Field 1',
+      sortable: true,
+      defaultsort: true,
+      type: 'string',
+      mandatory: false,
+      visible: true,
+      filter: {
+        type: 'Radio',
+        staticOptions: [
+          {
+            name: 'value1.1',
+            display: 'Value 1.1',
+          },
+          {
+            name: 'value1.2',
+            display: 'Value 1.2',
+          },
+          {
+            name: 'value1.3',
+            display: 'Value 1.3',
+          },
+        ],
+        mandatory: false,
+      },
+    },
+    {
+      name: 'field2',
+      display: 'Field 2',
+      sortable: true,
+      type: 'string',
+      mandatory: false,
+      visible: true,
+      filter: {
+        type: 'Select',
+        staticOptions: [
+          {
+            name: 'value2.1',
+            display: 'Value 2.1',
+          },
+          {
+            name: 'value2.2',
+            display: 'Value 2.2',
+          },
+          {
+            name: 'value2.3',
+            display: 'Value 2.3',
+          },
+        ],
+        mandatory: false,
+      },
+    },
+    {
+      name: 'field3',
+      display: 'Field 3',
+      sortable: false,
+      type: 'date',
+      mandatory: false,
+      visible: true,
+      filter: {
+        type: 'daterange',
+        min: '2003-02-01',
+        max: '2007-05-04',
+        mandatory: false,
+      },
+    },
+    {
+      name: 'field4',
+      display: 'Field 4',
+      sortable: false,
+      type: 'string',
+      visible: true,
+      filter: {
+        type: 'autocomplete',
+        dynamicOptions: {
+          minimumLength: 3,
+          returnAsStaticOptions: true,
+        },
+        staticOptions: [
+          {
+            name: 'Fezzick',
+            display: 'Fezzick',
+          },
+          {
+            name: 'Inigo Montoya',
+            display: 'Inigo Montoya',
+          },
+          {
+            name: 'Prince Humperdink',
+            display: 'Prince Humperdink',
+          },
+          {
+            name: 'Princess Buttercup',
+            display: 'Princess Buttercup',
+          },
+          {
+            name: 'Westley',
+            display: 'Westley',
+          },
+        ],
+        mandatory: false,
+        pattern: '(?!Invalid).+',
+      },
+    },
+    {
+      name: 'field6',
+      display: 'Field 6',
+      sortable: false,
+      type: 'string',
+      mandatory: false,
+      filter: {
+        type: 'text',
+        pattern: 'Value 6\\.\\d',
+        mandatory: false,
+      },
+    },
+    {
+      name: 'section1',
+      display: 'First',
+      sortable: false,
+      defaultsort: false,
+      type: 'string',
+      mandatory: false,
+      visible: false,
+    },
+    {
+      name: 'section2',
+      display: 'Second',
+      sortable: false,
+      defaultsort: false,
+      type: 'string',
+      mandatory: false,
+      visible: false,
+    },
+  ],
+  executionId: 'exId_1769506193261',
+  requestedTimestamp: '27/01/2026, 09:29:54',
+  querySummary: [
+    {
+      name: 'Sort Column',
+      value: 'Field 1',
+    },
+    {
+      name: 'Sort Direction',
+      value: 'Descending',
+    },
+  ],
+  queryData: {},
+  requestUrl: {
+    fullUrl:
+      'http://localhost:3010/embedded/platform/dpr/request-report/report/report-template-examples/report-template-list/filters?sortColumn=field1&sortedAsc=false',
+    pathname: '/embedded/platform/dpr/request-report/report/report-template-examples/report-template-list/filters',
+    search: '?sortColumn=field1&sortedAsc=false',
+  },
+  reportUrl:
+    '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list/tblId_1769506193261/report',
+  pathname:
+    '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list/tblId_1769506193261/report',
+  pagination: {
+    next: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list/tblId_1769506193261/report?selectedPage=2',
+    pages: [
+      {
+        number: 1,
+        href: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list/tblId_1769506193261/report?selectedPage=1',
+        current: true,
+      },
+      {
+        number: 2,
+        href: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list/tblId_1769506193261/report?selectedPage=2',
+        current: false,
+      },
+      {
+        ellipsis: true,
+      },
+      {
+        number: 5,
+        href: '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-list/tblId_1769506193261/report?selectedPage=5',
+        current: false,
+      },
+    ],
+    pageSize: 20,
+    currentPage: 1,
+    totalRows: 100,
+    sizes: [
+      {
+        value: 10,
+        text: '10',
+      },
+      {
+        value: 20,
+        text: '20',
+      },
+      {
+        value: 100,
+        text: '100',
+      },
+      {
+        value: 200,
+        text: '200',
+      },
+      {
+        value: 100,
+        text: 'All',
+      },
+    ],
+  },
+  totals: 'Showing <strong>1</strong> to <strong>20</strong> of <strong>100</strong> results',
+  dataTable: {
+    rowCount: 20,
+    summaries: {},
+    sections: [
+      {
+        key: '',
+        keyObj: [],
+        data: {
+          head: [
+            {
+              text: 'Field 1',
+            },
+            {
+              text: 'Field 2',
+            },
+            {
+              text: 'Field 3',
+            },
+            {
+              text: 'Field 4',
+            },
+          ],
+          rows: [
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+            [
+              {
+                fieldName: 'field1',
+                text: 'Value 1',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field2',
+                text: 'Value 2',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field3',
+                text: '01/02/03 01:00',
+                format: 'string',
+                classes: '',
+              },
+              {
+                fieldName: 'field4',
+                text: 'Value 4',
+                format: 'string',
+                classes: '',
+              },
+            ],
+          ],
+          rowCount: 20,
+          colCount: 4,
+        },
+        count: 20,
+        summaries: {},
+      },
+    ],
+  },
+}
+
+export default listData

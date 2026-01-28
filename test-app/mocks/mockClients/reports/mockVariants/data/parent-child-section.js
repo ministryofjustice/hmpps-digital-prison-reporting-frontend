@@ -2,20 +2,20 @@
 const sectionOneOne = [
   {
     field1: 'Parent 1',
-    section1: 'Section 1',
-    section2: 'Section 1.1',
+    section1: 'One',
+    section2: 'A',
     childKey: 'one',
   },
   {
     field1: 'Parent 2',
-    section1: 'Section 1',
-    section2: 'Section 1.1',
+    section1: 'One',
+    section2: 'A',
     childKey: 'two',
   },
   {
     field1: 'Parent 3',
-    section1: 'Section 1',
-    section2: 'Section 1.1',
+    section1: 'One',
+    section2: 'A',
     childKey: 'three',
   },
 ]
@@ -23,14 +23,14 @@ const sectionOneOne = [
 const sectionOneTwo = [
   {
     field1: 'Parent 4',
-    section1: 'Section 1',
-    section2: 'Section 1.2',
+    section1: 'One',
+    section2: 'B',
     childKey: 'four',
   },
   {
     field1: 'Parent 5',
-    section1: 'Section 1',
-    section2: 'Section 1.2',
+    section1: 'One',
+    section2: 'B',
     childKey: 'five',
   },
 ]
@@ -38,8 +38,8 @@ const sectionOneTwo = [
 const sectionTwoOne = [
   {
     field1: 'Parent 6',
-    section1: 'Section 2',
-    section2: 'Section 2.1',
+    section1: 'Two',
+    section2: 'A',
     childKey: 'six',
   },
 ]
@@ -47,14 +47,14 @@ const sectionTwoOne = [
 const sectionTwoTwo = [
   {
     field1: 'Parent 7',
-    section1: 'Section 2',
-    section2: 'Section 2.2',
+    section1: 'Two',
+    section2: 'B',
     childKey: 'seven',
   },
   {
     field1: 'Parent 8',
-    section1: 'Section 2',
-    section2: 'Section 2.2',
+    section1: 'Two',
+    section2: 'B',
     childKey: 'eight',
   },
 ]

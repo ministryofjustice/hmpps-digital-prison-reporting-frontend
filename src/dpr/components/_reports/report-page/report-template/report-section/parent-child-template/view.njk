@@ -1,0 +1,25 @@
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "../report-data-table/view.njk" import dprDataTable %}
+
+{% macro dprParentChildTemplate(data, classification, template) %}
+  {% for dataset in data %}
+    {% set parent = dataset.parent %}
+    {% set children = dataset.children %}
+
+    <div id="dpr-parent-child-data-{{ loop.index }}" class="dpr-parent-child-data">
+      <div class="dpr-parent-child-data__parent">
+        {{ dprDataTable(parent, classification, template, loop.index) }}
+      </div>
+
+      {% for child in children %}
+      <div id="dpr-parent-child-data__child-{{ loop.index }}" class="dpr-parent-child-data__child">
+        <h2 class="govuk-heading-s">{{ child.title }}</h2>
+        <div class="dpr-parent-child-data__child-table">
+          {{ dprDataTable(child, classification, template, loop.index) }}
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  {% endfor %}
+{% endmacro %}

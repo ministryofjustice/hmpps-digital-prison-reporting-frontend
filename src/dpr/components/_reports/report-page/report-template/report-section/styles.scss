@@ -1,0 +1,33 @@
+.dpr-report-section {
+  margin-bottom: govuk-spacing(6);
+
+  .dpr-report-section__title {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    padding-top: govuk-spacing(2);
+    padding-bottom: govuk-spacing(1);
+    z-index: 100;
+    border-bottom: solid 3px govuk-colour('light-blue');
+    margin-bottom: govuk-spacing(6);
+
+    h2.govuk-heading-m {
+      margin-bottom: govuk-spacing(1);
+    }
+  }
+}
+
+@media print {
+  .dpr-report-section {
+    .dpr-report-section__title {
+      border-bottom: solid 1px govuk-colour('mid-grey');
+
+      h2.govuk-heading-m {
+        font-size: 12px;
+        .govuk-caption-m {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}

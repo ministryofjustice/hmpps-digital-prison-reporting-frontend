@@ -1,0 +1,88 @@
+.dpr-parent-child-data {
+  padding-bottom: govuk-spacing(4);
+
+  .govuk-table {
+    tr:last-child {
+      td {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .dpr-parent-child-data__parent {
+    margin-bottom: govuk-spacing(3);
+
+    .govuk-table {
+      margin-bottom: govuk-spacing(0);
+    }
+  }
+
+  .dpr-parent-child-data__child {
+    .dpr-parent-child-data__child-table {
+      padding: govuk-spacing(3);
+      padding-top: govuk-spacing(1);
+      padding-bottom: govuk-spacing(1);
+
+      .govuk-table {
+        margin-bottom: 0px;
+
+        tr:last-child {
+          td {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+
+    margin-bottom: govuk-spacing(6);
+    border: solid 1px #b1b4b6;
+    border-left: solid 4px govuk-colour('light-blue');
+
+    h2 {
+      background-color: #f3f2f1;
+      margin-bottom: 0px;
+      padding: govuk-spacing(2);
+      padding-left: govuk-spacing(3);
+    }
+  }
+}
+
+@media print {
+  .dpr-parent-child-data {
+    padding-bottom: govuk-spacing(2);
+
+    .dpr-parent-child-data__parent {
+      .dpr-table-container {
+        .dpr-table-wrapper {
+          .govuk-table__cell--content.print-header-footer--footer {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .dpr-parent-child-data__child {
+      .dpr-parent-child-data__child-table {
+        padding: govuk-spacing(1);
+        padding-bottom: 0px;
+        padding-top: 0px;
+
+        .dpr-table-container {
+          .dpr-table-wrapper {
+            .govuk-table__cell--content.print-header-footer {
+              display: none;
+            }
+          }
+        }
+      }
+
+      border-left: solid 1px govuk-colour('mid-grey');
+      margin-bottom: govuk-spacing(2);
+
+      h2 {
+        font-size: 12px;
+        padding: govuk-spacing(1);
+      }
+    }
+  }
+}

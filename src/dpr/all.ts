@@ -4,9 +4,6 @@
 import dayjs from 'dayjs'
 import customParse from 'dayjs/plugin/customParseFormat'
 
-// Helper
-import DprLoadingHelper from './DprLoadingHelper'
-
 // General Components
 import CardGroup from './components/card-group/clientClass'
 import BookmarkToggle from './components/bookmark-toggle/clientClass'
@@ -18,11 +15,11 @@ import UnauthorisedReportsFilter from './components/_catalogue/catalogue-unautho
 import ReportTypeFilter from './components/_catalogue/catalogue-filter-by-type/clientClass'
 
 // Reports
-import Pagination from './components/_reports/report-pagination/clientClass'
-import ReportActions from './components/_reports/report-actions/clientClass'
-import DataTable from './components/_reports/report-data-table/clientClass'
-import Columns from './components/_reports/report-columns-form/clientClass'
-import DownloadMessage from './components/_reports/report-download-message/clientClass'
+import Pagination from './components/_reports/report-page/report-template/report-pagination/clientClass'
+import ReportActions from './components/_reports/report-heading/report-actions/clientClass'
+import DataTable from './components/_reports/report-page/report-template/report-section/report-data-table/clientClass'
+import Columns from './components/_reports/report-heading/report-columns/report-columns-form/clientClass'
+import DownloadMessage from './components/_reports/report-heading/report-download-message/clientClass'
 
 // Filters
 import InteractiveFilters from './components/_filters/filters-interactive/clientClass'
@@ -64,8 +61,6 @@ import GenericForm from './DprGenericFormClass'
  *
  */
 function initAll() {
-  const loadingHelper = new DprLoadingHelper()
-
   const components = [
     Autocomplete,
     CardGroup,
@@ -102,7 +97,7 @@ function initAll() {
     const $elements = document.querySelectorAll(`[data-dpr-module="${Component.getModuleName()}"]`)
     $elements.forEach(async ($element) => {
       try {
-        new Component($element, loadingHelper).initialise()
+        new Component($element).initialise()
       } catch (error) {
         console.log(error)
       }

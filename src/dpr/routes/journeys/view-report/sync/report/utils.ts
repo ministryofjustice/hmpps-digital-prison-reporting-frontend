@@ -4,25 +4,26 @@ import Dict = NodeJS.Dict
 import type { components } from '../../../../../types/api'
 import type { DataTable } from '../../../../../utils/DataTableBuilder/types'
 import type { ListWithWarnings } from '../../../../../data/types'
-import type { Columns } from '../../../../../components/_reports/report-columns-form/types'
+import type { Columns } from '../../../../../components/_reports/report-heading/report-columns/report-columns-form/types'
 import type { Services } from '../../../../../types/Services'
-import type { DownloadActionParams } from '../../../../../components/_reports/report-actions/types'
+import type { DownloadActionParams } from '../../../../../components/_reports/report-heading/report-actions/types'
 import { LoadType, ReportType, RequestStatus } from '../../../../../types/UserReports'
 import ReportQuery from '../../../../../types/ReportQuery'
 import { Template } from '../../../../../types/Templates'
 import { FilterValue } from '../../../../../components/_filters/types'
 
-import PaginationUtils from '../../../../../components/_reports/report-pagination/utils'
-import TotalsUtils from '../../../../../components/_reports/report-totals/utils'
-import ColumnUtils from '../../../../../components/_reports/report-columns-form/utils'
-import ReportActionsUtils from '../../../../../components/_reports/report-actions/utils'
+import PaginationUtils from '../../../../../components/_reports/report-page/report-template/report-pagination/utils'
+import TotalsUtils from '../../../../../components/_reports/report-page/report-template/report-totals/utils'
+import ColumnUtils from '../../../../../components/_reports/report-heading/report-columns/report-columns-form/utils'
+import ReportActionsUtils from '../../../../../components/_reports/report-heading/report-actions/utils'
 import FiltersUtils from '../../../../../components/_filters/utils'
 import SelectedFiltersUtils from '../../../../../components/_filters/filters-selected/utils'
 import LocalsHelper from '../../../../../utils/localsHelper'
 import UserStoreItemBuilder from '../../../../../utils/UserStoreItemBuilder'
 
-import DataTableBuilder from '../../../../../utils/DataTableBuilder/DataTableBuilder'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
+import { ReportTemplateData } from '../../../../../utils/TemplateBuilder/SectionedDataHelper/types'
+import ReportTemplateUtils from '../../../../../components/_reports/report-page/report-template/utils'
 
 export const setActions = (
   csrfToken: string,
@@ -221,6 +222,7 @@ export const getReportRenderData = async ({
   reportQuery,
   data,
   filtersType,
+  definition,
 }: {
   req: Request
   res?: Response
@@ -230,14 +232,29 @@ export const getReportRenderData = async ({
   reportQuery: ReportQuery
   data: Dict<string>[]
   filtersType?: FiltersType
+  definition: components['schemas']['SingleVariantReportDefinition']
 }) => {
   const url = parseUrl(req)
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
   const pathname = url?.search ? req.originalUrl.split(url.search)[0] : req.originalUrl
+  const columns = ColumnUtils.getColumns(specification, req)
+  const reportDefinition = {
+    ...definition,
+    variant: {
+      ...definition.variant,
+      interactive: true,
+    },
+  }
 
-  const dataTable: DataTable = new DataTableBuilder(specification.fields)
-    .withHeaderSortOptions(reportQuery)
-    .buildTable(data)
+  // Get the data table
+  const dataTable: DataTable | ReportTemplateData = ReportTemplateUtils.createReportTemplateData(
+    reportDefinition,
+    columns,
+    data,
+    [], // child data - N/A for sync reports
+    [], // summaries data - N/A for sync reports
+    reportQuery,
+  )
 
   let pagination
   let totals
@@ -259,10 +276,8 @@ export const getReportRenderData = async ({
     filtersType: filtersType || FiltersType.INTERACTIVE,
   })
 
-  const columns = ColumnUtils.getColumns(specification, req)
-
   return {
-    dataTable: [dataTable],
+    dataTable,
     totals,
     filterData,
     columns,
@@ -271,6 +286,7 @@ export const getReportRenderData = async ({
     reportSearch: url?.search,
     encodedSearch: url?.search ? encodeURIComponent(url.search) : undefined,
     fullUrl,
+    template: specification.template,
   }
 }
 
@@ -305,7 +321,16 @@ export const getRenderData = async ({
     throw new Error('No specicication found in definition')
   }
 
-  const reportRenderData = await getReportRenderData({ req, res, services, count, specification, reportQuery, data })
+  const reportRenderData = await getReportRenderData({
+    req,
+    res,
+    services,
+    count,
+    specification,
+    reportQuery,
+    data,
+    definition: reportDefinition,
+  })
 
   const actions = setActions(
     csrfToken,

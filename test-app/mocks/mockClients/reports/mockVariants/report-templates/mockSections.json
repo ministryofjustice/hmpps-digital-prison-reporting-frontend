@@ -1,0 +1,352 @@
+{
+   "sections": {
+     "sections": [
+       {
+         "title": "First: Section 1, Second: Section 1.1",
+         "count": 3,
+         "key": "[{\"name\":\"section1\",\"value\":\"Section 1\"},{\"name\":\"section2\",\"value\":\"Section 1.1\"}]",
+         "summaries": [
+           {
+             "id": "summary6",
+             "template": "table-header",
+             "fields": [
+               {
+                 "name": "field1",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field2",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field3",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field4",
+                 "display": "Field 1",
+                 "type": "string"
+               }
+             ],
+             "data": [
+               {
+                 "section1": "Section 1",
+                 "section2": "Section 1.1",
+                 "field1": "Section One A Header",
+                 "field2": 1,
+                 "field3": 12219380923,
+                 "field4": "4 Freds"
+               }
+             ]
+           },
+           {
+             "id": "summary7",
+             "template": "table-footer",
+             "fields": [
+               {
+                 "name": "field1",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field2",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field3",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field4",
+                 "display": "Field 1",
+                 "type": "string"
+               }
+             ],
+             "data": [
+               {
+                 "section1": "Section 1",
+                 "section2": "Section 1.1",
+                 "field1": "Section One A Footer",
+                 "field2": 1,
+                 "field3": 12219380923,
+                 "field4": "6 Freds"
+               }
+             ]
+           },
+           {
+             "id": "summary9",
+             "template": "page-header",
+             "fields": [
+               {
+                 "name": "field1",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field2",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field3",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field4",
+                 "display": "Field 1",
+                 "type": "string"
+               }
+             ],
+             "data": [
+               {
+                 "section1": "Section 1",
+                 "section2": "Section 1.1",
+                 "field1": "Section One A Header",
+                 "field2": 1,
+                 "field3": 12219380923,
+                 "field4": "4 Freds"
+               }
+             ]
+           },
+           {
+             "id": "summary10",
+             "template": "page-footer",
+             "fields": [
+               {
+                 "name": "field1",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field2",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field3",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field4",
+                 "display": "Field 1",
+                 "type": "string"
+               }
+             ],
+             "data": [
+               {
+                 "section1": "Section 1",
+                 "section2": "Section 1.1",
+                 "field1": "Section One A Footer",
+                 "field2": 1,
+                 "field3": 12219380923,
+                 "field4": "6 Freds"
+               }
+             ]
+           }
+         ],
+         "data": [
+           {
+             "field1": "Value 1",
+             "field2": "Value 2",
+             "field3": "2003-02-01T01:00",
+             "field4": "Value 4",
+             "section1": "Section 1",
+             "section2": "Section 1.1"
+           },
+           {
+             "field1": "Value 1",
+             "field2": "Value 2",
+             "field3": "2003-02-01T01:00",
+             "field4": "Value 4",
+             "section1": "Section 1",
+             "section2": "Section 1.1"
+           },
+           {
+             "field1": "Value 1",
+             "field2": "Value 2",
+             "field3": "2003-02-01T01:00",
+             "field4": "Value 4",
+             "section1": "Section 1",
+             "section2": "Section 1.1"
+           }
+         ]
+       },
+       {
+         "title": "First: Section 1, Second: Section 1.2",
+         "count": 4,
+         "key": "[{\"name\":\"section1\",\"value\":\"Section 1\"},{\"name\":\"section2\",\"value\":\"Section 1.2\"}]",
+         "summaries": [],
+         "data": [
+           {
+             "field1": "Value 1",
+             "field2": "Value 2",
+             "field3": "2003-02-01T01:00",
+             "field4": "Value 4",
+             "section1": "Section 1",
+             "section2": "Section 1.2"
+           },
+           {
+             "field1": "Value 1",
+             "field2": "Value 2",
+             "field3": "2003-02-01T01:00",
+             "field4": "Value 4",
+             "section1": "Section 1",
+             "section2": "Section 1.2"
+           },
+           {
+             "field1": "Value 1",
+             "field2": "Value 2",
+             "field3": "2003-02-01T01:00",
+             "field4": "Value 4",
+             "section1": "Section 1",
+             "section2": "Section 1.2"
+           },
+           {
+             "field1": "Value 1",
+             "field2": "Value 2",
+             "field3": "2003-02-01T01:00",
+             "field4": "Value 4",
+             "section1": "Section 1",
+             "section2": "Section 1.2"
+           }
+         ]
+       },
+       {
+         "title": "First: Section 2, Second: Section 2.1",
+         "count": 2,
+         "key": "[{\"name\":\"section1\",\"value\":\"Section 2\"},{\"name\":\"section2\",\"value\":\"Section 2.1\"}]",
+         "summaries": [
+           {
+             "id": "summary6",
+             "template": "table-header",
+             "fields": [
+               {
+                 "name": "field1",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field2",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field3",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field4",
+                 "display": "Field 1",
+                 "type": "string"
+               }
+             ],
+             "data": [
+               {
+                 "section1": "Section 2",
+                 "section2": "Section 2.1",
+                 "field1": "Section Two A Header",
+                 "field2": 1,
+                 "field3": 12219380923,
+                 "field4": "5 Freds"
+               }
+             ]
+           },
+           {
+             "id": "summary9",
+             "template": "page-header",
+             "fields": [
+               {
+                 "name": "field1",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field2",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field3",
+                 "display": "Field 1",
+                 "type": "string"
+               },
+               {
+                 "name": "field4",
+                 "display": "Field 1",
+                 "type": "string"
+               }
+             ],
+             "data": [
+               {
+                 "section1": "Section 2",
+                 "section2": "Section 2.1",
+                 "field1": "Section Two A Header",
+                 "field2": 1,
+                 "field3": 12219380923,
+                 "field4": "5 Freds"
+               }
+             ]
+           }
+         ],
+         "data": [
+           {
+             "field1": "Value 1",
+             "field2": "Value 2",
+             "field3": "2003-02-01T01:00",
+             "field4": "Value 4",
+             "section1": "Section 2",
+             "section2": "Section 2.1"
+           },
+           {
+             "field1": "Value 1",
+             "field2": "Value 2",
+             "field3": "2003-02-01T01:00",
+             "field4": "Value 4",
+             "section1": "Section 2",
+             "section2": "Section 2.1"
+           }
+         ]
+       },
+       {
+         "title": "First: Section 2, Second: Section 2.2",
+         "count": 3,
+         "key": "[{\"name\":\"section1\",\"value\":\"Section 2\"},{\"name\":\"section2\",\"value\":\"Section 2.2\"}]",
+         "summaries": [],
+         "data": [
+           {
+             "field1": "Value 1",
+             "field2": "Value 2",
+             "field3": "2003-02-01T01:00",
+             "field4": "Value 4",
+             "section1": "Section 2",
+             "section2": "Section 2.2"
+           },
+           {
+             "field1": "Value 1",
+             "field2": "Value 2",
+             "field3": "2003-02-01T01:00",
+             "field4": "Value 4",
+             "section1": "Section 2",
+             "section2": "Section 2.2"
+           },
+           {
+             "field1": "Value 1",
+             "field2": "Value 2",
+             "field3": "2003-02-01T01:00",
+             "field4": "Value 4",
+             "section1": "Section 2",
+             "section2": "Section 2.2"
+           }
+         ]
+       }
+     ]
+  }
+}

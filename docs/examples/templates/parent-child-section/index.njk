@@ -3,403 +3,787 @@ layout: layouts/example.njk
 title: Parent-child-section Report (example)
 ---
 
-{%- from "dpr/components/_reports/report-wrapper/view.njk" import dprReportWrapper -%}
+{%- from "dpr/components/_reports/report-page/view.njk" import dprReportPage -%}
 
 {% set data = {
-  "columns": {
-    "name": "columns",
-    "options": [
+  columns: {
+    name: 'columns',
+    options: [
       {
-        "text": "Field 1",
-        "value": "field1",
-        "disabled": false
+        text: 'Field 1',
+        value: 'field1',
+        disabled: false
       },
       {
-        "text": "Child key",
-        "value": "childKey",
-        "disabled": false
+        text: 'Child key',
+        value: 'childKey',
+        disabled: false
       }
     ],
-    "text": "Select report columns",
-    "value": [
-      "field1",
-      "childKey"
+    text: 'Select report columns',
+    value: ['field1', 'childKey']
+  },
+  filterData: {
+    filters: [],
+    selectedFilters: [],
+    canSaveDefaults: true
+  },
+  count: 100,
+  nestedBaseUrl: '/embedded/platform',
+  csrfToken: 'csrfToken',
+  loadType: 'async',
+  type: 'report',
+  tableId: 'tblId_1769454262897',
+  reportId: 'report-template-examples',
+  id: 'report-template-parent-child-section',
+  actions: [],
+  canDownload: false,
+  reportName: 'Report templates',
+  name: 'Parent-child-section',
+  description: 'Template: "parent-child-section". </br> A report with parent and child datasets in sections',
+  classification: 'OFFICIAL',
+  printable: true,
+  specification: {
+    template: 'parent-child-section',
+    sections: ['section1', 'section2'],
+    fields: [
+      {
+        name: 'field1',
+        display: 'Field 1',
+        sortable: false,
+        defaultsort: false,
+        type: 'string',
+        mandatory: false,
+        visible: true
+      },
+      {
+        name: 'childKey',
+        display: 'Child key',
+        sortable: false,
+        defaultsort: false,
+        type: 'string',
+        mandatory: false,
+        visible: true
+      },
+      {
+        name: 'section1',
+        display: 'Section 1',
+        sortable: false,
+        defaultsort: false,
+        type: 'string',
+        mandatory: false,
+        visible: false
+      },
+      {
+        name: 'section2',
+        display: 'Section 2',
+        sortable: false,
+        defaultsort: false,
+        type: 'string',
+        mandatory: false,
+        visible: false
+      }
     ]
   },
-  "filterData": {
-    "filters": [],
-    "selectedFilters": []
-  },
-  "count": 100,
-  "csrfToken": "csrfToken",
-  "classification": "OFFICIAL",
-  "template": "parent-child-section",
-  "loadType": "async",
-  "type": "report",
-  "actions": [
+  template: 'parent-child-section',
+  fields: [
+    {
+      name: 'field1',
+      display: 'Field 1',
+      sortable: false,
+      defaultsort: false,
+      type: 'string',
+      mandatory: false,
+      visible: true
+    },
+    {
+      name: 'childKey',
+      display: 'Child key',
+      sortable: false,
+      defaultsort: false,
+      type: 'string',
+      mandatory: false,
+      visible: true
+    },
+    {
+      name: 'section1',
+      display: 'Section 1',
+      sortable: false,
+      defaultsort: false,
+      type: 'string',
+      mandatory: false,
+      visible: false
+    },
+    {
+      name: 'section2',
+      display: 'Section 2',
+      sortable: false,
+      defaultsort: false,
+      type: 'string',
+      mandatory: false,
+      visible: false
+    }
   ],
-  "canDownload": false,
-  "printable": true,
-  "reportName": "D Test Report",
-  "name": "Parent Child Section Template",
-  "description": "A report with parent and child datasets in sections",
-  "requestedTimestamp": "15/05/2025, 13:53:14",
-  "reportId": "test-report-4",
-  "tableId": "tblId_1747313592802",
-  "id": "variantId-27",
-  "executionId": "exId_1747313592802",
-  "querySummary": [],
-  "requestUrl": {
-    "fullUrl": "http://localhost:3010/async/report/test-report-4/variantId-27/request",
-    "pathname": "/async/report/test-report-4/variantId-27/request",
-    "search": ""
+  executionId: 'exId_1769454262897',
+  requestedTimestamp: '26/01/2026, 19:04:24',
+  querySummary: [],
+  queryData: {},
+  requestUrl: {
+    fullUrl:
+      'http://localhost:3010/embedded/platform/dpr/request-report/report/report-template-examples/report-template-parent-child-section/filters',
+    pathname:
+      '/embedded/platform/dpr/request-report/report/report-template-examples/report-template-parent-child-section/filters',
+    search: ''
   },
-  "reportUrl": "/async/report/test-report-4/variantId-27/request/tblId_1747313592802/report",
-  "reportSearch": "?columns=field1&columns=childKey",
-  "encodedSearch": "%3Fcolumns%3Dfield1%26columns%3DchildKey",
-  "search": "?columns=field1&columns=childKey",
-  "pathname": "/async/report/test-report-4/variantId-27/request/tblId_1747313592802/report",
-  "dataTable": [{
-    "head": null,
-    "rows": [
-      [
-        {
-          "classes": "dpr-section-header",
-          "colspan": 2,
-          "html": "<h2 class=\"govuk-heading-m\">Section 1: Section 1, Section 2: Section 1.1 <span class='govuk-caption-m'>3 results</span></h2>"
-        }
-      ],
-      [
-        {
-          "classes": "dpr-section-header-spacer-bottom",
-          "colspan": 2,
-          "text": ""
-        }
-      ],
-      [
-        {
-          "text": "Field 1",
-          "classes": "govuk-table__header"
-        },
-        {
-          "text": "Child key",
-          "classes": "govuk-table__header"
-        }
-      ],
-      [
-        {
-          "fieldName": "field1",
-          "text": "Parent 1",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        },
-        {
-          "fieldName": "childKey",
-          "text": "one",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        }
-      ],
-      [
-        {
-          "classes": "dpr-child-report-cell",
-          "format": "string",
-          "html": "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child Report</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Child Field 1</th><th scope='col' class='govuk-table__header'>Child Field 2</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child one - Parent 1</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child two - Parent 1</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr></tbody></table></div></div>",
-          "colspan": 2
-        }
-      ],
-      [
-        {
-          "text": "Field 1",
-          "classes": "govuk-table__header"
-        },
-        {
-          "text": "Child key",
-          "classes": "govuk-table__header"
-        }
-      ],
-      [
-        {
-          "fieldName": "field1",
-          "text": "Parent 2",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        },
-        {
-          "fieldName": "childKey",
-          "text": "two",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        }
-      ],
-      [
-        {
-          "classes": "dpr-child-report-cell",
-          "format": "string",
-          "html": "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child Report</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Child Field 1</th><th scope='col' class='govuk-table__header'>Child Field 2</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child one - Parent 2</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child two - Parent 2</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr></tbody></table></div></div>",
-          "colspan": 2
-        }
-      ],
-      [
-        {
-          "text": "Field 1",
-          "classes": "govuk-table__header"
-        },
-        {
-          "text": "Child key",
-          "classes": "govuk-table__header"
-        }
-      ],
-      [
-        {
-          "fieldName": "field1",
-          "text": "Parent 3",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        },
-        {
-          "fieldName": "childKey",
-          "text": "three",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        }
-      ],
-      [
-        {
-          "classes": "dpr-child-report-cell",
-          "format": "string",
-          "html": "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child Report</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Child Field 1</th><th scope='col' class='govuk-table__header'>Child Field 2</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child one - Parent 3</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child two - Parent 3</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr></tbody></table></div></div>",
-          "colspan": 2
-        }
-      ],
-      [
-        {
-          "classes": "dpr-section-header-spacer",
-          "colspan": 2,
-          "text": ""
-        }
-      ],
-      [
-        {
-          "classes": "dpr-section-header",
-          "colspan": 2,
-          "html": "<h2 class=\"govuk-heading-m\">Section 1: Section 1, Section 2: Section 1.2 <span class='govuk-caption-m'>2 results</span></h2>"
-        }
-      ],
-      [
-        {
-          "classes": "dpr-section-header-spacer-bottom",
-          "colspan": 2,
-          "text": ""
-        }
-      ],
-      [
-        {
-          "text": "Field 1",
-          "classes": "govuk-table__header"
-        },
-        {
-          "text": "Child key",
-          "classes": "govuk-table__header"
-        }
-      ],
-      [
-        {
-          "fieldName": "field1",
-          "text": "Parent 4",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        },
-        {
-          "fieldName": "childKey",
-          "text": "four",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        }
-      ],
-      [
-        {
-          "classes": "dpr-child-report-cell",
-          "format": "string",
-          "html": "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child Report</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Child Field 1</th><th scope='col' class='govuk-table__header'>Child Field 2</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child one - Parent 4</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child two - Parent 4</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr></tbody></table></div></div>",
-          "colspan": 2
-        }
-      ],
-      [
-        {
-          "text": "Field 1",
-          "classes": "govuk-table__header"
-        },
-        {
-          "text": "Child key",
-          "classes": "govuk-table__header"
-        }
-      ],
-      [
-        {
-          "fieldName": "field1",
-          "text": "Parent 5",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        },
-        {
-          "fieldName": "childKey",
-          "text": "five",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        }
-      ],
-      [
-        {
-          "classes": "dpr-child-report-cell",
-          "format": "string",
-          "html": "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child Report</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Child Field 1</th><th scope='col' class='govuk-table__header'>Child Field 2</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child one - Parent 5</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child two - Parent 5</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr></tbody></table></div></div>",
-          "colspan": 2
-        }
-      ],
-      [
-        {
-          "classes": "dpr-section-header-spacer",
-          "colspan": 2,
-          "text": ""
-        }
-      ],
-      [
-        {
-          "classes": "dpr-section-header",
-          "colspan": 2,
-          "html": "<h2 class=\"govuk-heading-m\">Section 1: Section 2, Section 2: Section 2.1 <span class='govuk-caption-m'>1 result</span></h2>"
-        }
-      ],
-      [
-        {
-          "classes": "dpr-section-header-spacer-bottom",
-          "colspan": 2,
-          "text": ""
-        }
-      ],
-      [
-        {
-          "text": "Field 1",
-          "classes": "govuk-table__header"
-        },
-        {
-          "text": "Child key",
-          "classes": "govuk-table__header"
-        }
-      ],
-      [
-        {
-          "fieldName": "field1",
-          "text": "Parent 6",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        },
-        {
-          "fieldName": "childKey",
-          "text": "six",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        }
-      ],
-      [
-        {
-          "classes": "dpr-child-report-cell",
-          "format": "string",
-          "html": "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child Report</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Child Field 1</th><th scope='col' class='govuk-table__header'>Child Field 2</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child one - Parent 6</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child two - Parent 6</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr></tbody></table></div></div>",
-          "colspan": 2
-        }
-      ],
-      [
-        {
-          "classes": "dpr-section-header-spacer",
-          "colspan": 2,
-          "text": ""
-        }
-      ],
-      [
-        {
-          "classes": "dpr-section-header",
-          "colspan": 2,
-          "html": "<h2 class=\"govuk-heading-m\">Section 1: Section 2, Section 2: Section 2.2 <span class='govuk-caption-m'>2 results</span></h2>"
-        }
-      ],
-      [
-        {
-          "classes": "dpr-section-header-spacer-bottom",
-          "colspan": 2,
-          "text": ""
-        }
-      ],
-      [
-        {
-          "text": "Field 1",
-          "classes": "govuk-table__header"
-        },
-        {
-          "text": "Child key",
-          "classes": "govuk-table__header"
-        }
-      ],
-      [
-        {
-          "fieldName": "field1",
-          "text": "Parent 7",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        },
-        {
-          "fieldName": "childKey",
-          "text": "seven",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        }
-      ],
-      [
-        {
-          "classes": "dpr-child-report-cell",
-          "format": "string",
-          "html": "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child Report</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Child Field 1</th><th scope='col' class='govuk-table__header'>Child Field 2</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child one - Parent 7</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child two - Parent 7</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr></tbody></table></div></div>",
-          "colspan": 2
-        }
-      ],
-      [
-        {
-          "text": "Field 1",
-          "classes": "govuk-table__header"
-        },
-        {
-          "text": "Child key",
-          "classes": "govuk-table__header"
-        }
-      ],
-      [
-        {
-          "fieldName": "field1",
-          "text": "Parent 8",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        },
-        {
-          "fieldName": "childKey",
-          "text": "eight",
-          "format": "string",
-          "classes": "dpr-parent-cell"
-        }
-      ],
-      [
-        {
-          "classes": "dpr-child-report-cell",
-          "format": "string",
-          "html": "<div class='dpr-child-report'><h3 class=\"govuk-heading-s\">Child Report</h3><div class=\"dpr-child-report_table\"><table class='govuk-table'><thead class='govuk-table__head'><th scope='col' class='govuk-table__header'>Child Field 1</th><th scope='col' class='govuk-table__header'>Child Field 2</th></thead><tbody class='govuk-table__body'><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child one - Parent 8</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr><tr class='govuk-table__row'><td class='govuk-table__cell govuk-table__cell--string '>Child two - Parent 8</td><td class='govuk-table__cell govuk-table__cell--string '>Other value</td></tr></tbody></table></div></div>",
-          "colspan": 2
-        }
-      ]
-    ],
-    "rowCount": 8,
-    "colCount": 2
-  }]
-}
-%}
+  reportUrl:
+    '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-parent-child-section/tblId_1769454262897/report',
+  pathname:
+    '/embedded/platform/dpr/view-report/async/report/report-template-examples/report-template-parent-child-section/tblId_1769454262897/report',
+  dataTable: {
+    rowCount: 8,
+    sections: [
+      {
+        key: '[{"name":"section1","value":"One"},{"name":"section2","value":"A"}]',
+        keyObj: [
+          {
+            name: 'section1',
+            value: 'One'
+          },
+          {
+            name: 'section2',
+            value: 'A'
+          }
+        ],
+        title: 'Section 1: One, Section 2: A',
+        count: 3,
+        summaries: [],
+        data: [
+          {
+            parent: {
+              head: [
+                {
+                  text: 'Field 1'
+                },
+                {
+                  text: 'Child key'
+                }
+              ],
+              rows: [
+                [
+                  {
+                    fieldName: 'field1',
+                    text: 'Parent 1',
+                    format: 'string',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'childKey',
+                    text: 'one',
+                    format: 'string',
+                    classes: ''
+                  }
+                ]
+              ]
+            },
+            children: [
+              {
+                title: 'Child Report',
+                rows: [
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child one - Parent 1',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ],
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child two - Parent 1',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ]
+                ],
+                head: [
+                  {
+                    text: 'Child Field 1'
+                  },
+                  {
+                    text: 'Child Field 2'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            parent: {
+              head: [
+                {
+                  text: 'Field 1'
+                },
+                {
+                  text: 'Child key'
+                }
+              ],
+              rows: [
+                [
+                  {
+                    fieldName: 'field1',
+                    text: 'Parent 2',
+                    format: 'string',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'childKey',
+                    text: 'two',
+                    format: 'string',
+                    classes: ''
+                  }
+                ]
+              ]
+            },
+            children: [
+              {
+                title: 'Child Report',
+                rows: [
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child one - Parent 2',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ],
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child two - Parent 2',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ]
+                ],
+                head: [
+                  {
+                    text: 'Child Field 1'
+                  },
+                  {
+                    text: 'Child Field 2'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            parent: {
+              head: [
+                {
+                  text: 'Field 1'
+                },
+                {
+                  text: 'Child key'
+                }
+              ],
+              rows: [
+                [
+                  {
+                    fieldName: 'field1',
+                    text: 'Parent 3',
+                    format: 'string',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'childKey',
+                    text: 'three',
+                    format: 'string',
+                    classes: ''
+                  }
+                ]
+              ]
+            },
+            children: [
+              {
+                title: 'Child Report',
+                rows: [
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child one - Parent 3',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ],
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child two - Parent 3',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ]
+                ],
+                head: [
+                  {
+                    text: 'Child Field 1'
+                  },
+                  {
+                    text: 'Child Field 2'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        key: '[{"name":"section1","value":"One"},{"name":"section2","value":"B"}]',
+        keyObj: [
+          {
+            name: 'section1',
+            value: 'One'
+          },
+          {
+            name: 'section2',
+            value: 'B'
+          }
+        ],
+        title: 'Section 1: One, Section 2: B',
+        count: 2,
+        summaries: [],
+        data: [
+          {
+            parent: {
+              head: [
+                {
+                  text: 'Field 1'
+                },
+                {
+                  text: 'Child key'
+                }
+              ],
+              rows: [
+                [
+                  {
+                    fieldName: 'field1',
+                    text: 'Parent 4',
+                    format: 'string',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'childKey',
+                    text: 'four',
+                    format: 'string',
+                    classes: ''
+                  }
+                ]
+              ]
+            },
+            children: [
+              {
+                title: 'Child Report',
+                rows: [
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child one - Parent 4',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ],
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child two - Parent 4',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ]
+                ],
+                head: [
+                  {
+                    text: 'Child Field 1'
+                  },
+                  {
+                    text: 'Child Field 2'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            parent: {
+              head: [
+                {
+                  text: 'Field 1'
+                },
+                {
+                  text: 'Child key'
+                }
+              ],
+              rows: [
+                [
+                  {
+                    fieldName: 'field1',
+                    text: 'Parent 5',
+                    format: 'string',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'childKey',
+                    text: 'five',
+                    format: 'string',
+                    classes: ''
+                  }
+                ]
+              ]
+            },
+            children: [
+              {
+                title: 'Child Report',
+                rows: [
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child one - Parent 5',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ],
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child two - Parent 5',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ]
+                ],
+                head: [
+                  {
+                    text: 'Child Field 1'
+                  },
+                  {
+                    text: 'Child Field 2'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        key: '[{"name":"section1","value":"Two"},{"name":"section2","value":"A"}]',
+        keyObj: [
+          {
+            name: 'section1',
+            value: 'Two'
+          },
+          {
+            name: 'section2',
+            value: 'A'
+          }
+        ],
+        title: 'Section 1: Two, Section 2: A',
+        count: 1,
+        summaries: [],
+        data: [
+          {
+            parent: {
+              head: [
+                {
+                  text: 'Field 1'
+                },
+                {
+                  text: 'Child key'
+                }
+              ],
+              rows: [
+                [
+                  {
+                    fieldName: 'field1',
+                    text: 'Parent 6',
+                    format: 'string',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'childKey',
+                    text: 'six',
+                    format: 'string',
+                    classes: ''
+                  }
+                ]
+              ]
+            },
+            children: [
+              {
+                title: 'Child Report',
+                rows: [
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child one - Parent 6',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ],
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child two - Parent 6',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ]
+                ],
+                head: [
+                  {
+                    text: 'Child Field 1'
+                  },
+                  {
+                    text: 'Child Field 2'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        key: '[{"name":"section1","value":"Two"},{"name":"section2","value":"B"}]',
+        keyObj: [
+          {
+            name: 'section1',
+            value: 'Two'
+          },
+          {
+            name: 'section2',
+            value: 'B'
+          }
+        ],
+        title: 'Section 1: Two, Section 2: B',
+        count: 2,
+        summaries: [],
+        data: [
+          {
+            parent: {
+              head: [
+                {
+                  text: 'Field 1'
+                },
+                {
+                  text: 'Child key'
+                }
+              ],
+              rows: [
+                [
+                  {
+                    fieldName: 'field1',
+                    text: 'Parent 7',
+                    format: 'string',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'childKey',
+                    text: 'seven',
+                    format: 'string',
+                    classes: ''
+                  }
+                ]
+              ]
+            },
+            children: [
+              {
+                title: 'Child Report',
+                rows: [
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child one - Parent 7',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ],
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child two - Parent 7',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ]
+                ],
+                head: [
+                  {
+                    text: 'Child Field 1'
+                  },
+                  {
+                    text: 'Child Field 2'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            parent: {
+              head: [
+                {
+                  text: 'Field 1'
+                },
+                {
+                  text: 'Child key'
+                }
+              ],
+              rows: [
+                [
+                  {
+                    fieldName: 'field1',
+                    text: 'Parent 8',
+                    format: 'string',
+                    classes: ''
+                  },
+                  {
+                    fieldName: 'childKey',
+                    text: 'eight',
+                    format: 'string',
+                    classes: ''
+                  }
+                ]
+              ]
+            },
+            children: [
+              {
+                title: 'Child Report',
+                rows: [
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child one - Parent 8',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ],
+                  [
+                    {
+                      fieldName: 'field1',
+                      text: 'Child two - Parent 8',
+                      format: 'string',
+                      classes: ''
+                    },
+                    {
+                      fieldName: 'field2',
+                      text: 'Other value',
+                      format: 'string',
+                      classes: ''
+                    }
+                  ]
+                ],
+                head: [
+                  {
+                    text: 'Child Field 1'
+                  },
+                  {
+                    text: 'Child Field 2'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+} %}
 
-{{ dprReportWrapper(data) }}
+{{ dprReportPage(data) }}

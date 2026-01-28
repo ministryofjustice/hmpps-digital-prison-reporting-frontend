@@ -3,8 +3,8 @@ import { Url } from 'url'
 import { Request, Response } from 'express'
 
 // Types
-import { ReportTemplateData } from '../../../../../utils/SectionedDataBuilder/types'
-import { ChildData } from '../../../../../utils/ParentChildDataBuilder/types'
+import { ReportTemplateData } from '../../../../../utils/TemplateBuilder/SectionedDataHelper/types'
+import { ChildData } from '../../../../../utils/TemplateBuilder/ParentChildDataBuilder/types'
 import type { Columns } from '../../../../../components/_reports/report-heading/report-columns/report-columns-form/types'
 import type { AsyncReportUtilsParams } from '../../../../../types/AsyncReportUtils'
 import type { DataTable } from '../../../../../utils/DataTableBuilder/types'

@@ -1,4 +1,4 @@
-import { Cell } from '../DataTableBuilder/types'
+import { Cell } from '../../DataTableBuilder/types'
 
 export interface ListSectionTableData {
   head: Cell[] | null

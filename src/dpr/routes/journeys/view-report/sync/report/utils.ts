@@ -21,9 +21,8 @@ import SelectedFiltersUtils from '../../../../../components/_filters/filters-sel
 import LocalsHelper from '../../../../../utils/localsHelper'
 import UserStoreItemBuilder from '../../../../../utils/UserStoreItemBuilder'
 
-import DataTableBuilder from '../../../../../utils/DataTableBuilder/DataTableBuilder'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
-import { ReportTemplateData } from '../../../../../utils/SectionedDataBuilder/types'
+import { ReportTemplateData } from '../../../../../utils/TemplateBuilder/SectionedDataHelper/types'
 import ReportTemplateUtils from '../../../../../components/_reports/report-page/report-template/utils'
 
 export const setActions = (

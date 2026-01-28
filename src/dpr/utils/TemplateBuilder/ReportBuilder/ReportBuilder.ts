@@ -1,26 +1,24 @@
-import { AsyncSummary } from '../../types/UserReports'
-import { SummaryTemplate } from '../../types/Templates'
-import { components } from '../../types/api'
-import CollatedSummaryBuilder from '../CollatedSummaryBuilder/CollatedSummaryBuilder'
-import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
-import SectionedDataBuilder from '../SectionedDataBuilder/SectionedDataBuilder'
-import { ReportTemplateData, SectionData } from '../SectionedDataBuilder/types'
-import { DataTable } from '../DataTableBuilder/types'
-import TemplateBuilder from '../TemplateBuilder/TemplateBuilder'
+import { AsyncSummary } from '../../../types/UserReports'
+import { SummaryTemplate } from '../../../types/Templates'
+import { components } from '../../../types/api'
+import SummaryDataHelper from '../SummaryDataHelper/SummaryDataHelper'
+import DataTableBuilder from '../../DataTableBuilder/DataTableBuilder'
+import SectionedDataHelper from '../SectionedDataHelper/SectionedDataHelper'
+import { ReportTemplateData, SectionData } from '../SectionedDataHelper/types'
+import { DataTable } from '../../DataTableBuilder/types'
+import TemplateBuilder from '../TemplateBuilder'
 
 class ReportBuilder extends TemplateBuilder {
   dataTableBuilder!: DataTableBuilder
 
-  sectionBuilder!: SectionedDataBuilder
-
-  summariesBuilder!: CollatedSummaryBuilder
+  sectionBuilder!: SectionedDataHelper
 
   constructor(variant: components['schemas']['VariantDefinition']) {
     super(variant)
   }
 
   buildMainTable(section: SectionData) {
-    const collatedSummaryBuilder = new CollatedSummaryBuilder(this.specification, section.summaries)
+    const collatedSummaryBuilder = new SummaryDataHelper(this.specification, section.summaries)
     const tableSummaries = collatedSummaryBuilder.collateDataTableSummaries()
     this.dataTableBuilder = new DataTableBuilder(this.fields)
     return this.dataTableBuilder
@@ -87,7 +85,7 @@ class ReportBuilder extends TemplateBuilder {
   }
 
   buildSectionedData() {
-    const sectionData = new SectionedDataBuilder()
+    const sectionData = new SectionedDataHelper()
       .withData(this.data)
       .withSections(this.sections)
       .withSummaries(this.summaries)

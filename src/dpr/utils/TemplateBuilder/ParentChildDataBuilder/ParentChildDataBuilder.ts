@@ -1,9 +1,9 @@
-import { components } from '../../types/api'
-import DataTableBuilder from '../DataTableBuilder/DataTableBuilder'
-import { DataTable } from '../DataTableBuilder/types'
-import SectionedDataBuilder from '../SectionedDataBuilder/SectionedDataBuilder'
-import { ReportTemplateData, SectionData } from '../SectionedDataBuilder/types'
-import TemplateBuilder from '../TemplateBuilder/TemplateBuilder'
+import { components } from '../../../types/api'
+import DataTableBuilder from '../../DataTableBuilder/DataTableBuilder'
+import { DataTable } from '../../DataTableBuilder/types'
+import SectionedDataHelper from '../SectionedDataHelper/SectionedDataHelper'
+import { ReportTemplateData, SectionData } from '../SectionedDataHelper/types'
+import TemplateBuilder from '../TemplateBuilder'
 import { ChildData, GroupedParentChildDataset, ParentChildTableData, ParentChildDataset } from './types'
 
 class ParentChildDataBuilder extends TemplateBuilder {
@@ -176,7 +176,7 @@ class ParentChildDataBuilder extends TemplateBuilder {
   }
 
   build(): ReportTemplateData {
-    const sectionData = new SectionedDataBuilder()
+    const sectionData = new SectionedDataHelper()
       .withSections(this.sections)
       .withData(this.data)
       .withFields(this.fields)

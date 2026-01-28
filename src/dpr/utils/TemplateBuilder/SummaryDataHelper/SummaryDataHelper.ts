@@ -1,9 +1,9 @@
 import Dict = NodeJS.Dict
-import { AsyncSummary } from '../../types/UserReports'
-import { SummaryTemplate } from '../../types/Templates'
-import { components } from '../../types/api'
-import { DataTable } from '../DataTableBuilder/types'
-import SummaryDataTableBuilder from '../SummaryDataTableBuilder/SummaryDataTableBuilder'
+import { AsyncSummary } from '../../../types/UserReports'
+import { SummaryTemplate } from '../../../types/Templates'
+import { components } from '../../../types/api'
+import { DataTable } from '../../DataTableBuilder/types'
+import SummaryDataTableBuilder from '../../SummaryDataTableBuilder/SummaryDataTableBuilder'
 
 class CollatedSummaryBuilder {
   private summaries: Array<AsyncSummary>

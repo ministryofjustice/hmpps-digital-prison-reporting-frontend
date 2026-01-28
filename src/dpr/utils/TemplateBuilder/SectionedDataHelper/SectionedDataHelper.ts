@@ -1,11 +1,11 @@
-import ReportQuery from '../../types/ReportQuery'
-import { SummaryTemplate } from '../../types/Templates'
-import { AsyncSummary } from '../../types/UserReports'
-import { components } from '../../types/api'
-import { getFieldsByName, getFieldDisplayName } from '../definitionUtils'
+import ReportQuery from '../../../types/ReportQuery'
+import { SummaryTemplate } from '../../../types/Templates'
+import { AsyncSummary } from '../../../types/UserReports'
+import { components } from '../../../types/api'
+import { getFieldsByName, getFieldDisplayName } from '../../definitionUtils'
 import { SectionData, SectionedData, SectionKey } from './types'
 
-class SectionedDataBuilder {
+class SectionedDataHelper {
   sections: Array<string> = []
 
   data: Array<Record<string, string>> = []
@@ -245,5 +245,5 @@ class SectionedDataBuilder {
   }
 }
 
-export { SectionedDataBuilder }
-export default SectionedDataBuilder
+export { SectionedDataHelper }
+export default SectionedDataHelper

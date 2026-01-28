@@ -219,6 +219,10 @@
   .dpr-table-container {
     .dpr-table-wrapper {
       overflow: visible;
+
+      .govuk-table__cell--content.print-header-footer {
+        font-size: 8px;
+      }
     }
     .dpr-overflow-gradient {
       display: none;

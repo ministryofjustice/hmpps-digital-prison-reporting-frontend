@@ -61,14 +61,14 @@ class DataTable extends DprClientClass {
 
       const classificationHeaderRow = header.insertRow(0)
       const classificationHeaderCell = classificationHeaderRow.insertCell(0)
-      classificationHeaderCell.outerHTML = `<th class="govuk-table__header govuk-table__cell--content print-header-footer" colspan=${headLength}>${classificationContent}</th>`
+      classificationHeaderCell.outerHTML = `<th class="govuk-table__header govuk-table__cell--content print-header-footer print-header-footer--header" colspan=${headLength}>${classificationContent}</th>`
 
       // Footers
       const footer = this.table.createTFoot()
 
       const classificationFooterRow = footer.insertRow(0)
       const classificationFooterCell = classificationFooterRow.insertCell(0)
-      classificationFooterCell.outerHTML = `<td class="govuk-table__cell govuk-table__cell--content print-header-footer table-row--no-border" colspan=${headLength}>${classificationContent}</td>`
+      classificationFooterCell.outerHTML = `<td class="govuk-table__cell govuk-table__cell--content print-header-footer table-row--no-border print-header-footer--footer" colspan=${headLength}>${classificationContent}</td>`
     }
   }
 }

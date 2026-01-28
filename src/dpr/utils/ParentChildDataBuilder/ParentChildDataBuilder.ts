@@ -160,10 +160,7 @@ class ParentChildDataBuilder {
       const children: ParentChildTableData['children'] = this.mapChildDataToTableData(group)
 
       return {
-        parent: {
-          head: parentTable.head,
-          rows: parentTable.rows,
-        },
+        parent: parentTable,
         children,
       }
     })
@@ -184,8 +181,7 @@ class ParentChildDataBuilder {
 
       return {
         title: name,
-        rows: childTable.rows,
-        head: childTable.head,
+        ...childTable,
       }
     })
   }

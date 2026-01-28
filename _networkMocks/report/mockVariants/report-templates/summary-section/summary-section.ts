@@ -4,8 +4,8 @@ import { LoadType } from '../../../../../src/dpr/types/UserReports'
 const reportTemplateExampleSectionedSummaries: components['schemas']['VariantDefinition'] & { loadType: LoadType } = {
   loadType: LoadType.ASYNC,
   id: 'report-template-example-sectioned-summaries',
-  name: 'Sectioned Summaries (no list)',
-  description: 'A report with summaries in sections, but no list.',
+  name: 'Summary-section',
+  description: 'Summary-section template',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

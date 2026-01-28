@@ -4,8 +4,8 @@ import { LoadType } from '../../../../../src/dpr/types/UserReports'
 const reportTemplateExampleSummaries: components['schemas']['VariantDefinition'] & { loadType: LoadType } = {
   loadType: LoadType.ASYNC,
   id: 'report-template-example-summaries-no-list',
-  name: 'Summaries template',
-  description: 'A report with summaries, but no list.',
+  name: 'Summary',
+  description: 'Summary template',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

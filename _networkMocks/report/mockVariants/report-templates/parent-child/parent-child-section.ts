@@ -5,7 +5,7 @@ const reportTemplateExampleParentChild: components['schemas']['VariantDefinition
   loadType: LoadType.ASYNC,
   id: 'report-template-parent-child-section',
   name: 'Parent-child-section',
-  description: 'Template: "parent-child-section". </br> A report with parent and child datasets in sections',
+  description: 'Parent-child-section template',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

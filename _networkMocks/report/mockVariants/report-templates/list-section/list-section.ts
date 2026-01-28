@@ -4,8 +4,8 @@ import { LoadType } from '../../../../../src/dpr/types/UserReports'
 const reportTemplateExampleListSection: components['schemas']['VariantDefinition'] & { loadType: LoadType } = {
   loadType: LoadType.ASYNC,
   id: 'report-template-example-list-section',
-  name: 'Sectioned',
-  description: 'A sectioned report.',
+  name: 'List-section',
+  description: 'list-section template',
   resourceName: 'reports/list',
   classification: 'OFFICIAL',
   printable: true,

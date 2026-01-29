@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 4.28.7
+- Replaced superagent with native nodejs http for the streaming calls as superagent was automatically unzipping and consuming the entire stream. 
+
 ## 4.28.6
 - Fixed issue with streaming request not being sent.
 

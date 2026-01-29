@@ -1,5 +1,9 @@
 import superagent, { ResponseError } from 'superagent'
 import Agent, { HttpsAgent } from 'agentkeepalive'
+import http from 'http'
+import https from 'https'
+import { URL } from 'url'
+import { pipeline } from 'stream'
 import { Response as ExpressResponse } from 'express'
 
 import logger from '../utils/logger'
@@ -44,43 +48,67 @@ class RestClient {
   }
 
   async getStream({ path = '', query = {}, headers = {}, token }: GetRequest, res: ExpressResponse): Promise<void> {
-    logger.info(`${this.name} STREAM GET: ${this.apiUrl()}${path}`)
-    logger.info(`query: ${JSON.stringify(query)}`)
+    const url = new URL(`${this.apiUrl()}${path}`)
 
-    const req = superagent
-      .get(`${this.apiUrl()}${path}`)
-      .agent(this.agent)
-      .query(query)
-      .auth(token, { type: 'bearer' })
-      .set(headers)
-      .timeout(this.timeoutConfig())
-
-    req.on('response', (upstream) => {
-      // Forward status
-      res.status(upstream.status)
-
-      // Forward headers
-      Object.entries(upstream.headers).forEach(([key, value]) => {
-        if (value !== undefined) {
-          res.setHeader(key, value as string)
-        }
-      })
-      res.on('close', () => {
-        logger.info('Client disconnected, aborting upstream request.')
-        req.abort()
-      })
-      res.flushHeaders()
-      upstream.pipe(res)
-    })
-
-    req.on('error', (error) => {
-      logger.warn({ error }, `Error streaming from ${this.name}, path: '${path}'`)
-      if (!res.headersSent) {
-        res.status(502).end('Download request failed. Error streaming response')
+    Object.entries(query).forEach(([key, value]) => {
+      if (value === undefined) return
+      if (Array.isArray(value)) {
+        value.forEach((v) => url.searchParams.append(key, String(v)))
       } else {
-        res.destroy(error)
+        url.searchParams.append(key, String(value))
       }
     })
+
+    const client = url.protocol === 'https:' ? https : http
+
+    const req = client.request(
+      url,
+      {
+        method: 'GET',
+        headers: {
+          ...headers,
+          Authorization: token ? `Bearer ${token}` : undefined,
+        },
+        agent: this.agent,
+      },
+      (upstream) => {
+        // Forward status
+        res.status(upstream.statusCode || 500)
+
+        // Forward headers
+        Object.entries(upstream.headers).forEach(([key, value]) => {
+          if (value !== undefined) {
+            res.setHeader(key, value as string)
+          }
+        })
+
+        res.flushHeaders()
+
+        res.on('close', () => {
+          req.destroy()
+        })
+
+        pipeline(upstream, res, (err) => {
+          if (err) {
+            res.destroy(err)
+          }
+        })
+      },
+    )
+
+    req.setTimeout(this.timeoutConfig(), () => {
+      req.destroy(new Error('Upstream request timed out.'))
+    })
+
+    req.on('error', (err) => {
+      logger.warn({ err }, `Error streaming from ${this.name}, path: '${path}'`)
+      if (!res.headersSent) {
+        res.status(502).end('Download request failed')
+      } else {
+        res.destroy(err)
+      }
+    })
+
     req.end()
   }
 

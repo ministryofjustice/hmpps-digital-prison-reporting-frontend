@@ -84,7 +84,7 @@ export const renderSyncDashboard = async ({
 
   const dashboardData: DashboardDataResponse[][] = await services.dashboardService.getSyncDashboard(
     token,
-    reportId,
+    id,
     reportId,
     query,
   )

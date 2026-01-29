@@ -1,25 +1,29 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 {% from "../report-data-table/view.njk" import dprDataTable %}
 
-{% macro dprParentChildTemplate(data, classification, template) %}
-  {% for dataset in data %}
-    {% set parent = dataset.parent %}
-    {% set children = dataset.children %}
+{% macro dprParentChildTemplate(data, classification, template, lableId) %}
+  <div class="dpr-parent-child-group" aria-labelledby="{{ lableId }}">
+    {% for dataset in data %}
+      {% set parent = dataset.parent %}
+      {% set children = dataset.children %}
+      {% set parentLabelId = "parent-id-" + loop.index %}
 
-    <div id="dpr-parent-child-data-{{ loop.index }}" class="dpr-parent-child-data" >
-      <div class="dpr-parent-child-data__parent">
-        {{ dprDataTable(parent, classification, template, loop.index) }}
-      </div>
-
-      {% for child in children %}
-      <div id="dpr-parent-child-data__child-{{ loop.index }}" class="dpr-parent-child-data__child">
-        <h2 class="govuk-heading-s">{{ child.title }}</h2>
-        <div class="dpr-parent-child-data__child-table">
-          {{ dprDataTable(child, classification, template, loop.index) }}
+      <div id="dpr-parent-child-data-{{ loop.index }}" class="dpr-parent-child-data" aria-labelledby="{{ parentLabelId }}">
+        <h2 id="{{ parentLabelId }}" class="govuk-visually-hidden">Parent {{ loop.index }}</h2> 
+        <div class="dpr-parent-child-data__parent">
+          {{ dprDataTable(parent, classification, template, parentLabelId, loop.index) }}
         </div>
-      </div>
-      {% endfor %}
 
-    </div>
-  {% endfor %}
+        {% for child in children %}
+        {% set childLabelId = "child-id-" + loop.index %}
+        <div id="dpr-parent-child-data__child-{{ loop.index }}" class="dpr-parent-child-data__child" aria-labelledby="{{ childLabelId }}">
+          <h2 id="{{ childLabelId }}" class="govuk-heading-s">{{ child.title }}</h2>
+          <div class="dpr-parent-child-data__child-table">
+            {{ dprDataTable(child, classification, template, childLabelId, loop.index) }}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
 {% endmacro %}

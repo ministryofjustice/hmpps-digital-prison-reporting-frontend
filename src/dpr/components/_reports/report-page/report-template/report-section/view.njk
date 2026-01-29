@@ -9,15 +9,23 @@
 
   <div id="dpr-report-sections">
     {% for section in sections %}
-      <div id="dpr-{{ template }}-section-{{ loop.index }}" class="dpr-{{ template }}-section dpr-report-section">
-        {% set sectionTitle = section.title %}
-        {% set sectionCount = section.count %}
-        {% set data = section.data %}
-        {% set summaries = section.summaries %}
+      {% set sectionTitle = section.title %}
+      {% set sectionCount = section.count %}
+      {% set data = section.data %}
+      {% set summaries = section.summaries %}
+      {% if sectionTitle %}
+        {% set sectionLabelId = "section-title-" + loop.index %}
+      {% endif %}
 
+      <div 
+        id="dpr-{{ template }}-section-{{ loop.index }}" 
+        class="dpr-{{ template }}-section dpr-report-section"  
+        {% if sectionLabelId %} aria-labelledby="{{ sectionLabelId }}" {% endif %}
+      >
+      
         {% if sectionTitle %}
         <div class="dpr-report-section__title">
-          <h2 class="govuk-heading-m">{{ sectionTitle }}
+          <h2 id="{{ sectionLabelId }}" class="govuk-heading-m">{{ sectionTitle }}
             {% if template !== 'summary-section' %}
             <span class="govuk-caption-m">{{ sectionCount }} results</span>
             {% endif %}
@@ -31,12 +39,11 @@
         {# report template #}
         {% if template === 'parent-child' or template === 'parent-child-section' %}
 
-          {{ dprParentChildTemplate(data, classification, template) }}
+          {{ dprParentChildTemplate(data, classification, template, sectionLabelId or 'dpr-report-name') }}
 
         {% else %}
-
           <div id="dpr-{{ template }}-section-data-{{ loop.index }}" class="dpr-{{ template }}-section__data">
-            {{ dprDataTable(data, classification, template, loop.index) }}
+            {{ dprDataTable(data, classification, template, sectionLabelId or 'dpr-report-name', loop.index) }}
           </div>
 
         {% endif %}

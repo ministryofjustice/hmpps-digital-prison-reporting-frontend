@@ -41,7 +41,10 @@
 
           {{ dprParentChildTemplate(data, classification, template, sectionLabelId or 'dpr-report-name') }}
 
+        {% elif template === 'summary-section' %}
+
         {% else %}
+
           <div id="dpr-{{ template }}-section-data-{{ loop.index }}" class="dpr-{{ template }}-section__data">
             {{ dprDataTable(data, classification, template, sectionLabelId or 'dpr-report-name', loop.index) }}
           </div>

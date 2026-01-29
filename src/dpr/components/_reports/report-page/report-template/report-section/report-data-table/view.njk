@@ -4,6 +4,7 @@
   {% set rows = dataTable.rows %}
   {% set head = dataTable.head %}
   {% set colCount = dataTable.colCount %}
+
   {% if rows.length > 0 %}
     <div id="table-container-{{ loopIndex }}" class='dpr-table-container dpr-table-container--{{ template }}' data-dpr-module="data-table" aria-labelledby="{{ labelId }}">
       <div class="dpr-overflow-gradient" id="dpr-overflow-gradient-{{ loopIndex }}"></div>

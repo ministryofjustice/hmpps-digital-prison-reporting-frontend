@@ -6,7 +6,7 @@
     {% set parent = dataset.parent %}
     {% set children = dataset.children %}
 
-    <div id="dpr-parent-child-data-{{ loop.index }}" class="dpr-parent-child-data">
+    <div id="dpr-parent-child-data-{{ loop.index }}" class="dpr-parent-child-data" >
       <div class="dpr-parent-child-data__parent">
         {{ dprDataTable(parent, classification, template, loop.index) }}
       </div>

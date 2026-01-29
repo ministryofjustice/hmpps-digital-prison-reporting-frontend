@@ -115,7 +115,7 @@ const reportTemplateExampleListSection: components['schemas']['VariantDefinition
       {
         name: 'section1',
         display: 'First',
-        sortable: false,
+        sortable: true,
         defaultsort: false,
         type: 'string',
         mandatory: false,
@@ -126,7 +126,7 @@ const reportTemplateExampleListSection: components['schemas']['VariantDefinition
       {
         name: 'section2',
         display: 'Second',
-        sortable: false,
+        sortable: true,
         defaultsort: false,
         type: 'string',
         mandatory: false,

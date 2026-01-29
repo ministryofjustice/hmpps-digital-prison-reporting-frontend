@@ -38,8 +38,8 @@ const reportTemplateExampleParentChild: components['schemas']['VariantDefinition
       {
         name: 'section1',
         display: 'Section 1',
-        sortable: false,
-        defaultsort: false,
+        sortable: true,
+        defaultsort: true,
         type: 'string',
         mandatory: false,
         visible: true,
@@ -49,7 +49,7 @@ const reportTemplateExampleParentChild: components['schemas']['VariantDefinition
       {
         name: 'section2',
         display: 'Section 2',
-        sortable: false,
+        sortable: true,
         defaultsort: false,
         type: 'string',
         mandatory: false,

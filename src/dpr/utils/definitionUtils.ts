@@ -107,7 +107,7 @@ export const getFieldsByName = (
   names: string[],
   fields: components['schemas']['FieldDefinition'][],
 ): components['schemas']['FieldDefinition'][] => {
-  return names.map((s) => fields.find((f) => f.name === s)).filter((n) => n !== undefined)
+  return names.map((s) => fields.find((field) => field.name === s)).filter((field) => field !== undefined)
 }
 
 export const validateDefinition = (definition: components['schemas']['SingleVariantReportDefinition']) => {

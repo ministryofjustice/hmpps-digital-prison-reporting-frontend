@@ -1,9 +1,4 @@
-import { Cell, SortKey } from '../../DataTableBuilder/types'
-import Dict = NodeJS.Dict
-
-export interface ParentChildSortKey extends SortKey {
-  childSortKeys: Dict<string>
-}
+import { Cell } from '../../DataTableBuilder/types'
 
 export interface ChildData {
   id: string

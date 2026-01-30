@@ -154,7 +154,7 @@
     "chartjs-adapter-dayjs-3": "^1.2.3",
     "chartjs-chart-matrix": "^3.0.0",
     "chartjs-plugin-datalabels": "^2.2.0",
-    "chokidar": "^3.6.0",
+    "chokidar": "^5.0.0",
     "concurrently": "^9.2.0",
     "connect-flash": "^0.1.1",
     "connect-redis": "^9.0.0",

@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals'
 import { components } from '../../../types/api'
-import CollatedSummaryBuilder from './SummaryDataHelper'
+import { CollatedSummaryBuilder } from './SummaryDataHelper'
 import { AsyncSummary } from '../../../types/UserReports'
 import { DataTable } from '../../DataTableBuilder/types'
 

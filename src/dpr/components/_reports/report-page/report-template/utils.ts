@@ -2,15 +2,15 @@ import { components } from '../../../../types/api'
 import Dict = NodeJS.Dict
 import ReportQuery from '../../../../types/ReportQuery'
 import { AsyncSummary } from '../../../../types/UserReports'
-import SummaryDataHelper from '../../../../utils/TemplateBuilder/SummaryDataHelper/SummaryDataHelper'
+import { CollatedSummaryBuilder } from '../../../../utils/TemplateBuilder/SummaryDataHelper/SummaryDataHelper'
 import DataTableBuilder from '../../../../utils/DataTableBuilder/DataTableBuilder'
 import { Columns } from '../../report-heading/report-columns/report-columns-form/types'
 import { ChildData } from '../../../../utils/TemplateBuilder/ParentChildDataBuilder/types'
 import { DataTable } from '../../../../utils/DataTableBuilder/types'
 import type { Template } from '../../../../types/Templates'
 import { ReportTemplateData } from '../../../../utils/TemplateBuilder/SectionedDataHelper/types'
-import ReportBuilder from '../../../../utils/TemplateBuilder/ReportBuilder/ReportBuilder'
-import ParentChildDataBuilder from '../../../../utils/TemplateBuilder/ParentChildDataBuilder/ParentChildDataBuilder'
+import { ReportBuilder } from '../../../../utils/TemplateBuilder/ReportBuilder/ReportBuilder'
+import { ParentChildDataBuilder } from '../../../../utils/TemplateBuilder/ParentChildDataBuilder/ParentChildDataBuilder'
 import { validateDefinition } from '../../../../utils/definitionUtils'
 
 const buildListTable = (
@@ -23,7 +23,7 @@ const buildListTable = (
   const { variant, specification } = validateDefinition(definition)
   const { interactive } = variant
 
-  const collatedSummarries = new SummaryDataHelper(specification, summariesData).collateDataTableSummaries()
+  const collatedSummarries = new CollatedSummaryBuilder(specification, summariesData).collateDataTableSummaries()
   return new DataTableBuilder(specification.fields)
     .withSummaries(collatedSummarries)
     .withHeaderOptions({

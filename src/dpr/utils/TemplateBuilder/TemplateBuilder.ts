@@ -4,7 +4,7 @@ import { components } from '../../types/api'
 import ReportQuery from '../../types/ReportQuery'
 import { validateVariant } from '../definitionUtils'
 
-class TemplateBuilder {
+export class TemplateBuilder {
   variant: components['schemas']['VariantDefinition']
 
   specification: components['schemas']['Specification']
@@ -66,6 +66,3 @@ class TemplateBuilder {
     return this
   }
 }
-
-export { TemplateBuilder }
-export default TemplateBuilder

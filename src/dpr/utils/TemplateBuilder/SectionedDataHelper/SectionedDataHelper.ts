@@ -5,7 +5,7 @@ import { components } from '../../../types/api'
 import { getFieldsByName, getFieldDisplayName } from '../../definitionUtils'
 import { SectionData, SectionedData, SectionKey } from './types'
 
-class SectionedDataHelper {
+export class SectionedDataHelper {
   sections: Array<string> = []
 
   data: Array<Record<string, string>> = []
@@ -244,6 +244,3 @@ class SectionedDataHelper {
     return sections
   }
 }
-
-export { SectionedDataHelper }
-export default SectionedDataHelper

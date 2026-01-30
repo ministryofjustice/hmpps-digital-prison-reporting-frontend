@@ -1,14 +1,14 @@
 import { AsyncSummary } from '../../../types/UserReports'
 import { SummaryTemplate } from '../../../types/Templates'
 import { components } from '../../../types/api'
-import SummaryDataHelper from '../SummaryDataHelper/SummaryDataHelper'
+import { CollatedSummaryBuilder } from '../SummaryDataHelper/SummaryDataHelper'
 import DataTableBuilder from '../../DataTableBuilder/DataTableBuilder'
-import SectionedDataHelper from '../SectionedDataHelper/SectionedDataHelper'
+import { SectionedDataHelper } from '../SectionedDataHelper/SectionedDataHelper'
 import { ReportTemplateData, SectionData } from '../SectionedDataHelper/types'
 import { DataTable } from '../../DataTableBuilder/types'
-import TemplateBuilder from '../TemplateBuilder'
+import { TemplateBuilder } from '../TemplateBuilder'
 
-class ReportBuilder extends TemplateBuilder {
+export class ReportBuilder extends TemplateBuilder {
   dataTableBuilder!: DataTableBuilder
 
   sectionBuilder!: SectionedDataHelper
@@ -18,7 +18,7 @@ class ReportBuilder extends TemplateBuilder {
   }
 
   buildMainTable(section: SectionData) {
-    const collatedSummaryBuilder = new SummaryDataHelper(this.specification, section.summaries)
+    const collatedSummaryBuilder = new CollatedSummaryBuilder(this.specification, section.summaries)
     const tableSummaries = collatedSummaryBuilder.collateDataTableSummaries()
     this.dataTableBuilder = new DataTableBuilder(this.fields)
     return this.dataTableBuilder
@@ -115,6 +115,3 @@ class ReportBuilder extends TemplateBuilder {
     }
   }
 }
-
-export { ReportBuilder }
-export default ReportBuilder

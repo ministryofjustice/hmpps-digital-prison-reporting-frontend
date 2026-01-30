@@ -1,12 +1,12 @@
 import { components } from '../../../types/api'
 import DataTableBuilder from '../../DataTableBuilder/DataTableBuilder'
 import { DataTable } from '../../DataTableBuilder/types'
-import SectionedDataHelper from '../SectionedDataHelper/SectionedDataHelper'
+import { SectionedDataHelper } from '../SectionedDataHelper/SectionedDataHelper'
 import { ReportTemplateData, SectionData } from '../SectionedDataHelper/types'
-import TemplateBuilder from '../TemplateBuilder'
+import { TemplateBuilder } from '../TemplateBuilder'
 import { ChildData, GroupedParentChildDataset, ParentChildTableData, ParentChildDataset } from './types'
 
-class ParentChildDataBuilder extends TemplateBuilder {
+export class ParentChildDataBuilder extends TemplateBuilder {
   childColumns: Array<string> = []
 
   childVariants: components['schemas']['ChildVariantDefinition'][] = []
@@ -201,6 +201,3 @@ class ParentChildDataBuilder extends TemplateBuilder {
     }
   }
 }
-
-export { ParentChildDataBuilder }
-export default ParentChildDataBuilder

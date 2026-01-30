@@ -173,7 +173,7 @@ class ReportingClient {
     variantId: string,
     tableId: string,
     query: Record<string, string | string[]>,
-  ): Promise<Array<Dict<string>>> {
+  ): Promise<Array<Record<string, string>>> {
     this.logInfo('Get Data', { reportId, variantId, tableId })
 
     return this.restClient
@@ -182,7 +182,7 @@ class ReportingClient {
         token,
         query,
       })
-      .then((response) => <Array<Dict<string>>>response)
+      .then((response) => <Array<Record<string, string>>>response)
   }
 
   getAsyncSummaryReport(
@@ -192,7 +192,7 @@ class ReportingClient {
     tableId: string,
     summaryId: string,
     query: Dict<string | number>,
-  ): Promise<Array<Dict<string>>> {
+  ): Promise<Array<Record<string, string>>> {
     this.logInfo('Get summary data', { reportId, variantId, tableId, summaryId })
 
     return this.restClient
@@ -201,7 +201,7 @@ class ReportingClient {
         token,
         query,
       })
-      .then((response) => <Array<Dict<string>>>response)
+      .then((response) => <Array<Record<string, string>>>response)
   }
 
   getAsyncReportStatus(

@@ -19,7 +19,6 @@ class ViewAyncReportController {
     const { type } = req.params
     try {
       const params = { req, res, services: this.services, next }
-
       const renderData = await AsyncReportUtils.renderReport(params)
 
       res.render(`dpr/routes/journeys/view-report/report`, {

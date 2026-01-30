@@ -83,7 +83,7 @@ class ReportingService {
     variantId: string,
     tableId: string,
     query: Record<string, string | string[]>,
-  ): Promise<Array<Dict<string>>> {
+  ): Promise<Array<Record<string, string>>> {
     return this.reportingClient.getAsyncReport(token, reportId, variantId, tableId, query)
   }
 
@@ -94,7 +94,7 @@ class ReportingService {
     tableId: string,
     summaryId: string,
     query: Dict<string | number>,
-  ): Promise<Array<Dict<string>>> {
+  ): Promise<Array<Record<string, string>>> {
     return this.reportingClient.getAsyncSummaryReport(token, reportId, variantId, tableId, summaryId, query)
   }
 

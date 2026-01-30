@@ -177,12 +177,14 @@
   }
 
   .dpr-report-summary-cell-table-header {
-    border-bottom: solid 1px govuk-colour('mid-grey');
+    border-bottom: solid 4px govuk-colour('mid-grey');
+    background-color: white;
   }
 
   .dpr-report-summary-cell-table-footer {
-    border-top: solid 1px govuk-colour('mid-grey');
-    border-bottom: solid 1px govuk-colour('mid-grey');
+    border-top: solid 4px govuk-colour('mid-grey');
+    border-bottom: solid 2px govuk-colour('mid-grey');
+    background-color: white;
   }
 }
 

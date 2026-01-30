@@ -19,7 +19,7 @@ class MockReportingClient {
   constructor() {
     this.mockRequests = [{ executionId: `exId_1721738244284`, tableId: `tblId_1721738244284` }]
     this.statusResponses = mockStatusSequence
-    this.RESULT_COUNT = 100
+    this.RESULT_COUNT = 50
   }
 
   async requestAsyncReport(token, reportId, variantId, query) {
@@ -169,6 +169,7 @@ class MockReportingClient {
         data = mockRowSectionIncidentReport.section4Data()
         break
       default:
+        console.log({ pageSize })
         data = createMockData(pageSize)
         break
     }

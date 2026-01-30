@@ -19,7 +19,7 @@ class MockReportingClient {
   constructor() {
     this.mockRequests = [{ executionId: `exId_1721738244284`, tableId: `tblId_1721738244284` }]
     this.statusResponses = mockStatusSequence
-    this.RESULT_COUNT = 100
+    this.RESULT_COUNT = 50
   }
 
   async requestAsyncReport(token, reportId, variantId, query) {
@@ -103,23 +103,28 @@ class MockReportingClient {
 
     let data = []
     switch (variantId) {
-      case 'report-template-example-parent-child':
+      case 'report-template-parent-child':
         // Parent child template - parent
         data = mockParentChild.parentData()
         break
-      case 'report-template-example-parent-child_child':
+      case 'report-template-parent-child_child':
         // Parent child template - child
         data = mockParentChild.childData()
         break
+      case 'report-template-parent-child_child_2':
+        // Parent child template - child
+        data = mockParentChild.childData2()
+        break
       case 'report-template-example-list-section':
+      case 'report-template-example-sectioned-list-with-sectioned-summaries':
         // List section
         data = mockListSection.listSectionData()
         break
-      case 'report-template-example-parent-child-section':
+      case 'report-template-parent-child-section':
         // Parent-child-section - parent
         data = mockParentChildSection.parentData()
         break
-      case 'report-template-example-parent-child-section_child':
+      case 'report-template-parent-child-section_child':
         // List section
         data = mockParentChildSection.childData()
         break
@@ -164,6 +169,7 @@ class MockReportingClient {
         data = mockRowSectionIncidentReport.section4Data()
         break
       default:
+        console.log({ pageSize })
         data = createMockData(pageSize)
         break
     }
@@ -206,6 +212,7 @@ class MockReportingClient {
         return Promise.resolve([{ field1: 57, field2: 1, field3: 12219380923, field4: '3 Freds' }])
       case 'summary5':
         return Promise.resolve([{ field1: 'Percentageness', field2: '10%', field3: '20%', field4: '90%' }])
+      case 'summary9':
       case 'summary6':
         return Promise.resolve([
           {
@@ -225,6 +232,7 @@ class MockReportingClient {
             field4: '5 Freds',
           },
         ])
+      case 'summary10':
       case 'summary7':
         return Promise.resolve([
           {

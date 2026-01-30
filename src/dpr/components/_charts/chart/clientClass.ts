@@ -44,6 +44,7 @@ class ChartVisualisation extends DprClientClass {
       Chart.defaults.font.size = 12
       Chart.register(ChartDataLabels)
       Chart.register(MatrixController, MatrixElement)
+      Chart.defaults.datasets.bar.categoryPercentage = 0.95
       this.chart = new Chart(this.chartContext, this.chartData)
     })
 

@@ -7,11 +7,16 @@
       heading: {
         text: "Example Reports"
       },
-      items: [ 
+      items: [
         {
           text: 'List',
           href: '/templates/list-template',
           active: page.filePathStem.indexOf('/templates/list-template') === 0
+        },
+        {
+          text: 'List, with summaries',
+          href: '/templates/list_with-summaries',
+          active: page.filePathStem.indexOf('/templates/list_with-summaries') === 0
         },
         {
           text: 'List-section',
@@ -42,16 +47,6 @@
           text: 'Summary-section',
           href: '/templates/summary-section',
           active: page.filePathStem.indexOf('/templates/summary-section') === 0
-        },
-        {
-          text: 'Row-section',
-          href: '/templates/row-section-template',
-          active: page.filePathStem.indexOf('/templates/row-section-template') === 0
-        },
-        {
-          text: 'Row-section-child',
-          href: '/templates/row-section-child',
-          active: page.filePathStem.indexOf('/templates/row-section-child') === 0
         }
       ]
     }

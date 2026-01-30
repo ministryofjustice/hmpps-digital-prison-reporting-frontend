@@ -25,7 +25,7 @@ export const checkSelectedFilterValues = ({
   })
 }
 
-export const requestReportByNameAndDescription = ({ name, description }: { name: string; description: string }) => {
+export const startReportRequest = ({ name, description }: { name: string; description: string }) => {
   cy.findByLabelText(/Reports catalogue.*/i).within(() => {
     cy.findByRole('row', {
       name: (_, element) => {
@@ -35,6 +35,10 @@ export const requestReportByNameAndDescription = ({ name, description }: { name:
       cy.findByRole('link', { name: 'Request report' }).click()
     })
   })
+}
+
+export const requestReportByNameAndDescription = ({ name, description }: { name: string; description: string }) => {
+  startReportRequest({ name, description })
   checkA11y()
   cy.findByRole('button', { name: /Request/ }).click()
 }

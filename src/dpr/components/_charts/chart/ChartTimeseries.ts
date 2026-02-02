@@ -69,10 +69,12 @@ class TimeseriesChart {
 
   buildDatasets = () => {
     this.hexColours = new ChartColours().getHexPallette()
+
     for (let index = 0; index < this.datasetCount; index += 1) {
       const data = this.timeBlockData.map((timeperiod) => {
-        const { raw } = timeperiod[index][this.measures[1].id]
-        return raw ? Number(raw) : 0
+        const valueId = this.measures[1].id
+        const period = timeperiod[index]
+        return period && period[valueId].raw ? Number(period[valueId].raw) : 0
       })
       const total = data.reduce((a, c) => a + c, 0)
       const rawValue = this.labelId ? this.timeBlockData[0][index][this.labelId].raw : ''

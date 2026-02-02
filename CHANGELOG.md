@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 4.29.1
+
+- Bugfix: Fix line-timeseries chart when multiple datasets provided with unequal datapoints.
+
 ## 4.29.0
 
 - Refactored report templating:

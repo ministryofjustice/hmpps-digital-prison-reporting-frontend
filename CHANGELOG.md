@@ -2,7 +2,9 @@ Below you can find the changes included in each release.
 
 ## 4.29.1
 
-- Bugfix: Fix line-timeseries chart when multiple datasets provided with unequal datapoints.
+- Dashboards - Bugfix: Fix line-timeseries chart when multiple datasets provided with unequal datapoints.
+- Dahsboards: Bar Charts: remove extra space in horizonal bar chart.
+- Dependency updates
 
 ## 4.29.0
 

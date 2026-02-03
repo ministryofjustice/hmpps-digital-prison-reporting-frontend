@@ -60,7 +60,6 @@ export const getData = async ({
 
   // initialise report query
   const reportQuery = await initReportQuery(definition, columns, res, req, services, requestData)
-  console.log({ reportQuery })
 
   // Get the reportData
   const reportData = await getReportData({ definition, services, token, req, res, reportQuery })

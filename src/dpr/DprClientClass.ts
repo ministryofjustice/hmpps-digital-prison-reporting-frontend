@@ -1,13 +1,11 @@
 // @ts-nocheck
 export class DprClientClass {
-
-  constructor(element, loadingHelper) {
+  constructor(element) {
     this.element = element
-    this.loadingHelper = loadingHelper
   }
 
   static getModuleName() {
-    throw new Error("Module name not set")
+    throw new Error('Module name not set')
   }
 
   getElement() {
@@ -15,6 +13,6 @@ export class DprClientClass {
   }
 
   initialise() {
-    throw new Error("Initialisation not configured")
+    throw new Error('Initialisation not configured')
   }
 }

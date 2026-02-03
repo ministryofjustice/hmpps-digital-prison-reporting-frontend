@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 4.29.1
+
+- Removed references to loading helper which has been deleted
+
 ## 4.29.0
 
 - Refactored report templating:

@@ -33,7 +33,6 @@
         "src/dpr/DprClientClass.ts",
         "src/dpr/DprFormValidationClass.ts",
         "src/dpr/DprGenericFormClass.ts",
-        "src/dpr/DprLoadingHelper.ts",
         "src/dpr/DprPollingStatusClass.ts",
         "src/dpr/DprQueryParamClass.ts",
         "src/dpr/DprSyncLoading.ts",
@@ -107,7 +106,16 @@
     "comma-dangle": ["error", "always-multiline"],
     "import/no-extraneous-dependencies": [
       "error",
-      { "devDependencies": ["**/*.test.js", "**/*.test.ts", "**/testutils/**", "cypress.config.ts", "cypress.testapp.config.ts", "sharedCypressConfig.ts"] }
+      {
+        "devDependencies": [
+          "**/*.test.js",
+          "**/*.test.ts",
+          "**/testutils/**",
+          "cypress.config.ts",
+          "cypress.testapp.config.ts",
+          "sharedCypressConfig.ts"
+        ]
+      }
     ],
     "no-only-tests/no-only-tests": "error",
     "prettier/prettier": [

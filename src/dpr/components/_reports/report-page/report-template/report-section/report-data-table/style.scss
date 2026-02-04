@@ -222,6 +222,10 @@
     .dpr-table-wrapper {
       overflow: visible;
 
+      .data-table-cell-long-string {
+        min-width: auto;
+      }
+
       .govuk-table__header {
         white-space: normal;
       }

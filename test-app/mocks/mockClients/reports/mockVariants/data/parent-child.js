@@ -13,8 +13,9 @@ const childPaddingData = {
   field4: 'Child Field 4 data',
   field5: 'Child Field 5 data',
   field6: 'Child Field 6 data',
-  field7: 'Child Field 7 data',
-  field8: 'Child Field 8 data',
+  field7:
+    'Child Field 7 data Child Field 7 data Child Field 7 data Child Field 7 data Child Field 7 data Child Field 7 data',
+  field8: 'Child Field 8 data Child Field 8 data Child Field 8 data Child Field 8 data',
 }
 
 const parentData = () => {

@@ -91,7 +91,15 @@ export const renderSyncDashboard = async ({
   const flattenedData: DashboardDataResponse[] = dashboardData.flat()
 
   // Get the dashboard parts
-  const sections: DashboardSection[] = AsyncDashboardUtils.getSections(dashboardDefinition, flattenedData, query)
+  const dashboardFeatureFlags = Object.values(res.app.locals.featureFlags.flags).filter(
+    (flag) => flag.metadata['dashboardFeature'] === true,
+  )
+  const sections: DashboardSection[] = AsyncDashboardUtils.getSections(
+    dashboardDefinition,
+    flattenedData,
+    query,
+    dashboardFeatureFlags,
+  )
 
   await setAsRecentlyViewed({
     req,

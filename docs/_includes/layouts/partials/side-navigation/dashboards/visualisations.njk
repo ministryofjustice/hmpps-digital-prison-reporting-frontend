@@ -1,5 +1,25 @@
 {%- from "node_modules/@ministryofjustice/frontend/moj/components/side-navigation/macro.njk" import mojSideNavigation %}
 
+{# Keeping these here for later, for when the are boosted to alpha phase #}
+{# Currently they should be hidden from the navigation #}
+{% set experimental = [
+  {
+    html: 'Bar timeseries chart<strong class="govuk-tag">experimental</strong>',
+    href: '/dashboards/visualisations/bar-timeseries',
+    active: page.filePathStem.indexOf('/dashboards/visualisations/bar-timeseries') === 0
+  },
+  {
+    html: 'Matrix timeseries chart<strong class="govuk-tag">experimental</strong>',
+    href: '/dashboards/visualisations/matrix-timeseries',
+    active: page.filePathStem.indexOf('/dashboards/visualisations/matrix-timeseries') === 0
+  },
+  {
+    html: 'Line timeseries chart<strong class="govuk-tag">experimental</strong>',
+    href: '/dashboards/visualisations/line-timeseries',
+    active: page.filePathStem.indexOf('/dashboards/visualisations/line-timeseries') === 0
+  }
+] %}
+
 {{ mojSideNavigation({
   classes: 'govuk-!-padding-top-0',
   sections: [
@@ -14,44 +34,29 @@
           active: page.filePathStem.indexOf('/dashboards/visualisations/list') === 0
         },
         {
-          text: 'Scorecard',
-          href: '/dashboards/visualisations/scorecard-vis',
-          active: page.filePathStem.indexOf('/dashboards/visualisations/scorecard-vis') === 0
-        },
-        {
-          text: 'Scorecard group',
-          href: '/dashboards/visualisations/scorecard-group',
-          active: page.filePathStem.indexOf('/dashboards/visualisations/scorecard-group') === 0
-        },
-        {
-          text: 'Bar chart',
+          html: 'Bar chart <strong class="govuk-tag">beta</strong>',
           href: '/dashboards/visualisations/bar-vis',
           active: page.filePathStem.indexOf('/dashboards/visualisations/bar-vis') === 0
         },
         {
-          text: 'Bar timeseries chart',
-          href: '/dashboards/visualisations/bar-timeseries',
-          active: page.filePathStem.indexOf('/dashboards/visualisations/bar-timeseries') === 0
+          html: 'Doughnut chart <strong class="govuk-tag">beta</strong>',
+          href: '/dashboards/visualisations/doughnut',
+          active: page.filePathStem.indexOf('/dashboards/visualisations/doughnut') === 0
         },
         {
-          text: 'Matrix timeseries chart',
-          href: '/dashboards/visualisations/matrix-timeseries',
-          active: page.filePathStem.indexOf('/dashboards/visualisations/matrix-timeseries') === 0
-        },
-        {
-          text: 'Line chart',
+          html: 'Line chart <strong class="govuk-tag">beta</strong>',
           href: '/dashboards/visualisations/line-vis',
           active: page.filePathStem.indexOf('/dashboards/visualisations/line-vis') === 0
         },
         {
-          text: 'Line timeseries chart',
-          href: '/dashboards/visualisations/line-timeseries',
-          active: page.filePathStem.indexOf('/dashboards/visualisations/line-timeseries') === 0
+          html: 'Scorecard <strong class="govuk-tag govuk-tag--purple">alpha</strong>',
+          href: '/dashboards/visualisations/scorecard-vis',
+          active: page.filePathStem.indexOf('/dashboards/visualisations/scorecard-vis') === 0
         },
         {
-          text: 'Doughnut chart',
-          href: '/dashboards/visualisations/doughnut',
-          active: page.filePathStem.indexOf('/dashboards/visualisations/doughnut') === 0
+          html: 'Scorecard group <strong class="govuk-tag govuk-tag--purple">alpha</strong>',
+          href: '/dashboards/visualisations/scorecard-group',
+          active: page.filePathStem.indexOf('/dashboards/visualisations/scorecard-group') === 0
         }
       ]
     }

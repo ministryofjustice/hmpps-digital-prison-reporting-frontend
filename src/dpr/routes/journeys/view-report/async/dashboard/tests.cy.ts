@@ -13,6 +13,7 @@ context('Viewing a report', () => {
 
     it('should mark the dashboard as recently viewed and not show viz', () => {
       cy.task('stubFeatureFlagsDisabled')
+      resetFeatureFlags()
       // Request and run a report so we can go back to it for each test
       cy.visit(path)
       cy.findByRole('tab', { name: /Viewed \(0\)/ }).should('be.visible')

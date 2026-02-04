@@ -7,7 +7,6 @@
     <div class="govuk-grid-column-one-quarter dpr-docs-sidebar">
       {% include "./partials/side-navigation/dashboards/guides.njk" %}
       {% include "./partials/side-navigation/dashboards/visualisations.njk" %}
-      {% include "./partials/side-navigation/dashboards/components.njk" %}
     </div>
 
     <div class="govuk-grid-column-three-quarters">
@@ -16,7 +15,7 @@
           {% if not isIndex %}
             {% if subsection %}<span class="govuk-caption-xl">{{ subsection }}</span>{% endif %}
           {% endif %}
-          {{ title }}
+          {{ title }}<strong class="govuk-tag">beta</strong>
         </h1>
         {{ content | safe }}
         {% block exampleContent %}{% endblock %}

@@ -222,6 +222,10 @@
     .dpr-table-wrapper {
       overflow: visible;
 
+      .govuk-table__header {
+        white-space: normal;
+      }
+
       .govuk-table__cell--content.print-header-footer {
         font-size: 8px;
       }

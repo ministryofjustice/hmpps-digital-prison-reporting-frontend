@@ -19,7 +19,7 @@ const reportTemplateExampleParentChild = {
         visible: true,
       },
       {
-        name: 'field1',
+        name: 'field 1',
         display: 'Second',
         sortable: true,
         defaultsort: false,
@@ -103,7 +103,7 @@ const reportTemplateExampleParentChild = {
           },
           {
             name: 'field2',
-            display: 'Field2',
+            display: 'Field 2 long title',
             sortable: false,
             defaultsort: false,
             type: 'string',
@@ -112,7 +112,7 @@ const reportTemplateExampleParentChild = {
           },
           {
             name: 'field3',
-            display: 'Field3',
+            display: 'Field 3',
             sortable: false,
             defaultsort: false,
             type: 'string',
@@ -121,7 +121,7 @@ const reportTemplateExampleParentChild = {
           },
           {
             name: 'field4',
-            display: 'Field4',
+            display: 'Field 4 long long long long title ',
             sortable: false,
             defaultsort: false,
             type: 'string',
@@ -130,7 +130,7 @@ const reportTemplateExampleParentChild = {
           },
           {
             name: 'field5',
-            display: 'Field5',
+            display: 'Field 5',
             sortable: false,
             defaultsort: false,
             type: 'string',
@@ -139,7 +139,7 @@ const reportTemplateExampleParentChild = {
           },
           {
             name: 'field6',
-            display: 'Field6',
+            display: 'Field 6',
             sortable: false,
             defaultsort: false,
             type: 'string',
@@ -148,7 +148,7 @@ const reportTemplateExampleParentChild = {
           },
           {
             name: 'field7',
-            display: 'Field7',
+            display: 'Field 7',
             sortable: false,
             defaultsort: false,
             type: 'string',
@@ -157,7 +157,7 @@ const reportTemplateExampleParentChild = {
           },
           {
             name: 'field8',
-            display: 'Field8',
+            display: 'Field 8',
             sortable: false,
             defaultsort: false,
             type: 'string',
@@ -186,7 +186,7 @@ const reportTemplateExampleParentChild = {
           },
           {
             name: 'field2',
-            display: 'Field2',
+            display: 'Field 2',
             sortable: false,
             defaultsort: false,
             type: 'string',
@@ -195,7 +195,7 @@ const reportTemplateExampleParentChild = {
           },
           {
             name: 'field3',
-            display: 'Field3',
+            display: 'Field 3',
             sortable: false,
             defaultsort: false,
             type: 'string',

@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 4.29.4
+
+- Fix min-width issues on table cells on print
+
 ## 4.29.3
 
 - Remove no-wrap on table headings on print

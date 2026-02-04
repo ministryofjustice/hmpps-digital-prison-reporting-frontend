@@ -103,7 +103,7 @@ const reportTemplateExampleParentChild = {
           },
           {
             name: 'field2',
-            display: 'Field 2 long title',
+            display: 'Field 2 long long heading',
             sortable: false,
             defaultsort: false,
             type: 'string',
@@ -121,7 +121,7 @@ const reportTemplateExampleParentChild = {
           },
           {
             name: 'field4',
-            display: 'Field 4 long long long long title ',
+            display: 'Field 4',
             sortable: false,
             defaultsort: false,
             type: 'string',

@@ -2,7 +2,7 @@ Below you can find the changes included in each release.
 
 ## 4.29.3
 
-- Removed no-wrap on table headings on print
+- Remove no-wrap on table headings on print
 
 ## 4.29.2
 

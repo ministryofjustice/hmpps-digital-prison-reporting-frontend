@@ -194,7 +194,6 @@
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.62.0",
     "audit-ci": "^6.6.1",
-    "autoprefixer": "^10.4.15",
     "axe-core": "^4.9.0",
     "cypress": "^14.5.4",
     "cypress-axe": "^1.6.0",

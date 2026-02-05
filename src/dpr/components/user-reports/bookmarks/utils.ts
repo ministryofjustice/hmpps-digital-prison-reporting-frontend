@@ -1,4 +1,5 @@
 import { Response } from 'express'
+import { captureException } from '@sentry/node'
 import { BookmarkService } from '../../../services'
 import { BookmarkedReportData, BookmarkStoreData } from '../../../types/Bookmark'
 import { FormattedBookmarkData, LoadType, ReportType } from '../../../types/UserReports'
@@ -147,6 +148,7 @@ const mapBookmarkIdsToDefinition = async (
           })
         }
       } catch (error) {
+        captureException(error)
         // DPD has been deleted so API throws error
         logger.warn(`Failed to map bookmark for: Report ${reportId}, variant ${id}`)
         const { dprUser } = LocalsHelper.getValues(res)

@@ -1,57 +1,85 @@
-import { Flag, ListFlagsResponse } from '@flipt-io/flipt'
-import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
+import { defaultMockRequest, generateNetworkMock } from '@networkMocks/generateNetworkMock'
 
-const generateDefaultBooleanFlag = (
-  key: string,
-  enabled: boolean,
-  metadata: Record<string, string | boolean | number> = {},
-): Flag => ({
-  key,
-  enabled,
-  name: '',
-  namespaceKey: 'hmpps-digital-prison-reporting',
-  type: 'BOOLEAN_FLAG_TYPE',
-  description: '',
-  createdAt: '',
-  updatedAt: '',
-  variants: [],
-  metadata,
+const batchEndpoint = '/evaluate/v1/batch'
+const responseTemplate = {
+  requestId: 'request-id',
+  requestDurationMillis: 1,
+}
+
+interface BatchEvaluationResponse {
+  requestId: string
+  requestDurationMillis: number
+  responses: Array<{
+    type: 'BOOLEAN_EVALUATION_RESPONSE_TYPE'
+    booleanResponse: {
+      enabled: boolean
+      flagKey: string
+      reason: 'MATCH_EVALUATION_REASON'
+      segmentKeys: string[]
+      requestDurationMillis: number
+      timestamp: string
+    }
+  }>
+}
+
+const defaultBooleanResponse = (key: string, enabled: boolean) => ({
+  type: 'BOOLEAN_EVALUATION_RESPONSE_TYPE' as const,
+  booleanResponse: {
+    enabled,
+    flagKey: key,
+    reason: 'MATCH_EVALUATION_REASON' as const,
+    segmentKeys: [],
+    requestDurationMillis: 1,
+    timestamp: '2024-01-01T00:00:00Z',
+  },
 })
 
-export const getFlagsMockEnabled = setupSimpleMock(`/api/v1/namespaces/[a-zA-Z0-9-_]+/flags`, {
-  flags: [
-    generateDefaultBooleanFlag('saveDefaultsEnabled', true),
-    generateDefaultBooleanFlag('barChartsEnabled', true, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('lineChartsEnabled', true, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('donutChartsEnabled', true, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('scorecardChartsEnabled', true, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('scorecardgroupChartsEnabled', true, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('matrixtimeseriesChartsEnabled', true, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('bartimeseriesChartsEnabled', true, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('linetimeseriesChartsEnabled', true, { dashboardFeature: true }),
+const createBatchResponse = (enabled: boolean): BatchEvaluationResponse => ({
+  ...responseTemplate,
+  responses: [
+    defaultBooleanResponse('saveDefaultsEnabled', enabled),
+    defaultBooleanResponse('streamingDownloadEnabled', enabled),
+    defaultBooleanResponse('barChartsEnabled', enabled),
+    defaultBooleanResponse('lineChartsEnabled', enabled),
+    defaultBooleanResponse('donutChartsEnabled', enabled),
+    defaultBooleanResponse('scorecardChartsEnabled', enabled),
+    defaultBooleanResponse('scorecardgroupChartsEnabled', enabled),
+    defaultBooleanResponse('matrixtimeseriesChartsEnabled', enabled),
+    defaultBooleanResponse('bartimeseriesChartsEnabled', enabled),
+    defaultBooleanResponse('linetimeseriesChartsEnabled', enabled),
   ],
-  totalCount: 1,
-} as ListFlagsResponse)
+})
 
-export const getFlagsMockEmpty = setupSimpleMock(`/api/v1/namespaces/[a-zA-Z0-9-_]+/flags`, {
-  flags: [],
-  totalCount: 0,
-  nextPageToken: '',
-} as ListFlagsResponse)
+export const getFlagsMockEnabled = generateNetworkMock({
+  ...defaultMockRequest,
+  request: {
+    ...defaultMockRequest.request,
+    method: 'POST',
+    urlPathPattern: batchEndpoint,
+  },
+  response: {
+    ...defaultMockRequest.response,
+    jsonBody: createBatchResponse(true),
+  },
+})
 
-export const getFlagsMockDisabled = setupSimpleMock(`/api/v1/namespaces/[a-zA-Z0-9-_]+/flags`, {
-  flags: [
-    generateDefaultBooleanFlag('saveDefaultsEnabled', false),
-    generateDefaultBooleanFlag('barChartsEnabled', false, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('lineChartsEnabled', false, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('donutChartsEnabled', false, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('scorecardChartsEnabled', false, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('scorecardgroupChartsEnabled', false, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('matrixtimeseriesChartsEnabled', false, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('bartimeseriesChartsEnabled', false, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('linetimeseriesChartsEnabled', false, { dashboardFeature: true }),
-  ],
-  totalCount: 1,
-} as ListFlagsResponse)
+export const getFlagsMockEmpty = generateNetworkMock({
+  ...getFlagsMockEnabled,
+  response: {
+    ...getFlagsMockEnabled.response,
+    jsonBody: {
+      ...responseTemplate,
+      responses: [],
+    } as BatchEvaluationResponse,
+  },
+})
+
+export const getFlagsMockDisabled = generateNetworkMock({
+  ...getFlagsMockEnabled,
+  response: {
+    ...getFlagsMockEnabled.response,
+    jsonBody: createBatchResponse(false),
+  },
+})
 
 export const mocks = [getFlagsMockEnabled]

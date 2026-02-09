@@ -1,52 +1,42 @@
 import { defaultMockRequest, generateNetworkMock } from '@networkMocks/generateNetworkMock'
 
-const batchEndpoint = '/evaluate/v1/batch'
-const responseTemplate = {
-  requestId: 'request-id',
-  requestDurationMillis: 1,
-}
+const FEATURE_FLAG_NAMESPACE = 'hmpps-digital-prison-reporting'
+const snapshotEndpoint = `/internal/v1/evaluation/snapshot/namespace/${FEATURE_FLAG_NAMESPACE}`
 
-interface BatchEvaluationResponse {
-  requestId: string
-  requestDurationMillis: number
-  responses: Array<{
-    type: 'BOOLEAN_EVALUATION_RESPONSE_TYPE'
-    booleanResponse: {
-      enabled: boolean
-      flagKey: string
-      reason: 'MATCH_EVALUATION_REASON'
-      segmentKeys: string[]
-      requestDurationMillis: number
-      timestamp: string
-    }
+interface FeatureFlagSnapshotResponse {
+  namespace: {
+    key: string
+  }
+  flags: Array<{
+    key: string
+    name: string
+    type: 'BOOLEAN_FLAG_TYPE'
+    enabled: boolean
   }>
 }
 
-const defaultBooleanResponse = (key: string, enabled: boolean) => ({
-  type: 'BOOLEAN_EVALUATION_RESPONSE_TYPE' as const,
-  booleanResponse: {
-    enabled,
-    flagKey: key,
-    reason: 'MATCH_EVALUATION_REASON' as const,
-    segmentKeys: [],
-    requestDurationMillis: 1,
-    timestamp: '2024-01-01T00:00:00Z',
-  },
+const booleanFlag = (key: string, enabled: boolean) => ({
+  key,
+  name: key,
+  type: 'BOOLEAN_FLAG_TYPE' as const,
+  enabled,
 })
 
-const createBatchResponse = (enabled: boolean): BatchEvaluationResponse => ({
-  ...responseTemplate,
-  responses: [
-    defaultBooleanResponse('saveDefaultsEnabled', enabled),
-    defaultBooleanResponse('streamingDownloadEnabled', enabled),
-    defaultBooleanResponse('barChartsEnabled', enabled),
-    defaultBooleanResponse('lineChartsEnabled', enabled),
-    defaultBooleanResponse('donutChartsEnabled', enabled),
-    defaultBooleanResponse('scorecardChartsEnabled', enabled),
-    defaultBooleanResponse('scorecardgroupChartsEnabled', enabled),
-    defaultBooleanResponse('matrixtimeseriesChartsEnabled', enabled),
-    defaultBooleanResponse('bartimeseriesChartsEnabled', enabled),
-    defaultBooleanResponse('linetimeseriesChartsEnabled', enabled),
+const createSnapshotResponse = (enabled: boolean): FeatureFlagSnapshotResponse => ({
+  namespace: {
+    key: FEATURE_FLAG_NAMESPACE,
+  },
+  flags: [
+    booleanFlag('saveDefaultsEnabled', enabled),
+    booleanFlag('streamingDownloadEnabled', enabled),
+    booleanFlag('barChartsEnabled', enabled),
+    booleanFlag('lineChartsEnabled', enabled),
+    booleanFlag('donutChartsEnabled', enabled),
+    booleanFlag('scorecardChartsEnabled', enabled),
+    booleanFlag('scorecardgroupChartsEnabled', enabled),
+    booleanFlag('matrixtimeseriesChartsEnabled', enabled),
+    booleanFlag('bartimeseriesChartsEnabled', enabled),
+    booleanFlag('linetimeseriesChartsEnabled', enabled),
   ],
 })
 
@@ -54,12 +44,12 @@ export const getFlagsMockEnabled = generateNetworkMock({
   ...defaultMockRequest,
   request: {
     ...defaultMockRequest.request,
-    method: 'POST',
-    urlPathPattern: batchEndpoint,
+    method: 'GET',
+    urlPathPattern: snapshotEndpoint,
   },
   response: {
     ...defaultMockRequest.response,
-    jsonBody: createBatchResponse(true),
+    jsonBody: createSnapshotResponse(true),
   },
 })
 
@@ -68,9 +58,11 @@ export const getFlagsMockEmpty = generateNetworkMock({
   response: {
     ...getFlagsMockEnabled.response,
     jsonBody: {
-      ...responseTemplate,
-      responses: [],
-    } as BatchEvaluationResponse,
+      namespace: {
+        key: FEATURE_FLAG_NAMESPACE,
+      },
+      flags: [],
+    } as FeatureFlagSnapshotResponse,
   },
 })
 
@@ -78,7 +70,7 @@ export const getFlagsMockDisabled = generateNetworkMock({
   ...getFlagsMockEnabled,
   response: {
     ...getFlagsMockEnabled.response,
-    jsonBody: createBatchResponse(false),
+    jsonBody: createSnapshotResponse(false),
   },
 })
 

@@ -12,7 +12,6 @@ import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
 import { FeatureFlagService, isBooleanFlagEnabledOrMissing } from '../services/featureFlagService'
 import { FEATURE_FLAGS, getFeatureFlagEvaluationSubject } from '../utils/featureFlagsHelper'
-import logger from '../utils/logger'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -72,30 +71,10 @@ const setFeatures = async (res: Response, featureFlagService: FeatureFlagService
   if (res.app.locals.featureFlags === undefined) {
     res.app.locals.featureFlags = {
       flags: {},
-      lastUpdated: new Date().getTime() - 601 * 1000,
     }
   }
-  const { featureFlags } = res.app.locals
-  const currentTime = new Date().getTime()
-  const timeSinceLastUpdatedSeconds = (currentTime - featureFlags.lastUpdated) / 1000
-  const shouldUpdate = timeSinceLastUpdatedSeconds > 600
-  if (shouldUpdate) {
-    // Refresh every 10 mins
-    res.app.locals.featureFlags.lastUpdated = currentTime
-    const subject = getFeatureFlagEvaluationSubject(res)
-    res.app.locals.featureFlags.flags = await featureFlagService
-      .evaluateBooleanFlags(FEATURE_FLAGS, subject)
-      .catch((e) => {
-        res.app.locals.featureFlags.lastUpdated = currentTime - 601 * 1000
-        throw e
-      })
-    logger.info(
-      {
-        flags: JSON.stringify(res.app.locals.featureFlags.flags),
-      },
-      'Feature Flags updated.',
-    )
-  }
+  const subject = getFeatureFlagEvaluationSubject(res)
+  res.app.locals.featureFlags.flags = await featureFlagService.evaluateBooleanFlags(FEATURE_FLAGS, subject)
 }
 
 const populateValidationErrors = (req: Request, res: Response) => {

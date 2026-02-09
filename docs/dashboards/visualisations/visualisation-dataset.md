@@ -1,6 +1,7 @@
 ---
 layout: layouts/dashboards.njk
 title: Visualisation dataset
+subsection: Dashboards
 ---
 These docs describe how to create and use a **visualisation dataset**. 
 
@@ -40,7 +41,7 @@ The `key` array works by:
 - specifying the columns that must have **non-null** values
 - filtering out rows whose key column value is null
 
-Key values are **not used in the visualisation display** and are only in defining the visualisation dataset
+Key values are **not used in the visualisation display**
 
 ### Schema
 
@@ -56,7 +57,7 @@ Key values are **not used in the visualisation display** and are only in definin
 column: {
   key: [
     { id: 'establishment_id' }, 
-    { id: 'establishmenr_wing' }
+    { id: 'establishment_wing' }
   ]
   ...
 }
@@ -140,7 +141,7 @@ column: {
 ```js
 column: {
   filter: [
-    { id: 'establishmenr_wing', equals: null },
+    { id: 'establishment_wing', equals: null },
     { id: 'establishment_wing', equals: 'North' }
   ]
   ...

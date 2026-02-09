@@ -2,6 +2,7 @@
 layout: layouts/dashboards.njk
 title: Scorecard
 subsection: Visualisation definition
+phase: Alpha
 ---
 <img src="/assets/images/scorecard-section-rag.png" alt="" style="margin-bottom: 30px"/>
 

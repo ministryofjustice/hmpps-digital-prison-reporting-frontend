@@ -19,7 +19,7 @@ const reportTemplateExampleParentChild = {
         visible: true,
       },
       {
-        name: 'field1',
+        name: 'field 1',
         display: 'Second',
         sortable: true,
         defaultsort: false,

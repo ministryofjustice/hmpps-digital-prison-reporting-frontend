@@ -2,6 +2,7 @@
 layout: layouts/dashboards.njk
 title: Scorecard Group
 subsection: Visualisation definition
+phase: Alpha
 ---
 
 <img src="/assets/images/scorecard-group-2.png" alt="" style="margin-bottom: 30px"/>
@@ -151,8 +152,8 @@ This example demonstrates how to create a scorecard group using columns in a dat
 
 Each value in the group column will be used as new group:
 - `est_id` is defined as our group
-- `est_id` has 4 unique values in the dataset
-- therefore we will have 4 groups - One for each value. 
+- `est_id` has 6 unique values in the dataset
+- therefore we will have 6 groups - One for each value. 
  
 ### Definition
 

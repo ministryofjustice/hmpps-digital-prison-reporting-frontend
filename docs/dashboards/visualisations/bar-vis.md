@@ -2,6 +2,7 @@
 layout: layouts/dashboards.njk
 title: Bar chart
 subsection: Visualisation definition
+phase: Beta
 ---
 <img src="/assets/images//barExample2.png" alt="bar chart example" width="700" style="margin-bottom: 30px"/>
 

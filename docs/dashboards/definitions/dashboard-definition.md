@@ -1,7 +1,9 @@
 ---
 layout: layouts/dashboards.njk
 title: Dashboard Definition
+subsection: Dashboards
 ---
+
 The dashboard definition is responsible for defining the structure and IA of a dashboard:
 
 - a title and a description

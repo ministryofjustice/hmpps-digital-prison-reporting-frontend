@@ -73,6 +73,11 @@ context('Download report', () => {
   })
 
   describe('Requesting download', () => {
+    after(() => {
+      cy.task('stubFeatureFlags')
+      resetFeatureFlags()
+    })
+
     it('should prefill the user data in the request form', () => {
       cy.visit(downloadRequestFormPage)
       cy.findByRole('textbox', { name: 'What is your Full name?' }).should('have.value', 'Test User')

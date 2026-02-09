@@ -43,6 +43,11 @@ export class FeatureFlagService {
     return this.clientPromise
   }
 
+  async refresh() {
+    const client = await this.getClient()
+    await client?.refresh()
+  }
+
   async evaluateBooleanFlag(flagKey: FeatureFlagKey, subject: FeatureFlagEvaluationSubject): Promise<boolean> {
     const evaluation = await this.evaluateBooleanFlags([flagKey], subject)
     return evaluation[flagKey]

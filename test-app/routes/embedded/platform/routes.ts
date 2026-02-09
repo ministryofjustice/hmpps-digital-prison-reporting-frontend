@@ -31,6 +31,10 @@ export default function routes(services: Services) {
     } as ReportStoreConfig)
     res.sendStatus(200)
   })
+  router.post('/resetFeatureFlags', async (_req: Request, res: Response) => {
+    await services.featureFlagService.refresh()
+    res.sendStatus(200)
+  })
   router.use('/', platformRoutes({ services, layoutPath: 'views/page.njk' }))
 
   return router

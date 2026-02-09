@@ -16,8 +16,8 @@ context('Dashboard visualisation: Scorecards', () => {
 
   before(() => {
     executeDashboardStubs()
-    resetFeatureFlags()
     cy.task('stubFeatureFlags')
+    resetFeatureFlags()
     cy.task('stubDefinitionScorecardDashboard')
     cy.task('stubDefinitionScorecardBucketDashboard')
     cy.task('stubDefinitionScorecardGroupDashboard')

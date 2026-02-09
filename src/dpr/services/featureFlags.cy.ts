@@ -4,7 +4,6 @@ import { resetFeatureFlags } from 'test-app/routes/integrationTests/appStateUtil
 context('Viewing a report', () => {
   const path = '/embedded/platform/'
 
-  // Do a reset so that any tests after this re-query for feature flags
   after(() => {
     cy.task('stubFeatureFlags')
     resetFeatureFlags()
@@ -15,12 +14,11 @@ context('Viewing a report', () => {
       executeReportStubs()
       cy.task('stubDefinitionRequestExamplesSuccess')
       cy.task('stubRequestSuccessResult20')
-      resetFeatureFlags()
     })
 
     it('should show the ability to save filters as default with feature flag enabled', () => {
       cy.task('stubFeatureFlags')
-
+      resetFeatureFlags()
       cy.visit(path)
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
@@ -44,7 +42,7 @@ context('Viewing a report', () => {
 
     it('should show the ability to save filters as default with feature flag not existing', () => {
       cy.task('stubFeatureFlagsEmpty')
-
+      resetFeatureFlags()
       cy.visit(path)
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
@@ -68,7 +66,7 @@ context('Viewing a report', () => {
 
     it('should not show the ability to save filters as default with feature flag disabled', () => {
       cy.task('stubFeatureFlagsDisabled')
-
+      resetFeatureFlags()
       cy.visit(path)
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {

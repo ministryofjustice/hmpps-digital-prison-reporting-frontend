@@ -11,6 +11,7 @@ import { BookmarkStoreData } from '../types/Bookmark'
 import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
 import { FeatureFlagService, isBooleanFlagEnabledOrMissing } from '../services/featureFlagService'
+import { FEATURE_FLAGS, getFeatureFlagEvaluationSubject } from '../utils/featureFlagsHelper'
 import logger from '../utils/logger'
 import setUpNunjucksFilters from '../setUpNunjucksFilters'
 
@@ -82,12 +83,14 @@ const setFeatures = async (res: Response, featureFlagService: FeatureFlagService
   const shouldUpdate = timeSinceLastUpdatedSeconds > 600
   if (shouldUpdate) {
     // Refresh every 10 mins
-    res.app.locals['featureFlags'].lastUpdated = currentTime
-    const flags = await featureFlagService.getFlags().catch((e) => {
-      res.app.locals['featureFlags'].lastUpdated = currentTime - 601 * 1000
-      throw e
-    })
-    res.app.locals['featureFlags'].flags = Object.fromEntries(flags.flags.map((flag) => [flag.key, flag]))
+    res.app.locals.featureFlags.lastUpdated = currentTime
+    const subject = getFeatureFlagEvaluationSubject(res)
+    res.app.locals.featureFlags.flags = await featureFlagService
+      .evaluateBooleanFlags(FEATURE_FLAGS, subject)
+      .catch((e) => {
+        res.app.locals.featureFlags.lastUpdated = currentTime - 601 * 1000
+        throw e
+      })
     logger.info(
       {
         flags: JSON.stringify(res.app.locals['featureFlags'].flags),

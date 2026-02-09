@@ -2,6 +2,8 @@
 layout: layouts/dashboards.njk
 title: Matrix timeseries chart
 subsection: Visualisation definition
+phase: Experimental
+phaseText: 'This feature is experimental and may be unstable. You can try it, but be aware that issues and changes are likely'
 ---
 
 <img src="/assets/images/matrixExample2.png" alt="bar chart example" width="350" style="margin-bottom: 30px"/>

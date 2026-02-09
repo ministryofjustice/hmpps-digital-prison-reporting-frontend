@@ -2,6 +2,8 @@
 layout: layouts/dashboards.njk
 title: Line timeseries chart
 subsection: Visualisation definition
+phase: Experimental
+phaseText: 'This feature is experimental and may be unstable. You can try it, but be aware that issues and changes are likely'
 ---
 
 🚧 This section is a work in progress 🚧

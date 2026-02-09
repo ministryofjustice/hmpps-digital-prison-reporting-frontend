@@ -2,6 +2,7 @@
 layout: layouts/dashboards.njk
 title: Line chart
 subsection: Visualisation definition
+phase: Beta
 ---
 
 🚧 This section is a work in progress 🚧

@@ -1,8 +1,9 @@
 ---
 layout: layouts/dashboards.njk
 title: Dashboards
+phase: Beta
+phaseText: Some features here are in beta. Certain behaviors may be unstable, and we’re actively working to improve the experience.
 ---
-🚧 This section is a work in progress 🚧
 
 A dashboard a collection of things. The role of the dashboard is present data in easy to digest slices, through the use of various [visualisation types](#visualisations).
 
@@ -10,7 +11,7 @@ A dashboard a collection of things. The role of the dashboard is present data in
 
 A dashboards structure is defined by a [dashboard definition](/dashboards/definitions/dashboard-definition).
 
-A dashboard has: 
+A dashboard has:
 
 - a title and a description
 - zero or many **sections**
@@ -26,14 +27,16 @@ A visualisation definition can be one of the following types:
 - [`scorecard`](/dashboards/visualisations/scorecard-vis)
 - [`scorecard-group`](/dashboards/visualisations/scorecard-group)
 - [`bar`](/dashboards/visualisations/bar-vis)
-- [`bar-timeseries`](/dashboards/visualisations/bar-timeseries)
 - [`line`](/dashboards/visualisations/line-vis)
-- [`line-timeseries`](/dashboards/visualisations/line-timeseries)
 - [`doughnut`](/dashboards/visualisations/doughnut)
+
+<!-- COMING SOON
 - [`matrix-timeseries`](/dashboards/visualisations/matrix-timeseries)
+- [`line-timeseries`](/dashboards/visualisations/line-timeseries)
+- [`bar-timeseries`](/dashboards/visualisations/bar-timeseries) -->
 
 ## Data
 
 A dashboard is always backed by a **single** master dataset.
 
-[Visualisaton datasets](/dashboards/visualisations/visualisation-dataset) are defined from the master dataset. See [Visualisaton dataset](/dashboards/visualisations/visualisation-dataset) for details on how to create this. 
+[Visualisaton datasets](/dashboards/visualisations/visualisation-dataset) are defined from the master dataset. See [Visualisaton dataset](/dashboards/visualisations/visualisation-dataset) for details on how to create this.

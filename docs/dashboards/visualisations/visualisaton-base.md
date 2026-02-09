@@ -8,7 +8,7 @@ subsection: Visualisation definition
 
 <img src="" alt="" width="500" style="margin-bottom: 20px"/>
 
-The `vis-type` chart visualisation type represents data as a matrix/heatmap chart visualisation. 
+The `vis-type` chart visualisation type represents data as a {type} chart visualisation. 
 
 - [When to use](#when-to-use)
 - [How it works](#how-it-works)

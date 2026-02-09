@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express'
+import { captureException } from '@sentry/node'
 import { Services } from '../../../../types/Services'
 import AsyncPollingUtils from './utils'
 import AsyncRequestListUtils from '../../../../components/user-reports/requested/utils'
@@ -42,6 +43,7 @@ class RequestStatusController {
       const response = await AsyncRequestListUtils.getRequestStatus({ req, res, services: this.services })
       res.send({ status: response.status })
     } catch (error) {
+      captureException(error)
       res.send({ status: 'FAILED' })
     }
   }

@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express'
+import { captureException } from '@sentry/node'
 import ErrorHandler from '../../../../utils/ErrorHandler'
 import { Services } from '../../../../types/Services'
 import UserReportsListUtils from '../../../../components/user-reports/utils'
@@ -24,6 +25,7 @@ class AsyncController {
       })
       res.send({ isExpired: response })
     } catch (error) {
+      captureException(error)
       res.send({ status: 'FAILED' })
     }
   }

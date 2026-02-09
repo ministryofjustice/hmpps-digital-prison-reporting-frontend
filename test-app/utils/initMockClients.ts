@@ -71,7 +71,6 @@ export const initServices = (featureConfig?: ServiceFeatureConfig) => {
     url: `http://localhost:9091`,
   })
   clients.featureFlagService = new FeatureFlagService({
-    namespace: 'foo',
     token: 'bar',
     url: 'http://localhost:9091',
   })

@@ -24,6 +24,7 @@ export interface DashboardVisualisation {
   type: components['schemas']['DashboardVisualisationDefinition']['type']
   title?: string | undefined
   description?: string | undefined
+  isEnabled: boolean
   data:
     | Scorecard
     | Scorecard[]

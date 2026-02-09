@@ -1,7 +1,7 @@
 import { DashboardVisualisation, DashboardVisualisationType } from '../dashboard-visualisation/types'
 import { Scorecard } from './types'
 
-export const mergeScorecardsIntoGroup = (visualisations: DashboardVisualisation[]) => {
+export const mergeScorecardsIntoGroup = (visualisations: DashboardVisualisation[], isEnabled: boolean) => {
   const groupedScorecardIndexes: number[][] = visualisations
     // get scorecard indexes
     .reduce((acc: number[], vis: DashboardVisualisation, i: number) => {
@@ -34,6 +34,7 @@ export const mergeScorecardsIntoGroup = (visualisations: DashboardVisualisation[
         id: `${spliceAtIndex}`,
         type: DashboardVisualisationType.SCORECARD_GROUP,
         data: [{ scorecards: scorecardGroup }],
+        isEnabled,
       })
     }
   })

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { Flag } from '@flipt-io/flipt'
 import { Services } from '../../../../../types/Services'
 import Dict = NodeJS.Dict
 import {
@@ -125,15 +126,45 @@ const getSections = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
   dashboardData: DashboardDataResponse[],
   query: Record<string, string | string[]>,
+  dashboardFeatureFlags: Flag[],
   partialDate?: PartialDate,
 ): DashboardSection[] => {
   return dashboardDefinition.sections.map((section: components['schemas']['DashboardSectionDefinition']) => {
     const { id, display: title, description } = section
 
+    const featureFlagVisTypeMap = {
+      [DashboardVisualisationType.LIST]: true,
+      [DashboardVisualisationType.BAR]: Boolean(
+        dashboardFeatureFlags.find((flag) => flag.key === 'barChartsEnabled' && flag.enabled),
+      ),
+      [DashboardVisualisationType.LINE]: Boolean(
+        dashboardFeatureFlags.find((flag) => flag.key === 'lineChartsEnabled' && flag.enabled),
+      ),
+      [DashboardVisualisationType.DONUT]: Boolean(
+        dashboardFeatureFlags.find((flag) => flag.key === 'donutChartsEnabled' && flag.enabled),
+      ),
+      [DashboardVisualisationType.SCORECARD]: Boolean(
+        dashboardFeatureFlags.find((flag) => flag.key === 'scorecardChartsEnabled' && flag.enabled),
+      ),
+      [DashboardVisualisationType.SCORECARD_GROUP]: Boolean(
+        dashboardFeatureFlags.find((flag) => flag.key === 'scorecardgroupChartsEnabled' && flag.enabled),
+      ),
+      [DashboardVisualisationType.MATRIX_TIMESERIES]: Boolean(
+        dashboardFeatureFlags.find((flag) => flag.key === 'matrixtimeseriesChartsEnabled' && flag.enabled),
+      ),
+      [DashboardVisualisationType.BAR_TIMESERIES]: Boolean(
+        dashboardFeatureFlags.find((flag) => flag.key === 'bartimeseriesChartsEnabled' && flag.enabled),
+      ),
+      [DashboardVisualisationType.LINE_TIMESERIES]: Boolean(
+        dashboardFeatureFlags.find((flag) => flag.key === 'linetimeseriesChartsEnabled' && flag.enabled),
+      ),
+    }
+
     let hasScorecard = false
     const visualisations: DashboardVisualisation[] = section.visualisations.map(
       (visDefinition: components['schemas']['DashboardVisualisationDefinition']) => {
         const { type, display, description: visDescription, id: visId } = visDefinition
+        const isEnabled = featureFlagVisTypeMap[type]
 
         let data: DashboardVisualisation['data'] | undefined
 
@@ -173,11 +204,16 @@ const getSections = (
           description: visDescription || '',
           type,
           data,
+          isEnabled: isEnabled ?? true,
         }
       },
     )
 
-    if (hasScorecard) ScorecardsUtils.mergeScorecardsIntoGroup(visualisations)
+    if (hasScorecard)
+      ScorecardsUtils.mergeScorecardsIntoGroup(
+        visualisations,
+        featureFlagVisTypeMap[DashboardVisualisationType.SCORECARD_GROUP],
+      )
 
     return { id, title: title || '', description: description || '', visualisations }
   })
@@ -249,7 +285,16 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const partialDate = getPartialDate(filters.filters)
 
   // Get the dashboard parts
-  const sections: DashboardSection[] = getSections(dashboardDefinition, flattenedData, query, partialDate)
+  const dashboardFeatureFlags = Object.values(res.app.locals.featureFlags.flags).filter(
+    (flag) => flag.metadata['dashboardFeature'] === true,
+  )
+  const sections: DashboardSection[] = getSections(
+    dashboardDefinition,
+    flattenedData,
+    query,
+    dashboardFeatureFlags,
+    partialDate,
+  )
 
   // Update the store
   if (requestedReportService) {

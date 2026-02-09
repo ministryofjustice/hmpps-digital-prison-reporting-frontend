@@ -1,3 +1,4 @@
+import { resetFeatureFlags } from 'test-app/routes/integrationTests/appStateUtils'
 import { executeDashboardStubs } from '../../../../../cypress-tests/cypressUtils'
 
 context('Dashboard visualisation: Scorecards', () => {
@@ -15,7 +16,8 @@ context('Dashboard visualisation: Scorecards', () => {
 
   before(() => {
     executeDashboardStubs()
-
+    resetFeatureFlags()
+    cy.task('stubFeatureFlags')
     cy.task('stubDefinitionScorecardDashboard')
     cy.task('stubDefinitionScorecardBucketDashboard')
     cy.task('stubDefinitionScorecardGroupDashboard')

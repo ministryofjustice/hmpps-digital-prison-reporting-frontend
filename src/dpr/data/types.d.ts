@@ -11,7 +11,6 @@ export interface GetRequest {
 }
 
 export interface FeatureFlagConfig {
-  namespace: string
   token: string
   url: string
 }

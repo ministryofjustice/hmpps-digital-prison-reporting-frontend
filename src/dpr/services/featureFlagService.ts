@@ -2,14 +2,21 @@ import { FliptClient, ListFlagsResponse } from '@flipt-io/flipt'
 import { Application } from 'express'
 import { FeatureFlagConfig } from '../data/types'
 
+// Override this until types are fixed - metadata is returned, but not in the types
+declare module '@flipt-io/flipt' {
+  interface Flag {
+    metadata: Record<string, string | boolean | number>
+  }
+}
+
 export class FeatureFlagService {
   restClient: FliptClient | undefined
 
   namespace: string | undefined
 
   constructor(config: FeatureFlagConfig | Record<string, unknown> = {}) {
-    const { namespace, token, url } = config && (config as FeatureFlagConfig)
-    if (Object.keys(config).length !== 3 || !namespace || !token || !url) {
+    const { token, url } = config && (config as FeatureFlagConfig)
+    if (Object.keys(config).length !== 2 || !token || !url) {
       return
     }
     this.restClient = new FliptClient({
@@ -19,7 +26,7 @@ export class FeatureFlagService {
       },
       url,
     })
-    this.namespace = namespace
+    this.namespace = 'hmpps-digital-prison-reporting'
   }
 
   async getFlags(): Promise<ListFlagsResponse> {

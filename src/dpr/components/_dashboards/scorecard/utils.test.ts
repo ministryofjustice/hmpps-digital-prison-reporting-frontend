@@ -53,33 +53,39 @@ describe('ScorecardUtils', () => {
           id: '1',
           type: DashboardVisualisationType.SCORECARD,
           data: scorecardData1,
+          isEnabled: true,
         },
         {
           id: '2',
           type: DashboardVisualisationType.SCORECARD,
           data: scorecardData2,
+          isEnabled: true,
         },
         {
           id: '3',
           type: DashboardVisualisationType.BAR,
           data: {} as unknown as DashboardVisualisatonCardData,
+          isEnabled: true,
         },
         {
           id: '4',
           type: DashboardVisualisationType.SCORECARD,
           data: scorecardData1,
+          isEnabled: true,
         },
         {
           id: '5',
           type: DashboardVisualisationType.SCORECARD,
           data: scorecardData2,
+          isEnabled: true,
         },
       ]
 
-      const dashboardVis = ScorecardUtils.mergeScorecardsIntoGroup(visualistationData)
+      const dashboardVis = ScorecardUtils.mergeScorecardsIntoGroup(visualistationData, true)
       expect(dashboardVis).toEqual([
         {
           id: '0',
+          isEnabled: true,
           type: 'scorecard-group',
           data: [
             {
@@ -120,11 +126,13 @@ describe('ScorecardUtils', () => {
         },
         {
           id: '3',
+          isEnabled: true,
           type: 'bar',
           data: {},
         },
         {
           id: '3',
+          isEnabled: true,
           type: 'scorecard-group',
           data: [
             {

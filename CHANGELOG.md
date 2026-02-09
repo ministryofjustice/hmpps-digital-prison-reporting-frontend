@@ -1,5 +1,15 @@
 Below you can find the changes included in each release.
 
+## 4.30.1
+- Remove autoprefixer as a dependency as it is unused
+
+## 4.30.0
+- Feature flagged all dashboard viz options apart from List
+
+## 4.29.4
+
+- Fix min-width issues on table cells on print
+
 ## 4.29.3
 
 - Remove no-wrap on table headings on print

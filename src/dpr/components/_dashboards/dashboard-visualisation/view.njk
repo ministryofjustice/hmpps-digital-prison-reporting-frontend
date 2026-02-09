@@ -8,6 +8,7 @@
   {% set title = visualisation.title %}
   {% set description = visualisation.description %}
   {% set data = visualisation.data %}
+  {% set isEnabled = visualisation.isEnabled %}
 
   <div class="dashboard-visualisation-container" id="{{ id }}-dash-section-visualisation" tabindex="0">
     {% if title %}
@@ -18,18 +19,22 @@
       <p class="govuk-body">{{ description }}</p>
     {% endif %}
 
-    {% if type === 'scorecard-group' %}
-
-      {{ dprScoreCardGroup(id, data) }}
-
-    {% elif type === 'list' %}        
-
-      {{ dprDashboardList(id, data) }}
-
+    {% if not isEnabled %}
+      <p class="govuk-body">This visualisation type is not supported yet.</p>
     {% else %}
+      {% if type === 'scorecard-group' %}
 
-      {{ dprChartCard(id, data) }}
-    
+        {{ dprScoreCardGroup(id, data) }}
+
+      {% elif type === 'list' %}        
+
+        {{ dprDashboardList(id, data) }}
+
+      {% else %}
+
+        {{ dprChartCard(id, data) }}
+      
+      {% endif %}
     {% endif %}
 
   </div>

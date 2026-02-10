@@ -7,7 +7,7 @@ import bookmarkRoutes from './bookmarks/routes'
 import recentlyViewedRoutes from './recently-viewed/routes'
 import requestedReportsRoutes from './requested-reports/routes'
 
-export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }) {
+export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
 
   router.use(`/bookmarks`, bookmarkRoutes({ layoutPath, services }))
@@ -25,7 +25,7 @@ export const MyReportsRoutes = ({
   services: Services
   path: string
   layoutPath: string
-}) => {
+}): Router => {
   const router = Router({ mergeParams: true })
   router.use(path, Routes({ services, layoutPath }))
   return router

@@ -3,7 +3,7 @@ import { Router } from 'express'
 import ViewSyncReportController from './controller'
 import { Services } from '../../../../../types/Services'
 
-export function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
+export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {
   const router = Router({ mergeParams: true })
   const controller = new ViewSyncReportController(layoutPath, services)
 

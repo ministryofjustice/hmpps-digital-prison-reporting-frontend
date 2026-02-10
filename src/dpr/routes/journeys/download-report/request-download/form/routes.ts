@@ -4,7 +4,7 @@ import RequestDownloadController from './controller'
 import submittedRoutes from './submitted/routes'
 import { Services } from '../../../../../types/Services'
 
-export function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
+export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {
   const router = Router({ mergeParams: true })
   const controller = new RequestDownloadController(layoutPath, services)
 

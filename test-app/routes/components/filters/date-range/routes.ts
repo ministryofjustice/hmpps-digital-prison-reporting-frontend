@@ -9,7 +9,7 @@ import relativeDateRangeRoutes from './relative-date/routes'
 import relativeDateRangeDefaultRoutes from './relative-date-with-default/routes'
 import relativeMinMaxDateRangeRoutes from './relative-date-min-max/routes'
 
-export default function routes() {
+export default function routes(): Router {
   const router = Router({ mergeParams: true })
   const controller = new DateRangeController()
   router.get('/', controller.GET)

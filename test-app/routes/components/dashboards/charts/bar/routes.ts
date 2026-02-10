@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import BarChartController from './controller'
 
-export default function routes() {
+export default function routes(): Router {
   const router = Router({ mergeParams: true })
   const controller = new BarChartController()
   router.get('/', controller.GET)

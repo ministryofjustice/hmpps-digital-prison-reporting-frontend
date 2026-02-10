@@ -5,7 +5,7 @@ import { Router } from 'express'
 import formRoutes from './form/routes'
 import { Services } from '../../../../types/Services'
 
-export function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
+export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {
   const router = Router({ mergeParams: true })
 
   router.use(`/form`, formRoutes({ layoutPath, services }))

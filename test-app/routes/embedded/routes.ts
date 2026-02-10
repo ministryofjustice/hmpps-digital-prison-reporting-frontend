@@ -8,7 +8,7 @@ import SyncRoutes from './sync-report/routes'
 import PlatformRoutes from './platform/routes'
 import { Services } from '../../../src/dpr/types/Services'
 
-export function Routes(services: Services) {
+export function Routes(services: Services): Router {
   const router = Router({ mergeParams: true })
 
   const controller = new EmbeddedController()
@@ -20,7 +20,7 @@ export function Routes(services: Services) {
   return router
 }
 
-export const EmbeddedRoutes = ({ path, services }: { path: string; services: Services }) => {
+export const EmbeddedRoutes = ({ path, services }: { path: string; services: Services }): Router => {
   const router = Router({ mergeParams: true })
   router.use(path, Routes(services))
 

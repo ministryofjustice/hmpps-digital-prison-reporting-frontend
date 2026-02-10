@@ -6,7 +6,7 @@ import formRoutes from './form/routes'
 import submittedRoutes from './submitted/routes'
 import { Services } from '../../../types/Services'
 
-export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }) {
+export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
 
   router.use(`/:reportId/:variantId/submitted`, submittedRoutes({ layoutPath }))
@@ -23,7 +23,7 @@ export const RequestMissingReportRoutes = ({
   services: Services
   path: string
   layoutPath: string
-}) => {
+}): Router => {
   const router = Router({ mergeParams: true })
   router.use(path, Routes({ services, layoutPath }))
 

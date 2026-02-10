@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express'
-import DateRangeInputUtils from '../../../../../../dist/dpr/components/_inputs/date-range/utils'
-import { components } from '../../../../../../dist/dpr/types/api'
-import { FilterType } from '../../../../../../dist/dpr/components/_filters/filter-input/enum'
-import { FilterValue } from '../../../../../../dist/dpr/components/_filters/types'
+import DateRangeInputUtils from '../../../../../../src/dpr/components/_inputs/date-range/utils'
+import { components } from '../../../../../../src/dpr/types/api'
+import { FilterType } from '../../../../../../src/dpr/components/_filters/filter-input/enum'
+import { FilterValue } from '../../../../../../src/dpr/components/_filters/types'
 
 export default class DateRangeController {
   GET: RequestHandler = async (_req, res) => {

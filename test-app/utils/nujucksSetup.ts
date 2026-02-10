@@ -2,7 +2,7 @@ import * as pathModule from 'path'
 import express from 'express'
 import nunjucks from 'nunjucks'
 import fs from 'fs'
-import setUpNunjucksFilters from '../../dist/dpr/setUpNunjucksFilters'
+import setUpNunjucksFilters from '../../src/dpr/setUpNunjucksFilters'
 
 export default function nunjucksSetup(app: express.Express, path: pathModule.PlatformPath): nunjucks.Environment {
   app.set('view engine', 'njk')

@@ -11,7 +11,7 @@ import requestStatusRoutes from './status/routes'
 // middleware
 import reportAuthoriser from '../../../middleware/reportAuthoriser'
 
-export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }) {
+export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
 
   const controller = new RequestReportController(layoutPath, services)
@@ -48,7 +48,7 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   return router
 }
 
-export function Redirects() {
+export function Redirects(): Router {
   const router = Router({ mergeParams: true })
 
   // Request route redirect
@@ -74,7 +74,7 @@ export const RequestReportRoutes = ({
   services: Services
   path: string
   layoutPath: string
-}) => {
+}): Router => {
   const router = Router({ mergeParams: true })
   router.use(path, Routes({ services, layoutPath }))
   router.use('/', Redirects())

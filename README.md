@@ -12,10 +12,10 @@ This action also publishes the documentation to GitHub pages.
 
 ## Packaging
 
-Packaging for both NPM and GitHub Pages is done by esbuild:
+Packaging for both NPM and GitHub Pages is done by rollup and esbuild:
 
-- `npm run package`: This builds the NPM package, which is also used as sources for the Test Application.
-- `npm run docs`: This compiles the markdown in `docs` into HTML for GitHub Pages.
+- `npm run rpack`: This builds the NPM package, which is also used as sources for the Test Application, using rollup.
+- `npm run docs`: This compiles the markdown in `docs` into HTML for GitHub Pages using esbuild.
 
 Both tasks use the `package` directory.
 

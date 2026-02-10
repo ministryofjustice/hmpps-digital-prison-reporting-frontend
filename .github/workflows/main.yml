@@ -24,7 +24,7 @@ jobs:
       with:
         node-version: '24.x'
     - run: npm run setup
-    - run: npm run package
+    - run: npm run rpack
     - uses: actions/upload-artifact@v4
       with:
         name: dpr-package
@@ -80,7 +80,7 @@ jobs:
       - name: Build lib and copy output into node_modules of mi-ui for lib
         working-directory: ${{ github.workspace }}
         run: |
-          npm run package
+          npm run rpack
           rm -rf ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr
           cp -r dist/dpr ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr
           cp dist/package.json ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/package.json
@@ -129,7 +129,7 @@ jobs:
         with:
           node-version: '24.x'
       - run: npm run setup
-      - run: npm run package
+      - run: npm run rpack
       - name: Run the node app and integration tests
         run: |
           npm run start:dev:noMockClients:noLogs &

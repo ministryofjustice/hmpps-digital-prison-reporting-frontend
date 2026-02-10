@@ -10,7 +10,7 @@ import { components } from '../types/api'
 import ErrorHandler from './ErrorHandler'
 
 dayjs.extend(customParse)
-interface GetStatusUtilsResponse {
+export interface GetStatusUtilsResponse {
   status: RequestStatus
   errorMessage?: { userMessage?: string; developerMessage?: string }
   reportData?: RequestedReport | undefined

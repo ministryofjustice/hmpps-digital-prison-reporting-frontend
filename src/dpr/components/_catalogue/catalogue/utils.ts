@@ -4,7 +4,7 @@ import { Services } from '../../../types/Services'
 import LocalsHelper from '../../../utils/localsHelper'
 import { CatalogueFeatures } from './types'
 
-export const init = async ({
+export const initCatalogue = async ({
   features,
   res,
   services,
@@ -53,5 +53,5 @@ const setFeatures = (bookmarkingEnabled: boolean, features?: CatalogueFeatures) 
 }
 
 export default {
-  init,
+  initCatalogue,
 }

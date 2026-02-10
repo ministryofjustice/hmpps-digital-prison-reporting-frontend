@@ -129,7 +129,7 @@ jobs:
         with:
           node-version: '24.x'
       - run: npm run setup
-      - run: npm run rpack
+      - run: npm run package
       - name: Run the node app and integration tests
         run: |
           npm run start:dev:noMockClients:noLogs &

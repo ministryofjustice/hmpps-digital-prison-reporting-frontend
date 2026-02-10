@@ -96,27 +96,6 @@ const streamDownloadAsyncData = async (args: {
   return services.reportingService.downloadAsyncReport(token, reportId, id, tableId, query, res)
 }
 
-// const dowloadAsyncData = async (args: {
-//   services: Services
-//   token: string
-//   tableId: string
-//   reportId: string
-//   id: string
-//   queryParams: {
-//     dataProductDefinitionsPath: string
-//     sortedAsc?: string
-//     sortColumn?: string
-//   }
-// }) => {
-//   const { token, services, tableId, reportId, id, queryParams } = args
-//   const pageSize = await services.reportingService.getAsyncCount(token, tableId)
-//   const query: Record<string, string | string[]> = {
-//     ...queryParams,
-//     pageSize: pageSize.toString(),
-//   }
-//   return services.reportingService.getAsyncReport(token, reportId, id, tableId, query)
-// }
-
 const downloadSyncData = async (args: {
   definition: components['schemas']['SingleVariantReportDefinition']
   services: Services

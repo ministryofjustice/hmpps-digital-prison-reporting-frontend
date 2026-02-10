@@ -112,11 +112,9 @@ context('Download report', () => {
       cy.findAllByRole('heading').contains('Successful Report').should('exist')
       cy.findByRole('button', { name: /download/ }).should('be.visible')
 
-      // cy.task('stubRequestSuccessResult10MissingFirstRow')
       cy.task('stubAsyncReportDownload')
       cy.findByRole('button', { name: /download/ }).click()
-      // cy.task('checkContents10RowExcelValid').should('equal', true)
-      cy.task('checkCsvDownload4RowsValid')
+      cy.task('checkCsvDownload4RowsValid').should('equal', true)
     })
 
     it('should redirect on trying to download after having the permission to download removed', () => {

@@ -53,7 +53,3 @@ export const isBooleanFlagEnabledOrMissing = (flagName: string, app: Application
   const flag = resolveFlag(app, flagName)
   return !flag || flag.enabled
 }
-
-export const isBooleanFlagExplicitlyEnabled = (flagName: string, app: Application): boolean => {
-  return resolveFlag(app, flagName)?.enabled === true
-}

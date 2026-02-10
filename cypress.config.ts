@@ -44,6 +44,23 @@ const config: Cypress.ConfigOptions = {
             contents.reduce((acc, val) => acc + val.length, 0) > 0
           )
         },
+        checkCsvDownload4RowsValid() {
+          const files = globSync(`${cfg.downloadsFolder}/*.csv`)
+          if (files.length === 0) return false
+
+          const mostRecentReportPath = files
+            .map((name) => ({ name, ctime: fs.statSync(name).ctime }))
+            .sort((a, b) => b.ctime.getTime() - a.ctime.getTime())[0].name
+
+          const contents = String(fs.readFileSync(mostRecentReportPath)).trim().split('\n')
+          const numCols = contents[0]?.split(',').length ?? 0
+
+          return (
+            contents.length === 4 &&
+            contents.reduce((acc, row) => acc && row.split(',').length === numCols, true) &&
+            contents.every((row) => row.length > 0)
+          )
+        },
         async checkFilesIncremented(beforeCount) {
           for (let i = 3; i > 0; i -= 1) {
             // eslint-disable-next-line no-await-in-loop

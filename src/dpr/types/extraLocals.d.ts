@@ -4,7 +4,6 @@ import { components } from './api'
 import { RequestedReport, StoredReportData } from './UserReports'
 import { BookmarkStoreData } from './Bookmark'
 
-
 export interface ExtraLocals {
   dprUser: DprUser
   nestedBaseUrl: string

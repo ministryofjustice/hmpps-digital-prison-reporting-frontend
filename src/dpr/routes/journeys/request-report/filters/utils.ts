@@ -252,7 +252,12 @@ export const getDefintionByType = async (req: Request, res: Response, _next: Nex
   const { reportId, id, variantId, type } = req.params
 
   const service = type === ReportType.REPORT ? services.reportingService : services.dashboardService
-  const definition = await service.getDefinition(token, reportId as string, (variantId || id) as string, definitionsPath)
+  const definition = await service.getDefinition(
+    token,
+    reportId as string,
+    (variantId || id) as string,
+    definitionsPath,
+  )
 
   return definition
 }
@@ -276,7 +281,12 @@ const getFilterData = async (
   // 3. Update filter values with saved defaults
   let defaultFilterValues
   if (res.locals['saveDefaultsEnabled']) {
-    defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId as string, id as string, FiltersType.REQUEST)
+    defaultFilterValues = await services.defaultFilterValuesService.get(
+      userId,
+      reportId as string,
+      id as string,
+      FiltersType.REQUEST,
+    )
   }
   if (defaultFilterValues) {
     filtersData = PersonalistionUtils.setFilterValuesFromSavedDefaults(
@@ -332,7 +342,13 @@ export const cancelRequest = async ({ req, res, services }: AsyncReportUtilsPara
   if (type === ReportType.REPORT) service = services.reportingService
   if (type === ReportType.DASHBOARD) service = services.dashboardService
 
-  const response = await service.cancelAsyncRequest(token, reportId as string, id as string, executionId as string, definitionsPath)
+  const response = await service.cancelAsyncRequest(
+    token,
+    reportId as string,
+    id as string,
+    executionId as string,
+    definitionsPath,
+  )
 
   if (response && response['cancellationSucceeded']) {
     await services.requestedReportService.updateStatus(executionId as string, dprUser.id, RequestStatus.ABORTED)
@@ -375,11 +391,13 @@ export const renderRequest = async ({
     let defaultFilterValues: defaultFilterValue[] = []
 
     if (type === ReportType.REPORT) {
-      ; ({ name, reportName, description, fields, interactive } = await renderReportRequestData(definition as components['schemas']['SingleVariantReportDefinition']))
+      ;({ name, reportName, description, fields, interactive } = await renderReportRequestData(
+        definition as components['schemas']['SingleVariantReportDefinition'],
+      ))
     }
 
     if (type === ReportType.DASHBOARD) {
-      ; ({ name, reportName, description, sections, fields } = await renderDashboardRequestData({
+      ;({ name, reportName, description, sections, fields } = await renderDashboardRequestData({
         ...definitionApiArgs,
         definition: definition as components['schemas']['DashboardDefinition'],
       }))

@@ -16,7 +16,12 @@ export const reportAuthoriser = (services: Services, layoutPath: string): Reques
     )
 
     const service = type === ReportType.REPORT ? services.reportingService : services.dashboardService
-    res.locals['definition'] = await service.getDefinition(token, reportId as string, (variantId || id) as string, dataProductDefinitionsPath)
+    res.locals['definition'] = await service.getDefinition(
+      token,
+      reportId as string,
+      (variantId || id) as string,
+      dataProductDefinitionsPath,
+    )
 
     if (definitionSummary?.authorised !== undefined && !definitionSummary.authorised) {
       res.render(`dpr/routes/journeys/view-report/unauthorised`, {

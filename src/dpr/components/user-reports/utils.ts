@@ -309,7 +309,15 @@ export const updateExpiredStatus = async ({ req, res, services }: AsyncReportUti
   return report ? report.isExpired : false
 }
 
-export const initUserReports = async ({ services, res, maxRows = 6 }: { services: Services; res: Response; maxRows?: number }) => {
+export const initUserReports = async ({
+  services,
+  res,
+  maxRows = 6,
+}: {
+  services: Services
+  res: Response
+  maxRows?: number
+}) => {
   const { requestedReports, recentlyViewedReports, bookmarkingEnabled } = LocalsHelper.getValues(res)
 
   const requestedReportsList = await renderList({

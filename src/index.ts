@@ -1,6 +1,6 @@
-export { initDprReportingClients } from "./dpr/data/dprReportingClient"
-export { createDprServices } from "./dpr/utils/CreateDprServices"
-export { setupResources as setUpDprResources } from "./dpr/middleware/setUpDprResources"
+export { initDprReportingClients } from './dpr/data/dprReportingClient'
+export { createDprServices } from './dpr/utils/CreateDprServices'
+export { setupResources as setUpDprResources } from './dpr/middleware/setUpDprResources'
 export { routes } from './dpr/routes'
 export { DprUser } from './dpr/types/DprUser'
 export { default as catalogueUtils } from './dpr/components/_catalogue/catalogue/utils'

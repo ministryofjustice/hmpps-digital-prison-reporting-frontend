@@ -24,7 +24,11 @@ class RequestDownloadSubmittedController {
 
     const reportHref = reportSearch ? `${reportUrl}${decodedReportSearch}` : `${reportUrl}`
 
-    await this.services.downloadPermissionService.saveDownloadPermissionData(dprUser.id, reportId as string, variantId as string)
+    await this.services.downloadPermissionService.saveDownloadPermissionData(
+      dprUser.id,
+      reportId as string,
+      variantId as string,
+    )
 
     res.render(`dpr/routes/journeys/download-report/request-download/form/submitted/view`, {
       title: 'success',

@@ -11,7 +11,7 @@ export default class UserReportsController {
 
   GET: RequestHandler = async (_req, res) => {
     res.locals['bookmarkingEnabled'] = false
-    const userReports = await UserReportsListUtils.init({ services: this.services, res, maxRows: 20 })
+    const userReports = await UserReportsListUtils.initUserReports({ services: this.services, res, maxRows: 20 })
 
     res.render('views/pages/components/user-reports/view.njk', {
       title: 'User reports list',

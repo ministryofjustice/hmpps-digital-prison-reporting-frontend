@@ -10,6 +10,7 @@ export interface ExtraLocals {
   nestedBaseUrl: string
   csrfToken: string
   definitions: components['schemas']['ReportDefinitionSummary'][]
+  definition?: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
   bookmarkingEnabled: boolean
   downloadingEnabled: boolean
   collectionsEnabled: boolean
@@ -17,7 +18,7 @@ export interface ExtraLocals {
   saveDefaultsEnabled: boolean
   dpdPathFromQuery: boolean
   dpdPathFromConfig: boolean
-  definitionsPath: string | undefined
+  definitionsPath: string
   requestedReports?: RequestedReport[]
   recentlyViewedReports?: StoredReportData[]
   bookmarks?: BookmarkStoreData[]

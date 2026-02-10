@@ -4,7 +4,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { dts } from 'rollup-plugin-dts'
 import commonjs from '@rollup/plugin-commonjs'
 import copy from 'rollup-plugin-copy'
-import { writeFileSync, mkdirSync, existsSync, appendFileSync, readFileSync } from 'fs'
+import { writeFileSync, mkdirSync, existsSync, appendFileSync, readFileSync, rmSync } from 'fs'
 
 import pkg from './package.json'
 import { glob } from 'glob'
@@ -53,9 +53,9 @@ const publishPkg = {
       "import": "./dpr/middleware/setUpDprResources.js"
     },
     "./dprUser": {
-      "types": "./dpr/data/DprUser.d.ts",
-      "require": "./cjs/dpr/data/DprUser.js",
-      "import": "./dpr/data/DprUser.js"
+      "types": "./dpr/types/DprUser.d.ts",
+      "require": "./cjs/dpr/types/DprUser.js",
+      "import": "./dpr/types/DprUser.js"
     },
     "./routes": {
       "types": "./dpr/routes/index.d.ts",
@@ -74,8 +74,6 @@ const publishPkg = {
     }
   },
   sideEffects: false,
-  files: pkg.files,
-  sass: pkg.sass,
   engines: pkg.engines,
   license: pkg.license,
   author: pkg.author,
@@ -83,10 +81,15 @@ const publishPkg = {
   dependencies: pkg.dependencies
 }
 
-// Create the dist/dpr folder
-if (!existsSync(path.join(cwd, 'dist'))) {
-  mkdirSync(path.join(cwd, 'dist/dpr'), { recursive: true })
+// Clean, then create the dist + dpr folder
+if (existsSync(path.join(cwd, 'dist'))) {
+  rmSync(path.join(cwd, 'dist'), {
+    force: true,
+    recursive: true
+  })
 }
+mkdirSync(path.join(cwd, 'dist/dpr'), { recursive: true })
+
 // Copy over package.json
 writeFileSync(path.join(cwd, 'dist/package.json'), JSON.stringify(publishPkg, null, 2) + '\n')
 
@@ -119,7 +122,7 @@ const options = [
       path.join(cwd, 'src/dpr/data/dprReportingClient.ts'),
       path.join(cwd, 'src/dpr/utils/CreateDprServices.ts'),
       path.join(cwd, 'src/dpr/middleware/setUpDprResources.ts'),
-      path.join(cwd, 'src/dpr/data/DprUser.ts'),
+      path.join(cwd, 'src/dpr/types/DprUser.ts'),
       path.join(cwd, 'src/dpr/routes/index.ts'),
       path.join(cwd, 'src/index.ts'),
     ],
@@ -128,7 +131,7 @@ const options = [
     ],
     plugins: [
       nodeResolve({ preferBuiltins: true }),
-      typescript({ tsconfig: './tsconfig.json', noEmitOnError: true, outDir: 'dist/cjs', declaration: false }),
+      typescript({ tsconfig: './tsconfig.json', noEmitOnError: false, outDir: 'dist/cjs', declaration: false }),
       commonjs(),
     ],
     external: [...Object.keys(pkg.dependencies || {})],
@@ -142,7 +145,7 @@ const options = [
     ],
     plugins: [
       nodeResolve({ preferBuiltins: true }),
-      typescript({ tsconfig: './tsconfig.json', noEmitOnError: true, outDir: 'dist', declaration: false }),
+      typescript({ tsconfig: './tsconfig.json', noEmitOnError: false, outDir: 'dist', declaration: false }),
       commonjs(),
     ],
     external: [...Object.keys(pkg.dependencies || {})],
@@ -166,7 +169,7 @@ const options = [
       path.join(cwd, 'src/dpr/data/dprReportingClient.ts'),
       path.join(cwd, 'src/dpr/utils/CreateDprServices.ts'),
       path.join(cwd, 'src/dpr/middleware/setUpDprResources.ts'),
-      path.join(cwd, 'src/dpr/data/DprUser.ts'),
+      path.join(cwd, 'src/dpr/types/DprUser.ts'),
       path.join(cwd, 'src/dpr/routes/index.ts'),
       path.join(cwd, 'src/index.ts'),
     ],
@@ -196,7 +199,7 @@ const options = [
       'dpr/data/dprReportingClient': path.join(cwd, 'src/dpr/data/dprReportingClient.ts'),
       "dpr/utils/CreateDprServices": path.join(cwd, 'src/dpr/utils/CreateDprServices.ts'),
       'dpr/middleware/setUpDprResources': path.join(cwd, 'src/dpr/middleware/setUpDprResources.ts'),
-      'dpr/data/DprUser': path.join(cwd, 'src/dpr/data/DprUser.ts'),
+      'dpr/types/DprUser': path.join(cwd, 'src/dpr/types/DprUser.ts'),
       'dpr/routes/index': path.join(cwd, 'src/dpr/routes/index.ts'),
       'index': path.join(cwd, 'src/index.ts'),
     },
@@ -207,7 +210,8 @@ const options = [
         targets: [
           { src: 'README.md', dest: 'dist' },
           { src: "src/dpr/**/*.njk", dest: 'dist', },
-          { src: "src/dpr/types/api.d.ts", dest: 'dist', }
+          { src: "src/dpr/types/api.d.ts", dest: 'dist', },
+          { src: "src/dpr/types/extraLocals.d.ts", dest: 'dist', },
         ],
         hook: 'writeBundle',
         flatten: false,

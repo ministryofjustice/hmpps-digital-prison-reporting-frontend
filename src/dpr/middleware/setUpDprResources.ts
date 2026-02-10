@@ -123,7 +123,7 @@ export const populateDefinitions = async (services: Services, req: Request, res:
   }
 
   // query takes presedence over config
-  res.locals['definitionsPath'] = definitionsPathFromQuery || dpdPathFromConfig
+  res.locals['definitionsPath'] = (definitionsPathFromQuery || dpdPathFromConfig) as string // one of these should be populated
   res.locals['pathSuffix'] = `?dataProductDefinitionsPath=${res.locals['definitionsPath']}`
 
   let selectedProductCollectionId: string | undefined

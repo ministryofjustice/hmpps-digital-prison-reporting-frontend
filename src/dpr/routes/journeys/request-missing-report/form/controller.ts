@@ -26,8 +26,8 @@ class MissingReportFormController {
     const reportDefinition: components['schemas']['SingleVariantReportDefinition'] =
       await this.reportingService.getDefinition(
         token,
-        reportId,
-        variantId,
+        reportId as string,
+        variantId as string,
         definitionsPath ?? 'definitions/prisons/missing',
       )
 

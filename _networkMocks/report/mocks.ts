@@ -47,17 +47,27 @@ export const getAsyncListSectionReportResultMock = setupSimpleMock(
   `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/result`,
   createMockData(10),
 )
-export const getAsyncReportResultMockMissingData = setupSimpleMock(
-  `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/result`,
-  createMockData(10).map((row, idx) => {
-    if (idx !== 0) {
-      return row
-    }
-    return Object.entries(row).map(([key, _value]): { [key: string]: undefined } => ({
-      [key]: undefined,
-    }))
-  }),
-)
+
+export const getAsyncReportDownloadMock = {
+  priority: 1,
+  request: {
+    method: 'GET',
+    urlPathPattern: '/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/tables/tblId_[a-zA-Z0-9]+/download',
+  },
+  response: {
+    status: 200,
+    headers: {
+      'Content-Type': 'text/csv',
+      'Content-Disposition': 'attachment; filename="report.csv"',
+    },
+    body: `col1,col2,col3
+1,abc,def
+2,ghi,jkl
+3,mno,pqr
+`,
+  },
+}
+
 export const reportsFinishedStatusMock = setupSimpleMock(
   `/reports/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/statements/[a-zA-Z0-9_]+/status`,
   {

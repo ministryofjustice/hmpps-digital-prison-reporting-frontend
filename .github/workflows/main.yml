@@ -81,9 +81,8 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: |
           npm run rpack
-          rm -rf ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr
-          cp -r dist/dpr ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr
-          cp dist/package.json ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/package.json
+          rm -rf ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/*
+          cp -R dist/* ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/
       - name: Build mi-ui
         run: npm run build
         working-directory: ${{ github.workspace }}/../app

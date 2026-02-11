@@ -8,7 +8,6 @@ import { components } from '../../../types/api'
 import LocalsHelper from '../../../utils/localsHelper'
 import { Template } from '../../../types/Templates'
 import ReportQuery from '../../../types/ReportQuery'
-import { isBooleanFlagExplicitlyEnabled } from '../../../services/featureFlagService'
 import logger from '../../../utils/logger'
 
 const convertToCsv = (reportData: Dict<string>[], options: Json2CsvOptions) => {
@@ -97,27 +96,6 @@ const streamDownloadAsyncData = async (args: {
   return services.reportingService.downloadAsyncReport(token, reportId, id, tableId, query, res)
 }
 
-const dowloadAsyncData = async (args: {
-  services: Services
-  token: string
-  tableId: string
-  reportId: string
-  id: string
-  queryParams: {
-    dataProductDefinitionsPath: string
-    sortedAsc?: string
-    sortColumn?: string
-  }
-}) => {
-  const { token, services, tableId, reportId, id, queryParams } = args
-  const pageSize = await services.reportingService.getAsyncCount(token, tableId)
-  const query: Record<string, string | string[]> = {
-    ...queryParams,
-    pageSize: pageSize.toString(),
-  }
-  return services.reportingService.getAsyncReport(token, reportId, id, tableId, query)
-}
-
 const downloadSyncData = async (args: {
   definition: components['schemas']['SingleVariantReportDefinition']
   services: Services
@@ -185,8 +163,6 @@ export const downloadReport = async ({
   } = req.body
   const { downloadPermissionService } = services
   const canDownloadReport = await downloadPermissionService.downloadEnabledForReport(dprUser.id, reportId, id)
-  const streamingEnabledInFlipt = isBooleanFlagExplicitlyEnabled('streamingDownloadEnabled', res.app)
-  const streamingEnabledInEnv = process.env['STREAMING_DOWNLOAD_ENABLED'] === 'true'
 
   if (!canDownloadReport) {
     res.redirect(redirect)
@@ -206,49 +182,35 @@ export const downloadReport = async ({
         token,
         queryParams,
       })
-    } else {
-      logger.info(`Streaming enabled in Flipt: ${streamingEnabledInFlipt}`)
-      logger.info(`Streaming enabled in Env: ${streamingEnabledInEnv}`)
-      if (streamingEnabledInFlipt || streamingEnabledInEnv) {
-        logger.info(`Initiating streaming...`)
-        const streamDownloadQueryParams = {
-          dataProductDefinitionsPath,
-          ...(columns && { columns: JSON.parse(columns) }),
-          ...(sortedAsc && { sortedAsc }),
-          ...(sortColumn && { sortColumn }),
-        }
-        await streamDownloadAsyncData({
-          services,
-          token,
-          reportId,
-          id,
-          tableId,
-          queryParams: streamDownloadQueryParams,
-          res,
-        })
-        return
+      if (columns) {
+        reportData = applyColumnsAndSort(reportData, JSON.parse(columns))
       }
+      reportData = removeHtmlTags(reportData, definition)
+      const fields = definition.variant.specification?.fields || []
+      const keys: KeysList = getKeys(reportData, fields)
+      const csvData = convertToCsv(reportData, { keys, emptyFieldValue: '' })
 
-      reportData = await dowloadAsyncData({
+      res.setHeader('Content-Type', 'application/json')
+      res.setHeader('Content-disposition', `attachment; filename=${reportName}-${name}-${new Date().toISOString()}.csv`)
+      res.end(csvData)
+    } else {
+      logger.info(`Initiating streaming...`)
+      const streamDownloadQueryParams = {
+        dataProductDefinitionsPath,
+        ...(columns && { columns: JSON.parse(columns) }),
+        ...(sortedAsc && { sortedAsc }),
+        ...(sortColumn && { sortColumn }),
+      }
+      await streamDownloadAsyncData({
         services,
         token,
         reportId,
         id,
         tableId,
-        queryParams,
+        queryParams: streamDownloadQueryParams,
+        res,
       })
     }
-    if (columns) {
-      reportData = applyColumnsAndSort(reportData, JSON.parse(columns))
-    }
-    reportData = removeHtmlTags(reportData, definition)
-    const fields = definition.variant.specification?.fields || []
-    const keys: KeysList = getKeys(reportData, fields)
-    const csvData = convertToCsv(reportData, { keys, emptyFieldValue: '' })
-
-    res.setHeader('Content-Type', 'application/json')
-    res.setHeader('Content-disposition', `attachment; filename=${reportName}-${name}-${new Date().toISOString()}.csv`)
-    res.end(csvData)
   }
 }
 

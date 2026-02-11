@@ -11,7 +11,7 @@ context('Platform sync tests', () => {
       cy.task('stubDefinitionSyncDashboard')
       cy.task('stubRequestSuccessResult20')
       cy.task('stubSyncRequestDataSuccess')
-      cy.task('stubSyncDashboardRequestDataSuccess')
+      cy.task('stubDashboardResultCompleteDataSync')
       cy.task('stubSyncRequestDataSuccessCount')
     })
 

@@ -1,7 +1,7 @@
-import UserReportsListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/utils'
+import { initUserReports } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/userReportsListUtils'
 
 
-export function routes (services: Services): Router {
+export function routes(services: Services): Router {
 
   ...
 
@@ -9,7 +9,7 @@ export function routes (services: Services): Router {
 
     const {
       requestedReports,
-    } = await UserReportsListUtils.initLists({ res, req, services })
+    } = await initUserReports({ res, req, services })
 
     res.render('requested-reports.njk', {
       requestedReports,

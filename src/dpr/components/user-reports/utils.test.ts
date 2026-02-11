@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { expect } from '@jest/globals'
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response } from 'express'

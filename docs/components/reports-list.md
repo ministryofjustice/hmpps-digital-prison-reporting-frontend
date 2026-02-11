@@ -37,7 +37,7 @@ Render your stored async request data to the frontend using `UserReportsListUtil
 ```js
 // server/routes/index.ts
 
-import UserReportsListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/utils'
+import { initUserReports } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/userReportsListUtils'
 
 
 export function routes(services: Services): Router {
@@ -50,7 +50,7 @@ export function routes(services: Services): Router {
       requestedReports,
       viewedReports,
       bookmarks,
-    } = await UserReportsListUtils.initLists({ res, req, services })
+    } = await initUserReports({ res, req, services })
 
     res.render('requested-reports.njk', {
       title: 'DPR test site',

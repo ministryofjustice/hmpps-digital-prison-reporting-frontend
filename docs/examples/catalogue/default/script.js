@@ -1,8 +1,8 @@
-import CatalogueUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/_catalogue/catalogue/utils'
+import { initCatalogue } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/catalogueUtils'
 
 export function routes(services) {
   app.get('/catalogue', (req, res, next) => async (req, res) => {
-    const catalogue = await CatalogueUtils.init({
+    const catalogue = await initCatalogue({
       res,
       services,
     })

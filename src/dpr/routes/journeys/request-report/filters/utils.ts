@@ -373,7 +373,7 @@ export const renderRequest = async ({
   services: Services
 }): Promise<RequestDataResult | boolean> => {
   try {
-    const { token, csrfToken, definitionsPath: definitionPath, dpdPathFromQuery, dprUser } = LocalsHelper.getValues(res)
+    const { token, csrfToken, definitionsPath: definitionPath, dprUser } = LocalsHelper.getValues(res)
     const { reportId, type, id } = req.params
     const { definition } = res.locals
     const defaultsSaved = <string>req.query['defaultsSaved']
@@ -383,7 +383,6 @@ export const renderRequest = async ({
     let name
     let reportName
     let description
-    let template
     let fields: components['schemas']['FieldDefinition'][] = []
     let sections
     let interactive

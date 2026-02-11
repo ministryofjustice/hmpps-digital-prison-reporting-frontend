@@ -38,7 +38,7 @@ Its recommended to use the Catalogue utility helper to initialise the data neede
 ```js
 // server/routes/index.ts
 
-import CatalogueUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/_catalogue/catalogue/utils'
+import { initCatalogue } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/catalogueUtils'
 
 
 export function routes(services: Services): Router {
@@ -46,7 +46,7 @@ export function routes(services: Services): Router {
   ...
 
   router.get('/path/to/catalogue', (req, res) => {
-    const catalogue = await CatalogueUtils.init({ res, services })
+    const catalogue = await initCatalogue({ res, services })
     res.render('reports-catalogue.njk', {
       catalogue
     })

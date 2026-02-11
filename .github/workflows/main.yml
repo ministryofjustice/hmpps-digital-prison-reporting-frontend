@@ -73,7 +73,7 @@ jobs:
 
       - name: Clone mi-ui
         run: |
-          git clone https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
+          git clone -b DPR2-2615_align-export-changes https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
       - name: mi-ui setup using this branch
         run: npm run setup
         working-directory: ${{ github.workspace }}/../app

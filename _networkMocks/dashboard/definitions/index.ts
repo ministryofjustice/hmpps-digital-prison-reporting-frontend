@@ -5,7 +5,14 @@ import { featureTestingDefinitions } from './feature-testing'
 import { visualisations as completeDataVisualisations } from './visualisations/complete-dataset'
 import { visualisations as partialDataVisualisations } from './visualisations/partial-dataset'
 
-import * as requestExamples from './request-examples/definitions'
+import {
+  successfulExecution,
+  failedExecution,
+  serverError,
+  expiredDashboard,
+  requestTimeout,
+  failedRequest,
+} from './request-examples/definitions'
 
 // Visualisations
 export const visualisations: components['schemas']['DashboardDefinition'][] = [
@@ -13,7 +20,16 @@ export const visualisations: components['schemas']['DashboardDefinition'][] = [
   ...partialDataVisualisations,
 ]
 
+export const requestExamples: components['schemas']['DashboardDefinition'][] = [
+  successfulExecution,
+  failedExecution,
+  serverError,
+  expiredDashboard,
+  requestTimeout,
+  failedRequest,
+]
+
 // Feature testing examples
 export const features: components['schemas']['DashboardDefinition'][] = featureTestingDefinitions
 
-export default [...visualisations, ...features, requestExamples]
+export default [...visualisations, ...features, ...requestExamples]

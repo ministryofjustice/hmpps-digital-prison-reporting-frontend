@@ -25,17 +25,12 @@ export default function setUpBookmarks(services: Services): RequestHandler {
         const { id, activeCaseLoadId } = res.locals['dprUser']
         // Hardcoded config just for test purposes
 
-        logger.info(
-          ` Initialising bookmarks for user: ${res.locals['dprUser'] && JSON.stringify(res.locals['dprUser'])}`,
-        )
-
         await BookmarkUtils.preBookmarkReportsByRoleId(
           id,
           activeCaseLoadId,
           services,
           automaticBookmarkConfig.caseloads,
         )
-        logger.info(`Initialised bookmarks for user: ${res.locals['dprUser'] && JSON.stringify(res.locals['dprUser'])}`)
       }
       res.locals['bookmarksInitialised'] = true
       return next()

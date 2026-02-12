@@ -1,6 +1,11 @@
 Below you can find the changes included in each release.
 
+## 4.32.1
+
+- Remove PII from logs
+
 ## 4.32.0
+
 - Enable the new streaming download for async reports and disable the legacy non-streaming version.
 
 ## 4.31.0

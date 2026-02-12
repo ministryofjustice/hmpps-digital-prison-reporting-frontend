@@ -7,7 +7,7 @@ import ViewReportController from './controller'
 import viewSyncReportRoutes from './sync/routes'
 import viewAyncReportRoutes from './async/routes'
 
-export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }) {
+export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
 
   const controller = new ViewReportController(layoutPath, services)
@@ -21,7 +21,7 @@ export function Routes({ layoutPath, services }: { services: Services; layoutPat
   return router
 }
 
-export function Redirects() {
+export function Redirects(): Router {
   const router = Router({ mergeParams: true })
 
   // View Report
@@ -58,7 +58,7 @@ export const ViewReportRoutes = ({
   services: Services
   path: string
   layoutPath: string
-}) => {
+}): Router => {
   const router = Router({ mergeParams: true })
   router.use(path, Routes({ services, layoutPath }))
   router.use('/', Redirects())

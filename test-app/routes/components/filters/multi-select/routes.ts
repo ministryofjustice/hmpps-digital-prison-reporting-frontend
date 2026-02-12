@@ -2,7 +2,7 @@
 import { Router } from 'express'
 import MultiSelectController from './controller'
 
-export default function routes() {
+export default function routes(): Router {
   const router = Router({ mergeParams: true })
   const controller = new MultiSelectController()
   router.get('/', controller.GET)

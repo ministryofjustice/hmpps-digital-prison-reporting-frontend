@@ -23,7 +23,7 @@ const buildConfig = () => ({
     minify: true,
     outDir: path.join(cwd, 'dist-docs/dpr'),
     entryPoints: glob
-      .sync([path.join(cwd, 'src/**/*.js'), path.join(cwd, 'src/**/*.ts')])
+      .sync([path.join(cwd, 'src/dpr/**/*.js'), path.join(cwd, 'src/dpr/**/*.ts')])
       .filter((file) => !file.endsWith('.test.ts')),
     copy: [
       {
@@ -120,7 +120,7 @@ const main = async () => {
     process.stderr.write('\u{1b}[1m\u{1F52D} Watching for changes...\u{1b}[0m\n')
     // App
     chokidar
-      .watch(['src/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
+      .watch(['src/dpr/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })
       .on('all', () => buildLibrary().catch((e) => process.stderr.write(`${e}\n`)))
     chokidar
       .watch(['docs/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts', '**/*.cy.ts'] })

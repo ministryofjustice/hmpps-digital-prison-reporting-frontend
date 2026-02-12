@@ -21,7 +21,6 @@ This guide describes the integration process to add FE components and processes 
 # Viewing a report
 
 - [Request or load report via href](#request-or-load-report-via-href)
-- [Render report as list](#render-report-as-list)
 
 <hr class='dpr-docs-hr'>
 
@@ -78,12 +77,12 @@ Initialise the component with the required data using the component utility help
 
 ```js
 // server/routes/index.ts
-import CatalogueUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/_catalogue/catalogue/utils'
+import { initCatalogue } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/catalogueUtils'
 
 export function routes(services: Services): Router {
   ...
   router.get('/path/to/catalogue', (req, res) => {
-    const catalogue = await CatalogueUtils.init({ res, services })
+    const catalogue = await initCatalogue({ res, services })
     res.render('reports-catalogue.njk', {
       catalogue
     })
@@ -123,7 +122,7 @@ Initialise the component with the required data using the component utility help
 ```js
 // server/routes/index.ts
 
-import UserReportsListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/utils'
+import { initUserReports } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/userReportsListUtils'
 
 
 export function routes(services: Services): Router {
@@ -132,7 +131,7 @@ export function routes(services: Services): Router {
 
   router.get('/path/to/requested/reports/list/', (req, res) => {
 
-    const userReportsLists = await UserReportsListUtils.init({ res, req, services })
+    const userReportsLists = await initUserReports({ res, req, services })
 
     res.render('requested-reports.njk', {
       title: 'DPR test site',
@@ -156,7 +155,7 @@ See [Reports List](/components/reports-list) component for usage and examples.
 
 <hr class='dpr-docs-hr'>
 
-# Render report as list
+# Render report as list **deprecated, removed in v5.0.0 and onwards**
 
 As an alternative to requesting a report, reports can be loaded syncronously and rendered as a list. 
 

@@ -31,7 +31,12 @@ class RequestDownloadController {
     }
 
     const variantData: components['schemas']['SingleVariantReportDefinition'] =
-      await this.services.reportingService.getDefinition(token, reportId, variantId, dataProductDefinitionsPath)
+      await this.services.reportingService.getDefinition(
+        token,
+        reportId as string,
+        variantId as string,
+        dataProductDefinitionsPath,
+      )
 
     try {
       res.render(`dpr/routes/journeys/download-report/request-download/form/view`, {

@@ -92,7 +92,7 @@ Initialise DPR data clients within your app setup to point to DPR's API endpoint
 This setup is commonly done in the `server/data/index.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/data/index.ts" target="_blank">HMPPS template</a>
 
 ```js
-import { initDprReportingClients } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/dprReportingClient'
+import { initDprReportingClients } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/initDprReportingClients'
 import { createRedisClient } from './redisClient'
 import config from '../config'
 
@@ -118,7 +118,7 @@ export const dataAccess = () => ({
 This setup is commonly done in the `server/services/index.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/services/index.ts" target="_blank">HMPPS template</a>
 
 ```js
-import { createDprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/CreateDprServices'
+import { createDprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/createDprServices'
 
 export const services = (): Services => {
   const {
@@ -170,7 +170,7 @@ By default all features are set to `false`
 In your `populateCurrentUser` middleware, ensure you have `dprUser` defined in your `res.locals` 
 
 ```js
-import { DprUser } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/DprUser'
+import { DprUser } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dprUser'
 
 // example using manage user api
 const user = await this.hmppsManageUsersClient.getUser(token)
@@ -195,7 +195,7 @@ res.locals.dprUser = dprUser
 This setup is commonly done in the `server/app.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/app.ts" target="_blank">HMPPS template</a>
 
 ```js
-import { setupResources } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/setUpDprResources'
+import { setupResources } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/setUpDprResources'
 import config from './config'
 
 ...
@@ -212,13 +212,13 @@ Import the async routes in to your `routes` file. See [reporting routes](/get-st
 This setup is commonly done in the `server/routes/index.ts` file of the <a href="https://github.com/ministryofjustice/hmpps-template-typescript/blob/main/server/routes/index.ts" target="_blank">HMPPS template</a>
 
 ```js
-import dprPlatformRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes'
+import { routes as dprRoutes } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/routes'
 
 export function routes(services: Services): Router {
   const router = Router()
   ...
 
-  router.use('/', dprPlatformRoutes({ services, layoutPath: 'path/to/layout.njk'})) 
+  router.use('/', dprRoutes({ services, layoutPath: 'path/to/layout.njk'})) 
 }
 
 export default routes
@@ -232,13 +232,13 @@ This summary represents a simple view of the steps required for integrating the 
 
 ```js
 // Clients
-import { initDprReportingClients } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/dprReportingClient'
+import { initDprReportingClients } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/initDprReportingClients'
 // services
-import { createDprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/CreateDprServices'
+import { createDprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/createDprServices'
 // middleware
-import { setupResources } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/setUpDprResources'
+import { setupResources } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/setUpDprResources'
 // Routes
-import dprPlatformRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes'
+import { routes as dprRoutes } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/routes'
 
 import { createRedisClient } from './redisClient'
 import config from '../config'
@@ -258,4 +258,4 @@ const env = nunjucksSetup(app, applicationInfo)
 app.use(setupResources(services, 'path/to/layout.njk', env, config.dpr))
 
 // 5. Initialise routes
-router.use('/', dprPlatformRoutes({ services, layoutPath: 'path/to/layout.njk',})) 
+router.use('/', dprRoutes({ services, layoutPath: 'path/to/layout.njk',})) 

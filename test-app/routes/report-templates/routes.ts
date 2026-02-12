@@ -13,7 +13,7 @@ import summaryRoutes from './summary/routes'
 
 import TemplateController from './controller'
 
-export function Routes() {
+export function Routes(): Router {
   const router = Router({ mergeParams: true })
   const controller = new TemplateController()
 
@@ -31,7 +31,7 @@ export function Routes() {
   return router
 }
 
-export const TemplateRoutes = ({ path }: { path: string }) => {
+export const TemplateRoutes = ({ path }: { path: string }): Router => {
   const router = Router({ mergeParams: true })
   router.use(path, Routes())
   return router

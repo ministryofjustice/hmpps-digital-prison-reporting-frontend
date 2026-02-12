@@ -9,7 +9,7 @@ import { ViewReportRoutes } from './view-report/routes'
 import { RequestReportRoutes } from './request-report/routes'
 import { ProductCollectionRoutes } from './product-collection/routes'
 
-export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }) {
+export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
 
   router.use('/', RequestMissingReportRoutes({ path: '/dpr/request-missing-report', layoutPath, services }))

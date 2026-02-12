@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { expect } from '@jest/globals'
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response } from 'express'
@@ -135,7 +136,7 @@ describe('AsyncRequestListUtils', () => {
           res,
           maxRows: 11,
           filterFunction: RequestedReportsUtils.filterReports,
-          reportsData: res.locals['requestedReports'],
+          reportsData: res.locals['requestedReports']!,
           type: 'requested',
         })
 
@@ -176,7 +177,7 @@ describe('AsyncRequestListUtils', () => {
           res,
           maxRows: 11,
           filterFunction: RequestedReportsUtils.filterReports,
-          reportsData: res.locals['requestedReports'],
+          reportsData: res.locals['requestedReports']!,
           type: 'requested',
         })
 
@@ -212,7 +213,7 @@ describe('AsyncRequestListUtils', () => {
           res,
           maxRows: 11,
           filterFunction: ViewedReportsUtils.filterReports,
-          reportsData: res.locals['recentlyViewedReports'],
+          reportsData: res.locals['recentlyViewedReports']!,
           type: 'viewed',
         })
 

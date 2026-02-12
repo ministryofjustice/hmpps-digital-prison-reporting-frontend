@@ -24,6 +24,7 @@ Alternatively you can add the library to your `package.json` within the `depende
 ```javascript
 "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^4.4.1",
 ```
+Replace the version above with ideally the latest version, or the version that you want.
 
 see the libraries [npm listing](https://www.npmjs.com/package/@ministryofjustice/hmpps-digital-prison-reporting-frontend?activeTab=versions) and [changelog](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-frontend/blob/main/CHANGELOG.md) for the latest version updates. 
 
@@ -33,7 +34,7 @@ Ensure that you have the following dependencies in the expected range, to ensure
 
 ```javascript
 "govuk-frontend": "^5",
-"@ministryofjustice/frontend": "^3",
+"@ministryofjustice/frontend": "^8",
 ```
 
 ## Import SASS
@@ -105,7 +106,7 @@ Add the client-side JavaScript to the nunjucks layout, and initialise them using
 
 import * as govukFrontend from 'govuk-frontend'
 import * as mojFrontend from '@ministryofjustice/frontend'
-import * as dprFrontend from '@ministryofjustice/hmpps-digital-prison-reporting-frontend'
+import * as dprFrontend from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/all'
 
 govukFrontend.initAll()
 mojFrontend.initAll()
@@ -129,14 +130,6 @@ const nunjucksEnv = nunjucks.configure([
   "node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/",
   "node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/",
 ]);
-```
-
-Add the library's filters to the nunjucks configuration:
-
-```javascript
-import setUpNunjucksFilters from "@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/setUpNunjucksFilters";
-
-setUpNunjucksFilters(nunjucksEnv);
 ```
 
 ## Import Fonts

@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import { renderListWithDefinition } from '../../../../../dist/dpr/components/report-list/utils'
+import { renderListWithDefinition } from '../../../../../src/dpr/components/report-list/utils'
 
 export default class SyncReportFailController {
   GET: RequestHandler = async (req, res, next) => {

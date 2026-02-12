@@ -10,7 +10,7 @@ import FiltersRoutes from './filters/routes'
 import ComponentsController from './controller'
 import { Services } from '../../../src/dpr/types/Services'
 
-export function Routes(services: Services) {
+export function Routes(services: Services): Router {
   const router = Router({ mergeParams: true })
   const controller = new ComponentsController()
 
@@ -25,7 +25,7 @@ export function Routes(services: Services) {
   return router
 }
 
-export const ComponentRoutes = ({ path, services }: { path: string; services: Services }) => {
+export const ComponentRoutes = ({ path, services }: { path: string; services: Services }): Router => {
   const router = Router({ mergeParams: true })
   router.use(path, Routes(services))
   return router

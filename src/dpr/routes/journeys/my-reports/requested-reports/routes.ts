@@ -4,7 +4,7 @@ import { Services } from '../../../../types/Services'
 import RequestedReportsController from './controller'
 import listRoutes from './list/routes'
 
-export function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
+export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {
   const router = Router({ mergeParams: true })
 
   const controller = new RequestedReportsController(services)

@@ -30,7 +30,7 @@ export interface InitDPRServicesArgs {
   featureFlagService: FeatureFlagService
 }
 
-interface dprServices {
+export interface dprServices {
   reportingService: ReportingService
   dashboardService: DashboardService
   productCollectionService: ProductCollectionService

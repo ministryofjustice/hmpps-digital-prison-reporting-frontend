@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import AutocompleteController from './controller'
 
-export default function routes() {
+export default function routes(): Router {
   const router = Router({ mergeParams: true })
   const controller = new AutocompleteController()
   router.get('/', controller.GET)

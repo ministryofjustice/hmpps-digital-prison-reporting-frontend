@@ -5,7 +5,7 @@ import { Services } from '../../../../types/Services'
 import { schema } from './validation'
 import { validate } from '../../../../validation/validate'
 
-export const routes = ({ layoutPath, services }: { layoutPath: string; services: Services }) => {
+export const routes = ({ layoutPath, services }: { layoutPath: string; services: Services }): Router => {
   const router = Router({ mergeParams: true })
   const controller = new SelectedProductCollectionController(layoutPath, services)
 

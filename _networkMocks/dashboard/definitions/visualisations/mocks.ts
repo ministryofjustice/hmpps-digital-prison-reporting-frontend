@@ -10,10 +10,8 @@ import { definition as scorecardGroupCompleteDataset } from './complete-dataset/
 import { definition as matrixCompleteDataset } from './complete-dataset/matrix/definition'
 import { definition as barCompleteDataset } from './complete-dataset/bar/definition'
 import { definition as doughnutCompleteDataset } from './complete-dataset/doughnut/definition'
-import { definition as lineCompleteDataset } from './complete-dataset/line/definition'
 import { definition as lineTimeseriesCompleteDataset } from './complete-dataset/line-timeseries/definition'
 import { definition as barPartialDataset } from './partial-dataset/bar/definition'
-import { definition as doughnutPartialDataset } from './partial-dataset/doughnut/definition'
 import { definition as lineTimeseriesPartialDataset } from './partial-dataset/line-timeseries/definition'
 
 const productId = 'dashboard-visualisations'

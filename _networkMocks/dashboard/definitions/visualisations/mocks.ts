@@ -92,8 +92,6 @@ export const mocks = [
   barCompleteDatasetMock,
   barPartialDatasetMock,
   doughnutCompleteDatasetMock,
-  doughnutPartialDatasetMock,
-  lineCompleteDatasetMock,
   lineTimeseriesCompleteDatasetMock,
   lineTimeseriesPartialDatasetMock,
 ]

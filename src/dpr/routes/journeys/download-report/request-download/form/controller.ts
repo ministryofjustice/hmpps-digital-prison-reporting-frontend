@@ -36,7 +36,11 @@ class RequestDownloadController {
     try {
       res.render(`dpr/routes/journeys/download-report/request-download/form/view`, {
         title: 'Download request form',
-        user: dprUser,
+        user: {
+          id: dprUser.id,
+          activeCaseLoadId: dprUser.activeCaseLoadId,
+          staffId: dprUser.staffId,
+        },
         report: {
           reportId,
           reportName: variantData.name,

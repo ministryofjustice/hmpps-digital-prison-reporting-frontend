@@ -53,40 +53,6 @@
       {% endif %}
 
       <h2 class="govuk-fieldset__legend govuk-fieldset__legend--l">About you</h2>
-      {# Name Input #}
-      {{ govukInput({
-        id: 'name',
-        name: 'Full name',
-        value: name,
-        label: {
-          text: 'What is your Full name?'
-        },
-        classes: "govuk-!-width-one-third",
-        errorMessage: {
-          text: "Enter your Full name"
-        },
-        attributes: {
-          required: true
-        }
-      }) }}
-
-      {# Email Input #}
-      {{ govukInput({
-        id: 'email',
-        name: 'email',
-        value: email,
-        label: {
-          text: 'What is your Email address?'
-        },
-        classes: "govuk-!-width-one-third",
-        errorMessage: {
-          text: "Enter your Email address"
-        },
-        attributes: {
-          required: true
-        }
-      }) }}
-
       {# Role Input #}
       {{ govukInput({
         id: 'role',

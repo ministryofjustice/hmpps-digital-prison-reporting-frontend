@@ -164,7 +164,7 @@ export const dataQualityAllEstablishmentsNoNationality: components['schemas']['D
   },
 }
 
-export const dataQualityAllCols = {
+export const dataQualityAllCols: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'data-quality-columns-as-cards',
   type: DashboardVisualisationType.SCORECARD_GROUP,
   display: 'Data quality scores',

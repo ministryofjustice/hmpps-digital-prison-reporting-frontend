@@ -4,6 +4,8 @@ import { DashboardVisualisationType } from '../../../../../../../src/dpr/compone
 export const columnValuesAsList: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'list-vis-def_col-values-as-rows',
   type: DashboardVisualisationType.LIST,
+  display: 'Data quality values',
+  description: 'Example list showing column values rows',
   columns: {
     keys: [
       {

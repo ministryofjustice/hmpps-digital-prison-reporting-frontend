@@ -1,7 +1,8 @@
 import { fullDatasetHistoric } from '../../complete-dataset/list/vis-definitions/full-data'
 import * as List from './vis-definitions/historic'
+import { components } from '../../../../../../src/dpr/types/api'
 
-export const definition = {
+export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'list-visualisations_partial-dataset_historic',
   name: 'List - Partial dataset - Historic',
   description:

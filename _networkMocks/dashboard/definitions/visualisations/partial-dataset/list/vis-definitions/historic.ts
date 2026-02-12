@@ -1,8 +1,9 @@
 import { components } from '../../../../../../../src/dpr/types/api'
+import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
-export const dietTotalsOverTime = {
+export const dietTotalsOverTime: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-over-time',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Prisoner totals over time',
   description: '',
   options: { showLatest: false },
@@ -22,9 +23,9 @@ export const dietTotalsOverTime = {
   },
 }
 
-export const dietTotalsByEstablishmentOverTime = {
+export const dietTotalsByEstablishmentOverTime: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-by-est-over-time',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Prsioner totals by establishment over time',
   description: '',
   options: { showLatest: false },
@@ -52,9 +53,9 @@ export const dietTotalsByEstablishmentOverTime = {
   },
 }
 
-export const dietTotalsByEstablishmentByWingOverTime = {
+export const dietTotalsByEstablishmentByWingOverTime: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-by-est-by-wing-over-time',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Prisoner totals by establishment, by wing, over time',
   description: '',
   options: { showLatest: false },
@@ -89,48 +90,49 @@ export const dietTotalsByEstablishmentByWingOverTime = {
   },
 }
 
-export const dietTotalsByEstablishmentByWingOverTimeOptional = {
-  id: 'diet-totals-by-est-by-wing-over-time-optional',
-  type: 'list',
-  display: 'Diet totals by Establishment, by wing, over time',
-  description: '',
-  options: { showLatest: false },
-  columns: {
-    keys: [
-      {
-        id: 'establishment_id',
-        optional: true,
-      },
-      {
-        id: 'wing',
-        optional: true,
-      },
-    ],
-    measures: [
-      {
-        id: 'ts',
-        display: 'Date',
-      },
-      {
-        id: 'establishment_id',
-        display: 'Establishment ID',
-      },
-      {
-        id: 'wing',
-        display: 'Wing',
-      },
-      {
-        id: 'count',
-        display: 'Total prisoners',
-      },
-    ],
-    expectNulls: true,
-  },
-}
+export const dietTotalsByEstablishmentByWingOverTimeOptional: components['schemas']['DashboardVisualisationDefinition'] =
+  {
+    id: 'diet-totals-by-est-by-wing-over-time-optional',
+    type: DashboardVisualisationType.LIST,
+    display: 'Diet totals by Establishment, by wing, over time',
+    description: '',
+    options: { showLatest: false },
+    columns: {
+      keys: [
+        {
+          id: 'establishment_id',
+          optional: true,
+        },
+        {
+          id: 'wing',
+          optional: true,
+        },
+      ],
+      measures: [
+        {
+          id: 'ts',
+          display: 'Date',
+        },
+        {
+          id: 'establishment_id',
+          display: 'Establishment ID',
+        },
+        {
+          id: 'wing',
+          display: 'Wing',
+        },
+        {
+          id: 'count',
+          display: 'Total prisoners',
+        },
+      ],
+      expectNulls: true,
+    },
+  }
 
-export const dietTotalsVegetarianOvertime = {
+export const dietTotalsVegetarianOvertime: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-vegetarian-overtime',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Vegetarian totals over time',
   description: '',
   options: { showLatest: false },
@@ -160,9 +162,9 @@ export const dietTotalsVegetarianOvertime = {
   },
 }
 
-export const dietTotalsVegetarianOvertimeByEst = {
+export const dietTotalsVegetarianOvertimeByEst: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-vegetarian-overtime-by-est',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Vegetarian totals over time',
   description: '',
   options: { showLatest: false },
@@ -201,9 +203,9 @@ export const dietTotalsVegetarianOvertimeByEst = {
   },
 }
 
-export const dietTotalsVegetarianOvertimeByEstByWing = {
+export const dietTotalsVegetarianOvertimeByEstByWing: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-vegetarian-overtime-by-est-by-wing',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Vegetarian totals over time by wing',
   description: '',
   options: { showLatest: false },
@@ -250,9 +252,9 @@ export const dietTotalsVegetarianOvertimeByEstByWing = {
   },
 }
 
-export const dietTotalsVeganOvertime = {
+export const dietTotalsVeganOvertime: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-vegetarian-overtime',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Vegan totals over time',
   description: '',
   options: { showLatest: false },
@@ -282,9 +284,9 @@ export const dietTotalsVeganOvertime = {
   },
 }
 
-export const dietTotalsAllDietOvertime = {
+export const dietTotalsAllDietOvertime: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-vegetarian-overtime',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'All Diet totals over time',
   description: '',
   options: { showLatest: false },
@@ -308,9 +310,9 @@ export const dietTotalsAllDietOvertime = {
   },
 }
 
-export const dietTotalsAllDietOvertimeByEst = {
+export const dietTotalsAllDietOvertimeByEst: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-all-diet-overtime-by-est',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'All Diet totals over time',
   description: '',
   options: { showLatest: false },

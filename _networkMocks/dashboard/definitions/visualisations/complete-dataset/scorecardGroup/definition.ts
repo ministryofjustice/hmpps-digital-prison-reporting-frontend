@@ -1,6 +1,7 @@
 import * as Scorecards from './vis-definitions/definitions'
+import { components } from '../../../../../../src/dpr/types/api'
 
-export const definition = {
+export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'scorecard-group-example_complete-data',
   name: 'Scorecard Group - Complete data',
   description: 'Scorecard examples',

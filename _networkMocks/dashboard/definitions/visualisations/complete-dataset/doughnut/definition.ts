@@ -11,12 +11,34 @@ export const definition: components['schemas']['DashboardDefinition'] = {
     {
       id: 'section-1',
       display: 'Simple Doughnut charts',
-      description: 'Section 1 description',
+      description: 'Examples of simple Doughnut charts',
       visualisations: [
         DoughnutChart.dataQualityEthnicityDoughnut,
         DoughnutChart.dataQualityNationalityDoughnut,
-        DoughnutChart.dataQualityNationalityReligionDoughnut,
         DoughnutChart.dataQualityReligionDoughnut,
+        DoughnutChart.dataQualityNationalityReligionDoughnut,
+      ],
+    },
+    {
+      id: 'section-2',
+      display: 'Two ring Doughnut charts ',
+      description: 'Examples of Doughnut charts with 2 rings',
+      visualisations: [
+        DoughnutChart.dataQualityEthnicityDoughnutTwoEst,
+        DoughnutChart.dataQualityNationalityDoughnutTwoEst,
+        DoughnutChart.dataQualityReligionDoughnutTwoEst,
+        DoughnutChart.dataQualityNationalityReligionDoughnutTwoEst,
+      ],
+    },
+    {
+      id: 'section-3',
+      display: 'Multiple rings Doughnut charts ',
+      description: 'Examples of Doughnut charts with multiple rings',
+      visualisations: [
+        DoughnutChart.dataQualityEthnicityDoughnutAllEst,
+        DoughnutChart.dataQualityNationalityDoughnutAllEst,
+        DoughnutChart.dataQualityReligionDoughnutAllEst,
+        DoughnutChart.dataQualityNationalityReligionDoughnutAllEst,
       ],
     },
     {

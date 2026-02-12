@@ -1,7 +1,8 @@
 import * as List from './vis-definitions/column-values-as-list'
 import { fullDataset } from '../../complete-dataset/list/vis-definitions/full-data'
+import { components } from '../../../../../../src/dpr/types/api'
 
-export const definition = {
+export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'list-visualisations_partial-dataset',
   name: 'List - Partial dataset',
   description:

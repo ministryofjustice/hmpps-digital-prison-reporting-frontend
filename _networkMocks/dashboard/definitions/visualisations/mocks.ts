@@ -69,16 +69,6 @@ export const doughnutCompleteDatasetMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${doughnutCompleteDataset.id}`,
   doughnutCompleteDataset,
 )
-export const doughnutPartialDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${doughnutPartialDataset.id}`,
-  doughnutPartialDataset,
-)
-
-// LINE definition examples
-export const lineCompleteDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${lineCompleteDataset.id}`,
-  lineCompleteDataset,
-)
 
 // LINE-TIMESERIES definition examples
 export const lineTimeseriesCompleteDatasetMock = setupSimpleMock(

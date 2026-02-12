@@ -1,4 +1,4 @@
-import { components } from '../../../../../src/dpr/types/api'
+import { components } from '../../../../../../src/dpr/types/api'
 import * as Scorecards from './vis-definitions/definitions'
 import * as BucketScorecards from './vis-definitions/definitions-buckets'
 

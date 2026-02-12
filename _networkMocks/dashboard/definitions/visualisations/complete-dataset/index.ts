@@ -6,7 +6,6 @@ import { definition as scorecardsBucketsCompleteDataset } from './scorecard/defi
 import { definition as scorecardGroupCompleteDataset } from './scorecardGroup/definition'
 import { definition as matrixChartDefinition } from './matrix/definition'
 import { definition as barChartsDefinition } from './bar/definition'
-import { definition as lineChartsDefinition } from './line/definition'
 import { definition as doughnutChartsDefinition } from './doughnut/definition'
 import { definition as linetimeseriesChartsDefinition } from './line-timeseries/definition'
 
@@ -15,7 +14,6 @@ const scorecards = [scorecardsCompleteDataset, scorecardsBucketsCompleteDataset]
 const scorecardGroups = [scorecardGroupCompleteDataset]
 const matrixDefs = [matrixChartDefinition]
 const barChartDefs = [barChartsDefinition]
-const lineChartDefs = [lineChartsDefinition]
 const doughnutChartDefs = [doughnutChartsDefinition]
 const lineTimeseriesDefs = [linetimeseriesChartsDefinition]
 
@@ -25,7 +23,6 @@ export const visualisations: components['schemas']['DashboardDefinition'][] = [
   ...scorecardGroups,
   ...matrixDefs,
   ...barChartDefs,
-  ...lineChartDefs,
   ...doughnutChartDefs,
   ...lineTimeseriesDefs,
 ]

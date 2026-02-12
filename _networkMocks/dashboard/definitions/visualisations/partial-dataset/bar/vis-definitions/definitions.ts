@@ -55,7 +55,7 @@ export const dietTotalsByEstablishmentBar: components['schemas']['DashboardVisua
 export const dietTotalsByEstablishmentByWingBar: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-by-establishment',
   type: DashboardVisualisationType.BAR,
-  display: 'Diet totals by establishment',
+  display: 'Diet totals by wing',
   description: '',
   columns: {
     keys: [
@@ -100,6 +100,7 @@ export const dietTotalsByEstablishmentByWingByCellBar: components['schemas']['Da
       },
       {
         id: 'wing',
+        display: 'Wing',
       },
       {
         id: 'cell',

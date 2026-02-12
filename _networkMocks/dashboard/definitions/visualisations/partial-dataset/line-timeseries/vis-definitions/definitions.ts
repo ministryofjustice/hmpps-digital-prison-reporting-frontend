@@ -8,12 +8,7 @@ export const dietTotalsOverTime: components['schemas']['DashboardVisualisationDe
   description: '',
   options: { showLatest: false },
   columns: {
-    keys: [
-      {
-        id: 'ts',
-        display: 'Date',
-      },
-    ],
+    keys: [],
     measures: [
       {
         id: 'ts',
@@ -63,8 +58,8 @@ export const dietTotalsVegetarianOvertime: components['schemas']['DashboardVisua
   columns: {
     keys: [
       {
-        id: 'ts',
-        display: 'Date',
+        id: 'diet',
+        display: 'Diet',
       },
     ],
     measures: [
@@ -88,7 +83,7 @@ export const dietTotalsVegetarianOvertime: components['schemas']['DashboardVisua
 }
 
 export const dietTotalsVeganOvertime: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'diet-totals-vegetarian-overtime',
+  id: 'diet-totals-vegan-overtime',
   type: DashboardVisualisationType.LINE_TIMESERIES,
   display: 'Vegan totals over time line chart',
   description: '',
@@ -96,8 +91,8 @@ export const dietTotalsVeganOvertime: components['schemas']['DashboardVisualisat
   columns: {
     keys: [
       {
-        id: 'ts',
-        display: 'Date',
+        id: 'diet',
+        display: 'Diet',
       },
     ],
     measures: [
@@ -189,3 +184,39 @@ export const dietTotalsVegetarianOvertimeByEstByWingLine: components['schemas'][
     expectNulls: true,
   },
 }
+
+export const dietTotalsVegetarianOvertimeByEstByWingAndCellLine: components['schemas']['DashboardVisualisationDefinition'] =
+  {
+    id: 'line-diet-totals-vegetarian-overtime-by-est-by-wing-cell',
+    type: DashboardVisualisationType.LINE_TIMESERIES,
+    display: 'Vegetarian totals over time by wing line',
+    description: '',
+    options: { showLatest: false },
+    columns: {
+      keys: [
+        {
+          id: 'establishment_id',
+          display: 'Establishment ID',
+        },
+        {
+          id: 'wing',
+          display: 'Wing',
+        },
+        {
+          id: 'cell',
+          display: 'Cell',
+        },
+      ],
+      measures: [
+        {
+          id: 'ts',
+          display: 'Date',
+        },
+        {
+          id: 'count',
+          display: 'Total prisoners',
+        },
+      ],
+      expectNulls: true,
+    },
+  }

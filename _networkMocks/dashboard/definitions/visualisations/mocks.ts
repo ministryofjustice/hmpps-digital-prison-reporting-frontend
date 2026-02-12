@@ -14,7 +14,6 @@ import { definition as lineCompleteDataset } from './complete-dataset/line/defin
 import { definition as lineTimeseriesCompleteDataset } from './complete-dataset/line-timeseries/definition'
 import { definition as barPartialDataset } from './partial-dataset/bar/definition'
 import { definition as doughnutPartialDataset } from './partial-dataset/doughnut/definition'
-import { definition as linePartialDataset } from './partial-dataset/line/definition'
 import { definition as lineTimeseriesPartialDataset } from './partial-dataset/line-timeseries/definition'
 
 const productId = 'dashboard-visualisations'
@@ -82,10 +81,6 @@ export const lineCompleteDatasetMock = setupSimpleMock(
   `/definitions/${productId}/dashboards/${lineCompleteDataset.id}`,
   lineCompleteDataset,
 )
-export const linePartialDatasetMock = setupSimpleMock(
-  `/definitions/${productId}/dashboards/${linePartialDataset.id}`,
-  linePartialDataset,
-)
 
 // LINE-TIMESERIES definition examples
 export const lineTimeseriesCompleteDatasetMock = setupSimpleMock(
@@ -111,7 +106,6 @@ export const mocks = [
   doughnutCompleteDatasetMock,
   doughnutPartialDatasetMock,
   lineCompleteDatasetMock,
-  linePartialDatasetMock,
   lineTimeseriesCompleteDatasetMock,
   lineTimeseriesPartialDatasetMock,
 ]

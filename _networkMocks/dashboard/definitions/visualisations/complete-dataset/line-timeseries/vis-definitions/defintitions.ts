@@ -34,7 +34,7 @@ export const mockEthnicityLineChartTimeseries: components['schemas']['DashboardV
 }
 
 export const mockNationalityLineChartTimeseries: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'mockEthnicityLineChartTimeseries',
+  id: 'mockNationalityLineChartTimeseries',
   type: DashboardVisualisationType.LINE_TIMESERIES,
   display: 'Missing nationality timeseries chart',
   description: 'Prisoner totals for missing nationality by establishment over time',
@@ -66,7 +66,7 @@ export const mockNationalityLineChartTimeseries: components['schemas']['Dashboar
 }
 
 export const mockReligionLineChartTimeseries: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'mockEthnicityLineChartTimeseries',
+  id: 'mockReligionLineChartTimeseries',
   type: DashboardVisualisationType.LINE_TIMESERIES,
   display: 'Missing religion timeseries chart',
   description: 'Prisoner totals for missing religion by establishment over time',
@@ -98,7 +98,7 @@ export const mockReligionLineChartTimeseries: components['schemas']['DashboardVi
 }
 
 export const mockEthnicityLineChartTimeseriesAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'mockEthnicityLineChartTimeseries',
+  id: 'mockEthnicityLineChartTimeseriesAllEst',
   type: DashboardVisualisationType.LINE_TIMESERIES,
   display: 'Missing ethnicity timeseries chart',
   description: 'Prisoner totals for missing ethnicity for multiple establishments over time',
@@ -124,7 +124,7 @@ export const mockEthnicityLineChartTimeseriesAllEst: components['schemas']['Dash
 }
 
 export const mockNationalityLineChartTimeseriesAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'mockEthnicityLineChartTimeseries',
+  id: 'mockNationalityLineChartTimeseriesAllEst',
   type: DashboardVisualisationType.LINE_TIMESERIES,
   display: 'Missing nationality timeseries chart',
   description: 'Prisoner totals for missing nationality for all establishments over time',
@@ -150,7 +150,7 @@ export const mockNationalityLineChartTimeseriesAllEst: components['schemas']['Da
 }
 
 export const mockReligionLineChartTimeseriesAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'mockEthnicityLineChartTimeseries',
+  id: 'mockReligionLineChartTimeseriesAllEst',
   type: DashboardVisualisationType.LINE_TIMESERIES,
   display: 'Missing religion timeseries chart',
   description: 'Prisoner totals for missing religion for all establishments over time',

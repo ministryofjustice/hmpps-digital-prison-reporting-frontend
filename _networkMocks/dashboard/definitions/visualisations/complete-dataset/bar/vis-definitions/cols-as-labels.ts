@@ -5,9 +5,6 @@ export const dataQualityEthnicityBar: components['schemas']['DashboardVisualisat
   id: 'bar-data-quality-has-ethnicity',
   type: DashboardVisualisationType.BAR,
   display: 'Ethnicity values',
-  options: {
-    horizontal: true,
-  },
   columns: {
     keys: [
       {

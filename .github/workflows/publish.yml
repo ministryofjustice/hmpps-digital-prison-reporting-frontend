@@ -32,7 +32,7 @@ jobs:
       run: npm install -g npm@latest
 
     - run: npm run setup
-    - run: npm run package
+    - run: npm run rpack
 
     - name: Get version
       id: get-version

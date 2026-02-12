@@ -252,7 +252,12 @@ export const getDefintionByType = async (req: Request, res: Response, _next: Nex
   const { reportId, id, variantId, type } = req.params
 
   const service = type === ReportType.REPORT ? services.reportingService : services.dashboardService
-  const definition = await service.getDefinition(token, reportId, variantId || id, definitionsPath)
+  const definition = await service.getDefinition(
+    token,
+    reportId as string,
+    (variantId || id) as string,
+    definitionsPath,
+  )
 
   return definition
 }
@@ -276,7 +281,12 @@ const getFilterData = async (
   // 3. Update filter values with saved defaults
   let defaultFilterValues
   if (res.locals['saveDefaultsEnabled']) {
-    defaultFilterValues = await services.defaultFilterValuesService.get(userId, reportId, id, FiltersType.REQUEST)
+    defaultFilterValues = await services.defaultFilterValuesService.get(
+      userId,
+      reportId as string,
+      id as string,
+      FiltersType.REQUEST,
+    )
   }
   if (defaultFilterValues) {
     filtersData = PersonalistionUtils.setFilterValuesFromSavedDefaults(
@@ -332,10 +342,16 @@ export const cancelRequest = async ({ req, res, services }: AsyncReportUtilsPara
   if (type === ReportType.REPORT) service = services.reportingService
   if (type === ReportType.DASHBOARD) service = services.dashboardService
 
-  const response = await service.cancelAsyncRequest(token, reportId, id, executionId, definitionsPath)
+  const response = await service.cancelAsyncRequest(
+    token,
+    reportId as string,
+    id as string,
+    executionId as string,
+    definitionsPath,
+  )
 
   if (response && response['cancellationSucceeded']) {
-    await services.requestedReportService.updateStatus(executionId, dprUser.id, RequestStatus.ABORTED)
+    await services.requestedReportService.updateStatus(executionId as string, dprUser.id, RequestStatus.ABORTED)
   }
 }
 
@@ -357,17 +373,16 @@ export const renderRequest = async ({
   services: Services
 }): Promise<RequestDataResult | boolean> => {
   try {
-    const { token, csrfToken, definitionsPath: definitionPath, dpdPathFromQuery, dprUser } = LocalsHelper.getValues(res)
+    const { token, csrfToken, definitionsPath: definitionPath, dprUser } = LocalsHelper.getValues(res)
     const { reportId, type, id } = req.params
     const { definition } = res.locals
     const defaultsSaved = <string>req.query['defaultsSaved']
 
-    const definitionApiArgs = { token, reportId, definitionPath, services }
+    const definitionApiArgs = { token, reportId: reportId as string, definitionPath, services }
 
     let name
     let reportName
     let description
-    let template
     let fields: components['schemas']['FieldDefinition'][] = []
     let sections
     let interactive
@@ -375,13 +390,15 @@ export const renderRequest = async ({
     let defaultFilterValues: defaultFilterValue[] = []
 
     if (type === ReportType.REPORT) {
-      ;({ name, reportName, description, fields, interactive } = await renderReportRequestData(definition))
+      ;({ name, reportName, description, fields, interactive } = await renderReportRequestData(
+        definition as components['schemas']['SingleVariantReportDefinition'],
+      ))
     }
 
     if (type === ReportType.DASHBOARD) {
       ;({ name, reportName, description, sections, fields } = await renderDashboardRequestData({
         ...definitionApiArgs,
-        definition,
+        definition: definition as components['schemas']['DashboardDefinition'],
       }))
     }
 
@@ -392,15 +409,14 @@ export const renderRequest = async ({
     }
 
     const reportData: RequestReportData = {
-      reportName,
-      name,
-      description,
-      reportId,
-      id,
-      ...(dpdPathFromQuery && { definitionPath }),
+      reportName: reportName as string,
+      name: name as string,
+      description: description as string,
+      reportId: reportId as string,
+      id: id as string,
+      definitionPath: definitionPath as string,
       csrfToken,
-      template,
-      sections,
+      sections: sections as components['schemas']['DashboardDefinition']['sections'],
       hasDefaults: defaultFilterValues?.length > 0,
       defaultsSaved,
       type: type as ReportType,

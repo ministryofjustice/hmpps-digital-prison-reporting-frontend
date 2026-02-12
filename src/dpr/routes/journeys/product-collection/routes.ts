@@ -5,7 +5,7 @@ import { Router } from 'express'
 import { routes as selectedRoutes } from './selected/routes'
 import { Services } from '../../../types/Services'
 
-export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }) {
+export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
   router.use(`/selected`, selectedRoutes({ layoutPath, services }))
 
@@ -20,7 +20,7 @@ export const ProductCollectionRoutes = ({
   services: Services
   path: string
   layoutPath: string
-}) => {
+}): Router => {
   const router = Router({ mergeParams: true })
   router.use(path, Routes({ services, layoutPath }))
 

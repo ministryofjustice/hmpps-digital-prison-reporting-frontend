@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { RequestHandler, Response, Request, ErrorRequestHandler, NextFunction } from 'express'
+import { type RequestHandler, Response, Request, ErrorRequestHandler, NextFunction } from 'express'
 import type { ParsedQs } from 'qs'
 import { HTTPError } from 'superagent'
 import type { Environment } from 'nunjucks'
@@ -12,6 +12,7 @@ import { DprConfig } from '../types/DprConfig'
 import localsHelper from '../utils/localsHelper'
 import { FeatureFlagService, isBooleanFlagEnabledOrMissing } from '../services/featureFlagService'
 import logger from '../utils/logger'
+import setUpNunjucksFilters from '../setUpNunjucksFilters'
 
 const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
 const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
@@ -56,6 +57,7 @@ export const setupResources = (
       await populateDefinitions(services, req, res, config)
       await populateRequestedReports(services, res)
       setupRequestAwareNunjucks(env, res)
+      setUpNunjucksFilters(env)
       return next()
     } catch (error) {
       return errorRequestHandler(layoutPath)(error, req, res, next)
@@ -107,7 +109,7 @@ export const populateDefinitions = async (services: Services, req: Request, res:
   const { token, dprUser } = localsHelper.getValues(res)
 
   const dpdPathFromQuery = deriveDefinitionsPath(req.query)
-  const dpdPathFromBody = req.body?.dataProductDefinitionsPath
+  const dpdPathFromBody = req.body?.dataProductDefinitionsPath as string | undefined
   const definitionsPathFromQuery = dpdPathFromQuery || dpdPathFromBody
 
   if (definitionsPathFromQuery) {
@@ -121,7 +123,7 @@ export const populateDefinitions = async (services: Services, req: Request, res:
   }
 
   // query takes presedence over config
-  res.locals['definitionsPath'] = definitionsPathFromQuery || dpdPathFromConfig
+  res.locals['definitionsPath'] = (definitionsPathFromQuery || dpdPathFromConfig) as string // one of these should be populated
   res.locals['pathSuffix'] = `?dataProductDefinitionsPath=${res.locals['definitionsPath']}`
 
   let selectedProductCollectionId: string | undefined

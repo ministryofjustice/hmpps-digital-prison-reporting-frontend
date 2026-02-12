@@ -2,7 +2,7 @@
 import { Router } from 'express'
 import SummaryTemplateController from './controller'
 
-export default function routes() {
+export default function routes(): Router {
   const router = Router({ mergeParams: true })
   const controller = new SummaryTemplateController()
   router.get('/', controller.GET)

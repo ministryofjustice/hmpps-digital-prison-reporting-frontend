@@ -3,7 +3,7 @@ import { Router } from 'express'
 import RequestDownloadSubmittedController from './controller'
 import { Services } from '../../../../../../types/Services'
 
-export function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
+export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {
   const router = Router({ mergeParams: true })
 
   const controller = new RequestDownloadSubmittedController(layoutPath, services)

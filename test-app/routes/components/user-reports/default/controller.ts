@@ -10,7 +10,7 @@ export default class UserReportsController {
   }
 
   GET: RequestHandler = async (_req, res) => {
-    const userReports = await UserReportsListUtils.init({ services: this.services, res, maxRows: 4 })
+    const userReports = await UserReportsListUtils.initUserReports({ services: this.services, res, maxRows: 4 })
 
     res.render('views/pages/components/user-reports/view.njk', {
       title: 'User reports list',

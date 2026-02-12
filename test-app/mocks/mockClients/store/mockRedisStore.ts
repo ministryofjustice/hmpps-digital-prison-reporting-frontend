@@ -39,7 +39,7 @@ export const startData = {
 }
 
 export const MockUserStoreService = class MockUserStoreService {
-  private userStore: string
+  userStore: string
 
   constructor() {
     this.userStore = JSON.stringify(startData)

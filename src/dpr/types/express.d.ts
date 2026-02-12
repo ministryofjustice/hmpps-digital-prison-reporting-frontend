@@ -1,14 +1,7 @@
-import { Flag } from '@flipt-io/flipt'
+import { ExtraLocals } from './extraLocals'
 
 declare global {
   namespace Express {
-    interface Locals {
-      featureFlags: {
-        lastUpdated: number
-        flags: {
-          [flagName: string]: Flag
-        }
-      }
-    }
+    type Locals = ExtraLocals
   }
 }

@@ -24,7 +24,7 @@ jobs:
       with:
         node-version: '24.x'
     - run: npm run setup
-    - run: npm run package
+    - run: npm run rpack
     - uses: actions/upload-artifact@v4
       with:
         name: dpr-package
@@ -73,17 +73,16 @@ jobs:
 
       - name: Clone mi-ui
         run: |
-          git clone https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
+          git clone -b DPR2-2615_align-export-changes https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git ../app
       - name: mi-ui setup using this branch
         run: npm run setup
         working-directory: ${{ github.workspace }}/../app
       - name: Build lib and copy output into node_modules of mi-ui for lib
         working-directory: ${{ github.workspace }}
         run: |
-          npm run package
-          rm -rf ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr
-          cp -r dist/dpr ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr
-          cp dist/package.json ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/package.json
+          npm run rpack
+          rm -rf ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/*
+          cp -R dist/* ../app/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/
       - name: Build mi-ui
         run: npm run build
         working-directory: ${{ github.workspace }}/../app

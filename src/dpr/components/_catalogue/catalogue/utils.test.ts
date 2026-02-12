@@ -37,7 +37,7 @@ describe('CatalogueUtils', () => {
     })
 
     it('should init the catalogue with defaults', async () => {
-      const result = await CatalogueUtils.init({ features: {}, res, services })
+      const result = await CatalogueUtils.initCatalogue({ features: {}, res, services })
 
       expect(result).toEqual({
         data: { head: [], rows: [], csrfToken: 'csrfToken', id: 'id' },
@@ -54,7 +54,7 @@ describe('CatalogueUtils', () => {
     })
 
     it('should init the catalogue with configured features', async () => {
-      const result = await CatalogueUtils.init({
+      const result = await CatalogueUtils.initCatalogue({
         features: {
           filteringEnabled: false,
           unauthorisedToggleEnabled: false,

@@ -12,7 +12,7 @@ export default class CatalogueController {
   }
 
   GET: RequestHandler = async (_, res) => {
-    const catalogue = await CatalogueUtils.init({
+    const catalogue = await CatalogueUtils.initCatalogue({
       res,
       services: this.services,
       features: {

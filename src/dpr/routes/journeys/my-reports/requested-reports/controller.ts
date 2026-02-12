@@ -12,7 +12,7 @@ class RequestedReportsController {
   POST: RequestHandler = async (req, res) => {
     const { dprUser } = LocalsHelper.getValues(res)
     const { id } = req.params
-    await this.services.requestedReportService.removeReport(id, dprUser.id)
+    await this.services.requestedReportService.removeReport(id as string, dprUser.id)
     res.end()
   }
 }

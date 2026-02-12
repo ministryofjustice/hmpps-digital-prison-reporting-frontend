@@ -6,7 +6,7 @@ import defaultRoutes from './default/routes'
 import configuredRoutes from './configured/routes'
 import { Services } from '../../../../src/dpr/types/Services'
 
-export default function routes(services: Services) {
+export default function routes(services: Services): Router {
   const router = Router({ mergeParams: true })
   const controller = new UserReportsController()
   router.get('/', controller.GET)

@@ -6,7 +6,7 @@ import BarChartRoutes from './bar/routes'
 import LineChartRoutes from './line/routes'
 import PieChartRoutes from './pie/routes'
 
-export default function routes() {
+export default function routes(): Router {
   const router = Router({ mergeParams: true })
   const controller = new ChartsController()
   router.get('/', controller.GET)

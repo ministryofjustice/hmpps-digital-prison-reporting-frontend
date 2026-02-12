@@ -11,7 +11,7 @@ export const getReportsList = async (
   res: Response,
   services: Services,
   features?: CatalogueFeatures,
-): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[]; id: string }> => {
+): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[][]; id: string }> => {
   const { definitions, csrfToken, bookmarkingEnabled, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
 
   // Sort report Definitions by product name

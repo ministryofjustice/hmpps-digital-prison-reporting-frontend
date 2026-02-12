@@ -10,7 +10,7 @@ import viewDashboardRoutes from './dashboard/routes'
 // middleware
 import reportAuthoriser from '../../../../middleware/reportAuthoriser'
 
-export function routes({ layoutPath, services }: { layoutPath: string; services: Services }) {
+export function routes({ layoutPath, services }: { layoutPath: string; services: Services }): Router {
   const router = Router({ mergeParams: true })
 
   router.use('/report', reportAuthoriser(services, layoutPath), viewReportRoutes({ layoutPath, services }))

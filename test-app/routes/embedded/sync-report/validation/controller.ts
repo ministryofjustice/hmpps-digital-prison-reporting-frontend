@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import ReportListUtils from '../../../../../dist/dpr/components/report-list/utils'
+import ReportListUtils from '../../../../../src/dpr/components/report-list/utils'
 
 export default class SyncReportValidationController {
   GET: RequestHandler = ReportListUtils.createReportListRequestHandler({

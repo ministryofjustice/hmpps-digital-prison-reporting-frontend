@@ -26,7 +26,7 @@ module.exports = function (eleventyConfig) {
     nunjucksEnv.addFilter(name, callback);
   });
 
-  const setUpNunjucksFilters = require('./dist-docs/dpr/setUpNunjucksFilters').default
+  const setUpNunjucksFilters = require('./dist/cjs/dpr/setUpNunjucksFilters').default
   setUpNunjucksFilters(nunjucksEnv)
 
   eleventyConfig.setLibrary("njk", nunjucksEnv);

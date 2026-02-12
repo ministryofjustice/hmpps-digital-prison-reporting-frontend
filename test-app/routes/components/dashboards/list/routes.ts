@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import DashboardListController from './controller'
 
-export default function routes() {
+export default function routes(): Router {
   const router = Router({ mergeParams: true })
   const controller = new DashboardListController()
   router.get('/', controller.GET)

@@ -7,7 +7,7 @@ import DownloadReportController from './controller'
 import RequestDownloadRoutes from './request-download/routes'
 import { Services } from '../../../types/Services'
 
-export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }) {
+export function Routes({ layoutPath, services }: { services: Services; layoutPath: string }): Router {
   const router = Router({ mergeParams: true })
 
   const controller = new DownloadReportController(layoutPath, services)
@@ -32,7 +32,7 @@ export const DownloadReportRoutes = ({
   services: Services
   path: string
   layoutPath: string
-}) => {
+}): Router => {
   const router = Router({ mergeParams: true })
   if (services.downloadPermissionService.enabled) {
     router.use(path, Routes({ services, layoutPath }))

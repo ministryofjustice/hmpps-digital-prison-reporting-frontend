@@ -13,13 +13,13 @@ export default class PlatformController {
   GET: RequestHandler = async (_req, res) => {
     res.locals['csrfToken'] = 'csrfToken'
 
-    const catalogue = await CatalogueUtils.init({
+    const catalogue = await CatalogueUtils.initCatalogue({
       res,
       services: this.services,
       features: { bookmarkingEnabled: res.locals['bookmarkingEnabled'] },
     })
 
-    const userReportsLists = await UserReportsListUtils.init({ services: this.services, res, maxRows: 20 })
+    const userReportsLists = await UserReportsListUtils.initUserReports({ services: this.services, res, maxRows: 20 })
 
     res.render('views/pages/platform/view.njk', {
       title: 'Home',

@@ -1,6 +1,9 @@
-export const columnValuesAsList = {
+import { components } from '../../../../../../../src/dpr/types/api'
+import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
+
+export const columnValuesAsList: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'list-vis-def_col-values-as-rows',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   columns: {
     keys: [
       {
@@ -33,6 +36,7 @@ export const columnValuesAsList = {
         display: 'No nationality',
       },
     ],
+    expectNulls: false,
   },
   options: { columnsAsList: true },
 }

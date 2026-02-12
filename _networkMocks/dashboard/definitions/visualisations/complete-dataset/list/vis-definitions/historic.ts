@@ -1,6 +1,9 @@
-export const dataQualityEthnicityHistoric = {
+import { components } from '../../../../../../../src/dpr/types/api'
+import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
+
+export const dataQualityEthnicityHistoric: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'list-data-quality-has-ethnicity-historic',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Ethnicity Values',
   columns: {
     keys: [
@@ -26,13 +29,14 @@ export const dataQualityEthnicityHistoric = {
         display: 'No Ethnicity',
       },
     ],
+    expectNulls: false,
   },
   options: { showLatest: false },
 }
 
-export const dataQualityReligionHistoric = {
+export const dataQualityReligionHistoric: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'list-data-quality-has-religion-historic',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Religion Values',
   columns: {
     keys: [
@@ -58,13 +62,14 @@ export const dataQualityReligionHistoric = {
         display: 'No religion',
       },
     ],
+    expectNulls: false,
   },
   options: { showLatest: false },
 }
 
-export const dataQualityNationalityHistoric = {
+export const dataQualityNationalityHistoric: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'list-data-quality-has-nationality-historic',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Nationality Values',
   columns: {
     keys: [
@@ -90,6 +95,7 @@ export const dataQualityNationalityHistoric = {
         display: 'No nationality',
       },
     ],
+    expectNulls: false,
   },
   options: { showLatest: false },
 }

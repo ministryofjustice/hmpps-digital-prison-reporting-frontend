@@ -29,7 +29,7 @@ export const dataQualityEthnicityBar: components['schemas']['DashboardVisualisat
   },
 }
 
-export const dataQualityEthnicityBarHorizontal = {
+export const dataQualityEthnicityBarHorizontal: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'bar-data-quality-has-ethnicity-horizontal',
   type: DashboardVisualisationType.BAR,
   display: 'Ethnicity values',
@@ -53,10 +53,11 @@ export const dataQualityEthnicityBarHorizontal = {
         display: 'No Ethnicity',
       },
     ],
+    expectNulls: false,
   },
 }
 
-export const dataQualityReligionBar = {
+export const dataQualityReligionBar: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'bar-data-quality-has-religion',
   type: DashboardVisualisationType.BAR,
   display: 'Religion values',
@@ -77,10 +78,11 @@ export const dataQualityReligionBar = {
         display: 'No religion',
       },
     ],
+    expectNulls: false,
   },
 }
 
-export const dataQualityNationalityBar = {
+export const dataQualityNationalityBar: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'bar-data-quality-has-nationality',
   type: DashboardVisualisationType.BAR,
   display: 'Nationality values',
@@ -101,10 +103,11 @@ export const dataQualityNationalityBar = {
         display: 'No nationality',
       },
     ],
+    expectNulls: false,
   },
 }
 
-export const dataQualityAllBar = {
+export const dataQualityAllBar: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'bar-data-quality-all',
   type: DashboardVisualisationType.BAR,
   display: 'All metrics together',
@@ -144,10 +147,11 @@ export const dataQualityAllBar = {
         display: 'No Ethnicity',
       },
     ],
+    expectNulls: false,
   },
 }
 
-export const dataQualityAllBarHorizontal = {
+export const dataQualityAllBarHorizontal: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'bar-data-quality-all',
   type: DashboardVisualisationType.BAR,
   display: 'All metrics together',
@@ -187,5 +191,6 @@ export const dataQualityAllBarHorizontal = {
         display: 'No Ethnicity',
       },
     ],
+    expectNulls: false,
   },
 }

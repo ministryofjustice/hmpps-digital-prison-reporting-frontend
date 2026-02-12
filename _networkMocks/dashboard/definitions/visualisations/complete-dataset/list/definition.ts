@@ -1,8 +1,9 @@
 import { fullDataset } from './vis-definitions/full-data'
 import { columnValuesAsList } from './vis-definitions/column-values-as-list'
 import { dataQualityEthnicity, dataQualityNationality, dataQualityReligion } from './vis-definitions/rows-as-list'
+import { components } from '../../../../../../src/dpr/types/api'
 
-export const definition = {
+export const definition: components['schemas']['DashboardDefinition'] = {
   id: 'list-visualisations_complete-dataset',
   name: 'List - Complete dataset',
   description:

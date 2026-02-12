@@ -1,6 +1,7 @@
+import { components } from '../../../../../../../src/dpr/types/api'
 import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
-export const dietTotalsVegetarianOvertime = {
+export const dietTotalsVegetarianOvertime: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-vegetarian-overtime',
   type: DashboardVisualisationType.MATRIX_TIMESERIES,
   display: 'Vegetarian totals over time matrix chart',

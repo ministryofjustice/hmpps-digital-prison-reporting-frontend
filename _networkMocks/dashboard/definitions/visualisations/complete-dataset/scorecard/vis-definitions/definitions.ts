@@ -1,8 +1,9 @@
-import { components } from '../../../../../../src/dpr/types/api'
+import { components } from '../../../../../../../src/dpr/types/api'
+import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
 export const simpleScorecardNationality: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-nationality',
-  type: 'scorecard',
+  type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with nationality',
   columns: {
     keys: [{ id: 'establishment_id' }],
@@ -13,7 +14,7 @@ export const simpleScorecardNationality: components['schemas']['DashboardVisuali
 
 export const simpleScorecardNationalityFilter: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-nationality',
-  type: 'scorecard',
+  type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with nationality',
   columns: {
     keys: [{ id: 'establishment_id' }],
@@ -30,7 +31,7 @@ export const simpleScorecardNationalityFilter: components['schemas']['DashboardV
 
 export const simpleScorecardReligion: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-religion',
-  type: 'scorecard',
+  type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with religion',
   columns: {
     keys: [{ id: 'establishment_id' }],
@@ -41,7 +42,7 @@ export const simpleScorecardReligion: components['schemas']['DashboardVisualisat
 
 export const simpleScorecardEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-ethnicity',
-  type: 'scorecard',
+  type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with ethnicity',
   columns: {
     keys: [{ id: 'establishment_id' }],
@@ -52,7 +53,7 @@ export const simpleScorecardEthnicity: components['schemas']['DashboardVisualisa
 
 export const simpleScorecardRagColoursNationality: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-rag-nationality',
-  type: 'scorecard',
+  type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with nationality',
   options: {
     useRagColour: true,
@@ -66,7 +67,7 @@ export const simpleScorecardRagColoursNationality: components['schemas']['Dashbo
 
 export const simpleScorecardRagColoursReligion: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-rag-religion',
-  type: 'scorecard',
+  type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with religion',
   options: {
     useRagColour: true,
@@ -80,7 +81,7 @@ export const simpleScorecardRagColoursReligion: components['schemas']['Dashboard
 
 export const simpleScorecardRagColoursEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-rag-ethnicity',
-  type: 'scorecard',
+  type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with ethnicity',
   options: {
     useRagColour: true,

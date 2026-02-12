@@ -1,13 +1,14 @@
-import { components } from '../../../../../../src/dpr/types/api'
+import { components } from '../../../../../../../src/dpr/types/api'
+import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
 /**
  * Definition validates:
  * - expectNulls works correctly
  * - displays a two column table
  */
-export const dietTotals = {
+export const dietTotals: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Diet totals',
   description: '',
   columns: {
@@ -32,9 +33,9 @@ export const dietTotals = {
  * - displays a two column table
  * - Filter on single column works correctly with single value
  */
-export const dietTotalsWithFilters = {
+export const dietTotalsWithFilters: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-with-filters',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Diet totals filter on vegetarian',
   description: '',
   columns: {
@@ -65,9 +66,9 @@ export const dietTotalsWithFilters = {
  * - displays a TWO column table
  * - Filter on single column works correctly with multiple values
  */
-export const dietTotalsWithFiltersSingleColumn = {
+export const dietTotalsWithFiltersSingleColumn: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-single-column',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Diet totals single column',
   description: '',
   columns: {
@@ -102,9 +103,9 @@ export const dietTotalsWithFiltersSingleColumn = {
  * - expectNulls works correctly
  * - displays a THREE column table
  */
-export const dietTotalsByEstablishment = {
+export const dietTotalsByEstablishment: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-by-establishment',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Diet totals by establishment',
   description: '',
   columns: {
@@ -136,9 +137,9 @@ export const dietTotalsByEstablishment = {
  * - expectNulls works correctly
  * - displays a FOUR column table
  */
-export const dietTotalsByEstablishmentByWing = {
+export const dietTotalsByEstablishmentByWing: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-by-establishment-by-wing',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Diet totals by establishment, by wing',
   description: '',
   columns: {
@@ -177,9 +178,9 @@ export const dietTotalsByEstablishmentByWing = {
  * - expectNulls works correctly
  * - displays a FIVE column table
  */
-export const dietTotalsByEstablishmentByWingByCell = {
+export const dietTotalsByEstablishmentByWingByCell: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-by-establishment-by-wing-by-cell',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Diet totals by cell',
   description: '',
   columns: {
@@ -205,6 +206,7 @@ export const dietTotalsByEstablishmentByWingByCell = {
         display: 'Total prisoners',
       },
     ],
+    expectNulls: false,
   },
 }
 
@@ -214,9 +216,9 @@ export const dietTotalsByEstablishmentByWingByCell = {
  * - displays a FIVE column table
  * - Filter on muliple columns works correctly with multiple values
  */
-export const dietTotalsByEstablishmentByWingByCellFilters = {
+export const dietTotalsByEstablishmentByWingByCellFilters: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-by-establishment-by-wing-by-cell-filters',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Diet totals by cell',
   description: '',
   columns: {
@@ -245,20 +247,21 @@ export const dietTotalsByEstablishmentByWingByCellFilters = {
     filters: [
       {
         id: 'cell',
-        display: 'Cell-1',
+        equals: 'Cell-1',
       },
       {
         id: 'cell',
-        display: 'Cell-2',
+        equals: 'Cell-2',
       },
       {
         id: 'diet',
-        display: 'Vegetarian',
+        equals: 'Vegetarian',
       },
       {
         id: 'diet',
-        display: 'Omnivore',
+        equals: 'Omnivore',
       },
     ],
+    expectNulls: false,
   },
 }

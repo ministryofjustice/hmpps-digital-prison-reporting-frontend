@@ -1,6 +1,9 @@
-export const dataQualityEthnicity = {
+import { components } from '../../../../../../../src/dpr/types/api'
+import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
+
+export const dataQualityEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'list-data-quality-has-ethnicity',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Ethnicity Values',
   columns: {
     keys: [
@@ -22,12 +25,13 @@ export const dataQualityEthnicity = {
         display: 'No Ethnicity',
       },
     ],
+    expectNulls: false,
   },
 }
 
-export const dataQualityReligion = {
+export const dataQualityReligion: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'list-data-quality-has-religion',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'Religion Values',
   columns: {
     keys: [
@@ -49,12 +53,13 @@ export const dataQualityReligion = {
         display: 'No religion',
       },
     ],
+    expectNulls: false,
   },
 }
 
-export const dataQualityNationality = {
+export const dataQualityNationality: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'list-data-quality-has-nationality',
-  type: 'list',
+  type: DashboardVisualisationType.LIST,
   display: 'nationality Values',
   columns: {
     keys: [
@@ -76,5 +81,6 @@ export const dataQualityNationality = {
         display: 'No nationality',
       },
     ],
+    expectNulls: false,
   },
 }

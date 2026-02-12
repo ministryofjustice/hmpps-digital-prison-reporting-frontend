@@ -1,6 +1,7 @@
 import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
+import { components } from '../../../../../../../src/dpr/types/api'
 
-export const dataQualityHasNationalityOvertime = {
+export const dataQualityHasNationalityOvertime: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'has-nationality-overtime',
   type: DashboardVisualisationType.MATRIX_TIMESERIES,
   display: 'Has nationality time matrix chart for MDI',

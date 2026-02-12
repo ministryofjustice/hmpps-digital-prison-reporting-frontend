@@ -1,6 +1,9 @@
-export const dataQualityAllEstablishmentsEthnicity = {
+import { components } from '../../../../../../../src/dpr/types/api'
+import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
+
+export const dataQualityAllEstablishmentsEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'data-quality-ethnicity',
-  type: 'scorecard-group',
+  type: DashboardVisualisationType.SCORECARD_GROUP,
   display: 'Ethnicity score',
   description: '',
   options: {
@@ -24,12 +27,13 @@ export const dataQualityAllEstablishmentsEthnicity = {
         displayValue: true,
       },
     ],
+    expectNulls: false,
   },
 }
 
-export const dataQualityAllEstablishmentsNoEthnicity = {
+export const dataQualityAllEstablishmentsNoEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'data-quality-no-ethnicity',
-  type: 'scorecard-group',
+  type: DashboardVisualisationType.SCORECARD_GROUP,
   display: 'Missing ethnicity score',
   description: '',
   columns: {
@@ -49,12 +53,13 @@ export const dataQualityAllEstablishmentsNoEthnicity = {
         displayValue: true,
       },
     ],
+    expectNulls: false,
   },
 }
 
-export const dataQualityAllEstablishmentsReligion = {
+export const dataQualityAllEstablishmentsReligion: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'data-quality-religion',
-  type: 'scorecard-group',
+  type: DashboardVisualisationType.SCORECARD_GROUP,
   display: 'Religion score',
   description: '',
   columns: {
@@ -74,12 +79,13 @@ export const dataQualityAllEstablishmentsReligion = {
         displayValue: true,
       },
     ],
+    expectNulls: false,
   },
 }
 
-export const dataQualityAllEstablishmentsNoReligion = {
+export const dataQualityAllEstablishmentsNoReligion: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'data-quality-no-religion',
-  type: 'scorecard-group',
+  type: DashboardVisualisationType.SCORECARD_GROUP,
   display: 'Missing religion score',
   description: '',
   columns: {
@@ -99,12 +105,13 @@ export const dataQualityAllEstablishmentsNoReligion = {
         displayValue: true,
       },
     ],
+    expectNulls: false,
   },
 }
 
-export const dataQualityAllEstablishmentsNationality = {
+export const dataQualityAllEstablishmentsNationality: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'data-quality-nationality',
-  type: 'scorecard-group',
+  type: DashboardVisualisationType.SCORECARD_GROUP,
   display: 'Nationality score',
   description: '',
   options: {
@@ -127,12 +134,13 @@ export const dataQualityAllEstablishmentsNationality = {
         displayValue: true,
       },
     ],
+    expectNulls: false,
   },
 }
 
-export const dataQualityAllEstablishmentsNoNationality = {
+export const dataQualityAllEstablishmentsNoNationality: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'data-quality-no-nationality',
-  type: 'scorecard-group',
+  type: DashboardVisualisationType.SCORECARD_GROUP,
   display: 'Missing nationality score',
   description: '',
   columns: {
@@ -152,12 +160,13 @@ export const dataQualityAllEstablishmentsNoNationality = {
         displayValue: true,
       },
     ],
+    expectNulls: false,
   },
 }
 
 export const dataQualityAllCols = {
   id: 'data-quality-columns-as-cards',
-  type: 'scorecard-group',
+  type: DashboardVisualisationType.SCORECARD_GROUP,
   display: 'Data quality scores',
   description: '',
   options: {
@@ -196,5 +205,6 @@ export const dataQualityAllCols = {
         display: 'Has ethnicity',
       },
     ],
+    expectNulls: false,
   },
 }

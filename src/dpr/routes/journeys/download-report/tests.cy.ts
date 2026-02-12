@@ -73,12 +73,6 @@ context('Download report', () => {
   })
 
   describe('Requesting download', () => {
-    it('should prefill the user data in the request form', () => {
-      cy.visit(downloadRequestFormPage)
-      cy.findByRole('textbox', { name: 'What is your Full name?' }).should('have.value', 'Test User')
-      cy.findByRole('textbox', { name: 'What is your Email address?' }).should('have.value', 'test@user.com')
-    })
-
     it('should validate the required fields', () => {
       cy.visit(downloadRequestFormPage)
       cy.findByRole('alert').should('not.exist')

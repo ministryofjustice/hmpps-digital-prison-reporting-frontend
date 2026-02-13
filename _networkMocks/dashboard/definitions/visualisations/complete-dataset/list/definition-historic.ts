@@ -6,7 +6,7 @@ import {
 } from './vis-definitions/historic'
 
 export const definition = {
-  id: 'list-visualisations_complete-dataset_historic',
+  id: 'list-visualisations_historic_complete-dataset',
   name: 'List - Complete dataset - Historic',
   description:
     'This dashboard represents example list visualidations using a complete dataset of historic data. The dashboard aims to show all the options available to display a list using a complete dataset',

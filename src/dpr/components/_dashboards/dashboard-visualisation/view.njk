@@ -9,7 +9,7 @@
   {% set description = visualisation.description %}
   {% set data = visualisation.data %}
   {% set isEnabled = visualisation.isEnabled %}
-  {% set visualisationLabelId = "section-title-" + loopIndex %}
+  {% set visualisationLabelId = "visualisation-title-" + loopIndex %}
 
   <div class="dashboard-visualisation-container" id="{{ id }}-dash-section-visualisation" tabindex="0" aria-labelledby={{ visualisationLabelId }}>
     <h3 id='{{ visualisationLabelId }}' class="govuk-heading-m">{{ title }}</h3>

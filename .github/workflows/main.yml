@@ -130,19 +130,26 @@ jobs:
       - run: npm run setup
       - run: npm run package
       - name: Run the node app and integration tests
+        id: int-test-step
         run: |
           npm run start:dev:noMockClients:noLogs &
           sleep 5
           npm run int-test
       - uses: actions/upload-artifact@v4
+        if: success() || failure()
         with:
           name: test_results
           path: test_results
       - uses: actions/upload-artifact@v4
+        if: success() || failure()
         with:
           name: videos
           path: cypress-tests/integration-tests/videos
       - uses: actions/upload-artifact@v4
+        if: success() || failure()
         with:
           name: screenshots
           path: cypress-tests/integration-tests/screenshots
+      - name: Output success or failure
+        id: output
+        run: if [[ ${{ steps.int-test-step.outcome }} != "success" ]]; then exit 1; else exit 0; fi

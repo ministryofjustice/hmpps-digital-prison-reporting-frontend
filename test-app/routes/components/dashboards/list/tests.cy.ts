@@ -19,7 +19,17 @@ context('Dashboard visualisation: List', () => {
       })
     })
 
-    it('should', () => {
+    it('should show the correct section headings', () => {})
+
+    it('should show the correct number tables in the sections', () => {
+      //
+    })
+
+    it('should show the column values as a list', () => {
+      //
+    })
+
+    it('should show the dataset rows as a list', () => {
       //
     })
   })
@@ -53,7 +63,19 @@ context('Dashboard visualisation: List', () => {
       })
     })
 
-    it('should', () => {
+    it('should show the correct section headings', () => {
+      //
+    })
+
+    it('should show the correct number tables in the sections', () => {
+      //
+    })
+
+    it('should show the column values as a list', () => {
+      //
+    })
+
+    it('should show the dataset rows as a list', () => {
       //
     })
   })

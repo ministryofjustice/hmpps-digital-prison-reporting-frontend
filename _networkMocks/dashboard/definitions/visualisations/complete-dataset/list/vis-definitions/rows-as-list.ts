@@ -4,7 +4,8 @@ import { DashboardVisualisationType } from '../../../../../../../src/dpr/compone
 export const dataQualityEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'list-data-quality-has-ethnicity',
   type: DashboardVisualisationType.LIST,
-  display: 'Ethnicity Values',
+  display: 'Ethnicity values',
+  description: 'List visualisation showing ethnicity values',
   columns: {
     keys: [
       {
@@ -32,7 +33,8 @@ export const dataQualityEthnicity: components['schemas']['DashboardVisualisation
 export const dataQualityReligion: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'list-data-quality-has-religion',
   type: DashboardVisualisationType.LIST,
-  display: 'Religion Values',
+  display: 'Religion values',
+  description: 'List visualisation showing religion values',
   columns: {
     keys: [
       {
@@ -60,7 +62,8 @@ export const dataQualityReligion: components['schemas']['DashboardVisualisationD
 export const dataQualityNationality: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'list-data-quality-has-nationality',
   type: DashboardVisualisationType.LIST,
-  display: 'nationality Values',
+  display: 'Nationality values',
+  description: 'List visualisation showing nationality values',
   columns: {
     keys: [
       {

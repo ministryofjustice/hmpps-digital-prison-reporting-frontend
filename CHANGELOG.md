@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 5.1.0
+- Make use of @flipt-io/flipt-client-js instead of @flipt-io/flipt, use evaluation api instead of flags management api
+
 ## 5.0.1
 
 - Fix type issues

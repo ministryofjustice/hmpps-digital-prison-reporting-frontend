@@ -126,6 +126,7 @@ export const dietTotalsByEstablishment: components['schemas']['DashboardVisualis
       {
         id: 'count',
         display: 'Total prisoners',
+        aggregate: 'sum',
       },
     ],
     expectNulls: true,

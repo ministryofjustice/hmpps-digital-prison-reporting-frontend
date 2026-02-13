@@ -419,7 +419,7 @@ context('Dashboard visualisation: List', () => {
             .should('exist')
             .within(() => {
               cy.findAllByRole('row')
-                .should('have.length', 7)
+                .should('have.length', 8)
                 .each((row, index) => {
                   switch (index) {
                     case 0:
@@ -466,6 +466,13 @@ context('Dashboard visualisation: List', () => {
                       })
                       break
                     case 6:
+                      cy.wrap(row).within(() => {
+                        cy.findAllByRole('cell').should('have.length', 3)
+                        cy.findAllByRole('cell').eq(0).contains('Total')
+                        cy.findAllByRole('cell').eq(2).contains('1344')
+                      })
+                      break
+                    case 7:
                       cy.wrap(row).should('not.be.visible')
                       break
                     default:

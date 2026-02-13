@@ -1,5 +1,6 @@
 import { FliptClient, type ClientOptions, type EvaluationRequest } from '@flipt-io/flipt-client-js/node'
 import { Application } from 'express'
+import { captureException } from '@sentry/node'
 import { FeatureFlagConfig } from '../data/types'
 import {
   FEATURE_FLAG_NAMESPACE,
@@ -7,7 +8,6 @@ import {
   type FeatureFlagEvaluationSubject,
   type FeatureFlagKey,
 } from '../utils/featureFlagsHelper'
-import { captureException } from '@sentry/node'
 
 export class FeatureFlagService {
   private readonly clientConfig: ClientOptions | undefined

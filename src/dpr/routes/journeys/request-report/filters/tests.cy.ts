@@ -329,6 +329,9 @@ describe('Request a report', () => {
   })
 
   context('User defined defaults', () => {
+    before(() => {
+      cy.task('stubFeatureFlags')
+    })
     it('should save the user defined defaults', () => {
       clearSelectedFilters()
       updateFilterValues()

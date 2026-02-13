@@ -387,7 +387,12 @@ export const getPersonalisedFilters = async (
 ) => {
   const { reportId, id } = req.params
   const { dprUser } = LocalsHelper.getValues(res)
-  const defaultFilterValues = await services.defaultFilterValuesService.get(dprUser.id, reportId, id, filtersType)
+  const defaultFilterValues = await services.defaultFilterValuesService.get(
+    dprUser.id,
+    <string>reportId,
+    <string>id,
+    filtersType,
+  )
   let defaultFilters = filters
   if (defaultFilterValues) {
     const personalisedFilters = PersonalistionUtils.setFilterValuesFromSavedDefaults(filters, [], defaultFilterValues)

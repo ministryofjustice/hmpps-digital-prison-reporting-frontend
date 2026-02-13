@@ -1,5 +1,6 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 {% from "../dashboard-visualisation-no-data-message/view.njk" import dprDashboardVisNoData %}
+{% from "../../_reports/report-page/report-template/report-section/report-data-table/view.njk" import dprDataTable %}
 
 {% macro dprDashboardList(id, listData) %}
   {% set ts = listData.ts %}
@@ -8,7 +9,8 @@
 
   <div class="dpr-dashboard-list-container">
     {% if rows.length %}
-      {{ govukTable(table)}}
+
+      {{ dprDataTable(table)}}
 
       {% if ts %}
         <p class="govuk-body-s dpr-value-for">Value for: {{ ts }}</p>

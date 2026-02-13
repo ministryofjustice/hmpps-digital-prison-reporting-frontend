@@ -8,7 +8,7 @@ context('Viewing a report', () => {
     before(() => {
       executeDashboardStubs()
       cy.task('stubTestDashboard8')
-      cy.task('stubDashboardSuccessResult20')
+      cy.task('stubDashboardResultCompleteData')
     })
 
     it('should mark the dashboard as recently viewed and not show viz', () => {

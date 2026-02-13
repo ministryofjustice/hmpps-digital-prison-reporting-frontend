@@ -27,13 +27,15 @@ export const checkSelectedFilterValues = ({
 
 export const startReportRequest = ({ name, description }: { name: string; description: string }) => {
   cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-    cy.findByRole('row', {
+    cy.findAllByRole('row', {
       name: (_, element) => {
         return Boolean(element?.textContent?.includes(name)) && Boolean(element?.textContent?.includes(description))
       },
-    }).within(() => {
-      cy.findByRole('link', { name: 'Request report' }).click()
     })
+      .first()
+      .within(() => {
+        cy.findByRole('link', { name: /Request/ }).click()
+      })
   })
 }
 

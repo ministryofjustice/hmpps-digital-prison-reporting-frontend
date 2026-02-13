@@ -1,26 +1,30 @@
 import { getMappings } from 'cypress-tests/mockApis/wiremock'
-import { mocks as dashboardDefMocks } from './dashboard/dashboardDefinitions/mocks'
 import { postNetworkMocks } from './generateNetworkMock'
 import { mocks as basicMocks } from './mocks'
-import { mocks as dashboardMocks } from './dashboard/mocks'
+import { mocks as dashboardRequestMocks } from './dashboard/mocks'
 import { mocks as reportMocks } from './report/mocks'
-import { mocks as dashboardResultsMocks } from './dashboard/dashboardResults/mocks'
 import { mocks as missingReportMocks } from './report/missingReport/mocks'
 import { mocks as syncMocks } from './report/sync/mocks'
 import { mocks as productCollectionMocks } from './productCollections/mocks'
 import { mocks as featureFlagMocks } from './featureFlags/mocks'
+import { mocks as dashboardDefinitionMocks } from './dashboard/definitions/visualisations/mocks'
+import { mocks as dashbordFeatureTestingMocks } from './dashboard/definitions/feature-testing/mocks'
+import { mocks as dashboardResultCompleteDataMock } from './dashboard/data/complete-data/mocks'
+import { mocks as dashboardResultPartialDataMocks } from './dashboard/data/partial-data/mocks'
 
 const setupMocks = async () => {
   const allMocks = [
     ...basicMocks,
-    ...dashboardMocks,
     ...reportMocks,
-    ...dashboardDefMocks,
-    ...dashboardResultsMocks,
+    ...dashboardDefinitionMocks,
     ...missingReportMocks,
     ...syncMocks,
     ...productCollectionMocks,
     ...featureFlagMocks,
+    ...dashboardRequestMocks,
+    ...dashbordFeatureTestingMocks,
+    ...dashboardResultCompleteDataMock,
+    ...dashboardResultPartialDataMocks,
   ]
 
   await postNetworkMocks(allMocks)

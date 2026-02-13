@@ -3,18 +3,17 @@
 {% from "../dashboard-list/view.njk" import dprDashboardList %}
 {% from "../dashboard-visualisation/view.njk" import dprDashboardVisualisation %}
 
-{% macro dprDashboardSection(section) %}
+{% macro dprDashboardSection(section, loopIndex) %}
   {% set id = section.id %}
   {% set title = section.title %}
   {% set description = section.description %}
   {% set visualisations = section.visualisations %}
+  {% set sectionLabelId = "section-title-" + loopIndex %}
 
   <hr class="dashboard-section-break">
-  <div class="dpr-dashboard-section" id="{{ id }}-dashboard-section">
+  <div class="dpr-dashboard-section" id="{{ id }}-dashboard-section". aria-labelledby={{ sectionLabelId }}>
   
-    {% if title %}
-      <h2 class="govuk-heading-l">{{ title }}</h2>
-    {% endif %}
+    <h2 id="{{ sectionLabelId }}" class="govuk-heading-l">{{ title }}</h2>
 
     {% if description %}
       <p class="govuk-body">{{ description }}</p> 
@@ -23,7 +22,7 @@
     <div class="dashboard-section-container">
 
       {% for visualisation in visualisations %}
-        {{ dprDashboardVisualisation(visualisation) }}
+        {{ dprDashboardVisualisation(visualisation, loop.index) }}
       {% endfor %}
 
     </div>

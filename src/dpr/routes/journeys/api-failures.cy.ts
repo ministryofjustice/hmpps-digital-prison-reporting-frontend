@@ -259,8 +259,8 @@ context('Try to run the app with failing and broken api endpoints', () => {
   describe('erroring endpoints - dashboards', () => {
     it('should cope with single definition endpoint failing', () => {
       executeDashboardStubs()
-      cy.task('stubDataQualityDashboardsResultMock')
-      cy.task('stubListExampleDashboard')
+      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubTestDashboard8')
       cy.task('stubDefinitionFeatureTestingInteractive')
       cy.task('getSingleDashboardFailure')
 
@@ -268,7 +268,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element.textContent?.includes('Data quality data set'))
+            return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request dashboard' }).click()
@@ -280,8 +280,8 @@ context('Try to run the app with failing and broken api endpoints', () => {
 
     it('should cope with requestAsyncDashboard failing', () => {
       executeDashboardStubs()
-      cy.task('stubDataQualityDashboardsResultMock')
-      cy.task('stubListExampleDashboard')
+      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubTestDashboard8')
       cy.task('stubDefinitionFeatureTestingInteractive')
       cy.task('requestAsyncDashboardFailure')
 
@@ -289,7 +289,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element.textContent?.includes('Data quality data set'))
+            return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request dashboard' }).click()
@@ -302,8 +302,8 @@ context('Try to run the app with failing and broken api endpoints', () => {
 
     it('should cope with getAsyncDashboard failing', () => {
       executeDashboardStubs()
-      cy.task('stubDataQualityDashboardsResultMock')
-      cy.task('stubListExampleDashboard')
+      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubTestDashboard8')
       cy.task('stubDefinitionFeatureTestingInteractive')
       cy.task('getAsyncDashboardFailure')
 
@@ -311,7 +311,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element.textContent?.includes('Data quality data set'))
+            return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request dashboard' }).click()
@@ -326,8 +326,8 @@ context('Try to run the app with failing and broken api endpoints', () => {
       stubBaseTasks()
       stubDefinitionsTasks()
       cy.task('stubViewAsyncResults')
-      cy.task('stubDataQualityDashboardsResultMock')
-      cy.task('stubListExampleDashboard')
+      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubTestDashboard8')
       cy.task('stubDefinitionFeatureTestingInteractive')
       cy.task('getAsyncDashboardStatusFailure')
 
@@ -335,7 +335,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element.textContent?.includes('Data quality data set'))
+            return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request dashboard' }).click()
@@ -352,8 +352,8 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.task('stubReportsStartedStatus')
       cy.task('stubMockDashboardsStatusStarted')
       cy.task('stubViewAsyncResults')
-      cy.task('stubDataQualityDashboardsResultMock')
-      cy.task('stubListExampleDashboard')
+      cy.task('stubDashboardResultCompleteData')
+      cy.task('stubTestDashboard8')
       cy.task('stubDefinitionFeatureTestingInteractive')
       cy.task('cancelAsyncRequestDashboardFailure')
 
@@ -361,7 +361,7 @@ context('Try to run the app with failing and broken api endpoints', () => {
       cy.findByLabelText(/Reports catalogue.*/i).within(() => {
         cy.findByRole('row', {
           name: (_, element) => {
-            return Boolean(element.textContent?.includes('Data quality data set'))
+            return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
           },
         }).within(() => {
           cy.findByRole('link', { name: 'Request dashboard' }).click()

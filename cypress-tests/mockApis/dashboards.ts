@@ -1,32 +1,74 @@
-import { 
-  dataQualityScorecardDashboardsResultMock, dataQualityScorecardBucketDashboardsResultMock, dataQualityScorecardGroupDashboardsResultMock, 
-  testDashboardResultMock, dataQualityDashboardsResultMock, requestSyncDashboardMock
-} from '@networkMocks/dashboard/dashboardResults/mocks'
+import {
+  listCompleteDatasetMock,
+  listCompleteDatasetHistoricMock,
+  listPartialDatasetMock,
+  listPartialDatasetHistoricMock,
+  scorecardsCompleteDatasetMock,
+  scorecardsBucketCompleteDatasetMock,
+  scorecardGroupCompleteDatasetMock,
+} from '@networkMocks/dashboard/definitions/visualisations/mocks'
+
+import { syncDashboardMock, featureFlagDashboardMock } from '@networkMocks/dashboard/definitions/feature-testing/mocks'
+
+// DATA
+import {
+  dashboardResultCompleteDataMock,
+  dashboardResultCompleteDataSyncMock,
+} from '@networkMocks/dashboard/data/complete-data/mocks'
+import {
+  dashboardResultPartialDataHistoricMock,
+  dashboardResultPartialDataMock,
+} from '@networkMocks/dashboard/data/partial-data/mocks'
+
 import { stubFor } from '@networkMocks/generateNetworkMock'
 import {
-  dataQualityFullDatasetMockLists, testingDashboard8Mock, dataQualityScorecardDashboard, dataQualityScorecardBucketDashboard,
-  dataQualityScorecardGroupDashboard, testingSyncDashboardMock
-} from '@networkMocks/dashboard/dashboardDefinitions/mocks'
-import { getDashboardStatusFinishedMock, getDashboardStatusStartedMock, requestAsyncDashboardMock } from '@networkMocks/dashboard/mocks'
+  getDashboardStatusFinishedMock,
+  getDashboardStatusStartedMock,
+  requestAsyncDashboardMock,
+} from '@networkMocks/dashboard/mocks'
 import { dashboardFailureStubs } from './failures'
 
-const stubs = {
-  stubDashboardSuccessResult20: () => stubFor(testDashboardResultMock),
-  stubTestDashboard8: () => stubFor(testingDashboard8Mock),
-  stubListExampleDashboard: () => stubFor(dataQualityFullDatasetMockLists),
+// DEFINITIONS
+const listDefinitionStubs = {
+  stubListDashboardCompleteData: () => stubFor(listCompleteDatasetMock),
+  stubListDashboardCompleteDataHistoric: () => stubFor(listCompleteDatasetHistoricMock),
+  stubListDashboardPartialData: () => stubFor(listPartialDatasetMock),
+  stubListDashboardPartialDataHistoric: () => stubFor(listPartialDatasetHistoricMock),
+}
+
+const scorecardDefinitionStubs = {
+  stubDefinitionScorecardDashboard: () => stubFor(scorecardsCompleteDatasetMock),
+  stubDefinitionScorecardBucketDashboard: () => stubFor(scorecardsBucketCompleteDatasetMock),
+  stubDefinitionScorecardGroupDashboard: () => stubFor(scorecardGroupCompleteDatasetMock),
+}
+
+const definitionStubs = {
+  stubTestDashboard8: () => stubFor(featureFlagDashboardMock),
+  stubDefinitionSyncDashboard: () => stubFor(syncDashboardMock),
+  ...scorecardDefinitionStubs,
+  ...listDefinitionStubs,
+}
+
+// REQUEST
+const requestStubs = {
   stubMockDashboardsStatusFinished: () => stubFor(getDashboardStatusFinishedMock),
   stubMockDashboardsStatusStarted: () => stubFor(getDashboardStatusStartedMock),
   stubViewAsyncResults: () => stubFor(requestAsyncDashboardMock),
-  stubScorecardResults: () => stubFor(dataQualityScorecardDashboardsResultMock),
-  stubScorecardBucketResults: () => stubFor(dataQualityScorecardBucketDashboardsResultMock),
-  stubScorecardGroupResults: () => stubFor(dataQualityScorecardGroupDashboardsResultMock),
-  stubDefinitionScorecardDashboard: () => stubFor(dataQualityScorecardDashboard),
-  stubDefinitionScorecardBucketDashboard: () => stubFor(dataQualityScorecardBucketDashboard),
-  stubDefinitionScorecardGroupDashboard: () => stubFor(dataQualityScorecardGroupDashboard),
-  stubDefinitionSyncDashboard: () => stubFor(testingSyncDashboardMock),
-  stubSyncDashboardRequestDataSuccess: () => stubFor(requestSyncDashboardMock),
-  stubDataQualityDashboardsResultMock: () => stubFor(dataQualityDashboardsResultMock),
   ...dashboardFailureStubs,
+}
+
+// RESULTS
+const resultsStubs = {
+  stubDashboardResultCompleteData: () => stubFor(dashboardResultCompleteDataMock),
+  stubDashboardResultCompleteDataSync: () => stubFor(dashboardResultCompleteDataSyncMock),
+  stubDashboardResultPartialData: () => stubFor(dashboardResultPartialDataMock),
+  stubDashboardResultPartialDataHistoric: () => stubFor(dashboardResultPartialDataHistoricMock),
+}
+
+const stubs = {
+  ...definitionStubs,
+  ...requestStubs,
+  ...resultsStubs,
 } as const
 
 export type DashboardStubsKeys = keyof typeof stubs

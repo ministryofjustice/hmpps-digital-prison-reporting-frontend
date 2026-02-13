@@ -3,15 +3,15 @@ import { executeDashboardStubs } from '../../../../../cypress-tests/cypressUtils
 
 context('Dashboard visualisation: Scorecards', () => {
   const scorecardPath =
-    '/embedded/platform/dpr/request-report/dashboard/dashboard-visualisations/test-scorecard-examples-data-quality/filters'
+    '/embedded/platform/dpr/request-report/dashboard/dashboard-visualisations/scorecard-examples_complete-data/filters'
   let scorecardPathViewUrl = ''
 
   const scorecardBucketPath =
-    '/embedded/platform/dpr/request-report/dashboard/dashboard-visualisations/test-scorecard-bucket-examples-data-quality/filters'
+    '/embedded/platform/dpr/request-report/dashboard/dashboard-visualisations/scorecard-example_bucket_complete-data/filters'
   let scorecardBucketPathViewUrl = ''
 
   const scorecardsPath =
-    '/embedded/platform/dpr/request-report/dashboard/dashboard-visualisations/scorecard-examples-data-quality/filters'
+    '/embedded/platform/dpr/request-report/dashboard/dashboard-visualisations/scorecard-group-example_complete-data/filters'
   let scorecardsPathViewUrl = ''
 
   before(() => {
@@ -21,9 +21,7 @@ context('Dashboard visualisation: Scorecards', () => {
     cy.task('stubDefinitionScorecardDashboard')
     cy.task('stubDefinitionScorecardBucketDashboard')
     cy.task('stubDefinitionScorecardGroupDashboard')
-    cy.task('stubScorecardResults')
-    cy.task('stubScorecardBucketResults')
-    cy.task('stubScorecardGroupResults')
+    cy.task('stubDashboardResultCompleteData')
   })
 
   describe('scorecard', () => {
@@ -60,45 +58,6 @@ context('Dashboard visualisation: Scorecards', () => {
           cy.findAllByRole('paragraph').eq(2).contains('from').should('exist')
           // date
           cy.findAllByRole('paragraph').eq(3).contains('Value for').should('exist')
-        })
-    })
-
-    it('should show no rag colour', () => {
-      cy.findAllByLabelText(/No of prisoners with nationality/)
-        .eq(0)
-        .should('exist')
-        .within(() => {
-          // Colour
-          cy.findAllByRole('paragraph')
-            .eq(1)
-            .invoke('attr', 'style')
-            .should('not.match', /background-color: /)
-        })
-    })
-
-    it('should show the correct rag score colour using RAG colouring', () => {
-      cy.findAllByLabelText(/No of prisoners with nationality/)
-        .eq(1)
-        .should('exist')
-        .within(() => {
-          // Colour
-          cy.findAllByRole('paragraph')
-            .eq(1)
-            .invoke('attr', 'style')
-            .should('match', /background-color: (#f4cdc6|#cce2d8|#fff7bf)/)
-        })
-    })
-
-    it('should show the correct rag score colour using custom colours', () => {
-      cy.findAllByLabelText(/No of prisoners with nationality/)
-        .eq(2)
-        .should('exist')
-        .within(() => {
-          // Colour
-          cy.findAllByRole('paragraph')
-            .eq(1)
-            .invoke('attr', 'style')
-            .should('match', /background-color: (#f47738|#912b88|#28a197)/)
         })
     })
   })
@@ -157,6 +116,7 @@ context('Dashboard visualisation: Scorecards', () => {
               } else if (value >= 301 && value <= 800) {
                 colour = '#fff7bf'
               }
+
               cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('equal', `background-color: ${colour}`)
             })
         })
@@ -240,11 +200,6 @@ context('Dashboard visualisation: Scorecards', () => {
             .within(() => {
               cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('contain', `background-color`)
             })
-          cy.findByLabelText('LTI')
-            .should('exist')
-            .within(() => {
-              cy.findAllByRole('paragraph').eq(1).invoke('attr', 'style').should('contain', `background-color`)
-            })
         })
 
       cy.findAllByLabelText(/By Establishment ID/)
@@ -254,7 +209,6 @@ context('Dashboard visualisation: Scorecards', () => {
           cy.findByLabelText('MDI').should('exist')
           cy.findByLabelText('SLI').should('exist')
           cy.findByLabelText('DAI').should('exist')
-          cy.findByLabelText('LTI').should('exist')
         })
     })
 

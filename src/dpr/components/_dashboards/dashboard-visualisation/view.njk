@@ -2,18 +2,17 @@
 {% from "../scorecard-group/view.njk" import dprScoreCardGroup %}
 {% from "../dashboard-list/view.njk" import dprDashboardList %}
 
-{% macro dprDashboardVisualisation(visualisation, index = 1) %}
+{% macro dprDashboardVisualisation(visualisation, loopIndex) %}
   {% set type = visualisation.type %}
   {% set id = visualisation.id %}
   {% set title = visualisation.title %}
   {% set description = visualisation.description %}
   {% set data = visualisation.data %}
   {% set isEnabled = visualisation.isEnabled %}
+  {% set visualisationLabelId = "section-title-" + loopIndex %}
 
-  <div class="dashboard-visualisation-container" id="{{ id }}-dash-section-visualisation" tabindex="0">
-    {% if title %}
-      <h3 class="govuk-heading-m">{{ title }}</h3>
-    {% endif %}
+  <div class="dashboard-visualisation-container" id="{{ id }}-dash-section-visualisation" tabindex="0" aria-labelledby={{ visualisationLabelId }}>
+    <h3 id='{{ visualisationLabelId }}' class="govuk-heading-m">{{ title }}</h3>
 
     {% if description %}
       <p class="govuk-body">{{ description }}</p>
@@ -28,7 +27,7 @@
 
       {% elif type === 'list' %}        
 
-        {{ dprDashboardList(id, data) }}
+        {{ dprDashboardList(data) }}
 
       {% else %}
 

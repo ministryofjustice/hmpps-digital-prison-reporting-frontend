@@ -20,7 +20,7 @@
       {{ dprDashboardFilters(data.filters, { csrfToken: data.csrfToken }) }}
 
       {% for section in data.sections %}
-        {{ dprDashboardSection(section) }}
+        {{ dprDashboardSection(section, loop.index) }}
       {% endfor %}
 
       {{ dprScoreCardGroup(data.scorecards) }}

@@ -3,7 +3,8 @@ import { reportTemplates } from './mockVariants/report-templates'
 import { featureTestingVariants } from './mockVariants/feature-testing'
 import { mockReportVariants } from './mockVariants/mock-report'
 import { filterInputExamplesVariants } from './mockVariants/filter-input-examples'
-import dashboardDefinitions from '../dashboard/dashboardDefinitions/dashboard-definitions'
+import * as dashboardDefsRequestExamples from '../dashboard/definitions/request-examples/definitions'
+import { visualisations as visualisationDashboards, features as featuresDashboards } from '../dashboard/definitions'
 
 export default {
   report: {
@@ -19,7 +20,7 @@ export default {
       name: 'Request examples',
       description: 'Example variants used for request testing',
       variants: requestExampleVariants,
-      dashboards: dashboardDefinitions.requestExamples,
+      dashboards: dashboardDefsRequestExamples,
     },
     {
       id: 'report-template-examples',
@@ -54,14 +55,14 @@ export default {
       name: 'Dashboard visualisations',
       description: 'Example variants used for dashboard visualisation testing',
       variants: [],
-      dashboards: dashboardDefinitions.visualisationExamples,
+      dashboards: visualisationDashboards,
     },
     {
       id: 'mock-dashboards',
       name: 'Mock dashboards',
       description: 'Example variants used for dashboard testing',
       variants: [],
-      dashboards: dashboardDefinitions.mockDashboards,
+      dashboards: featuresDashboards,
     },
   ],
 

@@ -33,11 +33,10 @@ context('Bookmarks list', () => {
       stubBaseTasks()
       stubDefinitionsTasks()
       cy.task('stubDefinitionRequestExamplesSuccess')
-      cy.task('stubListExampleDashboard')
       cy.task('stubDefinitionMockReportVariant35')
       cy.task('stubTestDashboard8')
       cy.task('stubDefinitionFeatureTestingInteractive')
-      cy.task('stubDashboardSuccessResult20')
+      cy.task('stubDashboardResultCompleteData')
       cy.task('stubRequestSuccessResult20')
       cy.task('stubPollingReportEndpoint')
     })
@@ -142,7 +141,7 @@ context('Bookmarks list', () => {
           cy.findByLabelText(/Reports catalogue.*/i).within(() => {
             cy.findByRole('row', {
               name: (_, element) => {
-                return Boolean(element.textContent?.includes('Data quality data set'))
+                return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
               },
             }).within(() => {
               cy.findByRole('button', { name: /Add bookmark/ }).click()
@@ -154,14 +153,14 @@ context('Bookmarks list', () => {
               .eq(1)
               .within(() => {
                 cy.findAllByRole('row').should('have.length', 3)
-                cy.findAllByRole('row').contains('Data quality data set').should('exist')
+                cy.findAllByRole('row').contains('Dashboard used for testing testing').should('exist')
               })
           })
 
           cy.findByLabelText(/Reports catalogue.*/i).within(() => {
             cy.findByRole('row', {
               name: (_, element) => {
-                return Boolean(element.textContent?.includes('Data quality data set'))
+                return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
               },
             }).within(() => {
               cy.findByRole('button', { name: /Remove bookmark/ }).should('exist')
@@ -182,7 +181,7 @@ context('Bookmarks list', () => {
           cy.findByLabelText(/Reports catalogue.*/i).within(() => {
             cy.findByRole('row', {
               name: (_, element) => {
-                return Boolean(element.textContent?.includes('Data quality data set'))
+                return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
               },
             }).within(() => {
               cy.findByRole('button', { name: /Remove bookmark/ }).click()
@@ -200,7 +199,7 @@ context('Bookmarks list', () => {
           cy.findByLabelText(/Reports catalogue.*/i).within(() => {
             cy.findByRole('row', {
               name: (_, element) => {
-                return Boolean(element.textContent?.includes('Data quality data set'))
+                return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
               },
             }).within(() => {
               cy.findByRole('button', { name: /Add bookmark/ }).should('exist')
@@ -231,7 +230,7 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return Boolean(element.textContent?.includes('Data quality data set'))
+              return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
             },
           }).within(() => {
             cy.findByRole('button', { name: /Add bookmark/ }).click()
@@ -249,7 +248,7 @@ context('Bookmarks list', () => {
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
-              return Boolean(element.textContent?.includes('Data quality data set'))
+              return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
             },
           }).within(() => {
             cy.findByRole('button', { name: /Remove bookmark/ }).click()
@@ -390,7 +389,7 @@ context('Bookmarks list', () => {
         cy.task('stubTestDashboard8')
         cy.task('stubMockDashboardsStatusFinished')
         cy.task('stubViewAsyncResults')
-        cy.task('stubDashboardSuccessResult20')
+        cy.task('stubDashboardResultCompleteData')
 
         cy.visit(path)
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {

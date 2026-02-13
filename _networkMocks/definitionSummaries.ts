@@ -1,11 +1,12 @@
 import { LoadType } from '../src/dpr/types/UserReports'
 import { components } from '../src/dpr/types/api'
-import dashboardDefinitions from './dashboard/dashboardDefinitions/dashboard-definitions'
 import { requestExampleVariants } from './report/mockVariants/request-examples'
 import { reportTemplates } from './report/mockVariants/report-templates'
 import { mockReportVariants } from './report/mockVariants/mock-report'
 import { filterInputExamplesVariants } from './report/mockVariants/filter-input-examples'
 import { featureTestingVariants } from './report/mockVariants/feature-testing'
+
+import { requestExamples, visualisations, features } from './dashboard/definitions'
 
 export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
   {
@@ -18,7 +19,7 @@ export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
       description: description || '',
       isMissing: false,
     })),
-    dashboards: dashboardDefinitions.requestExamples,
+    dashboards: requestExamples,
     authorised: true,
   },
   {
@@ -74,7 +75,17 @@ export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
       isMissing: /feature-testing-missing-[1-3]/.test(id),
       ...(id === 'feature-testing-sync' && { loadType: LoadType.SYNC }),
     })),
-    dashboards: [],
+    dashboards: (<components['schemas']['DashboardDefinitionSummary'][]>features).map(
+      ({ id, name, description, loadType }) => {
+        return {
+          id,
+          name,
+          description: description || '',
+          isMissing: false,
+          ...(loadType && { loadType }),
+        }
+      },
+    ),
     authorised: true,
   },
   {
@@ -82,15 +93,7 @@ export const summaries: components['schemas']['ReportDefinitionSummary'][] = [
     name: 'Dashboard visualisations',
     description: 'Example variants used for dashboard visualisation testing',
     variants: [],
-    dashboards: dashboardDefinitions.visualisationExamples,
-    authorised: true,
-  },
-  {
-    id: 'mock-dashboards',
-    name: 'Mock dashboards',
-    description: 'Example variants used for dashboard testing',
-    variants: [],
-    dashboards: <components['schemas']['DashboardDefinitionSummary'][]>dashboardDefinitions.mockDashboards,
+    dashboards: visualisations,
     authorised: true,
   },
 ]

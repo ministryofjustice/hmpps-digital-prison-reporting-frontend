@@ -91,9 +91,7 @@ export const renderSyncDashboard = async ({
   const flattenedData: DashboardDataResponse[] = dashboardData.flat()
 
   // Get the dashboard parts
-  const dashboardFeatureFlags = Object.values(res.app.locals['featureFlags'].flags).filter(
-    (flag) => flag.metadata['dashboardFeature'] === true,
-  )
+  const dashboardFeatureFlags = res.app.locals.featureFlags.flags
   const sections: DashboardSection[] = AsyncDashboardUtils.getSections(
     dashboardDefinition,
     flattenedData,

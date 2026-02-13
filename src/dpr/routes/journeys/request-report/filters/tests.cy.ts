@@ -1,3 +1,4 @@
+import { resetFeatureFlags } from 'test-app/routes/integrationTests/appStateUtils'
 import { executeReportStubs } from '../../../../../../cypress-tests/cypressUtils'
 
 describe('Request a report', () => {
@@ -329,6 +330,10 @@ describe('Request a report', () => {
   })
 
   context('User defined defaults', () => {
+    before(() => {
+      cy.task('stubFeatureFlags')
+      resetFeatureFlags()
+    })
     it('should save the user defined defaults', () => {
       clearSelectedFilters()
       updateFilterValues()

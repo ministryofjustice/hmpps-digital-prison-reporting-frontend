@@ -19,7 +19,7 @@ export default function routes(services: Services): Router {
   })
   router.get('/getRedisState/:userId', async (req: Request, res: Response) => {
     const { userId } = req.params
-    const state = await services.bookmarkService.getState(userId)
+    const state = await services.bookmarkService.getState(<string>userId)
     res.status(200).send(state)
   })
   router.post('/updateRedisState', async (req: Request, res: Response) => {
@@ -32,8 +32,8 @@ export default function routes(services: Services): Router {
     res.sendStatus(200)
   })
   router.post('/resetFeatureFlags', (_req: Request, res: Response) => {
-    res.app.locals.featureFlags.flags = {}
-    res.app.locals.featureFlags.lastUpdated = new Date().getTime() - 601 * 1000
+    res.app.locals['featureFlags'].flags = {}
+    res.app.locals['featureFlags'].lastUpdated = new Date().getTime() - 601 * 1000
     res.sendStatus(200)
   })
   router.use('/', platformRoutes({ services, layoutPath: 'views/page.njk' }))

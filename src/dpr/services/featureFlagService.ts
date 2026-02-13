@@ -42,7 +42,7 @@ export class FeatureFlagService {
 }
 
 const resolveFlag = (app: Application, flagName: string) => {
-  const flag = app.locals.featureFlags?.flags?.[flagName]
+  const flag = app.locals['featureFlags']?.flags?.[flagName]
   if (flag && flag.type !== 'BOOLEAN_FLAG_TYPE') {
     throw Error('Tried to validate whether a non-boolean flag was enabled')
   }

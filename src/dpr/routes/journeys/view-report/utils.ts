@@ -14,7 +14,7 @@ export const applyReportInteractiveQuery = async (
   services: Services,
   applyType: 'columns' | 'filters',
 ) => {
-  const { reportId, id } = req.params
+  const { reportId, id } = <{ id: string; reportId: string }>req.params
   const { token, definitionsPath } = LocalsHelper.getValues(res)
 
   // Get the definition
@@ -31,7 +31,7 @@ export const applyDashboardInteractiveQuery = async (
   services: Services,
   applyType: 'columns' | 'filters',
 ) => {
-  const { reportId, id } = req.params
+  const { reportId, id } = <{ id: string; reportId: string }>req.params
   const { token, definitionsPath } = LocalsHelper.getValues(res)
 
   // Get the definition
@@ -53,7 +53,7 @@ const applyInteractiveQuery = async (
   applyType: 'columns' | 'filters',
   fields: components['schemas']['FieldDefinition'][],
 ) => {
-  const { tableId, id } = req.params
+  const { tableId, id } = <{ id: string; tableId: string }>req.params
   const { dprUser } = LocalsHelper.getValues(res)
 
   // get the report state

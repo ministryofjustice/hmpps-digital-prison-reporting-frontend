@@ -16,7 +16,7 @@ class ViewAsyncDashboardController {
   }
 
   GET: RequestHandler = async (req, res, next) => {
-    const { type } = req.params
+    const { type, tableId } = <{ tableId: string; type: string }>req.params
     try {
       const params = { req, res, services: this.services, next }
 
@@ -31,10 +31,7 @@ class ViewAsyncDashboardController {
       let refreshLink
       if (dprError.status === 'EXPIRED') {
         const { dprUser } = LocalsHelper.getValues(res)
-        refreshLink = await this.services.recentlyViewedService.asyncSetToExpiredByTableId(
-          req.params['tableId'],
-          dprUser.id,
-        )
+        refreshLink = await this.services.recentlyViewedService.asyncSetToExpiredByTableId(tableId, dprUser.id)
       }
       req.body ??= {}
       req.body.title = `Failed to retrieve ${type}`

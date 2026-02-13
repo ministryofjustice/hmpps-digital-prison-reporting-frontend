@@ -17,7 +17,7 @@ class LoadReportController {
   GET: RequestHandler = async (req, res, next) => {
     try {
       const { token } = LocalsHelper.getValues(res)
-      const { reportId, id, type } = req.params
+      const { reportId, id, type } = <{ id: string; type: string; reportId: string }>req.params
       const { dataProductDefinitionsPath } = req.query
 
       const definitionSummary = await this.services.reportingService.getDefinitionSummary(

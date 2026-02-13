@@ -37,7 +37,9 @@ export const getData = async ({
   userId,
 }: AsyncReportUtilsParams & { token: string; userId: string }) => {
   const { definitionsPath: definitionPath } = LocalsHelper.getValues(res)
-  const { reportId, variantId, id, tableId } = req.params
+  const { variantId, id, tableId, reportId } = <{ id: string; variantId: string; tableId: string; reportId: string }>(
+    req.params
+  )
   const reportVariantId = variantId || id
 
   // Get the request data
@@ -142,7 +144,9 @@ const getReportData = async (args: {
   reportQuery: ReportQuery
 }) => {
   const { services, token, req, reportQuery } = args
-  const { reportId, variantId, id, tableId } = req.params
+  const { reportId, variantId, id, tableId } = <{ id: string; variantId: string; tableId: string; reportId: string }>(
+    req.params
+  )
   const reportVariantId = variantId || id
 
   return services.reportingService.getAsyncReport(
@@ -161,7 +165,9 @@ export const getSummariesData = async (
   req: Request,
   res: Response,
 ): Promise<AsyncSummary[]> => {
-  const { reportId, variantId, id, tableId } = req.params
+  const { reportId, variantId, id, tableId } = <{ id: string; variantId: string; tableId: string; reportId: string }>(
+    req.params
+  )
   const { definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
   const reportVariantId = variantId || id
 
@@ -195,7 +201,7 @@ export const getChildData = async (
   requestData?: RequestedReport,
 ): Promise<ChildData[]> => {
   const { definitionsPath: dataProductDefinitionsPath } = LocalsHelper.getValues(res)
-  const { reportId } = req.params
+  const { reportId } = <{ reportId: string }>req.params
   const childExecutionData = requestData?.childExecutionData
   if (!childExecutionData) {
     throw new Error('getChildData: No execution data found for child variants')
@@ -406,7 +412,7 @@ const setFeatures = async (
   urls?: ReportUrls,
 ) => {
   const { csrfToken, dprUser, bookmarkingEnabled, downloadingEnabled } = LocalsHelper.getValues(res)
-  const { reportId, id } = req.params
+  const { reportId, id } = <{ id: string; reportId: string }>req.params
   const { downloadPermissionService, bookmarkService } = services
 
   let canDownload = false
@@ -436,7 +442,7 @@ const getCount = async (
   reportQuery: ReportQuery,
 ) => {
   const { token } = LocalsHelper.getValues(res)
-  const { tableId, reportId, id } = req.params
+  const { tableId, reportId, id } = <{ id: string; tableId: string; reportId: string }>req.params
 
   return !definition.variant.interactive
     ? services.reportingService.getAsyncCount(token, tableId)
@@ -490,7 +496,7 @@ const setActions = (
   urls?: ReportUrls,
 ) => {
   const { reportName, name, printable } = definitionData
-  const { tableId, id, reportId } = req.params
+  const { tableId, id, reportId } = <{ id: string; tableId: string; reportId: string }>req.params
   const { nestedBaseUrl, definitionsPath, downloadingEnabled } = LocalsHelper.getValues(res)
 
   // DownloadActionParams

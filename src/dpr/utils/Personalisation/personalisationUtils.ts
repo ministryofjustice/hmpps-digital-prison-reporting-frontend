@@ -24,8 +24,8 @@ import { getRequestParam } from '../indexedAccesHelper'
 export const saveDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
   const defaultValuesForReport = await getDefaultValues(req, res, services, type)
   const { dprUser } = localsHelper.getValues(res)
-  const id = getRequestParam({ req, param: 'id' })
-  const reportId = getRequestParam({ req, param: 'reportId' })
+  const id = <string>getRequestParam({ req, param: 'id' })
+  const reportId = <string>getRequestParam({ req, param: 'reportId' })
   const { defaultFilterValuesService } = services
   return defaultFilterValuesService
     ? defaultFilterValuesService.save(dprUser.id, reportId, id, defaultValuesForReport)
@@ -34,7 +34,7 @@ export const saveDefaults = async (type: FiltersType, res: Response, req: Reques
 
 export const removeDefaults = async (type: FiltersType, res: Response, req: Request, services: Services) => {
   const { dprUser } = localsHelper.getValues(res)
-  const { reportId, id } = req.params
+  const { reportId, id } = <{ id: string; reportId: string }>req.params
   const { defaultFilterValuesService } = services
   return defaultFilterValuesService ? defaultFilterValuesService.delete(dprUser.id, reportId, id, type) : undefined
 }
@@ -46,7 +46,7 @@ const getDefaultValues = async (
   filtersType: FiltersType,
 ): Promise<defaultFilterValue[]> => {
   const { token, definitionsPath } = localsHelper.getValues(res)
-  const { reportId, id, type } = req.params
+  const { reportId, id, type } = <{ id: string; type: string; reportId: string }>req.params
 
   let definition: components['schemas']['SingleVariantReportDefinition'] | components['schemas']['DashboardDefinition']
   let fields = []

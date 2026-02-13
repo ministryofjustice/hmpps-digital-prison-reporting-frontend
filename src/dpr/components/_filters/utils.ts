@@ -385,7 +385,7 @@ export const getPersonalisedFilters = async (
   services: Services,
   filtersType: FiltersType,
 ) => {
-  const { reportId, id } = req.params
+  const { reportId, id } = <{ reportId: string; id: string }>req.params
   const { dprUser } = LocalsHelper.getValues(res)
   const defaultFilterValues = await services.defaultFilterValuesService.get(
     dprUser.id,

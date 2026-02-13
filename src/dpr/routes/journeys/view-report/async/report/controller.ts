@@ -16,7 +16,7 @@ class ViewAyncReportController {
   }
 
   GET: RequestHandler = async (req, res, next) => {
-    const { type } = req.params
+    const { type, tableId } = <{ type: string; tableId: string }>req.params
     try {
       const params = { req, res, services: this.services, next }
       const renderData = await AsyncReportUtils.renderReport(params)
@@ -31,7 +31,7 @@ class ViewAyncReportController {
       const { recentlyViewedService } = this.services
       if (dprError.status === 'EXPIRED' && recentlyViewedService) {
         const { dprUser } = LocalsHelper.getValues(res)
-        refreshLink = await recentlyViewedService.asyncSetToExpiredByTableId(req.params['tableId'], dprUser.id)
+        refreshLink = await recentlyViewedService.asyncSetToExpiredByTableId(tableId, dprUser.id)
       }
       req.body ??= {}
       req.body.title = `Failed to retrieve ${type}`

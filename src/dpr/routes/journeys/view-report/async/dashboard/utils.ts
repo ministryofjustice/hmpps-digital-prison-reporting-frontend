@@ -77,7 +77,7 @@ const getDefinitionData = async ({
   queryData?: Dict<string | string[]> | undefined
 }) => {
   const { token } = LocalsHelper.getValues(res)
-  const { reportId, id } = req.params
+  const { reportId, id } = <{ id: string; reportId: string }>req.params
   const dataProductDefinitionsPath = <string>req.query['dataProductDefinitionsPath']
 
   // Dashboard Definition,
@@ -257,7 +257,7 @@ const getPartialDate = (filters: FilterValue[]) => {
 
 export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { token, csrfToken, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
-  const { reportId, id, tableId } = req.params
+  const { reportId, id, tableId } = <{ id: string; variantId: string; tableId: string; reportId: string }>req.params
   const { bookmarkService, requestedReportService } = services
   const { id: userId } = dprUser
 
@@ -285,7 +285,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const partialDate = getPartialDate(filters.filters)
 
   // Get the dashboard parts
-  const dashboardFeatureFlags = Object.values(res.app.locals.featureFlags.flags).filter(
+  const dashboardFeatureFlags = Object.values(res.app.locals['featureFlags'].flags).filter(
     (flag) => flag.metadata['dashboardFeature'] === true,
   )
   const sections: DashboardSection[] = getSections(

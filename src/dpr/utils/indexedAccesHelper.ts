@@ -12,7 +12,7 @@ export const getRequestParam = ({
   defaultValue?: string
   error?: boolean
   errorString?: string
-}): string => {
+}): string | string[] => {
   const value = req.params[param]
 
   if (value === undefined && error) {

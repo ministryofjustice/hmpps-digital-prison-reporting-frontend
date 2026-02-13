@@ -70,8 +70,8 @@ const setupRequestAwareNunjucks = (env: Environment, res: Response) => {
 }
 
 const setFeatures = async (res: Response, featureFlagService: FeatureFlagService) => {
-  if (res.app.locals.featureFlags === undefined) {
-    res.app.locals.featureFlags = {
+  if (res.app.locals['featureFlags'] === undefined) {
+    res.app.locals['featureFlags'] = {
       flags: {},
       lastUpdated: new Date().getTime() - 601 * 1000,
     }
@@ -82,15 +82,15 @@ const setFeatures = async (res: Response, featureFlagService: FeatureFlagService
   const shouldUpdate = timeSinceLastUpdatedSeconds > 600
   if (shouldUpdate) {
     // Refresh every 10 mins
-    res.app.locals.featureFlags.lastUpdated = currentTime
+    res.app.locals['featureFlags'].lastUpdated = currentTime
     const flags = await featureFlagService.getFlags().catch((e) => {
-      res.app.locals.featureFlags.lastUpdated = currentTime - 601 * 1000
+      res.app.locals['featureFlags'].lastUpdated = currentTime - 601 * 1000
       throw e
     })
-    res.app.locals.featureFlags.flags = Object.fromEntries(flags.flags.map((flag) => [flag.key, flag]))
+    res.app.locals['featureFlags'].flags = Object.fromEntries(flags.flags.map((flag) => [flag.key, flag]))
     logger.info(
       {
-        flags: JSON.stringify(res.app.locals.featureFlags.flags),
+        flags: JSON.stringify(res.app.locals['featureFlags'].flags),
       },
       'Feature Flags updated.',
     )

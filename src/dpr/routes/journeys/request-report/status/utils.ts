@@ -4,7 +4,9 @@ import LocalsHelper from '../../../../utils/localsHelper'
 
 export const renderPolling = async ({ req, res, services }: AsyncReportUtilsParams) => {
   const { csrfToken, dprUser, definitionsPath: definitionPath } = LocalsHelper.getValues(res)
-  const { reportId, variantId, executionId, id, type } = req.params
+  const { reportId, variantId, executionId, id, type } = <
+    { id: string; type: string; reportId: string; executionId: string; variantId: string }
+  >req.params
 
   const requestReportData = await services.requestedReportService.getReportByExecutionId(executionId, dprUser.id)
 

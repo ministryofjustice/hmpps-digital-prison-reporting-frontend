@@ -68,7 +68,7 @@ export const renderSyncDashboard = async ({
   services: Services
 }) => {
   const { token, csrfToken, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
-  const { reportId, id } = req.params
+  const { reportId, id } = <{ id: string; reportId: string }>req.params
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
 
   const {
@@ -91,7 +91,7 @@ export const renderSyncDashboard = async ({
   const flattenedData: DashboardDataResponse[] = dashboardData.flat()
 
   // Get the dashboard parts
-  const dashboardFeatureFlags = Object.values(res.app.locals.featureFlags.flags).filter(
+  const dashboardFeatureFlags = Object.values(res.app.locals['featureFlags'].flags).filter(
     (flag) => flag.metadata['dashboardFeature'] === true,
   )
   const sections: DashboardSection[] = AsyncDashboardUtils.getSections(

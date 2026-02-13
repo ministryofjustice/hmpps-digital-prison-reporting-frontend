@@ -1,4 +1,4 @@
-import { updateRedisState } from 'test-app/routes/integrationTests/appStateUtils'
+import { resetFeatureFlags, updateRedisState } from 'test-app/routes/integrationTests/appStateUtils'
 import { checkA11y, executeReportStubs } from '../../../../../cypress-tests/cypressUtils'
 
 context('Download report', () => {
@@ -89,6 +89,8 @@ context('Download report', () => {
     })
 
     it('should submit the download request', () => {
+      cy.task('stubFeatureFlagsDisabled')
+      resetFeatureFlags()
       cy.visit(downloadRequestFormPage)
       cy.findByRole('textbox', { name: 'What is your Job title?' }).type('Software engineer')
       cy.findByRole('textbox', { name: 'Can you provide more detail' }).type('I like this report')

@@ -13,6 +13,7 @@ export interface GetRequest {
 export interface FeatureFlagConfig {
   token: string
   url: string
+  updateInterval?: number
 }
 
 export interface ApiConfig {

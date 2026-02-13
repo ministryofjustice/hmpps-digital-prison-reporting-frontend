@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { Flag } from '@flipt-io/flipt'
 import { Services } from '../../../../../types/Services'
 import Dict = NodeJS.Dict
 import {
@@ -28,6 +27,7 @@ import LocalsHelper from '../../../../../utils/localsHelper'
 import { FilterValue, GranularDateRangeFilterValue, PartialDate } from '../../../../../components/_filters/types'
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import { FilterType } from '../../../../../components/_filters/filter-input/enum'
+import { FEATURE_FLAG_KEYS } from '../../../../../utils/featureFlagsHelper'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
@@ -126,7 +126,7 @@ const getSections = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
   dashboardData: DashboardDataResponse[],
   query: Record<string, string | string[]>,
-  dashboardFeatureFlags: Flag[],
+  dashboardFeatureFlags: Record<string, boolean>,
   partialDate?: PartialDate,
 ): DashboardSection[] => {
   return dashboardDefinition.sections.map((section: components['schemas']['DashboardSectionDefinition']) => {
@@ -134,30 +134,14 @@ const getSections = (
 
     const featureFlagVisTypeMap = {
       [DashboardVisualisationType.LIST]: true,
-      [DashboardVisualisationType.BAR]: Boolean(
-        dashboardFeatureFlags.find((flag) => flag.key === 'barChartsEnabled' && flag.enabled),
-      ),
-      [DashboardVisualisationType.LINE]: Boolean(
-        dashboardFeatureFlags.find((flag) => flag.key === 'lineChartsEnabled' && flag.enabled),
-      ),
-      [DashboardVisualisationType.DONUT]: Boolean(
-        dashboardFeatureFlags.find((flag) => flag.key === 'donutChartsEnabled' && flag.enabled),
-      ),
-      [DashboardVisualisationType.SCORECARD]: Boolean(
-        dashboardFeatureFlags.find((flag) => flag.key === 'scorecardChartsEnabled' && flag.enabled),
-      ),
-      [DashboardVisualisationType.SCORECARD_GROUP]: Boolean(
-        dashboardFeatureFlags.find((flag) => flag.key === 'scorecardgroupChartsEnabled' && flag.enabled),
-      ),
-      [DashboardVisualisationType.MATRIX_TIMESERIES]: Boolean(
-        dashboardFeatureFlags.find((flag) => flag.key === 'matrixtimeseriesChartsEnabled' && flag.enabled),
-      ),
-      [DashboardVisualisationType.BAR_TIMESERIES]: Boolean(
-        dashboardFeatureFlags.find((flag) => flag.key === 'bartimeseriesChartsEnabled' && flag.enabled),
-      ),
-      [DashboardVisualisationType.LINE_TIMESERIES]: Boolean(
-        dashboardFeatureFlags.find((flag) => flag.key === 'linetimeseriesChartsEnabled' && flag.enabled),
-      ),
+      [DashboardVisualisationType.BAR]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.BAR_CHARTS],
+      [DashboardVisualisationType.LINE]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.LINE_CHARTS],
+      [DashboardVisualisationType.DONUT]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.DONUT_CHARTS],
+      [DashboardVisualisationType.SCORECARD]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.SCORECARD_CHARTS],
+      [DashboardVisualisationType.SCORECARD_GROUP]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.SCORECARD_GROUP_CHARTS],
+      [DashboardVisualisationType.MATRIX_TIMESERIES]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.MATRIX_TIMESERIES_CHARTS],
+      [DashboardVisualisationType.BAR_TIMESERIES]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.BAR_TIMESERIES_CHARTS],
+      [DashboardVisualisationType.LINE_TIMESERIES]: dashboardFeatureFlags[FEATURE_FLAG_KEYS.LINE_TIMESERIES_CHARTS],
     }
 
     let hasScorecard = false
@@ -285,9 +269,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const partialDate = getPartialDate(filters.filters)
 
   // Get the dashboard parts
-  const dashboardFeatureFlags = Object.values(res.app.locals['featureFlags'].flags).filter(
-    (flag) => flag.metadata['dashboardFeature'] === true,
-  )
+  const dashboardFeatureFlags = res.app.locals.featureFlags.flags
   const sections: DashboardSection[] = getSections(
     dashboardDefinition,
     flattenedData,

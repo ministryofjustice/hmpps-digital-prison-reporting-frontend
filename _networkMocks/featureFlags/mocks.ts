@@ -1,57 +1,77 @@
-import { Flag, ListFlagsResponse } from '@flipt-io/flipt'
-import { setupSimpleMock } from '@networkMocks/generateNetworkMock'
+import { defaultMockRequest, generateNetworkMock } from '@networkMocks/generateNetworkMock'
 
-const generateDefaultBooleanFlag = (
-  key: string,
-  enabled: boolean,
-  metadata: Record<string, string | boolean | number> = {},
-): Flag => ({
+const FEATURE_FLAG_NAMESPACE = 'hmpps-digital-prison-reporting'
+const snapshotEndpoint = `/internal/v1/evaluation/snapshot/namespace/${FEATURE_FLAG_NAMESPACE}`
+
+interface FeatureFlagSnapshotResponse {
+  namespace: {
+    key: string
+  }
+  flags: Array<{
+    key: string
+    name: string
+    type: 'BOOLEAN_FLAG_TYPE'
+    enabled: boolean
+  }>
+}
+
+const booleanFlag = (key: string, enabled: boolean) => ({
   key,
+  name: key,
+  type: 'BOOLEAN_FLAG_TYPE' as const,
   enabled,
-  name: '',
-  namespaceKey: 'hmpps-digital-prison-reporting',
-  type: 'BOOLEAN_FLAG_TYPE',
-  description: '',
-  createdAt: '',
-  updatedAt: '',
-  variants: [],
-  metadata,
 })
 
-export const getFlagsMockEnabled = setupSimpleMock(`/api/v1/namespaces/[a-zA-Z0-9-_]+/flags`, {
+const createSnapshotResponse = (enabled: boolean): FeatureFlagSnapshotResponse => ({
+  namespace: {
+    key: FEATURE_FLAG_NAMESPACE,
+  },
   flags: [
-    generateDefaultBooleanFlag('saveDefaultsEnabled', true),
-    generateDefaultBooleanFlag('barChartsEnabled', true, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('lineChartsEnabled', true, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('donutChartsEnabled', true, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('scorecardChartsEnabled', true, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('scorecardgroupChartsEnabled', true, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('matrixtimeseriesChartsEnabled', true, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('bartimeseriesChartsEnabled', true, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('linetimeseriesChartsEnabled', true, { dashboardFeature: true }),
+    booleanFlag('saveDefaultsEnabled', enabled),
+    booleanFlag('streamingDownloadEnabled', enabled),
+    booleanFlag('barChartsEnabled', enabled),
+    booleanFlag('lineChartsEnabled', enabled),
+    booleanFlag('donutChartsEnabled', enabled),
+    booleanFlag('scorecardChartsEnabled', enabled),
+    booleanFlag('scorecardgroupChartsEnabled', enabled),
+    booleanFlag('matrixtimeseriesChartsEnabled', enabled),
+    booleanFlag('bartimeseriesChartsEnabled', enabled),
+    booleanFlag('linetimeseriesChartsEnabled', enabled),
   ],
-  totalCount: 1,
-} as ListFlagsResponse)
+})
 
-export const getFlagsMockEmpty = setupSimpleMock(`/api/v1/namespaces/[a-zA-Z0-9-_]+/flags`, {
-  flags: [],
-  totalCount: 0,
-  nextPageToken: '',
-} as ListFlagsResponse)
+export const getFlagsMockEnabled = generateNetworkMock({
+  ...defaultMockRequest,
+  request: {
+    ...defaultMockRequest.request,
+    method: 'GET',
+    urlPathPattern: snapshotEndpoint,
+  },
+  response: {
+    ...defaultMockRequest.response,
+    jsonBody: createSnapshotResponse(true),
+  },
+})
 
-export const getFlagsMockDisabled = setupSimpleMock(`/api/v1/namespaces/[a-zA-Z0-9-_]+/flags`, {
-  flags: [
-    generateDefaultBooleanFlag('saveDefaultsEnabled', false),
-    generateDefaultBooleanFlag('barChartsEnabled', false, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('lineChartsEnabled', false, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('donutChartsEnabled', false, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('scorecardChartsEnabled', false, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('scorecardgroupChartsEnabled', false, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('matrixtimeseriesChartsEnabled', false, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('bartimeseriesChartsEnabled', false, { dashboardFeature: true }),
-    generateDefaultBooleanFlag('linetimeseriesChartsEnabled', false, { dashboardFeature: true }),
-  ],
-  totalCount: 1,
-} as ListFlagsResponse)
+export const getFlagsMockEmpty = generateNetworkMock({
+  ...getFlagsMockEnabled,
+  response: {
+    ...getFlagsMockEnabled.response,
+    jsonBody: {
+      namespace: {
+        key: FEATURE_FLAG_NAMESPACE,
+      },
+      flags: [],
+    } as FeatureFlagSnapshotResponse,
+  },
+})
+
+export const getFlagsMockDisabled = generateNetworkMock({
+  ...getFlagsMockEnabled,
+  response: {
+    ...getFlagsMockEnabled.response,
+    jsonBody: createSnapshotResponse(false),
+  },
+})
 
 export const mocks = [getFlagsMockEnabled]

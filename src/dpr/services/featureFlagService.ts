@@ -7,6 +7,7 @@ import {
   type FeatureFlagEvaluationSubject,
   type FeatureFlagKey,
 } from '../utils/featureFlagsHelper'
+import { captureException } from '@sentry/node'
 
 export class FeatureFlagService {
   private readonly clientConfig: ClientOptions | undefined
@@ -65,7 +66,10 @@ export class FeatureFlagService {
       return results
     }
 
-    const client = await this.getClient().catch(() => undefined)
+    const client = await this.getClient().catch((error) => {
+      captureException(error)
+      return undefined
+    })
     if (!client) {
       return results
     }
@@ -89,7 +93,8 @@ export class FeatureFlagService {
             results[flagKey] = enabled
           }
         })
-    } catch (_error) {
+    } catch (error) {
+      captureException(error)
       return results
     }
 

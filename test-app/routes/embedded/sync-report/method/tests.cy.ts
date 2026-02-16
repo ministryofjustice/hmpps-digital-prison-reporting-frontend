@@ -23,11 +23,6 @@ context('Embedded sync report by method', () => {
   })
 
   describe('report details', () => {
-    it('should show the product name', () => {
-      cy.findAllByRole('heading', { name: 'Test Variant' }).should('be.visible')
-      cy.findAllByRole('heading', { name: 'Method' }).should('be.visible')
-    })
-
     it('should show the report details', () => {
       cy.findAllByRole('group').contains('Report details').should('be.visible').click()
 

@@ -126,6 +126,7 @@ export const dietTotalsByEstablishment: components['schemas']['DashboardVisualis
       {
         id: 'count',
         display: 'Total prisoners',
+        aggregate: 'sum',
       },
     ],
     expectNulls: true,
@@ -219,7 +220,7 @@ export const dietTotalsByEstablishmentByWingByCell: components['schemas']['Dashb
 export const dietTotalsByEstablishmentByWingByCellFilters: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-by-establishment-by-wing-by-cell-filters',
   type: DashboardVisualisationType.LIST,
-  display: 'Diet totals by cell',
+  display: 'Diet totals by cell with filters',
   description: '',
   columns: {
     keys: [
@@ -251,7 +252,7 @@ export const dietTotalsByEstablishmentByWingByCellFilters: components['schemas']
       },
       {
         id: 'cell',
-        equals: 'Cell-2',
+        equals: 'cell-2',
       },
       {
         id: 'diet',

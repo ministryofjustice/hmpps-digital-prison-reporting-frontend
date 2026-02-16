@@ -43,7 +43,7 @@
     "docs:serve-prod": "serve -l 3000 dist-docs/dpr",
     "docs": "npm run rpack && node esbuild/esbuild.docs.config.js --build",
     "docs:serve": "serve dist-docs/dpr",
-    "docs:local": "concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.docs.config.js --build --watch --local\" \"node esbuild/esbuild.docs.config.js --local --dev-server\"",
+    "docs:local": "npm run rpack && concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.docs.config.js --build --watch --local\" \"node esbuild/esbuild.docs.config.js --local --dev-server\"",
     "test": "npm-run-all --parallel test:*",
     "test:jest": "jest --verbose --silent=false",
     "test:docs": "npm run rpack && npm run docs",

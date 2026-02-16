@@ -155,7 +155,7 @@ See [Reports List](/components/reports-list) component for usage and examples.
 
 <hr class='dpr-docs-hr'>
 
-# Render report as list **deprecated, removed in v5.0.0 and onwards**
+# Render report as list (deprecated, removed in v5.0.0 and onwards)
 
 As an alternative to requesting a report, reports can be loaded syncronously and rendered as a list. 
 

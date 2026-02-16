@@ -6,7 +6,10 @@ import { ServiceFeatureConfig } from '../../types/DprConfig'
 class MissingReportService {
   enabled: boolean
 
-  constructor(private readonly missingReportClient: MissingReportClient, serviceFeatureConfig: ServiceFeatureConfig) {
+  constructor(
+    private readonly missingReportClient: MissingReportClient,
+    serviceFeatureConfig: ServiceFeatureConfig,
+  ) {
     this.enabled = Boolean(serviceFeatureConfig.collections)
     if (!this.enabled) logger.info(`Missing reports: disabled `)
   }

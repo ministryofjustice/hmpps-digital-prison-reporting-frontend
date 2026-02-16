@@ -8,7 +8,10 @@ export type RedisClient = ReturnType<typeof createClient>
 class ReportDataStore {
   prefix: string
 
-  constructor(private readonly redisClient: RedisClient, prefix = 'dprReportStoreUser:') {
+  constructor(
+    private readonly redisClient: RedisClient,
+    prefix = 'dprReportStoreUser:',
+  ) {
     redisClient.on('error', (error) => {
       logger.error(error, `Redis error`)
     })

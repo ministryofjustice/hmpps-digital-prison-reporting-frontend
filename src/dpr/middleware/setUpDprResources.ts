@@ -76,7 +76,7 @@ const setFeatures = async (res: Response, featureFlagService: FeatureFlagService
     }
   }
   const subject = getFeatureFlagEvaluationSubject(res)
-  res.app.locals.featureFlags.flags = await featureFlagService.evaluateBooleanFlags(FEATURE_FLAGS, subject)
+  res.app.locals['featureFlags'].flags = await featureFlagService.evaluateBooleanFlags(FEATURE_FLAGS, subject)
 }
 
 const populateValidationErrors = (req: Request, res: Response) => {

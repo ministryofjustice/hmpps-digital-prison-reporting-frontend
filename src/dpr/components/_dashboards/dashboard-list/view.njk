@@ -2,7 +2,7 @@
 {% from "../dashboard-visualisation-no-data-message/view.njk" import dprDashboardVisNoData %}
 {% from "../../_reports/report-page/report-template/report-section/report-data-table/view.njk" import dprDataTable %}
 
-{% macro dprDashboardList(id, listData) %}
+{% macro dprDashboardList(listData) %}
   {% set ts = listData.ts %}
   {% set table = listData.table %}
   {% set rows = table.rows %}

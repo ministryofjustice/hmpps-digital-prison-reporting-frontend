@@ -63,7 +63,7 @@ context('Bookmarks list', () => {
                 return Boolean(element.textContent?.includes('Interactive Report with async filters'))
               },
             }).within(() => {
-              cy.findByRole('button', { name: /Add bookmark/ }).click()
+              cy.findByRole('link', { name: /Add bookmark/ }).click()
             })
           })
 
@@ -82,7 +82,7 @@ context('Bookmarks list', () => {
                 return Boolean(element.textContent?.includes('Interactive Report with async filters'))
               },
             }).within(() => {
-              cy.findByRole('button', { name: /Remove bookmark/ }).should('exist')
+              cy.findByRole('link', { name: /Remove bookmark/ }).should('exist')
             })
           })
         })
@@ -103,7 +103,7 @@ context('Bookmarks list', () => {
                 return Boolean(element.textContent?.includes('Interactive Report with async filters'))
               },
             }).within(() => {
-              cy.findByRole('button', { name: /Remove bookmark/ }).click()
+              cy.findByRole('link', { name: /Remove bookmark/ }).click()
             })
           })
 
@@ -121,7 +121,7 @@ context('Bookmarks list', () => {
                 return Boolean(element.textContent?.includes('Interactive Report with async filters'))
               },
             }).within(() => {
-              cy.findByRole('button', { name: /Add bookmark/ }).should('exist')
+              cy.findByRole('link', { name: /Add bookmark/ }).should('exist')
             })
           })
         })
@@ -144,7 +144,7 @@ context('Bookmarks list', () => {
                 return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
               },
             }).within(() => {
-              cy.findByRole('button', { name: /Add bookmark/ }).click()
+              cy.findByRole('link', { name: /Add bookmark/ }).click()
             })
           })
 
@@ -163,7 +163,7 @@ context('Bookmarks list', () => {
                 return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
               },
             }).within(() => {
-              cy.findByRole('button', { name: /Remove bookmark/ }).should('exist')
+              cy.findByRole('link', { name: /Remove bookmark/ }).should('exist')
             })
           })
         })
@@ -184,7 +184,7 @@ context('Bookmarks list', () => {
                 return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
               },
             }).within(() => {
-              cy.findByRole('button', { name: /Remove bookmark/ }).click()
+              cy.findByRole('link', { name: /Remove bookmark/ }).click()
             })
           })
 
@@ -202,7 +202,7 @@ context('Bookmarks list', () => {
                 return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
               },
             }).within(() => {
-              cy.findByRole('button', { name: /Add bookmark/ }).should('exist')
+              cy.findByRole('link', { name: /Add bookmark/ }).should('exist')
             })
           })
         })
@@ -217,7 +217,7 @@ context('Bookmarks list', () => {
                 return Boolean(element.textContent?.includes('Description for missing report 1'))
               },
             }).within(() => {
-              cy.findByRole('button', { name: /Add bookmark/ }).should('not.exist')
+              cy.findByRole('link', { name: /Add bookmark/ }).should('not.exist')
               cy.findByRole('link', { name: /Request report/ }).should('be.visible')
             })
           })
@@ -233,7 +233,7 @@ context('Bookmarks list', () => {
               return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
             },
           }).within(() => {
-            cy.findByRole('button', { name: /Add bookmark/ }).click()
+            cy.findByRole('link', { name: /Add bookmark/ }).click()
           })
         })
 
@@ -251,7 +251,7 @@ context('Bookmarks list', () => {
               return Boolean(element.textContent?.includes('Dashboard used for testing testing'))
             },
           }).within(() => {
-            cy.findByRole('button', { name: /Remove bookmark/ }).click()
+            cy.findByRole('link', { name: /Remove bookmark/ }).click()
           })
         })
 
@@ -271,7 +271,7 @@ context('Bookmarks list', () => {
               return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
-            cy.findByRole('button', { name: /Add bookmark/ }).click()
+            cy.findByRole('link', { name: /Add bookmark/ }).click()
           })
         })
 
@@ -289,7 +289,7 @@ context('Bookmarks list', () => {
               return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
-            cy.findByRole('button', { name: /Remove bookmark/ }).click()
+            cy.findByRole('link', { name: /Remove bookmark/ }).click()
           })
         })
 
@@ -345,7 +345,7 @@ context('Bookmarks list', () => {
         })
 
         cy.visit(viewReportUrl)
-        cy.findByRole('button', { name: /Add bookmark/ }).click()
+        cy.findByRole('link', { name: /Add bookmark/ }).click()
         cy.findByRole('button', { name: /Bookmarked/ }).should('be.visible')
 
         cy.visit(path)
@@ -368,7 +368,7 @@ context('Bookmarks list', () => {
         })
         cy.visit(viewReportUrl)
 
-        cy.findByRole('button', { name: /Remove bookmark/ }).click()
+        cy.findByRole('link', { name: /Remove bookmark/ }).click()
         cy.findByRole('button', { name: /Bookmark removed/ })
 
         cy.visit(path)
@@ -413,7 +413,7 @@ context('Bookmarks list', () => {
 
       it('should add a bookmark', () => {
         cy.visit(viewReportUrl)
-        cy.findByRole('button', { name: /Add bookmark/ })
+        cy.findByRole('link', { name: /Add bookmark/ })
           .click()
           .contains('Bookmarked')
         cy.visit(path)
@@ -436,7 +436,7 @@ context('Bookmarks list', () => {
             })
         })
         cy.visit(viewReportUrl)
-        cy.findByRole('button', { name: /Remove bookmark/ })
+        cy.findByRole('link', { name: /Remove bookmark/ })
           .click()
           .contains('Bookmark removed')
         cy.visit(path)
@@ -458,7 +458,7 @@ context('Bookmarks list', () => {
               return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
-            cy.findByRole('button', { name: /Add bookmark/ }).click()
+            cy.findByRole('link', { name: /Add bookmark/ }).click()
           })
         })
         // Deselect the bookmark hidden input so that we try to add it whilst it's already added
@@ -482,7 +482,7 @@ context('Bookmarks list', () => {
               return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
-            cy.findByRole('button', { name: /Remove bookmark/ }).click()
+            cy.findByRole('link', { name: /Remove bookmark/ }).click()
           })
         })
         cy.reload()
@@ -492,7 +492,7 @@ context('Bookmarks list', () => {
               return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
-            cy.findByRole('button', { name: /Remove bookmark/ }).should('exist')
+            cy.findByRole('link', { name: /Remove bookmark/ }).should('exist')
           })
         })
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
@@ -501,7 +501,7 @@ context('Bookmarks list', () => {
               return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
-            cy.findByRole('button', { name: /Remove bookmark/ }).click()
+            cy.findByRole('link', { name: /Remove bookmark/ }).click()
           })
         })
       })
@@ -529,7 +529,7 @@ context('Bookmarks list', () => {
               return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
-            cy.findByRole('button', { name: /Add bookmark/ }).click()
+            cy.findByRole('link', { name: /Add bookmark/ }).click()
           })
         })
         cy.reload()
@@ -539,7 +539,7 @@ context('Bookmarks list', () => {
               return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
-            cy.findByRole('button', { name: /Add bookmark/ }).should('exist')
+            cy.findByRole('link', { name: /Add bookmark/ }).should('exist')
           })
         })
       })

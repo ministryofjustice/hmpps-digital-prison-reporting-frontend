@@ -4,6 +4,7 @@
 {% from "./report-filters/view.njk" import dprReportFilters %}
 
 {% from "../../bookmark-toggle/view.njk" import dprBookmarkToggle %}
+{% from "../../bookmark/view.njk" import dprBookmarkButton %}
 {% from "../../_async/request-details/view.njk" import dprRequestDetails %}
 
 {% from "govuk/components/details/macro.njk" import govukDetails %}
@@ -33,8 +34,7 @@
       {% if bookmarked is defined %}
         {% set id = reportData.id %}
         {% set actions = reportData.actions %}
-        
-        {{ dprBookmarkToggle(reportId, id, csrfToken, bookmarked, 'report', type, nestedBaseUrl) }}
+        {{ dprBookmarkButton(reportId, id, csrfToken, bookmarked, 'report', type, nestedBaseUrl) }}
       {% endif %}
     </div>
     {% endif %}

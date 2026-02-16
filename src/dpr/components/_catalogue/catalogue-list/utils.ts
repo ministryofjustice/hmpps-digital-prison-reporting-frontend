@@ -93,7 +93,7 @@ export const getReportsList = async (
         features?.bookmarkingEnabled !== undefined ? features?.bookmarkingEnabled : bookmarkingEnabled
 
       if (showBookMarkToggle) {
-        bookmarkHtml = await services.bookmarkService.createBookMarkToggleHtml({
+        bookmarkHtml = await services.bookmarkService.createBookMarkButtonHtml({
           userConfig,
           reportId,
           id,

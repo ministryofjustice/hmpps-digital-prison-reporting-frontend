@@ -1,3 +1,4 @@
+import { ZodError } from 'zod'
 import { components } from '../types/api'
 import logger from './logger'
 
@@ -41,8 +42,20 @@ class ErrorHandler {
   }
 
   private handleError = (): DprErrorMessage => {
+    if (this.error instanceof ZodError) {
+      console.log(this.error)
+
+      const issues = this.error.issues
+        .map((issue) => {
+          return issue.message
+        })
+        .join('. ')
+      this.userMessage = `Schema validation error: ${issues}`
+      this.status = 500
+    }
+
     // status: FAILED
-    if (typeof this.error === 'string') {
+    else if (typeof this.error === 'string') {
       this.developerMessage = this.error
     }
 
@@ -70,17 +83,6 @@ class ErrorHandler {
       this.userMessage = error.userMessage
       this.moreInfo = error.moreInfo
       this.status = error.status
-    }
-
-    // Zod error
-    else if (Object.prototype.hasOwnProperty.call(this.error, 'userMessage')) {
-      const error = <ZodValidationError>this.error
-      if (error.stack && error.stack.includes('ZodError')) {
-        const errorArr: { message: string }[] = JSON.parse(error.userMessage)
-        this.userMessage = errorArr.map((m) => m.message).join(', ')
-        this.status = 500
-        this.stack = error.stack
-      }
     }
 
     const formattedError = {

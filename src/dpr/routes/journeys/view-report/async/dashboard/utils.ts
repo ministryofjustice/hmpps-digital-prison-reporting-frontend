@@ -28,6 +28,7 @@ import { FilterValue, GranularDateRangeFilterValue, PartialDate } from '../../..
 import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import { FilterType } from '../../../../../components/_filters/filter-input/enum'
 import { FEATURE_FLAG_KEYS } from '../../../../../utils/featureFlagsHelper'
+import DashboardSchema from './validate'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
@@ -89,6 +90,8 @@ const getDefinitionData = async ({
     queryData,
   )
 
+  const validDashboardDefinition = DashboardSchema.parse(dashboardDefinition)
+
   // Report summary data
   const reportDefinition = await DefinitionUtils.getReportSummary(
     reportId,
@@ -99,7 +102,7 @@ const getDefinitionData = async ({
 
   // Get the filters
   const filtersData = await FilterUtils.getFilters({
-    fields: dashboardDefinition.filterFields || [],
+    fields: validDashboardDefinition.filterFields || [],
     req,
     filtersType: FiltersType.INTERACTIVE,
   })
@@ -108,7 +111,7 @@ const getDefinitionData = async ({
 
   // Create the query
   const query = new ReportQuery({
-    fields: dashboardDefinition.filterFields || [],
+    fields: validDashboardDefinition.filterFields || [],
     queryParams: filtersQuery,
     definitionsPath: <string>dataProductDefinitionsPath,
     reportType: ReportType.DASHBOARD,
@@ -117,7 +120,7 @@ const getDefinitionData = async ({
   return {
     query,
     filters: filtersData,
-    dashboardDefinition,
+    dashboardDefinition: validDashboardDefinition,
     reportDefinition,
   }
 }
@@ -269,7 +272,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const partialDate = getPartialDate(filters.filters)
 
   // Get the dashboard parts
-  const dashboardFeatureFlags = res.app.locals.featureFlags.flags
+  const dashboardFeatureFlags = res.app.locals['featureFlags'].flags
   const sections: DashboardSection[] = getSections(
     dashboardDefinition,
     flattenedData,

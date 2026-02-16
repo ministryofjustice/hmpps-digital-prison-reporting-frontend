@@ -4,7 +4,7 @@ import { initServices } from './utils/initMockClients'
 
 const app = createApp(
   initServices({
-    bookmarking: false,
+    bookmarking: true,
     download: true,
     saveDefaults: true,
     collections: true,

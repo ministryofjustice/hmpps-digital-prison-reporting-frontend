@@ -15,6 +15,8 @@ class BookmarkButton extends DprClientClass {
 
   override initialise(): void {
     const element = this.getElement()
+    element.style.pointerEvents = ''
+    element.style.opacity = '1'
     this.id = element.getAttribute('data-id')
     this.reportId = element.getAttribute('data-report-id')
     this.reportType = element.getAttribute('data-report-type')
@@ -53,6 +55,8 @@ class BookmarkButton extends DprClientClass {
     const ctx = this
     this.getElement().addEventListener('click', async (e: Event) => {
       e.preventDefault()
+      ctx.getElement().style.pointerEvents = 'none'
+      ctx.getElement().style.opacity = '0.5'
 
       await fetch(ctx.endpoint, {
         method: 'POST',
@@ -71,6 +75,8 @@ class BookmarkButton extends DprClientClass {
             window.location.reload()
           } else {
             ctx.updateUI()
+            ctx.getElement().style.pointerEvents = ''
+            ctx.getElement().style.opacity = '1'
           }
         })
         .catch((error) => console.error('Error:', error))

@@ -346,7 +346,7 @@ context('Bookmarks list', () => {
 
         cy.visit(viewReportUrl)
         cy.findByRole('link', { name: /Add bookmark/ }).click()
-        cy.findByRole('button', { name: /Bookmarked/ }).should('be.visible')
+        cy.findByRole('link', { name: /Remove bookmark/ }).should('be.visible')
 
         cy.visit(path)
         cy.findByLabelText(/Bookmarks.*/i).within(() => {
@@ -369,7 +369,7 @@ context('Bookmarks list', () => {
         cy.visit(viewReportUrl)
 
         cy.findByRole('link', { name: /Remove bookmark/ }).click()
-        cy.findByRole('button', { name: /Bookmark removed/ })
+        cy.findByRole('link', { name: /Add bookmark/ })
 
         cy.visit(path)
         cy.findByLabelText(/Bookmarks.*/i).within(() => {
@@ -415,7 +415,7 @@ context('Bookmarks list', () => {
         cy.visit(viewReportUrl)
         cy.findByRole('link', { name: /Add bookmark/ })
           .click()
-          .contains('Bookmarked')
+          .contains('Remove bookmark')
         cy.visit(path)
         cy.findByLabelText(/Bookmarks.*/i).within(() => {
           cy.findAllByRole('rowgroup')
@@ -438,7 +438,7 @@ context('Bookmarks list', () => {
         cy.visit(viewReportUrl)
         cy.findByRole('link', { name: /Remove bookmark/ })
           .click()
-          .contains('Bookmark removed')
+          .contains('Add bookmark')
         cy.visit(path)
         cy.findByLabelText(/Bookmarks.*/i).within(() => {
           cy.findAllByRole('rowgroup')
@@ -461,21 +461,6 @@ context('Bookmarks list', () => {
             cy.findByRole('link', { name: /Add bookmark/ }).click()
           })
         })
-        // Deselect the bookmark hidden input so that we try to add it whilst it's already added
-        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-          cy.findByRole('row', {
-            name: (_, element) => {
-              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
-            },
-          }).within(() => {
-            cy.get('input').then((el) => {
-              // eslint-disable-next-line no-param-reassign
-              ;(el.get(0) as HTMLInputElement).checked = false
-              el.get(0).removeAttribute('checked')
-            })
-            cy.get('input').invoke('attr', 'checked').should('equal', undefined)
-          })
-        })
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
           cy.findByRole('row', {
             name: (_, element) => {
@@ -492,35 +477,7 @@ context('Bookmarks list', () => {
               return Boolean(element.textContent?.includes('Interactive Report with async filters'))
             },
           }).within(() => {
-            cy.findByRole('link', { name: /Remove bookmark/ }).should('exist')
-          })
-        })
-        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-          cy.findByRole('row', {
-            name: (_, element) => {
-              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
-            },
-          }).within(() => {
-            cy.findByRole('link', { name: /Remove bookmark/ }).click()
-          })
-        })
-      })
-
-      it('should not change the bookmark status of an unbookmarked item', () => {
-        // Select the bookmark hidden input so that we try to add it whilst it's already added
-        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
-          cy.findByRole('row', {
-            name: (_, element) => {
-              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
-            },
-          }).within(() => {
-            cy.get('input').then((el) => {
-              // eslint-disable-next-line no-param-reassign
-              ;(el.get(0) as HTMLInputElement).checked = true
-              el.get(0).setAttribute('checked', 'true')
-            })
-            // Browser does funny things with checked attribute, it can be 'checked' or 'true' or unset - just check its there and not false
-            cy.get('input').invoke('attr', 'checked').should('not.equal', undefined).and('not.equal', false)
+            cy.findByRole('link', { name: /Add bookmark/ }).should('exist')
           })
         })
         cy.findByLabelText(/Reports catalogue.*/i).within(() => {
@@ -530,6 +487,18 @@ context('Bookmarks list', () => {
             },
           }).within(() => {
             cy.findByRole('link', { name: /Add bookmark/ }).click()
+          })
+        })
+      })
+
+      it('should not change the bookmark status of an unbookmarked item', () => {
+        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+          cy.findByRole('row', {
+            name: (_, element) => {
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
+            },
+          }).within(() => {
+            cy.findByRole('link', { name: /Remove bookmark/ }).click()
           })
         })
         cy.reload()

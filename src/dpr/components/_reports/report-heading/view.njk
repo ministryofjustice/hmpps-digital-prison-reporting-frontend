@@ -23,21 +23,24 @@
   {% set count = reportData.count %}
   {% set nestedBaseUrl = reportData.nestedBaseUrl %}
   {% set csrfToken = reportData.csrfToken %}
-  
-  <div class="dpr-report-header">
-    {% if actions or bookmarked is defined %}
-    <div class="dpr-report-heading__actions">
-      {% if actions %}
-        {{ dprReportActions(actions) }}
-      {% endif %}
+  {% set bookmarkingEnabled = reportData.bookmarkingEnabled %}
 
-      {% if bookmarked is defined %}
-        {% set id = reportData.id %}
-        {% set actions = reportData.actions %}
-        {{ dprBookmarkButton(reportId, id, csrfToken, bookmarked, 'report', type, nestedBaseUrl) }}
-      {% endif %}
-    </div>
+  <div class="dpr-report-header">
+
+    {% if actions or bookmarked is defined %}
+      <div class="dpr-report-heading__actions">
+        {% if actions %}
+          {{ dprReportActions(actions) }}
+        {% endif %}
+
+        {% if bookmarkingEnabled %}
+          {% set id = reportData.id %}
+          {% set actions = reportData.actions %}
+          {{ dprBookmarkButton(reportId, id, csrfToken, bookmarked, 'report', type, nestedBaseUrl) }}
+        {% endif %}
+      </div>
     {% endif %}
+
     <div class="dpr-report-heading">
       <div class="dpr-report-heading__title">
         <h1 id="dpr-report-name" class="govuk-heading-xl">
@@ -48,7 +51,9 @@
     </div>
     
     {% if reportData.canDownload is defined %}
+
       {{ dprDownloadMessage(reportData) }}
+    
     {% endif %}
 
       {% set reportDetailsHtml %}

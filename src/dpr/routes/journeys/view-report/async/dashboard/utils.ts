@@ -269,7 +269,7 @@ export const renderAsyncDashboard = async ({ req, res, services }: AsyncReportUt
   const partialDate = getPartialDate(filters.filters)
 
   // Get the dashboard parts
-  const dashboardFeatureFlags = res.app.locals.featureFlags.flags
+  const dashboardFeatureFlags = res.app.locals['featureFlags'].flags
   const sections: DashboardSection[] = getSections(
     dashboardDefinition,
     flattenedData,

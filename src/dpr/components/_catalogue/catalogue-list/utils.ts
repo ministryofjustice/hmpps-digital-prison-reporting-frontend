@@ -4,13 +4,11 @@ import { Services } from '../../../types/Services'
 import { DefinitionData, LoadType, ReportType } from '../../../types/UserReports'
 import ShowMoreUtils from '../../show-more/utils'
 import { createListItemProductMin, createListActions, setInitialHref } from '../../../utils/reportListsHelper'
-import { CatalogueFeatures } from '../catalogue/types'
 import LocalsHelper from '../../../utils/localsHelper'
 
 export const getReportsList = async (
   res: Response,
   services: Services,
-  features?: CatalogueFeatures,
 ): Promise<{ head: { text: string }[]; rows: { text?: string; html?: string }[][]; id: string }> => {
   const { definitions, csrfToken, bookmarkingEnabled, dprUser, nestedBaseUrl } = LocalsHelper.getValues(res)
 
@@ -89,10 +87,7 @@ export const getReportsList = async (
       const href = setInitialHref(loadType, type, reportId, id, res, isMissing)
 
       let bookmarkHtml
-      const showBookMarkToggle =
-        features?.bookmarkingEnabled !== undefined ? features?.bookmarkingEnabled : bookmarkingEnabled
-
-      if (showBookMarkToggle) {
+      if (bookmarkingEnabled) {
         bookmarkHtml = await services.bookmarkService.createBookMarkButtonHtml({
           userConfig,
           reportId,

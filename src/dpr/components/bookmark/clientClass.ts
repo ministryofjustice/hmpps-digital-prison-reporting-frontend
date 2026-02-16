@@ -42,8 +42,11 @@ class BookmarkButton extends DprClientClass {
     const linkType = this.getElement().getAttribute('data-link-type')
     const type = linkType === 'add' ? 'remove' : 'add'
     const textContent = linkType === 'add' ? 'Remove bookmark' : 'Add bookmark'
-    this.getElement().setAttribute('data-link-type', type)
-    this.getElement().textContent = textContent
+    const element = this.getElement()
+    element.setAttribute('data-link-type', type)
+    element.textContent = textContent
+    element.style.pointerEvents = ''
+    element.style.opacity = '1'
   }
 
   /**
@@ -75,8 +78,6 @@ class BookmarkButton extends DprClientClass {
             window.location.reload()
           } else {
             ctx.updateUI()
-            ctx.getElement().style.pointerEvents = ''
-            ctx.getElement().style.opacity = '1'
           }
         })
         .catch((error) => console.error('Error:', error))

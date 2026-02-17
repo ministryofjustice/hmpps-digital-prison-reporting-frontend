@@ -32,7 +32,7 @@ describe('BookmarkUtils', () => {
 
       bookmarkService = {
         getAllBookmarks: jest.fn().mockReturnValueOnce([{ reportId: 'test-report-1', variantId: 'test-variant-1' }]),
-        createBookMarkToggleHtml: jest.fn().mockReturnValueOnce('<p>Bookmark toggle</p>'),
+        createBookMarkButtonHtml: jest.fn().mockReturnValueOnce('<p>Bookmark toggle</p>'),
         getState: jest.fn(),
       } as unknown as BookmarkService
 

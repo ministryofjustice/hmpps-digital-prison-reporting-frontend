@@ -107,7 +107,7 @@ context('Viewing a report', () => {
         cy.findByLabelText('Refresh report').should('be.visible')
         cy.findByLabelText(/download/).should('be.visible')
         cy.findByLabelText(/Copy report link/).should('be.visible')
-        cy.findByRole('button', { name: /Add bookmark/ }).should('be.visible')
+        cy.findByRole('link', { name: /Add bookmark/ }).should('be.visible')
 
         cy.findByLabelText('Refresh report').should('be.visible').click()
         cy.url().should(

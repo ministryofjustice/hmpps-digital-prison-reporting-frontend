@@ -431,6 +431,7 @@ const setFeatures = async (
     actions,
     canDownload,
     bookmarked,
+    bookmarkingEnabled,
   }
 }
 

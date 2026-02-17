@@ -68,7 +68,7 @@ const formatTableData = async (
   nestedBaseUrl?: string,
 ) => {
   const { description, reportName, reportId, id, href, name, type, loadType } = bookmarksData
-  const bookmarkHtml = await bookmarkService.createBookMarkToggleHtml({
+  const bookmarkHtml = await bookmarkService.createBookMarkButtonHtml({
     userConfig,
     reportId,
     id,

@@ -10,8 +10,8 @@ export const itemActionsHtml = (
 ) => {
   const text = status === RequestStatus.EXPIRED ? 'Refresh' : 'Retry'
   return `<div class="dpr-icon-wrapper__item-actions">
-      <a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${retryHref}">${text}</a>
-      <a class="dpr-user-list-action govuk-link--no-visited-state dpr-remove-${type}-report-button"" href="#" data-execution-id='${executionId}'>Remove</a>
+      <a class='govuk-link dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${retryHref}">${text}</a>
+      <a class="govuk-link dpr-user-list-action govuk-link--no-visited-state dpr-remove-${type}-report-button"" href="#" data-execution-id='${executionId}'>Remove</a>
     </div>`
 }
 
@@ -68,13 +68,13 @@ export const createListActions = (
   let actionText
   if (missing) {
     actionText = `Request report`
-    requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">${actionText}</a>`
+    requestAction = `<a class='govuk-link dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1' href="${href}">${actionText}</a>`
   } else {
     actionText = `Request ${type}`
     if (loadType && loadType === LoadType.SYNC) {
       actionText = `Load ${type}`
     }
-    requestAction = `<a class='dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1 dpr-live-report dpr-type__${type}' href="${href}">${actionText}</a>`
+    requestAction = `<a class='govuk-link dpr-user-list-action govuk-link--no-visited-state govuk-!-margin-bottom-1 dpr-live-report dpr-type__${type}' href="${href}">${actionText}</a>`
   }
 
   if (bookmarkHtml) {

@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { createClient } from 'redis'
+import { Environment } from 'nunjucks'
 import ProductCollectionClient from '../../src/dpr/data/productCollectionClient'
 import ReportingClient from '../../src/dpr/data/reportingClient'
 import DashboardClient from '../../src/dpr/data/dashboardClient'
@@ -11,8 +12,7 @@ import MockReportingClient from '../mocks/mockClients/reports/mockReportingClien
 import { MockUserStoreService } from '../mocks/mockClients/store/mockRedisStore'
 import MockDashboardClient from '../mocks/mockClients/dashboards/mock-client'
 import { ServiceFeatureConfig } from '../../src/dpr/types/DprConfig'
-import { FeatureFlagService } from 'src/dpr/services/featureFlagService'
-import { Environment } from 'nunjucks'
+import { FeatureFlagService } from '../../src/dpr/services/featureFlagService'
 
 export const initServices = (featureConfig?: ServiceFeatureConfig) => {
   const clients: {
@@ -79,7 +79,11 @@ export const initServices = (featureConfig?: ServiceFeatureConfig) => {
   return createDprServices(clients, featureConfig)
 }
 
-export default function initMockClients(router: Router, env: Environment, featureConfig?: { bookmarking?: boolean; download?: boolean }) {
+export default function initMockClients(
+  router: Router,
+  env: Environment,
+  featureConfig?: { bookmarking?: boolean; download?: boolean },
+) {
   const services = initServices(featureConfig)
 
   router.use(setUpDprResources(services, '', env))

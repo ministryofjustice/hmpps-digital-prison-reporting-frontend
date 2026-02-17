@@ -13,7 +13,7 @@ export const initCatalogue = async ({
   res: Response
   services: Services
 }) => {
-  const data = await CatalogueListUtils.getReportsList(res, services, features)
+  const data = await CatalogueListUtils.getReportsList(res, services)
   const { token, bookmarkingEnabled, dprUser, csrfToken } = LocalsHelper.getValues(res)
   const productCollections = (await services.productCollectionService.getProductCollections(token))?.map(
     (collection) => ({

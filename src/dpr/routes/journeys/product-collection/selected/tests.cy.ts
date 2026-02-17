@@ -32,7 +32,7 @@ context('Catalogue collections', () => {
             return Boolean(element.textContent?.includes('Interactive Report with async filters'))
           },
         }).within(() => {
-          cy.findByRole('button', { name: /Add bookmark/ }).click()
+          cy.findByRole('link', { name: /Add bookmark/ }).click()
         })
       })
 

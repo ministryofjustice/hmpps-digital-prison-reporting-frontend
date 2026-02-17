@@ -111,7 +111,7 @@ class BookmarkService extends ReportStoreService {
       }
     }
 
-    const classes = 'govuk-link govuk-link--no-visited-state dpr-bookmark-link'
+    const classes = 'govuk-link govuk-link--no-visited-state dpr-bookmark-link dpr-user-list-action'
     const linkId = `${reportId}-${id}-${ctxId}`
 
     const bookmarkLinkHtml = `<a href="#" 

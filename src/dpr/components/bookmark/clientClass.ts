@@ -46,8 +46,6 @@ class BookmarkButton extends DprClientClass {
     const element = this.getElement()
     element.setAttribute('data-link-type', type)
     element.textContent = textContent
-    element.style.pointerEvents = ''
-    element.style.opacity = '1'
   }
 
   /**
@@ -94,6 +92,8 @@ class BookmarkButton extends DprClientClass {
         .catch((error) => console.error('Error:', error))
     } finally {
       this.isRunning = false
+      this.getElement().style.pointerEvents = ''
+      this.getElement().style.opacity = '1'
     }
   }
 }

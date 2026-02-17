@@ -4,15 +4,19 @@ Below you can find the changes included in each release.
 
 - Refactor bookmark links to use not use iconography.
 
-## 5.1.0
+## 5.1.0
 
 - Make use of @flipt-io/flipt-client-js instead of @flipt-io/flipt, use evaluation api instead of flags management api
 
+## 5.0.2
+
+- Fix types issues
+
 ## 5.0.1
 
-- Fix type issues
+- Fix docs build
 
-## 5.0.0
+## 5.0.0
 
 **This is a major release and contains breaking changes to imports.**
 
@@ -61,7 +65,7 @@ You will then be able to get type inference on the injected `locals`.
 
 - Remove autoprefixer as a dependency as it is unused
 
-## 4.30.0
+## 4.30.0
 
 - Feature flagged all dashboard viz options apart from List
 
@@ -129,11 +133,11 @@ You will then be able to get type inference on the injected `locals`.
 - Change client .mjs files to .ts files and ensure they're transpiled
 - Ensure sourcemapping is working correctly when running local test-app so stack traces are easy to follow
 
-## 4.28.0
+## 4.28.0
 
 - Don't minify library output code so that apps can decide or not to minify their source
 
-## 4.27.0
+## 4.27.0
 
 - Update various dependencies:
   - jest-html-reporter
@@ -145,27 +149,27 @@ You will then be able to get type inference on the injected `locals`.
 - Improve error fallthrough by always passing `error` to `next` in request handlers where we have `catch` clauses
 - Use sentry's `captureException` where we catch exceptions and display an error page so that apps using Sentry still get this error logged
 
-## 4.26.8
+## 4.26.8
 
 - Updated integration docs
 
-## 4.26.7
+## 4.26.7
 
 - Bugfix: stop false showing as blank in reports
 
-## 4.26.6
+## 4.26.6
 
 - Bugfix: Extra checks around word count to prevent error
 
-## 4.26.5
+## 4.26.5
 
 - Bugfix: Scroll gradient shows when report data of screen and is side scrollable
 
-## 4.26.4
+## 4.26.4
 
 - Updated print styling to be more clean and concise, with a view to save ink and paper.
 
-## 4.26.3
+## 4.26.3
 
 - Increased padding on table cells to create more distance between values to help differentiate them.
 - Removed word wrap on table head columns
@@ -174,17 +178,17 @@ You will then be able to get type inference on the injected `locals`.
 - Add dependabot configuration
 - Remove body-parser as it was unneeded and bump superagent
 
-## 4.26.2
+## 4.26.2
 
 - Reposition report scroll bar to the top of report to improve usability
 - Reset selected page to first when interactive filters are applied
 
-## 4.26.1
+## 4.26.1
 
 - Remove sort query from child report requests
 - debug logs for dashboard visualisations
 
-## 4.26.0
+## 4.26.0
 
 - Update save defaults link styling to a secondary button
 - Add security GHA from the template to bring in line with what the template does
@@ -202,7 +206,7 @@ You will then be able to get type inference on the injected `locals`.
 - Remove old unneeded config and libs being used in it
 - Add more tests
 
-## 4.24.0
+## 4.24.0
 
 - Add ability to use feature flags
 - Bump govuk-frontend in package.json - this is a noop as the package-lock already had it at 5.13.0, just to ensure it's kept on latest
@@ -215,7 +219,7 @@ You will then be able to get type inference on the injected `locals`.
 
 - Bump express 5.1.0 -> 5.2.0
 
-## 4.23.0
+## 4.23.0
 
 - Fix homepage bookmark buttons
 - Change DELETE to POST in form for requested-reports and recently-viewed
@@ -365,7 +369,7 @@ You will then be able to get type inference on the injected `locals`.
 
 - Fix small bug passing the wrong params into `DefinitionUtils.getReportSummary`
 
-## v4.13.17
+## v4.13.17
 
 - Fix missing csrf token in apply columns post
 - Small css fix for parent-child template
@@ -374,12 +378,12 @@ You will then be able to get type inference on the injected `locals`.
 
 - Fix for various performance issues when many DPDs are present
 
-## v4.13.15
+## v4.13.15
 
 - Fixed a bug where adding/removing a bookmark would break due to click events not being handled correctly
 - Fixed a bug with setting user defaults
 
-## v4.13.14
+## v4.13.14
 
 - Bug fix for error thrown when a single multi-select value is saved + tests
 
@@ -388,13 +392,13 @@ You will then be able to get type inference on the injected `locals`.
 - When a single mult-iselect value is selected it is returned as a `string` and not `string[]`. Caused the `forEach` to throw an error
 - Fix styling issue with save defaults button
 
-## v4.13.12
+## v4.13.12
 
 - Missing csrf token apply and save forms
 - Fix sort
 - Fix typo
 
-## v4.13.11
+## v4.13.11
 
 - Add logging to try and diagnose a performance issue
 
@@ -421,11 +425,11 @@ You will then be able to get type inference on the injected `locals`.
 - Use standard server-side validation and POST for missing report form, introduce use of [Zod (a validation library)](https://github.com/colinhacks/zod)
 - Fix bug where default path for missing reports was not being sent
 
-## v4.13.6
+## v4.13.6
 
 - Fix typing issues
 
-## v4.13.5
+## v4.13.5
 
 - Change bookmark element from a div to a button and use `click` event instead of `change` to improve accessibility (this change introduced a bug when adding/removing a bookmark which is fixed in 4.13.15)
 - Convert interactive filter form submission from get to post
@@ -440,7 +444,7 @@ You will then be able to get type inference on the injected `locals`.
 - Remove jest tests which are now better covered with cypress ones, add some more cypress tests
 - Bump tar-fs due to dependency issue
 
-## v4.13.4
+## v4.13.4
 
 - Fix dependencies
 
@@ -452,7 +456,7 @@ You will then be able to get type inference on the injected `locals`.
 
 - No changes
 
-## v4.13.1
+## v4.13.1
 
 - Remove a bunch of mock code being used to test the library, and use cypress tests to drive library code using network level mocks
 - Fix a couple of typing and accessibility issues
@@ -462,20 +466,20 @@ You will then be able to get type inference on the injected `locals`.
 - Fix multiselect selected filter bug - clicking selected filter did not remove the checks in multiselect
 - Update the publish Github Action to support OIDC auth
 
-## v4.13.0
+## v4.13.0
 
 - Add ability to save user defined sort values as defaults
 - Refactor sync cypress tests
 
-## v4.12.4
+## v4.12.4
 
 - Fix download sort bug in sync, fix typing issue
 
-## v4.12.3
+## v4.12.3
 
 - Fix download sort bug where it was defaulting back to DPD sort
 
-## v4.12.2
+## v4.12.2
 
 - Queryparams for sort were defaulting to DPD value, so set them to requested ones
 
@@ -483,28 +487,28 @@ You will then be able to get type inference on the injected `locals`.
 
 - Ensure missing report API client is initialised, fix a test
 
-## v4.12.0
+## v4.12.0
 
 - Library integration update: Define a bespoke dpr user context in `res.locals` to interact with the platform, to ensure all integrating services provide all the required configuration, and leave the `locals.user` context to the discretion of the intergrating service. Services updating to this version will need to update their `populateCurrentUser` middleware to accomodate this change. See the <a href="https://ministryofjustice.github.io/hmpps-digital-prison-reporting-frontend/integration-guides/integrating-the-platform/#setup-the-dpr-user-in-locals" target="_blank">integration docs</a> for instructions.
 
-## v4.11.6
+## v4.11.6
 
 - Download Bugfix: Column mismatch with screen and downloaded data
 - Accessibility fixes
 - Increased behaviour testing coverage
 
-## v4.11.0
+## v4.11.0
 
 - Improvements to the test application + docs on how to run locally
 - Accessibility fixes
 - Enable platform routes to be nested within services routing structure
 
-## v4.10.1
+## v4.10.1
 
 - Make the UI sort to the default sort direction if present in the DPD
 - Fix more build artifact issues, make the test app build on top of the lib more like a normal app would
 
-## v4.9.1
+## v4.9.1
 
 - Bugfix for chart imports
 

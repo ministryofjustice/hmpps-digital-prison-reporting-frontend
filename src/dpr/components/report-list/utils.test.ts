@@ -13,7 +13,7 @@ import FilterUtils from '../_filters/utils'
 
 jest.mock('parseurl', () => ({
   __esModule: true,
-  default: jest.fn().mockImplementation(() => ({ pathname: 'pathname', search: 'search' } as Url)),
+  default: jest.fn().mockImplementation(() => ({ pathname: 'pathname', search: 'search' }) as Url),
 }))
 
 const getListWithWarnings = jest.fn().mockImplementation(() => [''])

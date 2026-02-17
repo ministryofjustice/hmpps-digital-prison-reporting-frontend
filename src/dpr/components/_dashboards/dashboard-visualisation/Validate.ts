@@ -34,7 +34,7 @@ export const DashboardColumns = z.object({
   keys: z.array(DashboardVisualisationKeySchema),
   measures: z
     .array(DashboardVisualisationMeasureSchema)
-    .length(1, 'Dashboard visualisation definition: measure array must contain at least 1 item'),
+    .min(1, 'Dashboard visualisation definition: measure array must contain at least 1 item'),
   filters: z.array(dashboardVisFilter).min(1).optional(),
   expectNulls: z.boolean().default(false),
 })

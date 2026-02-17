@@ -55,33 +55,38 @@ class BookmarkButton extends DprClientClass {
    * @memberof BookmarkButton
    */
   initEventListener() {
-    const ctx = this
-    this.getElement().addEventListener('click', async (e: Event) => {
-      e.preventDefault()
-      ctx.getElement().style.pointerEvents = 'none'
-      ctx.getElement().style.opacity = '0.5'
-
-      await fetch(ctx.endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: ctx.linkType,
-          id: ctx.id,
-          reportId: ctx.reportId,
-          reportType: ctx.reportType,
-        }),
-      })
-        .then(() => {
-          // The page should reload if on the report/dashboard page so not to have to reload the data and cause a delay
-          // Should instead update the UI labels to signify the change has been made
-          if (!window.location.href.includes('/report') && !window.location.href.includes('/dashboard')) {
-            window.location.reload()
-          } else {
-            ctx.updateUI()
-          }
-        })
-        .catch((error) => console.error('Error:', error))
+    this.getElement().addEventListener('click', () => this.activateBookmark())
+    this.getElement().addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        this.activateBookmark()
+      }
     })
+  }
+
+  async activateBookmark() {
+    this.getElement().style.pointerEvents = 'none'
+    this.getElement().style.opacity = '0.5'
+
+    await fetch(this.endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: this.linkType,
+        id: this.id,
+        reportId: this.reportId,
+        reportType: this.reportType,
+      }),
+    })
+      .then(() => {
+        // The page should not reload if on the report/dashboard page so not to have to reload the data and cause a delay
+        // Should instead update the UI labels to signify the change has been made
+        if (!window.location.href.includes('/report') && !window.location.href.includes('/dashboard')) {
+          window.location.reload()
+        } else {
+          this.updateUI()
+        }
+      })
+      .catch((error) => console.error('Error:', error))
   }
 }
 

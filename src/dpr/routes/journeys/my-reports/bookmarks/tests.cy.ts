@@ -513,5 +513,65 @@ context('Bookmarks list', () => {
         })
       })
     })
+
+    describe('Bookmarking via the keyboard', () => {
+      it('should toggle bookmark using keypress', () => {
+        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+          cy.findByRole('row', {
+            name: (_, element) => {
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
+            },
+          }).within(() => {
+            cy.findByRole('link', { name: /Add bookmark/ })
+              .focus()
+              .type('{enter}')
+          })
+        })
+
+        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+          cy.findByRole('row', {
+            name: (_, element) => {
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
+            },
+          }).within(() => {
+            cy.findByRole('link', { name: /Remove bookmark/ }).should('exist')
+          })
+        })
+
+        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+          cy.findByRole('row', {
+            name: (_, element) => {
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
+            },
+          }).within(() => {
+            cy.findByRole('link', { name: /Remove bookmark/ })
+              .focus()
+              .type('{enter}')
+          })
+        })
+
+        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+          cy.findByRole('row', {
+            name: (_, element) => {
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
+            },
+          }).within(() => {
+            cy.findByRole('link', { name: /Add bookmark/ }).should('exist')
+          })
+        })
+
+        cy.reload()
+
+        cy.findByLabelText(/Reports catalogue.*/i).within(() => {
+          cy.findByRole('row', {
+            name: (_, element) => {
+              return Boolean(element.textContent?.includes('Interactive Report with async filters'))
+            },
+          }).within(() => {
+            cy.findByRole('link', { name: /Add bookmark/ }).should('exist')
+          })
+        })
+      })
+    })
   })
 })

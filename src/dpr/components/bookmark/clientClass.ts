@@ -72,7 +72,11 @@ class BookmarkButton extends DprClientClass {
     try {
       await fetch(this.endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'CSRF-Token': this.csrfToken,
+        },
         body: JSON.stringify({
           type: this.linkType,
           id: this.id,

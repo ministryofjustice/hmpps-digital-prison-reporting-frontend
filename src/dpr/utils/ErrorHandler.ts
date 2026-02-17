@@ -14,11 +14,6 @@ interface DprErrorData {
   data: components['schemas']['ErrorResponse']
 }
 
-interface ZodValidationError {
-  userMessage: string
-  stack: string
-}
-
 class ErrorHandler {
   error: Error | components['schemas']['ErrorResponse'] | string | undefined | unknown | DprErrorData
 
@@ -43,8 +38,6 @@ class ErrorHandler {
 
   private handleError = (): DprErrorMessage => {
     if (this.error instanceof ZodError) {
-      console.log(this.error)
-
       const issues = this.error.issues
         .map((issue) => {
           return issue.message

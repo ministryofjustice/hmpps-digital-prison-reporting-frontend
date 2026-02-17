@@ -21,4 +21,4 @@ const DashboardSchema = z.object({
   filterFields: z.array(z.any()).optional(), // TODO
 })
 
-export default DashboardSchema
+export default { DashboardSchema, DashboardSectionSchema }

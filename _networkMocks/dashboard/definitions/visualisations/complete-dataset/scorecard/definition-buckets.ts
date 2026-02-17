@@ -8,7 +8,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
   sections: [
     {
       id: 'section-1',
-      display: 'Custom bucket boundaries',
+      display: 'Custom bucket boundariess',
       description: '',
       visualisations: [
         Scorecards.simpleScorecardCustomBucketsBoundariesNationality,

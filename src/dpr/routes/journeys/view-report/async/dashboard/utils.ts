@@ -29,6 +29,7 @@ import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import { FilterType } from '../../../../../components/_filters/filter-input/enum'
 import { FEATURE_FLAG_KEYS } from '../../../../../utils/featureFlagsHelper'
 import DashboardSchema from './validate'
+import { ValidatedDashboardDefinition } from './types'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],
@@ -90,7 +91,8 @@ const getDefinitionData = async ({
     queryData,
   )
 
-  const validDashboardDefinition = DashboardSchema.parse(dashboardDefinition)
+  // Validate definition
+  DashboardSchema.DashboardSchema.parse(dashboardDefinition)
 
   // Report summary data
   const reportDefinition = await DefinitionUtils.getReportSummary(
@@ -102,7 +104,7 @@ const getDefinitionData = async ({
 
   // Get the filters
   const filtersData = await FilterUtils.getFilters({
-    fields: validDashboardDefinition.filterFields || [],
+    fields: dashboardDefinition.filterFields || [],
     req,
     filtersType: FiltersType.INTERACTIVE,
   })
@@ -111,7 +113,7 @@ const getDefinitionData = async ({
 
   // Create the query
   const query = new ReportQuery({
-    fields: validDashboardDefinition.filterFields || [],
+    fields: dashboardDefinition.filterFields || [],
     queryParams: filtersQuery,
     definitionsPath: <string>dataProductDefinitionsPath,
     reportType: ReportType.DASHBOARD,
@@ -120,7 +122,7 @@ const getDefinitionData = async ({
   return {
     query,
     filters: filtersData,
-    dashboardDefinition: validDashboardDefinition,
+    dashboardDefinition,
     reportDefinition,
   }
 }

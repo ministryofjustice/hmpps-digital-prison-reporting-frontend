@@ -40,7 +40,7 @@ export const DashboardColumns = z.object({
 })
 
 const dashboardOptions = z.object({
-  ...dashboardBucket.shape,
+  ...BucketOptionsSchema.shape,
   showLatest: z.boolean().default(true),
   columnsAsList: z.boolean().optional(),
 })

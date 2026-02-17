@@ -8,6 +8,7 @@ class BookmarkButton extends DprClientClass {
   reportType!: 'dashboard' | 'report'
   endpoint!: string
   baseUrl!: string
+  isRunning = false
 
   static override getModuleName() {
     return 'bookmark-button'
@@ -64,29 +65,36 @@ class BookmarkButton extends DprClientClass {
   }
 
   async activateBookmark() {
+    if (this.isRunning) return
+    this.isRunning = true
+
     this.getElement().style.pointerEvents = 'none'
     this.getElement().style.opacity = '0.5'
 
-    await fetch(this.endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        type: this.linkType,
-        id: this.id,
-        reportId: this.reportId,
-        reportType: this.reportType,
-      }),
-    })
-      .then(() => {
-        // The page should not reload if on the report/dashboard page so not to have to reload the data and cause a delay
-        // Should instead update the UI labels to signify the change has been made
-        if (!window.location.href.includes('/report') && !window.location.href.includes('/dashboard')) {
-          window.location.reload()
-        } else {
-          this.updateUI()
-        }
+    try {
+      await fetch(this.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: this.linkType,
+          id: this.id,
+          reportId: this.reportId,
+          reportType: this.reportType,
+        }),
       })
-      .catch((error) => console.error('Error:', error))
+        .then(() => {
+          // The page should not reload if on the report/dashboard page so not to have to reload the data and cause a delay
+          // Should instead update the UI labels to signify the change has been made
+          if (!window.location.href.includes('/report') && !window.location.href.includes('/dashboard')) {
+            window.location.reload()
+          } else {
+            this.updateUI()
+          }
+        })
+        .catch((error) => console.error('Error:', error))
+    } finally {
+      this.isRunning = false
+    }
   }
 }
 

@@ -31,10 +31,13 @@ export const DashboardVisualisationMeasureSchema = z.object({
 })
 
 export const DashboardColumns = z.object({
-  keys: z.array(DashboardVisualisationKeySchema),
-  measures: z
-    .array(DashboardVisualisationMeasureSchema)
-    .min(1, 'Dashboard visualisation definition: measure array must contain at least 1 item'),
+  keys: z.array(DashboardVisualisationKeySchema).optional(),
+  measures: z.array(DashboardVisualisationMeasureSchema, {
+    error: (issue) =>
+      issue.input === undefined
+        ? 'Dashboard visualisation definition: measures is required'
+        : 'Dashboard visualisation definition: measures must be an array',
+  }),
   filters: z.array(dashboardVisFilter).min(1).optional(),
   expectNulls: z.boolean().default(false),
 })

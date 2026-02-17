@@ -705,9 +705,7 @@ context('Dashboard visualisation: List', () => {
         cy.findByRole('heading', { name: /Your report has failed to generate/ }).should('be.visible')
         cy.findAllByRole('paragraph')
           .eq(1)
-          .contains(
-            'Error: Schema validation error: Dashboard visualisation definition: measure array must contain at least 1 item',
-          )
+          .contains('Error: Schema validation error: Dashboard visualisation definition: measures is required')
       })
     })
 

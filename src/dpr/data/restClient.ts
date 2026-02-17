@@ -31,10 +31,7 @@ interface RequestWithBody extends Request {
 class RestClient {
   agent: Agent
 
-  constructor(
-    private readonly name: string,
-    private readonly config: ApiConfig,
-  ) {
+  constructor(private readonly name: string, private readonly config: ApiConfig) {
     this.agent = config.url.startsWith('https') ? new HttpsAgent(config.agent) : new Agent(config.agent)
   }
 

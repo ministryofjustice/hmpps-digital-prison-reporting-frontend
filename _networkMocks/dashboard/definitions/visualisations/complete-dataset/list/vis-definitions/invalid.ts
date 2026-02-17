@@ -7,12 +7,6 @@ export const invalidDefinition: components['schemas']['DashboardVisualisationDef
   display: 'Invalid Definition',
   description: 'Invalid List visualisation',
   columns: {
-    keys: [
-      {
-        id: 'establishment_id',
-      },
-    ],
-    measures: [], // <-- must contain a single measure
     expectNulls: false,
   },
-}
+} as unknown as components['schemas']['DashboardVisualisationDefinition']

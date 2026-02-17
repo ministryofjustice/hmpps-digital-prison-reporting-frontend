@@ -29,7 +29,6 @@ import { FiltersType } from '../../../../../components/_filters/filtersTypeEnum'
 import { FilterType } from '../../../../../components/_filters/filter-input/enum'
 import { FEATURE_FLAG_KEYS } from '../../../../../utils/featureFlagsHelper'
 import DashboardSchema from './validate'
-import { ValidatedDashboardDefinition } from './types'
 
 const setDashboardActions = (
   dashboardDefinition: components['schemas']['DashboardDefinition'],

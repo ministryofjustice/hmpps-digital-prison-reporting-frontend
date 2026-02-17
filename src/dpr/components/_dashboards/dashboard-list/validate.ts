@@ -16,9 +16,7 @@ const ListSchema = z.object({
   options: z.object(ListOptions.shape).optional(),
   columns: z.object({
     ...DashboardColumns.shape,
-    measures: z
-      .array(DashboardVisualisationMeasureSchema)
-      .min(1, 'Dashboard visualisation definition: measure array must contain at least 1 item'),
+    measures: z.array(DashboardVisualisationMeasureSchema),
   }),
 })
 

@@ -14,8 +14,8 @@ export const createList = (
   listDefinition: components['schemas']['DashboardVisualisationDefinition'],
   dashboardData: DashboardDataResponse[],
 ): { table: MoJTable; ts: string } => {
-  const validDefinition = ListVisSchemas.ListSchema.parse(listDefinition)
-  const { columns, options } = validDefinition
+  ListVisSchemas.ListSchema.parse(listDefinition)
+  const { columns, options } = listDefinition
   const listOptions = <ListDashboardVisualisationOptions>options
   const showLatest = listOptions?.showLatest !== undefined ? listOptions.showLatest : true
   const columnsAsList = listOptions?.columnsAsList

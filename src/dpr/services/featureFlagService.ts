@@ -103,7 +103,7 @@ export class FeatureFlagService {
 }
 
 const resolveFlag = (app: Application, flagName: string) => {
-  return app.locals.featureFlags?.flags?.[flagName]
+  return app.locals['featureFlags']?.flags?.[flagName]
 }
 
 export const isBooleanFlagEnabledOrMissing = (flagName: string, app: Application): boolean => {

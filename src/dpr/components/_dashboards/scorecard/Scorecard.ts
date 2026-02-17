@@ -50,7 +50,6 @@ class ScorecardVisualisation {
     this.id = this.definition.id
     this.measures = this.definition.columns.measures
     this.options = this.definition.options
-    console.log({ options: this.options })
     this.titleColumn = { display: this.definition.display, id: this.valueKey }
     this.initFromMeasures()
   }

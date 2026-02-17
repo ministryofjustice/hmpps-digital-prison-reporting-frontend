@@ -6,7 +6,7 @@ import customParse from 'dayjs/plugin/customParseFormat'
 
 // General Components
 import CardGroup from './components/card-group/clientClass'
-import BookmarkToggle from './components/bookmark-toggle/clientClass'
+import BookmarkButton from './components/bookmark/clientClass'
 import ShowMore from './components/show-more/clientClass'
 
 // Catalogue
@@ -73,7 +73,7 @@ function initAll() {
     Search,
     UnauthorisedReportsFilter,
     ReportTypeFilter,
-    BookmarkToggle,
+    BookmarkButton,
     DateInput,
     RequestedReportsList,
     RecentlyViewedList,

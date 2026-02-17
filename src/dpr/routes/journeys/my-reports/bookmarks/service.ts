@@ -79,7 +79,7 @@ class BookmarkService extends ReportStoreService {
     })
   }
 
-  async createBookMarkToggleHtml({
+  async createBookMarkButtonHtml({
     userConfig,
     reportId,
     id,
@@ -98,25 +98,35 @@ class BookmarkService extends ReportStoreService {
     isMissing: boolean
     nestedBaseUrl: string | undefined
   }) {
-    let tooltip = 'Add bookmark'
+    let linkText = 'Add bookmark'
     let automatic = false
-    let checked = null
+    let linkType = 'add'
 
     if (userConfig?.bookmarks) {
       const bookmark = this.getBookmark(userConfig, id, reportId)
       if (bookmark) {
-        checked = 'checked'
-        tooltip = 'Remove bookmark'
+        linkType = 'remove'
+        linkText = 'Remove bookmark'
         automatic = Boolean(bookmark.automatic)
       }
     }
 
-    const bookmarkButton = `<button class='dpr-bookmark dpr-bookmark-table' data-dpr-module='bookmark-toggle'>
-    <input class='bookmark-input' type='checkbox' id='${reportId}-${id}-${ctxId}' data-report-id='${reportId}' data-id='${id}' data-report-type='${reportType}' data-csrf-token='${csrfToken}' data-base-url='${nestedBaseUrl}' ${checked} />
-  <label tabindex='0' id='${id}-${reportId}-${ctxId}-bookmark-label' for='${reportId}-${id}-${ctxId}'><span class='dpr-bookmark-label govuk-body-s'>${tooltip}</span></label>
-</button>`
+    const classes = 'govuk-link govuk-link--no-visited-state dpr-bookmark-link'
+    const linkId = `${reportId}-${id}-${ctxId}`
 
-    return automatic || isMissing ? '' : bookmarkButton
+    const bookmarkLinkHtml = `<a href="#" 
+      class="${classes}"
+      id="${linkId}"
+      data-dpr-module="bookmark-button"
+      data-id="${id}" 
+      data-report-id="${reportId}" 
+      data-report-type="${reportType}" 
+      data-base-url="${nestedBaseUrl}"  
+      data-csrf-token="${csrfToken}" 
+      data-link-type="${linkType}"
+    >${linkText}</a>`
+
+    return automatic || isMissing ? '' : bookmarkLinkHtml
   }
 }
 

@@ -1,5 +1,9 @@
 Below you can find the changes included in each release.
 
+## 5.2.1
+
+- Fix bookmark styling causing csp issue
+
 ## 5.2.0
 
 - Refactor bookmark links to use not use iconography.

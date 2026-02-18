@@ -44,7 +44,6 @@ class Chart {
       const label = this.createDatasetLabel(row)
       const data = this.createDatasetValues(measures, row)
       const total = data.reduce((acc: number, val: number) => acc + val, 0)
-      const things = {}
 
       return {
         label,

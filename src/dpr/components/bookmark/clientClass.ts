@@ -54,25 +54,29 @@ class BookmarkButton extends DprClientClass {
    * @memberof BookmarkButton
    */
   initEventListener() {
-    this.getElement().addEventListener('click', () => this.activateBookmark())
+    this.getElement().addEventListener('click', (e: MouseEvent) => this.activateBookmark(e))
     this.getElement().addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'Enter' || e.key === ' ') {
-        this.activateBookmark()
+        this.activateBookmark(e)
       }
     })
   }
 
-  async activateBookmark() {
+  async activateBookmark(e: Event) {
+    e.preventDefault()
+
     if (this.isRunning) return
     this.isRunning = true
-
-    this.getElement().style.pointerEvents = 'none'
-    this.getElement().style.opacity = '0.5'
+    this.getElement().classList.add('bookmark-disabled')
 
     try {
       await fetch(this.endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'CSRF-Token': this.csrfToken,
+        },
         body: JSON.stringify({
           type: this.linkType,
           id: this.id,
@@ -92,8 +96,7 @@ class BookmarkButton extends DprClientClass {
         .catch((error) => console.error('Error:', error))
     } finally {
       this.isRunning = false
-      this.getElement().style.pointerEvents = ''
-      this.getElement().style.opacity = '1'
+      this.getElement().classList.remove('bookmark-disabled')
     }
   }
 }

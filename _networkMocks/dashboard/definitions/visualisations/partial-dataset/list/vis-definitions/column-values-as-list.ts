@@ -53,7 +53,7 @@ export const dietTotalsWithFilters: components['schemas']['DashboardVisualisatio
     filters: [
       {
         id: 'diet',
-        equals: 'DietOne',
+        equals: 'Diet one',
       },
     ],
     expectNulls: true,
@@ -87,11 +87,11 @@ export const dietTotalsWithFiltersSingleColumn: components['schemas']['Dashboard
     filters: [
       {
         id: 'diet',
-        equals: 'DietOne',
+        equals: 'Diet one',
       },
       {
         id: 'diet',
-        equals: 'DietTwo',
+        equals: 'Diet two',
       },
     ],
     expectNulls: true,
@@ -195,6 +195,14 @@ export const dietTotalsByEstablishmentByWingByCell: components['schemas']['Dashb
     ],
     measures: [
       {
+        id: 'establishment_id',
+        display: 'Est code',
+      },
+      {
+        id: 'wing',
+        display: 'Wing',
+      },
+      {
         id: 'cell',
         display: 'Cell',
       },
@@ -233,6 +241,14 @@ export const dietTotalsByEstablishmentByWingByCellFilters: components['schemas']
     ],
     measures: [
       {
+        id: 'establishment_id',
+        display: 'Est code',
+      },
+      {
+        id: 'wing',
+        display: 'Wing',
+      },
+      {
         id: 'cell',
         display: 'Cell',
       },
@@ -247,8 +263,12 @@ export const dietTotalsByEstablishmentByWingByCellFilters: components['schemas']
     ],
     filters: [
       {
+        id: 'establishment_id',
+        equals: 'ABC',
+      },
+      {
         id: 'cell',
-        equals: 'Cell-1',
+        equals: 'cell-1',
       },
       {
         id: 'cell',
@@ -256,11 +276,11 @@ export const dietTotalsByEstablishmentByWingByCellFilters: components['schemas']
       },
       {
         id: 'diet',
-        equals: 'DietOne',
+        equals: 'Diet one',
       },
       {
         id: 'diet',
-        equals: 'DietFour',
+        equals: 'Diet four',
       },
     ],
     expectNulls: false,

@@ -145,7 +145,7 @@ context('Dashboard visualisation: Scorecards', () => {
     })
 
     it('should show the correct colour based in custom boundaries 3', () => {
-      cy.findAllByLabelText(/No of prisoners with religion/)
+      cy.findAllByLabelText(/No of prisoners with MetricThree/)
         .eq(0)
         .should('exist')
         .within(() => {
@@ -213,7 +213,7 @@ context('Dashboard visualisation: Scorecards', () => {
     })
 
     it('should show scorecard group using columns', () => {
-      cy.findByLabelText(/Establishment ID: MDI/)
+      cy.findByLabelText(/Establishment ID: ABC/)
         .should('exist')
         .within(() => {
           cy.findByLabelText('Has MetricOne').should('exist')

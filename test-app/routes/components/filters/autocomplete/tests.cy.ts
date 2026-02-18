@@ -72,21 +72,21 @@ context('Filters: Autocomplete', () => {
 
     it('should set the display value when setting the value from the URL', () => {
       cy.visit(
-        '/embedded/platform/dpr/request-report/report/filter-inputs/establishmentAutocomplete/filters?filters.establishment=KMI',
+        '/embedded/platform/dpr/request-report/report/filter-inputs/establishmentAutocomplete/filters?filters.establishment=ABC',
       )
-      cy.findByRole('combobox').should('have.value', 'KIRKHAM (HMP)')
+      cy.findByRole('combobox').should('have.value', 'Est one')
       cy.findByLabelText(/Selected filters.*/i).within(() => {
         cy.findAllByRole('link').eq(0).contains('Establishment')
-        cy.findAllByRole('link').eq(0).contains('KIRKHAM (HMP)')
+        cy.findAllByRole('link').eq(0).contains('Est one')
       })
 
       cy.visit(
-        '/embedded/platform/dpr/request-report/report/filter-inputs/establishmentAutocomplete/filters?filters.establishment=MDI',
+        '/embedded/platform/dpr/request-report/report/filter-inputs/establishmentAutocomplete/filters?filters.establishment=DEF',
       )
-      cy.findByRole('combobox').should('have.value', 'Moorland (HMP & YOI)')
+      cy.findByRole('combobox').should('have.value', 'Est two')
       cy.findByLabelText(/Selected filters.*/i).within(() => {
         cy.findAllByRole('link').eq(0).contains('Establishment')
-        cy.findAllByRole('link').eq(0).contains('Moorland (HMP & YOI)')
+        cy.findAllByRole('link').eq(0).contains('Est two')
       })
     })
   })

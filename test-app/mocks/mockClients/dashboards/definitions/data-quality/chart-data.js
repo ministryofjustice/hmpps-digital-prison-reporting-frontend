@@ -9,7 +9,7 @@ const barChartDataHasMetricOne = {
     ],
     headlines: [
       {
-        label: 'Total has MetricOne',
+        label: 'Total has metricone',
         value: 1423,
       },
     ],
@@ -160,7 +160,7 @@ const barChartFromListDataHasMetricOne = {
     ],
     headlines: [
       {
-        label: 'Total has MetricOne',
+        label: 'Total has metricone',
         value: 1423,
       },
     ],

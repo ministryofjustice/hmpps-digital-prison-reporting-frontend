@@ -20,12 +20,15 @@ export class FeatureFlagService {
       return
     }
 
+    const updateInterval = (typeof config.updateInterval === 'number' && config.updateInterval) || 120
+
     this.clientConfig = {
       url,
       namespace: FEATURE_FLAG_NAMESPACE,
       authentication: {
         clientToken: token,
       },
+      updateInterval,
     }
   }
 

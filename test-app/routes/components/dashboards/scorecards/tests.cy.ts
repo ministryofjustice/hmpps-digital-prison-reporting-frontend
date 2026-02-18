@@ -154,7 +154,6 @@ context('Dashboard visualisation: Scorecards', () => {
             .eq(1)
             .then((p) => {
               value = Number(p.text())
-
               let colour = '#f4cdc6'
               if (value <= 500) {
                 colour = '#cce2d8'

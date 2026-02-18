@@ -76,21 +76,21 @@ The following examples will demonstrate how to use flexible keys of using the `l
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 5000  |
-| 2025/02/25 | MDI      |       |       |             | 1109  |
-| 2025/02/25 | MDI      | north |       |             | 140   |
-| 2025/02/25 | MDI      | north | cell1 |             | 30    |
-| 2025/02/25 | MDI      | north | cell2 |             | 29    |
-| 2025/02/25 | MDI      | north | cell3 |             | 13    |
-| 2025/02/25 | MDI      | north | cell4 |             | 26    |
-| 2025/02/25 | MDI      | north | cell5 |             | 42    |
-| 2025/02/25 |          |       |       | DietOne  | 1507  |
-| 2025/02/25 |          |       |       | DietTwo | 1130  |
-| 2025/02/25 |          |       |       | DietThree       | 1354  |
-| 2025/02/25 |          |       |       | DietFour    | 1009  |
-| 2025/02/25 | MDI      |       |       | DietOne  | 169   |
-| 2025/02/25 | MDI      |       |       | DietTwo | 463   |
-| 2025/02/25 | MDI      |       |       | DietThree       | 397   |
-| 2025/02/25 | MDI      |       |       | DietFour    | 80    |
+| 2025/02/25 | ABC      |       |       |             | 1109  |
+| 2025/02/25 | ABC      | north |       |             | 140   |
+| 2025/02/25 | ABC      | north | cell1 |             | 30    |
+| 2025/02/25 | ABC      | north | cell2 |             | 29    |
+| 2025/02/25 | ABC      | north | cell3 |             | 13    |
+| 2025/02/25 | ABC      | north | cell4 |             | 26    |
+| 2025/02/25 | ABC      | north | cell5 |             | 42    |
+| 2025/02/25 |          |       |       | Diet one    | 1507  |
+| 2025/02/25 |          |       |       | Diet two    | 1130  |
+| 2025/02/25 |          |       |       | Diet three  | 1354  |
+| 2025/02/25 |          |       |       | Diet four   | 1009  |
+| 2025/02/25 | ABC      |       |       | Diet one    | 169   |
+| 2025/02/25 | ABC      |       |       | Diet two    | 463   |
+| 2025/02/25 | ABC      |       |       | Diet three  | 397   |
+| 2025/02/25 | ABC      |       |       | Diet four   | 80    |
 ```
 
 <hr class='dpr-docs-hr'/>

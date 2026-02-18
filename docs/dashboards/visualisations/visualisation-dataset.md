@@ -185,21 +185,21 @@ For these examples we will use mocked data that represents diet totals as our ma
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 5000  |
-| 2025/02/25 | MDI      |       |       |             | 1109  |
-| 2025/02/25 | MDI      | north |       |             | 140   |
-| 2025/02/25 | MDI      | north | cell1 |             | 30    |
-| 2025/02/25 | MDI      | north | cell2 |             | 29    |
-| 2025/02/25 | MDI      | north | cell3 |             | 13    |
-| 2025/02/25 | MDI      | north | cell4 |             | 26    |
-| 2025/02/25 | MDI      | north | cell5 |             | 42    |
-| 2025/02/25 |          |       |       | DietOne  | 1507  |
-| 2025/02/25 |          |       |       | DietTwo | 1130  |
-| 2025/02/25 |          |       |       | DietThree       | 1354  |
-| 2025/02/25 |          |       |       | DietFour    | 1009  |
-| 2025/02/25 | MDI      |       |       | DietOne  | 169   |
-| 2025/02/25 | MDI      |       |       | DietTwo | 463   |
-| 2025/02/25 | MDI      |       |       | DietThree       | 397   |
-| 2025/02/25 | MDI      |       |       | DietFour    | 80    |
+| 2025/02/25 | ABC      |       |       |             | 1109  |
+| 2025/02/25 | ABC      | north |       |             | 140   |
+| 2025/02/25 | ABC      | north | cell1 |             | 30    |
+| 2025/02/25 | ABC      | north | cell2 |             | 29    |
+| 2025/02/25 | ABC      | north | cell3 |             | 13    |
+| 2025/02/25 | ABC      | north | cell4 |             | 26    |
+| 2025/02/25 | ABC      | north | cell5 |             | 42    |
+| 2025/02/25 |          |       |       | Diet one    | 1507  |
+| 2025/02/25 |          |       |       | Diet two    | 1130  |
+| 2025/02/25 |          |       |       | Diet three  | 1354  |
+| 2025/02/25 |          |       |       | Diet four   | 1009  |
+| 2025/02/25 | ABC      |       |       | Diet one    | 169   |
+| 2025/02/25 | ABC      |       |       | Diet two    | 463   |
+| 2025/02/25 | ABC      |       |       | Diet three  | 397   |
+| 2025/02/25 | ABC      |       |       | Diet four   | 80    |
 ```
 
 <hr class='dpr-docs-hr'/>
@@ -237,12 +237,12 @@ This definition will return the following dataset:
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 | MDI      | north |       |             | 140   |
-| 2025/02/25 | MDI      | north | cell1 |             | 30    |
-| 2025/02/25 | MDI      | north | cell2 |             | 29    |
-| 2025/02/25 | MDI      | north | cell3 |             | 13    |
-| 2025/02/25 | MDI      | north | cell4 |             | 26    |
-| 2025/02/25 | MDI      | north | cell5 |             | 42    |
+| 2025/02/25 | ABC      | north |       |             | 140   |
+| 2025/02/25 | ABC      | north | cell1 |             | 30    |
+| 2025/02/25 | ABC      | north | cell2 |             | 29    |
+| 2025/02/25 | ABC      | north | cell3 |             | 13    |
+| 2025/02/25 | ABC      | north | cell4 |             | 26    |
+| 2025/02/25 | ABC      | north | cell5 |             | 42    |
 ```
 
 Note that rows with `cell` values were also returned here also, as the defintion returns all rows where the `keys` and `measures` are defined.
@@ -284,7 +284,7 @@ will return the following dataset:
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 | MDI      | north |       |             | 140   |
+| 2025/02/25 | ABC      | north |       |             | 140   |
 ```
 
 which will produce the following `list` visualisation.
@@ -354,8 +354,8 @@ which will produce the following `list` visualisation.
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 | MDI      | north | cell4 |             | 26    |
-| 2025/02/25 | MDI      | north | cell5 |             | 42    |
+| 2025/02/25 | ABC      | north | cell4 |             | 26    |
+| 2025/02/25 | ABC      | north | cell5 |             | 42    |
 ```
 
 ### Visualisation
@@ -403,12 +403,12 @@ This definition will return the following dataset:
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 | MDI      | north |       |             | 140   |
-| 2025/02/25 | MDI      | north | cell1 |             | 30    |
-| 2025/02/25 | MDI      | north | cell2 |             | 29    |
-| 2025/02/25 | MDI      | north | cell3 |             | 13    |
-| 2025/02/25 | MDI      | north | cell4 |             | 26    |
-| 2025/02/25 | MDI      | north | cell5 |             | 42    |
+| 2025/02/25 | ABC      | north |       |             | 140   |
+| 2025/02/25 | ABC      | north | cell1 |             | 30    |
+| 2025/02/25 | ABC      | north | cell2 |             | 29    |
+| 2025/02/25 | ABC      | north | cell3 |             | 13    |
+| 2025/02/25 | ABC      | north | cell4 |             | 26    |
+| 2025/02/25 | ABC      | north | cell5 |             | 42    |
 ```
 
 Note that rows with `cell` values were also returned here also, as the defintion returns all rows where the `keys` and `measures` are defined.
@@ -453,7 +453,7 @@ will return the following dataset:
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 | MDI      | north |       |             | 140   |
+| 2025/02/25 | ABC      | north |       |             | 140   |
 ```
 
 which will produce the following `list` visualisation.
@@ -537,10 +537,10 @@ which will produce the following `list` visualisation.
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 |          |       |       | vegatarian  | 1507  |
-| 2025/02/25 |          |       |       | DietTwo | 1130  |
-| 2025/02/25 |          |       |       | DietThree       | 1354  |
-| 2025/02/25 |          |       |       | DietFour    | 1009  |
+| 2025/02/25 |          |       |       | Diet one    | 1507  |
+| 2025/02/25 |          |       |       | Diet two    | 1130  |
+| 2025/02/25 |          |       |       | Diet three  | 1354  |
+| 2025/02/25 |          |       |       | Diet four   | 1009  |
 ```
 
 ### Visualisation:
@@ -548,10 +548,10 @@ which will produce the following `list` visualisation.
 ```js
 | Diet        | Total prisoners | 
 |-------------|-----------------|
-| vegatarian  | 1507            |
-| DietTwo | 1130            |
-| DietThree       | 1354            |
-| DietFour    | 1009            |
+| Diet one    | 1507            |
+| Diet two    | 1130            |
+| Diet three  | 1354            |
+| Diet four   | 1009            |
 ```
 
 <hr class='dpr-docs-hr'/>
@@ -597,10 +597,10 @@ which will produce the following `list` visualisation.
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 | MDI      |       |       | vegatarian  | 169   |
-| 2025/02/25 | MDI      |       |       | DietTwo | 463   |
-| 2025/02/25 | MDI      |       |       | DietThree       | 397   |
-| 2025/02/25 | MDI      |       |       | DietFour    | 80    |
+| 2025/02/25 | ABC      |       |       | Diet one    | 169   |
+| 2025/02/25 | ABC      |       |       | Diet two    | 463   |
+| 2025/02/25 | ABC      |       |       | Diet three  | 397   |
+| 2025/02/25 | ABC      |       |       | Diet four   | 80    |
 ```
 
 ### Visualisation:
@@ -608,10 +608,10 @@ which will produce the following `list` visualisation.
 ```js
 |  Establishment ID  | Diet        | Total prisoners | 
 |--------------------|-------------|-----------------|
-| MDI                | vegatarian  | 169             |
-| MDI                | DietTwo | 463             |
-| MDI                | DietThree       | 397             |
-| MDI                | DietFour    | 80              |
+| ABC                | Diet one    | 169             |
+| ABC                | Diet two    | 463             |
+| ABC                | Diet three  | 397             |
+| ABC                | Diet four   | 80              |
 | Total              |             | 1109            |
 ```
 
@@ -657,11 +657,11 @@ which will produce the following `list` visualisation.
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 | MDI      | north | cell1 |             | 30    |
-| 2025/02/25 | MDI      | north | cell2 |             | 29    |
-| 2025/02/25 | MDI      | north | cell3 |             | 13    |
-| 2025/02/25 | MDI      | north | cell4 |             | 26    |
-| 2025/02/25 | MDI      | north | cell5 |             | 42    |
+| 2025/02/25 | ABC      | north | cell1 |             | 30    |
+| 2025/02/25 | ABC      | north | cell2 |             | 29    |
+| 2025/02/25 | ABC      | north | cell3 |             | 13    |
+| 2025/02/25 | ABC      | north | cell4 |             | 26    |
+| 2025/02/25 | ABC      | north | cell5 |             | 42    |
 ```
 
 ### Visualisation:

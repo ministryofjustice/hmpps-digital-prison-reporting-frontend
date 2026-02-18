@@ -1,4 +1,4 @@
-import { initUserReports } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/userReportsListUtils'
+import { initUserReports } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/userReportDEFstUtils'
 
 
 export function routes(services: Services): Router {

@@ -4,7 +4,7 @@ title: Scorecard
 subsection: Visualisation definition
 phase: Alpha
 ---
-<img src="/assets/images/scorecard-section-rag.png" alt="" style="margin-bottom: 30px"/>
+<!-- <img src="/assets/images/scorecard-section-rag.png" alt="" style="margin-bottom: 30px"/> -->
 
 The `scorecard` chart visualisation type represents data as a scorecard. 
 
@@ -119,14 +119,14 @@ This exmaple demonstrates how to define a scorecard in its simplest form.
 ### Dataset
 
 ```js
-| ts         | est_id | has_metric_two | metric_two_is_missing | has_metric_three | metric_three_is_missing |
-|------------|--------|-----------------|------------------------|--------------|---------------------|
-| Jun 25.    | MDI    | 74              | 485                    | 300          | 500                 |
-| Jul 25.    | MDI    | 80              | 701                    | 280          | 320                 |
-| Aug 25.    | MDI    | 56              | 725                    | 220          | 214                 |
-| Sep 25     | MDI    | 30              | 765                    | 220          | 214                 |
-| Oct 25.    | MDI    | 42              | 765                    | 220          | 214                 |
-| Nov 25.    | MDI    | 21              | 765                    | 220          | 214                 |
+| ts         | est_id | has_metric_two  | metric_two_is_missing  | has_metric_three | metric_three_is_missing |
+|------------|--------|-----------------|------------------------|------------------|-------------------------|
+| Jun 25.    | ABC    | 74              | 485                    | 300              | 500                     |
+| Jul 25.    | ABC    | 80              | 701                    | 280              | 320                     |
+| Aug 25.    | ABC    | 56              | 725                    | 220              | 214                     |
+| Sep 25     | ABC    | 30              | 765                    | 220              | 214                     |
+| Oct 25.    | ABC    | 42              | 765                    | 220              | 214                     |
+| Nov 25.    | ABC    | 21              | 765                    | 220              | 214                     |
 ```
 
 ### Definition
@@ -146,7 +146,7 @@ This exmaple demonstrates how to define a scorecard in its simplest form.
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-simple.png" alt=""/>
+<!-- <img src="/assets/images/scorecard-simple.png" alt=""/> -->
 
 <hr class='dpr-docs-hr'/>
 
@@ -159,19 +159,19 @@ The example demonstrates how to a define scorecard that get its value by using t
 
 ```js
 | ts         | est_id | has_metric_two | has_metric_three |
-|------------|--------|-----------------|--------------|
-| Jun 25.    | MDI    | 21              | 485          |
-| Jun 25.    | SLI    | 27              | 485          | 
-| Jul 25.    | MDI    | 80              | 701          | 
-| Jul 25.    | SLI    | 84              | 701          |
-| Aug 25.    | MDI    | 56              | 725          | 
-| Aug 25.    | SLI    | 34              | 725          | 
-| Sep 25     | MDI    | 30              | 765          | 
-| Sep 25     | SLI    | 36              | 765          |
-| Oct 25.    | MDI    | 42              | 765          | 
-| Oct 25.    | SLI    | 44              | 765          | 
-| Nov 25.    | MDI    | 12              | 765          | 
-| Nov 25.    | SLI    | 33              | 765          | 
+|------------|--------|----------------|------------------|
+| Jun 25.    | ABC    | 21             | 485              |
+| Jun 25.    | DEF    | 27             | 485              | 
+| Jul 25.    | ABC    | 80             | 701              | 
+| Jul 25.    | DEF    | 84             | 701              |
+| Aug 25.    | ABC    | 56             | 725              | 
+| Aug 25.    | DEF    | 34             | 725              | 
+| Sep 25     | ABC    | 30             | 765              | 
+| Sep 25     | DEF    | 36             | 765              |
+| Oct 25.    | ABC    | 42             | 765              | 
+| Oct 25.    | DEF    | 44             | 765              | 
+| Nov 25.    | ABC    | 12             | 765              | 
+| Nov 25.    | DEF    | 33             | 765              | 
 ```
 
 ### Definition
@@ -197,7 +197,7 @@ The example demonstrates how to a define scorecard that get its value by using t
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-filter.png" alt=""/>
+<!-- <img src="/assets/images/scorecard-filter.png" alt=""/> -->
 
 <hr class='dpr-docs-hr'/>
 
@@ -209,18 +209,18 @@ The example demonstrates how to a define scorecard that get its value by using t
 | ts         | est_id | wing     | diet       | total  | 
 |------------|--------|----------|------------|--------|
 | Nov 25.    |        |          |            | 30     |
-| Nov 25.    |        |          | DietOne | 12     |
-| Nov 25.    |        |          | DietThree      | 8      |
-| Nov 25.    |        |          | DietFour   | 10     |
-| Nov 25.    |  MDI   |          |            | 30     |
-| Nov 25.    |  MDI   | north    |            | 15     |
-| Nov 25.    |  MDI   | south    |            | 15     |
-| Nov 25.    |  MDI   | north    | DietOne | 1      |
-| Nov 25.    |  MDI   | north    | DietThree      | 5      |
-| Nov 25.    |  MDI   | north    | DietFour   | 9      |
-| Nov 25.    |  MDI   | south    | DietOne | 11     |
-| Nov 25.    |  MDI   | south    | DietThree      | 3      |
-| Nov 25.    |  MDI   | south    | DietFour   | 1      |
+| Nov 25.    |        |          | Diet one   | 12     |
+| Nov 25.    |        |          | Diet three | 8      |
+| Nov 25.    |        |          | Diet four  | 10     |
+| Nov 25.    |  ABC   |          |            | 30     |
+| Nov 25.    |  ABC   | north    |            | 15     |
+| Nov 25.    |  ABC   | south    |            | 15     |
+| Nov 25.    |  ABC   | north    | Diet one   | 1      |
+| Nov 25.    |  ABC   | north    | Diet three | 5      |
+| Nov 25.    |  ABC   | north    | Diet four  | 9      |
+| Nov 25.    |  ABC   | south    | Diet one   | 11     |
+| Nov 25.    |  ABC   | south    | Diet three | 3      |
+| Nov 25.    |  ABC   | south    | Diet four  | 1      |
 ... omitted past ts rows. 
 ```
 
@@ -235,14 +235,14 @@ The example demonstrates how to a define scorecard that get its value by using t
     {
       id: 'sc-diet-totals',
       type: 'scorecard',
-      display: 'Total DietOnes',
+      display: 'Total Diet ones',
       column: {
         key: [],
         measure: [{ id: 'count' }],
         filter: [
           {
             id: 'diet',
-            equals: 'DietOne',
+            equals: 'Diet one',
           },
         ],
         expectNull: true,
@@ -251,14 +251,14 @@ The example demonstrates how to a define scorecard that get its value by using t
     {
       id: 'sc-diet-totals-by-wing',
       type: 'scorecard',
-      display: 'DietOnes in MDI, in North wing',
+      display: 'Diet ones in ABC, in North wing',
       column: {
         key: [{ id: 'establishment_id' }, { id: 'wing' }],
         measure: [{ id: 'count' }],
         filter: [
           {
             id: 'diet',
-            equals: 'DietOne',
+            equals: 'Diet one',
           },
           {
             id: 'establishment_id',
@@ -278,7 +278,7 @@ The example demonstrates how to a define scorecard that get its value by using t
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-diet-filters.png" alt=""/>
+<!-- <img src="/assets/images/scorecard-diet-filters.png" alt=""/> -->
 
 <hr class='dpr-docs-hr'/>
 
@@ -290,13 +290,13 @@ Defining multiple `scorecard` visualisation types adjacent to each other within 
 
 ```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
-|------------|--------|-----------------|--------------|---------------|
-| Jun 25.    | MDI    | 81              | 89           | 36            | 
-| Jul 25.    | MDI    | 80              | 34           | 80            | 
-| Aug 25.    | MDI    | 56              | 67           | 30            | 
-| Sep 25     | MDI    | 30              | 56           | 67            | 
-| Oct 25.    | MDI    | 42              | 43           | 42            |
-| Nov 25.    | MDI    | 94              | 61           | 51            | 
+|------------|--------|----------------|------------------|----------------|
+| Jun 25.    | ABC    | 81             | 89               | 36             | 
+| Jul 25.    | ABC    | 80             | 34               | 80             | 
+| Aug 25.    | ABC    | 56             | 67               | 30             | 
+| Sep 25     | ABC    | 30             | 56               | 67             | 
+| Oct 25.    | ABC    | 42             | 43               | 42             |
+| Nov 25.    | ABC    | 94             | 61               | 51             | 
 ```
 
 ### Definition
@@ -341,7 +341,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-section.png" alt=""/>
+<!-- <img src="/assets/images/scorecard-section.png" alt=""/> -->
 
 <hr class='dpr-docs-hr'/>
 
@@ -355,13 +355,13 @@ This examples display RAG scores within the scorecard:
 
 ```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
-|------------|--------|-----------------|--------------|---------------|
-| Jun 25.    | MDI    | 37              | 85           | 75            | 
-| Jul 25.    | MDI    | 80              | 34           | 80            | 
-| Aug 25.    | MDI    | 56              | 67           | 30            | 
-| Sep 25     | MDI    | 30              | 56           | 67            | 
-| Oct 25.    | MDI    | 42              | 43           | 42            |
-| Nov 25.    | MDI    | 87              | 29           | 38            | 
+|------------|--------|----------------|------------------|----------------|
+| Jun 25.    | ABC    | 37             | 85               | 75             | 
+| Jul 25.    | ABC    | 80             | 34               | 80             | 
+| Aug 25.    | ABC    | 56             | 67               | 30             | 
+| Sep 25     | ABC    | 30             | 56               | 67             | 
+| Oct 25.    | ABC    | 42             | 43               | 42             |
+| Nov 25.    | ABC    | 87             | 29               | 38             | 
 ```
 
 ### Definition
@@ -416,7 +416,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-section-rag.png" alt=""/>
+<!-- <img src="/assets/images/scorecard-section-rag.png" alt=""/> -->
 
 <hr class='dpr-docs-hr'/>
 
@@ -430,13 +430,13 @@ Define custom colours to your buckets:
 
 ```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
-|------------|--------|-----------------|--------------|---------------|
-| Jun 25.    | MDI    | 70              | 30           | 60            | 
-| Jul 25.    | MDI    | 80              | 34           | 80            | 
-| Aug 25.    | MDI    | 56              | 67           | 30            | 
-| Sep 25     | MDI    | 30              | 56           | 67            | 
-| Oct 25.    | MDI    | 42              | 43           | 42            |
-| Nov 25.    | MDI    | 98              | 13           | 51            | 
+|------------|--------|----------------|------------------|----------------|
+| Jun 25.    | ABC    | 70             | 30               | 60             | 
+| Jul 25.    | ABC    | 80             | 34               | 80             | 
+| Aug 25.    | ABC    | 56             | 67               | 30             | 
+| Sep 25     | ABC    | 30             | 56               | 67             | 
+| Oct 25.    | ABC    | 42             | 43               | 42             |
+| Nov 25.    | ABC    | 98             | 13               | 51             | 
 ```
 
 ### Definition
@@ -503,7 +503,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-bucket-colours.png" alt=""/>
+<!-- <img src="/assets/images/scorecard-bucket-colours.png" alt=""/> -->
 
 <hr class='dpr-docs-hr'/>
 
@@ -515,13 +515,13 @@ In this example custom buckets are defined in the definition to set the RAG scor
 
 ```js
 | ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
-|------------|--------|-----------------|--------------|---------------|
-| Jun 25.    | MDI    | 70              | 30           | 60            | 
-| Jul 25.    | MDI    | 80              | 34           | 80            | 
-| Aug 25.    | MDI    | 56              | 67           | 30            | 
-| Sep 25     | MDI    | 30              | 56           | 67            | 
-| Oct 25.    | MDI    | 42              | 43           | 42            |
-| Nov 25.    | MDI    | 98              | 13           | 51            | 
+|------------|--------|----------------|------------------|----------------|
+| Jun 25.    | ABC    | 70             | 30               | 60             | 
+| Jul 25.    | ABC    | 80             | 34               | 80             | 
+| Aug 25.    | ABC    | 56             | 67               | 30             | 
+| Sep 25     | ABC    | 30             | 56               | 67             | 
+| Oct 25.    | ABC    | 42             | 43               | 42             |
+| Nov 25.    | ABC    | 98             | 13               | 51             | 
 ```
 
 ### Definition
@@ -593,6 +593,6 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-custom-buckets.png" alt=""/>
+<!-- <img src="/assets/images/scorecard-custom-buckets.png" alt=""/> -->
 
 <hr class='dpr-docs-hr'/>

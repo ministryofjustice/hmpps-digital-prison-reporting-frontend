@@ -66,8 +66,8 @@ There are two ways to represent data from a dataset as a list:
 ```js
 | est_id | metric_1 | metric_2 | metric_3 | metric_4 |
 |--------|----------|----------|----------|----------|
-| MDI    | 100      | 231      | 300      | 500      |
-| SLI    | 200      | 238      | 280      | 320      |
+| ABC    | 100      | 231      | 300      | 500      |
+| DEF    | 200      | 238      | 280      | 320      |
 | LTI    | 150      | 208      | 220      | 214      |
 ```
 
@@ -116,8 +116,8 @@ There are two ways to represent data from a dataset as a list:
 ```js
 | Establishment ID | Metric 1 | Metric 2 title | Random name |
 |------------------|----------|----------------|-------------|
-| MDI              | 100      | 231            | 300         |
-| SLI              | 200      | 238            | 280         |
+| ABC              | 100      | 231            | 300         |
+| DEF              | 200      | 238            | 280         |
 | LTI              | 150      | 208            | 220         |
 ```
 
@@ -168,7 +168,7 @@ This example demonstrates how to use the dataset column headings as a list withi
 ### Visualisation
 
 ```js
-                 | MDI      | SLI      | LTI      |
+                 | ABC      | DEF      | LTI      |
 |----------------|----------|----------|----------|
 | Metric 1       | 100      | 200      | 150      |
 | Metric 2 title | 231      | 238      | 208      |

@@ -5,7 +5,7 @@ subsection: Visualisation definition
 phase: Alpha
 ---
 
-<img src="/assets/images/scorecard-group-2.png" alt="" style="margin-bottom: 30px"/>
+<!-- <img src="/assets/images/scorecard-group-2.png" alt="" style="margin-bottom: 30px"/> -->
 
 The `scorecard-group` chart visualisation type represents data as a collection `scorecard` visualisations in a group. 
 
@@ -83,11 +83,11 @@ For these examples we will use a mocked dataset representing data quality totals
 
 ```js
 | ts         | est_id | has_metric_two | has_metric_one | has_metric_three | metric_three_is_missing |
-|------------|--------|-----------------|---------------|--------------|---------------------|
-| Nov 25.    | MDI    | 21              | 91            | 54           | 63                  |
-| Nov 25.    | SLI    | 34              | 21            | 12           | 12                  |
-| Nov 25.    | DAI    | 86              | 64            | 36           | 87                  |
-| Nov 25.    | LTI    | 23              | 63            | 87           | 54                  |
+|------------|--------|----------------|----------------|------------------|-------------------------|
+| Nov 25.    | ABC    | 21             | 91             | 54               | 63                      |
+| Nov 25.    | DEF    | 34             | 21             | 12               | 12                      |
+| Nov 25.    | DAI    | 86             | 64             | 36               | 87                      |
+| Nov 25.    | LTI    | 23             | 63             | 87               | 54                      |
 ... omitted past ts data
 ```
 
@@ -206,6 +206,6 @@ Each value in the group column will be used as new group:
 
 ### Visualisation
 
-<img src="/assets/images/scorecard-group-2.png" alt=""/>
+<!-- <img src="/assets/images/scorecard-group-2.png" alt=""/> -->
 
 <hr class='dpr-docs-hr'/>

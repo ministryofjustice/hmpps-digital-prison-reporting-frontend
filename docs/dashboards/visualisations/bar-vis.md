@@ -4,7 +4,7 @@ title: Bar chart
 subsection: Visualisation definition
 phase: Beta
 ---
-<img src="/assets/images//barExample2.png" alt="bar chart example" width="700" style="margin-bottom: 30px"/>
+<!-- <img src="/assets/images//barExample2.png" alt="bar chart example" width="700" style="margin-bottom: 30px"/> -->
 
 The `bar` chart visualisation type represents data as a bar chart visualisation.
 
@@ -78,11 +78,11 @@ In this example we will define which dataset columns to use in the bar chart as 
 
 ```js
 | est_id | has_metric_one | metric_one_is_missing | has_metric_three | metric_three_is_missing |
-|--------|---------------|----------------------|--------------|---------------------|
-| MDI    | 407           | 485                  | 300          | 500                 |
-| SLI    | 584           | 701                  | 280          | 320                 |
-| LTI    | 729           | 725                  | 220          | 214                 |
-| DAI    | 520           | 765                  | 220          | 214                 |
+|--------|----------------|-----------------------|------------------|-------------------------|
+| ABC    | 407            | 485                   | 300              | 500                     |
+| DEF    | 584            | 701                   | 280              | 320                     |
+| LTI    | 729            | 725                   | 220              | 214                     |
+| DAI    | 520            | 765                   | 220              | 214                     |
 ```
 
 ### Definition
@@ -121,8 +121,8 @@ This definition will return the following dataset
 
 | est_id | has_metric_one | metric_one_is_missing |
 |--------|---------------|----------------------|
-| MDI    | 407           | 485                  | 
-| SLI    | 584           | 701                  |
+| ABC    | 407           | 485                  | 
+| DEF    | 584           | 701                  |
 | LTI    | 729           | 725                  |
 | DAI    | 520           | 765                  |
 
@@ -132,7 +132,7 @@ see [here](/dashboards/visualisations/visualisation-dataset) for more info on ta
 
 ### Visualisation:
 
-<img src="/assets/images//barExample2.png" alt="bar chart example" width="800"/>
+<!-- <img src="/assets/images//barExample2.png" alt="bar chart example" width="800"/> -->
 
 <hr class='dpr-docs-hr'/>
 
@@ -148,15 +148,15 @@ Here we can define the `axis` field on the specific dataset columns we want to u
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 5000  |
-| 2025/02/25 | MDI      |       |       |             | 1109  |
-| 2025/02/25 |          |       |       | DietOne  | 1507  |
-| 2025/02/25 |          |       |       | DietTwo | 1130  |
-| 2025/02/25 |          |       |       | DietThree       | 1354  |
-| 2025/02/25 |          |       |       | DietFour    | 1009  |
-| 2025/02/25 | MDI      |       |       | DietOne  | 169   |
-| 2025/02/25 | MDI      |       |       | DietTwo | 463   |
-| 2025/02/25 | MDI      |       |       | DietThree       | 397   |
-| 2025/02/25 | MDI      |       |       | DietFour    | 80    |
+| 2025/02/25 | ABC      |       |       |             | 1109  |
+| 2025/02/25 |          |       |       | Diet one    | 1507  |
+| 2025/02/25 |          |       |       | Diet two    | 1130  |
+| 2025/02/25 |          |       |       | Diet three  | 1354  |
+| 2025/02/25 |          |       |       | Diet four   | 1009  |
+| 2025/02/25 | ABC      |       |       | Diet one    | 169   |
+| 2025/02/25 | ABC      |       |       | Diet two    | 463   |
+| 2025/02/25 | ABC      |       |       | Diet three  | 397   |
+| 2025/02/25 | ABC      |       |       | Diet four   | 80    |
 ```
 
 ### Definition:
@@ -193,15 +193,15 @@ This definition will return the following dataset
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 |          |       |       | DietOne  | 1507  |
-| 2025/02/25 |          |       |       | DietTwo | 1130  |
-| 2025/02/25 |          |       |       | DietThree       | 1354  |
-| 2025/02/25 |          |       |       | DietFour    | 1009  |
+| 2025/02/25 |          |       |       | Diet one    | 1507  |
+| 2025/02/25 |          |       |       | Diet two    | 1130  |
+| 2025/02/25 |          |       |       | Diet three  | 1354  |
+| 2025/02/25 |          |       |       | Diet four   | 1009  |
 ```
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 
 ### Visualisation:
 
-<img src="/assets/images/barExample1.png" alt="bar chart example" width="800"/>
+<!-- <img src="/assets/images/barExample1.png" alt="bar chart example" width="800"/> -->
 
 ```

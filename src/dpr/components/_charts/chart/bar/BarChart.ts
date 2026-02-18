@@ -181,7 +181,16 @@ class BarChart extends Chart {
   private createGroupLabel = (group: DashboardDataResponse[]): string => {
     if (this.groupKey && this.groupKey.length) {
       const firstRow = group[0]
-      return this.groupKey ? this.groupKey.map((id) => firstRow[id]?.raw ?? '').join(' - ') : ''
+      return this.groupKey
+        ? this.groupKey
+            .map((id) => {
+              const key = this.keys.find((k) => k.id === 'id')
+              const label = key && key.display ? `${key.display}:` : ''
+              const value = firstRow[id]?.raw ?? ''
+              return `${label}${value}`
+            })
+            .join(' - ')
+        : ''
     }
     return this.yAxisColumn?.display || ''
   }

@@ -12,8 +12,8 @@ const dataQualityHistoric = {
       display: 'Time series line charts',
       description: '',
       visualisations: [
-        charts.dataQualityEthnicityHistoricLine,
-        // charts.dataQualityNationalityHistoricLine,
+        charts.dataQualityMetricOneHistoricLine,
+        // charts.dataQualityMetricTwoHistoricLine,
         // charts.dataQualityReligionHistoricLine,
       ],
     },
@@ -22,8 +22,8 @@ const dataQualityHistoric = {
     //   display: 'Time series bar charts',
     //   description: '',
     //   visualisations: [
-    //     charts.dataQualityEthnicityHistoricBar,
-    //     charts.dataQualityNationalityHistoricBar,
+    //     charts.dataQualityMetricOneHistoricBar,
+    //     charts.dataQualityMetricTwoHistoricBar,
     //     charts.dataQualityReligionHistoricBar,
     //   ],
     // },

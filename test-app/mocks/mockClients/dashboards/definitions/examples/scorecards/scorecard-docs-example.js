@@ -12,9 +12,9 @@ const docsScoreCard = {
       display: 'Data quality scorecards',
       description: '',
       visualisations: [
-        scorecard.simpleScorecardNationality,
+        scorecard.simpleScorecardMetricTwo,
         scorecard.simpleScorecardReligion,
-        scorecard.simpleScorecardEthnicity,
+        scorecard.simpleScorecardMetricOne,
       ],
     },
     {
@@ -22,9 +22,9 @@ const docsScoreCard = {
       display: 'RAG colours',
       description: 'Example scorecards that use RAG colours',
       visualisations: [
-        scorecard.simpleScorecardRagColoursNationality,
+        scorecard.simpleScorecardRagColoursMetricTwo,
         scorecard.simpleScorecardRagColoursReligion,
-        scorecard.simpleScorecardRagColoursEthnicity,
+        scorecard.simpleScorecardRagColoursMetricOne,
       ],
     },
     {
@@ -32,9 +32,9 @@ const docsScoreCard = {
       display: 'Custom buckets colours',
       description: 'Example scorecards that use custom bucket colours',
       visualisations: [
-        scorecard.simpleScorecardCustomBucketsNationality,
+        scorecard.simpleScorecardCustomBucketsMetricTwo,
         scorecard.simpleScorecardCustomBucketsReligion,
-        scorecard.simpleScorecardCustomBucketsEthnicity,
+        scorecard.simpleScorecardCustomBucketsMetricOne,
       ],
     },
     {
@@ -42,16 +42,16 @@ const docsScoreCard = {
       display: 'Custom bucket boundaries',
       description: 'Example scorecards that use custom bucket bucket boundaries ',
       visualisations: [
-        scorecard.simpleScorecardCustomBucketsBoundariesNationality,
+        scorecard.simpleScorecardCustomBucketsBoundariesMetricTwo,
         scorecard.simpleScorecardCustomBucketsBoundariesReligion,
-        scorecard.simpleScorecardCustomBucketsBoundariesEthnicity,
+        scorecard.simpleScorecardCustomBucketsBoundariesMetricOne,
       ],
     },
     {
       id: 'section-4',
       display: 'Filters',
-      description: 'Scorecard showing Nationality metrics for Est ID: SLI',
-      visualisations: [scorecard.simpleScorecardNationalityFilter],
+      description: 'Scorecard showing MetricTwo metrics for Est ID: SLI',
+      visualisations: [scorecard.simpleScorecardMetricTwoFilter],
     },
     {
       id: 'totals-breakdown',

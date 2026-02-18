@@ -1,11 +1,11 @@
 import { components } from '../../../../../../../src/dpr/types/api'
 import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
-export const dataQualityEthnicityHistoric: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'list-data-quality-has-ethnicity-historic',
+export const dataQualityMetricOneHistoric: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'list-data-quality-has-MetricOne-historic',
   type: DashboardVisualisationType.LIST,
-  display: 'Ethnicity values',
-  description: 'List visualisation showing historic ethnicity values',
+  display: 'MetricOne values',
+  description: 'List visualisation showing historic MetricOne values',
   columns: {
     keys: [
       {
@@ -22,12 +22,12 @@ export const dataQualityEthnicityHistoric: components['schemas']['DashboardVisua
         display: 'Establishment ID',
       },
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
     expectNulls: false,
@@ -56,11 +56,11 @@ export const dataQualityReligionHistoric: components['schemas']['DashboardVisual
         display: 'Establishment ID',
       },
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
     ],
@@ -69,11 +69,11 @@ export const dataQualityReligionHistoric: components['schemas']['DashboardVisual
   options: { showLatest: false },
 }
 
-export const dataQualityNationalityHistoric: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'list-data-quality-has-nationality-historic',
+export const dataQualityMetricTwoHistoric: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'list-data-quality-has-MetricTwo-historic',
   type: DashboardVisualisationType.LIST,
-  display: 'Nationality values',
-  description: 'List visualisation showing historic nationality values',
+  display: 'MetricTwo values',
+  description: 'List visualisation showing historic MetricTwo values',
   columns: {
     keys: [
       {
@@ -90,12 +90,12 @@ export const dataQualityNationalityHistoric: components['schemas']['DashboardVis
         display: 'Establishment ID',
       },
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
     ],
     expectNulls: false,

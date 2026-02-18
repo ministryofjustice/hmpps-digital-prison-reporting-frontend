@@ -20,7 +20,7 @@ const generateData = (query, type) => {
   const { establishmentId, wing: wingFilter, timestamps } = extractQueryAndCreateTimestamps(query)
   const wings = ['north', 'south', 'east', 'west']
 
-  let values = ['Vegetarian', 'Pescatarian', 'Vegan', 'Omnivore']
+  let values = ['DietOne', 'DietTwo', 'DietThree', 'DietFour']
   let valuesLabel = 'diet'
   if (type && type === 'finds') {
     values = ['Drugs', 'Phones', 'Weapons', 'Alcohol']

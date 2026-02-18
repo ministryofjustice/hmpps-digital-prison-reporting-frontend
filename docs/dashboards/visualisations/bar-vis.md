@@ -77,7 +77,7 @@ In this example we will define which dataset columns to use in the bar chart as 
 ### Example Dataset
 
 ```js
-| est_id | has_ethnicity | ethnicity_is_missing | has_religion | religion_is_missing |
+| est_id | has_metric_one | metric_one_is_missing | has_metric_three | metric_three_is_missing |
 |--------|---------------|----------------------|--------------|---------------------|
 | MDI    | 407           | 485                  | 300          | 500                 |
 | SLI    | 584           | 701                  | 280          | 320                 |
@@ -91,7 +91,7 @@ In this example we will define which dataset columns to use in the bar chart as 
 {
   id: 'metric-bar-example',
   type: 'bar',
-  display: 'Ethnicity values',
+  display: 'MetricOne values',
   description: '',
   column: {
     key: [
@@ -102,12 +102,12 @@ In this example we will define which dataset columns to use in the bar chart as 
     ],
     measure: [
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',  
+        id: 'has_metric_one',
+        display: 'Has MetricOne',  
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No ethnicity',  
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',  
       },
     ],
   },
@@ -119,7 +119,7 @@ In this example we will define which dataset columns to use in the bar chart as 
 This definition will return the following dataset 
 ```js
 
-| est_id | has_ethnicity | ethnicity_is_missing |
+| est_id | has_metric_one | metric_one_is_missing |
 |--------|---------------|----------------------|
 | MDI    | 407           | 485                  | 
 | SLI    | 584           | 701                  |
@@ -149,14 +149,14 @@ Here we can define the `axis` field on the specific dataset columns we want to u
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       |             | 5000  |
 | 2025/02/25 | MDI      |       |       |             | 1109  |
-| 2025/02/25 |          |       |       | vegetarian  | 1507  |
-| 2025/02/25 |          |       |       | Pescatarian | 1130  |
-| 2025/02/25 |          |       |       | Vegan       | 1354  |
-| 2025/02/25 |          |       |       | Omnivore    | 1009  |
-| 2025/02/25 | MDI      |       |       | vegetarian  | 169   |
-| 2025/02/25 | MDI      |       |       | Pescatarian | 463   |
-| 2025/02/25 | MDI      |       |       | Vegan       | 397   |
-| 2025/02/25 | MDI      |       |       | Omnivore    | 80    |
+| 2025/02/25 |          |       |       | DietOne  | 1507  |
+| 2025/02/25 |          |       |       | DietTwo | 1130  |
+| 2025/02/25 |          |       |       | DietThree       | 1354  |
+| 2025/02/25 |          |       |       | DietFour    | 1009  |
+| 2025/02/25 | MDI      |       |       | DietOne  | 169   |
+| 2025/02/25 | MDI      |       |       | DietTwo | 463   |
+| 2025/02/25 | MDI      |       |       | DietThree       | 397   |
+| 2025/02/25 | MDI      |       |       | DietFour    | 80    |
 ```
 
 ### Definition:
@@ -193,10 +193,10 @@ This definition will return the following dataset
 ```js
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
-| 2025/02/25 |          |       |       | vegetarian  | 1507  |
-| 2025/02/25 |          |       |       | Pescatarian | 1130  |
-| 2025/02/25 |          |       |       | Vegan       | 1354  |
-| 2025/02/25 |          |       |       | Omnivore    | 1009  |
+| 2025/02/25 |          |       |       | DietOne  | 1507  |
+| 2025/02/25 |          |       |       | DietTwo | 1130  |
+| 2025/02/25 |          |       |       | DietThree       | 1354  |
+| 2025/02/25 |          |       |       | DietFour    | 1009  |
 ```
 see [here](/dashboards/visualisations/visualisation-dataset) for more info on targeting data
 

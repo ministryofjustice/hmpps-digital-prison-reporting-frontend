@@ -1,94 +1,94 @@
 import { components } from '../../../../../../../src/dpr/types/api'
 import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
-export const simpleScorecardNationality: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'simple-scorecard-nationality',
+export const simpleScorecardMetricTwo: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'simple-scorecard-MetricTwo',
   type: DashboardVisualisationType.SCORECARD,
-  display: 'No of prisoners with nationality',
+  display: 'No of prisoners with MetricTwo',
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_nationality' }],
+    measures: [{ id: 'has_metric_two' }],
     expectNulls: false,
   },
 }
 
-export const simpleScorecardNationalityFilter: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'simple-scorecard-nationality',
+export const simpleScorecardMetricTwoFilter: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'simple-scorecard-MetricTwo',
   type: DashboardVisualisationType.SCORECARD,
-  display: 'No of prisoners with nationality',
+  display: 'No of prisoners with MetricTwo',
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_nationality' }],
+    measures: [{ id: 'has_metric_two' }],
     filters: [
       {
         id: 'establishment_id',
-        equals: 'SLI',
+        equals: 'GHI',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const simpleScorecardReligion: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'simple-scorecard-religion',
+export const simpleScorecardMetricThree: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'simple-scorecard-MetricThree',
   type: DashboardVisualisationType.SCORECARD,
-  display: 'No of prisoners with religion',
+  display: 'No of prisoners with MetricThree',
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_religion' }],
+    measures: [{ id: 'has_metric_three' }],
     expectNulls: false,
   },
 }
 
-export const simpleScorecardEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'simple-scorecard-ethnicity',
+export const simpleScorecardMetricOne: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'simple-scorecard-MetricOne',
   type: DashboardVisualisationType.SCORECARD,
-  display: 'No of prisoners with ethnicity',
+  display: 'No of prisoners with MetricOne',
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_ethnicity' }],
+    measures: [{ id: 'has_metric_one' }],
     expectNulls: false,
   },
 }
 
-export const simpleScorecardRagColoursNationality: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'simple-scorecard-rag-nationality',
+export const simpleScorecardRagColoursMetricTwo: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'simple-scorecard-rag-MetricTwo',
   type: DashboardVisualisationType.SCORECARD,
-  display: 'No of prisoners with nationality',
+  display: 'No of prisoners with MetricTwo',
   options: {
     useRagColour: true,
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_nationality' }],
+    measures: [{ id: 'has_metric_two' }],
     expectNulls: false,
   },
 }
 
-export const simpleScorecardRagColoursReligion: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'simple-scorecard-rag-religion',
+export const simpleScorecardRagColoursMetricThree: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'simple-scorecard-rag-MetricThree',
   type: DashboardVisualisationType.SCORECARD,
-  display: 'No of prisoners with religion',
+  display: 'No of prisoners with MetricThree',
   options: {
     useRagColour: true,
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_religion' }],
+    measures: [{ id: 'has_metric_three' }],
     expectNulls: false,
   },
 }
 
-export const simpleScorecardRagColoursEthnicity: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'simple-scorecard-rag-ethnicity',
+export const simpleScorecardRagColoursMetricOne: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'simple-scorecard-rag-MetricOne',
   type: DashboardVisualisationType.SCORECARD,
-  display: 'No of prisoners with ethnicity',
+  display: 'No of prisoners with MetricOne',
   options: {
     useRagColour: true,
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_ethnicity' }],
+    measures: [{ id: 'has_metric_one' }],
     expectNulls: false,
   },
 }

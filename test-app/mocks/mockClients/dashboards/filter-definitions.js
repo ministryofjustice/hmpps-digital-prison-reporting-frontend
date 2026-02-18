@@ -7,23 +7,23 @@ const establishmentIdFilter = {
     mandatory: false,
     staticOptions: [
       {
-        name: 'MDI',
-        display: 'MDI',
+        name: 'ABC',
+        display: 'ABC',
       },
       {
-        name: 'SLI',
-        display: 'SLI',
+        name: 'GHI',
+        display: 'GHI',
       },
       {
-        name: 'LTI',
-        display: 'LTI',
+        name: 'JKL',
+        display: 'JKL',
       },
       {
-        name: 'DAI',
-        display: 'DAI',
+        name: 'DEF',
+        display: 'DEF',
       },
     ],
-    defaultValue: 'MDI',
+    defaultValue: 'ABC',
     dynamicOptions: {
       minimumLength: undefined,
     },

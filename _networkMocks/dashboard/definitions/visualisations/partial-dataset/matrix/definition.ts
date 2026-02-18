@@ -11,7 +11,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       id: 'matrix-test',
       display: 'Matrix example',
       description: '',
-      visualisations: [Matrix.dietTotalsVegetarianOvertime],
+      visualisations: [Matrix.dietTotalsDietOneOvertime],
     },
   ],
   filterFields: [granularDateRangeFilter],

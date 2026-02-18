@@ -204,10 +204,10 @@ const dietTotalsByEstablishmentByWingByCellLoop = {
 
 // Data Quality
 
-const dataQualityAllEstablishmentsEthnicity = {
-  id: 'data-quality-ethnicity',
+const dataQualityAllEstablishmentsMetricOne = {
+  id: 'data-quality-MetricOne',
   type: 'scorecard-group',
-  display: 'Ethnicity score',
+  display: 'MetricOne score',
   description: '',
   options: {
     useRagColour: true,
@@ -226,17 +226,17 @@ const dataQualityAllEstablishmentsEthnicity = {
         display: '',
       },
       {
-        id: 'has_ethnicity',
+        id: 'has_metric_one',
         displayValue: true,
       },
     ],
   },
 }
 
-const dataQualityAllEstablishmentsNoEthnicity = {
-  id: 'data-quality-no-ethnicity',
+const dataQualityAllEstablishmentsNoMetricOne = {
+  id: 'data-quality-no-MetricOne',
   type: 'scorecard-group',
-  display: 'Missing ethnicity score',
+  display: 'Missing MetricOne score',
   description: '',
   columns: {
     keys: [
@@ -251,7 +251,7 @@ const dataQualityAllEstablishmentsNoEthnicity = {
         display: '',
       },
       {
-        id: 'ethnicity_is_missing',
+        id: 'metric_one_is_missing',
         displayValue: true,
       },
     ],
@@ -276,7 +276,7 @@ const dataQualityAllEstablishmentsReligion = {
         display: '',
       },
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         displayValue: true,
       },
     ],
@@ -301,17 +301,17 @@ const dataQualityAllEstablishmentsNoReligion = {
         display: '',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         displayValue: true,
       },
     ],
   },
 }
 
-const dataQualityAllEstablishmentsNationality = {
-  id: 'data-quality-nationality',
+const dataQualityAllEstablishmentsMetricTwo = {
+  id: 'data-quality-MetricTwo',
   type: 'scorecard-group',
-  display: 'Nationality score',
+  display: 'MetricTwo score',
   description: '',
   options: {
     useRagColour: true,
@@ -329,17 +329,17 @@ const dataQualityAllEstablishmentsNationality = {
         display: '',
       },
       {
-        id: 'has_nationality',
+        id: 'has_metric_two',
         displayValue: true,
       },
     ],
   },
 }
 
-const dataQualityAllEstablishmentsNoNationality = {
-  id: 'data-quality-no-nationality',
+const dataQualityAllEstablishmentsNoMetricTwo = {
+  id: 'data-quality-no-MetricTwo',
   type: 'scorecard-group',
-  display: 'Missing nationality score',
+  display: 'Missing MetricTwo score',
   description: '',
   columns: {
     keys: [
@@ -354,7 +354,7 @@ const dataQualityAllEstablishmentsNoNationality = {
         display: '',
       },
       {
-        id: 'nationality_is_missing',
+        id: 'metric_two_is_missing',
         displayValue: true,
       },
     ],
@@ -362,7 +362,7 @@ const dataQualityAllEstablishmentsNoNationality = {
 }
 
 const dataQualityAllCols = {
-  id: 'data-quality-no-nationality',
+  id: 'data-quality-no-MetricTwo',
   type: 'scorecard-group',
   display: 'Data quality scores',
   description: '',
@@ -378,37 +378,37 @@ const dataQualityAllCols = {
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'Nationality is missing',
+        id: 'metric_two_is_missing',
+        display: 'MetricTwo is missing',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'Religion is missing',
       },
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'Ethnicity is missing',
+        id: 'metric_one_is_missing',
+        display: 'MetricOne is missing',
       },
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
     ],
   },
 }
 
 const dataQualityAllColsList = {
-  id: 'data-quality-no-nationality',
+  id: 'data-quality-no-MetricTwo',
   type: 'list',
-  display: 'Missing nationality score',
+  display: 'Missing MetricTwo score',
   description: '',
   cols: true,
   columns: {
@@ -419,28 +419,28 @@ const dataQualityAllColsList = {
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'has_nationality',
+        id: 'has_metric_two',
+        display: 'has_metric_two',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'nationality_is_missing',
+        id: 'metric_two_is_missing',
+        display: 'metric_two_is_missing',
       },
       {
-        id: 'religion_is_missing',
-        display: 'religion_is_missing',
+        id: 'metric_three_is_missing',
+        display: 'metric_three_is_missing',
       },
       {
-        id: 'has_religion',
-        display: 'has_religion',
+        id: 'has_metric_three',
+        display: 'has_metric_three',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'ethnicity_is_missing',
+        id: 'metric_one_is_missing',
+        display: 'metric_one_is_missing',
       },
       {
-        id: 'has_ethnicity',
-        display: 'has_ethnicity',
+        id: 'has_metric_one',
+        display: 'has_metric_one',
       },
     ],
   },
@@ -454,12 +454,12 @@ const scorecards = {
   dietTotalsFlexible,
   dietTotalsByEstablishmentByWingByCell,
   dietTotalsByEstablishmentByWingByCellLoop,
-  dataQualityAllEstablishmentsEthnicity,
-  dataQualityAllEstablishmentsNoEthnicity,
+  dataQualityAllEstablishmentsMetricOne,
+  dataQualityAllEstablishmentsNoMetricOne,
   dataQualityAllEstablishmentsReligion,
   dataQualityAllEstablishmentsNoReligion,
-  dataQualityAllEstablishmentsNationality,
-  dataQualityAllEstablishmentsNoNationality,
+  dataQualityAllEstablishmentsMetricTwo,
+  dataQualityAllEstablishmentsNoMetricTwo,
   dataQualityAllCols,
   dataQualityAllColsList,
 }

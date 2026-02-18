@@ -12,18 +12,18 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       id: 'section-1',
       display: 'Line timeseries charts - single line',
       visualisations: [
-        ListCharts.mockEthnicityLineChartTimeseries,
-        ListCharts.mockNationalityLineChartTimeseries,
-        ListCharts.mockReligionLineChartTimeseries,
+        ListCharts.mockMetricOneLineChartTimeseries,
+        ListCharts.mockMetricTwoLineChartTimeseries,
+        ListCharts.mockMetricThreeLineChartTimeseries,
       ],
     },
     {
       id: 'section-2',
       display: 'Line timeseries charts - multiple line',
       visualisations: [
-        ListCharts.mockEthnicityLineChartTimeseriesAllEst,
-        ListCharts.mockNationalityLineChartTimeseriesAllEst,
-        ListCharts.mockReligionLineChartTimeseriesAllEst,
+        ListCharts.mockMetricOneLineChartTimeseriesAllEst,
+        ListCharts.mockMetricTwoLineChartTimeseriesAllEst,
+        ListCharts.mockMetricThreeLineChartTimeseriesAllEst,
       ],
     },
     {

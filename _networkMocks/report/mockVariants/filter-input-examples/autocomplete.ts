@@ -27,7 +27,7 @@ export const establishmentAutocomplete: components['schemas']['VariantDefinition
             minimumLength: 3,
           },
           staticOptions: [
-            { name: 'MDI', display: 'Moorland (HMP & YOI)' },
+            { name: 'ABC', display: 'Moorland (HMP & YOI)' },
             { name: 'KMI', display: 'KIRKHAM (HMP)' },
             { name: 'LCI', display: 'LEICESTER' },
             { name: 'MSI', display: 'MAIDSTONE (HMP)' },

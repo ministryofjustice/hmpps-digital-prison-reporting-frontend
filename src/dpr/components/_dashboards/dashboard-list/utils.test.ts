@@ -35,14 +35,14 @@ describe('DashboardListUtils', () => {
 
       const expectedResult = {
         table: {
-          head: [{ text: '' }, { text: 'MDI' }, { text: 'SLI' }, { text: 'DAI' }],
+          head: [{ text: '' }, { text: 'ABC' }, { text: 'GHI' }, { text: 'DEF' }],
           rows: [
-            [{ text: 'Has ethnicity' }, { text: '533' }, { text: '484' }, { text: '406' }],
-            [{ text: 'No ethnicity' }, { text: '614' }, { text: '713' }, { text: '682' }],
+            [{ text: 'Has MetricOne' }, { text: '533' }, { text: '484' }, { text: '406' }],
+            [{ text: 'No MetricOne' }, { text: '614' }, { text: '713' }, { text: '682' }],
             [{ text: 'Has religion' }, { text: '680' }, { text: '771' }, { text: '648' }],
             [{ text: 'No religion' }, { text: '799' }, { text: '457' }, { text: '720' }],
-            [{ text: 'Has nationality' }, { text: '684' }, { text: '700' }, { text: '703' }],
-            [{ text: 'No nationality' }, { text: '665' }, { text: '506' }, { text: '409' }],
+            [{ text: 'Has MetricTwo' }, { text: '684' }, { text: '700' }, { text: '703' }],
+            [{ text: 'No MetricTwo' }, { text: '665' }, { text: '506' }, { text: '409' }],
           ],
         },
         ts: 'Jan 25',

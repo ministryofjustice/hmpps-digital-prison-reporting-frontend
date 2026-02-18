@@ -13,12 +13,12 @@ const {
   mockListDefinitionAgeRange1,
   mockListDefinitionAgeRange2,
   mockListDefinitionReligion,
-  mockListDefinitionEthnicity,
+  mockListDefinitionMetricOne,
   mockListDefinitionAgeRange1Wing,
   mockListDefinitionAgeRange2Wing,
   mockListDefinitionCell,
-  mockListDefinitionNationality,
-  mockListDefinitionEthnicityAgeRange,
+  mockListDefinitionMetricTwo,
+  mockListDefinitionMetricOneAgeRange,
 } = require('./visualisations/list-definitions-1')
 
 const { establishmentIdFilter, wingFilter } = require('../../filter-definitions')
@@ -52,14 +52,14 @@ const ageBreakdownReport2 = {
       ],
     },
     {
-      id: 'total-prisoners-by-ethnicity',
-      display: 'Total Prisoners by ethnicity',
-      description: 'These tables show the total prisoners by ethnicity',
+      id: 'total-prisoners-by-MetricOne',
+      display: 'Total Prisoners by MetricOne',
+      description: 'These tables show the total prisoners by MetricOne',
       visualisations: [
         mockScorecardDefinitionEthnicWhite,
         mockScorecardDefinitionEthnicAsian,
-        mockListDefinitionEthnicity,
-        mockListDefinitionEthnicityAgeRange,
+        mockListDefinitionMetricOne,
+        mockListDefinitionMetricOneAgeRange,
       ],
     },
     {
@@ -75,10 +75,10 @@ const ageBreakdownReport2 = {
       visualisations: [mockListDefinitionAgeRange1Wing, mockListDefinitionAgeRange2Wing],
     },
     {
-      id: 'total-prisoners-by-nationality',
-      display: 'Total Prisoners by Nationality',
-      description: 'This table shows the total prisoners by nationality',
-      visualisations: [mockListDefinitionNationality],
+      id: 'total-prisoners-by-MetricTwo',
+      display: 'Total Prisoners by MetricTwo',
+      description: 'This table shows the total prisoners by MetricTwo',
+      visualisations: [mockListDefinitionMetricTwo],
     },
   ],
   filterFields: [establishmentIdFilter, wingFilter],

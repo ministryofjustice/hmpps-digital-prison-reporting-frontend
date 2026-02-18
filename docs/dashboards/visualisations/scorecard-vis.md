@@ -119,7 +119,7 @@ This exmaple demonstrates how to define a scorecard in its simplest form.
 ### Dataset
 
 ```js
-| ts         | est_id | has_nationality | nationality_is_missing | has_religion | religion_is_missing |
+| ts         | est_id | has_metric_two | metric_two_is_missing | has_metric_three | metric_three_is_missing |
 |------------|--------|-----------------|------------------------|--------------|---------------------|
 | Jun 25.    | MDI    | 74              | 485                    | 300          | 500                 |
 | Jul 25.    | MDI    | 80              | 701                    | 280          | 320                 |
@@ -135,11 +135,11 @@ This exmaple demonstrates how to define a scorecard in its simplest form.
 {
   id: 'simple-scorecard',
   type: 'scorecard',
-  display: 'No of prisoners with nationality',
+  display: 'No of prisoners with MetricTwo',
   description: 'Example definition description',
   column: {
     key: [{ id: 'est_id' }],
-    measure: [{ id: 'has_nationality' }],
+    measure: [{ id: 'has_metric_two' }],
   },
 }
 ```
@@ -158,7 +158,7 @@ The example demonstrates how to a define scorecard that get its value by using t
 ### Dataset
 
 ```js
-| ts         | est_id | has_nationality | has_religion |
+| ts         | est_id | has_metric_two | has_metric_three |
 |------------|--------|-----------------|--------------|
 | Jun 25.    | MDI    | 21              | 485          |
 | Jun 25.    | SLI    | 27              | 485          | 
@@ -180,15 +180,15 @@ The example demonstrates how to a define scorecard that get its value by using t
 {
   id: 'simple-scorecard',
   type: 'scorecard',
-  display: 'No of prisoners with nationality',
+  display: 'No of prisoners with MetricTwo',
   description: 'Example definition description',
   column: {
     key: [{ id: 'est_id' }],
-    measure: [{ id: 'has_nationality' }],
+    measure: [{ id: 'has_metric_two' }],
     filter: [
       { 
         id: 'est_id', 
-        equals: 'SLI' 
+        equals: 'GHI' 
       }
     ],
   },
@@ -209,18 +209,18 @@ The example demonstrates how to a define scorecard that get its value by using t
 | ts         | est_id | wing     | diet       | total  | 
 |------------|--------|----------|------------|--------|
 | Nov 25.    |        |          |            | 30     |
-| Nov 25.    |        |          | Vegetarian | 12     |
-| Nov 25.    |        |          | Vegan      | 8      |
-| Nov 25.    |        |          | Omnivore   | 10     |
+| Nov 25.    |        |          | DietOne | 12     |
+| Nov 25.    |        |          | DietThree      | 8      |
+| Nov 25.    |        |          | DietFour   | 10     |
 | Nov 25.    |  MDI   |          |            | 30     |
 | Nov 25.    |  MDI   | north    |            | 15     |
 | Nov 25.    |  MDI   | south    |            | 15     |
-| Nov 25.    |  MDI   | north    | Vegetarian | 1      |
-| Nov 25.    |  MDI   | north    | Vegan      | 5      |
-| Nov 25.    |  MDI   | north    | Omnivore   | 9      |
-| Nov 25.    |  MDI   | south    | Vegetarian | 11     |
-| Nov 25.    |  MDI   | south    | Vegan      | 3      |
-| Nov 25.    |  MDI   | south    | Omnivore   | 1      |
+| Nov 25.    |  MDI   | north    | DietOne | 1      |
+| Nov 25.    |  MDI   | north    | DietThree      | 5      |
+| Nov 25.    |  MDI   | north    | DietFour   | 9      |
+| Nov 25.    |  MDI   | south    | DietOne | 11     |
+| Nov 25.    |  MDI   | south    | DietThree      | 3      |
+| Nov 25.    |  MDI   | south    | DietFour   | 1      |
 ... omitted past ts rows. 
 ```
 
@@ -235,14 +235,14 @@ The example demonstrates how to a define scorecard that get its value by using t
     {
       id: 'sc-diet-totals',
       type: 'scorecard',
-      display: 'Total Vegetarians',
+      display: 'Total DietOnes',
       column: {
         key: [],
         measure: [{ id: 'count' }],
         filter: [
           {
             id: 'diet',
-            equals: 'Vegetarian',
+            equals: 'DietOne',
           },
         ],
         expectNull: true,
@@ -251,18 +251,18 @@ The example demonstrates how to a define scorecard that get its value by using t
     {
       id: 'sc-diet-totals-by-wing',
       type: 'scorecard',
-      display: 'Vegetarians in MDI, in North wing',
+      display: 'DietOnes in MDI, in North wing',
       column: {
         key: [{ id: 'establishment_id' }, { id: 'wing' }],
         measure: [{ id: 'count' }],
         filter: [
           {
             id: 'diet',
-            equals: 'Vegetarian',
+            equals: 'DietOne',
           },
           {
             id: 'establishment_id',
-            equals: 'MDI',
+            equals: 'ABC',
           },
           {
             id: 'wing',
@@ -289,7 +289,7 @@ Defining multiple `scorecard` visualisation types adjacent to each other within 
 ### Dataset
 
 ```js
-| ts         | est_id | has_nationality | has_religion | has_ethnicity |
+| ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|-----------------|--------------|---------------|
 | Jun 25.    | MDI    | 81              | 89           | 36            | 
 | Jul 25.    | MDI    | 80              | 34           | 80            | 
@@ -308,21 +308,21 @@ Defining multiple `scorecard` visualisation types adjacent to each other within 
   description: '',
   visualisation: [
     {
-      id: 'simple-scorecard-nationality',
+      id: 'simple-scorecard-MetricTwo',
       type: 'scorecard',
-      display: 'No of prisoners with nationality',
+      display: 'No of prisoners with MetricTwo',
       column: {
         key: [{ id: 'est_id' }],
-        measure: [{ id: 'has_nationality' }],
+        measure: [{ id: 'has_metric_two' }],
       },
     },
     {
-      id: 'simple-scorecard-ethnicity',
+      id: 'simple-scorecard-MetricOne',
       type: 'scorecard',
-      display: 'No of prisoners with ethnicity',
+      display: 'No of prisoners with MetricOne',
       column: {
         key: [{ id: 'est_id' }],
-        measure: [{ id: 'has_ethnicity' }],
+        measure: [{ id: 'has_metric_one' }],
       },
     },
     {
@@ -331,7 +331,7 @@ Defining multiple `scorecard` visualisation types adjacent to each other within 
       display: 'No of prisoners with religion',
       column: {
         key: [{ id: 'est_id' }],
-        measure: [{ id: 'has_religion' }],
+        measure: [{ id: 'has_metric_three' }],
       },
     },
   ],
@@ -354,7 +354,7 @@ This examples display RAG scores within the scorecard:
 ### Dataset
 
 ```js
-| ts         | est_id | has_nationality | has_religion | has_ethnicity |
+| ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|-----------------|--------------|---------------|
 | Jun 25.    | MDI    | 37              | 85           | 75            | 
 | Jul 25.    | MDI    | 80              | 34           | 80            | 
@@ -373,27 +373,27 @@ This examples display RAG scores within the scorecard:
   description: '',
   visualisation: [
     {
-      id: 'simple-scorecard-nationality',
+      id: 'simple-scorecard-MetricTwo',
       type: 'scorecard',
-      display: 'No of prisoners with nationality',
+      display: 'No of prisoners with MetricTwo',
       option: {
         useRagColour: true
       },
       column: {
         key: [{ id: 'est_id' }],
-        measure: [{ id: 'has_nationality' }],
+        measure: [{ id: 'has_metric_two' }],
       },
     },
     {
-      id: 'simple-scorecard-ethnicity',
+      id: 'simple-scorecard-MetricOne',
       type: 'scorecard',
-      display: 'No of prisoners with ethnicity',
+      display: 'No of prisoners with MetricOne',
       option: {
         useRagColour: true
       },
       column: {
         key: [{ id: 'est_id' }],
-        measure: [{ id: 'has_ethnicity' }],
+        measure: [{ id: 'has_metric_one' }],
       },
     },
     {
@@ -406,7 +406,7 @@ This examples display RAG scores within the scorecard:
       },
       column: {
         key: [{ id: 'est_id' }],
-        measure: [{ id: 'has_religion' }],
+        measure: [{ id: 'has_metric_three' }],
       },
     },
   ],
@@ -429,7 +429,7 @@ Define custom colours to your buckets:
 ### Dataset
 
 ```js
-| ts         | est_id | has_nationality | has_religion | has_ethnicity |
+| ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|-----------------|--------------|---------------|
 | Jun 25.    | MDI    | 70              | 30           | 60            | 
 | Jul 25.    | MDI    | 80              | 34           | 80            | 
@@ -448,9 +448,9 @@ Define custom colours to your buckets:
   description: '',
   visualisation: [
     {
-      id: 'simple-scorecard-nationality',
+      id: 'simple-scorecard-MetricTwo',
       type: 'scorecard',
-      display: 'No of prisoners with nationality',
+      display: 'No of prisoners with MetricTwo',
       option: {
         bucket: [
           { hexColour: '#912b88' }, 
@@ -460,13 +460,13 @@ Define custom colours to your buckets:
       },
       column: {
         key: [{ id: 'est_id' }],
-        measure: [{ id: 'has_nationality' }],
+        measure: [{ id: 'has_metric_two' }],
       },
     },
     {
-      id: 'simple-scorecard-ethnicity',
+      id: 'simple-scorecard-MetricOne',
       type: 'scorecard',
-      display: 'No of prisoners with ethnicity',
+      display: 'No of prisoners with MetricOne',
       option: {
         bucket: [
           { hexColour: '#912b88' }, 
@@ -476,7 +476,7 @@ Define custom colours to your buckets:
       },
       column: {
         key: [{ id: 'est_id' }],
-        measure: [{ id: 'has_ethnicity' }],
+        measure: [{ id: 'has_metric_one' }],
       },
     },
     {
@@ -492,7 +492,7 @@ Define custom colours to your buckets:
       },
       column: {
         key: [{ id: 'est_id' }],
-        measure: [{ id: 'has_religion' }],
+        measure: [{ id: 'has_metric_three' }],
       },
     },
   ],
@@ -514,7 +514,7 @@ In this example custom buckets are defined in the definition to set the RAG scor
 ### Dataset
 
 ```js
-| ts         | est_id | has_nationality | has_religion | has_ethnicity |
+| ts         | est_id | has_metric_two | has_metric_three | has_metric_one |
 |------------|--------|-----------------|--------------|---------------|
 | Jun 25.    | MDI    | 70              | 30           | 60            | 
 | Jul 25.    | MDI    | 80              | 34           | 80            | 
@@ -533,9 +533,9 @@ In this example custom buckets are defined in the definition to set the RAG scor
   description: '',
   visualisation: [
     {
-      id: 'simple-scorecard-nationality',
+      id: 'simple-scorecard-MetricTwo',
       type: 'scorecard',
-      display: 'No of prisoners with nationality',
+      display: 'No of prisoners with MetricTwo',
       option: {
         useRagColour: true,
         bucket: [
@@ -546,13 +546,13 @@ In this example custom buckets are defined in the definition to set the RAG scor
       },
       column: {
         key: [{ id: 'est_id' }],
-        measure: [{ id: 'has_nationality' }],
+        measure: [{ id: 'has_metric_two' }],
       },
     },
     {
-      id: 'simple-scorecard-ethnicity',
+      id: 'simple-scorecard-MetricOne',
       type: 'scorecard',
-      display: 'No of prisoners with ethnicity',
+      display: 'No of prisoners with MetricOne',
       option: {
         useRagColour: true,
         bucket: [
@@ -563,7 +563,7 @@ In this example custom buckets are defined in the definition to set the RAG scor
       },
       column: {
         key: [{ id: 'est_id' }],
-        measure: [{ id: 'has_ethnicity' }],
+        measure: [{ id: 'has_metric_one' }],
       },
     },
     {
@@ -580,7 +580,7 @@ In this example custom buckets are defined in the definition to set the RAG scor
       },
       column: {
         key: [{ id: 'est_id' }],
-        measure: [{ id: 'has_religion' }],
+        measure: [{ id: 'has_metric_three' }],
       },
     },
   ],

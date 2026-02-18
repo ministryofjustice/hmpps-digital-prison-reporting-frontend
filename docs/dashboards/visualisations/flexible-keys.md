@@ -83,14 +83,14 @@ The following examples will demonstrate how to use flexible keys of using the `l
 | 2025/02/25 | MDI      | north | cell3 |             | 13    |
 | 2025/02/25 | MDI      | north | cell4 |             | 26    |
 | 2025/02/25 | MDI      | north | cell5 |             | 42    |
-| 2025/02/25 |          |       |       | vegetarian  | 1507  |
-| 2025/02/25 |          |       |       | pescatarian | 1130  |
-| 2025/02/25 |          |       |       | vegan       | 1354  |
-| 2025/02/25 |          |       |       | omnivore    | 1009  |
-| 2025/02/25 | MDI      |       |       | vegetarian  | 169   |
-| 2025/02/25 | MDI      |       |       | pescatarian | 463   |
-| 2025/02/25 | MDI      |       |       | vegan       | 397   |
-| 2025/02/25 | MDI      |       |       | omnivore    | 80    |
+| 2025/02/25 |          |       |       | DietOne  | 1507  |
+| 2025/02/25 |          |       |       | DietTwo | 1130  |
+| 2025/02/25 |          |       |       | DietThree       | 1354  |
+| 2025/02/25 |          |       |       | DietFour    | 1009  |
+| 2025/02/25 | MDI      |       |       | DietOne  | 169   |
+| 2025/02/25 | MDI      |       |       | DietTwo | 463   |
+| 2025/02/25 | MDI      |       |       | DietThree       | 397   |
+| 2025/02/25 | MDI      |       |       | DietFour    | 80    |
 ```
 
 <hr class='dpr-docs-hr'/>

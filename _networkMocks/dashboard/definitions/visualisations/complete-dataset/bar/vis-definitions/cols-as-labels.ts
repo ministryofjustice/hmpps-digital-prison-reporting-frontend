@@ -1,10 +1,10 @@
 import { components } from '../../../../../../../src/dpr/types/api'
 import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
-export const dataQualityEthnicityBar: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'bar-data-quality-has-ethnicity',
+export const dataQualityMetricOneBar: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'bar-data-quality-has-MetricOne',
   type: DashboardVisualisationType.BAR,
-  display: 'Ethnicity values',
+  display: 'MetricOne values',
   columns: {
     keys: [
       {
@@ -14,22 +14,22 @@ export const dataQualityEthnicityBar: components['schemas']['DashboardVisualisat
     ],
     measures: [
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const dataQualityEthnicityBarHorizontal: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'bar-data-quality-has-ethnicity-horizontal',
+export const dataQualityMetricOneBarHorizontal: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'bar-data-quality-has-MetricOne-horizontal',
   type: DashboardVisualisationType.BAR,
-  display: 'Ethnicity values',
+  display: 'MetricOne values',
   options: {
     horizontal: true,
   },
@@ -42,22 +42,22 @@ export const dataQualityEthnicityBarHorizontal: components['schemas']['Dashboard
     ],
     measures: [
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const dataQualityReligionBar: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'bar-data-quality-has-religion',
+export const dataQualityMetricThreeBar: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'bar-data-quality-has-MetricThree',
   type: DashboardVisualisationType.BAR,
-  display: 'Religion values',
+  display: 'MetricThree values',
   columns: {
     keys: [
       {
@@ -67,22 +67,22 @@ export const dataQualityReligionBar: components['schemas']['DashboardVisualisati
     ],
     measures: [
       {
-        id: 'has_religion',
-        display: 'Has religion',
+        id: 'has_metric_three',
+        display: 'Has MetricThree',
       },
       {
-        id: 'religion_is_missing',
-        display: 'No religion',
+        id: 'metric_three_is_missing',
+        display: 'No MetricThree',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const dataQualityNationalityBar: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'bar-data-quality-has-nationality',
+export const dataQualityMetricTwoBar: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'bar-data-quality-has-MetricTwo',
   type: DashboardVisualisationType.BAR,
-  display: 'Nationality values',
+  display: 'MetricTwo values',
   columns: {
     keys: [
       {
@@ -92,12 +92,12 @@ export const dataQualityNationalityBar: components['schemas']['DashboardVisualis
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
     ],
     expectNulls: false,
@@ -120,28 +120,28 @@ export const dataQualityAllBar: components['schemas']['DashboardVisualisationDef
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
       {
-        id: 'has_religion',
-        display: 'Has religion',
+        id: 'has_metric_three',
+        display: 'Has MetricThree',
       },
       {
-        id: 'religion_is_missing',
-        display: 'No religion',
+        id: 'metric_three_is_missing',
+        display: 'No MetricThree',
       },
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
     expectNulls: false,
@@ -164,28 +164,28 @@ export const dataQualityAllBarHorizontal: components['schemas']['DashboardVisual
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
       {
-        id: 'has_religion',
-        display: 'Has religion',
+        id: 'has_metric_three',
+        display: 'Has MetricThree',
       },
       {
-        id: 'religion_is_missing',
-        display: 'No religion',
+        id: 'metric_three_is_missing',
+        display: 'No MetricThree',
       },
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
     expectNulls: false,

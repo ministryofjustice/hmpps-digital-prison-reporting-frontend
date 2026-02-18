@@ -140,10 +140,10 @@ const mockListDefinitionReligion = {
   },
 }
 
-const mockListDefinitionEthnicity = {
-  id: 'ethnicity',
+const mockListDefinitionMetricOne = {
+  id: 'MetricOne',
   type: 'list',
-  display: 'Ethnicity totals by wing',
+  display: 'MetricOne totals by wing',
   columns: {
     keys: [
       {
@@ -177,10 +177,10 @@ const mockListDefinitionEthnicity = {
   },
 }
 
-const mockListDefinitionEthnicityAgeRange = {
-  id: 'ethnicity',
+const mockListDefinitionMetricOneAgeRange = {
+  id: 'MetricOne',
   type: 'list',
-  display: 'Ethnicity totals by age range',
+  display: 'MetricOne totals by age range',
   columns: {
     keys: [
       {
@@ -318,10 +318,10 @@ const mockListDefinitionAgeRange2Wing = {
   },
 }
 
-const mockListDefinitionNationality = {
-  id: 'nationality',
+const mockListDefinitionMetricTwo = {
+  id: 'MetricTwo',
   type: 'list',
-  display: 'Nationality totals',
+  display: 'MetricTwo totals',
   columns: {
     keys: [
       {
@@ -335,12 +335,12 @@ const mockListDefinitionNationality = {
     ],
     measures: [
       {
-        id: 'nationality_code',
-        display: 'Nationality Code',
+        id: 'MetricTwo_code',
+        display: 'MetricTwo Code',
       },
       {
-        id: 'nationality_description',
-        display: 'Nationality Description',
+        id: 'MetricTwo_description',
+        display: 'MetricTwo Description',
       },
       {
         id: 'count',
@@ -356,10 +356,10 @@ module.exports = {
   mockListDefinitionTotalPrisoners,
   mockListDefinitionTotalPrisonersByWing,
   mockListDefinitionReligion,
-  mockListDefinitionEthnicity,
-  mockListDefinitionEthnicityAgeRange,
+  mockListDefinitionMetricOne,
+  mockListDefinitionMetricOneAgeRange,
   mockListDefinitionCell,
   mockListDefinitionAgeRange1Wing,
   mockListDefinitionAgeRange2Wing,
-  mockListDefinitionNationality,
+  mockListDefinitionMetricTwo,
 }

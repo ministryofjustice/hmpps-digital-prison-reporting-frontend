@@ -1,25 +1,25 @@
 // @ts-nocheck
-const simpleScorecardNationality = {
-  id: 'simple-scorecard-nationality',
+const simpleScorecardMetricTwo = {
+  id: 'simple-scorecard-MetricTwo',
   type: 'scorecard',
-  display: 'No of prisoners with nationality',
+  display: 'No of prisoners with MetricTwo',
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_nationality' }],
+    measures: [{ id: 'has_metric_two' }],
   },
 }
 
-const simpleScorecardNationalityFilter = {
-  id: 'simple-scorecard-nationality',
+const simpleScorecardMetricTwoFilter = {
+  id: 'simple-scorecard-MetricTwo',
   type: 'scorecard',
-  display: 'No of prisoners with nationality',
+  display: 'No of prisoners with MetricTwo',
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_nationality' }],
+    measures: [{ id: 'has_metric_two' }],
     filters: [
       {
         id: 'establishment_id',
-        equals: 'SLI',
+        equals: 'GHI',
       },
     ],
   },
@@ -31,30 +31,30 @@ const simpleScorecardReligion = {
   display: 'No of prisoners with religion',
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_religion' }],
+    measures: [{ id: 'has_metric_three' }],
   },
 }
 
-const simpleScorecardEthnicity = {
-  id: 'simple-scorecard-ethnicity',
+const simpleScorecardMetricOne = {
+  id: 'simple-scorecard-MetricOne',
   type: 'scorecard',
-  display: 'No of prisoners with ethnicity',
+  display: 'No of prisoners with MetricOne',
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_ethnicity' }],
+    measures: [{ id: 'has_metric_one' }],
   },
 }
 
-const simpleScorecardRagColoursNationality = {
-  id: 'simple-scorecard-rag-nationality',
+const simpleScorecardRagColoursMetricTwo = {
+  id: 'simple-scorecard-rag-MetricTwo',
   type: 'scorecard',
-  display: 'No of prisoners with nationality',
+  display: 'No of prisoners with MetricTwo',
   options: {
     useRagColour: true,
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_nationality' }],
+    measures: [{ id: 'has_metric_two' }],
   },
 }
 
@@ -67,46 +67,46 @@ const simpleScorecardRagColoursReligion = {
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_religion' }],
+    measures: [{ id: 'has_metric_three' }],
   },
 }
 
-const simpleScorecardRagColoursEthnicity = {
-  id: 'simple-scorecard-rag-ethnicity',
+const simpleScorecardRagColoursMetricOne = {
+  id: 'simple-scorecard-rag-MetricOne',
   type: 'scorecard',
-  display: 'No of prisoners with ethnicity',
+  display: 'No of prisoners with MetricOne',
   options: {
     useRagColour: true,
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_ethnicity' }],
+    measures: [{ id: 'has_metric_one' }],
   },
 }
 
-const simpleScorecardCustomBucketsNationality = {
+const simpleScorecardCustomBucketsMetricTwo = {
   id: 'simple-scorecard-rag',
   type: 'scorecard',
-  display: 'No of prisoners with nationality',
+  display: 'No of prisoners with MetricTwo',
   options: {
     buckets: [{ hexColour: '#912b88' }, { hexColour: '#28a197' }, { hexColour: '#f47738' }],
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_nationality' }],
+    measures: [{ id: 'has_metric_two' }],
   },
 }
 
-const simpleScorecardCustomBucketsEthnicity = {
+const simpleScorecardCustomBucketsMetricOne = {
   id: 'simple-scorecard-rag',
   type: 'scorecard',
-  display: 'No of prisoners with ethnicity',
+  display: 'No of prisoners with MetricOne',
   options: {
     buckets: [{ hexColour: '#912b88' }, { hexColour: '#28a197' }, { hexColour: '#f47738' }],
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_ethnicity' }],
+    measures: [{ id: 'has_metric_one' }],
   },
 }
 
@@ -119,7 +119,7 @@ const simpleScorecardCustomBucketsReligion = {
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_religion' }],
+    measures: [{ id: 'has_metric_three' }],
   },
 }
 
@@ -133,35 +133,35 @@ const simpleScorecardCustomBucketsBoundariesReligion = {
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_religion' }],
+    measures: [{ id: 'has_metric_three' }],
   },
 }
 
-const simpleScorecardCustomBucketsBoundariesNationality = {
+const simpleScorecardCustomBucketsBoundariesMetricTwo = {
   id: 'simple-scorecard-rag',
   type: 'scorecard',
-  display: 'No of prisoners with nationality',
+  display: 'No of prisoners with MetricTwo',
   options: {
     useRagColour: true,
     buckets: [{ max: 50 }, { min: 51, max: 55 }, { min: 56 }],
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_nationality' }],
+    measures: [{ id: 'has_metric_two' }],
   },
 }
 
-const simpleScorecardCustomBucketsBoundariesEthnicity = {
+const simpleScorecardCustomBucketsBoundariesMetricOne = {
   id: 'simple-scorecard-rag',
   type: 'scorecard',
-  display: 'No of prisoners with ethnicity',
+  display: 'No of prisoners with MetricOne',
   options: {
     useRagColour: true,
     buckets: [{ max: 20 }, { min: 21, max: 70 }, { min: 71 }],
   },
   columns: {
     keys: [{ id: 'establishment_id' }],
-    measures: [{ id: 'has_ethnicity' }],
+    measures: [{ id: 'has_metric_one' }],
   },
 }
 
@@ -174,11 +174,11 @@ const dietTotalFilterEstWing = {
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
       {
         id: 'establishment_id',
-        equals: 'MDI',
+        equals: 'ABC',
       },
       {
         id: 'wing',
@@ -192,14 +192,14 @@ const dietTotalFilterEstWing = {
 const dietTotalFilter = {
   id: 'sc-diet-totals-by-establishment-by-wing-by-cell',
   type: 'scorecard',
-  display: 'Total Vegetarians',
+  display: 'Total DietOnes',
   columns: {
     keys: [],
     measures: [{ id: 'count' }],
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
     ],
     expectNulls: true,
@@ -207,19 +207,19 @@ const dietTotalFilter = {
 }
 
 const dataQuality = {
-  simpleScorecardNationality,
+  simpleScorecardMetricTwo,
   simpleScorecardReligion,
-  simpleScorecardEthnicity,
-  simpleScorecardRagColoursNationality,
+  simpleScorecardMetricOne,
+  simpleScorecardRagColoursMetricTwo,
   simpleScorecardRagColoursReligion,
-  simpleScorecardRagColoursEthnicity,
-  simpleScorecardCustomBucketsNationality,
-  simpleScorecardCustomBucketsEthnicity,
+  simpleScorecardRagColoursMetricOne,
+  simpleScorecardCustomBucketsMetricTwo,
+  simpleScorecardCustomBucketsMetricOne,
   simpleScorecardCustomBucketsReligion,
-  simpleScorecardCustomBucketsBoundariesNationality,
-  simpleScorecardCustomBucketsBoundariesEthnicity,
+  simpleScorecardCustomBucketsBoundariesMetricTwo,
+  simpleScorecardCustomBucketsBoundariesMetricOne,
   simpleScorecardCustomBucketsBoundariesReligion,
-  simpleScorecardNationalityFilter,
+  simpleScorecardMetricTwoFilter,
 }
 
 const dietMetrics = {

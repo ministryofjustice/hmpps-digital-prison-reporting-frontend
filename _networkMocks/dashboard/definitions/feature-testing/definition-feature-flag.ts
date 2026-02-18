@@ -11,7 +11,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       id: 'section-1',
       display: 'Bar charts',
       description: 'Example bar charts',
-      visualisations: [BarCharts.dataQualityEthnicityBar],
+      visualisations: [BarCharts.dataQualityMetricOneBar],
     },
   ],
   filterFields: [establishmentIdFilter, granularDateRangeFilter],

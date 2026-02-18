@@ -1,19 +1,19 @@
 // @ts-nocheck
 const {
-  mockEthnicityBarChart,
-  mockEthnicityPieChart,
-  mockNationalityBarChart,
-  mockNationalityPieChart,
+  mockMetricOneBarChart,
+  mockMetricOnePieChart,
+  mockMetricTwoBarChart,
+  mockMetricTwoPieChart,
   mockReligionBarChart,
   mockReligionPieChart,
-  mockScorecardDefinitionNationality,
-  mockScorecardDefinitionNoNationality,
+  mockScorecardDefinitionMetricTwo,
+  mockScorecardDefinitionNoMetricTwo,
   mockScorecardDefinitionReligion,
   mockScorecardGroupReligionByEstablishment,
-  mockScorecardGroupNationalityByEstablishment,
-  mockScorecardGroupEthnicityByEstablishment,
+  mockScorecardGroupMetricTwoByEstablishment,
+  mockScorecardGroupMetricOneByEstablishment,
   mockTargetScorecardDefinitionReligion,
-  mockEthnicityBarChartList,
+  mockMetricOneBarChartList,
 } = require('../data-quality/visualisations')
 const { lists } = require('../examples/visualisations')
 
@@ -26,15 +26,15 @@ const testingDashboard1 = {
   sections: [
     {
       id: 'test-section-1',
-      display: 'Section 1 - Ethnicity charts',
-      description: 'Section 1 description - charts showing ethnicity data',
-      visualisations: [mockEthnicityBarChart, mockEthnicityPieChart, mockEthnicityBarChartList],
+      display: 'Section 1 - MetricOne charts',
+      description: 'Section 1 description - charts showing MetricOne data',
+      visualisations: [mockMetricOneBarChart, mockMetricOnePieChart, mockMetricOneBarChartList],
     },
     {
       id: 'test-section-2',
-      display: 'Section 2 - Nationality charts',
-      description: 'Section 2 description - charts showing nationality data',
-      visualisations: [mockNationalityBarChart, mockNationalityPieChart],
+      display: 'Section 2 - MetricTwo charts',
+      description: 'Section 2 description - charts showing MetricTwo data',
+      visualisations: [mockMetricTwoBarChart, mockMetricTwoPieChart],
     },
     {
       id: 'test-section-3',
@@ -47,8 +47,8 @@ const testingDashboard1 = {
       display: 'Section 4 - Individual Scorecards',
       description: 'Section 4 description - Testing individually defined scorecards',
       visualisations: [
-        mockScorecardDefinitionNationality,
-        mockScorecardDefinitionNoNationality,
+        mockScorecardDefinitionMetricTwo,
+        mockScorecardDefinitionNoMetricTwo,
         mockScorecardDefinitionReligion,
       ],
     },
@@ -64,15 +64,15 @@ const testingDashboard1 = {
       description: 'Section 6 description - Testing scorecard groups created from list data',
       visualisations: [
         mockScorecardGroupReligionByEstablishment,
-        mockScorecardGroupNationalityByEstablishment,
-        mockScorecardGroupEthnicityByEstablishment,
+        mockScorecardGroupMetricTwoByEstablishment,
+        mockScorecardGroupMetricOneByEstablishment,
       ],
     },
     // {
     //   id: 'test-section-7',
     //   display: 'Section 7 - Timeseries charts',
     //   description: 'Section 7 description - Testing timeseries charts',
-    //   visualisations: [mockEthnicityLineChartTimeseries],
+    //   visualisations: [mockMetricOneLineChartTimeseries],
     // },
     {
       id: 'all-data',

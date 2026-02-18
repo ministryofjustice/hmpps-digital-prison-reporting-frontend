@@ -5,14 +5,14 @@ import ChartCardUtils from './utils'
 import { mockTimeSeriesDataLastSixMonths } from '../../../../test-app/mocks/mockClients/dashboards/data/data-quality-metrics/data'
 import { mockDietDataLastSixMonths } from '../../../../test-app/mocks/mockClients/dashboards/data/test-data/data'
 import {
-  barChartDataHasEthnicity,
-  barChartFromListDataHasEthnicity,
+  barChartDataHasMetricOne,
+  barChartFromListDataHasMetricOne,
   dataQualityTimeseriesLine,
   chartFromList,
 } from '../../../../test-app/mocks/mockClients/dashboards/definitions/data-quality/chart-data'
-import { mockEthnicityBarChart } from '../../../../test-app/mocks/mockClients/dashboards/definitions/data-quality/visualisations'
+import { mockMetricOneBarChart } from '../../../../test-app/mocks/mockClients/dashboards/definitions/data-quality/visualisations'
 import {
-  dataQualityEthnicityHistoricLine,
+  dataQualityMetricOneHistoricLine,
   dietTotalsByEstablishmentBar,
 } from '../../../../test-app/mocks/mockClients/dashboards/definitions/examples/visualisations/charts'
 import { components } from '../../types/api'
@@ -26,9 +26,9 @@ describe('ChartCard Utils', () => {
 
   beforeEach(() => {
     snapshotVisualisationDefinition =
-      mockEthnicityBarChart as unknown as components['schemas']['DashboardVisualisationDefinition']
+      mockMetricOneBarChart as unknown as components['schemas']['DashboardVisualisationDefinition']
     timeseriesVisualisationDefinition =
-      dataQualityEthnicityHistoricLine as unknown as components['schemas']['DashboardVisualisationDefinition']
+      dataQualityMetricOneHistoricLine as unknown as components['schemas']['DashboardVisualisationDefinition']
     snapshotVisualisationFromListDefinition =
       dietTotalsByEstablishmentBar as unknown as components['schemas']['DashboardVisualisationDefinition']
     dashboardMetricsData = mockTimeSeriesDataLastSixMonths
@@ -37,7 +37,7 @@ describe('ChartCard Utils', () => {
 
   describe('createChart', () => {
     it('should get the snapshot chart data', async () => {
-      const expectedResult = barChartDataHasEthnicity
+      const expectedResult = barChartDataHasMetricOne
       const result = ChartCardUtils.createChart(snapshotVisualisationDefinition, dashboardMetricsData.flat(), 'bar')
       expect(result).toEqual(expectedResult)
     })
@@ -49,7 +49,7 @@ describe('ChartCard Utils', () => {
     })
 
     it('should create the snapshot chart data from a list', () => {
-      const expectedResult = barChartFromListDataHasEthnicity
+      const expectedResult = barChartFromListDataHasMetricOne
       const result = ChartCardUtils.createChart(snapshotVisualisationDefinition, dashboardMetricsData.flat(), 'bar')
 
       expect(result).toEqual(expectedResult)

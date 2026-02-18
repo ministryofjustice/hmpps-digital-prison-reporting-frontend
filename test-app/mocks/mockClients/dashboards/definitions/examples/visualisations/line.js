@@ -11,28 +11,28 @@ const dataQualityLine = {
     ],
     measures: [
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
     ],
   },
@@ -51,21 +51,21 @@ const dataQualityReligionLine = {
     ],
     measures: [
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
     ],
   },
 }
 
-const dataQualityNationalityLine = {
-  id: 'line-data-quality-has-nationality',
+const dataQualityMetricTwoLine = {
+  id: 'line-data-quality-has-MetricTwo',
   type: 'line',
-  display: 'Nationality values',
+  display: 'MetricTwo values',
   columns: {
     keys: [
       {
@@ -75,12 +75,12 @@ const dataQualityNationalityLine = {
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
     ],
   },
@@ -89,5 +89,5 @@ const dataQualityNationalityLine = {
 module.exports = {
   dataQualityLine,
   dataQualityReligionLine,
-  dataQualityNationalityLine,
+  dataQualityMetricTwoLine,
 }

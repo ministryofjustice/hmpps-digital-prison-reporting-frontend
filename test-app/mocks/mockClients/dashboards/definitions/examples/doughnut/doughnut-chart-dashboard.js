@@ -12,10 +12,10 @@ const doughnutChartDashboard = {
       display: 'Basic Doughnut charts',
       description: 'A set of simple barcharts',
       visualisations: [
-        doughnut.dataQualityEthnicityDoughnut,
-        doughnut.dataQualityNationalityDoughnut,
+        doughnut.dataQualityMetricOneDoughnut,
+        doughnut.dataQualityMetricTwoDoughnut,
         doughnut.dataQualityReligionDoughnut,
-        doughnut.dataQualityNationalityReligionDoughnut,
+        doughnut.dataQualityMetricTwoReligionDoughnut,
       ],
     },
     {

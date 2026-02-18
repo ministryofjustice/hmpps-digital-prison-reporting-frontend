@@ -1,9 +1,9 @@
 // @ts-nocheck
-const mockEthnicityBarChart = {
-  id: 'mockEthnicityBarChart',
+const mockMetricOneBarChart = {
+  id: 'mockMetricOneBarChart',
   type: 'bar',
-  display: 'Missing Ethnicity Bar Chart',
-  description: 'Prisoner totals for missing ethnicity',
+  display: 'Missing MetricOne Bar Chart',
+  description: 'Prisoner totals for missing MetricOne',
   columns: {
     keys: [
       {
@@ -13,22 +13,22 @@ const mockEthnicityBarChart = {
     ],
     measures: [
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'Has no ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'Has no MetricOne',
       },
     ],
   },
 }
 
-const mockEthnicityBarChartList = {
-  id: 'mockEthnicityBarChartFromList',
+const mockMetricOneBarChartList = {
+  id: 'mockMetricOneBarChartFromList',
   type: 'bar',
-  display: 'Missing Ethnicity Bar Chart from list',
-  description: 'Prisoner totals for missing ethnicity by establishment',
+  display: 'Missing MetricOne Bar Chart from list',
+  description: 'Prisoner totals for missing MetricOne by establishment',
   columns: {
     keys: [],
     measures: [
@@ -38,19 +38,19 @@ const mockEthnicityBarChartList = {
         axis: 'x',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'Has no ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'Has no MetricOne',
         axis: 'y',
       },
     ],
   },
 }
 
-const mockEthnicityLineChartTimeseries = {
-  id: 'mockEthnicityLineChartTimeseries',
+const mockMetricOneLineChartTimeseries = {
+  id: 'mockMetricOneLineChartTimeseries',
   type: 'line-timeseries',
-  display: 'Missing ethnicity timeseries chart',
-  description: 'Prisoner totals for missing ethnicity by establishment',
+  display: 'Missing MetricOne timeseries chart',
+  description: 'Prisoner totals for missing MetricOne by establishment',
   columns: {
     keys: [
       {
@@ -64,25 +64,25 @@ const mockEthnicityLineChartTimeseries = {
         display: 'Date',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'Has no ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'Has no MetricOne',
       },
     ],
   },
 }
 
-const mockEthnicityPieChart = {
-  ...mockEthnicityBarChart,
-  id: 'mockEthnicityPieChart',
+const mockMetricOnePieChart = {
+  ...mockMetricOneBarChart,
+  id: 'mockMetricOnePieChart',
   type: 'doughnut',
-  display: 'Missing Ethnicity Pie Chart',
+  display: 'Missing MetricOne Pie Chart',
 }
 
-const mockNationalityBarChart = {
-  id: 'mockNationalityBarChart',
+const mockMetricTwoBarChart = {
+  id: 'mockMetricTwoBarChart',
   type: 'bar',
-  display: 'Missing Nationality Bar Chart',
-  description: 'Prisoner totals for missing nationality',
+  display: 'Missing MetricTwo Bar Chart',
+  description: 'Prisoner totals for missing MetricTwo',
   columns: {
     keys: [
       {
@@ -92,22 +92,22 @@ const mockNationalityBarChart = {
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'Has no nationality',
+        id: 'metric_two_is_missing',
+        display: 'Has no MetricTwo',
       },
     ],
   },
 }
 
 const mockReligionPieChart = {
-  ...mockNationalityBarChart,
+  ...mockMetricTwoBarChart,
   id: 'mockReligionPieChart',
   type: 'doughnut',
-  display: 'Missing Nationality Pie Chart',
+  display: 'Missing MetricTwo Pie Chart',
 }
 
 const mockReligionBarChart = {
@@ -124,31 +124,31 @@ const mockReligionBarChart = {
     ],
     measures: [
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'Has no religion',
       },
     ],
   },
 }
 
-const mockNationalityPieChart = {
-  ...mockNationalityBarChart,
-  id: 'mockNationalityPieChart',
+const mockMetricTwoPieChart = {
+  ...mockMetricTwoBarChart,
+  id: 'mockMetricTwoPieChart',
   type: 'doughnut',
   display: 'Missing Religion Pie Chart',
 }
 
 module.exports = {
-  mockEthnicityBarChart,
-  mockEthnicityPieChart,
-  mockNationalityBarChart,
-  mockNationalityPieChart,
+  mockMetricOneBarChart,
+  mockMetricOnePieChart,
+  mockMetricTwoBarChart,
+  mockMetricTwoPieChart,
   mockReligionBarChart,
   mockReligionPieChart,
-  mockEthnicityBarChartList,
-  mockEthnicityLineChartTimeseries,
+  mockMetricOneBarChartList,
+  mockMetricOneLineChartTimeseries,
 }

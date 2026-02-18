@@ -1,7 +1,7 @@
 // @ts-nocheck
-const mockScorecardDefinitionNationality = {
+const mockScorecardDefinitionMetricTwo = {
   type: 'scorecard',
-  display: 'No of prisoners with nationality',
+  display: 'No of prisoners with MetricTwo',
   options: {
     buckets: [{ hexColour: '#f47738' }, { hexColour: '#f499be' }, { hexColour: '#d53880' }],
   },
@@ -13,15 +13,15 @@ const mockScorecardDefinitionNationality = {
     ],
     measures: [
       {
-        id: 'has_nationality',
+        id: 'has_metric_two',
       },
     ],
   },
 }
 
-const mockScorecardDefinitionNoNationality = {
+const mockScorecardDefinitionNoMetricTwo = {
   type: 'scorecard',
-  display: 'No of prisoners with no nationality',
+  display: 'No of prisoners with no MetricTwo',
   columns: {
     keys: [
       {
@@ -30,7 +30,7 @@ const mockScorecardDefinitionNoNationality = {
     ],
     measures: [
       {
-        id: 'nationality_is_missing',
+        id: 'metric_two_is_missing',
       },
     ],
   },
@@ -38,7 +38,7 @@ const mockScorecardDefinitionNoNationality = {
 
 const mockScorecardDefinitionReligion = {
   type: 'scorecard',
-  display: 'No of prisoners with nationality',
+  display: 'No of prisoners with MetricTwo',
   columns: {
     keys: [
       {
@@ -47,7 +47,7 @@ const mockScorecardDefinitionReligion = {
     ],
     measures: [
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
       },
     ],
   },
@@ -64,13 +64,13 @@ const mockTargetScorecardDefinitionReligion = {
     ],
     measures: [
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
       },
     ],
     filters: [
       {
         id: 'establishment_id',
-        equals: 'SLI',
+        equals: 'GHI',
       },
     ],
   },
@@ -93,17 +93,17 @@ const mockScorecardGroupReligionByEstablishment = {
         display: 'With religion in Establishment: ',
       },
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         displayValue: true,
       },
     ],
   },
 }
 
-const mockScorecardGroupNationalityByEstablishment = {
-  id: 'nationality-by-est-sc-group',
+const mockScorecardGroupMetricTwoByEstablishment = {
+  id: 'MetricTwo-by-est-sc-group',
   type: 'scorecard-group',
-  display: 'Has nationality by Establishment',
+  display: 'Has MetricTwo by Establishment',
   columns: {
     keys: [
       {
@@ -114,20 +114,20 @@ const mockScorecardGroupNationalityByEstablishment = {
     measures: [
       {
         id: 'establishment_id',
-        display: 'With nationality in establishment: ',
+        display: 'With MetricTwo in establishment: ',
       },
       {
-        id: 'has_nationality',
+        id: 'has_metric_two',
         displayValue: true,
       },
     ],
   },
 }
 
-const mockScorecardGroupEthnicityByEstablishment = {
-  id: 'ethnicity-by-est-sc-group',
+const mockScorecardGroupMetricOneByEstablishment = {
+  id: 'MetricOne-by-est-sc-group',
   type: 'scorecard-group',
-  display: 'Has ethnicity by Establishment',
+  display: 'Has MetricOne by Establishment',
   columns: {
     keys: [
       {
@@ -138,10 +138,10 @@ const mockScorecardGroupEthnicityByEstablishment = {
     measures: [
       {
         id: 'establishment_id',
-        display: 'With ethnicity in establishment: ',
+        display: 'With MetricOne in establishment: ',
       },
       {
-        id: 'has_ethnicity',
+        id: 'has_metric_one',
         displayValue: true,
       },
     ],
@@ -149,11 +149,11 @@ const mockScorecardGroupEthnicityByEstablishment = {
 }
 
 module.exports = {
-  mockScorecardDefinitionNationality,
-  mockScorecardDefinitionNoNationality,
+  mockScorecardDefinitionMetricTwo,
+  mockScorecardDefinitionNoMetricTwo,
   mockScorecardDefinitionReligion,
   mockScorecardGroupReligionByEstablishment,
-  mockScorecardGroupNationalityByEstablishment,
-  mockScorecardGroupEthnicityByEstablishment,
+  mockScorecardGroupMetricTwoByEstablishment,
+  mockScorecardGroupMetricOneByEstablishment,
   mockTargetScorecardDefinitionReligion,
 }

@@ -127,13 +127,13 @@ The `filter` array works by:
 ```js
 column: {
   filter: [
-    { id: 'establishment_id', equals: 'MDI' }, 
+    { id: 'establishment_id', equals: 'ABC' }, 
     { id: 'establishment_wing', equals: 'North' }
   ]
   ...
 }
 ```
-- filters out rows whose values for `establishment_id` column are not 'MDI' 
+- filters out rows whose values for `establishment_id` column are not 'ABC' 
 - filters out rows whose values for `establishment_wing` column are not 'North' 
 
 ### Example usage 2 - Null matching
@@ -192,14 +192,14 @@ For these examples we will use mocked data that represents diet totals as our ma
 | 2025/02/25 | MDI      | north | cell3 |             | 13    |
 | 2025/02/25 | MDI      | north | cell4 |             | 26    |
 | 2025/02/25 | MDI      | north | cell5 |             | 42    |
-| 2025/02/25 |          |       |       | vegetarian  | 1507  |
-| 2025/02/25 |          |       |       | pescatarian | 1130  |
-| 2025/02/25 |          |       |       | vegan       | 1354  |
-| 2025/02/25 |          |       |       | omnivore    | 1009  |
-| 2025/02/25 | MDI      |       |       | vegetarian  | 169   |
-| 2025/02/25 | MDI      |       |       | pescatarian | 463   |
-| 2025/02/25 | MDI      |       |       | vegan       | 397   |
-| 2025/02/25 | MDI      |       |       | omnivore    | 80    |
+| 2025/02/25 |          |       |       | DietOne  | 1507  |
+| 2025/02/25 |          |       |       | DietTwo | 1130  |
+| 2025/02/25 |          |       |       | DietThree       | 1354  |
+| 2025/02/25 |          |       |       | DietFour    | 1009  |
+| 2025/02/25 | MDI      |       |       | DietOne  | 169   |
+| 2025/02/25 | MDI      |       |       | DietTwo | 463   |
+| 2025/02/25 | MDI      |       |       | DietThree       | 397   |
+| 2025/02/25 | MDI      |       |       | DietFour    | 80    |
 ```
 
 <hr class='dpr-docs-hr'/>
@@ -538,9 +538,9 @@ which will produce the following `list` visualisation.
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 |          |       |       | vegatarian  | 1507  |
-| 2025/02/25 |          |       |       | Pescatarian | 1130  |
-| 2025/02/25 |          |       |       | Vegan       | 1354  |
-| 2025/02/25 |          |       |       | Omnivore    | 1009  |
+| 2025/02/25 |          |       |       | DietTwo | 1130  |
+| 2025/02/25 |          |       |       | DietThree       | 1354  |
+| 2025/02/25 |          |       |       | DietFour    | 1009  |
 ```
 
 ### Visualisation:
@@ -549,9 +549,9 @@ which will produce the following `list` visualisation.
 | Diet        | Total prisoners | 
 |-------------|-----------------|
 | vegatarian  | 1507            |
-| Pescatarian | 1130            |
-| Vegan       | 1354            |
-| Omnivore    | 1009            |
+| DietTwo | 1130            |
+| DietThree       | 1354            |
+| DietFour    | 1009            |
 ```
 
 <hr class='dpr-docs-hr'/>
@@ -598,9 +598,9 @@ which will produce the following `list` visualisation.
 | ts         |  est_id  | wing  | cell  | diet        | count | 
 |------------|----------| ------|-------|-------------|-------|
 | 2025/02/25 | MDI      |       |       | vegatarian  | 169   |
-| 2025/02/25 | MDI      |       |       | Pescatarian | 463   |
-| 2025/02/25 | MDI      |       |       | Vegan       | 397   |
-| 2025/02/25 | MDI      |       |       | Omnivore    | 80    |
+| 2025/02/25 | MDI      |       |       | DietTwo | 463   |
+| 2025/02/25 | MDI      |       |       | DietThree       | 397   |
+| 2025/02/25 | MDI      |       |       | DietFour    | 80    |
 ```
 
 ### Visualisation:
@@ -609,9 +609,9 @@ which will produce the following `list` visualisation.
 |  Establishment ID  | Diet        | Total prisoners | 
 |--------------------|-------------|-----------------|
 | MDI                | vegatarian  | 169             |
-| MDI                | Pescatarian | 463             |
-| MDI                | Vegan       | 397             |
-| MDI                | Omnivore    | 80              |
+| MDI                | DietTwo | 463             |
+| MDI                | DietThree       | 397             |
+| MDI                | DietFour    | 80              |
 | Total              |             | 1109            |
 ```
 

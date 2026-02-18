@@ -17,8 +17,8 @@ const baseData = {
   religion_description: { raw: '' },
   ethnic_code: { raw: '' },
   ethnic_description: { raw: '' },
-  nationality_code: { raw: '' },
-  nationality_description: { raw: '' },
+  MetricTwo_code: { raw: '' },
+  MetricTwo_description: { raw: '' },
   cell: { raw: '' },
   age_range_1_18_25: { raw: '' },
   age_range_1_26_34: { raw: '' },
@@ -63,10 +63,10 @@ const generateData = (query) => {
     'No Religion',
     'Roman Catholic',
   ]
-  const ethnicityCodes = ['A2', 'W2']
-  const ethnicityDescription = ['A2-Asian/Asian British: Pakistani', 'W1-White: Eng./Welsh/Scot./N.Irish/British']
-  const nationalityCodes = ['BRIT']
-  const nationalityDescription = ['British']
+  const MetricOneCodes = ['A2', 'W2']
+  const MetricOneDescription = ['A2-Asian/Asian British: Pakistani', 'W1-White: Eng./Welsh/Scot./N.Irish/British']
+  const MetricTwoCodes = ['BRIT']
+  const MetricTwoDescription = ['British']
 
   const data = timestamps.map((ts) => {
     const baseTotals = initBaseData(baseData, ts)
@@ -131,13 +131,13 @@ const generateData = (query) => {
       [religionCodes, religionDescription],
     )
 
-    let baseTotalsByEstablishmentByEthnicity = generateFieldValuesWithCountData(
+    let baseTotalsByEstablishmentByMetricOne = generateFieldValuesWithCountData(
       baseTotals,
       ['ethnic_code', 'ethnic_description'],
-      [ethnicityCodes, ethnicityDescription],
+      [MetricOneCodes, MetricOneDescription],
     )
 
-    baseTotalsByEstablishmentByEthnicity = addColumnValuesToRows(baseTotalsByEstablishmentByEthnicity, [
+    baseTotalsByEstablishmentByMetricOne = addColumnValuesToRows(baseTotalsByEstablishmentByMetricOne, [
       'age_range_1_18_25',
       'age_range_1_26_34',
       'age_range_1_35_44',
@@ -145,13 +145,13 @@ const generateData = (query) => {
       'age_range_1_55_64',
     ])
 
-    let allTotalsByEstablishmentByEthnicity = generateFieldValuesWithCountData(
+    let allTotalsByEstablishmentByMetricOne = generateFieldValuesWithCountData(
       allTotalsByEstablishment,
       ['ethnic_code', 'ethnic_description'],
-      [ethnicityCodes, ethnicityDescription],
+      [MetricOneCodes, MetricOneDescription],
     )
 
-    allTotalsByEstablishmentByEthnicity = addColumnValuesToRows(allTotalsByEstablishmentByEthnicity, [
+    allTotalsByEstablishmentByMetricOne = addColumnValuesToRows(allTotalsByEstablishmentByMetricOne, [
       'age_range_1_18_25',
       'age_range_1_26_34',
       'age_range_1_35_44',
@@ -159,13 +159,13 @@ const generateData = (query) => {
       'age_range_1_55_64',
     ])
 
-    let allTotalsByEstablishmentByWingByEthnicity = generateFieldValuesWithCountData(
+    let allTotalsByEstablishmentByWingByMetricOne = generateFieldValuesWithCountData(
       allTotalsByEstablishmentByWing,
       ['ethnic_code', 'ethnic_description'],
-      [ethnicityCodes, ethnicityDescription],
+      [MetricOneCodes, MetricOneDescription],
     )
 
-    allTotalsByEstablishmentByWingByEthnicity = addColumnValuesToRows(allTotalsByEstablishmentByWingByEthnicity, [
+    allTotalsByEstablishmentByWingByMetricOne = addColumnValuesToRows(allTotalsByEstablishmentByWingByMetricOne, [
       'age_range_1_18_25',
       'age_range_1_26_34',
       'age_range_1_35_44',
@@ -179,16 +179,16 @@ const generateData = (query) => {
       [cells],
     )
 
-    const allTotalsByEstablishmentByNationality = generateFieldValuesWithCountData(
+    const allTotalsByEstablishmentByMetricTwo = generateFieldValuesWithCountData(
       allTotalsByEstablishment,
-      ['nationality_code', 'nationality_description'],
-      [nationalityCodes, nationalityDescription],
+      ['MetricTwo_code', 'MetricTwo_description'],
+      [MetricTwoCodes, MetricTwoDescription],
     )
 
-    const allTotalsByEstablishmentByWingByNationality = generateFieldValuesWithCountData(
+    const allTotalsByEstablishmentByWingByMetricTwo = generateFieldValuesWithCountData(
       allTotalsByEstablishmentByWing,
-      ['nationality_code', 'nationality_description'],
-      [nationalityCodes, nationalityDescription],
+      ['MetricTwo_code', 'MetricTwo_description'],
+      [MetricTwoCodes, MetricTwoDescription],
     )
 
     return [
@@ -204,12 +204,12 @@ const generateData = (query) => {
       ...baseTotalsByEstablishmentByReligion,
       ...allTotalsByEstablishmentByReligion,
       ...allTotalsByEstablishmentByWingByReligion,
-      ...allTotalsByEstablishmentByEthnicity,
-      ...baseTotalsByEstablishmentByEthnicity,
-      ...allTotalsByEstablishmentByWingByEthnicity,
+      ...allTotalsByEstablishmentByMetricOne,
+      ...baseTotalsByEstablishmentByMetricOne,
+      ...allTotalsByEstablishmentByWingByMetricOne,
       ...allTotalsByEstablishmentByWingByCell,
-      ...allTotalsByEstablishmentByNationality,
-      ...allTotalsByEstablishmentByWingByNationality,
+      ...allTotalsByEstablishmentByMetricTwo,
+      ...allTotalsByEstablishmentByWingByMetricTwo,
     ]
   })
 

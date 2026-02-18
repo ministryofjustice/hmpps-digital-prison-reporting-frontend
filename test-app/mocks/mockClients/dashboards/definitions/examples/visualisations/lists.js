@@ -128,7 +128,7 @@ const dietTotals = {
 const dietTotalsWithFilters = {
   id: 'diet-totals-with-filters',
   type: 'list',
-  display: 'Diet totals filter on vegetarian',
+  display: 'Diet totals filter on DietOne',
   description: '',
   columns: {
     keys: [],
@@ -145,7 +145,7 @@ const dietTotalsWithFilters = {
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
     ],
     expectNulls: true,
@@ -173,11 +173,11 @@ const dietTotalsWithFiltersSingleColumn = {
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
       {
         id: 'diet',
-        equals: 'Pescatarian',
+        equals: 'DietTwo',
       },
     ],
     expectNulls: true,
@@ -349,11 +349,11 @@ const dietTotalsByEstablishmentByWingByCellFilters = {
       },
       {
         id: 'diet',
-        display: 'Vegetarian',
+        display: 'DietOne',
       },
       {
         id: 'diet',
-        display: 'Omnivore',
+        display: 'DietFour',
       },
     ],
   },
@@ -525,10 +525,10 @@ const dietTotalsByEstablishmentByWingOverTimeOptional = {
   },
 }
 
-const dietTotalsVegetarianOvertime = {
-  id: 'diet-totals-vegetarian-overtime',
+const dietTotalsDietOneOvertime = {
+  id: 'diet-totals-DietOne-overtime',
   type: 'list',
-  display: 'Vegetarian totals over time',
+  display: 'DietOne totals over time',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -550,17 +550,17 @@ const dietTotalsVegetarianOvertime = {
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
     ],
     expectNulls: true,
   },
 }
 
-const dietTotalsVegetarianOvertimeByEst = {
-  id: 'diet-totals-vegetarian-overtime-by-est',
+const dietTotalsDietOneOvertimeByEst = {
+  id: 'diet-totals-DietOne-overtime-by-est',
   type: 'list',
-  display: 'Vegetarian totals over time',
+  display: 'DietOne totals over time',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -591,17 +591,17 @@ const dietTotalsVegetarianOvertimeByEst = {
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
     ],
     expectNulls: true,
   },
 }
 
-const dietTotalsVegetarianOvertimeByEstByWing = {
-  id: 'diet-totals-vegetarian-overtime-by-est-by-wing',
+const dietTotalsDietOneOvertimeByEstByWing = {
+  id: 'diet-totals-DietOne-overtime-by-est-by-wing',
   type: 'list',
-  display: 'Vegetarian totals over time by wing',
+  display: 'DietOne totals over time by wing',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -640,17 +640,17 @@ const dietTotalsVegetarianOvertimeByEstByWing = {
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
     ],
     expectNulls: true,
   },
 }
 
-const dietTotalsVegetarianOvertimeByEstByWingOptional = {
-  id: 'diet-totals-vegetarian-overtime-by-est-by-wing-optional',
+const dietTotalsDietOneOvertimeByEstByWingOptional = {
+  id: 'diet-totals-DietOne-overtime-by-est-by-wing-optional',
   type: 'list',
-  display: 'Vegetarian totals over time by wing - Optional',
+  display: 'DietOne totals over time by wing - Optional',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -691,17 +691,17 @@ const dietTotalsVegetarianOvertimeByEstByWingOptional = {
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
     ],
     expectNulls: true,
   },
 }
 
-const dietTotalsVeganOvertime = {
-  id: 'diet-totals-vegetarian-overtime',
+const dietTotalsDietThreeOvertime = {
+  id: 'diet-totals-DietOne-overtime',
   type: 'list',
-  display: 'Vegan totals over time',
+  display: 'DietThree totals over time',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -723,7 +723,7 @@ const dietTotalsVeganOvertime = {
     filters: [
       {
         id: 'diet',
-        equals: 'Vegan',
+        equals: 'DietThree',
       },
     ],
     expectNulls: true,
@@ -731,7 +731,7 @@ const dietTotalsVeganOvertime = {
 }
 
 const dietTotalsAllDietOvertime = {
-  id: 'diet-totals-vegetarian-overtime',
+  id: 'diet-totals-DietOne-overtime',
   type: 'list',
   display: 'All Diet totals over time',
   description: '',
@@ -813,10 +813,10 @@ const fullDatasetOverTime = {
   options: { showLatest: false },
 }
 
-const dataQualityEthnicity = {
-  id: 'list-data-quality-has-ethnicity',
+const dataQualityMetricOne = {
+  id: 'list-data-quality-has-MetricOne',
   type: 'list',
-  display: 'Ethnicity Values',
+  display: 'MetricOne Values',
   columns: {
     keys: [
       {
@@ -829,19 +829,19 @@ const dataQualityEthnicity = {
         display: 'Establishment ID',
       },
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
   },
 }
 
 const dataQualityColsToList = {
-  id: 'list-data-quality-has-ethnicity',
+  id: 'list-data-quality-has-MetricOne',
   type: 'list',
   columns: {
     keys: [
@@ -851,28 +851,28 @@ const dataQualityColsToList = {
     ],
     measures: [
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
     ],
     expectNulls: false,
@@ -896,21 +896,21 @@ const dataQualityReligion = {
         display: 'Establishment ID',
       },
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
     ],
   },
 }
 
-const dataQualityNationality = {
-  id: 'list-data-quality-has-nationality',
+const dataQualityMetricTwo = {
+  id: 'list-data-quality-has-MetricTwo',
   type: 'list',
-  display: 'nationality Values',
+  display: 'MetricTwo Values',
   columns: {
     keys: [
       {
@@ -923,21 +923,21 @@ const dataQualityNationality = {
         display: 'Establishment ID',
       },
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
     ],
   },
 }
 
-const dataQualityEthnicityHistoric = {
-  id: 'list-data-quality-has-ethnicity-historic',
+const dataQualityMetricOneHistoric = {
+  id: 'list-data-quality-has-MetricOne-historic',
   type: 'list',
-  display: 'Ethnicity Values',
+  display: 'MetricOne Values',
   columns: {
     keys: [
       {
@@ -954,12 +954,12 @@ const dataQualityEthnicityHistoric = {
         display: 'Establishment ID',
       },
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
   },
@@ -986,11 +986,11 @@ const dataQualityReligionHistoric = {
         display: 'Establishment ID',
       },
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
     ],
@@ -998,10 +998,10 @@ const dataQualityReligionHistoric = {
   options: { showLatest: false },
 }
 
-const dataQualityNationalityHistoric = {
-  id: 'list-data-quality-has-nationality-historic',
+const dataQualityMetricTwoHistoric = {
+  id: 'list-data-quality-has-MetricTwo-historic',
   type: 'list',
-  display: 'Nationality Values',
+  display: 'MetricTwo Values',
   columns: {
     keys: [
       {
@@ -1018,12 +1018,12 @@ const dataQualityNationalityHistoric = {
         display: 'Establishment ID',
       },
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
     ],
   },
@@ -1046,21 +1046,21 @@ const lists = {
   dietTotalsByEstablishmentOverTime,
   dietTotalsByEstablishmentByWingOverTime,
   dietTotalsByEstablishmentByWingOverTimeOptional,
-  dietTotalsVegetarianOvertime,
-  dietTotalsVeganOvertime,
+  dietTotalsDietOneOvertime,
+  dietTotalsDietThreeOvertime,
   dietTotalsAllDietOvertime,
   dietTotalsAllDietOvertimeByEst,
-  dietTotalsVegetarianOvertimeByEst,
-  dietTotalsVegetarianOvertimeByEstByWing,
-  dietTotalsVegetarianOvertimeByEstByWingOptional,
+  dietTotalsDietOneOvertimeByEst,
+  dietTotalsDietOneOvertimeByEstByWing,
+  dietTotalsDietOneOvertimeByEstByWingOptional,
   fullDataset,
   fullDatasetOverTime,
-  dataQualityEthnicity,
+  dataQualityMetricOne,
   dataQualityReligion,
-  dataQualityNationality,
-  dataQualityEthnicityHistoric,
+  dataQualityMetricTwo,
+  dataQualityMetricOneHistoric,
   dataQualityReligionHistoric,
-  dataQualityNationalityHistoric,
+  dataQualityMetricTwoHistoric,
   dataQualityColsToList,
 }
 

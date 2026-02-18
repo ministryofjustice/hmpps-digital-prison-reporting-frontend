@@ -11,7 +11,7 @@ const lineChartDashboard = {
       id: 'section-1',
       display: 'Basic Line charts',
       description: 'A set of simple barcharts',
-      visualisations: [line.dataQualityLine, line.dataQualityNationalityLine, line.dataQualityReligionLine],
+      visualisations: [line.dataQualityLine, line.dataQualityMetricTwoLine, line.dataQualityReligionLine],
     },
     {
       id: 'section-3',

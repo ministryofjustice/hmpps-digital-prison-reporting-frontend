@@ -36,7 +36,7 @@ export const dietTotals: components['schemas']['DashboardVisualisationDefinition
 export const dietTotalsWithFilters: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'diet-totals-with-filters',
   type: DashboardVisualisationType.LIST,
-  display: 'Diet totals filter on vegetarian',
+  display: 'Diet totals filter on DietOne',
   description: '',
   columns: {
     keys: <components['schemas']['DashboardVisualisationColumnDefinition'][]>[],
@@ -53,7 +53,7 @@ export const dietTotalsWithFilters: components['schemas']['DashboardVisualisatio
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
     ],
     expectNulls: true,
@@ -87,11 +87,11 @@ export const dietTotalsWithFiltersSingleColumn: components['schemas']['Dashboard
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
       {
         id: 'diet',
-        equals: 'Pescatarian',
+        equals: 'DietTwo',
       },
     ],
     expectNulls: true,
@@ -256,11 +256,11 @@ export const dietTotalsByEstablishmentByWingByCellFilters: components['schemas']
       },
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
       {
         id: 'diet',
-        equals: 'Omnivore',
+        equals: 'DietFour',
       },
     ],
     expectNulls: false,

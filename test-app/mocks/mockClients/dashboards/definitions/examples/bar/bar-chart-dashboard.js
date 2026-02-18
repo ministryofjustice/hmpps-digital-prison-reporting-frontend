@@ -12,8 +12,8 @@ const barChartDashboard = {
       display: 'Basic Bar charts',
       description: 'A set of simple barcharts',
       visualisations: [
-        bar.dataQualityEthnicityBar,
-        bar.dataQualityNationalityBar,
+        bar.dataQualityMetricOneBar,
+        bar.dataQualityMetricTwoBar,
         bar.dataQualityReligionBar,
         bar.dataQualityAllBar,
       ],

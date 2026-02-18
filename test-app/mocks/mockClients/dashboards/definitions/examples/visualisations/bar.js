@@ -1,7 +1,7 @@
-const dataQualityEthnicityBar = {
-  id: 'bar-data-quality-has-ethnicity',
+const dataQualityMetricOneBar = {
+  id: 'bar-data-quality-has-MetricOne',
   type: 'bar',
-  display: 'Ethnicity values',
+  display: 'MetricOne values',
   options: {
     horizontal: true,
   },
@@ -14,12 +14,12 @@ const dataQualityEthnicityBar = {
     ],
     measures: [
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
   },
@@ -38,21 +38,21 @@ const dataQualityReligionBar = {
     ],
     measures: [
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
     ],
   },
 }
 
-const dataQualityNationalityBar = {
-  id: 'bar-data-quality-has-nationality',
+const dataQualityMetricTwoBar = {
+  id: 'bar-data-quality-has-MetricTwo',
   type: 'bar',
-  display: 'Nationality values',
+  display: 'MetricTwo values',
   columns: {
     keys: [
       {
@@ -62,12 +62,12 @@ const dataQualityNationalityBar = {
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
     ],
   },
@@ -89,28 +89,28 @@ const dataQualityAllBar = {
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
   },
@@ -119,7 +119,7 @@ const dataQualityAllBar = {
 const dataQualityListBar = {
   id: 'bar-data-quality-list',
   type: 'bar',
-  display: 'Has nationality by establishment',
+  display: 'Has MetricTwo by establishment',
   columns: {
     keys: [],
     measures: [
@@ -129,8 +129,8 @@ const dataQualityListBar = {
         axis: 'x',
       },
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
         axis: 'y',
       },
     ],
@@ -138,9 +138,9 @@ const dataQualityListBar = {
 }
 
 module.exports = {
-  dataQualityEthnicityBar,
+  dataQualityMetricOneBar,
   dataQualityReligionBar,
-  dataQualityNationalityBar,
+  dataQualityMetricTwoBar,
   dataQualityAllBar,
   dataQualityListBar,
 }

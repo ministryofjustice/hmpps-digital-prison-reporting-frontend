@@ -1,11 +1,11 @@
 import { components } from '../../../../../../../src/dpr/types/api'
 import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
-export const mockEthnicityLineChartTimeseries: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'mockEthnicityLineChartTimeseries',
+export const mockMetricOneLineChartTimeseries: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'mockMetricOneLineChartTimeseries',
   type: DashboardVisualisationType.LINE_TIMESERIES,
-  display: 'Missing ethnicity timeseries chart',
-  description: 'Prisoner totals for missing ethnicity by establishment over time',
+  display: 'Missing MetricOne timeseries chart',
+  description: 'Prisoner totals for missing MetricOne by establishment over time',
   columns: {
     keys: [
       {
@@ -19,25 +19,25 @@ export const mockEthnicityLineChartTimeseries: components['schemas']['DashboardV
         display: 'Date',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'Has no ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'Has no MetricOne',
       },
     ],
     filters: [
       {
         id: 'establishment_id',
-        equals: 'MDI',
+        equals: 'ABC',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const mockNationalityLineChartTimeseries: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'mockNationalityLineChartTimeseries',
+export const mockMetricTwoLineChartTimeseries: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'mockMetricTwoLineChartTimeseries',
   type: DashboardVisualisationType.LINE_TIMESERIES,
-  display: 'Missing nationality timeseries chart',
-  description: 'Prisoner totals for missing nationality by establishment over time',
+  display: 'Missing MetricTwo timeseries chart',
+  description: 'Prisoner totals for missing MetricTwo by establishment over time',
   columns: {
     keys: [
       {
@@ -51,25 +51,25 @@ export const mockNationalityLineChartTimeseries: components['schemas']['Dashboar
         display: 'Date',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'Has no nationality',
+        id: 'metric_two_is_missing',
+        display: 'Has no MetricTwo',
       },
     ],
     filters: [
       {
         id: 'establishment_id',
-        equals: 'MDI',
+        equals: 'ABC',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const mockReligionLineChartTimeseries: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'mockReligionLineChartTimeseries',
+export const mockMetricThreeLineChartTimeseries: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'mockMetricThreeLineChartTimeseries',
   type: DashboardVisualisationType.LINE_TIMESERIES,
-  display: 'Missing religion timeseries chart',
-  description: 'Prisoner totals for missing religion by establishment over time',
+  display: 'Missing MetricThree timeseries chart',
+  description: 'Prisoner totals for missing MetricThree by establishment over time',
   columns: {
     keys: [
       {
@@ -83,25 +83,25 @@ export const mockReligionLineChartTimeseries: components['schemas']['DashboardVi
         display: 'Date',
       },
       {
-        id: 'religion_is_missing',
-        display: 'Has no religion',
+        id: 'metric_three_is_missing',
+        display: 'Has no MetricThree',
       },
     ],
     filters: [
       {
         id: 'establishment_id',
-        equals: 'MDI',
+        equals: 'ABC',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const mockEthnicityLineChartTimeseriesAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'mockEthnicityLineChartTimeseriesAllEst',
+export const mockMetricOneLineChartTimeseriesAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'mockMetricOneLineChartTimeseriesAllEst',
   type: DashboardVisualisationType.LINE_TIMESERIES,
-  display: 'Missing ethnicity timeseries chart',
-  description: 'Prisoner totals for missing ethnicity for multiple establishments over time',
+  display: 'Missing MetricOne timeseries chart',
+  description: 'Prisoner totals for missing MetricOne for multiple establishments over time',
   columns: {
     keys: [
       {
@@ -115,19 +115,19 @@ export const mockEthnicityLineChartTimeseriesAllEst: components['schemas']['Dash
         display: 'Date',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'Has no ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'Has no MetricOne',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const mockNationalityLineChartTimeseriesAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'mockNationalityLineChartTimeseriesAllEst',
+export const mockMetricTwoLineChartTimeseriesAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'mockMetricTwoLineChartTimeseriesAllEst',
   type: DashboardVisualisationType.LINE_TIMESERIES,
-  display: 'Missing nationality timeseries chart',
-  description: 'Prisoner totals for missing nationality for all establishments over time',
+  display: 'Missing MetricTwo timeseries chart',
+  description: 'Prisoner totals for missing MetricTwo for all establishments over time',
   columns: {
     keys: [
       {
@@ -141,19 +141,19 @@ export const mockNationalityLineChartTimeseriesAllEst: components['schemas']['Da
         display: 'Date',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'Has no nationality',
+        id: 'metric_two_is_missing',
+        display: 'Has no MetricTwo',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const mockReligionLineChartTimeseriesAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'mockReligionLineChartTimeseriesAllEst',
+export const mockMetricThreeLineChartTimeseriesAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'mockMetricThreeLineChartTimeseriesAllEst',
   type: DashboardVisualisationType.LINE_TIMESERIES,
-  display: 'Missing religion timeseries chart',
-  description: 'Prisoner totals for missing religion for all establishments over time',
+  display: 'Missing MetricThree timeseries chart',
+  description: 'Prisoner totals for missing MetricThree for all establishments over time',
   columns: {
     keys: [
       {
@@ -167,8 +167,8 @@ export const mockReligionLineChartTimeseriesAllEst: components['schemas']['Dashb
         display: 'Date',
       },
       {
-        id: 'religion_is_missing',
-        display: 'Has no religion',
+        id: 'metric_three_is_missing',
+        display: 'Has no MetricThree',
       },
     ],
     expectNulls: false,

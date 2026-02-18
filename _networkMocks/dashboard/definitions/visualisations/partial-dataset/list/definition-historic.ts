@@ -18,9 +18,9 @@ export const definition: components['schemas']['DashboardDefinition'] = {
         List.dietTotalsByEstablishmentByWingOverTime,
         List.dietTotalsByEstablishmentOverTime,
         List.dietTotalsOverTime,
-        List.dietTotalsVegetarianOvertime,
-        List.dietTotalsVegetarianOvertimeByEst,
-        List.dietTotalsVegetarianOvertimeByEstByWing,
+        List.dietTotalsDietOneOvertime,
+        List.dietTotalsDietOneOvertimeByEst,
+        List.dietTotalsDietOneOvertimeByEstByWing,
       ],
     },
     {

@@ -376,10 +376,10 @@ const dietTotalsByEstablishmentByWingOverTime = {
   },
 }
 
-const dietTotalsVegetarianOvertime = {
-  id: 'diet-totals-vegetarian-overtime',
+const dietTotalsDietOneOvertime = {
+  id: 'diet-totals-DietOne-overtime',
   type: 'line-timeseries',
-  display: 'Vegetarian totals over time line chart',
+  display: 'DietOne totals over time line chart',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -402,17 +402,17 @@ const dietTotalsVegetarianOvertime = {
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
     ],
     expectNulls: true,
   },
 }
 
-const dietTotalsVeganOvertime = {
-  id: 'diet-totals-vegetarian-overtime',
+const dietTotalsDietThreeOvertime = {
+  id: 'diet-totals-DietOne-overtime',
   type: 'line-timeseries',
-  display: 'Vegan totals over time line chart',
+  display: 'DietThree totals over time line chart',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -435,17 +435,17 @@ const dietTotalsVeganOvertime = {
     filters: [
       {
         id: 'diet',
-        equals: 'Vegan',
+        equals: 'DietThree',
       },
     ],
     expectNulls: true,
   },
 }
 
-const dietTotalsVegetarianOvertimeByEstLine = {
-  id: 'line-diet-totals-vegetarian-overtime-by-est',
+const dietTotalsDietOneOvertimeByEstLine = {
+  id: 'line-diet-totals-DietOne-overtime-by-est',
   type: 'line-timeseries',
-  display: 'Vegetarian totals over time line',
+  display: 'DietOne totals over time line',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -468,17 +468,17 @@ const dietTotalsVegetarianOvertimeByEstLine = {
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
     ],
     expectNulls: true,
   },
 }
 
-const dietTotalsVegetarianOvertimeByEstByWingLine = {
-  id: 'line-diet-totals-vegetarian-overtime-by-est-by-wing',
+const dietTotalsDietOneOvertimeByEstByWingLine = {
+  id: 'line-diet-totals-DietOne-overtime-by-est-by-wing',
   type: 'line-timeseries',
-  display: 'Vegetarian totals over time by wing line',
+  display: 'DietOne totals over time by wing line',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -505,7 +505,7 @@ const dietTotalsVegetarianOvertimeByEstByWingLine = {
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
     ],
     expectNulls: true,
@@ -575,10 +575,10 @@ const dietTotalsByEstablishmentByWingOverTimeOptionalLine = {
 
 // BAR
 
-const dataQualityEthnicityBar = {
-  id: 'bar-data-quality-has-ethnicity',
+const dataQualityMetricOneBar = {
+  id: 'bar-data-quality-has-MetricOne',
   type: 'bar',
-  display: 'Ethnicity values',
+  display: 'MetricOne values',
   options: {
     horizontal: true,
   },
@@ -591,12 +591,12 @@ const dataQualityEthnicityBar = {
     ],
     measures: [
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
   },
@@ -615,21 +615,21 @@ const dataQualityReligionBar = {
     ],
     measures: [
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
     ],
   },
 }
 
-const dataQualityNationalityBar = {
-  id: 'bar-data-quality-has-nationality',
+const dataQualityMetricTwoBar = {
+  id: 'bar-data-quality-has-MetricTwo',
   type: 'bar',
-  display: 'nationality values',
+  display: 'MetricTwo values',
   columns: {
     keys: [
       {
@@ -639,12 +639,12 @@ const dataQualityNationalityBar = {
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
     ],
   },
@@ -652,10 +652,10 @@ const dataQualityNationalityBar = {
 
 // DOUGHNUT
 
-const dataQualityEthnicityDoughnut = {
-  id: 'doughnut-data-quality-has-ethnicity',
+const dataQualityMetricOneDoughnut = {
+  id: 'doughnut-data-quality-has-MetricOne',
   type: 'doughnut',
-  display: 'Ethnicity values',
+  display: 'MetricOne values',
   columns: {
     keys: [
       {
@@ -665,12 +665,12 @@ const dataQualityEthnicityDoughnut = {
     ],
     measures: [
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
   },
@@ -689,21 +689,21 @@ const dataQualityReligionDoughnut = {
     ],
     measures: [
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
     ],
   },
 }
 
-const dataQualityNationalityDoughnut = {
-  id: 'doughnut-data-quality-has-nationality',
+const dataQualityMetricTwoDoughnut = {
+  id: 'doughnut-data-quality-has-MetricTwo',
   type: 'doughnut',
-  display: 'Nationality values',
+  display: 'MetricTwo values',
   columns: {
     keys: [
       {
@@ -713,12 +713,12 @@ const dataQualityNationalityDoughnut = {
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
     ],
   },
@@ -726,10 +726,10 @@ const dataQualityNationalityDoughnut = {
 
 // BAR
 
-const dataQualityEthnicityLine = {
-  id: 'line-data-quality-has-ethnicity',
+const dataQualityMetricOneLine = {
+  id: 'line-data-quality-has-MetricOne',
   type: 'line',
-  display: 'Ethnicity values',
+  display: 'MetricOne values',
   columns: {
     keys: [
       {
@@ -739,12 +739,12 @@ const dataQualityEthnicityLine = {
     ],
     measures: [
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
   },
@@ -763,21 +763,21 @@ const dataQualityReligionLine = {
     ],
     measures: [
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
     ],
   },
 }
 
-const dataQualityNationalityLine = {
-  id: 'line-data-quality-has-nationality',
+const dataQualityMetricTwoLine = {
+  id: 'line-data-quality-has-MetricTwo',
   type: 'line',
-  display: 'nationality values',
+  display: 'MetricTwo values',
   columns: {
     keys: [
       {
@@ -787,12 +787,12 @@ const dataQualityNationalityLine = {
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
     ],
   },
@@ -800,10 +800,10 @@ const dataQualityNationalityLine = {
 
 // HISTORIC LINE
 
-const dataQualityEthnicityHistoricLine = {
-  id: 'line-data-quality-has-ethnicity-historic',
+const dataQualityMetricOneHistoricLine = {
+  id: 'line-data-quality-has-MetricOne-historic',
   type: 'line-timeseries',
-  display: 'Ethnicity values',
+  display: 'MetricOne values',
   columns: {
     keys: [
       {
@@ -817,8 +817,8 @@ const dataQualityEthnicityHistoricLine = {
         display: 'Date',
       },
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
     ],
   },
@@ -842,7 +842,7 @@ const dataQualityReligionHistoricLine = {
         display: 'Date',
       },
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
     ],
@@ -850,10 +850,10 @@ const dataQualityReligionHistoricLine = {
   options: { showLatest: false },
 }
 
-const dataQualityNationalityHistoricLine = {
-  id: 'line-data-quality-has-nationality-historic',
+const dataQualityMetricTwoHistoricLine = {
+  id: 'line-data-quality-has-MetricTwo-historic',
   type: 'line-timeseries',
-  display: 'Nationality values',
+  display: 'MetricTwo values',
   columns: {
     keys: [
       {
@@ -867,18 +867,18 @@ const dataQualityNationalityHistoricLine = {
         display: 'Date',
       },
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
     ],
   },
   options: { showLatest: false },
 }
 
-const dataQualityEthnicityHistoricBar = {
-  id: 'line-data-quality-has-ethnicity-historic',
+const dataQualityMetricOneHistoricBar = {
+  id: 'line-data-quality-has-MetricOne-historic',
   type: 'bar-timeseries',
-  display: 'Ethnicity values',
+  display: 'MetricOne values',
   columns: {
     keys: [
       {
@@ -892,8 +892,8 @@ const dataQualityEthnicityHistoricBar = {
         display: 'Date',
       },
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
     ],
   },
@@ -917,7 +917,7 @@ const dataQualityReligionHistoricBar = {
         display: 'Date',
       },
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
     ],
@@ -925,10 +925,10 @@ const dataQualityReligionHistoricBar = {
   options: { showLatest: false },
 }
 
-const dataQualityNationalityHistoricBar = {
-  id: 'line-data-quality-has-nationality-historic',
+const dataQualityMetricTwoHistoricBar = {
+  id: 'line-data-quality-has-MetricTwo-historic',
   type: 'bar-timeseries',
-  display: 'Nationality values',
+  display: 'MetricTwo values',
   columns: {
     keys: [
       {
@@ -942,8 +942,8 @@ const dataQualityNationalityHistoricBar = {
         display: 'Date',
       },
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
     ],
   },
@@ -966,27 +966,27 @@ const charts = {
   dietTotalsOverTime,
   dietTotalsByEstablishmentOverTime,
   dietTotalsByEstablishmentByWingOverTime,
-  dietTotalsVegetarianOvertime,
-  dietTotalsVeganOvertime,
+  dietTotalsDietOneOvertime,
+  dietTotalsDietThreeOvertime,
   dietTotalsAllDietOvertimeByEstLine,
-  dietTotalsVegetarianOvertimeByEstLine,
-  dietTotalsVegetarianOvertimeByEstByWingLine,
+  dietTotalsDietOneOvertimeByEstLine,
+  dietTotalsDietOneOvertimeByEstByWingLine,
   dietTotalsByEstablishmentByWingOverTimeOptionalLine,
-  dataQualityEthnicityBar,
+  dataQualityMetricOneBar,
   dataQualityReligionBar,
-  dataQualityNationalityBar,
-  dataQualityEthnicityDoughnut,
+  dataQualityMetricTwoBar,
+  dataQualityMetricOneDoughnut,
   dataQualityReligionDoughnut,
-  dataQualityNationalityDoughnut,
-  dataQualityEthnicityLine,
+  dataQualityMetricTwoDoughnut,
+  dataQualityMetricOneLine,
   dataQualityReligionLine,
-  dataQualityNationalityLine,
-  dataQualityEthnicityHistoricLine,
+  dataQualityMetricTwoLine,
+  dataQualityMetricOneHistoricLine,
   dataQualityReligionHistoricLine,
-  dataQualityNationalityHistoricLine,
-  dataQualityEthnicityHistoricBar,
+  dataQualityMetricTwoHistoricLine,
+  dataQualityMetricOneHistoricBar,
   dataQualityReligionHistoricBar,
-  dataQualityNationalityHistoricBar,
+  dataQualityMetricTwoHistoricBar,
 }
 
 module.exports = charts

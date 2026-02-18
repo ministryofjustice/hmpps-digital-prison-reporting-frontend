@@ -172,6 +172,21 @@ export const groupRowsByKey = (dashboardData: DashboardDataResponse[], key: stri
   })
 }
 
+export const groupRowsBy = (dashboardData: DashboardDataResponse[], groupIds: string[]): DashboardDataResponse[][] => {
+  const grouped = dashboardData.reduce<Record<string, DashboardDataResponse[]>>((acc, row) => {
+    // Create a unique composite key from the grouping fields
+    const key = groupIds.map((id) => row[id]?.raw ?? '').join('|')
+
+    // Build or append to the group
+    acc[key] = acc[key] ? [...acc[key], row] : [row]
+
+    return acc
+  }, {})
+
+  // Return the groups as an array of arrays
+  return Object.values(grouped)
+}
+
 export const getGroupKey = (
   rawData: DashboardDataResponse[],
   keys?: Array<components['schemas']['DashboardVisualisationColumnDefinition']>,
@@ -211,13 +226,10 @@ export const filterRowsByDisplayColumns = (
   return dashboardData.map((datasetRow: DashboardDataResponse) => {
     return Object.keys(datasetRow)
       .filter((key) => displayColumnsIds.includes(key))
-      .reduce(
-        (acc, key) => {
-          acc[key] = datasetRow[key]
-          return acc
-        },
-        {} as unknown as DashboardDataResponse,
-      )
+      .reduce((acc, key) => {
+        acc[key] = datasetRow[key]
+        return acc
+      }, {} as unknown as DashboardDataResponse)
   })
 }
 
@@ -228,6 +240,7 @@ export default {
   filterRowsByDisplayColumns,
   groupRowsByTimestamp,
   groupRowsByKey,
+  groupRowsBy,
   getGroupKey,
   getKeyVariations,
   getKeyIds,

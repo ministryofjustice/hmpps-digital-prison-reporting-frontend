@@ -13,10 +13,10 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       display: 'Simple Doughnut charts',
       description: 'Examples of simple Doughnut charts',
       visualisations: [
-        DoughnutChart.dataQualityEthnicityDoughnut,
-        DoughnutChart.dataQualityNationalityDoughnut,
+        DoughnutChart.dataQualityMetricOneDoughnut,
+        DoughnutChart.dataQualityMetricTwoDoughnut,
         DoughnutChart.dataQualityReligionDoughnut,
-        DoughnutChart.dataQualityNationalityReligionDoughnut,
+        DoughnutChart.dataQualityMetricTwoReligionDoughnut,
       ],
     },
     {
@@ -24,10 +24,10 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       display: 'Two ring Doughnut charts ',
       description: 'Examples of Doughnut charts with 2 rings',
       visualisations: [
-        DoughnutChart.dataQualityEthnicityDoughnutTwoEst,
-        DoughnutChart.dataQualityNationalityDoughnutTwoEst,
+        DoughnutChart.dataQualityMetricOneDoughnutTwoEst,
+        DoughnutChart.dataQualityMetricTwoDoughnutTwoEst,
         DoughnutChart.dataQualityReligionDoughnutTwoEst,
-        DoughnutChart.dataQualityNationalityReligionDoughnutTwoEst,
+        DoughnutChart.dataQualityMetricTwoReligionDoughnutTwoEst,
       ],
     },
     {
@@ -35,10 +35,10 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       display: 'Multiple rings Doughnut charts ',
       description: 'Examples of Doughnut charts with multiple rings',
       visualisations: [
-        DoughnutChart.dataQualityEthnicityDoughnutAllEst,
-        DoughnutChart.dataQualityNationalityDoughnutAllEst,
+        DoughnutChart.dataQualityMetricOneDoughnutAllEst,
+        DoughnutChart.dataQualityMetricTwoDoughnutAllEst,
         DoughnutChart.dataQualityReligionDoughnutAllEst,
-        DoughnutChart.dataQualityNationalityReligionDoughnutAllEst,
+        DoughnutChart.dataQualityMetricTwoReligionDoughnutAllEst,
       ],
     },
     {

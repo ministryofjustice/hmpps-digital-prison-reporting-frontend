@@ -3,17 +3,17 @@ const {
   mockListDefinitionAgeRange1,
   mockListDefinitionAgeRange2,
   mockListDefinitionReligion,
-  mockListDefinitionEthnicity,
+  mockListDefinitionMetricOne,
   mockListDefinitionAgeRange1Wing,
   mockListDefinitionAgeRange2Wing,
   mockListDefinitionCell,
-  mockListDefinitionNationality,
-  mockListDefinitionEthnicityAgeRange,
+  mockListDefinitionMetricTwo,
+  mockListDefinitionMetricOneAgeRange,
   mockListDefinitionTotalPrisonersByWing,
   mockListDefinitionTotalPrisoners,
-  mockListDefinitionEthnicityByEst,
+  mockListDefinitionMetricOneByEst,
   mockListDefinitionReligionByEst,
-  mockListDefinitionNationalityByWing,
+  mockListDefinitionMetricTwoByWing,
 } = require('./visualisations')
 
 const { establishmentIdFilter, wingFilter } = require('../../filter-definitions')
@@ -42,13 +42,13 @@ const ageBreakdownReport3 = {
       visualisations: [mockListDefinitionReligionByEst, mockListDefinitionReligion],
     },
     {
-      id: 'total-prisoners-by-ethnicity',
-      display: 'Total Prisoners by ethnicity',
-      description: 'These tables show the total prisoners by ethnicity',
+      id: 'total-prisoners-by-MetricOne',
+      display: 'Total Prisoners by MetricOne',
+      description: 'These tables show the total prisoners by MetricOne',
       visualisations: [
-        mockListDefinitionEthnicityByEst,
-        mockListDefinitionEthnicity,
-        mockListDefinitionEthnicityAgeRange,
+        mockListDefinitionMetricOneByEst,
+        mockListDefinitionMetricOne,
+        mockListDefinitionMetricOneAgeRange,
       ],
     },
     {
@@ -64,10 +64,10 @@ const ageBreakdownReport3 = {
       visualisations: [mockListDefinitionAgeRange1Wing, mockListDefinitionAgeRange2Wing],
     },
     {
-      id: 'total-prisoners-by-nationality',
-      display: 'Total Prisoners by Nationality',
-      description: 'This table shows the total prisoners by nationality',
-      visualisations: [mockListDefinitionNationality, mockListDefinitionNationalityByWing],
+      id: 'total-prisoners-by-MetricTwo',
+      display: 'Total Prisoners by MetricTwo',
+      description: 'This table shows the total prisoners by MetricTwo',
+      visualisations: [mockListDefinitionMetricTwo, mockListDefinitionMetricTwoByWing],
     },
     {
       id: 'totals-breakdown',

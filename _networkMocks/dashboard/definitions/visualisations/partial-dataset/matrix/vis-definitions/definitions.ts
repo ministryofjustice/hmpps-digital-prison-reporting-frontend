@@ -1,10 +1,10 @@
 import { components } from '../../../../../../../src/dpr/types/api'
 import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
-export const dietTotalsVegetarianOvertime: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'diet-totals-vegetarian-overtime',
+export const dietTotalsDietOneOvertime: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'diet-totals-DietOne-overtime',
   type: DashboardVisualisationType.MATRIX_TIMESERIES,
-  display: 'Vegetarian totals over time matrix chart',
+  display: 'DietOne totals over time matrix chart',
   description: '',
   options: { showLatest: false },
   columns: {
@@ -27,7 +27,7 @@ export const dietTotalsVegetarianOvertime: components['schemas']['DashboardVisua
     filters: [
       {
         id: 'diet',
-        equals: 'Vegetarian',
+        equals: 'DietOne',
       },
     ],
     expectNulls: true,

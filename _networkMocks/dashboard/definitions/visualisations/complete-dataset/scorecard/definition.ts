@@ -12,9 +12,9 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       display: 'Data quality scorecards',
       description: '',
       visualisations: [
-        Scorecards.simpleScorecardNationality,
-        Scorecards.simpleScorecardEthnicity,
-        Scorecards.simpleScorecardReligion,
+        Scorecards.simpleScorecardMetricTwo,
+        Scorecards.simpleScorecardMetricOne,
+        Scorecards.simpleScorecardMetricThree,
       ],
     },
     {
@@ -22,9 +22,9 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       display: 'Data quality scorecards with RAG colous',
       description: '',
       visualisations: [
-        Scorecards.simpleScorecardRagColoursNationality,
-        Scorecards.simpleScorecardRagColoursReligion,
-        Scorecards.simpleScorecardRagColoursEthnicity,
+        Scorecards.simpleScorecardRagColoursMetricTwo,
+        Scorecards.simpleScorecardRagColoursMetricThree,
+        Scorecards.simpleScorecardRagColoursMetricOne,
       ],
     },
     {
@@ -32,9 +32,9 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       display: 'Custom buckets colours',
       description: '',
       visualisations: [
-        BucketScorecards.simpleScorecardCustomBucketsNationality,
-        BucketScorecards.simpleScorecardCustomBucketsReligion,
-        BucketScorecards.simpleScorecardCustomBucketsEthnicity,
+        BucketScorecards.simpleScorecardCustomBucketsMetricTwo,
+        BucketScorecards.simpleScorecardCustomBucketsMetricThree,
+        BucketScorecards.simpleScorecardCustomBucketsMetricOne,
       ],
     },
   ],

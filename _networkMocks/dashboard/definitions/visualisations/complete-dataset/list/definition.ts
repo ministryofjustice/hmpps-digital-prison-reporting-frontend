@@ -1,6 +1,6 @@
 import { fullDataset } from './vis-definitions/full-data'
 import { columnValuesAsList } from './vis-definitions/column-values-as-list'
-import { dataQualityEthnicity, dataQualityNationality, dataQualityReligion } from './vis-definitions/rows-as-list'
+import { dataQualityMetricOne, dataQualityMetricTwo, dataQualityReligion } from './vis-definitions/rows-as-list'
 import { components } from '../../../../../../src/dpr/types/api'
 
 export const definition: components['schemas']['DashboardDefinition'] = {
@@ -13,7 +13,7 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       id: 'section-1',
       display: 'Rows as list',
       description: 'These list examples display the dataset rows as a list',
-      visualisations: [dataQualityEthnicity, dataQualityNationality, dataQualityReligion],
+      visualisations: [dataQualityMetricOne, dataQualityMetricTwo, dataQualityReligion],
     },
     {
       id: 'section-2',

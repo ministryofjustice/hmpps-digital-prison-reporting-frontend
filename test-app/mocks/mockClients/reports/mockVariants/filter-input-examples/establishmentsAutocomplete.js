@@ -23,7 +23,7 @@ const variant25 = {
             returnAsStaticOptions: true,
           },
           staticOptions: [
-            { name: 'MDI', display: 'Moorland (HMP & YOI)' },
+            { name: 'ABC', display: 'Moorland (HMP & YOI)' },
             { name: 'KMI', display: 'KIRKHAM (HMP)' },
             { name: 'LCI', display: 'LEICESTER' },
             { name: 'MSI', display: 'MAIDSTONE (HMP)' },

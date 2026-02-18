@@ -1,10 +1,10 @@
 import { components } from '../../../../../../../src/dpr/types/api'
 import { DashboardVisualisationType } from '../../../../../../../src/dpr/components/_dashboards/dashboard-visualisation/types'
 
-export const dataQualityEthnicityDoughnut: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-ethnicity',
+export const dataQualityMetricOneDoughnut: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'doughnut-data-quality-has-MetricOne',
   type: DashboardVisualisationType.DONUT,
-  display: 'Ethnicity values',
+  display: 'MetricOne values',
   columns: {
     keys: [
       {
@@ -14,18 +14,18 @@ export const dataQualityEthnicityDoughnut: components['schemas']['DashboardVisua
     ],
     measures: [
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
     filters: [
       {
         id: 'establishment_id',
-        equals: 'MDI',
+        equals: 'ABC',
       },
     ],
     expectNulls: false,
@@ -45,28 +45,28 @@ export const dataQualityReligionDoughnut: components['schemas']['DashboardVisual
     ],
     measures: [
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
     ],
     filters: [
       {
         id: 'establishment_id',
-        equals: 'MDI',
+        equals: 'ABC',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const dataQualityNationalityDoughnut: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-nationality',
+export const dataQualityMetricTwoDoughnut: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'doughnut-data-quality-has-MetricTwo',
   type: DashboardVisualisationType.DONUT,
-  display: 'Nationality values',
+  display: 'MetricTwo values',
   columns: {
     keys: [
       {
@@ -76,28 +76,28 @@ export const dataQualityNationalityDoughnut: components['schemas']['DashboardVis
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
     ],
     filters: [
       {
         id: 'establishment_id',
-        equals: 'MDI',
+        equals: 'ABC',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const dataQualityNationalityReligionDoughnut: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-nationality-religion',
+export const dataQualityMetricTwoReligionDoughnut: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'doughnut-data-quality-has-MetricTwo-religion',
   type: DashboardVisualisationType.DONUT,
-  display: 'Nationality & Religion values',
+  display: 'MetricTwo & Religion values',
   columns: {
     keys: [
       {
@@ -107,36 +107,36 @@ export const dataQualityNationalityReligionDoughnut: components['schemas']['Dash
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
     ],
     filters: [
       {
         id: 'establishment_id',
-        equals: 'MDI',
+        equals: 'ABC',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const dataQualityEthnicityDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-ethnicity',
+export const dataQualityMetricOneDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'doughnut-data-quality-has-MetricOne',
   type: DashboardVisualisationType.DONUT,
-  display: 'Ethnicity values',
+  display: 'MetricOne values',
   columns: {
     keys: [
       {
@@ -146,22 +146,22 @@ export const dataQualityEthnicityDoughnutTwoEst: components['schemas']['Dashboar
     ],
     measures: [
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
     filters: [
       {
         id: 'establishment_id',
-        equals: 'MDI',
+        equals: 'ABC',
       },
       {
         id: 'establishment_id',
-        equals: 'SLI',
+        equals: 'GHI',
       },
     ],
     expectNulls: false,
@@ -181,32 +181,32 @@ export const dataQualityReligionDoughnutTwoEst: components['schemas']['Dashboard
     ],
     measures: [
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
     ],
     filters: [
       {
         id: 'establishment_id',
-        equals: 'MDI',
+        equals: 'ABC',
       },
       {
         id: 'establishment_id',
-        equals: 'SLI',
+        equals: 'GHI',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const dataQualityNationalityDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-nationality',
+export const dataQualityMetricTwoDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'doughnut-data-quality-has-MetricTwo',
   type: DashboardVisualisationType.DONUT,
-  display: 'Nationality values',
+  display: 'MetricTwo values',
   columns: {
     keys: [
       {
@@ -216,32 +216,32 @@ export const dataQualityNationalityDoughnutTwoEst: components['schemas']['Dashbo
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
     ],
     filters: [
       {
         id: 'establishment_id',
-        equals: 'MDI',
+        equals: 'ABC',
       },
       {
         id: 'establishment_id',
-        equals: 'SLI',
+        equals: 'GHI',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const dataQualityNationalityReligionDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-nationality-religion',
+export const dataQualityMetricTwoReligionDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'doughnut-data-quality-has-MetricTwo-religion',
   type: DashboardVisualisationType.DONUT,
-  display: 'Nationality & Religion values',
+  display: 'MetricTwo & Religion values',
   columns: {
     keys: [
       {
@@ -251,40 +251,40 @@ export const dataQualityNationalityReligionDoughnutTwoEst: components['schemas']
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
     ],
     filters: [
       {
         id: 'establishment_id',
-        equals: 'MDI',
+        equals: 'ABC',
       },
       {
         id: 'establishment_id',
-        equals: 'SLI',
+        equals: 'GHI',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const dataQualityEthnicityDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-ethnicity',
+export const dataQualityMetricOneDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'doughnut-data-quality-has-MetricOne',
   type: DashboardVisualisationType.DONUT,
-  display: 'Ethnicity values',
+  display: 'MetricOne values',
   columns: {
     keys: [
       {
@@ -294,12 +294,12 @@ export const dataQualityEthnicityDoughnutAllEst: components['schemas']['Dashboar
     ],
     measures: [
       {
-        id: 'has_ethnicity',
-        display: 'Has ethnicity',
+        id: 'has_metric_one',
+        display: 'Has MetricOne',
       },
       {
-        id: 'ethnicity_is_missing',
-        display: 'No Ethnicity',
+        id: 'metric_one_is_missing',
+        display: 'No MetricOne',
       },
     ],
     expectNulls: false,
@@ -319,11 +319,11 @@ export const dataQualityReligionDoughnutAllEst: components['schemas']['Dashboard
     ],
     measures: [
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
     ],
@@ -331,10 +331,10 @@ export const dataQualityReligionDoughnutAllEst: components['schemas']['Dashboard
   },
 }
 
-export const dataQualityNationalityDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-nationality',
+export const dataQualityMetricTwoDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'doughnut-data-quality-has-MetricTwo',
   type: DashboardVisualisationType.DONUT,
-  display: 'Nationality values',
+  display: 'MetricTwo values',
   columns: {
     keys: [
       {
@@ -344,22 +344,22 @@ export const dataQualityNationalityDoughnutAllEst: components['schemas']['Dashbo
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
     ],
     expectNulls: false,
   },
 }
 
-export const dataQualityNationalityReligionDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-nationality-religion',
+export const dataQualityMetricTwoReligionDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'doughnut-data-quality-has-MetricTwo-religion',
   type: DashboardVisualisationType.DONUT,
-  display: 'Nationality & Religion values',
+  display: 'MetricTwo & Religion values',
   columns: {
     keys: [
       {
@@ -369,19 +369,19 @@ export const dataQualityNationalityReligionDoughnutAllEst: components['schemas']
     ],
     measures: [
       {
-        id: 'has_nationality',
-        display: 'Has nationality',
+        id: 'has_metric_two',
+        display: 'Has MetricTwo',
       },
       {
-        id: 'nationality_is_missing',
-        display: 'No nationality',
+        id: 'metric_two_is_missing',
+        display: 'No MetricTwo',
       },
       {
-        id: 'has_religion',
+        id: 'has_metric_three',
         display: 'Has religion',
       },
       {
-        id: 'religion_is_missing',
+        id: 'metric_three_is_missing',
         display: 'No religion',
       },
     ],

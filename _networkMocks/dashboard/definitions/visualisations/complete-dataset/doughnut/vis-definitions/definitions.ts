@@ -238,48 +238,49 @@ export const dataQualityMetricTwoDoughnutTwoEst: components['schemas']['Dashboar
   },
 }
 
-export const dataQualityMetricTwoMetricThreeDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-MetricTwo-MetricThree',
-  type: DashboardVisualisationType.DONUT,
-  display: 'MetricTwo & MetricThree values',
-  columns: {
-    keys: [
-      {
-        id: 'establishment_id',
-        display: 'Establishment ID',
-      },
-    ],
-    measures: [
-      {
-        id: 'has_metric_two',
-        display: 'Has MetricTwo',
-      },
-      {
-        id: 'metric_two_is_missing',
-        display: 'No MetricTwo',
-      },
-      {
-        id: 'has_metric_three',
-        display: 'Has MetricThree',
-      },
-      {
-        id: 'metric_three_is_missing',
-        display: 'No MetricThree',
-      },
-    ],
-    filters: [
-      {
-        id: 'establishment_id',
-        equals: 'ABC',
-      },
-      {
-        id: 'establishment_id',
-        equals: 'GHI',
-      },
-    ],
-    expectNulls: false,
-  },
-}
+export const dataQualityMetricTwoMetricThreeDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] =
+  {
+    id: 'doughnut-data-quality-has-MetricTwo-MetricThree',
+    type: DashboardVisualisationType.DONUT,
+    display: 'MetricTwo & MetricThree values',
+    columns: {
+      keys: [
+        {
+          id: 'establishment_id',
+          display: 'Establishment ID',
+        },
+      ],
+      measures: [
+        {
+          id: 'has_metric_two',
+          display: 'Has MetricTwo',
+        },
+        {
+          id: 'metric_two_is_missing',
+          display: 'No MetricTwo',
+        },
+        {
+          id: 'has_metric_three',
+          display: 'Has MetricThree',
+        },
+        {
+          id: 'metric_three_is_missing',
+          display: 'No MetricThree',
+        },
+      ],
+      filters: [
+        {
+          id: 'establishment_id',
+          equals: 'ABC',
+        },
+        {
+          id: 'establishment_id',
+          equals: 'GHI',
+        },
+      ],
+      expectNulls: false,
+    },
+  }
 
 export const dataQualityMetricOneDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'doughnut-data-quality-has-MetricOne',
@@ -356,35 +357,36 @@ export const dataQualityMetricTwoDoughnutAllEst: components['schemas']['Dashboar
   },
 }
 
-export const dataQualityMetricTwoMetricThreeDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-MetricTwo-MetricThree',
-  type: DashboardVisualisationType.DONUT,
-  display: 'MetricTwo & MetricThree values',
-  columns: {
-    keys: [
-      {
-        id: 'establishment_id',
-        display: 'Establishment ID',
-      },
-    ],
-    measures: [
-      {
-        id: 'has_metric_two',
-        display: 'Has MetricTwo',
-      },
-      {
-        id: 'metric_two_is_missing',
-        display: 'No MetricTwo',
-      },
-      {
-        id: 'has_metric_three',
-        display: 'Has MetricThree',
-      },
-      {
-        id: 'metric_three_is_missing',
-        display: 'No MetricThree',
-      },
-    ],
-    expectNulls: false,
-  },
-}
+export const dataQualityMetricTwoMetricThreeDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] =
+  {
+    id: 'doughnut-data-quality-has-MetricTwo-MetricThree',
+    type: DashboardVisualisationType.DONUT,
+    display: 'MetricTwo & MetricThree values',
+    columns: {
+      keys: [
+        {
+          id: 'establishment_id',
+          display: 'Establishment ID',
+        },
+      ],
+      measures: [
+        {
+          id: 'has_metric_two',
+          display: 'Has MetricTwo',
+        },
+        {
+          id: 'metric_two_is_missing',
+          display: 'No MetricTwo',
+        },
+        {
+          id: 'has_metric_three',
+          display: 'Has MetricThree',
+        },
+        {
+          id: 'metric_three_is_missing',
+          display: 'No MetricThree',
+        },
+      ],
+      expectNulls: false,
+    },
+  }

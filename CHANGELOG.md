@@ -1,5 +1,8 @@
 Below you can find the changes included in each release.
 
+## 5.2.3
+- Enable the new streaming download for sync reports and disable the legacy non-streaming version.
+
 ## 5.2.2
 
 - Fix bookmark link: missing csrfToken in fetch

@@ -107,8 +107,8 @@ context('Dashboard visualisation: List', () => {
           cy.findByRole('table').should('exist')
         })
 
-        cy.findByLabelText(/Religion values/).within(() => {
-          cy.findAllByRole('paragraph').first().contains('List visualisation showing religion values')
+        cy.findByLabelText(/MetricThree values/).within(() => {
+          cy.findAllByRole('paragraph').first().contains('List visualisation showing MetricThree values')
           cy.findByRole('table').should('exist')
         })
       })
@@ -153,14 +153,14 @@ context('Dashboard visualisation: List', () => {
                   case 4:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
-                      cy.findAllByRole('cell').eq(0).contains('Has religion')
+                      cy.findAllByRole('cell').eq(0).contains('Has MetricThree')
                     })
                     break
 
                   case 5:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
-                      cy.findAllByRole('cell').eq(0).contains('No religion')
+                      cy.findAllByRole('cell').eq(0).contains('No MetricThree')
                     })
                     break
 
@@ -317,8 +317,8 @@ context('Dashboard visualisation: List', () => {
           cy.findByRole('table').should('exist')
         })
 
-        cy.findByLabelText(/Religion Values/).within(() => {
-          cy.findAllByRole('paragraph').first().contains('List visualisation showing historic religion values')
+        cy.findByLabelText(/MetricThree Values/).within(() => {
+          cy.findAllByRole('paragraph').first().contains('List visualisation showing historic MetricThree values')
           cy.findByRole('table').should('exist')
         })
       })

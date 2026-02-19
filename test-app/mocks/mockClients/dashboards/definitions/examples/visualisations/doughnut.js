@@ -22,10 +22,10 @@ const dataQualityMetricOneDoughnut = {
   },
 }
 
-const dataQualityReligionDoughnut = {
-  id: 'doughnut-data-quality-has-religion',
+const dataQualityMetricThreeDoughnut = {
+  id: 'doughnut-data-quality-has-MetricThree',
   type: 'doughnut',
-  display: 'Religion values',
+  display: 'MetricThree values',
   columns: {
     keys: [
       {
@@ -36,11 +36,11 @@ const dataQualityReligionDoughnut = {
     measures: [
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
   },
@@ -70,10 +70,10 @@ const dataQualityMetricTwoDoughnut = {
   },
 }
 
-const dataQualityMetricTwoReligionDoughnut = {
-  id: 'doughnut-data-quality-has-MetricTwo-religion',
+const dataQualityMetricTwoMetricThreeDoughnut = {
+  id: 'doughnut-data-quality-has-MetricTwo-MetricThree',
   type: 'doughnut',
-  display: 'MetricTwo & Religion values',
+  display: 'MetricTwo & MetricThree values',
   columns: {
     keys: [
       {
@@ -92,11 +92,11 @@ const dataQualityMetricTwoReligionDoughnut = {
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
   },
@@ -105,6 +105,6 @@ const dataQualityMetricTwoReligionDoughnut = {
 module.exports = {
   dataQualityMetricOneDoughnut,
   dataQualityMetricTwoDoughnut,
-  dataQualityReligionDoughnut,
-  dataQualityMetricTwoReligionDoughnut,
+  dataQualityMetricThreeDoughnut,
+  dataQualityMetricTwoMetricThreeDoughnut,
 }

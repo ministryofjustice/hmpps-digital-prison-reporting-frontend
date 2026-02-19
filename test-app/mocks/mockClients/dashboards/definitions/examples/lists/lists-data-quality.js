@@ -11,7 +11,7 @@ const dataQuality = {
       id: 'section-1',
       display: 'Data Quality lists',
       description: '',
-      visualisations: [lists.dataQualityMetricOne, lists.dataQualityReligion, lists.dataQualityMetricTwo],
+      visualisations: [lists.dataQualityMetricOne, lists.dataQualityMetricThree, lists.dataQualityMetricTwo],
     },
     {
       id: 'section-2',

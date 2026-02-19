@@ -23,11 +23,11 @@ export const columnValuesAsList: components['schemas']['DashboardVisualisationDe
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
       {
         id: 'has_metric_two',

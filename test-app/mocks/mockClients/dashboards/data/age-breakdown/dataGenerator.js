@@ -13,8 +13,8 @@ const baseData = {
   wing: { raw: '' },
   age_range_1: { raw: '' },
   age_range_2: { raw: '' },
-  religion_code: { raw: '' },
-  religion_description: { raw: '' },
+  MetricThree_code: { raw: '' },
+  MetricThree_description: { raw: '' },
   ethnic_code: { raw: '' },
   ethnic_description: { raw: '' },
   MetricTwo_code: { raw: '' },
@@ -53,14 +53,14 @@ const generateData = (query) => {
     '2-007',
   ]
   const ageRange2Values = ['18-21', '22-29', '30-39', '40-49', '50-59']
-  const religionCodes = ['ATHE', 'BUDD', 'CHRST', 'COFE', 'MOS', 'NIL', 'RC']
-  const religionDescription = [
+  const MetricThreeCodes = ['ATHE', 'BUDD', 'CHRST', 'COFE', 'MOS', 'NIL', 'RC']
+  const MetricThreeDescription = [
     'Atheist',
     'Buddhist',
     'Christian',
     'Church of England (Anglican)',
     'Muslim',
-    'No Religion',
+    'No MetricThree',
     'Roman Catholic',
   ]
   const MetricOneCodes = ['A2', 'W2']
@@ -113,22 +113,22 @@ const generateData = (query) => {
       [ageRange2Values],
     )
 
-    const baseTotalsByEstablishmentByReligion = generateFieldValuesWithCountData(
+    const baseTotalsByEstablishmentByMetricThree = generateFieldValuesWithCountData(
       baseTotals,
-      ['religion_code', 'religion_description'],
-      [religionCodes, religionDescription],
+      ['MetricThree_code', 'MetricThree_description'],
+      [MetricThreeCodes, MetricThreeDescription],
     )
 
-    const allTotalsByEstablishmentByReligion = generateFieldValuesWithCountData(
+    const allTotalsByEstablishmentByMetricThree = generateFieldValuesWithCountData(
       allTotalsByEstablishment,
-      ['religion_code', 'religion_description'],
-      [religionCodes, religionDescription],
+      ['MetricThree_code', 'MetricThree_description'],
+      [MetricThreeCodes, MetricThreeDescription],
     )
 
-    const allTotalsByEstablishmentByWingByReligion = generateFieldValuesWithCountData(
+    const allTotalsByEstablishmentByWingByMetricThree = generateFieldValuesWithCountData(
       allTotalsByEstablishmentByWing,
-      ['religion_code', 'religion_description'],
-      [religionCodes, religionDescription],
+      ['MetricThree_code', 'MetricThree_description'],
+      [MetricThreeCodes, MetricThreeDescription],
     )
 
     let baseTotalsByEstablishmentByMetricOne = generateFieldValuesWithCountData(
@@ -201,9 +201,9 @@ const generateData = (query) => {
       ...allTotalsByEstablishmentByAgeRange2,
       ...allTotalsByEstablishmentByAgeRange1ByWing,
       ...allTotalsByEstablishmentByAgeRange2ByWing,
-      ...baseTotalsByEstablishmentByReligion,
-      ...allTotalsByEstablishmentByReligion,
-      ...allTotalsByEstablishmentByWingByReligion,
+      ...baseTotalsByEstablishmentByMetricThree,
+      ...allTotalsByEstablishmentByMetricThree,
+      ...allTotalsByEstablishmentByWingByMetricThree,
       ...allTotalsByEstablishmentByMetricOne,
       ...baseTotalsByEstablishmentByMetricOne,
       ...allTotalsByEstablishmentByWingByMetricOne,

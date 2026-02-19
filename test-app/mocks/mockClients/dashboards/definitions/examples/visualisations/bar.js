@@ -25,10 +25,10 @@ const dataQualityMetricOneBar = {
   },
 }
 
-const dataQualityReligionBar = {
-  id: 'bar-data-quality-has-religion',
+const dataQualityMetricThreeBar = {
+  id: 'bar-data-quality-has-MetricThree',
   type: 'bar',
-  display: 'Religion values',
+  display: 'MetricThree values',
   columns: {
     keys: [
       {
@@ -39,11 +39,11 @@ const dataQualityReligionBar = {
     measures: [
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
   },
@@ -98,11 +98,11 @@ const dataQualityAllBar = {
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
       {
         id: 'has_metric_one',
@@ -139,7 +139,7 @@ const dataQualityListBar = {
 
 module.exports = {
   dataQualityMetricOneBar,
-  dataQualityReligionBar,
+  dataQualityMetricThreeBar,
   dataQualityMetricTwoBar,
   dataQualityAllBar,
   dataQualityListBar,

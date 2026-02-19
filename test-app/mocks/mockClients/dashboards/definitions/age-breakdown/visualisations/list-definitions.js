@@ -103,10 +103,10 @@ const mockListDefinitionTotalPrisoners = {
   },
 }
 
-const mockListDefinitionReligion = {
-  id: 'religion',
+const mockListDefinitionMetricThree = {
+  id: 'MetricThree',
   type: 'list',
-  display: 'Religion totals by wing',
+  display: 'MetricThree totals by wing',
   columns: {
     keys: [
       {
@@ -124,12 +124,12 @@ const mockListDefinitionReligion = {
         display: 'Wing',
       },
       {
-        id: 'religion_code',
-        display: 'Religion Code',
+        id: 'MetricThree_code',
+        display: 'MetricThree Code',
       },
       {
-        id: 'religion_description',
-        display: 'Religion description',
+        id: 'MetricThree_description',
+        display: 'MetricThree description',
       },
       {
         id: 'count',
@@ -140,10 +140,10 @@ const mockListDefinitionReligion = {
   },
 }
 
-const mockListDefinitionReligionByEst = {
-  id: 'religionEst',
+const mockListDefinitionMetricThreeByEst = {
+  id: 'MetricThreeEst',
   type: 'list',
-  display: 'Religion totals',
+  display: 'MetricThree totals',
   columns: {
     keys: [
       {
@@ -153,12 +153,12 @@ const mockListDefinitionReligionByEst = {
     ],
     measures: [
       {
-        id: 'religion_code',
-        display: 'Religion Code',
+        id: 'MetricThree_code',
+        display: 'MetricThree Code',
       },
       {
-        id: 'religion_description',
-        display: 'Religion description',
+        id: 'MetricThree_description',
+        display: 'MetricThree description',
       },
       {
         id: 'count',
@@ -448,8 +448,8 @@ module.exports = {
   mockListDefinitionAgeRange2,
   mockListDefinitionTotalPrisoners,
   mockListDefinitionTotalPrisonersByWing,
-  mockListDefinitionReligionByEst,
-  mockListDefinitionReligion,
+  mockListDefinitionMetricThreeByEst,
+  mockListDefinitionMetricThree,
   mockListDefinitionMetricOne,
   mockListDefinitionMetricOneByEst,
   mockListDefinitionMetricOneAgeRange,

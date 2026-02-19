@@ -4,15 +4,15 @@ const {
   mockScorecardDefinitionTotalInEst,
   mockScorecardDefinitionEthnicWhite,
   mockScorecardDefinitionEthnicAsian,
-  mockScoreCardGroupReligion,
-  mockBarChartReligion,
-  mockPieChartReligion,
+  mockScoreCardGroupMetricThree,
+  mockBarChartMetricThree,
+  mockPieChartMetricThree,
 } = require('./visualisations')
 
 const {
   mockListDefinitionAgeRange1,
   mockListDefinitionAgeRange2,
-  mockListDefinitionReligion,
+  mockListDefinitionMetricThree,
   mockListDefinitionMetricOne,
   mockListDefinitionAgeRange1Wing,
   mockListDefinitionAgeRange2Wing,
@@ -41,14 +41,14 @@ const ageBreakdownReport2 = {
       visualisations: [mockListDefinitionAgeRange1, mockListDefinitionAgeRange2],
     },
     {
-      id: 'total-prisoners-by-religion',
-      display: 'Total Prisoners by religion',
-      description: 'These tables show the total prisoners by religion',
+      id: 'total-prisoners-by-MetricThree',
+      display: 'Total Prisoners by MetricThree',
+      description: 'These tables show the total prisoners by MetricThree',
       visualisations: [
-        mockListDefinitionReligion,
-        mockScoreCardGroupReligion,
-        mockBarChartReligion,
-        mockPieChartReligion,
+        mockListDefinitionMetricThree,
+        mockScoreCardGroupMetricThree,
+        mockBarChartMetricThree,
+        mockPieChartMetricThree,
       ],
     },
     {

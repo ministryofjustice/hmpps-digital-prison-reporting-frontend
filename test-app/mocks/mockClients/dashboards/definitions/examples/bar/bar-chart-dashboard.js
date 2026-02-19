@@ -14,7 +14,7 @@ const barChartDashboard = {
       visualisations: [
         bar.dataQualityMetricOneBar,
         bar.dataQualityMetricTwoBar,
-        bar.dataQualityReligionBar,
+        bar.dataQualityMetricThreeBar,
         bar.dataQualityAllBar,
       ],
     },

@@ -326,9 +326,9 @@ Defining multiple `scorecard` visualisation types adjacent to each other within 
       },
     },
     {
-      id: 'simple-scorecard-religion',
+      id: 'simple-scorecard-MetricThree',
       type: 'scorecard',
-      display: 'No of prisoners with religion',
+      display: 'No of prisoners with MetricThree',
       column: {
         key: [{ id: 'est_id' }],
         measure: [{ id: 'has_metric_three' }],
@@ -397,9 +397,9 @@ This examples display RAG scores within the scorecard:
       },
     },
     {
-      id: 'simple-scorecard-religion',
+      id: 'simple-scorecard-MetricThree',
       type: 'scorecard',
-      display: 'No of prisoners with religion',
+      display: 'No of prisoners with MetricThree',
       description: 'Example definition description',
       option: {
         useRagColour: true
@@ -480,9 +480,9 @@ Define custom colours to your buckets:
       },
     },
     {
-      id: 'simple-scorecard-religion',
+      id: 'simple-scorecard-MetricThree',
       type: 'scorecard',
-      display: 'No of prisoners with religion',
+      display: 'No of prisoners with MetricThree',
       option: {
         bucket: [
           { hexColour: '#912b88' }, 
@@ -567,9 +567,9 @@ In this example custom buckets are defined in the definition to set the RAG scor
       },
     },
     {
-      id: 'simple-scorecard-religion',
+      id: 'simple-scorecard-MetricThree',
       type: 'scorecard',
-      display: 'No of prisoners with religion',
+      display: 'No of prisoners with MetricThree',
       option: {
         useRagColour: true,
         bucket: [

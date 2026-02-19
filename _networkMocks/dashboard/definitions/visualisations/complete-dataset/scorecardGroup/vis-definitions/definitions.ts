@@ -57,10 +57,10 @@ export const dataQualityAllEstablishmentsNoMetricOne: components['schemas']['Das
   },
 }
 
-export const dataQualityAllEstablishmentsReligion: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'data-quality-religion',
+export const dataQualityAllEstablishmentsMetricThree: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'data-quality-MetricThree',
   type: DashboardVisualisationType.SCORECARD_GROUP,
-  display: 'Religion score',
+  display: 'MetricThree score',
   description: '',
   columns: {
     keys: [
@@ -83,10 +83,10 @@ export const dataQualityAllEstablishmentsReligion: components['schemas']['Dashbo
   },
 }
 
-export const dataQualityAllEstablishmentsNoReligion: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'data-quality-no-religion',
+export const dataQualityAllEstablishmentsNoMetricThree: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'data-quality-no-MetricThree',
   type: DashboardVisualisationType.SCORECARD_GROUP,
-  display: 'Missing religion score',
+  display: 'Missing MetricThree score',
   description: '',
   columns: {
     keys: [
@@ -190,11 +190,11 @@ export const dataQualityAllCols: components['schemas']['DashboardVisualisationDe
       },
       {
         id: 'metric_three_is_missing',
-        display: 'Religion is missing',
+        display: 'MetricThree is missing',
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_one_is_missing',

@@ -103,18 +103,18 @@ const mockMetricTwoBarChart = {
   },
 }
 
-const mockReligionPieChart = {
+const mockMetricThreePieChart = {
   ...mockMetricTwoBarChart,
-  id: 'mockReligionPieChart',
+  id: 'mockMetricThreePieChart',
   type: 'doughnut',
   display: 'Missing MetricTwo Pie Chart',
 }
 
-const mockReligionBarChart = {
-  id: 'mockReligionBarChart',
+const mockMetricThreeBarChart = {
+  id: 'mockMetricThreeBarChart',
   type: 'bar',
-  display: 'Missing Religion Bar Chart',
-  description: 'Prisoner totals for missing religion',
+  display: 'Missing MetricThree Bar Chart',
+  description: 'Prisoner totals for missing MetricThree',
   columns: {
     keys: [
       {
@@ -125,11 +125,11 @@ const mockReligionBarChart = {
     measures: [
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'Has no religion',
+        display: 'Has no MetricThree',
       },
     ],
   },
@@ -139,7 +139,7 @@ const mockMetricTwoPieChart = {
   ...mockMetricTwoBarChart,
   id: 'mockMetricTwoPieChart',
   type: 'doughnut',
-  display: 'Missing Religion Pie Chart',
+  display: 'Missing MetricThree Pie Chart',
 }
 
 module.exports = {
@@ -147,8 +147,8 @@ module.exports = {
   mockMetricOnePieChart,
   mockMetricTwoBarChart,
   mockMetricTwoPieChart,
-  mockReligionBarChart,
-  mockReligionPieChart,
+  mockMetricThreeBarChart,
+  mockMetricThreePieChart,
   mockMetricOneBarChartList,
   mockMetricOneLineChartTimeseries,
 }

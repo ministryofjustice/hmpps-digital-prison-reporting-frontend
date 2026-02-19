@@ -30,11 +30,11 @@ export const dataQualityMetricOne: components['schemas']['DashboardVisualisation
   },
 }
 
-export const dataQualityReligion: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'list-data-quality-has-religion',
+export const dataQualityMetricThree: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'list-data-quality-has-MetricThree',
   type: DashboardVisualisationType.LIST,
-  display: 'Religion values',
-  description: 'List visualisation showing religion values',
+  display: 'MetricThree values',
+  description: 'List visualisation showing MetricThree values',
   columns: {
     keys: [
       {
@@ -48,11 +48,11 @@ export const dataQualityReligion: components['schemas']['DashboardVisualisationD
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
     expectNulls: false,

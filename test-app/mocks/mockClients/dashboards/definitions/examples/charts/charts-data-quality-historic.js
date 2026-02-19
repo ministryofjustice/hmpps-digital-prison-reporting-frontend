@@ -14,7 +14,7 @@ const dataQualityHistoric = {
       visualisations: [
         charts.dataQualityMetricOneHistoricLine,
         // charts.dataQualityMetricTwoHistoricLine,
-        // charts.dataQualityReligionHistoricLine,
+        // charts.dataQualityMetricThreeHistoricLine,
       ],
     },
     // {
@@ -24,7 +24,7 @@ const dataQualityHistoric = {
     //   visualisations: [
     //     charts.dataQualityMetricOneHistoricBar,
     //     charts.dataQualityMetricTwoHistoricBar,
-    //     charts.dataQualityReligionHistoricBar,
+    //     charts.dataQualityMetricThreeHistoricBar,
     //   ],
     // },
     {

@@ -860,11 +860,11 @@ const dataQualityColsToList = {
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
       {
         id: 'has_metric_two',
@@ -880,10 +880,10 @@ const dataQualityColsToList = {
   options: { columnsAsList: true },
 }
 
-const dataQualityReligion = {
-  id: 'list-data-quality-has-religion',
+const dataQualityMetricThree = {
+  id: 'list-data-quality-has-MetricThree',
   type: 'list',
-  display: 'Religion Values',
+  display: 'MetricThree Values',
   columns: {
     keys: [
       {
@@ -897,11 +897,11 @@ const dataQualityReligion = {
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
   },
@@ -966,10 +966,10 @@ const dataQualityMetricOneHistoric = {
   options: { showLatest: false },
 }
 
-const dataQualityReligionHistoric = {
-  id: 'list-data-quality-has-religion-historic',
+const dataQualityMetricThreeHistoric = {
+  id: 'list-data-quality-has-MetricThree-historic',
   type: 'list',
-  display: 'Religion Values',
+  display: 'MetricThree Values',
   columns: {
     keys: [
       {
@@ -987,11 +987,11 @@ const dataQualityReligionHistoric = {
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
   },
@@ -1056,10 +1056,10 @@ const lists = {
   fullDataset,
   fullDatasetOverTime,
   dataQualityMetricOne,
-  dataQualityReligion,
+  dataQualityMetricThree,
   dataQualityMetricTwo,
   dataQualityMetricOneHistoric,
-  dataQualityReligionHistoric,
+  dataQualityMetricThreeHistoric,
   dataQualityMetricTwoHistoric,
   dataQualityColsToList,
 }

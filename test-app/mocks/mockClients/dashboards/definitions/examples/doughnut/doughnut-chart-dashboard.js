@@ -14,8 +14,8 @@ const doughnutChartDashboard = {
       visualisations: [
         doughnut.dataQualityMetricOneDoughnut,
         doughnut.dataQualityMetricTwoDoughnut,
-        doughnut.dataQualityReligionDoughnut,
-        doughnut.dataQualityMetricTwoReligionDoughnut,
+        doughnut.dataQualityMetricThreeDoughnut,
+        doughnut.dataQualityMetricTwoMetricThreeDoughnut,
       ],
     },
     {

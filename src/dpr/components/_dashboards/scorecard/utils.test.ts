@@ -35,7 +35,7 @@ describe('ScorecardUtils', () => {
         colour: 'red',
         score: 2,
       },
-      title: 'No of prisoners with religion in SLI',
+      title: 'No of prisoners with MetricThree in SLI',
       trend: {
         direction: 1,
         from: 'Aug 24',
@@ -111,7 +111,7 @@ describe('ScorecardUtils', () => {
                     colour: 'red',
                     score: 2,
                   },
-                  title: 'No of prisoners with religion in SLI',
+                  title: 'No of prisoners with MetricThree in SLI',
                   trend: {
                     direction: 1,
                     from: 'Aug 24',
@@ -158,7 +158,7 @@ describe('ScorecardUtils', () => {
                     colour: 'red',
                     score: 2,
                   },
-                  title: 'No of prisoners with religion in SLI',
+                  title: 'No of prisoners with MetricThree in SLI',
                   trend: {
                     direction: 1,
                     from: 'Aug 24',

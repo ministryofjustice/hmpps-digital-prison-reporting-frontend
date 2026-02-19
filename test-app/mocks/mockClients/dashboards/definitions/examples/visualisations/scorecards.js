@@ -258,10 +258,10 @@ const dataQualityAllEstablishmentsNoMetricOne = {
   },
 }
 
-const dataQualityAllEstablishmentsReligion = {
-  id: 'data-quality-religion',
+const dataQualityAllEstablishmentsMetricThree = {
+  id: 'data-quality-MetricThree',
   type: 'scorecard-group',
-  display: 'Religion score',
+  display: 'MetricThree score',
   description: '',
   columns: {
     keys: [
@@ -283,10 +283,10 @@ const dataQualityAllEstablishmentsReligion = {
   },
 }
 
-const dataQualityAllEstablishmentsNoReligion = {
-  id: 'data-quality-no-religion',
+const dataQualityAllEstablishmentsNoMetricThree = {
+  id: 'data-quality-no-MetricThree',
   type: 'scorecard-group',
-  display: 'Missing religion score',
+  display: 'Missing MetricThree score',
   description: '',
   columns: {
     keys: [
@@ -387,11 +387,11 @@ const dataQualityAllCols = {
       },
       {
         id: 'metric_three_is_missing',
-        display: 'Religion is missing',
+        display: 'MetricThree is missing',
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_one_is_missing',
@@ -456,8 +456,8 @@ const scorecards = {
   dietTotalsByEstablishmentByWingByCellLoop,
   dataQualityAllEstablishmentsMetricOne,
   dataQualityAllEstablishmentsNoMetricOne,
-  dataQualityAllEstablishmentsReligion,
-  dataQualityAllEstablishmentsNoReligion,
+  dataQualityAllEstablishmentsMetricThree,
+  dataQualityAllEstablishmentsNoMetricThree,
   dataQualityAllEstablishmentsMetricTwo,
   dataQualityAllEstablishmentsNoMetricTwo,
   dataQualityAllCols,

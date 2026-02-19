@@ -4,15 +4,15 @@ const {
   mockMetricOnePieChart,
   mockMetricTwoBarChart,
   mockMetricTwoPieChart,
-  mockReligionBarChart,
-  mockReligionPieChart,
+  mockMetricThreeBarChart,
+  mockMetricThreePieChart,
   mockScorecardDefinitionMetricTwo,
   mockScorecardDefinitionNoMetricTwo,
-  mockScorecardDefinitionReligion,
-  mockScorecardGroupReligionByEstablishment,
+  mockScorecardDefinitionMetricThree,
+  mockScorecardGroupMetricThreeByEstablishment,
   mockScorecardGroupMetricTwoByEstablishment,
   mockScorecardGroupMetricOneByEstablishment,
-  mockTargetScorecardDefinitionReligion,
+  mockTargetScorecardDefinitionMetricThree,
   mockMetricOneBarChartList,
 } = require('../data-quality/visualisations')
 const { lists } = require('../examples/visualisations')
@@ -38,9 +38,9 @@ const testingDashboard1 = {
     },
     {
       id: 'test-section-3',
-      display: 'Section 3 - Religion charts',
-      description: 'Section 3 description - charts showing religion data',
-      visualisations: [mockReligionBarChart, mockReligionPieChart],
+      display: 'Section 3 - MetricThree charts',
+      description: 'Section 3 description - charts showing MetricThree data',
+      visualisations: [mockMetricThreeBarChart, mockMetricThreePieChart],
     },
     {
       id: 'test-section-4',
@@ -49,21 +49,21 @@ const testingDashboard1 = {
       visualisations: [
         mockScorecardDefinitionMetricTwo,
         mockScorecardDefinitionNoMetricTwo,
-        mockScorecardDefinitionReligion,
+        mockScorecardDefinitionMetricThree,
       ],
     },
     {
       id: 'test-section-5',
       display: 'Section 5 - Individual Scorecards targeting values',
       description: 'Section 5 description - Testing individually defined scorecards that target specfic column value',
-      visualisations: [mockTargetScorecardDefinitionReligion],
+      visualisations: [mockTargetScorecardDefinitionMetricThree],
     },
     {
       id: 'test-section-6',
       display: 'Section 6 - Scorecard Group',
       description: 'Section 6 description - Testing scorecard groups created from list data',
       visualisations: [
-        mockScorecardGroupReligionByEstablishment,
+        mockScorecardGroupMetricThreeByEstablishment,
         mockScorecardGroupMetricTwoByEstablishment,
         mockScorecardGroupMetricOneByEstablishment,
       ],

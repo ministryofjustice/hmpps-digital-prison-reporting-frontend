@@ -20,11 +20,11 @@ const dataQualityLine = {
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
       {
         id: 'has_metric_two',
@@ -38,10 +38,10 @@ const dataQualityLine = {
   },
 }
 
-const dataQualityReligionLine = {
-  id: 'line-data-quality-has-religion',
+const dataQualityMetricThreeLine = {
+  id: 'line-data-quality-has-MetricThree',
   type: 'line',
-  display: 'Religion values',
+  display: 'MetricThree values',
   columns: {
     keys: [
       {
@@ -52,11 +52,11 @@ const dataQualityReligionLine = {
     measures: [
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
   },
@@ -88,6 +88,6 @@ const dataQualityMetricTwoLine = {
 
 module.exports = {
   dataQualityLine,
-  dataQualityReligionLine,
+  dataQualityMetricThreeLine,
   dataQualityMetricTwoLine,
 }

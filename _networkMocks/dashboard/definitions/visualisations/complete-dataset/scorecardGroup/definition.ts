@@ -15,8 +15,8 @@ export const definition: components['schemas']['DashboardDefinition'] = {
         Scorecards.dataQualityAllEstablishmentsNoMetricOne,
         Scorecards.dataQualityAllEstablishmentsMetricTwo,
         Scorecards.dataQualityAllEstablishmentsNoMetricTwo,
-        Scorecards.dataQualityAllEstablishmentsReligion,
-        Scorecards.dataQualityAllEstablishmentsNoReligion,
+        Scorecards.dataQualityAllEstablishmentsMetricThree,
+        Scorecards.dataQualityAllEstablishmentsNoMetricThree,
       ],
     },
     {

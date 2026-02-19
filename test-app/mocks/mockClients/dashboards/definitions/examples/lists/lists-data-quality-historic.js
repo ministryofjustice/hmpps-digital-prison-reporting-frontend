@@ -14,7 +14,7 @@ const dataQualityHistoric = {
       visualisations: [
         lists.dataQualityMetricOneHistoric,
         lists.dataQualityMetricTwoHistoric,
-        lists.dataQualityReligionHistoric,
+        lists.dataQualityMetricThreeHistoric,
       ],
     },
     {

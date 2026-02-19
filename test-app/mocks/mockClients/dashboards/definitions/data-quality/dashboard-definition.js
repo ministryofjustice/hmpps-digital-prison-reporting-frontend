@@ -4,8 +4,8 @@ const {
   mockMetricOnePieChart,
   mockMetricTwoBarChart,
   mockMetricTwoPieChart,
-  mockReligionBarChart,
-  mockReligionPieChart,
+  mockMetricThreeBarChart,
+  mockMetricThreePieChart,
 } = require('./visualisations')
 
 const { lists, charts, scorecards } = require('../examples/visualisations')
@@ -35,9 +35,9 @@ const dataQualityDashboard1 = {
       visualisations: [mockMetricOneBarChart, mockMetricOnePieChart, lists.dataQualityMetricOne],
     },
     {
-      id: 'charts-section-religion',
-      display: 'Religion totals',
-      visualisations: [mockReligionBarChart, mockReligionPieChart, lists.dataQualityReligion],
+      id: 'charts-section-MetricThree',
+      display: 'MetricThree totals',
+      visualisations: [mockMetricThreeBarChart, mockMetricThreePieChart, lists.dataQualityMetricThree],
     },
     {
       id: 'charts-section-MetricTwo',
@@ -50,7 +50,7 @@ const dataQualityDashboard1 = {
       visualisations: [
         charts.dataQualityMetricOneHistoricLine,
         charts.dataQualityMetricTwoHistoricLine,
-        charts.dataQualityReligionHistoricLine,
+        charts.dataQualityMetricThreeHistoricLine,
       ],
     },
     {

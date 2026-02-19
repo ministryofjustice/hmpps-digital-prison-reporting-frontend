@@ -35,11 +35,11 @@ export const dataQualityMetricOneHistoric: components['schemas']['DashboardVisua
   options: { showLatest: false },
 }
 
-export const dataQualityReligionHistoric: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'list-data-quality-has-religion-historic',
+export const dataQualityMetricThreeHistoric: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'list-data-quality-has-MetricThree-historic',
   type: DashboardVisualisationType.LIST,
-  display: 'Religion Values',
-  description: 'List visualisation showing historic religion values',
+  display: 'MetricThree Values',
+  description: 'List visualisation showing historic MetricThree values',
   columns: {
     keys: [
       {
@@ -57,11 +57,11 @@ export const dataQualityReligionHistoric: components['schemas']['DashboardVisual
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
     expectNulls: false,

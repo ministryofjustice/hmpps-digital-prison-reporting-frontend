@@ -24,14 +24,14 @@ const mockScoreCards = [
         trend: { direction: -1, value: 174, from: 'Feb 25' },
       },
       {
-        title: 'Has religion',
+        title: 'Has MetricThree',
         value: 645,
         rag: { score: 2, color: 'red' },
         valueFor: 'Jul 25',
         trend: { direction: 1, value: 139, from: 'Feb 25' },
       },
       {
-        title: 'Religion is missing',
+        title: 'MetricThree is missing',
         value: 526,
         rag: { score: 1, color: 'yellow' },
         valueFor: 'Jul 25',
@@ -63,14 +63,14 @@ const mockScoreCards = [
         trend: { direction: -1, value: 174, from: 'Feb 25' },
       },
       {
-        title: 'Has religion',
+        title: 'Has MetricThree',
         value: 645,
         rag: { score: 2, color: 'red' },
         valueFor: 'Jul 25',
         trend: { direction: 1, value: 139, from: 'Feb 25' },
       },
       {
-        title: 'Religion is missing',
+        title: 'MetricThree is missing',
         value: 526,
         rag: { score: 1, color: 'yellow' },
         valueFor: 'Jul 25',

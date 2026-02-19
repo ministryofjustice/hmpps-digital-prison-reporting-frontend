@@ -15,8 +15,8 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       visualisations: [
         DoughnutChart.dataQualityMetricOneDoughnut,
         DoughnutChart.dataQualityMetricTwoDoughnut,
-        DoughnutChart.dataQualityReligionDoughnut,
-        DoughnutChart.dataQualityMetricTwoReligionDoughnut,
+        DoughnutChart.dataQualityMetricThreeDoughnut,
+        DoughnutChart.dataQualityMetricTwoMetricThreeDoughnut,
       ],
     },
     {
@@ -26,8 +26,8 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       visualisations: [
         DoughnutChart.dataQualityMetricOneDoughnutTwoEst,
         DoughnutChart.dataQualityMetricTwoDoughnutTwoEst,
-        DoughnutChart.dataQualityReligionDoughnutTwoEst,
-        DoughnutChart.dataQualityMetricTwoReligionDoughnutTwoEst,
+        DoughnutChart.dataQualityMetricThreeDoughnutTwoEst,
+        DoughnutChart.dataQualityMetricTwoMetricThreeDoughnutTwoEst,
       ],
     },
     {
@@ -37,8 +37,8 @@ export const definition: components['schemas']['DashboardDefinition'] = {
       visualisations: [
         DoughnutChart.dataQualityMetricOneDoughnutAllEst,
         DoughnutChart.dataQualityMetricTwoDoughnutAllEst,
-        DoughnutChart.dataQualityReligionDoughnutAllEst,
-        DoughnutChart.dataQualityMetricTwoReligionDoughnutAllEst,
+        DoughnutChart.dataQualityMetricThreeDoughnutAllEst,
+        DoughnutChart.dataQualityMetricTwoMetricThreeDoughnutAllEst,
       ],
     },
     {

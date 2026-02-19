@@ -32,8 +32,8 @@ const generateData = (query) => {
       const MetricOneIsMissing = generateRawValue(100, 1)
       const hasMetricTwo = generateRawValue(100, 1)
       const MetricTwoIsMissing = generateRawValue(100, 1)
-      const hasReligion = generateRawValue(100, 1)
-      const religionIsMissing = generateRawValue(100, 1)
+      const hasMetricThree = generateRawValue(100, 1)
+      const MetricThreeIsMissing = generateRawValue(100, 1)
 
       return {
         ...estData,
@@ -54,12 +54,12 @@ const generateData = (query) => {
           rag: generateRag(MetricTwoIsMissing),
         },
         has_metric_three: {
-          raw: hasReligion,
-          rag: generateRag(hasReligion),
+          raw: hasMetricThree,
+          rag: generateRag(hasMetricThree),
         },
         metric_three_is_missing: {
-          raw: religionIsMissing,
-          rag: generateRag(religionIsMissing),
+          raw: MetricThreeIsMissing,
+          rag: generateRag(MetricThreeIsMissing),
         },
       }
     })

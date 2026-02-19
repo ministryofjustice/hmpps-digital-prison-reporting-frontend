@@ -32,10 +32,10 @@ export const dataQualityMetricOneDoughnut: components['schemas']['DashboardVisua
   },
 }
 
-export const dataQualityReligionDoughnut: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-religion',
+export const dataQualityMetricThreeDoughnut: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'doughnut-data-quality-has-MetricThree',
   type: DashboardVisualisationType.DONUT,
-  display: 'Religion values',
+  display: 'MetricThree values',
   columns: {
     keys: [
       {
@@ -46,11 +46,11 @@ export const dataQualityReligionDoughnut: components['schemas']['DashboardVisual
     measures: [
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
     filters: [
@@ -94,10 +94,10 @@ export const dataQualityMetricTwoDoughnut: components['schemas']['DashboardVisua
   },
 }
 
-export const dataQualityMetricTwoReligionDoughnut: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-MetricTwo-religion',
+export const dataQualityMetricTwoMetricThreeDoughnut: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'doughnut-data-quality-has-MetricTwo-MetricThree',
   type: DashboardVisualisationType.DONUT,
-  display: 'MetricTwo & Religion values',
+  display: 'MetricTwo & MetricThree values',
   columns: {
     keys: [
       {
@@ -116,11 +116,11 @@ export const dataQualityMetricTwoReligionDoughnut: components['schemas']['Dashbo
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
     filters: [
@@ -168,10 +168,10 @@ export const dataQualityMetricOneDoughnutTwoEst: components['schemas']['Dashboar
   },
 }
 
-export const dataQualityReligionDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-religion',
+export const dataQualityMetricThreeDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'doughnut-data-quality-has-MetricThree',
   type: DashboardVisualisationType.DONUT,
-  display: 'Religion values',
+  display: 'MetricThree values',
   columns: {
     keys: [
       {
@@ -182,11 +182,11 @@ export const dataQualityReligionDoughnutTwoEst: components['schemas']['Dashboard
     measures: [
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
     filters: [
@@ -238,10 +238,10 @@ export const dataQualityMetricTwoDoughnutTwoEst: components['schemas']['Dashboar
   },
 }
 
-export const dataQualityMetricTwoReligionDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-MetricTwo-religion',
+export const dataQualityMetricTwoMetricThreeDoughnutTwoEst: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'doughnut-data-quality-has-MetricTwo-MetricThree',
   type: DashboardVisualisationType.DONUT,
-  display: 'MetricTwo & Religion values',
+  display: 'MetricTwo & MetricThree values',
   columns: {
     keys: [
       {
@@ -260,11 +260,11 @@ export const dataQualityMetricTwoReligionDoughnutTwoEst: components['schemas']['
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
     filters: [
@@ -306,10 +306,10 @@ export const dataQualityMetricOneDoughnutAllEst: components['schemas']['Dashboar
   },
 }
 
-export const dataQualityReligionDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-religion',
+export const dataQualityMetricThreeDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'doughnut-data-quality-has-MetricThree',
   type: DashboardVisualisationType.DONUT,
-  display: 'Religion values',
+  display: 'MetricThree values',
   columns: {
     keys: [
       {
@@ -320,11 +320,11 @@ export const dataQualityReligionDoughnutAllEst: components['schemas']['Dashboard
     measures: [
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
     expectNulls: false,
@@ -356,10 +356,10 @@ export const dataQualityMetricTwoDoughnutAllEst: components['schemas']['Dashboar
   },
 }
 
-export const dataQualityMetricTwoReligionDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'doughnut-data-quality-has-MetricTwo-religion',
+export const dataQualityMetricTwoMetricThreeDoughnutAllEst: components['schemas']['DashboardVisualisationDefinition'] = {
+  id: 'doughnut-data-quality-has-MetricTwo-MetricThree',
   type: DashboardVisualisationType.DONUT,
-  display: 'MetricTwo & Religion values',
+  display: 'MetricTwo & MetricThree values',
   columns: {
     keys: [
       {
@@ -378,11 +378,11 @@ export const dataQualityMetricTwoReligionDoughnutAllEst: components['schemas']['
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
     expectNulls: false,

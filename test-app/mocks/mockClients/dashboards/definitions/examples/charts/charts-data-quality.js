@@ -11,7 +11,7 @@ const dataQuality = {
       id: 'section-1',
       display: 'Bar charts',
       description: '',
-      visualisations: [charts.dataQualityMetricOneBar, charts.dataQualityMetricTwoBar, charts.dataQualityReligionBar],
+      visualisations: [charts.dataQualityMetricOneBar, charts.dataQualityMetricTwoBar, charts.dataQualityMetricThreeBar],
     },
     {
       id: 'section-2',
@@ -20,7 +20,7 @@ const dataQuality = {
       visualisations: [
         charts.dataQualityMetricOneDoughnut,
         charts.dataQualityMetricTwoDoughnut,
-        charts.dataQualityReligionDoughnut,
+        charts.dataQualityMetricThreeDoughnut,
       ],
     },
     {
@@ -30,7 +30,7 @@ const dataQuality = {
       visualisations: [
         charts.dataQualityMetricOneLine,
         charts.dataQualityMetricTwoLine,
-        charts.dataQualityReligionLine,
+        charts.dataQualityMetricThreeLine,
       ],
     },
     {

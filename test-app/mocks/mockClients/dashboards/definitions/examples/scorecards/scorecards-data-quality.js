@@ -16,8 +16,8 @@ const dataQualityScoreCards = {
         scorecards.dataQualityAllEstablishmentsNoMetricOne,
         scorecards.dataQualityAllEstablishmentsMetricTwo,
         scorecards.dataQualityAllEstablishmentsNoMetricTwo,
-        scorecards.dataQualityAllEstablishmentsReligion,
-        scorecards.dataQualityAllEstablishmentsNoReligion,
+        scorecards.dataQualityAllEstablishmentsMetricThree,
+        scorecards.dataQualityAllEstablishmentsNoMetricThree,
       ],
     },
     {

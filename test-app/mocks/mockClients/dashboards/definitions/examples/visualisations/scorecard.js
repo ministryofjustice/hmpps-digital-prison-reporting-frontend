@@ -25,10 +25,10 @@ const simpleScorecardMetricTwoFilter = {
   },
 }
 
-const simpleScorecardReligion = {
-  id: 'simple-scorecard-religion',
+const simpleScorecardMetricThree = {
+  id: 'simple-scorecard-MetricThree',
   type: 'scorecard',
-  display: 'No of prisoners with religion',
+  display: 'No of prisoners with MetricThree',
   columns: {
     keys: [{ id: 'establishment_id' }],
     measures: [{ id: 'has_metric_three' }],
@@ -58,10 +58,10 @@ const simpleScorecardRagColoursMetricTwo = {
   },
 }
 
-const simpleScorecardRagColoursReligion = {
-  id: 'simple-scorecard-rag-religion',
+const simpleScorecardRagColoursMetricThree = {
+  id: 'simple-scorecard-rag-MetricThree',
   type: 'scorecard',
-  display: 'No of prisoners with religion',
+  display: 'No of prisoners with MetricThree',
   options: {
     useRagColour: true,
   },
@@ -110,10 +110,10 @@ const simpleScorecardCustomBucketsMetricOne = {
   },
 }
 
-const simpleScorecardCustomBucketsReligion = {
+const simpleScorecardCustomBucketsMetricThree = {
   id: 'simple-scorecard-rag',
   type: 'scorecard',
-  display: 'No of prisoners with religion',
+  display: 'No of prisoners with MetricThree',
   options: {
     buckets: [{ hexColour: '#912b88' }, { hexColour: '#28a197' }, { hexColour: '#f47738' }],
   },
@@ -123,10 +123,10 @@ const simpleScorecardCustomBucketsReligion = {
   },
 }
 
-const simpleScorecardCustomBucketsBoundariesReligion = {
+const simpleScorecardCustomBucketsBoundariesMetricThree = {
   id: 'simple-scorecard-rag',
   type: 'scorecard',
-  display: 'No of prisoners with religion',
+  display: 'No of prisoners with MetricThree',
   options: {
     useRagColour: true,
     buckets: [{ max: 40 }, { min: 41, max: 60 }, { min: 61 }],
@@ -208,17 +208,17 @@ const dietTotalFilter = {
 
 const dataQuality = {
   simpleScorecardMetricTwo,
-  simpleScorecardReligion,
+  simpleScorecardMetricThree,
   simpleScorecardMetricOne,
   simpleScorecardRagColoursMetricTwo,
-  simpleScorecardRagColoursReligion,
+  simpleScorecardRagColoursMetricThree,
   simpleScorecardRagColoursMetricOne,
   simpleScorecardCustomBucketsMetricTwo,
   simpleScorecardCustomBucketsMetricOne,
-  simpleScorecardCustomBucketsReligion,
+  simpleScorecardCustomBucketsMetricThree,
   simpleScorecardCustomBucketsBoundariesMetricTwo,
   simpleScorecardCustomBucketsBoundariesMetricOne,
-  simpleScorecardCustomBucketsBoundariesReligion,
+  simpleScorecardCustomBucketsBoundariesMetricThree,
   simpleScorecardMetricTwoFilter,
 }
 

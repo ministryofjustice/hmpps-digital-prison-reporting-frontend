@@ -602,10 +602,10 @@ const dataQualityMetricOneBar = {
   },
 }
 
-const dataQualityReligionBar = {
-  id: 'bar-data-quality-has-religion',
+const dataQualityMetricThreeBar = {
+  id: 'bar-data-quality-has-MetricThree',
   type: 'bar',
-  display: 'Religion values',
+  display: 'MetricThree values',
   columns: {
     keys: [
       {
@@ -616,11 +616,11 @@ const dataQualityReligionBar = {
     measures: [
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
   },
@@ -676,10 +676,10 @@ const dataQualityMetricOneDoughnut = {
   },
 }
 
-const dataQualityReligionDoughnut = {
-  id: 'doughnut-data-quality-has-religion',
+const dataQualityMetricThreeDoughnut = {
+  id: 'doughnut-data-quality-has-MetricThree',
   type: 'doughnut',
-  display: 'Religion values',
+  display: 'MetricThree values',
   columns: {
     keys: [
       {
@@ -690,11 +690,11 @@ const dataQualityReligionDoughnut = {
     measures: [
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
   },
@@ -750,10 +750,10 @@ const dataQualityMetricOneLine = {
   },
 }
 
-const dataQualityReligionLine = {
-  id: 'line-data-quality-has-religion',
+const dataQualityMetricThreeLine = {
+  id: 'line-data-quality-has-MetricThree',
   type: 'line',
-  display: 'Religion values',
+  display: 'MetricThree values',
   columns: {
     keys: [
       {
@@ -764,11 +764,11 @@ const dataQualityReligionLine = {
     measures: [
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_three_is_missing',
-        display: 'No religion',
+        display: 'No MetricThree',
       },
     ],
   },
@@ -825,10 +825,10 @@ const dataQualityMetricOneHistoricLine = {
   options: { showLatest: false },
 }
 
-const dataQualityReligionHistoricLine = {
-  id: 'line-data-quality-has-religion-historic',
+const dataQualityMetricThreeHistoricLine = {
+  id: 'line-data-quality-has-MetricThree-historic',
   type: 'line-timeseries',
-  display: 'Religion values',
+  display: 'MetricThree values',
   columns: {
     keys: [
       {
@@ -843,7 +843,7 @@ const dataQualityReligionHistoricLine = {
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
     ],
   },
@@ -900,10 +900,10 @@ const dataQualityMetricOneHistoricBar = {
   options: { showLatest: false },
 }
 
-const dataQualityReligionHistoricBar = {
-  id: 'line-data-quality-has-religion-historic',
+const dataQualityMetricThreeHistoricBar = {
+  id: 'line-data-quality-has-MetricThree-historic',
   type: 'bar-timeseries',
-  display: 'Religion values',
+  display: 'MetricThree values',
   columns: {
     keys: [
       {
@@ -918,7 +918,7 @@ const dataQualityReligionHistoricBar = {
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
     ],
   },
@@ -973,19 +973,19 @@ const charts = {
   dietTotalsDietOneOvertimeByEstByWingLine,
   dietTotalsByEstablishmentByWingOverTimeOptionalLine,
   dataQualityMetricOneBar,
-  dataQualityReligionBar,
+  dataQualityMetricThreeBar,
   dataQualityMetricTwoBar,
   dataQualityMetricOneDoughnut,
-  dataQualityReligionDoughnut,
+  dataQualityMetricThreeDoughnut,
   dataQualityMetricTwoDoughnut,
   dataQualityMetricOneLine,
-  dataQualityReligionLine,
+  dataQualityMetricThreeLine,
   dataQualityMetricTwoLine,
   dataQualityMetricOneHistoricLine,
-  dataQualityReligionHistoricLine,
+  dataQualityMetricThreeHistoricLine,
   dataQualityMetricTwoHistoricLine,
   dataQualityMetricOneHistoricBar,
-  dataQualityReligionHistoricBar,
+  dataQualityMetricThreeHistoricBar,
   dataQualityMetricTwoHistoricBar,
 }
 

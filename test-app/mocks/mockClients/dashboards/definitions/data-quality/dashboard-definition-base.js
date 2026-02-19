@@ -5,8 +5,8 @@ const {
   mockMetricOnePieChart,
   mockMetricTwoBarChart,
   mockMetricTwoPieChart,
-  mockReligionBarChart,
-  mockReligionPieChart,
+  mockMetricThreeBarChart,
+  mockMetricThreePieChart,
 } = require('./visualisations')
 
 const { lists } = require('../examples/visualisations')
@@ -33,7 +33,7 @@ const dataQualityDashboardBase = {
       id: 'section-2',
       display: 'section 3',
       description: 'Section 1 description',
-      visualisations: [mockReligionBarChart, mockReligionPieChart],
+      visualisations: [mockMetricThreeBarChart, mockMetricThreePieChart],
     },
     {
       id: 'section-3',

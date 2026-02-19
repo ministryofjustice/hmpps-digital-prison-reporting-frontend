@@ -185,11 +185,11 @@ Each value in the group column will be used as new group:
       },
       {
         id: 'metric_three_is_missing',
-        display: 'Religion is missing',
+        display: 'MetricThree is missing',
       },
       {
         id: 'has_metric_three',
-        display: 'Has religion',
+        display: 'Has MetricThree',
       },
       {
         id: 'metric_one_is_missing',

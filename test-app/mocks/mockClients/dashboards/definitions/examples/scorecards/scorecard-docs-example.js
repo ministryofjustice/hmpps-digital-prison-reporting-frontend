@@ -13,7 +13,7 @@ const docsScoreCard = {
       description: '',
       visualisations: [
         scorecard.simpleScorecardMetricTwo,
-        scorecard.simpleScorecardReligion,
+        scorecard.simpleScorecardMetricThree,
         scorecard.simpleScorecardMetricOne,
       ],
     },
@@ -23,7 +23,7 @@ const docsScoreCard = {
       description: 'Example scorecards that use RAG colours',
       visualisations: [
         scorecard.simpleScorecardRagColoursMetricTwo,
-        scorecard.simpleScorecardRagColoursReligion,
+        scorecard.simpleScorecardRagColoursMetricThree,
         scorecard.simpleScorecardRagColoursMetricOne,
       ],
     },
@@ -33,7 +33,7 @@ const docsScoreCard = {
       description: 'Example scorecards that use custom bucket colours',
       visualisations: [
         scorecard.simpleScorecardCustomBucketsMetricTwo,
-        scorecard.simpleScorecardCustomBucketsReligion,
+        scorecard.simpleScorecardCustomBucketsMetricThree,
         scorecard.simpleScorecardCustomBucketsMetricOne,
       ],
     },
@@ -43,7 +43,7 @@ const docsScoreCard = {
       description: 'Example scorecards that use custom bucket bucket boundaries ',
       visualisations: [
         scorecard.simpleScorecardCustomBucketsBoundariesMetricTwo,
-        scorecard.simpleScorecardCustomBucketsBoundariesReligion,
+        scorecard.simpleScorecardCustomBucketsBoundariesMetricThree,
         scorecard.simpleScorecardCustomBucketsBoundariesMetricOne,
       ],
     },

@@ -39,8 +39,8 @@ describe('DashboardListUtils', () => {
           rows: [
             [{ text: 'Has MetricOne' }, { text: '533' }, { text: '484' }, { text: '406' }],
             [{ text: 'No MetricOne' }, { text: '614' }, { text: '713' }, { text: '682' }],
-            [{ text: 'Has religion' }, { text: '680' }, { text: '771' }, { text: '648' }],
-            [{ text: 'No religion' }, { text: '799' }, { text: '457' }, { text: '720' }],
+            [{ text: 'Has MetricThree' }, { text: '680' }, { text: '771' }, { text: '648' }],
+            [{ text: 'No MetricThree' }, { text: '799' }, { text: '457' }, { text: '720' }],
             [{ text: 'Has MetricTwo' }, { text: '684' }, { text: '700' }, { text: '703' }],
             [{ text: 'No MetricTwo' }, { text: '665' }, { text: '506' }, { text: '409' }],
           ],

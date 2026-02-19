@@ -36,7 +36,7 @@ const mockScorecardDefinitionNoMetricTwo = {
   },
 }
 
-const mockScorecardDefinitionReligion = {
+const mockScorecardDefinitionMetricThree = {
   type: 'scorecard',
   display: 'No of prisoners with MetricTwo',
   columns: {
@@ -53,9 +53,9 @@ const mockScorecardDefinitionReligion = {
   },
 }
 
-const mockTargetScorecardDefinitionReligion = {
+const mockTargetScorecardDefinitionMetricThree = {
   type: 'scorecard',
-  display: 'No of prisoners with religion in SLI',
+  display: 'No of prisoners with MetricThree in SLI',
   columns: {
     keys: [
       {
@@ -76,10 +76,10 @@ const mockTargetScorecardDefinitionReligion = {
   },
 }
 
-const mockScorecardGroupReligionByEstablishment = {
-  id: 'religion-by-est-sc-group',
+const mockScorecardGroupMetricThreeByEstablishment = {
+  id: 'MetricThree-by-est-sc-group',
   type: 'scorecard-group',
-  display: 'Has religion by Establishment',
+  display: 'Has MetricThree by Establishment',
   columns: {
     keys: [
       {
@@ -90,7 +90,7 @@ const mockScorecardGroupReligionByEstablishment = {
     measures: [
       {
         id: 'establishment_id',
-        display: 'With religion in Establishment: ',
+        display: 'With MetricThree in Establishment: ',
       },
       {
         id: 'has_metric_three',
@@ -151,9 +151,9 @@ const mockScorecardGroupMetricOneByEstablishment = {
 module.exports = {
   mockScorecardDefinitionMetricTwo,
   mockScorecardDefinitionNoMetricTwo,
-  mockScorecardDefinitionReligion,
-  mockScorecardGroupReligionByEstablishment,
+  mockScorecardDefinitionMetricThree,
+  mockScorecardGroupMetricThreeByEstablishment,
   mockScorecardGroupMetricTwoByEstablishment,
   mockScorecardGroupMetricOneByEstablishment,
-  mockTargetScorecardDefinitionReligion,
+  mockTargetScorecardDefinitionMetricThree,
 }

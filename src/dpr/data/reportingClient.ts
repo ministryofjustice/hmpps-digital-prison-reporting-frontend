@@ -167,6 +167,19 @@ class ReportingClient {
     )
   }
 
+  downloadSyncReport(token: string, resourceName: string, reportQuery: ReportQuery, res: Response): Promise<void> {
+    this.logInfo('Streaming download data', { resourceName })
+
+    return this.restClient.getStream(
+      {
+        path: `/${resourceName}/download`,
+        query: reportQuery.toRecordWithFilterPrefix(true),
+        token,
+      },
+      res,
+    )
+  }
+
   getAsyncReport(
     token: string,
     reportId: string,

@@ -77,6 +77,15 @@ class ReportingService {
     return this.reportingClient.downloadAsyncReport(token, reportId, variantId, tableId, query, res)
   }
 
+  async downloadSyncReport(
+    token: string,
+    resourceName: string,
+    reportQuery: ReportQuery,
+    res: Response,
+  ): Promise<void> {
+    return this.reportingClient.downloadSyncReport(token, resourceName, reportQuery, res)
+  }
+
   async getAsyncReport(
     token: string,
     reportId: string,

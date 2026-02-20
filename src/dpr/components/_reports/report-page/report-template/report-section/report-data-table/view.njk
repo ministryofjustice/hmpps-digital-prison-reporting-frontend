@@ -4,11 +4,12 @@
   {% set rows = dataTable.rows %}
   {% set head = dataTable.head %}
   {% set colCount = dataTable.colCount %}
+  {% set classification = classification or 'OFFICIAL' %}
 
   {% if rows.length > 0 %}
     <div id="table-container-{{ loopIndex }}" class='dpr-table-container dpr-table-container--{{ template }}' data-dpr-module="data-table" aria-labelledby="{{ labelId }}">
       <div class="dpr-overflow-gradient" id="dpr-overflow-gradient-{{ loopIndex }}"></div>
-      <div class="dpr-table-wrapper" id="dpr-table-wrapper-{{ loopIndex }}">
+      <div class="dpr-table-wrapper" id="dpr-table-wrapper-{{ loopIndex }}" tabindex="0">
         <div class="dpr-table-content">
           {{ govukTable({
             head: head,

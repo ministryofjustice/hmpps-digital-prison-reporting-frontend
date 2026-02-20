@@ -149,7 +149,7 @@ export const dataQualityAllBar: components['schemas']['DashboardVisualisationDef
 }
 
 export const dataQualityAllBarHorizontal: components['schemas']['DashboardVisualisationDefinition'] = {
-  id: 'bar-data-quality-all',
+  id: 'bar-data-quality-all-horizontal',
   type: DashboardVisualisationType.BAR,
   display: 'All metrics together',
   options: {

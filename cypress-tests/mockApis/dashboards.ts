@@ -6,6 +6,11 @@ import {
   scorecardsCompleteDatasetMock,
   scorecardsBucketCompleteDatasetMock,
   scorecardGroupCompleteDatasetMock,
+  barCompleteDatasetMock,
+  barPartialDatasetMock,
+  doughnutCompleteDatasetMock,
+  lineTimeseriesCompleteDatasetMock,
+  lineTimeseriesPartialDatasetMock
 } from '@networkMocks/dashboard/definitions/visualisations/mocks'
 
 import { syncDashboardMock, featureFlagDashboardMock } from '@networkMocks/dashboard/definitions/feature-testing/mocks'
@@ -36,6 +41,20 @@ const listDefinitionStubs = {
   stubListDashboardPartialDataHistoric: () => stubFor(listPartialDatasetHistoricMock),
 }
 
+const BarDefinitionStubs = {
+  stubBarDashboardCompleteData: () => stubFor(barCompleteDatasetMock),
+  stubBarDashboardPartialData: () => stubFor(barPartialDatasetMock),
+}
+
+const DoughnutDefinitionStubs = {
+  stubDoughnutDashboardCompleteData: () => stubFor(doughnutCompleteDatasetMock),
+}
+
+const lineTimeseriesDefinitionStubs = {
+  stubLineTimeseriesDashboardCompleteData: () => stubFor(lineTimeseriesCompleteDatasetMock),
+  stubLineTimeseriesDashboardPartialData: () => stubFor(lineTimeseriesPartialDatasetMock),
+}
+
 const scorecardDefinitionStubs = {
   stubDefinitionScorecardDashboard: () => stubFor(scorecardsCompleteDatasetMock),
   stubDefinitionScorecardBucketDashboard: () => stubFor(scorecardsBucketCompleteDatasetMock),
@@ -47,6 +66,9 @@ const definitionStubs = {
   stubDefinitionSyncDashboard: () => stubFor(syncDashboardMock),
   ...scorecardDefinitionStubs,
   ...listDefinitionStubs,
+  ...BarDefinitionStubs,
+  ...DoughnutDefinitionStubs,
+  ...lineTimeseriesDefinitionStubs
 }
 
 // REQUEST

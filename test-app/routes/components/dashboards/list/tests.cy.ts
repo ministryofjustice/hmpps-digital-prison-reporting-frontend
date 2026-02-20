@@ -337,6 +337,9 @@ context('Dashboard visualisation: List', () => {
         name: 'List - Partial dataset',
         description: 'This dashboard represents example list visualisations using a partial dataset',
       })
+
+      cy.injectAxe()
+      cy.checkA11y()
     })
 
     it('should show the correct section headings', () => {

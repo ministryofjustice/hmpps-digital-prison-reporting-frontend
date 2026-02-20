@@ -4,7 +4,7 @@ import { components } from '../../../../../../../src/dpr/types/api'
 export const dataQualityHasMetricTwoOvertime: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'has-MetricTwo-overtime',
   type: DashboardVisualisationType.MATRIX_TIMESERIES,
-  display: 'Has MetricTwo time matrix chart for MDI',
+  display: 'Has MetricTwo time matrix chart for establishment ABC',
   description: '',
   options: { showLatest: false },
   columns: {

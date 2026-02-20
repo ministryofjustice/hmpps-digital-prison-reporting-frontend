@@ -1,7 +1,7 @@
 // @ts-nocheck
 const mockScoreCards = [
   {
-    title: 'Establishment ID: MDI',
+    title: 'Establishment ID: ABC',
     scorecards: [
       {
         title: 'Has MetricOne',

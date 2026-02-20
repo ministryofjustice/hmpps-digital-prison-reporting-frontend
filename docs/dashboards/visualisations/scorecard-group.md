@@ -86,8 +86,8 @@ For these examples we will use a mocked dataset representing data quality totals
 |------------|--------|----------------|----------------|------------------|-------------------------|
 | Nov 25.    | ABC    | 21             | 91             | 54               | 63                      |
 | Nov 25.    | DEF    | 34             | 21             | 12               | 12                      |
-| Nov 25.    | DAI    | 86             | 64             | 36               | 87                      |
-| Nov 25.    | LTI    | 23             | 63             | 87               | 54                      |
+| Nov 25.    | JKL    | 23             | 63             | 87               | 54                      |
+| Nov 25.    | GHI    | 86             | 64             | 36               | 87                      |
 ... omitted past ts data
 ```
 

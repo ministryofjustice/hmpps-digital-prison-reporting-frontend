@@ -29,7 +29,7 @@ export const simpleScorecardCustomBucketsMetricOne: components['schemas']['Dashb
   },
 }
 
-export const simpleScorecardCustomBucketsReligion: components['schemas']['DashboardVisualisationDefinition'] = {
+export const simpleScorecardCustomBucketsMetricThree: components['schemas']['DashboardVisualisationDefinition'] = {
   id: 'simple-scorecard-rag-buckets',
   type: DashboardVisualisationType.SCORECARD,
   display: 'No of prisoners with MetricThree',

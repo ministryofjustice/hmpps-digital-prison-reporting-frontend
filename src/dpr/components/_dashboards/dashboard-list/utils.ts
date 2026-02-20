@@ -132,11 +132,7 @@ const creatListFromRows = (
 }
 
 const createFullList = (dashboardData: DashboardDataResponse[]) => {
-  if (
-    !dashboardData ||
-    dashboardData.length === 0 ||
-    !dashboardData[0]
-  ) {
+  if (!dashboardData || dashboardData.length === 0 || !dashboardData[0]) {
     return {
       head: [],
       rows: [],

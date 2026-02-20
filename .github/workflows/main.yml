@@ -159,6 +159,11 @@ jobs:
           name: screenshots
           path: screenshots
 
+      - name: Output success or failure
+        id: output
+        if: success() || failure()
+        run: if [[ ${{ steps.count-screenshots-after.outcome }} != "success" ]]; then echo 'Visual regression test screenshots number changed - new tests likely added!' && exit 1; else exit 0; fi
+
       - name: Run the node app and integration tests
         id: int-test-step
         run: |
@@ -183,4 +188,4 @@ jobs:
       - name: Output success or failure
         id: output
         if: success() || failure()
-        run: if [[ ${{ steps.int-test-step.outcome }} != "success" ]]; then echo 'Int tests failed!' && exit 1; elif [[ ${{ steps.count-screenshots-after.outcome }} != "success" ]]; then echo 'Visual regression test screenshots number changed - new tests likely added!' && exit 1; else exit 0; fi
+        run: if [[ ${{ steps.int-test-step.outcome }} != "success" ]]; then echo 'Int tests failed!' && exit 1; else exit 0; fi

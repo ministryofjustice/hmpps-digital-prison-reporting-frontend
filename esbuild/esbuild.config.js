@@ -20,7 +20,7 @@ const buildConfigLib = () => ({
     outDir: path.join(cwd, 'dist/dpr'),
     entryPoints: glob
       .sync([path.join(cwd, 'src/**/*.js'), path.join(cwd, 'src/**/*.ts')])
-      .filter((file) => !file.endsWith('.test.ts')),
+      .filter((file) => !file.endsWith('.test.ts') && !file.endsWith('.spec.ts')),
     copy: [
       {
         from: path.join(cwd, 'src/dpr/**/*'),

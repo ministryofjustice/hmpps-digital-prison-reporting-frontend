@@ -2,6 +2,6 @@ import { ExtraLocals } from './extraLocals'
 
 declare global {
   namespace Express {
-    type Locals = ExtraLocals
+    interface Locals extends ExtraLocals { }
   }
 }

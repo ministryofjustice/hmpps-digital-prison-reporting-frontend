@@ -108,9 +108,11 @@
       "error",
       {
         "devDependencies": [
+          "**/*.spec.ts",
           "**/*.test.js",
           "**/*.test.ts",
           "**/testutils/**",
+          "playwright.config.ts",
           "cypress.config.ts",
           "cypress.testapp.config.ts",
           "sharedCypressConfig.ts"

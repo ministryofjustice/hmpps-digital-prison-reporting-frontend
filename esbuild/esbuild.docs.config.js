@@ -24,7 +24,7 @@ const buildConfig = () => ({
     outDir: path.join(cwd, 'dist-docs/dpr'),
     entryPoints: glob
       .sync([path.join(cwd, 'src/dpr/**/*.js'), path.join(cwd, 'src/dpr/**/*.ts')])
-      .filter((file) => !file.endsWith('.test.ts')),
+      .filter((file) => !file.endsWith('.test.ts') && !file.endsWith('.spec.ts')),
     copy: [
       {
         from: path.join(cwd, 'src/dpr/**/*.{png,jpg,jpeg,gif,svg}'),

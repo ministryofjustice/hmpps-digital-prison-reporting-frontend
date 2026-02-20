@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test'
 
 /**
  * Read environment variables from file.
@@ -34,9 +34,8 @@ export default defineConfig({
   expect: {
     toHaveScreenshot: {
       maxDiffPixelRatio: 0,
-    }
+    },
   },
-
 
   /* Configure projects for major browsers */
   projects: [
@@ -67,6 +66,6 @@ export default defineConfig({
       command: 'npm run wiremock',
       port: 9091,
       timeout: 10000,
-    }
+    },
   ],
-});
+})

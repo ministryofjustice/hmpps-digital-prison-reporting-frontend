@@ -1,10 +1,11 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test'
 
 test('Bar chart complete dataset', async ({ page }) => {
-  await page.goto('http://localhost:3010/embedded/platform/');
+  await page.goto('http://localhost:3010/embedded/platform/')
 
   page.getByLabel(/Reports catalogue.*/i)
-  await page.getByLabel(/Reports catalogue.*/i)
+  await page
+    .getByLabel(/Reports catalogue.*/i)
     .locator(page.getByRole('row').filter({ hasText: /Bar - Complete dataset/ }))
     .locator(page.getByRole('link', { name: /Request dashboard/ }))
     .click()
@@ -15,4 +16,4 @@ test('Bar chart complete dataset', async ({ page }) => {
   await expect(page).toHaveScreenshot({
     fullPage: true,
   })
-});
+})

@@ -141,6 +141,12 @@
   "overrides": {
     "mocha": {
       "diff": "^8.0.3"
+    },
+    "@sentry/node": {
+      "minimatch": "^10.2.1"
+    },
+    "glob": {
+      "minimatch": "^10.2.1"
     }
   },
   "dependencies": {

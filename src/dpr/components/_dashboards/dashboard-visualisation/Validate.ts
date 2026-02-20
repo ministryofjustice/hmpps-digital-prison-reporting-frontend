@@ -31,14 +31,19 @@ export const DashboardVisualisationMeasureSchema = z.object({
 })
 
 export const DashboardColumns = z.object({
-  keys: z.array(DashboardVisualisationKeySchema),
-  measures: z.array(DashboardVisualisationMeasureSchema).length(1, 'Measure must contain a single item'),
+  keys: z.array(DashboardVisualisationKeySchema).optional(),
+  measures: z.array(DashboardVisualisationMeasureSchema, {
+    error: (issue) =>
+      issue.input === undefined
+        ? 'Dashboard visualisation definition: measures is required'
+        : 'Dashboard visualisation definition: measures must be an array',
+  }),
   filters: z.array(dashboardVisFilter).min(1).optional(),
   expectNulls: z.boolean().default(false),
 })
 
 const dashboardOptions = z.object({
-  ...dashboardBucket.shape,
+  ...BucketOptionsSchema.shape,
   showLatest: z.boolean().default(true),
   columnsAsList: z.boolean().optional(),
 })
@@ -58,7 +63,7 @@ export const DashboardVisualisationSchema = z.object({
   ]),
   display: z.string().optional(),
   description: z.string().optional(),
-  options: z.object(dashboardOptions.shape),
+  options: z.object(dashboardOptions.shape).optional(),
   columns: z.object(DashboardColumns.shape),
 })
 

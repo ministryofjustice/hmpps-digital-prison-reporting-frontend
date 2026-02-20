@@ -134,7 +134,9 @@ jobs:
         run: echo -n "screenshots_before=$(find src/dpr/components/_dashboards/visual-regression-tests -name \*.png | wc -l | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
 
       - name: Run the visual regression tests for dashboards
-        run: npm run int-test-visual
+        run: |
+          npx playwright install --with-deps
+          npm run int-test-visual
 
       - name: count number of screenshots for visual regression tests after running
         id: count-screenshots-after

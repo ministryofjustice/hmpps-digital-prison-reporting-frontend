@@ -84,6 +84,7 @@ export interface MoJTableRow {
 export interface MoJTableHead {
   text?: string
   html?: string
+  classes?: string
 }
 
 export enum DashboardVisualisationType {

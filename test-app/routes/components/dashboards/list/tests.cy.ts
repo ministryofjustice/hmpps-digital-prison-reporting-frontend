@@ -4,7 +4,9 @@ context('Dashboard visualisation: List', () => {
   const path = '/embedded/platform/'
 
   describe('complete data', () => {
-    beforeEach(() => {
+    let completeDashboardUrl = ''
+
+    before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       cy.task('stubListDashboardCompleteData')
@@ -17,6 +19,16 @@ context('Dashboard visualisation: List', () => {
       })
 
       cy.findByRole('heading', { level: 1, name: /List - Complete dataset/ }).should('be.visible')
+      cy.injectAxe()
+      cy.checkA11y()
+
+      cy.url().then((url) => {
+        completeDashboardUrl = url
+      })
+    })
+
+    beforeEach(() => {
+      cy.visit(completeDashboardUrl)
     })
 
     it('should show the correct section headings', () => {
@@ -48,14 +60,10 @@ context('Dashboard visualisation: List', () => {
 
           cy.findByRole('table').within(() => {
             cy.findAllByRole('row')
-              .should('have.length', 6)
+              .should('have.length', 4)
               .each((row, index) => {
                 switch (index) {
                   case 0:
-                    cy.wrap(row).should('not.be.visible')
-                    break
-
-                  case 1:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('columnheader').should('have.length', 3)
                       cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
@@ -64,7 +72,7 @@ context('Dashboard visualisation: List', () => {
                     })
                     break
 
-                  case 2:
+                  case 1:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 3)
                       cy.findAllByRole('cell').eq(0).contains('ABC')
@@ -73,7 +81,7 @@ context('Dashboard visualisation: List', () => {
                     })
                     break
 
-                  case 3:
+                  case 2:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 3)
                       cy.findAllByRole('cell').eq(0).contains('GHI')
@@ -82,7 +90,7 @@ context('Dashboard visualisation: List', () => {
                     })
                     break
 
-                  case 4:
+                  case 3:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 3)
                       cy.findAllByRole('cell').eq(0).contains('DEF')
@@ -90,11 +98,6 @@ context('Dashboard visualisation: List', () => {
                       cy.findAllByRole('cell').eq(2).contains('682')
                     })
                     break
-
-                  case 5:
-                    cy.wrap(row).should('not.be.visible')
-                    break
-
                   default:
                     break
                 }
@@ -120,14 +123,10 @@ context('Dashboard visualisation: List', () => {
 
           cy.findByRole('table').within(() => {
             cy.findAllByRole('row')
-              .should('have.length', 9)
+              .should('have.length', 7)
               .each((row, index) => {
                 switch (index) {
                   case 0:
-                    cy.wrap(row).should('not.be.visible')
-                    break
-
-                  case 1:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('columnheader').should('have.length', 4)
                       cy.findAllByRole('columnheader').eq(1).contains('ABC')
@@ -136,50 +135,46 @@ context('Dashboard visualisation: List', () => {
                     })
                     break
 
-                  case 2:
+                  case 1:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('Has MetricOne')
                     })
                     break
 
-                  case 3:
+                  case 2:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('No MetricOne')
                     })
                     break
 
-                  case 4:
+                  case 3:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('Has MetricThree')
                     })
                     break
 
-                  case 5:
+                  case 4:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('No MetricThree')
                     })
                     break
 
-                  case 6:
+                  case 5:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('Has MetricTwo')
                     })
                     break
 
-                  case 7:
+                  case 6:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 4)
                       cy.findAllByRole('cell').eq(0).contains('No MetricTwo')
                     })
-                    break
-
-                  case 8:
-                    cy.wrap(row).should('not.be.visible')
                     break
 
                   default:
@@ -193,7 +188,9 @@ context('Dashboard visualisation: List', () => {
   })
 
   describe('complete data historic', () => {
-    beforeEach(() => {
+    let completeHistoricDashboardUrl = ''
+
+    before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       cy.task('stubListDashboardCompleteDataHistoric')
@@ -206,6 +203,16 @@ context('Dashboard visualisation: List', () => {
       })
 
       cy.findByRole('heading', { level: 1, name: /List - Complete dataset - Historic/ }).should('be.visible')
+      cy.injectAxe()
+      cy.checkA11y()
+
+      cy.url().then((url) => {
+        completeHistoricDashboardUrl = url
+      })
+    })
+
+    beforeEach(() => {
+      cy.visit(completeHistoricDashboardUrl)
     })
 
     it('should show the correct section headings', () => {
@@ -234,13 +241,10 @@ context('Dashboard visualisation: List', () => {
 
           cy.findByRole('table').within(() => {
             cy.findAllByRole('row')
-              .should('have.length', 21)
+              .should('have.length', 19)
               .each((row, index) => {
-                switch (index) {
-                  case 0:
-                    cy.wrap(row).should('not.be.visible')
-                    break
-
+                const i = index + 1
+                switch (i) {
                   case 1:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('columnheader').should('have.length', 4)
@@ -300,11 +304,6 @@ context('Dashboard visualisation: List', () => {
                       cy.findAllByRole('cell').eq(3).contains('590')
                     })
                     break
-
-                  case 21:
-                    cy.wrap(row).should('not.be.visible')
-                    break
-
                   default:
                     break
                 }
@@ -326,7 +325,9 @@ context('Dashboard visualisation: List', () => {
   })
 
   describe('partial data', () => {
-    beforeEach(() => {
+    let partialDashboardUrl = ''
+
+    before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       cy.task('stubListDashboardPartialData')
@@ -340,6 +341,14 @@ context('Dashboard visualisation: List', () => {
 
       cy.injectAxe()
       cy.checkA11y()
+
+      cy.url().then((url) => {
+        partialDashboardUrl = url
+      })
+    })
+
+    beforeEach(() => {
+      cy.visit(partialDashboardUrl)
     })
 
     it('should show the correct section headings', () => {
@@ -366,49 +375,43 @@ context('Dashboard visualisation: List', () => {
         cy.findByLabelText('Diet totals').within(() => {
           cy.findByRole('table').within(() => {
             cy.findAllByRole('row')
-              .should('have.length', 7)
+              .should('have.length', 5)
               .each((row, index) => {
                 switch (index) {
                   case 0:
-                    cy.wrap(row).should('not.be.visible')
-                    break
-                  case 1:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('columnheader').should('have.length', 2)
                       cy.findAllByRole('columnheader').eq(0).contains('Diet')
                       cy.findAllByRole('columnheader').eq(1).contains('Total prisoners')
                     })
                     break
-                  case 2:
+                  case 1:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 2)
                       cy.findAllByRole('cell').eq(0).contains('Diet one')
                       cy.findAllByRole('cell').eq(1).contains('1219')
                     })
                     break
-                  case 3:
+                  case 2:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 2)
                       cy.findAllByRole('cell').eq(0).contains('Diet two')
                       cy.findAllByRole('cell').eq(1).contains('1125')
                     })
                     break
-                  case 4:
+                  case 3:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 2)
                       cy.findAllByRole('cell').eq(0).contains('Diet three')
                       cy.findAllByRole('cell').eq(1).contains('1838')
                     })
                     break
-                  case 5:
+                  case 4:
                     cy.wrap(row).within(() => {
                       cy.findAllByRole('cell').should('have.length', 2)
                       cy.findAllByRole('cell').eq(0).contains('Diet four')
                       cy.findAllByRole('cell').eq(1).contains('818')
                     })
-                    break
-                  case 6:
-                    cy.wrap(row).should('not.be.visible')
                     break
                   default:
                     break
@@ -422,13 +425,10 @@ context('Dashboard visualisation: List', () => {
             .should('exist')
             .within(() => {
               cy.findAllByRole('row')
-                .should('have.length', 12)
+                .should('have.length', 10)
                 .each((row, index) => {
                   switch (index) {
                     case 0:
-                      cy.wrap(row).should('not.be.visible')
-                      break
-                    case 1:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('columnheader').should('have.length', 3)
                         cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
@@ -436,7 +436,7 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('columnheader').eq(2).contains('Total prisoners')
                       })
                       break
-                    case 2:
+                    case 1:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
                         cy.findAllByRole('cell').eq(0).contains('ABC')
@@ -444,7 +444,7 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('cell').eq(2).contains('360')
                       })
                       break
-                    case 3:
+                    case 2:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
                         cy.findAllByRole('cell').eq(0).contains('ABC')
@@ -452,7 +452,7 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('cell').eq(2).contains('281')
                       })
                       break
-                    case 4:
+                    case 3:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
                         cy.findAllByRole('cell').eq(0).contains('ABC')
@@ -460,7 +460,7 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('cell').eq(2).contains('559')
                       })
                       break
-                    case 5:
+                    case 4:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
                         cy.findAllByRole('cell').eq(0).contains('ABC')
@@ -468,15 +468,12 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('cell').eq(2).contains('144')
                       })
                       break
-                    case 10:
+                    case 9:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 3)
                         cy.findAllByRole('cell').eq(0).contains('Total')
                         cy.findAllByRole('cell').eq(2).contains('2688')
                       })
-                      break
-                    case 11:
-                      cy.wrap(row).should('not.be.visible')
                       break
                     default:
                       break
@@ -490,13 +487,10 @@ context('Dashboard visualisation: List', () => {
             .should('exist')
             .within(() => {
               cy.findAllByRole('row')
-                .should('have.length', 19)
+                .should('have.length', 17)
                 .each((row, index) => {
                   switch (index) {
                     case 0:
-                      cy.wrap(row).should('not.be.visible')
-                      break
-                    case 1:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('columnheader').should('have.length', 4)
                         cy.findAllByRole('columnheader').eq(0).contains('Establishment ID')
@@ -505,7 +499,7 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('columnheader').eq(3).contains('Total prisoners')
                       })
                       break
-                    case 2:
+                    case 1:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 4)
                         cy.findAllByRole('cell').eq(0).contains('ABC')
@@ -514,7 +508,7 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('cell').eq(3).contains('75')
                       })
                       break
-                    case 3:
+                    case 2:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 4)
                         cy.findAllByRole('cell').eq(0).contains('ABC')
@@ -523,7 +517,7 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('cell').eq(3).contains('26')
                       })
                       break
-                    case 4:
+                    case 3:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 4)
                         cy.findAllByRole('cell').eq(0).contains('ABC')
@@ -532,7 +526,7 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('cell').eq(3).contains('22')
                       })
                       break
-                    case 5:
+                    case 4:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 4)
                         cy.findAllByRole('cell').eq(0).contains('ABC')
@@ -540,9 +534,6 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('cell').eq(2).contains('Diet four')
                         cy.findAllByRole('cell').eq(3).contains('76')
                       })
-                      break
-                    case 19:
-                      cy.wrap(row).should('not.be.visible')
                       break
                     default:
                       break
@@ -556,8 +547,8 @@ context('Dashboard visualisation: List', () => {
             .should('exist')
             .within(() => {
               cy.findAllByRole('row')
-                .should('have.length', 83)
-                .eq(1)
+                .should('have.length', 81)
+                .eq(0)
                 .within(() => {
                   cy.findAllByRole('columnheader').should('have.length', 5)
                   cy.findAllByRole('columnheader').eq(0).contains('Est code')
@@ -574,13 +565,10 @@ context('Dashboard visualisation: List', () => {
             .should('exist')
             .within(() => {
               cy.findAllByRole('row')
-                .should('have.length', 11)
+                .should('have.length', 9)
                 .each((row, index) => {
                   switch (index) {
                     case 0:
-                      cy.wrap(row).should('not.be.visible')
-                      break
-                    case 1:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('columnheader').should('have.length', 5)
                         cy.findAllByRole('columnheader').eq(0).contains('Est code')
@@ -590,7 +578,7 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('columnheader').eq(4).contains('Total prisoners')
                       })
                       break
-                    case 2:
+                    case 1:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 5)
                         cy.findAllByRole('cell').eq(0).contains('ABC')
@@ -600,7 +588,7 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('cell').eq(4).contains('1')
                       })
                       break
-                    case 3:
+                    case 2:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 5)
                         cy.findAllByRole('cell').eq(0).contains('ABC')
@@ -610,7 +598,7 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('cell').eq(4).contains('0')
                       })
                       break
-                    case 4:
+                    case 3:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 5)
                         cy.findAllByRole('cell').eq(0).contains('ABC')
@@ -620,7 +608,7 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('cell').eq(4).contains('10')
                       })
                       break
-                    case 5:
+                    case 4:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 5)
                         cy.findAllByRole('cell').eq(0).contains('ABC')
@@ -630,7 +618,7 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('cell').eq(4).contains('16')
                       })
                       break
-                    case 6:
+                    case 5:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 5)
                         cy.findAllByRole('cell').eq(0).contains('ABC')
@@ -640,7 +628,7 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('cell').eq(4).contains('1')
                       })
                       break
-                    case 7:
+                    case 6:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 5)
                         cy.findAllByRole('cell').eq(0).contains('ABC')
@@ -649,9 +637,6 @@ context('Dashboard visualisation: List', () => {
                         cy.findAllByRole('cell').eq(3).contains('Diet four')
                         cy.findAllByRole('cell').eq(4).contains('0')
                       })
-                      break
-                    case 11:
-                      cy.wrap(row).should('not.be.visible')
                       break
                     default:
                       break
@@ -665,28 +650,22 @@ context('Dashboard visualisation: List', () => {
             .should('exist')
             .within(() => {
               cy.findAllByRole('row')
-                .should('have.length', 4)
+                .should('have.length', 2)
                 .each((row, index) => {
                   switch (index) {
                     case 0:
-                      cy.wrap(row).should('not.be.visible')
-                      break
-                    case 1:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('columnheader').should('have.length', 2)
                         cy.findAllByRole('columnheader').eq(0).contains('Diet')
                         cy.findAllByRole('columnheader').eq(1).contains('Total prisoners')
                       })
                       break
-                    case 2:
+                    case 1:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 2)
                         cy.findAllByRole('cell').eq(0).contains('Diet one')
                         cy.findAllByRole('cell').eq(1).contains('1219')
                       })
-                      break
-                    case 3:
-                      cy.wrap(row).should('not.be.visible')
                       break
                     default:
                       break
@@ -700,32 +679,26 @@ context('Dashboard visualisation: List', () => {
             .should('exist')
             .within(() => {
               cy.findAllByRole('row')
-                .should('have.length', 5)
+                .should('have.length', 3)
                 .each((row, index) => {
                   switch (index) {
                     case 0:
-                      cy.wrap(row).should('not.be.visible')
-                      break
-                    case 1:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('columnheader').should('have.length', 1)
                         cy.findAllByRole('columnheader').eq(0).contains('Total prisoners')
                       })
                       break
-                    case 2:
+                    case 1:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 1)
                         cy.findAllByRole('cell').eq(0).contains('1219')
                       })
                       break
-                    case 3:
+                    case 2:
                       cy.wrap(row).within(() => {
                         cy.findAllByRole('cell').should('have.length', 1)
                         cy.findAllByRole('cell').eq(0).contains('1125')
                       })
-                      break
-                    case 4:
-                      cy.wrap(row).should('not.be.visible')
                       break
                     default:
                       break

@@ -75,7 +75,7 @@ export const dietTotalsDietOneOvertime: components['schemas']['DashboardVisualis
     filters: [
       {
         id: 'diet',
-        equals: 'DietOne',
+        equals: 'Diet one',
       },
     ],
     expectNulls: true,
@@ -108,7 +108,7 @@ export const dietTotalsDietThreeOvertime: components['schemas']['DashboardVisual
     filters: [
       {
         id: 'diet',
-        equals: 'DietThree',
+        equals: 'Diet three',
       },
     ],
     expectNulls: true,
@@ -141,7 +141,7 @@ export const dietTotalsDietOneOvertimeByEstLine: components['schemas']['Dashboar
     filters: [
       {
         id: 'diet',
-        equals: 'DietOne',
+        equals: 'Diet one',
       },
     ],
     expectNulls: true,
@@ -178,7 +178,7 @@ export const dietTotalsDietOneOvertimeByEstByWingLine: components['schemas']['Da
     filters: [
       {
         id: 'diet',
-        equals: 'DietOne',
+        equals: 'Diet one',
       },
     ],
     expectNulls: true,

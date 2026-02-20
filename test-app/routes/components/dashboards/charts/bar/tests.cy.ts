@@ -4,7 +4,9 @@ context('Dashboard visualisation: bar chart', () => {
   const path = '/embedded/platform/'
 
   describe('Complete data', () => {
-    beforeEach(() => {
+    let completeDashboardUrl = ''
+
+    before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       cy.task('stubBarDashboardCompleteData')
@@ -19,6 +21,14 @@ context('Dashboard visualisation: bar chart', () => {
       cy.findByRole('heading', { level: 1, name: /Bar - Complete dataset/ }).should('be.visible')
       cy.injectAxe()
       cy.checkA11y()
+
+      cy.url().then((url) => {
+        completeDashboardUrl = url
+      })
+    })
+
+    beforeEach(() => {
+      cy.visit(completeDashboardUrl)
     })
 
     it('should should have the correct amount of sections', () => {
@@ -41,16 +51,16 @@ context('Dashboard visualisation: bar chart', () => {
         })
     })
 
-    it('should should show the correct data for simple bar charts', () => {
+    it('should should show the correct data for charts', () => {
       cy.findAllByLabelText(/Simple bar charts/).within(() => {
-        cy.findAllByRole('heading', { level: 3 }).should('have.length', 3)
+        cy.findAllByRole('heading', { level: 3 }).should('have.length', 4)
 
-        cy.findByLabelText(/Diet totals as bar chart/).within(() => {
+        cy.findByLabelText(/MetricOne values/).within(() => {
           cy.findByRole('tab', { name: /Table/ }).click()
           cy.findByLabelText(/Table.*/i).within(() => {
             cy.findByRole('table').within(() => {
               cy.findAllByRole('row')
-                .should('have.length', 5)
+                .should('have.length', 4)
                 .each((row, index) => {
                   switch (index) {
                     case 0:
@@ -73,7 +83,9 @@ context('Dashboard visualisation: bar chart', () => {
   })
 
   describe('Partial data', () => {
-    beforeEach(() => {
+    let partialDashboardUrl = ''
+
+    before(() => {
       cy.task('resetStubs')
       executeDashboardStubs()
       cy.task('stubBarDashboardPartialData')
@@ -88,6 +100,14 @@ context('Dashboard visualisation: bar chart', () => {
       cy.findByRole('heading', { level: 1, name: /Bar - Partial dataset/ }).should('be.visible')
       cy.injectAxe()
       cy.checkA11y()
+
+      cy.url().then((url) => {
+        partialDashboardUrl = url
+      })
+    })
+
+    beforeEach(() => {
+      cy.visit(partialDashboardUrl)
     })
 
     it('should should have the correct amount of sections', () => {
@@ -107,7 +127,7 @@ context('Dashboard visualisation: bar chart', () => {
         })
     })
 
-    it('should should show the correct data for simple bar charts', () => {
+    it('should should show the correct data for charts', () => {
       cy.findAllByLabelText(/Section 1 title/).within(() => {
         cy.findAllByRole('heading', { level: 3 }).should('have.length', 4)
 

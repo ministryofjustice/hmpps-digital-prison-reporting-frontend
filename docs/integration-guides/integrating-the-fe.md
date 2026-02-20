@@ -122,7 +122,7 @@ Initialise the component with the required data using the component utility help
 ```js
 // server/routes/index.ts
 
-import { initUserReports } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/userReportDEFstUtils'
+import { initUserReports } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/userReportsListUtils'
 
 
 export function routes(services: Services): Router {
@@ -131,11 +131,11 @@ export function routes(services: Services): Router {
 
   router.get('/path/to/requested/reports/list/', (req, res) => {
 
-    const userReportDEFsts = await initUserReports({ res, req, services })
+    const userReportsLists = await initUserReports({ res, req, services })
 
     res.render('requested-reports.njk', {
       title: 'DPR test site',
-      userReportDEFsts
+      userReportsLists
     })
   })
 }
@@ -148,7 +148,7 @@ export default routes
 ```js
 { from "@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/view.njk" import dprUserReports }
 
-{ dprUserReports(userReportDEFsts) }
+{ dprUserReports(userReportsLists) }
 ```
 
 See [Reports List](/components/reports-list) component for usage and examples.

@@ -32,12 +32,12 @@ Do not use this component if you have not integrated async reports into your ser
 
 This component requires you have followed the [async reporting integration steps](/reports/async-reports-integration)
 
-Render your stored async request data to the frontend using `UserReportDEFstUtils`
+Render your stored async request data to the frontend using `UserReportsListUtils`
 
 ```js
 // server/routes/index.ts
 
-import { initUserReports } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/userReportDEFstUtils'
+import { initUserReports } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/userReportsListUtils'
 
 
 export function routes(services: Services): Router {
